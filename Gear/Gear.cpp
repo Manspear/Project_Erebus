@@ -14,6 +14,7 @@ namespace Gear
 	GearEngine::~GearEngine()
 	{
 		delete window;
+		glfwTerminate();
 	}
 
 	void GearEngine::draw() {

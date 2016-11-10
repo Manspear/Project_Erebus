@@ -1,7 +1,7 @@
 #pragma once
 //Win32 Includes
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+//#define WIN32_LEAN_AND_MEAN
+//#include <Windows.h>
 
 //Basic Util Includes
 #include <string>

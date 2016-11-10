@@ -3,7 +3,13 @@
 
 int main()
 {
+	Gear::GearEngine *engine = new Gear::GearEngine();
 
-	system("pause");
+	while (engine->isRunning()) {
+		engine->draw();
+	}
+
+	delete engine;
+	//system("pause");
 	return 0;
 }
