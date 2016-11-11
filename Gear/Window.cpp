@@ -28,6 +28,7 @@ void Window::initWindow()
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+	glewInit();
 }
 
 bool Window::isWindowOpen() {
@@ -35,9 +36,9 @@ bool Window::isWindowOpen() {
 }
 
 
-void Window::update() {
-	
-	glClear(GL_COLOR_BUFFER_BIT);
+void Window::update() 
+{
 	glfwSwapBuffers(window);
 	glfwPollEvents();
+	glClear(GL_COLOR_BUFFER_BIT);
 }
