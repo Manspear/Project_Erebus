@@ -1,7 +1,7 @@
 #pragma once
 //Win32 Includes
 //#define WIN32_LEAN_AND_MEAN
-//#include <Windows.h>
+#include <Windows.h>
 
 //Basic Util Includes
 #include <string>
@@ -17,7 +17,6 @@
 //#include <glm\gtx\transform.hpp>
 
 //Other includes /*
-#include <windows.h>
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
