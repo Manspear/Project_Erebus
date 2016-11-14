@@ -1,14 +1,18 @@
 #include <iostream>
 #include "Gear.h"
+<<<<<<< HEAD
 #include "Importer.h"
+=======
 #include <ctime>
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
+>>>>>>> origin/Dev_Main
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Gear::GearEngine *engine = new Gear::GearEngine();
+<<<<<<< HEAD
 	Importer::ModelImporter* importer = new Importer::ModelImporter();
 	importer->load( "Models/newmolebat.mole" );
 
@@ -17,10 +21,13 @@ int main()
 	engine->size = importer->getBufferSize( 0 );
 
 	glEnable( GL_DEPTH_TEST );
+
+=======
 	
 	clock_t c_start, c_end;
 	float dt = 0, totalTicks = 0;
 	float totalTime = 0;
+>>>>>>> origin/Dev_Main
 	while (engine->isRunning()) {
 		totalTicks++;
 		c_start = clock();
@@ -32,7 +39,7 @@ int main()
 
 	delete importer;
 	delete engine;
-	
+	//system("pause");
 	return 0;
 }
 

@@ -42,6 +42,15 @@ namespace Gear
 		/* Render here */
 		allShaders.at( 0 )->use();
 		
+<<<<<<< HEAD
+		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.5f, 20.f);
+		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
+		tempKamera.camUpdate({ 0, 0, ko }, { 0, 0, -1 });
+		ko = ko + 0.01f;
+		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
+		
+		glBindBuffer(GL_ARRAY_BUFFER, testScreen);
+=======
 		
 		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
@@ -50,8 +59,9 @@ namespace Gear
 		glm::mat4 rot = glm::rotate( tempKamera.getViewPers(), angle, glm::vec3( 0, 1, 0 ) );
 		//glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
 		glUniformMatrix4fv( tjabba, 1, GL_FALSE, &rot[0][0] );
-		
+
 		/*glBindBuffer(GL_ARRAY_BUFFER, testScreen);
+>>>>>>> 07c2dfe422420176a2df6927ebca3dadc3f31e8d
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);*/
