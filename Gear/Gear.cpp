@@ -46,10 +46,16 @@ namespace Gear
 
 		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
 
-		glBindBuffer(GL_ARRAY_BUFFER, testScreen);
+		/*glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);*/
+
+		glBindBuffer( GL_ARRAY_BUFFER, vbo );
+		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, 0 );
+		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, (void*)(sizeof( float ) * 3) );
+		glDrawArrays( GL_TRIANGLES, 0, size );
+		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
 		allShaders.at(0)->unUse();
 		
