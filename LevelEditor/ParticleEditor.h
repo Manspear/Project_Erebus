@@ -22,4 +22,5 @@ public:
 
 	~ParticleEditor();
 
+	void particleEditorBar();
 };

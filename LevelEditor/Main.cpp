@@ -24,10 +24,10 @@ int main()
 
 	TwInit(TW_OPENGL_CORE, NULL);
 
-	MenuTest menuTest;
-	ParticleEditor* particleEditor;
+	//MenuTest menuTest;
+	ParticleEditor particleEditor;
 	HeightMapEditor* heightMapEditor;
-
+	particleEditor.particleEditorBar();
 
 
 	TwWindowSize(500, 320);
