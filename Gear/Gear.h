@@ -16,6 +16,7 @@ namespace Gear
 		GEAR_API ~GearEngine();
 		GEAR_API void draw();
 		GEAR_API bool isRunning();
+		GEAR_API void updateWindow();
 	private:
 		Window* window;
 		std::vector<ShaderProgram*> allShaders;

@@ -110,7 +110,7 @@ namespace Gear
 		allShaders.at(0)->unUse();
 		
 		/* Swap front and back buffers */
-		window->update();
+		
 
 		/* Poll for and process events */
 		//glfwPollESvents();
@@ -119,5 +119,9 @@ namespace Gear
 
 	bool GearEngine::isRunning() {
 		return window->isWindowOpen();
+	}
+
+	void GearEngine::updateWindow() {
+		window->update();
 	}
 }
