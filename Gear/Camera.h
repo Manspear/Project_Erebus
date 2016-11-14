@@ -9,8 +9,7 @@ public:
 	Camera(float FoV, float aspectRatio, float nearPlane, float farPlane);
 	~Camera();
 
-	void setCamPosition(glm::vec3 newPos);
-	void setCamDirection(glm::vec3 newDir);
+	void camUpdate(glm::vec3 newPos, glm::vec3 newDir);	
 	glm::mat4 getViewPers();
 private:
 	glm::vec3 camDirection;

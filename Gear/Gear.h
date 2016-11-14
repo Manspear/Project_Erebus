@@ -9,6 +9,7 @@
 #else  
 #define GEAR_API __declspec(dllimport)   
 #endif
+
 namespace Gear
 {
 	class GearEngine {

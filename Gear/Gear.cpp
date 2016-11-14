@@ -1,6 +1,5 @@
 #include "Gear.h"
 
-
 GLuint testScreen;
 namespace Gear
 {
@@ -29,6 +28,7 @@ namespace Gear
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), &vertexData[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+
 	GearEngine::~GearEngine()
 	{
 		for (size_t i = 0; i < allShaders.size(); i++)
@@ -37,15 +37,17 @@ namespace Gear
 		
 		glfwTerminate();
 	}
-
+	float ko = 1.01;
 	void GearEngine::draw() {
 		/* Render here */
 		allShaders.at(0)->use();
 		
-		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.f, 20.f);
+		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.5f, 20.f);
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
+		tempKamera.camUpdate({ 0, 0, ko }, { 0, 0, -1 });
+		ko = ko + 0.01f;
 		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
-
+		
 		glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -61,7 +63,8 @@ namespace Gear
 
 	}
 
-	bool GearEngine::isRunning() {
+	bool GearEngine::isRunning() 
+	{
 		return window->isWindowOpen();
 	}
 }

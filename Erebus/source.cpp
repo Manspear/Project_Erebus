@@ -11,6 +11,6 @@ int main()
 	}
 
 	delete engine;
-	//system("pause");
+	
 	return 0;
 }
