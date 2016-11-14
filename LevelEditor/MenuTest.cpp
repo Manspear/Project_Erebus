@@ -13,6 +13,8 @@ MenuTest::MenuTest()
 	TwAddVarRW(myBar, "ugly", TW_TYPE_BOOL32, &ugly,
 		" label='Wireframe mode' key=w help='Toggle wireframe display mode.' ");
 
+	
+
 }
 
 

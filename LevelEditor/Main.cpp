@@ -28,6 +28,7 @@ int main()
 	ParticleEditor* particleEditor;
 	HeightMapEditor* heightMapEditor;
 
+	glfwSetMouseButtonCallback(engine->getWindow(),(GLFWAPI::GLFWmousebuttonfun)TwEventMouseButtonGLFW);
 
 
 	TwWindowSize(500, 320);

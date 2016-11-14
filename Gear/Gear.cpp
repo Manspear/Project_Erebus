@@ -82,7 +82,8 @@ namespace Gear
 		glfwTerminate();
 	}
 
-	void GearEngine::draw() {
+	void GearEngine::draw() 
+	{
 		/* Render here */
 
 		allShaders.at(1)->use();
@@ -117,11 +118,17 @@ namespace Gear
 
 	}
 
-	bool GearEngine::isRunning() {
+	bool GearEngine::isRunning() 
+	{
 		return window->isWindowOpen();
 	}
 
-	void GearEngine::updateWindow() {
+	void GearEngine::updateWindow() 
+	{
 		window->update();
+	}
+	GLFWwindow * GearEngine::getWindow()
+	{
+		return window->getWindow();
 	}
 }

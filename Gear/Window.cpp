@@ -42,3 +42,8 @@ void Window::update()
 	glfwPollEvents();
 	glClear(GL_COLOR_BUFFER_BIT);
 }
+
+GLFWwindow * Window::getWindow()
+{
+	return this->window;
+}
