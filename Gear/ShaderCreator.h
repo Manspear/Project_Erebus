@@ -25,7 +25,8 @@ GLuint createShader(GLuint shaderType, std::string filePath, GLuint programID, i
 
 	GLint success = 0;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
-	if (success == GL_FALSE) {
+	if (success == GL_FALSE) 
+	{
 		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
