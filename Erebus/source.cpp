@@ -17,13 +17,12 @@ int main()
 	clock_t c_start, c_end;
 	float dt = 0, totalTicks = 0;
 	float totalTime = 0;
-		totalTicks++;
-		c_start = clock();
-		c_end = clock();
-		calculateDt(dt, c_start, c_end, totalTicks);
-
+	totalTicks++;
+	
+	
 	
 
+	
 	glfwSetKeyCallback(w, Inputs::key_callback);
 	glfwSetMouseButtonCallback(w, Inputs::mouse_button_callback);
 	(w, Inputs::scroll_callback);
@@ -31,22 +30,27 @@ int main()
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 20.f);
 	glm::vec3 point = {0,0,5};
 	glm::vec3 dir = {0,0,-1};
-	int i = 0;
-	int a = 0;
-	while (i++ < 100){
-		a++;
-		camera.setCamPosition(point);
-		camera.setCamDirection(point + dir);
 
+	while (window->isWindowOpen()){
+		c_start = clock();
+		//std::cout << dt;
+		if (inputs.keyPressed(GLFW_KEY_W))
+			point += dir * dt;
+		if (inputs.keyPressed(GLFW_KEY_S))
+			point -= dir * dt;
+		camera.camUpdate(point, dir);
 		glfwPollEvents();
 		inputs.update();
 		engine->draw(&camera);
 		window->update();
+		c_end = clock();
+		calculateDt(dt, c_start, c_end, totalTicks);
+
 	}
-	std::cout << a;
+
 	delete window;
 	glfwTerminate();
-	//delete engine;
+	delete engine;
 	return 0;
 }
 

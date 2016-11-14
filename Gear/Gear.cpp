@@ -21,7 +21,7 @@ namespace Gear
 		types[0] = GL_VERTEX_SHADER;
 		types[1] = GL_FRAGMENT_SHADER;
 		allShaders.push_back(new ShaderProgram(2, paths, types));
-	
+
 		glGenBuffers(1, &testScreen);
 		float vertexData[18];
 		vertexData[0] = -0.5; vertexData[1] = -1.0; vertexData[2] = 1.0;
@@ -39,25 +39,25 @@ namespace Gear
 	{
 		for (size_t i = 0; i < allShaders.size(); i++)
 			delete allShaders.at(i);
-		
+
 		glfwTerminate();
 	}
 	float ko = 1.01;
 	void GearEngine::draw(Camera* camera) {
 		/* Render here */
 		allShaders.at(0)->use();
-		
+
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
 		glm::mat4 tempmat = camera->getViewPers();
 		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
-		
+
 		glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		allShaders.at(0)->unUse();
-		
+
 		/* Swap front and back buffers */
 
 		/* Poll for and process events */
@@ -65,7 +65,7 @@ namespace Gear
 
 	}
 
-	bool GearEngine::isRunning() 
+	bool GearEngine::isRunning(){
 		return true;//window->isWindowOpen();
 	}
 	
