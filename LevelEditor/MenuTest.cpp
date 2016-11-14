@@ -8,7 +8,7 @@ MenuTest::MenuTest()
 
 	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with GLFW and OpenGL.' "); // Message added to the help bar.
 
-	int ugly = 0;
+
 
 	TwAddVarRW(myBar, "ugly", TW_TYPE_BOOL32, &ugly,
 		" label='Wireframe mode' key=w help='Toggle wireframe display mode.' ");

@@ -8,6 +8,10 @@
 #include"HeightMapEditor.h"
 #include"ParticleEditor.h"
 
+inline void TwEventMouseButtonGLFW3(GLFWwindow* window, int button, int action, int mods) { TwEventMouseButtonGLFW(button, action); }
+
+inline void TwEventMousePosGLFW3(GLFWwindow* window, double xpos, double ypos) { TwMouseMotion(int(xpos), int(ypos)); }
+
 enum EditorState
 {
 	HEIGHTMAP_EDIT,
@@ -27,14 +31,20 @@ int main()
 	MenuTest menuTest;
 	ParticleEditor* particleEditor;
 	HeightMapEditor* heightMapEditor;
+	
+	
 
-	glfwSetMouseButtonCallback(engine->getWindow(),(GLFWAPI::GLFWmousebuttonfun)TwEventMouseButtonGLFW);
-
-
-	TwWindowSize(500, 320);
+	TwWindowSize(1280, 720);
+	
+	glfwSetMouseButtonCallback(&engine->getWindow(),(GLFWmousebuttonfun)TwEventMouseButtonGLFW3);
+	glfwSetCursorPosCallback(engine->getWindow(), (GLFWcursorposfun)TwEventMousePosGLFW3);
+	
+	
 	
 	while (engine->isRunning())
 	{
+
+		
 		switch (editorState)
 		{
 		case HEIGHTMAP_EDIT:
