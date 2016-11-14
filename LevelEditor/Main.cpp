@@ -36,7 +36,7 @@ int main()
 
 	TwWindowSize(1280, 720);
 	
-	glfwSetMouseButtonCallback(&engine->getWindow(),(GLFWmousebuttonfun)TwEventMouseButtonGLFW3);
+	glfwSetMouseButtonCallback(engine->getWindow(),(GLFWmousebuttonfun)TwEventMouseButtonGLFW3);
 	glfwSetCursorPosCallback(engine->getWindow(), (GLFWcursorposfun)TwEventMousePosGLFW3);
 	
 	
