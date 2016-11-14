@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseIncludes.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Gear.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />

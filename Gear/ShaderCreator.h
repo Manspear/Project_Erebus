@@ -25,7 +25,8 @@ GLuint createShader(GLuint shaderType, std::string filePath, GLuint programID, i
 
 	GLint success = 0;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
-	if (success == GL_FALSE) {
+	if (success == GL_FALSE) 
+	{
 		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
@@ -125,7 +126,7 @@ void bindFramebuffer(int n, GLuint* attachments, GLuint* textures, GLuint frameB
 	for (int i = 0; i < n; i++)
 	{
 		glFramebufferTexture(GL_FRAMEBUFFER, attachments[i], textures[i], 0);
-		if (attachments[i] != GL_DEPTH_ATTACHMENT);
+		if (attachments[i] != GL_DEPTH_ATTACHMENT)
 			drawBuffers[i] = attachments[i];
 	}
 	glDrawBuffers(n, drawBuffers);

@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "BaseIncludes.h"
 #include "ShaderProgram.h"
+#include "Camera.h"
 
 #ifdef GEAR_EXPORTS  
 #define GEAR_API __declspec(dllexport)   
