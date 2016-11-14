@@ -5,7 +5,6 @@ struct ScreenVertex
 {
 	float x, y, s, t;
 };
-
 GLuint testScreen;
 namespace Gear
 {
@@ -35,6 +34,7 @@ namespace Gear
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), &vertexData[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+
 	GearEngine::~GearEngine()
 	{
 		for (size_t i = 0; i < allShaders.size(); i++)
@@ -42,7 +42,7 @@ namespace Gear
 		
 		glfwTerminate();
 	}
-
+	float ko = 1.01;
 	void GearEngine::draw(Camera* camera) {
 		/* Render here */
 		allShaders.at(0)->use();
@@ -50,7 +50,7 @@ namespace Gear
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
 		glm::mat4 tempmat = camera->getViewPers();
 		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
-
+		
 		glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -65,7 +65,7 @@ namespace Gear
 
 	}
 
-	bool GearEngine::isRunning() {
+	bool GearEngine::isRunning() 
 		return true;//window->isWindowOpen();
 	}
 	

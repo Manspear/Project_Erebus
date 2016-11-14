@@ -2,15 +2,26 @@
 #include "Gear.h"
 #include "Inputs.h"
 #include "Window.h"
+#include <ctime>
+
+void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
-
+	
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
+	clock_t c_start, c_end;
+	float dt = 0, totalTicks = 0;
+	float totalTime = 0;
+		totalTicks++;
+		c_start = clock();
+		c_end = clock();
+		calculateDt(dt, c_start, c_end, totalTicks);
+
 	
 
 	glfwSetKeyCallback(w, Inputs::key_callback);
@@ -36,7 +47,12 @@ int main()
 	delete window;
 	glfwTerminate();
 	//delete engine;
-	//system("pause");
 	return 0;
+}
+
+void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks) {
+	
+	dt = ((float)end - (float)start) / CLOCKS_PER_SEC;
+	//std::cout << dt << std::endl;
 }
 

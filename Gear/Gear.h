@@ -3,6 +3,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 
+
 namespace Gear
 {
 	class GearEngine {
