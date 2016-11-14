@@ -2,9 +2,9 @@
 
 in vec3 pos ;
 
-uniform mat4 MVPmatrix; 
+uniform mat4 VPmatrix ; 
 
 void main(){
-	gl_Position = MVPmatrix * vec4(pos, 1.0);
+	gl_Position = VPmatrix * vec4(pos, 1.0);
 
 }
