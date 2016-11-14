@@ -1,5 +1,5 @@
 #include "Gear.h"
-
+#include "BaseIncludes.h"
 
 struct ScreenVertex
 {
@@ -14,10 +14,14 @@ namespace Gear
 	{
 		return a + b;
 	}
+	void derp(GLFWwindow * window, int key, int scancode, int action, int mods) {
+		std::cout << "print";
+	}
 
 	GearEngine::GearEngine()
 	{
-		window = new Window();
+
+		glewInit();
 
 		std::string paths[2];
 		paths[0] = "Shaders/vertex.glsl";
@@ -77,7 +81,6 @@ namespace Gear
 	{
 		for (size_t i = 0; i < allShaders.size(); i++)
 			delete allShaders.at(i);
-		delete window;
 		
 		glfwTerminate();
 	}
@@ -110,7 +113,6 @@ namespace Gear
 		allShaders.at(0)->unUse();
 		
 		/* Swap front and back buffers */
-		window->update();
 
 		/* Poll for and process events */
 		//glfwPollESvents();
@@ -118,6 +120,7 @@ namespace Gear
 	}
 
 	bool GearEngine::isRunning() {
-		return window->isWindowOpen();
+		return true;//window->isWindowOpen();
 	}
+	
 }

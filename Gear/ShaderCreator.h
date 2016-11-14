@@ -125,7 +125,7 @@ void bindFramebuffer(int n, GLuint* attachments, GLuint* textures, GLuint frameB
 	for (int i = 0; i < n; i++)
 	{
 		glFramebufferTexture(GL_FRAMEBUFFER, attachments[i], textures[i], 0);
-		if (attachments[i] != GL_DEPTH_ATTACHMENT);
+		if (attachments[i] != GL_DEPTH_ATTACHMENT)
 			drawBuffers[i] = attachments[i];
 	}
 	glDrawBuffers(n, drawBuffers);

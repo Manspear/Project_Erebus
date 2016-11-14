@@ -1,13 +1,7 @@
 #pragma once
-#include "Window.h"
 #include "BaseIncludes.h"
 #include "ShaderProgram.h"
 
-#ifdef GEAR_EXPORTS  
-#define GEAR_API __declspec(dllexport)   
-#else  
-#define GEAR_API __declspec(dllimport)   
-#endif
 namespace Gear
 {
 	class GearEngine {
@@ -17,7 +11,7 @@ namespace Gear
 		GEAR_API void draw();
 		GEAR_API bool isRunning();
 	private:
-		Window* window;
+		//Window* window;
 		std::vector<ShaderProgram*> allShaders;
 	};
 	GEAR_API double Add(double a, double b);

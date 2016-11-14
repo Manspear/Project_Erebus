@@ -4,6 +4,13 @@
 //#include <Windows.h>
 
 //Basic Util Includes
+
+#ifdef GEAR_EXPORTS  
+#define GEAR_API __declspec(dllexport)   
+#else  
+#define GEAR_API __declspec(dllimport)   
+#endif
+
 #include <string>
 #include <sstream>
 #include <fstream>

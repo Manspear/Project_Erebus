@@ -14,9 +14,11 @@ Window::~Window()
 
 void Window::initWindow()
 {
-	/* Initialize the library */
+
 	if (!glfwInit())
 		std::cout << "Error init GLFW!" << std::endl;
+
+	/* Initialize the library */
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", NULL, NULL);
@@ -28,7 +30,6 @@ void Window::initWindow()
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
-	glewInit();
 }
 
 bool Window::isWindowOpen() {
@@ -41,4 +42,9 @@ void Window::update()
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+GLFWwindow * Window::getGlfwWindow()
+{
+	return window;
 }
