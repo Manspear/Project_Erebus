@@ -41,10 +41,12 @@ namespace Gear
 	void GearEngine::draw() {
 		/* Render here */
 		allShaders.at( 0 )->use();
-		GLuint tjabba = glGetUniformLocation( allShaders.at( 0 )->getProgramID(), "MVPmatrix" );
 		
-		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.f, 20.f);
+		
+		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
+		static float angle = 0.0f;
+		angle += 0.001f;
 		glm::mat4 rot = glm::rotate( tempKamera.getViewPers(), angle, glm::vec3( 0, 1, 0 ) );
 		//glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
 		glUniformMatrix4fv( tjabba, 1, GL_FALSE, &rot[0][0] );
