@@ -43,13 +43,13 @@ namespace Gear
 		glfwTerminate();
 	}
 
-	void GearEngine::draw() {
+	void GearEngine::draw(Camera* camera) {
 		/* Render here */
 		allShaders.at(0)->use();
 		
-		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.f, 20.f);
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
-		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
+		glm::mat4 tempmat = camera->getViewPers();
+		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);

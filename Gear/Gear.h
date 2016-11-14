@@ -9,7 +9,7 @@ namespace Gear
 	public:
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
-		GEAR_API void draw();
+		GEAR_API void draw(Camera* camera);
 		GEAR_API bool isRunning();
 	private:
 		//Window* window;

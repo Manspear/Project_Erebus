@@ -5,13 +5,13 @@
 class Camera 
 {
 public:
-	Camera();
-	Camera(float FoV, float aspectRatio, float nearPlane, float farPlane);
-	~Camera();
+	GEAR_API Camera();
+	GEAR_API Camera(float FoV, float aspectRatio, float nearPlane, float farPlane);
+	GEAR_API ~Camera();
 
-	void setCamPosition(glm::vec3 newPos);
-	void setCamDirection(glm::vec3 newDir);
-	glm::mat4 getViewPers();
+	GEAR_API void setCamPosition(glm::vec3 newPos);
+	GEAR_API void setCamDirection(glm::vec3 newDir);
+	GEAR_API glm::mat4 getViewPers();
 private:
 	glm::vec3 camDirection;
 	glm::vec3 camPosition;

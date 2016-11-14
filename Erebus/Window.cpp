@@ -10,6 +10,7 @@ Window::Window()
 
 Window::~Window()
 {
+	glfwDestroyWindow(window);
 }
 
 void Window::initWindow()
@@ -40,7 +41,6 @@ bool Window::isWindowOpen() {
 void Window::update() 
 {
 	glfwSwapBuffers(window);
-	glfwPollEvents();
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 

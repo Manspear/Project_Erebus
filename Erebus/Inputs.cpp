@@ -46,12 +46,13 @@ MousePos Inputs::getMousePos()
 
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
-	keys[key] = action & true;
+	std::cout << action << " tryckt knapp" << std::endl;
+	keys[key] = action ;
 }
 
 void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
-	mouseButtons[button] = action >> 1;
+	mouseButtons[button] = action;
 }
 
 void Inputs::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
