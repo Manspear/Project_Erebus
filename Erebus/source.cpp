@@ -9,6 +9,7 @@ int main()
 	Importer::ModelImporter* importer = new Importer::ModelImporter();
 	importer->load( "Models/newmolebat.mole" );
 
+	// TEMPORARY: För att kunna rita ut modellen
 	engine->vbo = importer->getVertexBuffer( 0 );
 	engine->size = importer->getBufferSize( 0 );
 

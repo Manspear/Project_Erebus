@@ -18,6 +18,8 @@ namespace Gear
 		GEAR_API void draw();
 		GEAR_API bool isRunning();
 
+		// TEMPORARY: Vi ska inte ha det såhär
+		// För att rita ut modellen från importern
 		GLuint vbo;
 		int size;
 
