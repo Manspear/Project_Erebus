@@ -26,6 +26,12 @@
     <ClInclude Include="MenuTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeightMapEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -25,8 +25,8 @@ int main()
 	TwInit(TW_OPENGL_CORE, NULL);
 
 	MenuTest menuTest;
-	ParticleEditor particleEditor;
-	HeightMapEditor heightMapEditor;
+	ParticleEditor* particleEditor;
+	HeightMapEditor* heightMapEditor;
 
 
 

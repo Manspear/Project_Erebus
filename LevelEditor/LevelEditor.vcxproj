@@ -127,7 +127,9 @@
     <ClCompile Include="MenuTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HeightMapEditor.h" />
     <ClInclude Include="MenuTest.h" />
+    <ClInclude Include="ParticleEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
