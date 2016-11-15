@@ -11,10 +11,17 @@ public:
 
 	GEAR_API void camUpdate(glm::vec3 newPos, glm::vec3 newDir);
 	GEAR_API glm::mat4 getViewPers();
+<<<<<<< HEAD
+	GEAR_API glm::mat4 getView();
+	GEAR_API glm::mat4 getPers();
+	GEAR_API glm::vec3 getCamPosition();
+
+=======
 	GEAR_API glm::mat4 getViewMatrix();
 	GEAR_API glm::mat4 getProjectionMatrix();
 	GEAR_API glm::vec3 getPosition();
 	GEAR_API glm::vec3 getDirection();
+>>>>>>> 5aabf01e94bee8aaabec0f76271598da8306982c
 private:
 	glm::vec3 camDirection;
 	glm::vec3 camPosition;

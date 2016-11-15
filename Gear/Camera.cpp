@@ -33,17 +33,23 @@ glm::mat4 Camera::getViewPers()
 	return projectionMat * viewMat;
 }
 
-GEAR_API glm::mat4 Camera::getView()
+
+glm::mat4 Camera::getViewMatrix()
 {
 	return this->viewMat;
 }
 
-GEAR_API glm::mat4 Camera::getPers()
+glm::mat4 Camera::getProjectionMatrix()
 {
 	return this->projectionMat;
 }
 
-GEAR_API glm::vec3 Camera::getCamPosition()
+glm::vec3 Camera::getPosition()
 {
 	return this->camPosition;
+}
+
+glm::vec3 Camera::getDirection()
+{
+	return this->camDirection;
 }
