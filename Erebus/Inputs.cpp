@@ -44,6 +44,11 @@ MousePos Inputs::getMousePos()
 	return mousePos;
 }
 
+MousePos Inputs::getDeltaPos()
+{
+	return deltaPos;
+}
+
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
 	std::cout << action << " tryckt knapp" << std::endl;

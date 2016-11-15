@@ -24,6 +24,8 @@ public:
 	bool buttonPressed(unsigned int button);
 	MousePos getMousePos();
 
+	MousePos getDeltaPos();
+
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods); //will be called whenever a key is pressed or released
 	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods); //will be called whenever a mouse button is pressed or released
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset); //will be called whenever someone scrolls(both touchpad and mouse)

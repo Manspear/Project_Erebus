@@ -39,14 +39,25 @@ int main()
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 20.f);
 	glm::vec3 point = {0,0,5};
 	glm::vec3 dir = {0,0,-1};
-
+	glEnable(GL_CULL_FACE);
 	while (window->isWindowOpen()){
 		c_start = clock();
 		//std::cout << dt;
+
+		// copy pastye till player klass senare!!! :D:D:D:D:D
 		if (inputs.keyPressed(GLFW_KEY_W))
 			point += dir * dt;
 		if (inputs.keyPressed(GLFW_KEY_S))
 			point -= dir * dt;
+
+		// fixa rotation av kamera som ett mlg barn igen!- okej, då kör vi! p:
+		glm::vec3 tempforward = {dir.x, 0, dir.z};
+		glm::vec3 newAxisZ = glm::cross(tempforward, { 0,1,0 });
+		
+		dir = glm::rotateY(dir, (float)inputs.getDeltaPos().x/100.f);
+		dir = glm::rotateX(dir, (float)inputs.getDeltaPos().y / 100.f);
+
+
 		camera.camUpdate(point, dir);
 		glfwPollEvents();
 		inputs.update();

@@ -51,8 +51,7 @@ namespace Gear
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
 		glm::mat4 tempmat = camera->getViewPers();
 		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
-		//glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
-		glUniformMatrix4fv( tjabba, 1, GL_FALSE, &rot[0][0] );
+
 
 		/*glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
