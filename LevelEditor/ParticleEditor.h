@@ -21,7 +21,7 @@ public:
 
 	~ParticleEditor();
 
-	Particle akfh;
+	Particle part;
 
 	void particleEditorBar();
 	void createParticles();

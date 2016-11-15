@@ -15,7 +15,6 @@ void ParticleEditor::particleEditorBar()
 	TwBar *particleBar;
 
 	particleBar = TwNewBar("Particle Editor Bar");
-	Particle part;
 
 	TwAddVarRW(particleBar, "Position", TW_TYPE_DIR3F, &part.pos, " label='Pos'");
 	TwAddVarRW(particleBar, "Duration", TW_TYPE_FLOAT, &part.duration, " label='Duration'");
