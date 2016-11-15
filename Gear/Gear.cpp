@@ -16,13 +16,13 @@ namespace Gear
 		std::string paths[3];
 		paths[0] = "Shaders/forward.vert";
 		paths[1] = "Shaders/forward.frag";
-		//paths[2] = "Shaders/forward.geom";
-		GLuint types[2];
+		paths[2] = "Shaders/forward.geom";
+		GLuint types[3];
 
 		types[0] = GL_VERTEX_SHADER;
 		types[1] = GL_FRAGMENT_SHADER;
-		//types[2] = GL_GEOMETRY_SHADER;
-		allShaders.push_back(new ShaderProgram(2, paths, types));
+		types[2] = GL_GEOMETRY_SHADER;
+		allShaders.push_back(new ShaderProgram(3, paths, types));
 
 		glGenBuffers(1, &testScreen);
 		float vertexData[18];
@@ -50,10 +50,14 @@ namespace Gear
 		allShaders.at( 0 )->use();
 
 		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
-		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
-		glm::mat4 tempmat = camera->getViewPers();
-		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
-
+		//GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
+		//glm::mat4 tempmat = camera->getViewPers();
+		//glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
+		
+		//allShaders.at(0)->addUniform(camera->getViewPers(), "VPmatrix");
+		allShaders.at(0)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+		allShaders.at(0)->addUniform(camera->getViewMatrix(), "viewMatrix");
+		allShaders.at(0)->addUniform(camera->getPosition(), "viewPos");
 
 		/*glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
@@ -65,6 +69,8 @@ namespace Gear
 		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, (void*)(sizeof( float ) * 3) );
 		glDrawArrays( GL_TRIANGLES, 0, size );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+
 
 		allShaders.at(0)->unUse();
 
