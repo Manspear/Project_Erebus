@@ -79,14 +79,5 @@ namespace Gear
 	bool GearEngine::isRunning(){
 		return true;//window->isWindowOpen();
 	}
-
-	void GearEngine::updateWindow() 
-	{
-		window->update();
-	}
-	GLFWwindow * GearEngine::getWindow()
-	{
-		return window->getWindow();
-	}
 	
 }
