@@ -30,7 +30,7 @@ int main()
 	particleEditor.particleEditorBar();
 
 
-	TwWindowSize(500, 320);
+	TwWindowSize(500, 500);
 	
 	while (engine->isRunning())
 	{

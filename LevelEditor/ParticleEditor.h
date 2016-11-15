@@ -1,6 +1,6 @@
 #pragma once
 #include<AntTweakBar.h>
-
+#include<GLFW\glfw3.h>
 
 struct Particle
 {
