@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
@@ -125,12 +125,14 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuTest.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="ParticleEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeightMapEditor.h" />
     <ClInclude Include="MenuTest.h" />
     <ClInclude Include="ParticleEditor.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -138,6 +140,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Gear\Gear.vcxproj">
       <Project>{7ae8f691-75c9-447c-ae7b-63364e8daa79}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Importer\Importer.vcxproj">
+      <Project>{56d70726-725f-48e5-b935-71a5451ccd72}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

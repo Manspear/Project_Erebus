@@ -11,18 +11,21 @@ ShaderProgram::ShaderProgram(int nrShaders, std::string* paths, GLuint* shaderTy
 	nrOfShaders = nrShaders;
 	shaderIDs = new GLuint[nrOfShaders];
 	programID = createShaderProgram();
-
+	std::string* shaderContent = new std::string[nrOfShaders];
 	for (int i = 0; i < nrShaders; i++)
 	{
-		shaderIDs[i] = createShader(shaderTypes[i], paths[i], programID, totalAttributes);
+		shaderContent[i] = readShader(paths[i]);
+		shaderIDs[i] = createShader(shaderTypes[i], shaderContent[i], programID, totalAttributes);
 		glAttachShader(programID, shaderIDs[i]);
 	}
 	glLinkProgram(programID);
+
 	for (int i = 0; i < nrShaders; i++)
 	{
 		glDetachShader(programID, shaderIDs[i]);
 		glDeleteShader(shaderIDs[i]);
-	}
+	}	
+	delete[] shaderContent;
 }
 
 ShaderProgram::~ShaderProgram()
@@ -30,7 +33,7 @@ ShaderProgram::~ShaderProgram()
 	glDeleteProgram(programID);
 	if (textureIDs != nullptr)
 		delete textureIDs;
-	if (shaderIDs != nullptr);
+	if (shaderIDs != nullptr)
 		delete shaderIDs;
 }
 

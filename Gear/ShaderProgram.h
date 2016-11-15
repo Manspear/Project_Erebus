@@ -21,6 +21,7 @@ private:
 	GLuint* shaderIDs;
 	GLuint* textureIDs;
 	GLuint framebufferID;
+	std::vector<int> uniformLocations;
 	int nrOfShaders;
 	int nrOfTextures;
 	int totalAttributes;
