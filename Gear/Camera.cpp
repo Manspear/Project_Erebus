@@ -33,15 +33,6 @@ glm::mat4 Camera::getViewPers()
 	return projectionMat * viewMat;
 }
 
-GEAR_API glm::mat4 Camera::getView()
-{
-	return this->viewMat;
-}
-
-GEAR_API glm::mat4 Camera::getPers()
-{
-	return this->projectionMat;
-}
 
 glm::mat4 Camera::getViewMatrix()
 {
