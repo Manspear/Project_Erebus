@@ -33,7 +33,7 @@ ShaderProgram::~ShaderProgram()
 	glDeleteProgram(programID);
 	if (textureIDs != nullptr)
 		delete textureIDs;
-	if (shaderIDs != nullptr);
+	if (shaderIDs != nullptr)
 		delete shaderIDs;
 }
 

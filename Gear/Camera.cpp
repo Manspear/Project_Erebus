@@ -31,4 +31,5 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir)
 glm::mat4 Camera::getViewPers()
 {
 	return projectionMat * viewMat;
+	return projectionMat * viewMat;
 }

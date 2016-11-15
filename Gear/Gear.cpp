@@ -1,11 +1,17 @@
 #include "Gear.h"
+#include "BaseIncludes.h"
 
+struct ScreenVertex
+{
+	float x, y, s, t;
+};
 GLuint testScreen;
 namespace Gear
 {
 	GearEngine::GearEngine()
 	{
-		window = new Window();
+
+		glewInit();
 
 		std::string paths[3];
 		paths[0] = "Shaders/forward.vert";
@@ -17,7 +23,7 @@ namespace Gear
 		types[1] = GL_FRAGMENT_SHADER;
 		//types[2] = GL_GEOMETRY_SHADER;
 		allShaders.push_back(new ShaderProgram(2, paths, types));
-	
+
 		glGenBuffers(1, &testScreen);
 		float vertexData[18];
 		vertexData[0] = -0.5; vertexData[1] = -1.0; vertexData[2] = 1.0;
@@ -35,24 +41,20 @@ namespace Gear
 	{
 		for (size_t i = 0; i < allShaders.size(); i++)
 			delete allShaders.at(i);
-		delete window;
-		
+
 		glfwTerminate();
 	}
 	float ko = 1.01;
-	void GearEngine::draw() {
+	void GearEngine::draw(Camera* camera) {
 		/* Render here */
 		allShaders.at( 0 )->use();
-		
-		
+
 		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
-		static float angle = 0.0f;
-		angle += 0.001f;
-		glm::mat4 rot = glm::rotate( tempKamera.getViewPers(), angle, glm::vec3( 0, 1, 0 ) );
-		//glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
-		glUniformMatrix4fv( tjabba, 1, GL_FALSE, &rot[0][0] );
-		
+		glm::mat4 tempmat = camera->getViewPers();
+		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
+
+
 		/*glBindBuffer(GL_ARRAY_BUFFER, testScreen);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -65,17 +67,16 @@ namespace Gear
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
 		allShaders.at(0)->unUse();
-		
+
 		/* Swap front and back buffers */
-		window->update();
 
 		/* Poll for and process events */
 		//glfwPollESvents();
 
 	}
 
-	bool GearEngine::isRunning() 
-	{
-		return window->isWindowOpen();
+	bool GearEngine::isRunning(){
+		return true;//window->isWindowOpen();
 	}
+	
 }
