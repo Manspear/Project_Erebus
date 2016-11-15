@@ -42,3 +42,8 @@ GEAR_API glm::mat4 Camera::getPers()
 {
 	return this->projectionMat;
 }
+
+GEAR_API glm::vec3 Camera::getCamPosition()
+{
+	return this->camPosition;
+}
