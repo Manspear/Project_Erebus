@@ -165,15 +165,6 @@
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Erebus\Shaders\defpixel.glsl" />
-    <None Include="..\Erebus\Shaders\defvertex.glsl" />
-    <None Include="..\Erebus\Shaders\forward.frag" />
-    <None Include="..\Erebus\Shaders\forward.geom" />
-    <None Include="..\Erebus\Shaders\forward.vert" />
-    <None Include="..\Erebus\Shaders\phong.frag" />
-    <None Include="..\Erebus\Shaders\phong.vert" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

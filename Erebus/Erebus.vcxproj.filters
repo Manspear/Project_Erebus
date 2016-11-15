@@ -52,5 +52,11 @@
     <None Include="Shaders\forward.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\phong.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\phong.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
