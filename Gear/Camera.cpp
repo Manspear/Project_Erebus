@@ -4,7 +4,7 @@ Camera::Camera()
 {	
 	glm::mat4 pers = glm::perspective(45.f, 1280.f / 720.f, 0.5f, 20.f);
 	viewMat = pers * glm::lookAt(glm::vec3(0, 0, 10.0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	freeCam = false;
+	freeCam = true;
 }
 
 Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, Inputs* in)
@@ -18,7 +18,7 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	camUp = { 0, 1, 0 };
 	projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
 	viewMat = glm::lookAt(camPosition, camDirection, camUp);
-	freeCam = false;
+	freeCam = true;
 }
 
 Camera::~Camera()
