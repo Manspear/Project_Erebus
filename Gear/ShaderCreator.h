@@ -3,7 +3,7 @@
 
 
 void compileShader(const std::string& content, GLuint shaderID);
-GLuint createShader(GLuint shaderType, std::string filePath, GLuint programID, int &nrOfAttrib);
+GLuint createShader(GLuint shaderType, std::string fileContent, GLuint programID, int &nrOfAttrib);
 std::string readShader(const std::string& filePath);
 int findAttribute(const std::string& content, GLuint programID);
 
@@ -16,29 +16,24 @@ GLuint createShaderProgram()
 	return programID;
 }
 
-GLuint createShader(GLuint shaderType, std::string filePath, GLuint programID, int &nrOfAttrib)
+GLuint createShader(GLuint shaderType, std::string fileContent, GLuint programID, int &nrOfAttrib)
 {
 	GLuint shaderID = glCreateShader(shaderType);
-	
-	std::string shaderString = readShader(filePath);
-	compileShader(shaderString, shaderID);
-
+	compileShader(fileContent, shaderID);
 	GLint success = 0;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
-	if (success == GL_FALSE) {
+	if (success == GL_FALSE) 
+	{
 		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
-
 		std::vector<char> errorLog(maxLength);
 		glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
-
 		glDeleteShader(shaderID);
 		std::printf("%s\n", &(errorLog[0]));
 	}
 
 	if (shaderType == GL_VERTEX_SHADER)
-		nrOfAttrib = findAttribute(shaderString, programID);
-
+		nrOfAttrib = findAttribute(fileContent, programID);
 	return shaderID;
 }
 
@@ -82,7 +77,7 @@ int findAttribute(const std::string& content, GLuint programID)
 	s.str(content);
 	std::string temp, attributeName;
 	std::istringstream s2;
-	int i = 0;
+	int nrOfAttrib = 0;
 
 	while (getline(s, temp)) 
 	{
@@ -90,11 +85,10 @@ int findAttribute(const std::string& content, GLuint programID)
 		{
 			s2.str(temp);
 			s2 >> temp >> temp >> attributeName;
-			glBindAttribLocation(programID, i++, attributeName.c_str());
+			glBindAttribLocation(programID, nrOfAttrib++, attributeName.c_str());
 		}
 	}
-	int a = 432;
-	return i;
+	return nrOfAttrib;
 }
 
 void detachAndDeleteShader(GLuint programID, GLuint shaderID)
@@ -125,7 +119,7 @@ void bindFramebuffer(int n, GLuint* attachments, GLuint* textures, GLuint frameB
 	for (int i = 0; i < n; i++)
 	{
 		glFramebufferTexture(GL_FRAMEBUFFER, attachments[i], textures[i], 0);
-		if (attachments[i] != GL_DEPTH_ATTACHMENT);
+		if (attachments[i] != GL_DEPTH_ATTACHMENT)
 			drawBuffers[i] = attachments[i];
 	}
 	glDrawBuffers(n, drawBuffers);
