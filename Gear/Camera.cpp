@@ -42,3 +42,23 @@ GEAR_API glm::mat4 Camera::getPers()
 {
 	return this->projectionMat;
 }
+
+glm::mat4 Camera::getViewMatrix()
+{
+	return this->viewMat;
+}
+
+glm::mat4 Camera::getProjectionMatrix()
+{
+	return this->projectionMat;
+}
+
+glm::vec3 Camera::getPosition()
+{
+	return this->camPosition;
+}
+
+glm::vec3 Camera::getDirection()
+{
+	return this->camDirection;
+}

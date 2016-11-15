@@ -1,23 +1,19 @@
 #include "Camera.h"
 
 Camera::Camera()
-<<<<<<< HEAD
-{
-	glm::mat4 pers = glm::perspective(45.f, 1280.f / 720.f, 0.5f, 20.f);
-	viewPerspective = pers * glm::lookAt(glm::vec3(0, 0, 10.0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)) ;
-=======
 {	
->>>>>>> origin/Dev_Main
+	glm::mat4 pers = glm::perspective(45.f, 1280.f / 720.f, 0.5f, 20.f);
+	viewMat = pers * glm::lookAt(glm::vec3(0, 0, 10.0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)) ;
 	
 }
 
 Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane)
 {
-	camPosition = { 0, 0, 5 }; 
+	camPosition = { 0, 0, 15 }; 
 	camDirection = { 0, 0, 0 }; 
 	camUp = { 0, 1, 0 };
-	viewMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
-	projectionMat = glm::lookAt(camPosition, camDirection, camUp);
+	projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
+	viewMat = glm::lookAt(camPosition, camDirection, camUp);
 }
 
 Camera::~Camera()
@@ -25,17 +21,48 @@ Camera::~Camera()
 
 }
 
-void Camera::setCamPosition(glm::vec3 newPos)
+void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir)
 {
 	camPosition = newPos;
-}
-
-void Camera::setCamDirection(glm::vec3 newDir)
-{
-	camDirection = newDir;
+	camDirection = camPosition + newDir;
+	viewMat = glm::lookAt(camPosition, camDirection, camUp);
 }
 
 glm::mat4 Camera::getViewPers()
 {
-	return viewMat * projectionMat;
+	return projectionMat * viewMat;
+<<<<<<< HEAD
 }
+
+GEAR_API glm::mat4 Camera::getView()
+=======
+	return projectionMat * viewMat;
+}
+
+glm::mat4 Camera::getViewMatrix()
+>>>>>>> a68f9b3bea93a51f849c53b63274e0e052f5fe34
+{
+	return this->viewMat;
+}
+
+<<<<<<< HEAD
+GEAR_API glm::mat4 Camera::getPers()
+{
+	return this->projectionMat;
+}
+=======
+glm::mat4 Camera::getProjectionMatrix()
+{
+	return this->projectionMat;
+}
+
+glm::vec3 Camera::getPosition()
+{
+	return this->camPosition;
+}
+
+glm::vec3 Camera::getDirection()
+{
+	return this->camDirection;
+}
+>>>>>>> a68f9b3bea93a51f849c53b63274e0e052f5fe34

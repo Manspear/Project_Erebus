@@ -39,7 +39,7 @@ int main()
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 20.f);
 	glm::vec3 point = {0,0,5};
 	glm::vec3 dir = {0,0,-1};
-	glEnable(GL_CULL_FACE);
+
 	while (window->isWindowOpen()){
 		c_start = clock();
 		//std::cout << dt;
