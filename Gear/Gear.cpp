@@ -13,6 +13,7 @@ namespace Gear
 
 		glewInit();
 
+
 		std::string paths[2];
 		paths[0] = "Shaders/forward.vertex";
 		paths[1] = "Shaders/forward.fragment";
@@ -47,7 +48,7 @@ namespace Gear
 		/* Render here */
 		allShaders.at( 0 )->use();
 
-		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
+		//Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
 		glm::mat4 tempmat = camera->getViewPers();
 		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);

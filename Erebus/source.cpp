@@ -4,6 +4,8 @@
 #include "Importer.h"
 #include "Window.h"
 #include <ctime>
+#include "glm\gtc\quaternion.hpp"
+
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
@@ -29,38 +31,29 @@ int main()
 	totalTicks++;
 	
 	
-	
+
 
 	
-	glfwSetKeyCallback(w, Inputs::key_callback);
-	glfwSetMouseButtonCallback(w, Inputs::mouse_button_callback);
-	(w, Inputs::scroll_callback);
-	
-	Camera camera(45.f, 1280.f/720.f, 0.1f, 20.f);
+
+	Camera camera(45.f, 1280.f/720.f, 0.1f, 20.f, &inputs);
 	glm::vec3 point = {0,0,5};
-	glm::vec3 dir = {0,0,-1};
+	glm::vec3 direction = {0,0,-1};
 	glEnable(GL_CULL_FACE);
+	
+	float horizAngle = 3.14f;
+	float vertAngle = 0;
+	float speed = 8.f;
+
+	bool freeCam = false;
+
 	while (window->isWindowOpen()){
 		c_start = clock();
-		//std::cout << dt;
 
-		// copy pastye till player klass senare!!! :D:D:D:D:D
-		if (inputs.keyPressed(GLFW_KEY_W))
-			point += dir * dt;
-		if (inputs.keyPressed(GLFW_KEY_S))
-			point -= dir * dt;
-
-		// fixa rotation av kamera som ett mlg barn igen!- okej, då kör vi! p:
-		glm::vec3 tempforward = {dir.x, 0, dir.z};
-		glm::vec3 newAxisZ = glm::cross(tempforward, { 0,1,0 });
-		
-		dir = glm::rotateY(dir, (float)inputs.getDeltaPos().x/100.f);
-		dir = glm::rotateX(dir, (float)inputs.getDeltaPos().y / 100.f);
-
-
-		camera.camUpdate(point, dir);
-		glfwPollEvents();
 		inputs.update();
+		if(inputs.keyPressed(GLFW_KEY_W))
+			std::cout <<"HErooo" << std::endl;
+
+		camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);
 		window->update();
 		c_end = clock();

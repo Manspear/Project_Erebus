@@ -1,5 +1,5 @@
 #include "Window.h"
-
+#include "Inputs.h"
 
 Window::Window()
 {
@@ -31,6 +31,11 @@ void Window::initWindow()
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+
+	//fixar inputs callback funktioner
+	glfwSetKeyCallback(window, Inputs::key_callback);
+	glfwSetMouseButtonCallback(window, Inputs::mouse_button_callback);
+	glfwSetScrollCallback(window, Inputs::scroll_callback);
 }
 
 bool Window::isWindowOpen() {
