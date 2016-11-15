@@ -16,7 +16,6 @@ class ParticleEditor
 private:
 	TwBar *particleBar;
 	Particle part;
-	int test = 0;
 
 public:
 	ParticleEditor();
