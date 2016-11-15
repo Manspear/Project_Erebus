@@ -10,12 +10,12 @@ namespace Gear
 		std::string paths[3];
 		paths[0] = "Shaders/forward.vert";
 		paths[1] = "Shaders/forward.frag";
-		paths[2] = "Shaders/forward.geom";
+		//paths[2] = "Shaders/forward.geom";
 		GLuint types[2];
 
 		types[0] = GL_VERTEX_SHADER;
 		types[1] = GL_FRAGMENT_SHADER;
-		types[2] = GL_GEOMETRY_SHADER;
+		//types[2] = GL_GEOMETRY_SHADER;
 		allShaders.push_back(new ShaderProgram(2, paths, types));
 	
 		glGenBuffers(1, &testScreen);
