@@ -166,6 +166,13 @@
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\defpixel.glsl" />
+    <None Include="Shaders\defvertex.glsl" />
+    <None Include="Shaders\forward.frag" />
+    <None Include="Shaders\forward.geom" />
+    <None Include="Shaders\forward.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
