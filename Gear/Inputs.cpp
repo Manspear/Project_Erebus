@@ -44,9 +44,6 @@ void Inputs::update()
 
 bool Inputs::keyPressed(unsigned int key)
 {
-	if (key == GLFW_KEY_Q) {
-		int a = 0;
-	}
 	return keys[key];
 }
 

@@ -104,8 +104,3 @@ glm::vec3 Camera::getDirection()
 {
 	return this->camDirection;
 }
-
-GEAR_API void Camera::setFreeCam(bool free)
-{
-	this->freeCam = free;
-}
