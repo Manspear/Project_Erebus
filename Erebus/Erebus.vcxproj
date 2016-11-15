@@ -163,10 +163,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Inputs.h" />
-    <ClInclude Include="Window.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Shaders\defpixel.glsl" />
     <None Include="Shaders\defvertex.glsl" />
     <None Include="Shaders\forward.frag" />

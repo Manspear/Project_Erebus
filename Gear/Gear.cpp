@@ -40,7 +40,7 @@ namespace Gear
 		/* Render here */
 		allShaders.at( 0 )->use();
 
-		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
+		//Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
 
 		//setTestLight(camera->getPosition());
 		allShaders.at(0)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
