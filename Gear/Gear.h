@@ -18,6 +18,10 @@ namespace Gear
 		GLuint vbo;
 		int size;
 
+		//TEMP
+		//Sätt ett hårdkodat ljus
+		GEAR_API void setTestLight(glm::vec3 camPos);
+
 	private:
 		//Window* window;
 		std::vector<ShaderProgram*> allShaders;

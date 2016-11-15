@@ -13,6 +13,7 @@ public:
 	GEAR_API glm::mat4 getViewPers();
 	GEAR_API glm::mat4 getView();
 	GEAR_API glm::mat4 getPers();
+	GEAR_API glm::vec3 getCamPosition();
 
 private:
 	glm::vec3 camDirection;
