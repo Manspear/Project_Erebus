@@ -15,12 +15,14 @@ class ParticleEditor
 {
 private:
 	TwBar *myBar;
-	Particle* particle;
 
 public:
 	ParticleEditor();
 
 	~ParticleEditor();
 
+	Particle akfh;
+
 	void particleEditorBar();
+	void createParticles();
 };

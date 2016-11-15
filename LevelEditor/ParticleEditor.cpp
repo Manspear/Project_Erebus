@@ -23,3 +23,11 @@ void ParticleEditor::particleEditorBar()
 	TwAddVarRW(particleBar, "Angle", TW_TYPE_FLOAT, &part.angle, " label='Angle'");
 	TwAddVarRW(particleBar, "Color", TW_TYPE_COLOR3F, &part.color, " label='Color'");
 }
+
+void ParticleEditor::createParticles()
+{
+
+
+
+}
+
