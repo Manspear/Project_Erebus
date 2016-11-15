@@ -15,8 +15,12 @@ void ParticleEditor::particleEditorBar()
 	
 
 	particleBar = TwNewBar("Particle Editor Bar");
+<<<<<<< HEAD
 	
 	TwAddVarRW(particleBar, "test", TW_TYPE_BOOL32, &test, "label = 'testlabel'");
+=======
+
+>>>>>>> 7a882b08e19a132079f3447206adf133b94fa2e1
 	TwAddVarRW(particleBar, "Position", TW_TYPE_DIR3F, &part.pos, " label='Pos'");
 	TwAddVarRW(particleBar, "Duration", TW_TYPE_FLOAT, &part.duration, " label='Duration'");
 	TwAddVarRW(particleBar, "Speed", TW_TYPE_FLOAT, &part.speed, " label='Speed'");
@@ -26,7 +30,8 @@ void ParticleEditor::particleEditorBar()
 
 void ParticleEditor::createParticles()
 {
-	
+
+
 
 }
 

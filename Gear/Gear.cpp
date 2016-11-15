@@ -61,11 +61,19 @@ namespace Gear
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
+		GLfloat positions[] = { 0.5, 0.5, 0.0 };
+
+
 		glBindBuffer( GL_ARRAY_BUFFER, vbo );
-		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, 0 );
-		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, (void*)(sizeof( float ) * 3) );
-		glDrawArrays( GL_TRIANGLES, 0, size );
+		//glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, 0 );
+		//glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, (void*)(sizeof( float ) * 3) );
+		//glDrawArrays( GL_TRIANGLES, 0, size );
+
+		glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, sizeof(GLfloat), 0);
+		glDrawArrays(GL_POINTS, 0, 1);
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 
 		allShaders.at(0)->unUse();
 

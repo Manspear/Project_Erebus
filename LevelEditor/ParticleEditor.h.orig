@@ -4,7 +4,7 @@
 
 struct Particle
 {
-	GLfloat pos[3];
+	float pos[3];
 	float duration;
 	float speed;
 	float angle;
@@ -23,6 +23,11 @@ public:
 
 	~ParticleEditor();
 
+<<<<<<< HEAD
+=======
+	Particle part;
+
+>>>>>>> 7a882b08e19a132079f3447206adf133b94fa2e1
 	void particleEditorBar();
 	void createParticles();
 };
