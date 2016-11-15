@@ -46,15 +46,22 @@ int main()
 	//MenuTest menuTest;
 	ParticleEditor particleEditor;
 	HeightMapEditor* heightMapEditor;
+<<<<<<< HEAD
 	particleEditor.particleEditorBar();
+
+
+	TwWindowSize(500, 500);
+=======
 	
 	
+
 	TwWindowSize(1280, 720);
 	
 	glfwSetMouseButtonCallback(window->getGlfwWindow(),(GLFWmousebuttonfun)TwEventMouseButtonGLFW3);
 	glfwSetCursorPosCallback(window->getGlfwWindow(), (GLFWcursorposfun)TwEventMousePosGLFW3);
 	
 	
+>>>>>>> Level_Editor
 	
 	while (engine->isRunning())
 	{

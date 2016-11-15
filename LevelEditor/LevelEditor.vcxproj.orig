@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
@@ -125,8 +125,11 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuTest.cpp" />
-    <ClCompile Include="Window.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="ParticleEditor.cpp" />
+=======
+    <ClCompile Include="Window.cpp" />
+>>>>>>> Level_Editor
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeightMapEditor.h" />

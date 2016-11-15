@@ -14,14 +14,14 @@ struct Particle
 class ParticleEditor
 {
 private:
-	TwBar *myBar;
+	TwBar *particleBar;
+	Particle part;
+	int test = 0;
 
 public:
 	ParticleEditor();
 
 	~ParticleEditor();
-
-	Particle akfh;
 
 	void particleEditorBar();
 	void createParticles();
