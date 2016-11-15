@@ -24,17 +24,6 @@ namespace Gear
 		types[2] = GL_GEOMETRY_SHADER;
 		allShaders.push_back(new ShaderProgram(3, paths, types));
 
-		glGenBuffers(1, &testScreen);
-		float vertexData[18];
-		vertexData[0] = -0.5; vertexData[1] = -1.0; vertexData[2] = 1.0;
-		vertexData[3] = -0.5; vertexData[4] = 1.0; vertexData[5] = 1.0;
-		vertexData[6] = 1.0; vertexData[7] = -1.0; vertexData[8] = 1.0;
-		vertexData[9] = 1.0; vertexData[10] = -1.0; vertexData[11] = 1.0;
-		vertexData[12] = 1.0; vertexData[13] = 1.0; vertexData[14] = 1.0;
-		vertexData[15] = -1.0; vertexData[16] = 1.0; vertexData[17] = 1.0;
-		glBindBuffer(GL_ARRAY_BUFFER, testScreen);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), &vertexData[0], GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	GearEngine::~GearEngine()
@@ -44,25 +33,16 @@ namespace Gear
 
 		glfwTerminate();
 	}
-	float ko = 1.01;
+
 	void GearEngine::draw(Camera* camera) {
 		/* Render here */
 		allShaders.at( 0 )->use();
 
 		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
-		//GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
-		//glm::mat4 tempmat = camera->getViewPers();
-		//glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
-		
-		//allShaders.at(0)->addUniform(camera->getViewPers(), "VPmatrix");
+
 		allShaders.at(0)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 		allShaders.at(0)->addUniform(camera->getViewMatrix(), "viewMatrix");
 		allShaders.at(0)->addUniform(camera->getPosition(), "viewPos");
-
-		/*glBindBuffer(GL_ARRAY_BUFFER, testScreen);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
 		glBindBuffer( GL_ARRAY_BUFFER, vbo );
 		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, 0 );
@@ -74,10 +54,6 @@ namespace Gear
 
 		allShaders.at(0)->unUse();
 
-		/* Swap front and back buffers */
-
-		/* Poll for and process events */
-		//glfwPollESvents();
 
 	}
 
