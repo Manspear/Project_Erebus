@@ -38,6 +38,13 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 	else{
 		glm::vec3 tempforward = { camDirection.x, 0, camDirection.z };
 
+		if (inputs->keyPressed(GLFW_KEY_LEFT_SHIFT))
+			camSpeed = TURBO_CAM_SPEED;
+		else {
+			camSpeed = BASE_CAM_SPEED;
+		}
+
+
 		if (inputs->keyPressed(GLFW_KEY_SPACE))
 			camPosition += glm::vec3(0, 1, 0) * dt * camSpeed;
 		if (inputs->keyPressed(GLFW_KEY_X))

@@ -2,6 +2,8 @@
 #include "BaseIncludes.h"
 #include "Inputs.h"
 
+#define BASE_CAM_SPEED 8.0f
+#define TURBO_CAM_SPEED 13.0f
 class Camera 
 {
 public:
