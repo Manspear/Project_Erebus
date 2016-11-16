@@ -20,10 +20,6 @@ namespace Gear
 		RenderQueue renderQueue;
 		std::vector<RenderQueueElement*> renderElements;
 
-		//TEMP
-		//Sätt ett hårdkodat ljus
-		GEAR_API void setTestLight(ShaderProgram* shaderProgram);
-
 	private:
 		//Window* window;
 		std::vector<ShaderProgram*> allShaders;
