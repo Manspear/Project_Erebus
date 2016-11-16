@@ -1,6 +1,6 @@
 #version 420 core
 
-in vec3 vert_norm;
+in vec3 geom_norm;
 in vec3 fragPos;
 
 out vec4 finalColor;

@@ -7,6 +7,8 @@ in vec3 vert_viewPos[];
 in vec3 vert_worldPos[];
 
 out vec3 geom_normal;
+out vec3 geom_viewPos;
+out vec3 geom_worldPos;
 
  void main()
  {
@@ -18,6 +20,8 @@ out vec3 geom_normal;
 		for(int i = 0; i<3;i++){
 			gl_Position = gl_in[i].gl_Position;
 			geom_normal = vert_normal[i];
+			geom_viewPos = vert_viewPos[i];
+			geom_worldPos = vert_worldPos[i];
 			EmitVertex();
 		}
 		EndPrimitive();

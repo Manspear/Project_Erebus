@@ -20,7 +20,7 @@ namespace Gear
 
 		//TEMP
 		//Sätt ett hårdkodat ljus
-		GEAR_API void setTestLight(glm::vec3 camPos);
+		GEAR_API void setTestLight(ShaderProgram* shaderProgram);
 
 	private:
 		//Window* window;
