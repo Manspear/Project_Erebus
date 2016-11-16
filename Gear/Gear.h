@@ -3,12 +3,8 @@
 #include "BaseIncludes.h"
 #include "ShaderProgram.h"
 #include "Camera.h"
+#include "Model.h"
 
-#ifdef GEAR_EXPORTS  
-#define GEAR_API __declspec(dllexport)   
-#else  
-#define GEAR_API __declspec(dllimport)   
-#endif
 namespace Gear
 {
 	class GearEngine {
@@ -20,8 +16,7 @@ namespace Gear
 
 		// TEMPORARY: Vi ska inte ha det såhär
 		// För att rita ut modellen från importern
-		GLuint vbo;
-		int size;
+		RenderQueueElement* model;
 
 	private:
 		Window* window;

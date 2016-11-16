@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;GEAR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,6 +154,7 @@
     <ClInclude Include="BaseIncludes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Gear.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
     <ClInclude Include="ShaderCreator.h" />
@@ -163,9 +164,15 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Gear.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Importer\Importer.vcxproj">
+      <Project>{56d70726-725f-48e5-b935-71a5451ccd72}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

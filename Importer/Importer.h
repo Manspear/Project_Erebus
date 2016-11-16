@@ -93,11 +93,11 @@ namespace Importer
 		int joint, vertex, skeletonVertex;
 	};
 
-	class ModelImporter
+	class ModelAsset
 	{
 	public:
-		IMPORTER_API ModelImporter();
-		IMPORTER_API ~ModelImporter();
+		IMPORTER_API ModelAsset();
+		IMPORTER_API ~ModelAsset();
 
 		IMPORTER_API void load( const char* path );
 		IMPORTER_API void unload();
@@ -108,9 +108,6 @@ namespace Importer
 		IMPORTER_API sJoint* getJoints( int mesh ) const;
 		IMPORTER_API int getFrameCount( int mesh, int joint, int animationState ) const;
 		IMPORTER_API sKeyFrame* getKeyFrames( int mesh, int joint, int animationState ) const;
-		//IMPORTER_API sVertex* getVertices( int mesh ) const;
-		//IMPORTER_API sSkeletonVertex* getSkeletonVertices( int mesh ) const;
-		//IMPORTER_API unsigned int* getIndices( int mesh ) const;
 		IMPORTER_API GLuint getVertexBuffer( int mesh ) const;
 		IMPORTER_API GLuint getIndexBuffer( int mesh ) const;
 		IMPORTER_API int getBufferSize( int mesh ) const;
@@ -128,9 +125,6 @@ namespace Importer
 		GLuint* indexBuffers;
 		int* bufferSizes;
 
-		//sVertex* vertices;
-		//sSkeletonVertex* skeletonVertices;
-		//unsigned int* indices;
 		void* dataptr;
 	};
 };
