@@ -84,6 +84,11 @@ namespace Gear
 
 	}
 
+	GEAR_API void GearEngine::drawParticles(Particle * particles)
+	{
+		/*return GEAR_API void();*/
+	}
+
 	bool GearEngine::isRunning(){
 		return true;//window->isWindowOpen();
 	}

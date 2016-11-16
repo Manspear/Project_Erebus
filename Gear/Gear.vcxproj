@@ -154,6 +154,7 @@
     <ClInclude Include="BaseIncludes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Gear.h" />
+    <ClInclude Include="Particles.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
     <ClInclude Include="ShaderCreator.h" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Gear.cpp" />
+    <ClCompile Include="Particles.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
   </ItemGroup>
