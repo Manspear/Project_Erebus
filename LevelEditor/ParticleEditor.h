@@ -1,8 +1,8 @@
 #pragma once
 #include<AntTweakBar.h>
+#include<GLFW\glfw3.h>
+#include<glm\vec3.hpp>
 #include"Particles.h"
-//#include<GLFW\glfw3.h>
-//#include<glm\vec3.hpp>
 
 class ParticleEditor 
 {
