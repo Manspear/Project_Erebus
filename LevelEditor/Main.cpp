@@ -17,8 +17,7 @@ inline void TwEventMousePosGLFW3(GLFWwindow* window, double xpos, double ypos) {
 enum EditorState
 {
 	HEIGHTMAP_EDIT,
-	PARTICES_EDIT,
-
+	PARTICLES_EDIT,
 };
 
 int main()
@@ -66,7 +65,7 @@ int main()
 
 			break;
 
-		case PARTICES_EDIT:
+		case PARTICLES_EDIT:
 
 			break;
 		default:
