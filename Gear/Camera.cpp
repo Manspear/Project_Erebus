@@ -9,7 +9,7 @@ Camera::Camera()
 
 Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, Inputs* in)
 {
-	horizontalAngle = 0;
+	horizontalAngle = 3.14f;
 	verticalAngle = 0;
 	inputs = in;
 	camSpeed = 5.0f;
@@ -67,6 +67,12 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 
 		horizontalAngle += dPos.x / 100.f;
 		verticalAngle += dPos.y / 100.f;
+		if (horizontalAngle > 2 * 3.14f) {
+			horizontalAngle -= 2 * 3.14f;
+		}
+		if (abs(verticalAngle) > 3.14f/2) {
+			verticalAngle -= dPos.y / 100.f;
+		}
 
 		camDirection = glm::vec3(
 			cos(verticalAngle) * sin(horizontalAngle),

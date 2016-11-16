@@ -48,8 +48,6 @@ int main()
 		c_start = clock();
 
 		inputs.update();
-		if(inputs.keyPressed(GLFW_KEY_W))
-			std::cout <<"HErooo" << std::endl;
 
 		camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);

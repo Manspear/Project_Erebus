@@ -7,10 +7,12 @@ struct MousePos {
 
 static bool keys[GLFW_KEY_LAST]; 
 static bool keysPressedThisFrame[GLFW_KEY_LAST];
+static bool keysReleasedThisFrame[GLFW_KEY_LAST];
 static MousePos mousePos;
 static MousePos deltaPos;
 static bool mouseButtons[GLFW_MOUSE_BUTTON_LAST];
 static bool mouseButtonsPressedThisFrame[GLFW_MOUSE_BUTTON_LAST];
+static bool mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST];
 static double scrollX;
 
 class Inputs
@@ -23,8 +25,10 @@ public:
 	GEAR_API void update();
 	GEAR_API bool keyPressed(unsigned int key);
 	GEAR_API bool keyPressedThisFrame(unsigned int key);
+	GEAR_API bool keyReleasedThisFrame(unsigned int key);
 	GEAR_API bool buttonPressed(unsigned int button);
 	GEAR_API bool buttonPressedThisFrame(unsigned int button);
+	GEAR_API bool buttonReleasedThisFrame(unsigned int button);
 	GEAR_API MousePos getMousePos();
 	GEAR_API MousePos getDeltaPos();
 
