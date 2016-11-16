@@ -3,6 +3,7 @@
 #include "BaseIncludes.h"
 #include "RenderQueueElement.h"
 #include "Importer.h"
+#include "ShaderProgram.h"
 
 namespace Gear
 {
@@ -17,6 +18,9 @@ namespace Gear
 		GEAR_API void setModelAsset( Importer::ModelAsset* asset );
 
 		GEAR_API Importer::ModelAsset* getModelAsset() const;
+
+		glm::mat4 worldMatrix;
+		ShaderProgram* shader;
 
 	private:
 		Importer::ModelAsset* modelAsset;

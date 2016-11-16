@@ -3,6 +3,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 #include "Model.h"
+#include "RenderQueue.h"
 
 
 namespace Gear
@@ -16,7 +17,8 @@ namespace Gear
 
 		// TEMPORARY: Vi ska inte ha det såhär
 		// För att rita ut modellen från importern
-		RenderQueueElement* model;
+		RenderQueue renderQueue;
+		std::vector<RenderQueueElement*> renderElements;
 
 		//TEMP
 		//Sätt ett hårdkodat ljus

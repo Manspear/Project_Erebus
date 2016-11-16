@@ -10,10 +10,11 @@ out vec3 vert_worldPos;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 viewPos;
+uniform mat4 worldMatrix;
 
 void main(){
-	gl_Position = projectionMatrix * viewMatrix * vec4(pos, 1.0);
+	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(pos, 1.0);
 	vert_normal = normal;
 	vert_viewPos = viewPos;
-	vert_worldPos = pos;
+	vert_worldPos = (worldMatrix * vec4(pos,1.0)).xyz;
 }
