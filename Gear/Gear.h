@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "RenderQueue.h"
-
+#include "Particles.h"
 
 namespace Gear
 {
@@ -13,6 +13,8 @@ namespace Gear
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
 		GEAR_API void draw(Camera* camera);
+		GEAR_API void drawParticles(Particle* particles);
+
 		GEAR_API bool isRunning();
 
 		// TEMPORARY: Vi ska inte ha det såhär
