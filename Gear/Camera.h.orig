@@ -2,8 +2,6 @@
 #include "BaseIncludes.h"
 #include "Inputs.h"
 
-#define BASE_CAM_SPEED 8.0f
-#define TURBO_CAM_SPEED 13.0f
 class Camera 
 {
 public:
@@ -13,10 +11,14 @@ public:
 
 	GEAR_API void camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt);
 	GEAR_API glm::mat4 getViewPers();
+<<<<<<< HEAD
 	GEAR_API glm::mat4 getViewMatrix();
 	GEAR_API glm::mat4 getProjectionMatrix();
 	GEAR_API glm::vec3 getPosition();
 	GEAR_API glm::vec3 getDirection();
+=======
+	GEAR_API void setFreeCam(bool free);
+>>>>>>> 358c1e4792db2293b2153f38e029b67d3968a886
 private:
 	Inputs *inputs;
 	bool freeCam;

@@ -4,7 +4,10 @@
 #include "Camera.h"
 #include "Model.h"
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 namespace Gear
 {
 	class GearEngine {

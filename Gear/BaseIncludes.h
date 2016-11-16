@@ -4,6 +4,13 @@
 #include <Windows.h>
 
 //Basic Util Includes
+
+#ifdef GEAR_EXPORTS  
+#define GEAR_API __declspec(dllexport)   
+#else  
+#define GEAR_API __declspec(dllimport)   
+#endif
+
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -16,6 +23,8 @@
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\rotate_vector.hpp>
+#include <glm\gtc\type_ptr.hpp>
 
 //Other includes /*
 #include <stdlib.h>

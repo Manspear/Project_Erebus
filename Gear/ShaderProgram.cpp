@@ -33,7 +33,7 @@ ShaderProgram::~ShaderProgram()
 	glDeleteProgram(programID);
 	if (textureIDs != nullptr)
 		delete textureIDs;
-	if (shaderIDs != nullptr);
+	if (shaderIDs != nullptr)
 		delete shaderIDs;
 }
 
@@ -90,4 +90,19 @@ GLuint ShaderProgram::getProgramID()
 GLuint* ShaderProgram::getTextures()
 {
 	return textureIDs;
+}
+
+GLuint ShaderProgram::getUniformLocation(std::string pos)
+{
+	return glGetUniformLocation(programID, pos.c_str());
+}
+
+void ShaderProgram::addUniform(glm::mat4 &matrix4x4, std::string position,  int count)
+{
+	glUniformMatrix4fv(getUniformLocation(position), count, GL_FALSE, glm::value_ptr(matrix4x4));
+}
+
+void ShaderProgram::addUniform(glm::vec3 &vec3, std::string position,  int count )
+{
+	glUniform3fv(getUniformLocation(position), count, glm::value_ptr(vec3));
 }

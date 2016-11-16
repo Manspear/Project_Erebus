@@ -16,6 +16,8 @@ public:
 
 	GLuint getProgramID();
 	GLuint* getTextures();
+	void addUniform(glm::mat4 &matrix4x4, std::string position,  int count = 1);
+	void addUniform(glm::vec3 &vec3, std::string position,  int count = 1);
 private:
 	GLuint programID;
 	GLuint* shaderIDs;
@@ -26,4 +28,5 @@ private:
 	int nrOfTextures;
 	int totalAttributes;
 	int nrOfUniforms;
+	GLuint getUniformLocation(std::string pos);
 };

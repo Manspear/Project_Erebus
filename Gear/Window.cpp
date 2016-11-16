@@ -1,5 +1,5 @@
 #include "Window.h"
-
+#include "Inputs.h"
 
 Window::Window()
 {
@@ -10,13 +10,16 @@ Window::Window()
 
 Window::~Window()
 {
+	glfwDestroyWindow(window);
 }
 
 void Window::initWindow()
 {
-	/* Initialize the library */
+
 	if (!glfwInit())
 		std::cout << "Error init GLFW!" << std::endl;
+
+	/* Initialize the library */
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", NULL, NULL);
@@ -28,7 +31,11 @@ void Window::initWindow()
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
-	glewInit();
+
+	//fixar inputs callback funktioner
+	glfwSetKeyCallback(window, Inputs::key_callback);
+	glfwSetMouseButtonCallback(window, Inputs::mouse_button_callback);
+	glfwSetScrollCallback(window, Inputs::scroll_callback);
 }
 
 bool Window::isWindowOpen() {
@@ -39,6 +46,10 @@ bool Window::isWindowOpen() {
 void Window::update() 
 {
 	glfwSwapBuffers(window);
-	glfwPollEvents();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+GLFWwindow * Window::getGlfwWindow()
+{
+	return window;
 }
