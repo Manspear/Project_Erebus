@@ -2,7 +2,7 @@
 #include "BaseIncludes.h"
 #include "RenderQueueElement.h"
 
-class Particle: public RenderQueueElement
+class Particle
 {
 public:
 
