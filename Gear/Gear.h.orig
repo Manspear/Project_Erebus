@@ -3,9 +3,11 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 #include "Model.h"
-#include "RenderQueue.h"
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 namespace Gear
 {
 	class GearEngine {
@@ -17,12 +19,11 @@ namespace Gear
 
 		// TEMPORARY: Vi ska inte ha det såhär
 		// För att rita ut modellen från importern
-		RenderQueue renderQueue;
-		std::vector<RenderQueueElement*> renderElements;
+		RenderQueueElement* model;
 
 		//TEMP
 		//Sätt ett hårdkodat ljus
-		GEAR_API void setTestLight(ShaderProgram* shaderProgram);
+		GEAR_API void setTestLight(glm::vec3 camPos);
 
 	private:
 		//Window* window;

@@ -10,7 +10,7 @@ RenderQueue::~RenderQueue()
 
 }
 
-void RenderQueue::process(std::vector<RenderQueueElement> &elements)
+void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
 {
 	size_t size = elements.size();
 
@@ -22,6 +22,6 @@ void RenderQueue::process(std::vector<RenderQueueElement> &elements)
 
 	for (int i = 0; i < size; i++)
 	{
-		elements[indices[i]].draw();
+		elements[indices[i]]->draw();
 	}
 }

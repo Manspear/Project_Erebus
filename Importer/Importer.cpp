@@ -2,18 +2,18 @@
 
 namespace Importer
 {
-	ModelImporter::ModelImporter()
+	ModelAsset::ModelAsset()
 		: dataptr( nullptr )
 	{
 		header.meshCount = header.materialCount = 0;
 	}
 
-	ModelImporter::~ModelImporter()
+	ModelAsset::~ModelAsset()
 	{
 		unload();
 	}
 
-	void ModelImporter::load( const char* path )
+	void ModelAsset::load( const char* path )
 	{
 		FILE *file = NULL;
 		fopen_s( &file, path, "rb" );
@@ -95,71 +95,56 @@ namespace Importer
 		}
 	}
 
-	void ModelImporter::unload()
+	void ModelAsset::unload()
 	{
 		free( dataptr );
 	}
 
-	sHeader* ModelImporter::getHeader()
+	sHeader* ModelAsset::getHeader()
 	{
 		return &header;
 	}
 
-	sMesh* ModelImporter::getMesh( int index ) const
+	sMesh* ModelAsset::getMesh( int index ) const
 	{
 		return meshes + sizeof( sMesh )*index;
 	}
 
-	sMaterial* ModelImporter::getMaterial( int index ) const
+	sMaterial* ModelAsset::getMaterial( int index ) const
 	{
 		return materials + sizeof( sMaterial )*index;
 	}
 
-	sJoint* ModelImporter::getJoints( int mesh ) const
+	sJoint* ModelAsset::getJoints( int mesh ) const
 	{
 		return joints + sizeof( sJoint )*offsets[mesh].joint;
 	}
 
-	int ModelImporter::getFrameCount( int mesh, int joint, int animationState ) const
+	int ModelAsset::getFrameCount( int mesh, int joint, int animationState ) const
 	{
 		int jointOffset = offsets[mesh].joint;
 		int stateOffset = sizeof( int )*animationState;
 		return *(keyCount + sizeof( int )*(jointOffset + stateOffset));
 	}
 
-	sKeyFrame* ModelImporter::getKeyFrames( int mesh, int joint, int animationState ) const
+	sKeyFrame* ModelAsset::getKeyFrames( int mesh, int joint, int animationState ) const
 	{
 		int jointOffset = offsets[mesh].joint;
 		int stateOffset = sizeof( int )*animationState;
 		return keyFrames + sizeof( sKeyFrame )*(jointOffset + stateOffset);
 	}
 
-	/*sVertex* ModelImporter::getVertices( int mesh ) const
-	{
-	return vertices + sizeof( sVertex )*offsets[mesh].vertex;
-	}
-
-	sSkeletonVertex* ModelImporter::getSkeletonVertices( int mesh ) const
-	{
-	return skeletonVertices + sizeof( sSkeletonVertex )*offsets[mesh].skeletonVertex;
-	}
-	7
-	unsigned int* ModelImporter::getIndices( int mesh ) const
-	{
-	return indices + sizeof( unsigned int )*offsets[mesh].skeletonVertex;
-	}*/
-
-	GLuint ModelImporter::getVertexBuffer( int mesh ) const
+	GLuint ModelAsset::getVertexBuffer( int mesh ) const
 	{
 		return vertexBuffers[mesh];
 	}
 
-	GLuint ModelImporter::getIndexBuffer( int mesh ) const
+	GLuint ModelAsset::getIndexBuffer( int mesh ) const
 	{
 		return indexBuffers[mesh];
 	}
 
-	int ModelImporter::getBufferSize( int mesh ) const
+	int ModelAsset::getBufferSize( int mesh ) const
 	{
 		return bufferSizes[mesh];
 	}

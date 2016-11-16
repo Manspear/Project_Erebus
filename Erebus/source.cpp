@@ -12,12 +12,31 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
-	Importer::ModelImporter* importer = new Importer::ModelImporter();
-	importer->load( "Models/newmolebat.mole" );
 
-	// TEMPORARY: För att kunna rita ut modellen
-	engine->vbo = importer->getVertexBuffer( 0 );
-	engine->size = importer->getBufferSize( 0 );
+	Importer::ModelAsset molebat;
+	molebat.load( "Models/newmolebat.mole" );
+
+	Gear::Model model;
+	model.setModelAsset( &molebat );
+	model.worldMatrix[0][0] = 1;
+	model.worldMatrix[1][1] = 1;
+	model.worldMatrix[2][2] = 1;
+	model.worldMatrix[3][3] = 1;
+
+	model.worldMatrix[3][0] = 3;
+
+	Gear::Model model2;
+	model2.setModelAsset( &molebat );
+	model2.worldMatrix[0][0] = 1;
+	model2.worldMatrix[1][1] = 1;
+	model2.worldMatrix[2][2] = 1;
+	model2.worldMatrix[3][3] = 1;
+
+	model2.worldMatrix[3][0] = -3;
+
+	// TEMP: Ritar ut modellen från Gear.
+	engine->renderElements.push_back( &model );
+	engine->renderElements.push_back( &model2 );
 
 	glEnable( GL_DEPTH_TEST );
 	
@@ -44,7 +63,8 @@ int main()
 
 	bool freeCam = false;
 
-	while (window->isWindowOpen()){
+	bool running = true;
+	while (running && window->isWindowOpen()){
 		c_start = clock();
 
 		inputs.update();
@@ -55,10 +75,11 @@ int main()
 		c_end = clock();
 		calculateDt(dt, c_start, c_end, totalTicks);
 
+		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
+			running = false;
 	}
 
 	delete window;
-	delete importer;
 	glfwTerminate();
 	delete engine;
 	return 0;

@@ -2,10 +2,12 @@
 #include "Gear.h"
 #include "Inputs.h"
 #include "Importer.h"
+<<<<<<< HEAD
+#include "Model.h"
+=======
 #include "Window.h"
+>>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 #include <ctime>
-#include "glm\gtc\quaternion.hpp"
-
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
@@ -14,12 +16,15 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
-	Importer::ModelImporter* importer = new Importer::ModelImporter();
-	importer->load( "Models/newmolebat.mole" );
 
-	// TEMPORARY: För att kunna rita ut modellen
-	engine->vbo = importer->getVertexBuffer( 0 );
-	engine->size = importer->getBufferSize( 0 );
+	Importer::ModelAsset molebat;
+	molebat.load( "Models/newmolebat.mole" );
+
+	Gear::Model model;
+	model.setModelAsset( &molebat );
+
+	// TEMP: Ritar ut modellen från Gear.
+	engine->model = &model;
 
 	glEnable( GL_DEPTH_TEST );
 	
@@ -37,26 +42,12 @@ int main()
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 20.f, &inputs);
 	glm::vec3 point = {0,0,5};
-<<<<<<< HEAD
-	glm::vec3 dir = {0,0,-1};
-
-	while (window->isWindowOpen()){
-		c_start = clock();
-		//std::cout << dt;
-
-		// copy pastye till player klass senare!!! :D:D:D:D:D
-		if (inputs.keyPressed(GLFW_KEY_W))
-			point += dir * dt;
-		if (inputs.keyPressed(GLFW_KEY_S))
-			point -= dir * dt;
-=======
 	glm::vec3 direction = {0,0,-1};
-	glEnable(GL_CULL_FACE);
+
 	
 	float horizAngle = 3.14f;
 	float vertAngle = 0;
 	float speed = 8.f;
->>>>>>> 358c1e4792db2293b2153f38e029b67d3968a886
 
 	bool freeCam = false;
 
@@ -64,8 +55,6 @@ int main()
 		c_start = clock();
 
 		inputs.update();
-		if(inputs.keyPressed(GLFW_KEY_W))
-			std::cout <<"HErooo" << std::endl;
 
 		camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);
@@ -75,9 +64,12 @@ int main()
 
 	}
 
+<<<<<<< HEAD
+=======
 	delete window;
 	delete importer;
 	glfwTerminate();
+>>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 	delete engine;
 	return 0;
 }

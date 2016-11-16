@@ -1,10 +1,15 @@
 #include "Gear.h"
+<<<<<<< HEAD
+#include "Importer.h"
+
+=======
 #include "BaseIncludes.h"
 
 struct ScreenVertex
 {
 	float x, y, s, t;
 };
+>>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 GLuint testScreen;
 namespace Gear
 {
@@ -13,7 +18,6 @@ namespace Gear
 
 		glewInit();
 
-<<<<<<< HEAD
 		std::string paths[3];
 		paths[0] = "Shaders/forward.vert";
 		paths[1] = "Shaders/forward.frag";
@@ -21,13 +25,6 @@ namespace Gear
 		GLuint types[3];
 		//paths[0] = "Shaders/phong.vert";
 		//paths[1] = "Shaders/phong.frag";
-=======
-
-		std::string paths[2];
-		paths[0] = "Shaders/forward.vertex";
-		paths[1] = "Shaders/forward.fragment";
-		GLuint types[2];
->>>>>>> 358c1e4792db2293b2153f38e029b67d3968a886
 
 		types[0] = GL_VERTEX_SHADER;
 		types[1] = GL_FRAGMENT_SHADER;
@@ -47,15 +44,21 @@ namespace Gear
 	void GearEngine::draw(Camera* camera) {
 		/* Render here */
 		allShaders.at( 0 )->use();
-
 <<<<<<< HEAD
+		
+		
 		Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
-=======
-		//Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
 		GLuint tjabba = glGetUniformLocation(allShaders.at(0)->getProgramID(), "VPmatrix");
-		glm::mat4 tempmat = camera->getViewPers();
-		glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempmat[0][0]);
->>>>>>> 358c1e4792db2293b2153f38e029b67d3968a886
+		static float angle = 0.0f;
+		angle += 0.001f;
+		glm::mat4 rot = glm::rotate( tempKamera.getViewPers(), angle, glm::vec3( 0, 1, 0 ) );
+		//glUniformMatrix4fv(tjabba, 1, GL_FALSE, &tempKamera.getViewPers()[0][0]);
+		glUniformMatrix4fv( tjabba, 1, GL_FALSE, &rot[0][0] );
+
+		model->draw();
+=======
+
+		//Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
 
 		//setTestLight(camera->getPosition());
 		allShaders.at(0)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -67,12 +70,18 @@ namespace Gear
 		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, (void*)(sizeof( float ) * 3) );
 		glDrawArrays( GL_TRIANGLES, 0, size );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+>>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 
 
 
 		allShaders.at(0)->unUse();
 
+<<<<<<< HEAD
+		/* Poll for and process events */
+		//glfwPollESvents();
+=======
 
+>>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 	}
 
 	bool GearEngine::isRunning(){

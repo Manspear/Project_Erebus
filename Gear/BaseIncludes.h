@@ -36,6 +36,11 @@
 //*/
 //#include "GraphicEngine.h"
 
+#ifdef GEAR_EXPORTS  
+#define GEAR_API __declspec(dllexport)   
+#else  
+#define GEAR_API __declspec(dllimport)   
+#endif
 
 #ifdef _DEBUG 
 #ifndef DBG_NEW

@@ -14,5 +14,5 @@ public:
 	RenderQueue();
 	~RenderQueue();
 
-	void process(std::vector<RenderQueueElement> &elements);
+	void process(std::vector<RenderQueueElement*> &elements);
 };

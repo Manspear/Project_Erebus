@@ -46,14 +46,11 @@ namespace Gear
 		allShaders.at(0)->addUniform(camera->getPosition(), "lightPos");
 		allShaders.at(0)->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 
-		glBindBuffer( GL_ARRAY_BUFFER, vbo );
-		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, 0 );
-		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, (void*)(sizeof( float ) * 3) );
-		glDrawArrays( GL_TRIANGLES, 0, size );
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
+		//model->draw();
+		((Model*)renderElements[0])->shader = allShaders[0];
+		((Model*)renderElements[1])->shader = allShaders[0];
+		renderQueue.process( renderElements );
 		allShaders.at(0)->unUse();
-
 
 	}
 
