@@ -67,7 +67,7 @@ namespace Importer
 			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
 			ptr += sizeof( sSkeletonVertex )*dataHeader.skeletonVertices;
 
-			for( int curMesh = 0; curMesh < header.meshCount; curMesh++ )
+			for( unsigned int curMesh = 0; curMesh < header.meshCount; curMesh++ )
 			{
 				glGenBuffers( 1, &vertexBuffers[curMesh] );
 				glBindBuffer( GL_ARRAY_BUFFER, vertexBuffers[curMesh] );
