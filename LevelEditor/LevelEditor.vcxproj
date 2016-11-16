@@ -125,7 +125,6 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuTest.cpp" />
-    <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="ParticleEditor.cpp" />
   </ItemGroup>
@@ -133,7 +132,6 @@
     <ClInclude Include="HeightMapEditor.h" />
     <ClInclude Include="MenuTest.h" />
     <ClInclude Include="ParticleEditor.h" />
-    <ClInclude Include="Particles.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

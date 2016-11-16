@@ -23,5 +23,5 @@ void ParticleEditor::particleEditorBar()
 	TwAddVarRW(particleBar, "Angle", TW_TYPE_FLOAT, &part->angle, " label='Angle' min=0 max=180 step=1");
 	TwAddVarRW(particleBar, "Color", TW_TYPE_COLOR3F, &part->color, " label='Color'");
 	TwAddSeparator(particleBar, "Sep", NULL);
-	TwAddButton(particleBar, "AddParticleButton", addParticle, (&part->pos, &part->duration, &part->speed, &part->angle, &part->color), "label='Add Particle'");
+	//TwAddButton(particleBar, "AddParticleButton", addParticle, (&part->pos, &part->duration, &part->speed, &part->angle, &part->color), "label='Add Particle'");
 }
