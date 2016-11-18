@@ -2,6 +2,7 @@
 #pragma once
 
 #include "BaseIncludes.h"
+#include "Assets.h"
 #ifdef IMPORTER_EXPORT
 #define IMPORTER_API __declspec(dllexport)   
 #else  
@@ -93,14 +94,14 @@ namespace Importer
 		int joint, vertex, skeletonVertex;
 	};
 
-	class ModelAsset
+	class ModelAsset : public Asset
 	{
 	public:
 		IMPORTER_API ModelAsset();
 		IMPORTER_API ~ModelAsset();
 
-		IMPORTER_API void load( const char* path );
-		IMPORTER_API void unload();
+		IMPORTER_API bool load( std::string path, Assets* assets ) override;
+		IMPORTER_API void unload() override;
 
 		IMPORTER_API sHeader* getHeader();
 		IMPORTER_API sMesh* getMesh( int index ) const;

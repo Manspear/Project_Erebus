@@ -13,10 +13,12 @@ namespace Importer
 		unload();
 	}
 
-	void ModelAsset::load( const char* path )
+	bool ModelAsset::load( std::string path, Assets* assets )
 	{
+		bool result = false;
+
 		FILE *file = NULL;
-		fopen_s( &file, path, "rb" );
+		fopen_s( &file, path.c_str(), "rb" );
 		if( file )
 		{
 			sDataHeader dataHeader;
@@ -92,12 +94,17 @@ namespace Importer
 			}
 
 			free( bufferptr );
+
+			result = true;
 		}
+
+		return result;
 	}
 
 	void ModelAsset::unload()
 	{
 		free( dataptr );
+		dataptr = nullptr;
 	}
 
 	sHeader* ModelAsset::getHeader()

@@ -2,6 +2,7 @@
 #include "Gear.h"
 #include "Inputs.h"
 #include "Importer.h"
+#include "Assets.h"
 #include "Window.h"
 #include <ctime>
 
@@ -13,11 +14,13 @@ int main()
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
-	Importer::ModelAsset molebat;
-	molebat.load( "Models/newmolebat.mole" );
+	//Importer::ModelAsset molebat;
+	//molebat.load( "Models/newmolebat.mole" );
+	Importer::Assets assets;
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/newmolebat.mole" );
 
 	Gear::Model model;
-	model.setModelAsset( &molebat );
+	model.setModelAsset( molebat );
 	model.worldMatrix[0][0] = 1;
 	model.worldMatrix[1][1] = 1;
 	model.worldMatrix[2][2] = 1;
@@ -26,7 +29,7 @@ int main()
 	model.worldMatrix[3][0] = 3;
 
 	Gear::Model model2;
-	model2.setModelAsset( &molebat );
+	model2.setModelAsset( molebat );
 	model2.worldMatrix[0][0] = 1;
 	model2.worldMatrix[1][1] = 1;
 	model2.worldMatrix[2][2] = 1;
