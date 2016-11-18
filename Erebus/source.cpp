@@ -4,6 +4,7 @@
 #include "Importer.h"
 #include "Window.h"
 #include <ctime>
+#include "Particles.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
@@ -34,9 +35,22 @@ int main()
 
 	model2.worldMatrix[3][0] = -3;
 
+
+	glm::vec3 pos = {-0.5, -0.5, 0.0};
+	glm::vec3 nor = {1.0, 1.0, 0.0};
+	Gear::Particle particle;
+	particle.setParticle(pos, nor);
+	particle.worldMatrix[0][0] = 1;
+	particle.worldMatrix[1][1] = 1;
+	particle.worldMatrix[2][2] = 1;
+	particle.worldMatrix[3][3] = 1;
+
+	particle.worldMatrix[3][0] = 3;
+
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
+	engine->renderElements.push_back( &particle );
 
 	glEnable( GL_DEPTH_TEST );
 	

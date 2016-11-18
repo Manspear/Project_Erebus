@@ -50,10 +50,22 @@ namespace Gear
 		//model->draw();
 		((Model*)renderElements[0])->shader = allShaders[0];
 		((Model*)renderElements[1])->shader = allShaders[0];
-		((Particle*)renderElements[0])->shader = allShaders[1];
+		
 		renderQueue.process( renderElements );
 		allShaders.at(0)->unUse();
 
+		allShaders.at(1)->use();
+
+		allShaders.at(1)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+		allShaders.at(1)->addUniform(camera->getViewMatrix(), "viewMatrix");
+		allShaders.at(1)->addUniform(camera->getPosition(), "viewPos");
+		allShaders.at(1)->addUniform(camera->getPosition(), "lightPos");
+		allShaders.at(1)->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+
+		((Particle*)renderElements[0])->shader = allShaders[1];
+
+		renderQueue.process(renderElements);
+		allShaders.at(1)->unUse();
 	}
 
 
