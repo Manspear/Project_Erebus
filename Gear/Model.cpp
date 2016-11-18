@@ -21,9 +21,11 @@ namespace Gear
 		for( int curMesh = 0; curMesh < meshes; curMesh++ )
 		{
 			glBindBuffer( GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(curMesh) );
-			glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( sSkeletonVertex ), 0 );
-			glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( sSkeletonVertex ), (void*)(sizeof( float ) * 3) );
-			glDrawArrays( GL_TRIANGLES, 0, modelAsset->getBufferSize(curMesh) );
+			glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( sVertex ), 0 );
+			glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( sVertex), (void*)(sizeof( float ) * 3) );
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(curMesh));
+			glDrawElements(GL_TRIANGLES, modelAsset->getBufferSize(curMesh), GL_UNSIGNED_INT, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		}
 	}

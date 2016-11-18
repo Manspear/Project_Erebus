@@ -26,6 +26,7 @@ namespace Importer
 		int keycounts;
 		int keyframes;
 		int vertices;
+		int indexes;
 		int skeletonVertices;
 	};
 
@@ -38,6 +39,7 @@ namespace Importer
 
 		unsigned int meshChildCount;
 		unsigned int vertexCount;
+		unsigned int indexCount;
 		unsigned int skeletonVertexCount;
 		unsigned int jointCount;
 	};
@@ -90,7 +92,7 @@ namespace Importer
 
 	struct sOffset
 	{
-		int joint, vertex, skeletonVertex;
+		int joint, vertex, index, skeletonVertex;
 	};
 
 	class ModelAsset

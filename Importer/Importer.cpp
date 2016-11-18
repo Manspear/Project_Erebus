@@ -64,6 +64,10 @@ namespace Importer
 			sVertex* vertices = (sVertex*)ptr;
 			ptr += sizeof( sVertex )*dataHeader.vertices;
 
+ 			//ptr = (char*)bufferptr;
+			unsigned int* indexes = (unsigned int*)ptr;
+			ptr += sizeof(unsigned int)*dataHeader.indexes;
+
 			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
 			ptr += sizeof( sSkeletonVertex )*dataHeader.skeletonVertices;
 
@@ -74,21 +78,21 @@ namespace Importer
 				if( meshes[curMesh].vertexCount > 0 )
 				{
 					glBufferData( GL_ARRAY_BUFFER, sizeof( sVertex )*meshes[curMesh].vertexCount, vertices + offsets[curMesh].vertex, GL_STATIC_DRAW );
-					bufferSizes[curMesh] = meshes[curMesh].vertexCount;
+					//bufferSizes[curMesh] = meshes[curMesh].vertexCount;
 				}
 				else
 				{
 					glBufferData( GL_ARRAY_BUFFER, sizeof( sSkeletonVertex )*meshes[curMesh].skeletonVertexCount, skeletonVertices + offsets[curMesh].skeletonVertex, GL_STATIC_DRAW );
-					bufferSizes[curMesh] = meshes[curMesh].skeletonVertexCount;
+					//bufferSizes[curMesh] = meshes[curMesh].skeletonVertexCount;
 				}
 				glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
 
-				/*glGenBuffers( 1, &indexBuffer );
-				glBindBuffer( GL_ARRAY_BUFFER, indexBuffer );
-				glBufferData( GL_ARRAY_BUFFER, sizeof( GLuint )*meshes[0].indexCount, bufferptr, GL_STATIC_DRAW );
+				glGenBuffers( 1, &indexBuffers[curMesh] );
+				glBindBuffer( GL_ARRAY_BUFFER, indexBuffers[curMesh] );
+				glBufferData( GL_ARRAY_BUFFER, sizeof( GLuint )*meshes[0].indexCount, indexes, GL_STATIC_DRAW );
 				glBindBuffer( GL_ARRAY_BUFFER, 0 );
-				bufferptr += sizeof( GLuint )*meshes[0].indexCount;*/
+				bufferSizes[curMesh] = meshes[curMesh].indexCount;
 			}
 
 			free( bufferptr );
