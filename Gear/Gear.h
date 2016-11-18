@@ -20,6 +20,7 @@ namespace Gear
 		// För att rita ut modellen från importern
 		RenderQueue renderQueue;
 		std::vector<RenderQueueElement*> renderElements;
+		std::vector<RenderQueueElement*> renderParticles;
 		std::vector<ShaderProgram*> allShaders;
 
 	private:

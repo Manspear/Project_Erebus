@@ -47,10 +47,11 @@ int main()
 
 	particle.worldMatrix[3][0] = 3;
 
+
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
-	engine->renderElements.push_back( &particle );
+	engine->renderParticles.push_back( &particle );
 
 	glEnable( GL_DEPTH_TEST );
 	
