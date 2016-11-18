@@ -1,12 +1,9 @@
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
-#include "Importer.h"
-<<<<<<< HEAD
-#include "Model.h"
-=======
+#include "Assets.h"
+#include "ModelAsset.h"
 #include "Window.h"
->>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 #include <ctime>
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
@@ -17,21 +14,45 @@ int main()
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
+<<<<<<< HEAD
 	Importer::ModelAsset molebat;
-	molebat.load( "Models/newmolebat.mole" );
+	molebat.load( "Models/mesh.mtf" );
+=======
+	//Importer::ModelAsset molebat;
+	//molebat.load( "Models/newmolebat.mole" );
+	Importer::Assets assets;
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/newmolebat.mole" );
+>>>>>>> 28a2f1004fe606f2775081424df8eb6c4045c3bd
 
 	Gear::Model model;
-	model.setModelAsset( &molebat );
+	model.setModelAsset( molebat );
+	model.worldMatrix[0][0] = 1;
+	model.worldMatrix[1][1] = 1;
+	model.worldMatrix[2][2] = 1;
+	model.worldMatrix[3][3] = 1;
+
+	model.worldMatrix[3][0] = 3;
+
+	Gear::Model model2;
+	model2.setModelAsset( molebat );
+	model2.worldMatrix[0][0] = 1;
+	model2.worldMatrix[1][1] = 1;
+	model2.worldMatrix[2][2] = 1;
+	model2.worldMatrix[3][3] = 1;
+
+	model2.worldMatrix[3][0] = -3;
 
 	// TEMP: Ritar ut modellen från Gear.
-	engine->model = &model;
+	engine->renderElements.push_back( &model );
+	engine->renderElements.push_back( &model2 );
 
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
 	clock_t c_start, c_end;
-	float dt = 0, totalTicks = 0;
+	float dt = 0;
+	int totalTicks = 0;
 	float totalTime = 0;
 	totalTicks++;
 	
@@ -51,7 +72,8 @@ int main()
 
 	bool freeCam = false;
 
-	while (window->isWindowOpen()){
+	bool running = true;
+	while (running && window->isWindowOpen()){
 		c_start = clock();
 
 		inputs.update();
@@ -62,14 +84,12 @@ int main()
 		c_end = clock();
 		calculateDt(dt, c_start, c_end, totalTicks);
 
+		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
+			running = false;
 	}
 
-<<<<<<< HEAD
-=======
 	delete window;
-	delete importer;
 	glfwTerminate();
->>>>>>> a7e95e80494d6933e63817ded9c46d88164a8d9a
 	delete engine;
 	return 0;
 }
