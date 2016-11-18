@@ -46,7 +46,8 @@ int main()
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
 	clock_t c_start, c_end;
-	float dt = 0, totalTicks = 0;
+	float dt = 0;
+	int totalTicks = 0;
 	float totalTime = 0;
 	totalTicks++;
 	
