@@ -119,10 +119,11 @@
   <ItemGroup>
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Importer.h" />
+    <ClInclude Include="ModelAsset.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assets.cpp" />
-    <ClCompile Include="Importer.cpp" />
+    <ClCompile Include="ModelAsset.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

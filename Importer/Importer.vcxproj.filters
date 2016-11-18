@@ -21,12 +21,15 @@
     <ClInclude Include="Assets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModelAsset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Importer.cpp">
+    <ClCompile Include="Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Assets.cpp">
+    <ClCompile Include="ModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

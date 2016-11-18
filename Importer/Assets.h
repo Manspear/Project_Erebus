@@ -1,12 +1,8 @@
 #pragma once
 
 #include <map>
+#include "Importer.h"
 
-#ifdef IMPORTER_EXPORT
-#define IMPORTER_API __declspec(dllexport)   
-#else  
-#define IMPORTER_API __declspec(dllimport)   
-#endif
 namespace Importer
 {
 	class Assets;
