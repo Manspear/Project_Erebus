@@ -10,6 +10,14 @@ int findAttribute(const std::string& content, GLuint programID);
 GLuint addTexture(int width, int height, GLuint internalFormat, GLuint format, GLuint type);
 void bindFramebuffer(int n, GLuint* attachments, GLuint* textures, GLuint frameBuffer);
 
+
+
+
+
+
+
+
+
 GLuint createShaderProgram()
 {
 	GLuint programID = glCreateProgram();
@@ -22,7 +30,7 @@ GLuint createShader(GLuint shaderType, std::string fileContent, GLuint programID
 	compileShader(fileContent, shaderID);
 	GLint success = 0;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
-	if (success == GL_FALSE) 
+	if (success == GL_FALSE)
 	{
 		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
@@ -46,12 +54,12 @@ void compileShader(const std::string& content, GLuint shaderID)
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
 	if (success == GL_FALSE)
 	{
-			GLint maxLength = 0;
-			glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
-			std::vector<char> errorLog(maxLength);
-			glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
-			glDeleteShader(shaderID);
-			std::printf("%s\n", &(errorLog[0]));	
+		GLint maxLength = 0;
+		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
+		std::vector<char> errorLog(maxLength);
+		glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
+		glDeleteShader(shaderID);
+		std::printf("%s\n", &(errorLog[0]));
 	}
 }
 
@@ -79,9 +87,9 @@ int findAttribute(const std::string& content, GLuint programID)
 	std::istringstream s2;
 	int nrOfAttrib = 0;
 
-	while (getline(s, temp)) 
+	while (getline(s, temp))
 	{
-		if (temp.substr(0, 3) == "in ") 
+		if (temp.substr(0, 3) == "in ")
 		{
 			s2.str(temp);
 			s2 >> temp >> temp >> attributeName;
@@ -100,7 +108,7 @@ void detachAndDeleteShader(GLuint programID, GLuint shaderID)
 GLuint addTexture(int width, int height, GLuint internalFormat, GLuint format, GLuint type)
 {
 	GLuint textureID;
-	
+
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
@@ -108,7 +116,7 @@ GLuint addTexture(int width, int height, GLuint internalFormat, GLuint format, G
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
+
 	return textureID;
 }
 
@@ -128,3 +136,4 @@ void bindFramebuffer(int n, GLuint* attachments, GLuint* textures, GLuint frameB
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	delete drawBuffers;
 }
+
