@@ -1,7 +1,8 @@
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
-#include "Importer.h"
+#include "Assets.h"
+#include "ModelAsset.h"
 #include "Window.h"
 #include <ctime>
 
@@ -13,11 +14,13 @@ int main()
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
-	Importer::ModelAsset molebat;
+	//Importer::ModelAsset molebat;
 	molebat.load( "Models/mesh.mtf" );
+	Importer::Assets assets;
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/newmolebat.mole" );
 
 	Gear::Model model;
-	model.setModelAsset( &molebat );
+	model.setModelAsset( molebat );
 	model.worldMatrix[0][0] = 1;
 	model.worldMatrix[1][1] = 1;
 	model.worldMatrix[2][2] = 1;
@@ -26,7 +29,7 @@ int main()
 	model.worldMatrix[3][0] = 3;
 
 	Gear::Model model2;
-	model2.setModelAsset( &molebat );
+	model2.setModelAsset( molebat );
 	model2.worldMatrix[0][0] = 1;
 	model2.worldMatrix[1][1] = 1;
 	model2.worldMatrix[2][2] = 1;
@@ -43,7 +46,8 @@ int main()
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
 	clock_t c_start, c_end;
-	float dt = 0, totalTicks = 0;
+	float dt = 0;
+	int totalTicks = 0;
 	float totalTime = 0;
 	totalTicks++;
 	

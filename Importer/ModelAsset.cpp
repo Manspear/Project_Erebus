@@ -1,4 +1,4 @@
-#include "Importer.h"
+#include "ModelAsset.h"
 
 namespace Importer
 {
@@ -13,10 +13,12 @@ namespace Importer
 		unload();
 	}
 
-	void ModelAsset::load( const char* path )
+	bool ModelAsset::load( std::string path, Assets* assets )
 	{
+		bool result = false;
+
 		FILE *file = NULL;
-		fopen_s( &file, path, "rb" );
+		fopen_s( &file, path.c_str(), "rb" );
 		if( file )
 		{
 			sDataHeader dataHeader;
@@ -71,7 +73,7 @@ namespace Importer
 			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
 			ptr += sizeof( sSkeletonVertex )*dataHeader.skeletonVertices;
 
-			for( int curMesh = 0; curMesh < header.meshCount; curMesh++ )
+			for( unsigned int curMesh = 0; curMesh < header.meshCount; curMesh++ )
 			{
 				glGenBuffers( 1, &vertexBuffers[curMesh] );
 				glBindBuffer( GL_ARRAY_BUFFER, vertexBuffers[curMesh] );
@@ -96,12 +98,17 @@ namespace Importer
 			}
 
 			free( bufferptr );
+
+			result = true;
 		}
+
+		return result;
 	}
 
 	void ModelAsset::unload()
 	{
 		free( dataptr );
+		dataptr = nullptr;
 	}
 
 	sHeader* ModelAsset::getHeader()

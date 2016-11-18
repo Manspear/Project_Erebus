@@ -2,7 +2,7 @@
 
 #include "BaseIncludes.h"
 #include "RenderQueueElement.h"
-#include "Importer.h"
+#include "ModelAsset.h"
 #include "ShaderProgram.h"
 
 namespace Gear
