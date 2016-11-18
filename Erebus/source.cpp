@@ -15,9 +15,9 @@ int main()
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
 	//Importer::ModelAsset molebat;
-	molebat.load( "Models/mesh.mtf" );
+	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
-	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/newmolebat.mole" );
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 
 	Gear::Model model;
 	model.setModelAsset( molebat );
