@@ -23,6 +23,7 @@ namespace Gear
 		types[1] = GL_FRAGMENT_SHADER;
 		types[2] = GL_GEOMETRY_SHADER;
 		allShaders.push_back(new ShaderProgram(3, paths, types));
+		allShaders.push_back(new ShaderProgram(2, paths, types));
 	}
 
 	GearEngine::~GearEngine()
@@ -49,14 +50,12 @@ namespace Gear
 		//model->draw();
 		((Model*)renderElements[0])->shader = allShaders[0];
 		((Model*)renderElements[1])->shader = allShaders[0];
+		((Particle*)renderElements[0])->shader = allShaders[1];
 		renderQueue.process( renderElements );
 		allShaders.at(0)->unUse();
 
 	}
 
-	GEAR_API void GearEngine::drawParticles(Particle * particles)
-	{
-	}
 
 	bool GearEngine::isRunning(){
 		return true;//window->isWindowOpen();

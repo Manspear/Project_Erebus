@@ -13,18 +13,18 @@ namespace Gear
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
 		GEAR_API void draw(Camera* camera);
-		GEAR_API void drawParticles(Particle* particles);
-
+		
 		GEAR_API bool isRunning();
 
 		// TEMPORARY: Vi ska inte ha det såhär
 		// För att rita ut modellen från importern
 		RenderQueue renderQueue;
 		std::vector<RenderQueueElement*> renderElements;
+		std::vector<ShaderProgram*> allShaders;
 
 	private:
 		//Window* window;
-		std::vector<ShaderProgram*> allShaders;
+		
 	};
 	GEAR_API double Add(double a, double b);
 }
