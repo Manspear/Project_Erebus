@@ -30,8 +30,6 @@ void ParticleEditor::particleEditorBar()
 {
 	particleBar = TwNewBar("Particle Editor Bar");
 
-	
-	
 	TwAddVarRW(particleBar, "Position", TW_TYPE_DIR3F, &tempPos, " label='Pos'");
 	TwAddVarRW(particleBar, "Duration", TW_TYPE_FLOAT, &tempDuration, " label='Duration' min=0 max=10 step=0.01");
 	TwAddVarRW(particleBar, "Speed", TW_TYPE_FLOAT, &tempSpeed, " label='Speed' min=1 max=10 step=0.1");
