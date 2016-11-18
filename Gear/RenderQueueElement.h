@@ -23,7 +23,6 @@ class RenderQueueElement
 {
 private:
 	RenderQueueId id;
-
 public:
 	RenderQueueElement() {}
 	virtual ~RenderQueueElement() {}

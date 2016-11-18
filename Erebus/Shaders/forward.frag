@@ -27,6 +27,6 @@ void main (){
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	vec3 specular = vec3(lightColor * spec);
 	
-	color = (ambient + diffuse + specular) * color;
+	color = (ambient + diffuse + specular)/2 * color;
 	finalColor = vec4(color, 1.0);
 }

@@ -34,6 +34,8 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 	if (!freeCam) {
 		camPosition = newPos;
 		camDirection = camPosition + newDir;
+		camPosition -= camDirection * (float)inputs->getDeltaScroll();
+		camDirection += camDirection * (float)inputs->getDeltaScroll();
 	}
 	else{
 		glm::vec3 tempforward = { camDirection.x, 0, camDirection.z };
@@ -44,7 +46,7 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 			camSpeed = BASE_CAM_SPEED;
 		}
 
-
+		//space = upp, x = ned, w = fram, s = bak, a = vänster, d = höger
 		if (inputs->keyPressed(GLFW_KEY_SPACE))
 			camPosition += glm::vec3(0, 1, 0) * dt * camSpeed;
 		if (inputs->keyPressed(GLFW_KEY_X))
@@ -57,8 +59,6 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 			camPosition -= cross(camDirection, { 0,1,0 }) * dt * camSpeed;
 		if (inputs->keyPressed(GLFW_KEY_D))
 			camPosition += cross(camDirection, { 0,1,0 }) * dt * camSpeed;
-
-		// fixa rotation av kamera som ett mlg barn igen!- okej, då kör vi! p:
 
 		tempforward = glm::normalize(tempforward);
 		glm::vec3 newAxisZ = glm::cross(tempforward, { 0,1,0 });

@@ -47,7 +47,6 @@ int main()
 	float totalTime = 0;
 	totalTicks++;
 	
-	
 
 
 	
@@ -64,6 +63,8 @@ int main()
 	bool freeCam = false;
 
 	bool running = true;
+
+
 	while (running && window->isWindowOpen()){
 		c_start = clock();
 
