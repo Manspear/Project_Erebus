@@ -32,5 +32,14 @@
     <None Include="Shaders\forward.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="particle.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="particle.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="particle.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

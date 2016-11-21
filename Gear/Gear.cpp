@@ -17,13 +17,20 @@ namespace Gear
 		paths[0] = "Shaders/forward.vert";
 		paths[1] = "Shaders/forward.frag";
 		paths[2] = "Shaders/forward.geom";
+		
+		std::string partPaths[3];
+		partPaths[0] = "Shaders/particle.vert";
+		partPaths[1] = "Shaders/particle.frag";
+		partPaths[2] = "Shaders/particle.geom";
+
 		GLuint types[3];
 
 		types[0] = GL_VERTEX_SHADER;
 		types[1] = GL_FRAGMENT_SHADER;
 		types[2] = GL_GEOMETRY_SHADER;
+
 		allShaders.push_back(new ShaderProgram(3, paths, types));
-		allShaders.push_back(new ShaderProgram(2, paths, types));
+		allShaders.push_back(new ShaderProgram(3, partPaths, types));
 	}
 
 	GearEngine::~GearEngine()
@@ -58,10 +65,11 @@ namespace Gear
 		allShaders.at(1)->use();
 
 		allShaders.at(1)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		allShaders.at(1)->addUniform(camera->getViewMatrix(), "viewMatrix");
-		allShaders.at(1)->addUniform(camera->getPosition(), "viewPos");
-		allShaders.at(1)->addUniform(camera->getPosition(), "lightPos");
-		allShaders.at(1)->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+		//allShaders.at(1)->addUniform(camera->getViewMatrix(), "viewMatrix");
+		//allShaders.at(1)->addUniform(camera->getPosition(), "viewPos");
+		//allShaders.at(1)->addUniform(camera->getPosition(), "lightPos");
+		//allShaders.at(1)->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+
 		((Particle*)renderParticles[0])->shader = allShaders[1];
 
 		renderQueue.process(renderParticles);

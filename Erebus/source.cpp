@@ -34,19 +34,23 @@ int main()
 	model2.worldMatrix[3][3] = 1;
 
 	model2.worldMatrix[3][0] = -3;
-
-
-	glm::vec3 pos = {-0.5, -0.5, 0.0};
-	glm::vec3 nor = {1.0, 1.0, 0.0};
+	
 	Gear::Particle particle;
-	particle.setParticle(pos, nor);
-	particle.worldMatrix[0][0] = 1;
-	particle.worldMatrix[1][1] = 1;
-	particle.worldMatrix[2][2] = 1;
-	particle.worldMatrix[3][3] = 1;
+	glm::vec3 pos = { -0.5, -0.5, 0.0 };
+	glm::vec3 color = { 1.0, 0.0, 0.0 };
+	particle.setParticle(pos, color);
 
-	particle.worldMatrix[3][0] = 3;
+	particle.modelMatrix[0][0] = 1;
+	particle.modelMatrix[0][1] = 0;
+	particle.modelMatrix[0][2] = 0;
 
+	particle.modelMatrix[1][0] = 0;
+	particle.modelMatrix[1][1] = 1;
+	particle.modelMatrix[1][2] = 0;
+
+	particle.modelMatrix[2][0] = 0;
+	particle.modelMatrix[2][1] = 0;
+	particle.modelMatrix[2][2] = 1;
 
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );

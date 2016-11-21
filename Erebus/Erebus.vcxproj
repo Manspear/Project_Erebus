@@ -161,6 +161,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="particle.frag" />
+    <None Include="particle.geom" />
+    <None Include="particle.vert" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />

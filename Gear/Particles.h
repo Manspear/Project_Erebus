@@ -12,7 +12,7 @@ namespace Gear
 		struct vertex
 		{
 			glm::vec3 pos;
-			glm::vec3 nor;
+			glm::vec3 color;
 		};
 
 		GEAR_API Particle();
@@ -24,7 +24,7 @@ namespace Gear
 		GEAR_API void setParticle(glm::vec3 &pos, glm::vec3 &nor);
 
 		ShaderProgram* shader;
-		glm::mat4 worldMatrix;
+		glm::mat4 modelMatrix;
 
 	private:
 
