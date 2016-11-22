@@ -13,6 +13,7 @@ enum shaderBaseType
 enum ShaderType {
 	FORWARD,
 	SHADOW,
+	PARTICLES,
 	NUM_SHADER_TYPES
 };
 

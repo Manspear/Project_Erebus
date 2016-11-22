@@ -21,7 +21,7 @@ namespace Gear
 		RenderQueue renderQueue;
 		std::vector<RenderQueueElement*> renderElements;
 		std::vector<RenderQueueElement*> renderParticles;
-		std::vector<ShaderProgram*> allShaders;
+	/*	std::vector<ShaderProgram*> allShaders;*/
 
 	private:
 		//Window* window;

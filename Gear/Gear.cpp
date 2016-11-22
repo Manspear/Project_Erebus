@@ -30,11 +30,11 @@ namespace Gear
 		types[2] = GL_GEOMETRY_SHADER;
 
 		for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
-		allShaders.push_back(new ShaderProgram(3, partPaths, types));
 		{
 			allShaders[i] = nullptr;
 		}
 		allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
+		allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 	}
 
 	GearEngine::~GearEngine()
@@ -67,9 +67,9 @@ namespace Gear
 		renderQueue.process( renderElements );
 		allShaders[FORWARD]->unUse();
 
-		allShaders.at(1)->use();
+		allShaders[PARTICLES]->use();
 
-		allShaders.at(1)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+		allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 		//allShaders.at(1)->addUniform(camera->getViewMatrix(), "viewMatrix");
 		//allShaders.at(1)->addUniform(camera->getPosition(), "viewPos");
 		//allShaders.at(1)->addUniform(camera->getPosition(), "lightPos");
@@ -78,7 +78,7 @@ namespace Gear
 		((Particle*)renderParticles[0])->shader = allShaders[1];
 
 		renderQueue.process(renderParticles);
-		allShaders.at(1)->unUse();
+		allShaders[PARTICLES]->unUse();
 	}
 
 
