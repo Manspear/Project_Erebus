@@ -6,9 +6,9 @@
 
 #define IMAGE_BPP 4 // 4 bytes per pixel
 
-#define ID_DXT1   0x31545844
-#define ID_DXT3   0x33545844
-#define ID_DXT5   0x35545844
+#define ID_DXT1 0x31545844
+#define ID_DXT3 0x33545844
+#define ID_DXT5 0x35545844
 
 struct DDS_PIXELFORMAT {
 	DWORD dwSize;
