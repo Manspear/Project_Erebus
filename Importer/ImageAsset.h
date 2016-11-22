@@ -6,11 +6,20 @@
 
 #define IMAGE_BPP 4 // 4 bytes per pixel
 
+
 namespace Importer
 {
 	class ImageAsset : public Asset
 	{
 	public:
+		struct RGBPoint
+		{
+			__int8 red;
+			__int8 green;
+			__int8 blue;
+			__int8 alpha;
+		};
+
 		IMPORTER_API ImageAsset();
 		IMPORTER_API virtual ~ImageAsset();
 
