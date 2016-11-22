@@ -6,6 +6,37 @@
 
 #define IMAGE_BPP 4 // 4 bytes per pixel
 
+#define ID_DXT1   0x31545844
+#define ID_DXT3   0x33545844
+#define ID_DXT5   0x35545844
+
+struct DDS_PIXELFORMAT {
+	DWORD dwSize;
+	DWORD dwFlags;
+	DWORD dwFourCC;
+	DWORD dwRGBBitCount;
+	DWORD dwRBitMask;
+	DWORD dwGBitMask;
+	DWORD dwBBitMask;
+	DWORD dwABitMask;
+};
+
+struct DDS_HEADER {
+	DWORD           dwSize;
+	DWORD           dwFlags;
+	DWORD           dwHeight;
+	DWORD           dwWidth;
+	DWORD           dwPitchOrLinearSize;
+	DWORD           dwDepth;
+	DWORD           dwMipMapCount;
+	DWORD           dwReserved1[11];
+	DDS_PIXELFORMAT ddspf;
+	DWORD           dwCaps;
+	DWORD           dwCaps2;
+	DWORD           dwCaps3;
+	DWORD           dwCaps4;
+	DWORD           dwReserved2;
+};
 
 namespace Importer
 {
@@ -33,13 +64,19 @@ namespace Importer
 		IMPORTER_API virtual bool load( std::string path, Assets* assets ) override;
 		IMPORTER_API virtual void unload() override;
 
-		uint8_t* getPixels() const;
-		Pixel getPixelValue( int x, int y ) const;
-		int getWidth() const;
-		int getHeight() const;
+		IMPORTER_API uint8_t* getPixels() const;
+		IMPORTER_API Pixel getPixelValue( int x, int y ) const;
+		IMPORTER_API int getWidth() const;
+		IMPORTER_API int getHeight() const;
+		IMPORTER_API int getSize() const;
+		IMPORTER_API GLenum getFormat() const;
 
 	private:
+		IMPORTER_API bool loadPNG( std::string& path );
+		IMPORTER_API bool loadDDS( std::string& path );
+
 		uint8_t* pixels;
-		int width, height;
+		int width, height, size;
+		GLenum format;
 	};
 }

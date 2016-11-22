@@ -1,9 +1,41 @@
 #include "ImageAsset.h"
 
+#define ID_DXT1   0x31545844
+#define ID_DXT3   0x33545844
+#define ID_DXT5   0x35545844
+
+struct DDS_PIXELFORMAT {
+	DWORD dwSize;
+	DWORD dwFlags;
+	DWORD dwFourCC;
+	DWORD dwRGBBitCount;
+	DWORD dwRBitMask;
+	DWORD dwGBitMask;
+	DWORD dwBBitMask;
+	DWORD dwABitMask;
+};
+
+struct DDS_HEADER {
+	DWORD           dwSize;
+	DWORD           dwFlags;
+	DWORD           dwHeight;
+	DWORD           dwWidth;
+	DWORD           dwPitchOrLinearSize;
+	DWORD           dwDepth;
+	DWORD           dwMipMapCount;
+	DWORD           dwReserved1[11];
+	DDS_PIXELFORMAT ddspf;
+	DWORD           dwCaps;
+	DWORD           dwCaps2;
+	DWORD           dwCaps3;
+	DWORD           dwCaps4;
+	DWORD           dwReserved2;
+};
+
 namespace Importer
 {
 	ImageAsset::ImageAsset()
-		: pixels( nullptr ), width( 0 ), height( 0 )
+		: pixels( nullptr ), width( 0 ), height( 0 ), format( GL_RGBA )
 	{
 	}
 
@@ -13,6 +45,65 @@ namespace Importer
 	}
 
 	bool ImageAsset::load( std::string path, Assets* assets )
+	{
+		bool result = false;
+
+		// TODO: Read signature/magic number instead of checking file extension
+
+		int dotpos = path.find_last_of( '.' );
+		std::string extension = path.substr( dotpos+1 );
+		if( extension.compare( "png" ) == 0 )
+		{
+			result = loadPNG( path );
+		}
+		else if( extension.compare( "dds" ) == 0 )
+		{
+			result = loadDDS( path );
+		}
+
+		return result;
+	}
+
+	void ImageAsset::unload()
+	{
+		if( pixels )
+			free( pixels );
+
+		pixels = nullptr;
+		width = height = 0;
+	}
+
+	uint8_t* ImageAsset::getPixels() const
+	{
+		return pixels;
+	}
+
+	ImageAsset::Pixel ImageAsset::getPixelValue( int x, int y ) const
+	{
+		return *((Pixel*)pixels[y*width*IMAGE_BPP + x]);
+	}
+
+	int ImageAsset::getWidth() const
+	{
+		return width;
+	}
+
+	int ImageAsset::getHeight() const
+	{
+		return height;
+	}
+
+	int ImageAsset::getSize() const
+	{
+		return size;
+	}
+
+	GLenum ImageAsset::getFormat() const
+	{
+		return format;
+	}
+
+	bool ImageAsset::loadPNG( std::string& path )
 	{
 		bool result = false;
 
@@ -45,6 +136,8 @@ namespace Importer
 				int bpp = 32 / bitDepth;
 				width = w;
 				height = h;
+				size = width * height * IMAGE_BPP;
+				format = GL_RGBA;
 
 				png_bytep* rowPointers = (png_bytep*)malloc( height * sizeof( png_bytep ) );
 				pixels = (uint8_t*)malloc( width * height * bpp );
@@ -69,32 +162,44 @@ namespace Importer
 		return result;
 	}
 
-	void ImageAsset::unload()
+	bool ImageAsset::loadDDS( std::string& path )
 	{
-		if( pixels )
-			free( pixels );
+		bool result = false;
 
-		pixels = nullptr;
-		width = height = 0;
-	}
+		FILE* file = NULL;
+		fopen_s( &file, path.c_str(), "rb" );
+		if( file )
+		{
+			DWORD dwMagic;
+			fread( &dwMagic, sizeof( DWORD ), 1, file );
 
-	uint8_t* ImageAsset::getPixels() const
-	{
-		return pixels;
-	}
+			DDS_HEADER header;
+			fread( &header, sizeof( DDS_HEADER ), 1, file );
 
-	ImageAsset::Pixel ImageAsset::getPixelValue( int x, int y ) const
-	{
-		return *((Pixel*)pixels[y*width*IMAGE_BPP + x]);
-	}
+			width = header.dwWidth;
+			height = header.dwHeight;
+			size = header.dwPitchOrLinearSize;
 
-	int ImageAsset::getWidth() const
-	{
-		return width;
-	}
+			switch( header.ddspf.dwFourCC )
+			{
+				default:
+				case ID_DXT1: format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT; break;
+				case ID_DXT3: format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT; break;
+				case ID_DXT5: format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT; break;
+			}
 
-	int ImageAsset::getHeight() const
-	{
-		return height;
+			// TODO: Check for DXT10 header and fail appropriately
+
+			pixels = (uint8_t*)malloc( size );
+			fread( pixels, sizeof( BYTE ), size, file );
+
+			// NOTE: If we want mipmaps, cube maps, etc, we have to read them below
+
+			fclose( file );
+
+			result = true;
+		}
+
+		return result;
 	}
 }
