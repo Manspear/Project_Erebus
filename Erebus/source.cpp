@@ -13,8 +13,18 @@ int main()
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
-	Importer::ModelAsset molebat;
+	Importer::ModelAsset molebat, skyboxAsset;
 	molebat.load( "Models/newmolebat.mole" );
+	skyboxAsset.load("Models/skybox.mole");
+
+	Gear::Model skybox;
+	skybox.setModelAsset(&skyboxAsset);
+	skybox.worldMatrix[0][0] = 50;
+	skybox.worldMatrix[1][1] = 50;
+	skybox.worldMatrix[2][2] = 50;
+	skybox.worldMatrix[3][3] = 1;
+
+	skybox.worldMatrix[3][1] = 3;
 
 	Gear::Model model;
 	model.setModelAsset( &molebat );
@@ -37,6 +47,8 @@ int main()
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
+	engine->renderElements.push_back(&skybox);
+
 
 	glEnable( GL_DEPTH_TEST );
 	
@@ -51,8 +63,8 @@ int main()
 
 	
 
-	Camera camera(45.f, 1280.f/720.f, 0.1f, 20.f, &inputs);
-	glm::vec3 point = {0,0,5};
+	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
+	//glm::vec3 point = {0,0,5};
 	glm::vec3 direction = {0,0,-1};
 
 	
@@ -63,13 +75,16 @@ int main()
 	bool freeCam = false;
 
 	bool running = true;
-
-
+	glm::vec3 point = {0,0,0};
+	float angle = 0;
 	while (running && window->isWindowOpen()){
 		c_start = clock();
-
 		inputs.update();
-
+		angle += dt;
+		skybox.worldMatrix[3][0] = camera.getPosition().x;
+		skybox.worldMatrix[3][1] = camera.getPosition().y-20;
+		skybox.worldMatrix[3][2] = camera.getPosition().z;
+		//camera.follow(point, glm::vec3(sinf(angle), 0, cosf(angle)), 20);
 		camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);
 		window->update();

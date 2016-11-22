@@ -49,6 +49,7 @@ namespace Gear
 		//model->draw();
 		((Model*)renderElements[0])->shader = allShaders[0];
 		((Model*)renderElements[1])->shader = allShaders[0];
+		((Model*)renderElements[2])->shader = allShaders[0];
 		renderQueue.process( renderElements );
 		allShaders.at(0)->unUse();
 
