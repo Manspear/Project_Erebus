@@ -10,6 +10,22 @@ RenderQueue::~RenderQueue()
 
 }
 
+void RenderQueue::configure(RenderQueueId &id)
+{
+
+	if (currentShader != id.shaderProgram)
+	{
+		//use id.shaderProgram
+		currentShader = id.shaderProgram;
+	}
+
+	if (currentTexture != id.texture)
+	{
+		//use id.texture
+		currentTexture = id.texture;
+	}
+}
+
 void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
 {
 	size_t size = elements.size();
@@ -22,6 +38,8 @@ void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
 
 	for (int i = 0; i < size; i++)
 	{
-		elements[indices[i]]->draw();
+		RenderQueueElement* el = elements[indices[i]];
+		configure(el->id);
+		el->draw();
 	}
 }

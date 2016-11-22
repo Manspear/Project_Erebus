@@ -9,7 +9,10 @@
 class RenderQueue
 {
 private:
-
+	int currentShader = 0;
+	int currentTexture = 0;
+private:
+	void configure(RenderQueueId &id);
 public:
 	RenderQueue();
 	~RenderQueue();
