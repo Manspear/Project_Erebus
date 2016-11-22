@@ -32,13 +32,13 @@
     <None Include="Shaders\forward.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="particle.frag">
+    <None Include="Shaders\particle.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="particle.geom">
+    <None Include="Shaders\particle.geom">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="particle.vert">
+    <None Include="Shaders\particle.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

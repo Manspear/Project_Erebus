@@ -70,10 +70,10 @@ namespace Gear
 		allShaders[PARTICLES]->use();
 
 		allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		//allShaders.at(1)->addUniform(camera->getViewMatrix(), "viewMatrix");
-		//allShaders.at(1)->addUniform(camera->getPosition(), "viewPos");
-		//allShaders.at(1)->addUniform(camera->getPosition(), "lightPos");
-		//allShaders.at(1)->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+		allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
+		allShaders[PARTICLES]->addUniform(camera->getPosition(), "viewPos");
+		allShaders[PARTICLES]->addUniform(camera->getPosition(), "lightPos");
+		allShaders[PARTICLES]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 
 		((Particle*)renderParticles[0])->shader = allShaders[1];
 

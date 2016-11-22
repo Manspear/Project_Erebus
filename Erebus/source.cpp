@@ -36,9 +36,12 @@ int main()
 	model2.worldMatrix[3][0] = -3;
 	
 	Gear::Particle particle;
-	glm::vec3 pos = { -0.5, -0.5, 0.0 };
+	glm::vec3 pos = { 0.5, 0.5, 0.0 };
 	glm::vec3 color = { 1.0, 0.0, 0.0 };
-	particle.setParticle(pos, color);
+	glm::vec3 nor = { 0.0, 1.0, 0.0 };
+	particle.setParticle(pos, color, nor);
+
+	
 
 	particle.modelMatrix[0][0] = 1;
 	particle.modelMatrix[0][1] = 0;

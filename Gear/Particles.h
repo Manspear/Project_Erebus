@@ -13,6 +13,7 @@ namespace Gear
 		{
 			glm::vec3 pos;
 			glm::vec3 color;
+			glm::vec3 normal;
 		};
 
 		GEAR_API Particle();
@@ -21,7 +22,7 @@ namespace Gear
 		GEAR_API virtual void draw() override;
 		vertex vertexObj;
 
-		GEAR_API void setParticle(glm::vec3 &pos, glm::vec3 &nor);
+		GEAR_API void setParticle(glm::vec3 &pos, glm::vec3 &color, glm::vec3 &normal);
 
 		ShaderProgram* shader;
 		glm::mat4 modelMatrix;
