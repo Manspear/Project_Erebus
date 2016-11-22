@@ -83,9 +83,9 @@ namespace Importer
 		return pixels;
 	}
 
-	uint8_t ImageAsset::getPixelValue( int x, int y ) const
+	ImageAsset::Pixel ImageAsset::getPixelValue( int x, int y ) const
 	{
-		return pixels[y*width*IMAGE_BPP + x];
+		return *((Pixel*)pixels[y*width*IMAGE_BPP + x]);
 	}
 
 	int ImageAsset::getWidth() const

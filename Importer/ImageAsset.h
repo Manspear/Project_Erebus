@@ -12,12 +12,19 @@ namespace Importer
 	class ImageAsset : public Asset
 	{
 	public:
-		struct RGBPoint
+		struct Pixel
 		{
-			__int8 red;
-			__int8 green;
-			__int8 blue;
-			__int8 alpha;
+			union
+			{
+				uint32_t value;
+				struct
+				{
+					uint8_t red;
+					uint8_t green;
+					uint8_t blue;
+					uint8_t alpha;
+				};
+			};
 		};
 
 		IMPORTER_API ImageAsset();
@@ -27,7 +34,7 @@ namespace Importer
 		IMPORTER_API virtual void unload() override;
 
 		uint8_t* getPixels() const;
-		uint8_t getPixelValue( int x, int y ) const;
+		Pixel getPixelValue( int x, int y ) const;
 		int getWidth() const;
 		int getHeight() const;
 
