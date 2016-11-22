@@ -68,13 +68,13 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 
 		MousePos dPos = inputs->getDeltaPos();
 
-		horizontalAngle += dPos.x / 100.f;
-		verticalAngle += dPos.y / 100.f;
+		horizontalAngle += (float)dPos.x / 100.f;
+		verticalAngle += (float)dPos.y / 100.f;
 		if (horizontalAngle > 2 * 3.14f) {
 			horizontalAngle -= 2 * 3.14f;
 		}
 		if (abs(verticalAngle) > 3.14f/2) {
-			verticalAngle -= dPos.y / 100.f;
+			verticalAngle -= (float)dPos.y / 100.f;
 		}
 
 		camDirection = glm::vec3(
