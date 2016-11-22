@@ -1,17 +1,23 @@
 #pragma once
 
+#define _ui8 unsigned __int8
+#define _ui16 unsigned __int16
+
 struct RenderQueueId
 {
-	__int16 key = 0;
+	_ui16 key = 0;
 
-	__int16 shaderProgram = 0;
-	__int16 texture = 0;
+	const _ui8 shaderProgram = 0;
+	const _ui8 texture = 0;
 
 	RenderQueueId() {}
-	RenderQueueId(int _shaderProgram, int _texture)
-		: shaderProgram(_shaderProgram), texture(_texture) {}
+	RenderQueueId(_ui8 _shaderProgram, _ui8 _texture)
+		: shaderProgram((_ui8)_shaderProgram), texture((_ui8)_texture) 
+	{
+		generateKey();
+	}
 
-	__int16 generateKey()
+	_ui16 generateKey()
 	{
 		key = shaderProgram << 8
 			| texture;
@@ -21,10 +27,9 @@ struct RenderQueueId
 
 class RenderQueueElement
 {
-private:
+public:
 	RenderQueueId id;
 
-public:
 	RenderQueueElement() {}
 	virtual ~RenderQueueElement() {}
 

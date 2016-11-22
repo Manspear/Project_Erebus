@@ -24,7 +24,7 @@ namespace Gear
 
 	private:
 		//Window* window;
-		std::vector<ShaderProgram*> allShaders;
+		ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	};
 	GEAR_API double Add(double a, double b);
 }
