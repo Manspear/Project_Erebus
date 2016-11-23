@@ -36,29 +36,25 @@ int main()
 	model2.worldMatrix[3][0] = -3;
 	
 	Gear::Particle particle;
-	glm::vec3 pos = { 0.5, 0.5, 0.0 };
-	glm::vec3 color = { 1.0, 0.0, 0.0 };
-	//glm::vec3 nor = { 0.0, 1.0, 0.0 };
-	particle.setParticle(pos, color);
-
-	//
-
-	//particle.modelMatrix[0][0] = 1;
-	//particle.modelMatrix[0][1] = 0;
-	//particle.modelMatrix[0][2] = 0;
-
-	//particle.modelMatrix[1][0] = 0;
-	//particle.modelMatrix[1][1] = 1;
-	//particle.modelMatrix[1][2] = 0;
-
-	//particle.modelMatrix[2][0] = 0;
-	//particle.modelMatrix[2][1] = 0;
-	//particle.modelMatrix[2][2] = 1;
+	glm::vec3 pos;
+	glm::vec3 color;
+	particle.setParticleCount(10);
 
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
-	engine->renderElements.push_back( &particle );
+
+	for (int i = 0; i < particle.getParticleCount(); i++)
+	{
+		pos = {rand() % 3, rand() % 3, rand() % 3 };
+		color = {1.0, 0.0, 0.0};
+
+		particle.setParticle(pos, color, i);
+		engine->renderElements.push_back(&particle);
+
+	}
+
+	//engine->renderElements.push_back( &particle );
 
 	glEnable( GL_DEPTH_TEST );
 	
