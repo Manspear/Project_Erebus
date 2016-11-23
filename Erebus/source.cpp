@@ -18,9 +18,8 @@ int main()
 	//Importer::ModelAsset molebat;
 	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
-	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
-	Importer::TextureAsset* molebatTexture = assets.load<Importer::TextureAsset>( "Textures/molebat_texture.png" );
-	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/red.png" );
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 
 	redTexture->bind();
@@ -104,8 +103,6 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_3 ) )
-			molebatTexture->bind();
 	}
 
 	delete window;
