@@ -3,6 +3,7 @@
 #include "Inputs.h"
 #include "Assets.h"
 #include "ModelAsset.h"
+#include "TextureAsset.h"
 #include "Window.h"
 #include <ctime>
 
@@ -18,14 +19,19 @@ int main()
 	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
-	Gear::Model skybox;
+	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/red.png" );
+	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
+
+	redTexture->bind();
+
+	/*Gear::Model skybox;
 	skybox.setModelAsset(&skyboxAsset);
 	skybox.worldMatrix[0][0] = 1900;
 	skybox.worldMatrix[1][1] = 1900;
 	skybox.worldMatrix[2][2] = 1900;
 	skybox.worldMatrix[3][3] = 1;
 
-	skybox.worldMatrix[3][1] = 3;
+	skybox.worldMatrix[3][1] = 3;*/
 
 	Gear::Model model;
 	model.setModelAsset( molebat );
@@ -48,7 +54,7 @@ int main()
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
-	engine->renderElements.push_back(&skybox);
+	//engine->renderElements.push_back(&skybox);
 
 
 	glEnable( GL_DEPTH_TEST );
@@ -81,9 +87,9 @@ int main()
 	while (running && window->isWindowOpen()){
 		c_start = clock();
 		inputs.update();
-		skybox.worldMatrix[3][0] = camera.getPosition().x;
+		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y-800;
-		skybox.worldMatrix[3][2] = camera.getPosition().z;
+		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
 		//camera.follow(point, glm::vec3(sinf(1/*angle*/), 0, cosf(1/*angle*/)), abs(inputs.getScroll()));
 		camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);

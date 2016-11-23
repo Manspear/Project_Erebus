@@ -42,8 +42,9 @@ namespace Importer
 		id = 0;
 	}
 
-	void TextureAsset::bind()
+	void TextureAsset::bind( GLenum position )
 	{
+		glActiveTexture( position );
 		glBindTexture( GL_TEXTURE_2D, id );
 	}
 }

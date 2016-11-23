@@ -26,10 +26,6 @@ namespace Gear
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(curMesh));
 			glDrawElements(GL_TRIANGLES, modelAsset->getBufferSize(curMesh), GL_UNSIGNED_INT, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(sVertex), 0);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(sVertex), (void*)(sizeof(float) * 3));
-				//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(sVertex), (void*)(sizeof(float) * 5));
-			}
 			glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		}
 	}
@@ -43,4 +39,4 @@ namespace Gear
 	{
 		return modelAsset;
 	}
-};
+}

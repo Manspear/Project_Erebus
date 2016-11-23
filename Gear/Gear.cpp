@@ -31,7 +31,6 @@ namespace Gear
 		//------------
 
 		renderQueue.updateUniforms(camera);
-		((Model*)renderElements[2])->shader = allShaders[0];
 		renderQueue.process( renderElements );
 
 	}
