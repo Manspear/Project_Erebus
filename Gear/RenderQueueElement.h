@@ -1,5 +1,7 @@
 #pragma once
 
+#include "BaseIncludes.h"
+
 #define _ui8 unsigned __int8
 #define _ui16 unsigned __int16
 
@@ -7,8 +9,8 @@ struct RenderQueueId
 {
 	_ui16 key = 0;
 
-	const _ui8 shaderProgram = 0;
-	const _ui8 texture = 0;
+	_ui8 shaderProgram = 0;
+	_ui8 texture = 0;
 
 	RenderQueueId() {}
 	RenderQueueId(_ui8 _shaderProgram, _ui8 _texture)
@@ -29,11 +31,10 @@ class RenderQueueElement
 {
 public:
 	RenderQueueId id;
-
 	RenderQueueElement() {}
 	virtual ~RenderQueueElement() {}
 
-	virtual void draw() = 0;
+	virtual void draw(const GLuint &shaderProgramId) = 0;
 
 	bool operator< (RenderQueueElement &obj) const
 	{

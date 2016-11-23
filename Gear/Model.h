@@ -13,7 +13,7 @@ namespace Gear
 		GEAR_API Model();
 		GEAR_API virtual ~Model();
 
-		GEAR_API virtual void draw() override;
+		GEAR_API virtual void draw(const GLuint &shaderProgramId) override;
 
 		GEAR_API void setModelAsset( Importer::ModelAsset* asset );
 

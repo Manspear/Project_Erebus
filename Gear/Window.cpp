@@ -36,6 +36,9 @@ void Window::initWindow()
 	glfwSetKeyCallback(window, Inputs::key_callback);
 	glfwSetMouseButtonCallback(window, Inputs::mouse_button_callback);
 	glfwSetScrollCallback(window, Inputs::scroll_callback);
+
+	//Removers the cursor and enables unlimited movement :)
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 bool Window::isWindowOpen() {
