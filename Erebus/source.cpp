@@ -99,6 +99,10 @@ int main()
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
+		if( inputs.keyPressedThisFrame( GLFW_KEY_1 ) )
+			greenTexture->bind();
+		if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
+			redTexture->bind();
 	}
 
 	delete window;
