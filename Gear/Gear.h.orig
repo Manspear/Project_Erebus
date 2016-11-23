@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseIncludes.h"
-#include "ShaderProgram.h"
 #include "Camera.h"
 #include "Model.h"
 #include "RenderQueue.h"
@@ -13,7 +12,11 @@ namespace Gear
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
 		GEAR_API void draw(Camera* camera);
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> Dev_Main
 		GEAR_API bool isRunning();
 
 		// TEMPORARY: Vi ska inte ha det såhär
@@ -21,15 +24,9 @@ namespace Gear
 		RenderQueue renderQueue;
 		std::vector<RenderQueueElement*> renderElements;
 		std::vector<RenderQueueElement*> renderParticles;
-		std::vector<ShaderProgram*> allShaders;
+	/*	std::vector<ShaderProgram*> allShaders;*/
 
 	private:
 		//Window* window;
-<<<<<<< HEAD
-		
-=======
-		ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
->>>>>>> Dev_Main
 	};
-	GEAR_API double Add(double a, double b);
 }

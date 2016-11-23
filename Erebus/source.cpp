@@ -58,7 +58,7 @@ int main()
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
-	engine->renderParticles.push_back( &particle );
+	engine->renderElements.push_back( &particle );
 
 	glEnable( GL_DEPTH_TEST );
 	

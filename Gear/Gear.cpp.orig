@@ -13,6 +13,7 @@ namespace Gear
 
 		glewInit();
 
+<<<<<<< HEAD
 		std::string paths[3];
 		paths[0] = "Shaders/forward.vert";
 		paths[1] = "Shaders/forward.frag";
@@ -29,63 +30,60 @@ namespace Gear
 		types[1] = GL_FRAGMENT_SHADER;
 		types[2] = GL_GEOMETRY_SHADER;
 
-<<<<<<< HEAD
-		allShaders.push_back(new ShaderProgram(3, paths, types));
-		allShaders.push_back(new ShaderProgram(3, partPaths, types));
-=======
 		for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 		{
 			allShaders[i] = nullptr;
 		}
 		allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
+		allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
+=======
+		renderQueue.init();
+
 >>>>>>> Dev_Main
 	}
 
 	GearEngine::~GearEngine()
 	{
-		for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
-			if (allShaders[i] != nullptr)
-				delete allShaders[i];
-
 		glfwTerminate();
 	}
 
 	void GearEngine::draw(Camera* camera) {
 		/* Render here */
-		allShaders[FORWARD]->use();
+		
+		//TEMP--------
+		renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		renderElements[1]->id = RenderQueueId(FORWARD, 0);
+		//------------
 
-		//Camera tempKamera = Camera(45.f, 1280.f / 720.f, 0.1f, 20.f);
-
-		//setTestLight(camera->getPosition());
-		allShaders[FORWARD]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		allShaders[FORWARD]->addUniform(camera->getViewMatrix(), "viewMatrix");
-		allShaders[FORWARD]->addUniform(camera->getPosition(), "viewPos");
-		allShaders[FORWARD]->addUniform(camera->getPosition(), "lightPos");
-		allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
-
+<<<<<<< HEAD
 		//model->draw();
 		((Model*)renderElements[0])->shader = allShaders[0];
 		((Model*)renderElements[1])->shader = allShaders[0];
 		
 		
+=======
+		renderQueue.updateUniforms(camera);
+>>>>>>> Dev_Main
 		renderQueue.process( renderElements );
-		allShaders[FORWARD]->unUse();
 
-		allShaders.at(1)->use();
+		allShaders[PARTICLES]->use();
 
-		allShaders.at(1)->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		//allShaders.at(1)->addUniform(camera->getViewMatrix(), "viewMatrix");
-		//allShaders.at(1)->addUniform(camera->getPosition(), "viewPos");
-		//allShaders.at(1)->addUniform(camera->getPosition(), "lightPos");
-		//allShaders.at(1)->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+<<<<<<< HEAD
+		allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+		allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
+		allShaders[PARTICLES]->addUniform(camera->getPosition(), "viewPos");
+		allShaders[PARTICLES]->addUniform(camera->getPosition(), "lightPos");
+		allShaders[PARTICLES]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 
 		((Particle*)renderParticles[0])->shader = allShaders[1];
 
 		renderQueue.process(renderParticles);
-		allShaders.at(1)->unUse();
+		allShaders[PARTICLES]->unUse();
 	}
 
 
+=======
+>>>>>>> Dev_Main
 	bool GearEngine::isRunning(){
 		return true;//window->isWindowOpen();
 	}

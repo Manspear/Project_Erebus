@@ -31,12 +31,12 @@ namespace Gear
 
 	}
 
-	void Particle::draw()
+	void Particle::draw(const GLuint &shaderProgramId)
 	{
-		GLuint modelMatrixLocation = glGetUniformLocation(shader->getProgramID(), "modelMatrix");
+		GLuint modelMatrixLocation = glGetUniformLocation(shaderProgramId, "modelMatrix");
 		glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]);
 
-		GLuint loc = glGetUniformLocation(shader->getProgramID(), "particleSize");
+		GLuint loc = glGetUniformLocation(shaderProgramId, "particleSize");
 
 		glUniform1f(loc, 1.0);
 		if (loc != -1)

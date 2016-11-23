@@ -26,8 +26,14 @@ void RenderQueue::init()
 	types[0] = GL_VERTEX_SHADER;
 	types[1] = GL_FRAGMENT_SHADER;
 	types[2] = GL_GEOMETRY_SHADER;
-	
+
+	std::string partPaths[3];
+	partPaths[0] = "Shaders/particle.vert";
+	partPaths[1] = "Shaders/particle.frag";
+	partPaths[2] = "Shaders/particle.geom";
+
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
+	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -39,6 +45,14 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[FORWARD]->addUniform(camera->getPosition(), "lightPos");
 	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 	allShaders[FORWARD]->unUse();
+
+	allShaders[PARTICLES]->use();
+	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[PARTICLES]->addUniform(camera->getPosition(), "viewPos");
+	allShaders[PARTICLES]->addUniform(camera->getPosition(), "lightPos");
+	allShaders[PARTICLES]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+	allShaders[PARTICLES]->unUse();
 }
 
 void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
