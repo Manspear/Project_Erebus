@@ -28,6 +28,7 @@ namespace Gear
 			else {
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(sVertex), 0);
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(sVertex), (void*)(sizeof(float) * 3));
+				//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(sVertex), (void*)(sizeof(float) * 5));
 			}
 			glDrawArrays( GL_TRIANGLES, 0, modelAsset->getBufferSize(curMesh) );
 			glBindBuffer( GL_ARRAY_BUFFER, 0 );

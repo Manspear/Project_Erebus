@@ -97,6 +97,10 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 
 GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance)
 {
+	angle += 0.001 * dir;
+	if (angle > 3.14/2 || angle < 0 ) {
+		dir *= -1;
+	}
 	glm::vec3 tempForward(direction.x, 0, direction.z);
 	tempForward *= cosf(angle) * distance;
 	this->camPosition = point + glm::vec3(0, distance*sinf(angle), 0) - tempForward;

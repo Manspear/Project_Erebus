@@ -19,9 +19,9 @@ int main()
 
 	Gear::Model skybox;
 	skybox.setModelAsset(&skyboxAsset);
-	skybox.worldMatrix[0][0] = 50;
-	skybox.worldMatrix[1][1] = 50;
-	skybox.worldMatrix[2][2] = 50;
+	skybox.worldMatrix[0][0] = 1900;
+	skybox.worldMatrix[1][1] = 1900;
+	skybox.worldMatrix[2][2] = 1900;
 	skybox.worldMatrix[3][3] = 1;
 
 	skybox.worldMatrix[3][1] = 3;
@@ -77,15 +77,13 @@ int main()
 
 	bool running = true;
 	glm::vec3 point = {0,0,0};
-	float angle = 0;
 	while (running && window->isWindowOpen()){
 		c_start = clock();
 		inputs.update();
-		angle += dt;
 		skybox.worldMatrix[3][0] = camera.getPosition().x;
-		skybox.worldMatrix[3][1] = camera.getPosition().y-20;
+		skybox.worldMatrix[3][1] = camera.getPosition().y-800;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;
-		//camera.follow(point, glm::vec3(sinf(angle), 0, cosf(angle)), 20);
+		//camera.follow(point, glm::vec3(sinf(1/*angle*/), 0, cosf(1/*angle*/)), abs(inputs.getScroll()));
 		camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);
 		window->update();
