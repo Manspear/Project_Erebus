@@ -12,9 +12,9 @@ namespace Gear
 	{
 	}
 
-	void Model::draw()
+	void Model::draw(const GLuint &shaderProgramId)
 	{
-		GLuint worldMatrixLocation = glGetUniformLocation( shader->getProgramID(), "worldMatrix" );
+		GLuint worldMatrixLocation = glGetUniformLocation( shaderProgramId, "worldMatrix" );
 		glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0] );
 
 		int meshes = modelAsset->getHeader()->meshCount;
