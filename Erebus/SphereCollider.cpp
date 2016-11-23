@@ -32,6 +32,14 @@ bool SphereCollider::sphereToSphereCollision(const SphereCollider * sphere)
 	bool collision = false;
 
 	glm::vec3 distanceVector = this->pos - sphere->pos;
+	float distanceSquared = glm::dot(distanceVector, distanceVector); // dot with itself = length^2
+
+	float radiusSquared = (this->radius + sphere->radius);
+	radiusSquared *= radiusSquared;
+
+	//if distance squared is less than radius squared = collision
+	if (distanceSquared <= radiusSquared)
+		collision = true;
 
 
 	return collision;

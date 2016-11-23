@@ -14,10 +14,10 @@ int main()
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
-	SphereCollider sphere1 = SphereCollider(glm::vec3(5,5,5),3.0f);
-	SphereCollider sphere2 = SphereCollider(1,2,3,4);
+	SphereCollider sphere1 = SphereCollider(glm::vec3(5,5,5),4.0f);
+	SphereCollider sphere2 = SphereCollider(0,0,0,4.7f);
 
-	sphere1.sphereToSphereCollision(&sphere2);
+	bool badis = sphere1.sphereToSphereCollision(&sphere2);
 
 	Importer::ModelAsset molebat, skyboxAsset;
 	molebat.load( "Models/newmolebat.mole" );
