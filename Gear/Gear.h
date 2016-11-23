@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseIncludes.h"
-#include "ShaderProgram.h"
 #include "Camera.h"
 #include "Model.h"
 #include "RenderQueue.h"
@@ -25,7 +24,5 @@ namespace Gear
 
 	private:
 		//Window* window;
-		ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	};
-	GEAR_API double Add(double a, double b);
 }
