@@ -25,12 +25,12 @@ namespace Importer
 
 			if( ddsMagicNumber == DDS_MAGIC_NUMBER )
 			{
-				loadDDS( file );
+				result = loadDDS( file );
 			}
 			else
 			{
 				fseek( file, 0, SEEK_SET );
-				loadPNG( file );
+				result = loadPNG( file );
 			}
 
 			fclose( file );
