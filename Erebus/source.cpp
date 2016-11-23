@@ -4,6 +4,7 @@
 #include "Importer.h"
 #include "Window.h"
 #include <ctime>
+#include "SphereCollider.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
@@ -12,6 +13,11 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
+
+	SphereCollider sphere1 = SphereCollider(glm::vec3(5,5,5),3.0f);
+	SphereCollider sphere2 = SphereCollider(1,2,3,4);
+
+	sphere1.sphereToSphereCollision(&sphere2);
 
 	Importer::ModelAsset molebat, skyboxAsset;
 	molebat.load( "Models/newmolebat.mole" );
