@@ -23,6 +23,7 @@ namespace Importer
 			DWORD ddsMagicNumber;
 			fread( &ddsMagicNumber, sizeof( ddsMagicNumber ), 1, file );
 
+
 			if( ddsMagicNumber == DDS_MAGIC_NUMBER )
 			{
 				result = loadDDS( file );
