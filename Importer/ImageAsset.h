@@ -6,6 +6,7 @@
 
 #define IMAGE_BPP 4 // 4 bytes per pixel
 
+#define DDS_MAGIC_NUMBER 0x20534444 // 'DDS ' in hex
 #define ID_DXT1 0x31545844
 #define ID_DXT3 0x33545844
 #define ID_DXT5 0x35545844
@@ -43,20 +44,17 @@ namespace Importer
 	class ImageAsset : public Asset
 	{
 	public:
-		struct Pixel
+		typedef union
 		{
-			union
+			uint32_t value;
+			struct
 			{
-				uint32_t value;
-				struct
-				{
-					uint8_t red;
-					uint8_t green;
-					uint8_t blue;
-					uint8_t alpha;
-				};
+				uint8_t red;
+				uint8_t green;
+				uint8_t blue;
+				uint8_t alpha;
 			};
-		};
+		} Pixel;
 
 		IMPORTER_API ImageAsset();
 		IMPORTER_API virtual ~ImageAsset();
@@ -72,8 +70,8 @@ namespace Importer
 		IMPORTER_API GLenum getFormat() const;
 
 	private:
-		IMPORTER_API bool loadPNG( std::string& path );
-		IMPORTER_API bool loadDDS( std::string& path );
+		IMPORTER_API bool loadPNG( FILE* file );
+		IMPORTER_API bool loadDDS( FILE* file );
 
 		uint8_t* pixels;
 		int width, height, size;
