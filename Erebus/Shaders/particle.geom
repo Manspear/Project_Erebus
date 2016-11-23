@@ -1,53 +1,36 @@
 #version 420 core
+
+const vec2 quadCorners[4] = { vec2(0.0, 0.0), vec2(0.0, 1.0), 
+				vec2(1.0, 0.0), vec2(1.0, 1.0) };
+
 layout(points) in;
 layout(triangle_strip, max_vertices = 4) out;
 
 uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
 
 uniform float particleSize;
 
-in Vertex
-{
- vec4 color;
- vec3 normal;
-}vertex[];
+in vec3 vertex_color[];
 
-in vec3 vert_viewPos[];
-in vec3 vert_worldPos[];
-
-out vec4 vertexColor;
-out vec3 geom_normal;
-out vec3 geom_viewPos;
-out vec3 geom_worldPos;
+out vec3 geom_pos;
+out vec3 vertexColor;
+out vec2 vertex_UV;
 
  void main()
  {
 	
-	vec4 p = gl_in[0].gl_Position;
+	for(int i = 0; i < 4; i++)
+	{		
+		vec4 p = viewMatrix * gl_in[0].gl_Position;
+		p.xy += (quadCorners[i] - vec2(0.5)) * particleSize;
+		geom_pos = gl_in[0].gl_Position.xyz;
+		gl_Position = projectionMatrix * p;
+		vertexColor = vertex_color[0];
+		vertex_UV = quadCorners[i];
 
-	vec2 quadA = p.xy + vec2(-0.5, -0.5) * particleSize;
-	gl_Position = projectionMatrix * vec4(quadA, p.zw);
-	vertexColor = vertex[0].color;
-	geom_normal = vertex[0].normal;
-	EmitVertex();
-
-	vec2 quadB = p.xy + vec2(-0.5, 0.5) * particleSize;
-	gl_Position = projectionMatrix * vec4(quadB, p.zw);
-	vertexColor = vertex[0].color;
-	geom_normal = vertex[0].normal;
-	EmitVertex();
-
-	vec2 quadC = p.xy + (0.5, 0.5) * particleSize;
-	gl_Position = projectionMatrix * vec4(quadC, p.zw);
-	vertexColor = vertex[0].color;
-	geom_normal = vertex[0].normal;
-	EmitVertex();
-
-	vec2 quadD = p.xy + vec2(0.5, -0.5) * particleSize;
-	gl_Position = projectionMatrix * vec4(quadD, p.zw);
-	vertexColor = vertex[0].color;
-	geom_normal = vertex[0].normal;
-	EmitVertex();
+		EmitVertex();
+	}
 
 	EndPrimitive();
 

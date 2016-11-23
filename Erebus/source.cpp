@@ -38,22 +38,22 @@ int main()
 	Gear::Particle particle;
 	glm::vec3 pos = { 0.5, 0.5, 0.0 };
 	glm::vec3 color = { 1.0, 0.0, 0.0 };
-	glm::vec3 nor = { 0.0, 1.0, 0.0 };
-	particle.setParticle(pos, color, nor);
+	//glm::vec3 nor = { 0.0, 1.0, 0.0 };
+	particle.setParticle(pos, color);
 
-	
+	//
 
-	particle.modelMatrix[0][0] = 1;
-	particle.modelMatrix[0][1] = 0;
-	particle.modelMatrix[0][2] = 0;
+	//particle.modelMatrix[0][0] = 1;
+	//particle.modelMatrix[0][1] = 0;
+	//particle.modelMatrix[0][2] = 0;
 
-	particle.modelMatrix[1][0] = 0;
-	particle.modelMatrix[1][1] = 1;
-	particle.modelMatrix[1][2] = 0;
+	//particle.modelMatrix[1][0] = 0;
+	//particle.modelMatrix[1][1] = 1;
+	//particle.modelMatrix[1][2] = 0;
 
-	particle.modelMatrix[2][0] = 0;
-	particle.modelMatrix[2][1] = 0;
-	particle.modelMatrix[2][2] = 1;
+	//particle.modelMatrix[2][0] = 0;
+	//particle.modelMatrix[2][1] = 0;
+	//particle.modelMatrix[2][2] = 1;
 
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );

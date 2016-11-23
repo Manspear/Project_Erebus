@@ -6,8 +6,8 @@ namespace Gear
 	{
 
 		vertexObj.pos = { 0.0, 0.0, 0.0 };
-		vertexObj.color = { 0.0, 0.0, 0.0 };
-		vertexObj.normal = { 0.0, 0.0, 0.0 };
+		vertexObj.color = { 0.0, 0.0, 0.0};
+	/*	vertexObj.normal = { 0.0, 0.0, 0.0 };*/
 		//pos = { 0, 0, 0 };
 		//duration = 0;
 		//speed = 1;
@@ -33,8 +33,8 @@ namespace Gear
 
 	void Particle::draw(const GLuint &shaderProgramId)
 	{
-		GLuint modelMatrixLocation = glGetUniformLocation(shaderProgramId, "modelMatrix");
-		glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]);
+		//GLuint modelMatrixLocation = glGetUniformLocation(shaderProgramId, "modelMatrix");
+		//glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]);
 
 		GLuint loc = glGetUniformLocation(shaderProgramId, "particleSize");
 
@@ -48,20 +48,25 @@ namespace Gear
 		glGenBuffers(1, &vertexBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
+		glEnable(GL_PROGRAM_POINT_SIZE);
+		glPointSize(10.0);
+
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), &vertexObj, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)(3 * sizeof(glm::vec3)));
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)(3 * sizeof(glm::vec3)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2* sizeof(glm::vec3), (GLvoid*)0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2* sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
+	/*	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)(3 * sizeof(glm::vec3)));*/
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 		glDrawArrays(GL_POINTS, 0, 1);
 
 	}
 
-	void Particle::setParticle(glm::vec3 &pos, glm::vec3 &color, glm::vec3 &normal)
+	void Particle::setParticle(glm::vec3 &pos, glm::vec3 &color)
 	{
 
 		vertexObj.pos = pos;
 		vertexObj.color = color;
-		vertexObj.normal = normal;
+		//vertexObj.normal = normal;
 	}
 
 };

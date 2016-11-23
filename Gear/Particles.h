@@ -13,7 +13,6 @@ namespace Gear
 		{
 			glm::vec3 pos;
 			glm::vec3 color;
-			glm::vec3 normal;
 		};
 
 		GEAR_API Particle();
@@ -22,9 +21,9 @@ namespace Gear
 		GEAR_API virtual void draw(const GLuint &shaderProgramId) override;
 		vertex vertexObj;
 
-		GEAR_API void setParticle(glm::vec3 &pos, glm::vec3 &color, glm::vec3 &normal);
+		GEAR_API void setParticle(glm::vec3 &pos, glm::vec3 &color);
 
-		glm::mat4 modelMatrix;
+		//glm::mat4 modelMatrix;
 
 	private:
 
@@ -33,6 +32,6 @@ namespace Gear
 		GLfloat duration;
 		GLfloat speed;
 		GLfloat angle;
-		glm::vec3 color;
+		glm::vec4 color;
 	};
 }
