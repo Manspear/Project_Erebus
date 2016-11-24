@@ -55,7 +55,6 @@ int main()
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
-	//particle.setParticleCount(10);
 
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
@@ -75,8 +74,6 @@ int main()
 		engine->renderElements.push_back(&particle);
 
 	}
-
-	//engine->renderElements.push_back( &particle );
 
 	glEnable( GL_DEPTH_TEST );
 	
