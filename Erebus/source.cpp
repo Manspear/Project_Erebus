@@ -6,10 +6,12 @@
 #include "TextureAsset.h"
 #include "Window.h"
 #include <ctime>
+#include "PerformanceCounter.h"
 #include "Particles.h"
 #include "Player.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
+
 
 int main()
 {
@@ -98,9 +100,9 @@ int main()
 	float totalTime = 0;
 	totalTicks++;
 	
-
-
-	
+	PerformanceCounter counter;
+	double frameTime = 0.0;
+	int frameCounter = 0;
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 	//glm::vec3 point = {0,0,5};
@@ -127,6 +129,18 @@ int main()
 		window->update();
 		c_end = clock();
 		calculateDt(dt, c_start, c_end, totalTicks);
+
+		frameCounter++;
+		frameTime += counter.getDeltaTime();
+		if (frameTime >= 1000.0)
+		{
+			double fps = double(frameCounter) / (frameTime / 1000.0);
+
+			std::cout << "FPS: " << fps << std::endl;
+
+			frameTime -= 1000.0;
+			frameCounter = 0;
+		}
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
