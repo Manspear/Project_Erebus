@@ -5,7 +5,8 @@ namespace Importer
 	ModelAsset::ModelAsset()
 		: dataptr( nullptr )
 	{
-		header.meshCount = header.materialCount = 0;
+		//header.meshCount = header.materialCount = 0;
+		header.numMeshes = header.numSkeletons = header.numBBoxes = 0;
 	}
 
 	ModelAsset::~ModelAsset()
@@ -13,7 +14,7 @@ namespace Importer
 		unload();
 	}
 
-	bool ModelAsset::load( std::string path, Assets* assets )
+	/*bool ModelAsset::load( std::string path, Assets* assets )
 	{
 		bool result = false;
 
@@ -103,6 +104,91 @@ namespace Importer
 		}
 
 		return result;
+	}*/
+
+	bool ModelAsset::load( std::string path, Assets* assets )
+	{
+		bool result = false;
+
+		FILE* file;
+		fopen_s( &file, path.c_str(), "rb" );
+		if( file )
+		{
+			int datasize, buffersize;
+			fread( &datasize, sizeof( int ), 1, file );
+			fread( &buffersize, sizeof( int ), 1, file );
+
+			fread( &header, sizeof( hModel ), 1, file );
+
+			//datasize -= sizeof( hModel );
+			dataptr = malloc( datasize + sizeof( GLuint )*header.numMeshes * 2 );
+			void* bufferptr = malloc( buffersize );
+			
+			fread( dataptr, 1, datasize, file );
+			fread( bufferptr, 1, buffersize, file );
+
+			fclose( file );
+
+			char* ptr = (char*)dataptr;
+			offsets = (sOffset*)ptr;
+			ptr += sizeof( sOffset )*header.numMeshes;
+
+			meshes = (hMesh*)ptr;
+			ptr += sizeof( hMesh )*header.numMeshes;
+
+			boundingBoxes = (sBBox*)ptr;
+			ptr += sizeof( sBBox )*header.numBBoxes;
+
+			skeletons = (hSkeleton*)ptr;
+			ptr += sizeof( hSkeleton )*header.numSkeletons;
+
+			joints = (hJoint*)ptr;
+			ptr += sizeof( hJoint )*header.numJoints;
+
+			animationStates = (hAnimationState*)ptr;
+			ptr += sizeof( hAnimationState )*header.numAnimationStates;
+
+			keyFrames = (sKeyFrame*)ptr;
+			ptr += sizeof( sKeyFrame )*header.numKeyFrames;
+
+			ptr = (char*)bufferptr;
+			sVertex* vertices = (sVertex*)ptr;
+			ptr += sizeof( sVertex )*header.numVertices;
+
+			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
+			ptr += sizeof( sSkeletonVertex )*header.numSkeletonVertices;
+
+			GLuint* indices = (GLuint*)ptr;
+			ptr += sizeof( GLuint )*header.numIndices;
+
+			for( int curMesh = 0; curMesh < header.numMeshes; curMesh++ )
+			{
+				glGenBuffers( 1, &vertexBuffers[curMesh] );
+				glBindBuffer( GL_ARRAY_BUFFER, vertexBuffers[curMesh] );
+				if( meshes[curMesh].numVertices > 0 )
+				{
+					glBufferData( GL_ARRAY_BUFFER, sizeof( sVertex )*meshes[curMesh].numVertices, vertices + offsets[curMesh].vertex, GL_STATIC_DRAW );
+					//bufferSizes[curMesh] = meshes[curMesh].vertexCount;
+				}
+				else
+				{
+					glBufferData( GL_ARRAY_BUFFER, sizeof( sSkeletonVertex )*meshes[curMesh].numAnimVertices, skeletonVertices + offsets[curMesh].skeletonVertex, GL_STATIC_DRAW );
+					//bufferSizes[curMesh] = meshes[curMesh].skeletonVertexCount;
+				}
+				glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+
+				glGenBuffers( 1, &indexBuffers[curMesh] );
+				glBindBuffer( GL_ARRAY_BUFFER, indexBuffers[curMesh] );
+				glBufferData( GL_ARRAY_BUFFER, sizeof( GLuint )*meshes[0].numIndices, indices, GL_STATIC_DRAW );
+				glBindBuffer( GL_ARRAY_BUFFER, 0 );
+				bufferSizes[curMesh] = meshes[curMesh].numIndices;
+			}
+
+			free( bufferptr );
+		}
+
+		return result;
 	}
 
 	void ModelAsset::unload()
@@ -111,7 +197,7 @@ namespace Importer
 		dataptr = nullptr;
 	}
 
-	sHeader* ModelAsset::getHeader()
+	/*sHeader* ModelAsset::getHeader()
 	{
 		return &header;
 	}
@@ -158,5 +244,5 @@ namespace Importer
 	int ModelAsset::getBufferSize( int mesh ) const
 	{
 		return bufferSizes[mesh];
-	}
+	}*/
 };
