@@ -3,14 +3,17 @@
 in vec3 geom_normal;
 in vec3 geom_viewPos;
 in vec3 geom_worldPos;
+in vec2 geom_UV;
 
 out vec4 finalColor;
 
 uniform vec3 lightPos;
 uniform vec3 lightColor;
+uniform sampler2D diffuseTexture;
 
 void main (){
-	vec3 color = vec3(0.5, 0.9, 0.5); //model base color, replace with texture sampling
+	//vec3 color = vec3(0.5, 0.9, 0.5); //model base color, replace with texture sampling
+	vec3 color = texture( diffuseTexture, geom_UV ).rgb;
 
 	//Ambient
 	vec3 ambient = vec3(lightColor * 0.1);
@@ -27,6 +30,6 @@ void main (){
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	vec3 specular = vec3(lightColor * spec);
 	
-	color = (ambient + diffuse + specular) * color;
+	color = (ambient + diffuse + specular)/2 * color;
 	finalColor = vec4(color, 1.0);
 }

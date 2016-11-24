@@ -5,7 +5,8 @@ Inputs::Inputs(GLFWwindow* w)
 {
 	deltaPos = {0.0 , 0.0};
 	
-	scrollX = 0;
+	scrollY = 0;
+	dScrollY = 0;
 	for (size_t i = 0; i < GLFW_KEY_LAST; i++)
 	{
 		keys[i] = false;
@@ -78,6 +79,16 @@ GEAR_API bool Inputs::buttonReleasedThisFrame(unsigned int button)
 	return mouseButtonsReleasedThisFrame[button];
 }
 
+GEAR_API int Inputs::getScroll()
+{
+	return scrollY;
+}
+
+GEAR_API int Inputs::getDeltaScroll()
+{
+	return dScrollY;
+}
+
 MousePos Inputs::getMousePos()
 {
 	return mousePos;
@@ -116,5 +127,6 @@ void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, 
 
 void Inputs::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	scrollX += xoffset;
+	scrollY += yoffset;
+	dScrollY = yoffset;
 }

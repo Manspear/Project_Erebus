@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
+#include <stdint.h>
 
 #include <stdio.h>
 #include "Wincon.h"

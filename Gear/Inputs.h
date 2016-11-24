@@ -13,7 +13,8 @@ static MousePos deltaPos;
 static bool mouseButtons[GLFW_MOUSE_BUTTON_LAST];
 static bool mouseButtonsPressedThisFrame[GLFW_MOUSE_BUTTON_LAST];
 static bool mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST];
-static double scrollX;
+static double scrollY;
+static double dScrollY;
 
 class Inputs
 {
@@ -29,6 +30,8 @@ public:
 	GEAR_API bool buttonPressed(unsigned int button);
 	GEAR_API bool buttonPressedThisFrame(unsigned int button);
 	GEAR_API bool buttonReleasedThisFrame(unsigned int button);
+	GEAR_API int getScroll();
+	GEAR_API int getDeltaScroll();
 	GEAR_API MousePos getMousePos();
 	GEAR_API MousePos getDeltaPos();
 
