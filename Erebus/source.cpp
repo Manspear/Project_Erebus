@@ -42,7 +42,7 @@ int main()
 
 	skybox.worldMatrix[3][1] = 3;*/
 
-	allocateTransforms(2);
+	allocateTransforms(3);
 	Model model;
 	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
 	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
@@ -53,9 +53,8 @@ int main()
 
 
 	Player player;
-	Gear::Model playerModel;
-	playerModel.setModelAsset(molebat);
-
+	Model playerModel;
+	playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
 
 	player.model = &playerModel;
 

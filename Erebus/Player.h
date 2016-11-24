@@ -13,7 +13,7 @@ public:
 	glm::vec3 lookAt;
 	glm::vec3 velocity;
 	float scale;
-	Gear::Model* model;
+	Model* model;
 	float speed;
 private:
 	void calcWorldMat();

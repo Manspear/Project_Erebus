@@ -22,10 +22,11 @@
       <Filter>Source Files</Filter>
     </ClCompile>
 <<<<<<< HEAD
-    <ClCompile Include="PerformanceCounter.cpp">
+    <ClCompile Include="Transform.cpp">
 =======
+    <ClCompile Include="PerformanceCounter.cpp">
     <ClCompile Include="Player.cpp">
->>>>>>> b3d12cef039f1f778b94824bb1f83dd18ecb4662
+>>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,13 +40,24 @@
     <None Include="Shaders\forward.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\particle.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\particle.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\particle.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ClInclude Include="PerformanceCounter.h">
-=======
     <ClInclude Include="Player.h">
->>>>>>> b3d12cef039f1f778b94824bb1f83dd18ecb4662
+    <ClInclude Include="PerformanceCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

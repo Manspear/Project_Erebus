@@ -36,6 +36,7 @@ namespace Gear
 
 		renderQueue.updateUniforms(camera);;
 		renderQueue.draw();
+
 		//renderQueue.process( renderElements );
 
 	}

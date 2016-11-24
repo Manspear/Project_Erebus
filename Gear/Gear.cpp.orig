@@ -27,22 +27,26 @@ namespace Gear
 		/* Render here */
 		
 		//TEMP--------
-		renderElements[0]->id = RenderQueueId(FORWARD, 0);
-		renderElements[1]->id = RenderQueueId(FORWARD, 0);
 <<<<<<< HEAD
-		renderElements[2]->id = RenderQueueId(PARTICLES, 0);
+		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
 		//------------
 
 		renderQueue.updateUniforms(camera);
-			
+		renderQueue.draw();
+		//renderQueue.process( renderElements );
 =======
+		renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		renderElements[1]->id = RenderQueueId(FORWARD, 0);
 		renderElements[2]->id = RenderQueueId(FORWARD, 0);
+		renderElements[3]->id = RenderQueueId(PARTICLES, 0);
 		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
 		//------------
 
 		renderQueue.updateUniforms(camera);;
->>>>>>> b3d12cef039f1f778b94824bb1f83dd18ecb4662
+			
 		renderQueue.process( renderElements );
+>>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
 
 	}
 
