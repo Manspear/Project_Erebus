@@ -5,24 +5,23 @@
 #include "ModelAsset.h"
 #include "ShaderProgram.h"
 
-namespace Gear
+
+class Model : public RenderQueueElement
 {
-	class Model : public RenderQueueElement
-	{
-	public:
-		GEAR_API Model();
-		GEAR_API virtual ~Model();
+public:
+	GEAR_API Model();
+	GEAR_API virtual ~Model();
+	GEAR_API virtual void draw(const GLuint &shaderProgramId) override;
+	GEAR_API void setModelAsset( Importer::ModelAsset* asset );
+	GEAR_API void setModelAsset(Importer::ModelAsset* asset, int n);
+	GEAR_API Importer::ModelAsset* getModelAsset() const;
 
-		GEAR_API virtual void draw(const GLuint &shaderProgramId) override;
 
-		GEAR_API void setModelAsset( Importer::ModelAsset* asset );
+	std::vector<int> matrixIndices;
+		
+	glm::mat4 worldMatrix;
+	ShaderProgram* shader;
 
-		GEAR_API Importer::ModelAsset* getModelAsset() const;
-
-		glm::mat4 worldMatrix;
-		ShaderProgram* shader;
-
-	private:
-		Importer::ModelAsset* modelAsset;
-	};
+private:
+	Importer::ModelAsset* modelAsset;
 };

@@ -6,15 +6,19 @@
 #include "TextureAsset.h"
 #include "Window.h"
 #include <ctime>
+#include "Transform.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
+void allocateTransforms(int n);
+
+Window *window = new Window();
+Transform* allTransforms;
+Gear::GearEngine *engine = new Gear::GearEngine();
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	Window *window = new Window();
-	Gear::GearEngine *engine = new Gear::GearEngine();
-
+	
 	//Importer::ModelAsset molebat;
 	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
@@ -33,29 +37,13 @@ int main()
 
 	skybox.worldMatrix[3][1] = 3;*/
 
-	Gear::Model model;
-	model.setModelAsset( molebat );
-	model.worldMatrix[0][0] = 1;
-	model.worldMatrix[1][1] = 1;
-	model.worldMatrix[2][2] = 1;
-	model.worldMatrix[3][3] = 1;
-
-	model.worldMatrix[3][0] = 3;
-
-	Gear::Model model2;
-	model2.setModelAsset( molebat );
-	model2.worldMatrix[0][0] = 1;
-	model2.worldMatrix[1][1] = 1;
-	model2.worldMatrix[2][2] = 1;
-	model2.worldMatrix[3][3] = 1;
-
-	model2.worldMatrix[3][0] = -3;
+	allocateTransforms(2);
+	Model model;
+	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
+	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
 
 	// TEMP: Ritar ut modellen från Gear.
-	engine->renderElements.push_back( &model );
-	engine->renderElements.push_back( &model2 );
 	//engine->renderElements.push_back(&skybox);
-
 
 	glEnable( GL_DEPTH_TEST );
 	
@@ -65,11 +53,7 @@ int main()
 	float dt = 0;
 	int totalTicks = 0;
 	float totalTime = 0;
-	totalTicks++;
-	
-
-
-	
+	totalTicks++;	
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 	//glm::vec3 point = {0,0,5};
@@ -92,6 +76,16 @@ int main()
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
 		//camera.follow(point, glm::vec3(sinf(1/*angle*/), 0, cosf(1/*angle*/)), abs(inputs.getScroll()));
 		camera.camUpdate(point, direction, dt);
+		
+		float* transforms = new float[6];
+		for (int i = 0; i < 2; i++) {
+			transforms[i * 3] = allTransforms[i].getPos().x + i;
+			transforms[i * 3 + 1] = allTransforms[i].getPos().y + i;
+			transforms[i * 3 + 2] = allTransforms[i].getPos().z + i;
+		}
+		engine->renderQueue.update(transforms, nullptr, 2);
+		delete[] transforms;
+		
 		engine->draw(&camera);
 		window->update();
 		c_end = clock();
@@ -104,16 +98,21 @@ int main()
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
 	}
-
+	delete[] allTransforms;
 	delete window;
 	glfwTerminate();
 	delete engine;
 	return 0;
 }
 
-void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks) {
-	
+void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks) 
+{	
 	dt = ((float)end - (float)start) / CLOCKS_PER_SEC;
 	//std::cout << dt << std::endl;
 }
 
+void allocateTransforms(int n)
+{
+	allTransforms = new Transform[n];
+	engine->renderQueue.allocateWorlds(n);
+}
