@@ -1,7 +1,9 @@
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
-#include "Importer.h"
+#include "Assets.h"
+#include "ModelAsset.h"
+#include "TextureAsset.h"
 #include "Window.h"
 #include <ctime>
 #include "Player.h"
@@ -14,22 +16,27 @@ int main()
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
-	Importer::ModelAsset molebat, skyboxAsset;
-	molebat.load( "Models/newmolebat.mole" );
-	skyboxAsset.load("Models/skybox.mole");
+	//Importer::ModelAsset molebat;
+	//molebat.load( "Models/mesh.mtf" );
+	Importer::Assets assets;
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
+	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 
 	float skyboxScale = 1800;
-	Gear::Model skybox;
+	redTexture->bind();
+
+	/*Gear::Model skybox;
 	skybox.setModelAsset(&skyboxAsset);
 	skybox.worldMatrix[0][0] = skyboxScale;
 	skybox.worldMatrix[1][1] = skyboxScale;
 	skybox.worldMatrix[2][2] = skyboxScale;
 	skybox.worldMatrix[3][3] = 1;
 
-	skybox.worldMatrix[3][1] = 3;
+	skybox.worldMatrix[3][1] = 3;*/
 
 	Gear::Model model;
-	model.setModelAsset( &molebat );
+	model.setModelAsset( molebat );
 	model.worldMatrix[0][0] = 1;
 	model.worldMatrix[1][1] = 1;
 	model.worldMatrix[2][2] = 1;
@@ -38,7 +45,7 @@ int main()
 	model.worldMatrix[3][0] = 3;
 
 	Gear::Model model2;
-	model2.setModelAsset( &molebat );
+	model2.setModelAsset( molebat );
 	model2.worldMatrix[0][0] = 1;
 	model2.worldMatrix[1][1] = 1;
 	model2.worldMatrix[2][2] = 1;
@@ -59,7 +66,7 @@ int main()
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
-	engine->renderElements.push_back(&skybox);
+	//engine->renderElements.push_back(&skybox);
 	engine->renderElements.push_back(player.model);
 
 
@@ -93,9 +100,9 @@ int main()
 		c_start = clock();
 		inputs.update();
 		player.update(&inputs, dt);
-		skybox.worldMatrix[3][0] = camera.getPosition().x;
+		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
-		skybox.worldMatrix[3][2] = camera.getPosition().z;
+		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
 		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5);
 		//camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);
@@ -105,6 +112,10 @@ int main()
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
+		if( inputs.keyPressedThisFrame( GLFW_KEY_1 ) )
+			redTexture->bind();
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
+			greenTexture->bind();
 	}
 
 	delete window;
