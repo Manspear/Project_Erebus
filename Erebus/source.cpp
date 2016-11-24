@@ -62,7 +62,7 @@ int main()
 
 	// TEMP: Ritar ut modellen från Gear.
 	//engine->renderElements.push_back(&skybox);
-	engine->renderElements.push_back(player.model);
+	//engine->renderElements.push_back(player.model);
 
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
@@ -74,8 +74,8 @@ int main()
 
 		particle.getParticle();
 
-		engine->renderElements.push_back(&particle);
-
+		//engine->renderElements.push_back(&particle);
+		engine->renderQueue.particles.push_back( &particle );
 	}
 	glEnable( GL_DEPTH_TEST );
 	

@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 #include "Model.h"
+#include "Particles.h"
 
 #include <vector>
 #include <numeric>
@@ -23,6 +24,10 @@ public:
 	GEAR_API void draw();
 	GEAR_API void update(float* pos, int* indices, int n);
 	GEAR_API int modelAdded(Model* model);
+
+	// TEMP:
+	std::vector<Gear::Particle*> particles;
+
 private:
 	int currentShader = 0;
 	int currentTexture = 0;

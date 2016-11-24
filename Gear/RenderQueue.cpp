@@ -125,7 +125,15 @@ GEAR_API void RenderQueue::draw()
 			}
 		}
 	}
+
 	allShaders[currentShader]->unUse();
+
+	allShaders[PARTICLES]->use();
+	for( int i = 0; i < particles.size(); i++ )
+	{
+		particles[i]->draw(allShaders[PARTICLES]->getProgramID());
+	}
+	allShaders[PARTICLES]->unUse();
 }
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n)
