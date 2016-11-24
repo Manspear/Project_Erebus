@@ -19,5 +19,5 @@ void main(){
 	vert_normal = normal;
 	vert_viewPos = viewPos;
 	vert_worldPos = (worldMatrix * vec4(pos,1.0)).xyz;
-	vert_UV = UV;
+	vert_UV = UV*vec2(1,-1);
 }
