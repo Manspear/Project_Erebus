@@ -56,7 +56,7 @@ int main()
 
 	Player player;
 	Gear::Model playerModel;
-	playerModel.setModelAsset(&molebat);
+	playerModel.setModelAsset(molebat);
 
 
 	player.model = &playerModel;
