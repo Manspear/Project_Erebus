@@ -22,19 +22,20 @@ int main()
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
+	//Importer::ModelAsset* skyboxAsset = assets.load<Importer::ModelAsset>("Models/skybox.mole");
 
 	float skyboxScale = 1800;
 	redTexture->bind();
 
 	/*Gear::Model skybox;
-	skybox.setModelAsset(&skyboxAsset);
+	skybox.setModelAsset(skyboxAsset);
 	skybox.worldMatrix[0][0] = skyboxScale;
 	skybox.worldMatrix[1][1] = skyboxScale;
 	skybox.worldMatrix[2][2] = skyboxScale;
 	skybox.worldMatrix[3][3] = 1;
 
-	skybox.worldMatrix[3][1] = 3;*/
-
+	skybox.worldMatrix[3][1] = 3;
+	*/
 	Gear::Model model;
 	model.setModelAsset( molebat );
 	model.worldMatrix[0][0] = 1;
@@ -56,7 +57,7 @@ int main()
 
 	Player player;
 	Gear::Model playerModel;
-	playerModel.setModelAsset(&molebat);
+	playerModel.setModelAsset(molebat);
 
 
 	player.model = &playerModel;
