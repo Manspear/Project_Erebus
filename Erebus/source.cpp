@@ -5,6 +5,7 @@
 #include "Window.h"
 #include <ctime>
 #include "SphereCollider.h"
+#include "AABBCollider.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
@@ -16,8 +17,11 @@ int main()
 
 	SphereCollider sphere1 = SphereCollider(glm::vec3(5,5,5),4.0f);
 	SphereCollider sphere2 = SphereCollider(0,0,0,4.7f);
+	AABBCollider aabb1 = AABBCollider(glm::vec3(0,0,0), glm::vec3(5,5,5));
+	AABBCollider aabb2 = AABBCollider(glm::vec3(0,0,0), glm::vec3(2,2,2));
 
 	bool badis = sphere1.sphereToSphereCollision(&sphere2);
+	bool badis2 = aabb1.AabbToAabb(&aabb2);
 
 	Importer::ModelAsset molebat, skyboxAsset;
 	molebat.load( "Models/newmolebat.mole" );
