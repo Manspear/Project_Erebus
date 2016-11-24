@@ -7,6 +7,7 @@
 #include "Window.h"
 #include <ctime>
 #include "Particles.h"
+#include "Player.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
@@ -23,13 +24,14 @@ int main()
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 
+	float skyboxScale = 1800;
 	redTexture->bind();
 
 	/*Gear::Model skybox;
 	skybox.setModelAsset(&skyboxAsset);
-	skybox.worldMatrix[0][0] = 1900;
-	skybox.worldMatrix[1][1] = 1900;
-	skybox.worldMatrix[2][2] = 1900;
+	skybox.worldMatrix[0][0] = skyboxScale;
+	skybox.worldMatrix[1][1] = skyboxScale;
+	skybox.worldMatrix[2][2] = skyboxScale;
 	skybox.worldMatrix[3][3] = 1;
 
 	skybox.worldMatrix[3][1] = 3;*/
@@ -56,10 +58,21 @@ int main()
 	glm::vec3 pos;
 	glm::vec3 color;
 
+
+	Player player;
+	Gear::Model playerModel;
+	playerModel.setModelAsset(molebat);
+
+
+	player.model = &playerModel;
+
+
+
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
 	engine->renderElements.push_back( &model2 );
 	//engine->renderElements.push_back(&skybox);
+	engine->renderElements.push_back(player.model);
 
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
@@ -93,7 +106,6 @@ int main()
 	//glm::vec3 point = {0,0,5};
 	glm::vec3 direction = {0,0,-1};
 
-	
 	float horizAngle = 3.14f;
 	float vertAngle = 0;
 	float speed = 8.f;
@@ -105,11 +117,12 @@ int main()
 	while (running && window->isWindowOpen()){
 		c_start = clock();
 		inputs.update();
+		player.update(&inputs, dt);
 		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
-		skybox.worldMatrix[3][1] = camera.getPosition().y-800;
+		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
-		//camera.follow(point, glm::vec3(sinf(1/*angle*/), 0, cosf(1/*angle*/)), abs(inputs.getScroll()));
-		camera.camUpdate(point, direction, dt);
+		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5);
+		//camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);
 		window->update();
 		c_end = clock();
