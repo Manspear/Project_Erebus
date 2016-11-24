@@ -150,6 +150,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -165,6 +167,13 @@
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\particle.frag" />
+    <None Include="Shaders\particle.geom" />
+    <None Include="Shaders\particle.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h" />
