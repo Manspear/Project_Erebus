@@ -38,7 +38,7 @@ int main()
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
-	particle.setParticleCount(10);
+	//particle.setParticleCount(10);
 
 	// TEMP: Ritar ut modellen från Gear.
 	engine->renderElements.push_back( &model );
@@ -46,10 +46,13 @@ int main()
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
 	{
-		pos = {rand() % 3, rand() % 3, rand() % 3 };
+		pos = {rand() % 10, rand() % 5, rand() % 10 };
 		color = {1.0, 0.0, 0.0};
 
 		particle.setParticle(pos, color, i);
+
+		particle.getParticle();
+
 		engine->renderElements.push_back(&particle);
 
 	}

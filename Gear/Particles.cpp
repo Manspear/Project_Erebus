@@ -4,8 +4,8 @@ namespace Gear
 {
 	Particle::Particle()
 	{
-		this->particleCount = 0;
-		for (int i = 0; i < 10; i++)
+		this->particleCount = 10;
+		for (int i = 0; i < this->particleCount; i++)
 		{
 			this->vertexObject[i].pos = { 0.0, 0.0, 0.0 };
 			this->vertexObject[i].color = { 0.0, 0.0, 0.0 };
@@ -64,7 +64,7 @@ namespace Gear
 	/*	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)(3 * sizeof(glm::vec3)));*/
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glDrawArraysInstanced(GL_POINTS, 0, 1, this->particleCount);
+		glDrawArraysInstanced(GL_POINTS, 0, 10, this->particleCount);
 
 		/*glDrawArrays(GL_POINTS, 0, 1);*/
 
@@ -79,7 +79,10 @@ namespace Gear
 
 	vertex Particle::getParticle()
 	{
-		return vertexObject[0];
+		for (int i = 0; i < this->particleCount; i++)
+		{
+			return vertexObject[i];
+		}
 	/*	return this->vertexObject;*/
 	}
 

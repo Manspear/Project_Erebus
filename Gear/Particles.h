@@ -33,10 +33,8 @@ namespace Gear
 		vertex vertexObject[10];
 		int particleCount;
 		GLuint vertexBuffer;
-		glm::vec3 pos;
 		GLfloat duration;
 		GLfloat speed;
 		GLfloat angle;
-		glm::vec3 color;
 	};
 }
