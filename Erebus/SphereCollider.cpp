@@ -44,3 +44,31 @@ bool SphereCollider::sphereToSphereCollision(const SphereCollider * sphere)
 
 	return collision;
 }
+
+float SphereCollider::SquaredDistancePointAabb(const AABBCollider * aabb)
+{
+	float squaredDistance = 0;
+	glm::vec3 minPos;
+	squaredDistance += closestDistanceAabbToCenter(this->pos.x, aabb->);
+
+
+
+	return squaredDistance;
+}
+
+float SphereCollider::closestDistanceAabbToCenter(float point, float aabbMin, float aabbMax)
+{
+	float val = 0;
+	float returnValue = 0;
+	if (point < aabbMin)
+	{
+		val = (aabbMin - point);
+		returnValue = val* val;
+	}
+	if (point > aabbMax)
+	{
+		val = (point - aabbMax);
+		returnValue = val*val;
+	}
+	return returnValue;
+}

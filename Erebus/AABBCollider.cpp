@@ -28,3 +28,13 @@ bool AABBCollider::AabbToAabb(const AABBCollider* aabb)
 			this->maxPos.z >= aabb->minPos.z &&
 			this->minPos.z <= aabb->maxPos.z);
 }
+
+const glm::vec3 * AABBCollider::getMaxPos()
+{
+	return &this->maxPos;
+}
+
+const glm::vec3* AABBCollider::getMinPos()
+{
+	return &this->minPos;
+}
