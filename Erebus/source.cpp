@@ -18,7 +18,7 @@ int main()
 
 	//Importer::ModelAsset molebat;
 	//molebat.load( "Models/mesh.mtf" );
-	Importer::Assets assets;
+	Importer::Assets assets = Importer::Assets::getInstance();
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
@@ -104,7 +104,7 @@ int main()
 		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
-		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5);
+		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5.f);
 		//camera.camUpdate(point, direction, dt);
 		engine->draw(&camera);
 		window->update();
