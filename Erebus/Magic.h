@@ -9,9 +9,10 @@ private:
 	glm::vec3 direction;
 	float scale;
 	float speed;
-	Model* model;
+	Gear::Model* model;
 public:
 	Magic();
 	~Magic();
 	void spawn(glm::vec3 pos, glm::vec3 dir, float magicScale, float magicSpeed);
+	bool update(float dt);
 };
