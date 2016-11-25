@@ -2,8 +2,8 @@
 
 Controls::Controls()
 {
-	keys[0] = GLFW_KEY_W; keys[1] = GLFW_KEY_S; keys[2] = GLFW_KEY_A; keys[3] = GLFW_KEY_D;
-	nrOfKeys = 4;
+	keys[0] = GLFW_KEY_W; keys[1] = GLFW_KEY_S; keys[2] = GLFW_KEY_A; keys[3] = GLFW_KEY_D; keys[4] = GLFW_KEY_SPACE;
+	nrOfKeys = 5;
 }
 
 Controls::~Controls()
@@ -26,9 +26,11 @@ void Controls::sendControls(Inputs &input)
 		else if (pressedKeys.at(i) == 1)
 			controlled->move({ -1, 0, 0 }, 0.1);
 		else if (pressedKeys.at(i) == 2)
-			controlled->move({ 0, 1, 0 }, 0.1);
+			controlled->move({ 0, 0, 1 }, 0.1);
 		else if (pressedKeys.at(i) == 3)
-			controlled->move({ 0, -1, 0 }, 0.1);
+			controlled->move({ 0, 0, -1 }, 0.1);
+		else if (pressedKeys.at(i) == 4)
+			controlled->move({ 0, 1, 0 }, 0.1);
 	}	
 
 	MousePos dPos = input.getDeltaPos();
@@ -53,7 +55,6 @@ void Controls::sendControls(Inputs &input)
 		sin(rotation.z),
 		cos(rotation.z)*cos(rotation.y)
 		)));
-	std::cout << rotation.y << "\t" << rotation.z << "\n";
 }
 
 Transform * Controls::getControl()

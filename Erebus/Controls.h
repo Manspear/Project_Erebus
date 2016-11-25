@@ -15,5 +15,5 @@ public:
 private:
 	Transform* controlled;
 	int nrOfKeys;
-	int keys[4];
+	int keys[5];
 };

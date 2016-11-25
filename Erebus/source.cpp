@@ -11,6 +11,7 @@
 #include "Particles.h"
 #include "Player.h"
 #include "Controls.h"
+#include <lua\lua.hpp>
 
 void allocateTransforms(int n);
 
@@ -32,6 +33,9 @@ int main()
 	float skyboxScale = 1800;
 	redTexture->bind();
 
+	lua_State* L = luaL_newstate();
+	luaL_openlibs(L);
+	
 	/*Gear::Model skybox;
 	skybox.setModelAsset(&skyboxAsset);
 	skybox.worldMatrix[0][0] = skyboxScale;
@@ -146,6 +150,7 @@ int main()
 			controls.setControl(&allTransforms[++index%3]);
 	}
 	delete[] allTransforms;
+	lua_close(L);
 	delete window;
 	glfwTerminate();
 	delete engine;

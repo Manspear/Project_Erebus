@@ -10,16 +10,13 @@ namespace Gear
 {
 	GearEngine::GearEngine()
 	{
-
 		glewInit();
-
 		renderQueue.init();
-		
-
 	}
 
 	GearEngine::~GearEngine()
 	{
+
 		glfwTerminate();
 	}
 
@@ -27,26 +24,20 @@ namespace Gear
 		/* Render here */
 		
 		//TEMP--------
-<<<<<<< HEAD
 		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
 		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
+<<<<<<< HEAD
+=======
+		//renderElements[2]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[3]->id = RenderQueueId(PARTICLES, 0);
+>>>>>>> 9bbcaf4fc66311086e72a5ff03fb0acbbd8139f9
+		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
 		//------------
 
 		renderQueue.updateUniforms(camera);
 		renderQueue.draw();
-		//renderQueue.process( renderElements );
-=======
-		renderElements[0]->id = RenderQueueId(FORWARD, 0);
-		renderElements[1]->id = RenderQueueId(FORWARD, 0);
-		renderElements[2]->id = RenderQueueId(FORWARD, 0);
-		renderElements[3]->id = RenderQueueId(PARTICLES, 0);
-		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
-		//------------
 
-		renderQueue.updateUniforms(camera);;
-			
-		renderQueue.process( renderElements );
->>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
+		//renderQueue.process( renderElements );
 
 	}
 
