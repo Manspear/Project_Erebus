@@ -16,7 +16,7 @@ void Model::draw(const GLuint &shaderProgramId)
 	GLuint worldMatrixLocation = glGetUniformLocation(shaderProgramId, "worldMatrix");
 	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 
-	int meshes = modelAsset->getHeader()->meshCount;
+	int meshes = modelAsset->getHeader()->numMeshes;
 		for (int curMesh = 0; curMesh < meshes; curMesh++)
 	{
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(curMesh));

@@ -95,6 +95,21 @@ namespace Importer
 		int joint, vertex, index, skeletonVertex;
 	};*/
 
+	struct sHierarchy
+	{
+		bool hasParentJoint = false;
+		bool hasParentMesh = false;
+	};
+	struct sJointChild
+	{
+		int parentSkeletonIndex;
+		int parentJointIndex;
+	};
+	struct sMeshChild
+	{
+		int parentMeshIndex;
+	};
+
 	struct sOffset
 	{
 		int joint, vertex, index, skeletonVertex;
@@ -119,11 +134,11 @@ namespace Importer
 		int numSkeletons;
 		int numJoints;
 		int numAnimationStates;
-		int numKeyFrames;
+		int numKeyframes;
 		int numVertices;
 		int numSkeletonVertices;
 		int numIndices;
-		//eModelType TYPE = eModelType::STATIC;
+
 		int TYPE;
 	};
 
@@ -133,6 +148,10 @@ namespace Importer
 		sHierarchy parent;
 		sJointChild parentJoint;
 		sMeshChild parentMesh;
+		//This mesh's local transform
+		float pos[3];
+		float rot[3];
+		float scale[3];
 
 		int numAnimVertices;
 		int numVertices;
@@ -145,28 +164,13 @@ namespace Importer
 		std::array<float, 3>  normal;
 		std::array<float, 3>  tangent;
 		std::array<float, 2>  UV;*/
-		float position[3], normal[3], tangent[3], UV[3];
+		float position[3], normal[3], tangent[3], UV[2];
 	};
 	struct sSkeletonVertex
 	{
-		float position[3], normal[3], tangent[3], UV[3];
+		float position[3], normal[3], tangent[3], UV[2];
 		float influences[4];
 		float weights[4];
-	};
-
-	struct sHierarchy
-	{
-		bool hasParentJoint = false;
-		bool hasParentMesh = false;
-	};
-	struct sJointChild
-	{
-		int parentSkeletonIndex;
-		int parentJointIndex;
-	};
-	struct sMeshChild
-	{
-		int parentMeshIndex;
 	};
 
 	struct sBBox

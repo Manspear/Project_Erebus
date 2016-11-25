@@ -121,7 +121,7 @@ namespace Importer
 			fread( &header, sizeof( hModel ), 1, file );
 
 			//datasize -= sizeof( hModel );
-			dataptr = malloc( datasize + sizeof( GLuint )*header.numMeshes * 2 );
+			dataptr = malloc( datasize + sizeof( GLuint )*header.numMeshes * 3 );
 			void* bufferptr = malloc( buffersize );
 			
 			fread( dataptr, 1, datasize, file );
@@ -132,6 +132,10 @@ namespace Importer
 			char* ptr = (char*)dataptr;
 			offsets = (sOffset*)ptr;
 			ptr += sizeof( sOffset )*header.numMeshes;
+
+			// TEMP: Why is this not zero?
+			for( int i = 0; i < header.numMeshes; i++ )
+				offsets[i] = { 0, 0, (i>0 ?36:0), 0 };
 
 			meshes = (hMesh*)ptr;
 			ptr += sizeof( hMesh )*header.numMeshes;
@@ -149,7 +153,16 @@ namespace Importer
 			ptr += sizeof( hAnimationState )*header.numAnimationStates;
 
 			keyFrames = (sKeyFrame*)ptr;
-			ptr += sizeof( sKeyFrame )*header.numKeyFrames;
+			ptr += sizeof( sKeyFrame )*header.numKeyframes;
+
+			vertexBuffers = (GLuint*)ptr;
+			ptr += sizeof( GLuint )*header.numMeshes;
+
+			indexBuffers = (GLuint*)ptr;
+			ptr += sizeof( GLuint )*header.numMeshes;
+
+			bufferSizes = (int*)ptr;
+			ptr += sizeof( int )*header.numMeshes;
 
 			ptr = (char*)bufferptr;
 			sVertex* vertices = (sVertex*)ptr;
@@ -186,6 +199,7 @@ namespace Importer
 			}
 
 			free( bufferptr );
+			result = true;
 		}
 
 		return result;
@@ -245,4 +259,56 @@ namespace Importer
 	{
 		return bufferSizes[mesh];
 	}*/
+
+	hModel* ModelAsset::getHeader()
+	{
+		return &header;
+	}
+
+	hMesh* ModelAsset::getMesh( int index ) const
+	{
+		return meshes + sizeof( hMesh )*index;
+	}
+
+	sBBox* ModelAsset::getBoundingBox( int joint ) const
+	{
+		return nullptr;
+	}
+
+	hSkeleton* ModelAsset::getSkeletons( int index ) const
+	{
+		return skeletons + sizeof(hSkeleton)*index;
+	}
+
+	hJoint* ModelAsset::getJoints( int mesh ) const
+	{
+		return joints + sizeof( hJoint )*offsets[mesh].joint;
+	}
+
+	hAnimationState* ModelAsset::getAnimationStates( int mesh, int joint ) const
+	{
+		return animationStates + sizeof( hAnimationState )*offsets[mesh].joint;
+	}
+
+	sKeyFrame* ModelAsset::getKeyFrames( int mesh, int joint, int animationState ) const
+	{
+		int jointOffset = offsets[mesh].joint;
+		int stateOffset = sizeof( int )*animationState;
+		return keyFrames + sizeof( sKeyFrame )*(jointOffset + stateOffset);
+	}
+
+	GLuint ModelAsset::getVertexBuffer( int mesh ) const
+	{
+		return vertexBuffers[mesh];
+	}
+
+	GLuint ModelAsset::getIndexBuffer( int mesh ) const
+	{
+		return indexBuffers[mesh];
+	}
+
+	int ModelAsset::getBufferSize( int mesh ) const
+	{
+		return bufferSizes[mesh];
+	}
 };

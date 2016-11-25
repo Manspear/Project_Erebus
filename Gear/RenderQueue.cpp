@@ -108,7 +108,7 @@ GEAR_API void RenderQueue::draw()
 	for (int i = 0; i < allModels.size(); i++)
 	{	
 		Importer::ModelAsset* modelAsset = allModels[i]->getModelAsset();
-		int meshes = modelAsset->getHeader()->meshCount;
+		int meshes = modelAsset->getHeader()->numMeshes;
 		for (int k = 0; k < allModels[i]->matrixIndices.size(); k++)
 		{
 			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrices[allModels[i]->matrixIndices[k]][0][0]);			
