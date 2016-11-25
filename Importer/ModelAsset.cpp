@@ -133,10 +133,6 @@ namespace Importer
 			offsets = (sOffset*)ptr;
 			ptr += sizeof( sOffset )*header.numMeshes;
 
-			// TEMP: Why is this not zero?
-			for( int i = 0; i < header.numMeshes; i++ )
-				offsets[i] = { 0, 0, (i>0 ?36:0), 0 };
-
 			meshes = (hMesh*)ptr;
 			ptr += sizeof( hMesh )*header.numMeshes;
 

@@ -164,11 +164,11 @@ namespace Importer
 		std::array<float, 3>  normal;
 		std::array<float, 3>  tangent;
 		std::array<float, 2>  UV;*/
-		float position[3], normal[3], tangent[3], UV[2];
+		float position[3], normal[3], UV[2], tangent[3];
 	};
 	struct sSkeletonVertex
 	{
-		float position[3], normal[3], tangent[3], UV[2];
+		float position[3], normal[3], UV[2], tangent[3];
 		float influences[4];
 		float weights[4];
 	};
