@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABBCollider.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
+    <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
