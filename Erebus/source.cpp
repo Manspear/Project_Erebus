@@ -11,7 +11,6 @@
 #include "Particles.h"
 #include "Player.h"
 
-void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 void allocateTransforms(int n);
 
 Window *window = new Window();
@@ -82,15 +81,12 @@ int main()
 	
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
-	clock_t c_start, c_end;
-	float dt = 0;
-	int totalTicks = 0;
-	float totalTime = 0;
-	totalTicks++;	
 
 	PerformanceCounter counter;
 	double frameTime = 0.0;
+	double deltaTime = 0.0;
 	int frameCounter = 0;
+
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 	//glm::vec3 point = {0,0,5};
 	glm::vec3 direction = {0,0,-1};
@@ -104,9 +100,9 @@ int main()
 	bool running = true;
 	glm::vec3 point = {0,0,0};
 	while (running && window->isWindowOpen()){
-		c_start = clock();
+		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		player.update(&inputs, dt);
+		player.update(&inputs, deltaTime);
 		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
@@ -124,20 +120,6 @@ int main()
 		
 		engine->draw(&camera);
 		window->update();
-		c_end = clock();
-		calculateDt(dt, c_start, c_end, totalTicks);
-
-		frameCounter++;
-		frameTime += counter.getDeltaTime();
-		if (frameTime >= 1000.0)
-		{
-			double fps = double(frameCounter) / (frameTime / 1000.0);
-
-			std::cout << "FPS: " << fps << std::endl;
-
-			frameTime -= 1000.0;
-			frameCounter = 0;
-		}
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -145,18 +127,25 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
+
+		//Display FPS:
+		frameCounter++;
+		frameTime += deltaTime;
+		if (frameTime >= 1.0)
+		{
+			double fps = double(frameCounter) / frameTime;
+
+			std::cout << "FPS: " << fps << std::endl;
+
+			frameTime -= 1.0;
+			frameCounter = 0;
+		}
 	}
 	delete[] allTransforms;
 	delete window;
 	glfwTerminate();
 	delete engine;
 	return 0;
-}
-
-void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks) 
-{	
-	dt = ((float)end - (float)start) / CLOCKS_PER_SEC;
-	//std::cout << dt << std::endl;
 }
 
 void allocateTransforms(int n)
