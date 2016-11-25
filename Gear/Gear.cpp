@@ -34,7 +34,7 @@ namespace Gear
 		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
 		//------------
 
-		renderQueue.updateUniforms(camera);;
+		renderQueue.updateUniforms(camera);
 		renderQueue.draw();
 
 		//renderQueue.process( renderElements );

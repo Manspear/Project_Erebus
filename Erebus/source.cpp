@@ -149,6 +149,8 @@ int main()
 
 void allocateTransforms(int n)
 {
+	if(allTransforms!= nullptr)
+		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
 }

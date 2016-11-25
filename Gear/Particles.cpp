@@ -10,6 +10,7 @@ namespace Gear
 			this->vertexObject[i].pos = { 0.0, 0.0, 0.0 };
 			this->vertexObject[i].color = { 0.0, 0.0, 0.0 };
 		}
+		glGenBuffers(1, &vertexBuffer);
 		//duration = 0;
 		//speed = 1;
 		//angle = 0;
@@ -47,7 +48,6 @@ namespace Gear
 		}
 
 		//GLuint vbo;
-		glGenBuffers(1, &vertexBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertex) * this->particleCount, &vertexObject, GL_STATIC_DRAW);
