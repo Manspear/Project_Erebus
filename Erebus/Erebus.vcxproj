@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
@@ -164,6 +165,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\test.lua" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
@@ -173,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h" />
+    <ClInclude Include="LuaBinds.h" />
     <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

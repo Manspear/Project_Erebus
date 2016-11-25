@@ -128,13 +128,17 @@ GEAR_API void RenderQueue::draw()
 	allShaders[currentShader]->unUse();
 }
 
-GEAR_API void RenderQueue::update(float * pos, int * indices, int n)
+GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
 {
+	
+	glm::vec3 tempLook;
 	for (int i = 0; i < n; i++)
 	{
-		worldMatrices[i][3][0] = pos[i*3];
-		worldMatrices[i][3][1] = pos[i * 3 + 1];
-		worldMatrices[i][3][2] = pos[i * 3 + 2];
+		tempLook = glm::normalize(glm::vec3( lookAts[i].x, 0, lookAts[i].z));
+		worldMatrices[i] = glm::rotate(glm::mat4(), pos[i * 6 + 5], glm::cross(tempLook, { 0, 1, 0 })) * glm::rotate(glm::mat4(), pos[i * 6 + 4], { 0, 1, 0 });
+		worldMatrices[i][3][0] = pos[i * 6];
+		worldMatrices[i][3][1] = pos[i * 6 + 1];
+		worldMatrices[i][3][2] = pos[i * 6 + 2];
 	}
 }
 

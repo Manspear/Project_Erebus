@@ -13,6 +13,7 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Controls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -27,6 +28,9 @@
     <ClInclude Include="Transform.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="LuaBinds.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\forward.frag" />
@@ -35,6 +39,9 @@
     <None Include="Shaders\particle.frag" />
     <None Include="Shaders\particle.geom" />
     <None Include="Shaders\particle.vert" />
+    <None Include="Scripts\test.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -42,6 +49,9 @@
     </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{3ab4472d-20fe-477b-b728-c17a14631885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{bcc5d642-deca-4746-8214-af93e12cf7e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

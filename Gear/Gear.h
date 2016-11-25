@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "RenderQueue.h"
 #include "Particles.h"
+#include "Inputs.h"
 
 namespace Gear
 {

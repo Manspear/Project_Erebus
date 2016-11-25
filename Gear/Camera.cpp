@@ -97,10 +97,11 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 
 GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance)
 {
-	glm::vec3 tempForward(direction.x, 0, direction.z);
+	/*glm::vec3 tempForward(direction.x, 0, direction.z);
 	tempForward = glm::normalize(tempForward);
 	tempForward *= cosf(angle) * distance;
-	this->camPosition = point + glm::vec3(0, distance*sinf(angle), 0) - tempForward;
+	this->camPosition = point + glm::vec3(0, distance*sinf(angle), 0) - tempForward;*/
+	camPosition = point - direction*distance;
 	this->viewMat = glm::lookAt(camPosition, point, camUp);
 }
 

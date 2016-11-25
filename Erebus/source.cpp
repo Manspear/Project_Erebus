@@ -10,6 +10,7 @@
 #include "PerformanceCounter.h"
 #include "Particles.h"
 #include "Player.h"
+#include "Controls.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 void allocateTransforms(int n);
@@ -17,7 +18,6 @@ void allocateTransforms(int n);
 Window *window = new Window();
 Transform* allTransforms;
 Gear::GearEngine *engine = new Gear::GearEngine();
-
 
 int main()
 {
@@ -55,9 +55,11 @@ int main()
 	Player player;
 	Model playerModel;
 	playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
-
-	player.model = &playerModel;
-
+	
+	Controls controls;
+	controls.setControl(&allTransforms[2]);
+	
+	//player.model = &playerModel;
 
 
 	// TEMP: Ritar ut modellen från Gear.
@@ -91,34 +93,38 @@ int main()
 	double frameTime = 0.0;
 	int frameCounter = 0;
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
-	//glm::vec3 point = {0,0,5};
-	glm::vec3 direction = {0,0,-1};
-
-	float horizAngle = 3.14f;
-	float vertAngle = 0;
-	float speed = 8.f;
 
 	bool freeCam = false;
 
 	bool running = true;
-	glm::vec3 point = {0,0,0};
-	while (running && window->isWindowOpen()){
+	int index = 0;
+	while (running && window->isWindowOpen())
+	{
 		c_start = clock();
 		inputs.update();
-		player.update(&inputs, dt);
+		controls.sendControls(inputs);
+		//player.update(&inputs, dt);
 		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
-		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5);
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);	
 		//camera.camUpdate(point, direction, dt);
-		
-		float* transforms = new float[6];
-		for (int i = 0; i < 2; i++) {
-			transforms[i * 3] = allTransforms[i].getPos().x + i;
-			transforms[i * 3 + 1] = allTransforms[i].getPos().y + i;
-			transforms[i * 3 + 2] = allTransforms[i].getPos().z + i;
+		float* transforms = new float[18];
+		for (int i = 0; i < 3; i++) {
+			transforms[i * 6] = allTransforms[i].getPos().x;
+			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
+			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
+			transforms[i * 6 + 3] = allTransforms[i].getRotation().x;
+			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
+			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
-		engine->renderQueue.update(transforms, nullptr, 2);
+		glm::vec3* lookAts = new glm::vec3[3];
+		for (int i = 0; i < 3; i++)
+		{
+			lookAts[i] = allTransforms[i].getLookAt();
+		}
+		engine->renderQueue.update(transforms, nullptr, 3, lookAts);
+		delete[] lookAts;
 		delete[] transforms;
 		
 		engine->draw(&camera);
@@ -131,9 +137,7 @@ int main()
 		if (frameTime >= 1000.0)
 		{
 			double fps = double(frameCounter) / (frameTime / 1000.0);
-
 			std::cout << "FPS: " << fps << std::endl;
-
 			frameTime -= 1000.0;
 			frameCounter = 0;
 		}
@@ -144,6 +148,8 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
+		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
+			controls.setControl(&allTransforms[++index%3]);
 	}
 	delete[] allTransforms;
 	delete window;
