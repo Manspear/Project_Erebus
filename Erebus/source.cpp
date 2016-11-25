@@ -160,6 +160,8 @@ void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int&
 
 void allocateTransforms(int n)
 {
+	if(allTransforms!= nullptr)
+		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
 }
