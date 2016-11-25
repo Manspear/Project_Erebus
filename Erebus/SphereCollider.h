@@ -1,21 +1,31 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "AABBCollider.h"
-class SphereCollider
+#include "HitBox.h"
+class SphereCollider : public HitBox
 {
 public:
 	SphereCollider();
-	SphereCollider(glm::vec3 pos, float radius);
-	SphereCollider(float x, float y, float z, float radius);
+	SphereCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 pos, float radius);
+	SphereCollider(unsigned int ID, unsigned int IDTransform,float x, float y, float z, float radius);
 	~SphereCollider();
 	bool sphereToSphereCollision(const SphereCollider * sphere);
+	bool SphereToAabbCollision(AABBCollider * aabb);
+
+	//overrides
+	unsigned int getID() const override; // copy elision makes this fast? RVO - NRVO
+	unsigned int getIDTransform() const override;
+	std::vector<unsigned int>* getIDCollisionsRef() override;
+	void insertCollisionID(unsigned int collisionID) override;
+	void clearCollisionIDs() override;
 
 private:
 	glm::vec3 pos;
 	float radius;
 
-	float SquaredDistancePointAabb(const AABBCollider* aabb);
-	float closestDistanceAabbToCenter(float point, float aabbMin, float aabbMax);
+	
+	float SquaredDistancePointAabb(AABBCollider* aabb);
+	float closestDistanceAabbToCenter(const float& point, const float aabbMin, const float aabbMax);
 
 };
 

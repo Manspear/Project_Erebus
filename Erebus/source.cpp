@@ -11,17 +11,38 @@ void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int&
 
 int main()
 {
+	/*
+		collisionHandler kollar kollision mellan alla hitboxes
+		Alla hitboxes har en lista med ID på andra hitboxes den collidar med
+		Alla hitboxes har ID, ID på en transform den följer och lista på ID med hitboxar den collidar med. kanske ID på vilken sorts hitbox den är?
+
+		Hitbox ID, IDT, LISTA ID
+	*/
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window *window = new Window();
 	Gear::GearEngine *engine = new Gear::GearEngine();
 
-	SphereCollider sphere1 = SphereCollider(glm::vec3(5,5,5),4.0f);
-	SphereCollider sphere2 = SphereCollider(0,0,0,4.7f);
-	AABBCollider aabb1 = AABBCollider(glm::vec3(0,0,0), glm::vec3(5,5,5));
-	AABBCollider aabb2 = AABBCollider(glm::vec3(0,0,0), glm::vec3(2,2,2));
+	unsigned int ID = 0;
+	unsigned int IDTransform = 0;
 
-	bool badis = sphere1.sphereToSphereCollision(&sphere2);
-	bool badis2 = aabb1.AabbToAabb(&aabb2);
+	SphereCollider sphere1 = SphereCollider(ID++, IDTransform++, glm::vec3(8,9,4),6.0f);
+	SphereCollider sphere2 = SphereCollider(ID++, IDTransform++, 0,0,0,4.7f);
+	AABBCollider aabb1 = AABBCollider(ID++, IDTransform++, glm::vec3(0,0,0), glm::vec3(5,5,5));
+	AABBCollider aabb2 = AABBCollider(ID++, IDTransform++, glm::vec3(0,0,0), glm::vec3(2,2,2));
+
+	int sjdfj = sphere1.getID();
+	sjdfj = sphere2.getID();
+	sjdfj = aabb1.getID();
+	std::vector<unsigned int>* collisions = sphere1.getIDCollisionsRef();
+	sphere1.insertCollisionID(55);
+	sphere1.insertCollisionID(52345);
+	sphere1.insertCollisionID(553453);
+
+	bool sphereTest = sphere1.sphereToSphereCollision(&sphere2);
+	bool aabbTest = aabb1.AabbToAabb(&aabb2);
+	bool sphereToAabb = sphere1.SphereToAabbCollision(&aabb1);
+
+
 
 	Importer::ModelAsset molebat, skyboxAsset;
 	molebat.load( "Models/newmolebat.mole" );

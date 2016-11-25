@@ -2,19 +2,19 @@
 
 
 
-SphereCollider::SphereCollider()
+SphereCollider::SphereCollider() : HitBox(-1,-1)
 {
 	this->radius = 0.0f;
 	this->pos = glm::vec3(0, 0, 0);
 }
 
-SphereCollider::SphereCollider(glm::vec3 pos, float radius)
+SphereCollider::SphereCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 pos, float radius) : HitBox(ID, IDTransform)
 {
 	this->pos = pos;
 	this->radius = radius;
 }
 
-SphereCollider::SphereCollider(float x, float y, float z, float radius)
+SphereCollider::SphereCollider(unsigned int ID, unsigned int IDTransform, float x, float y, float z, float radius) : HitBox(ID, IDTransform)
 {
 	this->pos.x = x;
 	this->pos.y = y;
@@ -45,18 +45,35 @@ bool SphereCollider::sphereToSphereCollision(const SphereCollider * sphere)
 	return collision;
 }
 
-float SphereCollider::SquaredDistancePointAabb(const AABBCollider * aabb)
+bool SphereCollider::SphereToAabbCollision(AABBCollider * aabb)
+{
+	bool collision = false;
+
+	float squaredDistance = SquaredDistancePointAabb(aabb);
+	float radiusSquared = (this->radius*this->radius);
+	if (squaredDistance <= radiusSquared) // if squared distance between aabb and sphere center is closer than squared radius of spheres
+		collision = true;
+
+
+	return collision;
+}
+
+float SphereCollider::SquaredDistancePointAabb(AABBCollider * aabb)
 {
 	float squaredDistance = 0;
-	glm::vec3 minPos;
-	squaredDistance += closestDistanceAabbToCenter(this->pos.x, aabb->);
+	const glm::vec3* minPos = aabb->getMinPos();
+	const glm::vec3* maxPos = aabb->getMaxPos();
+
+	squaredDistance += closestDistanceAabbToCenter(this->pos.x, minPos->x, maxPos->x);
+	squaredDistance += closestDistanceAabbToCenter(this->pos.y, minPos->y, maxPos->y);
+	squaredDistance += closestDistanceAabbToCenter(this->pos.x, minPos->x, maxPos->x);
 
 
 
 	return squaredDistance;
 }
 
-float SphereCollider::closestDistanceAabbToCenter(float point, float aabbMin, float aabbMax)
+float SphereCollider::closestDistanceAabbToCenter(const float& point, const float aabbMin, const float aabbMax)
 {
 	float val = 0;
 	float returnValue = 0;
@@ -71,4 +88,30 @@ float SphereCollider::closestDistanceAabbToCenter(float point, float aabbMin, fl
 		returnValue = val*val;
 	}
 	return returnValue;
+}
+
+//overrides
+unsigned int SphereCollider::getID() const
+{
+	return this->ID;
+}
+
+unsigned int SphereCollider::getIDTransform() const
+{
+	return this->IDTransform;
+}
+
+std::vector<unsigned int>* SphereCollider::getIDCollisionsRef()
+{
+	return &this->IDCollisions;
+}
+
+void SphereCollider::insertCollisionID(unsigned int collisionID)
+{
+	this->IDCollisions.push_back(collisionID);
+}
+
+void SphereCollider::clearCollisionIDs()
+{
+	this->IDCollisions.clear();
 }
