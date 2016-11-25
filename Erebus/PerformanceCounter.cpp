@@ -13,20 +13,30 @@ PerformanceCounter::~PerformanceCounter()
 void PerformanceCounter::startCounter()
 {
 	QueryPerformanceFrequency(&start);
-	frequency = double(start.QuadPart) / 1000.0;
+	frequency = double(start.QuadPart);
 	QueryPerformanceCounter(&start);
-	current = start;
+	last = start;
 }
 
 double PerformanceCounter::getCurrentTime()
 {
-	QueryPerformanceCounter(&current);
-	return double(current.QuadPart - start.QuadPart) / frequency;
+	LARGE_INTEGER timeStamp;
+	double elapsedTime;
+
+	QueryPerformanceCounter(&timeStamp);
+	elapsedTime = double(timeStamp.QuadPart - last.QuadPart) / frequency;
+
+	return elapsedTime;
 }
 
 double PerformanceCounter::getDeltaTime()
 {
-	last = current;
-	QueryPerformanceCounter(&current);
-	return double(current.QuadPart - last.QuadPart) / frequency;
+	LARGE_INTEGER timeStamp;
+	double elapsedTime;
+
+	QueryPerformanceCounter(&timeStamp);
+	elapsedTime = double(timeStamp.QuadPart - last.QuadPart) / frequency;
+	last = timeStamp;
+
+	return elapsedTime;
 }
