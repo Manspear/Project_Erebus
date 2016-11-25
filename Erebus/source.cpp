@@ -12,7 +12,6 @@
 #include "Player.h"
 #include "Controls.h"
 
-void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 void allocateTransforms(int n);
 
 Window *window = new Window();
@@ -64,7 +63,7 @@ int main()
 
 	// TEMP: Ritar ut modellen från Gear.
 	//engine->renderElements.push_back(&skybox);
-	engine->renderElements.push_back(player.model);
+	//engine->renderElements.push_back(player.model);
 
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
@@ -76,22 +75,19 @@ int main()
 
 		particle.getParticle();
 
-		engine->renderElements.push_back(&particle);
-
+		//engine->renderElements.push_back(&particle);
+		engine->renderQueue.particles.push_back( &particle );
 	}
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
-	clock_t c_start, c_end;
-	float dt = 0;
-	int totalTicks = 0;
-	float totalTime = 0;
-	totalTicks++;	
 
 	PerformanceCounter counter;
 	double frameTime = 0.0;
+	double deltaTime = 0.0;
 	int frameCounter = 0;
+
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
 	bool freeCam = false;
@@ -100,7 +96,6 @@ int main()
 	int index = 0;
 	while (running && window->isWindowOpen())
 	{
-		c_start = clock();
 		inputs.update();
 		controls.sendControls(inputs);
 		//player.update(&inputs, dt);
@@ -129,18 +124,6 @@ int main()
 		
 		engine->draw(&camera);
 		window->update();
-		c_end = clock();
-		calculateDt(dt, c_start, c_end, totalTicks);
-
-		frameCounter++;
-		frameTime += counter.getDeltaTime();
-		if (frameTime >= 1000.0)
-		{
-			double fps = double(frameCounter) / (frameTime / 1000.0);
-			std::cout << "FPS: " << fps << std::endl;
-			frameTime -= 1000.0;
-			frameCounter = 0;
-		}
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -148,6 +131,17 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
+
+		//Display FPS:
+		frameCounter++;
+		frameTime += deltaTime;
+		if (frameTime >= 1.0)
+		{
+			double fps = double(frameCounter) / frameTime;
+			std::cout << "FPS: " << fps << std::endl;
+			frameTime -= 1.0;
+			frameCounter = 0;
+		}
 		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
 			controls.setControl(&allTransforms[++index%3]);
 	}
@@ -158,14 +152,10 @@ int main()
 	return 0;
 }
 
-void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks) 
-{	
-	dt = ((float)end - (float)start) / CLOCKS_PER_SEC;
-	//std::cout << dt << std::endl;
-}
-
 void allocateTransforms(int n)
 {
+	if(allTransforms!= nullptr)
+		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
 }
