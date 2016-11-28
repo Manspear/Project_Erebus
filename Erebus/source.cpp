@@ -6,6 +6,7 @@
 #include <ctime>
 #include "SphereCollider.h"
 #include "AABBCollider.h"
+#include "CollisionHandler.h"
 
 void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 
@@ -26,21 +27,37 @@ int main()
 	unsigned int IDTransform = 0;
 
 	SphereCollider sphere1 = SphereCollider(ID++, IDTransform++, glm::vec3(8,9,4),6.0f);
-	SphereCollider sphere2 = SphereCollider(ID++, IDTransform++, 0,0,0,4.7f);
+	SphereCollider sphere2 = SphereCollider(ID++, IDTransform++, 0,0,3,4.7f);
+	SphereCollider sphere3 = SphereCollider(ID++, IDTransform++, glm::vec3(10, 10, 10), 6.0f);
+	SphereCollider sphere4 = SphereCollider(ID++, IDTransform++, 11, 11, 11, 4.7f);
+	SphereCollider sphere5 = SphereCollider(ID++, IDTransform++, glm::vec3(40, 9, 4), 20.0f);
+	SphereCollider sphere6 = SphereCollider(ID++, IDTransform++, 40, 0, 0, 8.7f);
 	AABBCollider aabb1 = AABBCollider(ID++, IDTransform++, glm::vec3(0,0,0), glm::vec3(5,5,5));
 	AABBCollider aabb2 = AABBCollider(ID++, IDTransform++, glm::vec3(0,0,0), glm::vec3(2,2,2));
 
-	int sjdfj = sphere1.getID();
-	sjdfj = sphere2.getID();
-	sjdfj = aabb1.getID();
-	std::vector<unsigned int>* collisions = sphere1.getIDCollisionsRef();
-	sphere1.insertCollisionID(55);
-	sphere1.insertCollisionID(52345);
-	sphere1.insertCollisionID(553453);
+	CollisionHandler cHandler = CollisionHandler();
 
-	bool sphereTest = sphere1.sphereToSphereCollision(&sphere2);
-	bool aabbTest = aabb1.AabbToAabb(&aabb2);
-	bool sphereToAabb = sphere1.SphereToAabbCollision(&aabb1);
+	cHandler.addHitbox(&aabb1);
+	cHandler.addHitbox(&aabb2);
+	cHandler.addHitbox(&sphere1);
+	cHandler.addHitbox(&sphere2);
+	//cHandler.addHitbox(&sphere3);
+	//cHandler.addHitbox(&sphere4);
+	//cHandler.addHitbox(&sphere5);
+	//cHandler.addHitbox(&sphere6);
+
+	cHandler.checkCollisions();
+
+	std::vector<unsigned int>* test;
+	test = sphere1.getIDCollisionsRef();
+	test = sphere2.getIDCollisionsRef();
+	test = sphere3.getIDCollisionsRef();
+	test = sphere4.getIDCollisionsRef();
+	test = sphere5.getIDCollisionsRef();
+	test = sphere6.getIDCollisionsRef();
+
+	test = aabb1.getIDCollisionsRef();
+	test = aabb2.getIDCollisionsRef();
 
 
 
