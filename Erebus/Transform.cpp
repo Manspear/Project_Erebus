@@ -19,6 +19,21 @@ void Transform::move(glm::vec3 dir, const float &dt)
 	std::cout << position.x << "\t" << position.z << "\n";
 }
 
+void Transform::setPos(glm::vec3 pos)
+{
+	this->position = pos;
+}
+
+void Transform::setLookDir(glm::vec3 dir)
+{
+	this->lookDir = dir;
+}
+
+void Transform::setScale(float s)
+{
+	this->scale = s;
+}
+
 glm::vec3 Transform::getPos()
 {
 	return this->position;

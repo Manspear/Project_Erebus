@@ -18,7 +18,7 @@ namespace Importer
 	class Assets
 	{
 	public:
-		IMPORTER_API static Assets& getInstance();
+		IMPORTER_API static Assets* getInstance();
 		IMPORTER_API virtual ~Assets();
 
 		template<typename T>

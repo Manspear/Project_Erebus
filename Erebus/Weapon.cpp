@@ -8,7 +8,7 @@ Weapon::Weapon() {
 	this->timeSinceLastShot = 0;
 }
 Weapon::~Weapon(){
-	delete magics;
+	delete[] magics;
 }
 
 bool Weapon::shoot(glm::vec3 pos, glm::vec3 dir)
@@ -16,7 +16,7 @@ bool Weapon::shoot(glm::vec3 pos, glm::vec3 dir)
 	bool result = false;
 	if (timeSinceLastShot > shootDelay) {
 		this->magics[nrOfMagics].spawn(pos, dir, 2, 10);
-		this->magics[nrOfMagics].model->id = RenderQueueId(FORWARD, 0);
+ 		this->magics[nrOfMagics].model->id = RenderQueueId(FORWARD, 0);
 		fml->push_back(magics[nrOfMagics++].model);
 		result = true;
 	}
@@ -25,6 +25,7 @@ bool Weapon::shoot(glm::vec3 pos, glm::vec3 dir)
 
 void Weapon::update(float dt)
 {
+	this->timeSinceLastShot += dt;
 	for (size_t i = 0; i < nrOfMagics; i++)
 	{
 		this->magics[nrOfMagics].update(dt);

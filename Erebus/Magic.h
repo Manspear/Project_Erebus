@@ -1,15 +1,17 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "Model.h"
-
+#include "Gear.h"
+#include "Transform.h"
 
 class Magic {
 public:
-	glm::vec3 position;
-	glm::vec3 direction;
+	Transform* transform;
+	//glm::vec3 position;
+	//glm::vec3 direction;
 	float scale;
 	float speed;
-	Gear::Model* model;
+	Model* model;
 private:
 public:
 	Magic();

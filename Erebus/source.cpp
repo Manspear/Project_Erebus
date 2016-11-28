@@ -25,7 +25,7 @@ int main()
 	
 	//Importer::ModelAsset molebat;
 	//molebat.load( "Models/mesh.mtf" );
-	Importer::Assets assets = Importer::Assets::getInstance();
+	Importer::Assets assets = *Importer::Assets::getInstance();
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
@@ -43,7 +43,7 @@ int main()
 
 	skybox.worldMatrix[3][1] = 3;
 	*/
-	allocateTransforms(3);
+	allocateTransforms(103);
 	Model model;
 	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
 	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
@@ -61,6 +61,10 @@ int main()
 	playerModel.setModelAsset(molebat);
 
 	player.model = &playerModel;
+	for (int i = 0; i < 100; i++) {
+		player.weperino.magics[i].model->setModelAsset(molebat, engine->renderQueue.modelAdded(player.weperino.magics->model));
+		player.weperino.magics[i].transform = &allTransforms[3+i];
+	}
 
 
 
@@ -116,13 +120,13 @@ int main()
 		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5.f);
 		//camera.camUpdate(point, direction, dt);
 		
-		float* transforms = new float[6];
-		for (int i = 0; i < 2; i++) {
+		float* transforms = new float[103*3];
+		for (int i = 0; i < 103; i++) {
 			transforms[i * 3] = allTransforms[i].getPos().x + i;
 			transforms[i * 3 + 1] = allTransforms[i].getPos().y + i;
 			transforms[i * 3 + 2] = allTransforms[i].getPos().z + i;
 		}
-		engine->renderQueue.update(transforms, nullptr, 2);
+		engine->renderQueue.update(transforms, nullptr, 103);
 		delete[] transforms;
 		
 		engine->draw(&camera);

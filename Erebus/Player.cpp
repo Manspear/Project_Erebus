@@ -29,8 +29,8 @@ void Player::update(Inputs* inputs, float dt)
 
 	speeds.y = -5;
 
-	if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
-		weperino.shoot(position, lookAt);
+	if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_LEFT))
+   		weperino.shoot(position, lookAt);
 	if (inputs->keyPressed(GLFW_KEY_SPACE))
 		speeds.y = BASE_SPEED;
 	if (inputs->keyPressed(GLFW_KEY_X))
