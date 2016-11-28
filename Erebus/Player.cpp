@@ -29,6 +29,8 @@ void Player::update(Inputs* inputs, float dt)
 
 	speeds.y = -5;
 
+	if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
+		weperino.shoot(position, lookAt);
 	if (inputs->keyPressed(GLFW_KEY_SPACE))
 		speeds.y = BASE_SPEED;
 	if (inputs->keyPressed(GLFW_KEY_X))
@@ -41,6 +43,9 @@ void Player::update(Inputs* inputs, float dt)
 		speeds.x = -BASE_SPEED;
 	if (inputs->keyPressed(GLFW_KEY_D))
 		speeds.x = BASE_SPEED;
+
+	weperino.update(dt);
+	
 
 	glm::vec3 right = cross(tempforward, { 0,1,0 });
 	glm::mat3 changeOfBasisMat = glm::inverse(glm::mat3(right, {0,1,0},tempforward ));

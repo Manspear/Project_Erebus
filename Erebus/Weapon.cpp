@@ -15,7 +15,9 @@ bool Weapon::shoot(glm::vec3 pos, glm::vec3 dir)
 {
 	bool result = false;
 	if (timeSinceLastShot > shootDelay) {
-		this->magics[nrOfMagics++].spawn(pos, dir, 2, 10);
+		this->magics[nrOfMagics].spawn(pos, dir, 2, 10);
+		this->magics[nrOfMagics].model->id = RenderQueueId(FORWARD, 0);
+		fml->push_back(magics[nrOfMagics++].model);
 		result = true;
 	}
 	return result;

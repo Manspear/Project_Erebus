@@ -56,6 +56,8 @@ int main()
 
 
 	Player player;
+	player.renderqueue = &engine->renderQueue;
+	player.weperino.fml = &engine->renderElements;
 	Gear::Model playerModel;
 	playerModel.setModelAsset(molebat);
 

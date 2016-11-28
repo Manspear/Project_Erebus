@@ -4,9 +4,9 @@
 Magic::Magic() {
 	this->position = {0,0,0};
 	this->direction = {0,0,1};
-	this->scale = 1;
-	this->speed = 5;
-	//this->model = assets.load<SISIAIDAISISDIASDASDI>("Models/magiczcz");
+	this->scale = 1.f;
+	this->speed = 5.f;
+	model->setModelAsset(Importer::Assets::getInstance().load<Importer::ModelAsset>("Models/moleRat.mtf"));
 }
 Magic::~Magic() { }
 

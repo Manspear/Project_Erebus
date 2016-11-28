@@ -4,12 +4,13 @@
 
 
 class Magic {
-private:
+public:
 	glm::vec3 position;
 	glm::vec3 direction;
 	float scale;
 	float speed;
 	Gear::Model* model;
+private:
 public:
 	Magic();
 	~Magic();
