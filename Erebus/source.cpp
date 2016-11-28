@@ -80,9 +80,6 @@ int main()
 
 		particle.setParticle(pos, color, i);
 
-		particle.getParticle();
-
-		//engine->renderElements.push_back(&particle);
 		engine->renderQueue.particles.push_back( &particle );
 	}
 	glEnable( GL_DEPTH_TEST );
