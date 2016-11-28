@@ -1,0 +1,20 @@
+#include "FbxImport.h"
+using namespace std;
+
+int main()
+{
+	FbxImport fbx;
+<<<<<<< HEAD
+	fbx.initializeImporter("Models/Kurtj4ckB0x.fbx");
+	
+	fbx.WriteToBinary("Kurtj4ckB0x.mole");
+	/*fbx.readFromBinary("testBox.mole");*/
+=======
+	fbx.initializeImporter("Models/molerat.fbx");
+	
+	fbx.WriteToBinary("testBox2.mole");
+>>>>>>> b43561598c5d8a4ff20a2fbce744464b782ba82f
+
+	cin.get();
+	return 0;
+}
