@@ -14,98 +14,6 @@ namespace Importer
 		unload();
 	}
 
-	/*bool ModelAsset::load( std::string path, Assets* assets )
-	{
-		bool result = false;
-
-		FILE *file = NULL;
-		fopen_s( &file, path.c_str(), "rb" );
-		if( file )
-		{
-			sDataHeader dataHeader;
-			fread( &dataHeader, sizeof( sDataHeader ), 1, file );
-
-			dataptr = malloc( dataHeader.datasize + sizeof( GLuint )*dataHeader.meshes * 3 );
-			void* bufferptr = malloc( dataHeader.buffersize );
-			fread( dataptr, 1, dataHeader.datasize, file );
-			fread( bufferptr, 1, dataHeader.buffersize, file );
-
-			fclose( file );
-
-			char *ptr = (char*)dataptr;
-			header = *(sHeader*)ptr;
-			ptr += sizeof( sHeader );
-
-			offsets = (sOffset*)ptr;
-			ptr += sizeof( sOffset )*dataHeader.meshes;
-
-			meshes = (sMesh*)ptr;
-			ptr += sizeof( sMesh )*dataHeader.meshes;
-
-			materials = (sMaterial*)ptr;
-			ptr += sizeof( sMaterial )*dataHeader.materials;
-
-			joints = (sJoint*)ptr;
-			ptr += sizeof( sJoint )*dataHeader.joints;
-
-			keyCount = (int*)ptr;
-			ptr += sizeof( int )*dataHeader.keycounts;
-
-			keyFrames = (sKeyFrame*)ptr;
-			ptr += sizeof( sKeyFrame )*dataHeader.keyframes;
-
-			vertexBuffers = (GLuint*)ptr;
-			ptr += sizeof( GLuint )*dataHeader.meshes;
-
-			indexBuffers = (GLuint*)ptr;
-			ptr += sizeof( GLuint )*dataHeader.meshes;
-
-			bufferSizes = (int*)ptr;
-			ptr += sizeof( GLuint )*dataHeader.meshes;
-
-			ptr = (char*)bufferptr;
-			sVertex* vertices = (sVertex*)ptr;
-			ptr += sizeof( sVertex )*dataHeader.vertices;
-
- 			//ptr = (char*)bufferptr;
-			unsigned int* indexes = (unsigned int*)ptr;
-			ptr += sizeof(unsigned int)*dataHeader.indexes;
-
-			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
-			ptr += sizeof( sSkeletonVertex )*dataHeader.skeletonVertices;
-
-			for( unsigned int curMesh = 0; curMesh < header.meshCount; curMesh++ )
-			{
-				glGenBuffers( 1, &vertexBuffers[curMesh] );
-				glBindBuffer( GL_ARRAY_BUFFER, vertexBuffers[curMesh] );
-				if( meshes[curMesh].vertexCount > 0 )
-				{
-					glBufferData( GL_ARRAY_BUFFER, sizeof( sVertex )*meshes[curMesh].vertexCount, vertices + offsets[curMesh].vertex, GL_STATIC_DRAW );
-					//bufferSizes[curMesh] = meshes[curMesh].vertexCount;
-				}
-				else
-				{
-					glBufferData( GL_ARRAY_BUFFER, sizeof( sSkeletonVertex )*meshes[curMesh].skeletonVertexCount, skeletonVertices + offsets[curMesh].skeletonVertex, GL_STATIC_DRAW );
-					//bufferSizes[curMesh] = meshes[curMesh].skeletonVertexCount;
-				}
-				glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
-
-				glGenBuffers( 1, &indexBuffers[curMesh] );
-				glBindBuffer( GL_ARRAY_BUFFER, indexBuffers[curMesh] );
-				glBufferData( GL_ARRAY_BUFFER, sizeof( GLuint )*meshes[0].indexCount, indexes, GL_STATIC_DRAW );
-				glBindBuffer( GL_ARRAY_BUFFER, 0 );
-				bufferSizes[curMesh] = meshes[curMesh].indexCount;
-			}
-
-			free( bufferptr );
-
-			result = true;
-		}
-
-		return result;
-	}*/
-
 	bool ModelAsset::load( std::string path, Assets* assets )
 	{
 		bool result = false;
@@ -120,7 +28,6 @@ namespace Importer
 
 			fread( &header, sizeof( hModel ), 1, file );
 
-			//datasize -= sizeof( hModel );
 			dataptr = malloc( datasize + sizeof( GLuint )*header.numMeshes * 3 );
 			void* bufferptr = malloc( buffersize );
 			
