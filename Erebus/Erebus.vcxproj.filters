@@ -44,6 +44,8 @@
     <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Shaders\heightmap.frag" />
+    <None Include="Shaders\heightmap.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
