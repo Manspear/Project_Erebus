@@ -106,10 +106,12 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs);
+		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
 		//player.update(&inputs, dt);
 		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
+
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);	
 		//camera.camUpdate(point, direction, dt);
 		float* transforms = new float[6*50];
@@ -133,6 +135,8 @@ int main()
 		engine->draw(&camera);
 		window->update();
 
+		
+
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
 		if( inputs.keyPressedThisFrame( GLFW_KEY_1 ) )
@@ -152,6 +156,7 @@ int main()
 		}
 		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
 			controls.setControl(&allTransforms[++index%50]);
+
 	}
 	delete[] allTransforms;
 	lua_close(L);

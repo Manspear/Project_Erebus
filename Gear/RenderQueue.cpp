@@ -154,10 +154,7 @@ GEAR_API void RenderQueue::draw()
 	allShaders[currentShader]->unUse();
 
 	allShaders[PARTICLES]->use();
-	for( int i = 0; i < particles.size(); i++ )
-	{
-		particles[i]->draw(allShaders[PARTICLES]->getProgramID());
-	}
+	particles[0]->draw( allShaders[PARTICLES]->getProgramID() );
 	allShaders[PARTICLES]->unUse();
 }
 
