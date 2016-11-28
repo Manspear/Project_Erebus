@@ -105,13 +105,17 @@ GEAR_API void RenderQueue::draw()
 	currentShader = FORWARD;
 	allShaders[currentShader]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID() , "worldMatrix");
-	for (int i = 0; i < allModels.size(); i++)
+	//for (int i = 0; i < allModels.size(); i++)
+	for( int i=0; i<instances.size(); i++ )
 	{	
-		Importer::ModelAsset* modelAsset = allModels[i]->getModelAsset();
+		//Importer::ModelAsset* modelAsset = allModels[i]->getModelAsset();
+		ModelAsset* modelAsset = instances[i].asset;
 		int meshes = modelAsset->getHeader()->meshCount;
-		for (int k = 0; k < allModels[i]->matrixIndices.size(); k++)
+		//for (int k = 0; k < allModels[i]->matrixIndices.size(); k++)
+		for( int k=0; k<instances[i].worldIndices.size(); k++ )
 		{
-			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrices[allModels[i]->matrixIndices[k]][0][0]);			
+			//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrices[allModels[i]->matrixIndices[k]][0][0]);			
+			glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrices[instances[i].worldIndices[k]][0][0] );
 			for (int j = 0; j < meshes; j++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
@@ -150,7 +154,7 @@ GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* 
 	}
 }
 
-int RenderQueue::modelAdded(Model* model)
+/*int RenderQueue::modelAdded(Model* model)
 {
 	allModels.push_back(model);
 	worldMatrices[nrOfWorlds] = glm::mat4(1, 0, 0, 0,
@@ -158,4 +162,32 @@ int RenderQueue::modelAdded(Model* model)
 		0, 0, 1, 0,
 		0, 0, nrOfWorlds, 1);
 	return nrOfWorlds++;
+}*/
+
+int RenderQueue::addModelInstance( ModelAsset* asset )
+{
+	int result = nrOfWorlds++;
+
+	int index = -1;
+	for( int i = 0; i < instances.size() && index < 0; i++ )
+		if( instances[i].asset == asset )
+			index = i;
+
+	if( index < 0 )
+	{
+		ModelInstance instance;
+		instance.asset = asset;
+		instance.worldIndices.push_back( result );
+
+		index = instances.size();
+		instances.push_back( instance );
+	}
+
+	instances[index].worldIndices.push_back( result );
+	worldMatrices[result] = glm::mat4( 1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, nrOfWorlds, 1 );
+
+	return result;
 }

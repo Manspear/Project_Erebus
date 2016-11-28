@@ -27,6 +27,7 @@ int main()
 	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 
@@ -46,9 +47,11 @@ int main()
 	skybox.worldMatrix[3][1] = 3;*/
 
 	allocateTransforms(3);
-	Model model;
-	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
-	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
+	//Model model;
+	//model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
+	//model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
+	engine->renderQueue.addModelInstance( molebat );
+	engine->renderQueue.addModelInstance( box );
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
@@ -56,8 +59,9 @@ int main()
 
 
 	Player player;
-	Model playerModel;
-	playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
+	//Model playerModel;
+	//playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
+	engine->renderQueue.addModelInstance( molebat );
 	
 	Controls controls;
 	controls.setControl(&allTransforms[2]);
@@ -100,6 +104,7 @@ int main()
 	int index = 0;
 	while (running && window->isWindowOpen())
 	{
+		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs);
 		//player.update(&inputs, dt);

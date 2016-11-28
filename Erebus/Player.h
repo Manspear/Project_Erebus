@@ -1,5 +1,5 @@
 #pragma once
-#include "Model.h"
+//#include "Model.h"
 #include "Inputs.h"
 #include "BaseIncludes.h"
 
@@ -13,7 +13,7 @@ public:
 	glm::vec3 lookAt;
 	glm::vec3 velocity;
 	float scale;
-	Model* model;
+	//Model* model;
 	float speed;
 private:
 	void calcWorldMat();
