@@ -46,12 +46,11 @@ int main()
 
 	skybox.worldMatrix[3][1] = 3;*/
 
-	allocateTransforms(3);
-	//Model model;
-	//model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
-	//model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
-	engine->renderQueue.addModelInstance( molebat );
-	engine->renderQueue.addModelInstance( box );
+	allocateTransforms(50);
+	//engine->renderQueue.addModelInstance( molebat );
+	//engine->renderQueue.addModelInstance( box );
+	for( int i=0; i<49; i++ )
+		engine->renderQueue.addModelInstance(molebat);
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
@@ -113,8 +112,8 @@ int main()
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);	
 		//camera.camUpdate(point, direction, dt);
-		float* transforms = new float[18];
-		for (int i = 0; i < 3; i++) {
+		float* transforms = new float[6*50];
+		for (int i = 0; i < 50; i++) {
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -122,12 +121,12 @@ int main()
 			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
 			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
-		glm::vec3* lookAts = new glm::vec3[3];
-		for (int i = 0; i < 3; i++)
+		glm::vec3* lookAts = new glm::vec3[50];
+		for (int i = 0; i < 50; i++)
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 3, lookAts);
+		engine->renderQueue.update(transforms, nullptr, 50, lookAts);
 		delete[] lookAts;
 		delete[] transforms;
 		
@@ -152,7 +151,7 @@ int main()
 			frameCounter = 0;
 		}
 		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
-			controls.setControl(&allTransforms[++index%3]);
+			controls.setControl(&allTransforms[++index%50]);
 	}
 	delete[] allTransforms;
 	lua_close(L);
