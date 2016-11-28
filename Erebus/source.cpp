@@ -41,23 +41,21 @@ int main()
 	cHandler.addHitbox(&aabb2);
 	cHandler.addHitbox(&sphere1);
 	cHandler.addHitbox(&sphere2);
-	//cHandler.addHitbox(&sphere3);
-	//cHandler.addHitbox(&sphere4);
-	//cHandler.addHitbox(&sphere5);
-	//cHandler.addHitbox(&sphere6);
+	cHandler.addHitbox(&sphere3);
+	cHandler.addHitbox(&sphere4);
+	cHandler.addHitbox(&sphere5);
+	cHandler.addHitbox(&sphere6);
+	clock_t	start = clock();
 
-	cHandler.checkCollisions();
+	for (size_t i = 0; i < 40; i++)
+	{
+		cHandler.checkCollisions();
+	}
+	
 
-	std::vector<unsigned int>* test;
-	test = sphere1.getIDCollisionsRef();
-	test = sphere2.getIDCollisionsRef();
-	test = sphere3.getIDCollisionsRef();
-	test = sphere4.getIDCollisionsRef();
-	test = sphere5.getIDCollisionsRef();
-	test = sphere6.getIDCollisionsRef();
+	clock_t end = clock();
 
-	test = aabb1.getIDCollisionsRef();
-	test = aabb2.getIDCollisionsRef();
+	float defefe = end - start;
 
 
 

@@ -27,7 +27,7 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 void CollisionHandler::checkCollisions()
 {
 	//Cleara deras gamla collisions
-	// kolla alla spheres mot alla spheres
+	//kolla alla spheres mot alla spheres
 	//kolla alla aabb mot alla andra aabb
 	//KOlla alla spheres mot alla aabb
 	int sphereColliderSize = this->sphereColliders.size();
@@ -43,34 +43,42 @@ void CollisionHandler::checkCollisions()
 		this->aabbColliders[i]->clearCollisionIDs();
 	}
 
-	for (unsigned int i = 0; i < sphereColliderSize - 1; i++) // sphere mot sphere
+	if (sphereColliderSize > 0) // Kolla så sphere finns för att undvika infinity loop (size-1) = infinity loop
 	{
-		for (unsigned int k = i + 1; k < sphereColliderSize; k++)
+		for (unsigned int i = 0; i < sphereColliderSize - 1; i++) // sphere mot sphere
 		{
-			bool hit = false;
-			hit = sphereColliders[i]->sphereToSphereCollision(sphereColliders[k]);
-			if (hit) // Om hit spara
+			for (unsigned int k = i + 1; k < sphereColliderSize; k++)
 			{
-				sphereColliders[i]->insertCollisionID(sphereColliders[k]->getID());
-				sphereColliders[k]->insertCollisionID(sphereColliders[i]->getID());
+				bool hit = false;
+				hit = sphereColliders[i]->sphereToSphereCollision(sphereColliders[k]);
+				if (hit)
+				{
+					sphereColliders[i]->insertCollisionID(sphereColliders[k]->getID());
+					sphereColliders[k]->insertCollisionID(sphereColliders[i]->getID());
+				}
 			}
 		}
 	}
 
-	for (unsigned int i = 0; i < aabbColliderSize - 1; i++) // aabb mot aabb
-	{
-		for (unsigned int k = i + 1; k <aabbColliderSize; k++)
-		{
-			bool hit = false;
-			hit = aabbColliders[i]->AabbToAabb(aabbColliders[k]);
 
-			if (hit)
+	if (aabbColliderSize > 0) // undvik infinity loop
+	{
+		for (unsigned int i = 0; i < aabbColliderSize - 1; i++) // aabb mot aabb
+		{
+			for (unsigned int k = i + 1; k <aabbColliderSize; k++)
 			{
-				aabbColliders[i]->insertCollisionID(aabbColliders[k]->getID());
-				aabbColliders[k]->insertCollisionID(aabbColliders[i]->getID());
+				bool hit = false;
+				hit = aabbColliders[i]->AabbToAabb(aabbColliders[k]);
+
+				if (hit)
+				{
+					aabbColliders[i]->insertCollisionID(aabbColliders[k]->getID());
+					aabbColliders[k]->insertCollisionID(aabbColliders[i]->getID());
+				}
 			}
 		}
 	}
+
 
 	for (unsigned int i = 0; i < sphereColliderSize; i++) // sphere mot aabb
 	{
