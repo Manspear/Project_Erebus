@@ -104,6 +104,7 @@ int main()
 	int index = 0;
 	while (running && window->isWindowOpen())
 	{
+		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs);
 		//player.update(&inputs, dt);
