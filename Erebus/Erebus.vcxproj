@@ -152,8 +152,10 @@
   <ItemGroup>
     <ClCompile Include="Magic.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gear\Gear.vcxproj">
@@ -167,11 +169,19 @@
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\particle.frag" />
+    <None Include="Shaders\particle.geom" />
+    <None Include="Shaders\particle.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Magic.h" />
+    <ClInclude Include="Controls.h" />
+    <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
