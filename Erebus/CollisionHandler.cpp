@@ -26,6 +26,7 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 
 void CollisionHandler::checkCollisions()
 {
+	int counter = 0;
 	//Cleara deras gamla collisions
 	//kolla alla spheres mot alla spheres
 	//kolla alla aabb mot alla andra aabb
@@ -49,6 +50,7 @@ void CollisionHandler::checkCollisions()
 		{
 			for (unsigned int k = i + 1; k < sphereColliderSize; k++)
 			{
+				counter++;
 				bool hit = false;
 				hit = sphereColliders[i]->sphereToSphereCollision(sphereColliders[k]);
 				if (hit)
@@ -67,6 +69,7 @@ void CollisionHandler::checkCollisions()
 		{
 			for (unsigned int k = i + 1; k <aabbColliderSize; k++)
 			{
+				counter++;
 				bool hit = false;
 				hit = aabbColliders[i]->AabbToAabb(aabbColliders[k]);
 
@@ -84,6 +87,7 @@ void CollisionHandler::checkCollisions()
 	{
 		for (unsigned int k = 0; k < aabbColliderSize; k++)
 		{
+			counter++;
 			bool hit = false;
 			hit = sphereColliders[i]->SphereToAabbCollision(aabbColliders[k]);
 			if (hit)
@@ -95,5 +99,7 @@ void CollisionHandler::checkCollisions()
 		}
 
 	}
+
+	counter = counter;
 
 }
