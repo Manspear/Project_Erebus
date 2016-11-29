@@ -39,7 +39,7 @@ namespace Nurn
 
 		networkSocket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-		if (socket <= 0)
+		if (networkSocket <= 0)
 		{
 			printf("failed to create socket\n");
 			networkSocket = 0;
@@ -104,7 +104,7 @@ namespace Nurn
 		assert(data);
 		assert(size > 0);
 
-		if (socket == 0)
+		if (networkSocket == 0)
 			return false;
 
 		sockaddr_in address;
@@ -122,7 +122,7 @@ namespace Nurn
 		assert(data);
 		assert(size > 0);
 
-		if (socket == 0)
+		if (networkSocket == 0)
 			return false;
 
 		#if PLATFORM == PLATFORM_WINDOWS
@@ -148,6 +148,6 @@ namespace Nurn
 
 	bool NurnEngine::IsOpen() const
 	{
-		return socket != 0;
+		return networkSocket != 0;
 	}
 }
