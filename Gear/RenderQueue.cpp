@@ -129,7 +129,6 @@ GEAR_API void RenderQueue::draw()
 			}
 		}
 	}
-
 	allShaders[currentShader]->unUse();
 
 	allShaders[PARTICLES]->use();
@@ -142,7 +141,6 @@ GEAR_API void RenderQueue::draw()
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
 {
-	
 	glm::vec3 tempLook;
 	for (int i = 0; i < n; i++)
 	{
@@ -153,16 +151,6 @@ GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* 
 		worldMatrices[i][3][2] = pos[i * 6 + 2];
 	}
 }
-
-/*int RenderQueue::modelAdded(Model* model)
-{
-	allModels.push_back(model);
-	worldMatrices[nrOfWorlds] = glm::mat4(1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, nrOfWorlds, 1);
-	return nrOfWorlds++;
-}*/
 
 int RenderQueue::addModelInstance( ModelAsset* asset )
 {
