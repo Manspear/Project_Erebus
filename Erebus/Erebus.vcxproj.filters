@@ -16,6 +16,9 @@
     <ClCompile Include="Controls.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Importer\HeightMap.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -31,6 +34,9 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="LuaBinds.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Importer\HeightMap.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>

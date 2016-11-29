@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Importer\HeightMap.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
@@ -176,6 +177,7 @@
     <None Include="Shaders\particle.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Importer\HeightMap.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
     <ClInclude Include="PerformanceCounter.h" />

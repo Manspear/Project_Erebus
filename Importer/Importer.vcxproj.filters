@@ -30,15 +30,9 @@
     <ClInclude Include="ImageAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HeightMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureAsset.cpp">
@@ -47,7 +41,7 @@
     <ClCompile Include="ImageAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HeightMap.cpp">
+    <ClCompile Include="ModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
