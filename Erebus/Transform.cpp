@@ -43,3 +43,10 @@ void Transform::setLookAt(glm::vec3 lookAt)
 {
 	lookDir = lookAt;
 }
+
+void Transform::follow(glm::vec3 goTowards, float speed, const float &dt)
+{
+	if(glm::length(goTowards - this->position) > 0.1f * dt)
+		this->lookDir = glm::normalize(goTowards - this->position);
+	this->position += lookDir * speed * dt;
+}

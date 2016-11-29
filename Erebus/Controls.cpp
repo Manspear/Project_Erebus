@@ -20,6 +20,13 @@ void Controls::sendControls(Inputs &input, lua_State* L)
 		if (input.keyPressed(keys[i]))
 			pressedKeys.push_back(i);
 	}	
+
+	for (int i = nrOfKeys; i < nrOfRelease; i++)
+	{
+		if (input.keyPressedThisFrame(keys[i]))
+			pressedKeys.push_back(i);
+	}
+
 	if (pressedKeys.size() > 0)
 	{
 		lua_getglobal(L, "Controls");
@@ -33,6 +40,10 @@ void Controls::sendControls(Inputs &input, lua_State* L)
 		lua_pcall(L, 1, 0, 0);
 		lua_pop(L, lua_gettop(L));
 	}
+
+	lua_getglobal(L, "doDaHustle");
+	if(lua_pcall(L, 0, 0, 0))
+		std::cout << lua_tostring(L, -1);
 
 	MousePos dPos = input.getDeltaPos();
 	glm::vec3 rotation = controlled->getRotation();

@@ -14,6 +14,7 @@ public:
 	glm::vec3 getRotation();
 	void setRotation(glm::vec3 rot);
 	void setLookAt(glm::vec3 lookAt);
+	void follow(glm::vec3 goTowards, float speed, const float &dt);
 private:
 	glm::vec3 position;
 	glm::vec3 lookDir;

@@ -34,8 +34,6 @@
 
 #include <stdio.h>
 #include "Wincon.h"
-//*/
-//#include "GraphicEngine.h"
 
 #ifdef GEAR_EXPORTS  
 #define GEAR_API __declspec(dllexport)   
