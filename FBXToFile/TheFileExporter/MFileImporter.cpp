@@ -285,13 +285,13 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 
 	processNormals(inputMesh);
 
-	//processTangents(inputMesh);
+	processTangents(inputMesh);
 
 	processUVs(inputMesh);
 
 	processMaterials(inputMesh);
 
-	processTextures(inputMesh);
+	//processTextures(inputMesh);
 
 	processTransformations(inputMesh->GetNode(), TYPE, index);
 
@@ -301,7 +301,12 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	processBlendWeightsAndIndices(inputMesh, influenceOffset);
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
 	
-	processIndexes();
+	//Takes too long
+	//processIndexes();
+	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+		imScene.modelList.back().meshList.back().indexList.push_back(i);
+	for(int i = 0; i <  imScene.modelList.back().meshList.back().vertList.size(); i++)
+		imScene.modelList.back().meshList.back().indexList.push_back(i);
 
 	/*CALLS ITSELF INFINITELY*/
 	//For eventual mesh-hierarchy
@@ -332,6 +337,9 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 	FbxArray<fbxsdk::FbxVector2> UVs;
 	inputMesh->GetPolygonVertexUVs(UVSetNames[0], UVs);
 	int numUV = UVs.Size();
+
+	//This could maybe be used for faster idnexing...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//inputMesh->GetPolygonVertexIndex(int index);
 
 	//UV ELEMENTZ LOL
 	FbxGeometryElementUV* uvele = inputMesh->GetElementUV(UVSetNames[0]);
@@ -1734,6 +1742,9 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 			FbxString stackName = currStack->GetName();
 			int currCurve = 0;
 			FbxAnimCurve* storeCurve[6];
+
+			const char* namelol = currJoint->GetName();
+
 			storeCurve[0] = currJoint->LclRotation.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_X);
 			storeCurve[1] = currJoint->LclRotation.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 			storeCurve[2] = currJoint->LclRotation.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Z);

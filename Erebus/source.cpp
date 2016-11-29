@@ -26,7 +26,8 @@ int main()
 	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
 	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
- 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/Sten.model" );
+ 	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/molerat_animated.model" );
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>("Models/moleman.model");
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 
