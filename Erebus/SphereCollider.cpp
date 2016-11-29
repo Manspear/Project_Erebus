@@ -115,3 +115,13 @@ void SphereCollider::clearCollisionIDs()
 {
 	this->IDCollisions.clear();
 }
+
+const glm::vec3 & SphereCollider::getPos()
+{
+	return this->pos;
+}
+
+const float & SphereCollider::getRadius()
+{
+	return this->radius;
+}

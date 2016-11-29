@@ -47,7 +47,7 @@ int main()
 	cHandler.addHitbox(&sphere6);
 	clock_t	start = clock();
 
-	for (size_t i = 0; i < 40; i++)
+	for (size_t i = 0; i < 200; i++)
 	{
 		cHandler.checkCollisions();
 	}

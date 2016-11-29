@@ -24,6 +24,11 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 	this->aabbColliders.push_back(aabb);
 }
 
+void CollisionHandler::addHitbox(AABBSquareCollider * aabb)
+{
+	this->aabbSquareColliders.push_back(aabb);
+}
+
 void CollisionHandler::checkCollisions()
 {
 	int counter = 0;
@@ -52,7 +57,8 @@ void CollisionHandler::checkCollisions()
 			{
 				counter++;
 				bool hit = false;
-				hit = sphereColliders[i]->sphereToSphereCollision(sphereColliders[k]);
+				hit = sphereToSphereCollision(sphereColliders[i], sphereColliders[k]);
+				//hit = sphereColliders[i]->sphereToSphereCollision(sphereColliders[k]);
 				if (hit)
 				{
 					sphereColliders[i]->insertCollisionID(sphereColliders[k]->getID());
@@ -71,7 +77,9 @@ void CollisionHandler::checkCollisions()
 			{
 				counter++;
 				bool hit = false;
-				hit = aabbColliders[i]->AabbToAabb(aabbColliders[k]);
+				hit = aabbToAabbCollision(aabbColliders[i], aabbColliders[k]);
+				//hit = aabbColliders[i]->AabbToAabb(aabbColliders[k]);
+				
 
 				if (hit)
 				{
@@ -102,4 +110,39 @@ void CollisionHandler::checkCollisions()
 
 	counter = counter;
 
+}
+
+bool CollisionHandler::sphereToSphereCollision(SphereCollider * sphere1, SphereCollider * sphere2)
+{
+	bool collision = false;
+
+	glm::vec3 distanceVector = sphere1->getPos() - sphere2->getPos();
+	float distanceSquared = glm::dot(distanceVector, distanceVector); // dot with itself = length^2
+
+	float radiusSquared = (sphere1->getRadius() + sphere2->getRadius());
+	radiusSquared *= radiusSquared;
+
+	//if distance squared is less than radius squared = collision
+	if (distanceSquared <= radiusSquared)
+		collision = true;
+
+
+	return collision;
+}
+
+bool CollisionHandler::aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2)
+{
+	const glm::vec3* minPos1 = aabb1->getMinPos();
+	const glm::vec3* maxPos1 = aabb1->getMinPos();
+
+	const glm::vec3* minPos2 = aabb2->getMinPos();
+	const glm::vec3* maxPos2 = aabb2->getMinPos();
+
+
+	return (maxPos1->x >= minPos2->x &&
+		minPos1->x <= maxPos2->x &&
+		maxPos1->y >= minPos2->y &&
+		minPos1->y <= maxPos2->y &&
+		maxPos1->z >= minPos2->z &&
+		minPos1->z <= maxPos2->z);
 }
