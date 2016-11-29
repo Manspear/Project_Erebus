@@ -14,11 +14,27 @@
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
+#include <String>
+#include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
 
+void allocateTransforms(int n);
+
 Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
+
+int startNetworkCommunication();
+int startNetworkSending(Nurn::NurnEngine * pSocket);
+int startNetworkReceiving(Nurn::NurnEngine * pSocket);
+
+std::thread networkThread;
+bool networkActive = false;
+bool networkHost = true;
+int port = 30000;
+const Nurn::Address networkAddress = Nurn::Address(127, 0, 0, 1, port);
+
+bool running = true;
 
 int main()
 {
@@ -72,12 +88,20 @@ int main()
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
+
 	bool running = true;
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
+
+	if (networkActive)
+	{
+		networkThread = std::thread(startNetworkCommunication);
+	}
+
 	while (running && window->isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
+
 		inputs.update();
 		controls.sendControls(inputs, L);
 		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
@@ -119,8 +143,15 @@ int main()
 		}
 	}
 	delete heightMap;
+
+	if (networkActive)
+	{
+		networkThread.join();
+	}
+
 	delete[] lookAts;
 	delete[] transforms;
+
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
@@ -135,4 +166,78 @@ void allocateTransforms(int n)
 		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
+}
+
+
+int startNetworkCommunication()
+{
+	// initialize socket layer
+
+	Nurn::NurnEngine socket;
+
+	if (!socket.InitializeSockets())
+	{
+		printf("failed to initialize sockets\n");
+		return 1;
+	}
+
+	// create socket
+
+	printf("creating socket on port %d\n", port);
+
+	if (!socket.CreateUDPSocket(port))
+	{
+		printf("failed to create socket!\n");
+		return 1;
+	}
+
+
+
+	if (networkHost)
+	{
+		startNetworkReceiving(&socket);
+	}
+	else
+	{
+		startNetworkSending(&socket);
+	}
+
+	printf("Closing socket on port %d\n", port);
+	socket.ShutdownSockets();
+
+	return 0;
+}
+
+int startNetworkSending(Nurn::NurnEngine * pSocket)
+{
+	while (running && window->isWindowOpen())
+	{
+		const char data[] = "hello world!";
+
+		pSocket->Send(networkAddress, data, sizeof(data));
+
+		Sleep(250);
+	}
+
+	return 0;
+}
+
+int startNetworkReceiving(Nurn::NurnEngine * pSocket)
+{
+	while (running && window->isWindowOpen())
+	{
+		Sleep(250);
+		Nurn::Address sender;
+		unsigned char buffer[256];
+		int bytes_read = pSocket->Receive(sender, buffer, sizeof(buffer));
+		if (bytes_read)
+		{
+			printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
+				sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
+				sender.GetPort(), bytes_read);
+			std::cout << buffer << std::endl;
+		}
+	}
+
+	return 0;
 }
