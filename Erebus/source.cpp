@@ -36,10 +36,7 @@ int main()
 	HeightMap *heightMap = new HeightMap();
 	
 	heightMap->loadHeightMap(heightMapAsset);
-	Ray* ray;
 	
-
-	float skyboxScale = 1800;
 	redTexture->bind();
 
 	lua_State* L = luaL_newstate();
@@ -162,6 +159,7 @@ int main()
 		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
 			controls.setControl(&allTransforms[++index%3]);
 	}
+	delete heightMap;
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
