@@ -43,6 +43,7 @@ private:
 	//std::vector<Model*> allModels;
 	std::vector<ModelInstance> instances;
 	glm::mat4* worldMatrices;
+	glm::mat4* tempMatrices;
 	int nrOfWorlds;
 	int totalWorlds;
 private:

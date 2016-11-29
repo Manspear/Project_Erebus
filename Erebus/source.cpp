@@ -47,8 +47,11 @@ int main()
 	if(lua_pcall(L, 0, 0, 0))
 		std::cout << lua_tostring(L, -1);
 	
-	engine->renderQueue.addModelInstance( molebat );
-	engine->renderQueue.addModelInstance( box );
+	allocateTransforms(50);
+	//engine->renderQueue.addModelInstance( molebat );
+	//engine->renderQueue.addModelInstance( box );
+	for( int i=0; i<49; i++ )
+		engine->renderQueue.addModelInstance(molebat);
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
@@ -94,10 +97,12 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs, L);
+		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);		
 		
-		for (int i = 0; i < 3; i++) 
-		{
+		float* transforms = new float[6*50];
+		for (int i = 0; i < 50; i++) {
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -105,14 +110,16 @@ int main()
 			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
 			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
-		
-		for (int i = 0; i < 3; i++)
+		glm::vec3* lookAts = new glm::vec3[50];
+		for (int i = 0; i < 50; i++)
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 3, lookAts);		
+		engine->renderQueue.update(transforms, nullptr, 50, lookAts);
 		engine->draw(&camera);
 		window->update();
+
+		
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -132,7 +139,8 @@ int main()
 			frameCounter = 0;
 		}
 		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
-			controls.setControl(&allTransforms[++index%3]);
+			controls.setControl(&allTransforms[++index%50]);
+
 	}
 	delete[] lookAts;
 	delete[] transforms;

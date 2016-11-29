@@ -6,6 +6,9 @@ RenderQueue::RenderQueue(): nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr
 	{
 		allShaders[i] = nullptr;
 	}
+
+	int maximumNumberOfInstancesPerModel = 100;
+	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 }
 
 RenderQueue::~RenderQueue()
@@ -15,6 +18,7 @@ RenderQueue::~RenderQueue()
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 		if (allShaders[i] != nullptr)
 			delete allShaders[i];
+	delete[] tempMatrices;
 }
 
 void RenderQueue::init()
@@ -97,6 +101,8 @@ void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
 
 GEAR_API void RenderQueue::allocateWorlds(int n)
 {
+	if( worldMatrices )
+		delete[] worldMatrices;
 	worldMatrices = new glm::mat4[n];
 }
 
@@ -105,17 +111,16 @@ GEAR_API void RenderQueue::draw()
 	currentShader = FORWARD;
 	allShaders[currentShader]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID() , "worldMatrix");
-	//for (int i = 0; i < allModels.size(); i++)
+	GLuint worldMatricesLocation = glGetUniformLocation( allShaders[currentShader]->getProgramID(), "worldMatrices" );
+
 	for( int i=0; i<instances.size(); i++ )
 	{	
-		//Importer::ModelAsset* modelAsset = allModels[i]->getModelAsset();
 		ModelAsset* modelAsset = instances[i].asset;
 		int meshes = modelAsset->getHeader()->meshCount;
-		//for (int k = 0; k < allModels[i]->matrixIndices.size(); k++)
-		for( int k=0; k<instances[i].worldIndices.size(); k++ )
+		int numInstance = 0;
+		for( int j=0; j<instances[i].worldIndices.size(); j++ )
 		{
-			//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrices[allModels[i]->matrixIndices[k]][0][0]);			
-			glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrices[instances[i].worldIndices[k]][0][0] );
+			/*glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrices[instances[i].worldIndices[k]][0][0] );
 			for (int j = 0; j < meshes; j++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
@@ -126,16 +131,29 @@ GEAR_API void RenderQueue::draw()
 				glDrawElements(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
-			}
+			}*/
+
+			tempMatrices[numInstance++] = worldMatrices[instances[i].worldIndices[j]];
+		}
+
+		glUniformMatrix4fv( worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0] );
+
+		for( int j=0; j<modelAsset->getHeader()->meshCount; j++ )
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), 0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 3));
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 6));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+			glDrawElementsInstanced( GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance );
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
 	allShaders[currentShader]->unUse();
 
 	allShaders[PARTICLES]->use();
-	for( int i = 0; i < particles.size(); i++ )
-	{
-		particles[i]->draw(allShaders[PARTICLES]->getProgramID());
-	}
+	particles[0]->draw( allShaders[PARTICLES]->getProgramID() );
 	allShaders[PARTICLES]->unUse();
 }
 
