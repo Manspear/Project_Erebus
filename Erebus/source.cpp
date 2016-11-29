@@ -103,14 +103,18 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs);
-		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+
 		//player.update(&inputs, dt);
 		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
+		pos += (glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f) * (float)deltaTime;
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);	
 		//camera.camUpdate(point, direction, dt);
+
+		particle.setParticle(/*allTransforms[2].getPos()*/ pos, glm::vec3(1, 0, 0), 0);
+
 		float* transforms = new float[6*50];
 		for (int i = 0; i < 50; i++) {
 			transforms[i * 6] = allTransforms[i].getPos().x;
