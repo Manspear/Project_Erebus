@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gear", "Gear\Gear.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Importer", "Importer\Importer.vcxproj", "{56D70726-725F-48E5-B935-71A5451CCD72}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nurn", "Nurn\Nurn.vcxproj", "{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{56D70726-725F-48E5-B935-71A5451CCD72}.Release|x64.Build.0 = Release|x64
 		{56D70726-725F-48E5-B935-71A5451CCD72}.Release|x86.ActiveCfg = Release|Win32
 		{56D70726-725F-48E5-B935-71A5451CCD72}.Release|x86.Build.0 = Release|Win32
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Debug|x64.ActiveCfg = Debug|x64
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Debug|x64.Build.0 = Debug|x64
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Debug|x86.ActiveCfg = Debug|Win32
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Debug|x86.Build.0 = Debug|Win32
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Release|x64.ActiveCfg = Release|x64
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Release|x64.Build.0 = Release|x64
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Release|x86.ActiveCfg = Release|Win32
+		{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -56,3 +56,8 @@ GLFWwindow * Window::getGlfwWindow()
 {
 	return window;
 }
+
+GLFWwindow * Window::getWindow()
+{
+	return this->window;
+}

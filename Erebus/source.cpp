@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Nurn.hpp"
 #include "Gear.h"
 #include "Inputs.h"
 #include "Assets.h"
@@ -12,21 +13,17 @@
 #include "Player.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
+#include "LuaBinds.h"
 #include "HeightMap.h"
 #include "Ray.h"
 
-void allocateTransforms(int n);
-
 Window *window = new Window();
-Transform* allTransforms;
 Gear::GearEngine *engine = new Gear::GearEngine();
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
-	//Importer::ModelAsset molebat;
-	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
 	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
@@ -41,54 +38,27 @@ int main()
 
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
+	transformReg(L);
+	if (luaL_dofile(L, "Scripts/test.lua"))
+	{
+		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
+	}
 	
-	/*Gear::Model skybox;
-	skybox.setModelAsset(&skyboxAsset);
-	skybox.worldMatrix[0][0] = skyboxScale;
-	skybox.worldMatrix[1][1] = skyboxScale;
-	skybox.worldMatrix[2][2] = skyboxScale;
-	skybox.worldMatrix[3][3] = 1;
-
-	skybox.worldMatrix[3][1] = 3;*/
-
-	allocateTransforms(3);
-	//Model model;
-	//model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
-	//model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
-	engine->renderQueue.addModelInstance( molebat );
-	engine->renderQueue.addModelInstance( box );
+	for( int i=0; i<nrOfTransforms; i++ )
+		engine->renderQueue.addModelInstance(molebat);
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
 
-
-	Player player;
-	//Model playerModel;
-	//playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
-	engine->renderQueue.addModelInstance( molebat );
-	
-	Controls controls;
-	controls.setControl(&allTransforms[2]);
-	
-	//player.model = &playerModel;
-
-
-	// TEMP: Ritar ut modellen från Gear.
-	//engine->renderElements.push_back(&skybox);
-	//engine->renderElements.push_back(player.model);
-
+	controls.setControl(&allTransforms[0]);
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
 	{
 		pos = {rand() % 10, rand() % 5, rand() % 10 };
 		color = {1.0, 0.0, 0.0};
-
 		particle.setParticle(pos, color, i);
-
 		particle.getParticle();
-
-		//engine->renderElements.push_back(&particle);
 		engine->renderQueue.particles.push_back( &particle );
 	}
 	glEnable( GL_DEPTH_TEST );
@@ -98,28 +68,22 @@ int main()
 
 	PerformanceCounter counter;
 	double frameTime = 0.0;
-	double deltaTime = 0.0;
 	int frameCounter = 0;
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
-	bool freeCam = false;
-
 	bool running = true;
-	int index = 0;
+	float* transforms = new float[6 * nrOfTransforms];
+	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	while (running && window->isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.sendControls(inputs);
-		//player.update(&inputs, dt);
-		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
-		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
-		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);	
-		//camera.camUpdate(point, direction, dt);
-		float* transforms = new float[18];
-		for (int i = 0; i < 3; i++) {
+		controls.sendControls(inputs, L);
+		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);		
+		for (int i = 0; i < nrOfTransforms; i++) 
+		{
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -127,17 +91,14 @@ int main()
 			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
 			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
-		glm::vec3* lookAts = new glm::vec3[3];
-		for (int i = 0; i < 3; i++)
+
+		for (int i = 0; i < nrOfTransforms; i++)
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 3, lookAts);
-		delete[] lookAts;
-		delete[] transforms;
-		
+		engine->renderQueue.update(transforms, nullptr, 50, lookAts);
 		engine->draw(&camera);
-		window->update();
+		window->update();	
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -156,10 +117,10 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
-			controls.setControl(&allTransforms[++index%3]);
 	}
 	delete heightMap;
+	delete[] lookAts;
+	delete[] transforms;
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;

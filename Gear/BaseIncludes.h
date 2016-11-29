@@ -34,8 +34,6 @@
 
 #include <stdio.h>
 #include "Wincon.h"
-//*/
-//#include "GraphicEngine.h"
 
 #define WINDOW_WIDTH 1280.f
 #define WINDOW_HEIGHT 720.f

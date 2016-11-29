@@ -44,7 +44,7 @@ namespace Gear
 
 		if (loc != -1)
 		{
-			glUniform1f(loc, 0.5);
+			glUniform1f(loc, 2.0f);
 		}
 
 		//GLuint vbo;

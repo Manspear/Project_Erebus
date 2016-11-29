@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Nurn.hpp"
 #include "Gear.h"
 #include "Inputs.h"
 #include "Assets.h"
@@ -11,71 +12,62 @@
 #include "Particles.h"
 #include "Player.h"
 #include "Controls.h"
+#include <lua\lua.hpp>
+<<<<<<< HEAD
+#include "HeightMap.h"
+#include "Ray.h"
 
 void allocateTransforms(int n);
+=======
+#include "LuaBinds.h"
+>>>>>>> d47c78bc00b62cb0a3d9ed4ab5f1ac4557c47373
 
 Window *window = new Window();
-Transform* allTransforms;
 Gear::GearEngine *engine = new Gear::GearEngine();
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
-	//Importer::ModelAsset molebat;
-	//molebat.load( "Models/mesh.mtf" );
 	Importer::Assets assets;
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
+<<<<<<< HEAD
+	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
+	HeightMap *heightMap = new HeightMap();
+	
+	heightMap->loadHeightMap(heightMapAsset);
+	
+=======
 
-	float skyboxScale = 1800;
+>>>>>>> d47c78bc00b62cb0a3d9ed4ab5f1ac4557c47373
 	redTexture->bind();
 
-	/*Gear::Model skybox;
-	skybox.setModelAsset(&skyboxAsset);
-	skybox.worldMatrix[0][0] = skyboxScale;
-	skybox.worldMatrix[1][1] = skyboxScale;
-	skybox.worldMatrix[2][2] = skyboxScale;
-	skybox.worldMatrix[3][3] = 1;
-
-	skybox.worldMatrix[3][1] = 3;*/
-
-	allocateTransforms(3);
-	Model model;
-	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
-	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
+	lua_State* L = luaL_newstate();
+	luaL_openlibs(L);
+	transformReg(L);
+	if (luaL_dofile(L, "Scripts/test.lua"))
+	{
+		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
+	}
+	
+	for( int i=0; i<nrOfTransforms; i++ )
+		engine->renderQueue.addModelInstance(molebat);
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
 
-
-	Player player;
-	Model playerModel;
-	playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
-	
-	Controls controls;
-	controls.setControl(&allTransforms[2]);
-	
-	//player.model = &playerModel;
-
-
-	// TEMP: Ritar ut modellen från Gear.
-	//engine->renderElements.push_back(&skybox);
-	//engine->renderElements.push_back(player.model);
-
+	controls.setControl(&allTransforms[0]);
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
 	{
 		pos = {rand() % 10, rand() % 5, rand() % 10 };
 		color = {1.0, 0.0, 0.0};
-
 		particle.setParticle(pos, color, i);
-
 		particle.getParticle();
-
-		//engine->renderElements.push_back(&particle);
 		engine->renderQueue.particles.push_back( &particle );
 	}
 	glEnable( GL_DEPTH_TEST );
@@ -85,36 +77,22 @@ int main()
 
 	PerformanceCounter counter;
 	double frameTime = 0.0;
-	double deltaTime = 0.0;
 	int frameCounter = 0;
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
-	bool freeCam = false;
-
 	bool running = true;
-<<<<<<< HEAD
-	int index = 0;
+	float* transforms = new float[6 * nrOfTransforms];
+	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	while (running && window->isWindowOpen())
 	{
-		c_start = clock();
-		inputs.update();
-		controls.sendControls(inputs);
-		//player.update(&inputs, dt);
-=======
-	glm::vec3 point = {0,0,0};
-	while (running && window->isWindowOpen()){
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		player.update(&inputs, deltaTime);
->>>>>>> 9bbcaf4fc66311086e72a5ff03fb0acbbd8139f9
-		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
-		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
-		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);	
-		//camera.camUpdate(point, direction, dt);
-		float* transforms = new float[18];
-		for (int i = 0; i < 3; i++) {
+		controls.sendControls(inputs, L);
+		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);		
+		for (int i = 0; i < nrOfTransforms; i++) 
+		{
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -122,17 +100,14 @@ int main()
 			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
 			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
-		glm::vec3* lookAts = new glm::vec3[3];
-		for (int i = 0; i < 3; i++)
+
+		for (int i = 0; i < nrOfTransforms; i++)
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 3, lookAts);
-		delete[] lookAts;
-		delete[] transforms;
-		
+		engine->renderQueue.update(transforms, nullptr, 50, lookAts);
 		engine->draw(&camera);
-		window->update();
+		window->update();	
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -146,32 +121,20 @@ int main()
 		frameTime += deltaTime;
 		if (frameTime >= 1.0)
 		{
-<<<<<<< HEAD
-			double fps = double(frameCounter) / (frameTime / 1000.0);
-			std::cout << "FPS: " << fps << std::endl;
-			frameTime -= 1000.0;
-			frameCounter = 0;
-		}
-
-		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
-			running = false;
-		if( inputs.keyPressedThisFrame( GLFW_KEY_1 ) )
-			redTexture->bind();
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
-			greenTexture->bind();
-		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
-			controls.setControl(&allTransforms[++index%3]);
-=======
 			double fps = double(frameCounter) / frameTime;
-
 			std::cout << "FPS: " << fps << std::endl;
-
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
->>>>>>> 9bbcaf4fc66311086e72a5ff03fb0acbbd8139f9
 	}
+<<<<<<< HEAD
+	delete heightMap;
+=======
+	delete[] lookAts;
+	delete[] transforms;
+>>>>>>> d47c78bc00b62cb0a3d9ed4ab5f1ac4557c47373
 	delete[] allTransforms;
+	lua_close(L);
 	delete window;
 	glfwTerminate();
 	delete engine;
