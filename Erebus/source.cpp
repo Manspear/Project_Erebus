@@ -40,14 +40,20 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
 	Importer::Assets assets = *Importer::Assets::getInstance();
-	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+	Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
+	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+ 	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/molerat_animated.model" );
 	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>("Models/moleman.model");
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
+	
 	HeightMap *heightMap = new HeightMap();
 	
-	heightMap->loadHeightMap(heightMapAsset, false);
+	heightMap->loadHeightMap(heightMapAsset, true);
+	engine->addStaticNonModel(heightMap->getStaticNonModel());
+	
 	
 	redTexture->bind();
 	std::vector<ModelInstance> models;
@@ -58,16 +64,16 @@ int main()
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
-	
+
 	//for( int i=0; i<nrOfTransforms; i++ )
 
 	/*skybox.setModelAsset(skyboxAsset);
 	skybox.worldMatrix[3][1] = 3;
 	*/
 	//allocateTransforms(nrOfTransforms);
-	for( int i=0; i<nrOfTransforms; i++ )
+	for( int i=0; i<nrOfTransforms -1; i++ )
 		engine->renderQueue.addModelInstance(molebat);
-	
+	engine->renderQueue.addModelInstance(terrain);
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
@@ -109,8 +115,10 @@ int main()
 
 	while (running && window->isWindowOpen())
 	{
-		deltaTime = counter.getDeltaTime();
 
+		std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
+		deltaTime = counter.getDeltaTime();
+		
 		inputs.update();
 		controls.sendControls(inputs, L);
 
