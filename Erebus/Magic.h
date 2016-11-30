@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseIncludes.h"
-#include "Model.h"
 #include "Gear.h"
 #include "Transform.h"
 
@@ -11,7 +10,6 @@ public:
 	//glm::vec3 direction;
 	float scale;
 	float speed;
-	Model* model;
 private:
 public:
 	Magic();

@@ -12,7 +12,7 @@ out vec2 vert_UV;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 viewPos;
-uniform mat4 worldMatrices[100];
+uniform mat4 worldMatrices[105];
 
 void main(){
 	gl_Position = projectionMatrix * viewMatrix * worldMatrices[gl_InstanceID] * vec4(pos,1.0);

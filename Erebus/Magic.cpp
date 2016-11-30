@@ -5,13 +5,13 @@ Magic::Magic() {
 	this->transform = new Transform();
 	this->scale = 1.f;
 	this->speed = 5.f;
-	this->model = new Model();
 }
 Magic::~Magic() { }
 
 void Magic::spawn(glm::vec3 pos, glm::vec3 dir, float magicScale, float magicSpeed)
 {
 	this->transform->setPos(pos);
+	this->transform->setRotation(glm::vec3(rand(),rand(),rand()));
 	this->transform->setLookDir(dir);
 	this->transform->setScale(magicScale);
 	this->speed = magicSpeed;
@@ -19,7 +19,7 @@ void Magic::spawn(glm::vec3 pos, glm::vec3 dir, float magicScale, float magicSpe
 
 bool Magic::update(float dt)
 {
-	this->transform->move({1,0,0},dt);
-	this->transform->setPos({ rand() % 10, rand() % 10, rand() % 10 });
+	this->transform->move({speed,0,0}, dt);
+	//this->transform->setPos({ rand() % 10, rand() % 10, rand() % 10 });
 	return true;
 }
