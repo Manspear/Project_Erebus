@@ -41,15 +41,17 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
 	Importer::Assets assets;
+	//Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
 	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
+	
 	HeightMap *heightMap = new HeightMap();
 	
-	heightMap->loadHeightMap(heightMapAsset, false);
-	
+	heightMap->loadHeightMap(heightMapAsset, true);
+	engine->addStaticNonModel(heightMap->getStaticNonModel());
 	redTexture->bind();
 
 	lua_State* L = luaL_newstate();

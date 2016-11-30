@@ -18,6 +18,10 @@ namespace Gear
 	{
 
 		glfwTerminate();
+		for (size_t i = 0; i < statModels.size(); i++) {
+			delete statModels.at(i);
+		}
+
 	}
 
 	void GearEngine::draw(Camera* camera)
@@ -45,6 +49,17 @@ namespace Gear
 
 
 		//renderQueue.process( renderElements );
+		for (size_t i = 0; i < statModels.size(); i++)
+		{
+			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
+			tempProgram->use();
+			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+			tempProgram->addUniform(camera->getPosition(), "viewPos");
+			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
+			statModels.at(i)->draw();
+			tempProgram->unUse();
+		}
 
 	}
 
@@ -52,4 +67,8 @@ namespace Gear
 		return true;//window->isWindowOpen();
 	}
 	
+	void GearEngine::addStaticNonModel(staticNonModels* model) {
+		model->addShaderProgramRef(this->renderQueue.getShaderProgram(model->getShaderType()));
+		this->statModels.push_back(model);
+	}
 }
