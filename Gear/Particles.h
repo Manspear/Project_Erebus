@@ -7,7 +7,6 @@ struct ParticlePoint
 {
 	glm::vec3 pos;
 	glm::vec3 color;
-	float life;
 
 };
 
@@ -28,15 +27,13 @@ namespace Gear
 		GEAR_API void setParticle(glm::vec3 pos, glm::vec3 color, int i);
 		GEAR_API ParticlePoint getParticle();
 
-		GEAR_API void setParticleCount(int particleCount);
-		GEAR_API int getParticleCount();
+		//GEAR_API void setParticleCount(int particleCount);
+		//GEAR_API int getParticleCount();
 		//glm::mat4 modelMatrix;
 
+		ParticlePoint particleObject[maxParticles];
 	private:
 
-		ParticlePoint particleObject[maxParticles];
-		int particleCount;
-		GLuint vertexBuffer;
 		GLfloat duration;
 		GLfloat speed;
 		GLfloat angle;

@@ -156,7 +156,30 @@ GEAR_API void RenderQueue::draw()
 	allShaders[currentShader]->unUse();
 
 	allShaders[PARTICLES]->use();
-	particles[0]->draw( allShaders[PARTICLES]->getProgramID() );
+
+	for (size_t i = 0; i <  particles.size(); i++)
+	{
+
+		GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
+
+		if (loc != -1)
+		{
+			glUniform1f(loc, 2.0f);
+		}
+
+
+		glGenBuffers(1, &particleVertexBuffer);
+
+		glBindBuffer(GL_ARRAY_BUFFER, particleVertexBuffer);
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ParticlePoint) * maxParticles, &particles[i]->particleObject, GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
+	}
+
 	allShaders[PARTICLES]->unUse();
 }
 
