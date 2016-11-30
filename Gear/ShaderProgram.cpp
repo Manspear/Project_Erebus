@@ -54,7 +54,6 @@ ShaderProgram::ShaderProgram(shaderBaseType type, std::string shaderName) : Shad
 	delete[] shaderContent;
 	delete[] paths;
 	delete[] shaderTypes;
-
 }
 
 ShaderProgram::~ShaderProgram()

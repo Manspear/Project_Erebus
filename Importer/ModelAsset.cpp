@@ -5,7 +5,8 @@ namespace Importer
 	ModelAsset::ModelAsset()
 		: dataptr( nullptr )
 	{
-		header.meshCount = header.materialCount = 0;
+		//header.meshCount = header.materialCount = 0;
+		header.numMeshes = header.numSkeletons = header.numBBoxes = 0;
 	}
 
 	ModelAsset::~ModelAsset()
@@ -17,74 +18,77 @@ namespace Importer
 	{
 		bool result = false;
 
-		FILE *file = NULL;
+		FILE* file;
 		fopen_s( &file, path.c_str(), "rb" );
 		if( file )
 		{
-			sDataHeader dataHeader;
-			fread( &dataHeader, sizeof( sDataHeader ), 1, file );
+			int datasize, buffersize;
+			fread( &datasize, sizeof( int ), 1, file );
+			fread( &buffersize, sizeof( int ), 1, file );
 
-			dataptr = malloc( dataHeader.datasize + sizeof( GLuint )*dataHeader.meshes * 3 );
-			void* bufferptr = malloc( dataHeader.buffersize );
-			fread( dataptr, 1, dataHeader.datasize, file );
-			fread( bufferptr, 1, dataHeader.buffersize, file );
+			fread( &header, sizeof( hModel ), 1, file );
+
+			dataptr = malloc( datasize + sizeof( GLuint )*header.numMeshes * 3 );
+			void* bufferptr = malloc( buffersize );
+			
+			fread( dataptr, 1, datasize, file );
+			fread( bufferptr, 1, buffersize, file );
 
 			fclose( file );
 
-			char *ptr = (char*)dataptr;
-			header = *(sHeader*)ptr;
-			ptr += sizeof( sHeader );
-
+			char* ptr = (char*)dataptr;
 			offsets = (sOffset*)ptr;
-			ptr += sizeof( sOffset )*dataHeader.meshes;
+			ptr += sizeof( sOffset )*header.numMeshes;
 
-			meshes = (sMesh*)ptr;
-			ptr += sizeof( sMesh )*dataHeader.meshes;
+			meshes = (hMesh*)ptr;
+			ptr += sizeof( hMesh )*header.numMeshes;
 
-			materials = (sMaterial*)ptr;
-			ptr += sizeof( sMaterial )*dataHeader.materials;
+			boundingBoxes = (sBBox*)ptr;
+			ptr += sizeof( sBBox )*header.numBBoxes;
 
-			joints = (sJoint*)ptr;
-			ptr += sizeof( sJoint )*dataHeader.joints;
+			skeletons = (hSkeleton*)ptr;
+			ptr += sizeof( hSkeleton )*header.numSkeletons;
 
-			keyCount = (int*)ptr;
-			ptr += sizeof( int )*dataHeader.keycounts;
+			joints = (hJoint*)ptr;
+			ptr += sizeof( hJoint )*header.numJoints;
+
+			animationStates = (hAnimationState*)ptr;
+			ptr += sizeof( hAnimationState )*header.numAnimationStates;
 
 			keyFrames = (sKeyFrame*)ptr;
-			ptr += sizeof( sKeyFrame )*dataHeader.keyframes;
+			ptr += sizeof( sKeyFrame )*header.numKeyframes;
 
 			vertexBuffers = (GLuint*)ptr;
-			ptr += sizeof( GLuint )*dataHeader.meshes;
+			ptr += sizeof( GLuint )*header.numMeshes;
 
 			indexBuffers = (GLuint*)ptr;
-			ptr += sizeof( GLuint )*dataHeader.meshes;
+			ptr += sizeof( GLuint )*header.numMeshes;
 
 			bufferSizes = (int*)ptr;
-			ptr += sizeof( GLuint )*dataHeader.meshes;
+			ptr += sizeof( int )*header.numMeshes;
 
 			ptr = (char*)bufferptr;
 			sVertex* vertices = (sVertex*)ptr;
-			ptr += sizeof( sVertex )*dataHeader.vertices;
-
- 			//ptr = (char*)bufferptr;
-			unsigned int* indexes = (unsigned int*)ptr;
-			ptr += sizeof(unsigned int)*dataHeader.indexes;
+			ptr += sizeof( sVertex )*header.numVertices;
 
 			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
-			ptr += sizeof( sSkeletonVertex )*dataHeader.skeletonVertices;
+			ptr += sizeof( sSkeletonVertex )*header.numSkeletonVertices;
 
-			for( unsigned int curMesh = 0; curMesh < header.meshCount; curMesh++ )
+			GLuint* indices = (GLuint*)ptr;
+			ptr += sizeof( GLuint )*header.numIndices;
+
+			for( int curMesh = 0; curMesh < header.numMeshes; curMesh++ )
 			{
 				glGenBuffers( 1, &vertexBuffers[curMesh] );
 				glBindBuffer( GL_ARRAY_BUFFER, vertexBuffers[curMesh] );
-				if( meshes[curMesh].vertexCount > 0 )
+				if( meshes[curMesh].numVertices > 0 )
 				{
-					glBufferData( GL_ARRAY_BUFFER, sizeof( sVertex )*meshes[curMesh].vertexCount, vertices + offsets[curMesh].vertex, GL_STATIC_DRAW );
+					glBufferData( GL_ARRAY_BUFFER, sizeof( sVertex )*meshes[curMesh].numVertices, vertices + offsets[curMesh].vertex, GL_STATIC_DRAW );
 					//bufferSizes[curMesh] = meshes[curMesh].vertexCount;
 				}
 				else
 				{
-					glBufferData( GL_ARRAY_BUFFER, sizeof( sSkeletonVertex )*meshes[curMesh].skeletonVertexCount, skeletonVertices + offsets[curMesh].skeletonVertex, GL_STATIC_DRAW );
+					glBufferData( GL_ARRAY_BUFFER, sizeof( sSkeletonVertex )*meshes[curMesh].numAnimVertices, skeletonVertices + offsets[curMesh].skeletonVertex, GL_STATIC_DRAW );
 					//bufferSizes[curMesh] = meshes[curMesh].skeletonVertexCount;
 				}
 				glBindBuffer( GL_ARRAY_BUFFER, 0 );
@@ -92,13 +96,12 @@ namespace Importer
 
 				glGenBuffers( 1, &indexBuffers[curMesh] );
 				glBindBuffer( GL_ARRAY_BUFFER, indexBuffers[curMesh] );
-				glBufferData( GL_ARRAY_BUFFER, sizeof( GLuint )*meshes[0].indexCount, indexes, GL_STATIC_DRAW );
+				glBufferData( GL_ARRAY_BUFFER, sizeof( GLuint )*meshes[0].numIndices, indices, GL_STATIC_DRAW );
 				glBindBuffer( GL_ARRAY_BUFFER, 0 );
-				bufferSizes[curMesh] = meshes[curMesh].indexCount;
+				bufferSizes[curMesh] = meshes[curMesh].numIndices;
 			}
 
 			free( bufferptr );
-
 			result = true;
 		}
 
@@ -111,7 +114,7 @@ namespace Importer
 		dataptr = nullptr;
 	}
 
-	sHeader* ModelAsset::getHeader()
+	/*sHeader* ModelAsset::getHeader()
 	{
 		return &header;
 	}
@@ -136,6 +139,58 @@ namespace Importer
 		int jointOffset = offsets[mesh].joint;
 		int stateOffset = sizeof( int )*animationState;
 		return *(keyCount + sizeof( int )*(jointOffset + stateOffset));
+	}
+
+	sKeyFrame* ModelAsset::getKeyFrames( int mesh, int joint, int animationState ) const
+	{
+		int jointOffset = offsets[mesh].joint;
+		int stateOffset = sizeof( int )*animationState;
+		return keyFrames + sizeof( sKeyFrame )*(jointOffset + stateOffset);
+	}
+
+	GLuint ModelAsset::getVertexBuffer( int mesh ) const
+	{
+		return vertexBuffers[mesh];
+	}
+
+	GLuint ModelAsset::getIndexBuffer( int mesh ) const
+	{
+		return indexBuffers[mesh];
+	}
+
+	int ModelAsset::getBufferSize( int mesh ) const
+	{
+		return bufferSizes[mesh];
+	}*/
+
+	hModel* ModelAsset::getHeader()
+	{
+		return &header;
+	}
+
+	hMesh* ModelAsset::getMesh( int index ) const
+	{
+		return meshes + sizeof( hMesh )*index;
+	}
+
+	sBBox* ModelAsset::getBoundingBox( int joint ) const
+	{
+		return nullptr;
+	}
+
+	hSkeleton* ModelAsset::getSkeletons( int index ) const
+	{
+		return skeletons + sizeof(hSkeleton)*index;
+	}
+
+	hJoint* ModelAsset::getJoints( int mesh ) const
+	{
+		return joints + sizeof( hJoint )*offsets[mesh].joint;
+	}
+
+	hAnimationState* ModelAsset::getAnimationStates( int mesh, int joint ) const
+	{
+		return animationStates + sizeof( hAnimationState )*offsets[mesh].joint;
 	}
 
 	sKeyFrame* ModelAsset::getKeyFrames( int mesh, int joint, int animationState ) const
