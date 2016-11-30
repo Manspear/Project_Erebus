@@ -67,10 +67,6 @@ int main()
 	//allocateTransforms(nrOfTransforms);
 	for( int i=0; i<nrOfTransforms; i++ )
 		engine->renderQueue.addModelInstance(molebat);
-	
-	Gear::Particle particle;
-	glm::vec3 pos;
-	glm::vec3 color;
 
 	controls.setControl(&allTransforms[0]);
 	//player.weperino.fml = &engine->renderElements;
@@ -80,12 +76,15 @@ int main()
 	}*/
 	//controls.setControl(&allTransforms[2]);
 
-	for (int i = 0; i < particle.getParticleCount(); i++)
+	Gear::Particle particle[10];
+
+	for (int i = 0; i < maxParticles; i++)
 	{
-		pos = {rand() % 10, rand() % 5, rand() % 10 };
-		color = {1.0, 0.0, 0.0};
-		particle.setParticle(pos, color, i);
-		engine->renderQueue.particles.push_back( &particle );
+		particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
+		particle[i].particleObject->color = { 1, 0, 0 };
+
+		engine->renderQueue.particles.push_back( &particle[i] );
+
 	}
 	glEnable( GL_DEPTH_TEST );
 	
@@ -114,6 +113,11 @@ int main()
 		inputs.update();
 		controls.sendControls(inputs, L);
 
+		for (size_t i = 0; i < maxParticles; i++)
+		{
+			particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+		}
+
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	/*	pos += (glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f) * (float)deltaTime;*/
 
@@ -134,11 +138,8 @@ int main()
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
 		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
-		for (size_t i = 0; i < 10; i++)
-		{
-			engine->renderQueue.particles[i]->particleObject->pos += glm::vec3(deltaTime,0,0);
-		}
 
+	
 		engine->draw(&camera);
 		window->update();	
 
