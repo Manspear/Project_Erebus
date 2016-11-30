@@ -13,6 +13,7 @@ public:
 	virtual void insertCollisionID(unsigned int collisionID) = 0;
 	virtual void clearCollisionIDs() = 0;
 	void setIDTransform(unsigned int ID);
+	virtual bool checkCollision();
 
 protected:
 	unsigned int ID, IDTransform;

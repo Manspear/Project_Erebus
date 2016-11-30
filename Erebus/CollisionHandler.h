@@ -3,6 +3,9 @@
 #include "AABBCollider.h"
 #include "AABBSquareCollider.h"
 #include <vector>
+#include "Transform.h"
+
+extern Transform* allTransforms;
 class CollisionHandler
 {
 public:
@@ -12,6 +15,7 @@ public:
 	void addHitbox(AABBCollider* aabb);
 	void addHitbox(AABBSquareCollider* aabb);
 	void checkCollisions();
+	void checkSphereCollisions();
 
 private:
 	std::vector<SphereCollider*> sphereColliders;

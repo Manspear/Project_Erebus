@@ -112,6 +112,38 @@ void CollisionHandler::checkCollisions()
 
 }
 
+void CollisionHandler::checkSphereCollisions()
+{
+	int sphereColliderSize = this->sphereColliders.size();
+
+	for (unsigned int i = 0; i < sphereColliderSize; i++) // ta bort gamla collisions
+	{
+		this->sphereColliders[i]->clearCollisionIDs();
+	}
+
+	if (sphereColliderSize > 0) // Kolla så sphere finns för att undvika infinity loop (size-1) = infinity loop
+	{
+		for (unsigned int i = 0; i < sphereColliderSize; i++) // updatera positionen
+		{
+			sphereColliders[i]->setPos(allTransforms[sphereColliders[i]->getIDTransform()].getPos());
+		}
+		for (unsigned int i = 0; i < sphereColliderSize - 1; i++) // sphere mot sphere
+		{
+			for (unsigned int k = i + 1; k < sphereColliderSize; k++)
+			{
+				bool hit = false;
+				hit = sphereToSphereCollision(sphereColliders[i], sphereColliders[k]);
+				//hit = sphereColliders[i]->sphereToSphereCollision(sphereColliders[k]);
+				if (hit)
+				{
+					sphereColliders[i]->insertCollisionID(sphereColliders[k]->getID());
+					sphereColliders[k]->insertCollisionID(sphereColliders[i]->getID());
+				}
+			}
+		}
+	}
+}
+
 bool CollisionHandler::sphereToSphereCollision(SphereCollider * sphere1, SphereCollider * sphere2)
 {
 	bool collision = false;

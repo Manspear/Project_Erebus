@@ -52,6 +52,16 @@ int main()
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
 	HeightMap *heightMap = new HeightMap();
+
+	unsigned int transformID = 0;
+	unsigned int sphereID = 0;
+	SphereCollider sphere1 = SphereCollider(sphereID++,transformID++,glm::vec3(3,3,3), 1);
+	SphereCollider sphere2 = SphereCollider(sphereID++, transformID++, glm::vec3(3, 3, 3), 1);
+
+	CollisionHandler collisionHandler = CollisionHandler();
+
+	collisionHandler.addHitbox(&sphere1);
+	collisionHandler.addHitbox(&sphere2);
 	
 	heightMap->loadHeightMap(heightMapAsset, false);
 	
@@ -146,6 +156,9 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
+
+		//Collisions
+		collisionHandler.checkSphereCollisions();
 	}
 	delete heightMap;
 

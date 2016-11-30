@@ -25,3 +25,12 @@ void HitBox::setIDTransform(unsigned int ID)
 {
 	this->IDTransform = ID;
 }
+
+bool HitBox::checkCollision()
+{
+	bool collision = false;
+
+	if (this->IDCollisions.size() > 0)
+		collision = true;
+	return collision;
+}
