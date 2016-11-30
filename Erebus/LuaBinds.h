@@ -25,6 +25,8 @@ double deltaTime = 0.0;
 
 int initStuff(lua_State *L)
 {
+	Importer::Assets assets;
+	Importer::ModelAsset* molebatt = assets.load<Importer::ModelAsset>("Models/moleRat.mtf");
 	nrOfTransforms = lua_tointeger(L, -1);
 	allocateTransforms(nrOfTransforms);
 	return 0;

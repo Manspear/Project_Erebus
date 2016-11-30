@@ -60,9 +60,11 @@ int main()
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
 	
-	for( int i=0; i<nrOfTransforms; i++ )
+	for (int i = 0; i < nrOfTransforms; i++)
+	{
 		engine->renderQueue.addModelInstance(molebat);
-	
+		allTransforms[i].setHMap(heightMap);
+	}
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
@@ -101,7 +103,6 @@ int main()
 	while (running && window->isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
-
 		inputs.update();
 		controls.sendControls(inputs, L);
 		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
@@ -120,7 +121,7 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 50, lookAts);
+		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
 		engine->draw(&camera);
 		window->update();	
 
