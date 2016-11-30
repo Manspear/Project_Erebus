@@ -35,7 +35,7 @@ namespace Gear
 		//------------
 
 		renderQueue.updateUniforms(camera);
-		renderQueue.draw(std::vector<ModelInstance>());
+		renderQueue.draw();
 		GLfloat positions[] = { 0.5, 0.5, 0.0 };
 
 

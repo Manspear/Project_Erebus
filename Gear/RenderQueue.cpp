@@ -107,7 +107,7 @@ GEAR_API void RenderQueue::allocateWorlds(int n)
 	worldMatrices = new glm::mat4[n];
 }
 
-GEAR_API void RenderQueue::draw(std::vector<ModelInstance> &elements)
+GEAR_API void RenderQueue::draw()
 {
 	currentShader = FORWARD;
 	allShaders[currentShader]->use();
@@ -210,6 +210,6 @@ int RenderQueue::addModelInstance( ModelAsset* asset )
 	return result;
 }
 
-//ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
-//	return this->allShaders[type];
-//}
+ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
+	return this->allShaders[type];
+}
