@@ -22,7 +22,7 @@ public:
 	HeightMap();
 	~HeightMap();
 
-	void loadHeightMap(Importer::ImageAsset* map);
+	void loadHeightMap(Importer::ImageAsset* map, bool includeRenderPart);
 
 	void Draw();
 	glm::mat4 getWorldMat();

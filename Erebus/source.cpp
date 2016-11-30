@@ -48,7 +48,7 @@ int main()
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
 	HeightMap *heightMap = new HeightMap();
 	
-	heightMap->loadHeightMap(heightMapAsset);
+	heightMap->loadHeightMap(heightMapAsset, false);
 	
 	redTexture->bind();
 
