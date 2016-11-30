@@ -65,7 +65,7 @@ int main()
 	skybox.worldMatrix[3][1] = 3;
 	*/
 	//allocateTransforms(nrOfTransforms);
-	for( int i=0; i<3; i++ )
+	for( int i=0; i<nrOfTransforms; i++ )
 		engine->renderQueue.addModelInstance(molebat);
 	
 	Gear::Particle particle;
@@ -78,7 +78,7 @@ int main()
 	/*for (int i = 0; i < 100; i++) {
 		player.weperino.magics[i].transform = &allTransforms[engine->renderQueue.addModelInstance(molebat)];
 	}*/
-	controls.setControl(&allTransforms[2]);
+	//controls.setControl(&allTransforms[2]);
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
 	{
