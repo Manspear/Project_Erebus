@@ -117,17 +117,19 @@ GEAR_API void RenderQueue::draw()
 	for( int i=0; i<instances.size(); i++ )
 	{	
 		ModelAsset* modelAsset = instances[i].asset;
-		int meshes = modelAsset->getHeader()->meshCount;
+		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 		for( int j=0; j<instances[i].worldIndices.size(); j++ )
 		{
 			/*glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrices[instances[i].worldIndices[k]][0][0] );
 			for (int j = 0; j < meshes; j++)
 			{
+				int vertexSize = (modelAsset->getMesh(j)->numAnimVertices > 0 ? sizeof(Importer::sSkeletonVertex) : sizeof(Importer::sVertex));
+
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), 0);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 3));
-				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 6));
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 3));
+				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 6));
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 				glDrawElements(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -139,7 +141,7 @@ GEAR_API void RenderQueue::draw()
 
 		glUniformMatrix4fv( worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0] );
 
-		for( int j=0; j<modelAsset->getHeader()->meshCount; j++ )
+		for( int j=0; j<modelAsset->getHeader()->numMeshes; j++ )
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), 0);

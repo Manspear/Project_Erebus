@@ -43,6 +43,14 @@ int main()
 	//Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
 	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
 	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
+=======
+	//Importer::ModelAsset molebat;
+	//molebat.load( "Models/mesh.mtf" );
+	Importer::Assets assets;
+	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+ 	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/molerat_animated.model" );
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>("Models/moleman.model");
+>>>>>>> 7d2efd1a90d18520b2b538ab37825d0c5ecc948e
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
