@@ -85,7 +85,6 @@ int main()
 		pos = {rand() % 10, rand() % 5, rand() % 10 };
 		color = {1.0, 0.0, 0.0};
 		particle.setParticle(pos, color, i);
-		particle.getParticle();
 		engine->renderQueue.particles.push_back( &particle );
 	}
 	glEnable( GL_DEPTH_TEST );
@@ -114,11 +113,14 @@ int main()
 
 		inputs.update();
 		controls.sendControls(inputs, L);
-		//player.update(&inputs, deltaTime);
-		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
+	/*	pos += (glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f) * (float)deltaTime;*/
 
 		for (int i = 0; i < nrOfTransforms; i++) {
+
+		//particle.setParticle(/*allTransforms[2].getPos()*/ pos, glm::vec3(1, 0, 0), 0);
+
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
