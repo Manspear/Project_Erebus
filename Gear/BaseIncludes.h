@@ -30,11 +30,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
+#include <stdint.h>
 
 #include <stdio.h>
 #include "Wincon.h"
-//*/
-//#include "GraphicEngine.h"
+
+#define WINDOW_WIDTH 1280.f
+#define WINDOW_HEIGHT 720.f
 
 #ifdef GEAR_EXPORTS  
 #define GEAR_API __declspec(dllexport)   

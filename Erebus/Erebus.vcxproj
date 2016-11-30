@@ -101,13 +101,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LuaLib.lib; OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB:MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -154,8 +154,13 @@
     <ClCompile Include="AABBCollider.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="HitBox.cpp" />
+    <ClCompile Include="..\Importer\HeightMap.cpp" />
+    <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gear\Gear.vcxproj">
@@ -164,11 +169,20 @@
     <ProjectReference Include="..\Importer\Importer.vcxproj">
       <Project>{56d70726-725f-48e5-b935-71a5451ccd72}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Nurn\Nurn.vcxproj">
+      <Project>{db7257bd-f056-4eeb-9db7-66b785ceb0e6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\test.lua" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\heightmap.frag" />
+    <None Include="Shaders\heightmap.vert" />
+    <None Include="Shaders\particle.frag" />
+    <None Include="Shaders\particle.geom" />
+    <None Include="Shaders\particle.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBSquareCollider.h" />
@@ -176,6 +190,14 @@
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="..\Importer\HeightMap.h" />
+    <ClInclude Include="Controls.h" />
+    <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="Player.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

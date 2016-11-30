@@ -5,10 +5,12 @@ layout(triangle_strip, max_vertices = 6) out;
 in vec3 vert_normal[];
 in vec3 vert_viewPos[];
 in vec3 vert_worldPos[];
+in vec2 vert_UV[];
 
 out vec3 geom_normal;
 out vec3 geom_viewPos;
 out vec3 geom_worldPos;
+out vec2 geom_UV;
 
  void main()
  {
@@ -22,6 +24,7 @@ out vec3 geom_worldPos;
 			geom_normal = vert_normal[i];
 			geom_viewPos = vert_viewPos[i];
 			geom_worldPos = vert_worldPos[i];
+			geom_UV = vert_UV[i];
 			EmitVertex();
 		}
 		EndPrimitive();

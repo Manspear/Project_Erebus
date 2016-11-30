@@ -11,13 +11,6 @@ GLuint addTexture(int width, int height, GLuint internalFormat, GLuint format, G
 void bindFramebuffer(int n, GLuint* attachments, GLuint* textures, GLuint frameBuffer);
 
 
-
-
-
-
-
-
-
 GLuint createShaderProgram()
 {
 	GLuint programID = glCreateProgram();
