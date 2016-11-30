@@ -8,19 +8,16 @@
 #include <ctime>
 #include "Player.h"
 #include "Transform.h"
-=======
 #include "PerformanceCounter.h"
 #include "Particles.h"
 #include "Player.h"
->>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
+#include "Controls.h"
 
-void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks);
 void allocateTransforms(int n);
 
 Window *window = new Window();
 Transform* allTransforms;
 Gear::GearEngine *engine = new Gear::GearEngine();
-
 
 int main()
 {
@@ -49,29 +46,10 @@ int main()
 
 	skybox.worldMatrix[3][1] = 3;*/
 
-<<<<<<< HEAD
-	allocateTransforms(2);
+	allocateTransforms(3);
 	Model model;
 	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
 	model.setModelAsset(molebat, engine->renderQueue.modelAdded(&model));
-=======
-	Gear::Model model;
-	model.setModelAsset( molebat );
-	model.worldMatrix[0][0] = 1;
-	model.worldMatrix[1][1] = 1;
-	model.worldMatrix[2][2] = 1;
-	model.worldMatrix[3][3] = 1;
-
-	model.worldMatrix[3][0] = 3;
-
-	Gear::Model model2;
-	model2.setModelAsset( molebat );
-	model2.worldMatrix[0][0] = 1;
-	model2.worldMatrix[1][1] = 1;
-	model2.worldMatrix[2][2] = 1;
-	model2.worldMatrix[3][3] = 1;
-
-	model2.worldMatrix[3][0] = -3;
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
@@ -79,18 +57,18 @@ int main()
 
 
 	Player player;
-	Gear::Model playerModel;
-	playerModel.setModelAsset(&molebat);
+	Model playerModel;
+	playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
 
 
 	player.model = &playerModel;
 
+	
+	Controls controls;
+	controls.setControl(&allTransforms[2]);
+	
+	//player.model = &playerModel;
 
-
-	player.model = &playerModel;
-
-
->>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
 
 	// TEMP: Ritar ut modellen från Gear.
 <<<<<<< HEAD
@@ -98,7 +76,7 @@ int main()
 	engine->renderElements.push_back(player.model);
 =======
 	//engine->renderElements.push_back(&skybox);
-	engine->renderElements.push_back(player.model);
+	//engine->renderElements.push_back(player.model);
 
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
@@ -108,50 +86,41 @@ int main()
 
 		particle.setParticle(pos, color, i);
 
-<<<<<<< HEAD
-=======
 		particle.getParticle();
 
-		engine->renderElements.push_back(&particle);
-
+		//engine->renderElements.push_back(&particle);
+		engine->renderQueue.particles.push_back( &particle );
 	}
-
->>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
-	clock_t c_start, c_end;
-	float dt = 0;
-	int totalTicks = 0;
-	float totalTime = 0;
-<<<<<<< HEAD
-	totalTicks++;	
-=======
-	totalTicks++;
-	
+
 	PerformanceCounter counter;
 	double frameTime = 0.0;
+	double deltaTime = 0.0;
 	int frameCounter = 0;
->>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
-	//glm::vec3 point = {0,0,5};
-	glm::vec3 direction = {0,0,-1};
-
-	float horizAngle = 3.14f;
-	float vertAngle = 0;
-	float speed = 8.f;
 
 	bool freeCam = false;
 
 	bool running = true;
-	glm::vec3 point = {0,0,0};
-	while (running && window->isWindowOpen()){
+<<<<<<< HEAD
+	int index = 0;
+	while (running && window->isWindowOpen())
+	{
 		c_start = clock();
 		inputs.update();
-		player.update(&inputs, dt);
-		player.update(&inputs, dt);
+		controls.sendControls(inputs);
+		//player.update(&inputs, dt);
+=======
+	glm::vec3 point = {0,0,0};
+	while (running && window->isWindowOpen()){
+		deltaTime = counter.getDeltaTime();
+		inputs.update();
+		player.update(&inputs, deltaTime);
+>>>>>>> 9bbcaf4fc66311086e72a5ff03fb0acbbd8139f9
 		skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;
@@ -161,36 +130,44 @@ int main()
 		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
 		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
 		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
-<<<<<<< HEAD
-		//camera.follow(point, glm::vec3(sinf(1/*angle*/), 0, cosf(1/*angle*/)), abs(inputs.getScroll()));
-		camera.camUpdate(point, direction, dt);
-		
-		float* transforms = new float[6];
-		for (int i = 0; i < 2; i++) {
-			transforms[i * 3] = allTransforms[i].getPos().x + i;
-			transforms[i * 3 + 1] = allTransforms[i].getPos().y + i;
-			transforms[i * 3 + 2] = allTransforms[i].getPos().z + i;
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);	
+		//camera.camUpdate(point, direction, dt);
+		float* transforms = new float[18];
+		for (int i = 0; i < 3; i++) {
+			transforms[i * 6] = allTransforms[i].getPos().x;
+			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
+			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
+			transforms[i * 6 + 3] = allTransforms[i].getRotation().x;
+			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
+			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
-		engine->renderQueue.update(transforms, nullptr, 2);
+		glm::vec3* lookAts = new glm::vec3[3];
+		for (int i = 0; i < 3; i++)
+		{
+			lookAts[i] = allTransforms[i].getLookAt();
+		}
+		engine->renderQueue.update(transforms, nullptr, 3, lookAts);
+		delete[] lookAts;
 		delete[] transforms;
 		
-=======
-		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5);
-		//camera.camUpdate(point, direction, dt);
->>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
 		engine->draw(&camera);
 		window->update();
-		c_end = clock();
-		calculateDt(dt, c_start, c_end, totalTicks);
 
+		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
+			running = false;
+		if( inputs.keyPressedThisFrame( GLFW_KEY_1 ) )
+			redTexture->bind();
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
+			greenTexture->bind();
+
+		//Display FPS:
 		frameCounter++;
-		frameTime += counter.getDeltaTime();
-		if (frameTime >= 1000.0)
+		frameTime += deltaTime;
+		if (frameTime >= 1.0)
 		{
+<<<<<<< HEAD
 			double fps = double(frameCounter) / (frameTime / 1000.0);
-
 			std::cout << "FPS: " << fps << std::endl;
-
 			frameTime -= 1000.0;
 			frameCounter = 0;
 		}
@@ -201,6 +178,17 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
+		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
+			controls.setControl(&allTransforms[++index%3]);
+=======
+			double fps = double(frameCounter) / frameTime;
+
+			std::cout << "FPS: " << fps << std::endl;
+
+			frameTime -= 1.0;
+			frameCounter = 0;
+		}
+>>>>>>> 9bbcaf4fc66311086e72a5ff03fb0acbbd8139f9
 	}
 	delete[] allTransforms;
 	delete window;
@@ -209,14 +197,10 @@ int main()
 	return 0;
 }
 
-void calculateDt(float& dt, const clock_t& start, const clock_t& end, const int& ticks) 
-{	
-	dt = ((float)end - (float)start) / CLOCKS_PER_SEC;
-	//std::cout << dt << std::endl;
-}
-
 void allocateTransforms(int n)
 {
+	if(allTransforms!= nullptr)
+		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
 }

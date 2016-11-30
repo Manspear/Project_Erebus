@@ -13,9 +13,14 @@ public:
 	void setLookDir(glm::vec3 dir);
 	void setScale(float s);
 	glm::vec3 getPos();
+	glm::vec3 getLookAt();
+	glm::vec3 getRotation();
+	void setRotation(glm::vec3 rot);
+	void setLookAt(glm::vec3 lookAt);
 private:
 	glm::vec3 position;
 	glm::vec3 lookDir;
+	glm::vec3 rotation;
 	int worldIndex;
 	float scale;
 };

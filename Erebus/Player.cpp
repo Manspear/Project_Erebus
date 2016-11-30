@@ -5,11 +5,11 @@
 
 void Player::calcWorldMat()
 {
-	this->model->worldMatrix = {	scale * cosf(rotation.y+3.14),			0,					-sinf(rotation.y + 3.14),			0,
+	/*this->model->worldMatrix = {	scale * cosf(rotation.y+3.14),			0,					-sinf(rotation.y + 3.14),			0,
 									0,										scale,				0,									0,
 									sinf(rotation.y + 3.14),				0,					scale*cosf(rotation.y + 3.14),		0,
 									position.x,								position.y,			position.z,							1
-						};
+						};*/
 }
 
 void Player::update(Inputs* inputs, float dt)
