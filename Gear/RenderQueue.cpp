@@ -23,7 +23,7 @@ RenderQueue::~RenderQueue()
 
 void RenderQueue::init()
 {
-	std::string paths[3];
+	/*std::string paths[3];
 	paths[0] = "Shaders/forward.vert";
 	paths[1] = "Shaders/forward.frag";
 	paths[2] = "Shaders/forward.geom";
@@ -36,7 +36,7 @@ void RenderQueue::init()
 	std::string partPaths[3];
 	partPaths[0] = "Shaders/particle.vert";
 	partPaths[1] = "Shaders/particle.frag";
-	partPaths[2] = "Shaders/particle.geom";
+	partPaths[2] = "Shaders/particle.geom";*/
 
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
@@ -106,7 +106,7 @@ GEAR_API void RenderQueue::allocateWorlds(int n)
 	worldMatrices = new glm::mat4[n];
 }
 
-GEAR_API void RenderQueue::draw()
+GEAR_API void RenderQueue::draw(std::vector<ModelInstance> &elements)
 {
 	currentShader = FORWARD;
 	allShaders[currentShader]->use();
@@ -162,11 +162,20 @@ GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* 
 	glm::vec3 tempLook;
 	for (int i = 0; i < n; i++)
 	{
-		tempLook = glm::normalize(glm::vec3( lookAts[i].x, 0, lookAts[i].z));
-		worldMatrices[i] = glm::rotate(glm::mat4(), pos[i * 6 + 5], glm::cross(tempLook, { 0, 1, 0 })) * glm::rotate(glm::mat4(), pos[i * 6 + 4], { 0, 1, 0 });
-		worldMatrices[i][3][0] = pos[i * 6];
-		worldMatrices[i][3][1] = pos[i * 6 + 1];
-		worldMatrices[i][3][2] = pos[i * 6 + 2];
+		int index = i * 6;
+
+		int rotIndexY = index + 4;
+		glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[index + 4], { 0, 1, 0 });
+		
+		int rotIndexZ = index + 5;
+		tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[index + 5], axis);
+
+		worldMatrices[i] = rotationZ * rotationY;
+		worldMatrices[i][3][0] = pos[index];
+		worldMatrices[i][3][1] = pos[index + 1];
+		worldMatrices[i][3][2] = pos[index + 2];
 	}
 }
 

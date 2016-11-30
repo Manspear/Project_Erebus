@@ -28,10 +28,10 @@ public:
 	void updateUniforms(Camera* camera);
 	void process(std::vector<RenderQueueElement*> &elements);
 	GEAR_API void allocateWorlds(int n);
-	GEAR_API void draw();
+	GEAR_API void draw(std::vector<ModelInstance> &elements);
 	GEAR_API void update(float* pos, int* indices, int n, glm::vec3* lookAts);
 	//GEAR_API int modelAdded(Model* model);
-	GEAR_API int addModelInstance( ModelAsset* asset );
+	GEAR_API int addModelInstance(ModelAsset* asset);
 
 	// TEMP:
 	std::vector<Gear::Particle*> particles;
@@ -42,6 +42,7 @@ private:
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	//std::vector<Model*> allModels;
 	std::vector<ModelInstance> instances;
+	std::vector<ModelInstance> staticInstances;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
 	int nrOfWorlds;
