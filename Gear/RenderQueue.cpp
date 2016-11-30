@@ -141,7 +141,7 @@ GEAR_API void RenderQueue::draw()
 
 		glUniformMatrix4fv( worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0] );
 
-		for( int j=0; j<modelAsset->getHeader()->meshCount; j++ )
+		for( int j=0; j<modelAsset->getHeader()->numMeshes; j++ )
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), 0);

@@ -40,7 +40,7 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
 	Importer::Assets assets = *Importer::Assets::getInstance();
-	//Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
+	Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
 	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
  	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/molerat_animated.model" );
 	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
@@ -62,16 +62,16 @@ int main()
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
-	
+
 	//for( int i=0; i<nrOfTransforms; i++ )
 
 	/*skybox.setModelAsset(skyboxAsset);
 	skybox.worldMatrix[3][1] = 3;
 	*/
 	//allocateTransforms(nrOfTransforms);
-	for( int i=0; i<nrOfTransforms; i++ )
+	for( int i=0; i<nrOfTransforms -1; i++ )
 		engine->renderQueue.addModelInstance(molebat);
-	
+	engine->renderQueue.addModelInstance(terrain);
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
