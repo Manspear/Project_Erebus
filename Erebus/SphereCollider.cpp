@@ -125,3 +125,13 @@ const float & SphereCollider::getRadius()
 {
 	return this->radius;
 }
+
+void SphereCollider::setPos(glm::vec3 pos)
+{
+	this->pos = pos;
+}
+
+void SphereCollider::setRadius(float radius)
+{
+	this->radius = radius;
+}

@@ -13,9 +13,15 @@ HitBox::HitBox(unsigned int ID, unsigned int IDTransform)
 {
 	this->ID = ID;
 	this->IDTransform = IDTransform;
+	this->IDCollisions.reserve(10);
 }
 
 
 HitBox::~HitBox()
 {
+}
+
+void HitBox::setIDTransform(unsigned int ID)
+{
+	this->IDTransform = ID;
 }
