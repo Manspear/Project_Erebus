@@ -32,9 +32,9 @@ namespace Gear
 		GEAR_API int getParticleCount();
 		//glm::mat4 modelMatrix;
 
+		ParticlePoint particleObject[maxParticles];
 	private:
 
-		ParticlePoint particleObject[maxParticles];
 		int particleCount;
 		GLuint vertexBuffer;
 		GLfloat duration;

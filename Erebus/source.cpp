@@ -134,7 +134,10 @@ int main()
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
 		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
-		
+		for (size_t i = 0; i < 10; i++)
+		{
+			engine->renderQueue.particles[i]->particleObject->pos += glm::vec3(deltaTime,0,0);
+		}
 
 		engine->draw(&camera);
 		window->update();	
