@@ -15,13 +15,17 @@ public:
 	void addHitbox(AABBCollider* aabb);
 	void addHitbox(AABBSquareCollider* aabb);
 	void checkCollisions();
-	void checkSphereCollisions();
-
+	void checkSphereToSphereCollisions();
+	void checkAabbToAaabbCollisions();
+	void checkSphereToAabbCollisions();
+	void updateSpherePos();
+	void updateAabbPos();
 private:
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
 	std::vector<AABBSquareCollider*> aabbSquareColliders;
 	bool sphereToSphereCollision(SphereCollider* sphere1, SphereCollider* sphere2);
 	bool aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2);
+
 };
 

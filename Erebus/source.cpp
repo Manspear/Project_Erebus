@@ -54,14 +54,18 @@ int main()
 	HeightMap *heightMap = new HeightMap();
 
 	unsigned int transformID = 0;
-	unsigned int sphereID = 0;
-	SphereCollider sphere1 = SphereCollider(sphereID++,transformID++,glm::vec3(3,3,3), 1);
-	SphereCollider sphere2 = SphereCollider(sphereID++, transformID++, glm::vec3(3, 3, 3), 1);
+	unsigned int hitboxID = 0;
+	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
+	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
+	AABBCollider aabb1 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
+	AABBCollider aabb2 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
 
 	CollisionHandler collisionHandler = CollisionHandler();
 
 	collisionHandler.addHitbox(&sphere1);
 	collisionHandler.addHitbox(&sphere2);
+	collisionHandler.addHitbox(&aabb1);
+	collisionHandler.addHitbox(&aabb2);
 	
 	heightMap->loadHeightMap(heightMapAsset, false);
 	
@@ -158,7 +162,11 @@ int main()
 		}
 
 		//Collisions
-		collisionHandler.checkSphereCollisions();
+		//collisionHandler.checkSphereToSphereCollisions();
+		//collisionHandler.checkAabbToAaabbCollisions();
+		collisionHandler.checkCollisions();
+		if (aabb1.checkCollision())
+			std::cout << "AABB Collision: " << aabb1.getIDCollisionsRef()->at(0) << std::endl;
 	}
 	delete heightMap;
 
