@@ -17,9 +17,9 @@ HeightMap::~HeightMap()
 
 void HeightMap::loadHeightMap(Importer::ImageAsset * map , bool includeRenderPart)
 {
-	heightMulti = .09f;
-	widthMulti = 10.0f;
-	breadthMulti = 10.0f;
+	heightMulti = .03f;
+	widthMulti = 1.0f;
+	breadthMulti = 1.0f;
 	this->mapWidth = map->getWidth();
 	this->mapHeight = map->getHeight();
 	

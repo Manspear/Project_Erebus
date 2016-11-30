@@ -34,10 +34,6 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
-	Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
-	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
-	//Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
-	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>("Models/moleman.model");
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
@@ -46,7 +42,6 @@ int main()
 	
 	heightMap->loadHeightMap(heightMapAsset, true);
 	engine->addStaticNonModel(heightMap->getStaticNonModel());
-	
 	
 	redTexture->bind();
 	std::vector<ModelInstance> models;
@@ -61,7 +56,6 @@ int main()
 
 	for (int i = 0; i < nrOfTransforms; i++)
 	{
-		//engine->renderQueue.addModelInstance(molebat);
 		allTransforms[i].setHMap(heightMap);
 	}
 	controls.setControl(&allTransforms[0]);
