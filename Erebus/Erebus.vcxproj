@@ -152,9 +152,11 @@
   <ItemGroup>
     <ClCompile Include="..\Importer\HeightMap.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="Magic.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,8 +185,10 @@
     <ClInclude Include="..\Importer\HeightMap.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="Magic.h" />
     <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h" />

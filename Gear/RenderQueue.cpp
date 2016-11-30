@@ -7,7 +7,7 @@ RenderQueue::RenderQueue(): nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr
 		allShaders[i] = nullptr;
 	}
 
-	int maximumNumberOfInstancesPerModel = 100;
+	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 }
 
