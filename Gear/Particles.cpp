@@ -4,9 +4,11 @@ namespace Gear
 {
 	Particle::Particle()
 	{
+		pos = { 0.0, 0.0, 0.0 };
+		color = { 0.0, 0.0, 0.0 };
 
-		particleObject[maxParticles].pos = { 0.0, 0.0, 0.0 };
-		particleObject[maxParticles].color = { 0.0, 0.0, 0.0 };
+		/*	particleObject[maxParticles].pos = { 0.0, 0.0, 0.0 };
+		particleObject[maxParticles].color = { 0.0, 0.0, 0.0 };*/
 
 		//duration = 0;
 		//speed = 1;

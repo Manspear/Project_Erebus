@@ -31,6 +31,9 @@ namespace Gear
 		//GEAR_API int getParticleCount();
 		//glm::mat4 modelMatrix;
 
+		glm::vec3 pos;
+		glm::vec3 color;
+
 		ParticlePoint particleObject[maxParticles];
 	private:
 

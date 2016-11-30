@@ -87,8 +87,11 @@ int main()
 
 	for (int i = 0; i < maxParticles; i++)
 	{
-		particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle[i].particleObject->color = { 1, 0, 0 };
+		//particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
+		//particle[i].particleObject->color = { 1, 0, 0 };
+
+		particle[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
+		particle[i].color = { 1, 0, 0 };
 
 		engine->renderQueue.particles.push_back( &particle[i] );
 
@@ -124,7 +127,7 @@ int main()
 
 		for (size_t i = 0; i < maxParticles; i++)
 		{
-			particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+			particle[i].pos += glm::vec3(deltaTime, 0, 0);
 		}
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
