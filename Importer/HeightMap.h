@@ -18,6 +18,7 @@ private:
 	int mapWidth, mapHeight;
 
 	float minX, maxX, minZ, maxZ;
+	float widthMulti, heightMulti, breadthMulti;
 	glm::vec3 pos;
 public:
 	HeightMap();

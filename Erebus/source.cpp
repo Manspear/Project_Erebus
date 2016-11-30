@@ -53,6 +53,8 @@ int main()
 	
 	heightMap->loadHeightMap(heightMapAsset, true);
 	engine->addStaticNonModel(heightMap->getStaticNonModel());
+	
+	
 	redTexture->bind();
 	std::vector<ModelInstance> models;
 	lua_State* L = luaL_newstate();
@@ -113,8 +115,10 @@ int main()
 
 	while (running && window->isWindowOpen())
 	{
-		deltaTime = counter.getDeltaTime();
 
+		std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
+		deltaTime = counter.getDeltaTime();
+		
 		inputs.update();
 		controls.sendControls(inputs, L);
 
