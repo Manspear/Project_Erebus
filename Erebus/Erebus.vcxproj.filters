@@ -41,17 +41,39 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\forward.frag" />
-    <None Include="Shaders\forward.geom" />
-    <None Include="Shaders\forward.vert" />
-    <None Include="Shaders\particle.frag" />
-    <None Include="Shaders\particle.geom" />
-    <None Include="Shaders\particle.vert" />
     <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Shaders\heightmap.frag" />
-    <None Include="Shaders\heightmap.vert" />
+    <None Include="Shaders\forward.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\forward.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\forward.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\heightmap.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\heightmap.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\particle.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\particle.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\particle.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\g_Buffer.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\g_Buffer.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -62,6 +84,9 @@
     </Filter>
     <Filter Include="Scripts">
       <UniqueIdentifier>{bcc5d642-deca-4746-8214-af93e12cf7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{abb6915a-e0bb-4ed6-b204-1fd7a73e0b05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

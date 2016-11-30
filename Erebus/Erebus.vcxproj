@@ -173,6 +173,8 @@
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\g_Buffer.frag" />
+    <None Include="Shaders\g_Buffer.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\particle.frag" />

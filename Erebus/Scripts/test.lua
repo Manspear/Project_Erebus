@@ -35,7 +35,7 @@ end
 
 function doDaHustle()
 	for i = 1, nrOfEnemies do
-		Transform.Follow(player.trans, enemy[i], enemySpeeds[i])
+		--Transform.Follow(player.trans, enemy[i], enemySpeeds[i])
 	end
 end
 
