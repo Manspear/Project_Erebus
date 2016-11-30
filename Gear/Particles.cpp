@@ -7,8 +7,8 @@ namespace Gear
 		this->particleCount = 10;
 		for (int i = 0; i < this->particleCount; i++)
 		{
-			this->vertexObject[i].pos = { 0.0, 0.0, 0.0 };
-			this->vertexObject[i].color = { 0.0, 0.0, 0.0 };
+			this->particleObject[i].pos = { 0.0, 0.0, 0.0 };
+			this->particleObject[i].color = { 0.0, 0.0, 0.0 };
 		}
 		glGenBuffers(1, &vertexBuffer);
 		//duration = 0;
@@ -21,8 +21,8 @@ namespace Gear
 
 		for (int i = 0; i < 10; i++)
 		{
-			this->vertexObject[i].pos = { 0.0, 0.0, 0.0 };
-			this->vertexObject[i].color = { 0.0, 0.0, 0.0 };
+			this->particleObject[i].pos = { 0.0, 0.0, 0.0 };
+			this->particleObject[i].color = { 0.0, 0.0, 0.0 };
 		}
 		//this->pos = pos;
 		//this->duration = duration;
@@ -50,7 +50,7 @@ namespace Gear
 		//GLuint vbo;
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertex) * this->particleCount, &vertexObject, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ParticlePoint) * this->particleCount, &particleObject, GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2* sizeof(glm::vec3), (GLvoid*)0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2* sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
 		glEnableVertexAttribArray(0);
@@ -61,15 +61,15 @@ namespace Gear
 
 	void Particle::setParticle(glm::vec3 pos, glm::vec3 color, int i)
 	{
-		this->vertexObject[i].pos = pos;
-		this->vertexObject[i].color = color;
+		this->particleObject[i].pos = pos;
+		this->particleObject[i].color = color;
 	}
 
-	vertex Particle::getParticle()
+	ParticlePoint Particle::getParticle()
 	{
 		for (int i = 0; i < this->particleCount; i++)
 		{
-			return vertexObject[i];
+			return particleObject[i];
 		}
 	}
 

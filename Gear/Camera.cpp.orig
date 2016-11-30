@@ -4,12 +4,13 @@ Camera::Camera()
 {	
 	glm::mat4 pers = glm::perspective(45.f, 1280.f / 720.f, 0.5f, 20.f);
 	viewMat = pers * glm::lookAt(glm::vec3(0, 0, 10.0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	freeCam = false;
+	freeCam = true;
+	angle = (3.14 / 2) / 4;
 }
 
 Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, Inputs* in)
 {
-	horizontalAngle = 0;
+	horizontalAngle = 3.14f;
 	verticalAngle = 0;
 	inputs = in;
 	camSpeed = 5.0f;
@@ -18,7 +19,9 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	camUp = { 0, 1, 0 };
 	projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
 	viewMat = glm::lookAt(camPosition, camDirection, camUp);
-	freeCam = false;
+	freeCam = true;
+	angle = (3.14 / 2) / 4;
+	dir = 1;
 }
 
 Camera::~Camera()
@@ -34,10 +37,19 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 	if (!freeCam) {
 		camPosition = newPos;
 		camDirection = camPosition + newDir;
+		camPosition -= camDirection * (float)inputs->getScroll();
+		camDirection += camDirection * (float)inputs->getScroll();
 	}
 	else{
-		glm::vec3 tempforward = { camDirection.x, 0, camDirection.z };
+		glm::vec3 tempforward = glm::normalize( glm::vec3(camDirection.x, 0, camDirection.z ));
+		camDirection = glm::normalize(camDirection);
+		if (inputs->keyPressed(GLFW_KEY_LEFT_SHIFT))
+			camSpeed = TURBO_CAM_SPEED;
+		else {
+			camSpeed = BASE_CAM_SPEED;
+		}
 
+		//space = upp, x = ned, w = fram, s = bak, a = vänster, d = höger
 		if (inputs->keyPressed(GLFW_KEY_SPACE))
 			camPosition += glm::vec3(0, 1, 0) * dt * camSpeed;
 		if (inputs->keyPressed(GLFW_KEY_X))
@@ -47,19 +59,23 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 		if (inputs->keyPressed(GLFW_KEY_S))
 			camPosition -= camDirection * dt * camSpeed;
 		if (inputs->keyPressed(GLFW_KEY_A))
-			camPosition -= cross(camDirection, { 0,1,0 }) * dt * camSpeed;
+			camPosition -= cross(tempforward, { 0,1,0 }) * dt * camSpeed;
 		if (inputs->keyPressed(GLFW_KEY_D))
-			camPosition += cross(camDirection, { 0,1,0 }) * dt * camSpeed;
-
-		// fixa rotation av kamera som ett mlg barn igen!- okej, då kör vi! p:
+			camPosition += cross(tempforward, { 0,1,0 }) * dt * camSpeed;
 
 		tempforward = glm::normalize(tempforward);
 		glm::vec3 newAxisZ = glm::cross(tempforward, { 0,1,0 });
 
 		MousePos dPos = inputs->getDeltaPos();
 
-		horizontalAngle += dPos.x / 100.f;
-		verticalAngle += dPos.y / 100.f;
+		horizontalAngle += (float)dPos.x / 100.f;
+		verticalAngle += (float)dPos.y / 100.f;
+		if (horizontalAngle > 2 * 3.14f) {
+			horizontalAngle -= 2 * 3.14f;
+		}
+		if (abs(verticalAngle) > 3.14f/2) {
+			verticalAngle -= (float)dPos.y / 100.f;
+		}
 
 		camDirection = glm::vec3(
 			cos(verticalAngle) * sin(horizontalAngle),
@@ -79,10 +95,24 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 	viewMat = glm::lookAt(camPosition, camPosition + camDirection, camUp);
 }
 
+GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance)
+{
+	/*glm::vec3 tempForward(direction.x, 0, direction.z);
+	tempForward = glm::normalize(tempForward);
+	tempForward *= cosf(angle) * distance;
+<<<<<<< HEAD
+	this->camPosition = point + glm::vec3(0, distance*sinf(angle), 0) - tempForward;
+//	this->camPosition = point + direction * distance;
+=======
+	this->camPosition = point + glm::vec3(0, distance*sinf(angle), 0) - tempForward;*/
+	camPosition = point - direction*distance;
+>>>>>>> origin/Dev_Main
+	this->viewMat = glm::lookAt(camPosition, point, camUp);
+}
+
 glm::mat4 Camera::getViewPers()
 {
 	return projectionMat * viewMat;
-<<<<<<< HEAD
 }
 
 
@@ -105,12 +135,3 @@ glm::vec3 Camera::getDirection()
 {
 	return this->camDirection;
 }
-=======
-	return projectionMat * viewMat;
-}
-
-GEAR_API void Camera::setFreeCam(bool free)
-{
-	this->freeCam = free;
-}
->>>>>>> 358c1e4792db2293b2153f38e029b67d3968a886

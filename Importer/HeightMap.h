@@ -3,6 +3,7 @@
 #include "BaseIncludes.h"
 #include "TextureAsset.h"
 #include <math.h>
+#include "staticNonModels.h"
 
 class HeightMap
 {
@@ -29,5 +30,6 @@ public:
 	void setPos(const glm::vec3& pos);
 	float getPos(float x, float z);
 	bool rayIntersection(glm::vec3 rayO, glm::vec3 rayD);
+	staticNonModels* getStaticNonModel();
 };
 

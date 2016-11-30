@@ -18,7 +18,7 @@ namespace Importer
 	class Assets
 	{
 	public:
-		IMPORTER_API Assets();
+		IMPORTER_API static Assets* getInstance();
 		IMPORTER_API virtual ~Assets();
 
 		template<typename T>
@@ -45,6 +45,8 @@ namespace Importer
 		}
 
 	private:
+		IMPORTER_API Assets();
+
 		std::map<std::string, Asset*> assets;
 	};
 }

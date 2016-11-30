@@ -2,6 +2,11 @@
 #include <lua\lua.hpp>
 #include "Transform.h"
 #include "BaseIncludes.h"
+#include "Gear.h"
+
+Window *window = new Window();
+Gear::GearEngine *engine = new Gear::GearEngine();
+Importer::Assets assets = *Importer::Assets::getInstance();
 
 Transform* allTransforms;
 int nrOfTransforms = 0;
@@ -25,11 +30,33 @@ double deltaTime = 0.0;
 
 int initStuff(lua_State *L)
 {
-	Importer::Assets assets;
-	Importer::ModelAsset* molebatt = assets.load<Importer::ModelAsset>("Models/moleRat.mtf");
 	nrOfTransforms = lua_tointeger(L, -1);
 	allocateTransforms(nrOfTransforms);
 	return 0;
+}
+
+int importModels(lua_State *L)
+{
+	Importer::ModelAsset* tempModel = assets.load<Importer::ModelAsset>(lua_tostring(L, -2));
+	for (int i = 0; i < lua_tointeger(L, -1); i++)
+		engine->renderQueue.addModelInstance(tempModel);
+	return 0;
+}
+
+void initLua(lua_State * L)
+{
+	luaL_newmetatable(L, "initTable");
+	luaL_Reg transformRegs[] =
+	{
+		{ "InitStuff",      initStuff },
+		{ "LoadModels",		importModels},
+		{ NULL, NULL }
+	};
+	luaL_setfuncs(L, transformRegs, 0);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -1, "__index");
+	int n = lua_gettop(L);
+	lua_setglobal(L, "Engine");
 }
 
 int transformBind(lua_State* L)
@@ -76,7 +103,6 @@ void transformReg(lua_State * L)
 	luaL_newmetatable(L, "transformTable");
 	luaL_Reg transformRegs[] =
 	{
-		{ "InitStuff",      initStuff },
 		{ "Bind",			transformBind},
 		{ "Destroy",		transformDestroy},
 		{ "Move",			transformMove},

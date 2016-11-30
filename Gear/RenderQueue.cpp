@@ -7,7 +7,7 @@ RenderQueue::RenderQueue(): nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr
 		allShaders[i] = nullptr;
 	}
 
-	int maximumNumberOfInstancesPerModel = 100;
+	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 }
 
@@ -40,6 +40,7 @@ void RenderQueue::init()
 
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
+	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -196,4 +197,8 @@ int RenderQueue::addModelInstance( ModelAsset* asset )
 		0, 0, nrOfWorlds, 1 );
 
 	return result;
+}
+
+ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
+	return this->allShaders[type];
 }

@@ -1,7 +1,5 @@
 #include "HeightMap.h"
 
-
-
 HeightMap::HeightMap()
 {
 	
@@ -130,6 +128,53 @@ void HeightMap::Draw() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+staticNonModels* HeightMap::getStaticNonModel() {
+	int* dataSizes = new int[2];
+	dataSizes[0] = 3;
+	dataSizes[1] = 2;
+	staticNonModels* model = new staticNonModels(this->VBO, this->iVBO, 2, dataSizes, 5, iVBOsize / sizeof(unsigned int), ShaderType::HEIGHTMAP,&this->worldMatrix);
+	//delete dataSizes;
+	return model;
+}
+
+//struct staticNonModels {
+//	GLuint VBO, iVBO;
+//	float* data;
+//	int nrDiffValues;
+//	int* dataSizes;
+//	int dataStride;
+//	int iVBOsize;
+//	staticNonModels(GLuint VBO, GLuint iVBO,
+//		float* data, int nrDiffValues, int* dataSizes,
+//		int dataStride, int iVBOsize) {
+//		this->VBO = VBO;
+//		this->iVBO = iVBO;
+//		this->data = data;
+//		this->nrDiffValues = nrDiffValues;
+//		this->dataSizes = dataSizes;
+//		this->iVBOsize = iVBOsize;
+//	}
+//
+//	void draw() {
+//		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//		for (size_t i = 0; i < nrDiffValues; i++)
+//		{
+//			glEnableVertexAttribArray(i);
+//			glVertexAttribPointer(i, dataSizes[i], GL_FLOAT, GL_FALSE, sizeof(float) * dataStride, (void*)(sizeof(float) *((i>0)? dataSizes[i-1] : 0)));
+//		}
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
+//		glDrawElements(GL_TRIANGLES, iVBOsize, GL_UNSIGNED_INT, 0);
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+//		//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+//		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
+//		//glDrawElements(GL_TRIANGLES, iVBOsize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+//
+//		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//	}
+//	
+//};
+
 glm::mat4 HeightMap::getWorldMat() {
 	
 	return this->worldMatrix;
@@ -145,7 +190,7 @@ void HeightMap::setPos(const glm::vec3& pos) {
 float HeightMap::getPos(float x, float z) {
 	if (x < 0 || z < 0
 		|| x>= mapWidth || z>= mapHeight)
-		return 0;
+		return -50;
 
 	if (x > 35 && z > 35)
 		int k =  0;

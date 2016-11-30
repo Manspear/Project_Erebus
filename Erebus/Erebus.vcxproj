@@ -152,7 +152,6 @@
   <ItemGroup>
     <ClCompile Include="..\Importer\HeightMap.cpp" />
     <ClCompile Include="Controls.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -184,7 +183,6 @@
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
     <ClInclude Include="PerformanceCounter.h" />
-    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h" />

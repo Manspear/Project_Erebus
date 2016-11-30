@@ -160,6 +160,7 @@
     <ClInclude Include="RenderQueueElement.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="staticNonModels.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
