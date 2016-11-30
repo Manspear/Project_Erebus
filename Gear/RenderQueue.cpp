@@ -40,6 +40,7 @@ void RenderQueue::init()
 
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
+	allShaders[ShaderType::G_BUFFER] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "g_Buffer");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -51,6 +52,9 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[FORWARD]->addUniform(camera->getPosition(), "lightPos");
 	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 	allShaders[FORWARD]->unUse();
+
+	allShaders[G_BUFFER]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[G_BUFFER]->addUniform(camera->getViewMatrix(), "viewMatrix");
 
 	allShaders[PARTICLES]->use();
 	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -108,7 +112,7 @@ GEAR_API void RenderQueue::allocateWorlds(int n)
 
 GEAR_API void RenderQueue::draw()
 {
-	currentShader = FORWARD;
+	currentShader = ShaderType::G_BUFFER;
 	allShaders[currentShader]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID() , "worldMatrix");
 	GLuint worldMatricesLocation = glGetUniformLocation( allShaders[currentShader]->getProgramID(), "worldMatrices" );
@@ -147,10 +151,6 @@ GEAR_API void RenderQueue::draw()
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 3));
 			glEnableVertexAttribArray(2);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 6));
-			glEnableVertexAttribArray(3);
-			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 8));
-			glEnableVertexAttribArray(4);
-			glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 11));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced( GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance );
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -159,9 +159,9 @@ GEAR_API void RenderQueue::draw()
 	}
 	allShaders[currentShader]->unUse();
 
-	allShaders[PARTICLES]->use();
+	/*allShaders[PARTICLES]->use();
 	particles[0]->draw( allShaders[PARTICLES]->getProgramID() );
-	allShaders[PARTICLES]->unUse();
+	allShaders[PARTICLES]->unUse();*/
 }
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)

@@ -18,6 +18,6 @@ void main(){
 	FragPos = (worldMatrices[gl_InstanceID] * vec4(position,1.0)).xyz;
 	TexCoords = texCoords;
 
-	mat3 normalMatrix = transpose(inverse(mat3(model)));
+	mat3 normalMatrix = transpose(inverse(mat3(worldMatrices[gl_InstanceID])));
     Normal = normalMatrix * normal;
 }

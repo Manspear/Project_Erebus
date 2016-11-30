@@ -26,6 +26,12 @@ namespace Gear
 	/*	std::vector<ShaderProgram*> allShaders;*/
 
 	private:
+		//DebugQuad
+		GLuint quadVAO = 0;
+		GLuint quadVBO;
+		ShaderProgram *quadShader;
 		//Window* window;
+		ShaderProgram gBuffer;
+		void drawQuad();
 	};
 }

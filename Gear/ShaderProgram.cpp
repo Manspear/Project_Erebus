@@ -79,17 +79,46 @@ void ShaderProgram::framebufferInit(int nrTex, int width, int height, GLuint* in
 	bindFramebuffer(nrOfTextures, attachments, textureIDs, framebufferID);
 }
 
+void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * internalFormat, GLuint * format, GLuint * type, GLuint * attachments)
+{
+	nrOfTextures = nrTex;
+	textureIDs = new GLuint[nrOfTextures];
+	glGenFramebuffers(1, &framebufferID);
+	glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+	for (int i = 0; i < nrOfTextures; i++)
+	{
+		textureIDs[i] = addTexture(width, height, internalFormat[i], format[i], type[i]);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, attachments[i], GL_TEXTURE_2D, textureIDs[i], 0);
+	}
+
+	glDrawBuffers(3, attachments);
+
+	GLuint rboDepth;
+	glGenRenderbuffers(1, &rboDepth);
+	glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+	// - Finally check if framebuffer is complete
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "Framebuffer not complete!" << std::endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+}
+
 void ShaderProgram::use()
 {
-	glUseProgram(programID);
+	if (programID != 0)
+	{
+		glUseProgram(programID);
+	}
 	if (framebufferID != 0)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
-		for (int i = 0; i < nrOfTextures; i++)
+		/*for (int i = 0; i < nrOfTextures; i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
-		}
+		}*/
 	}
 	for (int i = 0; i < totalAttributes; i++)
 		glEnableVertexAttribArray(i);
@@ -109,6 +138,14 @@ void ShaderProgram::bindTexToLocation(GLuint* textures)
 	{
 
 	}
+}
+
+void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture)
+{
+	GLuint uniform = glGetUniformLocation(shader->getProgramID(), name);
+	glActiveTexture(GL_TEXTURE0 + texture);
+	glUniform1i(uniform, texture);
+	glBindTexture(GL_TEXTURE_2D, textureIDs[texture]);
 }
 
 GLuint ShaderProgram::getProgramID()

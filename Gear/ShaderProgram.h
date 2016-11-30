@@ -14,6 +14,7 @@ enum ShaderType {
 	FORWARD,
 	PARTICLES,
 	SHADOW,
+	G_BUFFER,
 	NUM_SHADER_TYPES
 };
 
@@ -32,9 +33,11 @@ public:
 	~ShaderProgram();
 
 	void framebufferInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments);
+	void deferredInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments);
 	void use();
 	void unUse();
 	void bindTexToLocation(GLuint* textures);
+	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture);
 
 	GLuint getProgramID();
 	GLuint* getTextures();

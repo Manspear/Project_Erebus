@@ -104,7 +104,7 @@ int main()
 
 		inputs.update();
 		controls.sendControls(inputs, L);
-		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+		//particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);		
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
