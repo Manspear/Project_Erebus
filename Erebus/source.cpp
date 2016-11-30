@@ -24,13 +24,6 @@
 
 void allocateTransforms(int n);
 
-	/*
-		collisionHandler kollar kollision mellan alla hitboxes
-		Alla hitboxes har en lista med ID på andra hitboxes den collidar med
-		Alla hitboxes har ID, ID på en transform den följer och lista på ID med hitboxar den collidar med. kanske ID på vilken sorts hitbox den är?
-
-		Hitbox ID, IDT, LISTA ID
-	*/
 Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
 
