@@ -35,7 +35,7 @@ public:
 	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::Particle*> particles;
-
+	
 private:
 	int currentShader = 0;
 	int currentTexture = 0;
@@ -46,6 +46,7 @@ private:
 	glm::mat4* tempMatrices;
 	int nrOfWorlds;
 	int totalWorlds;
+	GLuint particleVertexBuffer;
 private:
 	void configure(RenderQueueId &id, GLuint &shaderProgramId);
 
