@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,8 +153,9 @@
 <<<<<<< HEAD
     <ClCompile Include="Magic.cpp" />
 =======
+    <ClCompile Include="..\Importer\HeightMap.cpp" />
+>>>>>>> Dev_Main
     <ClCompile Include="Controls.cpp" />
->>>>>>> origin/Dev_Main
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
@@ -168,18 +169,27 @@
     <ProjectReference Include="..\Importer\Importer.vcxproj">
       <Project>{56d70726-725f-48e5-b935-71a5451ccd72}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Nurn\Nurn.vcxproj">
+      <Project>{db7257bd-f056-4eeb-9db7-66b785ceb0e6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\test.lua" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\heightmap.frag" />
+    <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\particle.frag" />
     <None Include="Shaders\particle.geom" />
     <None Include="Shaders\particle.vert" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClInclude Include="Magic.h" />
+=======
+    <ClInclude Include="..\Importer\HeightMap.h" />
+>>>>>>> Dev_Main
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
     <ClInclude Include="PerformanceCounter.h" />

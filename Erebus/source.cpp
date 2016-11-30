@@ -10,7 +10,6 @@
 #include "Transform.h"
 #include "PerformanceCounter.h"
 #include "Particles.h"
-#include "Player.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
@@ -51,7 +50,7 @@ int main()
 	heightMap->loadHeightMap(heightMapAsset, false);
 	
 	redTexture->bind();
-
+	std::vector<ModelInstance> models;
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 	transformReg(L);
@@ -60,11 +59,12 @@ int main()
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
 	
-	for( int i=0; i<nrOfTransforms; i++ )
-	skybox.setModelAsset(skyboxAsset);
+	//for( int i=0; i<nrOfTransforms; i++ )
+
+	/*skybox.setModelAsset(skyboxAsset);
 	skybox.worldMatrix[3][1] = 3;
 	*/
-	allocateTransforms(105);
+	//allocateTransforms(nrOfTransforms);
 	for( int i=0; i<3; i++ )
 		engine->renderQueue.addModelInstance(molebat);
 	
@@ -73,11 +73,11 @@ int main()
 	glm::vec3 color;
 
 	controls.setControl(&allTransforms[0]);
-	player.weperino.fml = &engine->renderElements;
+	//player.weperino.fml = &engine->renderElements;
 	
-	for (int i = 0; i < 100; i++) {
+	/*for (int i = 0; i < 100; i++) {
 		player.weperino.magics[i].transform = &allTransforms[engine->renderQueue.addModelInstance(molebat)];
-	}
+	}*/
 	controls.setControl(&allTransforms[2]);
 
 	for (int i = 0; i < particle.getParticleCount(); i++)
@@ -102,8 +102,7 @@ int main()
 
 	bool running = true;
 	float* transforms = new float[6 * nrOfTransforms];
-	float* transforms = new float[6 * 104];
-	glm::vec3* lookAts = new glm::vec3[104];
+	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication);
@@ -115,11 +114,11 @@ int main()
 
 		inputs.update();
 		controls.sendControls(inputs, L);
-		player.update(&inputs, deltaTime);
+		//player.update(&inputs, deltaTime);
 		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
-		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5.f);
-		for (int i = 0; i < nrOfTransforms; i++) 
-		for (int i = 0; i < 104; i++) {
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
+
+		for (int i = 0; i < nrOfTransforms; i++) {
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -132,7 +131,7 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 104, lookAts);
+		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
 		
 
 		engine->draw(&camera);
@@ -155,7 +154,6 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-			controls.setControl(&allTransforms[++index%50]);
 	}
 	delete[] transforms;
 	delete[] lookAts;
@@ -165,9 +163,6 @@ int main()
 	{
 		networkThread.join();
 	}
-
-	delete[] lookAts;
-	delete[] transforms;
 
 	delete[] allTransforms;
 	lua_close(L);
