@@ -14,7 +14,6 @@ public:
 	GEAR_API GLFWwindow* getGlfwWindow();
 	GLFWwindow * getWindow();
 private:
-	const int WINDOW_WIDTH = 1280, WINDOW_HEIGHT = 720;
 	GLFWwindow* window;
 
 	void initWindow();

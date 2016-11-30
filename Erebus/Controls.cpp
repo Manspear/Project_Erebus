@@ -2,8 +2,9 @@
 
 Controls::Controls()
 {
-	keys[0] = GLFW_KEY_W; keys[1] = GLFW_KEY_S; keys[2] = GLFW_KEY_A; keys[3] = GLFW_KEY_D; keys[4] = GLFW_KEY_SPACE;
-	nrOfKeys = 5;
+	keys[0] = GLFW_KEY_W; keys[1] = GLFW_KEY_S; keys[2] = GLFW_KEY_A; keys[3] = GLFW_KEY_D; keys[4] = GLFW_KEY_SPACE; 
+	keys[5] = GLFW_KEY_LEFT_SHIFT;	keys[6] = GLFW_KEY_TAB;
+	nrOfKeys = 7;
 }
 
 Controls::~Controls()
@@ -11,7 +12,7 @@ Controls::~Controls()
 
 }
 
-void Controls::sendControls(Inputs &input)
+void Controls::sendControls(Inputs &input, lua_State* L)
 {
 	std::vector<int> pressedKeys;
 	for (int i = 0; i < nrOfKeys; i++)
@@ -19,19 +20,30 @@ void Controls::sendControls(Inputs &input)
 		if (input.keyPressed(keys[i]))
 			pressedKeys.push_back(i);
 	}	
-	for (int i = 0; i < pressedKeys.size(); i++)
+
+	for (int i = nrOfKeys; i < nrOfRelease; i++)
 	{
-		if (pressedKeys.at(i) == 0)
-			controlled->move({ 1, 0, 0 }, 0.1);
-		else if (pressedKeys.at(i) == 1)
-			controlled->move({ -1, 0, 0 }, 0.1);
-		else if (pressedKeys.at(i) == 2)
-			controlled->move({ 0, 0, 1 }, 0.1);
-		else if (pressedKeys.at(i) == 3)
-			controlled->move({ 0, 0, -1 }, 0.1);
-		else if (pressedKeys.at(i) == 4)
-			controlled->move({ 0, 1, 0 }, 0.1);
-	}	
+		if (input.keyPressedThisFrame(keys[i]))
+			pressedKeys.push_back(i);
+	}
+
+	if (pressedKeys.size() > 0)
+	{
+		lua_getglobal(L, "Controls");
+		lua_getglobal(L, "buttons");
+		for (int i = 0; i < pressedKeys.size(); i++)
+		{
+			lua_pushinteger(L, i + 1);
+			lua_pushinteger(L, pressedKeys.at(i));
+			lua_settable(L, -3);
+		}
+		lua_pcall(L, 1, 0, 0);
+		lua_pop(L, lua_gettop(L));
+	}
+
+	lua_getglobal(L, "doDaHustle");
+	if(lua_pcall(L, 0, 0, 0))
+		std::cout << lua_tostring(L, -1);
 
 	MousePos dPos = input.getDeltaPos();
 	glm::vec3 rotation = controlled->getRotation();

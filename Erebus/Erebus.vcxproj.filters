@@ -18,8 +18,8 @@
     <ClCompile Include="Controls.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Importer\HeightMap.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +42,9 @@
     <ClInclude Include="LuaBinds.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="..\Importer\HeightMap.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\forward.frag" />
@@ -53,6 +56,8 @@
     <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Shaders\heightmap.frag" />
+    <None Include="Shaders\heightmap.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

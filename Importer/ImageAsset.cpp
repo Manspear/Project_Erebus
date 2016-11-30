@@ -56,7 +56,7 @@ namespace Importer
 
 	ImageAsset::Pixel ImageAsset::getPixelValue( int x, int y ) const
 	{
-		return *((Pixel*)pixels[y*width*IMAGE_BPP + x]);
+		return *((Pixel*)(pixels + y*width*IMAGE_BPP + x*IMAGE_BPP));
 	}
 
 	int ImageAsset::getWidth() const

@@ -35,13 +35,13 @@
     <ClCompile Include="Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModelAsset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextureAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImageAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

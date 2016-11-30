@@ -4,6 +4,7 @@
 
 #define BASE_CAM_SPEED 8.0f
 #define TURBO_CAM_SPEED 13.0f
+
 class Camera 
 {
 public:
@@ -18,6 +19,7 @@ public:
 	GEAR_API glm::mat4 getProjectionMatrix();
 	GEAR_API glm::vec3 getPosition();
 	GEAR_API glm::vec3 getDirection();
+	
 private:
 	Inputs *inputs;
 	bool freeCam;
