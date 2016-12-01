@@ -145,10 +145,12 @@ GEAR_API void RenderQueue::draw()
 
 		for( int j=0; j<modelAsset->getHeader()->numMeshes; j++ )
 		{
+			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+			int aids = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), 0);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 3));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Importer::sVertex), (void*)(sizeof(float) * 6));
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, aids, 0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 3));
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 6));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced( GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance );
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -157,7 +159,7 @@ GEAR_API void RenderQueue::draw()
 	}
 	allShaders[currentShader]->unUse();
 
-	allShaders[PARTICLES]->use();
+	/*allShaders[PARTICLES]->use();
 
 	for (size_t i = 0; i <  particles.size(); i++)
 	{
@@ -179,7 +181,7 @@ GEAR_API void RenderQueue::draw()
 		glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
 	}
 
-	allShaders[PARTICLES]->unUse();
+	allShaders[PARTICLES]->unUse();*/
 }
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)

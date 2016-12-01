@@ -1,24 +1,6 @@
 #pragma once
 
-#ifdef NURN_EXPORTS
-#define NURN_API __declspec(dllexport)
-#else
-#define NURN_API __declspec(dllimport)
-#endif
-
-// platform detection
-
-#define PLATFORM_WINDOWS  1
-#define PLATFORM_MAC      2
-#define PLATFORM_UNIX     3
-
-#if defined(_WIN32)
-#define PLATFORM PLATFORM_WINDOWS
-#elif defined(__APPLE__)
-#define PLATFORM PLATFORM_MAC
-#else
-#define PLATFORM PLATFORM_UNIX
-#endif
+#include "NetworkDefines.hpp"
 
 #if PLATFORM == PLATFORM_WINDOWS
 
@@ -39,24 +21,39 @@
 #include <assert.h>
 #include "Address.hpp"
 
+
+#ifdef USING_UDP
+#include "UDPCommunication.hpp"
+#elif USING_TCP
+#include "TCPCommunication.hpp"
+#endif
+
 namespace Nurn
 {
 	class NURN_API NurnEngine 
 	{
 	public:
-		NurnEngine(void);
-		~NurnEngine(void);
-		bool InitializeSockets();
-		void ShutdownSockets();
-		bool CreateUDPSocket(const unsigned short & port);
-		void CloseSocket();
+		NurnEngine();
+		virtual ~NurnEngine();
 
+		// Takes an ipv4 address with each of the 255 values seperated by commas, for example ( 127, 0, 0, 1 )
+		bool Initialize(unsigned char ip1, unsigned char ip2, unsigned char ip3, unsigned char ip4, int port = 35500);
+
+		bool Send(const void * data, int size);
 		bool Send(const Address & destination, const void * data, int size);
-		int Receive(Address & sender, void * data, int size);
+
+		bool Receive(void * data, int size);
+		bool Receive(Address & sender, void * data, int size);
+
+		void Shutdown();
 
 	private:
-		bool IsOpen() const;
+		Address address;
 
-		int networkSocket;
+#ifdef USING_UDP
+		UDPCommunication netCommunication;
+#elif USING_TCP
+		TCPCommunication netCommunication;
+#endif
 	};
 }

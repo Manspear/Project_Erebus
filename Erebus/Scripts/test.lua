@@ -5,7 +5,7 @@ enemy = {trans = {}, ms = {}}
 enemySpeeds = {}
 Engine.InitStuff(nrOfActors)
 
-modelPaths = {{"Models/moleman.model", 25}}
+modelPaths = {{"Models/moleman.model", 25}, {"Models/molerat.model", 25}}
 print(#modelPaths)
 for i = 1, #modelPaths do
 	Engine.LoadModels(modelPaths[i][1], modelPaths[i][2])
@@ -32,8 +32,7 @@ function Controls()
 		if buttons[i] == 1 then	forward = -player.moveSpeed  end
 		if buttons[i] == 2 then	left = player.moveSpeed  end
 		if buttons[i] == 3 then left = -player.moveSpeed  end
-		if buttons[i] == 4 then up = player.moveSpeed  end
-		if buttons[i] == 5 then up = -player.moveSpeed  end
+		if buttons[i] == 4 then up = player.moveSpeed  else up = -player.moveSpeed  end
 		if buttons[i] == 6 then ChangePlayer() end
 	end	
 	Transform.Move(player.trans, forward, up, left)
