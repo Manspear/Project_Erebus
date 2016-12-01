@@ -60,17 +60,17 @@ int main()
 	}
 	controls.setControl(&allTransforms[0]);
 
-	engine->renderQueue.addModelInstance(terrain);
-	Gear::Particle particle[10];
+	//engine->renderQueue.addModelInstance(terrain);
+	//Gear::Particle particle[10];
 
-	for (int i = 0; i < maxParticles; i++)
-	{
-		particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle[i].particleObject->color = { 1, 0, 0 };
+	//for (int i = 0; i < maxParticles; i++)
+	//{
+	//	particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
+	//	particle[i].particleObject->color = { 1, 0, 0 };
 
-		engine->renderQueue.particles.push_back( &particle[i] );
+	//	engine->renderQueue.particles.push_back( &particle[i] );
 
-	}
+	//}
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -94,15 +94,15 @@ int main()
 	while (running && window->isWindowOpen())
 	{
 
-		std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
+		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs, L);
 
-		for (size_t i = 0; i < maxParticles; i++)
-		{
-			particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
-		}
+		//for (size_t i = 0; i < maxParticles; i++)
+		//{
+		//	particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+		//}
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
