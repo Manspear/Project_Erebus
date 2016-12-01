@@ -165,11 +165,7 @@ int main()
 		}
 
 		//Collisions
-		//collisionHandler.checkSphereToSphereCollisions();
-		//collisionHandler.checkAabbToAaabbCollisions();
 		collisionHandler.checkCollisions();
-		if (aabb1.checkCollision())
-			std::cout << "AABB Collision: " << aabb1.getIDCollisionsRef()->at(0) << std::endl;
 	}
 	delete[] transforms;
 	delete[] lookAts;
