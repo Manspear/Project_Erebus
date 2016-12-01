@@ -1,0 +1,75 @@
+#include "Gear.h"
+#include "BaseIncludes.h"
+
+struct ScreenVertex
+{
+	float x, y, s, t;
+};
+GLuint testScreen;
+namespace Gear
+{
+	GearEngine::GearEngine()
+	{
+		glewInit();
+		renderQueue.init();
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/Dev_Main
+	}
+
+	GearEngine::~GearEngine()
+	{
+
+		glfwTerminate();
+	}
+
+	void GearEngine::draw(Camera* camera) {
+		/* Render here */
+		//TEMP--------
+		renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		renderElements[1]->id = RenderQueueId(FORWARD, 0);
+		renderElements[2]->id = RenderQueueId(FORWARD, 0);
+		renderElements[3]->id = RenderQueueId(FORWARD, 0);
+		//------------
+		
+		//TEMP--------
+<<<<<<< HEAD
+<<<<<<< HEAD
+		renderQueue.updateUniforms(camera);;
+		renderQueue.updateUniforms(camera);
+		renderQueue.draw();
+		//renderQueue.process( renderElements );
+=======
+		renderQueue.updateUniforms(camera);
+>>>>>>> b0875c71bffaf399c3444bf79bb7dbd7d7913fff
+		renderQueue.process( renderElements );
+		renderQueue.updateUniforms(camera);;
+			
+		renderQueue.process( renderElements );
+>>>>>>> b70f50ddecf681c85489e57045ffff160976ac23
+=======
+		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
+<<<<<<< HEAD
+=======
+		//renderElements[2]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[3]->id = RenderQueueId(PARTICLES, 0);
+>>>>>>> 9bbcaf4fc66311086e72a5ff03fb0acbbd8139f9
+		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
+		//------------
+
+		renderQueue.updateUniforms(camera);
+		renderQueue.draw();
+
+		//renderQueue.process( renderElements );
+>>>>>>> origin/Dev_Main
+
+	}
+
+
+	bool GearEngine::isRunning(){
+		return true;//window->isWindowOpen();
+	}
+	
+}

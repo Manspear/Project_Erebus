@@ -3,12 +3,14 @@
 #include "RenderQueueElement.h"
 #include "ShaderProgram.h"
 
-struct vertex
+struct ParticlePoint
 {
 	glm::vec3 pos;
 	glm::vec3 color;
+
 };
 
+const int maxParticles = 10;
 
 namespace Gear
 {
@@ -23,18 +25,20 @@ namespace Gear
 		
 
 		GEAR_API void setParticle(glm::vec3 pos, glm::vec3 color, int i);
-		GEAR_API vertex getParticle();
+		GEAR_API ParticlePoint getParticle();
 
-		GEAR_API void setParticleCount(int particleCount);
-		GEAR_API int getParticleCount();
+		//GEAR_API void setParticleCount(int particleCount);
+		//GEAR_API int getParticleCount();
 		//glm::mat4 modelMatrix;
+		GLuint particleVertexBuffer;
+		ParticlePoint particleObject[maxParticles];
 
 	private:
-		vertex vertexObject[10];
-		int particleCount;
-		GLuint vertexBuffer;
-		GLfloat duration;
-		GLfloat speed;
-		GLfloat angle;
+		
+		//GLfloat duration;
+		//GLfloat speed;
+		//GLfloat angle;
+		//glm::vec3 pos;
+		//glm::vec3 color;
 	};
 }

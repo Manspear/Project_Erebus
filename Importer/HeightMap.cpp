@@ -1,7 +1,5 @@
 #include "HeightMap.h"
 
-
-
 HeightMap::HeightMap()
 {
 	
@@ -17,90 +15,107 @@ HeightMap::~HeightMap()
 	delete heightData;
 }
 
-void HeightMap::loadHeightMap(Importer::ImageAsset * map)
+void HeightMap::loadHeightMap(Importer::ImageAsset * map , bool includeRenderPart)
 {
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	heightMulti = .03f;
+	widthMulti = 1.0f;
+	breadthMulti = 1.0f;
 	this->mapWidth = map->getWidth();
 	this->mapHeight = map->getHeight();
-	int numVertices = map->getHeight() * map->getWidth();
-	minX = 0;
-	maxX = this->mapWidth - 1;
-	minZ = 0;
-	maxZ = this->mapHeight - 1;
-	this->pos = glm::vec3(0, 0, 0);
-
-	float* heightFloatData = new float[numVertices * 5];
-	//glm::vec3 *heightMapData = new glm::vec3[numVertices];
+	
 	heightData = new float*[map->getWidth()];
 	for (size_t i = 0; i < map->getWidth(); i++)
 	{
 		heightData[i] = new float[map->getHeight()];
 	}
 
-	float heightMulti = .02f;
 	for (size_t y = 0; y < map->getHeight(); y++)
 	{
 		for (size_t x = 0; x < map->getWidth(); x++)
 		{
-			heightFloatData[(y* map->getWidth() * 5) + (x * 5)] = x;
-			heightFloatData[(y* map->getWidth() * 5) + (x * 5)+1] = map->getPixelValue(x, y).red*heightMulti;
-			heightFloatData[(y* map->getWidth() * 5) + (x * 5)+2] = y;
-			heightFloatData[(y* map->getWidth() * 5) + (x * 5)+3] = ((float)x/this->mapWidth);
-			heightFloatData[(y* map->getWidth() * 5) + (x * 5) + 4] = ((float)y / this->mapHeight);
-			//heightMapData[y* map->getWidth() + x] = glm::vec3(
-			//	x, 0, y
-			//);
-			
-			//heightData[x][y] = map->getPixelValue(x, y).red;
 			heightData[x][y] = map->getPixelValue(x, y).red*heightMulti;//(float)*(map->getPixels() + y*map->getWidth()*IMAGE_BPP + x*IMAGE_BPP);
 		}
 	}
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*5* numVertices, heightFloatData, GL_STATIC_DRAW);
+
+	minX = 0;
+	maxX = (this->mapWidth - 1) * widthMulti;
+	minZ = 0;
+	maxZ = (this->mapHeight - 1) * breadthMulti;
+	this->pos = glm::vec3(0, 0, 0);
+	if (includeRenderPart) {
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+		int numVertices = map->getHeight() * map->getWidth();
 
 
-	int numIndices = ((map->getHeight()-1) * (map->getWidth()-1)) * 6;
-	GLuint* indices = new GLuint[numIndices];
-	int indiceIndex = 0;
+		float* heightFloatData = new float[numVertices * 5];
+		//glm::vec3 *heightMapData = new glm::vec3[numVertices];
 
-	for (size_t y = 0; y < map->getHeight()-1; y++)
-	{
-		for (size_t x = 0; x < map->getWidth()-1; x++)
+
+		for (size_t y = 0; y < map->getHeight(); y++)
 		{
+			for (size_t x = 0; x < map->getWidth(); x++)
+			{
+				heightFloatData[(y* map->getWidth() * 5) + (x * 5)] = x *								widthMulti;
+				heightFloatData[(y* map->getWidth() * 5) + (x * 5) + 1] = map->getPixelValue(x, y).red*	heightMulti;
+				heightFloatData[(y* map->getWidth() * 5) + (x * 5) + 2] = y *							breadthMulti;
+				heightFloatData[(y* map->getWidth() * 5) + (x * 5) + 3] = ((float)x / this->mapWidth);
+				heightFloatData[(y* map->getWidth() * 5) + (x * 5) + 4] = ((float)y / this->mapHeight);
+				//heightMapData[y* map->getWidth() + x] = glm::vec3(
+				//	x, 0, y
+				//);
 
-			/*
-			(width = 2)
-			0  1
-			2  3
-
-			0, 1, 2
-			1, 3, 2
-			'   '
-			*/
-			GLuint start = y* map->getWidth() + x;
-			indices[indiceIndex++] = start;
-			indices[indiceIndex++] = start + map->getWidth();
-			indices[indiceIndex++] = start + 1;
-			
-			indices[indiceIndex++] = start + 1;
-			indices[indiceIndex++] = start + map->getWidth();
-			indices[indiceIndex++] = start + 1 + map->getWidth();
-			
+				//heightData[x][y] = map->getPixelValue(x, y).red;
+			}
 		}
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 5 * numVertices, heightFloatData, GL_STATIC_DRAW);
+
+
+		int numIndices = ((map->getHeight() - 1) * (map->getWidth() - 1)) * 6;
+		GLuint* indices = new GLuint[numIndices];
+		int indiceIndex = 0;
+
+		for (size_t y = 0; y < map->getHeight() - 1; y++)
+		{
+			for (size_t x = 0; x < map->getWidth() - 1; x++)
+			{
+
+				/*
+				(width = 2)
+				0  1
+				2  3
+
+				0, 1, 2
+				1, 3, 2
+				'   '
+				*/
+				GLuint start = y* map->getWidth() + x;
+				indices[indiceIndex++] = start;
+				indices[indiceIndex++] = start + map->getWidth();
+				indices[indiceIndex++] = start + 1;
+
+				indices[indiceIndex++] = start + 1;
+				indices[indiceIndex++] = start + map->getWidth();
+				indices[indiceIndex++] = start + 1 + map->getWidth();
+
+			}
+		}
+
+
+		glGenBuffers(1, &iVBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*numIndices, indices, GL_STATIC_DRAW);
+
+		glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &iVBOsize);
+
+		delete indices;
+		delete heightFloatData;
+		//delete heightMapData;
 	}
 
-
-	glGenBuffers(1, &iVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*numIndices, indices, GL_STATIC_DRAW);
-
-	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &iVBOsize);
-
-	delete indices;
-	delete heightFloatData;
-	//delete heightMapData;
 }
 
 void HeightMap::Draw() {
@@ -115,6 +130,53 @@ void HeightMap::Draw() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+staticNonModels* HeightMap::getStaticNonModel() {
+	int* dataSizes = new int[2];
+	dataSizes[0] = 3;
+	dataSizes[1] = 2;
+	staticNonModels* model = new staticNonModels(this->VBO, this->iVBO, 2, dataSizes, 5, iVBOsize / sizeof(unsigned int), ShaderType::HEIGHTMAP,&this->worldMatrix);
+	//delete dataSizes;
+	return model;
+}
+
+//struct staticNonModels {
+//	GLuint VBO, iVBO;
+//	float* data;
+//	int nrDiffValues;
+//	int* dataSizes;
+//	int dataStride;
+//	int iVBOsize;
+//	staticNonModels(GLuint VBO, GLuint iVBO,
+//		float* data, int nrDiffValues, int* dataSizes,
+//		int dataStride, int iVBOsize) {
+//		this->VBO = VBO;
+//		this->iVBO = iVBO;
+//		this->data = data;
+//		this->nrDiffValues = nrDiffValues;
+//		this->dataSizes = dataSizes;
+//		this->iVBOsize = iVBOsize;
+//	}
+//
+//	void draw() {
+//		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//		for (size_t i = 0; i < nrDiffValues; i++)
+//		{
+//			glEnableVertexAttribArray(i);
+//			glVertexAttribPointer(i, dataSizes[i], GL_FLOAT, GL_FALSE, sizeof(float) * dataStride, (void*)(sizeof(float) *((i>0)? dataSizes[i-1] : 0)));
+//		}
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
+//		glDrawElements(GL_TRIANGLES, iVBOsize, GL_UNSIGNED_INT, 0);
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+//		//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+//		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
+//		//glDrawElements(GL_TRIANGLES, iVBOsize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+//
+//		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//	}
+//	
+//};
+
 glm::mat4 HeightMap::getWorldMat() {
 	
 	return this->worldMatrix;
@@ -128,12 +190,13 @@ void HeightMap::setPos(const glm::vec3& pos) {
 }
 
 float HeightMap::getPos(float x, float z) {
-	if (x < 0 || z < 0
-		|| x>= mapWidth || z>= mapHeight)
-		return 0;
+	if (x < minX || z < minZ
+		|| x>= maxX || z>= maxZ)
+		return -50;
 
-	if (x > 35 && z > 35)
-		int k =  0;
+	x /= widthMulti;
+	z /= breadthMulti;
+
 	float returnVal = 0;
 	int xLow, xHigh;
 	int zLow, zHigh;

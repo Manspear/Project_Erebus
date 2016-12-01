@@ -15,6 +15,7 @@ enum ShaderType {
 	PARTICLES,
 	SHADOW,
 	GEOMETRY,
+	HEIGHTMAP,
 	NUM_SHADER_TYPES
 };
 

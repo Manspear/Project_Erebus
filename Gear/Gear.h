@@ -7,9 +7,14 @@
 #include "Particles.h"
 #include "Light.h"
 #include "Inputs.h"
+#include "staticNonModels.h"
 
 namespace Gear
 {
+
+
+
+
 	class GearEngine {
 	public:
 		GEAR_API GearEngine();
@@ -23,10 +28,12 @@ namespace Gear
 		// För att rita ut modellen från importern
 		RenderQueue renderQueue;
 		std::vector<RenderQueueElement*> renderElements;
+		
 	/*	std::vector<RenderQueueElement*> renderParticles;*/
 	/*	std::vector<ShaderProgram*> allShaders;*/
-
+		GEAR_API void addStaticNonModel(staticNonModels* model);
 	private:
+		std::vector<staticNonModels*> statModels;
 		//DebugQuad
 		GLuint quadVAO = 0;
 		GLuint quadVBO;

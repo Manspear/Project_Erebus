@@ -1,15 +1,22 @@
 nrOfActors = 50
 nrOfEnemies = 49
 player = {}
-enemy = {}
+enemy = {trans = {}, ms = {}}
 enemySpeeds = {}
-Transform.InitStuff(nrOfActors)
+Engine.InitStuff(nrOfActors)
+
+modelPaths = {{"Models/moleman.model", 25}}
+print(#modelPaths)
+for i = 1, #modelPaths do
+	Engine.LoadModels(modelPaths[i][1], modelPaths[i][2])
+end
+
 player.trans = Transform.Bind()
 player.moveSpeed = 40
 
 for i = 1, nrOfEnemies do
-		enemy[i] = Transform.Bind()
-		enemySpeeds[i] = math.random(5, 20)
+		enemy.trans[i] = Transform.Bind()
+		enemy.ms[i] = math.random(5, 20)
 end
 
 function ChangePlayer()
@@ -35,7 +42,7 @@ end
 
 function doDaHustle()
 	for i = 1, nrOfEnemies do
-		--Transform.Follow(player.trans, enemy[i], enemySpeeds[i])
+		Transform.Follow(player.trans, enemy.trans[i], enemy.ms[i] )
 	end
 end
 
