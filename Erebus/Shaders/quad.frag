@@ -2,13 +2,17 @@
 
 in vec2 frag_uv;
 
-out vec3 out_color;
+uniform sampler2D gPosition;
+uniform sampler2D gNormal;
+uniform sampler2D gAlbedoSpec;
 
-uniform sampler2D texture;
+out vec3 out_color;
 
 void main() {
 
-	vec3 color = vec3(texture2D(texture, frag_uv));
+	vec3 FragPos = vec3(texture2D(gPosition, frag_uv)).rgb;
+	vec3 Normal  = vec3(texture2D(gNormal, frag_uv)).rgb;
+	vec3 Albedo  = vec3(texture2D(gAlbedoSpec, frag_uv)).rgb;
 
-	out_color = color;
+	out_color = FragPos;
 }

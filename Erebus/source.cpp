@@ -50,7 +50,7 @@ int main()
 	
 	heightMap->loadHeightMap(heightMapAsset);
 	
-	redTexture->bind();
+	//redTexture->bind();
 
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
@@ -60,8 +60,8 @@ int main()
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
 	
-	for( int i=0; i<nrOfTransforms; i++ )
-		engine->renderQueue.addModelInstance(molebat);
+	for( int i=0; i<2; i++ )
+		engine->renderQueue.addModelInstance(box);
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
@@ -87,7 +87,6 @@ int main()
 	int frameCounter = 0;
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
-
 
 	bool running = true;
 	float* transforms = new float[6 * nrOfTransforms];

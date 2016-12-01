@@ -40,7 +40,7 @@ void RenderQueue::init()
 
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
-	allShaders[ShaderType::G_BUFFER] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "g_Buffer");
+	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -53,8 +53,10 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 	allShaders[FORWARD]->unUse();
 
-	allShaders[G_BUFFER]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[G_BUFFER]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY]->use();
+	allShaders[GEOMETRY]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[GEOMETRY]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY]->unUse();
 
 	allShaders[PARTICLES]->use();
 	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -112,7 +114,7 @@ GEAR_API void RenderQueue::allocateWorlds(int n)
 
 GEAR_API void RenderQueue::draw()
 {
-	currentShader = ShaderType::G_BUFFER;
+	currentShader = ShaderType::GEOMETRY;
 	allShaders[currentShader]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID() , "worldMatrix");
 	GLuint worldMatricesLocation = glGetUniformLocation( allShaders[currentShader]->getProgramID(), "worldMatrices" );

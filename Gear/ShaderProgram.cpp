@@ -85,13 +85,41 @@ void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * inte
 	textureIDs = new GLuint[nrOfTextures];
 	glGenFramebuffers(1, &framebufferID);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
-	for (int i = 0; i < nrOfTextures; i++)
-	{
-		textureIDs[i] = addTexture(width, height, internalFormat[i], format[i], type[i]);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, attachments[i], GL_TEXTURE_2D, textureIDs[i], 0);
-	}
+	GLuint gPosition, gNormal, gColorSpec;
 
-	glDrawBuffers(3, attachments);
+	// - Position color buffer
+	glGenTextures(1, &gPosition);
+	glBindTexture(GL_TEXTURE_2D, gPosition);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gPosition, 0);
+
+	this->textureIDs[0] = gPosition;
+
+	// - Normal color buffer
+	glGenTextures(1, &gNormal);
+	glBindTexture(GL_TEXTURE_2D, gNormal);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gNormal, 0);
+
+	this->textureIDs[1] = gNormal;
+
+	// - Color + Specular color buffer
+	glGenTextures(1, &gColorSpec);
+	glBindTexture(GL_TEXTURE_2D, gColorSpec);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gColorSpec, 0);
+
+	this->textureIDs[2] = gColorSpec;
+
+	// - Tell OpenGL which color attachments we'll use (of this framebuffer) for rendering 
+	GLuint attachment[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+	glDrawBuffers(3, attachment);
 
 	GLuint rboDepth;
 	glGenRenderbuffers(1, &rboDepth);
@@ -171,6 +199,10 @@ void ShaderProgram::addUniform(glm::mat4 &matrix4x4, std::string position, int c
 void ShaderProgram::addUniform(glm::vec3 &vec3, std::string position, int count)
 {
 	glUniform3fv(getUniformLocation(position), count, glm::value_ptr(vec3));
+}
+void ShaderProgram::addUniform(float &floatValue, std::string position)
+{
+	glUniform1f(getUniformLocation(position), floatValue);
 }
 
 std::string* ShaderProgram::getPaths(const shaderBaseType& type, const std::string& path) {

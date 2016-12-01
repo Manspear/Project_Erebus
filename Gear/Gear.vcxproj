@@ -154,6 +154,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Gear.h" />
     <ClInclude Include="Inputs.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />

@@ -5,6 +5,7 @@
 #include "Particles.h"
 #include "RenderQueue.h"
 #include "Particles.h"
+#include "Light.h"
 #include "Inputs.h"
 
 namespace Gear
@@ -30,8 +31,11 @@ namespace Gear
 		GLuint quadVAO = 0;
 		GLuint quadVBO;
 		ShaderProgram *quadShader;
+		ShaderProgram *lightPassShader;
 		//Window* window;
 		ShaderProgram gBuffer;
+		std::vector<Lights::PointLight> pointLights;
+
 		void drawQuad();
 	};
 }

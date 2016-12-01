@@ -20,6 +20,27 @@ namespace Gear
 
 		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
+		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
+
+		const GLuint NR_LIGHTS = 32;
+		srand(13);
+		for (GLuint i = 0; i < NR_LIGHTS; i++)
+		{
+			Lights::PointLight light;
+			// Calculate slightly random offsets
+			GLfloat xPos = ((rand() % 20) - 10.f);
+			GLfloat yPos = ((rand() % 20) - 10.f);
+			GLfloat zPos = ((rand() % 20) - 10.f);
+			light.pos = glm::vec3(xPos, yPos, zPos);
+			// Also calculate random color
+			GLfloat rColor = ((rand() % 100) / 100.0f); // Between 0.5 and 1.0
+			GLfloat gColor = ((rand() % 100) / 100.0f); // Between 0.5 and 1.0
+			GLfloat bColor = ((rand() % 100) / 100.0f); // Between 0.5 and 1.0
+			light.color = glm::vec3(rColor, gColor, bColor);
+
+			light.radius = 5;
+			pointLights.push_back(light);
+		}
 	}
 
 	GearEngine::~GearEngine()
@@ -27,6 +48,7 @@ namespace Gear
 
 		glfwTerminate();
 		delete quadShader;
+		delete lightPassShader;
 	}
 
 	void GearEngine::draw(Camera* camera)
@@ -38,21 +60,34 @@ namespace Gear
 		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
 		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
 		//------------
-		//gBuffer.use();
+		
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderQueue.updateUniforms(camera);
-		renderQueue.draw();
 		//GLfloat positions[] = { 0.5, 0.5, 0.0 };
-		//gBuffer.unUse();
 
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		gBuffer.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderQueue.draw();
+		gBuffer.unUse();
 
-		//quadShader->use();
+		lightPassShader->use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
+		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 
-		//gBuffer.BindTexturesToProgram(quadShader, "texture", 0);
-		//drawQuad();
+		for (GLuint i = 0; i < pointLights.size(); i++)
+		{
+			lightPassShader->addUniform(pointLights[i].pos, ("lights[" + std::to_string(i) + "].pos").c_str());
+			lightPassShader->addUniform(pointLights[i].color, ("lights[" + std::to_string(i) + "].color").c_str());
 
-		//quadShader->unUse();
+			lightPassShader->addUniform(pointLights[i].radius, ("lights[" + std::to_string(i) + "].radius").c_str());
+		}
+
+		drawQuad();
+
+		lightPassShader->unUse();
 
 		//glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, 0 );
 		//glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( float ) * 22, (void*)(sizeof( float ) * 3) );
