@@ -58,9 +58,9 @@ int main()
 	CollisionHandler collisionHandler = CollisionHandler();
 
 	collisionHandler.addHitbox(&sphere1);
-	collisionHandler.addHitbox(&sphere2);
+	/*collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
-	collisionHandler.addHitbox(&aabb2);
+	collisionHandler.addHitbox(&aabb2);*/
 	
 	
 	redTexture->bind();
@@ -69,6 +69,7 @@ int main()
 	luaL_openlibs(L);
 	initLua(L);
 	transformReg(L);
+	collisionReg( L, &collisionHandler );
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
