@@ -9,6 +9,8 @@ namespace Gear
 			this->particleObject[i].pos = { 0.0, 0.0, 0.0 };
 			this->particleObject[i].color = { 0.0, 0.0, 0.0 };
 		}
+
+		glGenBuffers(1, &particleVertexBuffer);
 		/*	particleObject[maxParticles].pos = { 0.0, 0.0, 0.0 };
 		particleObject[maxParticles].color = { 0.0, 0.0, 0.0 };*/
 
