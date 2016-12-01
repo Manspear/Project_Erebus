@@ -13,7 +13,6 @@
 #include "SphereCollider.h"
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
-#include "Player.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
@@ -21,11 +20,6 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
-
-void allocateTransforms(int n);
-
-Window *window = new Window();
-Gear::GearEngine *engine = new Gear::GearEngine();
 
 
 
@@ -45,14 +39,15 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
-	Importer::Assets assets;
-	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
-	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
+	
 	HeightMap *heightMap = new HeightMap();
 
+	heightMap->loadHeightMap(heightMapAsset, true);
+	engine->addStaticNonModel(heightMap->getStaticNonModel());
+	
 	unsigned int transformID = 0;
 	unsigned int hitboxID = 0;
 	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
@@ -67,35 +62,35 @@ int main()
 	collisionHandler.addHitbox(&aabb1);
 	collisionHandler.addHitbox(&aabb2);
 	
-	heightMap->loadHeightMap(heightMapAsset, false);
 	
 	redTexture->bind();
-
+	std::vector<ModelInstance> models;
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
+	initLua(L);
 	transformReg(L);
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
-	
-	for( int i=0; i<nrOfTransforms; i++ )
-		engine->renderQueue.addModelInstance(molebat);
-	
-	Gear::Particle particle;
-	glm::vec3 pos;
-	glm::vec3 color;
 
+	for (int i = 0; i < nrOfTransforms; i++)
+	{
+		allTransforms[i].setHMap(heightMap);
+	}
 	controls.setControl(&allTransforms[0]);
 
-	for (int i = 0; i < particle.getParticleCount(); i++)
-	{
-		pos = {rand() % 10, rand() % 5, rand() % 10 };
-		color = {1.0, 0.0, 0.0};
-		particle.setParticle(pos, color, i);
-		particle.getParticle();
-		engine->renderQueue.particles.push_back( &particle );
-	}
+	//engine->renderQueue.addModelInstance(terrain);
+	//Gear::Particle particle[10];
+
+	//for (int i = 0; i < maxParticles; i++)
+	//{
+	//	particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
+	//	particle[i].particleObject->color = { 1, 0, 0 };
+
+	//	engine->renderQueue.particles.push_back( &particle[i] );
+
+	//}
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -111,7 +106,6 @@ int main()
 	bool running = true;
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication);
@@ -119,12 +113,19 @@ int main()
 
 	while (running && window->isWindowOpen())
 	{
-		deltaTime = counter.getDeltaTime();
 
+		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
+		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs, L);
-		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);		
+
+		//for (size_t i = 0; i < maxParticles; i++)
+		//{
+		//	particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+		//}
+
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
+	
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
 			transforms[i * 6] = allTransforms[i].getPos().x;
@@ -139,7 +140,9 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 50, lookAts);
+		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
+
+	
 		engine->draw(&camera);
 		window->update();	
 
@@ -168,15 +171,14 @@ int main()
 		if (aabb1.checkCollision())
 			std::cout << "AABB Collision: " << aabb1.getIDCollisionsRef()->at(0) << std::endl;
 	}
+	delete[] transforms;
+	delete[] lookAts;
 	delete heightMap;
 
 	if (networkActive)
 	{
 		networkThread.join();
 	}
-
-	delete[] lookAts;
-	delete[] transforms;
 
 	delete[] allTransforms;
 	lua_close(L);

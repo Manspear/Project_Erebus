@@ -115,10 +115,7 @@ namespace Importer
 			pixels = (uint8_t*)malloc( width * height * bpp );
 
 			for( unsigned int i = 0; i < height; i++ )
-			{
-				int offset = height - i - 1;
-				rowPointers[i] = (png_bytep)&pixels[width * bpp * offset];
-			}
+				rowPointers[i] = (png_bytep)&pixels[width*bpp*i];
 
 			png_read_image( pPNG, rowPointers );
 			png_read_end( pPNG, pInfo );
