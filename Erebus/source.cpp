@@ -181,7 +181,7 @@ int main()
 
 	delete[] allTransforms;
 	lua_close(L);
-	//delete window;
+	delete window;
 	glfwTerminate();
 	delete engine;
 	return 0;
