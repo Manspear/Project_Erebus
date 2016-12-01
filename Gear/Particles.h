@@ -35,10 +35,10 @@ namespace Gear
 
 	private:
 
-		GLfloat duration;
-		GLfloat speed;
-		GLfloat angle;
-		glm::vec3 pos;
-		glm::vec3 color;
+		//GLfloat duration;
+		//GLfloat speed;
+		//GLfloat angle;
+		//glm::vec3 pos;
+		//glm::vec3 color;
 	};
 }
