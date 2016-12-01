@@ -32,8 +32,7 @@ function Controls()
 		if buttons[i] == 1 then	forward = -player.moveSpeed  end
 		if buttons[i] == 2 then	left = player.moveSpeed  end
 		if buttons[i] == 3 then left = -player.moveSpeed  end
-		if buttons[i] == 4 then up = player.moveSpeed  end
-		if buttons[i] == 5 then up = -player.moveSpeed  end
+		if buttons[i] == 4 then up = player.moveSpeed  else up = -player.moveSpeed  end
 		if buttons[i] == 6 then ChangePlayer() end
 	end	
 	Transform.Move(player.trans, forward, up, left)
