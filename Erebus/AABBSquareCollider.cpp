@@ -43,3 +43,8 @@ void AABBSquareCollider::clearCollisionIDs()
 {
 	this->IDCollisions.clear();
 }
+
+void AABBSquareCollider::setPos(glm::vec3 pos)
+{
+	this->pos = pos;
+}

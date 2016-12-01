@@ -20,6 +20,7 @@ public:
 	void checkSphereToAabbCollisions();
 	void updateSpherePos();
 	void updateAabbPos();
+	void updateAabbSquarePos();
 private:
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;

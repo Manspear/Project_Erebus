@@ -168,7 +168,9 @@ void CollisionHandler::updateSpherePos()
 
 	for (unsigned int i = 0; i < sphereColliderSize; i++) // updatera positionen
 	{
-		sphereColliders[i]->setPos(allTransforms[sphereColliders[i]->getIDTransform()].getPos());
+		unsigned int idTransform = sphereColliders[i]->getIDTransform();
+		if (idTransform >= 0)
+			sphereColliders[i]->setPos(allTransforms[idTransform].getPos());
 	}
 }
 
@@ -178,6 +180,20 @@ void CollisionHandler::updateAabbPos()
 
 	for (unsigned int i = 0; i < aabbColliderSize; i++) // updatera positionen
 	{
-		aabbColliders[i]->setPos(allTransforms[aabbColliders[i]->getIDTransform()].getPos());
+		unsigned int idTransform = aabbColliders[i]->getIDTransform();
+		if (idTransform >= 0)
+			aabbColliders[i]->setPos(allTransforms[idTransform].getPos());
+	}
+}
+
+void CollisionHandler::updateAabbSquarePos()
+{
+	int aabbColliderSize = this->aabbSquareColliders.size();
+
+	for (unsigned int i = 0; i < aabbColliderSize; i++) // updatera positionen
+	{
+		unsigned int idTransform = aabbSquareColliders[i]->getIDTransform();
+		if(idTransform >= 0)
+			aabbSquareColliders[i]->setPos(allTransforms[idTransform].getPos());
 	}
 }

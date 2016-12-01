@@ -13,6 +13,8 @@ public:
 	virtual void insertCollisionID(unsigned int collisionID) override;
 	virtual void clearCollisionIDs() override;
 
+	void setPos(glm::vec3 pos);
+
 private:
 	glm::vec3 pos;
 	float halfSize;
