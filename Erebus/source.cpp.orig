@@ -112,7 +112,10 @@ int main()
 
 //	engine->renderQueue.addModelInstance(terrain);
 	/*Gear::Particle particle[10];
+	//engine->renderQueue.addModelInstance(terrain);
+	//Gear::Particle particle[10];
 	Gear::Particle particle;
+>>>>>>> 01cc482059e79b7a78414edf5c5c77a2089f7987
 
 	for (int i = 0; i < maxParticles; i++)
 	{
@@ -149,19 +152,29 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs, L);
+		/*for (size_t i = 0; i < maxParticles; i++)
+		{
 <<<<<<< HEAD
+			particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+		}*/
 		//player.update(&inputs, deltaTime);
 		//particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 
+		//for (size_t i = 0; i < maxParticles; i++)
+		//{
+		//	particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+		//}
 
 		for (int i = 0; i < boundTrans; i++) {
 =======
+		for (size_t i = 0; i < maxParticles; i++)
 
 		/*for (size_t i = 0; i < maxParticles; i++)
-		{
 			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
 		}*/
+>>>>>>> Support_for_Particles
+>>>>>>> 01cc482059e79b7a78414edf5c5c77a2089f7987
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
