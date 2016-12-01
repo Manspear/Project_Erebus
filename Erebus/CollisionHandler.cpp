@@ -266,3 +266,36 @@ void CollisionHandler::deleteAllOldCollisions()
 
 
 }
+
+bool CollisionHandler::deleteHitbox(unsigned int ID)
+{
+	unsigned int sphereColliderSize = this->sphereColliders.size();
+	unsigned int aabbColliderSize = this->aabbColliders.size();
+	bool deleted = false;
+
+	for (unsigned int i = 0; i < sphereColliderSize; i++) // kolla spheres
+	{
+		if (sphereColliders[i]->getID() == ID)
+		{
+			sphereColliders[i]->clearCollisionIDs();
+			sphereColliders.erase(sphereColliders.begin() + i);
+			deleted = true;
+			i = sphereColliderSize;
+		}
+	}
+	if (!deleted)
+	{
+		for (unsigned int i = 0; i < aabbColliderSize; i++)
+		{
+			if (aabbColliders[i]->getID() == ID)
+			{
+				aabbColliders[i]->clearCollisionIDs();
+				aabbColliders.erase(aabbColliders.begin() + i);
+				deleted = true;
+				i = aabbColliderSize;
+			}
+		}
+	}
+
+	return deleted;
+}

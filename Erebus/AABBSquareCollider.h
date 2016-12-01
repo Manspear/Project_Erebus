@@ -1,5 +1,6 @@
 #pragma once
 #include "HitBox.h"
+// DO NOT USE :D
 class AABBSquareCollider : public HitBox
 {
 public:

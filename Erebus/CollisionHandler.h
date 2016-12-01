@@ -32,6 +32,7 @@ public:
 	void updateAabbSquarePos();
 
 	void deleteAllOldCollisions();
+	bool deleteHitbox(unsigned int ID);
 private:
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
