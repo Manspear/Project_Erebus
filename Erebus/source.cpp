@@ -54,17 +54,13 @@ int main()
 	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
 	AABBCollider aabb1 = AABBCollider(hitboxID++, 0, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
 	AABBCollider aabb2 = AABBCollider(hitboxID++, 1, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
-	AABBSquareCollider aabbSquare1 = AABBSquareCollider(hitboxID++,0,glm::vec3(0,0,0),1.0f);
-	AABBSquareCollider aabbSquare2 = AABBSquareCollider(hitboxID++, 1, glm::vec3(0, 0, 0), 1.0f);
 
 	CollisionHandler collisionHandler = CollisionHandler();
 
 	collisionHandler.addHitbox(&sphere1);
-	/*collisionHandler.addHitbox(&sphere2);
+	collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
-	collisionHandler.addHitbox(&aabb2);*/
-	collisionHandler.addHitbox(&aabbSquare1);
-	collisionHandler.addHitbox(&aabbSquare2);
+	collisionHandler.addHitbox(&aabb2);
 	
 	
 	redTexture->bind();
@@ -172,9 +168,6 @@ int main()
 
 		//Collisions
 		collisionHandler.checkCollisions();
-
-		if (aabbSquare1.checkCollision())
-			std::cout << "AABBSQUARE\n";
 	}
 	delete[] transforms;
 	delete[] lookAts;
