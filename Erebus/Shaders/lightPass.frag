@@ -13,7 +13,7 @@ struct PointLight {
 		float radius;
 };
 
-const int NR_LIGHTS = 32;
+const int NR_LIGHTS = 2;
 uniform PointLight lights[NR_LIGHTS];
 uniform vec3 viewPos;
 
@@ -25,30 +25,22 @@ void main() {
 
 	vec3 lighting  = Diffuse * 0.1;
 	vec3 viewDir  = normalize(viewPos - FragPos);
-	int numLight = 0;
-	for(int i = 0; i < NR_LIGHTS; ++i)
+	for(int i = 0; i < NR_LIGHTS; i++)
     {
-		//float distance = length(lights[i].pos - FragPos);
-  //      if(distance < lights[i].radius)
-  //      {
-			numLight = numLight + 1;
+		//float distance = length(vec3(0,0,0) - FragPos);
+  //     if(distance < 30)
+	 // {
 			// Diffuse
-            vec3 lightDir = normalize(lights[i].pos - FragPos);
-            vec3 diffuse = max(dot(Normal, lightDir), 0.0) * Diffuse * vec3(1,0,0);
+            vec3 lightDir = normalize(vec3(0,0,0) - FragPos);
+            vec3 diffuseColor = max(dot(Normal, lightDir), 0.0) * Diffuse * lights[i].color;
 
-			float attenuation = smoothstep(lights[i].radius, 0, length(lights[i].pos - FragPos));
+			float attenuation = smoothstep(30, 0, length(vec3(0,0,0) - FragPos));
 
-			diffuse *= attenuation;
-
-			lighting += diffuse;
+			diffuseColor *= attenuation;
+			lighting += diffuseColor;
+			//lighting = max(dot(Normal, lightDir), 0.0) * Diffuse * lights[i].color;
 		//}
 	}
-	//if(lighting.r > 1)
-	//	lighting.r = 1;
-	//if(lighting.g > 1)
-	//	lighting.g = 1;
-	//if(lighting.b > 1)
-	//	lighting.b = 1;
 
 	FragColor = vec4(lighting, 1.0);
 }

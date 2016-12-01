@@ -164,7 +164,7 @@ GEAR_API void RenderQueue::draw()
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
-	allShaders[currentShader]->unUse();
+	//allShaders[currentShader]->unUse();
 
 	/*allShaders[PARTICLES]->use();
 
@@ -188,6 +188,7 @@ GEAR_API void RenderQueue::draw()
 		glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
 	}
 	allShaders[PARTICLES]->unUse();
+	*/
 }
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)

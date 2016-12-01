@@ -22,25 +22,21 @@ namespace Gear
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
 
-		const GLuint NR_LIGHTS = 32;
-		srand(13);
-		for (GLuint i = 0; i < NR_LIGHTS; i++)
-		{
-			Lights::PointLight light;
-			// Calculate slightly random offsets
-			GLfloat xPos = ((rand() % 20) - 10.f);
-			GLfloat yPos = ((rand() % 20) - 10.f);
-			GLfloat zPos = ((rand() % 20) - 10.f);
-			light.pos = glm::vec3(xPos, yPos, zPos);
-			// Also calculate random color
-			GLfloat rColor = ((rand() % 100) / 100.0f); // Between 0.5 and 1.0
-			GLfloat gColor = ((rand() % 100) / 100.0f); // Between 0.5 and 1.0
-			GLfloat bColor = ((rand() % 100) / 100.0f); // Between 0.5 and 1.0
-			light.color = glm::vec3(rColor, gColor, bColor);
+		Lights::PointLight light;
 
-			light.radius = 5;
-			pointLights.push_back(light);
-		}
+		light.pos = glm::vec3(0, 0, 0);
+
+		light.color = glm::vec3(1, 0.6, 0.16);
+
+		light.radius = 30;
+		pointLights.push_back(light);
+
+		light.pos = glm::vec3(2, 0, 0);
+
+		light.color = glm::vec3(0.65, 0, 1);
+
+		light.radius = 30;
+		pointLights.push_back(light);
 	}
 
 	GearEngine::~GearEngine()
@@ -95,17 +91,17 @@ namespace Gear
 
 
 		//renderQueue.process( renderElements );
-		for (size_t i = 0; i < statModels.size(); i++)
-		{
-			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
-			tempProgram->use();
-			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
-			tempProgram->addUniform(camera->getPosition(), "viewPos");
-			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
-			statModels.at(i)->draw();
-			tempProgram->unUse();
-		}
+		//for (size_t i = 0; i < statModels.size(); i++)
+		//{
+		//	ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
+		//	tempProgram->use();
+		//	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+		//	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+		//	tempProgram->addUniform(camera->getPosition(), "viewPos");
+		//	tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
+		//	statModels.at(i)->draw();
+		//	tempProgram->unUse();
+		//}
 
 	}
 
