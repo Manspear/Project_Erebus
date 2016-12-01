@@ -106,19 +106,19 @@ GEAR_API void RenderQueue::allocateWorlds(int n)
 	worldMatrices = new glm::mat4[n];
 }
 
-GEAR_API void RenderQueue::draw()
+GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 {
 	currentShader = FORWARD;
 	allShaders[currentShader]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID() , "worldMatrix");
 	GLuint worldMatricesLocation = glGetUniformLocation( allShaders[currentShader]->getProgramID(), "worldMatrices" );
 
-	for( int i=0; i<instances.size(); i++ )
+	for( int i=0; i<instances->size(); i++ )
 	{	
-		ModelAsset* modelAsset = instances[i].asset;
+		ModelAsset* modelAsset = instances->at(i).asset;
 		int meshes = modelAsset->getHeader()->meshCount;
 		int numInstance = 0;
-		for( int j=0; j<instances[i].worldIndices.size(); j++ )
+		for( int j=0; j< instances->at(i).worldIndices.size(); j++ )
 		{
 			/*glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrices[instances[i].worldIndices[k]][0][0] );
 			for (int j = 0; j < meshes; j++)
@@ -133,7 +133,7 @@ GEAR_API void RenderQueue::draw()
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}*/
 
-			tempMatrices[numInstance++] = worldMatrices[instances[i].worldIndices[j]];
+			tempMatrices[numInstance++] = worldMatrices[instances->at(i).worldIndices[j]];
 		}
 
 		glUniformMatrix4fv( worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0] );
@@ -172,7 +172,7 @@ GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* 
 
 int RenderQueue::addModelInstance( ModelAsset* asset )
 {
-	int result = nrOfWorlds++;
+	int result = this->nrOfWorlds++;
 
 	int index = -1;
 	for( int i = 0; i < instances.size() && index < 0; i++ )
@@ -195,5 +195,12 @@ int RenderQueue::addModelInstance( ModelAsset* asset )
 		0, 0, 1, 0,
 		0, 0, nrOfWorlds, 1 );
 
+	return result;
+}
+
+GEAR_API int RenderQueue::generateWorldMatrix()
+{
+	int result = nrOfWorlds++;
+	worldMatrices[result];
 	return result;
 }

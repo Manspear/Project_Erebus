@@ -26,6 +26,7 @@ Gear::GearEngine *engine = new Gear::GearEngine();
 int startNetworkCommunication();
 int startNetworkSending(Nurn::NurnEngine * pSocket);
 int startNetworkReceiving(Nurn::NurnEngine * pSocket);
+int addModelInstance(ModelAsset* asset);
 
 std::thread networkThread;
 bool networkActive = false;
@@ -35,12 +36,15 @@ const Nurn::Address networkAddress = Nurn::Address(127, 0, 0, 1, port);
 
 bool running = true;
 
+
+std::vector<ModelInstance> models;
+Importer::Assets assets = *Importer::Assets::getInstance();
+Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>("Models/moleRat.mtf");
+
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
-	Importer::Assets assets = *Importer::Assets::getInstance();
-	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
 	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
@@ -50,7 +54,8 @@ int main()
 	heightMap->loadHeightMap(heightMapAsset, false);
 	
 	redTexture->bind();
-	std::vector<ModelInstance> models;
+
+
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 	transformReg(L);
@@ -65,8 +70,10 @@ int main()
 	skybox.worldMatrix[3][1] = 3;
 	*/
 	//allocateTransforms(nrOfTransforms);
-	for( int i=0; i<nrOfTransforms; i++ )
-		engine->renderQueue.addModelInstance(molebat);
+	for (int i = 0; i < 50; i++) {
+		addModelInstance(molebat);
+		toBeDrawn.push_back(&allTransforms[i]);
+	}
 	
 	Gear::Particle particle;
 	glm::vec3 pos;
@@ -99,7 +106,7 @@ int main()
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
-
+	int n;
 	bool running = true;
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
@@ -115,10 +122,11 @@ int main()
 		inputs.update();
 		controls.sendControls(inputs, L);
 		//player.update(&inputs, deltaTime);
-		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+		//particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 
-		for (int i = 0; i < nrOfTransforms; i++) {
+
+		for (int i = 0; i < boundTrans; i++) {
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -127,14 +135,13 @@ int main()
 			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
 
-		for (int i = 0; i < nrOfTransforms; i++)
+		for (int i = 0; i < boundTrans; i++)
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
+		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 		
-
-		engine->draw(&camera);
+		engine->draw(&camera, &models);
 		window->update();	
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
@@ -154,6 +161,8 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
+		//std::cout << lua_gettop(L) << "\n";
+
 	}
 	delete[] transforms;
 	delete[] lookAts;
@@ -166,10 +175,36 @@ int main()
 
 	delete[] allTransforms;
 	lua_close(L);
-	//delete window;
+	delete window;
 	glfwTerminate();
 	delete engine;
 	return 0;
+}
+
+
+int addModelInstance(ModelAsset* asset)
+{
+
+	int result = engine->renderQueue.generateWorldMatrix();
+
+	int index = -1;
+	for (int i = 0; i < models.size() && index < 0; i++)
+		if (models[i].asset == asset)
+			index = i;
+
+	if (index < 0)
+	{
+		ModelInstance instance;
+		instance.asset = asset;
+
+		index = models.size();
+		models.push_back(instance);
+	}
+
+	models[index].worldIndices.push_back(result);
+
+
+	return result;
 }
 
 void allocateTransforms(int n)
@@ -178,6 +213,18 @@ void allocateTransforms(int n)
 		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
+}
+
+int shootStuff(lua_State* L) {
+	int a = lua_tointeger(L, -2);
+	int b = lua_tointeger(L, -1);
+	allTransforms[a].setLookDir(allTransforms[b].getLookAt());
+	allTransforms[a].setPos(allTransforms[b].getPos());
+	//allTransforms[lua_tointeger(L, -2)].
+	//boundTrans++;
+	addModelInstance(molebat);
+	lua_pop(L, 2);
+	return 0;
 }
 
 

@@ -6,9 +6,13 @@
 Transform* allTransforms;
 int nrOfTransforms = 0;
 int boundTrans = 0;
+std::vector<Transform*> toBeDrawn;
 Controls controls;
 
 void allocateTransforms(int n);
+int addModelInstance(ModelAsset* asset);
+int shootStuff(lua_State* L);
+
 double deltaTime = 0.0;
 /*int transformBind(lua_State* L)
 {
@@ -68,6 +72,13 @@ int followStuff(lua_State* L)
 	allTransforms[lua_tointeger(L, -2)].follow(allTransforms[lua_tointeger(L, -3)].getPos(), lua_tonumber(L, -1), deltaTime);
 	return 0;
 }
+int fly(lua_State* L) {
+	allTransforms[lua_tointeger(L, -2)].move({ lua_tointeger(L, -1),0,0 }, deltaTime);
+	int n = lua_gettop(L);
+	lua_pop(L, n);
+	return 0;
+
+}
 
 void transformReg(lua_State * L)
 {
@@ -80,6 +91,8 @@ void transformReg(lua_State * L)
 		{ "Move",			transformMove},
 		{ "Switch",			switchTransform},
 		{ "Follow",			followStuff},
+		{ "Shoot",			shootStuff},
+		{ "fly",			fly},
 		{ NULL, NULL }
 	};
 	luaL_setfuncs(L, transformRegs, 0);	

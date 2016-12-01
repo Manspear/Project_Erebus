@@ -20,7 +20,7 @@ namespace Gear
 		glfwTerminate();
 	}
 
-	void GearEngine::draw(Camera* camera)
+	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
 	{
 		/* Render here */
 		
@@ -31,7 +31,7 @@ namespace Gear
 		//------------
 
 		renderQueue.updateUniforms(camera);
-		renderQueue.draw();
+		renderQueue.draw(instances);
 		GLfloat positions[] = { 0.5, 0.5, 0.0 };
 
 
