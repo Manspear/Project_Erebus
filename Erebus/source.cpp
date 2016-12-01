@@ -84,14 +84,14 @@ int main()
 	//Gear::Particle particle[10];
 	Gear::Particle particle;
 
-	//for (int i = 0; i < maxParticles; i++)
-	//{
+	for (int i = 0; i < maxParticles; i++)
+	{
 		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
 		particle.particleObject[i].color = { 1, 0, 0 };
 
 		engine->renderQueue.particles.push_back( &particle );
 
-	//}
+	}
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -120,10 +120,10 @@ int main()
 		inputs.update();
 		controls.sendControls(inputs, L);
 
-		//for (size_t i = 0; i < maxParticles; i++)
-		//{
+		for (size_t i = 0; i < maxParticles; i++)
+		{
 			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
-		//}
+		}
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
