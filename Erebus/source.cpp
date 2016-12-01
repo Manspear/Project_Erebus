@@ -30,8 +30,6 @@ int startNetworkReceiving(Nurn::NurnEngine * pSocket);
 std::thread networkThread;
 bool networkActive = false;
 bool networkHost = true;
-int port = 30000;
-const Nurn::Address networkAddress = Nurn::Address(127, 0, 0, 1, port);
 
 bool running = true;
 
@@ -104,8 +102,6 @@ int main()
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
-
-	bool running = true;
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	if (networkActive)
@@ -199,48 +195,36 @@ int startNetworkCommunication()
 {
 	// initialize socket layer
 
-	Nurn::NurnEngine socket;
+	Nurn::NurnEngine network;
 
-	if (!socket.InitializeSockets())
+	if (!network.Initialize(127, 0, 0, 1))
 	{
 		printf("failed to initialize sockets\n");
 		return 1;
 	}
 
-	// create socket
-
-	printf("creating socket on port %d\n", port);
-
-	if (!socket.CreateUDPSocket(port))
-	{
-		printf("failed to create socket!\n");
-		return 1;
-	}
-
-
-
 	if (networkHost)
 	{
-		startNetworkReceiving(&socket);
+		startNetworkReceiving(&network);
 	}
 	else
 	{
-		startNetworkSending(&socket);
+		startNetworkSending(&network);
 	}
 
-	printf("Closing socket on port %d\n", port);
-	socket.ShutdownSockets();
+	printf("Closing socket on port\n");
+	network.Shutdown();
 
 	return 0;
 }
 
-int startNetworkSending(Nurn::NurnEngine * pSocket)
+int startNetworkSending(Nurn::NurnEngine * pNetwork)
 {
 	while (running && window->isWindowOpen())
 	{
 		const char data[] = "hello world!";
 
-		pSocket->Send(networkAddress, data, sizeof(data));
+		pNetwork->Send(data, sizeof(data));
 
 		Sleep(250);
 	}
@@ -248,14 +232,15 @@ int startNetworkSending(Nurn::NurnEngine * pSocket)
 	return 0;
 }
 
-int startNetworkReceiving(Nurn::NurnEngine * pSocket)
+int startNetworkReceiving(Nurn::NurnEngine * pNetwork)
 {
 	while (running && window->isWindowOpen())
 	{
+		printf("Recieving package\n");
 		Sleep(250);
 		Nurn::Address sender;
 		unsigned char buffer[256];
-		int bytes_read = pSocket->Receive(sender, buffer, sizeof(buffer));
+		int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
 		if (bytes_read)
 		{
 			printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
