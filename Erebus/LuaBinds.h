@@ -6,7 +6,7 @@
 
 Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
-Importer::Assets assets = *Importer::Assets::getInstance();
+Importer::Assets *assets = Importer::Assets::getInstance();
 
 Transform* allTransforms;
 int nrOfTransforms = 0;
@@ -41,7 +41,7 @@ int initStuff(lua_State *L)
 
 int importModels(lua_State *L)
 {
-	Importer::ModelAsset* tempModel = assets.load<Importer::ModelAsset>(lua_tostring(L, -2));
+	Importer::ModelAsset* tempModel = assets->load<Importer::ModelAsset>(lua_tostring(L, -2));
 	for (int i = 0; i < lua_tointeger(L, -1); i++)
 		engine->renderQueue.addModelInstance(tempModel);
 	return 0;

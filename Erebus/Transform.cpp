@@ -22,6 +22,21 @@ void Transform::move(glm::vec3 dir, const float &dt)
 	this->position += glm::cross({ 0, 1, 0 }, tempForward) * dir.z * dt;
 }
 
+void Transform::setPos(glm::vec3 pos)
+{
+	this->position = pos;
+}
+
+void Transform::setLookDir(glm::vec3 dir)
+{
+	this->lookDir = dir;
+}
+
+void Transform::setScale(float s)
+{
+	this->scale = s;
+}
+
 glm::vec3 Transform::getPos()
 {
 	return this->position;
