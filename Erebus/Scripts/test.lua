@@ -5,7 +5,7 @@ enemy = {trans = {}, ms = {}}
 enemySpeeds = {}
 Engine.InitStuff(nrOfActors)
 
-modelPaths = {{"Models/moleman.model", 25}}
+modelPaths = {{"Models/moleman.model", 25}, {"Models/molerat.model", 25}}
 print(#modelPaths)
 for i = 1, #modelPaths do
 	Engine.LoadModels(modelPaths[i][1], modelPaths[i][2])

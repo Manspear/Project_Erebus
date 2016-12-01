@@ -58,9 +58,9 @@ int main()
 	CollisionHandler collisionHandler = CollisionHandler();
 
 	collisionHandler.addHitbox(&sphere1);
-	collisionHandler.addHitbox(&sphere2);
+	/*collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
-	collisionHandler.addHitbox(&aabb2);
+	collisionHandler.addHitbox(&aabb2);*/
 	
 	
 	redTexture->bind();
@@ -69,6 +69,7 @@ int main()
 	luaL_openlibs(L);
 	initLua(L);
 	transformReg(L);
+	collisionReg( L, &collisionHandler );
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
@@ -81,17 +82,13 @@ int main()
 	controls.setControl(&allTransforms[0]);
 
 <<<<<<< HEAD
+//	engine->renderQueue.addModelInstance(terrain);
+	/*Gear::Particle particle[10];
+=======
 	//engine->renderQueue.addModelInstance(terrain);
 	//Gear::Particle particle[10];
-
-	//for (int i = 0; i < maxParticles; i++)
-	//{
-	//	particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
-	//	particle[i].particleObject->color = { 1, 0, 0 };
-
-	//	engine->renderQueue.particles.push_back( &particle[i] );
-=======
 	Gear::Particle particle;
+>>>>>>> 01cc482059e79b7a78414edf5c5c77a2089f7987
 
 	for (int i = 0; i < maxParticles; i++)
 	{
@@ -99,9 +96,8 @@ int main()
 		particle.particleObject[i].color = { 1, 0, 0 };
 
 		engine->renderQueue.particles.push_back( &particle );
->>>>>>> Support_for_Particles
 
-	//}
+	}*/
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -130,17 +126,15 @@ int main()
 		inputs.update();
 		controls.sendControls(inputs, L);
 
-<<<<<<< HEAD
-		//for (size_t i = 0; i < maxParticles; i++)
-		//{
-		//	particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
-		//}
-=======
-		for (size_t i = 0; i < maxParticles; i++)
+		/*for (size_t i = 0; i < maxParticles; i++)
 		{
+<<<<<<< HEAD
+			particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+		}*/
+=======
 			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
 		}
->>>>>>> Support_for_Particles
+>>>>>>> 01cc482059e79b7a78414edf5c5c77a2089f7987
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
