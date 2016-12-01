@@ -44,6 +44,16 @@ void AABBSquareCollider::clearCollisionIDs()
 	this->IDCollisions.clear();
 }
 
+const glm::vec3 * AABBSquareCollider::getPos()
+{
+	return &this->pos;
+}
+
+float AABBSquareCollider::getHalfsize() const
+{
+	return this->halfSize;
+}
+
 void AABBSquareCollider::setPos(glm::vec3 pos)
 {
 	this->pos = pos;

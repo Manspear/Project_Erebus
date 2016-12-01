@@ -13,6 +13,9 @@ public:
 	virtual void insertCollisionID(unsigned int collisionID) override;
 	virtual void clearCollisionIDs() override;
 
+	const glm::vec3* getPos();
+	float getHalfsize() const ;
+
 	void setPos(glm::vec3 pos);
 
 private:
