@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseIncludes.h"
+#include "HeightMap.h"
 
 
 class Transform
@@ -18,11 +19,13 @@ public:
 	void setRotation(glm::vec3 rot);
 	void setLookAt(glm::vec3 lookAt);
 	void follow(glm::vec3 goTowards, float speed, const float &dt);
+	void setHMap(HeightMap* hm);
 private:
 	glm::vec3 position;
 	glm::vec3 lookDir;
 	glm::vec3 rotation;
 	int worldIndex;
 	float scale;
+	HeightMap* hMap;
 };
 

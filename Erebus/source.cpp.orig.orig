@@ -10,7 +10,6 @@
 #include "Transform.h"
 #include "PerformanceCounter.h"
 #include "Particles.h"
-#include "Player.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
@@ -18,11 +17,6 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
-
-void allocateTransforms(int n);
-
-Window *window = new Window();
-Gear::GearEngine *engine = new Gear::GearEngine();
 
 int startNetworkCommunication();
 int startNetworkSending(Nurn::NurnEngine * pSocket);
@@ -41,92 +35,66 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
 <<<<<<< HEAD
-	//Importer::ModelAsset molebat;
-	//molebat.load( "Models/mesh.mtf" );
-	Importer::Assets assets = *Importer::Assets::getInstance();
+	//Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
+	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+	//Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 =======
-	Importer::Assets assets;
->>>>>>> Dev_Main
-	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+	Importer::Assets assets = *Importer::Assets::getInstance();
+	Importer::ModelAsset* terrain = assets.load<Importer::ModelAsset>("Models/terrain.model");
+	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/moleRat.mtf" );
+ 	//Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>( "Models/molerat_animated.model" );
 	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
+	Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>("Models/moleman.model");
+>>>>>>> f25b11ca831cd3e2aed1271a688bcfe7b62dd439
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
-<<<<<<< HEAD
-	//Importer::ModelAsset* skyboxAsset = assets.load<Importer::ModelAsset>("Models/skybox.mole");
-
-	float skyboxScale = 1800;
-=======
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
+	
 	HeightMap *heightMap = new HeightMap();
 	
-	heightMap->loadHeightMap(heightMapAsset, false);
+	heightMap->loadHeightMap(heightMapAsset, true);
+	engine->addStaticNonModel(heightMap->getStaticNonModel());
 	
->>>>>>> Dev_Main
+	
 	redTexture->bind();
-
+	std::vector<ModelInstance> models;
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
+	initLua(L);
 	transformReg(L);
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
-	
 <<<<<<< HEAD
-	/*Gear::Model skybox;
-	skybox.setModelAsset(skyboxAsset);
-	skybox.worldMatrix[0][0] = skyboxScale;
-	skybox.worldMatrix[1][1] = skyboxScale;
-	skybox.worldMatrix[2][2] = skyboxScale;
-	skybox.worldMatrix[3][3] = 1;
+	
+	for (int i = 0; i < nrOfTransforms; i++)
+	{
+		//engine->renderQueue.addModelInstance(molebat);
+		allTransforms[i].setHMap(heightMap);
+	}
+	controls.setControl(&allTransforms[0]);
 
+=======
+
+	//for( int i=0; i<nrOfTransforms; i++ )
+
+	/*skybox.setModelAsset(skyboxAsset);
 	skybox.worldMatrix[3][1] = 3;
 	*/
-	allocateTransforms(105);
-	//engine->renderQueue.addModelInstance( molebat );
-	//engine->renderQueue.addModelInstance( box );
-	for( int i=0; i<3; i++ )
-=======
-	for( int i=0; i<nrOfTransforms; i++ )
->>>>>>> Dev_Main
+	//allocateTransforms(nrOfTransforms);
+	for( int i=0; i<nrOfTransforms -1; i++ )
 		engine->renderQueue.addModelInstance(molebat);
-	
+	engine->renderQueue.addModelInstance(terrain);
+>>>>>>> f25b11ca831cd3e2aed1271a688bcfe7b62dd439
 	Gear::Particle particle;
 	glm::vec3 pos;
 	glm::vec3 color;
-
-<<<<<<< HEAD
-
-	Player player;
-	//Model playerModel;
-	//playerModel.setModelAsset(molebat, engine->renderQueue.modelAdded(&playerModel));
-	engine->renderQueue.addModelInstance( molebat );
-	player.weperino.fml = &engine->renderElements;
-	
-	
-	Controls controls;
-	for (int i = 0; i < 100; i++) {
-		player.weperino.magics[i].transform = &allTransforms[engine->renderQueue.addModelInstance(molebat)];
-	}
-	
-	controls.setControl(&allTransforms[2]);
-	//player.model = &playerModel;
-
-
-	// TEMP: Ritar ut modellen från Gear.
-	//engine->renderElements.push_back(&skybox);
-	//engine->renderElements.push_back(player.model);
-
-=======
-	controls.setControl(&allTransforms[0]);
->>>>>>> Dev_Main
-
 	for (int i = 0; i < particle.getParticleCount(); i++)
 	{
 		pos = {rand() % 10, rand() % 5, rand() % 10 };
 		color = {1.0, 0.0, 0.0};
 		particle.setParticle(pos, color, i);
-		particle.getParticle();
 		engine->renderQueue.particles.push_back( &particle );
 	}
 	glEnable( GL_DEPTH_TEST );
@@ -142,41 +110,30 @@ int main()
 
 
 	bool running = true;
-<<<<<<< HEAD
-	int index = 0;
-	float* transforms = new float[6 * 104];
-	glm::vec3* lookAts = new glm::vec3[104];
-=======
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication);
 	}
 
->>>>>>> Dev_Main
 	while (running && window->isWindowOpen())
 	{
-		deltaTime = counter.getDeltaTime();
-
-		inputs.update();
 <<<<<<< HEAD
-		controls.sendControls(inputs);
-		player.update(&inputs, deltaTime);
-		/*skybox.worldMatrix[3][0] = camera.getPosition().x;
-		skybox.worldMatrix[3][1] = camera.getPosition().y- skyboxScale/2;
-		skybox.worldMatrix[3][2] = camera.getPosition().z;*/
-		camera.follow(player.position, player.lookAt, abs(inputs.getScroll())+5.f);
-		//camera.camUpdate(point, direction, dt);
-		for (int i = 0; i < 104; i++) {
+		deltaTime = counter.getDeltaTime();
 =======
+
+		std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
+		deltaTime = counter.getDeltaTime();
+		
+>>>>>>> f25b11ca831cd3e2aed1271a688bcfe7b62dd439
+		inputs.update();
 		controls.sendControls(inputs, L);
-		particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5);		
+
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
+	
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
->>>>>>> Dev_Main
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -184,22 +141,14 @@ int main()
 			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
 			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
 		}
-<<<<<<< HEAD
-		for (int i = 0; i < 104; i++)
-		{
-			lookAts[i] = allTransforms[i].getLookAt();
-		}
-		engine->renderQueue.update(transforms, nullptr, 104, lookAts);
-		
-
-=======
 
 		for (int i = 0; i < nrOfTransforms; i++)
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, 50, lookAts);
->>>>>>> Dev_Main
+		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
+		
+
 		engine->draw(&camera);
 		window->update();	
 
@@ -220,14 +169,9 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-<<<<<<< HEAD
-		if (inputs.keyPressedThisFrame(GLFW_KEY_TAB))
-			controls.setControl(&allTransforms[++index%105]);
 	}
 	delete[] transforms;
 	delete[] lookAts;
-=======
-	}
 	delete heightMap;
 
 	if (networkActive)
@@ -235,13 +179,9 @@ int main()
 		networkThread.join();
 	}
 
-	delete[] lookAts;
-	delete[] transforms;
-
->>>>>>> Dev_Main
 	delete[] allTransforms;
 	lua_close(L);
-	//delete window;
+	delete window;
 	glfwTerminate();
 	delete engine;
 	return 0;

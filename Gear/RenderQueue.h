@@ -33,10 +33,10 @@ public:
 	//GEAR_API int modelAdded(Model* model);
 	GEAR_API int addModelInstance( ModelAsset* asset );
 	GEAR_API int generateWorldMatrix();
-
+	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::Particle*> particles;
-
+	
 private:
 	int currentShader = 0;
 	int currentTexture = 0;
@@ -47,6 +47,7 @@ private:
 	glm::mat4* tempMatrices;
 	int nrOfWorlds;
 	int totalWorlds;
+
 private:
 	void configure(RenderQueueId &id, GLuint &shaderProgramId);
 

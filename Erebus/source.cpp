@@ -10,6 +10,9 @@
 #include "Transform.h"
 #include "PerformanceCounter.h"
 #include "Particles.h"
+#include "SphereCollider.h"
+#include "AABBCollider.h"
+#include "CollisionHandler.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
@@ -18,10 +21,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 
-void allocateTransforms(int n);
 
-Window *window = new Window();
-Gear::GearEngine *engine = new Gear::GearEngine();
 
 int startNetworkCommunication();
 int startNetworkSending(Nurn::NurnEngine * pSocket);
@@ -45,56 +45,61 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
-	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
 	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
-	HeightMap *heightMap = new HeightMap();
 	
-	heightMap->loadHeightMap(heightMapAsset, false);
+	HeightMap *heightMap = new HeightMap();
+
+	heightMap->loadHeightMap(heightMapAsset, true);
+	engine->addStaticNonModel(heightMap->getStaticNonModel());
+	
+	unsigned int transformID = 0;
+	unsigned int hitboxID = 0;
+	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
+	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
+	AABBCollider aabb1 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
+	AABBCollider aabb2 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
+
+	CollisionHandler collisionHandler = CollisionHandler();
+
+	collisionHandler.addHitbox(&sphere1);
+	/*collisionHandler.addHitbox(&sphere2);
+	collisionHandler.addHitbox(&aabb1);
+	collisionHandler.addHitbox(&aabb2);*/
+	
 	
 	redTexture->bind();
 
 
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
+	initLua(L);
 	transformReg(L);
+	collisionReg( L, &collisionHandler );
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
-	
-	//for( int i=0; i<nrOfTransforms; i++ )
 
-	/*skybox.setModelAsset(skyboxAsset);
-	skybox.worldMatrix[3][1] = 3;
-	*/
-	//allocateTransforms(nrOfTransforms);
-	for (int i = 0; i < 50; i++) {
-		addModelInstance(molebat);
-		toBeDrawn.push_back(&allTransforms[i]);
-	}
-	
-	Gear::Particle particle;
-	glm::vec3 pos;
-	glm::vec3 color;
-
-	controls.setControl(&allTransforms[0]);
-	//player.weperino.fml = &engine->renderElements;
-	
-	/*for (int i = 0; i < 100; i++) {
-		player.weperino.magics[i].transform = &allTransforms[engine->renderQueue.addModelInstance(molebat)];
-	}*/
-	//controls.setControl(&allTransforms[2]);
-
-	for (int i = 0; i < particle.getParticleCount(); i++)
+	for (int i = 0; i < nrOfTransforms; i++)
 	{
-		pos = {rand() % 10, rand() % 5, rand() % 10 };
-		color = {1.0, 0.0, 0.0};
-		particle.setParticle(pos, color, i);
-		particle.getParticle();
-		engine->renderQueue.particles.push_back( &particle );
+		allTransforms[i].setHMap(heightMap);
 	}
+	controls.setControl(&allTransforms[0]);
+
+//	engine->renderQueue.addModelInstance(terrain);
+	/*Gear::Particle particle[10];
+	Gear::Particle particle;
+
+	for (int i = 0; i < maxParticles; i++)
+	{
+		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
+		particle.particleObject[i].color = { 1, 0, 0 };
+
+		engine->renderQueue.particles.push_back( &particle );
+
+	}*/
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -117,16 +122,21 @@ int main()
 
 	while (running && window->isWindowOpen())
 	{
-		deltaTime = counter.getDeltaTime();
 
+		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
+		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs, L);
-		//player.update(&inputs, deltaTime);
-		//particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
+
+		/*for (size_t i = 0; i < maxParticles; i++)
+		{
+			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
+		}*/
+
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
-
-
-		for (int i = 0; i < boundTrans; i++) {
+	
+		for (int i = 0; i < nrOfTransforms; i++) 
+		{
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -140,7 +150,7 @@ int main()
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
 		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
-		
+
 		engine->draw(&camera, &models);
 		window->update();	
 
@@ -161,8 +171,9 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-		//std::cout << lua_gettop(L) << "\n";
 
+		//Collisions
+		collisionHandler.checkCollisions();
 	}
 	delete[] transforms;
 	delete[] lookAts;

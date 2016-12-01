@@ -2,92 +2,109 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Controls.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Importer\HeightMap.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PerformanceCounter.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Source files</Filter>
+    <ClCompile Include="AABBCollider.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Magic.cpp">
-      <Filter>Source files</Filter>
+    <ClCompile Include="AABBSquareCollider.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandler.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HitBox.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
-      <Filter>Header files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Importer\HeightMap.h">
-      <Filter>Header files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaBinds.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PerformanceCounter.h">
-      <Filter>Header files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Magic.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBCollider.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBSquareCollider.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionHandler.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="HitBox.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\test.lua" />
-    <None Include="Shaders\particle.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.vert">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="Shaders\forward.vert">
-      <Filter>shaders</Filter>
+    <None Include="Shaders\forward.frag">
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\forward.geom">
-      <Filter>shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\forward.frag">
-      <Filter>shaders</Filter>
+    <None Include="Shaders\forward.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\heightmap.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\heightmap.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\particle.frag">
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\particle.geom">
-      <Filter>shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\particle.vert">
-      <Filter>shaders</Filter>
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\test.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Source files">
-      <UniqueIdentifier>{cd03ed30-70a3-4c76-9067-e0053dda5515}</UniqueIdentifier>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{859e765f-b361-4208-a4a7-371924c76994}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header files">
-      <UniqueIdentifier>{16773c82-ad6c-46ef-b6d5-381f16be96a4}</UniqueIdentifier>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{34ee3650-5d4f-45ff-b1d0-e5cb656da508}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders">
-      <UniqueIdentifier>{521a2a28-ff0b-404b-850c-2078ae9c0023}</UniqueIdentifier>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{f1271d4e-0acc-49c0-bc12-91a629cc95eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{aa825c85-92b9-4b77-876b-f5a8835cfaa4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
