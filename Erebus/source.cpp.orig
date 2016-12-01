@@ -31,27 +31,20 @@ int addModelInstance(ModelAsset* asset);
 std::thread networkThread;
 bool networkActive = false;
 bool networkHost = true;
-int port = 30000;
-const Nurn::Address networkAddress = Nurn::Address(127, 0, 0, 1, port);
 
 bool running = true;
 
 
 std::vector<ModelInstance> models;
-Importer::Assets assets = *Importer::Assets::getInstance();
-Importer::ModelAsset* molebat = assets.load<Importer::ModelAsset>("Models/moleRat.mtf");
+Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
-<<<<<<< HEAD
-	Importer::ModelAsset* box = assets.load<Importer::ModelAsset>( "Models/mesh.mtf" );
-=======
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
-	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
-	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
-	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
+	Importer::TextureAsset* redTexture = assets->load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
+	Importer::TextureAsset* greenTexture = assets->load<Importer::TextureAsset>( "Textures/green.dds" );
+	Importer::ImageAsset* heightMapAsset = assets->load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
 	
 	HeightMap *heightMap = new HeightMap();
 
@@ -85,24 +78,6 @@ int main()
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
-<<<<<<< HEAD
-	
-	//for( int i=0; i<nrOfTransforms; i++ )
-
-	/*skybox.setModelAsset(skyboxAsset);
-	skybox.worldMatrix[3][1] = 3;
-	*/
-	//allocateTransforms(nrOfTransforms);
-	for (int i = 0; i < 50; i++) {
-		addModelInstance(molebat);
-		toBeDrawn.push_back(&allTransforms[i]);
-	}
-	
-	Gear::Particle particle;
-	glm::vec3 pos;
-	glm::vec3 color;
-=======
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
 
 	for (int i = 0; i < nrOfTransforms; i++)
 	{
@@ -112,10 +87,7 @@ int main()
 
 //	engine->renderQueue.addModelInstance(terrain);
 	/*Gear::Particle particle[10];
-	//engine->renderQueue.addModelInstance(terrain);
-	//Gear::Particle particle[10];
 	Gear::Particle particle;
->>>>>>> 01cc482059e79b7a78414edf5c5c77a2089f7987
 
 	for (int i = 0; i < maxParticles; i++)
 	{
@@ -136,8 +108,11 @@ int main()
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
+<<<<<<< HEAD
 	int n;
 	bool running = true;
+=======
+>>>>>>> da0f41186f6034f088bf6731788bed84bb1220f5
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	if (networkActive)
@@ -152,35 +127,16 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs, L);
+
 		/*for (size_t i = 0; i < maxParticles; i++)
 		{
-<<<<<<< HEAD
-			particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
-		}*/
-		//player.update(&inputs, deltaTime);
-		//particle.setParticle(allTransforms[2].getPos(), glm::vec3(1,0,0), 0 );
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
-
-		//for (size_t i = 0; i < maxParticles; i++)
-		//{
-		//	particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
-		//}
-
-		for (int i = 0; i < boundTrans; i++) {
-=======
-		for (size_t i = 0; i < maxParticles; i++)
-
-		/*for (size_t i = 0; i < maxParticles; i++)
 			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
 		}*/
->>>>>>> Support_for_Particles
->>>>>>> 01cc482059e79b7a78414edf5c5c77a2089f7987
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
 			transforms[i * 6] = allTransforms[i].getPos().x;
 			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
 			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
@@ -193,16 +149,9 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-<<<<<<< HEAD
 		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
-		
-		engine->draw(&camera, &models);
-=======
-		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
 
-	
-		engine->draw(&camera);
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
+		engine->draw(&camera, &models);
 		window->update();	
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
@@ -222,14 +171,9 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-<<<<<<< HEAD
-		//std::cout << lua_gettop(L) << "\n";
-
-=======
 
 		//Collisions
 		collisionHandler.checkCollisions();
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
 	}
 	delete[] transforms;
 	delete[] lookAts;
@@ -299,48 +243,36 @@ int startNetworkCommunication()
 {
 	// initialize socket layer
 
-	Nurn::NurnEngine socket;
+	Nurn::NurnEngine network;
 
-	if (!socket.InitializeSockets())
+	if (!network.Initialize(127, 0, 0, 1))
 	{
 		printf("failed to initialize sockets\n");
 		return 1;
 	}
 
-	// create socket
-
-	printf("creating socket on port %d\n", port);
-
-	if (!socket.CreateUDPSocket(port))
-	{
-		printf("failed to create socket!\n");
-		return 1;
-	}
-
-
-
 	if (networkHost)
 	{
-		startNetworkReceiving(&socket);
+		startNetworkReceiving(&network);
 	}
 	else
 	{
-		startNetworkSending(&socket);
+		startNetworkSending(&network);
 	}
 
-	printf("Closing socket on port %d\n", port);
-	socket.ShutdownSockets();
+	printf("Closing socket on port\n");
+	network.Shutdown();
 
 	return 0;
 }
 
-int startNetworkSending(Nurn::NurnEngine * pSocket)
+int startNetworkSending(Nurn::NurnEngine * pNetwork)
 {
 	while (running && window->isWindowOpen())
 	{
 		const char data[] = "hello world!";
 
-		pSocket->Send(networkAddress, data, sizeof(data));
+		pNetwork->Send(data, sizeof(data));
 
 		Sleep(250);
 	}
@@ -348,14 +280,15 @@ int startNetworkSending(Nurn::NurnEngine * pSocket)
 	return 0;
 }
 
-int startNetworkReceiving(Nurn::NurnEngine * pSocket)
+int startNetworkReceiving(Nurn::NurnEngine * pNetwork)
 {
 	while (running && window->isWindowOpen())
 	{
+		printf("Recieving package\n");
 		Sleep(250);
 		Nurn::Address sender;
 		unsigned char buffer[256];
-		int bytes_read = pSocket->Receive(sender, buffer, sizeof(buffer));
+		int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
 		if (bytes_read)
 		{
 			printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
