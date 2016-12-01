@@ -10,6 +10,9 @@
 #include "Transform.h"
 #include "PerformanceCounter.h"
 #include "Particles.h"
+#include "SphereCollider.h"
+#include "AABBCollider.h"
+#include "CollisionHandler.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
@@ -17,6 +20,8 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
+
+
 
 int startNetworkCommunication();
 int startNetworkSending(Nurn::NurnEngine * pSocket);
@@ -39,9 +44,24 @@ int main()
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
 	
 	HeightMap *heightMap = new HeightMap();
-	
+
 	heightMap->loadHeightMap(heightMapAsset, true);
 	engine->addStaticNonModel(heightMap->getStaticNonModel());
+	
+	unsigned int transformID = 0;
+	unsigned int hitboxID = 0;
+	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
+	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
+	AABBCollider aabb1 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
+	AABBCollider aabb2 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
+
+	CollisionHandler collisionHandler = CollisionHandler();
+
+	collisionHandler.addHitbox(&sphere1);
+	/*collisionHandler.addHitbox(&sphere2);
+	collisionHandler.addHitbox(&aabb1);
+	collisionHandler.addHitbox(&aabb2);*/
+	
 	
 	redTexture->bind();
 	std::vector<ModelInstance> models;
@@ -49,6 +69,7 @@ int main()
 	luaL_openlibs(L);
 	initLua(L);
 	transformReg(L);
+	collisionReg( L, &collisionHandler );
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
@@ -62,13 +83,14 @@ int main()
 
 //	engine->renderQueue.addModelInstance(terrain);
 	/*Gear::Particle particle[10];
+	Gear::Particle particle;
 
 	for (int i = 0; i < maxParticles; i++)
 	{
-		particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle[i].particleObject->color = { 1, 0, 0 };
+		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
+		particle.particleObject[i].color = { 1, 0, 0 };
 
-		engine->renderQueue.particles.push_back( &particle[i] );
+		engine->renderQueue.particles.push_back( &particle );
 
 	}*/
 	glEnable( GL_DEPTH_TEST );
@@ -94,14 +116,14 @@ int main()
 	while (running && window->isWindowOpen())
 	{
 
-		std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
+		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.sendControls(inputs, L);
 
 		/*for (size_t i = 0; i < maxParticles; i++)
 		{
-			particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
 		}*/
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
@@ -143,6 +165,9 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
+
+		//Collisions
+		collisionHandler.checkCollisions();
 	}
 	delete[] transforms;
 	delete[] lookAts;

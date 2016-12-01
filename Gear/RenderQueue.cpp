@@ -9,6 +9,7 @@ RenderQueue::RenderQueue(): nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr
 
 	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
+
 }
 
 RenderQueue::~RenderQueue()
@@ -57,6 +58,7 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
 	allShaders[PARTICLES]->unUse();
+	
 }
 
 void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
@@ -167,10 +169,7 @@ GEAR_API void RenderQueue::draw()
 			glUniform1f(loc, 2.0f);
 		}
 
-
-		glGenBuffers(1, &particleVertexBuffer);
-
-		glBindBuffer(GL_ARRAY_BUFFER, particleVertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);
 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(ParticlePoint) * maxParticles, &particles[i]->particleObject, GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)0);

@@ -46,7 +46,7 @@ private:
 	glm::mat4* tempMatrices;
 	int nrOfWorlds;
 	int totalWorlds;
-	GLuint particleVertexBuffer;
+
 private:
 	void configure(RenderQueueId &id, GLuint &shaderProgramId);
 
