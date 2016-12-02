@@ -61,9 +61,6 @@ int main()
 	CollisionHandler collisionHandler = CollisionHandler();
 
 	collisionHandler.addHitbox(&sphere1);*/
-	collisionHandler.addHitbox(&sphere2);
-	collisionHandler.addHitbox(&aabb1);
-	collisionHandler.addHitbox(&aabb2);
 	
 	CollisionHandler collisionHandler;
 	
