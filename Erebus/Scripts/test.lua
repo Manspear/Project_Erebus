@@ -18,6 +18,8 @@ end
  
 player.trans = Transform.Bind()
 player.moveSpeed = 40
+player.ySpeed = 0
+player.canJump = false
  
 
 for i = 1, 10 do
@@ -46,11 +48,16 @@ function Controls()
         if buttons[i] == 1 then forward = -player.moveSpeed  end
         if buttons[i] == 2 then left = player.moveSpeed  end
         if buttons[i] == 3 then left = -player.moveSpeed  end
-		if buttons[i] == 4 then up = player.moveSpeed  else up = -player.moveSpeed  end
+		--if buttons[i] == 4 then up = player.moveSpeed  else up = -player.moveSpeed  end
+		if buttons[i] == 4 and player.canJump then
+			player.ySpeed = 0.5
+			player.canJump = false
+		end
         if buttons[i] == 6 then ChangePlayer() end
 		if buttons[i] == 7 then shoot() end
-    end
-    Transform.Move(player.trans, forward, up, left)
+	end
+
+	Transform.Move(player.trans, forward, player.ySpeed, left)
     buttons = {}   
 end
  
@@ -60,6 +67,18 @@ function doDaHustle()
     end
 end
 
+function Update(dt)
+	local pos = Transform.GetPos(player.trans)
+	pos.y = pos.y + player.ySpeed
+	player.ySpeed = player.ySpeed - 0.982*dt		--add gravity to vertical speed
+	Transform.SetPos(player.trans,pos)
+
+	--TEMP
+	if Transform.ToHeightmap(player.trans) then
+		player.canJump = true
+		player.ySpeed = 0
+	end
+end
 function updateBullets( dt )
 	print(activeBullets ..  "  : :  " ..  bulletIndex)
 	for i = 1 , nrOfBullets do

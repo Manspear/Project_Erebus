@@ -118,6 +118,69 @@ int distance( lua_State* lua )
 	return 1;
 }
 
+int transformGetPos( lua_State* lua )
+{
+	int result = 0;
+
+	if( lua_gettop( lua ) >= 1 )
+	{
+		int index = lua_tointeger( lua, 1 );
+		glm::vec3 pos = allTransforms[index].getPos();
+
+		lua_newtable( lua );
+		lua_pushnumber( lua, pos.x );
+		lua_setfield( lua, -2, "x" );
+
+		lua_pushnumber( lua, pos.y );
+		lua_setfield( lua, -2, "y" );
+
+		lua_pushnumber( lua, pos.z );
+		lua_setfield( lua, -2, "z" );
+
+		result = 1;
+	}
+
+	return result;
+}
+
+int transformSetPos( lua_State* lua )
+{
+	if( lua_gettop( lua ) >= 2 )
+	{
+		int index = lua_tointeger( lua, 1 );
+
+		glm::vec3 pos;
+		lua_getfield( lua, 2, "x" );
+		pos.x = lua_tonumber( lua, -1 );
+
+		lua_getfield( lua, 2, "y" );
+		pos.y = lua_tonumber( lua, -1 );
+
+		lua_getfield( lua, 2, "z" );
+		pos.z = lua_tonumber( lua, -1 );
+
+		allTransforms[index].setPos( pos );
+	}
+
+	return 0;
+}
+
+// TEMP: Call into heightmap class instead of going through transform?
+int transformToHeightmap( lua_State* lua )
+{
+	int result = 0;
+
+	if( lua_gettop( lua ) >= 1 )
+	{
+		int index = lua_tointeger( lua, 1 );
+
+		lua_pushboolean( lua, allTransforms[index].toHeightmap() );
+		result = 1;
+	}
+
+	return result;
+}
+
 void transformReg(lua_State * L)
 {
 	luaL_newmetatable(L, "transformTable");
@@ -131,6 +194,9 @@ void transformReg(lua_State * L)
 		{ "Shoot",			shootStuff},
 		{ "Distance",		distance },
 		{ "fly",			fly},
+		{ "GetPos",			transformGetPos },
+		{ "SetPos",			transformSetPos },
+		{ "ToHeightmap",	transformToHeightmap },
 		{ NULL, NULL }
 	};
 	luaL_setfuncs(L, transformRegs, 0);	

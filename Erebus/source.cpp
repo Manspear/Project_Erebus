@@ -135,6 +135,11 @@ int main()
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
+		lua_getglobal( L, "Update" );
+		lua_pushnumber( L, deltaTime );
+		if( lua_pcall( L, 1, 0, 0 ) )
+			std::cout << lua_tostring( L, -1 ) << std::endl;
+
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
 			transforms[i * 6] = allTransforms[i].getPos().x;
