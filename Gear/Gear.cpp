@@ -11,7 +11,7 @@ namespace Gear
 	GearEngine::GearEngine()
 	{
 		glewInit();
-		renderQueue.init();
+		tempRenderQueue.init();
 	}
 
 	GearEngine::~GearEngine()
@@ -24,7 +24,7 @@ namespace Gear
 
 	}
 
-	void GearEngine::draw(Camera* camera)
+	void GearEngine::draw(std::vector<RenderQueueElement*> elem, Camera* camera)
 	{
 		/* Render here */
 		
@@ -34,8 +34,8 @@ namespace Gear
 		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
 		//------------
 
-		renderQueue.updateUniforms(camera);
-		renderQueue.draw();
+		tempRenderQueue.updateUniforms(camera);
+		tempRenderQueue.draw();
 		GLfloat positions[] = { 0.5, 0.5, 0.0 };
 
 
@@ -60,7 +60,7 @@ namespace Gear
 	}
 	
 	void GearEngine::addStaticNonModel(staticNonModels* model) {
-		model->addShaderProgramRef(this->renderQueue.getShaderProgram(model->getShaderType()));
+		model->addShaderProgramRef(this->tempRenderQueue.getShaderProgram(model->getShaderType()));
 		this->statModels.push_back(model);
 	}
 }

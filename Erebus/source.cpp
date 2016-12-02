@@ -140,7 +140,7 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
+		engine->tempRenderQueue.update(transforms, nullptr, nrOfTransforms, lookAts);
 
 	
 		engine->draw(&camera);
@@ -189,7 +189,7 @@ void allocateTransforms(int n)
 	if(allTransforms!= nullptr)
 		delete allTransforms;
 	allTransforms = new Transform[n];
-	engine->renderQueue.allocateWorlds(n);
+	engine->tempRenderQueue.allocateWorlds(n);
 }
 
 
