@@ -7,12 +7,10 @@
 #include "TextureAsset.h"
 #include "Window.h"
 #include <ctime>
-#include "Transform.h"
 #include "PerformanceCounter.h"
 #include "Particles.h"
 #include "SphereCollider.h"
 #include "AABBCollider.h"
-#include "CollisionHandler.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
@@ -36,7 +34,7 @@ bool running = true;
 
 
 std::vector<ModelInstance> models;
-Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
+//Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
 
 int main()
 {
@@ -51,20 +49,25 @@ int main()
 	heightMap->loadHeightMap(heightMapAsset, true);
 	engine->addStaticNonModel(heightMap->getStaticNonModel());
 	
-	unsigned int transformID = 0;
+	/*unsigned int transformID = 0;
 	unsigned int hitboxID = 0;
 	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
 	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
-	AABBCollider aabb1 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
-	AABBCollider aabb2 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
+	AABBCollider aabb1 = AABBCollider(hitboxID++, 0, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
+	AABBCollider aabb2 = AABBCollider(hitboxID++, 1, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
 
-	CollisionHandler collisionHandler = CollisionHandler();
+	
 
-	collisionHandler.addHitbox(&sphere1);
-	/*collisionHandler.addHitbox(&sphere2);
+<<<<<<< HEAD
+	/*collisionHandler.addHitbox(&sphere1);
+	collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
 	collisionHandler.addHitbox(&aabb2);*/
+=======
+	collisionHandler.addHitbox(&sphere1);*/
+>>>>>>> bd576bbeab9dad88c6f187783fb1d29cc07176f8
 	
+	CollisionHandler collisionHandler;
 	
 	redTexture->bind();
 
@@ -72,8 +75,7 @@ int main()
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 	initLua(L);
-	transformReg(L);
-	collisionReg( L, &collisionHandler );
+	
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
@@ -108,11 +110,6 @@ int main()
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
-<<<<<<< HEAD
-	int n;
-	bool running = true;
-=======
->>>>>>> da0f41186f6034f088bf6731788bed84bb1220f5
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	if (networkActive)
@@ -120,21 +117,40 @@ int main()
 		networkThread = std::thread(startNetworkCommunication);
 	}
 
+	bool playerAlive = true;
 	while (running && window->isWindowOpen())
 	{
 
 		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.sendControls(inputs, L);
+
+		if( playerAlive )
+			controls.sendControls(inputs, L);
 
 		/*for (size_t i = 0; i < maxParticles; i++)
 		{
 			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
 		}*/
 
+		lua_getglobal(L, "updateBullets");
+		lua_pushnumber(L, deltaTime);
+		lua_pcall(L, 1, 0, 0);
+
+
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
+		if( playerAlive )
+		{
+			lua_getglobal( L, "Update" );
+			lua_pushnumber( L, deltaTime );
+			if( lua_pcall( L, 1, 1, 0 ) )
+				std::cout << lua_tostring( L, -1 ) << std::endl;
+			playerAlive = lua_toboolean( L, -1 );
+		}
+		else
+			std::cout << "Game Over" << std::endl;
+
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
 			transforms[i * 6] = allTransforms[i].getPos().x;
@@ -185,10 +201,14 @@ int main()
 	}
 
 	delete[] allTransforms;
-	lua_close(L);
 	delete window;
 	glfwTerminate();
 	delete engine;
+	system("cls");
+	std::cout << "You suck! y/n?" << std::endl;
+	int x;
+	std::cin >> x;
+	lua_close(L);
 	return 0;
 }
 
@@ -224,18 +244,6 @@ void allocateTransforms(int n)
 		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
-}
-
-int shootStuff(lua_State* L) {
-	int a = lua_tointeger(L, -2);
-	int b = lua_tointeger(L, -1);
-	allTransforms[a].setLookDir(allTransforms[b].getLookAt());
-	allTransforms[a].setPos(allTransforms[b].getPos());
-	//allTransforms[lua_tointeger(L, -2)].
-	//boundTrans++;
-	addModelInstance(molebat);
-	lua_pop(L, 2);
-	return 0;
 }
 
 

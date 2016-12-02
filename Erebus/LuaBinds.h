@@ -67,6 +67,15 @@ void transformReg(lua_State * L)
 	lua_setglobal(L, "Transform");
 }
 
+int destroySphereCollider( lua_State* lua )
+{
+	lua_getfield( lua, 1, "__self" );
+	SphereCollider* collider = (SphereCollider*)lua_touserdata(lua, -1 );
+	delete collider;
+
+	return 0;
+}
+
 void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 {
 	luaL_newmetatable( lua, "sphereColliderMeta" );
@@ -75,6 +84,7 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 		{ "Create", createSphereCollider },
 		{ "GetCollisionIDs", getCollisionIDs },
 		{ "CheckCollision", checkCollision },
+		{ "__gc", destroySphereCollider },
 		{ NULL, NULL }
 	};
 

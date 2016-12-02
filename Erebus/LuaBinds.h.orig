@@ -1,36 +1,17 @@
 #pragma once
-#include <lua\lua.hpp>
-#include "Transform.h"
 #include "BaseIncludes.h"
 #include "Gear.h"
+#include "LuaTransform.h"
+#include "LuaCollision.h"
 
 Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
-Importer::Assets assets = *Importer::Assets::getInstance();
+Importer::Assets *assets = Importer::Assets::getInstance();
 
-Transform* allTransforms;
-int nrOfTransforms = 0;
-int boundTrans = 0;
 std::vector<Transform*> toBeDrawn;
-Controls controls;
 
 void allocateTransforms(int n);
 int addModelInstance(ModelAsset* asset);
-int shootStuff(lua_State* L);
-
-double deltaTime = 0.0;
-/*int transformBind(lua_State* L)
-{
-	int n = lua_gettop(L);
-	for (int i = 1; i <= n; i++)
-		std::cout << lua_tonumber(L, i) << "\n";
-	Transform** transform = reinterpret_cast<Transform**>(lua_newuserdata(L, sizeof(Transform*)));
-	*transform = &allTransforms[nrOfTransforms++];
-	
-	luaL_getmetatable(L, "transformTable");
-	lua_setmetatable(L, -2);
-	return 1;
-}*/
 
 int initStuff(lua_State *L)
 {
@@ -41,79 +22,25 @@ int initStuff(lua_State *L)
 
 int importModels(lua_State *L)
 {
-	Importer::ModelAsset* tempModel = assets.load<Importer::ModelAsset>(lua_tostring(L, -2));
+	Importer::ModelAsset* tempModel = assets->load<Importer::ModelAsset>(lua_tostring(L, -2));
 	for (int i = 0; i < lua_tointeger(L, -1); i++)
-		engine->renderQueue.addModelInstance(tempModel);
+		addModelInstance(tempModel);
 	return 0;
 }
 
-void initLua(lua_State * L)
+void importerReg(lua_State * L)
 {
-	luaL_newmetatable(L, "initTable");
-	luaL_Reg transformRegs[] =
+	luaL_newmetatable(L, "importerTable");
+	luaL_Reg importerRegs[] =
 	{
-		{ "InitStuff",      initStuff },
-		{ "LoadModels",		importModels},
+		{ "LoadModels",		importModels },
 		{ NULL, NULL }
 	};
-	luaL_setfuncs(L, transformRegs, 0);
+	luaL_setfuncs(L, importerRegs, 0);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -1, "__index");
 	int n = lua_gettop(L);
-	lua_setglobal(L, "Engine");
-}
-
-int transformBind(lua_State* L)
-{
-	int n = lua_gettop(L);
-	for (int i = 1; i <= n; i++)
-		std::cout << lua_tonumber(L, i) << "\n";
-	lua_pushinteger(L, boundTrans++);
-	return 1;
-}
-
-int transformDestroy(lua_State* L)
-{
-	Transform* transform = nullptr;
-	void* ptr = luaL_testudata(L, 1, "transformTable");
-	if (ptr != nullptr)
-		transform = *(Transform**)ptr;
-	delete transform;
-	return 0;
-}
-
-int transformMove(lua_State* L)
-{	
-	allTransforms[lua_tointeger(L, -4)].move(glm::vec3(lua_tonumber(L, -3), lua_tonumber(L, -2), lua_tonumber(L, -1)), deltaTime);
-	int n = lua_gettop(L);
-	lua_pop(L, 4);
-	return 0;
-}
-
-int switchTransform(lua_State* L)
-{
-	controls.setControl(&allTransforms[lua_tointeger(L, -1)]);
-	return 0;
-}
-
-int followStuff(lua_State* L)
-{
-	allTransforms[lua_tointeger(L, -2)].follow(allTransforms[lua_tointeger(L, -3)].getPos(), lua_tonumber(L, -1), deltaTime);
-	return 0;
-}
-int fly(lua_State* L) {
-	allTransforms[lua_tointeger(L, -2)].move({ lua_tointeger(L, -1),0,0 }, deltaTime);
-	int n = lua_gettop(L);
-	lua_pop(L, n);
-	return 0;
-
-}
-
-int distance( lua_State* lua )
-{
-	float d = glm::distance(allTransforms[lua_tointeger(lua,1)].getPos(), allTransforms[lua_tointeger(lua,2)].getPos());
-	lua_pushnumber( lua, d );
-	return 1;
+	lua_setglobal(L, "Importer");
 }
 
 void transformReg(lua_State * L)
@@ -122,16 +49,15 @@ void transformReg(lua_State * L)
 	luaL_Reg transformRegs[] =
 	{
 		{ "Bind",			transformBind},
-		{ "Destroy",		transformDestroy},
 		{ "Move",			transformMove},
 		{ "Switch",			switchTransform},
 		{ "Follow",			followStuff},
-<<<<<<< HEAD
 		{ "Shoot",			shootStuff},
-		{ "fly",			fly},
-=======
 		{ "Distance",		distance },
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
+		{ "Fly",			fly},
+		{ "GetPos",			transformGetPos },
+		{ "SetPos",			transformSetPos },
+		{ "ToHeightmap",	transformToHeightmap },
 		{ NULL, NULL }
 	};
 	luaL_setfuncs(L, transformRegs, 0);	
@@ -141,6 +67,8 @@ void transformReg(lua_State * L)
 	lua_setglobal(L, "Transform");
 }
 
+<<<<<<< HEAD
+=======
 int addSphere( lua_State* lua )
 {
 	if( lua_gettop( lua ) >= 2 )
@@ -173,6 +101,18 @@ int addAABB( lua_State* lua )
 	return 0;
 }
 
+int shootStuff(lua_State* L) {
+	int a = lua_tointeger(L, -2);
+	int b = lua_tointeger(L, -1);
+	allTransforms[a].setLookDir(allTransforms[b].getLookAt());
+	allTransforms[a].setPos(allTransforms[b].getPos());
+	//allTransforms[lua_tointeger(L, -2)].
+	//boundTrans++;
+	//addModelInstance(molebat);
+	lua_pop(L, 2);
+	return 0;
+}
+
 int createSphereCollider( lua_State* lua )
 {
 	int result = 0;
@@ -200,7 +140,7 @@ int createAABBCollider( lua_State* lua )
 {
 	int result = 0;
 
-	if( lua_gettop( lua ) >= 4 )
+	if( lua_gettop( lua ) >= 8 )
 	{
 		int colliderID = (int)lua_tonumber( lua, 1 );
 		int transformID = (int)lua_tonumber( lua, 2 );
@@ -258,6 +198,16 @@ int checkCollision( lua_State* lua )
 	return result;
 }
 
+int destroySphereCollider( lua_State* lua )
+{
+	lua_getfield( lua, 1, "__self" );
+	SphereCollider* collider = (SphereCollider*)lua_touserdata(lua, -1 );
+	delete collider;
+
+	return 0;
+}
+
+>>>>>>> bd576bbeab9dad88c6f187783fb1d29cc07176f8
 void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 {
 	luaL_newmetatable( lua, "sphereColliderMeta" );
@@ -266,6 +216,7 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 		{ "Create", createSphereCollider },
 		{ "GetCollisionIDs", getCollisionIDs },
 		{ "CheckCollision", checkCollision },
+		{ "__gc", destroySphereCollider },
 		{ NULL, NULL }
 	};
 
@@ -306,4 +257,24 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 	lua_setfield( lua, -2, "__self" );
 	luaL_setmetatable( lua, "collisionHandlerMeta" );
 	lua_setglobal( lua, "CollisionHandler" );
+}
+
+
+void initLua(lua_State * L)
+{
+	luaL_newmetatable(L, "initTable");
+	luaL_Reg transformRegs[] =
+	{
+		{ "InitStuff",      initStuff },
+		{ NULL, NULL }
+	};
+	luaL_setfuncs(L, transformRegs, 0);
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -1, "__index");
+	int n = lua_gettop(L);
+	lua_setglobal(L, "Engine");
+
+	importerReg(L);
+	transformReg(L);
+	collisionReg(L, &collisionHandler);
 }
