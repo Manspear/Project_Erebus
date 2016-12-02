@@ -36,7 +36,7 @@ bool running = true;
 
 
 std::vector<ModelInstance> models;
-Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
+//Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
 
 int main()
 {
@@ -127,6 +127,11 @@ int main()
 		{
 			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
 		}*/
+
+		lua_getglobal(L, "updateBullets");
+		lua_pushnumber(L, deltaTime);
+		lua_pcall(L, 1, 0, 0);
+
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
@@ -219,18 +224,6 @@ void allocateTransforms(int n)
 		delete allTransforms;
 	allTransforms = new Transform[n];
 	engine->renderQueue.allocateWorlds(n);
-}
-
-int shootStuff(lua_State* L) {
-	int a = lua_tointeger(L, -2);
-	int b = lua_tointeger(L, -1);
-	allTransforms[a].setLookDir(allTransforms[b].getLookAt());
-	allTransforms[a].setPos(allTransforms[b].getPos());
-	//allTransforms[lua_tointeger(L, -2)].
-	//boundTrans++;
-	addModelInstance(molebat);
-	lua_pop(L, 2);
-	return 0;
 }
 
 

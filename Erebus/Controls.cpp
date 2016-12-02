@@ -26,6 +26,7 @@ void Controls::sendControls(Inputs &input, lua_State* L)
 	if (input.keyPressedThisFrame(keys[6]))
 		pressedKeys.push_back(6);
 
+	if (input.buttonPressedThisFrame(keys[7]))
 		pressedKeys.push_back(7);
 
 	if (pressedKeys.size() > 0)

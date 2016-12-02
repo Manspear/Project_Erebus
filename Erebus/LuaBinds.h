@@ -43,7 +43,7 @@ int importModels(lua_State *L)
 {
 	Importer::ModelAsset* tempModel = assets->load<Importer::ModelAsset>(lua_tostring(L, -2));
 	for (int i = 0; i < lua_tointeger(L, -1); i++)
-		engine->renderQueue.addModelInstance(tempModel);
+		addModelInstance(tempModel);
 	return 0;
 }
 
@@ -102,7 +102,9 @@ int followStuff(lua_State* L)
 	return 0;
 }
 int fly(lua_State* L) {
-	allTransforms[lua_tointeger(L, -2)].move({ lua_tointeger(L, -1),0,0 }, deltaTime);
+	int index = lua_tointeger(L, -2);
+	int speed = lua_tointeger(L, -1);
+	allTransforms[index].move({ speed,allTransforms[index].getLookAt().y* (float)speed,0 }, deltaTime);
 	int n = lua_gettop(L);
 	lua_pop(L, n);
 	return 0;
@@ -167,6 +169,18 @@ int addAABB( lua_State* lua )
 		handler->addHitbox( collider );
 	}
 
+	return 0;
+}
+
+int shootStuff(lua_State* L) {
+	int a = lua_tointeger(L, -2);
+	int b = lua_tointeger(L, -1);
+	allTransforms[a].setLookDir(allTransforms[b].getLookAt());
+	allTransforms[a].setPos(allTransforms[b].getPos());
+	//allTransforms[lua_tointeger(L, -2)].
+	//boundTrans++;
+	//addModelInstance(molebat);
+	lua_pop(L, 2);
 	return 0;
 }
 
