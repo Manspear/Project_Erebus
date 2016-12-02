@@ -17,7 +17,11 @@ Controls::~Controls()
 void Controls::sendControls(Inputs &input, lua_State* L)
 {
 	std::vector<int> pressedKeys;
+<<<<<<< HEAD
+	for (int i = 0; i < nrOfKeys-1; i++)
+=======
 	for (int i = 0; i < nrOfKeys - 1; i++)
+>>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
 	{
 		if (input.keyPressed(keys[i]))
 			pressedKeys.push_back(i);
@@ -26,8 +30,12 @@ void Controls::sendControls(Inputs &input, lua_State* L)
 	if (input.keyPressedThisFrame(keys[6]))
 		pressedKeys.push_back(6);
 
-	if (input.buttonPressedThisFrame(keys[7]))
+<<<<<<< HEAD
+	if (input.buttonPressedThisFrame(keys[7])) {
 		pressedKeys.push_back(7);
+	}
+=======
+>>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
 
 	if (pressedKeys.size() > 0)
 	{

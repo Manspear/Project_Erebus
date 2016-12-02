@@ -20,6 +20,9 @@ public:
 	void setLookAt(glm::vec3 lookAt);
 	void follow(glm::vec3 goTowards, float speed, const float &dt);
 	void setHMap(HeightMap* hm);
+
+	// TEMP: Should probably go directly to heightmap instead of going through transform
+	bool toHeightmap();
 private:
 	glm::vec3 position;
 	glm::vec3 lookDir;
