@@ -31,6 +31,10 @@ bool HitBox::checkCollision()
 	bool collision = false;
 
 	if (this->IDCollisions.size() > 0)
-		collision = true;
+	{
+		//BUG: Why is the list full of 0's?
+		if( IDCollisions.size() > 1 || IDCollisions[0] != ID )
+			collision = true;
+	}
 	return collision;
 }

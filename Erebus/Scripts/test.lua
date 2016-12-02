@@ -2,7 +2,7 @@ nrOfActors = 50
 nrOfEnemies = 39
 nrOfBullets = 10
 player = {}
-enemy = {trans = {}, ms = {}}
+enemy = {trans = {}, ms = {}, sphereCollider = {}}
 Engine.InitStuff(nrOfActors)
 
 bullets = { }
@@ -20,7 +20,10 @@ player.trans = Transform.Bind()
 player.moveSpeed = 40
 player.ySpeed = 0
 player.canJump = false
- 
+player.health = 100
+player.sphereCollider = SphereCollider.Create(0, player.trans, 100,10,100, 1)
+CollisionHandler:AddSphere(player.sphereCollider)
+Transform.SetPos(player.trans, {x=100,y=10,z=100})
 
 for i = 1, 10 do
 	bullets[i] = {trans = 0, ms= 0, lifeLeft= 0, alive = false}
@@ -33,6 +36,8 @@ end
 for i = 1, nrOfEnemies do
 		enemy.trans[i] = Transform.Bind()
 		enemy.ms[i] = math.random(5, 20)
+		enemy.sphereCollider[i] = SphereCollider.Create(i, enemy.trans[i], 0,0,0, 1)
+		CollisionHandler:AddSphere(enemy.sphereCollider[i])
 end
  
 function ChangePlayer()
@@ -78,9 +83,15 @@ function Update(dt)
 		player.canJump = true
 		player.ySpeed = 0
 	end
+
+	if player.sphereCollider:CheckCollision() then
+		player.health = player.health - 1
+	end
+
+	return player.health > 0
 end
 function updateBullets( dt )
-	print(activeBullets ..  "  : :  " ..  bulletIndex)
+	--print(activeBullets ..  "  : :  " ..  bulletIndex)
 	for i = 1 , nrOfBullets do
 		bullets[i].lifeLeft = bullets[i].lifeLeft - dt
 		if bullets[i].lifeLeft < 0 and bullets[i].alive == true 
