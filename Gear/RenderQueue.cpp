@@ -169,14 +169,20 @@ GEAR_API void RenderQueue::draw()
 			glUniform1f(loc, 2.0f);
 		}
 
+		/*glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);*/
 		glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(ParticlePoint) * maxParticles, &particles[i]->particleObject, GL_STATIC_DRAW);
+		glm::vec3 partArray[2] = { particles[i]->getPosition(), particles[i]->getColor() };
+
+		glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3) * 2) * maxParticles, partArray, GL_STATIC_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 2, partArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
+
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
+		//glDrawArrays(GL_POINTS, 0, 1);
 	}
 
 	allShaders[PARTICLES]->unUse();

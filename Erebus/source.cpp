@@ -81,18 +81,23 @@ int main()
 	controls.setControl(&allTransforms[0]);
 
 	//engine->renderQueue.addModelInstance(terrain);
-	//Gear::Particle particle[10];
-	Gear::Particle particle;
+
+	Gear::Particle particles[10];
+	/*engine->renderQueue.particle = &particle;*/
+
 
 	for (int i = 0; i < maxParticles; i++)
 	{
-		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle.particleObject[i].color = { 1, 0, 0 };
+	/*	particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
+	
+		particle.particleObject[i].color = { 1, 0, 0 };*/
 
-		engine->renderQueue.particles.push_back( &particle );
+		particles[i] = Gear::Particle(glm::vec3(rand() % 10, rand() % 5, 1), glm::vec3(1, 0, 0), glm::vec3(0, 0, 0), 255);
 
+		engine->renderQueue.particles.push_back(&particles[i]);
 	}
-	glEnable( GL_DEPTH_TEST );
+
+ 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
@@ -122,8 +127,16 @@ int main()
 
 		for (size_t i = 0; i < maxParticles; i++)
 		{
-			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
+			particles[i].update(glm::vec3(0, 0, 0.005));
+
+			if (particles[i].isDead() == false)
+			{
+				printf("particle is dead \n");
+			}
+
+			/*particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);*/
 		}
+
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	

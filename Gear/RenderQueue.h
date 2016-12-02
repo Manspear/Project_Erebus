@@ -35,6 +35,7 @@ public:
 	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::Particle*> particles;
+	/*Gear::Particle* particle;*/
 	
 private:
 	int currentShader = 0;

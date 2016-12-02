@@ -7,7 +7,8 @@ struct ParticlePoint
 {
 	glm::vec3 pos;
 	glm::vec3 color;
-
+	//glm::vec3 speed;
+	//glm::vec3 duration
 };
 
 const int maxParticles = 10;
@@ -19,26 +20,25 @@ namespace Gear
 	public:
 
 		GEAR_API Particle();
-		GEAR_API Particle(glm::vec3 pos, GLfloat duration, GLfloat speed, GLfloat angle, glm::vec3 color);
+		GEAR_API Particle(glm::vec3 pos, glm::vec3 color, glm::vec3 speed, float duration);
 		GEAR_API ~Particle();
 		GEAR_API virtual void draw(const GLuint &shaderProgramId) override;
-		
+		GEAR_API void update(glm::vec3 &speed);
+		GEAR_API bool isDead();
 
-		GEAR_API void setParticle(glm::vec3 pos, glm::vec3 color, int i);
-		GEAR_API ParticlePoint getParticle();
+		GEAR_API glm::vec3 getPosition();
+		GEAR_API glm::vec3 getColor();
+		GEAR_API glm::vec3 getSpeed();
 
-		//GEAR_API void setParticleCount(int particleCount);
-		//GEAR_API int getParticleCount();
 		//glm::mat4 modelMatrix;
 		GLuint particleVertexBuffer;
-		ParticlePoint particleObject[maxParticles];
+	/*	ParticlePoint particleObject[maxParticles];*/
 
 	private:
 		
-		//GLfloat duration;
-		//GLfloat speed;
-		//GLfloat angle;
-		//glm::vec3 pos;
-		//glm::vec3 color;
+		glm::vec3 position;
+		glm::vec3 color;
+		glm::vec3 speed;
+		float duration;
 	};
 }
