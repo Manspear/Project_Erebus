@@ -179,11 +179,6 @@ int main()
 
 		//Collisions
 		collisionHandler.checkCollisions();
-
-		if (sphere1.checkCollision())
-			std::cout << "SPHERE\n";
-
-		collisionHandler.deleteHitbox(sphere1.getID());
 	}
 	delete[] transforms;
 	delete[] lookAts;
