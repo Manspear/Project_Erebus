@@ -21,12 +21,45 @@
     <ClInclude Include="Nurn.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Communication.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPSocket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPSocket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkDefines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPCommunication.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Nurn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Address.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPSocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPSocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Communication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPCommunication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

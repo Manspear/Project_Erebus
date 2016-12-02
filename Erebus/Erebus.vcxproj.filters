@@ -17,19 +17,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AABBCollider.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AABBSquareCollider.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CollisionHandler.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HitBox.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,19 +49,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AABBCollider.h">
-      <Filter>Header</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AABBSquareCollider.h">
-      <Filter>Header</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionHandler.h">
-      <Filter>Header</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HitBox.h">
-      <Filter>Header</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>Header</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

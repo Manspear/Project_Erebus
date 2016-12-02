@@ -8,11 +8,14 @@
 #include "Inputs.h"
 #include "staticNonModels.h"
 
+
+
 namespace Gear
 {
 
+	class Dummy {};
 
-
+	class Light {};
 
 	class GearEngine {
 	public:
@@ -32,6 +35,19 @@ namespace Gear
 	/*	std::vector<RenderQueueElement*> renderParticles;*/
 	/*	std::vector<ShaderProgram*> allShaders;*/
 		GEAR_API void addStaticNonModel(staticNonModels* model);
+
+		//--TODO: Implement API--
+		GEAR_API void addModelInstance(ModelAsset* asset);
+
+		GEAR_API void queueStaticModels(std::vector<ModelInstance*> &models);
+		GEAR_API void queueDynamicModels(std::vector<ModelInstance*> &models);
+		GEAR_API void queueAnimModels(std::vector<Dummy*> &models);
+		GEAR_API void queueParticles(std::vector<Particle*> &particles);
+		GEAR_API void queueLights(std::vector<Light*> &lights);
+		GEAR_API void draw();
+
+		GEAR_API void allocateWorlds(int n);
+		//----------------------
 
 	private:
 		std::vector<staticNonModels*> statModels;
