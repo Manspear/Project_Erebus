@@ -84,6 +84,10 @@ function Update(dt)
 		player.ySpeed = 0
 	end
 
+	if pos.y <= 0 then
+		player.health = player.health - 1
+	end
+
 	if player.sphereCollider:CheckCollision() then
 		player.health = player.health - 1
 	end

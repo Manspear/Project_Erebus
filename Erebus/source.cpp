@@ -51,7 +51,7 @@ int main()
 	heightMap->loadHeightMap(heightMapAsset, true);
 	engine->addStaticNonModel(heightMap->getStaticNonModel());
 	
-	unsigned int transformID = 0;
+	/*unsigned int transformID = 0;
 	unsigned int hitboxID = 0;
 	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
 	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
@@ -60,11 +60,12 @@ int main()
 
 	CollisionHandler collisionHandler = CollisionHandler();
 
-	collisionHandler.addHitbox(&sphere1);
+	collisionHandler.addHitbox(&sphere1);*/
 	/*collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
 	collisionHandler.addHitbox(&aabb2);*/
 	
+	CollisionHandler collisionHandler;
 	
 	redTexture->bind();
 
