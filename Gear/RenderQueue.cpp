@@ -176,11 +176,20 @@ namespace Gear::RenderQueue
 		glm::vec3 tempLook;
 		for (int i = 0; i < n; i++)
 		{
-			tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
-			worldMatrices[i] = glm::rotate(glm::mat4(), pos[i * 6 + 5], glm::cross(tempLook, { 0, 1, 0 })) * glm::rotate(glm::mat4(), pos[i * 6 + 4], { 0, 1, 0 });
-			worldMatrices[i][3][0] = pos[i * 6];
-			worldMatrices[i][3][1] = pos[i * 6 + 1];
-			worldMatrices[i][3][2] = pos[i * 6 + 2];
+		int index = i * 6;
+
+		int rotIndexY = index + 4;
+		glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[index + 4], { 0, 1, 0 });
+		
+		int rotIndexZ = index + 5;
+		tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[index + 5], axis);
+
+		worldMatrices[i] = rotationZ * rotationY;
+		worldMatrices[i][3][0] = pos[index];
+		worldMatrices[i][3][1] = pos[index + 1];
+		worldMatrices[i][3][2] = pos[index + 2];
 		}
 	}
 
