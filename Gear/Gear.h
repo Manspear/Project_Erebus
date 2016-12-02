@@ -11,14 +11,16 @@
 namespace Gear
 {
 
+	class Dummy {};
 
-
+	class Light {};
 
 	class GearEngine {
 	public:
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
 		GEAR_API void draw(Camera* camera, std::vector<ModelInstance>* instances);
+		GEAR_API void draw(std::vector<RenderQueueElement*> elem, Camera* camera);
 		
 
 		GEAR_API bool isRunning();
@@ -26,13 +28,28 @@ namespace Gear
 		// TEMPORARY: Vi ska inte ha det såhär
 		// För att rita ut modellen från importern
 		RenderQueue renderQueue;
-		std::vector<RenderQueueElement*> renderElements;
+		std::vector<RenderQueueElement*> tempRenderElements;
 		
 	/*	std::vector<RenderQueueElement*> renderParticles;*/
 	/*	std::vector<ShaderProgram*> allShaders;*/
 		GEAR_API void addStaticNonModel(staticNonModels* model);
+
+		//--TODO: Implement API--
+		GEAR_API void addModelInstance(ModelAsset* asset);
+
+		GEAR_API void queueStaticModels(std::vector<ModelInstance*> &models);
+		GEAR_API void queueDynamicModels(std::vector<ModelInstance*> &models);
+		GEAR_API void queueAnimModels(std::vector<Dummy*> &models);
+		GEAR_API void queueParticles(std::vector<Particle*> &particles);
+		GEAR_API void queueLights(std::vector<Light*> &lights);
+		GEAR_API void draw();
+
+		GEAR_API void allocateWorlds(int n);
+		//----------------------
+
 	private:
 		std::vector<staticNonModels*> statModels;
+		std::vector<RenderQueueElement*> renderElements;
 		//Window* window;
 	};
 }
