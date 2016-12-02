@@ -26,21 +26,21 @@ namespace Gear
 
 		light.pos = glm::vec3(0, 0, 0);
 
-		light.color = glm::vec3(1, 0.6, 0.16);
+		light.color = glm::vec3(0, 0, 1);
 
 		light.radius = 30;
 		pointLights.push_back(light);
 
 		light.pos = glm::vec3(2, 0, 0);
 
-		light.color = glm::vec3(0.65, 0, 1);
+		light.color = glm::vec3(0, 1, 0);
 
 		light.radius = 30;
 		pointLights.push_back(light);
 
 		Lights::DirLight dirLight;
-		dirLight.direction = glm::vec3(1, 1, 1);
-		dirLight.color = glm::vec3(0.25, 0.61, 1);
+		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+		dirLight.color = glm::vec3(1,0, 0);
 
 		dirLights.push_back(dirLight);
 	}
@@ -74,10 +74,15 @@ namespace Gear
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderQueue.draw();
+		for (size_t i = 0; i < statModels.size(); i++)
+		{
+			statModels.at(i)->draw();
+		}
+
 		gBuffer.unUse();
 
 		lightPassShader->use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
@@ -86,10 +91,10 @@ namespace Gear
 
 		for (GLuint i = 0; i < pointLights.size(); i++)
 		{
-			lightPassShader->addUniform(pointLights[i].pos, ("lights[" + std::to_string(i) + "].pos").c_str());
-			lightPassShader->addUniform(pointLights[i].color, ("lights[" + std::to_string(i) + "].color").c_str());
+			lightPassShader->addUniform(pointLights[i].pos, ("pointLights[" + std::to_string(i) + "].pos").c_str());
+			lightPassShader->addUniform(pointLights[i].color, ("pointLights[" + std::to_string(i) + "].color").c_str());
 
-			lightPassShader->addUniform(pointLights[i].radius, ("lights[" + std::to_string(i) + "].radius").c_str());
+			lightPassShader->addUniform(pointLights[i].radius, ("pointLights[" + std::to_string(i) + "].radius").c_str());
 		}
 
 		for (GLuint i = 0; i < dirLights.size(); i++)

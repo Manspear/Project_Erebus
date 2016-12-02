@@ -164,7 +164,7 @@ GEAR_API void RenderQueue::draw()
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
-	//allShaders[currentShader]->unUse();
+	allShaders[currentShader]->unUse();
 
 	/*allShaders[PARTICLES]->use();
 
