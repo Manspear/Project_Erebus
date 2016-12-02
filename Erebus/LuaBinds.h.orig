@@ -6,7 +6,7 @@
 
 Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
-Importer::Assets *assets = Importer::Assets::getInstance();
+Importer::Assets assets = *Importer::Assets::getInstance();
 
 Transform* allTransforms;
 int nrOfTransforms = 0;
@@ -41,9 +41,9 @@ int initStuff(lua_State *L)
 
 int importModels(lua_State *L)
 {
-	Importer::ModelAsset* tempModel = assets->load<Importer::ModelAsset>(lua_tostring(L, -2));
+	Importer::ModelAsset* tempModel = assets.load<Importer::ModelAsset>(lua_tostring(L, -2));
 	for (int i = 0; i < lua_tointeger(L, -1); i++)
-		addModelInstance(tempModel);
+		engine->renderQueue.addModelInstance(tempModel);
 	return 0;
 }
 
@@ -102,9 +102,7 @@ int followStuff(lua_State* L)
 	return 0;
 }
 int fly(lua_State* L) {
-	int index = lua_tointeger(L, -2);
-	int speed = lua_tointeger(L, -1);
-	allTransforms[index].move({ speed,allTransforms[index].getLookAt().y* (float)speed,0 }, deltaTime);
+	allTransforms[lua_tointeger(L, -2)].move({ lua_tointeger(L, -1),0,0 }, deltaTime);
 	int n = lua_gettop(L);
 	lua_pop(L, n);
 	return 0;
@@ -118,69 +116,6 @@ int distance( lua_State* lua )
 	return 1;
 }
 
-int transformGetPos( lua_State* lua )
-{
-	int result = 0;
-
-	if( lua_gettop( lua ) >= 1 )
-	{
-		int index = lua_tointeger( lua, 1 );
-		glm::vec3 pos = allTransforms[index].getPos();
-
-		lua_newtable( lua );
-		lua_pushnumber( lua, pos.x );
-		lua_setfield( lua, -2, "x" );
-
-		lua_pushnumber( lua, pos.y );
-		lua_setfield( lua, -2, "y" );
-
-		lua_pushnumber( lua, pos.z );
-		lua_setfield( lua, -2, "z" );
-
-		result = 1;
-	}
-
-	return result;
-}
-
-int transformSetPos( lua_State* lua )
-{
-	if( lua_gettop( lua ) >= 2 )
-	{
-		int index = lua_tointeger( lua, 1 );
-
-		glm::vec3 pos;
-		lua_getfield( lua, 2, "x" );
-		pos.x = lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "y" );
-		pos.y = lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "z" );
-		pos.z = lua_tonumber( lua, -1 );
-
-		allTransforms[index].setPos( pos );
-	}
-
-	return 0;
-}
-
-// TEMP: Call into heightmap class instead of going through transform?
-int transformToHeightmap( lua_State* lua )
-{
-	int result = 0;
-
-	if( lua_gettop( lua ) >= 1 )
-	{
-		int index = lua_tointeger( lua, 1 );
-
-		lua_pushboolean( lua, allTransforms[index].toHeightmap() );
-		result = 1;
-	}
-
-	return result;
-}
-
 void transformReg(lua_State * L)
 {
 	luaL_newmetatable(L, "transformTable");
@@ -191,12 +126,12 @@ void transformReg(lua_State * L)
 		{ "Move",			transformMove},
 		{ "Switch",			switchTransform},
 		{ "Follow",			followStuff},
+<<<<<<< HEAD
 		{ "Shoot",			shootStuff},
-		{ "Distance",		distance },
 		{ "fly",			fly},
-		{ "GetPos",			transformGetPos },
-		{ "SetPos",			transformSetPos },
-		{ "ToHeightmap",	transformToHeightmap },
+=======
+		{ "Distance",		distance },
+>>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
 		{ NULL, NULL }
 	};
 	luaL_setfuncs(L, transformRegs, 0);	
@@ -235,18 +170,6 @@ int addAABB( lua_State* lua )
 		handler->addHitbox( collider );
 	}
 
-	return 0;
-}
-
-int shootStuff(lua_State* L) {
-	int a = lua_tointeger(L, -2);
-	int b = lua_tointeger(L, -1);
-	allTransforms[a].setLookDir(allTransforms[b].getLookAt());
-	allTransforms[a].setPos(allTransforms[b].getPos());
-	//allTransforms[lua_tointeger(L, -2)].
-	//boundTrans++;
-	//addModelInstance(molebat);
-	lua_pop(L, 2);
 	return 0;
 }
 

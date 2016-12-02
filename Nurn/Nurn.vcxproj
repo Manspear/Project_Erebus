@@ -20,11 +20,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Address.hpp" />
+    <ClInclude Include="Communication.hpp" />
+    <ClInclude Include="NetworkDefines.hpp" />
     <ClInclude Include="Nurn.hpp" />
+    <ClInclude Include="Socket.hpp" />
+    <ClInclude Include="TCPSocket.hpp" />
+    <ClInclude Include="UDPCommunication.hpp" />
+    <ClInclude Include="UDPSocket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Address.cpp" />
+    <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Nurn.cpp" />
+    <ClCompile Include="Socket.cpp" />
+    <ClCompile Include="TCPSocket.cpp" />
+    <ClCompile Include="UDPCommunication.cpp" />
+    <ClCompile Include="UDPSocket.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DB7257BD-F056-4EEB-9DB7-66B785CEB0E6}</ProjectGuid>
