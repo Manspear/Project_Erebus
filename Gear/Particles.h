@@ -11,7 +11,7 @@ struct ParticlePoint
 	//glm::vec3 duration
 };
 
-const int maxParticles = 10;
+
 
 namespace Gear
 {

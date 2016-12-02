@@ -51,13 +51,13 @@ namespace Gear
 
 	}
 
-	GEAR_API void Particle::update(glm::vec3 &speed)
+	void Particle::update(glm::vec3 &speed)
 	{
 		position += speed;
 		duration -= 2.0;
 	}
 
-	GEAR_API bool Particle::isDead()
+	bool Particle::isDead()
 	{
 		if (duration < 0.0)
 		{

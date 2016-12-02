@@ -159,30 +159,32 @@ GEAR_API void RenderQueue::draw()
 
 	allShaders[PARTICLES]->use();
 
-	for (size_t i = 0; i <  particles.size(); i++)
+	for (size_t i = 0; i <  particleSystem.size(); i++)
 	{
-
-		GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-
-		if (loc != -1)
+		for (size_t j = 0; j < 10; j++)
 		{
-			glUniform1f(loc, 2.0f);
+			GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
+
+			if (loc != -1)
+			{
+				glUniform1f(loc, 2.0f);
+			}
+
+			/*glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);*/
+			glBindBuffer(GL_ARRAY_BUFFER, particleSystem[i]->particles[j]->particleVertexBuffer);
+
+			glm::vec3 partArray[2] = { particleSystem[i]->particles[j]->getPosition(), particleSystem[i]->particles[j]->getColor() };
+
+			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3) * 2) * maxParticles, partArray, GL_STATIC_DRAW);
+			//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 2, partArray, GL_STATIC_DRAW);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
+
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
+			//glDrawArrays(GL_POINTS, 0, 1);
 		}
-
-		/*glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);*/
-		glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);
-
-		glm::vec3 partArray[2] = { particles[i]->getPosition(), particles[i]->getColor() };
-
-		glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3) * 2) * maxParticles, partArray, GL_STATIC_DRAW);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 2, partArray, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
-
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
-		//glDrawArrays(GL_POINTS, 0, 1);
 	}
 
 	allShaders[PARTICLES]->unUse();

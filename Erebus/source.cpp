@@ -9,7 +9,7 @@
 #include <ctime>
 #include "Transform.h"
 #include "PerformanceCounter.h"
-#include "Particles.h"
+#include "ParticleSystem.h"
 #include "SphereCollider.h"
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
@@ -82,22 +82,10 @@ int main()
 
 	//engine->renderQueue.addModelInstance(terrain);
 
-	Gear::Particle particles[10];
-	/*engine->renderQueue.particle = &particle;*/
-
-
-	for (int i = 0; i < maxParticles; i++)
-	{
-	/*	particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-	
-		particle.particleObject[i].color = { 1, 0, 0 };*/
-
-		particles[i] = Gear::Particle(glm::vec3(rand() % 10, rand() % 5, 1), glm::vec3(1, 0, 0), glm::vec3(0, 0, 0), 255);
-
-		engine->renderQueue.particles.push_back(&particles[i]);
-	}
-
- 	glEnable( GL_DEPTH_TEST );
+	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
+	engine->renderQueue.particleSystem.push_back(ps);
+ 	
+	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
 	Inputs inputs(w);
@@ -125,16 +113,12 @@ int main()
 		inputs.update();
 		controls.sendControls(inputs, L);
 
-		for (size_t i = 0; i < maxParticles; i++)
+		for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
 		{
-			particles[i].update(glm::vec3(0, 0, 0.005));
-
-			if (particles[i].isDead() == false)
+			for (size_t j = 0; j < 10; j++)
 			{
-				printf("particle is dead \n");
+				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
 			}
-
-			/*particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);*/
 		}
 
 

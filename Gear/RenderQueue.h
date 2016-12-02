@@ -4,7 +4,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 //#include "Model.h"
-#include "Particles.h"
+#include "ParticleSystem.h"
 #include "ModelAsset.h"
 
 #include <vector>
@@ -34,7 +34,7 @@ public:
 	GEAR_API int addModelInstance( ModelAsset* asset );
 	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
-	std::vector<Gear::Particle*> particles;
+	std::vector<Gear::ParticleSystem*> particleSystem;
 	/*Gear::Particle* particle;*/
 	
 private:
