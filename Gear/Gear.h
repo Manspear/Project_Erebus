@@ -18,7 +18,8 @@ namespace Gear
 	public:
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
-		GEAR_API void draw(std::vector<RenderQueue::Element*> elem, Camera* camera);
+		GEAR_API void draw(Camera* camera);
+		GEAR_API void draw(std::vector<RenderQueueElement*> elem, Camera* camera);
 		
 
 		GEAR_API bool isRunning();

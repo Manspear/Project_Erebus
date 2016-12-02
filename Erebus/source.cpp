@@ -128,6 +128,8 @@ int main()
 	
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
+			int index = i * 6;
+			glm::vec3 pos = allTransforms[i].getPos();
 			glm::vec3 rot = allTransforms[i].getRotation();
 			transforms[index] = pos.x;
 			transforms[index + 1] = pos.y;
@@ -181,7 +183,6 @@ int main()
 	lua_close(L);
 	delete window;
 	glfwTerminate();
-	delete window;
 	delete engine;
 	return 0;
 }

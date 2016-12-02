@@ -24,6 +24,37 @@ namespace Gear
 
 	}
 
+	void GearEngine::draw(Camera* camera)
+	{
+		/* Render here */
+
+		//TEMP--------
+		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
+		//------------
+
+		tempRenderQueue.updateUniforms(camera);
+		tempRenderQueue.draw();
+		GLfloat positions[] = { 0.5, 0.5, 0.0 };
+
+
+
+		//renderQueue.process( renderElements );
+		for (size_t i = 0; i < statModels.size(); i++)
+		{
+			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
+			tempProgram->use();
+			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+			tempProgram->addUniform(camera->getPosition(), "viewPos");
+			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
+			statModels.at(i)->draw();
+			tempProgram->unUse();
+		}
+
+	}
+
 	void GearEngine::draw(std::vector<RenderQueueElement*> elem, Camera* camera)
 	{
 		/* Render here */
