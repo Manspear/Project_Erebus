@@ -45,6 +45,7 @@ public:
 	void addUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
 	void addUniform(glm::vec3 &vec3, std::string position, int count = 1);
 	void addUniform(float &floatValue, std::string position);
+	void addUniform(int &intValue, std::string position);
 
 
 private:

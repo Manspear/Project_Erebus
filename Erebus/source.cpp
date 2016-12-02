@@ -148,10 +148,20 @@ int main()
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-		if( inputs.keyPressedThisFrame( GLFW_KEY_1 ) )
-			redTexture->bind();
+		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
+			engine->setDrawMode(1);
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
-			greenTexture->bind();
+			engine->setDrawMode(2);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
+			engine->setDrawMode(3);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_4))
+			engine->setDrawMode(4);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_5))
+			engine->setDrawMode(5);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
+			engine->setDrawMode(6);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
+			engine->setDrawMode(7);
 
 		//Display FPS:
 		frameCounter++;

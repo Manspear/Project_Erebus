@@ -23,6 +23,8 @@ namespace Gear
 		
 
 		GEAR_API bool isRunning();
+		//Temporay debug function
+		GEAR_API void setDrawMode(int drawMode);
 
 		// TEMPORARY: Vi ska inte ha det såhär
 		// För att rita ut modellen från importern
@@ -42,6 +44,9 @@ namespace Gear
 		//Window* window;
 		ShaderProgram gBuffer;
 		std::vector<Lights::PointLight> pointLights;
+		std::vector<Lights::DirLight> dirLights;
+		//temp debug variable
+		int drawMode = 1;
 
 		void drawQuad();
 	};

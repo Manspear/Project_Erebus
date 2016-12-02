@@ -7,4 +7,9 @@ namespace Lights {
 		glm::vec3 color;
 		float radius;
 	};
+
+	struct DirLight {
+		glm::vec3 direction;
+		glm::vec3 color;
+	};
 }

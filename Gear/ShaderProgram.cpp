@@ -203,6 +203,10 @@ void ShaderProgram::addUniform(float &floatValue, std::string position)
 {
 	glUniform1f(getUniformLocation(position), floatValue);
 }
+void ShaderProgram::addUniform(int &intValue, std::string position)
+{
+	glUniform1i(getUniformLocation(position), intValue);
+}
 
 std::string* ShaderProgram::getPaths(const shaderBaseType& type, const std::string& path) {
 	std::string* returnVal;

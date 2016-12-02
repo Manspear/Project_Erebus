@@ -37,6 +37,12 @@ namespace Gear
 
 		light.radius = 30;
 		pointLights.push_back(light);
+
+		Lights::DirLight dirLight;
+		dirLight.direction = glm::vec3(1, 1, 1);
+		dirLight.color = glm::vec3(0.25, 0.61, 1);
+
+		dirLights.push_back(dirLight);
 	}
 
 	GearEngine::~GearEngine()
@@ -76,6 +82,7 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
+		lightPassShader->addUniform(drawMode, "drawMode");
 
 		for (GLuint i = 0; i < pointLights.size(); i++)
 		{
@@ -83,6 +90,12 @@ namespace Gear
 			lightPassShader->addUniform(pointLights[i].color, ("lights[" + std::to_string(i) + "].color").c_str());
 
 			lightPassShader->addUniform(pointLights[i].radius, ("lights[" + std::to_string(i) + "].radius").c_str());
+		}
+
+		for (GLuint i = 0; i < dirLights.size(); i++)
+		{
+			lightPassShader->addUniform(dirLights[i].direction, ("dirLights[" + std::to_string(i) + "].direction").c_str());
+			lightPassShader->addUniform(dirLights[i].color, ("dirLights[" + std::to_string(i) + "].color").c_str());
 		}
 
 		drawQuad();
@@ -107,6 +120,11 @@ namespace Gear
 
 	bool GearEngine::isRunning(){
 		return true;//window->isWindowOpen();
+	}
+
+	GEAR_API void GearEngine::setDrawMode(int drawMode)
+	{
+		this->drawMode = drawMode;
 	}
 
 	void GearEngine::drawQuad()
