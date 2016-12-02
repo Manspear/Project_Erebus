@@ -184,7 +184,7 @@ int createAABBCollider( lua_State* lua )
 {
 	int result = 0;
 
-	if( lua_gettop( lua ) >= 4 )
+	if( lua_gettop( lua ) >= 8 )
 	{
 		int colliderID = (int)lua_tonumber( lua, 1 );
 		int transformID = (int)lua_tonumber( lua, 2 );
