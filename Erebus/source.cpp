@@ -7,12 +7,10 @@
 #include "TextureAsset.h"
 #include "Window.h"
 #include <ctime>
-#include "Transform.h"
 #include "PerformanceCounter.h"
 #include "Particles.h"
 #include "SphereCollider.h"
 #include "AABBCollider.h"
-#include "CollisionHandler.h"
 #include "Controls.h"
 #include <lua\lua.hpp>
 #include "LuaBinds.h"
@@ -58,10 +56,10 @@ int main()
 	AABBCollider aabb1 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
 	AABBCollider aabb2 = AABBCollider(hitboxID++, transformID++, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
 
-	CollisionHandler collisionHandler = CollisionHandler();
+	
 
-	collisionHandler.addHitbox(&sphere1);
-	/*collisionHandler.addHitbox(&sphere2);
+	/*collisionHandler.addHitbox(&sphere1);
+	collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
 	collisionHandler.addHitbox(&aabb2);*/
 	
@@ -72,8 +70,7 @@ int main()
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 	initLua(L);
-	transformReg(L);
-	collisionReg( L, &collisionHandler );
+	
 	if (luaL_dofile(L, "Scripts/test.lua"))
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
@@ -190,10 +187,14 @@ int main()
 	}
 
 	delete[] allTransforms;
-	lua_close(L);
 	delete window;
 	glfwTerminate();
 	delete engine;
+	system("cls");
+	std::cout << "You suck! y/n?" << std::endl;
+	int x;
+	std::cin >> x;
+	lua_close(L);
 	return 0;
 }
 

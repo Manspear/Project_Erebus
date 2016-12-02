@@ -16,9 +16,6 @@ void Transform::move(glm::vec3 dir, const float &dt)
 	glm::vec3 tempForward = glm::normalize(glm::vec3(lookDir.x, 0, lookDir.z));
 	this->position += tempForward * dir.x * dt;
 	this->position.y += dir.y * dt;
-	/*float height = hMap->getPos(position.x, position.z);
-	if (position.y < height)
-		position.y = height;*/
 	this->position += glm::cross({ 0, 1, 0 }, tempForward) * dir.z * dt;
 }
 

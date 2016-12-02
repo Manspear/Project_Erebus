@@ -17,19 +17,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AABBCollider.cpp">
-      <Filter>Colission</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AABBSquareCollider.cpp">
-      <Filter>Colission</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CollisionHandler.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>Colission</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>Colission</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HitBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,29 +39,44 @@
     <ClInclude Include="..\Importer\HeightMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaBinds.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PerformanceCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AABBCollider.h">
-      <Filter>Colission</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBSquareCollider.h">
-      <Filter>Colission</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionHandler.h">
-      <Filter>Colission</Filter>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HitBox.h">
-      <Filter>Colission</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Colission</Filter>
+    <ClInclude Include="CollisionHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBSquareCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaBinds.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaTransform.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaCollision.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaParticles.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaControls.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaAssets.h">
+      <Filter>Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -106,8 +121,8 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{aa825c85-92b9-4b77-876b-f5a8835cfaa4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Colission">
-      <UniqueIdentifier>{3a1865e1-0010-42d2-a3c7-64386fccc850}</UniqueIdentifier>
+    <Filter Include="Lua">
+      <UniqueIdentifier>{6ea1a641-d365-477e-9511-806fecefed41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

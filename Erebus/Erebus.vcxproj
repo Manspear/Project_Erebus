@@ -188,6 +188,11 @@
     <ClInclude Include="AABBCollider.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LuaAssets.h" />
+    <ClInclude Include="LuaCollision.h" />
+    <ClInclude Include="LuaControls.h" />
+    <ClInclude Include="LuaParticles.h" />
+    <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="..\Importer\HeightMap.h" />
     <ClInclude Include="Controls.h" />
