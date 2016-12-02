@@ -35,6 +35,7 @@ namespace Gear
 		//------------
 
 		renderQueue.updateUniforms(camera);
+		renderQueue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
 		renderQueue.draw(instances);
 		GLfloat positions[] = { 0.5, 0.5, 0.0 };
 
@@ -62,5 +63,53 @@ namespace Gear
 	void GearEngine::addStaticNonModel(staticNonModels* model) {
 		model->addShaderProgramRef(this->renderQueue.getShaderProgram(model->getShaderType()));
 		this->statModels.push_back(model);
+	}
+
+	void GearEngine::bindTransforms(float* pos, int* indices, int* n, glm::vec3* lookAts)
+	{
+		transformArray = pos;
+		transformIndexArray = indices;
+		transformCount = n;
+		transformLookAts = lookAts;
+	}
+
+	void GearEngine::addModelInstance(ModelAsset* asset)
+	{
+
+	}
+
+	void GearEngine::queueStaticModels(std::vector<ModelInstance*> &models)
+	{
+
+	}
+
+	void GearEngine::queueDynamicModels(std::vector<ModelInstance*> &models)
+	{
+
+	}
+
+	void GearEngine::queueAnimModels(std::vector<Dummy*> &models)
+	{
+
+	}
+
+	void GearEngine::queueParticles(std::vector<Particle*> &particles)
+	{
+
+	}
+
+	void GearEngine::queueLights(std::vector<Light*> &lights)
+	{
+
+	}
+
+	void GearEngine::draw()
+	{
+
+	}
+
+	void allocateWorlds(int n)
+	{
+
 	}
 }

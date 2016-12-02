@@ -108,6 +108,8 @@ int main()
 
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
+	engine->bindTransforms(transforms, nullptr, &boundTrans, lookAts);
+
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication);
@@ -147,14 +149,17 @@ int main()
 		else
 			std::cout << "Game Over" << std::endl;
 
+		//Update transforms
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
 			int index = i * 6;
 			glm::vec3 pos = allTransforms[i].getPos();
 			glm::vec3 rot = allTransforms[i].getRotation();
+
 			transforms[index] = pos.x;
 			transforms[index + 1] = pos.y;
 			transforms[index + 2] = pos.z;
+
 			transforms[index + 3] = rot.x;
 			transforms[index + 4] = rot.y;
 			transforms[index + 5] = rot.z;
@@ -164,7 +169,7 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
+		//engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
 		engine->draw(&camera, &models);
 		window->update();	
