@@ -164,7 +164,7 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		//engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
+		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
 		engine->draw(&camera, &models);
 		window->update();	
