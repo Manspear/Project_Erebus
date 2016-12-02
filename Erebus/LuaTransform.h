@@ -34,8 +34,10 @@ int switchTransform(lua_State* L)
 int followStuff(lua_State* L)
 {
 	allTransforms[lua_tointeger(L, -2)].follow(allTransforms[lua_tointeger(L, -3)].getPos(), lua_tonumber(L, -1), deltaTime);
+	int n = lua_gettop(L);
 	return 0;
 }
+
 int fly(lua_State* L) 
 {
 	int index = lua_tointeger(L, -2);
@@ -44,7 +46,6 @@ int fly(lua_State* L)
 	int n = lua_gettop(L);
 	lua_pop(L, n);
 	return 0;
-
 }
 
 int distance(lua_State* lua)

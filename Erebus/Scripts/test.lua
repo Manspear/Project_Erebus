@@ -2,7 +2,7 @@ nrOfActors = 40
 nrOfEnemies = 34
 nrOfBullets = 5
 player = {}
-enemies = {}
+enemies = {trans = {}, ms = {}, sphereCollider = {}}
 Engine.InitStuff(nrOfActors)
 
 bullets = { }
@@ -22,6 +22,13 @@ player.health = 100
 player.sphereCollider = SphereCollider.Create(0, player.trans, 100,10,100, 1)
 CollisionHandler:AddSphere(player.sphereCollider)
 Transform.SetPos(player.trans, {x=100,y=10,z=100})
+
+for i = 1, nrOfEnemies do
+	enemies.trans[i] = Transform.Bind()
+	enemies.ms[i] = math.random(5, 20)
+	Transform.SetPos(enemies.trans[i], {x = math.random(10, 255), y = math.random(15, 30), z = math.random(10, 245)})
+	enemies.sphereCollider[i] = SphereCollider.Create(i, enemies.trans[i], 0,0,0, 1)
+	CollisionHandler:AddSphere(enemies.sphereCollider[i])
 end
 
 for i = 1, nrOfBullets do
@@ -31,9 +38,7 @@ for i = 1, nrOfBullets do
 	bullets[i].lifeLeft = 10
 	bullets[i].alive = false
 end
- 
-		enemy.sphereCollider[i] = SphereCollider.Create(i, enemy.trans[i], 0,0,0, 1)
-		CollisionHandler:AddSphere(enemy.sphereCollider[i])
+
 function ChangePlayer()
     player.trans = (player.trans + 1) % nrOfActors
     Transform.Switch(player.trans) 
@@ -60,7 +65,7 @@ end
  
 function doDaHustle()
     for i = 1, nrOfEnemies do
-		Transform.Follow(player.trans, enemies[i].trans, enemies[i].ms )
+		Transform.Follow(player.trans, enemies.trans[i], enemies.ms[i] )
     end
 end
 

@@ -61,7 +61,7 @@ int main()
 	/*collisionHandler.addHitbox(&sphere1);
 	collisionHandler.addHitbox(&sphere2);
 	
-	CollisionHandler collisionHandler;
+	CollisionHandler collisionHandler;*/
 	
 	redTexture->bind();
 
@@ -74,7 +74,7 @@ int main()
 	{
 		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
 	}
-
+	
 	for (int i = 0; i < nrOfTransforms; i++)
 	{
 		allTransforms[i].setHMap(heightMap);
@@ -114,8 +114,6 @@ int main()
 	bool playerAlive = true;
 	while (running && window->isWindowOpen())
 	{
-
-		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 
@@ -129,9 +127,8 @@ int main()
 
 		lua_getglobal(L, "updateBullets");
 		lua_pushnumber(L, deltaTime);
-		lua_pcall(L, 1, 0, 0);
-
-
+		if(lua_pcall(L, 1, 0, 0))
+			std::cout << lua_tostring(L, -1) << std::endl;
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
 		if( playerAlive )
@@ -141,10 +138,11 @@ int main()
 			if( lua_pcall( L, 1, 1, 0 ) )
 				std::cout << lua_tostring( L, -1 ) << std::endl;
 			playerAlive = lua_toboolean( L, -1 );
+			lua_pop(L, 1);
 		}
 		else
-			std::cout << "Game Over" << std::endl;
-
+			running = false;
+		
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
 			transforms[i * 6] = allTransforms[i].getPos().x;
@@ -156,9 +154,8 @@ int main()
 		}
 
 		for (int i = 0; i < boundTrans; i++)
-		{
 			lookAts[i] = allTransforms[i].getLookAt();
-		}
+
 		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
 		engine->draw(&camera, &models);
@@ -181,7 +178,7 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-
+		std::cout << lua_gettop(L) << "\n";
 		//Collisions
 		collisionHandler.checkCollisions();
 	}
@@ -199,9 +196,9 @@ int main()
 	glfwTerminate();
 	delete engine;
 	system("cls");
-	std::cout << "You suck! y/n?" << std::endl;
-	int x;
-	std::cin >> x;
+	std::cout << "Best game ever? y/n?" << std::endl;
+	int bajs;
+	//std::cin >> bajs;
 	lua_close(L);
 	return 0;
 }

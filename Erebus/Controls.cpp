@@ -39,10 +39,10 @@ void Controls::sendControls(Inputs &input, lua_State* L)
 			lua_pushinteger(L, pressedKeys.at(i));
 			lua_settable(L, -3);
 		}
-		lua_pcall(L, 1, 0, 0);
-		lua_pop(L, lua_gettop(L));
+		if (lua_pcall(L, 1, 0, 0))
+			std::cout << lua_tostring(L, -1) << std::endl;
 	}
-
+	
 	lua_getglobal(L, "doDaHustle");
 	if(lua_pcall(L, 0, 0, 0))
 		std::cout << lua_tostring(L, -1);

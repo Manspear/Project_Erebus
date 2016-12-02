@@ -63,17 +63,7 @@ void transformReg(lua_State * L)
 	luaL_setfuncs(L, transformRegs, 0);	
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -1, "__index");
-	int n = lua_gettop(L);
 	lua_setglobal(L, "Transform");
-}
-
-int destroySphereCollider( lua_State* lua )
-{
-	lua_getfield( lua, 1, "__self" );
-	SphereCollider* collider = (SphereCollider*)lua_touserdata(lua, -1 );
-	delete collider;
-
-	return 0;
 }
 
 void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
@@ -118,7 +108,7 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 	luaL_setfuncs( lua, collisionHandlerRegs, 0 );
 	lua_pushvalue( lua, -1 );
 	lua_setfield( lua, -2, "__index" );
-	//lua_setglobal( lua, "CollisionHandler" );
+	lua_setglobal( lua, "CollisionHandler" );
 
 	lua_newtable( lua );
 	lua_pushlightuserdata( lua, collisionHandler );
@@ -126,7 +116,6 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 	luaL_setmetatable( lua, "collisionHandlerMeta" );
 	lua_setglobal( lua, "CollisionHandler" );
 }
-
 
 void initLua(lua_State * L)
 {
@@ -139,9 +128,7 @@ void initLua(lua_State * L)
 	luaL_setfuncs(L, transformRegs, 0);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -1, "__index");
-	int n = lua_gettop(L);
 	lua_setglobal(L, "Engine");
-
 	importerReg(L);
 	transformReg(L);
 	collisionReg(L, &collisionHandler);

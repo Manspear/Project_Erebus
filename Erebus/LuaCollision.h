@@ -58,6 +58,14 @@ int createSphereCollider(lua_State* lua)
 	return result;
 }
 
+int destroySphereCollider(lua_State* lua)
+{
+	lua_getfield(lua, 1, "__self");
+	SphereCollider* collider = (SphereCollider*)lua_touserdata(lua, -1);
+	delete collider;
+	return 0;
+}
+
 int createAABBCollider(lua_State* lua)
 {
 	int result = 0;

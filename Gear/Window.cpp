@@ -41,7 +41,8 @@ void Window::initWindow()
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-bool Window::isWindowOpen() {
+bool Window::isWindowOpen() 
+{
 	return !glfwWindowShouldClose(window);
 }
 
