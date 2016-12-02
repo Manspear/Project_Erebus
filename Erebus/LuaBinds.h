@@ -9,6 +9,7 @@ Gear::GearEngine *engine = new Gear::GearEngine();
 Importer::Assets *assets = Importer::Assets::getInstance();
 
 Transform* allTransforms;
+bool* availableTransforms;
 int nrOfTransforms = 0;
 int boundTrans = 0;
 std::vector<Transform*> toBeDrawn;
@@ -68,8 +69,24 @@ int transformBind(lua_State* L)
 	int n = lua_gettop(L);
 	for (int i = 1; i <= n; i++)
 		std::cout << lua_tonumber(L, i) << "\n";
-	lua_pushinteger(L, boundTrans++);
+
+	int result = -1;
+	for (int i = 0; i < nrOfTransforms && result == -1; i++) {
+		if (availableTransforms[i]) {
+			result = i;
+			availableTransforms[i] = false;
+			boundTrans++;
+		}
+	}
+	lua_pushinteger(L, result);
 	return 1;
+}
+int transformUnbind(lua_State* L, int tID) {
+	if (tID >=0 && tID < nrOfTransforms) {
+		availableTransforms[tID] = false;
+		boundTrans--;
+	}
+	return 0;
 }
 
 int transformDestroy(lua_State* L)

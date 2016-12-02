@@ -139,21 +139,24 @@ int main()
 		lua_pushnumber( L, deltaTime );
 		if( lua_pcall( L, 1, 0, 0 ) )
 			std::cout << lua_tostring( L, -1 ) << std::endl;
-
+		int index = 0;
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
-			transforms[i * 6] = allTransforms[i].getPos().x;
-			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
-			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
-			transforms[i * 6 + 3] = allTransforms[i].getRotation().x;
-			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
-			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
+			if(!availableTransforms[i]){
+				transforms[index * 6] = allTransforms[i].getPos().x;
+				transforms[index * 6 + 1] = allTransforms[i].getPos().y;
+				transforms[index * 6 + 2] = allTransforms[i].getPos().z;
+				transforms[index * 6 + 3] = allTransforms[i].getRotation().x;
+				transforms[index * 6 + 4] = allTransforms[i].getRotation().y;
+				transforms[index * 6 + 5] = allTransforms[i].getRotation().z;
+
+				lookAts[index] = allTransforms[i].getLookAt();
+
+				index++;
+
+			}
 		}
 
-		for (int i = 0; i < boundTrans; i++)
-		{
-			lookAts[i] = allTransforms[i].getLookAt();
-		}
 		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
 		engine->draw(&camera, &models);
@@ -225,9 +228,15 @@ int addModelInstance(ModelAsset* asset)
 
 void allocateTransforms(int n)
 {
-	if(allTransforms!= nullptr)
+	if (allTransforms != nullptr) {
 		delete allTransforms;
+		delete availableTransforms;
+	}
+	availableTransforms = new bool[n];
 	allTransforms = new Transform[n];
+	for (int i = 0; i < n; i++) {
+		availableTransforms[i] = true;
+	}
 	engine->renderQueue.allocateWorlds(n);
 }
 

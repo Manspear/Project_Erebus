@@ -80,10 +80,10 @@ function Update(dt)
 	end
 end
 function updateBullets( dt )
-	print(activeBullets ..  "  : :  " ..  bulletIndex)
+	---print(activeBullets ..  "  : :  " ..  bulletIndex)
 	for i = 1 , nrOfBullets do
 		bullets[i].lifeLeft = bullets[i].lifeLeft - dt
-		if bullets[i].lifeLeft < 0 and bullets[i].alive == true 
+		if bullets[i].lifeLeft < 0 and bullets[i].alive == true
 			then
 				bullets[i].alive = false
 				activeBullets = activeBullets - 1
