@@ -51,7 +51,7 @@ int main()
 	heightMap->loadHeightMap(heightMapAsset, true);
 	engine->addStaticNonModel(heightMap->getStaticNonModel());
 	
-	unsigned int transformID = 0;
+	/*unsigned int transformID = 0;
 	unsigned int hitboxID = 0;
 	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
 	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
@@ -60,11 +60,12 @@ int main()
 
 	CollisionHandler collisionHandler = CollisionHandler();
 
-	collisionHandler.addHitbox(&sphere1);
+	collisionHandler.addHitbox(&sphere1);*/
 	collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
 	collisionHandler.addHitbox(&aabb2);
 	
+	CollisionHandler collisionHandler;
 	
 	redTexture->bind();
 
@@ -115,13 +116,16 @@ int main()
 		networkThread = std::thread(startNetworkCommunication);
 	}
 
+	bool playerAlive = true;
 	while (running && window->isWindowOpen())
 	{
 
 		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.sendControls(inputs, L);
+
+		if( playerAlive )
+			controls.sendControls(inputs, L);
 
 		/*for (size_t i = 0; i < maxParticles; i++)
 		{
@@ -135,10 +139,16 @@ int main()
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
-		lua_getglobal( L, "Update" );
-		lua_pushnumber( L, deltaTime );
-		if( lua_pcall( L, 1, 0, 0 ) )
-			std::cout << lua_tostring( L, -1 ) << std::endl;
+		if( playerAlive )
+		{
+			lua_getglobal( L, "Update" );
+			lua_pushnumber( L, deltaTime );
+			if( lua_pcall( L, 1, 1, 0 ) )
+				std::cout << lua_tostring( L, -1 ) << std::endl;
+			playerAlive = lua_toboolean( L, -1 );
+		}
+		else
+			std::cout << "Game Over" << std::endl;
 
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
