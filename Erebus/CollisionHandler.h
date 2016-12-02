@@ -14,6 +14,7 @@ extern Transform* allTransforms;
 */
 class CollisionHandler
 {
+	
 public:
 	CollisionHandler();
 	~CollisionHandler();
@@ -33,6 +34,8 @@ public:
 
 	void deleteAllOldCollisions();
 	bool deleteHitbox(unsigned int ID);
+
+	
 private:
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;

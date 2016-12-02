@@ -8,6 +8,12 @@ AABBSquareCollider::AABBSquareCollider() : HitBox()
 	this->halfSize = 1.0f;
 }
 
+AABBSquareCollider::AABBSquareCollider(unsigned int IDTransform) : HitBox(IDTransform)
+{
+	this->pos = glm::vec3();
+	this->halfSize = 1.0f;
+}
+
 AABBSquareCollider::AABBSquareCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 pos, float halfSize) : HitBox(ID, IDTransform)
 {
 	this->pos = pos;

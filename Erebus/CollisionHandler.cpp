@@ -1,13 +1,13 @@
 #include "CollisionHandler.h"
 
 
+unsigned int CollisionHandler::hitboxID = 0;
 
 CollisionHandler::CollisionHandler()
 {
 	int reserveAmount = 200;
 	this->sphereColliders.reserve(reserveAmount);
 	this->aabbColliders.reserve(reserveAmount);
-	CollisionHandler::hitboxID = 0;
 }
 
 
@@ -20,6 +20,7 @@ void CollisionHandler::addHitbox(SphereCollider * sphere)
 	this->sphereColliders.push_back(sphere);
 	sphere->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
+
 }
 
 void CollisionHandler::addHitbox(AABBCollider * aabb)
@@ -27,6 +28,7 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 	this->aabbColliders.push_back(aabb);
 	aabb->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
+
 }
 
 void CollisionHandler::addHitbox(AABBSquareCollider * aabb)

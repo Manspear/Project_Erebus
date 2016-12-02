@@ -22,6 +22,12 @@ SphereCollider::SphereCollider(unsigned int ID, unsigned int IDTransform, float 
 	this->radius = radius;
 }
 
+SphereCollider::SphereCollider(unsigned int IDTransform) : HitBox(IDTransform)
+{
+	this->radius = 0.0f;
+	this->pos = glm::vec3(0, 0, 0);
+}
+
 
 SphereCollider::~SphereCollider()
 {

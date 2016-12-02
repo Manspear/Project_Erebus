@@ -5,6 +5,7 @@ class AABBSquareCollider : public HitBox
 {
 public:
 	AABBSquareCollider();
+	AABBSquareCollider(unsigned int IDTransform);
 	AABBSquareCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 pos, float halfSize);
 	~AABBSquareCollider();
 
