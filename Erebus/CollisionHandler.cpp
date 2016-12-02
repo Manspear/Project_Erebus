@@ -7,6 +7,7 @@ CollisionHandler::CollisionHandler()
 	int reserveAmount = 200;
 	this->sphereColliders.reserve(reserveAmount);
 	this->aabbColliders.reserve(reserveAmount);
+	CollisionHandler::hitboxID = 0;
 }
 
 
@@ -17,16 +18,23 @@ CollisionHandler::~CollisionHandler()
 void CollisionHandler::addHitbox(SphereCollider * sphere)
 {
 	this->sphereColliders.push_back(sphere);
+	sphere->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
 }
 
 void CollisionHandler::addHitbox(AABBCollider * aabb)
 {
 	this->aabbColliders.push_back(aabb);
+	aabb->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
 }
 
 void CollisionHandler::addHitbox(AABBSquareCollider * aabb)
 {
 	this->aabbSquareColliders.push_back(aabb);
+	aabb->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
 }
 
 void CollisionHandler::checkCollisions()
@@ -205,6 +213,11 @@ bool CollisionHandler::aabbSquareToAabbSquareCollision(AABBSquareCollider * aabb
 
 
 	return xOverlap && yOverlap && zOverlap; // om alla 3 checks failar så har vi en collision
+}
+
+void CollisionHandler::incrementHitboxID()
+{
+	CollisionHandler::hitboxID++;
 }
 
 void CollisionHandler::updateSpherePos()

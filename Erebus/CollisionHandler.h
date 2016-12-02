@@ -40,6 +40,8 @@ private:
 	bool sphereToSphereCollision(SphereCollider* sphere1, SphereCollider* sphere2);
 	bool aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2);
 	bool aabbSquareToAabbSquareCollision(AABBSquareCollider* aabb1, AABBSquareCollider* aabb2);
+	static unsigned int hitboxID;
+	static void incrementHitboxID();
 
 };
 
