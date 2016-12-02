@@ -11,43 +11,87 @@ namespace Gear
 	GearEngine::GearEngine()
 	{
 		glewInit();
-		renderQueue.init();
-
+		tempRenderQueue.init();
 	}
 
 	GearEngine::~GearEngine()
 	{
 
 		glfwTerminate();
+		for (size_t i = 0; i < statModels.size(); i++) {
+			delete statModels.at(i);
+		}
+
 	}
 
-	void GearEngine::draw(Camera* camera) {
+	void GearEngine::draw(Camera* camera)
+	{
 		/* Render here */
+
 		//TEMP--------
-		renderElements[0]->id = RenderQueueId(FORWARD, 0);
-		renderElements[1]->id = RenderQueueId(FORWARD, 0);
-		renderElements[2]->id = RenderQueueId(FORWARD, 0);
-<<<<<<< HEAD
-		//TEMP--------
-<<<<<<< HEAD
-		renderQueue.updateUniforms(camera);;
-=======
-		renderQueue.updateUniforms(camera);
->>>>>>> b0875c71bffaf399c3444bf79bb7dbd7d7913fff
-		renderQueue.process( renderElements );
-		//renderElements[2]->id = RenderQueueId(FORWARD, 0);
-		//renderElements[3]->id = RenderQueueId(PARTICLES, 0);
->>>>>>> 9bbcaf4fc66311086e72a5ff03fb0acbbd8139f9
-		renderQueue.updateUniforms(camera);
-		renderQueue.draw();
+		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
+		//------------
+
+		tempRenderQueue.updateUniforms(camera);
+		tempRenderQueue.draw();
+		GLfloat positions[] = { 0.5, 0.5, 0.0 };
+
+
 
 		//renderQueue.process( renderElements );
+		for (size_t i = 0; i < statModels.size(); i++)
+		{
+			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
+			tempProgram->use();
+			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+			tempProgram->addUniform(camera->getPosition(), "viewPos");
+			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
+			statModels.at(i)->draw();
+			tempProgram->unUse();
+		}
 
 	}
 
+	void GearEngine::draw(std::vector<RenderQueueElement*> elem, Camera* camera)
+	{
+		/* Render here */
+		
+		//TEMP--------
+		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
+		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
+		//------------
+
+		tempRenderQueue.updateUniforms(camera);
+		tempRenderQueue.draw();
+		GLfloat positions[] = { 0.5, 0.5, 0.0 };
+
+
+
+		//renderQueue.process( renderElements );
+		for (size_t i = 0; i < statModels.size(); i++)
+		{
+			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
+			tempProgram->use();
+			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+			tempProgram->addUniform(camera->getPosition(), "viewPos");
+			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
+			statModels.at(i)->draw();
+			tempProgram->unUse();
+		}
+
+	}
 
 	bool GearEngine::isRunning(){
 		return true;//window->isWindowOpen();
 	}
 	
+	void GearEngine::addStaticNonModel(staticNonModels* model) {
+		model->addShaderProgramRef(this->tempRenderQueue.getShaderProgram(model->getShaderType()));
+		this->statModels.push_back(model);
+	}
 }

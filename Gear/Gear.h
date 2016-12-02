@@ -8,8 +8,6 @@
 #include "Inputs.h"
 #include "staticNonModels.h"
 
-
-
 namespace Gear
 {
 
@@ -21,7 +19,7 @@ namespace Gear
 	public:
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
-		GEAR_API void draw(Camera* camera);
+		GEAR_API void draw(Camera* camera, std::vector<ModelInstance>* instances);
 		GEAR_API void draw(std::vector<RenderQueueElement*> elem, Camera* camera);
 		
 
@@ -29,7 +27,7 @@ namespace Gear
 
 		// TEMPORARY: Vi ska inte ha det såhär
 		// För att rita ut modellen från importern
-		RenderQueue tempRenderQueue;
+		RenderQueue renderQueue;
 		std::vector<RenderQueueElement*> tempRenderElements;
 		
 	/*	std::vector<RenderQueueElement*> renderParticles;*/
@@ -52,7 +50,6 @@ namespace Gear
 	private:
 		std::vector<staticNonModels*> statModels;
 		std::vector<RenderQueueElement*> renderElements;
-		RenderQueue renderQueue;
 		//Window* window;
 	};
 }
