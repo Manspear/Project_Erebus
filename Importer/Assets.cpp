@@ -19,9 +19,9 @@ namespace Importer
 		}
 	}
 
-	Assets* Assets::getInstance()
+	/*Assets* Assets::getInstance()
 	{
 		static Assets assets;
 		return &assets;
-	}
+	}*/
 }

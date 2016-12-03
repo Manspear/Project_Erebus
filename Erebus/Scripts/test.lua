@@ -50,19 +50,29 @@ end
 buttons = {}
 function Controls()
     forward, left, up = 0, 0, 0
-    for i = 1, #buttons do
+    --[[for i = 1, #buttons do
         if buttons[i] == 0 then forward = player.moveSpeed  end
         if buttons[i] == 1 then forward = -player.moveSpeed  end
         if buttons[i] == 2 then left = player.moveSpeed  end
         if buttons[i] == 3 then left = -player.moveSpeed  end
-		--if buttons[i] == 4 then up = player.moveSpeed  else up = -player.moveSpeed  end
 		if buttons[i] == 4 and player.canJump then
 			player.ySpeed = 0.5
 			player.canJump = false
 		end
         if buttons[i] == 6 then ChangePlayer() end
 		if buttons[i] == 7 then shoot() end
+	end--]]
+
+	if buttons[Keys.W] then forward = player.moveSpeed end
+	if buttons[Keys.S] then forward = -player.moveSpeed end
+	if buttons[Keys.A] then left = player.moveSpeed end
+	if buttons[Keys.D] then left = -player.moveSpeed end
+	if buttons[Keys.Space] and player.canJump then
+		player.ySpeed = 0.50
+		player.canJump = false
 	end
+	if buttons[Keys.Tab] then ChangePlayer() end
+	if buttons[Keys.LMB] then shoot() end
 
 	Transform.Move(player.trans, forward, player.ySpeed, left)
     buttons = {}   

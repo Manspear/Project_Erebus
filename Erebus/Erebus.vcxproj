@@ -156,6 +156,13 @@
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="..\Importer\HeightMap.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="LuaAssets.cpp" />
+    <ClCompile Include="LuaBinds.cpp" />
+    <ClCompile Include="LuaCollision.cpp" />
+    <ClCompile Include="LuaControls.cpp" />
+    <ClCompile Include="LuaGear.cpp" />
+    <ClCompile Include="LuaParticles.cpp" />
+    <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -173,6 +180,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\bullets.lua" />
+    <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\main.lua" />
+    <None Include="Scripts\player.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
@@ -188,6 +199,12 @@
     <ClInclude Include="AABBCollider.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LuaAssets.h" />
+    <ClInclude Include="LuaCollision.h" />
+    <ClInclude Include="LuaControls.h" />
+    <ClInclude Include="LuaGear.h" />
+    <ClInclude Include="LuaParticles.h" />
+    <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="..\Importer\HeightMap.h" />
     <ClInclude Include="Controls.h" />

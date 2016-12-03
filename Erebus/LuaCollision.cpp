@@ -1,0 +1,223 @@
+#include "LuaCollision.h"
+
+namespace LuaCollision
+{
+	void registerFunctions( lua_State* lua, CollisionHandler* handler )
+	{
+		luaL_newmetatable( lua, "collisionHandlerMeta" );
+		luaL_Reg handlerRegs[] =
+		{
+			{ "AddSphere",			addSphere },
+			{ "AddAABB",			addAABB },
+			{ NULL, NULL }
+		};
+
+		luaL_setfuncs( lua, handlerRegs, 0 );
+		lua_pushvalue( lua, -1 );
+		lua_setfield( lua, -2, "__index" );
+
+		lua_newtable( lua );
+		lua_pushlightuserdata( lua, handler );
+		lua_setfield( lua, -2, "__self" );
+		luaL_setmetatable( lua, "collisionHandlerMeta" );
+		lua_setglobal( lua, "CollisionHandler" );
+
+		luaL_newmetatable( lua, "sphereColliderMeta" );
+		luaL_Reg sphereRegs[] =
+		{
+			{ "Create",				createSphere },
+			{ "GetCollisionIDs",	getCollisionIDs },
+			{ "CheckCollision",		checkCollision },
+			{ "GetID",				getID },
+			{ "__gc",				destroy },
+			{ NULL, NULL }
+		};
+
+		luaL_setfuncs( lua, sphereRegs, 0 );
+		lua_pushvalue( lua, -1 );
+		lua_setfield( lua, -2, "__index" );
+		lua_setglobal( lua, "SphereCollider" );
+
+		luaL_newmetatable( lua, "aabbColliderMeta" );
+		luaL_Reg aabbRegs[] =
+		{
+			{ "Create",				createAABB },
+			{ "GetCollisionIDs",	getCollisionIDs },
+			{ "CheckCollision",		checkCollision },
+			{ "__gc",				destroy },
+			{ NULL, NULL }
+		};
+
+		luaL_setfuncs( lua, aabbRegs, 0 );
+		lua_pushvalue( lua, -1 );
+		lua_setfield( lua, -2, "__index" );
+		lua_setglobal( lua, "AABBCollider" );
+	}
+
+	int addSphere( lua_State* lua )
+	{
+		if( lua_gettop( lua ) >= 1 )
+		{
+			SphereCollider* collider = getSphereCollider( lua, 1 );
+			CollisionHandler* handler = getCollisionHandler( lua );
+
+			handler->addHitbox( collider );
+		}
+
+		return 0;
+	}
+
+	int addAABB( lua_State* lua )
+	{
+		if( lua_gettop( lua ) >= 1 )
+		{
+			AABBCollider* collider = getAABBCollider( lua, 1 );
+			CollisionHandler* handler = getCollisionHandler( lua );
+
+			handler->addHitbox( collider );
+		}
+
+		return 0;
+	}
+
+	int createSphere( lua_State* lua )
+	{
+		int result = 0;
+
+		if( lua_gettop( lua ) >= 6 )
+		{
+			int colliderID = lua_tointeger( lua, 1 );
+			int transformID = lua_tointeger( lua, 2 );
+			glm::vec3 position( lua_tonumber( lua, 3 ),
+								lua_tonumber( lua, 4 ),
+								lua_tonumber( lua, 5 ) );
+			float radius = lua_tonumber( lua, 6 );
+
+			SphereCollider* collider = new SphereCollider( colliderID, transformID, position, radius );
+			lua_newtable( lua );
+			luaL_setmetatable( lua, "sphereColliderMeta" );
+			lua_pushlightuserdata( lua, collider );
+			lua_setfield( lua, -2, "__self" );
+
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int createAABB( lua_State* lua )
+	{
+		int result = 0;
+
+		if( lua_gettop( lua ) >= 8 )
+		{
+			int colliderID = lua_tointeger( lua, 1 );
+			int transformID = lua_tointeger( lua, 2 );
+			glm::vec3 minPos( lua_tonumber( lua, 3 ),
+								lua_tonumber( lua, 4 ),
+								lua_tonumber( lua, 5 ) );
+			glm::vec3 maxPos( lua_tonumber( lua, 6 ),
+								lua_tonumber( lua, 7 ),
+								lua_tonumber( lua, 8 ) );
+
+			AABBCollider* collider = new AABBCollider( colliderID, transformID, minPos, maxPos );
+			lua_newtable( lua );
+			luaL_setmetatable( lua, "aabbColliderMeta" );
+			lua_pushlightuserdata( lua, collider );
+			lua_setfield( lua, -2, "__self" );
+
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int destroy( lua_State* lua )
+	{
+		HitBox* hitbox = getHitBox( lua, 1 );
+		delete hitbox;
+
+		return 0;
+	}
+
+	int getCollisionIDs( lua_State* lua )
+	{
+		int result = 0;
+
+		if( lua_gettop( lua ) >= 1 )
+		{
+			HitBox* hitbox = getHitBox( lua, 1 );
+
+			std::vector<unsigned int>* ids = hitbox->getIDCollisionsRef();
+			lua_newtable( lua );
+			for( int i=0; i<ids->size(); i++ )
+			{
+				lua_pushnumber( lua, ids->at(i) );
+				lua_rawseti( lua, -2, i+1 );
+			}
+
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int checkCollision( lua_State* lua )
+	{
+		int result = 0;
+
+		if( lua_gettop( lua ) >= 1 )
+		{
+			HitBox* hitbox = getHitBox( lua, 1 );
+
+			lua_pushboolean( lua, hitbox->checkCollision() );
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int getID( lua_State* lua )
+	{
+		int result = 0;
+
+		if( lua_gettop( lua ) >= 1 )
+		{
+			HitBox* hitbox = getHitBox( lua, 1 );
+
+			lua_pushnumber( lua, hitbox->getID() );
+			result = 1;
+		}
+
+		return result;
+	}
+
+	CollisionHandler* getCollisionHandler( lua_State* lua )
+	{
+		lua_getglobal( lua, "CollisionHandler" );
+		lua_getfield( lua, -1, "__self" );
+		
+		CollisionHandler* result = (CollisionHandler*)lua_touserdata( lua, -1 );
+		lua_pop( lua, 1 );
+
+		return result;
+	}
+
+	HitBox* getHitBox( lua_State* lua, int index )
+	{
+		lua_getfield( lua, index, "__self" );
+		return (HitBox*)lua_touserdata( lua, -1 );
+	}
+
+	SphereCollider* getSphereCollider( lua_State* lua, int index )
+	{
+		lua_getfield( lua, index, "__self" );
+		return (SphereCollider*)lua_touserdata( lua, -1 );
+	}
+
+	AABBCollider* getAABBCollider( lua_State* lua, int index )
+	{
+		lua_getfield( lua, index, "__self" );
+		return (AABBCollider*)lua_touserdata( lua, -1 );
+	}
+}

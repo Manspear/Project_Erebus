@@ -3,8 +3,26 @@
 #include "Transform.h"
 #include "BaseIncludes.h"
 #include "Gear.h"
+#include "Window.h"
 
-Window *window = new Window();
+#include "LuaAssets.h"
+#include "LuaCollision.h"
+#include "LuaControls.h"
+#include "LuaGear.h"
+#include "LuaParticles.h"
+#include "LuaTransform.h"
+
+namespace LuaBinds
+{
+	void registerFunctions( lua_State* lua,
+							Gear::GearEngine* gearEngine,
+							Importer::Assets* assets,
+							CollisionHandler* collisionHandler,
+							Transform* transform,
+							std::vector<ModelInstance>* models );
+}
+
+/*Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
 Importer::Assets *assets = Importer::Assets::getInstance();
 
@@ -18,7 +36,7 @@ void allocateTransforms(int n);
 int addModelInstance(ModelAsset* asset);
 int shootStuff(lua_State* L);
 
-double deltaTime = 0.0;
+double deltaTime = 0.0;*/
 /*int transformBind(lua_State* L)
 {
 	int n = lua_gettop(L);
@@ -32,7 +50,7 @@ double deltaTime = 0.0;
 	return 1;
 }*/
 
-int initStuff(lua_State *L)
+/*int initStuff(lua_State *L)
 {
 	nrOfTransforms = lua_tointeger(L, -1);
 	allocateTransforms(nrOfTransforms);
@@ -410,4 +428,4 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 	lua_setfield( lua, -2, "__self" );
 	luaL_setmetatable( lua, "collisionHandlerMeta" );
 	lua_setglobal( lua, "CollisionHandler" );
-}
+}*/

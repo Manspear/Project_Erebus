@@ -3,6 +3,7 @@
 
 
 CollisionHandler::CollisionHandler()
+	: transforms( nullptr )
 {
 	int reserveAmount = 200;
 	this->sphereColliders.reserve(reserveAmount);
@@ -215,7 +216,7 @@ void CollisionHandler::updateSpherePos()
 	{
 		unsigned int idTransform = sphereColliders[i]->getIDTransform();
 		if (idTransform >= 0)
-			sphereColliders[i]->setPos(allTransforms[idTransform].getPos());
+			sphereColliders[i]->setPos(transforms[idTransform].getPos());
 	}
 }
 
@@ -227,7 +228,7 @@ void CollisionHandler::updateAabbPos()
 	{
 		unsigned int idTransform = aabbColliders[i]->getIDTransform();
 		if (idTransform >= 0)
-			aabbColliders[i]->setPos(allTransforms[idTransform].getPos());
+			aabbColliders[i]->setPos(transforms[idTransform].getPos());
 	}
 }
 
@@ -239,7 +240,7 @@ void CollisionHandler::updateAabbSquarePos()
 	{
 		unsigned int idTransform = aabbSquareColliders[i]->getIDTransform();
 		if(idTransform >= 0)
-			aabbSquareColliders[i]->setPos(allTransforms[idTransform].getPos());
+			aabbSquareColliders[i]->setPos(transforms[idTransform].getPos());
 	}
 }
 
@@ -298,4 +299,9 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 	}
 
 	return deleted;
+}
+
+void CollisionHandler::setTransforms( Transform* t )
+{
+	transforms = t;
 }

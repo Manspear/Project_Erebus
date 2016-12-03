@@ -31,6 +31,27 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Colission</Filter>
     </ClCompile>
+    <ClCompile Include="LuaTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaCollision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaAssets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaGear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaBinds.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -63,6 +84,24 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>Colission</Filter>
     </ClInclude>
+    <ClInclude Include="LuaTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaCollision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaParticles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaAssets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaGear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\forward.frag">
@@ -90,6 +129,18 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Scripts\test.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\main.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\bullets.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\enemies.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\player.lua">
       <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
