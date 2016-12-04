@@ -12,8 +12,8 @@ function LoadEnemies()
 		--CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	end
 
-	local asset = Assets.LoadModel("Models/molerat.model")
-	Gear.AddModelInstance(asset,MAX_ENEMIES)
+	local model = Assets.LoadModel("Models/molerat.model")
+	Gear.AddModelInstance(model,MAX_ENEMIES)
 end
 
 function UnloadEnemies()

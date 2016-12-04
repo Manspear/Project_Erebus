@@ -12,8 +12,8 @@ function LoadPlayer()
 
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
-	local asset = Assets.LoadModel("Models/molerat.model")
-	Gear.AddModelInstance(asset)
+	local model = Assets.LoadModel("Models/molerat.model")
+	Gear.AddModelInstance(model)
 end
 
 function UnloadPlayer()
@@ -30,6 +30,7 @@ function UpdatePlayer(dt)
 		player.verticalSpeed = 0.5
 		player.canJump = false
 	end
+	if Controls[Keys.Tab] then print("Pressing Tab") end
 	if Controls[Keys.LMB] then Shoot(player.transformID) end
 
 	local position = Transform.GetPosition(player.transformID)

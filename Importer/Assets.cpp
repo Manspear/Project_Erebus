@@ -18,10 +18,4 @@ namespace Importer
 			delete it->second;
 		}
 	}
-
-	/*Assets* Assets::getInstance()
-	{
-		static Assets assets;
-		return &assets;
-	}*/
 }

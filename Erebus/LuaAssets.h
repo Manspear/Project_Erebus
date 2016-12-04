@@ -8,5 +8,8 @@
 namespace LuaAssets
 {
 	void registerFunctions( lua_State* lua, Importer::Assets* assets );
+
 	int loadModel( lua_State* lua );
+	int loadTexture( lua_State* lua );
+	int bindTexture( lua_State* lua );
 }
