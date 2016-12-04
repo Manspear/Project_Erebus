@@ -3,10 +3,14 @@
 namespace Importer
 {
 	ModelAsset::ModelAsset()
-		: dataptr( nullptr )
+		: offsets( nullptr ), meshes( nullptr ), boundingBoxes( nullptr ),
+		skeletons( nullptr ), joints( nullptr ), animationStates( nullptr ),
+		keyFrames( nullptr ), vertexBuffers( nullptr ), indexBuffers( nullptr ),
+		bufferSizes( nullptr ), dataptr( nullptr )
 	{
 		//header.meshCount = header.materialCount = 0;
-		header.numMeshes = header.numSkeletons = header.numBBoxes = 0;
+		//header.numMeshes = header.numSkeletons = header.numBBoxes = 0;
+		header = {};
 	}
 
 	ModelAsset::~ModelAsset()

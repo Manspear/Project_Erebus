@@ -7,6 +7,12 @@ local scriptFiles =
 }
 
 function Load()
+	-- TEMP: Make a level script?
+	heightmap = Assets.LoadHeightmap("Textures/molerat_texturemap4.png")
+	heightmap.transformID = Transform.Bind()
+
+	Gear.AddModelInstance(heightmap:GetModel())
+
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])

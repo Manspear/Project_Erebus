@@ -38,6 +38,7 @@ int main()
 	Importer::Assets assets;
 
 	int nrOfTransforms = 100;
+	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
 	Controls controls;
 
@@ -50,22 +51,12 @@ int main()
 	double deltaTime = 0.0;
 
 	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
-	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
 	moleratTexture->bind();
 
-	HeightMap *heightMap = new HeightMap();
-
-	heightMap->loadHeightMap(heightMapAsset, true);
-	engine.addStaticNonModel(heightMap->getStaticNonModel());
-	
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms( transforms );
 	
-	for (int i = 0; i < nrOfTransforms; i++)
-	{
-		transforms[i].setHMap(heightMap);
-	}
-	controls.setControl(&transforms[0]);
+	controls.setControl(&transforms[1]);
 
 	glEnable( GL_DEPTH_TEST );
 	
@@ -87,7 +78,7 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, transforms, &models );
+	luaBinds.load( &engine, &assets, &collisionHandler, transforms, &boundTransforms, &models );
 
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())
@@ -101,7 +92,7 @@ int main()
 
 		luaBinds.update( &controls, deltaTime );
 
-		for (int i = 0; i < nrOfTransforms; i++) 
+		for (int i = 0; i < boundTransforms; i++) 
 		{
 			int index = i * 6;
 			glm::vec3 pos = transforms[i].getPos();
@@ -114,11 +105,11 @@ int main()
 			transformData[index + 5] = rot.z;
 		}
 
-		for (int i = 0; i < nrOfTransforms; i++)
+		for (int i = 0; i < boundTransforms; i++)
 		{
 			lookAts[i] = transforms[i].getLookAt();
 		}
-		engine.renderQueue.update(transformData, nullptr, nrOfTransforms, lookAts);
+		engine.renderQueue.update(transformData, nullptr, boundTransforms, lookAts);
 		engine.draw(&camera, &models);
 		window.update();	
 
@@ -144,7 +135,6 @@ int main()
 
 	delete[] transformData;
 	delete[] lookAts;
-	delete heightMap;
 
 	if (networkActive)
 	{

@@ -20,6 +20,7 @@ public:
 				Importer::Assets* assets,
 				CollisionHandler* collisionHandler,
 				Transform* transforms,
+				int* boundTransforms,
 				std::vector<ModelInstance>* models );
 	void unload();
 	void update( Controls* controls, float deltaTime );

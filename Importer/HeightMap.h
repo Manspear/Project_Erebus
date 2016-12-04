@@ -1,36 +1,39 @@
 #pragma once
-#include "Importer.h"
 #include "BaseIncludes.h"
-#include "TextureAsset.h"
+#include "ImageAsset.h"
+#include "Assets.h"
 #include <math.h>
 #include "staticNonModels.h"
+#include "ModelAsset.h"
 
-class HeightMap
+namespace Importer
 {
-	
+	class HeightMap : public Asset
+	{
+	public:
+		IMPORTER_API HeightMap();
+		IMPORTER_API ~HeightMap();
 
-private:
-	GLuint VBO, VAO, iVBO;
-	int iVBOsize;
-	glm::mat4 worldMatrix;
-	float **heightData;
-	float getHardPosAt(int x, int z);
-	int mapWidth, mapHeight;
+		IMPORTER_API bool load( std::string path, Assets* assets );
+		IMPORTER_API void unload();
 
-	float minX, maxX, minZ, maxZ;
-	float widthMulti, heightMulti, breadthMulti;
-	glm::vec3 pos;
-public:
-	HeightMap();
-	~HeightMap();
+		IMPORTER_API glm::mat4 getWorldMat();
+		IMPORTER_API void setPos( const glm::vec3& pos );
+		IMPORTER_API float getPos( float x, float y );
+		IMPORTER_API bool rayIntersection( glm::vec3 rayO, glm::vec3 dayD );
 
-	void loadHeightMap(Importer::ImageAsset* map, bool includeRenderPart);
+		IMPORTER_API ModelAsset* getModel();
 
-	void Draw();
-	glm::mat4 getWorldMat();
-	void setPos(const glm::vec3& pos);
-	float getPos(float x, float z);
-	bool rayIntersection(glm::vec3 rayO, glm::vec3 rayD);
-	staticNonModels* getStaticNonModel();
-};
+	private:
+		float getHardPosAt( int x, int y );
 
+		ModelAsset model;
+		glm::mat4 worldMatrix;
+		float** heightData;
+		int mapWidth, mapHeight;
+
+		float minX, maxX, minZ, maxZ;
+		float widthMulti, heightMulti, breadthMulti;
+		glm::vec3 pos;
+	};
+}

@@ -4,9 +4,6 @@
     <ClCompile Include="Controls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Importer\HeightMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PerformanceCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,9 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Importer\HeightMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaBinds.h">

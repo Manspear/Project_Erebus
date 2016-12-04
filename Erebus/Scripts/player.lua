@@ -1,3 +1,4 @@
+local MOLERAT_OFFSET = 2
 player = {}
 
 function LoadPlayer()
@@ -33,17 +34,20 @@ function UpdatePlayer(dt)
 	if Controls[Keys.Tab] then print("Pressing Tab") end
 	if Controls[Keys.LMB] then Shoot(player.transformID) end
 
+	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
+
 	local position = Transform.GetPosition(player.transformID)
 	position.y = position.y + player.verticalSpeed
 	player.verticalSpeed = player.verticalSpeed - 0.982 * dt
-	Transform.SetPosition(player.transformID, position)
 
-	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
-
-	if Transform.ToHeightmap(player.transformID) then
-		player.verticalSpeed = 0.0
+	local height = heightmap:GetHeight(position.x,position.z)+MOLERAT_OFFSET
+	if position.y <= height then
+		position.y = height
 		player.canJump = true
+		player.verticalSpeed = 0
 	end
+
+	Transform.SetPosition(player.transformID, position)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

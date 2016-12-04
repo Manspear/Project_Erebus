@@ -1,6 +1,6 @@
 #include "HeightMap.h"
 
-HeightMap::HeightMap()
+/*HeightMap::HeightMap()
 {
 	
 }
@@ -82,16 +82,6 @@ void HeightMap::loadHeightMap(Importer::ImageAsset * map , bool includeRenderPar
 		{
 			for (size_t x = 0; x < map->getWidth() - 1; x++)
 			{
-
-				/*
-				(width = 2)
-				0  1
-				2  3
-
-				0, 1, 2
-				1, 3, 2
-				'   '
-				*/
 				GLuint start = y* map->getWidth() + x;
 				indices[indiceIndex++] = start;
 				indices[indiceIndex++] = start + map->getWidth();
@@ -113,7 +103,6 @@ void HeightMap::loadHeightMap(Importer::ImageAsset * map , bool includeRenderPar
 
 		delete indices;
 		delete heightFloatData;
-		//delete heightMapData;
 	}
 
 }
@@ -135,47 +124,8 @@ staticNonModels* HeightMap::getStaticNonModel() {
 	dataSizes[0] = 3;
 	dataSizes[1] = 2;
 	staticNonModels* model = new staticNonModels(this->VBO, this->iVBO, 2, dataSizes, 5, iVBOsize / sizeof(unsigned int), ShaderType::HEIGHTMAP,&this->worldMatrix);
-	//delete dataSizes;
 	return model;
 }
-
-//struct staticNonModels {
-//	GLuint VBO, iVBO;
-//	float* data;
-//	int nrDiffValues;
-//	int* dataSizes;
-//	int dataStride;
-//	int iVBOsize;
-//	staticNonModels(GLuint VBO, GLuint iVBO,
-//		float* data, int nrDiffValues, int* dataSizes,
-//		int dataStride, int iVBOsize) {
-//		this->VBO = VBO;
-//		this->iVBO = iVBO;
-//		this->data = data;
-//		this->nrDiffValues = nrDiffValues;
-//		this->dataSizes = dataSizes;
-//		this->iVBOsize = iVBOsize;
-//	}
-//
-//	void draw() {
-//		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//		for (size_t i = 0; i < nrDiffValues; i++)
-//		{
-//			glEnableVertexAttribArray(i);
-//			glVertexAttribPointer(i, dataSizes[i], GL_FLOAT, GL_FALSE, sizeof(float) * dataStride, (void*)(sizeof(float) *((i>0)? dataSizes[i-1] : 0)));
-//		}
-//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
-//		glDrawElements(GL_TRIANGLES, iVBOsize, GL_UNSIGNED_INT, 0);
-//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
-//		//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
-//		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iVBO);
-//		//glDrawElements(GL_TRIANGLES, iVBOsize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
-//
-//		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//	}
-//	
-//};
 
 glm::mat4 HeightMap::getWorldMat() {
 	
@@ -226,8 +176,6 @@ float HeightMap::getPos(float x, float z) {
 
 	
 	returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
-	//float temp = getHardPosAt((x), (z));
-	//std::cout << "My height: " << returnVal << " Their Height: " << temp << std::endl;
 	return returnVal;
 
 }
@@ -242,7 +190,6 @@ bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD) {
 
 	float distance = abs((rayO.y + this->pos.y) / rayD.y);
 	glm::vec3 hitPoint = rayO + (rayD*distance);
-	//std::cout << glm::to_string(hitPoint) << std::endl;
 	if (hitPoint.y > -EPSILON || hitPoint.y < EPSILON) {
 		if ((hitPoint.x >= this->minX && hitPoint.x <= maxX) &&
 			((hitPoint.z >= this->minZ && hitPoint.z <= maxZ))) {
@@ -251,4 +198,204 @@ bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD) {
 		}
 	}
 	return returnVal;
+}*/
+
+namespace Importer
+{
+	HeightMap::HeightMap()
+	{
+	}
+
+	HeightMap::~HeightMap()
+	{
+		for( size_t i = 0; i<mapHeight; i++ )
+			delete heightData[i];
+		delete[] heightData;
+	}
+
+	bool HeightMap::load( std::string path, Assets* assets )
+	{
+		bool result = false;
+
+		heightMulti = 0.03f;
+		widthMulti = 1.0f;
+		breadthMulti = 1.0f;
+
+		ImageAsset* map = assets->load<ImageAsset>( path );
+		if( map )
+		{
+			mapWidth = map->getWidth();
+			mapHeight = map->getHeight();
+
+			heightData = new float*[mapWidth];
+			for( size_t i = 0; i<mapWidth; i++ )
+				heightData[i] = new float[mapHeight];
+
+			for( size_t y = 0; y<mapHeight; y++ )
+				for( size_t x = 0; x<mapWidth; x++ )
+					heightData[x][y] = map->getPixelValue(x,y).red*heightMulti;
+
+			minX = minZ = 0;
+			maxX = (mapWidth-1)*widthMulti;
+			maxZ = (mapHeight-1)*breadthMulti;
+
+			pos = glm::vec3( 0, 0, 0 );
+
+			model.header.numMeshes = 1;
+			model.header.TYPE = 0; // 0 = static, 1 = dynamic/animated
+
+			model.vertexBuffers = new GLuint[1];
+			model.indexBuffers = new GLuint[1];
+			model.bufferSizes = new int[1];
+
+			glGenBuffers( 1, &model.vertexBuffers[0] );
+			glBindBuffer( GL_ARRAY_BUFFER, model.vertexBuffers[0] );
+
+			int numVertices = mapHeight * mapWidth;
+			sVertex* vertexData = new sVertex[numVertices];
+
+			for( size_t y = 0, vertexIndex = 0; y<mapHeight; y++ )
+			{
+				for( size_t x = 0; x<mapWidth; x++, vertexIndex++ )
+				{
+					vertexData[vertexIndex].position[0] = x *							widthMulti;
+					vertexData[vertexIndex].position[1] = map->getPixelValue(x, y).red*	heightMulti;
+					vertexData[vertexIndex].position[2] = y *							breadthMulti;
+
+					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);
+					vertexData[vertexIndex].UV[1] = ((float)y / this->mapHeight);
+
+					vertexData[vertexIndex].normal[0] = 0;
+					vertexData[vertexIndex].normal[1] = 1;
+					vertexData[vertexIndex].normal[2] = 0;
+
+					vertexData[vertexIndex].tangent[0] = 1;
+					vertexData[vertexIndex].tangent[1] = 0;
+					vertexData[vertexIndex].tangent[2] = 0;
+				}
+			}
+
+			glBufferData( GL_ARRAY_BUFFER, sizeof(sVertex)*numVertices, vertexData, GL_STATIC_DRAW );
+
+			int numIndices = ((mapHeight-1)*(mapWidth-1))*6;
+			GLuint* indices = new GLuint[numIndices];
+			int indiceIndex = 0;
+
+			for( size_t y = 0; y<mapHeight-1; y++ )
+			{
+				for( size_t x = 0; x<mapWidth-1; x++ )
+				{
+					GLuint start = y* mapWidth + x;
+					indices[indiceIndex++] = start;
+					indices[indiceIndex++] = start + mapWidth;
+					indices[indiceIndex++] = start + 1;
+
+					indices[indiceIndex++] = start + 1;
+					indices[indiceIndex++] = start + mapWidth;
+					indices[indiceIndex++] = start + 1 + mapWidth;
+				}
+			}
+
+			glGenBuffers( 1, &model.indexBuffers[0] );
+			glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, model.indexBuffers[0] );
+			glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*numIndices, indices, GL_STATIC_DRAW );
+
+			model.bufferSizes[0] = numIndices;
+
+			delete[] indices;
+			delete[] vertexData;
+
+			result = true;
+		}
+
+		return result;
+	}
+
+	void HeightMap::unload()
+	{
+		model.unload();
+	}
+
+	glm::mat4 HeightMap::getWorldMat()
+	{
+		return this->worldMatrix;
+	}
+
+	void HeightMap::setPos(const glm::vec3& pos)
+	{
+		for (size_t i = 0; i < pos.length(); i++)
+		{
+			worldMatrix[3][i] = pos[i];
+		}
+	}
+
+	float HeightMap::getPos(float x, float z)
+	{
+		if (x < minX || z < minZ
+			|| x>= maxX || z>= maxZ)
+			return -50;
+
+		x /= widthMulti;
+		z /= breadthMulti;
+
+		float returnVal = 0;
+		int xLow, xHigh;
+		int zLow, zHigh;
+		float xDec, zDec;
+
+		float tempXLow, tempZLow;
+
+
+		xDec = modf(x, &tempXLow);
+		zDec = modf(z, &tempZLow);
+		xLow = tempXLow;
+		zLow = tempZLow;
+		xHigh = xLow + 1;
+		zHigh = zLow + 1;
+
+		float topLeftH, topRightH, botLeftH, botRightH;
+
+		float amountTopLeft = ((1 - xDec) + (1 - zDec)) *.5f;
+		float amountTopRight = ((xDec) + (1 - zDec)) * .5;
+		float amountBotLeft = ((1 - xDec) + (zDec)) * .5f;
+		float amountBotRight = ((xDec)+(zDec)) * .5f;
+
+		topLeftH = getHardPosAt(xLow, zHigh) * amountTopLeft;
+		topRightH = getHardPosAt(xHigh, zHigh) * amountTopRight;
+		botLeftH = getHardPosAt(xLow, zLow) * amountBotLeft;
+		botRightH = getHardPosAt(xHigh, zLow) * amountBotRight;
+
+
+		returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
+		return returnVal;
+	}
+
+	float HeightMap::getHardPosAt(int x, int z)
+	{
+		return this->heightData[x][z];
+	}
+
+	bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD)
+	{
+		bool returnVal = false;
+		float EPSILON = 0.1f;
+
+		float distance = abs((rayO.y + this->pos.y) / rayD.y);
+		glm::vec3 hitPoint = rayO + (rayD*distance);
+		if (hitPoint.y > -EPSILON || hitPoint.y < EPSILON)
+		{
+			if ((hitPoint.x >= this->minX && hitPoint.x <= maxX) &&
+				((hitPoint.z >= this->minZ && hitPoint.z <= maxZ)))
+			{
+				returnVal = true;
+				//Collision occured;
+			}
+		}
+		return returnVal;
+	}
+
+	ModelAsset* HeightMap::getModel()
+	{
+		return &model;
+	}
 }

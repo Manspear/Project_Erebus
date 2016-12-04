@@ -6,10 +6,12 @@ namespace LuaTransform
 	// Putting static in front means we can only reach the
 	// variable from this compilation unit.
 	static Transform* g_transforms = nullptr;
+	static int* g_boundTransforms = nullptr;
 
-	void registerFunctions( lua_State* lua, Transform* transforms )
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms )
 	{
 		g_transforms = transforms;
+		g_boundTransforms = boundTransforms;
 
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
@@ -21,7 +23,6 @@ namespace LuaTransform
 			{ "Follow",			follow },
 			{ "Fly",			fly },
 			{ "Shoot",			shoot },
-			{ "ToHeightmap",	toHeightmap },
 
 			{ "SetPosition",	setPosition },
 			{ "SetRotation",	setRotation },
@@ -42,13 +43,12 @@ namespace LuaTransform
 
 	int bind( lua_State* lua )
 	{
-		// TEMP: Don't use a static variable
-		static int boundTrans = 0;
-
 		int n = lua_gettop( lua );
 		for( int i=1; i<=n; i++ )
 			std::cout << lua_tonumber( lua, 1 ) << std::endl;
-		lua_pushinteger( lua, boundTrans++ );
+		lua_pushinteger( lua, *g_boundTransforms );
+		*g_boundTransforms += 1;
+
 		return 1;
 	}
 
@@ -124,21 +124,6 @@ namespace LuaTransform
 		}
 
 		return 0;
-	}
-
-	int toHeightmap( lua_State* lua )
-	{
-		int result = 0;
-
-		if( lua_gettop( lua ) >= 1 )
-		{
-			int index = lua_tointeger( lua, 1 );
-
-			lua_pushboolean( lua, g_transforms[index].toHeightmap() );
-			result = 1;
-		}
-
-		return result;
 	}
 
 	int setPosition( lua_State* lua )
