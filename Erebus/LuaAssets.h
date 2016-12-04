@@ -9,7 +9,4 @@ namespace LuaAssets
 {
 	void registerFunctions( lua_State* lua, Importer::Assets* assets );
 	int loadModel( lua_State* lua );
-
-	// helper functions
-	Importer::Assets* getAssets( lua_State* lua );
 }

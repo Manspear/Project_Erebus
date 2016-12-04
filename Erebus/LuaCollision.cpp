@@ -2,8 +2,12 @@
 
 namespace LuaCollision
 {
+	static CollisionHandler* g_collisionHandler = nullptr;
+
 	void registerFunctions( lua_State* lua, CollisionHandler* handler )
 	{
+		g_collisionHandler = handler;
+
 		luaL_newmetatable( lua, "collisionHandlerMeta" );
 		luaL_Reg handlerRegs[] =
 		{
@@ -59,9 +63,7 @@ namespace LuaCollision
 		if( lua_gettop( lua ) >= 1 )
 		{
 			SphereCollider* collider = getSphereCollider( lua, 1 );
-			CollisionHandler* handler = getCollisionHandler( lua );
-
-			handler->addHitbox( collider );
+			g_collisionHandler->addHitbox( collider );
 		}
 
 		return 0;
@@ -72,9 +74,7 @@ namespace LuaCollision
 		if( lua_gettop( lua ) >= 1 )
 		{
 			AABBCollider* collider = getAABBCollider( lua, 1 );
-			CollisionHandler* handler = getCollisionHandler( lua );
-
-			handler->addHitbox( collider );
+			g_collisionHandler->addHitbox( collider );
 		}
 
 		return 0;
@@ -188,17 +188,6 @@ namespace LuaCollision
 			lua_pushnumber( lua, hitbox->getID() );
 			result = 1;
 		}
-
-		return result;
-	}
-
-	CollisionHandler* getCollisionHandler( lua_State* lua )
-	{
-		lua_getglobal( lua, "CollisionHandler" );
-		lua_getfield( lua, -1, "__self" );
-		
-		CollisionHandler* result = (CollisionHandler*)lua_touserdata( lua, -1 );
-		lua_pop( lua, 1 );
 
 		return result;
 	}

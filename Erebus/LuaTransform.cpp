@@ -2,8 +2,15 @@
 
 namespace LuaTransform
 {
+	// NOTE: Put global in Lua instead?
+	// Putting static in front means we can only reach the
+	// variable from this compilation unit.
+	static Transform* g_transforms = nullptr;
+
 	void registerFunctions( lua_State* lua, Transform* transforms )
 	{
+		g_transforms = transforms;
+
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
 		{
@@ -30,14 +37,12 @@ namespace LuaTransform
 		lua_pushvalue( lua, -1 );
 		lua_setfield( lua, -2, "__index" );
 
-		lua_pushlightuserdata( lua, transforms );
-		lua_setfield( lua, -2, "__self" );
-
 		lua_setglobal( lua, "Transform" );
 	}
 
 	int bind( lua_State* lua )
 	{
+		// TEMP: Don't use a static variable
 		static int boundTrans = 0;
 
 		int n = lua_gettop( lua );
@@ -47,6 +52,8 @@ namespace LuaTransform
 		return 1;
 	}
 
+	// NOTE: Copied from the old LuaBinds.h
+	// What is this function supposed to do?
 	int destroy( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 1 )
@@ -65,9 +72,7 @@ namespace LuaTransform
 			glm::vec3 direction( lua_tonumber( lua, 2 ), lua_tonumber( lua, 3 ), lua_tonumber( lua, 4 ) );
 			float dt = lua_tonumber( lua, 5 );
 
-			Transform* transforms = getTransforms( lua );
-
-			transforms[index].move( direction, dt );
+			g_transforms[index].move( direction, dt );
 		}
 
 		return 0;
@@ -87,9 +92,7 @@ namespace LuaTransform
 			float speed = lua_tonumber( lua, 3 );
 			float dt = lua_tonumber( lua, 4 );
 
-			Transform* transforms = getTransforms( lua );
-
-			transforms[myIndex].follow( transforms[followIndex].getPos(), speed, dt );
+			g_transforms[myIndex].follow( g_transforms[followIndex].getPos(), speed, dt );
 		}
 
 		return 0;
@@ -103,8 +106,7 @@ namespace LuaTransform
 			int speed = lua_tointeger( lua, 2 );
 			float dt = lua_tonumber( lua, 3 );
 
-			Transform* transforms = getTransforms( lua );
-			transforms[index].move( glm::vec3( speed, transforms[index].getLookAt().y*(float)speed, 0 ), dt );
+			g_transforms[index].move( glm::vec3( speed, g_transforms[index].getLookAt().y*(float)speed, 0 ), dt );
 		}
 
 		return 0;
@@ -117,9 +119,8 @@ namespace LuaTransform
 			int a = lua_tointeger( lua, 1 );
 			int b = lua_tointeger( lua, 2 );
 
-			Transform* transforms = getTransforms( lua );
-			transforms[a].setLookDir( transforms[b].getLookAt() );
-			transforms[a].setPos( transforms[b].getPos() );
+			g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
+			g_transforms[a].setPos( g_transforms[b].getPos() );
 		}
 
 		return 0;
@@ -133,8 +134,7 @@ namespace LuaTransform
 		{
 			int index = lua_tointeger( lua, 1 );
 
-			Transform* transforms = getTransforms( lua );
-			lua_pushboolean( lua, transforms[index].toHeightmap() );
+			lua_pushboolean( lua, g_transforms[index].toHeightmap() );
 			result = 1;
 		}
 
@@ -157,8 +157,7 @@ namespace LuaTransform
 			lua_getfield( lua, 2, "z" );
 			position.z = lua_tonumber( lua, -1 );
 
-			Transform* transforms = getTransforms( lua );
-			transforms[index].setPos( position );
+			g_transforms[index].setPos( position );
 		}
 
 		return 0;
@@ -180,8 +179,7 @@ namespace LuaTransform
 			lua_getfield( lua, 2, "z" );
 			position.z = lua_tonumber( lua, -1 );
 
-			Transform* transforms = getTransforms( lua );
-			transforms[index].setRotation( position );
+			g_transforms[index].setRotation( position );
 		}
 
 		return 0;
@@ -194,8 +192,7 @@ namespace LuaTransform
 			int index = lua_tointeger( lua, 1 );
 			float scale = lua_tonumber( lua, 2 );
 
-			Transform* transforms = getTransforms( lua );
-			transforms[index].setScale( scale );
+			g_transforms[index].setScale( scale );
 		}
 
 		return 0;
@@ -209,8 +206,7 @@ namespace LuaTransform
 		{
 			int index = lua_tointeger( lua, 1 );
 
-			Transform* transforms = getTransforms( lua );
-			glm::vec3 position = transforms[index].getPos();
+			glm::vec3 position = g_transforms[index].getPos();
 
 			lua_newtable( lua );
 			lua_pushnumber( lua, position.x );
@@ -236,8 +232,7 @@ namespace LuaTransform
 		{
 			int index = lua_tointeger( lua, 1 );
 
-			Transform* transforms = getTransforms( lua );
-			glm::vec3 rotation = transforms[index].getRotation();
+			glm::vec3 rotation = g_transforms[index].getRotation();
 
 			lua_newtable( lua );
 			lua_pushnumber( lua, rotation.x );
@@ -263,22 +258,10 @@ namespace LuaTransform
 		{
 			int index = lua_tointeger( lua, 1 );
 
-			Transform* transforms = getTransforms( lua );
-			//lua_pushnumber( lua, transforms[index].getScale() );
+			//lua_pushnumber( lua, g_transforms[index].getScale() );
 
 			result = 1;
 		}
-
-		return result;
-	}
-
-	Transform* getTransforms( lua_State* lua )
-	{
-		lua_getglobal( lua, "Transform" );
-		lua_getfield( lua, -1, "__self" );
-
-		Transform* result = (Transform*)lua_touserdata( lua, -1 );
-		lua_pop( lua, 1 );
 
 		return result;
 	}

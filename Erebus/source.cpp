@@ -24,17 +24,12 @@
 int startNetworkCommunication();
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
 int startNetworkReceiving(Nurn::NurnEngine * pSocket, Window* window);
-//int addModelInstance(ModelAsset* asset);
 
 std::thread networkThread;
 bool networkActive = false;
 bool networkHost = true;
 
 bool running = true;
-
-
-//std::vector<ModelInstance> models;
-//Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
 
 int main()
 {
@@ -43,7 +38,6 @@ int main()
 	Importer::Assets assets;
 
 	int nrOfTransforms = 100;
-	//int boundTrans = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
 	Controls controls;
 
@@ -55,79 +49,31 @@ int main()
 
 	double deltaTime = 0.0;
 
-	Importer::TextureAsset* redTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
-	Importer::TextureAsset* greenTexture = assets.load<Importer::TextureAsset>( "Textures/green.dds" );
+	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
 	Importer::ImageAsset* heightMapAsset = assets.load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
-	
+	moleratTexture->bind();
+
 	HeightMap *heightMap = new HeightMap();
 
 	heightMap->loadHeightMap(heightMapAsset, true);
 	engine.addStaticNonModel(heightMap->getStaticNonModel());
 	
-	/*unsigned int transformID = 0;
-	unsigned int hitboxID = 0;
-	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
-	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
-	AABBCollider aabb1 = AABBCollider(hitboxID++, 0, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
-	AABBCollider aabb2 = AABBCollider(hitboxID++, 1, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
-
-	CollisionHandler collisionHandler = CollisionHandler();
-
-	collisionHandler.addHitbox(&sphere1);*/
-	
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms( transforms );
 	
-	redTexture->bind();
-
-	lua_State* L = luaL_newstate();
-	luaL_openlibs(L);
-	//initLua(L);
-	//transformReg(L);
-	//collisionReg( L, &collisionHandler );
-	LuaBinds::registerFunctions( L, &engine, &assets, &collisionHandler, transforms, &models );
-	//if (luaL_dofile(L, "Scripts/test.lua"))
-	bool validScript = true;
-	if( luaL_dofile( L, "Scripts/main.lua" ) )
-	{
-		//std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
-		std::cout << lua_tostring( L, -1 ) << std::endl;
-		validScript = false;
-	}
-
-	if( validScript )
-	{
-		lua_getglobal( L, "Load" );
-		if( lua_pcall( L, 0, 0, 0 ) )
-		{
-			std::cout << lua_tostring( L, -1 ) << std::endl;
-		}
-	}
-
 	for (int i = 0; i < nrOfTransforms; i++)
 	{
 		transforms[i].setHMap(heightMap);
 	}
 	controls.setControl(&transforms[0]);
 
-//	engine->renderQueue.addModelInstance(terrain);
-	/*Gear::Particle particle[10];
-	Gear::Particle particle;
-
-	for (int i = 0; i < maxParticles; i++)
-	{
-		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle.particleObject[i].color = { 1, 0, 0 };
-
-		engine->renderQueue.particles.push_back( &particle );
-
-	}*/
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
 	PerformanceCounter counter;
+	counter.startCounter();
 	double frameTime = 0.0;
 	int frameCounter = 0;
 
@@ -140,53 +86,20 @@ int main()
 		//networkThread = std::thread(startNetworkCommunication);
 	}
 
+	LuaBinds luaBinds;
+	luaBinds.load( &engine, &assets, &collisionHandler, transforms, &models );
+
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())
 	{
-
-		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 
-		/*if( playerAlive )
-			controls.sendControls(inputs, L);*/
-
 		controls.update( &inputs );
-		LuaControls::sendControls( L, &controls );
-
-		/*for (size_t i = 0; i < maxParticles; i++)
-		{
-			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
-		}*/
-
-		/*lua_getglobal(L, "updateBullets");
-		lua_pushnumber(L, deltaTime);
-		lua_pcall(L, 1, 0, 0);*/
-
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
-	
-		/*if( playerAlive )
-		{
-			lua_getglobal( L, "Update" );
-			lua_pushnumber( L, deltaTime );
-			if( lua_pcall( L, 1, 1, 0 ) )
-				std::cout << lua_tostring( L, -1 ) << std::endl;
-			playerAlive = lua_toboolean( L, -1 );
-		}
-		else
-			std::cout << "Game Over" << std::endl;*/
 
-		if( validScript )
-		{
-			lua_getglobal( L, "Update" );
-			lua_pushnumber( L, deltaTime );
-			if( lua_pcall( L, 1, 0, 0 ) )
-			{
-				std::cout << lua_tostring( L, -1 ) << std::endl;
-				validScript = false;
-			}
-		}
+		luaBinds.update( &controls, deltaTime );
 
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
@@ -211,10 +124,6 @@ int main()
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-		if( inputs.keyPressedThisFrame( GLFW_KEY_1 ) )
-			redTexture->bind();
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
-			greenTexture->bind();
 
 		//Display FPS:
 		frameCounter++;
@@ -231,15 +140,7 @@ int main()
 		collisionHandler.checkCollisions();
 	}
 
-	if( validScript )
-	{
-		lua_getglobal( L, "Unload" );
-		if( lua_pcall( L, 0, 0, 0 ) )
-		{
-			std::cout << lua_tostring( L, -1 ) << std::endl;
-			validScript = false;
-		}
-	}
+	luaBinds.unload();
 
 	delete[] transformData;
 	delete[] lookAts;
@@ -250,47 +151,9 @@ int main()
 		networkThread.join();
 	}
 
-	//delete[] allTransforms;
-	lua_close(L);
-	//delete window;
 	glfwTerminate();
-	//delete engine;
 	return 0;
 }
-
-
-/*int addModelInstance(Gear::GearEngine* engine, ModelAsset* asset)
-{
-
-	int result = engine->renderQueue.generateWorldMatrix();
-
-	int index = -1;
-	for (int i = 0; i < models.size() && index < 0; i++)
-		if (models[i].asset == asset)
-			index = i;
-
-	if (index < 0)
-	{
-		ModelInstance instance;
-		instance.asset = asset;
-
-		index = models.size();
-		models.push_back(instance);
-	}
-
-	models[index].worldIndices.push_back(result);
-
-
-	return result;
-}*/
-
-/*void allocateTransforms(int n)
-{
-	if(allTransforms!= nullptr)
-		delete allTransforms;
-	allTransforms = new Transform[n];
-	engine->renderQueue.allocateWorlds(n);
-}*/
 
 int startNetworkCommunication( Window* window )
 {

@@ -4,11 +4,14 @@ using namespace Importer;
 
 namespace LuaGear
 {
-	// TEMP: Where should we put this? In GearEngine? or in Erebus? 
-	std::vector<ModelInstance>* g_models = nullptr;
+	static GearEngine* g_gearEngine = nullptr;
+	static std::vector<ModelInstance>* g_models = nullptr;
 
 	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models )
 	{
+		g_gearEngine = gearEngine;
+		g_models = models;
+
 		luaL_newmetatable( lua, "gearMeta" );
 		luaL_Reg regs[] =
 		{
@@ -25,9 +28,6 @@ namespace LuaGear
 		lua_pushlightuserdata( lua, gearEngine );
 		lua_setfield( lua, -2, "__self" );
 		lua_setglobal( lua, "Gear" );
-
-		// TEMP: This should not a global variable.
-		g_models = models;
 	}
 
 	int addModelInstance( lua_State* lua )
@@ -41,11 +41,9 @@ namespace LuaGear
 			if( ntop > 1 )
 				amount = lua_tointeger( lua, 2 );
 
-			GearEngine* engine = getGearEngine( lua );
-
 			for( int i=0; i<amount; i++ )
 			{
-				int result = engine->renderQueue.generateWorldMatrix();
+				int result = g_gearEngine->renderQueue.generateWorldMatrix();
 
 				int index = -1;
 				for( int i=0; i<g_models->size(); i++ )
@@ -69,16 +67,5 @@ namespace LuaGear
 		}
 
 		return 0;
-	}
-
-	GearEngine* getGearEngine( lua_State* lua )
-	{
-		lua_getglobal( lua, "Gear" );
-		lua_getfield( lua, -1, "__self" );
-
-		GearEngine* result = (GearEngine*)lua_touserdata( lua, -1 );
-		lua_pop( lua, 1 );
-
-		return result;
 	}
 }

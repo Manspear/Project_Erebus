@@ -6,9 +6,10 @@ function LoadEnemies()
 		enemies[i] = {}
 		enemies[i].transformID = Transform.Bind()
 		enemies[i].movementSpeed = math.random(5,20)
-		enemies[i].sphereCollider = SphereCollider.Create(i, enemies[i].transformID, 0,0,0, 1)
-		
-		CollisionHandler.AddSphere(enemies[i].sphereCollider)
+
+		--NOTE: Collisions are really expensive right now
+		--enemies[i].sphereCollider = SphereCollider.Create(i, enemies[i].transformID, 0,0,0, 1)
+		--CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	end
 
 	local asset = Assets.LoadModel("Models/molerat.model")

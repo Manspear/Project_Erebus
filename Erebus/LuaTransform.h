@@ -22,7 +22,4 @@ namespace LuaTransform
 	int getPosition( lua_State* lua );
 	int getRotation( lua_State* lua );
 	int getScale( lua_State* lua );
-
-	// helper functions
-	Transform* getTransforms( lua_State* lua );
 }

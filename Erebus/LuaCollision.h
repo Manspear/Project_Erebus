@@ -19,7 +19,6 @@ namespace LuaCollision
 	int getID( lua_State* lua );
 
 	// helper functions
-	CollisionHandler* getCollisionHandler( lua_State* lua );
 	HitBox* getHitBox( lua_State* lua, int index );
 	SphereCollider* getSphereCollider( lua_State* lua, int index );
 	AABBCollider* getAABBCollider( lua_State* lua, int index );

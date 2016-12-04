@@ -3,8 +3,12 @@
 using namespace Importer;
 namespace LuaAssets
 {
+	static Assets* g_assets = nullptr;
+
 	void registerFunctions( lua_State* lua, Assets* assets )
 	{
+		g_assets = assets;
+
 		luaL_newmetatable( lua, "assetsMeta" );
 		luaL_Reg assetsRegs[] =
 		{
@@ -29,23 +33,11 @@ namespace LuaAssets
 
 		if( lua_gettop( lua ) >= 1 )
 		{
-			Assets* assets = getAssets( lua );
-			ModelAsset* model = assets->load<ModelAsset>( lua_tostring( lua, 1 ) );
+			ModelAsset* model = g_assets->load<ModelAsset>( lua_tostring( lua, 1 ) );
 
 			lua_pushlightuserdata( lua, model );
 			result = 1;
 		}
-
-		return result;
-	}
-
-	Assets* getAssets( lua_State* lua )
-	{
-		lua_getglobal( lua, "Assets" );
-		lua_getfield( lua, -1, "__self" );
-
-		Assets* result = (Assets*)lua_touserdata( lua, -1 );
-		lua_pop( lua, 1 );
 
 		return result;
 	}

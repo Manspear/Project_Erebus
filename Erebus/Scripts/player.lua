@@ -30,7 +30,6 @@ function UpdatePlayer(dt)
 		player.verticalSpeed = 0.5
 		player.canJump = false
 	end
-	if Controls[Keys.Tab] then print("Tabbing") end
 	if Controls[Keys.LMB] then Shoot(player.transformID) end
 
 	local position = Transform.GetPosition(player.transformID)
