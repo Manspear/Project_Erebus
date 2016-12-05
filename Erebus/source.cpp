@@ -230,8 +230,10 @@ int addModelInstance(ModelAsset* asset)
 
 	if (index < 0)
 	{
+		Importer::TextureAsset* texture = assets->load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
 		ModelInstance instance;
 		instance.asset = asset;
+		instance.texture = texture;
 
 		index = models.size();
 		models.push_back(instance);

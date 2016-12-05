@@ -26,21 +26,21 @@ namespace Gear
 
 		light.pos = glm::vec3(0, 0, 0);
 
-		light.color = glm::vec3(0, 0, 1);
+		light.color = glm::vec3(1, 0.05, 0.5);
 
 		light.radius = 30;
 		pointLights.push_back(light);
 
 		light.pos = glm::vec3(2, 0, 0);
 
-		light.color = glm::vec3(0, 1, 0);
+		light.color = glm::vec3(1, 0.4, 0);
 
 		light.radius = 30;
 		pointLights.push_back(light);
 
 		Lights::DirLight dirLight;
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
-		dirLight.color = glm::vec3(1,0, 0);
+		dirLight.color = glm::vec3(0.75,0.75, 0.94);
 
 		dirLights.push_back(dirLight);
 	}
@@ -76,6 +76,11 @@ namespace Gear
 		renderQueue.draw(instances);
 		for (size_t i = 0; i < statModels.size(); i++)
 		{
+			ShaderProgram* tempProgram = renderQueue.getShaderProgram(ShaderType::GEOMETRY_NON);
+			tempProgram->use();
+			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
 			statModels.at(i)->draw();
 		}
 

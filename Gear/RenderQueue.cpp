@@ -28,6 +28,7 @@ void RenderQueue::init()
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
+	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
 }
 
@@ -45,6 +46,11 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[GEOMETRY]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	allShaders[GEOMETRY]->addUniform(camera->getViewMatrix(), "viewMatrix");
 	allShaders[GEOMETRY]->unUse();
+
+	allShaders[GEOMETRY_NON]->use();
+	allShaders[GEOMETRY_NON]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[GEOMETRY_NON]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_NON]->unUse();
 
 	allShaders[PARTICLES]->use();
 	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -137,6 +143,10 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 
 		for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 		{
+			TextureAsset* texture = instances->at(i).texture;
+			GLuint uniform = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "diffuseTexture");
+			glUniform1i(uniform, GL_TEXTURE0);
+			texture->bind();
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			int aids = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
@@ -146,7 +156,7 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 3));
 			glEnableVertexAttribArray(2);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 6));
-			glEnableVertexAttribArray(2);
+
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -177,7 +187,6 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 		glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
 	}
 	allShaders[PARTICLES]->unUse();*/
-	*/
 }
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
