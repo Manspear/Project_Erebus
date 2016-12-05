@@ -73,7 +73,7 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderQueue.draw();
+		renderQueue.draw(instances);
 		for (size_t i = 0; i < statModels.size(); i++)
 		{
 			statModels.at(i)->draw();
