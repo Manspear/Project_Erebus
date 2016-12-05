@@ -88,9 +88,9 @@ int main()
 
 		controls.update( &inputs );
 
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
-
 		luaBinds.update( &controls, deltaTime );
+
+		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 
 		for (int i = 0; i < boundTransforms; i++) 
 		{
