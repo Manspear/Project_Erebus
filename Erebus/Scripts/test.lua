@@ -28,15 +28,17 @@ Transform.SetPos(player.trans, {x=100,y=10,z=100})
 for i = 1, 10 do
 	bullets[i] = {trans = 0, ms= 0, lifeLeft= 0, alive = false}
 	bullets[i].trans = Transform.Bind()
-	bullets[i].ms = 100
+	bullets[i].ms = 10
 	bullets[i].lifeLeft = 10
 	bullets[i].alive = false
+	bullets[i].sphereCollider = SphereCollider.Create(i+nrOfEnemies, bullets[i].trans, 0,0,0, 2)
+	CollisionHandler:AddSphere(bullets[i].sphereCollider)
 end
 
 for i = 1, nrOfEnemies do
 		enemy.trans[i] = Transform.Bind()
 		enemy.ms[i] = math.random(5, 20)
-		enemy.sphereCollider[i] = SphereCollider.Create(i, enemy.trans[i], 0,0,0, 1)
+		enemy.sphereCollider[i] = SphereCollider.Create(i, enemy.trans[i], 0,0,0, 2)
 		CollisionHandler:AddSphere(enemy.sphereCollider[i])
 end
  
@@ -92,7 +94,8 @@ function Update(dt)
 		player.health = player.health - 1
 	end
 
-	return player.health > 0
+	--return player.health > 0
+	return true
 end
 function updateBullets( dt )
 	--print(activeBullets ..  "  : :  " ..  bulletIndex)
@@ -104,6 +107,20 @@ function updateBullets( dt )
 				activeBullets = activeBullets - 1
 			else 
 				Transform.fly(bullets[i].trans, bullets[i].ms)
+		end
+
+		if bullets[i].alive then
+			local collisionIDs = bullets[i].sphereCollider:GetCollisionIDs()
+			--print(#collisionIDs)
+			for curID = 1, #collisionIDs do
+				for curEnemy = 1, nrOfEnemies do
+					local enemyID = enemy.sphereCollider[i]:GetID()
+					if collisionIDs[curID] == enemyID then
+						print("HIT");
+						break
+					end
+				end
+			end
 		end
 	end
 end

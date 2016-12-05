@@ -11,13 +11,9 @@ Importer::Assets assets = *Importer::Assets::getInstance();
 Transform* allTransforms;
 int nrOfTransforms = 0;
 int boundTrans = 0;
-std::vector<Transform*> toBeDrawn;
 Controls controls;
 
 void allocateTransforms(int n);
-int addModelInstance(ModelAsset* asset);
-int shootStuff(lua_State* L);
-
 double deltaTime = 0.0;
 /*int transformBind(lua_State* L)
 {
@@ -43,7 +39,7 @@ int importModels(lua_State *L)
 {
 	Importer::ModelAsset* tempModel = assets.load<Importer::ModelAsset>(lua_tostring(L, -2));
 	for (int i = 0; i < lua_tointeger(L, -1); i++)
-		engine->renderQueue.addModelInstance(tempModel);
+		engine->tempRenderQueue.addModelInstance(tempModel);
 	return 0;
 }
 
@@ -101,13 +97,6 @@ int followStuff(lua_State* L)
 	allTransforms[lua_tointeger(L, -2)].follow(allTransforms[lua_tointeger(L, -3)].getPos(), lua_tonumber(L, -1), deltaTime);
 	return 0;
 }
-int fly(lua_State* L) {
-	allTransforms[lua_tointeger(L, -2)].move({ lua_tointeger(L, -1),0,0 }, deltaTime);
-	int n = lua_gettop(L);
-	lua_pop(L, n);
-	return 0;
-
-}
 
 int distance( lua_State* lua )
 {
@@ -126,12 +115,7 @@ void transformReg(lua_State * L)
 		{ "Move",			transformMove},
 		{ "Switch",			switchTransform},
 		{ "Follow",			followStuff},
-<<<<<<< HEAD
-		{ "Shoot",			shootStuff},
-		{ "fly",			fly},
-=======
 		{ "Distance",		distance },
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
 		{ NULL, NULL }
 	};
 	luaL_setfuncs(L, transformRegs, 0);	
