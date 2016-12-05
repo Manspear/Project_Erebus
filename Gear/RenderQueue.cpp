@@ -88,14 +88,14 @@ void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
 	allShaders[currentShader]->unUse();
 }
 
-GEAR_API void RenderQueue::allocateWorlds(int n)
+void RenderQueue::allocateWorlds(int n)
 {
 	if (worldMatrices)
 		delete[] worldMatrices;
 	worldMatrices = new glm::mat4[n];
 }
 
-GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
+void RenderQueue::draw(std::vector<ModelInstance>* instances)
 {
 	currentShader = FORWARD;
 	allShaders[currentShader]->use();
@@ -178,7 +178,7 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 	allShaders[PARTICLES]->unUse();
 }
 
-GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
+void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
 {
 	for (int i = 0; i < n; i++)
 	{
@@ -238,7 +238,7 @@ ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
 	return this->allShaders[type];
 }
 
-GEAR_API int RenderQueue::generateWorldMatrix()
+int RenderQueue::generateWorldMatrix()
 {
 	int result = nrOfWorlds++;
 	worldMatrices[result];
