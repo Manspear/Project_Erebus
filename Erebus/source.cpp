@@ -56,7 +56,7 @@ int main()
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms( transforms );
 	
-	controls.setControl(&transforms[1]);
+	//controls.setControl(&transforms[1]);
 
 	glEnable( GL_DEPTH_TEST );
 	
@@ -78,7 +78,7 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, transforms, &boundTransforms, &models );
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models );
 
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())

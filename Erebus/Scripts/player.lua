@@ -15,6 +15,8 @@ function LoadPlayer()
 
 	local model = Assets.LoadModel("Models/molerat.model")
 	Gear.AddModelInstance(model)
+
+	Erebus.SetControls(player.transformID)
 end
 
 function UnloadPlayer()

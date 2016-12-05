@@ -3,6 +3,7 @@
 #include "BaseIncludes.h"
 #include "Controls.h"
 
+#include "LuaErebus.h"
 #include "LuaAssets.h"
 #include "LuaCollision.h"
 #include "LuaControls.h"
@@ -19,6 +20,7 @@ public:
 	void load( Gear::GearEngine* gearEngine,
 				Importer::Assets* assets,
 				CollisionHandler* collisionHandler,
+				Controls* controls,
 				Transform* transforms,
 				int* boundTransforms,
 				std::vector<ModelInstance>* models );

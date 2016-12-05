@@ -159,6 +159,7 @@
     <ClCompile Include="LuaBinds.cpp" />
     <ClCompile Include="LuaCollision.cpp" />
     <ClCompile Include="LuaControls.cpp" />
+    <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCollision.h" />
     <ClInclude Include="LuaControls.h" />
+    <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaParticles.h" />
     <ClInclude Include="LuaTransform.h" />

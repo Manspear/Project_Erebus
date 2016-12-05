@@ -15,6 +15,7 @@ LuaBinds::~LuaBinds()
 void LuaBinds::load( GearEngine* gearEngine,
 					Assets* assets,
 					CollisionHandler* collisionHandler,
+					Controls* controls,
 					Transform* transforms,
 					int* boundTransforms,
 					std::vector<ModelInstance>* models )
@@ -22,6 +23,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 
+	LuaErebus::registerFunctions( lua, transforms, controls );
 	LuaGear::registerFunctions( lua, gearEngine, models );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );
