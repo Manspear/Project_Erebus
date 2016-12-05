@@ -8,7 +8,8 @@ function LoadPlayer()
 	player.canJump = false
 	player.health = 100
 
-	player.sphereCollider = SphereCollider.Create(0, player.transformID, 100,10,100, 1)
+	--player.sphereCollider = SphereCollider.Create(0, player.transformID, 100,10,100, 1)
+	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
 
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
@@ -50,6 +51,10 @@ function UpdatePlayer(dt)
 	end
 
 	Transform.SetPosition(player.transformID, position)
+
+	if player.sphereCollider:CheckCollision() then
+		print("COLLISION")
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

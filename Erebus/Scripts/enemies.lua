@@ -8,7 +8,8 @@ function LoadEnemies()
 		enemies[i].movementSpeed = math.random(5,20)
 
 		--NOTE: Collisions are really expensive right now
-		enemies[i].sphereCollider = SphereCollider.Create(i, enemies[i].transformID, 0,0,0, 1)
+		--enemies[i].sphereCollider = SphereCollider.Create(i, enemies[i].transformID, 0,0,0, 1)
+		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	end
 

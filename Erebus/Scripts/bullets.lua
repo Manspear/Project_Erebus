@@ -11,7 +11,8 @@ function LoadBullets()
 		bullets[i].lifeLeft = 10
 		bullets[i].alive = false
 
-		bullets[i].sphereCollider = SphereCollider.Create(i+MAX_ENEMIES, bullets[i].transformID, 0,0,0, 1)
+		--bullets[i].sphereCollider = SphereCollider.Create(i+MAX_ENEMIES, bullets[i].transformID, 0,0,0, 1)
+		bullets[i].sphereCollider = SphereCollider.Create(bullets[i].transformID)
 		CollisionHandler.AddSphere(bullets[i].sphereCollider)
 	end
 

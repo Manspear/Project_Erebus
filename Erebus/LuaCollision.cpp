@@ -84,7 +84,7 @@ namespace LuaCollision
 	{
 		int result = 0;
 
-		if( lua_gettop( lua ) >= 6 )
+		/*if( lua_gettop( lua ) >= 6 )
 		{
 			int colliderID = lua_tointeger( lua, 1 );
 			int transformID = lua_tointeger( lua, 2 );
@@ -100,6 +100,19 @@ namespace LuaCollision
 			lua_setfield( lua, -2, "__self" );
 
 			result = 1;
+		}*/
+
+		if( lua_gettop(lua) >= 1 )
+		{
+			int transformID = lua_tointeger( lua, 1 );
+
+			SphereCollider* collider = new SphereCollider( transformID );
+			lua_newtable( lua );
+			luaL_setmetatable( lua, "sphereColliderMeta" );
+			lua_pushlightuserdata( lua, collider );
+			lua_setfield( lua, -2, "__self" );
+
+			result = 1;
 		}
 
 		return result;
@@ -109,7 +122,7 @@ namespace LuaCollision
 	{
 		int result = 0;
 
-		if( lua_gettop( lua ) >= 8 )
+		/*if( lua_gettop( lua ) >= 8 )
 		{
 			int colliderID = lua_tointeger( lua, 1 );
 			int transformID = lua_tointeger( lua, 2 );
@@ -121,6 +134,19 @@ namespace LuaCollision
 								lua_tonumber( lua, 8 ) );
 
 			AABBCollider* collider = new AABBCollider( colliderID, transformID, minPos, maxPos );
+			lua_newtable( lua );
+			luaL_setmetatable( lua, "aabbColliderMeta" );
+			lua_pushlightuserdata( lua, collider );
+			lua_setfield( lua, -2, "__self" );
+
+			result = 1;
+		}*/
+
+		if( lua_gettop( lua ) >= 1 )
+		{
+			int transformID = lua_tointeger( lua, 1 );
+
+			AABBCollider* collider = new AABBCollider( transformID );
 			lua_newtable( lua );
 			luaL_setmetatable( lua, "aabbColliderMeta" );
 			lua_pushlightuserdata( lua, collider );
