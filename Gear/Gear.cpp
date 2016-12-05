@@ -1,5 +1,4 @@
 #include "Gear.h"
-#include "BaseIncludes.h"
 
 struct ScreenVertex
 {

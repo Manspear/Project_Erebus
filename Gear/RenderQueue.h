@@ -6,6 +6,7 @@
 //#include "Model.h"
 #include "Particles.h"
 #include "ModelAsset.h"
+#include "TextureAsset.h"
 
 #include <vector>
 #include <numeric>
@@ -15,6 +16,7 @@ using namespace Importer;
 struct ModelInstance
 {
 	ModelAsset* asset;
+	TextureAsset* texAsset;
 	std::vector<int> worldIndices;
 };
 
