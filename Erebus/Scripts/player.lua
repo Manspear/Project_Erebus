@@ -51,10 +51,6 @@ function UpdatePlayer(dt)
 	end
 
 	Transform.SetPosition(player.transformID, position)
-
-	if player.sphereCollider:CheckCollision() then
-		print("COLLISION")
-	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
