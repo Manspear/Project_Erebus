@@ -126,8 +126,6 @@ int checkCollisionWith(lua_State* L)
 	{
 		lua_getfield(L, 1, "__self");
 		HitBox* hitbox = (HitBox*)lua_touserdata(L, -1);
-		std::cout << hitbox->getID() << "\t" << lua_tointeger(L, -2) << std::endl;
-
 		lua_pushboolean(L, hitbox->checkSpecificCollision(lua_tointeger(L, -2)));
 		result = 1;
 	}

@@ -1,5 +1,5 @@
-nrOfActors = 41
-nrOfEnemies = 34
+nrOfActors = 107
+nrOfEnemies = 100
 nrOfBullets = 5
 player = {}
 enemies = {trans = {}, ms = {}, sphereCollider = {}}
@@ -45,7 +45,7 @@ end
 
 goal.trans = Transform.Bind()
 Transform.SetPos(goal.trans, {x = 245, y = 20, z = 245})
-goal.collide =  SphereCollider.Create(goal.trans, goal.trans, 245,25,245, 10)
+goal.collide =  SphereCollider.Create(goal.trans, goal.trans, 245,25,245, 8)
 CollisionHandler:AddSphere(goal.collide)
 
 function ChangePlayer()
@@ -90,7 +90,7 @@ function Update(dt)
 		player.ySpeed = 0
 	end
 
-	if pos.y <= 0 then
+	if pos.y <= 2 then
 		player.health = player.health - 1
 	end
 
@@ -121,7 +121,7 @@ function updateBullets( dt )
 			--print(#collisionIDs)
 			for curID = 1, #collisionIDs do
 				for curEnemy = 1, nrOfEnemies do
-					local enemyID = enemy.sphereCollider[i]:GetID()
+					local enemyID = enemies.sphereCollider[i]:GetID()
 					if collisionIDs[curID] == enemyID then
 						print("HIT");
 						break

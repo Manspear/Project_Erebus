@@ -27,7 +27,7 @@ int startNetworkReceiving(Nurn::NurnEngine * pSocket);
 int addModelInstance(ModelAsset* asset);
 
 std::thread networkThread;
-bool networkActive = false;
+bool networkActive = true;
 bool networkHost = true;
 
 bool running = true;
@@ -201,7 +201,7 @@ int main()
 	lua_getglobal(L, "enString");
 	std::cout << lua_tostring(L, -1) << std::endl;
 	int bajs;
-	std::cin >> bajs;
+	system("pause");
 	lua_close(L);
 	return 0;
 }
@@ -286,16 +286,16 @@ int startNetworkReceiving(Nurn::NurnEngine * pNetwork)
 {
 	while (running && window->isWindowOpen())
 	{
-		printf("Recieving package\n");
+		//printf("Recieving package\n");
 		Sleep(250);
 		Nurn::Address sender;
 		unsigned char buffer[256];
 		int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
 		if (bytes_read)
 		{
-			printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
+			/*printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
 				sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-				sender.GetPort(), bytes_read);
+				sender.GetPort(), bytes_read);*/
 			std::cout << buffer << std::endl;
 		}
 	}

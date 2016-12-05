@@ -228,7 +228,7 @@ float HeightMap::getPos(float x, float z) {
 	returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
 	//float temp = getHardPosAt((x), (z));
 	//std::cout << "My height: " << returnVal << " Their Height: " << temp << std::endl;
-	return returnVal;
+	return returnVal + 2;
 
 }
 
