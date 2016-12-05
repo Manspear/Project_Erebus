@@ -1,8 +1,8 @@
 #version 420 core
 
-in vec3 pos ;
-in vec3 normal ;
-in vec2 UV ;
+in vec3 pos;
+in vec3 normal;
+in vec2 UV;
 
 out vec3 vert_normal;
 out vec3 vert_viewPos;

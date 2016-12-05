@@ -6,18 +6,14 @@
 
 Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
-Importer::Assets *assets = Importer::Assets::getInstance();
+Importer::Assets assets = *Importer::Assets::getInstance();
 
 Transform* allTransforms;
 int nrOfTransforms = 0;
 int boundTrans = 0;
-std::vector<Transform*> toBeDrawn;
 Controls controls;
 
 void allocateTransforms(int n);
-int addModelInstance(ModelAsset* asset);
-int shootStuff(lua_State* L);
-
 double deltaTime = 0.0;
 /*int transformBind(lua_State* L)
 {
@@ -41,9 +37,9 @@ int initStuff(lua_State *L)
 
 int importModels(lua_State *L)
 {
-	Importer::ModelAsset* tempModel = assets->load<Importer::ModelAsset>(lua_tostring(L, -2));
+	Importer::ModelAsset* tempModel = assets.load<Importer::ModelAsset>(lua_tostring(L, -2));
 	for (int i = 0; i < lua_tointeger(L, -1); i++)
-		addModelInstance(tempModel);
+		engine->tempRenderQueue.addModelInstance(tempModel);
 	return 0;
 }
 
@@ -101,84 +97,12 @@ int followStuff(lua_State* L)
 	allTransforms[lua_tointeger(L, -2)].follow(allTransforms[lua_tointeger(L, -3)].getPos(), lua_tonumber(L, -1), deltaTime);
 	return 0;
 }
-int fly(lua_State* L) {
-	int index = lua_tointeger(L, -2);
-	int speed = lua_tointeger(L, -1);
-	allTransforms[index].move({ speed,allTransforms[index].getLookAt().y* (float)speed,0 }, deltaTime);
-	int n = lua_gettop(L);
-	lua_pop(L, n);
-	return 0;
-
-}
 
 int distance( lua_State* lua )
 {
 	float d = glm::distance(allTransforms[lua_tointeger(lua,1)].getPos(), allTransforms[lua_tointeger(lua,2)].getPos());
 	lua_pushnumber( lua, d );
 	return 1;
-}
-
-int transformGetPos( lua_State* lua )
-{
-	int result = 0;
-
-	if( lua_gettop( lua ) >= 1 )
-	{
-		int index = lua_tointeger( lua, 1 );
-		glm::vec3 pos = allTransforms[index].getPos();
-
-		lua_newtable( lua );
-		lua_pushnumber( lua, pos.x );
-		lua_setfield( lua, -2, "x" );
-
-		lua_pushnumber( lua, pos.y );
-		lua_setfield( lua, -2, "y" );
-
-		lua_pushnumber( lua, pos.z );
-		lua_setfield( lua, -2, "z" );
-
-		result = 1;
-	}
-
-	return result;
-}
-
-int transformSetPos( lua_State* lua )
-{
-	if( lua_gettop( lua ) >= 2 )
-	{
-		int index = lua_tointeger( lua, 1 );
-
-		glm::vec3 pos;
-		lua_getfield( lua, 2, "x" );
-		pos.x = lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "y" );
-		pos.y = lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "z" );
-		pos.z = lua_tonumber( lua, -1 );
-
-		allTransforms[index].setPos( pos );
-	}
-
-	return 0;
-}
-
-// TEMP: Call into heightmap class instead of going through transform?
-int transformToHeightmap( lua_State* lua )
-{
-	int result = 0;
-
-	if( lua_gettop( lua ) >= 1 )
-	{
-		int index = lua_tointeger( lua, 1 );
-
-		lua_pushboolean( lua, allTransforms[index].toHeightmap() );
-		result = 1;
-	}
-
-	return result;
 }
 
 void transformReg(lua_State * L)
@@ -191,12 +115,7 @@ void transformReg(lua_State * L)
 		{ "Move",			transformMove},
 		{ "Switch",			switchTransform},
 		{ "Follow",			followStuff},
-		{ "Shoot",			shootStuff},
 		{ "Distance",		distance },
-		{ "fly",			fly},
-		{ "GetPos",			transformGetPos },
-		{ "SetPos",			transformSetPos },
-		{ "ToHeightmap",	transformToHeightmap },
 		{ NULL, NULL }
 	};
 	luaL_setfuncs(L, transformRegs, 0);	
@@ -238,18 +157,6 @@ int addAABB( lua_State* lua )
 	return 0;
 }
 
-int shootStuff(lua_State* L) {
-	int a = lua_tointeger(L, -2);
-	int b = lua_tointeger(L, -1);
-	allTransforms[a].setLookDir(allTransforms[b].getLookAt());
-	allTransforms[a].setPos(allTransforms[b].getPos());
-	//allTransforms[lua_tointeger(L, -2)].
-	//boundTrans++;
-	//addModelInstance(molebat);
-	lua_pop(L, 2);
-	return 0;
-}
-
 int createSphereCollider( lua_State* lua )
 {
 	int result = 0;
@@ -277,7 +184,7 @@ int createAABBCollider( lua_State* lua )
 {
 	int result = 0;
 
-	if( lua_gettop( lua ) >= 8 )
+	if( lua_gettop( lua ) >= 4 )
 	{
 		int colliderID = (int)lua_tonumber( lua, 1 );
 		int transformID = (int)lua_tonumber( lua, 2 );
@@ -335,31 +242,6 @@ int checkCollision( lua_State* lua )
 	return result;
 }
 
-int destroySphereCollider( lua_State* lua )
-{
-	lua_getfield( lua, 1, "__self" );
-	SphereCollider* collider = (SphereCollider*)lua_touserdata(lua, -1 );
-	delete collider;
-
-	return 0;
-}
-
-int getID( lua_State* lua )
-{
-	int result = 0;
-
-	if( lua_gettop( lua ) >= 1 )
-	{
-		lua_getfield( lua, 1, "__self" );
-		HitBox* hitbox = (HitBox*)lua_touserdata( lua, -1 );
-
-		lua_pushnumber( lua, hitbox->getID() );
-		result = 1;
-	}
-
-	return result;
-}
-
 void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 {
 	luaL_newmetatable( lua, "sphereColliderMeta" );
@@ -368,8 +250,6 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 		{ "Create", createSphereCollider },
 		{ "GetCollisionIDs", getCollisionIDs },
 		{ "CheckCollision", checkCollision },
-		{ "GetID", getID },
-		{ "__gc", destroySphereCollider },
 		{ NULL, NULL }
 	};
 

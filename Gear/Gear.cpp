@@ -57,10 +57,10 @@ namespace Gear
 
 	}
 
-	void GearEngine::draw(Camera* camera)
+	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
 	{
 		/* Render here */
-		
+
 		//TEMP--------
 		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
 		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
@@ -69,7 +69,7 @@ namespace Gear
 		
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderQueue.updateUniforms(camera);
-		//GLfloat positions[] = { 0.5, 0.5, 0.0 };
+		renderQueue.draw(instances);
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -103,11 +103,9 @@ void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action
 {	
 	keys[key] = action > 0;
 	if (action == GLFW_PRESS) {
-		std::cout << "key pressed" << std::endl;
 		keysPressedThisFrame[key] = true;
 	}
 	if (action == GLFW_RELEASE) {
-		std::cout << "key released" << std::endl;
 		keysReleasedThisFrame[key] = true;
 	}
 }
@@ -116,11 +114,9 @@ void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, 
 {
 	mouseButtons[button] = action > 0;
 	if (action == GLFW_PRESS) {
-		std::cout << "button pressed" << std::endl;
 		mouseButtonsPressedThisFrame[button] = true;
 	}
 	if (action == GLFW_RELEASE) {
-		std::cout << "button released" << std::endl;
 		mouseButtonsReleasedThisFrame[button] = true;
 	}
 }

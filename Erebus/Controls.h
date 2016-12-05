@@ -17,5 +17,6 @@ private:
 	Transform* controlled;
 	int nrOfKeys;
 	int nrOfRelease;
-	int keys[7];
+	int keys[8];
+	int buttons[1];
 };
