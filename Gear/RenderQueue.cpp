@@ -145,7 +145,7 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 	}
 	allShaders[currentShader]->unUse();
 
-	/*allShaders[PARTICLES]->use();
+	allShaders[PARTICLES]->use();
 
 	for (size_t i = 0; i <  particleSystem.size(); i++)
 	{
@@ -175,7 +175,7 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 		}
 	}
 
-	allShaders[PARTICLES]->unUse();*/
+	allShaders[PARTICLES]->unUse();
 }
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
