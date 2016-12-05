@@ -33,37 +33,32 @@ namespace LuaGear
 	int addModelInstance( lua_State* lua )
 	{
 		int ntop = lua_gettop( lua );
-		if( ntop >= 1 )
+		if( ntop >= 2 )
 		{
 			ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+			int transformID = lua_tointeger( lua, 2 );
 
-			int amount = 1;
-			if( ntop > 1 )
-				amount = lua_tointeger( lua, 2 );
+			//int result = g_gearEngine->renderQueue.generateWorldMatrix();
+			g_gearEngine->renderQueue.incrementWorldMatrix();
 
-			for( int i=0; i<amount; i++ )
+			int index = -1;
+			for( int i=0; i<g_models->size(); i++ )
+				if( g_models->at(i).asset == asset )
+					index = i;
+
+			if( index < 0 )
 			{
-				int result = g_gearEngine->renderQueue.generateWorldMatrix();
+				ModelInstance instance;
+				instance.asset = asset;
 
-				int index = -1;
-				for( int i=0; i<g_models->size(); i++ )
-					if( g_models->at(i).asset == asset )
-						index = i;
-
-				if( index < 0 )
-				{
-					ModelInstance instance;
-					instance.asset = asset;
-
-					index = g_models->size();
-					g_models->push_back( instance );
-				}
-
-				g_models->at(index).worldIndices.push_back(result);
-
-				// NOTE: Should we push the result to Lua? Like this:
-				//lua_pushnumber( lua, result );
+				index = g_models->size();
+				g_models->push_back( instance );
 			}
+
+			g_models->at(index).worldIndices.push_back(transformID);
+
+			// NOTE: Should we push the result to Lua? Like this:
+			//lua_pushnumber( lua, result );
 		}
 
 		return 0;

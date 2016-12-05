@@ -209,9 +209,14 @@ ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
 	return this->allShaders[type];
 }
 
-GEAR_API int RenderQueue::generateWorldMatrix()
+/*GEAR_API int RenderQueue::generateWorldMatrix()
 {
 	int result = nrOfWorlds++;
 	worldMatrices[result];
 	return result;
+}*/
+
+void RenderQueue::incrementWorldMatrix()
+{
+	nrOfWorlds++;
 }

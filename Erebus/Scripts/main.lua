@@ -11,7 +11,7 @@ function Load()
 	heightmap = Assets.LoadHeightmap("Textures/molerat_texturemap4.png")
 	heightmap.transformID = Transform.Bind()
 
-	Gear.AddModelInstance(heightmap:GetModel())
+	Gear.AddModelInstance(heightmap:GetModel(), heightmap.transformID)
 
 	-- run scripts
 	for i=1, #scriptFiles do

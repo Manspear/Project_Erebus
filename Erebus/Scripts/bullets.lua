@@ -16,7 +16,9 @@ function LoadBullets()
 	end
 
 	local asset = Assets.LoadModel("Models/molerat.model")
-	Gear.AddModelInstance(asset,MAX_BULLETS)
+	for i=1, MAX_BULLETS do
+		Gear.AddModelInstance(asset, bullets[i].transformID)
+	end
 end
 
 function UnloadBullets()

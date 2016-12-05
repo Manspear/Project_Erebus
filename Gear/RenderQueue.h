@@ -32,7 +32,8 @@ public:
 	GEAR_API void update(float* pos, int* indices, int n, glm::vec3* lookAts);
 	//GEAR_API int modelAdded(Model* model);
 	GEAR_API int addModelInstance(ModelAsset* asset);
-	GEAR_API int generateWorldMatrix();
+	//GEAR_API int generateWorldMatrix();
+	GEAR_API void incrementWorldMatrix();
 	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::Particle*> particles;

@@ -14,7 +14,7 @@ function LoadPlayer()
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
 	local model = Assets.LoadModel("Models/molerat.model")
-	Gear.AddModelInstance(model)
+	Gear.AddModelInstance(model, player.transformID)
 
 	Erebus.SetControls(player.transformID)
 end
