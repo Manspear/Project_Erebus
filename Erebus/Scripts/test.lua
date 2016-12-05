@@ -1,4 +1,4 @@
-nrOfActors = 40
+nrOfActors = 41
 nrOfEnemies = 34
 nrOfBullets = 5
 player = {}
@@ -9,7 +9,9 @@ bullets = { }
 bulletIndex = 1
 activeBullets = 0
 
-modelPaths = {{"Models/moleman.model", nrOfEnemies+1}, {"Models/bullet.model", nrOfBullets}}
+goal = {}
+
+modelPaths = {{"Models/moleman.model", nrOfEnemies+1}, {"Models/bullet.model", nrOfBullets}, {"Models/sten.model", 1}}
 for i = 1, #modelPaths do
 	Importer.LoadModels(modelPaths[i][1], modelPaths[i][2])
 end
@@ -19,7 +21,7 @@ player.moveSpeed = 40
 player.ySpeed = 0
 player.canJump = false
 player.health = 100
-player.sphereCollider = SphereCollider.Create(0, player.trans, 100,10,100, 1)
+player.sphereCollider = SphereCollider.Create(0, player.trans, 50,10,50, 5)
 CollisionHandler:AddSphere(player.sphereCollider)
 Transform.SetPos(player.trans, {x=100,y=10,z=100})
 
@@ -41,7 +43,11 @@ for i = 1, nrOfBullets do
 	CollisionHandler:AddSphere(bullets[i].sphereCollider)
 end
 
-		enemy.sphereCollider[i] = SphereCollider.Create(i, enemy.trans[i], 0,0,0, 2)
+goal.trans = Transform.Bind()
+Transform.SetPos(goal.trans, {x = 245, y = 20, z = 245})
+goal.collide =  SphereCollider.Create(goal.trans, goal.trans, 245,25,245, 10)
+CollisionHandler:AddSphere(goal.collide)
+
 function ChangePlayer()
     player.trans = (player.trans + 1) % nrOfActors
     Transform.Switch(player.trans) 
@@ -92,8 +98,11 @@ function Update(dt)
 		player.health = player.health - 1
 	end
 
-	--return player.health > 0
-	return true
+	if player.sphereCollider:CheckCollisionWith(goal.collide, goal.trans) then
+		enString = "Du vann"
+	end
+
+	return player.health > 0
 end
 
 function updateBullets( dt )
@@ -133,3 +142,5 @@ function shoot()
 		activeBullets = activeBullets + 1
 	end
 end
+
+enString = "Du förlora"

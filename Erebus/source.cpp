@@ -181,7 +181,6 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-		std::cout << lua_gettop(L) << "\n";
 		//Collisions
 		collisionHandler.checkCollisions();
 	}
@@ -199,9 +198,10 @@ int main()
 	glfwTerminate();
 	delete engine;
 	system("cls");
-	std::cout << "Best game ever? y/n?" << std::endl;
+	lua_getglobal(L, "enString");
+	std::cout << lua_tostring(L, -1) << std::endl;
 	int bajs;
-	//std::cin >> bajs;
+	std::cin >> bajs;
 	lua_close(L);
 	return 0;
 }

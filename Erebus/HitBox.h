@@ -14,6 +14,7 @@ public:
 	virtual void clearCollisionIDs() = 0;
 	void setIDTransform(unsigned int ID);
 	virtual bool checkCollision();
+	virtual bool checkSpecificCollision(unsigned int target);
 
 protected:
 	unsigned int ID, IDTransform;
