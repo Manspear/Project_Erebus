@@ -14,7 +14,7 @@ function LoadEnemies()
 
 	local model = Assets.LoadModel("Models/molerat.model")
 	for i=1, MAX_ENEMIES do
-		Gear.AddModelInstance(model, enemies[i])
+		Gear.AddModelInstance(model, enemies[i].transformID)
 	end
 end
 
