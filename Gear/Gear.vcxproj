@@ -157,6 +157,7 @@
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Particles.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="Particles.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />

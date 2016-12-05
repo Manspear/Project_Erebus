@@ -9,6 +9,7 @@ Gear::GearEngine *engine = new Gear::GearEngine();
 Importer::Assets *assets = Importer::Assets::getInstance();
 
 Transform* allTransforms;
+bool* availableTransforms;
 int nrOfTransforms = 0;
 int boundTrans = 0;
 std::vector<Transform*> toBeDrawn;
@@ -65,11 +66,33 @@ void initLua(lua_State * L)
 
 int transformBind(lua_State* L)
 {
+	int min = lua_tointeger(L, -2);
+	int max = lua_tointeger(L, -1);
+	lua_pop(L, 2);
+
 	int n = lua_gettop(L);
 	for (int i = 1; i <= n; i++)
 		std::cout << lua_tonumber(L, i) << "\n";
-	lua_pushinteger(L, boundTrans++);
+
+ 	int result = -1;
+	for (int i = min; i < max && result == -1; i++) {
+		if (availableTransforms[i]) {
+			result = i;
+			availableTransforms[i] = false;
+			boundTrans++;
+		}
+	}
+	lua_pushinteger(L, result);
 	return 1;
+}
+
+int transformUnbind(lua_State* L) {
+	int tID = lua_tointeger(L, -1);
+	if (tID >=0 && tID < nrOfTransforms) {
+		availableTransforms[tID] = true;
+		boundTrans--;
+	}
+	return 0;
 }
 
 int transformDestroy(lua_State* L)
@@ -105,8 +128,8 @@ int fly(lua_State* L) {
 	int index = lua_tointeger(L, -2);
 	int speed = lua_tointeger(L, -1);
 	allTransforms[index].move({ speed,allTransforms[index].getLookAt().y* (float)speed,0 }, deltaTime);
-	int n = lua_gettop(L);
-	lua_pop(L, n);
+	/*int n = lua_gettop(L);
+	lua_pop(L, n);*/
 	return 0;
 
 }
@@ -187,13 +210,14 @@ void transformReg(lua_State * L)
 	luaL_Reg transformRegs[] =
 	{
 		{ "Bind",			transformBind},
+		{ "Unbind",			transformUnbind},
 		{ "Destroy",		transformDestroy},
 		{ "Move",			transformMove},
 		{ "Switch",			switchTransform},
 		{ "Follow",			followStuff},
 		{ "Shoot",			shootStuff},
 		{ "Distance",		distance },
-		{ "fly",			fly},
+		{ "Fly",			fly},
 		{ "GetPos",			transformGetPos },
 		{ "SetPos",			transformSetPos },
 		{ "ToHeightmap",	transformToHeightmap },
@@ -403,7 +427,7 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 	luaL_setfuncs( lua, collisionHandlerRegs, 0 );
 	lua_pushvalue( lua, -1 );
 	lua_setfield( lua, -2, "__index" );
-	//lua_setglobal( lua, "CollisionHandler" );
+	lua_setglobal( lua, "CollisionHandler" );
 
 	lua_newtable( lua );
 	lua_pushlightuserdata( lua, collisionHandler );
