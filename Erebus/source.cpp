@@ -200,6 +200,7 @@ int main()
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
+	delete ps;
 	glfwTerminate();
 	delete engine;
 	return 0;
