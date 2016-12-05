@@ -24,7 +24,7 @@ namespace Gear
 
 	void ParticleSystem::run()
 	{
-		for (size_t j = maxParticles -1; j >= 0; j++)
+		for (size_t j = maxParticles -1; j >= 0; j--)
 		{
 			if (particles[j]->isDead())
 			{

@@ -34,9 +34,7 @@ bool networkHost = true;
 
 bool running = true;
 
-
 std::vector<ModelInstance> models;
-//Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
 
 int main()
 {
@@ -83,26 +81,10 @@ int main()
 	}
 	controls.setControl(&allTransforms[0]);
 
-<<<<<<< HEAD
-//	engine->renderQueue.addModelInstance(terrain);
-	/*Gear::Particle particle[10];
-	Gear::Particle particle;
-
-	for (int i = 0; i < maxParticles; i++)
-	{
-		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle.particleObject[i].color = { 1, 0, 0 };
-
-		engine->renderQueue.particles.push_back( &particle );
-
-	}*/
-=======
-	//engine->renderQueue.addModelInstance(terrain);
 
 	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
-	engine->renderQueue.particleSystem.push_back(ps);
+	//engine->renderQueue.particleSystem.push_back(ps);
  	
->>>>>>> Support_for_Particles
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -116,6 +98,8 @@ int main()
 
 	float* transforms = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
+	engine->bindTransforms(transforms, nullptr, &boundTrans, lookAts);
+
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication);
@@ -125,32 +109,20 @@ int main()
 	while (running && window->isWindowOpen())
 	{
 
-		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 
-<<<<<<< HEAD
 		if( playerAlive )
 			controls.sendControls(inputs, L);
 
-		/*for (size_t i = 0; i < maxParticles; i++)
-		{
-			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
-		}*/
-
-		lua_getglobal(L, "updateBullets");
-		lua_pushnumber(L, deltaTime);
-		lua_pcall(L, 1, 0, 0);
-
-=======
-		for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
+		/*for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
 		{
 			for (size_t j = 0; j < 10; j++)
 			{
 				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
 			}
-		}
->>>>>>> Support_for_Particles
+		}*/
+
 
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
@@ -166,14 +138,17 @@ int main()
 		else
 			std::cout << "Game Over" << std::endl;
 
+		//Update transforms:
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
 			int index = i * 6;
 			glm::vec3 pos = allTransforms[i].getPos();
 			glm::vec3 rot = allTransforms[i].getRotation();
+
 			transforms[index] = pos.x;
 			transforms[index + 1] = pos.y;
 			transforms[index + 2] = pos.z;
+
 			transforms[index + 3] = rot.x;
 			transforms[index + 4] = rot.y;
 			transforms[index + 5] = rot.z;
@@ -183,9 +158,10 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
-		engine->draw(&camera, &models);
+		//Draw:
+		engine->queueDynamicModels(&models);
+		engine->draw(&camera);
 		window->update();	
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
@@ -221,6 +197,7 @@ int main()
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
+	delete ps;
 	glfwTerminate();
 	delete engine;
 	return 0;
@@ -230,7 +207,8 @@ int main()
 int addModelInstance(ModelAsset* asset)
 {
 
-	int result = engine->renderQueue.generateWorldMatrix();
+	//int result = engine->renderQueue.generateWorldMatrix();
+	int result = engine->generateWorldMatrix();
 
 	int index = -1;
 	for (int i = 0; i < models.size() && index < 0; i++)
@@ -257,7 +235,8 @@ void allocateTransforms(int n)
 	if(allTransforms!= nullptr)
 		delete allTransforms;
 	allTransforms = new Transform[n];
-	engine->renderQueue.allocateWorlds(n);
+	//engine->renderQueue.allocateWorlds(n);
+	engine->allocateWorlds(n);
 }
 
 

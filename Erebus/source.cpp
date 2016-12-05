@@ -96,7 +96,7 @@ int main()
 
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
-	float* transforms = new float[6 * nrOfTransforms];
+	float* transforms = new float[9 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	engine->bindTransforms(transforms, nullptr, &boundTrans, lookAts);
 
@@ -123,41 +123,53 @@ int main()
 			}
 		}*/
 
-
+		lua_getglobal(L, "updateBullets");
+		lua_pushnumber(L, deltaTime);
+		if (lua_pcall(L, 1, 0, 0))
+			std::cout << lua_tostring(L, -1) << std::endl;
+		//lua_pop(L, 1);
+		 
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
 		if( playerAlive )
-		{
+		{	
 			lua_getglobal( L, "Update" );
 			lua_pushnumber( L, deltaTime );
 			if( lua_pcall( L, 1, 1, 0 ) )
 				std::cout << lua_tostring( L, -1 ) << std::endl;
-			playerAlive = lua_toboolean( L, -1 );
+			playerAlive = lua_toboolean( L, -1 );	
+			lua_pop(L,1);
 		}
 		else
 			std::cout << "Game Over" << std::endl;
-
+			
 		//Update transforms:
+		int index = 0;
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
-			int index = i * 6;
-			glm::vec3 pos = allTransforms[i].getPos();
-			glm::vec3 rot = allTransforms[i].getRotation();
+			if (!availableTransforms[i]) {
 
-			transforms[index] = pos.x;
-			transforms[index + 1] = pos.y;
-			transforms[index + 2] = pos.z;
+				glm::vec3 pos = allTransforms[i].getPos();
+				glm::vec3 rot = allTransforms[i].getRotation();
+				glm::vec3 scale = allTransforms[i].getScale();
+				transforms[index*9] = pos.x;
+				transforms[index*9 + 1] = pos.y;
+				transforms[index*9 + 2] = pos.z;
+				transforms[index*9 + 3] = rot.x;
+				transforms[index*9 + 4] = rot.y;
+				transforms[index*9 + 5] = rot.z;
+				transforms[index*9 + 6] = scale.x;
+				transforms[index*9 + 7] = scale.y;
+				transforms[index*9 + 8] = scale.z;
 
-			transforms[index + 3] = rot.x;
-			transforms[index + 4] = rot.y;
-			transforms[index + 5] = rot.z;
+				lookAts[index] = allTransforms[i].getLookAt();
+
+				index++;
+			}
+			
 		}
-
-		for (int i = 0; i < boundTrans; i++)
-		{
-			lookAts[i] = allTransforms[i].getLookAt();
-		}
+		//std::cout << index << std::endl;
 
 		//Draw:
 		engine->queueDynamicModels(&models);
@@ -170,7 +182,7 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
-
+		//std::cout << lua_gettop(L) << std::endl;
 		//Display FPS:
 		frameCounter++;
 		frameTime += deltaTime;
@@ -183,7 +195,7 @@ int main()
 		}
 
 		//Collisions
-		collisionHandler.checkCollisions();
+		//collisionHandler.checkCollisions();
 	}
 	delete[] transforms;
 	delete[] lookAts;
@@ -194,6 +206,7 @@ int main()
 		networkThread.join();
 	}
 
+	delete[] availableTransforms;
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
@@ -232,11 +245,17 @@ int addModelInstance(ModelAsset* asset)
 
 void allocateTransforms(int n)
 {
-	if(allTransforms!= nullptr)
+	if (allTransforms != nullptr) {
 		delete allTransforms;
+		delete availableTransforms;
+	}
+	availableTransforms = new bool[n];
 	allTransforms = new Transform[n];
+	for (int i = 0; i < n; i++) {
+		availableTransforms[i] = true;
 	//engine->renderQueue.allocateWorlds(n);
 	engine->allocateWorlds(n);
+	}
 }
 
 
