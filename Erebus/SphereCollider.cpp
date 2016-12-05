@@ -40,8 +40,6 @@ bool SphereCollider::sphereToSphereCollision(const SphereCollider * sphere)
 	//if distance squared is less than radius squared = collision
 	if (distanceSquared <= radiusSquared)
 		collision = true;
-
-
 	return collision;
 }
 
@@ -67,8 +65,6 @@ float SphereCollider::SquaredDistancePointAabb(AABBCollider * aabb)
 	squaredDistance += closestDistanceAabbToCenter(this->pos.x, minPos->x, maxPos->x);
 	squaredDistance += closestDistanceAabbToCenter(this->pos.y, minPos->y, maxPos->y);
 	squaredDistance += closestDistanceAabbToCenter(this->pos.x, minPos->x, maxPos->x);
-
-
 
 	return squaredDistance;
 }
