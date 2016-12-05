@@ -41,6 +41,7 @@ public:
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 	void particlePass(std::vector<Gear::ParticleSystem>* particleSystems);
+	void geometryPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 
 private:
 	int currentShader = 0;

@@ -43,6 +43,8 @@ namespace Gear
 		//----------------------
 
 	private:
+		GEAR_API void lightPass(Camera* camera);
+
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 

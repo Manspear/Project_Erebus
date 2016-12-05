@@ -77,45 +77,10 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderQueue.draw(instances);
-		for (size_t i = 0; i < statModels.size(); i++)
-		{
-			ShaderProgram* tempProgram = renderQueue.getShaderProgram(ShaderType::GEOMETRY_NON);
-			tempProgram->use();
-			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
-			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
-			statModels.at(i)->draw();
-		}
-
+		queue.draw(instances);
 		gBuffer.unUse();
 
-		lightPassShader->use();
-		glClear(GL_COLOR_BUFFER_BIT);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
-		lightPassShader->addUniform(camera->getPosition(), "viewPos");
-		lightPassShader->addUniform(drawMode, "drawMode");
-
-		for (GLuint i = 0; i < pointLights.size(); i++)
-		{
-			lightPassShader->addUniform(pointLights[i].pos, ("pointLights[" + std::to_string(i) + "].pos").c_str());
-			lightPassShader->addUniform(pointLights[i].color, ("pointLights[" + std::to_string(i) + "].color").c_str());
-
-			lightPassShader->addUniform(pointLights[i].radius, ("pointLights[" + std::to_string(i) + "].radius").c_str());
-		}
-
-		for (GLuint i = 0; i < dirLights.size(); i++)
-		{
-			lightPassShader->addUniform(dirLights[i].direction, ("dirLights[" + std::to_string(i) + "].direction").c_str());
-			lightPassShader->addUniform(dirLights[i].color, ("dirLights[" + std::to_string(i) + "].color").c_str());
-		}
-
-		drawQuad();
-
-		lightPassShader->unUse();
-
+		lightPass(camera);
 
 		//renderQueue.process( renderElements );
 		//for (size_t i = 0; i < statModels.size(); i++)
@@ -215,11 +180,18 @@ namespace Gear
 		queue.updateUniforms(camera);
 		queue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
 
-		queue.forwardPass(staticModels, dynamicModels);
-		queue.particlePass(particleSystems);
+		//queue.forwardPass(staticModels, dynamicModels);
+		//queue.particlePass(particleSystems);
+
+		gBuffer.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(staticModels, dynamicModels);
+		gBuffer.unUse();
+
+		lightPass(camera);
 
 		//--TEMP---
-		for (size_t i = 0; i < statModels.size(); i++)
+	/*	for (size_t i = 0; i < statModels.size(); i++)
 		{
 			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
 			tempProgram->use();
@@ -229,7 +201,7 @@ namespace Gear
 			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
 			statModels.at(i)->draw();
 			tempProgram->unUse();
-		}
+		}*/
 		//---------
 
 		//Clear lists
@@ -246,5 +218,33 @@ namespace Gear
 	int GearEngine::generateWorldMatrix()
 	{
 		return queue.generateWorldMatrix();
+	}
+	GEAR_API void GearEngine::lightPass(Camera * camera)
+	{
+		lightPassShader->use();
+		glClear(GL_COLOR_BUFFER_BIT);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
+		lightPassShader->addUniform(camera->getPosition(), "viewPos");
+		lightPassShader->addUniform(drawMode, "drawMode");
+
+		for (GLuint i = 0; i < pointLights.size(); i++)
+		{
+			lightPassShader->addUniform(pointLights[i].pos, ("pointLights[" + std::to_string(i) + "].pos").c_str());
+			lightPassShader->addUniform(pointLights[i].color, ("pointLights[" + std::to_string(i) + "].color").c_str());
+
+			lightPassShader->addUniform(pointLights[i].radius, ("pointLights[" + std::to_string(i) + "].radius").c_str());
+		}
+
+		for (GLuint i = 0; i < dirLights.size(); i++)
+		{
+			lightPassShader->addUniform(dirLights[i].direction, ("dirLights[" + std::to_string(i) + "].direction").c_str());
+			lightPassShader->addUniform(dirLights[i].color, ("dirLights[" + std::to_string(i) + "].color").c_str());
+		}
+
+		drawQuad();
+
+		lightPassShader->unUse();
 	}
 }
