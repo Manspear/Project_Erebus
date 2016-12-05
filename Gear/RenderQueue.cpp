@@ -183,20 +183,28 @@ GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* 
 	glm::vec3 tempLook;
 	for (int i = 0; i < n; i++)
 	{
-	int index = i * 6;
+		int index = i * 9;
 
-	int rotIndexY = index + 4;
-	glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[index + 4], { 0, 1, 0 });
+		int rotIndexY = index + 4;
+		glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[index + 4], { 0, 1, 0 });
 		
-	int rotIndexZ = index + 5;
-	tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
-	glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
-	glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[index + 5], axis);
+		int rotIndexZ = index + 5;
+		tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[index + 5], axis);
 
-	worldMatrices[i] = rotationZ * rotationY;
-	worldMatrices[i][3][0] = pos[index];
-	worldMatrices[i][3][1] = pos[index + 1];
-	worldMatrices[i][3][2] = pos[index + 2];
+		worldMatrices[i] = glm::mat4();
+
+		worldMatrices[i][0][0] = pos[index + 6];
+		worldMatrices[i][1][1] = pos[index + 7];
+		worldMatrices[i][2][2] = pos[index + 8];
+
+		worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
+
+
+		worldMatrices[i][3][0] = pos[index];
+		worldMatrices[i][3][1] = pos[index + 1];
+		worldMatrices[i][3][2] = pos[index + 2];
 	}
 }
 

@@ -83,26 +83,11 @@ int main()
 	}
 	controls.setControl(&allTransforms[0]);
 
-<<<<<<< HEAD
 //	engine->renderQueue.addModelInstance(terrain);
-	/*Gear::Particle particle[10];
-	Gear::Particle particle;
-
-	for (int i = 0; i < maxParticles; i++)
-	{
-		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle.particleObject[i].color = { 1, 0, 0 };
-
-		engine->renderQueue.particles.push_back( &particle );
-
-	}*/
-=======
-	//engine->renderQueue.addModelInstance(terrain);
 
 	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
 	engine->renderQueue.particleSystem.push_back(ps);
  	
->>>>>>> Support_for_Particles
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -129,45 +114,56 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 
-<<<<<<< HEAD
 		if( playerAlive )
 			controls.sendControls(inputs, L);
 
-		/*for (size_t i = 0; i < maxParticles; i++)
-		{
-			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
-		}*/
-
-		lua_getglobal(L, "updateBullets");
-		lua_pushnumber(L, deltaTime);
-		lua_pcall(L, 1, 0, 0);
-
-=======
 		for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
 		{
+<<<<<<< HEAD
+			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
+		}*/
+		lua_getglobal(L, "updateBullets");
+		lua_pushnumber(L, deltaTime);
+		if (lua_pcall(L, 1, 0, 0))
+			std::cout << lua_tostring(L, -1) << std::endl;
+		//lua_pop(L, 1);
+		 
+=======
 			for (size_t j = 0; j < 10; j++)
 			{
 				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
 			}
 		}
->>>>>>> Support_for_Particles
 
+
+>>>>>>> f830f52200316217db8f4c03fa842acbcabc8a09
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
 		if( playerAlive )
-		{
+		{	
 			lua_getglobal( L, "Update" );
 			lua_pushnumber( L, deltaTime );
 			if( lua_pcall( L, 1, 1, 0 ) )
 				std::cout << lua_tostring( L, -1 ) << std::endl;
-			playerAlive = lua_toboolean( L, -1 );
+			playerAlive = lua_toboolean( L, -1 );	
+			lua_pop(L,1);
 		}
 		else
 			std::cout << "Game Over" << std::endl;
-
+			
+		int index = 0;
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
+<<<<<<< HEAD
+			if(!availableTransforms[i]){
+				transforms[index * 6] = allTransforms[i].getPos().x;
+				transforms[index * 6 + 1] = allTransforms[i].getPos().y;
+				transforms[index * 6 + 2] = allTransforms[i].getPos().z;
+				transforms[index * 6 + 3] = allTransforms[i].getRotation().x;
+				transforms[index * 6 + 4] = allTransforms[i].getRotation().y;
+				transforms[index * 6 + 5] = allTransforms[i].getRotation().z;
+=======
 			int index = i * 6;
 			glm::vec3 pos = allTransforms[i].getPos();
 			glm::vec3 rot = allTransforms[i].getRotation();
@@ -178,11 +174,15 @@ int main()
 			transforms[index + 4] = rot.y;
 			transforms[index + 5] = rot.z;
 		}
+>>>>>>> f830f52200316217db8f4c03fa842acbcabc8a09
 
-		for (int i = 0; i < boundTrans; i++)
-		{
-			lookAts[i] = allTransforms[i].getLookAt();
+				lookAts[index] = allTransforms[i].getLookAt();
+
+				index++;
+
+			}
 		}
+		//std::cout << index << std::endl;
 		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
 		engine->draw(&camera, &models);
@@ -194,7 +194,7 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
-
+		//std::cout << lua_gettop(L) << std::endl;
 		//Display FPS:
 		frameCounter++;
 		frameTime += deltaTime;
@@ -218,9 +218,11 @@ int main()
 		networkThread.join();
 	}
 
+	delete[] availableTransforms;
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
+	delete ps;
 	glfwTerminate();
 	delete engine;
 	return 0;
@@ -254,9 +256,15 @@ int addModelInstance(ModelAsset* asset)
 
 void allocateTransforms(int n)
 {
-	if(allTransforms!= nullptr)
+	if (allTransforms != nullptr) {
 		delete allTransforms;
+		delete availableTransforms;
+	}
+	availableTransforms = new bool[n];
 	allTransforms = new Transform[n];
+	for (int i = 0; i < n; i++) {
+		availableTransforms[i] = true;
+	}
 	engine->renderQueue.allocateWorlds(n);
 }
 

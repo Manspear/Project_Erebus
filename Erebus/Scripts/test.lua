@@ -35,13 +35,16 @@ for i = 1, nrOfEnemies do
 	CollisionHandler:AddSphere(enemies.sphereCollider[i])
 end
 
---[[for i = 1, nrOfBullets do
-	bullets[i] = {trans = 0, ms= 0, lifeLeft= 0, alive = false}
-	bullets[i].trans = Transform.Bind()
+
+
+for i = 1, nrOfBullets do
+	bullets[i] = {}
+	bullets[i].trans = -1
 	bullets[i].ms = 100
 	bullets[i].lifeLeft = 10
 	bullets[i].alive = false
-end--]]
+end
+
 
 function ChangePlayer()
     player.trans = (player.trans + 1) % nrOfActors
@@ -97,14 +100,18 @@ function Update(dt)
 end
 
 function updateBullets( dt )
-	--print(activeBullets ..  "  : :  " ..  bulletIndex)
-	for i = 1 , activeBullets
+	print(activeBullets ..  "  : :  " ..  bulletIndex)
+	
+	for i = 1 , nrOfBullets
 	 do
 		bullets[i].lifeLeft = bullets[i].lifeLeft - dt
-		if bullets[i].lifeLeft < 0 and bullets[i].alive == true then
+		if bullets[i].lifeLeft < 0 then
+			if bullets[i].alive == true then
+				print("ege")
 				bullets[i].alive = false
 				Transform.Unbind(bullets[i].trans)
 				activeBullets = activeBullets - 1
+			end
 		elseif bullets[i].alive == true then
 				Transform.Fly(bullets[i].trans, bullets[i].ms)
 		end
@@ -115,11 +122,10 @@ function shoot()
 	if activeBullets < nrOfBullets then
 		tempTrans = Transform.Bind(BULLET_TRANS_MIN, BULLET_TRANS_MAX)
 		if tempTrans ~= -1 then
-			bullets[bulletIndex] = {}
 			bullets[bulletIndex].trans = tempTrans
 			bullets[bulletIndex].ms = 100
 			bullets[bulletIndex].alive = true
-			bullets[bulletIndex].lifeLeft = 5
+			bullets[bulletIndex].lifeLeft = 1.00
 			Transform.Shoot(bullets[bulletIndex].trans, player.trans)
 			bulletIndex = (bulletIndex % nrOfBullets) + 1
 			activeBullets = activeBullets + 1
