@@ -21,7 +21,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 
-int startNetworkCommunication();
+int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
 int startNetworkReceiving(Nurn::NurnEngine * pSocket, Window* window);
 
@@ -74,7 +74,7 @@ int main()
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
 	if (networkActive)
 	{
-		//networkThread = std::thread(startNetworkCommunication);
+		networkThread = std::thread(startNetworkCommunication, &window );
 	}
 
 	LuaBinds luaBinds;
