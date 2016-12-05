@@ -128,21 +128,23 @@ int main()
 		{
 			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
 		}*/
-
 		lua_getglobal(L, "updateBullets");
 		lua_pushnumber(L, deltaTime);
-		lua_pcall(L, 1, 0, 0);
-
+		if (lua_pcall(L, 1, 0, 0))
+			std::cout << lua_tostring(L, -1) << std::endl;
+		//lua_pop(L, 1);
+		 
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 	
 		if( playerAlive )
-		{
+		{	
 			lua_getglobal( L, "Update" );
 			lua_pushnumber( L, deltaTime );
 			if( lua_pcall( L, 1, 1, 0 ) )
 				std::cout << lua_tostring( L, -1 ) << std::endl;
-			playerAlive = lua_toboolean( L, -1 );
+			playerAlive = lua_toboolean( L, -1 );	
+			lua_pop(L,1);
 		}
 		else
 			std::cout << "Game Over" << std::endl;
@@ -164,7 +166,7 @@ int main()
 
 			}
 		}
-
+		//std::cout << index << std::endl;
 		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
 		engine->draw(&camera, &models);
@@ -176,7 +178,7 @@ int main()
 			redTexture->bind();
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
 			greenTexture->bind();
-
+		//std::cout << lua_gettop(L) << std::endl;
 		//Display FPS:
 		frameCounter++;
 		frameTime += deltaTime;
@@ -200,6 +202,7 @@ int main()
 		networkThread.join();
 	}
 
+	delete[] availableTransforms;
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
