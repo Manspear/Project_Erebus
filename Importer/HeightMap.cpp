@@ -208,9 +208,7 @@ namespace Importer
 
 	HeightMap::~HeightMap()
 	{
-		for( size_t i = 0; i<mapHeight; i++ )
-			delete heightData[i];
-		delete[] heightData;
+		unload();
 	}
 
 	bool HeightMap::load( std::string path, Assets* assets )
@@ -221,11 +219,12 @@ namespace Importer
 		widthMulti = 1.0f;
 		breadthMulti = 1.0f;
 
-		ImageAsset* map = assets->load<ImageAsset>( path );
-		if( map )
+		//ImageAsset* map = assets->load<ImageAsset>( path );
+		ImageAsset map;
+		if( map.load( path, assets ) )
 		{
-			mapWidth = map->getWidth();
-			mapHeight = map->getHeight();
+			mapWidth = map.getWidth();
+			mapHeight = map.getHeight();
 
 			heightData = new float*[mapWidth];
 			for( size_t i = 0; i<mapWidth; i++ )
@@ -233,7 +232,7 @@ namespace Importer
 
 			for( size_t y = 0; y<mapHeight; y++ )
 				for( size_t x = 0; x<mapWidth; x++ )
-					heightData[x][y] = map->getPixelValue(x,y).red*heightMulti;
+					heightData[x][y] = map.getPixelValue(x,y).red*heightMulti;
 
 			minX = minZ = 0;
 			maxX = (mapWidth-1)*widthMulti;
@@ -244,9 +243,10 @@ namespace Importer
 			model.header.numMeshes = 1;
 			model.header.TYPE = 0; // 0 = static, 1 = dynamic/animated
 
-			model.vertexBuffers = new GLuint[1];
-			model.indexBuffers = new GLuint[1];
-			model.bufferSizes = new int[1];
+			model.dataptr = malloc( sizeof(GLuint)*2 + sizeof(int) );
+			model.vertexBuffers = (GLuint*)model.dataptr;
+			model.indexBuffers = (GLuint*)((char*)model.dataptr+sizeof(GLuint));
+			model.bufferSizes = (int*)((char*)model.dataptr+sizeof(GLuint)*2);
 
 			glGenBuffers( 1, &model.vertexBuffers[0] );
 			glBindBuffer( GL_ARRAY_BUFFER, model.vertexBuffers[0] );
@@ -259,7 +259,7 @@ namespace Importer
 				for( size_t x = 0; x<mapWidth; x++, vertexIndex++ )
 				{
 					vertexData[vertexIndex].position[0] = x *							widthMulti;
-					vertexData[vertexIndex].position[1] = map->getPixelValue(x, y).red*	heightMulti;
+					vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red*	heightMulti;
 					vertexData[vertexIndex].position[2] = y *							breadthMulti;
 
 					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);
@@ -314,6 +314,15 @@ namespace Importer
 	void HeightMap::unload()
 	{
 		model.unload();
+
+		if( heightData )
+		{
+			for( size_t i = 0; i<mapWidth; i++ )
+				delete[] heightData[i];
+			delete[] heightData;
+
+			heightData = nullptr;
+		}
 	}
 
 	glm::mat4 HeightMap::getWorldMat()

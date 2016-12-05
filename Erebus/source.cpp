@@ -133,6 +133,7 @@ int main()
 
 	luaBinds.unload();
 
+	delete[] transforms;
 	delete[] transformData;
 	delete[] lookAts;
 
