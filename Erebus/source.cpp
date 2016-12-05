@@ -9,7 +9,7 @@
 #include <ctime>
 #include "Transform.h"
 #include "PerformanceCounter.h"
-#include "Particles.h"
+#include "ParticleSystem.h"
 #include "SphereCollider.h"
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
@@ -84,17 +84,10 @@ int main()
 	controls.setControl(&allTransforms[0]);
 
 //	engine->renderQueue.addModelInstance(terrain);
-	/*Gear::Particle particle[10];
-	Gear::Particle particle;
 
-	for (int i = 0; i < maxParticles; i++)
-	{
-		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle.particleObject[i].color = { 1, 0, 0 };
-
-		engine->renderQueue.particles.push_back( &particle );
-
-	}*/
+	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
+	engine->renderQueue.particleSystem.push_back(ps);
+ 	
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -124,14 +117,14 @@ int main()
 		if( playerAlive )
 			controls.sendControls(inputs, L);
 
-		/*for (size_t i = 0; i < maxParticles; i++)
+		for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
 		{
-			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
-		}*/
+			for (size_t j = 0; j < 10; j++)
+			{
+				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
+			}
+		}
 
-		lua_getglobal(L, "updateBullets");
-		lua_pushnumber(L, deltaTime);
-		lua_pcall(L, 1, 0, 0);
 
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);

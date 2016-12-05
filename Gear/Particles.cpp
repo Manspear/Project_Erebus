@@ -4,13 +4,7 @@ namespace Gear
 {
 	Particle::Particle()
 	{
-		for (int i = 0; i < maxParticles; i++)
-		{
-			this->particleObject[i].pos = { 0.0, 0.0, 0.0 };
-			this->particleObject[i].color = { 0.0, 0.0, 0.0 };
-		}
-
-		glGenBuffers(1, &particleVertexBuffer);
+	
 		/*	particleObject[maxParticles].pos = { 0.0, 0.0, 0.0 };
 		particleObject[maxParticles].color = { 0.0, 0.0, 0.0 };*/
 
@@ -18,16 +12,14 @@ namespace Gear
 		//speed = 1;
 		//angle = 0;
 	}
-
-	Particle::Particle(glm::vec3 pos, GLfloat duration, GLfloat speed, GLfloat angle, glm::vec3 color)
+	
+	Particle::Particle(glm::vec3 pos, glm::vec3 color, glm::vec3 speed, float duration)
 	{
-
-		//this->particleObject[maxParticles].pos = { 0.0, 0.0, 0.0 };
-		//this->particleObject[maxParticles].color = { 0.0, 0.0, 0.0 };
-		//this->pos = pos;
-		//this->duration = duration;
-		//this->speed = speed;
-		//this->angle = angle;
+		glGenBuffers(1, &particleVertexBuffer);
+		this->position = pos;
+		this->color = color;
+		this->speed = speed;
+		this->duration = duration;
 	}
 
 	Particle::~Particle()
@@ -59,28 +51,40 @@ namespace Gear
 
 	}
 
-	void Particle::setParticle(glm::vec3 pos, glm::vec3 color, int i)
+	void Particle::update(glm::vec3 &speed)
 	{
-		this->particleObject[i].pos = pos;
-		this->particleObject[i].color = color;
+		position += speed;
+		duration -= 2.0;
 	}
 
-	ParticlePoint Particle::getParticle()
+	bool Particle::isDead()
 	{
-		for (int i = 0; i < maxParticles; i++)
+		if (duration < 0.0)
 		{
-			return particleObject[i];
+			return true;
+			//if the particle is dead
+		}
+		else
+		{
+			return false;
+			//if its alive
 		}
 	}
 
-	//void Particle::setParticleCount(int particleCount)
-	//{
-	//	this->particleCount = particleCount;
-	//}
+	GEAR_API glm::vec3 Particle::getPosition()
+	{
+		return position;
+	}
 
-	//int Particle::getParticleCount()
-	//{
-	//	return this->particleCount;
-	//}
+	GEAR_API glm::vec3 Particle::getColor()
+	{
+		return color;
+	}
+
+	GEAR_API glm::vec3 Particle::getSpeed()
+	{
+		return speed;
+	}
+
 
 };
