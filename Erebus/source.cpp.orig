@@ -58,11 +58,11 @@ int main()
 
 	
 
-<<<<<<< HEAD
+	collisionHandler.addHitbox(&sphere2);
 	/*collisionHandler.addHitbox(&sphere1);
 	collisionHandler.addHitbox(&sphere2);
 	collisionHandler.addHitbox(&aabb1);
-	collisionHandler.addHitbox(&aabb2);*/
+	collisionHandler.addHitbox(&aabb2);
 =======
 	collisionHandler.addHitbox(&sphere1);*/
 >>>>>>> bd576bbeab9dad88c6f187783fb1d29cc07176f8
@@ -87,18 +87,15 @@ int main()
 	}
 	controls.setControl(&allTransforms[0]);
 
-//	engine->renderQueue.addModelInstance(terrain);
-	/*Gear::Particle particle[10];
-	Gear::Particle particle;
 
-	for (int i = 0; i < maxParticles; i++)
-	{
-		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle.particleObject[i].color = { 1, 0, 0 };
+	//for (int i = 0; i < maxParticles; i++)
+	//{
+	//	particle[i].particleObject->pos = { rand() % 10, rand() % 5, rand() % 10 };
+	//	particle[i].particleObject->color = { 1, 0, 0 };
 
-		engine->renderQueue.particles.push_back( &particle );
+	//	engine->renderQueue.particles.push_back( &particle[i] );
 
-	}*/
+	//}
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -128,10 +125,10 @@ int main()
 		if( playerAlive )
 			controls.sendControls(inputs, L);
 
-		/*for (size_t i = 0; i < maxParticles; i++)
-		{
-			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
-		}*/
+		//for (size_t i = 0; i < maxParticles; i++)
+		//{
+		//	particle[i].particleObject->pos += glm::vec3(deltaTime, 0, 0);
+		//}
 
 		lua_getglobal(L, "updateBullets");
 		lua_pushnumber(L, deltaTime);
@@ -139,6 +136,7 @@ int main()
 
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
+<<<<<<< HEAD
 	
 		if( playerAlive )
 		{
@@ -159,6 +157,23 @@ int main()
 			transforms[i * 6 + 3] = allTransforms[i].getRotation().x;
 			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
 			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
+=======
+	/*	pos += (glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f) * (float)deltaTime;*/
+
+		for (int i = 0; i < nrOfTransforms; i++) {
+
+		//particle.setParticle(/*allTransforms[2].getPos()*/ pos, glm::vec3(1, 0, 0), 0);
+
+			int index = i * 6;
+			glm::vec3 pos = allTransforms[i].getPos();
+			glm::vec3 rot = allTransforms[i].getRotation();
+			transforms[index] = pos.x;
+			transforms[index + 1] = pos.y;
+			transforms[index + 2] = pos.z;
+			transforms[index + 3] = rot.x;
+			transforms[index + 4] = rot.y;
+			transforms[index + 5] = rot.z;
+>>>>>>> c817cfde5f2d343dcc5e704f923aff8c41fb1dc3
 		}
 
 		for (int i = 0; i < boundTrans; i++)
@@ -201,8 +216,12 @@ int main()
 	}
 
 	delete[] allTransforms;
+<<<<<<< HEAD
 	delete window;
+=======
+>>>>>>> c817cfde5f2d343dcc5e704f923aff8c41fb1dc3
 	glfwTerminate();
+	delete window;
 	delete engine;
 	system("cls");
 	std::cout << "You suck! y/n?" << std::endl;
@@ -243,7 +262,7 @@ void allocateTransforms(int n)
 	if(allTransforms!= nullptr)
 		delete allTransforms;
 	allTransforms = new Transform[n];
-	engine->renderQueue.allocateWorlds(n);
+	engine->tempRenderQueue.allocateWorlds(n);
 }
 
 

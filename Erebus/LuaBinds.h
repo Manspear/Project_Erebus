@@ -66,6 +66,22 @@ void transformReg(lua_State * L)
 	lua_setglobal(L, "Transform");
 }
 
+int getID( lua_State* lua )
+{
+	int result = 0;
+
+	if( lua_gettop( lua ) >= 1 )
+	{
+		lua_getfield( lua, 1, "__self" );
+		HitBox* hitbox = (HitBox*)lua_touserdata( lua, -1 );
+
+		lua_pushnumber( lua, hitbox->getID() );
+		result = 1;
+	}
+
+	return result;
+}
+
 void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 {
 	luaL_newmetatable( lua, "sphereColliderMeta" );
@@ -74,6 +90,7 @@ void collisionReg( lua_State* lua, CollisionHandler* collisionHandler )
 		{ "Create", createSphereCollider },
 		{ "GetCollisionIDs", getCollisionIDs },
 		{ "CheckCollision", checkCollision },
+		{ "GetID", getID },
 		{ "__gc", destroySphereCollider },
 		{ NULL, NULL }
 	};

@@ -8,10 +8,8 @@ Window *window = new Window();
 Gear::GearEngine *engine = new Gear::GearEngine();
 Importer::Assets *assets = Importer::Assets::getInstance();
 
-std::vector<Transform*> toBeDrawn;
 
 void allocateTransforms(int n);
-int addModelInstance(ModelAsset* asset);
 
 int initStuff(lua_State *L)
 {
@@ -24,7 +22,7 @@ int importModels(lua_State *L)
 {
 	Importer::ModelAsset* tempModel = assets->load<Importer::ModelAsset>(lua_tostring(L, -2));
 	for (int i = 0; i < lua_tointeger(L, -1); i++)
-		addModelInstance(tempModel);
+		engine->tempRenderQueue.addModelInstance(tempModel);
 	return 0;
 }
 
@@ -52,9 +50,7 @@ void transformReg(lua_State * L)
 		{ "Move",			transformMove},
 		{ "Switch",			switchTransform},
 		{ "Follow",			followStuff},
-		{ "Shoot",			shootStuff},
 		{ "Distance",		distance },
-		{ "Fly",			fly},
 		{ "GetPos",			transformGetPos },
 		{ "SetPos",			transformSetPos },
 		{ "ToHeightmap",	transformToHeightmap },

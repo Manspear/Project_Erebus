@@ -145,12 +145,15 @@ int main()
 		
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
-			transforms[i * 6] = allTransforms[i].getPos().x;
-			transforms[i * 6 + 1] = allTransforms[i].getPos().y;
-			transforms[i * 6 + 2] = allTransforms[i].getPos().z;
-			transforms[i * 6 + 3] = allTransforms[i].getRotation().x;
-			transforms[i * 6 + 4] = allTransforms[i].getRotation().y;
-			transforms[i * 6 + 5] = allTransforms[i].getRotation().z;
+			int index = i * 6;
+			glm::vec3 pos = allTransforms[i].getPos();
+			glm::vec3 rot = allTransforms[i].getRotation();
+			transforms[index] = pos.x;
+			transforms[index + 1] = pos.y;
+			transforms[index + 2] = pos.z;
+			transforms[index + 3] = rot.x;
+			transforms[index + 4] = rot.y;
+			transforms[index + 5] = rot.z;
 		}
 
 		for (int i = 0; i < boundTrans; i++)
