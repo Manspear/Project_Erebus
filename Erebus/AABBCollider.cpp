@@ -85,3 +85,13 @@ void AABBCollider::setPos(glm::vec3 pos)
 	this->maxPosTotal = this->maxPos + this->centerPos;
 	this->minPosTotal = this->minPos + this->centerPos;
 }
+
+void AABBCollider::setMinPos(glm::vec3 minPos)
+{
+	this->minPos = minPos;
+}
+
+void AABBCollider::setMaxPos(glm::vec3 maxPos)
+{
+	this->maxPos = maxPos;
+}
