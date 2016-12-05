@@ -27,7 +27,7 @@ namespace Gear
 	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
 	{
 		/* Render here */
-		
+
 		//TEMP--------
 		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
 		//renderElements[1]->id = RenderQueueId(FORWARD, 0);

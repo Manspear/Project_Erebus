@@ -16,21 +16,11 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AABBCollider.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="AABBSquareCollider.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionHandler.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
+    <ClCompile Include="AABBSquareCollider.cpp" />
+    <ClCompile Include="AABBCollider.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="HitBox.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -48,46 +38,36 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AABBCollider.h">
-      <Filter>Colission</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBSquareCollider.h">
-      <Filter>Colission</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionHandler.h">
-      <Filter>Colission</Filter>
-    </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>Colission</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Colission</Filter>
-    </ClInclude>
+    <ClInclude Include="AABBSquareCollider.h" />
+    <ClInclude Include="AABBCollider.h" />
+    <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="HitBox.h" />
+    <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\forward.frag">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\forward.geom">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\forward.vert">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\heightmap.frag">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\heightmap.vert">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\particle.frag">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\particle.geom">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Shaders\particle.vert">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
@@ -100,14 +80,11 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{34ee3650-5d4f-45ff-b1d0-e5cb656da508}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{f1271d4e-0acc-49c0-bc12-91a629cc95eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts">
       <UniqueIdentifier>{aa825c85-92b9-4b77-876b-f5a8835cfaa4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Colission">
-      <UniqueIdentifier>{3a1865e1-0010-42d2-a3c7-64386fccc850}</UniqueIdentifier>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{f1271d4e-0acc-49c0-bc12-91a629cc95eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

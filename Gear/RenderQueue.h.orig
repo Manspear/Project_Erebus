@@ -4,7 +4,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 //#include "Model.h"
-#include "Particles.h"
+#include "ParticleSystem.h"
 #include "ModelAsset.h"
 
 #include <vector>
@@ -31,22 +31,26 @@ public:
 	GEAR_API void draw(std::vector<ModelInstance>* instances);
 	GEAR_API void update(float* pos, int* indices, int n, glm::vec3* lookAts);
 	//GEAR_API int modelAdded(Model* model);
-	GEAR_API int addModelInstance( ModelAsset* asset );
-<<<<<<< HEAD
+	GEAR_API int addModelInstance(ModelAsset* asset);
 	GEAR_API int generateWorldMatrix();
+	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
+	// TEMP:
+<<<<<<< HEAD
+	std::vector<Gear::Particle*> particles;
 
 =======
-	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
->>>>>>> b6bc5f705cc8d0940079b446ca37addcd3ffa23b
-	// TEMP:
-	std::vector<Gear::Particle*> particles;
+	std::vector<Gear::ParticleSystem*> particleSystem;
+	/*Gear::Particle* particle;*/
 	
+>>>>>>> Support_for_Particles
 private:
 	int currentShader = 0;
 	int currentTexture = 0;
+	int currentCallType = 0;
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	//std::vector<Model*> allModels;
 	std::vector<ModelInstance> instances;
+	std::vector<ModelInstance> staticInstances;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
 	int nrOfWorlds;
@@ -54,5 +58,6 @@ private:
 
 private:
 	void configure(RenderQueueId &id, GLuint &shaderProgramId);
+	void drawElement(RenderQueueElement &elem);
 
 };

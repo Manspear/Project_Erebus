@@ -9,7 +9,7 @@
 #include <ctime>
 #include "Transform.h"
 #include "PerformanceCounter.h"
-#include "Particles.h"
+#include "ParticleSystem.h"
 #include "SphereCollider.h"
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
@@ -84,17 +84,10 @@ int main()
 	controls.setControl(&allTransforms[0]);
 
 //	engine->renderQueue.addModelInstance(terrain);
-	/*Gear::Particle particle[10];
-	Gear::Particle particle;
 
-	for (int i = 0; i < maxParticles; i++)
-	{
-		particle.particleObject[i].pos = { rand() % 10, rand() % 5, rand() % 10 };
-		particle.particleObject[i].color = { 1, 0, 0 };
-
-		engine->renderQueue.particles.push_back( &particle );
-
-	}*/
+	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
+	engine->renderQueue.particleSystem.push_back(ps);
+ 	
 	glEnable( GL_DEPTH_TEST );
 	
 	GLFWwindow* w = window->getGlfwWindow();
@@ -124,12 +117,13 @@ int main()
 		if( playerAlive )
 			controls.sendControls(inputs, L);
 
-		/*for (size_t i = 0; i < maxParticles; i++)
+		for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
 		{
-			particle.particleObject[i].pos += glm::vec3(deltaTime, 0, 0);
-		}*/
-		lua_getglobal(L, "updateBullets");
-		lua_pushnumber(L, deltaTime);
+			for (size_t j = 0; j < 10; j++)
+			{
+				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
+			}
+		}
 		if (lua_pcall(L, 1, 0, 0))
 			std::cout << lua_tostring(L, -1) << std::endl;
 		//lua_pop(L, 1);
@@ -152,13 +146,15 @@ int main()
 		int index = 0;
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
-			if(!availableTransforms[i]){
-				transforms[index * 6] = allTransforms[i].getPos().x;
-				transforms[index * 6 + 1] = allTransforms[i].getPos().y;
-				transforms[index * 6 + 2] = allTransforms[i].getPos().z;
-				transforms[index * 6 + 3] = allTransforms[i].getRotation().x;
-				transforms[index * 6 + 4] = allTransforms[i].getRotation().y;
-				transforms[index * 6 + 5] = allTransforms[i].getRotation().z;
+			int index = i * 6;
+			glm::vec3 pos = allTransforms[i].getPos();
+			glm::vec3 rot = allTransforms[i].getRotation();
+			transforms[index] = pos.x;
+			transforms[index + 1] = pos.y;
+			transforms[index + 2] = pos.z;
+			transforms[index + 3] = rot.x;
+			transforms[index + 4] = rot.y;
+			transforms[index + 5] = rot.z;
 
 				lookAts[index] = allTransforms[i].getLookAt();
 
@@ -206,6 +202,7 @@ int main()
 	delete[] allTransforms;
 	lua_close(L);
 	delete window;
+	delete ps;
 	glfwTerminate();
 	delete engine;
 	return 0;

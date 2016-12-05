@@ -1,6 +1,7 @@
 #include "RenderQueue.h"
 
-RenderQueue::RenderQueue(): nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr)
+
+RenderQueue::RenderQueue() : nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr)
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
@@ -24,21 +25,6 @@ RenderQueue::~RenderQueue()
 
 void RenderQueue::init()
 {
-	std::string paths[3];
-	paths[0] = "Shaders/forward.vert";
-	paths[1] = "Shaders/forward.frag";
-	paths[2] = "Shaders/forward.geom";
-	GLuint types[3];
-
-	types[0] = GL_VERTEX_SHADER;
-	types[1] = GL_FRAGMENT_SHADER;
-	types[2] = GL_GEOMETRY_SHADER;
-
-	std::string partPaths[3];
-	partPaths[0] = "Shaders/particle.vert";
-	partPaths[1] = "Shaders/particle.frag";
-	partPaths[2] = "Shaders/particle.geom";
-
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
@@ -104,7 +90,7 @@ void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
 
 GEAR_API void RenderQueue::allocateWorlds(int n)
 {
-	if( worldMatrices )
+	if (worldMatrices)
 		delete[] worldMatrices;
 	worldMatrices = new glm::mat4[n];
 }
@@ -113,11 +99,11 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 {
 	currentShader = FORWARD;
 	allShaders[currentShader]->use();
-	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID() , "worldMatrix");
-	GLuint worldMatricesLocation = glGetUniformLocation( allShaders[currentShader]->getProgramID(), "worldMatrices" );
+	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "worldMatrix");
+	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
 
 	for( int i=0; i<instances->size(); i++ )
-	{	
+	{
 		ModelAsset* modelAsset = instances->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
@@ -126,24 +112,24 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 			/*glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrices[instances[i].worldIndices[k]][0][0] );
 			for (int j = 0; j < meshes; j++)
 			{
-				int vertexSize = (modelAsset->getMesh(j)->numAnimVertices > 0 ? sizeof(Importer::sSkeletonVertex) : sizeof(Importer::sVertex));
+			int vertexSize = (modelAsset->getMesh(j)->numAnimVertices > 0 ? sizeof(Importer::sSkeletonVertex) : sizeof(Importer::sVertex));
 
-				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 3));
-				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 6));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-				glDrawElements(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 3));
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 6));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+			glDrawElements(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}*/
 
 			tempMatrices[numInstance++] = worldMatrices[instances->at(i).worldIndices[j]];
 		}
 
-		glUniformMatrix4fv( worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0] );
+		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 
-		for( int j=0; j<modelAsset->getHeader()->numMeshes; j++ )
+		for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 		{
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			int aids = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
@@ -152,36 +138,44 @@ GEAR_API void RenderQueue::draw(std::vector<ModelInstance>* instances)
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 3));
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 6));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced( GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance );
+			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
 	allShaders[currentShader]->unUse();
 
-	/*allShaders[PARTICLES]->use();
+	allShaders[PARTICLES]->use();
 
-	for (size_t i = 0; i <  particles.size(); i++)
+	for (size_t i = 0; i <  particleSystem.size(); i++)
 	{
-
-		GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-
-		if (loc != -1)
+		for (size_t j = 0; j < 10; j++)
 		{
-			glUniform1f(loc, 2.0f);
+			GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
+
+			if (loc != -1)
+			{
+				glUniform1f(loc, 2.0f);
+			}
+
+			/*glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);*/
+			glBindBuffer(GL_ARRAY_BUFFER, particleSystem[i]->particles[j]->particleVertexBuffer);
+
+			glm::vec3 partArray[2] = { particleSystem[i]->particles[j]->getPosition(), particleSystem[i]->particles[j]->getColor() };
+
+			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3) * 2) * maxParticles, partArray, GL_STATIC_DRAW);
+			//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 2, partArray, GL_STATIC_DRAW);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
+
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
+			//glDrawArrays(GL_POINTS, 0, 1);
 		}
-
-		glBindBuffer(GL_ARRAY_BUFFER, particles[i]->particleVertexBuffer);
-
-		glBufferData(GL_ARRAY_BUFFER, sizeof(ParticlePoint) * maxParticles, &particles[i]->particleObject, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (GLvoid*)sizeof(glm::vec3));
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glDrawArraysInstanced(GL_POINTS, 0, 10, maxParticles);
 	}
 
-	allShaders[PARTICLES]->unUse();*/
+	allShaders[PARTICLES]->unUse();
 }
 
 GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
@@ -189,38 +183,47 @@ GEAR_API void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* 
 	glm::vec3 tempLook;
 	for (int i = 0; i < n; i++)
 	{
-		tempLook = glm::normalize(glm::vec3( lookAts[i].x, 0, lookAts[i].z));
-		worldMatrices[i] = glm::rotate(glm::mat4(), pos[i * 6 + 5], glm::cross(tempLook, { 0, 1, 0 })) * glm::rotate(glm::mat4(), pos[i * 6 + 4], { 0, 1, 0 });
-		worldMatrices[i][3][0] = pos[i * 6];
-		worldMatrices[i][3][1] = pos[i * 6 + 1];
-		worldMatrices[i][3][2] = pos[i * 6 + 2];
+	int index = i * 6;
+
+	int rotIndexY = index + 4;
+	glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[index + 4], { 0, 1, 0 });
+		
+	int rotIndexZ = index + 5;
+	tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
+	glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+	glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[index + 5], axis);
+
+	worldMatrices[i] = rotationZ * rotationY;
+	worldMatrices[i][3][0] = pos[index];
+	worldMatrices[i][3][1] = pos[index + 1];
+	worldMatrices[i][3][2] = pos[index + 2];
 	}
 }
 
-int RenderQueue::addModelInstance( ModelAsset* asset )
+int RenderQueue::addModelInstance(ModelAsset* asset)
 {
 	int result = this->nrOfWorlds++;
 
 	int index = -1;
-	for( int i = 0; i < instances.size() && index < 0; i++ )
-		if( instances[i].asset == asset )
+	for (int i = 0; i < instances.size() && index < 0; i++)
+		if (instances[i].asset == asset)
 			index = i;
 
-	if( index < 0 )
+	if (index < 0)
 	{
 		ModelInstance instance;
 		instance.asset = asset;
-		instance.worldIndices.push_back( result );
+		instance.worldIndices.push_back(result);
 
 		index = instances.size();
-		instances.push_back( instance );
+		instances.push_back(instance);
 	}
 
-	instances[index].worldIndices.push_back( result );
-	worldMatrices[result] = glm::mat4( 1, 0, 0, 0,
+	instances[index].worldIndices.push_back(result);
+	worldMatrices[result] = glm::mat4(1, 0, 0, 0,
 		0, 1, 0, 0,
 		0, 0, 1, 0,
-		0, 0, nrOfWorlds, 1 );
+		0, 0, nrOfWorlds, 1);
 
 	return result;
 }
