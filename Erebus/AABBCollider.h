@@ -19,6 +19,8 @@ public:
 	virtual void clearCollisionIDs() override;
 
 	void setPos(glm::vec3 pos);
+	void setMinPos(glm::vec3 minPos);
+	void setMaxPos(glm::vec3 maxPos);
 
 
 private:
