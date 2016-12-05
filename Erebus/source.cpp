@@ -34,9 +34,7 @@ bool networkHost = true;
 
 bool running = true;
 
-
 std::vector<ModelInstance> models;
-//Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
 
 int main()
 {
@@ -83,10 +81,9 @@ int main()
 	}
 	controls.setControl(&allTransforms[0]);
 
-//	engine->renderQueue.addModelInstance(terrain);
 
 	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
-	engine->renderQueue.particleSystem.push_back(ps);
+	//engine->renderQueue.particleSystem.push_back(ps);
  	
 	glEnable( GL_DEPTH_TEST );
 	
@@ -101,6 +98,8 @@ int main()
 
 	float* transforms = new float[9 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
+	engine->bindTransforms(transforms, nullptr, &boundTrans, lookAts);
+
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication);
@@ -110,20 +109,19 @@ int main()
 	while (running && window->isWindowOpen())
 	{
 
-		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 
 		if( playerAlive )
 			controls.sendControls(inputs, L);
 
-		for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
+		/*for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
 		{
 			for (size_t j = 0; j < 10; j++)
 			{
 				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
 			}
-		}
+		}*/
 
 		lua_getglobal(L, "updateBullets");
 		lua_pushnumber(L, deltaTime);
@@ -146,6 +144,7 @@ int main()
 		else
 			std::cout << "Game Over" << std::endl;
 			
+		//Update transforms:
 		int index = 0;
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
@@ -171,9 +170,10 @@ int main()
 			
 		}
 		//std::cout << index << std::endl;
-		engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
-		engine->draw(&camera, &models);
+		//Draw:
+		engine->queueDynamicModels(&models);
+		engine->draw(&camera);
 		window->update();	
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
@@ -220,7 +220,8 @@ int main()
 int addModelInstance(ModelAsset* asset)
 {
 
-	int result = engine->renderQueue.generateWorldMatrix();
+	//int result = engine->renderQueue.generateWorldMatrix();
+	int result = engine->generateWorldMatrix();
 
 	int index = -1;
 	for (int i = 0; i < models.size() && index < 0; i++)
@@ -252,8 +253,9 @@ void allocateTransforms(int n)
 	allTransforms = new Transform[n];
 	for (int i = 0; i < n; i++) {
 		availableTransforms[i] = true;
+	//engine->renderQueue.allocateWorlds(n);
+	engine->allocateWorlds(n);
 	}
-	engine->renderQueue.allocateWorlds(n);
 }
 
 
