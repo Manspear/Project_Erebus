@@ -10,7 +10,12 @@ namespace Gear
 	GearEngine::GearEngine()
 	{
 		glewInit();
-		renderQueue.init();
+		//renderQueue.init();
+		queue.init();
+
+		staticModels = &defaultModelList;
+		dynamicModels = &defaultModelList;
+		particleSystems = &defaultParticleList;
 	}
 
 	GearEngine::~GearEngine()
@@ -33,9 +38,9 @@ namespace Gear
 		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
 		//------------
 
-		renderQueue.updateUniforms(camera);
-		renderQueue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
-		renderQueue.draw(instances);
+		//renderQueue.updateUniforms(camera);
+		//renderQueue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
+		//renderQueue.draw(instances);
 		GLfloat positions[] = { 0.5, 0.5, 0.0 };
 
 
@@ -60,7 +65,7 @@ namespace Gear
 	}
 	
 	void GearEngine::addStaticNonModel(staticNonModels* model) {
-		model->addShaderProgramRef(this->renderQueue.getShaderProgram(model->getShaderType()));
+		model->addShaderProgramRef(this->queue.getShaderProgram(model->getShaderType()));
 		this->statModels.push_back(model);
 	}
 
@@ -74,41 +79,69 @@ namespace Gear
 
 	void GearEngine::addModelInstance(ModelAsset* asset)
 	{
-
+		queue.addModelInstance(asset);
 	}
 
-	void GearEngine::queueStaticModels(std::vector<ModelInstance*> &models)
+	void GearEngine::queueModels(std::vector<ModelInstance>* models)
+	{
+		staticModels = models;
+	}
+
+	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
+	{
+		dynamicModels = models;
+	}
+
+	void GearEngine::queueAnimModels(std::vector<Dummy>* models)
 	{
 
 	}
 
-	void GearEngine::queueDynamicModels(std::vector<ModelInstance*> &models)
+	void GearEngine::queueParticles(std::vector<ParticleSystem>* particles)
+	{
+		particleSystems = particles;
+	}
+
+	void GearEngine::queueLights(std::vector<Light>* lights)
 	{
 
 	}
 
-	void GearEngine::queueAnimModels(std::vector<Dummy*> &models)
+	void GearEngine::draw(Camera* camera)
 	{
+		queue.updateUniforms(camera);
+		queue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
 
+		queue.forwardPass(staticModels, dynamicModels);
+		queue.particlePass(particleSystems);
+
+		//--TEMP---
+		for (size_t i = 0; i < statModels.size(); i++)
+		{
+			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
+			tempProgram->use();
+			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+			tempProgram->addUniform(camera->getPosition(), "viewPos");
+			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
+			statModels.at(i)->draw();
+			tempProgram->unUse();
+		}
+		//---------
+
+		//Clear lists
+		staticModels = &defaultModelList;
+		dynamicModels = &defaultModelList;
+		particleSystems = &defaultParticleList;
 	}
 
-	void GearEngine::queueParticles(std::vector<Particle*> &particles)
+	void GearEngine::allocateWorlds(int n)
 	{
-
+		queue.allocateWorlds(n);
 	}
 
-	void GearEngine::queueLights(std::vector<Light*> &lights)
+	int GearEngine::generateWorldMatrix()
 	{
-
-	}
-
-	void GearEngine::draw()
-	{
-
-	}
-
-	void allocateWorlds(int n)
-	{
-
+		return queue.generateWorldMatrix();
 	}
 }

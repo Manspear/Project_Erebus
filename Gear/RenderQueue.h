@@ -40,6 +40,9 @@ public:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 	/*Gear::Particle* particle;*/
 
+	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
+	void particlePass(std::vector<Gear::ParticleSystem>* particleSystems);
+
 private:
 	int currentShader = 0;
 	int currentTexture = 0;
@@ -55,6 +58,5 @@ private:
 
 private:
 	void configure(RenderQueueId &id, GLuint &shaderProgramId);
-	void drawElement(RenderQueueElement &elem);
 
 };

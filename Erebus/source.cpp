@@ -34,9 +34,7 @@ bool networkHost = true;
 
 bool running = true;
 
-
 std::vector<ModelInstance> models;
-//Importer::ModelAsset* molebat = assets->load<Importer::ModelAsset>("Models/moleRat.mtf");
 
 int main()
 {
@@ -83,10 +81,9 @@ int main()
 	}
 	controls.setControl(&allTransforms[0]);
 
-//	engine->renderQueue.addModelInstance(terrain);
 
 	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
-	engine->renderQueue.particleSystem.push_back(ps);
+	//engine->renderQueue.particleSystem.push_back(ps);
  	
 	glEnable( GL_DEPTH_TEST );
 	
@@ -112,20 +109,19 @@ int main()
 	while (running && window->isWindowOpen())
 	{
 
-		//std::cout << heightMap->getPos(allTransforms[0].getPos().x, allTransforms[0].getPos().z) << std::endl;
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 
 		if( playerAlive )
 			controls.sendControls(inputs, L);
 
-		for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
+		/*for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
 		{
 			for (size_t j = 0; j < 10; j++)
 			{
 				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
 			}
-		}
+		}*/
 
 
 
@@ -142,7 +138,7 @@ int main()
 		else
 			std::cout << "Game Over" << std::endl;
 
-		//Update transforms
+		//Update transforms:
 		for (int i = 0; i < nrOfTransforms; i++) 
 		{
 			int index = i * 6;
@@ -162,9 +158,10 @@ int main()
 		{
 			lookAts[i] = allTransforms[i].getLookAt();
 		}
-		//engine->renderQueue.update(transforms, nullptr, boundTrans, lookAts);
 
-		engine->draw(&camera, &models);
+		//Draw:
+		engine->queueDynamicModels(&models);
+		engine->draw(&camera);
 		window->update();	
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
@@ -210,7 +207,8 @@ int main()
 int addModelInstance(ModelAsset* asset)
 {
 
-	int result = engine->renderQueue.generateWorldMatrix();
+	//int result = engine->renderQueue.generateWorldMatrix();
+	int result = engine->generateWorldMatrix();
 
 	int index = -1;
 	for (int i = 0; i < models.size() && index < 0; i++)
@@ -237,7 +235,8 @@ void allocateTransforms(int n)
 	if(allTransforms!= nullptr)
 		delete allTransforms;
 	allTransforms = new Transform[n];
-	engine->renderQueue.allocateWorlds(n);
+	//engine->renderQueue.allocateWorlds(n);
+	engine->allocateWorlds(n);
 }
 
 
