@@ -1,5 +1,5 @@
 #version 420 core
-layout(triangles) in;
+layout(triangles) in ;
 layout(triangle_strip, max_vertices = 6) out;
 
 in vec3 vert_normal[];

@@ -4,7 +4,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 //#include "Model.h"
-#include "Particles.h"
+#include "ParticleSystem.h"
 #include "ModelAsset.h"
 #include "TextureAsset.h"
 
@@ -37,7 +37,8 @@ public:
 	GEAR_API int generateWorldMatrix();
 	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
-	std::vector<Gear::Particle*> particles;
+	std::vector<Gear::ParticleSystem*> particleSystem;
+	/*Gear::Particle* particle;*/
 
 private:
 	int currentShader = 0;
