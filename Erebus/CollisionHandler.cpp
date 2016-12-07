@@ -12,6 +12,7 @@ CollisionHandler::CollisionHandler()
 
 	this->collisionLayers = new CollisionLayers(5);
 
+	std::vector<int> derp = this->collisionLayers->getLayerCollisions(3);
 }
 
 

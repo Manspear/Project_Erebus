@@ -12,6 +12,11 @@ CollisionLayers::CollisionLayers(int size)
 	{
 		this->layerMatrix[i] = new bool[layerMatrixSize];
 		this->collisionCheckedMatrix[i] = new bool[layerMatrixSize];
+
+		for (unsigned int j = 0; j < layerMatrixSize; j++)
+		{
+			this->layerMatrix[i][j] = true;
+		}
 	}
 
 	this->resetCollisionCheckedMatrix(); // all collisions are set to false
@@ -89,4 +94,22 @@ void CollisionLayers::resetCollisionCheckedMatrix() // set all old collisions to
 			this->collisionCheckedMatrix[i][j] = false;
 		}
 	}
+}
+
+std::vector<int> CollisionLayers::getLayerCollisions(int layer)
+{
+	std::vector<int> layerCollisions;
+
+	for (unsigned int i = 0; i < this->layerMatrixSize; i++)
+	{
+		bool derrr = false;
+		derrr = this->layerMatrix[layer][i];
+		if (this->layerMatrix[layer][i] == true) // if the layermatrix says that these two layers should collide add it to vector
+		{
+			layerCollisions.push_back(i);
+		}
+		
+	}
+
+	return layerCollisions;
 }

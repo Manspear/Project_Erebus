@@ -19,6 +19,8 @@ public:
 	void checkLayer(int layer1,int layer2);
 	void resetCollisionCheckedMatrix();
 
+	std::vector<int> getLayerCollisions(int layer); //return a vector with all the layers that this layer will collide with
+
 private:
 	bool** layerMatrix; // which layers may collide with each other
 	bool** collisionCheckedMatrix; // which layers have collided this frame - used for optimization
