@@ -98,7 +98,7 @@ int main()
 
 	float* transforms = new float[9 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-	engine->bindTransforms(transforms, nullptr, &boundTrans, lookAts);
+	engine->bindTransforms(&transforms, nullptr, &boundTrans, lookAts);
 
 	if (networkActive)
 	{
