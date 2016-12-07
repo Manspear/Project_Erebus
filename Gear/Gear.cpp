@@ -122,6 +122,8 @@ namespace Gear
 		queue.forwardPass(staticModels, dynamicModels);
 		queue.particlePass(particleSystems);
 
+		updateDebug(camera);
+
 		//--TEMP---
 		for (size_t i = 0; i < statModels.size(); i++)
 		{

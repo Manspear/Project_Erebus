@@ -6,6 +6,7 @@
 
 Debug::Debug()
 {
+	
 //{
 //	glGenBuffers(1, &this->VBO);
 //	glGenVertexArrays(1, &VAO);
