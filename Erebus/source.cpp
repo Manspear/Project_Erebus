@@ -70,7 +70,7 @@ int main()
 
 	float* transformData = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-	engine.bindTransforms(transformData, nullptr, &boundTransforms, lookAts);
+	engine.bindTransforms(&transformData, nullptr, &boundTransforms, lookAts);
 
 	if (networkActive)
 	{
