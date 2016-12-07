@@ -24,6 +24,8 @@ namespace Gear
 		
 		GEAR_API void addStaticNonModel(staticNonModels* model);
 
+		GEAR_API void addDebugger(Debug* debugger);
+
 		//--TODO: Implement API--
 		GEAR_API void bindTransforms(float** transforms, int** indices, int* n, glm::vec3* lookAts);
 

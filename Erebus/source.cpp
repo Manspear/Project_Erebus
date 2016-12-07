@@ -36,7 +36,6 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
 	Importer::Assets assets;
-
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
@@ -47,6 +46,8 @@ int main()
 	engine.allocateWorlds(nrOfTransforms);
 
 	std::vector<ModelInstance> models;
+	engine.addDebugger(Debugger::getInstance());
+	Debug* tempDebug = Debugger::getInstance();
 
 	double deltaTime = 0.0;
 
@@ -87,7 +88,7 @@ int main()
 		inputs.update();
 
 		controls.update( &inputs );
-		 
+		tempDebug->drawLine(glm::vec3(0, 10, 0), glm::vec3(100, 10, 100));
 		luaBinds.update( &controls, deltaTime );
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);

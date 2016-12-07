@@ -26,6 +26,11 @@ namespace Gear
 			delete statModels.at(i);
 		}
 
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			delete debuggers[i];
+		}
+
 	}
 
 	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
@@ -155,5 +160,9 @@ namespace Gear
 		{
 			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
 		}
+	}
+
+	void GearEngine::addDebugger(Debug* debugger) {
+		this->debuggers.push_back(debugger);
 	}
 }
