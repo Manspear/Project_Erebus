@@ -14,7 +14,7 @@ CollisionLayers::CollisionLayers(int size)
 		this->collisionCheckedMatrix[i] = new bool[layerMatrixSize];
 	}
 
-	this->resetCollisionCheckedMatrix();
+	this->resetCollisionCheckedMatrix(); // all collisions are set to false
 
 	this->sphereColliders.resize(layerMatrixSize); // resize to fit the amount of layers we have, fake 2d array
 	this->aabbColliders.resize(layerMatrixSize);
@@ -52,9 +52,9 @@ void CollisionLayers::addHitbox(SphereCollider * sphereCollider, unsigned int la
 	this->sphereColliders[layer].push_back(sphereCollider);
 }
 
-void CollisionLayers::resetCollisionCheckedMatrix()
+void CollisionLayers::resetCollisionCheckedMatrix() // set all old collisions to false
 {
-	for (unsigned int i = 0; i < layerMatrixSize; i++) // collisionCheckedMatrix ska va false överallt tills någon kollision gjorts
+	for (unsigned int i = 0; i < layerMatrixSize; i++)
 	{
 		for (unsigned int j = 0; j < layerMatrixSize; j++)
 		{
