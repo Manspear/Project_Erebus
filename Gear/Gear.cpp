@@ -146,4 +146,14 @@ namespace Gear
 	{
 		return queue.generateWorldMatrix();
 	}
+
+	void GearEngine::updateDebug(Camera* camera) {
+		ShaderProgram* tempProgram;
+		
+		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
+		}
+	}
 }
