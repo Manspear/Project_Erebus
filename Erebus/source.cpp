@@ -20,6 +20,7 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
+#include "FontAsset.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -35,15 +36,17 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
+	Window window;
+	Gear::GearEngine engine;
+
 	Importer::Assets assets;
+	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
 	Controls controls;
 
-	Window window;
-	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
 	std::vector<ModelInstance> models;
