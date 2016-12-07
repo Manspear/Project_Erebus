@@ -8,6 +8,7 @@ public:
 	AABBCollider(unsigned int IDTransform);
 	~AABBCollider();
 	bool AabbToAabb(const AABBCollider* aabb);
+
 	const glm::vec3& getMaxPos();
 	const glm::vec3& getMinPos();
 

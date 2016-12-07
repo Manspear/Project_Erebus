@@ -21,6 +21,7 @@ public:
 
 	const glm::vec3& getPos();
 	const float& getRadius();
+
 	void setPos(glm::vec3 pos);
 	void setRadius(float radius);
 

@@ -11,6 +11,7 @@ CollisionHandler::CollisionHandler()
 	this->aabbColliders.reserve(reserveAmount);
 
 	this->collisionLayers = new CollisionLayers(5);
+
 }
 
 

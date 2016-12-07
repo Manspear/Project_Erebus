@@ -52,6 +52,34 @@ void CollisionLayers::addHitbox(SphereCollider * sphereCollider, unsigned int la
 	this->sphereColliders[layer].push_back(sphereCollider);
 }
 
+std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(int layer)
+{
+	std::vector<SphereCollider*>* colliders = nullptr;
+
+	colliders = &this->sphereColliders[layer];
+
+	return colliders;
+}
+
+std::vector<AABBCollider*>* CollisionLayers::getAABBColliders(int layer)
+{
+	std::vector<AABBCollider*>* colliders = nullptr;
+
+	colliders = &this->aabbColliders[layer];
+
+	return colliders;
+}
+
+bool CollisionLayers::isLayerChecked(int layer1, int layer2)
+{
+	return this->collisionCheckedMatrix[layer1][layer2];
+}
+
+void CollisionLayers::checkLayer(int layer1, int layer2)
+{
+	this->collisionCheckedMatrix[layer1][layer2] = true;
+}
+
 void CollisionLayers::resetCollisionCheckedMatrix() // set all old collisions to false
 {
 	for (unsigned int i = 0; i < layerMatrixSize; i++)
