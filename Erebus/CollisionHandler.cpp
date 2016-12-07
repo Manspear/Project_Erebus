@@ -11,8 +11,8 @@ CollisionHandler::CollisionHandler()
 	this->aabbColliders.reserve(reserveAmount);
 
 	this->collisionLayers = new CollisionLayers(5);
-
-	this->collisionLayers->addHitbox( new SphereCollider());
+	SphereCollider* derp = new SphereCollider();
+	this->collisionLayers->addHitbox(derp);
 }
 
 

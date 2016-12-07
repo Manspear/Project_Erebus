@@ -49,7 +49,9 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionLayers.cpp" />
+    <ClCompile Include="CollisionLayers.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -97,7 +99,9 @@
     <ClInclude Include="SphereCollider.h">
       <Filter>Collision</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="CollisionLayers.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\forward.frag">
