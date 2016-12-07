@@ -40,9 +40,6 @@
     <ClCompile Include="AABBCollider.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
-    <ClCompile Include="AABBSquareCollider.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionHandler.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
@@ -89,9 +86,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AABBCollider.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBSquareCollider.h">
       <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionHandler.h">

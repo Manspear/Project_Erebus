@@ -150,7 +150,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AABBSquareCollider.cpp" />
     <ClCompile Include="AABBCollider.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
@@ -196,7 +195,6 @@
     <None Include="Shaders\particle.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABBSquareCollider.h" />
     <ClInclude Include="AABBCollider.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />

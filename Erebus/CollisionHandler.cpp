@@ -37,14 +37,6 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 
 }
 
-void CollisionHandler::addHitbox(AABBSquareCollider * aabb)
-{
-	this->aabbSquareColliders.push_back(aabb);
-	aabb->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
-
-}
-
 void CollisionHandler::checkCollisions()
 {
 	//Updatera position
@@ -118,30 +110,6 @@ void CollisionHandler::checkAabbToAaabbCollisions()
 	}
 }
 
-void CollisionHandler::checkAabbSquareToAabbSquareCollisions()
-{
-	int aabbSquareColliderSize = this->aabbSquareColliders.size();
-
-	if (aabbSquareColliderSize > 0) // undvik infinity loop
-	{
-		for (unsigned int i = 0; i < aabbSquareColliderSize - 1; i++) // aabbSquare mot aabbSquare
-		{
-			for (unsigned int k = i + 1; k < aabbSquareColliderSize; k++)
-			{
-				bool hit = false;
-				hit = aabbSquareToAabbSquareCollision(aabbSquareColliders[i], aabbSquareColliders[k]);
-
-				if (hit)
-				{
-					aabbSquareColliders[i]->insertCollisionID(aabbSquareColliders[k]->getID());
-					aabbSquareColliders[k]->insertCollisionID(aabbSquareColliders[i]->getID());
-				}
-			}
-
-		}
-	}
-}
-
 void CollisionHandler::checkSphereToAabbCollisions()
 {
 	int sphereColliderSize = this->sphereColliders.size();
@@ -184,43 +152,19 @@ bool CollisionHandler::sphereToSphereCollision(SphereCollider * sphere1, SphereC
 
 bool CollisionHandler::aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2)
 {
-	const glm::vec3* minPos1 = aabb1->getMinPos();
-	const glm::vec3* maxPos1 = aabb1->getMaxPos();
+	const glm::vec3 minPos1 = aabb1->getMinPos();
+	const glm::vec3 maxPos1 = aabb1->getMaxPos();
 
-	const glm::vec3* minPos2 = aabb2->getMinPos();
-	const glm::vec3* maxPos2 = aabb2->getMaxPos();
-
-
-	return (maxPos1->x >= minPos2->x &&
-		minPos1->x <= maxPos2->x &&
-		maxPos1->y >= minPos2->y &&
-		minPos1->y <= maxPos2->y &&
-		maxPos1->z >= minPos2->z &&
-		minPos1->z <= maxPos2->z);
-}
-
-bool CollisionHandler::aabbSquareToAabbSquareCollision(AABBSquareCollider * aabb1, AABBSquareCollider * aabb2)
-{
-	const glm::vec3* pos1 = aabb1->getPos();
-	const glm::vec3* pos2 = aabb2->getPos();
-	const float halfsize1 = aabb1->getHalfsize();
-	const float halfsize2 = aabb2->getHalfsize();
-
-	bool xOverlap = true;
-	bool yOverlap = true;
-	bool zOverlap = true;
-
-	const float halfsizes = halfsize1 + halfsize2;
-
-	if (glm::abs(pos1->x - pos2->x) > halfsizes)
-		xOverlap =  false;
-	if (glm::abs(pos1->y - pos2->y) > halfsizes)
-		yOverlap = false;
-	if (glm::abs(pos1->z - pos2->z) > halfsizes)
-		zOverlap =  false;
+	const glm::vec3 minPos2 = aabb2->getMinPos();
+	const glm::vec3 maxPos2 = aabb2->getMaxPos();
 
 
-	return xOverlap && yOverlap && zOverlap; // om alla 3 checks failar så har vi en collision
+	return (maxPos1.x >= minPos2.x &&
+		minPos1.x <= maxPos2.x &&
+		maxPos1.y >= minPos2.y &&
+		minPos1.y <= maxPos2.y &&
+		maxPos1.z >= minPos2.z &&
+		minPos1.z <= maxPos2.z);
 }
 
 void CollisionHandler::incrementHitboxID()
@@ -252,23 +196,11 @@ void CollisionHandler::updateAabbPos()
 	}
 }
 
-void CollisionHandler::updateAabbSquarePos()
-{
-	int aabbColliderSize = this->aabbSquareColliders.size();
-
-	for (unsigned int i = 0; i < aabbColliderSize; i++) // updatera positionen
-	{
-		unsigned int idTransform = aabbSquareColliders[i]->getIDTransform();
-		if(idTransform >= 0)
-			aabbSquareColliders[i]->setPos(transforms[idTransform].getPos());
-	}
-}
 
 void CollisionHandler::deleteAllOldCollisions()
 {
 	int sphereColliderSize = this->sphereColliders.size();
 	int aabbColliderSize = this->aabbColliders.size();
-	int aabbSquareColliderSize = this->aabbSquareColliders.size();
 
 	for (unsigned int i = 0; i < sphereColliderSize; i++) // sphere
 	{
@@ -278,11 +210,6 @@ void CollisionHandler::deleteAllOldCollisions()
 	for (unsigned int i = 0; i < aabbColliderSize; i++) // aabb
 	{
 		aabbColliders[i]->clearCollisionIDs();
-	}
-
-	for (unsigned i = 0; i < aabbSquareColliderSize; i++)
-	{
-		aabbSquareColliders[i]->clearCollisionIDs();
 	}
 
 
