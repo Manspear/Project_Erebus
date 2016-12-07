@@ -49,11 +49,9 @@ void CollisionHandler::checkCollisions()
 
 	this->updateSpherePos();
 	this->updateAabbPos();
-	this->updateAabbSquarePos();
 
 	this->checkSphereToSphereCollisions();
 	this->checkAabbToAaabbCollisions();
-	this->checkAabbSquareToAabbSquareCollisions();
 
 	this->checkSphereToAabbCollisions();
 	
