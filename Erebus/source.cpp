@@ -9,7 +9,7 @@
 #include <ctime>
 #include "Transform.h"
 #include "PerformanceCounter.h"
-#include "Particles.h"
+#include "ParticleSystem.h"
 #include "SphereCollider.h"
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
@@ -44,7 +44,7 @@ int main()
 
 	Window window;
 	Gear::GearEngine engine;
-	engine.renderQueue.allocateWorlds(nrOfTransforms);
+	engine.allocateWorlds(nrOfTransforms);
 
 	std::vector<ModelInstance> models;
 
@@ -55,8 +55,6 @@ int main()
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms( transforms );
-	
-	//controls.setControl(&transforms[1]);
 
 	glEnable( GL_DEPTH_TEST );
 	
@@ -72,6 +70,8 @@ int main()
 
 	float* transformData = new float[6 * nrOfTransforms];
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
+	engine.bindTransforms(transformData, nullptr, &boundTransforms, lookAts);
+
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication, &window );
@@ -87,31 +87,33 @@ int main()
 		inputs.update();
 
 		controls.update( &inputs );
-
+		 
 		luaBinds.update( &controls, deltaTime );
 
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
 
 		for (int i = 0; i < boundTransforms; i++) 
 		{
-			int index = i * 6;
 			glm::vec3 pos = transforms[i].getPos();
 			glm::vec3 rot = transforms[i].getRotation();
-			transformData[index] = pos.x;
-			transformData[index + 1] = pos.y;
-			transformData[index + 2] = pos.z;
-			transformData[index + 3] = rot.x;
-			transformData[index + 4] = rot.y;
-			transformData[index + 5] = rot.z;
-		}
+			glm::vec3 scale = transforms[i].getScale();
+			transformData[i*9] = pos.x;
+			transformData[i*9 + 1] = pos.y;
+			transformData[i*9 + 2] = pos.z;
+			transformData[i*9 + 3] = rot.x;
+			transformData[i*9 + 4] = rot.y;
+			transformData[i*9 + 5] = rot.z;
+			transformData[i*9 + 6] = scale.x;
+			transformData[i*9 + 7] = scale.y;
+			transformData[i*9 + 8] = scale.z;
 
-		for (int i = 0; i < boundTransforms; i++)
-		{
 			lookAts[i] = transforms[i].getLookAt();
 		}
-		engine.renderQueue.update(transformData, nullptr, boundTransforms, lookAts);
+
 		engine.draw(&camera, &models);
 		window.update();	
+		engine.queueDynamicModels(&models);
+		engine.draw(&camera);
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;

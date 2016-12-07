@@ -19,7 +19,6 @@ void Controls::update( Inputs* input )
 	keys[5] = input->keyPressed( GLFW_KEY_LEFT_SHIFT );
 	keys[6] = input->keyPressedThisFrame( GLFW_KEY_TAB );
 	keys[7] = input->buttonPressedThisFrame( GLFW_MOUSE_BUTTON_LEFT );
-
 	MousePos dPos = input->getDeltaPos();
 	glm::vec3 rotation = controlled->getRotation();
 	rotation.y += (float)dPos.x / 100.f;

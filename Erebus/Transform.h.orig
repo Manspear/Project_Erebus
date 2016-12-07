@@ -27,6 +27,11 @@ private:
 	glm::vec3 lookDir;
 	glm::vec3 rotation;
 	int worldIndex;
+<<<<<<< HEAD
+	float scale;
+=======
 	glm::vec3 scale;
+	HeightMap* hMap;
+>>>>>>> 035234ddc0900848edc765637d85dfa624764bff
 };
 

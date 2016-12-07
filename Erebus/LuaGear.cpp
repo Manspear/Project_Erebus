@@ -38,8 +38,8 @@ namespace LuaGear
 			ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
 			int transformID = lua_tointeger( lua, 2 );
 
-			//int result = g_gearEngine->renderQueue.generateWorldMatrix();
-			g_gearEngine->renderQueue.incrementWorldMatrix();
+			int result = g_gearEngine->generateWorldMatrix();
+			//g_gearEngine->renderQueue.incrementWorldMatrix();
 
 			int index = -1;
 			for( int i=0; i<g_models->size(); i++ )
