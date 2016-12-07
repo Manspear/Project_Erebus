@@ -1,7 +1,7 @@
 #include "Transform.h"
 
 
-Transform::Transform(): position(0), lookDir(0, 0, -1), rotation(0, 0, 0), scale(0)
+Transform::Transform(): position(0), lookDir(0, 0, -1), rotation(0, 0, 0), scale(1,1,1)
 {
 
 }
@@ -29,9 +29,14 @@ void Transform::setLookDir(glm::vec3 dir)
 	this->lookDir = dir;
 }
 
+void Transform::setScale(glm::vec3 scale)
+{
+	this->scale = scale;
+}
+
 void Transform::setScale(float s)
 {
-	this->scale = s;
+	this->scale = {s,s,s};
 }
 
 glm::vec3 Transform::getPos()
@@ -49,6 +54,11 @@ glm::vec3 Transform::getRotation()
 	return rotation;
 }
 
+glm::vec3 Transform::getScale()
+{
+	return scale;
+}
+
 void Transform::setRotation(glm::vec3 rot)
 {
 	rotation = rot;
@@ -64,23 +74,4 @@ void Transform::follow(glm::vec3 goTowards, float speed, const float &dt)
 	if(glm::length(goTowards - this->position) > 0.01f)
 		this->lookDir = glm::normalize(goTowards - this->position);
 	this->position += lookDir * speed * dt;
-}
-
-void Transform::setHMap(HeightMap* hm)
-{
-	this->hMap = hm;
-}
-
-bool Transform::toHeightmap()
-{
-	bool result = false;
-
-	float height = hMap->getPos( position.x, position.z );
-	if( position.y < height )
-	{
-		position.y = height;
-		result = true;
-	}
-
-	return result;
 }

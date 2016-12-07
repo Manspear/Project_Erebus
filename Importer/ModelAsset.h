@@ -7,8 +7,9 @@ namespace Importer
 {
 	class ModelAsset : public Asset
 	{
+		friend class HeightMap;
+
 	public:
-		//IMPORTER_API --> Macro --> DLL thing... Look into it. Macro stands for __declspec(DLLNAME) says that this function is to be exported to the DLLNAME .dll
 		IMPORTER_API ModelAsset();
 		IMPORTER_API ~ModelAsset();
 

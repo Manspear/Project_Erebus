@@ -1,6 +1,6 @@
-nrOfActors = 107
-nrOfEnemies = 100
-nrOfBullets = 5
+nrOfActors = 50
+nrOfEnemies = 39
+nrOfBullets = 10
 player = {}
 enemies = {trans = {}, ms = {}, sphereCollider = {}}
 Engine.InitStuff(nrOfActors)
@@ -9,44 +9,42 @@ bullets = { }
 bulletIndex = 1
 activeBullets = 0
 
-goal = {}
+PLAYER_TRANS_MIN, PLAYER_TRANS_MAX = 0, 1
+ENEMY_TRANS_MIN, ENEMY_TRANS_MAX = 1, 40
+BULLET_TRANS_MIN, BULLET_TRANS_MAX = 40, 50
 
-modelPaths = {{"Models/moleman.model", nrOfEnemies+1}, {"Models/bullet.model", nrOfBullets}, {"Models/sten.model", 1}}
+modelPaths = {{"Models/moleman.model", nrOfEnemies+1}, {"Models/moleman.model", nrOfBullets}}
 for i = 1, #modelPaths do
-	Importer.LoadModels(modelPaths[i][1], modelPaths[i][2])
+	Engine.LoadModels(modelPaths[i][1], modelPaths[i][2])
 end
 
-player.trans = Transform.Bind()
+player.trans = Transform.Bind(PLAYER_TRANS_MIN, PLAYER_TRANS_MAX)
 player.moveSpeed = 40
 player.ySpeed = 0
 player.canJump = false
 player.health = 100
-player.sphereCollider = SphereCollider.Create(0, player.trans, 50,10,50, 5)
+player.sphereCollider = SphereCollider.Create(0, player.trans, 100,10,100, 1)
 CollisionHandler:AddSphere(player.sphereCollider)
 Transform.SetPos(player.trans, {x=100,y=10,z=100})
 
 for i = 1, nrOfEnemies do
-	enemies.trans[i] = Transform.Bind()
+	enemies.trans[i] = Transform.Bind(ENEMY_TRANS_MIN, ENEMY_TRANS_MAX)
 	enemies.ms[i] = math.random(5, 20)
 	Transform.SetPos(enemies.trans[i], {x = math.random(10, 255), y = math.random(15, 30), z = math.random(10, 245)})
 	enemies.sphereCollider[i] = SphereCollider.Create(i, enemies.trans[i], 0,0,0, 1)
 	CollisionHandler:AddSphere(enemies.sphereCollider[i])
 end
 
+
+
 for i = 1, nrOfBullets do
-	bullets[i] = {trans = 0, ms= 0, lifeLeft= 0, alive = false}
-	bullets[i].trans = Transform.Bind()
-	bullets[i].ms = 10
+	bullets[i] = {}
+	bullets[i].trans = -1
+	bullets[i].ms = 100
 	bullets[i].lifeLeft = 10
 	bullets[i].alive = false
-	bullets[i].sphereCollider = SphereCollider.Create(i+nrOfEnemies, bullets[i].trans, 0,0,0, 2)
-	CollisionHandler:AddSphere(bullets[i].sphereCollider)
 end
 
-goal.trans = Transform.Bind()
-Transform.SetPos(goal.trans, {x = 245, y = 20, z = 245})
-goal.collide =  SphereCollider.Create(goal.trans, goal.trans, 245,25,245, 8)
-CollisionHandler:AddSphere(goal.collide)
 
 function ChangePlayer()
     player.trans = (player.trans + 1) % nrOfActors
@@ -56,7 +54,7 @@ end
 buttons = {}
 function Controls()
     forward, left, up = 0, 0, 0
-    for i = 1, #buttons do
+    --[[for i = 1, #buttons do
         if buttons[i] == 0 then forward = player.moveSpeed  end
         if buttons[i] == 1 then forward = -player.moveSpeed  end
         if buttons[i] == 2 then left = player.moveSpeed  end
@@ -67,7 +65,18 @@ function Controls()
 		end
         if buttons[i] == 6 then ChangePlayer() end
 		if buttons[i] == 7 then shoot() end
+	end--]]
+
+	if buttons[Keys.W] then forward = player.moveSpeed end
+	if buttons[Keys.S] then forward = -player.moveSpeed end
+	if buttons[Keys.A] then left = player.moveSpeed end
+	if buttons[Keys.D] then left = -player.moveSpeed end
+	if buttons[Keys.Space] and player.canJump then
+		player.ySpeed = 0.50
+		player.canJump = false
 	end
+	if buttons[Keys.Tab] then ChangePlayer() end
+	if buttons[Keys.LMB] then shoot() end
 	Transform.Move(player.trans, forward, player.ySpeed, left)
     buttons = {}   
 end
@@ -90,7 +99,7 @@ function Update(dt)
 		player.ySpeed = 0
 	end
 
-	if pos.y <= 2 then
+	if pos.y <= 0 then
 		player.health = player.health - 1
 	end
 
@@ -98,49 +107,40 @@ function Update(dt)
 		player.health = player.health - 1
 	end
 
-	if player.sphereCollider:CheckCollisionWith(goal.collide, goal.trans) then
-		enString = "Du vann"
-	end
-
 	return player.health > 0
 end
 
 function updateBullets( dt )
-	--print(activeBullets ..  "  : :  " ..  bulletIndex)
-	for i = 1 , nrOfBullets do
+	print(activeBullets ..  "  : :  " ..  bulletIndex)
+	
+	for i = 1 , nrOfBullets
+	 do
 		bullets[i].lifeLeft = bullets[i].lifeLeft - dt
-		if bullets[i].lifeLeft < 0 and bullets[i].alive == true then
+		if bullets[i].lifeLeft < 0 then
+			if bullets[i].alive == true then
+				print("ege")
 				bullets[i].alive = false
+				Transform.Unbind(bullets[i].trans)
 				activeBullets = activeBullets - 1
+			end
 		elseif bullets[i].alive == true then
 				Transform.Fly(bullets[i].trans, bullets[i].ms)
-		end
-
-		if bullets[i].alive then
-			local collisionIDs = bullets[i].sphereCollider:GetCollisionIDs()
-			--print(#collisionIDs)
-			for curID = 1, #collisionIDs do
-				for curEnemy = 1, nrOfEnemies do
-					local enemyID = enemies.sphereCollider[i]:GetID()
-					if collisionIDs[curID] == enemyID then
-						print("HIT");
-						break
-					end
-				end
-			end
 		end
 	end
 end
 
 function shoot()
-	if activeBullets < nrOfBullets
-	then
-		bullets[bulletIndex].alive = true
-		bullets[bulletIndex].lifeLeft = 2
-		Transform.Shoot(bullets[bulletIndex].trans, player.trans)
-		bulletIndex = (bulletIndex % nrOfBullets) + 1
-		activeBullets = activeBullets + 1
+	if activeBullets < nrOfBullets then
+		tempTrans = Transform.Bind(BULLET_TRANS_MIN, BULLET_TRANS_MAX)
+		if tempTrans ~= -1 then
+			bullets[bulletIndex].trans = tempTrans
+			bullets[bulletIndex].ms = 100
+			bullets[bulletIndex].alive = true
+			bullets[bulletIndex].lifeLeft = 1.00
+			Transform.Shoot(bullets[bulletIndex].trans, player.trans)
+			bulletIndex = (bulletIndex % nrOfBullets) + 1
+			activeBullets = activeBullets + 1
+			end
+		
 	end
 end
-
-enString = "Du förlora"

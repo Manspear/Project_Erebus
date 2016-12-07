@@ -5,7 +5,7 @@
 #include <vector>
 #include "Transform.h"
 
-extern Transform* allTransforms;
+//extern Transform* allTransforms;
 
 /*
 	Ta bort hitboxes med ID
@@ -14,6 +14,7 @@ extern Transform* allTransforms;
 */
 class CollisionHandler
 {
+	
 public:
 	CollisionHandler();
 	~CollisionHandler();
@@ -33,13 +34,20 @@ public:
 
 	void deleteAllOldCollisions();
 	bool deleteHitbox(unsigned int ID);
+
+	void setTransforms( Transform* transforms );
+	
+
 private:
+	Transform* transforms;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
 	std::vector<AABBSquareCollider*> aabbSquareColliders;
+
 	bool sphereToSphereCollision(SphereCollider* sphere1, SphereCollider* sphere2);
 	bool aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2);
 	bool aabbSquareToAabbSquareCollision(AABBSquareCollider* aabb1, AABBSquareCollider* aabb2);
-
+	static unsigned int hitboxID;
+	static void incrementHitboxID();
 };
 
