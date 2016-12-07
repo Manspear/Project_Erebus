@@ -23,6 +23,7 @@ public:
 				Controls* controls,
 				Transform* transforms,
 				int* boundTransforms,
+				bool* activeTransforms,
 				std::vector<ModelInstance>* models );
 	void unload();
 	void update( Controls* controls, float deltaTime );

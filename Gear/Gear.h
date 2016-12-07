@@ -24,7 +24,7 @@ namespace Gear
 		GEAR_API void addStaticNonModel(staticNonModels* model);
 
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(float** transforms, int** indices, int* n, glm::vec3* lookAts);
+		GEAR_API void bindTransforms(float** transforms, bool** actives, int* n, glm::vec3* lookAts);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
 
@@ -45,6 +45,7 @@ namespace Gear
 
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
 		int** transformIndexArray;
+		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
 

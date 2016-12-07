@@ -69,8 +69,11 @@ int main()
 	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
 
 	float* transformData = new float[6 * nrOfTransforms];
+	bool* activeTransforms = new bool[nrOfTransforms];
+	for (int i = 0; i < nrOfTransforms; i++)
+		activeTransforms[i] = true;
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-	engine.bindTransforms(&transformData, nullptr, &boundTransforms, lookAts);
+	engine.bindTransforms(&transformData, &activeTransforms, &boundTransforms, lookAts);
 
 	if (networkActive)
 	{
@@ -78,20 +81,15 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models );
-
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, activeTransforms, &models );
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-
 		controls.update( &inputs );
-		 
 		luaBinds.update( &controls, deltaTime );
-
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
-
 		for (int i = 0; i < boundTransforms; i++) 
 		{
 			glm::vec3 pos = transforms[i].getPos();
@@ -109,7 +107,6 @@ int main()
 
 			lookAts[i] = transforms[i].getLookAt();
 		}
-
 		engine.draw(&camera, &models);
 		window.update();	
 		engine.queueDynamicModels(&models);
@@ -128,7 +125,6 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-
 		//Collisions
 		collisionHandler.checkCollisions();
 	}
@@ -138,7 +134,7 @@ int main()
 	delete[] transforms;
 	delete[] transformData;
 	delete[] lookAts;
-
+	delete[] activeTransforms;
 	if (networkActive)
 	{
 		networkThread.join();

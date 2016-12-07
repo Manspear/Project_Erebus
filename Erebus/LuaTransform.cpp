@@ -7,11 +7,12 @@ namespace LuaTransform
 	// variable from this compilation unit.
 	static Transform* g_transforms = nullptr;
 	static int* g_boundTransforms = nullptr;
-
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms )
+	static bool* g_activeTransforms = nullptr;
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, bool* activeTrasforms )
 	{
 		g_transforms = transforms;
 		g_boundTransforms = boundTransforms;
+		g_activeTransforms = activeTrasforms;
 
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
@@ -23,6 +24,7 @@ namespace LuaTransform
 			{ "Follow",			follow },
 			{ "Fly",			fly },
 			{ "Shoot",			shoot },
+			{ "ActiveControl",	activeControl},
 
 			{ "SetPosition",	setPosition },
 			{ "SetRotation",	setRotation },
@@ -54,6 +56,7 @@ namespace LuaTransform
 
 	// NOTE: Copied from the old LuaBinds.h
 	// What is this function supposed to do?
+	//Det var på tiden vi skapade new Transform() fårn lua istället för att ge ett index
 	int destroy( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 1 )
@@ -121,8 +124,21 @@ namespace LuaTransform
 
 			g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
 			g_transforms[a].setPos( g_transforms[b].getPos() );
+			g_activeTransforms[a] = true;
 		}
 
+		return 0;
+	}
+
+	int activeControl(lua_State* lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			int a = lua_tointeger(lua, 1);
+			bool active = lua_toboolean(lua, 2);
+
+			g_activeTransforms[a] = active;
+		}
 		return 0;
 	}
 
