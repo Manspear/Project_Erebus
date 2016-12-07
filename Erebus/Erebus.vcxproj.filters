@@ -13,11 +13,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AABBSquareCollider.cpp" />
-    <ClCompile Include="AABBCollider.cpp" />
-    <ClCompile Include="CollisionHandler.cpp" />
-    <ClCompile Include="HitBox.cpp" />
-    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,6 +37,22 @@
     <ClCompile Include="LuaErebus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AABBCollider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="AABBSquareCollider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandler.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="HitBox.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionLayers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -56,11 +67,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AABBSquareCollider.h" />
-    <ClInclude Include="AABBCollider.h" />
-    <ClInclude Include="CollisionHandler.h" />
-    <ClInclude Include="HitBox.h" />
-    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -82,6 +88,22 @@
     <ClInclude Include="LuaErebus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AABBCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBSquareCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionHandler.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="HitBox.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionLayers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\forward.frag">
@@ -136,6 +158,9 @@
     </Filter>
     <Filter Include="Source Files\Shaders">
       <UniqueIdentifier>{f1271d4e-0acc-49c0-bc12-91a629cc95eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{5e864608-b0de-4126-a73d-48fc28c9927a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

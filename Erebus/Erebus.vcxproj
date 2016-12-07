@@ -153,6 +153,7 @@
     <ClCompile Include="AABBSquareCollider.cpp" />
     <ClCompile Include="AABBCollider.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CollisionLayers.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="AABBSquareCollider.h" />
     <ClInclude Include="AABBCollider.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCollision.h" />

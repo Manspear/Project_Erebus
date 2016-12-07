@@ -4,6 +4,7 @@
 #include "AABBSquareCollider.h"
 #include <vector>
 #include "Transform.h"
+#include "CollisionLayers.h"
 
 //extern Transform* allTransforms;
 
@@ -49,5 +50,7 @@ private:
 	bool aabbSquareToAabbSquareCollision(AABBSquareCollider* aabb1, AABBSquareCollider* aabb2);
 	static unsigned int hitboxID;
 	static void incrementHitboxID();
+
+	CollisionLayers* collisionLayers;
 };
 

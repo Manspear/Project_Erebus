@@ -8,7 +8,7 @@ SphereCollider::SphereCollider() : HitBox(-1,-1)
 	this->pos = glm::vec3(0, 0, 0);
 }
 
-SphereCollider::SphereCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 pos, float radius) : HitBox(ID, IDTransform)
+SphereCollider::SphereCollider(unsigned int ID, int IDTransform, glm::vec3 pos, float radius) : HitBox(ID, IDTransform)
 {
 	this->pos = pos;
 	this->radius = radius;
@@ -65,12 +65,12 @@ bool SphereCollider::SphereToAabbCollision(AABBCollider * aabb)
 float SphereCollider::SquaredDistancePointAabb(AABBCollider * aabb)
 {
 	float squaredDistance = 0;
-	const glm::vec3* minPos = aabb->getMinPos();
-	const glm::vec3* maxPos = aabb->getMaxPos();
+	const glm::vec3 minPos = aabb->getMinPos();
+	const glm::vec3 maxPos = aabb->getMaxPos();
 
-	squaredDistance += closestDistanceAabbToCenter(this->pos.x, minPos->x, maxPos->x);
-	squaredDistance += closestDistanceAabbToCenter(this->pos.y, minPos->y, maxPos->y);
-	squaredDistance += closestDistanceAabbToCenter(this->pos.x, minPos->x, maxPos->x);
+	squaredDistance += closestDistanceAabbToCenter(this->pos.x, minPos.x, maxPos.x);
+	squaredDistance += closestDistanceAabbToCenter(this->pos.y, minPos.y, maxPos.y);
+	squaredDistance += closestDistanceAabbToCenter(this->pos.z, minPos.z, maxPos.z);
 
 	return squaredDistance;
 }

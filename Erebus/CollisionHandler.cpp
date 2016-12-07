@@ -9,11 +9,16 @@ CollisionHandler::CollisionHandler()
 	int reserveAmount = 200;
 	this->sphereColliders.reserve(reserveAmount);
 	this->aabbColliders.reserve(reserveAmount);
+
+	this->collisionLayers = new CollisionLayers(5);
+
+	this->collisionLayers->addHitbox( new SphereCollider());
 }
 
 
 CollisionHandler::~CollisionHandler()
 {
+	delete this->collisionLayers;
 }
 
 void CollisionHandler::addHitbox(SphereCollider * sphere)
@@ -229,7 +234,7 @@ void CollisionHandler::updateSpherePos()
 
 	for (unsigned int i = 0; i < sphereColliderSize; i++) // updatera positionen
 	{
-		unsigned int idTransform = sphereColliders[i]->getIDTransform();
+		int idTransform = sphereColliders[i]->getIDTransform();
 		if (idTransform >= 0)
 			sphereColliders[i]->setPos(transforms[idTransform].getPos());
 	}
@@ -241,7 +246,7 @@ void CollisionHandler::updateAabbPos()
 
 	for (unsigned int i = 0; i < aabbColliderSize; i++) // updatera positionen
 	{
-		unsigned int idTransform = aabbColliders[i]->getIDTransform();
+		int idTransform = aabbColliders[i]->getIDTransform();
 		if (idTransform >= 0)
 			aabbColliders[i]->setPos(transforms[idTransform].getPos());
 	}
