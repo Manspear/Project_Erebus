@@ -8,7 +8,6 @@ function LoadPlayer()
 	player.canJump = false
 	player.health = 100
 
-	--player.sphereCollider = SphereCollider.Create(0, player.transformID, 100,10,100, 1)
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
 

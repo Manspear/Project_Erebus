@@ -7,8 +7,8 @@ function LoadEnemies()
 		enemies[i].transformID = Transform.Bind()
 		enemies[i].movementSpeed = math.random(5,20)
 
-		--NOTE: Collisions are really expensive right now
-		--enemies[i].sphereCollider = SphereCollider.Create(i, enemies[i].transformID, 0,0,0, 1)
+		Transform.SetPosition(enemies[i].transformID, {x = math.random(10, 255), y = math.random(15, 30), z = math.random(10, 245)})
+
 		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	end
