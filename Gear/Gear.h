@@ -5,6 +5,7 @@
 #include "RenderQueue.h"
 #include "Inputs.h"
 #include "staticNonModels.h"
+#include "Debug.h"
 
 namespace Gear
 {
@@ -22,6 +23,8 @@ namespace Gear
 		GEAR_API bool isRunning();
 		
 		GEAR_API void addStaticNonModel(staticNonModels* model);
+
+		GEAR_API void addDebugger(Debug* debugger);
 
 		//--TODO: Implement API--
 		GEAR_API void bindTransforms(float** transforms, bool** actives, int* n, glm::vec3* lookAts, TransformStruct** theTrans);
@@ -57,5 +60,8 @@ namespace Gear
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
 		std::vector<ParticleSystem> defaultParticleList = std::vector<ParticleSystem>(0);
+		std::vector<Debug*> debuggers;
+
+		void updateDebug(Camera* camera);
 	};
 }
