@@ -6,6 +6,8 @@
 #include "Light.h"
 #include "Inputs.h"
 #include "staticNonModels.h"
+//Temp
+
 
 namespace Gear
 {
@@ -59,6 +61,7 @@ namespace Gear
 		ShaderProgram *lightPassShader;
 
 		ShaderProgram gBuffer;
+		const int NUM_POINT_LIGHTS = 30;
 		std::vector<Lights::PointLight> pointLights;
 		std::vector<Lights::DirLight> dirLights;
 		//temp debug variable

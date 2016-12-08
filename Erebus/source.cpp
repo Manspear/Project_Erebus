@@ -138,7 +138,7 @@ int main()
 			lua_pushnumber( L, deltaTime );
 			if( lua_pcall( L, 1, 1, 0 ) )
 				std::cout << lua_tostring( L, -1 ) << std::endl;
-			playerAlive = lua_toboolean( L, -1 );	
+			//playerAlive = lua_toboolean( L, -1 );	
 			lua_pop(L,1);
 		}
 		else

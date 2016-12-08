@@ -346,6 +346,10 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* staticModels, std::ve
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
+		TextureAsset* texture = dynamicModels->at(i).texture;
+		texture->bind();
+		GLuint uniform = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "diffuseTexture");
+		glUniform1i(uniform, GL_TEXTURE0);
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
@@ -356,7 +360,6 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* staticModels, std::ve
 
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
-			TextureAsset* texture = dynamicModels->at(i).texture;
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));

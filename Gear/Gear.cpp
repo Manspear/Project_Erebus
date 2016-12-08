@@ -26,6 +26,8 @@ namespace Gear
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
 
+		
+
 		Lights::PointLight light;
 
 		light.pos = glm::vec3(0, 0, 0);
