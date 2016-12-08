@@ -34,7 +34,7 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	
+
 	Importer::Assets assets;
 
 	int nrOfTransforms = 100;
@@ -50,14 +50,14 @@ int main()
 
 	double deltaTime = 0.0;
 
-	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
+	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
 	moleratTexture->bind();
 
 	CollisionHandler collisionHandler;
-	collisionHandler.setTransforms( transforms );
+	collisionHandler.setTransforms(transforms);
 
-	glEnable( GL_DEPTH_TEST );
-	
+	glEnable(GL_DEPTH_TEST);
+
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
@@ -65,16 +65,15 @@ int main()
 	counter.startCounter();
 	double frameTime = 0.0;
 	int frameCounter = 0;
-
-	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
+	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
 	float* transformData = new float[6 * nrOfTransforms];
+	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
 	bool* activeTransforms = new bool[nrOfTransforms];
 	for (int i = 0; i < nrOfTransforms; i++)
 		activeTransforms[i] = true;
 	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-	engine.bindTransforms(&transformData, &activeTransforms, &boundTransforms, lookAts);
-
+	engine.bindTransforms(&transformData, &activeTransforms, &boundTransforms, lookAts, &allTransforms);
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication, &window );
@@ -95,17 +94,17 @@ int main()
 			glm::vec3 pos = transforms[i].getPos();
 			glm::vec3 rot = transforms[i].getRotation();
 			glm::vec3 scale = transforms[i].getScale();
-			transformData[i*9] = pos.x;
-			transformData[i*9 + 1] = pos.y;
-			transformData[i*9 + 2] = pos.z;
-			transformData[i*9 + 3] = rot.x;
-			transformData[i*9 + 4] = rot.y;
-			transformData[i*9 + 5] = rot.z;
-			transformData[i*9 + 6] = scale.x;
-			transformData[i*9 + 7] = scale.y;
-			transformData[i*9 + 8] = scale.z;
-
-			lookAts[i] = transforms[i].getLookAt();
+			
+			allTransforms[i].posX = pos.x;
+			allTransforms[i].posY = pos.y;
+			allTransforms[i].posZ = pos.z;
+			allTransforms[i].rotX = rot.x;
+			allTransforms[i].rotY = rot.y;
+			allTransforms[i].rotZ = rot.z;
+			allTransforms[i].scaleX	= scale.x;
+			allTransforms[i].scaleY	= scale.y;
+			allTransforms[i].scaleZ = scale.z;
+			allTransforms[i].lookAt = transforms[i].getLookAt();
 		}
 		engine.draw(&camera, &models);
 		window.update();	
@@ -130,7 +129,7 @@ int main()
 	}
 
 	luaBinds.unload();
-
+	delete[] allTransforms;
 	delete[] transforms;
 	delete[] transformData;
 	delete[] lookAts;

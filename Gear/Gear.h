@@ -24,7 +24,7 @@ namespace Gear
 		GEAR_API void addStaticNonModel(staticNonModels* model);
 
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(float** transforms, bool** actives, int* n, glm::vec3* lookAts);
+		GEAR_API void bindTransforms(float** transforms, bool** actives, int* n, glm::vec3* lookAts, TransformStruct** theTrans);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
 
@@ -43,6 +43,7 @@ namespace Gear
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 
+		TransformStruct** allTrans;
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
 		int** transformIndexArray;
 		bool** transformActiveArray;

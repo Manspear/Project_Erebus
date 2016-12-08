@@ -20,6 +20,13 @@ struct ModelInstance
 	std::vector<int> worldIndices;
 };
 
+struct TransformStruct
+{
+	float posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ;
+	int worldMatIndex;
+	glm::vec3 lookAt;
+};
+
 class RenderQueue
 {
 public:
@@ -31,7 +38,7 @@ public:
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
 	void draw(std::vector<ModelInstance>* instances);
-	void update(float* pos, bool* actives, int n, glm::vec3* lookAts);
+	void update(bool* actives, int n, TransformStruct* theTrans);
 	//GEAR_API int modelAdded(Model* model);
 	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();
