@@ -6,6 +6,7 @@
 #include "Inputs.h"
 #include "staticNonModels.h"
 #include "Debug.h"
+#include "TextRenderer.h"
 
 namespace Gear
 {
@@ -45,6 +46,7 @@ namespace Gear
 	private:
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
+		TextRenderer text;
 
 		TransformStruct** allTrans;
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}

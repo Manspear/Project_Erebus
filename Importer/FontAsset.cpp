@@ -65,18 +65,21 @@ namespace Importer
 
 	int FontAsset::getWidth( char c )
 	{
-		return info.widths[c] + info.paddingx + info.shadowx;
+		char index = c - FONT_RANGE_START;
+		return info.widths[index] + info.paddingx + info.shadowx;
 	}
 
-	glm::vec2 FontAsset::getUV( char c )
+	glm::vec4 FontAsset::getUV( char c )
 	{
+		char index = c - FONT_RANGE_START;
 		glm::vec2 offset = getOffset( c );
-		return glm::vec2( offset.x / texture->getWidth(), offset.y / texture->getHeight() );
+		return glm::vec4( offset.x / texture->getWidth(), offset.y / texture->getHeight(), (offset.x + info.widths[index]) / texture->getWidth(), (offset.y + info.widths[index]) / texture->getWidth());
 	}
 
 	glm::vec2 FontAsset::getOffset( char c )
 	{
-		return glm::vec2( info.xoffsets[c], info.yoffsets[c] );
+		char index = c - FONT_RANGE_START;
+		return glm::vec2( info.xoffsets[index], info.yoffsets[index]);
 	}
 
 	FontInfo* FontAsset::getInfo()
