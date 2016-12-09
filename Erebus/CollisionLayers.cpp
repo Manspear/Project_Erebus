@@ -140,7 +140,7 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 	return deleted;
 }
 
-std::vector<int> CollisionLayers::getLayerCollisions(int layer)
+std::vector<int> CollisionLayers::getLayerCollisions(int layer) const
 {
 	std::vector<int> layerCollisions;
 
@@ -158,9 +158,10 @@ std::vector<int> CollisionLayers::getLayerCollisions(int layer)
 	return layerCollisions;
 }
 
-std::vector<int> CollisionLayers::getUncheckedLayerCollisions(int layer)
+std::vector<int> CollisionLayers::getUncheckedLayerCollisions(int layer) const
 {
 	std::vector<int> layerCollisions;
+	layerCollisions.resize(this->layerMatrixSize);
 
 	for (unsigned int i = 0; i < this->layerMatrixSize; i++)
 	{

@@ -85,12 +85,12 @@ void CollisionHandler::checkCollisions()
 	{
 		layerCollisionVector = this->collisionLayers->getUncheckedLayerCollisions(i);
 
-		std::cout << "Layer " << i << "collides with layers: ";
-		for (size_t k = 0; k < layerCollisionVector.size(); k++)
-		{
-			std::cout << " " << layerCollisionVector[k] << " ";
-		}
-		std::cout << std::endl;
+		//std::cout << "Layer " << i << "collides with layers: ";
+		//for (size_t k = 0; k < layerCollisionVector.size(); k++)
+		//{
+		//	std::cout << " " << layerCollisionVector[k] << " ";
+		//}
+		//std::cout << std::endl;
 
 		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
 		tempAABBColliders = this->collisionLayers->getAABBColliders(i);
@@ -102,7 +102,6 @@ void CollisionHandler::checkCollisions()
 	}
 
 	this->collisionLayers->resetCollisionCheckedMatrix();
-	bool derpppp = this->collisionLayers->deleteHitbox(0);
 	
 
 

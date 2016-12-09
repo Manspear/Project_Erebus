@@ -25,7 +25,11 @@ public:
 
 	void checkCollisions();
 	void checkSphereToSphereCollisions();
+	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders); // check against itself
+	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders1, std::vector<SphereCollider*>* colliders2); // check against the other vector
 	void checkAabbToAaabbCollisions();
+	void checkAabbToAaabbCollisions(std::vector<AABBCollider*>* colliders);
+	void checkAabbToAaabbCollisions(std::vector<AABBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
 	void checkSphereToAabbCollisions();
 
 	void updateSpherePos();

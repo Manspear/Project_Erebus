@@ -20,8 +20,8 @@ public:
 	void resetCollisionCheckedMatrix();
 	bool deleteHitbox(unsigned int ID);
 
-	std::vector<int> getLayerCollisions(int layer); //return a vector with all the layers that this layer will collide with
-	std::vector<int> getUncheckedLayerCollisions(int layer); // returns a vector with all the layers that this layer have not yet collided with
+	std::vector<int> getLayerCollisions(int layer) const; //return a vector with all the layers that this layer will collide with
+	std::vector<int> getUncheckedLayerCollisions(int layer) const; // returns a vector with all the layers that this layer have not yet collided with
 
 	unsigned int getLayerMatrixSize();
 
