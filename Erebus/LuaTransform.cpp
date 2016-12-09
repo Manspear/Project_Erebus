@@ -7,8 +7,8 @@ namespace LuaTransform
 	// variable from this compilation unit.
 	static Transform* g_transforms = nullptr;
 	static int* g_boundTransforms = nullptr;
-
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms )
+	static bool* g_activeTransforms = nullptr;
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms)
 	{
 		g_transforms = transforms;
 		g_boundTransforms = boundTransforms;
@@ -23,13 +23,16 @@ namespace LuaTransform
 			{ "Follow",			follow },
 			{ "Fly",			fly },
 			{ "Shoot",			shoot },
+			{ "ActiveControl",	activeControl},
 
 			{ "SetPosition",	setPosition },
 			{ "SetRotation",	setRotation },
+			{ "SetLookAt",		setLookAt },
 			{ "SetScale",		setScale },
 
 			{ "GetPosition",	getPosition },
 			{ "GetRotation",	getRotation },
+			{ "GetLookAt",		getLookAt },
 			{ "GetScale",		getScale },
 			{ NULL, NULL }
 		};
@@ -54,6 +57,7 @@ namespace LuaTransform
 
 	// NOTE: Copied from the old LuaBinds.h
 	// What is this function supposed to do?
+	//Det var på tiden vi skapade new Transform() fårn lua istället för att ge ett index
 	int destroy( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 1 )
@@ -120,9 +124,21 @@ namespace LuaTransform
 			int b = lua_tointeger( lua, 2 );
 
 			g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
-			g_transforms[a].setPos( g_transforms[b].getPos() );
+			g_transforms[a].setPos(g_transforms[b].getPos());
 		}
 
+		return 0;
+	}
+
+	int activeControl(lua_State* lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			int a = lua_tointeger(lua, 1);
+			bool active = lua_toboolean(lua, 2);
+
+			g_transforms->setActive( active);
+		}
 		return 0;
 	}
 
@@ -165,6 +181,28 @@ namespace LuaTransform
 			position.z = lua_tonumber( lua, -1 );
 
 			g_transforms[index].setRotation( position );
+		}
+
+		return 0;
+	}
+
+	int setLookAt( lua_State* lua )
+	{
+		if( lua_gettop( lua ) >= 2 )
+		{
+			int index = lua_tointeger( lua, 1 );
+
+			glm::vec3 lookAt;
+			lua_getfield( lua, 2, "x" );
+			lookAt.x = lua_tonumber( lua, -1 );
+
+			lua_getfield( lua, 2, "y" );
+			lookAt.y = lua_tonumber( lua, -1 );
+
+			lua_getfield( lua, 2, "z" );
+			lookAt.z = lua_tonumber( lua, -1 );
+
+			g_transforms[index].setLookAt( lookAt );
 		}
 
 		return 0;
@@ -227,6 +265,32 @@ namespace LuaTransform
 			lua_setfield( lua, -2, "y" );
 
 			lua_pushnumber( lua, rotation.x );
+			lua_setfield( lua, -2, "z" );
+
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int getLookAt( lua_State* lua )
+	{
+		int result = 0;
+
+		if( lua_gettop( lua ) >= 1 )
+		{
+			int index = lua_tointeger( lua, 1 );
+
+			glm::vec3 lookAt = g_transforms[index].getLookAt();
+
+			lua_newtable( lua );
+			lua_pushnumber( lua, lookAt.x );
+			lua_setfield( lua, -2, "x" );
+
+			lua_pushnumber( lua, lookAt.y );
+			lua_setfield( lua, -2, "y" );
+
+			lua_pushnumber( lua, lookAt.z );
 			lua_setfield( lua, -2, "z" );
 
 			result = 1;

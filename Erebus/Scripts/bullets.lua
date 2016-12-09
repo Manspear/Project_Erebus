@@ -1,8 +1,9 @@
-MAX_BULLETS = 10
+MAX_BULLETS = 5
 bullets = {}
 bulletIndex = 1
 activeBullets = 0
 
+grabagePosition = {x = -10000, y = -10000, z = -10000}
 function LoadBullets()
 	for i=1, MAX_BULLETS do
 		bullets[i] = {}
@@ -10,12 +11,12 @@ function LoadBullets()
 		bullets[i].movementSpeed = 100
 		bullets[i].lifeLeft = 2
 		bullets[i].alive = false
-
 		bullets[i].sphereCollider = SphereCollider.Create(bullets[i].transformID)
 		CollisionHandler.AddSphere(bullets[i].sphereCollider)
+		Transform.SetPosition(bullets[i].transformID, grabagePosition)
 	end
 
-	local asset = Assets.LoadModel("Models/molerat.model")
+	local asset = Assets.LoadModel("Models/Sten.model")
 	for i=1, MAX_BULLETS do
 		Gear.AddModelInstance(asset, bullets[i].transformID)
 	end
@@ -38,6 +39,7 @@ function UpdateBullets(dt)
 			if bullets[i].lifeLeft < 0 then
 				bullets[i].alive = false
 				activeBullets = activeBullets - 1
+				Transform.SetPosition(bullets[i].transformID, grabagePosition)
 			else
 				Transform.Fly(bullets[i].transformID, bullets[i].movementSpeed, dt)
 			end
@@ -52,7 +54,6 @@ function Shoot(playerTransformID)
 		bullets[bulletIndex].alive = true
 		bullets[bulletIndex].lifeLeft = 2
 		Transform.Shoot(bullets[bulletIndex].transformID, playerTransformID)
-
 		bulletIndex = ( bulletIndex % MAX_BULLETS ) + 1
 		activeBullets = activeBullets + 1
 	end

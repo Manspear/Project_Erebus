@@ -31,7 +31,7 @@ public:
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
 	void draw(std::vector<ModelInstance>* instances);
-	void update(float* pos, int* indices, int n, glm::vec3* lookAts);
+	void update(int n, TransformStruct* theTrans);
 	//GEAR_API int modelAdded(Model* model);
 	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();

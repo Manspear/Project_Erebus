@@ -17,6 +17,8 @@ function LoadPlayer()
 	Gear.AddModelInstance(model, player.transformID)
 
 	Erebus.SetControls(player.transformID)
+
+	player.projectileSpell = dofile("Scripts/projectile.lua")
 end
 
 function UnloadPlayer()
@@ -25,6 +27,9 @@ end
 function UpdatePlayer(dt)
 	forward, left = 0, 0
 	player.testCamera = false
+	local position = Transform.GetPosition(player.transformID)
+	local direction = Transform.GetLookAt(player.transformID)
+
 	if Controls[Keys.W] then forward = player.moveSpeed end
 	if Controls[Keys.S] then forward = -player.moveSpeed end
 	if Controls[Keys.A] then left = player.moveSpeed end
@@ -33,14 +38,15 @@ function UpdatePlayer(dt)
 		player.verticalSpeed = 0.5
 		player.canJump = false
 	end
-	if Controls[Keys.Tab] then  end
-	if Controls[Keys.LMB] then  Shoot(player.transformID) 
-								player.testCamera = true
+	if Controls[Keys.Tab] then print("Tab pressed") end
+	--if Controls[Keys.LMB] then Shoot(player.transformID) end
+	if Controls[Keys.LMB] then
+		player.projectileSpell:Cast(position, direction)
 	end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
-	local position = Transform.GetPosition(player.transformID)
+	position = Transform.GetPosition(player.transformID)
 	position.y = position.y + player.verticalSpeed
 	player.verticalSpeed = player.verticalSpeed - 0.982 * dt
 
@@ -52,6 +58,8 @@ function UpdatePlayer(dt)
 	end
 
 	Transform.SetPosition(player.transformID, position)
+
+	player.projectileSpell:Update(dt)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

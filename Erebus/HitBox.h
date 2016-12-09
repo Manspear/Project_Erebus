@@ -17,6 +17,7 @@ public:
 	virtual void setIDTransform(unsigned int ID);
 	virtual void setID(unsigned int ID);
 	virtual bool checkCollision();
+	virtual bool checkSpecificCollision(unsigned int target);
 
 protected:
 	unsigned int ID, IDTransform;

@@ -1,4 +1,4 @@
-MAX_ENEMIES = 39
+MAX_ENEMIES = 10
 enemies = {}
 
 function LoadEnemies()
