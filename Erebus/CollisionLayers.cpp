@@ -6,12 +6,11 @@ CollisionLayers::CollisionLayers(int size)
 {
 	this->layerMatrixSize = size;
 	this->layerMatrix = new bool*[layerMatrixSize];
-	this->collisionCheckedMatrix = new bool*[layerMatrixSize];
+	this->createCollisionCheckedMatrix(layerMatrixSize);
 
 	for (unsigned int i = 0; i < layerMatrixSize; i++)
 	{
 		this->layerMatrix[i] = new bool[layerMatrixSize];
-		this->collisionCheckedMatrix[i] = new bool[layerMatrixSize];
 
 		for (unsigned int j = 0; j < layerMatrixSize; j++)
 		{
@@ -28,13 +27,7 @@ CollisionLayers::CollisionLayers(int size)
 
 CollisionLayers::~CollisionLayers()
 {
-	for (unsigned int i = 0; i < layerMatrixSize; i++)
-	{
-		delete[] layerMatrix[i];
-		delete[] collisionCheckedMatrix[i];
-	}
-	delete[] layerMatrix;
-	delete[] collisionCheckedMatrix;
+	this->deleteLayerCollisionMatrices();
 }
 
 void CollisionLayers::addHitbox(AABBCollider * aabbCollider) 
@@ -75,7 +68,7 @@ std::vector<AABBCollider*>* CollisionLayers::getAABBColliders(int layer)
 	return colliders;
 }
 
-bool CollisionLayers::isLayerChecked(int layer1, int layer2)
+bool CollisionLayers::getIsLayerChecked(int layer1, int layer2) const
 {
 	return this->collisionCheckedMatrix[layer1][layer2];
 }
@@ -161,7 +154,7 @@ std::vector<int> CollisionLayers::getLayerCollisions(int layer) const
 std::vector<int> CollisionLayers::getUncheckedLayerCollisions(int layer) const
 {
 	std::vector<int> layerCollisions;
-	layerCollisions.resize(this->layerMatrixSize);
+	layerCollisions.reserve(this->layerMatrixSize);
 
 	for (unsigned int i = 0; i < this->layerMatrixSize; i++)
 	{
@@ -181,4 +174,37 @@ std::vector<int> CollisionLayers::getUncheckedLayerCollisions(int layer) const
 unsigned int CollisionLayers::getLayerMatrixSize()
 {
 	return this->layerMatrixSize;
+}
+
+void CollisionLayers::setLayerCollisionMatrix(bool ** layerMatrix, unsigned int layerMatrixSize)
+{
+	this->deleteLayerCollisionMatrices();
+	this->layerMatrix = layerMatrix;
+	this->layerMatrixSize = layerMatrixSize;
+	this->createCollisionCheckedMatrix(layerMatrixSize);
+
+	this->sphereColliders.resize(layerMatrixSize); // resize to fit the amount of layers we have, fake 2d array
+	this->aabbColliders.resize(layerMatrixSize);
+}
+
+void CollisionLayers::deleteLayerCollisionMatrices()
+{
+	for (unsigned int i = 0; i < layerMatrixSize; i++)
+	{
+		delete[] layerMatrix[i];
+		delete[] collisionCheckedMatrix[i];
+	}
+	delete[] layerMatrix;
+	delete[] collisionCheckedMatrix;
+}
+
+void CollisionLayers::createCollisionCheckedMatrix(int size)
+{
+	this->collisionCheckedMatrix = new bool*[size];
+
+	for (unsigned int i = 0; i < layerMatrixSize; i++)
+	{
+		this->collisionCheckedMatrix[i] = new bool[layerMatrixSize];
+	}
+	this->resetCollisionCheckedMatrix();
 }

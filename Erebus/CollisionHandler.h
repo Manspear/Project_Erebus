@@ -17,6 +17,7 @@ class CollisionHandler
 	
 public:
 	CollisionHandler();
+	CollisionHandler(int layers);
 	~CollisionHandler();
 	void addHitbox(SphereCollider* sphere);
 	void addHitbox(AABBCollider* aabb);
@@ -39,6 +40,8 @@ public:
 	bool deleteHitbox(unsigned int ID);
 
 	void setTransforms( Transform* transforms );
+
+	CollisionLayers* getCollisionLayers();
 	
 
 private:
@@ -52,5 +55,7 @@ private:
 	static void incrementHitboxID();
 
 	CollisionLayers* collisionLayers;
+
+	int counter = 0;
 };
 

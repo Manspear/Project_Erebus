@@ -15,15 +15,16 @@ public:
 	std::vector<SphereCollider*>* getSphereColliders(int layer);
 	std::vector<AABBCollider*>* getAABBColliders(int layer);
 
-	bool isLayerChecked(int layer1, int layer2);
 	void checkLayer(int layer1,int layer2);
 	void resetCollisionCheckedMatrix();
 	bool deleteHitbox(unsigned int ID);
 
 	std::vector<int> getLayerCollisions(int layer) const; //return a vector with all the layers that this layer will collide with
 	std::vector<int> getUncheckedLayerCollisions(int layer) const; // returns a vector with all the layers that this layer have not yet collided with
-
+	bool getIsLayerChecked(int layer1, int layer2) const;
 	unsigned int getLayerMatrixSize();
+
+	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
 
 private:
 	bool** layerMatrix; // which layers may collide with each other
@@ -31,5 +32,7 @@ private:
 	std::vector<std::vector<AABBCollider*>> aabbColliders; // aabbColliders[0] holds a vector with all aabbColliders in layer 0
 	std::vector<std::vector<SphereCollider*>> sphereColliders;
 	unsigned int layerMatrixSize;
+	void deleteLayerCollisionMatrices();
+	void createCollisionCheckedMatrix(int size);
 };
 
