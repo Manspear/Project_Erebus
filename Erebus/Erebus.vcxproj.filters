@@ -38,6 +38,8 @@
     <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
+	<Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua" />

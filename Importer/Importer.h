@@ -55,6 +55,10 @@ namespace Importer
 		int numSkeletonVertices;
 		int numIndices;
 
+		//Each material holds diffuse, spec, normal
+		//Each material needs it's own unique name
+		//char materialName[256];
+		
 		int TYPE;
 	};
 

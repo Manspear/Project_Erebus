@@ -41,6 +41,7 @@ function UpdatePlayer(dt)
 	if Controls[Keys.Tab] then print("Tab pressed") end
 	--if Controls[Keys.LMB] then Shoot(player.transformID) end
 	if Controls[Keys.LMB] then
+		player.testCamera = true
 		player.projectileSpell:Cast(position, direction)
 	end
 
