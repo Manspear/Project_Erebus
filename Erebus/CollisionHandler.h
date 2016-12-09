@@ -20,6 +20,8 @@ public:
 	~CollisionHandler();
 	void addHitbox(SphereCollider* sphere);
 	void addHitbox(AABBCollider* aabb);
+	void addHitbox(SphereCollider* sphere, int layer);
+	void addHitbox(AABBCollider* aabb, int layer);
 
 	void checkCollisions();
 	void checkSphereToSphereCollisions();

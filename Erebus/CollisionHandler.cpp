@@ -27,6 +27,8 @@ void CollisionHandler::addHitbox(SphereCollider * sphere)
 	sphere->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
 
+	this->collisionLayers->addHitbox(sphere);
+
 }
 
 void CollisionHandler::addHitbox(AABBCollider * aabb)
@@ -35,6 +37,25 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 	aabb->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
 
+	this->collisionLayers->addHitbox(aabb);
+}
+
+void CollisionHandler::addHitbox(SphereCollider * sphere, int layer)
+{
+	this->sphereColliders.push_back(sphere);
+	sphere->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
+	this->collisionLayers->addHitbox(sphere, layer);
+}
+
+void CollisionHandler::addHitbox(AABBCollider * aabb, int layer)
+{
+	this->aabbColliders.push_back(aabb);
+	aabb->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
+	this->collisionLayers->addHitbox(aabb, layer);
 }
 
 void CollisionHandler::checkCollisions()
