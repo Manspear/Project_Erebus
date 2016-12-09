@@ -10,33 +10,23 @@ arc.lifeTime = ARC_LIFETIME
 local arcModel = Assets.LoadModel( "Models/Sten.model" )
 Gear.AddModelInstance(arcModel, arc.transformID)
 
---[[
-
-function arc:UpdatePosition(dt)
-	self.position.x = self.position.x + ((self.direction.x * self.speed)*dt)
-	self.position.z = self.position.z + ((self.direction.z * self.speed)*dt)
-	self.direction.y = self.direction.y - (ARC_GRAVITY*dt)
-	self.position.y = self.position.y + (self.direction.y * dt)
-end
-
-]]--
-
-
 function arc:Cast()
 	self.position = Transform.GetPosition(player.transformID)
-	self.direction = Transform.GetLookAt(player.transformID)
-	self.direction.y = self.upSpeed
+	self.velocity = Transform.GetLookAt(player.transformID)
+	self.velocity.y = self.upSpeed
+
+	self.velocity.x = self.velocity.x * 50
+	self.velocity.z = self.velocity.z * 50
+
 	self.alive = true
 	self.lifeTime = ARC_LIFETIME
 	self.currentUpSpeed = self.upSpeed
 	Transform.SetPosition(self.transformID, self.position)
-	
 end
 
 
 function arc:Update(dt)
-	
-	--self:UpdatePosition(dt)
+	self.velocity.y = self.velocity.y - self.speed*dt
 
 	local height = heightmap:GetHeight(self.position.x, self.position.z)
 	if self.position.y <= height then
@@ -49,7 +39,5 @@ function arc:Update(dt)
 	end
 
 end
-
-
 
 return arc
