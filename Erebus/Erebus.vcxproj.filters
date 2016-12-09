@@ -150,6 +150,8 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\projectile.lua">
+	<Filter>Scripts</Filter>
+    </None>
     <None Include="Scripts\camera.lua">
       <Filter>Scripts</Filter>
     </None>
