@@ -6,7 +6,7 @@
 #include "Light.h"
 #include "Inputs.h"
 #include "staticNonModels.h"
-//Temp
+#include "Debug.h"
 #include "Material.h"
 namespace Gear
 {
@@ -27,8 +27,10 @@ namespace Gear
 		
 		GEAR_API void addStaticNonModel(staticNonModels* model);
 
+		GEAR_API void addDebugger(Debug* debugger);
+
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(float* transforms, int* indices, int* n, glm::vec3* lookAts);
+		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
 
@@ -49,8 +51,10 @@ namespace Gear
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 
-		float* transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
-		int* transformIndexArray;
+		TransformStruct** allTrans;
+		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
+		int** transformIndexArray;
+		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
 		//DebugQuad
@@ -74,5 +78,8 @@ namespace Gear
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
 		std::vector<ParticleSystem> defaultParticleList = std::vector<ParticleSystem>(0);
+		std::vector<Debug*> debuggers;
+
+		void updateDebug(Camera* camera);
 	};
 }

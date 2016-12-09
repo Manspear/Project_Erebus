@@ -30,6 +30,7 @@ void RenderQueue::init()
 	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
 	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
+	allShaders[ShaderType::DEBUG] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "debug");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -121,21 +122,6 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 		int numInstance = 0;
 		for( int j=0; j< instances->at(i).worldIndices.size(); j++ )
 		{
-			/*glUniformMatrix4fv( worldMatrixLocation, 1, GL_FALSE, &worldMatrices[instances[i].worldIndices[k]][0][0] );
-			for (int j = 0; j < meshes; j++)
-			{
-			int vertexSize = (modelAsset->getMesh(j)->numAnimVertices > 0 ? sizeof(Importer::sSkeletonVertex) : sizeof(Importer::sVertex));
-
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 3));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 6));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElements(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			}*/
-
 			tempMatrices[numInstance++] = worldMatrices[instances->at(i).worldIndices[j]];
 		}
 
@@ -148,7 +134,7 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 			glUniform1i(uniform, GL_TEXTURE0);
 			texture->bind();
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-			int aids = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+			int vertexSize = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, aids, 0);
@@ -156,7 +142,6 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 3));
 			glEnableVertexAttribArray(2);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 6));
-
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -197,31 +182,36 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 	allShaders[PARTICLES]->unUse();
 }
 
-void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
+void RenderQueue::update(int n, TransformStruct* theTrans)
 {
 	for (int i = 0; i < n; i++)
 	{
-		int index = i * 9;
-		int rotIndexY = index + 4;
-		int rotIndexZ = index + 5;
-		glm::vec3 tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
-		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		if (theTrans[i].active == true) 
+		{
+			int index = i * 9;
+			int rotIndexY = index + 4;
+			int rotIndexZ = index + 5;
 
-		glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[rotIndexZ], axis);
-		glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[rotIndexY], { 0, 1, 0 });
-
-		worldMatrices[i] = glm::mat4();
-
-		worldMatrices[i][0][0] = pos[index + 6];
-		worldMatrices[i][1][1] = pos[index + 7];
-		worldMatrices[i][2][2] = pos[index + 8];
-
-		worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
+			glm::vec3 tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
+			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
 
-		worldMatrices[i][3][0] = pos[index];
-		worldMatrices[i][3][1] = pos[index + 1];
-		worldMatrices[i][3][2] = pos[index + 2];
+			glm::mat4 rotationZ = glm::rotate(glm::mat4(), theTrans[i].rot.z, axis);
+			glm::mat4 rotationY = glm::rotate(glm::mat4(), theTrans[i].rot.y, { 0, 1, 0 });
+
+			worldMatrices[i] = glm::mat4();
+
+			worldMatrices[i][0][0] = theTrans[i].scale.x;
+			worldMatrices[i][1][1] = theTrans[i].scale.y;
+			worldMatrices[i][2][2] = theTrans[i].scale.z;
+
+			worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
+
+
+			worldMatrices[i][3][0] = theTrans[i].pos.x;
+			worldMatrices[i][3][1] = theTrans[i].pos.y;
+			worldMatrices[i][3][2] = theTrans[i].pos.z;
+		}
 	}
 }
 

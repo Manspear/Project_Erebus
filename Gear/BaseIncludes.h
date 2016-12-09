@@ -35,6 +35,15 @@
 #include <stdio.h>
 #include "Wincon.h"
 
+struct TransformStruct
+{
+	glm::vec3 pos;
+	glm::vec3 rot;
+	glm::vec3 scale;
+	glm::vec3 lookAt;
+	bool active;	
+};
+
 #define WINDOW_WIDTH 1280.f
 #define WINDOW_HEIGHT 720.f
 

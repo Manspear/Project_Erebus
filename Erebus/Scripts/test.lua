@@ -41,7 +41,7 @@ for i = 1, nrOfBullets do
 	bullets[i] = {}
 	bullets[i].trans = -1
 	bullets[i].ms = 100
-	bullets[i].lifeLeft = 10
+	bullets[i].lifeLeft = 1
 	bullets[i].alive = false
 end
 
@@ -54,7 +54,7 @@ end
 buttons = {}
 function Controls()
     forward, left, up = 0, 0, 0
-    for i = 1, #buttons do
+    --[[for i = 1, #buttons do
         if buttons[i] == 0 then forward = player.moveSpeed  end
         if buttons[i] == 1 then forward = -player.moveSpeed  end
         if buttons[i] == 2 then left = player.moveSpeed  end
@@ -65,7 +65,18 @@ function Controls()
 		end
         if buttons[i] == 6 then ChangePlayer() end
 		if buttons[i] == 7 then shoot() end
+	end--]]
+
+	if buttons[Keys.W] then forward = player.moveSpeed end
+	if buttons[Keys.S] then forward = -player.moveSpeed end
+	if buttons[Keys.A] then left = player.moveSpeed end
+	if buttons[Keys.D] then left = -player.moveSpeed end
+	if buttons[Keys.Space] and player.canJump then
+		player.ySpeed = 0.50
+		player.canJump = false
 	end
+	if buttons[Keys.Tab] then ChangePlayer() end
+	if buttons[Keys.LMB] then shoot() end
 	Transform.Move(player.trans, forward, player.ySpeed, left)
     buttons = {}   
 end
@@ -125,7 +136,7 @@ function shoot()
 			bullets[bulletIndex].trans = tempTrans
 			bullets[bulletIndex].ms = 100
 			bullets[bulletIndex].alive = true
-			bullets[bulletIndex].lifeLeft = 1.00
+			bullets[bulletIndex].lifeLeft = 1
 			Transform.Shoot(bullets[bulletIndex].trans, player.trans)
 			bulletIndex = (bulletIndex % nrOfBullets) + 1
 			activeBullets = activeBullets + 1

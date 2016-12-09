@@ -7,6 +7,7 @@ public:
 	SphereCollider();
 	SphereCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 pos, float radius);
 	SphereCollider(unsigned int ID, unsigned int IDTransform,float x, float y, float z, float radius);
+	SphereCollider(unsigned int IDTransform);
 	~SphereCollider();
 	bool sphereToSphereCollision(const SphereCollider * sphere);
 	bool SphereToAabbCollision(AABBCollider * aabb);
@@ -32,4 +33,3 @@ private:
 	float closestDistanceAabbToCenter(const float& point, const float aabbMin, const float aabbMax);
 
 };
-

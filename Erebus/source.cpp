@@ -21,12 +21,9 @@
 #include "HeightMap.h"
 #include "Ray.h"
 
-
-
-int startNetworkCommunication();
-int startNetworkSending(Nurn::NurnEngine * pSocket);
-int startNetworkReceiving(Nurn::NurnEngine * pSocket);
-int addModelInstance(ModelAsset* asset);
+int startNetworkCommunication( Window* window );
+int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
+int startNetworkReceiving(Nurn::NurnEngine * pSocket, Window* window);
 
 std::thread networkThread;
 bool networkActive = false;
@@ -34,153 +31,72 @@ bool networkHost = true;
 
 bool running = true;
 
-std::vector<ModelInstance> models;
-
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	
-	Importer::TextureAsset* redTexture = assets->load<Importer::TextureAsset>( "Textures/molerat_texturemap2.png" );
-	Importer::TextureAsset* greenTexture = assets->load<Importer::TextureAsset>( "Textures/green.dds" );
-	Importer::ImageAsset* heightMapAsset = assets->load<Importer::ImageAsset>("Textures/molerat_texturemap4.png");
-	
-	HeightMap *heightMap = new HeightMap();
-	
-	heightMap->loadHeightMap(heightMapAsset, true);
-	engine->addStaticNonModel(heightMap->getStaticNonModel());
-	
-	/*unsigned int transformID = 0;
-	unsigned int hitboxID = 0;
-	SphereCollider sphere1 = SphereCollider(hitboxID++,transformID++,glm::vec3(3,3,3), 1);
-	SphereCollider sphere2 = SphereCollider(hitboxID++, transformID++, glm::vec3(3, 3, 3), 1);
-	AABBCollider aabb1 = AABBCollider(hitboxID++, 0, glm::vec3(-1,-1,-1), glm::vec3(1,1,1));
-	AABBCollider aabb2 = AABBCollider(hitboxID++, 1, glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
 
-	CollisionHandler collisionHandler = CollisionHandler();
-
-	collisionHandler.addHitbox(&sphere1);*/
-	
-	CollisionHandler collisionHandler;
-	
-	redTexture->bind();
-
-
-	lua_State* L = luaL_newstate();
-	luaL_openlibs(L);
-	initLua(L);
-	transformReg(L);
-	collisionReg( L, &collisionHandler );
-	if (luaL_dofile(L, "Scripts/test.lua"))
-	{
-		std::cout<<("%s\n", lua_tostring(L, -1)) << "\n";
-	}
-
+	Importer::Assets assets;
+	int nrOfTransforms = 100;
+	int boundTransforms = 0;
+	Transform* transforms = new Transform[nrOfTransforms];
+	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
 	for (int i = 0; i < nrOfTransforms; i++)
-	{
-		allTransforms[i].setHMap(heightMap);
-	}
-	controls.setControl(&allTransforms[0]);
+		transforms[i].setThePtr(&allTransforms[i]);
+	Controls controls;
+	Window window;
+	Gear::GearEngine engine;
+	engine.allocateWorlds(nrOfTransforms);
 
+	std::vector<ModelInstance> models;
+	engine.addDebugger(Debugger::getInstance());
+	Debug* tempDebug = Debugger::getInstance();
 
-	Gear::ParticleSystem* ps = new Gear::ParticleSystem();
-	//engine->renderQueue.particleSystem.push_back(ps);
- 	
-	glEnable( GL_DEPTH_TEST );
-	
-	GLFWwindow* w = window->getGlfwWindow();
+	double deltaTime = 0.0;
+
+	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
+	moleratTexture->bind();
+
+	CollisionHandler collisionHandler;
+	collisionHandler.setTransforms(transforms);
+
+	glEnable(GL_DEPTH_TEST);
+
+	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
 	PerformanceCounter counter;
+	counter.startCounter();
 	double frameTime = 0.0;
 	int frameCounter = 0;
+	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	Camera camera(45.f, 1280.f/720.f, 0.1f, 2000.f, &inputs);
-
-	float* transforms = new float[9 * nrOfTransforms];
-	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-	engine->bindTransforms(transforms, nullptr, &boundTrans, lookAts);
-
+	engine.bindTransforms(&allTransforms, &boundTransforms);
 	if (networkActive)
 	{
-		networkThread = std::thread(startNetworkCommunication);
+		networkThread = std::thread(startNetworkCommunication, &window );
 	}
 
+	LuaBinds luaBinds;
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
 	bool playerAlive = true;
-	while (running && window->isWindowOpen())
+	while (running && window.isWindowOpen())
 	{
-
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-
-		if( playerAlive )
-			controls.sendControls(inputs, L);
-
-		/*for (size_t i = 0; i < engine->renderQueue.particleSystem.size(); i++)
-		{
-			for (size_t j = 0; j < 10; j++)
-			{
-				ps[i].particles[j]->update(glm::vec3(0, 0, 0.005));
-			}
-		}*/
-
-		lua_getglobal(L, "updateBullets");
-		lua_pushnumber(L, deltaTime);
-		if (lua_pcall(L, 1, 0, 0))
-			std::cout << lua_tostring(L, -1) << std::endl;
-		//lua_pop(L, 1);
-		 
-
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
-	
-		if( playerAlive )
-		{	
-			lua_getglobal( L, "Update" );
-			lua_pushnumber( L, deltaTime );
-			if( lua_pcall( L, 1, 1, 0 ) )
-				std::cout << lua_tostring( L, -1 ) << std::endl;
-			//playerAlive = lua_toboolean( L, -1 );	
-			lua_pop(L,1);
-		}
-		else
-			std::cout << "Game Over" << std::endl;
-			
-		//Update transforms:
-		int index = 0;
-		for (int i = 0; i < nrOfTransforms; i++) 
-		{
-			if (!availableTransforms[i]) {
-
-				glm::vec3 pos = allTransforms[i].getPos();
-				glm::vec3 rot = allTransforms[i].getRotation();
-				glm::vec3 scale = allTransforms[i].getScale();
-				transforms[index*9] = pos.x;
-				transforms[index*9 + 1] = pos.y;
-				transforms[index*9 + 2] = pos.z;
-				transforms[index*9 + 3] = rot.x;
-				transforms[index*9 + 4] = rot.y;
-				transforms[index*9 + 5] = rot.z;
-				transforms[index*9 + 6] = scale.x;
-				transforms[index*9 + 7] = scale.y;
-				transforms[index*9 + 8] = scale.z;
-
-				lookAts[index] = allTransforms[i].getLookAt();
-
-				index++;
-			}
-			
-		}
-		//std::cout << index << std::endl;
-
-		//Draw:
-		engine->queueDynamicModels(&models);
-		engine->draw(&camera);
-		window->update();	
+		controls.update(&inputs);
+		luaBinds.update( &controls, deltaTime );
+		//float angle = asinf(dir.y);
+		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
+		engine.draw(&camera, &models);
+		window.update();	
+		engine.queueDynamicModels(&models);
+		engine.draw(&camera);
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
 		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
 			engine->setDrawMode(1);
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ) )
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 )
 			engine->setDrawMode(2);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
 			engine->setDrawMode(3);
@@ -202,75 +118,25 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-
 		//Collisions
-		//collisionHandler.checkCollisions();
+		collisionHandler.checkCollisions();
 	}
-	delete[] transforms;
-	delete[] lookAts;
-	delete heightMap;
 
+	luaBinds.unload();
+	delete[] allTransforms;
+	delete[] transforms;
 	if (networkActive)
 	{
 		networkThread.join();
 	}
 
-	delete[] availableTransforms;
-	delete[] allTransforms;
-	lua_close(L);
-	delete window;
-	delete ps;
 	glfwTerminate();
-	delete engine;
 	return 0;
 }
 
-
-int addModelInstance(ModelAsset* asset)
-{
-
-	//int result = engine->renderQueue.generateWorldMatrix();
-	int result = engine->generateWorldMatrix();
-
-	int index = -1;
-	for (int i = 0; i < models.size() && index < 0; i++)
-		if (models[i].asset == asset)
-			index = i;
-
-	if (index < 0)
-	{
+int startNetworkCommunication( Window* window )
 		Importer::TextureAsset* texture = assets->load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-		ModelInstance instance;
-		instance.asset = asset;
 		instance.texture = texture;
-
-		index = models.size();
-		models.push_back(instance);
-	}
-
-	models[index].worldIndices.push_back(result);
-
-
-	return result;
-}
-
-void allocateTransforms(int n)
-{
-	if (allTransforms != nullptr) {
-		delete allTransforms;
-		delete availableTransforms;
-	}
-	availableTransforms = new bool[n];
-	allTransforms = new Transform[n];
-	for (int i = 0; i < n; i++) {
-		availableTransforms[i] = true;
-	//engine->renderQueue.allocateWorlds(n);
-	engine->allocateWorlds(n);
-	}
-}
-
-
-int startNetworkCommunication()
 {
 	// initialize socket layer
 
@@ -284,11 +150,11 @@ int startNetworkCommunication()
 
 	if (networkHost)
 	{
-		startNetworkReceiving(&network);
+		startNetworkReceiving(&network, window);
 	}
 	else
 	{
-		startNetworkSending(&network);
+		startNetworkSending(&network, window);
 	}
 
 	printf("Closing socket on port\n");
@@ -297,7 +163,7 @@ int startNetworkCommunication()
 	return 0;
 }
 
-int startNetworkSending(Nurn::NurnEngine * pNetwork)
+int startNetworkSending(Nurn::NurnEngine * pNetwork, Window* window)
 {
 	while (running && window->isWindowOpen())
 	{
@@ -311,7 +177,7 @@ int startNetworkSending(Nurn::NurnEngine * pNetwork)
 	return 0;
 }
 
-int startNetworkReceiving(Nurn::NurnEngine * pNetwork)
+int startNetworkReceiving(Nurn::NurnEngine * pNetwork, Window* window)
 {
 	while (running && window->isWindowOpen())
 	{

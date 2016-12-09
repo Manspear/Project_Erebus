@@ -8,7 +8,7 @@ class Transform
 public:
 	Transform();
 	~Transform();
-
+	void setThePtr(TransformStruct* ptrInArray);
 	void move(glm::vec3 dir, const float &dt);
 	void setPos(glm::vec3 pos);
 	void setLookDir(glm::vec3 dir);
@@ -20,17 +20,10 @@ public:
 	glm::vec3 getScale();
 	void setRotation(glm::vec3 rot);
 	void setLookAt(glm::vec3 lookAt);
+	void setActive(bool isActive);
 	void follow(glm::vec3 goTowards, float speed, const float &dt);
-	void setHMap(HeightMap* hm);
 
-	// TEMP: Should probably go directly to heightmap instead of going through transform
-	bool toHeightmap();
 private:
-	glm::vec3 position;
-	glm::vec3 lookDir;
-	glm::vec3 rotation;
-	int worldIndex;
-	glm::vec3 scale;
-	HeightMap* hMap;
+	TransformStruct* theTran;
 };
 

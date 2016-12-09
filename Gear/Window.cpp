@@ -23,11 +23,15 @@ void Window::initWindow()
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", NULL, NULL);
+
 	if (!window)
 	{
 		glfwTerminate();
 		std::cout << "Error init WINDOW!" << std::endl;
 	}
+
+	// DEBUG: This moves the main window out of the way of the console window
+	glfwSetWindowPos( window, 512, 128 );
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
@@ -41,7 +45,8 @@ void Window::initWindow()
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-bool Window::isWindowOpen() {
+bool Window::isWindowOpen() 
+{
 	return !glfwWindowShouldClose(window);
 }
 

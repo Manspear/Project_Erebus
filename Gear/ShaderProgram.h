@@ -17,6 +17,7 @@ enum ShaderType {
 	GEOMETRY,
 	GEOMETRY_NON,
 	HEIGHTMAP,
+	DEBUG,
 	NUM_SHADER_TYPES
 };
 

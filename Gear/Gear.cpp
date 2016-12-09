@@ -64,6 +64,11 @@ namespace Gear
 		delete quadShader;
 		delete lightPassShader;
 
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			delete debuggers[i];
+		}
+
 	}
 
 	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
@@ -142,12 +147,10 @@ namespace Gear
 		this->statModels.push_back(model);
 	}
 
-	void GearEngine::bindTransforms(float* pos, int* indices, int* n, glm::vec3* lookAts)
+	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n )
 	{
-		transformArray = pos;
-		transformIndexArray = indices;
 		transformCount = n;
-		transformLookAts = lookAts;
+		allTrans = theTrans;
 	}
 
 	void GearEngine::addModelInstance(ModelAsset* asset)
@@ -182,8 +185,8 @@ namespace Gear
 
 	void GearEngine::draw(Camera* camera)
 	{
+		queue.update(*transformCount, *allTrans);
 		queue.updateUniforms(camera);
-		queue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
 
 		//queue.forwardPass(staticModels, dynamicModels);
 		//queue.particlePass(particleSystems);
@@ -191,6 +194,8 @@ namespace Gear
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(staticModels, dynamicModels);
+
+		updateDebug(camera);
 
 		//--TEMP---
 		/*for (size_t i = 0; i < statModels.size(); i++)
@@ -256,4 +261,16 @@ namespace Gear
 
 		lightPassShader->unUse();
 	}
+		void GearEngine::updateDebug(Camera* camera) {
+		ShaderProgram* tempProgram;
+		
+		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
+		}
+	}
+
+	void GearEngine::addDebugger(Debug* debugger) {
+		this->debuggers.push_back(debugger);
 }
