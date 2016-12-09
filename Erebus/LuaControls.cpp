@@ -14,6 +14,10 @@ namespace LuaControls
 		setKey( lua, 6, "Shift" );
 		setKey( lua, 7, "Tab" );
 		setKey( lua, 8, "LMB" );
+		setKey( lua, 9, "One" );
+		setKey( lua, 10, "Two" );
+		setKey( lua, 11, "Three" );
+		setKey( lua, 12, "Four" );
 		
 		lua_pushnumber( lua, CONTROLS_MAX_KEYS );
 		lua_setfield( lua, -2, "Max" ); // the max number of keys is 7
