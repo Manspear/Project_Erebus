@@ -4,9 +4,8 @@ projectile.position = {x=0, y=0, z=0}
 projectile.direction = {x=0, y=0, z=0}
 projectile.speed = 100
 
-local projectileModel = Assets.LoadModel( "Models/Sten.model" )
+local projectileModel = Assets.LoadModel( "Models/moleman5.model" )
 Gear.AddModelInstance(projectileModel, projectile.transformID)
-
 function projectile:Cast(position, direction)
 	self.position = position
 	self.direction = direction

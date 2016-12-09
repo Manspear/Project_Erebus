@@ -113,6 +113,8 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
+
+		std::cout << lua_gettop(luaBinds.lua) << "\n";
 	}
 
 	luaBinds.unload();

@@ -5,47 +5,74 @@ timeSinceShot = 0
 DelayZoomOut = 3
 
 
-ZoomedOut = {distance = 12, angle = 3.14/16, time =1.5, timeSpent = 0, xOffset = 0, yOffset = 2}
+ZoomedOut = {distance = 12, angle = 3.14/20, time =1.5, timeSpent = 0, xOffset = 0, yOffset = 2}
 ZoomedIn = {distance = 5.5, angle = 0, time = 0.2, timeSpent = 0, xOffset = 2, yOffset = 2}
-StartState = {distance = 0, angle = 0, xOffset = 0}
+StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0}
 
-
+function interpolate(a, b, factor) 
+	return a + factor*(b-a)
+end
 
 function UpdateCamera(dt)
 	if player.testCamera == true then 
 		timeSinceShot = 0
 		if camera.state ~= STATE_ZOOMED_IN and camera.state ~= STATE_ZOOMING_IN then --start zooming in if not already zoomed in
 			camera.state = STATE_ZOOMING_IN
+
+			StartState.distance = camera.distance
+			StartState.angle = camera.angle
+			StartState.xOffset = camera.xOffset
+			StartState.yOffset = camera.yOffset
+			
 			ZoomedIn.timeSpent = 0
 		end
 	end
 	timeSinceShot = timeSinceShot + dt
 	if timeSinceShot > DelayZoomOut and camera.state ~= STATE_ZOOMED_OUT and camera.state ~= STATE_ZOOMING_OUT then --start zooming out if not already zoomed out, triggers when player have not shot recently
 		ZoomedOut.timeSpent = 0
+
+		StartState.distance = camera.distance
+		StartState.angle = camera.angle
+		StartState.xOffset = camera.xOffset
+		StartState.yOffset = camera.yOffset
+
 		camera.state = STATE_ZOOMING_OUT
 	end 
 
 	if camera.state == STATE_ZOOMING_OUT then
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
-		local factor = math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time
-		camera.distance = ZoomedIn.distance + factor*(ZoomedOut.distance - ZoomedIn.distance)
-		camera.angle = ZoomedIn.angle + factor*(ZoomedOut.angle - ZoomedIn.angle)
-		camera.xOffset = ZoomedIn.xOffset + factor*(ZoomedOut.xOffset - ZoomedIn.xOffset)
-		camera.yOffset = ZoomedIn.yOffset + factor*(ZoomedOut.yOffset - ZoomedIn.yOffset)
+
+		--i vilket läge övergången är i
+		local factor = math.sin((math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time)*3.14 - 3.14/2)/2 + 0.5	--ciruklär (mjukare, men dyrare)
+		--local factor = math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time										--linjär
+
+		--Linjär interpolation mellan vart kameran var när övergången började och vart den ska vara när övergången är klar
+		camera.distance = interpolate(	StartState.distance,	ZoomedOut.distance, factor	)
+		camera.angle = interpolate(		StartState.angle,		ZoomedOut.angle,	factor	)
+		camera.xOffset = interpolate(		StartState.xOffset,		ZoomedOut.xOffset,	factor	)
+		camera.yOffset = interpolate(		StartState.yOffset,		ZoomedOut.yOffset,	factor	) 
+
 		if ZoomedOut.timeSpent > ZoomedOut.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_OUT
 		end
 	elseif camera.state == STATE_ZOOMING_IN then
 		ZoomedIn.timeSpent =  ZoomedIn.timeSpent + dt 
-		local factor = math.min(ZoomedIn.timeSpent, ZoomedIn.time)/ZoomedIn.time
-		camera.distance = ZoomedOut.distance + factor*(ZoomedIn.distance - ZoomedOut.distance)
-		camera.angle = ZoomedOut.angle + factor*(ZoomedIn.angle - ZoomedOut.angle)
-		camera.xOffset = ZoomedOut.xOffset + factor*(ZoomedIn.xOffset - ZoomedOut.xOffset)
-		camera.yOffset = ZoomedOut.yOffset + factor*(ZoomedIn.yOffset - ZoomedOut.yOffset)
+		
+		--i vilket läge övergången är i
+		local factor = math.sin((math.min(ZoomedIn.timeSpent, ZoomedIn.time)/ZoomedIn.time)*3.14 - 3.14/2)/2 + 0.5	--cirkulär (mjukare, men dyrare)
+		--local factor = math.min(ZoomedIn.timeSpent, ZoomedIn.time)/ZoomedIn.time										--linjär
+
+		--interpolation mellan vart kameran var när övergången började och vart den ska vara när övergången är klar, factor kan vara linjär eller cirkulär :)
+		camera.distance = interpolate(	StartState.distance,	ZoomedIn.distance,	factor	)
+		camera.angle = interpolate(		StartState.angle,		ZoomedIn.angle,		factor	)
+		camera.xOffset = interpolate(		StartState.xOffset,		ZoomedIn.xOffset,	factor	)
+		camera.yOffset = interpolate(		StartState.yOffset,		ZoomedIn.yOffset,	factor	)
+
 		if ZoomedIn.timeSpent > ZoomedIn.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_IN
 		end
 	end
+	
 	Camera.Follow(player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 end
 

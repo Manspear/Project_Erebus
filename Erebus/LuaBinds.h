@@ -28,9 +28,9 @@ public:
 				Camera* camera);
 	void unload();
 	void update( Controls* controls, float deltaTime );
-
-private:
 	lua_State* lua;
+private:
+	
 	bool validState;
 	int updateReference;
 };
