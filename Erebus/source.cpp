@@ -77,7 +77,7 @@ int main()
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
 	bool playerAlive = true;
-
+	
 	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
 	Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
 	for (size_t i = 0; i < models.size(); i++)
@@ -85,6 +85,7 @@ int main()
 		models.at(i).texAsset = moleratTexture;
 	}
 	models.at(1).texAsset = moleratTexture2;
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -97,10 +98,10 @@ int main()
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);
-
+		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-
+		
 		//Display FPS:
 		frameCounter++;
 		frameTime += deltaTime;
@@ -113,8 +114,7 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
-
-		std::cout << lua_gettop(luaBinds.lua) << "\n";
+		luaBinds.printLuaTop();
 	}
 
 	luaBinds.unload();
