@@ -16,7 +16,7 @@ using namespace Importer;
 struct ModelInstance
 {
 	ModelAsset* asset;
-	TextureAsset* texAsset;
+	TextureAsset* texAsset = nullptr;
 	std::vector<int> worldIndices;
 };
 
