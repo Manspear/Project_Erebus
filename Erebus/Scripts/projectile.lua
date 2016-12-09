@@ -1,7 +1,10 @@
 local PROJECTILE_LIFETIME = 2
 local projectile  = dofile( "Scripts/basespell.lua" )
 projectile.speed = 100
+projectile.damage = 5
 projectile.lifeTime = PROJECTILE_LIFETIME
+projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
+CollisionHandler.AddSphere(projectile.sphereCollider)
 
 local projectileModel = Assets.LoadModel( "Models/molerat.model" )
 Gear.AddModelInstance(projectileModel, projectile.transformID)
@@ -31,6 +34,20 @@ function projectile:Update(dt)
 		self:Kill()
 	end
 
+	local collisionIDs = self.sphereCollider:GetCollisionIDs()
+	for curID = 1, #collisionIDs do
+		for curEnemy=1, MAX_ENEMIES do
+			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				self:Kill()
+
+				enemies[curEnemy]:Hurt(self.damage)
+			end
+
+			if not self.alive then break end
+		end
+
+		if not self.alive then break end
+	end
 end
 
 return projectile
