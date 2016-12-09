@@ -28,6 +28,7 @@ void RenderQueue::init()
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
+	allShaders[ShaderType::DEBUG] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "debug");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -163,31 +164,36 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 	allShaders[PARTICLES]->unUse();
 }
 
-void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
+void RenderQueue::update(bool * actives, int n, TransformStruct* theTrans)
 {
 	for (int i = 0; i < n; i++)
 	{
-		int index = i * 9;
-		int rotIndexY = index + 4;
-		int rotIndexZ = index + 5;
-		glm::vec3 tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
-		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		if (actives[i] == true) 
+		{
+			int index = i * 9;
+			int rotIndexY = index + 4;
+			int rotIndexZ = index + 5;
 
-		glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[rotIndexZ], axis);
-		glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[rotIndexY], { 0, 1, 0 });
-
-		worldMatrices[i] = glm::mat4();
-
-		worldMatrices[i][0][0] = pos[index + 6];
-		worldMatrices[i][1][1] = pos[index + 7];
-		worldMatrices[i][2][2] = pos[index + 8];
-
-		worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
+			glm::vec3 tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
+			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
 
-		worldMatrices[i][3][0] = pos[index];
-		worldMatrices[i][3][1] = pos[index + 1];
-		worldMatrices[i][3][2] = pos[index + 2];
+			glm::mat4 rotationZ = glm::rotate(glm::mat4(), theTrans[i].rotZ, axis);
+			glm::mat4 rotationY = glm::rotate(glm::mat4(), theTrans[i].rotY, { 0, 1, 0 });
+
+			worldMatrices[i] = glm::mat4();
+
+			worldMatrices[i][0][0] = theTrans[i].scaleX;
+			worldMatrices[i][1][1] = theTrans[i].scaleY;
+			worldMatrices[i][2][2] = theTrans[i].scaleZ;
+
+			worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
+
+
+			worldMatrices[i][3][0] = theTrans[i].posX;
+			worldMatrices[i][3][1] = theTrans[i].posY;
+			worldMatrices[i][3][2] = theTrans[i].posZ;
+		}
 	}
 }
 

@@ -26,6 +26,11 @@ namespace Gear
 			delete statModels.at(i);
 		}
 
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			delete debuggers[i];
+		}
+
 	}
 
 	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
@@ -69,12 +74,13 @@ namespace Gear
 		this->statModels.push_back(model);
 	}
 
-	void GearEngine::bindTransforms(float** pos, int** indices, int* n, glm::vec3* lookAts)
+	void GearEngine::bindTransforms(float** pos, bool** actives, int* n, glm::vec3* lookAts, TransformStruct** theTrans)
 	{
 		transformArray = pos;
-		transformIndexArray = indices;
+		transformActiveArray = actives;
 		transformCount = n;
 		transformLookAts = lookAts;
+		allTrans = theTrans;
 	}
 
 	void GearEngine::addModelInstance(ModelAsset* asset)
@@ -110,12 +116,14 @@ namespace Gear
 	void GearEngine::draw(Camera* camera)
 	{
 		float* pt = transformArray ? (*transformArray) : nullptr;
-		int* pti = transformIndexArray ? (*transformIndexArray) : nullptr;
-		queue.update(pt, pti, *transformCount, transformLookAts);
+		//int* pti = transformIndexArray ? (*transformIndexArray) : nullptr;
+		queue.update(*transformActiveArray, *transformCount, *allTrans);
 		queue.updateUniforms(camera);
 
 		queue.forwardPass(staticModels, dynamicModels);
 		queue.particlePass(particleSystems);
+
+		updateDebug(camera);
 
 		//--TEMP---
 		for (size_t i = 0; i < statModels.size(); i++)
@@ -145,5 +153,19 @@ namespace Gear
 	int GearEngine::generateWorldMatrix()
 	{
 		return queue.generateWorldMatrix();
+	}
+
+	void GearEngine::updateDebug(Camera* camera) {
+		ShaderProgram* tempProgram;
+		
+		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
+		}
+	}
+
+	void GearEngine::addDebugger(Debug* debugger) {
+		this->debuggers.push_back(debugger);
 	}
 }
