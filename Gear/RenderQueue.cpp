@@ -26,6 +26,7 @@ RenderQueue::~RenderQueue()
 void RenderQueue::init()
 {
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
+	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forwardAnim");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
 	allShaders[ShaderType::DEBUG] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "debug");
@@ -53,7 +54,6 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
 	allShaders[PARTICLES]->unUse();
-	
 }
 
 void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
