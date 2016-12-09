@@ -9,7 +9,8 @@
 struct sTextVertex
 {
 	glm::vec2 pos;
-	glm::vec2 tex;
+	glm::vec4 UV;
+	uint8_t width;
 };
 
 class TextRenderer
@@ -21,6 +22,8 @@ public:
 	void setFont(Importer::FontAsset* font);
 
 	void createQuads(std::string s, float baseX, float baseY);
+
+	void drawAllText();
 
 private:
 	Importer::FontAsset* font;

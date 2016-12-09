@@ -123,6 +123,11 @@
     <None Include="Scripts\player.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="text.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="text.geom" />
+    <None Include="text.frag" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
