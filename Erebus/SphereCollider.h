@@ -7,6 +7,8 @@ public:
 	SphereCollider();
 	SphereCollider(unsigned int ID, int IDTransform, glm::vec3 pos, float radius);
 	SphereCollider(unsigned int ID, unsigned int IDTransform,float x, float y, float z, float radius);
+	SphereCollider(int IDTransform, glm::vec3 pos, float radius);
+	SphereCollider(unsigned int IDTransform, float x, float y, float z, float radius);
 	SphereCollider(unsigned int IDTransform);
 	~SphereCollider();
 	bool sphereToSphereCollision(const SphereCollider * sphere);
