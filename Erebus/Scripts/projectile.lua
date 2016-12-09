@@ -1,10 +1,6 @@
 local PROJECTILE_LIFETIME = 2
-local projectile = {}
-projectile.transformID = Transform.Bind()
-projectile.position = {x=0, y=0, z=0}
-projectile.direction = {x=0, y=0, z=0}
+local projectile  = dofile( "Scripts/basespell.lua" )
 projectile.speed = 100
-projectile.alive = false
 projectile.lifeTime = PROJECTILE_LIFETIME
 
 local projectileModel = Assets.LoadModel( "Models/molerat.model" )
@@ -14,29 +10,16 @@ function projectile:Cast()
 	self.position = Transform.GetPosition(player.transformID)
 	self.direction = Transform.GetLookAt(player.transformID)
 
+	self.velocity.x = self.direction.x * self.speed
+	self.velocity.y = self.direction.y * self.speed
+	self.velocity.z = self.direction.z * self.speed
 	self.alive = true
 	self.lifeTime = PROJECTILE_LIFETIME
 	Transform.SetPosition(self.transformID, self.position)
 end
 
-function projectile:AddPosition(dt)
-	self.position.x = self.position.x + ( self.direction.x * self.speed ) * dt
-	self.position.y = self.position.y + ( self.direction.y * self.speed ) * dt
-	self.position.z = self.position.z + ( self.direction.z * self.speed ) * dt
-end
-
-function projectile:Kill()
-	self.alive = false
-	self.position.x = 0
-	self.position.y = 0
-	self.position.z = 0
-	Transform.SetPosition(self.transformID, self.position)
-end
 
 function projectile:Update(dt)
-	if not self.alive then return end
-
-	self:AddPosition(dt)
 
 	local height = heightmap:GetHeight(self.position.x, self.position.z)
 	if self.position.y <= height then
@@ -48,7 +31,6 @@ function projectile:Update(dt)
 		self:Kill()
 	end
 
-	Transform.SetPosition(self.transformID, self.position)
 end
 
 return projectile

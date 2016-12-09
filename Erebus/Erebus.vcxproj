@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\arc.lua" />
+    <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\main.lua" />

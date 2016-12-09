@@ -71,7 +71,7 @@ function UpdatePlayer(dt)
 
 	-- update the current player spell
 	for i=1, #player.spells do 
-		player.spells[i]:Update(dt)
+		player.spells[i]:BaseUpdate(dt)
 	end
 end
 
