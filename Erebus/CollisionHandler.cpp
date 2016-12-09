@@ -75,6 +75,33 @@ void CollisionHandler::checkCollisions()
 	this->checkAabbToAaabbCollisions();
 
 	this->checkSphereToAabbCollisions();
+
+	// ----------------------------------------------------
+	std::vector<int> layerCollisionVector;
+	std::vector<SphereCollider*>* tempSphereColliders = nullptr;
+	std::vector<AABBCollider*>* tempAABBColliders = nullptr;
+
+	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++)
+	{
+		layerCollisionVector = this->collisionLayers->getUncheckedLayerCollisions(i);
+
+		std::cout << "Layer " << i << "collides with layers: ";
+		for (size_t k = 0; k < layerCollisionVector.size(); k++)
+		{
+			std::cout << " " << layerCollisionVector[k] << " ";
+		}
+		std::cout << std::endl;
+
+		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
+		tempAABBColliders = this->collisionLayers->getAABBColliders(i);
+		for (unsigned int j = 0; j < layerCollisionVector.size(); j++)
+		{
+			this->collisionLayers->checkLayer(i,layerCollisionVector[j]);
+		}
+
+	}
+
+	this->collisionLayers->resetCollisionCheckedMatrix();
 	
 
 

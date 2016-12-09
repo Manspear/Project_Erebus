@@ -20,6 +20,9 @@ public:
 	void resetCollisionCheckedMatrix();
 
 	std::vector<int> getLayerCollisions(int layer); //return a vector with all the layers that this layer will collide with
+	std::vector<int> getUncheckedLayerCollisions(int layer); // returns a vector with all the layers that this layer have not yet collided with
+
+	unsigned int getLayerMatrixSize();
 
 private:
 	bool** layerMatrix; // which layers may collide with each other

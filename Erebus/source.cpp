@@ -55,6 +55,20 @@ int main()
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms( transforms );
+	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 1.0f);
+	SphereCollider sphere2 = SphereCollider(-1, glm::vec3(3,0,0),1.0f);
+	SphereCollider sphere3 = SphereCollider(-1,glm::vec3(4,0,0), 1.0f);
+	SphereCollider sphere4 = SphereCollider(-1,glm::vec3(6,0,0),1.0f);
+	SphereCollider sphere5 = SphereCollider(-1,glm::vec3(6,1,0),1.0f);
+	SphereCollider sphere6 = SphereCollider(-1,glm::vec3(8,0,0), 1.0f);
+	SphereCollider sphere7 = SphereCollider(-1,glm::vec3(9,0,0),1.0f);
+	collisionHandler.addHitbox(&sphere1,0);
+	collisionHandler.addHitbox(&sphere2,0);
+	collisionHandler.addHitbox(&sphere3,1);
+	collisionHandler.addHitbox(&sphere4,1);
+	collisionHandler.addHitbox(&sphere5,2);
+	collisionHandler.addHitbox(&sphere6,2);
+	collisionHandler.addHitbox(&sphere7,3);
 
 	glEnable( GL_DEPTH_TEST );
 	

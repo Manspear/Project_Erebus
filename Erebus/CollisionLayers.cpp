@@ -83,6 +83,7 @@ bool CollisionLayers::isLayerChecked(int layer1, int layer2)
 void CollisionLayers::checkLayer(int layer1, int layer2)
 {
 	this->collisionCheckedMatrix[layer1][layer2] = true;
+	this->collisionCheckedMatrix[layer2][layer1] = true;
 }
 
 void CollisionLayers::resetCollisionCheckedMatrix() // set all old collisions to false
@@ -112,4 +113,28 @@ std::vector<int> CollisionLayers::getLayerCollisions(int layer)
 	}
 
 	return layerCollisions;
+}
+
+std::vector<int> CollisionLayers::getUncheckedLayerCollisions(int layer)
+{
+	std::vector<int> layerCollisions;
+
+	for (unsigned int i = 0; i < this->layerMatrixSize; i++)
+	{
+		bool derrr = false;
+		derrr = this->layerMatrix[layer][i];
+		derrr = this->collisionCheckedMatrix[layer][i];
+		if (this->layerMatrix[layer][i] == true && this->collisionCheckedMatrix[layer][i] == false) // if the layermatrix says that these two layers should collide AND it is not checked add it to vector
+		{
+			layerCollisions.push_back(i);
+		}
+
+	}
+
+	return layerCollisions;
+}
+
+unsigned int CollisionLayers::getLayerMatrixSize()
+{
+	return this->layerMatrixSize;
 }
