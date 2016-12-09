@@ -7,8 +7,7 @@
 #include "Inputs.h"
 #include "staticNonModels.h"
 //Temp
-
-
+#include "Material.h"
 namespace Gear
 {
 

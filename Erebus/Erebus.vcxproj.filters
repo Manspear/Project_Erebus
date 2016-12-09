@@ -16,21 +16,11 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AABBCollider.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="AABBSquareCollider.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionHandler.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Colission</Filter>
-    </ClCompile>
+    <ClCompile Include="AABBSquareCollider.cpp" />
+    <ClCompile Include="AABBCollider.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="HitBox.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">

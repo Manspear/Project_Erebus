@@ -13,6 +13,8 @@ namespace Gear
 		//renderQueue.init();
 		queue.init();
 
+		
+
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
@@ -26,7 +28,8 @@ namespace Gear
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
 
-		
+		Material m;
+		m.bindTextures(quadShader);
 
 		Lights::PointLight light;
 
@@ -193,7 +196,7 @@ namespace Gear
 		lightPass(camera);
 
 		//--TEMP---
-	/*	for (size_t i = 0; i < statModels.size(); i++)
+		for (size_t i = 0; i < statModels.size(); i++)
 		{
 			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
 			tempProgram->use();
@@ -201,9 +204,10 @@ namespace Gear
 			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
 			tempProgram->addUniform(camera->getPosition(), "viewPos");
 			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
+
 			statModels.at(i)->draw();
 			tempProgram->unUse();
-		}*/
+		}
 		//---------
 
 		//Clear lists

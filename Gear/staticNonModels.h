@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "ShaderProgram.h"
+#include "TextureAsset.h"
 class staticNonModels {
 	GLuint VBO, iVBO;
 	int nrDiffValues;

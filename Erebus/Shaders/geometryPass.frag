@@ -9,6 +9,17 @@ in vec3 FragPos;
 in vec3 Normal;
 
 uniform sampler2D diffuseTexture;
+uniform sampler2D specularTexture;
+uniform sampler2D normalTexture;
+
+uniform int hasDiffuse;
+uniform int hasSpecular;
+uniform int hasNormal;
+
+uniform vec3 ambientColor;
+uniform vec3 diffuseColor;
+uniform vec3 specularColor;
+
 void main (){
 	//Store the fragment position vector in the first gbuffer texture
     gPosition = FragPos;
