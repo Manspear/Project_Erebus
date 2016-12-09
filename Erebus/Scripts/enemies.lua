@@ -10,7 +10,9 @@ function LoadEnemies()
 
 		enemies[i].Hurt = function(self,damage)
 			self.health = self.health - damage
-			-- play hurt animation here?
+			if self.health <= 0 then
+				Transform.ActiveControl(self.transformID,false)
+			end
 		end
 
 		Transform.SetPosition(enemies[i].transformID, {x = math.random(10, 255), y = math.random(15, 30), z = math.random(10, 245)})
