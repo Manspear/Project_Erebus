@@ -41,6 +41,8 @@ namespace Gear
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();
+
+		GEAR_API void setFont(FontAsset* font);
 		//----------------------
 
 	private:

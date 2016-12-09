@@ -84,6 +84,11 @@ namespace Gear
 		allTrans = theTrans;
 	}
 
+	void GearEngine::setFont(FontAsset* font)
+	{
+		text.setFont(font);
+	}
+
 	void GearEngine::addModelInstance(ModelAsset* asset)
 	{
 		queue.addModelInstance(asset);
@@ -144,6 +149,8 @@ namespace Gear
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
+
+		text.createQuads("test", 5.f, 5.f);
 	}
 
 	void GearEngine::allocateWorlds(int n)
