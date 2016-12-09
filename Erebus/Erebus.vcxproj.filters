@@ -123,6 +123,9 @@
     <None Include="Scripts\player.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\projectile.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

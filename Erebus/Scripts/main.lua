@@ -2,8 +2,8 @@ local scripts = {}
 local scriptFiles = 
 {
 	"Scripts/player.lua",
-	"Scripts/enemies.lua",
-	"Scripts/bullets.lua"
+	"Scripts/enemies.lua"--,
+	--"Scripts/bullets.lua"
 }
 
 function Load()
