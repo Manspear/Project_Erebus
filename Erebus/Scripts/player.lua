@@ -13,7 +13,7 @@ function LoadPlayer()
 	-- set spells for player
 	player.spells = {}
 	player.spells[1] = dofile( "Scripts/projectile.lua" )
-	--player.spells[2] = dofile( "Scripts/arc.lua" )
+	player.spells[2] = dofile( "Scripts/arc.lua" )
 	player.currentSpell = player.spells[1]
 
 	-- add a sphere collider to the player
@@ -28,7 +28,6 @@ function LoadPlayer()
 
 	Erebus.SetControls(player.transformID)
 	
-	player.arcSpell = dofile("Scripts/arc.lua")
 end
 
 function UnloadPlayer()
@@ -51,10 +50,9 @@ function UpdatePlayer(dt)
 	if Controls[Keys.Tab] then print("Tab pressed") end
 	if Controls[Keys.LMB] then
 		player.currentSpell:Cast()
-		player.arcSpell:Cast(position, direction)
 	end
-	if Controls[Keys.One] then player.currentSpell = player.spells[1] end
-	if Controls[Keys.Two] then player.currentSpell = player.spells[2] end
+	if Controls[Keys.One] then player.currentSpell = player.spells[1] print("change") end
+	if Controls[Keys.Two] then player.currentSpell = player.spells[2] print("change") end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
@@ -72,7 +70,9 @@ function UpdatePlayer(dt)
 	Transform.SetPosition(player.transformID, position)
 
 	-- update the current player spell
-	player.currentSpell:Update(dt)
+	for i=1, #player.spells do 
+		player.spells[i]:Update(dt)
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

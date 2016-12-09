@@ -20,11 +20,9 @@ function arc:UpdatePosition(dt)
 	self.position.y = self.position.y + (self.direction.y * dt)
 end
 
-function arc:Cast(position, direction)
-	print("Casting arc!")
-	self.position = position
-	self.direction.x = direction.x
-	self.direction.z = direction.z
+function arc:Cast()
+	self.position = Transform.GetPosition(player.transformID)
+	self.direction = Transform.GetLookAt(player.transformID)
 	self.direction.y = self.upSpeed
 	self.alive = true
 	self.lifeTime = ARC_LIFETIME
