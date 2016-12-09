@@ -10,14 +10,14 @@ out vec3 Normal;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
-uniform mat4 worldMatrices;
+uniform mat4 worldMatrix;
 
 void main(){
-	gl_Position = projectionMatrix * viewMatrix * worldMatrices * vec4(position,1.0);
+	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(position,1.0);
 	
-	FragPos = (worldMatrices * vec4(position,1.0)).xyz;
+	FragPos = (worldMatrix * vec4(position,1.0)).xyz;
 	TexCoords = texCoords;
 
-	mat3 normalMatrix = transpose(inverse(mat3(worldMatrices)));
+	mat3 normalMatrix = transpose(inverse(mat3(worldMatrix)));
     Normal = normalMatrix * normal;
 }

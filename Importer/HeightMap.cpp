@@ -134,7 +134,7 @@ staticNonModels* HeightMap::getStaticNonModel() {
 	int* dataSizes = new int[2];
 	dataSizes[0] = 3;
 	dataSizes[1] = 2;
-	staticNonModels* model = new staticNonModels(this->VBO, this->iVBO, 2, dataSizes, 5, iVBOsize / sizeof(unsigned int), ShaderType::GEOMETRY,&this->worldMatrix);
+	staticNonModels* model = new staticNonModels(this->VBO, this->iVBO, 2, dataSizes, 5, iVBOsize / sizeof(unsigned int), ShaderType::GEOMETRY_NON,&this->worldMatrix);
 	//delete dataSizes;
 	return model;
 }

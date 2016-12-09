@@ -31,27 +31,7 @@ Material::~Material()
 
 void Material::bindTextures(ShaderProgram * program)
 {
-	if (program->getProgramID() != lastProgram)
-	{
-		lastProgram = program->getProgramID();
-
-		hasDiffuseUnifrom = glGetUniformLocation(lastProgram, "hasDiffuse");
-		hasSpecularUnifrom = glGetUniformLocation(lastProgram, "hasSpecular");
-		hasNormalUnifrom = glGetUniformLocation(lastProgram, "hasNormal");
-
-		diffuseUnifrom = glGetUniformLocation(lastProgram, "diffuseTexture");
-		specularUnifrom = glGetUniformLocation(lastProgram, "specularTexture");
-		normalUnifrom = glGetUniformLocation(lastProgram, "normalTexture");
-
-		ambientColorUnifrom = glGetUniformLocation(lastProgram, "ambientColor");
-		diffuseColorUnifrom = glGetUniformLocation(lastProgram, "diffuseColor");
-		specularColorUnifrom = glGetUniformLocation(lastProgram, "specularColor");
-		shinyFactorUniform = glGetUniformLocation(lastProgram, "shinyFactor");
-	}
-
-	glUniform3fv(ambientColorUnifrom, 1, glm::value_ptr(ambientColor));
-	glUniform3fv(diffuseColorUnifrom, 1, glm::value_ptr(diffuseColor));
-	glUniform3fv(specularColorUnifrom, 1, glm::value_ptr(specularColor));
+	getUnifroms(program);
 
 	if (diffuseTextureFilePath != "")
 	{
@@ -84,4 +64,34 @@ void Material::bindTextures(ShaderProgram * program)
 	}
 	else
 		glUniform1i(hasNormalUnifrom, 0);
+}
+
+void Material::bindMaterial(ShaderProgram * program)
+{
+	getUnifroms(program);
+
+	glUniform3fv(ambientColorUnifrom, 1, glm::value_ptr(ambientColor));
+	glUniform3fv(diffuseColorUnifrom, 1, glm::value_ptr(diffuseColor));
+	glUniform3fv(specularColorUnifrom, 1, glm::value_ptr(specularColor));
+}
+
+void Material::getUnifroms(ShaderProgram * program)
+{
+	if (program->getProgramID() != lastProgram)
+	{
+		lastProgram = program->getProgramID();
+
+		hasDiffuseUnifrom = glGetUniformLocation(lastProgram, "hasDiffuse");
+		hasSpecularUnifrom = glGetUniformLocation(lastProgram, "hasSpecular");
+		hasNormalUnifrom = glGetUniformLocation(lastProgram, "hasNormal");
+
+		diffuseUnifrom = glGetUniformLocation(lastProgram, "diffuseTexture");
+		specularUnifrom = glGetUniformLocation(lastProgram, "specularTexture");
+		normalUnifrom = glGetUniformLocation(lastProgram, "normalTexture");
+
+		ambientColorUnifrom = glGetUniformLocation(lastProgram, "ambientColor");
+		diffuseColorUnifrom = glGetUniformLocation(lastProgram, "diffuseColor");
+		specularColorUnifrom = glGetUniformLocation(lastProgram, "specularColor");
+		shinyFactorUniform = glGetUniformLocation(lastProgram, "shinyFactor");
+	}
 }

@@ -11,6 +11,7 @@ public:
 	~Material();
 
 	void bindTextures(ShaderProgram* program);
+	void bindMaterial(ShaderProgram* program);
 private:
 	float shinyFactor;
 
@@ -29,4 +30,6 @@ private:
 	GLuint diffuseUnifrom, specularUnifrom, normalUnifrom, hasDiffuseUnifrom, hasSpecularUnifrom, hasNormalUnifrom;
 	GLuint ambientColorUnifrom, diffuseColorUnifrom, specularColorUnifrom, shinyFactorUniform;
 	GLuint lastProgram = -1;
+
+	void getUnifroms(ShaderProgram* program);
 };

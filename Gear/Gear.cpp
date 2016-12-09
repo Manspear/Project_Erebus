@@ -191,12 +191,9 @@ namespace Gear
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(staticModels, dynamicModels);
-		gBuffer.unUse();
-
-		lightPass(camera);
 
 		//--TEMP---
-		for (size_t i = 0; i < statModels.size(); i++)
+		/*for (size_t i = 0; i < statModels.size(); i++)
 		{
 			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
 			tempProgram->use();
@@ -207,8 +204,14 @@ namespace Gear
 
 			statModels.at(i)->draw();
 			tempProgram->unUse();
-		}
+		}*/
 		//---------
+
+		gBuffer.unUse();
+
+		lightPass(camera);
+
+		
 
 		//Clear lists
 		staticModels = &defaultModelList;
