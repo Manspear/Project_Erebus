@@ -24,7 +24,7 @@ end
 
 function UpdatePlayer(dt)
 	forward, left = 0, 0
-
+	player.testCamera = false
 	if Controls[Keys.W] then forward = player.moveSpeed end
 	if Controls[Keys.S] then forward = -player.moveSpeed end
 	if Controls[Keys.A] then left = player.moveSpeed end
@@ -33,8 +33,10 @@ function UpdatePlayer(dt)
 		player.verticalSpeed = 0.5
 		player.canJump = false
 	end
-	if Controls[Keys.Tab] then print("Pressing Tab") end
-	if Controls[Keys.LMB] then Shoot(player.transformID) end
+	if Controls[Keys.Tab] then  end
+	if Controls[Keys.LMB] then  Shoot(player.transformID) 
+								player.testCamera = true
+	end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 

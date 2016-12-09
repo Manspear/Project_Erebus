@@ -78,7 +78,7 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models );
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
 
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())
@@ -89,23 +89,24 @@ int main()
 		controls.update( &inputs );
 		 
 		luaBinds.update( &controls, deltaTime );
-
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
+		//glm::vec3 dir = glm::normalize(controls.getControl()->getLookAt());
+		//float angle = asinf(dir.y);
+		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 
 		for (int i = 0; i < boundTransforms; i++) 
 		{
 			glm::vec3 pos = transforms[i].getPos();
 			glm::vec3 rot = transforms[i].getRotation();
 			glm::vec3 scale = transforms[i].getScale();
-			transformData[i*9] = pos.x;
-			transformData[i*9 + 1] = pos.y;
-			transformData[i*9 + 2] = pos.z;
-			transformData[i*9 + 3] = rot.x;
-			transformData[i*9 + 4] = rot.y;
-			transformData[i*9 + 5] = rot.z;
-			transformData[i*9 + 6] = scale.x;
-			transformData[i*9 + 7] = scale.y;
-			transformData[i*9 + 8] = scale.z;
+			transformData[i * 9] = pos.x;
+			transformData[i * 9 + 1] = pos.y;
+			transformData[i * 9 + 2] = pos.z;
+			transformData[i * 9 + 3] = rot.x;
+			transformData[i * 9 + 4] = rot.y;
+			transformData[i * 9 + 5] = rot.z;
+			transformData[i * 9 + 6] = scale.x;
+			transformData[i * 9 + 7] = scale.y;
+			transformData[i * 9 + 8] = scale.z;
 
 			lookAts[i] = transforms[i].getLookAt();
 		}

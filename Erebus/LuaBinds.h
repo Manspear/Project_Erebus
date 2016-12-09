@@ -10,6 +10,7 @@
 #include "LuaGear.h"
 #include "LuaParticles.h"
 #include "LuaTransform.h"
+#include "LuaCamera.h"
 
 class LuaBinds
 {
@@ -23,7 +24,8 @@ public:
 				Controls* controls,
 				Transform* transforms,
 				int* boundTransforms,
-				std::vector<ModelInstance>* models );
+				std::vector<ModelInstance>* models,
+				Camera* camera);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 

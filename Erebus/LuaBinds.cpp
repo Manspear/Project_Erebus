@@ -18,7 +18,8 @@ void LuaBinds::load( GearEngine* gearEngine,
 					Controls* controls,
 					Transform* transforms,
 					int* boundTransforms,
-					std::vector<ModelInstance>* models )
+					std::vector<ModelInstance>* models,
+					Camera* camera )
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
@@ -30,6 +31,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms );
 	LuaControls::registerFunctions( lua );
 	LuaParticles::registerFunctions( lua );
+	LuaCamera::registerFunctions(lua, camera, transforms);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;

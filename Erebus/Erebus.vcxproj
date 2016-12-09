@@ -157,6 +157,7 @@
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
+    <ClCompile Include="LuaCamera.cpp" />
     <ClCompile Include="LuaCollision.cpp" />
     <ClCompile Include="LuaControls.cpp" />
     <ClCompile Include="LuaErebus.cpp" />
@@ -181,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua" />
+    <None Include="Scripts\camera.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\player.lua" />
@@ -200,18 +202,19 @@
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LuaAssets.h" />
+    <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />
     <ClInclude Include="LuaControls.h" />
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaParticles.h" />
     <ClInclude Include="LuaTransform.h" />
-    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
     <ClInclude Include="PerformanceCounter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

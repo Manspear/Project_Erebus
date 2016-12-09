@@ -173,7 +173,7 @@ void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
 		glm::vec3 tempLook = glm::normalize(glm::vec3(lookAts[i].x, 0, lookAts[i].z));
 		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
-		glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[rotIndexZ], axis);
+		//glm::mat4 rotationZ = glm::rotate(glm::mat4(), pos[rotIndexZ], axis);
 		glm::mat4 rotationY = glm::rotate(glm::mat4(), pos[rotIndexY], { 0, 1, 0 });
 
 		worldMatrices[i] = glm::mat4();
@@ -182,7 +182,7 @@ void RenderQueue::update(float * pos, int * indices, int n, glm::vec3* lookAts)
 		worldMatrices[i][1][1] = pos[index + 7];
 		worldMatrices[i][2][2] = pos[index + 8];
 
-		worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
+		worldMatrices[i] = /*rotationZ */ rotationY * worldMatrices[i];
 
 
 		worldMatrices[i][3][0] = pos[index];

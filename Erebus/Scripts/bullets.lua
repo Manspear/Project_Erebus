@@ -8,7 +8,7 @@ function LoadBullets()
 		bullets[i] = {}
 		bullets[i].transformID = Transform.Bind()
 		bullets[i].movementSpeed = 100
-		bullets[i].lifeLeft = 10
+		bullets[i].lifeLeft = 2
 		bullets[i].alive = false
 
 		bullets[i].sphereCollider = SphereCollider.Create(bullets[i].transformID)
@@ -29,6 +29,12 @@ function UpdateBullets(dt)
 		bullets[i].lifeLeft = bullets[i].lifeLeft - dt
 
 		if bullets[i].alive then
+			pos = Transform.GetPosition(bullets[i].transformID)
+			
+			if pos.y < heightmap:GetHeight(pos.x,pos.z) then
+				bullets[i].alive = false
+				activeBullets = activeBullets - 1
+			end
 			if bullets[i].lifeLeft < 0 then
 				bullets[i].alive = false
 				activeBullets = activeBullets - 1
@@ -44,7 +50,7 @@ end
 function Shoot(playerTransformID)
 	if activeBullets < MAX_BULLETS then
 		bullets[bulletIndex].alive = true
-		bullets[bulletIndex].lifeLeft = 5
+		bullets[bulletIndex].lifeLeft = 2
 		Transform.Shoot(bullets[bulletIndex].transformID, playerTransformID)
 
 		bulletIndex = ( bulletIndex % MAX_BULLETS ) + 1
