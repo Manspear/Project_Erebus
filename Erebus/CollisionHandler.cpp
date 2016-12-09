@@ -102,6 +102,7 @@ void CollisionHandler::checkCollisions()
 	}
 
 	this->collisionLayers->resetCollisionCheckedMatrix();
+	bool derpppp = this->collisionLayers->deleteHitbox(0);
 	
 
 

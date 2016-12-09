@@ -97,6 +97,49 @@ void CollisionLayers::resetCollisionCheckedMatrix() // set all old collisions to
 	}
 }
 
+bool CollisionLayers::deleteHitbox(unsigned int ID)
+{
+	bool deleted = false;
+
+	for (unsigned int i = 0; i < this->sphereColliders.size(); i++) //check if it is a sphere collider and delete
+	{
+		for (unsigned int j = 0; j < this->sphereColliders[i].size(); j++)
+		{
+			if (this->sphereColliders[i][j]->getID() == ID)
+			{
+				this->sphereColliders[i].erase(this->sphereColliders[i].begin() + j);
+				deleted = true;
+				j = this->sphereColliders[i].size(); // end loop
+			}
+		}
+		if (deleted)
+			i = this->sphereColliders[i].size();
+
+	}
+
+	if (!deleted)
+	{
+		for (unsigned int i = 0; i < this->aabbColliders.size(); i++) //check if it is a AABB collider and delete
+		{
+			for (unsigned int j = 0; j < this->aabbColliders[i].size(); j++)
+			{
+				if (this->aabbColliders[i][j]->getID() == ID)
+				{
+					this->aabbColliders[i].erase(this->aabbColliders[i].begin() + j);
+					deleted = true;
+					j = this->aabbColliders[i].size();
+				}
+
+			}
+			if (deleted)
+				i = this->aabbColliders[i].size();
+
+		}
+	}
+
+	return deleted;
+}
+
 std::vector<int> CollisionLayers::getLayerCollisions(int layer)
 {
 	std::vector<int> layerCollisions;
