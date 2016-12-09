@@ -15,6 +15,8 @@ namespace Importer
 		uint8_t paddingx, paddingy;
 		uint8_t shadowx, shadowy;
 		uint8_t widths[FONT_RANGE];
+		uint16_t xoffsets[FONT_RANGE];
+		uint16_t yoffsets[FONT_RANGE];
 	};
 
 	class FontAsset : public Asset
@@ -25,6 +27,10 @@ namespace Importer
 
 		IMPORTER_API bool load( std::string path, Assets* assets ) override;
 		IMPORTER_API void unload() override;
+
+		IMPORTER_API int getWidth( char c );
+		IMPORTER_API glm::vec2 getUV( char c );
+		IMPORTER_API glm::vec2 getOffset( char c );
 
 		IMPORTER_API FontInfo* getInfo();
 		IMPORTER_API TextureAsset* getTexture();

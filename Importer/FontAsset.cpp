@@ -63,6 +63,22 @@ namespace Importer
 		}
 	}
 
+	int FontAsset::getWidth( char c )
+	{
+		return info.widths[c] + info.paddingx + info.shadowx;
+	}
+
+	glm::vec2 FontAsset::getUV( char c )
+	{
+		glm::vec2 offset = getOffset( c );
+		return glm::vec2( offset.x / texture->getWidth(), offset.y / texture->getHeight() );
+	}
+
+	glm::vec2 FontAsset::getOffset( char c )
+	{
+		return glm::vec2( info.xoffsets[c], info.yoffsets[c] );
+	}
+
 	FontInfo* FontAsset::getInfo()
 	{
 		return &info;

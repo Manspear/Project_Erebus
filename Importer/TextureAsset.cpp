@@ -47,4 +47,14 @@ namespace Importer
 		glActiveTexture( position );
 		glBindTexture( GL_TEXTURE_2D, id );
 	}
+
+	int TextureAsset::getWidth()
+	{
+		return width;
+	}
+
+	int TextureAsset::getHeight()
+	{
+		return height;
+	}
 }
