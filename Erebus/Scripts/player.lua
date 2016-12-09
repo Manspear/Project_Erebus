@@ -18,7 +18,9 @@ function LoadPlayer()
 
 	Erebus.SetControls(player.transformID)
 
+	
 	player.projectileSpell = dofile("Scripts/projectile.lua")
+	player.arcSpell = dofile("Scripts/arc.lua")
 end
 
 function UnloadPlayer()
@@ -41,7 +43,8 @@ function UpdatePlayer(dt)
 	if Controls[Keys.Tab] then print("Tab pressed") end
 	--if Controls[Keys.LMB] then Shoot(player.transformID) end
 	if Controls[Keys.LMB] then
-		player.projectileSpell:Cast(position, direction)
+		--player.projectileSpell:Cast(position, direction)
+		player.arcSpell:Cast(position, direction)
 	end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
@@ -60,6 +63,7 @@ function UpdatePlayer(dt)
 	Transform.SetPosition(player.transformID, position)
 
 	player.projectileSpell:Update(dt)
+	player.arcSpell:Update(dt)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
