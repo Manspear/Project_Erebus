@@ -27,7 +27,7 @@ namespace Gear
 		GEAR_API void addDebugger(Debug* debugger);
 
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(float** transforms, bool** actives, int* n, glm::vec3* lookAts, TransformStruct** theTrans);
+		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
 

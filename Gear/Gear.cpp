@@ -74,12 +74,9 @@ namespace Gear
 		this->statModels.push_back(model);
 	}
 
-	void GearEngine::bindTransforms(float** pos, bool** actives, int* n, glm::vec3* lookAts, TransformStruct** theTrans)
+	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n )
 	{
-		transformArray = pos;
-		transformActiveArray = actives;
 		transformCount = n;
-		transformLookAts = lookAts;
 		allTrans = theTrans;
 	}
 
@@ -115,9 +112,7 @@ namespace Gear
 
 	void GearEngine::draw(Camera* camera)
 	{
-		float* pt = transformArray ? (*transformArray) : nullptr;
-		//int* pti = transformIndexArray ? (*transformIndexArray) : nullptr;
-		queue.update(*transformActiveArray, *transformCount, *allTrans);
+		queue.update(*transformCount, *allTrans);
 		queue.updateUniforms(camera);
 
 		queue.forwardPass(staticModels, dynamicModels);

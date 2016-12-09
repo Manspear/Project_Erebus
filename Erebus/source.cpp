@@ -39,8 +39,10 @@ int main()
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
+	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
+	for (int i = 0; i < nrOfTransforms; i++)
+		transforms[i].setThePtr(&allTransforms[i]);
 	Controls controls;
-
 	Window window;
 	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
@@ -68,46 +70,22 @@ int main()
 	int frameCounter = 0;
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	float* transformData = new float[6 * nrOfTransforms];
-	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
-	bool* activeTransforms = new bool[nrOfTransforms];
-	for (int i = 0; i < nrOfTransforms; i++)
-		activeTransforms[i] = true;
-	glm::vec3* lookAts = new glm::vec3[nrOfTransforms];
-	engine.bindTransforms(&transformData, &activeTransforms, &boundTransforms, lookAts, &allTransforms);
+	engine.bindTransforms(&allTransforms, &boundTransforms);
 	if (networkActive)
 	{
 		networkThread = std::thread(startNetworkCommunication, &window );
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, activeTransforms, &models );
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models );
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.update( &inputs );
-		tempDebug->drawLine(glm::vec3(0, 10, 0), glm::vec3(100, 10, 100));
+		controls.update(&inputs);
 		luaBinds.update( &controls, deltaTime );
 		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
-		for (int i = 0; i < boundTransforms; i++) 
-		{
-			glm::vec3 pos = transforms[i].getPos();
-			glm::vec3 rot = transforms[i].getRotation();
-			glm::vec3 scale = transforms[i].getScale();
-			
-			allTransforms[i].posX = pos.x;
-			allTransforms[i].posY = pos.y;
-			allTransforms[i].posZ = pos.z;
-			allTransforms[i].rotX = rot.x;
-			allTransforms[i].rotY = rot.y;
-			allTransforms[i].rotZ = rot.z;
-			allTransforms[i].scaleX	= scale.x;
-			allTransforms[i].scaleY	= scale.y;
-			allTransforms[i].scaleZ = scale.z;
-			allTransforms[i].lookAt = transforms[i].getLookAt();
-		}
 		engine.draw(&camera, &models);
 		window.update();	
 		engine.queueDynamicModels(&models);
@@ -133,9 +111,6 @@ int main()
 	luaBinds.unload();
 	delete[] allTransforms;
 	delete[] transforms;
-	delete[] transformData;
-	delete[] lookAts;
-	delete[] activeTransforms;
 	if (networkActive)
 	{
 		networkThread.join();

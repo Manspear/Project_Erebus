@@ -8,11 +8,10 @@ namespace LuaTransform
 	static Transform* g_transforms = nullptr;
 	static int* g_boundTransforms = nullptr;
 	static bool* g_activeTransforms = nullptr;
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, bool* activeTrasforms )
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms)
 	{
 		g_transforms = transforms;
 		g_boundTransforms = boundTransforms;
-		g_activeTransforms = activeTrasforms;
 
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
@@ -123,8 +122,7 @@ namespace LuaTransform
 			int b = lua_tointeger( lua, 2 );
 
 			g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
-			g_transforms[a].setPos( g_transforms[b].getPos() );
-			g_activeTransforms[a] = true;
+			g_transforms[a].setPos(g_transforms[b].getPos());
 		}
 
 		return 0;
@@ -137,7 +135,7 @@ namespace LuaTransform
 			int a = lua_tointeger(lua, 1);
 			bool active = lua_toboolean(lua, 2);
 
-			g_activeTransforms[a] = active;
+			g_transforms->setActive( active);
 		}
 		return 0;
 	}
