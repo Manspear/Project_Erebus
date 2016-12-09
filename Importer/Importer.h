@@ -40,6 +40,7 @@ namespace Importer
 	struct hAnimationState
 	{
 		int keyCount;
+		int keyOffset;
 	};
 
 	struct hModel
@@ -84,13 +85,13 @@ namespace Importer
 	struct sSkeletonVertex
 	{
 		float position[3], normal[3], UV[2], tangent[3];
-		float influences[4];
+		int influences[4];
 		float weights[4];
 	};
 
 	struct sBBox
 	{
-		float position[8*3];
+		float position[24];
 		sHierarchy parent;
 		sJointChild jointParent;
 		sMeshChild meshParent;
@@ -102,9 +103,11 @@ namespace Importer
 		float globalBindposeInverse[16];
 
 		int animationStateCount;
+		int animationStateOffset;
 	};
 	struct hSkeleton
 	{
 		int jointCount;
+		int jointOffset;
 	};
 };
