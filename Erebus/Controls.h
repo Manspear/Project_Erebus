@@ -5,7 +5,7 @@
 #include <lua\lua.hpp>
 
 
-#define CONTROLS_MAX_KEYS 8
+#define CONTROLS_MAX_KEYS 12
 
 class Controls
 {

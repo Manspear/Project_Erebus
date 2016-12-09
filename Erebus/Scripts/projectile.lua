@@ -10,9 +10,10 @@ projectile.lifeTime = PROJECTILE_LIFETIME
 local projectileModel = Assets.LoadModel( "Models/molerat.model" )
 Gear.AddModelInstance(projectileModel, projectile.transformID)
 
-function projectile:Cast(position, direction)
-	self.position = position
-	self.direction = direction
+function projectile:Cast()
+	self.position = Transform.GetPosition(player.transformID)
+	self.direction = Transform.GetLookAt(player.transformID)
+
 	self.alive = true
 	self.lifeTime = PROJECTILE_LIFETIME
 	Transform.SetPosition(self.transformID, self.position)
