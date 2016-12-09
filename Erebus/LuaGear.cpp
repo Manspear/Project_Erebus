@@ -50,9 +50,12 @@ namespace LuaGear
 			{
 				ModelInstance instance;
 				instance.asset = asset;
+				//TEMP TODO: move to importer
+				instance.material = new Material("Materials/MaterialTextures/molerat_texturemap2.png");
 
 				index = g_models->size();
 				g_models->push_back( instance );
+
 			}
 
 			g_models->at(index).worldIndices.push_back(transformID);

@@ -1,6 +1,6 @@
 #include "Material.h"
 
-Material::Material(float shiny, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, std::string diffusePath, std::string specularPath, std::string normalPath)
+Material::Material(const char* diffusePath, const char* specularPath, const char* normalPath, float shiny, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
 {
 	this->shinyFactor = shiny;
 
@@ -11,17 +11,16 @@ Material::Material(float shiny, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 
 	this->diffuseTextureFilePath = diffusePath;
 	this->specularTextureFilePath = specularPath;
 	this->normalTextureFilePath = normalPath;
-
-	Importer::Assets *assets = Importer::Assets::getInstance();
+	Importer::Assets assets;
 
 	if (diffuseTextureFilePath != "")
-		diffuseTexture = assets->load<Importer::TextureAsset>(diffuseTextureFilePath);
+		diffuseTexture = assets.load<Importer::TextureAsset>(diffuseTextureFilePath);
 
 	if (specularTextureFilePath != "")
-		specularTexture = assets->load<Importer::TextureAsset>(specularTextureFilePath);
+		specularTexture = assets.load<Importer::TextureAsset>(specularTextureFilePath);
 
 	if (normalTextureFilePath != "")
-		normalTexture = assets->load<Importer::TextureAsset>(normalTextureFilePath);
+		normalTexture = assets.load<Importer::TextureAsset>(normalTextureFilePath);
 
 }
 
@@ -29,7 +28,7 @@ Material::~Material()
 {
 }
 
-void Material::bindTextures(ShaderProgram * program)
+void Material::bindTextures(GLuint program)
 {
 	getUnifroms(program);
 
@@ -44,29 +43,29 @@ void Material::bindTextures(ShaderProgram * program)
 		glUniform1i(hasDiffuseUnifrom, 0);
 
 	
-	if (diffuseTextureFilePath != "")
+	if (specularTextureFilePath != "")
 	{
-		diffuseTexture->bind(GL_TEXTURE0);
+		specularTexture->bind(GL_TEXTURE1);
 		
-		glUniform1i(specularUnifrom, GL_TEXTURE0);
+		glUniform1i(specularUnifrom, GL_TEXTURE1);
 		glUniform1i(hasSpecularUnifrom, 1);
 	}
 	else
 		glUniform1i(hasSpecularUnifrom, 0);
 
 	
-	if (diffuseTextureFilePath != "")
+	if (normalTextureFilePath != "")
 	{
-		diffuseTexture->bind(GL_TEXTURE0);
+		normalTexture->bind(GL_TEXTURE2);
 		
-		glUniform1i(normalUnifrom, GL_TEXTURE0);
+		glUniform1i(normalUnifrom, GL_TEXTURE2);
 		glUniform1i(hasNormalUnifrom, 1);
 	}
 	else
 		glUniform1i(hasNormalUnifrom, 0);
 }
 
-void Material::bindMaterial(ShaderProgram * program)
+void Material::bindMaterial(GLuint program)
 {
 	getUnifroms(program);
 
@@ -75,11 +74,11 @@ void Material::bindMaterial(ShaderProgram * program)
 	glUniform3fv(specularColorUnifrom, 1, glm::value_ptr(specularColor));
 }
 
-void Material::getUnifroms(ShaderProgram * program)
+void Material::getUnifroms(GLuint program)
 {
-	if (program->getProgramID() != lastProgram)
+	if (program != lastProgram)
 	{
-		lastProgram = program->getProgramID();
+		lastProgram = program;
 
 		hasDiffuseUnifrom = glGetUniformLocation(lastProgram, "hasDiffuse");
 		hasSpecularUnifrom = glGetUniformLocation(lastProgram, "hasSpecular");

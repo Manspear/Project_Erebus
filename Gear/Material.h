@@ -6,12 +6,13 @@
 class Material
 {
 public:
-	Material(float shiny = 0, glm::vec3 ambient = glm::vec3(1, 1, 1), glm::vec3 diffuse = glm::vec3(1, 1, 1),
-		glm::vec3 specular = glm::vec3(1, 1, 1), std::string diffusePath = "", std::string specularPath = "", std::string normalPath = "");
-	~Material();
+	GEAR_API Material(const char* diffusePath = "", const char* specularPath = "", const char* normalPath = "",
+		float shiny = 0, glm::vec3 ambient = glm::vec3(1, 1, 1), glm::vec3 diffuse = glm::vec3(1, 1, 1),
+		glm::vec3 specular = glm::vec3(1, 1, 1));
+	GEAR_API ~Material();
 
-	void bindTextures(ShaderProgram* program);
-	void bindMaterial(ShaderProgram* program);
+	GEAR_API void bindTextures(GLuint program);
+	GEAR_API void bindMaterial(GLuint program);
 private:
 	float shinyFactor;
 
@@ -31,5 +32,5 @@ private:
 	GLuint ambientColorUnifrom, diffuseColorUnifrom, specularColorUnifrom, shinyFactorUniform;
 	GLuint lastProgram = -1;
 
-	void getUnifroms(ShaderProgram* program);
+	void getUnifroms(GLuint program);
 };

@@ -87,7 +87,6 @@ int main()
 		luaBinds.update( &controls, deltaTime );
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
-		engine.draw(&camera, &models);
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);
@@ -95,19 +94,19 @@ int main()
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
 		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
-			engine->setDrawMode(1);
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 )
-			engine->setDrawMode(2);
+			engine.setDrawMode(1);
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
+			engine.setDrawMode(2);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
-			engine->setDrawMode(3);
+			engine.setDrawMode(3);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_4))
-			engine->setDrawMode(4);
+			engine.setDrawMode(4);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_5))
-			engine->setDrawMode(5);
+			engine.setDrawMode(5);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
-			engine->setDrawMode(6);
+			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine->setDrawMode(7);
+			engine.setDrawMode(7);
 		//Display FPS:
 		frameCounter++;
 		frameTime += deltaTime;
@@ -135,8 +134,6 @@ int main()
 }
 
 int startNetworkCommunication( Window* window )
-		Importer::TextureAsset* texture = assets->load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-		instance.texture = texture;
 {
 	// initialize socket layer
 

@@ -1,4 +1,4 @@
-#version 420 core
+#version 430 core
 
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
@@ -12,13 +12,13 @@ uniform sampler2D diffuseTexture;
 uniform sampler2D specularTexture;
 uniform sampler2D normalTexture;
 
-uniform int hasDiffuse;
-uniform int hasSpecular;
-uniform int hasNormal;
+//uniform int hasDiffuse;
+//uniform int hasSpecular;
+//uniform int hasNormal;
 
-uniform vec3 ambientColor;
-uniform vec3 diffuseColor;
-uniform vec3 specularColor;
+//uniform vec3 ambientColor;
+//uniform vec3 diffuseColor;
+//uniform vec3 specularColor;
 
 void main (){
 	//Store the fragment position vector in the first gbuffer texture

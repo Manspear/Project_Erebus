@@ -13,23 +13,20 @@ namespace Gear
 		//renderQueue.init();
 		queue.init();
 
-		
+
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
 
-		GLuint internalFormat[] = {GL_RGB16F,GL_RGB16F,GL_RGBA};
+		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA };
 		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA };
 		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT};
+		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT };
 
 		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
-
-		Material m;
-		m.bindTextures(quadShader);
 
 		Lights::PointLight light;
 
@@ -49,7 +46,7 @@ namespace Gear
 
 		Lights::DirLight dirLight;
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
-		dirLight.color = glm::vec3(0.75,0.75, 0.94);
+		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 
 		dirLights.push_back(dirLight);
 	}
@@ -80,14 +77,14 @@ namespace Gear
 		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
 		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
 		//------------
-		
+
 		//renderQueue.updateUniforms(camera);
 		//renderQueue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
 		//renderQueue.draw(instances);
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.draw(instances);
+		queue.geometryPass(instances);
 		gBuffer.unUse();
 
 		lightPass(camera);
@@ -107,7 +104,7 @@ namespace Gear
 
 	}
 
-	bool GearEngine::isRunning(){
+	bool GearEngine::isRunning() {
 		return true;//window->isWindowOpen();
 	}
 
@@ -141,13 +138,13 @@ namespace Gear
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glBindVertexArray(0);
 	}
-	
+
 	void GearEngine::addStaticNonModel(staticNonModels* model) {
 		model->addShaderProgramRef(this->queue.getShaderProgram(model->getShaderType()));
 		this->statModels.push_back(model);
 	}
 
-	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n )
+	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n)
 	{
 		transformCount = n;
 		allTrans = theTrans;
@@ -193,7 +190,7 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(staticModels, dynamicModels);
+		queue.geometryPass(dynamicModels);
 
 		updateDebug(camera);
 
@@ -216,7 +213,7 @@ namespace Gear
 
 		lightPass(camera);
 
-		
+
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -261,9 +258,9 @@ namespace Gear
 
 		lightPassShader->unUse();
 	}
-		void GearEngine::updateDebug(Camera* camera) {
+	void GearEngine::updateDebug(Camera* camera) {
 		ShaderProgram* tempProgram;
-		
+
 		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
 		for (size_t i = 0; i < debuggers.size(); i++)
 		{
@@ -273,4 +270,5 @@ namespace Gear
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		this->debuggers.push_back(debugger);
+	}
 }
