@@ -11,7 +11,16 @@ AABBCollider::AABBCollider() : HitBox()
 	this->minPosTotal = glm::vec3();
 }
 
-AABBCollider::AABBCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(ID,IDTransform)
+AABBCollider::AABBCollider(unsigned int ID, int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(ID,IDTransform)
+{
+	this->minPos = minPos;
+	this->maxPos = maxPos;
+	this->minPosTotal = minPos;
+	this->maxPosTotal = maxPos;
+	this->centerPos = glm::vec3();
+}
+
+AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(IDTransform)
 {
 	this->minPos = minPos;
 	this->maxPos = maxPos;
@@ -44,14 +53,14 @@ bool AABBCollider::AabbToAabb(const AABBCollider* aabb)
 			this->minPos.z <= aabb->maxPos.z);
 }
 
-const glm::vec3 * AABBCollider::getMaxPos()
+const glm::vec3& AABBCollider::getMaxPos()
 {
-	return &this->maxPosTotal;
+	return this->maxPosTotal;
 }
 
-const glm::vec3* AABBCollider::getMinPos()
+const glm::vec3& AABBCollider::getMinPos()
 {
-	return &this->minPosTotal;
+	return this->minPosTotal;
 }
 
 unsigned int AABBCollider::getID() const

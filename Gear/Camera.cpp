@@ -181,8 +181,31 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 	glm::vec3 tempcamPos = point + offset + glm::vec3(0, distance*sinf(angle), 0) - tempForward * cosf(angle) * distance;
 	this->camPosition = (tempcamPos*0.3f+(point+offset+distance * glm::normalize(-direction))*0.7f);
 
+	this->lookPos = point + offset;
+	this->camDirection = glm::normalize( lookPos - camPosition);
+
 	//camPosition = point - direction*distance;
 	this->viewMat = glm::lookAt(camPosition, point + offset, camUp);
+}
+
+GEAR_API void Camera::setCamera(glm::vec3 campos, glm::vec3 lookPos)
+{
+	this->camPosition = campos;
+	this->lookPos = lookPos;
+	this->viewMat = glm::lookAt(campos, lookPos, camUp);
+}
+
+GEAR_API void Camera::setPosition(glm::vec3 position)
+{
+	this->camPosition = position;
+	this->viewMat = glm::lookAt(position, position- camDirection, camUp);
+}
+
+GEAR_API void Camera::setHeight(float h)
+{
+	this->camPosition.y = h;
+	//this->lookPos.y += h;
+	setCamera(camPosition, lookPos);
 }
 
 glm::mat4 Camera::getViewPers()

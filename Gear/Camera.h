@@ -15,6 +15,9 @@ public:
 	GEAR_API void camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt);
 	GEAR_API void camFreeUpdate();
 	GEAR_API void follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset);
+	GEAR_API void setCamera(glm::vec3 campos, glm::vec3 lookPos);
+	GEAR_API void setPosition(glm::vec3 position);
+	GEAR_API void setHeight(float h);
 	GEAR_API glm::mat4 getViewPers();
 	GEAR_API glm::mat4 getViewMatrix();
 	GEAR_API glm::mat4 getProjectionMatrix();
@@ -31,6 +34,7 @@ private:
 	bool inLevelEditor;
 	bool inLevelEditorMoveMouse;
 
+	glm::vec3 lookPos;
 	glm::vec3 camDirection;
 	glm::vec3 camPosition;
 	glm::vec3 camUp;

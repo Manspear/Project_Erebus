@@ -1,25 +1,34 @@
 local MOLERAT_OFFSET = 2
+local PLAYER_MAX_SPELLS = 2
 player = {}
 
 function LoadPlayer()
+	-- set basic variables for the player
 	player.transformID = Transform.Bind()
 	player.moveSpeed = 40
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.health = 100
 
+	-- set spells for player
+	player.spells = {}
+	player.spells[1] = dofile( "Scripts/projectile.lua" )
+	player.spells[2] = dofile( "Scripts/arc.lua" )
+	player.currentSpell = player.spells[1]
+
+	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
+	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/moleman5.model")
 	Gear.AddModelInstance(model, player.transformID)
 
 	Erebus.SetControls(player.transformID)
-
-	player.projectileSpell = dofile("Scripts/projectile.lua")
+	
 end
 
 function UnloadPlayer()
@@ -40,11 +49,11 @@ function UpdatePlayer(dt)
 		player.canJump = false
 	end
 	if Controls[Keys.Tab] then print("Tab pressed") end
-	--if Controls[Keys.LMB] then Shoot(player.transformID) end
 	if Controls[Keys.LMB] then
-		player.testCamera = true
-		player.projectileSpell:Cast(position, direction)
+		player.currentSpell:Cast()
 	end
+	if Controls[Keys.One] then player.currentSpell = player.spells[1] end
+	if Controls[Keys.Two] then player.currentSpell = player.spells[2] end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
@@ -61,7 +70,10 @@ function UpdatePlayer(dt)
 
 	Transform.SetPosition(player.transformID, position)
 
-	player.projectileSpell:Update(dt)
+	-- update the current player spell
+	for i=1, #player.spells do 
+		player.spells[i]:BaseUpdate(dt)
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
