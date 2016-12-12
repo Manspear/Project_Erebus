@@ -126,7 +126,7 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
-		luaBinds.printLuaTop();
+		//luaBinds.printLuaTop();
 	}
 
 	luaBinds.unload();

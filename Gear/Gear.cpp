@@ -1,6 +1,7 @@
 #include "Gear.h"
 //Temp
 #include <random>
+#include <math.h>
 
 struct ScreenVertex
 {
@@ -58,11 +59,7 @@ namespace Gear
 		std::mt19937 gen(rd());
 		std::uniform_real_distribution<> dis(0, 1);
 
-		const int NUM_LIGHTS = 50;
 		const int LIGHT_RADIUS = 30;
-
-		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, -0.0f, -0.0f);
-		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 20.0f, 255.0f);
 
 		for (int i = 0; i < NUM_LIGHTS; i++) {
 			Lights::PointLight light;
@@ -218,6 +215,15 @@ namespace Gear
 
 		//queue.forwardPass(staticModels, dynamicModels);
 		//queue.particlePass(particleSystems);
+		//Disco party!!!
+		for (int i = 0; i < NUM_LIGHTS; i++) {
+
+			float min = LIGHT_MIN_BOUNDS[1];
+			float max = LIGHT_MAX_BOUNDS[1];
+
+			pointLights[i].pos.y = fmod((pointLights[i].pos.y + (-0.5f) - min + max), max) + min;
+		}
+
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
