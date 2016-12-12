@@ -18,7 +18,7 @@ CollisionLayers::CollisionLayers(int size)
 		}
 	}
 
-	this->resetCollisionCheckedMatrix(); // all collisions are set to false
+	this->resetLayerCollisionCheckedMatrix(); // all layer collisions are set to false
 
 	this->sphereColliders.resize(layerMatrixSize); // resize to fit the amount of layers we have, fake 2d array
 	this->aabbColliders.resize(layerMatrixSize);
@@ -79,7 +79,8 @@ void CollisionLayers::checkLayer(int layer1, int layer2)
 	this->collisionCheckedMatrix[layer2][layer1] = true;
 }
 
-void CollisionLayers::resetCollisionCheckedMatrix() // set all old collisions to false
+//Resets the matrix checking whether the layers have checked collision against eachother
+void CollisionLayers::resetLayerCollisionCheckedMatrix() // set all old collisions to false
 {
 	for (unsigned int i = 0; i < layerMatrixSize; i++)
 	{
@@ -151,6 +152,7 @@ std::vector<int> CollisionLayers::getLayerCollisions(int layer) const
 	return layerCollisions;
 }
 
+// returns a vector with all the layers that this layer have not yet collided with
 std::vector<int> CollisionLayers::getUncheckedLayerCollisions(int layer) const
 {
 	std::vector<int> layerCollisions;
@@ -187,6 +189,12 @@ void CollisionLayers::setLayerCollisionMatrix(bool ** layerMatrix, unsigned int 
 	this->aabbColliders.resize(layerMatrixSize);
 }
 
+void CollisionLayers::setLayerCollisionMatrix(int layer1, int layer2, bool canCollide)
+{
+	this->layerMatrix[layer1][layer2] = canCollide;
+	this->layerMatrix[layer2][layer1] = canCollide;
+}
+
 void CollisionLayers::deleteLayerCollisionMatrices()
 {
 	for (unsigned int i = 0; i < layerMatrixSize; i++)
@@ -206,5 +214,5 @@ void CollisionLayers::createCollisionCheckedMatrix(int size)
 	{
 		this->collisionCheckedMatrix[i] = new bool[layerMatrixSize];
 	}
-	this->resetCollisionCheckedMatrix();
+	this->resetLayerCollisionCheckedMatrix();
 }

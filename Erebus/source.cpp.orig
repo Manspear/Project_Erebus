@@ -52,14 +52,30 @@ int main()
 	Debug* tempDebug = Debugger::getInstance();
 
 	double deltaTime = 0.0;
-
-	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-	moleratTexture->bind();
+	
 
 	CollisionHandler collisionHandler;
+<<<<<<< HEAD
+	collisionHandler.setTransforms( transforms );
+	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f);
+	SphereCollider sphere2 = SphereCollider(-1, glm::vec3(3,0,0),1.0f);
+	SphereCollider sphere3 = SphereCollider(-1,glm::vec3(4,0,0), 1.0f);
+	SphereCollider sphere4 = SphereCollider(-1,glm::vec3(6,0,0),1.0f);
+	SphereCollider sphere5 = SphereCollider(-1,glm::vec3(6,1,0),1.0f);
+	SphereCollider sphere6 = SphereCollider(-1,glm::vec3(8,0,0), 1.0f);
+	SphereCollider sphere7 = SphereCollider(1,glm::vec3(9,3,0),1.0f);
+	collisionHandler.addHitbox(&sphere1,0);
+	collisionHandler.addHitbox(&sphere2,0);
+	collisionHandler.addHitbox(&sphere3,1);
+	collisionHandler.addHitbox(&sphere4,1);
+	collisionHandler.addHitbox(&sphere5,2);
+	collisionHandler.addHitbox(&sphere6,2);
+	collisionHandler.addHitbox(&sphere7,3);
+=======
 	collisionHandler.setTransforms(transforms);
 
 	glEnable(GL_DEPTH_TEST);
+>>>>>>> 856369c7338ff78050b7d4e8b1e406a668c9aed3
 
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
@@ -77,53 +93,33 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-<<<<<<< HEAD
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
-
-=======
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models );
->>>>>>> c09f8cb6ddba7b0ea9fa28077810063464f21a93
 	bool playerAlive = true;
+	
+	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
+	Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
+	for (size_t i = 0; i < models.size(); i++)
+	{
+		models.at(i).texAsset = moleratTexture;
+	}
+	models.at(1).texAsset = moleratTexture2;
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
 		luaBinds.update( &controls, deltaTime );
-<<<<<<< HEAD
-		//glm::vec3 dir = glm::normalize(controls.getControl()->getLookAt());
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
-
-		for (int i = 0; i < boundTransforms; i++) 
-		{
-			glm::vec3 pos = transforms[i].getPos();
-			glm::vec3 rot = transforms[i].getRotation();
-			glm::vec3 scale = transforms[i].getScale();
-			transformData[i * 9] = pos.x;
-			transformData[i * 9 + 1] = pos.y;
-			transformData[i * 9 + 2] = pos.z;
-			transformData[i * 9 + 3] = rot.x;
-			transformData[i * 9 + 4] = rot.y;
-			transformData[i * 9 + 5] = rot.z;
-			transformData[i * 9 + 6] = scale.x;
-			transformData[i * 9 + 7] = scale.y;
-			transformData[i * 9 + 8] = scale.z;
-
-			lookAts[i] = transforms[i].getLookAt();
-		}
-
-=======
-		camera.follow(controls.getControl()->getPos(), controls.getControl()->getLookAt(), abs(inputs.getScroll())+5.f);
->>>>>>> c09f8cb6ddba7b0ea9fa28077810063464f21a93
 		engine.draw(&camera, &models);
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);
-
+		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-
+		
 		//Display FPS:
 		frameCounter++;
 		frameTime += deltaTime;
@@ -136,6 +132,11 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
+<<<<<<< HEAD
+		std::vector<unsigned int>* temp = sphere1.getIDCollisionsRef();
+=======
+		luaBinds.printLuaTop();
+>>>>>>> 856369c7338ff78050b7d4e8b1e406a668c9aed3
 	}
 
 	luaBinds.unload();

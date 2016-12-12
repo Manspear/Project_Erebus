@@ -16,15 +16,20 @@ public:
 	std::vector<AABBCollider*>* getAABBColliders(int layer);
 
 	void checkLayer(int layer1,int layer2);
-	void resetCollisionCheckedMatrix();
+	void resetLayerCollisionCheckedMatrix();
 	bool deleteHitbox(unsigned int ID);
 
-	std::vector<int> getLayerCollisions(int layer) const; //return a vector with all the layers that this layer will collide with
-	std::vector<int> getUncheckedLayerCollisions(int layer) const; // returns a vector with all the layers that this layer have not yet collided with
+	//return a vector with all the layers that this layer will collide with
+	std::vector<int> getLayerCollisions(int layer) const; 
+
+	// returns a vector with all the layers that this layer have not yet collided with but should
+	std::vector<int> getUncheckedLayerCollisions(int layer) const; 
 	bool getIsLayerChecked(int layer1, int layer2) const;
 	unsigned int getLayerMatrixSize();
 
 	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
+	//change if two layers can collide in the layerMatrix
+	void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
 
 private:
 	bool** layerMatrix; // which layers may collide with each other

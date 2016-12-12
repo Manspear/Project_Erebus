@@ -42,6 +42,12 @@ public:
 	void setTransforms( Transform* transforms );
 
 	CollisionLayers* getCollisionLayers();
+
+	//CollisionLayerPassThrough functions
+
+	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
+	//change if two layers can collide in the layerMatrix
+	void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
 	
 
 private:
