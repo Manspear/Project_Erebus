@@ -98,7 +98,6 @@ int main()
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);
-		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
 		
@@ -114,7 +113,6 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
-		luaBinds.printLuaTop();
 	}
 
 	luaBinds.unload();

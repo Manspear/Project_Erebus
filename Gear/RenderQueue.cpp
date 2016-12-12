@@ -214,33 +214,30 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 
 void RenderQueue::update(int n, TransformStruct* theTrans)
 {
+	glm::mat4 tempMatrix = glm::mat4();
+	glm::mat4 rotationZ = glm::mat4();
+	glm::mat4 rotationY = glm::mat4();
 	for (int i = 0; i < n; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
-			int index = i * 9;
-			int rotIndexY = index + 4;
-			int rotIndexZ = index + 5;
-
+			tempMatrix = glm::mat4();
 			glm::vec3 tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
 			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
+			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
+			rotationY = glm::rotate(tempMatrix, theTrans[i].rot.y, { 0, 1, 0 });
 
-			glm::mat4 rotationZ = glm::rotate(glm::mat4(), theTrans[i].rot.z, axis);
-			glm::mat4 rotationY = glm::rotate(glm::mat4(), theTrans[i].rot.y, { 0, 1, 0 });
+			tempMatrix[0][0] = theTrans[i].scale.x;
+			tempMatrix[1][1] = theTrans[i].scale.y;
+			tempMatrix[2][2] = theTrans[i].scale.z;
 
-			worldMatrices[i] = glm::mat4();
+			tempMatrix = rotationZ * rotationY * tempMatrix;
 
-			worldMatrices[i][0][0] = theTrans[i].scale.x;
-			worldMatrices[i][1][1] = theTrans[i].scale.y;
-			worldMatrices[i][2][2] = theTrans[i].scale.z;
-
-			worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
-
-
-			worldMatrices[i][3][0] = theTrans[i].pos.x;
-			worldMatrices[i][3][1] = theTrans[i].pos.y;
-			worldMatrices[i][3][2] = theTrans[i].pos.z;
+			tempMatrix[3][0] = theTrans[i].pos.x;
+			tempMatrix[3][1] = theTrans[i].pos.y;
+			tempMatrix[3][2] = theTrans[i].pos.z;
+			worldMatrices[i] = tempMatrix;
 		}
 	}
 }
