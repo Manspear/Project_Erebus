@@ -62,6 +62,7 @@ int main()
 	collisionHandler.addHitbox(&sphere1,0);
 	collisionHandler.addHitbox(&sphere2,4);
 	collisionHandler.addHitbox(&sphere3,1);
+	collisionHandler.setDebugger(Debugger::getInstance());
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -102,6 +103,11 @@ int main()
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 		window.update();	
 		engine.queueDynamicModels(&models);
+
+		//Collisions
+		collisionHandler.checkCollisions();
+		//collisionHandler.drawHitboxes();
+
 		engine.draw(&camera);
 		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
@@ -129,11 +135,8 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-		//Collisions
-		collisionHandler.checkCollisions();
-		//std::vector<unsigned int>* temp = sphere1.getIDCollisionsRef();
-		//collisionHandler.printCollisions();
-		//luaBinds.printLuaTop();
+
+		
 	}
 
 	luaBinds.unload();

@@ -210,6 +210,7 @@ namespace Gear
 
 	void GearEngine::draw(Camera* camera)
 	{
+		
 		queue.update(*transformCount, *allTrans);
 		queue.updateUniforms(camera);
 
@@ -227,10 +228,11 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		queue.geometryPass(dynamicModels);
-
-		updateDebug(camera);
-
+		
+		
+		
 		//--TEMP---
 		/*for (size_t i = 0; i < statModels.size(); i++)
 		{
@@ -250,8 +252,9 @@ namespace Gear
 
 		lightPass(camera);
 
-
-
+		glDisable(GL_DEPTH_TEST);
+		updateDebug(camera);
+		glEnable(GL_DEPTH_TEST);
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;

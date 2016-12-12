@@ -25,6 +25,7 @@ CollisionHandler::CollisionHandler()
 	//}
 
 	//this->collisionLayers->setLayerCollisionMatrix(layerMatrix,size);
+	this->debugger = nullptr;
 }
 
 CollisionHandler::CollisionHandler(int layers)
@@ -460,6 +461,11 @@ void CollisionHandler::setTransforms( Transform* t )
 	transforms = t;
 }
 
+void CollisionHandler::setDebugger(Debug * debugger)
+{
+	this->debugger = debugger;
+}
+
 CollisionLayers* CollisionHandler::getCollisionLayers()
 {
 	return collisionLayers;
@@ -478,4 +484,17 @@ void CollisionHandler::setLayerCollisionMatrix(int layer1, int layer2, bool canC
 void CollisionHandler::printCollisions()
 {
 	std::cout << "SphereCollisions: " << this->sphereCollisionCounter << "\nAABBCollisions: " << this->aabbCollisionCounter << std::endl;
+}
+
+void CollisionHandler::drawHitboxes()
+{
+	for (unsigned int i = 0; i < this->sphereColliders.size(); i++)
+	{
+		debugger->drawSphere(sphereColliders[i]->getPos(), sphereColliders[i]->getRadius());
+	}
+
+	for (unsigned int i = 0; i < this->aabbColliders.size(); i++)
+	{
+		debugger->drawCube(aabbColliders[i]->getMinPos(),aabbColliders[i]->getMaxPos());
+	}
 }

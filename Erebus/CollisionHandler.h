@@ -4,6 +4,7 @@
 #include <vector>
 #include "Transform.h"
 #include "CollisionLayers.h"
+#include "Debug.h"
 
 //extern Transform* allTransforms;
 
@@ -40,6 +41,7 @@ public:
 	bool deleteHitbox(unsigned int ID);
 
 	void setTransforms( Transform* transforms );
+	void setDebugger(Debug* debugger);
 
 	CollisionLayers* getCollisionLayers();
 
@@ -50,6 +52,8 @@ public:
 	void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
 
 	void printCollisions();
+
+	void drawHitboxes();
 	
 
 private:
@@ -66,5 +70,7 @@ private:
 
 	int sphereCollisionCounter = 0;
 	int aabbCollisionCounter = 0;
+
+	Debug* debugger;
 };
 
