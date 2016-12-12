@@ -26,7 +26,7 @@ void TextRenderer::setFont(Importer::FontAsset* font)
 	this->font = font;
 }
 
-void TextRenderer::print(const std::string &s, const float &baseX, const float &baseY, const float &scale)
+void TextRenderer::print(const std::string &s, const float &baseX, const float &baseY)
 {
 	float x = baseX;
 	float y = baseY;
@@ -36,7 +36,7 @@ void TextRenderer::print(const std::string &s, const float &baseX, const float &
 
 		vert.pos = glm::vec2(x, y);
 		vert.UV = font->getUV(c);
-		vert.width = font->getWidth(c) * scale;
+		vert.width = font->getWidth(c);
 
 		x += vert.width;
 
@@ -48,15 +48,27 @@ void TextRenderer::draw()
 {
 	shader->use();
 
-	glBindVertexArray(VBO);
-	font->getTexture()->bind(GL_TEXTURE5);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	font->getTexture()->bind(GL_TEXTURE1);
 	glUniform1f(glGetUniformLocation(shader->getProgramID(), "height"), font->getInfo()->size);
+
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)(sizeof(float) * 2));
+	glVertexAttribPointer(2, 1, GL_INT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)(sizeof(float) * 6));
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	for (auto v : vertices)
 	{
-		
-
+		glBufferData(GL_ARRAY_BUFFER, sizeof(sTextVertex), &v, GL_STATIC_DRAW);		
+		glDrawArrays(GL_POINTS, 0, 1);
 	}
+
+	glBindVertexArray(0);
 
 	vertices.clear();
 

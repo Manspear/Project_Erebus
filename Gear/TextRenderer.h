@@ -24,7 +24,7 @@ public:
 
 	void setFont(Importer::FontAsset* font);
 
-	void print(const std::string &s, const float &baseX, const float &baseY, const float &scale = 1.0f);
+	void print(const std::string &s, const float &baseX, const float &baseY);
 
 	void draw();
 

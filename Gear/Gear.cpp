@@ -151,7 +151,7 @@ namespace Gear
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
 
-		text.print("test", 5.f, 5.f, 20.f);
+		text.print("test", 50.f, 50.f);
 		text.draw();
 	}
 
