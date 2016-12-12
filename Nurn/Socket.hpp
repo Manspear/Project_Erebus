@@ -17,6 +17,9 @@
 
 #endif
 
+#include <iostream>
+#include "Address.hpp"
+
 namespace Nurn
 {
 	class Socket
@@ -25,7 +28,11 @@ namespace Nurn
 		Socket();
 		virtual ~Socket();
 		bool InitializeSockets();
-		virtual bool CreateSocket(const unsigned short & port) = 0;
+		virtual bool CreateSocket(const uint16_t & port) = 0;
+		virtual bool ConnectSocket(const Address & connectionAddress) = 0;
+		virtual bool AcceptSocket(SOCKET & acceptedSocket, Address & connectionAddress) = 0;
+		virtual bool CreateWaitingSocket(const Address& connectionAddress) = 0;
+		virtual bool CreateAndConnectSocket(const Address& connectionAddress) = 0;
 		void ShutdownSockets();
 		void CloseSocket();
 		bool IsOpen() const;
@@ -33,6 +40,9 @@ namespace Nurn
 		int GetSocket();
 
 	protected:
+		bool SetNonBlocking();
+		bool BindSocket(const uint16_t & port);
+
 		int networkSocket;
 	};
 }
