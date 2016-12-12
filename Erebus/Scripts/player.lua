@@ -51,8 +51,8 @@ function UpdatePlayer(dt)
 	if Controls[Keys.LMB] then
 		player.currentSpell:Cast()
 	end
-	if Controls[Keys.One] then player.currentSpell = player.spells[1] print("change") end
-	if Controls[Keys.Two] then player.currentSpell = player.spells[2] print("change") end
+	if Controls[Keys.One] then player.currentSpell = player.spells[1] end
+	if Controls[Keys.Two] then player.currentSpell = player.spells[2] end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
