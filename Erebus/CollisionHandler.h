@@ -48,6 +48,8 @@ public:
 	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
 	//change if two layers can collide in the layerMatrix
 	void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
+
+	void printCollisions();
 	
 
 private:
@@ -62,6 +64,7 @@ private:
 
 	CollisionLayers* collisionLayers;
 
-	int counter = 0;
+	int sphereCollisionCounter = 0;
+	int aabbCollisionCounter = 0;
 };
 

@@ -83,6 +83,9 @@ void CollisionHandler::addHitbox(AABBCollider * aabb, int layer)
 
 void CollisionHandler::checkCollisions()
 {
+	//reset counters
+	this->sphereCollisionCounter = 0;
+	this->aabbCollisionCounter = 0;
 	//Updatera position
 	//Cleara deras gamla collisions görs i varje check funktion
 	//kolla alla spheres mot alla spheres
@@ -149,8 +152,6 @@ void CollisionHandler::checkCollisions()
 	}
 
 	this->collisionLayers->resetLayerCollisionCheckedMatrix();
-	//std::cout << counter << std::endl;
-	this->counter = 0;
 	
 
 
@@ -338,7 +339,7 @@ void CollisionHandler::checkSphereToAabbCollisions()
 
 bool CollisionHandler::sphereToSphereCollision(SphereCollider * sphere1, SphereCollider * sphere2)
 {
-	this->counter++;
+	this->sphereCollisionCounter++;
 	bool collision = false;
 
 	glm::vec3 distanceVector = sphere1->getPos() - sphere2->getPos();
@@ -357,6 +358,7 @@ bool CollisionHandler::sphereToSphereCollision(SphereCollider * sphere1, SphereC
 
 bool CollisionHandler::aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2)
 {
+	this->aabbCollisionCounter++;
 	const glm::vec3 minPos1 = aabb1->getMinPos();
 	const glm::vec3 maxPos1 = aabb1->getMaxPos();
 
@@ -471,4 +473,9 @@ void CollisionHandler::setLayerCollisionMatrix(bool ** layerMatrix, unsigned int
 void CollisionHandler::setLayerCollisionMatrix(int layer1, int layer2, bool canCollide)
 {
 	this->collisionLayers->setLayerCollisionMatrix(layer1,layer2,canCollide);
+}
+
+void CollisionHandler::printCollisions()
+{
+	std::cout << "SphereCollisions: " << this->sphereCollisionCounter << "\nAABBCollisions: " << this->aabbCollisionCounter << std::endl;
 }

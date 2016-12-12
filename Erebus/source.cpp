@@ -139,7 +139,8 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
-		std::vector<unsigned int>* temp = sphere1.getIDCollisionsRef();
+		//std::vector<unsigned int>* temp = sphere1.getIDCollisionsRef();
+		//collisionHandler.printCollisions();
 		//luaBinds.printLuaTop();
 	}
 
