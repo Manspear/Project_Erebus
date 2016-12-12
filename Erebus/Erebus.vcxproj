@@ -188,17 +188,6 @@
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\test.lua" />
-    <None Include="Shaders\forward.frag" />
-    <None Include="Shaders\forward.geom" />
-    <None Include="Shaders\forward.vert" />
-    <None Include="Shaders\forwardAnim.frag" />
-    <None Include="Shaders\forwardAnim.geom" />
-    <None Include="Shaders\forwardAnim.vert" />
-    <None Include="Shaders\heightmap.frag" />
-    <None Include="Shaders\heightmap.vert" />
-    <None Include="Shaders\particle.frag" />
-    <None Include="Shaders\particle.geom" />
-    <None Include="Shaders\particle.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />

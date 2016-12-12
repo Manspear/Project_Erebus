@@ -18,10 +18,11 @@ namespace Nurn
 		Communication();
 		virtual ~Communication();
 
-		virtual bool InitializeCommunication(int port);
+		virtual bool InitializeCommunication(uint16_t port);
 		virtual bool SendPackage(const Address & destination, const void * data, int size) = 0;
 		virtual bool RecievePackage(Address & sender, void * data, int size) = 0;
 		virtual void Shutdown();
+		bool ConnectSocket(const Address & connectionAddress);
 		
 	protected:
 

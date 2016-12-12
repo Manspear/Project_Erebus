@@ -3,10 +3,11 @@
 #include "Camera.h"
 //#include "Model.h"
 #include "RenderQueue.h"
+#include "Light.h"
 #include "Inputs.h"
 #include "staticNonModels.h"
 #include "Debug.h"
-
+#include "Material.h"
 namespace Gear
 {
 
@@ -21,6 +22,8 @@ namespace Gear
 		GEAR_API void draw(Camera* camera, std::vector<ModelInstance>* instances);
 
 		GEAR_API bool isRunning();
+		//Temporay debug function
+		GEAR_API void setDrawMode(int drawMode);
 		
 		GEAR_API void addStaticNonModel(staticNonModels* model);
 
@@ -43,6 +46,8 @@ namespace Gear
 		//----------------------
 
 	private:
+		GEAR_API void lightPass(Camera* camera);
+
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 
@@ -52,7 +57,20 @@ namespace Gear
 		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
+		//DebugQuad
+		GLuint quadVAO = 0;
+		GLuint quadVBO;
+		ShaderProgram *quadShader;
+		ShaderProgram *lightPassShader;
 
+		ShaderProgram gBuffer;
+		const int NUM_POINT_LIGHTS = 30;
+		std::vector<Lights::PointLight> pointLights;
+		std::vector<Lights::DirLight> dirLights;
+		//temp debug variable
+		int drawMode = 1;
+
+		void drawQuad();
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
 		std::vector<ParticleSystem>* particleSystems;
