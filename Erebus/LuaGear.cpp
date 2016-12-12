@@ -28,6 +28,7 @@ namespace LuaGear
 		lua_pushlightuserdata( lua, gearEngine );
 		lua_setfield( lua, -2, "__self" );
 		lua_setglobal( lua, "Gear" );
+		lua_pop(lua, 1);
 	}
 
 	int addModelInstance( lua_State* lua )

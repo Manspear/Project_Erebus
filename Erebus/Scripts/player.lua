@@ -13,7 +13,7 @@ function LoadPlayer()
 
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
-	local model = Assets.LoadModel("Models/molerat.model")
+	local model = Assets.LoadModel("Models/moleman5.model")
 	Gear.AddModelInstance(model, player.transformID)
 
 	Erebus.SetControls(player.transformID)
@@ -42,7 +42,7 @@ function UpdatePlayer(dt)
 	--if Controls[Keys.LMB] then Shoot(player.transformID) end
 	if Controls[Keys.LMB] then
 		player.testCamera = true
-		player.projectileSpell:Cast(position, direction)
+		player.projectileSpell:Cast(position, Camera.GetDirection())
 	end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)

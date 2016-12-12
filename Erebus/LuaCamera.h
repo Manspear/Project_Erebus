@@ -11,4 +11,5 @@ namespace LuaCamera
 	int cameraUpdate(lua_State* lua);
 	int getPos(lua_State* lua);
 	int setHeight(lua_State* lua);
+	int getDirection(lua_State* lua);
 }

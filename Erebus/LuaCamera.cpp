@@ -14,7 +14,8 @@ namespace LuaCamera {
 			{ "Follow",			follow },
 			{ "Update",			cameraUpdate },
 			{ "GetPos",         getPos },
-			{ "SetHeight",         setHeight },
+			{ "SetHeight",      setHeight },
+			{ "GetDirection",   getDirection},
 			{ NULL, NULL }
 		};
 
@@ -82,6 +83,24 @@ namespace LuaCamera {
 	{
 		float height = lua_tonumber(lua, -1);
 		g_camera->setHeight(height);
+		return 1;
+	}
+	int getDirection(lua_State * lua)
+	{
+		int index = lua_tointeger(lua, 1);
+
+		glm::vec3 position = g_camera->getDirection();
+
+		lua_newtable(lua);
+		lua_pushnumber(lua, position.x);
+		lua_setfield(lua, -2, "x");
+
+		lua_pushnumber(lua, position.y);
+		lua_setfield(lua, -2, "y");
+
+		lua_pushnumber(lua, position.z);
+		lua_setfield(lua, -2, "z");
+
 		return 1;
 	}
 }

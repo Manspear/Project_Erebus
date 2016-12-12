@@ -28,10 +28,11 @@ public:
 				Camera* camera);
 	void unload();
 	void update( Controls* controls, float deltaTime );
+	void printLuaTop() const;
 
-	lua_State* lua;
 
 private:
+	lua_State* lua;
 	bool validState;
 	int updateReference;
 };

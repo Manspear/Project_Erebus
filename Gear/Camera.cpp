@@ -104,6 +104,7 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 	this->camPosition = (tempcamPos*0.3f+(point+offset+distance * glm::normalize(-direction))*0.7f);
 
 	this->lookPos = point + offset;
+	this->camDirection = glm::normalize( lookPos - camPosition);
 
 	//camPosition = point - direction*distance;
 	this->viewMat = glm::lookAt(camPosition, point + offset, camUp);
