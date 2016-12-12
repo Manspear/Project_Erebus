@@ -95,7 +95,11 @@ int main()
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
 
-		//Display FPS:
+		
+		//Collisions
+		collisionHandler.checkCollisions();
+		
+		//Display FPS
 		frameCounter++;
 		frameTime += deltaTime;
 		if (frameTime >= 1.0)
@@ -105,8 +109,6 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
-		//Collisions
-		collisionHandler.checkCollisions();
 	}
 
 	luaBinds.unload();
