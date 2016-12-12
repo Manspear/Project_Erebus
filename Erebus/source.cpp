@@ -6,7 +6,6 @@
 #include "ModelAsset.h"
 #include "TextureAsset.h"
 #include "Window.h"
-#include <ctime>
 #include "Transform.h"
 #include "PerformanceCounter.h"
 #include "ParticleSystem.h"
@@ -14,7 +13,6 @@
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
 #include "Controls.h"
-#include <lua\lua.hpp>
 #include "LuaBinds.h"
 #include <String>
 #include <thread>
@@ -51,9 +49,6 @@ int main()
 	engine.addDebugger(Debugger::getInstance());
 	Debug* tempDebug = Debugger::getInstance();
 
-	double deltaTime = 0.0;
-	
-
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
 
@@ -72,7 +67,6 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
-	bool playerAlive = true;
 	
 	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
 	Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
@@ -83,7 +77,6 @@ int main()
 	models.at(1).texAsset = moleratTexture2;
 
 	PerformanceCounter counter;
-	counter.startCounter();
 
 	while (running && window.isWindowOpen())
 	{
