@@ -113,12 +113,12 @@ void CollisionHandler::checkCollisions()
 		firstLayer = i;
 		layerCollisionVector = this->collisionLayers->getUncheckedLayerCollisions(i); // get layers you should collide with but dont have
 
-		std::cout << "Layer " << i << "collides with layers: ";
-		for (size_t k = 0; k < layerCollisionVector.size(); k++)
-		{
-			std::cout << " " << layerCollisionVector[k] << " ";
-		}
-		std::cout << std::endl;
+		//std::cout << "Layer " << i << "collides with layers: ";
+		//for (size_t k = 0; k < layerCollisionVector.size(); k++)
+		//{
+		//	std::cout << " " << layerCollisionVector[k] << " ";
+		//}
+		//std::cout << std::endl;
 
 		firstTempSphereColliders = this->collisionLayers->getSphereColliders(i);
 		firstTempAABBColliders = this->collisionLayers->getAABBColliders(i);
@@ -149,7 +149,7 @@ void CollisionHandler::checkCollisions()
 	}
 
 	this->collisionLayers->resetLayerCollisionCheckedMatrix();
-	std::cout << counter << std::endl;
+	//std::cout << counter << std::endl;
 	this->counter = 0;
 	
 
