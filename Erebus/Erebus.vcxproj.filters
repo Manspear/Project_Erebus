@@ -123,13 +123,13 @@
     <None Include="Scripts\player.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="text.vert">
+    <None Include="Shaders\text.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="text.frag">
+    <None Include="Shaders\text.geom">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="text.geom">
+    <None Include="Shaders\text.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>

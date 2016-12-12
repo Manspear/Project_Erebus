@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FontAsset.h"
+#include "ShaderProgram.h"
 #include<string>
 #include<vector>
 
@@ -19,9 +20,11 @@ public:
 	TextRenderer();
 	~TextRenderer();
 
+	void init(int screenWidth = 800, int screenHeight = 600);
+
 	void setFont(Importer::FontAsset* font);
 
-	void print(std::string s, float baseX, float baseY, float scale = 1.0f);
+	void print(const std::string &s, const float &baseX, const float &baseY, const float &scale = 1.0f);
 
 	void draw();
 
@@ -30,6 +33,7 @@ private:
 	std::vector<sTextVertex> vertices;
 	std::string testString = "Hello world";
 
-
+	ShaderProgram* shader;
+	GLuint VAO, VBO;
 };
 

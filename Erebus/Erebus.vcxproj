@@ -193,9 +193,9 @@
     <None Include="Shaders\particle.frag" />
     <None Include="Shaders\particle.geom" />
     <None Include="Shaders\particle.vert" />
-    <None Include="text.frag" />
-    <None Include="text.geom" />
-    <None Include="text.vert" />
+    <None Include="Shaders\text.frag" />
+    <None Include="Shaders\text.geom" />
+    <None Include="Shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBSquareCollider.h" />

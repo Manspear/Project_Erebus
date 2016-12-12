@@ -12,6 +12,7 @@ namespace Gear
 		glewInit();
 		//renderQueue.init();
 		queue.init();
+		text.init();
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -63,7 +64,7 @@ namespace Gear
 			tempProgram->unUse();
 		}
 
-
+		
 	}
 
 	bool GearEngine::isRunning(){
@@ -150,7 +151,8 @@ namespace Gear
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
 
-		text.print("test", 5.f, 5.f);
+		text.print("test", 5.f, 5.f, 20.f);
+		text.draw();
 	}
 
 	void GearEngine::allocateWorlds(int n)
