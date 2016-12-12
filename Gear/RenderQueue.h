@@ -11,6 +11,7 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include "Animation.h"
 
 using namespace Importer;
 struct ModelInstance
@@ -38,6 +39,7 @@ public:
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
+	Animation animationObject;
 	/*Gear::Particle* particle;*/
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
