@@ -6,7 +6,6 @@
 #include "ModelAsset.h"
 #include "TextureAsset.h"
 #include "Window.h"
-#include <ctime>
 #include "Transform.h"
 #include "PerformanceCounter.h"
 #include "ParticleSystem.h"
@@ -14,7 +13,6 @@
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
 #include "Controls.h"
-#include <lua\lua.hpp>
 #include "LuaBinds.h"
 #include <String>
 #include <thread>
@@ -51,35 +49,26 @@ int main()
 	engine.addDebugger(Debugger::getInstance());
 	Debug* tempDebug = Debugger::getInstance();
 
+<<<<<<< HEAD
+=======
 	double deltaTime = 0.0;
 	
-
+	//Collision handler
+>>>>>>> 95d961556f0ea124274feafee17cb1ce45b375d1
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f);
+	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f); // hardcoded hitboxes
 	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3,0,0),1.0f);
 	SphereCollider sphere3 = SphereCollider(-3,glm::vec3(4,0,0), 1.0f);
-	SphereCollider sphere4 = SphereCollider(-4,glm::vec3(6,0,0),1.0f);
-	SphereCollider sphere5 = SphereCollider(-5,glm::vec3(6,1,0),1.0f);
-	SphereCollider sphere6 = SphereCollider(-6,glm::vec3(8,0,0), 1.0f);
-	SphereCollider sphere7 = SphereCollider(-7,glm::vec3(9,3,0),1.0f);
 	collisionHandler.addHitbox(&sphere1,0);
 	collisionHandler.addHitbox(&sphere2,4);
 	collisionHandler.addHitbox(&sphere3,1);
-	collisionHandler.addHitbox(&sphere4,1);
-	collisionHandler.addHitbox(&sphere5,2);
-	collisionHandler.addHitbox(&sphere6,2);
-	collisionHandler.addHitbox(&sphere7,3);
 
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	PerformanceCounter counter;
-	counter.startCounter();
-	double frameTime = 0.0;
-	int frameCounter = 0;
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
 	engine.bindTransforms(&allTransforms, &boundTransforms);
@@ -90,7 +79,6 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
-	bool playerAlive = true;
 	
 	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
 	//Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
@@ -100,20 +88,32 @@ int main()
 	//}
 	//models.at(1).texAsset = moleratTexture2;
 
+	PerformanceCounter counter;
+
 	while (running && window.isWindowOpen())
 	{
-		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
+<<<<<<< HEAD
+		luaBinds.update( &controls, counter.getDeltaTime());
+		engine.draw(&camera, &models);
+=======
 		luaBinds.update( &controls, deltaTime );
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
+>>>>>>> 95d961556f0ea124274feafee17cb1ce45b375d1
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);
-		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
+<<<<<<< HEAD
+		
+		//Display FPS:
+		counter.displayFPS();
+		//Collisions
+		collisionHandler.checkCollisions();
+=======
 		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
 			engine.setDrawMode(1);
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
@@ -139,11 +139,10 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
-<<<<<<< HEAD
-		std::vector<unsigned int>* temp = sphere1.getIDCollisionsRef();
-=======
->>>>>>> 6838a2306e5ec3d030a75497ff2a638e09521e07
+		//std::vector<unsigned int>* temp = sphere1.getIDCollisionsRef();
+		//collisionHandler.printCollisions();
 		//luaBinds.printLuaTop();
+>>>>>>> 95d961556f0ea124274feafee17cb1ce45b375d1
 	}
 
 	luaBinds.unload();

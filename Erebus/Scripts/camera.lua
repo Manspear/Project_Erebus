@@ -114,7 +114,6 @@ function UpdateCamera(dt)
 	local temppos = Camera.GetPos()
 	local height = heightmap:GetHeight(temppos.x, temppos.z)
 	if height + 0.5 > temppos.y then
-		print(temppos.x .. " : " .. height .." : " .. temppos.z)
 		Camera.SetHeight(height+ 0.5) 
 	end
 

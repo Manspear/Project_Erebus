@@ -73,14 +73,6 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
-	
-	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-	//Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
-	//for (size_t i = 0; i < models.size(); i++)
-	//{
-	//	models.at(i).texAsset = moleratTexture;
-	//}
-	//models.at(1).texAsset = moleratTexture2;
 
 	PerformanceCounter counter;
 
@@ -110,8 +102,7 @@ int main()
 			engine.setDrawMode(7);
 		//Collisions
 		collisionHandler.checkCollisions();
-		//collisionHandler.printCollisions();
-		//luaBinds.printLuaTop();
+		counter.displayFPS();
 	}
 
 	luaBinds.unload();
