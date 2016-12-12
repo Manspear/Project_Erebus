@@ -6,9 +6,8 @@ projectile.lifeTime = PROJECTILE_LIFETIME
 projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
 CollisionHandler.AddSphere(projectile.sphereCollider)
 
-local projectileModel = Assets.LoadModel( "Models/molerat.model" )
+local projectileModel = Assets.LoadModel( "Models/moleman5.model" )
 Gear.AddModelInstance(projectileModel, projectile.transformID)
-
 function projectile:Cast()
 	self.position = Transform.GetPosition(player.transformID)
 	self.direction = Transform.GetLookAt(player.transformID)

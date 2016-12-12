@@ -57,6 +57,7 @@ namespace LuaCollision
 		lua_pushvalue( lua, -1 );
 		lua_setfield( lua, -2, "__index" );
 		lua_setglobal( lua, "AABBCollider" );
+		lua_pop(lua, 1);
 	}
 
 	int addSphere( lua_State* lua )

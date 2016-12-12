@@ -4,7 +4,7 @@
 Window::Window()
 {
 	initWindow();
-	glClearColor(.5f, .5f, 1, 0);
+	glClearColor(0, 0, 0, 0);
 }
 
 

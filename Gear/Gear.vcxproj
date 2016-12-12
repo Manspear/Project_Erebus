@@ -156,6 +156,9 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Gear.h" />
     <ClInclude Include="Inputs.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Ray.h" />
@@ -172,6 +175,7 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Inputs.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Ray.cpp" />
@@ -183,6 +187,21 @@
     <ProjectReference Include="..\Importer\Importer.vcxproj">
       <Project>{56d70726-725f-48e5-b935-71a5451ccd72}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Erebus\Shaders\forward.frag" />
+    <None Include="..\Erebus\Shaders\forward.geom" />
+    <None Include="..\Erebus\Shaders\forward.vert" />
+    <None Include="..\Erebus\Shaders\forwardAnim.frag" />
+    <None Include="..\Erebus\Shaders\forwardAnim.geom" />
+    <None Include="..\Erebus\Shaders\forwardAnim.vert" />
+    <None Include="..\Erebus\Shaders\g_Buffer.frag" />
+    <None Include="..\Erebus\Shaders\g_Buffer.vert" />
+    <None Include="..\Erebus\Shaders\heightmap.frag" />
+    <None Include="..\Erebus\Shaders\heightmap.vert" />
+    <None Include="..\Erebus\Shaders\particle.frag" />
+    <None Include="..\Erebus\Shaders\particle.geom" />
+    <None Include="..\Erebus\Shaders\particle.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

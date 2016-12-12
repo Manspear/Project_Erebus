@@ -41,7 +41,7 @@ for i = 1, nrOfBullets do
 	bullets[i] = {}
 	bullets[i].trans = -1
 	bullets[i].ms = 100
-	bullets[i].lifeLeft = 10
+	bullets[i].lifeLeft = 1
 	bullets[i].alive = false
 end
 
@@ -136,7 +136,7 @@ function shoot()
 			bullets[bulletIndex].trans = tempTrans
 			bullets[bulletIndex].ms = 100
 			bullets[bulletIndex].alive = true
-			bullets[bulletIndex].lifeLeft = 1.00
+			bullets[bulletIndex].lifeLeft = 1
 			Transform.Shoot(bullets[bulletIndex].trans, player.trans)
 			bulletIndex = (bulletIndex % nrOfBullets) + 1
 			activeBullets = activeBullets + 1

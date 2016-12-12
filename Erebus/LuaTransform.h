@@ -5,7 +5,7 @@
 
 namespace LuaTransform
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, bool* activeTrasforms);
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms);
 	int bind( lua_State* lua );
 	int destroy( lua_State* lua );
 	int move( lua_State* lua );

@@ -2,8 +2,9 @@ local scripts = {}
 local scriptFiles = 
 {
 	"Scripts/player.lua",
-	"Scripts/enemies.lua"--,
-	--"Scripts/bullets.lua"
+	"Scripts/enemies.lua",
+	"Scripts/bullets.lua",
+	"Scripts/camera.lua"
 }
 
 function Load()
@@ -20,13 +21,15 @@ function Load()
 
 	-- call their load function
 	for key,value in pairs(scripts) do
-		value.Load()
+		if value.Load then value.Load() end
 	end
 end
 
 function Unload()
 	for key,value in pairs(scripts) do
-		value.Unload()
+		if value.Unload then
+			value.Unload()
+		end
 	end
 end
 
