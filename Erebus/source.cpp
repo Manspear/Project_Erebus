@@ -77,10 +77,11 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera, tempDebug);
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())
 	{
+		Debugger::getInstance()->drawLine({ 0,0,0 }, { 10,10,10 });
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
@@ -107,8 +108,7 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
-
-		std::cout << lua_gettop(luaBinds.lua) << "\n";
+		//std::cout << lua_gettop(luaBinds.lua) << "\n";
 	}
 
 	luaBinds.unload();

@@ -160,6 +160,7 @@
     <ClCompile Include="LuaCamera.cpp" />
     <ClCompile Include="LuaCollision.cpp" />
     <ClCompile Include="LuaControls.cpp" />
+    <ClCompile Include="LuaDebug.cpp" />
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />
     <ClInclude Include="LuaControls.h" />
+    <ClInclude Include="LuaDebug.h" />
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaParticles.h" />

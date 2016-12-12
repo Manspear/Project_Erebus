@@ -25,12 +25,16 @@ function UnloadPlayer()
 end
 
 function UpdatePlayer(dt)
+	Debug.DrawLine(2,0,0,0,100,100,100)
 	forward, left = 0, 0
 	player.testCamera = false
 	local position = Transform.GetPosition(player.transformID)
 	local direction = Transform.GetLookAt(player.transformID)
-
-	if Controls[Keys.W] then forward = player.moveSpeed end
+	Debug.DrawLine(1, position.x, position.y, position.z, position.x+direction.x*10, position.y+direction.y*10, position.z+direction.z*10);
+	if Controls[Keys.W] then 
+		forward = player.moveSpeed 
+		Debug.DrawLine(1, position.x, position.y, position.z, 50, 100, 50);
+	end
 	if Controls[Keys.S] then forward = -player.moveSpeed end
 	if Controls[Keys.A] then left = player.moveSpeed end
 	if Controls[Keys.D] then left = -player.moveSpeed end

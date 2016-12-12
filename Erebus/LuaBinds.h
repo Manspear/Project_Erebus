@@ -11,6 +11,8 @@
 #include "LuaParticles.h"
 #include "LuaTransform.h"
 #include "LuaCamera.h"
+#include "LuaDebug.h"
+
 
 class LuaBinds
 {
@@ -25,7 +27,8 @@ public:
 				Transform* transforms,
 				int* boundTransforms,
 				std::vector<ModelInstance>* models,
-				Camera* camera);
+				Camera* camera,
+				Debug* dbg);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	lua_State* lua;
