@@ -62,10 +62,6 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	PerformanceCounter counter;
-	counter.startCounter();
-	double frameTime = 0.0;
-	int frameCounter = 0;
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
 	engine.bindTransforms(&allTransforms, &boundTransforms);
@@ -86,14 +82,14 @@ int main()
 	}
 	models.at(1).texAsset = moleratTexture2;
 
+	PerformanceCounter counter;
+	counter.startCounter();
+
 	while (running && window.isWindowOpen())
 	{
-		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
-		luaBinds.update( &controls, deltaTime );
-		//float angle = asinf(dir.y);
-		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
+		luaBinds.update( &controls, counter.getDeltaTime());
 		engine.draw(&camera, &models);
 		window.update();	
 		engine.queueDynamicModels(&models);
@@ -102,15 +98,7 @@ int main()
 			running = false;
 		
 		//Display FPS:
-		frameCounter++;
-		frameTime += deltaTime;
-		if (frameTime >= 1.0)
-		{
-			double fps = double(frameCounter) / frameTime;
-			std::cout << "FPS: " << fps << std::endl;
-			frameTime -= 1.0;
-			frameCounter = 0;
-		}
+		counter.displayFPS();
 		//Collisions
 		collisionHandler.checkCollisions();
 	}
