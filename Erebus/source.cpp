@@ -53,23 +53,15 @@ int main()
 
 	double deltaTime = 0.0;
 	
-
+	//Collision handler
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f);
+	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f); // hardcoded hitboxes
 	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3,0,0),1.0f);
 	SphereCollider sphere3 = SphereCollider(-3,glm::vec3(4,0,0), 1.0f);
-	SphereCollider sphere4 = SphereCollider(-4,glm::vec3(6,0,0),1.0f);
-	SphereCollider sphere5 = SphereCollider(-5,glm::vec3(6,1,0),1.0f);
-	SphereCollider sphere6 = SphereCollider(-6,glm::vec3(8,0,0), 1.0f);
-	SphereCollider sphere7 = SphereCollider(-7,glm::vec3(9,3,0),1.0f);
 	collisionHandler.addHitbox(&sphere1,0);
 	collisionHandler.addHitbox(&sphere2,4);
 	collisionHandler.addHitbox(&sphere3,1);
-	collisionHandler.addHitbox(&sphere4,1);
-	collisionHandler.addHitbox(&sphere5,2);
-	collisionHandler.addHitbox(&sphere6,2);
-	collisionHandler.addHitbox(&sphere7,3);
 
 	glEnable(GL_DEPTH_TEST);
 
