@@ -55,7 +55,9 @@
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionLayers.cpp" />
+    <ClCompile Include="CollisionLayers.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -75,9 +77,9 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="LevelEditor.h">
       <Filter>LevelEditor</Filter>
-    </ClInclude>
     </ClInclude>
     <ClInclude Include="HitBox.h">
       <Filter>Header Files\Lua</Filter>
@@ -109,11 +111,14 @@
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="CollisionLayers.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua">
       <Filter>Scripts</Filter>
+    </None>
     <None Include="Scripts\camera.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -196,6 +201,21 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\quad.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\cameraLevelEditor.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\arc.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\basespell.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\geometryPicking.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPicking.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

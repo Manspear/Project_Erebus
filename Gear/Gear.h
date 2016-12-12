@@ -47,6 +47,7 @@ namespace Gear
 
 	private:
 		GEAR_API void lightPass(Camera* camera);
+		void pickingPass();
 
 		const int NUM_LIGHTS = 50;
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f);
@@ -68,6 +69,7 @@ namespace Gear
 		ShaderProgram *lightPassShader;
 
 		ShaderProgram gBuffer;
+		ShaderProgram pBuffer;
 		const int NUM_POINT_LIGHTS = 30;
 		std::vector<Lights::PointLight> pointLights;
 		std::vector<Lights::DirLight> dirLights;

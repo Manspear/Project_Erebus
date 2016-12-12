@@ -32,6 +32,7 @@ void RenderQueue::init()
 	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
 	allShaders[ShaderType::DEBUG] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "debug");
+	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -66,6 +67,11 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
 	allShaders[PARTICLES]->unUse();
+
+	allShaders[GEOMETRY_PICKING]->use();
+	allShaders[GEOMETRY_PICKING]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[GEOMETRY_PICKING]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_PICKING]->unUse();
 }
 
 void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
@@ -412,4 +418,50 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)
 		}
 	}
 	allShaders[GEOMETRY]->unUse();
+}
+
+void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
+	allShaders[GEOMETRY_PICKING]->use();
+	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "worldMatrices");
+	GLuint colorIdLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "instanceColors");
+	glm::vec3* idColors = new glm::vec3[105];
+	glm::vec3 color = glm::vec3(1, 0, 0);
+	for (int i = 0; i < dynamicModels->size(); i++)
+	{
+		ModelAsset* modelAsset = dynamicModels->at(i).asset;
+		int meshes = modelAsset->getHeader()->numMeshes;
+		int numInstance = 0;
+
+		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
+
+		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
+		{
+			int index = dynamicModels->at(i).worldIndices[j];
+			tempMatrices[numInstance++] = worldMatrices[index];
+			int r = 255;// (j & 0x000000FF) >> 0;
+			int g = 0;// (j & 0x0000FF00) >> 8;
+			int b = 0;// (j & 0x00FF0000) >> 16;
+			idColors[numInstance-1] = glm::vec3((float)r / 255.f, (float)g / 255.f, (float)b / 255.f);
+		}
+
+		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+
+		glUniform3fv(colorIdLocation, numInstance, &idColors[0][0]);//glm::value_ptr(idColors[0]));
+
+		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+		{
+			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+	}
+
+	delete[]idColors;
+	allShaders[GEOMETRY_PICKING]->unUse();
 }

@@ -28,6 +28,7 @@ namespace Gear
 		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT };
 
 		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);
+		pBuffer.pickingInit(WINDOW_WIDTH, WINDOW_HEIGHT);
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
 
@@ -116,6 +117,8 @@ namespace Gear
 		gBuffer.unUse();
 
 		lightPass(camera);
+
+		
 
 		//renderQueue.process( renderElements );
 		//for (size_t i = 0; i < statModels.size(); i++)
@@ -225,13 +228,16 @@ namespace Gear
 			pointLights[i].pos.y = fmod((pointLights[i].pos.y + (-0.5f) - min + max), max) + min;
 		}
 
-
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		queue.geometryPass(dynamicModels);
 		
+		gBuffer.unUse();
 		
+		
+		
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//--TEMP---
 		/*for (size_t i = 0; i < statModels.size(); i++)
@@ -248,17 +254,44 @@ namespace Gear
 		}*/
 		//---------
 
-		gBuffer.unUse();
 
 		lightPass(camera);
 
 		glDisable(GL_DEPTH_TEST);
+		
 		updateDebug(camera);
 		glEnable(GL_DEPTH_TEST);
+		
+		pickingPass();
+
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
+	}
+
+	void GearEngine::pickingPass() {
+		pBuffer.use();
+		queue.pickingPass(dynamicModels);
+		
+		glFlush();
+		glFinish();
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		unsigned char data[3];
+		glReadPixels(1024 / 2, 768 / 2, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+		int pickedID = data[0] +
+			data[1] * 256 +
+			data[2] * 256 * 256;
+		std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
+		//if (pickedID == 0x00000000) {
+		//	std::cout << "looking at background!" << std::endl;
+		//}
+		//else
+		//	std::cout << "Looking at something :): " << pickedID << std::endl;
+		pBuffer.unUse();
 	}
 
 	void GearEngine::allocateWorlds(int n)

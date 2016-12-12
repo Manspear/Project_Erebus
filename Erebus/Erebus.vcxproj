@@ -205,6 +205,8 @@
     <None Include="Shaders\geometryPass.vert" />
     <None Include="Shaders\geometryPass_notInstanced.frag" />
     <None Include="Shaders\geometryPass_notInstanced.vert" />
+    <None Include="Shaders\geometryPicking.frag" />
+    <None Include="Shaders\geometryPicking.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\lightPass.frag" />

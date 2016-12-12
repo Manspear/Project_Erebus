@@ -78,14 +78,11 @@ void LevelEditor::start() {
 
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		//controls.update(&inputs);
-		//luaBinds.update(&controls, deltaTime);
-		//float angle = asinf(dir.y);
-		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
+
 		camera.updateLevelEditorCamera(deltaTime);
 		window.update();
 		engine.queueDynamicModels(&models);
-
+		tempDebug->drawLine({ 0,10,0 }, { 256,10,256 });
 		//Collisions
 		collisionHandler.checkCollisions();
 		//collisionHandler.drawHitboxes();
