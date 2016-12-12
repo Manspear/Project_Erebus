@@ -23,7 +23,6 @@ void LuaBinds::load( GearEngine* gearEngine,
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
-
 	LuaErebus::registerFunctions( lua, transforms, controls );
 	LuaGear::registerFunctions( lua, gearEngine, models );
 	LuaAssets::registerFunctions( lua, assets );
@@ -92,6 +91,11 @@ void LuaBinds::update( Controls* controls, float deltaTime )
 			validState = false;
 		}
 	}
+}
+
+void LuaBinds::printLuaTop() const
+{
+	std::cout << lua_gettop(lua) << "\n";
 }
 
 /*namespace LuaBinds
