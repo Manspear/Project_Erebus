@@ -41,9 +41,19 @@ void HitBox::setID(unsigned int ID)
 bool HitBox::checkCollision()
 {
 	bool collision = false;
-
 	if( this->IDCollisions.size() > 0 )
 		collision = true;
 
+	return collision;
+}
+
+bool HitBox::checkSpecificCollision(unsigned int target)
+{
+	bool collision = false;
+	for (int i = 0; i < IDCollisions.size(); i++)
+	{
+		if (IDCollisions.at(i) == target)
+			collision = true;
+	}
 	return collision;
 }

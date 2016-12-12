@@ -18,18 +18,19 @@ void LuaBinds::load( GearEngine* gearEngine,
 					Controls* controls,
 					Transform* transforms,
 					int* boundTransforms,
-					std::vector<ModelInstance>* models )
+					std::vector<ModelInstance>* models,
+					Camera* camera )
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
-
 	LuaErebus::registerFunctions( lua, transforms, controls );
 	LuaGear::registerFunctions( lua, gearEngine, models );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );
-	LuaTransform::registerFunctions( lua, transforms, boundTransforms );
+	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
 	LuaControls::registerFunctions( lua );
 	LuaParticles::registerFunctions( lua );
+	LuaCamera::registerFunctions(lua, camera, transforms);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;
@@ -90,6 +91,11 @@ void LuaBinds::update( Controls* controls, float deltaTime )
 			validState = false;
 		}
 	}
+}
+
+void LuaBinds::printLuaTop() const
+{
+	std::cout << lua_gettop(lua) << "\n";
 }
 
 /*namespace LuaBinds

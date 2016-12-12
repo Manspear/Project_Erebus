@@ -1,4 +1,4 @@
-MAX_ENEMIES = 39
+MAX_ENEMIES = 10
 enemies = {}
 
 function LoadEnemies()
@@ -13,7 +13,7 @@ function LoadEnemies()
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	end
 
-	local model = Assets.LoadModel("Models/molerat.model")
+	local model = Assets.LoadModel("Models/moleman5.model")
 	for i=1, MAX_ENEMIES do
 		Gear.AddModelInstance(model, enemies[i].transformID)
 	end

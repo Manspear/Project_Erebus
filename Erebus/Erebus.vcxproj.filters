@@ -1,42 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Controls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PerformanceCounter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaTransform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaCollision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaParticles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaControls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaAssets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaGear.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaBinds.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaErebus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="LuaAssets.cpp" />
+    <ClCompile Include="LuaBinds.cpp" />
+    <ClCompile Include="LuaCamera.cpp" />
+    <ClCompile Include="LuaCollision.cpp" />
+    <ClCompile Include="LuaControls.cpp" />
+    <ClCompile Include="LuaErebus.cpp" />
+    <ClCompile Include="LuaGear.cpp" />
+    <ClCompile Include="LuaParticles.cpp" />
+    <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="PerformanceCounter.cpp" />
+    <ClCompile Include="source.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="AABBCollider.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
@@ -54,39 +31,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Controls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaBinds.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PerformanceCounter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaTransform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaCollision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaParticles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaControls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaAssets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaGear.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaErebus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="LuaAssets.h" />
+    <ClInclude Include="LuaCamera.h" />
+    <ClInclude Include="LuaCollision.h" />
+    <ClInclude Include="LuaControls.h" />
+    <ClInclude Include="LuaErebus.h" />
+    <ClInclude Include="LuaGear.h" />
+    <ClInclude Include="LuaParticles.h" />
+    <ClInclude Include="LuaTransform.h" />
+    <ClInclude Include="Controls.h" />
+    <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="AABBCollider.h">
       <Filter>Collision</Filter>
     </ClInclude>
@@ -102,63 +58,27 @@
     <ClInclude Include="CollisionLayers.h">
       <Filter>Collision</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders\forward.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\forward.geom">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\forward.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\particle.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\particle.geom">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\particle.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="Scripts\test.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\main.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\bullets.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\enemies.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\player.lua">
-      <Filter>Scripts</Filter>
+	<Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{859e765f-b361-4208-a4a7-371924c76994}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{34ee3650-5d4f-45ff-b1d0-e5cb656da508}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts">
-      <UniqueIdentifier>{aa825c85-92b9-4b77-876b-f5a8835cfaa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Shaders">
-      <UniqueIdentifier>{f1271d4e-0acc-49c0-bc12-91a629cc95eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Collision">
-      <UniqueIdentifier>{5e864608-b0de-4126-a73d-48fc28c9927a}</UniqueIdentifier>
-    </Filter>
+    <None Include="Scripts\bullets.lua" />
+    <None Include="Scripts\camera.lua" />
+    <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\main.lua" />
+    <None Include="Scripts\player.lua" />
+    <None Include="Scripts\projectile.lua" />
+    <None Include="Scripts\test.lua" />
+    <None Include="Shaders\forward.frag" />
+    <None Include="Shaders\forward.geom" />
+    <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\heightmap.frag" />
+    <None Include="Shaders\heightmap.vert" />
+    <None Include="Shaders\particle.frag" />
+    <None Include="Shaders\particle.geom" />
+    <None Include="Shaders\particle.vert" />
+    <None Include="Shaders\forwardAnim.frag" />
+    <None Include="Shaders\forwardAnim.geom" />
+    <None Include="Shaders\forwardAnim.vert" />
   </ItemGroup>
 </Project>
