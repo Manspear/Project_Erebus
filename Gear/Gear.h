@@ -48,6 +48,10 @@ namespace Gear
 	private:
 		GEAR_API void lightPass(Camera* camera);
 
+		const int NUM_LIGHTS = 50;
+		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f);
+		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 30.0f, 255.0f);
+
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 
