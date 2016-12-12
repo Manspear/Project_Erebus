@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{4f34f110-cdb8-401b-b59e-12f7c8cb1741}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gear.h">
@@ -48,6 +51,9 @@
     <ClInclude Include="Ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -55,6 +61,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
@@ -95,8 +104,52 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Erebus\Shaders\particle.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\forward.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\forward.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\forward.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\forwardAnim.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\forwardAnim.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\forwardAnim.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\g_Buffer.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\g_Buffer.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\heightmap.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\heightmap.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\particle.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\particle.geom">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

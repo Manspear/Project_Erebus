@@ -24,7 +24,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 	LuaErebus::registerFunctions( lua, transforms, controls );
-	LuaGear::registerFunctions( lua, gearEngine, models );
+	LuaGear::registerFunctions( lua, gearEngine, models, assets);
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);

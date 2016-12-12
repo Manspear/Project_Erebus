@@ -78,13 +78,13 @@ int main()
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
 	bool playerAlive = true;
 	
-	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-	Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
-	for (size_t i = 0; i < models.size(); i++)
-	{
-		models.at(i).texAsset = moleratTexture;
-	}
-	models.at(1).texAsset = moleratTexture2;
+	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
+	//Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
+	//for (size_t i = 0; i < models.size(); i++)
+	//{
+	//	models.at(i).texAsset = moleratTexture;
+	//}
+	//models.at(1).texAsset = moleratTexture2;
 
 	while (running && window.isWindowOpen())
 	{
@@ -94,19 +94,26 @@ int main()
 		luaBinds.update( &controls, deltaTime );
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
-		engine.draw(&camera, &models);
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);
 		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-		
-		
-		//Collisions
-		collisionHandler.checkCollisions();
-		
-		//Display FPS
+		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
+			engine.setDrawMode(1);
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
+			engine.setDrawMode(2);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
+			engine.setDrawMode(3);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_4))
+			engine.setDrawMode(4);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_5))
+			engine.setDrawMode(5);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
+			engine.setDrawMode(6);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
+			engine.setDrawMode(7);
 		frameCounter++;
 		frameTime += deltaTime;
 		if (frameTime >= 1.0)
@@ -116,6 +123,8 @@ int main()
 			frameTime -= 1.0;
 			frameCounter = 0;
 		}
+		//Collisions
+		collisionHandler.checkCollisions();
 		//luaBinds.printLuaTop();
 	}
 

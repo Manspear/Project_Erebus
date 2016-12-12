@@ -6,11 +6,13 @@ namespace LuaGear
 {
 	static GearEngine* g_gearEngine = nullptr;
 	static std::vector<ModelInstance>* g_models = nullptr;
+	static Assets* g_assets = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, Assets* assets)
 	{
 		g_gearEngine = gearEngine;
 		g_models = models;
+		g_assets = assets;
 
 		luaL_newmetatable( lua, "gearMeta" );
 		luaL_Reg regs[] =
@@ -51,9 +53,12 @@ namespace LuaGear
 			{
 				ModelInstance instance;
 				instance.asset = asset;
-
+				//TEMP TODO: move to importer
+				instance.material = Material(g_assets, "Materials/MaterialTextures/molerat_texturemap2.png");
+				
 				index = g_models->size();
 				g_models->push_back( instance );
+
 			}
 
 			g_models->at(index).worldIndices.push_back(transformID);
