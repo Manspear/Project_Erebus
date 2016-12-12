@@ -126,8 +126,12 @@
     <None Include="text.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="text.geom" />
-    <None Include="text.frag" />
+    <None Include="text.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="text.geom">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

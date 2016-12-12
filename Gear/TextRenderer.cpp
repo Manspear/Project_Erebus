@@ -15,7 +15,7 @@ void TextRenderer::setFont(Importer::FontAsset* font)
 	this->font = font;
 }
 
-void TextRenderer::createQuads(std::string s, float x, float y)
+void TextRenderer::print(std::string s, float x, float y, float scale)
 {
 	for (auto c : s)
 	{
@@ -23,15 +23,15 @@ void TextRenderer::createQuads(std::string s, float x, float y)
 
 		vert.pos = glm::vec2(x, y);
 		vert.UV = font->getUV(c);
-		vert.width = font->getWidth(c);
+		vert.width = font->getWidth(c) * scale;
 
-		x += font->getWidth(c);
+		x += vert.width;
 
 		vertices.push_back(vert);
 	}
 }
 
-void TextRenderer::drawAllText()
+void TextRenderer::draw()
 {
 
 }

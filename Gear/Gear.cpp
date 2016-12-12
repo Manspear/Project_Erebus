@@ -150,7 +150,7 @@ namespace Gear
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
 
-		text.createQuads("test", 5.f, 5.f);
+		text.print("test", 5.f, 5.f);
 	}
 
 	void GearEngine::allocateWorlds(int n)

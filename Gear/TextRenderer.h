@@ -21,13 +21,15 @@ public:
 
 	void setFont(Importer::FontAsset* font);
 
-	void createQuads(std::string s, float baseX, float baseY);
+	void print(std::string s, float baseX, float baseY, float scale = 1.0f);
 
-	void drawAllText();
+	void draw();
 
 private:
 	Importer::FontAsset* font;
 	std::vector<sTextVertex> vertices;
 	std::string testString = "Hello world";
+
+
 };
 
