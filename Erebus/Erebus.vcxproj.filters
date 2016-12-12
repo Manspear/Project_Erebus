@@ -19,6 +19,9 @@
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>LevelEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBSquareCollider.h" />
@@ -38,8 +41,9 @@
     <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
-	<Filter>Scripts</Filter>
-    </None>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>LevelEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua" />
@@ -52,13 +56,19 @@
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\forwardAnim.frag" />
+    <None Include="Shaders\forwardAnim.geom" />
+    <None Include="Shaders\forwardAnim.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\particle.frag" />
     <None Include="Shaders\particle.geom" />
     <None Include="Shaders\particle.vert" />
-    <None Include="Shaders\forwardAnim.frag" />
-    <None Include="Shaders\forwardAnim.geom" />
-    <None Include="Shaders\forwardAnim.vert" />
+    <None Include="Scripts\cameraLevelEditor.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="LevelEditor">
+      <UniqueIdentifier>{7230b79a-6749-4a87-bb2b-68161de81821}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

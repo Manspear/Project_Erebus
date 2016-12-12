@@ -20,7 +20,7 @@ public:
 	GEAR_API glm::mat4 getProjectionMatrix();
 	GEAR_API glm::vec3 getPosition();
 	GEAR_API glm::vec3 getDirection();
-	
+	GEAR_API void updateLevelEditorCamera(float dt);
 private:
 	Inputs *inputs;
 	bool freeCam;
@@ -28,10 +28,14 @@ private:
 	float verticalAngle;
 	float camSpeed;
 	int dir;
+	bool inLevelEditor;
+	bool inLevelEditorMoveMouse;
 
 	glm::vec3 camDirection;
 	glm::vec3 camPosition;
 	glm::vec3 camUp;
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
+
+	
 };

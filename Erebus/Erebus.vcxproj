@@ -155,6 +155,7 @@
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
     <ClCompile Include="LuaCamera.cpp" />
@@ -183,6 +184,7 @@
   <ItemGroup>
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
+    <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\player.lua" />
@@ -205,6 +207,7 @@
     <ClInclude Include="AABBCollider.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />

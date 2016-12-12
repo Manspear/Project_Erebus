@@ -20,6 +20,7 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
+#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -34,7 +35,9 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
+	LevelEditor Editor;
+	Editor.start();
+	return 0;
 	Importer::Assets assets;
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
@@ -82,8 +85,8 @@ int main()
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
 	bool playerAlive = true;
 	
-	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-	Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
+	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("../Erebus/Textures/molerat_texturemap2.png");
+	Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("../Erebus/Textures/red.png");
 	for (size_t i = 0; i < models.size(); i++)
 	{
 		models.at(i).texAsset = moleratTexture;
@@ -120,7 +123,7 @@ int main()
 		}
 		//Collisions
 		collisionHandler.checkCollisions();
-		luaBinds.printLuaTop();
+		//luaBinds.printLuaTop();
 	}
 
 	luaBinds.unload();
