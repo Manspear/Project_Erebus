@@ -129,19 +129,17 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 
 		for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 		{
-			TextureAsset* texture = instances->at(i).texture;
-			GLuint uniform = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "diffuseTexture");
-			glUniform1i(uniform, GL_TEXTURE0);
-			texture->bind();
+			instances->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+			
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			int vertexSize = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, aids, 0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
 			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 3));
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 3));
 			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 6));
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 6));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -326,7 +324,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem>* particleSystem
 	allShaders[PARTICLES]->unUse();
 }
 
-void RenderQueue::geometryPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels)
+void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)
 {
 	allShaders[GEOMETRY]->use();
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
@@ -336,10 +334,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* staticModels, std::ve
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
-		TextureAsset* texture = dynamicModels->at(i).texture;
-		texture->bind();
-		GLuint uniform = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "diffuseTexture");
-		glUniform1i(uniform, GL_TEXTURE0);
+		
+		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			int index = dynamicModels->at(i).worldIndices[j];

@@ -1,4 +1,6 @@
 #include "Gear.h"
+//Temp
+#include <random>
 
 struct ScreenVertex
 {
@@ -28,7 +30,7 @@ namespace Gear
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
 
-		Lights::PointLight light;
+		/*Lights::PointLight light;
 
 		light.pos = glm::vec3(0, 0, 0);
 
@@ -41,14 +43,43 @@ namespace Gear
 
 		light.color = glm::vec3(1, 0.4, 0);
 
-		light.radius = 30;
-		pointLights.push_back(light);
+		light.radius = 30;*/
+		/*pointLights.push_back(light);*/
 
 		Lights::DirLight dirLight;
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 
 		dirLights.push_back(dirLight);
+
+		//TEMP LIGHT INIT:
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<> dis(0, 1);
+
+		const int NUM_LIGHTS = 50;
+		const int LIGHT_RADIUS = 30;
+
+		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, -0.0f, -0.0f);
+		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 20.0f, 255.0f);
+
+		for (int i = 0; i < NUM_LIGHTS; i++) {
+			Lights::PointLight light;
+
+			glm::vec3 position = glm::vec3(0.0);
+			for (int i = 0; i < 3; i++) {
+				float min = LIGHT_MIN_BOUNDS[i];
+				float max = LIGHT_MAX_BOUNDS[i];
+				position[i] = (GLfloat)dis(gen) * (max - min) + min;
+			}
+
+			light.pos = position;
+			light.color = glm::vec3(dis(gen), dis(gen), dis(gen));
+			light.radius = LIGHT_RADIUS;
+
+			pointLights.push_back(light);
+		}
 	}
 
 	GearEngine::~GearEngine()

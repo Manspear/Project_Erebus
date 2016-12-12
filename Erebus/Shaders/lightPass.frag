@@ -18,7 +18,7 @@ struct DirLight {
 	vec3 color;
 };
 
-const int NR_POINT_LIGHTS  = 2;
+const int NR_POINT_LIGHTS  = 50;
 const int NR_DIR_LIGHTS  = 1;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];

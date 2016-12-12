@@ -1,6 +1,6 @@
 #include "Material.h"
 
-Material::Material(const char* diffusePath, const char* specularPath, const char* normalPath, float shiny, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
+Material::Material(Importer::Assets* asset, const char* diffusePath, const char* specularPath, const char* normalPath, float shiny, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
 {
 	this->shinyFactor = shiny;
 
@@ -11,16 +11,15 @@ Material::Material(const char* diffusePath, const char* specularPath, const char
 	this->diffuseTextureFilePath = diffusePath;
 	this->specularTextureFilePath = specularPath;
 	this->normalTextureFilePath = normalPath;
-	Importer::Assets assets;
 
 	if (diffuseTextureFilePath != "")
-		diffuseTexture = assets.load<Importer::TextureAsset>(diffuseTextureFilePath);
+		diffuseTexture = asset->load<Importer::TextureAsset>(diffuseTextureFilePath);
 
 	if (specularTextureFilePath != "")
-		specularTexture = assets.load<Importer::TextureAsset>(specularTextureFilePath);
+		specularTexture = asset->load<Importer::TextureAsset>(specularTextureFilePath);
 
 	if (normalTextureFilePath != "")
-		normalTexture = assets.load<Importer::TextureAsset>(normalTextureFilePath);
+		normalTexture = asset->load<Importer::TextureAsset>(normalTextureFilePath);
 
 }
 

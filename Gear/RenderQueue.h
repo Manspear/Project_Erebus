@@ -16,7 +16,7 @@ using namespace Importer;
 struct ModelInstance
 {
 	ModelAsset* asset;
-	Material* material;
+	Material material;
 	std::vector<int> worldIndices;
 };
 
