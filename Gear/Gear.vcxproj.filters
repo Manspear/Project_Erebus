@@ -124,15 +124,6 @@
     <None Include="..\Erebus\Shaders\forward.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\Erebus\Shaders\forwardAnim.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Erebus\Shaders\forwardAnim.geom">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Erebus\Shaders\forwardAnim.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\Erebus\Shaders\g_Buffer.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -149,6 +140,21 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Erebus\Shaders\particle.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\geometryPass.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\geometryPass.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\anim.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\anim.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Erebus\Shaders\anim.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

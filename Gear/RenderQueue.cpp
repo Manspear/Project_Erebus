@@ -26,7 +26,7 @@ RenderQueue::~RenderQueue()
 void RenderQueue::init()
 {
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
-	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forwardAnim");
+	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "anim");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
 	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
@@ -180,12 +180,17 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			int aids = sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, aids, 0);
+			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 3));
+			glEnableVertexAttribArray(2);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 6));
-
+			glEnableVertexAttribArray(3);
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 8));
+			glEnableVertexAttribArray(4);
 			glVertexAttribIPointer(4, 4, GL_INT, aids, (void*)(sizeof(float) * 11));
+			glEnableVertexAttribArray(5);
 			glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 11 + sizeof(int) * 4));
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
