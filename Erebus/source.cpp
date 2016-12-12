@@ -130,13 +130,6 @@ int main()
 		collisionHandler.checkCollisions();
 		std::vector<unsigned int>* temp = sphere1.getIDCollisionsRef();
 		//luaBinds.printLuaTop();
-		tempDebug->drawSphere(sphere1.getPos(), sphere1.getRadius());
-		tempDebug->drawSphere(sphere2.getPos(), sphere2.getRadius());
-		tempDebug->drawSphere(sphere3.getPos(), sphere3.getRadius());
-		tempDebug->drawSphere(sphere4.getPos(), sphere4.getRadius());
-		tempDebug->drawSphere(sphere5.getPos(), sphere5.getRadius());
-		tempDebug->drawSphere(sphere6.getPos(), sphere6.getRadius());
-		tempDebug->drawSphere(sphere7.getPos(), sphere7.getRadius());
 	}
 
 	luaBinds.unload();
