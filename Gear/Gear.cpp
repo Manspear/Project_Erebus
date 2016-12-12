@@ -28,7 +28,6 @@ namespace Gear
 		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT };
 
 		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);
-		pBuffer.pickingInit(WINDOW_WIDTH, WINDOW_HEIGHT);
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
 
@@ -271,7 +270,7 @@ namespace Gear
 	}
 
 	void GearEngine::pickingPass() {
-		pBuffer.use();
+		gBuffer.use();
 		queue.pickingPass(dynamicModels);
 		
 		glFlush();
@@ -285,13 +284,13 @@ namespace Gear
 		int pickedID = data[0] +
 			data[1] * 256 +
 			data[2] * 256 * 256;
-		std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
+		//std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
 		//if (pickedID == 0x00000000) {
 		//	std::cout << "looking at background!" << std::endl;
 		//}
 		//else
 		//	std::cout << "Looking at something :): " << pickedID << std::endl;
-		pBuffer.unUse();
+		gBuffer.unUse();
 	}
 
 	void GearEngine::allocateWorlds(int n)
