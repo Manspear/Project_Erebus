@@ -4,48 +4,86 @@ namespace Nurn
 {
 	Address::Address()
 	{
-		address = 0;
-		port = 0;
-	}
-	Address::Address(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned short port)
-	{
-		this->address = (a << 24) | (b << 16) | (c << 8) | d;
-		this->port = port;
-	}
-	Address::Address(unsigned int address, unsigned short port)
-	{
-		this->address = address;
-		this->port = port;
+		this->ip.address = INADDR_ANY;
+		this->port = 0;
+		ComposeAdress();
 	}
 
-	unsigned int Address::GetAddress() const
+	Address::Address(uint32_t ip, uint16_t port)
 	{
-		return address;
+		this->ip.address = ip;
+		this->port = port;
+		ComposeAdress();
 	}
-	unsigned char Address::GetA() const
+
+	Address::Address(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint16_t port)
 	{
-		return (unsigned char)(address >> 24);
+		SetIP(a, b, c, d);
+		this->port = port;
+		ComposeAdress();
 	}
-	unsigned char Address::GetB() const
+
+	uint32_t Address::GetIp() const
 	{
-		return (unsigned char)(address >> 16);
+		return this->ip.address;
 	}
-	unsigned char Address::GetC() const
+
+	uint8_t Address::GetA() const
 	{
-		return (unsigned char)(address >> 8);
+		return this->ip.part.a;
 	}
-	unsigned char Address::GetD() const
+
+	uint8_t Address::GetB() const
 	{
-		return (unsigned char)(address);
+		return this->ip.part.b;
 	}
-	unsigned short Address::GetPort() const
+
+	uint8_t Address::GetC() const
 	{
-		return port;
+		return this->ip.part.c;
+	}
+
+	uint8_t Address::GetD() const
+	{
+		return this->ip.part.d;
+	}
+
+	uint16_t Address::GetPort() const
+	{
+		return this->port;
+	}        
+
+	SOCKADDR_IN Address::GetAddress() const
+	{ 
+		return this->address;
+	};
+
+	void Address::SetIP(uint8_t a, uint8_t b, uint8_t c, uint8_t d)
+	{
+		this->ip.part.a = a;
+		this->ip.part.b = b;
+		this->ip.part.c = c;
+		this->ip.part.d = d;
+	}
+
+	void Address::ComposeAdress()
+	{
+		this->address = { 0 };
+		this->address.sin_family = AF_INET;
+		this->address.sin_port = htons(port);
+		this->address.sin_addr.s_addr = ip.address;
+	}
+
+	void Address::SetAddress(SOCKADDR_IN address)
+	{
+		this->address = address;
+		this->ip.address = address.sin_addr.s_addr;
+		this->port = ntohs(address.sin_port);
 	}
 
 	bool Address::operator == (const Address & other) const
 	{
-		return this->address == other.address && this->port == other.port;
+		return this->ip.address == other.ip.address && this->port == other.port;
 	}
 
 	bool Address::operator != (const Address & other) const
