@@ -27,6 +27,11 @@ Camera::~Camera()
 
 }
 
+void Camera::camFreeUpdate() 
+{
+
+}
+
 void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 {
 	if (inputs->keyPressedThisFrame(GLFW_KEY_P)) {

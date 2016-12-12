@@ -47,6 +47,8 @@ int main()
 	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
+	
+
 	std::vector<ModelInstance> models;
 	engine.addDebugger(Debugger::getInstance());
 	Debug* tempDebug = Debugger::getInstance();
@@ -63,6 +65,8 @@ int main()
 
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
+	
+	window.changeCursorStatus(false);
 
 	PerformanceCounter counter;
 	counter.startCounter();
@@ -81,6 +85,8 @@ int main()
 	bool playerAlive = true;
 	while (running && window.isWindowOpen())
 	{
+		
+		
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);

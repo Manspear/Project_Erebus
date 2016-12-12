@@ -10,6 +10,7 @@ function LoadPlayer()
 
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
+	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 

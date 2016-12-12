@@ -13,6 +13,7 @@ public:
 	GEAR_API ~Camera();
 
 	GEAR_API void camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt);
+	GEAR_API void camFreeUpdate();
 	GEAR_API void follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset);
 	GEAR_API glm::mat4 getViewPers();
 	GEAR_API glm::mat4 getViewMatrix();
