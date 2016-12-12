@@ -51,6 +51,12 @@ int main()
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
+	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f); // hardcoded hitboxes
+	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3,0,0),1.0f);
+	SphereCollider sphere3 = SphereCollider(-3,glm::vec3(4,0,0), 1.0f);
+	collisionHandler.addHitbox(&sphere1,0);
+	collisionHandler.addHitbox(&sphere2,4);
+	collisionHandler.addHitbox(&sphere3,1);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -68,13 +74,13 @@ int main()
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
 	
-	Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-	Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
-	for (size_t i = 0; i < models.size(); i++)
-	{
-		models.at(i).texAsset = moleratTexture;
-	}
-	models.at(1).texAsset = moleratTexture2;
+	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
+	//Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
+	//for (size_t i = 0; i < models.size(); i++)
+	//{
+	//	models.at(i).texAsset = moleratTexture;
+	//}
+	//models.at(1).texAsset = moleratTexture2;
 
 	PerformanceCounter counter;
 
@@ -83,17 +89,29 @@ int main()
 		inputs.update();
 		controls.update(&inputs);
 		luaBinds.update( &controls, counter.getDeltaTime());
-		engine.draw(&camera, &models);
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-		
-		//Display FPS:
-		counter.displayFPS();
+		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
+			engine.setDrawMode(1);
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
+			engine.setDrawMode(2);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
+			engine.setDrawMode(3);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_4))
+			engine.setDrawMode(4);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_5))
+			engine.setDrawMode(5);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
+			engine.setDrawMode(6);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
+			engine.setDrawMode(7);
 		//Collisions
 		collisionHandler.checkCollisions();
+		//collisionHandler.printCollisions();
+		//luaBinds.printLuaTop();
 	}
 
 	luaBinds.unload();

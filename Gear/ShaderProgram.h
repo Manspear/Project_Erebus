@@ -15,6 +15,8 @@ enum ShaderType {
 	ANIM,
 	PARTICLES,
 	SHADOW,
+	GEOMETRY,
+	GEOMETRY_NON,
 	HEIGHTMAP,
 	DEBUG,
 	NUM_SHADER_TYPES
@@ -35,14 +37,18 @@ public:
 	~ShaderProgram();
 
 	void framebufferInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments);
+	void deferredInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments);
 	void use();
 	void unUse();
 	void bindTexToLocation(GLuint* textures);
+	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture);
 
 	GLuint getProgramID();
 	GLuint* getTextures();
 	void addUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
 	void addUniform(glm::vec3 &vec3, std::string position, int count = 1);
+	void addUniform(float &floatValue, std::string position);
+	void addUniform(int &intValue, std::string position);
 
 
 private:

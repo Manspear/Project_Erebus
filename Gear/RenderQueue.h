@@ -7,7 +7,7 @@
 #include "ParticleSystem.h"
 #include "ModelAsset.h"
 #include "TextureAsset.h"
-
+#include "Material.h"
 #include <vector>
 #include <numeric>
 #include <algorithm>
@@ -17,7 +17,7 @@ using namespace Importer;
 struct ModelInstance
 {
 	ModelAsset* asset;
-	TextureAsset* texAsset = nullptr;
+	Material material;
 	std::vector<int> worldIndices;
 };
 
@@ -44,6 +44,7 @@ public:
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 	void particlePass(std::vector<Gear::ParticleSystem>* particleSystems);
+	void geometryPass(std::vector<ModelInstance>* dynamicModels);
 
 private:
 	int currentShader = 0;

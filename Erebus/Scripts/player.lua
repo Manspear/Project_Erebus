@@ -42,7 +42,7 @@ function UpdatePlayer(dt)
 	--if Controls[Keys.LMB] then Shoot(player.transformID) end
 	if Controls[Keys.LMB] then
 		player.testCamera = true
-		player.projectileSpell:Cast(position, direction)
+		player.projectileSpell:Cast(position, Camera.GetDirection())
 	end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)

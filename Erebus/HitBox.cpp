@@ -9,14 +9,14 @@ HitBox::HitBox()
 	this->IDCollisions.reserve(RESERVE_COLLISIONS);
 }
 
-HitBox::HitBox(unsigned int ID, unsigned int IDTransform)
+HitBox::HitBox(unsigned int ID, int IDTransform)
 {
 	this->ID = ID;
 	this->IDTransform = IDTransform;
 	this->IDCollisions.reserve(RESERVE_COLLISIONS);
 }
 
-HitBox::HitBox(unsigned int IDTransform)
+HitBox::HitBox(int IDTransform)
 {
 	this->ID = -1;
 	this->IDTransform = IDTransform;
