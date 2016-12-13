@@ -32,6 +32,7 @@ namespace LuaCollision
 			{ "Create",				createSphere },
 			{ "GetCollisionIDs",	getCollisionIDs },
 			{ "CheckCollision",		checkCollision },
+			{ "SetRadius",			setRadius },
 			{ "GetID",				getID },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
@@ -56,6 +57,7 @@ namespace LuaCollision
 		lua_pushvalue( lua, -1 );
 		lua_setfield( lua, -2, "__index" );
 		lua_setglobal( lua, "AABBCollider" );
+		lua_pop(lua, 1);
 	}
 
 	int addSphere( lua_State* lua )
@@ -201,6 +203,19 @@ namespace LuaCollision
 		}
 
 		return result;
+	}
+
+	int setRadius( lua_State* lua )
+	{
+		if( lua_gettop( lua ) >= 2 )
+		{
+			SphereCollider* collider = (SphereCollider*)getHitBox( lua, 1 );
+			float radius = lua_tonumber( lua, 2 );
+
+			collider->setRadius( radius );
+		}
+
+		return 0;
 	}
 
 	int getID( lua_State* lua )

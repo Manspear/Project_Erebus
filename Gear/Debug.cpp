@@ -58,10 +58,14 @@ void Debug::drawAll(glm::mat4 &projectionMatrix, glm::mat4 &viewMatrix, ShaderPr
 	program->use();
 	program->addUniform(projectionMatrix, "projectionMatrix");
 	program->addUniform(viewMatrix, "viewMatrix");
+	
+
 	for (size_t i = 0; i < objectsToDraw.size(); i++)
 	{
-		objectsToDraw[i]->drawAsLines();
+		program->addUniform(objectsToDraw[i]->getColor(), "color");
+		objectsToDraw[i]->drawAllLines();
 	}
+	
 	//for (size_t i = 0; i < this->worldMatrices.size(); i++)
 	//{
 	//	//program->addUniform(worldMatrices.at(i), "worldMatrix");
@@ -72,15 +76,17 @@ void Debug::drawAll(glm::mat4 &projectionMatrix, glm::mat4 &viewMatrix, ShaderPr
 	this->clear();
 }
 
-void Debug::drawLine(glm::vec3 start, glm::vec3 dest, float thickness)
+void Debug::drawLine(glm::vec3 start, glm::vec3 dest, glm::vec3 color)
 {
-
-	this->objectsToDraw.push_back(createLine(start, dest, thickness));
+	std::vector<staticNonModels*> objectToDrawTemp;
+	
+	objectToDrawTemp.push_back(createLine(start, dest));
+	this->objectsToDraw.push_back(new ObjectsToDraw(objectToDrawTemp, color));
 }
 
-void Debug::drawCube(const glm::vec3 minPos, const glm::vec3 maxPos, float thickness)
+void Debug::drawCube(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color)
 {
-
+	std::vector<staticNonModels*> objectToDrawTemp;
 	glm::vec3 nearBotRight = glm::vec3(maxPos.x, minPos.y, minPos.z);
 	glm::vec3 nearBotLeft = minPos;
 	glm::vec3 nearTopRight = glm::vec3(maxPos.x, maxPos.y, minPos.z);
@@ -93,26 +99,29 @@ void Debug::drawCube(const glm::vec3 minPos, const glm::vec3 maxPos, float thick
 
 
 	//Front face
-	this->objectsToDraw.push_back(createLine(nearBotLeft, nearBotRight, thickness));
-	this->objectsToDraw.push_back(createLine(nearBotLeft, nearTopLeft, thickness));
-	this->objectsToDraw.push_back(createLine(nearBotRight, nearTopRight, thickness));
-	this->objectsToDraw.push_back(createLine(nearTopLeft, nearTopRight, thickness));
+	objectToDrawTemp.push_back(createLine(nearBotLeft, nearBotRight));
+	objectToDrawTemp.push_back(createLine(nearBotLeft, nearTopLeft));
+	objectToDrawTemp.push_back(createLine(nearBotRight, nearTopRight));
+	objectToDrawTemp.push_back(createLine(nearTopLeft, nearTopRight));
 
 	//Far Face
-	this->objectsToDraw.push_back(createLine(farBotLeft, farBotRight, thickness));
-	this->objectsToDraw.push_back(createLine(farBotLeft, farTopLeft, thickness));
-	this->objectsToDraw.push_back(createLine(farBotRight, farTopRight, thickness));
-	this->objectsToDraw.push_back(createLine(farTopLeft, farTopRight, thickness));
+	objectToDrawTemp.push_back(createLine(farBotLeft, farBotRight));
+	objectToDrawTemp.push_back(createLine(farBotLeft, farTopLeft));
+	objectToDrawTemp.push_back(createLine(farBotRight, farTopRight));
+	objectToDrawTemp.push_back(createLine(farTopLeft, farTopRight));
 
-	this->objectsToDraw.push_back(createLine(farBotLeft, nearBotLeft, thickness));
-	this->objectsToDraw.push_back(createLine(farTopLeft, nearTopLeft, thickness));
-	this->objectsToDraw.push_back(createLine(farBotRight, nearBotRight, thickness));
-	this->objectsToDraw.push_back(createLine(farTopRight, nearTopRight, thickness));
+	objectToDrawTemp.push_back(createLine(farBotLeft, nearBotLeft));
+	objectToDrawTemp.push_back(createLine(farTopLeft, nearTopLeft));
+	objectToDrawTemp.push_back(createLine(farBotRight, nearBotRight));
+	objectToDrawTemp.push_back(createLine(farTopRight, nearTopRight));
+
+	this->objectsToDraw.push_back(new ObjectsToDraw(objectToDrawTemp, color));
 
 }
 
-void Debug::drawSphere(const glm::vec3 position, const float radius, float thickness)
+void Debug::drawSphere(const glm::vec3 position, const float radius, glm::vec3 color)
 {
+	std::vector<staticNonModels*> objectToDrawTemp;
 	const int totalDegree = 360, linesPerSphere = 16;
 
 
@@ -133,18 +142,18 @@ void Debug::drawSphere(const glm::vec3 position, const float radius, float thick
 
 	for (size_t i = 0; i < totalDegree; i+= incremention)
 	{
-		this->objectsToDraw.push_back(createLine(circle1[(int)i / incremention],
-			circle1[(i+ incremention >=totalDegree? 0 :((int)i / incremention)+1)], thickness));
-		this->objectsToDraw.push_back(createLine(circle2[(int)i / incremention],
-			circle2[(i + incremention >= totalDegree ? 0 : ((int)i / incremention) + 1)], thickness));
-		this->objectsToDraw.push_back(createLine(circle3[(int)i / incremention],
-			circle3[(i + incremention >= totalDegree ? 0 : ((int)i / incremention) + 1)], thickness));
+		objectToDrawTemp.push_back(createLine(circle1[(int)i / incremention],
+			circle1[(i+ incremention >=totalDegree? 0 :((int)i / incremention)+1)]));
+		objectToDrawTemp.push_back(createLine(circle2[(int)i / incremention],
+			circle2[(i + incremention >= totalDegree ? 0 : ((int)i / incremention) + 1)]));
+		objectToDrawTemp.push_back(createLine(circle3[(int)i / incremention],
+			circle3[(i + incremention >= totalDegree ? 0 : ((int)i / incremention) + 1)]));
 	}
 
-	int k = 0;
+	this->objectsToDraw.push_back(new ObjectsToDraw(objectToDrawTemp, color));
 }
 
-staticNonModels* Debug::createLine(const glm::vec3 &start, const glm::vec3 &end, float thickness)
+staticNonModels* Debug::createLine(const glm::vec3 &start, const glm::vec3 &end)
 {
 		GLuint iVBO, VBO;
 		int iVBOsize;

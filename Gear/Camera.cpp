@@ -5,7 +5,6 @@ Camera::Camera()
 	glm::mat4 pers = glm::perspective(45.f, 1280.f / 720.f, 0.5f, 20.f);
 	viewMat = pers * glm::lookAt(glm::vec3(0, 0, 10.0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	freeCam = true;
-	angle = (3.14 / 2) / 4;
 }
 
 Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, Inputs* in)
@@ -20,7 +19,6 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
 	viewMat = glm::lookAt(camPosition, camDirection, camUp);
 	freeCam = true;
-	angle = (3.14 / 2) / 4;
 	dir = 1;
 }
 
@@ -95,14 +93,41 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 	viewMat = glm::lookAt(camPosition, camPosition + camDirection, camUp);
 }
 
-GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance)
+GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset)
 {
-	/*glm::vec3 tempForward(direction.x, 0, direction.z);
+	
+	glm::vec3 tempForward(direction.x, 0, direction.z);
 	tempForward = glm::normalize(tempForward);
-	tempForward *= cosf(angle) * distance;
-	this->camPosition = point + glm::vec3(0, distance*sinf(angle), 0) - tempForward;*/
-	camPosition = point - direction*distance;
-	this->viewMat = glm::lookAt(camPosition, point, camUp);
+	//tempForward *= cosf(angle) * distance;
+	glm::vec3 offset = xOffset*cross(tempForward, { 0,1,0 }) + glm::vec3(0,yOffset,0);
+	glm::vec3 tempcamPos = point + offset + glm::vec3(0, distance*sinf(angle), 0) - tempForward * cosf(angle) * distance;
+	this->camPosition = (tempcamPos*0.3f+(point+offset+distance * glm::normalize(-direction))*0.7f);
+
+	this->lookPos = point + offset;
+	this->camDirection = glm::normalize( lookPos - camPosition);
+
+	//camPosition = point - direction*distance;
+	this->viewMat = glm::lookAt(camPosition, point + offset, camUp);
+}
+
+GEAR_API void Camera::setCamera(glm::vec3 campos, glm::vec3 lookPos)
+{
+	this->camPosition = campos;
+	this->lookPos = lookPos;
+	this->viewMat = glm::lookAt(campos, lookPos, camUp);
+}
+
+GEAR_API void Camera::setPosition(glm::vec3 position)
+{
+	this->camPosition = position;
+	this->viewMat = glm::lookAt(position, position- camDirection, camUp);
+}
+
+GEAR_API void Camera::setHeight(float h)
+{
+	this->camPosition.y = h;
+	//this->lookPos.y += h;
+	setCamera(camPosition, lookPos);
 }
 
 glm::mat4 Camera::getViewPers()

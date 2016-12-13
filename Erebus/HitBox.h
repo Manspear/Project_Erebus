@@ -6,8 +6,8 @@ class HitBox
 	
 public:
 	HitBox();
-	HitBox(unsigned int ID, unsigned int IDTransform);
-	HitBox(unsigned int IDTransform);
+	HitBox(unsigned int ID, int IDTransform);
+	HitBox(int IDTransform);
 	virtual ~HitBox();
 	virtual unsigned int getID() const = 0; // copy elision makes returning values fast? RVO - NRVO
 	virtual unsigned int getIDTransform() const = 0;

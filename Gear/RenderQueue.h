@@ -7,24 +7,18 @@
 #include "ParticleSystem.h"
 #include "ModelAsset.h"
 #include "TextureAsset.h"
-
+#include "Material.h"
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include "Animation.h"
 
 using namespace Importer;
 struct ModelInstance
 {
 	ModelAsset* asset;
-	TextureAsset* texAsset;
+	Material material;
 	std::vector<int> worldIndices;
-};
-
-struct TransformStruct
-{
-	float posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ;
-	int worldMatIndex;
-	glm::vec3 lookAt;
 };
 
 class RenderQueue
@@ -38,17 +32,19 @@ public:
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
 	void draw(std::vector<ModelInstance>* instances);
-	void update(bool* actives, int n, TransformStruct* theTrans);
+	void update(int n, TransformStruct* theTrans);
 	//GEAR_API int modelAdded(Model* model);
 	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
+	Animation animationObject;
 	/*Gear::Particle* particle;*/
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 	void particlePass(std::vector<Gear::ParticleSystem>* particleSystems);
+	void geometryPass(std::vector<ModelInstance>* dynamicModels);
 
 private:
 	int currentShader = 0;

@@ -1,9 +1,10 @@
 #pragma once
 #include "SphereCollider.h"
 #include "AABBCollider.h"
-#include "AABBSquareCollider.h"
 #include <vector>
 #include "Transform.h"
+#include "CollisionLayers.h"
+#include "Debug.h"
 
 //extern Transform* allTransforms;
 
@@ -17,37 +18,59 @@ class CollisionHandler
 	
 public:
 	CollisionHandler();
+	CollisionHandler(int layers);
 	~CollisionHandler();
 	void addHitbox(SphereCollider* sphere);
 	void addHitbox(AABBCollider* aabb);
-	void addHitbox(AABBSquareCollider* aabb);
+	void addHitbox(SphereCollider* sphere, int layer);
+	void addHitbox(AABBCollider* aabb, int layer);
 
 	void checkCollisions();
 	void checkSphereToSphereCollisions();
+	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders); // check against itself
+	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders1, std::vector<SphereCollider*>* colliders2); // check against the other vector
 	void checkAabbToAaabbCollisions();
+	void checkAabbToAaabbCollisions(std::vector<AABBCollider*>* colliders);
+	void checkAabbToAaabbCollisions(std::vector<AABBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
 	void checkSphereToAabbCollisions();
-	void checkAabbSquareToAabbSquareCollisions();
 
 	void updateSpherePos();
 	void updateAabbPos();
-	void updateAabbSquarePos();
 
 	void deleteAllOldCollisions();
 	bool deleteHitbox(unsigned int ID);
 
 	void setTransforms( Transform* transforms );
+	void setDebugger(Debug* debugger);
+
+	CollisionLayers* getCollisionLayers();
+
+	//CollisionLayerPassThrough functions
+
+	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
+	//change if two layers can collide in the layerMatrix
+	void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
+
+	void printCollisions();
+
+	void drawHitboxes();
 	
 
 private:
 	Transform* transforms;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
-	std::vector<AABBSquareCollider*> aabbSquareColliders;
 
 	bool sphereToSphereCollision(SphereCollider* sphere1, SphereCollider* sphere2);
 	bool aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2);
-	bool aabbSquareToAabbSquareCollision(AABBSquareCollider* aabb1, AABBSquareCollider* aabb2);
 	static unsigned int hitboxID;
 	static void incrementHitboxID();
+
+	CollisionLayers* collisionLayers;
+
+	int sphereCollisionCounter = 0;
+	int aabbCollisionCounter = 0;
+
+	Debug* debugger;
 };
 

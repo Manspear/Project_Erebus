@@ -24,6 +24,7 @@
     <ClInclude Include="NetworkDefines.hpp" />
     <ClInclude Include="Nurn.hpp" />
     <ClInclude Include="Socket.hpp" />
+    <ClInclude Include="TCPCommunication.hpp" />
     <ClInclude Include="TCPSocket.hpp" />
     <ClInclude Include="UDPCommunication.hpp" />
     <ClInclude Include="UDPSocket.hpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Nurn.cpp" />
     <ClCompile Include="Socket.cpp" />
+    <ClCompile Include="TCPCommunication.cpp" />
     <ClCompile Include="TCPSocket.cpp" />
     <ClCompile Include="UDPCommunication.cpp" />
     <ClCompile Include="UDPSocket.cpp" />

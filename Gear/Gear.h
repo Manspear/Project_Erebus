@@ -3,11 +3,12 @@
 #include "Camera.h"
 //#include "Model.h"
 #include "RenderQueue.h"
+#include "Light.h"
 #include "Inputs.h"
 #include "staticNonModels.h"
 #include "Debug.h"
 #include "TextRenderer.h"
-
+#include "Material.h"
 namespace Gear
 {
 
@@ -22,13 +23,15 @@ namespace Gear
 		GEAR_API void draw(Camera* camera, std::vector<ModelInstance>* instances);
 
 		GEAR_API bool isRunning();
+		//Temporay debug function
+		GEAR_API void setDrawMode(int drawMode);
 		
 		GEAR_API void addStaticNonModel(staticNonModels* model);
 
 		GEAR_API void addDebugger(Debug* debugger);
 
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(float** transforms, bool** actives, int* n, glm::vec3* lookAts, TransformStruct** theTrans);
+		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
 		GEAR_API void print(const std::string &s, const float &baseX, const float &baseY);
@@ -47,6 +50,12 @@ namespace Gear
 		//----------------------
 
 	private:
+		GEAR_API void lightPass(Camera* camera);
+
+		const int NUM_LIGHTS = 50;
+		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f);
+		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 30.0f, 255.0f);
+
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 		TextRenderer text;
@@ -57,7 +66,20 @@ namespace Gear
 		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
+		//DebugQuad
+		GLuint quadVAO = 0;
+		GLuint quadVBO;
+		ShaderProgram *quadShader;
+		ShaderProgram *lightPassShader;
 
+		ShaderProgram gBuffer;
+		const int NUM_POINT_LIGHTS = 30;
+		std::vector<Lights::PointLight> pointLights;
+		std::vector<Lights::DirLight> dirLights;
+		//temp debug variable
+		int drawMode = 1;
+
+		void drawQuad();
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
 		std::vector<ParticleSystem>* particleSystems;
