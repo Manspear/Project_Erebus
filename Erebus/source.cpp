@@ -27,7 +27,7 @@ int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
 int startNetworkReceiving(Nurn::NurnEngine * pSocket, Window* window);
 
 std::thread networkThread;
-bool networkActive = false;
+bool networkActive = true;
 bool networkHost = true;
 
 bool running = true;
@@ -51,7 +51,11 @@ int main()
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
 
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
+	//engine.queue.animationObject.setAsset(moleman);
+
 	std::vector<ModelInstance> models;
+	std::vector<AnimatedInstance> animatedModels;
 	engine.addDebugger(Debugger::getInstance());
 	Debug* tempDebug = Debugger::getInstance();
 
@@ -86,7 +90,7 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
 	bool playerAlive = true;
 	
 	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
@@ -111,6 +115,7 @@ int main()
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 			
 		engine.queueDynamicModels(&models);
+		engine.queueAnimModels(&animatedModels);
 
 		//Collisions
 		collisionHandler.checkCollisions();
@@ -170,58 +175,77 @@ int startNetworkCommunication( Window* window )
 	// initialize socket layer
 
 	Nurn::NurnEngine network;
-
-	if (!network.Initialize(127, 0, 0, 1))
-	{
-		printf("failed to initialize sockets\n");
-		return 1;
-	}
+	Nurn::NurnEngine network2;
 
 	if (networkHost)
 	{
-		startNetworkReceiving(&network, window);
+		if (!network.InitializeHost())
+		{
+			printf("failed to initialize sockets\n");
+			return 1;
+		}
+
+		Sleep(250);
+
+		if (!network2.InitializeClient(127, 0, 0, 1, 35500, 35501))
+		{
+			printf("failed to initialize sockets\n");
+			return 1;
+		}
+
+		if (!network.AcceptCommunication())
+		{
+			printf("failed to accept connection\n");
+			return 1;
+		}
+
+		while (running && window->isWindowOpen())
+		{
+			startNetworkSending(&network2, window);
+			startNetworkReceiving(&network, window);
+		}
 	}
 	else
 	{
+		if (!network.InitializeClient(127,0,0,1,35501))
+		{
+			printf("failed to initialize sockets\n");
+			return 1;
+		}
 		startNetworkSending(&network, window);
 	}
 
 	printf("Closing socket on port\n");
 	network.Shutdown();
+	network2.Shutdown();
 
 	return 0;
 }
 
 int startNetworkSending(Nurn::NurnEngine * pNetwork, Window* window)
 {
-	while (running && window->isWindowOpen())
-	{
-		const char data[] = "hello world!";
+	const char data[] = "hello world!";
 
-		pNetwork->Send(data, sizeof(data));
+	pNetwork->Send(data, sizeof(data));
 
-		Sleep(250);
-	}
+	Sleep(250);
 
 	return 0;
 }
 
 int startNetworkReceiving(Nurn::NurnEngine * pNetwork, Window* window)
 {
-	while (running && window->isWindowOpen())
+	printf("Recieving package\n");
+	Sleep(250);
+	Nurn::Address sender;
+	unsigned char buffer[256];
+	int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
+	if (bytes_read)
 	{
-		printf("Recieving package\n");
-		Sleep(250);
-		Nurn::Address sender;
-		unsigned char buffer[256];
-		int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
-		if (bytes_read)
-		{
-			printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
-				sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-				sender.GetPort(), bytes_read);
-			std::cout << buffer << std::endl;
-		}
+		printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
+			sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
+			sender.GetPort(), bytes_read);
+		std::cout << buffer << std::endl;
 	}
 
 	return 0;

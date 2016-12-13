@@ -52,7 +52,9 @@
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionLayers.cpp" />
+    <ClCompile Include="CollisionLayers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -103,7 +105,9 @@
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="CollisionLayers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua">
@@ -193,14 +197,26 @@
     <None Include="Shaders\quad.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\anim.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.vert">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="Shaders\text.frag">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\text.geom">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\text.vert">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\arc.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\basespell.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

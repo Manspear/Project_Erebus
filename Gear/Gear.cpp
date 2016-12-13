@@ -113,7 +113,7 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(instances);
+		queue.geometryPass(instances, animatedModels);
 		gBuffer.unUse();
 
 		lightPass(camera);
@@ -205,9 +205,9 @@ namespace Gear
 		dynamicModels = models;
 	}
 
-	void GearEngine::queueAnimModels(std::vector<Dummy>* models)
+	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
 	{
-
+		animatedModels = models;
 	}
 
 	void GearEngine::queueParticles(std::vector<ParticleSystem>* particles)
@@ -241,7 +241,7 @@ namespace Gear
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		queue.geometryPass(dynamicModels);
+		queue.geometryPass(dynamicModels, animatedModels);
 		
 		
 		

@@ -17,7 +17,7 @@ namespace Nurn
 		assert(data);
 		assert(size > 0);
 
-		int networkSocket = socket.GetSocket();
+		int networkSocket = communicationSocket.GetSocket();
 
 		if (networkSocket == 0)
 		{
@@ -55,7 +55,7 @@ namespace Nurn
 		assert(data);
 		assert(size > 0);
 
-		int networkSocket = socket.GetSocket();
+		int networkSocket = communicationSocket.GetSocket();
 
 		if (networkSocket == 0)
 		{

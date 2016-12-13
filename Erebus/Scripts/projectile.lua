@@ -7,7 +7,7 @@ projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
 CollisionHandler.AddSphere(projectile.sphereCollider)
 
 local projectileModel = Assets.LoadModel( "Models/moleman5.model" )
-Gear.AddModelInstance(projectileModel, projectile.transformID)
+Gear.AddStaticInstance(projectileModel, projectile.transformID)
 function projectile:Cast()
 	self.position = Transform.GetPosition(player.transformID)
 	self.direction = Camera.GetDirection()--Transform.GetLookAt(player.transformID)
