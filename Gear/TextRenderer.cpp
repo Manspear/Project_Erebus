@@ -52,6 +52,10 @@ void TextRenderer::draw()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	font->getTexture()->bind(GL_TEXTURE0);
 	glUniform1f(glGetUniformLocation(shader->getProgramID(), "height"), (int)font->getInfo()->size);
 
@@ -68,6 +72,9 @@ void TextRenderer::draw()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(sTextVertex), &v, GL_STATIC_DRAW);		
 		glDrawArrays(GL_POINTS, 0, 1);
 	}
+
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
 
 	glBindVertexArray(0);
 

@@ -267,6 +267,7 @@ namespace Gear
 		glDisable(GL_DEPTH_TEST);
 		updateDebug(camera);
 		glEnable(GL_DEPTH_TEST);
+
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;

@@ -105,14 +105,21 @@ int main()
 		luaBinds.update( &controls, deltaTime );
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
-		window.update();	
+			
 		engine.queueDynamicModels(&models);
 
 		//Collisions
 		collisionHandler.checkCollisions();
 		//collisionHandler.drawHitboxes();
 
+		frameCounter++;
+		frameTime += deltaTime;
+		double fps = double(frameCounter) / frameTime;
+		std::string out = "FPS: " + std::to_string(fps);
+		engine.print(out, 0.f, 720.f);
+
 		engine.draw(&camera);
+
 		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -130,14 +137,8 @@ int main()
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
 			engine.setDrawMode(7);
-		frameCounter++;
-		frameTime += deltaTime;
-		double fps = double(frameCounter) / frameTime;
-		std::string out = "FPS: " + std::to_string(fps);
-		engine.print(out, 0.f, 720.f);
 
-
-		
+		window.update();
 	}
 
 	luaBinds.unload();
