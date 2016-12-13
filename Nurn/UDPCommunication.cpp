@@ -28,7 +28,7 @@ namespace Nurn
 		return sent_bytes == size;
 	}
 
-	bool UDPCommunication::RecievePackage(Address & sender, void * data, int size)
+	bool UDPCommunication::ReceivePackage(Address & sender, void * data, int size)
 	{
 		assert(data);
 		assert(size > 0);

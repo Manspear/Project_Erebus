@@ -50,7 +50,7 @@ namespace Nurn
 		return true;
 	}
 
-	bool TCPCommunication::RecievePackage(Address & sender, void * data, int size)
+	bool TCPCommunication::ReceivePackage(Address & sender, void * data, int size)
 	{
 		assert(data);
 		assert(size > 0);
