@@ -192,9 +192,11 @@
     <None Include="..\Erebus\Shaders\forward.frag" />
     <None Include="..\Erebus\Shaders\forward.geom" />
     <None Include="..\Erebus\Shaders\forward.vert" />
-    <None Include="..\Erebus\Shaders\forwardAnim.frag" />
-    <None Include="..\Erebus\Shaders\forwardAnim.geom" />
-    <None Include="..\Erebus\Shaders\forwardAnim.vert" />
+    <None Include="..\Erebus\Shaders\anim.frag" />
+    <None Include="..\Erebus\Shaders\anim.geom" />
+    <None Include="..\Erebus\Shaders\anim.vert" />
+    <None Include="..\Erebus\Shaders\geometryPass.frag" />
+    <None Include="..\Erebus\Shaders\geometryPass.vert" />
     <None Include="..\Erebus\Shaders\g_Buffer.frag" />
     <None Include="..\Erebus\Shaders\g_Buffer.vert" />
     <None Include="..\Erebus\Shaders\heightmap.frag" />
