@@ -9,6 +9,7 @@ function LoadPlayer()
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.health = 100
+	player.animation = Animation.Create()
 
 	-- set spells for player
 	player.spells = {}
@@ -24,7 +25,8 @@ function LoadPlayer()
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/moleman5.model")
-	Gear.AddModelInstance(model, player.transformID)
+	--Gear.AddStaticInstance(model, player.transformID)
+	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
 	Erebus.SetControls(player.transformID)
 	
@@ -73,6 +75,8 @@ function UpdatePlayer(dt)
 	for i=1, #player.spells do 
 		player.spells[i]:BaseUpdate(dt)
 	end
+
+	player.animation:Update(dt,0)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

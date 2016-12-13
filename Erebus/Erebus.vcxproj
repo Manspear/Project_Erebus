@@ -190,6 +190,8 @@
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\test.lua" />
+    <None Include="Shaders\anim.frag" />
+    <None Include="Shaders\anim.vert" />
     <None Include="Shaders\debug.frag" />
     <None Include="Shaders\debug.vert" />
     <None Include="Shaders\forward.frag" />

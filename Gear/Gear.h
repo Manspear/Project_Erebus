@@ -36,7 +36,7 @@ namespace Gear
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
-		GEAR_API void queueAnimModels(std::vector<Dummy>* models);
+		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
 		GEAR_API void queueParticles(std::vector<ParticleSystem>* particles);
 		GEAR_API void queueLights(std::vector<Light>* lights);
 		GEAR_API void draw(Camera* camera);
@@ -77,6 +77,7 @@ namespace Gear
 		void drawQuad();
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
+		std::vector<AnimatedInstance>* animatedModels;
 		std::vector<ParticleSystem>* particleSystems;
 
 		//Default values, to avoid nullptrs

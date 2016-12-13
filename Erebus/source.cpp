@@ -47,7 +47,11 @@ int main()
 	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
+	//engine.queue.animationObject.setAsset(moleman);
+
 	std::vector<ModelInstance> models;
+	std::vector<AnimatedInstance> animatedModels;
 	engine.addDebugger(Debugger::getInstance());
 	Debug* tempDebug = Debugger::getInstance();
 
@@ -82,7 +86,7 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models , &camera);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
 	bool playerAlive = true;
 	
 	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
@@ -103,6 +107,7 @@ int main()
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 		window.update();	
 		engine.queueDynamicModels(&models);
+		engine.queueAnimModels(&animatedModels);
 
 		//Collisions
 		collisionHandler.checkCollisions();
@@ -136,7 +141,7 @@ int main()
 			frameCounter = 0;
 		}
 
-		
+		//engine.queue.animationObject.updateAnimation(deltaTime,0);
 	}
 
 	luaBinds.unload();

@@ -193,6 +193,14 @@
     <None Include="Shaders\quad.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Scripts\arc.lua" />
+    <None Include="Scripts\basespell.lua" />
+    <None Include="Shaders\anim.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
