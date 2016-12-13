@@ -528,9 +528,11 @@ void CollisionHandler::setLayerCollisionMatrix(int layer1, int layer2, bool canC
 
 void CollisionHandler::printCollisions()
 {
+	float total = this->sphereCollisionCounter + this->aabbCollisionCounter + this->sphereToAabbCollisionCounter;
 	std::cout << "Sphere to sphere checks: " << this->sphereCollisionCounter 
 		<< "\nAABB to AABB Checks: " << this->aabbCollisionCounter 
-		<< "\nSphere to AABB Checks: " << this->sphereToAabbCollisionCounter << std::endl;
+		<< "\nSphere to AABB Checks: " << this->sphereToAabbCollisionCounter 
+		<<"\nTotal Checks: " << total << std::endl;
 }
 
 void CollisionHandler::drawHitboxes()
