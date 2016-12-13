@@ -1,11 +1,18 @@
 #version 420 core
 
-in vec3 pos ;
-in vec3 normal ;
-in vec2 UV ;
-in vec3 tangent ;
-in ivec4 influences ;
-in vec4 weights ;
+//in vec3 pos ;
+//in vec3 normal ;
+//in vec2 UV ;
+//in vec3 tangent ;
+//in ivec4 influences ;
+//in vec4 weights ;
+
+layout (location = 0) in vec3 pos ;
+layout (location = 1) in vec3 normal ;
+layout (location = 2) in vec2 UV ;
+layout (location = 3) in vec3 tangent ;
+layout (location = 4) in ivec4 influences ;
+layout (location = 5) in vec4 weights ;
 
 out vec3 vert_normal;
 out vec3 vert_viewPos;

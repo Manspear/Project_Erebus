@@ -4,12 +4,14 @@ class AABBCollider : public HitBox
 {
 public:
 	AABBCollider();
-	AABBCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 minPos, glm::vec3 maxPos);
+	AABBCollider(unsigned int ID, int IDTransform, glm::vec3 minPos, glm::vec3 maxPos);
+	AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos);
 	AABBCollider(unsigned int IDTransform);
 	~AABBCollider();
 	bool AabbToAabb(const AABBCollider* aabb);
-	const glm::vec3* getMaxPos();
-	const glm::vec3* getMinPos();
+
+	const glm::vec3& getMaxPos();
+	const glm::vec3& getMinPos();
 
 	//overrides
 	virtual unsigned int getID() const override; // copy elision makes returning values fast? RVO - NRVO

@@ -13,6 +13,11 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AABBSquareCollider.cpp" />
+    <ClCompile Include="AABBCollider.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="HitBox.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,24 +42,6 @@
     <ClCompile Include="LuaErebus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AABBCollider.cpp">
-      <Filter>CollisionFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="AABBSquareCollider.cpp">
-      <Filter>CollisionFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionHandler.cpp">
-      <Filter>CollisionFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>CollisionFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>CollisionFiles</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -69,6 +56,11 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AABBSquareCollider.h" />
+    <ClInclude Include="AABBCollider.h" />
+    <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="HitBox.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -89,24 +81,6 @@
     </ClInclude>
     <ClInclude Include="LuaErebus.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>CollisionFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBCollider.h">
-      <Filter>CollisionFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBSquareCollider.h">
-      <Filter>CollisionFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionHandler.h">
-      <Filter>CollisionFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>CollisionFiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -149,12 +123,14 @@
     <None Include="Scripts\player.lua">
       <Filter>Scripts</Filter>
     </None>
-<<<<<<< HEAD
-    <None Include="Scripts\camera.lua">
-=======
-    <None Include="Scripts\projectile.lua">
->>>>>>> c09f8cb6ddba7b0ea9fa28077810063464f21a93
-      <Filter>Scripts</Filter>
+    <None Include="Shaders\text.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.geom">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.vert">
+      <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -169,9 +145,6 @@
     </Filter>
     <Filter Include="Source Files\Shaders">
       <UniqueIdentifier>{f1271d4e-0acc-49c0-bc12-91a629cc95eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionFiles">
-      <UniqueIdentifier>{1e2e70a8-f2cc-4db1-8fa1-583768edb2d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

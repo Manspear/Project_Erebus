@@ -15,6 +15,7 @@ namespace Gear
 		glewInit();
 		//renderQueue.init();
 		queue.init();
+		text.init(1280, 720);
 
 
 
@@ -130,6 +131,7 @@ namespace Gear
 		//	tempProgram->unUse();
 		//}
 
+		
 	}
 
 	bool GearEngine::isRunning() {
@@ -178,9 +180,19 @@ namespace Gear
 		allTrans = theTrans;
 	}
 
+	void GearEngine::setFont(FontAsset* font)
+	{
+		text.setFont(font);
+	}
+
 	void GearEngine::addModelInstance(ModelAsset* asset)
 	{
 		queue.addModelInstance(asset);
+	}
+
+	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY)
+	{
+		text.print(s, baseX, baseY);
 	}
 
 	void GearEngine::queueModels(std::vector<ModelInstance>* models)
@@ -210,6 +222,7 @@ namespace Gear
 
 	void GearEngine::draw(Camera* camera)
 	{
+		
 		queue.update(*transformCount, *allTrans);
 		queue.updateUniforms(camera);
 
@@ -227,10 +240,11 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		queue.geometryPass(dynamicModels);
-
-		updateDebug(camera);
-
+		
+		
+		
 		//--TEMP---
 		/*for (size_t i = 0; i < statModels.size(); i++)
 		{
@@ -250,12 +264,16 @@ namespace Gear
 
 		lightPass(camera);
 
-
+		glDisable(GL_DEPTH_TEST);
+		updateDebug(camera);
+		glEnable(GL_DEPTH_TEST);
 
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
+
+		text.draw();
 	}
 
 	void GearEngine::allocateWorlds(int n)

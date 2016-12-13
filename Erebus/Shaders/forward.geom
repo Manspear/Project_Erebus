@@ -1,6 +1,6 @@
 #version 420 core
 layout(triangles) in ;
-layout(triangle_strip, max_vertices = 6) out;
+layout(triangle_strip, max_vertices = 4) out;
 
 in vec3 vert_normal[];
 in vec3 vert_viewPos[];

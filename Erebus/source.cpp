@@ -20,6 +20,7 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
+#include "FontAsset.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -35,7 +36,12 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	Window window;
+	Gear::GearEngine engine;
+
 	Importer::Assets assets;
+	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
+	engine.setFont(font);
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
@@ -43,8 +49,6 @@ int main()
 	for (int i = 0; i < nrOfTransforms; i++)
 		transforms[i].setThePtr(&allTransforms[i]);
 	Controls controls;
-	Window window;
-	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
 	std::vector<ModelInstance> models;
@@ -53,9 +57,16 @@ int main()
 
 	double deltaTime = 0.0;
 	
-
+	//Collision handler
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
+	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f); // hardcoded hitboxes
+	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3,0,0),1.0f);
+	SphereCollider sphere3 = SphereCollider(-3,glm::vec3(4,0,0), 1.0f);
+	collisionHandler.addHitbox(&sphere1,0);
+	collisionHandler.addHitbox(&sphere2,4);
+	collisionHandler.addHitbox(&sphere3,1);
+	collisionHandler.setDebugger(Debugger::getInstance());
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -94,9 +105,21 @@ int main()
 		luaBinds.update( &controls, deltaTime );
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
-		window.update();	
+			
 		engine.queueDynamicModels(&models);
+
+		//Collisions
+		collisionHandler.checkCollisions();
+		//collisionHandler.drawHitboxes();
+
+		frameCounter++;
+		frameTime += deltaTime;
+		double fps = double(frameCounter) / frameTime;
+		std::string out = "FPS: " + std::to_string(fps);
+		engine.print(out, 0.f, 720.f);
+
 		engine.draw(&camera);
+
 		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -114,18 +137,8 @@ int main()
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
 			engine.setDrawMode(7);
-		frameCounter++;
-		frameTime += deltaTime;
-		if (frameTime >= 1.0)
-		{
-			double fps = double(frameCounter) / frameTime;
-			std::cout << "FPS: " << fps << std::endl;
-			frameTime -= 1.0;
-			frameCounter = 0;
-		}
-		//Collisions
-		collisionHandler.checkCollisions();
-		//luaBinds.printLuaTop();
+
+		window.update();
 	}
 
 	luaBinds.unload();

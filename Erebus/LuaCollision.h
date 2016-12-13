@@ -15,6 +15,7 @@ namespace LuaCollision
 	int destroy( lua_State* lua );
 	int getCollisionIDs( lua_State* lua );
 	int checkCollision( lua_State* lua );
+	int setRadius( lua_State* lua );
 
 	int getID( lua_State* lua );
 

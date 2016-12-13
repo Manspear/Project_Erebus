@@ -2,7 +2,7 @@ STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2
 camera = {distance = 10, angle = 0, xOffset = 0, yOffset = 2, state = STATE_ZOOM_OUT}
 
 timeSinceShot = 0
-DelayZoomOut = 3
+DelayZoomOut = 1.5
 
 
 ZoomedOut = {distance = 12, angle = 3.14/20, time =1.5, timeSpent = 0, xOffset = 0, yOffset = 2}
@@ -114,7 +114,6 @@ function UpdateCamera(dt)
 	local temppos = Camera.GetPos()
 	local height = heightmap:GetHeight(temppos.x, temppos.z)
 	if height + 0.5 > temppos.y then
-		print(temppos.x .. " : " .. height .." : " .. temppos.z)
 		Camera.SetHeight(height+ 0.5) 
 	end
 
