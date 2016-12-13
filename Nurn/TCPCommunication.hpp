@@ -11,7 +11,7 @@ namespace Nurn
 		virtual ~TCPCommunication();
 
 		bool SendPackage(const Address & destination, const void * data, int size) override;
-		bool RecievePackage(Address & sender, void * data, int size) override;
+		bool ReceivePackage(Address & sender, void * data, int size) override;
 
 
 	private:

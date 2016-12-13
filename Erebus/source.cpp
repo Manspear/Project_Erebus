@@ -27,7 +27,7 @@ int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
 int startNetworkReceiving(Nurn::NurnEngine * pSocket, Window* window);
 
 std::thread networkThread;
-bool networkActive = true;
+bool networkActive = false;
 bool networkHost = true;
 
 bool running = true;
