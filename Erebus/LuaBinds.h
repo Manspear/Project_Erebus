@@ -25,6 +25,7 @@ public:
 				Transform* transforms,
 				int* boundTransforms,
 				std::vector<ModelInstance>* models,
+				std::vector<AnimatedInstance>* animatedModels,
 				Camera* camera);
 	void unload();
 	void update( Controls* controls, float deltaTime );

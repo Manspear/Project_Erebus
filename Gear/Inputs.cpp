@@ -1,5 +1,15 @@
 #include "Inputs.h"
 
+bool Inputs::keys[GLFW_KEY_LAST] = {false};
+bool Inputs::keysPressedThisFrame[GLFW_KEY_LAST] = { false };
+bool Inputs::keysReleasedThisFrame[GLFW_KEY_LAST] = { false };
+MousePos Inputs::mousePos = { 0.0, 0.0 };
+MousePos Inputs::deltaPos = { 0.0, 0.0 };
+bool Inputs::mouseButtons[GLFW_MOUSE_BUTTON_LAST] = { false };
+bool Inputs::mouseButtonsPressedThisFrame[GLFW_MOUSE_BUTTON_LAST] = { false };
+bool Inputs::mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST] = { false };
+double Inputs::dScrollY = 0.0;
+double Inputs::scrollY = 0.0;
 
 Inputs::Inputs(GLFWwindow* w)
 {
