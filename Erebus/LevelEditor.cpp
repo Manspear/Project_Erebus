@@ -37,13 +37,6 @@ void LevelEditor::start() {
 	//Collision handler
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	SphereCollider sphere1 = SphereCollider(-1, glm::vec3(0, 0, 0), 5.0f); // hardcoded hitboxes
-	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3, 0, 0), 1.0f);
-	SphereCollider sphere3 = SphereCollider(-3, glm::vec3(4, 0, 0), 1.0f);
-	collisionHandler.addHitbox(&sphere1, 0);
-	collisionHandler.addHitbox(&sphere2, 4);
-	collisionHandler.addHitbox(&sphere3, 1);
-	collisionHandler.setDebugger(Debugger::getInstance());
 
 	glEnable(GL_DEPTH_TEST);
 
