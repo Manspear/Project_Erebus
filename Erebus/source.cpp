@@ -97,6 +97,10 @@ int main()
 	//}
 	//models.at(1).texAsset = moleratTexture2;
 
+
+	std::string out = "FPS: -1";
+
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -114,8 +118,16 @@ int main()
 
 		frameCounter++;
 		frameTime += deltaTime;
-		double fps = double(frameCounter) / frameTime;
-		std::string out = "FPS: " + std::to_string(fps);
+
+		if (frameTime >= 0.8)
+		{
+			int fps = double(frameCounter) / frameTime;
+			out = "FPS: " + std::to_string(fps);
+			frameCounter = 0;
+			frameTime -= 0.8f;
+		}
+
+
 		engine.print(out, 0.f, 720.f);
 
 		engine.draw(&camera);
