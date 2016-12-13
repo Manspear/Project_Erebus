@@ -490,11 +490,7 @@ void CollisionHandler::drawHitboxes()
 {
 	for (unsigned int i = 0; i < this->sphereColliders.size(); i++)
 	{
-		int derp1 = (i % 2) == 0 ? 1: 0;
-		int derp2 = (i % 3) == 0 ? 1 : 0;
-		int derp3 = (i % 4) == 0 ? 1 : 0;
-		debugger->drawSphere(sphereColliders[i]->getPos(), sphereColliders[i]->getRadius(),
-			glm::vec3(derp1, derp2, derp3));
+		debugger->drawSphere(sphereColliders[i]->getPos(), sphereColliders[i]->getRadius());
 	}
 
 	for (unsigned int i = 0; i < this->aabbColliders.size(); i++)
