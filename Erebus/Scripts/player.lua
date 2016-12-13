@@ -34,6 +34,7 @@ function UpdatePlayer(dt)
 	if Controls[Keys.W] then 
 		forward = player.moveSpeed 
 		Debug.DrawLine(1, position.x, position.y, position.z, 50, 100, 50);
+		Debug.DrawSphere( position.x, position.y, position.z, 4);
 	end
 	if Controls[Keys.S] then forward = -player.moveSpeed end
 	if Controls[Keys.A] then left = player.moveSpeed end
