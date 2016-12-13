@@ -37,6 +37,7 @@ void LevelEditor::start() {
 	//Collision handler
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
+	collisionHandler.setDebugger(Debugger::getInstance());
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -78,7 +79,7 @@ void LevelEditor::start() {
 		tempDebug->drawLine({ 0,10,0 }, { 256,10,256 });
 		//Collisions
 		collisionHandler.checkCollisions();
-		collisionHandler.drawHitboxes();
+		//collisionHandler.drawHitboxes();
 
 		engine.draw(&camera);
 		lua_State* lua;
