@@ -5,21 +5,25 @@ struct MousePos {
 	double x, y;
 };
 
-static bool keys[GLFW_KEY_LAST]; 
-static bool keysPressedThisFrame[GLFW_KEY_LAST];
-static bool keysReleasedThisFrame[GLFW_KEY_LAST];
-static MousePos mousePos;
-static MousePos deltaPos;
-static bool mouseButtons[GLFW_MOUSE_BUTTON_LAST];
-static bool mouseButtonsPressedThisFrame[GLFW_MOUSE_BUTTON_LAST];
-static bool mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST];
-static double scrollY;
-static double dScrollY;
 
 class Inputs
 {
+public:
+	static bool keys[GLFW_KEY_LAST];
+	static bool keysPressedThisFrame[GLFW_KEY_LAST];
+	static bool keysReleasedThisFrame[GLFW_KEY_LAST];
+	static MousePos mousePos;
+	static MousePos deltaPos;
+	static bool mouseButtons[GLFW_MOUSE_BUTTON_LAST];
+	static bool mouseButtonsPressedThisFrame[GLFW_MOUSE_BUTTON_LAST];
+	static bool mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST];
+	static double scrollY;
+	static double dScrollY;
+
 private:
 	GLFWwindow* window;
+
+
 public:
 	GEAR_API Inputs(GLFWwindow* w);
 	GEAR_API ~Inputs();
