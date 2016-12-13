@@ -26,6 +26,7 @@ CollisionHandler::CollisionHandler()
 
 	//this->collisionLayers->setLayerCollisionMatrix(layerMatrix,size);
 	this->debugger = nullptr;
+	this->initializeColors();
 }
 
 CollisionHandler::CollisionHandler(int layers)
@@ -36,6 +37,8 @@ CollisionHandler::CollisionHandler(int layers)
 	this->aabbColliders.reserve(reserveAmount);
 
 	this->collisionLayers = new CollisionLayers(layers);
+	this->debugger = nullptr;
+	this->initializeColors();
 }
 
 
@@ -380,11 +383,43 @@ void CollisionHandler::incrementHitboxID()
 	CollisionHandler::hitboxID++;
 }
 
+void CollisionHandler::initializeColors()
+{
+	int secondRootOfSize = 4;
+	int counter = 0;
+	float R, G, B;
+	const int hardcoddedColorSize = 6;
+	glm::vec3 hardCodedColors[hardcoddedColorSize];
+	hardCodedColors[0] = glm::vec3(1,0,0);
+	hardCodedColors[1] = glm::vec3(0, 1, 0);
+	hardCodedColors[2] = glm::vec3(0, 0, 1);
+	hardCodedColors[3] = glm::vec3(1, 1, 0);
+	hardCodedColors[4] = glm::vec3(1, 0, 1);
+	hardCodedColors[5] = glm::vec3(0, 1, 1);
+	for (size_t i = 0; i < secondRootOfSize; i++)
+	{
+		R = (float)i / secondRootOfSize;
+		for (size_t j = 0; j < secondRootOfSize; j++)
+		{
+			G = (float)j / secondRootOfSize;
+			for (size_t k = 0; k < secondRootOfSize; k++)
+			{
+				B = (float)k / secondRootOfSize;
+				this->colors[counter++] = glm::vec3(R,G,B);
+			}
+		}
+	}
+	for (size_t i = 0; i < hardcoddedColorSize; i++)
+	{
+		this->colors[i] = hardCodedColors[i];
+	}
+}
+
 void CollisionHandler::updateSpherePos()
 {
 	int sphereColliderSize = this->sphereColliders.size();
 
-	for (unsigned int i = 0; i < sphereColliderSize; i++) // updatera positionen
+	for (unsigned int i = 0; i < sphereColliderSize; i++) 
 	{
 		int idTransform = sphereColliders[i]->getIDTransform();
 		if (idTransform >= 0)
@@ -396,7 +431,7 @@ void CollisionHandler::updateAabbPos()
 {
 	int aabbColliderSize = this->aabbColliders.size();
 
-	for (unsigned int i = 0; i < aabbColliderSize; i++) // updatera positionen
+	for (unsigned int i = 0; i < aabbColliderSize; i++)
 	{
 		int idTransform = aabbColliders[i]->getIDTransform();
 		if (idTransform >= 0)
@@ -429,7 +464,7 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 	unsigned int aabbColliderSize = this->aabbColliders.size();
 	bool deleted = false;
 
-	for (unsigned int i = 0; i < sphereColliderSize; i++) // kolla spheres
+	for (unsigned int i = 0; i < sphereColliderSize; i++) // check spheres
 	{
 		if (sphereColliders[i]->getID() == ID)
 		{
@@ -488,13 +523,20 @@ void CollisionHandler::printCollisions()
 
 void CollisionHandler::drawHitboxes()
 {
-	for (unsigned int i = 0; i < this->sphereColliders.size(); i++)
+	std::vector<SphereCollider*>* tempSphereColliders;
+	std::vector<AABBCollider*>* tempAabbColliders;
+	SphereCollider* tempSphere = nullptr;
+	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
 	{
-		debugger->drawSphere(sphereColliders[i]->getPos(), sphereColliders[i]->getRadius());
-	}
-
-	for (unsigned int i = 0; i < this->aabbColliders.size(); i++)
-	{
-		debugger->drawCube(aabbColliders[i]->getMinPos(),aabbColliders[i]->getMaxPos());
+		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
+		tempAabbColliders = this->collisionLayers->getAABBColliders(i);
+		for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
+		{
+			debugger->drawSphere(tempSphereColliders->operator[](j)->getPos(), tempSphereColliders->operator[](j)->getRadius(),this->colors[i]);
+		}
+		for (size_t j = 0; j < tempAabbColliders->size(); j++)
+		{
+			debugger->drawCube(tempAabbColliders->operator[](j)->getMinPos(), tempAabbColliders->operator[](j)->getMaxPos(),this->colors[i]);
+		}
 	}
 }

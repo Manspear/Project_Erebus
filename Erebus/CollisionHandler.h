@@ -65,6 +65,7 @@ private:
 	bool aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2);
 	static unsigned int hitboxID;
 	static void incrementHitboxID();
+	void initializeColors();
 
 	CollisionLayers* collisionLayers;
 
@@ -72,5 +73,6 @@ private:
 	int aabbCollisionCounter = 0;
 
 	Debug* debugger;
+	glm::vec3 colors[64]; // 64 colors to use on hitbox layers
 };
 
