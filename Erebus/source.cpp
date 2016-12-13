@@ -20,6 +20,7 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
+#include "FontAsset.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -35,7 +36,12 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	Window window;
+	Gear::GearEngine engine;
+
 	Importer::Assets assets;
+	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
+	engine.setFont(font);
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
@@ -43,8 +49,6 @@ int main()
 	for (int i = 0; i < nrOfTransforms; i++)
 		transforms[i].setThePtr(&allTransforms[i]);
 	Controls controls;
-	Window window;
-	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
@@ -105,7 +109,7 @@ int main()
 		luaBinds.update( &controls, deltaTime );
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
-		window.update();	
+			
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
 
@@ -113,7 +117,14 @@ int main()
 		collisionHandler.checkCollisions();
 		//collisionHandler.drawHitboxes();
 
+		frameCounter++;
+		frameTime += deltaTime;
+		double fps = double(frameCounter) / frameTime;
+		std::string out = "FPS: " + std::to_string(fps);
+		engine.print(out, 0.f, 720.f);
+
 		engine.draw(&camera);
+
 		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
@@ -131,17 +142,8 @@ int main()
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
 			engine.setDrawMode(7);
-		frameCounter++;
-		frameTime += deltaTime;
-		if (frameTime >= 1.0)
-		{
-			double fps = double(frameCounter) / frameTime;
-			std::cout << "FPS: " << fps << std::endl;
-			frameTime -= 1.0;
-			frameCounter = 0;
-		}
 
-		//engine.queue.animationObject.updateAnimation(deltaTime,0);
+		window.update();
 	}
 
 	luaBinds.unload();

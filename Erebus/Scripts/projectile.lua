@@ -10,7 +10,7 @@ local projectileModel = Assets.LoadModel( "Models/moleman5.model" )
 Gear.AddStaticInstance(projectileModel, projectile.transformID)
 function projectile:Cast()
 	self.position = Transform.GetPosition(player.transformID)
-	self.direction = Transform.GetLookAt(player.transformID)
+	self.direction = Camera.GetDirection()--Transform.GetLookAt(player.transformID)
 
 	self.velocity.x = self.direction.x * self.speed
 	self.velocity.y = self.direction.y * self.speed

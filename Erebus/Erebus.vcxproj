@@ -214,6 +214,9 @@
     <None Include="Shaders\particle.vert" />
     <None Include="Shaders\quad.frag" />
     <None Include="Shaders\quad.vert" />
+    <None Include="Shaders\text.frag" />
+    <None Include="Shaders\text.geom" />
+    <None Include="Shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />

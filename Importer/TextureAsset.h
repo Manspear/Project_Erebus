@@ -18,6 +18,9 @@ namespace Importer
 
 		IMPORTER_API void bind( GLenum position = GL_TEXTURE0 );
 
+		IMPORTER_API int getWidth();
+		IMPORTER_API int getHeight();
+
 	private:
 		GLuint id;
 		int width, height;
