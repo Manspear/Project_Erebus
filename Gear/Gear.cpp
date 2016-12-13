@@ -227,6 +227,11 @@ namespace Gear
 			pointLights[i].pos.y = fmod((pointLights[i].pos.y + (-0.5f) - min + max), max) + min;
 		}
 
+		//gBuffer.use();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//queue.pickingPass(dynamicModels);
+
+
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -252,7 +257,7 @@ namespace Gear
 			tempProgram->unUse();
 		}*/
 		//---------
-
+		//pickingPass();
 
 		lightPass(camera);
 
@@ -261,7 +266,7 @@ namespace Gear
 		updateDebug(camera);
 		glEnable(GL_DEPTH_TEST);
 		
-		pickingPass();
+		
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -271,6 +276,7 @@ namespace Gear
 
 	void GearEngine::pickingPass() {
 		gBuffer.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.pickingPass(dynamicModels);
 		
 		glFlush();
@@ -284,7 +290,7 @@ namespace Gear
 		int pickedID = data[0] +
 			data[1] * 256 +
 			data[2] * 256 * 256;
-		//std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
+		std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
 		//if (pickedID == 0x00000000) {
 		//	std::cout << "looking at background!" << std::endl;
 		//}

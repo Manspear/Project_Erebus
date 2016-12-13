@@ -22,9 +22,6 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>LevelEditor</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,6 +55,12 @@
     <ClCompile Include="CollisionLayers.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>LevelEditor\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelModel.cpp">
+      <Filter>LevelEditor\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -77,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>LevelEditor</Filter>
     </ClInclude>
     <ClInclude Include="HitBox.h">
       <Filter>Header Files\Lua</Filter>
@@ -113,6 +113,12 @@
     </ClInclude>
     <ClInclude Include="CollisionLayers.h">
       <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>LevelEditor\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelModel.h">
+      <Filter>LevelEditor\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +246,12 @@
     </Filter>
     <Filter Include="LevelEditor">
       <UniqueIdentifier>{7230b79a-6749-4a87-bb2b-68161de81821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor\Source">
+      <UniqueIdentifier>{20ce8610-1069-4f54-af94-44f62e0679d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor\Header">
+      <UniqueIdentifier>{b203593d-2cd7-44c1-9a26-22f9e883833d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

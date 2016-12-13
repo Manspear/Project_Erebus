@@ -26,8 +26,6 @@ void LevelEditor::start() {
 	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
-
-
 	std::vector<ModelInstance> models;
 	engine.addDebugger(Debugger::getInstance());
 	Debug* tempDebug = Debugger::getInstance();
