@@ -193,6 +193,15 @@
     <None Include="Shaders\quad.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\text.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.geom">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

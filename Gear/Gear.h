@@ -7,6 +7,7 @@
 #include "Inputs.h"
 #include "staticNonModels.h"
 #include "Debug.h"
+#include "TextRenderer.h"
 #include "Material.h"
 namespace Gear
 {
@@ -33,6 +34,7 @@ namespace Gear
 		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
+		GEAR_API void print(const std::string &s, const float &baseX, const float &baseY);
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
@@ -43,6 +45,8 @@ namespace Gear
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();
+
+		GEAR_API void setFont(FontAsset* font);
 		//----------------------
 
 	private:
@@ -54,6 +58,7 @@ namespace Gear
 
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
+		TextRenderer text;
 
 		TransformStruct** allTrans;
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}

@@ -20,6 +20,7 @@
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
+#include "FontAsset.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -35,7 +36,11 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	Window window;
+	Gear::GearEngine engine;
+
 	Importer::Assets assets;
+	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
@@ -43,8 +48,6 @@ int main()
 	for (int i = 0; i < nrOfTransforms; i++)
 		transforms[i].setThePtr(&allTransforms[i]);
 	Controls controls;
-	Window window;
-	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
 	std::vector<ModelInstance> models;
@@ -105,9 +108,13 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
+		 
 		luaBinds.update( &controls, deltaTime );
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
+			transformData[i*9 + 6] = scale.x;
+			transformData[i*9 + 7] = scale.y;
+			transformData[i*9 + 8] = scale.z;
 		window.update();	
 		engine.queueDynamicModels(&models);
 		engine.draw(&camera);

@@ -150,16 +150,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="Magic.cpp" />
-=======
-    <ClCompile Include="..\Importer\HeightMap.cpp" />
->>>>>>> Dev_Main
+    <ClCompile Include="AABBSquareCollider.cpp" />
+    <ClCompile Include="AABBCollider.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="LuaAssets.cpp" />
+    <ClCompile Include="LuaBinds.cpp" />
+    <ClCompile Include="LuaCollision.cpp" />
+    <ClCompile Include="LuaControls.cpp" />
+    <ClCompile Include="LuaErebus.cpp" />
+    <ClCompile Include="LuaGear.cpp" />
+    <ClCompile Include="LuaParticles.cpp" />
+    <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
-    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +180,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\bullets.lua" />
+    <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\main.lua" />
+    <None Include="Scripts\player.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
@@ -183,18 +193,26 @@
     <None Include="Shaders\particle.frag" />
     <None Include="Shaders\particle.geom" />
     <None Include="Shaders\particle.vert" />
+    <None Include="Shaders\text.frag" />
+    <None Include="Shaders\text.geom" />
+    <None Include="Shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ClInclude Include="Magic.h" />
-=======
-    <ClInclude Include="..\Importer\HeightMap.h" />
->>>>>>> Dev_Main
+    <ClInclude Include="AABBSquareCollider.h" />
+    <ClInclude Include="AABBCollider.h" />
+    <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LuaAssets.h" />
+    <ClInclude Include="LuaCollision.h" />
+    <ClInclude Include="LuaControls.h" />
+    <ClInclude Include="LuaErebus.h" />
+    <ClInclude Include="LuaGear.h" />
+    <ClInclude Include="LuaParticles.h" />
+    <ClInclude Include="LuaTransform.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
     <ClInclude Include="PerformanceCounter.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h" />
