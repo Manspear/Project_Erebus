@@ -73,7 +73,13 @@ namespace Importer
 	{
 		char index = c - FONT_RANGE_START;
 		glm::vec2 offset = getOffset( c );
-		return glm::vec4( offset.x / texture->getWidth(), offset.y / texture->getHeight(), (offset.x + info.widths[index]) / texture->getWidth(), (offset.y + info.widths[index]) / texture->getWidth());
+
+		float x = offset.x / texture->getWidth();
+		float y = offset.y / texture->getHeight();
+		float z = (offset.x + info.widths[index] + info.paddingx + info.shadowx) / texture->getWidth();
+		float w = (offset.y + info.size + info.paddingy + info.shadowy) / texture->getHeight();
+
+		return glm::vec4(x, y, z, w);
 	}
 
 	glm::vec2 FontAsset::getOffset( char c )

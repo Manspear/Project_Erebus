@@ -39,6 +39,7 @@ void TextRenderer::print(const std::string &s, const float &baseX, const float &
 		vert.width = font->getWidth(c);
 
 		x += vert.width;
+		//x += font->getInfo()->size;
 
 		vertices.push_back(vert);
 	}
@@ -51,8 +52,8 @@ void TextRenderer::draw()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	font->getTexture()->bind(GL_TEXTURE1);
-	glUniform1f(glGetUniformLocation(shader->getProgramID(), "height"), font->getInfo()->size);
+	font->getTexture()->bind(GL_TEXTURE0);
+	glUniform1f(glGetUniformLocation(shader->getProgramID(), "height"), (int)font->getInfo()->size);
 
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)0);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)(sizeof(float) * 2));

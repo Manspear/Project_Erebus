@@ -123,13 +123,10 @@ int main()
 		//Display FPS:
 		frameCounter++;
 		frameTime += deltaTime;
-		if (frameTime >= 1.0)
-		{
-			double fps = double(frameCounter) / frameTime;
-			std::cout << "FPS: " << fps << std::endl;
-			frameTime -= 1.0;
-			frameCounter = 0;
-		}
+		double fps = double(frameCounter) / frameTime;
+		std::string out = "FPS: " + std::to_string(fps);
+		engine.print(out, 0.f, 720.f);
+
 		//Collisions
 		collisionHandler.checkCollisions();
 	}

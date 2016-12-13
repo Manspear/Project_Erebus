@@ -12,7 +12,7 @@ namespace Gear
 		glewInit();
 		//renderQueue.init();
 		queue.init();
-		text.init();
+		text.init(1280, 720);
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -95,6 +95,11 @@ namespace Gear
 		queue.addModelInstance(asset);
 	}
 
+	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY)
+	{
+		text.print(s, baseX, baseY);
+	}
+
 	void GearEngine::queueModels(std::vector<ModelInstance>* models)
 	{
 		staticModels = models;
@@ -151,7 +156,6 @@ namespace Gear
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
 
-		text.print("test", 50.f, 50.f);
 		text.draw();
 	}
 

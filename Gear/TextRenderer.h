@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include<string>
 #include<vector>
+#include<iostream>
 
 #define loop(i, n) for(int i = 0; i < n; i++)
 
@@ -11,7 +12,7 @@ struct sTextVertex
 {
 	glm::vec2 pos;
 	glm::vec4 UV;
-	uint8_t width;
+	int width;
 };
 
 class TextRenderer
