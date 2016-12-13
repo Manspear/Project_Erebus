@@ -18,7 +18,9 @@ namespace Nurn
 		Communication();
 		virtual ~Communication();
 
-		virtual bool InitializeCommunication(uint16_t port);
+		bool InitializeCommunicationHost(const uint16_t & port);
+		bool InitializeCommunicationClient(const uint16_t & port, const Address & destination);
+		bool AcceptCommunication(Address & connectionAddress);
 		virtual bool SendPackage(const Address & destination, const void * data, int size) = 0;
 		virtual bool RecievePackage(Address & sender, void * data, int size) = 0;
 		virtual void Shutdown();
@@ -27,9 +29,11 @@ namespace Nurn
 	protected:
 
 #ifdef USING_UDP
-		UDPSocket socket;
+		UDPSocket communicationSocket;
+		UDPSocket listenSocket;
 #elif USING_TCP
-		TCPSocket socket;
+		TCPSocket communicationSocket;
+		TCPSocket listenSocket;
 #endif
 	};
 }

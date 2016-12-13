@@ -51,7 +51,7 @@ namespace Nurn
 	}
 
 
-	int Socket::GetSocket()
+	int& Socket::GetSocket()
 	{
 		return networkSocket;
 	}
