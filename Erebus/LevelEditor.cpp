@@ -87,13 +87,17 @@ void LevelEditor::start() {
 			addSyntax = -1;
 		if (currentAnimation < -minMax)
 			addSyntax = 1;
-		for (size_t i = 0; i < 5; i++)
+		for (size_t x = 0; x < 100; x++)
 		{
-			//Debugger::getInstance()->drawLines({ i*.005f,10,0 }, { i*.005f,10 + currentAnimation*3,10 },
-			//{ (float)i / 10000, (float)i / 10000, (float)i});
-			Debugger::getInstance()->drawSphere({ i*10,10,60 }, 3);
-			
+			for (size_t i = 0; i < 100; i++)
+			{
+				//Debugger::getInstance()->drawLines({ i*.005f,10,0 }, { i*.005f,10 + currentAnimation*3,10 },
+				//{ (float)i / 10000, (float)i / 10000, (float)i});
+				Debugger::getInstance()->drawSphere({ i * 20,10,x*20 }, 5.2f);
+
+			}
 		}
+		
 
 		inputs.update();
 		controls.update(&inputs);
