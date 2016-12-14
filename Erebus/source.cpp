@@ -103,7 +103,7 @@ int main()
 
 
 	std::string out = "FPS: -1";
-
+	double updateRate = 4.0;
 
 	while (running && window.isWindowOpen())
 	{
@@ -125,12 +125,12 @@ int main()
 		frameCounter++;
 		frameTime += deltaTime;
 
-		if (frameTime >= 0.8)
+		if (frameTime > 1/updateRate)
 		{
 			int fps = double(frameCounter) / frameTime;
 			out = "FPS: " + std::to_string(fps);
 			frameCounter = 0;
-			frameTime -= 0.8f;
+			frameTime -= 1 / updateRate;
 		}
 		//std::cout << lua_gettop(luaBinds.lua) << "\n";
 
