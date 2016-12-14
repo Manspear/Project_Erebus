@@ -51,4 +51,4 @@ Gear.AddStaticInstance(projectileModel, projectile.transformID)
 	end
 
 	return projectile
-end
+endwa
