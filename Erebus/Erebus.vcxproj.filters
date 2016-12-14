@@ -218,6 +218,9 @@
     <None Include="Scripts\basespell.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\level.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -80,6 +80,14 @@ function UpdatePlayer(dt)
 	end
 
 	player.animation:Update(dt,0)
+
+	-- check collision against the goal
+	local collisionIDs = player.sphereCollider:GetCollisionIDs()
+	for curID=1, #collisionIDs do
+		if collisionIDs[curID] == goal.collider:GetID() then
+			print("You Win")
+		end
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

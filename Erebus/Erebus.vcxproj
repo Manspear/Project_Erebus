@@ -186,6 +186,7 @@
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />

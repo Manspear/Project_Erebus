@@ -119,7 +119,7 @@ int main()
 
 		//Collisions
 		collisionHandler.checkCollisions();
-		//collisionHandler.drawHitboxes();
+		collisionHandler.drawHitboxes();
 		//collisionHandler.printCollisions();
 
 		frameCounter++;

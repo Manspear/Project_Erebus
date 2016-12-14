@@ -134,10 +134,10 @@ namespace LuaTransform
 	{
 		if (lua_gettop(lua) >= 2)
 		{
-			int a = lua_tointeger(lua, 1);
+			int index = lua_tointeger(lua, 1);
 			bool active = lua_toboolean(lua, 2);
 
-			g_transforms->setActive( active);
+			g_transforms[index].setActive( active);
 		}
 		return 0;
 	}
