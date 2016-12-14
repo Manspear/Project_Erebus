@@ -201,7 +201,6 @@
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
-    <None Include="Shaders\forward.vert.orig" />
     <None Include="Shaders\forwardAnim.frag" />
     <None Include="Shaders\forwardAnim.geom" />
     <None Include="Shaders\forwardAnim.vert" />

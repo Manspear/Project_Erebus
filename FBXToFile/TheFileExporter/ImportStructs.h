@@ -3,6 +3,7 @@
 #include <array>
 #include "fileEnums.h"
 #include "ExportStructs.h"
+#define NOTSET -1337
 //struct sTransform
 //{
 //	float pos[3];
@@ -26,7 +27,7 @@ struct sImAnimationState
 //names used to find this joint through the FbxNodes.
 struct sImJoint
 {
-	int parentJointID;
+	int parentJointID = NOTSET;
 	float globalBindposeInverse[16];
 
 	std::vector<sImAnimationState> animationState;
@@ -117,7 +118,7 @@ struct sImModel
 	std::vector<sImMesh> meshList;
 	std::vector<sBBox> bBoxList;
 	std::vector<sImSkeleton> skeletonList;
-	
+
 	eModelType TYPE = eModelType::STATIC;
 
 	const char* name;
@@ -155,7 +156,7 @@ struct sImMaterial
 //	float color[3];
 //	float intensity;
 //};
-struct sImScene 
+struct sImScene
 {
 	/*transformList gets set right before any processMesh or processLight function*/
 	std::vector<sTransform> transformList;

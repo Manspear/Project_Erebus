@@ -76,10 +76,7 @@ namespace Nurn
 			return 0;
 		}
 
-		unsigned int address = from.sin_addr.s_addr;
-		unsigned int port = ntohs(from.sin_port);
-
-		sender = Address(address, port);
+		sender.SetAddress(from);
 
 		return received_bytes;
 	}

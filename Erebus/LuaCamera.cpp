@@ -30,17 +30,18 @@ namespace LuaCamera {
 
 		glm::vec3 pos, dir;
 		int transformIndex;
-		float distance, angle, xoffset, yoffset;
+		float distance, angle, xoffset, yoffset, fov;
 		
 		angle = lua_tonumber(lua, -1);
 		distance = lua_tonumber(lua, -2);
 		xoffset = lua_tonumber(lua, -3);
 		yoffset = lua_tonumber(lua, -4);
 		transformIndex = lua_tointeger(lua, -5);
+		fov = lua_tonumber(lua, -6);
 		pos = g_transforms[transformIndex].getPos();
 		dir = g_transforms[transformIndex].getLookAt();
 
-		g_camera->follow(pos, dir, distance, angle, xoffset, yoffset);
+		g_camera->follow(pos, dir, distance, angle, xoffset, yoffset, fov);
 
 		return 1;
 	}

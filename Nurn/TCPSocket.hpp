@@ -28,7 +28,7 @@ namespace Nurn
 	public:
 		TCPSocket();
 		virtual ~TCPSocket();
-		bool CreateSocket(const uint16_t & port) override;
+		bool CreateSocket() override;
 		bool ConnectSocket(const Address & connectionAddress) override;
 		bool AcceptSocket(int & acceptedSocket, Address & connectionAddress) override;
 		bool CreateWaitingSocket(const uint16_t & port) override;
