@@ -9,6 +9,10 @@ Camera::Camera()
 
 Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, Inputs* in)
 {
+	this->aspectRatio = aspectRatio;
+	this->nearPlane = nearPlane;
+	this->farPlane = farPlane;
+
 	horizontalAngle = 3.14f;
 	verticalAngle = 0;
 	inputs = in;
@@ -93,7 +97,7 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 	viewMat = glm::lookAt(camPosition, camPosition + camDirection, camUp);
 }
 
-GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset)
+GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset, float FoV)
 {
 	
 	glm::vec3 tempForward(direction.x, 0, direction.z);
@@ -108,6 +112,7 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 
 	//camPosition = point - direction*distance;
 	this->viewMat = glm::lookAt(camPosition, point + offset, camUp);
+	this->projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
 }
 
 GEAR_API void Camera::setCamera(glm::vec3 campos, glm::vec3 lookPos)
