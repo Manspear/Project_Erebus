@@ -14,7 +14,13 @@ LevelEditor::~LevelEditor()
 
 void LevelEditor::start() {
 
+
+	Window window;
+	Gear::GearEngine engine;
+
 	Importer::Assets assets;
+	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
+	engine.setFont(font);
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms = new Transform[nrOfTransforms];
@@ -22,11 +28,13 @@ void LevelEditor::start() {
 	for (int i = 0; i < nrOfTransforms; i++)
 		transforms[i].setThePtr(&allTransforms[i]);
 	Controls controls;
-	Window window;
-	Gear::GearEngine engine;
 	engine.allocateWorlds(nrOfTransforms);
 
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/moleman5.model");
+	//engine.queue.animationObject.setAsset(moleman);
+
 	std::vector<ModelInstance> models;
+	std::vector<AnimatedInstance> animatedModels;
 	engine.addDebugger(Debugger::getInstance());
 	Debug* tempDebug = Debugger::getInstance();
 
@@ -49,11 +57,9 @@ void LevelEditor::start() {
 	double frameTime = 0.0;
 	int frameCounter = 0;
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
-
 	engine.bindTransforms(&allTransforms, &boundTransforms);
-
 	LuaBinds luaBinds;
-	luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &camera);
+	luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
 	bool playerAlive = true;
 
 	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
@@ -64,22 +70,45 @@ void LevelEditor::start() {
 	//}
 	//models.at(1).texAsset = moleratTexture2;
 
+
+	std::string out = "FPS: -1";
+	double updateRate = 4.0;
+
 	while (running && window.isWindowOpen())
 	{
 
 
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
+		controls.update(&inputs);
+		luaBinds.update(&controls, deltaTime);
+		//float angle = asinf(dir.y);
+		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 
-		camera.updateLevelEditorCamera(deltaTime);
-		window.update();
 		engine.queueDynamicModels(&models);
-		tempDebug->drawLine({ 0,10,0 }, { 256,10,256 });
+		engine.queueAnimModels(&animatedModels);
+
 		//Collisions
 		collisionHandler.checkCollisions();
-		collisionHandler.drawHitboxes();
+		//collisionHandler.drawHitboxes();
+		//collisionHandler.printCollisions();
+
+		frameCounter++;
+		frameTime += deltaTime;
+
+		if (frameTime > 1 / updateRate)
+		{
+			int fps = double(frameCounter) / frameTime;
+			out = "FPS: " + std::to_string(fps);
+			frameCounter = 0;
+			frameTime -= 1 / updateRate;
+		}
+
+
+		engine.print(out, 0.f, 720.f);
 
 		engine.draw(&camera);
+
 		lua_State* lua;
 		if (inputs.keyPressed(GLFW_KEY_ESCAPE))
 			running = false;
@@ -97,17 +126,8 @@ void LevelEditor::start() {
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
 			engine.setDrawMode(7);
-		frameCounter++;
-		frameTime += deltaTime;
-		if (frameTime >= 1.0)
-		{
-			double fps = double(frameCounter) / frameTime;
-			std::cout << "FPS: " << fps << std::endl;
-			frameTime -= 1.0;
-			frameCounter = 0;
-		}
 
-
+		window.update();
 	}
 
 	luaBinds.unload();
