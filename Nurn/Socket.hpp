@@ -28,7 +28,7 @@ namespace Nurn
 		Socket();
 		virtual ~Socket();
 		bool InitializeSockets();
-		virtual bool CreateSocket(const uint16_t & port) = 0;
+		virtual bool CreateSocket() = 0;
 		virtual bool ConnectSocket(const Address & connectionAddress) = 0;
 		virtual bool AcceptSocket(int & acceptedSocket, Address & connectionAddress) = 0;
 		virtual bool CreateWaitingSocket(const uint16_t & port) = 0;
