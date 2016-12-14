@@ -74,8 +74,8 @@ public:
 private:
 	
 	GLuint VAO, VBO;
-	debugLineStruct debugLines[10000];
-	debugSphereStruct debugSpheres[10000];
+	debugLineStruct debugLines[150000];
+	debugSphereStruct debugSpheres[50000];
 	int totalDebugLines;
 	int totalDebugSpheres;
 	std::vector<ObjectsToDraw*> objectsToDraw;

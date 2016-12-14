@@ -87,21 +87,40 @@ void LevelEditor::start() {
 			addSyntax = -1;
 		if (currentAnimation < -minMax)
 			addSyntax = 1;
-		for (size_t x = 0; x < 100; x++)
-		{
-			for (size_t i = 0; i < 100; i++)
-			{
-				//Debugger::getInstance()->drawLines({ i*.005f,10,0 }, { i*.005f,10 + currentAnimation*3,10 },
-				//{ (float)i / 10000, (float)i / 10000, (float)i});
-				Debugger::getInstance()->drawSphere({ i * 20,10,x*20 }, 5.2f);
 
+		//for (size_t l = 0; l < 255; l++)
+		//{
+		//	for (size_t i = 0; i < 255; i++)
+		//	{
+		//		//down
+		//		tempDebug->drawLine({ 0, l, i }, { 255, l, i }, { i / 255.f, l / 255.f, (l+i) / 510.f });
+		//		Debugger::getInstance()->drawLine({ i, l, 0 }, { i, l, 255 });
+		//	}
+		//}
+		
+		for (size_t y = 0; y < 36; y++)
+		{
+			for (size_t x = 0; x < 36; x++)
+			{
+				for (size_t i = 0; i < 36; i++)
+				{
+					//Debugger::getInstance()->drawLines({ i*.005f,10,0 }, { i*.005f,10 + currentAnimation*3,10 },
+					//{ (float)i / 10000, (float)i / 10000, (float)i});
+					//Debugger::getInstance()->drawLine({ i * 10,y * 10,x * 10 }, { i * 11,y * 11,x * 11 }, { i / 36.f, y / 36.f, x / 36.f });
+					Debugger::getInstance()->drawSphere({ i * 10,y * 10,x * 10 }, 3.5f, {i/36.f, y / 36.f, x / 36.f });
+
+				}
 			}
 		}
+		//Debugger::getInstance()->drawLine({ 0, 10, 0 }, { 255, 10, 255 });
+		
+		
 		
 
 		inputs.update();
-		controls.update(&inputs);
-		luaBinds.update(&controls, deltaTime);
+		//controls.update(&inputs);
+		//luaBinds.update(&controls, deltaTime);
+		camera.updateLevelEditorCamera(deltaTime);
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 
