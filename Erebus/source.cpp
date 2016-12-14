@@ -132,6 +132,7 @@ int main()
 		if (frameTime > 1/updateRate)
 		{
 			int fps = double(frameCounter) / frameTime;
+
 			out = "FPS: " + std::to_string(fps);
 			frameCounter = 0;
 			frameTime -= 1 / updateRate;
@@ -160,6 +161,7 @@ int main()
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
 			engine.setDrawMode(7);*/
+
 
 		window.update();
 	}

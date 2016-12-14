@@ -248,11 +248,23 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 
 		txt = "Shinyfactor: ";
 		sprintf(num, "%d", expMat.shinyFactor);
-		str = std::string(num) + "\r\n";
+		str = txt + std::string(num) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
 		txt = "Diffuse texture name: ";
 		str = txt + std::string(expMat.diffuseTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Specular texture name: ";
+		str = txt + std::string(expMat.specularTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Normal texture name: ";
+		str = txt + std::string(expMat.normalTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
 		//str = std::string(txt +  + '\n');
 
 		//outFile.write((char*)&expMat, sizeof(sExpMaterial));

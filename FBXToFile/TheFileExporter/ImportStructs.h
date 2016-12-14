@@ -136,11 +136,11 @@ struct sImMaterial
 
 	float shinyFactor;
 
-	char diffuseTextureFilePath[256];
+	char diffuseTextureFilePath[256] = "NOTEXTURE";
 
-	char specularTextureFilePath[256];
+	char specularTextureFilePath[256] = "NOTEXTURE";
 
-	char normalTextureFilePath[256];
+	char normalTextureFilePath[256] = "NOTEXTURE";
 
 	//Used for finding duplicate materials in this scene. Not to be used when sent.
 	const char* materialName;
