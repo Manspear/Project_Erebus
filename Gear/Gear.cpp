@@ -93,7 +93,6 @@ namespace Gear
 			light.radius.z = LIGHT_RADIUS;
 		}
 
-		debugHandler = new DebugHandler();
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
@@ -110,7 +109,10 @@ namespace Gear
 		delete quadShader;
 		delete lightPassShader;
 
-		delete debugHandler;
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			delete debuggers[i];
+		}
 
 	}
 
@@ -369,10 +371,16 @@ namespace Gear
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
 	}
 	void GearEngine::updateDebug(Camera* camera) {
-		this->debugHandler->update(camera, &queue);
+		ShaderProgram* tempProgram;
+
+		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
+		for (size_t i = 0; i < debuggers.size(); i++)
+		{
+			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
+		}
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {
-		this->debugHandler->addDebuger(debugger);
+		this->debuggers.push_back(debugger);
 	}
 }

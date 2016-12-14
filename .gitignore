@@ -7,7 +7,6 @@
 *.userosscache
 *.sln.docstates
 *.orig
-*.vcxproj
 *.filters
 
 # User-specific files (MonoDevelop/Xamarin Studio)
@@ -273,8 +272,3 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
-
-#Vtune
-*.dflgadvixe
-Erebus/My Advisor Results - Erebus
-Erebus/My Amplifier XE Results - Erebus

@@ -154,7 +154,6 @@
     <ClInclude Include="BaseIncludes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="DebugHandler.h" />
     <ClInclude Include="Gear.h" />
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Model.h" />
@@ -175,7 +174,6 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="DebugHandler.cpp" />
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="Material.cpp" />

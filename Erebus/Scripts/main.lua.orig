@@ -1,20 +1,18 @@
+<<<<<<< HEAD
 local scripts = {}
 local scriptFiles = 
 {
 	"Scripts/player.lua",
-<<<<<<< HEAD
 	"Scripts/enemies.lua",
 	"Scripts/bullets.lua",
-	"Scripts/camera.lua"
-=======
-	"Scripts/enemies.lua"--,
-	--"Scripts/bullets.lua"
->>>>>>> c09f8cb6ddba7b0ea9fa28077810063464f21a93
+	"Scripts/camera.lua",
+	"Scripts/projectile.lua",
+	"Scripts/arc.lua"
 }
 
 function Load()
 	-- TEMP: Make a level script?
-	heightmap = Assets.LoadHeightmap("Textures/molerat_texturemap4.png")
+	heightmap = Assets.LoadHeightmap("Textures/hmap_heights.png")
 	heightmap.transformID = Transform.Bind()
 
 	Gear.AddModelInstance(heightmap:GetModel(), heightmap.transformID)
@@ -42,4 +40,45 @@ function Update(dt)
 	for key,value in pairs(scripts) do
 		value.Update(dt)
 	end
+=======
+local scripts = {}
+local scriptFiles = 
+{
+	"Scripts/player.lua",
+	"Scripts/enemies.lua",
+	--"Scripts/bullets.lua",
+	"Scripts/camera.lua"
+}
+
+function Load()
+	-- TEMP: Make a level script?
+	heightmap = Assets.LoadHeightmap("Textures/molerat_texturemap4.png")
+	heightmap.transformID = Transform.Bind()
+
+	Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
+
+	-- run scripts
+	for i=1, #scriptFiles do
+		scripts[i] = dofile(scriptFiles[i])
+	end
+
+	-- call their load function
+	for key,value in pairs(scripts) do
+		if value.Load then value.Load() end
+	end
+end
+
+function Unload()
+	for key,value in pairs(scripts) do
+		if value.Unload then
+			value.Unload()
+		end
+	end
+end
+
+function Update(dt)
+	for key,value in pairs(scripts) do
+		value.Update(dt)
+	end
+>>>>>>> 14092ce5568f0e68636eb1ac7b58ce86ce97d48e
 end

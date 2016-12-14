@@ -77,7 +77,7 @@ void LevelEditor::start() {
 	while (running && window.isWindowOpen())
 	{
 
-		Debugger::getInstance()->drawLine({ 0,10,0 }, { 256,0,256 });
+
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);

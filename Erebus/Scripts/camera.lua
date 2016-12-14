@@ -1,13 +1,13 @@
 STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2, 3
-camera = {distance = 10, angle = 0, xOffset = 0, yOffset = 2, state = STATE_ZOOM_OUT}
+camera = {distance = 10, angle = 0, xOffset = 0, yOffset = 2, fov = 3.14/4, state = STATE_ZOOM_OUT}
 
 timeSinceShot = 0
 DelayZoomOut = 1.5
 
 
-ZoomedOut = {distance = 12, angle = 3.14/20, time =1.5, timeSpent = 0, xOffset = 0, yOffset = 2}
-ZoomedIn = {distance = 5.5, angle = 0, time = 0.2, timeSpent = 0, xOffset = 2, yOffset = 2}
-StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0}
+ZoomedOut = {distance = 12, angle = 3.14/20, time =1.5, timeSpent = 0, xOffset = 0, yOffset = 2, fov = 3.14/2}	--fov är i radianer, strange things happen with higher values
+ZoomedIn = {distance = 5.5, angle = 0, time = 0.2, timeSpent = 0, xOffset = 2, yOffset = 2, fov = 3.14/4}		--fov är i radianer, be careful when changing
+StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
@@ -47,6 +47,7 @@ function UpdateCamera(dt)
 			StartState.angle = camera.angle
 			StartState.xOffset = camera.xOffset
 			StartState.yOffset = camera.yOffset
+			StartState.fov = camera.fov
 			
 			ZoomedIn.timeSpent = 0
 		end
@@ -67,14 +68,15 @@ function UpdateCamera(dt)
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
 		--i vilket läge övergången är i
-		local factor = math.sin((math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time)*3.14 - 3.14/2)/2 + 0.5	--ciruklär (mjukare, men dyrare)
+		local factor = math.sin((math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time)*3.14 - 3.14*0.5)*0.5 + 0.5	--ciruklär (mjukare, men dyrare)
 		--local factor = math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time										--linjär
 
 		--Linjär interpolation mellan vart kameran var när övergången började och vart den ska vara när övergången är klar
 		camera.distance = interpolate(	StartState.distance,	ZoomedOut.distance, factor	)
 		camera.angle = interpolate(		StartState.angle,		ZoomedOut.angle,	factor	)
-		camera.xOffset = interpolate(		StartState.xOffset,		ZoomedOut.xOffset,	factor	)
-		camera.yOffset = interpolate(		StartState.yOffset,		ZoomedOut.yOffset,	factor	) 
+		camera.xOffset = interpolate(	StartState.xOffset,		ZoomedOut.xOffset,	factor	)
+		camera.yOffset = interpolate(	StartState.yOffset,		ZoomedOut.yOffset,	factor	) 
+		camera.fov = interpolate(		StartState.fov,			ZoomedOut.fov,		factor	) 
 
 		if ZoomedOut.timeSpent > ZoomedOut.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_OUT
@@ -89,8 +91,9 @@ function UpdateCamera(dt)
 		--interpolation mellan vart kameran var när övergången började och vart den ska vara när övergången är klar, factor kan vara linjär eller cirkulär :)
 		camera.distance = interpolate(	StartState.distance,	ZoomedIn.distance,	factor	)
 		camera.angle = interpolate(		StartState.angle,		ZoomedIn.angle,		factor	)
-		camera.xOffset = interpolate(		StartState.xOffset,		ZoomedIn.xOffset,	factor	)
-		camera.yOffset = interpolate(		StartState.yOffset,		ZoomedIn.yOffset,	factor	)
+		camera.xOffset = interpolate(	StartState.xOffset,		ZoomedIn.xOffset,	factor	)
+		camera.yOffset = interpolate(	StartState.yOffset,		ZoomedIn.yOffset,	factor	)
+		camera.fov = interpolate(		StartState.fov,			ZoomedIn.fov,		factor	) 
 
 		if ZoomedIn.timeSpent > ZoomedIn.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_IN
@@ -110,7 +113,7 @@ function UpdateCamera(dt)
 	tempPos = vec3add( vec3add(pos, offset),  )--]]
 
 
-	Camera.Follow(player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
+	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()
 	local height = heightmap:GetHeight(temppos.x, temppos.z)
 	if height + 0.5 > temppos.y then
