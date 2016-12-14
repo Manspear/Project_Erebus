@@ -94,10 +94,12 @@ int main()
 
 		collisionHandler.checkCollisions();
 
+
 		engine.draw(&camera);
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
+		/*
 		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
 			engine.setDrawMode(1);
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
@@ -111,7 +113,8 @@ int main()
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine.setDrawMode(7);
+			engine.setDrawMode(7);*/
+
 
 		window.update();
 		counter.displayFPS();

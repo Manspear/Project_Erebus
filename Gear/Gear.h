@@ -74,11 +74,15 @@ namespace Gear
 		ShaderProgram *lightPassShader;
 
 		ShaderProgram gBuffer;
-		const int NUM_POINT_LIGHTS = 30;
+		const int NUM_POINT_LIGHTS = 50;
 		std::vector<Lights::DirLight> dirLights;
 		GLuint lightBuffer = 0;
 		//temp debug variable
-		int drawMode = 1;
+		int drawMode = 2;
+
+		//TEMP: Disco party
+		glm::vec3 endPos[50];
+		glm::vec3 color[50];
 
 		void drawQuad();
 		std::vector<ModelInstance>* staticModels;

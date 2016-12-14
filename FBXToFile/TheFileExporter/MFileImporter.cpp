@@ -206,10 +206,87 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		memcpy(&expMat.specularColor, imScene.materialList[i].specularColor, 3 * sizeof(float));
 		memcpy(&expMat.specularTextureFilePath, imScene.materialList[i].specularTextureFilePath, 256);
 
-		outFile.write((char*)&expMat, sizeof(sExpMaterial));
+		char num[6];
+		std::string txt;
+		txt = "Material name: ";
+		std::string str;
+		str = std::string(txt + expMat.materialName + "\r\n");
+
+		outFile.write(str.c_str(), str.length());
+		
+
+		txt = "Ambient color: ";
+		sprintf(num, "%d", expMat.ambientColor[0]);
+		str = txt + num + " ";
+		sprintf(num, "%d", expMat.ambientColor[1]);
+		str += std::string(num) + " ";
+		sprintf(num, "%d", expMat.ambientColor[2]);
+		str += std::string(num) + "\r\n";
+
+		outFile.write(str.c_str(), str.length());
+
+		txt = "Diffuse color: ";
+		sprintf(num, "%d", expMat.diffuseColor[0]);
+		str = txt + num + " ";
+		sprintf(num, "%d", expMat.diffuseColor[1]);
+		str += std::string(num) + " ";
+		sprintf(num, "%d", expMat.diffuseColor[2]);
+		str += std::string(num) + "\r\n";
+
+		outFile.write(str.c_str(), str.length());
+
+		txt = "Specular color: ";
+		sprintf(num, "%d", expMat.specularColor[0]);
+		str = txt + num + " ";
+		sprintf(num, "%d", expMat.specularColor[1]);
+		str += std::string(num) + " ";
+		sprintf(num, "%d", expMat.specularColor[2]);
+		str += std::string(num) + "\r\n";
+
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Shinyfactor: ";
+		sprintf(num, "%d", expMat.shinyFactor);
+		str = txt + std::string(num) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+		txt = "Diffuse texture name: ";
+		str = txt + std::string(expMat.diffuseTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Specular texture name: ";
+		str = txt + std::string(expMat.specularTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Normal texture name: ";
+		str = txt + std::string(expMat.normalTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+		//str = std::string(txt +  + '\n');
+
+		//outFile.write((char*)&expMat, sizeof(sExpMaterial));
 
 		outFile.close();
 	}
+
+	//char materialName[256];
+
+	//float ambientColor[3];
+
+	//float diffuseColor[3];
+
+	//float specularColor[3];
+
+	//float shinyFactor;
+
+	//char diffuseTextureFilePath[256];
+
+	//char specularTextureFilePath[256];
+
+	//char normalTextureFilePath[256];
 
 	int jointCounter = 0;
 	int keyCounter = 0;
@@ -1680,8 +1757,8 @@ void MFileImporter::processPhongMaterial(FbxSurfaceMaterial * material)
 			imScene.materialList.back().diffuseColor[2] = diffuseColor.mData[2];
 
 			imScene.materialList.back().specularColor[0] = specularColor.mData[0];
-			imScene.materialList.back().specularColor[0] = specularColor.mData[0];
-			imScene.materialList.back().specularColor[0] = specularColor.mData[0];
+			imScene.materialList.back().specularColor[1] = specularColor.mData[1];
+			imScene.materialList.back().specularColor[2] = specularColor.mData[2];
 
 			imScene.materialList.back().shinyFactor = shininess;
 		}
@@ -1713,8 +1790,8 @@ void MFileImporter::processLambertMaterial(FbxSurfaceMaterial * material)
 		/*No specular attributes and shininess can't be found with a lambert material,
 		so we simply set the values for the attributes to 0.*/
 		imScene.materialList.back().specularColor[0] = 0;
-		imScene.materialList.back().specularColor[0] = 0;
-		imScene.materialList.back().specularColor[0] = 0;
+		imScene.materialList.back().specularColor[1] = 0;
+		imScene.materialList.back().specularColor[2] = 0;
 
 		imScene.materialList.back().shinyFactor = 0;
 	}
