@@ -27,13 +27,16 @@ public:
 				Transform* transforms,
 				int* boundTransforms,
 				std::vector<ModelInstance>* models,
+				std::vector<AnimatedInstance>* animatedModels,
 				Camera* camera,
 				Debug* dbg);
 	void unload();
 	void update( Controls* controls, float deltaTime );
-	lua_State* lua;
+	void printLuaTop() const;
+
+
 private:
-	
+	lua_State* lua;
 	bool validState;
 	int updateReference;
 };

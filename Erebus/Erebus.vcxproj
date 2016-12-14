@@ -150,9 +150,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AABBSquareCollider.cpp" />
     <ClCompile Include="AABBCollider.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CollisionLayers.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
@@ -182,6 +182,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\arc.lua" />
+    <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\enemies.lua" />
@@ -189,22 +191,38 @@
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\test.lua" />
+    <None Include="Shaders\anim.frag" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\debug.frag" />
+    <None Include="Shaders\debug.vert" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
+    <None Include="Shaders\forward.vert.orig" />
     <None Include="Shaders\forwardAnim.frag" />
     <None Include="Shaders\forwardAnim.geom" />
     <None Include="Shaders\forwardAnim.vert" />
+    <None Include="Shaders\geometryPass.frag" />
+    <None Include="Shaders\geometryPass.vert" />
+    <None Include="Shaders\geometryPass_notInstanced.frag" />
+    <None Include="Shaders\geometryPass_notInstanced.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
+    <None Include="Shaders\lightPass.frag" />
+    <None Include="Shaders\lightPass.vert" />
     <None Include="Shaders\particle.frag" />
     <None Include="Shaders\particle.geom" />
     <None Include="Shaders\particle.vert" />
+    <None Include="Shaders\quad.frag" />
+    <None Include="Shaders\quad.vert" />
+    <None Include="Shaders\text.frag" />
+    <None Include="Shaders\text.geom" />
+    <None Include="Shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABBSquareCollider.h" />
     <ClInclude Include="AABBCollider.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />

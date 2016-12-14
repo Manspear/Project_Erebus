@@ -5,8 +5,10 @@ class SphereCollider : public HitBox
 {
 public:
 	SphereCollider();
-	SphereCollider(unsigned int ID, unsigned int IDTransform, glm::vec3 pos, float radius);
+	SphereCollider(unsigned int ID, int IDTransform, glm::vec3 pos, float radius);
 	SphereCollider(unsigned int ID, unsigned int IDTransform,float x, float y, float z, float radius);
+	SphereCollider(int IDTransform, glm::vec3 pos, float radius);
+	SphereCollider(unsigned int IDTransform, float x, float y, float z, float radius);
 	SphereCollider(unsigned int IDTransform);
 	~SphereCollider();
 	bool sphereToSphereCollision(const SphereCollider * sphere);
@@ -21,6 +23,7 @@ public:
 
 	const glm::vec3& getPos();
 	const float& getRadius();
+
 	void setPos(glm::vec3 pos);
 	void setRadius(float radius);
 

@@ -26,8 +26,10 @@ RenderQueue::~RenderQueue()
 void RenderQueue::init()
 {
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
-	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forwardAnim");
+	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "anim");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
+	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
+	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
 	allShaders[ShaderType::DEBUG] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "debug");
 }
@@ -41,7 +43,7 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[FORWARD]->addUniform(camera->getPosition(), "lightPos");
 	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 	allShaders[FORWARD]->unUse();
-
+	
 	allShaders[ANIM]->use();
 	allShaders[ANIM]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	allShaders[ANIM]->addUniform(camera->getViewMatrix(), "viewMatrix");
@@ -49,6 +51,16 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[ANIM]->addUniform(camera->getPosition(), "lightPos");
 	allShaders[ANIM]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 	allShaders[ANIM]->unUse();
+
+	allShaders[GEOMETRY]->use();
+	allShaders[GEOMETRY]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[GEOMETRY]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY]->unUse();
+
+	allShaders[GEOMETRY_NON]->use();
+	allShaders[GEOMETRY_NON]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[GEOMETRY_NON]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_NON]->unUse();
 
 	allShaders[PARTICLES]->use();
 	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -106,7 +118,7 @@ void RenderQueue::allocateWorlds(int n)
 
 void RenderQueue::draw(std::vector<ModelInstance>* instances)
 {
-	currentShader = FORWARD;
+	currentShader = ShaderType::GEOMETRY;
 	allShaders[currentShader]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "worldMatrix");
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
@@ -125,11 +137,16 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 
 		for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 		{
+			instances->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+			
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			int vertexSize = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 3));
+			glEnableVertexAttribArray(2);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)(sizeof(float) * 6));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
@@ -139,45 +156,7 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 	}
 	allShaders[currentShader]->unUse();
 
-	currentShader = ANIM;
-	allShaders[currentShader]->use();
-	GLuint jointMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "jointMatrices");
-	worldMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "worldMatrix");
-	worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
-
-	for (int i = 0; i<instances->size(); i++)
-	{
-		ModelAsset* modelAsset = instances->at(i).asset;
-		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
-		for (int j = 0; j< instances->at(i).worldIndices.size(); j++)
-		{
-			tempMatrices[numInstance++] = worldMatrices[instances->at(i).worldIndices[j]];
-		}
-
-		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-		glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animationObject.getShaderMatrices()[0][0][0]);
-
-		for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
-		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-			int aids = sizeof(Importer::sSkeletonVertex);
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, aids, 0);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 3));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 6));
-
-			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 8));
-			glVertexAttribIPointer(4, 4, GL_INT, aids, (void*)(sizeof(float) * 11));
-			glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, aids, (void*)(sizeof(float) * 11 + sizeof(int) * 4));
-
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-	}
-	allShaders[currentShader]->unUse();
+	
 
 	allShaders[PARTICLES]->use();
 
@@ -208,7 +187,6 @@ void RenderQueue::draw(std::vector<ModelInstance>* instances)
 			//glDrawArrays(GL_POINTS, 0, 1);
 		}
 	}
-
 	allShaders[PARTICLES]->unUse();
 }
 
@@ -295,6 +273,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 		ModelAsset* modelAsset = dynamicModels ->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
+		dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
@@ -354,4 +333,133 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem>* particleSystem
 	}
 
 	allShaders[PARTICLES]->unUse();
+}
+
+/*void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)
+{
+	allShaders[GEOMETRY]->use();
+	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
+
+	for (int i = 0; i < dynamicModels->size(); i++)
+	{
+		ModelAsset* modelAsset = dynamicModels->at(i).asset;
+		int meshes = modelAsset->getHeader()->numMeshes;
+		int numInstance = 0;
+		
+		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
+		{
+			int index = dynamicModels->at(i).worldIndices[j];
+			tempMatrices[numInstance++] = worldMatrices[index];
+		}
+
+		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+
+		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+		{
+			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+	}
+	allShaders[GEOMETRY]->unUse();
+}*/
+
+void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)
+{
+	allShaders[GEOMETRY]->use();
+	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
+
+	for (int i = 0; i < dynamicModels->size(); i++)
+	{
+		ModelAsset* modelAsset = dynamicModels->at(i).asset;
+		int meshes = modelAsset->getHeader()->numMeshes;
+		int numInstance = 0;
+
+		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
+		{
+			int index = dynamicModels->at(i).worldIndices[j];
+			tempMatrices[numInstance++] = worldMatrices[index];
+		}
+
+		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+
+		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+		{
+			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+	}
+	allShaders[GEOMETRY]->unUse();
+
+	currentShader = ANIM;
+	allShaders[currentShader]->use();
+	GLuint jointMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "jointMatrices");
+	worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
+
+	for (int i = 0; i<animatedModels->size(); i++)
+	{
+		ModelAsset* modelAsset = animatedModels->at(i).asset;
+		int meshes = modelAsset->getHeader()->numMeshes;
+		int numInstance = 0;
+		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
+		{
+			//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
+			glm::mat4 tempMatrix = worldMatrices[animatedModels->at(i).worldIndices[j]];
+
+
+			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0] );
+			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+
+			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
+			{
+				//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+				int size = sizeof(Importer::sSkeletonVertex);
+				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+				glEnableVertexAttribArray(1);
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+				glEnableVertexAttribArray(2);
+				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+				glEnableVertexAttribArray(3);
+				glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
+				glEnableVertexAttribArray(4);
+				glVertexAttribIPointer(4, 4, GL_INT, size, (void*)(sizeof(float) * 11));
+				glEnableVertexAttribArray(5);
+				glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 11 + sizeof(int) * 4));
+
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, 1);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
+		}
+	}
+	allShaders[currentShader]->unUse();
 }

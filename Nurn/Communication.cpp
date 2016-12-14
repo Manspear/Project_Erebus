@@ -10,29 +10,61 @@ namespace Nurn
 	{
 	}
 
-	bool Communication::InitializeCommunication(int port)
+	bool Communication::InitializeCommunicationHost(const uint16_t & port)
 	{
 		bool result = true;
 
-		result = socket.InitializeSockets();
+		result = listenSocket.InitializeSockets();
 		if (!result)
 		{
-			printf("Socket failed to initialize");
+			printf("Socket failed to initialize\n");
 			return result;
 		}
 
-		result = socket.CreateSocket(port);
+		result = listenSocket.CreateWaitingSocket(port);
 		if (!result)
 		{
-			printf("Socket creation failed");
+			printf("Socket creation failed\n");
 			return result;
 		}
 
 		return result;
 	}
 
+	bool Communication::InitializeCommunicationClient(const uint16_t & port, const Address & destination)
+	{
+		bool result = true;
+
+		result = communicationSocket.InitializeSockets();
+		if (!result)
+		{
+			printf("Socket failed to initialize\n");
+			return result;
+		}
+
+		result = communicationSocket.CreateAndConnectSocket(port, destination);
+		if (!result)
+		{
+			printf("Socket creation failed\n");
+			return result;
+		}
+
+		return result;
+	}
+
+	bool Communication::AcceptCommunication(Address & connectionAddress)
+	{
+		return listenSocket.AcceptSocket(communicationSocket.GetSocket(), connectionAddress);
+	}
+
 	void Communication::Shutdown()
 	{
-		socket.ShutdownSockets();
+		listenSocket.ShutdownSockets();
+		communicationSocket.ShutdownSockets();
+	}
+
+	bool Communication::ConnectSocket(const Address & connectionAddress)
+	{
+		return communicationSocket.ConnectSocket(connectionAddress);
 	}
 }

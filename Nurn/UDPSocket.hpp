@@ -13,6 +13,10 @@ namespace Nurn
 	public:
 		UDPSocket();
 		virtual ~UDPSocket();
-		bool CreateSocket(const unsigned short & port) override;
+		bool CreateSocket(const uint16_t & port) override;
+		bool ConnectSocket(const Address & connectionAddress) override;
+		bool AcceptSocket(int & acceptedSocket, Address & connectionAddress) override;
+		bool CreateWaitingSocket(const uint16_t & port) override;
+		bool CreateAndConnectSocket(const uint16_t & port, const Address& connectionAddress) override;
 	};
 }

@@ -51,8 +51,42 @@ namespace Nurn
 	}
 
 
-	int Socket::GetSocket()
+	int& Socket::GetSocket()
 	{
 		return networkSocket;
+	}
+
+	bool Socket::SetNonBlocking()
+	{
+#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+		int nonBlocking = 1;
+		if (fcntl(networkSocket, F_SETFL, O_NONBLOCK, nonBlocking) == -1)
+#elif PLATFORM == PLATFORM_WINDOWS
+		DWORD nonBlocking = 1;
+		if (ioctlsocket(networkSocket, FIONBIO, &nonBlocking) != 0)
+#endif
+		{
+			printf("failed to set non-blocking socket\n");
+			CloseSocket();
+			return false;
+		}
+
+		return true;
+	}
+
+	bool Socket::BindSocket(const uint16_t & port)
+	{
+		sockaddr_in address;
+		address.sin_family = AF_INET;
+		address.sin_addr.s_addr = INADDR_ANY;
+		address.sin_port = htons(port);
+
+		if (bind(networkSocket, (const sockaddr*)&address, sizeof(sockaddr_in)) < 0)
+		{
+			printf("failed to bind socket\n");
+			CloseSocket();
+			return false;
+		}
+		return true;
 	}
 }

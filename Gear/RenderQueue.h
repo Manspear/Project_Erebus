@@ -7,7 +7,7 @@
 #include "ParticleSystem.h"
 #include "ModelAsset.h"
 #include "TextureAsset.h"
-
+#include "Material.h"
 #include <vector>
 #include <numeric>
 #include <algorithm>
@@ -17,8 +17,16 @@ using namespace Importer;
 struct ModelInstance
 {
 	ModelAsset* asset;
-	TextureAsset* texAsset;
+	Material material;
 	std::vector<int> worldIndices;
+};
+
+struct AnimatedInstance
+{
+	ModelAsset* asset;
+	Material material;
+	std::vector<int> worldIndices;
+	std::vector<Animation*> animations;
 };
 
 class RenderQueue
@@ -39,11 +47,13 @@ public:
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
-	Animation animationObject;
+	//Animation animationObject;
 	/*Gear::Particle* particle;*/
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 	void particlePass(std::vector<Gear::ParticleSystem>* particleSystems);
+	//void geometryPass(std::vector<ModelInstance>* dynamicModels);
+	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 
 private:
 	int currentShader = 0;

@@ -20,14 +20,22 @@ namespace LuaDebug {
 	}
 	int drawLine(lua_State * lua)
 	{
+		int nargs = lua_gettop( lua );
 		glm::vec3 start, end;
-		start.x = lua_tonumber(lua, -6);
-		start.y = lua_tonumber(lua, -5);
-		start.z = lua_tonumber(lua, -4);
-		end.x = lua_tonumber(lua, -3);
-		end.y = lua_tonumber(lua, -2);
-		end.z = lua_tonumber(lua, -1);
-		debugger->drawLine(start, end);
+		start.x = lua_tonumber(lua, 1);
+		start.y = lua_tonumber(lua, 2);
+		start.z = lua_tonumber(lua, 3);
+		end.x = lua_tonumber(lua, 4);
+		end.y = lua_tonumber(lua, 5);
+		end.z = lua_tonumber(lua, 6);
+		glm::vec3 color( 0.0f, 1.0f, 0.0f );
+		if( nargs >= 9 )
+		{
+			color.x = lua_tonumber(lua, 7 );
+			color.y = lua_tonumber(lua, 8 );
+			color.z = lua_tonumber(lua, 9 );
+		}
+		debugger->drawLine(start, end, color);
 		return 0;
 	}
 	int drawSphere(lua_State * lua)

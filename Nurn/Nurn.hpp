@@ -37,7 +37,10 @@ namespace Nurn
 		virtual ~NurnEngine();
 
 		// Takes an ipv4 address with each of the 255 values seperated by commas, for example ( 127, 0, 0, 1 )
-		bool Initialize(unsigned char ip1, unsigned char ip2, unsigned char ip3, unsigned char ip4, int port = 35500);
+		bool InitializeHost(uint16_t port = 35500);
+		bool InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort = 35500, uint16_t origPort = 35500);
+
+		bool AcceptCommunication();
 
 		bool Send(const void * data, int size);
 		bool Send(const Address & destination, const void * data, int size);

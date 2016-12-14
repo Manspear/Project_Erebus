@@ -2,7 +2,7 @@ STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2
 camera = {distance = 10, angle = 0, xOffset = 0, yOffset = 2, state = STATE_ZOOM_OUT}
 
 timeSinceShot = 0
-DelayZoomOut = 3
+DelayZoomOut = 1.5
 
 
 ZoomedOut = {distance = 12, angle = 3.14/20, time =1.5, timeSpent = 0, xOffset = 0, yOffset = 2}
@@ -11,6 +11,30 @@ StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0}
 
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
+end
+
+function cross(a, b)
+	return {x = a.y*b.z - a.z*b.y, 
+			y = a.z*b.x - a.x*b.z, 
+			z = a.x*b.y - a.y*b.z}
+end
+
+function scalarvec3mult(a, b)
+	return {x = a*b.x, 
+			y = a*b.y, 
+			z = a*b.z}
+end
+
+function vec3add(a, b)
+	return {x = a.x+b.x,
+			y = a.y+b.y,
+			z = a.z+b.z}
+end
+
+function vec3sub(a, b)
+	return {x = a.x-b.x,
+			y = a.y-b.y,
+			z = a.z-b.z}
 end
 
 function UpdateCamera(dt)
@@ -72,8 +96,28 @@ function UpdateCamera(dt)
 			camera.state = STATE_ZOOMED_IN
 		end
 	end
-	
+
+	--[[
+	pos = Transform.GetPos(player.transformID)
+	dir = Transform.GetLookAt(player.transformID)
+	tempDir = {x = pos.x, y = 0, z = pos.z}
+	offset = scalarvec3mult(camera.xOffset, cross(tempDir, {x = 0, y = 1, z = 0}))
+	offset.y = offset.y + camera.yOffset
+
+	lookfrom = {x = 0, y = camera.distance * math.sin(camera.angle), z = 0}
+	lookfrom = vec3sub(lookfrom, scalarvec3mult(camera.distance, scalarvec3mult(math.cos(camera.angle), tempDir)) )
+
+	tempPos = vec3add( vec3add(pos, offset),  )--]]
+
+
 	Camera.Follow(player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
+	local temppos = Camera.GetPos()
+	local height = heightmap:GetHeight(temppos.x, temppos.z)
+	if height + 0.5 > temppos.y then
+		Camera.SetHeight(height+ 0.5) 
+	end
+
+
 end
 
 

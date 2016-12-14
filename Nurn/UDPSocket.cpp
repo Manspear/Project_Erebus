@@ -3,16 +3,11 @@
 namespace Nurn
 {
 
-	UDPSocket::UDPSocket()
-	{
+	UDPSocket::UDPSocket() {}
 
-	}
-	UDPSocket::~UDPSocket()
-	{
+	UDPSocket::~UDPSocket() {}
 
-	}
-
-	bool UDPSocket::CreateSocket(const unsigned short & port)
+	bool UDPSocket::CreateSocket(const uint16_t & port)
 	{
 		assert(!IsOpen());
 
@@ -27,44 +22,69 @@ namespace Nurn
 			return false;
 		}
 
+		return true;
+	}
+
+	bool UDPSocket::ConnectSocket(const Address & connectionAddress)
+	{
+		return true;
+	}
+
+	bool UDPSocket::AcceptSocket(int & acceptedSocket, Address & connectionAddress)
+	{
+		return true;
+	}
+	bool UDPSocket::CreateWaitingSocket(const uint16_t & port)
+	{
+
+		// Create the socket
+
+		if (!CreateSocket(port))
+		{
+			return false;
+		}
+
 		// bind to port
 
-		sockaddr_in address;
-		address.sin_family = AF_INET;
-		address.sin_addr.s_addr = INADDR_ANY;
-		address.sin_port = htons((unsigned short)port);
-
-		if (bind(networkSocket, (const sockaddr*)&address, sizeof(sockaddr_in)) < 0)
+		if (!BindSocket(port))
 		{
-			printf("failed to bind socket\n");
-			CloseSocket();
 			return false;
 		}
 
 		// set non-blocking io
 
-#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
-
-		int nonBlocking = 1;
-		if (fcntl(networkSocket, F_SETFL, O_NONBLOCK, nonBlocking) == -1)
+		if (!SetNonBlocking())
 		{
-			printf("failed to set non-blocking socket\n");
-			CloseSocket();
 			return false;
 		}
-
-#elif PLATFORM == PLATFORM_WINDOWS
-
-		DWORD nonBlocking = 1;
-		if (ioctlsocket(networkSocket, FIONBIO, &nonBlocking) != 0)
-		{
-			printf("failed to set non-blocking socket\n");
-			CloseSocket();
-			return false;
-		}
-
-#endif
 
 		return true;
 	}
+
+	bool UDPSocket::CreateAndConnectSocket(const uint16_t & port, const Address& connectionAddress)
+	{
+		// Create the socket
+
+		if (!CreateSocket(port))
+		{
+			return false;
+		}
+
+		// bind to port
+
+		if (!BindSocket(port))
+		{
+			return false;
+		}
+
+		// set non-blocking io
+
+		if (!SetNonBlocking())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 }
