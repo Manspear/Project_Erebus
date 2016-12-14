@@ -117,45 +117,6 @@ namespace Gear
 
 	}
 
-	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
-	{
-		/* Render here */
-
-		//TEMP--------
-		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
-		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
-		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
-		//------------
-
-		//renderQueue.updateUniforms(camera);
-		//renderQueue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
-		//renderQueue.draw(instances);
-
-		gBuffer.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(instances, animatedModels);
-		gBuffer.unUse();
-
-		lightPass(camera);
-
-		
-
-		//renderQueue.process( renderElements );
-		//for (size_t i = 0; i < statModels.size(); i++)
-		//{
-		//	ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
-		//	tempProgram->use();
-		//	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		//	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
-		//	tempProgram->addUniform(camera->getPosition(), "viewPos");
-		//	tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
-		//	statModels.at(i)->draw();
-		//	tempProgram->unUse();
-		//}
-
-		
-	}
-
 	bool GearEngine::isRunning() {
 		return true;//window->isWindowOpen();
 	}
@@ -299,7 +260,7 @@ namespace Gear
 
 		glDisable(GL_DEPTH_TEST);
 		
-		//updateDebug(camera);
+		updateDebug(camera);
 		queue.particlePass(particleSystems);
 		glEnable(GL_DEPTH_TEST);
 
