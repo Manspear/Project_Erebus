@@ -88,8 +88,7 @@ int main()
 	PerformanceCounter counter;
 
 
-	std::string out = "FPS: -1";
-	double updateRate = 4.0;
+	//std::string out = "FPS: -1";
 
 	while (running && window.isWindowOpen())
 	{
@@ -107,19 +106,11 @@ int main()
 		//collisionHandler.drawHitboxes();
 		//collisionHandler.printCollisions();
 
-		frameCounter++;
-		frameTime += deltaTime;
-
-		if (frameTime > 1/updateRate)
-		{
-			int fps = double(frameCounter) / frameTime;
-			out = "FPS: " + std::to_string(fps);
-			frameCounter = 0;
-			frameTime -= 1 / updateRate;
-		}
+	
+		//out = "FPS: " + std::to_string(counter.getDeltaTime());
 
 
-		engine.print(out, 0.f, 720.f);
+		//engine.print(out, 0.f, 720.f);
 
 		engine.draw(&camera);
 
