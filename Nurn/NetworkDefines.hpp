@@ -10,8 +10,8 @@
 
 // Protocol definition
 
-#define USING_UDP 1
-//#define USING_TCP 1
+//#define USING_UDP 1
+#define USING_TCP 1
 
 // Platform detection
 

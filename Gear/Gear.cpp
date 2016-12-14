@@ -15,6 +15,7 @@ namespace Gear
 		glewInit();
 		//renderQueue.init();
 		queue.init();
+		text.init(1280, 720);
 
 
 
@@ -77,6 +78,8 @@ namespace Gear
 
 			pointLights.push_back(light);
 		}
+
+		addDebugger(Debugger::getInstance());
 	}
 
 	GearEngine::~GearEngine()
@@ -112,7 +115,7 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(instances);
+		queue.geometryPass(instances, animatedModels);
 		gBuffer.unUse();
 
 		lightPass(camera);
@@ -132,6 +135,7 @@ namespace Gear
 		//	tempProgram->unUse();
 		//}
 
+		
 	}
 
 	bool GearEngine::isRunning() {
@@ -180,9 +184,19 @@ namespace Gear
 		allTrans = theTrans;
 	}
 
+	void GearEngine::setFont(FontAsset* font)
+	{
+		text.setFont(font);
+	}
+
 	void GearEngine::addModelInstance(ModelAsset* asset)
 	{
 		queue.addModelInstance(asset);
+	}
+
+	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY)
+	{
+		text.print(s, baseX, baseY);
 	}
 
 	void GearEngine::queueModels(std::vector<ModelInstance>* models)
@@ -195,9 +209,9 @@ namespace Gear
 		dynamicModels = models;
 	}
 
-	void GearEngine::queueAnimModels(std::vector<Dummy>* models)
+	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
 	{
-
+		animatedModels = models;
 	}
 
 	void GearEngine::queueParticles(std::vector<ParticleSystem>* particles)
@@ -235,7 +249,7 @@ namespace Gear
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		queue.geometryPass(dynamicModels);
+		queue.geometryPass(dynamicModels, animatedModels);
 		
 		gBuffer.unUse();
 		
@@ -260,18 +274,23 @@ namespace Gear
 		//pickingPass();
 
 		lightPass(camera);
+		Debugger::getInstance()->drawSphere(glm::vec3(123, -10, 123), 20);
+
 
 		glDisable(GL_DEPTH_TEST);
 		
 		updateDebug(camera);
+		queue.particlePass(particleSystems);
 		glEnable(GL_DEPTH_TEST);
-		
+
 		
 
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		particleSystems = &defaultParticleList;
+
+		text.draw();
 	}
 
 	void GearEngine::pickingPass() {
@@ -313,7 +332,7 @@ namespace Gear
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 3);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(drawMode, "drawMode");

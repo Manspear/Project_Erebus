@@ -53,7 +53,7 @@
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="CollisionLayers.cpp">
-      <Filter>Source Files\Lua</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LevelEditor.cpp">
       <Filter>LevelEditor\Source</Filter>
@@ -199,6 +199,27 @@
     </None>
     <None Include="Shaders\quad.vert">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\arc.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\basespell.lua">
+      <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\cameraLevelEditor.lua">
       <Filter>Scripts</Filter>

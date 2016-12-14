@@ -80,7 +80,7 @@ void ShaderProgram::framebufferInit(int nrTex, int width, int height, GLuint* in
 
 void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * internalFormat, GLuint * format, GLuint * type, GLuint * attachments)
 {
-	nrOfTextures = nrTex;
+	nrOfTextures = nrTex + 1;
 	textureIDs = new GLuint[nrOfTextures];
 	glGenFramebuffers(1, &framebufferID);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
@@ -120,11 +120,25 @@ void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * inte
 	GLuint attachment[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
 	glDrawBuffers(3, attachment);
 
-	GLuint rboDepth;
-	glGenRenderbuffers(1, &rboDepth);
-	glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+	//GLuint rboDepth;
+	//glGenRenderbuffers(1, &rboDepth);
+	//glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+
+	GLuint depthTexture;
+	glGenTextures(1, &depthTexture);
+	glBindTexture(GL_TEXTURE_2D, depthTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthTexture, 0);
+
+	this->textureIDs[nrTex] = depthTexture;
+
 	// - Finally check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Framebuffer not complete!" << std::endl;
@@ -156,7 +170,8 @@ void ShaderProgram::unUse()
 	glUseProgram(0);
 	for (int i = 0; i < totalAttributes; i++)
 		glDisableVertexAttribArray(i);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	if( framebufferID != 0 )
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void ShaderProgram::bindTexToLocation(GLuint* textures)

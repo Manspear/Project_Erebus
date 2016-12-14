@@ -7,17 +7,26 @@
 #include "ParticleSystem.h"
 #include "ModelAsset.h"
 #include "TextureAsset.h"
-
+#include "Material.h"
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include "Animation.h"
 
 using namespace Importer;
 struct ModelInstance
 {
 	ModelAsset* asset;
-	TextureAsset* texAsset;
+	Material material;
 	std::vector<int> worldIndices;
+};
+
+struct AnimatedInstance
+{
+	ModelAsset* asset;
+	Material material;
+	std::vector<int> worldIndices;
+	std::vector<Animation*> animations;
 };
 
 class RenderQueue
@@ -31,24 +40,25 @@ public:
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
 	void draw(std::vector<ModelInstance>* instances);
-	void update(float* pos, int* indices, int n, glm::vec3* lookAts);
+	void update(int n, TransformStruct* theTrans);
 	//GEAR_API int modelAdded(Model* model);
-<<<<<<< HEAD
-	GEAR_API int addModelInstance(ModelAsset* asset);
-	//GEAR_API int generateWorldMatrix();
-	GEAR_API void incrementWorldMatrix();
-	GEAR_API ShaderProgram* getShaderProgram(ShaderType type);
-=======
 	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();
 	ShaderProgram* getShaderProgram(ShaderType type);
->>>>>>> 035234ddc0900848edc765637d85dfa624764bff
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
+	//Animation animationObject;
 	/*Gear::Particle* particle;*/
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 	void particlePass(std::vector<Gear::ParticleSystem>* particleSystems);
+<<<<<<< HEAD
+	void geometryPass(std::vector<ModelInstance>* dynamicModels);
+	void pickingPass(std::vector<ModelInstance>* dynamicModels);
+=======
+	//void geometryPass(std::vector<ModelInstance>* dynamicModels);
+	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
+>>>>>>> 51e3485537571c0c8b68fc506112d012b8220b6f
 
 private:
 	int currentShader = 0;

@@ -8,7 +8,7 @@ arc.currentUpSpeed = 0
 arc.lifeTime = ARC_LIFETIME
 
 local arcModel = Assets.LoadModel( "Models/Sten.model" )
-Gear.AddModelInstance(arcModel, arc.transformID)
+Gear.AddStaticInstance(arcModel, arc.transformID)
 
 function arc:Cast()
 	self.position = Transform.GetPosition(player.transformID)

@@ -54,7 +54,8 @@ std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(int layer)
 {
 	std::vector<SphereCollider*>* colliders = nullptr;
 
-	colliders = &this->sphereColliders[layer];
+	if(layer < this->layerMatrixSize) // if there is a layer
+		colliders = &this->sphereColliders[layer];
 
 	return colliders;
 }
