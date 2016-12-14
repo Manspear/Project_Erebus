@@ -8,9 +8,9 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
 
 struct PointLight {
-		vec3 pos;
-		vec3 color;
-		float radius;
+		vec4 pos;
+		vec4 color;
+		vec4 radius;
 };
 
 struct DirLight {
@@ -20,7 +20,9 @@ struct DirLight {
 
 const int NR_POINT_LIGHTS  = 50;
 const int NR_DIR_LIGHTS  = 1;
-uniform PointLight pointLights[NR_POINT_LIGHTS];
+layout(std430, binding = 0) readonly buffer LightBuffer {
+	PointLight data[];
+} lightBuffer;
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform vec3 viewPos;
 uniform int drawMode;
@@ -45,7 +47,7 @@ void main() {
 
 	vec3 point = vec3(0,0,0);
 	for(int i = 0; i < NR_POINT_LIGHTS; i++)
-		point += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir);
 
 	if(drawMode == 1)
         FragColor = vec4(ambient + directional + point, 1.0);
@@ -85,19 +87,19 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
 	vec3 lighting  = vec3(0);// Diffuse * 0.1;
 
-		float distance = length(light.pos - fragPos);
+		float distance = length(light.pos.xyz - fragPos);
 		if(distance < 30)
 		{
 			// Diffuse
-            vec3 lightDir = normalize(light.pos - fragPos);
-            vec3 diffuseColor = max(dot(normal, lightDir), 0.0) * Diffuse * light.color;
+            vec3 lightDir = normalize(light.pos.xyz - fragPos);
+            vec3 diffuseColor = max(dot(normal, lightDir), 0.0) * Diffuse * light.color.xyz;
 
 			//Specular
 			vec3 reflectDir = reflect(-lightDir, normal);
 			float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-			vec3 specular = light.color * spec;
+			vec3 specular = light.color.xyz * spec;
 
-			float attenuation = smoothstep(30, 0, length(light.pos - fragPos));
+			float attenuation = smoothstep(30, 0, length(light.pos.xyz - fragPos));
 
 			diffuseColor *= attenuation;
 			//specular *= attenuation;
