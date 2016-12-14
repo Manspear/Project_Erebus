@@ -1,8 +1,9 @@
 MAX_ENEMIES = 10
 enemies = {}
 
-function LoadEnemies()
-	for i=1, MAX_ENEMIES do
+function LoadEnemies(n)
+	if n > MAX_ENEMIES then n = MAX_ENEMIES
+	for i=1, n do
 		enemies[i] = {}
 		enemies[i].transformID = Transform.Bind()
 		enemies[i].movementSpeed = math.random(5,20)
@@ -23,7 +24,7 @@ function LoadEnemies()
 	end
 
 	local model = Assets.LoadModel("Models/moleman5.model")
-	for i=1, MAX_ENEMIES do
+	for i=1, n do
 		Gear.AddStaticInstance(model, enemies[i].transformID)
 	end
 end
@@ -32,7 +33,7 @@ function UnloadEnemies()
 end
 
 function UpdateEnemies(dt)
-	for i=1, MAX_ENEMIES do
+	for i=1, #enemies do
 		if enemies[i].health > 0 then
 			Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 		end
