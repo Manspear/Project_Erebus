@@ -17,6 +17,10 @@ namespace LuaCollision
 	int checkCollision( lua_State* lua );
 	int setRadius( lua_State* lua );
 
+	int setLayerCollision( lua_State* lua );
+	int printCollisions( lua_State* lua );
+	int drawHitboxes( lua_State* lua );
+
 	int getID( lua_State* lua );
 
 	// helper functions
