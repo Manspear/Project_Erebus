@@ -295,7 +295,7 @@ namespace Gear
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 3);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(drawMode, "drawMode");
