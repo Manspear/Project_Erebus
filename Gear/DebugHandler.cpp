@@ -63,13 +63,11 @@ void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef) {
 	float* radius = new float[totalToIntance];
 	glm::vec3* colors = new glm::vec3[totalToIntance];
 
-	size_t i = 0;
-	size_t k = 0;
 
 	int numInstance = 0;
-	for (i; i < debuggers.size(); i++) {
+	for (size_t i = 0; i < debuggers.size(); i++) {
 		debugSphereStruct* lineRefVec = debuggers.at(i)->getDebugSpheres();
-		for (k; k < debuggers.at(i)->getTotalSpheres(); k++)
+		for (size_t k = 0; k < debuggers.at(i)->getTotalSpheres(); k++)
 		{
 			debugSphereStruct*temp = &lineRefVec[k];
 			start[numInstance] = temp->start;
@@ -139,13 +137,10 @@ void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef) {
 	glm::vec3* end = new glm::vec3[totalToIntance];
 	glm::vec3* colors = new glm::vec3[totalToIntance];
 
-	size_t i = 0;
-	size_t k = 0;
-
 	int numInstance = 0;
-	for (i; i < debuggers.size(); i++) {
+	for (size_t i = 0; i < debuggers.size(); i++) {
 		debugLineStruct* lineRefVec = debuggers.at(i)->getDebugLines();
-		for (k; k < debuggers.at(i)->getTotalLines(); k++)
+		for (size_t k = 0; k < debuggers.at(i)->getTotalLines(); k++)
 		{
 			debugLineStruct*temp = &lineRefVec[k];
 			start[numInstance] = temp->start;
