@@ -78,6 +78,8 @@ namespace Gear
 
 			pointLights.push_back(light);
 		}
+
+		addDebugger(Debugger::getInstance());
 	}
 
 	GearEngine::~GearEngine()
@@ -263,9 +265,12 @@ namespace Gear
 		gBuffer.unUse();
 
 		lightPass(camera);
+		Debugger::getInstance()->drawSphere(glm::vec3(123, -10, 123), 20);
+
 
 		glDisable(GL_DEPTH_TEST);
 		updateDebug(camera);
+		queue.particlePass(particleSystems);
 		glEnable(GL_DEPTH_TEST);
 
 		//Clear lists
@@ -290,7 +295,7 @@ namespace Gear
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 3);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(drawMode, "drawMode");
