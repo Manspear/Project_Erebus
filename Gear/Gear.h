@@ -74,8 +74,8 @@ namespace Gear
 
 		ShaderProgram gBuffer;
 		const int NUM_POINT_LIGHTS = 30;
-		std::vector<Lights::PointLight> pointLights;
 		std::vector<Lights::DirLight> dirLights;
+		GLuint lightBuffer = 0;
 		//temp debug variable
 		int drawMode = 1;
 
