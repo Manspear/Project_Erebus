@@ -21,10 +21,10 @@ void doCenterCircle(int incremention, mat4 viewProjection){
 	for (float i = 0; i < totalDegree; i+= incremention)
 	{
 		float rad = 2*PI * i/totalDegree;
-		gl_Position = viewProjection * (vec4(cos(rad) * vRad[0], 0, sin(rad)*vRad[0],1) + vPos1[0]);
+		gl_Position = viewProjection * (vec4(cos(rad) * vRad[0], 0, sin(rad)*vRad[0],0) + vPos1[0]);
 		EmitVertex();
 	}
-	gl_Position = viewProjection * (vec4(cos(0) * vRad[0], 0, sin(0)*vRad[0],1) + vPos1[0]);
+	gl_Position = viewProjection * (vec4(cos(0) * vRad[0], 0, sin(0)*vRad[0],0) + vPos1[0]);
 	EmitVertex();
 	EndPrimitive();
 }
@@ -33,10 +33,10 @@ void doTopCircle(int incremention, mat4 viewProjection){
 	for (float i = 0; i < totalDegree; i+= incremention)
 	{
 		float rad = 2*PI * i/totalDegree;
-		gl_Position = viewProjection * (vec4(0, cos(rad)*vRad[0], sin(rad)*vRad[0],1) + vPos1[0]);
+		gl_Position = viewProjection * (vec4(0, cos(rad)*vRad[0], sin(rad)*vRad[0],0) + vPos1[0]);
 		EmitVertex();
 	}
-	gl_Position = viewProjection * (vec4(0, cos(0)*vRad[0], sin(0)*vRad[0],1) + vPos1[0]);
+	gl_Position = viewProjection * (vec4(0, cos(0)*vRad[0], sin(0)*vRad[0],0) + vPos1[0]);
 	EmitVertex();
 	EndPrimitive();
 }
@@ -45,10 +45,10 @@ void doSideCircle(int incremention, mat4 viewProjection){
 	for (float i = 0; i < totalDegree; i+= incremention)
 	{
 		float rad = 2*PI * i/totalDegree;
-		gl_Position = viewProjection * (vec4(cos(rad) * vRad[0],  sin(rad)*vRad[0], 0,1) + vPos1[0]);
+		gl_Position = viewProjection * (vec4(cos(rad) * vRad[0],  sin(rad)*vRad[0], 0,0) + vPos1[0]);
 		EmitVertex();
 	}
-	gl_Position = viewProjection * (vec4(cos(0) * vRad[0],  sin(0)*vRad[0], 0,1) + vPos1[0]);
+	gl_Position = viewProjection * (vec4(cos(0) * vRad[0],  sin(0)*vRad[0], 0,0) + vPos1[0]);
 	EmitVertex();
 	EndPrimitive();
 }
