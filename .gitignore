@@ -9,7 +9,6 @@
 *.orig
 *.vcxproj
 *.filters
-*.dflgadvixe
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -274,3 +273,8 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
+
+#Vtune
+*.dflgadvixe
+Erebus/My Advisor Results - Erebus
+Erebus/My Amplifier XE Results - Erebus
