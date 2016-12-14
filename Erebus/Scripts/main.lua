@@ -4,8 +4,7 @@ local scriptFiles =
 	"Scripts/player.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
-	"Scripts/camera.lua",
-	"Scripts/particle.lua"
+	"Scripts/particle.lua",
 	"Scripts/projectile.lua",
 	"Scripts/arc.lua"
 }

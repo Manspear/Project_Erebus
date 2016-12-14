@@ -1,14 +1,15 @@
 local PROJECTILE_LIFETIME = 2
-local projectile  = dofile( "Scripts/basespell.lua" )
-projectile.speed = 100
-projectile.damage = 5
-projectile.lifeTime = PROJECTILE_LIFETIME
-projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
-projectile.particleID = createFireball()
+function CreateProjectile()
+	local projectile  = dofile( "Scripts/basespell.lua" )
+	projectile.speed = 100
+	projectile.damage = 5
+	projectile.lifeTime = PROJECTILE_LIFETIME
+	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
+	projectile.particleID = createFireball()
 	CollisionHandler.AddSphere(projectile.sphereCollider)
 
-local projectileModel = Assets.LoadModel( "Models/cony.model" )
-Gear.AddStaticInstance(projectileModel, projectile.transformID)
+	local projectileModel = Assets.LoadModel( "Models/cony.model" )
+	Gear.AddStaticInstance(projectileModel, projectile.transformID)
 	function projectile:Cast()
 		self.position = Transform.GetPosition(player.transformID)
 		self.direction = Camera.GetDirection()--Transform.GetLookAt(player.transformID)
