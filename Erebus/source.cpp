@@ -68,8 +68,8 @@ int main()
 	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3,0,0),1.0f);
 	SphereCollider sphere3 = SphereCollider(-3,glm::vec3(4,0,0), 1.0f);
 	collisionHandler.addHitbox(&sphere1,0);
-	collisionHandler.addHitbox(&sphere2,4);
-	collisionHandler.addHitbox(&sphere3,1);
+	collisionHandler.addHitbox(&sphere2,1);
+	collisionHandler.addHitbox(&sphere3,2);
 	collisionHandler.setDebugger(Debugger::getInstance());
 
 	glEnable(GL_DEPTH_TEST);
@@ -120,6 +120,7 @@ int main()
 		//Collisions
 		collisionHandler.checkCollisions();
 		//collisionHandler.drawHitboxes();
+		//collisionHandler.printCollisions();
 
 		frameCounter++;
 		frameTime += deltaTime;
