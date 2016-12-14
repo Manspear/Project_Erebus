@@ -40,7 +40,8 @@ Debug::Debug()
 //	
 //
 	//glm::rotate()
-	
+	totalDebugLines = 0;
+	totalDebugSpheres = 0;
 }
 
 
@@ -78,7 +79,12 @@ void Debug::drawAll(glm::mat4 &projectionMatrix, glm::mat4 &viewMatrix, ShaderPr
 
 void Debug::drawLine(glm::vec3 start, glm::vec3 dest, glm::vec3 color)
 {
-	debugLines.push_back(debugLineStruct(start, dest, color));
+	debugLines[totalDebugLines].start = start;
+	debugLines[totalDebugLines].end = dest;
+	debugLines[totalDebugLines].color = color;
+	totalDebugLines++;
+
+	//debugLines[totalDebugLines++] = debugLineStruct(start, dest, color);
 	//std::vector<staticNonModels*> objectToDrawTemp;
 	//
 	//objectToDrawTemp.push_back(createLine(start, dest));
@@ -122,6 +128,12 @@ void Debug::drawCube(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 c
 
 void Debug::drawSphere(const glm::vec3 position, const float radius, glm::vec3 color)
 {
+
+	debugSpheres[totalDebugSpheres].start = position;
+	debugSpheres[totalDebugSpheres].radius = radius;
+	debugSpheres[totalDebugSpheres].color = color;
+	totalDebugSpheres++;
+	//debugSpheres[totalDebugLines++] = debugSphereStruct(position, radius, color);
 	/*std::vector<staticNonModels*> objectToDrawTemp;
 	const int totalDegree = 360, linesPerSphere = 16;
 
@@ -156,11 +168,19 @@ void Debug::drawSphere(const glm::vec3 position, const float radius, glm::vec3 c
 
 int Debug::getTotalLines()
 {
-	return this->debugLines.size();
+	return totalDebugLines;
+}
+int Debug::getTotalSpheres()
+{
+	return totalDebugSpheres;
 }
 
-std::vector<debugLineStruct> *Debug::getDebugLines() {
-	return &this->debugLines;
+debugLineStruct *Debug::getDebugLines() {
+	return this->debugLines;
+}
+
+debugSphereStruct *Debug::getDebugSpheres() {
+	return this->debugSpheres;
 }
 
 staticNonModels* Debug::createLine(const glm::vec3 &start, const glm::vec3 &end)
@@ -340,9 +360,11 @@ glm::vec3* Debug::getQuads(glm::vec3 start, glm::vec3 end, float size)
 
 void Debug::clear()
 {
-	for (size_t i = 0; i < objectsToDraw.size(); i++)
-	{
-		delete objectsToDraw[i];
-	}
-	this->objectsToDraw.clear();
+	totalDebugLines = 0;
+	totalDebugSpheres = 0;
+	//for (size_t i = 0; i < objectsToDraw.size(); i++)
+	//{
+	//	
+	//}
+	//this->objectsToDraw.clear();
 }

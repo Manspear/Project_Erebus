@@ -7,9 +7,13 @@
 class DebugHandler
 {
 private:
+	const int totalToIntance = 256;
 	std::vector<Debug*> debuggers;
 
-	void drawAllLines(Camera* camera, RenderQueue* renderQueRef,const int &totalLines);
+	void drawAllLines(Camera* camera, RenderQueue* renderQueRef);
+	void drawAllSpheres(Camera* camera, RenderQueue* renderQueRef);
+
+	GLuint tempBuffer;
 public:
 	DebugHandler();
 	~DebugHandler();

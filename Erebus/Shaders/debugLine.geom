@@ -1,7 +1,7 @@
 #version 420 core
 
 layout(points) in;
-layout(line_strip, max_vertices = 3) out;
+layout(line_strip, max_vertices = 2) out;
 
 in vec4 vPos1[];
 in vec4 vPos2[];

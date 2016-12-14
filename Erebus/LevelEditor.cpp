@@ -74,11 +74,27 @@ void LevelEditor::start() {
 	std::string out = "FPS: -1";
 	double updateRate = 4.0;
 
+	float currentAnimation = 0;
+	float addSyntax = 1;
+	float minMax = 10;
 	while (running && window.isWindowOpen())
 	{
-
-		Debugger::getInstance()->drawLine({ 0,10,0 }, { 256,0,256 });
+		
+		
 		deltaTime = counter.getDeltaTime();
+		currentAnimation += addSyntax * deltaTime*10;
+		if (currentAnimation > minMax)
+			addSyntax = -1;
+		if (currentAnimation < -minMax)
+			addSyntax = 1;
+		for (size_t i = 0; i < 100; i++)
+		{
+			//Debugger::getInstance()->drawLines({ i*.005f,10,0 }, { i*.005f,10 + currentAnimation*3,10 },
+			//{ (float)i / 10000, (float)i / 10000, (float)i});
+			Debugger::getInstance()->drawSphere({ i*5,10,0 }, 3);
+			
+		}
+
 		inputs.update();
 		controls.update(&inputs);
 		luaBinds.update(&controls, deltaTime);

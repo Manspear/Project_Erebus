@@ -42,6 +42,25 @@ struct debugLineStruct {
 		this->end = end;
 		this->color = color;
 	}
+
+	debugLineStruct() {
+
+	}
+};
+
+struct debugSphereStruct {
+	glm::vec3 start, color;
+	float radius;
+
+	debugSphereStruct(glm::vec3 start, float radius, glm::vec3 color) {
+		this->start = start;
+		this->radius = radius;
+		this->color = color;
+	}
+
+	debugSphereStruct() {
+
+	}
 };
 
 class Debug
@@ -55,20 +74,23 @@ public:
 private:
 	
 	GLuint VAO, VBO;
-	std::vector<debugLineStruct> debugLines;
+	debugLineStruct debugLines[10000];
+	debugSphereStruct debugSpheres[1000];
+	int totalDebugLines;
+	int totalDebugSpheres;
 	std::vector<ObjectsToDraw*> objectsToDraw;
 	//std::vector<staticNonModels*> objectsToDraw;
 	staticNonModels* createLine(const glm::vec3 &start, const glm::vec3 &end);
 	GEAR_API glm::vec3* getQuads(glm::vec3 start, glm::vec3 end, float size);
 	staticNonModels* baseLine;
 	std::vector<glm::mat4> worldMatrices;
-	void clear();
+	
 public:
 	
 	//Dont create a new instance, create a new from Debugger::getInstance();
 	GEAR_API Debug();
 	GEAR_API ~Debug();
-
+	GEAR_API void clear();
 	//This is only called once!
 	GEAR_API void drawAll(glm::mat4 &projectionMatrix, glm::mat4 &viewMatrix, ShaderProgram* program);
 	//Draws a line at starting point until destination
@@ -85,7 +107,9 @@ public:
 
 
 	GEAR_API int getTotalLines();
-	GEAR_API std::vector<debugLineStruct> *getDebugLines();
+	GEAR_API int getTotalSpheres();
+	GEAR_API debugLineStruct *getDebugLines();
+	GEAR_API debugSphereStruct *getDebugSpheres();
 };
 
 namespace Debugger {
