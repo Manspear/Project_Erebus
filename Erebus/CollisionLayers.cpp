@@ -50,7 +50,7 @@ void CollisionLayers::addHitbox(SphereCollider * sphereCollider, unsigned int la
 	this->sphereColliders[layer].push_back(sphereCollider);
 }
 
-std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(int layer)
+std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(unsigned int layer)
 {
 	std::vector<SphereCollider*>* colliders = nullptr;
 
@@ -60,7 +60,7 @@ std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(int layer)
 	return colliders;
 }
 
-std::vector<AABBCollider*>* CollisionLayers::getAABBColliders(int layer)
+std::vector<AABBCollider*>* CollisionLayers::getAABBColliders(unsigned int layer)
 {
 	std::vector<AABBCollider*>* colliders = nullptr;
 
@@ -96,9 +96,9 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 {
 	bool deleted = false;
 
-	for (unsigned int i = 0; i < this->sphereColliders.size(); i++) //check if it is a sphere collider and delete
+	for (size_t i = 0; i < this->sphereColliders.size(); i++) //check if it is a sphere collider and delete
 	{
-		for (unsigned int j = 0; j < this->sphereColliders[i].size(); j++)
+		for (size_t j = 0; j < this->sphereColliders[i].size(); j++)
 		{
 			if (this->sphereColliders[i][j]->getID() == ID)
 			{
@@ -114,9 +114,9 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 
 	if (!deleted)
 	{
-		for (unsigned int i = 0; i < this->aabbColliders.size(); i++) //check if it is a AABB collider and delete
+		for (size_t i = 0; i < this->aabbColliders.size(); i++) //check if it is a AABB collider and delete
 		{
-			for (unsigned int j = 0; j < this->aabbColliders[i].size(); j++)
+			for (size_t j = 0; j < this->aabbColliders[i].size(); j++)
 			{
 				if (this->aabbColliders[i][j]->getID() == ID)
 				{

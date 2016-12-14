@@ -12,8 +12,8 @@ public:
 	void addHitbox(AABBCollider* aabbCollider, unsigned int layer);
 	void addHitbox(SphereCollider* sphereCollider, unsigned int layer);
 
-	std::vector<SphereCollider*>* getSphereColliders(int layer);
-	std::vector<AABBCollider*>* getAABBColliders(int layer);
+	std::vector<SphereCollider*>* getSphereColliders(unsigned int layer);
+	std::vector<AABBCollider*>* getAABBColliders(unsigned int layer);
 
 	void checkLayer(int layer1,int layer2);
 	void resetLayerCollisionCheckedMatrix();
