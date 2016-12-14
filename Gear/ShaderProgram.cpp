@@ -156,7 +156,8 @@ void ShaderProgram::unUse()
 	glUseProgram(0);
 	for (int i = 0; i < totalAttributes; i++)
 		glDisableVertexAttribArray(i);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	if( framebufferID != 0 )
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void ShaderProgram::bindTexToLocation(GLuint* textures)

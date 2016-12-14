@@ -7,6 +7,7 @@
 #include "Inputs.h"
 #include "staticNonModels.h"
 #include "Debug.h"
+#include "TextRenderer.h"
 #include "Material.h"
 namespace Gear
 {
@@ -33,20 +34,24 @@ namespace Gear
 		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
+		GEAR_API void print(const std::string &s, const float &baseX, const float &baseY);
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
-		GEAR_API void queueAnimModels(std::vector<Dummy>* models);
+		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
 		GEAR_API void queueParticles(std::vector<ParticleSystem>* particles);
 		GEAR_API void queueLights(std::vector<Light>* lights);
 		GEAR_API void draw(Camera* camera);
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();
+
+		GEAR_API void setFont(FontAsset* font);
 		//----------------------
 
 	private:
 		GEAR_API void lightPass(Camera* camera);
+		void pickingPass();
 
 		const int NUM_LIGHTS = 50;
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f);
@@ -54,6 +59,7 @@ namespace Gear
 
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
+		TextRenderer text;
 
 		TransformStruct** allTrans;
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
@@ -69,14 +75,15 @@ namespace Gear
 
 		ShaderProgram gBuffer;
 		const int NUM_POINT_LIGHTS = 30;
-		std::vector<Lights::PointLight> pointLights;
 		std::vector<Lights::DirLight> dirLights;
+		GLuint lightBuffer = 0;
 		//temp debug variable
 		int drawMode = 1;
 
 		void drawQuad();
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
+		std::vector<AnimatedInstance>* animatedModels;
 		std::vector<ParticleSystem>* particleSystems;
 
 		//Default values, to avoid nullptrs

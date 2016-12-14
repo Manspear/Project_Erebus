@@ -1,16 +1,22 @@
 #version 420 core
 
-in vec3 pos ;
-in vec3 normal ;
-in vec2 UV ;
-in vec3 tangent ;
-in ivec4 influences ;
-in vec4 weights ;
+//in vec3 pos ;
+//in vec3 normal ;
+//in vec2 UV ;
+//in vec3 tangent ;
+//in ivec4 influences ;
+//in vec4 weights ;
 
-out vec3 vert_normal;
-out vec3 vert_viewPos;
-out vec3 vert_worldPos;
-out vec2 vert_UV;
+layout (location = 0) in vec3 pos ;
+layout (location = 1) in vec3 normal ;
+layout (location = 2) in vec2 UV ;
+layout (location = 3) in vec3 tangent ;
+layout (location = 4) in ivec4 influences ;
+layout (location = 5) in vec4 weights ;
+
+out vec3 FragPos;
+out vec2 TexCoords;
+out vec3 Normal;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
@@ -33,9 +39,9 @@ void main()
 	}
 
 	gl_Position = projectionMatrix * viewMatrix * worldMatrices[gl_InstanceID] * vPos;
-	vert_worldPos = (worldMatrices[gl_InstanceID] * vPos).xyz;
-	vert_viewPos = viewPos;
-	vert_normal = vNorm.xyz;
+	FragPos = (worldMatrices[gl_InstanceID] * vPos).xyz;
+	//vert_viewPos = viewPos;
+	Normal = vNorm.xyz;
 	//Flipping the Y-axis of the UV
-	vert_UV = UV*vec2(1,-1);
+	TexCoords = UV*vec2(1,-1);
 }

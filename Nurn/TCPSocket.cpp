@@ -49,7 +49,7 @@ namespace Nurn
 		return true;
 	}
 
-	bool TCPSocket::AcceptSocket(SOCKET & acceptedSocket, Address & connectionAddress)
+	bool TCPSocket::AcceptSocket(int & acceptedSocket, Address & connectionAddress)
 	{
 		SOCKADDR_IN address = { 0 };
 
@@ -59,7 +59,7 @@ namespace Nurn
 		socklen_t fromLength = sizeof(address);
 
 		// Accept a incomming connection, returns a socket used to send to later
-		SOCKET OutSocketHandle = accept(networkSocket, (SOCKADDR*)&address, &fromLength);
+		int OutSocketHandle = accept(networkSocket, (SOCKADDR*)&address, &fromLength);
 
 		// If failed, throw exception
 		if (OutSocketHandle == INVALID_SOCKET)
@@ -86,9 +86,8 @@ namespace Nurn
 		return true;
 	}
 
-	bool TCPSocket::CreateWaitingSocket(const Address& connectionAddress)
+	bool TCPSocket::CreateWaitingSocket(const uint16_t & port)
 	{
-		uint16_t port = connectionAddress.GetPort();
 
 		if (!CreateSocket(port))
 		{
@@ -112,11 +111,11 @@ namespace Nurn
 		// TODO maybe not SOMAXCONN? who knows
 		listen(networkSocket, SOMAXCONN);
 
+		return true;
 	}
 
-	bool TCPSocket::CreateAndConnectSocket(const Address& connectionAddress)
+	bool TCPSocket::CreateAndConnectSocket(const uint16_t & port, const Address& connectionAddress)
 	{
-		unsigned short port = connectionAddress.GetPort();
 
 		if (!CreateSocket(port))
 		{
@@ -142,5 +141,6 @@ namespace Nurn
 			CloseSocket();
 			return false;
 		}
+		return true;
 	}
 }

@@ -19,10 +19,11 @@ enum ShaderType {
 	GEOMETRY_NON,
 	HEIGHTMAP,
 	DEBUG,
+	GEOMETRY_PICKING,
 	NUM_SHADER_TYPES
 };
 
-static const std::string baseFolder = "Shaders/";
+static const std::string baseFolder = "../Erebus/Shaders/";
 static const std::string vertEnd = ".vert";
 static const std::string geomEnd = ".geom";
 static const std::string fragEnd = ".frag";

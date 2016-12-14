@@ -29,6 +29,8 @@ namespace Importer
 				glCompressedTexImage2D( GL_TEXTURE_2D, 0, image.getFormat(), image.getWidth(), image.getHeight(), 0, image.getSize(), image.getPixels() );
 			glBindTexture( GL_TEXTURE_2D, 0 );
 
+			width = image.getWidth();
+			height = image.getHeight();
 			result = true;
 		}
 
@@ -46,5 +48,15 @@ namespace Importer
 	{
 		glActiveTexture( position );
 		glBindTexture( GL_TEXTURE_2D, id );
+	}
+
+	int TextureAsset::getWidth()
+	{
+		return width;
+	}
+
+	int TextureAsset::getHeight()
+	{
+		return height;
 	}
 }
