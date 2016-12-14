@@ -76,16 +76,16 @@ void LevelEditor::start() {
 
 	float currentAnimation = 0;
 	float addSyntax = 1;
-	float minMax = 10;
+	float minMax = 1;
 	while (running && window.isWindowOpen())
 	{
 		
 		
 		deltaTime = counter.getDeltaTime();
-		currentAnimation += addSyntax * deltaTime*10;
+		currentAnimation += addSyntax * deltaTime;
 		if (currentAnimation > minMax)
 			addSyntax = -1;
-		if (currentAnimation < -minMax)
+		if (currentAnimation < .2f)
 			addSyntax = 1;
 
 		//for (size_t l = 0; l < 255; l++)
@@ -97,17 +97,23 @@ void LevelEditor::start() {
 		//		Debugger::getInstance()->drawLine({ i, l, 0 }, { i, l, 255 });
 		//	}
 		//}
-		
-		for (size_t y = 0; y < 36; y++)
+		const float cubeLoop = 18;
+		for (size_t y = 0; y < 18; y++)
 		{
-			for (size_t x = 0; x < 36; x++)
+			for (size_t x = 0; x < 18; x++)
 			{
-				for (size_t i = 0; i < 36; i++)
+				for (size_t i = 0; i < 18; i++)
 				{
+					float radx = 2 * glm::pi<float>() * x*currentAnimation / 18.f;
+					float rady = 2 * glm::pi<float>() * y *currentAnimation / 18.f;
+					float radz = 2 * glm::pi<float>() * i *currentAnimation / 18.f;
+					//(vec4(cos(rad) * vRad[0], 0, sin(rad)*vRad[0], 0) + vPos1[0]);
+					glm::vec3 pos = glm::vec3(glm::cos(radx) * x, glm::sin(rady) * y, glm::sin(radz) * i)*5.f;
 					//Debugger::getInstance()->drawLines({ i*.005f,10,0 }, { i*.005f,10 + currentAnimation*3,10 },
 					//{ (float)i / 10000, (float)i / 10000, (float)i});
 					//Debugger::getInstance()->drawLine({ i * 10,y * 10,x * 10 }, { i * 11,y * 11,x * 11 }, { i / 36.f, y / 36.f, x / 36.f });
-					Debugger::getInstance()->drawSphere({ i * 10,y * 10,x * 10 }, 3.5f, {i/36.f, y / 36.f, x / 36.f });
+					Debugger::getInstance()->drawSphere(pos, 1.2f,
+					{i/ cubeLoop * currentAnimation, y / cubeLoop * currentAnimation, x / cubeLoop  * currentAnimation+1 });
 
 				}
 			}
