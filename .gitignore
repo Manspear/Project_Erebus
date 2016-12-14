@@ -276,5 +276,5 @@ __pycache__/
 
 #Vtune
 *.dflgadvixe
-Erebus/My Advisor Results - Erebus
-Erebus/My Amplifier XE Results - Erebus
+**/My Amplifier XE Results*/
+**/My Advisor Results*/
