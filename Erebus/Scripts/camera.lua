@@ -60,6 +60,7 @@ function UpdateCamera(dt)
 		StartState.angle = camera.angle
 		StartState.xOffset = camera.xOffset
 		StartState.yOffset = camera.yOffset
+		StartState.fov = camera.fov
 
 		camera.state = STATE_ZOOMING_OUT
 	end 
