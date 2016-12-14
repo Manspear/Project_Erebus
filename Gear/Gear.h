@@ -7,6 +7,7 @@
 #include "Inputs.h"
 #include "staticNonModels.h"
 #include "Debug.h"
+#include "DebugHandler.h"
 #include "TextRenderer.h"
 #include "Material.h"
 namespace Gear
@@ -89,7 +90,8 @@ namespace Gear
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
 		std::vector<ParticleSystem> defaultParticleList = std::vector<ParticleSystem>(0);
-		std::vector<Debug*> debuggers;
+		
+		DebugHandler* debugHandler;
 
 		void updateDebug(Camera* camera);
 	};

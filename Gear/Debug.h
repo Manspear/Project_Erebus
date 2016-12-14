@@ -34,6 +34,16 @@ public:
 
 };
 
+struct debugLineStruct {
+	glm::vec3 start, end, color;
+
+	debugLineStruct(glm::vec3 start, glm::vec3 end, glm::vec3 color) {
+		this->start = start;
+		this->end = end;
+		this->color = color;
+	}
+};
+
 class Debug
 {
 	
@@ -45,6 +55,7 @@ public:
 private:
 	
 	GLuint VAO, VBO;
+	std::vector<debugLineStruct> debugLines;
 	std::vector<ObjectsToDraw*> objectsToDraw;
 	//std::vector<staticNonModels*> objectsToDraw;
 	staticNonModels* createLine(const glm::vec3 &start, const glm::vec3 &end);
@@ -70,6 +81,11 @@ public:
 	GEAR_API void drawCube(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color = glm::vec3(0, 1, 0));
 	//Draws a sphere at give poisiton and radius
 	GEAR_API void drawSphere(const glm::vec3 position, const float radius, glm::vec3 color = glm::vec3(0, 1, 0));
+
+
+
+	GEAR_API int getTotalLines();
+	GEAR_API std::vector<debugLineStruct> *getDebugLines();
 };
 
 namespace Debugger {

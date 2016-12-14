@@ -79,6 +79,7 @@ namespace Gear
 			pointLights.push_back(light);
 		}
 
+		debugHandler = new DebugHandler();
 		addDebugger(Debugger::getInstance());
 	}
 
@@ -92,10 +93,7 @@ namespace Gear
 		delete quadShader;
 		delete lightPassShader;
 
-		for (size_t i = 0; i < debuggers.size(); i++)
-		{
-			delete debuggers[i];
-		}
+		delete debugHandler;
 
 	}
 
@@ -356,16 +354,10 @@ namespace Gear
 		lightPassShader->unUse();
 	}
 	void GearEngine::updateDebug(Camera* camera) {
-		ShaderProgram* tempProgram;
-
-		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
-		for (size_t i = 0; i < debuggers.size(); i++)
-		{
-			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
-		}
+		this->debugHandler->update(camera, &queue);
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {
-		this->debuggers.push_back(debugger);
+		this->debugHandler->addDebuger(debugger);
 	}
 }
