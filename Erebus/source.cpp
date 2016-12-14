@@ -21,6 +21,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
+#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -35,7 +36,6 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
 	Window window;
 	Gear::GearEngine engine;
 
@@ -76,6 +76,8 @@ int main()
 
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
+	
+	window.changeCursorStatus(false);
 
 	PerformanceCounter counter;
 	counter.startCounter();
@@ -107,6 +109,8 @@ int main()
 
 	while (running && window.isWindowOpen())
 	{
+		
+		
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
@@ -141,6 +145,7 @@ int main()
 		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
+		/*
 		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
 			engine.setDrawMode(1);
 		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
@@ -154,7 +159,7 @@ int main()
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine.setDrawMode(7);
+			engine.setDrawMode(7);*/
 
 		window.update();
 	}

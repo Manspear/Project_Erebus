@@ -155,6 +155,8 @@
     <ClCompile Include="CollisionLayers.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="LevelEditor.cpp" />
+    <ClCompile Include="LevelModel.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
     <ClCompile Include="LuaCamera.cpp" />
@@ -185,6 +187,7 @@
     <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
+    <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\player.lua" />
@@ -194,10 +197,10 @@
     <None Include="Shaders\anim.vert" />
     <None Include="Shaders\debug.frag" />
     <None Include="Shaders\debug.vert" />
+    <None Include="Shaders\debugLine.geom" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
-    <None Include="Shaders\forward.vert.orig" />
     <None Include="Shaders\forwardAnim.frag" />
     <None Include="Shaders\forwardAnim.geom" />
     <None Include="Shaders\forwardAnim.vert" />
@@ -205,6 +208,8 @@
     <None Include="Shaders\geometryPass.vert" />
     <None Include="Shaders\geometryPass_notInstanced.frag" />
     <None Include="Shaders\geometryPass_notInstanced.vert" />
+    <None Include="Shaders\geometryPicking.frag" />
+    <None Include="Shaders\geometryPicking.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\lightPass.frag" />
@@ -223,6 +228,8 @@
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LevelEditor.h" />
+    <ClInclude Include="LevelModel.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />

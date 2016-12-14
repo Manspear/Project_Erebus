@@ -54,10 +54,7 @@ namespace Nurn
 			return false;
 		}
 
-		uint32_t address = from.sin_addr.s_addr;
-		uint16_t port = ntohs(from.sin_port);
-
-		sender = Address(address, port);
+		//sender.SetAddress(from);
 
 		return received_bytes;
 	}

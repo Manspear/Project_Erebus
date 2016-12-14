@@ -7,6 +7,7 @@ base.alive = false
 
 
 function base:Kill()
+	
 	self.alive = false
 	self.position.x = 0
 	self.position.y = 0

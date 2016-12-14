@@ -6,7 +6,7 @@ namespace Nurn
 
 	TCPSocket::~TCPSocket() {}
 
-	bool TCPSocket::CreateSocket(const uint16_t & port)
+	bool TCPSocket::CreateSocket()
 	{
 		assert(!IsOpen());
 
@@ -89,7 +89,7 @@ namespace Nurn
 	bool TCPSocket::CreateWaitingSocket(const uint16_t & port)
 	{
 
-		if (!CreateSocket(port))
+		if (!CreateSocket())
 		{
 			return false;
 		}
@@ -117,7 +117,7 @@ namespace Nurn
 	bool TCPSocket::CreateAndConnectSocket(const uint16_t & port, const Address& connectionAddress)
 	{
 
-		if (!CreateSocket(port))
+		if (!CreateSocket())
 		{
 			return false;
 		}

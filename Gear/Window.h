@@ -13,6 +13,7 @@ public:
 	GEAR_API void update();
 	GEAR_API GLFWwindow* getGlfwWindow();
 	GLFWwindow * getWindow();
+	GEAR_API void changeCursorStatus(bool hidden);
 private:
 	GLFWwindow* window;
 

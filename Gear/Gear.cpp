@@ -32,6 +32,15 @@ namespace Gear
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
 
+		//Generate buffers
+		glGenBuffers(1, &lightBuffer);
+
+		//bind light buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(Lights::PointLight), 0, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+
 		/*Lights::PointLight light;
 
 		light.pos = glm::vec3(0, 0, 0);
@@ -62,8 +71,15 @@ namespace Gear
 
 		const int LIGHT_RADIUS = 30;
 
+		if (lightBuffer == 0) {
+			return;
+		}
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE);
+
 		for (int i = 0; i < NUM_LIGHTS; i++) {
-			Lights::PointLight light;
+			Lights::PointLight &light = pointLightsPtr[i];
 
 			glm::vec3 position = glm::vec3(0.0);
 			for (int i = 0; i < 3; i++) {
@@ -72,12 +88,13 @@ namespace Gear
 				position[i] = (GLfloat)dis(gen) * (max - min) + min;
 			}
 
-			light.pos = position;
-			light.color = glm::vec3(dis(gen), dis(gen), dis(gen));
-			light.radius = LIGHT_RADIUS;
-
-			pointLights.push_back(light);
+			light.pos = glm::vec4(position,1);
+			light.color = glm::vec4(dis(gen), dis(gen), dis(gen),1);
+			light.radius.z = LIGHT_RADIUS;
 		}
+
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 		addDebugger(Debugger::getInstance());
 	}
@@ -119,6 +136,8 @@ namespace Gear
 		gBuffer.unUse();
 
 		lightPass(camera);
+
+		
 
 		//renderQueue.process( renderElements );
 		//for (size_t i = 0; i < statModels.size(); i++)
@@ -230,14 +249,22 @@ namespace Gear
 
 		//queue.forwardPass(staticModels, dynamicModels);
 		//queue.particlePass(particleSystems);
-		//Disco party!!!
-		for (int i = 0; i < NUM_LIGHTS; i++) {
 
+		//Disco party!!!
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE);
+		for (int i = 0; i < NUM_LIGHTS; i++) {
+			Lights::PointLight &light = pointLightsPtr[i];
 			float min = LIGHT_MIN_BOUNDS[1];
 			float max = LIGHT_MAX_BOUNDS[1];
 
-			pointLights[i].pos.y = fmod((pointLights[i].pos.y + (-0.5f) - min + max), max) + min;
+			light.pos.y = fmod((light.pos.y + (-0.5f) - min + max), max) + min;
 		}
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//queue.pickingPass(dynamicModels);
 
 
 		gBuffer.use();
@@ -245,7 +272,11 @@ namespace Gear
 		
 		queue.geometryPass(dynamicModels, animatedModels);
 		
+		gBuffer.unUse();
 		
+		
+		
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//--TEMP---
 		/*for (size_t i = 0; i < statModels.size(); i++)
@@ -261,17 +292,19 @@ namespace Gear
 			tempProgram->unUse();
 		}*/
 		//---------
-
-		gBuffer.unUse();
+		//pickingPass();
 
 		lightPass(camera);
 		Debugger::getInstance()->drawSphere(glm::vec3(123, -10, 123), 20);
 
 
 		glDisable(GL_DEPTH_TEST);
+		
 		updateDebug(camera);
 		queue.particlePass(particleSystems);
 		glEnable(GL_DEPTH_TEST);
+
+		
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -279,6 +312,31 @@ namespace Gear
 		particleSystems = &defaultParticleList;
 
 		text.draw();
+	}
+
+	void GearEngine::pickingPass() {
+		gBuffer.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.pickingPass(dynamicModels);
+		
+		glFlush();
+		glFinish();
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		unsigned char data[3];
+		glReadPixels(1024 / 2, 768 / 2, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+		int pickedID = data[0] +
+			data[1] * 256 +
+			data[2] * 256 * 256;
+		std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
+		//if (pickedID == 0x00000000) {
+		//	std::cout << "looking at background!" << std::endl;
+		//}
+		//else
+		//	std::cout << "Looking at something :): " << pickedID << std::endl;
+		gBuffer.unUse();
 	}
 
 	void GearEngine::allocateWorlds(int n)
@@ -295,18 +353,10 @@ namespace Gear
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 3);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(drawMode, "drawMode");
-
-		for (GLuint i = 0; i < pointLights.size(); i++)
-		{
-			lightPassShader->addUniform(pointLights[i].pos, ("pointLights[" + std::to_string(i) + "].pos").c_str());
-			lightPassShader->addUniform(pointLights[i].color, ("pointLights[" + std::to_string(i) + "].color").c_str());
-
-			lightPassShader->addUniform(pointLights[i].radius, ("pointLights[" + std::to_string(i) + "].radius").c_str());
-		}
 
 		for (GLuint i = 0; i < dirLights.size(); i++)
 		{
@@ -314,9 +364,11 @@ namespace Gear
 			lightPassShader->addUniform(dirLights[i].color, ("dirLights[" + std::to_string(i) + "].color").c_str());
 		}
 
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, lightBuffer);
 		drawQuad();
 
 		lightPassShader->unUse();
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
 	}
 	void GearEngine::updateDebug(Camera* camera) {
 		ShaderProgram* tempProgram;
