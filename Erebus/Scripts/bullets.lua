@@ -1,5 +1,5 @@
 MAX_BULLETS = 5
-bullets = {}
+bullets = bullets or {}
 bulletIndex = 1
 activeBullets = 0
 

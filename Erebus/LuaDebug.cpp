@@ -17,7 +17,10 @@ namespace LuaDebug {
 		lua_setfield(lua, -2, "__index");
 
 		lua_setglobal(lua, "Debug");
+
+		lua_register( lua, "GetLastWriteTime", getLastWriteTime );
 	}
+
 	int drawLine(lua_State * lua)
 	{
 		int nargs = lua_gettop( lua );
@@ -38,6 +41,7 @@ namespace LuaDebug {
 		debugger->drawLine(start, end, color);
 		return 0;
 	}
+
 	int drawSphere(lua_State * lua)
 	{
 		glm::vec3 position;
@@ -48,5 +52,33 @@ namespace LuaDebug {
 		radius = lua_tonumber(lua, -1);
 		debugger->drawSphere(position, radius);
 		return 0;
+	}
+
+	int getLastWriteTime(lua_State* lua)
+	{
+		int result = 0;
+
+		if( lua_gettop( lua ) >= 1 )
+		{
+			HANDLE file = CreateFileA( lua_tostring( lua, 1 ),
+										GENERIC_READ,
+										FILE_SHARE_READ,
+										NULL,
+										OPEN_EXISTING,
+										FILE_ATTRIBUTE_NORMAL,
+										NULL );
+			if( file )
+			{
+				FILETIME fileTime;
+				GetFileTime( file, NULL, NULL, &fileTime );
+				CloseHandle( file );
+
+				uint64_t value = ( fileTime.dwHighDateTime << 32 ) | fileTime.dwLowDateTime;
+				lua_pushnumber( lua, value );
+				result = 1;
+			}
+		}
+
+		return result;
 	}
 }

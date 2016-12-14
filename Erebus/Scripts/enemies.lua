@@ -1,5 +1,5 @@
 MAX_ENEMIES = 10
-enemies = {}
+enemies = enemies or {}
 
 function LoadEnemies()
 	for i=1, MAX_ENEMIES do

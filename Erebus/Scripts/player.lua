@@ -1,6 +1,7 @@
 local MOLERAT_OFFSET = 2
 local PLAYER_MAX_SPELLS = 2
-player = {}
+
+player = player or {}
 
 function LoadPlayer()
 	-- set basic variables for the player

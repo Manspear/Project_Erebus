@@ -1,5 +1,5 @@
 STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2, 3
-camera = {distance = 10, angle = 0, xOffset = 0, yOffset = 2, state = STATE_ZOOM_OUT}
+camera = camera or {distance = 10, angle = 0, xOffset = 0, yOffset = 2, state = STATE_ZOOM_OUT}
 
 timeSinceShot = 0
 DelayZoomOut = 1.5
