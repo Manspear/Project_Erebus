@@ -190,6 +190,7 @@
     <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\main.lua" />
+    <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\test.lua" />

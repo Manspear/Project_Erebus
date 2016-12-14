@@ -21,7 +21,6 @@ namespace Gear
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
-		particleSystems = &defaultParticleList;
 
 		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA };
 		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA };
@@ -231,7 +230,7 @@ namespace Gear
 		animatedModels = models;
 	}
 
-	void GearEngine::queueParticles(std::vector<ParticleSystem>* particles)
+	void GearEngine::queueParticles(std::vector<ParticleSystem*>* particles)
 	{
 		particleSystems = particles;
 	}
@@ -263,8 +262,6 @@ namespace Gear
 		}
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//queue.pickingPass(dynamicModels);
 
 
 		gBuffer.use();
@@ -273,44 +270,18 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels);
 		
 		gBuffer.unUse();
-		
-		
-		
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		//--TEMP---
-		/*for (size_t i = 0; i < statModels.size(); i++)
-		{
-			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
-			tempProgram->use();
-			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
-			tempProgram->addUniform(camera->getPosition(), "viewPos");
-			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
-
-			statModels.at(i)->draw();
-			tempProgram->unUse();
-		}*/
-		//---------
-		//pickingPass();
 
 		lightPass(camera);
-		Debugger::getInstance()->drawSphere(glm::vec3(123, -10, 123), 20);
-
 
 		glDisable(GL_DEPTH_TEST);
 		
-		updateDebug(camera);
+		//updateDebug(camera);
 		queue.particlePass(particleSystems);
 		glEnable(GL_DEPTH_TEST);
-
-		
 
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
-		particleSystems = &defaultParticleList;
-
 		text.draw();
 	}
 
