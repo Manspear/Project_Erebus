@@ -143,15 +143,6 @@
     <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Shaders\debug.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\debug.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\forward.frag">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\forward.geom">
       <Filter>Shaders</Filter>
     </None>
@@ -222,6 +213,18 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\geometryPicking.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugLine.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\forward.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugLine.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugLine.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
