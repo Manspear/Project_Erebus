@@ -67,9 +67,21 @@ int main()
 	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f); // hardcoded hitboxes
 	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3,0,0),1.0f);
 	SphereCollider sphere3 = SphereCollider(-3,glm::vec3(4,0,0), 1.0f);
+	SphereCollider sphere4 = SphereCollider(-3, glm::vec3(4, 0, 0), 1.0f);
+	AABBCollider aabb1 = AABBCollider(-1, glm::vec3(20,20,20),glm::vec3(24,24,24));
+	AABBCollider aabb2 = AABBCollider(-1, glm::vec3(24, 24, 24), glm::vec3(28, 28, 28));
+	AABBCollider aabb3 = AABBCollider(-1, glm::vec3(28, 28, 28), glm::vec3(32, 32, 32));
+	AABBCollider aabb4 = AABBCollider(-1, glm::vec3(32, 32, 32), glm::vec3(36, 36, 36));
+	AABBCollider aabb5 = AABBCollider(-1, glm::vec3(0, 0, 0), glm::vec3(40, 40, 40));
 	collisionHandler.addHitbox(&sphere1,0);
-	collisionHandler.addHitbox(&sphere2,4);
-	collisionHandler.addHitbox(&sphere3,1);
+	collisionHandler.addHitbox(&sphere2,1);
+	collisionHandler.addHitbox(&sphere3,2);
+	collisionHandler.addHitbox(&sphere4, 3);
+	collisionHandler.addHitbox(&aabb1,0);
+	collisionHandler.addHitbox(&aabb2, 1);
+	collisionHandler.addHitbox(&aabb3, 2);
+	collisionHandler.addHitbox(&aabb4, 3);
+	collisionHandler.addHitbox(&aabb5, 4);
 	collisionHandler.setDebugger(Debugger::getInstance());
 
 	glEnable(GL_DEPTH_TEST);
@@ -119,7 +131,9 @@ int main()
 
 		//Collisions
 		collisionHandler.checkCollisions();
-		//collisionHandler.drawHitboxes();
+		collisionHandler.drawHitboxes();
+		collisionHandler.printCollisions();
+		std::vector<unsigned int>* tempppp = aabb5.getIDCollisionsRef();
 
 		frameCounter++;
 		frameTime += deltaTime;
