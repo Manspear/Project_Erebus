@@ -24,7 +24,7 @@ function LoadEnemies()
 
 	local model = Assets.LoadModel("Models/moleman5.model")
 	for i=1, MAX_ENEMIES do
-		Gear.AddModelInstance(model, enemies[i].transformID)
+		Gear.AddStaticInstance(model, enemies[i].transformID)
 	end
 end
 

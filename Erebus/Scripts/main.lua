@@ -3,7 +3,7 @@ local scriptFiles =
 {
 	"Scripts/player.lua",
 	"Scripts/enemies.lua",
-	"Scripts/bullets.lua",
+	--"Scripts/bullets.lua",
 	"Scripts/camera.lua",
 	"Scripts/projectile.lua",
 	"Scripts/arc.lua"
@@ -14,7 +14,7 @@ function Load()
 	heightmap = Assets.LoadHeightmap("Textures/hmap_heights.png")
 	heightmap.transformID = Transform.Bind()
 
-	Gear.AddModelInstance(heightmap:GetModel(), heightmap.transformID)
+	Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
 
 	-- run scripts
 	for i=1, #scriptFiles do

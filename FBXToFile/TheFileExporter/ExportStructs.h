@@ -28,6 +28,7 @@ struct sKeyFrame
 struct hAnimationState
 {
 	int keyCount;
+	int keyOffset;
 };
 //names used to find this joint through the FbxNodes.
 struct hJoint
@@ -36,10 +37,14 @@ struct hJoint
 	float globalBindposeInverse[16];
 
 	int animationStateCount;
+	int animationStateOffset;
+
+
 };
 struct hSkeleton
 {
 	int jointCount;
+	int jointOffset;
 };
 struct sPos
 {
@@ -79,7 +84,7 @@ struct sVertex
 struct sSkeletonVertex
 {
 	sVertex vert;
-	float influences[4];
+	int influences[4];
 	float weights[4];
 };
 
@@ -94,7 +99,7 @@ struct hSpawn
 
 struct hMesh
 {
-	int materialID;
+	char materialName[256];
 	sHierarchy parent;
 	sJointChild parentJoint;
 	sMeshChild parentMesh;
@@ -130,7 +135,7 @@ struct hModel
 
 struct sExpMaterial
 {
-	int materialID;
+	char materialName[256];
 
 	float ambientColor[3];
 

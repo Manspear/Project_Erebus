@@ -18,7 +18,7 @@ function LoadBullets()
 
 	local asset = Assets.LoadModel("Models/moleman5.model")
 	for i=1, MAX_BULLETS do
-		Gear.AddModelInstance(asset, bullets[i].transformID)
+		Gear.AddStaticInstance(asset, bullets[i].transformID)
 	end
 end
 

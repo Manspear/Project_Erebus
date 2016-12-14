@@ -9,6 +9,7 @@ function LoadPlayer()
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.health = 100
+	player.animation = Animation.Create()
 	
 	-- set spells for player
 	player.spells = {}
@@ -25,12 +26,14 @@ function LoadPlayer()
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
+	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/moleman5.model")
-	Gear.AddModelInstance(model, player.transformID)
+	--Gear.AddStaticInstance(model, player.transformID)
+	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
 	Erebus.SetControls(player.transformID)
 	
@@ -91,6 +94,8 @@ function UpdatePlayer(dt)
 			end
 		end
 	end
+
+	player.animation:Update(dt,0)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
