@@ -204,20 +204,20 @@ void CollisionHandler::checkSphereToSphereCollisions(std::vector<SphereCollider*
 
 void CollisionHandler::checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders1, std::vector<SphereCollider*>* colliders2)
 {
-	//int sphereColliderSize1 = colliders1->size();
-	//int sphereColliderSize2 = colliders2->size();
+	int sphereColliderSize1 = colliders1->size();
+	int sphereColliderSize2 = colliders2->size();
 
-	int sphereColliderSize1 = 5;
-	int sphereColliderSize2 = 5;
+	//int sphereColliderSize1 = 0;
+	//int sphereColliderSize2 = 0;
 	SphereCollider* tempCollider1 = nullptr;
 	SphereCollider* tempCollider2 = nullptr;;
 
 	if (sphereColliderSize1 > 0)
 	{
-		for (unsigned int i = 0; i < colliders1->size(); i++)
+		for (unsigned int i = 0; i < sphereColliderSize1; i++)
 		{
 			tempCollider1 = colliders1->operator[](i);
-			for (unsigned int j = 0; j < colliders2->size(); j++)
+			for (unsigned int j = 0; j < sphereColliderSize2; j++)
 			{
 				tempCollider2 = colliders2->operator[](j);
 				bool hit = false;
