@@ -64,7 +64,7 @@ namespace Importer
 
 	struct hMesh
 	{
-		int materialID;
+		char materialName[256];
 		sHierarchy parent;
 		sJointChild parentJoint;
 		sMeshChild parentMesh;

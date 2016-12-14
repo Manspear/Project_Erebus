@@ -7,7 +7,7 @@ arc.upSpeed = 50
 arc.currentUpSpeed = 0
 arc.lifeTime = ARC_LIFETIME
 
-local arcModel = Assets.LoadModel( "Models/Sten.model" )
+local arcModel = Assets.LoadModel( "Models/bullet.model" )
 Gear.AddStaticInstance(arcModel, arc.transformID)
 
 function arc:Cast()

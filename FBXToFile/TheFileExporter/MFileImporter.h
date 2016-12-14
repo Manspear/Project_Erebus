@@ -18,14 +18,13 @@ private:
 	/*Definitions of the custom attributes in maya used as tags*/
 #define BOUNDINGBOXTAG "BOUNDINGBOX"
 #define SPAWNTAG "SPAWN"
-#define NOTSET -1337
 
 	struct sBlendData
 	{
 		int jointID;
 		float blendingWeight;
 	};
-	
+
 	/*This calls all functions necessary to process a mesh*/
 	void processMesh(FbxMesh* inputMesh, eObjectType TYPE);
 	/*These get called by processMesh*/
@@ -81,7 +80,7 @@ private:
 	//Textures
 	void processTextureMap(FbxProperty propNormal, char* texName);
 	void copyTextures(char * srcPath, char * destPath);	//Copies the texture from the original filepath to the new directory
-	//Skeleton & Joints
+														//Skeleton & Joints
 	void processInverseBindpose(FbxCluster* currCluster);
 	void processAnimationLayers(FbxNode* currJoint);
 	//Do this only once per skeleton, loops through all joints.

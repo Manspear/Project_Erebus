@@ -16,27 +16,27 @@ int main()
 	- If you want a mesh to be interpreted as a boundingbox, make a custom attribute in maya called BOUNDINGBOX
 	- If you want a mesh to be interpreted as a spawn, make a custom attribute in maya called SPAWN
 	*/
-	cout << "Filepath to .fbx: " << endl;
-	string fbxPath;
-	getline(cin, fbxPath);
-	
-	cout << "Filepath where you want files to go: " << endl;
-	string filePath;
-	getline(cin, filePath);
+	//cout << "Filepath to .fbx: " << endl;
+	//string fbxPath;
+	//getline(cin, fbxPath);
+	//
+	//cout << "Filepath where you want files to go: " << endl;
+	//string filePath;
+	//getline(cin, filePath);
 
-	//Replace \ with /
-	for (int i = 0; i < fbxPath.size(); i++)
-	{
-		if (fbxPath.at(i) == '\\')
-			fbxPath.at(i) = '/';
-	}
-	for (int i = 0; i < filePath.size(); i++)
-	{
-		if (filePath.at(i) == '\\')
-			filePath.at(i) = '/';
-	}
-	const char* fbx = fbxPath.c_str();
-	const char* file = filePath.c_str();
+	////Replace \ with /
+	//for (int i = 0; i < fbxPath.size(); i++)
+	//{
+	//	if (fbxPath.at(i) == '\\')
+	//		fbxPath.at(i) = '/';
+	//}
+	//for (int i = 0; i < filePath.size(); i++)
+	//{
+	//	if (filePath.at(i) == '\\')
+	//		filePath.at(i) = '/';
+	//}
+	//const char* fbx = fbxPath.c_str();
+	//const char* file = filePath.c_str();
 	MFileImporter fileIm;
 	
 	//Imports and exports
@@ -44,7 +44,7 @@ int main()
 	
 	//fileIm.importFbx(fbx, 24);
 	//fileIm.writeToBinary(file);
-	fileIm.importFbx("C:/Git_Repos/Project_Erebus/FBXToFile/Models/molerat_new2.fbx", 24);
+	fileIm.importFbx("C:/Git_Repos/Project_Erebus/FBXToFile/Models/bullet.fbx", 24);
 	fileIm.writeToBinary("C:/Git_Repos/Project_Erebus/FBXToFile/Exported/");
 
 	//fileIm.importFbx("C:/Git_Repos/FBX Importer/FBXToFile/Models/cube3.fbx", 24);
