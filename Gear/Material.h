@@ -7,7 +7,7 @@ class Material
 {
 public:
 	GEAR_API Material() {};
-	GEAR_API Material(Importer::Assets* asset, const char* diffusePath = "", const char* specularPath = "", const char* normalPath = "",
+	GEAR_API Material(Importer::Assets* asset, const char* diffusePath = "", const char* normalPath = "", const char* specularPath = "",
 		float shiny = 0, glm::vec3 ambient = glm::vec3(1, 1, 1), glm::vec3 diffuse = glm::vec3(1, 1, 1),
 		glm::vec3 specular = glm::vec3(1, 1, 1));
 	GEAR_API ~Material();

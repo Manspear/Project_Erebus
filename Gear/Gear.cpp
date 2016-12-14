@@ -90,6 +90,8 @@ namespace Gear
 
 			light.pos = glm::vec4(position,1);
 			light.color = glm::vec4(dis(gen), dis(gen), dis(gen),1);
+			//DISCO
+			color[i] = glm::vec3(light.color);
 			light.radius.z = LIGHT_RADIUS;
 		}
 
@@ -259,7 +261,23 @@ namespace Gear
 			float min = LIGHT_MIN_BOUNDS[1];
 			float max = LIGHT_MAX_BOUNDS[1];
 
-			light.pos.y = fmod((light.pos.y + (-0.5f) - min + max), max) + min;
+			glm::vec3 pos;
+
+			pos.y = fmod((light.pos.y + (-1.f) - min + max), max) + min;
+
+			min = LIGHT_MIN_BOUNDS[0];
+			max = LIGHT_MAX_BOUNDS[0];
+
+			pos.x = fmod((light.pos.x + (-1.f) - min + max), max) + min;
+
+			min = LIGHT_MIN_BOUNDS[2];
+			max = LIGHT_MAX_BOUNDS[2];
+
+			pos.z = fmod((light.pos.z + (-1.f) - min + max), max) + min;
+
+			light.pos = glm::vec4(pos,1);
+			endPos[i] = pos;
+
 		}
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -295,8 +313,12 @@ namespace Gear
 		//pickingPass();
 
 		lightPass(camera);
-		Debugger::getInstance()->drawSphere(glm::vec3(123, -10, 123), 20);
-
+		for (int i = 0; i < NUM_LIGHTS; i++) {
+			if(i < NUM_LIGHTS/2)
+				Debugger::getInstance()->drawLine(glm::vec3(0, 50, 255), endPos[i], color[i]);
+			else
+				Debugger::getInstance()->drawLine(glm::vec3(255, 50, 255), endPos[i], color[i]);
+		}
 
 		glDisable(GL_DEPTH_TEST);
 		

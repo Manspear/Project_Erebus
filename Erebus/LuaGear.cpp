@@ -73,7 +73,7 @@ namespace LuaGear
 				ModelInstance instance;
 				instance.asset = asset;
 				//TEMP TODO: move to importer
-				instance.material = Material(g_assets, "Materials/MaterialTextures/molerat_texturemap2.png");
+				instance.material = Material(g_assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
 				
 				index = g_models->size();
 				g_models->push_back( instance );
@@ -112,7 +112,7 @@ namespace LuaGear
 				AnimatedInstance instance;
 				instance.asset = asset;
 				//TEMP TODO: move to importer
-				instance.material = Material(g_assets, "Materials/MaterialTextures/molerat_texturemap2.png");
+				instance.material = Material(g_assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
 
 				index = g_animatedModels->size();
 				g_animatedModels->push_back( instance );
