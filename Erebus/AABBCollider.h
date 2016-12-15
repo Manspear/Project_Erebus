@@ -6,6 +6,7 @@ public:
 	AABBCollider();
 	AABBCollider(int IDTransform);
 	AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos);
+	AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerPos);
 	~AABBCollider();
 	bool AabbToAabb(const AABBCollider* aabb);
 

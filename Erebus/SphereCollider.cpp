@@ -8,6 +8,12 @@ SphereCollider::SphereCollider() : HitBox(-1,-1)
 	this->pos = glm::vec3(0, 0, 0);
 }
 
+SphereCollider::SphereCollider(glm::vec3 pos, float radius) : HitBox()
+{
+	this->pos = pos;
+	this->radius = radius;
+}
+
 SphereCollider::SphereCollider(int IDTransform, glm::vec3 pos, float radius) : HitBox(IDTransform)
 {
 	this->pos = pos;

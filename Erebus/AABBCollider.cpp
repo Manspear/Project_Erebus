@@ -29,6 +29,15 @@ AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) 
 	this->centerPos = glm::vec3();
 }
 
+AABBCollider::AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerPos) : HitBox()
+{
+	this->minPos = minPos;
+	this->maxPos = maxPos;
+	this->minPosTotal = minPos;
+	this->maxPosTotal = maxPos;
+	this->centerPos = centerPos;
+}
+
 
 AABBCollider::~AABBCollider()
 {

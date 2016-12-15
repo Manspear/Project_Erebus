@@ -5,6 +5,7 @@ class SphereCollider : public HitBox
 {
 public:
 	SphereCollider();
+	SphereCollider(glm::vec3 pos, float radius);
 	SphereCollider(int IDTransform, glm::vec3 pos, float radius);
 	SphereCollider(int IDTransform, float x, float y, float z, float radius);
 	SphereCollider(int IDTransform);
