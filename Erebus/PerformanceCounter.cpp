@@ -41,19 +41,6 @@ double PerformanceCounter::getDeltaTime()
 	return deltaTime;
 }
 
-void PerformanceCounter::displayFPS()
-{
-	frameCounter++;
-	frameTime += deltaTime;
-	if (frameTime >= 1.0)
-	{
- 		double fps = double(frameCounter) / frameTime;
-		std::cout << "FPS: " << fps << std::endl;
-		frameTime -= 1.0;
-		frameCounter = 0;
-	}
-}
-
 int PerformanceCounter::getFPS()
 {
 	frameCounter++;

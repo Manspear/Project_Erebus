@@ -324,6 +324,11 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 			expModel.numIndices += imScene.modelList[i].meshList[j].indexList.size();
 		}
 		expModel.TYPE = imScene.modelList[i].TYPE;
+
+		//Materials are in the importer stored in meshes, for the engine they are stored in models.
+		memcpy(expModel.materialName, imScene.materialList[imScene.modelList[i].meshList[0].materialID].materialName, 22);
+		memcpy(&expModel.materialName[strlen(imScene.materialList[imScene.modelList[i].meshList[0].materialID].materialName)], ".material", 10);
+
 		outFile.write((const char*)&expModel, sizeof(hModel));
 
 		//Offsets
@@ -346,9 +351,6 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 			expMesh.numAnimVertices = imScene.modelList[i].meshList[j].animVertList.size();
 			expMesh.numVertices = imScene.modelList[i].meshList[j].vertList.size();
 			expMesh.numIndexes = imScene.modelList[i].meshList[j].indexList.size();
-
-			memcpy(expMesh.materialName, imScene.materialList[imScene.modelList[i].meshList[j].materialID].materialName, 256);
-			memcpy(&expMesh.materialName[strlen(imScene.materialList[imScene.modelList[i].meshList[j].materialID].materialName)], ".material", 10);
 
 			outFile.write((const char*)&expMesh, sizeof(hMesh));
 		}

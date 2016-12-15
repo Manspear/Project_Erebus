@@ -49,7 +49,7 @@ int main()
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
@@ -63,7 +63,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 	
-	window.changeCursorStatus(false);
+	//window.changeCursorStatus(false);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
@@ -128,9 +128,10 @@ int main()
 		}
 
 
-		window.update();
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.f, 720.f);
+
+		window.update();
 	}
 
 	luaBinds.unload();
