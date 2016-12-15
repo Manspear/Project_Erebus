@@ -4,8 +4,8 @@ class AABBCollider : public HitBox
 {
 public:
 	AABBCollider();
-	AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos);
 	AABBCollider(int IDTransform);
+	AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos);
 	~AABBCollider();
 	bool AabbToAabb(const AABBCollider* aabb);
 
