@@ -106,6 +106,7 @@ int main()
 
 	std::string out = "FPS: -1";
 	double updateRate = 4.0;
+	glClearColor(155, 0, 155, 0);
 
 	while (running && window.isWindowOpen())
 	{

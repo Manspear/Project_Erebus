@@ -209,19 +209,23 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 			glm::vec3 tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
 			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
-
+			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
 			glm::mat4 rotationZ = glm::rotate(glm::mat4(), theTrans[i].rot.z, axis);
+			//rotatea around Y axis, pretty simple. (makes the model look left/right)
 			glm::mat4 rotationY = glm::rotate(glm::mat4(), theTrans[i].rot.y, { 0, 1, 0 });
 
+			//reset the world matrix
 			worldMatrices[i] = glm::mat4();
 
+			//set the scale of the models
 			worldMatrices[i][0][0] = theTrans[i].scale.x;
 			worldMatrices[i][1][1] = theTrans[i].scale.y;
 			worldMatrices[i][2][2] = theTrans[i].scale.z;
 
+			//rotates a scaled identity matrix
 			worldMatrices[i] = rotationZ * rotationY * worldMatrices[i];
 
-
+			//sets the translation of objects, final world matrix
 			worldMatrices[i][3][0] = theTrans[i].pos.x;
 			worldMatrices[i][3][1] = theTrans[i].pos.y;
 			worldMatrices[i][3][2] = theTrans[i].pos.z;
