@@ -10,6 +10,12 @@
 
 namespace Importer
 {
+	enum eModelType
+	{
+		STATIC,
+		ANIMATED
+	};
+
 	struct sHierarchy
 	{
 		bool hasParentJoint = false;
@@ -54,17 +60,15 @@ namespace Importer
 		int numVertices;
 		int numSkeletonVertices;
 		int numIndices;
-
-		//Each material holds diffuse, spec, normal
-		//Each material needs it's own unique name
-		//char materialName[256];
 		
-		int TYPE;
+		eModelType TYPE;
+
+		char materialName[32];
+
 	};
 
 	struct hMesh
 	{
-		int materialID;
 		sHierarchy parent;
 		sJointChild parentJoint;
 		sMeshChild parentMesh;

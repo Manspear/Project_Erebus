@@ -10,13 +10,19 @@ function LoadPlayer()
 	player.canJump = false
 	player.health = 100
 	player.animation = Animation.Create()
-
+	
 	-- set spells for player
 	player.spells = {}
-	player.spells[1] = dofile( "Scripts/projectile.lua" )
-	player.spells[2] = dofile( "Scripts/arc.lua" )
-	player.currentSpell = player.spells[1]
-
+	--player.spells[1] = dofile( "Scripts/projectile.lua" )
+	player.spells[1] = {}
+	player.spells[2] = {}
+	for i = 1,  10 do	--create the projectile instances
+		table.insert(player.spells[1], CreateProjectile())
+	end
+	for i = 1,  10 do	--create the arc instances
+		table.insert(player.spells[2], CreateArc())
+	end
+	player.currentSpell = 1
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
@@ -25,7 +31,7 @@ function LoadPlayer()
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/moleman5.model")
+	local model = Assets.LoadModel("Models/Robot.model")
 	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
@@ -55,10 +61,15 @@ function UpdatePlayer(dt)
 		player.testCamera = true;
 	end
 	if Controls[Keys.LMBReleased] then
-		player.currentSpell:Cast()
+		for _,j in ipairs(player.spells[player.currentSpell]) do
+			if(j.alive ~= true) then
+				j:Cast()
+				break
+			end
+		end
 	end
-	if Controls[Keys.OnePressed] then player.currentSpell = player.spells[1] end
-	if Controls[Keys.TwoPressed] then player.currentSpell = player.spells[2] end
+	if Controls[Keys.OnePressed] then player.currentSpell = 1 end
+	if Controls[Keys.TwoPressed] then player.currentSpell = 2 end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
@@ -77,7 +88,11 @@ function UpdatePlayer(dt)
 
 	-- update the current player spell
 	for i=1, #player.spells do 
-		player.spells[i]:BaseUpdate(dt)
+		for _,j in ipairs(player.spells[i]) do
+			if j.alive then
+				j:BaseUpdate(dt)
+			end
+		end
 	end
 
 	player.animation:Update(dt,0)

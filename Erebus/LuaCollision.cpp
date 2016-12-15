@@ -13,6 +13,9 @@ namespace LuaCollision
 		{
 			{ "AddSphere",			addSphere },
 			{ "AddAABB",			addAABB },
+			{ "SetLayerCollision",	setLayerCollision },
+			{ "PrintCollisions",	printCollisions },
+			{ "DrawHitboxes",		drawHitboxes },
 			{ NULL, NULL }
 		};
 
@@ -62,10 +65,14 @@ namespace LuaCollision
 
 	int addSphere( lua_State* lua )
 	{
-		if( lua_gettop( lua ) >= 1 )
+		int nargs = lua_gettop( lua );
+		if( nargs >= 1 )
 		{
 			SphereCollider* collider = getSphereCollider( lua, 1 );
-			g_collisionHandler->addHitbox( collider );
+			int layer = 0;
+			if( nargs >= 2 )
+				layer = lua_tointeger( lua, 2 );
+			g_collisionHandler->addHitbox( collider, layer );
 		}
 
 		return 0;
@@ -73,9 +80,13 @@ namespace LuaCollision
 
 	int addAABB( lua_State* lua )
 	{
-		if( lua_gettop( lua ) >= 1 )
+		int nargs = lua_gettop( lua );
+		if( nargs >= 1 )
 		{
 			AABBCollider* collider = getAABBCollider( lua, 1 );
+			int layer = 0;
+			if( nargs >= 2 )
+				layer = lua_tointeger( lua, 2 );
 			g_collisionHandler->addHitbox( collider );
 		}
 
@@ -215,6 +226,32 @@ namespace LuaCollision
 			collider->setRadius( radius );
 		}
 
+		return 0;
+	}
+
+	int setLayerCollision( lua_State* lua )
+	{
+		if( lua_gettop( lua ) >= 3 )
+		{
+			int layer1 = lua_tointeger( lua, 1 );
+			int layer2 = lua_tointeger( lua, 2 );
+			bool canCollide = lua_toboolean( lua, 3 );
+
+			g_collisionHandler->setLayerCollisionMatrix( layer1, layer2, canCollide );
+		}
+
+		return 0;
+	}
+
+	int printCollisions( lua_State* lua )
+	{
+		g_collisionHandler->printCollisions();
+		return 0;
+	}
+
+	int drawHitboxes( lua_State* lua )
+	{
+		g_collisionHandler->drawHitboxes();
 		return 0;
 	}
 

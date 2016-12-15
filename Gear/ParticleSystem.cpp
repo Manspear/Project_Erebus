@@ -1,37 +1,96 @@
 #include "ParticleSystem.h"
-
+#include <math.h>
 
 namespace Gear
 {
 	ParticleSystem::ParticleSystem()
 	{
-		for (size_t i = 0; i < maxParticles; i++)
-		{
-			particles[i] = new Gear::Particle(glm::vec3(rand() % 10, rand() % 5, 1), glm::vec3(1, 0, 0), glm::vec3(0, 0, 0), 10);
-			
-		}
 
-	/*	run();*/
+	}
+	ParticleSystem::ParticleSystem(int n, float life, float speed, float rate, int number) : isActive(false), timer(0)
+	{
+		gravityFactor = 0.0;
+		maxParticles = n;
+		allParticles = new Partikel[n];
+		particlePos = new glm::vec3[n];
+		nrOfActiveParticles = 0;
+		glGenBuffers(1, &particleVertexBuffer);
+		this->lifeTime = life;
+		partSpeed = speed;
+		particleRate = 1 / rate;
+		partPerRate = number;
 	}
 
 	ParticleSystem::~ParticleSystem()
 	{
-		for (size_t i = 0; i < maxParticles; i++)
-		{
-			delete particles[i];
-		}
+		delete[] allParticles;
+		delete[] particlePos;
 	}
 
-	void ParticleSystem::run()
+	GEAR_API void ParticleSystem::update(const float &dt)
 	{
-		for (size_t j = maxParticles -1; j >= 0; j--)
+		if (isActive)
 		{
-			if (particles[j]->isDead())
+			timer += dt;
+			if (timer > particleRate)
 			{
-				delete particles[j];
-				printf("particle is dead \n");
+				int i = 0;
+				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+				{
+					particlePos[nrOfActiveParticles] = this->position;
+					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+					allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 10 - 5, rand() % 5 - 2.5, rand() % 5 - 2.5);
+					
+				}
+				timer = 0;
+			}
+
+			for (int i = 0; i < nrOfActiveParticles; i++)
+			{
+				allParticles[i].lifeSpan -= dt;
+				if (allParticles[i].lifeSpan > 0.0)
+				{
+					allParticles[i].direction.y += gravityFactor * dt;
+					particlePos[i] += allParticles[i].direction * partSpeed * dt;
+				}
+				else
+				{
+					particlePos[i] = particlePos[nrOfActiveParticles - 1];
+					allParticles[i] = allParticles[--nrOfActiveParticles];
+				}
 			}
 		}
+
+	}
+
+	GLuint ParticleSystem::getPartVertexBuffer()
+	{
+		return particleVertexBuffer;
+	}
+
+	void ParticleSystem::setEmmiterPos(glm::vec3 pos)
+	{
+		this->position = pos;
+	}
+
+	GEAR_API int ParticleSystem::getNrOfActiveParticles()
+	{
+		return nrOfActiveParticles;
+	}
+
+	GEAR_API void ParticleSystem::activate(bool active)
+	{
+		isActive = active;
+	}
+
+	GEAR_API Partikel * ParticleSystem::getThePartikels()
+	{
+		return allParticles;
+	}
+
+	GEAR_API glm::vec3 * ParticleSystem::getPositions()
+	{
+		return particlePos;
 	}
 
 }

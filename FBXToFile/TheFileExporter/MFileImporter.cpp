@@ -99,13 +99,13 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 	/*
 	To make loading quicker: Export all things in chunks sorted by type. Like:
 	scene, transform, model,model,model, mesh, mesh, mesh, mesh...
-	This is data oriented, as opposed to object-oriented. The engine will 
+	This is data oriented, as opposed to object-oriented. The engine will
 	separate between individual objects by using offsets.
 	*/
 
 	/*
 	One Scene-file containing transforms for models, lights, and such
-	
+
 	Potentially numerous model-files containing several meshes and materials.
 	*/
 
@@ -119,6 +119,179 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 	VERTICES -> SKELETAL VERTICES -> INDICES
 	*/
 	//Export the models
+
+	//One per skeleton, "gathered" stats for all joints
+	//struct sSkelOffset
+	//{
+	//	int skeletonJointOffset; //Where to look for this skeleton's joints
+	//	int animationLayerOffset; //Where to find this skeleton's animation layers
+	//	int keyFrameOffset; //Where to find this skeleton's keyframes
+	//};
+	////One per joint
+	//struct sJointOffset
+	//{
+	//	int animationLayerOffset;
+	//	int animationLayerKeyOffset; 
+	//};
+	//
+	////The first of anything shouldn't have any offset! First skeleton -> no offset! Second skeleton -> it's offset is that of the previous skeleton!
+	///*
+	//user case:
+	//offsets[joint][animationState] <-- Gets the number of keys previous to this joint's keys.
+	//*/
+
+	//std::vector<sSkelOffset> skelOffsets;
+	//std::vector<sJointOffset> jointOffsets;
+
+	//sSkelOffset fillSkelOffset = {};
+	//sJointOffset fillJointOffset = {};
+
+
+
+	//int keyCounter = 0; 
+	//int animationLayerCounter = 0;
+	//int jointCounter = 0;
+
+	//for (int i = 0; i < imScene.modelList.size(); i++)
+	//{
+	//	for (int j = 0; j < imScene.modelList[i].skeletonList.size(); j++)
+	//	{
+	//		//Per skeleton
+	//		fillSkelOffset.skeletonJointOffset = jointCounter;
+	//		fillSkelOffset.animationLayerOffset = animationLayerCounter;
+	//		fillSkelOffset.keyFrameOffset = keyCounter;
+
+	//		skelOffsets.push_back(fillSkelOffset);
+
+	//		jointCounter += imScene.modelList[i].skeletonList[j].jointList.size();
+
+	//		for (int k = 0; k < imScene.modelList[i].skeletonList[j].jointList.size(); k++)
+	//		{
+	//			for (int l = 0; l < imScene.modelList[i].skeletonList[j].jointList[j].animationState.size(); l++)
+	//			{					
+	//				//Animation layers are per-joint! Keyframes are per-animation layer! To get keys, need keyframe-offsets from previous animation states!
+	//				fillJointOffset.animationLayerOffset = animationLayerCounter;
+	//				fillJointOffset.animationLayerKeyOffset = keyCounter;
+	//				jointOffsets.push_back(fillJointOffset);
+
+	//				animationLayerCounter += 1;
+	//				keyCounter += imScene.modelList[i].skeletonList[j].jointList[j].animationState[l].keyList.size();
+	//			}
+	//		}
+	//	}
+	//}
+
+	/*
+	joints: where do my animation layers START? Have an offset into the animation-layer list
+	animation layers: where do my keyframes START? Have an offset into the keyframe list
+
+	Store these things in the actually used structs (change the headers)
+	*/
+	for (int i = 0; i < imScene.materialList.size(); i++)
+	{
+		//Shit out material files
+		std::ofstream outFile(path + std::string(imScene.materialList[i].materialName) + ".material", std::ofstream::binary);
+
+		sExpMaterial expMat;
+		memcpy(expMat.ambientColor, imScene.materialList[i].ambientColor, 3 * sizeof(float));
+		memcpy(expMat.diffuseColor, imScene.materialList[i].diffuseColor, 3 * sizeof(float));
+		memcpy(expMat.diffuseTextureFilePath, imScene.materialList[i].diffuseTextureFilePath, 256);
+
+		memcpy(expMat.materialName, imScene.materialList[i].materialName, strlen(imScene.materialList[i].materialName));
+		memcpy(&expMat.materialName[strlen(imScene.materialList[i].materialName)], ".material", 10);
+		//	expMat.materialID[strlen(imScene.materialList[i].materialName)] = '\0';
+
+		memcpy(expMat.normalTextureFilePath, imScene.materialList[i].normalTextureFilePath, 256);
+		memcpy(&expMat.shinyFactor, &imScene.materialList[i].shinyFactor, 1 * sizeof(float));
+		memcpy(&expMat.specularColor, imScene.materialList[i].specularColor, 3 * sizeof(float));
+		memcpy(&expMat.specularTextureFilePath, imScene.materialList[i].specularTextureFilePath, 256);
+
+		char num[25];
+		std::string txt;
+		txt = "Material name: ";
+		std::string str;
+		str = std::string(txt + expMat.materialName + "\r\n");
+
+		outFile.write(str.c_str(), str.length());
+		
+
+		txt = "Ambient color: ";
+		sprintf(num, "%f", expMat.ambientColor[0]);
+		str = txt + num + " ";
+		sprintf(num, "%f", expMat.ambientColor[1]);
+		str += std::string(num) + " ";
+		sprintf(num, "%f", expMat.ambientColor[2]);
+		str += std::string(num) + "\r\n";
+
+		outFile.write(str.c_str(), str.length());
+
+		txt = "Diffuse color: ";
+		sprintf(num, "%f", expMat.diffuseColor[0]);
+		str = txt + num + " ";
+		sprintf(num, "%f", expMat.diffuseColor[1]);
+		str += std::string(num) + " ";
+		sprintf(num, "%f", expMat.diffuseColor[2]);
+		str += std::string(num) + "\r\n";
+
+		outFile.write(str.c_str(), str.length());
+
+		txt = "Specular color: ";
+		sprintf(num, "%f", expMat.specularColor[0]);
+		str = txt + num + " ";
+		sprintf(num, "%f", expMat.specularColor[1]);
+		str += std::string(num) + " ";
+		sprintf(num, "%f", expMat.specularColor[2]);
+		str += std::string(num) + "\r\n";
+
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Shinyfactor: ";
+		sprintf(num, "%f", expMat.shinyFactor);
+		str = txt + std::string(num) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+		txt = "Diffuse texture name: ";
+		str = txt + std::string(expMat.diffuseTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Specular texture name: ";
+		str = txt + std::string(expMat.specularTextureFilePath) + "\r\n";
+		outFile.write(str.c_str(), str.length());
+
+
+		txt = "Normal texture name: ";
+		str = txt + std::string(expMat.normalTextureFilePath) + "\n";
+		outFile.write(str.c_str(), str.length());
+
+		//str = std::string(txt +  + '\n');
+
+		//outFile.write((char*)&expMat, sizeof(sExpMaterial));
+
+		outFile.close();
+	}
+
+	//char materialName[256];
+
+	//float ambientColor[3];
+
+	//float diffuseColor[3];
+
+	//float specularColor[3];
+
+	//float shinyFactor;
+
+	//char diffuseTextureFilePath[256];
+
+	//char specularTextureFilePath[256];
+
+	//char normalTextureFilePath[256];
+
+	int jointCounter = 0;
+	int keyCounter = 0;
+	int animationLayerCounter = 0;
+
 	for (int i = 0; i < imScene.modelList.size(); i++)
 	{
 		std::ofstream outFile(path + std::string(imScene.modelList[i].name) + ".model", std::ofstream::binary);
@@ -151,6 +324,11 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 			expModel.numIndices += imScene.modelList[i].meshList[j].indexList.size();
 		}
 		expModel.TYPE = imScene.modelList[i].TYPE;
+
+		//Materials are in the importer stored in meshes, for the engine they are stored in models.
+		memcpy(expModel.materialName, imScene.materialList[imScene.modelList[i].meshList[0].materialID].materialName, 22);
+		memcpy(&expModel.materialName[strlen(imScene.materialList[imScene.modelList[i].meshList[0].materialID].materialName)], ".material", 10);
+
 		outFile.write((const char*)&expModel, sizeof(hModel));
 
 		//Offsets
@@ -161,8 +339,9 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 			outFile.write((const char*)&currOffset, sizeof(sOffset));
 			currOffset.vertex += imScene.modelList[i].meshList[j].vertList.size();
 			currOffset.skeletonVertex += imScene.modelList[i].meshList[j].animVertList.size();
-			currOffset.index = imScene.modelList[i].meshList[j].indexList.size();
+			currOffset.index += imScene.modelList[i].meshList[j].indexList.size();
 		}
+
 		//Meshes
 		hMesh expMesh;
 		for (int j = 0; j < imScene.modelList[i].meshList.size(); j++)
@@ -172,6 +351,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 			expMesh.numAnimVertices = imScene.modelList[i].meshList[j].animVertList.size();
 			expMesh.numVertices = imScene.modelList[i].meshList[j].vertList.size();
 			expMesh.numIndexes = imScene.modelList[i].meshList[j].indexList.size();
+
 			outFile.write((const char*)&expMesh, sizeof(hMesh));
 		}
 		//Boundingboxes
@@ -181,9 +361,11 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		hSkeleton expSkeleton;
 		for (int j = 0; j < imScene.modelList[i].skeletonList.size(); j++)
 		{
+			expSkeleton.jointOffset = jointCounter * sizeof(hJoint);
 			expSkeleton.jointCount = imScene.modelList[i].skeletonList[j].jointList.size();
 			outFile.write((const char*)&expSkeleton, sizeof(hSkeleton));
 			dataSize += sizeof(hSkeleton);
+			jointCounter += imScene.modelList[i].skeletonList[j].jointList.size();
 		}
 		//Joints
 		for (int j = 0; j < imScene.modelList[i].skeletonList.size(); j++)
@@ -191,13 +373,17 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 			hJoint expJoint;
 			for (int k = 0; k < imScene.modelList[i].skeletonList[j].jointList.size(); k++)
 			{
-				memcpy((char*)&expJoint, &imScene.modelList[i].skeletonList[j].jointList[k], sizeof(hJoint) - sizeof(int));
+				memcpy((char*)&expJoint, &imScene.modelList[i].skeletonList[j].jointList[k], sizeof(hJoint) - 2 * sizeof(int));
 				expJoint.animationStateCount = imScene.modelList[i].skeletonList[j].jointList[k].animationState.size();
+
+				expJoint.animationStateOffset = animationLayerCounter * sizeof(hAnimationState);
 
 				outFile.write((const char*)&expJoint, sizeof(hJoint));
 				dataSize += sizeof(hJoint);
+				animationLayerCounter += imScene.modelList[i].skeletonList[j].jointList[k].animationState.size();;
 			}
 		}
+		imScene.modelList;
 		//Animation states
 		for (int j = 0; j < imScene.modelList[i].skeletonList.size(); j++)
 		{
@@ -206,9 +392,11 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 				hAnimationState expState;
 				for (int l = 0; l < imScene.modelList[i].skeletonList[j].jointList[k].animationState.size(); l++)
 				{
+					expState.keyOffset = keyCounter * sizeof(sKeyFrame);
 					expState.keyCount = imScene.modelList[i].skeletonList[j].jointList[k].animationState[l].keyList.size();
 					outFile.write((const char*)&expState, sizeof(hAnimationState));
 					dataSize += sizeof(hAnimationState);
+					keyCounter += imScene.modelList[i].skeletonList[j].jointList[k].animationState[l].keyList.size();
 				}
 			}
 		}
@@ -220,7 +408,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 				for (int l = 0; l < imScene.modelList[i].skeletonList[j].jointList[k].animationState.size(); l++)
 				{
 					outFile.write((const char*)imScene.modelList[i].skeletonList[j].jointList[k].animationState[l].keyList.data(),
-					imScene.modelList[i].skeletonList[j].jointList[k].animationState[l].keyList.size() * sizeof(sKeyFrame));
+						imScene.modelList[i].skeletonList[j].jointList[k].animationState[l].keyList.size() * sizeof(sKeyFrame));
 					dataSize += imScene.modelList[i].skeletonList[j].jointList[k].animationState[l].keyList.size() * sizeof(sKeyFrame);
 				}
 			}
@@ -291,7 +479,7 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 
 	processMaterials(inputMesh);
 
-	//processTextures(inputMesh);
+	processTextures(inputMesh);
 
 	processTransformations(inputMesh->GetNode(), TYPE, index);
 
@@ -300,12 +488,12 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//processVertices2(inputMesh, influenceOffset);
 	processBlendWeightsAndIndices(inputMesh, influenceOffset);
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
-	
+
 	//Takes too long
 	//processIndexes();
 	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
-	for(int i = 0; i <  imScene.modelList.back().meshList.back().vertList.size(); i++)
+	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
 
 	/*CALLS ITSELF INFINITELY*/
@@ -323,7 +511,7 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 	int* indexArray = inputMesh->GetPolygonVertices();
 	int indexCount = inputMesh->GetPolygonVertexCount(); //for a cube indexCount == 24
 														 //polygonVertices == getTriangles
-	//Need triangle offsets
+														 //Need triangle offsets
 	int polysize = inputMesh->mPolygonVertices.Size();
 	//Need something that actually has a size of 24... Or lower.
 
@@ -362,29 +550,29 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 	FbxArray<FbxVector4> normals;
 	inputMesh->GetPolygonVertexNormals(normals);
 	int numNormals = normals.Size();
-	
+
 	FbxGeometryElementNormal* shit = inputMesh->GetElementNormal(0);
 	int lol = shit->GetDirectArray().GetCount();
 	int lpp = shit->GetIndexArray().GetCount();
 
-	
+
 
 	//IF we have a hard-edge-cube, every control point will have three normals each. Making it unique from all angles...
 	//But this should mean only 24 normals, but I get 36. Something somewhere is off. The only explanation would be 
 	//if the normals were stored per-vertex-per-polygon. But if that is the case, how can I change it to show the "true"
 	//normal values (24)?
-		/*
-		Okay. So: We know that the first 8 control-point-vertices read into a cube are unrelated to one another, and therefore doesn't need
-		a "check against other vertices". Maybe do this checking while you're reading in new vertices! Doing that would save
-		memcps. 
-		Can I make sure that the first vertices that are read are unique control points? Kinda. The first three vertices are always guaranteed to be 
-		unique.
-		*/
+	/*
+	Okay. So: We know that the first 8 control-point-vertices read into a cube are unrelated to one another, and therefore doesn't need
+	a "check against other vertices". Maybe do this checking while you're reading in new vertices! Doing that would save
+	memcps.
+	Can I make sure that the first vertices that are read are unique control points? Kinda. The first three vertices are always guaranteed to be
+	unique.
+	*/
 	FbxLayerElement::EMappingMode thing = shit->GetMappingMode();
-	
+
 	FbxLayerElement::EReferenceMode logia = shit->GetReferenceMode();
 
-	
+
 
 	if (thing == FbxLayerElement::EMappingMode::eByPolygonVertex)
 	{
@@ -400,7 +588,7 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 	if (imScene.modelList.back().meshList.back().isAnimated)
 	{
 		std::vector<std::vector<sBlendData>> bd;
-		
+
 		bd.resize(inputMesh->GetControlPointsCount());
 
 		//Does this work if you have more than one skeleton bound per mesh?
@@ -438,7 +626,7 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 		//Clearing to get rid of "bad blood"
 		imScene.modelList.back().meshList.back().animVertList.clear();
 		imScene.modelList.back().meshList.back().indexList.clear();
-		for(int i = 0; i < indexCount; i++)
+		for (int i = 0; i < indexCount; i++)
 			imScene.modelList.back().meshList.back().indexList.push_back(i);
 
 		imScene.modelList.back().meshList.back().animVertList.resize(indexCount);
@@ -448,8 +636,8 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 			//HOPEFULLY the tangent is indexed directly into the control points... Otherwise we will get problems. It's most likely
 			//a problem if the mesh is exported with hardened edges
 			FbxVector4 tangent;
-			if(tangentElement)
-				 tangent = tangentElement->GetDirectArray().GetAt(indexArray[i]);
+			if (tangentElement)
+				tangent = tangentElement->GetDirectArray().GetAt(indexArray[i]);
 
 			imScene.modelList.back().meshList.back().animVertList[i].vert.UV[0] = UVs[indexArray[i]][0];
 			imScene.modelList.back().meshList.back().animVertList[i].vert.UV[1] = UVs[indexArray[i]][1];
@@ -484,9 +672,9 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 			//HOPEFULLY the tangent is indexed directly into the control points... Otherwise we will get problems. It's most likely
 			//a problem if the mesh is exported with hardened edges
 			FbxVector4 tangent;
-			if(tangentElement)
+			if (tangentElement)
 				tangent = tangentElement->GetDirectArray().GetAt(indexArray[i]);
-			
+
 			imScene.modelList.back().meshList.back().vertList[i].UV[0] = UVs[i][0];
 			imScene.modelList.back().meshList.back().vertList[i].UV[1] = UVs[i][1];
 
@@ -504,15 +692,15 @@ void MFileImporter::processVertices2(FbxMesh * inputMesh, std::vector<size_t>& i
 	/*
 	So how do you make the "check every vertex against every previous vertex"-problem "go away"?
 	Maybe vertices should be sorted into "polygons". When you check against previous vertices,
-	you only look at vertices belonging to neighbouring polygons. 
+	you only look at vertices belonging to neighbouring polygons.
 	*/
-	
+
 }
 void MFileImporter::processVertices(FbxMesh * inputMesh)
 {
 	unsigned int deformerCount = inputMesh->GetDeformerCount(FbxDeformer::eSkin);
 
-	if(imScene.modelList.back().meshList.back().isAnimated)
+	if (imScene.modelList.back().meshList.back().isAnimated)
 		processSkeletalVertices(inputMesh);
 	else
 		processStaticVertices(inputMesh, imScene.modelList.back().meshList.back().vertList);
@@ -696,7 +884,7 @@ void MFileImporter::processIndexes()
 				int offset = fourth;
 
 				std::thread t1(checkIndexAgainstIndexedSkeletonList, std::ref(isUnique1), std::ref(offset), std::ref(duplicateIndex1),
-					 std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
+					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
 				offset += fourth;
 				std::thread t2(checkIndexAgainstIndexedSkeletonList, std::ref(isUnique2), std::ref(offset), std::ref(duplicateIndex2),
 					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
@@ -706,7 +894,7 @@ void MFileImporter::processIndexes()
 				offset += fourth + rest;
 				std::thread t4(checkIndexAgainstIndexedSkeletonList, std::ref(isUnique4), std::ref(offset), std::ref(duplicateIndex4),
 					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
-				
+
 				t1.join();
 				t2.join();
 				t3.join();
@@ -821,7 +1009,7 @@ void MFileImporter::processIndexes()
 					{
 						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex3);
 					}
-					else if(duplicateIndex4 != -1)
+					else if (duplicateIndex4 != -1)
 					{
 						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex4);
 					}
@@ -829,30 +1017,30 @@ void MFileImporter::processIndexes()
 			}
 			else
 			{
-					bool isUnique = true;
-					for (int j = 0; j < indexedList.size(); j++)
+				bool isUnique = true;
+				for (int j = 0; j < indexedList.size(); j++)
+				{
+					if (indexedList[j].pos == imScene.modelList.back().meshList.back().vertList[i].pos)
 					{
-						if (indexedList[j].pos == imScene.modelList.back().meshList.back().vertList[i].pos)
+						if (indexedList[j].normal == imScene.modelList.back().meshList.back().vertList[i].normal)
 						{
-							if (indexedList[j].normal == imScene.modelList.back().meshList.back().vertList[i].normal)
+							if (indexedList[j].UV == imScene.modelList.back().meshList.back().vertList[i].UV)
 							{
-								if (indexedList[j].UV == imScene.modelList.back().meshList.back().vertList[i].UV)
-								{
-									//This vertex is a copy
-									imScene.modelList.back().meshList.back().indexList.push_back(j);
-									isUnique = false;
-								}
+								//This vertex is a copy
+								imScene.modelList.back().meshList.back().indexList.push_back(j);
+								isUnique = false;
 							}
 						}
-						if (isUnique == false)
-							break;
 					}
-					if (isUnique == true)
-					{
-						indexedList.push_back(imScene.modelList.back().meshList.back().vertList[i]);
-						imScene.modelList.back().meshList.back().indexList.push_back(indexedList.size() - 1);
-					}
-				
+					if (isUnique == false)
+						break;
+				}
+				if (isUnique == true)
+				{
+					indexedList.push_back(imScene.modelList.back().meshList.back().vertList[i]);
+					imScene.modelList.back().meshList.back().indexList.push_back(indexedList.size() - 1);
+				}
+
 			}
 		}
 		imScene.modelList.back().meshList.back().vertList = indexedList;
@@ -946,14 +1134,14 @@ void MFileImporter::processJoints(FbxMesh * inputMesh, std::vector<FbxNode*>& ro
 
 		if (!currSkin)
 			continue;
-			
+
 		const unsigned int clusterCount = currSkin->GetClusterCount();
 
 		for (int j = 0; j < clusterCount; j++)
 		{
 			imScene.modelList.back().skeletonList.back().jointList.push_back(sImJoint());
 			//imScene.modelList.back().skeletonList.back().jointList.back().jointID = imScene.modelList.back().skeletonList.back().jointList.size() - 1 + influenceOffset;
-			
+
 			FbxCluster* currCluster = currSkin->GetCluster(j);
 			FbxNode* currJoint = currCluster->GetLink();
 			animationEvaluator = currJoint->GetAnimationEvaluator();
@@ -1496,7 +1684,7 @@ void MFileImporter::processCtrlPntMapUVs(FbxMesh * inputMesh, const FbxGeometryE
 
 			if (imScene.modelList.back().meshList.back().isAnimated)
 			{
-				
+
 				imScene.modelList.back().meshList.back().animVertList.at(vertexIndex).vert.UV[0] = UVs.mData[0];
 				imScene.modelList.back().meshList.back().animVertList.at(vertexIndex).vert.UV[1] = UVs.mData[1];
 			}
@@ -1572,8 +1760,8 @@ void MFileImporter::processPhongMaterial(FbxSurfaceMaterial * material)
 			imScene.materialList.back().diffuseColor[2] = diffuseColor.mData[2];
 
 			imScene.materialList.back().specularColor[0] = specularColor.mData[0];
-			imScene.materialList.back().specularColor[0] = specularColor.mData[0];
-			imScene.materialList.back().specularColor[0] = specularColor.mData[0];
+			imScene.materialList.back().specularColor[1] = specularColor.mData[1];
+			imScene.materialList.back().specularColor[2] = specularColor.mData[2];
 
 			imScene.materialList.back().shinyFactor = shininess;
 		}
@@ -1605,8 +1793,8 @@ void MFileImporter::processLambertMaterial(FbxSurfaceMaterial * material)
 		/*No specular attributes and shininess can't be found with a lambert material,
 		so we simply set the values for the attributes to 0.*/
 		imScene.materialList.back().specularColor[0] = 0;
-		imScene.materialList.back().specularColor[0] = 0;
-		imScene.materialList.back().specularColor[0] = 0;
+		imScene.materialList.back().specularColor[1] = 0;
+		imScene.materialList.back().specularColor[2] = 0;
 
 		imScene.materialList.back().shinyFactor = 0;
 	}
@@ -1655,12 +1843,10 @@ void MFileImporter::processTextureMap(FbxProperty texProp, char * texName)
 		/*Modify the FbxString to match the filepath to the textures folder.*/
 		FbxString srcFilePathModified = FbxString("Textures") + srcFilePath.Right(srcFilePath.Size() - srcFilePath.ReverseFind('/'));
 
-		char* destFilePath = srcFilePathModified.Buffer();
-
-		strncpy(texName, destFilePath, 256);
-
-		/*Copy texture to destination.*/
-		copyTextures(srcFilePath.Buffer(), destFilePath);
+		int lolbro = srcFilePath.ReverseFind('\\');
+		if (lolbro == -1)
+			lolbro = srcFilePath.ReverseFind('/');
+		memcpy(texName, &srcFilePath[lolbro + 1], srcFilePath.GetLen() - lolbro + 1);
 	}
 }
 
@@ -1802,7 +1988,7 @@ void MFileImporter::processBlendWeightsAndIndices(FbxMesh * inputMesh, std::vect
 
 	//Does this work if you have more than one skeleton bound per mesh?
 	//It should, since we now loop through all skeletons before adding weight to the vertices
-	
+
 	for (int o = 0; o < inputMesh->GetDeformerCount(); o++)
 	{
 		FbxSkin* currSkin = reinterpret_cast<FbxSkin*>(inputMesh->GetDeformer(o, FbxDeformer::eSkin));
