@@ -117,7 +117,8 @@ int main()
 
 
 		window.update();
-		counter.displayFPS();
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.f, 720.f);
 	}
 
 	luaBinds.unload();

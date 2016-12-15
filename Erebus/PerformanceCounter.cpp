@@ -24,7 +24,7 @@ double PerformanceCounter::getCurrentTime()
 	double elapsedTime;
 
 	QueryPerformanceCounter(&timeStamp);
-	elapsedTime = double(timeStamp.QuadPart - last.QuadPart) / frequency;
+	elapsedTime = double(timeStamp.QuadPart - start.QuadPart) / frequency;
 
 	return elapsedTime;
 }
@@ -52,4 +52,17 @@ void PerformanceCounter::displayFPS()
 		frameTime -= 1.0;
 		frameCounter = 0;
 	}
+}
+
+int PerformanceCounter::getFPS()
+{
+	frameCounter++;
+	frameTime += deltaTime;
+	if (frameTime >= 0.7)
+	{
+		fps = double(frameCounter) / frameTime;
+		frameTime -= 0.7;
+		frameCounter = 0;
+	}
+	return fps;
 }
