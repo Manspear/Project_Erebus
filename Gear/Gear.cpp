@@ -250,13 +250,14 @@ namespace Gear
 		
 		gBuffer.unUse();
 
+		//DISCO debuger lines
 		lightPass(camera);
-		for (int i = 0; i < NUM_LIGHTS; i++) {
+		/*for (int i = 0; i < NUM_LIGHTS; i++) {
 			if(i < NUM_LIGHTS/2)
 				Debugger::getInstance()->drawLine(glm::vec3(0, 50, 255), endPos[i], color[i]);
 			else
 				Debugger::getInstance()->drawLine(glm::vec3(255, 50, 255), endPos[i], color[i]);
-		}
+		}*/
 
 		glDisable(GL_DEPTH_TEST);
 		
