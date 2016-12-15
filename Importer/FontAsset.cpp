@@ -66,7 +66,7 @@ namespace Importer
 	int FontAsset::getWidth( char c )
 	{
 		char index = c - FONT_RANGE_START;
-		return info.widths[index] + info.paddingx + info.shadowx;
+		return info.widths[index];
 	}
 
 	glm::vec4 FontAsset::getUV( char c )
@@ -76,8 +76,8 @@ namespace Importer
 
 		float x = offset.x / texture->getWidth();
 		float y = offset.y / texture->getHeight();
-		float z = (offset.x + info.widths[index] + info.paddingx + info.shadowx) / texture->getWidth();
-		float w = (offset.y + info.size + info.paddingy + info.shadowy) / texture->getHeight();
+		float z = (offset.x + info.widths[index]) / texture->getWidth();
+		float w = (offset.y + info.size) / texture->getHeight();
 
 		return glm::vec4(x, y, z, w);
 	}

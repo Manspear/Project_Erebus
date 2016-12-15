@@ -12,8 +12,6 @@ namespace Importer
 	struct FontInfo
 	{
 		uint8_t size;
-		uint8_t paddingx, paddingy;
-		uint8_t shadowx, shadowy;
 		uint8_t widths[FONT_RANGE];
 		uint16_t xoffsets[FONT_RANGE];
 		uint16_t yoffsets[FONT_RANGE];
