@@ -9,6 +9,7 @@
 #include "Debug.h"
 #include "TextRenderer.h"
 #include "Material.h"
+#include "DebugHandler.h"
 namespace Gear
 {
 
@@ -91,7 +92,7 @@ namespace Gear
 
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
-		std::vector<Debug*> debuggers;
+		DebugHandler* debugHandler;
 
 		void updateDebug(Camera* camera);
 	};

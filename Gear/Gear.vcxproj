@@ -175,6 +175,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="DebugHandler.cpp" />
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="Material.cpp" />
