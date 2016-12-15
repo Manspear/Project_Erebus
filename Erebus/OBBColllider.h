@@ -5,6 +5,7 @@ class OBBColllider : public HitBox
 public:
 	OBBColllider();
 	OBBColllider(int transformID);
+	OBBColllider(int transformID);
 	OBBColllider();
 	~OBBColllider();
 

@@ -14,6 +14,7 @@ public:
 	virtual std::vector<unsigned int>* getIDCollisionsRef() = 0;
 	virtual void insertCollisionID(unsigned int collisionID) = 0;
 	virtual void clearCollisionIDs() = 0;
+	virtual void setPos(glm::vec3 pos) = 0;
 	virtual void setIDTransform(unsigned int ID);
 	virtual void setID(unsigned int ID);
 	virtual bool checkCollision();
