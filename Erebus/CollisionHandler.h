@@ -32,6 +32,7 @@ public:
 	void checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2); // check against the other vector
 	void checkSphereToAabbCollisions(std::vector<SphereCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
 
+	void updateAllHitboxPos();
 	void updateSpherePos();
 	void updateAabbPos();
 
@@ -58,6 +59,7 @@ private:
 	Transform* transforms;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
+	std::vector<HitBox*> allColliders;
 	CollisionLayers* collisionLayers;
 
 	//Counters

@@ -53,3 +53,8 @@ void OBBColllider::clearCollisionIDs()
 {
 	this->IDCollisions.clear();
 }
+
+void OBBColllider::setPos(glm::vec3 pos)
+{
+	this->pos = pos;
+}

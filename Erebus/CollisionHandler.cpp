@@ -50,6 +50,7 @@ CollisionHandler::~CollisionHandler()
 
 void CollisionHandler::addHitbox(SphereCollider * sphere)
 {
+	this->allColliders.push_back(sphere);
 	this->sphereColliders.push_back(sphere);
 	sphere->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -60,6 +61,7 @@ void CollisionHandler::addHitbox(SphereCollider * sphere)
 
 void CollisionHandler::addHitbox(AABBCollider * aabb)
 {
+	this->allColliders.push_back(aabb);
 	this->aabbColliders.push_back(aabb);
 	aabb->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -69,6 +71,7 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 
 void CollisionHandler::addHitbox(SphereCollider * sphere, int layer)
 {
+	this->allColliders.push_back(sphere);
 	this->sphereColliders.push_back(sphere);
 	sphere->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -78,6 +81,7 @@ void CollisionHandler::addHitbox(SphereCollider * sphere, int layer)
 
 void CollisionHandler::addHitbox(AABBCollider * aabb, int layer)
 {
+	this->allColliders.push_back(aabb);
 	this->aabbColliders.push_back(aabb);
 	aabb->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -99,8 +103,9 @@ void CollisionHandler::checkCollisions()
 
 	this->deleteAllOldCollisions();
 
-	this->updateSpherePos();
-	this->updateAabbPos();
+	this->updateAllHitboxPos();
+	//this->updateSpherePos();
+	//this->updateAabbPos();
 
 	//this->checkSphereToSphereCollisions();
 	//this->checkAabbToAaabbCollisions();
@@ -422,6 +427,18 @@ void CollisionHandler::initializeColors()
 	for (size_t i = 0; i < hardcoddedColorSize; i++)
 	{
 		this->colors[i] = hardCodedColors[i];
+	}
+}
+
+void CollisionHandler::updateAllHitboxPos()
+{
+	size_t allColliderSize = this->allColliders.size();
+
+	for (size_t i = 0; i < allColliderSize; i++)
+	{
+		int idTransform = this->allColliders[i]->getIDTransform();
+		if (idTransform >= 0)
+			this->allColliders[i]->setPos(transforms[idTransform].getPos());
 	}
 }
 

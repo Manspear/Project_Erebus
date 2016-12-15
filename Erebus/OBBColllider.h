@@ -5,8 +5,7 @@ class OBBColllider : public HitBox
 public:
 	OBBColllider();
 	OBBColllider(int transformID);
-	OBBColllider(int transformID);
-	OBBColllider();
+	//OBBColllider(int transformID);
 	~OBBColllider();
 
 	//Overrides
@@ -15,6 +14,7 @@ public:
 	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
 	virtual void insertCollisionID(unsigned int collisionID) override;
 	virtual void clearCollisionIDs() override;
+	virtual void setPos(glm::vec3 pos) override;
 	
 private:
 	glm::vec3 pos;
