@@ -19,7 +19,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
-//#include "LevelEditor.h"
+#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -34,6 +34,7 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	
 	Window window;
 	Gear::GearEngine engine;
 
@@ -48,6 +49,8 @@ int main()
 		transforms[i].setThePtr(&allTransforms[i]);
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
+
+	engine.addDebugger(Debugger::getInstance());
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
 
@@ -94,7 +97,6 @@ int main()
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
-
 
 		engine.draw(&camera);
 
