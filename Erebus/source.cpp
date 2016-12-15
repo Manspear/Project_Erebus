@@ -49,7 +49,7 @@ int main()
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
