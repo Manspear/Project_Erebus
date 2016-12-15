@@ -24,9 +24,8 @@ uniform int hasNormal;
 void main (){
 	//Store the fragment position vector in the first gbuffer texture
     gPosition = FragPos;
-	 //gPosition = vec3(0,1,0);
     // Also store the per-fragment normals into the gbuffer
-	if(hasNormal == 1)
+	if(hasNormal == 1) //has normal texture use it else use model normal
 	{
 		vec3 normal = texture2D(normalTexture, TexCoords).rgb;
 		normal = normalize(normal * 2.0 - 1.0);
@@ -35,7 +34,7 @@ void main (){
 	else
 		gNormal = normalize(Normal);
     // And the diffuse per-fragment color
-	if(hasDiffuse == 1)
+	if(hasDiffuse == 1) //if has diffuse texture it else use error color
 		gAlbedoSpec.rgb = texture2D(diffuseTexture, TexCoords).rgb;
 	else
 		gAlbedoSpec.rgb = vec3(1,0,0.8);

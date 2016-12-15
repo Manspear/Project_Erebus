@@ -42,14 +42,14 @@ void main() {
 	vec3 ambient = Diffuse * 0.1;
 	
 	vec3 directional = vec3(0);
-	for(int i = 0; i < NR_DIR_LIGHTS; i++)
+	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
 		directional += CalcDirLight(dirLights[i], norm, viewDir);
 
 	vec3 point = vec3(0,0,0);
-	for(int i = 0; i < NR_POINT_LIGHTS; i++)
+	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
 		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir);
 
-	if(drawMode == 1)
+	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
         FragColor = vec4(ambient + directional + point, 1.0);
     else if(drawMode == 2)
 		FragColor = vec4(ambient + point, 1.0);

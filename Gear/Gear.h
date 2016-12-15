@@ -53,9 +53,9 @@ namespace Gear
 		GEAR_API void lightPass(Camera* camera);
 		void pickingPass();
 
-		const int NUM_LIGHTS = 50;
-		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f);
-		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 30.0f, 255.0f);
+		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
+		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
+		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 80.0f, 255.0f);
 
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
@@ -74,7 +74,6 @@ namespace Gear
 		ShaderProgram *lightPassShader;
 
 		ShaderProgram gBuffer;
-		const int NUM_POINT_LIGHTS = 50;
 		std::vector<Lights::DirLight> dirLights;
 		GLuint lightBuffer = 0;
 		//temp debug variable

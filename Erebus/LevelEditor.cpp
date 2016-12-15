@@ -30,7 +30,7 @@ void LevelEditor::start() {
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/moleman5.model");
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/Robot.model");
 	//engine.queue.animationObject.setAsset(moleman);
 
 	std::vector<ModelInstance> models;
