@@ -20,6 +20,7 @@ function CreateProjectile()
 		self.alive = true
 		self.lifeTime = PROJECTILE_LIFETIME
 		Transform.SetPosition(self.transformID, self.position)
+	Transform.ActiveControl(self.transformID, true)
 	Particle.SetAlive(projectile.particleID, true)
 	end
 
@@ -39,7 +40,7 @@ function CreateProjectile()
 
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
-			for curEnemy=1, MAX_ENEMIES do
+		for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 					self:Kill()
 				Particle.SetAlive(projectile.particleID, false)
