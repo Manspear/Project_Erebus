@@ -52,6 +52,9 @@ function UpdateEnemies(dt)
 	for i=1, #enemies do
 		if enemies[i].health > 0 then
 			Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
+			local pos = Transform.GetPosition(enemies[i].transformID)
+			pos.y = heightmap:GetHeight(pos.x,pos.z)+1
+			Transform.SetPosition(enemies[i].transformID, pos)
 		end
 	end
 end
