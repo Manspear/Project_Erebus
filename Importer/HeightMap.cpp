@@ -215,7 +215,7 @@ namespace Importer
 	{
 		bool result = false;
 
-		heightMulti = 0.03f;
+		heightMulti = 0.5f;
 		widthMulti = 1.0f;
 		breadthMulti = 1.0f;
 

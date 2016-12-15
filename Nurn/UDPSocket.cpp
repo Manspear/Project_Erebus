@@ -7,7 +7,7 @@ namespace Nurn
 
 	UDPSocket::~UDPSocket() {}
 
-	bool UDPSocket::CreateSocket(const uint16_t & port)
+	bool UDPSocket::CreateSocket()
 	{
 		assert(!IsOpen());
 
@@ -39,7 +39,7 @@ namespace Nurn
 
 		// Create the socket
 
-		if (!CreateSocket(port))
+		if (!CreateSocket())
 		{
 			return false;
 		}
@@ -65,7 +65,7 @@ namespace Nurn
 	{
 		// Create the socket
 
-		if (!CreateSocket(port))
+		if (!CreateSocket())
 		{
 			return false;
 		}

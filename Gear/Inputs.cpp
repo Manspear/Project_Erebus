@@ -46,6 +46,8 @@ void Inputs::update()
 	glfwGetCursorPos(window, &newPos.x, &newPos.y);
 	deltaPos = { mousePos.x - newPos.x, mousePos.y - newPos.y };
 	mousePos = newPos;
+	
+	dScrollY = 0;
 	for (size_t i = 0; i < GLFW_KEY_LAST; i++)
 	{
 		keysPressedThisFrame[i] = false;

@@ -39,7 +39,7 @@ namespace Gear
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
-		GEAR_API void queueParticles(std::vector<ParticleSystem>* particles);
+		GEAR_API void queueParticles(std::vector<ParticleSystem*>* particles);
 		GEAR_API void queueLights(std::vector<Light>* lights);
 		GEAR_API void draw(Camera* camera);
 
@@ -51,10 +51,11 @@ namespace Gear
 
 	private:
 		GEAR_API void lightPass(Camera* camera);
+		void pickingPass();
 
 		const int NUM_LIGHTS = 50;
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f);
-		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 30.0f, 255.0f);
+		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 80.0f, 255.0f);
 
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
@@ -73,21 +74,24 @@ namespace Gear
 		ShaderProgram *lightPassShader;
 
 		ShaderProgram gBuffer;
-		const int NUM_POINT_LIGHTS = 30;
-		std::vector<Lights::PointLight> pointLights;
+		const int NUM_POINT_LIGHTS = 50;
 		std::vector<Lights::DirLight> dirLights;
+		GLuint lightBuffer = 0;
 		//temp debug variable
-		int drawMode = 1;
+		int drawMode = 2;
+
+		//TEMP: Disco party
+		glm::vec3 endPos[50];
+		glm::vec3 color[50];
 
 		void drawQuad();
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
 		std::vector<AnimatedInstance>* animatedModels;
-		std::vector<ParticleSystem>* particleSystems;
+		std::vector<ParticleSystem*>* particleSystems;
 
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
-		std::vector<ParticleSystem> defaultParticleList = std::vector<ParticleSystem>(0);
 		std::vector<Debug*> debuggers;
 
 		void updateDebug(Camera* camera);
