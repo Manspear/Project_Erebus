@@ -90,44 +90,6 @@ void LevelEditor::start() {
 		if (currentAnimation < .2f)
 			addSyntax = 1;
 
-		//for (size_t l = 0; l < 255; l++)
-		//{
-		//	for (size_t i = 0; i < 255; i++)
-		//	{
-		//		//down
-		//		tempDebug->drawLine({ 0, l, i }, { 255, l, i }, { i / 255.f, l / 255.f, (l+i) / 510.f });
-		//		Debugger::getInstance()->drawLine({ i, l, 0 }, { i, l, 255 });
-		//	}
-		//}
-		const float cubeLoop = 36;
-		for (int y = 0; y < cubeLoop; y++)
-		{
-			for (int x = 0; x < cubeLoop; x++)
-			{
-				for (int i = 0; i < cubeLoop; i++)
-				{
-
-					//Debugger::getInstance()->drawLines({ i*.005f,10,0 }, { i*.005f,10 + currentAnimation*3,10 },
-					//{ (float)i / 10000, (float)i / 10000, (float)i});
-					//Debugger::getInstance()->drawLine({ i * 10,y * 10,x * 10 }, { i * 11,y * 11,x * 11 }, { i / 36.f, y / 36.f, x / 36.f });
-					tempDebug->drawAABB({ x * 5,y*5,i * 5 }, { (x + 1) * 5,(y+1)*5,(i + 1) * 5 },
-					{ i / cubeLoop , y / cubeLoop , x / cubeLoop   });
-
-					//tempDebug->drawSphere({ x * 5+2,y * 5+2,i * 5+2 }
-					//, 1.2f,
-					//{i/ cubeLoop , y / cubeLoop , x / cubeLoop   });
-					//tempDebug->drawSphere({i * 10, y * 10, x * 10
-					//}, 1.2f,
-					//{i/ cubeLoop * currentAnimation, y / cubeLoop * currentAnimation, x / cubeLoop  * currentAnimation });
-
-				}
-			}
-		}
-		//Debugger::getInstance()->drawLine({ 0, 10, 0 }, { 255, 10, 255 });
-		
-		
-		
-
 		inputs.update();
 		//controls.update(&inputs);
 		//luaBinds.update(&controls, deltaTime);
