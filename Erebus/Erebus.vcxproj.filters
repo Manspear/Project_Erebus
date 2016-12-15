@@ -25,33 +25,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaAssets.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaBinds.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaCamera.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaCollision.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaControls.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaGear.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaErebus.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaParticles.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaTransform.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionLayers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +33,33 @@
     </ClCompile>
     <ClCompile Include="LevelModel.cpp">
       <Filter>LevelEditor\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaTransform.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaAssets.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaBinds.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaCamera.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaCollision.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaControls.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaErebus.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaGear.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaParticles.cpp">
+      <Filter>Lua\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,44 +81,44 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaAssets.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaBinds.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaCamera.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaCollision.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaControls.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaErebus.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaGear.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaParticles.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaTransform.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionLayers.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="LevelEditor.h">
       <Filter>LevelEditor\Header</Filter>
     </ClInclude>
     <ClInclude Include="LevelModel.h">
       <Filter>LevelEditor\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="HitBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionLayers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaTransform.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaAssets.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaBinds.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaCamera.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaCollision.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaControls.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaErebus.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaGear.h">
+      <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaParticles.h">
+      <Filter>Lua\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +147,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\forward.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\forward.vert.orig">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\forwardAnim.frag">
@@ -259,12 +256,6 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{b8753599-fa49-4aca-b4a8-480915c0772b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Lua">
-      <UniqueIdentifier>{bdcad772-df23-48d9-9c92-cc60b94d9bdb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Lua">
-      <UniqueIdentifier>{18746c4b-71dd-49ff-80a3-be0f30c392b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{5ef5f774-eb38-4da6-a61b-3fd158c3426d}</UniqueIdentifier>
     </Filter>
@@ -276,6 +267,15 @@
     </Filter>
     <Filter Include="LevelEditor\Header">
       <UniqueIdentifier>{b203593d-2cd7-44c1-9a26-22f9e883833d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lua">
+      <UniqueIdentifier>{bdcad772-df23-48d9-9c92-cc60b94d9bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lua\Header">
+      <UniqueIdentifier>{86bcb4c3-77a7-4118-9155-7ebf78bd80ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lua\Source">
+      <UniqueIdentifier>{7213c686-ed4f-4955-94f0-528aca9b86c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
