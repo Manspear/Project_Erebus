@@ -102,6 +102,8 @@ namespace Importer
 
 			free(bufferptr);
 			result = true;
+
+			material = assets->load<MaterialAsset>( "Materials/" + std::string(header.materialName) );
 		}
 
 		return result;
@@ -184,5 +186,10 @@ namespace Importer
 	int ModelAsset::getBufferSize(int mesh) const
 	{
 		return bufferSizes[mesh];
+	}
+
+	MaterialAsset* ModelAsset::getMaterial () const
+	{
+		return material;
 	}
 };

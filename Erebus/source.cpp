@@ -19,6 +19,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
+#include "MaterialAsset.h"
 //#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
@@ -50,6 +51,7 @@ int main()
 	engine.allocateWorlds(nrOfTransforms);
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
+	Importer::MaterialAsset* material = assets.load<MaterialAsset>( "Materials/lambert1.material" );
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;

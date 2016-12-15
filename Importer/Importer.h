@@ -57,7 +57,7 @@ namespace Importer
 
 		//Each material holds diffuse, spec, normal
 		//Each material needs it's own unique name
-		//char materialName[256];
+		char materialName[32];
 		
 		int TYPE;
 	};
