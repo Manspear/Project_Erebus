@@ -2,6 +2,7 @@
 
 Controls::Controls()
 {
+
 }
 
 Controls::~Controls()
@@ -11,19 +12,31 @@ Controls::~Controls()
 
 void Controls::update( Inputs* input )
 {
-	keys[0] = input->keyPressed( GLFW_KEY_W );
-	keys[1] = input->keyPressed( GLFW_KEY_S );
-	keys[2] = input->keyPressed( GLFW_KEY_A );
-	keys[3] = input->keyPressed( GLFW_KEY_D );
-	keys[4] = input->keyPressed( GLFW_KEY_SPACE );
-	keys[5] = input->keyPressed( GLFW_KEY_LEFT_SHIFT );
-	keys[6] = input->keyPressedThisFrame( GLFW_KEY_TAB );
-	keys[7] = input->buttonPressedThisFrame( GLFW_MOUSE_BUTTON_LEFT );
-	keys[8] = input->keyPressedThisFrame( GLFW_KEY_1 );
-	keys[9] = input->keyPressedThisFrame( GLFW_KEY_2 );
-	keys[10] = input->keyPressedThisFrame( GLFW_KEY_3 );
-	keys[11] = input->keyPressedThisFrame( GLFW_KEY_4 );
+	//update inputs that are pressed this frame
+	for (int i = 0; i < CONTROLS_MAX_KEYS - nrOfButtons; i++) {
+		keys[i] = input->keyPressedThisFrame(inputKeys[i]);
+	}
+	for (int i = CONTROLS_MAX_KEYS - nrOfButtons; i < CONTROLS_MAX_KEYS; i++) {
+		keys[i] = input->buttonPressedThisFrame(inputKeys[i]);
+	}
 
+	//update inputs that are released this frame
+	for (int i = CONTROLS_MAX_KEYS; i < 2*CONTROLS_MAX_KEYS - nrOfButtons; i++) {
+		keys[i] = input->keyReleasedThisFrame(inputKeys[i - CONTROLS_MAX_KEYS]);
+	}
+	for (int i = 2 * CONTROLS_MAX_KEYS - nrOfButtons; i < 2*CONTROLS_MAX_KEYS; i++) {
+		keys[i] = input->buttonReleasedThisFrame(inputKeys[i - CONTROLS_MAX_KEYS]);
+	}
+
+	//update inputs that are being held down
+	for (int i = 2*CONTROLS_MAX_KEYS; i < 3 * CONTROLS_MAX_KEYS - nrOfButtons; i++) {
+		keys[i] = input->keyPressed(inputKeys[i - 2* CONTROLS_MAX_KEYS]);
+	}
+	for (int i = 3 * CONTROLS_MAX_KEYS - nrOfButtons; i < 3 * CONTROLS_MAX_KEYS; i++) {
+		keys[i] = input->buttonPressed(inputKeys[i - 2 * CONTROLS_MAX_KEYS]);
+	}
+
+	//rotate the controlled object (prolly shouldnt be dont here, but fuck it)
 	MousePos dPos = input->getDeltaPos();
 	glm::vec3 rotation = controlled->getRotation();
 	rotation.y += (float)dPos.x / 100.f;

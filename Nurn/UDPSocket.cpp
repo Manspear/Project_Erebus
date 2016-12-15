@@ -7,7 +7,7 @@ namespace Nurn
 
 	UDPSocket::~UDPSocket() {}
 
-	bool UDPSocket::CreateSocket(const uint16_t & port)
+	bool UDPSocket::CreateSocket()
 	{
 		assert(!IsOpen());
 
@@ -22,8 +22,30 @@ namespace Nurn
 			return false;
 		}
 
+		return true;
+	}
+
+	bool UDPSocket::ConnectSocket(const Address & connectionAddress)
+	{
+		return true;
+	}
+
+	bool UDPSocket::AcceptSocket(int & acceptedSocket, Address & connectionAddress)
+	{
+		return true;
+	}
+	bool UDPSocket::CreateWaitingSocket(const uint16_t & port)
+	{
+
+		// Create the socket
+
+		if (!CreateSocket())
+		{
+			return false;
+		}
+
 		// bind to port
-		
+
 		if (!BindSocket(port))
 		{
 			return false;
@@ -39,22 +61,29 @@ namespace Nurn
 		return true;
 	}
 
-	bool UDPSocket::ConnectSocket(const Address & connectionAddress)
+	bool UDPSocket::CreateAndConnectSocket(const uint16_t & port, const Address& connectionAddress)
 	{
-		return true;
-	}
+		// Create the socket
 
-	bool UDPSocket::AcceptSocket(SOCKET & acceptedSocket, Address & connectionAddress)
-	{
-		return true;
-	}
-	bool UDPSocket::CreateWaitingSocket(const Address& connectionAddress)
-	{
-		return true;
-	}
+		if (!CreateSocket())
+		{
+			return false;
+		}
 
-	bool UDPSocket::CreateAndConnectSocket(const Address& connectionAddress)
-	{
+		// bind to port
+
+		if (!BindSocket(port))
+		{
+			return false;
+		}
+
+		// set non-blocking io
+
+		if (!SetNonBlocking())
+		{
+			return false;
+		}
+
 		return true;
 	}
 

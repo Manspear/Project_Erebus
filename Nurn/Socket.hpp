@@ -28,16 +28,16 @@ namespace Nurn
 		Socket();
 		virtual ~Socket();
 		bool InitializeSockets();
-		virtual bool CreateSocket(const uint16_t & port) = 0;
+		virtual bool CreateSocket() = 0;
 		virtual bool ConnectSocket(const Address & connectionAddress) = 0;
-		virtual bool AcceptSocket(SOCKET & acceptedSocket, Address & connectionAddress) = 0;
-		virtual bool CreateWaitingSocket(const Address& connectionAddress) = 0;
-		virtual bool CreateAndConnectSocket(const Address& connectionAddress) = 0;
+		virtual bool AcceptSocket(int & acceptedSocket, Address & connectionAddress) = 0;
+		virtual bool CreateWaitingSocket(const uint16_t & port) = 0;
+		virtual bool CreateAndConnectSocket(const uint16_t & port, const Address& connectionAddress) = 0;
 		void ShutdownSockets();
 		void CloseSocket();
 		bool IsOpen() const;
 
-		int GetSocket();
+		int& GetSocket();
 
 	protected:
 		bool SetNonBlocking();

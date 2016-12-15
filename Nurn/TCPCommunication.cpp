@@ -17,7 +17,7 @@ namespace Nurn
 		assert(data);
 		assert(size > 0);
 
-		int networkSocket = socket.GetSocket();
+		int networkSocket = communicationSocket.GetSocket();
 
 		if (networkSocket == 0)
 		{
@@ -50,12 +50,12 @@ namespace Nurn
 		return true;
 	}
 
-	bool TCPCommunication::RecievePackage(Address & sender, void * data, int size)
+	bool TCPCommunication::ReceivePackage(Address & sender, void * data, int size)
 	{
 		assert(data);
 		assert(size > 0);
 
-		int networkSocket = socket.GetSocket();
+		int networkSocket = communicationSocket.GetSocket();
 
 		if (networkSocket == 0)
 		{
@@ -76,10 +76,7 @@ namespace Nurn
 			return 0;
 		}
 
-		unsigned int address = from.sin_addr.s_addr;
-		unsigned int port = ntohs(from.sin_port);
-
-		sender = Address(address, port);
+		sender.SetAddress(from);
 
 		return received_bytes;
 	}

@@ -16,7 +16,7 @@ namespace Nurn
 	{
 		assert(data);
 		assert(size > 0);
-		int networkSocket = socket.GetSocket();
+		int networkSocket = communicationSocket.GetSocket();
 
 		if (networkSocket == 0)
 		{
@@ -28,12 +28,12 @@ namespace Nurn
 		return sent_bytes == size;
 	}
 
-	bool UDPCommunication::RecievePackage(Address & sender, void * data, int size)
+	bool UDPCommunication::ReceivePackage(Address & sender, void * data, int size)
 	{
 		assert(data);
 		assert(size > 0);
 
-		int networkSocket = socket.GetSocket();
+		int networkSocket = communicationSocket.GetSocket();
 
 		if (networkSocket == 0)
 		{
@@ -54,10 +54,7 @@ namespace Nurn
 			return false;
 		}
 
-		uint32_t address = from.sin_addr.s_addr;
-		uint16_t port = ntohs(from.sin_port);
-
-		sender = Address(address, port);
+		//sender.SetAddress(from);
 
 		return received_bytes;
 	}

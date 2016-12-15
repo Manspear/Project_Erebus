@@ -19,18 +19,20 @@ void LuaBinds::load( GearEngine* gearEngine,
 					Transform* transforms,
 					int* boundTransforms,
 					std::vector<ModelInstance>* models,
-					Camera* camera )
+					std::vector<AnimatedInstance>* animatedModels,
+					Camera* camera,
+					std::vector<Gear::ParticleSystem*>* ps)
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 	LuaErebus::registerFunctions( lua, transforms, controls );
-	LuaGear::registerFunctions( lua, gearEngine, models, assets);
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, assets);
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
 	LuaControls::registerFunctions( lua );
-	LuaParticles::registerFunctions( lua );
 	LuaCamera::registerFunctions(lua, camera, transforms);
+	LuaParticles::registerFunctions(lua, ps);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;

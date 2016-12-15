@@ -25,7 +25,9 @@ public:
 				Transform* transforms,
 				int* boundTransforms,
 				std::vector<ModelInstance>* models,
-				Camera* camera);
+				std::vector<AnimatedInstance>* animatedModels,
+				Camera* camera,
+				std::vector<Gear::ParticleSystem*>* ps);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;

@@ -9,22 +9,31 @@ function LoadPlayer()
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.health = 100
-
+	player.animation = Animation.Create()
+	
 	-- set spells for player
 	player.spells = {}
-	player.spells[1] = dofile( "Scripts/projectile.lua" )
-	player.spells[2] = dofile( "Scripts/arc.lua" )
-	player.currentSpell = player.spells[1]
-
+	--player.spells[1] = dofile( "Scripts/projectile.lua" )
+	player.spells[1] = {}
+	player.spells[2] = {}
+	for i = 1,  10 do	--create the projectile instances
+		table.insert(player.spells[1], CreateProjectile())
+	end
+	for i = 1,  10 do	--create the arc instances
+		table.insert(player.spells[2], CreateArc())
+	end
+	player.currentSpell = 1
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
+	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/moleman5.model")
-	Gear.AddModelInstance(model, player.transformID)
+	--Gear.AddStaticInstance(model, player.transformID)
+	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
 	Erebus.SetControls(player.transformID)
 	
@@ -39,20 +48,28 @@ function UpdatePlayer(dt)
 	local position = Transform.GetPosition(player.transformID)
 	local direction = Transform.GetLookAt(player.transformID)
 
-	if Controls[Keys.W] then forward = player.moveSpeed end
-	if Controls[Keys.S] then forward = -player.moveSpeed end
-	if Controls[Keys.A] then left = player.moveSpeed end
-	if Controls[Keys.D] then left = -player.moveSpeed end
-	if Controls[Keys.Space] and player.canJump then
+	if Controls[Keys.WDown] then forward = player.moveSpeed end
+	if Controls[Keys.SDown] then forward = -player.moveSpeed end
+	if Controls[Keys.ADown] then left = player.moveSpeed end
+	if Controls[Keys.DDown] then left = -player.moveSpeed end
+	if Controls[Keys.SpacePressed] and player.canJump then
 		player.verticalSpeed = 0.5
 		player.canJump = false
 	end
-	if Controls[Keys.Tab] then print("Tab pressed") end
-	if Controls[Keys.LMB] then
-		player.currentSpell:Cast()
+	if Controls[Keys.TabPressed] then print("Tab pressed") end
+	if Controls[Keys.LMBDown] then
+		player.testCamera = true;
 	end
-	if Controls[Keys.One] then player.currentSpell = player.spells[1] end
-	if Controls[Keys.Two] then player.currentSpell = player.spells[2] end
+	if Controls[Keys.LMBReleased] then
+		for _,j in ipairs(player.spells[player.currentSpell]) do
+			if(j.alive ~= true) then
+				j:Cast()
+				break
+			end
+		end
+	end
+	if Controls[Keys.OnePressed] then player.currentSpell = 1 end
+	if Controls[Keys.TwoPressed] then player.currentSpell = 2 end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
@@ -71,8 +88,14 @@ function UpdatePlayer(dt)
 
 	-- update the current player spell
 	for i=1, #player.spells do 
-		player.spells[i]:BaseUpdate(dt)
+		for _,j in ipairs(player.spells[i]) do
+			if j.alive then
+				j:BaseUpdate(dt)
+			end
+		end
 	end
+
+	player.animation:Update(dt,0)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
