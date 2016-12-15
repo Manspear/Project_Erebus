@@ -8,19 +8,13 @@ SphereCollider::SphereCollider() : HitBox(-1,-1)
 	this->pos = glm::vec3(0, 0, 0);
 }
 
-SphereCollider::SphereCollider(unsigned int ID, int IDTransform, glm::vec3 pos, float radius) : HitBox(ID, IDTransform)
-{
-	this->pos = pos;
-	this->radius = radius;
-}
-
 SphereCollider::SphereCollider(int IDTransform, glm::vec3 pos, float radius) : HitBox(IDTransform)
 {
 	this->pos = pos;
 	this->radius = radius;
 }
 
-SphereCollider::SphereCollider(unsigned int ID, unsigned int IDTransform, float x, float y, float z, float radius) : HitBox(ID, IDTransform)
+SphereCollider::SphereCollider(int IDTransform, float x, float y, float z, float radius) : HitBox(ID, IDTransform)
 {
 	this->pos.x = x;
 	this->pos.y = y;
@@ -28,15 +22,7 @@ SphereCollider::SphereCollider(unsigned int ID, unsigned int IDTransform, float 
 	this->radius = radius;
 }
 
-SphereCollider::SphereCollider(unsigned int IDTransform, float x, float y, float z, float radius) : HitBox(ID, IDTransform)
-{
-	this->pos.x = x;
-	this->pos.y = y;
-	this->pos.z = z;
-	this->radius = radius;
-}
-
-SphereCollider::SphereCollider(unsigned int IDTransform) : HitBox(IDTransform)
+SphereCollider::SphereCollider(int IDTransform) : HitBox(IDTransform)
 {
 	this->radius = 1.0f;
 	this->pos = glm::vec3(0, 0, 0);
