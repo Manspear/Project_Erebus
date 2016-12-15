@@ -36,7 +36,7 @@ namespace Importer
 
 			while( *cur && cur - text < len )
 			{
-				while( *cur == ' ' || *cur == '\t' || *cur == '\n' )
+				while( *cur && isWhitespace( *cur ) )
 					cur++;
 
 				start = cur;
@@ -67,17 +67,17 @@ namespace Importer
 				else if( strncmp( start, "Diffuse texture", nameLen ) == 0 )
 				{
 					parseString( &cur, buffer );
-					diffuseTexture = assets->load<TextureAsset>( "Materials/MaterialTextures/" + std::string(buffer) );
+					diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
 				}
 				else if( strncmp( start, "Specular texture", nameLen ) == 0 )
 				{
 					parseString( &cur, buffer );
-					specularTexture = assets->load<TextureAsset>( "Materials/MaterialTextures/" + std::string(buffer) );
+					specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
 				}
 				else if( strncmp( start, "Normal texture", nameLen ) == 0 )
 				{
 					parseString( &cur, buffer );
-					normalTexture = assets->load<TextureAsset>( "Materials/MaterialTextures/" + std::string(buffer) );
+					normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
 				}
 				else
 				{
@@ -107,11 +107,11 @@ namespace Importer
 		char* cur = *cursor;
 		for( int i=0; i<3; i++ )
 		{
-			while( *cur && *cur == ' ' )
+			while( *cur && isWhitespace( *cur ) )
 				cur++;
 
 			char* start = cur;
-			while( *cur != ' ' && *cur != '\t' && *cur != '\n' && *cur != '\r' )
+			while( *cur && !isWhitespace( *cur ) )
 				cur++;
 
 			result[i] = atof(start);
@@ -128,11 +128,11 @@ namespace Importer
 
 		char* cur = *cursor;
 
-		while( *cur && *cur == ' ' )
+		while( *cur && isWhitespace( *cur ) )
 			cur++;
 
 		char* start = cur;
-		while( *cur && ( *cur != ' ' && *cur != '\t' && *cur != '\n' && *cur != '\r' ) )
+		while( *cur && !isWhitespace( *cur ) )
 			cur++;
 
 		result = atof(start);
@@ -145,11 +145,11 @@ namespace Importer
 	{
 		char* cur = *cursor;
 
-		while( *cur && *cur == ' ' )
+		while( *cur && isWhitespace( *cur ) )
 			cur++;
 
 		char* start = cur;
-		while( *cur && *cur != ' ' && *cur != '\n' )
+		while( *cur && !isWhitespace( *cur ) )
 			cur++;
 
 		int len = cur-start;
@@ -157,6 +157,12 @@ namespace Importer
 		dst[len] = 0;
 
 		*cursor = cur;
+	}
+
+	bool MaterialAsset::isWhitespace( char c )
+	{
+		// NOTE: since we include \n and \r it's technically not just whitespace
+		return ( c == ' ' || c == '\t' || c == '\n' || c == '\r' );
 	}
 
 	glm::vec3 MaterialAsset::getAmbientColor()

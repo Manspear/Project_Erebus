@@ -31,6 +31,7 @@ namespace Importer
 		float parseFloat( char** cursor );
 		void parseString( char** cursor, char* dst );
 		void getUniforms( GLuint program );
+		bool isWhitespace( char c );
 
 		glm::vec3 ambientColor;
 		glm::vec3 diffuseColor;
