@@ -54,8 +54,13 @@ int main()
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
 
+	//Collisions
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
+	OBBColllider obb = OBBColllider();
+	obb.setPos(glm::vec3(3,3,3));
+
+
 
 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
@@ -78,6 +83,9 @@ int main()
 	
 	PerformanceCounter counter;
 	double deltaTime;
+	Debug* tempDebug = Debugger::getInstance();
+	engine.addDebugger(tempDebug);
+	collisionHandler.setDebugger(tempDebug);
 	while (running && window.isWindowOpen())
 	{	
 		deltaTime = counter.getDeltaTime();
@@ -93,6 +101,7 @@ int main()
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
+		collisionHandler.drawHitboxes();
 
 
 		engine.draw(&camera);
