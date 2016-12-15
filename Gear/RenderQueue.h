@@ -62,7 +62,6 @@ private:
 	int currentCallType = 0;
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	//std::vector<Model*> allModels;
-	TransformStruct* transforms;
 	std::vector<ModelInstance> instances;
 	std::vector<ModelInstance> staticInstances;
 	glm::mat4* worldMatrices;
