@@ -41,6 +41,6 @@ function Update(dt)
 		value.Update(dt)
 	end
 
-	if Controls[Keys.FourPressed] then drawHitboxes = not drawHitboxes end
-	if drawHitboxes then CollisionHandler.DrawHitboxes() end
+	--if Controls[Keys.FourPressed] then drawHitboxes = not drawHitboxes end
+	--if drawHitboxes then CollisionHandler.DrawHitboxes() end
 end

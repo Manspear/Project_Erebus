@@ -24,7 +24,7 @@ double PerformanceCounter::getCurrentTime()
 	double elapsedTime;
 
 	QueryPerformanceCounter(&timeStamp);
-	elapsedTime = double(timeStamp.QuadPart - last.QuadPart) / frequency;
+	elapsedTime = double(timeStamp.QuadPart - start.QuadPart) / frequency;
 
 	return elapsedTime;
 }
@@ -41,15 +41,15 @@ double PerformanceCounter::getDeltaTime()
 	return deltaTime;
 }
 
-void PerformanceCounter::displayFPS()
+int PerformanceCounter::getFPS()
 {
 	frameCounter++;
 	frameTime += deltaTime;
-	if (frameTime >= 1.0)
+	if (frameTime >= 0.7)
 	{
- 		double fps = double(frameCounter) / frameTime;
-		std::cout << "FPS: " << fps << std::endl;
-		frameTime -= 1.0;
+		fps = double(frameCounter) / frameTime;
+		frameTime -= 0.7;
 		frameCounter = 0;
 	}
+	return fps;
 }

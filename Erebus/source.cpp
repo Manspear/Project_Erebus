@@ -63,7 +63,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 	
-	window.changeCursorStatus(false);
+	//window.changeCursorStatus(false);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
@@ -99,25 +99,27 @@ int main()
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-		/*
-		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
+		
+		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
 			engine.setDrawMode(1);
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_K ))
 			engine.setDrawMode(2);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_L))
 			engine.setDrawMode(3);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_4))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_P))
 			engine.setDrawMode(4);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_5))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_N))
 			engine.setDrawMode(5);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
 			engine.setDrawMode(6);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine.setDrawMode(7);*/
+			engine.setDrawMode(7);
 
+
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.f, 720.f);
 
 		window.update();
-		counter.displayFPS();
 	}
 
 	luaBinds.unload();
