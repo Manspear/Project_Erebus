@@ -6,7 +6,6 @@
 #include "ModelAsset.h"
 #include "TextureAsset.h"
 #include "Window.h"
-#include <ctime>
 #include "Transform.h"
 #include "PerformanceCounter.h"
 #include "ParticleSystem.h"
@@ -14,14 +13,13 @@
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
 #include "Controls.h"
-#include <lua\lua.hpp>
 #include "LuaBinds.h"
 #include <String>
 #include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
-#include "LevelEditor.h"
+//#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -52,26 +50,14 @@ int main()
 	engine.allocateWorlds(nrOfTransforms);
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
-	//engine.queue.animationObject.setAsset(moleman);
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
-	engine.addDebugger(Debugger::getInstance());
-	Debug* tempDebug = Debugger::getInstance();
 
-	double deltaTime = 0.0;
-	
-	//Collision handler
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	SphereCollider sphere1 = SphereCollider(-1,glm::vec3(0,0,0), 5.0f); // hardcoded hitboxes
-	SphereCollider sphere2 = SphereCollider(-2, glm::vec3(3,0,0),1.0f);
-	SphereCollider sphere3 = SphereCollider(-3,glm::vec3(4,0,0), 1.0f);
-	collisionHandler.addHitbox(&sphere1,0);
-	collisionHandler.addHitbox(&sphere2,1);
-	collisionHandler.addHitbox(&sphere3,2);
-	collisionHandler.setDebugger(Debugger::getInstance());
 
+	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -79,10 +65,6 @@ int main()
 	
 	window.changeCursorStatus(false);
 
-	PerformanceCounter counter;
-	counter.startCounter();
-	double frameTime = 0.0;
-	int frameCounter = 0;
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
 	engine.bindTransforms(&allTransforms, &boundTransforms);
@@ -92,58 +74,29 @@ int main()
 	}
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
-	bool playerAlive = true;
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
 	
-	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-	//Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
-	//for (size_t i = 0; i < models.size(); i++)
-	//{
-	//	models.at(i).texAsset = moleratTexture;
-	//}
-	//models.at(1).texAsset = moleratTexture2;
-
-
-	std::string out = "FPS: -1";
-	double updateRate = 4.0;
-
+	PerformanceCounter counter;
+	double deltaTime;
 	while (running && window.isWindowOpen())
-	{
-		
-		
+	{	
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
-		luaBinds.update( &controls, deltaTime );
-		//float angle = asinf(dir.y);
-		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
-			
+		luaBinds.update( &controls, deltaTime);
+		
+		for (int i = 0; i < ps.size(); i++)
+			ps.at(i)->update(deltaTime);
+		
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
+		engine.queueParticles(&ps);
 
-		//Collisions
 		collisionHandler.checkCollisions();
-		//collisionHandler.drawHitboxes();
-		//collisionHandler.printCollisions();
 
-		frameCounter++;
-		frameTime += deltaTime;
-
-		if (frameTime > 1/updateRate)
-		{
-			int fps = double(frameCounter) / frameTime;
-
-			out = "FPS: " + std::to_string(fps);
-			frameCounter = 0;
-			frameTime -= 1 / updateRate;
-		}
-
-
-		engine.print(out, 0.f, 720.f);
 
 		engine.draw(&camera);
 
-		lua_State* lua;
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
 		/*
@@ -164,6 +117,7 @@ int main()
 
 
 		window.update();
+		counter.displayFPS();
 	}
 
 	luaBinds.unload();
@@ -173,6 +127,8 @@ int main()
 	{
 		networkThread.join();
 	}
+	for (int i = 0; i < ps.size(); i++)
+		delete ps.at(i);
 
 	glfwTerminate();
 	return 0;

@@ -22,18 +22,18 @@ void Controls::update( Inputs* input )
 
 	//update inputs that are released this frame
 	for (int i = CONTROLS_MAX_KEYS; i < 2*CONTROLS_MAX_KEYS - nrOfButtons; i++) {
-		keys[i] = input->keyReleasedThisFrame(inputKeys[i%CONTROLS_MAX_KEYS]);
+		keys[i] = input->keyReleasedThisFrame(inputKeys[i - CONTROLS_MAX_KEYS]);
 	}
 	for (int i = 2 * CONTROLS_MAX_KEYS - nrOfButtons; i < 2*CONTROLS_MAX_KEYS; i++) {
-		keys[i] = input->buttonReleasedThisFrame(inputKeys[i%CONTROLS_MAX_KEYS]);
+		keys[i] = input->buttonReleasedThisFrame(inputKeys[i - CONTROLS_MAX_KEYS]);
 	}
 
 	//update inputs that are being held down
 	for (int i = 2*CONTROLS_MAX_KEYS; i < 3 * CONTROLS_MAX_KEYS - nrOfButtons; i++) {
-		keys[i] = input->keyPressed(inputKeys[i%CONTROLS_MAX_KEYS]);
+		keys[i] = input->keyPressed(inputKeys[i - 2* CONTROLS_MAX_KEYS]);
 	}
 	for (int i = 3 * CONTROLS_MAX_KEYS - nrOfButtons; i < 3 * CONTROLS_MAX_KEYS; i++) {
-		keys[i] = input->buttonPressed(inputKeys[i%CONTROLS_MAX_KEYS]);
+		keys[i] = input->buttonPressed(inputKeys[i - 2 * CONTROLS_MAX_KEYS]);
 	}
 
 	//rotate the controlled object (prolly shouldnt be dont here, but fuck it)
