@@ -17,6 +17,7 @@ namespace LuaParticles
 			{ "SetAlive",		setAlive },
 			{ "SetDead",		setDead	 },
 			{ "Explode",		explode},
+			{ "SetColor",		setColor},
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(lua, regs, 0);
@@ -73,6 +74,15 @@ namespace LuaParticles
 		{
 			int index = lua_tointeger(lua, 1);
 			g_particles->at(index)->explode();
+		}
+		return 0;
+	}
+	int setColor(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			int index = lua_tointeger(lua, 1);
+			g_particles->at(index)->setColor(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
 		}
 		return 0;
 	}

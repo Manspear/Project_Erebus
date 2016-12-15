@@ -235,11 +235,13 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
 	GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
 	glUniform1f(loc, 0.5);
-	glUniform3f(loc2, 0.4, 0.92, 0.6 );
+	Color c;
 	for (size_t i = 0; i < particleSystems->size(); i++)
 	{
 		if (particleSystems->at(i)->isActive)
 		{
+			c = particleSystems->at(i)->getColor();
+			glUniform3f(loc2, c.r, c.g, c.b );
 			size_t ParticleCount = particleSystems->at(i)->getNrOfActiveParticles();
 			glBindBuffer(GL_ARRAY_BUFFER, particleSystems->at(i)->getPartVertexBuffer());
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);

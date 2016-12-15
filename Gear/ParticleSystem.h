@@ -9,6 +9,11 @@ struct Partikel
 	float lifeSpan;
 };
 
+struct Color
+{
+	GLfloat r, g, b;
+};
+
 namespace Gear
 {
 	class ParticleSystem
@@ -28,6 +33,8 @@ namespace Gear
 		GEAR_API void deActivate();
 		GEAR_API Partikel* getThePartikels();
 		GEAR_API glm::vec3* getPositions();
+		GEAR_API void setColor(float r, float g, float b);
+		GEAR_API Color getColor() const;
 		bool isActive;
 		bool alive;
 	private:
@@ -43,5 +50,6 @@ namespace Gear
 		int partPerRate;
 		float timer;
 		float gravityFactor;
+		Color color;
 	};
 }

@@ -30,8 +30,8 @@ namespace Gear
 	GEAR_API void ParticleSystem::update(const float &dt)
 	{
 		if (isActive)
-		{		
-			if (alive) 
+		{
+			if (alive)
 			{
 				timer += dt;
 				if (timer > particleRate)
@@ -114,6 +114,16 @@ namespace Gear
 	GEAR_API glm::vec3 * ParticleSystem::getPositions()
 	{
 		return particlePos;
+	}
+
+	GEAR_API void ParticleSystem::setColor(float r, float g, float b)
+	{
+		color.r = r; color.g = g; color.b = b;
+	}
+
+	GEAR_API Color ParticleSystem::getColor() const 
+	{
+		return color;
 	}
 
 }
