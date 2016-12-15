@@ -75,9 +75,10 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
-	
+
 	PerformanceCounter counter;
 	double deltaTime;
+	bool lockMouse = false;
 	while (running && window.isWindowOpen())
 	{	
 		deltaTime = counter.getDeltaTime();
@@ -112,8 +113,19 @@ int main()
 			engine.setDrawMode(5);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
 			engine.setDrawMode(6);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine.setDrawMode(7);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
+		{
+			if (lockMouse)
+			{
+				window.changeCursorStatus(false);
+				lockMouse = false;
+			}
+			else
+			{
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
+		}
 
 
 		window.update();
