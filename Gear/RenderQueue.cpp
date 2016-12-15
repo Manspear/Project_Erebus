@@ -233,7 +233,9 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 	glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	glUniform1f(loc, 5);
+	GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
+	glUniform1f(loc, 0.5);
+	glUniform3f(loc2, 0.4, 0.92, 0.6 );
 	for (size_t i = 0; i < particleSystems->size(); i++)
 	{
 		if (particleSystems->at(i)->isActive)

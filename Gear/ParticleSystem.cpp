@@ -30,21 +30,23 @@ namespace Gear
 	GEAR_API void ParticleSystem::update(const float &dt)
 	{
 		if (isActive)
-		{
-			timer += dt;
-			if (timer > particleRate)
+		{		
+			if (alive) 
 			{
-				int i = 0;
-				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+				timer += dt;
+				if (timer > particleRate)
 				{
-					particlePos[nrOfActiveParticles] = this->position;
-					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-					allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 10 - 5, rand() % 5 - 2.5, rand() % 5 - 2.5);
-					
-				}
-				timer = 0;
-			}
+					int i = 0;
+					while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+					{
+						particlePos[nrOfActiveParticles] = this->position;
+						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+						allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 10 - 5, rand() % 5 - 2.5, rand() % 5 - 2.5);
 
+					}
+					timer = 0;
+				}
+			}
 			for (int i = 0; i < nrOfActiveParticles; i++)
 			{
 				allParticles[i].lifeSpan -= dt;
@@ -57,10 +59,25 @@ namespace Gear
 				{
 					particlePos[i] = particlePos[nrOfActiveParticles - 1];
 					allParticles[i] = allParticles[--nrOfActiveParticles];
+					if (nrOfActiveParticles <= 0)
+						isActive = false;
 				}
 			}
 		}
+	}
 
+	void ParticleSystem::explode()
+	{
+		nrOfActiveParticles = 0;
+		for (int i = 0; i < maxParticles; i++)
+		{
+			particlePos[i] = this->position;
+			allParticles[i].lifeSpan = this->lifeTime;
+			allParticles[i].direction = glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5);
+			nrOfActiveParticles = i;
+		}
+		isActive = true;
+		alive = false;
 	}
 
 	GLuint ParticleSystem::getPartVertexBuffer()
@@ -78,9 +95,15 @@ namespace Gear
 		return nrOfActiveParticles;
 	}
 
-	GEAR_API void ParticleSystem::activate(bool active)
+	GEAR_API void ParticleSystem::activate()
 	{
-		isActive = active;
+		isActive = true;
+		alive = true;
+	}
+
+	GEAR_API void ParticleSystem::deActivate()
+	{
+		alive = false;
 	}
 
 	GEAR_API Partikel * ParticleSystem::getThePartikels()

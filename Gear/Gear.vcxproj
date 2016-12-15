@@ -154,6 +154,7 @@
     <ClInclude Include="BaseIncludes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="DebugHandler.h" />
     <ClInclude Include="Gear.h" />
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Model.h" />
@@ -203,9 +204,6 @@
     <None Include="..\Erebus\Shaders\g_Buffer.vert" />
     <None Include="..\Erebus\Shaders\heightmap.frag" />
     <None Include="..\Erebus\Shaders\heightmap.vert" />
-    <None Include="..\Erebus\Shaders\particle.frag" />
-    <None Include="..\Erebus\Shaders\particle.geom" />
-    <None Include="..\Erebus\Shaders\particle.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

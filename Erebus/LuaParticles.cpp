@@ -15,6 +15,8 @@ namespace LuaParticles
 			{ "Bind"	   ,	bind },
 			{ "SetPosition",	setPosition },
 			{ "SetAlive",		setAlive },
+			{ "SetDead",		setDead	 },
+			{ "Explode",		explode},
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(lua, regs, 0);
@@ -39,21 +41,38 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 4)
 		{
 			int index = lua_tointeger(lua, 1);
-			if (g_particles->at(index)->isActive)
-			{
-				glm::vec3 pos(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
-				g_particles->at(index)->setEmmiterPos(pos);
-			}
+			if (index == 1)
+				int x = 5;
+			glm::vec3 pos(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
+			g_particles->at(index)->setEmmiterPos(pos);
 		}
 		return 0;
 	}
 
 	int setAlive(lua_State* lua)
 	{
-		if (lua_gettop(lua) >= 2)
+		if (lua_gettop(lua) >= 1)
 		{
 			int index = lua_tointeger(lua, 1);
-			g_particles->at(index)->activate(lua_toboolean(lua, 2));
+			g_particles->at(index)->activate();
+		}
+		return 0;
+	}
+	int setDead(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 1)
+		{
+			int index = lua_tointeger(lua, 1);
+			g_particles->at(index)->deActivate();
+		}
+		return 0;
+	}
+	int explode(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 1)
+		{
+			int index = lua_tointeger(lua, 1);
+			g_particles->at(index)->explode();
 		}
 		return 0;
 	}

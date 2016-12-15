@@ -20,13 +20,16 @@ namespace Gear
 		GEAR_API ~ParticleSystem();
 
 		GEAR_API void update(const float &dt);
+		GEAR_API void explode();
 		GEAR_API GLuint getPartVertexBuffer();
 		GEAR_API void setEmmiterPos(glm::vec3 pos);
 		GEAR_API int getNrOfActiveParticles();
-		GEAR_API void activate(bool active);
+		GEAR_API void activate();
+		GEAR_API void deActivate();
 		GEAR_API Partikel* getThePartikels();
 		GEAR_API glm::vec3* getPositions();
 		bool isActive;
+		bool alive;
 	private:
 		GLuint particleVertexBuffer;
 		glm::vec3 position;

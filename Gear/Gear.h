@@ -81,8 +81,8 @@ namespace Gear
 		int drawMode = 2;
 
 		//TEMP: Disco party
-		glm::vec3 endPos[50];
-		glm::vec3 color[50];
+		//glm::vec3 endPos[50];
+		//glm::vec3 color[50];
 
 		void drawQuad();
 		std::vector<ModelInstance>* staticModels;
