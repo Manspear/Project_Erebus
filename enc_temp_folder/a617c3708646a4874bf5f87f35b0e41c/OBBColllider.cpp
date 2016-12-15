@@ -132,7 +132,6 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	glm::vec3 bYAxis = collider->yAxis;
 	glm::vec3 bZAxis = collider->zAxis;
 	glm::vec3 bPos = collider->pos;
-	glm::vec3 T = collider->pos - this->pos; // b - a
 	float bXHalfLength = collider->xHalfLength;
 	float bYHalfLength = collider->yHalfLength;
 	float bZHalfLength = collider->zHalfLength;

@@ -57,8 +57,13 @@ int main()
 	//Collisions
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	OBBColllider obb = OBBColllider();
-	obb.setPos(glm::vec3(3,3,3));
+	OBBColllider obb1 = OBBColllider();
+	OBBColllider obb2 = OBBColllider();
+	obb1.setPos(glm::vec3(3,3,3));
+	obb2.setSize(2,2,2);
+	float swag = 3.1415;
+	obb1.rotateAroundY(swag);
+	obb1.checkCollision(&obb2);
 
 
 

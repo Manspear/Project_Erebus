@@ -9,13 +9,25 @@ public:
 	OBBColllider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength);
 	~OBBColllider();
 
+	void rotateAroundX(float radianAngle);
+	void rotateAroundY(float radianAngle);
+	void rotateAroundZ(float radianAngle);
+
+	//setters
+	void setSize(float xHalfLength, float yHalfLength, float zHalfLength);
+	void setXHalfLength(float length);
+	void setYHalfLength(float length);
+	void setZHalfLength(float length);
+
 	//Overrides
-	virtual unsigned int getID() const override; // copy elision makes returning values fast? RVO - NRVO
+	virtual unsigned int getID() const override;
 	virtual int getIDTransform() const override;
 	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
 	virtual void insertCollisionID(unsigned int collisionID) override;
 	virtual void clearCollisionIDs() override;
 	virtual void setPos(glm::vec3 pos) override;
+
+	bool checkCollision(OBBColllider* collider);
 	
 private:
 	glm::vec3 pos;
