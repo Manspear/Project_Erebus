@@ -24,6 +24,28 @@ OBBColllider::OBBColllider(int transformID) : HitBox(transformID)
 	this->zHalfLength = 1.0f;
 }
 
+OBBColllider::OBBColllider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox()
+{
+	this->pos = pos;
+	this->xHalfLength = xHalfLength;
+	this->yHalfLength = yHalfLength;
+	this->zHalfLength = zHalfLength;
+	this->xAxis = glm::vec3(1,0,0);
+	this->yAxis = glm::vec3(0, 1, 0);
+	this->zAxis = glm::vec3(0, 0, 1);
+}
+
+OBBColllider::OBBColllider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox(transformID)
+{
+	this->pos = glm::vec3(0, 0, 0);
+	this->xHalfLength = xHalfLength;
+	this->yHalfLength = yHalfLength;
+	this->zHalfLength = zHalfLength;
+	this->xAxis = glm::vec3(1, 0, 0);
+	this->yAxis = glm::vec3(0, 1, 0);
+	this->zAxis = glm::vec3(0, 0, 1);
+}
+
 
 OBBColllider::~OBBColllider()
 {

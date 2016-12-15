@@ -95,22 +95,12 @@ void CollisionHandler::checkCollisions()
 	this->sphereCollisionCounter = 0;
 	this->aabbCollisionCounter = 0;
 	this->sphereToAabbCollisionCounter = 0;
-	//Updatera position
-	//Cleara deras gamla collisions görs i varje check funktion
-	//kolla alla spheres mot alla spheres
-	//kolla alla aabb mot alla andra aabb
-	//KOlla alla spheres mot alla aabb
 
+	//Cleara deras gamla collisions görs i varje check funktion
 	this->deleteAllOldCollisions();
 
+	//Updatera position
 	this->updateAllHitboxPos();
-	//this->updateSpherePos();
-	//this->updateAabbPos();
-
-	//this->checkSphereToSphereCollisions();
-	//this->checkAabbToAaabbCollisions();
-
-	//this->checkSphereToAabbCollisions();
 
 	// ----------------------------------------------------
 	std::vector<int> layerCollisionVector;

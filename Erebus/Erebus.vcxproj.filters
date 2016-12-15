@@ -61,7 +61,9 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Source\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="OBBColllider.cpp" />
+    <ClCompile Include="OBBColllider.cpp">
+      <Filter>Source\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -121,7 +123,9 @@
     <ClInclude Include="LuaTransform.h">
       <Filter>Headers\LuaHeader</Filter>
     </ClInclude>
-    <ClInclude Include="OBBColllider.h" />
+    <ClInclude Include="OBBColllider.h">
+      <Filter>Headers\Colliders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\anim.frag">

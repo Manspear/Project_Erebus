@@ -5,7 +5,8 @@ class OBBColllider : public HitBox
 public:
 	OBBColllider();
 	OBBColllider(int transformID);
-	//OBBColllider(int transformID);
+	OBBColllider(glm::vec3 pos,float xHalfLength, float yHalfLength, float zHalfLength);
+	OBBColllider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength);
 	~OBBColllider();
 
 	//Overrides
