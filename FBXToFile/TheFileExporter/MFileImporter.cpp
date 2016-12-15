@@ -206,7 +206,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		memcpy(&expMat.specularColor, imScene.materialList[i].specularColor, 3 * sizeof(float));
 		memcpy(&expMat.specularTextureFilePath, imScene.materialList[i].specularTextureFilePath, 256);
 
-		char num[6];
+		char num[25];
 		std::string txt;
 		txt = "Material name: ";
 		std::string str;
@@ -216,38 +216,38 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		
 
 		txt = "Ambient color: ";
-		sprintf(num, "%d", expMat.ambientColor[0]);
+		sprintf(num, "%f", expMat.ambientColor[0]);
 		str = txt + num + " ";
-		sprintf(num, "%d", expMat.ambientColor[1]);
+		sprintf(num, "%f", expMat.ambientColor[1]);
 		str += std::string(num) + " ";
-		sprintf(num, "%d", expMat.ambientColor[2]);
+		sprintf(num, "%f", expMat.ambientColor[2]);
 		str += std::string(num) + "\r\n";
 
 		outFile.write(str.c_str(), str.length());
 
 		txt = "Diffuse color: ";
-		sprintf(num, "%d", expMat.diffuseColor[0]);
+		sprintf(num, "%f", expMat.diffuseColor[0]);
 		str = txt + num + " ";
-		sprintf(num, "%d", expMat.diffuseColor[1]);
+		sprintf(num, "%f", expMat.diffuseColor[1]);
 		str += std::string(num) + " ";
-		sprintf(num, "%d", expMat.diffuseColor[2]);
+		sprintf(num, "%f", expMat.diffuseColor[2]);
 		str += std::string(num) + "\r\n";
 
 		outFile.write(str.c_str(), str.length());
 
 		txt = "Specular color: ";
-		sprintf(num, "%d", expMat.specularColor[0]);
+		sprintf(num, "%f", expMat.specularColor[0]);
 		str = txt + num + " ";
-		sprintf(num, "%d", expMat.specularColor[1]);
+		sprintf(num, "%f", expMat.specularColor[1]);
 		str += std::string(num) + " ";
-		sprintf(num, "%d", expMat.specularColor[2]);
+		sprintf(num, "%f", expMat.specularColor[2]);
 		str += std::string(num) + "\r\n";
 
 		outFile.write(str.c_str(), str.length());
 
 
 		txt = "Shinyfactor: ";
-		sprintf(num, "%d", expMat.shinyFactor);
+		sprintf(num, "%f", expMat.shinyFactor);
 		str = txt + std::string(num) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
@@ -262,7 +262,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 
 
 		txt = "Normal texture name: ";
-		str = txt + std::string(expMat.normalTextureFilePath) + "\r\n";
+		str = txt + std::string(expMat.normalTextureFilePath) + "\n";
 		outFile.write(str.c_str(), str.length());
 
 		//str = std::string(txt +  + '\n');
@@ -383,6 +383,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 				animationLayerCounter += imScene.modelList[i].skeletonList[j].jointList[k].animationState.size();;
 			}
 		}
+		imScene.modelList;
 		//Animation states
 		for (int j = 0; j < imScene.modelList[i].skeletonList.size(); j++)
 		{

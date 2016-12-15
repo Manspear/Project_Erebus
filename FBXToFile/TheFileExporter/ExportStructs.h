@@ -3,6 +3,8 @@
 #include <array>
 #include "fileEnums.h"
 
+#define NOTSET -1337
+
 struct sOffset
 {
 	int joint, vertex, index, skeletonVertex;
@@ -14,7 +16,7 @@ struct sTransform
 	float rot[3];
 	float scale[3];
 
-	eObjectType childType = NOTSET;
+	eObjectType childType = NOTYPE;
 	int modelIndex;
 	int childID;
 };
