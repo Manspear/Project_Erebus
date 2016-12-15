@@ -3,7 +3,7 @@
 #include <array>
 #include "fileEnums.h"
 #include "ExportStructs.h"
-#define NOTSET -1337
+
 //struct sTransform
 //{
 //	float pos[3];
