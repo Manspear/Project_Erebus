@@ -1,6 +1,6 @@
 #include "Material.h"
 
-Material::Material(Importer::Assets* asset, const char* diffusePath, const char* specularPath, const char* normalPath, float shiny, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
+Material::Material(Importer::Assets* asset, const char* diffusePath, const char* normalPath, const char* specularPath, float shiny, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
 {
 	this->shinyFactor = shiny;
 
@@ -35,33 +35,31 @@ void Material::bindTextures(GLuint program)
 	{
 		diffuseTexture->bind(GL_TEXTURE0);
 		
-		glUniform1i(diffuseUnifrom, GL_TEXTURE0);
+		glUniform1i(diffuseUnifrom, 0);
 		glUniform1i(hasDiffuseUnifrom, 1);
 	}
 	else
 		glUniform1i(hasDiffuseUnifrom, 0);
 
-	
-	if (specularTextureFilePath != "")
-	{
-		specularTexture->bind(GL_TEXTURE1);
-		
-		glUniform1i(specularUnifrom, GL_TEXTURE1);
-		glUniform1i(hasSpecularUnifrom, 1);
-	}
-	else
-		glUniform1i(hasSpecularUnifrom, 0);
-
-	
 	if (normalTextureFilePath != "")
 	{
-		normalTexture->bind(GL_TEXTURE2);
-		
-		glUniform1i(normalUnifrom, GL_TEXTURE2);
+		normalTexture->bind(GL_TEXTURE1);
+
+		glUniform1i(normalUnifrom, 1);
 		glUniform1i(hasNormalUnifrom, 1);
 	}
 	else
 		glUniform1i(hasNormalUnifrom, 0);
+	
+	if (specularTextureFilePath != "")
+	{
+		specularTexture->bind(GL_TEXTURE2);
+		
+		glUniform1i(specularUnifrom, GL_TEXTURE2);
+		glUniform1i(hasSpecularUnifrom, 1);
+	}
+	else
+		glUniform1i(hasSpecularUnifrom, 0);
 }
 
 void Material::bindMaterial(GLuint program)

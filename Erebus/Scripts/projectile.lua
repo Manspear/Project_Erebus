@@ -5,10 +5,11 @@ function CreateProjectile()
 	projectile.damage = 5
 	projectile.lifeTime = PROJECTILE_LIFETIME
 	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
+	projectile.particleID = createFireball()
 	CollisionHandler.AddSphere(projectile.sphereCollider)
 
-local projectileModel = Assets.LoadModel( "Models/cony.model" )
-Gear.AddStaticInstance(projectileModel, projectile.transformID)
+	local projectileModel = Assets.LoadModel( "Models/cony.model" )
+	Gear.AddStaticInstance(projectileModel, projectile.transformID)
 	function projectile:Cast()
 		self.position = Transform.GetPosition(player.transformID)
 		self.direction = Camera.GetDirection()--Transform.GetLookAt(player.transformID)
@@ -19,18 +20,20 @@ Gear.AddStaticInstance(projectileModel, projectile.transformID)
 		self.alive = true
 		self.lifeTime = PROJECTILE_LIFETIME
 		Transform.SetPosition(self.transformID, self.position)
+	Particle.SetAlive(projectile.particleID, true)
 	end
 
 
 	function projectile:Update(dt)
-
 		local height = heightmap:GetHeight(self.position.x, self.position.z)
+	Particle.SetPosition(projectile.particleID, self.position.x, self.position.y, self.position.z)
 		if self.position.y <= height then
 			self:Kill()
 		end
 
 		self.lifeTime = self.lifeTime - dt
 		if self.lifeTime <= 0 then
+		Particle.SetAlive(projectile.particleID, false)
 			self:Kill()
 		end
 
@@ -39,7 +42,7 @@ Gear.AddStaticInstance(projectileModel, projectile.transformID)
 			for curEnemy=1, MAX_ENEMIES do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 					self:Kill()
-
+				Particle.SetAlive(projectile.particleID, false)
 					enemies[curEnemy]:Hurt(self.damage)
 				end
 

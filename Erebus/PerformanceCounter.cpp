@@ -1,6 +1,6 @@
 #include "PerformanceCounter.h"
-
-PerformanceCounter::PerformanceCounter()
+#include <iostream>
+PerformanceCounter::PerformanceCounter():frameTime(0.0), frameCounter(0)
 {
 	startCounter();
 }
@@ -35,8 +35,21 @@ double PerformanceCounter::getDeltaTime()
 	double elapsedTime;
 
 	QueryPerformanceCounter(&timeStamp);
-	elapsedTime = double(timeStamp.QuadPart - last.QuadPart) / frequency;
+	deltaTime = double(timeStamp.QuadPart - last.QuadPart) / frequency;
 	last = timeStamp;
 
-	return elapsedTime;
+	return deltaTime;
+}
+
+void PerformanceCounter::displayFPS()
+{
+	frameCounter++;
+	frameTime += deltaTime;
+	if (frameTime >= 1.0)
+	{
+ 		double fps = double(frameCounter) / frameTime;
+		std::cout << "FPS: " << fps << std::endl;
+		frameTime -= 1.0;
+		frameCounter = 0;
+	}
 }

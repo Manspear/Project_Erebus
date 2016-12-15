@@ -59,7 +59,7 @@ void LevelEditor::start() {
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 	engine.bindTransforms(&allTransforms, &boundTransforms);
 	LuaBinds luaBinds;
-	luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
+	//luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
 	bool playerAlive = true;
 
 	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");

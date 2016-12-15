@@ -21,7 +21,6 @@ namespace Gear
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
-		particleSystems = &defaultParticleList;
 
 		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA };
 		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA };
@@ -90,6 +89,8 @@ namespace Gear
 
 			light.pos = glm::vec4(position,1);
 			light.color = glm::vec4(dis(gen), dis(gen), dis(gen),1);
+			//DISCO
+			color[i] = glm::vec3(light.color);
 			light.radius.z = LIGHT_RADIUS;
 		}
 
@@ -114,45 +115,6 @@ namespace Gear
 			delete debuggers[i];
 		}
 
-	}
-
-	void GearEngine::draw(Camera* camera, std::vector<ModelInstance>* instances)
-	{
-		/* Render here */
-
-		//TEMP--------
-		//renderElements[0]->id = RenderQueueId(FORWARD, 0);
-		//renderElements[1]->id = RenderQueueId(FORWARD, 0);
-		//renderElements[3]->id = RenderQueueId(FORWARD, 0);
-		//------------
-
-		//renderQueue.updateUniforms(camera);
-		//renderQueue.update(transformArray, transformIndexArray, *transformCount, transformLookAts);
-		//renderQueue.draw(instances);
-
-		gBuffer.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(instances, animatedModels);
-		gBuffer.unUse();
-
-		lightPass(camera);
-
-		
-
-		//renderQueue.process( renderElements );
-		//for (size_t i = 0; i < statModels.size(); i++)
-		//{
-		//	ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
-		//	tempProgram->use();
-		//	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		//	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
-		//	tempProgram->addUniform(camera->getPosition(), "viewPos");
-		//	tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
-		//	statModels.at(i)->draw();
-		//	tempProgram->unUse();
-		//}
-
-		
 	}
 
 	bool GearEngine::isRunning() {
@@ -231,7 +193,7 @@ namespace Gear
 		animatedModels = models;
 	}
 
-	void GearEngine::queueParticles(std::vector<ParticleSystem>* particles)
+	void GearEngine::queueParticles(std::vector<ParticleSystem*>* particles)
 	{
 		particleSystems = particles;
 	}
@@ -259,12 +221,26 @@ namespace Gear
 			float min = LIGHT_MIN_BOUNDS[1];
 			float max = LIGHT_MAX_BOUNDS[1];
 
-			light.pos.y = fmod((light.pos.y + (-0.5f) - min + max), max) + min;
+			glm::vec3 pos;
+
+			pos.y = fmod((light.pos.y + (-1.f) - min + max), max) + min;
+
+			min = LIGHT_MIN_BOUNDS[0];
+			max = LIGHT_MAX_BOUNDS[0];
+
+			pos.x = fmod((light.pos.x + (-1.f) - min + max), max) + min;
+
+			min = LIGHT_MIN_BOUNDS[2];
+			max = LIGHT_MAX_BOUNDS[2];
+
+			pos.z = fmod((light.pos.z + (-1.f) - min + max), max) + min;
+
+			light.pos = glm::vec4(pos,1);
+			endPos[i] = pos;
+
 		}
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//queue.pickingPass(dynamicModels);
 
 
 		gBuffer.use();
@@ -273,30 +249,15 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels);
 		
 		gBuffer.unUse();
-		
-		
-		
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		//--TEMP---
-		/*for (size_t i = 0; i < statModels.size(); i++)
-		{
-			ShaderProgram* tempProgram = statModels.at(i)->getShaderProgram();
-			tempProgram->use();
-			tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-			tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
-			tempProgram->addUniform(camera->getPosition(), "viewPos");
-			tempProgram->addUniform(statModels.at(i)->getWorldMat(), "worldMatrix");
 
-			statModels.at(i)->draw();
-			tempProgram->unUse();
-		}*/
-		//---------
-		//pickingPass();
-
+		//DISCO debuger lines
 		lightPass(camera);
-		Debugger::getInstance()->drawSphere(glm::vec3(123, -10, 123), 20);
-
+		/*for (int i = 0; i < NUM_LIGHTS; i++) {
+			if(i < NUM_LIGHTS/2)
+				Debugger::getInstance()->drawLine(glm::vec3(0, 50, 255), endPos[i], color[i]);
+			else
+				Debugger::getInstance()->drawLine(glm::vec3(255, 50, 255), endPos[i], color[i]);
+		}*/
 
 		glDisable(GL_DEPTH_TEST);
 		
@@ -304,13 +265,9 @@ namespace Gear
 		queue.particlePass(particleSystems);
 		glEnable(GL_DEPTH_TEST);
 
-		
-
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
-		particleSystems = &defaultParticleList;
-
 		text.draw();
 	}
 
