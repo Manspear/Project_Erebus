@@ -63,7 +63,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 	
-	window.changeCursorStatus(false);
+	//window.changeCursorStatus(false);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
@@ -116,9 +116,10 @@ int main()
 			engine.setDrawMode(7);
 
 
-		window.update();
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.f, 720.f);
+
+		window.update();
 	}
 
 	luaBinds.unload();

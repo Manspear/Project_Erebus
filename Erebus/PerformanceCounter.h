@@ -17,8 +17,8 @@ private:
 	double frequency = 0.0;
 	LARGE_INTEGER start, last;
 
-	double frameTime;
-	double deltaTime;
-	int fps;
-	size_t frameCounter;
+	double frameTime = 0.0f;
+	double deltaTime = 0.0f;
+	int fps = -1;
+	size_t frameCounter = 0;
 };
