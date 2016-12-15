@@ -215,7 +215,8 @@ namespace Importer
 	{
 		bool result = false;
 
-		heightMulti = 0.5f;
+		//heightMulti = 0.5f;
+		heightMulti = 0.09544921875f;
 		widthMulti = 1.0f;
 		breadthMulti = 1.0f;
 
@@ -241,7 +242,7 @@ namespace Importer
 			pos = glm::vec3( 0, 0, 0 );
 
 			model.header.numMeshes = 1;
-			model.header.TYPE = 0; // 0 = static, 1 = dynamic/animated
+			model.header.TYPE = eModelType::STATIC; // 0 = static, 1 = dynamic/animated
 
 			model.dataptr = malloc( sizeof(GLuint)*2 + sizeof(int) );
 			model.vertexBuffers = (GLuint*)model.dataptr;

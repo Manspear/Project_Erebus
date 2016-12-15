@@ -50,7 +50,7 @@ int main()
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
 	Importer::MaterialAsset* material = assets.load<MaterialAsset>( "Materials/lambert1.material" );
 
 	std::vector<ModelInstance> models;
@@ -65,7 +65,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 	
-	window.changeCursorStatus(false);
+	//window.changeCursorStatus(false);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
@@ -77,9 +77,10 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
-	
+
 	PerformanceCounter counter;
 	double deltaTime;
+	bool lockMouse = false;
 	while (running && window.isWindowOpen())
 	{	
 		deltaTime = counter.getDeltaTime();
@@ -101,25 +102,38 @@ int main()
 
 		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
 			running = false;
-		/*
-		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
+		
+		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
 			engine.setDrawMode(1);
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_2 ))
+		else if( inputs.keyPressedThisFrame( GLFW_KEY_K ))
 			engine.setDrawMode(2);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_L))
 			engine.setDrawMode(3);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_4))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_P))
 			engine.setDrawMode(4);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_5))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_N))
 			engine.setDrawMode(5);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
 			engine.setDrawMode(6);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine.setDrawMode(7);*/
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
+		{
+			if (lockMouse)
+			{
+				window.changeCursorStatus(false);
+				lockMouse = false;
+			}
+			else
+			{
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
+		}
 
+
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.f, 720.f);
 
 		window.update();
-		counter.displayFPS();
 	}
 
 	luaBinds.unload();

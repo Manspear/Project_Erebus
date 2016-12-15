@@ -14,6 +14,8 @@ namespace Importer
 
 	bool MaterialAsset::load( std::string path, Assets* assets )
 	{
+		bool result = false;
+
 		const int BUFFER_LEN = 64;
 		char buffer[BUFFER_LEN];
 
@@ -88,7 +90,10 @@ namespace Importer
 			delete[] text;
 
 			fclose( file );
+			result = true;
 		}
+
+		return result;
 	}
 
 	void MaterialAsset::unload()

@@ -303,6 +303,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int numInstance = 0;
 
 		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		// TEMP: Shouldn't have any models without material
+		if( modelAsset->getMaterial() )
 		modelAsset->getMaterial()->bindTextures( allShaders[GEOMETRY]->getProgramID() );
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)

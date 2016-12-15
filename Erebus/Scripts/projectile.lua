@@ -8,7 +8,7 @@ function CreateProjectile()
 	projectile.particleID = createFireball()
 	CollisionHandler.AddSphere(projectile.sphereCollider)
 
-	local projectileModel = Assets.LoadModel( "Models/cony.model" )
+	local projectileModel = Assets.LoadModel( "Models/Robot.model" )
 	Gear.AddStaticInstance(projectileModel, projectile.transformID)
 	function projectile:Cast()
 		self.position = Transform.GetPosition(player.transformID)
