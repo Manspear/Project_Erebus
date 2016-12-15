@@ -98,7 +98,7 @@ unsigned int SphereCollider::getID() const
 	return this->ID;
 }
 
-unsigned int SphereCollider::getIDTransform() const
+int SphereCollider::getIDTransform() const
 {
 	return this->IDTransform;
 }

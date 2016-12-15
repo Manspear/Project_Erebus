@@ -14,7 +14,7 @@ public:
 
 	//overrides
 	unsigned int getID() const override; // copy elision makes this fast? RVO - NRVO
-	unsigned int getIDTransform() const override;
+	int getIDTransform() const override;
 	std::vector<unsigned int>* getIDCollisionsRef() override;
 	void insertCollisionID(unsigned int collisionID) override;
 	void clearCollisionIDs() override;

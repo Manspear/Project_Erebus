@@ -59,7 +59,7 @@ unsigned int AABBCollider::getID() const
 	return this->ID;
 }
 
-unsigned int AABBCollider::getIDTransform() const
+int AABBCollider::getIDTransform() const
 {
 	return this->IDTransform;
 }

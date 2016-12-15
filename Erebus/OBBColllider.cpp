@@ -16,7 +16,7 @@ unsigned int OBBColllider::getID() const
 	return this->ID;
 }
 
-unsigned int OBBColllider::getIDTransform() const
+int OBBColllider::getIDTransform() const
 {
 	return this->IDTransform;
 }
