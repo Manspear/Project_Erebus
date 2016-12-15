@@ -1,7 +1,7 @@
 #version 420 core
 
 layout(points) in;
-layout(line_strip, max_vertices = 128) out;
+layout(line_strip, max_vertices = 64) out;
 
 
 in vec4 vPos1[];
@@ -12,7 +12,7 @@ out vec3 gColor;
 
 const float PI = 3.1415926;
 const int totalDegree = 360;
-const int linesPerSphere = 32;
+const int linesPerSphere = 16;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;

@@ -42,6 +42,7 @@ Debug::Debug()
 	//glm::rotate()
 	totalDebugLines = 0;
 	totalDebugSpheres = 0;
+	totalDebugAABBs = 0;
 }
 
 
@@ -91,8 +92,13 @@ void Debug::drawLine(glm::vec3 start, glm::vec3 dest, glm::vec3 color)
 	//this->objectsToDraw.push_back(new ObjectsToDraw(objectToDrawTemp, color));
 }
 
-void Debug::drawCube(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color)
+void Debug::drawAABB(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color)
 {
+
+	debugAABBs[totalDebugAABBs].minPos = minPos;
+	debugAABBs[totalDebugAABBs].maxPos = maxPos;
+	debugAABBs[totalDebugAABBs].color = color;
+	totalDebugAABBs++;
 	//std::vector<staticNonModels*> objectToDrawTemp;
 	//glm::vec3 nearBotRight = glm::vec3(maxPos.x, minPos.y, minPos.z);
 	//glm::vec3 nearBotLeft = minPos;
@@ -175,12 +181,21 @@ int Debug::getTotalSpheres()
 	return totalDebugSpheres;
 }
 
+int Debug::getTotalAABBs()
+{
+	return totalDebugAABBs;
+}
+
 debugLineStruct *Debug::getDebugLines() {
 	return this->debugLines;
 }
 
 debugSphereStruct *Debug::getDebugSpheres() {
 	return this->debugSpheres;
+}
+
+debugAABBStruct *Debug::getDebugAABBs() {
+	return this->debugAABBs;
 }
 
 staticNonModels* Debug::createLine(const glm::vec3 &start, const glm::vec3 &end)
@@ -362,6 +377,7 @@ void Debug::clear()
 {
 	totalDebugLines = 0;
 	totalDebugSpheres = 0;
+	totalDebugAABBs = 0;
 	//for (size_t i = 0; i < objectsToDraw.size(); i++)
 	//{
 	//	

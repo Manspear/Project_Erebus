@@ -257,6 +257,15 @@
     <None Include="Shaders\debugSphere.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\debugAABB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

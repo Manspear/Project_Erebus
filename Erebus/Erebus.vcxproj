@@ -195,6 +195,9 @@
     <None Include="Scripts\test.lua" />
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\debugAABB.frag" />
+    <None Include="Shaders\debugAABB.geom" />
+    <None Include="Shaders\debugAABB.vert" />
     <None Include="Shaders\debugLine.frag" />
     <None Include="Shaders\debugLine.vert" />
     <None Include="Shaders\debugLine.geom" />

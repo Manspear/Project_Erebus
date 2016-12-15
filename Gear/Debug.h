@@ -33,7 +33,7 @@ public:
 
 
 };
-
+#pragma region struct_debug
 struct debugLineStruct {
 	glm::vec3 start, end, color;
 
@@ -63,6 +63,22 @@ struct debugSphereStruct {
 	}
 };
 
+struct debugAABBStruct {
+	glm::vec3 minPos, maxPos, color;
+
+	debugAABBStruct(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 color) {
+		this->minPos = minPos;
+		this->maxPos = maxPos;
+		this->color = color;
+	}
+
+	debugAABBStruct() {
+
+	}
+};
+#pragma endregion struct_debugs
+
+
 class Debug
 {
 	
@@ -74,10 +90,12 @@ public:
 private:
 	
 	GLuint VAO, VBO;
-	debugLineStruct debugLines[150000];
-	debugSphereStruct debugSpheres[50000];
+	debugLineStruct debugLines[1000];
+	debugSphereStruct debugSpheres[10000];
+	debugAABBStruct debugAABBs[65000];
 	int totalDebugLines;
 	int totalDebugSpheres;
+	int totalDebugAABBs;
 	std::vector<ObjectsToDraw*> objectsToDraw;
 	//std::vector<staticNonModels*> objectsToDraw;
 	staticNonModels* createLine(const glm::vec3 &start, const glm::vec3 &end);
@@ -100,7 +118,7 @@ public:
 		minPos indicates near bot left corner
 		maxPos indicated far top right corner
 	*/
-	GEAR_API void drawCube(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color = glm::vec3(0, 1, 0));
+	GEAR_API void drawAABB(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color = glm::vec3(0, 1, 0));
 	//Draws a sphere at give poisiton and radius
 	GEAR_API void drawSphere(const glm::vec3 position, const float radius, glm::vec3 color = glm::vec3(0, 1, 0));
 
@@ -108,8 +126,10 @@ public:
 
 	GEAR_API int getTotalLines();
 	GEAR_API int getTotalSpheres();
+	GEAR_API int getTotalAABBs();
 	GEAR_API debugLineStruct *getDebugLines();
 	GEAR_API debugSphereStruct *getDebugSpheres();
+	GEAR_API debugAABBStruct *getDebugAABBs();
 };
 
 namespace Debugger {
