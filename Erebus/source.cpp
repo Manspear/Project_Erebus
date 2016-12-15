@@ -20,7 +20,6 @@
 #include "Ray.h"
 #include "FontAsset.h"
 #include "MaterialAsset.h"
-//#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -35,6 +34,7 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	
 	Window window;
 	Gear::GearEngine engine;
 
@@ -49,6 +49,8 @@ int main()
 		transforms[i].setThePtr(&allTransforms[i]);
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
+
+	engine.addDebugger(Debugger::getInstance());
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
 	Importer::MaterialAsset* material = assets.load<MaterialAsset>( "Materials/lambert1.material" );
@@ -96,7 +98,6 @@ int main()
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
-
 
 		engine.draw(&camera);
 
