@@ -28,7 +28,7 @@ function LoadPlayer()
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
 
-	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
+	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/Robot.model")
