@@ -135,6 +135,8 @@ int main()
 		engine.print(fps, 0.f, 720.f);
 
 		window.update();
+
+		assets.checkHotload( deltaTime );
 	}
 
 	luaBinds.unload();
