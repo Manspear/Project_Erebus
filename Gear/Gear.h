@@ -9,6 +9,7 @@
 #include "Debug.h"
 #include "TextRenderer.h"
 #include "Material.h"
+#include "DebugHandler.h"
 namespace Gear
 {
 
@@ -53,9 +54,9 @@ namespace Gear
 		GEAR_API void lightPass(Camera* camera);
 		void pickingPass();
 
-		const int NUM_LIGHTS = 50;
-		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f);
-		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 80.0f, 255.0f);
+		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
+		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
+		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
 
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
@@ -74,15 +75,14 @@ namespace Gear
 		ShaderProgram *lightPassShader;
 
 		ShaderProgram gBuffer;
-		const int NUM_POINT_LIGHTS = 50;
 		std::vector<Lights::DirLight> dirLights;
 		GLuint lightBuffer = 0;
 		//temp debug variable
-		int drawMode = 2;
+		int drawMode = 1;
 
 		//TEMP: Disco party
-		glm::vec3 endPos[50];
-		glm::vec3 color[50];
+		//glm::vec3 endPos[50];
+		//glm::vec3 color[50];
 
 		void drawQuad();
 		std::vector<ModelInstance>* staticModels;
@@ -92,7 +92,7 @@ namespace Gear
 
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
-		std::vector<Debug*> debuggers;
+		DebugHandler* debugHandler;
 
 		void updateDebug(Camera* camera);
 	};

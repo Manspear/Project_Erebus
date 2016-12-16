@@ -557,7 +557,7 @@ void CollisionHandler::drawHitboxes()
 		}
 		for (size_t j = 0; j < tempAabbColliders->size(); j++)
 		{
-			debugger->drawCube(tempAabbColliders->operator[](j)->getMinPos(), tempAabbColliders->operator[](j)->getMaxPos(),this->colors[i]);
+			debugger->drawAABB(tempAabbColliders->operator[](j)->getMinPos(), tempAabbColliders->operator[](j)->getMaxPos(),this->colors[i]);
 		}
 	}
 }

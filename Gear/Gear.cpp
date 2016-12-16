@@ -22,45 +22,28 @@ namespace Gear
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 
-		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA };
-		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA };
-		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT };
+		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA }; //Format for texture in gBuffer
+		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
+		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
 
-		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);
-		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
-		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass");
+		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
+		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
+		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
 
 		//Generate buffers
-		glGenBuffers(1, &lightBuffer);
+		glGenBuffers(1, &lightBuffer); //Generate buffer to light data
 
 		//bind light buffer
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(Lights::PointLight), 0, GL_DYNAMIC_DRAW);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind buffer
+		glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(Lights::PointLight), 0, GL_DYNAMIC_DRAW); //allocate size of buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); //unbind buffer
 
-
-		/*Lights::PointLight light;
-
-		light.pos = glm::vec3(0, 0, 0);
-
-		light.color = glm::vec3(1, 0.05, 0.5);
-
-		light.radius = 30;
-		pointLights.push_back(light);
-
-		light.pos = glm::vec3(2, 0, 0);
-
-		light.color = glm::vec3(1, 0.4, 0);
-
-		light.radius = 30;*/
-		/*pointLights.push_back(light);*/
-
-		Lights::DirLight dirLight;
+		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 
-		dirLights.push_back(dirLight);
+		dirLights.push_back(dirLight); //save it to buffer
 
 		//TEMP LIGHT INIT:
 
@@ -68,36 +51,37 @@ namespace Gear
 		std::mt19937 gen(rd());
 		std::uniform_real_distribution<> dis(0, 1);
 
-		const int LIGHT_RADIUS = 30;
+		const int LIGHT_RADIUS = 30; //Radius of lights
 
 		if (lightBuffer == 0) {
 			return;
 		}
 
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
-		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
 
 		for (int i = 0; i < NUM_LIGHTS; i++) {
-			Lights::PointLight &light = pointLightsPtr[i];
+			Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
 
 			glm::vec3 position = glm::vec3(0.0);
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) { // calculate random pos for light
 				float min = LIGHT_MIN_BOUNDS[i];
 				float max = LIGHT_MAX_BOUNDS[i];
 				position[i] = (GLfloat)dis(gen) * (max - min) + min;
 			}
 
 			light.pos = glm::vec4(position,1);
-			light.color = glm::vec4(dis(gen), dis(gen), dis(gen),1);
+			light.color = glm::vec4(dis(gen), dis(gen), dis(gen),1); //give the light a random color between 0 and 1
 			//DISCO
-			color[i] = glm::vec3(light.color);
-			light.radius.z = LIGHT_RADIUS;
+			/*color[i] = glm::vec3(light.color);
+			light.radius.z = LIGHT_RADIUS;*/
 		}
 
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); 
 
-		addDebugger(Debugger::getInstance());
+		debugHandler = new DebugHandler();
+		debugHandler->addDebuger(Debugger::getInstance());
 	}
 
 	GearEngine::~GearEngine()
@@ -110,10 +94,7 @@ namespace Gear
 		delete quadShader;
 		delete lightPassShader;
 
-		for (size_t i = 0; i < debuggers.size(); i++)
-		{
-			delete debuggers[i];
-		}
+		delete debugHandler;
 
 	}
 
@@ -128,7 +109,7 @@ namespace Gear
 
 	void GearEngine::drawQuad()
 	{
-		if (quadVAO == 0) {
+		if (quadVAO == 0) { //just draws a quad on the screen
 			GLfloat quadVertices[] = {
 				-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 				-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
@@ -212,8 +193,8 @@ namespace Gear
 		//queue.forwardPass(staticModels, dynamicModels);
 		//queue.particlePass(particleSystems);
 
-		//Disco party!!!
-
+		//Disco party!!! moves the lights around and is fun
+		/*
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
 		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE);
 		for (int i = 0; i < NUM_LIGHTS; i++) {
@@ -241,17 +222,17 @@ namespace Gear
 		}
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
+		*/
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		queue.geometryPass(dynamicModels, animatedModels);
+		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		
 		gBuffer.unUse();
 
+		lightPass(camera); //renders the texture with light calculations
 		//DISCO debuger lines
-		lightPass(camera);
 		/*for (int i = 0; i < NUM_LIGHTS; i++) {
 			if(i < NUM_LIGHTS/2)
 				Debugger::getInstance()->drawLine(glm::vec3(0, 50, 255), endPos[i], color[i]);
@@ -259,11 +240,15 @@ namespace Gear
 				Debugger::getInstance()->drawLine(glm::vec3(255, 50, 255), endPos[i], color[i]);
 		}*/
 
-		glDisable(GL_DEPTH_TEST);
+		//glDisable(GL_DEPTH_TEST);
+
+		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
+		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
+		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
 		updateDebug(camera);
 		queue.particlePass(particleSystems);
-		glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH_TEST);
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -309,35 +294,30 @@ namespace Gear
 	{
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0); //binds textures
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
-		lightPassShader->addUniform(drawMode, "drawMode");
+		lightPassShader->addUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 
-		for (GLuint i = 0; i < dirLights.size(); i++)
+		for (GLuint i = 0; i < dirLights.size(); i++) //adds dir light
 		{
 			lightPassShader->addUniform(dirLights[i].direction, ("dirLights[" + std::to_string(i) + "].direction").c_str());
 			lightPassShader->addUniform(dirLights[i].color, ("dirLights[" + std::to_string(i) + "].color").c_str());
 		}
 
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, lightBuffer);
-		drawQuad();
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, lightBuffer); //binds the light buffer to the shader
+		drawQuad(); //draws quad
 
 		lightPassShader->unUse();
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
 	}
 	void GearEngine::updateDebug(Camera* camera) {
-		ShaderProgram* tempProgram;
+		debugHandler->update(camera, &queue);
 
-		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
-		for (size_t i = 0; i < debuggers.size(); i++)
-		{
-			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
-		}
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {
-		this->debuggers.push_back(debugger);
+		debugHandler->addDebuger(debugger);
 	}
 }
