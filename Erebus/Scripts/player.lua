@@ -10,6 +10,7 @@ function LoadPlayer()
 	player.canJump = false
 	player.health = 100
 	player.animation = Animation.Create()
+	player.gameOver = false
 	
 	-- set spells for player
 	player.spells = {}
@@ -101,9 +102,11 @@ function UpdatePlayer(dt)
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
 	for curID=1, #collisionIDs do
 		if collisionIDs[curID] == goal.collider:GetID() then
-			print("You Win")
+			player.gameOver = true
 		end
 	end
+
+	if player.gameOver == true then print("You win!")
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
