@@ -209,7 +209,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 		ModelAsset* modelAsset = dynamicModels ->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
-		dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
@@ -240,24 +240,36 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 	//glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
+	//GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
 	glUniform1f(loc, 0.5);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 	Color c;
+	TextureAsset* tA;
+	glm::vec3* pos;
+
 	for (size_t i = 0; i < particleSystems->size(); i++)
 	{
 		if (particleSystems->at(i)->isActive)
 		{
-			c = particleSystems->at(i)->getColor();
-			glUniform3f(loc2, c.r, c.g, c.b );
+			
+			//c = particleSystems->at(i)->getColor();
+			//glUniform3f(loc2, c.r, c.g, c.b );
+			pos = particleSystems->at(i)->getPositions();
+			particleSystems->at(i)->getTexture()->bind(GL_TEXTURE0);
 			size_t ParticleCount = particleSystems->at(i)->getNrOfActiveParticles();
+
 			glBindBuffer(GL_ARRAY_BUFFER, particleSystems->at(i)->getPartVertexBuffer());
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &particleSystems->at(i)->getPositions()[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
 			glEnableVertexAttribArray(0);
 			glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
 		}
 	}
 	allShaders[PARTICLES]->unUse();
+	glDisable(GL_BLEND);
 	//glEnable(GL_DEPTH_TEST);
 }
 
@@ -313,7 +325,11 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		// TEMP: Shouldn't have any models without material
+		if( modelAsset->getMaterial() )
+		modelAsset->getMaterial()->bindTextures( allShaders[GEOMETRY]->getProgramID() );
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
@@ -355,7 +371,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
+		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
+		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		{
@@ -407,7 +424,8 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
+		modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{

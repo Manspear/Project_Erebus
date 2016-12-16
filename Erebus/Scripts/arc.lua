@@ -10,7 +10,7 @@ function CreateArc()
 	arc.lifeTime = ARC_LIFETIME
 
 	arc.damage = 5
-	local arcModel = Assets.LoadModel( "Models/Robot.model" )
+	local arcModel = Assets.LoadModel( "Models/testGuy.model" )
 	arc.sphereCollider = SphereCollider.Create(arc.transformID)
 	CollisionHandler.AddSphere(arc.sphereCollider)
 

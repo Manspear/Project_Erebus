@@ -214,10 +214,13 @@ namespace Importer
 	bool HeightMap::load( std::string path, Assets* assets )
 	{
 		bool result = false;
-
-		heightMulti = 0.1f;
-		widthMulti = 1.0f;
-		breadthMulti = 1.0f;
+		//Highest point, Lowest point
+		float highestPoint = 14.73f;
+		float lowestPoint = 25.f;
+		heightMulti = 1.0f;
+		widthMulti = 2.0f;
+		breadthMulti = 2.0f;
+		//255, 24.435
 
 		//ImageAsset* map = assets->load<ImageAsset>( path );
 		ImageAsset map;
@@ -230,9 +233,9 @@ namespace Importer
 			for( size_t i = 0; i<mapWidth; i++ )
 				heightData[i] = new float[mapHeight];
 
-			for( size_t y = 0; y<mapHeight; y++ )
-				for( size_t x = 0; x<mapWidth; x++ )
-					heightData[x][y] = map.getPixelValue(x,y).red*heightMulti;
+			for (size_t y = 0; y < mapHeight; y++)
+				for (size_t x = 0; x < mapWidth; x++)
+					heightData[x][y] = map.getPixelValue(x, y).red;
 
 			minX = minZ = 0;
 			maxX = (mapWidth-1)*widthMulti;
@@ -259,7 +262,7 @@ namespace Importer
 				for( size_t x = 0; x<mapWidth; x++, vertexIndex++ )
 				{
 					vertexData[vertexIndex].position[0] = x *							widthMulti;
-					vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red*	heightMulti;
+					vertexData[vertexIndex].position[1] = 1; 
 					vertexData[vertexIndex].position[2] = y *							breadthMulti;
 
 					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);
@@ -306,6 +309,8 @@ namespace Importer
 			delete[] vertexData;
 
 			result = true;
+
+			model.material = assets->load<MaterialAsset>( "Materials/heightmap.material" );
 		}
 
 		return result;
@@ -338,47 +343,47 @@ namespace Importer
 		}
 	}
 
-	/*float HeightMap::getPos(float x, float z)
-	{
-		if (x < minX || z < minZ
-			|| x>= maxX || z>= maxZ)
-			return -50;
+	//float HeightMap::getPos(float x, float z)
+	//{
+	//	if (x < minX || z < minZ
+	//		|| x>= maxX || z>= maxZ)
+	//		return -50;
 
-		x /= widthMulti;
-		z /= breadthMulti;
+	//	x /= widthMulti;
+	//	z /= breadthMulti;
 
-		float returnVal = 0;
-		int xLow, xHigh;
-		int zLow, zHigh;
-		float xDec, zDec;
+	//	float returnVal = 0;
+	//	int xLow, xHigh;
+	//	int zLow, zHigh;
+	//	float xDec, zDec;
 
-		float tempXLow, tempZLow;
-
-
-		xDec = modf(x, &tempXLow);
-		zDec = modf(z, &tempZLow);
-		xLow = tempXLow;
-		zLow = tempZLow;
-		xHigh = xLow + 1;
-		zHigh = zLow + 1;
-
-		float topLeftH, topRightH, botLeftH, botRightH;
-
-		float amountTopLeft = ((1 - xDec) + (1 - zDec)) *.5f;
-		float amountTopRight = ((xDec) + (1 - zDec)) * .5;
-		float amountBotLeft = ((1 - xDec) + (zDec)) * .5f;
-		float amountBotRight = ((xDec)+(zDec)) * .5f;
-
-		topLeftH = getHardPosAt(xLow, zHigh) * amountTopLeft;
-		topRightH = getHardPosAt(xHigh, zHigh) * amountTopRight;
-		botLeftH = getHardPosAt(xLow, zLow) * amountBotLeft;
-		botRightH = getHardPosAt(xHigh, zLow) * amountBotRight;
+	//	float tempXLow, tempZLow;
 
 
-		returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
-		return returnVal;
-	}
-	*/
+	//	xDec = modf(x, &tempXLow);
+	//	zDec = modf(z, &tempZLow);
+	//	xLow = tempXLow;
+	//	zLow = tempZLow;
+	//	xHigh = xLow + 1;
+	//	zHigh = zLow + 1;
+
+	//	float topLeftH, topRightH, botLeftH, botRightH;
+
+	//	float amountTopLeft = ((1 - xDec) + (1 - zDec)) *.5f;
+	//	float amountTopRight = ((xDec) + (1 - zDec)) * .5;
+	//	float amountBotLeft = ((1 - xDec) + (zDec)) * .5f;
+	//	float amountBotRight = ((xDec)+(zDec)) * .5f;
+
+	//	topLeftH = getHardPosAt(xLow, zHigh) * amountTopLeft;
+	//	topRightH = getHardPosAt(xHigh, zHigh) * amountTopRight;
+	//	botLeftH = getHardPosAt(xLow, zLow) * amountBotLeft;
+	//	botRightH = getHardPosAt(xHigh, zLow) * amountBotRight;
+
+
+	//	returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
+	//	return returnVal;
+	//}
+	
 	bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD)
 	{
 		bool returnVal = false;
@@ -408,13 +413,15 @@ namespace Importer
 		return this->heightData[x][z];
 	}
 
-
+	//300, 300
 	float HeightMap::getPos(float x, float z)
 	{
 		if (x < minX || z < minZ
 			|| x >= maxX || z >= maxZ)
 			return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
-
+		
+		x /= widthMulti;
+		z /= breadthMulti;
 		float value = 0;
 		float xFractPart, zFractPart, hmX, hmXWider, hmY, hmYTaller;
 

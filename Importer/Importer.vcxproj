@@ -82,7 +82,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>IMPORTER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>IMPORTER_EXPORT;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
@@ -122,6 +122,7 @@
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="ImageAsset.h" />
     <ClInclude Include="Importer.h" />
+    <ClInclude Include="MaterialAsset.h" />
     <ClInclude Include="ModelAsset.h" />
     <ClInclude Include="TextureAsset.h" />
   </ItemGroup>
@@ -130,6 +131,7 @@
     <ClCompile Include="FontAsset.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="ImageAsset.cpp" />
+    <ClCompile Include="MaterialAsset.cpp" />
     <ClCompile Include="ModelAsset.cpp" />
     <ClCompile Include="TextureAsset.cpp" />
   </ItemGroup>
