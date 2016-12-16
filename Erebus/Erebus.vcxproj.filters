@@ -4,12 +4,6 @@
     <ClCompile Include="Controls.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="PerformanceCounter.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -61,15 +55,15 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Source\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelModel.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelModel.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PerformanceCounter.h">
@@ -119,6 +113,12 @@
     </ClInclude>
     <ClInclude Include="LuaTransform.h">
       <Filter>Headers\LuaHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelModel.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +261,7 @@
     <None Include="Shaders\debugLine.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\anim.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -286,6 +287,15 @@
     </Filter>
     <Filter Include="Source\LuaCpp">
       <UniqueIdentifier>{b603246b-a306-46ac-9deb-8ddf56b41e4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor">
+      <UniqueIdentifier>{00edde64-b4c7-45b5-92a4-7af495f8fffa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor\SourceLevel">
+      <UniqueIdentifier>{7c35f568-562a-44ec-9ced-e94209cd91ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor\HeaderLevel">
+      <UniqueIdentifier>{c0507264-9e52-4ce3-9a4b-e6188b69a242}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
