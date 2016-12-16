@@ -11,10 +11,10 @@ uniform mat4 viewMatrix;
 
 uniform float particleSize;
 
-in vec3 vertex_color[];
+//in vec3 vertex_color[];
 
 out vec3 geom_pos;
-out vec3 vertexColor;
+//out vec3 vertexColor;
 out vec2 vertex_UV;
 
  void main()
@@ -26,7 +26,7 @@ out vec2 vertex_UV;
 		p.xy += (quadCorners[i] - vec2(0.5)) * particleSize;
 		geom_pos = gl_in[0].gl_Position.xyz;
 		gl_Position = projectionMatrix * p;
-		vertexColor = vertex_color[0];
+		//vertexColor = vertex_color[0];
 		vertex_UV = quadCorners[i];
 
 		EmitVertex();

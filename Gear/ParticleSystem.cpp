@@ -31,20 +31,22 @@ namespace Gear
 	{
 		if (isActive)
 		{
-			timer += dt;
-			if (timer > particleRate)
+			if (alive)
 			{
-				int i = 0;
-				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+				timer += dt;
+				if (timer > particleRate)
 				{
-					particlePos[nrOfActiveParticles] = this->position;
-					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-					allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 10 - 5, rand() % 5 - 2.5, rand() % 5 - 2.5);
-					
-				}
-				timer = 0;
-			}
+					int i = 0;
+					while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+					{
+						particlePos[nrOfActiveParticles] = this->position;
+						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+						allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 10 - 5, rand() % 5 - 2.5, rand() % 5 - 2.5);
 
+					}
+					timer = 0;
+				}
+			}
 			for (int i = 0; i < nrOfActiveParticles; i++)
 			{
 				allParticles[i].lifeSpan -= dt;
@@ -57,10 +59,26 @@ namespace Gear
 				{
 					particlePos[i] = particlePos[nrOfActiveParticles - 1];
 					allParticles[i] = allParticles[--nrOfActiveParticles];
+					if (nrOfActiveParticles <= 0)
+						isActive = false;
 				}
 			}
 		}
+	}
 
+	void ParticleSystem::explode()
+	{
+		nrOfActiveParticles = 0;
+		for (int i = 0; i < maxParticles; i++)
+		{
+			particlePos[i] = this->position;
+			allParticles[i].lifeSpan = this->lifeTime;
+			allParticles[i].direction = glm::normalize( glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5));
+			allParticles[i].direction *= rand() % (int)partSpeed;
+			nrOfActiveParticles = i;
+		}
+		isActive = true;
+		alive = false;
 	}
 
 	GLuint ParticleSystem::getPartVertexBuffer()
@@ -78,9 +96,15 @@ namespace Gear
 		return nrOfActiveParticles;
 	}
 
-	GEAR_API void ParticleSystem::activate(bool active)
+	GEAR_API void ParticleSystem::activate()
 	{
-		isActive = active;
+		isActive = true;
+		alive = true;
+	}
+
+	GEAR_API void ParticleSystem::deActivate()
+	{
+		alive = false;
 	}
 
 	GEAR_API Partikel * ParticleSystem::getThePartikels()
@@ -91,6 +115,26 @@ namespace Gear
 	GEAR_API glm::vec3 * ParticleSystem::getPositions()
 	{
 		return particlePos;
+	}
+
+	GEAR_API void ParticleSystem::setColor(float r, float g, float b)
+	{
+		color.r = r; color.g = g; color.b = b;
+	}
+
+	GEAR_API Color ParticleSystem::getColor() const 
+	{
+		return color;
+	}
+
+	GEAR_API void ParticleSystem::setTextrue(Importer::TextureAsset * tAParticles)
+	{
+		textureAssetParticles = tAParticles;
+	}
+
+	GEAR_API Importer::TextureAsset * ParticleSystem::getTexture()
+	{
+		return textureAssetParticles;
 	}
 
 }
