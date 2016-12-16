@@ -307,6 +307,8 @@ namespace Importer
 			delete[] vertexData;
 
 			result = true;
+
+			model.material = assets->load<MaterialAsset>( "Materials/lambert1.material" );
 		}
 
 		return result;
