@@ -19,7 +19,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
-//#include "LevelEditor.h"
+#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -34,6 +34,7 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	
 	Window window;
 	Gear::GearEngine engine;
 
@@ -49,7 +50,9 @@ int main()
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/moleman5.model" );
+	engine.addDebugger(Debugger::getInstance());
+
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
@@ -75,9 +78,10 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
-	
+
 	PerformanceCounter counter;
 	double deltaTime;
+	bool lockMouse = false;
 	while (running && window.isWindowOpen())
 	{	
 		deltaTime = counter.getDeltaTime();
@@ -93,7 +97,6 @@ int main()
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
-
 
 		engine.draw(&camera);
 
@@ -112,8 +115,19 @@ int main()
 			engine.setDrawMode(5);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
 			engine.setDrawMode(6);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine.setDrawMode(7);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
+		{
+			if (lockMouse)
+			{
+				window.changeCursorStatus(false);
+				lockMouse = false;
+			}
+			else
+			{
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
+		}
 
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());

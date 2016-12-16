@@ -272,3 +272,8 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
+
+#Vtune
+*.dflgadvixe
+**/My Amplifier XE Results*/
+**/My Advisor Results*/

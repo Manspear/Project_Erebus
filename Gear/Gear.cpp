@@ -80,7 +80,8 @@ namespace Gear
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); 
 
-		addDebugger(Debugger::getInstance());
+		debugHandler = new DebugHandler();
+		debugHandler->addDebuger(Debugger::getInstance());
 	}
 
 	GearEngine::~GearEngine()
@@ -93,10 +94,7 @@ namespace Gear
 		delete quadShader;
 		delete lightPassShader;
 
-		for (size_t i = 0; i < debuggers.size(); i++)
-		{
-			delete debuggers[i];
-		}
+		delete debugHandler;
 
 	}
 
@@ -242,11 +240,15 @@ namespace Gear
 				Debugger::getInstance()->drawLine(glm::vec3(255, 50, 255), endPos[i], color[i]);
 		}*/
 
-		glDisable(GL_DEPTH_TEST);
+		//glDisable(GL_DEPTH_TEST);
+
+		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
+		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
+		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
 		updateDebug(camera);
 		queue.particlePass(particleSystems);
-		glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH_TEST);
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -311,16 +313,11 @@ namespace Gear
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
 	}
 	void GearEngine::updateDebug(Camera* camera) {
-		ShaderProgram* tempProgram;
+		debugHandler->update(camera, &queue);
 
-		tempProgram = queue.getShaderProgram(ShaderType::DEBUG);
-		for (size_t i = 0; i < debuggers.size(); i++)
-		{
-			debuggers.at(i)->drawAll(camera->getProjectionMatrix(), camera->getViewMatrix(), tempProgram);
-		}
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {
-		this->debuggers.push_back(debugger);
+		debugHandler->addDebuger(debugger);
 	}
 }

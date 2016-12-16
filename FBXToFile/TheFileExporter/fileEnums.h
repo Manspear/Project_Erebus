@@ -5,7 +5,7 @@ enum eObjectType
 	MESH,
 	SPAWN,
 	LIGHT,
-	NOTSET
+	NOTYPE
 };
 enum eModelType
 {
