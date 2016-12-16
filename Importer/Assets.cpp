@@ -2,8 +2,70 @@
 
 namespace Importer
 {
+	FileInfo::FileInfo()
+	{
+	}
+
+	FileInfo::~FileInfo()
+	{
+	}
+
+	bool FileInfo::hasChanged()
+	{
+		bool result = false;
+
+		uint64_t curTime = getWriteTime();
+		if( curTime != timestamp )
+		{
+			timestamp = curTime;
+			result = true;
+		}
+
+		return result;
+	}
+
+	void FileInfo::setPath( std::string& p )
+	{
+		path = p;
+		timestamp = getWriteTime();
+	}
+
+	const std::string& FileInfo::getPath() const
+	{
+		return path;
+	}
+
+	uint64_t FileInfo::getWriteTime()
+	{
+		uint64_t result = 0;
+
+		HANDLE file = CreateFile( path.c_str(),
+									GENERIC_READ,
+									FILE_SHARE_READ,
+									NULL,
+									OPEN_EXISTING,
+									FILE_ATTRIBUTE_NORMAL,
+									NULL );
+		if( file )
+		{
+			FILETIME writeTime;
+			GetFileTime( file, NULL, NULL, &writeTime );
+
+			result = ((uint64_t)writeTime.dwHighDateTime << 32 ) | writeTime.dwLowDateTime;
+
+			CloseHandle( file );
+		}
+
+		return result;
+	}
+
 	Asset::~Asset()
 	{
+	}
+
+	FileInfo* Asset::getFileInfo()
+	{
+		return &fileInfo;
 	}
 
 	AssetID::AssetID( std::string p, size_t h )
@@ -58,6 +120,7 @@ namespace Importer
 	}
 
 	Assets::Assets()
+		: elapsedTime( 0.0f )
 	{
 	}
 
@@ -76,5 +139,23 @@ namespace Importer
 		}
 
 		assets.clear();
+	}
+
+	void Assets::checkHotload( float dt )
+	{
+		elapsedTime += dt;
+		if( elapsedTime >= ASSETS_HOTLOAD_DELAY )
+		{
+			elapsedTime = 0.0f;
+
+			for( std::map<AssetID, Asset*>::iterator it = assets.begin(); it != assets.end(); it++ )
+			{
+				if( it->second->getFileInfo()->hasChanged() )
+				{
+					it->second->unload();
+					it->second->load( it->second->getFileInfo()->getPath(), this );
+				}
+			}
+		}
 	}
 }

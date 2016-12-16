@@ -2,6 +2,7 @@
 
 #include "Assets.h"
 #include "Importer.h"
+#include "MaterialAsset.h"
 
 namespace Importer
 {
@@ -30,6 +31,7 @@ namespace Importer
 		IMPORTER_API GLuint getVertexBuffer(int mesh) const;
 		IMPORTER_API GLuint getIndexBuffer(int mesh) const;
 		IMPORTER_API int getBufferSize(int mesh) const;
+		IMPORTER_API MaterialAsset* getMaterial() const;
 
 	private:
 		hModel header;
@@ -40,6 +42,7 @@ namespace Importer
 		hJoint* joints;
 		hAnimationState* animationStates;
 		sKeyFrame* keyFrames;
+		MaterialAsset* material;
 
 		GLuint* vertexBuffers;
 		GLuint* indexBuffers;

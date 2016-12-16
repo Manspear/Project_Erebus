@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseIncludes.h"
+#include "TextureAsset.h"
 
 const float MAX_LIFESPAN = 10.0;
 
@@ -35,6 +36,8 @@ namespace Gear
 		GEAR_API glm::vec3* getPositions();
 		GEAR_API void setColor(float r, float g, float b);
 		GEAR_API Color getColor() const;
+		GEAR_API void setTextrue(Importer::TextureAsset* tAParticles);
+		GEAR_API Importer::TextureAsset* getTexture();
 		bool isActive;
 		bool alive;
 	private:
@@ -51,5 +54,6 @@ namespace Gear
 		float timer;
 		float gravityFactor;
 		Color color;
+		Importer::TextureAsset* textureAssetParticles;
 	};
 }
