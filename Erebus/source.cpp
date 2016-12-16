@@ -35,9 +35,6 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	LevelEditor editor;
-	editor.start();
-	return 0;
 	Window window;
 	Gear::GearEngine engine;
 
