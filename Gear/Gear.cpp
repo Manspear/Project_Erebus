@@ -240,11 +240,15 @@ namespace Gear
 				Debugger::getInstance()->drawLine(glm::vec3(255, 50, 255), endPos[i], color[i]);
 		}*/
 
-		glDisable(GL_DEPTH_TEST);
+		//glDisable(GL_DEPTH_TEST);
+
+		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
+		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
+		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
 		updateDebug(camera);
 		queue.particlePass(particleSystems);
-		glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH_TEST);
 
 		//Clear lists
 		staticModels = &defaultModelList;
