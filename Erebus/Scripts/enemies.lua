@@ -21,7 +21,7 @@ function LoadEnemies()
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	end
 
-	local model = Assets.LoadModel("Models/Robot.model")
+	local model = Assets.LoadModel("Models/testGuy.model")
 	for i=1, MAX_ENEMIES do
 		Gear.AddStaticInstance(model, enemies[i].transformID)
 	end

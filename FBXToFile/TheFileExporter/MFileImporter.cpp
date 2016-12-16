@@ -244,17 +244,17 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		str = txt + std::string(num) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
-		txt = "Diffuse texture name: ";
+		txt = "Diffuse texture: ";
 		str = txt + std::string(expMat.diffuseTextureFilePath) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
 
-		txt = "Specular texture name: ";
+		txt = "Specular texture: ";
 		str = txt + std::string(expMat.specularTextureFilePath) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
 
-		txt = "Normal texture name: ";
+		txt = "Normal texture: ";
 		str = txt + std::string(expMat.normalTextureFilePath) + "\n";
 		outFile.write(str.c_str(), str.length());
 
