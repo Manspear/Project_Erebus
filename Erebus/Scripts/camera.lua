@@ -7,6 +7,7 @@ DelayZoomOut = 0.5
 
 ZoomedOut = {distance = 16.0, angle = 3.14/20, time =7, timeSpent = 0, xOffset = 0, yOffset = 5, fov = 3.14/4.4}	--fov är i radianer, strange things happen with higher values
 ZoomedIn = {distance = 15.3, angle = 0, time = 0.2, timeSpent = 0, xOffset = 2, yOffset = 5, fov = 3.14/4.7}		--fov är i radianer, be careful when changing
+
 StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
 function interpolate(a, b, factor) 

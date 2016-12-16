@@ -177,14 +177,17 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 
 GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset, float FoV)
 {
-	
+	//project the input direction to the xz plane and normalizes it
 	glm::vec3 tempForward(direction.x, 0, direction.z);
 	tempForward = glm::normalize(tempForward);
 	//tempForward *= cosf(angle) * distance;
-	glm::vec3 offset = xOffset*cross(tempForward, { 0,1,0 }) + glm::vec3(0,yOffset,0);
-	glm::vec3 tempcamPos = point + offset + glm::vec3(0, distance*sinf(angle), 0) - tempForward * cosf(angle) * distance;
-	this->camPosition = (tempcamPos*0.3f+(point+offset+distance * glm::normalize(-direction))*0.7f);
 
+	//moves the camera to the right with xOffset units, then moves the camera up with yOffset units
+	glm::vec3 offset = xOffset*cross(tempForward, { 0,1,0 }) + glm::vec3(0,yOffset,0);
+	//places the camera in the right position behind the model, but is locked in the xz plane
+	glm::vec3 tempcamPos = point + offset + glm::vec3(0, distance*sinf(angle), 0) - tempForward * cosf(angle) * distance;
+	//unlocks the tempcamPos to rotate in the y direction (kind of)
+	this->camPosition = (tempcamPos*0.3f+(point+offset+distance * glm::normalize(-direction))*0.7f);
 	this->lookPos = point + offset;
 	this->camDirection = glm::normalize( lookPos - camPosition);
 

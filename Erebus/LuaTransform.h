@@ -24,4 +24,6 @@ namespace LuaTransform
 	int getRotation( lua_State* lua );
 	int getLookAt( lua_State* lua );
 	int getScale( lua_State* lua );
+
+	int updateRotationFromLookVector(lua_State* lua);
 }

@@ -53,6 +53,7 @@ int main()
 	engine.addDebugger(Debugger::getInstance());
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
+	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
@@ -78,6 +79,13 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	glClearColor(155, 0, 155, 0);
+
+	//particlesTexture->bind(PARTICLES);
+	for(int i = 0; i < ps.size(); i++)
+	{
+		ps.at(i)->setTextrue(particlesTexture);
+	}
 
 	PerformanceCounter counter;
 	double deltaTime;
