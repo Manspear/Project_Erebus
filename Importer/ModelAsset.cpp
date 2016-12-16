@@ -3,7 +3,7 @@
 namespace Importer
 {
 	ModelAsset::ModelAsset()
-		: dataptr(nullptr)
+		: dataptr(nullptr), material( nullptr )
 	{
 		//header.meshCount = header.materialCount = 0;
 		header.numMeshes = header.numSkeletons = header.numBBoxes = 0;
@@ -101,7 +101,11 @@ namespace Importer
 			}
 
 			free(bufferptr);
-			result = true;
+
+			material = assets->load<MaterialAsset>( "Materials/" + std::string(header.materialName) );
+
+			if( material ) 
+				result = true;
 		}
 
 		return result;
@@ -184,5 +188,10 @@ namespace Importer
 	int ModelAsset::getBufferSize(int mesh) const
 	{
 		return bufferSizes[mesh];
+	}
+
+	MaterialAsset* ModelAsset::getMaterial () const
+	{
+		return material;
 	}
 };

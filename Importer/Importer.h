@@ -60,11 +60,10 @@ namespace Importer
 		int numVertices;
 		int numSkeletonVertices;
 		int numIndices;
-		
+
 		eModelType TYPE;
 
 		char materialName[32];
-
 	};
 
 	struct hMesh

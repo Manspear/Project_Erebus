@@ -19,7 +19,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
-#include "LevelEditor.h"
+#include "MaterialAsset.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -53,6 +53,7 @@ int main()
 	engine.addDebugger(Debugger::getInstance());
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
+	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
@@ -78,6 +79,13 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	glClearColor(0, 0, 0, 0);
+
+	//particlesTexture->bind(PARTICLES);
+	for(int i = 0; i < ps.size(); i++)
+	{
+		ps.at(i)->setTextrue(particlesTexture);
+	}
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -134,6 +142,8 @@ int main()
 		engine.print(fps, 0.f, 720.f);
 
 		window.update();
+
+		assets.checkHotload( deltaTime );
 	}
 
 	luaBinds.unload();
