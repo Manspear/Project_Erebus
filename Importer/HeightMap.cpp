@@ -308,7 +308,7 @@ namespace Importer
 
 			result = true;
 
-			model.material = assets->load<MaterialAsset>( "Materials/lambert1.material" );
+			model.material = assets->load<MaterialAsset>( "Materials/heightmap.material" );
 		}
 
 		return result;
