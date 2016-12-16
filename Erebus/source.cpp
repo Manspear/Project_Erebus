@@ -97,8 +97,10 @@ int main()
 		controls.update(&inputs);
 		luaBinds.update( &controls, deltaTime);
 		
-		for (int i = 0; i < ps.size(); i++)
+		for (int i = 0; i < ps.size(); i++) {
 			ps.at(i)->update(deltaTime);
+		}
+
 		
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
