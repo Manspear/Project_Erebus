@@ -159,8 +159,19 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	separatingAxes[13] = glm::cross(this->zAxis, bYAxis);
 	separatingAxes[14] = glm::cross(this->zAxis, bZAxis);
 
+	// dot products
+	float dots[3][3];
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			dots[i][j] = glm::dot
+		}
+
+	}
 
 
+	// CASE 1
 
 
 
