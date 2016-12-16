@@ -11,7 +11,7 @@ function LoadPlayer()
 	player.reachedGoal = false
 	player.health = 100
 	player.animation = Animation.Create()
-	
+	player.animationState = 1
 	-- set spells for player
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
@@ -29,10 +29,10 @@ function LoadPlayer()
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
 
-	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
+	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/Robot.model")
+	local model = Assets.LoadModel("Models/testGuy.model")
 	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
@@ -49,19 +49,31 @@ function UpdatePlayer(dt)
 	local position = Transform.GetPosition(player.transformID)
 	local direction = Transform.GetLookAt(player.transformID)
 
-	if Controls[Keys.WDown] then forward = player.moveSpeed end
-	if Controls[Keys.SDown] then forward = -player.moveSpeed end
-	if Controls[Keys.ADown] then left = player.moveSpeed end
-	if Controls[Keys.DDown] then left = -player.moveSpeed end
+	player.animationState = 1
+	if Controls[Keys.WDown] then forward = player.moveSpeed
+		player.animationState = 2
+	end
+	if Controls[Keys.SDown] then forward = -player.moveSpeed 
+		player.animationState = 2
+	end
+	if Controls[Keys.ADown] then left = player.moveSpeed 
+		player.animationState = 2
+	end
+	if Controls[Keys.DDown] then left = -player.moveSpeed 
+		player.animationState = 2
+	end
 	if Controls[Keys.SpacePressed] and player.canJump then
 		player.verticalSpeed = 0.5
 		player.canJump = false
+		player.animationState = 2
 	end
 	if Controls[Keys.TabPressed] then print("Tab pressed") end
 	if Controls[Keys.LMBDown] then
 		player.testCamera = true;
+		player.animationState = 3
 	end
 	if Controls[Keys.LMBReleased] then
+		player.animationState = 1
 		for _,j in ipairs(player.spells[player.currentSpell]) do
 			if(j.alive ~= true) then
 				j:Cast()
@@ -96,7 +108,7 @@ function UpdatePlayer(dt)
 		end
 	end
 
-	player.animation:Update(dt,0)
+	player.animation:Update(dt, player.animationState)
 
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()

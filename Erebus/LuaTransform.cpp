@@ -1,4 +1,8 @@
 #include "LuaTransform.h"
+#include "glm\gtx\vector_angle.hpp"
+
+
+#define GLM_FORCE_RADIANS
 
 namespace LuaTransform
 {
@@ -34,6 +38,8 @@ namespace LuaTransform
 			{ "GetRotation",	getRotation },
 			{ "GetLookAt",		getLookAt },
 			{ "GetScale",		getScale },
+			
+			{ "UpdateRotationFromLookVector", updateRotationFromLookVector},
 			{ NULL, NULL }
 		};
 
@@ -313,5 +319,15 @@ namespace LuaTransform
 		}
 
 		return result;
+	}
+	int updateRotationFromLookVector(lua_State * lua)
+	{
+		int transID = lua_tointeger(lua, -1);
+		glm::vec3 tempLookdir = g_transforms[transID].getLookAt();
+		tempLookdir.y = 0;
+		tempLookdir = glm::normalize(tempLookdir);
+		float rotY = ((tempLookdir.x > 0)*2-1) * glm::angle(tempLookdir, glm::vec3(0.0f, 0.0f, 1.0f));
+		g_transforms[transID].setRotation({ 0, rotY, 0 });
+		return 0;
 	}
 }

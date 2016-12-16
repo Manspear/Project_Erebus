@@ -197,8 +197,6 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		memcpy(expMat.diffuseColor, imScene.materialList[i].diffuseColor, 3 * sizeof(float));
 		memcpy(expMat.diffuseTextureFilePath, imScene.materialList[i].diffuseTextureFilePath, 256);
 
-		memcpy(expMat.materialName, imScene.materialList[i].materialName, strlen(imScene.materialList[i].materialName));
-		memcpy(&expMat.materialName[strlen(imScene.materialList[i].materialName)], ".material", 10);
 		//	expMat.materialID[strlen(imScene.materialList[i].materialName)] = '\0';
 
 		memcpy(expMat.normalTextureFilePath, imScene.materialList[i].normalTextureFilePath, 256);
@@ -208,12 +206,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 
 		char num[25];
 		std::string txt;
-		txt = "Material name: ";
 		std::string str;
-		str = std::string(txt + expMat.materialName + "\r\n");
-
-		outFile.write(str.c_str(), str.length());
-		
 
 		txt = "Ambient color: ";
 		sprintf(num, "%f", expMat.ambientColor[0]);
@@ -251,17 +244,17 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		str = txt + std::string(num) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
-		txt = "Diffuse texture name: ";
+		txt = "Diffuse texture: ";
 		str = txt + std::string(expMat.diffuseTextureFilePath) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
 
-		txt = "Specular texture name: ";
+		txt = "Specular texture: ";
 		str = txt + std::string(expMat.specularTextureFilePath) + "\r\n";
 		outFile.write(str.c_str(), str.length());
 
 
-		txt = "Normal texture name: ";
+		txt = "Normal texture: ";
 		str = txt + std::string(expMat.normalTextureFilePath) + "\n";
 		outFile.write(str.c_str(), str.length());
 

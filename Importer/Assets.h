@@ -3,8 +3,28 @@
 #include <map>
 #include "Importer.h"
 
+#define ASSETS_HOTLOAD_DELAY 0.5f
+
 namespace Importer
 {
+	class FileInfo
+	{
+	public:
+		FileInfo();
+		~FileInfo();
+
+		IMPORTER_API bool hasChanged();
+
+		IMPORTER_API void setPath( std::string& path );
+		IMPORTER_API const std::string& getPath() const;
+		
+	private:
+		uint64_t getWriteTime();
+
+		std::string path;
+		uint64_t timestamp;
+	};
+
 	class Assets;
 	class Asset
 	{
@@ -13,6 +33,11 @@ namespace Importer
 
 		virtual bool load( std::string path, Assets* assets ) = 0;
 		virtual void unload() = 0;
+
+		IMPORTER_API FileInfo* getFileInfo();
+
+	private:
+		FileInfo fileInfo;
 	};
 
 	class AssetID
@@ -55,6 +80,7 @@ namespace Importer
 				result = new T();
 				if( result->load( path, this ) )
 				{
+					result->getFileInfo()->setPath( path );
 					assets.insert( std::pair<AssetID, Asset*>( id, result ) );
 				}
 				else
@@ -68,7 +94,10 @@ namespace Importer
 		}
 		void unload();
 
+		IMPORTER_API void checkHotload( float dt );
+
 	private:
+		float elapsedTime;
 		std::map<AssetID, Asset*> assets;
 	};
 }
