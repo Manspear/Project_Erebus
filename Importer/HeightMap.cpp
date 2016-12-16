@@ -215,7 +215,7 @@ namespace Importer
 	{
 		bool result = false;
 
-		heightMulti = 0.5f;
+		heightMulti = 0.1f;
 		widthMulti = 1.0f;
 		breadthMulti = 1.0f;
 
@@ -338,7 +338,7 @@ namespace Importer
 		}
 	}
 
-	float HeightMap::getPos(float x, float z)
+	/*float HeightMap::getPos(float x, float z)
 	{
 		if (x < minX || z < minZ
 			|| x>= maxX || z>= maxZ)
@@ -378,12 +378,7 @@ namespace Importer
 		returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
 		return returnVal;
 	}
-
-	float HeightMap::getHardPosAt(int x, int z)
-	{
-		return this->heightData[x][z];
-	}
-
+	*/
 	bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD)
 	{
 		bool returnVal = false;
@@ -407,4 +402,35 @@ namespace Importer
 	{
 		return &model;
 	}
+
+	float HeightMap::getHardPosAt(int x, int z)
+	{
+		return this->heightData[x][z];
+	}
+
+
+	float HeightMap::getPos(float x, float z)
+	{
+		if (x < minX || z < minZ
+			|| x >= maxX || z >= maxZ)
+			return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
+
+		float value = 0;
+		float xFractPart, zFractPart, hmX, hmXWider, hmY, hmYTaller;
+
+		xFractPart = modf(x, &hmX);// xFractPart = 0.141593 x = 3.141593 hmX = 3
+		hmXWider = hmX + 1; // hmXWider = 4.    hmY^	hmYWider^
+							//										   3			4
+		zFractPart = modf(z, &hmY);//			hmX^	hmXWider^	0.14 of hmX & 0.86 of hmXWider will be used. hmX and hmXWider represent heightmap pixels
+		hmYTaller = hmY + 1;
+		//												This will calculate the X's value. Being the height
+		value += getHardPosAt(hmX, hmY) * xFractPart;// lower left corner of a pixel. xFractPart = 0.14 hmX's value will affect 14%
+		value += getHardPosAt(hmXWider, hmY) * (1 - xFractPart);// 1 - 0.14 = 0.86 86%.					hmXWider's value will affect 86%
+																//												This will calculate the Y's value. (z in enginge, y in heightmap)
+		value += getHardPosAt(hmX, hmYTaller) * zFractPart;
+		value += getHardPosAt(hmXWider, hmYTaller) * (1 - zFractPart);
+
+		return (value * .5f);// Interpolate between 2 numbers, x and y. Instead of / 2 we use * 0.5 for optimization purposes. Return is a height
+	}
+
 }
