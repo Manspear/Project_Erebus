@@ -44,8 +44,8 @@ int main()
 	
 	//fileIm.importFbx(fbx, 24);
 	//fileIm.writeToBinary(file);
-	fileIm.importFbx("C:/Users/GiS-1/Desktop/testfanny/land/niclasland_scale2.fbx", 24);
-	fileIm.writeToBinary("C:/Git_Repos/Project_Erebus/FBXToFile/Exported/");
+	fileIm.importFbx("Desktop/projectile.fbx", 24);
+	fileIm.writeToBinary("C:/Users/GiS-1/Desktop/Project Erebus/Project_Erebus/FBXToFile/Exported/");
 
 	//fileIm.importFbx("C:/Git_Repos/FBX Importer/FBXToFile/Models/cube3.fbx", 24);
 	//fileIm.writeToBinary("C:/Git_Repos/FBX Importer/FBXToFile/Exported/");

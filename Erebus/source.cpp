@@ -79,7 +79,7 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
-	glClearColor(0, 0, 0, 0);
+	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
 	for(int i = 0; i < ps.size(); i++)
