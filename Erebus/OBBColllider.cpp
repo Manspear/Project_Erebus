@@ -126,7 +126,7 @@ void OBBColllider::setPos(glm::vec3 pos)
 
 bool OBBColllider::checkCollision(OBBColllider * collider)
 {
-	bool collision = false;
+	bool collisionBool = false;
 	// OTHER COLLIDER VARIABLES
 	glm::vec3 bXAxis = collider->xAxis;
 	glm::vec3 bYAxis = collider->yAxis;
@@ -162,12 +162,30 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	// dot products
 	float dots[3][3];
 	dots[0][0] = glm::dot(xAxis,bXAxis);
+	dots[0][0] = glm::dot(xAxis, bYAxis);
+	dots[0][0] = glm::dot(xAxis, bZAxis);
+	dots[0][0] = glm::dot(yAxis, bXAxis);
+	dots[0][0] = glm::dot(yAxis, bYAxis);
+	dots[0][0] = glm::dot(yAxis, bZAxis);
+	dots[0][0] = glm::dot(zAxis, bXAxis);
+	dots[0][0] = glm::dot(zAxis, bYAxis);
+	dots[0][0] = glm::dot(zAxis, bZAxis);
 
 
 	// CASE 1
+	float a, b, c, d;
+	a = b = c = d = 0;
+
+	a = glm::abs(glm::dot(T, separatingAxes[0]));
+	b = (glm::abs(xHalfLength * glm::dot(xAxis, xAxis)) + glm::abs(yHalfLength * glm::dot(yAxis, xAxis)) +
+		glm::abs(zHalfLength * glm::dot(zAxis, xAxis)) + glm::abs(xHalfLength * glm::dot(bYAxis, xAxis)) + 
+		glm::abs(bYHalfLength * glm::dot(bYAxis, xAxis)) + glm::abs(bZHalfLength * glm::dot(bZAxis, xAxis)));
+	
+	c = glm::abs(xHalfLength) + glm::abs(bXHalfLength * glm::dot(bXAxis, xAxis) + glm::abs(bZHalfLength * glm::dot(bZAxis, xAxis)));
+	d = xHalfLength + glm::abs(bXHalfLength * dots[0][0]) + glm::abs(bYHalfLength * dots[0][1]) + glm::abs(bZHalfLength * dots[0][2]);
+
+	collisionBool = a > b;
 
 
-
-
-	return collision;
+	return collisionBool;
 }

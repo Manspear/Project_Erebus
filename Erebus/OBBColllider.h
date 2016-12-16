@@ -1,7 +1,8 @@
 #pragma once
 #include "HitBox.h"
-//inspiration
+//inspiration for separating axis theorem
 //http://www.jkh.me/files/tutorials/Separating%20Axis%20Theorem%20for%20Oriented%20Bounding%20Boxes.pdf
+
 class OBBColllider : public HitBox
 {
 public:
