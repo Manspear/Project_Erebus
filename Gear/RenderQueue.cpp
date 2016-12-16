@@ -31,7 +31,9 @@ void RenderQueue::init()
 	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
 	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
-	allShaders[ShaderType::DEBUG] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "debug");
+	allShaders[ShaderType::DEBUG_LINE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugLine");
+	allShaders[ShaderType::DEBUG_SPHERE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugSphere");
+	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
 }
 
@@ -230,14 +232,18 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 
 void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSystems)
 {
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	glUniform1f(loc, 5);
+	GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
+	glUniform1f(loc, 0.5);
+	Color c;
 	for (size_t i = 0; i < particleSystems->size(); i++)
 	{
 		if (particleSystems->at(i)->isActive)
 		{
+			c = particleSystems->at(i)->getColor();
+			glUniform3f(loc2, c.r, c.g, c.b );
 			size_t ParticleCount = particleSystems->at(i)->getNrOfActiveParticles();
 			glBindBuffer(GL_ARRAY_BUFFER, particleSystems->at(i)->getPartVertexBuffer());
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
@@ -247,7 +253,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 		}
 	}
 	allShaders[PARTICLES]->unUse();
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 }
 
 /*void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)

@@ -1,6 +1,6 @@
 #version 420 core
 
-in vec3 vertexColor;
+uniform vec3 vertexColor;
 in vec2 vertex_UV;
 
 void main (){

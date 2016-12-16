@@ -74,14 +74,27 @@ void LevelEditor::start() {
 	std::string out = "FPS: -1";
 	double updateRate = 4.0;
 
+	float currentAnimation = 0;
+	float addSyntax = 1;
+	float minMax = 1;
+
+
+	//		Debugger::getInstance()->drawLine({ i, l, 0 }, { i, l, 255 });
 	while (running && window.isWindowOpen())
 	{
-
+		
 
 		deltaTime = counter.getDeltaTime();
+		currentAnimation += addSyntax * deltaTime;
+		if (currentAnimation > minMax)
+			addSyntax = -1;
+		if (currentAnimation < .2f)
+			addSyntax = 1;
+
 		inputs.update();
-		controls.update(&inputs);
-		luaBinds.update(&controls, deltaTime);
+		//controls.update(&inputs);
+		//luaBinds.update(&controls, deltaTime);
+		camera.updateLevelEditorCamera(deltaTime);
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 
