@@ -195,7 +195,6 @@
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Shaders\anim.frag" />
-    <None Include="Shaders\anim.vert" />
     <None Include="Shaders\debugAABB.frag" />
     <None Include="Shaders\debugAABB.geom" />
     <None Include="Shaders\debugAABB.vert" />
@@ -205,7 +204,6 @@
     <None Include="Shaders\debugSphere.frag" />
     <None Include="Shaders\debugSphere.geom" />
     <None Include="Shaders\debugSphere.vert" />
-    <None Include="Shaders\anim.vert" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
