@@ -17,6 +17,8 @@ namespace LuaGear
 	int activateInstance( lua_State* lua );
 	int deactivateInstance( lua_State* lua );
 
+	int print( lua_State* lua );
+
 	int createAnimation( lua_State* lua );
 	int destroyAnimation( lua_State* lua );
 	int updateAnimation( lua_State* lua );
