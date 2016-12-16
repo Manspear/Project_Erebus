@@ -9,6 +9,7 @@ function CreateArc()
 	arc.currentUpSpeed = 0
 	arc.lifeTime = ARC_LIFETIME
 
+	arc.damage = 5
 	arc.sphereCollider = SphereCollider.Create(arc.transformID)
 	CollisionHandler.AddSphere(arc.sphereCollider)
 
@@ -42,6 +43,21 @@ function CreateArc()
 		self.lifeTime = self.lifeTime - dt
 		if self.lifeTime<=0 then
 			self:Kill()
+		end
+		
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()
+		for curID = 1, #collisionIDs do
+			for curEnemy=1, MAX_ENEMIES do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					self:Kill()
+
+					enemies[curEnemy]:Hurt(self.damage)
+				end
+
+				if not self.alive then break end
+			end
+
+			if not self.alive then break end
 		end
 
 	end

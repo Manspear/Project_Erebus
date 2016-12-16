@@ -16,7 +16,6 @@ function LoadEnemies()
 		end
 
 		Transform.SetPosition(enemies[i].transformID, {x = math.random(10, 255), y = math.random(15, 30), z = math.random(10, 245)})
-
 		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		enemies[i].sphereCollider:SetRadius(2)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
@@ -36,6 +35,7 @@ function UpdateEnemies(dt)
 		if enemies[i].health > 0 then
 			Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 		end
+		Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 	end
 end
 
