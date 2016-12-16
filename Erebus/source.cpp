@@ -19,6 +19,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
+#include "MaterialAsset.h"
 #include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
@@ -54,7 +55,8 @@ int main()
 
 	engine.addDebugger(Debugger::getInstance());
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/testGuy.model" );
+	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
@@ -80,6 +82,13 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	glClearColor(1, 1, 1, 1);
+
+	//particlesTexture->bind(PARTICLES);
+	for(int i = 0; i < ps.size(); i++)
+	{
+		ps.at(i)->setTextrue(particlesTexture);
+	}
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -91,8 +100,10 @@ int main()
 		controls.update(&inputs);
 		luaBinds.update( &controls, deltaTime);
 		
-		for (int i = 0; i < ps.size(); i++)
+		for (int i = 0; i < ps.size(); i++) {
 			ps.at(i)->update(deltaTime);
+		}
+
 		
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
@@ -136,6 +147,8 @@ int main()
 		engine.print(fps, 0.f, 720.f);
 
 		window.update();
+
+		assets.checkHotload( deltaTime );
 	}
 
 	luaBinds.unload();

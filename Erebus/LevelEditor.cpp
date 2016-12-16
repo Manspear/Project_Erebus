@@ -21,7 +21,7 @@ void LevelEditor::start() {
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
 	engine.setFont(font);
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/Robot.model");
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/testGuy.model");
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
@@ -62,7 +62,7 @@ void LevelEditor::start() {
 		ModelInstance instance;
 		instance.asset = testModel;
 		//TEMP TODO: move to importer
-		instance.material = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
+		//instance.asset-> = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
 
 		index = models.size();
 		models.push_back(instance);
@@ -84,7 +84,7 @@ void LevelEditor::start() {
 		ModelInstance instance;
 		instance.asset = testModel;
 		//TEMP TODO: move to importer
-		instance.material = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
+		//instance.material = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
 
 		index = models.size();
 		models.push_back(instance);

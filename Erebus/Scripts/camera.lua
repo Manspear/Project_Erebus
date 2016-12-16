@@ -1,12 +1,13 @@
 STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2, 3
-camera = {distance = 10, angle = 0, xOffset = 0, yOffset = 2, fov = 3.14/4, state = STATE_ZOOM_OUT}
+camera = {distance = 8, angle = 0, xOffset = 0, yOffset = 2, fov = 3.14/4, state = STATE_ZOOM_OUT}
 
 timeSinceShot = 0
-DelayZoomOut = 1.5
+DelayZoomOut = 0.5
 
 
-ZoomedOut = {distance = 12, angle = 3.14/20, time =1.5, timeSpent = 0, xOffset = 0, yOffset = 2, fov = 3.14/2}	--fov är i radianer, strange things happen with higher values
-ZoomedIn = {distance = 5.5, angle = 0, time = 0.2, timeSpent = 0, xOffset = 2, yOffset = 2, fov = 3.14/4}		--fov är i radianer, be careful when changing
+ZoomedOut = {distance = 8.0, angle = 3.14/20, time =7, timeSpent = 0, xOffset = 0, yOffset = 2, fov = 3.14/4.4}	--fov är i radianer, strange things happen with higher values
+ZoomedIn = {distance = 7.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 1, yOffset = 2, fov = 3.14/4.7}		--fov är i radianer, be careful when changing
+
 StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
 function interpolate(a, b, factor) 

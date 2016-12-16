@@ -133,19 +133,24 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 	{
 		if (theTrans[i].active == true) 
 		{
+			//reset the world matrix
 			tempMatrix = glm::mat4();
 			glm::vec3 tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
 			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
+			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
 			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
+			//rotatea around Y axis, pretty simple. (makes the model look left/right)
 			rotationY = glm::rotate(tempMatrix, theTrans[i].rot.y, { 0, 1, 0 });
-
+			//set the scale of the models
 			tempMatrix[0][0] = theTrans[i].scale.x;
 			tempMatrix[1][1] = theTrans[i].scale.y;
 			tempMatrix[2][2] = theTrans[i].scale.z;
 
+			//rotates a scaled identity matrix
 			tempMatrix = rotationZ * rotationY * tempMatrix;
 
+			//sets the translation of objects, final world matrix
 			tempMatrix[3][0] = theTrans[i].pos.x;
 			tempMatrix[3][1] = theTrans[i].pos.y;
 			tempMatrix[3][2] = theTrans[i].pos.z;
@@ -204,7 +209,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 		ModelAsset* modelAsset = dynamicModels ->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
-		dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
@@ -232,24 +237,40 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 
 void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSystems)
 {
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	glUniform1f(loc, 5);
+	//GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
+	glUniform1f(loc, 0.5);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+	Color c;
+	TextureAsset* tA;
+	glm::vec3* pos;
+
 	for (size_t i = 0; i < particleSystems->size(); i++)
 	{
 		if (particleSystems->at(i)->isActive)
 		{
+			
+			//c = particleSystems->at(i)->getColor();
+			//glUniform3f(loc2, c.r, c.g, c.b );
+			pos = particleSystems->at(i)->getPositions();
+			particleSystems->at(i)->getTexture()->bind(GL_TEXTURE0);
 			size_t ParticleCount = particleSystems->at(i)->getNrOfActiveParticles();
+
 			glBindBuffer(GL_ARRAY_BUFFER, particleSystems->at(i)->getPartVertexBuffer());
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &particleSystems->at(i)->getPositions()[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
 			glEnableVertexAttribArray(0);
 			glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
 		}
 	}
 	allShaders[PARTICLES]->unUse();
-	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	//glEnable(GL_DEPTH_TEST);
 }
 
 /*void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)
@@ -304,7 +325,11 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		// TEMP: Shouldn't have any models without material
+		if( modelAsset->getMaterial() )
+		modelAsset->getMaterial()->bindTextures( allShaders[GEOMETRY]->getProgramID() );
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
@@ -346,7 +371,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
+		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
+		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		{
@@ -398,7 +424,8 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
+		modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
