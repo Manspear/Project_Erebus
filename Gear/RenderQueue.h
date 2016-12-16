@@ -39,7 +39,6 @@ public:
 	void updateUniforms(Camera* camera);
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
-	void draw(std::vector<ModelInstance>* instances);
 	void update(int n, TransformStruct* theTrans);
 	//GEAR_API int modelAdded(Model* model);
 	int addModelInstance(ModelAsset* asset);
@@ -47,11 +46,9 @@ public:
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
-	//Animation animationObject;
-	/*Gear::Particle* particle;*/
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
-	void particlePass(std::vector<Gear::ParticleSystem>* particleSystems);
+	void particlePass(std::vector<Gear::ParticleSystem*>* particleSystems);
 	//void geometryPass(std::vector<ModelInstance>* dynamicModels);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);

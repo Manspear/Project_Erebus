@@ -21,7 +21,7 @@ function LoadEnemies()
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	end
 
-	local model = Assets.LoadModel("Models/moleman5.model")
+	local model = Assets.LoadModel("Models/Robot.model")
 	for i=1, MAX_ENEMIES do
 		Gear.AddStaticInstance(model, enemies[i].transformID)
 	end
@@ -34,6 +34,9 @@ function UpdateEnemies(dt)
 	for i=1, MAX_ENEMIES do
 		if enemies[i].health > 0 then
 			Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
+			local pos = Transform.GetPosition(enemies[i].transformID)
+			pos.y = heightmap:GetHeight(pos.x,pos.z)+1
+			Transform.SetPosition(enemies[i].transformID, pos)
 		end
 		Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 	end

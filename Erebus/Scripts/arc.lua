@@ -10,11 +10,11 @@ function CreateArc()
 	arc.lifeTime = ARC_LIFETIME
 
 	arc.damage = 5
+	local arcModel = Assets.LoadModel( "Models/Robot.model" )
 	arc.sphereCollider = SphereCollider.Create(arc.transformID)
 	CollisionHandler.AddSphere(arc.sphereCollider)
 
 
-	local arcModel = Assets.LoadModel( "Models/bullet.model" )
 	Gear.AddStaticInstance(arcModel, arc.transformID)
 
 	function arc:Cast()

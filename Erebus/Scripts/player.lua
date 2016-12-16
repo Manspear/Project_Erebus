@@ -31,7 +31,7 @@ function LoadPlayer()
 	Transform.SetPosition(player.transformID, {x=100, y=10, z=100})
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/moleman5.model")
+	local model = Assets.LoadModel("Models/Robot.model")
 	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 

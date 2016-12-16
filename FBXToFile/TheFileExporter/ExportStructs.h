@@ -3,6 +3,8 @@
 #include <array>
 #include "fileEnums.h"
 
+#define NOTSET -1337
+
 struct sOffset
 {
 	int joint, vertex, index, skeletonVertex;
@@ -14,7 +16,7 @@ struct sTransform
 	float rot[3];
 	float scale[3];
 
-	eObjectType childType = NOTSET;
+	eObjectType childType = NOTYPE;
 	int modelIndex;
 	int childID;
 };
@@ -58,12 +60,12 @@ struct sHierarchy
 };
 struct sJointChild
 {
-	int parentSkeletonIndex;
-	int parentJointIndex;
+	int parentSkeletonIndex = NOTSET;
+	int parentJointIndex = NOTSET;
 };
 struct sMeshChild
 {
-	int parentMeshIndex;
+	int parentMeshIndex = NOTSET;
 };
 
 struct sBBox
@@ -99,7 +101,6 @@ struct hSpawn
 
 struct hMesh
 {
-	char materialName[256];
 	sHierarchy parent;
 	sJointChild parentJoint;
 	sMeshChild parentMesh;
@@ -131,11 +132,13 @@ struct hModel
 	int numIndices;
 
 	eModelType TYPE = eModelType::STATIC;
+
+	char materialName[32];
 };
 
 struct sExpMaterial
 {
-	char materialName[256];
+	char materialName[32];
 
 	float ambientColor[3];
 

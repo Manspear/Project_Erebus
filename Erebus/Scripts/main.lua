@@ -3,8 +3,8 @@ local scriptFiles =
 {
 	"Scripts/player.lua",
 	"Scripts/enemies.lua",
-	--"Scripts/bullets.lua",
 	"Scripts/camera.lua",
+	"Scripts/particle.lua",
 	"Scripts/projectile.lua",
 	"Scripts/arc.lua"
 }
@@ -41,6 +41,6 @@ function Update(dt)
 		value.Update(dt)
 	end
 
-	if Controls[Keys.FourPressed] then drawHitboxes = not drawHitboxes end
-	if drawHitboxes then CollisionHandler.DrawHitboxes() end
+	--if Controls[Keys.FourPressed] then drawHitboxes = not drawHitboxes end
+	--if drawHitboxes then CollisionHandler.DrawHitboxes() end
 end

@@ -186,6 +186,11 @@ GLuint* ShaderProgram::getTextures()
 	return textureIDs;
 }
 
+GLuint ShaderProgram::getFramebufferID()
+{
+	return framebufferID;
+}
+
 GLuint ShaderProgram::getUniformLocation(std::string pos)
 {
 	return glGetUniformLocation(programID, pos.c_str());

@@ -30,7 +30,7 @@ void LevelEditor::start() {
 	Controls controls;
 	engine.allocateWorlds(nrOfTransforms);
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/moleman5.model");
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/Robot.model");
 	//engine.queue.animationObject.setAsset(moleman);
 
 	std::vector<ModelInstance> models;
@@ -59,7 +59,7 @@ void LevelEditor::start() {
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 	engine.bindTransforms(&allTransforms, &boundTransforms);
 	LuaBinds luaBinds;
-	luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
+	//luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
 	bool playerAlive = true;
 
 	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
@@ -74,14 +74,27 @@ void LevelEditor::start() {
 	std::string out = "FPS: -1";
 	double updateRate = 4.0;
 
+	float currentAnimation = 0;
+	float addSyntax = 1;
+	float minMax = 1;
+
+
+	//		Debugger::getInstance()->drawLine({ i, l, 0 }, { i, l, 255 });
 	while (running && window.isWindowOpen())
 	{
-
+		
 
 		deltaTime = counter.getDeltaTime();
+		currentAnimation += addSyntax * deltaTime;
+		if (currentAnimation > minMax)
+			addSyntax = -1;
+		if (currentAnimation < .2f)
+			addSyntax = 1;
+
 		inputs.update();
-		controls.update(&inputs);
-		luaBinds.update(&controls, deltaTime);
+		//controls.update(&inputs);
+		//luaBinds.update(&controls, deltaTime);
+		camera.updateLevelEditorCamera(deltaTime);
 		//float angle = asinf(dir.y);
 		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
 

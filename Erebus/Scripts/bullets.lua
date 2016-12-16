@@ -16,7 +16,7 @@ function LoadBullets()
 		Transform.SetPosition(bullets[i].transformID, grabagePosition)
 	end
 
-	local asset = Assets.LoadModel("Models/moleman5.model")
+	local asset = Assets.LoadModel("Models/Robot.model")
 	for i=1, MAX_BULLETS do
 		Gear.AddStaticInstance(asset, bullets[i].transformID)
 	end
