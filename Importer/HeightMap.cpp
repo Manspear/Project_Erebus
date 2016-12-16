@@ -218,8 +218,8 @@ namespace Importer
 		float highestPoint = 14.73f;
 		float lowestPoint = 25.f;
 		heightMulti = 1.0f;
-		widthMulti = 1.0f;
-		breadthMulti = 1.0f;
+		widthMulti = 2.0f;
+		breadthMulti = 2.0f;
 		//255, 24.435
 
 		//ImageAsset* map = assets->load<ImageAsset>( path );
@@ -262,7 +262,7 @@ namespace Importer
 				for( size_t x = 0; x<mapWidth; x++, vertexIndex++ )
 				{
 					vertexData[vertexIndex].position[0] = x *							widthMulti;
-					vertexData[vertexIndex].position[1] = 1;
+					vertexData[vertexIndex].position[1] = 1; 
 					vertexData[vertexIndex].position[2] = y *							breadthMulti;
 
 					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);
@@ -413,13 +413,15 @@ namespace Importer
 		return this->heightData[x][z];
 	}
 
-
+	//300, 300
 	float HeightMap::getPos(float x, float z)
 	{
 		if (x < minX || z < minZ
 			|| x >= maxX || z >= maxZ)
 			return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
-
+		
+		x /= widthMulti;
+		z /= breadthMulti;
 		float value = 0;
 		float xFractPart, zFractPart, hmX, hmXWider, hmY, hmYTaller;
 
