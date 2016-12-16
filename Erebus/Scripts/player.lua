@@ -90,7 +90,7 @@ function UpdatePlayer(dt)
 	position.y = position.y + player.verticalSpeed
 	player.verticalSpeed = player.verticalSpeed - 0.982 * dt
 
-	local height = heightmap:GetHeight(position.x,position.z)+MOLERAT_OFFSET
+	local height = heightmap:GetHeight(position.x,position.z)--+MOLERAT_OFFSET
 	if position.y <= height then
 		position.y = height
 		player.canJump = true
@@ -119,6 +119,7 @@ function UpdatePlayer(dt)
 	end
 
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
+	--print("x:"..position.x.." y:"..position.y.." z:"..position.z)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

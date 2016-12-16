@@ -1,23 +1,23 @@
 -- add heightmap
-heightmap = Assets.LoadHeightmap("Textures/hmap_heights.png")
+heightmap = Assets.LoadHeightmap("Textures/sclae2.png")
 heightmap.transformID = Transform.Bind()
 
-Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
+local model = Assets.LoadModel("Models/niclasland_sclae2.model")
+Gear.AddStaticInstance(model, heightmap.transformID)
 
 -- add enemies
 LoadEnemies(2)
 Transform.SetPosition(enemies[1].transformID, {x=150, y=0, z=100})
 Transform.SetPosition(enemies[2].transformID, {x=100, y=0, z=200})
---Transform.ActiveControl(enemies[2].transformID, false)
---enemies[2]:Kill()
 
 -- set player position
-Transform.SetPosition(player.transformID, {x=250, y=0, z=150})
+Transform.SetPosition(player.transformID, {x=20, y=60, z=160})
 
 -- set goal
 goal = {}
 goal.transformID = Transform.Bind()
 goal.collider = SphereCollider.Create(goal.transformID)
+goal.collider:SetRadius(5)
 CollisionHandler.AddSphere(goal.collider)
 
-Transform.SetPosition(goal.transformID, { x = 30, y = 25, z = 130 })
+Transform.SetPosition(goal.transformID, { x = 460, y = 92, z = 144 })

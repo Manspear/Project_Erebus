@@ -241,7 +241,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
 	//GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
-	glUniform1f(loc, 0.5);
+	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
