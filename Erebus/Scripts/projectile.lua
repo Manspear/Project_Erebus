@@ -8,7 +8,7 @@ function CreateProjectile()
 	local fireball = createFireball()
 	CollisionHandler.AddSphere(projectile.sphereCollider)
 
-	local projectileModel = Assets.LoadModel( "Models/Robot.model" )
+	local projectileModel = Assets.LoadModel( "Models/testGuy.model" )
 	Gear.AddStaticInstance(projectileModel, projectile.transformID)
 	function projectile:Cast()
 		self.position = Transform.GetPosition(player.transformID)

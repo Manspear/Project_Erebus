@@ -309,6 +309,8 @@ namespace Importer
 			delete[] vertexData;
 
 			result = true;
+
+			model.material = assets->load<MaterialAsset>( "Materials/heightmap.material" );
 		}
 
 		return result;

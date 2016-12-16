@@ -209,7 +209,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 		ModelAsset* modelAsset = dynamicModels ->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
-		dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
@@ -325,7 +325,11 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		// TEMP: Shouldn't have any models without material
+		if( modelAsset->getMaterial() )
+		modelAsset->getMaterial()->bindTextures( allShaders[GEOMETRY]->getProgramID() );
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
@@ -367,7 +371,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
+		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
+		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		{
@@ -419,7 +424,8 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
+		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
+		modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY_PICKING]->getProgramID());
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{

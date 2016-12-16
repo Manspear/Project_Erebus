@@ -138,8 +138,6 @@ struct hModel
 
 struct sExpMaterial
 {
-	char materialName[32];
-
 	float ambientColor[3];
 
 	float diffuseColor[3];
