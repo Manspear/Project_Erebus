@@ -73,8 +73,8 @@ namespace Gear
 			light.pos = glm::vec4(position,1);
 			light.color = glm::vec4(dis(gen), dis(gen), dis(gen),1); //give the light a random color between 0 and 1
 			//DISCO
-			color[i] = glm::vec3(light.color);
-			light.radius.z = LIGHT_RADIUS;
+			/*color[i] = glm::vec3(light.color);
+			light.radius.z = LIGHT_RADIUS;*/
 		}
 
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
@@ -194,7 +194,7 @@ namespace Gear
 		//queue.particlePass(particleSystems);
 
 		//Disco party!!! moves the lights around and is fun
-
+		/*
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
 		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE);
 		for (int i = 0; i < NUM_LIGHTS; i++) {
@@ -222,7 +222,7 @@ namespace Gear
 		}
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
+		*/
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
