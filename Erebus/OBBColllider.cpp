@@ -161,14 +161,7 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 
 	// dot products
 	float dots[3][3];
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			dots[i][j] = glm::dot
-		}
-
-	}
+	dots[0][0] = glm::dot(xAxis,bXAxis);
 
 
 	// CASE 1

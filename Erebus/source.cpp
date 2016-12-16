@@ -93,7 +93,6 @@ int main()
 	double deltaTime;
 	bool lockMouse = false;
 	Debug* tempDebug = Debugger::getInstance();
-	engine.addDebugger(tempDebug);
 	collisionHandler.setDebugger(tempDebug);
 	while (running && window.isWindowOpen())
 	{	
