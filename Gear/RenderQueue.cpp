@@ -232,7 +232,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 
 void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSystems)
 {
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
 	GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
@@ -253,7 +253,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 		}
 	}
 	allShaders[PARTICLES]->unUse();
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 }
 
 /*void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)
