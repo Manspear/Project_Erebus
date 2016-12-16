@@ -185,10 +185,9 @@ int startNetworkCommunication( Window* window )
 			return 1;
 		}
 
-		if (!network.AcceptCommunication())
+		while (running && window->isWindowOpen() && !network.AcceptCommunication())
 		{
-			printf("failed to accept connection\n");
-			return 1;
+			Sleep(250);
 		}
 
 		while (running && window->isWindowOpen())
@@ -199,7 +198,7 @@ int startNetworkCommunication( Window* window )
 	}
 	else
 	{
-		if (!network.InitializeClient(127,0,0,1,35501))
+		if (!network.InitializeClient(127,0,0,1,35500))
 		{
 			printf("failed to initialize sockets\n");
 			return 1;
