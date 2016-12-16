@@ -11,13 +11,8 @@ local scriptFiles =
 local drawHitboxes = false
 
 function Load()
-	-- TEMP: Make a level script?
-	heightmap = Assets.LoadHeightmap("Textures/sclae2.png")
-	heightmap.transformID = Transform.Bind()
-
 	--Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
-	local model = Assets.LoadModel("Models/niclasland_sclae2.model")
-	Gear.AddStaticInstance(model, heightmap.transformID)
+	
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
@@ -27,6 +22,8 @@ function Load()
 	for key,value in pairs(scripts) do
 		if value.Load then value.Load() end
 	end
+
+	dofile( "Scripts/level.lua" )
 end
 
 function Unload()
