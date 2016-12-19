@@ -326,7 +326,8 @@ namespace LuaTransform
 		glm::vec3 tempLookdir = g_transforms[transID].getLookAt();
 		tempLookdir.y = 0;
 		tempLookdir = glm::normalize(tempLookdir);
-		float rotY = ((tempLookdir.x > 0)*2-1) * glm::angle(tempLookdir, glm::vec3(0.0f, 0.0f, 1.0f));
+		//float rotY = ((tempLookdir.x > 0)*2-1) * glm::angle(tempLookdir, glm::vec3(0.0f, 0.0f, 1.0f));
+		float rotY = ((tempLookdir.x > 0) * 2 - 1) * acos(glm::dot(tempLookdir, {0,0,1}));
 		g_transforms[transID].setRotation({ 0, rotY, 0 });
 		return 0;
 	}
