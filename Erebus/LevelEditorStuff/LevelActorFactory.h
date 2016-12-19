@@ -5,12 +5,16 @@
 #include "Model.h"
 #include <map>
 #include <vector>
+#include "LevelTransformHandler.h"
+#include "LevelModelHandler.h"
+#include "Gear.h"
 
 
 class LevelActorFactory
 {
 public:
 	LevelActorFactory();
+	LevelActorFactory(LevelTransformHandler* transformHandlerRef, LevelModelHandler* modelHandlerRef);
 	~LevelActorFactory();
 	LevelActor* createActor(std::string name);
 	const char* getPath(unsigned int id);
@@ -26,13 +30,14 @@ private:
 	tinyxml2::XMLDocument* getDocument(std::string path);
 	static LevelActorFactory* actorFactoryInstance;
 	std::map<unsigned int, const char*>* idPathMap;
-
+	LevelTransformHandler* transformHandler;
+	LevelModelHandler* modelHandler;
 	//Singleton things here
 public:
-	static LevelActorFactory* getInstance()
+	static LevelActorFactory* getInstance(LevelTransformHandler* transformHandlerRef, LevelModelHandler* modelHandlerRef)
 	{
 		if (LevelActorFactory::actorFactoryInstance == nullptr)
-			LevelActorFactory::actorFactoryInstance = new LevelActorFactory();
+			LevelActorFactory::actorFactoryInstance = new LevelActorFactory(transformHandlerRef, modelHandlerRef);
 
 		return LevelActorFactory::actorFactoryInstance;
 	}

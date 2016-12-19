@@ -21,7 +21,13 @@ void LevelEditor::start() {
 	this->transformHandler = new LevelTransformHandler(&engine);
 	modelHandler = new LevelModelHandler(transformHandler, &engine, &assets);
 
-	
+	factory = LevelActorFactory::getInstance(this->transformHandler, this->modelHandler);
+
+	LevelActor* tempActor = factory->createActor("test");
+
+	std::cout << tempActor->toXml() << std::endl;
+
+	std::cout << factory->getPath(tempActor->id) << std::endl;
 	
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
 	engine.setFont(font);
@@ -112,6 +118,8 @@ void LevelEditor::start() {
 		delete ps.at(i);
 	delete this->transformHandler;
 	delete this->modelHandler;
+	LevelActorFactory::deleteInstance();
+	delete tempActor;
 	glfwTerminate();
-
+	
 }

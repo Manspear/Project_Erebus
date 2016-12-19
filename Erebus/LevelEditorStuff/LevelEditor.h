@@ -20,13 +20,13 @@
 #include "Ray.h"
 #include "LevelTransformHandler.h"
 #include "LevelModelHandler.h"
-
+#include "LevelActorFactory.h"
 class LevelEditor
 {
 private:
 	
 	
-
+	LevelActorFactory* factory;
 	std::vector<Gear::ParticleSystem*> ps;
 	LevelTransformHandler* transformHandler;
 	LevelModelHandler* modelHandler;

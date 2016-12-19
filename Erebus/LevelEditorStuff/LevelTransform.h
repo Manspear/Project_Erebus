@@ -3,6 +3,7 @@
 #include "BaseIncludes.h"
 #include "glm/ext.hpp"
 #include "glm/gtx/string_cast.hpp"
+#include "../Transform.h"
 class LevelTransform : public LevelActorComponent
 {
 public:
@@ -20,6 +21,7 @@ public:
 private:
 	glm::vec3 position;
 	glm::vec3 rotation;
+	Transform* transformRef;
 	
 };
 

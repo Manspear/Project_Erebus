@@ -5,10 +5,21 @@ LevelActorFactory* LevelActorFactory::actorFactoryInstance = nullptr;
 LevelActorFactory::LevelActorFactory()
 {
 	actorID = 0;
-	folder = "Resources/ActorsXML/";
+	folder = "LevelEditorStuff/Resources/ActorsXML/";
 	fileExtension = ".xml";
 	savedDocuments = std::map<std::string, tinyxml2::XMLDocument*>();
 	idPathMap = new std::map<unsigned int, const char*>();
+}
+
+LevelActorFactory::LevelActorFactory(LevelTransformHandler* transformHandlerRef, LevelModelHandler* modelHandlerRef) {
+	actorID = 0;
+	folder = "LevelEditorStuff/Resources/ActorsXML/";
+	fileExtension = ".xml";
+	savedDocuments = std::map<std::string, tinyxml2::XMLDocument*>();
+	idPathMap = new std::map<unsigned int, const char*>();
+
+	this->transformHandler = transformHandlerRef;
+	this->modelHandler = modelHandlerRef;
 }
 
 
@@ -101,12 +112,15 @@ tinyxml2::XMLDocument* LevelActorFactory::getDocument(std::string path) {
 LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentName)
 {
 	LevelActorComponent* returnComponent = nullptr;
-
+	this->transformHandler->b
 	//Ugly if, but works
 	if (componentName == LevelTransform::name)
 	{
 		returnComponent = new LevelTransform();
 	}
+
+
+	
 	//else if (componentName == Model::name)
 	//{
 	//	returnComponent = new Model();
