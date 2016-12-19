@@ -55,10 +55,28 @@
     <ClCompile Include="LuaParticles.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
+    <ClCompile Include="LevelEditorStuff\Actor.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
+    <ClCompile Include="LevelEditorStuff\ActorFactory.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\tinyxml2.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelTransform.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelEditor.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelModel.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\levelTransformHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelModelHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -114,10 +132,31 @@
     <ClInclude Include="LuaParticles.h">
       <Filter>Lua\Header</Filter>
     </ClInclude>
-    <ClInclude Include="LevelEditor.h">
+    <ClInclude Include="LevelEditorStuff\Actor.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="LevelModel.h">
+    <ClInclude Include="LevelEditorStuff\ActorComponent.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\ActorFactory.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\tinyxml2.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelTransform.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelEditor.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelModel.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\levelTransformHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelModelHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>

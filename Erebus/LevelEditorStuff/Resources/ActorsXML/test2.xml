@@ -1,0 +1,9 @@
+<Actor type="testActor2">
+	<Transform>
+		<Position x="666.6666" y="666.6666" z="666.6666" />
+		<Rotation x="777.777" y="777.777" z="777.777" />
+	</Transform>
+	<Model>
+		<Path> BadisNaked.jpg </Path>
+	</Model>
+</Actor>

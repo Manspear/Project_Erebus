@@ -1,0 +1,9 @@
+<Actor type="testActor">
+	<Transform>
+		<Position x="10.0" y="3.3" z="7.5" />
+		<Rotation x="45" y="10" z="33" />
+	</Transform>
+	<Model>
+		<Path> Models/newmolebat.mole</Path>
+	</Model>
+</Actor>

@@ -17,14 +17,16 @@ LevelEditor::~LevelEditor()
 void LevelEditor::start() {
 
 	Gear::GearEngine engine;
-
 	Importer::Assets assets;
+	this->transformHandler = new LevelTransformHandler(&engine);
+	modelHandler = new LevelModelHandler(transformHandler, &engine, &assets);
+	
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
 	engine.setFont(font);
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/testGuy.model");
 
 	CollisionHandler collisionHandler;
-	collisionHandler.setTransforms(transforms);
+	collisionHandler.setTransforms(this->transformHandler->getAllTransforms());
 
 	glEnable(GL_DEPTH_TEST);
 	
@@ -40,60 +42,62 @@ void LevelEditor::start() {
 
 	engine.addDebugger(Debugger::getInstance());
 
+	for (size_t i = 0; i < 10; i++)
+	{
+		if(i%2)
+			modelHandler->loadModel("Robot");
+		else
+			modelHandler->loadModel("testGuy");
+	}
+	modelHandler->loadModel("niclasland_sclae2");
+
 	//Model stuff START
-	for (int i = 0; i < nrOfTransforms; i++)
-		transforms[i].setThePtr(&allTransforms[i]);
-	boundTransforms = 0;
 
-	engine.allocateWorlds(nrOfTransforms);
-
-	engine.bindTransforms(&allTransforms, &boundTransforms);
 
 	//Loading a model!
-	ModelAsset* testModel = assets.load<ModelAsset>("Models/Robot.model");
-	int result = engine.generateWorldMatrix();
+	//ModelAsset* testModel = assets.load<ModelAsset>("Models/Robot.model");	//Loads model
+	//int result = engine.generateWorldMatrix();								//Generates a worldmatrix
 
-	int index = -1;
-	for (int i = 0; i<models.size(); i++)
-		if (models.at(i).asset == testModel)
-			index = i;
-	if (index ==-1)
-	{
-		ModelInstance instance;
-		instance.asset = testModel;
-		//TEMP TODO: move to importer
-		//instance.asset-> = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
+	//int index = -1;															//Checks wether the models allready has loaded before
+	//for (int i = 0; i<models.size(); i++)
+	//	if (models.at(i).asset == testModel)
+	//		index = i;														//It has
+	//if (index ==-1)															//If the model doesnt exist in the list, load it in and insert it into the list of models
+	//{
+	//	ModelInstance instance;
+	//	instance.asset = testModel;
 
-		index = models.size();
-		models.push_back(instance);
+	//	index = models.size();
+	//	models.push_back(instance);
 
-	}
-	models.at(index).worldIndices.push_back(boundTransforms);
+	//}
+	////models.at(index).worldIndices.push_back(boundTransforms);				//Assign a model to a new transformID
 
-	boundTransforms++;
+	////boundTransforms++;														//Increment the total of transforms/Model instances in the worl
+	////END LOAD
 
-	testModel = assets.load<ModelAsset>("Models/Robot.model");
-	result = engine.generateWorldMatrix();
+	//testModel = assets.load<ModelAsset>("Models/Robot.model");
+	//result = engine.generateWorldMatrix();
 
-	index = -1;
-	for (int i = 0; i<models.size(); i++)
-		if (models.at(i).asset == testModel)
-			index = i;
-	if (index == -1)
-	{
-		ModelInstance instance;
-		instance.asset = testModel;
-		//TEMP TODO: move to importer
-		//instance.material = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
+	//index = -1;
+	//for (int i = 0; i<models.size(); i++)
+	//	if (models.at(i).asset == testModel)
+	//		index = i;
+	//if (index == -1)
+	//{
+	//	ModelInstance instance;
+	//	instance.asset = testModel;
+	//	//TEMP TODO: move to importer
+	//	//instance.material = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
 
-		index = models.size();
-		models.push_back(instance);
+	//	index = models.size();
+	//	models.push_back(instance);
 
-	}
-	models.at(index).worldIndices.push_back(boundTransforms);
-	transforms[boundTransforms].setPos(glm::vec3(5, 0, 5));
+	//}
+	//models.at(index).worldIndices.push_back(boundTransforms);
+	//transforms[boundTransforms].setPos(glm::vec3(5, 0, 5));
 
-	boundTransforms++;
+	//boundTransforms++;
 	//End load model
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
@@ -114,8 +118,8 @@ void LevelEditor::start() {
 		for (int i = 0; i < ps.size(); i++)
 			ps.at(i)->update(deltaTime);
 
-		engine.queueDynamicModels(&models);
-		engine.queueAnimModels(&animatedModels);
+		engine.queueDynamicModels(modelHandler->getModels());
+		engine.queueAnimModels(modelHandler->getAnimatedModels());
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
@@ -159,11 +163,11 @@ void LevelEditor::start() {
 	}
 
 	//luaBinds.unload();
-	delete[] allTransforms;
-	delete[] transforms;
+	
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
-
+	delete this->transformHandler;
+	delete this->modelHandler;
 	glfwTerminate();
 
 }
