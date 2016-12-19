@@ -30,7 +30,7 @@ void LevelTransform::update(float deltaTime)
 {
 }
 
-void LevelTransform::setParent(Actor * parent)
+void LevelTransform::setParent(LevelActor * parent)
 {
 	this->parent = parent;
 }

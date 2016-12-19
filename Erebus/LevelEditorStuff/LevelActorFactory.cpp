@@ -1,8 +1,8 @@
-#include "ActorFactory.h"
+#include "LevelActorFactory.h"
 
-ActorFactory* ActorFactory::actorFactoryInstance = nullptr;
+LevelActorFactory* LevelActorFactory::actorFactoryInstance = nullptr;
 
-ActorFactory::ActorFactory()
+LevelActorFactory::LevelActorFactory()
 {
 	actorID = 0;
 	folder = "Resources/ActorsXML/";
@@ -12,7 +12,7 @@ ActorFactory::ActorFactory()
 }
 
 
-ActorFactory::~ActorFactory()
+LevelActorFactory::~LevelActorFactory()
 {
 	for (auto element : this->savedDocuments)
 	{
@@ -25,10 +25,10 @@ ActorFactory::~ActorFactory()
 	}
 }
 
-Actor* ActorFactory::createActor(std::string name)
+LevelActor* LevelActorFactory::createActor(std::string name)
 {
-	ActorFactory::actorID++;
-	Actor* returnActor = new Actor(ActorFactory::actorID);
+	LevelActorFactory::actorID++;
+	LevelActor* returnActor = new LevelActor(LevelActorFactory::actorID);
 	std::string fullPath = folder + name + fileExtension;
 	const char* nodeToPath = "Model";
 	const char* elementToPath = "Path";
@@ -44,7 +44,7 @@ Actor* ActorFactory::createActor(std::string name)
 		{
 			this->idPathMap->insert(std::pair<unsigned int, const char*>(returnActor->id,pNode->FirstChildElement(elementToPath)->GetText()));
 		}
-		ActorComponent* temp = getNewComponent(pNode->Value());
+		LevelActorComponent* temp = getNewComponent(pNode->Value());
 		temp->initialize(pNode);
 		returnActor->addComponent(temp);
 	}
@@ -56,7 +56,7 @@ Actor* ActorFactory::createActor(std::string name)
 	return returnActor;
 }
 
-const char * ActorFactory::getPath(unsigned int id)
+const char * LevelActorFactory::getPath(unsigned int id)
 {
 	const char* returnPath = "Fail";
 
@@ -68,7 +68,7 @@ const char * ActorFactory::getPath(unsigned int id)
 	return returnPath;
 }
 
-void ActorFactory::deleteSavedPaths()
+void LevelActorFactory::deleteSavedPaths()
 {
 	if (idPathMap != nullptr)
 	{
@@ -77,7 +77,7 @@ void ActorFactory::deleteSavedPaths()
 	}
 }
 
-tinyxml2::XMLDocument* ActorFactory::getDocument(std::string path) {
+tinyxml2::XMLDocument* LevelActorFactory::getDocument(std::string path) {
 	tinyxml2::XMLDocument* returnDocument = nullptr;
 	auto iterator = savedDocuments.find(path);
 	if (iterator != savedDocuments.end())
@@ -98,9 +98,9 @@ tinyxml2::XMLDocument* ActorFactory::getDocument(std::string path) {
 
 }
 
-ActorComponent * ActorFactory::getNewComponent(std::string componentName)
+LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentName)
 {
-	ActorComponent* returnComponent = nullptr;
+	LevelActorComponent* returnComponent = nullptr;
 
 	//Ugly if, but works
 	if (componentName == LevelTransform::name)

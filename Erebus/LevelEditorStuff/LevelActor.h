@@ -1,21 +1,21 @@
 #pragma once
 #include<map>
 #include <string>
-#include "ActorComponent.h"
+#include "LevelActorComponent.h"
 #include "TinyXml\tinyxml2.h"
 #include <iostream> // prob remove dis
 
 
-class Actor
+class LevelActor
 {
 public:
-	Actor(unsigned int id);
-	~Actor();
+	LevelActor(unsigned int id);
+	~LevelActor();
 	void initialize(tinyxml2::XMLElement* data);
 	//bool deleteComponent(std::string componentName);
 	void postInitializeAllComponents();
 	void update();
-	void addComponent(ActorComponent* component);
+	void addComponent(LevelActorComponent* component);
 	void printAllComponents();
 	unsigned int id;
 	std::string toXml();
@@ -24,7 +24,7 @@ public:
 
 
 private:
-	std::map<std::string, ActorComponent*> actorComponents;
+	std::map<std::string, LevelActorComponent*> actorComponents;
 	std::string actorType;
 
 
