@@ -127,4 +127,14 @@ namespace Gear
 		return color;
 	}
 
+	GEAR_API void ParticleSystem::setTextrue(Importer::TextureAsset * tAParticles)
+	{
+		textureAssetParticles = tAParticles;
+	}
+
+	GEAR_API Importer::TextureAsset * ParticleSystem::getTexture()
+	{
+		return textureAssetParticles;
+	}
+
 }

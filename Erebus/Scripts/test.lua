@@ -13,7 +13,7 @@ PLAYER_TRANS_MIN, PLAYER_TRANS_MAX = 0, 1
 ENEMY_TRANS_MIN, ENEMY_TRANS_MAX = 1, 40
 BULLET_TRANS_MIN, BULLET_TRANS_MAX = 40, 50
 
-modelPaths = {{"Models/Robot.model", nrOfEnemies+1}, {"Models/Robot.model", nrOfBullets}}
+modelPaths = {{"Models/testGuy.model", nrOfEnemies+1}, {"Models/testGuy.model", nrOfBullets}}
 for i = 1, #modelPaths do
 	Engine.LoadModels(modelPaths[i][1], modelPaths[i][2])
 end

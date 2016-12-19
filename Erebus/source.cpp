@@ -19,6 +19,7 @@
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
+#include "MaterialAsset.h"
 #include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
@@ -34,7 +35,6 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	
 	Window window;
 	Gear::GearEngine engine;
 
@@ -52,7 +52,8 @@ int main()
 
 	engine.addDebugger(Debugger::getInstance());
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/Robot.model" );
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/testGuy.model" );
+	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
@@ -78,7 +79,13 @@ int main()
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
-	glClearColor(155, 0, 155, 0);
+	glClearColor(1, 1, 1, 1);
+
+	//particlesTexture->bind(PARTICLES);
+	for(int i = 0; i < ps.size(); i++)
+	{
+		ps.at(i)->setTextrue(particlesTexture);
+	}
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -90,8 +97,10 @@ int main()
 		controls.update(&inputs);
 		luaBinds.update( &controls, deltaTime);
 		
-		for (int i = 0; i < ps.size(); i++)
+		for (int i = 0; i < ps.size(); i++) {
 			ps.at(i)->update(deltaTime);
+		}
+
 		
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
@@ -135,6 +144,8 @@ int main()
 		engine.print(fps, 0.f, 720.f);
 
 		window.update();
+
+		assets.checkHotload( deltaTime );
 	}
 
 	luaBinds.unload();
@@ -174,10 +185,9 @@ int startNetworkCommunication( Window* window )
 			return 1;
 		}
 
-		if (!network.AcceptCommunication())
+		while (running && window->isWindowOpen() && !network.AcceptCommunication())
 		{
-			printf("failed to accept connection\n");
-			return 1;
+			Sleep(250);
 		}
 
 		while (running && window->isWindowOpen())
@@ -188,7 +198,7 @@ int startNetworkCommunication( Window* window )
 	}
 	else
 	{
-		if (!network.InitializeClient(127,0,0,1,35501))
+		if (!network.InitializeClient(127,0,0,1,35500))
 		{
 			printf("failed to initialize sockets\n");
 			return 1;

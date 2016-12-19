@@ -10,141 +10,160 @@ LevelEditor::LevelEditor()
 
 LevelEditor::~LevelEditor()
 {
+	delete this->inputs;
+	delete this->camera;
 }
 
 void LevelEditor::start() {
 
-
-	Window window;
 	Gear::GearEngine engine;
 
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
 	engine.setFont(font);
-	int nrOfTransforms = 100;
-	int boundTransforms = 0;
-	Transform* transforms = new Transform[nrOfTransforms];
-	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
-	for (int i = 0; i < nrOfTransforms; i++)
-		transforms[i].setThePtr(&allTransforms[i]);
-	Controls controls;
-	engine.allocateWorlds(nrOfTransforms);
+	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/testGuy.model");
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/Robot.model");
-	//engine.queue.animationObject.setAsset(moleman);
-
-	std::vector<ModelInstance> models;
-	std::vector<AnimatedInstance> animatedModels;
-	engine.addDebugger(Debugger::getInstance());
-	Debug* tempDebug = Debugger::getInstance();
-
-	double deltaTime = 0.0;
-
-	//Collision handler
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	collisionHandler.setDebugger(Debugger::getInstance());
 
 	glEnable(GL_DEPTH_TEST);
-
+	
 	GLFWwindow* w = window.getGlfwWindow();
-	Inputs inputs(w);
-
-	window.changeCursorStatus(false);
+	this->inputs = new Inputs(w);
+	this->camera = new Camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, inputs);
+	//window.changeCursorStatus(false);
 
 	PerformanceCounter counter;
-	counter.startCounter();
-	double frameTime = 0.0;
-	int frameCounter = 0;
-	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
+	double deltaTime;
+	bool lockMouse = false;
+	window.changeCursorStatus(lockMouse);
+
+	engine.addDebugger(Debugger::getInstance());
+
+	//Model stuff START
+	for (int i = 0; i < nrOfTransforms; i++)
+		transforms[i].setThePtr(&allTransforms[i]);
+	boundTransforms = 0;
+
+	engine.allocateWorlds(nrOfTransforms);
+
 	engine.bindTransforms(&allTransforms, &boundTransforms);
-	LuaBinds luaBinds;
-	//luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera);
-	bool playerAlive = true;
 
-	//Importer::TextureAsset* moleratTexture = assets.load<Importer::TextureAsset>("Textures/molerat_texturemap2.png");
-	//Importer::TextureAsset* moleratTexture2 = assets.load<Importer::TextureAsset>("Textures/red.png");
-	//for (size_t i = 0; i < models.size(); i++)
-	//{
-	//	models.at(i).texAsset = moleratTexture;
-	//}
-	//models.at(1).texAsset = moleratTexture2;
+	//Loading a model!
+	ModelAsset* testModel = assets.load<ModelAsset>("Models/Robot.model");
+	int result = engine.generateWorldMatrix();
 
+	int index = -1;
+	for (int i = 0; i<models.size(); i++)
+		if (models.at(i).asset == testModel)
+			index = i;
+	if (index ==-1)
+	{
+		ModelInstance instance;
+		instance.asset = testModel;
+		//TEMP TODO: move to importer
+		//instance.asset-> = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
 
-	std::string out = "FPS: -1";
-	double updateRate = 4.0;
+		index = models.size();
+		models.push_back(instance);
 
-	float currentAnimation = 0;
-	float addSyntax = 1;
-	float minMax = 1;
+	}
+	models.at(index).worldIndices.push_back(boundTransforms);
 
+	boundTransforms++;
 
-	//		Debugger::getInstance()->drawLine({ i, l, 0 }, { i, l, 255 });
+	testModel = assets.load<ModelAsset>("Models/Robot.model");
+	result = engine.generateWorldMatrix();
+
+	index = -1;
+	for (int i = 0; i<models.size(); i++)
+		if (models.at(i).asset == testModel)
+			index = i;
+	if (index == -1)
+	{
+		ModelInstance instance;
+		instance.asset = testModel;
+		//TEMP TODO: move to importer
+		//instance.material = Material(&assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
+
+		index = models.size();
+		models.push_back(instance);
+
+	}
+	models.at(index).worldIndices.push_back(boundTransforms);
+	transforms[boundTransforms].setPos(glm::vec3(5, 0, 5));
+
+	boundTransforms++;
+	//End load model
+
+	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
+	//lua_pushinteger(lua, g_particles->size());
+	//g_particles->push_back(new Gear::ParticleSystem(lua_tointeger(lua, 1), lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4), lua_tointeger(lua, 5)));
+
+	//LuaBinds luaBinds;
+	//luaBinds.load(&engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	//Model stuff END
+	
 	while (running && window.isWindowOpen())
 	{
-		
-
 		deltaTime = counter.getDeltaTime();
-		currentAnimation += addSyntax * deltaTime;
-		if (currentAnimation > minMax)
-			addSyntax = -1;
-		if (currentAnimation < .2f)
-			addSyntax = 1;
+		inputs->update();
 
-		inputs.update();
-		//controls.update(&inputs);
-		//luaBinds.update(&controls, deltaTime);
-		camera.updateLevelEditorCamera(deltaTime);
-		//float angle = asinf(dir.y);
-		//camera.follow(controls.getControl()->getPos(), dir, abs(inputs.getScroll())+5.f, -angle);
+		camera->updateLevelEditorCamera(deltaTime);
+
+		for (int i = 0; i < ps.size(); i++)
+			ps.at(i)->update(deltaTime);
 
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
+		engine.queueParticles(&ps);
 
-		//Collisions
 		collisionHandler.checkCollisions();
-		//collisionHandler.drawHitboxes();
-		//collisionHandler.printCollisions();
 
-		frameCounter++;
-		frameTime += deltaTime;
+		engine.draw(camera);
 
-		if (frameTime > 1 / updateRate)
+		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
+			running = false;
+
+		if (inputs->keyPressedThisFrame(GLFW_KEY_J))
+			engine.setDrawMode(1);
+		else if (inputs->keyPressedThisFrame(GLFW_KEY_K))
+			engine.setDrawMode(2);
+		else if (inputs->keyPressedThisFrame(GLFW_KEY_L))
+			engine.setDrawMode(3);
+		else if (inputs->keyPressedThisFrame(GLFW_KEY_P))
+			engine.setDrawMode(4);
+		else if (inputs->keyPressedThisFrame(GLFW_KEY_N))
+			engine.setDrawMode(5);
+		else if (inputs->keyPressedThisFrame(GLFW_KEY_O))
+			engine.setDrawMode(6);
+		else if (inputs->keyPressedThisFrame(GLFW_KEY_R))
 		{
-			int fps = double(frameCounter) / frameTime;
-			out = "FPS: " + std::to_string(fps);
-			frameCounter = 0;
-			frameTime -= 1 / updateRate;
+			if (lockMouse)
+			{
+				window.changeCursorStatus(false);
+				lockMouse = false;
+			}
+			else
+			{
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
 		}
 
 
-		engine.print(out, 0.f, 720.f);
-
-		engine.draw(&camera);
-
-		lua_State* lua;
-		if (inputs.keyPressed(GLFW_KEY_ESCAPE))
-			running = false;
-		if (inputs.keyPressedThisFrame(GLFW_KEY_1))
-			engine.setDrawMode(1);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_2))
-			engine.setDrawMode(2);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_3))
-			engine.setDrawMode(3);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_4))
-			engine.setDrawMode(4);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_5))
-			engine.setDrawMode(5);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_6))
-			engine.setDrawMode(6);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_7))
-			engine.setDrawMode(7);
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.f, 720.f);
 
 		window.update();
 	}
 
-	luaBinds.unload();
+	//luaBinds.unload();
 	delete[] allTransforms;
 	delete[] transforms;
+	for (int i = 0; i < ps.size(); i++)
+		delete ps.at(i);
+
 	glfwTerminate();
+
 }

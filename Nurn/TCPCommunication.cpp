@@ -28,7 +28,6 @@ namespace Nurn
 		// Check if message larger then max size of the connection(TCP doesnt care)
 		if (size > 1500)
 		{
-			// TODOCM Fix better message
 			throw std::runtime_error("Attempting to send too large message.");
 		}
 
@@ -38,12 +37,6 @@ namespace Nurn
 		// If some error
 		if (Return == SOCKET_ERROR)
 		{
-			// Error cause of Socket is buissy in non-blocking mode, non-fatal error
-			int errorCode = WSAGetLastError();
-			if (errorCode != WSAEWOULDBLOCK && errorCode != WSAECONNABORTED)
-			{
-				// TODOCM Log message
-			}
 			return false;
 		}
 
