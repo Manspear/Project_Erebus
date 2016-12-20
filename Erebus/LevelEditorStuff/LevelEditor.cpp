@@ -32,17 +32,16 @@ void LevelEditor::start() {
 
 	for (size_t i = 0; i < 100; i++)
 	{
-		actors.push_back(factory->createActor("test"));
+		actors.push_back(factory->createActor("TestCharacter"));
 	}
 	
-
+	actors.push_back(factory->createActor("TestTerrain"));
 	//LevelActor* tempActor = factory->createActor("test");
 	actors[0]->printAllComponents();
 	//std::cout <<  << std::endl;
 	
 	
 	engine.setFont(font);
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/testGuy.model");
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(this->transformHandler->getAllTransforms());
@@ -70,9 +69,6 @@ void LevelEditor::start() {
 	//
 	//}
 
-	
-
-	modelHandler->loadModel("niclasland_sclae2");
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 	while (running && window.isWindowOpen())

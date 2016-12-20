@@ -79,6 +79,9 @@
     <ClCompile Include="LevelEditorStuff\LevelActor.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LuaAi.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -158,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelActorComponent.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaAi.h">
+      <Filter>Lua\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

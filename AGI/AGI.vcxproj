@@ -112,6 +112,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AGI.h" />
+    <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="FollowState.h" />
+    <ClInclude Include="IdleState.h" />
     <ClInclude Include="InfluenceNode.h" />
     <ClInclude Include="RadiusInfluenceNode.h" />
   </ItemGroup>
