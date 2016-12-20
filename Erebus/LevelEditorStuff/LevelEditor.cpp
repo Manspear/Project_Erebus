@@ -92,6 +92,10 @@ void LevelEditor::start() {
 
 		collisionHandler.checkCollisions();
 
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.0f, 0.0f);
+
+
 		engine.draw(camera);
 
 		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
@@ -122,10 +126,6 @@ void LevelEditor::start() {
 				lockMouse = true;
 			}
 		}
-
-
-		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.f, 720.f);
 
 		window.update();
 	}
