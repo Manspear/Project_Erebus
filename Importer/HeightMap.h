@@ -24,6 +24,9 @@ namespace Importer
 
 		IMPORTER_API ModelAsset* getModel();
 
+		IMPORTER_API int getMapWidth();
+		IMPORTER_API int getMapHeight();
+
 	private:
 		float getHardPosAt( int x, int y );
 

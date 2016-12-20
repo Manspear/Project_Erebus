@@ -17,6 +17,11 @@ function Load()
 	heightmap.transformID = Transform.Bind()
 
 	Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
+
+	widthTest = heightmap:GetMapWidth()
+	heightTest = heightmap:GetMapHeight()
+	AI.SetNav(widthTest,heightTest)
+
 	local model = Assets.LoadModel("Models/niclasland_scale1.model")
 	--local model = Assets.LoadModel("Models/niclasland_sclae2.model")
 	Gear.AddStaticInstance(model, heightmap.transformID)
