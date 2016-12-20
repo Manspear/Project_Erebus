@@ -9,7 +9,7 @@ public:
 		pos = glm::vec2(0, 0);
 		strength = 1;
 	};
-	AGI_API InfluenceNode(glm::vec2 inPos, int inStrength)
+	AGI_API InfluenceNode(glm::vec2 inPos, float inStrength)
 	{
 		pos = inPos;
 		strength = inStrength;
@@ -24,7 +24,7 @@ public:
 		return pos;
 	}
 
-	AGI_API int getStrength()
+	AGI_API float getStrength()
 	{
 		return strength;
 	}
@@ -34,11 +34,11 @@ public:
 		pos = inPos;
 	}
 
-	AGI_API void setStrength(int inStrength)
+	AGI_API void setStrength(float inStrength)
 	{
 		strength = inStrength;
 	}
 private:
 	glm::vec2 pos;
-	int strength;
+	float strength;
 };
