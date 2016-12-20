@@ -233,14 +233,11 @@ int startNetworkReceiving(Nurn::NurnEngine * pNetwork, Window* window)
 {
 	printf("Recieving package\n");
 	Sleep(250);
-	Nurn::Address sender;
 	unsigned char buffer[256];
-	int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
+	int bytes_read = pNetwork->Receive(buffer, sizeof(buffer));
 	if (bytes_read)
 	{
-		printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
-			sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-			sender.GetPort(), bytes_read);
+		printf("received packet %d bytes\n", bytes_read);
 		std::cout << buffer << std::endl;
 	}
 

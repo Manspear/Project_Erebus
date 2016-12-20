@@ -45,8 +45,8 @@ namespace Nurn
 		bool Send(const void * data, int size);
 		bool Send(const Address & destination, const void * data, int size);
 
+		// Returns 1 or 0 if a byte has been recieved or not. Then returns the data through the void *
 		bool Receive(void * data, int size);
-		bool Receive(Address & sender, void * data, int size);
 
 		void Shutdown();
 
