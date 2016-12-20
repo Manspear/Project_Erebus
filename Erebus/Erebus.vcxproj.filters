@@ -28,12 +28,6 @@
     <ClCompile Include="CollisionLayers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>LevelEditor\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>LevelEditor\Source</Filter>
-    </ClCompile>
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
@@ -61,6 +55,12 @@
     <ClCompile Include="LuaParticles.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelModel.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -80,12 +80,6 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>LevelEditor\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelModel.h">
-      <Filter>LevelEditor\Header</Filter>
     </ClInclude>
     <ClInclude Include="HitBox.h">
       <Filter>Header Files</Filter>
@@ -119,6 +113,12 @@
     </ClInclude>
     <ClInclude Include="LuaParticles.h">
       <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelModel.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,9 +200,6 @@
     <None Include="Shaders\anim.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\anim.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\text.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -236,14 +233,35 @@
     <None Include="Shaders\debugLine.geom">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\debugLine.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugLine.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugSphere.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugSphere.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugSphere.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.frag">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="Shaders\forward.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debug.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\debug.vert">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\particle.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -262,14 +280,17 @@
     <Filter Include="LevelEditor">
       <UniqueIdentifier>{7230b79a-6749-4a87-bb2b-68161de81821}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor\Source">
-      <UniqueIdentifier>{20ce8610-1069-4f54-af94-44f62e0679d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LevelEditor\Header">
-      <UniqueIdentifier>{b203593d-2cd7-44c1-9a26-22f9e883833d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Lua">
       <UniqueIdentifier>{bdcad772-df23-48d9-9c92-cc60b94d9bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor">
+      <UniqueIdentifier>{00edde64-b4c7-45b5-92a4-7af495f8fffa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor\SourceLevel">
+      <UniqueIdentifier>{7c35f568-562a-44ec-9ced-e94209cd91ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor\HeaderLevel">
+      <UniqueIdentifier>{c0507264-9e52-4ce3-9a4b-e6188b69a242}</UniqueIdentifier>
     </Filter>
     <Filter Include="Lua\Header">
       <UniqueIdentifier>{86bcb4c3-77a7-4118-9155-7ebf78bd80ee}</UniqueIdentifier>

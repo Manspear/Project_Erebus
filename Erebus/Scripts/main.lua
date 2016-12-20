@@ -12,11 +12,13 @@ local drawHitboxes = false
 
 function Load()
 	-- TEMP: Make a level script?
-	heightmap = Assets.LoadHeightmap("Textures/sclae2.png")
+	heightmap = Assets.LoadHeightmap("Textures/scale1c.png")
+	--heightmap = Assets.LoadHeightmap("Textures/sclae2.png")
 	heightmap.transformID = Transform.Bind()
 
-	--Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
-	local model = Assets.LoadModel("Models/niclasland_sclae2.model")
+	Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
+	local model = Assets.LoadModel("Models/niclasland_scale1.model")
+	--local model = Assets.LoadModel("Models/niclasland_sclae2.model")
 	Gear.AddStaticInstance(model, heightmap.transformID)
 	-- run scripts
 	for i=1, #scriptFiles do

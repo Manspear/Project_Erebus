@@ -24,7 +24,18 @@
 class LevelEditor
 {
 private:
+	const int nrOfTransforms = 100;
+	int boundTransforms;
+	std::vector<ModelInstance> models;
+	std::vector<AnimatedInstance> animatedModels;
+	std::vector<Gear::ParticleSystem*> ps;
+
+	Transform* transforms = new Transform[nrOfTransforms];
+	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
 	bool running;
+	Camera* camera;
+	Inputs* inputs;
+	Window window;
 public:
 	LevelEditor();
 	~LevelEditor();
