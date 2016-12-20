@@ -17,6 +17,7 @@ function LoadConsole()
 
 	console.textInput = ""
 	console.visible = false
+	console.caretIndex = 1
 	console.caretBlink = 0.0
 	console.caretVisible = false
 
@@ -66,7 +67,9 @@ function UpdateConsole(dt)
 		-- get new text input
 		local newText = Inputs.GetTextInput()
 		if #newText > 0 then
-			console.textInput = console.textInput .. newText
+			--console.textInput = console.textInput .. newText
+			console.textInput = string.format( "%s%s%s", console.textInput:sub(0,console.caretIndex), newText, console.textInput:sub(console.caretIndex+1))
+			console.caretIndex = console.caretIndex + #newText
 		end
 
 		-- scroll through previous commands
@@ -78,17 +81,31 @@ function UpdateConsole(dt)
 			console.prevIndex = (console.prevIndex-1) % (CONSOLE_MAX_PREVS-1)
 		end
 
+		-- scroll through text input
+		if Inputs.KeyRepeated(Keys.Left) then
+			console.caretIndex = console.caretIndex - 1
+			if console.caretIndex < 1 then
+				console.caretIndex = 1
+			end
+		elseif Inputs.KeyRepeated(Keys.Right) then
+			console.caretIndex = console.caretIndex + 1
+			if console.caretIndex > #console.textInput then
+				console.caretIndex = #console.textInput
+			end
+		end
+
 		-- draw console messages
 		for i=1, CONSOLE_MAX_MESSAGES do
 			Gear.Print(console.messages[i], 0, (i-1)*32)
 		end
 
-		-- add caret
-		local finalText = console.textInput
+		-- print text input and caret
+		Gear.Print(console.textInput, 0, 128)
 		if console.caretVisible then
-			finalText = finalText .. "_"
+			local subtext = console.textInput:sub(0,console.caretIndex-1)
+			local x,y = Gear.GetTextDimensions(subtext)
+			Gear.Print("_", x, 128)
 		end
-		Gear.Print(finalText, 0, 128)
 
 		-- blink caret
 		if console.caretBlink > 0 then

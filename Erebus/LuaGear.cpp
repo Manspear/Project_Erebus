@@ -23,6 +23,7 @@ namespace LuaGear
 			{ "AddStaticInstance", addStaticInstance },
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "Print", print},
+			{ "GetTextDimensions", getTextDimensions },
 			{ NULL, NULL }
 		};
 
@@ -142,6 +143,16 @@ namespace LuaGear
 			g_gearEngine->print(s, x, y);
 		}
 		return 0;
+	}
+
+	int getTextDimensions( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+
+		glm::vec2 dim = g_gearEngine->getTextDimensions( lua_tostring( lua, 1 ) );
+		lua_pushnumber( lua, dim.x );
+		lua_pushnumber( lua, dim.y );
+		return 2;
 	}
 
 	int createAnimation( lua_State* lua )
