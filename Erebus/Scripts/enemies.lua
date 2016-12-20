@@ -24,13 +24,15 @@ function LoadEnemies()
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 		enemies[i].state = stateScript.state.idleState
+		enemies[i].animation = Animation.Create()
+		enemies[i].animationState = 1
 		enemies[i].range = 4
 		enemies[i].target = nil
 	end
 
 	local model = Assets.LoadModel("Models/testGuy.model")
 	for i=1, MAX_ENEMIES do
-		Gear.AddStaticInstance(model, enemies[i].transformID)
+		Gear.AddAnimatedInstance(model,  enemies[i].transformID, enemies[i].animation)
 	end
 end
 
@@ -50,6 +52,8 @@ function UpdateEnemies(dt)
 			local pos = Transform.GetPosition(enemies[i].transformID)
 			pos.y = heightmap:GetHeight(pos.x,pos.z)+1
 			Transform.SetPosition(enemies[i].transformID, pos)
+
+			enemies[i].animation:Update(dt, enemies[i].animationState)
 		end
 		Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 	end

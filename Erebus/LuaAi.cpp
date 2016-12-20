@@ -108,7 +108,7 @@ namespace LuaAI
 			lua_getfield(lua, 2, "z");
 			position.z = lua_tonumber(lua, -1);
 
-			AI->drawDebug(position);
+			//AI->drawDebug(position);
 
 			float distance = glm::distance(glm::vec3(transforms[enemyIndex].getPos().x,0, transforms[enemyIndex].getPos().z), position);
 
@@ -191,7 +191,8 @@ namespace LuaAI
 
 	int draw()
 	{
-		AI->drawDebug();
+		
+	//	AI->drawDebug();
 		return 1;
 	}
 	int addDebug(Debug * bugger)
