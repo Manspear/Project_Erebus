@@ -5,7 +5,7 @@ player = {}
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 20
+	player.moveSpeed = 14
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
@@ -63,7 +63,7 @@ function UpdatePlayer(dt)
 		player.animationState = 2
 	end
 	if Controls[Keys.SpacePressed] and player.canJump then
-		player.verticalSpeed = 0.5
+		player.verticalSpeed = 0.35
 		player.canJump = false
 		player.animationState = 2
 	end
