@@ -94,6 +94,10 @@ int main()
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
+
+	float alpha = 0.0f;
+	float alphaChangeRate = 0.01f;
+
 	while (running && window.isWindowOpen())
 	{	
 		deltaTime = counter.getDeltaTime();
@@ -112,6 +116,16 @@ int main()
 
 		collisionHandler.checkCollisions();
 		collisionHandler.drawHitboxes();
+
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.0f, 0.0f);
+
+		//Scale & color showcase
+		engine.print("testing\ntesting", 1100.f, 0.f, 1.2f, glm::vec4(0.4f, 1.0f, 0.4f, alpha));
+		alpha += alphaChangeRate;
+		if (alpha <= 0 || alpha >= 1.0f) { alphaChangeRate *= -1; }
+
+		window.update();
 
 		engine.draw(&camera);
 
@@ -143,12 +157,6 @@ int main()
 				lockMouse = true;
 			}
 		}
-
-
-		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.f, 0.f);
-
-		window.update();
 
 		assets.checkHotload( deltaTime );
 	}
@@ -233,14 +241,11 @@ int startNetworkReceiving(Nurn::NurnEngine * pNetwork, Window* window)
 {
 	printf("Recieving package\n");
 	Sleep(250);
-	Nurn::Address sender;
 	unsigned char buffer[256];
-	int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
+	int bytes_read = pNetwork->Receive(buffer, sizeof(buffer));
 	if (bytes_read)
 	{
-		printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
-			sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-			sender.GetPort(), bytes_read);
+		printf("received packet %d bytes\n", bytes_read);
 		std::cout << buffer << std::endl;
 	}
 

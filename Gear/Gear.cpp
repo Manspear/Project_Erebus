@@ -154,9 +154,10 @@ namespace Gear
 		queue.addModelInstance(asset);
 	}
 
-	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY)
+	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color)
 	{
-		text.print(s, baseX, baseY);
+		
+		text.print(s, baseX, baseY, scale, color);
 	}
 
 	glm::vec2 GearEngine::getTextDimensions( const char* t )

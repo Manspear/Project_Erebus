@@ -35,8 +35,13 @@ namespace Gear
 		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
-		GEAR_API void print(const std::string &s, const float &baseX, const float &baseY);
+
 		GEAR_API glm::vec2 getTextDimensions( const char* text );
+		GEAR_API void print(const std::string	&s, 
+							const float			&baseX, 
+							const float			&baseY,
+							const float			&scale = 1.0f, 
+							const glm::vec4		&color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
