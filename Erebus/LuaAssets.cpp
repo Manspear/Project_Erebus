@@ -42,6 +42,8 @@ namespace LuaAssets
 		{
 			{ "GetHeight", getHeight },
 			{ "GetModel", getHeightmapModel },
+			{ "GetMapWidth", getMapWidth },
+			{ "GetMapHeight", getMapHeight },
 			{ NULL, NULL }
 		};
 
@@ -142,6 +144,38 @@ namespace LuaAssets
 			float y = lua_tonumber( lua, 3 );
 
 			lua_pushnumber( lua, heightmap->getPos(x,y) );
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int getMapWidth(lua_State* lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			lua_getfield(lua, 1, "__self");
+			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
+
+			lua_pushnumber(lua, heightmap->getMapWidth());
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int getMapHeight(lua_State* lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			lua_getfield(lua, 1, "__self");
+			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
+
+			lua_pushnumber(lua, heightmap->getMapHeight());
 			result = 1;
 		}
 

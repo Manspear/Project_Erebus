@@ -331,6 +331,16 @@ namespace Importer
 		}
 	}
 
+	int HeightMap::getMapWidth()
+	{
+		return mapWidth;
+	}
+
+	int HeightMap::getMapHeight()
+	{
+		return mapHeight;
+	}
+
 	glm::mat4 HeightMap::getWorldMat()
 	{
 		return this->worldMatrix;
