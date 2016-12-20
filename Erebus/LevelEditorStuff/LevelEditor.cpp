@@ -84,7 +84,7 @@ void LevelEditor::start() {
 		for (size_t i = 0; i < 100; i++)
 		{
 			Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
-			derp->setPos(derp->getPos() + (glm::vec3(i/3.f)* deltaTime));
+			derp->setPos(derp->getPos() + (glm::vec3(i/100.f)* deltaTime));
 		}
 
 		for (int i = 0; i < ps.size(); i++)
