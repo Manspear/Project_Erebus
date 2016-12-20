@@ -40,7 +40,7 @@ namespace Importer
 	{
 		float keyTime;
 		float keyTranslate[3];
-		float keyRotate[3];
+		float keyRotate[4];
 		float keyScale[3];
 	};
 	struct hAnimationState

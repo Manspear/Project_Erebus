@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer;$(SolutionDir)\AGI</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,6 +157,7 @@
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="LevelModel.cpp" />
+    <ClCompile Include="LuaAi.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
     <ClCompile Include="LuaCamera.cpp" />
@@ -173,6 +174,9 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AGI\AGI.vcxproj">
+      <Project>{0cb02d37-8167-4416-b889-d35d96cece4c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Gear\Gear.vcxproj">
       <Project>{7ae8f691-75c9-447c-ae7b-63364e8daa79}</Project>
     </ProjectReference>
@@ -184,19 +188,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\AI\BasicEnemyAI.lua" />
+    <None Include="Scripts\AI\states.lua" />
     <None Include="Scripts\arc.lua" />
     <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Shaders\anim.frag" />
-    <None Include="Shaders\anim.vert" />
     <None Include="Shaders\debugAABB.frag" />
     <None Include="Shaders\debugAABB.geom" />
     <None Include="Shaders\debugAABB.vert" />
@@ -206,7 +212,6 @@
     <None Include="Shaders\debugSphere.frag" />
     <None Include="Shaders\debugSphere.geom" />
     <None Include="Shaders\debugSphere.vert" />
-    <None Include="Shaders\anim.vert" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
@@ -239,6 +244,7 @@
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LevelModel.h" />
+    <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />
