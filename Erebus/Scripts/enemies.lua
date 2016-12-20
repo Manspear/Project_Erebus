@@ -57,7 +57,7 @@ end
 function UpdateEnemies(dt)
 	AI.ClearMap()
 	AI.AddIP(player.transformID,4)
-
+	for i=1, #enemies do
 		if enemies[i].health > 0 then
 			--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 			AI.AddIP(enemies[i].transformID,-1)
