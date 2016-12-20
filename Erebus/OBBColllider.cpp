@@ -126,6 +126,11 @@ void OBBColllider::setPos(glm::vec3 pos)
 
 bool OBBColllider::checkCollision(OBBColllider * collider)
 {
+	// OBB A and OBB B does not intersect if and only if a separating axis exists.
+	// If a separating line exists, then the two OBB do not intersect, otherwise they intersect
+	// Note we only need to find a single separating line to know they dont intersect
+	// 15 cases. If any separating line is found they do not collide, and we stop checking
+	//if no separating line is found in any of the 15 cases, they collide
 	bool collisionBool = false;
 	// OTHER COLLIDER VARIABLES
 	glm::vec3 bXAxis = collider->xAxis;

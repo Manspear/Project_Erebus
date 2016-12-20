@@ -62,7 +62,7 @@
       <Filter>Lua\Source</Filter>
     </ClCompile>
     <ClCompile Include="OBBColllider.cpp">
-      <Filter>Source\Collision</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +124,7 @@
       <Filter>Lua\Header</Filter>
     </ClInclude>
     <ClInclude Include="OBBColllider.h">
-      <Filter>Headers\Colliders</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,12 +245,16 @@
     <None Include="Shaders\forward.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debug.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\debug.vert">
-      <Filter>Shaders</Filter>
-    </None>
+    <None Include="Scripts\particle.lua" />
+    <None Include="Shaders\debugAABB.frag" />
+    <None Include="Shaders\debugAABB.geom" />
+    <None Include="Shaders\debugAABB.vert" />
+    <None Include="Shaders\debugLine.frag" />
+    <None Include="Shaders\debugLine.vert" />
+    <None Include="Shaders\debugSphere.frag" />
+    <None Include="Shaders\debugSphere.geom" />
+    <None Include="Shaders\debugSphere.vert" />
+    <None Include="Shaders\anim.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
