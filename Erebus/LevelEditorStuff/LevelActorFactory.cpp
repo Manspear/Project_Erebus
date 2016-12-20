@@ -112,7 +112,7 @@ tinyxml2::XMLDocument* LevelActorFactory::getDocument(std::string path) {
 LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentName)
 {
 	LevelActorComponent* returnComponent = nullptr;
-	this->transformHandler->b
+	//this->transformHandler->b
 	//Ugly if, but works
 	if (componentName == LevelTransform::name)
 	{

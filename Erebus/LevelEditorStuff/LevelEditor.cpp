@@ -55,7 +55,11 @@ void LevelEditor::start() {
 			modelHandler->loadModel("Robot");
 		else
 			modelHandler->loadModel("testGuy");
+	
+	
 	}
+
+
 	modelHandler->loadModel("niclasland_sclae2");
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
