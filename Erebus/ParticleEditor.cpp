@@ -9,6 +9,7 @@ ParticleEditor::~ParticleEditor()
 {
 	delete this->inputs;
 	delete this->camera;
+	delete ps.at(0);
 }
 
 void ParticleEditor::start()
@@ -37,9 +38,8 @@ void ParticleEditor::start()
 	glm::vec3 tempVec = { 0, 0, 10 };
 
 	ps.at(0)->setColor(255, 0, 0);
-	ps.at(0)->setParticlePosition(&tempVec);
+	ps.at(0)->setEmmiterPos(tempVec);
 	ps.at(0)->isActive = true;
-
 	ps.at(0)->setTextrue(particlesTexture);
 
 	while (running == true && window.isWindowOpen())
