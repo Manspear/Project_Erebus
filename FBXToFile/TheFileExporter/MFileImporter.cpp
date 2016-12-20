@@ -1949,6 +1949,12 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 				FbxVector4 tempRotation = animationEvaluator->GetNodeLocalRotation(currJoint, currKey.GetTime());
 				FbxVector4 tempScale = animationEvaluator->GetNodeLocalScaling(currJoint, currKey.GetTime());
 
+				FbxNodeAttribute* attr = currJoint->GetNodeAttribute();
+				FbxNodeAttribute::EType aids = attr->GetAttributeType();
+
+				FbxQuaternion quatRot;
+
+
 				float keyTime = currKey.GetTime().GetSecondDouble();
 				float translation[3] = { tempTranslation[0],  tempTranslation[1], tempTranslation[2] };
 				float rotation[3] = { tempRotation[0] * asRadians, tempRotation[1] * asRadians, tempRotation[2] * asRadians };
