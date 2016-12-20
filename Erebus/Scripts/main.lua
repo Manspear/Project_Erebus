@@ -11,11 +11,6 @@ local scriptFiles =
 local drawHitboxes = false
 
 function Load()
-
-	widthTest = heightmap:GetMapWidth()
-	heightTest = heightmap:GetMapHeight()
-	AI.SetNav(widthTest,heightTest)
-
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])

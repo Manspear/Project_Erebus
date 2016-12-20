@@ -5,6 +5,11 @@ heightmap.transformID = Transform.Bind()
 local model = Assets.LoadModel("Models/niclasland_scale1.model")
 Gear.AddStaticInstance(model, heightmap.transformID)
 
+--AI
+widthTest = heightmap:GetMapWidth()
+heightTest = heightmap:GetMapHeight()
+AI.SetNav(widthTest,heightTest)
+
 -- add enemies
 LoadEnemies(2)
 Transform.SetPosition(enemies[1].transformID, {x=150, y=0, z=100})
