@@ -51,6 +51,7 @@ void Inputs::update()
 	mousePos = newPos;
 	
 	memset( textInput, 0, textInputLength );
+	textInputLength = 0;
 
 	dScrollY = 0;
 	for (size_t i = 0; i < GLFW_KEY_LAST; i++)
@@ -132,6 +133,7 @@ char* Inputs::getTextInput( int* length )
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {	
 	keys[key] = action > 0;
+	keysRepeated[key] = action > 0 ;
 	if (action == GLFW_PRESS) {
 		keysPressedThisFrame[key] = true;
 	}

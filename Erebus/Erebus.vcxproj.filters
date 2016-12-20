@@ -94,5 +94,6 @@
     <None Include="Shaders\text.frag" />
     <None Include="Shaders\text.geom" />
     <None Include="Shaders\text.vert" />
+    <None Include="Scripts\console.lua" />
   </ItemGroup>
 </Project>
