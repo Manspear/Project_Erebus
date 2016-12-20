@@ -35,6 +35,6 @@ public:
 private:
 	glm::vec3 pos;
 	glm::vec3 xAxis, yAxis, zAxis;
-	float xHalfLength, yHalfLength, zHalfLength;
+	glm::vec3 halfLengths;
 };
 
