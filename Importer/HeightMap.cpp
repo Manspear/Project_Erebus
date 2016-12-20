@@ -235,7 +235,7 @@ namespace Importer
 
 			for (size_t y = 0; y < mapHeight; y++)
 				for (size_t x = 0; x < mapWidth; x++)
-					heightData[x][y] = map.getPixelValue(x, y).red;
+					heightData[x][y] = map.getPixelValue(x, y).red;// max height / det jag har
 
 			minX = minZ = 0;
 			maxX = (mapWidth-1)*widthMulti;
@@ -329,6 +329,16 @@ namespace Importer
 
 			heightData = nullptr;
 		}
+	}
+
+	int HeightMap::getMapWidth()
+	{
+		return mapWidth;
+	}
+
+	int HeightMap::getMapHeight()
+	{
+		return mapHeight;
 	}
 
 	glm::mat4 HeightMap::getWorldMat()

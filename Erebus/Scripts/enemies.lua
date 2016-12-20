@@ -1,3 +1,6 @@
+local aiScript = require("Scripts.AI.BasicEnemyAI")
+local stateScript = require("Scripts.AI.states")
+
 MAX_ENEMIES = 10
 enemies = {}
 
@@ -36,6 +39,10 @@ function LoadEnemies(n)
 		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		enemies[i].sphereCollider:SetRadius(2)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
+
+		enemies[i].state = stateScript.state.idleState
+		enemies[i].range = 4
+		enemies[i].target = nil
 	end
 
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -48,9 +55,14 @@ function UnloadEnemies()
 end
 
 function UpdateEnemies(dt)
-	for i=1, #enemies do
+	AI.ClearMap()
+	AI.AddIP(player.transformID,4)
+
 		if enemies[i].health > 0 then
-			Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
+			--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
+			AI.AddIP(enemies[i].transformID,-1)
+			aiScript.update(enemies[i],player,dt)
+
 			local pos = Transform.GetPosition(enemies[i].transformID)
 			pos.y = heightmap:GetHeight(pos.x,pos.z)+1
 			Transform.SetPosition(enemies[i].transformID, pos)

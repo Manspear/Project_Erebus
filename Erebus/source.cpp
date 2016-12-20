@@ -78,8 +78,11 @@ int main()
 		networkThread = std::thread(startNetworkCommunication, &window );
 	}
 
+	AGI::AGIEngine ai;
+
+
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
 	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
