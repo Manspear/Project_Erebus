@@ -11,7 +11,6 @@ local scriptFiles =
 local drawHitboxes = false
 
 function Load()
-	heightmap = Assets.LoadHeightmap("Textures/mikael_heights.png")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])

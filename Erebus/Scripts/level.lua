@@ -1,5 +1,5 @@
 -- add heightmap
-heightmap = Assets.LoadHeightmap("Textures/scale1c.png")
+heightmap = Assets.LoadHeightmap("Textures/mikael_heights.png")
 heightmap.transformID = Transform.Bind()
 
 local model = Assets.LoadModel("Models/niclasland_scale1.model")
