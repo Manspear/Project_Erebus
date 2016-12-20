@@ -156,6 +156,7 @@ namespace Gear
 
 	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color)
 	{
+		
 		text.print(s, baseX, baseY, scale, color);
 	}
 

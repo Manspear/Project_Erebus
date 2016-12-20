@@ -38,19 +38,26 @@ void TextRenderer::print(const std::string &s, const float &baseX, const float &
 
 	for (auto c : s)
 	{
-		if (line.numberOfCharacters >= TEXTRENDER_MAXLINESIZE)
-			break;
+		if (c == '\n')
+		{
+			lines.push_back(line);
+			line.numberOfCharacters = 0;
+			x = baseX;
+			y += font->getInfo()->size * scale;
+		}
+		else if (line.numberOfCharacters < TEXTRENDER_MAXLINESIZE)
+		{
+			sTextVertex vert;
 
-		sTextVertex vert;
+			vert.pos = glm::vec2(x, y);
+			vert.UV = font->getUV(c);
+			vert.width = font->getWidth(c) * line.scale;
 
-		vert.pos = glm::vec2(x, y);
-		vert.UV = font->getUV(c);
-		vert.width = font->getWidth(c) * line.scale;
+			x += vert.width;
 
-		x += vert.width;
-
-		line.characters[line.numberOfCharacters] = vert;
-		line.numberOfCharacters++;
+			line.characters[line.numberOfCharacters] = vert;
+			line.numberOfCharacters++;
+		}
 	}
 	lines.push_back(line);
 }
