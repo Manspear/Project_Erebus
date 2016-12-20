@@ -1920,7 +1920,7 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 			currLayer->Weight = 100;
 			FbxString stackName = currStack->GetName();
 			int currCurve = 0;
-			FbxAnimCurve* storeCurve[6];
+			FbxAnimCurve* storeCurve[9];
 
 			const char* namelol = currJoint->GetName();
 
@@ -1930,6 +1930,9 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 			storeCurve[3] = currJoint->LclTranslation.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_X);
 			storeCurve[4] = currJoint->LclTranslation.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 			storeCurve[5] = currJoint->LclTranslation.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Z);
+			storeCurve[6] = currJoint->LclScaling.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_X);
+			storeCurve[7] = currJoint->LclScaling.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Y);
+			storeCurve[8] = currJoint->LclScaling.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 
 			for (int i = 0; i < 6; i++)
 			{
@@ -1945,20 +1948,45 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 			{
 				FbxAnimCurveKey currKey = storeCurve[currCurve]->KeyGet(keyCounter);
 				float asRadians = 3.14159265359 / 180;
-				FbxVector4 tempTranslation = animationEvaluator->GetNodeLocalTranslation(currJoint, currKey.GetTime());
-				FbxVector4 tempRotation = animationEvaluator->GetNodeLocalRotation(currJoint, currKey.GetTime());
-				FbxVector4 tempScale = animationEvaluator->GetNodeLocalScaling(currJoint, currKey.GetTime());
+				FbxVector4 tempTranslation;
+				FbxVector4 tempRotation;
+				FbxVector4 tempScale;
+				
+				//Rotations converted to radians
+				tempRotation = 
+					//FbxVector4(storeCurve[0]->KeyGet(keyCounter).GetValue() * asRadians,
+					//		   storeCurve[1]->KeyGet(keyCounter).GetValue() * asRadians,
+					//		   storeCurve[2]->KeyGet(keyCounter).GetValue() * asRadians);
+				    FbxVector4(storeCurve[0]->KeyGet(keyCounter).GetValue(),
+				    		   storeCurve[1]->KeyGet(keyCounter).GetValue(),
+				    	       storeCurve[2]->KeyGet(keyCounter).GetValue());
+				//tempTranslation =
+				//	FbxVector4(storeCurve[3]->KeyGet(keyCounter).GetValue(),
+				//			   storeCurve[4]->KeyGet(keyCounter).GetValue(),
+				//			   storeCurve[5]->KeyGet(keyCounter).GetValue());
+				//tempScale =
+				//	FbxVector4(storeCurve[6]->KeyGet(keyCounter).GetValue(),
+				//			   storeCurve[7]->KeyGet(keyCounter).GetValue(),
+				//			   storeCurve[8]->KeyGet(keyCounter).GetValue());
 
-				FbxNodeAttribute* attr = currJoint->GetNodeAttribute();
-				FbxNodeAttribute::EType aids = attr->GetAttributeType();
+				tempTranslation = animationEvaluator->GetNodeLocalTranslation(currJoint, currKey.GetTime());
+				//tempRotation = animationEvaluator->GetNodeLocalRotation(currJoint, currKey.GetTime());
+				tempScale = animationEvaluator->GetNodeLocalScaling(currJoint, currKey.GetTime());
+				//tempRotation[0] = tempRotation[0] * asRadians;
+				//tempRotation[1] = tempRotation[1] * asRadians;
+				//tempRotation[2] = tempRotation[2] * asRadians;
+				//tempScale = animationEvaluator->GetNodeLocalScaling(currJoint, currKey.GetTime());
 
 				FbxQuaternion quatRot;
-
-
+				quatRot.ComposeSphericalXYZ(tempRotation);
+				
 				float keyTime = currKey.GetTime().GetSecondDouble();
 				float translation[3] = { tempTranslation[0],  tempTranslation[1], tempTranslation[2] };
-				float rotation[3] = { tempRotation[0] * asRadians, tempRotation[1] * asRadians, tempRotation[2] * asRadians };
+				float rotation[4] = { quatRot.GetAt(0), quatRot.GetAt(1), quatRot.GetAt(2), quatRot.GetAt(3) };
+				//float rotation[4] = { tempRotation[0], tempRotation[1], tempRotation[2], tempRotation[3] };
 				float scale[3] = { tempScale[0], tempScale[1], tempScale[2] };
+
+				//FbxQuaternion::ComposeSphericalXYZ()
 
 				//add these values to a sKey-struct, then append it to the keyFrame vector.
 				sKeyFrame tempKey;
@@ -1967,10 +1995,11 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 				for (unsigned int k = 0; k < 3; k++)
 				{
 					tempKey.keyTranslate[k] = translation[k];
-					tempKey.keyTranslate[k] = translation[k];
 					tempKey.keyRotate[k] = rotation[k];
 					tempKey.keyScale[k] = scale[k];
 				}
+				tempKey.keyRotate[3] = rotation[3];
+
 				tempAnim.keyList.push_back(tempKey);
 			}
 			imScene.modelList.back().skeletonList.back().jointList.back().animationState.push_back(tempAnim);
