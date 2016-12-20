@@ -12,7 +12,7 @@ local drawHitboxes = false
 
 function Load()
 	-- TEMP: Make a level script?
-	heightmap = Assets.LoadHeightmap("Textures/scale1c.png")
+	heightmap = Assets.LoadHeightmap("Textures/mikael_heights.png")
 	--heightmap = Assets.LoadHeightmap("Textures/sclae2.png")
 	heightmap.transformID = Transform.Bind()
 
