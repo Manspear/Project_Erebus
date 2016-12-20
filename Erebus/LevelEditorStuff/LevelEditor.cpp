@@ -18,18 +18,29 @@ void LevelEditor::start() {
 
 	Gear::GearEngine engine;
 	Importer::Assets assets;
-	this->transformHandler = new LevelTransformHandler(&engine);
-	modelHandler = new LevelModelHandler(transformHandler, &engine, &assets);
-
-	factory = LevelActorFactory::getInstance(this->transformHandler, this->modelHandler);
-
-	LevelActor* tempActor = factory->createActor("test");
-
-	std::cout << tempActor->toXml() << std::endl;
-
-	std::cout << factory->getPath(tempActor->id) << std::endl;
-	
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
+
+	LevelTransformHandler::createInstance(&engine);
+	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), &engine, &assets);
+
+
+	this->transformHandler = LevelTransformHandler::getInstance();
+	modelHandler = LevelModelHandler::getInstance();
+
+	factory = LevelActorFactory::getInstance();
+	std::vector<LevelActor*> actors;
+
+	for (size_t i = 0; i < 100; i++)
+	{
+		actors.push_back(factory->createActor("test"));
+	}
+	
+
+	//LevelActor* tempActor = factory->createActor("test");
+	actors[0]->printAllComponents();
+	//std::cout <<  << std::endl;
+	
+	
 	engine.setFont(font);
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>("Models/testGuy.model");
 
@@ -49,27 +60,32 @@ void LevelEditor::start() {
 
 	engine.addDebugger(Debugger::getInstance());
 
-	for (size_t i = 0; i < 10; i++)
-	{
-		if(i%2)
-			modelHandler->loadModel("Robot");
-		else
-			modelHandler->loadModel("testGuy");
-	
-	
-	}
+	//for (size_t i = 0; i < 10; i++)
+	//{
+	//	if(i%2)
+	//		modelHandler->loadModel("Robot");
+	//	else
+	//		modelHandler->loadModel("testGuy");
+	//
+	//
+	//}
 
+	
 
 	modelHandler->loadModel("niclasland_sclae2");
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
-	
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
-
 		camera->updateLevelEditorCamera(deltaTime);
+
+		for (size_t i = 0; i < 100; i++)
+		{
+			Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
+			derp->setPos(derp->getPos() + (glm::vec3(i/3.f)* deltaTime));
+		}
 
 		for (int i = 0; i < ps.size(); i++)
 			ps.at(i)->update(deltaTime);
@@ -123,7 +139,10 @@ void LevelEditor::start() {
 	delete this->transformHandler;
 	delete this->modelHandler;
 	LevelActorFactory::deleteInstance();
-	delete tempActor;
+	for (size_t i = 0; i < actors.size(); i++)
+	{
+		delete actors[i];
+	}
 	glfwTerminate();
 	
 }

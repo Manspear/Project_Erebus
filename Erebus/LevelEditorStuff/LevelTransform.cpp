@@ -25,6 +25,7 @@ void LevelTransform::initialize(tinyxml2::XMLElement* element)
 	this->rotation.x = std::stof(element->FirstChildElement("Rotation")->Attribute("x"));
 	this->rotation.y = std::stof(element->FirstChildElement("Rotation")->Attribute("y"));
 	this->rotation.z = std::stof(element->FirstChildElement("Rotation")->Attribute("z"));
+
 }
 
 void LevelTransform::update(float deltaTime)
@@ -47,6 +48,10 @@ void LevelTransform::postInitialize()
 	std::cout << " I IS: " << LevelTransform::name << " AND I HAS ROT: " << glm::to_string(this->rotation) << std::endl;
 }
 
+void LevelTransform::setTransform(int index) {
+	this->transformRef = LevelTransformHandler::getInstance()->getTransformAt(index);
+}
+
 tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 {
 	tinyxml2::XMLElement* element = doc->NewElement(LevelTransform::name);
@@ -65,4 +70,8 @@ tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 	element->LinkEndChild(rotationElement);
 
 	return element;
+}
+
+Transform* LevelTransform::getTransformRef() {
+	return this->transformRef;
 }

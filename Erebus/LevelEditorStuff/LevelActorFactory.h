@@ -1,7 +1,8 @@
 #pragma once
 #include "LevelActor.h"
 #include "LevelActorComponent.h"
-#include "levelTransform.h"
+#include "LevelTransform.h"
+#include "LevelModel.h"
 #include "Model.h"
 #include <map>
 #include <vector>
@@ -34,10 +35,10 @@ private:
 	LevelModelHandler* modelHandler;
 	//Singleton things here
 public:
-	static LevelActorFactory* getInstance(LevelTransformHandler* transformHandlerRef, LevelModelHandler* modelHandlerRef)
+	static LevelActorFactory* getInstance()
 	{
 		if (LevelActorFactory::actorFactoryInstance == nullptr)
-			LevelActorFactory::actorFactoryInstance = new LevelActorFactory(transformHandlerRef, modelHandlerRef);
+			LevelActorFactory::actorFactoryInstance = new LevelActorFactory(LevelTransformHandler::getInstance(), LevelModelHandler::getInstance());
 
 		return LevelActorFactory::actorFactoryInstance;
 	}
@@ -48,4 +49,5 @@ public:
 			delete LevelActorFactory::actorFactoryInstance;
 	}
 };
+
 

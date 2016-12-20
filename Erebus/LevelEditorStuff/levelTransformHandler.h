@@ -11,6 +11,7 @@ private:
 	int boundTransforms;
 	Transform* transforms = new Transform[nrOfTransforms];
 	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
+
 public:
 	LevelTransformHandler();
 	LevelTransformHandler(Gear::GearEngine* engineRef);
@@ -19,8 +20,18 @@ public:
 	Transform* getAllTransforms();
 	TransformStruct* getAllTransformStructs();
 
-	void bindTransform(ModelInstance* model);
+	int bindTransform(ModelInstance* model);
 
 	Transform* getTransformAt(const int &bindIndex);
-};
 
+public:
+	static LevelTransformHandler* t_instance;
+
+	static void createInstance(Gear::GearEngine* gearRef) {
+		t_instance = new LevelTransformHandler(gearRef);
+	}
+
+	static LevelTransformHandler* getInstance() {
+		return t_instance;
+	}
+};

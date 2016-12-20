@@ -1,9 +1,10 @@
 #include "LevelTransformHandler.h"
 
-
+LevelTransformHandler* LevelTransformHandler::t_instance = nullptr;
 
 LevelTransformHandler::LevelTransformHandler()
 {
+	int k = 0;
 }
 
 LevelTransformHandler::LevelTransformHandler(Gear::GearEngine* engineRef) {
@@ -30,9 +31,11 @@ TransformStruct* LevelTransformHandler::getAllTransformStructs() {
 	return this->allTransforms;
 }
 
-void LevelTransformHandler::bindTransform(ModelInstance* model) {
+int LevelTransformHandler::bindTransform(ModelInstance* model) {
 	model->worldIndices.push_back(boundTransforms);				//Assign a model to a new transformID
 	boundTransforms++;											//Increment the total of transforms/Model instances in the world
+
+	return boundTransforms - 1;
 }
 
 Transform* LevelTransformHandler::getTransformAt(const int& bindIndex) {

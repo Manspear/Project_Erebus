@@ -62,7 +62,7 @@ LevelActor* LevelActorFactory::createActor(std::string name)
 
 
 
-	//returnActor->postInitializeAllComponents();
+	returnActor->postInitializeAllComponents();
 
 	return returnActor;
 }
@@ -119,12 +119,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 		returnComponent = new LevelTransform();
 	}
 
+	if (componentName == LevelModel::name) {
+		returnComponent = new LevelModel();
+	}
 
 	
-	//else if (componentName == Model::name)
-	//{
-	//	returnComponent = new Model();
-	//}
-
 	return returnComponent;
 }

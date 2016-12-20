@@ -1,5 +1,5 @@
 #include "LevelModelHandler.h"
-
+LevelModelHandler* LevelModelHandler::m_instance = nullptr;
 
 
 LevelModelHandler::LevelModelHandler()
@@ -24,7 +24,9 @@ std::vector<AnimatedInstance>* LevelModelHandler::getAnimatedModels() {
 	return &this->animatedModels;
 }
 
-void LevelModelHandler::loadModel(std::string modelName) {
+
+
+int LevelModelHandler::loadModel(std::string modelName) {
 	std::string location = "Models/" + modelName + ".model";
 	ModelAsset* testModel = assetsRef->load<ModelAsset>(location);	//Loads model
 	int result = engineRef->generateWorldMatrix();								//Generates a worldmatrix
@@ -42,8 +44,10 @@ void LevelModelHandler::loadModel(std::string modelName) {
 		models.push_back(instance);
 	}
 
-	this->transformHandlerRef->bindTransform(&models.at(index));
+	
 
+
+	return this->transformHandlerRef->bindTransform(&models.at(index));
 	//Models.at(index) is the model that just loaded
 	//
 }

@@ -4,9 +4,10 @@
 #include "glm/ext.hpp"
 #include "glm/gtx/string_cast.hpp"
 #include "../Transform.h"
+#include "LevelTransformHandler.h"
 class LevelTransform : public LevelActorComponent
 {
-public:
+public:		
 	static const char* name;
 	LevelTransform();
 	~LevelTransform();
@@ -17,6 +18,9 @@ public:
 	void postInitialize() override;
 	void setParent(LevelActor* parent);
 
+	void setTransform(int index);
+
+	Transform* getTransformRef();
 
 private:
 	glm::vec3 position;
