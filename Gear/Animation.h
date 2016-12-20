@@ -17,11 +17,15 @@ class Animation
 {
 public:
 	GEAR_API Animation();
-	GEAR_API ~Animation();
+	GEAR_API virtual ~Animation();
 	GEAR_API void setAsset(Importer::ModelAsset* asset);
-	GEAR_API void updateAnimation(float dt, int layer);
-	GEAR_API glm::mat4x4* getShaderMatrices();
-private:
+	GEAR_API virtual void updateAnimation(float dt, int layer);
+	//The state is an enum defined for each subclass of Animation
+	GEAR_API virtual void updateState(float dt, int state) = 0;
+
+	GEAR_API virtual glm::mat4x4* getShaderMatrices();
+
+protected:
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey);
 	void updateJointMatrices();
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
@@ -29,8 +33,7 @@ private:
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
 	float animationTimer;
-	int oldAnim;
-	int oldWeight;
+
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
 	std::vector<glm::mat4> animMatrix;

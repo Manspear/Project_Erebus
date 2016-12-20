@@ -88,6 +88,8 @@ void Animation::updateAnimation(float dt, int layer)
 	updateJointMatrices();
 }
 
+
+
 glm::mat4x4 * Animation::getShaderMatrices()
 {
 	return shaderMatrices;
