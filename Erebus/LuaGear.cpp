@@ -140,7 +140,36 @@ namespace LuaGear
 			std::string s = lua_tostring(lua, 1);
 			float x = lua_tonumber(lua, 2);
 			float y = lua_tonumber(lua, 3);
-			g_gearEngine->print(s, x, y);
+
+			float scale = 1.0f;
+			int type = -1;
+			if( ntop >= 4 )
+				type = lua_type( lua, 4 );
+
+			glm::vec4 color( 1.0f );
+			if( type == LUA_TNUMBER )
+			{
+				scale = lua_tonumber( lua, 4 );
+
+				if( ntop >= 5 )
+				{
+					for( int i=0; i<4; i++ )
+					{
+						lua_rawgeti( lua, 5, i+1 );
+						color[i] = lua_tonumber( lua, -1 );
+					}
+				}
+			}
+			else if( type == LUA_TTABLE )
+			{
+				for( int i=0; i<4; i++ )
+				{
+					lua_rawgeti( lua, 4, i+1 );
+					color[i] = lua_tonumber( lua, -1 );
+				}
+			}
+
+			g_gearEngine->print(s, x, y, scale, color);
 		}
 		return 0;
 	}

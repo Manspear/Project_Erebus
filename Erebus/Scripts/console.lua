@@ -67,8 +67,8 @@ function UpdateConsole(dt)
 		-- get new text input
 		local newText = Inputs.GetTextInput()
 		if #newText > 0 then
-			--console.textInput = console.textInput .. newText
-			console.textInput = string.format( "%s%s%s", console.textInput:sub(0,console.caretIndex), newText, console.textInput:sub(console.caretIndex+1))
+			console.textInput = console.textInput .. newText
+			--console.textInput = string.format( "%s%s%s", console.textInput:sub(0,console.caretIndex), newText, console.textInput:sub(console.caretIndex+1))
 			console.caretIndex = console.caretIndex + #newText
 		end
 
@@ -82,7 +82,7 @@ function UpdateConsole(dt)
 		end
 
 		-- scroll through text input
-		if Inputs.KeyRepeated(Keys.Left) then
+		--[[if Inputs.KeyRepeated(Keys.Left) then
 			console.caretIndex = console.caretIndex - 1
 			if console.caretIndex < 1 then
 				console.caretIndex = 1
@@ -92,7 +92,7 @@ function UpdateConsole(dt)
 			if console.caretIndex > #console.textInput then
 				console.caretIndex = #console.textInput
 			end
-		end
+		end]]--
 
 		-- draw console messages
 		for i=1, CONSOLE_MAX_MESSAGES do
