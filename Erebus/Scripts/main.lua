@@ -11,8 +11,11 @@ local scriptFiles =
 local drawHitboxes = false
 
 function Load()
-	--Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
-	
+	heightmap = Assets.LoadHeightmap("Textures/scale1c.png")
+	--heightmap = Assets.LoadHeightmap("Textures/sclae2.png")
+	Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
+	local model = Assets.LoadModel("Models/niclasland_scale1.model")
+	--local model = Assets.LoadModel("Models/niclasland_sclae2.model")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])

@@ -218,8 +218,8 @@ namespace Importer
 		float highestPoint = 14.73f;
 		float lowestPoint = 25.f;
 		heightMulti = 1.0f;
-		widthMulti = 2.0f;
-		breadthMulti = 2.0f;
+		widthMulti = 1.0f;
+		breadthMulti = 1.0f;
 		//255, 24.435
 
 		//ImageAsset* map = assets->load<ImageAsset>( path );
@@ -263,6 +263,7 @@ namespace Importer
 				{
 					vertexData[vertexIndex].position[0] = x *							widthMulti;
 					vertexData[vertexIndex].position[1] = 1; 
+					//vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * heightMulti;
 					vertexData[vertexIndex].position[2] = y *							breadthMulti;
 
 					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);

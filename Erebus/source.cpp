@@ -20,6 +20,7 @@
 #include "Ray.h"
 #include "FontAsset.h"
 #include "MaterialAsset.h"
+#include "LevelEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -34,7 +35,6 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	
 	Window window;
 	Gear::GearEngine engine;
 
@@ -187,10 +187,9 @@ int startNetworkCommunication( Window* window )
 			return 1;
 		}
 
-		if (!network.AcceptCommunication())
+		while (running && window->isWindowOpen() && !network.AcceptCommunication())
 		{
-			printf("failed to accept connection\n");
-			return 1;
+			Sleep(250);
 		}
 
 		while (running && window->isWindowOpen())
@@ -201,7 +200,7 @@ int startNetworkCommunication( Window* window )
 	}
 	else
 	{
-		if (!network.InitializeClient(127,0,0,1,35501))
+		if (!network.InitializeClient(127,0,0,1,35500))
 		{
 			printf("failed to initialize sockets\n");
 			return 1;
