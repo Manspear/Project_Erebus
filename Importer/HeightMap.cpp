@@ -218,8 +218,8 @@ namespace Importer
 		float highestPoint = 14.73f;
 		float lowestPoint = 25.f;
 		heightMulti = 1.0f;
-		widthMulti = 2.0f;
-		breadthMulti = 2.0f;
+		widthMulti = 1.0f;
+		breadthMulti = 1.0f;
 		//255, 24.435
 
 		//ImageAsset* map = assets->load<ImageAsset>( path );
@@ -235,7 +235,7 @@ namespace Importer
 
 			for (size_t y = 0; y < mapHeight; y++)
 				for (size_t x = 0; x < mapWidth; x++)
-					heightData[x][y] = map.getPixelValue(x, y).red;
+					heightData[x][y] = map.getPixelValue(x, y).red * 0.47;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47
 
 			minX = minZ = 0;
 			maxX = (mapWidth-1)*widthMulti;
@@ -263,10 +263,11 @@ namespace Importer
 				{
 					vertexData[vertexIndex].position[0] = x *							widthMulti;
 					vertexData[vertexIndex].position[1] = 1; 
+					//vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * heightMulti;
 					vertexData[vertexIndex].position[2] = y *							breadthMulti;
 
 					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);
-					vertexData[vertexIndex].UV[1] = ((float)y / this->mapHeight);
+					vertexData[vertexIndex].UV[1] = -((float)y / this->mapHeight);
 
 					vertexData[vertexIndex].normal[0] = 0;
 					vertexData[vertexIndex].normal[1] = 1;
@@ -328,6 +329,16 @@ namespace Importer
 
 			heightData = nullptr;
 		}
+	}
+
+	int HeightMap::getMapWidth()
+	{
+		return mapWidth;
+	}
+
+	int HeightMap::getMapHeight()
+	{
+		return mapHeight;
 	}
 
 	glm::mat4 HeightMap::getWorldMat()
