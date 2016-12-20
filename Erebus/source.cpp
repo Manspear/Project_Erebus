@@ -60,6 +60,7 @@ int main()
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
+	collisionHandler.setDebugger(Debugger::getInstance());
 
 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
@@ -77,8 +78,11 @@ int main()
 		networkThread = std::thread(startNetworkCommunication, &window );
 	}
 
+	AGI::AGIEngine ai;
+
+
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
 	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
@@ -107,6 +111,7 @@ int main()
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
+		collisionHandler.drawHitboxes();
 
 		engine.draw(&camera);
 
@@ -141,7 +146,7 @@ int main()
 
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.f, 720.f);
+		engine.print(fps, 0.f, 0.f);
 
 		window.update();
 

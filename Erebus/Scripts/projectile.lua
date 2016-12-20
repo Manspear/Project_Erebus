@@ -9,7 +9,7 @@ function CreateProjectile()
 	CollisionHandler.AddSphere(projectile.sphereCollider)
 
 	local projectileModel = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddStaticInstance(projectileModel, projectile.transformID)
+	--Gear.AddStaticInstance(projectileModel, projectile.transformID)
 	function projectile:Cast()
 		self.position = Transform.GetPosition(player.transformID)
 		self.direction = Camera.GetDirection()--Transform.GetLookAt(player.transformID
@@ -39,7 +39,7 @@ function CreateProjectile()
 
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
-			for curEnemy=1, MAX_ENEMIES do
+		for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 				
 					fireball.die(self.position.x, self.position.y, self.position.z)
