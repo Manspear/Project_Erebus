@@ -273,6 +273,10 @@ __pycache__/
 # Cake - Uncomment if you are using it
 # tools/
 
+#Ignore vxproj for level Editor!
+*.filters
+*.vcxproj
+
 #Vtune
 *.dflgadvixe
 **/My Amplifier XE Results*/
