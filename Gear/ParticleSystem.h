@@ -34,6 +34,7 @@ namespace Gear
 		GEAR_API void deActivate();
 		GEAR_API Partikel* getThePartikels();
 		GEAR_API glm::vec3* getPositions();
+		GEAR_API void setParticlePosition(glm::vec3* pos);
 		GEAR_API void setColor(float r, float g, float b);
 		GEAR_API Color getColor() const;
 		GEAR_API void setTextrue(Importer::TextureAsset* tAParticles);

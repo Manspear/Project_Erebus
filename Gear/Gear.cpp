@@ -256,6 +256,25 @@ namespace Gear
 		text.draw();
 	}
 
+	void GearEngine::drawParticle(Camera* camera)
+	{
+		queue.updateUniforms(camera);
+
+		gBuffer.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		gBuffer.unUse();
+
+		lightPass(camera); 
+
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+		updateDebug(camera);
+		queue.particlePass(particleSystems);
+	}
+
 	void GearEngine::pickingPass() {
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

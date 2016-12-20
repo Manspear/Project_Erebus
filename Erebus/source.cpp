@@ -21,6 +21,7 @@
 #include "FontAsset.h"
 #include "MaterialAsset.h"
 #include "LevelEditor.h"
+#include "ParticleEditor.h"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
@@ -35,6 +36,9 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	ParticleEditor particleEditor;
+	particleEditor.start();
+	return 0;
 	Window window;
 	Gear::GearEngine engine;
 

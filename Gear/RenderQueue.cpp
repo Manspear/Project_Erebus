@@ -263,9 +263,9 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 
 			glBindBuffer(GL_ARRAY_BUFFER, particleSystems->at(i)->getPartVertexBuffer());
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) /** ParticleCount*/, &pos[0], GL_STATIC_DRAW);
 			glEnableVertexAttribArray(0);
-			glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
+			glDrawArraysInstanced(GL_POINTS, 0, /*ParticleCount*/ 1, 1);
 		}
 	}
 	allShaders[PARTICLES]->unUse();

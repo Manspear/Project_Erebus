@@ -43,6 +43,7 @@ namespace Gear
 		GEAR_API void queueParticles(std::vector<ParticleSystem*>* particles);
 		GEAR_API void queueLights(std::vector<Light>* lights);
 		GEAR_API void draw(Camera* camera);
+		GEAR_API void drawParticle(Camera* camera);
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();

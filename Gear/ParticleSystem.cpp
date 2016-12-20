@@ -117,6 +117,11 @@ namespace Gear
 		return particlePos;
 	}
 
+	GEAR_API void ParticleSystem::setParticlePosition(glm::vec3 * pos)
+	{
+		this->particlePos = pos;
+	}
+
 	GEAR_API void ParticleSystem::setColor(float r, float g, float b)
 	{
 		color.r = r; color.g = g; color.b = b;
