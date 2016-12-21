@@ -5,6 +5,8 @@
 Animation::Animation()
 {
 	animationTimer = 0;
+	fromAnimationTimer = 0;
+	toAnimationTimer = 0;
 	for (int i = 0; i < finalList.size(); i++)
 		shaderMatrices[i] = glm::mat4();
 }
@@ -88,7 +90,86 @@ void Animation::updateAnimation(float dt, int layer)
 	updateJointMatrices();
 }
 
+GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float animTimer)
+{
+	/*
+	The MODEL file order:
+	DATAHEADER -> MODELHEADER -> OFFSETS ->
+	MESHES -> BOUNDINGBOXES -> SKELETONS ->
+	JOINTS -> ANIMATION STATES -> KEYFRAMES ->
+	VERTICES -> SKELETAL VERTICES -> INDICES
+	*/
+	animTimer += dt;
+	Importer::hModel* model = asset->getHeader();
+	int jointOffset = 0;
+	for (int i = 0; i < model->numSkeletons; i++)
+	{
+		//layer gives the current animation layer/state
+		Importer::hSkeleton* skeleton = asset->getSkeleton(i);
 
+		for (int j = 0; j < skeleton->jointCount; j++)
+		{
+			//get animation layer
+			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
+
+			Importer::hJoint* joint;
+			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
+
+			//Get the maxtime for this layer
+			float maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
+
+																														//resets itself wohahaha
+			animTimer = abs(std::fmod(animTimer, maxTime));
+
+			float timeOverCompare = INT_MAX;
+			float timeUnderCompare = -INT_MAX;
+
+			Importer::sKeyFrame overKey;
+			Importer::sKeyFrame underKey;
+
+			for (int k = 0; k < state->keyCount; k++)
+			{
+				Importer::sKeyFrame* currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
+				float diff = animTimer - currKey->keyTime;
+
+				if (timeOverCompare == INT_MAX && timeUnderCompare == -INT_MAX)
+				{
+					overKey = *currKey;
+					underKey = overKey;
+					timeOverCompare = diff;
+				}
+				//if the keyTime is larger that the targetTime
+				if (diff > 0 && diff < timeOverCompare)
+				{
+					underKey = *currKey;
+					timeOverCompare = diff;
+				}
+				//if the keytime is less than the targetTime
+				else if (diff < 0 && diff > timeUnderCompare)
+				{
+					overKey = *currKey;
+					timeUnderCompare = diff;
+				}
+			}
+			finalList[j + jointOffset] = interpolateKeys(overKey, underKey);
+		}
+		jointOffset += skeleton->jointCount;
+	}
+	return finalList;
+}
+
+
+
+GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int arraySize)
+{
+	this->transitionTimeArray = transitionTimeArray;
+	this->transitionTimeArraySize = arraySize;
+}
+
+GEAR_API void Animation::setStates(int numStates)
+{
+	this->numStates = numStates;
+}
 
 glm::mat4x4 * Animation::getShaderMatrices()
 {
@@ -130,6 +211,40 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 
 	//INTERPOLATED TIME == (underKey.keyTime * (1 - underAffect)) + (overKey.keyTime * underAffect)
 	interpolatedKey.keyTime = (underKey.keyTime * (1 - underAffect)) + (overKey.keyTime * underAffect);
+
+	return interpolatedKey;
+}
+
+Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from)
+{
+	/*
+		What separetes this from usual interpolateKeys is that the diffKeys variable is dependent on the transition time 
+		instead of the keyTimes. Need a "maxTransitionTime" and a timer that counts down.
+	*/
+
+	//Send in the "percentage" of the way through transitionMaxTime transitionTImer is.
+	float diffKeys = transitionTimer / transitionMaxTime;
+
+	float underAffect = diffKeys;
+
+	Importer::sKeyFrame interpolatedKey;
+
+	glm::quat rotOver = glm::make_quat(to.keyRotate);
+	glm::quat rotUnder = glm::make_quat(from.keyRotate);
+
+	myLerp(from.keyTranslate, to.keyTranslate, interpolatedKey.keyTranslate, underAffect);
+
+	myLerp(from.keyScale, to.keyScale, interpolatedKey.keyScale, underAffect);
+
+	//Lerping the quaternion
+	glm::quat resQ = glm::slerp(rotUnder, rotOver, underAffect);
+	glm::vec3 endRot = glm::eulerAngles(resQ);
+	interpolatedKey.keyRotate[0] = endRot[0];
+	interpolatedKey.keyRotate[1] = endRot[1];
+	interpolatedKey.keyRotate[2] = endRot[2];
+
+	//INTERPOLATED TIME == (underKey.keyTime * (1 - underAffect)) + (overKey.keyTime * underAffect)
+	interpolatedKey.keyTime = (from.keyTime * (1 - underAffect)) + (to.keyTime * underAffect);
 
 	return interpolatedKey;
 }
