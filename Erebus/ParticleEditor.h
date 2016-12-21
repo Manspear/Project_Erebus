@@ -4,6 +4,7 @@
 #include "Inputs.h"
 #include "Assets.h"
 #include "TextureAsset.h"
+#include "Controls.h"
 #include "Window.h"
 #include <ctime>
 #include "PerformanceCounter.h"
@@ -23,8 +24,7 @@ public:
 private:
 	float lifeTime;
 	bool running;
-	Camera* camera;
-	Inputs* inputs;
+	Controls controls;
 	Window window;
 	std::vector<Gear::ParticleSystem*> ps;
 };

@@ -3,13 +3,11 @@
 ParticleEditor::ParticleEditor()
 {
 	this->running = true;
-	lifeTime = 2;
+	lifeTime = 50;
 }
 
 ParticleEditor::~ParticleEditor()
 {
-	delete this->inputs;
-	delete this->camera;
 	delete ps.at(0);
 }
 
@@ -21,9 +19,9 @@ void ParticleEditor::start()
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
-	this->inputs = new Inputs(w);
-	this->camera = new Camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, inputs);
+	Inputs inputs(w);
 
+	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 	
 	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
 
@@ -45,17 +43,19 @@ void ParticleEditor::start()
 	while (running == true && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
-		inputs->update();
+		inputs.update();
 
 		update(deltaTime);
 
+		camera.updateLevelEditorCamera(deltaTime);
+
 		ps.at(0)->updateParticleEditor(deltaTime);
-	
+
 		engine.queueParticles(&ps);
 
-		engine.drawParticle(camera);
-
-		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
+		engine.drawParticle(&camera);
+		
+		if (inputs.keyPressed(GLFW_KEY_ESCAPE))
 			running = false;
 
 		window.update();
