@@ -1,5 +1,5 @@
 -- add heightmap
-heightmap = Assets.LoadHeightmap("Textures/mikael_stor2_heights.png")
+heightmap = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")
 heightmap.transformID = Transform.Bind()
 
 local model = Assets.LoadModel("Models/firstTile.model")
@@ -17,8 +17,8 @@ Transform.SetPosition(enemies[1].transformID, {x=150, y=0, z=100})
 Transform.SetPosition(enemies[2].transformID, {x=100, y=0, z=200})
 
 -- set player position
---Transform.SetPosition(player.transformID, {x=20, y=60, z=160})
-Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
+Transform.SetPosition(player.transformID, {x=80, y=60, z=160})
+--Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 -- set goal
 goal = {}

@@ -77,6 +77,7 @@ namespace AGI
 				}
 			}*/
 
+
 			//debugRef->drawSphere(glm::vec3(influenceMap[0][0].pos.x, 0, influenceMap[0][0].pos.y), 3);
 		}
 		//Radius Kind
@@ -175,10 +176,10 @@ namespace AGI
 
 				for (int strX = -inStr; strX < inStr; strX++)
 				{
-					if(x + strX >=0 && x + strX< imWidth&& x < imWidth)
+					if(x + strX >=0 && x + strX< imWidth&& x < imWidth && x>=0)
 						for (int strY = -inStr; strY < inStr; strY++)
 						{
-							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight)
+							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
 							{
 								////
 								//float tempStrength = str / inStr;// / (resolution));
