@@ -34,11 +34,10 @@ void ParticleEditor::start()
 
 	engine.addDebugger(Debugger::getInstance());
 
-	ps.push_back(new Gear::ParticleSystem(1, 10, 10, 1, 1));
+	ps.push_back(new Gear::ParticleSystem(10, 10, 10, 5, 10));
 
 	glm::vec3 tempVec = { 0, 0, 10 };
 
-	ps.at(0)->setColor(255, 0, 0);
 	ps.at(0)->setEmmiterPos(tempVec);
 	ps.at(0)->isActive = true;
 	ps.at(0)->setTextrue(particlesTexture);
@@ -51,7 +50,7 @@ void ParticleEditor::start()
 		update(deltaTime);
 
 		ps.at(0)->updateParticleEditor(deltaTime);
-
+	
 		engine.queueParticles(&ps);
 
 		engine.drawParticle(camera);
@@ -87,6 +86,6 @@ void ParticleEditor::setAlive()
 void ParticleEditor::die()
 {
 	ps.at(0)->deActivate();
-	ps.at(0)->explode();
+	ps.at(0)->setParticlesToDead();
 
 }
