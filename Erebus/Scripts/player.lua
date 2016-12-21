@@ -1,11 +1,11 @@
-local MOLERAT_OFFSET = 2
+local MOLERAT_OFFSET = 1.8
 local PLAYER_MAX_SPELLS = 2
 player = {}
 
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 14
+	player.moveSpeed = 13
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
@@ -90,7 +90,7 @@ function UpdatePlayer(dt)
 	position.y = position.y + player.verticalSpeed
 	player.verticalSpeed = player.verticalSpeed - 0.982 * dt
 
-	local height = heightmap:GetHeight(position.x,position.z)--+MOLERAT_OFFSET
+	local height = heightmap:GetHeight(position.x,position.z)+MOLERAT_OFFSET
 	if position.y <= height then
 		position.y = height
 		player.canJump = true
