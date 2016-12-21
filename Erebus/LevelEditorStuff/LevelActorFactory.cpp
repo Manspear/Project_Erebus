@@ -67,6 +67,24 @@ LevelActor* LevelActorFactory::createActor(std::string name)
 	return returnActor;
 }
 
+LevelActor* LevelActorFactory::loadActor(tinyxml2::XMLElement* element) {
+	LevelActorFactory::actorID++;
+	LevelActor* returnActor = new LevelActor(LevelActorFactory::actorID);
+
+	returnActor->initialize(element);
+
+	for (tinyxml2::XMLElement* pNode = element->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	{
+		LevelActorComponent* temp = getNewComponent(pNode->Value());
+		temp->initialize(pNode);
+		returnActor->addComponent(temp);
+	}
+
+	returnActor->postInitializeAllComponents();
+
+	return returnActor;
+}
+
 const char * LevelActorFactory::getPath(unsigned int id)
 {
 	const char* returnPath = "Fail";
@@ -125,4 +143,43 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 
 	
 	return returnComponent;
+}
+
+void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>* actors) {
+	tinyxml2::XMLDocument doc;
+	std::string fullPath = folder + fileName + fileExtension;
+
+	const char* LevelActorElementValue = "Level";
+	tinyxml2::XMLElement* LevelElement = doc.NewElement(LevelActorElementValue);
+
+	for (size_t i = 0; i < actors->size(); i++)
+	{
+		actors->at(i)->insertXmlElement(LevelElement, &doc);
+	}
+
+	doc.LinkEndChild(LevelElement);
+	tinyxml2::XMLError eResult = doc.SaveFile(fullPath.c_str());
+	
+	int k = 0;
+	//tinyxml2::XMLDeclaration* dcl = new tinyxml2::XMLDeclaration(&doc);
+}
+
+void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>* actors) {
+	for (size_t i = 0; i < actors->size(); i++)
+	{
+		delete actors->at(i);
+	}
+	actors->clear();
+
+	std::string fullPath = folder + fileName + fileExtension;
+
+	tinyxml2::XMLDocument *doc = getDocument(fullPath);
+
+	tinyxml2::XMLElement* startElement = doc->FirstChildElement();
+	
+
+	for (tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	{
+		actors->push_back(loadActor(pNode));
+	}
 }

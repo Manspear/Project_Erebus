@@ -68,3 +68,18 @@ std::string LevelActor::toXml()
 	doc.Accept(&printer);
 	return printer.CStr();
 }
+
+void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocument* doc) {
+	const char* LevelActorElementValue = "LevelActor";
+	
+	tinyxml2::XMLElement* LevelActorElement = doc->NewElement(LevelActorElementValue);
+	LevelActorElement->SetAttribute("type", this->actorType.c_str());
+	
+	for (auto element : this->actorComponents)
+	{
+		LevelActorElement->InsertEndChild(element.second->toXml(doc));
+	}
+	root->InsertEndChild(LevelActorElement);
+	//doc->LinkEndChild(LevelActorElement);
+	
+}

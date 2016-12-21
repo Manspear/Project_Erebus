@@ -30,17 +30,25 @@ void LevelEditor::start() {
 	factory = LevelActorFactory::getInstance();
 	std::vector<LevelActor*> actors;
 
-	for (size_t i = 0; i < 100; i++)
-	{
-		actors.push_back(factory->createActor("TestCharacter"));
-	}
-	
-	actors.push_back(factory->createActor("TestTerrain"));
+	//for (size_t i = 0; i < 100; i++)
+	//{
+	//	actors.push_back(factory->createActor("TestCharacter"));
+	//	float x = rand() % 256;
+	//	float y = rand() % 100;
+	//	float z = rand() % 256;
+	//	Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
+	//	derp->setPos(derp->getPos() + (glm::vec3(x, y, z)));
+	//	
+	//	//actors[i]->printAllComponents();
+	//}
+	//actors.push_back(factory->createActor("TestTerrain"));
+	//actors.push_back(factory->createActor("TestTerrain"));
 	//LevelActor* tempActor = factory->createActor("test");
-	actors[0]->printAllComponents();
+	//actors[0]->printAllComponents();
 	//std::cout <<  << std::endl;
 	
-	
+	//factory->saveWorld("Level2", &actors);
+	factory->loadWorld("Level2", &actors);
 	engine.setFont(font);
 
 	CollisionHandler collisionHandler;
@@ -79,8 +87,8 @@ void LevelEditor::start() {
 
 		for (size_t i = 0; i < 100; i++)
 		{
-			Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
-			derp->setPos(derp->getPos() + (glm::vec3(i/100.f)* deltaTime));
+			//Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
+			//derp->setPos(derp->getPos() + (glm::vec3(i/100.f)* deltaTime));
 		}
 
 		for (int i = 0; i < ps.size(); i++)

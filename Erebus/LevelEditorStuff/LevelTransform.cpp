@@ -17,14 +17,35 @@ LevelTransform::~LevelTransform()
 void LevelTransform::initialize(tinyxml2::XMLElement* element)
 {
 	std::string test = element->FirstChildElement("Position")->Attribute("x");
+	this->transformRef = new Transform();
+	this->transformStructTemp = new TransformStruct();
+	this->transformRef->setThePtr(this->transformStructTemp);
+	//transformRef->setPos()
 
-	this->position.x = std::stof(element->FirstChildElement("Position")->Attribute("x"));
-	this->position.y = std::stof(element->FirstChildElement("Position")->Attribute("y"));
-	this->position.z = std::stof(element->FirstChildElement("Position")->Attribute("z"));
+	float xPos;
+	float yPos;
+	float zPos;
 
-	this->rotation.x = std::stof(element->FirstChildElement("Rotation")->Attribute("x"));
-	this->rotation.y = std::stof(element->FirstChildElement("Rotation")->Attribute("y"));
-	this->rotation.z = std::stof(element->FirstChildElement("Rotation")->Attribute("z"));
+	float xRot;
+	float yRot;
+	float zRot;
+
+
+	xPos = std::stof(element->FirstChildElement("Position")->Attribute("x"));
+	yPos = std::stof(element->FirstChildElement("Position")->Attribute("y"));
+	zPos = std::stof(element->FirstChildElement("Position")->Attribute("z"));
+
+	xRot = std::stof(element->FirstChildElement("Rotation")->Attribute("x"));
+	yRot = std::stof(element->FirstChildElement("Rotation")->Attribute("y"));
+	zRot = std::stof(element->FirstChildElement("Rotation")->Attribute("z"));
+
+	glm::vec3 pos = glm::vec3(xPos, yPos, zPos);
+	glm::vec3 rot = glm::vec3(xRot, yRot, zRot);
+
+	transformRef->setPos(pos);
+
+	transformRef->setRotation(rot);
+	
 
 }
 
@@ -44,18 +65,25 @@ std::string LevelTransform::getName()
 
 void LevelTransform::postInitialize()
 {
-	std::cout << " I IS: " << LevelTransform::name << " AND I HAS POS: " << glm::to_string(this->position) << std::endl;
-	std::cout << " I IS: " << LevelTransform::name << " AND I HAS ROT: " << glm::to_string(this->rotation) << std::endl;
 }
 
 void LevelTransform::setTransform(int index) {
+	glm::vec3 oldPos = glm::vec3(this->transformRef->getPos());
+	glm::vec3 oldRot = glm::vec3(this->transformRef->getRotation());
+	delete this->transformRef;
+	delete this->transformStructTemp;
+
 	this->transformRef = LevelTransformHandler::getInstance()->getTransformAt(index);
+	this->transformRef->setPos(oldPos);
+	this->transformRef->setRotation(oldRot);
 }
 
 tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 {
 	tinyxml2::XMLElement* element = doc->NewElement(LevelTransform::name);
-	
+	glm::vec3 position = this->transformRef->getPos();
+	glm::vec3 rotation = this->transformRef->getRotation();
+
 	tinyxml2::XMLElement* positionElement = doc->NewElement("Position");
 	positionElement->SetAttribute("x", position.x);
 	positionElement->SetAttribute("y", position.y);

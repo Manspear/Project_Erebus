@@ -23,9 +23,8 @@ public:
 	Transform* getTransformRef();
 
 private:
-	glm::vec3 position;
-	glm::vec3 rotation;
 	Transform* transformRef;
+	TransformStruct* transformStructTemp;
 	
 };
 

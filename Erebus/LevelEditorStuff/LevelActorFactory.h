@@ -20,7 +20,9 @@ public:
 	LevelActor* createActor(std::string name);
 	const char* getPath(unsigned int id);
 	void deleteSavedPaths();
-	 
+	void saveWorld(std::string fileName, std::vector<LevelActor*>* actors);
+	void loadWorld(std::string fileName, std::vector<LevelActor*>* actors);
+	LevelActor* loadActor(tinyxml2::XMLElement* element);
 
 private:
 	const char* folder;

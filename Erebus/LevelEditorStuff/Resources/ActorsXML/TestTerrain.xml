@@ -1,7 +1,7 @@
 <Actor type="testActor">
 	<LevelTransform>
-		<Position x="10.0" y="3.3" z="7.5" />
-		<Rotation x="45" y="10" z="33" />
+		<Position x="10.0" y="-5" z="7.5" />
+		<Rotation x="0" y="0" z="0" />
 	</LevelTransform>
 	<LevelModel>
 		<ModelName>niclasland_scale1</ModelName>

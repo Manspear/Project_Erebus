@@ -17,6 +17,7 @@ public:
 	void update();
 	void addComponent(LevelActorComponent* component);
 	void printAllComponents();
+	void insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocument* doc);
 	unsigned int id;
 	std::string toXml();
 	
