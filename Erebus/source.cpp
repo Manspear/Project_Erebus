@@ -123,12 +123,7 @@ int main()
 		collisionHandler.drawHitboxes();
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.0f, 0.0f);
-
-		//Scale & color showcase
-		engine.print("testing\ntesting", 1150.f, 0.f, 1.2f, glm::vec4(0.4f, 1.0f, 0.4f, alpha));
-		alpha += alphaChangeRate;
-		if (alpha <= 0 || alpha >= 1.0f) { alphaChangeRate *= -1; }
+		engine.print(fps, 0.0f, 0.0f, 0.9f);
 
 		window.update();
 

@@ -2,6 +2,10 @@ local PLAYER_MAX_SPELLS = 2
 local PLAYER_JUMP_SPEED = 0.35
 player = {}
 
+function Round(num, idp)
+	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
+end
+
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
@@ -12,6 +16,8 @@ function LoadPlayer()
 	player.health = 100
 	player.animation = Animation.Create()
 	player.animationState = 1
+	player.printInfo = false
+
 	-- set spells for player
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
@@ -48,6 +54,7 @@ function UpdatePlayer(dt)
 	player.testCamera = false
 	local position = Transform.GetPosition(player.transformID)
 	local direction = Transform.GetLookAt(player.transformID)
+	local rotation = Transform.GetRotation(player.transformID)
 
 	player.animationState = 1
 	if Inputs.KeyDown("W") then
@@ -120,8 +127,22 @@ function UpdatePlayer(dt)
 		end
 	end
 
+	-- show player position and lookat on screen
+	if Inputs.KeyPressed("0") then player.printInfo = not player.printInfo end
+	if player.printInfo then
+		local scale = 0.8
+		local color = {0.4, 1, 0.4, 1}
+		local info = "Player"
+		Gear.Print(info, 60, 570, scale, color)
+
+		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
+		Gear.Print(info, 0, 600, scale, color)
+
+		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
+		Gear.Print(info, 120, 600, scale, color)
+	end
+
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
-	--print("x:"..position.x.." y:"..position.y.." z:"..position.z)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
