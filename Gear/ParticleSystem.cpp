@@ -121,11 +121,15 @@ namespace Gear
 		alive = false;
 	}
 
-	GEAR_API void ParticleSystem::setParticlesToDead()
+	GEAR_API void ParticleSystem::updateWhenDead(const float & dt)
 	{
-		nrOfActiveParticles = 0;
+		/*nrOfActiveParticles = 0;*/
+		nrOfActiveParticles = maxParticles;	
+		alive = true;
 		isActive = true;
-		alive = false;
+		updateParticleEditor(dt);
+	/*	isActive = true;
+		alive = false;*/
 	}
 
 	GLuint ParticleSystem::getPartVertexBuffer()

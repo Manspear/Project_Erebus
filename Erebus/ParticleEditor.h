@@ -19,7 +19,7 @@ public:
 	void start();
 	void update(float dt);
 	void setAlive();
-	void die();
+	void die(const float & dt);
 
 private:
 	float lifeTime;

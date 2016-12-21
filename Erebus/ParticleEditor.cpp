@@ -3,7 +3,7 @@
 ParticleEditor::ParticleEditor()
 {
 	this->running = true;
-	lifeTime = 50;
+	lifeTime = 3;
 }
 
 ParticleEditor::~ParticleEditor()
@@ -32,9 +32,9 @@ void ParticleEditor::start()
 
 	engine.addDebugger(Debugger::getInstance());
 
-	ps.push_back(new Gear::ParticleSystem(10, 10, 10, 5, 10));
+	ps.push_back(new Gear::ParticleSystem(10, 1, 10, 8, 10));
 
-	glm::vec3 tempVec = { 0, 0, 10 };
+	glm::vec3 tempVec = { 0, 0, -2 };
 
 	ps.at(0)->setEmmiterPos(tempVec);
 	ps.at(0)->isActive = true;
@@ -74,7 +74,7 @@ void ParticleEditor::update(float dt)
 	lifeTime = lifeTime - dt;
 	if (lifeTime <= 0)
 	{
-		die();
+		die(dt);
 	}
 }
 
@@ -83,9 +83,9 @@ void ParticleEditor::setAlive()
 	ps.at(0)->activate();
 }
 
-void ParticleEditor::die()
+void ParticleEditor::die(const float & dt)
 {
 	ps.at(0)->deActivate();
-	ps.at(0)->setParticlesToDead();
+	ps.at(0)->updateWhenDead(dt);
 
 }
