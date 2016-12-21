@@ -345,12 +345,15 @@ namespace Importer
 
 	int HeightMap::getMapWidth()
 	{
-		return mapWidth * breadthMulti; 
+		return mapWidth*widthMulti;
+
 	}
 
 	int HeightMap::getMapHeight()
 	{
-		return mapHeight * widthMulti;
+
+		return mapHeight*breadthMulti;
+
 	}
 
 	glm::mat4 HeightMap::getWorldMat()
