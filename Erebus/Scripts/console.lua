@@ -5,8 +5,10 @@ console = {}
 
 function LoadConsole()
 	console.messages = {}
+	console.messageColors = {}
 	for i=1, CONSOLE_MAX_MESSAGES do
 		console.messages[i] = ""
+		console.messageColors[i] = { 1, 1, 1, 1 }
 	end
 
 	console.prevIndex = 0
@@ -21,12 +23,21 @@ function LoadConsole()
 	console.caretBlink = 0.0
 	console.caretVisible = false
 
-	console.AddMessage = function(self, message)
+	console.AddMessage = function(self, message, color)
 		for i=1, CONSOLE_MAX_MESSAGES-1 do
 			self.messages[i] = self.messages[i+1]
+			self.messageColors[i] = self.messageColors[i+1]
 		end
 
 		self.messages[CONSOLE_MAX_MESSAGES] = message
+		self.messageColors[CONSOLE_MAX_MESSAGES] = color
+	end
+
+	console.Clear = function(self)
+		for i=1, CONSOLE_MAX_MESSAGES do
+			console.messages[i] = ""
+			console.messageColors[i] = {1,1,1,1}
+		end
 	end
 end
 
@@ -46,13 +57,13 @@ function UpdateConsole(dt)
 
 		-- run command and add message
 		if Inputs.KeyPressed(Keys.Enter) then
-			console:AddMessage(console.textInput)
+			console:AddMessage(console.textInput, {1,1,1,1})
 
 			local chunk = load(console.textInput)
 			if chunk then
 				local success, errorMsg = pcall(chunk)
 				if not success then
-					console:AddMessage(errorMsg)
+					console:AddMessage(errorMsg, {1,0,0,1})
 				end
 			end
 
@@ -60,6 +71,7 @@ function UpdateConsole(dt)
 				console.prevs[i] = console.prevs[i-1]
 			end
 			console.prevs[1] = console.textInput
+			console.prevIndex = 1
 
 			console.textInput = ""
 		end
@@ -68,7 +80,6 @@ function UpdateConsole(dt)
 		local newText = Inputs.GetTextInput()
 		if #newText > 0 then
 			console.textInput = console.textInput .. newText
-			--console.textInput = string.format( "%s%s%s", console.textInput:sub(0,console.caretIndex), newText, console.textInput:sub(console.caretIndex+1))
 			console.caretIndex = console.caretIndex + #newText
 		end
 
@@ -81,22 +92,9 @@ function UpdateConsole(dt)
 			console.prevIndex = (console.prevIndex-1) % (CONSOLE_MAX_PREVS-1)
 		end
 
-		-- scroll through text input
-		--[[if Inputs.KeyRepeated(Keys.Left) then
-			console.caretIndex = console.caretIndex - 1
-			if console.caretIndex < 1 then
-				console.caretIndex = 1
-			end
-		elseif Inputs.KeyRepeated(Keys.Right) then
-			console.caretIndex = console.caretIndex + 1
-			if console.caretIndex > #console.textInput then
-				console.caretIndex = #console.textInput
-			end
-		end]]--
-
 		-- draw console messages
 		for i=1, CONSOLE_MAX_MESSAGES do
-			Gear.Print(console.messages[i], 0, (i-1)*32)
+			Gear.Print(console.messages[i], 0, (i-1)*32, console.messageColors[i])
 		end
 
 		-- print text input and caret
