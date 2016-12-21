@@ -5,8 +5,8 @@ timeSinceShot = 0
 DelayZoomOut = 0.5
 
 
-ZoomedOut = {distance = 8.0 - 1, angle = 0, time =7, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = 3.14/3.14/2}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
-ZoomedIn = {distance = 7.6 - 1, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = 3.14/3.14/2}		--fov är i radianer, be careful when changing
+ZoomedOut = {distance = 8.0 - 4, angle = 0, time =7, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
+ZoomedIn = {distance = 7.6 - 4, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
 StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
