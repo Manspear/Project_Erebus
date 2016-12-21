@@ -25,7 +25,24 @@ public:
 	//The state is an enum defined for each subclass of Animation
 	GEAR_API virtual void updateState(float dt, int state) = 0;
 
-	GEAR_API virtual void setTransitionTimes(float* transitionTimeArray, int arraySize);
+	/*
+	Set transition times for all possible To and From state combinations by making a
+	float matrix/table constructed in this manner:
+	
+	  FROM >>>>>>>>>>>
+	TO	  0  1  2   3 ... <-- these numbers are animation states, defined for each model
+	v   0 t1 t5 t9  t13     <-- t for transition time defined by user
+	v   1 t2 t6 t10 t14
+	v   2 t3 t7 t11 t15 
+	v   3 t4 t8 t12 t16
+	   ...
+	FROM means "the animation state you are transitioning from"
+	TO means "the animation state you are transitioning to"
+
+	The length of the row and column is the same as the number of animationStates that you 
+	send in to this "setTransitionTimes" function.
+	*/
+	GEAR_API virtual void setTransitionTimes(float* transitionTimeArray, int arraySize, int numStates);
 
 	GEAR_API virtual void setStates(int numStates);
 

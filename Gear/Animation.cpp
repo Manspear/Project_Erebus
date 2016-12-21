@@ -160,10 +160,11 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 
 
 
-GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int arraySize)
+GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int arraySize, int numStates)
 {
 	this->transitionTimeArray = transitionTimeArray;
 	this->transitionTimeArraySize = arraySize;
+	setStates(numStates);
 }
 
 GEAR_API void Animation::setStates(int numStates)
