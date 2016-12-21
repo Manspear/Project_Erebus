@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {idleState = {},followState = {},attackState = {}}
+state = {idleState = {},followState = {},attackState = {},deadState = {},State = {}}
 
 
 function state.idleState.enter(enemy,player)
@@ -58,7 +58,7 @@ function state.followState.update(enemy,player,dt)
 
 	length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-		if length >100 then
+		if length >200 then
 			inState = "IdleState" 
 			changeToState(enemy,player,inState)
 		end
@@ -86,12 +86,27 @@ function state.attackState.update(enemy,player)
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
+
+	if length < enemy.range then
+		player.health = player.health -5;
+	end
 end
 
 function state.attackState.exit(enemy,player)
 
 end 
 
+function state.deadState.enter(enemy,player)
+	print("DEAD")
+end
+
+function state.deadState.update(enemy,player)
+
+end
+
+function state.deadState.exit(enemy,player)
+
+end 
 
 function changeToState(enemy,player,changeState)
 
@@ -106,11 +121,16 @@ function changeToState(enemy,player,changeState)
 	end
 	if changeState == "AttackState" then
 			enemy.state = state.attackState
+	end
+
+	if changeState == "DeadState" then
+			enemy.state = state.deadState
 	end 
 
 	enemy.state.enter(enemy,player)
 end
 
+baseReturn.changeToState = changeToState
 baseReturn.state = state
 
 return baseReturn

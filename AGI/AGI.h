@@ -21,7 +21,7 @@ namespace AGI
 		{
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.8f;  // Never above 1
+			resolution = 0.3f;  // Never above 1
 
 			influenceMap = nullptr;
 		}
@@ -63,20 +63,22 @@ namespace AGI
 		{
 			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.y), pos.z), 3, glm::vec3(3 * 0.02, 2* 0.02, 0.4));
 		}
+
 		AGI_API void drawDebug(Importer::HeightMap * HP)
 		{
-			/*for (int w = 0; w < imWidth; w ++)
+			/*for (int h = 0; h < imHeight; h++)
 			{
-				for (int h = 0; h < imHeight; h ++)
-				{
+			for (int w = 0; w < imWidth; w ++)
+			{
+				
 					int tempStrength = influenceMap[w][h].getStrength();
 					if(tempStrength == 0)
 						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(0,0,0));
 					else
 						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1,glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
 				}
-			}*/
-
+			}
+*/
 			//debugRef->drawSphere(glm::vec3(influenceMap[0][0].pos.x, 0, influenceMap[0][0].pos.y), 3);
 		}
 		//Radius Kind
@@ -85,6 +87,7 @@ namespace AGI
 		{
 			debugRef = bugg;
 		}
+
 		/*
 		AGI_API glm::vec3 calculateRadiusPath(glm::vec3 enemyPos)
 		{
@@ -134,8 +137,8 @@ namespace AGI
 				influenceMap[x] = new InfluenceNode[this->imHeight];
 				for( int y=0; y<imHeight; y++ )
 				{
-					float w = (float)x / resolution;
-					float h = (float)y / resolution;
+					float w = (float)x / (resolution);
+					float h = (float)y / (resolution);
 					influenceMap[x][y] = InfluenceNode( glm::vec2( w, h ), 0 );
 				}
 			}
@@ -169,18 +172,14 @@ namespace AGI
 			float tempY = (float)((mapHeight / imHeight)*inStr);
 
 			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
-			
-			//while (inStr>1)
-			//{
 
 				for (int strX = -inStr; strX < inStr; strX++)
 				{
-					if(x + strX >=0 && x + strX< imWidth)
+					if(x + strX >=0 && x + strX< imWidth && x < imWidth && x>=0)
 						for (int strY = -inStr; strY < inStr; strY++)
 						{
-							if (y + strY >= 0 && y + strY < imHeight)
+							if (y + strY >= 0 && y + strY < imHeight && y < imHeight && y>=0)
 							{
-								////
 								//float tempStrength = str / inStr;// / (resolution));
 								//tempStrength = tempStrength / resolution;
 								//influenceMap[x + strX][y + strY].setStrength(tempStrength);
@@ -193,8 +192,7 @@ namespace AGI
 							}
 						}
 				}
-				//inStr--;
-			//}
+
 		}
 
 		AGI_API glm::vec3 calculateIMPath(glm::vec3 enemyPos)

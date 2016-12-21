@@ -90,7 +90,7 @@ public:
 private:
 	
 	debugLineStruct debugLines[1000];
-	debugSphereStruct debugSpheres[10000];
+	debugSphereStruct debugSpheres[100000];
 	debugAABBStruct debugAABBs[65000];
 	int totalDebugLines;
 	int totalDebugSpheres;
