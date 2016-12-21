@@ -9,6 +9,8 @@
 #include "Debug.h"
 #include"RadiusInfluenceNode.h"
 #include"InfluenceNode.h"
+
+#include"HeightMap.h"
 namespace AGI
 {
 	class AGIEngine
@@ -19,7 +21,7 @@ namespace AGI
 		{
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.04f;
+			resolution = 0.8f;  // Never above 1
 
 			influenceMap = nullptr;
 		}
@@ -43,6 +45,11 @@ namespace AGI
 			return pos - target;
 		}
 
+		AGI_API glm::vec2 dirToTarget(glm::vec2 pos, glm::vec2 target)
+		{
+			return pos - target;
+		}
+
 		AGI_API void setTarget(glm::vec3 pos)
 		{
 		//	radiusInfluenceNodes[0].setPos(pos);
@@ -52,20 +59,24 @@ namespace AGI
 		{
 
 		}
-		AGI_API void drawDebug(glm::vec3 pos)
+		AGI_API void drawDebug(Importer::HeightMap * HP,glm::vec3 pos)
 		{
-		//	debugRef->drawSphere(glm::vec3(pos.x, 9, pos.z), 3, glm::vec3(3 * 0.02, 2* 0.02, 0.4));
+			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.y), pos.z), 3, glm::vec3(3 * 0.02, 2* 0.02, 0.4));
 		}
-		AGI_API void drawDebug()
+		AGI_API void drawDebug(Importer::HeightMap * HP)
 		{
 			/*for (int w = 0; w < imWidth; w ++)
 			{
 				for (int h = 0; h < imHeight; h ++)
 				{
 					int tempStrength = influenceMap[w][h].getStrength();
-					debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, 0, influenceMap[w][h].getPos().y), 3,glm::vec3(tempStrength * 0.02, tempStrength* 0.02, 0.4));
+					if(tempStrength == 0)
+						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(0,0,0));
+					else
+						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1,glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
 				}
 			}*/
+
 			//debugRef->drawSphere(glm::vec3(influenceMap[0][0].pos.x, 0, influenceMap[0][0].pos.y), 3);
 		}
 		//Radius Kind
@@ -141,11 +152,11 @@ namespace AGI
 			}
 		}
 
-		AGI_API void addInfluencePoint(glm::vec3 inPos,int inStr)
+		AGI_API void addInfluencePoint(glm::vec3 inPos, float inStr)
 		{
-			if(inStr != -1)
-				inStr = inStr*(resolution * 20);
-			int str = inStr;
+			if (inStr != -1)
+				inStr = inStr *(resolution * 10);
+			float str = inStr;
 
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
@@ -154,9 +165,14 @@ namespace AGI
 				if (y  >= 0 && y  < imHeight)
 					influenceMap[x][y].setStrength(str);
 
+			float tempX = (float)((mapWidth / imWidth)*inStr);
+			float tempY = (float)((mapHeight / imHeight)*inStr);
+
+			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
 			
-			while (inStr>1)
-			{
+			//while (inStr>1)
+			//{
+
 				for (int strX = -inStr; strX < inStr; strX++)
 				{
 					if(x + strX >=0 && x + strX< imWidth)
@@ -164,14 +180,21 @@ namespace AGI
 						{
 							if (y + strY >= 0 && y + strY < imHeight)
 							{
-								float tempStrength = (float)((float)str / (float)inStr);// / (resolution));
-								tempStrength = tempStrength / resolution;
+								////
+								//float tempStrength = str / inStr;// / (resolution));
+								//tempStrength = tempStrength / resolution;
+								//influenceMap[x + strX][y + strY].setStrength(tempStrength);
+
+
+								///TESt THIS
+								float tempStrength = glm::distance(influenceMap[x][y].getPos(), influenceMap[x + strX][y + strY].getPos());
+								tempStrength = maxDistance/tempStrength *0.5f;
 								influenceMap[x + strX][y + strY].setStrength(tempStrength);
 							}
 						}
 				}
-				inStr--;
-			}
+				//inStr--;
+			//}
 		}
 
 		AGI_API glm::vec3 calculateIMPath(glm::vec3 enemyPos)
@@ -184,14 +207,14 @@ namespace AGI
 		//	if ((x >= 0 && x < imWidth) && (y >= 0 && y < imHeight))
 			//	debugRef->drawSphere(glm::vec3(influenceMap[x][y].getPos().x, 1, influenceMap[x][y].getPos().y), 3, glm::vec3(1, 1, 0.4));
 
-			int mostPosetive = 0;
+			float mostPosetive = 0;
 			int mpX = -1;
 			int mpY = -1;
 
-			for (int strX = -1; strX < 1; strX++)
+			for (int strX = -1; strX <= 1; strX++)
 			{
 				if (x + strX >= 0 && x + strX< imWidth)
-					for (int strY = -1; strY < 1; strY++)
+					for (int strY = -1; strY <= 1; strY++)
 					{
 						if (y + strY >= 0 && y + strY < imHeight)
 						{

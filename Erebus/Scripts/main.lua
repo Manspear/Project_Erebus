@@ -11,20 +11,12 @@ local scriptFiles =
 local drawHitboxes = false
 
 function Load()
-	-- TEMP: Make a level script?
 	--heightmap = Assets.LoadHeightmap("Textures/nextTile_heights.png")
 	heightmap = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128.png")
 	heightmap.transformID = Transform.Bind()
 
-	--Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
-
-	widthTest = heightmap:GetMapWidth()
-	heightTest = heightmap:GetMapHeight()
-	AI.SetNav(widthTest,heightTest)
-
 	--local model = Assets.LoadModel("Models/secondTile.model")
 	local model = Assets.LoadModel("Models/firstTile.model")
-	Gear.AddStaticInstance(model, heightmap.transformID)
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
@@ -34,6 +26,8 @@ function Load()
 	for key,value in pairs(scripts) do
 		if value.Load then value.Load() end
 	end
+
+	dofile( "Scripts/level.lua" )
 end
 
 function Unload()
@@ -48,7 +42,4 @@ function Update(dt)
 	for key,value in pairs(scripts) do
 		value.Update(dt)
 	end
-
-	--if Controls[Keys.FourPressed] then drawHitboxes = not drawHitboxes end
-	--if drawHitboxes then CollisionHandler.DrawHitboxes() end
 end

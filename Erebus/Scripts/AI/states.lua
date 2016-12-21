@@ -4,7 +4,7 @@ state = {idleState = {},followState = {},attackState = {}}
 
 
 function state.idleState.enter(enemy,player)
-
+enemy.animationState = 1
 end
 
 function state.idleState.update(enemy,player,dt)
@@ -24,6 +24,7 @@ end
 
 function state.followState.enter(enemy,player)
 	print("Enter FOLLOW")
+	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
 
@@ -39,13 +40,15 @@ function state.followState.update(enemy,player,dt)
 			local pos = Transform.GetPosition(enemy.transformID)
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
 
+			Transform.SetLookAt(enemy.transformID,direction)
+			
 			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
 			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
 
 			Transform.SetPosition(enemy.transformID,pos)
 
-			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.2 then
+			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.1 then
 				enemy.target = nil
 				print("DISTANCE")
 			end
@@ -73,7 +76,7 @@ end
 
 
 function state.attackState.enter(enemy,player)
-
+enemy.animationState = 3
 end
 
 function state.attackState.update(enemy,player)
