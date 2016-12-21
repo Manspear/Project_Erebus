@@ -11,12 +11,6 @@ local scriptFiles =
 local drawHitboxes = false
 
 function Load()
-	--heightmap = Assets.LoadHeightmap("Textures/nextTile_heights.png")
-	heightmap = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128.png")
-	heightmap.transformID = Transform.Bind()
-
-	--local model = Assets.LoadModel("Models/secondTile.model")
-	local model = Assets.LoadModel("Models/firstTile.model")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])

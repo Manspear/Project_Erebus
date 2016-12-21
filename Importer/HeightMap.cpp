@@ -218,8 +218,8 @@ namespace Importer
 		float highestPoint = 14.73f;
 		float lowestPoint = 25.f;
 		heightMulti = 1.0f;
-		widthMulti = 4.0f;
-		breadthMulti = 4.0f;
+		widthMulti = 1.0f;
+		breadthMulti = 1.0f;
 		//255, 24.435
 		/*
 		(int)(y/256)*3 =pos1 
@@ -478,8 +478,6 @@ namespace Importer
 				|| x >= maxX || z >= maxZ)
 				return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
 			
-		
-		
 		int heightTile = 0;
 		float positionOnHeightmapX = x - heightTile;
 		float positionOnHeightmapZ= z - heightTile;

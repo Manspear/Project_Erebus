@@ -175,10 +175,10 @@ namespace AGI
 
 				for (int strX = -inStr; strX < inStr; strX++)
 				{
-					if(x + strX >=0 && x + strX< imWidth)
+					if(x + strX >=0 && x + strX< imWidth&& x < imWidth)
 						for (int strY = -inStr; strY < inStr; strY++)
 						{
-							if (y + strY >= 0 && y + strY < imHeight)
+							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight)
 							{
 								////
 								//float tempStrength = str / inStr;// / (resolution));
