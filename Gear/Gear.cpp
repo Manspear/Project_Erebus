@@ -160,6 +160,11 @@ namespace Gear
 		text.print(s, baseX, baseY, scale, color);
 	}
 
+	glm::vec2 GearEngine::getTextDimensions( const char* t )
+	{
+		return text.getTextDimensions( t );
+	}
+
 	void GearEngine::queueModels(std::vector<ModelInstance>* models)
 	{
 		staticModels = models;

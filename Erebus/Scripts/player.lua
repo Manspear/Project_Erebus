@@ -1,5 +1,5 @@
-local MOLERAT_OFFSET = 2
 local PLAYER_MAX_SPELLS = 2
+local PLAYER_JUMP_SPEED = 0.35
 player = {}
 
 function LoadPlayer()
@@ -50,39 +50,41 @@ function UpdatePlayer(dt)
 	local direction = Transform.GetLookAt(player.transformID)
 
 	player.animationState = 1
-	if Controls[Keys.WDown] then forward = player.moveSpeed
+	if Inputs.KeyDown("W") then
+		forward = player.moveSpeed
 		player.animationState = 2
 	end
-	if Controls[Keys.SDown] then forward = -player.moveSpeed 
+	if Inputs.KeyDown("S") then
+		forward = -player.moveSpeed
 		player.animationState = 2
 	end
-	if Controls[Keys.ADown] then left = player.moveSpeed 
+	if Inputs.KeyDown("A") then
+		left = player.moveSpeed
 		player.animationState = 2
 	end
-	if Controls[Keys.DDown] then left = -player.moveSpeed 
+	if Inputs.KeyDown("D") then
+		left = -player.moveSpeed
 		player.animationState = 2
 	end
-	if Controls[Keys.SpacePressed] and player.canJump then
-		player.verticalSpeed = 0.35
+	if Inputs.KeyPressed(Keys.Space) and player.canJump then
+		player.verticalSpeed = PLAYER_JUMP_SPEED
 		player.canJump = false
 		player.animationState = 2
 	end
-	if Controls[Keys.TabPressed] then print("Tab pressed") end
-	if Controls[Keys.LMBDown] then
-		player.testCamera = true;
+	if Inputs.ButtonDown(Buttons.Left) then
+		player.testCamera = true
 		player.animationState = 3
 	end
-	if Controls[Keys.LMBReleased] then
+	if Inputs.ButtonReleased(Buttons.Left) then
 		player.animationState = 1
-		for _,j in ipairs(player.spells[player.currentSpell]) do
-			if(j.alive ~= true) then
-				j:Cast()
-				break
+		for _,v in ipairs(player.spells[player.currentSpell]) do
+			if not v.alive then
+				v:Cast()
 			end
 		end
 	end
-	if Controls[Keys.OnePressed] then player.currentSpell = 1 end
-	if Controls[Keys.TwoPressed] then player.currentSpell = 2 end
+	if Inputs.KeyPressed("1") then player.currentSpell = 1 end
+	if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 
 	Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
