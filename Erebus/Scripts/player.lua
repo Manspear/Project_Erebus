@@ -5,7 +5,7 @@ player = {}
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 13
+	player.moveSpeed = 12
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
