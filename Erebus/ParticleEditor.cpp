@@ -3,6 +3,7 @@
 ParticleEditor::ParticleEditor()
 {
 	this->running = true;
+	lifeTime = 2;
 }
 
 ParticleEditor::~ParticleEditor()
@@ -47,6 +48,10 @@ void ParticleEditor::start()
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
 
+		update(deltaTime);
+
+		ps.at(0)->updateParticleEditor(deltaTime);
+
 		engine.queueParticles(&ps);
 
 		engine.drawParticle(camera);
@@ -58,4 +63,30 @@ void ParticleEditor::start()
 	}
 	
 	glfwTerminate();
+}
+
+void ParticleEditor::update(float dt)
+{
+	if (lifeTime = lifeTime)
+	{
+		setAlive();
+	}
+
+	lifeTime = lifeTime - dt;
+	if (lifeTime <= 0)
+	{
+		die();
+	}
+}
+
+void ParticleEditor::setAlive()
+{
+	ps.at(0)->activate();
+}
+
+void ParticleEditor::die()
+{
+	ps.at(0)->deActivate();
+	ps.at(0)->explode();
+
 }

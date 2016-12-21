@@ -66,6 +66,46 @@ namespace Gear
 		}
 	}
 
+	GEAR_API void ParticleSystem::updateParticleEditor(const float & dt)
+	{
+
+		if (isActive)
+		{
+			if (alive)
+			{
+				timer += dt;
+				if (timer > particleRate)
+				{
+					int i = 0;
+					while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+					{
+						particlePos[nrOfActiveParticles] = this->position;
+						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+						allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 10 - 5, rand() % 5 - 2.5, rand() % 5 - 2.5);
+
+					}
+					timer = 0;
+				}
+			}
+			for (int i = 0; i < nrOfActiveParticles; i++)
+			{
+				allParticles[i].lifeSpan -= dt;
+				if (allParticles[i].lifeSpan > 0.0)
+				{
+					allParticles[i].direction.y += gravityFactor * dt;
+					particlePos[i] += allParticles[i].direction * partSpeed * dt;
+				}
+				else
+				{
+					particlePos[i] = particlePos[nrOfActiveParticles - 1];
+					allParticles[i] = allParticles[--nrOfActiveParticles];
+					if (nrOfActiveParticles <= 0)
+						isActive = false;
+				}
+			}
+		}
+	}
+
 	void ParticleSystem::explode()
 	{
 		nrOfActiveParticles = 0;

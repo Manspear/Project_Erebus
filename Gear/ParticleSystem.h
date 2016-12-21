@@ -2,8 +2,6 @@
 #include "BaseIncludes.h"
 #include "TextureAsset.h"
 
-const float MAX_LIFESPAN = 10.0;
-
 struct Partikel
 {
 	glm::vec3 direction;
@@ -26,6 +24,7 @@ namespace Gear
 		GEAR_API ~ParticleSystem();
 
 		GEAR_API void update(const float &dt);
+		GEAR_API void updateParticleEditor(const float &dt);
 		GEAR_API void explode();
 		GEAR_API GLuint getPartVertexBuffer();
 		GEAR_API void setEmmiterPos(glm::vec3 pos);

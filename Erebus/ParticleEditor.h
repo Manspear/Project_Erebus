@@ -16,8 +16,12 @@ public:
 	ParticleEditor();
 	~ParticleEditor();
 	void start();
+	void update(float dt);
+	void setAlive();
+	void die();
 
 private:
+	float lifeTime;
 	bool running;
 	Camera* camera;
 	Inputs* inputs;
