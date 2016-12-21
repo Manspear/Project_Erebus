@@ -22,6 +22,7 @@ namespace LuaGear
 		{
 			{ "AddStaticInstance", addStaticInstance },
 			{ "AddAnimatedInstance", addAnimatedInstance },
+			{ "Print", print},
 			{ NULL, NULL }
 		};
 
@@ -127,6 +128,19 @@ namespace LuaGear
 			//lua_pushnumber( lua, result );
 		}
 
+		return 0;
+	}
+
+	int print(lua_State* lua)
+	{
+		int ntop = lua_gettop(lua);
+		if (ntop >= 3)
+		{
+			std::string s = lua_tostring(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			g_gearEngine->print(s, x, y);
+		}
 		return 0;
 	}
 

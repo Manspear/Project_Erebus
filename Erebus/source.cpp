@@ -35,9 +35,10 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	LevelEditor editor;
-	editor.start();
+	LevelEditor Editor;
+	Editor.start();
 	return 0;
+
 	Window window;
 	Gear::GearEngine engine;
 
@@ -63,6 +64,7 @@ int main()
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
+	collisionHandler.setDebugger(Debugger::getInstance());
 
 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
@@ -80,8 +82,11 @@ int main()
 		networkThread = std::thread(startNetworkCommunication, &window );
 	}
 
+	AGI::AGIEngine ai;
+	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
+
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
 	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
@@ -93,8 +98,17 @@ int main()
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
+
+
+	float alpha = 0.0f;
+	float alphaChangeRate = 0.01f;
+
+	ai.addDebug(Debugger::getInstance());
+
+
 	while (running && window.isWindowOpen())
 	{	
+		ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
@@ -110,6 +124,17 @@ int main()
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
+		collisionHandler.drawHitboxes();
+
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.0f, 0.0f);
+
+		//Scale & color showcase
+		engine.print("testing\ntesting", 1100.f, 0.f, 1.2f, glm::vec4(0.4f, 1.0f, 0.4f, alpha));
+		alpha += alphaChangeRate;
+		if (alpha <= 0 || alpha >= 1.0f) { alphaChangeRate *= -1; }
+
+		window.update();
 
 		engine.draw(&camera);
 
@@ -141,12 +166,6 @@ int main()
 				lockMouse = true;
 			}
 		}
-
-
-		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.f, 720.f);
-
-		window.update();
 
 		assets.checkHotload( deltaTime );
 	}
@@ -188,10 +207,9 @@ int startNetworkCommunication( Window* window )
 			return 1;
 		}
 
-		if (!network.AcceptCommunication())
+		while (running && window->isWindowOpen() && !network.AcceptCommunication())
 		{
-			printf("failed to accept connection\n");
-			return 1;
+			Sleep(250);
 		}
 
 		while (running && window->isWindowOpen())
@@ -202,7 +220,7 @@ int startNetworkCommunication( Window* window )
 	}
 	else
 	{
-		if (!network.InitializeClient(127,0,0,1,35501))
+		if (!network.InitializeClient(127,0,0,1,35500))
 		{
 			printf("failed to initialize sockets\n");
 			return 1;
@@ -232,14 +250,11 @@ int startNetworkReceiving(Nurn::NurnEngine * pNetwork, Window* window)
 {
 	printf("Recieving package\n");
 	Sleep(250);
-	Nurn::Address sender;
 	unsigned char buffer[256];
-	int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
+	int bytes_read = pNetwork->Receive(buffer, sizeof(buffer));
 	if (bytes_read)
 	{
-		printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
-			sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-			sender.GetPort(), bytes_read);
+		printf("received packet %d bytes\n", bytes_read);
 		std::cout << buffer << std::endl;
 	}
 

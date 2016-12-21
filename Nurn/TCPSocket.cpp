@@ -51,7 +51,7 @@ namespace Nurn
 
 	bool TCPSocket::AcceptSocket(int & acceptedSocket, Address & connectionAddress)
 	{
-		SOCKADDR_IN address = { 0 };
+		sockaddr_in address = { 0 };
 
 #if PLATFORM == PLATFORM_WINDOWS
 		typedef int socklen_t;
@@ -59,7 +59,7 @@ namespace Nurn
 		socklen_t fromLength = sizeof(address);
 
 		// Accept a incomming connection, returns a socket used to send to later
-		int OutSocketHandle = accept(networkSocket, (SOCKADDR*)&address, &fromLength);
+		int OutSocketHandle = accept(networkSocket, (sockaddr*)&address, &fromLength);
 
 		// If failed, throw exception
 		if (OutSocketHandle == INVALID_SOCKET)

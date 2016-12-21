@@ -41,7 +41,7 @@ struct TransformStruct
 	glm::vec3 rot;
 	glm::vec3 scale;
 	glm::vec3 lookAt;
-	bool active;	
+	bool active;
 };
 
 #define WINDOW_WIDTH 1280.f
