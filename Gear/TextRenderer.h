@@ -6,8 +6,7 @@
 #include<vector>
 #include<iostream>
 
-#define loop(i, n) for(int i = 0; i < n; i++)
-#define TEXTRENDER_MAXLINESIZE 100
+#define TEXTRENDER_MAXLINESIZE 30
 
 struct sTextVertex
 {
@@ -19,9 +18,9 @@ struct sTextVertex
 struct sTextLine
 {
 	sTextVertex characters[TEXTRENDER_MAXLINESIZE];
-	size_t numberOfCharacters;
-	float scale;
 	glm::vec4 color;
+	float scale;
+	size_t numberOfCharacters;
 };
 
 class TextRenderer
