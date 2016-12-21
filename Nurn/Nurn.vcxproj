@@ -19,6 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PacketFilter.hpp" />
+    <ClInclude Include="MetaDataPacket.hpp" />
+    <ClInclude Include="Nurn\Packager.hpp" />
+    <ClInclude Include="PacketEnums.hpp" />
+    <ClInclude Include="PacketQueue.hpp" />
+    <ClInclude Include="TransformPacket.hpp" />
+    <ClInclude Include="UDPPacket.hpp" />
     <ClInclude Include="Address.hpp" />
     <ClInclude Include="Communication.hpp" />
     <ClInclude Include="NetworkDefines.hpp" />
@@ -30,6 +37,8 @@
     <ClInclude Include="UDPSocket.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Packager.cpp" />
+    <ClCompile Include="PacketFilter.cpp" />
     <ClCompile Include="Address.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Nurn.cpp" />
