@@ -79,7 +79,7 @@ int main()
 	}
 
 	AGI::AGIEngine ai;
-
+	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 
 	LuaBinds luaBinds;
 	luaBinds.load( &engine, &assets, &collisionHandler, &controls, &inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
@@ -95,11 +95,16 @@ int main()
 	double deltaTime;
 	bool lockMouse = false;
 
+
 	float alpha = 0.0f;
 	float alphaChangeRate = 0.01f;
 
+	ai.addDebug(Debugger::getInstance());
+
+
 	while (running && window.isWindowOpen())
 	{	
+		ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
