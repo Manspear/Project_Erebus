@@ -48,7 +48,6 @@ function UpdatePlayer(dt)
 	player.testCamera = false
 	local position = Transform.GetPosition(player.transformID)
 	local direction = Transform.GetLookAt(player.transformID)
-
 	player.animationState = 1
 	if Controls[Keys.WDown] then forward = player.moveSpeed
 		player.animationState = 2

@@ -208,6 +208,9 @@
     <None Include="Shaders\debugLine.frag" />
     <None Include="Shaders\debugLine.vert" />
     <None Include="Shaders\debugLine.geom" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
     <None Include="Shaders\debugSphere.frag" />
     <None Include="Shaders\debugSphere.geom" />
     <None Include="Shaders\debugSphere.vert" />

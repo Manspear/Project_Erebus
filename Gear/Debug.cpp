@@ -9,6 +9,7 @@ Debug::Debug()
 	totalDebugLines = 0;
 	totalDebugSpheres = 0;
 	totalDebugAABBs = 0;
+	totalDebugOBBs = 0;
 }
 
 
@@ -42,6 +43,16 @@ void Debug::drawSphere(const glm::vec3 position, const float radius, glm::vec3 c
 	totalDebugSpheres++;
 }
 
+void Debug::drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color) {
+	debugOBBs[totalDebugOBBs].pos = pos;
+	debugOBBs[totalDebugOBBs].xAxis = xAxis;
+	debugOBBs[totalDebugOBBs].yAxis = yAxis;
+	debugOBBs[totalDebugOBBs].zAxis = zAxis;
+	debugOBBs[totalDebugOBBs].halfLengths = helfLengths;
+	debugOBBs[totalDebugOBBs].color = color;
+	totalDebugOBBs++;
+}
+
 int Debug::getTotalLines()
 {
 	return totalDebugLines;
@@ -56,6 +67,10 @@ int Debug::getTotalAABBs()
 	return totalDebugAABBs;
 }
 
+int Debug::getTotalOBBs() {
+	return totalDebugOBBs;
+}
+
 debugLineStruct *Debug::getDebugLines() {
 	return this->debugLines;
 }
@@ -66,6 +81,10 @@ debugSphereStruct *Debug::getDebugSpheres() {
 
 debugAABBStruct *Debug::getDebugAABBs() {
 	return this->debugAABBs;
+}
+
+debugOBBStruct *Debug::getDebugOBBs() {
+	return this->debugOBBs;
 }
 void Debug::clear()
 {

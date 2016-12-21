@@ -26,14 +26,16 @@ void DebugHandler::addDebuger(Debug* bugref) {
 
 void DebugHandler::update(Camera* camera, RenderQueue* renderQueRef) {
 	ShaderProgram* tempProgram;
-	int totalLines=0,
-		totalSphere=0,
-		totalAABB=0;
+	int totalLines = 0,
+		totalSphere = 0,
+		totalAABB = 0,
+		totalOBB = 0;
 	for (size_t i = 0; i < debuggers.size(); i++)
 	{
 		totalLines += debuggers.at(i)->getTotalLines();
 		totalSphere += debuggers.at(i)->getTotalSpheres();
 		totalAABB += debuggers.at(i)->getTotalAABBs();
+		totalOBB += debuggers.at(i)->getTotalOBBs();
 	}
 
 	if(totalLines>0)
@@ -42,11 +44,80 @@ void DebugHandler::update(Camera* camera, RenderQueue* renderQueRef) {
 		drawAllSpheres(camera, renderQueRef);
 	if (totalAABB>0)
 		drawAllAABBs(camera, renderQueRef);
+	if (totalOBB > 0)
+		drawAllOBBs(camera, renderQueRef);
 
 	for (size_t i = 0; i < debuggers.size(); i++)
 	{
 		debuggers.at(i)->clear();
 	}
+}
+
+void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef) {
+	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_OBB);
+	tempProgram->use();
+	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+	int obbInstances = totalToIntance / 2;
+	GLuint positionLocation = glGetUniformLocation(tempProgram->getProgramID(), "pos");
+	GLuint xAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "xAxis");
+	GLuint yAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "yAxis");
+	GLuint zAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "zAxis");
+	GLuint halfLengthsLocation = glGetUniformLocation(tempProgram->getProgramID(), "halfLengths");
+	GLuint colorIdLocation = glGetUniformLocation(tempProgram->getProgramID(), "colors");
+	glm::vec3* pos = new glm::vec3[totalToIntance];
+	glm::vec3* xAxis = new glm::vec3[totalToIntance];
+	glm::vec3* yAxis = new glm::vec3[totalToIntance];
+	glm::vec3* zAxis = new glm::vec3[totalToIntance];
+	glm::vec3* halfLengths = new glm::vec3[totalToIntance];
+	glm::vec3* colors = new glm::vec3[totalToIntance];
+
+
+	int numInstance = 0;
+	for (size_t i = 0; i < debuggers.size(); i++) {
+		debugOBBStruct* debugRefVec = debuggers.at(i)->getDebugOBBs();
+		for (size_t k = 0; k < debuggers.at(i)->getTotalOBBs(); k++)
+		{
+			debugOBBStruct*temp = &debugRefVec[k];
+			pos[numInstance] = temp->pos;
+			xAxis[numInstance] = temp->xAxis;
+			yAxis[numInstance] = temp->yAxis;
+			zAxis[numInstance] = temp->zAxis;
+			halfLengths[numInstance] = temp->halfLengths;
+			colors[numInstance] = temp->color;
+			numInstance++;
+
+			if (numInstance == totalToIntance) {
+				glUniform3fv(positionLocation, numInstance, &pos[0][0]);
+				glUniform3fv(xAxisLocation, numInstance, &xAxis[0][0]);
+				glUniform3fv(yAxisLocation, numInstance, &yAxis[0][0]);
+				glUniform3fv(zAxisLocation, numInstance, &zAxis[0][0]);
+				glUniform3fv(halfLengthsLocation, numInstance, &halfLengths[0][0]);
+				glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+
+				draw(numInstance);
+			}
+		}
+	}
+
+	if (numInstance > 0) {
+		glUniform3fv(positionLocation, numInstance, &pos[0][0]);
+		glUniform3fv(xAxisLocation, numInstance, &xAxis[0][0]);
+		glUniform3fv(yAxisLocation, numInstance, &yAxis[0][0]);
+		glUniform3fv(zAxisLocation, numInstance, &zAxis[0][0]);
+		glUniform3fv(halfLengthsLocation, numInstance, &halfLengths[0][0]);
+		glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+
+		draw(numInstance);
+	}
+
+	delete[]pos;
+	delete[]xAxis;
+	delete[]yAxis;
+	delete[]zAxis;
+	delete[]halfLengths;
+	delete[]colors;
+	tempProgram->unUse();
 }
 
 void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef) {

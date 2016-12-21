@@ -76,6 +76,27 @@ struct debugAABBStruct {
 
 	}
 };
+
+struct debugOBBStruct {
+	glm::vec3 pos;
+	glm::vec3 xAxis, yAxis, zAxis;
+	glm::vec3 halfLengths;
+	glm::vec3 color;
+
+	debugOBBStruct(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color) {
+		this->pos = pos;
+		this->xAxis = xAxis;
+		this->yAxis = yAxis;
+		this->zAxis = zAxis;
+		this->halfLengths = helfLengths;
+	}
+
+	debugOBBStruct() {
+
+	}
+};
+
+
 #pragma endregion struct_debugs
 
 
@@ -92,9 +113,11 @@ private:
 	debugLineStruct debugLines[1000];
 	debugSphereStruct debugSpheres[10000];
 	debugAABBStruct debugAABBs[65000];
+	debugOBBStruct debugOBBs[10000];
 	int totalDebugLines;
 	int totalDebugSpheres;
 	int totalDebugAABBs;
+	int totalDebugOBBs;
 	
 public:
 	
@@ -114,7 +137,7 @@ public:
 	//Draws a sphere at give poisiton and radius
 	GEAR_API void drawSphere(const glm::vec3 position, const float radius, glm::vec3 color = glm::vec3(0, 1, 0));
 
-
+	GEAR_API void drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color = glm::vec3(0, 1, 0));
 
 	//DONT CALL
 	GEAR_API int getTotalLines();
@@ -123,11 +146,15 @@ public:
 	//DONT CALL
 	GEAR_API int getTotalAABBs();
 	//DONT CALL
+	GEAR_API int getTotalOBBs();
+	//DONT CALL
 	GEAR_API debugLineStruct *getDebugLines();
 	//DONT CALL
 	GEAR_API debugSphereStruct *getDebugSpheres();
 	//DONT CALL
 	GEAR_API debugAABBStruct *getDebugAABBs();
+	//DONT CALL
+	GEAR_API debugOBBStruct *getDebugOBBs();
 };
 
 namespace Debugger {
