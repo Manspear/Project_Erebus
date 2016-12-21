@@ -71,6 +71,11 @@ void OBBColllider::setSize(float xHalfLength, float yHalfLength, float zHalfLeng
 	this->halfLengths.z = zHalfLength;
 }
 
+void OBBColllider::setSize(glm::vec3 size)
+{
+	this->halfLengths = size;
+}
+
 void OBBColllider::setXHalfLength(float length)
 {
 	this->halfLengths.x = length;
@@ -123,7 +128,9 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	// Note we only need to find a single separating line to know they dont intersect
 	// 15 cases. If any separating line is found they do not collide, and we stop checking
 	//if no separating line is found in any of the 15 cases, they collide
-	bool collisionBool = false;
+	bool collisionBool = true;
+	int indexOfVec3 = 3;
+	int separatingAxisCounter = 0;
 	// OTHER COLLIDER VARIABLES
 	glm::vec3 bXAxis = collider->xAxis;
 	glm::vec3 bYAxis = collider->yAxis;
@@ -133,7 +140,7 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	glm::vec3 BHalfLengths = collider->halfLengths;
 
 	// 15 possible separating axes
-	glm::vec3 separatingAxes[15]; // L
+	glm::vec3 separatingAxes[6]; // L
 	separatingAxes[0] = this->xAxis;
 	separatingAxes[1] = this->yAxis;
 	separatingAxes[2] = this->zAxis;
@@ -142,44 +149,104 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	separatingAxes[4] = bYAxis;
 	separatingAxes[5] = bZAxis;
 
-	separatingAxes[6] = glm::cross(this->xAxis,bXAxis);
-	separatingAxes[7] = glm::cross(this->xAxis,bYAxis);
-	separatingAxes[8] = glm::cross(this->xAxis, bZAxis);
+	//separatingAxes[6] = glm::cross(this->xAxis,bXAxis); // these separating axis are never used in the calculations
+	//separatingAxes[7] = glm::cross(this->xAxis,bYAxis); // but can be used to undestand which separating axis is being checked in each case
+	//separatingAxes[8] = glm::cross(this->xAxis, bZAxis);
 
-	separatingAxes[9] = glm::cross(this->yAxis, bXAxis);
-	separatingAxes[10] = glm::cross(this->yAxis, bYAxis);
-	separatingAxes[11] = glm::cross(this->yAxis, bZAxis);
+	//separatingAxes[9] = glm::cross(this->yAxis, bXAxis);
+	//separatingAxes[10] = glm::cross(this->yAxis, bYAxis);
+	//separatingAxes[11] = glm::cross(this->yAxis, bZAxis);
 
-	separatingAxes[12] = glm::cross(this->zAxis, bXAxis);
-	separatingAxes[13] = glm::cross(this->zAxis, bYAxis);
-	separatingAxes[14] = glm::cross(this->zAxis, bZAxis);
+	//separatingAxes[12] = glm::cross(this->zAxis, bXAxis);
+	//separatingAxes[13] = glm::cross(this->zAxis, bYAxis);
+	//separatingAxes[14] = glm::cross(this->zAxis, bZAxis);
 
 	// dot products
 	float dots[3][3];
 	dots[0][0] = glm::dot(xAxis,bXAxis);
-	dots[0][0] = glm::dot(xAxis, bYAxis);
-	dots[0][0] = glm::dot(xAxis, bZAxis);
-	dots[0][0] = glm::dot(yAxis, bXAxis);
-	dots[0][0] = glm::dot(yAxis, bYAxis);
-	dots[0][0] = glm::dot(yAxis, bZAxis);
-	dots[0][0] = glm::dot(zAxis, bXAxis);
-	dots[0][0] = glm::dot(zAxis, bYAxis);
-	dots[0][0] = glm::dot(zAxis, bZAxis);
+	dots[0][1] = glm::dot(xAxis, bYAxis);
+	dots[0][2] = glm::dot(xAxis, bZAxis);
+	dots[1][0] = glm::dot(yAxis, bXAxis);
+	dots[1][1] = glm::dot(yAxis, bYAxis);
+	dots[1][2] = glm::dot(yAxis, bZAxis);
+	dots[2][0] = glm::dot(zAxis, bXAxis);
+	dots[2][1] = glm::dot(zAxis, bYAxis);
+	dots[2][2] = glm::dot(zAxis, bZAxis);
 
 	// CASE 1
-	float a, b, c, d;
-	a = b = c = d = 0;
+	float lengthProjection, hitboxProjection;
+	lengthProjection = hitboxProjection = 0;
 
-	a = glm::abs(glm::dot(T, separatingAxes[0]));
-	b = (glm::abs(halfLengths.x * glm::dot(xAxis, xAxis)) + glm::abs(halfLengths.y * glm::dot(yAxis, xAxis)) +
-		glm::abs(halfLengths.z * glm::dot(zAxis, xAxis)) + glm::abs(halfLengths.x * glm::dot(bYAxis, xAxis)) +
-		glm::abs(BHalfLengths.y * glm::dot(bYAxis, xAxis)) + glm::abs(BHalfLengths.z * glm::dot(bZAxis, xAxis)));
 	
-	c = glm::abs(halfLengths.x) + glm::abs(BHalfLengths.x * glm::dot(bXAxis, xAxis) + glm::abs(BHalfLengths.z * glm::dot(bZAxis, xAxis)));
-	d = halfLengths.x + glm::abs(BHalfLengths.x * dots[0][0]) + glm::abs(BHalfLengths.y * dots[0][1]) + glm::abs(BHalfLengths.z * dots[0][2]);
+	for (size_t i = 0; i < indexOfVec3; i++) // case 1-3
+	{
+		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
+		hitboxProjection = halfLengths[0] + glm::abs(BHalfLengths.x * dots[i][0] + glm::abs(BHalfLengths.y * dots[i][1]) + glm::abs(BHalfLengths.z * dots[i][2]));
+		if (lengthProjection > hitboxProjection) // if we found a separating line
+			return false;
+	}
+	
+	for (size_t i = 0; i < indexOfVec3; i++) // case 4-6
+	{
+		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
+		hitboxProjection = glm::abs(halfLengths.x * dots[0][i]) + glm::abs(halfLengths.y * dots[1][i]) + glm::abs(halfLengths.z * dots[2][i]) + BHalfLengths[i];
+		if (lengthProjection > hitboxProjection) // if we found a separating line
+			return false;
+	}
 
-	collisionBool = a > b;
+	//case 7
+	lengthProjection = glm::abs((glm::dot(T, zAxis)* dots[1][0]) - (glm::dot(T, yAxis) * dots[2][0]));
+	hitboxProjection = glm::abs(halfLengths.y*dots[2][0]) + glm::abs(halfLengths.z*dots[1][0]) + glm::abs(BHalfLengths.y*dots[0][2]) + glm::abs(BHalfLengths.z * dots[0][1]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
 
+	// case 8
+	lengthProjection = glm::abs((glm::dot(T, zAxis)* dots[1][1]) - (glm::dot(T, yAxis) * dots[2][1]));
+	hitboxProjection = glm::abs(halfLengths.y*dots[2][1]) + glm::abs(halfLengths.z*dots[1][1]) + glm::abs(BHalfLengths.x*dots[0][2]) + glm::abs(BHalfLengths.z * dots[0][0]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
+
+	// case 9
+	lengthProjection = glm::abs((glm::dot(T, zAxis)* dots[1][2]) - (glm::dot(T, yAxis) * dots[2][2]));
+	hitboxProjection = glm::abs(halfLengths.y*dots[2][2]) + glm::abs(halfLengths.z*dots[1][2]) + glm::abs(BHalfLengths.x*dots[0][1]) + glm::abs(BHalfLengths.y * dots[0][0]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
+
+	// case 10
+	lengthProjection = glm::abs((glm::dot(T, xAxis)* dots[2][0]) - (glm::dot(T, zAxis) * dots[0][0]));
+	hitboxProjection = glm::abs(halfLengths.x*dots[2][0]) + glm::abs(halfLengths.z*dots[0][0]) + glm::abs(BHalfLengths.y*dots[1][2]) + glm::abs(BHalfLengths.z * dots[1][1]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
+
+	// case 11
+	lengthProjection = glm::abs((glm::dot(T, xAxis)* dots[2][1]) - (glm::dot(T, zAxis) * dots[0][1]));
+	hitboxProjection = glm::abs(halfLengths.x*dots[2][1]) + glm::abs(halfLengths.z*dots[0][1]) + glm::abs(BHalfLengths.x*dots[1][2]) + glm::abs(BHalfLengths.z * dots[1][0]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
+
+	// case 12
+	lengthProjection = glm::abs((glm::dot(T, xAxis)* dots[2][2]) - (glm::dot(T, zAxis) * dots[0][2]));
+	hitboxProjection = glm::abs(halfLengths.x*dots[2][2]) + glm::abs(halfLengths.z*dots[0][2]) + glm::abs(BHalfLengths.x*dots[1][1]) + glm::abs(BHalfLengths.y * dots[1][0]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
+
+	// case 13
+	lengthProjection = glm::abs((glm::dot(T, yAxis)* dots[0][0]) - (glm::dot(T, xAxis) * dots[1][0]));
+	hitboxProjection = glm::abs(halfLengths.x*dots[1][0]) + glm::abs(halfLengths.y*dots[0][0]) + glm::abs(BHalfLengths.y*dots[2][2]) + glm::abs(BHalfLengths.z * dots[2][1]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
+
+	// case 14
+	lengthProjection = glm::abs((glm::dot(T, yAxis)* dots[0][1]) - (glm::dot(T, xAxis) * dots[1][1]));
+	hitboxProjection = glm::abs(halfLengths.x*dots[1][1]) + glm::abs(halfLengths.y*dots[0][1]) + glm::abs(BHalfLengths.x*dots[2][2]) + glm::abs(BHalfLengths.z * dots[2][0]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
+
+	// case 15
+	lengthProjection = glm::abs((glm::dot(T, yAxis)* dots[0][2]) - (glm::dot(T, xAxis) * dots[1][2]));
+	hitboxProjection = glm::abs(halfLengths.x*dots[1][2]) + glm::abs(halfLengths.y*dots[0][2]) + glm::abs(BHalfLengths.x*dots[2][1]) + glm::abs(BHalfLengths.y * dots[2][0]);
+	if (lengthProjection > hitboxProjection) // if we found a separating line
+		return false;
 
 	return collisionBool;
 }

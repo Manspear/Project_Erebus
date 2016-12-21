@@ -18,6 +18,7 @@ public:
 
 	//setters
 	void setSize(float xHalfLength, float yHalfLength, float zHalfLength);
+	void setSize(glm::vec3 size);
 	void setXHalfLength(float length);
 	void setYHalfLength(float length);
 	void setZHalfLength(float length);

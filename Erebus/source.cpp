@@ -63,7 +63,9 @@ int main()
 	collisionHandler.setTransforms(transforms);
 	OBBColllider obb1 = OBBColllider();
 	OBBColllider obb2 = OBBColllider();
-	obb1.setPos(glm::vec3(3,3,3));
+	obb1.setPos(glm::vec3(1,1,1));
+	obb1.setSize(2, 2, 2);
+	obb2.setPos(glm::vec3(4,4,4));
 	obb2.setSize(2,2,2);
 	float swag = 3.1415;
 	obb1.rotateAroundY(swag);
