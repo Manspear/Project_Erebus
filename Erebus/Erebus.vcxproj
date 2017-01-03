@@ -241,6 +241,7 @@
     <ClInclude Include="AABBCollider.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LevelModel.h" />
