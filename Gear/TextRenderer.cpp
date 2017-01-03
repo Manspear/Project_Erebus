@@ -72,6 +72,31 @@ void TextRenderer::print(const std::string &s, const float &baseX, const float &
 	lines.push_back(line);
 }
 
+glm::vec2 TextRenderer::getTextDimensions( const char* text )
+{
+	glm::vec2 result( 0, font->getInfo()->size );
+
+	float x = 0.0f;
+	while( *text )
+	{
+		if( *text == '\n' )
+		{
+			x = 0.0f;
+			result.y += font->getInfo()->size;
+		}
+		else
+		{
+			x += font->getInfo()->widths[*text-FONT_RANGE_START];
+			if( x > result.x )
+				result.x = x;
+		}
+
+		text++;
+	}
+
+	return result;
+}
+
 void TextRenderer::draw()
 {
 	shader->use();

@@ -1,6 +1,7 @@
 local scripts = {}
 local scriptFiles = 
 {
+	"Scripts/console.lua",
 	"Scripts/player.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",

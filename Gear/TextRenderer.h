@@ -34,6 +34,7 @@ public:
 	void setFont(Importer::FontAsset* font);
 
 	void print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color);
+	glm::vec2 getTextDimensions( const char* text );
 
 	void draw();
 
