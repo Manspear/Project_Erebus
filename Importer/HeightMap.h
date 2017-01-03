@@ -27,7 +27,7 @@ namespace Importer
 		IMPORTER_API int getMapWidth();
 		IMPORTER_API int getMapHeight();
 
-	private:
+	//private:
 		float getHardPosAt( int x, int y );
 		int triangleIntersection(const glm::vec3 vert1, const glm::vec3 vert2, const glm::vec3 vert3,
 			const glm::vec3 rayO, const glm::vec3 rayD, float& distance);

@@ -15,6 +15,6 @@ testActor_3.model = Assets.LoadModel('Models/Robot.model')
 Gear.AddStaticInstance(testActor_3.model, testActor_3.transformID)
 testActor_4 = {}
 testActor_4.transformID = Transform.Bind()
-Transform.SetPosition(testActor_4.transformID, {x=10, y=-5, z=7.5})
+Transform.SetPosition(testActor_4.transformID, {x=0, y=1, z=7})
 testActor_4.model = Assets.LoadModel('Models/niclasland_scale1.model')
 Gear.AddStaticInstance(testActor_4.model, testActor_4.transformID)

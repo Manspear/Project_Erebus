@@ -79,7 +79,6 @@ void LevelEditor::start() {
 	//}
 
 	HeightMap* hm = assets.load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
-
 	glm::vec3 hitPoint;
 	bool hasHit = false;
 
@@ -159,6 +158,22 @@ void LevelEditor::start() {
 		{
 			Debugger::getInstance()->drawSphere( hitPoint, 0.5f );
 		}
+
+		/*for( int x = 0; x<hm->mapWidth-1; x++ )
+		{
+			for( int y = 0; y<hm->mapHeight-1; y++ )
+			{
+				glm::vec3 v1( x, hm->getPos(x,y), y );
+				glm::vec3 v2( (x+1), hm->getPos(x+1,y), y );
+				glm::vec3 v3( x, hm->getPos(x,y+1), (y+1) );
+				glm::vec3 v4( x+1, hm->getPos(x+1,y+1), y+1 );
+
+				Debugger::getInstance()->drawLine(v1,v2);
+				Debugger::getInstance()->drawLine(v1,v3);
+				Debugger::getInstance()->drawLine(v2,v3);
+				//Debugger::getInstance()->drawLine(v3,v4);
+			}
+		}*/
 
 		window.update();
 	}
