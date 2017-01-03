@@ -218,10 +218,22 @@ namespace Importer
 		float highestPoint = 14.73f;
 		float lowestPoint = 25.f;
 		heightMulti = 1.0f;
-		widthMulti = 1.0f;
-		breadthMulti = 1.0f;
+		widthMulti = 4.0f;
+		breadthMulti = 4.0f;
 		//255, 24.435
+		/*
+		(int)(y/256)*3 =pos1 
 
+		(int)(x/256) = pos2
+
+		heightMapIndex = pos1+pos2
+
+		heightData[i][x][y]
+
+		heightData[heightMapIndex][x][y];
+
+		heightData[9][256][256]
+		*/
 		//ImageAsset* map = assets->load<ImageAsset>( path );
 		ImageAsset map;
 		if( map.load( path, assets ) )
@@ -235,7 +247,7 @@ namespace Importer
 
 			for (size_t y = 0; y < mapHeight; y++)
 				for (size_t x = 0; x < mapWidth; x++)
-					heightData[x][y] = map.getPixelValue(x, y).red * 0.47;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47
+					heightData[x][y] = map.getPixelValue(x, y).red * 0.596;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
 
 			minX = minZ = 0;
 			maxX = (mapWidth-1)*widthMulti;
@@ -262,8 +274,8 @@ namespace Importer
 				for( size_t x = 0; x<mapWidth; x++, vertexIndex++ )
 				{
 					vertexData[vertexIndex].position[0] = x *							widthMulti;
-					vertexData[vertexIndex].position[1] = 1; 
-					//vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * heightMulti;
+					//vertexData[vertexIndex].position[1] = 1; 
+					vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * 0.596;
 					vertexData[vertexIndex].position[2] = y *							breadthMulti;
 
 					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);
@@ -333,12 +345,12 @@ namespace Importer
 
 	int HeightMap::getMapWidth()
 	{
-		return mapWidth;
+		return mapWidth*widthMulti;
 	}
 
 	int HeightMap::getMapHeight()
 	{
-		return mapHeight;
+		return mapHeight*breadthMulti;
 	}
 
 	glm::mat4 HeightMap::getWorldMat()
@@ -353,47 +365,48 @@ namespace Importer
 			worldMatrix[3][i] = pos[i];
 		}
 	}
+/*
+	float HeightMap::getPos(float x, float z)
+	{
+		if (x < minX || z < minZ
+			|| x>= maxX || z>= maxZ)
+			return -50;
 
-	//float HeightMap::getPos(float x, float z)
-	//{
-	//	if (x < minX || z < minZ
-	//		|| x>= maxX || z>= maxZ)
-	//		return -50;
+		x /= widthMulti;
+		z /= breadthMulti;
 
-	//	x /= widthMulti;
-	//	z /= breadthMulti;
+		float returnVal = 0;
+		int xLow, xHigh;
+		int zLow, zHigh;
+		float xDec, zDec;
 
-	//	float returnVal = 0;
-	//	int xLow, xHigh;
-	//	int zLow, zHigh;
-	//	float xDec, zDec;
-
-	//	float tempXLow, tempZLow;
-
-
-	//	xDec = modf(x, &tempXLow);
-	//	zDec = modf(z, &tempZLow);
-	//	xLow = tempXLow;
-	//	zLow = tempZLow;
-	//	xHigh = xLow + 1;
-	//	zHigh = zLow + 1;
-
-	//	float topLeftH, topRightH, botLeftH, botRightH;
-
-	//	float amountTopLeft = ((1 - xDec) + (1 - zDec)) *.5f;
-	//	float amountTopRight = ((xDec) + (1 - zDec)) * .5;
-	//	float amountBotLeft = ((1 - xDec) + (zDec)) * .5f;
-	//	float amountBotRight = ((xDec)+(zDec)) * .5f;
-
-	//	topLeftH = getHardPosAt(xLow, zHigh) * amountTopLeft;
-	//	topRightH = getHardPosAt(xHigh, zHigh) * amountTopRight;
-	//	botLeftH = getHardPosAt(xLow, zLow) * amountBotLeft;
-	//	botRightH = getHardPosAt(xHigh, zLow) * amountBotRight;
+		float tempXLow, tempZLow;
 
 
-	//	returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
-	//	return returnVal;
-	//}
+		xDec = modf(x, &tempXLow);
+		zDec = modf(z, &tempZLow);
+		xLow = tempXLow;
+		zLow = tempZLow;
+		xHigh = xLow + 1;
+		zHigh = zLow + 1;
+
+		float topLeftH, topRightH, botLeftH, botRightH;
+
+		float amountTopLeft = ((1 - xDec) + (1 - zDec)) *.5f;
+		float amountTopRight = ((xDec) + (1 - zDec)) * .5;
+		float amountBotLeft = ((1 - xDec) + (zDec)) * .5f;
+		float amountBotRight = ((xDec)+(zDec)) * .5f;
+
+		topLeftH = getHardPosAt(xLow, zHigh) * amountTopLeft;
+		topRightH = getHardPosAt(xHigh, zHigh) * amountTopRight;
+		botLeftH = getHardPosAt(xLow, zLow) * amountBotLeft;
+		botRightH = getHardPosAt(xHigh, zLow) * amountBotRight;
+
+
+		returnVal = (topLeftH + topRightH + botLeftH + botRightH) * .5f;
+		return returnVal;
+	}
+	*/
 	
 	bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD)
 	{
@@ -425,30 +438,84 @@ namespace Importer
 	}
 
 	//300, 300
-	float HeightMap::getPos(float x, float z)
+	//float HeightMap::getPos(float x, float z)
+	//{
+	//	if (x < minX || z < minZ
+	//		|| x >= maxX || z >= maxZ)
+	//		return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
+	//	
+	//	x /= widthMulti;
+	//	z /= breadthMulti;
+	//	float value = 0;
+	//	float value2 = 0;
+	//	float xFractPart, zFractPart, hmX, hmXWider, hmY, hmYTaller;
+
+	//	xFractPart = modf(x, &hmX);// xFractPart = 0.141593 x = 3.141593 hmX = 3
+	//	hmXWider = hmX + 1; // hmXWider = 4.    hmY^	hmYWider^
+	//						//										   3			4
+	//	zFractPart = modf(z, &hmY);//			hmX^	hmXWider^	0.14 of hmX & 0.86 of hmXWider will be used. hmX and hmXWider represent heightmap pixels
+	//	hmYTaller = hmY + 1;
+	//	//												This will calculate the X's value. Being the height
+	//	value += getHardPosAt(hmX, hmY) * xFractPart;// lower left corner of a pixel. xFractPart = 0.14 hmX's value will affect 14%
+	//	value += getHardPosAt(hmXWider, hmY) * (1 - xFractPart);// 1 - 0.14 = 0.86 86%.					hmXWider's value will affect 86%
+	//															//												This will calculate the Y's value. (z in enginge, y in heightmap)
+	//	value += getHardPosAt(hmX, hmYTaller) * zFractPart;
+	//	value += getHardPosAt(hmXWider, hmYTaller) * (1 - zFractPart);
+
+	//	return (value * .5f);// Interpolate between 2 numbers, x and y. Instead of / 2 we use * 0.5 for optimization purposes. Return is a height
+	//}
+
+	float lerp(float a, float b, float t)
 	{
-		if (x < minX || z < minZ
-			|| x >= maxX || z >= maxZ)
-			return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
-		
-		x /= widthMulti;
-		z /= breadthMulti;
-		float value = 0;
-		float xFractPart, zFractPart, hmX, hmXWider, hmY, hmYTaller;
-
-		xFractPart = modf(x, &hmX);// xFractPart = 0.141593 x = 3.141593 hmX = 3
-		hmXWider = hmX + 1; // hmXWider = 4.    hmY^	hmYWider^
-							//										   3			4
-		zFractPart = modf(z, &hmY);//			hmX^	hmXWider^	0.14 of hmX & 0.86 of hmXWider will be used. hmX and hmXWider represent heightmap pixels
-		hmYTaller = hmY + 1;
-		//												This will calculate the X's value. Being the height
-		value += getHardPosAt(hmX, hmY) * xFractPart;// lower left corner of a pixel. xFractPart = 0.14 hmX's value will affect 14%
-		value += getHardPosAt(hmXWider, hmY) * (1 - xFractPart);// 1 - 0.14 = 0.86 86%.					hmXWider's value will affect 86%
-																//												This will calculate the Y's value. (z in enginge, y in heightmap)
-		value += getHardPosAt(hmX, hmYTaller) * zFractPart;
-		value += getHardPosAt(hmXWider, hmYTaller) * (1 - zFractPart);
-
-		return (value * .5f);// Interpolate between 2 numbers, x and y. Instead of / 2 we use * 0.5 for optimization purposes. Return is a height
+		return (a + ((b - a) * t));
 	}
 
+	float HeightMap::getPos(float x, float z)
+	{
+		// the first thing we need to do is figure out where on the heightmap
+		// "position" is. This'll make the math much simpler later.
+			if (x < minX || z < minZ
+				|| x >= maxX || z >= maxZ)
+				return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
+			
+		int heightTile = 0;
+		float positionOnHeightmapX = x - heightTile;
+		float positionOnHeightmapZ= z - heightTile;
+
+		// we'll use integer division to figure out where in the "heights" array
+		// positionOnHeightmap is. Remember that integer division always rounds
+		// down, so that the result of these divisions is the indices of the "upper
+		// left" of the 4 corners of that cell.
+		int left, top;
+		left = (int)((float)positionOnHeightmapX / widthMulti);
+		top = (int)((float)positionOnHeightmapZ / breadthMulti);
+
+		// next, we'll use modulus to find out how far away we are from the upper
+		// left corner of the cell. Mod will give us a value from 0 to terrainScale,
+		// which we then divide by terrainScale to normalize 0 to 1.
+		//float xNormalized = (positionOnHeightmapX % widthMulti) / widthMulti;
+		//float zNormalized = (positionOnHeightmapZ % breadthMulti) / breadthMulti;
+		float xNormalized = fmod(positionOnHeightmapX,widthMulti) / widthMulti;
+		float zNormalized = fmod(positionOnHeightmapZ,breadthMulti) / breadthMulti;
+
+		// Now that we've calculated the indices of the corners of our cell, and
+		// where we are in that cell, we'll use bilinear interpolation to calculuate
+		// our height. This process is best explained with a diagram, so please see
+		// the accompanying doc for more information.
+		// First, calculate the heights on the bottom and top edge of our cell by
+		// interpolating from the left and right sides.
+		float topHeight = lerp(
+			getHardPosAt(left, top),
+			(getHardPosAt(left+1,top)),
+			xNormalized);
+
+		float bottomHeight = lerp(
+			getHardPosAt(left , (top + 1)),
+			getHardPosAt((left + 1), top + 1),
+			xNormalized);
+
+		// next, interpolate between those two values to calculate the height at our
+		// position.
+		return lerp(topHeight, bottomHeight, zNormalized);
+	}
 }

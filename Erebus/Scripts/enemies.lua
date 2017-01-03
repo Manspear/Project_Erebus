@@ -24,6 +24,9 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
+
+			inState = "DeadState" 
+			stateScript.changeToState(enemies[i],player,inState)
 		end
 
 		enemies[i].Spawn = function(self,position)
