@@ -23,7 +23,8 @@ public:
 
 	GEAR_API virtual std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float animTimer);
 	//The state is an enum defined for each subclass of Animation
-	GEAR_API virtual void updateState(float dt, int state) = 0;
+	GEAR_API virtual void updateState(float dt, int state);
+
 
 	/*
 	Set transition times for all possible To and From state combinations by making a
@@ -49,9 +50,10 @@ public:
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
 protected:
+	void blendAnimations(int blendTo, int blendFrom, float transitionTimer, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from);
-	void updateJointMatrices();
+	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
@@ -66,12 +68,17 @@ protected:
 	int oldFrom = -1337;
 	std::vector<sKeyFrame> blendFromKeys;
 	std::vector<sKeyFrame> blendToKeys;
+
+	//Animation blending variables
 	float fromAnimationTimer;
 	float toAnimationTimer;
 	float transitionMaxTime = 0;
 	//When this timer is set, make sure it doesn't get reset when doing the same blend again
 	float transitionTimer = 0;
 	
+	std::vector<int> animationStack;
+	bool isTransitionComplete = true;
+
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
 	std::vector<glm::mat4> animMatrix;
