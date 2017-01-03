@@ -100,6 +100,18 @@ tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 	return element;
 }
 
+std::string LevelTransform::toLua(std::string name)
+{
+	std::stringstream ss;
+
+	glm::vec3 pos = transformRef->getPos();
+
+	ss << name << ".transformID = Transform.Bind()" << std::endl;
+	ss << "Transform.SetPosition(" << name << ".transformID, " <<  "{x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << std::endl;
+
+	return ss.str();
+}
+
 Transform* LevelTransform::getTransformRef() {
 	return this->transformRef;
 }

@@ -410,11 +410,59 @@ namespace Importer
 		return returnVal;
 	}
 	*/
+
+	int HeightMap::triangleIntersection(const glm::vec3 vert1, const glm::vec3 vert2, const glm::vec3 vert3,
+		const glm::vec3 rayO, const glm::vec3 rayD, float& distance)
+	{
+		float EPSILON = 0.000001f;
+		glm::vec3 edge1, edge2;
+		glm::vec3 P, Q, T;
+		float det, inv_det, u, v;
+		float t;
+
+		edge1 = vert2 - vert1;
+		edge2 = vert3 - vert1;
+
+
+		P = glm::cross(rayD, edge2);
+
+		det = glm::dot(edge1, P);
+
+
+		if (det > -EPSILON && det < EPSILON) return 0;
+
+		inv_det = 1.f / det;
+
+		T = rayO - vert1;
+
+		u = glm::dot(T, P) * inv_det;
+
+		//The intersection point is outside the triangle
+		if (u<0.f || u>1.f) return 0;
+
+		Q = glm::cross(T, edge1);
+
+		v = dot(rayD, Q) * inv_det;
+
+		//The intersection point is outside the triangle
+		if (v<0.f || u + v > 1.f) return 0;
+
+		t = glm::dot(edge2, Q)* inv_det;
+
+		if (t > EPSILON) {
+			distance = t;
+			return 1;
+		}
+
+		//There was no hit
+		return 0;
+
+	}
 	
-	bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD)
+	bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD, glm::vec3* hp)
 	{
 		bool returnVal = false;
-		float EPSILON = 0.1f;
+		/*float EPSILON = 0.1f;
 
 		float distance = abs((rayO.y + this->pos.y) / rayD.y);
 		glm::vec3 hitPoint = rayO + (rayD*distance);
@@ -427,6 +475,42 @@ namespace Importer
 				//Collision occured;
 			}
 		}
+
+		*hp = hitPoint;*/
+
+		float dist = 9999.0f;
+		for( int x = 0; x<mapWidth-1; x++ )
+		{
+			for( int y = 0; y<mapHeight-1; y++ )
+			{
+				glm::vec3 v1( x, getPos(x,y), y );
+				glm::vec3 v2( (x+1), getPos(x+1,y), y );
+				glm::vec3 v3( x, getPos(x,y+1), (y+1) );
+
+				float d = 0.0f;
+				if( triangleIntersection( v1, v2, v3, rayO, rayD, d ) )
+				{
+					if( d < dist )
+						dist = d;
+				}
+
+				glm::vec3 v4( x+1, getPos(x+1,y+1), y+1 );
+
+				d = 0.0f;
+				if( triangleIntersection( v2, v4, v3, rayO, rayD, d ) )
+				{
+					if( d < dist )
+						dist = d;
+				}
+			}
+		}
+
+		if( dist < 9999.0f )
+		{
+			returnVal = true;
+			*hp = rayO + rayD*dist;
+		}
+
 		return returnVal;
 	}
 

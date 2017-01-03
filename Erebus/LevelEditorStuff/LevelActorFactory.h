@@ -22,6 +22,7 @@ public:
 	void deleteSavedPaths();
 	void saveWorld(std::string fileName, std::vector<LevelActor*>* actors);
 	void loadWorld(std::string fileName, std::vector<LevelActor*>* actors);
+	void saveToLua(std::string fileName, std::vector<LevelActor*>* actors);
 	LevelActor* loadActor(tinyxml2::XMLElement* element);
 
 private:

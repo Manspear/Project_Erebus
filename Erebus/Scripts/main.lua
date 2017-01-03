@@ -20,8 +20,6 @@ function Load()
 	for key,value in pairs(scripts) do
 		if value.Load then value.Load() end
 	end
-
-	dofile( "Scripts/level.lua" )
 end
 
 function Unload()

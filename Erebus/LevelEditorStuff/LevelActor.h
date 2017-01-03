@@ -4,7 +4,8 @@
 #include "LevelActorComponent.h"
 #include "TinyXml\tinyxml2.h"
 #include <iostream> // prob remove dis
-
+					// yes
+#include <sstream>
 
 class LevelActor
 {
@@ -20,8 +21,8 @@ public:
 	void insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocument* doc);
 	unsigned int id;
 	std::string toXml();
-	
-	
+	std::string toLua();
+	const std::string& getActorType() const;
 
 
 private:

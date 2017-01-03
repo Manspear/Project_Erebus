@@ -13,6 +13,7 @@ public:
 	virtual void postInitialize() = 0; // talking to other components are done here
 	virtual std::string getName() = 0; // check actor.addComponent() to see why this is needed
 	virtual tinyxml2::XMLElement* toXml(tinyxml2::XMLDocument* doc) = 0;
+	virtual std::string toLua(std::string name) = 0;
 	virtual void update(float deltaTime) {}
 	virtual void setParent(LevelActor* parent) { this->parent = parent; };
 

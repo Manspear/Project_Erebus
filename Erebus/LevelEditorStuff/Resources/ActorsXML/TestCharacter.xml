@@ -4,7 +4,6 @@
 		<Rotation x="0" y="0" z="0" />
 	</LevelTransform>
 	<LevelModel>
-		<ModelName>Robot</ModelName>
+		<ModelName>testGuy</ModelName>
 	</LevelModel>
-		
 </Actor>

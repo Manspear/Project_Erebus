@@ -141,6 +141,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 		returnComponent = new LevelModel();
 	}
 
+	if (componentName == LevelAnimation::name)
+	{
+		returnComponent = new LevelAnimation();
+	}
 	
 	return returnComponent;
 }
@@ -181,5 +185,19 @@ void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>
 	for (tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 	{
 		actors->push_back(loadActor(pNode));
+	}
+}
+
+void LevelActorFactory::saveToLua(std::string fileName, std::vector<LevelActor*>* actors)
+{
+	std::ofstream stream( fileName );
+	if( stream.is_open() )
+	{
+		for( size_t i = 0; i<actors->size(); i++ )
+		{
+			stream << actors->at(i)->toLua();
+		}
+
+		stream.close();
 	}
 }

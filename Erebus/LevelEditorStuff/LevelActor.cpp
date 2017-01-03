@@ -69,6 +69,31 @@ std::string LevelActor::toXml()
 	return printer.CStr();
 }
 
+std::string LevelActor::toLua()
+{
+	std::stringstream ss;
+
+	std::string name = actorType + std::string("_") + std::to_string(id);
+
+	ss << name << " = {}" << std::endl;
+	
+	if( actorComponents.find("LevelTransform") != actorComponents.end() )
+		ss << actorComponents["LevelTransform"]->toLua( name );
+
+	for( std::map<std::string, LevelActorComponent*>::iterator it = actorComponents.begin(); it != actorComponents.end(); it++ )
+	{
+		if( it->first != "LevelTransform" )
+			ss << it->second->toLua(name);
+	}
+
+	return ss.str();
+}
+
+const std::string& LevelActor::getActorType() const
+{
+	return actorType;
+}
+
 void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocument* doc) {
 	const char* LevelActorElementValue = "LevelActor";
 	
@@ -82,4 +107,4 @@ void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocum
 	root->InsertEndChild(LevelActorElement);
 	//doc->LinkEndChild(LevelActorElement);
 	
-}
+} 

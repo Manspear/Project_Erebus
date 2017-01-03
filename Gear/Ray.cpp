@@ -53,7 +53,6 @@ void Ray::updateRay(const glm::mat4& viewMat, const glm::vec3& cameraPos) {
 	//glm::vec3 vert1 = glm::vec3(0, 5, 0);
 	//glm::vec3 vert2 = glm::vec3(5, 0, 0);
 	//glm::vec3 vert3 = glm::vec3(-5, 0, 0);
-	
 }
 
 

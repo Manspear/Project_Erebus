@@ -49,6 +49,7 @@ void LevelEditor::start() {
 	
 	//factory->saveWorld("Level2", &actors);
 	factory->loadWorld("Level2", &actors);
+	factory->saveToLua("level01.lua", &actors);
 	engine.setFont(font);
 
 	CollisionHandler collisionHandler;
@@ -77,6 +78,10 @@ void LevelEditor::start() {
 	//
 	//}
 
+	HeightMap* hm = assets.load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
+
+	glm::vec3 hitPoint;
+	bool hasHit = false;
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 	while (running && window.isWindowOpen())
@@ -133,6 +138,26 @@ void LevelEditor::start() {
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
+		}
+		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
+		{
+			glm::mat4 proj = camera->getProjectionMatrix();
+			Ray ray( w, &proj );
+			ray.updateRay( camera->getViewMatrix(), camera->getPosition() );
+
+			hasHit = hm->rayIntersection( ray.rayPosition, ray.rayDirection, &hitPoint );
+			if( hasHit )
+			{
+				LevelActor* newActor = factory->createActor("TestCharacter");
+				actors.push_back(newActor);
+
+				newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+			}
+		}
+
+		if( hasHit )
+		{
+			Debugger::getInstance()->drawSphere( hitPoint, 0.5f );
 		}
 
 		window.update();

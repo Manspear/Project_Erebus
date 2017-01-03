@@ -20,7 +20,7 @@ namespace Importer
 		IMPORTER_API glm::mat4 getWorldMat();
 		IMPORTER_API void setPos( const glm::vec3& pos );
 		IMPORTER_API float getPos( float x, float y );
-		IMPORTER_API bool rayIntersection( glm::vec3 rayO, glm::vec3 dayD );
+		IMPORTER_API bool rayIntersection( glm::vec3 rayO, glm::vec3 dayD, glm::vec3* hitPoint );
 
 		IMPORTER_API ModelAsset* getModel();
 
@@ -29,6 +29,8 @@ namespace Importer
 
 	private:
 		float getHardPosAt( int x, int y );
+		int triangleIntersection(const glm::vec3 vert1, const glm::vec3 vert2, const glm::vec3 vert3,
+			const glm::vec3 rayO, const glm::vec3 rayD, float& distance);
 
 		ModelAsset model;
 		glm::mat4 worldMatrix;
@@ -38,5 +40,7 @@ namespace Importer
 		float minX, maxX, minZ, maxZ;
 		float widthMulti, heightMulti, breadthMulti;
 		glm::vec3 pos;
+
+		glm::vec3* vertices;
 	};
 }

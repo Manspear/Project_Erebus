@@ -80,3 +80,17 @@ tinyxml2::XMLElement* LevelModel::toXml(tinyxml2::XMLDocument* doc)
 
 	return element;
 }
+
+std::string LevelModel::toLua(std::string name)
+{
+	std::stringstream ss;
+
+	ss << name << ".model = Assets.LoadModel('Models/" << modelName << ".model')" << std::endl;
+
+	if( parent->getComponent<LevelAnimation>() )
+		ss << "Gear.AddAnimatedInstance(" << name << ".model, " << name << ".transformID, " << name << ".animation)" << std::endl;
+	else
+		ss << "Gear.AddStaticInstance(" << name << ".model, " << name << ".transformID)" << std::endl;
+
+	return ss.str();
+}
