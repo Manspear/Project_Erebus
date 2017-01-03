@@ -66,7 +66,7 @@ namespace AGI
 
 		AGI_API void drawDebug(Importer::HeightMap * HP)
 		{
-			/*for (int h = 0; h < imHeight; h++)
+			for (int h = 0; h < imHeight; h++)
 			{
 			for (int w = 0; w < imWidth; w ++)
 			{
@@ -79,7 +79,7 @@ namespace AGI
 				}
 
 			}
-*/
+
 
 			//debugRef->drawSphere(glm::vec3(influenceMap[0][0].pos.x, 0, influenceMap[0][0].pos.y), 3);
 		}
