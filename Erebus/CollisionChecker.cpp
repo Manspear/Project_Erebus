@@ -1,128 +1,70 @@
-#include "OBBColllider.h"
+#include "CollisionChecker.h"
 
 
 
-OBBColllider::OBBColllider() : HitBox()
-{
-	this->pos = glm::vec3(0, 0, 0);
-	this->xAxis = glm::vec3(1,0,0);
-	this->yAxis = glm::vec3(0, 1, 0);
-	this->zAxis = glm::vec3(0, 0, 1);
-	this->halfLengths = glm::vec3(1, 1, 1);
-}
-
-OBBColllider::OBBColllider(int transformID) : HitBox(transformID)
-{
-	this->pos = glm::vec3(0, 0, 0);
-	this->xAxis = glm::vec3(1, 0, 0);
-	this->yAxis = glm::vec3(0, 1, 0);
-	this->zAxis = glm::vec3(0, 0, 1);
-	this->halfLengths = glm::vec3(1, 1, 1);
-}
-
-OBBColllider::OBBColllider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox()
-{
-	this->pos = pos;
-	this->xAxis = glm::vec3(1,0,0);
-	this->yAxis = glm::vec3(0, 1, 0);
-	this->zAxis = glm::vec3(0, 0, 1);
-	this->halfLengths = glm::vec3(xHalfLength,yHalfLength,zHalfLength);
-}
-
-OBBColllider::OBBColllider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox(transformID)
-{
-	this->pos = glm::vec3(0, 0, 0);
-	this->xAxis = glm::vec3(1, 0, 0);
-	this->yAxis = glm::vec3(0, 1, 0);
-	this->zAxis = glm::vec3(0, 0, 1);
-	this->halfLengths = glm::vec3(xHalfLength, yHalfLength, zHalfLength);
-}
-
-
-OBBColllider::~OBBColllider()
+CollisionChecker::CollisionChecker()
 {
 }
 
-void OBBColllider::rotateAroundX(float radianAngle)
+
+CollisionChecker::~CollisionChecker()
 {
-	this->xAxis = glm::rotateX(this->xAxis, radianAngle);
-	this->yAxis = glm::rotateX(this->yAxis, radianAngle);
-	this->zAxis = glm::rotateX(this->zAxis, radianAngle);
 }
 
-void OBBColllider::rotateAroundY(float radianAngle)
+bool CollisionChecker::collisionCheck(SphereCollider * sphere1, SphereCollider * sphere2)
 {
-	this->xAxis = glm::rotateY(this->xAxis, radianAngle);
-	this->yAxis = glm::rotateY(this->yAxis, radianAngle);
-	this->zAxis = glm::rotateY(this->zAxis, radianAngle);
+	this->sphereCollisionCounter++;
+	bool collision = false;
+
+	glm::vec3 distanceVector = sphere1->getPos() - sphere2->getPos();
+	float distanceSquared = glm::dot(distanceVector, distanceVector); // dot with itself = length^2
+
+	float radiusSquared = (sphere1->getRadius() + sphere2->getRadius());
+	radiusSquared *= radiusSquared;
+
+	//if distance squared is less than radius squared = collision
+	if (distanceSquared <= radiusSquared)
+		collision = true;
+
+
+	return collision;
 }
 
-void OBBColllider::rotateAroundZ(float radianAngle)
+bool CollisionChecker::collisionCheck(AABBCollider* aabb1, AABBCollider* aabb2)
 {
-	this->xAxis = glm::rotateZ(this->xAxis, radianAngle);
-	this->yAxis = glm::rotateZ(this->yAxis, radianAngle);
-	this->zAxis = glm::rotateZ(this->zAxis, radianAngle);
+	this->aabbCollisionCounter++;
+	const glm::vec3 minPos1 = aabb1->getMinPos();
+	const glm::vec3 maxPos1 = aabb1->getMaxPos();
+
+	const glm::vec3 minPos2 = aabb2->getMinPos();
+	const glm::vec3 maxPos2 = aabb2->getMaxPos();
+
+
+	return (maxPos1.x >= minPos2.x &&
+		minPos1.x <= maxPos2.x &&
+		maxPos1.y >= minPos2.y &&
+		minPos1.y <= maxPos2.y &&
+		maxPos1.z >= minPos2.z &&
+		minPos1.z <= maxPos2.z);
 }
 
-void OBBColllider::setSize(float xHalfLength, float yHalfLength, float zHalfLength)
+bool CollisionChecker::collisionCheck(SphereCollider * sphere, AABBCollider * aabb)
 {
-	this->halfLengths.x = xHalfLength;
-	this->halfLengths.y = yHalfLength;
-	this->halfLengths.z = zHalfLength;
+	this->sphereToAabbCollisionCounter++;
+	bool collision = false;
+
+	float squaredDistance = SquaredDistancePointToAabb(aabb, sphere);
+	float radiusSquared = sphere->getRadiusSquared();
+	if (squaredDistance <= radiusSquared) // if squared distance between aabb and sphere center is closer than squared radius of spheres
+		collision = true;
+
+
+	return collision;
 }
 
-void OBBColllider::setSize(glm::vec3 size)
+bool CollisionChecker::collisionCheck(OBBColllider* collider, OBBColllider* collider2)
 {
-	this->halfLengths = size;
-}
-
-void OBBColllider::setXHalfLength(float length)
-{
-	this->halfLengths.x = length;
-}
-
-void OBBColllider::setYHalfLength(float length)
-{
-	this->halfLengths.y = length;
-}
-
-void OBBColllider::setZHalfLength(float length)
-{
-	this->halfLengths.z = length;
-}
-
-unsigned int OBBColllider::getID() const
-{
-	return this->ID;
-}
-
-int OBBColllider::getIDTransform() const
-{
-	return this->IDTransform;
-}
-
-std::vector<unsigned int>* OBBColllider::getIDCollisionsRef()
-{
-	return &this->IDCollisions;
-}
-
-void OBBColllider::insertCollisionID(unsigned int collisionID)
-{
-	this->IDCollisions.push_back(collisionID);
-}
-
-void OBBColllider::clearCollisionIDs()
-{
-	this->IDCollisions.clear();
-}
-
-void OBBColllider::setPos(glm::vec3 pos)
-{
-	this->pos = pos;
-}
-
-bool OBBColllider::checkCollision(OBBColllider * collider)
-{
+	this->obbCollisionCounter++;
 	// OBB A and OBB B does not intersect if and only if a separating axis exists.
 	// If a separating line exists, then the two OBB do not intersect, otherwise they intersect
 	// Note we only need to find a single separating line to know they dont intersect
@@ -131,19 +73,27 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	bool collisionBool = true;
 	int indexOfVec3 = 3;
 	int separatingAxisCounter = 0;
-	// OTHER COLLIDER VARIABLES
-	glm::vec3 bXAxis = collider->xAxis;
-	glm::vec3 bYAxis = collider->yAxis;
-	glm::vec3 bZAxis = collider->zAxis;
-	glm::vec3 bPos = collider->pos;
-	glm::vec3 T = collider->pos - this->pos; // b - a
-	glm::vec3 BHalfLengths = collider->halfLengths;
+
+	//Collider1
+	glm::vec3 xAxis = collider->getXAxis();
+	glm::vec3 yAxis = collider->getYAxis();
+	glm::vec3 zAxis = collider->getZAxis();
+	glm::vec3 pos = collider->getPos();
+	glm::vec3 halfLengths = collider->getHalfLengths();
+
+	// Collider2
+	glm::vec3 bXAxis = collider2->getXAxis();
+	glm::vec3 bYAxis = collider2->getYAxis();
+	glm::vec3 bZAxis = collider2->getZAxis();
+	glm::vec3 bPos = collider2->getPos();
+	glm::vec3 T = bPos - pos; // b - a
+	glm::vec3 BHalfLengths = collider2->getHalfLengths();
 
 	// 15 possible separating axes
 	glm::vec3 separatingAxes[6]; // L
-	separatingAxes[0] = this->xAxis;
-	separatingAxes[1] = this->yAxis;
-	separatingAxes[2] = this->zAxis;
+	separatingAxes[0] = xAxis;
+	separatingAxes[1] = yAxis;
+	separatingAxes[2] = zAxis;
 
 	separatingAxes[3] = bXAxis;
 	separatingAxes[4] = bYAxis;
@@ -163,7 +113,7 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 
 	// dot products
 	float dots[3][3];
-	dots[0][0] = glm::dot(xAxis,bXAxis);
+	dots[0][0] = glm::dot(xAxis, bXAxis);
 	dots[0][1] = glm::dot(xAxis, bYAxis);
 	dots[0][2] = glm::dot(xAxis, bZAxis);
 	dots[1][0] = glm::dot(yAxis, bXAxis);
@@ -177,7 +127,7 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	float lengthProjection, hitboxProjection;
 	lengthProjection = hitboxProjection = 0;
 
-	
+
 	for (size_t i = 0; i < indexOfVec3; i++) // case 1-3
 	{
 		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
@@ -185,7 +135,7 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 		if (lengthProjection > hitboxProjection) // if we found a separating line
 			return false;
 	}
-	
+
 	for (size_t i = 0; i < indexOfVec3; i++) // case 4-6
 	{
 		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
@@ -251,27 +201,81 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	return collisionBool;
 }
 
-const glm::vec3& OBBColllider::getPos() const
+float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
 {
-	return this->pos;
+	float val = 0;
+	float returnValue = 0;
+	if (point < aabbMin)
+	{
+		val = (aabbMin - point);
+		returnValue = val* val;
+	}
+	if (point > aabbMax)
+	{
+		val = (point - aabbMax);
+		returnValue = val*val;
+	}
+	return returnValue;
 }
 
-const glm::vec3& OBBColllider::getXAxis() const
+float CollisionChecker::SquaredDistancePointToAabb(AABBCollider* aabb, SphereCollider* sphere)
 {
-	return this->xAxis;
+	float squaredDistance = 0;
+	const glm::vec3 minPos = aabb->getMinPos();
+	const glm::vec3 maxPos = aabb->getMaxPos();
+	const glm::vec3 spherePos = sphere->getPos();
+
+	squaredDistance += closestDistanceAabbToPoint(spherePos.x, minPos.x, maxPos.x);
+	squaredDistance += closestDistanceAabbToPoint(spherePos.y, minPos.y, maxPos.y);
+	squaredDistance += closestDistanceAabbToPoint(spherePos.z, minPos.z, maxPos.z);
+
+	return squaredDistance;
 }
 
-const glm::vec3& OBBColllider::getYAxis() const
+void CollisionChecker::resetCounters()
 {
-	return this->yAxis;
+	this->sphereCollisionCounter = 0;
+	this->aabbCollisionCounter = 0;
+	this->sphereToAabbCollisionCounter = 0;
+	this->obbCollisionCounter = 0;
+	this->obbToAabbCollisionCounter = 0;
+	this->obbToSphereCollisionCounter = 0;
 }
 
-const glm::vec3& OBBColllider::getZAxis() const
+// Getters
+int CollisionChecker::getSphereCollisionCounter()
 {
-	return this->zAxis;
+	return this->sphereCollisionCounter;
 }
 
-const glm::vec3& OBBColllider::getHalfLengths() const
+int CollisionChecker::getAabbCollisionCounter()
 {
-	return this->halfLengths;
+	return this->aabbCollisionCounter;
+}
+
+int CollisionChecker::getSphereToAabbCollisionCounter()
+{
+	return this->sphereToAabbCollisionCounter;
+}
+
+int CollisionChecker::getObbCollisionCounter()
+{
+	return this->obbCollisionCounter;
+}
+
+int CollisionChecker::getObbToAabbCollisionCounter()
+{
+	return this->obbToAabbCollisionCounter;
+}
+
+int CollisionChecker::getObbToSphereCollisionCounter()
+{
+	return this->obbToSphereCollisionCounter;
+}
+
+int CollisionChecker::getTotalCollisionCounter()
+{
+	return this->sphereCollisionCounter + this->aabbCollisionCounter
+		+ this->sphereToAabbCollisionCounter + obbCollisionCounter
+		+ obbToAabbCollisionCounter + obbToSphereCollisionCounter;
 }

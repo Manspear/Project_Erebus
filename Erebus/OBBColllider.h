@@ -32,6 +32,13 @@ public:
 	virtual void setPos(glm::vec3 pos) override;
 
 	bool checkCollision(OBBColllider* collider);
+
+	//getters
+	const glm::vec3& getPos() const;
+	const glm::vec3& getXAxis() const;
+	const glm::vec3& getYAxis() const;
+	const glm::vec3& getZAxis() const;
+	const glm::vec3& getHalfLengths() const;
 	
 private:
 	glm::vec3 pos;

@@ -21,6 +21,7 @@
 #include "MaterialAsset.h"
 #include "LevelEditor.h"
 #include "NetworkController.hpp"
+#include "CollisionChecker.h"
 
 bool running = true;
 bool networkActive = false;
@@ -54,17 +55,20 @@ int main()
 	std::vector<AnimatedInstance> animatedModels;
 
 	//Collisions
+	CollisionChecker collisionChecker;
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
 	OBBColllider obb1 = OBBColllider();
 	OBBColllider obb2 = OBBColllider();
-	obb1.setPos(glm::vec3(1,1,1));
-	obb1.setSize(2, 2, 2);
-	obb2.setPos(glm::vec3(4,4,4));
-	obb2.setSize(2,2,2);
+	obb1.setPos(glm::vec3(0,0,0));
+	obb1.setSize(2, 0.1, 0.1);
+	obb2.setPos(glm::vec3(4,0,0));
+	obb2.setSize(2,0.1,0.1);
 	float swag = 3.1415;
-	obb1.rotateAroundY(swag);
-	obb1.checkCollision(&obb2);
+	obb1.rotateAroundY(0.7f);
+
+	bool test1 = obb1.checkCollision(&obb2);
+	bool test2 = collisionChecker.collisionCheck(&obb1,&obb2);
 
 
 
