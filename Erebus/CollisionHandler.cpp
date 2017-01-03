@@ -456,7 +456,7 @@ void CollisionHandler::setLayerCollisionMatrix(int layer1, int layer2, bool canC
 
 void CollisionHandler::printCollisions()
 {
-	int total = collisionChecker.getTotalCollisionCounter();
+	int total = collisionChecker.getCollisionCounter();
 	std::cout << "Sphere to sphere checks: " << collisionChecker.getSphereCollisionCounter()
 		<< "\nAABB to AABB Checks: " << collisionChecker.getAabbCollisionCounter()
 		<< "\nSphere to AABB Checks: " << collisionChecker.getSphereToAabbCollisionCounter()

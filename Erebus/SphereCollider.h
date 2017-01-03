@@ -10,8 +10,6 @@ public:
 	SphereCollider(int IDTransform, float x, float y, float z, float radius);
 	SphereCollider(int IDTransform);
 	~SphereCollider();
-	bool sphereToSphereCollision(const SphereCollider * sphere);
-	bool SphereToAabbCollision(AABBCollider * aabb);
 
 	//overrides
 	unsigned int getID() const override; // copy elision makes this fast? RVO - NRVO
@@ -29,10 +27,7 @@ public:
 
 private:
 	glm::vec3 pos;
-	float radius;
+	float radius, radiusSquared;
 
-	
-	float SquaredDistancePointAabb(AABBCollider* aabb);
-	float closestDistanceAabbToCenter(const float& point, const float aabbMin, const float aabbMax);
 
 };

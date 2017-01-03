@@ -11,7 +11,7 @@
 #include "SphereCollider.h"
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
-#include "OBBColllider.h"
+#include "OBBCollider.h"
 #include "Controls.h"
 #include "LuaBinds.h"
 #include <String>
@@ -58,8 +58,8 @@ int main()
 	CollisionChecker collisionChecker;
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	OBBColllider obb1 = OBBColllider();
-	OBBColllider obb2 = OBBColllider();
+	OBBCollider obb1 = OBBCollider();
+	OBBCollider obb2 = OBBCollider();
 	AABBCollider aabb1 = AABBCollider();
 	aabb1.setPos(glm::vec3(3,0,0));
 	obb1.setPos(glm::vec3(0,0,0));

@@ -1,8 +1,8 @@
-#include "OBBColllider.h"
+#include "OBBCollider.h"
 
 
 
-OBBColllider::OBBColllider() : HitBox()
+OBBCollider::OBBCollider() : HitBox()
 {
 	this->pos = glm::vec3(0, 0, 0);
 	this->xAxis = glm::vec3(1,0,0);
@@ -11,7 +11,7 @@ OBBColllider::OBBColllider() : HitBox()
 	this->halfLengths = glm::vec3(1, 1, 1);
 }
 
-OBBColllider::OBBColllider(int transformID) : HitBox(transformID)
+OBBCollider::OBBCollider(int transformID) : HitBox(transformID)
 {
 	this->pos = glm::vec3(0, 0, 0);
 	this->xAxis = glm::vec3(1, 0, 0);
@@ -20,7 +20,7 @@ OBBColllider::OBBColllider(int transformID) : HitBox(transformID)
 	this->halfLengths = glm::vec3(1, 1, 1);
 }
 
-OBBColllider::OBBColllider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox()
+OBBCollider::OBBCollider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox()
 {
 	this->pos = pos;
 	this->xAxis = glm::vec3(1,0,0);
@@ -29,7 +29,7 @@ OBBColllider::OBBColllider(glm::vec3 pos, float xHalfLength, float yHalfLength, 
 	this->halfLengths = glm::vec3(xHalfLength,yHalfLength,zHalfLength);
 }
 
-OBBColllider::OBBColllider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox(transformID)
+OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox(transformID)
 {
 	this->pos = glm::vec3(0, 0, 0);
 	this->xAxis = glm::vec3(1, 0, 0);
@@ -39,89 +39,89 @@ OBBColllider::OBBColllider(int transformID, float xHalfLength, float yHalfLength
 }
 
 
-OBBColllider::~OBBColllider()
+OBBCollider::~OBBCollider()
 {
 }
 
-void OBBColllider::rotateAroundX(float radianAngle)
+void OBBCollider::rotateAroundX(float radianAngle)
 {
 	this->xAxis = glm::rotateX(this->xAxis, radianAngle);
 	this->yAxis = glm::rotateX(this->yAxis, radianAngle);
 	this->zAxis = glm::rotateX(this->zAxis, radianAngle);
 }
 
-void OBBColllider::rotateAroundY(float radianAngle)
+void OBBCollider::rotateAroundY(float radianAngle)
 {
 	this->xAxis = glm::rotateY(this->xAxis, radianAngle);
 	this->yAxis = glm::rotateY(this->yAxis, radianAngle);
 	this->zAxis = glm::rotateY(this->zAxis, radianAngle);
 }
 
-void OBBColllider::rotateAroundZ(float radianAngle)
+void OBBCollider::rotateAroundZ(float radianAngle)
 {
 	this->xAxis = glm::rotateZ(this->xAxis, radianAngle);
 	this->yAxis = glm::rotateZ(this->yAxis, radianAngle);
 	this->zAxis = glm::rotateZ(this->zAxis, radianAngle);
 }
 
-void OBBColllider::setSize(float xHalfLength, float yHalfLength, float zHalfLength)
+void OBBCollider::setSize(float xHalfLength, float yHalfLength, float zHalfLength)
 {
 	this->halfLengths.x = xHalfLength;
 	this->halfLengths.y = yHalfLength;
 	this->halfLengths.z = zHalfLength;
 }
 
-void OBBColllider::setSize(glm::vec3 size)
+void OBBCollider::setSize(glm::vec3 size)
 {
 	this->halfLengths = size;
 }
 
-void OBBColllider::setXHalfLength(float length)
+void OBBCollider::setXHalfLength(float length)
 {
 	this->halfLengths.x = length;
 }
 
-void OBBColllider::setYHalfLength(float length)
+void OBBCollider::setYHalfLength(float length)
 {
 	this->halfLengths.y = length;
 }
 
-void OBBColllider::setZHalfLength(float length)
+void OBBCollider::setZHalfLength(float length)
 {
 	this->halfLengths.z = length;
 }
 
-unsigned int OBBColllider::getID() const
+unsigned int OBBCollider::getID() const
 {
 	return this->ID;
 }
 
-int OBBColllider::getIDTransform() const
+int OBBCollider::getIDTransform() const
 {
 	return this->IDTransform;
 }
 
-std::vector<unsigned int>* OBBColllider::getIDCollisionsRef()
+std::vector<unsigned int>* OBBCollider::getIDCollisionsRef()
 {
 	return &this->IDCollisions;
 }
 
-void OBBColllider::insertCollisionID(unsigned int collisionID)
+void OBBCollider::insertCollisionID(unsigned int collisionID)
 {
 	this->IDCollisions.push_back(collisionID);
 }
 
-void OBBColllider::clearCollisionIDs()
+void OBBCollider::clearCollisionIDs()
 {
 	this->IDCollisions.clear();
 }
 
-void OBBColllider::setPos(glm::vec3 pos)
+void OBBCollider::setPos(glm::vec3 pos)
 {
 	this->pos = pos;
 }
 
-bool OBBColllider::checkCollision(OBBColllider * collider)
+bool OBBCollider::checkCollision(OBBCollider * collider)
 {
 	// OBB A and OBB B does not intersect if and only if a separating axis exists.
 	// If a separating line exists, then the two OBB do not intersect, otherwise they intersect
@@ -251,27 +251,27 @@ bool OBBColllider::checkCollision(OBBColllider * collider)
 	return collisionBool;
 }
 
-const glm::vec3& OBBColllider::getPos() const
+const glm::vec3& OBBCollider::getPos() const
 {
 	return this->pos;
 }
 
-const glm::vec3& OBBColllider::getXAxis() const
+const glm::vec3& OBBCollider::getXAxis() const
 {
 	return this->xAxis;
 }
 
-const glm::vec3& OBBColllider::getYAxis() const
+const glm::vec3& OBBCollider::getYAxis() const
 {
 	return this->yAxis;
 }
 
-const glm::vec3& OBBColllider::getZAxis() const
+const glm::vec3& OBBCollider::getZAxis() const
 {
 	return this->zAxis;
 }
 
-const glm::vec3& OBBColllider::getHalfLengths() const
+const glm::vec3& OBBCollider::getHalfLengths() const
 {
 	return this->halfLengths;
 }

@@ -30,9 +30,6 @@
     <ClCompile Include="HitBox.cpp">
       <Filter>Source Files\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="OBBColllider.cpp">
-      <Filter>Source Files\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>Source Files\Collision</Filter>
     </ClCompile>
@@ -69,6 +66,9 @@
     <ClCompile Include="CollisionChecker.cpp">
       <Filter>Source Files\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="OBBCollider.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -97,9 +97,6 @@
       <Filter>Header Files\Collision</Filter>
     </ClInclude>
     <ClInclude Include="HitBox.h">
-      <Filter>Header Files\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="OBBColllider.h">
       <Filter>Header Files\Collision</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
@@ -136,6 +133,9 @@
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="CollisionChecker.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="OBBCollider.h">
       <Filter>Header Files\Collision</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "CollisionLayers.h"
 #include "Debug.h"
-#include "OBBColllider.h"
+#include "OBBCollider.h"
 #include "CollisionChecker.h"
 
 //extern Transform* allTransforms;

@@ -3,14 +3,14 @@
 //inspiration for separating axis theorem
 //http://www.jkh.me/files/tutorials/Separating%20Axis%20Theorem%20for%20Oriented%20Bounding%20Boxes.pdf
 
-class OBBColllider : public HitBox
+class OBBCollider : public HitBox
 {
 public:
-	OBBColllider();
-	OBBColllider(int transformID);
-	OBBColllider(glm::vec3 pos,float xHalfLength, float yHalfLength, float zHalfLength);
-	OBBColllider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength);
-	~OBBColllider();
+	OBBCollider();
+	OBBCollider(int transformID);
+	OBBCollider(glm::vec3 pos,float xHalfLength, float yHalfLength, float zHalfLength);
+	OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength);
+	~OBBCollider();
 
 	void rotateAroundX(float radianAngle);
 	void rotateAroundY(float radianAngle);
@@ -31,7 +31,7 @@ public:
 	virtual void clearCollisionIDs() override;
 	virtual void setPos(glm::vec3 pos) override;
 
-	bool checkCollision(OBBColllider* collider);
+	bool checkCollision(OBBCollider* collider);
 
 	//getters
 	const glm::vec3& getPos() const;

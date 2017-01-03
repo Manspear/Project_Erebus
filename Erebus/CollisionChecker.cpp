@@ -62,7 +62,7 @@ bool CollisionChecker::collisionCheck(SphereCollider * sphere, AABBCollider * aa
 	return collision;
 }
 
-bool CollisionChecker::collisionCheck(OBBColllider* collider, OBBColllider* collider2)
+bool CollisionChecker::collisionCheck(OBBCollider* collider, OBBCollider* collider2)
 {
 	this->obbCollisionCounter++;
 	// OBB A and OBB B does not intersect if and only if a separating axis exists.
@@ -201,7 +201,7 @@ bool CollisionChecker::collisionCheck(OBBColllider* collider, OBBColllider* coll
 	return collisionBool;
 }
 
-bool CollisionChecker::collisionCheck(OBBColllider * collider, AABBCollider * collider2)
+bool CollisionChecker::collisionCheck(OBBCollider * collider, AABBCollider * collider2)
 {
 	this->obbToAabbCollisionCounter++;
 	// OBB A and OBB B does not intersect if and only if a separating axis exists.
@@ -340,6 +340,11 @@ bool CollisionChecker::collisionCheck(OBBColllider * collider, AABBCollider * co
 	return collisionBool;
 }
 
+bool CollisionChecker::collisionCheck(OBBCollider * collider, SphereCollider * collider2)
+{
+	return false;
+}
+
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
 {
 	float val = 0;
@@ -369,6 +374,14 @@ float CollisionChecker::SquaredDistancePointToAabb(AABBCollider* aabb, SphereCol
 	squaredDistance += closestDistanceAabbToPoint(spherePos.z, minPos.z, maxPos.z);
 
 	return squaredDistance;
+}
+
+glm::vec3 CollisionChecker::closestPointOnOBB(OBBCollider* collider, const glm::vec3& point) const
+{
+	glm::vec3 returnPoint;
+
+	glm::vec3 d = point;
+	return glm::vec3();
 }
 
 void CollisionChecker::resetCounters()
@@ -412,7 +425,7 @@ int CollisionChecker::getObbToSphereCollisionCounter()
 	return this->obbToSphereCollisionCounter;
 }
 
-int CollisionChecker::getTotalCollisionCounter()
+int CollisionChecker::getCollisionCounter()
 {
 	return this->sphereCollisionCounter + this->aabbCollisionCounter
 		+ this->sphereToAabbCollisionCounter + obbCollisionCounter
