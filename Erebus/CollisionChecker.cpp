@@ -340,9 +340,15 @@ bool CollisionChecker::collisionCheck(OBBCollider * collider, AABBCollider * col
 	return collisionBool;
 }
 
-bool CollisionChecker::collisionCheck(OBBCollider * collider, SphereCollider * collider2)
+bool CollisionChecker::collisionCheck(OBBCollider * obb, SphereCollider * sphere)
 {
-	return false;
+	const glm::vec3 sphereCenter = sphere->getPos();
+	float sphereRadius = sphere->getRadius();
+	float sphereRadiusSquared = sphere->getRadiusSquared();
+
+	glm::vec3 v = closestPointOnOBB(obb, sphereCenter) - sphereCenter;
+	float vSquared = glm::dot(v, v);
+	return glm::dot(v,v) <= sphereRadiusSquared;
 }
 
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
@@ -379,9 +385,36 @@ float CollisionChecker::SquaredDistancePointToAabb(AABBCollider* aabb, SphereCol
 glm::vec3 CollisionChecker::closestPointOnOBB(OBBCollider* collider, const glm::vec3& point) const
 {
 	glm::vec3 returnPoint;
+	glm::vec3 halfLengths = collider->getHalfLengths();
+	glm::vec3 xAxis = collider->getXAxis();
+	glm::vec3 yAxis = collider->getYAxis();
+	glm::vec3 zAxis = collider->getZAxis();
 
-	glm::vec3 d = point;
-	return glm::vec3();
+	glm::vec3 d = point - collider->getPos();
+	returnPoint = collider->getPos();
+
+	float distance = glm::dot(d,xAxis);
+	if (distance > halfLengths.x)
+		distance = halfLengths.x;
+	if (distance < -halfLengths.x)
+		distance = -halfLengths.x;
+	returnPoint += distance * xAxis;
+
+	distance = glm::dot(d, yAxis);
+	if (distance > halfLengths.y)
+		distance = halfLengths.y;
+	if (distance < -halfLengths.y)
+		distance = -halfLengths.y;
+	returnPoint += distance * yAxis;
+
+	distance = glm::dot(d, zAxis);
+	if (distance > halfLengths.z)
+		distance = halfLengths.z;
+	if (distance < -halfLengths.z)
+		distance = -halfLengths.z;
+	returnPoint += distance * zAxis;
+
+	return returnPoint;
 }
 
 void CollisionChecker::resetCounters()

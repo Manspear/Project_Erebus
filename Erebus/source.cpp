@@ -61,17 +61,19 @@ int main()
 	OBBCollider obb1 = OBBCollider();
 	OBBCollider obb2 = OBBCollider();
 	AABBCollider aabb1 = AABBCollider();
-	aabb1.setPos(glm::vec3(3,0,0));
+	SphereCollider sphere1 = SphereCollider();
+	sphere1.setPos(glm::vec3(3.1f,0,0));
+	sphere1.setRadius(1);
+	aabb1.setPos(glm::vec3(5,0,0));
 	obb1.setPos(glm::vec3(0,0,0));
 	obb1.setSize(2, 0.1, 0.1);
-	obb2.setPos(glm::vec3(0,0,0));
+	obb2.setPos(glm::vec3(8,0,0));
 	obb2.setSize(2,0.1,0.1);
 	float swag = 3.1415;
-	obb1.rotateAroundY(0.7f);
+	//obb1.rotateAroundY(0.7f);
 
-	bool test1 = obb1.checkCollision(&obb2);
+	bool test1 = collisionChecker.collisionCheck(&obb1, &sphere1);
 	bool test2 = collisionChecker.collisionCheck(&obb1,&obb2);
-
 	bool test3 = collisionChecker.collisionCheck(&obb1, &aabb1);
 
 

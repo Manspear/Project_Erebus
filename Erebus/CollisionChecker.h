@@ -25,7 +25,7 @@ public:
 	bool collisionCheck(OBBCollider* collider, OBBCollider* collider2); //http://www.jkh.me/files/tutorials/Separating%20Axis%20Theorem%20for%20Oriented%20Bounding%20Boxes.pdf
 	bool collisionCheck(OBBCollider* collider, AABBCollider* collider2); // same technique as obb vs obb
 	// Real-Time Collision Detection book - Christer Ericson https://www.gamedev.net/topic/579584-obb---sphere-collision-detection/
-	bool collisionCheck(OBBCollider* collider, SphereCollider* collider2); 
+	bool collisionCheck(OBBCollider* obb, SphereCollider* sphere); 
 
 	//helper functions
 	float closestDistanceAabbToPoint(const float& point, const float aabbMin, const float aabbMax);
