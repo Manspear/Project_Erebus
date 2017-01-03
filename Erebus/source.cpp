@@ -11,6 +11,7 @@
 #include "SphereCollider.h"
 #include "AABBCollider.h"
 #include "CollisionHandler.h"
+#include "OBBColllider.h"
 #include "Controls.h"
 #include "LuaBinds.h"
 #include <String>
