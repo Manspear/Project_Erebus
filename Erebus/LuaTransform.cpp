@@ -20,24 +20,25 @@ namespace LuaTransform
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
 		{
-			{ "Bind",			bind },
-			{ "Destroy",		destroy },
-			{ "Move",			move },
-			{ "Switch",			switchTransform },
-			{ "Follow",			follow },
-			{ "Fly",			fly },
-			{ "Shoot",			shoot },
-			{ "ActiveControl",	activeControl},
+			{ "Bind",				bind },
+			{ "Destroy",			destroy },
+			{ "Move",				move },
+			{ "Switch",				switchTransform },
+			{ "Follow",				follow },
+			{ "Fly",				fly },
+			{ "Shoot",				shoot },
+			{ "ActiveControl",		activeControl},
 
-			{ "SetPosition",	setPosition },
-			{ "SetRotation",	setRotation },
-			{ "SetLookAt",		setLookAt },
-			{ "SetScale",		setScale },
+			{ "SetPosition",		setPosition },
+			{ "SetRotation",		setRotation },
+			{ "SetLookAt",			setLookAt },
+			{ "SetScale",			setScale },
+			{ "SetScaleNonUniform", setScaleNonUniform },
 
-			{ "GetPosition",	getPosition },
-			{ "GetRotation",	getRotation },
-			{ "GetLookAt",		getLookAt },
-			{ "GetScale",		getScale },
+			{ "GetPosition",		getPosition },
+			{ "GetRotation",		getRotation },
+			{ "GetLookAt",			getLookAt },
+			{ "GetScale",			getScale },
 			
 			{ "UpdateRotationFromLookVector", updateRotationFromLookVector},
 			{ NULL, NULL }
@@ -222,6 +223,22 @@ namespace LuaTransform
 			float scale = lua_tonumber( lua, 2 );
 
 			g_transforms[index].setScale( scale );
+		}
+
+		return 0;
+	}
+
+	int setScaleNonUniform(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			glm::vec3 scale;
+			int index = lua_tointeger(lua, 1);
+			scale.x = lua_tonumber(lua, 2);
+			scale.y = lua_tonumber(lua, 3);
+			scale.z = lua_tonumber(lua, 4);
+
+			g_transforms[index].setScale(scale);
 		}
 
 		return 0;

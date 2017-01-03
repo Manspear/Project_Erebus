@@ -263,6 +263,12 @@
     <None Include="Scripts\particle.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="fireball.lua">
+      <Filter>testScripts</Filter>
+    </None>
+    <None Include="projectileType.lua">
+      <Filter>testScripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -297,6 +303,9 @@
     </Filter>
     <Filter Include="Lua\Source">
       <UniqueIdentifier>{7213c686-ed4f-4955-94f0-528aca9b86c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="testScripts">
+      <UniqueIdentifier>{b6fe60dc-7b74-407f-9193-c6e44d35dbd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

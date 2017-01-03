@@ -183,6 +183,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="fireball.lua" />
+    <None Include="projectileType.lua" />
     <None Include="Scripts\arc.lua" />
     <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />

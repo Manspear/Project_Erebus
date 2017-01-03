@@ -1,4 +1,4 @@
-local MOLERAT_OFFSET = 2
+local MOLERAT_OFFSET = 1
 local PLAYER_MAX_SPELLS = 2
 player = {}
 
