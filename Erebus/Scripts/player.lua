@@ -73,7 +73,7 @@ function UpdatePlayer(dt)
 		player.animationState = 3
 	end
 	if Controls[Keys.LMBReleased] then
-		player.animationState = 1
+		player.animationState = 2
 		for _,j in ipairs(player.spells[player.currentSpell]) do
 			if(j.alive ~= true) then
 				j:Cast()

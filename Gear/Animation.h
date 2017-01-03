@@ -2,6 +2,8 @@
 #include "ModelAsset.h"
 #include <glm\common.hpp>
 #include "BaseIncludes.h"
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 /*
 Hold the animation stack
 Update animations
@@ -21,7 +23,7 @@ public:
 	GEAR_API void setAsset(Importer::ModelAsset* asset);
 	GEAR_API virtual void updateAnimation(float dt, int layer);
 
-	GEAR_API virtual std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float animTimer);
+	GEAR_API virtual std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 	//The state is an enum defined for each subclass of Animation
 	GEAR_API virtual void updateState(float dt, int state);
 
@@ -53,6 +55,7 @@ protected:
 	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from);
+	
 	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
 	void convertToRotMat(float in[3], glm::mat4* result);
