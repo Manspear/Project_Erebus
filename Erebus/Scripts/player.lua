@@ -109,6 +109,7 @@ function UpdatePlayer(dt)
 	end
 
 	player.animation:Update(dt, player.animationState)
+	
 
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()

@@ -1,7 +1,5 @@
 #include "Animation.h"
 
-
-
 Animation::Animation()
 {
 	animationTimer = 0;
@@ -9,10 +7,20 @@ Animation::Animation()
 	toAnimationTimer = 0;
 	for (int i = 0; i < finalList.size(); i++)
 		shaderMatrices[i] = glm::mat4();
+
+	/*FOR TESTING PURPOSES*/
+	float* aids = new float[9];
+	for (int i = 0; i < 9; i++)
+		aids[i] = 0.5;
+	transitionTimeArray = aids;
+	transitionTimeArraySize = 9;
+	numStates = 3;
+	animationStack.push_back(0);
 }
 
 Animation::~Animation()
 {
+	delete[] transitionTimeArray;
 }
 
 void Animation::setAsset(Importer::ModelAsset * asset)
@@ -247,8 +255,8 @@ GEAR_API void Animation::updateState(float dt, int state)
 		if (animationStack.size() > 1)
 		{
 			//Blend the animations
-			int from = animationStack.back();
-			int to = animationStack[animationStack.size() - 2];
+			int from = animationStack[animationStack.size() - 2];
+			int to = animationStack.back();
 
 			if (oldFrom != from && oldTo != to)
 			{
@@ -259,6 +267,7 @@ GEAR_API void Animation::updateState(float dt, int state)
 				transitionMaxTime = transitionTimer;
 			}
 			blendAnimations(to, from, transitionTimer, dt);
+
 
 			oldFrom = from;
 			oldTo = to;
@@ -290,7 +299,7 @@ glm::mat4x4 * Animation::getShaderMatrices()
 	return shaderMatrices;
 }
 
-void Animation::blendAnimations(int blendTo, int blendFrom, float transitionTimer, float dt)
+void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTimer, float dt)
 {
 	//Blend
 	/*
@@ -299,7 +308,24 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float transitionTime
 	*/
 
 	blendFromKeys = updateAnimationForBlending(dt, blendFrom, fromAnimationTimer);
-	blendToKeys = updateAnimationForBlending(dt, blendFrom, toAnimationTimer);
+	blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
+	bool isDifferent = false;
+	for (int i = 0; i < blendToKeys.size(); i++)
+	{
+		if (!isDifferent)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				if (blendFromKeys[i].keyRotate[j] != blendToKeys[i].keyRotate[j])
+				{
+					isDifferent = true;
+					break;
+				}
+			}
+
+		}
+	}
+
 	std::vector<sKeyFrame> blendedList;
 	for (int i = 0; i < blendToKeys.size(); i++)
 	{
@@ -313,6 +339,10 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float transitionTime
 	transitionTimer -= dt;
 	if (transitionTimer < 0.01)
 		isTransitionComplete = true;
+	else
+	{
+		isTransitionComplete = false;
+	}
 }
 
 Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey)
@@ -383,7 +413,7 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	interpolatedKey.keyRotate[2] = endRot[2];
 
 	//INTERPOLATED TIME == (underKey.keyTime * (1 - underAffect)) + (overKey.keyTime * underAffect)
-	interpolatedKey.keyTime = (from.keyTime * (1 - underAffect)) + (to.keyTime * underAffect);
+	interpolatedKey.keyTime = to.keyTime;//(from.keyTime * (1 - underAffect)) + (to.keyTime * underAffect);
 
 	return interpolatedKey;
 }

@@ -50,7 +50,7 @@ public:
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
 protected:
-	void blendAnimations(int blendTo, int blendFrom, float transitionTimer, float dt);
+	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from);
 	void updateJointMatrices(std::vector<sKeyFrame>& keyList);

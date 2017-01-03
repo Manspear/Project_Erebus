@@ -43,7 +43,8 @@ namespace LuaGear
 		{
 			{ "Create", createAnimation },
 			{ "__gc",	destroyAnimation },
-			{ "Update",	updateAnimation },
+			//{ "Update",	updateAnimation },
+			{ "Update",	updateAnimationBlending },
 			{ NULL, NULL }
 		};
 
@@ -180,4 +181,22 @@ namespace LuaGear
 
 		return result;
 	}
+
+	int updateAnimationBlending(lua_State* lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 3)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+			float dt = lua_tonumber(lua, 2);
+			int layer = lua_tointeger(lua, 3);
+
+			animation->updateState(dt, layer);
+		}
+
+		return result;
+	}
+
 }
