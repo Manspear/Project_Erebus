@@ -224,10 +224,9 @@ bool CollisionChecker::collisionCheck(OBBColllider * collider, AABBCollider * co
 	glm::vec3 bXAxis = glm::vec3(1,0,0);
 	glm::vec3 bYAxis = glm::vec3(0, 1, 0);
 	glm::vec3 bZAxis = glm::vec3(0, 0, 1);
-	glm::vec3 bPos = (collider2->getMaxPos() - collider2->getMinPos());
-	bPos.operator/=(2);
-	glm::vec3 T = bPos - pos; // b - a
 	glm::vec3 BHalfLengths = (collider2->getMaxPos() - collider2->getMinPos()).operator/=(2);
+	glm::vec3 bPos = collider2->getMinPos() + BHalfLengths;
+	glm::vec3 T = bPos - pos; // b - a
 
 	// 15 possible separating axes
 	glm::vec3 separatingAxes[6]; // L

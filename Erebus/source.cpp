@@ -60,9 +60,11 @@ int main()
 	collisionHandler.setTransforms(transforms);
 	OBBColllider obb1 = OBBColllider();
 	OBBColllider obb2 = OBBColllider();
+	AABBCollider aabb1 = AABBCollider();
+	aabb1.setPos(glm::vec3(3,0,0));
 	obb1.setPos(glm::vec3(0,0,0));
 	obb1.setSize(2, 0.1, 0.1);
-	obb2.setPos(glm::vec3(4,0,0));
+	obb2.setPos(glm::vec3(0,0,0));
 	obb2.setSize(2,0.1,0.1);
 	float swag = 3.1415;
 	obb1.rotateAroundY(0.7f);
@@ -70,9 +72,11 @@ int main()
 	bool test1 = obb1.checkCollision(&obb2);
 	bool test2 = collisionChecker.collisionCheck(&obb1,&obb2);
 
+	bool test3 = collisionChecker.collisionCheck(&obb1, &aabb1);
 
 
-	std::vector<Gear::ParticleSystem*> ps;
+
+ 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();

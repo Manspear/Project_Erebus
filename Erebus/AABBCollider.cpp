@@ -4,8 +4,8 @@
 
 AABBCollider::AABBCollider() : HitBox()
 {
-	this->minPos = glm::vec3(1,1,1);
-	this->maxPos = glm::vec3(-1,-1,-1);
+	this->minPos = glm::vec3(-1,-1,-1);
+	this->maxPos = glm::vec3(1,1,1);
 	this->centerPos = glm::vec3();
 	this->maxPosTotal = glm::vec3();
 	this->minPosTotal = glm::vec3();
@@ -53,14 +53,19 @@ bool AABBCollider::AabbToAabb(const AABBCollider* aabb)
 			this->minPos.z <= aabb->maxPos.z);
 }
 
-const glm::vec3& AABBCollider::getMaxPos()
+const glm::vec3& AABBCollider::getMaxPos() const
 {
 	return this->maxPosTotal;
 }
 
-const glm::vec3& AABBCollider::getMinPos()
+const glm::vec3& AABBCollider::getMinPos() const
 {
 	return this->minPosTotal;
+}
+
+const glm::vec3 & AABBCollider::getCenterPos() const
+{
+	return this->centerPos;
 }
 
 unsigned int AABBCollider::getID() const

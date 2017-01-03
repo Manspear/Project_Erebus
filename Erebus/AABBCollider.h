@@ -10,8 +10,10 @@ public:
 	~AABBCollider();
 	bool AabbToAabb(const AABBCollider* aabb);
 
-	const glm::vec3& getMaxPos();
-	const glm::vec3& getMinPos();
+	//getters
+	const glm::vec3& getMaxPos() const;
+	const glm::vec3& getMinPos() const;
+	const glm::vec3& getCenterPos() const;
 
 	//overrides
 	virtual unsigned int getID() const override; // copy elision makes returning values fast? RVO - NRVO
