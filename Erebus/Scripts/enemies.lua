@@ -72,8 +72,8 @@ function UpdateEnemies(dt)
 			local pos = Transform.GetPosition(enemies[i].transformID)
 			pos.y = heightmap:GetHeight(pos.x,pos.z)+1
 			Transform.SetPosition(enemies[i].transformID, pos)
-
-			enemies[i].animation:Update(dt, enemies[i].animationState)
+			--ANIMATIONS TEMPORARILY DISABLED
+			--enemies[i].animation:Update(dt, enemies[i].animationState)
 		end
 		Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 	end

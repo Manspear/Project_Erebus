@@ -195,7 +195,9 @@
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
-    <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\enemies.lua">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </None>
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\particle.lua" />
@@ -244,7 +246,9 @@
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LevelModel.h" />
-    <ClInclude Include="LuaAi.h" />
+    <ClInclude Include="LuaAi.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />

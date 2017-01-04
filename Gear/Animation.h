@@ -76,6 +76,7 @@ protected:
 	float fromAnimationTimer;
 	float toAnimationTimer;
 	float transitionMaxTime = 0;
+
 	//When this timer is set, make sure it doesn't get reset when doing the same blend again
 	float transitionTimer = 0;
 	
