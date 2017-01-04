@@ -86,7 +86,7 @@ void Animation::updateAnimation(float dt, int layer)
 					timeUnderCompare = diff;
 				}
 			}
-			finalList[j + jointOffset] = interpolateKeys(overKey, underKey);
+			finalList[j + jointOffset] = interpolateKeys(overKey, underKey, animationTimer);
 		}
 		jointOffset += skeleton->jointCount;
 	}
@@ -146,7 +146,7 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 					timeUnderCompare = diff;
 				}
 			}
-			finalList[j + jointOffset] = interpolateKeys(overKey, underKey);
+			finalList[j + jointOffset] = interpolateKeys(overKey, underKey, animTimer);
 		}
 		jointOffset += skeleton->jointCount;
 	}
@@ -333,21 +333,23 @@ GEAR_API void Animation::updateState(float dt, int state)
 			animationStack.clear();
 			animationStack.push_back(back);
 			//TEMPTEST
-			animationTimer = transitionMaxTime - transitionTimer;
+			//animationTimer = transitionMaxTime - transitionTimer;
 		}
 		animationStack.push_back(state);
 	}
 
-
-	//float vario = animationTimer;
-	//std::vector<Importer::sKeyFrame> to = updateAnimationForBlending(dt, 2, animationTimer);
-	//std::vector<Importer::sKeyFrame> from = updateAnimationForBlending(dt, 1, animationTimer);
+	////FOR DEBUGGING BLENDING
+	//float vario1 = animationTimer;
+	//float vario2 = animationTimer;
+	//animationTimer += dt;
+	//std::vector<Importer::sKeyFrame> to = updateAnimationForBlending(dt, 2, vario1);
+	//std::vector<Importer::sKeyFrame> from = updateAnimationForBlending(dt, 1, vario2);
 	//
 	//std::vector<sKeyFrame> blendedList;
 	//for (int i = 0; i < to.size(); i++)
 	//{
-	//	transitionTimer = 0;
-	//	transitionMaxTime = 1;
+	//	transitionTimer = 2.5;
+	//	transitionMaxTime = 5;
 	//	blendedList.push_back(interpolateKeysForBlending(to[i], from[i]));
 	//}
 	//
@@ -383,13 +385,13 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	Modify the animation-function to return a list of matrices.
 	*/
 	//fromAnimationTimer = animationTimer;
-	float tempo = 0; //with tempo I am blending to the first keyframe
-	blendFromKeys = updateAnimationForBlending(dt, blendFrom, animationTimer);
-	//blendFromKeys = updateAnimationForBlending(dt, blendFrom, animationTimer);
+	
+	fromAnimationTimer = animationTimer;
 	toAnimationTimer = animationTimer;
-	//blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
+	animationTimer += dt;
+
+	blendFromKeys = updateAnimationForBlending(dt, blendFrom, fromAnimationTimer);
     blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
-	//blendToKeys = updateAnimationForBlending(dt, blendTo, animationTimer);
 	
 	std::vector<sKeyFrame> blendedList;
 	for (int i = 0; i < blendToKeys.size(); i++)
@@ -404,10 +406,6 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	transitionTimer -= dt;
 	if (transitionTimer < 0.001)
 	{
-		//Shouldn't need this since animationTimer was used in the updateFunction
-		animationTimer = toAnimationTimer;
-		//animationTimer = 0;
-		toAnimationTimer = 0;
 		isTransitionComplete = true;
 	}
 	else
@@ -416,7 +414,7 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	}
 }
 
-Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey)
+Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey, float& animTimer)
 {
 	float diffKeys = overKey.keyTime - underKey.keyTime;
 	if (diffKeys == 0)
@@ -431,7 +429,7 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 		return overKey;
 	}
 
-	float diffUnderTime = abs(animationTimer - underKey.keyTime);
+	float diffUnderTime = abs(animTimer - underKey.keyTime);
 	float underAffect = diffUnderTime / diffKeys;
 
 	Importer::sKeyFrame interpolatedKey;
