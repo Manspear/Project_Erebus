@@ -3,6 +3,13 @@
 ParticleEditor::ParticleEditor()
 {
 	this->running = true;
+	//nrPs.numPS = 1;
+	//p.numOfParticles = 10;
+	//p.lifeTime = 1;
+	//p.speed = 10;
+	//p.extPerSecond = 8;
+	//p.nrOfParticlesPerExt = 10;
+	
 	lifeTime = 3;
 }
 
@@ -22,8 +29,10 @@ void ParticleEditor::start()
 	Inputs inputs(w);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
-	
+
 	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
+
+	//writeToFile();
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -87,5 +96,23 @@ void ParticleEditor::die(const float & dt)
 {
 	ps.at(0)->deActivate();
 	ps.at(0)->updateWhenDead(dt);
+
+}
+
+void ParticleEditor::writeToFile()
+{
+
+	FILE* file;
+	file = fopen("particle.bin", "wb");
+	if (file)
+	{
+		char* ptr = "fireball";
+		memcpy(&nrPs, ptr, sizeof(const char[32]));
+
+		fwrite(&nrPs, sizeof(numParticleSystems), nrPs.numPS, file);
+
+		fclose(file);
+	}
+
 
 }

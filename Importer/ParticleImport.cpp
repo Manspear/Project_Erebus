@@ -16,7 +16,7 @@ IMPORTER_API bool Importer::ParticleImport::load(std::string path, Assets * asse
 
 	FILE* file;
 	fopen_s(&file, path.c_str(), "rb");
-
+	
 	if (file)
 	{
 		int datasize;

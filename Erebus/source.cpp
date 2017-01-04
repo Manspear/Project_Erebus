@@ -5,6 +5,7 @@
 #include "Assets.h"
 #include "ModelAsset.h"
 #include "TextureAsset.h"
+//#include "ParticleImport.h"
 #include "Window.h"
 #include "Transform.h"
 #include "PerformanceCounter.h"
@@ -57,6 +58,8 @@ int main()
 	engine.addDebugger(Debugger::getInstance());
 
 	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/testGuy.model" );
+	//Importer::ParticleImport* p = assets.load<ParticleImport>("particle.bin")
+
 	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
 
 	std::vector<ModelInstance> models;
