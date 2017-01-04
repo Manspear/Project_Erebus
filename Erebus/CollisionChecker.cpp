@@ -342,6 +342,7 @@ bool CollisionChecker::collisionCheck(OBBCollider * collider, AABBCollider * col
 
 bool CollisionChecker::collisionCheck(OBBCollider * obb, SphereCollider * sphere)
 {
+	this->obbToSphereCollisionCounter++;
 	const glm::vec3 sphereCenter = sphere->getPos();
 	float sphereRadius = sphere->getRadius();
 	float sphereRadiusSquared = sphere->getRadiusSquared();

@@ -8,7 +8,7 @@ CollisionLayers::CollisionLayers(int size)
 	this->layerMatrix = new bool*[layerMatrixSize];
 	this->createCollisionCheckedMatrix(layerMatrixSize);
 
-	for (unsigned int i = 0; i < layerMatrixSize; i++)
+	for (unsigned int i = 0; i < layerMatrixSize; i++) // create layermatrix - 2D bool array
 	{
 		this->layerMatrix[i] = new bool[layerMatrixSize];
 
@@ -22,6 +22,7 @@ CollisionLayers::CollisionLayers(int size)
 
 	this->sphereColliders.resize(layerMatrixSize); // resize to fit the amount of layers we have, fake 2d array
 	this->aabbColliders.resize(layerMatrixSize);
+	this->obbColliders.resize(layerMatrixSize);
 }
 
 
@@ -50,6 +51,16 @@ void CollisionLayers::addHitbox(SphereCollider * sphereCollider, unsigned int la
 	this->sphereColliders[layer].push_back(sphereCollider);
 }
 
+void CollisionLayers::addHitbox(OBBCollider * obbCollider)
+{
+	this->obbColliders[0].push_back(obbCollider);
+}
+
+void CollisionLayers::addHitbox(OBBCollider * obbCollider, unsigned int layer)
+{
+	this->obbColliders[layer].push_back(obbCollider);
+}
+
 std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(unsigned int layer)
 {
 	std::vector<SphereCollider*>* colliders = nullptr;
@@ -65,6 +76,15 @@ std::vector<AABBCollider*>* CollisionLayers::getAABBColliders(unsigned int layer
 	std::vector<AABBCollider*>* colliders = nullptr;
 
 	colliders = &this->aabbColliders[layer];
+
+	return colliders;
+}
+
+std::vector<OBBCollider*>* CollisionLayers::getOBBColliders(unsigned int layer)
+{
+	std::vector<OBBCollider*>* colliders = nullptr;
+
+	colliders = &this->obbColliders[layer];
 
 	return colliders;
 }

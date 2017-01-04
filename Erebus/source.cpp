@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
@@ -65,12 +66,15 @@ int main()
 	sphere1.setPos(glm::vec3(3.1f,0,0));
 	sphere1.setRadius(1);
 	aabb1.setPos(glm::vec3(5,0,0));
-	obb1.setPos(glm::vec3(0,0,0));
+	obb1.setPos(glm::vec3(7,0,0));
 	obb1.setSize(2, 0.1, 0.1);
 	obb2.setPos(glm::vec3(8,0,0));
 	obb2.setSize(2,0.1,0.1);
 	float swag = 3.1415;
 	//obb1.rotateAroundY(0.7f);
+	collisionHandler.addHitbox(&obb1);
+	collisionHandler.addHitbox(&obb2);
+	collisionHandler.addHitbox(&aabb1);
 
 	bool test1 = collisionChecker.collisionCheck(&obb1, &sphere1);
 	bool test2 = collisionChecker.collisionCheck(&obb1,&obb2);
@@ -161,6 +165,7 @@ int main()
 
 		collisionHandler.checkCollisions();
 		collisionHandler.drawHitboxes();
+		OBBCollider deoedoedoo = obb1;
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);

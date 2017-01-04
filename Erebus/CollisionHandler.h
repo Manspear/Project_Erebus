@@ -26,13 +26,19 @@ public:
 	void addHitbox(AABBCollider* aabb);
 	void addHitbox(SphereCollider* sphere, int layer);
 	void addHitbox(AABBCollider* aabb, int layer);
+	void addHitbox(OBBCollider* obb);
+	void addHitbox(OBBCollider* obb, int layer);
 
 	void checkCollisions();
 	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders); // check against itself
 	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders1, std::vector<SphereCollider*>* colliders2);
+	void checkSphereToAabbCollisions(std::vector<SphereCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
 	void checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders); // check against itself
 	void checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2); 
-	void checkSphereToAabbCollisions(std::vector<SphereCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
+	void checkObbToObbCollisions(std::vector<OBBCollider*>* colliders);
+	void checkObbToObbCollisions(std::vector<OBBCollider*>* colliders1, std::vector<OBBCollider*>* colliders2);
+	void checkObbToAabbCollisions(std::vector<OBBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
+	void checkObbToSphereCollisions(std::vector<OBBCollider*>* colliders1, std::vector<SphereCollider*>* colliders2);
 
 	void updateAllHitboxPos();
 	void updateSpherePos();
@@ -61,6 +67,7 @@ private:
 	Transform* transforms;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
+	std::vector<OBBCollider*> obbColliders;
 	std::vector<HitBox*> allColliders;
 	CollisionLayers* collisionLayers;
 	CollisionChecker collisionChecker;
