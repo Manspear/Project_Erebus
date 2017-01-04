@@ -10,7 +10,7 @@ end
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 12
+	player.moveSpeed = 120
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
@@ -118,7 +118,7 @@ function UpdatePlayer(dt)
 		local posz = math.floor(position.z/512)
 		local heightmapIndex = (posz*2 + posx)+1
 
-		local height = heightmaps[heightmapIndex]:GetHeight(position.x%512,position.z%512)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
 		if position.y <= height then
 			position.y = height
 			player.canJump = true

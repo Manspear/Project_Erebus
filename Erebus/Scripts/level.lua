@@ -3,29 +3,30 @@
 --heightmap.transformID = Transform.Bind()
 -- In lua you start counting from 1
 heightmaps = {}
-heightmaps[1] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")
+heightmaps[1] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här. problem hos Assets.load. hmap maste ha en egen load da. Ett alternativ vore att gora en hmapHandlar i c++
 heightmaps[1].transformID = Transform.Bind()
 heightmaps[1].offset = 0
 
-heightmaps[2] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")
+heightmaps[2] = Assets.LoadHeightmap("Textures/secondTile_hieghts128_heights.png")-- skicka in heightmapIndex här
 heightmaps[2].transformID = Transform.Bind()
-heightmaps[2].offset = 25
+heightmaps[2].offset = 63
 
-heightmaps[3] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")
+heightmaps[3] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här
 heightmaps[3].transformID = Transform.Bind()
 heightmaps[3].offset = 0
 
-heightmaps[4] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")
+heightmaps[4] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här
 heightmaps[4].transformID = Transform.Bind()
 heightmaps[4].offset = 0
 
-local model = Assets.LoadModel("Models/firstTile.model")
-Gear.AddStaticInstance(model, heightmaps[1].transformID)
-Gear.AddStaticInstance(model, heightmaps[2].transformID)
-Gear.AddStaticInstance(model, heightmaps[3].transformID)
-Gear.AddStaticInstance(model, heightmaps[4].transformID)
+local firstTileModel = Assets.LoadModel("Models/firstTile.model")
+local secondTileModel = Assets.LoadModel("Models/secondTile_jan4.model")
+Gear.AddStaticInstance(firstTileModel, heightmaps[1].transformID)
+Gear.AddStaticInstance(secondTileModel, heightmaps[2].transformID)
+Gear.AddStaticInstance(firstTileModel, heightmaps[3].transformID)
+Gear.AddStaticInstance(firstTileModel, heightmaps[4].transformID)
 
-Transform.SetPosition(heightmaps[2].transformID, {x=512, y=heightmaps[2].offset, z=0})
+Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=0})
 Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=512})
 Transform.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 --Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
