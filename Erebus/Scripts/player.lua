@@ -114,7 +114,11 @@ function UpdatePlayer(dt)
 		position.y = position.y + player.verticalSpeed
 		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
 
-		local height = heightmap:GetHeight(position.x,position.z)+MOLERAT_OFFSET
+		local posx = math.floor(position.x/512)
+		local posz = math.floor(position.z/512)
+		local heightmapIndex = (posz*2 + posx)+1
+
+		local height = heightmaps[heightmapIndex]:GetHeight(position.x%512,position.z%512)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
 		if position.y <= height then
 			position.y = height
 			player.canJump = true

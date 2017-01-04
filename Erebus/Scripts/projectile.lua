@@ -24,7 +24,7 @@ function CreateProjectile()
 
 
 	function projectile:Update(dt)
-		local height = heightmap:GetHeight(self.position.x, self.position.z)
+		local height = heightmaps[1]:GetHeight(self.position.x, self.position.z)
 		fireball.update(self.position.x, self.position.y, self.position.z)
 		if self.position.y <= height then
 			fireball.die(self.position.x, self.position.y, self.position.z)
