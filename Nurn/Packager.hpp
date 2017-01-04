@@ -11,7 +11,6 @@ class NURN_API Packager
 {
 private:
 	unsigned char memory[packetSize];
-	unsigned char * memoryPointer;
 
 public:
 	Packager();

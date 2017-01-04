@@ -61,13 +61,19 @@ void NetworkController::startNetworkReceiving()
 	while (running)
 	{
 		printf("Recieving package\n");
-		unsigned char buffer[256];
+		
+		Packager p;
+		p.buildPacket();
+
+		PacketFilter f;
+		f.openPacket(p.getPacketPointer());
+		/*unsigned char buffer[256];
 		int bytes_read = network.Receive(buffer, sizeof(buffer));
 		if (bytes_read)
 		{
 			printf("received packet %d bytes\n", bytes_read);
 			std::cout << buffer << std::endl;
-		}
+		}*/
 		Sleep(250);
 	}
 }

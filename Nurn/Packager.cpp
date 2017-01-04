@@ -2,43 +2,37 @@
 
 Packager::Packager()
 {
-	this->memoryPointer = this->memory;
 }
 
 Packager::~Packager()
 {
-
 }
 
 unsigned char* Packager::getPacketPointer()
 {
-	return this->memoryPointer;
+	return (unsigned char*)this->memory;
 }
 
 void Packager::buildPacket()
 {
 	// Optimera detta så att vi inte behöver kopiera värderna
-	uint8_t test = 7;
 	MetaDataPacket m(PACKET_TYPE::TRANSFORM);
-	m.metaData.sizeInBytes = 70;
 	TransformPacket t;
 	t.data.ID = 13;
 
-	uint8_t size = sizeof(m);
+	m.metaData.sizeInBytes = sizeof(t);
 
-	memcpy(this->memory, &test, sizeof(test)); //uint8_t
-	memcpy(this->memory + sizeof(test), &m, sizeof(m)); //Metadata
-	memcpy(this->memory + sizeof(test) + sizeof(m), &t, sizeof(t)); //Transform
+	uint16_t size = sizeof(m) + sizeof(t) + sizeof(uint16_t);
+
+	memcpy(this->memory, &size, sizeof(size)); //uint16_t
+	memcpy(this->memory + sizeof(size) + sizeof(m), &t, sizeof(t)); //Transform
+	memcpy(this->memory + sizeof(size), &m, sizeof(m)); //Metadata
 
 
-	uint8_t result;
-	TransformPacket p_result;
-	MetaDataPacket m_result;
-	memcpy(&p_result, this->memory + sizeof(result) + sizeof(m_result), sizeof(p_result)); //Grab TransformPacket
-	memcpy(&m_result, this->memory + sizeof(result), sizeof(m_result)); //Grab MetaData
-	memcpy(&result, &this->memory, sizeof(result)); //Grab uint8_t
+	
 
-	printf("%d, %d, %d\n", result, m_result.metaData.sizeInBytes, p_result.data.ID);
+	// Lägg till uint16_t på den första 2 bytsen.
+	// Skicka packet
 
 }
 

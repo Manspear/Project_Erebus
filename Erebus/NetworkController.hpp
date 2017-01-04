@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Nurn.hpp"
+#include "Packager.hpp"
+#include "PacketFilter.hpp"
 #include <thread>
 
 class NetworkController
