@@ -143,8 +143,6 @@ int main()
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f, 0.9f);
 
-		engine.showImage(glm::vec2(100.f, 100.f), 100, 100, particlesTexture);
-
 		window.update();
 
 		engine.draw(&camera);
