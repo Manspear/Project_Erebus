@@ -384,6 +384,56 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, SphereCollider * sphere
 	return true;
 }
 
+bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
+{
+	float epsilon = glm::epsilon<float>();
+	float tmin = 0.0f;
+	float tmax = std::numeric_limits<float>::max();
+	glm::vec3 rayDirection = ray->getDirection();
+	glm::vec3 rayPosition = ray->getPosition();
+	glm::vec3 aabbMin = aabb->getMinPos();
+	glm::vec3 aabbMax = aabb->getMaxPos();
+
+	int threeSlabs = 3;
+
+	for (unsigned int i = 0; i < threeSlabs; i++)
+	{
+		if (glm::abs(rayDirection[i] < epsilon)) // Ray is parallell to slab
+		{
+			if (rayPosition[i] < aabbMin[i] || rayPosition[i] > aabbMax[i]) // No hit if origin not inside slab
+				return false;
+		}
+		else
+		{
+			// compute intersection t value of ray with near and far plane of slab
+			float ood = 1.0f / rayDirection[i];
+			float t1 = (aabbMin[i] - rayPosition[i]) * ood;
+			float t2 = (aabbMax[i] - rayPosition[i]) * ood;
+
+			if (t1 > t2) // Make sure t1 is the intersection with near plane and t2 with far plane
+				swap<float>(t1, t2);
+
+			if (t1 > tmin)
+				tmin = t1;
+
+			if (t2 > tmax) 
+				tmax = t2;
+
+			if (tmin > tmax) // furthest entry further away than closest exit. Exit function, no collision
+				return false;
+		}
+
+	}
+
+	// ray intersects all slabs, we have a hit. 
+	// hitDistance is tmin and intersection point is (rayposition + raydirection * hitdistance)
+	float hitdistance = tmin;
+	glm::vec3 intersectionPoint = rayPosition + (rayDirection* hitdistance);
+	ray->hit(intersectionPoint, hitdistance);
+
+	return false;
+}
+
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
 {
 	float val = 0;

@@ -28,11 +28,14 @@ public:
 	// Real-Time Collision Detection book - Christer Ericson https://www.gamedev.net/topic/579584-obb---sphere-collision-detection/
 	bool collisionCheck(OBBCollider* obb, SphereCollider* sphere); 
 	bool collisionCheck(RayCollider* ray, SphereCollider* sphere);
+	bool collisionCheck(RayCollider* ray, AABBCollider* aabb);
 
 	//helper functions
 	float closestDistanceAabbToPoint(const float& point, const float aabbMin, const float aabbMax);
 	float SquaredDistancePointToAabb(AABBCollider* aabb, SphereCollider* sphere);
 	glm::vec3 closestPointOnOBB(OBBCollider* collider, const glm::vec3& point) const;
+	template<typename T>
+	inline void swap(T& first, T& second);
 
 	void resetCounters();
 
@@ -46,3 +49,10 @@ public:
 	int getCollisionCounter();
 };
 
+template<typename T>
+inline void CollisionChecker::swap(T& first, T& second)
+{
+	T temp = first;
+	first = second;
+	second = temp;
+}

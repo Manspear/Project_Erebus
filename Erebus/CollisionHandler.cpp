@@ -599,7 +599,7 @@ void CollisionHandler::printCollisions()
 		<< "\nOBB to OBB Checks: " << collisionChecker.getObbCollisionCounter()
 		<< "\nOBB to Sphere Checks: " << collisionChecker.getObbToSphereCollisionCounter()
 		<< "\nOBB to AABB Checks: " << collisionChecker.getObbToAabbCollisionCounter()
-		<<"\nTotal Checks: " << total << std::endl;
+		<<"\nTotal Checks: " << total << "\n\n";
 }
 
 void CollisionHandler::drawHitboxes()

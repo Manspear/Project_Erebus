@@ -8,5 +8,8 @@ void main (){
 
 	vec4 tempColor = vec4(1.0, 0.0, 0.0, 1.0);
 	//gl_FragColor = vec4(vertexColor, 1.0);
-	gl_FragColor = texture(tex, vertex_UV);
+	vec4 color =  texture(tex, vertex_UV);
+	if(color.w < 0.5)
+		discard;
+	gl_FragColor = color;
 }
