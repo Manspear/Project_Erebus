@@ -38,6 +38,7 @@ void Window::initWindow()
 
 	//fixar inputs callback funktioner
 	glfwSetKeyCallback(window, Inputs::key_callback);
+	glfwSetCharCallback(window, Inputs::text_callback);
 	glfwSetMouseButtonCallback(window, Inputs::mouse_button_callback);
 	glfwSetScrollCallback(window, Inputs::scroll_callback);
 

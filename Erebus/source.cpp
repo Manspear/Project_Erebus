@@ -13,6 +13,7 @@
 #include "NetworkController.hpp"
 
 #include"GamePlay.h"
+#include"Menu.h"
 
 bool running = true;
 bool networkActive = false;
@@ -20,19 +21,13 @@ bool networkHost = true;
 bool networkLonelyDebug = true;
 
 
-enum GameState
-{
-	Menu,
-	Gameplay
-};
-
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;
 
-	GameState gameState = Gameplay;
+	GameState gameState = GameplayState;
 	
 	
 	Importer::Assets assets;
@@ -82,7 +77,10 @@ int main()
 		}
 	}
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,camera);
+
+	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
+	Menu * menu = new Menu(&engine,assets);
+
 	glClearColor(1, 1, 1, 1);
 
 	
@@ -94,25 +92,25 @@ int main()
 
 	float alpha = 0.0f;
 	float alphaChangeRate = 0.01f;
-
-
-
+	
+	inputs.getMousePos();
 
 	while (running && window.isWindowOpen())
 	{	
 		deltaTime = counter.getDeltaTime();
 		
+		inputs.update();
+		
 
 		switch (gameState)
 		{
-		case Menu:
-			gamePlay->Draw();
+		case MenuState:
+			gameState = menu->Update(inputs);
+			menu->Draw();
 			break;
 
-		case Gameplay:
-			inputs.update();
+		case GameplayState:
 			controls.update(&inputs);
-
 			gamePlay->Update(controls,deltaTime);
 			gamePlay->Draw();
 			break;
@@ -149,6 +147,7 @@ int main()
 		{
 			if (lockMouse)
 			{
+				
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
@@ -163,6 +162,7 @@ int main()
 	}
 
 	delete gamePlay;
+	delete menu;
 
 	if (networkActive)
 	{

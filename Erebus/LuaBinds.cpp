@@ -16,6 +16,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 					Assets* assets,
 					CollisionHandler* collisionHandler,
 					Controls* controls,
+					Inputs* inputs,
 					Transform* transforms,
 					int* boundTransforms,
 					std::vector<ModelInstance>* models,
@@ -31,7 +32,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
-	LuaControls::registerFunctions( lua );
+	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);
 	LuaParticles::registerFunctions(lua, ps);
 	LuaAI::registerFunctions(lua, transforms, AI);
@@ -85,7 +86,7 @@ void LuaBinds::update( Controls* controls, float deltaTime )
 {
 	if( validState )
 	{
-		LuaControls::sendControls( lua, controls );
+		//LuaControls::sendControls( lua, controls );
 
 		lua_rawgeti( lua, LUA_REGISTRYINDEX, updateReference );
 		lua_pushnumber( lua, deltaTime );

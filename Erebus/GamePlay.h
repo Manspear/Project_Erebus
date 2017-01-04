@@ -25,7 +25,7 @@ private:
 	Importer::HeightMap* heightMap;
 
 public:
-	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Controls &controls,Camera& camera)
+	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Controls &controls,Inputs &inputs,Camera& camera)
 	{
 		engine = inEngine;
 		transforms = new Transform[nrOfTransforms];
@@ -46,7 +46,7 @@ public:
 		collisionHandler.setDebugger(Debugger::getInstance());
 
 		
-		luaBinds.load(engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai);
+		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai);
 	
 		//particlesTexture->bind(PARTICLES);
 		for (int i = 0; i < ps.size(); i++)
