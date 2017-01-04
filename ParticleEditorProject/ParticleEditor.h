@@ -9,19 +9,26 @@
 #include "PerformanceCounter.h"
 #include <String>
 #include <thread>
+//
+//#ifdef PARTICLE_EXPORT
+//#define PARTICLE_API __declspec(dllexport)   
+//#else  
+//#define PARTICLE_API __declspec(dllimport)   
+//#endif
 
-
+//namespace ParticleEditor
+//{
 class ParticleEngine
 {
 
 public:
-	 ParticleEngine();
+	ParticleEngine();
 	~ParticleEngine();
-	 void start();
-	 void update(float dt);
-	 void setAlive();
-	 void die(const float & dt);
-	 void writeToFile();
+	void start();
+	void update(float dt);
+	void setAlive();
+	void die(const float & dt);
+	void writeToFile();
 
 private:
 	struct numParticleSystems
@@ -46,4 +53,6 @@ private:
 	particle p;
 	numParticleSystems nrPs;
 };
+//};
+
 

@@ -88,8 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Gear;$(SolutionDir)ParticleEditorProject</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -186,6 +185,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Nurn\Nurn.vcxproj">
       <Project>{db7257bd-f056-4eeb-9db7-66b785ceb0e6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ParticleEditorProject\ParticleEditorProject.vcxproj">
+      <Project>{485879f4-795d-40f9-b42b-a8f12e1afbb2}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

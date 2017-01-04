@@ -22,7 +22,7 @@
 #include "FontAsset.h"
 #include "MaterialAsset.h"
 #include "LevelEditor.h"
-//#include "ParticleEditor.h"
+#include "ParticleEditor"
 
 int startNetworkCommunication( Window* window );
 int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);

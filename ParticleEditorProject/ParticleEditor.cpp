@@ -1,5 +1,7 @@
 #include "ParticleEditor.h"
 
+//namespace ParticleEditor
+//{
 ParticleEngine::ParticleEngine()
 {
 	this->running = true;
@@ -116,4 +118,4 @@ void ParticleEngine::writeToFile()
 
 
 }
-
+//}
