@@ -22,7 +22,6 @@
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="ParticleEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
@@ -45,7 +44,6 @@
     <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="ParticleEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua" />

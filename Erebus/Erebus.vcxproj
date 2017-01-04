@@ -169,7 +169,6 @@
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
-    <ClCompile Include="ParticleEditor.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -257,7 +256,6 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
-    <ClInclude Include="ParticleEditor.h" />
     <ClInclude Include="PerformanceCounter.h" />
   </ItemGroup>
   <ItemGroup>
