@@ -13,7 +13,7 @@ Animation::Animation()
 	/*FOR TESTING PURPOSES*/
 	float* aids = new float[9];
 	for (int i = 0; i < 9; i++)
-		aids[i] = 0.2;
+		aids[i] = 1;
 	transitionTimeArray = aids;
 	transitionTimeArraySize = 9;
 	numStates = 3;
@@ -34,13 +34,6 @@ void Animation::setAsset(Importer::ModelAsset * asset)
 
 void Animation::updateAnimation(float dt, int layer)
 {
-	/*
-	The MODEL file order:
-	DATAHEADER -> MODELHEADER -> OFFSETS ->
-	MESHES -> BOUNDINGBOXES -> SKELETONS ->
-	JOINTS -> ANIMATION STATES -> KEYFRAMES ->
-	VERTICES -> SKELETAL VERTICES -> INDICES
-	*/
 	animationTimer += dt;
 	Importer::hModel* model = asset->getHeader();
 	int jointOffset = 0;
@@ -102,13 +95,6 @@ void Animation::updateAnimation(float dt, int layer)
 
 GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
 {
-	/*
-	The MODEL file order:
-	DATAHEADER -> MODELHEADER -> OFFSETS ->
-	MESHES -> BOUNDINGBOXES -> SKELETONS ->
-	JOINTS -> ANIMATION STATES -> KEYFRAMES ->
-	VERTICES -> SKELETAL VERTICES -> INDICES
-	*/
 	animTimer += dt;
 	Importer::hModel* model = asset->getHeader();
 	int jointOffset = 0;
@@ -227,7 +213,7 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 //				transitionTimer = transitionTimeArray[to + numStates * from];
 //				transitionMaxTime = transitionTimer;
 //			}
-//			blendAnimations(1, 2, transitionTimer, dt);
+//			//blendAnimations(1, 2, transitionTimer, dt);
 //			
 //			oldFrom = from;
 //			oldTo = to;
@@ -306,7 +292,7 @@ GEAR_API void Animation::updateState(float dt, int state)
 	printf("Animation stack size: %d \n", animationStack.size());
 	if(animationStack.size() > 1)
 		printf("Animation stack back: %d next to back: %d \n", animationStack.back(), animationStack[animationStack.size() - 2]);
-
+	
 	int lookie = animationStack.size();
 	//Do not append if the animation already exists 
 	if (animationStack.back() == state)
@@ -319,7 +305,7 @@ GEAR_API void Animation::updateState(float dt, int state)
 		{
 			int from = animationStack[animationStack.size() - 2];
 			int to = animationStack.back();
-
+	
 			if (oldTo != to && oldFrom != from)
 			{
 				transitionTimer = transitionTimeArray[to + numStates * from];
@@ -350,26 +336,24 @@ GEAR_API void Animation::updateState(float dt, int state)
 			animationTimer = transitionMaxTime - transitionTimer;
 		}
 		animationStack.push_back(state);
-
-		////JUST TO RUN THE FIRST FRAME AFTER NEW ANIMATION!
-		//int from = animationStack[animationStack.size() - 2];
-		//int to = animationStack.back();
-
-		//if (oldTo != to && oldFrom != from)
-		//{
-		//	transitionTimer = transitionTimeArray[to + numStates * from];
-		//	transitionMaxTime = transitionTimer;
-		//	oldTo = to;
-		//	oldFrom = from;
-		//}
-		//blendAnimations(to, from, transitionTimer, dt);
-		//if (isTransitionComplete)
-		//{
-		//	animationStack.clear();
-		//	animationStack.push_back(to);
-		//	isTransitionComplete = false;
-		//}
 	}
+
+
+	//float vario = animationTimer;
+	//std::vector<Importer::sKeyFrame> to = updateAnimationForBlending(dt, 2, animationTimer);
+	//std::vector<Importer::sKeyFrame> from = updateAnimationForBlending(dt, 1, animationTimer);
+	//
+	//std::vector<sKeyFrame> blendedList;
+	//for (int i = 0; i < to.size(); i++)
+	//{
+	//	transitionTimer = 0;
+	//	transitionMaxTime = 1;
+	//	blendedList.push_back(interpolateKeysForBlending(to[i], from[i]));
+	//}
+	//
+	//updateJointMatrices(blendedList);
+
+	//Why do the animations affect each other when one of them has 0 weight?
 }
 
 
@@ -488,9 +472,10 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	//underAffect = 0.5;
 	//underaffect was 1
 	Importer::sKeyFrame interpolatedKey;
-
-	glm::quat rotOver = glm::quat(to.keyRotate[3], to.keyRotate[0], to.keyRotate[1], to.keyRotate[2]);
-	glm::quat rotUnder = glm::quat(from.keyRotate[3], from.keyRotate[0], from.keyRotate[1], from.keyRotate[2]);
+	glm::vec3 tempRot = glm::make_vec3((to.keyRotate));
+	glm::quat rotOver = glm::quat(tempRot);
+	tempRot = glm::make_vec3((from.keyRotate));
+	glm::quat rotUnder = glm::quat(tempRot);
 
 	//myLerp(from.keyTranslate, to.keyTranslate, interpolatedKey.keyTranslate, underAffect);
 	//
@@ -508,6 +493,12 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	interpolatedKey.keyRotate[1] = endRot[1];
 	interpolatedKey.keyRotate[2] = endRot[2];
 
+	//TEMP
+	//interpolatedKey.keyRotate[0] = resQ[0];
+	//interpolatedKey.keyRotate[1] = resQ[1];
+	//interpolatedKey.keyRotate[2] = resQ[2];
+	//interpolatedKey.keyRotate[3] = resQ[3];
+
 	//EULER CODE using this shows same error
 	//let's see what happens if we replace quaternions with eulerangles...
 	//glm::vec3 roOver = glm::eulerAngles(rotOver);
@@ -515,7 +506,7 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	//myLerp(&roOver[0], &roUnder[0], interpolatedKey.keyRotate, underAffect);
 
 	//INTERPOLATED TIME == (underKey.keyTime * (1 - underAffect)) + (overKey.keyTime * underAffect)
-	interpolatedKey.keyTime = animationTimer;//(from.keyTime * (1 - underAffect)) + (to.keyTime * underAffect);
+	interpolatedKey.keyTime = (from.keyTime * (1 - underAffect)) + (to.keyTime * underAffect);
 
 	//Test
 	//animationTimer = interpolatedKey.keyTime;
