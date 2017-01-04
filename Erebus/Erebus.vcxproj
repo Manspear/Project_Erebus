@@ -168,7 +168,6 @@
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
-    <ClCompile Include="ParticleEditor.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -186,6 +185,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Nurn\Nurn.vcxproj">
       <Project>{db7257bd-f056-4eeb-9db7-66b785ceb0e6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ParticleEditorProject\ParticleEditorProject.vcxproj">
+      <Project>{2fa59024-64b3-4752-b400-70e592c2f04b}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -256,7 +258,6 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
-    <ClInclude Include="ParticleEditor.h" />
     <ClInclude Include="PerformanceCounter.h" />
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,7 @@
 
 //namespace ParticleEditor
 //{
+
 class ParticleEngine
 {
 
