@@ -379,12 +379,10 @@ glm::mat4x4 * Animation::getShaderMatrices()
 
 void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTimer, float dt)
 {
-	//Blend
 	/*
 	Need the "finished" matrices of both of these animations.
 	Modify the animation-function to return a list of matrices.
 	*/
-	//fromAnimationTimer = animationTimer;
 	
 	fromAnimationTimer = animationTimer;
 	toAnimationTimer = animationTimer;
@@ -433,8 +431,6 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 	float underAffect = diffUnderTime / diffKeys;
 
 	Importer::sKeyFrame interpolatedKey;
-	glm::quat thing;
-	glm::vec3 shit = glm::vec3(0, 1, 1);
 	glm::quat rotOver = glm::quat(overKey.keyRotate[3], overKey.keyRotate[0], overKey.keyRotate[1], overKey.keyRotate[2]);
 	glm::quat rotUnder = glm::quat(underKey.keyRotate[3], underKey.keyRotate[0], underKey.keyRotate[1], underKey.keyRotate[2]);
 
