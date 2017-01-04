@@ -43,10 +43,6 @@ int main()
 	
 	engine.addDebugger(Debugger::getInstance());
 
-	
-
-
-	
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -86,10 +82,6 @@ int main()
 		}
 	}
 
-
-	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
-
-
 	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,camera);
 	glClearColor(1, 1, 1, 1);
 
@@ -108,7 +100,6 @@ int main()
 
 	while (running && window.isWindowOpen())
 	{	
-		
 		deltaTime = counter.getDeltaTime();
 		
 
@@ -126,8 +117,6 @@ int main()
 			gamePlay->Draw();
 			break;
 		}
-
-	
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);

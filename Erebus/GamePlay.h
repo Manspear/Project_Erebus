@@ -22,6 +22,8 @@ private:
 
 	Importer::ModelAsset* moleman;
 	Importer::TextureAsset* particlesTexture;
+	Importer::HeightMap* heightMap;
+
 public:
 	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Controls &controls,Camera& camera)
 	{
@@ -31,6 +33,7 @@ public:
 
 		moleman = assets.load<ModelAsset>("Models/testGuy.model");
 		particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
+		heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 		
 		for (int i = 0; i < nrOfTransforms; i++)
 			transforms[i].setThePtr(&allTransforms[i]);
