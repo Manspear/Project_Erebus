@@ -21,5 +21,11 @@ union MetaDataPacket
 		metaData.type = type;
 	}
 
+	MetaDataPacket(PACKET_TYPE type, uint16_t sizeInBytes)
+	{
+		metaData.type = type;
+		metaData.sizeInBytes = sizeInBytes;
+	}
+
 	unsigned char bytes[sizeof(MetaDataPacketStruct)];
 };

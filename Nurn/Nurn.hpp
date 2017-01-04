@@ -21,7 +21,8 @@
 #include <assert.h>
 #include "Address.hpp"
 #include "TransformPacket.hpp"
-
+#include "Packager.hpp"
+#include "PacketFilter.hpp"
 
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"

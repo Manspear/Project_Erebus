@@ -34,7 +34,7 @@ namespace Nurn
 	}
 
 	bool NurnEngine::Send(const Address & destination, const void * data, int size)
-	{		
+	{
 		return netCommunication.SendPackage(destination, data, size);
 	}
 

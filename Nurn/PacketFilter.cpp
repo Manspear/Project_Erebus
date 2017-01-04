@@ -20,18 +20,19 @@ void PacketFilter::openPacket(unsigned char * memoryPointer)
 	uint16_t bytesRead = sizeof(uint16_t); // The first 2 bytes are read immideately.
 	memcpy(&bytesLeft, memoryPointer, sizeof(bytesLeft)); // The number of bytes to read.
 
-	while(bytesRead != bytesLeft)
+	while(bytesRead < bytesLeft)
 	{
-		// for each metaDataPacket, do... (Not an actual for loop)		
-
+		// For each metaDataPacket, do...		
 		memcpy(&m_result, memoryPointer + bytesRead, sizeof(MetaDataPacket)); //Grab MetaData
 		bytesRead += sizeof(MetaDataPacket);
 
 		switch (m_result.metaData.type)
 		{
 			case PACKET_TYPE::TRANSFORM:
-				memcpy(&p_result, memoryPointer + bytesRead, sizeof(TransformPacket)); //Grab TransformPacket
-				// push data packet to the correct queue
+				// Create an array with the size m_result.medaData.sizeInBytes or 
+				// run a couple of tests and see how much size is needed at most and hard code the array.
+				memcpy(&p_result, memoryPointer + bytesRead, m_result.metaData.sizeInBytes); //Grab TransformPackets
+				// Push data packet to the correct queue
 				break;
 			default:
 				printf("What the fuck is this?!\n");
