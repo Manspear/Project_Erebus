@@ -16,7 +16,7 @@ namespace Gear
 		//renderQueue.init();
 		queue.init();
 		text.init(1280, 720);
-
+		screenQuad.init(1280, 720);
 
 
 		staticModels = &defaultModelList;
@@ -160,6 +160,11 @@ namespace Gear
 		text.print(s, baseX, baseY, scale, color);
 	}
 
+	void GearEngine::showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
+	{
+		screenQuad.showImage(pos, width, height, texture);
+	}
+
 	glm::vec2 GearEngine::getTextDimensions( const char* t )
 	{
 		return text.getTextDimensions( t );
@@ -259,6 +264,8 @@ namespace Gear
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
+
+		screenQuad.draw();
 		text.draw();
 	}
 
