@@ -23,6 +23,7 @@
 #include "LevelEditor.h"
 #include "NetworkController.hpp"
 #include "CollisionChecker.h"
+#include "RayCollider.h"
 
 bool running = true;
 bool networkActive = false;
@@ -63,7 +64,8 @@ int main()
 	OBBCollider obb2 = OBBCollider();
 	AABBCollider aabb1 = AABBCollider();
 	SphereCollider sphere1 = SphereCollider();
-	sphere1.setPos(glm::vec3(3.1f,0,0));
+	RayCollider ray1 = RayCollider(glm::vec3(-5,0,0),glm::vec3(1,0,0));
+	sphere1.setPos(glm::vec3(3.1f,1,0));
 	sphere1.setRadius(1);
 	aabb1.setPos(glm::vec3(5,0,0));
 	obb1.setPos(glm::vec3(7,0,0));
@@ -79,6 +81,7 @@ int main()
 	bool test1 = collisionChecker.collisionCheck(&obb1, &sphere1);
 	bool test2 = collisionChecker.collisionCheck(&obb1,&obb2);
 	bool test3 = collisionChecker.collisionCheck(&obb1, &aabb1);
+	bool test4 = collisionChecker.collisionCheck(&ray1, &sphere1);
 
 
 

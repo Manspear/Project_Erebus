@@ -2,6 +2,7 @@
 #include "AABBCollider.h"
 #include "OBBCollider.h"
 #include "SphereCollider.h"
+#include "RayCollider.h"
 #include "glm\glm.hpp"
 class CollisionChecker
 {
@@ -26,6 +27,7 @@ public:
 	bool collisionCheck(OBBCollider* collider, AABBCollider* collider2); // same technique as obb vs obb
 	// Real-Time Collision Detection book - Christer Ericson https://www.gamedev.net/topic/579584-obb---sphere-collision-detection/
 	bool collisionCheck(OBBCollider* obb, SphereCollider* sphere); 
+	bool collisionCheck(RayCollider* ray, SphereCollider* sphere);
 
 	//helper functions
 	float closestDistanceAabbToPoint(const float& point, const float aabbMin, const float aabbMax);

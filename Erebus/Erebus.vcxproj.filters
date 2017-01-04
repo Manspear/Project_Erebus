@@ -69,6 +69,9 @@
     <ClCompile Include="OBBCollider.cpp">
       <Filter>Source Files\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="RayCollider.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -136,6 +139,9 @@
       <Filter>Header Files\Collision</Filter>
     </ClInclude>
     <ClInclude Include="OBBCollider.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCollider.h">
       <Filter>Header Files\Collision</Filter>
     </ClInclude>
   </ItemGroup>
