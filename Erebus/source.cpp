@@ -65,7 +65,7 @@ int main()
 	AABBCollider aabb1 = AABBCollider();
 	SphereCollider sphere1 = SphereCollider();
 	RayCollider ray1 = RayCollider(glm::vec3(-5,0,0),glm::vec3(1,0,0));
-	sphere1.setPos(glm::vec3(3.1f,1,0));
+	sphere1.setPos(glm::vec3(3.1f,-1.0,0));
 	sphere1.setRadius(1);
 	aabb1.setPos(glm::vec3(5,0,0));
 	obb1.setPos(glm::vec3(7,0,0));

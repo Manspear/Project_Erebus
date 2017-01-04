@@ -358,21 +358,29 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, SphereCollider * sphere
 	glm::vec3 rayPosition = ray->getPosition();
 	glm::vec3 spherePosition = sphere->getPos();
 	float sphereRadiusSquared = sphere->getRadiusSquared();
+	float hitDistance = 0.0f;
+	glm::vec3 intersectionPoint;
 
 	glm::vec3 m = rayPosition - spherePosition;
+	float b = glm::dot(m, rayDirection);
 	float c = glm::dot(m, m) - sphereRadiusSquared;
 
-	if (c <= 0.0f) // If there is at least one real root, there must be an intersection
-		return true;
-	
-	float b = glm::dot(m, rayDirection);
-	if (b > 0.0f) // Early exit if ray origin outside sphere and ray pointing away from sphere
+	if (c > 0.0f && b > 0.0f) // Exit if rays origin is outside sphere (c > 0) and ray pointing away from sphere (b > 0)
 		return false;
 
-	float disc = b*b - c;
-	if (disc < 0.0f) // a negative discriminant corresponds to ray missing sphere
+	float discr = b*b - c;
+
+	if (discr < 0.0f) // A negative discriminant corresponds to ray missing sphere
 		return false;
-	// Now ray must hit sphere
+
+	hitDistance = -b - glm::sqrt(discr);
+
+	if (hitDistance < 0.0f) // if hitdistance is negative, ray started inside sphere so clamp t to zero
+		hitDistance = 0.0f;
+
+	intersectionPoint = rayPosition + (hitDistance * rayDirection);
+	ray->hit(intersectionPoint, hitDistance);
+	
 	return true;
 }
 
