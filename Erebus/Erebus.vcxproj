@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Gear;$(SolutionDir)ParticleEditorProject</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Gear</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,6 +168,7 @@
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="ParticleEditor.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -185,9 +186,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Nurn\Nurn.vcxproj">
       <Project>{db7257bd-f056-4eeb-9db7-66b785ceb0e6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ParticleEditorProject\ParticleEditorProject.vcxproj">
-      <Project>{485879f4-795d-40f9-b42b-a8f12e1afbb2}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +256,7 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="ParticleEditor.h" />
     <ClInclude Include="PerformanceCounter.h" />
   </ItemGroup>
   <ItemGroup>

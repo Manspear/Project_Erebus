@@ -19,10 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ParticleEditor.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ParticleEditor.h" />
+    <ProjectReference Include="..\Gear\Gear.vcxproj">
+      <Project>{7ae8f691-75c9-447c-ae7b-63364e8daa79}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{485879F4-795D-40F9-B42B-A8F12E1AFBB2}</ProjectGuid>
@@ -95,7 +94,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Erebus:$(SolutionDir)\Gear</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Erebus:$(SolutionDir)Gear</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

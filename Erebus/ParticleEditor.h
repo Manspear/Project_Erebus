@@ -9,7 +9,7 @@
 #include "PerformanceCounter.h"
 #include <String>
 #include <thread>
-//
+
 //#ifdef PARTICLE_EXPORT
 //#define PARTICLE_API __declspec(dllexport)   
 //#else  
@@ -24,13 +24,7 @@ class ParticleEngine
 public:
 	ParticleEngine();
 	~ParticleEngine();
-	void start();
-	void update(float dt);
-	void setAlive();
-	void die(const float & dt);
-	void writeToFile();
 
-private:
 	struct numParticleSystems
 	{
 		char textureName[32];
@@ -46,6 +40,14 @@ private:
 		int nrOfParticlesPerExt;
 	};
 
+	void start();
+	void update(float dt);
+	void setAlive();
+	void die(const float & dt);
+	void writeToFile();
+
+private:
+
 	float lifeTime;
 	bool running;
 	Window window;
@@ -54,5 +56,3 @@ private:
 	numParticleSystems nrPs;
 };
 //};
-
-
