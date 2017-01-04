@@ -19,6 +19,7 @@ bool networkActive = false;
 bool networkHost = true;
 bool networkLonelyDebug = true;
 
+
 enum GameState
 {
 	Menu,
@@ -33,7 +34,7 @@ int main()
 
 	GameState gameState = Gameplay;
 	
-
+	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
@@ -109,17 +110,20 @@ int main()
 	{	
 		
 		deltaTime = counter.getDeltaTime();
-		inputs.update();
-		controls.update(&inputs);
+		
 
 		switch (gameState)
 		{
 		case Menu:
-
+			gamePlay->Draw();
 			break;
 
 		case Gameplay:
+			inputs.update();
+			controls.update(&inputs);
+
 			gamePlay->Update(controls,deltaTime);
+			gamePlay->Draw();
 			break;
 		}
 
@@ -137,7 +141,7 @@ int main()
 
 		engine.draw(&camera);
 
-		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
+		if (inputs.keyPressed(GLFW_KEY_ESCAPE))
 			running = false;
 		
 		if (inputs.keyPressedThisFrame(GLFW_KEY_J))

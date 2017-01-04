@@ -76,7 +76,7 @@ public:
 		for (int i = 0; i < ps.size(); i++) {
 			ps.at(i)->update(deltaTime);
 		}
-		engine->queueDynamicModels(&models);
+		
 
 		collisionHandler.checkCollisions();
 		collisionHandler.drawHitboxes();
@@ -84,6 +84,6 @@ public:
 
 	void Draw()
 	{
-
+		engine->queueDynamicModels(&models);
 	}
 };
