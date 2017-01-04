@@ -100,7 +100,7 @@ int main()
 	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, &inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls,&inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
 	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
@@ -119,6 +119,8 @@ int main()
 
 	ai.addDebug(Debugger::getInstance());
 
+	
+
 
 	while (running && window.isWindowOpen())
 	{	
@@ -132,7 +134,6 @@ int main()
 			ps.at(i)->update(deltaTime);
 		}
 
-		
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
 		engine.queueParticles(&ps);
@@ -141,7 +142,7 @@ int main()
 		collisionHandler.drawHitboxes();
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.0f, 0.0f, 0.9f);
+		engine.print(fps, 0.0f, 0.0f);
 
 		window.update();
 

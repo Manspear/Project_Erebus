@@ -8,6 +8,7 @@
 #include "staticNonModels.h"
 #include "Debug.h"
 #include "TextRenderer.h"
+#include "ScreenQuadRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
 namespace Gear
@@ -42,6 +43,10 @@ namespace Gear
 							const float			&baseY,
 							const float			&scale = 1.0f, 
 							const glm::vec4		&color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		GEAR_API void showImage(const glm::vec2 &pos, 
+								const float &width, 
+								const float &height, 
+								Importer::TextureAsset* texture);
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
@@ -67,6 +72,7 @@ namespace Gear
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 		TextRenderer text;
+		ScreenQuadRenderer screenQuad;
 
 		TransformStruct** allTrans;
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
