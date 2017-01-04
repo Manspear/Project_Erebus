@@ -37,12 +37,12 @@ bool running = true;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	ParticleEditor particleEditor;
+	ParticleEngine particleEditor;
 	particleEditor.start();
 	return 0;
 	Window window;
 	Gear::GearEngine engine;
-
+	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);

@@ -4,7 +4,6 @@
 #include "Inputs.h"
 #include "Assets.h"
 #include "TextureAsset.h"
-#include "Controls.h"
 #include "Window.h"
 #include <ctime>
 #include "PerformanceCounter.h"
@@ -12,17 +11,19 @@
 #include <thread>
 
 
-class ParticleEditor
+class ParticleEngine
 {
-public:
-	ParticleEditor();
-	~ParticleEditor();
-	void start();
-	void update(float dt);
-	void setAlive();
-	void die(const float & dt);
-	void writeToFile();
 
+public:
+	 ParticleEngine();
+	~ParticleEngine();
+	 void start();
+	 void update(float dt);
+	 void setAlive();
+	 void die(const float & dt);
+	 void writeToFile();
+
+private:
 	struct numParticleSystems
 	{
 		char textureName[32];
@@ -38,12 +39,11 @@ public:
 		int nrOfParticlesPerExt;
 	};
 
-private:
 	float lifeTime;
 	bool running;
-	Controls controls;
 	Window window;
 	std::vector<Gear::ParticleSystem*> ps;
 	particle p;
 	numParticleSystems nrPs;
 };
+

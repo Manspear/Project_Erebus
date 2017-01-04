@@ -1,6 +1,6 @@
 #include "ParticleEditor.h"
 
-ParticleEditor::ParticleEditor()
+ParticleEngine::ParticleEngine()
 {
 	this->running = true;
 	//nrPs.numPS = 1;
@@ -9,16 +9,16 @@ ParticleEditor::ParticleEditor()
 	//p.speed = 10;
 	//p.extPerSecond = 8;
 	//p.nrOfParticlesPerExt = 10;
-	
+
 	lifeTime = 3;
 }
 
-ParticleEditor::~ParticleEditor()
+ParticleEngine::~ParticleEngine()
 {
 	delete ps.at(0);
 }
 
-void ParticleEditor::start()
+void ParticleEngine::start()
 {
 	Gear::GearEngine engine;
 	Importer::Assets assets;
@@ -32,7 +32,7 @@ void ParticleEditor::start()
 
 	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
 
-	//writeToFile();
+	/*writeToFile();*/
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -63,17 +63,17 @@ void ParticleEditor::start()
 		engine.queueParticles(&ps);
 
 		engine.drawParticle(&camera);
-		
+
 		if (inputs.keyPressed(GLFW_KEY_ESCAPE))
 			running = false;
 
 		window.update();
 	}
-	
+
 	glfwTerminate();
 }
 
-void ParticleEditor::update(float dt)
+void ParticleEngine::update(float dt)
 {
 	if (lifeTime = lifeTime)
 	{
@@ -87,19 +87,19 @@ void ParticleEditor::update(float dt)
 	}
 }
 
-void ParticleEditor::setAlive()
+void ParticleEngine::setAlive()
 {
 	ps.at(0)->activate();
 }
 
-void ParticleEditor::die(const float & dt)
+void ParticleEngine::die(const float & dt)
 {
 	ps.at(0)->deActivate();
 	ps.at(0)->updateWhenDead(dt);
 
 }
 
-void ParticleEditor::writeToFile()
+void ParticleEngine::writeToFile()
 {
 
 	FILE* file;
@@ -116,3 +116,4 @@ void ParticleEditor::writeToFile()
 
 
 }
+
