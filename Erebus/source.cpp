@@ -278,8 +278,8 @@ int main()
 	bool prevMouseVisible = threadData.mouseVisible;
 	while (threadData.running && window.isWindowOpen())
 	{
+		//ai.drawDebug(heightMap);
 		//quadTree.draw(Debugger::getInstance());
-		// START OF CRITICAL SECTION
 		DWORD waitResult = WaitForSingleObject(threadData.consume, THREAD_TIMEOUT);
 		if (waitResult == WAIT_OBJECT_0)
 		{
