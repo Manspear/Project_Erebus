@@ -10,13 +10,13 @@ out vec3 vHalfLengths;
 out vec3 vColor;
 
 
-uniform vec3 pos[123];
-uniform vec3 xAxis[123];
-uniform vec3 yAxis[123];
-uniform vec3 zAxis[123];
-uniform vec3 halfLengths[123];
+uniform vec3 pos[64];
+uniform vec3 xAxis[64];
+uniform vec3 yAxis[64];
+uniform vec3 zAxis[64];
+uniform vec3 halfLengths[64];
 
-uniform vec3 colors[123];
+uniform vec3 colors[64];
 
 
 void main(){

@@ -58,19 +58,19 @@ void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef) {
 	tempProgram->use();
 	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
-	int obbInstances = totalToIntance / 2;
+	int obbInstances = totalToIntance / 4;
 	GLuint positionLocation = glGetUniformLocation(tempProgram->getProgramID(), "pos");
 	GLuint xAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "xAxis");
 	GLuint yAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "yAxis");
 	GLuint zAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "zAxis");
 	GLuint halfLengthsLocation = glGetUniformLocation(tempProgram->getProgramID(), "halfLengths");
 	GLuint colorIdLocation = glGetUniformLocation(tempProgram->getProgramID(), "colors");
-	glm::vec3* pos = new glm::vec3[totalToIntance];
-	glm::vec3* xAxis = new glm::vec3[totalToIntance];
-	glm::vec3* yAxis = new glm::vec3[totalToIntance];
-	glm::vec3* zAxis = new glm::vec3[totalToIntance];
-	glm::vec3* halfLengths = new glm::vec3[totalToIntance];
-	glm::vec3* colors = new glm::vec3[totalToIntance];
+	glm::vec3* pos = new glm::vec3[obbInstances];
+	glm::vec3* xAxis = new glm::vec3[obbInstances];
+	glm::vec3* yAxis = new glm::vec3[obbInstances];
+	glm::vec3* zAxis = new glm::vec3[obbInstances];
+	glm::vec3* halfLengths = new glm::vec3[obbInstances];
+	glm::vec3* colors = new glm::vec3[obbInstances];
 
 
 	int numInstance = 0;
@@ -87,7 +87,7 @@ void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef) {
 			colors[numInstance] = temp->color;
 			numInstance++;
 
-			if (numInstance == totalToIntance) {
+			if (numInstance == obbInstances) {
 				glUniform3fv(positionLocation, numInstance, &pos[0][0]);
 				glUniform3fv(xAxisLocation, numInstance, &xAxis[0][0]);
 				glUniform3fv(yAxisLocation, numInstance, &yAxis[0][0]);

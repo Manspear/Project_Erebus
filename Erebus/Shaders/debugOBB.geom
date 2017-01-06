@@ -22,18 +22,27 @@ void main(){
 	mat4 viewProjection = projectionMatrix * viewMatrix;
 
 	
+	vec4 nearBotRight = viewProjection * (vPos[0] + (vxAxis[0]*halfLengths.x) + (vyAxis[0]*-halfLengths.y) +  (vzAxis[0]*-halfLengths.z));
+	vec4 nearBotLeft = viewProjection * (vPos[0] + (vxAxis[0]*-halfLengths.x) + (vyAxis[0]*-halfLengths.y) +  (vzAxis[0]*-halfLengths.z));
+	vec4 nearTopRight= viewProjection * (vPos[0] + (vxAxis[0]*halfLengths.x) + (vyAxis[0]*halfLengths.y) +  (vzAxis[0]*-halfLengths.z));
+	vec4 nearTopLeft= viewProjection * (vPos[0] + (vxAxis[0]*-halfLengths.x) + (vyAxis[0]*halfLengths.y) +  (vzAxis[0]*-halfLengths.z));
 
-	vec4 nearBotRight =viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
-	vec4 nearBotLeft = viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
-	vec4 nearTopRight =viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
-	vec4 nearTopLeft =viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
+	vec4 farBotRight= viewProjection * (vPos[0] + (vxAxis[0]*halfLengths.x) + (vyAxis[0]*-halfLengths.y) +  (vzAxis[0]*halfLengths.z));
+	vec4 farBotLeft= viewProjection * (vPos[0] + (vxAxis[0]*-halfLengths.x) + (vyAxis[0]*-halfLengths.y) +  (vzAxis[0]*halfLengths.z));
+	vec4 farTopRight= viewProjection * (vPos[0] + (vxAxis[0]*halfLengths.x) + (vyAxis[0]*halfLengths.y) +  (vzAxis[0]*halfLengths.z));
+	vec4 farTopLeft= viewProjection * (vPos[0] + (vxAxis[0]*-halfLengths.x) + (vyAxis[0]*halfLengths.y) +  (vzAxis[0]*halfLengths.z));
 
-	vec4 farBotRight =viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
-	vec4 farBotLeft = viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
-	vec4 farTopRight = viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
-	vec4 farTopLeft =viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
+	//vec4 nearBotRight =viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
+	//vec4 nearBotLeft = viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
+	//vec4 nearTopRight =viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
+	//vec4 nearTopLeft =viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*-halfLengths.z), 1);
 
-gl_Position = farTopLeft;
+	//vec4 farBotRight =viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
+	//vec4 farBotLeft = viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*-halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
+	//vec4 farTopRight = viewProjection * vec4((vxAxis[0]*halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
+	//vec4 farTopLeft =viewProjection * vec4((vxAxis[0]*-halfLengths.x), (vyAxis[0]*halfLengths.y) , (vzAxis[0]*halfLengths.z), 1);
+
+	gl_Position = farTopLeft;
 	EmitVertex();
 	gl_Position = farBotLeft;
 	EmitVertex();
