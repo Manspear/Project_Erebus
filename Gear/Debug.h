@@ -111,7 +111,7 @@ public:
 private:
 	
 	debugLineStruct debugLines[1000];
-	debugSphereStruct debugSpheres[10000];
+	debugSphereStruct debugSpheres[100000];
 	debugAABBStruct debugAABBs[65000];
 	debugOBBStruct debugOBBs[10000];
 	int totalDebugLines;

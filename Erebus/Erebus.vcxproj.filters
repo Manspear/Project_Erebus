@@ -37,9 +37,6 @@
     <ClCompile Include="LuaCollision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaControls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LuaErebus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -62,6 +59,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source.cpp" />
+    <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="NetworkController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -100,9 +99,6 @@
     <ClInclude Include="LuaCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaControls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LuaErebus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -124,6 +120,8 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="NetworkController.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\arc.lua">
@@ -261,15 +259,7 @@
     <None Include="Shaders\quad.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\text.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\text.geom">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\text.vert">
-      <Filter>Shaders</Filter>
-    </None>
+    <None Include="Scripts\console.lua" />
     <None Include="Shaders\debugOBB.frag">
       <Filter>Shaders</Filter>
     </None>

@@ -24,6 +24,9 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
+
+			inState = "DeadState" 
+			stateScript.changeToState(enemies[i],player,inState)
 		end
 
 		enemies[i].Spawn = function(self,position)
@@ -67,7 +70,7 @@ function UpdateEnemies(dt)
 			aiScript.update(enemies[i],player,dt)
 
 			local pos = Transform.GetPosition(enemies[i].transformID)
-			pos.y = heightmap:GetHeight(pos.x,pos.z)+1
+			pos.y = heightmaps[1]:GetHeight(pos.x,pos.z)+1
 			Transform.SetPosition(enemies[i].transformID, pos)
 
 			enemies[i].animation:Update(dt, enemies[i].animationState)

@@ -1,6 +1,7 @@
 #include "Inputs.h"
 
 bool Inputs::keys[GLFW_KEY_LAST] = {false};
+bool Inputs::keysRepeated[GLFW_KEY_LAST] = {};
 bool Inputs::keysPressedThisFrame[GLFW_KEY_LAST] = { false };
 bool Inputs::keysReleasedThisFrame[GLFW_KEY_LAST] = { false };
 MousePos Inputs::mousePos = { 0.0, 0.0 };
@@ -10,6 +11,8 @@ bool Inputs::mouseButtonsPressedThisFrame[GLFW_MOUSE_BUTTON_LAST] = { false };
 bool Inputs::mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST] = { false };
 double Inputs::dScrollY = 0.0;
 double Inputs::scrollY = 0.0;
+char Inputs::textInput[INPUTS_MAX_TEXT_INPUT] = {};
+int Inputs::textInputLength = 0;
 
 Inputs::Inputs(GLFWwindow* w)
 {
@@ -47,9 +50,13 @@ void Inputs::update()
 	deltaPos = { mousePos.x - newPos.x, mousePos.y - newPos.y };
 	mousePos = newPos;
 	
+	memset( textInput, 0, textInputLength );
+	textInputLength = 0;
+
 	dScrollY = 0;
 	for (size_t i = 0; i < GLFW_KEY_LAST; i++)
 	{
+		keysRepeated[i] = false;
 		keysPressedThisFrame[i] = false;
 		keysReleasedThisFrame[i] = false;
 	} 
@@ -64,6 +71,11 @@ void Inputs::update()
 bool Inputs::keyPressed(unsigned int key)
 {
 	return keys[key];
+}
+
+bool Inputs::keyRepeated(unsigned int key)
+{
+	return keysRepeated[key];
 }
 
 bool Inputs::keyPressedThisFrame(unsigned int key)
@@ -111,15 +123,29 @@ MousePos Inputs::getDeltaPos()
 	return deltaPos;
 }
 
+char* Inputs::getTextInput( int* length )
+{
+	if( length )
+		*length = textInputLength;
+	return textInput;
+}
+
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {	
 	keys[key] = action > 0;
+	keysRepeated[key] = action > 0 ;
 	if (action == GLFW_PRESS) {
 		keysPressedThisFrame[key] = true;
 	}
 	if (action == GLFW_RELEASE) {
 		keysReleasedThisFrame[key] = true;
 	}
+}
+
+void Inputs::text_callback(GLFWwindow* window, unsigned int key)
+{
+	if( key > 0 && key < 128 && textInputLength < INPUTS_MAX_TEXT_INPUT )
+		textInput[textInputLength++] = (char)key;
 }
 
 void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
