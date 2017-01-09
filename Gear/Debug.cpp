@@ -91,4 +91,5 @@ void Debug::clear()
 	totalDebugLines = 0;
 	totalDebugSpheres = 0;
 	totalDebugAABBs = 0;
+	totalDebugOBBs = 0;
 }
