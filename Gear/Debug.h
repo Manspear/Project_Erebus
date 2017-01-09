@@ -136,8 +136,10 @@ public:
 	GEAR_API void drawAABB(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color = glm::vec3(0, 1, 0));
 	//Draws a sphere at give poisiton and radius
 	GEAR_API void drawSphere(const glm::vec3 position, const float radius, glm::vec3 color = glm::vec3(0, 1, 0));
-
+	//Draws a obb at position
 	GEAR_API void drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color = glm::vec3(0, 1, 0));
+	//Draws a ray at given position to inf
+	GEAR_API void drawRay(glm::vec3 pos, glm::vec3 dir, glm::vec3 color = glm::vec3(0, 1, 0));
 
 	//DONT CALL
 	GEAR_API int getTotalLines();

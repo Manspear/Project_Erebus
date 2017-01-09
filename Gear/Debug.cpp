@@ -2,7 +2,7 @@
 #include <cmath>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
-
+#define HIGH_NUMBER 1000000.f
 
 Debug::Debug()
 {
@@ -43,7 +43,8 @@ void Debug::drawSphere(const glm::vec3 position, const float radius, glm::vec3 c
 	totalDebugSpheres++;
 }
 
-void Debug::drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color) {
+void Debug::drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color)
+{
 	debugOBBs[totalDebugOBBs].pos = pos;
 	debugOBBs[totalDebugOBBs].xAxis = xAxis;
 	debugOBBs[totalDebugOBBs].yAxis = yAxis;
@@ -52,6 +53,12 @@ void Debug::drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 z
 	debugOBBs[totalDebugOBBs].color = color;
 	totalDebugOBBs++;
 }
+
+void Debug::drawRay(glm::vec3 pos, glm::vec3 dir, glm::vec3 color)
+{
+	this->drawLine(pos, pos + (dir*HIGH_NUMBER));
+}
+
 
 int Debug::getTotalLines()
 {
@@ -67,23 +74,28 @@ int Debug::getTotalAABBs()
 	return totalDebugAABBs;
 }
 
-int Debug::getTotalOBBs() {
+int Debug::getTotalOBBs() 
+{
 	return totalDebugOBBs;
 }
 
-debugLineStruct *Debug::getDebugLines() {
+debugLineStruct *Debug::getDebugLines()
+{
 	return this->debugLines;
 }
 
-debugSphereStruct *Debug::getDebugSpheres() {
+debugSphereStruct *Debug::getDebugSpheres()
+{
 	return this->debugSpheres;
 }
 
-debugAABBStruct *Debug::getDebugAABBs() {
+debugAABBStruct *Debug::getDebugAABBs()
+{
 	return this->debugAABBs;
 }
 
-debugOBBStruct *Debug::getDebugOBBs() {
+debugOBBStruct *Debug::getDebugOBBs() 
+{
 	return this->debugOBBs;
 }
 void Debug::clear()

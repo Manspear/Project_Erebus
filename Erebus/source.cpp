@@ -109,7 +109,6 @@ int main()
 		inputs.update();
 		controls.update(&inputs);
 		luaBinds.update( &controls, deltaTime);
-		Debugger::getInstance()->drawOBB(glm::vec3(52, 25, 133), glm::vec3(1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(0, 0, 1), glm::vec3(1));
 		for (int i = 0; i < ps.size(); i++) {
 			ps.at(i)->update(deltaTime);
 		}
