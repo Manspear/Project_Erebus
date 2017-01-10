@@ -70,7 +70,6 @@ function UpdatePlayer(dt)
 		local position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
-
 		player.animationState = 1
 	if Inputs.KeyDown("W") then
 		forward = player.moveSpeed

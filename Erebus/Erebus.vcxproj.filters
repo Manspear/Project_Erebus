@@ -273,6 +273,15 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Scripts\console.lua" />
+    <None Include="Shaders\debugOBB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

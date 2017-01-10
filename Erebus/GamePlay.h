@@ -72,8 +72,6 @@ public:
 
 	void Update(Controls controls, double deltaTime)
 	{
-		//ai.drawDebug(heightMap);
-
 		luaBinds.update(&controls, deltaTime);
 
 		for (int i = 0; i < ps.size(); i++) {
