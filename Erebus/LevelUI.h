@@ -4,8 +4,7 @@
 class LevelUI
 {
 private:
-
-
+	float changeValue;
 	TwBar* mainBar;
 public:
 	LevelUI(GLFWwindow* window);
