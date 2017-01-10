@@ -58,10 +58,13 @@ end]]--
 
 
 function CreateProjectile()
+	local projectile  = dofile( "Scripts/basespell.lua" )
 	projectile.speed = 100
 	projectile.damage = 5
 	projectile.lifeTime = PROJECTILE_LIFETIME
-	projectile.type = 
+	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
+	CollisionHandler.AddSphere(projectile.sphereCollider)
+	--projectile.type = 
 	local fireball = createFireball()
 
 	local projectileModel = Assets.LoadModel( "Models/projectile1.model" )
@@ -94,7 +97,7 @@ function CreateProjectile()
 
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
-		for curEnemy=1, #enemies do
+			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 				
 					fireball.die(self.position.x, self.position.y, self.position.z)

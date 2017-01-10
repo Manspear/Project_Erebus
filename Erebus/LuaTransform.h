@@ -20,6 +20,7 @@ namespace LuaTransform
 	int setLookAt( lua_State* lua );
 	int setScale( lua_State* lua );
 	int setScaleNonUniform( lua_State* lua);
+	int setPosFromTransID( lua_State* lua);
 
 	int getPosition( lua_State* lua );
 	int getRotation( lua_State* lua );

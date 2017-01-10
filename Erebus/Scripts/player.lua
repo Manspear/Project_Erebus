@@ -12,16 +12,17 @@ function LoadPlayer()
 	player.health = 100
 	player.animation = Animation.Create()
 	player.animationState = 1
+	player.timeScalar = 1.0
 	-- set spells for player
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = {}
 	player.spells[2] = {}
 	for i = 1,  10 do	--create the projectile instances
-		table.insert(player.spells[1], CreateProjectile())
+		table.insert(player.spells[1], CreateChronoBall())
 	end
 	for i = 1,  10 do	--create the arc instances
-		table.insert(player.spells[2], CreateArc())
+		table.insert(player.spells[2], CreateFireballArc())
 	end
 	player.currentSpell = 1
 	-- add a sphere collider to the player
@@ -46,6 +47,9 @@ end
 function UpdatePlayer(dt)
 	forward, left = 0, 0
 	player.testCamera = false
+
+	dt = dt * player.timeScalar
+
 	local position = Transform.GetPosition(player.transformID)
 	local direction = Transform.GetLookAt(player.transformID)
 
@@ -103,7 +107,7 @@ function UpdatePlayer(dt)
 	for i=1, #player.spells do 
 		for _,j in ipairs(player.spells[i]) do
 			if j.alive then
-				j:BaseUpdate(dt)
+				j:Update(dt)
 			end
 		end
 	end

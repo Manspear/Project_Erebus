@@ -34,6 +34,8 @@ namespace LuaTransform
 			{ "SetLookAt",			setLookAt },
 			{ "SetScale",			setScale },
 			{ "SetScaleNonUniform", setScaleNonUniform },
+			{ "SetPosFromTransformID", setPosFromTransID },
+
 
 			{ "GetPosition",		getPosition },
 			{ "GetRotation",		getRotation },
@@ -239,6 +241,18 @@ namespace LuaTransform
 			scale.z = lua_tonumber(lua, 4);
 
 			g_transforms[index].setScale(scale);
+		}
+
+		return 0;
+	}
+
+	int setPosFromTransID(lua_State* lua) {
+		if (lua_gettop(lua) >= 2)
+		{
+			int indexFrom = lua_tointeger(lua, 2);
+			int indexTo = lua_tointeger(lua, 1);
+
+			g_transforms[indexTo].setPos(g_transforms[indexFrom].getPos());
 		}
 
 		return 0;

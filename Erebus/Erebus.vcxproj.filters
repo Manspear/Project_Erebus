@@ -62,6 +62,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source.cpp" />
+    <ClCompile Include="NetworkController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -124,6 +125,7 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkController.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\arc.lua">
@@ -270,11 +272,29 @@
     <None Include="Shaders\text.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="fireball.lua">
-      <Filter>testScripts</Filter>
+    <None Include="Scripts\particle.lua">
+      <Filter>Scripts</Filter>
     </None>
-    <None Include="projectileType.lua">
-      <Filter>testScripts</Filter>
+    <None Include="Scripts\fireball.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireEffect.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\projectileType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\arcType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireballArc.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\chronoBall.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\timeSlowEffect.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -289,10 +309,6 @@
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{f96c7fea-059e-434e-8a0e-4b60fe343727}</UniqueIdentifier>
-    </Filter>
-    </Filter>
-    <Filter Include="testScripts">
-      <UniqueIdentifier>{b6fe60dc-7b74-407f-9193-c6e44d35dbd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
