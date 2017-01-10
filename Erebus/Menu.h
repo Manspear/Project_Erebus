@@ -12,9 +12,7 @@ class Menu
 {
 private:
 	Gear::GearEngine * engine;
-	
-	//Gear::ScreenQuadRenderer *
-	
+
 	sScreenQuad background;
 	Importer::TextureAsset* menuBackground;
 
@@ -33,8 +31,6 @@ public:
 		button = sScreenQuad(glm::vec2(300, 300), 300, 140);
 		buttonTex = assets.load<TextureAsset>("Textures/button.png");
 
-		//engine->addScreenQuad(*background, menuBackground);
-		//Gear::ScreenQuadRenderer
 	}
 
 	~Menu()
@@ -45,8 +41,11 @@ public:
 	enum GameState Update(Inputs& inputs)
 	{
 		
-		if (button.mousePick(inputs.getMousePos().x, inputs.getMousePos().y) && inputs.buttonPressed(0))
+		if (button.mousePick(inputs.getMousePos().x, inputs.getMousePos().y) && inputs.buttonReleasedThisFrame(0))
+		{
+			
 			return  GameplayState;
+		}
 		
 		return MenuState;
 	}
