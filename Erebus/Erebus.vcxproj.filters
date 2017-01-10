@@ -43,9 +43,6 @@
     <ClCompile Include="LuaCollision.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
-    <ClCompile Include="LuaControls.cpp">
-      <Filter>Lua\Source</Filter>
-    </ClCompile>
     <ClCompile Include="LuaErebus.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
@@ -86,7 +83,14 @@
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="NetworkController.cpp" />
+    <ClCompile Include="LevelUI.cpp">
+     <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
     <ClCompile Include="LevelPointLightComponent.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,9 +132,6 @@
       <Filter>Lua\Header</Filter>
     </ClInclude>
     <ClInclude Include="LuaCollision.h">
-      <Filter>Lua\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaControls.h">
       <Filter>Lua\Header</Filter>
     </ClInclude>
     <ClInclude Include="LuaErebus.h">
@@ -177,6 +178,11 @@
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LevelPointLightComponent.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="NetworkController.hpp" />
+    <ClInclude Include="LevelUI.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -259,15 +265,6 @@
     <None Include="Shaders\anim.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\text.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\text.geom">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\text.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Scripts\arc.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -316,12 +313,22 @@
     <None Include="Shaders\debugAABB.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\debugOBB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.vert">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="Shaders\forward.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Scripts\particle.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\console.lua" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

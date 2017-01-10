@@ -88,7 +88,7 @@ function state.attackState.update(enemy,player)
 	end
 
 	if length < enemy.range then
-		player.health = player.health -5;
+		player:Hurt(12)
 	end
 end
 

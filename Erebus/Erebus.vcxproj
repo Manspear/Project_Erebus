@@ -170,9 +170,9 @@
     <ClCompile Include="LuaBinds.cpp" />
     <ClCompile Include="LuaCamera.cpp" />
     <ClCompile Include="LuaCollision.cpp" />
-    <ClCompile Include="LuaControls.cpp" />
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
+    <ClCompile Include="LuaInputs.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="NetworkController.cpp" />
@@ -201,6 +201,7 @@
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
+    <None Include="Scripts\console.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\particle.lua" />
@@ -214,6 +215,9 @@
     <None Include="Shaders\debugLine.frag" />
     <None Include="Shaders\debugLine.vert" />
     <None Include="Shaders\debugLine.geom" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
     <None Include="Shaders\debugSphere.frag" />
     <None Include="Shaders\debugSphere.geom" />
     <None Include="Shaders\debugSphere.vert" />
@@ -238,9 +242,6 @@
     <None Include="Shaders\particle.vert" />
     <None Include="Shaders\quad.frag" />
     <None Include="Shaders\quad.vert" />
-    <None Include="Shaders\text.frag" />
-    <None Include="Shaders\text.geom" />
-    <None Include="Shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
@@ -257,14 +258,15 @@
     <ClInclude Include="LevelEditorStuff\LevelTransformHandler.h" />
     <ClInclude Include="LevelEditorStuff\tinyxml2.h" />
     <ClInclude Include="LevelEditorStuff\LevelTransform.h" />
+    <ClInclude Include="LevelUI.h" />
     <ClInclude Include="LevelPointLightComponent.h" />
     <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />
-    <ClInclude Include="LuaControls.h" />
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
+    <ClInclude Include="LuaInputs.h" />
     <ClInclude Include="LuaParticles.h" />
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
