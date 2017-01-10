@@ -16,7 +16,7 @@ namespace Gear
 		//renderQueue.init();
 		queue.init();
 		text.init(1280, 720);
-
+		screenQuad.init(1280, 720);
 
 
 		staticModels = &defaultModelList;
@@ -24,10 +24,12 @@ namespace Gear
 
 		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA }; //Format for texture in gBuffer
 		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA }; //Format for texture in gBuffer
-		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
-		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
+		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2}; //gBuffer attachements
+		GLenum type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
+		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};
 
-		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
+		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
+		//gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
 
@@ -160,6 +162,16 @@ namespace Gear
 		text.print(s, baseX, baseY, scale, color);
 	}
 
+	void GearEngine::showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
+	{
+		screenQuad.showImage(pos, width, height, texture);
+	}
+
+	glm::vec2 GearEngine::getTextDimensions( const char* t )
+	{
+		return text.getTextDimensions( t );
+	}
+
 	void GearEngine::queueModels(std::vector<ModelInstance>* models)
 	{
 		staticModels = models;
@@ -254,6 +266,8 @@ namespace Gear
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
+
+		screenQuad.draw();
 		text.draw();
 	}
 
@@ -320,5 +334,9 @@ namespace Gear
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
+	}
+	GEAR_API void GearEngine::addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture)
+	{
+		screenQuad.addScreenQuad(quad, texture);
 	}
 }

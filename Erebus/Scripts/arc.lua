@@ -8,7 +8,7 @@ function CreateArc()
 	arc.upSpeed = 50
 	arc.currentUpSpeed = 0
 	arc.lifeTime = ARC_LIFETIME
-	local fireball = createFireballParticles()
+	local fireball = createFireball()
 	arc.damage = 5
 	local arcModel = Assets.LoadModel( "Models/testGuy.model" )
 	arc.sphereCollider = SphereCollider.Create(arc.transformID)

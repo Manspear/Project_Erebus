@@ -23,7 +23,7 @@ function state.idleState.exit(enemy,player)
 end
 
 function state.followState.enter(enemy,player)
-	--print("Enter FOLLOW")
+	print("Enter FOLLOW")
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
@@ -50,7 +50,7 @@ function state.followState.update(enemy,player,dt)
 
 			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.1 then
 				enemy.target = nil
-				--print("DISTANCE")
+				print("DISTANCE")
 			end
 
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
@@ -88,7 +88,7 @@ function state.attackState.update(enemy,player)
 	end
 
 	if length < enemy.range then
-		player.health = player.health -5;
+		player:Hurt(12)
 	end
 end
 
@@ -97,7 +97,7 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	--print("DEAD")
+	print("DEAD")
 end
 
 function state.deadState.update(enemy,player)

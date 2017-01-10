@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationEnums.h" />
     <ClInclude Include="BaseIncludes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Debug.h" />
@@ -162,9 +163,11 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
+    <ClInclude Include="ScreenQuadRenderer.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="staticNonModels.h" />
@@ -181,8 +184,10 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
+    <ClCompile Include="ScreenQuadRenderer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -193,6 +198,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Erebus\screenQuad.frag" />
+    <None Include="..\Erebus\screenQuad.geom" />
+    <None Include="..\Erebus\screenQuad.vert" />
     <None Include="..\Erebus\Shaders\forward.frag" />
     <None Include="..\Erebus\Shaders\forward.geom" />
     <None Include="..\Erebus\Shaders\forward.vert" />
@@ -205,6 +213,9 @@
     <None Include="..\Erebus\Shaders\g_Buffer.vert" />
     <None Include="..\Erebus\Shaders\heightmap.frag" />
     <None Include="..\Erebus\Shaders\heightmap.vert" />
+    <None Include="..\Erebus\Shaders\text.frag" />
+    <None Include="..\Erebus\Shaders\text.geom" />
+    <None Include="..\Erebus\Shaders\text.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

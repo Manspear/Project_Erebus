@@ -1,30 +1,25 @@
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
-#include "Assets.h"
-#include "ModelAsset.h"
-#include "TextureAsset.h"
+
 #include "Window.h"
-#include "Transform.h"
+
 #include "PerformanceCounter.h"
-#include "ParticleSystem.h"
-#include "SphereCollider.h"
-#include "AABBCollider.h"
-#include "CollisionHandler.h"
+
 #include "Controls.h"
-#include "LuaBinds.h"
-#include <String>
-#include "HeightMap.h"
-#include "Ray.h"
-#include "FontAsset.h"
-#include "MaterialAsset.h"
+
+
 #include "LevelEditor.h"
 #include "NetworkController.hpp"
+
+#include"GamePlay.h"
+#include"Menu.h"
 
 bool running = true;
 bool networkActive = false;
 bool networkHost = true;
 bool networkLonelyDebug = true;
+
 
 int main()
 {
@@ -32,31 +27,17 @@ int main()
 	Window window;
 	Gear::GearEngine engine;
 
+	GameState gameState = GameplayState;
+	
+	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
-	int nrOfTransforms = 100;
-	int boundTransforms = 0;
-	Transform* transforms = new Transform[nrOfTransforms];
-	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
-	for (int i = 0; i < nrOfTransforms; i++)
-		transforms[i].setThePtr(&allTransforms[i]);
-	Controls controls;
-	engine.allocateWorlds(nrOfTransforms);
 
+	Controls controls;
+	
 	engine.addDebugger(Debugger::getInstance());
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/testGuy.model" );
-	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
-
-	std::vector<ModelInstance> models;
-	std::vector<AnimatedInstance> animatedModels;
-
-	CollisionHandler collisionHandler;
-	collisionHandler.setTransforms(transforms);
-	collisionHandler.setDebugger(Debugger::getInstance());
-
-	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -65,8 +46,6 @@ int main()
 	//window.changeCursorStatus(false);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
-
-	engine.bindTransforms(&allTransforms, &boundTransforms);
 
 	NetworkController networkController;
 	NetworkController networkController2;
@@ -96,18 +75,12 @@ int main()
 		}
 	}
 
-	AGI::AGIEngine ai;
-	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 
-	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
+	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
+	Menu * menu = new Menu(&engine,assets);
+
 	glClearColor(1, 1, 1, 1);
 
-	//particlesTexture->bind(PARTICLES);
-	for(int i = 0; i < ps.size(); i++)
-	{
-		ps.at(i)->setTextrue(particlesTexture);
-	}
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -116,44 +89,51 @@ int main()
 
 	float alpha = 0.0f;
 	float alphaChangeRate = 0.01f;
-
-	ai.addDebug(Debugger::getInstance());
-
+	
+	inputs.getMousePos();
 
 	while (running && window.isWindowOpen())
 	{	
-		ai.drawDebug(heightMap);
+
+		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
-		luaBinds.update( &controls, deltaTime);
-		
-		for (int i = 0; i < ps.size(); i++) {
-			ps.at(i)->update(deltaTime);
+
+		switch (gameState)
+		{
+		case MenuState:
+			gameState = menu->Update(inputs);
+			if (gameState == GameplayState)
+			{
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
+			menu->Draw();
+			break;
+
+		case GameplayState:
+			controls.update(&inputs);
+			gamePlay->Update(controls,deltaTime);
+			gamePlay->Draw();
+			break;
 		}
-
-		
-		engine.queueDynamicModels(&models);
-		engine.queueAnimModels(&animatedModels);
-		engine.queueParticles(&ps);
-
-		collisionHandler.checkCollisions();
-		collisionHandler.drawHitboxes();
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);
-
-		//Scale & color showcase
-		engine.print("testing\ntesting", 1100.f, 0.f, 1.2f, glm::vec4(0.4f, 1.0f, 0.4f, alpha));
-		alpha += alphaChangeRate;
-		if (alpha <= 0 || alpha >= 1.0f) { alphaChangeRate *= -1; }
 
 		window.update();
 
 		engine.draw(&camera);
 
-		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
+		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
+		{
 			running = false;
+			//gameState = MenuState;
+			//window.changeCursorStatus(false);
+			//lockMouse = false;
+
+		}
 		
 		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
 			engine.setDrawMode(1);
@@ -171,6 +151,7 @@ int main()
 		{
 			if (lockMouse)
 			{
+				
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
@@ -184,9 +165,9 @@ int main()
 		assets.checkHotload( deltaTime );
 	}
 
-	luaBinds.unload();
-	delete[] allTransforms;
-	delete[] transforms;
+	delete gamePlay;
+	delete menu;
+
 	if (networkActive)
 	{
 		networkController.shutdown();
@@ -195,8 +176,7 @@ int main()
 			networkController2.shutdown();
 		}
 	}
-	for (int i = 0; i < ps.size(); i++)
-		delete ps.at(i);
+	
 
 	glfwTerminate();
 	return 0;
