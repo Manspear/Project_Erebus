@@ -86,6 +86,9 @@
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LevelPointLightComponent.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelPointLightComponent.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>

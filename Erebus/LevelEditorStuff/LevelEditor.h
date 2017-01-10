@@ -25,7 +25,6 @@ class LevelEditor
 {
 private:
 	
-	
 	LevelActorFactory* factory;
 	std::vector<Gear::ParticleSystem*> ps;
 	LevelTransformHandler* transformHandler;
