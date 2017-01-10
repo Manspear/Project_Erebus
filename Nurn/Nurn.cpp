@@ -44,11 +44,6 @@ namespace Nurn
 		return netCommunication.ReceivePackage(address, data, size);
 	}
 
-	bool NurnEngine::Receive(Address & sender, void * data, int size)
-	{
-		return netCommunication.ReceivePackage(sender, data, size);
-	}
-
 	void NurnEngine::Shutdown()
 	{
 		netCommunication.Shutdown();

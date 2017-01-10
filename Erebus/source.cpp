@@ -1,5 +1,4 @@
 #include <iostream>
-#include "Nurn.hpp"
 #include "Gear.h"
 #include "Inputs.h"
 #include "Assets.h"
@@ -15,22 +14,17 @@
 #include "Controls.h"
 #include "LuaBinds.h"
 #include <String>
-#include <thread>
 #include "HeightMap.h"
 #include "Ray.h"
 #include "FontAsset.h"
 #include "MaterialAsset.h"
 #include "LevelEditor.h"
-
-int startNetworkCommunication( Window* window );
-int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
-int startNetworkReceiving(Nurn::NurnEngine * pSocket, Window* window);
-
-std::thread networkThread;
-bool networkActive = false;
-bool networkHost = true;
+#include "NetworkController.hpp"
 
 bool running = true;
+bool networkActive = false;
+bool networkHost = true;
+bool networkLonelyDebug = true;
 
 int main()
 {
@@ -60,6 +54,7 @@ int main()
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
+	collisionHandler.setDebugger(Debugger::getInstance());
 
 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
@@ -72,13 +67,40 @@ int main()
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
 	engine.bindTransforms(&allTransforms, &boundTransforms);
+
+	NetworkController networkController;
+	NetworkController networkController2;
+
 	if (networkActive)
 	{
-		networkThread = std::thread(startNetworkCommunication, &window );
+		if (networkLonelyDebug)
+		{
+			networkController.initNetworkAsHost();
+			networkController2.initNetworkAsClient(127, 0, 0, 1);
+			networkController.acceptNetworkCommunication();
+		}
+		else if (networkHost)
+		{
+			networkController.initNetworkAsHost();
+			networkController.acceptNetworkCommunication();
+		}
+		else
+		{
+			networkController.initNetworkAsClient(127, 0, 0, 1);
+		}
+		networkController.startCommunicationThreads();
+
+		if (networkLonelyDebug)
+		{
+			networkController2.startCommunicationThreads();
+		}
 	}
 
+	AGI::AGIEngine ai;
+	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
+
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
 	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
@@ -90,8 +112,17 @@ int main()
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
+
+
+	float alpha = 0.0f;
+	float alphaChangeRate = 0.01f;
+
+	ai.addDebug(Debugger::getInstance());
+
+
 	while (running && window.isWindowOpen())
 	{	
+		ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
@@ -107,6 +138,17 @@ int main()
 		engine.queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
+		collisionHandler.drawHitboxes();
+
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.0f, 0.0f);
+
+		//Scale & color showcase
+		engine.print("testing\ntesting", 1100.f, 0.f, 1.2f, glm::vec4(0.4f, 1.0f, 0.4f, alpha));
+		alpha += alphaChangeRate;
+		if (alpha <= 0 || alpha >= 1.0f) { alphaChangeRate *= -1; }
+
+		window.update();
 
 		engine.draw(&camera);
 
@@ -139,12 +181,6 @@ int main()
 			}
 		}
 
-
-		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.f, 720.f);
-
-		window.update();
-
 		assets.checkHotload( deltaTime );
 	}
 
@@ -153,91 +189,15 @@ int main()
 	delete[] transforms;
 	if (networkActive)
 	{
-		networkThread.join();
+		networkController.shutdown();
+		if (networkLonelyDebug)
+		{
+			networkController2.shutdown();
+		}
 	}
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
 
 	glfwTerminate();
-	return 0;
-}
-
-int startNetworkCommunication( Window* window )
-{
-	// initialize socket layer
-
-	Nurn::NurnEngine network;
-	Nurn::NurnEngine network2;
-
-	if (networkHost)
-	{
-		if (!network.InitializeHost())
-		{
-			printf("failed to initialize sockets\n");
-			return 1;
-		}
-
-		Sleep(250);
-
-		if (!network2.InitializeClient(127, 0, 0, 1, 35500, 35501))
-		{
-			printf("failed to initialize sockets\n");
-			return 1;
-		}
-
-		while (running && window->isWindowOpen() && !network.AcceptCommunication())
-		{
-			Sleep(250);
-		}
-
-		while (running && window->isWindowOpen())
-		{
-			startNetworkSending(&network2, window);
-			startNetworkReceiving(&network, window);
-		}
-	}
-	else
-	{
-		if (!network.InitializeClient(127,0,0,1,35500))
-		{
-			printf("failed to initialize sockets\n");
-			return 1;
-		}
-		startNetworkSending(&network, window);
-	}
-
-	printf("Closing socket on port\n");
-	network.Shutdown();
-	network2.Shutdown();
-
-	return 0;
-}
-
-int startNetworkSending(Nurn::NurnEngine * pNetwork, Window* window)
-{
-	const char data[] = "hello world!";
-
-	pNetwork->Send(data, sizeof(data));
-
-	Sleep(250);
-
-	return 0;
-}
-
-int startNetworkReceiving(Nurn::NurnEngine * pNetwork, Window* window)
-{
-	printf("Recieving package\n");
-	Sleep(250);
-	Nurn::Address sender;
-	unsigned char buffer[256];
-	int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
-	if (bytes_read)
-	{
-		printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
-			sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-			sender.GetPort(), bytes_read);
-		std::cout << buffer << std::endl;
-	}
-
 	return 0;
 }

@@ -30,7 +30,7 @@ void main()
 
 	//Bottom left
 	pos = gl_in[0].gl_Position;
-	pos.y -= height;
+	pos.y += height;
 	gl_Position = projectionMatrix * pos;
 	geom_UV = vec2(vert_UV[0].x, vert_UV[0].w);
 	EmitVertex();
@@ -38,7 +38,7 @@ void main()
 	//Bottom right
 	pos = gl_in[0].gl_Position;
 	pos.x += vert_width[0];
-	pos.y -= height;
+	pos.y += height;
 	gl_Position = projectionMatrix * pos;
 	geom_UV = vec2(vert_UV[0].z, vert_UV[0].w);
 	EmitVertex();

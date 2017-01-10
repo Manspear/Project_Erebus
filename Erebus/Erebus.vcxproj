@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer;$(SolutionDir)\AGI</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,6 +157,7 @@
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="LevelModel.cpp" />
+    <ClCompile Include="LuaAi.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
     <ClCompile Include="LuaCamera.cpp" />
@@ -166,12 +167,16 @@
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AGI\AGI.vcxproj">
+      <Project>{0cb02d37-8167-4416-b889-d35d96cece4c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Gear\Gear.vcxproj">
       <Project>{7ae8f691-75c9-447c-ae7b-63364e8daa79}</Project>
     </ProjectReference>
@@ -183,6 +188,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\AI\BasicEnemyAI.lua" />
+    <None Include="Scripts\AI\states.lua" />
     <None Include="fireball.lua" />
     <None Include="projectileType.lua" />
     <None Include="Scripts\arc.lua" />
@@ -191,6 +198,7 @@
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
@@ -238,6 +246,7 @@
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LevelModel.h" />
+    <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />
@@ -248,6 +257,7 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
   </ItemGroup>
   <ItemGroup>

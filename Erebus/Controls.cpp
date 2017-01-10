@@ -39,8 +39,8 @@ void Controls::update( Inputs* input )
 	//rotate the controlled object (prolly shouldnt be dont here, but fuck it)
 	MousePos dPos = input->getDeltaPos();
 	glm::vec3 rotation = controlled->getRotation();
-	rotation.y += (float)dPos.x / 100.f;
-	rotation.z += (float)dPos.y / 100.f;
+	rotation.y += (float)dPos.x / 300.f;
+	rotation.z += (float)dPos.y / 300.f;
 	if (rotation.y > 2 * 3.14f) 
 	{
 		rotation.y -= 2 * 3.14f;
