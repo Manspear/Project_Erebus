@@ -43,7 +43,7 @@ void Packager::buildPacket()
 		numberOfPacketsInThePacket += 2;
 
 		// this->actualSize should now point at where next MetaDataPacket is to be added.
-		// Addthe rest of the packets here
+		// Add the rest of the packets here
 	}
 
 	memcpy(this->memory, &this->actualSize, sizeof(uint16_t));

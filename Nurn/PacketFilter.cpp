@@ -16,14 +16,19 @@ void PacketFilter::openPacket(unsigned char * memoryPointer)
 	TransformPacket p_result;
 	MetaDataPacket m_result;
 
-	uint16_t bytesLeft;
-	uint16_t bytesRead = sizeof(uint16_t); // The first 2 bytes are read immideately.
-	memcpy(&bytesLeft, memoryPointer, sizeof(bytesLeft)); // The number of bytes to read.
+	uint16_t bytesRead = sizeof(uint16_t); // Start reading right after where the value of bytesLeft were located in the packet.
+	uint16_t sizeOfEntirePacket =  memoryPointer[0] | memoryPointer[1] << 8; // Size of the content. The first 2 bytes are read immideately.
 
-	while(bytesRead < bytesLeft)
+	while(bytesRead < sizeOfEntirePacket)
 	{
-		// For each metaDataPacket, do...		
+		// For each metaDataPacket, do...
+		PACKET_TYPE packetType;
+		uint16_t sizeOfPacketTypes;
+
+		//printf("%d, %d, %d, %d\n", sizeof(MetaDataPacket), sizeof(PACKET_TYPE), sizeof(uint16_t), sizeof(m_result.metaData));
+
 		memcpy(&m_result, memoryPointer + bytesRead, sizeof(MetaDataPacket)); //Grab MetaData
+
 		bytesRead += sizeof(MetaDataPacket);
 
 		switch (m_result.metaData.type)
@@ -43,5 +48,5 @@ void PacketFilter::openPacket(unsigned char * memoryPointer)
 		//printf("Bytes read: %d\n", bytesRead);
 	}
 
-	printf("%d, %d, %d\n\n", sizeof(bytesLeft), m_result.metaData.sizeInBytes, p_result.data.ID);
+	printf("%d, %d, %d\n\n", sizeOfEntirePacket, m_result.metaData.sizeInBytes, p_result.data.ID);
 }

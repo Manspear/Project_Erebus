@@ -15,7 +15,6 @@ union MetaDataPacket
 		//Used in combination with memcpy
 	}
 
-
 	MetaDataPacket(PACKET_TYPE type)
 	{
 		metaData.type = type;
