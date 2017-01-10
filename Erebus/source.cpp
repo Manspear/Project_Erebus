@@ -47,8 +47,6 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	
-
 	NetworkController networkController;
 	NetworkController networkController2;
 
@@ -83,7 +81,6 @@ int main()
 
 	glClearColor(1, 1, 1, 1);
 
-	
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -106,6 +103,11 @@ int main()
 		{
 		case MenuState:
 			gameState = menu->Update(inputs);
+			if (gameState == GameplayState)
+			{
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
 			menu->Draw();
 			break;
 
@@ -128,8 +130,14 @@ int main()
 
 		engine.draw(&camera);
 
-		if (inputs.keyPressed(GLFW_KEY_ESCAPE))
+		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
+		{
 			running = false;
+			//gameState = MenuState;
+			//window.changeCursorStatus(false);
+			//lockMouse = false;
+
+		}
 		
 		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
 			engine.setDrawMode(1);
