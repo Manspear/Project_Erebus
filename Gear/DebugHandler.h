@@ -13,6 +13,7 @@ private:
 	void drawAllLines(Camera* camera, RenderQueue* renderQueRef);
 	void drawAllSpheres(Camera* camera, RenderQueue* renderQueRef);
 	void drawAllAABBs(Camera* camera, RenderQueue* renderQueRef);
+	void drawAllOBBs(Camera* camera, RenderQueue* renderQueRef);
 
 	GLuint tempBuffer;
 	void draw(int &numInstances);

@@ -6,12 +6,12 @@
 #include "LuaErebus.h"
 #include "LuaAssets.h"
 #include "LuaCollision.h"
-#include "LuaControls.h"
 #include "LuaGear.h"
 #include "LuaParticles.h"
 #include "LuaTransform.h"
 #include "LuaCamera.h"
 #include"LuaAi.h"
+#include "LuaInputs.h"
 
 class LuaBinds
 {
@@ -23,6 +23,7 @@ public:
 				Importer::Assets* assets,
 				CollisionHandler* collisionHandler,
 				Controls* controls,
+				Inputs* inputs,
 				Transform* transforms,
 				int* boundTransforms,
 				std::vector<ModelInstance>* models,

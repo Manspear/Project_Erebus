@@ -43,9 +43,6 @@
     <ClCompile Include="LuaCollision.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
-    <ClCompile Include="LuaControls.cpp">
-      <Filter>Lua\Source</Filter>
-    </ClCompile>
     <ClCompile Include="LuaErebus.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
@@ -86,6 +83,8 @@
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="NetworkController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -125,9 +124,6 @@
       <Filter>Lua\Header</Filter>
     </ClInclude>
     <ClInclude Include="LuaCollision.h">
-      <Filter>Lua\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaControls.h">
       <Filter>Lua\Header</Filter>
     </ClInclude>
     <ClInclude Include="LuaErebus.h">
@@ -173,6 +169,8 @@
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
+    <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="NetworkController.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua">
@@ -308,6 +306,15 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\debugAABB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\forward.frag">
