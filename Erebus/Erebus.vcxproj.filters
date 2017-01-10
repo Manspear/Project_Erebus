@@ -59,7 +59,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source.cpp" />
+<<<<<<< HEAD
+=======
     <ClCompile Include="LuaInputs.cpp" />
+>>>>>>> Dev_Main
     <ClCompile Include="NetworkController.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -120,8 +123,18 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="NetworkController.hpp" />
+    <ClInclude Include="GamePlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+=======
     <ClInclude Include="LuaInputs.h" />
     <ClInclude Include="NetworkController.hpp" />
+>>>>>>> Dev_Main
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\arc.lua">

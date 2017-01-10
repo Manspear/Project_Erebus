@@ -1,19 +1,19 @@
 #include "ScreenQuadRenderer.h"
 
-ScreenQuadRenderer::ScreenQuadRenderer()
+Gear::ScreenQuadRenderer::ScreenQuadRenderer()
 {
 	shader = nullptr;
 	VAO = 0;
 	VBO = 0;
 }
 
-ScreenQuadRenderer::~ScreenQuadRenderer()
+Gear::ScreenQuadRenderer::~ScreenQuadRenderer()
 {
 	if (shader)
 		delete shader;
 }
 
-void ScreenQuadRenderer::init(int screenWidth, int screenHeight)
+void Gear::ScreenQuadRenderer::init(int screenWidth, int screenHeight)
 {
 	shader = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "screenQuad");
 	shader->use();
@@ -23,7 +23,13 @@ void ScreenQuadRenderer::init(int screenWidth, int screenHeight)
 	shader->unUse();
 }
 
-void ScreenQuadRenderer::showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
+void Gear::ScreenQuadRenderer::addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture)
+{
+	quads.push_back(quad);
+	textures.push_back(texture);
+}
+
+void Gear::ScreenQuadRenderer::showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
 {
 	sScreenQuad quad;
 	quad.pos = pos;
@@ -34,7 +40,9 @@ void ScreenQuadRenderer::showImage(const glm::vec2 &pos, const float &width, con
 	textures.push_back(texture);
 }
 
-void ScreenQuadRenderer::draw()
+
+
+void Gear::ScreenQuadRenderer::draw()
 {
 	shader->use();
 
@@ -59,7 +67,7 @@ void ScreenQuadRenderer::draw()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(sScreenQuad), &(quads[i]), GL_STATIC_DRAW);
 		glDrawArrays(GL_POINTS, 0, 1);
 	}
-
+	textures.clear();
 	quads.clear();
 
 	glEnable(GL_DEPTH_TEST);
