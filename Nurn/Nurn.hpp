@@ -51,7 +51,7 @@ namespace Nurn
 
 		void Shutdown();
 
-		void buildTransformPacket(float x, float y, float z);
+		void buildTransformPacket(const float& x, const float& y, const float& z);
 		TransformPacket fetchTransformPacket();
 
 	private:

@@ -49,7 +49,7 @@ namespace Nurn
 		netCommunication.Shutdown();
 	}
 
-	void NurnEngine::buildTransformPacket(float x, float y, float z)
+	void NurnEngine::buildTransformPacket(const float& x, const float& y, const float& z)
 	{
 
 	}
