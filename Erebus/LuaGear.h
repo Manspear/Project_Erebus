@@ -18,6 +18,7 @@ namespace LuaGear
 	int deactivateInstance( lua_State* lua );
 
 	int print( lua_State* lua );
+	int getTextDimensions( lua_State* lua );
 
 	int createAnimation( lua_State* lua );
 	int destroyAnimation( lua_State* lua );

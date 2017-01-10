@@ -23,6 +23,7 @@ namespace LuaGear
 			{ "AddStaticInstance", addStaticInstance },
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "Print", print},
+			{ "GetTextDimensions", getTextDimensions },
 			{ NULL, NULL }
 		};
 
@@ -140,9 +141,48 @@ namespace LuaGear
 			std::string s = lua_tostring(lua, 1);
 			float x = lua_tonumber(lua, 2);
 			float y = lua_tonumber(lua, 3);
-			g_gearEngine->print(s, x, y);
+
+			float scale = 1.0f;
+			int type = -1;
+			if( ntop >= 4 )
+				type = lua_type( lua, 4 );
+
+			glm::vec4 color( 1.0f );
+			if( type == LUA_TNUMBER )
+			{
+				scale = lua_tonumber( lua, 4 );
+
+				if( ntop >= 5 )
+				{
+					for( int i=0; i<4; i++ )
+					{
+						lua_rawgeti( lua, 5, i+1 );
+						color[i] = lua_tonumber( lua, -1 );
+					}
+				}
+			}
+			else if( type == LUA_TTABLE )
+			{
+				for( int i=0; i<4; i++ )
+				{
+					lua_rawgeti( lua, 4, i+1 );
+					color[i] = lua_tonumber( lua, -1 );
+				}
+			}
+
+			g_gearEngine->print(s, x, y, scale, color);
 		}
 		return 0;
+	}
+
+	int getTextDimensions( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+
+		glm::vec2 dim = g_gearEngine->getTextDimensions( lua_tostring( lua, 1 ) );
+		lua_pushnumber( lua, dim.x );
+		lua_pushnumber( lua, dim.y );
+		return 2;
 	}
 
 	int createAnimation( lua_State* lua )

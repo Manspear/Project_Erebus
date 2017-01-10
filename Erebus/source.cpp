@@ -100,7 +100,7 @@ int main()
 	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls,&inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
 	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
@@ -119,20 +119,20 @@ int main()
 
 	ai.addDebug(Debugger::getInstance());
 
+	
+
 
 	while (running && window.isWindowOpen())
 	{	
-		ai.drawDebug(heightMap);
+		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
 		luaBinds.update( &controls, deltaTime);
-		
 		for (int i = 0; i < ps.size(); i++) {
 			ps.at(i)->update(deltaTime);
 		}
 
-		
 		engine.queueDynamicModels(&models);
 		engine.queueAnimModels(&animatedModels);
 		engine.queueParticles(&ps);
@@ -142,11 +142,6 @@ int main()
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);
-
-		//Scale & color showcase
-		engine.print("testing\ntesting", 1100.f, 0.f, 1.2f, glm::vec4(0.4f, 1.0f, 0.4f, alpha));
-		alpha += alphaChangeRate;
-		if (alpha <= 0 || alpha >= 1.0f) { alphaChangeRate *= -1; }
 
 		window.update();
 
