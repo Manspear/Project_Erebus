@@ -46,6 +46,7 @@ namespace LuaGear
 			{ "__gc",	destroyAnimation },
 			//{ "Update",	updateAnimation },
 			{ "Update",	updateAnimationBlending },
+			{ "SetTransitionTimes", setTransitionTimes},
 			{ NULL, NULL }
 		};
 
@@ -239,4 +240,35 @@ namespace LuaGear
 		return result;
 	}
 
+	int setTransitionTimes(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 2)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+			int numStates = lua_rawlen(lua, 2);
+
+			float* transitions = new float[numStates*numStates];
+
+			for (int curState = 0, index = 0; curState < numStates; curState++)
+			{
+				lua_rawgeti(lua, 2, curState+1);
+				for (int curTransition = 0; curTransition < numStates; curTransition++, index++)
+				{
+					lua_rawgeti(lua, -1, curTransition+1);
+					transitions[index] = lua_tonumber(lua, -1);
+					lua_pop(lua, 1);
+				}
+				lua_pop(lua, 1);
+			}
+
+			animation->setTransitionTimes(transitions, numStates);
+
+			delete[] transitions;
+		}
+		return result;
+	}
 }

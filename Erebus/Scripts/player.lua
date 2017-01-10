@@ -56,6 +56,16 @@ function LoadPlayer()
 	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
+
+	local playerAnimationTransitionTimes = 
+	{
+		{1, 1, 1},
+		{1, 1, 1},
+		{1, 1, 1}
+	}
+
+	player.animation:SetTransitionTimes(playerAnimationTransitionTimes)
+
 	Erebus.SetControls(player.transformID)
 	
 end
@@ -136,9 +146,6 @@ function UpdatePlayer(dt)
 				end
 			end
 		end
-
-		
-	
 
 		-- check collision against the goal
 		local collisionIDs = player.sphereCollider:GetCollisionIDs()

@@ -45,7 +45,7 @@ public:
 	The length of the row and column is the same as the number of animationStates that you 
 	send in to this "setTransitionTimes" function.
 	*/
-	GEAR_API virtual void setTransitionTimes(float* transitionTimeArray, int arraySize, int numStates);
+	GEAR_API void setTransitionTimes(float* transitionTimeArray, int numStates);
 
 	GEAR_API virtual void setStates(int numStates);
 

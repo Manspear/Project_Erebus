@@ -333,4 +333,8 @@ namespace Gear
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
 	}
+	GEAR_API void GearEngine::addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture)
+	{
+		screenQuad.addScreenQuad(quad, texture);
+	}
 }

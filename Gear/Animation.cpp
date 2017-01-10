@@ -10,11 +10,8 @@ Animation::Animation()
 	for (int i = 0; i < finalList.size(); i++)
 		shaderMatrices[i] = glm::mat4();
 
-	/*FOR TESTING PURPOSES*/
-	float* aids = new float[9];
-	for (int i = 0; i < 9; i++)
-		aids[i] = 1;
-	transitionTimeArray = aids;
+	transitionTimeArray = nullptr;
+
 	transitionTimeArraySize = 9;
 	numStates = 3;
 	animationStack.push_back(0);
@@ -360,10 +357,13 @@ GEAR_API void Animation::updateState(float dt, int state)
 
 
 
-GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int arraySize, int numStates)
+GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int numStates)
 {
-	this->transitionTimeArray = transitionTimeArray;
-	this->transitionTimeArraySize = arraySize;
+	assert(this->transitionTimeArray == nullptr);
+
+	this->transitionTimeArray = new float[numStates * numStates];
+	memcpy((char*)this->transitionTimeArray, (char*)transitionTimeArray, sizeof(float) * numStates * numStates);
+	this->transitionTimeArraySize = numStates * numStates;
 	setStates(numStates);
 }
 
