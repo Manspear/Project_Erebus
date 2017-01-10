@@ -48,4 +48,14 @@ namespace Nurn
 	{
 		netCommunication.Shutdown();
 	}
+
+	void NurnEngine::buildTransformPacket(float x, float y, float z)
+	{
+
+	}
+
+	TransformPacket NurnEngine::fetchTransformPacket()
+	{
+		return TransformPacket();
+	}
 }
