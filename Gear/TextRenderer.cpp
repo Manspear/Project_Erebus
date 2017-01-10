@@ -2,7 +2,10 @@
 
 TextRenderer::TextRenderer()
 {
+	font = nullptr;
 	shader = nullptr;
+	VAO = 0;
+	VBO = 0;
 }
 
 TextRenderer::~TextRenderer()
@@ -38,28 +41,60 @@ void TextRenderer::print(const std::string &s, const float &baseX, const float &
 
 	for (auto c : s)
 	{
-		if (c == '\n')
+		if (c == '\n') // Handle newline character
 		{
 			lines.push_back(line);
 			line.numberOfCharacters = 0;
+
 			x = baseX;
 			y += font->getInfo()->size * scale;
 		}
-		else if (line.numberOfCharacters < TEXTRENDER_MAXLINESIZE)
+		else
 		{
+			if (line.numberOfCharacters >= TEXTRENDER_MAXLINESIZE) // Create new line if current line is filled
+			{
+				lines.push_back(line);
+				line.numberOfCharacters = 0;
+			}
+
 			sTextVertex vert;
 
 			vert.pos = glm::vec2(x, y);
 			vert.UV = font->getUV(c);
 			vert.width = font->getWidth(c) * line.scale;
 
-			x += vert.width;
+			x += vert.width; // Update position for next vertex
 
 			line.characters[line.numberOfCharacters] = vert;
 			line.numberOfCharacters++;
 		}
 	}
 	lines.push_back(line);
+}
+
+glm::vec2 TextRenderer::getTextDimensions( const char* text )
+{
+	glm::vec2 result( 0, font->getInfo()->size );
+
+	float x = 0.0f;
+	while( *text )
+	{
+		if( *text == '\n' )
+		{
+			x = 0.0f;
+			result.y += font->getInfo()->size;
+		}
+		else
+		{
+			x += font->getInfo()->widths[*text-FONT_RANGE_START];
+			if( x > result.x )
+				result.x = x;
+		}
+
+		text++;
+	}
+
+	return result;
 }
 
 void TextRenderer::draw()
