@@ -91,8 +91,6 @@
     <ClCompile Include="LevelPointLightComponent.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-      <Filter>LevelEditor\SourceLevel</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
