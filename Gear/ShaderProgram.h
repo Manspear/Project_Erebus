@@ -13,9 +13,11 @@ enum shaderBaseType
 enum ShaderType {
 	FORWARD,
 	ANIM,
+	ANIMSHADOW,
 	PARTICLES,
 	SHADOW,
 	GEOMETRY,
+	GEOMETRYSHADOW,
 	GEOMETRY_NON,
 	HEIGHTMAP,
 	DEBUG_LINE,
@@ -46,7 +48,7 @@ public:
 	void use();
 	void unUse();
 	void bindTexToLocation(GLuint* textures);
-	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture);
+	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 
 	GLuint getProgramID();
 	GLuint* getTextures();

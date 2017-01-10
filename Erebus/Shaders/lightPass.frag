@@ -6,6 +6,7 @@ in vec2 TexCoords;
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
+uniform sampler2D gShadowMap;
 
 struct PointLight {
 		vec4 pos;
@@ -26,15 +27,22 @@ layout(std430, binding = 0) readonly buffer LightBuffer {
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform vec3 viewPos;
 uniform int drawMode;
+uniform mat4 shadowVPM;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);  
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords);
+float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 
 void main() {
 
 	vec3 FragPos = vec3(texture2D(gPosition, TexCoords)).rgb;
 	vec3 Normal  = vec3(texture2D(gNormal, TexCoords)).rgb;
 	vec3 Diffuse  = vec3(texture2D(gAlbedoSpec, TexCoords)).rgb;
+
+	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
+	vec3 shadowcoords = shadowMapCoords.xyz/shadowMapCoords.w;
+
 
 	vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
@@ -62,7 +70,7 @@ void main() {
     else if(drawMode == 6)
         FragColor = vec4(Diffuse, 1.0);
     else if(drawMode == 7)
-		FragColor = vec4(ambient + directional + point, 1.0);
+		FragColor = texture2D(gShadowMap, shadowcoords.xy)/255;//vec4(ambient + directional, 1.0) * CalcShadowAmount(gShadowMap, shadowMapCoords);
 		//FragColor = vec4(vec3(Specular), 1.0);
 }
 
@@ -108,4 +116,16 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 			//lighting = max(dot(Normal, lightDir), 0.0) * Diffuse * lights[i].color;
 		}
 	return lighting;
+}
+
+float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords)
+{
+	vec3 shadowcoords = initialShadowMapCoords.xyz/initialShadowMapCoords.w;
+
+	return SampleShadowMap(shadowMap, shadowcoords.xy, shadowcoords.z);
+}
+
+float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare)
+{
+	return step(compare, texture2D(shadowMap, coords.xy).r);
 }

@@ -147,6 +147,8 @@ int main()
 			engine.setDrawMode(5);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
 			engine.setDrawMode(6);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_I))
+			engine.setDrawMode(7);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 		{
 			if (lockMouse)

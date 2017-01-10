@@ -198,6 +198,9 @@
     <None Include="..\Erebus\screenQuad.frag" />
     <None Include="..\Erebus\screenQuad.geom" />
     <None Include="..\Erebus\screenQuad.vert" />
+    <None Include="..\Erebus\Shaders\animShadow.frag" />
+    <None Include="..\Erebus\Shaders\animShadow.geom" />
+    <None Include="..\Erebus\Shaders\animShadow.vert" />
     <None Include="..\Erebus\Shaders\forward.frag" />
     <None Include="..\Erebus\Shaders\forward.geom" />
     <None Include="..\Erebus\Shaders\forward.vert" />
@@ -206,6 +209,8 @@
     <None Include="..\Erebus\Shaders\anim.vert" />
     <None Include="..\Erebus\Shaders\geometryPass.frag" />
     <None Include="..\Erebus\Shaders\geometryPass.vert" />
+    <None Include="..\Erebus\Shaders\geometryPassShadow.frag" />
+    <None Include="..\Erebus\Shaders\geometryPassShadow.vert" />
     <None Include="..\Erebus\Shaders\g_Buffer.frag" />
     <None Include="..\Erebus\Shaders\g_Buffer.vert" />
     <None Include="..\Erebus\Shaders\heightmap.frag" />

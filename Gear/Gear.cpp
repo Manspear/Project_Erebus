@@ -29,6 +29,15 @@ namespace Gear
 		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};
 
 		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
+
+		GLuint a[] = { GL_DEPTH_COMPONENT16 }; //Format for texture in gBuffer
+		GLuint b[] = { GL_DEPTH_COMPONENT }; //Format for texture in gBuffer
+		GLuint c[] = { GL_DEPTH_ATTACHMENT }; //gBuffer attachements
+		GLenum d[] = { GL_UNSIGNED_BYTE }; //data type for texture
+		GLfloat e[] = { GL_NEAREST };
+
+		shadowMap.initFramebuffer(1, 1024, 1024, e, a, b, d, c, true);
+
 		//gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
@@ -44,6 +53,7 @@ namespace Gear
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
+		dirLight.projection = glm::ortho(-40, 40, -40, 40, -40, 40);
 
 		dirLights.push_back(dirLight); //save it to buffer
 
@@ -201,7 +211,6 @@ namespace Gear
 	{
 		
 		queue.update(*transformCount, *allTrans);
-		queue.updateUniforms(camera);
 
 		//queue.forwardPass(staticModels, dynamicModels);
 		//queue.particlePass(particleSystems);
@@ -236,7 +245,20 @@ namespace Gear
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		*/
+		Camera tempCamera;
+		tempCamera.setCamera(glm::vec3(100, 100, 0), glm::vec3(0));
+		//tempCamera.setCamera(camera->getPosition() + (dirLights[0].direction * 20.0f), camera->getPosition());
+		tempCamera.setprojection(dirLights[0].projection);
 
+		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
+		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
+		shadowMap.use();
+		glClear(GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
+		shadowMap.unUse();
+
+
+		queue.updateUniforms(camera);
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -244,7 +266,7 @@ namespace Gear
 		
 		gBuffer.unUse();
 
-		lightPass(camera); //renders the texture with light calculations
+		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		//DISCO debuger lines
 		/*for (int i = 0; i < NUM_LIGHTS; i++) {
 			if(i < NUM_LIGHTS/2)
@@ -305,14 +327,16 @@ namespace Gear
 	{
 		return queue.generateWorldMatrix();
 	}
-	GEAR_API void GearEngine::lightPass(Camera * camera)
+	GEAR_API void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0); //binds textures
-		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0, 0); //binds textures
+		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2, 2);
+		shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
+		lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
 		lightPassShader->addUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 
 		for (GLuint i = 0; i < dirLights.size(); i++) //adds dir light

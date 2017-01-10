@@ -64,7 +64,7 @@ namespace Gear
 		//----------------------
 
 	private:
-		GEAR_API void lightPass(Camera* camera);
+		GEAR_API void lightPass(Camera* camera, Camera* tempCam);
 		void pickingPass();
 
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
@@ -93,6 +93,9 @@ namespace Gear
 		GLuint lightBuffer = 0;
 		//temp debug variable
 		int drawMode = 1;
+
+		//Temp shadowmapping:
+		ShaderProgram shadowMap;
 
 		//TEMP: Disco party
 		//glm::vec3 endPos[50];

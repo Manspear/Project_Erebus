@@ -182,12 +182,12 @@ void ShaderProgram::bindTexToLocation(GLuint* textures)
 	}
 }
 
-void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture)
+void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid)
 {
 	GLuint uniform = glGetUniformLocation(shader->getProgramID(), name);
-	glActiveTexture(GL_TEXTURE0 + texture);
-	glUniform1i(uniform, texture);
-	glBindTexture(GL_TEXTURE_2D, textureIDs[texture]);
+	glActiveTexture(GL_TEXTURE0 + textureLoc);
+	glUniform1i(uniform, textureLoc);
+	glBindTexture(GL_TEXTURE_2D, textureIDs[textureid]);
 }
 
 GLuint ShaderProgram::getProgramID()
