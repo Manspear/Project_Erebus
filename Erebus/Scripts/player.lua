@@ -118,6 +118,8 @@ function UpdatePlayer(dt)
 		local posz = math.floor(position.z/512)
 		local heightmapIndex = (posz*2 + posx)+1
 
+		print (heightmapIndex)
+
 		local height = heightmaps[heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
 		if position.y <= height then
 			position.y = height
