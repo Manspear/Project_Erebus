@@ -40,21 +40,12 @@ namespace Nurn
 			return false;
 		}
 
-#if PLATFORM == PLATFORM_WINDOWS
-		typedef int socklen_t;
-#endif
-
-		sockaddr_in from;
-		socklen_t fromLength = sizeof(from);
-
-		int32_t received_bytes = recvfrom(networkSocket, (char*)data, size, 0, (sockaddr*)&from, &fromLength);
+		int32_t received_bytes = recv(networkSocket, (char*)data, size, 0);
 
 		if (received_bytes <= 0)
 		{
 			return false;
 		}
-
-		//sender.SetAddress(from);
 
 		return received_bytes;
 	}

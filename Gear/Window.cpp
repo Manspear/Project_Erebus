@@ -38,6 +38,7 @@ void Window::initWindow()
 
 	//fixar inputs callback funktioner
 	glfwSetKeyCallback(window, Inputs::key_callback);
+	glfwSetCharCallback(window, Inputs::text_callback);
 	glfwSetMouseButtonCallback(window, Inputs::mouse_button_callback);
 	glfwSetScrollCallback(window, Inputs::scroll_callback);
 
@@ -71,6 +72,5 @@ void Window::changeCursorStatus(bool hidden) {
 	if (hidden)
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	else
-		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		int a = 0;
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }

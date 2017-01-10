@@ -8,7 +8,7 @@ function CreateArc()
 	arc.upSpeed = 30
 	arc.currentUpSpeed = 0
 	arc.lifeTime = ARC_LIFETIME
-	arc.exploding = false
+	local fireball = createFireball()
 	arc.damage = 5
 	arc.explodeTime = 1
 	local arcModel = Assets.LoadModel( "Models/testGuy.model" )
@@ -28,7 +28,7 @@ function CreateArc()
 		self.alive = true
 		self.lifeTime = ARC_LIFETIME
 		self.currentUpSpeed = self.upSpeed
-		arc.exploding = false
+		fireball.cast()
 		Transform.SetPosition(self.transformID, self.position)
 		fireball.cast()
 	end
@@ -54,9 +54,10 @@ function CreateArc()
 		if arc.exploding == true then
 			local collisionIDs = self.sphereCollider:GetCollisionIDs()
 			for curID = 1, #collisionIDs do
-				for curEnemy=1, MAX_ENEMIES do
+			for curEnemy=1, #enemies do
 					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 						print ("Träff för fan")
+					fireball.die(self.position.x, self.position.y, self.position.z)
 						enemies[curEnemy]:Hurt(self.damage)
 						--self:Kill()						
 					end

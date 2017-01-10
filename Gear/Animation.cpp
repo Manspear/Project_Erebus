@@ -98,16 +98,34 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 	float diffKeys = overKey.keyTime - underKey.keyTime;
 	if (diffKeys == 0)
 	{
+		glm::quat rotOver = glm::make_quat(overKey.keyRotate);
+		glm::vec3 endRot = glm::eulerAngles(rotOver);
+		overKey.keyRotate[0] = endRot[0];
+		overKey.keyRotate[1] = endRot[1];
+		overKey.keyRotate[2] = endRot[2];
+
 		return overKey;
 	}
+
 	float diffUnderTime = abs(animationTimer - underKey.keyTime);
 	float underAffect = diffUnderTime / diffKeys;
 
 	Importer::sKeyFrame interpolatedKey;
 
+	glm::quat rotOver = glm::make_quat(overKey.keyRotate);
+	glm::quat rotUnder = glm::make_quat(underKey.keyRotate);
+
 	myLerp(underKey.keyTranslate, overKey.keyTranslate, interpolatedKey.keyTranslate, underAffect);
-	myLerp(underKey.keyRotate, overKey.keyRotate, interpolatedKey.keyRotate, underAffect);
+
 	myLerp(underKey.keyScale, overKey.keyScale, interpolatedKey.keyScale, underAffect);
+	
+	//Lerping the quaternion
+	glm::quat resQ = glm::slerp(rotUnder, rotOver, underAffect);
+	glm::vec3 endRot = glm::eulerAngles(resQ);
+	interpolatedKey.keyRotate[0] = endRot[0];
+	interpolatedKey.keyRotate[1] = endRot[1];
+	interpolatedKey.keyRotate[2] = endRot[2];
+
 	//INTERPOLATED TIME == (underKey.keyTime * (1 - underAffect)) + (overKey.keyTime * underAffect)
 	interpolatedKey.keyTime = (underKey.keyTime * (1 - underAffect)) + (overKey.keyTime * underAffect);
 
@@ -153,19 +171,6 @@ void Animation::updateJointMatrices()
 		glm::mat4 rotateMat;
 		glm::mat4 scaleMat;
 
-		float transoo[3];
-		float rotoo[3];
-		float scaloo[3];
-		for (int j = 0; j < 3; j++)
-		{
-			transoo[j] = finalList[i].keyTranslate[j];
-			rotoo[j] = finalList[i].keyRotate[j];
-			scaloo[j] = finalList[i].keyScale[j];
-		}
-
-		debugTrans[i] = glm::make_vec3(transoo);
-		debugRot[i] = glm::make_vec3(rotoo);
-		debugScale[i] = glm::make_vec3(scaloo);
 
 		//convertToRotMat(finalList[i].keyRotate, &rotateMat);
 		convertToRotMat(degRot, &rotateMat);
