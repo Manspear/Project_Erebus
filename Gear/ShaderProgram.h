@@ -21,6 +21,7 @@ enum ShaderType {
 	DEBUG_LINE,
 	DEBUG_SPHERE,
 	DEBUG_AABB,
+	DEBUG_OBB,
 	GEOMETRY_PICKING,
 	NUM_SHADER_TYPES
 };
@@ -40,7 +41,8 @@ public:
 	~ShaderProgram();
 
 	void framebufferInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments);
-	void deferredInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments);
+	void deferredInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLenum* type, GLuint* attachments);
+	void initFramebuffer(int nrTex, int width, int height, GLfloat* filter, GLenum* internalFormat, GLenum* format, GLenum* type, GLenum* attachments, bool clamp);
 	void use();
 	void unUse();
 	void bindTexToLocation(GLuint* textures);
@@ -60,6 +62,8 @@ private:
 	GLuint* shaderIDs;
 	GLuint* textureIDs;
 	GLuint framebufferID;
+	GLuint renderBuffer;
+	int width, height;
 	std::vector<int> uniformLocations;
 	int nrOfShaders;
 	int nrOfTextures;
@@ -71,4 +75,6 @@ private:
 	std::string* getPaths(const shaderBaseType& type, const std::string& path);
 	GLuint* getTypes(const shaderBaseType& type);
 	int getNumShaders(const shaderBaseType& type);
+	void InitTextures(GLfloat* filter, GLenum* internalFormat, GLenum* format, GLenum* type, bool clamp);
+	void InitRenderTargets(GLenum* attachments);
 };

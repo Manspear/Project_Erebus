@@ -8,11 +8,12 @@
 #include "staticNonModels.h"
 #include "Debug.h"
 #include "TextRenderer.h"
+#include "ScreenQuadRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
+
 namespace Gear
 {
-
 	class Dummy {};
 
 	class Light {};
@@ -35,7 +36,17 @@ namespace Gear
 		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
-		GEAR_API void print(const std::string &s, const float &baseX, const float &baseY);
+
+		GEAR_API glm::vec2 getTextDimensions( const char* text );
+		GEAR_API void print(const std::string	&s, 
+							const float			&baseX, 
+							const float			&baseY,
+							const float			&scale = 1.0f, 
+							const glm::vec4		&color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		GEAR_API void showImage(const glm::vec2 &pos, 
+								const float &width, 
+								const float &height, 
+								Importer::TextureAsset* texture);
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
@@ -48,6 +59,8 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+
+		GEAR_API void addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture);
 		//----------------------
 
 	private:
@@ -61,6 +74,7 @@ namespace Gear
 		std::vector<staticNonModels*> statModels;
 		RenderQueue queue;
 		TextRenderer text;
+		ScreenQuadRenderer screenQuad;
 
 		TransformStruct** allTrans;
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}

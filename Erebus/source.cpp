@@ -1,36 +1,25 @@
 #include <iostream>
-#include "Nurn.hpp"
 #include "Gear.h"
 #include "Inputs.h"
-#include "Assets.h"
-#include "ModelAsset.h"
-#include "TextureAsset.h"
+
 #include "Window.h"
-#include "Transform.h"
+
 #include "PerformanceCounter.h"
-#include "ParticleSystem.h"
-#include "SphereCollider.h"
-#include "AABBCollider.h"
-#include "CollisionHandler.h"
+
 #include "Controls.h"
-#include "LuaBinds.h"
-#include <String>
-#include <thread>
-#include "HeightMap.h"
-#include "Ray.h"
-#include "FontAsset.h"
-#include "MaterialAsset.h"
+
+
 #include "LevelEditor.h"
+#include "NetworkController.hpp"
 
-int startNetworkCommunication( Window* window );
-int startNetworkSending(Nurn::NurnEngine * pSocket, Window* window);
-int startNetworkReceiving(Nurn::NurnEngine * pSocket, Window* window);
-
-std::thread networkThread;
-bool networkActive = false;
-bool networkHost = true;
+#include"GamePlay.h"
+#include"Menu.h"
 
 bool running = true;
+bool networkActive = false;
+bool networkHost = true;
+bool networkLonelyDebug = true;
+
 
 int main()
 {
@@ -38,30 +27,17 @@ int main()
 	Window window;
 	Gear::GearEngine engine;
 
+	GameState gameState = GameplayState;
+	
+	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
-	int nrOfTransforms = 100;
-	int boundTransforms = 0;
-	Transform* transforms = new Transform[nrOfTransforms];
-	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
-	for (int i = 0; i < nrOfTransforms; i++)
-		transforms[i].setThePtr(&allTransforms[i]);
-	Controls controls;
-	engine.allocateWorlds(nrOfTransforms);
 
+	Controls controls;
+	
 	engine.addDebugger(Debugger::getInstance());
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/testGuy.model" );
-	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
-
-	std::vector<ModelInstance> models;
-	std::vector<AnimatedInstance> animatedModels;
-
-	CollisionHandler collisionHandler;
-	collisionHandler.setTransforms(transforms);
-
-	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -71,47 +47,93 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	engine.bindTransforms(&allTransforms, &boundTransforms);
+	NetworkController networkController;
+	NetworkController networkController2;
+
 	if (networkActive)
 	{
-		networkThread = std::thread(startNetworkCommunication, &window );
+		if (networkLonelyDebug)
+		{
+			networkController.initNetworkAsHost();
+			networkController2.initNetworkAsClient(127, 0, 0, 1);
+			networkController.acceptNetworkCommunication();
+		}
+		else if (networkHost)
+		{
+			networkController.initNetworkAsHost();
+			networkController.acceptNetworkCommunication();
+		}
+		else
+		{
+			networkController.initNetworkAsClient(127, 0, 0, 1);
+		}
+		networkController.startCommunicationThreads();
+
+		if (networkLonelyDebug)
+		{
+			networkController2.startCommunicationThreads();
+		}
 	}
 
-	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps);
+
+	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
+	Menu * menu = new Menu(&engine,assets);
+
 	glClearColor(1, 1, 1, 1);
 
-	//particlesTexture->bind(PARTICLES);
-	for(int i = 0; i < ps.size(); i++)
-	{
-		ps.at(i)->setTextrue(particlesTexture);
-	}
 
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
+
+
+	float alpha = 0.0f;
+	float alphaChangeRate = 0.01f;
+	
+	inputs.getMousePos();
+
 	while (running && window.isWindowOpen())
 	{	
+
+		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
-		luaBinds.update( &controls, deltaTime);
-		
-		for (int i = 0; i < ps.size(); i++) {
-			ps.at(i)->update(deltaTime);
+
+		switch (gameState)
+		{
+		case MenuState:
+			gameState = menu->Update(inputs);
+			if (gameState == GameplayState)
+			{
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
+			menu->Draw();
+			break;
+
+		case GameplayState:
+			controls.update(&inputs);
+			gamePlay->Update(controls,deltaTime);
+			gamePlay->Draw();
+			break;
 		}
 
-		
-		engine.queueDynamicModels(&models);
-		engine.queueAnimModels(&animatedModels);
-		engine.queueParticles(&ps);
+		std::string fps = "FPS: " + std::to_string(counter.getFPS());
+		engine.print(fps, 0.0f, 0.0f);
 
-		collisionHandler.checkCollisions();
+		window.update();
 
 		engine.draw(&camera);
 
-		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
+		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
+		{
 			running = false;
+			//gameState = MenuState;
+			//window.changeCursorStatus(false);
+			//lockMouse = false;
+
+		}
 		
 		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
 			engine.setDrawMode(1);
@@ -129,6 +151,7 @@ int main()
 		{
 			if (lockMouse)
 			{
+				
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
@@ -139,105 +162,22 @@ int main()
 			}
 		}
 
-
-		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.f, 720.f);
-
-		window.update();
-
 		assets.checkHotload( deltaTime );
 	}
 
-	luaBinds.unload();
-	delete[] allTransforms;
-	delete[] transforms;
+	delete gamePlay;
+	delete menu;
+
 	if (networkActive)
 	{
-		networkThread.join();
+		networkController.shutdown();
+		if (networkLonelyDebug)
+		{
+			networkController2.shutdown();
+		}
 	}
-	for (int i = 0; i < ps.size(); i++)
-		delete ps.at(i);
+	
 
 	glfwTerminate();
-	return 0;
-}
-
-int startNetworkCommunication( Window* window )
-{
-	// initialize socket layer
-
-	Nurn::NurnEngine network;
-	Nurn::NurnEngine network2;
-
-	if (networkHost)
-	{
-		if (!network.InitializeHost())
-		{
-			printf("failed to initialize sockets\n");
-			return 1;
-		}
-
-		Sleep(250);
-
-		if (!network2.InitializeClient(127, 0, 0, 1, 35500, 35501))
-		{
-			printf("failed to initialize sockets\n");
-			return 1;
-		}
-
-		while (running && window->isWindowOpen() && !network.AcceptCommunication())
-		{
-			Sleep(250);
-		}
-
-		while (running && window->isWindowOpen())
-		{
-			startNetworkSending(&network2, window);
-			startNetworkReceiving(&network, window);
-		}
-	}
-	else
-	{
-		if (!network.InitializeClient(127,0,0,1,35500))
-		{
-			printf("failed to initialize sockets\n");
-			return 1;
-		}
-		startNetworkSending(&network, window);
-	}
-
-	printf("Closing socket on port\n");
-	network.Shutdown();
-	network2.Shutdown();
-
-	return 0;
-}
-
-int startNetworkSending(Nurn::NurnEngine * pNetwork, Window* window)
-{
-	const char data[] = "hello world!";
-
-	pNetwork->Send(data, sizeof(data));
-
-	Sleep(250);
-
-	return 0;
-}
-
-int startNetworkReceiving(Nurn::NurnEngine * pNetwork, Window* window)
-{
-	printf("Recieving package\n");
-	Sleep(250);
-	Nurn::Address sender;
-	unsigned char buffer[256];
-	int bytes_read = pNetwork->Receive(sender, buffer, sizeof(buffer));
-	if (bytes_read)
-	{
-		printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
-			sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-			sender.GetPort(), bytes_read);
-		std::cout << buffer << std::endl;
-	}
-
 	return 0;
 }
