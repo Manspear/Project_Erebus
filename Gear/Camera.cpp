@@ -222,6 +222,11 @@ void Camera::setprojection(glm::mat4 m)
 	projectionMat = m;
 }
 
+void Camera::setView(glm::mat4 m)
+{
+	this->viewMat = m;
+}
+
 glm::mat4 Camera::getViewPers()
 {
 	return projectionMat * viewMat;

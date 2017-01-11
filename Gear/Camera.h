@@ -19,6 +19,7 @@ public:
 	GEAR_API void setPosition(glm::vec3 position);					//sets the position of the camera
 	GEAR_API void setHeight(float h);								//sets the height of the camera, is atm used for camera to height map collisions
 	GEAR_API void setprojection(glm::mat4 m);
+	GEAR_API void setView(glm::mat4 m);
 	GEAR_API glm::mat4 getViewPers();								
 	GEAR_API glm::mat4 getViewMatrix();
 	GEAR_API glm::mat4 getProjectionMatrix();

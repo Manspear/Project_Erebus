@@ -53,7 +53,7 @@ namespace Gear
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
-		dirLight.projection = glm::ortho(-40, 40, -40, 40, -40, 40);
+		dirLight.projection = glm::ortho(-100, 100, -100, 100, -1000, 1000);
 
 		dirLights.push_back(dirLight); //save it to buffer
 
@@ -246,9 +246,20 @@ namespace Gear
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		*/
 		Camera tempCamera;
-		tempCamera.setCamera(glm::vec3(100, 100, 0), glm::vec3(0));
+		glm::vec3 pos = camera->getPosition() - dirLights[0].direction * 30.0f;//glm::vec3(100, 100, 100);
+		glm::vec3 target = camera->getPosition();
+
+		glm::vec3 right = glm::normalize(glm::cross(target - pos, glm::vec3(0,1,0)));
+		glm::vec3 up = glm::normalize(glm::cross(right, target - pos));
+
+		glm::mat4 view = glm::lookAt(pos, target, up);
+
 		//tempCamera.setCamera(camera->getPosition() + (dirLights[0].direction * 20.0f), camera->getPosition());
-		tempCamera.setprojection(dirLights[0].projection);
+		//tempCamera.setView(view);
+		//tempCamera.setprojection(glm::ortho(-50, 50, -50, 50, 1, 100));
+
+		tempCamera.setView(view);
+		tempCamera.setprojection(glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -100.0f, 100.0f));
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
@@ -258,7 +269,7 @@ namespace Gear
 		shadowMap.unUse();
 
 
-		queue.updateUniforms(camera);
+		queue.updateUniforms(&tempCamera);
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -266,7 +277,7 @@ namespace Gear
 		
 		gBuffer.unUse();
 
-		lightPass(camera, &tempCamera); //renders the texture with light calculations
+		lightPass(&tempCamera, &tempCamera); //renders the texture with light calculations
 		//DISCO debuger lines
 		/*for (int i = 0; i < NUM_LIGHTS; i++) {
 			if(i < NUM_LIGHTS/2)
@@ -281,7 +292,7 @@ namespace Gear
 		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
 		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
-		updateDebug(camera);
+		updateDebug(&tempCamera);
 		queue.particlePass(particleSystems);
 		//glEnable(GL_DEPTH_TEST);
 
