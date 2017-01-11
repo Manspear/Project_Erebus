@@ -158,6 +158,7 @@
     <ClCompile Include="LevelEditorStuff\LevelActor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActorFactory.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEditor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModel.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModelHandler.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="LevelEditorStuff\LevelActorComponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorFactory.h" />
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h" />
+    <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelEditor.h" />
     <ClInclude Include="LevelEditorStuff\LevelModel.h" />
     <ClInclude Include="LevelEditorStuff\LevelModelHandler.h" />

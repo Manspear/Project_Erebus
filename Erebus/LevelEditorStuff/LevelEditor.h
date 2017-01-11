@@ -21,6 +21,8 @@
 #include "LevelTransformHandler.h"
 #include "LevelModelHandler.h"
 #include "LevelActorFactory.h"
+#include "LevelAssetHandler.h"
+
 class LevelEditor
 {
 private:

@@ -1,7 +1,5 @@
 #include "LevelEditor.h"
 
-
-
 LevelEditor::LevelEditor()
 {
 	this->running = true;
@@ -81,6 +79,9 @@ void LevelEditor::start() {
 	HeightMap* hm = assets.load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
 	glm::vec3 hitPoint;
 	bool hasHit = false;
+
+	LevelAssetHandler assetHandler( &assets );
+	assetHandler.load( "Models" );
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 	while (running && window.isWindowOpen())

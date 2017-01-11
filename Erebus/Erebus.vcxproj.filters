@@ -85,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="LuaInputs.cpp" />
     <ClCompile Include="NetworkController.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="LuaInputs.h" />
     <ClInclude Include="NetworkController.hpp" />
+    <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua">
@@ -251,15 +257,6 @@
     <None Include="Shaders\anim.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\text.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\text.geom">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\text.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Scripts\arc.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -323,6 +320,7 @@
     <None Include="Scripts\particle.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\console.lua" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
