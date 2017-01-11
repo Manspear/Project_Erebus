@@ -74,7 +74,12 @@ function UpdateEnemies(dt)
 			aiScript.update(enemies[i],player,tempdt)
 
 			local pos = Transform.GetPosition(enemies[i].transformID)
-			local height = heightmap:GetHeight(pos.x,pos.z)+1
+
+			local posx = math.floor(pos.x/512)
+			local posz = math.floor(pos.z/512)
+			local heightmapIndex = (posz*2 + posx)+1
+
+			local height = heightmaps[heightmapIndex]:GetHeight(pos.x,pos.z)+1
 			pos.y = pos.y - 10*dt
 			if pos.y < height then
 				pos.y = height

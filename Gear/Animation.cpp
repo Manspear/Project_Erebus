@@ -305,7 +305,7 @@ GEAR_API void Animation::updateState(float dt, int state)
 	
 			if (oldTo != to && oldFrom != from)
 			{
-				transitionTimer = transitionTimeArray[to + numStates * from];
+				transitionTimer = 0;// transitionTimeArray[to + numStates * from];
 				transitionMaxTime = transitionTimer;
 				oldTo = to;
 				oldFrom = from;
