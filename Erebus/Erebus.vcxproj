@@ -162,7 +162,6 @@
     <ClCompile Include="LuaBinds.cpp" />
     <ClCompile Include="LuaCamera.cpp" />
     <ClCompile Include="LuaCollision.cpp" />
-    <ClCompile Include="LuaControls.cpp" />
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaParticles.cpp" />

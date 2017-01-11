@@ -37,9 +37,6 @@
     <ClCompile Include="LuaCollision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaControls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LuaErebus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
