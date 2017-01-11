@@ -63,6 +63,8 @@ void LevelEditor::start() {
 	double deltaTime;
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
+	
+	this->ui = new LevelUI(w);
 
 	engine.addDebugger(Debugger::getInstance());
 
@@ -88,6 +90,7 @@ void LevelEditor::start() {
 	{
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
+		
 		camera->updateLevelEditorCamera(deltaTime);
 
 		for (size_t i = 0; i < 100; i++)
@@ -110,6 +113,8 @@ void LevelEditor::start() {
 
 
 		engine.draw(camera);
+		this->ui->Draw();
+
 
 		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
 			running = false;
@@ -179,6 +184,7 @@ void LevelEditor::start() {
 		window.update();
 	}
 	
+	delete ui;
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
 	delete this->transformHandler;

@@ -22,12 +22,13 @@
 #include "LevelModelHandler.h"
 #include "LevelActorFactory.h"
 #include "LevelAssetHandler.h"
+#include "LevelUI.h"
 
 class LevelEditor
 {
 private:
-	
-	
+
+	LevelUI* ui;
 	LevelActorFactory* factory;
 	std::vector<Gear::ParticleSystem*> ps;
 	LevelTransformHandler* transformHandler;
@@ -37,6 +38,7 @@ private:
 	Inputs* inputs;
 	Window window;
 public:
+
 	LevelEditor();
 	~LevelEditor();
 
