@@ -21,7 +21,11 @@ function CreateFireballArc()
 				self:Kill()
 			end
 		end
-		if heightmap:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y then
+
+		local posx = math.floor(self.type.position.x/512)
+		local posz = math.floor(self.type.position.z/512)
+		local heightmapIndex = (posz*2 + posx)+1
+		if heightmaps[heightmapIndex]:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y then
 			self.particles.die(self.type.position.x, self.type.position.y, self.type.position.z)
 			self.Kill(self)
 		end
