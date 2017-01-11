@@ -511,6 +511,10 @@ void CollisionHandler::setDebugger(Debug * debugger)
 	this->debugger = debugger;
 }
 
+void CollisionHandler::setWorkQueue( WorkQueue* work )
+{
+}
+
 CollisionLayers* CollisionHandler::getCollisionLayers()
 {
 	return collisionLayers;

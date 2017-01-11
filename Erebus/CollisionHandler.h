@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "CollisionLayers.h"
 #include "Debug.h"
+#include "WorkQueue.h"
 
 //extern Transform* allTransforms;
 
@@ -40,6 +41,7 @@ public:
 
 	void setTransforms( Transform* transforms );
 	void setDebugger(Debug* debugger);
+	void setWorkQueue( WorkQueue* work );
 
 	CollisionLayers* getCollisionLayers();
 
@@ -59,6 +61,7 @@ private:
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
 	CollisionLayers* collisionLayers;
+	WorkQueue* work;
 
 	//Counters
 	int sphereCollisionCounter = 0;

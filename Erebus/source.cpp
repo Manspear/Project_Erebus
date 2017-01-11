@@ -31,6 +31,7 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;
+	WorkQueue work;
 
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
@@ -55,6 +56,7 @@ int main()
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
 	collisionHandler.setDebugger(Debugger::getInstance());
+	collisionHandler.setWorkQueue( &work );
 
 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
@@ -118,9 +120,6 @@ int main()
 	float alphaChangeRate = 0.01f;
 
 	ai.addDebug(Debugger::getInstance());
-
-	
-
 
 	while (running && window.isWindowOpen())
 	{	
