@@ -86,3 +86,14 @@ void NetworkController::startCommunicationThreads()
 
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
 }
+
+
+void NetworkController::buildTransformPacket(const float& x, const float& y, const float& z)
+{
+	network.buildTransformPacket(x, y, z);
+}
+
+TransformPacket NetworkController::fetchTransformPacket()
+{
+	return network.fetchTransformPacket();
+}

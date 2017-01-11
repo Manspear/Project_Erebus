@@ -286,10 +286,12 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 
 GEAR_API void Animation::updateState(float dt, int state)
 {
+	/*
 	printf("Animation stack size: %d \n", animationStack.size());
 	if(animationStack.size() > 1)
 		printf("Animation stack back: %d next to back: %d \n", animationStack.back(), animationStack[animationStack.size() - 2]);
-	
+	*/
+
 	int lookie = animationStack.size();
 	//Do not append if the animation already exists 
 	if (animationStack.back() == state)
