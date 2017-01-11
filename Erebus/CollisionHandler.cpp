@@ -182,22 +182,38 @@ void CollisionHandler::checkSphereToSphereCollisions(std::vector<SphereCollider*
 
 	if (sphereColliderSize > 0)
 	{
+		int asyncIndex = 0;
 		for (unsigned int i = 0; i < sphereColliderSize - 1; i++)
 		{
 			firstTempCollider = colliders->operator[](i);
 			for (unsigned int j = i + 1; j < sphereColliderSize; j++)
 			{
 				secondTempCollider = colliders->operator[](j);
-				bool hit = false;
+				/*bool hit = false;
 				hit = sphereToSphereCollision(firstTempCollider, secondTempCollider);
 				if (hit)
 				{
 					firstTempCollider->insertCollisionID(secondTempCollider->getID());
 					secondTempCollider->insertCollisionID(firstTempCollider->getID());
-				}
+				}*/
 
+				asyncData[asyncIndex].a = firstTempCollider;
+				asyncData[asyncIndex].b = secondTempCollider;
+				asyncData[asyncIndex].collision = false;
+				work->add( asyncSphere, &asyncData[asyncIndex] );
+				asyncIndex++;
 			}
+		}
 
+		work->execute();
+
+		for( int i=0; i<asyncIndex; i++ )
+		{
+			if( asyncData[i].collision )
+			{
+				asyncData[i].a->insertCollisionID( asyncData[i].b->getID() );
+				asyncData[i].b->insertCollisionID( asyncData[i].a->getID() );
+			}
 		}
 	}
 }
@@ -304,6 +320,21 @@ void CollisionHandler::checkSphereToAabbCollisions(std::vector<SphereCollider*>*
 		}
 
 	}
+}
+
+void CollisionHandler::asyncSphere( void* args )
+{
+	AsyncData* data = (AsyncData*)args;
+
+	glm::vec3 distanceVector = data->a->getPos() - data->b->getPos();
+	float distanceSquared = glm::dot(distanceVector, distanceVector); // dot with itself = length^2
+
+	float radiusSquared = (data->a->getRadius() + data->b->getRadius());
+	radiusSquared *= radiusSquared;
+
+	//if distance squared is less than radius squared = collision
+	if (distanceSquared <= radiusSquared)
+		data->collision = true;
 }
 
 bool CollisionHandler::sphereToSphereCollision(SphereCollider * sphere1, SphereCollider * sphere2)
@@ -511,8 +542,9 @@ void CollisionHandler::setDebugger(Debug * debugger)
 	this->debugger = debugger;
 }
 
-void CollisionHandler::setWorkQueue( WorkQueue* work )
+void CollisionHandler::setWorkQueue( WorkQueue* w )
 {
+	work = w;
 }
 
 CollisionLayers* CollisionHandler::getCollisionLayers()

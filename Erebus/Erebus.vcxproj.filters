@@ -61,6 +61,9 @@
     <ClCompile Include="source.cpp" />
     <ClCompile Include="LuaInputs.cpp" />
     <ClCompile Include="NetworkController.cpp" />
+    <ClCompile Include="WorkQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -122,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="LuaInputs.h" />
     <ClInclude Include="NetworkController.hpp" />
+    <ClInclude Include="WorkQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\arc.lua">

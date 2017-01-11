@@ -102,7 +102,7 @@ int main()
 	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 
 	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls,&inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai);
+	luaBinds.load( &engine, &assets, &collisionHandler, &controls,&inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai, &work);
 	glClearColor(1, 1, 1, 1);
 
 	//particlesTexture->bind(PARTICLES);
@@ -127,7 +127,11 @@ int main()
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
 		controls.update(&inputs);
+
+		LuaGear::resetAnimations();
 		luaBinds.update( &controls, deltaTime);
+		work.execute();
+
 		for (int i = 0; i < ps.size(); i++) {
 			ps.at(i)->update(deltaTime);
 		}

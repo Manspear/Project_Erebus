@@ -36,9 +36,13 @@ heightTest = heightmaps[1]:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
 
 -- add enemies
-LoadEnemies(2)
+LoadEnemies(10)
 Transform.SetPosition(enemies[1].transformID, {x=150, y=0, z=100})
 Transform.SetPosition(enemies[2].transformID, {x=100, y=0, z=200})
+
+for i=1,10 do
+	Transform.SetPosition(enemies[i].transformID,  {x=150, y=0, z=100+i*0.5})
+end
 
 -- set player position
 Transform.SetPosition(player.transformID, {x=80, y=60, z=160})

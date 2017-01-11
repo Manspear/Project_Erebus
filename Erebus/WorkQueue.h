@@ -2,7 +2,7 @@
 
 #include "BaseIncludes.h"
 
-#define MAX_THREADS 1
+#define MAX_THREADS 4
 #define MAX_WORK 1000
 #define WORK_TIMEOUT 100 // ms
 
@@ -28,7 +28,7 @@ private:
 	{
 		HANDLE begin, end;
 		Work* work;
-		bool* running;
+		bool running;
 		int first, last;
 	};
 

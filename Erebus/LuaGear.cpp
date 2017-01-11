@@ -8,13 +8,18 @@ namespace LuaGear
 	static std::vector<ModelInstance>* g_models = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Assets* g_assets = nullptr;
+	static WorkQueue* g_work = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets)
+	static AnimationData g_animationData[100];
+	static int g_ndata = 0;
+
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_models = models;
 		g_animatedModels = animatedModels;
 		g_assets = assets;
+		g_work = work;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -211,13 +216,35 @@ namespace LuaGear
 		if( lua_gettop( lua ) >= 3 )
 		{
 			lua_getfield( lua, 1, "__self" );
+#if 0
 			Animation* animation = (Animation*)lua_touserdata( lua, -1 );
 			float dt = lua_tonumber( lua, 2 );
 			int layer = lua_tointeger( lua, 3 );
 
 			animation->updateAnimation( dt, layer );
+#else
+			g_animationData[g_ndata].animation = (Animation*)lua_touserdata( lua, -1 );
+			g_animationData[g_ndata].dt = lua_tonumber( lua, 2 );
+			g_animationData[g_ndata].layer = lua_tointeger( lua, 3 );
+
+			g_work->add( asyncAnimation, &g_animationData[g_ndata] );
+
+			g_ndata++;
+#endif
 		}
 
 		return result;
+	}
+
+	void resetAnimations()
+	{
+		g_ndata = 0;
+	}
+
+	void asyncAnimation( void* args )
+	{
+		AnimationData* data = (AnimationData*)args;
+
+		data->animation->updateAnimation(data->dt, data->layer );
 	}
 }

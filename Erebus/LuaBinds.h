@@ -12,6 +12,7 @@
 #include "LuaCamera.h"
 #include"LuaAi.h"
 #include "LuaInputs.h"
+#include "WorkQueue.h"
 
 class LuaBinds
 {
@@ -30,7 +31,8 @@ public:
 				std::vector<AnimatedInstance>* animatedModels,
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
-				AGI::AGIEngine* AI);
+				AGI::AGIEngine* AI,
+				WorkQueue* work );
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;

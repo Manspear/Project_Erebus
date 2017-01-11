@@ -71,6 +71,8 @@ private:
 	Debug* debugger;
 	glm::vec3 colors[64]; // 64 colors to use on hitbox layers
 
+	static void asyncSphere( void* args );
+
 	bool sphereToSphereCollision(SphereCollider* sphere1, SphereCollider* sphere2); // http://www.miguelcasillas.com/?p=9
 	bool aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2); // https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection
 	bool sphereToAabbCollision(SphereCollider* sphere, AABBCollider* aabb); // https://studiofreya.com/3d-math-and-physics/sphere-vs-aabb-collision-detection-test/
@@ -82,5 +84,12 @@ private:
 	static unsigned int hitboxID;
 	static void incrementHitboxID();
 	void initializeColors();
+
+	struct AsyncData
+	{
+		SphereCollider* a, *b;
+		bool collision;
+	};
+	AsyncData asyncData[1000];
 };
 
