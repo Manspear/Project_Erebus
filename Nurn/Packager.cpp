@@ -15,18 +15,6 @@ unsigned char* Packager::getPacketPointer()
 
 void Packager::buildPacket()
 {
-	/*MetaDataPacket m(PACKET_TYPE::TRANSFORM);
-	TransformPacket t;
-	t.data.ID = 13;
-
-	m.metaData.sizeInBytes = sizeof(t);
-
-	this->actualSize = sizeof(m) + sizeof(t) + sizeof(uint16_t);
-
-	memcpy(this->memory, &this->actualSize, sizeof(this->actualSize)); //uint16_t
-	memcpy(this->memory + sizeof(this->actualSize) + sizeof(m), &t, sizeof(t)); //Transform
-	memcpy(this->memory + sizeof(this->actualSize), &m, sizeof(m)); //Metadata*/
-
 	this->actualSize = sizeof(uint16_t);
 	uint8_t maximumNumberOfPackets = 2;
 	uint8_t numberOfPacketsInThePacket = 0;
@@ -61,12 +49,12 @@ void Packager::addTransformPackets()
 	memcpy(this->memory + this->actualSize + sizeInBytes, &t, sizeof(TransformPacket));
 	sizeInBytes += sizeof(TransformPacket);
 
-	this->addMetaDataPacket(PACKET_TYPE::TRANSFORM, locationOfMetaData, sizeInBytes);
+	this->addMetaDataPacket(TRANSFORM_PACKET, locationOfMetaData, sizeInBytes);
 
 	this->actualSize += sizeInBytes; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addMetaDataPacket(PACKET_TYPE type, uint16_t locationOfMetaData, uint16_t sizeInBytes)
+void Packager::addMetaDataPacket(uint16_t type, uint16_t locationOfMetaData, uint16_t sizeInBytes)
 {
 	MetaDataPacket m(type);
 	m.metaData.sizeInBytes = sizeInBytes;

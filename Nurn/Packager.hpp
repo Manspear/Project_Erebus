@@ -14,7 +14,7 @@ private:
 	uint16_t actualSize;
 
 	void addTransformPackets();
-	void addMetaDataPacket(PACKET_TYPE type, uint16_t locationOfMetaData, uint16_t sizeInBytes); // After a group of packets have been added the MetaData is added.
+	void addMetaDataPacket(uint16_t type, uint16_t locationOfMetaData, uint16_t sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 public:
 	Packager();
