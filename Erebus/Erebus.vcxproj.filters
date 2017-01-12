@@ -88,10 +88,10 @@
     <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-    <ClCompile Include="LevelPointLightComponent.cpp">
+    <ClCompile Include="LevelEditorStuff\LevelUI.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditorStuff\LevelUI.cpp">
+    <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -178,15 +178,15 @@
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="LevelPointLightComponent.h">
-      <Filter>LevelEditor\HeaderLevel</Filter>
-    </ClInclude>
     <ClInclude Include="LuaInputs.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelUI.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
