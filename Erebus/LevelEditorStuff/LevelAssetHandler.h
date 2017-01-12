@@ -6,22 +6,31 @@
 #include "HeightMap.h"
 #include <vector>
 #include <string>
+#include "AntTweakBar.h"
 
 class LevelAssetHandler
 {
 public:
-	LevelAssetHandler( Importer::Assets* assets );
+	//LevelAssetHandler( Importer::Assets* assets );
 	~LevelAssetHandler();
 
-	void load( std::string assetFolder );
+	static LevelAssetHandler* getInstance();
+
+	void load();
+
+	void setAssets( Importer::Assets* assets );
 
 private:
+	LevelAssetHandler();
+
+	void loadAssets( std::vector<std::string>* container, std::string folder, std::string filter = "*" );
+
 	Importer::Assets* assets;
-	std::vector<std::string> assetFiles;
 
-	std::vector<Importer::ModelAsset*> models;
-	std::vector<std::string> modelNames;
+	std::vector<std::string> models;
+	std::vector<std::string> textures;
 
-	std::vector<Importer::HeightMap*> heightmaps;
-	std::vector<std::string> heightmapNames;
+	TwBar* bar;
+
+	static LevelAssetHandler* g_instance;
 };

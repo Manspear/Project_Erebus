@@ -102,6 +102,9 @@ void LevelEditor::start() {
 	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
 	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
 
+	LevelAssetHandler::getInstance()->setAssets( &assets );
+	LevelAssetHandler::getInstance()->load();
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
