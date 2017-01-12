@@ -22,13 +22,14 @@ namespace Gear
 
 	public:
 		GEAR_API ParticleSystem();
-		GEAR_API ParticleSystem(int n, float life, float speed, float rate, int number);
+		GEAR_API ParticleSystem(int n, float life, float speed, float rate, int number, float focusSpread);
 		GEAR_API ~ParticleSystem();
 
 		GEAR_API void update(const float &dt);
 		GEAR_API void explode();
 		GEAR_API GLuint getPartVertexBuffer();
 		GEAR_API void setEmmiterPos(glm::vec3 pos);
+		GEAR_API void setDirection(float r, float g, float b);
 		GEAR_API int getNrOfActiveParticles();
 		GEAR_API void activate();
 		GEAR_API void deActivate();
@@ -43,6 +44,7 @@ namespace Gear
 	private:
 		GLuint particleVertexBuffer;
 		glm::vec3 position;
+		glm::vec3 direction;
 		int maxParticles;
 		int nrOfActiveParticles;
 		Partikel* allParticles;
@@ -50,6 +52,7 @@ namespace Gear
 		float lifeTime;
 		float partSpeed;
 		float particleRate;
+		float focus;
 		int partPerRate;
 		float timer;
 		float gravityFactor;

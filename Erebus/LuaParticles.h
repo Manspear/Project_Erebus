@@ -12,4 +12,5 @@ namespace LuaParticles
 	int setDead(lua_State* lua);
 	int explode(lua_State* lua);
 	int setColor(lua_State* lua);
+	int setDirection(lua_State* lua);
 }

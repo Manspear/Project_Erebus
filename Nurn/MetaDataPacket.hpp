@@ -6,19 +6,24 @@ union MetaDataPacket
 {
 	struct MetaDataPacketStruct
 	{
-		PACKET_TYPE type;
+		uint16_t packetType;
 		uint16_t sizeInBytes;
-	}metaData;
+	} metaData;
 
 	MetaDataPacket()
 	{
 		//Used in combination with memcpy
 	}
 
-
-	MetaDataPacket(PACKET_TYPE type)
+	MetaDataPacket(uint16_t packetType)
 	{
-		metaData.type = type;
+		metaData.packetType = packetType;
+	}
+
+	MetaDataPacket(uint16_t packetType, uint16_t sizeInBytes)
+	{
+		metaData.packetType = packetType;
+		metaData.sizeInBytes = sizeInBytes;
 	}
 
 	unsigned char bytes[sizeof(MetaDataPacketStruct)];

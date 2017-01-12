@@ -18,6 +18,7 @@ namespace LuaParticles
 			{ "SetDead",		setDead	 },
 			{ "Explode",		explode},
 			{ "SetColor",		setColor},
+			{ "SetDirection",	setDirection},
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(lua, regs, 0);
@@ -32,7 +33,7 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 2)
 		{
 			lua_pushinteger(lua, g_particles->size());
-			g_particles->push_back(new Gear::ParticleSystem(lua_tointeger(lua, 1), lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4), lua_tointeger(lua, 5)));
+			g_particles->push_back(new Gear::ParticleSystem(lua_tointeger(lua, 1), lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4), lua_tointeger(lua, 5), lua_tonumber(lua, 6)));
 		}
 		return 1;
 	}
@@ -83,6 +84,15 @@ namespace LuaParticles
 		{
 			int index = lua_tointeger(lua, 1);
 			g_particles->at(index)->setColor(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
+		}
+		return 0;
+	}
+	int setDirection(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			int index = lua_tointeger(lua, 1);
+			g_particles->at(index)->setDirection(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
 		}
 		return 0;
 	}
