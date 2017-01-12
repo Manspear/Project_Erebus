@@ -1,10 +1,8 @@
 #pragma once
-#include "LevelActor.h"
+#include"LevelActorComponent.h"
 #include "BaseIncludes.h"
-#include "glm/ext.hpp"
-#include "glm/gtx/string_cast.hpp"
 
-class LevelPointLightComponent :public LevelActorComponent
+class LevelPointLightComponent : public LevelActorComponent
 {
 public:
 	static const char* name;
@@ -20,5 +18,7 @@ public:
 	void postInitialize() override;
 
 private:
-
+	float radius;
+	glm::vec3 color;
+	glm::vec3 pos;
 };

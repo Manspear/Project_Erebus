@@ -6,4 +6,7 @@
 	<LevelModel>
 		<ModelName>testGuy</ModelName>
 	</LevelModel>
+	<LevelPointLight>
+		<Radius r ="10.0"/>
+	</LevelPointLight>
 </Actor>

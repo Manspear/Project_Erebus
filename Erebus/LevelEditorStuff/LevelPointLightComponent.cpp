@@ -9,12 +9,12 @@ LevelPointLightComponent::LevelPointLightComponent()
 
 LevelPointLightComponent::~LevelPointLightComponent()
 {
-
+	
 }
 
 void LevelPointLightComponent::initialize(tinyxml2::XMLElement* element)
 {
-
+	this->radius = std::stof(element->FirstChildElement("Radius")->Attribute("r"));
 }
 
 tinyxml2::XMLElement* LevelPointLightComponent::toXml(tinyxml2::XMLDocument* doc)
