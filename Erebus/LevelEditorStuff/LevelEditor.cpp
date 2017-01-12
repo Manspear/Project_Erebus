@@ -57,7 +57,7 @@ void LevelEditor::start() {
 	
 	GLFWwindow* w = window.getGlfwWindow();
 	this->inputs = new Inputs(w);
-	this->camera = new Camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, inputs);
+	this->camera = new Camera(45.f, WINDOW_WIDTH / WINDOW_HEIGHT, 0.1f, 2000.f, inputs);
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -81,11 +81,24 @@ void LevelEditor::start() {
 	HeightMap* hm = assets.load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
 	glm::vec3 hitPoint;
 	bool hasHit = false;
-
+	
 	LevelAssetHandler assetHandler( &assets );
 	assetHandler.load( "Models" );
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
+
+	TwBar* tempBar = ui->getMainBar();
+
+	TwStructMember vector3fMember[] = {
+		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
+		{ "y", TW_TYPE_FLOAT, offsetof(uiVec3, y), "" },
+		{ "z", TW_TYPE_FLOAT, offsetof(uiVec3, z), "" }
+	};
+
+	TwAddButton(tempBar, "Camera", NULL, NULL, "");
+	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
+	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();

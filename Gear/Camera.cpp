@@ -242,3 +242,10 @@ glm::vec3 Camera::getDirection()
 {
 	return this->camDirection;
 }
+
+glm::vec3 &Camera::getRefPosition() {
+	return this->camPosition;
+}
+glm::vec3 &Camera::getRefDirection() {
+	return this->camDirection;
+}

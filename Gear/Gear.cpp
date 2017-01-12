@@ -255,7 +255,7 @@ namespace Gear
 
 		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
 		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
-		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
+		glBlitFramebuffer( 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
 		updateDebug(camera);
 		queue.particlePass(particleSystems);
