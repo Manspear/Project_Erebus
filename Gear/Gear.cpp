@@ -30,8 +30,8 @@ namespace Gear
 
 		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 
-		shadowMap.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
-		shadowMapTemp.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
 
 		//gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
@@ -49,7 +49,7 @@ namespace Gear
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
-		dirLight.projection = glm::ortho(-100, 100, -100, 100, -100, 100);
+		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
 		dirLights.push_back(dirLight); //save it to buffer
 
@@ -209,54 +209,37 @@ namespace Gear
 		
 		queue.update(*transformCount, *allTrans);
 
-		//queue.forwardPass(staticModels, dynamicModels);
-		//queue.particlePass(particleSystems);
-
-		//Disco party!!! moves the lights around and is fun
-		/*
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer);
-		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE);
-		for (int i = 0; i < NUM_LIGHTS; i++) {
-			Lights::PointLight &light = pointLightsPtr[i];
-			float min = LIGHT_MIN_BOUNDS[1];
-			float max = LIGHT_MAX_BOUNDS[1];
-
-			glm::vec3 pos;
-
-			pos.y = fmod((light.pos.y + (-1.f) - min + max), max) + min;
-
-			min = LIGHT_MIN_BOUNDS[0];
-			max = LIGHT_MAX_BOUNDS[0];
-
-			pos.x = fmod((light.pos.x + (-1.f) - min + max), max) + min;
-
-			min = LIGHT_MIN_BOUNDS[2];
-			max = LIGHT_MAX_BOUNDS[2];
-
-			pos.z = fmod((light.pos.z + (-1.f) - min + max), max) + min;
-
-			light.pos = glm::vec4(pos,1);
-			endPos[i] = pos;
-
-		}
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		*/
 		Camera tempCamera;
-		glm::vec3 pos = glm::vec3(10, 15, 10);
-		glm::vec3 target = glm::vec3(0,0, 0);
 
-		glm::vec3 right = glm::normalize(glm::cross(target - pos, glm::vec3(0,1,0)));
-		glm::vec3 up = glm::normalize(glm::cross(right, target - pos));
+		glm::vec3 offset;
+		offset.x = camera->getDirection().x * 20.0f;
+		offset.y = 0.0f;
+		offset.z = camera->getDirection().z * 20.0f;
 
-		glm::mat4 view = glm::lookAt(pos, target, up);
+		glm::vec3 pos;
+		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
+		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
+		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
+		
 
-		//tempCamera.setCamera(camera->getPosition() + (dirLights[0].direction * 20.0f), camera->getPosition());
+		
+		glm::vec3 target;
+
+		target.x = camera->getPosition().x + offset.x;
+		target.y = 0.0f;
+		target.z = camera->getPosition().z + offset.z;
+
+		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
+
+		//tempCamera.setCamera(, camera->getPosition());
 		//tempCamera.setView(view);
 		//tempCamera.setprojection(glm::ortho(-50, 50, -50, 50, 1, 100));
 
 		tempCamera.setView(view);
-		tempCamera.setprojection(glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -50.0f, 50.0f));
+		tempCamera.setprojection(dirLights[0].projection);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
@@ -264,9 +247,7 @@ namespace Gear
 		glClear(GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
-
-		BlurFilter(&shadowMapTemp, &shadowMap, glm::vec3(3.0f, 0.0f, 0.0f));
-		BlurFilter(&shadowMap , &shadowMapTemp, glm::vec3(0.0f, 3.0f, 0.0f));
+		shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
 
 
 		queue.updateUniforms(camera);
@@ -294,7 +275,7 @@ namespace Gear
 		
 		updateDebug(camera);
 		queue.particlePass(particleSystems);
-		//glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH_TEST);;
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -361,6 +342,7 @@ namespace Gear
 
 		lightPassShader->unUse();
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
+
 	}
 	void GearEngine::updateDebug(Camera* camera) {
 		debugHandler->update(camera, &queue);
@@ -379,6 +361,15 @@ namespace Gear
 		drawQuad();
 
 		blurShader->unUse();
+	}
+
+	void GearEngine::shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount)
+	{
+		glm::vec3 blurScale = glm::vec3(1.0 / (blurAmount * source->getWidth()), 0, 0);
+		BlurFilter(dest, source, blurScale);
+
+		blurScale = glm::vec3(0, 1.0 / (blurAmount * source->getHeight()), 0);
+		BlurFilter(source, dest, blurScale);
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {

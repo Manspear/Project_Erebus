@@ -115,5 +115,6 @@ namespace Gear
 
 		void updateDebug(Camera* camera);
 		void BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale);
+		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount);
 	};
 }

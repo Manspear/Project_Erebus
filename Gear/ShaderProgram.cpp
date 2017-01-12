@@ -169,6 +169,7 @@ void ShaderProgram::use()
 	if (framebufferID != 0)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+		glViewport(0, 0, width, height);
 		/*for (int i = 0; i < nrOfTextures; i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);

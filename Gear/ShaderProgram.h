@@ -59,6 +59,9 @@ public:
 	void addUniform(float &floatValue, std::string position);
 	void addUniform(int &intValue, std::string position);
 
+	int getWidth() { return width; }
+	int getHeight() { return height; }
+
 
 private:
 	GLuint programID;
