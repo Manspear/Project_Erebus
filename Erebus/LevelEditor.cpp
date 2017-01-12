@@ -96,7 +96,7 @@ void LevelEditor::start() {
 	boundTransforms++;
 	//End load model
 
-	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
+	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100, 10));
 	//lua_pushinteger(lua, g_particles->size());
 	//g_particles->push_back(new Gear::ParticleSystem(lua_tointeger(lua, 1), lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4), lua_tointeger(lua, 5)));
 
