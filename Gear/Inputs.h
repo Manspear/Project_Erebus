@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseIncludes.h"
+#include "AntTweakBar.h"
 
 #define INPUTS_MAX_TEXT_INPUT 8
 
