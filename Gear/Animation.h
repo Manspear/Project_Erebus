@@ -25,9 +25,12 @@ public:
 
 	GEAR_API virtual std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 	//The state is an enum defined for each subclass of Animation
-	GEAR_API virtual void updateState(float dt, int state);
+	GEAR_API virtual void updateState(float dt, int state, int animationPart);
 
-
+	/*
+	The number of parts is equal to 
+	*/
+	GEAR_API virtual void setAnimationSegments(int numberOfSegments);
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:
@@ -49,6 +52,8 @@ public:
 
 	GEAR_API virtual void setStates(int numStates);
 
+	GEAR_API virtual void assembleAnimations();
+
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
 protected:
@@ -61,6 +66,7 @@ protected:
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
+	
 	float animationTimer;
 
 	float* transitionTimeArray;
@@ -69,10 +75,22 @@ protected:
 	int numStates;
 	int oldTo = -1337;
 	int oldFrom = -1337;
+	int animationSegments;
 	std::vector<sKeyFrame> blendFromKeys;
 	std::vector<sKeyFrame> blendToKeys;
 
-	//Animation blending variables
+	//Animation blending variables, one per animationPart;
+	std::vector<float> fromAnimationTimers;
+	std::vector<float> toAnimationTimers;
+	std::vector<float> transitionMaxTimes;
+	std::vector<float> transitionTimers;
+	//Animationtimer 
+	std::vector<float> animationTimers;
+
+	//List holding "final" jointmatrices (one per animationSegment) before they're added together
+	//used like: animationMatrixLists[animationSegment][jointIdx]
+	std::vector<glm::mat4x4[MAXJOINTCOUNT]> animationMatrixLists;
+
 	float fromAnimationTimer;
 	float toAnimationTimer;
 	float transitionMaxTime = 0;
@@ -81,6 +99,7 @@ protected:
 	float transitionTimer = 0;
 	
 	std::vector<int> animationStack;
+	std::vector<std::vector<int>> animationStacks;
 	bool isTransitionComplete = true;
 
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];

@@ -5,6 +5,7 @@ Animation::Animation()
 	animationTimer = 0;
 	fromAnimationTimer = 0;
 	toAnimationTimer = 0;
+	animationSegments = 0;
 	oldTo = -1;
 	oldFrom = -1;
 	for (int i = 0; i < finalList.size(); i++)
@@ -284,11 +285,11 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 //	}
 //}
 
-GEAR_API void Animation::updateState(float dt, int state)
+GEAR_API void Animation::updateState(float dt, int state, int animationPart)
 {
-	printf("Animation stack size: %d \n", animationStack.size());
-	if(animationStack.size() > 1)
-		printf("Animation stack back: %d next to back: %d \n", animationStack.back(), animationStack[animationStack.size() - 2]);
+	//printf("Animation stack size: %d \n", animationStack.size());
+	//if(animationStack.size() > 1)
+	//	printf("Animation stack back: %d next to back: %d \n", animationStack.back(), animationStack[animationStack.size() - 2]);
 	
 	int lookie = animationStack.size();
 	//Do not append if the animation already exists 
@@ -355,6 +356,25 @@ GEAR_API void Animation::updateState(float dt, int state)
 	//Why do the animations affect each other when one of them has 0 weight?
 }
 
+GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
+{
+	this->animationSegments = numberOfSegments;
+
+	std::vector<int> animStack;
+	animStack.push_back(0);
+	for (int i = 0; i < animationSegments; i++)
+	{
+		fromAnimationTimers.push_back(0);
+		toAnimationTimers.push_back(0);
+		transitionMaxTimes.push_back(0);
+		transitionTimers.push_back(0);
+		animationTimers.push_back(0);
+		animationStacks.push_back(animStack);
+		glm::mat4x4 jlizz[MAXJOINTCOUNT];
+		animationMatrixLists.push_back(jlizz);
+	}
+}
+
 
 
 GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int numStates)
@@ -370,6 +390,11 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 GEAR_API void Animation::setStates(int numStates)
 {
 	this->numStates = numStates;
+}
+
+GEAR_API void Animation::assembleAnimations()
+{
+	
 }
 
 glm::mat4x4 * Animation::getShaderMatrices()

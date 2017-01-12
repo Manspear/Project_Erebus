@@ -16,7 +16,8 @@ function LoadPlayer()
 	player.reachedGoal = false
 	player.health = 100
 	player.animation = Animation.Create()
-	player.animationState = 1
+	player.animationState1 = 1
+	player.animationState2 = 1
 	player.printInfo = false
 
 	-- set spells for player
@@ -57,12 +58,14 @@ function LoadPlayer()
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
 
-	local playerAnimationTransitionTimes = 
-	{
-		{1, 1, 1},
-		{1, 1, 1},
-		{1, 1, 1}
-	}
+	local playerAnimationTransitionTimes = {}
+	
+	for i = 1, 37 do
+		playerAnimationTransitionTimes[i] = {}
+		for j = 1, 37 do
+			playerAnimationTransitionTimes[i][j] = 1
+		end
+	end
 
 	player.animation:SetTransitionTimes(playerAnimationTransitionTimes)
 
@@ -74,40 +77,41 @@ function UnloadPlayer()
 end
 
 function UpdatePlayer(dt)
+	local animationPart = 0
 	if player.health > 0 then
 		forward, left = 0, 0
 		player.testCamera = false
 		local position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
-		player.animationState = 1
+		player.animationState1 = 1
 	if Inputs.KeyDown("W") then
 		forward = player.moveSpeed
-			player.animationState = 2
+			player.animationState1 = 2
 		end
 	if Inputs.KeyDown("S") then
 		forward = -player.moveSpeed
-			player.animationState = 2
+			player.animationState1 = 2
 		end
 	if Inputs.KeyDown("A") then
 		left = player.moveSpeed
-			player.animationState = 2
+			player.animationState1 = 2
 		end
 	if Inputs.KeyDown("D") then
 		left = -player.moveSpeed
-			player.animationState = 2
+			player.animationState1 = 2
 		end
 	if Inputs.KeyPressed(Keys.Space) and player.canJump then
 		player.verticalSpeed = PLAYER_JUMP_SPEED
 			player.canJump = false
-			player.animationState = 2
+			player.animationState1 = 2
 		end
 	if Inputs.ButtonDown(Buttons.Left) then
 		player.testCamera = true
-			player.animationState = 3
+			player.animationState1 = 3
 		end
 	if Inputs.ButtonReleased(Buttons.Left) then
-		player.animationState = 2
+		player.animationState1 = 2
 		for _,v in ipairs(player.spells[player.currentSpell]) do
 			if not v.alive then
 				v:Cast()
@@ -136,7 +140,7 @@ function UpdatePlayer(dt)
 
 		Transform.SetPosition(player.transformID, position)
 
-		player.animation:Update(dt, player.animationState)
+		player.animation:Update(dt, player.animationState, animationPart)
 	end
 		-- update the current player spell
 		for i=1, #player.spells do 

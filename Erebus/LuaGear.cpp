@@ -233,8 +233,9 @@ namespace LuaGear
 			Animation* animation = (Animation*)lua_touserdata(lua, -1);
 			float dt = lua_tonumber(lua, 2);
 			int layer = lua_tointeger(lua, 3);
+			int animationSegment = lua_tointeger(lua, 4);
 
-			animation->updateState(dt, layer);
+			animation->updateState(dt, layer, animationSegment);
 		}
 
 		return result;

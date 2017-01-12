@@ -4,7 +4,7 @@ void MFileImporter::importFbx(const char * filePath, float animationFramerate)
 {
 	this->animationFramerate = animationFramerate;
 	/*Initialize memory allocator.*/
-	FbxManager* pmManager = FbxManager::Create();
+	pmManager = FbxManager::Create();
 
 	/*Initialize settings for the import.*/
 	FbxIOSettings* pmSettings = FbxIOSettings::Create(pmManager, IOSROOT);
@@ -1934,13 +1934,39 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 			storeCurve[7] = currJoint->LclScaling.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 			storeCurve[8] = currJoint->LclScaling.GetCurve(currLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 
+			bool emptyLayers = true;
 			for (int i = 0; i < 6; i++)
 			{
-				if (keyCount < storeCurve[i]->KeyGetCount())
+				if (storeCurve[i] != NULL)
+					emptyLayers = false;
+			}
+
+			if (!emptyLayers)
+			{
+				for (int i = 0; i < 6; i++)
 				{
-					keyCount = storeCurve[i]->KeyGetCount();
-					currCurve = i;
+					if (keyCount < storeCurve[i]->KeyGetCount())
+					{
+						keyCount = storeCurve[i]->KeyGetCount();
+						currCurve = i;
+					}
 				}
+			}
+			else if(emptyLayers)
+			{
+				for (int i = 0; i < 6; i++)
+				{
+					storeCurve[i];
+					FbxAnimCurveNode* aidsAss = FbxAnimCurveNode::CreateTypedCurveNode(currJoint->LclRotation, pmScene);
+					FbxAnimCurve* lol;
+					lol = FbxAnimCurve::Create(pmManager, "aidsCurve");
+					
+					storeCurve[i] = lol;
+					storeCurve[i]->KeyAdd(0, 0);
+					storeCurve[i]->KeyAdd(1, 0);
+				}
+				currCurve = 0;
+				keyCount = 2;
 			}
 			sImAnimationState tempAnim;
 
@@ -1953,13 +1979,13 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 				FbxVector4 tempScale;
 				
 				//Rotations converted to radians
-				tempRotation = 
-					//FbxVector4(storeCurve[0]->KeyGet(keyCounter).GetValue() * asRadians,
-					//		   storeCurve[1]->KeyGet(keyCounter).GetValue() * asRadians,
-					//		   storeCurve[2]->KeyGet(keyCounter).GetValue() * asRadians);
-				    FbxVector4(storeCurve[0]->KeyGet(keyCounter).GetValue(),
-				    		   storeCurve[1]->KeyGet(keyCounter).GetValue(),
-				    	       storeCurve[2]->KeyGet(keyCounter).GetValue());
+				//tempRotation = 
+				//	//FbxVector4(storeCurve[0]->KeyGet(keyCounter).GetValue() * asRadians,
+				//	//		   storeCurve[1]->KeyGet(keyCounter).GetValue() * asRadians,
+				//	//		   storeCurve[2]->KeyGet(keyCounter).GetValue() * asRadians);
+				//    FbxVector4(storeCurve[0]->KeyGet(keyCounter).GetValue(),
+				//    		   storeCurve[1]->KeyGet(keyCounter).GetValue(),
+				//    	       storeCurve[2]->KeyGet(keyCounter).GetValue());
 				//tempTranslation =
 				//	FbxVector4(storeCurve[3]->KeyGet(keyCounter).GetValue(),
 				//			   storeCurve[4]->KeyGet(keyCounter).GetValue(),
@@ -1968,9 +1994,9 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 				//	FbxVector4(storeCurve[6]->KeyGet(keyCounter).GetValue(),
 				//			   storeCurve[7]->KeyGet(keyCounter).GetValue(),
 				//			   storeCurve[8]->KeyGet(keyCounter).GetValue());
-
+				
 				tempTranslation = animationEvaluator->GetNodeLocalTranslation(currJoint, currKey.GetTime());
-				//tempRotation = animationEvaluator->GetNodeLocalRotation(currJoint, currKey.GetTime());
+				tempRotation = animationEvaluator->GetNodeLocalRotation(currJoint, currKey.GetTime());
 				tempScale = animationEvaluator->GetNodeLocalScaling(currJoint, currKey.GetTime());
 				//tempRotation[0] = tempRotation[0] * asRadians;
 				//tempRotation[1] = tempRotation[1] * asRadians;
