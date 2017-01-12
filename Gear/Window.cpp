@@ -35,7 +35,7 @@ void Window::initWindow()
 	}
 
 	// DEBUG: This moves the main window out of the way of the console window
-	glfwSetWindowPos( window, 512, 128 );
+	glfwSetWindowPos( window, 128, 64 );
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);

@@ -2,4 +2,4 @@
 
 #include <iostream>
 
-enum class PACKET_TYPE { TRANSFORM };
+#define TRANSFORM_PACKET 0

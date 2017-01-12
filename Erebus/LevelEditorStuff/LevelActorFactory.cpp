@@ -152,6 +152,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	{
 		returnComponent = new LevelAnimation();
 	}
+	if (componentName == LevelPointLightComponent::name)
+	{
+		returnComponent = new LevelPointLightComponent();
+	}
 	
 	return returnComponent;
 }

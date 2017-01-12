@@ -1,8 +1,10 @@
 #pragma once
-#include"LevelEditorStuff\LevelActorComponent.h"
+#include "LevelActor.h"
 #include "BaseIncludes.h"
+#include "glm/ext.hpp"
+#include "glm/gtx/string_cast.hpp"
 
-class LevelPointLightComponent :LevelActorComponent
+class LevelPointLightComponent :public LevelActorComponent
 {
 public:
 	static const char* name;

@@ -163,11 +163,11 @@
     <ClCompile Include="LevelEditorStuff\LevelModel.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModelHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelPrefabHandler.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelTransformHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelUI.cpp" />
     <ClCompile Include="LevelEditorStuff\tinyxml2.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelTransform.cpp" />
-    <ClCompile Include="LevelPointLightComponent.cpp" />
     <ClCompile Include="LuaAi.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
@@ -176,6 +176,7 @@
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="NetworkController.cpp" />
@@ -260,11 +261,11 @@
     <ClInclude Include="LevelEditorStuff\LevelModel.h" />
     <ClInclude Include="LevelEditorStuff\LevelModelHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelPrefabHandler.h" />
+    <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelTransformHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelUI.h" />
     <ClInclude Include="LevelEditorStuff\tinyxml2.h" />
     <ClInclude Include="LevelEditorStuff\LevelTransform.h" />
-    <ClInclude Include="LevelPointLightComponent.h" />
     <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
@@ -272,6 +273,7 @@
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />

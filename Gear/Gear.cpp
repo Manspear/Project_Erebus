@@ -24,10 +24,12 @@ namespace Gear
 
 		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA }; //Format for texture in gBuffer
 		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA }; //Format for texture in gBuffer
-		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
-		GLuint type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
+		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2}; //gBuffer attachements
+		GLenum type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
+		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};
 
-		gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
+		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
+		//gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
 
@@ -190,9 +192,33 @@ namespace Gear
 		particleSystems = particles;
 	}
 
-	void GearEngine::queueLights(std::vector<Light>* lights)
+	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
 	{
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
 
+		for (int i = 0; i < lights->size(); i++) {
+			if (i < NUM_LIGHTS)
+			{
+				Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+
+				light.pos = lights->at(i).pos;
+				light.color = lights->at(i).color;
+				light.radius = lights->at(i).radius;
+			}
+			else {
+				printf("ERROR: Too many lights : " + lights->size());
+			}
+		}
+
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	}
+
+	void GearEngine::queueLights(Lights::DirLight * lights)
+	{
+		this->dirLights.at(0).color = lights->color;
+		this->dirLights.at(0).direction = lights->direction;
 	}
 
 	void GearEngine::draw(Camera* camera)
@@ -255,7 +281,7 @@ namespace Gear
 
 		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
 		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
-		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
+		glBlitFramebuffer( 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
 		updateDebug(camera);
 		queue.particlePass(particleSystems);
@@ -332,5 +358,9 @@ namespace Gear
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
+	}
+	GEAR_API void GearEngine::addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture)
+	{
+		screenQuad.addScreenQuad(quad, texture);
 	}
 }

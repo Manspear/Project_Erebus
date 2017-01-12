@@ -11,9 +11,9 @@
 #include "ScreenQuadRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
+
 namespace Gear
 {
-
 	class Dummy {};
 
 	class Light {};
@@ -52,13 +52,16 @@ namespace Gear
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
 		GEAR_API void queueParticles(std::vector<ParticleSystem*>* particles);
-		GEAR_API void queueLights(std::vector<Light>* lights);
+		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
+		GEAR_API void queueLights(Lights::DirLight* lights);
 		GEAR_API void draw(Camera* camera);
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+
+		GEAR_API void addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture);
 		//----------------------
 
 	private:

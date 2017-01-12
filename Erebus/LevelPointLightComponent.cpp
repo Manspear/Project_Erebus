@@ -53,7 +53,7 @@ std::string LevelPointLightComponent::toLua(std::string name)
 {
 	std::stringstream ss;
 
-	ss << name << ".model = Assets.LoadModel('Models/" << "GODDAMN" << ".model')" << std::endl;
+	//ss << name << ".model = Assets.LoadModel('Models/" << "GODDAMN" << ".model')" << std::endl;
 /*
 	if (parent->getComponent<LevelAnimation>())
 		ss << "Gear.AddAnimatedInstance(" << name << ".model, " << name << ".transformID, " << name << ".animation)" << std::endl;

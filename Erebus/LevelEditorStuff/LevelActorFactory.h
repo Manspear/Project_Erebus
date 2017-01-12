@@ -3,6 +3,7 @@
 #include "LevelActorComponent.h"
 #include "LevelTransform.h"
 #include "LevelModel.h"
+#include"LevelPointLightComponent.h"
 #include "Model.h"
 #include <map>
 #include <vector>

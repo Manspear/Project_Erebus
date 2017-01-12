@@ -12,6 +12,7 @@ LevelTransform::LevelTransform()
 
 LevelTransform::~LevelTransform()
 {
+
 }
 
 void LevelTransform::initialize(tinyxml2::XMLElement* element)
