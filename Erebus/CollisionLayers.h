@@ -2,6 +2,7 @@
 #include "AABBCollider.h"
 #include "SphereCollider.h"
 #include "OBBCollider.h"
+#include "RayCollider.h"
 #include <vector>
 class CollisionLayers
 {
@@ -14,10 +15,13 @@ public:
 	void addHitbox(SphereCollider* sphereCollider, unsigned int layer);
 	void addHitbox(OBBCollider* obbCollider);
 	void addHitbox(OBBCollider* obbCollider, unsigned int layer);
+	void addRay(RayCollider* ray);
+	void addRay(RayCollider* ray, unsigned int layer);
 
 	std::vector<SphereCollider*>* getSphereColliders(unsigned int layer);
 	std::vector<AABBCollider*>* getAABBColliders(unsigned int layer);
 	std::vector<OBBCollider*>* getOBBColliders(unsigned int layer);
+	std::vector<RayCollider*>* getRayColliders(unsigned int layer);
 
 	void checkLayer(int layer1,int layer2);
 	void resetLayerCollisionCheckedMatrix();
@@ -41,6 +45,7 @@ private:
 	std::vector<std::vector<AABBCollider*>> aabbColliders; // aabbColliders[0] holds a vector with all aabbColliders in layer 0
 	std::vector<std::vector<SphereCollider*>> sphereColliders;
 	std::vector<std::vector<OBBCollider*>> obbColliders;
+	std::vector<std::vector<RayCollider*>> rayColliders;
 	unsigned int layerMatrixSize;
 	void deleteLayerCollisionMatrices();
 	void createCollisionCheckedMatrix(int size);

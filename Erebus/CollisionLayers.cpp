@@ -23,6 +23,7 @@ CollisionLayers::CollisionLayers(int size)
 	this->sphereColliders.resize(layerMatrixSize); // resize to fit the amount of layers we have, fake 2d array
 	this->aabbColliders.resize(layerMatrixSize);
 	this->obbColliders.resize(layerMatrixSize);
+	this->rayColliders.resize(layerMatrixSize);
 }
 
 
@@ -61,6 +62,16 @@ void CollisionLayers::addHitbox(OBBCollider * obbCollider, unsigned int layer)
 	this->obbColliders[layer].push_back(obbCollider);
 }
 
+void CollisionLayers::addRay(RayCollider * ray)
+{
+	this->rayColliders[0].push_back(ray);
+}
+
+void CollisionLayers::addRay(RayCollider * ray, unsigned int layer)
+{
+	rayColliders[layer].push_back(ray);
+}
+
 std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(unsigned int layer)
 {
 	std::vector<SphereCollider*>* colliders = nullptr;
@@ -87,6 +98,14 @@ std::vector<OBBCollider*>* CollisionLayers::getOBBColliders(unsigned int layer)
 	colliders = &this->obbColliders[layer];
 
 	return colliders;
+}
+
+std::vector<RayCollider*>* CollisionLayers::getRayColliders(unsigned int layer)
+{
+	std::vector<RayCollider*>* rays = nullptr;
+
+	rays = &this->rayColliders[layer];
+	return rays;
 }
 
 bool CollisionLayers::getIsLayerChecked(int layer1, int layer2) const
