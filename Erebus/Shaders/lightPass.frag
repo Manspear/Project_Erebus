@@ -41,7 +41,7 @@ void main() {
 	vec3 Diffuse  = vec3(texture2D(gAlbedoSpec, TexCoords)).rgb;
 
 	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
-	vec3 shadowcoords = shadowMapCoords.xyz/shadowMapCoords.w;
+	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
 
 
 	vec3 norm = normalize(Normal);
@@ -64,13 +64,13 @@ void main() {
 	else if(drawMode == 3)
 		FragColor = vec4(ambient + directional, 1.0);
 	else if(drawMode == 4)
-        FragColor = vec4(FragPos, 1.0);
+        FragColor = vec4(texture2D(gShadowMap, TexCoords).xyz, 1);//vec4(FragPos, 1.0);
     else if(drawMode == 5)
-        FragColor = vec4(Normal, 1.0);
+        FragColor = vec4(texture2D(gShadowMap, vec2(shadowcoords.x,shadowcoords.y)).xyz, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)
         FragColor = vec4(Diffuse, 1.0);
     else if(drawMode == 7)
-		FragColor = texture2D(gShadowMap, shadowcoords.xy)/255;//vec4(ambient + directional, 1.0) * CalcShadowAmount(gShadowMap, shadowMapCoords);
+		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)), 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
 }
 
@@ -120,12 +120,12 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
 float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords)
 {
-	vec3 shadowcoords = initialShadowMapCoords.xyz/initialShadowMapCoords.w;
+	vec3 shadowcoords = (initialShadowMapCoords.xyz/initialShadowMapCoords.w) * vec3(0.5) + vec3(0.5);
 
 	return SampleShadowMap(shadowMap, shadowcoords.xy, shadowcoords.z);
 }
 
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare)
 {
-	return step(compare, texture2D(shadowMap, coords.xy).r);
+	return step(compare - 0.005, texture2D(shadowMap, coords.xy).r);
 }

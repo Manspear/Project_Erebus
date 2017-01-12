@@ -35,8 +35,9 @@ namespace Gear
 		GLuint c[] = { GL_DEPTH_ATTACHMENT }; //gBuffer attachements
 		GLenum d[] = { GL_UNSIGNED_BYTE }; //data type for texture
 		GLfloat e[] = { GL_NEAREST };
+		
 
-		shadowMap.initFramebuffer(1, 1024, 1024, e, a, b, d, c, true);
+		shadowMap.initFramebuffer(1, 1280, 720, e, a, b, d, c, true);
 
 		//gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
@@ -53,7 +54,7 @@ namespace Gear
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
-		dirLight.projection = glm::ortho(-100, 100, -100, 100, -1000, 1000);
+		dirLight.projection = glm::ortho(-100, 100, -100, 100, -100, 100);
 
 		dirLights.push_back(dirLight); //save it to buffer
 
@@ -246,8 +247,8 @@ namespace Gear
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		*/
 		Camera tempCamera;
-		glm::vec3 pos = camera->getPosition() - dirLights[0].direction * 30.0f;//glm::vec3(100, 100, 100);
-		glm::vec3 target = camera->getPosition();
+		glm::vec3 pos = glm::vec3(10, 15, 10);
+		glm::vec3 target = glm::vec3(0,0, 0);
 
 		glm::vec3 right = glm::normalize(glm::cross(target - pos, glm::vec3(0,1,0)));
 		glm::vec3 up = glm::normalize(glm::cross(right, target - pos));
@@ -259,7 +260,7 @@ namespace Gear
 		//tempCamera.setprojection(glm::ortho(-50, 50, -50, 50, 1, 100));
 
 		tempCamera.setView(view);
-		tempCamera.setprojection(glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -100.0f, 100.0f));
+		tempCamera.setprojection(glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -50.0f, 50.0f));
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
@@ -269,7 +270,7 @@ namespace Gear
 		shadowMap.unUse();
 
 
-		queue.updateUniforms(&tempCamera);
+		queue.updateUniforms(camera);
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -277,7 +278,7 @@ namespace Gear
 		
 		gBuffer.unUse();
 
-		lightPass(&tempCamera, &tempCamera); //renders the texture with light calculations
+		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		//DISCO debuger lines
 		/*for (int i = 0; i < NUM_LIGHTS; i++) {
 			if(i < NUM_LIGHTS/2)
@@ -292,7 +293,7 @@ namespace Gear
 		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
 		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
-		updateDebug(&tempCamera);
+		updateDebug(camera);
 		queue.particlePass(particleSystems);
 		//glEnable(GL_DEPTH_TEST);
 
