@@ -49,13 +49,18 @@ namespace Nurn
 		netCommunication.Shutdown();
 	}
 
-	void NurnEngine::buildTransformPacket(const float& x, const float& y, const float& z)
+	void NurnEngine::buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
 	{
 
+		std::cout << "Sending - x: " << x << " y: " << y << " z: " << z << std::endl;
 	}
 
 	TransformPacket NurnEngine::fetchTransformPacket()
 	{
-		return TransformPacket();
+		TransformPacket result = TransformPacket();
+		result.data.x = 1;
+		result.data.y = 2;
+		result.data.z = 3;
+		return result;
 	}
 }

@@ -63,6 +63,9 @@
     <ClCompile Include="LuaInputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="LuaInputs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaNetwork.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
