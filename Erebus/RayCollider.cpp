@@ -9,6 +9,10 @@ RayCollider::RayCollider()
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
+
+	this->ID = -1;
+	this->IDTransform = -1;
+	this->IDCollisions.reserve(RESERVE_COLLISIONS);
 }
 
 RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction)
@@ -18,6 +22,23 @@ RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction)
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
+
+	this->ID = -1;
+	this->IDTransform = -1;
+	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+}
+
+RayCollider::RayCollider(int IDTransform, glm::vec3 direction)
+{
+	this->position = glm::vec3(0, 0, 0);
+	this->direction = direction;
+
+	this->intersectionPoint = glm::vec3(0, 0, 0);
+	this->hitDistance = -1;
+
+	this->ID = -1;
+	this->IDTransform = IDTransform;
+	this->IDCollisions.reserve(RESERVE_COLLISIONS);
 }
 
 
@@ -41,6 +62,22 @@ void RayCollider::hit(glm::vec3 intersectionPoint, float hitDistance)
 	this->hitDistance = hitDistance;
 }
 
+void RayCollider::insertCollisionID(unsigned int collisionID)
+{
+	this->IDCollisions.push_back(collisionID);
+}
+
+void RayCollider::clearCollisionIDs()
+{
+	this->IDCollisions.clear();
+}
+
+void RayCollider::clearHitData()
+{
+	this->hitDistance = -1;
+	this->intersectionPoint = glm::vec3(0, 0, 0);
+}
+
 const glm::vec3 & RayCollider::getDirection() const
 {
 	return this->direction;
@@ -54,6 +91,11 @@ const glm::vec3 & RayCollider::getPosition() const
 const glm::vec3 & RayCollider::getIntersectionPoint() const
 {
 	return this->intersectionPoint;
+}
+
+int RayCollider::getIDTransform() const
+{
+	return this->IDTransform;
 }
 
 float RayCollider::hitdistance() const
