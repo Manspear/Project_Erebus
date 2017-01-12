@@ -139,8 +139,6 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 			Importer::sKeyFrame overKey;
 			Importer::sKeyFrame underKey;
 
-			int DEBUGkeyCount = state->keyCount;
-
 			for (int k = 0; k < state->keyCount; k++)
 			{
 				Importer::sKeyFrame* currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
@@ -297,6 +295,8 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	{
 		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
 	}
+	
+
 }
 
 glm::mat4x4 * Animation::getShaderMatrices()

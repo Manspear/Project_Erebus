@@ -63,7 +63,7 @@ function LoadPlayer()
 	for i = 1, 37 do
 		playerAnimationTransitionTimes[i] = {}
 		for j = 1, 37 do
-			playerAnimationTransitionTimes[i][j] = 3
+			playerAnimationTransitionTimes[i][j] = 0.1
 		end
 	end
 
@@ -97,11 +97,11 @@ function UpdatePlayer(dt)
 		end
 	if Inputs.KeyDown("A") then
 		left = player.moveSpeed
-			player.animationState1 = 2
+			player.animationState1 = 11
 		end
 	if Inputs.KeyDown("D") then
 		left = -player.moveSpeed
-			player.animationState1 = 2
+			player.animationState1 = 15
 		end
 	if Inputs.KeyPressed(Keys.Space) and player.canJump then
 		player.verticalSpeed = PLAYER_JUMP_SPEED
@@ -143,8 +143,8 @@ function UpdatePlayer(dt)
 		Transform.SetPosition(player.transformID, position)
 
 		--ANIMATION UPDATING
-		player.animation:Update(dt, 20, 0)
-		--player.animation:Update(dt, 15, 1)
+		player.animation:Update(dt, player.animationState1, 0)
+		--player.animation:Update(dt, 1, 1)
 		player.animation:UpdateShaderMatrices()
 	end
 		-- update the current player spell
