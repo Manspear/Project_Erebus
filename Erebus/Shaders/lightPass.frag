@@ -99,7 +99,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 			float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 			vec3 specular = light.color.xyz * spec;
 
-			float attenuation = smoothstep(30, 0, length(light.pos.xyz - fragPos));
+			float attenuation = smoothstep(light.radius, 0, length(light.pos.xyz - fragPos));
 
 			diffuseColor *= attenuation;
 			//specular *= attenuation;
