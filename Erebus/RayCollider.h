@@ -22,7 +22,13 @@ public:
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getIntersectionPoint() const;
 	int getIDTransform() const;
+	int getID() const;
 	float hitdistance() const;
+	bool checkCollision();
+
+	//setters
+	void setIDTransform(unsigned int ID);
+	void setID(unsigned int ID);
 private:
 	glm::vec3 direction, position, intersectionPoint;
 	float hitDistance;

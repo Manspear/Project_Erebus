@@ -24,21 +24,32 @@ public:
 	~CollisionHandler();
 	void addHitbox(SphereCollider* sphere);
 	void addHitbox(AABBCollider* aabb);
+	void addHitbox(OBBCollider* obb);
 	void addHitbox(SphereCollider* sphere, int layer);
 	void addHitbox(AABBCollider* aabb, int layer);
-	void addHitbox(OBBCollider* obb);
 	void addHitbox(OBBCollider* obb, int layer);
+	void addRay(RayCollider* ray);
+	void addRay(RayCollider* ray, int layer);
 
+	// Collision checks
 	void checkCollisions();
 	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders); // check against itself
 	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders1, std::vector<SphereCollider*>* colliders2);
 	void checkSphereToAabbCollisions(std::vector<SphereCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
 	void checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders); // check against itself
 	void checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2); 
-	void checkObbToObbCollisions(std::vector<OBBCollider*>* colliders);
+	void checkObbToObbCollisions(std::vector<OBBCollider*>* colliders); // check against itself
 	void checkObbToObbCollisions(std::vector<OBBCollider*>* colliders1, std::vector<OBBCollider*>* colliders2);
 	void checkObbToAabbCollisions(std::vector<OBBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
 	void checkObbToSphereCollisions(std::vector<OBBCollider*>* colliders1, std::vector<SphereCollider*>* colliders2);
+	template <typename T, typename U>
+	void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2);
+	template <typename T>
+	void checkAnyCollision(std::vector<T*>* colliders);
+	//Rays
+	void checkRayToAabbCollisions(std::vector<RayCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
+	void checkRayToSphereCollisions(std::vector<RayCollider*>* colliders1, std::vector<SphereCollider*>* colliders2);
+	void checkRayToObbCollisions(std::vector<RayCollider*>* colliders1, std::vector<OBBCollider*>* colliders2);
 
 	void updateAllHitboxPos();
 	void updateSpherePos();
@@ -69,6 +80,7 @@ private:
 	std::vector<AABBCollider*> aabbColliders;
 	std::vector<OBBCollider*> obbColliders;
 	std::vector<HitBox*> allColliders;
+	std::vector<RayCollider*> rayColliders;
 	CollisionLayers* collisionLayers;
 	CollisionChecker collisionChecker;
 
@@ -79,4 +91,3 @@ private:
 	static void incrementHitboxID();
 	void initializeColors();
 };
-

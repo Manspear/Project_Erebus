@@ -98,7 +98,31 @@ int RayCollider::getIDTransform() const
 	return this->IDTransform;
 }
 
+int RayCollider::getID() const
+{
+	return this->ID;
+}
+
 float RayCollider::hitdistance() const
 {
 	return this->hitDistance;
+}
+
+bool RayCollider::checkCollision()
+{
+	bool collision = false;
+	if (this->IDCollisions.size() > 0)
+		collision = true;
+
+	return collision;
+}
+
+void RayCollider::setIDTransform(unsigned int ID)
+{
+	this->IDTransform = ID;
+}
+
+void RayCollider::setID(unsigned int ID)
+{
+	this->ID = ID;
 }
