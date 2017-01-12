@@ -606,11 +606,13 @@ void CollisionHandler::drawHitboxes()
 {
 	std::vector<SphereCollider*>* tempSphereColliders;
 	std::vector<AABBCollider*>* tempAabbColliders;
+	std::vector<OBBCollider*>* tempObbColliders;
 	SphereCollider* tempSphere = nullptr;
 	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
 	{
 		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
 		tempAabbColliders = this->collisionLayers->getAABBColliders(i);
+		tempObbColliders = this->collisionLayers->getOBBColliders(i);
 		for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
 		{
 			debugger->drawSphere(tempSphereColliders->operator[](j)->getPos(), tempSphereColliders->operator[](j)->getRadius(),this->colors[i]);
@@ -618,6 +620,11 @@ void CollisionHandler::drawHitboxes()
 		for (size_t j = 0; j < tempAabbColliders->size(); j++)
 		{
 			debugger->drawAABB(tempAabbColliders->operator[](j)->getMinPos(), tempAabbColliders->operator[](j)->getMaxPos(),this->colors[i]);
+		}
+		for (size_t j = 0; j < tempObbColliders->size(); j++)
+		{
+			OBBCollider* temp = tempObbColliders->operator[](j);
+			debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths());
 		}
 	}
 }

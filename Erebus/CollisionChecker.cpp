@@ -434,6 +434,76 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 	return false;
 }
 
+bool CollisionChecker::collisionCheck(RayCollider * ray, OBBCollider * obb)
+{
+	int parallel = 0;
+	bool found = false;
+
+	float dotA[3];
+	float dotB[3];
+	glm::vec3 m = obb->getPos() - ray->getPosition();
+
+	glm::vec3 axes[3] = { obb->getXAxis(),obb->getYAxis(),obb->getZAxis() };
+	glm::vec3 halfLengths = obb->getHalfLengths();
+	glm::vec3 rayDirection = ray->getDirection();
+	float epsilon = glm::epsilon<float>();
+	float t[2]; // parametric points of intersection
+
+	for (int i = 0; i < 3; i++)
+	{
+		dotA[i] = glm::dot(rayDirection,axes[i]);
+		dotB[i] = glm::dot(m,axes[i]);
+
+		if (glm::abs(dotA[i]) < epsilon)
+		{
+			parallel |= 1 << i;
+		}
+		else
+		{
+			float es = (dotA[i] > 0.0f) ? halfLengths[i] : -halfLengths[i];
+			float invDotA = 1.0f / dotA[i];
+
+			if (!found)
+			{
+				t[0] = (dotB[i] - es) * invDotA;
+				t[1] = (dotB[i] + es) * invDotA;
+
+				found = true;
+			}
+			else
+			{
+				float s = (dotB[i] - es) * invDotA;
+
+				if (s > t[0])
+					t[0] = s;
+
+				s = (dotB[i] + es) * invDotA;
+
+				if (s < t[1])
+					t[1] = s;
+				
+				if (t[0] > t[1])
+					return false;
+			}
+		}
+	}
+
+	if (parallel)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			if (parallel & (1 << i))
+				if (glm::abs(dotB[i] - t[0] * dotA[i]) > halfLengths[i] || glm::abs(dotB[i] - t[1] * dotA[i]) > halfLengths[i])
+					return false;
+
+		}
+	}
+	float hitDistance = t[0];
+	glm::vec3 intersectionPoint = ray->getPosition() + (rayDirection * hitDistance);
+	ray->hit(intersectionPoint, hitDistance);
+	return true;
+}
+
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
 {
 	float val = 0;

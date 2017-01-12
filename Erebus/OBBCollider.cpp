@@ -66,9 +66,9 @@ void OBBCollider::rotateAroundZ(float radianAngle)
 
 void OBBCollider::setSize(float xHalfLength, float yHalfLength, float zHalfLength)
 {
-	this->halfLengths.x = xHalfLength;
-	this->halfLengths.y = yHalfLength;
-	this->halfLengths.z = zHalfLength;
+	this->halfLengths.x = xHalfLength / 2;
+	this->halfLengths.y = yHalfLength / 2;
+	this->halfLengths.z = zHalfLength / 2;
 }
 
 void OBBCollider::setSize(glm::vec3 size)
