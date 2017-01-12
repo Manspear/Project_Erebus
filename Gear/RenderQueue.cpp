@@ -130,14 +130,16 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
+	glm::vec3 tempLook;
+	glm::vec3 axis;
 	for (int i = 0; i < n; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
 			//reset the world matrix
 			tempMatrix = glm::mat4();
-			glm::vec3 tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
-			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+			tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
+			axis = glm::cross(tempLook, { 0, 1, 0 });
 
 			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
 			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
