@@ -13,7 +13,8 @@ void TW_CALL dummyCallback( void* args )
 
 LevelAssetHandler::LevelAssetHandler()
 {
-	bar = TwNewBar( "Assets" );
+	bar = TwNewBar( "AssetsBar" );
+	TwDefine( "AssetsBar label='Assets'" );
 }
 
 LevelAssetHandler::~LevelAssetHandler()

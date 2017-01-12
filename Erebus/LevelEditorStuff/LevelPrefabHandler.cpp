@@ -18,6 +18,7 @@ LevelPrefabHandler::LevelPrefabHandler()
 {
 	selectedPrefab = -1;
 	bar = TwNewBar( "PrefabBar" );
+	TwDefine( "PrefabBar label='Prefabs'" );
 }
 
 LevelPrefabHandler::~LevelPrefabHandler()
