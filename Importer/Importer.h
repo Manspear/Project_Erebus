@@ -127,6 +127,5 @@ namespace Importer
 		int nrOfParticlesPerEmit;
 		/*float dirX, dirY, dirZ;*/
 		char textureName[32];
-
 	};
 };
