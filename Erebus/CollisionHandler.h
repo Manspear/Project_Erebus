@@ -56,7 +56,6 @@ public:
 
 	//getters
 	std::string getCollisionText();
-
 	CollisionLayers* getCollisionLayers();
 
 	//CollisionLayerPassThrough functions

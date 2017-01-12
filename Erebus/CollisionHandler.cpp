@@ -112,13 +112,19 @@ void CollisionHandler::addHitbox(OBBCollider * obb, int layer)
 void CollisionHandler::addRay(RayCollider * ray)
 {
 	this->rayColliders.push_back(ray);
-	
+
+	ray->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
 	this->collisionLayers->addRay(ray);
 }
 
 void CollisionHandler::addRay(RayCollider * ray, int layer)
 {
 	this->rayColliders.push_back(ray);
+
+	ray->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
 
 	this->collisionLayers->addRay(ray, layer);
 }
@@ -459,6 +465,9 @@ std::string CollisionHandler::getCollisionText()
 		<< "\nOBB to OBB Checks: " << collisionChecker.getObbCollisionCounter()
 		<< "\nOBB to Sphere Checks: " << collisionChecker.getObbToSphereCollisionCounter()
 		<< "\nOBB to AABB Checks: " << collisionChecker.getObbToAabbCollisionCounter()
+		<< "\nRay to AABB Checks: " << collisionChecker.getRayToAabbCollisionCounter()
+		<< "\nRay to OBB Checks: " << collisionChecker.getRayToObbCollisionCounter()
+		<< "\nRay to Sphere Checks: " << collisionChecker.getRayToSphereCollisionCunter()
 		<< "\nTotal Checks: " << total << "\n\n";
 
 	return text.str();
@@ -488,6 +497,9 @@ void CollisionHandler::printCollisions()
 		<< "\nOBB to OBB Checks: " << collisionChecker.getObbCollisionCounter()
 		<< "\nOBB to Sphere Checks: " << collisionChecker.getObbToSphereCollisionCounter()
 		<< "\nOBB to AABB Checks: " << collisionChecker.getObbToAabbCollisionCounter()
+		<< "\nRay to AABB Checks: " << collisionChecker.getRayToAabbCollisionCounter()
+		<< "\nRay to OBB Checks: " << collisionChecker.getRayToObbCollisionCounter()
+		<< "\nRay to Sphere Checks: " << collisionChecker.getRayToSphereCollisionCunter()
 		<<"\nTotal Checks: " << total << "\n\n";
 }
 

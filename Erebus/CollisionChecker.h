@@ -15,6 +15,9 @@ private:
 	int obbCollisionCounter = 0;
 	int obbToAabbCollisionCounter = 0;
 	int obbToSphereCollisionCounter = 0;
+	int rayToObbCollisionCounter = 0;
+	int rayToAabbCollisionCounter = 0;
+	int rayToSphereCollisionCounter = 0;
 
 public:
 	CollisionChecker();
@@ -47,6 +50,9 @@ public:
 	int getObbCollisionCounter();
 	int getObbToAabbCollisionCounter();
 	int getObbToSphereCollisionCounter();
+	int getRayToAabbCollisionCounter();
+	int getRayToObbCollisionCounter();
+	int getRayToSphereCollisionCunter();
 	int getCollisionCounter();
 };
 

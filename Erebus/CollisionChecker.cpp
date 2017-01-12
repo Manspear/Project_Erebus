@@ -354,6 +354,7 @@ bool CollisionChecker::collisionCheck(OBBCollider * obb, SphereCollider * sphere
 
 bool CollisionChecker::collisionCheck(RayCollider * ray, SphereCollider * sphere)
 {
+	this->rayToSphereCollisionCounter++;
 	glm::vec3 rayDirection = ray->getDirection();
 	glm::vec3 rayPosition = ray->getPosition();
 	glm::vec3 spherePosition = sphere->getPos();
@@ -386,6 +387,7 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, SphereCollider * sphere
 
 bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 {
+	this->rayToAabbCollisionCounter++;
 	float epsilon = glm::epsilon<float>();
 	float tmin = 0.0f;
 	float tmax = std::numeric_limits<float>::max();
@@ -431,11 +433,12 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 	glm::vec3 intersectionPoint = rayPosition + (rayDirection* hitdistance);
 	ray->hit(intersectionPoint, hitdistance);
 
-	return false;
+	return true;
 }
 
 bool CollisionChecker::collisionCheck(RayCollider * ray, OBBCollider * obb)
 {
+	this->rayToObbCollisionCounter++;
 	int parallel = 0;
 	bool found = false;
 
@@ -578,6 +581,9 @@ void CollisionChecker::resetCounters()
 	this->obbCollisionCounter = 0;
 	this->obbToAabbCollisionCounter = 0;
 	this->obbToSphereCollisionCounter = 0;
+	this->rayToAabbCollisionCounter = 0;
+	this->rayToObbCollisionCounter = 0;
+	this->rayToSphereCollisionCounter = 0;
 }
 
 // Getters
@@ -611,9 +617,26 @@ int CollisionChecker::getObbToSphereCollisionCounter()
 	return this->obbToSphereCollisionCounter;
 }
 
+int CollisionChecker::getRayToAabbCollisionCounter()
+{
+	return this->rayToAabbCollisionCounter;
+}
+
+int CollisionChecker::getRayToObbCollisionCounter()
+{
+	return this->rayToObbCollisionCounter;
+}
+
+int CollisionChecker::getRayToSphereCollisionCunter()
+{
+	return this->rayToSphereCollisionCounter;
+}
+
 int CollisionChecker::getCollisionCounter()
 {
-	return this->sphereCollisionCounter + this->aabbCollisionCounter
-		+ this->sphereToAabbCollisionCounter + obbCollisionCounter
-		+ obbToAabbCollisionCounter + obbToSphereCollisionCounter;
+	return sphereCollisionCounter + aabbCollisionCounter
+		+ sphereToAabbCollisionCounter + obbCollisionCounter
+		+ obbToAabbCollisionCounter + obbToSphereCollisionCounter
+		+ rayToAabbCollisionCounter + rayToObbCollisionCounter + 
+		rayToSphereCollisionCounter;
 }
