@@ -132,35 +132,51 @@ char* Inputs::getTextInput( int* length )
 
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {	
-	keys[key] = action > 0;
-	keysRepeated[key] = action > 0 ;
-	if (action == GLFW_PRESS) {
-		keysPressedThisFrame[key] = true;
+	int isAntTweak = TwEventKeyGLFW(key, action);
+	if (isAntTweak == 0) {
+		keys[key] = action > 0;
+		keysRepeated[key] = action > 0;
+		if (action == GLFW_PRESS) {
+			keysPressedThisFrame[key] = true;
+		}
+		if (action == GLFW_RELEASE) {
+			keysReleasedThisFrame[key] = true;
+		}
 	}
-	if (action == GLFW_RELEASE) {
-		keysReleasedThisFrame[key] = true;
-	}
+
 }
 
 void Inputs::text_callback(GLFWwindow* window, unsigned int key)
 {
-	if( key > 0 && key < 128 && textInputLength < INPUTS_MAX_TEXT_INPUT )
-		textInput[textInputLength++] = (char)key;
+	int isAntTweak = TwEventCharGLFW(key, GLFW_PRESS);
+	if (isAntTweak==0) {
+		if (key > 0 && key < 128 && textInputLength < INPUTS_MAX_TEXT_INPUT)
+			textInput[textInputLength++] = (char)key;
+	}
+
 }
 
 void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
-	mouseButtons[button] = action > 0;
-	if (action == GLFW_PRESS) {
-		mouseButtonsPressedThisFrame[button] = true;
+	int isAntTweak = TwEventMouseButtonGLFW(button, action);
+	if (isAntTweak == 0) {
+		mouseButtons[button] = action > 0;
+		if (action == GLFW_PRESS) {
+			mouseButtonsPressedThisFrame[button] = true;
+		}
+		if (action == GLFW_RELEASE) {
+			mouseButtonsReleasedThisFrame[button] = true;
+		}
 	}
-	if (action == GLFW_RELEASE) {
-		mouseButtonsReleasedThisFrame[button] = true;
-	}
+
 }
 
 void Inputs::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	scrollY += yoffset;
-	dScrollY = yoffset;
+	int isAntTweak = TwEventMouseWheelGLFW(xoffset);
+	if (isAntTweak == 0) {
+		scrollY += yoffset;
+		dScrollY = yoffset;
+	}
+
 }
