@@ -2,57 +2,67 @@
 
 Packager::Packager()
 {
-	this->memoryPointer = this->memory;
 }
 
 Packager::~Packager()
 {
-
 }
 
 unsigned char* Packager::getPacketPointer()
 {
-	return this->memoryPointer;
+	return (unsigned char*)this->memory;
 }
 
 void Packager::buildPacket()
 {
-	// Optimera detta så att vi inte behöver kopiera värderna
-	uint8_t test = 7;
-	MetaDataPacket m(PACKET_TYPE::TRANSFORM);
-	m.metaData.sizeInBytes = 70;
+	this->actualSize = sizeof(uint16_t);
+	uint8_t maximumNumberOfPackets = 2;
+	uint8_t numberOfPacketsInThePacket = 0;
+
+	// this->actualSize < packetSize
+	while (numberOfPacketsInThePacket < maximumNumberOfPackets)
+	{
+		this->actualSize += sizeof(MetaDataPacket); // Jump forward to where the datapackets, which the MetaData describes, are located.
+		
+		// Add handling for stop adding packets if the allowed size is overridden.
+		// Add all the packets of a certain type and keep track of how many bytes are added.
+
+		this->addTransformPackets();
+		numberOfPacketsInThePacket += 2;
+
+		// this->actualSize should now point at where next MetaDataPacket is to be added.
+		// Add the rest of the packets here
+	}
+
+	memcpy(this->memory, &this->actualSize, sizeof(uint16_t));
+}
+
+void Packager::addTransformPackets()
+{
+	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
+	uint16_t sizeInBytes = 0;
+	uint16_t locationOfMetaData = this->actualSize - sizeof(MetaDataPacket);
+
 	TransformPacket t;
-	t.data.ID = 13;
+	t.data.ID = 13; //Var hämtas alla ID:n?
 
-	uint8_t size = sizeof(m);
+	memcpy(this->memory + this->actualSize + sizeInBytes, &t, sizeof(TransformPacket));
+	sizeInBytes += sizeof(TransformPacket);
 
-	memcpy(this->memory, &test, sizeof(test)); //uint8_t
-	memcpy(this->memory + sizeof(test), &m, sizeof(m)); //Metadata
-	memcpy(this->memory + sizeof(test) + sizeof(m), &t, sizeof(t)); //Transform
+	this->addMetaDataPacket(TRANSFORM_PACKET, locationOfMetaData, sizeInBytes);
 
-
-	uint8_t result;
-	TransformPacket p_result;
-	MetaDataPacket m_result;
-	memcpy(&p_result, this->memory + sizeof(result) + sizeof(m_result), sizeof(p_result)); //Grab TransformPacket
-	memcpy(&m_result, this->memory + sizeof(result), sizeof(m_result)); //Grab MetaData
-	memcpy(&result, &this->memory, sizeof(result)); //Grab uint8_t
-
-	printf("%d, %d, %d\n", result, m_result.metaData.sizeInBytes, p_result.data.ID);
-
+	this->actualSize += sizeInBytes; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addDataPacket()
+void Packager::addMetaDataPacket(uint16_t type, uint16_t locationOfMetaData, uint16_t sizeInBytes)
 {
+	MetaDataPacket m(type);
+	m.metaData.sizeInBytes = sizeInBytes;
 
+	memcpy(this->memory + locationOfMetaData, &m, sizeof(MetaDataPacket));
 }
 
-void Packager::addMetaDataPacket()
+uint16_t Packager::getActualSize() const
 {
-
-}
-
-void Packager::addSizePacket()
-{
-
+	return this->actualSize;
 }

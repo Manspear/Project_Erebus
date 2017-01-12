@@ -546,7 +546,7 @@ namespace Importer
 		fractPart = modf(posz, &zFloored);
 
 		heightmapIndex = (zFloored * 2 + xFloored) + 1;
-		printf("heightmapIndex: %d, x: %f, z: %f \n", heightmapIndex, realX, realZ);
+		//printf("heightmapIndex: %d, x: %f, z: %f \n", heightmapIndex, realX, realZ);
 		if (heightmapIndex == 1)
 		{
 			return heightVal * 0.613;

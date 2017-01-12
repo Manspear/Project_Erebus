@@ -11,18 +11,19 @@ class NURN_API Packager
 {
 private:
 	unsigned char memory[packetSize];
-	unsigned char * memoryPointer;
+	uint16_t actualSize;
+
+	void addTransformPackets();
+	void addMetaDataPacket(uint16_t type, uint16_t locationOfMetaData, uint16_t sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 public:
 	Packager();
 	~Packager();
 
-	// Get the pointers to the queues
 	unsigned char * getPacketPointer();
+	uint16_t getActualSize() const;
 
-	void buildPacket(); // Build and full the packet with data.
-	void addDataPacket(); // Adds all the Transformpackets etc to the packet array. 
-	void addMetaDataPacket(); // After a group of, for instance, TransformPackets have been added the MetaData is added.
-	void addSizePacket(); // Shows the size of all the data packets combined. Add only once and after the entire packet is complete. 
+	void buildPacket();
+
 
 };

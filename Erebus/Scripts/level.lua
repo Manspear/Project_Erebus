@@ -3,7 +3,7 @@
 --heightmap.transformID = Transform.Bind()
 -- In lua you start counting from 1
 heightmaps = {}
-heightmaps[1] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här. problem hos Assets.load. hmap maste ha en egen load da. Ett alternativ vore att gora en hmapHandlar i c++
+heightmaps[1] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in här. problem hos Assets.load. hmap maste ha en egen load da. Ett alternativ vore att gora en hmapHandlar i c++
 heightmaps[1].transformID = Transform.Bind()
 heightmaps[1].offset = 0
 

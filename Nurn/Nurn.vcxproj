@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClInclude Include="PacketFilter.hpp" />
     <ClInclude Include="MetaDataPacket.hpp" />
-    <ClInclude Include="Nurn\Packager.hpp" />
+    <ClInclude Include="Packager.hpp" />
     <ClInclude Include="PacketEnums.hpp" />
     <ClInclude Include="PacketQueue.hpp" />
     <ClInclude Include="TransformPacket.hpp" />
