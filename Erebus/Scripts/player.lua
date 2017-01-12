@@ -17,6 +17,7 @@ function LoadPlayer()
 	player.health = 100
 	player.animation = Animation.Create()
 	player.animationState = 1
+	player.timeScalar = 1.0
 	player.printInfo = false
 
 	-- set spells for player
@@ -25,10 +26,10 @@ function LoadPlayer()
 	player.spells[1] = {}
 	player.spells[2] = {}
 	for i = 1,  10 do	--create the projectile instances
-		table.insert(player.spells[1], CreateProjectile())
+		table.insert(player.spells[1], CreateChronoBall())
 	end
 	for i = 1,  10 do	--create the arc instances
-		table.insert(player.spells[2], CreateArc())
+		table.insert(player.spells[2], CreateFireballArc())
 	end
 	player.currentSpell = 1
 
@@ -56,6 +57,16 @@ function LoadPlayer()
 	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
+
+	local playerAnimationTransitionTimes = 
+	{
+		{1, 1, 1},
+		{1, 1, 1},
+		{1, 1, 1}
+	}
+
+	player.animation:SetTransitionTimes(playerAnimationTransitionTimes)
+
 	Erebus.SetControls(player.transformID)
 	
 end
@@ -67,6 +78,9 @@ function UpdatePlayer(dt)
 	if player.health > 0 then
 		forward, left = 0, 0
 		player.testCamera = false
+
+	dt = dt * player.timeScalar
+
 		local position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
@@ -97,13 +111,14 @@ function UpdatePlayer(dt)
 			player.animationState = 3
 		end
 	if Inputs.ButtonReleased(Buttons.Left) then
-			player.animationState = 1
+		player.animationState = 2
 		for _,v in ipairs(player.spells[player.currentSpell]) do
 			if not v.alive then
 				v:Cast()
-				end
+				break
 			end
 		end
+	end
 	if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 	if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 
@@ -132,12 +147,10 @@ function UpdatePlayer(dt)
 		for i=1, #player.spells do 
 			for _,j in ipairs(player.spells[i]) do
 				if j.alive then
-					j:BaseUpdate(dt)
+				j:Update(dt)
 				end
 			end
 		end
-
-		
 
 		-- check collision against the goal
 		local collisionIDs = player.sphereCollider:GetCollisionIDs()

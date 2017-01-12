@@ -11,9 +11,9 @@
 #include "ScreenQuadRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
+
 namespace Gear
 {
-
 	class Dummy {};
 
 	class Light {};
@@ -59,6 +59,8 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+
+		GEAR_API void addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture);
 		//----------------------
 
 	private:

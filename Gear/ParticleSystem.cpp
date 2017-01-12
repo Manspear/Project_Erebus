@@ -41,7 +41,7 @@ namespace Gear
 					{
 						particlePos[nrOfActiveParticles] = this->position;
 						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-						allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 10 - 5, rand() % 5 - 2.5, rand() % 5 - 2.5);
+						allParticles[nrOfActiveParticles++].direction = glm::vec3(rand() % 5 - 2.5, rand() % 5 - 2.5, rand() % 5 - 2.5);
 
 					}
 					timer = 0;

@@ -20,24 +20,27 @@ namespace LuaTransform
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
 		{
-			{ "Bind",			bind },
-			{ "Destroy",		destroy },
-			{ "Move",			move },
-			{ "Switch",			switchTransform },
-			{ "Follow",			follow },
-			{ "Fly",			fly },
-			{ "Shoot",			shoot },
-			{ "ActiveControl",	activeControl},
+			{ "Bind",				bind },
+			{ "Destroy",			destroy },
+			{ "Move",				move },
+			{ "Switch",				switchTransform },
+			{ "Follow",				follow },
+			{ "Fly",				fly },
+			{ "Shoot",				shoot },
+			{ "ActiveControl",		activeControl},
 
-			{ "SetPosition",	setPosition },
-			{ "SetRotation",	setRotation },
-			{ "SetLookAt",		setLookAt },
-			{ "SetScale",		setScale },
+			{ "SetPosition",		setPosition },
+			{ "SetRotation",		setRotation },
+			{ "SetLookAt",			setLookAt },
+			{ "SetScale",			setScale },
+			{ "SetScaleNonUniform", setScaleNonUniform },
+			{ "SetPosFromTransformID", setPosFromTransID },
 
-			{ "GetPosition",	getPosition },
-			{ "GetRotation",	getRotation },
-			{ "GetLookAt",		getLookAt },
-			{ "GetScale",		getScale },
+
+			{ "GetPosition",		getPosition },
+			{ "GetRotation",		getRotation },
+			{ "GetLookAt",			getLookAt },
+			{ "GetScale",			getScale },
 			
 			{ "UpdateRotationFromLookVector", updateRotationFromLookVector},
 			{ NULL, NULL }
@@ -227,6 +230,34 @@ namespace LuaTransform
 		return 0;
 	}
 
+	int setScaleNonUniform(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			glm::vec3 scale;
+			int index = lua_tointeger(lua, 1);
+			scale.x = lua_tonumber(lua, 2);
+			scale.y = lua_tonumber(lua, 3);
+			scale.z = lua_tonumber(lua, 4);
+
+			g_transforms[index].setScale(scale);
+		}
+
+		return 0;
+	}
+
+	int setPosFromTransID(lua_State* lua) {
+		if (lua_gettop(lua) >= 2)
+		{
+			int indexFrom = lua_tointeger(lua, 2);
+			int indexTo = lua_tointeger(lua, 1);
+
+			g_transforms[indexTo].setPos(g_transforms[indexFrom].getPos());
+		}
+
+		return 0;
+	}
+
 	int getPosition( lua_State* lua )
 	{
 		int result = 0;
@@ -326,7 +357,8 @@ namespace LuaTransform
 		glm::vec3 tempLookdir = g_transforms[transID].getLookAt();
 		tempLookdir.y = 0;
 		tempLookdir = glm::normalize(tempLookdir);
-		float rotY = ((tempLookdir.x > 0)*2-1) * glm::angle(tempLookdir, glm::vec3(0.0f, 0.0f, 1.0f));
+		//float rotY = ((tempLookdir.x > 0)*2-1) * glm::angle(tempLookdir, glm::vec3(0.0f, 0.0f, 1.0f));
+		float rotY = ((tempLookdir.x > 0) * 2 - 1) * acos(glm::dot(tempLookdir, {0,0,1}));
 		g_transforms[transID].setRotation({ 0, rotY, 0 });
 		return 0;
 	}
