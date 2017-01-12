@@ -15,6 +15,16 @@ LevelPointLightComponent::~LevelPointLightComponent()
 void LevelPointLightComponent::initialize(tinyxml2::XMLElement* element)
 {
 	this->radius = std::stof(element->FirstChildElement("Radius")->Attribute("r"));
+	
+	this->color.x = std::stof(element->FirstChildElement("Color")->Attribute("r"));
+	this->color.y = std::stof(element->FirstChildElement("Color")->Attribute("g"));
+	this->color.z = std::stof(element->FirstChildElement("Color")->Attribute("b"));
+	
+	this->pos.x = std::stof(element->FirstChildElement("Position")->Attribute("x"));
+	this->pos.y = std::stof(element->FirstChildElement("Position")->Attribute("y"));
+	this->pos.z = std::stof(element->FirstChildElement("Position")->Attribute("z"));
+
+
 }
 
 tinyxml2::XMLElement* LevelPointLightComponent::toXml(tinyxml2::XMLDocument* doc)

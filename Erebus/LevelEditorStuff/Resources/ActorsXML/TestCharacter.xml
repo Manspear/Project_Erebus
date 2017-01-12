@@ -8,5 +8,7 @@
 	</LevelModel>
 	<LevelPointLight>
 		<Radius r ="10.0"/>
+		<Color r ="10.0" g = "5.0" b="40.0"/>
+		<Position x="10.0" y="3.3" z="7.5" />
 	</LevelPointLight>
 </Actor>
