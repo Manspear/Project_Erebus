@@ -85,7 +85,7 @@ void LevelEditor::start() {
 	LevelAssetHandler assetHandler( &assets );
 	assetHandler.load( "Models" );
 
-	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
+	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
 	TwBar* tempBar = ui->getMainBar();
 
@@ -112,8 +112,8 @@ void LevelEditor::start() {
 			//derp->setPos(derp->getPos() + (glm::vec3(i/100.f)* deltaTime));
 		}
 
-		for (int i = 0; i < ps.size(); i++)
-			ps.at(i)->update(deltaTime);
+		//for (int i = 0; i < ps.size(); i++)
+		//	ps.at(i)->update(deltaTime);
 
 		engine.queueDynamicModels(modelHandler->getModels());
 		engine.queueAnimModels(modelHandler->getAnimatedModels());

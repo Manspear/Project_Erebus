@@ -2,6 +2,7 @@
 #include"BaseIncludes.h"
 #include "Gear.h"
 #include "NetworkController.hpp"
+#include "LuaBinds.h"
 
 class GamePlay
 {

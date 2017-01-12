@@ -94,6 +94,9 @@
     <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LuaNetwork.cpp">
+      <Filter>Lua\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaNetwork.hpp">
+      <Filter>Lua\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
