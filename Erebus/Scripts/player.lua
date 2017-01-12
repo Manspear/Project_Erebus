@@ -132,6 +132,8 @@ function UpdatePlayer(dt)
 		local posx = math.floor(position.x/512)
 		local posz = math.floor(position.z/512)
 		local heightmapIndex = (posz*2 + posx)+1
+		if heightmapIndex < 1 then heightmapIndex = 1 end
+		if heightmapIndex > 4 then heightmapIndex = 4 end
 
 		local height = heightmaps[heightmapIndex]:GetHeight(position.x%512,position.z%512)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
 		if position.y <= height then

@@ -17,7 +17,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 		
 		self.lifetime = self.lifetime - dt
 
-		local transitionFactor = self.lifetime / self. duration
+		local transitionFactor = self.lifetime / self.duration
 		local scale = self.startRadius * transitionFactor + self.endRadius * (1-transitionFactor)
 		
 		SphereCollider.SetRadius(self.sphereCollider, scale);
@@ -38,7 +38,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 	function type:Cast(position, direction)
 		--heightmap checking LUL. please replace with ray mot heightmap asap
 		local canspawn = false
-		for i = 0, 10 do
+		for i = 0, 200 do
 			position.x = position.x + direction.x
 			position.y = position.y + direction.y
 			position.z = position.z + direction.z
@@ -46,7 +46,9 @@ function CreateGroundAoEType(startSize, endSize, duration)
 			local posx = math.floor(position.x/512)
 			local posz = math.floor(position.z/512)
 			local heightmapIndex = (posz*2 + posx)+1
-			local height = heightmaps[heightmapIndex]:GetHeight(position.x%512,position.z%512)+heightmaps[heightmapIndex].offset
+			if heightmapIndex < 1 then heightmapIndex = 1 end
+			if heightmapIndex > 4 then heightmapIndex = 4 end
+			local height = heightmaps[heightmapIndex]:GetHeight(position.x%512,position.z%512)--+heightmaps[heightmapIndex].offset
 			if position.y < height then
 				canspawn = true
 				break
@@ -56,6 +58,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 		if canspawn then
 			self.lifetime = self.duration
 			self.position = position
+			Transform.SetPosition(self.transformID, self.position)
 			return true -- tells the spell that it successfully spawned
 		end
 
