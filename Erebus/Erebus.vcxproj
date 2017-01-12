@@ -258,7 +258,6 @@
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />
-    <ClInclude Include="LuaControls.h" />
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaInputs.h" />

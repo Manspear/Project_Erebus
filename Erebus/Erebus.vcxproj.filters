@@ -104,9 +104,6 @@
     <ClInclude Include="LuaCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaControls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LuaErebus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
