@@ -46,7 +46,7 @@ function CreateChronoBall()
 		self.alive = true
 		self.lifeTime = CHRONOBALLLIFETIME 
 		--self.particles.cast()
-		--Transform.SetPosition(self.transformID, self.position)
+		Transform.SetPosition(self.transformID, self.position)
 		
 	end
 

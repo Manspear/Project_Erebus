@@ -115,9 +115,10 @@ function UpdatePlayer(dt)
 		for _,v in ipairs(player.spells[player.currentSpell]) do
 			if not v.alive then
 				v:Cast()
-				end
+				break
 			end
 		end
+	end
 	if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 	if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 
