@@ -51,6 +51,7 @@ function LoadPlayer()
 	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
+	Network.SendTransform(player.transformID, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -143,6 +144,7 @@ function UpdatePlayer(dt)
 		end
 
 		Transform.SetPosition(player.transformID, position)
+		Network.SendTransform(player.transformID, position)
 
 		player.animation:Update(dt, player.animationState)
 	end

@@ -88,9 +88,9 @@ void NetworkController::startCommunicationThreads()
 }
 
 
-void NetworkController::buildTransformPacket(const float& x, const float& y, const float& z)
+void NetworkController::sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
 {
-	network.buildTransformPacket(x, y, z);
+	//network.buildTransformPacket(id, x, y, z);
 }
 
 TransformPacket NetworkController::fetchTransformPacket()
