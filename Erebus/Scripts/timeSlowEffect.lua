@@ -15,5 +15,6 @@ function CreateTimeSlowEffect()
 
 		return self.duration > 0 
 	end
+
 	return effect
 end

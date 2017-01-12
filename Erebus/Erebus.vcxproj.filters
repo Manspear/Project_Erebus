@@ -305,6 +305,12 @@
     <None Include="Scripts\timeSlowEffect.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\groundAoEType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireGroundAoE.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

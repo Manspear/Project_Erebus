@@ -202,6 +202,8 @@
     <None Include="Scripts\fireball.lua" />
     <None Include="Scripts\fireballArc.lua" />
     <None Include="Scripts\fireEffect.lua" />
+    <None Include="Scripts\fireGroundAoE.lua" />
+    <None Include="Scripts\groundAoEType.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\particle.lua" />
