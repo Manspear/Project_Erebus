@@ -82,8 +82,11 @@ void LevelEditor::start() {
 	glm::vec3 hitPoint;
 	bool hasHit = false;
 
-	LevelAssetHandler assetHandler( &assets );
-	assetHandler.load( "Models" );
+	//LevelAssetHandler assetHandler( &assets );
+	//assetHandler.load( "Models" );
+
+	LevelPrefabHandler prefabHandler;
+	prefabHandler.load( "LevelEditorStuff/Resources/ActorsXML" );
 
 	ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 	while (running && window.isWindowOpen())
