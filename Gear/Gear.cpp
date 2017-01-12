@@ -48,7 +48,7 @@ namespace Gear
 
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
-		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
+		dirLight.color = glm::vec3(0.25, 0.25, 0.44);
 		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
 		dirLights.push_back(dirLight); //save it to buffer
