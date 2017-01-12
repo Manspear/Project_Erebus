@@ -117,4 +117,16 @@ namespace Importer
 		int jointCount;
 		int jointOffset;
 	};
+
+	struct Particle
+	{
+		int numOfParticles;
+		float lifeTime;
+		float speed;
+		float emitPerSecond;
+		int nrOfParticlesPerEmit;
+		/*float dirX, dirY, dirZ;*/
+		char textureName[32];
+
+	};
 };
