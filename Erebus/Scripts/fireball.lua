@@ -35,8 +35,7 @@ function CreateFireball()
 	end
 	
 	function fireball:Cast()
-		self.position = Transform.GetPosition(casterTransID)
-		self.direction = dir	--Transform.GetLookAt(player.transformID
+		--self.direction = dir	--Transform.GetLookAt(player.transformID
 		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), self.speed)
 		self.alive = true
 		self.lifeTime = FIREBALLLIFETIME 
