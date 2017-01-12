@@ -16,11 +16,28 @@ Animation::Animation()
 	transitionTimeArraySize = 9;
 	numStates = 3;
 	animationStack.push_back(0);
+
+	//FOR DEBUGGING
+	this->animationSegments = 1;
+	std::vector<int> animStack;
+	animStack.push_back(0);
+	for (int i = 0; i < animationSegments; i++)
+	{
+		transitionMaxTimes.push_back(0);
+		transitionTimers.push_back(0);
+		animationTimers.push_back(0);
+		animationStacks.push_back(animStack);
+
+		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
+		animationMatrixLists.push_back(allahu);
+	}
 }
 
 Animation::~Animation()
 {
 	delete[] transitionTimeArray;
+	for (int i = 0; i < animationSegments; i++)
+		delete[] animationMatrixLists[i];
 }
 
 void Animation::setAsset(Importer::ModelAsset * asset)
@@ -285,13 +302,12 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 //	}
 //}
 
-GEAR_API void Animation::updateState(float dt, int state, int animationPart)
+GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 {
 	//printf("Animation stack size: %d \n", animationStack.size());
 	//if(animationStack.size() > 1)
 	//	printf("Animation stack back: %d next to back: %d \n", animationStack.back(), animationStack[animationStack.size() - 2]);
-	
-	int lookie = animationStack.size();
+
 	//Do not append if the animation already exists 
 	if (animationStack.back() == state)
 	{
@@ -364,14 +380,13 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 	animStack.push_back(0);
 	for (int i = 0; i < animationSegments; i++)
 	{
-		fromAnimationTimers.push_back(0);
-		toAnimationTimers.push_back(0);
 		transitionMaxTimes.push_back(0);
 		transitionTimers.push_back(0);
 		animationTimers.push_back(0);
 		animationStacks.push_back(animStack);
-		glm::mat4x4 jlizz[MAXJOINTCOUNT];
-		animationMatrixLists.push_back(jlizz);
+
+		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
+		animationMatrixLists.push_back(allahu);
 	}
 }
 

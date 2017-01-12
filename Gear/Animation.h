@@ -25,7 +25,7 @@ public:
 
 	GEAR_API virtual std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 	//The state is an enum defined for each subclass of Animation
-	GEAR_API virtual void updateState(float dt, int state, int animationPart);
+	GEAR_API virtual void updateState(float dt, int state, int animationSegment);
 
 	/*
 	The number of parts is equal to 
@@ -89,7 +89,7 @@ protected:
 
 	//List holding "final" jointmatrices (one per animationSegment) before they're added together
 	//used like: animationMatrixLists[animationSegment][jointIdx]
-	std::vector<glm::mat4x4[MAXJOINTCOUNT]> animationMatrixLists;
+	std::vector<glm::mat4x4*> animationMatrixLists;
 
 	float fromAnimationTimer;
 	float toAnimationTimer;

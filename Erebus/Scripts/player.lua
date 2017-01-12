@@ -140,7 +140,7 @@ function UpdatePlayer(dt)
 
 		Transform.SetPosition(player.transformID, position)
 
-		player.animation:Update(dt, player.animationState, animationPart)
+		player.animation:Update(dt, player.animationState1, animationPart)
 	end
 		-- update the current player spell
 		for i=1, #player.spells do 
