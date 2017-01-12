@@ -10,7 +10,7 @@ end
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 120
+	player.moveSpeed = 12
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
@@ -18,6 +18,7 @@ function LoadPlayer()
 	player.animation = Animation.Create()
 	player.animationState = 1
 	player.printInfo = false
+	player.heightmapIndex = 1
 
 	-- set spells for player
 	player.spells = {}
@@ -116,11 +117,11 @@ function UpdatePlayer(dt)
 
 		local posx = math.floor(position.x/512)
 		local posz = math.floor(position.z/512)
-		local heightmapIndex = (posz*2 + posx)+1
+		player.heightmapIndex = (posz*2 + posx)+1
+		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		print (heightmapIndex)
-
-		local height = heightmaps[heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 		if position.y <= height then
 			position.y = height
 			player.canJump = true
