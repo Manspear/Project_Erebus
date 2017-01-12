@@ -30,14 +30,7 @@ namespace Gear
 
 		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 
-		GLuint a[] = { GL_DEPTH_COMPONENT16 }; //Format for texture in gBuffer
-		GLuint b[] = { GL_DEPTH_COMPONENT }; //Format for texture in gBuffer
-		GLuint c[] = { GL_DEPTH_ATTACHMENT }; //gBuffer attachements
-		GLenum d[] = { GL_UNSIGNED_BYTE }; //data type for texture
-		GLfloat e[] = { GL_NEAREST };
-		
-
-		shadowMap.initFramebuffer(1, 1280, 720, e, a, b, d, c, true);
+		shadowMap.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_NEAREST, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
 
 		//gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen

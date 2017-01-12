@@ -146,6 +146,20 @@ void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat* f
 	InitRenderTargets(attachments);
 }
 
+void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat filter, GLenum internalFormat, GLenum format, GLenum type, GLenum attachments, bool clamp)
+{
+	nrOfTextures = nrTex;
+	this->width = width;
+	this->height = height;
+
+	framebufferID = 0;
+	renderBuffer = 0;
+
+	textureIDs = new GLuint[nrOfTextures];
+	InitTextures(&filter, &internalFormat, &format, &type, clamp);
+	InitRenderTargets(&attachments);
+}
+
 void ShaderProgram::use()
 {
 	if (programID != 0)
