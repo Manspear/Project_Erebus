@@ -273,5 +273,10 @@ int main()
 		delete ps.at(i);
 
 	glfwTerminate();
+
+	for (int i = 0; i < 200; i++)
+	{
+		delete obbDerps[i];
+	}
 	return 0;
 }
