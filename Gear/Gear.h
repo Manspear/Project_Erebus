@@ -87,6 +87,7 @@ namespace Gear
 		GLuint quadVBO;
 		ShaderProgram *quadShader;
 		ShaderProgram *lightPassShader;
+		ShaderProgram *blurShader;
 
 		ShaderProgram gBuffer;
 		std::vector<Lights::DirLight> dirLights;
@@ -96,6 +97,7 @@ namespace Gear
 
 		//Temp shadowmapping:
 		ShaderProgram shadowMap;
+		ShaderProgram shadowMapTemp;
 
 		//TEMP: Disco party
 		//glm::vec3 endPos[50];
@@ -112,5 +114,6 @@ namespace Gear
 		DebugHandler* debugHandler;
 
 		void updateDebug(Camera* camera);
+		void BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale);
 	};
 }

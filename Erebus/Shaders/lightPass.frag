@@ -33,6 +33,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords);
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare);
+float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 
 void main() {
 
@@ -73,7 +74,7 @@ void main() {
 		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)), 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
 }
-
+ 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
 	vec3 lightDir = normalize(-light.direction);
@@ -122,10 +123,31 @@ float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords)
 {
 	vec3 shadowcoords = (initialShadowMapCoords.xyz/initialShadowMapCoords.w) * vec3(0.5) + vec3(0.5);
 
-	return SampleShadowMap(shadowMap, shadowcoords.xy, shadowcoords.z);
+	return SampleVarianceShadowMap(shadowMap, shadowcoords.xy, shadowcoords.z);
 }
 
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare)
 {
 	return step(compare - 0.005, texture2D(shadowMap, coords.xy).r);
+}
+
+float linstep(float low, float high, float v)
+ {
+	return clamp((v - low) / (high - low), 0.0, 1.0);
+
+ }
+
+float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare)
+{
+	vec2 moments = texture2D(shadowMap, coords.xy).xy;
+
+	float p = step(compare, moments.x);
+	float variance = max(moments.y - moments.x * moments.x, 0.00002);
+
+	float d = compare - moments.x;
+	float pMax = linstep(0.2, 1.0, variance / (variance + d*d));
+
+	return min(max(p, pMax), 1.0);
+	
+	//return step(compare, texture2D(shadowMap, coords.xy).r);
 }

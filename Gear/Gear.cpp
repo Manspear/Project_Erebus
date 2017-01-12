@@ -30,11 +30,13 @@ namespace Gear
 
 		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 
-		shadowMap.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_NEAREST, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		shadowMap.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		shadowMapTemp.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
 
 		//gBuffer.deferredInit(3, WINDOW_WIDTH, WINDOW_HEIGHT, internalFormat, format, attachment, type);//initize gBuffer with the textures
 		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
 		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
+		blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
 
 		//Generate buffers
 		glGenBuffers(1, &lightBuffer); //Generate buffer to light data
@@ -99,6 +101,7 @@ namespace Gear
 		}
 		delete quadShader;
 		delete lightPassShader;
+		delete blurShader;
 
 		delete debugHandler;
 
@@ -262,6 +265,9 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
 
+		BlurFilter(&shadowMapTemp, &shadowMap, glm::vec3(3.0f, 0.0f, 0.0f));
+		BlurFilter(&shadowMap , &shadowMapTemp, glm::vec3(0.0f, 3.0f, 0.0f));
+
 
 		queue.updateUniforms(camera);
 		gBuffer.use();
@@ -359,6 +365,20 @@ namespace Gear
 	void GearEngine::updateDebug(Camera* camera) {
 		debugHandler->update(camera, &queue);
 
+	}
+
+	void GearEngine::BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale)
+	{
+		dest->use();
+		glClear(GL_DEPTH_BUFFER_BIT);
+
+		blurShader->use();
+
+		blurShader->addUniform(blurScale, "blurScale");
+		source->BindTexturesToProgram(blurShader, "filterTexture", 0, 0);
+		drawQuad();
+
+		blurShader->unUse();
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {
