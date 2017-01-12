@@ -50,6 +50,9 @@ void WorkQueue::execute()
 	ReleaseSemaphore( begin, MAX_THREADS, NULL );
 
 	nwork = 0;
+
+	for( int i=0; i<MAX_THREADS; i++ )
+		WaitForSingleObject( end, INFINITE );
 }
 
 void WorkQueue::stop()
