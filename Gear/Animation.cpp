@@ -2,35 +2,35 @@
 
 Animation::Animation()
 {
-	animationTimer = 0;
 	fromAnimationTimer = 0;
 	toAnimationTimer = 0;
 	animationSegments = 0;
-	oldTo = -1;
-	oldFrom = -1;
 	for (int i = 0; i < finalList.size(); i++)
 		shaderMatrices[i] = glm::mat4();
 
 	transitionTimeArray = nullptr;
 
 	transitionTimeArraySize = 9;
-	numStates = 3;
-	animationStack.push_back(0);
 
-	//FOR DEBUGGING
-	this->animationSegments = 1;
-	std::vector<int> animStack;
-	animStack.push_back(0);
-	for (int i = 0; i < animationSegments; i++)
-	{
-		transitionMaxTimes.push_back(0);
-		transitionTimers.push_back(0);
-		animationTimers.push_back(0);
-		animationStacks.push_back(animStack);
+	
 
-		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
-		animationMatrixLists.push_back(allahu);
-	}
+	////FOR DEBUGGING
+	//this->animationSegments = 1;
+	//std::vector<int> animStack;
+	//animStack.push_back(0);
+	//for (int i = 0; i < animationSegments; i++)
+	//{
+	//	isTransitionCompletes.push_back(true);
+	//	oldTos.push_back(-1337);
+	//	oldFroms.push_back(-1337);
+	//	transitionMaxTimes.push_back(0);
+	//	transitionTimers.push_back(0);
+	//	animationTimers.push_back(0);
+	//	animationStacks.push_back(animStack);
+	//
+	//	glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
+	//	animationMatrixLists.push_back(allahu);
+	//}
 }
 
 Animation::~Animation()
@@ -47,9 +47,9 @@ void Animation::setAsset(Importer::ModelAsset * asset)
 	finalList.resize(model->numJoints);
 }
 
-void Animation::updateAnimation(float dt, int layer)
+void Animation::updateAnimation(float dt, int layer, int animationSegment)
 {
-	animationTimer += dt;
+	animationTimers[animationSegment] += dt;
 	Importer::hModel* model = asset->getHeader();
 	int jointOffset = 0;
 	for (int i = 0; i < model->numSkeletons; i++)
@@ -69,7 +69,7 @@ void Animation::updateAnimation(float dt, int layer)
 			float maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 
 																														//resets itself wohahaha
-			animationTimer = abs(std::fmod(animationTimer, maxTime));
+			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
 			float timeOverCompare = INT_MAX;
 			float timeUnderCompare = -INT_MAX;
@@ -80,7 +80,7 @@ void Animation::updateAnimation(float dt, int layer)
 			for (int k = 0; k < state->keyCount; k++)
 			{
 				Importer::sKeyFrame* currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
-				float diff = animationTimer - currKey->keyTime;
+				float diff = animationTimers[animationSegment] - currKey->keyTime;
 
 				if (timeOverCompare == INT_MAX && timeUnderCompare == -INT_MAX)
 				{
@@ -101,11 +101,13 @@ void Animation::updateAnimation(float dt, int layer)
 					timeUnderCompare = diff;
 				}
 			}
-			finalList[j + jointOffset] = interpolateKeys(overKey, underKey, animationTimer);
+			
+			finalList[j + jointOffset] = interpolateKeys(overKey, underKey, animationTimers[animationSegment]);
 		}
 		jointOffset += skeleton->jointCount;
 	}
-	updateJointMatrices(finalList);
+	calculateAndSaveJointMatrices(finalList, animationSegment);
+	//updateJointMatrices(finalList);
 }
 
 GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
@@ -136,6 +138,8 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 
 			Importer::sKeyFrame overKey;
 			Importer::sKeyFrame underKey;
+
+			int DEBUGkeyCount = state->keyCount;
 
 			for (int k = 0; k < state->keyCount; k++)
 			{
@@ -168,140 +172,6 @@ GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, 
 	return finalList;
 }
 
-//GEAR_API void Animation::updateState(float dt, int state)
-//{
-//	//You have to be able to "lock" appending until a transition is done.
-//	//When the transition is done, and the input-state is still the same, no need to blend. 
-//	//Pop everything but the top element.
-//
-//	//If it's the same input as before
-//	if (animationStack.back() == state)
-//	{
-//		if (animationStack.size() > 1)
-//		{
-//			//When the transition is done
-//			if (isTransitionComplete)
-//			{
-//				//Just repeat the same animation
-//				if (animationStack.size() > 1)
-//				{
-//					//Wipes the stack, and sets in the looping animation
-//					animationStack.clear();
-//					animationStack.push_back(state);
-//				}
-//				toAnimationTimer = 0;
-//				fromAnimationTimer = 0;
-//				isTransitionComplete = false;
-//			}
-//			//When it's not done
-//			else
-//			{
-//				//Blend the animations
-//				int from = animationStack[animationStack.size() - 2];
-//				int to = animationStack.back();
-//
-//				if (oldFrom != from && oldTo != to)
-//				{
-//					//Gets the right element according to the formula:
-//					//column + vectorLength * row = element
-//					//Same as writing array[column][element]
-//					transitionTimer = transitionTimeArray[to + numStates * from];
-//					transitionMaxTime = transitionTimer;
-//				}
-//				//blendAnimations(to, from, transitionTimer, dt);
-//
-//				blendAnimations(to, from, transitionTimer, dt);
-//				oldFrom = from;
-//				oldTo = to;
-//			}
-//		}
-//		else
-//		{
-//			int from = 1;
-//			int to = 2;
-//			
-//			if (oldFrom != from && oldTo != to)
-//			{
-//				//Gets the right element according to the formula:
-//				//column + vectorLength * row = element
-//				//Same as writing array[column][element]
-//				transitionTimer = transitionTimeArray[to + numStates * from];
-//				transitionMaxTime = transitionTimer;
-//			}
-//			//blendAnimations(1, 2, transitionTimer, dt);
-//			
-//			oldFrom = from;
-//			oldTo = to;
-//			
-//			blendAnimations(2, 1, transitionTimer, dt);
-//			
-//			if (isTransitionComplete)
-//			{
-//				oldFrom = 11;
-//				oldTo = 11;
-//			}
-//
-//			//Run the same animation
-//			//updateAnimation(dt, state);
-//			//toAnimationTimer = 0;
-//		}
-//	}
-//	//if it's a new input
-//	else
-//	{
-//		animationStack.push_back(state);
-//
-//		if (animationStack.size() > 1)
-//		{
-//			//Blend the animations
-//			int from = animationStack[animationStack.size() - 2];
-//			int to = animationStack.back();
-//
-//			if (oldFrom != from && oldTo != to)
-//			{
-//				//Gets the right element according to the formula:
-//				//column + vectorLength * row = element
-//				//Same as writing array[column][element]
-//				transitionTimer = transitionTimeArray[to + numStates * from];
-//				transitionMaxTime = transitionTimer;
-//			}
-//			//blendAnimations(to, from, transitionTimer, dt);
-//			blendAnimations(to, from, transitionTimer, dt);
-//
-//			oldFrom = from;
-//			oldTo = to;
-//		}
-//		else
-//		{
-//			int from = 1;
-//			int to = 2;
-//			
-//			if (oldFrom != from && oldTo != to)
-//			{
-//				//Gets the right element according to the formula:
-//				//column + vectorLength * row = element
-//				//Same as writing array[column][element]
-//				transitionTimer = transitionTimeArray[to + numStates * from];
-//				transitionMaxTime = transitionTimer;
-//			}
-//			blendAnimations(2, 1, transitionTimer, dt);
-//			
-//			oldFrom = from;
-//			oldTo = to;
-//			
-//			if (isTransitionComplete)
-//			{
-//				oldFrom = 11;
-//				oldTo = 11;
-//			}
-//
-//			//Run the lone animation
-//			//updateAnimation(dt, state);
-//			//toAnimationTimer = 0;
-//		}
-//	}
-//}
-
 GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 {
 	//printf("Animation stack size: %d \n", animationStack.size());
@@ -309,31 +179,31 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 	//	printf("Animation stack back: %d next to back: %d \n", animationStack.back(), animationStack[animationStack.size() - 2]);
 
 	//Do not append if the animation already exists 
-	if (animationStack.back() == state)
+	if (animationStacks[animationSegment].back() == state)
 	{
-		if (animationStack.size() == 1)
+		if (animationStacks[animationSegment].size() == 1)
 		{
-			updateAnimation(dt, state);
+			updateAnimation(dt, state, animationSegment);
 		}
-		else if(animationStack.size() > 1)
+		else if(animationStacks[animationSegment].size() > 1)
 		{
-			int from = animationStack[animationStack.size() - 2];
-			int to = animationStack.back();
+			int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
+			int to = animationStacks[animationSegment].back();
 	
-			if (oldTo != to && oldFrom != from)
+			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
-				transitionTimer = transitionTimeArray[to + numStates * from];
-				transitionMaxTime = transitionTimer;
-				oldTo = to;
-				oldFrom = from;
+				transitionTimers[animationSegment] = transitionTimeArray[to + numStates * from];
+				transitionMaxTimes[animationSegment] = transitionTimers[animationSegment];
+				oldTos[animationSegment] = to;
+				oldFroms[animationSegment] = from;
 				toAnimationTimer = 0;
 			}
-			blendAnimations(to, from, transitionTimer, dt);
-			if (isTransitionComplete)
+			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
+			if (isTransitionCompletes[animationSegment])
 			{
-				animationStack.clear();
-				animationStack.push_back(to);
-				isTransitionComplete = false;
+				animationStacks[animationSegment].clear();
+				animationStacks[animationSegment].push_back(to);
+				isTransitionCompletes[animationSegment] = false;
 			}
 		}
 	}
@@ -341,15 +211,13 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 	else
 	{
 		//If the blending got interrupted
-		if (animationStack.size() > 1)
+		if (animationStacks[animationSegment].size() > 1)
 		{
-			int back = animationStack.back();
-			animationStack.clear();
-			animationStack.push_back(back);
-			//TEMPTEST
-			//animationTimer = transitionMaxTime - transitionTimer;
+			int back = animationStacks[animationSegment].back();
+			animationStacks[animationSegment].clear();
+			animationStacks[animationSegment].push_back(back);
 		}
-		animationStack.push_back(state);
+		animationStacks[animationSegment].push_back(state);
 	}
 
 	////FOR DEBUGGING BLENDING
@@ -380,6 +248,11 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 	animStack.push_back(0);
 	for (int i = 0; i < animationSegments; i++)
 	{
+		isTransitionCompletes.push_back(true);
+
+		oldTos.push_back(-1337);
+		oldFroms.push_back(-1337);
+
 		transitionMaxTimes.push_back(0);
 		transitionTimers.push_back(0);
 		animationTimers.push_back(0);
@@ -407,9 +280,23 @@ GEAR_API void Animation::setStates(int numStates)
 	this->numStates = numStates;
 }
 
-GEAR_API void Animation::assembleAnimations()
+GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 {
-	
+	if (animationSegments > 1)
+	{
+		//First time do this
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
+
+		for (int i = 1; i < animationSegments; i++)
+		{
+			for(int j = 0; j < MAXJOINTCOUNT; j++)
+				shaderMatrices[j] += animationMatrixLists[i][j];
+		}
+	}
+	else
+	{
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
+	}
 }
 
 glm::mat4x4 * Animation::getShaderMatrices()
@@ -417,16 +304,16 @@ glm::mat4x4 * Animation::getShaderMatrices()
 	return shaderMatrices;
 }
 
-void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTimer, float dt)
+void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTimer, int animationSegment, float dt)
 {
 	/*
 	Need the "finished" matrices of both of these animations.
 	Modify the animation-function to return a list of matrices.
 	*/
 	
-	fromAnimationTimer = animationTimer;
-	toAnimationTimer = animationTimer;
-	animationTimer += dt;
+	fromAnimationTimer = animationTimers[animationSegment];
+	toAnimationTimer = animationTimers[animationSegment];
+	animationTimers[animationSegment] += dt;
 
 	blendFromKeys = updateAnimationForBlending(dt, blendFrom, fromAnimationTimer);
     blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
@@ -434,21 +321,23 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	std::vector<sKeyFrame> blendedList;
 	for (int i = 0; i < blendToKeys.size(); i++)
 	{
-		blendedList.push_back(interpolateKeysForBlending(blendToKeys[i], blendFromKeys[i]));
+		blendedList.push_back(interpolateKeysForBlending(blendToKeys[i], blendFromKeys[i], animationSegment));
 	}
 
+	animationMatrixLists[animationSegment];
+
 	//Now update the matrix list with the blended keys
-	updateJointMatrices(blendedList);
+	calculateAndSaveJointMatrices(blendedList, animationSegment);
 
 	//When blended
 	transitionTimer -= dt;
 	if (transitionTimer < 0.001)
 	{
-		isTransitionComplete = true;
+		isTransitionCompletes[animationSegment] = true;
 	}
 	else
 	{
-		isTransitionComplete = false;
+		isTransitionCompletes[animationSegment] = false;
 	}
 }
 
@@ -492,7 +381,7 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 	return interpolatedKey;
 }
 
-Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from)
+Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment)
 {
 	/*
 		What separetes this from usual interpolateKeys is that the diffKeys variable is dependent on the transition time 
@@ -500,9 +389,8 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	*/
 
 	//Send in the "percentage" of the way through transitionMaxTime transitionTImer is.
-	float diffKeys = transitionTimer / transitionMaxTime;
+	float underAffect = transitionTimers[animationSegment] / transitionMaxTimes[animationSegment];
 
-	float underAffect = diffKeys;
 	//underAffect = 0.5;
 	//underaffect was 1
 	Importer::sKeyFrame interpolatedKey;
@@ -518,7 +406,6 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	myLerp(to.keyTranslate, from.keyTranslate, interpolatedKey.keyTranslate, underAffect);
 	
 	myLerp(to.keyScale, from.keyScale, interpolatedKey.keyScale, underAffect);
-
 
 	//QUAT CODE	
 	glm::quat resQ = glm::slerp(rotOver, rotUnder, underAffect);
@@ -582,6 +469,49 @@ void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
 		shaderMatrices[i] = tMatrices[i] * invBPose;
 
 		modelJointPtr = (hJoint*)((char*)modelJointPtr + sizeof(hJoint));
+		if (i == skelPtr->jointCount - 1)
+		{
+			skelPtr = (hSkeleton*)((char*)skelPtr + sizeof(hSkeleton));
+			jointIdxOffset = skelPtr->jointOffset / sizeof(hJoint);
+		}
+	}
+}
+
+void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment)
+{
+	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
+
+	glm::mat4 translateMat;
+	glm::mat4 rotateMat;
+	glm::mat4 scaleMat;
+
+	for (int i = 0; i < keyList.size(); i++)
+	{
+		convertToRotMat(keyList[i].keyRotate, &rotateMat);
+		convertToTransMat(keyList[i].keyTranslate, &translateMat);
+		convertToScaleMat(keyList[i].keyScale, &scaleMat);
+
+		tMatrices[i] = translateMat * scaleMat * rotateMat;
+	}
+
+	int jointIdxOffset = 0;
+	hSkeleton* skelPtr = asset->getSkeleton(0);
+	hJoint* modelJointPtr = asset->getJointsStart();
+	for (int i = 0; i < keyList.size(); i++)
+	{
+		if (modelJointPtr->parentJointID >= 0)
+		{
+			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
+
+			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
+		}
+
+		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
+
+		animationMatrixLists[animationSegment][i] = tMatrices[i] * invBPose;
+
+		modelJointPtr = (hJoint*)((char*)modelJointPtr + sizeof(hJoint));
+
 		if (i == skelPtr->jointCount - 1)
 		{
 			skelPtr = (hSkeleton*)((char*)skelPtr + sizeof(hSkeleton));

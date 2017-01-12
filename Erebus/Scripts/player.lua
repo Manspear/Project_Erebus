@@ -63,11 +63,13 @@ function LoadPlayer()
 	for i = 1, 37 do
 		playerAnimationTransitionTimes[i] = {}
 		for j = 1, 37 do
-			playerAnimationTransitionTimes[i][j] = 1
+			playerAnimationTransitionTimes[i][j] = 3
 		end
 	end
 
 	player.animation:SetTransitionTimes(playerAnimationTransitionTimes)
+
+	player.animation:SetAnimationSegments(1);
 
 	Erebus.SetControls(player.transformID)
 	
@@ -77,7 +79,6 @@ function UnloadPlayer()
 end
 
 function UpdatePlayer(dt)
-	local animationPart = 0
 	if player.health > 0 then
 		forward, left = 0, 0
 		player.testCamera = false
@@ -87,7 +88,8 @@ function UpdatePlayer(dt)
 		player.animationState1 = 1
 	if Inputs.KeyDown("W") then
 		forward = player.moveSpeed
-			player.animationState1 = 2
+			player.animationState1 = 9
+			player.animationState2 = 18
 		end
 	if Inputs.KeyDown("S") then
 		forward = -player.moveSpeed
@@ -140,7 +142,10 @@ function UpdatePlayer(dt)
 
 		Transform.SetPosition(player.transformID, position)
 
-		player.animation:Update(dt, player.animationState1, animationPart)
+		--ANIMATION UPDATING
+		player.animation:Update(dt, 20, 0)
+		--player.animation:Update(dt, 15, 1)
+		player.animation:UpdateShaderMatrices()
 	end
 		-- update the current player spell
 		for i=1, #player.spells do 

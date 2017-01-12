@@ -44,9 +44,10 @@ namespace LuaGear
 		{
 			{ "Create", createAnimation },
 			{ "__gc",	destroyAnimation },
-			//{ "Update",	updateAnimation },
 			{ "Update",	updateAnimationBlending },
+			{ "UpdateShaderMatrices", assembleAnimationsIntoShadermatrices},
 			{ "SetTransitionTimes", setTransitionTimes},
+			{ "SetAnimationSegments", setAnimationSegments},
 			{ NULL, NULL }
 		};
 
@@ -206,22 +207,22 @@ namespace LuaGear
 		return 0;
 	}
 
-	int updateAnimation( lua_State* lua )
-	{
-		int result = 0;
-
-		if( lua_gettop( lua ) >= 3 )
-		{
-			lua_getfield( lua, 1, "__self" );
-			Animation* animation = (Animation*)lua_touserdata( lua, -1 );
-			float dt = lua_tonumber( lua, 2 );
-			int layer = lua_tointeger( lua, 3 );
-
-			animation->updateAnimation( dt, layer );
-		}
-
-		return result;
-	}
+	//int updateAnimation( lua_State* lua )
+	//{
+	//	int result = 0;
+	//
+	//	if( lua_gettop( lua ) >= 3 )
+	//	{
+	//		lua_getfield( lua, 1, "__self" );
+	//		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+	//		float dt = lua_tonumber( lua, 2 );
+	//		int layer = lua_tointeger( lua, 3 );
+	//
+	//		animation->updateAnimation( dt, layer );
+	//	}
+	//
+	//	return result;
+	//}
 
 	int updateAnimationBlending(lua_State* lua)
 	{
@@ -269,6 +270,33 @@ namespace LuaGear
 			animation->setTransitionTimes(transitions, numStates);
 
 			delete[] transitions;
+		}
+		return result;
+	}
+
+	int setAnimationSegments(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+			int numberOfSegments = lua_tointeger(lua, 2);
+			animation->setAnimationSegments(numberOfSegments);
+		}
+		return result;
+	}
+
+	int assembleAnimationsIntoShadermatrices(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 0)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+			animation->assembleAnimationsIntoShadermatrices();
 		}
 		return result;
 	}

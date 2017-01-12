@@ -25,4 +25,6 @@ namespace LuaGear
 	int updateAnimation( lua_State* lua );
 	int updateAnimationBlending(lua_State* lua);
 	int setTransitionTimes(lua_State* lua);
+	int setAnimationSegments(lua_State * lua);
+	int assembleAnimationsIntoShadermatrices(lua_State * lua);
 }

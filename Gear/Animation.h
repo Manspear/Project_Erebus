@@ -21,7 +21,7 @@ public:
 	GEAR_API Animation();
 	GEAR_API virtual ~Animation();
 	GEAR_API void setAsset(Importer::ModelAsset* asset);
-	GEAR_API virtual void updateAnimation(float dt, int layer);
+	GEAR_API virtual void updateAnimation(float dt, int layer, int animationSegment);
 
 	GEAR_API virtual std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 	//The state is an enum defined for each subclass of Animation
@@ -52,34 +52,36 @@ public:
 
 	GEAR_API virtual void setStates(int numStates);
 
-	GEAR_API virtual void assembleAnimations();
+	GEAR_API virtual void assembleAnimationsIntoShadermatrices();
 
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
 protected:
-	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, float dt);
+	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, int animationSegment, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey, float& animTimer);
-	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from);
+	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment);
 	
 	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
+	void calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
-	
-	float animationTimer;
 
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
 
 	int numStates;
-	int oldTo = -1337;
-	int oldFrom = -1337;
+
 	int animationSegments;
 	std::vector<sKeyFrame> blendFromKeys;
 	std::vector<sKeyFrame> blendToKeys;
 
 	//Animation blending variables, one per animationPart;
+	std::vector<int> oldTos;
+	std::vector<int> oldFroms;
+	std::vector<bool> isTransitionCompletes;
+
 	std::vector<float> fromAnimationTimers;
 	std::vector<float> toAnimationTimers;
 	std::vector<float> transitionMaxTimes;
@@ -93,14 +95,8 @@ protected:
 
 	float fromAnimationTimer;
 	float toAnimationTimer;
-	float transitionMaxTime = 0;
 
-	//When this timer is set, make sure it doesn't get reset when doing the same blend again
-	float transitionTimer = 0;
-	
-	std::vector<int> animationStack;
 	std::vector<std::vector<int>> animationStacks;
-	bool isTransitionComplete = true;
 
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
