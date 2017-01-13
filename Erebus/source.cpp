@@ -60,51 +60,6 @@ int main()
 	CollisionChecker collisionChecker;
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(transforms);
-	OBBCollider obb1 = OBBCollider();
-	OBBCollider obb2 = OBBCollider();
-	AABBCollider aabb1 = AABBCollider();
-	SphereCollider sphere1 = SphereCollider();
-	RayCollider ray1 = RayCollider(glm::vec3(50,27,151),glm::vec3(1,0,0));
-	ray1.setIDTransform(0);
-	sphere1.setPos(glm::vec3(3.1f,0.5,0));
-	sphere1.setRadius(1);
-	aabb1.setPos(glm::vec3(5,0,0));
-	obb1.setPos(glm::vec3(7,50,0));
-	obb1.setSize(2, 0.1, 0.1);
-	obb2.setPos(glm::vec3(70,27,150));
-	obb2.setSize(4,1,1);
-	float swag = 3.1415;
-	//obb1.rotateAroundY(0.7f);
-	OBBCollider* obbDerps[200];
-	for (size_t i = 0; i < 200; i++)
-	{
-		obbDerps[i] = new OBBCollider(glm::vec3(80 + i/2, 27, 140 + i % 20), 2, 0.5f, 0.5f);
-		collisionHandler.addHitbox(obbDerps[i],3);
-	}
-		
-	collisionHandler.addHitbox(&obb1);
-	collisionHandler.addHitbox(&obb2,3);
-	collisionHandler.addHitbox(&aabb1);
-	collisionHandler.addRay(&ray1,4);
-
-	collisionHandler.setLayerCollisionMatrix(3, 0, false);
-	collisionHandler.setLayerCollisionMatrix(3, 1, false);
-	collisionHandler.setLayerCollisionMatrix(3, 2, false);
-	collisionHandler.setLayerCollisionMatrix(3, 3, false);
-
-	collisionHandler.setLayerCollisionMatrix(4, 0, false);
-	collisionHandler.setLayerCollisionMatrix(4, 1, false);
-	collisionHandler.setLayerCollisionMatrix(4, 2, false);
-	collisionHandler.setLayerCollisionMatrix(4, 4, false);
-
-	bool test1 = collisionChecker.collisionCheck(&obb1, &sphere1);
-	bool test2 = collisionChecker.collisionCheck(&obb1,&obb2);
-	bool test3 = collisionChecker.collisionCheck(&obb1, &aabb1);
-	bool test4 = collisionChecker.collisionCheck(&ray1, &sphere1);
-	bool test5 = collisionChecker.collisionCheck(&ray1, &aabb1);
-	bool test6 = collisionChecker.collisionCheck(&ray1, &obb2);
-
-
 
  	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
@@ -169,9 +124,6 @@ int main()
 
 	ai.addDebug(Debugger::getInstance());
 
-	
-
-
 	while (running && window.isWindowOpen())
 	{	
 		//ai.drawDebug(heightMap);
@@ -189,35 +141,6 @@ int main()
 
 		collisionHandler.checkCollisions();
 		collisionHandler.drawHitboxes();
-		
-		if (ray1.checkCollision())
-		{
-			engine.print("HIT", 200, 0);
-		}
-			
-		else
-		{
-			engine.print("MISS", 200, 0);
-		}
-			
-		for (size_t i = 0; i < 1000; i++)
-		{
-			tempDebug->drawOBB(obb1.getPos() + glm::vec3(i,i,i), obb1.getXAxis(), obb1.getYAxis(), obb1.getZAxis(), obb1.getHalfLengths());
-		}
-		
-		obb1.rotateAroundX(0.1f);
-		obb1.rotateAroundY(0.1f);
-		obb1.rotateAroundZ(0.1f);
-		obb2.rotateAroundX(0.01f);
-		obb2.rotateAroundY(0.02f);
-		obb2.rotateAroundZ(0.03f);
-		for (int i = 0; i < 200; i++)
-		{
-			obbDerps[i]->rotateAroundX(0.001f * (float)(i/20.0f));
-			obbDerps[i]->rotateAroundY(0.002f * (float)(i / 20.0f));
-			obbDerps[i]->rotateAroundZ(0.003f * (float)(i / 20.0f));
-		}
-		//collisionHandler.printCollisions();
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);
@@ -274,9 +197,5 @@ int main()
 
 	glfwTerminate();
 
-	for (int i = 0; i < 200; i++)
-	{
-		delete obbDerps[i];
-	}
 	return 0;
 }
