@@ -309,13 +309,14 @@ namespace Gear
 		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
 		updateDebug(camera);
-		queue.particlePass(particleSystems);
+		
 		//glEnable(GL_DEPTH_TEST);;
 
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glDisable(GL_CULL_FACE);
 		skybox.update(camera);
 		skybox.draw();
+		queue.particlePass(particleSystems);
 
 		//Clear lists
 		staticModels = &defaultModelList;
