@@ -17,4 +17,6 @@ public:
 	std::string toLua(std::string name) override;
 	void postInitialize() override;
 	void setParent(LevelActor* parent);
+
+
 };

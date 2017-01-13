@@ -25,10 +25,12 @@ public:
 	void setRadius(float radius);
 	void update(float deltaTime) override;
 
+	void setTwStruct(TwBar*) override;
+	Lights::PointLight light;
 private:
 	float radius;
 	glm::vec3 color;
 	glm::vec3 pos;
 
-	Lights::PointLight light;
+	
 };

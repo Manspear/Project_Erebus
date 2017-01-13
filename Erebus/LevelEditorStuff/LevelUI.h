@@ -3,6 +3,7 @@
 #include <BaseIncludes.h>
 #include <memory>
 
+
 #define USE_ANT
 struct uiVec3 {
 	float x, y, z;
@@ -93,9 +94,18 @@ public:
 
 	TwBar* getMainBar();
 
-	TwType TW_TYPE_VECTOR3F;
+	static TwType TW_TYPE_VECTOR3F() {
+		TwStructMember vector3fMember[] = {
+			{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
+			{ "y", TW_TYPE_FLOAT, offsetof(uiVec3, y), "" },
+			{ "z", TW_TYPE_FLOAT, offsetof(uiVec3, z), "" }
+		};
+
+		return TwDefineStruct("Vector3f", vector3fMember, 3, sizeof(uiVec3), NULL, NULL);
+	}
 	LevelUI(GLFWwindow* window);
 	~LevelUI();
 	void Draw();
+
 };
 

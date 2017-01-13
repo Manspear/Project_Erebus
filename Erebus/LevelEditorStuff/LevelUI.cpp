@@ -26,13 +26,7 @@ LevelUI::LevelUI(GLFWwindow* window)
 		glm::vec2((int)(WINDOW_WIDTH* TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
 		glm::vec4(0, 255, 128, 128), "Assets");
 
-	TwStructMember vector3fMember[] = {
-		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
-		{ "y", TW_TYPE_FLOAT, offsetof(uiVec3, y), "" },
-		{ "z", TW_TYPE_FLOAT, offsetof(uiVec3, z), "" }
-	};
 
-	TW_TYPE_VECTOR3F = TwDefineStruct("Vector3f", vector3fMember, 3, sizeof(uiVec3), NULL, NULL);
 	
 	if (TwGetLastError() != nullptr) {
 		printf("error");
@@ -61,5 +55,6 @@ void LevelUI::Draw() {
 }
 
 TwBar* LevelUI::getMainBar() {
-	return this->mainBar;
+	return this->bars[0]->getBar();
 }
+

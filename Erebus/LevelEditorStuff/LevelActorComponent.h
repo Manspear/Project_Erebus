@@ -1,6 +1,8 @@
 #pragma once
 #include "TinyXml\tinyxml2.h"
 #include <string>
+#include"LevelUI.h"
+#include "AntTweakBar.h"
 
 class LevelActor; // Forward declaration to avoid circular dependency
 
@@ -17,7 +19,10 @@ public:
 	virtual void update(float deltaTime) {}
 	virtual void setParent(LevelActor* parent) { this->parent = parent; };
 
+	virtual void setTwStruct(TwBar * twBar) {};
+
 protected:
 	LevelActor* parent = nullptr;
+
 };
 

@@ -21,7 +21,7 @@ void LevelEditor::start() {
 	LevelTransformHandler::createInstance(&engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), &engine, &assets);
 
-	std::vector<Lights::PointLight> lights;// = new std::vector<Lights::PointLight>();
+	std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
 	this->transformHandler = LevelTransformHandler::getInstance();
 	modelHandler = LevelModelHandler::getInstance();
@@ -49,6 +49,7 @@ void LevelEditor::start() {
 	//std::cout <<  << std::endl;
 	
 	//factory->saveWorld("Level2", &actors);
+
 	factory->loadWorld("Level2", &actors);
 
 	engine.setFont(font);
@@ -91,12 +92,6 @@ void LevelEditor::start() {
 	LevelPrefabHandler::getInstance()->load( "LevelEditorStuff/Resources/ActorsXML" );
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
-
-	TwBar* tempBar = ui->getMainBar();
-
-	TwAddButton(tempBar, "Camera", NULL, NULL, "");
-	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
-	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
 
 	LevelAssetHandler::getInstance()->setAssets( &assets );
 	LevelAssetHandler::getInstance()->load();
@@ -179,21 +174,22 @@ void LevelEditor::start() {
 					actors.push_back( newActor );
 
 					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
-				newActor->addComponent(new LevelPointLightComponent());
-				newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
-				newActor->getComponent<LevelPointLightComponent>()->setRadius(24);
+					newActor->addComponent(new LevelPointLightComponent());
+					newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
+					newActor->getComponent<LevelPointLightComponent>()->setRadius(24);
 
-				Lights::PointLight tempLight;// = new Lights::PointLight;
-				tempLight.pos = glm::vec4(hitPoint.x, hitPoint.y+20, hitPoint.z,1);
-				tempLight.radius = glm::vec4(24,0,0,0);
-				tempLight.color = glm::vec4(0.4, 0.4, 0.4, 1);
-				lights.push_back(tempLight);
-				engine.queueLights(&lights);
+					//Lights::PointLight tempLight;// = new Lights::PointLight;
+					newActor->getComponent<LevelPointLightComponent>()->light.pos = glm::vec4(hitPoint.x, hitPoint.y+20, hitPoint.z,1);
+					newActor->getComponent<LevelPointLightComponent>()->light.radius = glm::vec4(24,0,0,0);
+					newActor->getComponent<LevelPointLightComponent>()->light.color  = glm::vec4(0.4, 0.4, 0.4, 1);
+					lights.push_back(&newActor->getComponent<LevelPointLightComponent>()->light);
+					newActor->SetAgent(ui->getMainBar());
+					//ui->SetAgent(newActor);
 				}
 			}
 			
 		}
-
+		engine.queueLights(&lights);
 		if( hasHit )
 		{
 			Debugger::getInstance()->drawSphere( hitPoint, 0.5f );

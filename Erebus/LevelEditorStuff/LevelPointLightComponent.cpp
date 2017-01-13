@@ -105,3 +105,9 @@ void LevelPointLightComponent::setRadius(float inRadius)
 {
 	radius = inRadius;
 }
+
+void LevelPointLightComponent::setTwStruct(TwBar* tempBar )
+{
+	TwAddVarRW(tempBar, "Pos", LevelUI::TW_TYPE_VECTOR3F(), (void*)&light.pos, NULL);
+	TwAddVarRW(tempBar, "Light", TW_TYPE_FLOAT, (void*)&light.radius.x, NULL);
+}
