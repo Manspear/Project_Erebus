@@ -50,7 +50,7 @@ void LevelEditor::start() {
 	
 	//factory->saveWorld("Level2", &actors);
 	factory->loadWorld("Level2", &actors);
-	factory->saveToLua("level01.lua", &actors);
+
 	engine.setFont(font);
 
 	CollisionHandler collisionHandler;
@@ -67,7 +67,7 @@ void LevelEditor::start() {
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
 
-	this->ui = new LevelUI(w,factory);
+	this->ui = new LevelUI(w);
 	engine.addDebugger(Debugger::getInstance());
 
 	//for (size_t i = 0; i < 10; i++)
@@ -181,11 +181,11 @@ void LevelEditor::start() {
 					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
 				newActor->addComponent(new LevelPointLightComponent());
 				newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
-				newActor->getComponent<LevelPointLightComponent>()->setRadius(ui->radius);
+				newActor->getComponent<LevelPointLightComponent>()->setRadius(24);
 
 				Lights::PointLight tempLight;// = new Lights::PointLight;
 				tempLight.pos = glm::vec4(hitPoint.x, hitPoint.y+20, hitPoint.z,1);
-				tempLight.radius = glm::vec4(ui->radius,0,0,0);
+				tempLight.radius = glm::vec4(24,0,0,0);
 				tempLight.color = glm::vec4(0.4, 0.4, 0.4, 1);
 				lights.push_back(tempLight);
 				engine.queueLights(&lights);
