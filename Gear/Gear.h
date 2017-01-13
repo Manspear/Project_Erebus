@@ -11,6 +11,7 @@
 #include "ScreenQuadRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
+#include "Skybox.h"
 
 namespace Gear
 {
@@ -65,7 +66,7 @@ namespace Gear
 		//----------------------
 
 	private:
-		GEAR_API void lightPass(Camera* camera);
+		GEAR_API void lightPass(Camera* camera, Camera* tempCam);
 		void pickingPass();
 
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
@@ -88,12 +89,18 @@ namespace Gear
 		GLuint quadVBO;
 		ShaderProgram *quadShader;
 		ShaderProgram *lightPassShader;
+		ShaderProgram *blurShader;
 
 		ShaderProgram gBuffer;
 		std::vector<Lights::DirLight> dirLights;
 		GLuint lightBuffer = 0;
+		Skybox skybox;
 		//temp debug variable
 		int drawMode = 1;
+
+		//Temp shadowmapping:
+		ShaderProgram shadowMap;
+		ShaderProgram shadowMapTemp;
 
 		//TEMP: Disco party
 		//glm::vec3 endPos[50];
@@ -110,5 +117,7 @@ namespace Gear
 		DebugHandler* debugHandler;
 
 		void updateDebug(Camera* camera);
+		void BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale);
+		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount);
 	};
 }
