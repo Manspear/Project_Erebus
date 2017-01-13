@@ -47,7 +47,7 @@ namespace Gear
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); //unbind buffer
 
 		Lights::DirLight dirLight; //add one dir light
-		dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+		dirLight.direction = glm::vec3(-0.0f, -0.5f, 0.5f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
@@ -321,8 +321,8 @@ namespace Gear
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 
-		//screenQuad.draw();
-		//text.draw();
+		screenQuad.draw();
+		text.draw();
 	}
 
 	void GearEngine::pickingPass() {
