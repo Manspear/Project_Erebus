@@ -1,5 +1,7 @@
 #include "LevelUI.h"
 
+
+
 void TW_CALL setEditorState(void * clientData)
 {
 	std::cout << "HELLO";
@@ -12,49 +14,17 @@ LevelUI::LevelUI(GLFWwindow* window)
 	TwWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	mainBar = TwNewBar( "Main" );
 
-	float thickness = .125f;
-	std::stringstream ss;
-	glm::vec2 posVal, sizeVal;
-	posVal = glm::vec2((int)(WINDOW_WIDTH*(1.f-thickness)), 0);
-	sizeVal = glm::vec2((int)(WINDOW_WIDTH*thickness), WINDOW_HEIGHT);
-	std::string position = this->vec2ToString(posVal, " position=");
-	std::string size = this->vec2ToString(sizeVal, " size=");
-	std::string color = " color='0 128 255' alpha=128";
-	std::string refresh = " refresh=.05";
-	std::string resize = " resizable=false";
-	std::string moveable = " movable=false";
-	ss << "Main"<<position<<size << color<<refresh<<resize<<moveable;
+	bars[0] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness())), 0),
+		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT),
+		glm::vec4(0, 128, 255, 128), "Agent");
 
-	TwDefine(ss.str().c_str());
+	bars[1] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), 0),
+		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
+		glm::vec4(0, 128, 128, 128), "World");
 
-
-	bar2 = TwNewBar("bar2");
-	std::stringstream ss1;
-	posVal = glm::vec2((int)(WINDOW_WIDTH*(1.f - thickness*2)), 0);
-	sizeVal = glm::vec2((int)(WINDOW_WIDTH*thickness), WINDOW_HEIGHT*.5f);
-	position = this->vec2ToString(posVal, " position=");
-	size = this->vec2ToString(sizeVal, " size=");
-	color = " color='0 128 128' alpha=128";
-	refresh = " refresh=.05";
-	resize = " resizable=false";
-	moveable = " movable=false";
-	ss1 << "bar2" << position << size << color << refresh << resize << moveable;
-	
-	TwDefine(ss1.str().c_str());
-
-	bar3 = TwNewBar("bar3");
-	std::stringstream ss2;
-	posVal = glm::vec2((int)(WINDOW_WIDTH*(1.f - thickness * 2)), WINDOW_HEIGHT*.5f);
-	sizeVal = glm::vec2((int)(WINDOW_WIDTH*thickness), WINDOW_HEIGHT*.5f);
-	position = this->vec2ToString(posVal, " position=");
-	size = this->vec2ToString(sizeVal, " size=");
-	color = " color='0 255 128' alpha=128";
-	refresh = " refresh=.05";
-	resize = " resizable=false";
-	moveable = " movable=false";
-	ss2 << "bar3" << position << size << color << refresh << resize << moveable;
-
-	TwDefine(ss2.str().c_str());
+	bars[2] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), WINDOW_HEIGHT*.5f),
+		glm::vec2((int)(WINDOW_WIDTH* TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
+		glm::vec4(0, 255, 128, 128), "Assets");
 
 	TwStructMember vector3fMember[] = {
 		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
