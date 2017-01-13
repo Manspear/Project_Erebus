@@ -98,8 +98,8 @@ namespace Gear
 		faces.push_back("skybox/left.dds");
 		faces.push_back("skybox/top.dds");
 		faces.push_back("skybox/bottom.dds");
-		faces.push_back("skybox/back.dds");
 		faces.push_back("skybox/front.dds");
+		faces.push_back("skybox/back.dds");
 		skybox.loadCubemap(faces);
 	}
 
