@@ -65,7 +65,7 @@ public:
 		allTransforms = new TransformStruct[nrOfTransforms];
 
 		moleman = assets.load<ModelAsset>("Models/testGuy.model");
-		particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
+		/*particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");*/
 		heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 		
 		for (int i = 0; i < nrOfTransforms; i++)
@@ -80,12 +80,12 @@ public:
 
 		
 		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai);
-	
+		Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
 		//particlesTexture->bind(PARTICLES);
-		for (int i = 0; i < ps.size(); i++)
-		{
-			ps.at(i)->setTextrue(particlesTexture);
-		}
+		//for (int i = 0; i < ps.size(); i++)
+		//{
+		//	ps.at(i)->setTextrue(particlesTexture);
+		//}
 
 		ai.addDebug(Debugger::getInstance());
 
