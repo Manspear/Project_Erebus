@@ -20,6 +20,7 @@ function LoadPlayer()
 	player.timeScalar = 1.0
 	player.printInfo = false
 	player.heightmapIndex = 1
+	player.walkableIncline = 1
 
 	-- set spells for player
 	player.spells = {}
@@ -126,10 +127,7 @@ function UpdatePlayer(dt)
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 
 		Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
-
-		position = Transform.GetPosition(player.transformID)
-		position.y = position.y + player.verticalSpeed
-		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
+		local newPosition = Transform.GetPosition(player.transformID)
 
 		local posx = math.floor(position.x/512)
 		local posz = math.floor(position.z/512)
@@ -137,7 +135,18 @@ function UpdatePlayer(dt)
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+
+		local diff = height - position.y
+		if diff <= player.walkableIncline then
+			position = newPosition
+		else
+			height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		end
+
+		position.y = position.y + player.verticalSpeed
+		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
+
 		if position.y <= height then
 			position.y = height
 			player.canJump = true
