@@ -34,7 +34,7 @@ namespace Nurn
 	}
 
 	bool NurnEngine::Send(const Address & destination, const void * data, int size)
-	{		
+	{
 		return netCommunication.SendPackage(destination, data, size);
 	}
 
@@ -47,5 +47,20 @@ namespace Nurn
 	void NurnEngine::Shutdown()
 	{
 		netCommunication.Shutdown();
+	}
+
+	void NurnEngine::buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
+	{
+
+		std::cout << "Sending - x: " << x << " y: " << y << " z: " << z << std::endl;
+	}
+
+	TransformPacket NurnEngine::fetchTransformPacket()
+	{
+		TransformPacket result = TransformPacket();
+		result.data.x = 1;
+		result.data.y = 2;
+		result.data.z = 3;
+		return result;
 	}
 }

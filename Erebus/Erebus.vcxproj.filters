@@ -74,6 +74,12 @@
     <ClCompile Include="LevelModel.cpp">
       <Filter>Source Files\LevelEditor</Filter>
     </ClCompile>
+    <ClCompile Include="LuaInputs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -147,6 +153,12 @@
     </ClInclude>
     <ClInclude Include="LevelModel.h">
       <Filter>Header Files\LevelEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaInputs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaNetwork.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,14 +297,44 @@
     <None Include="Shaders\quad.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debugOBB.frag">
+    <None Include="Shaders\text.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debugOBB.geom">
+    <None Include="Shaders\text.geom">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debugOBB.vert">
+    <None Include="Shaders\text.vert">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\particle.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireball.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireEffect.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\projectileType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\arcType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireballArc.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\chronoBall.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\timeSlowEffect.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\groundAoEType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireGroundAoE.lua">
+      <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\console.lua">
       <Filter>Scripts</Filter>

@@ -2,6 +2,7 @@
 #include <lua\lua.hpp>
 #include "BaseIncludes.h"
 #include "Controls.h"
+#include "NetworkController.hpp"
 
 #include "LuaErebus.h"
 #include "LuaAssets.h"
@@ -12,6 +13,7 @@
 #include "LuaCamera.h"
 #include"LuaAi.h"
 #include "LuaInputs.h"
+#include "LuaNetwork.hpp"
 
 class LuaBinds
 {
@@ -30,7 +32,8 @@ public:
 				std::vector<AnimatedInstance>* animatedModels,
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
-				AGI::AGIEngine* AI);
+				AGI::AGIEngine* AI,
+				NetworkController* network);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;
