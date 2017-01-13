@@ -36,9 +36,7 @@ int main()
 	
 	engine.addDebugger(Debugger::getInstance());
 
-	//Collisions
-	CollisionChecker collisionChecker;
-	CollisionHandler collisionHandler;
+
  	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
@@ -59,7 +57,7 @@ int main()
 	double deltaTime;
 	bool lockMouse = false;
 	Debug* tempDebug = Debugger::getInstance();
-	collisionHandler.setDebugger(tempDebug);
+
 	float alpha = 0.0f;
 	float alphaChangeRate = 0.01f;
 	
