@@ -6,6 +6,7 @@ LevelActorFactory::LevelActorFactory()
 {
 	actorID = 0;
 	folder = "LevelEditorStuff/Resources/ActorsXML/";
+	levelFolder = "LevelEditorStuff/Resources/LevelsXML/";
 	fileExtension = ".xml";
 	savedDocuments = std::map<std::string, tinyxml2::XMLDocument*>();
 	idPathMap = new std::map<unsigned int, const char*>();
@@ -14,6 +15,7 @@ LevelActorFactory::LevelActorFactory()
 LevelActorFactory::LevelActorFactory(LevelTransformHandler* transformHandlerRef, LevelModelHandler* modelHandlerRef) {
 	actorID = 0;
 	folder = "LevelEditorStuff/Resources/ActorsXML/";
+	levelFolder = "LevelEditorStuff/Resources/LevelsXML/";
 	fileExtension = ".xml";
 	savedDocuments = std::map<std::string, tinyxml2::XMLDocument*>();
 	idPathMap = new std::map<unsigned int, const char*>();
@@ -38,31 +40,36 @@ LevelActorFactory::~LevelActorFactory()
 
 LevelActor* LevelActorFactory::createActor(std::string name)
 {
-	LevelActorFactory::actorID++;
-	LevelActor* returnActor = new LevelActor(LevelActorFactory::actorID);
 	std::string fullPath = folder + name + fileExtension;
 	const char* nodeToPath = "Model";
 	const char* elementToPath = "Path";
 
 	tinyxml2::XMLDocument *doc = getDocument(fullPath);
 
-	tinyxml2::XMLElement* startElement = doc->FirstChildElement();
-	returnActor->initialize(startElement);
-
-	for (tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	LevelActor* returnActor = nullptr;
+	if( !doc->Error() )
 	{
-		if (std::strcmp(pNode->Value(), nodeToPath) == 0) //Map path to actorID
+		LevelActorFactory::actorID++;
+		returnActor = new LevelActor(LevelActorFactory::actorID);
+
+		tinyxml2::XMLElement* startElement = doc->FirstChildElement();
+		returnActor->initialize(startElement);
+
+		for (tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 		{
-			this->idPathMap->insert(std::pair<unsigned int, const char*>(returnActor->id,pNode->FirstChildElement(elementToPath)->GetText()));
+			if (std::strcmp(pNode->Value(), nodeToPath) == 0) //Map path to actorID
+			{
+				this->idPathMap->insert(std::pair<unsigned int, const char*>(returnActor->id,pNode->FirstChildElement(elementToPath)->GetText()));
+			}
+			LevelActorComponent* temp = getNewComponent(pNode->Value());
+			temp->initialize(pNode);
+			returnActor->addComponent(temp);
 		}
-		LevelActorComponent* temp = getNewComponent(pNode->Value());
-		temp->initialize(pNode);
-		returnActor->addComponent(temp);
+
+
+
+		returnActor->postInitializeAllComponents();
 	}
-
-
-
-	returnActor->postInitializeAllComponents();
 
 	return returnActor;
 }
@@ -155,7 +162,7 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 
 void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>* actors) {
 	tinyxml2::XMLDocument doc;
-	std::string fullPath = folder + fileName + fileExtension;
+	std::string fullPath = levelFolder + fileName + fileExtension;
 
 	const char* LevelActorElementValue = "Level";
 	tinyxml2::XMLElement* LevelElement = doc.NewElement(LevelActorElementValue);
@@ -179,7 +186,7 @@ void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>
 	}
 	actors->clear();
 
-	std::string fullPath = folder + fileName + fileExtension;
+	std::string fullPath = levelFolder + fileName + fileExtension;
 
 	tinyxml2::XMLDocument *doc = getDocument(fullPath);
 

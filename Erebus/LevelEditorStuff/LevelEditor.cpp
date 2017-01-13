@@ -61,12 +61,12 @@ void LevelEditor::start() {
 	this->inputs = new Inputs(w);
 	this->camera = new Camera(45.f, WINDOW_WIDTH / WINDOW_HEIGHT, 0.1f, 2000.f, inputs);
 
+	this->ui = new LevelUI(w);
+
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
-	
-	this->ui = new LevelUI(w);
 
 	engine.addDebugger(Debugger::getInstance());
 
@@ -84,8 +84,11 @@ void LevelEditor::start() {
 	glm::vec3 hitPoint;
 	bool hasHit = false;
 	
-	LevelAssetHandler assetHandler( &assets );
-	assetHandler.load( "Models" );
+	//LevelAssetHandler assetHandler( &assets );
+	//assetHandler.load( "Models" );
+
+	//LevelPrefabHandler prefabHandler;
+	LevelPrefabHandler::getInstance()->load( "LevelEditorStuff/Resources/ActorsXML" );
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
@@ -94,6 +97,9 @@ void LevelEditor::start() {
 	TwAddButton(tempBar, "Camera", NULL, NULL, "");
 	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
 	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
+
+	LevelAssetHandler::getInstance()->setAssets( &assets );
+	LevelAssetHandler::getInstance()->load();
 
 	while (running && window.isWindowOpen())
 	{
@@ -162,10 +168,13 @@ void LevelEditor::start() {
 			hasHit = hm->rayIntersection( ray.rayPosition, ray.rayDirection, &hitPoint );
 			if( hasHit )
 			{
-				LevelActor* newActor = factory->createActor("TestCharacter");
-				actors.push_back(newActor);
+				LevelActor* newActor = factory->createActor( LevelPrefabHandler::getInstance()->getSelectedPrefab() );
+				if( newActor )
+				{
+					actors.push_back( newActor );
 
-				newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+				}
 			}
 		}
 
