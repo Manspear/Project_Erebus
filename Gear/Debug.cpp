@@ -2,7 +2,7 @@
 #include <cmath>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
-#define HIGH_NUMBER 1000000.f
+
 
 Debug::Debug()
 {
@@ -54,9 +54,9 @@ void Debug::drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 z
 	totalDebugOBBs++;
 }
 
-void Debug::drawRay(glm::vec3 pos, glm::vec3 dir, glm::vec3 color)
+void Debug::drawRay(glm::vec3 pos, glm::vec3 dir, float length, glm::vec3 color)
 {
-	this->drawLine(pos, pos + (dir*HIGH_NUMBER));
+	this->drawLine(pos, pos + (dir*length), color);
 }
 
 

@@ -20,7 +20,9 @@
 #include <iostream>
 #include <assert.h>
 #include "Address.hpp"
-
+#include "TransformPacket.hpp"
+#include "Packager.hpp"
+#include "PacketFilter.hpp"
 
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"
@@ -49,6 +51,9 @@ namespace Nurn
 		bool Receive(void * data, int size);
 
 		void Shutdown();
+
+		void buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
+		TransformPacket fetchTransformPacket();
 
 	private:
 		Address address;

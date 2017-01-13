@@ -18,18 +18,20 @@ function LoadPlayer()
 	player.animation = Animation.Create()
 	player.animationState1 = 1
 	player.animationState2 = 1
+	player.timeScalar = 1.0
 	player.printInfo = false
+	player.heightmapIndex = 1
 
 	-- set spells for player
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = {}
 	player.spells[2] = {}
-	for i = 1,  10 do	--create the projectile instances
-		table.insert(player.spells[1], CreateProjectile())
+	for i = 1,  1 do	--create the projectile instances
+		table.insert(player.spells[1], CreateTimeOrbWave())
 	end
 	for i = 1,  10 do	--create the arc instances
-		table.insert(player.spells[2], CreateArc())
+		table.insert(player.spells[2], CreateFireGroundAoE())
 	end
 	player.currentSpell = 1
 
@@ -51,6 +53,7 @@ function LoadPlayer()
 	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
+	Network.SendTransform(player.transformID, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -58,7 +61,7 @@ function LoadPlayer()
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 
 
-	local playerAnimationTransitionTimes = {}
+   local playerAnimationTransitionTimes = {}
 	
 	for i = 1, 37 do
 		playerAnimationTransitionTimes[i] = {}
@@ -82,46 +85,50 @@ function UpdatePlayer(dt)
 	if player.health > 0 then
 		forward, left = 0, 0
 		player.testCamera = false
+
+		dt = dt * player.timeScalar
+
 		local position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
-		player.animationState1 = 1
-	if Inputs.KeyDown("W") then
-		forward = player.moveSpeed
-			player.animationState1 = 9
-			player.animationState2 = 18
-		end
-	if Inputs.KeyDown("S") then
-		forward = -player.moveSpeed
+		player.animationState = 1
+
+		if Inputs.KeyDown("W") then
+			forward = player.moveSpeed
+				player.animationState1 = 2
+			end
+		if Inputs.KeyDown("S") then
+			forward = -player.moveSpeed
+				player.animationState1 = 2
+			end
+		if Inputs.KeyDown("A") then
+			left = player.moveSpeed
+				player.animationState1 = 2
+			end
+		if Inputs.KeyDown("D") then
+			left = -player.moveSpeed
+				player.animationState1 = 2
+			end
+		if Inputs.KeyPressed(Keys.Space) and player.canJump then
+			player.verticalSpeed = PLAYER_JUMP_SPEED
+				player.canJump = false
+				player.animationState1 = 2
+			end
+		if Inputs.ButtonDown(Buttons.Left) then
+			player.testCamera = true
+				player.animationState1 = 3
+			end
+		if Inputs.ButtonReleased(Buttons.Left) then
 			player.animationState1 = 2
-		end
-	if Inputs.KeyDown("A") then
-		left = player.moveSpeed
-			player.animationState1 = 11
-		end
-	if Inputs.KeyDown("D") then
-		left = -player.moveSpeed
-			player.animationState1 = 15
-		end
-	if Inputs.KeyPressed(Keys.Space) and player.canJump then
-		player.verticalSpeed = PLAYER_JUMP_SPEED
-			player.canJump = false
-			player.animationState1 = 2
-		end
-	if Inputs.ButtonDown(Buttons.Left) then
-		player.testCamera = true
-			player.animationState1 = 3
-		end
-	if Inputs.ButtonReleased(Buttons.Left) then
-		player.animationState1 = 2
-		for _,v in ipairs(player.spells[player.currentSpell]) do
-			if not v.alive then
-				v:Cast()
+			for _,v in ipairs(player.spells[player.currentSpell]) do
+				if not v.alive then
+					v:Cast()
+					break
 				end
 			end
 		end
-	if Inputs.KeyPressed("1") then player.currentSpell = 1 end
-	if Inputs.KeyPressed("2") then player.currentSpell = 2 end
+		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
+		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 
 		Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
@@ -131,9 +138,11 @@ function UpdatePlayer(dt)
 
 		local posx = math.floor(position.x/512)
 		local posz = math.floor(position.z/512)
-		local heightmapIndex = (posz*2 + posx)+1
+		player.heightmapIndex = (posz*2 + posx)+1
+		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[heightmapIndex]:GetHeight(position.x%512,position.z%512)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 		if position.y <= height then
 			position.y = height
 			player.canJump = true
@@ -141,6 +150,7 @@ function UpdatePlayer(dt)
 		end
 
 		Transform.SetPosition(player.transformID, position)
+		Network.SendTransform(player.transformID, position)
 
 		--ANIMATION UPDATING
 		player.animation:Update(dt, player.animationState1, 0)
@@ -151,7 +161,7 @@ function UpdatePlayer(dt)
 		for i=1, #player.spells do 
 			for _,j in ipairs(player.spells[i]) do
 				if j.alive then
-					j:BaseUpdate(dt)
+				j:Update(dt)
 				end
 			end
 		end

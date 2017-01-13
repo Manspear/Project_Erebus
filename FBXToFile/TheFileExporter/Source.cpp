@@ -44,7 +44,7 @@ int main()
 	
 	//fileIm.importFbx(fbx, 24);
 	//fileIm.writeToBinary(file);
-	fileIm.importFbx("C:/Git_Repos/Project_Erebus/FBXToFile/Models/testGuyEvolved4.fbx", 24);
+	fileIm.importFbx("C:/Git_Repos/Project_Erebus/FBXToFile/Models/testGuyEvolved4_2.fbx", 24);
 	fileIm.writeToBinary("C:/Git_Repos/Project_Erebus/Erebus/Models/");
 
 	//fileIm.importFbx("C:/Git_Repos/FBX Importer/FBXToFile/Models/cube3.fbx", 24);

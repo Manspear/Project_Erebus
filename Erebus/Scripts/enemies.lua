@@ -8,10 +8,12 @@ function LoadEnemies(n)
 	if n > MAX_ENEMIES then n = MAX_ENEMIES end
 	for i=1, n do
 		enemies[i] = {}
+		enemies[i].timeScalar = 1.0
 		enemies[i].transformID = Transform.Bind()
 		enemies[i].movementSpeed = math.random(5,20)
 		enemies[i].health = 20
 		enemies[i].alive = true
+		enemies[i].effects = {}
 
 		enemies[i].Hurt = function(self,damage)
 			self.health = self.health - damage
@@ -63,17 +65,35 @@ end
 function UpdateEnemies(dt)
 	AI.ClearMap()
 	AI.AddIP(player.transformID,4)
+	local tempdt
 	for i=1, #enemies do
 		if enemies[i].health > 0 then
+			tempdt = dt * enemies[i].timeScalar
 			--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 			AI.AddIP(enemies[i].transformID,-1)
-			aiScript.update(enemies[i],player,dt)
+			aiScript.update(enemies[i],player,tempdt)
 
 			local pos = Transform.GetPosition(enemies[i].transformID)
-			pos.y = heightmaps[1]:GetHeight(pos.x,pos.z)+1
+
+			local posx = math.floor(pos.x/512)
+			local posz = math.floor(pos.z/512)
+			local heightmapIndex = (posz*2 + posx)+1
+
+			local height = heightmaps[heightmapIndex]:GetHeight(pos.x,pos.z)+1
+			pos.y = pos.y - 10*dt
+			if pos.y < height then
+				pos.y = height
+			end
 			Transform.SetPosition(enemies[i].transformID, pos)
-			--ANIMATIONS TEMPORARILY DISABLED
-			--enemies[i].animation:Update(dt, enemies[i].animationState)
+
+			--enemies[i].animation:Update(tempdt, enemies[i].animationState)
+
+			for j = #enemies[i].effects, 1, -1 do 
+				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					table.remove(enemies[i].effects, j)
+
+				end
+			end
 		end
 		Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 	end

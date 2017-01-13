@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
@@ -6,20 +7,18 @@
 
 #include "PerformanceCounter.h"
 
+#include "OBBCollider.h"
 #include "Controls.h"
-
+#include "ParticleImport.h"
 
 #include "LevelEditor.h"
-#include "NetworkController.hpp"
 
 #include"GamePlay.h"
 #include"Menu.h"
+#include "CollisionChecker.h"
+#include "RayCollider.h"
 
 bool running = true;
-bool networkActive = false;
-bool networkHost = true;
-bool networkLonelyDebug = true;
-
 
 int main()
 {
@@ -29,7 +28,6 @@ int main()
 
 	GameState gameState = GameplayState;
 	
-	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
@@ -38,6 +36,8 @@ int main()
 	
 	engine.addDebugger(Debugger::getInstance());
 
+
+ 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -46,35 +46,6 @@ int main()
 	//window.changeCursorStatus(false);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
-
-	NetworkController networkController;
-	NetworkController networkController2;
-
-	if (networkActive)
-	{
-		if (networkLonelyDebug)
-		{
-			networkController.initNetworkAsHost();
-			networkController2.initNetworkAsClient(127, 0, 0, 1);
-			networkController.acceptNetworkCommunication();
-		}
-		else if (networkHost)
-		{
-			networkController.initNetworkAsHost();
-			networkController.acceptNetworkCommunication();
-		}
-		else
-		{
-			networkController.initNetworkAsClient(127, 0, 0, 1);
-		}
-		networkController.startCommunicationThreads();
-
-		if (networkLonelyDebug)
-		{
-			networkController2.startCommunicationThreads();
-		}
-	}
-
 
 	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
 	Menu * menu = new Menu(&engine,assets);
@@ -85,7 +56,7 @@ int main()
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
-
+	Debug* tempDebug = Debugger::getInstance();
 
 	float alpha = 0.0f;
 	float alphaChangeRate = 0.01f;
@@ -167,17 +138,8 @@ int main()
 
 	delete gamePlay;
 	delete menu;
-
-	if (networkActive)
-	{
-		networkController.shutdown();
-		if (networkLonelyDebug)
-		{
-			networkController2.shutdown();
-		}
-	}
 	
-
 	glfwTerminate();
+
 	return 0;
 }

@@ -16,6 +16,9 @@ public:
 	void acceptNetworkCommunication();
 	void startCommunicationThreads();
 
+	void sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
+	TransformPacket fetchTransformPacket();
+
 private:
 	void startNetworkSending();
 	void startNetworkReceiving();

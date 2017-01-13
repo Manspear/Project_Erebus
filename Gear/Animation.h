@@ -28,24 +28,24 @@ public:
 	GEAR_API virtual void updateState(float dt, int state, int animationSegment);
 
 	/*
-	The number of parts is equal to 
+	The number of parts is equal to
 	*/
 	GEAR_API virtual void setAnimationSegments(int numberOfSegments);
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:
-	
-	  FROM >>>>>>>>>>>
+
+	FROM >>>>>>>>>>>
 	TO	  0  1  2   3 ... <-- these numbers are animation states, defined for each model
 	v   0 t1 t5 t9  t13     <-- t for transition time defined by user
 	v   1 t2 t6 t10 t14
-	v   2 t3 t7 t11 t15 
+	v   2 t3 t7 t11 t15
 	v   3 t4 t8 t12 t16
-	   ...
+	...
 	FROM means "the animation state you are transitioning from"
 	TO means "the animation state you are transitioning to"
 
-	The length of the row and column is the same as the number of animationStates that you 
+	The length of the row and column is the same as the number of animationStates that you
 	send in to this "setTransitionTimes" function.
 	*/
 	GEAR_API void setTransitionTimes(float* transitionTimeArray, int numStates);
@@ -60,7 +60,7 @@ protected:
 	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, int animationSegment, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey, float& animTimer);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment);
-	
+
 	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
 	void calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);

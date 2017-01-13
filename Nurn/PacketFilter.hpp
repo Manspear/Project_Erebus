@@ -1,6 +1,8 @@
 #pragma once
 
-class PacketFilter
+#include "Packager.hpp"
+
+class NURN_API PacketFilter
 {
 private:
 
@@ -8,8 +10,5 @@ public:
 	PacketFilter();
 	~PacketFilter();
 
-	void loopThroughPacket();
-	void readMetaData();
-	void putPacketsInBuffer();
-
+	void openPacket(unsigned char * memoryPointer);
 };

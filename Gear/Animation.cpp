@@ -12,7 +12,7 @@ Animation::Animation()
 
 	transitionTimeArraySize = 9;
 
-	
+
 
 	////FOR DEBUGGING
 	//this->animationSegments = 1;
@@ -101,7 +101,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 					timeUnderCompare = diff;
 				}
 			}
-			
+
 			finalList[j + jointOffset] = interpolateKeys(overKey, underKey, animationTimers[animationSegment]);
 		}
 		jointOffset += skeleton->jointCount;
@@ -183,11 +183,11 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		{
 			updateAnimation(dt, state, animationSegment);
 		}
-		else if(animationStacks[animationSegment].size() > 1)
+		else if (animationStacks[animationSegment].size() > 1)
 		{
 			int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
 			int to = animationStacks[animationSegment].back();
-	
+
 			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
 				transitionTimers[animationSegment] = transitionTimeArray[to + numStates * from];
@@ -287,7 +287,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 
 		for (int i = 1; i < animationSegments; i++)
 		{
-			for(int j = 0; j < MAXJOINTCOUNT; j++)
+			for (int j = 0; j < MAXJOINTCOUNT; j++)
 				shaderMatrices[j] += animationMatrixLists[i][j];
 		}
 	}
@@ -295,7 +295,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	{
 		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
 	}
-	
+
 
 }
 
@@ -310,14 +310,14 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	Need the "finished" matrices of both of these animations.
 	Modify the animation-function to return a list of matrices.
 	*/
-	
+
 	fromAnimationTimer = animationTimers[animationSegment];
 	toAnimationTimer = animationTimers[animationSegment];
 	animationTimers[animationSegment] += dt;
 
 	blendFromKeys = updateAnimationForBlending(dt, blendFrom, fromAnimationTimer);
-    blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
-	
+	blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
+
 	std::vector<sKeyFrame> blendedList;
 	for (int i = 0; i < blendToKeys.size(); i++)
 	{
@@ -366,7 +366,7 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 	myLerp(underKey.keyTranslate, overKey.keyTranslate, interpolatedKey.keyTranslate, underAffect);
 
 	myLerp(underKey.keyScale, overKey.keyScale, interpolatedKey.keyScale, underAffect);
-	
+
 	//Lerping the quaternion
 	glm::quat resQ = glm::slerp(rotUnder, rotOver, underAffect);
 	glm::vec3 endRot = glm::eulerAngles(resQ);
@@ -384,8 +384,8 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment)
 {
 	/*
-		What separetes this from usual interpolateKeys is that the diffKeys variable is dependent on the transition time 
-		instead of the keyTimes. Need a "maxTransitionTime" and a timer that counts down.
+	What separetes this from usual interpolateKeys is that the diffKeys variable is dependent on the transition time
+	instead of the keyTimes. Need a "maxTransitionTime" and a timer that counts down.
 	*/
 
 	//Send in the "percentage" of the way through transitionMaxTime transitionTImer is.
@@ -404,7 +404,7 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	//myLerp(from.keyScale, to.keyScale, interpolatedKey.keyScale, underAffect);
 
 	myLerp(to.keyTranslate, from.keyTranslate, interpolatedKey.keyTranslate, underAffect);
-	
+
 	myLerp(to.keyScale, from.keyScale, interpolatedKey.keyScale, underAffect);
 
 	//QUAT CODE	
