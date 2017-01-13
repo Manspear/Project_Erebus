@@ -129,8 +129,8 @@ function UpdatePlayer(dt)
 		Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 		local newPosition = Transform.GetPosition(player.transformID)
 
-		local posx = math.floor(position.x/512)
-		local posz = math.floor(position.z/512)
+		local posx = math.floor(newPosition.x/512)
+		local posz = math.floor(newPosition.z/512)
 		player.heightmapIndex = (posz*2 + posx)+1
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
@@ -141,6 +141,11 @@ function UpdatePlayer(dt)
 		if diff <= player.walkableIncline then
 			position = newPosition
 		else
+			posx = math.floor(position.x/512)
+			posz = math.floor(position.z/512)
+			player.heightmapIndex = (posz*2 + posx)+1
+			if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+			if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 			height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 		end
 
