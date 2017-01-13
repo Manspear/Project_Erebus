@@ -35,23 +35,30 @@ private:
 public:
 	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Controls &controls,Inputs &inputs,Camera& camera)
 	{
+		if (networkLonelyDebug)
+		{
+			networkController.initNetworkAsHost();
+			networkController2.initNetworkAsClient(127, 0, 0, 1);
+
+			if (networkActive)
+			{
+				networkController.acceptNetworkCommunication();
+			}
+		}
+		else if (networkHost)
+		{
+			networkController.initNetworkAsHost();
+			if (networkActive)
+			{
+				networkController.acceptNetworkCommunication();
+			}
+		}
+		else
+		{
+			networkController.initNetworkAsClient(127, 0, 0, 1);
+		}
 		if (networkActive)
 		{
-			if (networkLonelyDebug)
-			{
-				networkController.initNetworkAsHost();
-				networkController2.initNetworkAsClient(127, 0, 0, 1);
-				networkController.acceptNetworkCommunication();
-			}
-			else if (networkHost)
-			{
-				networkController.initNetworkAsHost();
-				networkController.acceptNetworkCommunication();
-			}
-			else
-			{
-				networkController.initNetworkAsClient(127, 0, 0, 1);
-			}
 			networkController.startCommunicationThreads();
 
 			if (networkLonelyDebug)
@@ -96,8 +103,6 @@ public:
 
 	~GamePlay()
 	{
-		luaBinds.unload();
-
 		if (networkActive)
 		{
 			networkController.shutdown();
@@ -106,6 +111,9 @@ public:
 				networkController2.shutdown();
 			}
 		}
+
+		luaBinds.unload();
+
 
 		delete[] allTransforms;
 		delete[] transforms;
@@ -125,8 +133,11 @@ public:
 
 		if (networkActive && networkLonelyDebug)
 		{
-			TransformPacket transPack = networkController.fetchTransformPacket();
-			std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
+			TransformPacket transPack;
+			if (networkController2.fetchTransformPacket(transPack))
+			{
+				std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
+			}
 		}
 
 		collisionHandler.checkCollisions();
