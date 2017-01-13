@@ -17,7 +17,7 @@ function CreateOrbWaveType()
 		table.insert(type.directions, {x = math.cos(angle), y = 0, z= math.sin(angle)})
 
 		type.sphereColliders[i] = SphereCollider.Create(type.transformIDs[i])
-		CollisionHandler.AddSphere(type.sphereColliders[i])
+		CollisionHandler.AddSphere(type.sphereColliders[i], 1)
 
 		angle = angle + math.pi * 2 / ORBWAVEORBS
 	end

@@ -77,7 +77,7 @@ public:
 
 		collisionHandler.setTransforms(transforms);
 		collisionHandler.setDebugger(Debugger::getInstance());
-
+		collisionHandler.setLayerCollisionMatrix(1, 1, false);
 		
 		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController);
 		Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
@@ -131,6 +131,7 @@ public:
 
 		collisionHandler.checkCollisions();
 		collisionHandler.drawHitboxes();
+		//engine->print(collisionHandler.getCollisionText(), 1000, 100, 0.6);
 	}
 
 	void Draw()
