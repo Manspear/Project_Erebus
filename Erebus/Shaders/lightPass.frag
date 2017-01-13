@@ -59,7 +59,7 @@ void main() {
 		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir);
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
-        FragColor = vec4(ambient + directional + point, 1.0);
+        FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
     else if(drawMode == 2)
 		FragColor = vec4(ambient + point, 1.0);
 	else if(drawMode == 3)
