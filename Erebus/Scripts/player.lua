@@ -19,6 +19,7 @@ function LoadPlayer()
 	player.animationState = 1
 	player.timeScalar = 1.0
 	player.printInfo = false
+	player.heightmapIndex = 1
 
 	-- set spells for player
 	player.spells = {}
@@ -132,11 +133,11 @@ function UpdatePlayer(dt)
 
 		local posx = math.floor(position.x/512)
 		local posz = math.floor(position.z/512)
-		local heightmapIndex = (posz*2 + posx)+1
-		if heightmapIndex < 1 then heightmapIndex = 1 end
-		if heightmapIndex > 4 then heightmapIndex = 4 end
+		player.heightmapIndex = (posz*2 + posx)+1
+		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[heightmapIndex]:GetHeight(position.x%512,position.z%512)+heightmaps[heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 		if position.y <= height then
 			position.y = height
 			player.canJump = true

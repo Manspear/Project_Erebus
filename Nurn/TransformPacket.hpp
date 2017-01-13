@@ -6,7 +6,7 @@ union TransformPacket
 {
 	struct TransformPacketStruct
 	{
-		int16_t ID;
+		uint16_t ID;
 		float x;
 		float y;
 		float z;
