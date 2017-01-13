@@ -94,7 +94,7 @@ template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned cha
 	if (nrOfPacketsToCopy <= distanceFromEndOfQueue) // Circlebuffer spliting of data check
 	{
 		memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, sizeToCopy);
-		this->writeIndex += nrOfPacketsToCopy;
+		this->writeIndex = newWriteIndexLocation;
 	}
 	else
 	{
