@@ -21,6 +21,7 @@ void LevelEditor::start() {
 	LevelTransformHandler::createInstance(&engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), &engine, &assets);
 
+	std::vector<Lights::PointLight> lights;// = new std::vector<Lights::PointLight>();
 
 	this->transformHandler = LevelTransformHandler::getInstance();
 	modelHandler = LevelModelHandler::getInstance();
@@ -64,7 +65,7 @@ void LevelEditor::start() {
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
 	
-	this->ui = new LevelUI(w);
+	this->ui = new LevelUI(w,factory);
 
 	engine.addDebugger(Debugger::getInstance());
 
@@ -99,6 +100,8 @@ void LevelEditor::start() {
 	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
 	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
 
+	Debug* temp = Debugger::getInstance();
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -124,9 +127,14 @@ void LevelEditor::start() {
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);
 
+		for (int n = 0; n < actors.size(); n++)
+		{
+			actors[n]->update();
+		}
 
 		engine.draw(camera);
 		this->ui->Draw();
+
 
 
 		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
@@ -170,7 +178,18 @@ void LevelEditor::start() {
 				actors.push_back(newActor);
 
 				newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+				newActor->addComponent(new LevelPointLightComponent());
+				newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
+				newActor->getComponent<LevelPointLightComponent>()->setRadius(ui->radius);
+
+				Lights::PointLight tempLight;// = new Lights::PointLight;
+				tempLight.pos = glm::vec4(hitPoint.x, hitPoint.y+20, hitPoint.z,1);
+				tempLight.radius = glm::vec4(ui->radius,0,0,0);
+				tempLight.color = glm::vec4(0.4, 0.4, 0.4, 1);
+				lights.push_back(tempLight);
+				engine.queueLights(&lights);
 			}
+			
 		}
 
 		if( hasHit )

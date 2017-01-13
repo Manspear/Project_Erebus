@@ -5,13 +5,15 @@ void TW_CALL setEditorState(void * clientData)
 	std::cout << "HELLO";
 }
 
-LevelUI::LevelUI(GLFWwindow* window)
+LevelUI::LevelUI(GLFWwindow* window,LevelActorFactory* factory)
 {
+	radius = 1;
+
+	this->factory = factory;
 
 	TwInit(TW_OPENGL_CORE, NULL);
 	TwWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	mainBar = TwNewBar( "Main" );
-
 
 
 	TwStructMember vector3fMember[] = {
@@ -27,8 +29,9 @@ LevelUI::LevelUI(GLFWwindow* window)
 	}
 
 	//TwDeleteBar(mainBar);
-	//TwDefine("Main label='EditorState' position='0 0' size='150 720' resizable=false buttonalign=right color='192 255 192' text=dark movable=true fontresizable=false help='Choose what component of the level to edit'");
+	TwDefine("Main label='EditorState' position='0 0' size='150 720' resizable=false buttonalign=right color='192 255 192' text=dark movable=true fontresizable=false help='Choose what component of the level to edit'");
 
+	TwAddVarRW(mainBar, "Radius", TW_TYPE_FLOAT, (void*)&radius, NULL);
 	//std::string heightMapString = "HeightMap";
 	//std::string enemyString = "Enemy";
 	//TwAddButton(mainBar, "HeightMap" "HeightMap", setEditorState, &heightMapString, "label='HeightMap'");
