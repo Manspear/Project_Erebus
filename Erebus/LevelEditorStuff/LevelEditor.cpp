@@ -105,6 +105,9 @@ void LevelEditor::start() {
 	LevelAssetHandler::getInstance()->setAssets( &assets );
 	LevelAssetHandler::getInstance()->load();
 
+	TwBar* componentsBar = TwNewBar( "Components" );
+	LevelActorFactory::getInstance()->addToBar( componentsBar );
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();

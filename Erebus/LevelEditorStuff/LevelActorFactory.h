@@ -26,7 +26,11 @@ public:
 	void saveToLua(std::string fileName, std::vector<LevelActor*>* actors);
 	LevelActor* loadActor(tinyxml2::XMLElement* element);
 
+	void addToBar( TwBar* bar );
+
 private:
+	static void TW_CALL addComponent( void* args );
+
 	const char* folder;
 	const char* levelFolder;
 	const char* fileExtension;

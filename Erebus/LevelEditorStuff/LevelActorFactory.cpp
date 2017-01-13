@@ -212,3 +212,21 @@ void LevelActorFactory::saveToLua(std::string fileName, std::vector<LevelActor*>
 		stream.close();
 	}
 }
+
+void LevelActorFactory::addToBar( TwBar* bar )
+{
+	TwAddButton( bar, LevelTransform::name, addComponent, (void*)LevelTransform::name, NULL );
+	TwAddButton( bar, LevelModel::name, addComponent, (void*)LevelModel::name, NULL );
+	TwAddButton( bar, LevelAnimation::name, addComponent, (void*)LevelAnimation::name, NULL );
+	TwAddButton( bar, LevelPointLightComponent::name, addComponent, (void*)LevelPointLightComponent::name, NULL );
+}
+
+void TW_CALL LevelActorFactory::addComponent( void* args )
+{
+	const char* componentName = (const char*)args;
+
+	LevelActor* actor;
+	// get selected actor from singleton
+
+	//actor->addComponent( LevelActorFactory::getInstance()->getNewComponent( componentName ) );
+}
