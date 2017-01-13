@@ -17,7 +17,7 @@ function CreateFireball()
 		self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
 		for index = 1, #hits do
 			if hits[index].Hurt then
-				self.particles.die(self.type.position.x, self.type.position.y, self.type.position.z)
+				self.particles.die(self.type.position)
 				table.insert(hits[index].effects, self.effect())
 				hits[index]:Hurt(self.damage)
 				self:Kill()
@@ -28,15 +28,16 @@ function CreateFireball()
 		local posx = math.floor(self.type.position.x/512)
 		local posz = math.floor(self.type.position.z/512)
 		local heightmapIndex = (posz*2 + posx)+1
+		if heightmapIndex < 1 then heightmapIndex = 1 end
+		if heightmapIndex > 4 then heightmapIndex = 4 end
 		if heightmaps[heightmapIndex]:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y or self.lifeTime < 0 then
-			self.particles.die(self.type.position.x, self.type.position.y, self.type.position.z)
+			self.particles.die(self.type.position)
 			self.Kill(self)
 		end
 	end
 	
 	function fireball:Cast()
-		self.position = Transform.GetPosition(casterTransID)
-		self.direction = dir	--Transform.GetLookAt(player.transformID
+		--self.direction = dir	--Transform.GetLookAt(player.transformID
 		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), self.speed)
 		self.alive = true
 		self.lifeTime = FIREBALLLIFETIME 

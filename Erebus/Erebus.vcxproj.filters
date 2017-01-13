@@ -63,6 +63,9 @@
     <ClCompile Include="LuaInputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -101,9 +104,6 @@
     <ClInclude Include="LuaCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaControls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LuaErebus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -127,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="LuaInputs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaNetwork.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -297,6 +300,12 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\timeSlowEffect.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\groundAoEType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireGroundAoE.lua">
       <Filter>Scripts</Filter>
     </None>
   </ItemGroup>

@@ -15,7 +15,7 @@
 
 namespace Nurn
 {
-	class NURN_API Address
+	class Address
 	{
 	public:
 		Address();

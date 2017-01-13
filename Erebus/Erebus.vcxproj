@@ -165,6 +165,7 @@
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="NetworkController.cpp" />
@@ -201,6 +202,8 @@
     <None Include="Scripts\fireball.lua" />
     <None Include="Scripts\fireballArc.lua" />
     <None Include="Scripts\fireEffect.lua" />
+    <None Include="Scripts\fireGroundAoE.lua" />
+    <None Include="Scripts\groundAoEType.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\particle.lua" />
@@ -255,10 +258,10 @@
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
     <ClInclude Include="LuaCollision.h" />
-    <ClInclude Include="LuaControls.h" />
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
