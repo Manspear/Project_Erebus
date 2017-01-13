@@ -27,11 +27,11 @@ function LoadPlayer()
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = {}
 	player.spells[2] = {}
-	for i = 1,  1 do	--create the projectile instances
-		table.insert(player.spells[1], CreateTimeOrbWave())
+	for i = 1,  4 do	--create the projectile instances
+		table.insert(player.spells[1], CreateFireball())
 	end
-	for i = 1,  10 do	--create the arc instances
-		table.insert(player.spells[2], CreateFireGroundAoE())
+	for i = 1,  1 do	--create the arc instances
+		table.insert(player.spells[2], CreateTimeOrbWave())
 	end
 	player.currentSpell = 1
 
@@ -57,9 +57,7 @@ function LoadPlayer()
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
-	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
-
 
 	local playerAnimationTransitionTimes = 
 	{
@@ -135,7 +133,7 @@ function UpdatePlayer(dt)
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 
 		local diff = height - position.y
 		if diff <= player.walkableIncline then
@@ -146,7 +144,7 @@ function UpdatePlayer(dt)
 			player.heightmapIndex = (posz*2 + posx)+1
 			if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 			if player.heightmapIndex>4 then player.heightmapIndex = 4 end
-			height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+			height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 		end
 
 		position.y = position.y + player.verticalSpeed
