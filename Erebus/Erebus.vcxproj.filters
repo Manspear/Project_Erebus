@@ -66,6 +66,9 @@
     <ClCompile Include="LuaNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -133,6 +136,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaNetwork.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -309,6 +315,12 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\fireGroundAoE.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\orbWaveType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\timeOrbWave.lua">
       <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
