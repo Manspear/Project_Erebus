@@ -21,7 +21,8 @@
 #include <assert.h>
 #include "Address.hpp"
 #include "TransformPacket.hpp"
-
+#include "Packager.hpp"
+#include "PacketFilter.hpp"
 
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"
@@ -51,7 +52,7 @@ namespace Nurn
 
 		void Shutdown();
 
-		void buildTransformPacket(const float& x, const float& y, const float& z);
+		void buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
 		TransformPacket fetchTransformPacket();
 
 	private:

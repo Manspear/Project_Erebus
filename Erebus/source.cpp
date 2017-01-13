@@ -7,7 +7,7 @@
 #include "PerformanceCounter.h"
 
 #include "Controls.h"
-
+#include "ParticleImport.h"
 
 #include "LevelEditor.h"
 
@@ -23,7 +23,6 @@ int main()
 	Gear::GearEngine engine;
 
 	GameState gameState = GameplayState;
-	
 	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );

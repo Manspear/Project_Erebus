@@ -65,7 +65,7 @@ public:
 		allTransforms = new TransformStruct[nrOfTransforms];
 
 		moleman = assets.load<ModelAsset>("Models/testGuy.model");
-		particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
+		/*particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");*/
 		heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 		
 		for (int i = 0; i < nrOfTransforms; i++)
@@ -79,13 +79,13 @@ public:
 		collisionHandler.setDebugger(Debugger::getInstance());
 
 		
-		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai);
-	
+		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController);
+		Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
 		//particlesTexture->bind(PARTICLES);
-		for (int i = 0; i < ps.size(); i++)
-		{
-			ps.at(i)->setTextrue(particlesTexture);
-		}
+		//for (int i = 0; i < ps.size(); i++)
+		//{
+		//	ps.at(i)->setTextrue(particlesTexture);
+		//}
 
 		ai.addDebug(Debugger::getInstance());
 
@@ -123,9 +123,10 @@ public:
 		}
 
 
-		if (networkActive)
+		if (networkActive && networkLonelyDebug)
 		{
-			networkController.buildTransformPacket(transforms[0].getPos().x, transforms[0].getPos().y, transforms[0].getPos().z);
+			TransformPacket transPack = networkController.fetchTransformPacket();
+			std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
 		}
 
 		collisionHandler.checkCollisions();
