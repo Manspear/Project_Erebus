@@ -85,7 +85,7 @@ public:
 		collisionHandler.setTransforms(transforms);
 		collisionHandler.setDebugger(Debugger::getInstance());
 
-		
+		networkController.setNetWorkHost(networkHost);
 		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController);
 		Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
 		//particlesTexture->bind(PARTICLES);
@@ -137,6 +137,7 @@ public:
 			if (networkController2.fetchTransformPacket(transPack))
 			{
 				std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
+				networkController2.sendTransformPacket(transPack.data.ID, transPack.data.x, transPack.data.y, transPack.data.z);
 			}
 		}
 

@@ -49,7 +49,7 @@ void NetworkController::startNetworkSending()
 	while (running)
 	{		
 		network.Send();
-		Sleep(1000);
+		Sleep(200);
 	}
 }
 
@@ -59,7 +59,7 @@ void NetworkController::startNetworkReceiving()
 	{
 		printf("Recieving package\n");
 		network.Receive();
-		Sleep(200);
+		Sleep(100);
 	}
 }
 
@@ -78,6 +78,15 @@ void NetworkController::startCommunicationThreads()
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
 }
 
+void NetworkController::setNetWorkHost(const bool& networkHost)
+{
+	this->networkHost = networkHost;
+}
+
+bool NetworkController::getNetWorkHost()
+{
+	return this->networkHost;
+}
 
 void NetworkController::sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
 {

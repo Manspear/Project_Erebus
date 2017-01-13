@@ -20,10 +20,8 @@
 #include <iostream>
 #include <assert.h>
 #include "Address.hpp"
-#include "TransformPacket.hpp"
 #include "Packager.hpp"
 #include "PacketFilter.hpp"
-#include "PacketQueue.hpp"
 
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"

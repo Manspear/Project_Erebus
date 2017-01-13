@@ -47,7 +47,7 @@ template<typename Packet> bool PacketQueue<Packet>::pop(Packet &packet)
 	{
 		return false;
 	}
-			
+
 	packet = this->queuePointer[this->readIndex];
 	this->readIndex = (this->readIndex + 1) % this->queueSize;;
 

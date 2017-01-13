@@ -16,6 +16,9 @@ public:
 	void acceptNetworkCommunication();
 	void startCommunicationThreads();
 
+	void setNetWorkHost(const bool& networkHost);
+	bool getNetWorkHost();
+
 	void sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
 	bool fetchTransformPacket(TransformPacket &packet);
 	
@@ -26,4 +29,5 @@ private:
 	std::thread sendingThread;
 	std::thread receiveThread;
 	bool running;
+	bool networkHost;
 };

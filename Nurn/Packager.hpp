@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PacketEnums.hpp"
 #include "PacketQueue.hpp"
 #include "TransformPacket.hpp"
 #include "MetaDataPacket.hpp"
