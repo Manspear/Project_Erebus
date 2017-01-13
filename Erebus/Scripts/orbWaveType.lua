@@ -33,11 +33,10 @@ function CreateOrbWaveType()
 		self.lifetime = self.lifetime + dt
 		local distance = ((math.sin((self.lifetime / ORBWAVELAPTIME)*3.14 - 3.14/2)+1) /2) * ORBWAVEMAXRADIUS + ORBWAVEMINRADIUS
 
-		if self.lifetime > ORBWAVELAPTIME * self.laps then
+		if self.lifetime > ORBWAVELAPTIME * self.laps then --makes it so it can hti people on the way back and the way out
 			--self.lifetime = self.lifetime - ORBWAVELAPTIME
 			self.laps = self.laps + 1
-			self.hits = {}
-			print("eeeyo")
+			self.hits = {} 
 		end
 
 		for i = 1, ORBWAVEORBS do
