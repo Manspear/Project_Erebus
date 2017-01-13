@@ -146,6 +146,20 @@ void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat* f
 	InitRenderTargets(attachments);
 }
 
+void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat filter, GLenum internalFormat, GLenum format, GLenum type, GLenum attachments, bool clamp)
+{
+	nrOfTextures = nrTex;
+	this->width = width;
+	this->height = height;
+
+	framebufferID = 0;
+	renderBuffer = 0;
+
+	textureIDs = new GLuint[nrOfTextures];
+	InitTextures(&filter, &internalFormat, &format, &type, clamp);
+	InitRenderTargets(&attachments);
+}
+
 void ShaderProgram::use()
 {
 	if (programID != 0)
@@ -155,6 +169,7 @@ void ShaderProgram::use()
 	if (framebufferID != 0)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+		glViewport(0, 0, width, height);
 		/*for (int i = 0; i < nrOfTextures; i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
@@ -182,12 +197,12 @@ void ShaderProgram::bindTexToLocation(GLuint* textures)
 	}
 }
 
-void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture)
+void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid)
 {
 	GLuint uniform = glGetUniformLocation(shader->getProgramID(), name);
-	glActiveTexture(GL_TEXTURE0 + texture);
-	glUniform1i(uniform, texture);
-	glBindTexture(GL_TEXTURE_2D, textureIDs[texture]);
+	glActiveTexture(GL_TEXTURE0 + textureLoc);
+	glUniform1i(uniform, textureLoc);
+	glBindTexture(GL_TEXTURE_2D, textureIDs[textureid]);
 }
 
 GLuint ShaderProgram::getProgramID()
