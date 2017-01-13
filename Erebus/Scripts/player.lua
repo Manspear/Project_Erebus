@@ -18,6 +18,7 @@ function LoadPlayer()
 	player.animation = Animation.Create()
 	player.animationState1 = 1
 	player.animationState2 = 1
+	player.attackTimer = 1
 	player.timeScalar = 1.0
 	player.printInfo = false
 	player.heightmapIndex = 1
@@ -72,7 +73,7 @@ function LoadPlayer()
 
 	player.animation:SetTransitionTimes(playerAnimationTransitionTimes)
 
-	player.animation:SetAnimationSegments(1);
+	player.animation:SetAnimationSegments(2);
 
 	Erebus.SetControls(player.transformID)
 	
@@ -91,35 +92,47 @@ function UpdatePlayer(dt)
 		local position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
-		player.animationState = 1
+		player.animationState1 = 1
+		player.animationState2 = 17
+
+		if player.attackTimer > 0 then
+			player.animationState2 = 29
+		end
+
+		if player.attackTimer <= 0 then
+			player.animationState2 = 17
+		end
+
+		player.attackTimer = player.attackTimer - dt
 
 		if Inputs.KeyDown("W") then
 			forward = player.moveSpeed
-				player.animationState1 = 2
+				player.animationState1 = 9
 			end
 		if Inputs.KeyDown("S") then
 			forward = -player.moveSpeed
-				player.animationState1 = 2
+				player.animationState1 = 13
 			end
 		if Inputs.KeyDown("A") then
 			left = player.moveSpeed
-				player.animationState1 = 2
+				player.animationState1 = 11
 			end
 		if Inputs.KeyDown("D") then
 			left = -player.moveSpeed
-				player.animationState1 = 2
+				player.animationState1 = 15		
 			end
 		if Inputs.KeyPressed(Keys.Space) and player.canJump then
 			player.verticalSpeed = PLAYER_JUMP_SPEED
 				player.canJump = false
-				player.animationState1 = 2
+				player.animationState1 = 33
 			end
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.testCamera = true
-				player.animationState1 = 3
+				player.animationState2 = 21
 			end
 		if Inputs.ButtonReleased(Buttons.Left) then
-			player.animationState1 = 2
+			player.animationState1 = 21
+			player.attackTimer = 1
 			for _,v in ipairs(player.spells[player.currentSpell]) do
 				if not v.alive then
 					v:Cast()
@@ -154,6 +167,7 @@ function UpdatePlayer(dt)
 
 		--ANIMATION UPDATING
 		player.animation:Update(dt, player.animationState1, 0)
+		player.animation:Update(dt, player.animationState2, 1)
 		--player.animation:Update(dt, 1, 1)
 		player.animation:UpdateShaderMatrices()
 	end
