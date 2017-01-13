@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABBCollider.cpp" />
+    <ClCompile Include="CollisionChecker.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
     <ClCompile Include="HitBox.cpp" />
@@ -165,11 +166,14 @@
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="LuaMath.cpp" />
     <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="NetworkController.cpp" />
+    <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
+    <ClCompile Include="RayCollider.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -206,11 +210,13 @@
     <None Include="Scripts\groundAoEType.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
+    <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\test.lua" />
+    <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\debugAABB.frag" />
@@ -249,6 +255,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
+    <ClInclude Include="CollisionChecker.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="HitBox.h" />
@@ -261,15 +268,18 @@
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="LuaMath.h" />
     <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RayCollider.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>

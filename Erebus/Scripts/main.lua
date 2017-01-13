@@ -16,7 +16,9 @@ local scriptFiles =
 	"Scripts/timeSlowEffect.lua",
 	"Scripts/chronoBall.lua",
 	"Scripts/fireGroundAoE.lua",
-	"Scripts/groundAoEType.lua"}
+	"Scripts/groundAoEType.lua",
+	"Scripts/timeOrbWave.lua",
+	"Scripts/orbWaveType.lua"}
 local drawHitboxes = false
 
 function Load()
