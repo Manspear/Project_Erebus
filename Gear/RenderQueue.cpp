@@ -243,11 +243,9 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 	//glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	//GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
 	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 	Color c;
 	TextureAsset* tA;
@@ -257,9 +255,6 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 	{
 		if (particleSystems->at(i)->isActive)
 		{
-			
-			//c = particleSystems->at(i)->getColor();
-			//glUniform3f(loc2, c.r, c.g, c.b );
 			pos = particleSystems->at(i)->getPositions();
 			particleSystems->at(i)->getTexture()->bind(GL_TEXTURE0);
 			size_t ParticleCount = particleSystems->at(i)->getNrOfActiveParticles();
@@ -273,7 +268,6 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 	}
 	allShaders[PARTICLES]->unUse();
 	glDisable(GL_BLEND);
-	//glEnable(GL_DEPTH_TEST);
 }
 
 /*void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)

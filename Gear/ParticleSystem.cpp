@@ -27,6 +27,7 @@ namespace Gear
 	{
 		delete[] allParticles;
 		delete[] particlePos;
+		glDeleteBuffers(1, &particleVertexBuffer);
 	}
 
 	GEAR_API void ParticleSystem::update(const float &dt)
@@ -38,27 +39,27 @@ namespace Gear
 				timer += dt;
 				if (timer > particleRate)
 				{
-					glm::vec3 tempVec = this->position + direction * focus; //circle pos
+					glm::vec3 tempVec = this->position + direction * focus; //emit direction
 					glm::vec3 temp2;
 					int i = 0;
 					while (nrOfActiveParticles < maxParticles && partPerRate > i++)
 					{
 						particlePos[nrOfActiveParticles] = this->position;
 						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-						//allParticles[nrOfActiveParticles++].direction = glm::normalize(glm::vec3((rand() % 1 - 2), (rand() % 1 - 2), (rand() % 1 - 2))) + tempVec; //circle
 						temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
 						allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
 					}
 					timer = 0;
 				}
 			}
+			float randomSpeed;
 			for (int i = 0; i < nrOfActiveParticles; i++)
 			{
-				allParticles[i].lifeSpan -= dt;
+				allParticles[i].lifeSpan -= dt;				
 				if (allParticles[i].lifeSpan > 0.0)
 				{
 					allParticles[i].direction.y += gravityFactor * dt;
-					float randomSpeed = rand() % (int)partSpeed;
+					randomSpeed = rand() % (int)partSpeed;
 					particlePos[i] += allParticles[i].direction * randomSpeed * dt;
 				}
 				else
@@ -75,13 +76,17 @@ namespace Gear
 	void ParticleSystem::explode()
 	{
 		nrOfActiveParticles = 0;
+		glm::vec3 tempVec = this->position + direction * focus; //emit direction
+		glm::vec3 temp2;
+		float randomSpeed;
 		for (int i = 0; i < maxParticles; i++)
 		{
 			particlePos[i] = this->position;
 			allParticles[i].lifeSpan = this->lifeTime;
-			allParticles[i].direction = glm::normalize( glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5));
-			allParticles[i].direction *= rand() % (int)partSpeed;
 			nrOfActiveParticles = i;
+			temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
+			randomSpeed = rand() % (int)partSpeed;
+			allParticles[i].direction = glm::normalize(temp2 - this->position) * randomSpeed;
 		}
 		isActive = true;
 		alive = false;
