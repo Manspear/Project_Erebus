@@ -28,6 +28,7 @@ public:
 
 private:
 	const char* folder;
+	const char* levelFolder;
 	const char* fileExtension;
 	unsigned int actorID;
 	std::map<std::string, tinyxml2::XMLDocument*> savedDocuments;

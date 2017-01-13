@@ -23,10 +23,18 @@
 #include "LevelActorFactory.h"
 #include "LevelAssetHandler.h"
 #include "LevelUI.h"
+#include "LevelPrefabHandler.h"
 
 class LevelEditor
 {
 private:
+	enum actorTypes {
+		PLAYER,
+		STATIC,
+		ENEMY,
+		NR_ACTOR_TYPES
+		
+	};
 
 	LevelUI* ui;
 	LevelActorFactory* factory;

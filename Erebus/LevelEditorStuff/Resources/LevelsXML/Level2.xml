@@ -1,5 +1,5 @@
 <Level>
-    <LevelActor type="testActor">
+    <LevelActor type="TestCharacter">
         <LevelModel>
             <ModelName>Robot</ModelName>
         </LevelModel>
@@ -8,7 +8,7 @@
             <Rotation x="0" y="0" z="0"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="testActor">
+    <LevelActor type="TestCharacter">
         <LevelModel>
             <ModelName>Robot</ModelName>
         </LevelModel>
@@ -17,7 +17,7 @@
             <Rotation x="0" y="0" z="0"/>
         </LevelTransform>
     </LevelActor>
-	<LevelActor type="testActor">
+	<LevelActor type="TestCharacter">
         <LevelModel>
             <ModelName>Robot</ModelName>
         </LevelModel>
@@ -26,7 +26,7 @@
             <Rotation x="0" y="0" z="0"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="testActor">
+    <LevelActor type="TestCharacter">
         <LevelModel>
             <ModelName>niclasland_scale1</ModelName>
         </LevelModel>

@@ -27,6 +27,8 @@ void LevelEditor::start() {
 	modelHandler = LevelModelHandler::getInstance();
 
 	factory = LevelActorFactory::getInstance();
+	//std::vector<LevelActor*>* actors = new std::vector<LevelActor*>[actorTypes::NR_ACTOR_TYPES];
+
 	std::vector<LevelActor*> actors;
 
 	//for (size_t i = 0; i < 100; i++)
@@ -64,9 +66,8 @@ void LevelEditor::start() {
 	double deltaTime;
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
-	
-	this->ui = new LevelUI(w,factory);
 
+	this->ui = new LevelUI(w,factory);
 	engine.addDebugger(Debugger::getInstance());
 
 	//for (size_t i = 0; i < 10; i++)
@@ -83,24 +84,22 @@ void LevelEditor::start() {
 	glm::vec3 hitPoint;
 	bool hasHit = false;
 	
-	LevelAssetHandler assetHandler( &assets );
-	assetHandler.load( "Models" );
+	//LevelAssetHandler assetHandler( &assets );
+	//assetHandler.load( "Models" );
+
+	//LevelPrefabHandler prefabHandler;
+	LevelPrefabHandler::getInstance()->load( "LevelEditorStuff/Resources/ActorsXML" );
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
 	TwBar* tempBar = ui->getMainBar();
 
-	TwStructMember vector3fMember[] = {
-		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
-		{ "y", TW_TYPE_FLOAT, offsetof(uiVec3, y), "" },
-		{ "z", TW_TYPE_FLOAT, offsetof(uiVec3, z), "" }
-	};
-
 	TwAddButton(tempBar, "Camera", NULL, NULL, "");
 	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
 	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
 
-	Debug* temp = Debugger::getInstance();
+	LevelAssetHandler::getInstance()->setAssets( &assets );
+	LevelAssetHandler::getInstance()->load();
 
 	while (running && window.isWindowOpen())
 	{
@@ -174,10 +173,12 @@ void LevelEditor::start() {
 			hasHit = hm->rayIntersection( ray.rayPosition, ray.rayDirection, &hitPoint );
 			if( hasHit )
 			{
-				LevelActor* newActor = factory->createActor("TestCharacter");
-				actors.push_back(newActor);
+				LevelActor* newActor = factory->createActor( LevelPrefabHandler::getInstance()->getSelectedPrefab() );
+				if( newActor )
+				{
+					actors.push_back( newActor );
 
-				newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
 				newActor->addComponent(new LevelPointLightComponent());
 				newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
 				newActor->getComponent<LevelPointLightComponent>()->setRadius(ui->radius);
@@ -188,6 +189,7 @@ void LevelEditor::start() {
 				tempLight.color = glm::vec4(0.4, 0.4, 0.4, 1);
 				lights.push_back(tempLight);
 				engine.queueLights(&lights);
+				}
 			}
 			
 		}
