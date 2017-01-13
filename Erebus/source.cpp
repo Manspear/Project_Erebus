@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
@@ -6,6 +7,7 @@
 
 #include "PerformanceCounter.h"
 
+#include "OBBCollider.h"
 #include "Controls.h"
 #include "ParticleImport.h"
 
@@ -13,6 +15,8 @@
 
 #include"GamePlay.h"
 #include"Menu.h"
+#include "CollisionChecker.h"
+#include "RayCollider.h"
 
 bool running = true;
 
@@ -32,6 +36,8 @@ int main()
 	
 	engine.addDebugger(Debugger::getInstance());
 
+
+ 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -50,7 +56,7 @@ int main()
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
-
+	Debug* tempDebug = Debugger::getInstance();
 
 	float alpha = 0.0f;
 	float alphaChangeRate = 0.01f;
@@ -134,5 +140,6 @@ int main()
 	delete menu;
 	
 	glfwTerminate();
+
 	return 0;
 }

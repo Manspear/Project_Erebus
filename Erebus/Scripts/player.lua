@@ -26,8 +26,8 @@ function LoadPlayer()
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = {}
 	player.spells[2] = {}
-	for i = 1,  10 do	--create the projectile instances
-		table.insert(player.spells[1], CreateChronoBall())
+	for i = 1,  1 do	--create the projectile instances
+		table.insert(player.spells[1], CreateTimeOrbWave())
 	end
 	for i = 1,  10 do	--create the arc instances
 		table.insert(player.spells[2], CreateFireGroundAoE())

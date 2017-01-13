@@ -66,11 +66,11 @@ function CreateGroundAoEType(startSize, endSize, duration)
 	end
 
 	function type:Kill()
-		Transform.ActiveControl(self.transformID, true)
 		self.position.x = 0
 		self.position.y = 0
 		self.position.z = 0
 		Transform.SetPosition(self.transformID, self.position)
+		Transform.ActiveControl(self.transformID, true)
 	end
 
 	return type
