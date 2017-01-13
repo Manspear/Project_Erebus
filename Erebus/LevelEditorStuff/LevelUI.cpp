@@ -12,7 +12,49 @@ LevelUI::LevelUI(GLFWwindow* window)
 	TwWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	mainBar = TwNewBar( "Main" );
 
+	float thickness = .125f;
+	std::stringstream ss;
+	glm::vec2 posVal, sizeVal;
+	posVal = glm::vec2((int)(WINDOW_WIDTH*(1.f-thickness)), 0);
+	sizeVal = glm::vec2((int)(WINDOW_WIDTH*thickness), WINDOW_HEIGHT);
+	std::string position = this->vec2ToString(posVal, " position=");
+	std::string size = this->vec2ToString(sizeVal, " size=");
+	std::string color = " color='0 128 255' alpha=128";
+	std::string refresh = " refresh=.05";
+	std::string resize = " resizable=false";
+	std::string moveable = " movable=false";
+	ss << "Main"<<position<<size << color<<refresh<<resize<<moveable;
 
+	TwDefine(ss.str().c_str());
+
+
+	bar2 = TwNewBar("bar2");
+	std::stringstream ss1;
+	posVal = glm::vec2((int)(WINDOW_WIDTH*(1.f - thickness*2)), 0);
+	sizeVal = glm::vec2((int)(WINDOW_WIDTH*thickness), WINDOW_HEIGHT*.5f);
+	position = this->vec2ToString(posVal, " position=");
+	size = this->vec2ToString(sizeVal, " size=");
+	color = " color='0 128 128' alpha=128";
+	refresh = " refresh=.05";
+	resize = " resizable=false";
+	moveable = " movable=false";
+	ss1 << "bar2" << position << size << color << refresh << resize << moveable;
+	
+	TwDefine(ss1.str().c_str());
+
+	bar3 = TwNewBar("bar3");
+	std::stringstream ss2;
+	posVal = glm::vec2((int)(WINDOW_WIDTH*(1.f - thickness * 2)), WINDOW_HEIGHT*.5f);
+	sizeVal = glm::vec2((int)(WINDOW_WIDTH*thickness), WINDOW_HEIGHT*.5f);
+	position = this->vec2ToString(posVal, " position=");
+	size = this->vec2ToString(sizeVal, " size=");
+	color = " color='0 255 128' alpha=128";
+	refresh = " refresh=.05";
+	resize = " resizable=false";
+	moveable = " movable=false";
+	ss2 << "bar3" << position << size << color << refresh << resize << moveable;
+
+	TwDefine(ss2.str().c_str());
 
 	TwStructMember vector3fMember[] = {
 		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
@@ -26,14 +68,19 @@ LevelUI::LevelUI(GLFWwindow* window)
 		printf("error");
 	}
 
-	//TwDeleteBar(mainBar);
-	//TwDefine("Main label='EditorState' position='0 0' size='150 720' resizable=false buttonalign=right color='192 255 192' text=dark movable=true fontresizable=false help='Choose what component of the level to edit'");
-
-	//std::string heightMapString = "HeightMap";
-	//std::string enemyString = "Enemy";
-	//TwAddButton(mainBar, "HeightMap" "HeightMap", setEditorState, &heightMapString, "label='HeightMap'");
 }
 
+std::string LevelUI::vec2ToString(glm::vec2& val, std::string type) {
+	std::stringstream ss;
+	ss << type << "'" << val.x << " " << val.y << "'";
+	return ss.str();
+}
+
+std::string LevelUI::vec3ToString(glm::vec3& val, std::string type) {
+	std::stringstream ss;
+	ss << type << "'" << val.x << " " << val.y<<" " << val.z << "'";
+	return ss.str();
+}
 
 LevelUI::~LevelUI()
 {

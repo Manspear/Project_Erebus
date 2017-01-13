@@ -27,6 +27,13 @@
 class LevelEditor
 {
 private:
+	enum actorTypes {
+		PLAYER,
+		STATIC,
+		ENEMY,
+		NR_ACTOR_TYPES
+		
+	};
 
 	LevelUI* ui;
 	LevelActorFactory* factory;

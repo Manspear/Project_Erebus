@@ -26,6 +26,8 @@ void LevelEditor::start() {
 	modelHandler = LevelModelHandler::getInstance();
 
 	factory = LevelActorFactory::getInstance();
+	//std::vector<LevelActor*>* actors = new std::vector<LevelActor*>[actorTypes::NR_ACTOR_TYPES];
+
 	std::vector<LevelActor*> actors;
 
 	//for (size_t i = 0; i < 100; i++)
@@ -88,12 +90,6 @@ void LevelEditor::start() {
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
 	TwBar* tempBar = ui->getMainBar();
-
-	TwStructMember vector3fMember[] = {
-		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
-		{ "y", TW_TYPE_FLOAT, offsetof(uiVec3, y), "" },
-		{ "z", TW_TYPE_FLOAT, offsetof(uiVec3, z), "" }
-	};
 
 	TwAddButton(tempBar, "Camera", NULL, NULL, "");
 	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
