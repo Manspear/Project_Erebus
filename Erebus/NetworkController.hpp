@@ -17,8 +17,8 @@ public:
 	void startCommunicationThreads();
 
 	void sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
-	TransformPacket fetchTransformPacket();
-
+	bool fetchTransformPacket(TransformPacket &packet);
+	
 private:
 	void startNetworkSending();
 	void startNetworkReceiving();
