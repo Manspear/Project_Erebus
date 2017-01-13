@@ -41,8 +41,8 @@ LoadEnemies(5)
 Transform.SetPosition(enemies[1].transformID, {x=157, y=0, z=170})
 Transform.SetPosition(enemies[2].transformID, {x=156, y=0, z=111})
 Transform.SetPosition(enemies[3].transformID, {x=245, y=0, z=80})
-Transform.SetPosition(enemies[4].transformID, {x=345, y=0, z=120})
-Transform.SetPosition(enemies[5].transformID, {x=320, y=0, z=139})
+Transform.SetPosition(enemies[4].transformID, {x=356, y=0, z=70})
+Transform.SetPosition(enemies[5].transformID, {x=329, y=0, z=105})
 
 -- set player position
 Transform.SetPosition(player.transformID, {x=74, y=0, z=156})
@@ -54,4 +54,4 @@ goal.collider = SphereCollider.Create(goal.transformID)
 goal.collider:SetRadius(5)
 CollisionHandler.AddSphere(goal.collider)
 
-Transform.SetPosition(goal.transformID, { x = 450, y = 56, z = 136 })
+Transform.SetPosition(goal.transformID, { x = 335, y = 40, z = 140 })
