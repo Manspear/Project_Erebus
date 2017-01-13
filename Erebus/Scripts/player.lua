@@ -157,7 +157,7 @@ function UpdatePlayer(dt)
 		newtransformvalue, id_2, x_2, y_2, z_2 = Network.GetTransform()
 		
 		if newtransformvalue == true then
-			Transform.SetPosition(player2.transformID, {x=x_2, y=y_2, z=z_2})
+			Transform.SetPosition(id_2, {x=x_2, y=y_2, z=z_2})
 		end
 
 		player.animation:Update(dt, player.animationState)

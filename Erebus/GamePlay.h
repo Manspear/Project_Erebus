@@ -27,7 +27,7 @@ private:
 
 	bool networkActive = false;
 	bool networkHost = true;
-	bool networkLonelyDebug = true;
+	bool networkLonelyDebug = false;
 
 	NetworkController networkController;
 	NetworkController networkController2;
@@ -137,7 +137,7 @@ public:
 			if (networkController2.fetchTransformPacket(transPack))
 			{
 				std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
-				networkController2.sendTransformPacket(transPack.data.ID, transPack.data.x, transPack.data.y, transPack.data.z);
+				//networkController2.sendTransformPacket(transPack.data.ID, transPack.data.x, transPack.data.y, transPack.data.z);
 			}
 		}
 

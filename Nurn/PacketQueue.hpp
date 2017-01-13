@@ -73,7 +73,7 @@ template<typename Packet> bool PacketQueue<Packet>::push(Packet &packet)
 template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy)
 {
 	uint8_t nrOfPacketsToCopy = sizeToCopy / sizeof(Packet); 
-	uint8_t distanceFromEndOfQueue = this->queueSize - (this->writeIndex + 1);
+	uint8_t distanceFromEndOfQueue = this->queueSize - this->writeIndex;
 	uint8_t newWriteIndexLocation = (this->writeIndex + nrOfPacketsToCopy) % this->queueSize;
 	uint8_t distanceBetweenWriteAndRead = 0;
 
