@@ -41,7 +41,7 @@ Transform.SetPosition(enemies[1].transformID, {x=150, y=0, z=100})
 Transform.SetPosition(enemies[2].transformID, {x=100, y=0, z=200})
 
 -- set player position
-Transform.SetPosition(player.transformID, {x=10, y=60, z=10})
+Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 --Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 -- set goal

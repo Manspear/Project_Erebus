@@ -11,6 +11,7 @@
 #include "ScreenQuadRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
+#include "Skybox.h"
 
 namespace Gear
 {
@@ -92,6 +93,7 @@ namespace Gear
 		ShaderProgram gBuffer;
 		std::vector<Lights::DirLight> dirLights;
 		GLuint lightBuffer = 0;
+		Skybox skybox;
 		//temp debug variable
 		int drawMode = 1;
 

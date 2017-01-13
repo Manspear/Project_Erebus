@@ -90,6 +90,17 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
+
+		skybox.init();
+
+		std::vector<const GLchar*> faces;
+		faces.push_back("skybox/right.dds");
+		faces.push_back("skybox/left.dds");
+		faces.push_back("skybox/top.dds");
+		faces.push_back("skybox/bottom.dds");
+		faces.push_back("skybox/back.dds");
+		faces.push_back("skybox/front.dds");
+		skybox.loadCubemap(faces);
 	}
 
 	GearEngine::~GearEngine()
@@ -237,14 +248,14 @@ namespace Gear
 
 		tempCamera.setView(view);
 		tempCamera.setprojection(dirLights[0].projection);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_BACK);
 		
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
 		shadowMap.use();
-		glClear(GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
 		shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
@@ -277,12 +288,17 @@ namespace Gear
 		queue.particlePass(particleSystems);
 		//glEnable(GL_DEPTH_TEST);;
 
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glDisable(GL_CULL_FACE);
+		skybox.update(camera);
+		skybox.draw();
+
 		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 
-		screenQuad.draw();
-		text.draw();
+		//screenQuad.draw();
+		//text.draw();
 	}
 
 	void GearEngine::pickingPass() {
