@@ -34,7 +34,7 @@ public:
 		pos = inPos;
 	}
 
-	AGI_API void setStrength(float inStrength)
+	AGI_API void setStrength(const float &inStrength)
 	{
 		strength = inStrength;
 	}

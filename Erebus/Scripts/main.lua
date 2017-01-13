@@ -6,9 +6,19 @@ local scriptFiles =
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
-	"Scripts/projectile.lua",
-	"Scripts/arc.lua"
-}
+	--"Scripts/projectile.lua",
+	--"Scripts/arc.lua",
+	"Scripts/ProjectileType.lua",
+	"Scripts/fireEffect.lua",
+	"Scripts/fireball.lua",
+	"Scripts/arcType.lua",
+	"Scripts/fireballArc.lua",
+	"Scripts/timeSlowEffect.lua",
+	"Scripts/chronoBall.lua",
+	"Scripts/fireGroundAoE.lua",
+	"Scripts/groundAoEType.lua",
+	"Scripts/timeOrbWave.lua",
+	"Scripts/orbWaveType.lua"}
 local drawHitboxes = false
 
 function Load()

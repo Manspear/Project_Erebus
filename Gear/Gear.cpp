@@ -210,9 +210,33 @@ namespace Gear
 		particleSystems = particles;
 	}
 
-	void GearEngine::queueLights(std::vector<Light>* lights)
+	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
 	{
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
 
+		for (int i = 0; i < lights->size(); i++) {
+			if (i < NUM_LIGHTS)
+			{
+				Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+
+				light.pos = lights->at(i).pos;
+				light.color = lights->at(i).color;
+				light.radius = lights->at(i).radius;
+			}
+			else {
+				printf("ERROR: Too many lights : " + lights->size());
+			}
+		}
+
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	}
+
+	void GearEngine::queueLights(Lights::DirLight * lights)
+	{
+		this->dirLights.at(0).color = lights->color;
+		this->dirLights.at(0).direction = lights->direction;
 	}
 
 	void GearEngine::draw(Camera* camera)
