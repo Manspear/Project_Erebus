@@ -54,7 +54,7 @@ namespace Gear
 		particleRate = 1 / part.emitPerSecond;
 		partPerRate = part.nrOfParticlesPerEmit;
 		direction = { 0, 0, 0 };
-		textureAssetParticles = assets->load<Importer::TextureAsset>("Textures/fireball.png");
+		textureAssetParticles = assets->load<Importer::TextureAsset>("Textures/" + std::string(part.textureName));
 		focus = focusSpread;
 		int x = 0;
 	}
