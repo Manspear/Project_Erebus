@@ -10,7 +10,9 @@ namespace LuaNetwork
 		luaL_newmetatable(lua, "networkMeta");
 		luaL_Reg regs[] =
 		{
-			{ "SendTransform",			sendTransform },
+			{ "SendTransform", sendTransform },
+			{ "GetTransform", getTransform },
+			{ "GetNetworkHost", getNetworkHost },
 			{ NULL, NULL }
 		};
 
@@ -36,5 +38,37 @@ namespace LuaNetwork
 		g_networkController->sendTransformPacket(index, x, y, z);
 
 		return 0;
+	}
+
+	int getTransform(lua_State* lua)
+	{
+		TransformPacket transformPacket;
+
+		if (g_networkController->fetchTransformPacket(transformPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, transformPacket.data.ID);
+			lua_pushnumber(lua, transformPacket.data.x);
+			lua_pushnumber(lua, transformPacket.data.y);
+			lua_pushnumber(lua, transformPacket.data.z);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 80);
+			lua_pushnumber(lua, 27);
+			lua_pushnumber(lua, 160);
+		}
+
+		return 5;
+	}
+
+	int getNetworkHost(lua_State* lua)
+	{
+		bool networkHost = g_networkController->getNetWorkHost();
+
+		lua_pushboolean(lua, networkHost);
+		return 1;
 	}
 }

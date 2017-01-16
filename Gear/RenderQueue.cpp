@@ -27,8 +27,10 @@ void RenderQueue::init()
 {
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
 	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "anim");
+	allShaders[ShaderType::ANIMSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "animShadow");
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
 	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
+	allShaders[ShaderType::GEOMETRYSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPassShadow");
 	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
 	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
 	allShaders[ShaderType::DEBUG_LINE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugLine");
@@ -51,9 +53,6 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[ANIM]->use();
 	allShaders[ANIM]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	allShaders[ANIM]->addUniform(camera->getViewMatrix(), "viewMatrix");
-	allShaders[ANIM]->addUniform(camera->getPosition(), "viewPos");
-	allShaders[ANIM]->addUniform(camera->getPosition(), "lightPos");
-	allShaders[ANIM]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
 	allShaders[ANIM]->unUse();
 
 	allShaders[GEOMETRY]->use();
@@ -75,6 +74,15 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[GEOMETRY_PICKING]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
 	allShaders[GEOMETRY_PICKING]->addUniform(camera->getViewMatrix(), "viewMatrix");
 	allShaders[GEOMETRY_PICKING]->unUse();
+}
+
+void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
+{
+	allShaders[shader]->use();
+	allShaders[shader]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[shader]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[shader]->addUniform(camera->getPosition(), "viewPos");
+	allShaders[shader]->unUse();
 }
 
 void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
@@ -384,6 +392,105 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0] );
+			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+
+			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
+			{
+				//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+				int size = sizeof(Importer::sSkeletonVertex);
+				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+				glEnableVertexAttribArray(1);
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+				glEnableVertexAttribArray(2);
+				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+				glEnableVertexAttribArray(3);
+				glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
+				glEnableVertexAttribArray(4);
+				glVertexAttribIPointer(4, 4, GL_INT, size, (void*)(sizeof(float) * 11));
+				glEnableVertexAttribArray(5);
+				glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 11 + sizeof(int) * 4));
+
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, 1);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
+		}
+	}
+	allShaders[currentShader]->unUse();
+}
+
+void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light)
+{
+	allShaders[GEOMETRYSHADOW]->use();
+	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
+
+	for (int i = 0; i < dynamicModels->size(); i++)
+	{
+		ModelAsset* modelAsset = dynamicModels->at(i).asset;
+		int meshes = modelAsset->getHeader()->numMeshes;
+		int numInstance = 0;
+
+		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		// TEMP: Shouldn't have any models without material
+		if (modelAsset->getMaterial())
+			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
+
+		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
+		{
+			int index = dynamicModels->at(i).worldIndices[j];
+			tempMatrices[numInstance++] = worldMatrices[index];
+		}
+
+		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+
+		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+		{
+			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+			glEnableVertexAttribArray(3);
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+	}
+	allShaders[GEOMETRYSHADOW]->unUse();
+
+	currentShader = ANIMSHADOW;
+	allShaders[currentShader]->use();
+	GLuint jointMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "jointMatrices");
+	worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
+
+	for (int i = 0; i<animatedModels->size(); i++)
+	{
+		ModelAsset* modelAsset = animatedModels->at(i).asset;
+		int meshes = modelAsset->getHeader()->numMeshes;
+		int numInstance = 0;
+
+		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
+		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
+
+		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
+		{
+			int index = animatedModels->at(i).worldIndices.at(i);
+			//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
+			glm::mat4 tempMatrix = worldMatrices[animatedModels->at(i).worldIndices[j]];
+
+
+			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+			glUniformMatrix4fv(worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0]);
 			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)

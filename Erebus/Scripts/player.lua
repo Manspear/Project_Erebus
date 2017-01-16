@@ -2,6 +2,7 @@ local MOLERAT_OFFSET = 1.8
 local PLAYER_MAX_SPELLS = 2
 local PLAYER_JUMP_SPEED = 0.35
 player = {}
+player2 = {}
 
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
@@ -20,6 +21,13 @@ function LoadPlayer()
 	player.timeScalar = 1.0
 	player.printInfo = false
 	player.heightmapIndex = 1
+
+	-- set basic variables for the player2
+	player2.transformID = Transform.Bind()
+
+	if Network.GetNetworkHost() == true then
+		player.transformID, player2.transformID = player2.transformID, player.transformID
+	end
 
 	-- set spells for player
 	player.spells = {}
@@ -58,7 +66,7 @@ function LoadPlayer()
 	local model = Assets.LoadModel("Models/testGuy.model")
 	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
-
+	Gear.AddAnimatedInstance(model, player2.transformID, player.animation)
 
 	local playerAnimationTransitionTimes = 
 	{
@@ -146,6 +154,11 @@ function UpdatePlayer(dt)
 
 		Transform.SetPosition(player.transformID, position)
 		Network.SendTransform(player.transformID, position)
+		newtransformvalue, id_2, x_2, y_2, z_2 = Network.GetTransform()
+		
+		if newtransformvalue == true then
+			Transform.SetPosition(id_2, {x=x_2, y=y_2, z=z_2})
+		end
 
 		player.animation:Update(dt, player.animationState)
 	end

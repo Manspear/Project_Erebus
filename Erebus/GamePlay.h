@@ -27,7 +27,7 @@ private:
 
 	bool networkActive = false;
 	bool networkHost = true;
-	bool networkLonelyDebug = true;
+	bool networkLonelyDebug = false;
 
 	NetworkController networkController;
 	NetworkController networkController2;
@@ -35,23 +35,30 @@ private:
 public:
 	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Controls &controls,Inputs &inputs,Camera& camera)
 	{
+		if (networkLonelyDebug)
+		{
+			networkController.initNetworkAsHost();
+			networkController2.initNetworkAsClient(127, 0, 0, 1);
+
+			if (networkActive)
+			{
+				networkController.acceptNetworkCommunication();
+			}
+		}
+		else if (networkHost)
+		{
+			networkController.initNetworkAsHost();
+			if (networkActive)
+			{
+				networkController.acceptNetworkCommunication();
+			}
+		}
+		else
+		{
+			networkController.initNetworkAsClient(127, 0, 0, 1);
+		}
 		if (networkActive)
 		{
-			if (networkLonelyDebug)
-			{
-				networkController.initNetworkAsHost();
-				networkController2.initNetworkAsClient(127, 0, 0, 1);
-				networkController.acceptNetworkCommunication();
-			}
-			else if (networkHost)
-			{
-				networkController.initNetworkAsHost();
-				networkController.acceptNetworkCommunication();
-			}
-			else
-			{
-				networkController.initNetworkAsClient(127, 0, 0, 1);
-			}
 			networkController.startCommunicationThreads();
 
 			if (networkLonelyDebug)
@@ -78,7 +85,7 @@ public:
 		collisionHandler.setTransforms(transforms);
 		collisionHandler.setDebugger(Debugger::getInstance());
 
-		
+		networkController.setNetWorkHost(networkHost);
 		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController);
 		Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
 		//particlesTexture->bind(PARTICLES);
@@ -96,8 +103,6 @@ public:
 
 	~GamePlay()
 	{
-		luaBinds.unload();
-
 		if (networkActive)
 		{
 			networkController.shutdown();
@@ -106,6 +111,9 @@ public:
 				networkController2.shutdown();
 			}
 		}
+
+		luaBinds.unload();
+
 
 		delete[] allTransforms;
 		delete[] transforms;
@@ -125,8 +133,12 @@ public:
 
 		if (networkActive && networkLonelyDebug)
 		{
-			TransformPacket transPack = networkController.fetchTransformPacket();
-			std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
+			TransformPacket transPack;
+			if (networkController2.fetchTransformPacket(transPack))
+			{
+				std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
+				//networkController2.sendTransformPacket(transPack.data.ID, transPack.data.x, transPack.data.y, transPack.data.z);
+			}
 		}
 
 		collisionHandler.checkCollisions();
