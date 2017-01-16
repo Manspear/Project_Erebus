@@ -4,6 +4,9 @@ local stateScript = require("Scripts.AI.states")
 MAX_ENEMIES = 10
 enemies = {}
 
+COUNTDOWN = 1
+local tempPlayerPosition = Transform.GetPosition(player.transformID)
+
 function LoadEnemies(n)
 	if n > MAX_ENEMIES then n = MAX_ENEMIES end
 	for i=1, n do
@@ -64,8 +67,24 @@ function UnloadEnemies()
 end
 
 function UpdateEnemies(dt)
-	AI.ClearMap()
-	AI.AddIP(player.transformID,4)
+
+	if tempPlayerPosition == nil then
+	tempPlayerPosition = Transform.GetPosition(player.transformID)
+	end
+
+	COUNTDOWN = COUNTDOWN-dt
+	if COUNTDOWN <0then
+		--print ("Clear")
+
+		AI.ClearMap(tempPlayerPosition,8)
+		COUNTDOWN = 1
+		for i=1, #enemies do
+			AI.ClearMap( Transform.GetPosition(enemies[i].transformID),1)
+		end
+			AI.AddIP(player.transformID,8)
+			tempPlayerPosition = Transform.GetPosition(player.transformID)
+	end
+	
 	local tempdt
 	for i=1, #enemies do
 		if enemies[i].health > 0 then

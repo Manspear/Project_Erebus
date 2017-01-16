@@ -174,7 +174,17 @@ namespace LuaAI
 
 	int clearMap(lua_State * lua)
 	{
-		AI->resetIM();
+		glm::vec3 position;
+		lua_getfield(lua, 1, "x");
+		position.x = lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 1, "y");
+		position.y = lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 1, "z");
+		position.z = lua_tonumber(lua, -1);
+
+		AI->resetIM(position, lua_tointeger(lua, 2));
 		return 0;
 	}
 

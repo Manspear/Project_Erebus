@@ -68,14 +68,14 @@ namespace AGI
 		{
 			for (int h = 0; h < imHeight; h++)
 			{
-			for (int w = 0; w < imWidth; w ++)
-			{
-				
+				for (int w = 0; w < imWidth; w++)
+				{
+
 					int tempStrength = influenceMap[w][h].getStrength();
-					if(tempStrength == 0)
-						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(0,0,0));
+					if (tempStrength == 0)
+						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(0, 0, 0));
 					else
-						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1,glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
+						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
 				}
 
 			}
@@ -146,15 +146,23 @@ namespace AGI
 			}
 		}
 
-		AGI_API void resetIM()
+		AGI_API void resetIM(glm::vec3 inPos, float inStr)
 		{
-			for (int w = 0; w < imWidth; w ++)
+			int x = round(((inPos.x / mapWidth)*imWidth));
+			int y = round(((inPos.z / mapHeight)*imHeight));
+
+			for (int strX = -inStr; strX < inStr; strX++)
 			{
-				for (int h = 0; h < imHeight; h ++)
-				{
-					influenceMap[w][h].setStrength(0);
-				}
+				if (x + strX >= 0 && x + strX < imWidth&& x < imWidth && x >= 0)
+					for (int strY = -inStr; strY < inStr; strY++)
+					{
+						if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
+							influenceMap[x + strX][y + strY].setStrength(0);
+					}
 			}
+	//		for (int x = 0; x < imWidth; x++)
+	//			for (int y = 0; y < imHeight; y++)
+	//				influenceMap[x][y].setStrength(0);
 		}
 
 		AGI_API void addInfluencePoint(glm::vec3 inPos, float inStr)

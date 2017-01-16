@@ -33,11 +33,11 @@
 				networkController2.startCommunicationThreads();
 			}
 		}
-
+		
 		engine = inEngine;
 		transforms = new Transform[nrOfTransforms];
 		allTransforms = new TransformStruct[nrOfTransforms];
-
+		engine->addDebugger(Debugger::getInstance());
 		moleman = assets.load<ModelAsset>("Models/testGuy.model");
 		/*particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");*/
 		heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
@@ -91,6 +91,7 @@
 
 	void GamePlay::Update(Controls controls, double deltaTime)
 	{
+		//ai.drawDebug(heightMap);
 		luaBinds.update(&controls, deltaTime);
 
 		for (int i = 0; i < ps.size(); i++) {
