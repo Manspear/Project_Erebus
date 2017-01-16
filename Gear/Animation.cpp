@@ -280,23 +280,39 @@ GEAR_API void Animation::setStates(int numStates)
 
 GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 {
+	animationMatrixLists[0][0];
+	animationMatrixLists[0][1];
 	if (animationSegments > 1)
-	{
-		//First time do this
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
+	{	
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * 16);
 
 		for (int i = 1; i < animationSegments; i++)
 		{
 			for (int j = 0; j < MAXJOINTCOUNT; j++)
-				shaderMatrices[j] += animationMatrixLists[i][j];
+			{
+				//if (animationMatrixLists[i][j] != glm::mat4x4())
+				//	animationMatrixLists[i][j] = animationMatrixLists[i][j];
+				//
+				//glm::mat4x4 popo;
+				//popo = inverse(animationMatrixLists[0][0]);
+				//// popo = inverse(animationMatrixLists[0][0]);
+				//popo[3][0] = 0;
+				//popo[3][1] = 0;
+				//popo[3][2] = 0;
+				shaderMatrices[j] *= animationMatrixLists[i][j]; //* popo;
+			}
 		}
 	}
 	else
 	{
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * 16);
 	}
 
-
+	/*
+	Adding together matrices like this might not work if both animations aren't affected 
+	by the same root motion. To fix, multiply all joints of the torso with the root motion
+	of the legs. It is assumed that the root is controlled by the lower body.
+	*/
 }
 
 glm::mat4x4 * Animation::getShaderMatrices()
@@ -487,13 +503,31 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 
 	for (int i = 0; i < keyList.size(); i++)
 	{
+
 		convertToRotMat(keyList[i].keyRotate, &rotateMat);
 		convertToTransMat(keyList[i].keyTranslate, &translateMat);
 		convertToScaleMat(keyList[i].keyScale, &scaleMat);
-
-		tMatrices[i] = translateMat * scaleMat * rotateMat;
+		//HERE I AM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//if (i == 0 && animationSegment != 0)
+		//{
+		//	hJoint* modelJointPtr = asset->getJointsStart();
+		//	glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
+		//	glm::mat4x4 aids = animationMatrixLists[0][0] * glm::inverse(invBPose);
+		//	aids[3][0] = 0;
+		//	aids[3][1] = 0;
+		//	aids[3][2] = 0;
+		//	tMatrices[i] = translateMat * scaleMat * rotateMat * aids;
+		//}
+		//else
+		//{
+			tMatrices[i] = translateMat * scaleMat * rotateMat;
+		//}
+		
 	}
-
+	/*
+	Make a special case where when the animation of segment is not calculated, use it's root and add it's rotation
+	to the other segment's rotation
+	*/
 	int jointIdxOffset = 0;
 	hSkeleton* skelPtr = asset->getSkeleton(0);
 	hJoint* modelJointPtr = asset->getJointsStart();
