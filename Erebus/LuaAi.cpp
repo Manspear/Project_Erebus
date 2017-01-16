@@ -174,7 +174,7 @@ namespace LuaAI
 
 	int clearMap(lua_State * lua)
 	{
-		//AI->resetIM();
+		AI->resetIM();
 		return 0;
 	}
 
