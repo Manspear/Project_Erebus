@@ -51,7 +51,7 @@ public:
 	void particlePass(std::vector<Gear::ParticleSystem*>* particleSystems);
 	//void geometryPass(std::vector<ModelInstance>* dynamicModels);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
-	void pickingPass(std::vector<ModelInstance>* dynamicModels, std::vector<std::vector<int>>* actorData);
+	void pickingPass(std::vector<ModelInstance>* dynamicModels, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs);
 
 private:
 	int currentShader = 0;

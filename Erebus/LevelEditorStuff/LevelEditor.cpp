@@ -94,6 +94,7 @@ void LevelEditor::start() {
 	LevelAssetHandler::getInstance()->setAssets( &assets );
 	LevelAssetHandler::getInstance()->load();
 
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -116,7 +117,7 @@ void LevelEditor::start() {
 		//	//std::cout<<actors.at(i)->getComponent<LevelModel>()->
 		//}
 
-		pick();
+		
 
 		engine->queueDynamicModels(modelHandler->getModels());
 		engine->queueAnimModels(modelHandler->getAnimatedModels());
@@ -131,8 +132,9 @@ void LevelEditor::start() {
 		{
 			actors[n]->update();
 		}
-
+		pick();
 		engine->draw(camera);
+		
 		this->ui->Draw();
 
 
@@ -152,7 +154,7 @@ void LevelEditor::start() {
 			engine->setDrawMode(5);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_O))
 			engine->setDrawMode(6);
-		else if (inputs->keyPressedThisFrame(GLFW_KEY_R))
+		else if (inputs->keyPressed(GLFW_KEY_R))
 		{
 			if (lockMouse)
 			{
@@ -165,6 +167,7 @@ void LevelEditor::start() {
 				lockMouse = true;
 			}
 		}
+		
 		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 		{
 			glm::mat4 proj = camera->getProjectionMatrix();
@@ -237,7 +240,9 @@ void LevelEditor::start() {
 
 void LevelEditor::pick() {
 	
-	engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelToActorID());
+	int pickedActoractorID = engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
+		this->inputs->getMousePos());
+	std::cout << pickedActoractorID << std::endl;
 	/*
 	Agent Ids
 	Static models 

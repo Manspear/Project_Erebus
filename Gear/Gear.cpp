@@ -15,8 +15,8 @@ namespace Gear
 		glewInit();
 		//renderQueue.init();
 		queue.init();
-		text.init(1280, 720);
-		screenQuad.init(1280, 720);
+		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		screenQuad.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
 		staticModels = &defaultModelList;
@@ -263,7 +263,6 @@ namespace Gear
 
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		
 		gBuffer.unUse();
@@ -295,10 +294,38 @@ namespace Gear
 		text.draw();
 	}
 
-	int Gear::GearEngine::pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<int>>* actorData)
+	int Gear::GearEngine::pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse)
 	{
-		queue.pickingPass(models, actorData);
-		return 5;
+		queue.update(*transformCount, *allTrans);
+		queue.updateUniforms(camera);
+		gBuffer.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.pickingPass(models, ModelInstanceAgentIDs);
+		
+		//queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
+		
+		//queue.pickingPass(dynamicModels);
+
+		glFlush();
+		glFinish();
+		glReadBuffer(GL_COLOR_ATTACHMENT2);
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		unsigned char data[3];
+		glReadPixels(mouse.x, WINDOW_HEIGHT-mouse.y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
+		int pickedID = data[0] +
+			data[1] * 256 +
+			data[2] * 256 * 256;
+		//std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
+		//std::cout << pickedID<< " " << mouse.x<<" " << mouse.y << std::endl;
+		//if (pickedID == 0x00000000) {
+		//	std::cout << "looking at background!" << std::endl;
+		//}
+		//else
+		//	std::cout << "Looking at something :): " << pickedID << std::endl;
+		gBuffer.unUse();
+		
+		return pickedID;
 	}
 
 	void GearEngine::pickingPass() {

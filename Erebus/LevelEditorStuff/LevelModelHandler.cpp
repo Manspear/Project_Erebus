@@ -12,6 +12,7 @@ LevelModelHandler::LevelModelHandler(LevelTransformHandler* transHandlerRef,
 	this->engineRef = gearRef;
 	this->assetsRef = assetRef;
 	modelToActorID.resize(100);
+	modelInstanceAgentIDs.resize(100);
 }
 
 LevelModelHandler::~LevelModelHandler()
@@ -29,6 +30,12 @@ std::vector<std::vector<int>>* LevelModelHandler::getModelToActorID()
 {
 	return &this->modelToActorID;
 }
+
+std::vector<std::vector<std::pair<int, unsigned int>>>* LevelModelHandler::getModelInstanceAgentIDs()
+{
+	return &this->modelInstanceAgentIDs;
+}
+
 int LevelModelHandler::loadModel(std::string modelName, unsigned int &actorID) {
 	std::string location = "Models/" + modelName + ".model";
 	ModelAsset* testModel = assetsRef->load<ModelAsset>(location);	//Loads model
@@ -47,8 +54,15 @@ int LevelModelHandler::loadModel(std::string modelName, unsigned int &actorID) {
 		models.push_back(instance);
 	}
 
-	this->modelToActorID[index].push_back(actorID);
+	//this->modelToActorID[index].push_back(actorID);
+	int transformIndice = this->transformHandlerRef->bindTransform(&models.at(index));
+	std::pair<int, unsigned int> agentInfo;
+	agentInfo.first = transformIndice;
+	agentInfo.second = actorID;
+	modelInstanceAgentIDs[index].push_back(agentInfo);
+	//modelInstanceAgentIDs[index].first = transformIndice;
+	//modelInstanceAgentIDs[index].second = actorID;
 
-	return this->transformHandlerRef->bindTransform(&models.at(index));
+	return transformIndice;
 
 }

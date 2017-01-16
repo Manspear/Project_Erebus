@@ -414,7 +414,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	allShaders[currentShader]->unUse();
 }
 
-void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels, std::vector<std::vector<int>>* actorData) {
+void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs) {
 	
 	allShaders[GEOMETRY_PICKING]->use();
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "worldMatrices");
@@ -423,7 +423,7 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels, std::ve
 	glm::vec3 color = glm::vec3(1, 0, 0);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		std::vector<int> tempData = actorData->at(i);
+		std::vector<std::pair<int, unsigned int>> tempData = ModelInstanceAgentIDs->at(i);
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
@@ -435,19 +435,25 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels, std::ve
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
 			tempMatrices[numInstance++] = worldMatrices[index];
-			int actorID;
+			int actorID = 0;
 			for (size_t k = 0; k < tempData.size(); k++)
 			{
-				if (index == tempData[k]) {
-					actorID = tempData[k];
+				if (index == tempData.at(k).first) {
+					actorID = tempData.at(k).second;
+						
 					k = tempData.size();
 				}
 					
 			}
-			int r = 255;// (j & 0x000000FF) >> 0;
-			int g = 0;// (j & 0x0000FF00) >> 8;
-			int b = 0;// (j & 0x00FF0000) >> 16;
-			idColors[numInstance-1] = glm::vec3((float)r / 255.f, (float)g / 255.f, (float)b / 255.f);
+			//int r = actorID%256;
+			//int g = (int)((255 * (float)((float)actorID / 255.f)) - actorID);
+			//float tempB = (65025.f * (float)((float)actorID / 65025.f))-actorID;
+			//int b = (int)(tempB>0? (tempB):0);
+			
+			int r = (actorID & 0x000000FF) >> 0;
+			int g = (actorID & 0x0000FF00) >> 8;
+			int b = (actorID & 0x00FF0000) >> 16;
+			idColors[numInstance - 1] = glm::vec3(r / 255.f, g / 255.f, b / 255.f);
 		}
 
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);

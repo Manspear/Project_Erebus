@@ -63,7 +63,7 @@ namespace Gear
 
 		GEAR_API void addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture);
 
-		GEAR_API int pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<int>>* actorData);
+		GEAR_API int pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse);
 		//----------------------
 
 	private:

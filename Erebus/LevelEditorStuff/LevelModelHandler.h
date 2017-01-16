@@ -12,6 +12,7 @@ private:
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
 	std::vector<std::vector<int>> modelToActorID;
+	std::vector<std::vector<std::pair<int, unsigned int>>> modelInstanceAgentIDs;
 public:
 	LevelModelHandler();
 	LevelModelHandler(LevelTransformHandler* transHandlerRef, Gear::GearEngine* gearRef, Importer::Assets* assetRef);
@@ -23,6 +24,7 @@ public:
 	std::vector<ModelInstance>* getModels();
 	std::vector<AnimatedInstance>* getAnimatedModels();
 	std::vector<std::vector<int>>* getModelToActorID();
+	std::vector<std::vector<std::pair<int, unsigned int>>>* getModelInstanceAgentIDs();
 
 public:
 	static LevelModelHandler* m_instance;
