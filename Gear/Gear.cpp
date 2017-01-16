@@ -266,15 +266,8 @@ namespace Gear
 
 		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
 
-		//tempCamera.setCamera(, camera->getPosition());
-		//tempCamera.setView(view);
-		//tempCamera.setprojection(glm::ortho(-50, 50, -50, 50, 1, 100));
-
 		tempCamera.setView(view);
 		tempCamera.setprojection(dirLights[0].projection);
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
-		
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
@@ -294,26 +287,14 @@ namespace Gear
 		gBuffer.unUse();
 
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
-		//DISCO debuger lines
-		/*for (int i = 0; i < NUM_LIGHTS; i++) {
-			if(i < NUM_LIGHTS/2)
-				Debugger::getInstance()->drawLine(glm::vec3(0, 50, 255), endPos[i], color[i]);
-			else
-				Debugger::getInstance()->drawLine(glm::vec3(255, 50, 255), endPos[i], color[i]);
-		}*/
 
-		//glDisable(GL_DEPTH_TEST);
 
 		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
 		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
 		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
 		updateDebug(camera);
-		
-		//glEnable(GL_DEPTH_TEST);;
 
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glDisable(GL_CULL_FACE);
 		skybox.update(camera);
 		skybox.draw();
 		queue.particlePass(particleSystems);
