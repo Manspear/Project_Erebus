@@ -20,6 +20,7 @@ void LevelEditor::start() {
 	LevelTransformHandler::createInstance(engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, &assets);
 
+	std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
 	this->transformHandler = LevelTransformHandler::getInstance();
 	modelHandler = LevelModelHandler::getInstance();
@@ -45,8 +46,9 @@ void LevelEditor::start() {
 	//std::cout <<  << std::endl;
 	
 	//factory->saveWorld("Level2", &actors);
+
 	factory->loadWorld("Level2", &actors);
-	factory->saveToLua("level01.lua", &actors);
+
 	engine->setFont(font);
 
 	CollisionHandler collisionHandler;
@@ -59,13 +61,12 @@ void LevelEditor::start() {
 	this->inputs = new Inputs(w);
 	this->camera = new Camera(45.f, WINDOW_WIDTH / WINDOW_HEIGHT, 0.1f, 2000.f, inputs);
 
-	this->ui = new LevelUI(w);
-
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
 
+	this->ui = new LevelUI(w);
 	engine->addDebugger(Debugger::getInstance());
 
 	//for (size_t i = 0; i < 10; i++)
@@ -89,7 +90,6 @@ void LevelEditor::start() {
 	LevelPrefabHandler::getInstance()->load( "LevelEditorStuff/Resources/ActorsXML" );
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
-
 
 	LevelAssetHandler::getInstance()->setAssets( &assets );
 	LevelAssetHandler::getInstance()->load();
@@ -127,9 +127,14 @@ void LevelEditor::start() {
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine->print(fps, 0.0f, 0.0f);
 
+		for (int n = 0; n < actors.size(); n++)
+		{
+			actors[n]->update();
+		}
 
 		engine->draw(camera);
 		this->ui->Draw();
+
 
 
 		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
@@ -175,10 +180,22 @@ void LevelEditor::start() {
 					actors.push_back( newActor );
 
 					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+					//newActor->addComponent(new LevelPointLightComponent());
+					//newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
+					//newActor->getComponent<LevelPointLightComponent>()->setRadius(24);
+
+					////Lights::PointLight tempLight;// = new Lights::PointLight;
+					//newActor->getComponent<LevelPointLightComponent>()->light.pos = glm::vec4(hitPoint.x, hitPoint.y+20, hitPoint.z,1);
+					//newActor->getComponent<LevelPointLightComponent>()->light.radius = glm::vec4(24,0,0,0);
+					//newActor->getComponent<LevelPointLightComponent>()->light.color  = glm::vec4(0.4, 0.4, 0.4, 1);
+					//lights.push_back(&newActor->getComponent<LevelPointLightComponent>()->light);
+					newActor->SetAgent(ui->getMainBar());
+					//ui->SetAgent(newActor);
 				}
 			}
+			
 		}
-
+		engine->queueLights(&lights);
 		if( hasHit )
 		{
 			Debugger::getInstance()->drawSphere( hitPoint, 0.5f );
@@ -202,34 +219,7 @@ void LevelEditor::start() {
 
 		window.update();
 	}
-	IDXGIFactory* dxgifactory = nullptr;
-	HRESULT ret_code = ::CreateDXGIFactory(
-		__uuidof(IDXGIFactory),
-		reinterpret_cast<void**>(&dxgifactory));
-
-	if (SUCCEEDED(ret_code))
-	{
-		IDXGIAdapter* firstAdapter;
-		ret_code = dxgifactory->EnumAdapters(0, &firstAdapter);
-
-		IDXGIAdapter3* dxgiAdapter3 = NULL;
-		if (SUCCEEDED(firstAdapter->QueryInterface(__uuidof(IDXGIAdapter3), (void**)&dxgiAdapter3)))
-		{
-			DXGI_QUERY_VIDEO_MEMORY_INFO info;
-			if (SUCCEEDED(dxgiAdapter3->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &info)))
-				
-			{
-				int memoryUsage = info.CurrentUsage / 1024 / 1024; //MiB
-
-				char msg[100];
-				sprintf_s(msg, "Video Memory Usage:\n %d MB", memoryUsage);
-				MessageBoxA(0, msg, "", 0);
-			};
-
-			//SafeRelease(dxgiAdapter3);
-		}
-	}
-
+	
 	
 	delete ui;
 	for (int i = 0; i < ps.size(); i++)

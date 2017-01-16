@@ -24,7 +24,6 @@ public:
 	void postInitialize() override;
 	void setParent(LevelActor* parent);
 	int getModelIndex();
-
 private:
 	std::string modelName;
 	int modelIndex, transformIndice;

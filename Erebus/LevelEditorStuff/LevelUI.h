@@ -3,6 +3,7 @@
 #include <BaseIncludes.h>
 #include <memory>
 
+
 #define USE_ANT
 struct uiVec3 {
 	float x, y, z;
@@ -87,11 +88,22 @@ private:
 	std::string vec2ToString(glm::vec2& val, std::string type = "");
 	std::string vec3ToString(glm::vec3& val, std::string type = "");
 public:
+	static TwType vector3Tw;
 
-
-	TwType TW_TYPE_VECTOR3F;
+	static TwType TW_TYPE_VECTOR3F() {
+		TwStructMember vector3fMember[] = {
+			{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
+			{ "y", TW_TYPE_FLOAT, offsetof(uiVec3, y), "" },
+			{ "z", TW_TYPE_FLOAT, offsetof(uiVec3, z), "" }
+		};
+		if (vector3Tw == TW_TYPE_FLOAT) {
+			return vector3Tw = TwDefineStruct("Vector3f", vector3fMember, 3, sizeof(uiVec3), NULL, NULL);
+		}
+		return vector3Tw;
+	}
 	LevelUI(GLFWwindow* window);
 	~LevelUI();
 	void Draw();
+	TwBar* getMainBar();
 };
 

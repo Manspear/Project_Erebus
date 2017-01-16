@@ -12,6 +12,11 @@ LevelPointLightComponent::~LevelPointLightComponent()
 	
 }
 
+void LevelPointLightComponent::update(float deltaTime) {
+
+	Debugger::getInstance()->drawSphere(this->pos, this->radius);
+}
+
 void LevelPointLightComponent::initialize(tinyxml2::XMLElement* element)
 {
 	this->radius = std::stof(element->FirstChildElement("Radius")->Attribute("r"));
@@ -71,4 +76,38 @@ std::string LevelPointLightComponent::toLua(std::string name)
 		ss << "Gear.AddStaticInstance(" << name << ".model, " << name << ".transformID)" << std::endl;
 */
 	return ss.str();
+}
+
+float LevelPointLightComponent::getRadius()
+{
+	return radius;
+}
+glm::vec3 LevelPointLightComponent::getPos()
+{
+	return pos;
+}
+glm::vec3 LevelPointLightComponent::getColor()
+{
+	return color;
+}
+
+void LevelPointLightComponent::setPos(glm::vec3 inPos)
+{
+	pos = inPos;
+}
+
+void LevelPointLightComponent::setColor(glm::vec3 inColor)
+{
+	color = inColor;
+}
+
+void LevelPointLightComponent::setRadius(float inRadius)
+{
+	radius = inRadius;
+}
+
+void LevelPointLightComponent::setTwStruct(TwBar* tempBar )
+{
+	TwAddVarRW(tempBar, "Pos", LevelUI::TW_TYPE_VECTOR3F(), (void*)&light.pos, NULL);
+	TwAddVarRW(tempBar, "Light", TW_TYPE_FLOAT, (void*)&light.radius.x, NULL);
 }
