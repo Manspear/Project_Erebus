@@ -48,12 +48,8 @@ void NetworkController::startNetworkSending()
 {
 	while (running)
 	{		
-		Packager p;
-		p.buildPacket();
-
-		network.Send(p.getPacketPointer(), p.getActualSize());
-
-		Sleep(250);
+		network.Send();
+		Sleep(200);
 	}
 }
 
@@ -62,16 +58,8 @@ void NetworkController::startNetworkReceiving()
 	while (running)
 	{
 		printf("Recieving package\n");
-
-		unsigned char buffer[packetSize];
-
-		int bytes_read = network.Receive(buffer, sizeof(buffer));
-		if (bytes_read)
-		{
-			PacketFilter f;
-			f.openPacket(buffer);
-		}
-		Sleep(250);
+		network.Receive();
+		Sleep(100);
 	}
 }
 
@@ -90,13 +78,22 @@ void NetworkController::startCommunicationThreads()
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
 }
 
+void NetworkController::setNetWorkHost(const bool& networkHost)
+{
+	this->networkHost = networkHost;
+}
+
+bool NetworkController::getNetWorkHost()
+{
+	return this->networkHost;
+}
 
 void NetworkController::sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
 {
-	//network.buildTransformPacket(id, x, y, z);
+	network.buildTransformPacket(id, x, y, z);
 }
 
-TransformPacket NetworkController::fetchTransformPacket()
+bool NetworkController::fetchTransformPacket(TransformPacket &packet)
 {
-	return network.fetchTransformPacket();
+	return network.fetchTransformPacket(packet);
 }

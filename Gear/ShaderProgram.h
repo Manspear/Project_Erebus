@@ -13,9 +13,11 @@ enum shaderBaseType
 enum ShaderType {
 	FORWARD,
 	ANIM,
+	ANIMSHADOW,
 	PARTICLES,
 	SHADOW,
 	GEOMETRY,
+	GEOMETRYSHADOW,
 	GEOMETRY_NON,
 	HEIGHTMAP,
 	DEBUG_LINE,
@@ -23,6 +25,7 @@ enum ShaderType {
 	DEBUG_AABB,
 	DEBUG_OBB,
 	GEOMETRY_PICKING,
+	SKYBOX,
 	NUM_SHADER_TYPES
 };
 
@@ -43,10 +46,11 @@ public:
 	void framebufferInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments);
 	void deferredInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLenum* type, GLuint* attachments);
 	void initFramebuffer(int nrTex, int width, int height, GLfloat* filter, GLenum* internalFormat, GLenum* format, GLenum* type, GLenum* attachments, bool clamp);
+	void initFramebuffer(int nrTex, int width, int height, GLfloat filter, GLenum internalFormat, GLenum format, GLenum type, GLenum attachments, bool clamp);
 	void use();
 	void unUse();
 	void bindTexToLocation(GLuint* textures);
-	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture);
+	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 
 	GLuint getProgramID();
 	GLuint* getTextures();
@@ -55,6 +59,9 @@ public:
 	void addUniform(glm::vec3 &vec3, std::string position, int count = 1);
 	void addUniform(float &floatValue, std::string position);
 	void addUniform(int &intValue, std::string position);
+
+	int getWidth() { return width; }
+	int getHeight() { return height; }
 
 
 private:
