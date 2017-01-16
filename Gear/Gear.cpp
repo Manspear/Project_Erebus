@@ -269,7 +269,7 @@ namespace Gear
 	{
 		return queue.generateWorldMatrix();
 	}
-	GEAR_API void GearEngine::lightPass(Camera * camera, Camera* tempCam)
+	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
