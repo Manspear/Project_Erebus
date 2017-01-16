@@ -258,6 +258,7 @@
     <ClInclude Include="CollisionChecker.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LevelModel.h" />
@@ -274,6 +275,7 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
