@@ -154,6 +154,7 @@
     <ClCompile Include="CollisionChecker.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
+    <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditor.cpp" />
