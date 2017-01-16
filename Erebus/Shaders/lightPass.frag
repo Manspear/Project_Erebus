@@ -97,7 +97,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	vec3 lighting  = vec3(0);// Diffuse * 0.1;
 
 		float distance = length(light.pos.xyz - fragPos);
-		if(distance < 30)
+		if(distance < light.radius.x)
 		{
 			// Diffuse
             vec3 lightDir = normalize(light.pos.xyz - fragPos);
