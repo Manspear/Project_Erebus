@@ -179,7 +179,7 @@ void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>
 	//tinyxml2::XMLDeclaration* dcl = new tinyxml2::XMLDeclaration(&doc);
 }
 
-void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>* actors) {
+/*void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>* actors) {
 	for (size_t i = 0; i < actors->size(); i++)
 	{
 		delete actors->at(i);
@@ -197,6 +197,17 @@ void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>
 	{
 		actors->push_back(loadActor(pNode));
 	}
+}*/
+
+void LevelActorFactory::loadWorld( std::string fileName )
+{
+	std::string fullPath = levelFolder + fileName + fileExtension;
+
+	tinyxml2::XMLDocument* doc = getDocument( fullPath );
+	tinyxml2::XMLElement* startElement = doc->FirstChildElement();
+
+	for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+		LevelActorHandler::getInstance()->addActor(loadActor(pNode));
 }
 
 void LevelActorFactory::saveToLua(std::string fileName, std::vector<LevelActor*>* actors)

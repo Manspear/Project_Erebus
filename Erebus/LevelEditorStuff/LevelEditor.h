@@ -24,6 +24,7 @@
 #include "LevelAssetHandler.h"
 #include "LevelUI.h"
 #include "LevelPrefabHandler.h"
+#include "LevelActorHandler.h"
 
 class LevelEditor
 {

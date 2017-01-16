@@ -109,7 +109,7 @@ void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocum
 	
 } 
 
-std::map<std::string, LevelActorComponent*> LevelActor::getAllComponents()
+std::map<std::string, LevelActorComponent*>& LevelActor::getAllComponents()
 {
 	return this->actorComponents;
 }
@@ -119,7 +119,6 @@ bool LevelActor::SetAgent(TwBar * bar)
 	TwRemoveAllVars(bar);
 	for (auto it : this->actorComponents)
 	{
-
 		it.second->setTwStruct(bar);
 	}
 

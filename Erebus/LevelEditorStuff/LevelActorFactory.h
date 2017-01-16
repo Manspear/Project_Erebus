@@ -10,7 +10,7 @@
 #include "LevelTransformHandler.h"
 #include "LevelModelHandler.h"
 #include "Gear.h"
-
+#include "LevelActorHandler.h"
 
 class LevelActorFactory
 {
@@ -22,7 +22,8 @@ public:
 	const char* getPath(unsigned int id);
 	void deleteSavedPaths();
 	void saveWorld(std::string fileName, std::vector<LevelActor*>* actors);
-	void loadWorld(std::string fileName, std::vector<LevelActor*>* actors);
+	//void loadWorld(std::string fileName, std::vector<LevelActor*>* actors);
+	void loadWorld(std::string fileName);
 	void saveToLua(std::string fileName, std::vector<LevelActor*>* actors);
 	LevelActor* loadActor(tinyxml2::XMLElement* element);
 
