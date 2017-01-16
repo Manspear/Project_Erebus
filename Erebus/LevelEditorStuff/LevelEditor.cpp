@@ -21,11 +21,14 @@ void LevelEditor::start() {
 	LevelTransformHandler::createInstance(&engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), &engine, &assets);
 
+	std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
 	this->transformHandler = LevelTransformHandler::getInstance();
 	modelHandler = LevelModelHandler::getInstance();
 
 	factory = LevelActorFactory::getInstance();
+	//std::vector<LevelActor*>* actors = new std::vector<LevelActor*>[actorTypes::NR_ACTOR_TYPES];
+
 	std::vector<LevelActor*> actors;
 
 	//for (size_t i = 0; i < 100; i++)
@@ -46,8 +49,9 @@ void LevelEditor::start() {
 	//std::cout <<  << std::endl;
 	
 	//factory->saveWorld("Level2", &actors);
+
 	factory->loadWorld("Level2", &actors);
-	factory->saveToLua("level01.lua", &actors);
+
 	engine.setFont(font);
 
 	CollisionHandler collisionHandler;
@@ -59,13 +63,12 @@ void LevelEditor::start() {
 	this->inputs = new Inputs(w);
 	this->camera = new Camera(45.f, WINDOW_WIDTH / WINDOW_HEIGHT, 0.1f, 2000.f, inputs);
 
-	this->ui = new LevelUI(w);
-
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
 
+	this->ui = new LevelUI(w);
 	engine.addDebugger(Debugger::getInstance());
 
 	//for (size_t i = 0; i < 10; i++)
@@ -89,18 +92,6 @@ void LevelEditor::start() {
 	LevelPrefabHandler::getInstance()->load( "LevelEditorStuff/Resources/ActorsXML" );
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
-
-	TwBar* tempBar = ui->getMainBar();
-
-	TwStructMember vector3fMember[] = {
-		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
-		{ "y", TW_TYPE_FLOAT, offsetof(uiVec3, y), "" },
-		{ "z", TW_TYPE_FLOAT, offsetof(uiVec3, z), "" }
-	};
-
-	TwAddButton(tempBar, "Camera", NULL, NULL, "");
-	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
-	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
 
 	LevelAssetHandler::getInstance()->setAssets( &assets );
 	LevelAssetHandler::getInstance()->load();
@@ -133,9 +124,14 @@ void LevelEditor::start() {
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);
 
+		for (int n = 0; n < actors.size(); n++)
+		{
+			actors[n]->update();
+		}
 
 		engine.draw(camera);
 		this->ui->Draw();
+
 
 
 		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
@@ -181,10 +177,22 @@ void LevelEditor::start() {
 					actors.push_back( newActor );
 
 					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+					newActor->addComponent(new LevelPointLightComponent());
+					newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
+					newActor->getComponent<LevelPointLightComponent>()->setRadius(24);
+
+					//Lights::PointLight tempLight;// = new Lights::PointLight;
+					newActor->getComponent<LevelPointLightComponent>()->light.pos = glm::vec4(hitPoint.x, hitPoint.y+20, hitPoint.z,1);
+					newActor->getComponent<LevelPointLightComponent>()->light.radius = glm::vec4(24,0,0,0);
+					newActor->getComponent<LevelPointLightComponent>()->light.color  = glm::vec4(0.4, 0.4, 0.4, 1);
+					lights.push_back(&newActor->getComponent<LevelPointLightComponent>()->light);
+					newActor->SetAgent(ui->getMainBar());
+					//ui->SetAgent(newActor);
 				}
 			}
+			
 		}
-
+		engine.queueLights(&lights);
 		if( hasHit )
 		{
 			Debugger::getInstance()->drawSphere( hitPoint, 0.5f );

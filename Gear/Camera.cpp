@@ -17,7 +17,7 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	verticalAngle = 0;
 	inputs = in;
 	camSpeed = 5.0f;
-	camPosition = { 0, 0, 15 }; 
+	camPosition = { 124, 90, 124 }; 
 	camDirection = { 0, 0, -1 }; 
 	camUp = { 0, 1, 0 };
 	projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);

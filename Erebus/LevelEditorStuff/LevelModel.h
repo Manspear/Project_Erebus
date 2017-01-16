@@ -22,7 +22,6 @@ public:
 	void postInitialize() override;
 	void setParent(LevelActor* parent);
 
-
 private:
 	std::string modelName;
 };

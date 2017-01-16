@@ -52,7 +52,7 @@ namespace Gear
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
 		GEAR_API void queueParticles(std::vector<ParticleSystem*>* particles);
-		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
+		GEAR_API void queueLights(std::vector<Lights::PointLight*>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
 		GEAR_API void draw(Camera* camera);
 
