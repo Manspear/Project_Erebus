@@ -77,17 +77,19 @@ end
 
 function state.attackState.enter(enemy,player)
 enemy.animationState = 3
+enemy.attackCountdown = 1
 end
 
-function state.attackState.update(enemy,player)
+function state.attackState.update(enemy,player,dt)
 	length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-
+	enemy.attackCountdown = enemy.attackCountdown - dt
 	if length > enemy.range then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
 
-	if length < enemy.range then
+	if length < enemy.range and enemy.attackCountdown <= 0 then
+		enemy.attackCountdown = 1
 		player:Hurt(12)
 	end
 end
