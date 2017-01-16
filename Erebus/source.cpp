@@ -26,7 +26,8 @@ int main()
 	Window window;
 	Gear::GearEngine engine;
 
-	GameState gameState = GameplayState;
+	GameState gameState = MenuState;
+	window.changeCursorStatus(false);
 	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
@@ -106,10 +107,6 @@ int main()
 		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
 		{
 			running = false;
-			//gameState = MenuState;
-			//window.changeCursorStatus(false);
-			//lockMouse = false;
-
 		}
 		
 		if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))

@@ -166,6 +166,8 @@
     <ClInclude Include="LuaMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GamePlay.h" />
+    <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\arc.lua">

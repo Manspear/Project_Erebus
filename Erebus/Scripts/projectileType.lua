@@ -5,7 +5,7 @@ function CreateProjectileType()
 	projectile.position = {x=0,y=0,z=0}
 
 	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
-	CollisionHandler.AddSphere(projectile.sphereCollider)
+	CollisionHandler.AddSphere(projectile.sphereCollider, 1)
 
 	function projectile:Shoot(position, direction, speed)
 		self.velocity.x = direction.x * speed

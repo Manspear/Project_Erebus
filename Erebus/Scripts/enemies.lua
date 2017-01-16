@@ -14,6 +14,7 @@ function LoadEnemies(n)
 		enemies[i].health = 20
 		enemies[i].alive = true
 		enemies[i].effects = {}
+		enemies[i].attackCountdown = 1
 
 		enemies[i].Hurt = function(self,damage)
 			self.health = self.health - damage
