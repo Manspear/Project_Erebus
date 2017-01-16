@@ -295,10 +295,16 @@ namespace Gear
 		text.draw();
 	}
 
+	int Gear::GearEngine::pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<int>>* actorData)
+	{
+		queue.pickingPass(models, actorData);
+		return 5;
+	}
+
 	void GearEngine::pickingPass() {
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.pickingPass(dynamicModels);
+		//queue.pickingPass(dynamicModels);
 		
 		glFlush();
 		glFinish();

@@ -52,10 +52,14 @@ void LevelModel::postInitialize()
 	LevelTransform* thisTransform = this->parent->getComponent<LevelTransform>();
 
 	LevelModelHandler* handlerRef = LevelModelHandler::getInstance();
-	int index = handlerRef->loadModel(this->modelName);
+	transformIndice = handlerRef->loadModel(this->modelName,parent->id);
 
-	thisTransform->setTransform(index);
+	thisTransform->setTransform(transformIndice);
 	
+}
+
+int LevelModel::getModelIndex() {
+	return this->modelIndex;
 }
 
 tinyxml2::XMLElement* LevelModel::toXml(tinyxml2::XMLDocument* doc)

@@ -13,13 +13,12 @@ LevelEditor::~LevelEditor()
 }
 
 void LevelEditor::start() {
-
-	Gear::GearEngine engine;
+	this->engine = new Gear::GearEngine();
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
 
-	LevelTransformHandler::createInstance(&engine);
-	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), &engine, &assets);
+	LevelTransformHandler::createInstance(engine);
+	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, &assets);
 
 
 	this->transformHandler = LevelTransformHandler::getInstance();
@@ -27,8 +26,6 @@ void LevelEditor::start() {
 
 	factory = LevelActorFactory::getInstance();
 	//std::vector<LevelActor*>* actors = new std::vector<LevelActor*>[actorTypes::NR_ACTOR_TYPES];
-
-	std::vector<LevelActor*> actors;
 
 	//for (size_t i = 0; i < 100; i++)
 	//{
@@ -50,10 +47,11 @@ void LevelEditor::start() {
 	//factory->saveWorld("Level2", &actors);
 	factory->loadWorld("Level2", &actors);
 	factory->saveToLua("level01.lua", &actors);
-	engine.setFont(font);
+	engine->setFont(font);
 
 	CollisionHandler collisionHandler;
 	collisionHandler.setTransforms(this->transformHandler->getAllTransforms());
+	
 
 	glEnable(GL_DEPTH_TEST);
 	
@@ -68,7 +66,7 @@ void LevelEditor::start() {
 	bool lockMouse = false;
 	window.changeCursorStatus(lockMouse);
 
-	engine.addDebugger(Debugger::getInstance());
+	engine->addDebugger(Debugger::getInstance());
 
 	//for (size_t i = 0; i < 10; i++)
 	//{
@@ -92,11 +90,6 @@ void LevelEditor::start() {
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
-	TwBar* tempBar = ui->getMainBar();
-
-	TwAddButton(tempBar, "Camera", NULL, NULL, "");
-	TwAddVarRW(tempBar, "Position", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefPosition(), NULL);
-	TwAddVarRW(tempBar, "Direction", ui->TW_TYPE_VECTOR3F, (void*)&camera->getRefDirection(), NULL);
 
 	LevelAssetHandler::getInstance()->setAssets( &assets );
 	LevelAssetHandler::getInstance()->load();
@@ -117,17 +110,25 @@ void LevelEditor::start() {
 		//for (int i = 0; i < ps.size(); i++)
 		//	ps.at(i)->update(deltaTime);
 
-		engine.queueDynamicModels(modelHandler->getModels());
-		engine.queueAnimModels(modelHandler->getAnimatedModels());
-		engine.queueParticles(&ps);
+		//for (size_t i = 0; i < actors.size(); i++)
+		//{
+		//	std::cout << actors.at(i)->id << std::endl;
+		//	//std::cout<<actors.at(i)->getComponent<LevelModel>()->
+		//}
+
+		pick();
+
+		engine->queueDynamicModels(modelHandler->getModels());
+		engine->queueAnimModels(modelHandler->getAnimatedModels());
+		engine->queueParticles(&ps);
 
 		collisionHandler.checkCollisions();
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine.print(fps, 0.0f, 0.0f);
+		engine->print(fps, 0.0f, 0.0f);
 
 
-		engine.draw(camera);
+		engine->draw(camera);
 		this->ui->Draw();
 
 
@@ -135,17 +136,17 @@ void LevelEditor::start() {
 			running = false;
 
 		if (inputs->keyPressedThisFrame(GLFW_KEY_J))
-			engine.setDrawMode(1);
+			engine->setDrawMode(1);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_K))
-			engine.setDrawMode(2);
+			engine->setDrawMode(2);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_L))
-			engine.setDrawMode(3);
+			engine->setDrawMode(3);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_P))
-			engine.setDrawMode(4);
+			engine->setDrawMode(4);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_N))
-			engine.setDrawMode(5);
+			engine->setDrawMode(5);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_O))
-			engine.setDrawMode(6);
+			engine->setDrawMode(6);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_R))
 		{
 			if (lockMouse)
@@ -201,6 +202,34 @@ void LevelEditor::start() {
 
 		window.update();
 	}
+	IDXGIFactory* dxgifactory = nullptr;
+	HRESULT ret_code = ::CreateDXGIFactory(
+		__uuidof(IDXGIFactory),
+		reinterpret_cast<void**>(&dxgifactory));
+
+	if (SUCCEEDED(ret_code))
+	{
+		IDXGIAdapter* firstAdapter;
+		ret_code = dxgifactory->EnumAdapters(0, &firstAdapter);
+
+		IDXGIAdapter3* dxgiAdapter3 = NULL;
+		if (SUCCEEDED(firstAdapter->QueryInterface(__uuidof(IDXGIAdapter3), (void**)&dxgiAdapter3)))
+		{
+			DXGI_QUERY_VIDEO_MEMORY_INFO info;
+			if (SUCCEEDED(dxgiAdapter3->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &info)))
+				
+			{
+				int memoryUsage = info.CurrentUsage / 1024 / 1024; //MiB
+
+				char msg[100];
+				sprintf_s(msg, "Video Memory Usage:\n %d MB", memoryUsage);
+				MessageBoxA(0, msg, "", 0);
+			};
+
+			//SafeRelease(dxgiAdapter3);
+		}
+	}
+
 	
 	delete ui;
 	for (int i = 0; i < ps.size(); i++)
@@ -214,4 +243,24 @@ void LevelEditor::start() {
 	}
 	glfwTerminate();
 	
+}
+
+void LevelEditor::pick() {
+	
+	engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelToActorID());
+	/*
+	Agent Ids
+	Static models 
+	Anim models
+
+	Model1
+	0-5
+	52,64,12,42,62
+		Arr modelIndex[0-2]
+		Arr modelIndice[0-20]
+		Arr modelAgentID[0-20]
+		agentData[numModelTypes][numWorldMatrixIndices] = agentId
+		std::vector<std::vector<int>> derp
+		
+	*/
 }

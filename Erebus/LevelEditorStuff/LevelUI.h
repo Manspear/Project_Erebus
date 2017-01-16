@@ -18,7 +18,7 @@ private:
 	std::string posStr, sizeStr, colorStr, alphaStr, barName;
 	const std::string resizeStr = " resizable=false"
 					, moveableStr = " movable=false"
-					, refreshStr = " refresh=.05";
+					, refreshStr = " refresh=1.5";
 	TwBar* bar;
 
 	std::string floatToString(float& val, std::string type) {
@@ -84,14 +84,10 @@ class LevelUI
 {
 private:
 	TweakBar* bars[3];
-	TwBar* mainBar;
-	TwBar* bar2;
-	TwBar* bar3;
 	std::string vec2ToString(glm::vec2& val, std::string type = "");
 	std::string vec3ToString(glm::vec3& val, std::string type = "");
 public:
 
-	TwBar* getMainBar();
 
 	TwType TW_TYPE_VECTOR3F;
 	LevelUI(GLFWwindow* window);

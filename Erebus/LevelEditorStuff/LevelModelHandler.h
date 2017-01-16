@@ -11,16 +11,18 @@ private:
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animatedModels;
+	std::vector<std::vector<int>> modelToActorID;
 public:
 	LevelModelHandler();
 	LevelModelHandler(LevelTransformHandler* transHandlerRef, Gear::GearEngine* gearRef, Importer::Assets* assetRef);
 	~LevelModelHandler();
 
-	//Loads the model, and returns the index which the transform is in!
-	int loadModel(std::string modelName);
+	//Loads the model, and returns the index which the transform is in! 
+	int loadModel(std::string modelName, unsigned int &actorID);
 
 	std::vector<ModelInstance>* getModels();
 	std::vector<AnimatedInstance>* getAnimatedModels();
+	std::vector<std::vector<int>>* getModelToActorID();
 
 public:
 	static LevelModelHandler* m_instance;

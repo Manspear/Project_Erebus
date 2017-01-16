@@ -414,7 +414,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	allShaders[currentShader]->unUse();
 }
 
-void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
+void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels, std::vector<std::vector<int>>* actorData) {
+	
 	allShaders[GEOMETRY_PICKING]->use();
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "worldMatrices");
 	GLuint colorIdLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "instanceColors");
@@ -422,6 +423,7 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 	glm::vec3 color = glm::vec3(1, 0, 0);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
+		std::vector<int> tempData = actorData->at(i);
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
@@ -433,6 +435,15 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
 			tempMatrices[numInstance++] = worldMatrices[index];
+			int actorID;
+			for (size_t k = 0; k < tempData.size(); k++)
+			{
+				if (index == tempData[k]) {
+					actorID = tempData[k];
+					k = tempData.size();
+				}
+					
+			}
 			int r = 255;// (j & 0x000000FF) >> 0;
 			int g = 0;// (j & 0x0000FF00) >> 8;
 			int b = 0;// (j & 0x00FF0000) >> 16;

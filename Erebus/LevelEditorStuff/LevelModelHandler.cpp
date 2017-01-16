@@ -11,6 +11,7 @@ LevelModelHandler::LevelModelHandler(LevelTransformHandler* transHandlerRef,
 	this->transformHandlerRef = transHandlerRef;
 	this->engineRef = gearRef;
 	this->assetsRef = assetRef;
+	modelToActorID.resize(100);
 }
 
 LevelModelHandler::~LevelModelHandler()
@@ -24,9 +25,11 @@ std::vector<AnimatedInstance>* LevelModelHandler::getAnimatedModels() {
 	return &this->animatedModels;
 }
 
-
-
-int LevelModelHandler::loadModel(std::string modelName) {
+std::vector<std::vector<int>>* LevelModelHandler::getModelToActorID()
+{
+	return &this->modelToActorID;
+}
+int LevelModelHandler::loadModel(std::string modelName, unsigned int &actorID) {
 	std::string location = "Models/" + modelName + ".model";
 	ModelAsset* testModel = assetsRef->load<ModelAsset>(location);	//Loads model
 	int result = engineRef->generateWorldMatrix();								//Generates a worldmatrix
@@ -44,10 +47,8 @@ int LevelModelHandler::loadModel(std::string modelName) {
 		models.push_back(instance);
 	}
 
-	
-
+	this->modelToActorID[index].push_back(actorID);
 
 	return this->transformHandlerRef->bindTransform(&models.at(index));
-	//Models.at(index) is the model that just loaded
-	//
+
 }

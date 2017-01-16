@@ -25,6 +25,15 @@
 #include "LevelUI.h"
 #include "LevelPrefabHandler.h"
 
+#include <SDKDDKVer.h>
+
+#include <stdio.h>
+#include <tchar.h>
+#include <d3d11_3.h>
+#include <dxgi1_4.h>
+
+#pragma comment(lib, "dxgi.lib")
+
 class LevelEditor
 {
 private:
@@ -36,6 +45,8 @@ private:
 		
 	};
 
+	
+	Gear::GearEngine* engine;
 	LevelUI* ui;
 	LevelActorFactory* factory;
 	std::vector<Gear::ParticleSystem*> ps;
@@ -45,6 +56,9 @@ private:
 	Camera* camera;
 	Inputs* inputs;
 	Window window;
+	std::vector<LevelActor*> actors;
+
+	void pick();
 public:
 
 	LevelEditor();

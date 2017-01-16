@@ -8,8 +8,10 @@
 #include "LevelActor.h"
 #include "LevelModelHandler.h"
 #include "LevelAnimation.h"
+
 class LevelModel : public LevelActorComponent
 {
+	
 public:
 	static const char* name;
 	LevelModel();
@@ -21,9 +23,10 @@ public:
 	std::string toLua(std::string name) override;
 	void postInitialize() override;
 	void setParent(LevelActor* parent);
-
+	int getModelIndex();
 
 private:
 	std::string modelName;
+	int modelIndex, transformIndice;
 };
 

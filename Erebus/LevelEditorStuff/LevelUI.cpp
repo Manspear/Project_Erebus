@@ -12,19 +12,18 @@ LevelUI::LevelUI(GLFWwindow* window)
 
 	TwInit(TW_OPENGL_CORE, NULL);
 	TwWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	mainBar = TwNewBar( "Main" );
 
 	bars[0] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness())), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT),
-		glm::vec4(0, 128, 255, 128), "Agent");
+		glm::vec4(0, 128, 255, 200), "Actor");
 
 	bars[1] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
-		glm::vec4(0, 128, 128, 128), "World");
+		glm::vec4(0, 128, 128, 200), "World");
 
 	bars[2] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), WINDOW_HEIGHT*.5f),
 		glm::vec2((int)(WINDOW_WIDTH* TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
-		glm::vec4(0, 255, 128, 128), "Assets");
+		glm::vec4(0, 255, 128, 200), "Assets");
 
 	TwStructMember vector3fMember[] = {
 		{ "x", TW_TYPE_FLOAT, offsetof(uiVec3, x), "" },
@@ -58,8 +57,4 @@ LevelUI::~LevelUI()
 
 void LevelUI::Draw() {
 	TwDraw();
-}
-
-TwBar* LevelUI::getMainBar() {
-	return this->mainBar;
 }

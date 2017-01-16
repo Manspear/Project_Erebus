@@ -62,6 +62,8 @@ namespace Gear
 		GEAR_API void setFont(FontAsset* font);
 
 		GEAR_API void addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture);
+
+		GEAR_API int pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<int>>* actorData);
 		//----------------------
 
 	private:
