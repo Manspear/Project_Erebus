@@ -112,19 +112,19 @@ int main()
 
 		}
 		
-		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
+		if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 			engine.setDrawMode(1);
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_K ))
+		else if( inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
 			engine.setDrawMode(2);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_L))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
 			engine.setDrawMode(3);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_P))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_4))
 			engine.setDrawMode(4);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_N))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
 			engine.setDrawMode(5);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
 			engine.setDrawMode(6);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_I))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
 			engine.setDrawMode(7);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 		{
