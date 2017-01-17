@@ -7,13 +7,13 @@ Menu::Menu(Gear::GearEngine * inEngine, Importer::Assets & assets)
 	background = sScreenImage(glm::vec2(0, 0), WINDOW_WIDTH, WINDOW_HEIGHT);
 	menuBackground = assets.load<TextureAsset>("Textures/menuBackground.png");
 
-	button = sScreenImage(glm::vec2(300, 300), 350, 100);
+	button = sScreenImage(glm::vec2(350, 300), 350, 100);
 	buttonTex = assets.load<TextureAsset>("Textures/button.png");
 
-	hostButton = sScreenImage(glm::vec2(300, 500), 32, 32);
-	hostButtonTex = assets.load<TextureAsset>("Textures/red.png");
-	clientButton = sScreenImage(glm::vec2(350, 500), 32, 32);
-	clientButtonTex = assets.load<TextureAsset>("Textures/green.dds");
+	hostButton = sScreenImage(glm::vec2(350, 425), 350, 100);
+	hostButtonTex = assets.load<TextureAsset>("Textures/buttonHost.png");
+	clientButton = sScreenImage(glm::vec2(350, 550), 350, 100);
+	clientButtonTex = assets.load<TextureAsset>("Textures/buttonConnect.png");
 
 }
 
