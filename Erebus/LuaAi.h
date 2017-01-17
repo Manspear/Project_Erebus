@@ -17,6 +17,7 @@ namespace LuaAI
 	int setNav(lua_State * lua);
 	int clearMap(lua_State * lua);
 	int addInfluencePoint(lua_State * lua);
+	int checkIfTargetNodeIsOccupied(lua_State * lua);
 	int addDebug(Debug*);
 	int draw();
 }

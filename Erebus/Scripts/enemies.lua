@@ -54,6 +54,7 @@ function LoadEnemies(n)
 		enemies[i].animationState = 1
 		enemies[i].range = 4
 		enemies[i].target = nil
+		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 	end
 
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -71,11 +72,15 @@ function UpdateEnemies(dt)
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0then
 		--print ("Clear")
-
+		
 		AI.ClearMap(tempPlayerPosition,7)
 		COUNTDOWN = 1
 		for i=1, #enemies do
-			AI.ClearMap( Transform.GetPosition(enemies[i].transformID),1)
+			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
+			AI.ClearMap(enemies[i].lastPos,0)
+			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
+			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
+			--AI.AddIP(enemies[i].transformID,-1)
 		end
 			AI.AddIP(player.transformID,7)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)

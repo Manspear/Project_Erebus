@@ -23,6 +23,7 @@ namespace LuaAI
 			{ "SetNav",setNav },
 			{ "ClearMap",clearMap },
 			{ "AddIP",addInfluencePoint },
+			{ "CheckIfTarget",checkIfTargetNodeIsOccupied },
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(L, regs, 0);
@@ -186,6 +187,23 @@ namespace LuaAI
 
 		AI->resetIM(position, lua_tointeger(lua, 2));
 		return 0;
+	}
+
+	int checkIfTargetNodeIsOccupied(lua_State * lua)
+	{
+		glm::vec3 position;
+		lua_getfield(lua, 1, "x");
+		position.x = lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 1, "y");
+		position.y = lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 1, "z");
+		position.z = lua_tonumber(lua, -1);
+
+		lua_pushboolean(lua, AI->checkIfTargetNodeIsOccupied(position));
+
+		return 1;
 	}
 
 	int addInfluencePoint(lua_State * lua)

@@ -53,6 +53,7 @@ function state.followState.update(enemy,player,dt)
 				print("DISTANCE")
 			end
 
+
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
 	end
 
@@ -78,6 +79,11 @@ end
 function state.attackState.enter(enemy,player)
 enemy.animationState = 3
 enemy.attackCountdown = 1
+
+local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
+
+
+Transform.SetLookAt(enemy.transformID,direction)
 end
 
 function state.attackState.update(enemy,player,dt)

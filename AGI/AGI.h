@@ -59,6 +59,20 @@ namespace AGI
 		{
 
 		}
+
+		AGI_API bool checkIfTargetNodeIsOccupied(glm::vec3 inPos)
+		{
+			int x = round(((inPos.x / mapWidth)*imWidth));
+			int y = round(((inPos.z / mapHeight)*imHeight));
+
+			if (x >= 0 && x < imWidth)
+				if (y >= 0 && y  < imHeight)
+					if (influenceMap[x][y].getStrength() == -1)
+						return true;
+
+			return false;
+		}
+
 		AGI_API void drawDebug(Importer::HeightMap * HP,glm::vec3 pos)
 		{
 			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.y), pos.z), 3, glm::vec3(3 * 0.02, 2* 0.02, 0.4));
@@ -90,7 +104,8 @@ namespace AGI
 			debugRef = bugg;
 		}
 
-		/*
+		////Calculate radius
+		/*  Calculate Radius
 		AGI_API glm::vec3 calculateRadiusPath(glm::vec3 enemyPos)
 		{
 			glm::vec3 outDir = glm::vec3(0, 0, 0);
@@ -127,6 +142,8 @@ namespace AGI
 		//// CLASSIC INFLUENCE MAP
 		AGI_API void createInfluenceMap(int width,int height)
 		{
+			//width -= 100;
+			//height -= 300;
 			this->mapWidth = width;
 			this->mapHeight = height;
 			this->imWidth = width * resolution;
@@ -148,20 +165,27 @@ namespace AGI
 
 		AGI_API void resetIM(glm::vec3 inPos, float inStr)
 		{
-			if (inStr != -1)
-				inStr = inStr *(resolution * 10);
-
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
-
-			for (int strX = -inStr; strX < inStr; strX++)
+			if (inStr != 0)
 			{
-				if (x + strX >= 0 && x + strX < imWidth&& x < imWidth && x >= 0)
-					for (int strY = -inStr; strY < inStr; strY++)
-					{
-						if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
-							influenceMap[x + strX][y + strY].setStrength(0);
-					}
+				inStr = inStr *(resolution * 10);
+
+				for (int strX = -inStr; strX <= inStr; strX++)
+				{
+					if (x + strX >= 0 && x + strX < imWidth&& x < imWidth && x >= 0)
+						for (int strY = -inStr; strY <= inStr; strY++)
+						{
+							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
+								influenceMap[x + strX][y + strY].setStrength(0);
+						}
+				}
+			}
+			else
+			{
+				if (x >= 0 && x < imWidth)
+					if (y >= 0 && y < imHeight)
+						influenceMap[x][y].setStrength(0);
 			}
 
 		}
@@ -175,20 +199,17 @@ namespace AGI
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
 
-			if (x >= 0 && x < imWidth)
-				if (y  >= 0 && y  < imHeight)
-					influenceMap[x][y].setStrength(str);
 
 			float tempX = (float)((mapWidth / imWidth)*inStr);
 			float tempY = (float)((mapHeight / imHeight)*inStr);
 
 			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
 
-				for (int strX = -inStr; strX < inStr; strX++)
+				for (int strX = -inStr; strX <= inStr; strX++)
 				{
 
 					if(x + strX >=0 && x + strX< imWidth&& x < imWidth && x>=0)
-						for (int strY = -inStr; strY < inStr; strY++)
+						for (int strY = -inStr; strY <= inStr; strY++)
 						{
 							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
 							{
@@ -204,6 +225,10 @@ namespace AGI
 							}
 						}
 				}
+
+				if (x >= 0 && x < imWidth)
+					if (y >= 0 && y  < imHeight)
+						influenceMap[x][y].setStrength(-1);
 
 		}
 
@@ -240,11 +265,12 @@ namespace AGI
 
 			if (mostPosetive > 0)
 			{
-
 				float dirX = influenceMap[mpX][mpY].getPos().x;// -enemyPos.x;
 				float dirZ = influenceMap[mpX][mpY].getPos().y;// -enemyPos.z;
 
 				returnPos = glm::vec3(dirX,0, dirZ);
+
+				influenceMap[mpX][mpY].setStrength(-1);
 			}
 
 			return returnPos;
