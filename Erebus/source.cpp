@@ -137,8 +137,9 @@ int main()
 				lockMouse = true;
 			}
 		}
-
-		assets.checkHotload( deltaTime );
+	#ifdef _DEBUG
+		assets.checkHotload(deltaTime);
+	#endif // DEBUG
 	}
 
 	delete gamePlay;
