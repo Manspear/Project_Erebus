@@ -104,6 +104,16 @@ void Camera::updateLevelEditorCamera(float dt) {
 	viewMat = glm::lookAt(camPosition, camPosition + camDirection, camUp);
 }
 
+GEAR_API float Camera::getNearPlane()
+{
+	return this->nearPlane;
+}
+
+GEAR_API float Camera::getFarPlane()
+{
+	return this->farPlane;
+}
+
 void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 {
 	if (inputs->keyPressedThisFrame(GLFW_KEY_L)) {

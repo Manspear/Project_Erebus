@@ -26,6 +26,8 @@ public:
 	GEAR_API glm::vec3 getPosition();								//returns position of camera
 	GEAR_API glm::vec3 getDirection();								//returns look direction of camera
 	GEAR_API void updateLevelEditorCamera(float dt);
+	GEAR_API float getNearPlane();
+	GEAR_API float getFarPlane();
 private:
 	Inputs *inputs;
 	bool freeCam;
