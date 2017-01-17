@@ -30,10 +30,6 @@ private:
 	Importer::TextureAsset* particlesTexture;
 	Importer::HeightMap* heightMap;
 
-	bool networkActive = false;
-	bool networkHost = true;
-	bool networkLonelyDebug = false;
-
 	NetworkController networkController;
 
 public:
