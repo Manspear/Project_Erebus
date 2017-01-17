@@ -21,6 +21,7 @@ function LoadPlayer()
 	player.timeScalar = 1.0
 	player.printInfo = false
 	player.heightmapIndex = 1
+	player.walkableIncline = 1
 	player.chargedspell = {}
 
 
@@ -36,10 +37,10 @@ function LoadPlayer()
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = {}
 	player.spells[2] = {}
-	for i = 1,  1 do	--create the projectile instances
-		table.insert(player.spells[1], CreateChronoBall())
+	for i = 1,  4 do	--create the projectile instances
+		table.insert(player.spells[1], CreateFireball())
 	end
-	for i = 1,  10 do	--create the arc instances
+	for i = 1,  1 do	--create the arc instances
 		table.insert(player.spells[2], CreateFireballArc())
 	end
 	player.currentSpell = 1
@@ -66,10 +67,8 @@ function LoadPlayer()
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
-	--Gear.AddStaticInstance(model, player.transformID)
 	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
 	Gear.AddAnimatedInstance(model, player2.transformID, player.animation)
-
 	local playerAnimationTransitionTimes = 
 	{
 		{1, 1, 1},
@@ -153,18 +152,31 @@ function UpdatePlayer(dt)
 		if Inputs.KeyPressed("2") then player.currentSpell = 2; player.chargedspell = {} end
 
 		Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
+		local newPosition = Transform.GetPosition(player.transformID)
 
-		position = Transform.GetPosition(player.transformID)
-		position.y = position.y + player.verticalSpeed
-		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
-
-		local posx = math.floor(position.x/512)
-		local posz = math.floor(position.z/512)
+		local posx = math.floor(newPosition.x/512)
+		local posz = math.floor(newPosition.z/512)
 		player.heightmapIndex = (posz*2 + posx)+1
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z)+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+
+		local diff = height - position.y
+		if diff <= player.walkableIncline then
+			position = newPosition
+		else
+			posx = math.floor(position.x/512)
+			posz = math.floor(position.z/512)
+			player.heightmapIndex = (posz*2 + posx)+1
+			if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+			if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+			height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		end
+
+		position.y = position.y + player.verticalSpeed
+		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
+
 		if position.y <= height then
 			position.y = height
 			player.canJump = true

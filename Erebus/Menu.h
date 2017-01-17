@@ -13,46 +13,19 @@ class Menu
 private:
 	Gear::GearEngine * engine;
 
-	sScreenQuad background;
+	sScreenImage background;
 	Importer::TextureAsset* menuBackground;
 
-	sScreenQuad button;
+	sScreenImage button;
 	Importer::TextureAsset* buttonTex;
 
 public:
 
-	Menu(Gear::GearEngine * inEngine, Importer::Assets & assets)
-	{
-		engine = inEngine;
+	Menu(Gear::GearEngine * inEngine, Importer::Assets & assets);
 
-		background = sScreenQuad(glm::vec2(0, 0), WINDOW_WIDTH, WINDOW_HEIGHT);
-		menuBackground = assets.load<TextureAsset>("Textures/menuBackground.png");
+	~Menu();
 
-		button = sScreenQuad(glm::vec2(300, 300), 300, 140);
-		buttonTex = assets.load<TextureAsset>("Textures/button.png");
+	enum GameState Update(Inputs& inputs);
 
-	}
-
-	~Menu()
-	{
-
-	}
-
-	enum GameState Update(Inputs& inputs)
-	{
-		
-		if (button.mousePick(inputs.getMousePos().x, inputs.getMousePos().y) && inputs.buttonReleasedThisFrame(0))
-		{
-			
-			return  GameplayState;
-		}
-		
-		return MenuState;
-	}
-
-	void Draw()
-	{
-		engine->addScreenQuad(background, menuBackground);
-		engine->addScreenQuad(button, buttonTex);
-	}
+	void Draw();
 };
