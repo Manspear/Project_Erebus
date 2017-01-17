@@ -7,7 +7,7 @@ Menu::Menu(Gear::GearEngine * inEngine, Importer::Assets & assets)
 	background = sScreenImage(glm::vec2(0, 0), WINDOW_WIDTH, WINDOW_HEIGHT);
 	menuBackground = assets.load<TextureAsset>("Textures/menuBackground.png");
 
-	button = sScreenImage(glm::vec2(300, 300), 300, 140);
+	button = sScreenImage(glm::vec2(300, 300), 350, 100);
 	buttonTex = assets.load<TextureAsset>("Textures/button.png");
 
 }
