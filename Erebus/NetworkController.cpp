@@ -42,11 +42,11 @@ void NetworkController::shutdown()
 {
 	if (running == true)
 	{
+		running = false;
 		sendingThread.join();
 		receiveThread.join();
 	}
 
-	running = false;
 }
 
 void NetworkController::startNetworkSending()
