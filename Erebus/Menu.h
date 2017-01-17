@@ -13,10 +13,10 @@ class Menu
 private:
 	Gear::GearEngine * engine;
 
-	sScreenQuad background;
+	sScreenImage background;
 	Importer::TextureAsset* menuBackground;
 
-	sScreenQuad button;
+	sScreenImage button;
 	Importer::TextureAsset* buttonTex;
 
 public:

@@ -197,9 +197,7 @@
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
-    <None Include="Scripts\arc.lua" />
     <None Include="Scripts\arcType.lua" />
-    <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
@@ -217,6 +215,7 @@
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\projectileType.lua" />
+    <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
@@ -244,6 +243,9 @@
     <None Include="Shaders\geometryPicking.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
+    <None Include="Shaders\image.frag" />
+    <None Include="Shaders\image.geom" />
+    <None Include="Shaders\image.vert" />
     <None Include="Shaders\lightPass.frag" />
     <None Include="Shaders\lightPass.vert" />
     <None Include="Shaders\particle.frag" />

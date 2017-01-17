@@ -180,12 +180,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\arc.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\basespell.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -359,6 +353,18 @@
     </None>
     <None Include="Scripts\timeOrbWave.lua">
       <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\reusable.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\image.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\image.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\image.vert">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
