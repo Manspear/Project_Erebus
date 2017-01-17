@@ -17,7 +17,7 @@ namespace Gear
 		queue.init();
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(1280, 720);
-		screenQuad.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		//screenQuad.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
 		staticModels = &defaultModelList;
