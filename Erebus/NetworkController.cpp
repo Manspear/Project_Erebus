@@ -83,12 +83,12 @@ void NetworkController::startCommunicationThreads()
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
 }
 
-void NetworkController::setNetWorkHost(const bool& networkHost)
+void NetworkController::setNetworkHost(const bool& networkHost)
 {
 	this->networkHost = networkHost;
 }
 
-bool NetworkController::getNetWorkHost()
+bool NetworkController::getNetworkHost()
 {
 	return this->networkHost;
 }

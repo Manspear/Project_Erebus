@@ -28,7 +28,7 @@ function LoadPlayer()
 	-- set basic variables for the player2
 	player2.transformID = Transform.Bind()
 
-	if Network.GetNetworkHost() == true then
+	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
 	end
 

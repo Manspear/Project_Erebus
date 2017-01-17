@@ -73,6 +73,7 @@ void GamePlay::Draw()
 
 void GamePlay::StartNetwork(const bool& networkHost)
 {
+	networkController.setNetworkHost(networkHost);
 	if (networkHost)
 	{
 		networkController.initNetworkAsHost();

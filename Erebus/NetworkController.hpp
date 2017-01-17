@@ -16,8 +16,8 @@ public:
 	void acceptNetworkCommunication();
 	void startCommunicationThreads();
 
-	void setNetWorkHost(const bool& networkHost);
-	bool getNetWorkHost();
+	void setNetworkHost(const bool& networkHost);
+	bool getNetworkHost();
 
 	void sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
 	bool fetchTransformPacket(TransformPacket &packet);
