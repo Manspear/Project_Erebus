@@ -42,7 +42,7 @@ void PacketFilter::openNetPacket(unsigned char * memoryPointer)
 	}
 }
 
-PacketQueue<TransformPacket>* PacketFilter::getTransformQueue()
+PacketQueue<TransformPacket> * PacketFilter::getTransformQueue()
 {
 	return this->transformQueue;
 }
