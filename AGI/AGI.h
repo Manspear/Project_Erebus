@@ -148,6 +148,9 @@ namespace AGI
 
 		AGI_API void resetIM(glm::vec3 inPos, float inStr)
 		{
+			if (inStr != -1)
+				inStr = inStr *(resolution * 10);
+
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
 
@@ -160,9 +163,7 @@ namespace AGI
 							influenceMap[x + strX][y + strY].setStrength(0);
 					}
 			}
-	//		for (int x = 0; x < imWidth; x++)
-	//			for (int y = 0; y < imHeight; y++)
-	//				influenceMap[x][y].setStrength(0);
+
 		}
 
 		AGI_API void addInfluencePoint(glm::vec3 inPos, float inStr)

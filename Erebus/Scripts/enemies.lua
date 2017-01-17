@@ -5,7 +5,7 @@ MAX_ENEMIES = 10
 enemies = {}
 
 COUNTDOWN = 1
-local tempPlayerPosition = Transform.GetPosition(player.transformID)
+tempPlayerPosition = Transform.GetPosition(player.transformID)
 
 function LoadEnemies(n)
 	if n > MAX_ENEMIES then n = MAX_ENEMIES end
@@ -68,20 +68,16 @@ end
 
 function UpdateEnemies(dt)
 
-	if tempPlayerPosition == nil then
-	tempPlayerPosition = Transform.GetPosition(player.transformID)
-	end
-
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0then
 		--print ("Clear")
 
-		AI.ClearMap(tempPlayerPosition,8)
+		AI.ClearMap(tempPlayerPosition,7)
 		COUNTDOWN = 1
 		for i=1, #enemies do
 			AI.ClearMap( Transform.GetPosition(enemies[i].transformID),1)
 		end
-			AI.AddIP(player.transformID,8)
+			AI.AddIP(player.transformID,7)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)
 	end
 	
