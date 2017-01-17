@@ -360,6 +360,15 @@
     <None Include="Scripts\timeOrbWave.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Shaders\image.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\image.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\image.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

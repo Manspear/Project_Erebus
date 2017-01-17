@@ -8,7 +8,7 @@
 #include "staticNonModels.h"
 #include "Debug.h"
 #include "TextRenderer.h"
-#include "ScreenQuadRenderer.h"
+#include "ImageRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
@@ -44,6 +44,8 @@ namespace Gear
 							const float			&baseY,
 							const float			&scale = 1.0f, 
 							const glm::vec4		&color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+		GEAR_API void showImage(const sScreenImage & quad, Importer::TextureAsset* texture);
 		GEAR_API void showImage(const glm::vec2 &pos, 
 								const float &width, 
 								const float &height, 
@@ -61,8 +63,6 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
-
-		GEAR_API void addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture);
 		//----------------------
 
 	private:
@@ -117,7 +117,7 @@ namespace Gear
 		DebugHandler* debugHandler;
 
 		TextRenderer text;
-		ScreenQuadRenderer screenQuad;
+		ImageRenderer image;
 
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
 		void pickingPass();

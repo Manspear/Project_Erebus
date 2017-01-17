@@ -244,6 +244,9 @@
     <None Include="Shaders\geometryPicking.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
+    <None Include="Shaders\image.frag" />
+    <None Include="Shaders\image.geom" />
+    <None Include="Shaders\image.vert" />
     <None Include="Shaders\lightPass.frag" />
     <None Include="Shaders\lightPass.vert" />
     <None Include="Shaders\particle.frag" />

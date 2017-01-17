@@ -4,10 +4,10 @@ Menu::Menu(Gear::GearEngine * inEngine, Importer::Assets & assets)
 {
 	engine = inEngine;
 
-	background = sScreenQuad(glm::vec2(0, 0), WINDOW_WIDTH, WINDOW_HEIGHT);
+	background = sScreenImage(glm::vec2(0, 0), WINDOW_WIDTH, WINDOW_HEIGHT);
 	menuBackground = assets.load<TextureAsset>("Textures/menuBackground.png");
 
-	button = sScreenQuad(glm::vec2(300, 300), 300, 140);
+	button = sScreenImage(glm::vec2(300, 300), 300, 140);
 	buttonTex = assets.load<TextureAsset>("Textures/button.png");
 
 }
@@ -31,6 +31,6 @@ enum GameState Menu::Update(Inputs& inputs)
 
 void Menu::Draw()
 {
-	engine->addScreenQuad(background, menuBackground);
-	engine->addScreenQuad(button, buttonTex);
+	engine->showImage(background, menuBackground);
+	engine->showImage(button, buttonTex);
 }
