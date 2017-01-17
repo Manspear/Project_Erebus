@@ -13,8 +13,8 @@
 
 #include "LevelEditor.h"
 
-#include"GamePlay.h"
-#include"Menu.h"
+#include "GamePlay.h"
+#include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 
