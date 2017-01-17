@@ -32,7 +32,6 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets)
 	engine->queueDynamicModels(&models);
 	engine->queueAnimModels(&animatedModels);
 	engine->queueParticles(&ps);
-		engine->addDebugger(Debugger::getInstance());
 }
 
 GamePlay::~GamePlay()
