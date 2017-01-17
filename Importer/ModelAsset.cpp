@@ -144,7 +144,7 @@ namespace Importer
 		return jnt;
 	}
 
-	IMPORTER_API hJoint * ModelAsset::getJointsStart() const
+	hJoint * ModelAsset::getJointsStart() const
 	{
 		return joints;
 	}
@@ -170,7 +170,7 @@ namespace Importer
 		return retFrames;
 	}
 
-	IMPORTER_API sKeyFrame * ModelAsset::getKeyFrameStart() const
+	sKeyFrame * ModelAsset::getKeyFrameStart() const
 	{
 		return keyFrames;
 	}

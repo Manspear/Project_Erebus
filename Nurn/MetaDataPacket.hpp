@@ -4,18 +4,13 @@ union MetaDataPacket
 {
 	struct MetaDataPacketStruct
 	{
-		uint16_t packetType;
-		uint16_t sizeInBytes;
+		uint16_t packetType; // What kind of packets are included in the group
+		uint16_t sizeInBytes; // The size of the packet group
 	} metaData;
 
 	MetaDataPacket()
 	{
 		//Used in combination with memcpy
-	}
-
-	MetaDataPacket(uint16_t packetType)
-	{
-		metaData.packetType = packetType;
 	}
 
 	MetaDataPacket(uint16_t packetType, uint16_t sizeInBytes)

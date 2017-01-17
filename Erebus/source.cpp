@@ -13,8 +13,8 @@
 
 #include "LevelEditor.h"
 
-#include"GamePlay.h"
-#include"Menu.h"
+#include "GamePlay.h"
+#include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 
@@ -26,7 +26,8 @@ int main()
 	Window window;
 	Gear::GearEngine engine;
 
-	GameState gameState = GameplayState;
+	GameState gameState = MenuState;
+	window.changeCursorStatus(false);
 	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
@@ -47,7 +48,7 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
+	GamePlay * gamePlay = new GamePlay(&engine, assets);
 	Menu * menu = new Menu(&engine,assets);
 
 	glClearColor(1, 1, 1, 1);
@@ -69,14 +70,40 @@ int main()
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.update(&inputs);
 
 		switch (gameState)
 		{
 		case MenuState:
 			gameState = menu->Update(inputs);
+			if (gameState == HostGameplayState)
+			{
+				if (gamePlay->StartNetwork(true))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
+
+			if (gameState == ClientGameplayState)
+			{
+				if (gamePlay->StartNetwork(false))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
+
 			if (gameState == GameplayState)
 			{
+				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
@@ -93,6 +120,12 @@ int main()
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);
 
+		std::string vram = "VRAM: " + std::to_string(counter.getVramUsage()) + " MB";
+		engine.print(vram, 0.0f, 30.0f);
+
+		std::string virtualMem = "RAM: " + std::to_string(counter.getRamUsage()) + " MB";
+		engine.print(virtualMem, 0.0f, 60.0f);
+
 		window.update();
 
 		engine.draw(&camera);
@@ -100,25 +133,21 @@ int main()
 		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
 		{
 			running = false;
-			//gameState = MenuState;
-			//window.changeCursorStatus(false);
-			//lockMouse = false;
-
 		}
 		
-		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
+		if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 			engine.setDrawMode(1);
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_K ))
+		else if( inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
 			engine.setDrawMode(2);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_L))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
 			engine.setDrawMode(3);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_P))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_4))
 			engine.setDrawMode(4);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_N))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
 			engine.setDrawMode(5);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
 			engine.setDrawMode(6);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_I))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
 			engine.setDrawMode(7);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 		{
@@ -134,8 +163,9 @@ int main()
 				lockMouse = true;
 			}
 		}
-
-		assets.checkHotload( deltaTime );
+	#ifdef _DEBUG
+		assets.checkHotload(deltaTime);
+	#endif // DEBUG
 	}
 
 	delete gamePlay;

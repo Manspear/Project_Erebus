@@ -6,7 +6,9 @@ function CreatePlayerController(animation, player)
 	controller.animationState2 = 0
 	controller.watch = player
 	controller.oldWatch = {}
-	
+	poop
+	print(poop)
+
 	-- : == syntactic sugar to send self as a variable into the function
 	-- . == says that you send self into the function, although a name has 
 	--to be set in the parametre
@@ -22,32 +24,34 @@ function CreatePlayerController(animation, player)
 
 	function controller:AnimationUpdate(dt)
 		--if everything is the same
-		if self.oldWatch.forward > 0 and self.watch.forward > 0 or
-		   self.oldWatch.forward < 0 and self.watch.forward < 0 or
-		   self.oldWatch.forward == 0 and self.watch.forward == 0 and
-
-		   self.oldWatch.left > 0 and self.watch.left > 0 or
-		   self.oldWatch.left < 0 and self.watch.left < 0 or
-		   self.oldWatch.left == 0 and self.watch.left == 0 or
-		   self.oldWatch.left > 0 and self.watch.left > 0 and
-
+		if	self.oldWatch.right == self.watch.right and
+			self.oldWatch.forward == self.watch.forward and
+			
 		   self.oldWatch.health == self.watch.health and
 		   self.oldWatch.canJump == self.watch.canJump and
 		   self.oldWatch.spamCasting == self.watch.spamCasting and
 		   self.oldWatch.charging == self.watch.charging 
 		   
 		   then
-
 			self.animation:Update(dt, self.animationState1, 0)
 			self.animation:Update(dt, self.animationState2, 1)
-
+		
 			else 
 				self.animationState1 = 9
 				self.animationState2 = 17
+
+				if self.watch.forward == 0 then
+				
+					self.animationState1 = 2
+					self.animationState2 = 0
+				end
+
 				self.animation:Update(dt, self.animationState1, 0)
 				self.animation:Update(dt, self.animationState2, 1)
 			end
 
+			--self.animation:Update(dt, 9, 0)
+			--self.animation:Update(dt, 17, 1)
 		--used last
 		self:copyWatch()
 	end

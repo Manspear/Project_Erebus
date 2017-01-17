@@ -1,16 +1,16 @@
 
-function CreateGroundAoEType(startSize, endSize, duration)
+function CreateGroundAoEType(duration, startSize)
 	type = {}
 	type.lifetime = 0
 	type.startRadius = startSize
-	type.endRadius = endSize
+	type.endRadius = 0
 	type.duration = duration
 	type.lifetime = 0
 	type.transformID = Transform.Bind()
 	type.position = {x=0,y=0,z=0}
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
-	CollisionHandler.AddSphere(type.sphereCollider)
+	CollisionHandler.AddSphere(type.sphereCollider, 1)
 
 	function type:Update(dt)
 		result = {} --returns table of every enemy it hits, up to spell to do what it wants to do. kill it self, do dmg, apply effects etc.
@@ -35,7 +35,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 		return result
 	end
 
-	function type:Cast(position, direction)
+	function type:Cast(position, direction, endSize)
 		--heightmap checking LUL. please replace with ray mot heightmap asap
 		local canspawn = false
 		for i = 0, 200 do
@@ -56,6 +56,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 		end
 
 		if canspawn then
+			self.endRadius = endSize
 			self.lifetime = self.duration
 			self.position = position
 			Transform.SetPosition(self.transformID, self.position)

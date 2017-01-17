@@ -83,6 +83,12 @@
     <ClCompile Include="LuaMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -166,14 +172,14 @@
     <ClInclude Include="LuaMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\arc.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\basespell.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -342,15 +348,25 @@
     <None Include="Scripts\fireGroundAoE.lua">
       <Filter>Scripts</Filter>
     </None>
-<<<<<<< HEAD
     <None Include="Scripts\orbWaveType.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\timeOrbWave.lua">
-=======
-    <None Include="Scripts\console.lua">
->>>>>>> 168ddc25e5e9ba8a6498b553eb1caa762360a15a
       <Filter>Scripts</Filter>
+    </None>
+<<<<<<< HEAD
+    <None Include="Scripts\reusable.lua">
+      <Filter>Scripts</Filter>
+=======
+    <None Include="Shaders\image.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\image.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\image.vert">
+      <Filter>Shaders</Filter>
+>>>>>>> c15fa8e9380700f054b0a5f6066136380155971d
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@
 #include "staticNonModels.h"
 #include "Debug.h"
 #include "TextRenderer.h"
-#include "ScreenQuadRenderer.h"
+#include "ImageRenderer.h"
 #include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
@@ -44,6 +44,8 @@ namespace Gear
 							const float			&baseY,
 							const float			&scale = 1.0f, 
 							const glm::vec4		&color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+		GEAR_API void showImage(const sScreenImage & quad, Importer::TextureAsset* texture);
 		GEAR_API void showImage(const glm::vec2 &pos, 
 								const float &width, 
 								const float &height, 
@@ -61,63 +63,71 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
-
-		GEAR_API void addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture);
 		//----------------------
 
 	private:
-		GEAR_API void lightPass(Camera* camera, Camera* tempCam);
-		void pickingPass();
-
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
 		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
 
-		std::vector<staticNonModels*> statModels;
-		RenderQueue queue;
-		TextRenderer text;
-		ScreenQuadRenderer screenQuad;
+		GLuint lightBuffer = 0; //StorageBuffer for point lights
+		int drawMode = 1; //Texture draw mode
 
+		//Screen quad data
+		GLuint quadVAO = 0;
+		GLuint quadVBO;
+
+		//Renderer
+		RenderQueue queue;
+
+		std::vector<Lights::DirLight> dirLights;
+
+		//Framebuffers
+		ShaderProgram shadowMap;
+		ShaderProgram shadowMapTemp;
+		ShaderProgram gBuffer;
+
+		//Shaders
+		ShaderProgram *quadShader;
+		ShaderProgram *lightPassShader;
+		ShaderProgram *blurShader;
+
+		//Models
+		std::vector<staticNonModels*> statModels;
+		std::vector<ModelInstance>* staticModels;
+		std::vector<ModelInstance>* dynamicModels;
+		std::vector<AnimatedInstance>* animatedModels;
+		std::vector<ParticleSystem*>* particleSystems;
+
+		//Transform data
 		TransformStruct** allTrans;
 		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
 		int** transformIndexArray;
 		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
-		//DebugQuad
-		GLuint quadVAO = 0;
-		GLuint quadVBO;
-		ShaderProgram *quadShader;
-		ShaderProgram *lightPassShader;
-		ShaderProgram *blurShader;
 
-		ShaderProgram gBuffer;
-		std::vector<Lights::DirLight> dirLights;
-		GLuint lightBuffer = 0;
+		//Skybox object
 		Skybox skybox;
-		//temp debug variable
-		int drawMode = 1;
-
-		//Temp shadowmapping:
-		ShaderProgram shadowMap;
-		ShaderProgram shadowMapTemp;
-
-		//TEMP: Disco party
-		//glm::vec3 endPos[50];
-		//glm::vec3 color[50];
-
-		void drawQuad();
-		std::vector<ModelInstance>* staticModels;
-		std::vector<ModelInstance>* dynamicModels;
-		std::vector<AnimatedInstance>* animatedModels;
-		std::vector<ParticleSystem*>* particleSystems;
 
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
+
+		//Debug Draw handler
 		DebugHandler* debugHandler;
 
+		TextRenderer text;
+		ImageRenderer image;
+
+		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
+		void pickingPass();
+		void drawQuad(); //Draw Screen quad
 		void updateDebug(Camera* camera);
-		void BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale);
-		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount);
+		void BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale); //Blur texture post processing
+		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount); //ShadowMap bluring
+		void frameBufferInit(); //Init all framebuffers
+		void shaderInit();
+		void lightInit();
+		void skyboxInit();
 	};
 }
