@@ -236,19 +236,27 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders1, std
 	size_t secondSize = colliders2->size();
 	bool hit = false;
 
-	for (unsigned int i = 0; i < firstSize; i++) // sphere mot aabb
+	for (unsigned int i = 0; i < firstSize; i++)
 	{
-		for (unsigned int k = 0; k < secondSize; k++)
+		if (colliders1->operator[](i)->isActive()) // only check collision if hitbox is active
 		{
-			hit = false;
-			hit = this->collisionChecker.collisionCheck(colliders1->operator[](i), colliders2->operator[](k));
-
-			if (hit)
+			for (unsigned int k = 0; k < secondSize; k++)
 			{
-				colliders1->operator[](i)->insertCollisionID(colliders2->operator[](k)->getID());
-				colliders2->operator[](k)->insertCollisionID(colliders1->operator[](i)->getID());
+				if (colliders2->operator[](k)->isActive()) // only check collision if hitbox is active
+				{
+					hit = false;
+					hit = this->collisionChecker.collisionCheck(colliders1->operator[](i), colliders2->operator[](k));
+
+					if (hit)
+					{
+						colliders1->operator[](i)->insertCollisionID(colliders2->operator[](k)->getID());
+						colliders2->operator[](k)->insertCollisionID(colliders1->operator[](i)->getID());
+					}
+				}
+
 			}
 		}
+
 
 	}
 }
@@ -266,20 +274,24 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders)
 		for (unsigned int i = 0; i < colliderSize - 1; i++)
 		{
 			firstTempCollider = colliders->operator[](i);
-			for (unsigned int j = i + 1; j < colliderSize; j++)
+			if (firstTempCollider->isActive()) // only check collision if hitbox is active
 			{
-				secondTempCollider = colliders->operator[](j);
-				hit = false;
-				hit = this->collisionChecker.collisionCheck(firstTempCollider, secondTempCollider);
-
-				if (hit)
+				for (unsigned int j = i + 1; j < colliderSize; j++)
 				{
-					firstTempCollider->insertCollisionID(secondTempCollider->getID());
-					secondTempCollider->insertCollisionID(firstTempCollider->getID());
+					secondTempCollider = colliders->operator[](j);
+					if (secondTempCollider->isActive()) // only check collision if hitbox is active
+					{
+						hit = false;
+						hit = this->collisionChecker.collisionCheck(firstTempCollider, secondTempCollider);
+
+						if (hit)
+						{
+							firstTempCollider->insertCollisionID(secondTempCollider->getID());
+							secondTempCollider->insertCollisionID(firstTempCollider->getID());
+						}
+					}
 				}
-
 			}
-
 		}
 	}
 }
@@ -486,6 +498,30 @@ void CollisionHandler::setLayerCollisionMatrix(bool ** layerMatrix, unsigned int
 void CollisionHandler::setLayerCollisionMatrix(int layer1, int layer2, bool canCollide)
 {
 	this->collisionLayers->setLayerCollisionMatrix(layer1,layer2,canCollide);
+}
+
+void CollisionHandler::deactiveteAllHitboxes()
+{
+	for (size_t i = 0; i < this->allColliders.size(); i++)
+	{
+		this->allColliders[i]->setActive(false);
+	}
+	for (size_t i = 0; i < this->rayColliders.size(); i++)
+	{
+		this->rayColliders[i]->setActive(false);
+	}
+}
+
+void CollisionHandler::activeteAllHitboxes()
+{
+	for (size_t i = 0; i < this->allColliders.size(); i++)
+	{
+		this->allColliders[i]->setActive(true);
+	}
+	for (size_t i = 0; i < this->rayColliders.size(); i++)
+	{
+		this->rayColliders[i]->setActive(true);
+	}
 }
 
 void CollisionHandler::printCollisions()
