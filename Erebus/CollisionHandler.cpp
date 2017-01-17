@@ -546,6 +546,7 @@ void CollisionHandler::drawHitboxes()
 	std::vector<OBBCollider*>* tempObbColliders;
 	std::vector<RayCollider*>* tempRayColliders;
 	SphereCollider* tempSphere = nullptr;
+	const glm::vec3 deactivatedColor(0,0,0);
 	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
 	{
 		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
@@ -558,7 +559,7 @@ void CollisionHandler::drawHitboxes()
 			if(temp->isActive())
 				debugger->drawSphere(temp->getPos(), temp->getRadius(),this->colors[i]);
 			else
-				debugger->drawSphere(temp->getPos(), temp->getRadius(), glm::vec3(0,0,0));
+				debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
 		}
 		for (size_t j = 0; j < tempAabbColliders->size(); j++)
 		{
@@ -566,7 +567,7 @@ void CollisionHandler::drawHitboxes()
 			if(temp->isActive())
 				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(),this->colors[i]);
 			else
-				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), glm::vec3(0,0,0));
+				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
 		}
 		for (size_t j = 0; j < tempObbColliders->size(); j++)
 		{
@@ -574,7 +575,7 @@ void CollisionHandler::drawHitboxes()
 			if(temp->isActive())
 				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
 			else
-				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), glm::vec3(0,0,0));
+				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
 		}
 		for (size_t j = 0; j < tempRayColliders->size(); j++)
 		{
@@ -582,7 +583,7 @@ void CollisionHandler::drawHitboxes()
 			if(temp->isActive())
 				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
 			else
-				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, glm::vec3(0,0,0));
+				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
 		}
 	}
 }
