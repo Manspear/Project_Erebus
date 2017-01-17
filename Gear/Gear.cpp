@@ -16,7 +16,7 @@ namespace Gear
 		//renderQueue.init();
 		queue.init();
 		text.init(1280, 720);
-		screenQuad.init(1280, 720);
+		image.init(1280, 720);
 
 
 		staticModels = &defaultModelList;
@@ -108,9 +108,14 @@ namespace Gear
 		text.print(s, baseX, baseY, scale, color);
 	}
 
+	void GearEngine::showImage(const sScreenImage & quad, Importer::TextureAsset* texture)
+	{
+		image.showImage(quad, texture);
+	}
+
 	void GearEngine::showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
 	{
-		screenQuad.showImage(pos, width, height, texture);
+		image.showImage(pos, width, height, texture);
 	}
 
 	glm::vec2 GearEngine::getTextDimensions( const char* t )
@@ -231,7 +236,7 @@ namespace Gear
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 
-		screenQuad.draw();
+		image.draw();
 		text.draw();
 	}
 
@@ -269,6 +274,7 @@ namespace Gear
 	{
 		return queue.generateWorldMatrix();
 	}
+
 	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
 		lightPassShader->use();
@@ -412,9 +418,5 @@ namespace Gear
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
-	}
-	GEAR_API void GearEngine::addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture)
-	{
-		screenQuad.addScreenQuad(quad, texture);
 	}
 }

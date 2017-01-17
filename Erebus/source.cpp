@@ -48,7 +48,7 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
+	GamePlay * gamePlay = new GamePlay(&engine, assets);
 	Menu * menu = new Menu(&engine,assets);
 
 	glClearColor(1, 1, 1, 1);
@@ -70,14 +70,26 @@ int main()
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.update(&inputs);
 
 		switch (gameState)
 		{
 		case MenuState:
 			gameState = menu->Update(inputs);
+			if (gameState == HostGameplayState)
+			{
+				gamePlay->StartNetwork(true);
+				gameState = GameplayState;
+			}
+
+			if (gameState == ClientGameplayState)
+			{
+				gamePlay->StartNetwork(false);
+				gameState = GameplayState;
+			}
+
 			if (gameState == GameplayState)
 			{
+				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
@@ -137,8 +149,9 @@ int main()
 				lockMouse = true;
 			}
 		}
-
-		assets.checkHotload( deltaTime );
+	#ifdef _DEBUG
+		assets.checkHotload(deltaTime);
+	#endif // DEBUG
 	}
 
 	delete gamePlay;

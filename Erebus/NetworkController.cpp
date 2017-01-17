@@ -2,6 +2,7 @@
 
 NetworkController::NetworkController()
 {
+	networkHost = true;
 	running = false;
 }
 
@@ -39,9 +40,13 @@ bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip
 
 void NetworkController::shutdown()
 {
+	if (running == true)
+	{
+		sendingThread.join();
+		receiveThread.join();
+	}
+
 	running = false;
-	sendingThread.join();
-	receiveThread.join();
 }
 
 void NetworkController::startNetworkSending()

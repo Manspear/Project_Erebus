@@ -1,4 +1,4 @@
-TIMEORBWAVEDURATION = 10
+TIMEORBWAVEDURATION = 20
 
 function CreateTimeOrbWave()
 	local spell = {}
