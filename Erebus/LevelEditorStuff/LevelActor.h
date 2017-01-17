@@ -26,7 +26,7 @@ public:
 
 	std::map<std::string, LevelActorComponent*>& getAllComponents();
 
-	bool LevelActor::SetAgent(TwBar * bar);
+	bool LevelActor::setAsSelectedActor(TwBar * bar);
 
 private:
 	std::map<std::string, LevelActorComponent*> actorComponents;

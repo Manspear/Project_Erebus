@@ -4,7 +4,7 @@ LevelActorFactory* LevelActorFactory::actorFactoryInstance = nullptr;
 
 LevelActorFactory::LevelActorFactory()
 {
-	actorID = 0;
+	actorID = 1;
 	folder = "LevelEditorStuff/Resources/ActorsXML/";
 	levelFolder = "LevelEditorStuff/Resources/LevelsXML/";
 	fileExtension = ".xml";
@@ -13,7 +13,7 @@ LevelActorFactory::LevelActorFactory()
 }
 
 LevelActorFactory::LevelActorFactory(LevelTransformHandler* transformHandlerRef, LevelModelHandler* modelHandlerRef) {
-	actorID = 0;
+	actorID = 1;
 	folder = "LevelEditorStuff/Resources/ActorsXML/";
 	levelFolder = "LevelEditorStuff/Resources/LevelsXML/";
 	fileExtension = ".xml";

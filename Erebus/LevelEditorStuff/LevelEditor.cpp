@@ -136,7 +136,7 @@ void LevelEditor::start() {
 			actors[n]->update();
 		}*/
 		LevelActorHandler::getInstance()->updateActors();
-		pick();
+		
 		engine->draw(camera);
 		
 		this->ui->Draw();
@@ -158,6 +158,7 @@ void LevelEditor::start() {
 			engine->setDrawMode(6);
 		else if (inputs->keyPressed(GLFW_KEY_R))
 		{
+			
 			if (lockMouse)
 			{
 				window.changeCursorStatus(false);
@@ -172,6 +173,7 @@ void LevelEditor::start() {
 		
 		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 		{
+			pick();
 			glm::mat4 proj = camera->getProjectionMatrix();
 			Ray ray( w, &proj );
 			ray.updateRay( camera->getViewMatrix(), camera->getPosition() );
@@ -195,7 +197,7 @@ void LevelEditor::start() {
 					//newActor->getComponent<LevelPointLightComponent>()->light.radius = glm::vec4(24,0,0,0);
 					//newActor->getComponent<LevelPointLightComponent>()->light.color  = glm::vec4(0.4, 0.4, 0.4, 1);
 					//lights.push_back(&newActor->getComponent<LevelPointLightComponent>()->light);
-					newActor->SetAgent(ui->getMainBar());
+					//newActor->SetAgent(ui->getMainBar());
 					//ui->SetAgent(newActor);
 				}
 			}
@@ -243,9 +245,11 @@ void LevelEditor::start() {
 
 void LevelEditor::pick() {
 	
-	int pickedActorID = engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
+	unsigned int pickedActorID = engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
 		this->inputs->getMousePos());
 	std::cout << pickedActorID << std::endl;
+	if(pickedActorID!=0)
+		LevelActorHandler::getInstance()->setSelected(pickedActorID);
 	/*
 	Agent Ids
 	Static models 

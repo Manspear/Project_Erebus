@@ -114,7 +114,7 @@ std::map<std::string, LevelActorComponent*>& LevelActor::getAllComponents()
 	return this->actorComponents;
 }
 
-bool LevelActor::SetAgent(TwBar * bar)
+bool LevelActor::setAsSelectedActor(TwBar * bar)
 {
 	TwRemoveAllVars(bar);
 	for (auto it : this->actorComponents)

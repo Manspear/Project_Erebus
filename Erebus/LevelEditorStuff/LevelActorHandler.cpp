@@ -96,8 +96,9 @@ void LevelActorHandler::updateActorBar()
 	TwRemoveAllVars( actorBar->getBar() );
 	if( selectedActor )
 	{
-		for( std::map<std::string,LevelActorComponent*>::iterator it = selectedActor->getAllComponents().begin(); it != selectedActor->getAllComponents().end(); it++ )
-			it->second->setTwStruct( actorBar->getBar() );
+		selectedActor->setAsSelectedActor(actorBar->getBar());
+		//for( std::map<std::string,LevelActorComponent*>::iterator it = selectedActor->getAllComponents().begin(); it != selectedActor->getAllComponents().end(); it++ )
+		//	it->second->setTwStruct( actorBar->getBar() );
 	}
 	 //selectedActor->SetAgent(actorBar->getBar());
 }
