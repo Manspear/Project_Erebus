@@ -168,12 +168,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\arc.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\basespell.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -346,6 +340,9 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\timeOrbWave.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\reusable.lua">
       <Filter>Scripts</Filter>
     </None>
   </ItemGroup>

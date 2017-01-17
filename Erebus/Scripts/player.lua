@@ -21,6 +21,8 @@ function LoadPlayer()
 	player.timeScalar = 1.0
 	player.printInfo = false
 	player.heightmapIndex = 1
+	player.chargedspell = {}
+
 
 	-- set basic variables for the player2
 	player2.transformID = Transform.Bind()
@@ -35,10 +37,10 @@ function LoadPlayer()
 	player.spells[1] = {}
 	player.spells[2] = {}
 	for i = 1,  1 do	--create the projectile instances
-		table.insert(player.spells[1], CreateTimeOrbWave())
+		table.insert(player.spells[1], CreateChronoBall())
 	end
 	for i = 1,  10 do	--create the arc instances
-		table.insert(player.spells[2], CreateFireGroundAoE())
+		table.insert(player.spells[2], CreateFireballArc())
 	end
 	player.currentSpell = 1
 
@@ -119,19 +121,36 @@ function UpdatePlayer(dt)
 			end
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.testCamera = true
-				player.animationState = 3
-			end
-		if Inputs.ButtonReleased(Buttons.Left) then
+			player.animationState = 3
+		end
+
+		if Inputs.ButtonDown(Buttons.Left) then
 			player.animationState = 2
 			for _,v in ipairs(player.spells[player.currentSpell]) do
 				if not v.alive then
-					v:Cast()
+					v:Cast(0.5, false)
 					break
 				end
 			end
 		end
-		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
-		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
+		if Inputs.ButtonDown(Buttons.Right) then
+		
+			if next(player.chargedspell) == nil then
+				for _,v in ipairs(player.spells[player.currentSpell]) do
+					if not v.alive then
+						player.chargedspell = v
+						break
+					end
+				end
+			end
+			player.chargedspell:Charge(dt)
+		end
+		if Inputs.ButtonReleased(Buttons.Right) then
+			player.chargedspell:ChargeCast(dt)
+		end
+
+		if Inputs.KeyPressed("1") then player.currentSpell = 1; player.chargedspell = {} end
+		if Inputs.KeyPressed("2") then player.currentSpell = 2; player.chargedspell = {} end
 
 		Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
 
