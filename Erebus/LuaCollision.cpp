@@ -16,6 +16,8 @@ namespace LuaCollision
 			{ "SetLayerCollision",	setLayerCollision },
 			{ "PrintCollisions",	printCollisions },
 			{ "DrawHitboxes",		drawHitboxes },
+			{"DeactivateAllHitboxes", deactivateAllHitboxes},
+			{"ActivateAllHitboxes", activateAllHitboxes},
 			{ NULL, NULL }
 		};
 
@@ -37,6 +39,7 @@ namespace LuaCollision
 			{ "CheckCollision",		checkCollision },
 			{ "SetRadius",			setRadius },
 			{ "GetID",				getID },
+			{ "SetActive", setActive },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -52,6 +55,7 @@ namespace LuaCollision
 			{ "Create",				createAABB },
 			{ "GetCollisionIDs",	getCollisionIDs },
 			{ "CheckCollision",		checkCollision },
+			{ "SetActive", setActive },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -229,6 +233,18 @@ namespace LuaCollision
 		return 0;
 	}
 
+	int setActive(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			HitBox* hitbox = getHitBox(lua, 1);
+			bool active = lua_toboolean(lua, 2);
+
+			hitbox->setActive(active);
+		}
+		return 0;
+	}
+
 	int setLayerCollision( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 3 )
@@ -252,6 +268,18 @@ namespace LuaCollision
 	int drawHitboxes( lua_State* lua )
 	{
 		g_collisionHandler->drawHitboxes();
+		return 0;
+	}
+
+	int deactivateAllHitboxes(lua_State * lua)
+	{
+		g_collisionHandler->deactiveteAllHitboxes();
+		return 0;
+	}
+
+	int activateAllHitboxes(lua_State * lua)
+	{
+		g_collisionHandler->activeteAllHitboxes();
 		return 0;
 	}
 
