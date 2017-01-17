@@ -2,6 +2,11 @@
 #include"BaseIncludes.h"
 #include "Gear.h"
 #include "NetworkController.hpp"
+#include "Controls.h"
+#include "Transform.h"
+#include "CollisionHandler.h"
+#include "LuaBinds.h"
+#include "AGI.h"
 
 class GamePlay
 {
@@ -27,114 +32,17 @@ private:
 
 	bool networkActive = false;
 	bool networkHost = true;
-	bool networkLonelyDebug = true;
+	bool networkLonelyDebug = false;
 
 	NetworkController networkController;
 	NetworkController networkController2;
 
 public:
-	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Controls &controls,Inputs &inputs,Camera& camera)
-	{
-		if (networkActive)
-		{
-			if (networkLonelyDebug)
-			{
-				networkController.initNetworkAsHost();
-				networkController2.initNetworkAsClient(127, 0, 0, 1);
-				networkController.acceptNetworkCommunication();
-			}
-			else if (networkHost)
-			{
-				networkController.initNetworkAsHost();
-				networkController.acceptNetworkCommunication();
-			}
-			else
-			{
-				networkController.initNetworkAsClient(127, 0, 0, 1);
-			}
-			networkController.startCommunicationThreads();
+	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Controls &controls, Inputs &inputs, Camera& camera);
 
-			if (networkLonelyDebug)
-			{
-				networkController2.startCommunicationThreads();
-			}
-		}
+	~GamePlay();
 
-		engine = inEngine;
-		transforms = new Transform[nrOfTransforms];
-		allTransforms = new TransformStruct[nrOfTransforms];
+	void Update(Controls controls, double deltaTime);
 
-		moleman = assets.load<ModelAsset>("Models/testGuy.model");
-		/*particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");*/
-		heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
-		
-		for (int i = 0; i < nrOfTransforms; i++)
-			transforms[i].setThePtr(&allTransforms[i]);
-
-		engine->allocateWorlds(nrOfTransforms);
-
-		engine->bindTransforms(&allTransforms, &boundTransforms);
-
-		collisionHandler.setTransforms(transforms);
-		collisionHandler.setDebugger(Debugger::getInstance());
-
-		
-		luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs,transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController);
-		Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
-		//particlesTexture->bind(PARTICLES);
-		//for (int i = 0; i < ps.size(); i++)
-		//{
-		//	ps.at(i)->setTextrue(particlesTexture);
-		//}
-
-		ai.addDebug(Debugger::getInstance());
-
-		engine->queueDynamicModels(&models);
-		engine->queueAnimModels(&animatedModels);
-		engine->queueParticles(&ps);
-	}
-
-	~GamePlay()
-	{
-		luaBinds.unload();
-
-		if (networkActive)
-		{
-			networkController.shutdown();
-			if (networkLonelyDebug)
-			{
-				networkController2.shutdown();
-			}
-		}
-
-		delete[] allTransforms;
-		delete[] transforms;
-
-		for (int i = 0; i < ps.size(); i++)
-			delete ps.at(i);
-	}
-
-	void Update(Controls controls, double deltaTime)
-	{
-		luaBinds.update(&controls, deltaTime);
-
-		for (int i = 0; i < ps.size(); i++) {
-			ps.at(i)->update(deltaTime);
-		}
-
-
-		if (networkActive && networkLonelyDebug)
-		{
-			TransformPacket transPack = networkController.fetchTransformPacket();
-			std::cout << "x: " << transPack.data.x << " y: " << transPack.data.y << " z: " << transPack.data.z << std::endl;
-		}
-
-		collisionHandler.checkCollisions();
-		collisionHandler.drawHitboxes();
-	}
-
-	void Draw()
-	{
-		engine->queueDynamicModels(&models);
-	}
+	void Draw();
 };

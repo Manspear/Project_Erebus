@@ -22,7 +22,7 @@
     <ProjectGuid>{E6A0A219-1A11-429B-8E14-C814B88EADBE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Erebus</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer;$(SolutionDir)\AGI</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)AGI</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,14 +138,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)Importer;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)AGI;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LuaLib.lib;OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -154,6 +154,7 @@
     <ClCompile Include="CollisionChecker.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
+    <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditor.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
@@ -258,6 +260,7 @@
     <ClInclude Include="CollisionChecker.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LevelModel.h" />
@@ -274,6 +277,7 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />

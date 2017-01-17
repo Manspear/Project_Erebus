@@ -1,7 +1,5 @@
 #pragma once
 
-#include "PacketEnums.hpp"
-
 union MetaDataPacket
 {
 	struct MetaDataPacketStruct

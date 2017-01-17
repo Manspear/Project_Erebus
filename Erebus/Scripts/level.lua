@@ -29,7 +29,6 @@ Gear.AddStaticInstance(firstTileModel, heightmaps[4].transformID)
 Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=0})
 Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=512})
 Transform.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
---Gear.AddStaticInstance(heightmap:GetModel(), heightmap.transformID)
 
 --AI
 widthTest = heightmaps[1]:GetMapWidth()
@@ -37,19 +36,21 @@ heightTest = heightmaps[1]:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
 
 -- add enemies
-LoadEnemies(2)
-Transform.SetPosition(enemies[1].transformID, {x=150, y=0, z=100})
-Transform.SetPosition(enemies[2].transformID, {x=100, y=0, z=200})
+LoadEnemies(5)
+Transform.SetPosition(enemies[1].transformID, {x=155, y=0, z=158})
+Transform.SetPosition(enemies[2].transformID, {x=161, y=0, z=112})
+Transform.SetPosition(enemies[3].transformID, {x=245, y=0, z=80})
+Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
+Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
 
 -- set player position
-Transform.SetPosition(player.transformID, {x=80, y=60, z=160})
---Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
+Transform.SetPosition(player.transformID, {x=74, y=0, z=156})
 
 -- set goal
 goal = {}
 goal.transformID = Transform.Bind()
 goal.collider = SphereCollider.Create(goal.transformID)
-goal.collider:SetRadius(5)
+goal.collider:SetRadius(10)
 CollisionHandler.AddSphere(goal.collider)
 
-Transform.SetPosition(goal.transformID, { x = 460, y = 92, z = 144 })
+Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
