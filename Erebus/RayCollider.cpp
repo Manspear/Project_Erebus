@@ -125,6 +125,11 @@ bool RayCollider::isActive()
 	return this->active;
 }
 
+std::vector<unsigned int>* RayCollider::getIDCollisionsRef()
+{
+	return &this->IDCollisions;
+}
+
 void RayCollider::setIDTransform(unsigned int ID)
 {
 	this->IDTransform = ID;

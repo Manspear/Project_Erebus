@@ -9,10 +9,6 @@ public:
 	RayCollider(int IDTransform, glm::vec3 direction);
 	~RayCollider();
 
-	void setPosition(glm::vec3 position);
-	void setDirection(glm::vec3 direction);
-	void hit(glm::vec3 intersectionPoint, float hitDistance);
-
 	void insertCollisionID(unsigned int collisionID);
 	void clearCollisionIDs();
 	void clearHitData();
@@ -26,11 +22,16 @@ public:
 	float hitdistance() const;
 	bool checkCollision();
 	bool isActive();
+	std::vector<unsigned int>* getIDCollisionsRef();
 
 	//setters
 	void setIDTransform(unsigned int ID);
 	void setID(unsigned int ID);
 	void setActive(bool active);
+	void setPosition(glm::vec3 position);
+	void setDirection(glm::vec3 direction);
+	void hit(glm::vec3 intersectionPoint, float hitDistance);
+
 private:
 	glm::vec3 direction, position, intersectionPoint;
 	float hitDistance;
