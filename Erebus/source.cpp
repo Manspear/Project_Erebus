@@ -18,9 +18,9 @@ bool running = true;
 
 int main()
 {
-	LevelEditor editor;
-	editor.start();
-	return 0;
+	//LevelEditor editor;
+	//editor.start();
+	//return 0;
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;

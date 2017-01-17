@@ -116,3 +116,9 @@ std::string LevelTransform::toLua(std::string name)
 Transform* LevelTransform::getTransformRef() {
 	return this->transformRef;
 }
+
+void LevelTransform::setTwStruct(TwBar * twBar) {
+	TwAddVarRW(twBar, "Position", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getPosRef(), NULL);
+	TwAddVarRW(twBar, "Rotation", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getRotationRef(), NULL);
+	TwAddVarRW(twBar, "Scale", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getScaleRef(), NULL);
+}

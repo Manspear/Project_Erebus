@@ -90,3 +90,13 @@ void Transform::follow(glm::vec3 goTowards, float speed, const float &dt)
 		this->theTran->lookAt = glm::normalize(goTowards - this->theTran->pos);
 	this->theTran->pos += this->theTran->lookAt  * speed * dt;
 }
+
+glm::vec3 &Transform::getPosRef() {
+	return this->theTran->pos;
+}
+glm::vec3 &Transform::getRotationRef() {
+	return this->theTran->rot;
+}
+glm::vec3 &Transform::getScaleRef() {
+	return this->theTran->scale;
+}

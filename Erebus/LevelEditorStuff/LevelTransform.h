@@ -24,6 +24,8 @@ public:
 
 	Transform* getTransformRef();
 
+	void setTwStruct(TwBar * twBar) override;
+
 private:
 	Transform* transformRef;
 	TransformStruct* transformStructTemp;

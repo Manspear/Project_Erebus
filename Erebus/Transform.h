@@ -23,6 +23,10 @@ public:
 	void setActive(bool isActive);
 	void follow(glm::vec3 goTowards, float speed, const float &dt);
 
+	glm::vec3 &getPosRef();
+	glm::vec3 &getRotationRef();
+	glm::vec3 &getScaleRef();
+
 private:
 	TransformStruct* theTran;
 };
