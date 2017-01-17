@@ -71,18 +71,25 @@ void GamePlay::Draw()
 	engine->queueDynamicModels(&models);
 }
 
-void GamePlay::StartNetwork(const bool& networkHost)
+bool GamePlay::StartNetwork(const bool& networkHost)
 {
 	networkController.setNetworkHost(networkHost);
 	if (networkHost)
 	{
-		networkController.initNetworkAsHost();
+		if (!networkController.initNetworkAsHost())
+		{
+			return false;
+		}
 		networkController.acceptNetworkCommunication();
 	}
 	else
 	{
-		networkController.initNetworkAsClient(127, 0, 0, 1);
+		if (!networkController.initNetworkAsClient(192, 168, 1, 25))
+		{
+			return false;
+		}
 	}
 		
 	networkController.startCommunicationThreads();
+	return true;
 }

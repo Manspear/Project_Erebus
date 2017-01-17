@@ -116,10 +116,12 @@ namespace Nurn
 
 	bool TCPSocket::CreateAndConnectSocket(const uint16_t & port, const Address& connectionAddress)
 	{
-
-		if (!CreateSocket())
+		if (!IsOpen())
 		{
-			return false;
+			if (!CreateSocket())
+			{
+				return false;
+			}
 		}
 
 		if (!ConnectSocket(connectionAddress))

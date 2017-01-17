@@ -47,5 +47,5 @@ public:
 
 	void Draw();
 
-	void StartNetwork(const bool& networkHost);
+	bool StartNetwork(const bool& networkHost);
 };
