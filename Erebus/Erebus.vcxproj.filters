@@ -100,6 +100,9 @@
     <ClCompile Include="LuaNetwork.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="LuaNetwork.hpp">
       <Filter>Lua\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelActorHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -47,7 +47,8 @@ void LevelEditor::start() {
 	
 	//factory->saveWorld("Level2", &actors);
 
-	factory->loadWorld("Level2", &actors);
+	//factory->loadWorld("Level2", &actors);
+	factory->loadWorld("Level2");
 
 	engine->setFont(font);
 
@@ -94,6 +95,8 @@ void LevelEditor::start() {
 	LevelAssetHandler::getInstance()->setAssets( &assets );
 	LevelAssetHandler::getInstance()->load();
 
+	TwBar* componentsBar = TwNewBar( "Components" );
+	LevelActorFactory::getInstance()->addToBar( componentsBar );
 
 	while (running && window.isWindowOpen())
 	{
@@ -128,16 +131,15 @@ void LevelEditor::start() {
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine->print(fps, 0.0f, 0.0f);
 
-		for (int n = 0; n < actors.size(); n++)
+		/*for (int n = 0; n < actors.size(); n++)
 		{
 			actors[n]->update();
-		}
+		}*/
+		LevelActorHandler::getInstance()->updateActors();
 		pick();
 		engine->draw(camera);
 		
 		this->ui->Draw();
-
-
 
 		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
 			running = false;
@@ -180,7 +182,8 @@ void LevelEditor::start() {
 				LevelActor* newActor = factory->createActor( LevelPrefabHandler::getInstance()->getSelectedPrefab() );
 				if( newActor )
 				{
-					actors.push_back( newActor );
+					//actors.push_back( newActor );
+					LevelActorHandler::getInstance()->addActor( newActor );
 
 					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
 					//newActor->addComponent(new LevelPointLightComponent());
@@ -230,10 +233,10 @@ void LevelEditor::start() {
 	delete this->transformHandler;
 	delete this->modelHandler;
 	LevelActorFactory::deleteInstance();
-	for (size_t i = 0; i < actors.size(); i++)
+	/*for (size_t i = 0; i < actors.size(); i++)
 	{
 		delete actors[i];
-	}
+	}*/
 	glfwTerminate();
 	
 }

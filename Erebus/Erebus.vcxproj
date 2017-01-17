@@ -157,6 +157,7 @@
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActorFactory.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEditor.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="LevelEditorStuff\LevelActor.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorComponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorFactory.h" />
+    <ClInclude Include="LevelEditorStuff\LevelActorHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h" />
     <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelEditor.h" />

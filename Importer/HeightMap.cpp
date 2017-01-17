@@ -456,25 +456,9 @@ namespace Importer
 
 	}
 	
-	bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD, glm::vec3* hp)
+	/*bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD, glm::vec3* hp)
 	{
 		bool returnVal = false;
-		/*float EPSILON = 0.1f;
-
-		float distance = abs((rayO.y + this->pos.y) / rayD.y);
-		glm::vec3 hitPoint = rayO + (rayD*distance);
-		if (hitPoint.y > -EPSILON || hitPoint.y < EPSILON)
-		{
-			if ((hitPoint.x >= this->minX && hitPoint.x <= maxX) &&
-				((hitPoint.z >= this->minZ && hitPoint.z <= maxZ)))
-			{
-				returnVal = true;
-				//Collision occured;
-			}
-		}
-
-		*hp = hitPoint;*/
-
 		float dist = 9999.0f;
 		for( int x = 0; x<mapWidth-1; x++ )
 		{
@@ -509,6 +493,129 @@ namespace Importer
 		}
 
 		return returnVal;
+	}*/
+
+	float HeightMap::distanceToLine( glm::vec2 origin, glm::vec2 direction, glm::vec2 point )
+	{
+		glm::vec2 v = glm::normalize( direction );
+		glm::vec2 u = ( point - origin );
+
+		glm::vec2 proj = glm::dot( v, u ) * v;
+
+		glm::vec2 pointOnLine = origin + proj;
+
+		return glm::length(pointOnLine-point);
+	}
+
+	bool HeightMap::rayIntersection( glm::vec3 origin, glm::vec3 dir, glm::vec3* hitPoint )
+	{
+		const float RAY_MAX_LENGTH = 100.0f;
+		const int MAX_STEPS = 100;
+
+		bool result = false;
+
+		glm::vec2 o( origin.x, origin.z );
+		int startX = o.x / widthMulti;
+		int startY = o.y / breadthMulti;
+
+		int steps = 0;
+		while( ( startX < 0 || startX > mapWidth || startY < 0 || startY > mapHeight ) && steps < MAX_STEPS )
+		{
+			if( dir.x > 0 )
+				startX++;
+			else
+				startX--;
+
+			if( dir.z > 0 )
+				startY++;
+			else
+				startY--;
+
+			steps++;
+		}
+
+		int curX = startX, curY = startY;
+
+		glm::vec2 d( dir.x, dir.z );
+		glm::vec2 end = o + ( d * RAY_MAX_LENGTH );
+		int endX = end.x / widthMulti;
+		int endY = end.y / breadthMulti;
+
+		steps = 0;
+		while( ( endX < 0 || endX > mapWidth || endY < 0 || endY > mapHeight ) && steps < MAX_STEPS )
+		{
+			if( dir.x > 0 )
+				endX++;
+			else
+				endX--;
+
+			if( dir.z > 0 )
+				endY++;
+			else
+				endY--;
+
+			steps++;
+		}
+
+		steps = 0;
+		while( curX != endX && curY != endY && !result && steps < 100 )
+		{
+			steps++;
+
+			glm::vec3 v1( curX*widthMulti, getHardPosAt(curX,curY)*heightMulti, curY*breadthMulti );
+			glm::vec3 v2( (curX+1)*widthMulti, getHardPosAt(curX+1,curY)*heightMulti, curY*breadthMulti );
+			glm::vec3 v3( curX*widthMulti, getHardPosAt(curX,curY+1)*heightMulti, (curY+1)*breadthMulti );
+
+			float dist = 0.0f;
+			if( triangleIntersection( v1, v2, v3, origin, dir, dist ) )
+			{
+				result = true;
+				*hitPoint = origin + ( dir * dist );
+			}
+
+			if( !result )
+			{
+				glm::vec3 v4( (curX+1)*widthMulti, getHardPosAt(curX+1,curY+1)*heightMulti, (curY+1)*breadthMulti );
+
+				dist = 0.0f;
+				if( triangleIntersection( v2, v4, v3, origin, dir, dist ) )
+				{
+					result = true;
+					*hitPoint = origin + ( dir * dist );
+				}
+			}
+
+			if( !result )
+			{
+				int nextX = curX, nextY = curY;
+				if( d.x > 0.0f )
+					nextX++;
+				else
+					nextX--;
+
+				if( d.y > 0.0f )
+					nextY++;
+				else
+					nextY--;
+
+				glm::vec2 nextXCenter( (nextX+0.5f)*widthMulti, (curY+0.5f)*breadthMulti );
+				glm::vec2 nextYCenter( (curX+0.5f)*widthMulti, (nextY+0.5f)*breadthMulti );
+
+				float xlen = distanceToLine( o, d, nextXCenter );
+				float ylen = distanceToLine( o, d, nextYCenter );
+
+				if( xlen < ylen )
+				{
+					curX = nextX;
+				}
+				else
+				{
+					curY = nextY;
+				}
+			}
+		}
+
+		return result;
 	}
 
 	ModelAsset* HeightMap::getModel()

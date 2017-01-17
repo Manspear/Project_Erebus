@@ -179,7 +179,7 @@ void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>
 	//tinyxml2::XMLDeclaration* dcl = new tinyxml2::XMLDeclaration(&doc);
 }
 
-void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>* actors) {
+/*void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>* actors) {
 	for (size_t i = 0; i < actors->size(); i++)
 	{
 		delete actors->at(i);
@@ -197,6 +197,17 @@ void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>
 	{
 		actors->push_back(loadActor(pNode));
 	}
+}*/
+
+void LevelActorFactory::loadWorld( std::string fileName )
+{
+	std::string fullPath = levelFolder + fileName + fileExtension;
+
+	tinyxml2::XMLDocument* doc = getDocument( fullPath );
+	tinyxml2::XMLElement* startElement = doc->FirstChildElement();
+
+	for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+		LevelActorHandler::getInstance()->addActor(loadActor(pNode));
 }
 
 void LevelActorFactory::saveToLua(std::string fileName, std::vector<LevelActor*>* actors)
@@ -211,4 +222,22 @@ void LevelActorFactory::saveToLua(std::string fileName, std::vector<LevelActor*>
 
 		stream.close();
 	}
+}
+
+void LevelActorFactory::addToBar( TwBar* bar )
+{
+	TwAddButton( bar, LevelTransform::name, addComponent, (void*)LevelTransform::name, NULL );
+	TwAddButton( bar, LevelModel::name, addComponent, (void*)LevelModel::name, NULL );
+	TwAddButton( bar, LevelAnimation::name, addComponent, (void*)LevelAnimation::name, NULL );
+	TwAddButton( bar, LevelPointLightComponent::name, addComponent, (void*)LevelPointLightComponent::name, NULL );
+}
+
+void TW_CALL LevelActorFactory::addComponent( void* args )
+{
+	const char* componentName = (const char*)args;
+
+	LevelActor* actor;
+	// get selected actor from singleton
+
+	//actor->addComponent( LevelActorFactory::getInstance()->getNewComponent( componentName ) );
 }

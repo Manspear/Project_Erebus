@@ -3,7 +3,6 @@
 #include <BaseIncludes.h>
 #include <memory>
 
-
 #define USE_ANT
 struct uiVec3 {
 	float x, y, z;
@@ -81,6 +80,7 @@ public:
 	}
 };
 
+class LevelActorHandler;
 class LevelUI
 {
 private:

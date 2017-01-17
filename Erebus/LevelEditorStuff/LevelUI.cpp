@@ -1,5 +1,5 @@
 #include "LevelUI.h"
-
+#include "LevelActorHandler.h"
 TwType LevelUI::vector3Tw = TW_TYPE_FLOAT;
 
 void TW_CALL setEditorState(void * clientData)
@@ -25,9 +25,9 @@ LevelUI::LevelUI(GLFWwindow* window)
 	bars[2] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), WINDOW_HEIGHT*.5f),
 		glm::vec2((int)(WINDOW_WIDTH* TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
 		glm::vec4(0, 255, 128, 200), "Assets");
-
-
 	
+	LevelActorHandler::getInstance()->setTweakBars( bars[1], bars[0] );
+
 	if (TwGetLastError() != nullptr) {
 		printf("error");
 	}

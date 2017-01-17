@@ -24,7 +24,7 @@ public:
 	std::string toLua();
 	const std::string& getActorType() const;
 
-	std::map<std::string, LevelActorComponent*> getAllComponents();
+	std::map<std::string, LevelActorComponent*>& getAllComponents();
 
 	bool LevelActor::SetAgent(TwBar * bar);
 
