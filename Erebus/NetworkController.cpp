@@ -2,6 +2,7 @@
 
 NetworkController::NetworkController()
 {
+	networkHost = true;
 	running = false;
 }
 
@@ -39,9 +40,13 @@ bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip
 
 void NetworkController::shutdown()
 {
+	if (running == true)
+	{
+		sendingThread.join();
+		receiveThread.join();
+	}
+
 	running = false;
-	sendingThread.join();
-	receiveThread.join();
 }
 
 void NetworkController::startNetworkSending()
@@ -78,12 +83,12 @@ void NetworkController::startCommunicationThreads()
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
 }
 
-void NetworkController::setNetWorkHost(const bool& networkHost)
+void NetworkController::setNetworkHost(const bool& networkHost)
 {
 	this->networkHost = networkHost;
 }
 
-bool NetworkController::getNetWorkHost()
+bool NetworkController::getNetworkHost()
 {
 	return this->networkHost;
 }

@@ -274,6 +274,7 @@ namespace Gear
 	{
 		return queue.generateWorldMatrix();
 	}
+
 	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
 		lightPassShader->use();

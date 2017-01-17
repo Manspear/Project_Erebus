@@ -7,13 +7,13 @@
 
 class PacketFilter
 {
-private:
-	PacketQueue<TransformPacket> *transformQueue;
-
 public:
 	PacketFilter();
 	virtual ~PacketFilter();
 
 	void openNetPacket(unsigned char * memoryPointer);
-	PacketQueue<TransformPacket>* getTransformQueue();
+	PacketQueue<TransformPacket> * getTransformQueue();
+
+private:
+	PacketQueue<TransformPacket> * transformQueue;
 };

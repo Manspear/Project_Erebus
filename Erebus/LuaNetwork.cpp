@@ -66,7 +66,7 @@ namespace LuaNetwork
 
 	int getNetworkHost(lua_State* lua)
 	{
-		bool networkHost = g_networkController->getNetWorkHost();
+		bool networkHost = g_networkController->getNetworkHost();
 
 		lua_pushboolean(lua, networkHost);
 		return 1;
