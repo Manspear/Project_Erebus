@@ -240,9 +240,9 @@ void LevelEditor::start() {
 
 void LevelEditor::pick() {
 	
-	int pickedActoractorID = engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
+	int pickedActorID = engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
 		this->inputs->getMousePos());
-	std::cout << pickedActoractorID << std::endl;
+	std::cout << pickedActorID << std::endl;
 	/*
 	Agent Ids
 	Static models 
