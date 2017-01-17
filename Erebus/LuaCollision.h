@@ -23,6 +23,8 @@ namespace LuaCollision
 	int drawHitboxes( lua_State* lua );
 	int deactivateAllHitboxes(lua_State* lua);
 	int activateAllHitboxes(lua_State* lua);
+	int enableCollisionHandler(lua_State* lua);
+	int disableCollisionHandler(lua_State* lua);
 
 	int getID( lua_State* lua );
 

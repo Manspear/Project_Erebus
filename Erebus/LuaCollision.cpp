@@ -18,6 +18,8 @@ namespace LuaCollision
 			{ "DrawHitboxes",		drawHitboxes },
 			{"DeactivateAllHitboxes", deactivateAllHitboxes},
 			{"ActivateAllHitboxes", activateAllHitboxes},
+			{"Enable", enableCollisionHandler},
+			{"Disable", disableCollisionHandler},
 			{ NULL, NULL }
 		};
 
@@ -280,6 +282,18 @@ namespace LuaCollision
 	int activateAllHitboxes(lua_State * lua)
 	{
 		g_collisionHandler->activeteAllHitboxes();
+		return 0;
+	}
+
+	int enableCollisionHandler(lua_State * lua)
+	{
+		g_collisionHandler->setEnabled(true);
+		return 0;
+	}
+
+	int disableCollisionHandler(lua_State * lua)
+	{
+		g_collisionHandler->setEnabled(false);
 		return 0;
 	}
 

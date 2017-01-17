@@ -53,6 +53,7 @@ public:
 	//setters
 	void setTransforms( Transform* transforms );
 	void setDebugger(Debug* debugger);
+	void setEnabled(bool enabled);
 
 	//getters
 	std::string getCollisionText();
@@ -88,4 +89,5 @@ private:
 	static unsigned int hitboxID;
 	static void incrementHitboxID();
 	void initializeColors();
+	bool enabled = true;
 };

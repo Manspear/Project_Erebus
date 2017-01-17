@@ -131,101 +131,101 @@ void CollisionHandler::addRay(RayCollider * ray, int layer)
 
 void CollisionHandler::checkCollisions()
 {
-
-	//Cleara deras gamla collisions görs i varje check funktion
-	this->deleteAllOldCollisions();
-
-	//Updatera position
-	this->updateAllHitboxPos();
-	
-	this->collisionChecker.resetCounters();
-
-	// ----------------------------------------------------
-	std::vector<int> layerCollisionVector;
-	std::vector<SphereCollider*>* firstTempSphereColliders = nullptr;
-	std::vector<AABBCollider*>* firstTempAABBColliders = nullptr;
-	std::vector<SphereCollider*>* secondTempSphereColliders = nullptr;
-	std::vector<AABBCollider*>* secondTempAABBColliders = nullptr;
-	std::vector<OBBCollider*>* firstTempOBBColliders = nullptr;
-	std::vector<OBBCollider*>* secondTempOBBColliders = nullptr;
-	std::vector<RayCollider*>* firstTempRayColliders = nullptr;
-	std::vector<RayCollider*>* secondTempRayColliders = nullptr;
-	int firstLayer = 0;
-	int secondLayer = 0;
-	this->sphereColliders;
-	this->aabbColliders;
-
-	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) // loop through rows(layers) of layer matrix
+	if (this->enabled) // If collisionHandler is enabled
 	{
-		firstLayer = i;
-		layerCollisionVector = this->collisionLayers->getUncheckedLayerCollisions(i); // get layers you should collide with but dont have
+		//Cleara deras gamla collisions görs i varje check funktion
+		this->deleteAllOldCollisions();
 
-		//std::cout << "Layer " << i << "collides with layers: ";
-		//for (size_t k = 0; k < layerCollisionVector.size(); k++)
-		//{
-		//	std::cout << " " << layerCollisionVector[k] << " ";
-		//}
-		//std::cout << std::endl;
+		//Updatera position
+		this->updateAllHitboxPos();
 
-		firstTempSphereColliders = this->collisionLayers->getSphereColliders(i); // get hitboxes from layer
-		firstTempAABBColliders = this->collisionLayers->getAABBColliders(i);
-		firstTempOBBColliders = this->collisionLayers->getOBBColliders(i);
-		firstTempRayColliders = this->collisionLayers->getRayColliders(i);
+		this->collisionChecker.resetCounters();
 
-		for (unsigned int j = 0; j < layerCollisionVector.size(); j++) // for every layer you should collide with
+		// ----------------------------------------------------
+		std::vector<int> layerCollisionVector;
+		std::vector<SphereCollider*>* firstTempSphereColliders = nullptr;
+		std::vector<AABBCollider*>* firstTempAABBColliders = nullptr;
+		std::vector<SphereCollider*>* secondTempSphereColliders = nullptr;
+		std::vector<AABBCollider*>* secondTempAABBColliders = nullptr;
+		std::vector<OBBCollider*>* firstTempOBBColliders = nullptr;
+		std::vector<OBBCollider*>* secondTempOBBColliders = nullptr;
+		std::vector<RayCollider*>* firstTempRayColliders = nullptr;
+		std::vector<RayCollider*>* secondTempRayColliders = nullptr;
+		int firstLayer = 0;
+		int secondLayer = 0;
+		this->sphereColliders;
+		this->aabbColliders;
+
+		for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) // loop through rows(layers) of layer matrix
 		{
-			secondLayer = layerCollisionVector[j]; // get the layer to collide with
+			firstLayer = i;
+			layerCollisionVector = this->collisionLayers->getUncheckedLayerCollisions(i); // get layers you should collide with but dont have
 
-			if (firstLayer != secondLayer) // check collision between two different layers
+																						  //std::cout << "Layer " << i << "collides with layers: ";
+																						  //for (size_t k = 0; k < layerCollisionVector.size(); k++)
+																						  //{
+																						  //	std::cout << " " << layerCollisionVector[k] << " ";
+																						  //}
+																						  //std::cout << std::endl;
+
+			firstTempSphereColliders = this->collisionLayers->getSphereColliders(i); // get hitboxes from layer
+			firstTempAABBColliders = this->collisionLayers->getAABBColliders(i);
+			firstTempOBBColliders = this->collisionLayers->getOBBColliders(i);
+			firstTempRayColliders = this->collisionLayers->getRayColliders(i);
+
+			for (unsigned int j = 0; j < layerCollisionVector.size(); j++) // for every layer you should collide with
 			{
-				secondTempSphereColliders = this->collisionLayers->getSphereColliders(secondLayer); // get hitboxes from layer to collide with
-				secondTempAABBColliders = this->collisionLayers->getAABBColliders(secondLayer);
-				secondTempOBBColliders = this->collisionLayers->getOBBColliders(secondLayer);
-				secondTempRayColliders = this->collisionLayers->getRayColliders(secondLayer);
+				secondLayer = layerCollisionVector[j]; // get the layer to collide with
 
-				checkAnyCollision(firstTempSphereColliders,secondTempSphereColliders); // (sphere layer1) vs (sphere layer2)
-				checkAnyCollision(firstTempAABBColliders,secondTempAABBColliders); // (AABB layer1) vs (AABB layer2)
+				if (firstLayer != secondLayer) // check collision between two different layers
+				{
+					secondTempSphereColliders = this->collisionLayers->getSphereColliders(secondLayer); // get hitboxes from layer to collide with
+					secondTempAABBColliders = this->collisionLayers->getAABBColliders(secondLayer);
+					secondTempOBBColliders = this->collisionLayers->getOBBColliders(secondLayer);
+					secondTempRayColliders = this->collisionLayers->getRayColliders(secondLayer);
 
-				checkAnyCollision(firstTempSphereColliders, secondTempAABBColliders); // (SPHERE layer1) vs (AABB layer2)
-				checkAnyCollision(secondTempSphereColliders, firstTempAABBColliders); // (AABB layer1) vs (SPHERE layer2)
+					checkAnyCollision(firstTempSphereColliders, secondTempSphereColliders); // (sphere layer1) vs (sphere layer2)
+					checkAnyCollision(firstTempAABBColliders, secondTempAABBColliders); // (AABB layer1) vs (AABB layer2)
 
-				checkAnyCollision(firstTempOBBColliders, secondTempOBBColliders); // (obb layer1) vs (obb layer2)
-				checkAnyCollision(firstTempOBBColliders, secondTempAABBColliders); // (obb layer1) vs (aabb layer2)
-				checkAnyCollision(firstTempOBBColliders, secondTempSphereColliders); // (obb layer1) vs (sphere layer2)
-				checkAnyCollision(secondTempOBBColliders, firstTempAABBColliders); // (obb layer2) vs (aabb layer1)
-				checkAnyCollision(secondTempOBBColliders, firstTempSphereColliders); // (obb layer2) vs (sphere layer1)
+					checkAnyCollision(firstTempSphereColliders, secondTempAABBColliders); // (SPHERE layer1) vs (AABB layer2)
+					checkAnyCollision(secondTempSphereColliders, firstTempAABBColliders); // (AABB layer1) vs (SPHERE layer2)
 
-				checkAnyCollision(firstTempRayColliders, secondTempAABBColliders); // (ray layer1) vs (aabb layer2)
-				checkAnyCollision(firstTempRayColliders, secondTempSphereColliders); // (ray layer1) vs (sphere layer2)
-				checkAnyCollision(firstTempRayColliders, secondTempOBBColliders); // (ray layer1) vs (obb layer2)
-				checkAnyCollision(secondTempRayColliders, firstTempAABBColliders); // (ray layer2) vs (aabb layer1)
-				checkAnyCollision(secondTempRayColliders, firstTempSphereColliders);// (ray layer2) vs (sphere layer1)
-				checkAnyCollision(secondTempRayColliders, firstTempOBBColliders); // (ray layer2) vs (obb layer2)
-					
+					checkAnyCollision(firstTempOBBColliders, secondTempOBBColliders); // (obb layer1) vs (obb layer2)
+					checkAnyCollision(firstTempOBBColliders, secondTempAABBColliders); // (obb layer1) vs (aabb layer2)
+					checkAnyCollision(firstTempOBBColliders, secondTempSphereColliders); // (obb layer1) vs (sphere layer2)
+					checkAnyCollision(secondTempOBBColliders, firstTempAABBColliders); // (obb layer2) vs (aabb layer1)
+					checkAnyCollision(secondTempOBBColliders, firstTempSphereColliders); // (obb layer2) vs (sphere layer1)
+
+					checkAnyCollision(firstTempRayColliders, secondTempAABBColliders); // (ray layer1) vs (aabb layer2)
+					checkAnyCollision(firstTempRayColliders, secondTempSphereColliders); // (ray layer1) vs (sphere layer2)
+					checkAnyCollision(firstTempRayColliders, secondTempOBBColliders); // (ray layer1) vs (obb layer2)
+					checkAnyCollision(secondTempRayColliders, firstTempAABBColliders); // (ray layer2) vs (aabb layer1)
+					checkAnyCollision(secondTempRayColliders, firstTempSphereColliders);// (ray layer2) vs (sphere layer1)
+					checkAnyCollision(secondTempRayColliders, firstTempOBBColliders); // (ray layer2) vs (obb layer2)
+
+				}
+
+				else // check collision against your own layer
+				{
+					checkAnyCollision(firstTempSphereColliders);
+					checkAnyCollision(firstTempAABBColliders);
+					checkAnyCollision(firstTempOBBColliders);
+					checkAnyCollision(firstTempSphereColliders, firstTempAABBColliders);
+					checkAnyCollision(firstTempOBBColliders, firstTempAABBColliders);
+					checkAnyCollision(firstTempOBBColliders, firstTempSphereColliders);
+
+					checkAnyCollision(firstTempRayColliders, firstTempAABBColliders);
+					checkAnyCollision(firstTempRayColliders, firstTempSphereColliders);
+					checkAnyCollision(firstTempRayColliders, firstTempOBBColliders);
+				}
+
+				this->collisionLayers->checkLayer(i, layerCollisionVector[j]);
 			}
 
-			else // check collision against your own layer
-			{
-				checkAnyCollision(firstTempSphereColliders);
-				checkAnyCollision(firstTempAABBColliders);
-				checkAnyCollision(firstTempOBBColliders);
-				checkAnyCollision(firstTempSphereColliders, firstTempAABBColliders);
-				checkAnyCollision(firstTempOBBColliders, firstTempAABBColliders);
-				checkAnyCollision(firstTempOBBColliders, firstTempSphereColliders);
-
-				checkAnyCollision(firstTempRayColliders, firstTempAABBColliders);
-				checkAnyCollision(firstTempRayColliders, firstTempSphereColliders);
-				checkAnyCollision(firstTempRayColliders, firstTempOBBColliders);
-			}
-
-			this->collisionLayers->checkLayer(i,layerCollisionVector[j]);
 		}
 
+		this->collisionLayers->resetLayerCollisionCheckedMatrix();
 	}
-
-	this->collisionLayers->resetLayerCollisionCheckedMatrix();
-	
-
 
 }
 
@@ -467,6 +467,11 @@ void CollisionHandler::setDebugger(Debug * debugger)
 	this->debugger = debugger;
 }
 
+void CollisionHandler::setEnabled(bool enabled)
+{
+	this->enabled = enabled;
+}
+
 std::string CollisionHandler::getCollisionText()
 {
 	std::stringstream text;
@@ -541,49 +546,52 @@ void CollisionHandler::printCollisions()
 
 void CollisionHandler::drawHitboxes()
 {
-	std::vector<SphereCollider*>* tempSphereColliders;
-	std::vector<AABBCollider*>* tempAabbColliders;
-	std::vector<OBBCollider*>* tempObbColliders;
-	std::vector<RayCollider*>* tempRayColliders;
-	SphereCollider* tempSphere = nullptr;
-	const glm::vec3 deactivatedColor(0,0,0);
-	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
+	if (this->enabled)
 	{
-		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
-		tempAabbColliders = this->collisionLayers->getAABBColliders(i);
-		tempObbColliders = this->collisionLayers->getOBBColliders(i);
-		tempRayColliders = this->collisionLayers->getRayColliders(i);
-		for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
+		std::vector<SphereCollider*>* tempSphereColliders;
+		std::vector<AABBCollider*>* tempAabbColliders;
+		std::vector<OBBCollider*>* tempObbColliders;
+		std::vector<RayCollider*>* tempRayColliders;
+		SphereCollider* tempSphere = nullptr;
+		const glm::vec3 deactivatedColor(0, 0, 0);
+		for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
 		{
-			SphereCollider* temp = tempSphereColliders->operator[](j);
-			if(temp->isActive())
-				debugger->drawSphere(temp->getPos(), temp->getRadius(),this->colors[i]);
-			else
-				debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
-		}
-		for (size_t j = 0; j < tempAabbColliders->size(); j++)
-		{
-			AABBCollider* temp = tempAabbColliders->operator[](j);
-			if(temp->isActive())
-				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(),this->colors[i]);
-			else
-				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
-		}
-		for (size_t j = 0; j < tempObbColliders->size(); j++)
-		{
-			OBBCollider* temp = tempObbColliders->operator[](j);
-			if(temp->isActive())
-				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
-			else
-				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
-		}
-		for (size_t j = 0; j < tempRayColliders->size(); j++)
-		{
-			RayCollider* temp = tempRayColliders->operator[](j);
-			if(temp->isActive())
-				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
-			else
-				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
+			tempSphereColliders = this->collisionLayers->getSphereColliders(i);
+			tempAabbColliders = this->collisionLayers->getAABBColliders(i);
+			tempObbColliders = this->collisionLayers->getOBBColliders(i);
+			tempRayColliders = this->collisionLayers->getRayColliders(i);
+			for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
+			{
+				SphereCollider* temp = tempSphereColliders->operator[](j);
+				if (temp->isActive())
+					debugger->drawSphere(temp->getPos(), temp->getRadius(), this->colors[i]);
+				else
+					debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
+			}
+			for (size_t j = 0; j < tempAabbColliders->size(); j++)
+			{
+				AABBCollider* temp = tempAabbColliders->operator[](j);
+				if (temp->isActive())
+					debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), this->colors[i]);
+				else
+					debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
+			}
+			for (size_t j = 0; j < tempObbColliders->size(); j++)
+			{
+				OBBCollider* temp = tempObbColliders->operator[](j);
+				if (temp->isActive())
+					debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
+				else
+					debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
+			}
+			for (size_t j = 0; j < tempRayColliders->size(); j++)
+			{
+				RayCollider* temp = tempRayColliders->operator[](j);
+				if (temp->isActive())
+					debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
+				else
+					debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
+			}
 		}
 	}
 }
