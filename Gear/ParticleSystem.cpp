@@ -1,6 +1,22 @@
 #include "ParticleSystem.h"
 #include <math.h>
 
+Particle load(std::string path)
+{
+
+	FILE* file;
+	file = fopen(path.c_str(), "rb");
+	Particle p;
+	if (file)
+	{
+		fread(&p, sizeof(Particle), 1, file);
+
+		fclose(file);
+	}
+
+	return p;
+}
+
 namespace Gear
 {
 	ParticleSystem::ParticleSystem()
@@ -23,11 +39,32 @@ namespace Gear
 		focus = focusSpread;
 	}
 
+	ParticleSystem::ParticleSystem(std::string path, Importer::Assets* assets, float focusSpread) : isActive(false), timer(0)
+	{
+		Particle part = load(path);
+
+		gravityFactor = 0.0;
+		maxParticles = part.numOfParticles;
+		allParticles = new Partikel[maxParticles];
+		particlePos = new glm::vec3[maxParticles];
+		nrOfActiveParticles = 0;
+		glGenBuffers(1, &particleVertexBuffer);
+		this->lifeTime = part.lifeTime;
+		partSpeed = part.speed;
+		particleRate = 1 / part.emitPerSecond;
+		partPerRate = part.nrOfParticlesPerEmit;
+		direction = { 0, 0, 0 };
+		textureAssetParticles = assets->load<Importer::TextureAsset>("Textures/" + std::string(part.textureName));
+		focus = focusSpread;
+		int x = 0;
+	}
+
 	ParticleSystem::~ParticleSystem()
 	{
 		delete[] allParticles;
 		delete[] particlePos;
 	}
+
 
 	GEAR_API void ParticleSystem::update(const float &dt)
 	{

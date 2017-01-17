@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "TextureAsset.h"
+#include "ParticleImport.h"
 
 const float MAX_LIFESPAN = 10.0;
 
@@ -15,6 +16,17 @@ struct Color
 	GLfloat r, g, b;
 };
 
+struct Particle
+{
+	int numOfParticles;
+	float lifeTime;
+	float speed;
+	float emitPerSecond;
+	int nrOfParticlesPerEmit;
+	/*float dirX, dirY, dirZ;*/
+	char textureName[32];
+};
+
 namespace Gear
 {
 	class ParticleSystem
@@ -23,6 +35,7 @@ namespace Gear
 	public:
 		GEAR_API ParticleSystem();
 		GEAR_API ParticleSystem(int n, float life, float speed, float rate, int number, float focusSpread);
+		GEAR_API ParticleSystem(std::string path, Importer::Assets* assets, float focusSpread);
 		GEAR_API ~ParticleSystem();
 
 		GEAR_API void update(const float &dt);

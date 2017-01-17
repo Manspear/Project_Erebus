@@ -10,7 +10,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 	type.position = {x=0,y=0,z=0}
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
-	CollisionHandler.AddSphere(type.sphereCollider)
+	CollisionHandler.AddSphere(type.sphereCollider, 1)
 
 	function type:Update(dt)
 		result = {} --returns table of every enemy it hits, up to spell to do what it wants to do. kill it self, do dmg, apply effects etc.
@@ -66,11 +66,11 @@ function CreateGroundAoEType(startSize, endSize, duration)
 	end
 
 	function type:Kill()
-		Transform.ActiveControl(self.transformID, true)
 		self.position.x = 0
 		self.position.y = 0
 		self.position.z = 0
 		Transform.SetPosition(self.transformID, self.position)
+		Transform.ActiveControl(self.transformID, true)
 	end
 
 	return type

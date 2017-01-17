@@ -17,7 +17,8 @@ local scriptFiles =
 	"Scripts/chronoBall.lua",
 	"Scripts/fireGroundAoE.lua",
 	"Scripts/groundAoEType.lua",
-	"Scripts/level.lua"}
+	"Scripts/timeOrbWave.lua",
+	"Scripts/orbWaveType.lua"}
 local drawHitboxes = false
 
 function Load()
@@ -30,6 +31,8 @@ function Load()
 	for key,value in pairs(scripts) do
 		if value.Load then value.Load() end
 	end
+	
+	dofile( "Scripts/level.lua" )
 end
 
 function Unload()

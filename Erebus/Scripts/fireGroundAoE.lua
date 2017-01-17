@@ -24,8 +24,6 @@ function CreateFireGroundAoE()
 					table.insert(hits[index].effects, self.effect())
 					hits[index]:Hurt(self.damage)
 					self.hits[hits[index].transformID] = true
-					print("damage delt to " .. hits[index].transformID)
-					--table.insert(self.hits, {hits[index].transformID, true})
 				end
 			end
 		end

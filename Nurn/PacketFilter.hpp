@@ -1,14 +1,19 @@
 #pragma once
 
-#include "Packager.hpp"
+#include "PacketQueue.hpp"
+#include "PacketEnums.hpp"
+#include "TransformPacket.hpp"
+#include "MetaDataPacket.hpp"
 
-class NURN_API PacketFilter
+class PacketFilter
 {
 private:
+	PacketQueue<TransformPacket> *transformQueue;
 
 public:
 	PacketFilter();
-	~PacketFilter();
+	virtual ~PacketFilter();
 
-	void openPacket(unsigned char * memoryPointer);
+	void openNetPacket(unsigned char * memoryPointer);
+	PacketQueue<TransformPacket>* getTransformQueue();
 };

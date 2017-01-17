@@ -12,6 +12,7 @@
 #include <numeric>
 #include <algorithm>
 #include "Animation.h"
+#include "Light.h"
 
 using namespace Importer;
 struct ModelInstance
@@ -37,6 +38,7 @@ public:
 
 	void init();
 	void updateUniforms(Camera* camera);
+	void updateUniforms(Camera* camera, ShaderType shader);
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
 	void update(int n, TransformStruct* theTrans);
@@ -51,6 +53,7 @@ public:
 	void particlePass(std::vector<Gear::ParticleSystem*>* particleSystems);
 	//void geometryPass(std::vector<ModelInstance>* dynamicModels);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
+	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs);
 
 private:

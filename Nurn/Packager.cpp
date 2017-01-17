@@ -2,10 +2,16 @@
 
 Packager::Packager()
 {
+	this->transformQueue = new PacketQueue<TransformPacket>(20);
 }
 
 Packager::~Packager()
 {
+	if (this->transformQueue)
+	{
+		delete this->transformQueue;
+		transformQueue = 0;
+	}
 }
 
 unsigned char* Packager::getPacketPointer()
@@ -13,56 +19,55 @@ unsigned char* Packager::getPacketPointer()
 	return (unsigned char*)this->memory;
 }
 
-void Packager::buildPacket()
+uint16_t Packager::getCurrentNetPacketSize() const
 {
-	this->actualSize = sizeof(uint16_t);
-	uint8_t maximumNumberOfPackets = 2;
-	uint8_t numberOfPacketsInThePacket = 0;
-
-	// this->actualSize < packetSize
-	while (numberOfPacketsInThePacket < maximumNumberOfPackets)
-	{
-		this->actualSize += sizeof(MetaDataPacket); // Jump forward to where the datapackets, which the MetaData describes, are located.
-		
-		// Add handling for stop adding packets if the allowed size is overridden.
-		// Add all the packets of a certain type and keep track of how many bytes are added.
-
-		this->addTransformPackets();
-		numberOfPacketsInThePacket += 2;
-
-		// this->actualSize should now point at where next MetaDataPacket is to be added.
-		// Add the rest of the packets here
-	}
-
-	memcpy(this->memory, &this->actualSize, sizeof(uint16_t));
+	return this->currentNetPacketSize;
 }
 
-void Packager::addTransformPackets()
+void Packager::buildNetPacket()
+{
+	this->currentNetPacketSize = sizeof(uint16_t);
+
+	// Add handling for stop adding packets if the allowed size is overridden.
+	// Add all the packets of a certain type and keep track of how many bytes are added.
+
+	this->addTransformPackets(this->currentNetPacketSize);
+
+	// this->actualSize should now point at where next MetaDataPacket is to be added.
+	// Add the rest of the packets here
+
+	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
+}
+
+void Packager::addTransformPackets(uint16_t &netPacketSize)
 {
 	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
-	uint16_t sizeInBytes = 0;
-	uint16_t locationOfMetaData = this->actualSize - sizeof(MetaDataPacket);
 
-	TransformPacket t;
-	t.data.ID = 13; //Var hämtas alla ID:n?
+	TransformPacket transformPacket;
+	uint16_t sizeOfTransformPackets = 0;
 
-	memcpy(this->memory + this->actualSize + sizeInBytes, &t, sizeof(TransformPacket));
-	sizeInBytes += sizeof(TransformPacket);
+	while(this->transformQueue->pop(transformPacket))
+	{
+		memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfTransformPackets, &transformPacket, sizeof(TransformPacket));
+		sizeOfTransformPackets += sizeof(TransformPacket);
+	}
 
-	this->addMetaDataPacket(TRANSFORM_PACKET, locationOfMetaData, sizeInBytes);
+	this->addMetaDataPacket(TRANSFORM_PACKET, netPacketSize, sizeOfTransformPackets);
 
-	this->actualSize += sizeInBytes; // Should now point at the location of the next MetaDataPacket
+	netPacketSize += sizeOfTransformPackets; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addMetaDataPacket(uint16_t type, uint16_t locationOfMetaData, uint16_t sizeInBytes)
+void Packager::addMetaDataPacket(uint16_t type, uint16_t &netPacketSize, uint16_t sizeInBytes)
 {
-	MetaDataPacket m(type);
-	m.metaData.sizeInBytes = sizeInBytes;
+	MetaDataPacket metaDataPacket(type);
+	metaDataPacket.metaData.sizeInBytes = sizeInBytes;
 
-	memcpy(this->memory + locationOfMetaData, &m, sizeof(MetaDataPacket));
+	memcpy(this->memory + netPacketSize, &metaDataPacket, sizeof(MetaDataPacket));
+
+	netPacketSize += sizeof(MetaDataPacket);
 }
 
-uint16_t Packager::getActualSize() const
+void Packager::buildTransformPacket(const uint16_t &ID, const float &x, const float &y, const float &z)
 {
-	return this->actualSize;
+	this->transformQueue->push(TransformPacket(ID, x, y, z));
 }

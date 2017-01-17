@@ -3,11 +3,11 @@
 namespace LuaParticles
 {
 	static std::vector<Gear::ParticleSystem*>* g_particles = nullptr;
-	//static int* g_nrOfParticles = nullptr;
-	void registerFunctions(lua_State* lua, std::vector<Gear::ParticleSystem*>* particleSystem)
+	static Importer::Assets* ass;
+	void registerFunctions(lua_State* lua, std::vector<Gear::ParticleSystem*>* particleSystem, Importer::Assets* assets)
 	{
 		g_particles = particleSystem;
-		//g_nrOfParticles = nrOfParticles;
+		ass = assets;
 
 		luaL_newmetatable(lua, "particleMeta");
 		luaL_Reg regs[] =
@@ -33,7 +33,7 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 2)
 		{
 			lua_pushinteger(lua, g_particles->size());
-			g_particles->push_back(new Gear::ParticleSystem(lua_tointeger(lua, 1), lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4), lua_tointeger(lua, 5), lua_tonumber(lua, 6)));
+			g_particles->push_back(new Gear::ParticleSystem(lua_tostring(lua, 1), ass, lua_tonumber(lua, 2)));
 		}
 		return 1;
 	}

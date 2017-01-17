@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "staticNonModels.h"
+#define HIGH_NUMBER 1000000.f
 
 class ObjectsToDraw {
 private:
@@ -139,7 +140,7 @@ public:
 	//Draws a obb at position
 	GEAR_API void drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color = glm::vec3(0, 1, 0));
 	//Draws a ray at given position to inf
-	GEAR_API void drawRay(glm::vec3 pos, glm::vec3 dir, glm::vec3 color = glm::vec3(0, 1, 0));
+	GEAR_API void drawRay(glm::vec3 pos, glm::vec3 dir, float length = HIGH_NUMBER, glm::vec3 color = glm::vec3(0, 1, 0));
 
 	//DONT CALL
 	GEAR_API int getTotalLines();

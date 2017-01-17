@@ -1,6 +1,14 @@
 #pragma once
 
 #include <windows.h>
+#include <SDKDDKVer.h>
+#include <stdio.h>
+#include <tchar.h>
+#include <d3d11_3.h>
+#include <dxgi1_4.h>
+#include <Psapi.h>
+
+#pragma comment(lib, "dxgi.lib")
 
 class PerformanceCounter
 {
@@ -13,6 +21,8 @@ public:
 	double getDeltaTime();		//Amount of time passed since getDeltaTime was last called, in seconds
 	void displayFPS();
 	int getFPS();
+	int getVramUsage();
+	int getRamUsage();
 private:
 	double frequency = 0.0;
 	LARGE_INTEGER start, last;
@@ -21,4 +31,10 @@ private:
 	double deltaTime = 0.0f;
 	int fps = -1;
 	size_t frameCounter = 0;
+
+	IDXGIFactory* dxgifactory;
+	IDXGIAdapter* firstAdapter;
+	IDXGIAdapter3* dxgiAdapter3;
+	HRESULT ret_code;
+	DXGI_QUERY_VIDEO_MEMORY_INFO info;
 };

@@ -211,14 +211,14 @@ namespace Importer
 		unload();
 	}
 
-	bool HeightMap::load( std::string path, Assets* assets )
+	bool HeightMap::load( std::string path, Assets* assets) // skicka in heightmapIndex här och gör .red * här
 	{
 		bool result = false;
 		//Highest point, Lowest point
 		float highestPoint = 14.73f;
 		float lowestPoint = 25.f;
 		heightMulti = 1.0f;
-		widthMulti = 4.0f;
+		widthMulti = 4.0f;//1.015f
 		breadthMulti = 4.0f;
 		//255, 24.435
 		/*
@@ -236,18 +236,30 @@ namespace Importer
 		*/
 		//ImageAsset* map = assets->load<ImageAsset>( path );
 		ImageAsset map;
-		if( map.load( path, assets ) )
+		if (map.load(path, assets))
 		{
-			mapWidth = map.getWidth();
-			mapHeight = map.getHeight();
+			mapWidth = map.getWidth()+1;
+			mapHeight = map.getHeight()+1;
 
 			heightData = new float*[mapWidth];
-			for( size_t i = 0; i<mapWidth; i++ )
+			for (size_t i = 0; i < mapWidth; i++)
 				heightData[i] = new float[mapHeight];
 
 			for (size_t y = 0; y < mapHeight; y++)
+			{
 				for (size_t x = 0; x < mapWidth; x++)
-					heightData[x][y] = map.getPixelValue(x, y).red * 0.596;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
+				{
+					int xindex = x - 1;
+					if (xindex < 0)
+						xindex = 0;
+					else if (xindex >= mapWidth - 1)
+						xindex = mapWidth - 1;
+					int yindex = y;
+					if (yindex >= mapHeight - 1)
+						yindex = mapHeight - 1;
+					heightData[x][y] = map.getPixelValue(xindex, yindex).red;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
+				}
+			}
 
 			minX = minZ = 0;
 			maxX = (mapWidth-1)*widthMulti;
@@ -273,13 +285,13 @@ namespace Importer
 			{
 				for( size_t x = 0; x<mapWidth; x++, vertexIndex++ )
 				{
-					vertexData[vertexIndex].position[0] = x *							widthMulti;
+					vertexData[vertexIndex].position[0] = x *							widthMulti *1.00787401575f;
 					//vertexData[vertexIndex].position[1] = 1; 
-					vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * 0.596;
+					vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * 0.613f;
 					vertexData[vertexIndex].position[2] = y *							breadthMulti;
 
-					vertexData[vertexIndex].UV[0] =	((float)x / this->mapWidth);
-					vertexData[vertexIndex].UV[1] = -((float)y / this->mapHeight);
+					vertexData[vertexIndex].UV[0] =	((float)x / (this->mapWidth-1));
+					vertexData[vertexIndex].UV[1] = -((float)y / (this->mapHeight));
 
 					vertexData[vertexIndex].normal[0] = 0;
 					vertexData[vertexIndex].normal[1] = 1;
@@ -297,9 +309,9 @@ namespace Importer
 			GLuint* indices = new GLuint[numIndices];
 			int indiceIndex = 0;
 
-			for( size_t y = 0; y<mapHeight-1; y++ )
+			for( size_t y = 0; y<mapHeight-2; y++ )
 			{
-				for( size_t x = 0; x<mapWidth-1; x++ )
+				for( size_t x = 0; x<mapWidth-2; x++ )
 				{
 					GLuint start = y* mapWidth + x;
 					indices[indiceIndex++] = start;
@@ -663,11 +675,20 @@ namespace Importer
 
 	float HeightMap::getPos(float x, float z)
 	{
+		float realX = x;
+		float realZ = z;
+
+		x = (int)x % 512;
+		z = (int)z % 512;
+
 		// the first thing we need to do is figure out where on the heightmap
 		// "position" is. This'll make the math much simpler later.
-			if (x < minX || z < minZ
-				|| x >= maxX || z >= maxZ)
-				return -50; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
+		if (x < minX || z < minZ
+			|| x >= maxX || z >= maxZ)
+		{
+			//printf("%f, %f, %f, %f\n", x, z, maxX, maxZ);
+			return -5; // This is so that the game doesnt crash if you are outside of the heightmap's min and max value. It put you at -50 so programmers can view stuff from underneath
+		}
 			
 		int heightTile = 0;
 		float positionOnHeightmapX = x - heightTile;
@@ -707,6 +728,32 @@ namespace Importer
 
 		// next, interpolate between those two values to calculate the height at our
 		// position.
-		return lerp(topHeight, bottomHeight, zNormalized);
+		float heightVal = lerp(topHeight, bottomHeight, zNormalized);
+
+		float fractPart, xFloored, zFloored, posx, posz;
+		posx = realX / 512;
+		posz = realZ / 512;
+		fractPart = modf(posx, &xFloored);// xFractPart = 0.141593 x = 3.141593 xFloored = 3
+		fractPart = modf(posz, &zFloored);
+
+		heightmapIndex = (zFloored * 2 + xFloored) + 1;
+		//printf("heightmapIndex: %d, x: %f, z: %f \n", heightmapIndex, realX, realZ);
+		if (heightmapIndex == 1)
+		{
+			return heightVal * 0.613;
+		}
+		else if (heightmapIndex == 2)
+		{
+			return heightVal * 0.733;
+		}
+		else if (heightmapIndex == 3)
+		{
+			return heightVal * 0.596;
+		}
+		else if (heightmapIndex == 4)
+		{
+			return heightVal * 0.596;
+		}
+		else return 55;
 	}
 }

@@ -1,8 +1,8 @@
 function createFireballParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
 	local fireball = {}
-	fireball.fly = Particle.Bind(200, 1, 30, 100, 2, 10)
-	fireball.exploda = Particle.Bind(200, 1, 4, 1, 200, 0)
+	fireball.fly = Particle.Bind("particle.dp", 10)  
+	fireball.exploda = Particle.Bind("particle.dp", 10)
 
 	function fireball.cast()
 		Particle.SetAlive(fireball.fly)
@@ -16,7 +16,7 @@ function createFireballParticles()
 
 	function fireball.update(x, y, z, mx, my, mz)
 		Particle.SetPosition(fireball.fly, x, y, z)
-		Particle.SetDirection(fireball.fly, mx, my, mz)
+		--Particle.SetDirection(fireball.fly, 0, 10, 0)
 	end
 
 	return fireball

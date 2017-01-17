@@ -14,12 +14,12 @@ namespace Importer
 		IMPORTER_API HeightMap();
 		IMPORTER_API ~HeightMap();
 
-		IMPORTER_API bool load( std::string path, Assets* assets );
+		IMPORTER_API bool load( std::string path, Assets* assets);
 		IMPORTER_API void unload();
 
 		IMPORTER_API glm::mat4 getWorldMat();
 		IMPORTER_API void setPos( const glm::vec3& pos );
-		IMPORTER_API float getPos( float x, float y );
+		IMPORTER_API float getPos( float x, float y);
 		IMPORTER_API bool rayIntersection( glm::vec3 rayO, glm::vec3 dayD, glm::vec3* hitPoint );
 
 		IMPORTER_API ModelAsset* getModel();
@@ -37,7 +37,7 @@ namespace Importer
 		ModelAsset model;
 		glm::mat4 worldMatrix;
 		float** heightData;
-		int mapWidth, mapHeight;
+		int mapWidth, mapHeight, heightmapIndex;
 
 		float minX, maxX, minZ, maxZ;
 		float widthMulti, heightMulti, breadthMulti;
