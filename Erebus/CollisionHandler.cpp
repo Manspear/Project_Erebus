@@ -554,21 +554,35 @@ void CollisionHandler::drawHitboxes()
 		tempRayColliders = this->collisionLayers->getRayColliders(i);
 		for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
 		{
-			debugger->drawSphere(tempSphereColliders->operator[](j)->getPos(), tempSphereColliders->operator[](j)->getRadius(),this->colors[i]);
+			SphereCollider* temp = tempSphereColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawSphere(temp->getPos(), temp->getRadius(),this->colors[i]);
+			else
+				debugger->drawSphere(temp->getPos(), temp->getRadius(), glm::vec3(0,0,0));
 		}
 		for (size_t j = 0; j < tempAabbColliders->size(); j++)
 		{
-			debugger->drawAABB(tempAabbColliders->operator[](j)->getMinPos(), tempAabbColliders->operator[](j)->getMaxPos(),this->colors[i]);
+			AABBCollider* temp = tempAabbColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(),this->colors[i]);
+			else
+				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), glm::vec3(0,0,0));
 		}
 		for (size_t j = 0; j < tempObbColliders->size(); j++)
 		{
 			OBBCollider* temp = tempObbColliders->operator[](j);
-			debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
+			if(temp->isActive())
+				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
+			else
+				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), glm::vec3(0,0,0));
 		}
 		for (size_t j = 0; j < tempRayColliders->size(); j++)
 		{
 			RayCollider* temp = tempRayColliders->operator[](j);
-			debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
+			if(temp->isActive())
+				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
+			else
+				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, glm::vec3(0,0,0));
 		}
 	}
 }
