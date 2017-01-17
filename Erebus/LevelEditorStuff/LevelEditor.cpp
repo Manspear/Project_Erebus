@@ -247,7 +247,6 @@ void LevelEditor::pick() {
 	
 	unsigned int pickedActorID = engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
 		this->inputs->getMousePos());
-	std::cout << pickedActorID << std::endl;
 	if(pickedActorID!=0)
 		LevelActorHandler::getInstance()->setSelected(pickedActorID);
 	/*

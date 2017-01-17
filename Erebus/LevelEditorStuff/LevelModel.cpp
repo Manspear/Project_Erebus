@@ -98,3 +98,10 @@ std::string LevelModel::toLua(std::string name)
 
 	return ss.str();
 }
+
+void LevelModel::setTwStruct(TwBar * twBar) {
+	std::stringstream ss;
+	ss << " label='" <<"Model: "<< this->modelName << "' ";
+	std::string test = ss.str().c_str();
+	TwAddButton(twBar, "modelName", NULL, NULL, ss.str().c_str());
+}

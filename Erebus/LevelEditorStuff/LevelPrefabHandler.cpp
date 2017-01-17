@@ -68,7 +68,7 @@ void LevelPrefabHandler::load( std::string folder )
 					{
 						prefabs.push_back( finalName );
 						indices[prefabIndex] = prefabIndex;
-
+						
 						TwAddVarCB( bar, finalName.c_str(), TW_TYPE_BOOL32, setSelectedCallback, getSelectedCallback, &indices[prefabIndex], NULL );
 						prefabIndex++;
 					}

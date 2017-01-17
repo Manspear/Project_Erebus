@@ -28,7 +28,7 @@ public:
 	LevelActor* loadActor(tinyxml2::XMLElement* element);
 
 	void addToBar( TwBar* bar );
-
+	LevelActorComponent* getNewComponent(std::string componentName);
 private:
 	static void TW_CALL addComponent( void* args );
 
@@ -37,7 +37,7 @@ private:
 	const char* fileExtension;
 	unsigned int actorID;
 	std::map<std::string, tinyxml2::XMLDocument*> savedDocuments;
-	LevelActorComponent* getNewComponent(std::string componentName);
+	
 	tinyxml2::XMLDocument* getDocument(std::string path);
 	static LevelActorFactory* actorFactoryInstance;
 	std::map<unsigned int, const char*>* idPathMap;

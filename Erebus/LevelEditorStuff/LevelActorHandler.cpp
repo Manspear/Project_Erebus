@@ -2,9 +2,39 @@
 
 LevelActorHandler* LevelActorHandler::g_instance = nullptr;
 
+void TW_CALL setComponentCallback(const void* value, void* clientData)
+{
+	LevelUI::DiffComponents NewComp = *(LevelUI::DiffComponents*)value;
+	LevelActorHandler::getInstance()->setSelectedComponentCB(NewComp);
+	
+}
+void TW_CALL getComponentCallback(void* value, void* clientData)
+{
+	LevelUI::DiffComponents index = *(LevelUI::DiffComponents*)clientData;
+	*(LevelUI::DiffComponents*)value = LevelActorHandler::getInstance()->getSelectedComponentCB(index);
+}
+
+LevelUI::DiffComponents LevelActorHandler::getSelectedComponentCB(int index)
+{
+	return selectedComponent;
+}
+
+
+void LevelActorHandler::setSelectedComponentCB(LevelUI::DiffComponents index) {
+	if (index != 0 && this->selectedActor) {
+		this->selectedComponent = index;
+		this->selectedActor->addComponent(LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]));
+		updateActorBar();
+		this->selectedComponent = LevelUI::SELECT_COMPONENT;
+	}
+
+	//index
+	//this->selectedActor->addComponent()
+}
 LevelActorHandler::LevelActorHandler()
 	: worldBar( nullptr ), actorBar( nullptr ), selectedActor( nullptr )
 {
+	this->selectedComponent = LevelUI::SELECT_COMPONENT;
 }
 
 LevelActorHandler::~LevelActorHandler()
@@ -97,6 +127,8 @@ void LevelActorHandler::updateActorBar()
 	if( selectedActor )
 	{
 		selectedActor->setAsSelectedActor(actorBar->getBar());
+		TwAddVarCB(actorBar->getBar(), "MyName", LevelUI::TW_TYPE_COMPONENTS(), setComponentCallback, getComponentCallback, (void*)&selectedComponent, NULL);
+		//TwAddVarRW(actorBar->getBar(), "der", LevelUI::TW_TYPE_COMPONENTS(), &this->selectedComponent, NULL);
 		//for( std::map<std::string,LevelActorComponent*>::iterator it = selectedActor->getAllComponents().begin(); it != selectedActor->getAllComponents().end(); it++ )
 		//	it->second->setTwStruct( actorBar->getBar() );
 	}

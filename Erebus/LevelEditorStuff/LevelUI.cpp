@@ -1,6 +1,15 @@
 #include "LevelUI.h"
 #include "LevelActorHandler.h"
+#include "LevelTransform.h"
+#include "LevelModel.h"
+#include "levelpointlightcomponent.h"
+
 TwType LevelUI::vector3Tw = TW_TYPE_FLOAT;
+TwType LevelUI::componentTw = TW_TYPE_FLOAT;
+const char* LevelUI::actorBarName = "Actor";
+const char* LevelUI::worldBarName = "World";
+const char* LevelUI::assetBarName = "Assets";
+const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelModel::name, LevelPointLightComponent::name };
 
 void TW_CALL setEditorState(void * clientData)
 {
@@ -9,6 +18,7 @@ void TW_CALL setEditorState(void * clientData)
 
 LevelUI::LevelUI(GLFWwindow* window)
 {
+	
 	 //LevelUI::vector3Tw = TwDefineStruct("Vector3f", vector3fMember, 3, sizeof(uiVec3), NULL, NULL);
 	//LevelUI::vector3Tw =  TwDefineStruct("Vector3f", vector3fMember, 3, sizeof(uiVec3), NULL, NULL);
 	TwInit(TW_OPENGL_CORE, NULL);
@@ -16,15 +26,15 @@ LevelUI::LevelUI(GLFWwindow* window)
 
 	bars[0] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness())), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT),
-		glm::vec4(0, 128, 255, 200), "Actor");
+		glm::vec4(0, 128, 255, 200), actorBarName);
 
 	bars[1] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
-		glm::vec4(0, 128, 128, 200), "World");
+		glm::vec4(0, 128, 128, 200), worldBarName);
 
 	bars[2] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), WINDOW_HEIGHT*.5f),
 		glm::vec2((int)(WINDOW_WIDTH* TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
-		glm::vec4(0, 255, 128, 200), "Assets");
+		glm::vec4(0, 255, 128, 200), assetBarName);
 	
 	LevelActorHandler::getInstance()->setTweakBars( bars[1], bars[0] );
 

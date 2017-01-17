@@ -24,6 +24,8 @@ public:
 	void postInitialize() override;
 	void setParent(LevelActor* parent);
 	int getModelIndex();
+
+	void setTwStruct(TwBar * twBar) override;
 private:
 	std::string modelName;
 	int modelIndex, transformIndice;

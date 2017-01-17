@@ -118,6 +118,8 @@ Transform* LevelTransform::getTransformRef() {
 }
 
 void LevelTransform::setTwStruct(TwBar * twBar) {
+
+	//TwAddVarRO(twBar, "compName", TW_TYPE_CHAR, this->name, NULL);
 	TwAddVarRW(twBar, "Position", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getPosRef(), NULL);
 	TwAddVarRW(twBar, "Rotation", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getRotationRef(), NULL);
 	TwAddVarRW(twBar, "Scale", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getScaleRef(), NULL);

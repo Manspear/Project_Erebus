@@ -117,9 +117,19 @@ std::map<std::string, LevelActorComponent*>& LevelActor::getAllComponents()
 bool LevelActor::setAsSelectedActor(TwBar * bar)
 {
 	TwRemoveAllVars(bar);
+	int amountOfComponents = 0;
+	glm::vec3 colorLabel = { 255,0,0 };
 	for (auto it : this->actorComponents)
 	{
+		std::stringstream ss;
+		ss << " label='" << it.second->getName() << ": '";
+		std::string test = ss.str().c_str();
+		TwAddButton(bar, "Name"+amountOfComponents, NULL, NULL, ss.str().c_str());
+		//TwAddVarRW(bar, "name", TW_TYPE_CSSTRING(sizeof(it.second->getName())), (void*)it.second->getName().c_str(), "");
+		//TwDefine(ss.str().c_str());
 		it.second->setTwStruct(bar);
+		TwAddSeparator(bar, NULL, NULL);
+		amountOfComponents++;
 	}
 
 	return true;

@@ -85,10 +85,36 @@ class LevelUI
 {
 private:
 	TweakBar* bars[3];
-	std::string vec2ToString(glm::vec2& val, std::string type = "");
-	std::string vec3ToString(glm::vec3& val, std::string type = "");
+
+	
 public:
+	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, NUM_DIFF_COMPONENTS} DiffComponents;
+	static const char *componentLinker[];
+	TwEnumVal *componentsEVs;
+	TwType componentType;
+
+	static const char* actorBarName;
+	static const char* worldBarName;
+	static const char* assetBarName;
 	static TwType vector3Tw;
+	static TwType componentTw;
+	static std::string vec2ToString(glm::vec2& val, std::string type = "");
+	static std::string vec3ToString(glm::vec3& val, std::string type = "");
+#pragma region defines
+	static TwType TW_TYPE_COMPONENTS() {
+
+		TwEnumVal componentsEVs[] = { 
+			{ DiffComponents::SELECT_COMPONENT, "Select Component" },
+			{ DiffComponents::TRANSFORM, "Transform"},
+			{ DiffComponents::MODEL, "Model" } ,
+			{ DiffComponents::POINT_LIGHT, "Point Light"} 
+		};
+
+		if (componentTw == TW_TYPE_FLOAT) {
+			return componentTw = TwDefineEnum("SeasonType", componentsEVs, DiffComponents::NUM_DIFF_COMPONENTS);
+		}
+		return componentTw;
+	}
 
 	static TwType TW_TYPE_VECTOR3F() {
 		TwStructMember vector3fMember[] = {
@@ -101,6 +127,7 @@ public:
 		}
 		return vector3Tw;
 	}
+#pragma endregion
 	LevelUI(GLFWwindow* window);
 	~LevelUI();
 	void Draw();

@@ -3,6 +3,7 @@
 #include "BaseIncludes.h"
 #include "LevelActor.h"
 #include <map>
+#include "LevelActorFactory.h"
 
 class LevelActorHandler
 {
@@ -22,7 +23,12 @@ public:
 	LevelActor* getSelected();
 	std::map<unsigned int, LevelActor*>& getActors();
 
+	void setSelectedComponentCB(LevelUI::DiffComponents index);
+	LevelUI::DiffComponents getSelectedComponentCB(int index);
+
 private:
+	LevelUI::DiffComponents selectedComponent;
+	
 	typedef std::map<unsigned int, LevelActor*>::iterator ActorIT;
 
 	LevelActorHandler();
@@ -36,4 +42,7 @@ private:
 	std::map<unsigned int, LevelActor*> actors;
 	LevelActor* selectedActor;
 	TweakBar* worldBar, *actorBar;
+
+
+
 };
