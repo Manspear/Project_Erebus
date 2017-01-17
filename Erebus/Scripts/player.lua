@@ -23,6 +23,8 @@ function LoadPlayer()
 	player.heightmapIndex = 1
 	player.walkableIncline = 1
 	player.chargedspell = {}
+	player.timeSinceShot = 0
+	player.shootCD = 0.3
 
 
 	-- set basic variables for the player2
@@ -87,6 +89,7 @@ end
 
 function UpdatePlayer(dt)
 	if player.health > 0 then
+		player.timeSinceShot = player.timeSinceShot + dt
 		forward, left = 0, 0
 		player.testCamera = false
 
@@ -115,21 +118,21 @@ function UpdatePlayer(dt)
 			end
 		if Inputs.KeyPressed(Keys.Space) and player.canJump then
 			player.verticalSpeed = PLAYER_JUMP_SPEED
-				player.canJump = false
-				player.animationState = 2
-			end
-		if Inputs.ButtonDown(Buttons.Left) then
-			player.testCamera = true
-			player.animationState = 3
+			player.canJump = false
+			player.animationState = 2
 		end
 
 		if Inputs.ButtonDown(Buttons.Left) then
-			player.animationState = 2
-			for _,v in ipairs(player.spells[player.currentSpell]) do
-				if not v.alive then
-					v:Cast(0.5, false)
-					break
+			if player.timeSinceShot > player.shootCD then
+				player.animationState = 2
+				player.testCamera = true
+				for _,v in ipairs(player.spells[player.currentSpell]) do
+					if not v.alive then
+						v:Cast(0.5, false)
+						break
+					end
 				end
+				player.timeSinceShot = 0
 			end
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
