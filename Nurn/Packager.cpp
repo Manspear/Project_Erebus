@@ -14,7 +14,7 @@ Packager::~Packager()
 	}
 }
 
-unsigned char* Packager::getPacketPointer()
+unsigned char * Packager::getPacketPointer()
 {
 	return (unsigned char*)this->memory;
 }
@@ -59,10 +59,7 @@ void Packager::addTransformPackets(uint16_t &netPacketSize)
 
 void Packager::addMetaDataPacket(uint16_t type, uint16_t &netPacketSize, uint16_t sizeInBytes)
 {
-	MetaDataPacket metaDataPacket(type);
-	metaDataPacket.metaData.sizeInBytes = sizeInBytes;
-
-	memcpy(this->memory + netPacketSize, &metaDataPacket, sizeof(MetaDataPacket));
+	memcpy(this->memory + netPacketSize, &MetaDataPacket(type, sizeInBytes), sizeof(MetaDataPacket));
 
 	netPacketSize += sizeof(MetaDataPacket);
 }
