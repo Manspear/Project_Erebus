@@ -348,8 +348,8 @@
     <None Include="Scripts\timeOrbWave.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\console.lua">
-      <Filter>Scripts</Filter>
+    <None Include="Scripts\Animation_Controllers\playerController.lua">
+      <Filter>Scripts\Animation_Controllers</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +382,9 @@
     </Filter>
     <Filter Include="Header Files\LevelEditor">
       <UniqueIdentifier>{502f47db-5e0e-4d2a-9d9e-2d06ff3edf9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Animation_Controllers">
+      <UniqueIdentifier>{1a637a09-8032-4425-b2ba-e75706e96c23}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

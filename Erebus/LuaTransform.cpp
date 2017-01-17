@@ -41,6 +41,7 @@ namespace LuaTransform
 			{ "GetRotation",		getRotation },
 			{ "GetLookAt",			getLookAt },
 			{ "GetScale",			getScale },
+			{ "GetMovementDirection", getMoveDirection },
 			
 			{ "UpdateRotationFromLookVector", updateRotationFromLookVector},
 			{ NULL, NULL }
@@ -277,6 +278,38 @@ namespace LuaTransform
 
 			lua_pushnumber( lua, position.z );
 			lua_setfield( lua, -2, "z" );
+
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int getMoveDirection(lua_State* lua)//index, forward, left
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 3)
+		{
+			int index = lua_tointeger(lua, 1);
+			float forward = lua_tonumber(lua, 2);
+			float left = lua_tonumber(lua, 3);
+
+			glm::vec3 fwd = g_transforms[index].getLookAt();
+			glm::vec3 lfd = glm::cross(glm::normalize(glm::vec3(fwd.x, 0, fwd.z)), {0,1,0});
+			lfd *= left;
+			fwd = fwd*forward + lfd;
+
+
+			lua_newtable(lua);
+			lua_pushnumber(lua, fwd.x);
+			lua_setfield(lua, -2, "x");
+
+			lua_pushnumber(lua, fwd.y);
+			lua_setfield(lua, -2, "y");
+
+			lua_pushnumber(lua, fwd.z);
+			lua_setfield(lua, -2, "z");
 
 			result = 1;
 		}

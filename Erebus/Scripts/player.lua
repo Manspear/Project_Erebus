@@ -16,13 +16,16 @@ function LoadPlayer()
 	player.canJump = false
 	player.reachedGoal = false
 	player.health = 100
-	player.animation = Animation.Create()
-	player.animationState1 = 1
-	player.animationState2 = 1
-	player.attackTimer = 1
+	player.forward = 0
+	player.left = 0
 	player.timeScalar = 1.0
 	player.printInfo = false
 	player.heightmapIndex = 1
+	player.spamCasting = false
+	player.charging = false
+	
+	player.animation = Animation.Create()
+	player.controller = CreatePlayerController(player.animation, player)
 
 	-- set basic variables for the player2
 	player2.transformID = Transform.Bind()
@@ -92,7 +95,8 @@ end
 
 function UpdatePlayer(dt)
 	if player.health > 0 then
-		forward, left = 0, 0
+		player.forward = 0
+		player.left = 0
 		player.testCamera = false
 
 		dt = dt * player.timeScalar
@@ -100,33 +104,23 @@ function UpdatePlayer(dt)
 		local position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
-		player.animationState1 = 1
-		player.animationState2 = 17
-
-		if player.attackTimer > 0 then
-			player.animationState2 = 29
-		end
-
-		if player.attackTimer <= 0 then
-			player.animationState2 = 17
-		end
-
-		player.attackTimer = player.attackTimer - dt
 
 		if Inputs.KeyDown("W") then
-			forward = player.moveSpeed
+			player.forward = player.moveSpeed
 				player.animationState1 = 9
+				
+				--player.animation.controller:StateSwitch(9, 1)
 			end
 		if Inputs.KeyDown("S") then
-			forward = -player.moveSpeed
-				player.animationState1 = 13
+			player.forward = -player.moveSpeed
+				
 			end
 		if Inputs.KeyDown("A") then
-			left = player.moveSpeed
-				player.animationState1 = 11
+				player.left = player.moveSpeed
+				
 			end
 		if Inputs.KeyDown("D") then
-			left = -player.moveSpeed
+			player.left = -player.moveSpeed
 				player.animationState1 = 15		
 			end
 		if Inputs.KeyPressed(Keys.Space) and player.canJump then
@@ -135,7 +129,7 @@ function UpdatePlayer(dt)
 				player.animationState1 = 33
 			end
 		if Inputs.ButtonDown(Buttons.Left) then
-			player.testCamera = true
+				player.testCamera = true
 				player.animationState2 = 21
 			end
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -151,7 +145,7 @@ function UpdatePlayer(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 
-		Transform.Move(player.transformID, forward, player.verticalPosition, left, dt)
+		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
 
 		position = Transform.GetPosition(player.transformID)
 		position.y = position.y + player.verticalSpeed
@@ -178,10 +172,12 @@ function UpdatePlayer(dt)
 			Transform.SetPosition(id_2, {x=x_2, y=y_2, z=z_2})
 		end
 
-		--ANIMATION UPDATING
-		player.animation:Update(dt, player.animationState1, 0)
-		player.animation:Update(dt, player.animationState2, 1)
-		--player.animation:Update(dt, 1, 1)
+		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		--player.animation:Update(dt, player.animationState1, 0)
+		--player.animation:Update(dt, player.animationState2, 1)
+		----player.animation:Update(dt, 1, 1)
+		player.controller:AnimationUpdate(dt)
+
 		player.animation:UpdateShaderMatrices()
 	end
 		-- update the current player spell

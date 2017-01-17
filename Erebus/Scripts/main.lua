@@ -18,7 +18,9 @@ local scriptFiles =
 	"Scripts/fireGroundAoE.lua",
 	"Scripts/groundAoEType.lua",
 	"Scripts/timeOrbWave.lua",
-	"Scripts/orbWaveType.lua"}
+	"Scripts/orbWaveType.lua",
+	"Scripts/Animation_Controllers/playerController.lua",
+}
 local drawHitboxes = false
 
 function Load()
