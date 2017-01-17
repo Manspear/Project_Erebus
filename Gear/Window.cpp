@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Inputs.h"
+#include "GLFW\glfw3native.h"
 
 Window::Window()
 {
@@ -35,7 +36,7 @@ void Window::initWindow()
 	}
 
 	// DEBUG: This moves the main window out of the way of the console window
-	glfwSetWindowPos( window, 128, 64 );
+	glfwSetWindowPos( window, WINDOW_X, WINDOW_Y );
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
@@ -62,7 +63,11 @@ void Window::initWindow()
 																 //glfwSetCursorPosCallback(window, (GLFWcursorposfun)TwEventMousePosGLFW3);
 																 //glfwSetKeyCallback(window, (GLFWkeyfun))
 
+	HWND consoleHandle = GetConsoleWindow();
+	SetWindowPos( consoleHandle, NULL, CONSOLE_X, CONSOLE_Y, 0, 0, SWP_NOSIZE );
 
+	HWND windowHandle = glfwGetWin32Window( window );
+	SetFocus( windowHandle );
 }
 
 bool Window::isWindowOpen() 
