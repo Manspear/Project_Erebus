@@ -175,6 +175,9 @@
     <ClInclude Include="NetworkController.hpp">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
+    <ClInclude Include="LuaMath.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
