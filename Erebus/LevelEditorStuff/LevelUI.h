@@ -78,13 +78,26 @@ public:
 	void deleteTweakBar() {
 		TwDeleteBar(this->bar);
 	}
+
+	glm::vec2 getPos() {
+		return posVal;
+	}
+
+	glm::vec2 getSize() {
+		return sizeVal;
+	}
+
+	const std::string& getName() const {
+		return barName;
+	}
 };
 
 class LevelActorHandler;
+class LevelAssetHandler;
 class LevelUI
 {
 private:
-	TweakBar* bars[3];
+	TweakBar* bars[4];
 
 	
 public:
@@ -96,6 +109,7 @@ public:
 	static const char* actorBarName;
 	static const char* worldBarName;
 	static const char* assetBarName;
+	static const char* assetContextBarName;
 	static TwType vector3Tw;
 	static TwType componentTw;
 	static std::string vec2ToString(glm::vec2& val, std::string type = "");

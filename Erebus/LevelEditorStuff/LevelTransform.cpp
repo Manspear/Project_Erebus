@@ -6,22 +6,21 @@ const char* LevelTransform::name = "LevelTransform";
 
 LevelTransform::LevelTransform()
 {
-	
+	transformStructTemp = new TransformStruct();
+	this->transformRef = new Transform();
+	transformRef->setThePtr(transformStructTemp);
 }
 
 
 LevelTransform::~LevelTransform()
 {
-
+	delete this->transformStructTempStuff;
 }
 
 void LevelTransform::initialize(tinyxml2::XMLElement* element)
 {
 	std::string test = element->FirstChildElement("Position")->Attribute("x");
-	this->transformRef = new Transform();
-	this->transformStructTemp = new TransformStruct();
 	this->transformRef->setThePtr(this->transformStructTemp);
-	//transformRef->setPos()
 
 	float xPos;
 	float yPos;

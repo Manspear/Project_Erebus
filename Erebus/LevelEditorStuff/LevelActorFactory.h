@@ -18,6 +18,7 @@ public:
 	LevelActorFactory();
 	LevelActorFactory(LevelTransformHandler* transformHandlerRef, LevelModelHandler* modelHandlerRef);
 	~LevelActorFactory();
+	LevelActor* createActor();
 	LevelActor* createActor(std::string name);
 	const char* getPath(unsigned int id);
 	void deleteSavedPaths();

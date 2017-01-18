@@ -18,6 +18,7 @@ public:
 	void updateActors();
 	
 	void setSelected( unsigned int id );
+	void setSelected( LevelActor* actor );
 	void setTweakBars( TweakBar* world, TweakBar* actor );
 
 	LevelActor* getSelected();

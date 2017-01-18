@@ -2,11 +2,9 @@
 
 const char* LevelModel::name = "LevelModel";
 
-
-
 LevelModel::LevelModel()
 {
-
+	modelName = "testGuy";
 }
 
 
@@ -55,7 +53,6 @@ void LevelModel::postInitialize()
 	transformIndice = handlerRef->loadModel(this->modelName,parent->id);
 
 	thisTransform->setTransform(transformIndice);
-	
 }
 
 int LevelModel::getModelIndex() {
@@ -104,4 +101,21 @@ void LevelModel::setTwStruct(TwBar * twBar) {
 	ss << " label='" <<"Model: "<< this->modelName << "' ";
 	std::string test = ss.str().c_str();
 	TwAddButton(twBar, "modelName", NULL, NULL, ss.str().c_str());
+}
+
+void LevelModel::setModelName( std::string name )
+{
+	if( name != modelName )
+	{
+		modelName = name;
+
+		//postInitialize();
+
+		LevelModelHandler::getInstance()->replaceModel( modelName, parent->id );
+	}
+}
+
+const std::string& LevelModel::getModelName() const
+{
+	return modelName;
 }

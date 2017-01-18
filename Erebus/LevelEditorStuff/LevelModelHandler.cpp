@@ -11,7 +11,7 @@ LevelModelHandler::LevelModelHandler(LevelTransformHandler* transHandlerRef,
 	this->transformHandlerRef = transHandlerRef;
 	this->engineRef = gearRef;
 	this->assetsRef = assetRef;
-	modelToActorID.resize(100);
+	//modelToActorID.resize(100);
 	modelInstanceAgentIDs.resize(100);
 }
 
@@ -26,10 +26,10 @@ std::vector<AnimatedInstance>* LevelModelHandler::getAnimatedModels() {
 	return &this->animatedModels;
 }
 
-std::vector<std::vector<int>>* LevelModelHandler::getModelToActorID()
+/*std::vector<std::vector<int>>* LevelModelHandler::getModelToActorID()
 {
 	return &this->modelToActorID;
-}
+}*/
 
 std::vector<std::vector<std::pair<int, unsigned int>>>* LevelModelHandler::getModelInstanceAgentIDs()
 {
@@ -65,4 +65,69 @@ int LevelModelHandler::loadModel(std::string modelName, unsigned int &actorID) {
 
 	return transformIndice;
 
+}
+
+void LevelModelHandler::replaceModel( std::string modelName, unsigned int actorID )
+{
+	std::string location = "Models/" + modelName + ".model";
+	ModelAsset* asset = assetsRef->load<ModelAsset>(location);
+
+	if( asset )
+	{
+		// remove old instance
+		std::vector<std::pair<int,unsigned int>>::iterator instanceAgentIT;
+		int instanceAgentIndex = -1;
+		ModelInstance* oldInstance = nullptr;
+		int oldWorldIndex = -1;
+		for( int i=0; i<modelInstanceAgentIDs.size() && !oldInstance; i++ )
+		{
+			for( int j=0; j<modelInstanceAgentIDs[i].size() && !oldInstance; j++ )
+			{
+				if( modelInstanceAgentIDs[i][j].second == actorID )
+				{
+					oldInstance = &models[i];
+					oldWorldIndex = modelInstanceAgentIDs[i][j].first;
+
+					instanceAgentIT = modelInstanceAgentIDs[i].begin() + j;
+					instanceAgentIndex = i;
+				}
+			}
+		}
+
+		if( oldInstance )
+		{
+			std::vector<int>::iterator indexIT = oldInstance->worldIndices.end();
+			for( std::vector<int>::iterator it = oldInstance->worldIndices.begin(); it != oldInstance->worldIndices.end() && indexIT == oldInstance->worldIndices.end(); it++ )
+			{
+				if( *it == oldWorldIndex )
+					indexIT = it;
+			}
+
+			if( indexIT != oldInstance->worldIndices.end() )
+				oldInstance->worldIndices.erase( indexIT );
+
+			modelInstanceAgentIDs[instanceAgentIndex].erase(instanceAgentIT);
+		}
+
+		// add new instance
+		int index = -1;
+		for( int i=0; i<models.size(); i++ )
+			if( models.at(i).asset == asset )
+				index = i;
+
+		if( index < 0 )
+		{
+			ModelInstance instance;
+			instance.asset = asset;
+
+			index = models.size();
+			models.push_back( instance );
+		}
+
+		models[index].worldIndices.push_back(oldWorldIndex);
+		std::pair<int, unsigned int> agentInfo;
+		agentInfo.first = oldWorldIndex;
+		agentInfo.second = actorID;
+		modelInstanceAgentIDs[index].push_back(agentInfo);
+	}
 }

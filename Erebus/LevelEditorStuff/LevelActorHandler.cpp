@@ -23,7 +23,10 @@ LevelUI::DiffComponents LevelActorHandler::getSelectedComponentCB(int index)
 void LevelActorHandler::setSelectedComponentCB(LevelUI::DiffComponents index) {
 	if (index != 0 && this->selectedActor) {
 		this->selectedComponent = index;
-		this->selectedActor->addComponent(LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]));
+		//this->selectedActor->addComponent(LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]));
+		LevelActorComponent* c = LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]);
+		selectedActor->addComponent(c);
+		c->postInitialize();
 		updateActorBar();
 		this->selectedComponent = LevelUI::SELECT_COMPONENT;
 	}
@@ -83,6 +86,11 @@ void LevelActorHandler::setSelected( unsigned int id )
 		selectedActor = nullptr;
 }
 
+void LevelActorHandler::setSelected( LevelActor* actor )
+{
+	setSelected( actor->id );
+}
+
 void LevelActorHandler::setTweakBars( TweakBar* world, TweakBar* actor )
 {
 	worldBar = world;
@@ -116,7 +124,10 @@ void LevelActorHandler::updateWorldBar()
 	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 	{
 		char buf[64] = {};
-		sprintf_s( buf, "label='%s'", it->second->getActorType().c_str() );
+		if( it->second->getActorType().size() > 0 )
+			sprintf_s( buf, "label='%s'", it->second->getActorType().c_str() );
+		else
+			sprintf_s( buf, "label='%s'", "Actor" );
 		TwAddButton( worldBar->getBar(), NULL, onActorSelected, it->second, buf );
 	}
 }

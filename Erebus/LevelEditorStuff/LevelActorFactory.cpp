@@ -38,6 +38,14 @@ LevelActorFactory::~LevelActorFactory()
 	}
 }
 
+LevelActor* LevelActorFactory::createActor()
+{
+	LevelActor* actor = new LevelActor(++actorID);
+	actor->addComponent( getNewComponent( LevelTransform::name ) );
+
+	return actor;
+}
+
 LevelActor* LevelActorFactory::createActor(std::string name)
 {
 	std::string fullPath = folder + name + fileExtension;
@@ -137,8 +145,7 @@ tinyxml2::XMLDocument* LevelActorFactory::getDocument(std::string path) {
 LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentName)
 {
 	LevelActorComponent* returnComponent = nullptr;
-	//this->transformHandler->b
-	//Ugly if, but works
+
 	if (componentName == LevelTransform::name)
 	{
 		returnComponent = new LevelTransform();

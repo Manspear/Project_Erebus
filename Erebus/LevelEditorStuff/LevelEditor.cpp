@@ -12,6 +12,19 @@ LevelEditor::~LevelEditor()
 	delete this->camera;
 }
 
+enum { CURSOR_SELECT, CURSOR_NEW_ACTOR };
+int cursorMode = CURSOR_SELECT;
+
+void TW_CALL onSelect( void* arg )
+{
+	cursorMode = CURSOR_SELECT;
+}
+
+void TW_CALL onNewActor( void* arg )
+{
+	cursorMode = CURSOR_NEW_ACTOR;
+}
+
 void LevelEditor::start() {
 	this->engine = new Gear::GearEngine();
 	Importer::Assets assets;
@@ -93,10 +106,16 @@ void LevelEditor::start() {
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
 	LevelAssetHandler::getInstance()->setAssets( &assets );
+	LevelAssetHandler::getInstance()->setInputs( inputs );
 	LevelAssetHandler::getInstance()->load();
 
 	TwBar* componentsBar = TwNewBar( "Components" );
 	LevelActorFactory::getInstance()->addToBar( componentsBar );
+
+	TwBar* actionBar = TwNewBar( "Actions" );
+	
+	TwAddButton( actionBar, "Select", onSelect, NULL, NULL );
+	TwAddButton( actionBar, "New Actor", onNewActor, NULL, NULL );
 
 	while (running && window.isWindowOpen())
 	{
@@ -174,34 +193,27 @@ void LevelEditor::start() {
 		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 		{
 			pick();
-			glm::mat4 proj = camera->getProjectionMatrix();
+			if( cursorMode == CURSOR_SELECT )
+				LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
+			else if( cursorMode == CURSOR_NEW_ACTOR )
+			{
 
 			hasHit = this->tempSelectedHitPoint != glm::vec3(0);
 
 			if (hasHit) {
 				LevelActor* newActor = factory->createActor(LevelPrefabHandler::getInstance()->getSelectedPrefab());
 				if (newActor)
-				{
-					//actors.push_back( newActor );
+					{
 					LevelActorHandler::getInstance()->addActor(newActor);
 
 					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
-					//newActor->addComponent(new LevelPointLightComponent());
-					//newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
-					//newActor->getComponent<LevelPointLightComponent>()->setRadius(24);
+					}
 
-					////Lights::PointLight tempLight;// = new Lights::PointLight;
-					//newActor->getComponent<LevelPointLightComponent>()->light.pos = glm::vec4(hitPoint.x, hitPoint.y+20, hitPoint.z,1);
-					//newActor->getComponent<LevelPointLightComponent>()->light.radius = glm::vec4(24,0,0,0);
-					//newActor->getComponent<LevelPointLightComponent>()->light.color  = glm::vec4(0.4, 0.4, 0.4, 1);
-					//lights.push_back(&newActor->getComponent<LevelPointLightComponent>()->light);
-					//newActor->SetAgent(ui->getMainBar());
-					//ui->SetAgent(newActor);
-				}
-			}
-
-			if (this->tempSelectedActorID != 0) {
-				LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
+					LevelActor* newActor = factory->createActor();
+					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(form>()->getTransformRef());
+					LevelActorHandler::getInstance()->addActor(newActor);
+					LevelActorHandler::getInstance()->setSelected(newActor);
+				}			
 			}
 
 			
@@ -212,6 +224,9 @@ void LevelEditor::start() {
 		{
 			Debugger::getInstance()->drawSphere(tempSelectedHitPoint, 0.5f );
 		}
+
+		if( LevelActorHandler::getInstance()->getSelected() )
+			Debugger::getInstance()->drawSphere( LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getPos(), 2.0f );
 
 		/*for( int x = 0; x<hm->mapWidth-1; x++ )
 		{
@@ -253,6 +268,7 @@ void LevelEditor::pick() {
 	engine->pickActorFromWorld(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
 		this->inputs->getMousePos(), tempSelectedActorID, tempSelectedHitPoint);
 		
+	
 	/*
 	Agent Ids
 	Static models 
