@@ -176,6 +176,7 @@
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="RayCollider.cpp" />
+    <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -286,6 +287,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RayCollider.h" />
+    <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
