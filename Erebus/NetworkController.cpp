@@ -4,6 +4,8 @@ NetworkController::NetworkController()
 {
 	networkHost = true;
 	running = false;
+	sendFrequency = 0.0167; // 60 times a second
+	recFrequency = 0.0167; // 60 times a second
 }
 
 NetworkController::~NetworkController()
@@ -42,19 +44,26 @@ void NetworkController::shutdown()
 {
 	if (running == true)
 	{
+		running = false;
 		sendingThread.join();
 		receiveThread.join();
 	}
-
-	running = false;
 }
 
 void NetworkController::startNetworkSending()
 {
 	while (running)
-	{		
-		network.Send();
-		Sleep(200);
+	{
+		double deltaTime = counter->getNetworkSendDeltaTime();
+		if (deltaTime > sendFrequency)
+		{
+			network.Send();
+		}
+		else
+		{
+			Sleep(sendFrequency - deltaTime);
+			network.Send();
+		}
 	}
 }
 
@@ -62,9 +71,16 @@ void NetworkController::startNetworkReceiving()
 {
 	while (running)
 	{
-		printf("Recieving package\n");
-		network.Receive();
-		Sleep(100);
+		double deltaTime = counter->getNetworkRecDeltaTime();
+		if (deltaTime > recFrequency)
+		{
+			network.Receive();
+		}
+		else
+		{
+			Sleep(recFrequency - deltaTime);
+			network.Receive();
+		}
 	}
 }
 
@@ -76,8 +92,10 @@ void NetworkController::acceptNetworkCommunication()
 	}
 }
 
-void NetworkController::startCommunicationThreads()
+void NetworkController::startCommunicationThreads(PerformanceCounter * counter)
 {
+	this->counter = counter;
+
 	sendingThread = std::thread(&NetworkController::startNetworkSending, this);
 
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);

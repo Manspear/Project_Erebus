@@ -13,10 +13,12 @@
 
 #include "LevelEditor.h"
 
-#include"GamePlay.h"
-#include"Menu.h"
+#include "GamePlay.h"
+#include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
+
+#include "SoundEngine.h"
 
 bool running = true;
 
@@ -25,6 +27,7 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;
+	SoundEngine soundEngine;
 
 	GameState gameState = MenuState;
 	window.changeCursorStatus(false);
@@ -64,6 +67,8 @@ int main()
 	
 	inputs.getMousePos();
 
+	soundEngine.play("getout.ogg", true);
+
 	while (running && window.isWindowOpen())
 	{	
 
@@ -77,18 +82,33 @@ int main()
 			gameState = menu->Update(inputs);
 			if (gameState == HostGameplayState)
 			{
-				gamePlay->StartNetwork(true);
-				gameState = GameplayState;
+				if (gamePlay->StartNetwork(true, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
 			}
 
 			if (gameState == ClientGameplayState)
 			{
-				gamePlay->StartNetwork(false);
-				gameState = GameplayState;
+				if (gamePlay->StartNetwork(false, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
 			}
 
 			if (gameState == GameplayState)
 			{
+				soundEngine.play("bell.wav");
 				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
