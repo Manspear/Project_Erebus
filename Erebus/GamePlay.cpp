@@ -66,6 +66,7 @@
 		engine->queueDynamicModels(&models);
 		engine->queueAnimModels(&animatedModels);
 		engine->queueParticles(&ps);
+		engine->addDebugger(Debugger::getInstance());
 	}
 
 	GamePlay::~GamePlay()

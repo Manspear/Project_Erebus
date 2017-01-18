@@ -195,14 +195,17 @@ namespace Gear
 		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
 
 		Camera cam;
-		cam.setPosition(glm::vec3(0.0f));
-		cam.setView(glm::lookAt(glm::vec3(50.0f, 0.0f, 0.0f), glm::vec3(50.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+		cam.setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
+		cam.setView(glm::lookAt(glm::vec3(0.0f, 0.0f, 100.0f), glm::vec3(-1.0f, 0.0f, 100.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 		cam.setprojection(glm::perspectiveFov(45.f, 1280.f, 720.f, 0.1f, 2000.f));
+		//cam.setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
+		//cam.setDirection(glm::vec3(1.0f, 0.0f, 0.0f));
+
 
 		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], &cam);
 		map.calcOrthoProjs(&cam);
 
-		tempCamera.setView(map.viewMatrices[0]);
+		tempCamera.setView(glm::mat4());
 		tempCamera.setprojection(map.projectionMatrices[0]);
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
@@ -211,12 +214,17 @@ namespace Gear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
-		shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
+		//shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
 		Debug* temp = Debugger::getInstance();
 		temp->drawAABB(map.minAABB[0], map.maxAABB[0], glm::vec3(1.0f,0,0));
 		temp->drawAABB(map.minAABB[1], map.maxAABB[1], glm::vec3(0, 1.0f, 0));
 		temp->drawAABB(map.minAABB[2], map.maxAABB[2], glm::vec3(0, 0, 1.0f));
-		temp->drawAABB(map.minAABB[3], map.maxAABB[3], glm::vec3(0.5f, 0.5f, 0));
+		temp->drawAABB(map.minAABB[3], map.maxAABB[3], glm::vec3(0.5f, 0.0f, 0.5f));
+
+		//temp->drawAABB((glm::vec3)(map.viewMatrices[0] * glm::vec4(map.minAABB[0], 1)), (glm::vec3)(map.viewMatrices[0] * glm::vec4(map.maxAABB[0], 1)), glm::vec3(1.0f, 0, 0));
+		//temp->drawAABB((glm::vec3)(map.viewMatrices[1] * glm::vec4(map.minAABB[1], 1)), (glm::vec3)(map.viewMatrices[1] * glm::vec4(map.maxAABB[1], 1)), glm::vec3(0, 1.0f, 0));
+		//temp->drawAABB((glm::vec3)(map.viewMatrices[2] * glm::vec4(map.minAABB[2], 1)), (glm::vec3)(map.viewMatrices[2] * glm::vec4(map.maxAABB[2], 1)), glm::vec3(0, 0, 1.0f));
+		//temp->drawAABB((glm::vec3)(map.viewMatrices[3] * glm::vec4(map.minAABB[3], 1)), (glm::vec3)(map.viewMatrices[3] * glm::vec4(map.maxAABB[3], 1)), glm::vec3(0.5f, 0.5f, 0));
 
 		queue.updateUniforms(camera);
 		gBuffer.use();
@@ -247,6 +255,54 @@ namespace Gear
 		text.draw();
 
 		glViewport(0, 0, 200, 200);
+		quadShader->use();
+		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		drawQuad();
+		quadShader->unUse();
+
+
+		tempCamera.setView(map.viewMatrices[1]);
+		tempCamera.setprojection(map.projectionMatrices[1]);
+
+		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
+		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
+		shadowMap.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
+		shadowMap.unUse();
+		glViewport(200, 0, 200, 200);
+		quadShader->use();
+		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		drawQuad();
+		quadShader->unUse();
+
+
+		tempCamera.setView(map.viewMatrices[2]);
+		tempCamera.setprojection(map.projectionMatrices[2]);
+
+		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
+		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
+		shadowMap.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
+		shadowMap.unUse();
+		glViewport(400, 0, 200, 200);
+		quadShader->use();
+		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		drawQuad();
+		quadShader->unUse();
+
+
+		tempCamera.setView(map.viewMatrices[3]);
+		tempCamera.setprojection(map.projectionMatrices[3]);
+
+		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
+		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
+		shadowMap.use();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
+		shadowMap.unUse();
+		glViewport(600, 0, 200, 200);
 		quadShader->use();
 		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
 		drawQuad();
@@ -373,7 +429,7 @@ namespace Gear
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); //unbind buffer
 
 		Lights::DirLight dirLight; //add one dir light
-		dirLight.direction = glm::vec3(-0.0f, -0.8f, 0.2f);
+		dirLight.direction = glm::vec3(0.0f, -0.8f, 0.2f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 

@@ -29,6 +29,7 @@ public:
 	GEAR_API float getNearPlane();
 	GEAR_API float getFarPlane();
 	GEAR_API float getFoV() { return this->FoV; }
+	GEAR_API void setDirection(glm::vec3 dir) { this->camDirection = dir; }
 private:
 	Inputs *inputs;
 	bool freeCam;
