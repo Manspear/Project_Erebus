@@ -58,6 +58,8 @@ private:
 	Inputs* inputs;
 	Window window;
 	std::vector<LevelActor*> actors;
+	int tempSelectedActorID;
+	glm::vec3 tempSelectedHitPoint;
 
 	void pick();
 public:

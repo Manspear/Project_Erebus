@@ -175,19 +175,17 @@ void LevelEditor::start() {
 		{
 			pick();
 			glm::mat4 proj = camera->getProjectionMatrix();
-			Ray ray( w, &proj );
-			ray.updateRay( camera->getViewMatrix(), camera->getPosition() );
 
-			hasHit = hm->rayIntersection( ray.rayPosition, ray.rayDirection, &hitPoint );
-			if( hasHit )
-			{
-				LevelActor* newActor = factory->createActor( LevelPrefabHandler::getInstance()->getSelectedPrefab() );
-				if( newActor )
+			hasHit = this->tempSelectedHitPoint != glm::vec3(0);
+
+			if (hasHit) {
+				LevelActor* newActor = factory->createActor(LevelPrefabHandler::getInstance()->getSelectedPrefab());
+				if (newActor)
 				{
 					//actors.push_back( newActor );
-					LevelActorHandler::getInstance()->addActor( newActor );
+					LevelActorHandler::getInstance()->addActor(newActor);
 
-					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
 					//newActor->addComponent(new LevelPointLightComponent());
 					//newActor->getComponent<LevelPointLightComponent>()->setPos(glm::vec3(hitPoint.x, hitPoint.y, hitPoint.z));
 					//newActor->getComponent<LevelPointLightComponent>()->setRadius(24);
@@ -201,12 +199,18 @@ void LevelEditor::start() {
 					//ui->SetAgent(newActor);
 				}
 			}
+
+			if (this->tempSelectedActorID != 0) {
+				LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
+			}
+
+			
 			
 		}
 		engine->queueLights(&lights);
 		if( hasHit )
 		{
-			Debugger::getInstance()->drawSphere( hitPoint, 0.5f );
+			Debugger::getInstance()->drawSphere(tempSelectedHitPoint, 0.5f );
 		}
 
 		/*for( int x = 0; x<hm->mapWidth-1; x++ )
@@ -244,11 +248,11 @@ void LevelEditor::start() {
 }
 
 void LevelEditor::pick() {
-	
-	unsigned int pickedActorID = engine->pickActorIDFromColor(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
-		this->inputs->getMousePos());
-	if(pickedActorID!=0)
-		LevelActorHandler::getInstance()->setSelected(pickedActorID);
+	int actorID = 0;
+	glm::vec3 hitPoint = { 0,0,0 };
+	engine->pickActorFromWorld(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
+		this->inputs->getMousePos(), tempSelectedActorID, tempSelectedHitPoint);
+		
 	/*
 	Agent Ids
 	Static models 

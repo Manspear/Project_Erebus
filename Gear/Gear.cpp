@@ -2,6 +2,7 @@
 //Temp
 #include <random>
 #include <math.h>
+#include <glm/gtx/string_cast.hpp> 
 
 struct ScreenVertex
 {
@@ -16,7 +17,7 @@ namespace Gear
 		//renderQueue.init();
 		queue.init();
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
-		image.init(1280, 720);
+		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		//screenQuad.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
@@ -240,63 +241,106 @@ namespace Gear
 		text.draw();
 	}
 
-	int Gear::GearEngine::pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse)
+	glm::vec3 Gear::GearEngine::getPixelColor(MousePos mouse, GLenum colorAttach) {
+
+		glReadBuffer(colorAttach);
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		float data[3];
+		glReadPixels(mouse.x, WINDOW_HEIGHT - mouse.y, 1, 1, GL_RGB, GL_FLOAT, data);
+		return glm::vec3(data[0], data[1], data[2]);
+	}
+
+	void Gear::GearEngine::pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos)
 	{
+#pragma region drawPicking
 		queue.update(*transformCount, *allTrans);
 		queue.updateUniforms(camera);
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.pickingPass(models, ModelInstanceAgentIDs);
-		
+
 		//queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
-		
+
 		//queue.pickingPass(dynamicModels);
 
 		glFlush();
 		glFinish();
-		glReadBuffer(GL_COLOR_ATTACHMENT2);
+#pragma endregion
+		
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		unsigned char data[3];
-		glReadPixels(mouse.x, WINDOW_HEIGHT-mouse.y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
-		int pickedID = data[0] +
-			data[1] * 256 +
-			data[2] * 256 * 256;
-		//std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
-		//std::cout << pickedID<< " " << mouse.x<<" " << mouse.y << std::endl;
+		glm::vec3 colorAgentID = getPixelColor(mouse, GL_COLOR_ATTACHMENT2);
+		glm::vec3 colorPosition = getPixelColor(mouse, GL_COLOR_ATTACHMENT0);
+		
+
+		int pickedID = colorAgentID[0]*256 +
+			colorAgentID[1] * 256*256 +
+			colorAgentID[2] * 256 * 256*256;
+
+		
+		actorID = pickedID;
+		hitPos = colorPosition;
+		std::cout << glm::to_string(colorPosition) << std::endl;
 		//if (pickedID == 0x00000000) {
 		//	std::cout << "looking at background!" << std::endl;
 		//}
 		//else
 		//	std::cout << "Looking at something :): " << pickedID << std::endl;
+		//gBufferPicking.unUse();
 		gBuffer.unUse();
+		/*
 		
-		return pickedID;
-	}
 
-	void GearEngine::pickingPass() {
-		gBuffer.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//queue.pickingPass(dynamicModels);
+#pragma region draw
+
+		Camera tempCamera;
+
+		glm::vec3 offset;
+		offset.x = camera->getDirection().x * 20.0f;
+		offset.y = 0.0f;
+		offset.z = camera->getDirection().z * 20.0f;
+
+		glm::vec3 pos;
+		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
+		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
+		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
+
+
+
+		glm::vec3 target;
+
+		target.x = camera->getPosition().x + offset.x;
+		target.y = 0.0f;
+		target.z = camera->getPosition().z + offset.z;
+
+		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
+
+		tempCamera.setView(view);
+		tempCamera.setprojection(dirLights[0].projection);
+
 		
-		glFlush();
-		glFinish();
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+#pragma endregion
 
-		unsigned char data[3];
-		glReadPixels(1024 / 2, 768 / 2, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
+		lightPass(camera, &tempCamera); //renders the texture with light calculations
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
-		int pickedID = data[0] +
-			data[1] * 256 +
-			data[2] * 256 * 256;
-		std::cout << "Color: R: " << (int)data[0] << " | G: " << (int)data[1] << " | B: " << (int)data[2] << std::endl;
-		//if (pickedID == 0x00000000) {
-		//	std::cout << "looking at background!" << std::endl;
-		//}
-		//else
-		//	std::cout << "Looking at something :): " << pickedID << std::endl;
-		gBuffer.unUse();
+		updateDebug(camera);
+
+		skybox.update(camera);
+		skybox.draw();
+		queue.particlePass(particleSystems);
+
+		//Clear lists
+		staticModels = &defaultModelList;
+		dynamicModels = &defaultModelList;
+
+		image.draw();
+		text.draw();
+		*/
+		
 	}
 
 	void GearEngine::allocateWorlds(int n)

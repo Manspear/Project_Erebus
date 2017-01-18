@@ -63,8 +63,7 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
-
-		GEAR_API int pickActorIDFromColor(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse);
+		GEAR_API void pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos);
 		//----------------------
 
 	private:
@@ -120,9 +119,9 @@ namespace Gear
 
 		TextRenderer text;
 		ImageRenderer image;
+		glm::vec3 getPixelColor(MousePos mouse, GLenum colorAttach);
 
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
-		void pickingPass();
 		void drawQuad(); //Draw Screen quad
 		void updateDebug(Camera* camera);
 		void BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale); //Blur texture post processing
