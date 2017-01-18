@@ -103,6 +103,15 @@
     <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionChecker.cpp" />
+    <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="LuaMath.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="OBBCollider.cpp" />
+    <ClCompile Include="RayCollider.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelGizmo.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -205,6 +214,15 @@
       <Filter>Lua\Header</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelActorHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionChecker.h" />
+    <ClInclude Include="GamePlay.h" />
+    <ClInclude Include="LuaMath.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="OBBCollider.h" />
+    <ClInclude Include="RayCollider.h" />
+    <ClInclude Include="LevelEditorStuff\LevelGizmo.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -351,6 +369,11 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\console.lua" />
+    <None Include="Scripts\orbWaveType.lua" />
+    <None Include="Scripts\timeOrbWave.lua" />
+    <None Include="Shaders\image.frag" />
+    <None Include="Shaders\image.geom" />
+    <None Include="Shaders\image.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
