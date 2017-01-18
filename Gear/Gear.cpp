@@ -258,7 +258,8 @@ namespace Gear
 		tempCamera.setprojection(dirLights[0].projection);
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
+		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);		
+		
 		shadowMap.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
@@ -273,37 +274,29 @@ namespace Gear
 		gBuffer.unUse();
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
-		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-		particleFBO.use();
-		//glClear(GL_COLOR_BUFFER_BIT);
-		//queue.particleSort(&particleSystems, camera->getPosition());
-		queue.particlePass(particleSystems);
-		particleFBO.unUse();
-
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		glm::vec3 temp = camera->getPosition();
+		camera->setPosition({ 0,0,0 });
+		queue.updateUniforms(camera);
+		camera->setPosition(temp);
+		queue.particlePass(particleSystems);
 
-				
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
+		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
-
-		
-		
-
 		updateDebug(camera);
 
 		skybox.update(camera);
 		skybox.draw();
-	
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		effectShader->use();
 		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
 		drawQuad();
 		effectShader->unUse();
-		glDisable(GL_BLEND);
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -354,7 +347,7 @@ namespace Gear
 	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
 		lightPassShader->use();
-		//glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2, 2);
