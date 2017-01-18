@@ -6,18 +6,20 @@ AABBCollider::AABBCollider() : HitBox()
 {
 	this->minPos = glm::vec3(-1,-1,-1);
 	this->maxPos = glm::vec3(1,1,1);
-	this->centerPos = glm::vec3();
+	this->pos = glm::vec3();
 	this->maxPosTotal = glm::vec3();
 	this->minPosTotal = glm::vec3();
+	this->typeFlag = 1;
 }
 
 AABBCollider::AABBCollider(int IDTransform) : HitBox(IDTransform)
 {
 	this->minPos = glm::vec3(1, 1, 1);
 	this->maxPos = glm::vec3(-1, -1, -1);
-	this->centerPos = glm::vec3();
+	this->pos = glm::vec3();
 	this->maxPosTotal = glm::vec3();
 	this->minPosTotal = glm::vec3();
+	this->typeFlag = 1;
 }
 
 AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(IDTransform)
@@ -26,21 +28,31 @@ AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) 
 	this->maxPos = maxPos;
 	this->minPosTotal = minPos;
 	this->maxPosTotal = maxPos;
-	this->centerPos = glm::vec3();
+	this->pos = glm::vec3();
+	this->typeFlag = 1;
 }
 
 AABBCollider::AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerPos) : HitBox()
 {
 	this->minPos = minPos;
 	this->maxPos = maxPos;
-	this->minPosTotal = minPos;
-	this->maxPosTotal = maxPos;
-	this->centerPos = centerPos;
+	this->pos = centerPos;
+	this->minPosTotal = minPos + this->pos;
+	this->maxPosTotal = maxPos + this->pos;
+	this->typeFlag = 1;
+	
 }
 
 
 AABBCollider::~AABBCollider()
 {
+	if (this->children != nullptr)
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			delete this->children->at(0);
+		}
+	}
 }
 
 bool AABBCollider::AabbToAabb(const AABBCollider* aabb)
@@ -65,7 +77,7 @@ const glm::vec3& AABBCollider::getMinPos() const
 
 const glm::vec3 & AABBCollider::getCenterPos() const
 {
-	return this->centerPos;
+	return this->pos;
 }
 
 unsigned int AABBCollider::getID() const
@@ -95,9 +107,9 @@ void AABBCollider::clearCollisionIDs()
 
 void AABBCollider::setPos(glm::vec3 pos)
 {
-	this->centerPos = pos;
-	this->maxPosTotal = this->maxPos + this->centerPos;
-	this->minPosTotal = this->minPos + this->centerPos;
+	this->pos = pos;
+	this->maxPosTotal = this->maxPos + this->pos;
+	this->minPosTotal = this->minPos + this->pos;
 }
 
 void AABBCollider::setMinPos(glm::vec3 minPos)

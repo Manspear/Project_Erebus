@@ -9,7 +9,7 @@ public:
 	SphereCollider(int IDTransform, glm::vec3 pos, float radius);
 	SphereCollider(int IDTransform, float x, float y, float z, float radius);
 	SphereCollider(int IDTransform);
-	~SphereCollider();
+	virtual ~SphereCollider();
 
 	//overrides
 	unsigned int getID() const override; // copy elision makes this fast? RVO - NRVO
@@ -26,7 +26,6 @@ public:
 	void setRadius(float radius);
 
 private:
-	glm::vec3 pos;
 	float radius, radiusSquared;
 
 

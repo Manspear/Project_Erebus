@@ -10,7 +10,7 @@ public:
 	OBBCollider(int transformID);
 	OBBCollider(glm::vec3 pos,float xHalfLength, float yHalfLength, float zHalfLength);
 	OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength);
-	~OBBCollider();
+	virtual ~OBBCollider();
 
 	void rotateAroundX(float radianAngle);
 	void rotateAroundY(float radianAngle);
@@ -39,7 +39,6 @@ public:
 	const glm::vec3& getHalfLengths() const;
 	
 private:
-	glm::vec3 pos;
 	glm::vec3 xAxis, yAxis, zAxis;
 	glm::vec3 halfLengths;
 };

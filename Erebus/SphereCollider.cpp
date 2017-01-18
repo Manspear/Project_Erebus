@@ -7,6 +7,7 @@ SphereCollider::SphereCollider() : HitBox(-1,-1)
 	this->radius = 1.0f;
 	this->pos = glm::vec3(0, 0, 0);
 	this->radiusSquared = radius*radius;
+	this->typeFlag = 0;
 }
 
 SphereCollider::SphereCollider(glm::vec3 pos, float radius) : HitBox()
@@ -14,6 +15,7 @@ SphereCollider::SphereCollider(glm::vec3 pos, float radius) : HitBox()
 	this->pos = pos;
 	this->radius = radius;
 	this->radiusSquared = radius*radius;
+	this->typeFlag = 0;
 }
 
 SphereCollider::SphereCollider(int IDTransform, glm::vec3 pos, float radius) : HitBox(IDTransform)
@@ -21,6 +23,7 @@ SphereCollider::SphereCollider(int IDTransform, glm::vec3 pos, float radius) : H
 	this->pos = pos;
 	this->radius = radius;
 	this->radiusSquared = radius*radius;
+	this->typeFlag = 0;
 }
 
 SphereCollider::SphereCollider(int IDTransform, float x, float y, float z, float radius) : HitBox(ID, IDTransform)
@@ -30,6 +33,7 @@ SphereCollider::SphereCollider(int IDTransform, float x, float y, float z, float
 	this->pos.z = z;
 	this->radius = radius;
 	this->radiusSquared = radius*radius;
+	this->typeFlag = 0;
 }
 
 SphereCollider::SphereCollider(int IDTransform) : HitBox(IDTransform)
@@ -37,11 +41,19 @@ SphereCollider::SphereCollider(int IDTransform) : HitBox(IDTransform)
 	this->radius = 1.0f;
 	this->pos = glm::vec3(0, 0, 0);
 	this->radiusSquared = radius*radius;
+	this->typeFlag = 0;
 }
 
 
 SphereCollider::~SphereCollider()
 {
+	if (this->children != nullptr)
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			delete this->children->at(0);
+		}
+	}
 }
 
 //overrides

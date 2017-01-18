@@ -9,6 +9,7 @@ OBBCollider::OBBCollider() : HitBox()
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(1, 1, 1);
+	this->typeFlag = 2;
 }
 
 OBBCollider::OBBCollider(int transformID) : HitBox(transformID)
@@ -18,6 +19,7 @@ OBBCollider::OBBCollider(int transformID) : HitBox(transformID)
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(1, 1, 1);
+	this->typeFlag = 2;
 }
 
 OBBCollider::OBBCollider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox()
@@ -27,6 +29,7 @@ OBBCollider::OBBCollider(glm::vec3 pos, float xHalfLength, float yHalfLength, fl
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(xHalfLength,yHalfLength,zHalfLength);
+	this->typeFlag = 2;
 }
 
 OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox(transformID)
@@ -36,11 +39,19 @@ OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, 
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(xHalfLength, yHalfLength, zHalfLength);
+	this->typeFlag = 2;
 }
 
 
 OBBCollider::~OBBCollider()
 {
+	if (this->children != nullptr)
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			delete this->children->at(0);
+		}
+	}
 }
 
 void OBBCollider::rotateAroundX(float radianAngle)
