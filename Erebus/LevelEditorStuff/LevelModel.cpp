@@ -105,9 +105,14 @@ void LevelModel::setTwStruct(TwBar * twBar) {
 
 void LevelModel::setModelName( std::string name )
 {
-	modelName = name;
+	if( name != modelName )
+	{
+		modelName = name;
 
-	postInitialize();
+		//postInitialize();
+
+		LevelModelHandler::getInstance()->replaceModel( modelName, parent->id );
+	}
 }
 
 const std::string& LevelModel::getModelName() const

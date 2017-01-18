@@ -52,7 +52,8 @@ void LevelAssetHandler::loadAssets( std::vector<std::string>* container, std::st
 					if( filter.compare("*") == 0 || filter.compare(findData.cFileName+dotIndex) == 0 )
 					{
 						//std::string finalName = folder + "\\" + findData.cFileName;
-						container->push_back( findData.cFileName );
+						std::string assetName( findData.cFileName, dotIndex );
+						container->push_back( assetName );
 					}
 				}
 			}
