@@ -26,7 +26,8 @@ public:
 	//The state is an enum defined for each subclass of Animation
 	GEAR_API virtual void updateState(float dt, int state, int animationSegment);
 
-	GEAR_API virtual void quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment);
+	//Returns true when transition is complete
+	GEAR_API virtual bool quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment);
 	/*
 	The number of parts is equal to
 	*/
@@ -58,7 +59,7 @@ public:
 
 protected:
 	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
-
+	void updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime);
 	//std::vector<sKeyFrame> updateAnimationForQuickBlend(float dt, int layer, float& animTimer, float scaleTimer);
 
 	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, int animationSegment, float dt);

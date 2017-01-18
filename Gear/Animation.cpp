@@ -219,59 +219,72 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 	}
 }
 
-GEAR_API void Animation::quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment)
+void Animation::updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime)
 {
-	/*
-	BlendTime is to be used for "scaling" the timescale of the transitionState animation
-	originState is the start-TransitionState
-	transitionState is the state you temporarily want to blend into
-
-	The originstate is most oftenly a bindpose. 
-	*/
-
-	if (transitionTimers[animationSegment] >= transitionMaxTimes[animationSegment])
+	if (animationStacks[animationSegment].back() == state)
 	{
-		//When the quickBlend is "done blending into"
-		if (quickBlendBeginEnd == false)
+		if (animationStacks[animationSegment].size() == 1)
 		{
-			int holder = originState;
-			originState = transitionState;
-			transitionState = holder;
+			updateAnimation(dt, state, animationSegment);
+		}
+		else if (animationStacks[animationSegment].size() > 1)
+		{
+			int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
+			int to = animationStacks[animationSegment].back();
+
+			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
+			{
+				transitionTimers[animationSegment] = transitionTime;
+				transitionMaxTimes[animationSegment] = transitionTimers[animationSegment];
+				oldTos[animationSegment] = to;
+				oldFroms[animationSegment] = from;
+				toAnimationTimer = 0;
+			}
+			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
+			if (isTransitionCompletes[animationSegment])
+			{
+				animationStacks[animationSegment].clear();
+				animationStacks[animationSegment].push_back(to);
+				isTransitionCompletes[animationSegment] = false;
+			}
 		}
 	}
-
-	//when transitionMaxTimes has been reached, reset it once and reverse the blending-order
-	float originTimer = animationTimers[animationSegment];
-	float transTimer = animationTimers[animationSegment];
-	animationTimers[animationSegment] += dt;
-	
-	transitionTimers[animationSegment] = 0;
-	transitionMaxTimes[animationSegment] = blendTime / 2;
-
-	transitionTimers[animationSegment] / transitionMaxTimes[animationSegment];
-
-	std::vector<Importer::sKeyFrame> transList = updateAnimationForBlending(dt, transitionState, transTimer);
-	std::vector<Importer::sKeyFrame> originList = updateAnimationForBlending(dt, originState, transTimer);
-	
-	std::vector<sKeyFrame> blendedList;
-	for (int i = 0; i < transList.size(); i++)
-	{
-		blendedList.push_back(interpolateKeysForBlending(transList[i], originList[i], animationSegment));
-	}
-
-	//When blended
-	transitionTimers[animationSegment] -= dt;
-	if (transitionTimers[animationSegment] >= transitionMaxTimes[animationSegment])
-	{
-		isTransitionCompletes[animationSegment] = true;
-	}
+	//Append if the animation doesn't exist
 	else
 	{
-		isTransitionCompletes[animationSegment] = false;
+		//If the blending got interrupted
+		if (animationStacks[animationSegment].size() > 1)
+		{
+			int back = animationStacks[animationSegment].back();
+			animationStacks[animationSegment].clear();
+			animationStacks[animationSegment].push_back(back);
+		}
+		animationStacks[animationSegment].push_back(state);
+	}
+}
+
+GEAR_API bool Animation::quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment)
+{
+	float halfTime = blendTime / 2.f;
+
+	if (animationTimers[animationSegment] >= halfTime)
+	{
+		transitionState = originState;
 	}
 
-	//Now update the matrix list with the blended keys
-	calculateAndSaveJointMatrices(blendedList, animationSegment);
+	updateStateForQuickBlend(dt, transitionState, animationSegment, halfTime);
+
+	//When transitions are truly done, reset the animationTimer, and reset the animationStack
+	if (animationTimers[animationSegment] >= blendTime)
+	{
+		animationTimers[animationSegment] = 0;
+		int wolo = animationStacks[animationSegment].back();
+		animationStacks.clear();
+		animationStacks[animationSegment].push_back(wolo);
+
+		return true;
+	}
+	return false;
 }
 
 GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
