@@ -414,12 +414,14 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 	size_t sphereColliderSize = this->sphereColliders.size();
 	size_t aabbColliderSize = this->aabbColliders.size();
 	size_t obbColliderSize = this->obbColliders.size();
+	size_t allColliderSize = this->allColliders.size();
 	bool deleted = false;
 
 	for (size_t i = 0; i < sphereColliderSize; i++) // check spheres
 	{
 		if (sphereColliders[i]->getID() == ID)
 		{
+			this->collisionLayers->deleteHitbox(ID);
 			sphereColliders[i]->clearCollisionIDs();
 			sphereColliders.erase(sphereColliders.begin() + i);
 			deleted = true;
@@ -432,6 +434,7 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 		{
 			if (aabbColliders[i]->getID() == ID)
 			{
+				this->collisionLayers->deleteHitbox(ID);
 				aabbColliders[i]->clearCollisionIDs();
 				aabbColliders.erase(aabbColliders.begin() + i);
 				deleted = true;
@@ -439,18 +442,32 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 			}
 		}
 	}
-	else if (!deleted)
+	if (!deleted)
 	{
 		for (size_t i = 0; i < obbColliderSize; i++)
 		{
 			if (obbColliders[i]->getID() == ID)
 			{
+				this->collisionLayers->deleteHitbox(ID);
 				obbColliders[i]->clearCollisionIDs();
 				obbColliders.erase(obbColliders.begin() + i);
 				deleted = true;
 				i = obbColliderSize;
 			}
 
+		}
+	}
+	if (deleted) // if we found the hitbox and removed it, it means it is in the "allColliders" vector also, we delete it
+	{
+		for (size_t i = 0; i < allColliderSize; i++)
+		{
+			if (allColliders[i]->getID() == ID)
+			{
+				//this->collisionLayers->deleteHitbox(ID);
+				allColliders[i]->clearCollisionIDs();
+				allColliders.erase(allColliders.begin() + i);
+				i = allColliderSize;
+			}
 		}
 	}
 
