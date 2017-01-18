@@ -46,7 +46,6 @@ void NetworkController::shutdown()
 		sendingThread.join();
 		receiveThread.join();
 	}
-
 }
 
 void NetworkController::startNetworkSending()

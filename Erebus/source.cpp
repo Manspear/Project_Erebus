@@ -13,8 +13,8 @@
 
 #include "LevelEditor.h"
 
-#include"GamePlay.h"
-#include"Menu.h"
+#include "GamePlay.h"
+#include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 
@@ -77,14 +77,28 @@ int main()
 			gameState = menu->Update(inputs);
 			if (gameState == HostGameplayState)
 			{
-				gamePlay->StartNetwork(true);
-				gameState = GameplayState;
+				if (gamePlay->StartNetwork(true))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
 			}
 
 			if (gameState == ClientGameplayState)
 			{
-				gamePlay->StartNetwork(false);
-				gameState = GameplayState;
+				if (gamePlay->StartNetwork(false))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
 			}
 
 			if (gameState == GameplayState)

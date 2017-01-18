@@ -30,10 +30,6 @@ private:
 	Importer::TextureAsset* particlesTexture;
 	Importer::HeightMap* heightMap;
 
-	bool networkActive = false;
-	bool networkHost = true;
-	bool networkLonelyDebug = false;
-
 	NetworkController networkController;
 
 public:
@@ -47,5 +43,5 @@ public:
 
 	void Draw();
 
-	void StartNetwork(const bool& networkHost);
+	bool StartNetwork(const bool& networkHost);
 };
