@@ -7,6 +7,7 @@
 #include "CollisionHandler.h"
 #include "LuaBinds.h"
 #include "AGI.h"
+#include "PerformanceCounter.h"
 
 class GamePlay
 {
@@ -43,5 +44,5 @@ public:
 
 	void Draw();
 
-	bool StartNetwork(const bool& networkHost);
+	bool StartNetwork(const bool& networkHost, PerformanceCounter * counter);
 };
