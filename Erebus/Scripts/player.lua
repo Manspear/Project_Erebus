@@ -136,6 +136,7 @@ function UpdatePlayer(dt)
 
 			player.animationState1 = 21
 		if Inputs.ButtonDown(Buttons.Left) then
+			player.spamCasting = true
 			player.attackTimer = 1
 			for _,v in ipairs(player.spells[player.currentSpell]) do
 				if not v.alive then
@@ -143,6 +144,10 @@ function UpdatePlayer(dt)
 					break
 				end
 			end
+		end
+
+		if Inputs.ButtonReleased(Buttons.Left) then
+			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
 		

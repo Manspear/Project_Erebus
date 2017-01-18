@@ -9,7 +9,8 @@ function CreatePlayerController(animation, player)
 	controller.oldWatch = {}
 
 	controller.isDamagedTimerStart = false
-	controller.isDamagedTimer = 0
+	controller.damagedTimer = 0
+	controller.damagedMaxTime = 2
 
 	controller.jumpTimerStart = false
 	controller.jumpTimer = 0
@@ -41,9 +42,13 @@ function CreatePlayerController(animation, player)
 			self:JumpState(dt)
 		end
 
+		if self.watch.spamCasting == true then
+			self:AttackState(dt)
+		end
+
 		self.animation:Update(dt, self.animationState1, 0)
 		self.animation:Update(dt, self.animationState2, 1)
-		self.animation:Update(dt, self.animationState3, 2)
+		--self.animation:Update(dt, self.animationState3, 2)
 
 		self.animation:UpdateShaderMatrices()
 
@@ -52,8 +57,6 @@ function CreatePlayerController(animation, player)
 	
 	function controller:RunningState(dt)
 		--oldWatch remembers old stuff. Used sometime maybe.
-		print(self.watch.left)
-		print(self.watch.forward)
 
 		--if walking left forward
 		if self.watch.left > 0 and self.watch.forward > 0 then
@@ -98,7 +101,7 @@ function CreatePlayerController(animation, player)
 	end
 
 	function controller:AttackState(dt)
-
+		
 	end
 
 	function controller:IdleState(dt)
@@ -107,9 +110,14 @@ function CreatePlayerController(animation, player)
 	end
 
 	function controller:DamagedState(dt)
-		if(self.isDamagedTimerStart = false) then
+		if self.isDamagedTimerStart == false then
 			self.isDamagedTimerStart = true
-
+		end
+		if self.isDamagedTimerStart == true then
+			res = self.animation:QuickBlend(dt, 0, 7, self.damagedMaxTime, 2);
+			if res == true then
+				self.isDamagedTimerStart = false
+			end
 		end
 	end
 

@@ -27,7 +27,7 @@ public:
 	GEAR_API virtual void updateState(float dt, int state, int animationSegment);
 
 	//Returns true when transition is complete
-	GEAR_API virtual bool quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment);
+	GEAR_API virtual bool quickBlend(float dt, int originState, int transitionState, float blendTime, int animationSegment);
 	/*
 	The number of parts is equal to
 	*/
@@ -93,6 +93,8 @@ protected:
 	std::vector<float> transitionTimers;
 	//Animationtimer 
 	std::vector<float> animationTimers;
+
+	std::vector<bool> quickBlendStates;
 
 	//List holding "final" jointmatrices (one per animationSegment) before they're added together
 	//used like: animationMatrixLists[animationSegment][jointIdx]

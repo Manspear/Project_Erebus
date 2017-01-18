@@ -240,6 +240,7 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 				oldFroms[animationSegment] = from;
 				toAnimationTimer = 0;
 			}
+
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
 			if (isTransitionCompletes[animationSegment])
 			{
@@ -263,26 +264,35 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 	}
 }
 
-GEAR_API bool Animation::quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment)
+GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionState, float blendTime, int animationSegment)
 {
 	float halfTime = blendTime / 2.f;
 
-	if (animationTimers[animationSegment] >= halfTime)
+	if (quickBlendStates[animationSegment] == true)
 	{
 		transitionState = originState;
 	}
 
 	updateStateForQuickBlend(dt, transitionState, animationSegment, halfTime);
 
-	//When transitions are truly done, reset the animationTimer, and reset the animationStack
-	if (animationTimers[animationSegment] >= blendTime)
+	if (animationTimers[animationSegment] >= blendTime && quickBlendStates[animationSegment] == true)
 	{
 		animationTimers[animationSegment] = 0;
 		int wolo = animationStacks[animationSegment].back();
-		animationStacks.clear();
+		animationStacks[animationSegment].clear();
 		animationStacks[animationSegment].push_back(wolo);
+		quickBlendStates[animationSegment] = false;
+
+		updateAnimation(dt, wolo, animationSegment);
 
 		return true;
+	}
+
+	if (animationTimers[animationSegment] >= halfTime && quickBlendStates[animationSegment] == false)
+	{
+		int wolo = animationStacks[animationSegment].back();
+
+		quickBlendStates[animationSegment] = true;
 	}
 	return false;
 }
@@ -304,6 +314,8 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		transitionTimers.push_back(0);
 		animationTimers.push_back(0);
 		animationStacks.push_back(animStack);
+
+		quickBlendStates.push_back(false);
 
 		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
 		animationMatrixLists.push_back(allahu);
