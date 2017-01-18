@@ -198,23 +198,22 @@ void LevelEditor::start() {
 			else if( cursorMode == CURSOR_NEW_ACTOR )
 			{
 
-			hasHit = this->tempSelectedHitPoint != glm::vec3(0);
+				hasHit = this->tempSelectedHitPoint != glm::vec3(0);
 
-			if (hasHit) {
-				LevelActor* newActor = factory->createActor(LevelPrefabHandler::getInstance()->getSelectedPrefab());
-				if (newActor)
-					{
-					LevelActorHandler::getInstance()->addActor(newActor);
+				if (hasHit) {
+					LevelActor* newActor = factory->createActor(LevelPrefabHandler::getInstance()->getSelectedPrefab());
+					if (newActor)
+						{
+							LevelActor* newActor = factory->createActor();
+							newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
+							LevelActorHandler::getInstance()->addActor(newActor);
+							LevelActorHandler::getInstance()->setSelected(newActor);
+							LevelActorHandler::getInstance()->addActor(newActor);
+						}
 
-					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
-					}
 
-					LevelActor* newActor = factory->createActor();
-					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(form>()->getTransformRef());
-					LevelActorHandler::getInstance()->addActor(newActor);
-					LevelActorHandler::getInstance()->setSelected(newActor);
-				}			
-			}
+					}			
+				}
 
 			
 			
