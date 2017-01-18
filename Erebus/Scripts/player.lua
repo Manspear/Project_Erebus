@@ -85,7 +85,7 @@ function LoadPlayer()
 
 	player.animation:SetTransitionTimes(playerAnimationTransitionTimes)
 
-	player.animation:SetAnimationSegments(2);
+	player.animation:SetAnimationSegments(3);
 
 	Erebus.SetControls(player.transformID)
 	
@@ -204,12 +204,8 @@ function UpdatePlayer(dt)
 		end
 
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		--player.animation:Update(dt, player.animationState1, 0)
-		--player.animation:Update(dt, player.animationState2, 1)
-		----player.animation:Update(dt, 1, 1)
 		player.controller:AnimationUpdate(dt)
 
-		player.animation:UpdateShaderMatrices()
 	end
 		-- update the current player spell
 		for i=1, #player.spells do 

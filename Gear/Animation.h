@@ -23,10 +23,10 @@ public:
 	GEAR_API void setAsset(Importer::ModelAsset* asset);
 	GEAR_API virtual void updateAnimation(float dt, int layer, int animationSegment);
 
-	GEAR_API virtual std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 	//The state is an enum defined for each subclass of Animation
 	GEAR_API virtual void updateState(float dt, int state, int animationSegment);
 
+	GEAR_API virtual void quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment);
 	/*
 	The number of parts is equal to
 	*/
@@ -57,6 +57,10 @@ public:
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
 protected:
+	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
+
+	//std::vector<sKeyFrame> updateAnimationForQuickBlend(float dt, int layer, float& animTimer, float scaleTimer);
+
 	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, int animationSegment, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey, float& animTimer);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment);
@@ -95,6 +99,8 @@ protected:
 
 	float fromAnimationTimer;
 	float toAnimationTimer;
+
+	bool quickBlendBeginEnd = true;
 
 	std::vector<std::vector<int>> animationStacks;
 

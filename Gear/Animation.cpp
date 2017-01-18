@@ -110,7 +110,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 	//updateJointMatrices(finalList);
 }
 
-GEAR_API std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
+std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
 {
 	animTimer += dt;
 	Importer::hModel* model = asset->getHeader();
@@ -217,25 +217,61 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		}
 		animationStacks[animationSegment].push_back(state);
 	}
+}
 
-	////FOR DEBUGGING BLENDING
-	//float vario1 = animationTimer;
-	//float vario2 = animationTimer;
-	//animationTimer += dt;
-	//std::vector<Importer::sKeyFrame> to = updateAnimationForBlending(dt, 2, vario1);
-	//std::vector<Importer::sKeyFrame> from = updateAnimationForBlending(dt, 1, vario2);
-	//
-	//std::vector<sKeyFrame> blendedList;
-	//for (int i = 0; i < to.size(); i++)
-	//{
-	//	transitionTimer = 2.5;
-	//	transitionMaxTime = 5;
-	//	blendedList.push_back(interpolateKeysForBlending(to[i], from[i]));
-	//}
-	//
-	//updateJointMatrices(blendedList);
+GEAR_API void Animation::quickBlend(float dt, bool begin, int originState, int transitionState, float blendTime, int animationSegment)
+{
+	/*
+	BlendTime is to be used for "scaling" the timescale of the transitionState animation
+	originState is the start-TransitionState
+	transitionState is the state you temporarily want to blend into
 
-	//Why do the animations affect each other when one of them has 0 weight?
+	The originstate is most oftenly a bindpose. 
+	*/
+
+	if (transitionTimers[animationSegment] >= transitionMaxTimes[animationSegment])
+	{
+		//When the quickBlend is "done blending into"
+		if (quickBlendBeginEnd == false)
+		{
+			int holder = originState;
+			originState = transitionState;
+			transitionState = holder;
+		}
+	}
+
+	//when transitionMaxTimes has been reached, reset it once and reverse the blending-order
+	float originTimer = animationTimers[animationSegment];
+	float transTimer = animationTimers[animationSegment];
+	animationTimers[animationSegment] += dt;
+	
+	transitionTimers[animationSegment] = 0;
+	transitionMaxTimes[animationSegment] = blendTime / 2;
+
+	transitionTimers[animationSegment] / transitionMaxTimes[animationSegment];
+
+	std::vector<Importer::sKeyFrame> transList = updateAnimationForBlending(dt, transitionState, transTimer);
+	std::vector<Importer::sKeyFrame> originList = updateAnimationForBlending(dt, originState, transTimer);
+	
+	std::vector<sKeyFrame> blendedList;
+	for (int i = 0; i < transList.size(); i++)
+	{
+		blendedList.push_back(interpolateKeysForBlending(transList[i], originList[i], animationSegment));
+	}
+
+	//When blended
+	transitionTimers[animationSegment] -= dt;
+	if (transitionTimers[animationSegment] >= transitionMaxTimes[animationSegment])
+	{
+		isTransitionCompletes[animationSegment] = true;
+	}
+	else
+	{
+		isTransitionCompletes[animationSegment] = false;
+	}
+
+	//Now update the matrix list with the blended keys
+	calculateAndSaveJointMatrices(blendedList, animationSegment);
 }
 
 GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
@@ -339,8 +375,6 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	{
 		blendedList.push_back(interpolateKeysForBlending(blendToKeys[i], blendFromKeys[i], animationSegment));
 	}
-
-	animationMatrixLists[animationSegment];
 
 	//Now update the matrix list with the blended keys
 	calculateAndSaveJointMatrices(blendedList, animationSegment);

@@ -4,111 +4,161 @@ function CreatePlayerController(animation, player)
 	controller.animation = animation
 	controller.animationState1 = 0
 	controller.animationState2 = 0
+	controller.animationState3 = 0
 	controller.watch = player
 	controller.oldWatch = {}
-	poop
-	print(poop)
+
+	controller.isDamagedTimerStart = false
+	controller.isDamagedTimer = 0
+
+	controller.jumpTimerStart = false
+	controller.jumpTimer = 0
+	controller.jumpTimerThreshhold = 0.3
 
 	-- : == syntactic sugar to send self as a variable into the function
 	-- . == says that you send self into the function, although a name has 
 	--to be set in the parametre
-	function controller:StateSwitch(inState, inController, dt)
-		self.currentState = inController
-		if self.currentState == 1 then
-			self:RunningState(inState, dt)
-		end
-		if self.currentState == 2 then
-			--doStateStuff
-		end
-	end
 
 	function controller:AnimationUpdate(dt)
-		--if everything is the same
-		if	self.oldWatch.right == self.watch.right and
-			self.oldWatch.forward == self.watch.forward and
-			
-		   self.oldWatch.health == self.watch.health and
-		   self.oldWatch.canJump == self.watch.canJump and
-		   self.oldWatch.spamCasting == self.watch.spamCasting and
-		   self.oldWatch.charging == self.watch.charging 
-		   
-		   then
-			self.animation:Update(dt, self.animationState1, 0)
-			self.animation:Update(dt, self.animationState2, 1)
 		
-			else 
-				self.animationState1 = 9
-				self.animationState2 = 17
-
-				if self.watch.forward == 0 then
-				
-					self.animationState1 = 2
-					self.animationState2 = 0
-				end
-
-				self.animation:Update(dt, self.animationState1, 0)
-				self.animation:Update(dt, self.animationState2, 1)
+		--you cannot run if you jump
+		if self.watch.canJump == true then
+			--if you don't move you're Idle
+			if self.watch.forward == 0 and self.watch.left == 0 then
+				self:IdleState(dt)
+			--else running
+			elseif self.watch.forward ~= 0 or self.watch ~= left then
+				self:RunningState(dt)
 			end
+		end
 
-			--self.animation:Update(dt, 9, 0)
-			--self.animation:Update(dt, 17, 1)
-		--used last
+		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
+		then
+			self:DamagedState(dt)
+		end
+
+		if self.oldWatch.canJump ~= self.watch.canJump or self.watch.verticalSpeed ~= 0 then
+			self:JumpState(dt)
+		end
+
+		self.animation:Update(dt, self.animationState1, 0)
+		self.animation:Update(dt, self.animationState2, 1)
+		self.animation:Update(dt, self.animationState3, 2)
+
+		self.animation:UpdateShaderMatrices()
+
 		self:copyWatch()
 	end
 	
 	function controller:RunningState(dt)
 		--oldWatch remembers old stuff. Used sometime maybe.
+		print(self.watch.left)
+		print(self.watch.forward)
 
 		--if walking left forward
 		if self.watch.left > 0 and self.watch.forward > 0 then
-			
+			self.animationState1 = 10
+			self.animationState2 = 18
 		end
 		--if walking left back
 		if self.watch.left > 0 and self.watch.forward < 0 then
-
+			self.animationState1 = 13
+			self.animationState2 = 19
 		end
 		--if walking left
 		if self.watch.left > 0 and self.watch.forward == 0 then
-
+			self.animationState1 = 11
+			self.animationState2 = 18
 		end
 		--if walking forward
 		if self.watch.left == 0 and self.watch.forward > 0 then
-
+			self.animationState1 = 9
+			self.animationState2 = 17
 		end
 		--if walking backward
 		if self.watch.left == 0 and self.watch.forward < 0 then
-
+			self.animationState1 = 13
+			self.animationState2 = 19
 		end
 		--if walking right forward
 		if self.watch.left < 0 and self.watch.forward > 0 then
-			
+			self.animationState1 = 16
+			self.animationState2 = 20
 		end
 		--if walking right back
 		if self.watch.left < 0 and self.watch.forward < 0 then
-
+			self.animationState1 = 13
+			self.animationState2 = 20
 		end
 		--if walking right
 		if self.watch.left < 0 and self.watch.forward == 0 then
+			self.animationState1 = 15
+			self.animationState2 = 20
+		end
+	end
+
+	function controller:AttackState(dt)
+
+	end
+
+	function controller:IdleState(dt)
+		self.animationState1 = 1
+		self.animationState2 = 0
+	end
+
+	function controller:DamagedState(dt)
+		if(self.isDamagedTimerStart = false) then
+			self.isDamagedTimerStart = true
 
 		end
+	end
 
-		--Since I know that this is a  running state, both the torso 
-		--and legs are supposed to be running in the same direction
-
-		--if torso
-		if inState >= 17 and inState <= 20 then
-			self.animation:Update(dt, inState, 0)
-		end 
-		--if legs
-		if inState >= 9 and inState <= 16 then
-			self.animation:Update(dt, inState, 1)
+	function controller:JumpState(dt)
+		--if jumped
+		if self.oldWatch.canJump == true and self.watch.canJump == false then
+			self.animationState1 = 33
+			self.animationState2 = 0
+			self.jumpTimerStart = true
 		end
 		
+		--if landed
+		if self.oldWatch.canJump == false and self.watch.canJump == true then
+			self.animationState1 = 36
+			self.animationState2 = 0
+		end
+
+		if self.jumpTimerStart == true then
+			self.jumpTimer = self.jumpTimer + dt
+		end
+
+		if self.jumpTimer >= self.jumpTimerThreshhold then
+			self.jumpTimer = 0
+			self.jumpTimerStart = false
+		end
+
+		if self.jumpTimerStart == false then
+			self:AirState(dt)
+		end
+
+	end
+
+	function controller:AirState(dt)
+		--if falling
+		if self.watch.verticalSpeed <= 0 and self.watch.canJump == false then
+			self.animationState1 = 35
+			self.animationState2 = 0
+		end
+		--if ascending
+		if self.watch.verticalSpeed > 0 and self.watch.canJump == false then
+			self.animationState1 = 34
+			self.animationState2 = 0
+		end
 	end
 
 	function controller:copyWatch()
 		self.oldWatch.health = self.watch.health
 		self.oldWatch.canJump = self.watch.canJump
+		self.oldWatch.verticalSpeed = self.watch.verticalSpeed
 		self.oldWatch.forward = self.watch.forward
 		self.oldWatch.left = self.watch.left 
 		self.oldWatch.spamCasting = self.watch.spamCasting
