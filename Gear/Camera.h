@@ -28,6 +28,7 @@ public:
 	GEAR_API void updateLevelEditorCamera(float dt);
 	GEAR_API float getNearPlane();
 	GEAR_API float getFarPlane();
+	GEAR_API float getFoV() { return this->FoV; }
 private:
 	Inputs *inputs;
 	bool freeCam;
@@ -37,6 +38,7 @@ private:
 	int dir;
 	bool inLevelEditor;
 	bool inLevelEditorMoveMouse;
+	float FoV;
 
 	float aspectRatio;
 	float nearPlane;

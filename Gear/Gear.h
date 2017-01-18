@@ -12,6 +12,7 @@
 #include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
+#include "CascadedShadowMap.h"
 
 namespace Gear
 {
@@ -118,6 +119,8 @@ namespace Gear
 
 		TextRenderer text;
 		ScreenQuadRenderer screenQuad;
+
+		CascadedShadowMap map;
 
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
 		void pickingPass();

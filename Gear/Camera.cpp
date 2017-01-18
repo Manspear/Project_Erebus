@@ -12,6 +12,7 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	this->aspectRatio = aspectRatio;
 	this->nearPlane = nearPlane;
 	this->farPlane = farPlane;
+	this->FoV = FoV;
 
 	horizontalAngle = 3.14f;
 	verticalAngle = 0;

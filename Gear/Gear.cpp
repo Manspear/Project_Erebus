@@ -184,7 +184,7 @@ namespace Gear
 		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
 		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
 		
-
+		
 		
 		glm::vec3 target;
 
@@ -194,8 +194,16 @@ namespace Gear
 
 		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
 
-		tempCamera.setView(view);
-		tempCamera.setprojection(dirLights[0].projection);
+		Camera cam;
+		cam.setPosition(glm::vec3(0.0f));
+		cam.setView(glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+		cam.setprojection(glm::perspectiveFov(45.f, 1280.f, 720.f, 0.1f, 2000.f));
+
+		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], &cam);
+		map.calcOrthoProjs(&cam);
+
+		tempCamera.setView(map.viewMatrices[0]);
+		tempCamera.setprojection(map.projectionMatrices[0]);
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
@@ -204,7 +212,8 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
 		shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
-
+		Debug* temp = Debugger::getInstance();
+		temp->drawAABB(map.minAABB[0], map.maxAABB[0]);
 
 		queue.updateUniforms(camera);
 		gBuffer.use();
@@ -233,6 +242,13 @@ namespace Gear
 
 		screenQuad.draw();
 		text.draw();
+
+		glViewport(0, 0, 200, 200);
+		quadShader->use();
+		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		drawQuad();
+		quadShader->unUse();
+		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
 	void GearEngine::pickingPass() {
@@ -354,7 +370,7 @@ namespace Gear
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); //unbind buffer
 
 		Lights::DirLight dirLight; //add one dir light
-		dirLight.direction = glm::vec3(-0.0f, -0.5f, 0.5f);
+		dirLight.direction = glm::vec3(-0.0f, -0.8f, 0.2f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
