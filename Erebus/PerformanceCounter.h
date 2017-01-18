@@ -16,9 +16,11 @@ public:
 	PerformanceCounter();
 	~PerformanceCounter();
 
-	void startCounter();		//Starts or resets the counter
-	double getCurrentTime();	//Amount of time passed since counter started, in seconds
-	double getDeltaTime();		//Amount of time passed since getDeltaTime was last called, in seconds
+	void startCounter();			//Starts or resets the counter
+	double getCurrentTime();		//Amount of time passed since counter started, in seconds
+	double getDeltaTime();			//Amount of time passed since getDeltaTime was last called, in seconds
+	double getNetworkSendDeltaTime();	//Amount of time passed since getNetworkSendDeltaTime was last called, in seconds
+	double getNetworkRecDeltaTime();	//Amount of time passed since getNetworkRecDeltaTime was last called, in seconds
 	void displayFPS();
 	int getFPS();
 	int getVramUsage();
@@ -37,4 +39,10 @@ private:
 	IDXGIAdapter3* dxgiAdapter3;
 	HRESULT ret_code;
 	DXGI_QUERY_VIDEO_MEMORY_INFO info;
+
+	//Network Specific time variables
+	LARGE_INTEGER networkSendLast;
+	double networkSendDeltaTime = 0.0f;
+	LARGE_INTEGER networkRecLast;
+	double networkRecDeltaTime = 0.0f;
 };

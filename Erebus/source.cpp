@@ -13,8 +13,8 @@
 
 #include "./LevelEditorStuff/LevelEditor.h"
 
-#include"GamePlay.h"
-#include"Menu.h"
+#include "GamePlay.h"
+#include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 
@@ -51,7 +51,7 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
+	GamePlay * gamePlay = new GamePlay(&engine, assets);
 	Menu * menu = new Menu(&engine,assets);
 
 	glClearColor(1, 1, 1, 1);
@@ -73,14 +73,40 @@ int main()
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.update(&inputs);
 
 		switch (gameState)
 		{
 		case MenuState:
 			gameState = menu->Update(inputs);
+			if (gameState == HostGameplayState)
+			{
+				if (gamePlay->StartNetwork(true, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
+
+			if (gameState == ClientGameplayState)
+			{
+				if (gamePlay->StartNetwork(false, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
+
 			if (gameState == GameplayState)
 			{
+				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}

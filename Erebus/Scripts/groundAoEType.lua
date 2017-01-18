@@ -1,9 +1,9 @@
 
-function CreateGroundAoEType(startSize, endSize, duration)
+function CreateGroundAoEType(duration, startSize)
 	type = {}
 	type.lifetime = 0
 	type.startRadius = startSize
-	type.endRadius = endSize
+	type.endRadius = 0
 	type.duration = duration
 	type.lifetime = 0
 	type.transformID = Transform.Bind()
@@ -35,7 +35,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 		return result
 	end
 
-	function type:Cast(position, direction)
+	function type:Cast(position, direction, endSize)
 		--heightmap checking LUL. please replace with ray mot heightmap asap
 		local canspawn = false
 		for i = 0, 200 do
@@ -56,6 +56,7 @@ function CreateGroundAoEType(startSize, endSize, duration)
 		end
 
 		if canspawn then
+			self.endRadius = endSize
 			self.lifetime = self.duration
 			self.position = position
 			Transform.SetPosition(self.transformID, self.position)

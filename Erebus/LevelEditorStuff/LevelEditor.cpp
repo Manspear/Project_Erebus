@@ -12,19 +12,6 @@ LevelEditor::~LevelEditor()
 	delete this->camera;
 }
 
-enum { CURSOR_SELECT, CURSOR_NEW_ACTOR };
-int cursorMode = CURSOR_SELECT;
-
-void TW_CALL onSelect( void* arg )
-{
-	cursorMode = CURSOR_SELECT;
-}
-
-void TW_CALL onNewActor( void* arg )
-{
-	cursorMode = CURSOR_NEW_ACTOR;
-}
-
 void LevelEditor::start() {
 	this->engine = new Gear::GearEngine();
 	Importer::Assets assets;
@@ -112,11 +99,6 @@ void LevelEditor::start() {
 	TwBar* componentsBar = TwNewBar( "Components" );
 	LevelActorFactory::getInstance()->addToBar( componentsBar );
 
-	TwBar* actionBar = TwNewBar( "Actions" );
-	
-	TwAddButton( actionBar, "Select", onSelect, NULL, NULL );
-	TwAddButton( actionBar, "New Actor", onNewActor, NULL, NULL );
-
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -193,30 +175,29 @@ void LevelEditor::start() {
 		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 		{
 			pick();
-			if( cursorMode == CURSOR_SELECT )
+
+			int action = LevelActionHandler::getInstance()->getAction();
+
+			if( action == ACTION_SELECT )
 				LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
-			else if( cursorMode == CURSOR_NEW_ACTOR )
+			else if( action == ACTION_NEW_ACTOR )
 			{
 
 				hasHit = this->tempSelectedHitPoint != glm::vec3(0);
 
-				if (hasHit) {
+				if (hasHit)
+				{
 					LevelActor* newActor = factory->createActor(LevelPrefabHandler::getInstance()->getSelectedPrefab());
 					if (newActor)
-						{
+					{
 							LevelActor* newActor = factory->createActor();
 							newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
 							LevelActorHandler::getInstance()->addActor(newActor);
 							LevelActorHandler::getInstance()->setSelected(newActor);
 							LevelActorHandler::getInstance()->addActor(newActor);
-						}
-
-
-					}			
-				}
-
-			
-			
+					}
+				}	
+			}
 		}
 		engine->queueLights(&lights);
 		if( hasHit )

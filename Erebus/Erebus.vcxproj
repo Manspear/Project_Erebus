@@ -157,6 +157,7 @@
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelActionHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActorFactory.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp" />
@@ -207,8 +208,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\arc.lua" />
-    <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
@@ -219,6 +218,7 @@
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
+    <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Shaders\anim.frag" />
@@ -266,6 +266,7 @@
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LevelEditorStuff\LevelActionHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActor.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorComponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorFactory.h" />

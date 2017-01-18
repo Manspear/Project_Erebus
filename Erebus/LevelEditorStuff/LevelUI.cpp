@@ -1,6 +1,7 @@
 #include "LevelUI.h"
 #include "LevelActorHandler.h"
 #include "LevelAssetHandler.h"
+#include "LevelActionHandler.h"
 #include "LevelTransform.h"
 #include "LevelModel.h"
 #include "levelpointlightcomponent.h"
@@ -11,6 +12,7 @@ const char* LevelUI::actorBarName = "Actor";
 const char* LevelUI::worldBarName = "World";
 const char* LevelUI::assetBarName = "Assets";
 const char* LevelUI::assetContextBarName = "AssetsContext";
+const char* LevelUI::actionBarName = "Actions";
 const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelModel::name, LevelPointLightComponent::name };
 
 void TW_CALL setEditorState(void * clientData)
@@ -39,9 +41,12 @@ LevelUI::LevelUI(GLFWwindow* window)
 		glm::vec4(0, 255, 128, 200), assetBarName);
 
 	bars[3] = new TweakBar(glm::vec2(bar2Position.x-192, bar2Position.y), glm::vec2(148,72), glm::vec4(255, 255, 0, 200), assetContextBarName );
+
+	bars[4] = new TweakBar(glm::vec2(bar2Position.x-148, 0), glm::vec2(148,128), glm::vec4(128,32,32,200), actionBarName );
 	
 	LevelActorHandler::getInstance()->setTweakBars( bars[1], bars[0] );
 	LevelAssetHandler::getInstance()->setTweakBars( bars[2], bars[3] );
+	LevelActionHandler::getInstance()->setTweakBar( bars[4] );
 
 	if (TwGetLastError() != nullptr) {
 		printf("error");

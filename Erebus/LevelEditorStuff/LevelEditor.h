@@ -25,6 +25,7 @@
 #include "LevelUI.h"
 #include "LevelPrefabHandler.h"
 #include "LevelActorHandler.h"
+#include "LevelActionHandler.h"
 
 #include <SDKDDKVer.h>
 

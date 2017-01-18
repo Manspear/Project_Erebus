@@ -80,10 +80,11 @@ void LevelActorHandler::setSelected( unsigned int id )
 	if( it != actors.end() )
 	{
 		selectedActor = it->second;
-		updateActorBar();
 	}
 	else
 		selectedActor = nullptr;
+
+	updateActorBar();
 }
 
 void LevelActorHandler::setSelected( LevelActor* actor )
