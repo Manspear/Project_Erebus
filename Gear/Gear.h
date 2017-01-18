@@ -86,11 +86,13 @@ namespace Gear
 		ShaderProgram shadowMap;
 		ShaderProgram shadowMapTemp;
 		ShaderProgram gBuffer;
+		ShaderProgram particleFBO;
 
 		//Shaders
 		ShaderProgram *quadShader;
 		ShaderProgram *lightPassShader;
 		ShaderProgram *blurShader;
+		ShaderProgram *effectShader;
 
 		//Models
 		std::vector<staticNonModels*> statModels;

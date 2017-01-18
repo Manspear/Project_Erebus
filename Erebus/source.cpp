@@ -51,9 +51,6 @@ int main()
 	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
 	Menu * menu = new Menu(&engine,assets);
 
-	glClearColor(1, 1, 1, 1);
-
-
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;

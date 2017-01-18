@@ -54,7 +54,7 @@ namespace Gear
 		GEAR_API Importer::TextureAsset* getTexture();
 		bool isActive;
 		bool alive;
-	private:
+	public:
 		GLuint particleVertexBuffer;
 		glm::vec3 position;
 		glm::vec3 direction;

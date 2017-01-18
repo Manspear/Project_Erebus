@@ -246,13 +246,40 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 	allShaders[FORWARD]->unUse();
 }
 
+glm::vec3 globalLOL = { 0,0,0 };
+struct greater {
+	bool operator()( Gear::ParticleSystem* const &a, Gear::ParticleSystem* const &b ) {
+		return glm::length(a->position - globalLOL) > glm::length(b->position - globalLOL);
+	}
+};
+void RenderQueue::particleSort(std::vector<Gear::ParticleSystem*>* particleSystems, glm::vec3 cameraPos) {
+	globalLOL = cameraPos;
+	std::sort(particleSystems->begin(), particleSystems->end(), greater());
+	/*float distance = 0.f;
+	std::vector<Gear::ParticleSystem*>::iterator index;
+	Gear::ParticleSystem* tempsys;
+	for (std::vector<Gear::ParticleSystem*>::iterator i = particleSystems->begin(); i != particleSystems->end(); ++i) {
+		for (std::vector<Gear::ParticleSystem*>::iterator j = i; j != particleSystems->end(); ++j) {
+			float temp = glm::length((*j)->position - cameraPos);
+			if ( temp > distance ) {
+				distance = temp;
+				index = j;
+			}
+		}
+		tempsys = particleSystems->at(i);
+		particleSystems->at(i) = particleSystems->at(index);
+		particleSystems->at(index) = tempsys;
+	}*/
+}
+
 void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSystems)
 {
-	//glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
 	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
+	//glDisable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	Color c;
@@ -275,49 +302,10 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 		}
 	}
 	allShaders[PARTICLES]->unUse();
+	//glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
 	glDisable(GL_BLEND);
 }
-
-/*void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)
-{
-	allShaders[GEOMETRY]->use();
-	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
-
-	for (int i = 0; i < dynamicModels->size(); i++)
-	{
-		ModelAsset* modelAsset = dynamicModels->at(i).asset;
-		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
-		
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
-
-		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
-		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
-		}
-
-		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
-		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
-		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-	}
-	allShaders[GEOMETRY]->unUse();
-}*/
 
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)
 {
