@@ -19,9 +19,9 @@ void CascadedShadowMap::Init(int windowWidth, int windowHeight, Lights::DirLight
 	this->height = windowHeight;
 	this->light = light;
 	this->expC = 120.0f;
-	this->splitLambda = 0.5f;
-	this->nearPlane = mainCam->getNearPlane();
-	this->farPlane = mainCam->getFarPlane();
+	this->splitLambda = 0.5f; 
+	this->nearPlane = 0.1f;
+	this->farPlane = 2000.f;
 
 	glm::vec3 frustrumCorners[8] = 
 	{
@@ -46,8 +46,8 @@ void CascadedShadowMap::Init(int windowWidth, int windowHeight, Lights::DirLight
 	glm::mat4 camInv = glm::inverse(mainCam->getViewMatrix());
 
 	float ar = WINDOW_HEIGHT / WINDOW_HEIGHT;
-	float tanHalfHFOV = tanf(glm::radians(mainCam->getFoV() / 2.0f));
-	float tanHalfVFOV = tanf(glm::radians((mainCam->getFoV() * ar) / 2.0f));
+	float tanHalfHFOV = tanf(glm::radians(45.0f / 2.0f));
+	float tanHalfVFOV = tanf(glm::radians((45.0f * ar) / 2.0f));
 
 	for (int i = 0; i < NUM_CASCADEDS; i++)
 	{
@@ -146,8 +146,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 	glm::mat4 camInv = glm::inverse(mainCam->getViewMatrix());
 
 	float ar = WINDOW_HEIGHT / WINDOW_HEIGHT;
-	float tanHalfHFOV = tanf(glm::radians(mainCam->getFoV() / 2.0f));
-	float tanHalfVFOV = tanf(glm::radians((mainCam->getFoV() * ar) / 2.0f));
+	float tanHalfHFOV = tanf(glm::radians(45.0f / 2.0f));
+	float tanHalfVFOV = tanf(glm::radians((45.0f * ar) / 2.0f));
 
 	for (int i = 0; i < NUM_CASCADEDS; i++)
 	{

@@ -196,7 +196,7 @@ namespace Gear
 
 		Camera cam;
 		cam.setPosition(glm::vec3(0.0f));
-		cam.setView(glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+		cam.setView(glm::lookAt(glm::vec3(50.0f, 0.0f, 0.0f), glm::vec3(50.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 		cam.setprojection(glm::perspectiveFov(45.f, 1280.f, 720.f, 0.1f, 2000.f));
 
 		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], &cam);
@@ -213,7 +213,10 @@ namespace Gear
 		shadowMap.unUse();
 		shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
 		Debug* temp = Debugger::getInstance();
-		temp->drawAABB(map.minAABB[0], map.maxAABB[0]);
+		temp->drawAABB(map.minAABB[0], map.maxAABB[0], glm::vec3(1.0f,0,0));
+		temp->drawAABB(map.minAABB[1], map.maxAABB[1], glm::vec3(0, 1.0f, 0));
+		temp->drawAABB(map.minAABB[2], map.maxAABB[2], glm::vec3(0, 0, 1.0f));
+		temp->drawAABB(map.minAABB[3], map.maxAABB[3], glm::vec3(0.5f, 0.5f, 0));
 
 		queue.updateUniforms(camera);
 		gBuffer.use();
