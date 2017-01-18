@@ -67,7 +67,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.play("getout.ogg", true);
+	soundEngine.play("Music/menuBurana.ogg", true);
+	soundEngine.setVolume(0.5);
 
 	while (running && window.isWindowOpen())
 	{	
