@@ -4,20 +4,20 @@
 
 AABBCollider::AABBCollider() : HitBox()
 {
-	this->minPos = glm::vec3(1,1,1);
-	this->maxPos = glm::vec3(-1,-1,-1);
+	this->minPos = glm::vec3(-1,-1,-1);
+	this->maxPos = glm::vec3(1,1,1);
 	this->centerPos = glm::vec3();
 	this->maxPosTotal = glm::vec3();
 	this->minPosTotal = glm::vec3();
 }
 
-AABBCollider::AABBCollider(unsigned int ID, int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(ID,IDTransform)
+AABBCollider::AABBCollider(int IDTransform) : HitBox(IDTransform)
 {
-	this->minPos = minPos;
-	this->maxPos = maxPos;
-	this->minPosTotal = minPos;
-	this->maxPosTotal = maxPos;
+	this->minPos = glm::vec3(1, 1, 1);
+	this->maxPos = glm::vec3(-1, -1, -1);
 	this->centerPos = glm::vec3();
+	this->maxPosTotal = glm::vec3();
+	this->minPosTotal = glm::vec3();
 }
 
 AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(IDTransform)
@@ -29,13 +29,13 @@ AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) 
 	this->centerPos = glm::vec3();
 }
 
-AABBCollider::AABBCollider(unsigned int IDTransform) : HitBox(IDTransform)
+AABBCollider::AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerPos) : HitBox()
 {
-	this->minPos = glm::vec3(1,1,1);
-	this->maxPos = glm::vec3(-1,-1,-1);
-	this->centerPos = glm::vec3();
-	this->maxPosTotal = glm::vec3();
-	this->minPosTotal = glm::vec3();
+	this->minPos = minPos;
+	this->maxPos = maxPos;
+	this->minPosTotal = minPos;
+	this->maxPosTotal = maxPos;
+	this->centerPos = centerPos;
 }
 
 
@@ -53,14 +53,19 @@ bool AABBCollider::AabbToAabb(const AABBCollider* aabb)
 			this->minPos.z <= aabb->maxPos.z);
 }
 
-const glm::vec3& AABBCollider::getMaxPos()
+const glm::vec3& AABBCollider::getMaxPos() const
 {
 	return this->maxPosTotal;
 }
 
-const glm::vec3& AABBCollider::getMinPos()
+const glm::vec3& AABBCollider::getMinPos() const
 {
 	return this->minPosTotal;
+}
+
+const glm::vec3 & AABBCollider::getCenterPos() const
+{
+	return this->centerPos;
 }
 
 unsigned int AABBCollider::getID() const
@@ -68,7 +73,7 @@ unsigned int AABBCollider::getID() const
 	return this->ID;
 }
 
-unsigned int AABBCollider::getIDTransform() const
+int AABBCollider::getIDTransform() const
 {
 	return this->IDTransform;
 }

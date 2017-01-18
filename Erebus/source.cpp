@@ -1,64 +1,48 @@
+
 #include <iostream>
 #include "Gear.h"
 #include "Inputs.h"
-#include "Assets.h"
-#include "ModelAsset.h"
-#include "TextureAsset.h"
+
 #include "Window.h"
-#include "Transform.h"
+
 #include "PerformanceCounter.h"
-#include "ParticleSystem.h"
-#include "SphereCollider.h"
-#include "AABBCollider.h"
-#include "CollisionHandler.h"
+
+#include "OBBCollider.h"
 #include "Controls.h"
-#include "LuaBinds.h"
-#include <String>
-#include "HeightMap.h"
-#include "Ray.h"
-#include "FontAsset.h"
-#include "MaterialAsset.h"
+#include "ParticleImport.h"
+
 #include "LevelEditor.h"
-#include "NetworkController.hpp"
+
+#include "GamePlay.h"
+#include "Menu.h"
+#include "CollisionChecker.h"
+#include "RayCollider.h"
+
+#include "SoundEngine.h"
+#include "WorkQueue.h"
 
 bool running = true;
-bool networkActive = false;
-bool networkHost = true;
-bool networkLonelyDebug = true;
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;
+	SoundEngine soundEngine;
 	WorkQueue work;
 
+	GameState gameState = MenuState;
+	window.changeCursorStatus(false);
+	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
-	int nrOfTransforms = 100;
-	int boundTransforms = 0;
-	Transform* transforms = new Transform[nrOfTransforms];
-	TransformStruct* allTransforms = new TransformStruct[nrOfTransforms];
-	for (int i = 0; i < nrOfTransforms; i++)
-		transforms[i].setThePtr(&allTransforms[i]);
-	Controls controls;
-	engine.allocateWorlds(nrOfTransforms);
 
+	Controls controls;
+	
 	engine.addDebugger(Debugger::getInstance());
 
-	Importer::ModelAsset* moleman = assets.load<ModelAsset>( "Models/testGuy.model" );
-	Importer::TextureAsset* particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");
-
-	std::vector<ModelInstance> models;
-	std::vector<AnimatedInstance> animatedModels;
-
-	CollisionHandler collisionHandler;
-	collisionHandler.setTransforms(transforms);
-	collisionHandler.setDebugger(Debugger::getInstance());
-	collisionHandler.setWorkQueue( &work );
-
-	std::vector<Gear::ParticleSystem*> ps;
+ 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -68,107 +52,114 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	engine.bindTransforms(&allTransforms, &boundTransforms);
+	GamePlay * gamePlay = new GamePlay(&engine, assets);
+	Menu * menu = new Menu(&engine,assets);
 
-	NetworkController networkController;
-	NetworkController networkController2;
-
-	if (networkActive)
-	{
-		if (networkLonelyDebug)
-		{
-			networkController.initNetworkAsHost();
-			networkController2.initNetworkAsClient(127, 0, 0, 1);
-			networkController.acceptNetworkCommunication();
-		}
-		else if (networkHost)
-		{
-			networkController.initNetworkAsHost();
-			networkController.acceptNetworkCommunication();
-		}
-		else
-		{
-			networkController.initNetworkAsClient(127, 0, 0, 1);
-		}
-		networkController.startCommunicationThreads();
-
-		if (networkLonelyDebug)
-		{
-			networkController2.startCommunicationThreads();
-		}
-	}
-
-	AGI::AGIEngine ai;
-	Importer::HeightMap* heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
-
-	LuaBinds luaBinds;
-	luaBinds.load( &engine, &assets, &collisionHandler, &controls,&inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps,&ai, &work);
 	glClearColor(1, 1, 1, 1);
 
-	//particlesTexture->bind(PARTICLES);
-	for(int i = 0; i < ps.size(); i++)
-	{
-		ps.at(i)->setTextrue(particlesTexture);
-	}
 
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
-
+	Debug* tempDebug = Debugger::getInstance();
 
 	float alpha = 0.0f;
 	float alphaChangeRate = 0.01f;
+	
+	inputs.getMousePos();
 
-	ai.addDebug(Debugger::getInstance());
-
+	soundEngine.play("getout.ogg", true);
 	while (running && window.isWindowOpen())
 	{	
+
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.update(&inputs);
 
-		LuaGear::resetAnimations();
-		luaBinds.update( &controls, deltaTime);
-		work.execute();
+		switch (gameState)
+		{
+		case MenuState:
+			gameState = menu->Update(inputs);
+			if (gameState == HostGameplayState)
+			{
+				if (gamePlay->StartNetwork(true, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
 
-		for (int i = 0; i < ps.size(); i++) {
-			ps.at(i)->update(deltaTime);
+			if (gameState == ClientGameplayState)
+			{
+				if (gamePlay->StartNetwork(false, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
+
+			if (gameState == GameplayState)
+			{
+				soundEngine.play("bell.wav");
+				gamePlay->Initialize(assets, controls, inputs, camera);
+				window.changeCursorStatus(true);
+				lockMouse = true;
+			}
+			menu->Draw();
+			break;
+
+		case GameplayState:
+			controls.update(&inputs);
+			gamePlay->Update(controls,deltaTime);
+			gamePlay->Draw();
+			break;
 		}
-
-		engine.queueDynamicModels(&models);
-		engine.queueAnimModels(&animatedModels);
-		engine.queueParticles(&ps);
-
-		collisionHandler.checkCollisions();
-		collisionHandler.drawHitboxes();
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine.print(fps, 0.0f, 0.0f);
+
+		std::string vram = "VRAM: " + std::to_string(counter.getVramUsage()) + " MB";
+		engine.print(vram, 0.0f, 30.0f);
+
+		std::string virtualMem = "RAM: " + std::to_string(counter.getRamUsage()) + " MB";
+		engine.print(virtualMem, 0.0f, 60.0f);
 
 		window.update();
 
 		engine.draw(&camera);
 
-		if( inputs.keyPressed( GLFW_KEY_ESCAPE ) )
+		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
+		{
 			running = false;
+		}
 		
-		if (inputs.keyPressedThisFrame(GLFW_KEY_J))
+		if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 			engine.setDrawMode(1);
-		else if( inputs.keyPressedThisFrame( GLFW_KEY_K ))
+		else if( inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
 			engine.setDrawMode(2);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_L))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
 			engine.setDrawMode(3);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_P))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_4))
 			engine.setDrawMode(4);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_N))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
 			engine.setDrawMode(5);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_O))
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
 			engine.setDrawMode(6);
+		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
+			engine.setDrawMode(7);
 		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 		{
 			if (lockMouse)
 			{
+				
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
@@ -178,24 +169,15 @@ int main()
 				lockMouse = true;
 			}
 		}
-
-		assets.checkHotload( deltaTime );
+	#ifdef _DEBUG
+		assets.checkHotload(deltaTime);
+	#endif // DEBUG
 	}
 
-	luaBinds.unload();
-	delete[] allTransforms;
-	delete[] transforms;
-	if (networkActive)
-	{
-		networkController.shutdown();
-		if (networkLonelyDebug)
-		{
-			networkController2.shutdown();
-		}
-	}
-	for (int i = 0; i < ps.size(); i++)
-		delete ps.at(i);
-
+	delete gamePlay;
+	delete menu;
+	
 	glfwTerminate();
+
 	return 0;
 }

@@ -186,7 +186,7 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 	glm::vec3 offset = xOffset*cross(tempForward, { 0,1,0 }) + glm::vec3(0,yOffset,0);
 	//places the camera in the right position behind the model, but is locked in the xz plane
 	glm::vec3 tempcamPos = point + offset + glm::vec3(0, distance*sinf(angle), 0) - tempForward * cosf(angle) * distance;
-	//unlocks the tempcamPos to rotate in the y direction (kind of)
+	//unlocks the tempcamPos to rotate in the y direction ( kind of )
 	this->camPosition = (tempcamPos*0.3f+(point+offset+distance * glm::normalize(-direction))*0.7f);
 	this->lookPos = point + offset;
 	this->camDirection = glm::normalize( lookPos - camPosition);
@@ -215,6 +215,16 @@ GEAR_API void Camera::setHeight(float h)
 	this->camPosition.y = h;
 	//this->lookPos.y += h;
 	setCamera(camPosition, lookPos);
+}
+
+void Camera::setprojection(glm::mat4 m)
+{
+	projectionMat = m;
+}
+
+void Camera::setView(glm::mat4 m)
+{
+	this->viewMat = m;
 }
 
 glm::mat4 Camera::getViewPers()

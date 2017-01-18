@@ -1,157 +1,224 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="AABBCollider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionHandler.cpp">
-      <Filter>Source Files</Filter>
-    </CICompile>
-    ClCompile Include="LevelEditor.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Controls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>Source Files</Filter>
     <ClCompile Include="PerformanceCounter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source.cpp" />
+    <ClCompile Include="AABBCollider.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionChecker.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandler.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
     <ClCompile Include="CollisionLayers.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>LevelEditor\Source</Filter>
+    <ClCompile Include="HitBox.cpp">
+      <Filter>Source Files\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>LevelEditor\Source</Filter>
+    <ClCompile Include="OBBCollider.cpp">
+      <Filter>Source Files\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="LuaTransform.cpp">
-      <Filter>Lua\Source</Filter>
+    <ClCompile Include="RayCollider.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaAi.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaAssets.cpp">
-      <Filter>Lua\Source</Filter>
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaBinds.cpp">
-      <Filter>Lua\Source</Filter>
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaCamera.cpp">
-      <Filter>Lua\Source</Filter>
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaCollision.cpp">
-      <Filter>Lua\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaControls.cpp">
-      <Filter>Lua\Source</Filter>
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaErebus.cpp">
-      <Filter>Lua\Source</Filter>
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaGear.cpp">
-      <Filter>Lua\Source</Filter>
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaInputs.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaParticles.cpp">
-      <Filter>Lua\Source</Filter>
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaTransform.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LevelEditor.cpp">
-      <Filter>LevelEditor\SourceLevel</Filter>
+      <Filter>Source Files\LevelEditor</Filter>
     </ClCompile>
     <ClCompile Include="LevelModel.cpp">
-      <Filter>LevelEditor\SourceLevel</Filter>
+      <Filter>Source Files\LevelEditor</Filter>
     </ClCompile>
+    <ClCompile Include="LuaInputs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaMath.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaNetwork.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkController.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="source.cpp" />
+    <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="NetworkController.cpp" />
+    <ClCompile Include="WorkQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+=======
+>>>>>>> 2443fc5594396cae44f0ebac6b8052e72706766f
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABBCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelModel.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Controls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PerformanceCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>LevelEditor\Header</Filter>
+    <ClInclude Include="AABBCollider.h">
+      <Filter>Header Files\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="LevelModel.h">
-      <Filter>LevelEditor\Header</Filter>
+    <ClInclude Include="CollisionChecker.h">
+      <Filter>Header Files\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CollisionHandler.h">
+      <Filter>Header Files\Collider</Filter>
     </ClInclude>
     <ClInclude Include="CollisionLayers.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="LuaTransform.h">
-      <Filter>Lua\Header</Filter>
+    <ClInclude Include="HitBox.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="OBBCollider.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCollider.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaAi.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaAssets.h">
-      <Filter>Lua\Header</Filter>
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaBinds.h">
-      <Filter>Lua\Header</Filter>
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaCamera.h">
-      <Filter>Lua\Header</Filter>
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaCollision.h">
-      <Filter>Lua\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaControls.h">
-      <Filter>Lua\Header</Filter>
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaErebus.h">
-      <Filter>Lua\Header</Filter>
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaGear.h">
-      <Filter>Lua\Header</Filter>
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaInputs.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaParticles.h">
-      <Filter>Lua\Header</Filter>
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaTransform.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditor.h">
-      <Filter>LevelEditor\HeaderLevel</Filter>
+      <Filter>Header Files\LevelEditor</Filter>
     </ClInclude>
     <ClInclude Include="LevelModel.h">
-      <Filter>LevelEditor\HeaderLevel</Filter>
+      <Filter>Header Files\LevelEditor</Filter>
     </ClInclude>
+    <ClInclude Include="LuaInputs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaNetwork.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkController.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaMath.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="NetworkController.hpp" />
+    <ClInclude Include="WorkQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+=======
+>>>>>>> 2443fc5594396cae44f0ebac6b8052e72706766f
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\AI\BasicEnemyAI.lua">
+      <Filter>Scripts</Filter>
+    </None>
     <None Include="Scripts\bullets.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\camera.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\cameraLevelEditor.lua">
+      <Filter>Scripts</Filter>
+    </None>
     <None Include="Scripts\enemies.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\level.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\main.lua">
@@ -160,11 +227,50 @@
     <None Include="Scripts\player.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\particle.lua">
+      <Filter>Scripts</Filter>
+    </None>
     <None Include="Scripts\projectile.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\AI\states.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\anim.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugAABB.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugLine.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugLine.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugLine.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugSphere.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugSphere.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugSphere.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\forward.frag">
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\forward.geom">
       <Filter>Shaders</Filter>
@@ -191,6 +297,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\geometryPass_notInstanced.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPicking.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPicking.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\heightmap.frag">
@@ -220,12 +332,6 @@
     <None Include="Shaders\quad.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\anim.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\anim.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\text.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -235,80 +341,91 @@
     <None Include="Shaders\text.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\arc.lua">
+    <None Include="Scripts\particle.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\basespell.lua">
+    <None Include="Scripts\fireball.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\cameraLevelEditor.lua">
+    <None Include="Scripts\fireEffect.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\arc.lua">
+    <None Include="Scripts\projectileType.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\basespell.lua">
+    <None Include="Scripts\arcType.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Shaders\geometryPicking.frag">
+    <None Include="Scripts\fireballArc.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\chronoBall.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\timeSlowEffect.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\groundAoEType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\fireGroundAoE.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\orbWaveType.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\timeOrbWave.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\reusable.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\image.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\geometryPicking.vert">
+    <None Include="Shaders\image.geom">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debugLine.geom">
+    <None Include="Shaders\image.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\forward.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\debug.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\debug.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\anim.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{63de79b3-b801-4f6f-b419-721e9e9497c3}</UniqueIdentifier>
+      <UniqueIdentifier>{b570c498-9f82-4e85-ae5e-d19d18c343e6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{9b9cb38c-10c5-4a99-8f79-25cc204df109}</UniqueIdentifier>
+      <UniqueIdentifier>{50297204-8457-496f-b24d-03f2afcc9db8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scripts">
-      <UniqueIdentifier>{b8753599-fa49-4aca-b4a8-480915c0772b}</UniqueIdentifier>
+      <UniqueIdentifier>{a98816c8-9d2e-4a37-878b-2d1ccdaf558d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shaders">
-      <UniqueIdentifier>{5ef5f774-eb38-4da6-a61b-3fd158c3426d}</UniqueIdentifier>
+      <UniqueIdentifier>{f96c7fea-059e-434e-8a0e-4b60fe343727}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor">
-      <UniqueIdentifier>{7230b79a-6749-4a87-bb2b-68161de81821}</UniqueIdentifier>
+    <Filter Include="Source Files\Collider">
+      <UniqueIdentifier>{d74441e7-093e-467e-9a30-a04fa7ab4f1a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor\Source">
-      <UniqueIdentifier>{20ce8610-1069-4f54-af94-44f62e0679d9}</UniqueIdentifier>
+    <Filter Include="Source Files\Lua">
+      <UniqueIdentifier>{a8fe1647-d73d-4eb1-9410-1881a3f2065e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor\Header">
-      <UniqueIdentifier>{b203593d-2cd7-44c1-9a26-22f9e883833d}</UniqueIdentifier>
+    <Filter Include="Source Files\LevelEditor">
+      <UniqueIdentifier>{aaceba95-ce94-4ffc-8e74-7bd97a26f446}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Lua">
-      <UniqueIdentifier>{bdcad772-df23-48d9-9c92-cc60b94d9bdb}</UniqueIdentifier>
+    <Filter Include="Header Files\Collider">
+      <UniqueIdentifier>{aec1776e-4d10-4288-b844-ee4f54a62a5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor">
-      <UniqueIdentifier>{00edde64-b4c7-45b5-92a4-7af495f8fffa}</UniqueIdentifier>
+    <Filter Include="Header Files\Lua">
+      <UniqueIdentifier>{d75575e0-eaad-4316-af5f-f94a0a8bc3b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor\SourceLevel">
-      <UniqueIdentifier>{7c35f568-562a-44ec-9ced-e94209cd91ee}</UniqueIdentifier>
+    <Filter Include="Header Files\LevelEditor">
+      <UniqueIdentifier>{502f47db-5e0e-4d2a-9d9e-2d06ff3edf9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor\HeaderLevel">
-      <UniqueIdentifier>{c0507264-9e52-4ce3-9a4b-e6188b69a242}</UniqueIdentifier>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{8cc66f27-899d-496d-85ea-b59327e6025c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Lua\Header">
-      <UniqueIdentifier>{86bcb4c3-77a7-4118-9155-7ebf78bd80ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Lua\Source">
-      <UniqueIdentifier>{7213c686-ed4f-4955-94f0-528aca9b86c3}</UniqueIdentifier>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

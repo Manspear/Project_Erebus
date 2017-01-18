@@ -8,18 +8,13 @@ namespace LuaGear
 	static std::vector<ModelInstance>* g_models = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Assets* g_assets = nullptr;
-	static WorkQueue* g_work = nullptr;
 
-	static AnimationData g_animationData[100];
-	static int g_ndata = 0;
-
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets)
 	{
 		g_gearEngine = gearEngine;
 		g_models = models;
 		g_animatedModels = animatedModels;
 		g_assets = assets;
-		g_work = work;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -49,7 +44,9 @@ namespace LuaGear
 		{
 			{ "Create", createAnimation },
 			{ "__gc",	destroyAnimation },
-			{ "Update",	updateAnimation },
+			//{ "Update",	updateAnimation },
+			{ "Update",	updateAnimationBlending },
+			{ "SetTransitionTimes", setTransitionTimes},
 			{ NULL, NULL }
 		};
 
@@ -216,35 +213,62 @@ namespace LuaGear
 		if( lua_gettop( lua ) >= 3 )
 		{
 			lua_getfield( lua, 1, "__self" );
-#if 0
 			Animation* animation = (Animation*)lua_touserdata( lua, -1 );
 			float dt = lua_tonumber( lua, 2 );
 			int layer = lua_tointeger( lua, 3 );
 
 			animation->updateAnimation( dt, layer );
-#else
-			g_animationData[g_ndata].animation = (Animation*)lua_touserdata( lua, -1 );
-			g_animationData[g_ndata].dt = lua_tonumber( lua, 2 );
-			g_animationData[g_ndata].layer = lua_tointeger( lua, 3 );
-
-			g_work->add( asyncAnimation, &g_animationData[g_ndata] );
-
-			g_ndata++;
-#endif
 		}
 
 		return result;
 	}
 
-	void resetAnimations()
+	int updateAnimationBlending(lua_State* lua)
 	{
-		g_ndata = 0;
+		int result = 0;
+
+		if (lua_gettop(lua) >= 3)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+			float dt = lua_tonumber(lua, 2);
+			int layer = lua_tointeger(lua, 3);
+
+			animation->updateState(dt, layer);
+		}
+
+		return result;
 	}
 
-	void asyncAnimation( void* args )
+	int setTransitionTimes(lua_State * lua)
 	{
-		AnimationData* data = (AnimationData*)args;
+		int result = 0;
 
-		data->animation->updateAnimation(data->dt, data->layer );
+		if (lua_gettop(lua) >= 2)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+			int numStates = lua_rawlen(lua, 2);
+
+			float* transitions = new float[numStates*numStates];
+
+			for (int curState = 0, index = 0; curState < numStates; curState++)
+			{
+				lua_rawgeti(lua, 2, curState+1);
+				for (int curTransition = 0; curTransition < numStates; curTransition++, index++)
+				{
+					lua_rawgeti(lua, -1, curTransition+1);
+					transitions[index] = lua_tonumber(lua, -1);
+					lua_pop(lua, 1);
+				}
+				lua_pop(lua, 1);
+			}
+
+			animation->setTransitionTimes(transitions, numStates);
+
+			delete[] transitions;
+		}
+		return result;
 	}
 }

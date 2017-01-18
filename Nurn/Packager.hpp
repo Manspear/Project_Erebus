@@ -1,28 +1,33 @@
 #pragma once
 
-//#include "PacketQueue.hpp"
+#include "PacketEnums.hpp"
+#include "PacketQueue.hpp"
 #include "TransformPacket.hpp"
 #include "MetaDataPacket.hpp"
-#include "NetworkDefines.hpp"
 
 #define packetSize 1400
 
-class NURN_API Packager
+class Packager
 {
-private:
-	unsigned char memory[packetSize];
-	unsigned char * memoryPointer;
-
 public:
 	Packager();
-	~Packager();
+	virtual ~Packager();
 
-	// Get the pointers to the queues
 	unsigned char * getPacketPointer();
+	uint16_t getCurrentNetPacketSize() const;
 
-	void buildPacket(); // Build and full the packet with data.
-	void addDataPacket(); // Adds all the Transformpackets etc to the packet array. 
-	void addMetaDataPacket(); // After a group of, for instance, TransformPackets have been added the MetaData is added.
-	void addSizePacket(); // Shows the size of all the data packets combined. Add only once and after the entire packet is complete. 
+	void buildNetPacket(); // Call in 
+	void buildTransformPacket(const uint16_t &ID, const float &x, const float &y, const float &z);
+
+private:
+	unsigned char memory[packetSize];
+
+	PacketQueue<TransformPacket> * transformQueue;
+	uint16_t currentNetPacketSize;
+
+	//void addPacketGroup(uint16_t packetType, void * packet, void * queue, uint16_t &netPacketSize);
+
+	void addTransformPackets(uint16_t &netPacketSize);
+	void addMetaDataPacket(uint16_t type, uint16_t &netPacketSize, uint16_t sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 };

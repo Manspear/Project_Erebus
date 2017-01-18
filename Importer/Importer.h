@@ -117,4 +117,5 @@ namespace Importer
 		int jointCount;
 		int jointOffset;
 	};
+
 };

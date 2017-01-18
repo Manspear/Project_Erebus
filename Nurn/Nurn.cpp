@@ -4,11 +4,14 @@ namespace Nurn
 {
 	NurnEngine::NurnEngine()
 	{
+		this->packager = new Packager();
+		this->packetFilter = new PacketFilter();
 		return;
 	}
 
 	NurnEngine::~NurnEngine()
 	{
+		NurnEngine::Shutdown();
 		return;
 	}
 
@@ -34,18 +37,65 @@ namespace Nurn
 	}
 
 	bool NurnEngine::Send(const Address & destination, const void * data, int size)
-	{		
+	{
 		return netCommunication.SendPackage(destination, data, size);
 	}
 
+	bool NurnEngine::Send()
+	{
+		this->packager->buildNetPacket();
+		if (this->packager->getCurrentNetPacketSize() > 6)
+		{
+			this->Send(this->packager->getPacketPointer(), this->packager->getCurrentNetPacketSize());
+		}
+
+		return true;
+	}
 
 	bool NurnEngine::Receive(void * data, int size)
 	{
 		return netCommunication.ReceivePackage(address, data, size);
 	}
 
+	bool NurnEngine::Receive()
+	{
+		int bytes_read = this->Receive(this->buffer, packetSize);
+		if (bytes_read)
+		{
+			this->packetFilter->openNetPacket(this->buffer);
+		}
+		return true;
+	}
+
+
 	void NurnEngine::Shutdown()
 	{
+		if (this->packager)
+		{
+			delete this->packager;
+			this->packager = 0;
+		}
+
+		if (this->packetFilter)
+		{
+			delete this->packetFilter;
+			this->packetFilter = 0;
+		}
 		netCommunication.Shutdown();
+	}
+
+	void NurnEngine::buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
+	{
+		//std::cout << "Sending - x: " << x << " y: " << y << " z: " << z << std::endl;
+		this->packager->buildTransformPacket(id, x, y, z);
+	}
+
+	bool NurnEngine::fetchTransformPacket(TransformPacket &packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getTransformQueue()->pop(packet);
+
+		return result;
 	}
 }

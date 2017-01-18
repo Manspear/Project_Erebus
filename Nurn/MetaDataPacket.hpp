@@ -1,24 +1,22 @@
 #pragma once
 
-#include "PacketEnums.hpp"
-
 union MetaDataPacket
 {
 	struct MetaDataPacketStruct
 	{
-		PACKET_TYPE type;
-		uint16_t sizeInBytes;
-	}metaData;
+		uint16_t packetType; // What kind of packets are included in the group
+		uint16_t sizeInBytes; // The size of the packet group
+	} metaData;
 
 	MetaDataPacket()
 	{
 		//Used in combination with memcpy
 	}
 
-
-	MetaDataPacket(PACKET_TYPE type)
+	MetaDataPacket(uint16_t packetType, uint16_t sizeInBytes)
 	{
-		metaData.type = type;
+		metaData.packetType = packetType;
+		metaData.sizeInBytes = sizeInBytes;
 	}
 
 	unsigned char bytes[sizeof(MetaDataPacketStruct)];

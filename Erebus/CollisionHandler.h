@@ -5,7 +5,9 @@
 #include "Transform.h"
 #include "CollisionLayers.h"
 #include "Debug.h"
-#include "WorkQueue.h"
+#include "OBBCollider.h"
+#include "CollisionChecker.h"
+#include "Gear.h"
 
 //extern Transform* allTransforms;
 
@@ -23,33 +25,47 @@ public:
 	~CollisionHandler();
 	void addHitbox(SphereCollider* sphere);
 	void addHitbox(AABBCollider* aabb);
+	void addHitbox(OBBCollider* obb);
 	void addHitbox(SphereCollider* sphere, int layer);
 	void addHitbox(AABBCollider* aabb, int layer);
+	void addHitbox(OBBCollider* obb, int layer);
+	void addRay(RayCollider* ray);
+	void addRay(RayCollider* ray, int layer);
 
+	// Collision checks
 	void checkCollisions();
-	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders); // check against itself
-	void checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders1, std::vector<SphereCollider*>* colliders2); // check against the other vector
-	void checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders); // check against itself
-	void checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2); // check against the other vector
-	void checkSphereToAabbCollisions(std::vector<SphereCollider*>* colliders1, std::vector<AABBCollider*>* colliders2);
 
+	template <typename T, typename U>
+	void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2);
+
+	template <typename T>
+	void checkAnyCollision(std::vector<T*>* colliders);
+
+	//Update
+	void updateAllHitboxPos();
 	void updateSpherePos();
 	void updateAabbPos();
 
+	//delete
 	void deleteAllOldCollisions();
 	bool deleteHitbox(unsigned int ID);
 
+	//setters
 	void setTransforms( Transform* transforms );
 	void setDebugger(Debug* debugger);
-	void setWorkQueue( WorkQueue* work );
 
+	//getters
+	std::string getCollisionText();
 	CollisionLayers* getCollisionLayers();
 
 	//CollisionLayerPassThrough functions
-
 	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
+
 	//change if two layers can collide in the layerMatrix
 	void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
+
+	void deactiveteAllHitboxes();
+	void activeteAllHitboxes();
 
 	void printCollisions();
 
@@ -60,36 +76,16 @@ private:
 	Transform* transforms;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
+	std::vector<OBBCollider*> obbColliders;
+	std::vector<HitBox*> allColliders;
+	std::vector<RayCollider*> rayColliders;
 	CollisionLayers* collisionLayers;
-	WorkQueue* work;
-
-	//Counters
-	int sphereCollisionCounter = 0;
-	int aabbCollisionCounter = 0;
-	int sphereToAabbCollisionCounter = 0;
+	CollisionChecker collisionChecker;
 
 	Debug* debugger;
 	glm::vec3 colors[64]; // 64 colors to use on hitbox layers
 
-	static void asyncSphere( void* args );
-
-	bool sphereToSphereCollision(SphereCollider* sphere1, SphereCollider* sphere2); // http://www.miguelcasillas.com/?p=9
-	bool aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2); // https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection
-	bool sphereToAabbCollision(SphereCollider* sphere, AABBCollider* aabb); // https://studiofreya.com/3d-math-and-physics/sphere-vs-aabb-collision-detection-test/
-
-	//helper functions
-	float closestDistanceAabbToPoint(const float& point, const float aabbMin, const float aabbMax);
-	float SquaredDistancePointToAabb(AABBCollider* aabb, SphereCollider* sphere);
-
 	static unsigned int hitboxID;
 	static void incrementHitboxID();
 	void initializeColors();
-
-	struct AsyncData
-	{
-		SphereCollider* a, *b;
-		bool collision;
-	};
-	AsyncData asyncData[1000];
 };
-

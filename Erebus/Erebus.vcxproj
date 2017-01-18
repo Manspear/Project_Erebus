@@ -22,7 +22,7 @@
     <ProjectGuid>{E6A0A219-1A11-429B-8E14-C814B88EADBE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Erebus</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Nurn;$(SolutionDir)\Gear;$(SolutionDir)\Importer;$(SolutionDir)\AGI</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)AGI</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,21 +138,23 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)Importer;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)AGI;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LuaLib.lib;OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABBCollider.cpp" />
+    <ClCompile Include="CollisionChecker.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
+    <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditor.cpp" />
@@ -165,10 +167,16 @@
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="LuaMath.cpp" />
+    <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkController.cpp" />
+    <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
+    <ClCompile Include="RayCollider.cpp" />
+    <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -191,19 +199,28 @@
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
-    <None Include="Scripts\arc.lua" />
-    <None Include="Scripts\basespell.lua" />
+    <None Include="Scripts\arcType.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
-    <None Include="Scripts\console.lua" />
+    <None Include="Scripts\chronoBall.lua" />
     <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\fireball.lua" />
+    <None Include="Scripts\fireballArc.lua" />
+    <None Include="Scripts\fireEffect.lua" />
+    <None Include="Scripts\fireGroundAoE.lua" />
+    <None Include="Scripts\groundAoEType.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
+    <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
+    <None Include="Scripts\projectileType.lua" />
+    <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\test.lua" />
+    <None Include="Scripts\timeOrbWave.lua" />
+    <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\debugAABB.frag" />
     <None Include="Shaders\debugAABB.geom" />
@@ -211,9 +228,6 @@
     <None Include="Shaders\debugLine.frag" />
     <None Include="Shaders\debugLine.vert" />
     <None Include="Shaders\debugLine.geom" />
-    <None Include="Shaders\debugOBB.frag" />
-    <None Include="Shaders\debugOBB.geom" />
-    <None Include="Shaders\debugOBB.vert" />
     <None Include="Shaders\debugSphere.frag" />
     <None Include="Shaders\debugSphere.geom" />
     <None Include="Shaders\debugSphere.vert" />
@@ -231,6 +245,9 @@
     <None Include="Shaders\geometryPicking.vert" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
+    <None Include="Shaders\image.frag" />
+    <None Include="Shaders\image.geom" />
+    <None Include="Shaders\image.vert" />
     <None Include="Shaders\lightPass.frag" />
     <None Include="Shaders\lightPass.vert" />
     <None Include="Shaders\particle.frag" />
@@ -238,11 +255,16 @@
     <None Include="Shaders\particle.vert" />
     <None Include="Shaders\quad.frag" />
     <None Include="Shaders\quad.vert" />
+    <None Include="Shaders\text.frag" />
+    <None Include="Shaders\text.geom" />
+    <None Include="Shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
+    <ClInclude Include="CollisionChecker.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LevelModel.h" />
@@ -253,15 +275,21 @@
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="LuaMath.h" />
+    <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="WorkQueue.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RayCollider.h" />
+    <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>

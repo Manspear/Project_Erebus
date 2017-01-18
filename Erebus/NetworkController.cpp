@@ -2,7 +2,10 @@
 
 NetworkController::NetworkController()
 {
+	networkHost = true;
 	running = false;
+	sendFrequency = 0.0167; // 60 times a second
+	recFrequency = 0.0167; // 60 times a second
 }
 
 NetworkController::~NetworkController()
@@ -39,20 +42,28 @@ bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip
 
 void NetworkController::shutdown()
 {
-	running = false;
-	sendingThread.join();
-	receiveThread.join();
+	if (running == true)
+	{
+		running = false;
+		sendingThread.join();
+		receiveThread.join();
+	}
 }
 
 void NetworkController::startNetworkSending()
 {
 	while (running)
 	{
-		const char data[] = "hello world!";
-
-		network.Send(data, sizeof(data));
-
-		Sleep(250);
+		double deltaTime = counter->getNetworkSendDeltaTime();
+		if (deltaTime > sendFrequency)
+		{
+			network.Send();
+		}
+		else
+		{
+			Sleep(sendFrequency - deltaTime);
+			network.Send();
+		}
 	}
 }
 
@@ -60,15 +71,16 @@ void NetworkController::startNetworkReceiving()
 {
 	while (running)
 	{
-		printf("Recieving package\n");
-		unsigned char buffer[256];
-		int bytes_read = network.Receive(buffer, sizeof(buffer));
-		if (bytes_read)
+		double deltaTime = counter->getNetworkRecDeltaTime();
+		if (deltaTime > recFrequency)
 		{
-			printf("received packet %d bytes\n", bytes_read);
-			std::cout << buffer << std::endl;
+			network.Receive();
 		}
-		Sleep(250);
+		else
+		{
+			Sleep(recFrequency - deltaTime);
+			network.Receive();
+		}
 	}
 }
 
@@ -80,9 +92,31 @@ void NetworkController::acceptNetworkCommunication()
 	}
 }
 
-void NetworkController::startCommunicationThreads()
+void NetworkController::startCommunicationThreads(PerformanceCounter * counter)
 {
+	this->counter = counter;
+
 	sendingThread = std::thread(&NetworkController::startNetworkSending, this);
 
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
+}
+
+void NetworkController::setNetworkHost(const bool& networkHost)
+{
+	this->networkHost = networkHost;
+}
+
+bool NetworkController::getNetworkHost()
+{
+	return this->networkHost;
+}
+
+void NetworkController::sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
+{
+	network.buildTransformPacket(id, x, y, z);
+}
+
+bool NetworkController::fetchTransformPacket(TransformPacket &packet)
+{
+	return network.fetchTransformPacket(packet);
 }

@@ -20,7 +20,8 @@
 #include <iostream>
 #include <assert.h>
 #include "Address.hpp"
-
+#include "Packager.hpp"
+#include "PacketFilter.hpp"
 
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"
@@ -44,14 +45,25 @@ namespace Nurn
 
 		bool Send(const void * data, int size);
 		bool Send(const Address & destination, const void * data, int size);
+		bool Send();
 
 		// Returns 1 or 0 if a byte has been recieved or not. Then returns the data through the void *
 		bool Receive(void * data, int size);
+		bool Receive();
 
 		void Shutdown();
 
+		void buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
+		bool fetchTransformPacket(TransformPacket &packet);
+
 	private:
 		Address address;
+		Packager * packager = nullptr;
+		PacketFilter * packetFilter = nullptr;
+
+		unsigned char buffer[packetSize];
+
+
 
 #ifdef USING_UDP
 		UDPCommunication netCommunication;

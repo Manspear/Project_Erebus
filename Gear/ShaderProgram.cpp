@@ -78,7 +78,7 @@ void ShaderProgram::framebufferInit(int nrTex, int width, int height, GLuint* in
 	bindFramebuffer(nrOfTextures, attachments, textureIDs, framebufferID);
 }
 
-void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * internalFormat, GLuint * format, GLuint * type, GLuint * attachments)
+void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * internalFormat, GLuint * format, GLenum * type, GLuint * attachments)
 {
 	nrOfTextures = nrTex;
 	textureIDs = new GLuint[nrOfTextures];
@@ -89,7 +89,7 @@ void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * inte
 	// - Position color buffer
 	glGenTextures(1, &gPosition);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat[0], width, height, 0, format[0], GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gPosition, 0);
@@ -99,7 +99,7 @@ void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * inte
 	// - Normal color buffer
 	glGenTextures(1, &gNormal);
 	glBindTexture(GL_TEXTURE_2D, gNormal);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat[1], width, height, 0, format[1], GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gNormal, 0);
@@ -109,7 +109,7 @@ void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * inte
 	// - Color + Specular color buffer
 	glGenTextures(1, &gColorSpec);
 	glBindTexture(GL_TEXTURE_2D, gColorSpec);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat[2], width, height, 0, format[2], GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gColorSpec, 0);
@@ -132,6 +132,34 @@ void ShaderProgram::deferredInit(int nrTex, int width, int height, GLuint * inte
 	
 }
 
+void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat* filter, GLenum* internalFormat, GLenum* format, GLenum* type, GLenum* attachments, bool clamp)
+{
+	nrOfTextures = nrTex;
+	this->width = width;
+	this->height = height;
+
+	framebufferID = 0;
+	renderBuffer = 0;
+
+	textureIDs = new GLuint[nrOfTextures];
+	InitTextures(filter, internalFormat, format, type, clamp);
+	InitRenderTargets(attachments);
+}
+
+void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat filter, GLenum internalFormat, GLenum format, GLenum type, GLenum attachments, bool clamp)
+{
+	nrOfTextures = nrTex;
+	this->width = width;
+	this->height = height;
+
+	framebufferID = 0;
+	renderBuffer = 0;
+
+	textureIDs = new GLuint[nrOfTextures];
+	InitTextures(&filter, &internalFormat, &format, &type, clamp);
+	InitRenderTargets(&attachments);
+}
+
 void ShaderProgram::use()
 {
 	if (programID != 0)
@@ -141,6 +169,7 @@ void ShaderProgram::use()
 	if (framebufferID != 0)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+		glViewport(0, 0, width, height);
 		/*for (int i = 0; i < nrOfTextures; i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
@@ -168,12 +197,12 @@ void ShaderProgram::bindTexToLocation(GLuint* textures)
 	}
 }
 
-void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint texture)
+void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid)
 {
 	GLuint uniform = glGetUniformLocation(shader->getProgramID(), name);
-	glActiveTexture(GL_TEXTURE0 + texture);
-	glUniform1i(uniform, texture);
-	glBindTexture(GL_TEXTURE_2D, textureIDs[texture]);
+	glActiveTexture(GL_TEXTURE0 + textureLoc);
+	glUniform1i(uniform, textureLoc);
+	glBindTexture(GL_TEXTURE_2D, textureIDs[textureid]);
 }
 
 GLuint ShaderProgram::getProgramID()
@@ -289,4 +318,80 @@ int ShaderProgram::getNumShaders(const shaderBaseType& type) {
 	}
 
 	return returnValue;
+}
+
+void ShaderProgram::InitTextures(GLfloat * filter, GLenum * internalFormat, GLenum * format, GLenum * type, bool clamp)
+{
+	for (int i = 0; i < nrOfTextures; i++)
+	{
+		glGenTextures(1, &textureIDs[i]);
+		glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
+
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter[i]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter[i]);
+
+		if (clamp)
+		{
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		}
+
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat[i], width, height, 0, format[i], type[i], NULL);
+	}
+}
+
+void ShaderProgram::InitRenderTargets(GLenum * attachments)
+{
+	if (attachments == 0)
+		return;
+
+	GLenum drawBuffers[32];      //32 is the max number of bound textures in OpenGL
+	assert(nrOfTextures <= 32); //Assert to be sure no buffer overrun should occur
+
+	bool hasDepth = false;
+	for (int i = 0; i < nrOfTextures; i++)
+	{
+		if (attachments[i] == GL_DEPTH_ATTACHMENT)
+		{
+			drawBuffers[i] = GL_NONE;
+			hasDepth = true;
+		}
+		else
+			drawBuffers[i] = attachments[i];
+
+		if (attachments[i] == GL_NONE)
+			continue;
+
+		if (framebufferID == 0)
+		{
+			glGenFramebuffers(1, &framebufferID);
+			glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+		}
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, attachments[i], GL_TEXTURE_2D, textureIDs[i], 0);
+	}
+
+	if (framebufferID == 0)
+		return;
+
+	if (!hasDepth)
+	{
+		glGenRenderbuffers(1, &renderBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
+	}
+
+	glDrawBuffers(nrOfTextures, drawBuffers);
+
+	//glDrawBuffer(GL_NONE);
+	//glReadBuffer(GL_NONE);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cerr << "Framebuffer creation failed!" << std::endl;
+		assert(false);
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

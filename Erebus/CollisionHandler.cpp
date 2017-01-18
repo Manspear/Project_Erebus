@@ -50,6 +50,7 @@ CollisionHandler::~CollisionHandler()
 
 void CollisionHandler::addHitbox(SphereCollider * sphere)
 {
+	this->allColliders.push_back(sphere);
 	this->sphereColliders.push_back(sphere);
 	sphere->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -60,6 +61,7 @@ void CollisionHandler::addHitbox(SphereCollider * sphere)
 
 void CollisionHandler::addHitbox(AABBCollider * aabb)
 {
+	this->allColliders.push_back(aabb);
 	this->aabbColliders.push_back(aabb);
 	aabb->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -69,6 +71,7 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 
 void CollisionHandler::addHitbox(SphereCollider * sphere, int layer)
 {
+	this->allColliders.push_back(sphere);
 	this->sphereColliders.push_back(sphere);
 	sphere->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -78,6 +81,7 @@ void CollisionHandler::addHitbox(SphereCollider * sphere, int layer)
 
 void CollisionHandler::addHitbox(AABBCollider * aabb, int layer)
 {
+	this->allColliders.push_back(aabb);
 	this->aabbColliders.push_back(aabb);
 	aabb->setID(CollisionHandler::hitboxID);
 	CollisionHandler::incrementHitboxID();
@@ -85,27 +89,56 @@ void CollisionHandler::addHitbox(AABBCollider * aabb, int layer)
 	this->collisionLayers->addHitbox(aabb, layer);
 }
 
+void CollisionHandler::addHitbox(OBBCollider * obb)
+{
+	this->allColliders.push_back(obb);
+	this->obbColliders.push_back(obb);
+	obb->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
+	this->collisionLayers->addHitbox(obb);
+}
+
+void CollisionHandler::addHitbox(OBBCollider * obb, int layer)
+{
+	this->allColliders.push_back(obb);
+	this->obbColliders.push_back(obb);
+	obb->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
+	this->collisionLayers->addHitbox(obb, layer);
+}
+
+void CollisionHandler::addRay(RayCollider * ray)
+{
+	this->rayColliders.push_back(ray);
+
+	ray->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
+	this->collisionLayers->addRay(ray);
+}
+
+void CollisionHandler::addRay(RayCollider * ray, int layer)
+{
+	this->rayColliders.push_back(ray);
+
+	ray->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+
+	this->collisionLayers->addRay(ray, layer);
+}
+
 void CollisionHandler::checkCollisions()
 {
-	//reset counters
-	this->sphereCollisionCounter = 0;
-	this->aabbCollisionCounter = 0;
-	this->sphereToAabbCollisionCounter = 0;
-	//Updatera position
-	//Cleara deras gamla collisions görs i varje check funktion
-	//kolla alla spheres mot alla spheres
-	//kolla alla aabb mot alla andra aabb
-	//KOlla alla spheres mot alla aabb
 
+	//Cleara deras gamla collisions görs i varje check funktion
 	this->deleteAllOldCollisions();
 
-	this->updateSpherePos();
-	this->updateAabbPos();
-
-	//this->checkSphereToSphereCollisions();
-	//this->checkAabbToAaabbCollisions();
-
-	//this->checkSphereToAabbCollisions();
+	//Updatera position
+	this->updateAllHitboxPos();
+	
+	this->collisionChecker.resetCounters();
 
 	// ----------------------------------------------------
 	std::vector<int> layerCollisionVector;
@@ -113,6 +146,10 @@ void CollisionHandler::checkCollisions()
 	std::vector<AABBCollider*>* firstTempAABBColliders = nullptr;
 	std::vector<SphereCollider*>* secondTempSphereColliders = nullptr;
 	std::vector<AABBCollider*>* secondTempAABBColliders = nullptr;
+	std::vector<OBBCollider*>* firstTempOBBColliders = nullptr;
+	std::vector<OBBCollider*>* secondTempOBBColliders = nullptr;
+	std::vector<RayCollider*>* firstTempRayColliders = nullptr;
+	std::vector<RayCollider*>* secondTempRayColliders = nullptr;
 	int firstLayer = 0;
 	int secondLayer = 0;
 	this->sphereColliders;
@@ -132,6 +169,8 @@ void CollisionHandler::checkCollisions()
 
 		firstTempSphereColliders = this->collisionLayers->getSphereColliders(i); // get hitboxes from layer
 		firstTempAABBColliders = this->collisionLayers->getAABBColliders(i);
+		firstTempOBBColliders = this->collisionLayers->getOBBColliders(i);
+		firstTempRayColliders = this->collisionLayers->getRayColliders(i);
 
 		for (unsigned int j = 0; j < layerCollisionVector.size(); j++) // for every layer you should collide with
 		{
@@ -141,26 +180,42 @@ void CollisionHandler::checkCollisions()
 			{
 				secondTempSphereColliders = this->collisionLayers->getSphereColliders(secondLayer); // get hitboxes from layer to collide with
 				secondTempAABBColliders = this->collisionLayers->getAABBColliders(secondLayer);
+				secondTempOBBColliders = this->collisionLayers->getOBBColliders(secondLayer);
+				secondTempRayColliders = this->collisionLayers->getRayColliders(secondLayer);
 
-				if(secondTempSphereColliders->size() > 0) // (sphere layer1) vs (sphere layer2)
-					this->checkSphereToSphereCollisions(firstTempSphereColliders,secondTempSphereColliders);
+				checkAnyCollision(firstTempSphereColliders,secondTempSphereColliders); // (sphere layer1) vs (sphere layer2)
+				checkAnyCollision(firstTempAABBColliders,secondTempAABBColliders); // (AABB layer1) vs (AABB layer2)
 
-				if(secondTempAABBColliders->size() > 0) // (AABB layer1) vs (AABB layer2)
-					this->checkAabbToAabbCollisions(firstTempAABBColliders,secondTempAABBColliders);
+				checkAnyCollision(firstTempSphereColliders, secondTempAABBColliders); // (SPHERE layer1) vs (AABB layer2)
+				checkAnyCollision(secondTempSphereColliders, firstTempAABBColliders); // (AABB layer1) vs (SPHERE layer2)
 
-				if (secondTempSphereColliders->size() > 0 && firstTempAABBColliders->size() > 0) // (SPHERE layer2) vs (AABB layer1)
-					checkSphereToAabbCollisions(secondTempSphereColliders, firstTempAABBColliders);
+				checkAnyCollision(firstTempOBBColliders, secondTempOBBColliders); // (obb layer1) vs (obb layer2)
+				checkAnyCollision(firstTempOBBColliders, secondTempAABBColliders); // (obb layer1) vs (aabb layer2)
+				checkAnyCollision(firstTempOBBColliders, secondTempSphereColliders); // (obb layer1) vs (sphere layer2)
+				checkAnyCollision(secondTempOBBColliders, firstTempAABBColliders); // (obb layer2) vs (aabb layer1)
+				checkAnyCollision(secondTempOBBColliders, firstTempSphereColliders); // (obb layer2) vs (sphere layer1)
 
-				if (firstTempSphereColliders->size() > 0 && secondTempAABBColliders->size() > 0) // (SPHERE layer1) vs (AABB layer2)
-					checkSphereToAabbCollisions(firstTempSphereColliders, secondTempAABBColliders); 
+				checkAnyCollision(firstTempRayColliders, secondTempAABBColliders); // (ray layer1) vs (aabb layer2)
+				checkAnyCollision(firstTempRayColliders, secondTempSphereColliders); // (ray layer1) vs (sphere layer2)
+				checkAnyCollision(firstTempRayColliders, secondTempOBBColliders); // (ray layer1) vs (obb layer2)
+				checkAnyCollision(secondTempRayColliders, firstTempAABBColliders); // (ray layer2) vs (aabb layer1)
+				checkAnyCollision(secondTempRayColliders, firstTempSphereColliders);// (ray layer2) vs (sphere layer1)
+				checkAnyCollision(secondTempRayColliders, firstTempOBBColliders); // (ray layer2) vs (obb layer2)
 					
 			}
 
 			else // check collision against your own layer
 			{
-				checkSphereToSphereCollisions(firstTempSphereColliders);
-				checkAabbToAabbCollisions(firstTempAABBColliders);
-				checkSphereToAabbCollisions(firstTempSphereColliders, firstTempAABBColliders);
+				checkAnyCollision(firstTempSphereColliders);
+				checkAnyCollision(firstTempAABBColliders);
+				checkAnyCollision(firstTempOBBColliders);
+				checkAnyCollision(firstTempSphereColliders, firstTempAABBColliders);
+				checkAnyCollision(firstTempOBBColliders, firstTempAABBColliders);
+				checkAnyCollision(firstTempOBBColliders, firstTempSphereColliders);
+
+				checkAnyCollision(firstTempRayColliders, firstTempAABBColliders);
+				checkAnyCollision(firstTempRayColliders, firstTempSphereColliders);
+				checkAnyCollision(firstTempRayColliders, firstTempOBBColliders);
 			}
 
 			this->collisionLayers->checkLayer(i,layerCollisionVector[j]);
@@ -174,249 +229,71 @@ void CollisionHandler::checkCollisions()
 
 }
 
-void CollisionHandler::checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders)
+template<typename T, typename U>
+inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2)
 {
-	int sphereColliderSize = colliders->size();
-	SphereCollider* firstTempCollider = nullptr;
-	SphereCollider* secondTempCollider = nullptr;
+	size_t firstSize = colliders1->size();
+	size_t secondSize = colliders2->size();
+	bool hit = false;
 
-	if (sphereColliderSize > 0)
+	for (unsigned int i = 0; i < firstSize; i++)
 	{
-		int asyncIndex = 0;
-		for (unsigned int i = 0; i < sphereColliderSize - 1; i++)
+		if (colliders1->operator[](i)->isActive()) // only check collision if hitbox is active
+		{
+			for (unsigned int k = 0; k < secondSize; k++)
+			{
+				if (colliders2->operator[](k)->isActive()) // only check collision if hitbox is active
+				{
+					hit = false;
+					hit = this->collisionChecker.collisionCheck(colliders1->operator[](i), colliders2->operator[](k));
+
+					if (hit)
+					{
+						colliders1->operator[](i)->insertCollisionID(colliders2->operator[](k)->getID());
+						colliders2->operator[](k)->insertCollisionID(colliders1->operator[](i)->getID());
+					}
+				}
+
+			}
+		}
+
+
+	}
+}
+
+template<typename T>
+inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders)
+{
+	size_t colliderSize = colliders->size();
+	T* firstTempCollider = nullptr;
+	T* secondTempCollider = nullptr;
+	bool hit = false;
+
+	if (colliderSize > 0)
+	{
+		for (unsigned int i = 0; i < colliderSize - 1; i++)
 		{
 			firstTempCollider = colliders->operator[](i);
-			for (unsigned int j = i + 1; j < sphereColliderSize; j++)
+			if (firstTempCollider->isActive()) // only check collision if hitbox is active
 			{
-				secondTempCollider = colliders->operator[](j);
-				/*bool hit = false;
-				hit = sphereToSphereCollision(firstTempCollider, secondTempCollider);
-				if (hit)
+				for (unsigned int j = i + 1; j < colliderSize; j++)
 				{
-					firstTempCollider->insertCollisionID(secondTempCollider->getID());
-					secondTempCollider->insertCollisionID(firstTempCollider->getID());
-				}*/
+					secondTempCollider = colliders->operator[](j);
+					if (secondTempCollider->isActive()) // only check collision if hitbox is active
+					{
+						hit = false;
+						hit = this->collisionChecker.collisionCheck(firstTempCollider, secondTempCollider);
 
-				asyncData[asyncIndex].a = firstTempCollider;
-				asyncData[asyncIndex].b = secondTempCollider;
-				asyncData[asyncIndex].collision = false;
-				work->add( asyncSphere, &asyncData[asyncIndex] );
-				asyncIndex++;
-			}
-		}
-
-		work->execute();
-
-		for( int i=0; i<asyncIndex; i++ )
-		{
-			if( asyncData[i].collision )
-			{
-				asyncData[i].a->insertCollisionID( asyncData[i].b->getID() );
-				asyncData[i].b->insertCollisionID( asyncData[i].a->getID() );
-			}
-		}
-	}
-}
-
-void CollisionHandler::checkSphereToSphereCollisions(std::vector<SphereCollider*>* colliders1, std::vector<SphereCollider*>* colliders2)
-{
-	//int sphereColliderSize1 = colliders1->size();
-	//int sphereColliderSize2 = colliders2->size();
-
-	int sphereColliderSize1 = 5;
-	int sphereColliderSize2 = 5;
-	SphereCollider* tempCollider1 = nullptr;
-	SphereCollider* tempCollider2 = nullptr;;
-
-	if (sphereColliderSize1 > 0)
-	{
-		for (unsigned int i = 0; i < colliders1->size(); i++)
-		{
-			tempCollider1 = colliders1->operator[](i);
-			for (unsigned int j = 0; j < colliders2->size(); j++)
-			{
-				tempCollider2 = colliders2->operator[](j);
-				bool hit = false;
-				hit = sphereToSphereCollision(tempCollider1, tempCollider2);
-				if (hit)
-				{
-					tempCollider1->insertCollisionID(tempCollider2->getID());
-					tempCollider2->insertCollisionID(tempCollider1->getID());
-				}
-
-			}
-
-		}
-	}
-}
-
-void CollisionHandler::checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders)
-{
-	int aabbColliderSize = colliders->size();
-
-	if (aabbColliderSize > 0) // undvik infinity loop
-	{
-		for (unsigned int i = 0; i < aabbColliderSize - 1; i++) // aabb mot aabb
-		{
-			for (unsigned int j = i + 1; j <aabbColliderSize; j++)
-			{
-				bool hit = false;
-				hit = aabbToAabbCollision(colliders->operator[](i), colliders->operator[](j));
-
-				if (hit)
-				{
-					colliders->operator[](i)->insertCollisionID(colliders->operator[](j)->getID());
-					colliders->operator[](j)->insertCollisionID(colliders->operator[](i)->getID());
-
+						if (hit)
+						{
+							firstTempCollider->insertCollisionID(secondTempCollider->getID());
+							secondTempCollider->insertCollisionID(firstTempCollider->getID());
+						}
+					}
 				}
 			}
 		}
 	}
-}
-
-void CollisionHandler::checkAabbToAabbCollisions(std::vector<AABBCollider*>* colliders1, std::vector<AABBCollider*>* colliders2)
-{
-	int aabbColliderSize1 = colliders1->size();
-	int aabbColliderSize2 = colliders2->size();
-
-	if (aabbColliderSize1 > 0)
-	{
-		for (unsigned int i = 0; i < colliders1->size(); i++)
-		{
-			for (unsigned int j = 0; j < colliders2->size(); j++)
-			{
-				bool hit = false;
-				hit = aabbToAabbCollision(colliders1->operator[](i), colliders2->operator[](j));
-				if (hit)
-				{
-					colliders1->operator[](i)->insertCollisionID(colliders2->operator[](j)->getID());
-					colliders2->operator[](j)->insertCollisionID(colliders1->operator[](i)->getID());
-				}
-
-			}
-
-		}
-	}
-}
-
-void CollisionHandler::checkSphereToAabbCollisions(std::vector<SphereCollider*>* colliders1, std::vector<AABBCollider*>* colliders2)
-{
-	int sphereColliderSize = colliders1->size();
-	int aabbColliderSize = colliders2->size();
-
-	for (unsigned int i = 0; i < sphereColliderSize; i++) // sphere mot aabb
-	{
-		for (unsigned int k = 0; k < aabbColliderSize; k++)
-		{
-			bool hit = false;
-			//hit = colliders1->operator[](i)->SphereToAabbCollision(colliders2->operator[](k));
-			hit = this->sphereToAabbCollision(colliders1->operator[](i), colliders2->operator[](k));
-			if (hit)
-			{
-				colliders1->operator[](i)->insertCollisionID(colliders2->operator[](k)->getID());
-				colliders2->operator[](k)->insertCollisionID(colliders1->operator[](i)->getID());
-			}
-
-		}
-
-	}
-}
-
-void CollisionHandler::asyncSphere( void* args )
-{
-	AsyncData* data = (AsyncData*)args;
-
-	glm::vec3 distanceVector = data->a->getPos() - data->b->getPos();
-	float distanceSquared = glm::dot(distanceVector, distanceVector); // dot with itself = length^2
-
-	float radiusSquared = (data->a->getRadius() + data->b->getRadius());
-	radiusSquared *= radiusSquared;
-
-	//if distance squared is less than radius squared = collision
-	if (distanceSquared <= radiusSquared)
-		data->collision = true;
-}
-
-bool CollisionHandler::sphereToSphereCollision(SphereCollider * sphere1, SphereCollider * sphere2)
-{
-	this->sphereCollisionCounter++;
-	bool collision = false;
-
-	glm::vec3 distanceVector = sphere1->getPos() - sphere2->getPos();
-	float distanceSquared = glm::dot(distanceVector, distanceVector); // dot with itself = length^2
-
-	float radiusSquared = (sphere1->getRadius() + sphere2->getRadius());
-	radiusSquared *= radiusSquared;
-
-	//if distance squared is less than radius squared = collision
-	if (distanceSquared <= radiusSquared)
-		collision = true;
-
-
-	return collision;
-}
-
-bool CollisionHandler::aabbToAabbCollision(AABBCollider* aabb1, AABBCollider* aabb2)
-{
-	this->aabbCollisionCounter++;
-	const glm::vec3 minPos1 = aabb1->getMinPos();
-	const glm::vec3 maxPos1 = aabb1->getMaxPos();
-
-	const glm::vec3 minPos2 = aabb2->getMinPos();
-	const glm::vec3 maxPos2 = aabb2->getMaxPos();
-
-
-	return (maxPos1.x >= minPos2.x &&
-		minPos1.x <= maxPos2.x &&
-		maxPos1.y >= minPos2.y &&
-		minPos1.y <= maxPos2.y &&
-		maxPos1.z >= minPos2.z &&
-		minPos1.z <= maxPos2.z);
-}
-
-bool CollisionHandler::sphereToAabbCollision(SphereCollider * sphere, AABBCollider * aabb)
-{
-	this->sphereToAabbCollisionCounter++;
-	bool collision = false;
-
-	float squaredDistance = SquaredDistancePointToAabb(aabb,sphere);
-	float radiusSquared = sphere->getRadiusSquared();
-	if (squaredDistance <= radiusSquared) // if squared distance between aabb and sphere center is closer than squared radius of spheres
-		collision = true;
-
-
-	return collision;
-}
-
-float CollisionHandler::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
-{
-	float val = 0;
-	float returnValue = 0;
-	if (point < aabbMin)
-	{
-		val = (aabbMin - point);
-		returnValue = val* val;
-	}
-	if (point > aabbMax)
-	{
-		val = (point - aabbMax);
-		returnValue = val*val;
-	}
-	return returnValue;
-}
-
-float CollisionHandler::SquaredDistancePointToAabb(AABBCollider* aabb, SphereCollider* sphere)
-{
-	float squaredDistance = 0;
-	const glm::vec3 minPos = aabb->getMinPos();
-	const glm::vec3 maxPos = aabb->getMaxPos();
-	const glm::vec3 spherePos = sphere->getPos();
-
-	squaredDistance += closestDistanceAabbToPoint(spherePos.x, minPos.x, maxPos.x);
-	squaredDistance += closestDistanceAabbToPoint(spherePos.y, minPos.y, maxPos.y);
-	squaredDistance += closestDistanceAabbToPoint(spherePos.z, minPos.z, maxPos.z);
-
-	return squaredDistance;
 }
 
 void CollisionHandler::incrementHitboxID()
@@ -456,9 +333,29 @@ void CollisionHandler::initializeColors()
 	}
 }
 
+void CollisionHandler::updateAllHitboxPos()
+{
+	size_t allColliderSize = this->allColliders.size();
+	size_t rayColliderSize = this->rayColliders.size();
+
+	for (size_t i = 0; i < allColliderSize; i++)
+	{
+		int idTransform = this->allColliders[i]->getIDTransform();
+		if (idTransform >= 0)
+			this->allColliders[i]->setPos(transforms[idTransform].getPos());
+	}
+
+	for (size_t i = 0; i < rayColliderSize; i++) // update rays also
+	{
+		int idTransform = this->rayColliders[i]->getIDTransform();
+		if (idTransform >= 0)
+			this->rayColliders[i]->setPosition(transforms[idTransform].getPos());
+	}
+}
+
 void CollisionHandler::updateSpherePos()
 {
-	int sphereColliderSize = this->sphereColliders.size();
+	size_t sphereColliderSize = this->sphereColliders.size();
 
 	for (unsigned int i = 0; i < sphereColliderSize; i++) 
 	{
@@ -470,7 +367,7 @@ void CollisionHandler::updateSpherePos()
 
 void CollisionHandler::updateAabbPos()
 {
-	int aabbColliderSize = this->aabbColliders.size();
+	size_t aabbColliderSize = this->aabbColliders.size();
 
 	for (unsigned int i = 0; i < aabbColliderSize; i++)
 	{
@@ -480,32 +377,43 @@ void CollisionHandler::updateAabbPos()
 	}
 }
 
-
 void CollisionHandler::deleteAllOldCollisions()
 {
-	int sphereColliderSize = this->sphereColliders.size();
-	int aabbColliderSize = this->aabbColliders.size();
+	size_t sphereColliderSize = this->sphereColliders.size();
+	size_t aabbColliderSize = this->aabbColliders.size();
+	size_t obbColliderSize = this->obbColliders.size();
+	size_t rayColliderSize = this->rayColliders.size();
 
-	for (unsigned int i = 0; i < sphereColliderSize; i++) // sphere
+	for (size_t i = 0; i < sphereColliderSize; i++) // sphere
 	{
 		this->sphereColliders[i]->clearCollisionIDs();
 	}
 
-	for (unsigned int i = 0; i < aabbColliderSize; i++) // aabb
+	for (size_t i = 0; i < aabbColliderSize; i++) // aabb
 	{
 		aabbColliders[i]->clearCollisionIDs();
 	}
 
+	for (size_t i = 0; i < obbColliderSize; i++)
+	{
+		obbColliders[i]->clearCollisionIDs();
+	}
 
+	for (size_t i = 0; i < rayColliderSize; i++)
+	{
+		rayColliders[i]->clearCollisionIDs();
+		rayColliders[i]->clearHitData();
+	}
 }
 
 bool CollisionHandler::deleteHitbox(unsigned int ID)
 {
-	unsigned int sphereColliderSize = this->sphereColliders.size();
-	unsigned int aabbColliderSize = this->aabbColliders.size();
+	size_t sphereColliderSize = this->sphereColliders.size();
+	size_t aabbColliderSize = this->aabbColliders.size();
+	size_t obbColliderSize = this->obbColliders.size();
 	bool deleted = false;
 
-	for (unsigned int i = 0; i < sphereColliderSize; i++) // check spheres
+	for (size_t i = 0; i < sphereColliderSize; i++) // check spheres
 	{
 		if (sphereColliders[i]->getID() == ID)
 		{
@@ -517,7 +425,7 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 	}
 	if (!deleted)
 	{
-		for (unsigned int i = 0; i < aabbColliderSize; i++)
+		for (size_t i = 0; i < aabbColliderSize; i++)
 		{
 			if (aabbColliders[i]->getID() == ID)
 			{
@@ -526,6 +434,20 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 				deleted = true;
 				i = aabbColliderSize;
 			}
+		}
+	}
+	else if (!deleted)
+	{
+		for (size_t i = 0; i < obbColliderSize; i++)
+		{
+			if (obbColliders[i]->getID() == ID)
+			{
+				obbColliders[i]->clearCollisionIDs();
+				obbColliders.erase(obbColliders.begin() + i);
+				deleted = true;
+				i = obbColliderSize;
+			}
+
 		}
 	}
 
@@ -542,9 +464,22 @@ void CollisionHandler::setDebugger(Debug * debugger)
 	this->debugger = debugger;
 }
 
-void CollisionHandler::setWorkQueue( WorkQueue* w )
+std::string CollisionHandler::getCollisionText()
 {
-	work = w;
+	std::stringstream text;
+	int total = collisionChecker.getCollisionCounter();
+	text << "Sphere to sphere checks: " << collisionChecker.getSphereCollisionCounter()
+		<< "\nAABB to AABB Checks: " << collisionChecker.getAabbCollisionCounter()
+		<< "\nSphere to AABB Checks: " << collisionChecker.getSphereToAabbCollisionCounter()
+		<< "\nOBB to OBB Checks: " << collisionChecker.getObbCollisionCounter()
+		<< "\nOBB to Sphere Checks: " << collisionChecker.getObbToSphereCollisionCounter()
+		<< "\nOBB to AABB Checks: " << collisionChecker.getObbToAabbCollisionCounter()
+		<< "\nRay to AABB Checks: " << collisionChecker.getRayToAabbCollisionCounter()
+		<< "\nRay to OBB Checks: " << collisionChecker.getRayToObbCollisionCounter()
+		<< "\nRay to Sphere Checks: " << collisionChecker.getRayToSphereCollisionCunter()
+		<< "\nTotal Checks: " << total << "\n\n";
+
+	return text.str();
 }
 
 CollisionLayers* CollisionHandler::getCollisionLayers()
@@ -562,31 +497,90 @@ void CollisionHandler::setLayerCollisionMatrix(int layer1, int layer2, bool canC
 	this->collisionLayers->setLayerCollisionMatrix(layer1,layer2,canCollide);
 }
 
+void CollisionHandler::deactiveteAllHitboxes()
+{
+	for (size_t i = 0; i < this->allColliders.size(); i++)
+	{
+		this->allColliders[i]->setActive(false);
+	}
+	for (size_t i = 0; i < this->rayColliders.size(); i++)
+	{
+		this->rayColliders[i]->setActive(false);
+	}
+}
+
+void CollisionHandler::activeteAllHitboxes()
+{
+	for (size_t i = 0; i < this->allColliders.size(); i++)
+	{
+		this->allColliders[i]->setActive(true);
+	}
+	for (size_t i = 0; i < this->rayColliders.size(); i++)
+	{
+		this->rayColliders[i]->setActive(true);
+	}
+}
+
 void CollisionHandler::printCollisions()
 {
-	float total = this->sphereCollisionCounter + this->aabbCollisionCounter + this->sphereToAabbCollisionCounter;
-	std::cout << "Sphere to sphere checks: " << this->sphereCollisionCounter 
-		<< "\nAABB to AABB Checks: " << this->aabbCollisionCounter 
-		<< "\nSphere to AABB Checks: " << this->sphereToAabbCollisionCounter 
-		<<"\nTotal Checks: " << total << std::endl;
+	int total = collisionChecker.getCollisionCounter();
+	std::cout << "Sphere to sphere checks: " << collisionChecker.getSphereCollisionCounter()
+		<< "\nAABB to AABB Checks: " << collisionChecker.getAabbCollisionCounter()
+		<< "\nSphere to AABB Checks: " << collisionChecker.getSphereToAabbCollisionCounter()
+		<< "\nOBB to OBB Checks: " << collisionChecker.getObbCollisionCounter()
+		<< "\nOBB to Sphere Checks: " << collisionChecker.getObbToSphereCollisionCounter()
+		<< "\nOBB to AABB Checks: " << collisionChecker.getObbToAabbCollisionCounter()
+		<< "\nRay to AABB Checks: " << collisionChecker.getRayToAabbCollisionCounter()
+		<< "\nRay to OBB Checks: " << collisionChecker.getRayToObbCollisionCounter()
+		<< "\nRay to Sphere Checks: " << collisionChecker.getRayToSphereCollisionCunter()
+		<<"\nTotal Checks: " << total << "\n\n";
 }
 
 void CollisionHandler::drawHitboxes()
 {
 	std::vector<SphereCollider*>* tempSphereColliders;
 	std::vector<AABBCollider*>* tempAabbColliders;
+	std::vector<OBBCollider*>* tempObbColliders;
+	std::vector<RayCollider*>* tempRayColliders;
 	SphereCollider* tempSphere = nullptr;
+	const glm::vec3 deactivatedColor(0,0,0);
 	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
 	{
 		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
 		tempAabbColliders = this->collisionLayers->getAABBColliders(i);
+		tempObbColliders = this->collisionLayers->getOBBColliders(i);
+		tempRayColliders = this->collisionLayers->getRayColliders(i);
 		for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
 		{
-			debugger->drawSphere(tempSphereColliders->operator[](j)->getPos(), tempSphereColliders->operator[](j)->getRadius(),this->colors[i]);
+			SphereCollider* temp = tempSphereColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawSphere(temp->getPos(), temp->getRadius(),this->colors[i]);
+			else
+				debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
 		}
 		for (size_t j = 0; j < tempAabbColliders->size(); j++)
 		{
-			debugger->drawAABB(tempAabbColliders->operator[](j)->getMinPos(), tempAabbColliders->operator[](j)->getMaxPos(),this->colors[i]);
+			AABBCollider* temp = tempAabbColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(),this->colors[i]);
+			else
+				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
+		}
+		for (size_t j = 0; j < tempObbColliders->size(); j++)
+		{
+			OBBCollider* temp = tempObbColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
+			else
+				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
+		}
+		for (size_t j = 0; j < tempRayColliders->size(); j++)
+		{
+			RayCollider* temp = tempRayColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
+			else
+				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
 		}
 	}
 }

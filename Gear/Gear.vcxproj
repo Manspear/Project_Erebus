@@ -79,7 +79,7 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -138,7 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;GEAR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Importer</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,11 +146,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AntTweakBar.lib;OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationEnums.h" />
     <ClInclude Include="BaseIncludes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Debug.h" />
@@ -160,14 +161,15 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="Particles.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
-    <ClInclude Include="ScreenQuadRenderer.h" />
+    <ClInclude Include="ImageRenderer.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="staticNonModels.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Window.h" />
@@ -180,12 +182,13 @@
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Particles.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
-    <ClCompile Include="ScreenQuadRenderer.cpp" />
+    <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -195,9 +198,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Erebus\screenQuad.frag" />
-    <None Include="..\Erebus\screenQuad.geom" />
-    <None Include="..\Erebus\screenQuad.vert" />
+    <None Include="..\Erebus\Shaders\animShadow.frag" />
+    <None Include="..\Erebus\Shaders\animShadow.geom" />
+    <None Include="..\Erebus\Shaders\animShadow.vert" />
     <None Include="..\Erebus\Shaders\forward.frag" />
     <None Include="..\Erebus\Shaders\forward.geom" />
     <None Include="..\Erebus\Shaders\forward.vert" />
@@ -206,6 +209,8 @@
     <None Include="..\Erebus\Shaders\anim.vert" />
     <None Include="..\Erebus\Shaders\geometryPass.frag" />
     <None Include="..\Erebus\Shaders\geometryPass.vert" />
+    <None Include="..\Erebus\Shaders\geometryPassShadow.frag" />
+    <None Include="..\Erebus\Shaders\geometryPassShadow.vert" />
     <None Include="..\Erebus\Shaders\g_Buffer.frag" />
     <None Include="..\Erebus\Shaders\g_Buffer.vert" />
     <None Include="..\Erebus\Shaders\heightmap.frag" />
