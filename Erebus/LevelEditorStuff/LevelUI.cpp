@@ -1,5 +1,6 @@
 #include "LevelUI.h"
 #include "LevelActorHandler.h"
+#include "LevelAssetHandler.h"
 #include "LevelTransform.h"
 #include "LevelModel.h"
 #include "levelpointlightcomponent.h"
@@ -9,6 +10,7 @@ TwType LevelUI::componentTw = TW_TYPE_FLOAT;
 const char* LevelUI::actorBarName = "Actor";
 const char* LevelUI::worldBarName = "World";
 const char* LevelUI::assetBarName = "Assets";
+const char* LevelUI::assetContextBarName = "AssetsContext";
 const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelModel::name, LevelPointLightComponent::name };
 
 void TW_CALL setEditorState(void * clientData)
@@ -24,19 +26,22 @@ LevelUI::LevelUI(GLFWwindow* window)
 	TwInit(TW_OPENGL_CORE, NULL);
 	TwWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	bars[0] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness())), 0),
+	bars[1] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness())), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT),
 		glm::vec4(0, 128, 255, 200), actorBarName);
 
-	bars[1] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), 0),
+	bars[0] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
 		glm::vec4(0, 128, 128, 200), worldBarName);
 
-	bars[2] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), WINDOW_HEIGHT*.5f),
-		glm::vec2((int)(WINDOW_WIDTH* TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
+	glm::vec2 bar2Position( (int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), WINDOW_HEIGHT*.5f );
+	bars[2] = new TweakBar(bar2Position, glm::vec2((int)(WINDOW_WIDTH * TweakBar::getMainThickness() ), WINDOW_HEIGHT*.5f),
 		glm::vec4(0, 255, 128, 200), assetBarName);
+
+	bars[3] = new TweakBar(glm::vec2(bar2Position.x-192, bar2Position.y), glm::vec2(148,72), glm::vec4(255, 255, 0, 200), assetContextBarName );
 	
 	LevelActorHandler::getInstance()->setTweakBars( bars[1], bars[0] );
+	LevelAssetHandler::getInstance()->setTweakBars( bars[2], bars[3] );
 
 	if (TwGetLastError() != nullptr) {
 		printf("error");

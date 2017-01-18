@@ -26,6 +26,10 @@ public:
 	int getModelIndex();
 
 	void setTwStruct(TwBar * twBar) override;
+	void setModelName( std::string name );
+
+	const std::string& getModelName() const;
+
 private:
 	std::string modelName;
 	int modelIndex, transformIndice;

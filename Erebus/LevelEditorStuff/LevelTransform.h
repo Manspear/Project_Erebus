@@ -29,6 +29,7 @@ public:
 private:
 	Transform* transformRef;
 	TransformStruct* transformStructTemp;
+	TransformStruct* transformStructTempStuff;
 	
 };
 
