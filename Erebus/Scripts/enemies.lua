@@ -87,7 +87,7 @@ function UpdateEnemies(dt)
 			end
 			Transform.SetPosition(enemies[i].transformID, pos)
 
-			enemies[i].animation:Update(tempdt, enemies[i].animationState)
+			--enemies[i].animation:Update(tempdt, enemies[i].animationState)
 
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then

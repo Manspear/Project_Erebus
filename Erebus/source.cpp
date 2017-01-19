@@ -18,6 +18,8 @@
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 
+#include "SoundEngine.h"
+
 bool running = true;
 
 int main()
@@ -25,6 +27,7 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;
+	SoundEngine soundEngine;
 
 	GameState gameState = MenuState;
 	window.changeCursorStatus(false);
@@ -51,9 +54,6 @@ int main()
 	GamePlay * gamePlay = new GamePlay(&engine, assets);
 	Menu * menu = new Menu(&engine,assets);
 
-	glClearColor(1, 1, 1, 1);
-
-
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
@@ -64,8 +64,12 @@ int main()
 	
 	inputs.getMousePos();
 
+	soundEngine.play("Music/menuBurana.ogg", true);
+	soundEngine.setVolume(0.5);
+
 	while (running && window.isWindowOpen())
 	{	
+		//engine.effectPreProcess();
 
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
@@ -77,7 +81,7 @@ int main()
 			gameState = menu->Update(inputs);
 			if (gameState == HostGameplayState)
 			{
-				if (gamePlay->StartNetwork(true))
+				if (gamePlay->StartNetwork(true, &counter))
 				{
 					gameState = GameplayState;
 				}
@@ -90,7 +94,7 @@ int main()
 
 			if (gameState == ClientGameplayState)
 			{
-				if (gamePlay->StartNetwork(false))
+				if (gamePlay->StartNetwork(false, &counter))
 				{
 					gameState = GameplayState;
 				}
@@ -103,6 +107,7 @@ int main()
 
 			if (gameState == GameplayState)
 			{
+				soundEngine.play("Effects/bell.wav");
 				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
@@ -127,6 +132,8 @@ int main()
 		engine.print(virtualMem, 0.0f, 60.0f);
 
 		window.update();
+
+		//glPolygonMode(GL_FRONT_FACE, GL_LINES);
 
 		engine.draw(&camera);
 
@@ -153,12 +160,13 @@ int main()
 		{
 			if (lockMouse)
 			{
-				
+				soundEngine.pause();
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
 			else
 			{
+				soundEngine.resume();
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}

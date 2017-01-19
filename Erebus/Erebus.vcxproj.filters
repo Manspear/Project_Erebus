@@ -89,6 +89,9 @@
     <ClCompile Include="NetworkController.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="LuaMath.h">
       <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -366,8 +372,17 @@
     <None Include="Shaders\image.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\console.lua">
-      <Filter>Scripts</Filter>
+    <None Include="effects.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="effects.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\gloom.comp">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\playerController.lua">
+      <Filter>Animation Controllers</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +421,9 @@
     </Filter>
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation Controllers">
+      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
