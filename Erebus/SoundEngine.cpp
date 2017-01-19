@@ -17,13 +17,16 @@ SoundEngine::~SoundEngine()
 		engine->drop();
 }
 
-void SoundEngine::play(std::string target, bool loop)
+void SoundEngine::play(std::string target, enum SndOptions options)
 {
 	if (!engine)
 		return;
 
 	std::string path = basePath + target;
-	irrklang::ISound* s = engine->play2D(path.c_str(), loop, false, loop);
+	bool loop = (bool)(options & SND_LOOP);
+	bool track = (bool)(options & (SND_LOOP | SND_TRACK));
+
+	irrklang::ISound* s = engine->play2D(path.c_str(), loop, false, track);
 	if (s)
 		sounds.push_back(s);
 }
