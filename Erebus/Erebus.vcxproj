@@ -157,6 +157,7 @@
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelActionHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActorFactory.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp" />
@@ -164,9 +165,9 @@
     <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEditor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelGizmo.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelFileDialog.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModel.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModelHandler.cpp" />
-    <ClCompile Include="LevelEditorStuff\LevelPrefabHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelTransformHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelUI.cpp" />
@@ -208,8 +209,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\arc.lua" />
-    <None Include="Scripts\basespell.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
@@ -220,6 +219,7 @@
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectile.lua" />
+    <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Shaders\anim.frag" />
@@ -267,6 +267,7 @@
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LevelEditorStuff\LevelActionHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActor.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorComponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorFactory.h" />
@@ -275,9 +276,9 @@
     <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelEditor.h" />
     <ClInclude Include="LevelEditorStuff\LevelGizmo.h" />
+    <ClInclude Include="LevelEditorStuff\LevelFileDialog.h" />
     <ClInclude Include="LevelEditorStuff\LevelModel.h" />
     <ClInclude Include="LevelEditorStuff\LevelModelHandler.h" />
-    <ClInclude Include="LevelEditorStuff\LevelPrefabHandler.h" />
     <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelTransformHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelUI.h" />

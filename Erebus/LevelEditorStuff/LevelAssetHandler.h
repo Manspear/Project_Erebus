@@ -22,9 +22,14 @@ public:
 	void updateAssetsBar();
 	//void showContextBar( bool visible );
 	void selectAsset( std::string model );
+	//void selectPrefab( std::string prefab );
 	void showContextBar( std::string model );
 	void hideContextBar();
 	void addToActor();
+
+	void selectPrefab( int index );
+	int getSelectedPrefabIndex();
+	const std::string& getSelectedPrefab();
 
 	void setAssets( Importer::Assets* assets );
 	void setInputs( Inputs* inputs );
@@ -34,20 +39,25 @@ private:
 	LevelAssetHandler();
 
 	void loadAssets( std::vector<std::string>* container, std::string folder, std::string filter = "*" );
+	static void TW_CALL onSetPrefab( const void* value, void* clientData );
+	static void TW_CALL onGetPrefab( void* value, void* clientData );
 	static void TW_CALL onSelectAsset( void* args );
 	static void TW_CALL onAdd( void* args );
 	static void TW_CALL onClose( void* args );
 
 	Importer::Assets* assets;
 
+	std::vector<std::string> prefabs;
+	std::vector<bool> prefabSelection;
+	std::vector<int> prefabSelectionIndices;
 	std::vector<std::string> models;
 	std::vector<std::string> textures;
-	std::vector<int> selectionIndices;
 
 	TweakBar* assetsBar, *contextBar;
 	bool contextBarVisible;
 	Inputs* inputs;
 	std::string selectedModel;
+	int selectedPrefab;
 
 	static LevelAssetHandler* g_instance;
 };

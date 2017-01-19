@@ -11,7 +11,7 @@
 #include "LuaParticles.h"
 #include "LuaTransform.h"
 #include "LuaCamera.h"
-#include"LuaAi.h"
+#include "LuaAi.h"
 #include "LuaInputs.h"
 #include "LuaNetwork.hpp"
 

@@ -92,12 +92,10 @@ public:
 	}
 };
 
-class LevelActorHandler;
-class LevelAssetHandler;
 class LevelUI
 {
 private:
-	TweakBar* bars[4];
+	TweakBar* bars[5];
 
 	
 public:
@@ -110,6 +108,7 @@ public:
 	static const char* worldBarName;
 	static const char* assetBarName;
 	static const char* assetContextBarName;
+	static const char* actionBarName;
 	static TwType vector3Tw;
 	static TwType componentTw;
 	static std::string vec2ToString(glm::vec2& val, std::string type = "");

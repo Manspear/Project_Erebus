@@ -4,6 +4,7 @@
 #include "LevelActor.h"
 #include <map>
 #include "LevelActorFactory.h"
+#include "LevelFileDialog.h"
 
 class LevelActorHandler
 {
@@ -38,12 +39,12 @@ private:
 	void updateTweakBars();
 	void updateWorldBar();
 	void updateActorBar();
+	void savePrefab( LevelActor* actor );
 	static void TW_CALL onActorSelected( void* args );
+	static void TW_CALL onSavePrefab( void* args );
 
 	std::map<unsigned int, LevelActor*> actors;
 	LevelActor* selectedActor;
 	TweakBar* worldBar, *actorBar;
-
-
-
+	LevelFileDialog fileDialog;
 };

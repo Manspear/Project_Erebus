@@ -128,7 +128,7 @@ bool CollisionChecker::collisionCheck(OBBCollider* collider, OBBCollider* collid
 	lengthProjection = hitboxProjection = 0;
 
 
-	for (size_t i = 0; i < indexOfVec3; i++) // case 1-3
+	for (int i = 0; i < indexOfVec3; i++) // case 1-3
 	{
 		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
 		hitboxProjection = halfLengths[0] + glm::abs(BHalfLengths.x * dots[i][0] + glm::abs(BHalfLengths.y * dots[i][1]) + glm::abs(BHalfLengths.z * dots[i][2]));
@@ -136,7 +136,7 @@ bool CollisionChecker::collisionCheck(OBBCollider* collider, OBBCollider* collid
 			return false;
 	}
 
-	for (size_t i = 0; i < indexOfVec3; i++) // case 4-6
+	for (int i = 0; i < indexOfVec3; i++) // case 4-6
 	{
 		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
 		hitboxProjection = glm::abs(halfLengths.x * dots[0][i]) + glm::abs(halfLengths.y * dots[1][i]) + glm::abs(halfLengths.z * dots[2][i]) + BHalfLengths[i];
@@ -267,7 +267,7 @@ bool CollisionChecker::collisionCheck(OBBCollider * collider, AABBCollider * col
 	lengthProjection = hitboxProjection = 0;
 
 
-	for (size_t i = 0; i < indexOfVec3; i++) // case 1-3
+	for (int i = 0; i < indexOfVec3; i++) // case 1-3
 	{
 		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
 		hitboxProjection = halfLengths[0] + glm::abs(BHalfLengths.x * dots[i][0] + glm::abs(BHalfLengths.y * dots[i][1]) + glm::abs(BHalfLengths.z * dots[i][2]));
@@ -275,7 +275,7 @@ bool CollisionChecker::collisionCheck(OBBCollider * collider, AABBCollider * col
 			return false;
 	}
 
-	for (size_t i = 0; i < indexOfVec3; i++) // case 4-6
+	for (int i = 0; i < indexOfVec3; i++) // case 4-6
 	{
 		lengthProjection = glm::abs(glm::dot(T, separatingAxes[separatingAxisCounter++]));
 		hitboxProjection = glm::abs(halfLengths.x * dots[0][i]) + glm::abs(halfLengths.y * dots[1][i]) + glm::abs(halfLengths.z * dots[2][i]) + BHalfLengths[i];
@@ -396,7 +396,7 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 	glm::vec3 aabbMin = aabb->getMinPos();
 	glm::vec3 aabbMax = aabb->getMaxPos();
 
-	int threeSlabs = 3;
+	unsigned int threeSlabs = 3;
 
 	for (unsigned int i = 0; i < threeSlabs; i++)
 	{
