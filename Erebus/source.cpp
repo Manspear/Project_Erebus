@@ -160,12 +160,13 @@ int main()
 		{
 			if (lockMouse)
 			{
-				
+				soundEngine.pause();
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
 			else
 			{
+				soundEngine.resume();
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
