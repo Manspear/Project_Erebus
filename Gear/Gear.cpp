@@ -280,7 +280,6 @@ namespace Gear
 		
 		actorID = pickedID;
 		hitPos = colorPosition;
-		std::cout << glm::to_string(colorPosition) << std::endl;
 		//if (pickedID == 0x00000000) {
 		//	std::cout << "looking at background!" << std::endl;
 		//}

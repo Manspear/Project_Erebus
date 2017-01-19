@@ -196,10 +196,14 @@ void LevelEditor::start() {
 		this->levelGizmo->update();
 		this->levelGizmo->drawGizmo();
 		
+		if(inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1)) {
+			this->holdingGizmo = levelGizmo->onMouseDown();
+		}
+
 		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 		{
 			
-			if (!levelGizmo->clickUpdate()) {
+			if (!holdingGizmo) {
 				pick();
 				if (cursorMode == CURSOR_SELECT)
 					LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
@@ -223,6 +227,8 @@ void LevelEditor::start() {
 					}
 				}
 			}
+			this->levelGizmo->onMouseUp();
+			this->holdingGizmo = false;
 	
 		}
 		engine->queueLights(&lights);

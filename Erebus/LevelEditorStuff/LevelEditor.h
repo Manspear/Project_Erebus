@@ -64,6 +64,7 @@ private:
 	LevelGizmo* levelGizmo;
 
 	void pick();
+	bool holdingGizmo;
 public:
 
 	LevelEditor();
