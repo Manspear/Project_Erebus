@@ -42,7 +42,7 @@ function CreatePlayerController(animation, player)
 			self:JumpState(dt)
 		end
 
-		if self.watch.spamCasting == true then
+		if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true then
 			self:AttackState(dt)
 		end
 
@@ -101,7 +101,36 @@ function CreatePlayerController(animation, player)
 	end
 
 	function controller:AttackState(dt)
-		
+		--the attack animation is different depending on what the legs do.
+
+		--Make sure that these attack animations are seamless. If they aren't, a new function
+	    --might have to get created. 
+
+		print(self.animationState1)
+		if self.animationState1 == 9 then
+			self.animationState2 = 21
+		end
+		if self.animationState1 == 10 then
+			self.animationState2 = 22
+		end
+		if self.animationState1 == 11 then
+			self.animationState2 = 22
+		end
+		if self.animationState1 == 12 then
+			self.animationState2 = 23
+		end
+		if self.animationState1 == 13 then
+			self.animationState2 = 23
+		end
+		if self.animationState1 == 14 then
+			self.animationState2 = 23
+		end
+		if self.animationState1 == 15 then
+			self.animationState2 = 24
+		end
+		if self.animationState1 == 16 then
+			self.animationState2 = 24
+		end
 	end
 
 	function controller:IdleState(dt)
@@ -114,6 +143,8 @@ function CreatePlayerController(animation, player)
 			self.isDamagedTimerStart = true
 		end
 		if self.isDamagedTimerStart == true then
+			--QuickBlend updates the animation by itself, no need to call 
+			--animation:Update()
 			res = self.animation:QuickBlend(dt, 0, 7, self.damagedMaxTime, 2);
 			if res == true then
 				self.isDamagedTimerStart = false

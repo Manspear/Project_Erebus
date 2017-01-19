@@ -11,26 +11,6 @@ Animation::Animation()
 	transitionTimeArray = nullptr;
 
 	transitionTimeArraySize = 9;
-
-
-
-	////FOR DEBUGGING
-	//this->animationSegments = 1;
-	//std::vector<int> animStack;
-	//animStack.push_back(0);
-	//for (int i = 0; i < animationSegments; i++)
-	//{
-	//	isTransitionCompletes.push_back(true);
-	//	oldTos.push_back(-1337);
-	//	oldFroms.push_back(-1337);
-	//	transitionMaxTimes.push_back(0);
-	//	transitionTimers.push_back(0);
-	//	animationTimers.push_back(0);
-	//	animationStacks.push_back(animStack);
-	//
-	//	glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
-	//	animationMatrixLists.push_back(allahu);
-	//}
 }
 
 Animation::~Animation()

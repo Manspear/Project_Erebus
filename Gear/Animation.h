@@ -59,6 +59,11 @@ public:
 
 protected:
 	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
+
+	/*
+	The difference between this and the other UpdateState() is that 
+	animation time is set by transitionTime, and not by the animation.
+	*/
 	void updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime);
 	//std::vector<sKeyFrame> updateAnimationForQuickBlend(float dt, int layer, float& animTimer, float scaleTimer);
 
