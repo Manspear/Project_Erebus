@@ -361,8 +361,7 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\reusable.lua">
-    <None Include="Scripts\Animation_Controllers\playerController.lua">
-      <Filter>Scripts\Animation_Controllers</Filter>
+      <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\image.frag">
       <Filter>Shaders</Filter>
@@ -381,6 +380,9 @@
     </None>
     <None Include="Shaders\gloom.comp">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\playerController.lua">
+      <Filter>Animation Controllers</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -414,13 +416,14 @@
     <Filter Include="Header Files\LevelEditor">
       <UniqueIdentifier>{502f47db-5e0e-4d2a-9d9e-2d06ff3edf9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Animation_Controllers">
-      <UniqueIdentifier>{1a637a09-8032-4425-b2ba-e75706e96c23}</UniqueIdentifier>
     <Filter Include="Header Files\Network">
       <UniqueIdentifier>{8cc66f27-899d-496d-85ea-b59327e6025c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation Controllers">
+      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
