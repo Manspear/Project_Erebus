@@ -139,16 +139,40 @@ void LevelActorHandler::updateActorBar()
 	if( selectedActor )
 	{
 		selectedActor->setAsSelectedActor(actorBar->getBar());
-		TwAddVarCB(actorBar->getBar(), "MyName", LevelUI::TW_TYPE_COMPONENTS(), setComponentCallback, getComponentCallback, (void*)&selectedComponent, NULL);
+		TwAddVarCB(actorBar->getBar(), "AddComponent", LevelUI::TW_TYPE_COMPONENTS(), setComponentCallback, getComponentCallback, (void*)&selectedComponent, "label='Add Component'");
 		//TwAddVarRW(actorBar->getBar(), "der", LevelUI::TW_TYPE_COMPONENTS(), &this->selectedComponent, NULL);
 		//for( std::map<std::string,LevelActorComponent*>::iterator it = selectedActor->getAllComponents().begin(); it != selectedActor->getAllComponents().end(); it++ )
 		//	it->second->setTwStruct( actorBar->getBar() );
+		TwAddButton( actorBar->getBar(), "SavePrefab", onSavePrefab, selectedActor, "label='Save Prefab'");
 	}
 	 //selectedActor->SetAgent(actorBar->getBar());
+}
+
+void LevelActorHandler::savePrefab( LevelActor* actor )
+{
+	FileFilter filter = { L"XML Prefab", L"*.xml" };
+	fileDialog.setFilters( &filter, 1 );
+
+	if( fileDialog.show( DIALOG_SAVE_FILE) )
+	{
+		FILE* file = NULL;
+		fopen_s( &file, fileDialog.getFilePath().c_str(), "w" );
+		if( file )
+		{
+			fprintf( file, "%s", actor->toXml().c_str() );
+			fclose( file );
+		}
+	}
 }
 
 void LevelActorHandler::onActorSelected( void* args )
 {
 	LevelActor* actor = (LevelActor*)args;
 	LevelActorHandler::getInstance()->setSelected( actor->id );
+}
+
+void LevelActorHandler::onSavePrefab( void* args )
+{
+	LevelActor* actor = (LevelActor*)args;
+	LevelActorHandler::getInstance()->savePrefab(actor);
 }

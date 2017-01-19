@@ -112,6 +112,9 @@
     <ClCompile Include="LevelEditorStuff\LevelActionHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelFileDialog.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -225,6 +228,9 @@
     <ClInclude Include="LevelEditorStuff\LevelActionHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelFileDialog.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\bullets.lua">
@@ -306,12 +312,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Scripts\cameraLevelEditor.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\arc.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\basespell.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\geometryPicking.frag">
