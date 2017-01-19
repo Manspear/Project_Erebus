@@ -5,19 +5,7 @@ LevelGizmo::LevelGizmo() {
 
 	this->checker = new CollisionChecker();
 
-
-
-	for (size_t i = 0; i < NUM_LOC; i++) {
-		this->obbGizmos[i].setXHalfLength(this->baseSize* ((i % GizmoLocation::NUM_LOC == GizmoLocation::X) ? basePercGrow : 1)) ;
-		this->obbGizmos[i].setYHalfLength(this->baseSize* ((i % GizmoLocation::NUM_LOC == GizmoLocation::Y) ? basePercGrow : 1));
-		this->obbGizmos[i].setZHalfLength(this->baseSize* ((i % GizmoLocation::NUM_LOC == GizmoLocation::Z) ? basePercGrow : 1));
-	}
-
-	
-
-	
 	bigVal = std::numeric_limits<float>::max();
-
 
 	setColors();
 	setDirections();
@@ -26,7 +14,6 @@ LevelGizmo::LevelGizmo() {
 	this->selectedGizmo = NUM_LOC;
 
 	this->cameraOldPos = glm::vec3(0);
-	this->oldSelected = nullptr;
 
 }
 
@@ -102,36 +89,14 @@ void LevelGizmo::update()
 
 	if (selectedActor) {
 		
+		//Updates the orientation of the gizmo UI
 		updateFromCameraPos(selectedActor);
 
-		//updateMousePos(selectedActor);
-
+		//Updates the planes that the rays intersects with while moing the mouse
 		updateGizmoPlanes();
-		//Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
-		//
-		//this->obbGizmos[X].setPos(selectedTransform->getPos() + (glm::vec3(1, 0, 0)*this->baseDiffDistace));
-		//this->obbGizmos[Y].setPos(selectedTransform->getPos() + (glm::vec3(0, 1, 0)*this->baseDiffDistace));
-		//this->obbGizmos[Z].setPos(selectedTransform->getPos() + (glm::vec3(0, 0, 1)*this->baseDiffDistace));
 
-		if (this->selectedGizmo != GizmoLocation::NUM_LOC) {
-			createNewRays();
-			glm::vec3 intersection;
-			if (rayPlaneIntersection(intersection)) {
-				//std::cout << glm::to_string(intersection) << std::endl;
-
-				Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
-				glm::vec3 newPos = selectedTransform->getPos();
-
-				this->cameraOldPos = this->cameraRef->getPosition();
-				float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
-				float percentageFromBase = distanceBetween / this->baseCamDistance;
-				newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
-				selectedTransform->setPos(newPos);
-				//selectedTransform->setPos(selectedTransform->getPos() * )
-
-			}
-		}
-		
+		//Update the translation of the planes, ex moving
+		updateGizmoTranslation(selectedActor);
 
 	}
 
@@ -163,8 +128,6 @@ void LevelGizmo::updateGizmoPlanes() {
 void LevelGizmo::updateFromCameraPos(LevelActor* selectedActor)
 {
 	if (selectedActor) {
-		//if (this->cameraOldPos != this->cameraRef->getPosition()) {
-			//this->oldSelected = selectedActor;
 			Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
 			this->cameraOldPos = this->cameraRef->getPosition();
 			float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
@@ -180,25 +143,29 @@ void LevelGizmo::updateFromCameraPos(LevelActor* selectedActor)
 				this->obbGizmos[Y].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Y] *this->baseDiffDistace)));
 				this->obbGizmos[Z].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Z] *this->baseDiffDistace)));
 			}
-		//}
 	}
 
 }
 
-void LevelGizmo::updateMousePos(LevelActor* selectedActor) {
-	MousePos deltaPos = this->inputRef->getDeltaPos();
-	if (deltaPos.x != 0 || deltaPos.y != 0) {
-		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+void LevelGizmo::updateGizmoTranslation(LevelActor* selectedActor) {
+	if (this->selectedGizmo != GizmoLocation::NUM_LOC) {
+		createNewRays();
+		glm::vec3 intersection;
+		if (rayPlaneIntersection(intersection)) {
+			//std::cout << glm::to_string(intersection) << std::endl;
 
-		for (size_t i = 0; i < NUM_LOC; i++) {
+			Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+			glm::vec3 newPos = selectedTransform->getPos();
+
+			this->cameraOldPos = this->cameraRef->getPosition();
+			float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
+			float percentageFromBase = distanceBetween / this->baseCamDistance;
+			newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
+			selectedTransform->setPos(newPos);
+			//selectedTransform->setPos(selectedTransform->getPos() * )
 
 		}
-
-		std::cout << "X: " << this->inputRef->getDeltaPos().x
-			<< " Y: " << this->inputRef->getDeltaPos().y << std::endl;
 	}
-	
-	
 }
 
 bool LevelGizmo::onMouseDown() {

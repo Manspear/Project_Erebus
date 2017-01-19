@@ -31,7 +31,6 @@ private:
 	glm::vec3 colorSelected;
 	GizmoLocation selectedGizmo;
 
-	LevelActor* oldSelected;
 	Camera* cameraRef;
 	CollisionChecker* checker;
 	Debug* debugRef;
@@ -53,7 +52,7 @@ private:
 
 	glm::vec3 cameraOldPos;
 	void updateFromCameraPos(LevelActor* selectedActor);
-	void updateMousePos(LevelActor* selectedActor);
+	void updateGizmoTranslation(LevelActor* selectedActor);
 	void updateGizmoPlanes();
 
 	glm::vec3 hitPointOffset;
