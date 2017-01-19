@@ -298,10 +298,10 @@ namespace LuaTransform
 			lua_pushnumber( lua, rotation.x );
 			lua_setfield( lua, -2, "x" );
 
-			lua_pushnumber( lua, rotation.x );
+			lua_pushnumber( lua, rotation.y );
 			lua_setfield( lua, -2, "y" );
 
-			lua_pushnumber( lua, rotation.x );
+			lua_pushnumber( lua, rotation.z );
 			lua_setfield( lua, -2, "z" );
 
 			result = 1;

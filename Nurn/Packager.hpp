@@ -17,7 +17,7 @@ public:
 	uint16_t getCurrentNetPacketSize() const;
 
 	void buildNetPacket(); // Call in 
-	void buildTransformPacket(const uint16_t &ID, const float &x, const float &y, const float &z);
+	void buildTransformPacket(const uint16_t &ID, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
 
 private:
 	unsigned char memory[packetSize];
