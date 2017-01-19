@@ -48,7 +48,7 @@ private:
 		
 		sStream << barName << posStr << sizeStr << colorStr <<
 			(alphaVal > 0 ? alphaStr : "")
-			<< refreshStr << resizeStr << moveableStr;
+			<< refreshStr << resizeStr << moveableStr << " valueswidth=fit";
 
 		TwDefine(sStream.str().c_str());
 		sStream.clear();
