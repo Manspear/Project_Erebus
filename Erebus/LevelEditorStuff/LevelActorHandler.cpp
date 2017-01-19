@@ -118,14 +118,30 @@ void LevelActorHandler::updateTweakBars()
 void LevelActorHandler::updateWorldBar()
 {
 	TwRemoveAllVars( worldBar->getBar() );
+	
+	std::map<std::string,int> numActorsByType;
+	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
+	{
+		std::string type = it->second->getActorType();
+		if( type.empty() )
+			type = "None";
+
+		std::map<std::string,int>::iterator mapIT = numActorsByType.find( type );
+		if( mapIT == numActorsByType.end() )
+			numActorsByType.insert(std::pair<std::string,int>( type, 1 ));
+		else
+			mapIT->second++;
+	}
 
 	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 	{
+		std::string type = it->second->getActorType();
+
 		char buf[64] = {};
-		if( it->second->getActorType().size() > 0 )
-			sprintf_s( buf, "label='%s'", it->second->getActorType().c_str() );
+		if( !type.empty() )
+			sprintf_s( buf, "label='%s' group='%s (%d)'", type.c_str(), type.c_str(), numActorsByType[type] );
 		else
-			sprintf_s( buf, "label='%s'", "Actor" );
+			sprintf_s( buf, "label='Actor' group='None (%d)'", numActorsByType["None"] );
 		TwAddButton( worldBar->getBar(), NULL, onActorSelected, it->second, buf );
 	}
 }
