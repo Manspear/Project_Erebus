@@ -63,6 +63,7 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+		GEAR_API void effectPreProcess();
 		//----------------------
 
 	private:
@@ -93,6 +94,8 @@ namespace Gear
 		ShaderProgram *lightPassShader;
 		ShaderProgram *blurShader;
 		ShaderProgram *effectShader;
+		ShaderProgram *gloomCompute;
+		GLuint gloomTexture;
 
 		//Models
 		std::vector<staticNonModels*> statModels;

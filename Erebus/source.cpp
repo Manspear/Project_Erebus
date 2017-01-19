@@ -63,6 +63,7 @@ int main()
 
 	while (running && window.isWindowOpen())
 	{	
+		//engine.effectPreProcess();
 
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();

@@ -7,7 +7,7 @@ struct ScreenVertex
 {
 	float x, y, s, t;
 };
-GLuint testScreen;
+
 namespace Gear
 {
 	GearEngine::GearEngine()
@@ -17,7 +17,6 @@ namespace Gear
 		queue.init();
 		text.init(1280, 720);
 		image.init(1280, 720);
-
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -41,8 +40,9 @@ namespace Gear
 		delete quadShader;
 		delete lightPassShader;
 		delete blurShader;
-
+		delete effectShader;
 		delete debugHandler;
+		delete gloomCompute;
 
 	}
 
@@ -99,6 +99,38 @@ namespace Gear
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 
+	void GearEngine::shaderInit()
+	{
+		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
+		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
+		blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
+		effectShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "effects"); //Draw effect texture on screen
+		gloomCompute = new ShaderProgram(shaderBaseType::COMPUTESHADER, "gloom");//Gloom computeshader
+		
+		glGenTextures(1, &gloomTexture);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, gloomTexture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
+
+	}
+
+	void GearEngine::skyboxInit()
+	{
+		skybox.init();
+
+		std::vector<const GLchar*> faces;
+		faces.push_back("skybox/right.dds");
+		faces.push_back("skybox/left.dds");
+		faces.push_back("skybox/top.dds");
+		faces.push_back("skybox/bottom.dds");
+		faces.push_back("skybox/front.dds");
+		faces.push_back("skybox/back.dds");
+		skybox.loadCubemap(faces);
+	}
+
 	bool GearEngine::isRunning() {
 		return true;//window->isWindowOpen();
 	}
@@ -134,6 +166,11 @@ namespace Gear
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glBindVertexArray(0);
 		glDepthMask(GL_TRUE);
+	}
+
+	void GearEngine::effectPreProcess()
+	{
+
 	}
 
 	void GearEngine::addStaticNonModel(staticNonModels* model) {
@@ -228,10 +265,8 @@ namespace Gear
 	}
 
 	void GearEngine::draw(Camera* camera)
-	{
-		
+	{		
 		queue.update(*transformCount, *allTrans);
-
 		Camera tempCamera;
 
 		glm::vec3 offset;
@@ -243,9 +278,7 @@ namespace Gear
 		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
 		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
 		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
-		
-
-		
+			
 		glm::vec3 target;
 
 		target.x = camera->getPosition().x + offset.x;
@@ -276,15 +309,12 @@ namespace Gear
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-		glm::vec3 temp = camera->getPosition();
-		camera->setPosition({ 0,0,0 });
-		queue.updateUniforms(camera);
-		camera->setPosition(temp);
+		
 		queue.particlePass(particleSystems);
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
-		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
@@ -297,6 +327,21 @@ namespace Gear
 		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
 		drawQuad();
 		effectShader->unUse();
+
+		/*gloomCompute->use();
+		glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
+		glBindImageTexture(0, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+		glDispatchCompute(40, 40, 1);
+		gloomCompute->unUse();
+
+
+		effectShader->use();
+		GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
+		glActiveTexture(GL_TEXTURE0 + 0);
+		glUniform1i(uniform, 0);
+		glBindTexture(GL_TEXTURE_2D, gloomTexture);
+		drawQuad();
+		effectShader->unUse();*/
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -413,28 +458,6 @@ namespace Gear
 
 		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
 
-	}
-
-	void GearEngine::shaderInit()
-	{
-		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
-		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
-		blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
-		effectShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "effects"); //shader for bloom or shit
-	}
-
-	void GearEngine::skyboxInit()
-	{
-		skybox.init();
-
-		std::vector<const GLchar*> faces;
-		faces.push_back("skybox/right.dds");
-		faces.push_back("skybox/left.dds");
-		faces.push_back("skybox/top.dds");
-		faces.push_back("skybox/bottom.dds");
-		faces.push_back("skybox/front.dds");
-		faces.push_back("skybox/back.dds");
-		skybox.loadCubemap(faces);
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {
