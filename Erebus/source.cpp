@@ -13,10 +13,12 @@
 
 #include "LevelEditor.h"
 
-#include"GamePlay.h"
-#include"Menu.h"
+#include "GamePlay.h"
+#include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
+
+#include "SoundEngine.h"
 
 bool running = true;
 
@@ -25,6 +27,7 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;
+	SoundEngine soundEngine;
 
 	GameState gameState = MenuState;
 	window.changeCursorStatus(false);
@@ -48,7 +51,7 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets,controls,inputs,camera);
+	GamePlay * gamePlay = new GamePlay(&engine, assets);
 	Menu * menu = new Menu(&engine,assets);
 
 	PerformanceCounter counter;
@@ -61,6 +64,9 @@ int main()
 	
 	inputs.getMousePos();
 
+	soundEngine.play("Music/menuBurana.ogg", true);
+	soundEngine.setVolume(0.5);
+
 	while (running && window.isWindowOpen())
 	{	
 		//engine.effectPreProcess();
@@ -68,14 +74,41 @@ int main()
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
 		inputs.update();
-		controls.update(&inputs);
 
 		switch (gameState)
 		{
 		case MenuState:
 			gameState = menu->Update(inputs);
+			if (gameState == HostGameplayState)
+			{
+				if (gamePlay->StartNetwork(true, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
+
+			if (gameState == ClientGameplayState)
+			{
+				if (gamePlay->StartNetwork(false, &counter))
+				{
+					gameState = GameplayState;
+				}
+				else
+				{
+					std::cout << "Failed to init network" << std::endl;
+					gameState = MenuState;
+				}
+			}
+
 			if (gameState == GameplayState)
 			{
+				soundEngine.play("bell.wav");
+				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
@@ -99,6 +132,8 @@ int main()
 		engine.print(virtualMem, 0.0f, 60.0f);
 
 		window.update();
+
+		//glPolygonMode(GL_FRONT_FACE, GL_LINES);
 
 		engine.draw(&camera);
 

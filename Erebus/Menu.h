@@ -5,7 +5,9 @@
 enum GameState
 {
 	MenuState,
-	GameplayState
+	GameplayState,
+	HostGameplayState,
+	ClientGameplayState
 };
 
 class Menu
@@ -18,6 +20,11 @@ private:
 
 	sScreenImage button;
 	Importer::TextureAsset* buttonTex;
+
+	sScreenImage hostButton;
+	Importer::TextureAsset* hostButtonTex;
+	sScreenImage clientButton;
+	Importer::TextureAsset* clientButtonTex;
 
 public:
 
