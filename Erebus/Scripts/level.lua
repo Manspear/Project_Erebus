@@ -19,6 +19,8 @@ heightmaps[4] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")--
 heightmaps[4].transformID = Transform.Bind()
 heightmaps[4].offset = 0
 
+--local firstTileModel = Assets.LoadModel("Models/tile1_game_skew.model")
+--local secondTileModel = Assets.LoadModel("Models/tile1_game_skew_assets.model")
 local firstTileModel = Assets.LoadModel("Models/tile1_game_x1.model")
 local secondTileModel = Assets.LoadModel("Models/tile1_game_x1_assets.model")
 Gear.AddStaticInstance(firstTileModel, heightmaps[1].transformID)
