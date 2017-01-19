@@ -11,11 +11,6 @@
 
 //extern Transform* allTransforms;
 
-/*
-	Ta bort hitboxes med ID
-	delete allt här?
-
-*/
 class CollisionHandler
 {
 	
@@ -42,6 +37,7 @@ public:
 	void checkAnyCollision(std::vector<T*>* colliders);
 
 	//Update
+	//Update all hitboxes with corresponding positions in transform array
 	void updateAllHitboxPos();
 	void updateSpherePos();
 	void updateAabbPos();

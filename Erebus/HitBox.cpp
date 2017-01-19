@@ -39,6 +39,18 @@ HitBox::~HitBox()
 		delete this->children;
 }
 
+void HitBox::setPos(glm::vec3 pos)
+{
+	this->pos = pos;
+	if (this->children != nullptr) // if we have any children update their position
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			this->children->at(i)->pos = this->pos + this->children->at(i)->localPos;
+		}
+	}
+}
+
 void HitBox::setIDTransform(unsigned int ID)
 {
 	this->IDTransform = ID;
@@ -84,6 +96,11 @@ void HitBox::setTypeFlag(int flag)
 	this->typeFlag = flag;
 }
 
+void HitBox::setLocalPos(glm::vec3 pos)
+{
+	this->localPos = pos;
+}
+
 bool HitBox::isSphereCollider()
 {
 	bool isSphere = false;
@@ -112,6 +129,7 @@ void HitBox::addChild(HitBox * child)
 {
 	if (children == nullptr)
 		children = new std::vector<HitBox*>();
+	child->pos = this->pos + child->localPos;
 	children->push_back(child);
 }
 

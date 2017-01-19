@@ -49,7 +49,7 @@ OBBCollider::~OBBCollider()
 	{
 		for (size_t i = 0; i < this->children->size(); i++)
 		{
-			delete this->children->at(0);
+			delete this->children->at(i);
 		}
 	}
 }
@@ -125,11 +125,6 @@ void OBBCollider::insertCollisionID(unsigned int collisionID)
 void OBBCollider::clearCollisionIDs()
 {
 	this->IDCollisions.clear();
-}
-
-void OBBCollider::setPos(glm::vec3 pos)
-{
-	this->pos = pos;
 }
 
 const glm::vec3& OBBCollider::getPos() const

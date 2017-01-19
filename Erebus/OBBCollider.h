@@ -29,7 +29,6 @@ public:
 	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
 	virtual void insertCollisionID(unsigned int collisionID) override;
 	virtual void clearCollisionIDs() override;
-	virtual void setPos(glm::vec3 pos) override;
 
 	//getters
 	const glm::vec3& getPos() const;

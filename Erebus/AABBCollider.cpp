@@ -50,7 +50,7 @@ AABBCollider::~AABBCollider()
 	{
 		for (size_t i = 0; i < this->children->size(); i++)
 		{
-			delete this->children->at(0);
+			delete this->children->at(i);
 		}
 	}
 }
@@ -107,7 +107,7 @@ void AABBCollider::clearCollisionIDs()
 
 void AABBCollider::setPos(glm::vec3 pos)
 {
-	this->pos = pos;
+	HitBox:setPos(pos);//Ish bien ain hacker
 	this->maxPosTotal = this->maxPos + this->pos;
 	this->minPosTotal = this->minPos + this->pos;
 }

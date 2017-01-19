@@ -116,6 +116,8 @@ bool RayCollider::checkCollision()
 	bool collision = false;
 	if (this->IDCollisions.size() > 0)
 		collision = true;
+	if (this->hitDistance != -1)
+		collision = true;
 
 	return collision;
 }

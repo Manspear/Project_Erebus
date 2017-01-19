@@ -51,7 +51,7 @@ SphereCollider::~SphereCollider()
 	{
 		for (size_t i = 0; i < this->children->size(); i++)
 		{
-			delete this->children->at(0);
+			delete this->children->at(i);
 		}
 	}
 }
@@ -95,11 +95,6 @@ const float & SphereCollider::getRadius()
 float SphereCollider::getRadiusSquared() const
 {
 	return this->radiusSquared;
-}
-
-void SphereCollider::setPos(glm::vec3 pos)
-{
-	this->pos = pos;
 }
 
 void SphereCollider::setRadius(float radius)

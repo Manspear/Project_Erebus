@@ -22,7 +22,6 @@ public:
 	const float& getRadius();
 	float getRadiusSquared() const;
 
-	void setPos(glm::vec3 pos) override;
 	void setRadius(float radius);
 
 private:
