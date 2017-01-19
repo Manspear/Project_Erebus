@@ -323,17 +323,20 @@ namespace Gear
 		skybox.update(camera);
 		skybox.draw();
 
-		effectShader->use();
+
+		/*effectShader->use();
 		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
 		drawQuad();
-		effectShader->unUse();
+		effectShader->unUse();	*/
 
-		/*gloomCompute->use();
-		glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
-		glBindImageTexture(0, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+		gloomCompute->use();
+		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
+		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
+		glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+		glBindImageTexture(0, this->particleFBO.getTextures()[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 		glDispatchCompute(40, 40, 1);
+		 
 		gloomCompute->unUse();
-
 
 		effectShader->use();
 		GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
@@ -341,7 +344,7 @@ namespace Gear
 		glUniform1i(uniform, 0);
 		glBindTexture(GL_TEXTURE_2D, gloomTexture);
 		drawQuad();
-		effectShader->unUse();*/
+		effectShader->unUse();
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -457,7 +460,7 @@ namespace Gear
 		shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
 		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
 
-		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
+		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA32F, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
 
 	}
 
