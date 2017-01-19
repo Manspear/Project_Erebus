@@ -1,4 +1,4 @@
-local MOLERAT_OFFSET = 0.5
+local MOLERAT_OFFSET = 0.4
 local PLAYER_MAX_SPELLS = 2
 local PLAYER_JUMP_SPEED = 0.35
 player = {}
@@ -11,7 +11,7 @@ end
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 7
+	player.moveSpeed = 5.25
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
@@ -67,7 +67,7 @@ function LoadPlayer()
 	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
-	Network.SendTransform(player.transformID, {x=0, y=0, z=0})
+	Network.SendTransform(player.transformID, {x=0, y=0, z=0}, {x=0, y=0, z=0}, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -156,7 +156,9 @@ function UpdatePlayer(dt)
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
+		--print(newPosition.x,newPosition.z)
 		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		--print(height)
 
 		local diff = height - position.y
 		--if diff <= player.walkableIncline then
@@ -181,11 +183,14 @@ function UpdatePlayer(dt)
 		end
 
 		Transform.SetPosition(player.transformID, position)
-		Network.SendTransform(player.transformID, position)
-		newtransformvalue, id_2, x_2, y_2, z_2 = Network.GetTransform()
-		
+
+		Network.SendTransform(player.transformID, position, direction, rotation)
+		newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2= Network.GetTransform()
+
 		if newtransformvalue == true then
-			Transform.SetPosition(id_2, {x=x_2, y=y_2, z=z_2})
+			Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
+			Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
+			Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 		end
 
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

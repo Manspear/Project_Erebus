@@ -23,19 +23,36 @@ namespace LuaNetwork
 		lua_setglobal(lua, "Network");
 	}
 
-	int sendTransform(lua_State* lua) {
+	int sendTransform(lua_State* lua) 
+	{
 		int index = lua_tointeger(lua, 1);
 
 		lua_getfield(lua, 2, "x");
-		float x = lua_tonumber(lua, -1);
-
+		float pos_x = lua_tonumber(lua, -1);
 		lua_getfield(lua, 2, "y");
-		float y = lua_tonumber(lua, -1);
-
+		float pos_y = lua_tonumber(lua, -1);
 		lua_getfield(lua, 2, "z");
-		float z = lua_tonumber(lua, -1);
+		float pos_z = lua_tonumber(lua, -1);
 
-		g_networkController->sendTransformPacket(index, x, y, z);
+		lua_getfield(lua, 3, "x");
+		float lookAt_x = lua_tonumber(lua, -1);
+		lua_getfield(lua, 3, "y");
+		float lookAt_y = lua_tonumber(lua, -1);
+		lua_getfield(lua, 3, "z");
+		float lookAt_z = lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 4, "x");
+		float rotation_x = lua_tonumber(lua, -1);
+		lua_getfield(lua, 4, "y");
+		float rotation_y = lua_tonumber(lua, -1);
+		lua_getfield(lua, 4, "z");
+		float rotation_z = lua_tonumber(lua, -1);
+
+		//std::cout << "Packing position - x: " << pos_x << " y: " << pos_y << " z: " << pos_z << std::endl;
+		//std::cout << "Packing lookAt - x: " << lookAt_x << " y: " << lookAt_y << " z: " << lookAt_z << std::endl;
+		//std::cout << "Packing rotation - x: " << rotation_x << " y: " << rotation_y << " z: " << rotation_z << std::endl << std::endl;
+
+		g_networkController->sendTransformPacket(index, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
 
 		return 0;
 	}
@@ -46,11 +63,22 @@ namespace LuaNetwork
 
 		if (g_networkController->fetchTransformPacket(transformPacket))
 		{
+
+			//std::cout << "Receiving position - x: " << transformPacket.data.pos_x << " y: " << transformPacket.data.pos_y << " z: " << transformPacket.data.pos_z << std::endl;
+			//std::cout << "Receiving lookAt - x: " << transformPacket.data.lookAt_x << " y: " << transformPacket.data.lookAt_y << " z: " << transformPacket.data.lookAt_z << std::endl;
+			//std::cout << "Receiving rotation - x: " << transformPacket.data.rotation_x << " y: " << transformPacket.data.rotation_y << " z: " << transformPacket.data.rotation_z << std::endl << std::endl;
+
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, transformPacket.data.ID);
-			lua_pushnumber(lua, transformPacket.data.x);
-			lua_pushnumber(lua, transformPacket.data.y);
-			lua_pushnumber(lua, transformPacket.data.z);
+			lua_pushnumber(lua, transformPacket.data.pos_x);
+			lua_pushnumber(lua, transformPacket.data.pos_y);
+			lua_pushnumber(lua, transformPacket.data.pos_z);
+			lua_pushnumber(lua, transformPacket.data.lookAt_x);
+			lua_pushnumber(lua, transformPacket.data.lookAt_y);
+			lua_pushnumber(lua, transformPacket.data.lookAt_z);
+			lua_pushnumber(lua, transformPacket.data.rotation_x);
+			lua_pushnumber(lua, transformPacket.data.rotation_y);
+			lua_pushnumber(lua, transformPacket.data.rotation_z);
 		}
 		else
 		{
@@ -59,9 +87,15 @@ namespace LuaNetwork
 			lua_pushnumber(lua, 80);
 			lua_pushnumber(lua, 27);
 			lua_pushnumber(lua, 160);
+			lua_pushnumber(lua, 0.5);
+			lua_pushnumber(lua, 0.25);
+			lua_pushnumber(lua, 0.75);
+			lua_pushnumber(lua, 0.0);
+			lua_pushnumber(lua, 3.14);
+			lua_pushnumber(lua, 1.57);
 		}
 
-		return 5;
+		return 11;
 	}
 
 	int getNetworkHost(lua_State* lua)

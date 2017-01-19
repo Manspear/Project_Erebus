@@ -373,6 +373,15 @@
     <None Include="Shaders\image.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="effects.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="effects.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\gloom.comp">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
