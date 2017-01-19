@@ -1,4 +1,4 @@
-local MOLERAT_OFFSET = 0.5
+local MOLERAT_OFFSET = 0.4
 local PLAYER_MAX_SPELLS = 2
 local PLAYER_JUMP_SPEED = 0.35
 player = {}
@@ -11,7 +11,7 @@ end
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 7
+	player.moveSpeed = 5.25
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
@@ -160,7 +160,9 @@ function UpdatePlayer(dt)
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
+		--print(newPosition.x,newPosition.z)
 		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		--print(height)
 
 		local diff = height - position.y
 		--if diff <= player.walkableIncline then
@@ -192,7 +194,7 @@ function UpdatePlayer(dt)
 			Transform.SetPosition(id_2, {x=x_2, y=y_2, z=z_2})
 		end
 
-		player.animation:Update(dt, player.animationState)
+		player.animation:Update(dt *1.7, player.animationState)
 	end
 		-- update the current player spell
 		for i=1, #player.spells do 

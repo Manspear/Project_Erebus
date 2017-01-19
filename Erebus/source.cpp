@@ -135,6 +135,8 @@ int main()
 
 		window.update();
 
+		//glPolygonMode(GL_FRONT_FACE, GL_LINES);
+
 		engine.draw(&camera);
 
 		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
