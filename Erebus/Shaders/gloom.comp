@@ -1,0 +1,11 @@
+#version 430
+
+uniform image2D destTex;
+
+layout (local_size_x = 32, local_size_y = 18) in;
+
+void main() {
+	uint a = gl_GlobalInvocationID.x;
+    //imageStore(destTex, ivec2(a, gl_GlobalInvocationID.y), vec4(a/1280.f , gl_GlobalInvocationID.y/720.f, 1, 0.5));
+	imageStore(destTex, ivec2(a, gl_GlobalInvocationID.y), vec4(a/1280.f , gl_GlobalInvocationID.y/720.f, 1, 0.5));
+}
