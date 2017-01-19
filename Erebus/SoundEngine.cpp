@@ -25,9 +25,26 @@ void SoundEngine::play(std::string target, enum SndOptions options)
 	std::string path = basePath + target;
 	bool loop = static_cast<bool>(options & SND_LOOP);
 	bool track = static_cast<bool>(options & (SND_LOOP | SND_TRACK));
+	bool effects = static_cast<bool>(options & SND_EFFECTS);
 
 	irrklang::ISound* s = engine->play2D(path.c_str(), loop, false, track);
-	if (s)
+	if (track && s)
+		sounds.push_back(s);
+}
+
+void SoundEngine::play3D(std::string target, glm::vec3 pos, enum SndOptions options)
+{
+	if (!engine)
+		return;
+
+	std::string path = basePath + target;
+	irrklang::vec3df ikpos = irrklang::vec3df(pos.x, pos.y, pos.z);
+	bool loop = static_cast<bool>(options & SND_LOOP);
+	bool track = static_cast<bool>(options & (SND_LOOP | SND_TRACK | SND_EFFECTS));
+	bool effects = static_cast<bool>(options & SND_EFFECTS);
+
+	irrklang::ISound* s = engine->play3D(path.c_str(), ikpos, loop, false, track, irrklang::ESM_AUTO_DETECT, effects);
+	if (track && s)
 		sounds.push_back(s);
 }
 

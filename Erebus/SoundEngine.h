@@ -14,7 +14,7 @@ enum SndOptions : uint8_t
 	SND_LOOP		= 0x01,
 	SND_TRACK		= 0x02,
 	SND_EFFECTS		= 0x04,
-	SND_BLURB1		= 0x08,
+	SND_STREAM		= 0x08,
 	SND_BLURB2		= 0x10,
 	SND_BLURB3		= 0x20,
 	SND_BLURB4		= 0x40,
@@ -28,6 +28,7 @@ public:
 	~SoundEngine();
 
 	void play(std::string target, enum SndOptions options = SND_NO_FLAG);
+	void play3D(std::string target, glm::vec3 pos, enum SndOptions options = SND_NO_FLAG);
 	void pause();
 	void resume();
 
@@ -39,4 +40,5 @@ private:
 	const std::string basePath = "./Audio/";
 
 	std::vector<irrklang::ISound*> sounds;
+
 };
