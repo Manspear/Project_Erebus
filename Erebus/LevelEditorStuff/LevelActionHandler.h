@@ -2,6 +2,10 @@
 
 #include "BaseIncludes.h"
 #include "LevelUI.h"
+#include "Gear.h"
+#include "Inputs.h"
+#include "LevelGizmo.h"
+#include "LevelAssetHandler.h"
 
 enum
 {
@@ -19,6 +23,9 @@ public:
 	~LevelActionHandler();
 	static LevelActionHandler* getInstance();
 
+	void setupGizmo( Debug* debug, Camera* camera, Inputs* inputs );
+	void update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera );
+
 	void setTweakBar( TweakBar* bar );
 	void setAction( int action );
 
@@ -35,4 +42,6 @@ private:
 	int action;
 	bool selections[MAX_ACTIONS];
 	int indices[MAX_ACTIONS];
+	LevelGizmo gizmo;
+	bool holdingGizmo;
 };

@@ -61,7 +61,7 @@ private:
 	std::vector<LevelActor*> actors;
 	int tempSelectedActorID;
 	glm::vec3 tempSelectedHitPoint;
-	LevelGizmo* levelGizmo;
+	//LevelGizmo* levelGizmo;
 
 	void pick();
 	bool holdingGizmo;

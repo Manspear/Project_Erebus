@@ -60,7 +60,7 @@ void LevelEditor::start() {
 	
 	GLFWwindow* w = window.getGlfwWindow();
 	this->inputs = new Inputs(w);
-	this->camera = new Camera(45.f, WINDOW_WIDTH / WINDOW_HEIGHT, 0.1f, 2000.f, inputs);
+	this->camera = new Camera(45.f, WINDOW_WIDTH / WINDOW_HEIGHT, 0.1f, 2000.0f, inputs);
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -93,11 +93,10 @@ void LevelEditor::start() {
 	LevelAssetHandler::getInstance()->setInputs( inputs );
 	LevelAssetHandler::getInstance()->load();
 
-	TwBar* componentsBar = TwNewBar( "Components" );
-	LevelActorFactory::getInstance()->addToBar( componentsBar );
+	LevelActionHandler::getInstance()->setupGizmo( Debugger::getInstance(), camera, inputs );
 
-	levelGizmo = new LevelGizmo();
-	levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
+	//levelGizmo = new LevelGizmo();
+	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
 
 	while (running && window.isWindowOpen())
 	{
@@ -172,7 +171,9 @@ void LevelEditor::start() {
 			}
 		}
 
-		this->levelGizmo->update();
+		LevelActionHandler::getInstance()->update( inputs, engine, camera );
+
+		/*this->levelGizmo->update();
 		this->levelGizmo->drawGizmo();
 		
 		if(inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1)) {
@@ -222,13 +223,8 @@ void LevelEditor::start() {
 			this->levelGizmo->onMouseUp();
 			this->holdingGizmo = false;
 	
-		}
+		}*/
 		engine->queueLights(&lights);
-		if( hasHit )
-		{
-			Debugger::getInstance()->drawSphere(tempSelectedHitPoint, 0.5f );
-		}
-
 		if( LevelActorHandler::getInstance()->getSelected() )
 			Debugger::getInstance()->drawSphere( LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getPos(), 2.0f );
 
