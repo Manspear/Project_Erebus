@@ -29,8 +29,11 @@ public:
 	void bind(int cascadeIndex);
 	void bindTexture(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 	void calcOrthoProjs(Camera* mainCam);
-	glm::mat4 viewMatrices[NUM_CASCADEDS];
-	glm::mat4 projectionMatrices[NUM_CASCADEDS];
+	glm::mat4 viewMatrices[NUM_CASCADEDS+1];
+	glm::mat4 projectionMatrices[NUM_CASCADEDS+1];
+	glm::vec3 frustumCorners[8];
+
+	glm::vec3 pos;
 
 	glm::vec3 minAABB[NUM_CASCADEDS];
 	glm::vec3 maxAABB[NUM_CASCADEDS];

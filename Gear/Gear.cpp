@@ -171,7 +171,8 @@ namespace Gear
 	{
 		
 		queue.update(*transformCount, *allTrans);
-
+		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], camera);
+		map.calcOrthoProjs(camera);
 		Camera tempCamera;
 
 		glm::vec3 offset;
@@ -184,7 +185,7 @@ namespace Gear
 		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
 		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
 		
-		
+
 		
 		glm::vec3 target;
 
@@ -202,8 +203,7 @@ namespace Gear
 		//cam.setDirection(glm::vec3(1.0f, 0.0f, 0.0f));
 
 
-		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], camera);
-		map.calcOrthoProjs(camera);
+		
 
 		tempCamera.setView(map.viewMatrices[0]);
 		tempCamera.setprojection(map.projectionMatrices[0]);
@@ -226,7 +226,10 @@ namespace Gear
 		//temp->drawAABB((glm::vec3)(map.viewMatrices[2] * glm::vec4(map.minAABB[2], 1)), (glm::vec3)(map.viewMatrices[2] * glm::vec4(map.maxAABB[2], 1)), glm::vec3(0, 0, 1.0f));
 		//temp->drawAABB((glm::vec3)(map.viewMatrices[3] * glm::vec4(map.minAABB[3], 1)), (glm::vec3)(map.viewMatrices[3] * glm::vec4(map.maxAABB[3], 1)), glm::vec3(0.5f, 0.5f, 0));
 
-		queue.updateUniforms(camera);
+		tempCamera.setprojection(camera->getProjectionMatrix());
+		tempCamera.setView(map.viewMatrices[4]);
+
+		queue.updateUniforms(&tempCamera);
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
