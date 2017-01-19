@@ -8,13 +8,15 @@ namespace LuaGear
 	static std::vector<ModelInstance>* g_models = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Assets* g_assets = nullptr;
+	static WorkQueue* g_work = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets)
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_models = models;
 		g_animatedModels = animatedModels;
 		g_assets = assets;
+		g_work = work;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -206,6 +208,12 @@ namespace LuaGear
 		return 0;
 	}
 
+	void asyncAnimation( void* args )
+	{
+		Animation* animation = (Animation*)args;
+		animation->updateAnimation( 0.1f, 1 );
+	}
+
 	int updateAnimation( lua_State* lua )
 	{
 		int result = 0;
@@ -217,11 +225,17 @@ namespace LuaGear
 			float dt = lua_tonumber( lua, 2 );
 			int layer = lua_tointeger( lua, 3 );
 
+#if 0
 			animation->updateAnimation( dt, layer );
+#else
+			g_work->add( asyncAnimation, &animation );
+#endif
 		}
 
 		return result;
 	}
+
+	
 
 	int updateAnimationBlending(lua_State* lua)
 	{

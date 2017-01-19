@@ -17,5 +17,5 @@ public:
 
 private:
 	irrklang::ISoundEngine* engine;
-	const std::string basePath = "../Assets/";
+	const std::string basePath = "Audio/";
 };

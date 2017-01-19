@@ -14,6 +14,7 @@
 #include "LuaAi.h"
 #include "LuaInputs.h"
 #include "LuaNetwork.hpp"
+#include "WorkQueue.h"
 
 class LuaBinds
 {
@@ -33,7 +34,8 @@ public:
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
 				AGI::AGIEngine* AI,
-				NetworkController* network);
+				NetworkController* network,
+				WorkQueue* work);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;

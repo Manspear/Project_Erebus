@@ -52,7 +52,7 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets);
+	GamePlay * gamePlay = new GamePlay(&engine, assets, &work);
 	Menu * menu = new Menu(&engine,assets);
 
 	glClearColor(1, 1, 1, 1);
@@ -68,7 +68,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.play("getout.ogg", true);
+	soundEngine.play("Music/menuBurana.ogg", true);
+	soundEngine.setVolume(0.5);
 	while (running && window.isWindowOpen())
 	{	
 

@@ -3,6 +3,7 @@
 #include "lua\lua.hpp"
 #include "Gear.h"
 #include "Assets.h"
+#include "WorkQueue.h"
 
 namespace LuaGear
 {
@@ -10,7 +11,8 @@ namespace LuaGear
 							Gear::GearEngine* gearEngine,
 							std::vector<ModelInstance>* models,
 							std::vector<AnimatedInstance>* animatedModels,
-							Assets* assets );
+							Assets* assets,
+							WorkQueue* work );
 
 	int addStaticInstance( lua_State* lua );
 	int addAnimatedInstance( lua_State* lua );

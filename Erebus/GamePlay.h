@@ -8,6 +8,7 @@
 #include "LuaBinds.h"
 #include "AGI.h"
 #include "PerformanceCounter.h"
+#include "WorkQueue.h"
 
 class GamePlay
 {
@@ -33,8 +34,10 @@ private:
 
 	NetworkController networkController;
 
+	WorkQueue* work;
+
 public:
-	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets);
+	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, WorkQueue* work);
 
 	~GamePlay();
 
