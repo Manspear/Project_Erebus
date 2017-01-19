@@ -21,18 +21,15 @@ LevelUI::DiffComponents LevelActorHandler::getSelectedComponentCB(int index)
 
 
 void LevelActorHandler::setSelectedComponentCB(LevelUI::DiffComponents index) {
-	if (index != 0 && this->selectedActor) {
+	if (index != 0 && this->selectedActor)
+	{
 		this->selectedComponent = index;
-		//this->selectedActor->addComponent(LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]));
 		LevelActorComponent* c = LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]);
 		selectedActor->addComponent(c);
 		c->postInitialize();
 		updateActorBar();
 		this->selectedComponent = LevelUI::SELECT_COMPONENT;
 	}
-
-	//index
-	//this->selectedActor->addComponent()
 }
 LevelActorHandler::LevelActorHandler()
 	: worldBar( nullptr ), actorBar( nullptr ), selectedActor( nullptr )

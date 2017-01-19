@@ -4,7 +4,8 @@ const char* LevelModel::name = "LevelModel";
 
 LevelModel::LevelModel()
 {
-	modelName = "testGuy";
+	//modelName = "testGuy";
+	modelName = "";
 }
 
 
@@ -105,13 +106,18 @@ void LevelModel::setTwStruct(TwBar * twBar) {
 
 void LevelModel::setModelName( std::string name )
 {
-	if( name != modelName )
-	{
+	if( modelName.empty() )
 		modelName = name;
+	else
+	{
+		if( name != modelName )
+		{
+			modelName = name;
 
-		//postInitialize();
+			//postInitialize();
 
-		LevelModelHandler::getInstance()->replaceModel( modelName, parent->id );
+			LevelModelHandler::getInstance()->replaceModel( modelName, parent->id );
+		}
 	}
 }
 

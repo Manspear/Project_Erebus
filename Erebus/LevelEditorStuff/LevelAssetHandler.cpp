@@ -156,6 +156,15 @@ void LevelAssetHandler::addToActor()
 			{
 				modelComponent->setModelName( selectedModel );
 			}
+			else
+			{
+				modelComponent = (LevelModel*)LevelActorFactory::getInstance()->getNewComponent( LevelModel::name );
+				modelComponent->setModelName( selectedModel );
+				selectedActor->addComponent( modelComponent );
+				modelComponent->postInitialize();
+			}
+
+			LevelActorHandler::getInstance()->updateActorBar();
 		}
 	}
 
