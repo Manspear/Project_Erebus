@@ -45,7 +45,7 @@ int main()
 	//fileIm.importFbx(fbx, 24);
 	//fileIm.writeToBinary(file);
 						
-	fileIm.importFbx("C:/Users/GiS-1/Desktop/wizardland/tile1/tile1_assets.fbx", 24);
+	fileIm.importFbx("C:/Users/GiS-1/Desktop/wizardland/tile1/tile1_game_x2.fbx", 24);
 	fileIm.writeToBinary("C:/Users/GiS-1/Desktop/wizardland/tile1/");
 
 	//fileIm.importFbx("C:/Git_Repos/FBX Importer/FBXToFile/Models/cube3.fbx", 24);
