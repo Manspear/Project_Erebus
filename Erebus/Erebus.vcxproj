@@ -200,6 +200,7 @@
     <None Include="effects.vert" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
+    <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\arcType.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
