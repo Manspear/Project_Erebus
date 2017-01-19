@@ -111,9 +111,9 @@ bool NetworkController::getNetworkHost()
 	return this->networkHost;
 }
 
-void NetworkController::sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
+void NetworkController::sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 {
-	network.buildTransformPacket(id, x, y, z);
+	network.buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
 }
 
 bool NetworkController::fetchTransformPacket(TransformPacket &packet)

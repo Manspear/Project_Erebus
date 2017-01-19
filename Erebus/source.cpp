@@ -54,9 +54,6 @@ int main()
 	GamePlay * gamePlay = new GamePlay(&engine, assets);
 	Menu * menu = new Menu(&engine,assets);
 
-	glClearColor(1, 1, 1, 1);
-
-
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
@@ -72,6 +69,7 @@ int main()
 
 	while (running && window.isWindowOpen())
 	{	
+		//engine.effectPreProcess();
 
 		//ai.drawDebug(heightMap);
 		deltaTime = counter.getDeltaTime();
@@ -109,7 +107,7 @@ int main()
 
 			if (gameState == GameplayState)
 			{
-				soundEngine.play("bell.wav");
+				soundEngine.play("Effects/bell.wav");
 				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
@@ -162,12 +160,13 @@ int main()
 		{
 			if (lockMouse)
 			{
-				
+				soundEngine.pause();
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
 			else
 			{
+				soundEngine.resume();
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
