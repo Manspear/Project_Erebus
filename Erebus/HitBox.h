@@ -37,6 +37,7 @@ public:
 	// You dont need to delete children manually
 	virtual void addChild(HitBox* child);
 	virtual std::vector<HitBox*>* getChildren();
+	
 
 protected:
 	int ID, IDTransform;
@@ -46,6 +47,8 @@ protected:
 	glm::vec3 pos,localPos;
 	int typeFlag;
 	std::vector<HitBox*>* children;
+	HitBox* parent;
+	virtual void update();
 
 };
 

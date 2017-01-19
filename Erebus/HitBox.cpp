@@ -10,6 +10,7 @@ HitBox::HitBox()
 	this->active = true;
 	this->typeFlag = -1;
 	this->children = nullptr;
+	this->parent = nullptr;
 }
 
 HitBox::HitBox(unsigned int ID, int IDTransform)
@@ -20,6 +21,7 @@ HitBox::HitBox(unsigned int ID, int IDTransform)
 	this->active = true;
 	this->typeFlag = -1;
 	this->children = nullptr;
+	this->parent = nullptr;
 }
 
 HitBox::HitBox(int IDTransform)
@@ -30,6 +32,7 @@ HitBox::HitBox(int IDTransform)
 	this->active = true;
 	this->typeFlag = -1;
 	this->children = nullptr;
+	this->parent = nullptr;
 }
 
 
@@ -46,7 +49,8 @@ void HitBox::setPos(glm::vec3 pos)
 	{
 		for (size_t i = 0; i < this->children->size(); i++)
 		{
-			this->children->at(i)->pos = this->pos + this->children->at(i)->localPos;
+			//this->children->at(i)->pos = this->pos + this->children->at(i)->localPos;
+			this->children->operator[](i)->update();
 		}
 	}
 }
@@ -99,6 +103,8 @@ void HitBox::setTypeFlag(int flag)
 void HitBox::setLocalPos(glm::vec3 pos)
 {
 	this->localPos = pos;
+	if (this->parent != nullptr)
+		this->pos = this->parent->pos + this->localPos;
 }
 
 bool HitBox::isSphereCollider()
@@ -130,10 +136,26 @@ void HitBox::addChild(HitBox * child)
 	if (children == nullptr)
 		children = new std::vector<HitBox*>();
 	child->pos = this->pos + child->localPos;
+	child->parent = this;
 	children->push_back(child);
 }
 
 std::vector<HitBox*>* HitBox::getChildren()
 {
 	return this->children;
+}
+
+void HitBox::update()
+{
+	if (this->parent != nullptr)
+	{
+		this->pos = this->parent->pos + this->localPos;
+	}
+	if (this->children != nullptr)
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			this->children->operator[](i)->update();
+		}
+	}
 }
