@@ -25,6 +25,7 @@
 #include "LevelUI.h"
 #include "LevelActorHandler.h"
 #include "LevelActionHandler.h"
+#include "LevelGizmo.h"
 
 #include <SDKDDKVer.h>
 
@@ -60,8 +61,10 @@ private:
 	std::vector<LevelActor*> actors;
 	int tempSelectedActorID;
 	glm::vec3 tempSelectedHitPoint;
+	LevelGizmo* levelGizmo;
 
 	void pick();
+	bool holdingGizmo;
 public:
 
 	LevelEditor();

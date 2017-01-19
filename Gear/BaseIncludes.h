@@ -48,8 +48,6 @@ struct TransformStruct
 #define WINDOW_HEIGHT 944.f
 #define WINDOW_X 128
 #define WINDOW_Y 64
-#define CONSOLE_X 1920+128
-#define CONSOLE_Y 128
 
 #ifdef GEAR_EXPORTS  
 #define GEAR_API __declspec(dllexport)   

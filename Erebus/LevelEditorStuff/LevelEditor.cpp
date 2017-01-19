@@ -96,6 +96,9 @@ void LevelEditor::start() {
 	TwBar* componentsBar = TwNewBar( "Components" );
 	LevelActorFactory::getInstance()->addToBar( componentsBar );
 
+	levelGizmo = new LevelGizmo();
+	levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -168,42 +171,57 @@ void LevelEditor::start() {
 				lockMouse = true;
 			}
 		}
+
+		this->levelGizmo->update();
+		this->levelGizmo->drawGizmo();
 		
+		if(inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1)) {
+			this->holdingGizmo = levelGizmo->onMouseDown();
+		}
+
 		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 		{
-			pick();
-
-			int action = LevelActionHandler::getInstance()->getAction();
-
-			if( action == ACTION_SELECT )
-				LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
-			else if( action == ACTION_NEW_ACTOR || action == ACTION_PLACE_PREFAB )
+			
+			if (!holdingGizmo)
 			{
-				hasHit = this->tempSelectedHitPoint != glm::vec3(0);
-				if (hasHit)
+				pick();
+
+				int action = LevelActionHandler::getInstance()->getAction();
+
+				if (action == ACTION_SELECT)
+					LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
+				else if (action == ACTION_NEW_ACTOR || action == ACTION_PLACE_PREFAB)
 				{
-					if( action == ACTION_NEW_ACTOR )
+					hasHit = this->tempSelectedHitPoint != glm::vec3(0);
+					if (hasHit)
 					{
-						LevelActor* newActor = factory->createActor();
-						newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
-						LevelActorHandler::getInstance()->addActor(newActor);
-						LevelActorHandler::getInstance()->setSelected(newActor);
-					}
-					else if( action == ACTION_PLACE_PREFAB )
-					{
-						LevelActor* newActor = factory->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-						if (newActor)
+						if (action == ACTION_NEW_ACTOR)
 						{
+							LevelActor* newActor = factory->createActor();
+							newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
 							LevelActorHandler::getInstance()->addActor(newActor);
 							LevelActorHandler::getInstance()->setSelected(newActor);
+						}
+						else if (action == ACTION_PLACE_PREFAB)
+						{
+							LevelActor* newActor = factory->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
+							if (newActor)
+							{
+								LevelActorHandler::getInstance()->addActor(newActor);
+								LevelActorHandler::getInstance()->setSelected(newActor);
 
-							LevelTransform* trans = newActor->getComponent<LevelTransform>();
-							if( trans )
-								trans->getTransformRef()->setPos( tempSelectedHitPoint );
+								LevelTransform* trans = newActor->getComponent<LevelTransform>();
+								if (trans)
+									trans->getTransformRef()->setPos(tempSelectedHitPoint);
+							}
 						}
 					}
-				}	
+				}
+				
 			}
+			this->levelGizmo->onMouseUp();
+			this->holdingGizmo = false;
+	
 		}
 		engine->queueLights(&lights);
 		if( hasHit )

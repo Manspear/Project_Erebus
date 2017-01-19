@@ -63,11 +63,6 @@ void Window::initWindow()
 																 //glfwSetCursorPosCallback(window, (GLFWcursorposfun)TwEventMousePosGLFW3);
 																 //glfwSetKeyCallback(window, (GLFWkeyfun))
 
-	HWND consoleHandle = GetConsoleWindow();
-	SetWindowPos( consoleHandle, NULL, CONSOLE_X, CONSOLE_Y, 0, 0, SWP_NOSIZE );
-
-	HWND windowHandle = glfwGetWin32Window( window );
-	SetFocus( windowHandle );
 }
 
 bool Window::isWindowOpen() 
