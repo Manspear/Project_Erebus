@@ -94,9 +94,6 @@
     <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditorStuff\LevelPrefabHandler.cpp">
-      <Filter>LevelEditor\SourceLevel</Filter>
-    </ClCompile>
     <ClCompile Include="LuaNetwork.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
@@ -205,9 +202,6 @@
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelUI.h">
-      <Filter>LevelEditor\HeaderLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEditorStuff\LevelPrefabHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h">

@@ -4,7 +4,8 @@ LevelActionHandler* LevelActionHandler::g_instance = nullptr;
 const char* ACTION_NAMES[MAX_ACTIONS] =
 {
 	"Select",
-	"New Actor"
+	"New Actor",
+	"Place Prefab"
 };
 
 LevelActionHandler::LevelActionHandler()

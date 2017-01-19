@@ -81,14 +81,11 @@ void LevelEditor::start() {
 	//}
 
 	HeightMap* hm = assets.load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
-	glm::vec3 hitPoint;
+	//glm::vec3 hitPoint;
 	bool hasHit = false;
 	
 	//LevelAssetHandler assetHandler( &assets );
 	//assetHandler.load( "Models" );
-
-	//LevelPrefabHandler prefabHandler;
-	LevelPrefabHandler::getInstance()->load( "LevelEditorStuff/Resources/ActorsXML" );
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
@@ -180,21 +177,30 @@ void LevelEditor::start() {
 
 			if( action == ACTION_SELECT )
 				LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
-			else if( action == ACTION_NEW_ACTOR )
+			else if( action == ACTION_NEW_ACTOR || action == ACTION_PLACE_PREFAB )
 			{
-
 				hasHit = this->tempSelectedHitPoint != glm::vec3(0);
-
 				if (hasHit)
 				{
-					LevelActor* newActor = factory->createActor(LevelPrefabHandler::getInstance()->getSelectedPrefab());
-					if (newActor)
+					if( action == ACTION_NEW_ACTOR )
 					{
-							LevelActor* newActor = factory->createActor();
-							newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
+						LevelActor* newActor = factory->createActor();
+						newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
+						LevelActorHandler::getInstance()->addActor(newActor);
+						LevelActorHandler::getInstance()->setSelected(newActor);
+					}
+					else if( action == ACTION_PLACE_PREFAB )
+					{
+						LevelActor* newActor = factory->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
+						if (newActor)
+						{
 							LevelActorHandler::getInstance()->addActor(newActor);
 							LevelActorHandler::getInstance()->setSelected(newActor);
-							LevelActorHandler::getInstance()->addActor(newActor);
+
+							LevelTransform* trans = newActor->getComponent<LevelTransform>();
+							if( trans )
+								trans->getTransformRef()->setPos( tempSelectedHitPoint );
+						}
 					}
 				}	
 			}

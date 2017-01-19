@@ -3,6 +3,7 @@
 LevelAssetHandler* LevelAssetHandler::g_instance = nullptr;
 
 LevelAssetHandler::LevelAssetHandler()
+	: selectedPrefab( -1 )
 {
 }
 
@@ -21,6 +22,7 @@ void LevelAssetHandler::load()
 {
 	models.clear();
 
+	loadAssets( &prefabs, "LevelEditorStuff/Resources/ActorsXML" );
 	loadAssets( &models, "Models", ".model" );
 	loadAssets( &textures, "Textures" );
 
@@ -70,27 +72,59 @@ void LevelAssetHandler::updateAssetsBar()
 {
 	TwRemoveAllVars( assetsBar->getBar() );
 
-	selectionIndices.clear();
+	prefabSelection.clear();
+	prefabSelectionIndices.clear();
 
-	TwAddButton( assetsBar->getBar(), "Models:", NULL, NULL, NULL );
-	for( int i=0; i<models.size(); i++ )
+	for( int i=0; i<prefabs.size(); i++ )
 	{
-		TwAddButton( assetsBar->getBar(), models[i].c_str(), onSelectAsset, &models[i], NULL );
+		prefabSelection.push_back(false);
+		prefabSelectionIndices.push_back(i);
 	}
 
-	TwAddSeparator( assetsBar->getBar(), "sep1", NULL );
+	for( int i=0; i<prefabs.size(); i++ )
+	{
+		//TwAddButton( assetsBar->getBar(), prefabs[i].c_str(), onSelectPrefab, &prefabs[i], "group='Prefabs'" );
+		int* ptr = &prefabSelectionIndices[i];
+		TwAddVarCB( assetsBar->getBar(), prefabs[i].c_str(), TW_TYPE_BOOLCPP, onSetPrefab, onGetPrefab, &prefabSelectionIndices[i] , "group='Prefabs'" );
+	}
+	TwDefine( "Assets/Prefabs opened=false" );
 
-	TwAddButton( assetsBar->getBar(), "Textures:", NULL, NULL, NULL );
+	prefabSelection[0] = true;
+	selectedPrefab = 0;
+
+	for( int i=0; i<models.size(); i++ )
+		TwAddButton( assetsBar->getBar(), models[i].c_str(), onSelectAsset, &models[i], "group='Models'" );
+	TwDefine( "Assets/Models opened=false" );
+
 	for( int i=0; i<textures.size(); i++ )
-		TwAddButton( assetsBar->getBar(), textures[i].c_str(), onSelectAsset, NULL, NULL );
+		TwAddButton( assetsBar->getBar(), textures[i].c_str(), onSelectAsset, NULL, "group='Textures'" );
+	TwDefine( "Assets/Textures opened=false" );
 }
 
 void LevelAssetHandler::selectAsset( std::string model )
 {
 	selectedModel = model;
-
 	showContextBar( model );
 }
+
+/*void LevelAssetHandler::selectPrefab( std::string prefab )
+{
+	selectedModel = "";
+	hideContextBar();
+
+	if( selectedPrefab >= 0 )
+		prefabSelection[selectedPrefab] = false;
+
+	int index = -1;
+	for( int i=0; i<prefabs.size() && index < 0; i++ )
+		if( prefabs[i] == prefab )
+			index = i;
+
+	if( index >= 0 )
+		prefabSelection[selectedPrefab] = true;
+
+	selectedPrefab = index;
+}*/
 
 void LevelAssetHandler::showContextBar( std::string model )
 {
@@ -128,6 +162,26 @@ void LevelAssetHandler::addToActor()
 	selectedModel = "";
 }
 
+void LevelAssetHandler::selectPrefab( int index )
+{
+	if( selectedPrefab >= 0 )
+		prefabSelection[selectedPrefab] = false;
+	prefabSelection[index] = true;
+	selectedPrefab = index;
+
+	hideContextBar();
+}
+
+int LevelAssetHandler::getSelectedPrefabIndex()
+{
+	return selectedPrefab;
+}
+
+const std::string& LevelAssetHandler::getSelectedPrefab()
+{
+	return prefabs[selectedPrefab];
+}
+
 void LevelAssetHandler::setAssets( Importer::Assets* a )
 {
 	assets = a;
@@ -149,6 +203,18 @@ void LevelAssetHandler::setTweakBars( TweakBar* ab, TweakBar* cb )
 	TwDefine( "AssetsContext visible=false iconifiable=false fontresizable=false contained=true" );
 
 	contextBarVisible = false;
+}
+
+void TW_CALL LevelAssetHandler::onSetPrefab( const void* value, void* clientData )
+{
+	int index = *(int*)clientData;
+	LevelAssetHandler::getInstance()->selectPrefab( index );
+}
+
+void TW_CALL LevelAssetHandler::onGetPrefab( void* value, void* clientData )
+{
+	int index = *(int*)clientData;
+	*(bool*)value = ( index == LevelAssetHandler::getInstance()->getSelectedPrefabIndex() );
 }
 
 void TW_CALL LevelAssetHandler::onSelectAsset( void* args )

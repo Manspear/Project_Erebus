@@ -167,7 +167,6 @@
     <ClCompile Include="LevelEditorStuff\LevelFileDialog.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModel.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModelHandler.cpp" />
-    <ClCompile Include="LevelEditorStuff\LevelPrefabHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelTransformHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelUI.cpp" />
@@ -278,7 +277,6 @@
     <ClInclude Include="LevelEditorStuff\LevelFileDialog.h" />
     <ClInclude Include="LevelEditorStuff\LevelModel.h" />
     <ClInclude Include="LevelEditorStuff\LevelModelHandler.h" />
-    <ClInclude Include="LevelEditorStuff\LevelPrefabHandler.h" />
     <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelTransformHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelUI.h" />

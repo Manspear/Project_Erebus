@@ -23,7 +23,6 @@
 #include "LevelActorFactory.h"
 #include "LevelAssetHandler.h"
 #include "LevelUI.h"
-#include "LevelPrefabHandler.h"
 #include "LevelActorHandler.h"
 #include "LevelActionHandler.h"
 
