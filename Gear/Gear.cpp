@@ -196,16 +196,16 @@ namespace Gear
 
 		Camera cam;
 		cam.setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
-		cam.setView(glm::lookAt(glm::vec3(0.0f, 0.0f, 100.0f), glm::vec3(-1.0f, 0.0f, 100.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+		cam.setView(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 		cam.setprojection(glm::perspectiveFov(45.f, 1280.f, 720.f, 0.1f, 2000.f));
 		//cam.setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
 		//cam.setDirection(glm::vec3(1.0f, 0.0f, 0.0f));
 
 
-		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], &cam);
-		map.calcOrthoProjs(&cam);
+		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], camera);
+		map.calcOrthoProjs(camera);
 
-		tempCamera.setView(glm::mat4());
+		tempCamera.setView(map.viewMatrices[0]);
 		tempCamera.setprojection(map.projectionMatrices[0]);
 
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
@@ -247,9 +247,7 @@ namespace Gear
 		skybox.draw();
 		queue.particlePass(particleSystems);
 
-		//Clear lists
-		staticModels = &defaultModelList;
-		dynamicModels = &defaultModelList;
+		
 
 		screenQuad.draw();
 		text.draw();
@@ -270,7 +268,7 @@ namespace Gear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
-		glViewport(200, 0, 200, 200);
+		glViewport(210, 0, 200, 200);
 		quadShader->use();
 		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
 		drawQuad();
@@ -286,7 +284,7 @@ namespace Gear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
-		glViewport(400, 0, 200, 200);
+		glViewport(420, 0, 200, 200);
 		quadShader->use();
 		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
 		drawQuad();
@@ -302,12 +300,16 @@ namespace Gear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		shadowMap.unUse();
-		glViewport(600, 0, 200, 200);
+		glViewport(630, 0, 200, 200);
 		quadShader->use();
 		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
 		drawQuad();
 		quadShader->unUse();
 		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		//Clear lists
+		staticModels = &defaultModelList;
+		dynamicModels = &defaultModelList;
 	}
 
 	void GearEngine::pickingPass() {

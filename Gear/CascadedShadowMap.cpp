@@ -49,8 +49,14 @@ void CascadedShadowMap::bindTexture(ShaderProgram * shader, const char * name, G
 
 void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 {
-	glm::vec3 lookat((mainCam->getPosition().x - mainCam->getDirection()).x, (mainCam->getPosition().y - mainCam->getDirection()).y, (mainCam->getPosition().z - mainCam->getDirection()).z);
-	glm::mat4 camView = glm::lookAt(mainCam->getPosition(), lookat, glm::vec3(0, 1, 0));
+	glm::vec3 pos = mainCam->getPosition();
+	glm::vec3 direction = mainCam->getDirection();
+	glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
+	glm::vec3 up = glm::normalize(glm::cross(right, (pos+direction)));
+
+
+	glm::vec3 lookat((pos + direction));
+	glm::mat4 camView = glm::lookAt(pos, lookat, up);
 	glm::mat4 view = mainCam->getViewMatrix();
 	glm::mat4 camInv = glm::inverse(view);
 
@@ -62,7 +68,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		splitPlanes[i] = glm::vec2(splitNear, splitFar);
 	}
 
-	float ar = WINDOW_HEIGHT / WINDOW_HEIGHT;
+	float ar = WINDOW_HEIGHT / WINDOW_WIDTH;
 	float tanHalfHFOV = tanf(glm::radians(45.0f / 2.0f));
 	float tanHalfVFOV = tanf(glm::radians((45.0f * ar) / 2.0f));
 
@@ -116,8 +122,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		maxAABB[i] = glm::vec3(maxX, maxY, maxZ);
 
 		center /= 8;
-		viewMatrices[i] = glm::lookAt(glm::vec3(center) - light.direction * (splitPlanes[i].y - splitPlanes[i].x), glm::vec3(center), glm::vec3(0.f, 1.f, 0.f));
-		//viewMatrices[i] = glm::lookAt(glm::vec3(0), light.direction, glm::vec3(0,1,0));
+		//viewMatrices[i] = glm::lookAt(glm::vec3(center) - light.direction * (splitPlanes[i].y - splitPlanes[i].x), glm::vec3(center), glm::vec3(0.f, 1.f, 0.f));
+		viewMatrices[i] = glm::lookAt(glm::vec3(0), light.direction, glm::vec3(0,1,0));
 
 		minX = std::numeric_limits<float>::max();
 		maxX = std::numeric_limits<float>::min();
@@ -140,7 +146,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		}
 
 		projectionMatrices[i] = glm::ortho(minX, maxX, minY, maxY, minZ, maxZ);
-
+		//viewMatrices[i] = glm::lookAt(glm::vec3(center) - light.direction * (splitPlanes[i].y - splitPlanes[i].x), glm::vec3(center), glm::vec3(0.f, 1.f, 0.f));
 	}
 }
 
