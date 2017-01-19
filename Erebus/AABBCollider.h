@@ -22,7 +22,7 @@ public:
 	virtual void insertCollisionID(unsigned int collisionID) override;
 	virtual void clearCollisionIDs() override;
 
-	void setPos(glm::vec3 pos) override;
+	virtual void setPos(glm::vec3 pos) override;
 	void setMinPos(glm::vec3 minPos);
 	void setMaxPos(glm::vec3 maxPos);
 

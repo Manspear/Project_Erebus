@@ -612,3 +612,40 @@ void CollisionHandler::drawHitboxes()
 		}
 	}
 }
+
+void CollisionHandler::recursiveDraw(HitBox * hitbox, glm::vec3 color)
+{
+	std::vector<HitBox*>* children = hitbox->getChildren();
+	if (children != nullptr) // if we have any children call recursive draw on them also
+	{
+		for (size_t i = 0; i < children->size(); i++)
+		{
+			this->recursiveDraw(children->operator[](i), color);
+		}
+	}
+
+	if (hitbox->isAabbCollider()) // draw the hitbox
+	{
+		AABBCollider* temp = static_cast<AABBCollider*>(hitbox);
+		if (temp->isActive())
+			debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), color);
+		else
+			debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
+	}
+	else if (hitbox->isSphereCollider())
+	{
+		SphereCollider* temp = static_cast<SphereCollider*>(hitbox);
+		if (temp->isActive())
+			debugger->drawSphere(temp->getPos(), temp->getRadius(), color);
+		else
+			debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
+	}
+	else if (hitbox->isObbCollider())
+	{
+		OBBCollider* temp = static_cast<OBBCollider*>(hitbox);
+		if (temp->isActive())
+			debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), color);
+		else
+			debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
+	}
+}

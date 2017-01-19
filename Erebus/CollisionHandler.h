@@ -67,6 +67,7 @@ public:
 	void printCollisions();
 
 	void drawHitboxes();
+	void recursiveDraw(HitBox* hitbox,glm::vec3 color);
 	
 
 private:
@@ -81,6 +82,8 @@ private:
 
 	Debug* debugger;
 	glm::vec3 colors[64]; // 64 colors to use on hitbox layers
+	glm::vec3 childColor = glm::vec3(1,1,1);
+	glm::vec3 deactivatedColor = glm::vec3(0, 0, 0);
 
 	static unsigned int hitboxID;
 	static void incrementHitboxID();

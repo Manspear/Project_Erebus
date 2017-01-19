@@ -107,7 +107,7 @@ void AABBCollider::clearCollisionIDs()
 
 void AABBCollider::setPos(glm::vec3 pos)
 {
-	HitBox:setPos(pos);//Ish bien ain hacker
+	HitBox::setPos(pos);//Ish bien ain hacker
 	this->maxPosTotal = this->maxPos + this->pos;
 	this->minPosTotal = this->minPos + this->pos;
 }
