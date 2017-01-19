@@ -581,25 +581,25 @@ void CollisionHandler::drawHitboxes()
 			{
 				SphereCollider* temp = tempSphereColliders->operator[](j);
 				if (temp->isActive())
-					debugger->drawSphere(temp->getPos(), temp->getRadius(), this->colors[i]);
+					recursiveDraw(temp, this->colors[i]);
 				else
-					debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
+					recursiveDraw(temp, deactivatedColor);
 			}
 			for (size_t j = 0; j < tempAabbColliders->size(); j++)
 			{
 				AABBCollider* temp = tempAabbColliders->operator[](j);
 				if (temp->isActive())
-					debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), this->colors[i]);
+					recursiveDraw(temp, this->colors[i]);
 				else
-					debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
+					recursiveDraw(temp, deactivatedColor);
 			}
 			for (size_t j = 0; j < tempObbColliders->size(); j++)
 			{
 				OBBCollider* temp = tempObbColliders->operator[](j);
 				if (temp->isActive())
-					debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
+					recursiveDraw(temp, this->colors[i]);
 				else
-					debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
+					recursiveDraw(temp, deactivatedColor);
 			}
 			for (size_t j = 0; j < tempRayColliders->size(); j++)
 			{
