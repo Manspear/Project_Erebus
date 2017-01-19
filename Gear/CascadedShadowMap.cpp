@@ -4,7 +4,7 @@
 
 CascadedShadowMap::CascadedShadowMap()
 {
-	pos = glm::vec3(100.0f, 50.0f, 200.0f);
+	pos = glm::vec3(100.0f, 50.0f, 0.0f);
 }
 
 
@@ -57,8 +57,16 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		if (pos.z > 300)
 			pos.z = 0.0f;
 
+		for (int i = 0; i < NUM_CASCADEDS; i++)
+		{
+			float splitNear = i > 0 ? glm::mix(nearPlane + (static_cast<float>(i) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i) / (float)NUM_CASCADEDS), splitLambda) : nearPlane;
+			float splitFar = i < NUM_CASCADEDS - 1 ? glm::mix(nearPlane + (static_cast<float>(i + 1) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i + 1) / (float)NUM_CASCADEDS), splitLambda) : farPlane;
+
+			splitPlanes[i] = glm::vec2(splitNear, splitFar);
+		}
+
 		//pos = glm::vec3(200.0f, 10.0f, 200.0f);// mainCam->getPosition();
-		glm::vec3 direction = glm::vec3(1.0f, 0.0f, 0.0f);//mainCam->getDirection();
+		glm::vec3 direction = glm::vec3(0.5f, 0.0f, 0.5f);//mainCam->getDirection();
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::vec3 up = glm::normalize(glm::cross(right, (pos + direction)));
 
@@ -73,9 +81,9 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
 		{
 
-			float nearHeight = 2.0f * tanf(glm::radians(45.0f / 2.0f)) * splitPlanes[CascadeID].x;
+			float nearHeight = tanf(glm::radians(45.0f) / 2.0f) * splitPlanes[CascadeID].x;
 			float nearWidth = nearHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
-			float farHeight = 2.0f * tanf(glm::radians(45.0f / 2.0f)) * splitPlanes[CascadeID].y;
+			float farHeight = tanf(glm::radians(45.0f) / 2.0f) * splitPlanes[CascadeID].y;
 			float farWidth = farHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
 
 			glm::vec3 nc = (pos + direction * splitPlanes[CascadeID].x);
@@ -95,17 +103,69 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 			glm::vec4 frustumMin(std::numeric_limits<float>::max());
 			glm::vec4 frustumMax(std::numeric_limits<float>::lowest());
 
+			glm::vec3 minExtents(std::numeric_limits<float>::max());
+			glm::vec3 maxExtents(std::numeric_limits<float>::lowest());
+
+			for (int j = 0; j < 8; j++) {
+
+				glm::vec3 vW = glm::vec3(vertices[j]);
+
+				minExtents.x = std::fmin(minExtents.x, vW.x);
+				maxExtents.x = std::fmax(maxExtents.x, vW.x);
+				minExtents.y = std::fmin(minExtents.y, vW.y);
+				maxExtents.y = std::fmax(maxExtents.y, vW.y);
+				minExtents.z = std::fmin(minExtents.z, vW.z);
+				maxExtents.z = std::fmax(maxExtents.z, vW.z);
+			}
+
+			minAABB[CascadeID] = minExtents;
+			maxAABB[CascadeID] = maxExtents;
+
 			glm::vec3 center = nc + ((fc - nc) / 2.0f);
 
-			glm::mat4 lightVM = glm::lookAt(center + light.direction * (float)(fc - nc).length(), center, glm::vec3(0, 1, 0));
-			viewMatrices[CascadeID] = lightVM;
+			glm::mat4 t_modelview = glm::lookAt(glm::vec3(0.0f), light.direction, glm::vec3(0, 1, 0));
+			
+			glm::vec4 t_transf = t_modelview * vertices[0];
+
+			for (int i = 1; i < 8; i++)
+			{
+				t_transf = t_modelview * vertices[i];
+				if (t_transf.z > frustumMax.z) { frustumMax.z = t_transf.z; }
+				if (t_transf.z < frustumMin.z) { frustumMin.z = t_transf.z; }
+			}
+			frustumMax.z += 50;
+
+			glm::mat4 t_ortho = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -frustumMax.z, -frustumMin.z);
+			glm::mat4 t_shad_mvp = t_ortho * t_modelview;
+
 			for (int i = 0; i < 8; i++)
 			{
-				vertices[i] = lightVM * vertices[i];
-				frustumMin = glm::min(frustumMin, vertices[i]);
-				frustumMax = glm::max(frustumMax, vertices[i]);
+				t_transf = t_shad_mvp * vertices[i];
+
+				t_transf.x /= t_transf.w;
+				t_transf.y /= t_transf.w;
+
+				if (t_transf.x > frustumMax.x) { frustumMax.x = t_transf.x; }
+				if (t_transf.x < frustumMin.x) { frustumMin.x = t_transf.x; }
+				if (t_transf.y > frustumMax.y) { frustumMax.y = t_transf.y; }
+				if (t_transf.y < frustumMin.y) { frustumMin.y = t_transf.y; }
 			}
-			projectionMatrices[CascadeID] = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, 0.0f, frustumMin.z);
+
+			glm::vec2 tscale(2.0f/(frustumMax.x - frustumMin.x), 2.0f / (frustumMax.y - frustumMin.y));
+			glm::vec2 toffset(-0.5f * (frustumMax.x + frustumMin.x) * tscale.x, -0.5f * (frustumMax.y + frustumMin.y) * tscale.y);
+
+			glm::mat4 t_shad_crop;
+			t_shad_crop[0][0] = tscale.x;
+			t_shad_crop[1][1] = tscale.y;
+			t_shad_crop[0][3] = toffset.x;
+			t_shad_crop[1][3] = toffset.y;
+			t_shad_crop = glm::transpose(t_shad_crop);
+
+			glm::mat4 t_projection = t_shad_crop * t_ortho;
+
+			projectionMatrices[CascadeID] = t_projection;
+			viewMatrices[CascadeID] = t_modelview;
+
 		}
 	}
 	//-----------------------------------------------------------------------------------------------------

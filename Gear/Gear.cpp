@@ -197,7 +197,7 @@ namespace Gear
 
 		Camera cam;
 		cam.setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
-		cam.setView(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+		cam.setView(map.viewMatrices[4]);
 		cam.setprojection(glm::perspectiveFov(45.f, 1280.f, 720.f, 0.1f, 2000.f));
 		//cam.setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
 		//cam.setDirection(glm::vec3(1.0f, 0.0f, 0.0f));
@@ -226,10 +226,10 @@ namespace Gear
 		//temp->drawAABB((glm::vec3)(map.viewMatrices[2] * glm::vec4(map.minAABB[2], 1)), (glm::vec3)(map.viewMatrices[2] * glm::vec4(map.maxAABB[2], 1)), glm::vec3(0, 0, 1.0f));
 		//temp->drawAABB((glm::vec3)(map.viewMatrices[3] * glm::vec4(map.minAABB[3], 1)), (glm::vec3)(map.viewMatrices[3] * glm::vec4(map.maxAABB[3], 1)), glm::vec3(0.5f, 0.5f, 0));
 
-		tempCamera.setprojection(camera->getProjectionMatrix());
-		tempCamera.setView(map.viewMatrices[4]);
+		/*tempCamera.setprojection(camera->getProjectionMatrix());
+		tempCamera.setView(map.viewMatrices[4]);*/
 
-		queue.updateUniforms(&tempCamera);
+		queue.updateUniforms(&cam);
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -237,16 +237,16 @@ namespace Gear
 		
 		gBuffer.unUse();
 
-		lightPass(camera, &tempCamera); //renders the texture with light calculations
+		lightPass(&cam, &tempCamera); //renders the texture with light calculations
 
 
 		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
 		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
 		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
-		updateDebug(camera);
+		updateDebug(&cam);
 
-		skybox.update(camera);
+		skybox.update(&cam);
 		skybox.draw();
 		queue.particlePass(particleSystems);
 
@@ -308,6 +308,7 @@ namespace Gear
 		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
 		drawQuad();
 		quadShader->unUse();
+
 		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		//Clear lists
