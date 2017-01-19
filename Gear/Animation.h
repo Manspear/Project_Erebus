@@ -62,6 +62,7 @@ protected:
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
 	float animationTimer;
+	float animTimer;
 
 	float* transitionTimeArray;
 	int transitionTimeArraySize;

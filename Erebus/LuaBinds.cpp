@@ -91,6 +91,8 @@ void LuaBinds::update( Controls* controls, float deltaTime )
 	{
 		//LuaControls::sendControls( lua, controls );
 
+		LuaGear::resetAnimations();
+
 		lua_rawgeti( lua, LUA_REGISTRYINDEX, updateReference );
 		lua_pushnumber( lua, deltaTime );
 		if( lua_pcall( lua, 1, 0, 0 ) )

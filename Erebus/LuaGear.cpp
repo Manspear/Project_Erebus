@@ -10,6 +10,9 @@ namespace LuaGear
 	static Assets* g_assets = nullptr;
 	static WorkQueue* g_work = nullptr;
 
+	static BlendingData g_blendingData[MAX_ANIMATIONS] = {};
+	static int g_blendingIndex = 0;
+
 	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
@@ -208,12 +211,6 @@ namespace LuaGear
 		return 0;
 	}
 
-	void asyncAnimation( void* args )
-	{
-		Animation* animation = (Animation*)args;
-		animation->updateAnimation( 0.1f, 1 );
-	}
-
 	int updateAnimation( lua_State* lua )
 	{
 		int result = 0;
@@ -225,17 +222,11 @@ namespace LuaGear
 			float dt = lua_tonumber( lua, 2 );
 			int layer = lua_tointeger( lua, 3 );
 
-#if 0
 			animation->updateAnimation( dt, layer );
-#else
-			g_work->add( asyncAnimation, &animation );
-#endif
 		}
 
 		return result;
 	}
-
-	
 
 	int updateAnimationBlending(lua_State* lua)
 	{
@@ -248,7 +239,11 @@ namespace LuaGear
 			float dt = lua_tonumber(lua, 2);
 			int layer = lua_tointeger(lua, 3);
 
-			animation->updateState(dt, layer);
+			//animation->updateState(dt, layer);
+			g_blendingData[g_blendingIndex] = { animation, dt, layer };
+			g_work->add( asyncUpdateState, &g_blendingData[g_blendingIndex] );
+
+			g_blendingIndex++;
 		}
 
 		return result;
@@ -284,5 +279,16 @@ namespace LuaGear
 			delete[] transitions;
 		}
 		return result;
+	}
+
+	void asyncUpdateState( void* args )
+	{
+		BlendingData* data = (BlendingData*)args;
+		data->animation->updateState( data->dt, data->layer );
+	}
+
+	void resetAnimations()
+	{
+		g_blendingIndex = 0;
 	}
 }

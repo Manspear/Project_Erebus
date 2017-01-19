@@ -2,7 +2,7 @@
 
 #include "BaseIncludes.h"
 
-#define MAX_THREADS 4
+#define MAX_THREADS 2
 #define MAX_WORK 1000
 #define WORK_TIMEOUT 100 // ms
 

@@ -175,6 +175,8 @@ int main()
 	#endif // DEBUG
 	}
 
+	work.stop();
+
 	delete gamePlay;
 	delete menu;
 	

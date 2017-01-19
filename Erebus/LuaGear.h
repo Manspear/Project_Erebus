@@ -5,6 +5,8 @@
 #include "Assets.h"
 #include "WorkQueue.h"
 
+#define MAX_ANIMATIONS 100
+
 namespace LuaGear
 {
 	void registerFunctions( lua_State* lua,
@@ -27,4 +29,9 @@ namespace LuaGear
 	int updateAnimation( lua_State* lua );
 	int updateAnimationBlending(lua_State* lua);
 	int setTransitionTimes(lua_State* lua);
+
+	// for threading
+	struct BlendingData { Animation* animation; float dt; int layer; };
+	void asyncUpdateState( void* args );
+	void resetAnimations();
 }
