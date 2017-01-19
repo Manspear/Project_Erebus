@@ -11,6 +11,7 @@
 #include "LevelModelHandler.h"
 #include "Gear.h"
 #include "LevelActorHandler.h"
+#include "LevelFileDialog.h"
 
 class LevelActorFactory
 {
@@ -23,8 +24,10 @@ public:
 	const char* getPath(unsigned int id);
 	void deleteSavedPaths();
 	void saveWorld(std::string fileName, std::vector<LevelActor*>* actors);
+	void saveWorld();
 	//void loadWorld(std::string fileName, std::vector<LevelActor*>* actors);
 	void loadWorld(std::string fileName);
+	void loadWorld();
 	void saveToLua(std::string fileName, std::vector<LevelActor*>* actors);
 	LevelActor* loadActor(tinyxml2::XMLElement* element);
 
@@ -44,6 +47,7 @@ private:
 	std::map<unsigned int, const char*>* idPathMap;
 	LevelTransformHandler* transformHandler;
 	LevelModelHandler* modelHandler;
+	LevelFileDialog fileDialog;
 	//Singleton things here
 public:
 	static LevelActorFactory* getInstance()

@@ -37,6 +37,8 @@ private:
 	static LevelActionHandler* g_instance;
 	static void TW_CALL onSetAction( const void* value, void* clientData );
 	static void TW_CALL onGetAction( void* value, void* clientData );
+	static void TW_CALL onSaveWorld( void* args );
+	static void TW_CALL onLoadWorld( void* args );
 
 	TweakBar* actionBar;
 	int action;

@@ -5,7 +5,7 @@ const char* ACTION_NAMES[MAX_ACTIONS] =
 {
 	"Select",
 	"New Actor",
-	"Place Prefab"
+	"Place Prefab",
 };
 
 LevelActionHandler::LevelActionHandler()
@@ -89,6 +89,8 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 					}
 				} break;
 			} // end of switch
+
+			LevelAssetHandler::getInstance()->onMouseReleased();
 		}
 
 		gizmo.onMouseUp();
@@ -105,6 +107,10 @@ void LevelActionHandler::setTweakBar( TweakBar* bar )
 	TwRemoveAllVars( bar->getBar() );
 	for( int i=0; i<MAX_ACTIONS; i++ )
 		TwAddVarCB( actionBar->getBar(), ACTION_NAMES[i], TW_TYPE_BOOLCPP, onSetAction, onGetAction, &indices[i], NULL );
+
+	TwAddSeparator( bar->getBar(), "sep2", NULL );
+	TwAddButton( bar->getBar(), "SaveWorld", onSaveWorld, NULL, "label='Save World'" );
+	TwAddButton( bar->getBar(), "LoadWorld", onLoadWorld, NULL, "label='Load World'" );
 }
 
 void LevelActionHandler::setAction( int a )
@@ -130,4 +136,14 @@ void LevelActionHandler::onGetAction( void* value, void* clientData )
 {
 	int index = *(int*)clientData;
 	*(bool*)value = ( LevelActionHandler::getInstance()->getAction() == index );
+}
+
+void TW_CALL LevelActionHandler::onSaveWorld( void* args )
+{
+	LevelActorFactory::getInstance()->saveWorld();
+}
+
+void TW_CALL LevelActionHandler::onLoadWorld( void* args )
+{
+	LevelActorFactory::getInstance()->loadWorld();
 }

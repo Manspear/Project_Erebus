@@ -186,6 +186,30 @@ void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>
 	//tinyxml2::XMLDeclaration* dcl = new tinyxml2::XMLDeclaration(&doc);
 }
 
+void LevelActorFactory::saveWorld()
+{
+	if( fileDialog.show( DIALOG_SAVE_FILE ) )
+	{
+		tinyxml2::XMLDocument doc;
+
+		const char* LevelActorElementValue = "Level";
+		tinyxml2::XMLElement* LevelElement = doc.NewElement(LevelActorElementValue);
+
+		std::map<unsigned int, LevelActor*>& actors = LevelActorHandler::getInstance()->getActors();
+		/*for (size_t i = 0; i < actors.size(); i++)
+		{
+			actors.at(i)->insertXmlElement(LevelElement, &doc);
+		}*/
+		for( std::map<unsigned int, LevelActor*>::iterator it = actors.begin(); it != actors.end(); it++ )
+		{
+			it->second->insertXmlElement(LevelElement, &doc);
+		}
+
+		doc.LinkEndChild(LevelElement);
+		tinyxml2::XMLError eResult = doc.SaveFile(fileDialog.getFilePath().c_str());
+	}
+}
+
 /*void LevelActorFactory::loadWorld(std::string fileName, std::vector<LevelActor*>* actors) {
 	for (size_t i = 0; i < actors->size(); i++)
 	{
@@ -215,6 +239,18 @@ void LevelActorFactory::loadWorld( std::string fileName )
 
 	for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 		LevelActorHandler::getInstance()->addActor(loadActor(pNode));
+}
+
+void LevelActorFactory::loadWorld()
+{
+	if( fileDialog.show( DIALOG_OPEN_FILE ) )
+	{
+		tinyxml2::XMLDocument* doc = getDocument( fileDialog.getFilePath() );
+		tinyxml2::XMLElement* startElement = doc->FirstChildElement();
+
+		for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+			LevelActorHandler::getInstance()->addActor(loadActor(pNode));
+	}
 }
 
 void LevelActorFactory::saveToLua(std::string fileName, std::vector<LevelActor*>* actors)

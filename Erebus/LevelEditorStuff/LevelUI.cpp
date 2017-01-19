@@ -42,7 +42,7 @@ LevelUI::LevelUI(GLFWwindow* window)
 
 	bars[3] = new TweakBar(glm::vec2(bar2Position.x-192, bar2Position.y), glm::vec2(148,72), glm::vec4(255, 255, 0, 200), assetContextBarName );
 
-	bars[4] = new TweakBar(glm::vec2(bar2Position.x-148, 0), glm::vec2(148,128), glm::vec4(128,32,32,200), actionBarName );
+	bars[4] = new TweakBar(glm::vec2(bar2Position.x-148, 0), glm::vec2(148,148), glm::vec4(128,32,32,200), actionBarName );
 	
 	LevelActorHandler::getInstance()->setTweakBars( bars[1], bars[0] );
 	LevelAssetHandler::getInstance()->setTweakBars( bars[2], bars[3] );

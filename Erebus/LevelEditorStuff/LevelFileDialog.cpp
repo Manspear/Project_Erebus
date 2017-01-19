@@ -71,7 +71,43 @@ bool LevelFileDialog::show( int mode )
 
 		case DIALOG_OPEN_FILE:
 		{
+			HRESULT hr = CoInitializeEx( NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE );
+			if( SUCCEEDED(hr) )
+			{
+				IFileOpenDialog* fileDialog;
 
+				hr = CoCreateInstance( CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, (void**)&fileDialog );
+				if( SUCCEEDED(hr) )
+				{
+					hr = fileDialog->Show( NULL );
+
+					if( SUCCEEDED(hr) )
+					{
+						IShellItem* item;
+						hr = fileDialog->GetResult( &item );
+						if( SUCCEEDED(hr) )
+						{
+							PWSTR itemPathPtr;
+							hr = item->GetDisplayName( SIGDN_FILESYSPATH, &itemPathPtr );
+
+							if( SUCCEEDED(hr) )
+							{
+								LPWSTR itemPath = itemPathPtr;
+								std::wstring wpath = itemPath;
+								filePath = std::string( wpath.begin(), wpath.end() );
+								valid = true;
+
+								CoTaskMemFree( itemPathPtr );
+							}
+							item->Release();
+						}
+					}
+					
+					fileDialog->Release();
+				}
+
+				CoUninitialize();
+			}
 		} break;
 
 		case DIALOG_OPEN_DIRECTORY:

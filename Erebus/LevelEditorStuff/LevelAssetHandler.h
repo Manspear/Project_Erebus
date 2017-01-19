@@ -26,6 +26,7 @@ public:
 	void showContextBar( std::string model );
 	void hideContextBar();
 	void addToActor();
+	void onMouseReleased();
 
 	void selectPrefab( int index );
 	int getSelectedPrefabIndex();

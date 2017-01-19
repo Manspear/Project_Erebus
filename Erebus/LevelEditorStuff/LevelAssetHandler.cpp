@@ -171,6 +171,11 @@ void LevelAssetHandler::addToActor()
 	selectedModel = "";
 }
 
+void LevelAssetHandler::onMouseReleased()
+{
+	hideContextBar();
+}
+
 void LevelAssetHandler::selectPrefab( int index )
 {
 	if( selectedPrefab >= 0 )
