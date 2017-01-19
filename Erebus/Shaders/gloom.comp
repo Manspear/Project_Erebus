@@ -37,10 +37,16 @@ void main() {
 	for(int i =-10; i <= 10; i++)
 	{
 		if(imageLoad(srcTex, ivec2(a) + ivec2(i, 0)).a != 0){
-		hits++;
+			hits++;
 		}
 		if(imageLoad(srcTex, ivec2(a) + ivec2(0, i)).a != 0){
-		hits++;
+			hits++;
+		}
+		if(imageLoad(srcTex, ivec2(a) + ivec2(i, i)).a != 0){
+			hits++;
+		}
+		if(imageLoad(srcTex, ivec2(a) + ivec2(-i, i)).a != 0){
+			hits++;
 		}
 	}
 	tex = imageLoad(srcTex, ivec2(a));
