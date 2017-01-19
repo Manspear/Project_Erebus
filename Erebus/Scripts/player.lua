@@ -1,4 +1,4 @@
-local MOLERAT_OFFSET = 1.8
+local MOLERAT_OFFSET = 0.5
 local PLAYER_MAX_SPELLS = 2
 local PLAYER_JUMP_SPEED = 0.35
 player = {}
@@ -11,7 +11,7 @@ end
 function LoadPlayer()
 	-- set basic variables for the player
 	player.transformID = Transform.Bind()
-	player.moveSpeed = 12
+	player.moveSpeed = 7
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
@@ -180,16 +180,17 @@ function UpdatePlayer(dt)
 		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 
 		local diff = height - position.y
-		if diff <= player.walkableIncline then
-			position = newPosition
-		else
-			posx = math.floor(position.x/512)
-			posz = math.floor(position.z/512)
-			player.heightmapIndex = (posz*2 + posx)+1
-			if player.heightmapIndex<1 then player.heightmapIndex = 1 end
-			if player.heightmapIndex>4 then player.heightmapIndex = 4 end
-			height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
-		end
+		--if diff <= player.walkableIncline then
+		--	position = newPosition
+		--else
+		--	posx = math.floor(position.x/512)
+		--	posz = math.floor(position.z/512)
+		--	player.heightmapIndex = (posz*2 + posx)+1
+		--	if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		--	if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+		--	height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		--end
+		position = newPosition
 
 		position.y = position.y + player.verticalSpeed
 		player.verticalSpeed = player.verticalSpeed - 0.982 * dt

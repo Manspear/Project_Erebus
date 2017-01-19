@@ -18,6 +18,8 @@
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 
+#include "SoundEngine.h"
+
 bool running = true;
 
 int main()
@@ -25,6 +27,7 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	Window window;
 	Gear::GearEngine engine;
+	SoundEngine soundEngine;
 
 	GameState gameState = MenuState;
 	window.changeCursorStatus(false);
@@ -64,6 +67,9 @@ int main()
 	
 	inputs.getMousePos();
 
+	soundEngine.play("Music/menuBurana.ogg", true);
+	soundEngine.setVolume(0.5);
+
 	while (running && window.isWindowOpen())
 	{	
 
@@ -77,7 +83,7 @@ int main()
 			gameState = menu->Update(inputs);
 			if (gameState == HostGameplayState)
 			{
-				if (gamePlay->StartNetwork(true))
+				if (gamePlay->StartNetwork(true, &counter))
 				{
 					gameState = GameplayState;
 				}
@@ -90,7 +96,7 @@ int main()
 
 			if (gameState == ClientGameplayState)
 			{
-				if (gamePlay->StartNetwork(false))
+				if (gamePlay->StartNetwork(false, &counter))
 				{
 					gameState = GameplayState;
 				}
@@ -103,6 +109,7 @@ int main()
 
 			if (gameState == GameplayState)
 			{
+				soundEngine.play("bell.wav");
 				gamePlay->Initialize(assets, controls, inputs, camera);
 				window.changeCursorStatus(true);
 				lockMouse = true;
