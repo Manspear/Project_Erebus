@@ -4,7 +4,8 @@
 
 CascadedShadowMap::CascadedShadowMap()
 {
-	pos = glm::vec3(100.0f, 50.0f, 0.0f);
+	pos = glm::vec3(50.0f, 50.0f, 0.0f);
+	sinCount = 0.0f;
 }
 
 
@@ -53,9 +54,14 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 	if (true)
 	{
-		pos.z += 0.5f;
+
+		pos.z = 100 * sinf(sinCount) + 50;
+
+		sinCount += 0.003f;
+
+		/*pos.z += 0.5f;
 		if (pos.z > 300)
-			pos.z = 0.0f;
+			pos.z = 0.0f;*/
 
 		for (int i = 0; i < NUM_CASCADEDS; i++)
 		{
@@ -66,7 +72,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		}
 
 		//pos = glm::vec3(200.0f, 10.0f, 200.0f);// mainCam->getPosition();
-		glm::vec3 direction = glm::vec3(0.5f, 0.0f, 0.5f);//mainCam->getDirection();
+		glm::vec3 direction = glm::vec3(1.0f, 0.0f, 0.0f);//mainCam->getDirection();
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::vec3 up = glm::normalize(glm::cross(right, (pos + direction)));
 
@@ -81,9 +87,9 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
 		{
 
-			float nearHeight = tanf(glm::radians(45.0f) / 2.0f) * splitPlanes[CascadeID].x;
+			float nearHeight = tanf(glm::radians(45.0f)) * splitPlanes[CascadeID].x;
 			float nearWidth = nearHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
-			float farHeight = tanf(glm::radians(45.0f) / 2.0f) * splitPlanes[CascadeID].y;
+			float farHeight = tanf(glm::radians(45.0f)) * splitPlanes[CascadeID].y;
 			float farWidth = farHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
 
 			glm::vec3 nc = (pos + direction * splitPlanes[CascadeID].x);

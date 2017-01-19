@@ -34,6 +34,7 @@ public:
 	glm::vec3 frustumCorners[8];
 
 	glm::vec3 pos;
+	float sinCount;
 
 	glm::vec3 minAABB[NUM_CASCADEDS];
 	glm::vec3 maxAABB[NUM_CASCADEDS];
