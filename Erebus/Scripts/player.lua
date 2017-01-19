@@ -116,8 +116,8 @@ function UpdatePlayer(dt)
 		end
 		if Inputs.ButtonDown(Buttons.Left) then
 			if player.timeSinceShot > player.shootCD then
-			player.spamCasting = true
-			player.attackTimer = 1
+				player.spamCasting = true
+				player.attackTimer = 1
 				player.testCamera = true
 				for _,v in ipairs(player.spells[player.currentSpell]) do
 					if not v.alive then
