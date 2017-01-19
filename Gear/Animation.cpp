@@ -152,10 +152,6 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 
 GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 {
-	//printf("Animation stack size: %d \n", animationStack.size());
-	//if(animationStack.size() > 1)
-	//	printf("Animation stack back: %d next to back: %d \n", animationStack.back(), animationStack[animationStack.size() - 2]);
-
 	//Do not append if the animation already exists 
 	if (animationStacks[animationSegment].back() == state)
 	{

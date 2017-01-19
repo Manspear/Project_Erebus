@@ -27,8 +27,7 @@ function LoadPlayer()
 	player.walkableIncline = 1
 	player.chargedspell = {}
 
-	player.animation = Animation.Create()
-	player.controller = CreatePlayerController(player.animation, player)
+	player.animationController = CreatePlayerController(player)
 
 	-- set basic variables for the player2
 	player2.transformID = Transform.Bind()
@@ -72,20 +71,8 @@ function LoadPlayer()
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
-	Gear.AddAnimatedInstance(model, player.transformID, player.animation)
-	Gear.AddAnimatedInstance(model, player2.transformID, player.animation)
-   local playerAnimationTransitionTimes = {}
-	
-	for i = 1, 37 do
-		playerAnimationTransitionTimes[i] = {}
-		for j = 1, 37 do
-			playerAnimationTransitionTimes[i][j] = 0.1
-		end
-	end
-
-	player.animation:SetTransitionTimes(playerAnimationTransitionTimes)
-
-	player.animation:SetAnimationSegments(3);
+	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
+	Gear.AddAnimatedInstance(model, player2.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
 	
@@ -108,9 +95,6 @@ function UpdatePlayer(dt)
 
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
-				player.animationState1 = 9
-				
-				--player.animation.controller:StateSwitch(9, 1)
 			end
 		if Inputs.KeyDown("S") then
 			player.forward = -player.moveSpeed
@@ -122,19 +106,14 @@ function UpdatePlayer(dt)
 			end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
-				player.animationState1 = 15		
 			end
 		if Inputs.KeyPressed(Keys.Space) and player.canJump then
 			player.verticalSpeed = PLAYER_JUMP_SPEED
 				player.canJump = false
-				player.animationState1 = 33
 			end
 		if Inputs.ButtonDown(Buttons.Left) then
 				player.testCamera = true
-				player.animationState2 = 21
 		end
-
-			player.animationState1 = 21
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.spamCasting = true
 			player.attackTimer = 1
@@ -210,7 +189,7 @@ function UpdatePlayer(dt)
 		end
 
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		player.controller:AnimationUpdate(dt)
+		player.animationController:AnimationUpdate(dt)
 
 	end
 		-- update the current player spell
