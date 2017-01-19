@@ -90,7 +90,7 @@
       <Filter>Source Files\Network</Filter>
     </ClCompile>
     <ClCompile Include="SoundEngine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,7 +182,7 @@
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="SoundEngine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +409,12 @@
     </Filter>
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{33003a22-d2d0-4769-abd3-50ddf45af55b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{0749d203-5255-4752-81a9-dd93fc8bdf34}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

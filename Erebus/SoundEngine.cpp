@@ -23,8 +23,8 @@ void SoundEngine::play(std::string target, enum SndOptions options)
 		return;
 
 	std::string path = basePath + target;
-	bool loop = (bool)(options & SND_LOOP);
-	bool track = (bool)(options & (SND_LOOP | SND_TRACK));
+	bool loop = static_cast<bool>(options & SND_LOOP);
+	bool track = static_cast<bool>(options & (SND_LOOP | SND_TRACK));
 
 	irrklang::ISound* s = engine->play2D(path.c_str(), loop, false, track);
 	if (s)
@@ -49,11 +49,22 @@ void SoundEngine::resume()
 		s->setIsPaused(false);
 }
 
-void SoundEngine::setVolume(float v)
+void SoundEngine::setMasterVolume(float v)
 {
 	if (!engine)
 		return;
 
 	v = v < 0.f ? 0.f : v > 1.f ? 1.f : v;
 	engine->setSoundVolume(v);
+}
+
+void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look)
+{
+	if (!engine)
+		return;
+
+	const irrklang::vec3df ikpos	= irrklang::vec3df(pos.x, pos.y, pos.z);
+	const irrklang::vec3df iklook	= irrklang::vec3df(look.x, look.y, look.z);
+
+	engine->setListenerPosition(ikpos, iklook);
 }
