@@ -329,14 +329,14 @@ namespace Gear
 		drawQuad();
 		effectShader->unUse();	*/
 
-		gloomCompute->use();
-		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
-		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
-		glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
-		glBindImageTexture(0, this->particleFBO.getTextures()[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
-		glDispatchCompute(40, 40, 1);
-		 
-		gloomCompute->unUse();
+		//gloomCompute->use();
+		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
+		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
+		//glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+		//glBindImageTexture(0, this->particleFBO.getTextures()[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
+		//glDispatchCompute(40, 40, 1);
+		// 
+		//gloomCompute->unUse();
 
 		effectShader->use();
 		GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
