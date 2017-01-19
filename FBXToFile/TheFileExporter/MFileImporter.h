@@ -17,6 +17,7 @@ public:
 private:
 	/*Definitions of the custom attributes in maya used as tags*/
 #define BOUNDINGBOXTAG "BOUNDINGBOX"
+#define BOXKEEPERTAG "BOXKEEPER"
 #define SPAWNTAG "SPAWN"
 
 	struct sBlendData

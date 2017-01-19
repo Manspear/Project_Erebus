@@ -1182,9 +1182,14 @@ void MFileImporter::recursiveHierarchyTraversal(FbxNode * inNode, int inMeshPare
 			//This mesh hasn't been processed before, since it's "hidden" in a hierarchy. Use the processMesh-function
 			FbxMesh* mesh = inNode->GetMesh();
 			FbxProperty p = inNode->FindProperty(BOUNDINGBOXTAG, false);
+			FbxProperty po = inNode->FindProperty(BOXKEEPERTAG, false);
 			if (p.IsValid())
 			{
 				processBoundingBox(mesh, inMeshParentIndex, inJointParentIndex);
+			}
+			else if (po.IsValid())
+			{
+
 			}
 			else
 			{
@@ -1405,6 +1410,33 @@ void MFileImporter::processBoundingBox(FbxMesh* mesh, int inMeshParentIndex, sJo
 		bbox.pos[i].z = pnt[2];
 	}
 	imScene.modelList.back().bBoxList.push_back(bbox);
+
+	
+	/*First find the max X,Y,Z*/
+	float compareX = -FBXSDK_FLOAT_MAX;
+	float compareY = -FBXSDK_FLOAT_MAX;
+	float compareZ = -FBXSDK_FLOAT_MAX;
+
+	for (int i = 0; i < mesh->GetControlPointsCount(); i++)
+	{
+		FbxVector4 pnt = mesh->GetControlPointAt(i);
+		bbox.pos[i].x = pnt[0];
+		bbox.pos[i].y = pnt[1];
+		bbox.pos[i].z = pnt[2];
+
+		if (compareX < pnt[0])
+		{
+			compareX = pnt[0];
+		}
+		if (compareY < pnt[1])
+		{
+			compareY = pnt[1];
+		}
+		if (compareZ < pnt[2])
+		{
+			compareZ = pnt[2];
+		}
+	}
 }
 
 void MFileImporter::processParentedMesh(FbxMesh * mesh, int inMeshParentIndex, sJointChild inJointParentIndex)
