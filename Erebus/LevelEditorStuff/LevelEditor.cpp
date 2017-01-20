@@ -15,7 +15,7 @@ LevelEditor::~LevelEditor()
 		delete ps.at(i);
 	delete this->transformHandler;
 	delete this->modelHandler;
-	delete this->levelGizmo;
+	//delete this->levelGizmo;
 	LevelActorFactory::deleteInstance();
 	LevelActorHandler::deleteInstance();
 	LevelAssetHandler::deleteInstance();
