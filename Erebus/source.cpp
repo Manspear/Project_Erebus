@@ -37,6 +37,7 @@ int main()
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
+	engine.setWorkQueue( &work );
 
 	Controls controls;
 	

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseIncludes.h"
+#include <Windows.h>
 
 #define MAX_THREADS 2
 #define MAX_WORK 1000

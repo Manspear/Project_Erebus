@@ -97,6 +97,12 @@ namespace Gear
 		text.setFont(font);
 	}
 
+	void GearEngine::setWorkQueue( WorkQueue* workQueue )
+	{
+		work = workQueue;
+		queue.setWorkQueue( workQueue );
+	}
+
 	void GearEngine::addModelInstance(ModelAsset* asset)
 	{
 		queue.addModelInstance(asset);

@@ -12,6 +12,7 @@
 #include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
+#include "WorkQueue.h"
 
 namespace Gear
 {
@@ -63,6 +64,7 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		//----------------------
 
 	private:
@@ -106,6 +108,7 @@ namespace Gear
 		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
+		WorkQueue* work;
 
 		//Skybox object
 		Skybox skybox;

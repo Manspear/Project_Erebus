@@ -13,6 +13,7 @@
 #include <algorithm>
 #include "Animation.h"
 #include "Light.h"
+#include "WorkQueue.h"
 
 using namespace Importer;
 struct ModelInstance
@@ -56,6 +57,8 @@ public:
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
 
+	void setWorkQueue( WorkQueue* workQueue );
+
 private:
 	int currentShader = 0;
 	int currentTexture = 0;
@@ -68,6 +71,19 @@ private:
 	glm::mat4* tempMatrices;
 	int nrOfWorlds;
 	int totalWorlds;
+	WorkQueue* work;
+
+	uint64_t freq;
+	int acc;
+
+	struct AsyncTransformData
+	{
+		TransformStruct* transforms;
+		glm::mat4* worldMatrices;
+		int first, last;
+	};
+	AsyncTransformData asyncTransformData[MAX_THREADS];
+	static void asyncTransformUpdate( void* args );
 
 private:
 	void configure(RenderQueueId &id, GLuint &shaderProgramId);

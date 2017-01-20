@@ -11,6 +11,10 @@ RenderQueue::RenderQueue() : nrOfWorlds(0), totalWorlds(0), worldMatrices(nullpt
 	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency( &i );
+	freq = (uint64_t)i.HighPart << 32 | i.LowPart;
+	acc = 0;
 }
 
 RenderQueue::~RenderQueue()
@@ -135,6 +139,12 @@ void RenderQueue::allocateWorlds(int n)
 
 void RenderQueue::update(int n, TransformStruct* theTrans)
 {
+#if 1
+	uint64_t start;
+	LARGE_INTEGER s;
+	QueryPerformanceCounter( &s );
+	start = (uint64_t)s.HighPart << 32 | s.LowPart;
+
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
@@ -166,6 +176,32 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 			worldMatrices[i] = tempMatrix;
 		}
 	}
+
+	uint64_t end;
+	LARGE_INTEGER e;
+	QueryPerformanceCounter( &e );
+	end = (uint64_t)s.HighPart << 32 | s.LowPart;
+
+	printf( "Time: %d-%d=%f\n", end, start, (float)(end-start)/(float)freq );
+
+#else
+	int chunk = n / MAX_THREADS;
+
+	for( int i=0; i<MAX_THREADS; i++ )
+	{
+		int first = i*chunk;
+
+		if( i == MAX_THREADS-1 )
+			chunk += n % MAX_THREADS;
+
+		int last = first + chunk;
+		
+		asyncTransformData[i] = { theTrans, worldMatrices, first, last };
+
+		work->add( asyncTransformUpdate, &asyncTransformData[i] );
+	}
+	work->execute();
+#endif
 }
 
 int RenderQueue::addModelInstance(ModelAsset* asset)
@@ -566,4 +602,45 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 
 	delete[]idColors;
 	allShaders[GEOMETRY_PICKING]->unUse();
+}
+
+void RenderQueue::setWorkQueue( WorkQueue* workQueue )
+{
+	work = workQueue;
+}
+
+void RenderQueue::asyncTransformUpdate( void* args )
+{
+	AsyncTransformData* data = (AsyncTransformData*)args;
+	int last = data->last;
+
+	glm::mat4 tempMatrix = glm::mat4();
+	glm::mat4 rotationZ = glm::mat4();
+	glm::mat4 rotationY = glm::mat4();
+	glm::mat4 ident;
+	for( int i=data->first; i<last; i++ )
+	{
+		//reset the world matrix
+		tempMatrix = glm::mat4();
+		glm::vec3 tempLook = glm::normalize(glm::vec3(data->transforms[i].lookAt.x, 0, data->transforms[i].lookAt.z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+		//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
+		rotationZ = glm::rotate(tempMatrix, data->transforms[i].rot.z, axis);
+		//rotatea around Y axis, pretty simple. (makes the model look left/right)
+		rotationY = glm::rotate(tempMatrix, data->transforms[i].rot.y, { 0, 1, 0 });
+		//set the scale of the models
+		tempMatrix[0][0] = data->transforms[i].scale.x;
+		tempMatrix[1][1] = data->transforms[i].scale.y;
+		tempMatrix[2][2] = data->transforms[i].scale.z;
+
+		//rotates a scaled identity matrix
+		tempMatrix = rotationZ * rotationY * tempMatrix;
+
+		//sets the translation of objects, final world matrix
+		tempMatrix[3][0] = data->transforms[i].pos.x;
+		tempMatrix[3][1] = data->transforms[i].pos.y;
+		tempMatrix[3][2] = data->transforms[i].pos.z;
+		data->worldMatrices[i] = tempMatrix;
+	}
 }
