@@ -122,7 +122,9 @@ int main()
 			break;
 		}
 
-		std::string fps = "FPS: " + std::to_string(counter.getFPS()) + "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" + "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+		std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
+			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
+			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 		engine.print(fps, 0.0f, 0.0f);
 
 		window.update();
