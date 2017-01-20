@@ -117,16 +117,6 @@ std::vector<unsigned int>* OBBCollider::getIDCollisionsRef()
 	return &this->IDCollisions;
 }
 
-void OBBCollider::insertCollisionID(unsigned int collisionID)
-{
-	this->IDCollisions.push_back(collisionID);
-}
-
-void OBBCollider::clearCollisionIDs()
-{
-	this->IDCollisions.clear();
-}
-
 const glm::vec3& OBBCollider::getPos() const
 {
 	return this->pos;

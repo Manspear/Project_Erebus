@@ -72,16 +72,6 @@ std::vector<unsigned int>* SphereCollider::getIDCollisionsRef()
 	return &this->IDCollisions;
 }
 
-void SphereCollider::insertCollisionID(unsigned int collisionID)
-{
-	this->IDCollisions.push_back(collisionID);
-}
-
-void SphereCollider::clearCollisionIDs()
-{
-	this->IDCollisions.clear();
-}
-
 const glm::vec3 & SphereCollider::getPos()
 {
 	return this->pos;

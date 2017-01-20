@@ -95,16 +95,6 @@ std::vector<unsigned int>* AABBCollider::getIDCollisionsRef()
 	return &this->IDCollisions;
 }
 
-void AABBCollider::insertCollisionID(unsigned int collisionID)
-{
-	this->IDCollisions.push_back(collisionID);
-}
-
-void AABBCollider::clearCollisionIDs()
-{
-	this->IDCollisions.clear();
-}
-
 void AABBCollider::setPos(glm::vec3 pos)
 {
 	HitBox::setPos(pos);//Ish bien ain hacker

@@ -247,7 +247,7 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders1, std
 					hit = false;
 					hit = this->collisionChecker.collisionCheck(colliders1->operator[](i), colliders2->operator[](k));
 
-					if (hit)
+					if (hit) // save collision data
 					{
 						colliders1->operator[](i)->insertCollisionID(colliders2->operator[](k)->getID());
 						colliders2->operator[](k)->insertCollisionID(colliders1->operator[](i)->getID());
@@ -284,7 +284,7 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders)
 						hit = false;
 						hit = this->collisionChecker.collisionCheck(firstTempCollider, secondTempCollider);
 
-						if (hit)
+						if (hit) // save collision data
 						{
 							firstTempCollider->insertCollisionID(secondTempCollider->getID());
 							secondTempCollider->insertCollisionID(firstTempCollider->getID());

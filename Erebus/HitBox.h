@@ -13,8 +13,8 @@ public:
 	virtual unsigned int getID() const = 0; // copy elision makes returning values fast? RVO - NRVO
 	virtual int getIDTransform() const = 0;
 	virtual std::vector<unsigned int>* getIDCollisionsRef() = 0;
-	virtual void insertCollisionID(unsigned int collisionID) = 0;
-	virtual void clearCollisionIDs() = 0;
+	virtual void insertCollisionID(unsigned int collisionID);
+	virtual void clearCollisionIDs();
 
 	//setters
 	virtual void setPos(glm::vec3 pos);
@@ -24,8 +24,13 @@ public:
 	// The flags are: 0 = sphereCollider, 1 = aabbCollider, 2 = obbCollider
 	virtual void setTypeFlag(int flag);
 	virtual void setLocalPos(glm::vec3 pos);
+	//setting if the hitbox is colliding or not
+	// Is used to know if a parents children have any collision without checking all the children
+	// otherwise we need to insert a scrap value in the parents collisionIds to simulate a collision
+	virtual void setCollision(bool colliding);
 
 	//getters
+	//Returns if we have a collision or not
 	virtual bool checkCollision();
 	virtual bool checkSpecificCollision(unsigned int target);
 	virtual bool isActive();
@@ -43,7 +48,7 @@ protected:
 	int ID, IDTransform;
 	std::vector<unsigned int> IDCollisions;
 	const unsigned short RESERVE_COLLISIONS = 10; // hur många collisions tror vi en enda hitbox max har under en frame
-	bool active;
+	bool active, colliding;
 	glm::vec3 pos,localPos;
 	int typeFlag;
 	std::vector<HitBox*>* children;

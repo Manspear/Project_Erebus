@@ -11,6 +11,7 @@ HitBox::HitBox()
 	this->typeFlag = -1;
 	this->children = nullptr;
 	this->parent = nullptr;
+	this->colliding = false;
 }
 
 HitBox::HitBox(unsigned int ID, int IDTransform)
@@ -22,6 +23,7 @@ HitBox::HitBox(unsigned int ID, int IDTransform)
 	this->typeFlag = -1;
 	this->children = nullptr;
 	this->parent = nullptr;
+	this->colliding = false;
 }
 
 HitBox::HitBox(int IDTransform)
@@ -33,6 +35,7 @@ HitBox::HitBox(int IDTransform)
 	this->typeFlag = -1;
 	this->children = nullptr;
 	this->parent = nullptr;
+	this->colliding = false;
 }
 
 
@@ -40,6 +43,18 @@ HitBox::~HitBox()
 {
 	if(children != nullptr)
 		delete this->children;
+}
+
+void HitBox::insertCollisionID(unsigned int collisionID)
+{
+	this->colliding = true;
+	this->IDCollisions.push_back(collisionID);
+}
+
+void HitBox::clearCollisionIDs()
+{
+	this->colliding = false;
+	this->IDCollisions.clear();
 }
 
 void HitBox::setPos(glm::vec3 pos)
@@ -67,11 +82,7 @@ void HitBox::setID(unsigned int ID)
 
 bool HitBox::checkCollision()
 {
-	bool collision = false;
-	if( this->IDCollisions.size() > 0 )
-		collision = true;
-
-	return collision;
+	return this->colliding;
 }
 
 bool HitBox::checkSpecificCollision(unsigned int target)
@@ -105,6 +116,11 @@ void HitBox::setLocalPos(glm::vec3 pos)
 	this->localPos = pos;
 	if (this->parent != nullptr)
 		this->pos = this->parent->pos + this->localPos;
+}
+
+void HitBox::setCollision(bool colliding)
+{
+	this->colliding = colliding;
 }
 
 bool HitBox::isSphereCollider()
