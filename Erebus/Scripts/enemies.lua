@@ -74,7 +74,7 @@ function UpdateEnemies(dt)
 		--print ("Clear")
 		
 		AI.ClearMap(tempPlayerPosition,7)
-		COUNTDOWN = 1
+		COUNTDOWN = 0.5
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			AI.ClearMap(enemies[i].lastPos,0)
@@ -91,9 +91,9 @@ function UpdateEnemies(dt)
 		if enemies[i].health > 0 then
 			tempdt = dt * enemies[i].timeScalar
 			--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
-			AI.AddIP(enemies[i].transformID,-1)
+			
 			aiScript.update(enemies[i],player,tempdt)
-
+			AI.AddIP(enemies[i].transformID,-1)
 			local pos = Transform.GetPosition(enemies[i].transformID)
 
 			local posx = math.floor(pos.x/512)

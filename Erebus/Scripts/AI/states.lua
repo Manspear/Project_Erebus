@@ -48,7 +48,7 @@ function state.followState.update(enemy,player,dt)
 
 			Transform.SetPosition(enemy.transformID,pos)
 
-			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.1 then
+			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.3 then
 				enemy.target = nil
 				print("DISTANCE")
 			end

@@ -218,7 +218,7 @@ namespace AGI
 
 
 			float testHeight = heightmap->getPos(w, h);
-			if (glm::abs(testHeight - maxHeight) > 13 || testHeight == 0)
+			if (glm::abs(testHeight - maxHeight) > 14 || testHeight == 0)
 				return false;
 
 			return true;
@@ -280,10 +280,11 @@ namespace AGI
 								//tempStrength = tempStrength / resolution;
 								//influenceMap[x + strX][y + strY].setStrength(tempStrength);
 
-								if (influenceMap[x][y] && influenceMap[x + strX][y + strY])
+								if (influenceMap[x + strX][y + strY])
 								{
 									///TESt THIS
-									float tempStrength = glm::distance(influenceMap[x][y]->getPos(), influenceMap[x + strX][y + strY]->getPos());
+
+									float tempStrength = glm::distance(glm::vec2(inPos.x,inPos.z), influenceMap[x + strX][y + strY]->getPos());
 									tempStrength = maxDistance / tempStrength *0.5f;
 									influenceMap[x + strX][y + strY]->setStrength(tempStrength);
 								}
