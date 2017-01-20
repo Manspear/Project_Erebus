@@ -21,7 +21,7 @@ namespace AGI
 		{
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.3f;  // Never above 1
+			resolution = 0.4f;  // Never above 1
 
 			influenceMap = nullptr;
 		}
@@ -30,8 +30,12 @@ namespace AGI
 		{
 			for (int n = 0; n < imWidth; n++)
 			{
-				if (influenceMap[n])
-					delete[] influenceMap[n];
+				for (int i = 0; i < imHeight; i++)
+				{
+					if (influenceMap[n][i])
+						delete influenceMap[n][i];
+				}
+				delete [] influenceMap[n];
 			}
 			delete[]influenceMap;
 
@@ -67,15 +71,16 @@ namespace AGI
 
 			if (x >= 0 && x < imWidth)
 				if (y >= 0 && y  < imHeight)
-					if (influenceMap[x][y].getStrength() == -1)
-						return true;
+					if (influenceMap[x][y])
+						if (influenceMap[x][y]->getStrength() == -1)
+							return true;
 
 			return false;
 		}
 
 		AGI_API void drawDebug(Importer::HeightMap * HP,glm::vec3 pos)
 		{
-			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.y), pos.z), 3, glm::vec3(3 * 0.02, 2* 0.02, 0.4));
+			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.z), pos.z), 3, glm::vec3(3 * 0.02, 2* 0.02, 0.4));
 		}
 
 		AGI_API void drawDebug(Importer::HeightMap * HP)
@@ -85,11 +90,14 @@ namespace AGI
 				for (int w = 0; w < imWidth; w++)
 				{
 
-					int tempStrength = influenceMap[w][h].getStrength();
-					if (tempStrength == 0)
-						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(0, 0, 0));
-					else
-						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
+					if (influenceMap[w][h] != nullptr)
+					{
+						int tempStrength = influenceMap[w][h]->getStrength();
+						if (tempStrength == 0)
+							debugRef->drawSphere(glm::vec3(influenceMap[w][h]->getPos().x, HP->getPos(influenceMap[w][h]->getPos().x, influenceMap[w][h]->getPos().y) +5, influenceMap[w][h]->getPos().y), 1, glm::vec3(0, 0, 0));
+						else
+							debugRef->drawSphere(glm::vec3(influenceMap[w][h]->getPos().x, HP->getPos(influenceMap[w][h]->getPos().x, influenceMap[w][h]->getPos().y)+5, influenceMap[w][h]->getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
+					}
 				}
 
 			}
@@ -140,7 +148,7 @@ namespace AGI
 		*/
 		
 		//// CLASSIC INFLUENCE MAP
-		AGI_API void createInfluenceMap(int width,int height)
+		AGI_API void createInfluenceMap(Importer::HeightMap* heightmap ,int width,int height)
 		{
 			//width -= 100;
 			//height -= 300;
@@ -149,18 +157,71 @@ namespace AGI
 			this->imWidth = width * resolution;
 			this->imHeight = height* resolution;
 
-			influenceMap = new InfluenceNode*[this->imWidth];
+			influenceMap = new InfluenceNode**[this->imWidth];
 
 			for( int x=0; x<imWidth; x++ )
 			{
-				influenceMap[x] = new InfluenceNode[this->imHeight];
+				influenceMap[x] = new InfluenceNode*[this->imHeight];
 				for( int y=0; y<imHeight; y++ )
 				{
 					float w = (float)x / (resolution);
 					float h = (float)y / (resolution);
-					influenceMap[x][y] = InfluenceNode( glm::vec2( w, h ), 0 );
+					if (checkSurroundingHeightMap(heightmap, x, y))
+						influenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
+					else
+						influenceMap[x][y] = nullptr;
 				}
 			}
+		}
+
+		AGI_API bool checkSurroundingHeightMap(Importer::HeightMap* heightmap, int x, int y)
+		{
+			float doJump = 9.0f;
+
+			float maxHeight = 0.0f;
+
+		#pragma region x,y+1
+			float w = ((float)x) / (resolution);
+			float h = ((float)y+doJump) / (resolution);
+
+			float inHeight = heightmap->getPos(w, h);
+			if (glm::abs(inHeight - maxHeight) > maxHeight)
+				maxHeight = glm::abs(inHeight - maxHeight);
+		#pragma endregion
+
+		#pragma region x-1,y
+			 w = ((float)x+-doJump) / (resolution);
+			 h = ((float)y) / (resolution);
+
+			 inHeight = heightmap->getPos(w, h);
+			if (glm::abs(inHeight - maxHeight) > maxHeight)
+				maxHeight = glm::abs(inHeight - maxHeight);
+		#pragma endregion
+
+		#pragma region x+1,y
+			 w = ((float)x+doJump) / (resolution);
+			 h = ((float)y) / (resolution);
+
+			 inHeight = heightmap->getPos(w, h);
+			if (glm::abs(inHeight - maxHeight) > maxHeight)
+				maxHeight = glm::abs(inHeight - maxHeight);
+		#pragma endregion
+
+		#pragma region x,y-1
+			 w = ((float)x) / (resolution);
+			 h = ((float)y+-doJump) / (resolution);
+
+			 inHeight = heightmap->getPos(w, h);
+			if (glm::abs(inHeight - maxHeight) > maxHeight)
+				maxHeight = glm::abs(inHeight - maxHeight);
+		#pragma endregion
+
+
+			float testHeight = heightmap->getPos(w, h);
+			if (glm::abs(testHeight - maxHeight) > 13 || testHeight == 0)
+				return false;
+
+			return true;
 		}
 
 		AGI_API void resetIM(glm::vec3 inPos, float inStr)
@@ -177,7 +238,8 @@ namespace AGI
 						for (int strY = -inStr; strY <= inStr; strY++)
 						{
 							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
-								influenceMap[x + strX][y + strY].setStrength(0);
+								if(influenceMap[x + strX][y + strY] != nullptr)
+									influenceMap[x + strX][y + strY]->setStrength(0);
 						}
 				}
 			}
@@ -185,7 +247,8 @@ namespace AGI
 			{
 				if (x >= 0 && x < imWidth)
 					if (y >= 0 && y < imHeight)
-						influenceMap[x][y].setStrength(0);
+						if (influenceMap[x ][y ] != nullptr)
+						influenceMap[x][y]->setStrength(0);
 			}
 
 		}
@@ -217,18 +280,21 @@ namespace AGI
 								//tempStrength = tempStrength / resolution;
 								//influenceMap[x + strX][y + strY].setStrength(tempStrength);
 
-
-								///TESt THIS
-								float tempStrength = glm::distance(influenceMap[x][y].getPos(), influenceMap[x + strX][y + strY].getPos());
-								tempStrength = maxDistance/tempStrength *0.5f;
-								influenceMap[x + strX][y + strY].setStrength(tempStrength);
+								if (influenceMap[x][y] && influenceMap[x + strX][y + strY])
+								{
+									///TESt THIS
+									float tempStrength = glm::distance(influenceMap[x][y]->getPos(), influenceMap[x + strX][y + strY]->getPos());
+									tempStrength = maxDistance / tempStrength *0.5f;
+									influenceMap[x + strX][y + strY]->setStrength(tempStrength);
+								}
 							}
 						}
 				}
 
 				if (x >= 0 && x < imWidth)
 					if (y >= 0 && y  < imHeight)
-						influenceMap[x][y].setStrength(-1);
+						if (influenceMap[x][y])
+							influenceMap[x][y]->setStrength(-1);
 
 		}
 
@@ -253,24 +319,25 @@ namespace AGI
 					{
 						if (y + strY >= 0 && y + strY < imHeight)
 						{
-							if (mostPosetive < influenceMap[x + strX][y + strY].getStrength())
-							{
-								mpX = x + strX;
-								mpY = y + strY;
-								mostPosetive = influenceMap[x + strX][y + strY].getStrength();
-							}
+							if(influenceMap[x + strX][y + strY])
+								if (mostPosetive < influenceMap[x + strX][y + strY]->getStrength())
+								{
+									mpX = x + strX;
+									mpY = y + strY;
+									mostPosetive = influenceMap[x + strX][y + strY]->getStrength();
+								}
 						}
 					}
 			}
 
 			if (mostPosetive > 0)
 			{
-				float dirX = influenceMap[mpX][mpY].getPos().x;// -enemyPos.x;
-				float dirZ = influenceMap[mpX][mpY].getPos().y;// -enemyPos.z;
+				float dirX = influenceMap[mpX][mpY]->getPos().x;// -enemyPos.x;
+				float dirZ = influenceMap[mpX][mpY]->getPos().y;// -enemyPos.z;
 
 				returnPos = glm::vec3(dirX,0, dirZ);
 
-				influenceMap[mpX][mpY].setStrength(-1);
+				influenceMap[mpX][mpY]->setStrength(-1);
 			}
 
 			return returnPos;
@@ -280,7 +347,7 @@ namespace AGI
 	private:
 		
 
-		InfluenceNode ** influenceMap;
+		InfluenceNode *** influenceMap;
 		int imWidth, imHeight;
 		int mapWidth,mapHeight;
 
@@ -288,7 +355,6 @@ namespace AGI
 		float resolution;//Resolution between 0.0 - 1.0, at 1.0 we will create a influenceNode for ever tile of the map
 
 		//RadiusInfluenceNode * radiusInfluenceNodes;
-		int maxAmountNodes = 10;
 		int nrOfNodes = 1;
 		Debug* debugRef;
 	};

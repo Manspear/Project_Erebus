@@ -36,7 +36,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);
 	LuaParticles::registerFunctions(lua, ps, assets);
-	LuaAI::registerFunctions(lua, transforms, AI);
+	LuaAI::registerFunctions(lua, transforms, AI, assets);
 	LuaNetwork::registerFunctions(lua, network);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )

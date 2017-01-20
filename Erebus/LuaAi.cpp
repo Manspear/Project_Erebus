@@ -6,11 +6,13 @@ namespace LuaAI
 {
 	static AGI::AGIEngine * AI = nullptr;
 	static Transform* transforms = nullptr;
+	static Assets* g_assets = nullptr;
 
-	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI)
+	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI, Assets* assets)
 	{
 		AI = inAI;
 		transforms = inTransforms;
+		g_assets = assets;
 
 		luaL_newmetatable(L, "aiTable");
 		luaL_Reg regs[] =
@@ -20,7 +22,7 @@ namespace LuaAI
 			{ "DistanceTransTrans",distanceTransTrans },
 			{ "DistanceTransPos",distanceTransPos },
 			{ "NormalizeDir",normalizeDir },
-			{ "SetNav",setNav },
+			{ "CreateIM",createIM },
 			{ "ClearMap",clearMap },
 			{ "AddIP",addInfluencePoint },
 			{ "CheckIfTarget",checkIfTargetNodeIsOccupied },
@@ -162,13 +164,16 @@ namespace LuaAI
 		return result;
 	}
 
-	int setNav(lua_State * lua)
+	int createIM(lua_State * lua)
 	{
 		int result = 0;
 		if (lua_gettop(lua) >= 2)
 		{
-			AI->createInfluenceMap(lua_tointeger(lua, 1), lua_tointeger(lua, 2));
+			lua_getfield(lua, 1, "__self");
+			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
+			//HeightMap* heightmap = g_assets->load<HeightMap>(lua_tostring(lua, 1));
 
+			AI->createInfluenceMap(heightmap,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 		}
 		return result;
 	}

@@ -33,7 +33,7 @@ Transform.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 --AI
 widthTest = heightmaps[1]:GetMapWidth()
 heightTest = heightmaps[1]:GetMapHeight()
-AI.SetNav(widthTest,heightTest)
+AI.CreateIM(heightmaps[1],widthTest,heightTest)
 
 -- add enemies
 LoadEnemies(10)

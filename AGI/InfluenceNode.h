@@ -6,7 +6,7 @@ class InfluenceNode
 public:
 	AGI_API InfluenceNode()
 	{
-		pos = glm::vec2(0, 0);
+		pos = glm::vec2(INFINITE, INFINITE);
 		strength = 1;
 	};
 	AGI_API InfluenceNode(glm::vec2 inPos, float inStrength)
