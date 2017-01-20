@@ -69,6 +69,7 @@ end
 
 function UpdateEnemies(dt)
 
+	AI.DrawDebug(heightmaps[1])
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0then
 		--print ("Clear")

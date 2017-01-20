@@ -20,5 +20,5 @@ namespace LuaAI
 	int addInfluencePoint(lua_State * lua);
 	int checkIfTargetNodeIsOccupied(lua_State * lua);
 	int addDebug(Debug*);
-	int draw();
+	int draw(lua_State * lua);
 }

@@ -94,9 +94,9 @@ namespace AGI
 					{
 						int tempStrength = influenceMap[w][h]->getStrength();
 						if (tempStrength == 0)
-							debugRef->drawSphere(glm::vec3(influenceMap[w][h]->getPos().x, HP->getPos(influenceMap[w][h]->getPos().x, influenceMap[w][h]->getPos().y) +5, influenceMap[w][h]->getPos().y), 1, glm::vec3(0, 0, 0));
+							debugRef->drawSphere(glm::vec3(influenceMap[w][h]->getPos().x, HP->getPos(influenceMap[w][h]->getPos().x, influenceMap[w][h]->getPos().y), influenceMap[w][h]->getPos().y), 1, glm::vec3(0, 0, 0));
 						else
-							debugRef->drawSphere(glm::vec3(influenceMap[w][h]->getPos().x, HP->getPos(influenceMap[w][h]->getPos().x, influenceMap[w][h]->getPos().y)+5, influenceMap[w][h]->getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
+							debugRef->drawSphere(glm::vec3(influenceMap[w][h]->getPos().x, HP->getPos(influenceMap[w][h]->getPos().x, influenceMap[w][h]->getPos().y), influenceMap[w][h]->getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
 					}
 				}
 

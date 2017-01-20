@@ -26,6 +26,7 @@ namespace LuaAI
 			{ "ClearMap",clearMap },
 			{ "AddIP",addInfluencePoint },
 			{ "CheckIfTarget",checkIfTargetNodeIsOccupied },
+			{ "DrawDebug",draw},
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(L, regs, 0);
@@ -222,11 +223,15 @@ namespace LuaAI
 		return result;
 	}
 
-	int draw()
+	int draw(lua_State * lua)
 	{
-		
-	//	AI->drawDebug();
-		return 1;
+		if (lua_gettop(lua) >= 1)
+		{
+			lua_getfield(lua, 1, "__self");
+			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
+			AI->drawDebug(heightmap);
+		}
+		return 0;
 	}
 	int addDebug(Debug * bugger)
 	{
