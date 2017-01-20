@@ -71,7 +71,7 @@ void GamePlay::Draw()
 	engine->queueDynamicModels(&models);
 }
 
-bool GamePlay::StartNetwork(const bool& networkHost, PerformanceCounter * counter)
+bool GamePlay::StartNetwork(const bool& networkHost, PerformanceCounter & counter)
 {
 	networkController.setNetworkHost(networkHost);
 	if (networkHost)

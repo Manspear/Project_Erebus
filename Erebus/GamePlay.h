@@ -44,5 +44,5 @@ public:
 
 	void Draw();
 
-	bool StartNetwork(const bool& networkHost, PerformanceCounter * counter);
+	bool StartNetwork(const bool& networkHost, PerformanceCounter & counter);
 };
