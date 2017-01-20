@@ -4,6 +4,7 @@
 #include"Gear.h"
 #include "LevelActor.h"
 #include "LevelTransform.h"
+#include "LevelLightHandler.h"
 class LevelPointLightComponent : public LevelActorComponent
 {
 public:
@@ -28,7 +29,7 @@ public:
 	void update(float deltaTime) override;
 
 	void setTwStruct(TwBar*) override;
-	Lights::PointLight light;
+	Lights::PointLight* light;
 
 	void callListener(LevelActorComponent* component) override;
 private:

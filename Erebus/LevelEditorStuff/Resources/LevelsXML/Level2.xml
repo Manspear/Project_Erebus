@@ -6,6 +6,7 @@
         <LevelTransform>
             <Position x="167" y="36.299999" z="146.5"/>
             <Rotation x="0" y="0" z="0"/>
+	    <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="OtherCharacter" displayName="Robot guy">
@@ -15,6 +16,7 @@
         <LevelTransform>
             <Position x="41" y="61.299999" z="183.5"/>
             <Rotation x="0" y="0" z="0"/>
+	    <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
 	<LevelActor type="OtherCharacter" displayName="Robot guy">
@@ -24,6 +26,7 @@
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
+	    <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor">
@@ -33,6 +36,7 @@
         <LevelTransform>
             <Position x="0" y="1" z="7"/>
             <Rotation x="0" y="0" z="0"/>
+	    <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
 <LevelActor type="TestCharacter" displayName="Stick Guy">
@@ -44,6 +48,7 @@
     <LevelTransform>
         <Position x="131.08182" y="56.28125" z="37.59375"/>
         <Rotation x="0" y="0" z="0"/>
+	    <Scale x="1" y="1" z="1"/>
     </LevelTransform>
 </LevelActor>
 <LevelActor type="PointLight" displayName="Point Light">
@@ -55,6 +60,7 @@
     <LevelTransform>
         <Position x="97.8125" y="58.625" z="73.016838"/>
         <Rotation x="0" y="0" z="0"/>
+	    <Scale x="1" y="1" z="1"/>
     </LevelTransform>
 </LevelActor>
 

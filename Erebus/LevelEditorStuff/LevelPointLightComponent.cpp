@@ -4,33 +4,40 @@ const char* LevelPointLightComponent::name = "LevelPointLight";
 
 LevelPointLightComponent::LevelPointLightComponent()
 {
-	this->radius = 0;
+	this->radius = 3;
 	this->pos = { 0,0,0 };
-	this->color = { 0,0,0 };
+	this->color = { 1,0,1 };
 	this->worldPos = { 0,0,0 };
+	this->light = LevelLightHandler::getInstance()->addPointLight(pos, color, radius);
 }
 
 LevelPointLightComponent::~LevelPointLightComponent()
 {
 	this->parent->getComponent<LevelTransform>()->deleteListener(this);
+	LevelLightHandler::getInstance()->deletePointLight(light);
 }
 
 void LevelPointLightComponent::update(float deltaTime) {
-
+	LevelLightHandler::getInstance()->drawLight(this->light);
 	//Debugger::getInstance()->drawSphere(this->pos, this->radius);
 }
 
 void LevelPointLightComponent::initialize(tinyxml2::XMLElement* element)
 {
-	this->radius = std::stof(element->FirstChildElement("Radius")->Attribute("r"));
+
+	pos.x = std::stof(element->FirstChildElement("Position")->Attribute("x"));
+	pos.y = std::stof(element->FirstChildElement("Position")->Attribute("y"));
+	pos.z = std::stof(element->FirstChildElement("Position")->Attribute("z"));
+
+	this->light->color.x = std::stof(element->FirstChildElement("Color")->Attribute("x"));
+	this->light->color.y = std::stof(element->FirstChildElement("Color")->Attribute("y"));
+	this->light->color.z = std::stof(element->FirstChildElement("Color")->Attribute("z"));
+
+	this->light->radius.x = std::stof(element->FirstChildElement("Radius")->Attribute("r"));
 	
-	this->color.x = std::stof(element->FirstChildElement("Color")->Attribute("x"));
-	this->color.y = std::stof(element->FirstChildElement("Color")->Attribute("y"));
-	this->color.z = std::stof(element->FirstChildElement("Color")->Attribute("z"));
+
 	
-	this->pos.x = std::stof(element->FirstChildElement("Position")->Attribute("x"));
-	this->pos.y = std::stof(element->FirstChildElement("Position")->Attribute("y"));
-	this->pos.z = std::stof(element->FirstChildElement("Position")->Attribute("z"));
+
 
 
 }
@@ -40,17 +47,17 @@ tinyxml2::XMLElement* LevelPointLightComponent::toXml(tinyxml2::XMLDocument* doc
 	tinyxml2::XMLElement* element = doc->NewElement(LevelPointLightComponent::name);
 
 	tinyxml2::XMLElement* positionElement = doc->NewElement("Position");
-	positionElement->SetAttribute("x", this->pos.x);
-	positionElement->SetAttribute("y", this->pos.y);
-	positionElement->SetAttribute("z", this->pos.z);
+	positionElement->SetAttribute("x", pos.x);
+	positionElement->SetAttribute("y", pos.y);
+	positionElement->SetAttribute("z", pos.z);
 
 	tinyxml2::XMLElement* colorElement = doc->NewElement("Color");
-	colorElement->SetAttribute("x", this->color.x);
-	colorElement->SetAttribute("y", this->color.y);
-	colorElement->SetAttribute("z", this->color.z);
+	colorElement->SetAttribute("x", this->light->color.x);
+	colorElement->SetAttribute("y", this->light->color.y);
+	colorElement->SetAttribute("z", this->light->color.z);
 
 	tinyxml2::XMLElement* radius = doc->NewElement("Radius");
-	radius->SetAttribute("r", this->radius);
+	radius->SetAttribute("r", this->light->radius.x);
 
 	element->LinkEndChild(positionElement);
 	element->LinkEndChild(colorElement);
@@ -75,7 +82,7 @@ void LevelPointLightComponent::postInitialize()
 }
 
 void LevelPointLightComponent::setWorldPos(LevelTransform* transform) {
-	this->worldPos = transform->getChangeTransformRef()->getPos() + this->pos;
+	light->pos = glm::vec4(transform->getChangeTransformRef()->getPos() + this->pos,1);
 }
 
 std::string LevelPointLightComponent::toLua(std::string name)
@@ -115,8 +122,8 @@ void LevelPointLightComponent::setRadius(float inRadius)
 void LevelPointLightComponent::setTwStruct(TwBar* tempBar )
 {
 	TwAddVarRW(tempBar, "Offset", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->pos, NULL);
-	TwAddVarRW(tempBar, "Color", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->color, NULL);
-	TwAddVarRW(tempBar, "Radius", TW_TYPE_FLOAT, (void*)&this->radius, NULL);
+	TwAddVarRW(tempBar, "Color", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->light->color, NULL);
+	TwAddVarRW(tempBar, "Radius", TW_TYPE_FLOAT, (void*)&this->light->radius, NULL);
 }
 
 void LevelPointLightComponent::callListener(LevelActorComponent* component) {

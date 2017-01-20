@@ -20,6 +20,7 @@ LevelEditor::~LevelEditor()
 	LevelActorHandler::deleteInstance();
 	LevelAssetHandler::deleteInstance();
 	LevelActionHandler::deleteInstance();
+	LevelLightHandler::deleteInstance();
 	
 	delete this->engine;
 	delete this->ui;
@@ -34,12 +35,13 @@ void LevelEditor::start() {
 	LevelTransformHandler::createInstance(engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, &assets);
 
-	std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
+	//std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
 	this->transformHandler = LevelTransformHandler::getInstance();
 	modelHandler = LevelModelHandler::getInstance();
 
 	factory = LevelActorFactory::getInstance();
+
 	//std::vector<LevelActor*>* actors = new std::vector<LevelActor*>[actorTypes::NR_ACTOR_TYPES];
 
 	//for (size_t i = 0; i < 100; i++)
@@ -112,6 +114,7 @@ void LevelEditor::start() {
 
 	levelGizmo = new LevelGizmo();
 	levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
+	LevelLightHandler::getInstance()->addDebugger(Debugger::getInstance());
 
 	while (running && window.isWindowOpen())
 	{
@@ -146,11 +149,13 @@ void LevelEditor::start() {
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine->print(fps, 0.0f, 0.0f);
 
-		/*for (int n = 0; n < actors.size(); n++)
-		{
-			actors[n]->update();
-		}*/
-		LevelActorHandler::getInstance()->updateActors();
+		if(LevelActorHandler::getInstance()->getSelected() != nullptr)
+			LevelActorHandler::getInstance()->getSelected()->update();
+		//for (int n = 0; n < actors.size(); n++)
+		//{
+		//	actors[n]->update();
+		//}
+		//LevelActorHandler::getInstance()->updateActors();
 		
 		engine->draw(camera);
 		
@@ -237,7 +242,7 @@ void LevelEditor::start() {
 			this->holdingGizmo = false;
 	
 		}
-		engine->queueLights(&lights);
+		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
 		if( hasHit )
 		{
 			Debugger::getInstance()->drawSphere(tempSelectedHitPoint, 0.5f );

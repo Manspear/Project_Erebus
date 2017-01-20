@@ -1,0 +1,14 @@
+<LevelActor type="" displayName="1">
+    <LevelModel>
+        <ModelName>testGuy</ModelName>
+    </LevelModel>
+    <LevelPointLight>
+        <Position x="28" y="33" z="1052"/>
+        <Color x="1" y="0" z="1"/>
+        <Radius r="3"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="94.784836" y="62.934242" z="140.25815"/>
+        <Rotation x="20" y="36" z="3"/>
+    </LevelTransform>
+</LevelActor>
