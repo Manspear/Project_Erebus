@@ -120,3 +120,13 @@ bool NetworkController::fetchTransformPacket(TransformPacket &packet)
 {
 	return network.fetchTransformPacket(packet);
 }
+
+void NetworkController::sendAnimationPacket(const uint16_t& id)
+{
+	network.buildAnimationPacket(id);
+}
+
+bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
+{
+	return network.fetchAnimationPacket(packet);
+}

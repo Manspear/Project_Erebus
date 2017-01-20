@@ -10,8 +10,10 @@ namespace LuaNetwork
 		luaL_newmetatable(lua, "networkMeta");
 		luaL_Reg regs[] =
 		{
-			{ "SendTransform", sendTransform },
-			{ "GetTransform", getTransform },
+			{ "SendTransformPacket", sendTransformPacket },
+			{ "GetTransformPacket", getTransformPacket },
+			{ "SendAnimationPacket", sendAnimationPacket },
+			{ "GetAnimationPacket", getAnimationPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ NULL, NULL }
 		};
@@ -23,7 +25,7 @@ namespace LuaNetwork
 		lua_setglobal(lua, "Network");
 	}
 
-	int sendTransform(lua_State* lua) 
+	int sendTransformPacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
 
@@ -57,7 +59,7 @@ namespace LuaNetwork
 		return 0;
 	}
 
-	int getTransform(lua_State* lua)
+	int getTransformPacket(lua_State* lua)
 	{
 		TransformPacket transformPacket;
 
@@ -96,6 +98,33 @@ namespace LuaNetwork
 		}
 
 		return 11;
+	}
+
+	int sendAnimationPacket(lua_State* lua)
+	{
+		int index = lua_tointeger(lua, 1);
+
+		g_networkController->sendAnimationPacket(index);
+
+		return 0;
+	}
+
+	int getAnimationPacket(lua_State* lua)
+	{
+		AnimationPacket animationPacket;
+
+		if (g_networkController->fetchAnimationPacket(animationPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, animationPacket.data.ID);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+		}
+		
+		return 2;
 	}
 
 	int getNetworkHost(lua_State* lua)
