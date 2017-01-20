@@ -26,6 +26,8 @@ function LoadPlayer()
 	
 	player.walkableIncline = 1
 	player.chargedspell = {}
+	player.timeSinceShot = 0
+	player.shootCD = 0.3
 
 	player.animationController = CreatePlayerController(player)
 
@@ -41,10 +43,10 @@ function LoadPlayer()
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = {}
 	player.spells[2] = {}
-	for i = 1,  10 do	--create the projectile instances
+	for i = 1,  50 do	--create the projectile instances
 		table.insert(player.spells[1], CreateFireball())
 	end
-	for i = 1,  10 do	--create the arc instances
+	for i = 1,  20 do	--create the arc instances
 		table.insert(player.spells[2], CreateFireballArc())
 	end
 	player.currentSpell = 1
@@ -83,6 +85,7 @@ end
 
 function UpdatePlayer(dt)
 	if player.health > 0 then
+		player.timeSinceShot = player.timeSinceShot + dt
 		player.forward = 0
 		player.left = 0
 		player.testCamera = false
@@ -109,19 +112,20 @@ function UpdatePlayer(dt)
 			end
 		if Inputs.KeyPressed(Keys.Space) and player.canJump then
 			player.verticalSpeed = PLAYER_JUMP_SPEED
-				player.canJump = false
-			end
-		if Inputs.ButtonDown(Buttons.Left) then
-				player.testCamera = true
+			player.canJump = false
 		end
 		if Inputs.ButtonDown(Buttons.Left) then
-			player.spamCasting = true
-			player.attackTimer = 1
-			for _,v in ipairs(player.spells[player.currentSpell]) do
-				if not v.alive then
-					v:Cast(0.5, false)
-					break
+			if player.timeSinceShot > player.shootCD then
+				player.spamCasting = true
+				player.attackTimer = 1
+				player.testCamera = true
+				for _,v in ipairs(player.spells[player.currentSpell]) do
+					if not v.alive then
+						v:Cast(0.5, false)
+						break
+					end
 				end
+				player.timeSinceShot = 0
 			end
 		end
 

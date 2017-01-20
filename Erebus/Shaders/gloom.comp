@@ -1,11 +1,58 @@
 #version 430
 
-uniform image2D destTex;
+layout(rgba32f, binding = 1) uniform image2D destTex;
+layout(rgba32f, binding = 0) uniform image2D srcTex;
 
 layout (local_size_x = 32, local_size_y = 18) in;
 
+const float kernelNumbers [25] = float[25]
+		(0.0106501, 0.24648, 0.0326031, 0.024648, 0.0106501, 
+		0.024628, 0.0570441, 0.0754548, 0.0570441, 0.0024648, 
+		0.0326031, 0.0754548, 0.0998075, 0.0754548, 0.0326031, 
+		0.024628, 0.0570441, 0.0754548, 0.0570441, 0.0024648,
+		0.0106501, 0.24648, 0.0326031, 0.024648, 0.0106501);
+
+const float scalar = 2.f/62.f;
+
 void main() {
-	uint a = gl_GlobalInvocationID.x;
-    //imageStore(destTex, ivec2(a, gl_GlobalInvocationID.y), vec4(a/1280.f , gl_GlobalInvocationID.y/720.f, 1, 0.5));
-	imageStore(destTex, ivec2(a, gl_GlobalInvocationID.y), vec4(a/1280.f , gl_GlobalInvocationID.y/720.f, 1, 0.5));
+	ivec2 a = ivec2(gl_GlobalInvocationID.xy) ;
+	vec4 tex = vec4(0);
+/*
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			tex += imageLoad(srcTex, ivec2(a) + ivec2(i-2, j-2)) * kernelNumbers[(5*i) + j];
+		}
+	}
+	vec4 tex1;
+	vec4 tex2;
+	for (int i = -15; i <= 15; i++)
+	{
+		tex1 = imageLoad(srcTex, ivec2(a) + ivec2(i, 0)) * scalar;
+		tex2 = imageLoad(srcTex, ivec2(a) + ivec2(0, i)) * scalar;
+		tex += tex1 + tex2;
+	}*/
+	float hits = 0;
+	for(int i =-10; i <= 10; i++)
+	{
+		if(imageLoad(srcTex, ivec2(a) + ivec2(i, 0)).a != 0){
+			hits++;
+		}
+		if(imageLoad(srcTex, ivec2(a) + ivec2(0, i)).a != 0){
+			hits++;
+		}
+		if(imageLoad(srcTex, ivec2(a) + ivec2(i, i)).a != 0){
+			hits++;
+		}
+		if(imageLoad(srcTex, ivec2(a) + ivec2(-i, i)).a != 0){
+			hits++;
+		}
+	}
+	tex = imageLoad(srcTex, ivec2(a));
+	if(hits > 0 && hits < 8){
+		float c = hits/3.f;
+		tex = vec4(c/3.f,c/3.f,c,1);
+	}
+	imageStore(destTex, a, tex);
 }

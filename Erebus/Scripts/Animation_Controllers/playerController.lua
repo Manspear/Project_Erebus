@@ -40,6 +40,10 @@ function CreatePlayerController(player)
 	controller.damagedTimer = 0
 	controller.damagedMaxTime = 2
 
+	controller.quickBlendFrom = 0
+	controller.quickBlendTo = 7
+	controller.quickBlendSegment = 2
+
 	controller.jumpTimerStart = false
 	controller.jumpTimer = 0
 	controller.jumpTimerThreshhold = 0.3
@@ -47,6 +51,8 @@ function CreatePlayerController(player)
 	controller.attackTimerStarted = false
 	controller.attackTimer = 0
 	controller.attackTimerThreshhold = 1
+
+
 
 	local animationTransitionTimes = {}
 	for i = 1, 37 do
@@ -151,7 +157,7 @@ function CreatePlayerController(player)
 
 	function controller:AttackState(dt)
 		--the attack animation is different depending on what the legs do.
-
+		
 		if self.animationState1 == 9 then
 			self.animationState2 = 21
 		
@@ -172,9 +178,10 @@ function CreatePlayerController(player)
 		
 		elseif self.animationState1 == 15 then
 			self.animationState2 = 24
-		
 		elseif self.animationState1 == 16 then
 			self.animationState2 = 24
+		elseif self.animationState1 == 1 then
+			self.animationState2 = 21
 		end
 
 		self.attackTimerStarted = true
@@ -224,9 +231,8 @@ function CreatePlayerController(player)
 			self.isDamagedTimerStart = true
 		end
 		if self.isDamagedTimerStart == true then
-			--QuickBlend updates the animation by itself, no need to call 
-			--animation:Update()
-			res = self.animation:QuickBlend(dt, 0, 7, self.damagedMaxTime, 2);
+			res = self.animation:QuickBlend(dt, self.quickBlendFrom, self.quickBlendTo, 
+			self.damagedMaxTime, controller.quickBlendSegment);
 			if res == true then
 				self.isDamagedTimerStart = false
 			end
