@@ -372,6 +372,18 @@
     <None Include="Shaders\image.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="effects.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="effects.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\gloom.comp">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\playerController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -409,6 +421,9 @@
     </Filter>
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation Controllers">
+      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

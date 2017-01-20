@@ -92,6 +92,7 @@ private:
 	sImScene imScene;
 	//Used in processAnimationLayers to get animationlayers.
 	FbxScene* pmScene;
+	FbxManager* pmManager;
 	FbxAnimEvaluator* animationEvaluator;
 
 	int animationFramerate;

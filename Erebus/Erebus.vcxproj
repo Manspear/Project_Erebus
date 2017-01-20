@@ -196,8 +196,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="effects.frag" />
+    <None Include="effects.vert" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
+    <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\arcType.lua" />
     <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
@@ -242,6 +245,7 @@
     <None Include="Shaders\geometryPass_notInstanced.vert" />
     <None Include="Shaders\geometryPicking.frag" />
     <None Include="Shaders\geometryPicking.vert" />
+    <None Include="Shaders\gloom.comp" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\image.frag" />
