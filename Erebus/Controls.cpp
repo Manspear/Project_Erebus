@@ -53,6 +53,7 @@ void Controls::update( Inputs* input )
 	{
 		rotation.z = -3.14f / 2;
 	}
+
 	controlled->setRotation(rotation);
 	controlled->setLookAt(glm::normalize(glm::vec3(
 		cos(rotation.z) * sin(rotation.y),

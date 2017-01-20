@@ -50,6 +50,8 @@ public:
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
+	void particleSort(std::vector<Gear::ParticleSystem*>* particleSystems, glm::vec3 cameraPos);
+
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 	void particlePass(std::vector<Gear::ParticleSystem*>* particleSystems);
 	//void geometryPass(std::vector<ModelInstance>* dynamicModels);
@@ -73,8 +75,7 @@ private:
 	int totalWorlds;
 	WorkQueue* work;
 
-	uint64_t freq;
-	int acc;
+	double freq;
 
 	struct AsyncTransformData
 	{

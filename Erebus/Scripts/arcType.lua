@@ -7,6 +7,7 @@ function CreateArcType()
 		self.velocity.z = direction.z * speed
 		self.position = position
 		Transform.SetPosition(self.transformID, self.position)
+		SphereCollider.SetActive(self.sphereCollider, true);
 	end
 
 	arc.Update = function(self, dt)
@@ -33,5 +34,6 @@ function CreateArcType()
 		end
 		return result
 	end
+
 	return arc
 end

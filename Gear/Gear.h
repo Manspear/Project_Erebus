@@ -65,6 +65,7 @@ namespace Gear
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
+		GEAR_API void effectPreProcess();
 		//----------------------
 
 	private:
@@ -88,11 +89,15 @@ namespace Gear
 		ShaderProgram shadowMap;
 		ShaderProgram shadowMapTemp;
 		ShaderProgram gBuffer;
+		ShaderProgram particleFBO;
 
 		//Shaders
 		ShaderProgram *quadShader;
 		ShaderProgram *lightPassShader;
 		ShaderProgram *blurShader;
+		ShaderProgram *effectShader;
+		ShaderProgram *gloomCompute;
+		GLuint gloomTexture;
 
 		//Models
 		std::vector<staticNonModels*> statModels;

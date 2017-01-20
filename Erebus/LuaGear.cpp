@@ -49,9 +49,11 @@ namespace LuaGear
 		{
 			{ "Create", createAnimation },
 			{ "__gc",	destroyAnimation },
-			//{ "Update",	updateAnimation },
 			{ "Update",	updateAnimationBlending },
+			{ "UpdateShaderMatrices", assembleAnimationsIntoShadermatrices},
 			{ "SetTransitionTimes", setTransitionTimes},
+			{ "SetAnimationSegments", setAnimationSegments},
+			{ "QuickBlend", quickBlend },
 			{ NULL, NULL }
 		};
 
@@ -211,18 +213,43 @@ namespace LuaGear
 		return 0;
 	}
 
-	int updateAnimation( lua_State* lua )
+	//int updateAnimation( lua_State* lua )
+	//{
+	//	int result = 0;
+	//
+	//	if( lua_gettop( lua ) >= 3 )
+	//	{
+	//		lua_getfield( lua, 1, "__self" );
+	//		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+	//		float dt = lua_tonumber( lua, 2 );
+	//		int layer = lua_tointeger( lua, 3 );
+	//
+	//		animation->updateAnimation( dt, layer );
+	//	}
+	//
+	//	return result;
+	//}
+
+	int quickBlend(lua_State * lua)
 	{
 		int result = 0;
 
-		if( lua_gettop( lua ) >= 3 )
+		if (lua_gettop(lua) >= 5)
 		{
-			lua_getfield( lua, 1, "__self" );
-			Animation* animation = (Animation*)lua_touserdata( lua, -1 );
-			float dt = lua_tonumber( lua, 2 );
-			int layer = lua_tointeger( lua, 3 );
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+			float dt = lua_tonumber(lua, 2);
+			int originState = lua_tointeger(lua, 3);
+			int transitionState = lua_tointeger(lua, 4);
+			float blendTime = lua_tonumber(lua, 5);
+			int animationSegment = lua_tointeger(lua, 6);
 
-			animation->updateAnimation( dt, layer );
+			bool res = animation->quickBlend(dt, originState,
+			transitionState, blendTime, animationSegment);
+
+			lua_pushboolean(lua, res);
+
+			result = 1;
 		}
 
 		return result;
@@ -238,12 +265,13 @@ namespace LuaGear
 			Animation* animation = (Animation*)lua_touserdata(lua, -1);
 			float dt = lua_tonumber(lua, 2);
 			int layer = lua_tointeger(lua, 3);
+			int animationSegment = lua_tointeger(lua, 4);
 
-			//animation->updateState(dt, layer);
-			g_blendingData[g_blendingIndex] = { animation, dt, layer };
+			animation->updateState(dt, layer, animationSegment);
+			/*g_blendingData[g_blendingIndex] = { animation, dt, layer, animationSegment };
 			g_work->add( asyncUpdateState, &g_blendingData[g_blendingIndex] );
 
-			g_blendingIndex++;
+			g_blendingIndex++;*/
 		}
 
 		return result;
@@ -281,10 +309,37 @@ namespace LuaGear
 		return result;
 	}
 
+	int setAnimationSegments(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+			int numberOfSegments = lua_tointeger(lua, 2);
+			animation->setAnimationSegments(numberOfSegments);
+		}
+		return result;
+	}
+
+	int assembleAnimationsIntoShadermatrices(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 0)
+		{
+			lua_getfield(lua, 1, "__self");
+			Animation* animation = (Animation*)lua_touserdata(lua, -1);
+			animation->assembleAnimationsIntoShadermatrices();
+		}
+		return result;
+	}
+
 	void asyncUpdateState( void* args )
 	{
 		BlendingData* data = (BlendingData*)args;
-		data->animation->updateState( data->dt, data->layer );
+		data->animation->updateState( data->dt, data->layer, data->segment );
 	}
 
 	void resetAnimations()
