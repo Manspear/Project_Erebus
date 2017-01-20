@@ -21,18 +21,15 @@ LevelUI::DiffComponents LevelActorHandler::getSelectedComponentCB(int index)
 
 
 void LevelActorHandler::setSelectedComponentCB(LevelUI::DiffComponents index) {
-	if (index != 0 && this->selectedActor) {
+	if (index != 0 && this->selectedActor)
+	{
 		this->selectedComponent = index;
-		//this->selectedActor->addComponent(LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]));
 		LevelActorComponent* c = LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]);
 		selectedActor->addComponent(c);
 		c->postInitialize();
 		updateActorBar();
 		this->selectedComponent = LevelUI::SELECT_COMPONENT;
 	}
-
-	//index
-	//this->selectedActor->addComponent()
 }
 LevelActorHandler::LevelActorHandler()
 	: worldBar( nullptr ), actorBar( nullptr ), selectedActor( nullptr )
@@ -126,14 +123,30 @@ void LevelActorHandler::updateTweakBars()
 void LevelActorHandler::updateWorldBar()
 {
 	TwRemoveAllVars( worldBar->getBar() );
+	
+	std::map<std::string,int> numActorsByType;
+	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
+	{
+		std::string type = it->second->getActorType();
+		if( type.empty() )
+			type = "None";
+
+		std::map<std::string,int>::iterator mapIT = numActorsByType.find( type );
+		if( mapIT == numActorsByType.end() )
+			numActorsByType.insert(std::pair<std::string,int>( type, 1 ));
+		else
+			mapIT->second++;
+	}
 
 	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 	{
+		std::string type = it->second->getActorType();
+
 		char buf[64] = {};
-		if( it->second->getActorDisplayName().size() > 0 )
-			sprintf_s( buf, "label='%s'", it->second->getActorDisplayName().c_str() );
+		if( !type.empty() )
+			sprintf_s( buf, "label='%s' group='%s (%d)'", type.c_str(), type.c_str(), numActorsByType[type] );
 		else
-			sprintf_s( buf, "label='%s'", "Actor" );
+			sprintf_s( buf, "label='Actor' group='None (%d)'", numActorsByType["None"] );
 		TwAddButton( worldBar->getBar(), NULL, onActorSelected, it->second, buf );
 	}
 }

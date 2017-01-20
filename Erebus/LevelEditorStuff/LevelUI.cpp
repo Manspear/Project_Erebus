@@ -30,11 +30,11 @@ LevelUI::LevelUI(GLFWwindow* window)
 
 	bars[1] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness())), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT),
-		glm::vec4(0, 128, 255, 200), actorBarName);
+		glm::vec4(0, 128, 255, 200), worldBarName);
 
 	bars[0] = new TweakBar(glm::vec2((int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), 0),
 		glm::vec2((int)(WINDOW_WIDTH*TweakBar::getMainThickness()), WINDOW_HEIGHT*.5f),
-		glm::vec4(0, 128, 128, 200), worldBarName);
+		glm::vec4(0, 128, 128, 200), actorBarName);
 
 	glm::vec2 bar2Position( (int)(WINDOW_WIDTH*(1.f - TweakBar::getMainThickness() * 2)), WINDOW_HEIGHT*.5f );
 	bars[2] = new TweakBar(bar2Position, glm::vec2((int)(WINDOW_WIDTH * TweakBar::getMainThickness() ), WINDOW_HEIGHT*.5f),
@@ -42,7 +42,7 @@ LevelUI::LevelUI(GLFWwindow* window)
 
 	bars[3] = new TweakBar(glm::vec2(bar2Position.x-192, bar2Position.y), glm::vec2(148,72), glm::vec4(255, 255, 0, 200), assetContextBarName );
 
-	bars[4] = new TweakBar(glm::vec2(bar2Position.x-148, 0), glm::vec2(148,128), glm::vec4(128,32,32,200), actionBarName );
+	bars[4] = new TweakBar(glm::vec2(bar2Position.x-148, 0), glm::vec2(148,148), glm::vec4(128,32,32,200), actionBarName );
 	
 	LevelActorHandler::getInstance()->setTweakBars( bars[1], bars[0] );
 	LevelAssetHandler::getInstance()->setTweakBars( bars[2], bars[3] );

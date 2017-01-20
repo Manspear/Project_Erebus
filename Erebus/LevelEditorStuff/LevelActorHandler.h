@@ -18,6 +18,9 @@ public:
 	void removeActor( LevelActor* actor );
 	void removeActor( unsigned int id );
 	void updateActors();
+	void updateTweakBars();
+	void updateWorldBar();
+	void updateActorBar();
 	
 	void setSelected( unsigned int id );
 	void setSelected( LevelActor* actor );
@@ -36,10 +39,7 @@ private:
 
 	LevelActorHandler();
 	static LevelActorHandler* g_instance;
-
-	void updateTweakBars();
-	void updateWorldBar();
-	void updateActorBar();
+	
 	void savePrefab( LevelActor* actor );
 	static void TW_CALL onActorSelected( void* args );
 	static void TW_CALL onSavePrefab( void* args );
