@@ -10,9 +10,23 @@ LevelEditor::~LevelEditor()
 {
 	delete this->inputs;
 	delete this->camera;
+
+	for (int i = 0; i < ps.size(); i++)
+		delete ps.at(i);
+	delete this->transformHandler;
+	delete this->modelHandler;
+	delete this->levelGizmo;
+	LevelActorFactory::deleteInstance();
+	LevelActorHandler::deleteInstance();
+	LevelAssetHandler::deleteInstance();
+	LevelActionHandler::deleteInstance();
+	
+	delete this->engine;
+	delete this->ui;
 }
 
 void LevelEditor::start() {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	this->engine = new Gear::GearEngine();
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
@@ -229,8 +243,8 @@ void LevelEditor::start() {
 			Debugger::getInstance()->drawSphere(tempSelectedHitPoint, 0.5f );
 		}
 
-		if( LevelActorHandler::getInstance()->getSelected() )
-			Debugger::getInstance()->drawSphere( LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getPos(), 2.0f );
+		//if( LevelActorHandler::getInstance()->getSelected() )
+		//	Debugger::getInstance()->drawSphere( LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getPos(), 2.0f );
 
 		/*for( int x = 0; x<hm->mapWidth-1; x++ )
 		{
@@ -252,12 +266,7 @@ void LevelEditor::start() {
 	}
 	
 	
-	delete ui;
-	for (int i = 0; i < ps.size(); i++)
-		delete ps.at(i);
-	delete this->transformHandler;
-	delete this->modelHandler;
-	LevelActorFactory::deleteInstance();
+
 	/*for (size_t i = 0; i < actors.size(); i++)
 	{
 		delete actors[i];

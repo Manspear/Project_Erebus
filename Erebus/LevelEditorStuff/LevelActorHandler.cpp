@@ -42,6 +42,10 @@ LevelActorHandler::LevelActorHandler()
 
 LevelActorHandler::~LevelActorHandler()
 {
+	for (size_t i = 0; i < actors.size(); i++)
+	{
+		delete actors[i];
+	}
 }
 
 LevelActorHandler* LevelActorHandler::getInstance()
@@ -53,6 +57,7 @@ LevelActorHandler* LevelActorHandler::getInstance()
 
 void LevelActorHandler::addActor( LevelActor* actor )
 {
+	actor->setActorDisplayName(this->tryActorName(actor->getActorDisplayName()));
 	actors.insert( std::pair<unsigned int,LevelActor*>( actor->id, actor ) );
 	updateTweakBars();
 }
@@ -125,8 +130,8 @@ void LevelActorHandler::updateWorldBar()
 	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 	{
 		char buf[64] = {};
-		if( it->second->getActorType().size() > 0 )
-			sprintf_s( buf, "label='%s'", it->second->getActorType().c_str() );
+		if( it->second->getActorDisplayName().size() > 0 )
+			sprintf_s( buf, "label='%s'", it->second->getActorDisplayName().c_str() );
 		else
 			sprintf_s( buf, "label='%s'", "Actor" );
 		TwAddButton( worldBar->getBar(), NULL, onActorSelected, it->second, buf );
@@ -175,4 +180,25 @@ void LevelActorHandler::onSavePrefab( void* args )
 {
 	LevelActor* actor = (LevelActor*)args;
 	LevelActorHandler::getInstance()->savePrefab(actor);
+}
+
+const std::string LevelActorHandler::tryActorName(std::string name) {
+	std::string currentName = name;
+	int currentActorIndex = 0;
+	bool foundNew = true;
+	while (foundNew) {
+		foundNew = false;
+		for (ActorIT it = actors.begin(); it != actors.end(); it++) {
+			
+			if (it->second->getActorDisplayName() == currentName) {
+				currentActorIndex++;
+				currentName = name + std::to_string(currentActorIndex);
+				foundNew = true;
+				it == actors.end();
+			}
+		}
+	}
+
+		
+	return currentName;
 }

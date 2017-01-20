@@ -11,6 +11,8 @@ LevelFileDialog::LevelFileDialog()
 
 LevelFileDialog::~LevelFileDialog()
 {
+	if (filters)
+		delete[]filters;
 }
 
 bool LevelFileDialog::show( int mode )

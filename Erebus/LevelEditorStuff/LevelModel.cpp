@@ -47,6 +47,7 @@ std::string LevelModel::getName()
 
 void LevelModel::postInitialize()
 {
+	
 	LevelTransform* thisTransform = this->parent->getComponent<LevelTransform>();
 
 	LevelModelHandler* handlerRef = LevelModelHandler::getInstance();

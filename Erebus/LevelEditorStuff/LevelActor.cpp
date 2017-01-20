@@ -19,6 +19,7 @@ LevelActor::~LevelActor()
 void LevelActor::initialize(tinyxml2::XMLElement* data)
 {
 	this->actorType = data->Attribute("type");
+	this->actorDisplayName = data->Attribute("displayName");
 }
 
 void LevelActor::update()
@@ -59,6 +60,7 @@ std::string LevelActor::toXml()
 
 	tinyxml2::XMLElement* LevelActorElement = doc.NewElement(LevelActorElementValue);
 	LevelActorElement->SetAttribute("type",this->actorType.c_str());
+	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
 	for (auto element : this->actorComponents)
 	{
 		LevelActorElement->LinkEndChild(element.second->toXml(&doc));
@@ -99,6 +101,7 @@ void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocum
 	
 	tinyxml2::XMLElement* LevelActorElement = doc->NewElement(LevelActorElementValue);
 	LevelActorElement->SetAttribute("type", this->actorType.c_str());
+	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
 	
 	for (auto element : this->actorComponents)
 	{
@@ -133,4 +136,14 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	}
 
 	return true;
+}
+
+const std::string& LevelActor::getActorDisplayName() const {
+	return this->actorDisplayName;
+}
+void LevelActor::setActorType(std::string type) {
+	this->actorType = type;
+}
+void LevelActor::setActorDisplayName(std::string name) {
+	this->actorDisplayName = name;
 }

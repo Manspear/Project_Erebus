@@ -23,14 +23,19 @@ public:
 	std::string toXml();
 	std::string toLua();
 	const std::string& getActorType() const;
+	const std::string& getActorDisplayName() const;
 
 	std::map<std::string, LevelActorComponent*>& getAllComponents();
 
 	bool LevelActor::setAsSelectedActor(TwBar * bar);
 
+	void setActorType(std::string type);
+	void setActorDisplayName(std::string name);
+
 private:
 	std::map<std::string, LevelActorComponent*> actorComponents;
 	std::string actorType;
+	std::string actorDisplayName;
 
 
 	// template class here

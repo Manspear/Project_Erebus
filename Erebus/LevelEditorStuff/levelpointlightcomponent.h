@@ -2,6 +2,8 @@
 #include"LevelActorComponent.h"
 #include "BaseIncludes.h"
 #include"Gear.h"
+#include "LevelActor.h"
+#include "LevelTransform.h"
 class LevelPointLightComponent : public LevelActorComponent
 {
 public:
@@ -27,10 +29,15 @@ public:
 
 	void setTwStruct(TwBar*) override;
 	Lights::PointLight light;
+
+	void callListener(LevelActorComponent* component) override;
 private:
 	float radius;
 	glm::vec3 color;
 	glm::vec3 pos;
+	glm::vec3 worldPos;
+
+	void setWorldPos(LevelTransform* transform);
 
 	
 };

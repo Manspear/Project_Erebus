@@ -1,5 +1,5 @@
 <Level>
-    <LevelActor type="TestCharacter">
+    <LevelActor type="OtherCharacter" displayName="Robot guy1">
         <LevelModel>
             <ModelName>Robot</ModelName>
         </LevelModel>
@@ -8,7 +8,7 @@
             <Rotation x="0" y="0" z="0"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="TestCharacter">
+    <LevelActor type="OtherCharacter" displayName="Robot guy">
         <LevelModel>
             <ModelName>Robot</ModelName>
         </LevelModel>
@@ -17,7 +17,7 @@
             <Rotation x="0" y="0" z="0"/>
         </LevelTransform>
     </LevelActor>
-	<LevelActor type="TestCharacter">
+	<LevelActor type="OtherCharacter" displayName="Robot guy">
         <LevelModel>
             <ModelName>Robot</ModelName>
         </LevelModel>
@@ -26,7 +26,7 @@
             <Rotation x="0" y="0" z="0"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="TestCharacter">
+    <LevelActor type="terrain" displayName="Terrain Actor">
         <LevelModel>
             <ModelName>niclasland_scale1</ModelName>
         </LevelModel>
@@ -35,4 +35,28 @@
             <Rotation x="0" y="0" z="0"/>
         </LevelTransform>
     </LevelActor>
+<LevelActor type="TestCharacter" displayName="Stick Guy">
+    <LevelPointLight>
+        <Position x="0" y="0" z="0"/>
+        <Color x="0" y="0" z="0"/>
+        <Radius r="31"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="131.08182" y="56.28125" z="37.59375"/>
+        <Rotation x="0" y="0" z="0"/>
+    </LevelTransform>
+</LevelActor>
+<LevelActor type="PointLight" displayName="Point Light">
+    <LevelPointLight>
+        <Position x="40" y="0" z="0"/>
+        <Color x="0" y="30" z="0"/>
+        <Radius r="60"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="97.8125" y="58.625" z="73.016838"/>
+        <Rotation x="0" y="0" z="0"/>
+    </LevelTransform>
+</LevelActor>
+
+
 </Level>

@@ -18,6 +18,7 @@ class LevelActionHandler
 public:
 	~LevelActionHandler();
 	static LevelActionHandler* getInstance();
+	static void deleteInstance();
 
 	void setTweakBar( TweakBar* bar );
 	void setAction( int action );

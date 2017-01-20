@@ -9,17 +9,21 @@ LevelTransform::LevelTransform()
 	transformStructTemp = new TransformStruct();
 	this->transformRef = new Transform();
 	transformRef->setThePtr(transformStructTemp);
+	recievedModelTransform = false;
 }
 
 
 LevelTransform::~LevelTransform()
 {
-	delete this->transformStructTempStuff;
+	if (!recievedModelTransform)
+	{
+		delete this->transformRef;
+		delete this->transformStructTemp;
+	}
 }
 
 void LevelTransform::initialize(tinyxml2::XMLElement* element)
 {
-	std::string test = element->FirstChildElement("Position")->Attribute("x");
 	this->transformRef->setThePtr(this->transformStructTemp);
 
 	float xPos;
@@ -72,6 +76,7 @@ void LevelTransform::setTransform(int index) {
 	glm::vec3 oldRot = glm::vec3(this->transformRef->getRotation());
 	delete this->transformRef;
 	delete this->transformStructTemp;
+	recievedModelTransform = true;
 
 	this->transformRef = LevelTransformHandler::getInstance()->getTransformAt(index);
 	this->transformRef->setPos(oldPos);
@@ -112,7 +117,16 @@ std::string LevelTransform::toLua(std::string name)
 	return ss.str();
 }
 
-Transform* LevelTransform::getTransformRef() {
+Transform* LevelTransform::getTransformRef(){
+	for (size_t i = 0; i < this->Listeners.size(); i++)
+	{
+		this->Listeners[i]->callListener(this);
+
+	}
+	return this->transformRef;
+}
+
+Transform* LevelTransform::getChangeTransformRef() {
 	return this->transformRef;
 }
 
@@ -122,4 +136,8 @@ void LevelTransform::setTwStruct(TwBar * twBar) {
 	TwAddVarRW(twBar, "Position", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getPosRef(), NULL);
 	TwAddVarRW(twBar, "Rotation", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getRotationRef(), NULL);
 	TwAddVarRW(twBar, "Scale", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getScaleRef(), NULL);
+}
+
+void LevelTransform::callListener(LevelActorComponent* component) {
+
 }

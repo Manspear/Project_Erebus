@@ -1,4 +1,4 @@
-<Actor type="OtherCharacter">
+<Actor type="OtherCharacter" displayName="Robot guy">
 	<LevelTransform>
 		<Position x="10.0" y="3.3" z="7.5" />
 		<Rotation x="0" y="0" z="0" />
@@ -7,6 +7,3 @@
 		<ModelName>Robot</ModelName>
 	</LevelModel>
 </Actor>
-
-1%255 = 1
-1%255 = 1
