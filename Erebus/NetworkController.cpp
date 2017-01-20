@@ -4,8 +4,7 @@ NetworkController::NetworkController()
 {
 	networkHost = true;
 	running = false;
-	sendFrequency = 0.0167; // 60 times a second
-	recFrequency = 0.0167; // 60 times a second
+	transformpackTime = 100;
 }
 
 NetworkController::~NetworkController()
@@ -54,7 +53,7 @@ void NetworkController::startNetworkSending()
 {
 	while (running)
 	{
-		double deltaTime = counter->getNetworkSendDeltaTime();
+		double deltaTime = counter.getNetworkSendDeltaTime();
 		if (deltaTime > sendFrequency)
 		{
 			network.Send();
@@ -71,7 +70,7 @@ void NetworkController::startNetworkReceiving()
 {
 	while (running)
 	{
-		double deltaTime = counter->getNetworkRecDeltaTime();
+		double deltaTime = counter.getNetworkRecDeltaTime();
 		if (deltaTime > recFrequency)
 		{
 			network.Receive();
@@ -92,7 +91,7 @@ void NetworkController::acceptNetworkCommunication()
 	}
 }
 
-void NetworkController::startCommunicationThreads(PerformanceCounter * counter)
+void NetworkController::startCommunicationThreads(PerformanceCounter& counter)
 {
 	this->counter = counter;
 
@@ -113,6 +112,7 @@ bool NetworkController::getNetworkHost()
 
 void NetworkController::sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 {
+	transformpackTime = counter.getCurrentTime();
 	network.buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
 }
 
@@ -129,4 +129,9 @@ void NetworkController::sendAnimationPacket(const uint16_t& id)
 bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
 {
 	return network.fetchAnimationPacket(packet);
+}
+
+double NetworkController::timeSinceLastTransformPacket()
+{
+	return (counter.getCurrentTime() - transformpackTime);
 }

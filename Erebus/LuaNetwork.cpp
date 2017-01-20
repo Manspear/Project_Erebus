@@ -15,6 +15,7 @@ namespace LuaNetwork
 			{ "SendAnimationPacket", sendAnimationPacket },
 			{ "GetAnimationPacket", getAnimationPacket },
 			{ "GetNetworkHost", getNetworkHost },
+			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ NULL, NULL }
 		};
 
@@ -132,6 +133,19 @@ namespace LuaNetwork
 		bool networkHost = g_networkController->getNetworkHost();
 
 		lua_pushboolean(lua, networkHost);
+		return 1;
+	}
+
+	int shouldSendNewTransform(lua_State* lua)
+	{
+		if (g_networkController->timeSinceLastTransformPacket() > 0.05)
+		{
+			lua_pushboolean(lua, true);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+		}
 		return 1;
 	}
 }

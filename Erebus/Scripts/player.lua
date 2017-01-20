@@ -214,8 +214,10 @@ function UpdatePlayer(dt)
 		--if newAnimationValue == true then
 		--	print(animationID)
 		--end
-
-		Network.SendTransformPacket(player.transformID, position, direction, rotation)
+		
+		if Network.ShouldSendNewTransform() == true then
+			Network.SendTransformPacket(player.transformID, position, direction, rotation)
+		end
 		newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
 		if newtransformvalue == true then

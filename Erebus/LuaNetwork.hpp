@@ -11,4 +11,5 @@ namespace LuaNetwork
 	int sendAnimationPacket(lua_State* lua);
 	int getAnimationPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
+	int shouldSendNewTransform(lua_State* lua);
 }

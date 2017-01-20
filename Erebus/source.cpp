@@ -81,7 +81,7 @@ int main()
 			gameState = menu->Update(inputs);
 			if (gameState == HostGameplayState)
 			{
-				if (gamePlay->StartNetwork(true, &counter))
+				if (gamePlay->StartNetwork(true, counter))
 				{
 					gameState = GameplayState;
 				}
@@ -94,7 +94,7 @@ int main()
 
 			if (gameState == ClientGameplayState)
 			{
-				if (gamePlay->StartNetwork(false, &counter))
+				if (gamePlay->StartNetwork(false, counter))
 				{
 					gameState = GameplayState;
 				}
