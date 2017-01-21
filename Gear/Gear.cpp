@@ -91,7 +91,7 @@ namespace Gear
 
 			light.pos = glm::vec4(position, 1);
 			light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
-																	  //DISCO
+			light.radius.x = LIGHT_RADIUS;														  //DISCO
 																	  /*color[i] = glm::vec3(light.color);
 																	  light.radius.z = LIGHT_RADIUS;*/
 		}
