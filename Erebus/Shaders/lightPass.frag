@@ -3,7 +3,7 @@
 out vec4 FragColor;
 in vec2 TexCoords;
 
-uniform sampler2D gPosition;
+uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
 uniform sampler2D gShadowMap;
@@ -28,17 +28,28 @@ uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform vec3 viewPos;
 uniform int drawMode;
 uniform mat4 shadowVPM;
+uniform mat4 invView;
+uniform mat4 invProj;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords);
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare);
+vec3 WorldPosFromDepth(float depth);
 
 void main() {
 
-	vec3 FragPos = vec3(texture2D(gPosition, TexCoords)).rgb;
-	vec3 Normal  = vec3(texture2D(gNormal, TexCoords)).rgb;
+	float Depth = vec3(texture2D(gDepth, TexCoords)).r;
+
+	vec3 FragPos = WorldPosFromDepth(Depth);
+
+	vec2 tempNormal = vec2(texture2D(gNormal, TexCoords));
+	vec3 Normal;
+	Normal.r = tempNormal.x;
+	Normal.g = tempNormal.y;
+	Normal.b = 1.0f - (tempNormal.x + tempNormal.y);
+
 	vec3 Diffuse  = vec3(texture2D(gAlbedoSpec, TexCoords)).rgb;
 
 	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
@@ -67,9 +78,9 @@ void main() {
 	else if(drawMode == 4)
         FragColor = vec4(texture2D(gShadowMap, TexCoords).xyz, 1);//vec4(FragPos, 1.0);
     else if(drawMode == 5)
-        FragColor = vec4(texture2D(gShadowMap, vec2(shadowcoords.x,shadowcoords.y)).xyz, 1);//vec4(Normal, 1.0);
+        FragColor = vec4(FragPos, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)
-        FragColor = vec4(Diffuse, 1.0);
+        FragColor = vec4(Normal, 1.0);
     else if(drawMode == 7)
 		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
@@ -150,4 +161,18 @@ float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare)
 	return min(max(p, pMax), 1.0);
 	
 	//return step(compare, texture2D(shadowMap, coords.xy).r);
+}
+
+vec3 WorldPosFromDepth(float depth){
+	float z = depth * 2.0 - 1.0;
+
+	vec4 clipSpacePosition = vec4(TexCoords.xy * 2.0 - 1.0, z, 1.0);
+	vec4 viewSpacePosition = invProj * clipSpacePosition;
+
+	//Perspective division
+	viewSpacePosition /= viewSpacePosition.w;
+
+	vec4 worldSpacePosition = invView * viewSpacePosition;
+
+	return worldSpacePosition.xyz;
 }
