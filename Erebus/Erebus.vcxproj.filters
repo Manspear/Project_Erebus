@@ -384,6 +384,18 @@
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
     </None>
+    <None Include="Shaders\geometryPassShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -328,8 +328,8 @@ namespace Gear
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		updateDebug(camera);
 
-		//skybox.update(camera);
-		//skybox.draw();
+		skybox.update(camera, gBuffer.getTextures()[2]);
+		skybox.draw();
 
 
 		/*effectShader->use();
@@ -346,13 +346,13 @@ namespace Gear
 		// 
 		//gloomCompute->unUse();
 
-		effectShader->use();
-		GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
-		glActiveTexture(GL_TEXTURE0 + 0);
-		glUniform1i(uniform, 0);
-		glBindTexture(GL_TEXTURE_2D, gloomTexture);
-		drawQuad();
-		effectShader->unUse();
+		//effectShader->use();
+		//GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
+		//glActiveTexture(GL_TEXTURE0 + 0);
+		//glUniform1i(uniform, 0);
+		//glBindTexture(GL_TEXTURE_2D, gloomTexture);
+		//drawQuad();
+		//effectShader->unUse();
 
 		//Clear lists
 		staticModels = &defaultModelList;
