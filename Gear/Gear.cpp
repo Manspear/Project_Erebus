@@ -316,14 +316,13 @@ namespace Gear
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
+		glDisable(GL_CULL_FACE);
 		queue.particlePass(particleSystems);
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
 		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-		glDisable(GL_CULL_FACE);
 
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		updateDebug(camera);
@@ -337,22 +336,22 @@ namespace Gear
 		drawQuad();
 		effectShader->unUse();
 
-		//gloomCompute->use();
-		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
-		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
-		//glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
-		//glBindImageTexture(0, this->particleFBO.getTextures()[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
-		//glDispatchCompute(40, 40, 1);
-		// 
-		//gloomCompute->unUse();
+		/*gloomCompute->use();
+		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
+		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
+		glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+		glBindImageTexture(0, this->particleFBO.getTextures()[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
+		glDispatchCompute(40, 40, 1);
+		 
+		gloomCompute->unUse();
 
-		//effectShader->use();
-		//GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
-		//glActiveTexture(GL_TEXTURE0 + 0);
-		//glUniform1i(uniform, 0);
-		//glBindTexture(GL_TEXTURE_2D, gloomTexture);
-		//drawQuad();
-		//effectShader->unUse();
+		effectShader->use();
+		GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
+		glActiveTexture(GL_TEXTURE0 + 0);
+		glUniform1i(uniform, 0);
+		glBindTexture(GL_TEXTURE_2D, gloomTexture);
+		drawQuad();
+		effectShader->unUse();*/
 
 		//Clear lists
 		staticModels = &defaultModelList;

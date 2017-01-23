@@ -41,7 +41,7 @@ void main (){
 	else
 		gAlbedoSpec.rgb = vec3(1,0,0.8);
     // Store specular intensity in gAlbedoSpec's alpha component
-	if(hasDiffuse == 1) //if has diffuse texture it else use error color
+	if(hasSpecular == 1) //if has diffuse texture it else use error color
 		gAlbedoSpec.a = texture(specularTexture, TexCoords).r;
 	else
 		gAlbedoSpec.a = 0.0f;
