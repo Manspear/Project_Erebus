@@ -23,8 +23,7 @@ enum eSoundOptions : uint8_t
 	SOUND_LOOP			= 0x10,
 	SOUND_PAUSED		= 0x20,
 	SOUND_BLURB4		= 0x40,
-	SOUND_BLURB5		= 0x80,
-	SOUND_DEFAULT		= 0x0a
+	SOUND_BLURB5		= 0x80
 };
 
 class SoundEngine
@@ -33,7 +32,7 @@ public:
 	SoundEngine();
 	~SoundEngine();
 
-	int play(std::string target, uint8_t options = SOUND_DEFAULT, glm::vec3 pos = glm::vec3(0,0,0));
+	int play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0,0,0));
 	void pause(int i);
 	void resume(int i);
 	void pauseAll();

@@ -43,7 +43,7 @@ int SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 	bool paused = static_cast<bool>(options & SOUND_PAUSED);
 	bool track = static_cast<bool>(options & (SOUND_LOOP | SOUND_TRACK | SOUND_EFFECTS | SOUND_PAUSED));
 	bool effects = static_cast<bool>(options & SOUND_EFFECTS);
-	E_STREAM_MODE stream = (options & SOUND_STREAM) ? ESM_STREAMING : ESM_NO_STREAMING;
+	E_STREAM_MODE stream = (options & SOUND_STREAM) ? ESM_STREAMING : ESM_AUTO_DETECT;
 
 	ISound* s;
 	if (options & SOUND_3D)
