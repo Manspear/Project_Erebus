@@ -334,9 +334,9 @@ namespace Gear
 		effectShader->use();
 		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
 		drawQuad();
-		effectShader->unUse();
+		effectShader->unUse();	
 
-		/*gloomCompute->use();
+		gloomCompute->use();
 		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
 		//glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
 		glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
