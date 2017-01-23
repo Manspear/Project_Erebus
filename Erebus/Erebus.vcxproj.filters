@@ -92,6 +92,9 @@
     <ClCompile Include="SoundEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaSound.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -183,6 +186,9 @@
     </ClInclude>
     <ClInclude Include="SoundEngine.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaSound.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

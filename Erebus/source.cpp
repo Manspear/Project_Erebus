@@ -51,7 +51,7 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets);
+	GamePlay * gamePlay = new GamePlay(&engine, assets, &soundEngine);
 	Menu * menu = new Menu(&engine,assets);
 
 	PerformanceCounter counter;
@@ -64,7 +64,7 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.play("Music/menuBurana.ogg", SND_LOOP);
+	soundEngine.play3D("Music/menuBurana.ogg", glm::vec3(0.f, 0.f, 0.f), SOUND_LOOP);
 	soundEngine.setMasterVolume(0.5);
 
 	while (running && window.isWindowOpen())

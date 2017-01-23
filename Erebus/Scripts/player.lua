@@ -186,6 +186,7 @@ function UpdatePlayer(dt)
 			player.verticalSpeed = 0
 		end
 
+		Sound.SetPlayerTransform(position, direction)
 		Transform.SetPosition(player.transformID, position)
 
 		Network.SendTransform(player.transformID, position, direction, rotation)

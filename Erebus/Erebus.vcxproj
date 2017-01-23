@@ -170,6 +170,7 @@
     <ClCompile Include="LuaMath.cpp" />
     <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
+    <ClCompile Include="LuaSound.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkController.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="LuaMath.h" />
     <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />
+    <ClInclude Include="LuaSound.h" />
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
