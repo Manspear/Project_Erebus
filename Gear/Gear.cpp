@@ -28,6 +28,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
+
 	}
 
 	GearEngine::~GearEngine()
@@ -90,7 +91,7 @@ namespace Gear
 
 			light.pos = glm::vec4(position, 1);
 			light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
-																	  //DISCO
+			light.radius.x = LIGHT_RADIUS;														  //DISCO
 																	  /*color[i] = glm::vec3(light.color);
 																	  light.radius.z = LIGHT_RADIUS;*/
 		}
@@ -290,6 +291,9 @@ namespace Gear
 		tempCamera.setView(view);
 		tempCamera.setprojection(dirLights[0].projection);
 
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);		
 		
@@ -306,6 +310,8 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		gBuffer.unUse();
 
+		
+
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
@@ -316,6 +322,8 @@ namespace Gear
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
 		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glDisable(GL_CULL_FACE);
 
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		updateDebug(camera);

@@ -33,6 +33,25 @@ function LoadPlayer()
 
 	-- set basic variables for the player2
 	player2.transformID = Transform.Bind()
+	player2.moveSpeed = 5.25
+	player2.verticalSpeed = 0
+	player2.canJump = false
+	player2.reachedGoal = false
+	player2.health = 100
+	player2.forward = 0
+	player2.left = 0
+	player2.timeScalar = 1.0
+	player2.printInfo = false
+	player2.heightmapIndex = 1
+	player2.spamCasting = false
+	player2.charging = false
+	
+	player2.walkableIncline = 1
+	player2.chargedspell = {}
+	player2.timeSinceShot = 0
+	player2.shootCD = 0.3
+
+	player2.animationController = CreatePlayerController(player2)
 
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
@@ -69,12 +88,12 @@ function LoadPlayer()
 	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
-	Network.SendTransform(player.transformID, {x=0, y=0, z=0}, {x=0, y=0, z=0}, {x=0, y=0, z=0})
+	Network.SendTransformPacket(player.transformID, {x=0, y=0, z=0}, {x=0, y=0, z=0}, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
-	Gear.AddAnimatedInstance(model, player2.transformID, player.animationController.animation)
+	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
 	
@@ -189,8 +208,18 @@ function UpdatePlayer(dt)
 		Sound.SetPlayerTransform(position, direction)
 		Transform.SetPosition(player.transformID, position)
 
-		Network.SendTransform(player.transformID, position, direction, rotation)
-		newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2= Network.GetTransform()
+		animationID = 42
+		Network.SendAnimationPacket(animationID);
+		newAnimationValue, animationID = Network.GetAnimationPacket()
+
+		--if newAnimationValue == true then
+		--	print(animationID)
+		--end
+		
+		if Network.ShouldSendNewTransform() == true then
+			Network.SendTransformPacket(player.transformID, position, direction, rotation)
+		end
+		newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
 		if newtransformvalue == true then
 			Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
@@ -200,6 +229,7 @@ function UpdatePlayer(dt)
 
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
+		player2.animationController:AnimationUpdate(dt)
 
 	end
 		-- update the current player spell
