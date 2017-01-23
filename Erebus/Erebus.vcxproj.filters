@@ -195,9 +195,6 @@
     <None Include="Scripts\AI\BasicEnemyAI.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\bullets.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\camera.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -217,9 +214,6 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\particle.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\projectile.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\AI\states.lua">
@@ -333,39 +327,6 @@
     <None Include="Scripts\particle.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\fireball.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\fireEffect.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\projectileType.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\arcType.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\fireballArc.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\chronoBall.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\timeSlowEffect.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\groundAoEType.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\fireGroundAoE.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\orbWaveType.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\timeOrbWave.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\reusable.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -389,6 +350,39 @@
     </None>
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
+    </None>
+    <None Include="Scripts\arcType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\chronoBall.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\fireball.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\fireballArc.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\fireEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\fireGroundAoE.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\groundAoEType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\orbWaveType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\timeOrbWave.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\timeSlowEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\projectileType.lua">
+      <Filter>Scripts\types</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +424,15 @@
     </Filter>
     <Filter Include="Animation Controllers">
       <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\types">
+      <UniqueIdentifier>{061b3e17-e659-4c55-878e-0c261d61e2ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\effects">
+      <UniqueIdentifier>{829483a9-2d83-4cd6-a51c-3b10ffc34d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\spells">
+      <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
