@@ -89,8 +89,8 @@ void Gear::Skybox::draw()
 void Gear::Skybox::update(Camera* camera, GLuint textureID)
 {
 	GLuint uniform = glGetUniformLocation(skyboxShader->getProgramID(), "gDepth");
-	glActiveTexture(GL_TEXTURE0);
-	glUniform1i(uniform, 0);
+	glActiveTexture(GL_TEXTURE1);
+	glUniform1i(uniform, 1);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	skyboxShader->use();

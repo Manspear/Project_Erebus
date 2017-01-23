@@ -2,6 +2,7 @@
 
 layout (location = 0) out vec4 gAlbedoSpec;
 layout (location = 1) out vec2 gNormal;
+layout (location = 2) out float gDepth;
 
 in vec2 TexCoords;
 in vec3 FragPos;
@@ -17,6 +18,7 @@ uniform int hasDiffuse;
 uniform int hasNormal;
 
 void main (){
+	gDepth = gl_FragCoord.z;
 	//Store the fragment position vector in the first gbuffer texture
     // Also store the per-fragment normals into the gbuffer
 	if(hasNormal == 1) //has normal texture use it else use model normal

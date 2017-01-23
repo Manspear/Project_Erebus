@@ -76,7 +76,7 @@ void main() {
 	else if(drawMode == 3)
 		FragColor = vec4(ambient + directional, 1.0);
 	else if(drawMode == 4)
-        FragColor = vec4(texture2D(gShadowMap, TexCoords).xyz, 1);//vec4(FragPos, 1.0);
+        FragColor = vec4(Depth,Depth,Depth, 1);//vec4(FragPos, 1.0);
     else if(drawMode == 5)
         FragColor = vec4(FragPos, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)

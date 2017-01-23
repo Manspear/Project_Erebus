@@ -297,11 +297,11 @@ namespace Gear
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);		
 		
-		shadowMap.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
-		shadowMap.unUse();
-		shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
+		//shadowMap.use();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
+		//shadowMap.unUse();
+		//shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
 
 		queue.updateUniforms(camera);
 
@@ -315,7 +315,7 @@ namespace Gear
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-		
+
 		queue.particlePass(particleSystems);
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
@@ -332,10 +332,10 @@ namespace Gear
 		skybox.draw();
 
 
-		/*effectShader->use();
+		effectShader->use();
 		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
 		drawQuad();
-		effectShader->unUse();	*/
+		effectShader->unUse();
 
 		//gloomCompute->use();
 		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
@@ -408,7 +408,7 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gDepth", 2, 2);
-		shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
+		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
 		
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
@@ -459,16 +459,16 @@ namespace Gear
 
 	void GearEngine::frameBufferInit()
 	{
-		GLuint internalFormat[] = { GL_RGBA,GL_RG16F,GL_DEPTH_COMPONENT16 }; //Format for texture in gBuffer
-		GLuint format[] = { GL_RGBA,GL_RG,GL_DEPTH_COMPONENT }; //Format for texture in gBuffer
-		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_DEPTH_ATTACHMENT }; //gBuffer attachements
-		GLenum type[] = { GL_UNSIGNED_INT, GL_FLOAT, GL_UNSIGNED_BYTE }; //data type for texture
-		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST };
+		GLuint internalFormat[] = { GL_RGBA,GL_RG16F, GL_R32F }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGBA,GL_RG, GL_RED }; //Format for texture in gBuffer
+		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
+		GLenum type[] = { GL_UNSIGNED_INT, GL_FLOAT, GL_FLOAT }; //data type for texture
+		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};
 
 		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 
-		shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
-		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		/*shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);*/
 
 		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA32F, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
 
