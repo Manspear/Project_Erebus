@@ -2,6 +2,7 @@
 
 layout (location = 0) out vec4 gAlbedoSpec;
 layout (location = 1) out vec2 gNormal;
+layout (location = 2) out float gDepth;
 
 in vec2 TexCoords;
 in vec3 FragPos;
@@ -13,10 +14,11 @@ uniform sampler2D specularTexture;
 uniform sampler2D normalTexture;
 
 uniform int hasDiffuse;
-//uniform int hasSpecular;
+uniform int hasSpecular;
 uniform int hasNormal;
 
 void main (){
+	gDepth = gl_FragCoord.z;
 	//Store the fragment position vector in the first gbuffer texture
     // Also store the per-fragment normals into the gbuffer
 	if(hasNormal == 1) //has normal texture use it else use model normal
@@ -39,5 +41,9 @@ void main (){
 	else
 		gAlbedoSpec.rgb = vec3(1,0,0.8);
     // Store specular intensity in gAlbedoSpec's alpha component
-    //gAlbedoSpec.a = texture(texture_specular1, TexCoords).r;
+	if(hasDiffuse == 1) //if has diffuse texture it else use error color
+		gAlbedoSpec.a = texture(specularTexture, TexCoords).r;
+	else
+		gAlbedoSpec.a = 0.5f;
+    //
 }
