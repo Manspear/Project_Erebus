@@ -203,7 +203,6 @@
     <None Include="Scripts\AI\states.lua" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\arcType.lua" />
-    <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\chronoBall.lua" />
@@ -218,7 +217,6 @@
     <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
-    <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\test.lua" />
