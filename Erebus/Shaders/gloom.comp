@@ -34,25 +34,20 @@ void main() {
 		tex += tex1 + tex2;
 	}*/
 	float hits = 0;
-	for(int i =-10; i <= 10; i++)
+	for(int i =-5; i <= 5; i+=2)
 	{
-		if(imageLoad(srcTex, ivec2(a) + ivec2(i, 0)).a != 0){
-			hits++;
-		}
-		if(imageLoad(srcTex, ivec2(a) + ivec2(0, i)).a != 0){
-			hits++;
-		}
-		if(imageLoad(srcTex, ivec2(a) + ivec2(i, i)).a != 0){
-			hits++;
-		}
-		if(imageLoad(srcTex, ivec2(a) + ivec2(-i, i)).a != 0){
+		if(	imageLoad(srcTex, ivec2(a) + ivec2(i, 0)).a != 0 ||
+			imageLoad(srcTex, ivec2(a) + ivec2(0, i)).a != 0 ||
+			imageLoad(srcTex, ivec2(a) + ivec2(i, i)).a != 0 ||
+			imageLoad(srcTex, ivec2(a) + ivec2(-i, i)).a != 0 )
+		{
 			hits++;
 		}
 	}
 	tex = imageLoad(srcTex, ivec2(a));
-	if(hits > 0 && hits < 8){
-		float c = hits/3.f;
-		tex = vec4(c/3.f,c/3.f,c,1);
+	if(hits > 2){
+		float c = hits;
+		tex = vec4(c/13+0.1,c/16+0.1,c/9+0.31,1);
 	}
 	imageStore(destTex, a, tex);
 }
