@@ -239,6 +239,8 @@ int main()
 				}
 			}
 
+			engine.updateTransforms();
+
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
 
@@ -259,7 +261,6 @@ int main()
 			engine.print(fps, 0.0f, 0.0f);
 
 			window.update();
-			engine.updateTransforms();
 			engine.draw(&camera);
 
 #ifdef _DEBUG
