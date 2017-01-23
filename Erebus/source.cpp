@@ -268,6 +268,11 @@ int main()
 		}
 	}
 
+	WaitForSingleObject( thread, INFINITE );
+	CloseHandle( thread );
+	CloseHandle( threadData.produce );
+	CloseHandle( threadData.consume );
+
 	work.stop();
 
 	//delete gamePlay;
