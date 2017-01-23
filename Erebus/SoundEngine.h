@@ -37,13 +37,10 @@ public:
 	void setMasterVolume(float v);		// Sets volume to a value between 0 (silent) and 1 (full volume)
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
-	std::string getDbgText();
-
 private:
 	ISoundEngine* engine;
 	const std::string basePath = "./Audio/";
 
 	std::vector<ISound*> sounds;
-	std::string dbgText = "No sound";
 
 };

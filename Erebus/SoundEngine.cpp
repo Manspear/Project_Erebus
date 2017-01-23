@@ -16,7 +16,6 @@ SoundEngine::SoundEngine()
 	{
 		engine->setSoundVolume(0.5f);
 		engine->setRolloffFactor(0.05f);
-		dbgText = "Engine loaded";
 	}
 }
 
@@ -78,7 +77,7 @@ void SoundEngine::setMasterVolume(float v)
 	if (!engine)
 		return;
 
-	v = v < 0.f ? 0.f : v > 1.f ? 1.f : v;
+	v = v < 0.f ? 0.f : v > 1.f ? 1.f : v;	// Clamp v between 0 and 1
 	engine->setSoundVolume(v);
 }
 
@@ -91,11 +90,4 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 	const vec3df iklook	= -vec3df(look.x, look.y, look.z);
 
 	engine->setListenerPosition(ikpos, iklook);
-	dbgText = "Listener\nPos: \tx" + std::to_string(pos.x) + " y:" + std::to_string(pos.y) + " z:" + std::to_string(pos.z) 
-		+ "\nLook: \tx" + std::to_string(look.x) + " y:" + std::to_string(look.y) + " z:" + std::to_string(look.z);
-}
-
-std::string SoundEngine::getDbgText()
-{
-	return dbgText;
 }

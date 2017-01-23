@@ -126,7 +126,6 @@ int main()
 			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 		engine.print(fps, 0.0f, 0.0f);
-		engine.print(soundEngine.getDbgText(), 600, 0);
 
 		window.update();
 
