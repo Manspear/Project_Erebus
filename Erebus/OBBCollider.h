@@ -38,5 +38,6 @@ public:
 private:
 	glm::vec3 xAxis, yAxis, zAxis;
 	glm::vec3 halfLengths;
+	const int FLAG = 2;
 };
 

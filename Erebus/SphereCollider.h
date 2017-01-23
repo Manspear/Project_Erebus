@@ -24,6 +24,7 @@ public:
 
 private:
 	float radius, radiusSquared;
+	const int FLAG = 0;
 
 
 };
