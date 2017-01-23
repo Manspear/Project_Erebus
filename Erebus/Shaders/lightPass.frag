@@ -59,7 +59,7 @@ void main() {
 		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir);
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
-        FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
+        FragColor = vec4(ambient + directional + point, 1.0);
     else if(drawMode == 2)
 		FragColor = vec4(ambient + point, 1.0);
 	else if(drawMode == 3)
@@ -71,7 +71,7 @@ void main() {
     else if(drawMode == 6)
         FragColor = vec4(Diffuse, 1.0);
     else if(drawMode == 7)
-		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)), 1.0);
+		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
 }
  
@@ -97,7 +97,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	vec3 lighting  = vec3(0);// Diffuse * 0.1;
 
 		float distance = length(light.pos.xyz - fragPos);
-		if(distance < 30)
+		if(distance < light.radius.x)
 		{
 			// Diffuse
             vec3 lightDir = normalize(light.pos.xyz - fragPos);
