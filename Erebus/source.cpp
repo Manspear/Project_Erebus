@@ -65,7 +65,7 @@ int main()
 	inputs.getMousePos();
 
 	soundEngine.play3D("Music/menuBurana.ogg", glm::vec3(0.f, 0.f, 0.f), SOUND_LOOP);
-	soundEngine.setMasterVolume(0.5);
+	soundEngine.setMasterVolume(0.1);
 
 	while (running && window.isWindowOpen())
 	{	
@@ -126,6 +126,7 @@ int main()
 			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 		engine.print(fps, 0.0f, 0.0f);
+		engine.print(soundEngine.getDbgText(), 600, 0);
 
 		window.update();
 

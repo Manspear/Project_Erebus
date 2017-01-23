@@ -84,6 +84,7 @@ namespace LuaSound
 			lua_rawgeti(lua, 2, i + 1);
 			look[i] = lua_tonumber(lua, -1);
 		}
+		g_soundEngine->setPlayerTransform(pos, look);
 		return 0;
 	}
 }

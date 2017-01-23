@@ -205,8 +205,8 @@ function UpdatePlayer(dt)
 			player.verticalSpeed = 0
 		end
 
-		Sound.SetPlayerTransform(position, direction)
 		Transform.SetPosition(player.transformID, position)
+		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 
 		animationID = 42
 		Network.SendAnimationPacket(animationID);

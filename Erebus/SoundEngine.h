@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+using namespace irrklang;
+
 enum eSoundOptions : uint8_t
 {
 	SOUND_NO_FLAG		= 0x00,
@@ -35,10 +37,13 @@ public:
 	void setMasterVolume(float v);		// Sets volume to a value between 0 (silent) and 1 (full volume)
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
+	std::string getDbgText();
+
 private:
-	irrklang::ISoundEngine* engine;
+	ISoundEngine* engine;
 	const std::string basePath = "./Audio/";
 
-	std::vector<irrklang::ISound*> sounds;
+	std::vector<ISound*> sounds;
+	std::string dbgText = "No sound";
 
 };
