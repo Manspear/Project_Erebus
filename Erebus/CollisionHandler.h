@@ -31,10 +31,16 @@ public:
 	void checkCollisions();
 
 	template <typename T, typename U>
-	void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2);
+	void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2); // 2 arrays collision against eachother
 
 	template <typename T>
-	void checkAnyCollision(std::vector<T*>* colliders);
+	void checkAnyCollision(std::vector<T*>* colliders); // one array against itself
+
+	template <typename T, typename U>
+	void checkAnyCollision(T collider, std::vector<U*>* colliders); // Single hitbox vs array of hitboxes
+
+	template<typename T>
+	void recursiveCollision(std::vector<T*>* colliders1, std::vector<T*>* colliders2);
 
 	//Update
 	//Update all hitboxes with corresponding positions in transform array
