@@ -2,7 +2,8 @@
 
 SoundEngine::SoundEngine()
 {
-	int options = ESEO_DEFAULT_OPTIONS
+	int options = 0
+		//| ESEO_DEFAULT_OPTIONS
 		| ESEO_MULTI_THREADED
 		//| ESEO_MUTE_IF_NOT_FOCUSED
 		| ESEO_LOAD_PLUGINS
@@ -15,7 +16,6 @@ SoundEngine::SoundEngine()
 	if (engine)
 	{
 		engine->setSoundVolume(0.5f);
-		engine->setRolloffFactor(0.05f);
 	}
 }
 
@@ -29,44 +29,62 @@ SoundEngine::~SoundEngine()
 		engine->drop();
 }
 
-void SoundEngine::play(std::string target, enum eSoundOptions options)
+int SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 {
+	int index = -1;
+
 	if (!engine)
-		return;
+		return index;
 
-	std::string path = basePath + target;
-	bool loop = static_cast<bool>(options & SOUND_LOOP);
-	bool track = static_cast<bool>(options & (SOUND_LOOP | SOUND_TRACK | SOUND_EFFECTS));
-	bool effects = static_cast<bool>(options & SOUND_EFFECTS);
-
-	ISound* s = engine->play2D(path.c_str(), loop, false, track, ESM_AUTO_DETECT, effects);
-	if (track && s)
-		sounds.push_back(s);
-}
-
-void SoundEngine::play3D(std::string target, glm::vec3 pos, enum eSoundOptions options)
-{
-	if (!engine)
-		return;
-
-	std::string path = basePath + target;
+	const std::string path = basePath + target;
 	const vec3df ikpos = vec3df(pos.x, pos.y, pos.z);
-	bool loop = static_cast<bool>(options & SOUND_LOOP);
-	bool track = static_cast<bool>(options & (SOUND_LOOP | SOUND_TRACK | SOUND_EFFECTS));
-	bool effects = static_cast<bool>(options & SOUND_EFFECTS);
 
-	ISound* s = engine->play3D(path.c_str(), ikpos, loop, false, track, ESM_AUTO_DETECT, effects);
+	bool loop = static_cast<bool>(options & SOUND_LOOP);
+	bool paused = static_cast<bool>(options & SOUND_PAUSED);
+	bool track = static_cast<bool>(options & (SOUND_LOOP | SOUND_TRACK | SOUND_EFFECTS | SOUND_PAUSED));
+	bool effects = static_cast<bool>(options & SOUND_EFFECTS);
+	E_STREAM_MODE stream = (options & SOUND_STREAM) ? ESM_STREAMING : ESM_NO_STREAMING;
+
+	ISound* s;
+	if (options & SOUND_3D)
+		s = engine->play3D(path.c_str(), ikpos, loop, paused, track, stream, effects);
+	else
+		s = engine->play2D(path.c_str(), loop, paused, track, stream, effects);
+
 	if (track && s)
+	{
+		index = sounds.size();
 		sounds.push_back(s);
+	}
+
+	return index;
 }
 
-void SoundEngine::pause()
+void SoundEngine::pause(int i)
+{
+	ValidateIndex(i, sounds.size());
+	if (i == -1 || !sounds[i])
+		return;
+
+	sounds[i]->setIsPaused();
+}
+
+void SoundEngine::resume(int i)
+{
+	ValidateIndex(i, sounds.size());
+	if (i == -1 || !sounds[i])
+		return;
+
+	sounds[i]->setIsPaused(false);
+}
+
+void SoundEngine::pauseAll()
 {
 	if (engine)
 		engine->setAllSoundsPaused();
 }
 
-void SoundEngine::resume()
+void SoundEngine::resumeAll()
 {
 	if (engine)
 		engine->setAllSoundsPaused(false);
@@ -77,8 +95,38 @@ void SoundEngine::setMasterVolume(float v)
 	if (!engine)
 		return;
 
-	v = v < 0.f ? 0.f : v > 1.f ? 1.f : v;	// Clamp v between 0 and 1
+	Clamp(v, 0.f, 1.f);
 	engine->setSoundVolume(v);
+}
+
+void SoundEngine::setVolume(int i, float v)
+{
+	ValidateIndex(i, sounds.size());
+	if (!engine || i == -1 || !sounds[i])
+		return;
+
+	Clamp(v, 0.f, 1.f);
+	sounds[i]->setVolume(v);
+}
+
+void SoundEngine::setPosition(int i, const glm::vec3 &pos)
+{
+	ValidateIndex(i, sounds.size());
+	if (i == -1 || sounds[i])
+		return;
+
+	const vec3df ikpos = vec3df(pos.x, pos.y, pos.z);
+	sounds[i]->setPosition(ikpos);
+}
+
+void SoundEngine::setVelocity(int i, const glm::vec3 &vel)
+{
+	ValidateIndex(i, sounds.size());
+	if (i == -1 || sounds[i])
+		return;
+
+	const vec3df ikpos = vec3df(vel.x, vel.y, vel.z);
+	sounds[i]->setVelocity(ikpos);
 }
 
 void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look)

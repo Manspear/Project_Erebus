@@ -12,8 +12,8 @@ namespace LuaSound
 		luaL_Reg regs[] =
 		{
 			{ "Play", play },
-			{ "Pause", pause },
-			{ "Resume", resume },
+			{ "PauseAll", pauseAll },
+			{ "ResumeAll", resumeAll },
 			{ "SetMasterVolume", setMasterVolume },
 			{ "SetPlayerTransform", setPlayerTransform },
 			{ NULL, NULL }
@@ -43,19 +43,19 @@ namespace LuaSound
 			lua_rawgeti(lua, 2, i + 1);
 			pos[i] = lua_tonumber(lua, -1);
 		}
-		g_soundEngine->play3D(s, pos);
+		g_soundEngine->play(s, SOUND_3D, pos);
 		return 0;
 	}
 
-	int pause(lua_State* lua)
+	int pauseAll(lua_State* lua)
 	{
-		g_soundEngine->pause();
+		g_soundEngine->pauseAll();
 		return 0;
 	}
 
-	int resume(lua_State* lua)
+	int resumeAll(lua_State* lua)
 	{
-		g_soundEngine->resume();
+		g_soundEngine->resumeAll();
 		return 0;
 	}
 

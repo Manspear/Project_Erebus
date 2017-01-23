@@ -64,8 +64,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.play3D("Music/menuBurana.ogg", glm::vec3(0.f, 0.f, 0.f), SOUND_LOOP);
-	soundEngine.setMasterVolume(0.1);
+	soundEngine.play("Music/menuBurana.ogg", SOUND_LOOP | SOUND_3D);
+	soundEngine.setMasterVolume(0.5);
 
 	while (running && window.isWindowOpen())
 	{	
@@ -156,13 +156,13 @@ int main()
 		{
 			if (lockMouse)
 			{
-				soundEngine.pause();
+				soundEngine.pauseAll();
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
 			else
 			{
-				soundEngine.resume();
+				soundEngine.resumeAll();
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
