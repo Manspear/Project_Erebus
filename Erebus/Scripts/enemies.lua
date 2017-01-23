@@ -53,6 +53,7 @@ function LoadEnemies(n)
 		enemies[i].animation = Animation.Create()
 		enemies[i].animationState = 1
 		enemies[i].range = 4
+		enemies[i].visionRange = 30
 		enemies[i].target = nil
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 	end
@@ -69,12 +70,12 @@ end
 
 function UpdateEnemies(dt)
 
-	AI.DrawDebug(heightmaps[1])
+	--AI.DrawDebug(heightmaps[1])
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0then
 		--print ("Clear")
 		
-		AI.ClearMap(tempPlayerPosition,7)
+		AI.ClearMap(tempPlayerPosition,12)
 		COUNTDOWN = 0.5
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
@@ -83,7 +84,7 @@ function UpdateEnemies(dt)
 			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			--AI.AddIP(enemies[i].transformID,-1)
 		end
-			AI.AddIP(player.transformID,7)
+			AI.AddIP(player.transformID,12)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)
 	end
 	

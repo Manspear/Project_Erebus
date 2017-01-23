@@ -91,7 +91,7 @@
 
 	void GamePlay::Update(Controls controls, double deltaTime)
 	{
-		ai.drawDebug(heightMap);
+		//ai.drawDebug(heightMap);
 		luaBinds.update(&controls, deltaTime);
 
 		for (int i = 0; i < ps.size(); i++) {

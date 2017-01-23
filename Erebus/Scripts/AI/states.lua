@@ -11,7 +11,7 @@ function state.idleState.update(enemy,player,dt)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-	if length <30 then
+	if length <enemy.visionRange then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
@@ -31,6 +31,19 @@ end
 function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
 	if enemy.target == nil then
+
+		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
+
+		if length >enemy.visionRange then
+			inState = "IdleState" 
+			changeToState(enemy,player,inState)
+		end
+
+		if length < enemy.range then
+			inState = "AttackState" 
+			changeToState(enemy,player,inState)
+		end
+
 		local dir = AI.NavigateMesh(enemy.transformID)
 		
 		if dir.y ~= -1  then
@@ -48,7 +61,8 @@ function state.followState.update(enemy,player,dt)
 
 			Transform.SetPosition(enemy.transformID,pos)
 
-			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.3 then
+			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.5
+			 then
 				enemy.target = nil
 				print("DISTANCE")
 			end
@@ -57,24 +71,12 @@ function state.followState.update(enemy,player,dt)
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
 	end
 
-	length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-		if length >200 then
-			inState = "IdleState" 
-			changeToState(enemy,player,inState)
-		end
-
-		if length < enemy.range then
-			inState = "AttackState" 
-			changeToState(enemy,player,inState)
-		end
 end
 
 function state.followState.exit(enemy,player)
 
 end
-
-
 
 function state.attackState.enter(enemy,player)
 enemy.animationState = 3

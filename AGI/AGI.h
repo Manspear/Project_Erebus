@@ -176,26 +176,55 @@ namespace AGI
 
 		AGI_API bool checkSurroundingHeightMap(Importer::HeightMap* heightmap, int x, int y)
 		{
-			float doJump = 9.0f;
+			float doJump = 1.0f;
 
 			float maxHeight = 0.0f;
 
-		#pragma region x,y+1
 			float w = ((float)x) / (resolution);
-			float h = ((float)y+doJump) / (resolution);
+			float h = ((float)y ) / (resolution);
+			float centerHeight = heightmap->getPos(w, h);
 
+#pragma region x-1,y+1 MAYBEE
+
+			w = ((float)x- doJump) / (resolution);
+			h = ((float)y + doJump) / (resolution);
 			float inHeight = heightmap->getPos(w, h);
-			if (glm::abs(inHeight - maxHeight) > maxHeight)
-				maxHeight = glm::abs(inHeight - maxHeight);
-		#pragma endregion
+			inHeight = glm::abs(inHeight - centerHeight);
+
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
+#pragma endregion
+
+#pragma region x,y+1
+			
+			 w = ((float)x) / (resolution);
+			 h = ((float)y + doJump) / (resolution);
+			 inHeight = heightmap->getPos(w, h);
+			inHeight = glm::abs(inHeight - centerHeight);
+
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
+#pragma endregion
+
+#pragma region x+1,y+1  Maybee
+
+			w = ((float)x+ doJump) / (resolution);
+			h = ((float)y + doJump) / (resolution);
+			 inHeight = heightmap->getPos(w, h);
+			inHeight = glm::abs(inHeight - centerHeight);
+
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
+#pragma endregion
 
 		#pragma region x-1,y
-			 w = ((float)x+-doJump) / (resolution);
+			 w = ((float)x-doJump) / (resolution);
 			 h = ((float)y) / (resolution);
 
 			 inHeight = heightmap->getPos(w, h);
-			if (glm::abs(inHeight - maxHeight) > maxHeight)
-				maxHeight = glm::abs(inHeight - maxHeight);
+			 inHeight = glm::abs(inHeight - centerHeight);
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
 		#pragma endregion
 
 		#pragma region x+1,y
@@ -203,22 +232,44 @@ namespace AGI
 			 h = ((float)y) / (resolution);
 
 			 inHeight = heightmap->getPos(w, h);
-			if (glm::abs(inHeight - maxHeight) > maxHeight)
-				maxHeight = glm::abs(inHeight - maxHeight);
+			 inHeight = glm::abs(inHeight - centerHeight);
+
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
 		#pragma endregion
+
+#pragma region x-1,y-1  MAYBE
+			w = ((float)x- doJump) / (resolution);
+			h = ((float)y - doJump) / (resolution);
+
+			inHeight = heightmap->getPos(w, h);
+			inHeight = glm::abs(inHeight - centerHeight);
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
+#pragma endregion
 
 		#pragma region x,y-1
 			 w = ((float)x) / (resolution);
-			 h = ((float)y+-doJump) / (resolution);
+			 h = ((float)y-doJump) / (resolution);
 
 			 inHeight = heightmap->getPos(w, h);
-			if (glm::abs(inHeight - maxHeight) > maxHeight)
-				maxHeight = glm::abs(inHeight - maxHeight);
+			 inHeight = glm::abs(inHeight - centerHeight);
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
 		#pragma endregion
 
+#pragma region x+1,y-1  MAYBE
+			w = ((float)x + doJump) / (resolution);
+			h = ((float)y - doJump) / (resolution);
 
-			float testHeight = heightmap->getPos(w, h);
-			if (glm::abs(testHeight - maxHeight) > 14 || testHeight == 0)
+			inHeight = heightmap->getPos(w, h);
+			inHeight = glm::abs(inHeight - centerHeight);
+			if (inHeight > maxHeight)
+				maxHeight = glm::abs(inHeight - centerHeight);
+#pragma endregion
+
+
+			if (glm::abs(centerHeight - maxHeight) >1.9f || centerHeight <= 15)
 				return false;
 
 			return true;
