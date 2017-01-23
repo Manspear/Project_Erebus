@@ -35,5 +35,6 @@ private:
 	bool active;
 	void clearCollisionIDs();
 	void clearHitData();
+	const int FLAG = 3;
 };
 

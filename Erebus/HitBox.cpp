@@ -157,6 +157,14 @@ bool HitBox::isObbCollider()
 	return isObb;
 }
 
+bool HitBox::isRayCollider()
+{
+	bool isRay = false;
+	if (this->typeFlag == 3)
+		isRay = true;
+	return isRay;
+}
+
 void HitBox::addChild(HitBox * child)
 {
 	if (children == nullptr)

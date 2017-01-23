@@ -21,7 +21,7 @@ public:
 	virtual void setIDTransform(unsigned int ID);
 	virtual void setID(unsigned int ID);
 	virtual void setActive(bool active);
-	// The flags are: 0 = sphereCollider, 1 = aabbCollider, 2 = obbCollider
+	// The flags are: 0 = sphereCollider, 1 = aabbCollider, 2 = obbCollider, 3 = ray
 	virtual void setTypeFlag(int flag);
 	virtual void setLocalPos(glm::vec3 pos);
 	//setting if the hitbox is colliding or not
@@ -38,6 +38,7 @@ public:
 	virtual bool isSphereCollider();
 	virtual bool isAabbCollider();
 	virtual bool isObbCollider();
+	virtual bool isRayCollider();
 
 	// This function assumes you dont send the same child twice
 	// You dont need to delete children manually

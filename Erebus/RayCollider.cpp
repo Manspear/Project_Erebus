@@ -2,43 +2,34 @@
 
 
 
-RayCollider::RayCollider()
+RayCollider::RayCollider() : HitBox()
 {
 	this->position = glm::vec3(0,0,0);
 	this->direction = glm::vec3(1, 0, 0);
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
-
-	this->ID = -1;
-	this->IDTransform = -1;
-	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->typeFlag = FLAG;
 }
 
-RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction)
+RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction) : HitBox()
 {
 	this->position = position;
 	this->direction = glm::normalize(direction);
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
-
-	this->ID = -1;
-	this->IDTransform = -1;
-	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->typeFlag = FLAG;
 }
 
-RayCollider::RayCollider(int IDTransform, glm::vec3 direction)
+RayCollider::RayCollider(int IDTransform, glm::vec3 direction) : HitBox(IDTransform)
 {
 	this->position = glm::vec3(0, 0, 0);
 	this->direction = direction;
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
-
-	this->ID = -1;
-	this->IDTransform = IDTransform;
-	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->typeFlag = FLAG;
 }
 
 

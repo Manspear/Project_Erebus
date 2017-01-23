@@ -28,5 +28,6 @@ public:
 private:
 	glm::vec3 minPos, minPosTotal;
 	glm::vec3 maxPos, maxPosTotal;
+	const int FLAG = 1;
 };
 

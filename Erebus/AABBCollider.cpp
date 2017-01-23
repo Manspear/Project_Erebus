@@ -9,7 +9,7 @@ AABBCollider::AABBCollider() : HitBox()
 	this->pos = glm::vec3();
 	this->maxPosTotal = glm::vec3();
 	this->minPosTotal = glm::vec3();
-	this->typeFlag = 1;
+	this->typeFlag = FLAG;
 }
 
 AABBCollider::AABBCollider(int IDTransform) : HitBox(IDTransform)
@@ -19,7 +19,7 @@ AABBCollider::AABBCollider(int IDTransform) : HitBox(IDTransform)
 	this->pos = glm::vec3();
 	this->maxPosTotal = glm::vec3();
 	this->minPosTotal = glm::vec3();
-	this->typeFlag = 1;
+	this->typeFlag = FLAG;
 }
 
 AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(IDTransform)
@@ -29,7 +29,7 @@ AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) 
 	this->minPosTotal = minPos;
 	this->maxPosTotal = maxPos;
 	this->pos = glm::vec3();
-	this->typeFlag = 1;
+	this->typeFlag = FLAG;
 }
 
 AABBCollider::AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerPos) : HitBox()
@@ -39,7 +39,7 @@ AABBCollider::AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerP
 	this->pos = centerPos;
 	this->minPosTotal = minPos + this->pos;
 	this->maxPosTotal = maxPos + this->pos;
-	this->typeFlag = 1;
+	this->typeFlag = FLAG;
 	
 }
 
