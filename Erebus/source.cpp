@@ -82,7 +82,7 @@ int main()
 			gameState = menu->Update(inputs);
 			if (gameState == HostGameplayState)
 			{
-				if (gamePlay->StartNetwork(true, &counter))
+				if (gamePlay->StartNetwork(true, counter))
 				{
 					gameState = GameplayState;
 				}
@@ -95,7 +95,7 @@ int main()
 
 			if (gameState == ClientGameplayState)
 			{
-				if (gamePlay->StartNetwork(false, &counter))
+				if (gamePlay->StartNetwork(false, counter))
 				{
 					gameState = GameplayState;
 				}
@@ -123,7 +123,9 @@ int main()
 			break;
 		}
 
-		std::string fps = "FPS: " + std::to_string(counter.getFPS()) + "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" + "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+		std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
+			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
+			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 		engine.print(fps, 0.0f, 0.0f);
 
 		window.update();

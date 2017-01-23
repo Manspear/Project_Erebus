@@ -33,7 +33,7 @@ Gear.AddStaticInstance(goblin, heightmaps[2].transformID)
 --Gear.AddStaticInstance(firstTileModel, heightmaps[4].transformID)
 --Gear.AddStaticInstance(heightmaps[1]:GetModel(), heightmaps[1].transformID)
 
-Transform.SetPosition(heightmaps[2].transformID, {x=20, y=7, z=27})
+Transform.SetPosition(heightmaps[2].transformID, {x=20, y=6.72, z=27})
 --Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=512})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 

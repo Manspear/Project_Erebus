@@ -21,6 +21,8 @@ void PerformanceCounter::startCounter()
 	frequency = double(start.QuadPart);
 	QueryPerformanceCounter(&start);
 	last = start;
+	networkSendLast = start;
+	networkRecLast = start;
 }
 
 double PerformanceCounter::getCurrentTime()

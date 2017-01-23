@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationPacket.hpp" />
     <ClInclude Include="PacketFilter.hpp" />
     <ClInclude Include="MetaDataPacket.hpp" />
     <ClInclude Include="Packager.hpp" />
