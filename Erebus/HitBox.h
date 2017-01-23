@@ -28,6 +28,7 @@ public:
 	// Is used to know if a parents children have any collision without checking all the children
 	// otherwise we need to insert a scrap value in the parents collisionIds to simulate a collision
 	virtual void setCollision(bool colliding);
+	virtual void setAllParentCollision(bool colliding);
 
 	//getters
 	//Returns if we have a collision or not
@@ -51,9 +52,10 @@ protected:
 	bool active, colliding;
 	glm::vec3 pos,localPos;
 	int typeFlag;
+	virtual void update();
+public:
 	std::vector<HitBox*>* children;
 	HitBox* parent;
-	virtual void update();
 
 };
 

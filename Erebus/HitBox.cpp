@@ -123,6 +123,16 @@ void HitBox::setCollision(bool colliding)
 	this->colliding = colliding;
 }
 
+void HitBox::setAllParentCollision(bool colliding)
+{
+	if (this->parent != nullptr) // if we have a parent set the colliding bool
+	{
+		this->parent->colliding = colliding;
+		this->parent->setAllParentCollision(colliding);
+	}
+		
+}
+
 bool HitBox::isSphereCollider()
 {
 	bool isSphere = false;
