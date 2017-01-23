@@ -44,6 +44,6 @@ void main (){
 	if(hasDiffuse == 1) //if has diffuse texture it else use error color
 		gAlbedoSpec.a = texture(specularTexture, TexCoords).r;
 	else
-		gAlbedoSpec.a = 0.5f;
-    //
+		gAlbedoSpec.a = 0.0f;
+  
 }

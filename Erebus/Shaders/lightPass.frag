@@ -120,8 +120,8 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, f
             vec3 diffuseColor = max(dot(normal, lightDir), 0.0) * Diffuse * light.color.xyz;
 
 			//Specular
-			vec3 reflectDir = reflect(-lightDir, normal);
-			float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16.0);
+			vec3 halfwayDir = normalize(lightDir + viewDir);
+			float spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
 			vec3 specular = light.color.xyz * spec * Specular;
 
 			float attenuation = smoothstep(light.radius.x, 0.0f, length(light.pos.xyz - fragPos));
@@ -130,7 +130,6 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, f
 			specular *= attenuation;
 
 			lighting += diffuseColor + specular;
-			//lighting = max(dot(Normal, lightDir), 0.0) * Diffuse * lights[i].color;
 		}
 	return lighting;
 }

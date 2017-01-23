@@ -14,7 +14,7 @@ uniform sampler2D specularTexture;
 uniform sampler2D normalTexture;
 
 uniform int hasDiffuse;
-//uniform int hasSpecular;
+uniform int hasSpecular;
 uniform int hasNormal;
 
 void main (){
@@ -41,8 +41,8 @@ void main (){
 	else
 		gAlbedoSpec.rgb = vec3(1,0,0.8);
 
-	if(hasDiffuse == 1) //if has Specular texture it else use error value
+	if(hasSpecular == 1) //if has Specular texture it else use error value
 		gAlbedoSpec.a = texture(specularTexture, TexCoords).r;
 	else
-		gAlbedoSpec.a = 0.5f;
+		gAlbedoSpec.a = 0.0f;
 }
