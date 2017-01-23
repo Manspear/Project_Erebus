@@ -1412,10 +1412,13 @@ void MFileImporter::processBoundingBox(FbxMesh* mesh, int inMeshParentIndex, sJo
 	imScene.modelList.back().bBoxList.push_back(bbox);
 
 	
-	/*First find the max X,Y,Z*/
-	float compareX = -FBXSDK_FLOAT_MAX;
-	float compareY = -FBXSDK_FLOAT_MAX;
-	float compareZ = -FBXSDK_FLOAT_MAX;
+	/*First find the max and min X,Y,Z*/
+	float maxX = -FBXSDK_FLOAT_MAX;
+	float maxY = -FBXSDK_FLOAT_MAX;
+	float maxZ = -FBXSDK_FLOAT_MAX;
+	float minX = FBXSDK_FLOAT_MAX;
+	float minY = FBXSDK_FLOAT_MAX;
+	float minZ = FBXSDK_FLOAT_MAX;
 
 	for (int i = 0; i < mesh->GetControlPointsCount(); i++)
 	{
@@ -1424,19 +1427,27 @@ void MFileImporter::processBoundingBox(FbxMesh* mesh, int inMeshParentIndex, sJo
 		bbox.pos[i].y = pnt[1];
 		bbox.pos[i].z = pnt[2];
 
-		if (compareX < pnt[0])
-		{
-			compareX = pnt[0];
-		}
-		if (compareY < pnt[1])
-		{
-			compareY = pnt[1];
-		}
-		if (compareZ < pnt[2])
-		{
-			compareZ = pnt[2];
-		}
+		if (maxX < pnt[0])
+			maxX = pnt[0];
+		if (maxY < pnt[1])
+			maxY = pnt[1];
+		if (maxZ < pnt[2])
+			maxZ = pnt[2];
+		if (minX > pnt[0])
+			minX = pnt[0];
+		if (minY > pnt[1])
+			minY = pnt[1];
+		if (minZ > pnt[2])
+			minZ = pnt[2];
 	}
+
+	float halfLengths[3];
+	halfLengths[0] = std::abs(maxX - minX);
+	halfLengths[1] = std::abs(maxY - minY);
+	halfLengths[2] = std::abs(maxZ - minZ);
+
+	//calculate the center of the box
+
 }
 
 void MFileImporter::processParentedMesh(FbxMesh * mesh, int inMeshParentIndex, sJointChild inJointParentIndex)
