@@ -23,6 +23,89 @@
 
 bool running = true;
 
+#define THREAD_TIMEOUT 100 // ms
+struct ThreadData
+{
+	Gear::GearEngine* engine;
+	SoundEngine* soundEngine;
+	Camera* camera;
+	Inputs* inputs;
+	Controls* controls;
+	Importer::Assets* assets;
+	WorkQueue* workQueue;
+	GameState gameState;
+	GamePlay* gamePlay;
+	Menu* menu;
+	HANDLE produce, consume;
+};
+
+DWORD WINAPI update( LPVOID args )
+{
+	ThreadData* data = (ThreadData*)args;
+
+	// GamePlay and Menu is deleted in the main thread
+	// because the renderer is depending on their transforms
+	data->gamePlay = new GamePlay( data->engine, data->assets, data->workQueue );
+	data->gamePlay->Initialize( data->assets, data->controls, data->inputs, data->camera );
+
+	data->menu = new Menu( data->engine, data->assets );
+
+	PerformanceCounter counter;
+	while( running )
+	{
+		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
+		if( waitResult == WAIT_OBJECT_0 )
+		{
+			double deltaTime = counter.getDeltaTime();
+
+			switch (data->gameState)
+			{
+				case MenuState:
+					data->gameState = data->menu->Update(data->inputs);
+					if (data->gameState == HostGameplayState)
+					{
+						if (data->gamePlay->StartNetwork(true, counter))
+						{
+							data->gameState = GameplayState;
+						}
+						else
+						{
+							std::cout << "Failed to init network" << std::endl;
+							data->gameState = MenuState;
+						}
+					}
+
+					if (data->gameState == ClientGameplayState)
+					{
+						if (data->gamePlay->StartNetwork(false, counter))
+						{
+							data->gameState = GameplayState;
+						}
+						else
+						{
+							std::cout << "Failed to init network" << std::endl;
+							data->gameState = MenuState;
+						}
+					}
+
+					if (data->gameState == GameplayState)
+					{
+						data->soundEngine->play("Effects/bell.wav");
+					}
+					break;
+
+				case GameplayState:
+					data->gamePlay->Update(data->controls,deltaTime);
+					break;
+			}
+
+			ReleaseSemaphore( data->consume, 1, NULL );
+		}
+	}
+
+	return 0;
+}
+
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -31,13 +114,23 @@ int main()
 	SoundEngine soundEngine;
 	WorkQueue work;
 
-	GameState gameState = MenuState;
+	//GameState gameState = MenuState;
 	window.changeCursorStatus(false);
 	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
+
+	assets.load<TextureAsset>("Textures/menuBackground.png");
+	assets.load<TextureAsset>("Textures/button.png");
+	assets.load<TextureAsset>("Textures/buttonHost.png");
+	assets.load<TextureAsset>("Textures/buttonConnect.png");
+	assets.load<ModelAsset>( "Models/testGuy.model" );
+	assets.load<ModelAsset>( "Models/projectile1.model" );
+	assets.load<ModelAsset>( "Models/Goblin.model" );
+	assets.load<ModelAsset>( "Models/tile1_game_x1.model" );
+	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
 
 	Controls controls;
 	
@@ -53,8 +146,8 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets, &work);
-	Menu * menu = new Menu(&engine,assets);
+	//GamePlay * gamePlay = new GamePlay(&engine, &assets, &work);
+	//Menu * menu = new Menu(&engine,&assets);
 
 	PerformanceCounter counter;
 	double deltaTime;
@@ -68,115 +161,119 @@ int main()
 
 	soundEngine.play("Music/menuBurana.ogg", true);
 	soundEngine.setVolume(0.5);
+
+	ThreadData threadData =
+	{
+		&engine,
+		&soundEngine,
+		&camera,
+		&inputs,
+		&controls,
+		&assets,
+		&work,
+	};
+	threadData.produce = CreateSemaphore( NULL, 1, 1, NULL );
+	threadData.consume = CreateSemaphore( NULL, 0, 1, NULL );
+
+	HANDLE thread = CreateThread( NULL, 0, update, &threadData, 0, NULL );
+
+	double saveDeltaTime = 0.0f;
+
 	while (running && window.isWindowOpen())
-	{	
-		//engine.effectPreProcess();
-
-		//ai.drawDebug(heightMap);
-		deltaTime = counter.getDeltaTime();
-		inputs.update();
-
-		switch (gameState)
+	{
+		// START OF CRITICAL SECTION
+		DWORD waitResult = WaitForSingleObject( threadData.consume, THREAD_TIMEOUT );
+		if( waitResult == WAIT_OBJECT_0 )
 		{
-		case MenuState:
-			gameState = menu->Update(inputs);
-			if (gameState == HostGameplayState)
+			deltaTime = counter.getDeltaTime();
+			inputs.update();
+
+			switch( threadData.gameState )
 			{
-				if (gamePlay->StartNetwork(true, counter))
+				case MenuState:
+					threadData.menu->Update(&inputs);
+					break;
+
+				case GameplayState:
+					if( !lockMouse )
+					{
+						window.changeCursorStatus( true );
+						lockMouse = true;
+					}
+					controls.update(&inputs);
+					break;
+			}
+
+			if (inputs.keyPressed(GLFW_KEY_ESCAPE) && threadData.gameState == GameplayState)
+			{
+				saveDeltaTime = deltaTime;
+				running = false;
+			}
+			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
+				engine.setDrawMode(1);
+			else if( inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
+				engine.setDrawMode(2);
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
+				engine.setDrawMode(3);
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_4))
+				engine.setDrawMode(4);
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
+				engine.setDrawMode(5);
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
+				engine.setDrawMode(6);
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
+				engine.setDrawMode(7);
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
+			{
+				if (lockMouse)
 				{
-					gameState = GameplayState;
+					soundEngine.pause();
+					window.changeCursorStatus(false);
+					lockMouse = false;
 				}
 				else
 				{
-					std::cout << "Failed to init network" << std::endl;
-					gameState = MenuState;
+					soundEngine.resume();
+					window.changeCursorStatus(true);
+					lockMouse = true;
 				}
 			}
 
-			if (gameState == ClientGameplayState)
+			ReleaseSemaphore( threadData.produce, 1, NULL );
+			// END OF CRITICAL SECTION
+
+			switch (threadData.gameState)
 			{
-				if (gamePlay->StartNetwork(false, counter))
-				{
-					gameState = GameplayState;
-				}
-				else
-				{
-					std::cout << "Failed to init network" << std::endl;
-					gameState = MenuState;
-				}
+			case MenuState:
+				threadData.menu->Draw();
+				break;
+
+			case GameplayState:
+				threadData.gamePlay->Draw();
+				break;
 			}
 
-			if (gameState == GameplayState)
-			{
-				soundEngine.play("Effects/bell.wav");
-				gamePlay->Initialize(assets, controls, inputs, camera);
-				window.changeCursorStatus(true);
-				lockMouse = true;
-			}
-			menu->Draw();
-			break;
+			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
+				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
+				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+			engine.print(fps, 0.0f, 0.0f);
 
-		case GameplayState:
-			controls.update(&inputs);
-			gamePlay->Update(controls,deltaTime);
-			gamePlay->Draw();
-			break;
+			window.update();
+			engine.updateTransforms();
+			engine.draw(&camera);
+
+#ifdef _DEBUG
+			assets.checkHotload(deltaTime);
+#endif // DEBUG
 		}
-
-		std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
-			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
-			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
-		engine.print(fps, 0.0f, 0.0f);
-
-		window.update();
-
-		//glPolygonMode(GL_FRONT_FACE, GL_LINES);
-
-		engine.draw(&camera);
-
-		if (inputs.keyPressed(GLFW_KEY_ESCAPE) && gameState == GameplayState)
-		{
-			running = false;
-		}
-		
-		if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
-			engine.setDrawMode(1);
-		else if( inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
-			engine.setDrawMode(2);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
-			engine.setDrawMode(3);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_4))
-			engine.setDrawMode(4);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
-			engine.setDrawMode(5);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
-			engine.setDrawMode(6);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
-			engine.setDrawMode(7);
-		else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
-		{
-			if (lockMouse)
-			{
-				soundEngine.pause();
-				window.changeCursorStatus(false);
-				lockMouse = false;
-			}
-			else
-			{
-				soundEngine.resume();
-				window.changeCursorStatus(true);
-				lockMouse = true;
-			}
-		}
-	#ifdef _DEBUG
-		assets.checkHotload(deltaTime);
-	#endif // DEBUG
 	}
 
 	work.stop();
 
-	delete gamePlay;
-	delete menu;
+	//delete gamePlay;
+	//delete menu;
+	delete threadData.gamePlay;
+	delete threadData.menu;
 	
 	glfwTerminate();
 

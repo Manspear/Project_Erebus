@@ -59,6 +59,7 @@ namespace Gear
 		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
 		GEAR_API void draw(Camera* camera);
+		GEAR_API void updateTransforms();
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();

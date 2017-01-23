@@ -142,7 +142,7 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 	QueryPerformanceCounter( &s );
 	double start = s.QuadPart;*/
 
-#if 0
+#if 1
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();

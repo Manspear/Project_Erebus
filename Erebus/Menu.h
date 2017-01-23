@@ -28,11 +28,11 @@ private:
 
 public:
 
-	Menu(Gear::GearEngine * inEngine, Importer::Assets & assets);
+	Menu(Gear::GearEngine* inEngine, Importer::Assets* assets);
 
 	~Menu();
 
-	enum GameState Update(Inputs& inputs);
+	enum GameState Update(Inputs* inputs);
 
 	void Draw();
 };

@@ -273,7 +273,7 @@ namespace Gear
 
 	void GearEngine::draw(Camera* camera)
 	{		
-		queue.update(*transformCount, *allTrans);
+		//queue.update(*transformCount, *allTrans);
 		Camera tempCamera;
 
 		glm::vec3 offset;
@@ -370,6 +370,11 @@ namespace Gear
 		particleFBO.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		particleFBO.unUse();
+	}
+
+	void GearEngine::updateTransforms()
+	{
+		queue.update(*transformCount, *allTrans);
 	}
 
 	void GearEngine::pickingPass() {

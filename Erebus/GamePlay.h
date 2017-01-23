@@ -37,13 +37,13 @@ private:
 	WorkQueue* work;
 
 public:
-	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, WorkQueue* work);
+	GamePlay(Gear::GearEngine* inEngine, Importer::Assets* assets, WorkQueue* work);
 
 	~GamePlay();
 
-	void Initialize(Importer::Assets & assets, Controls &controls, Inputs &inputs, Camera& camera);
+	void Initialize(Importer::Assets* assets, Controls* controls, Inputs* inputs, Camera* camera);
 
-	void Update(Controls controls, double deltaTime);
+	void Update(Controls* controls, double deltaTime);
 
 	void Draw();
 
