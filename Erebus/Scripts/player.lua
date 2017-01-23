@@ -43,10 +43,10 @@ function LoadPlayer()
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = {}
 	player.spells[2] = {}
-	for i = 1,  50 do	--create the projectile instances
+	for i = 1,  10 do	--create the projectile instances
 		table.insert(player.spells[1], CreateFireball())
 	end
-	for i = 1,  20 do	--create the arc instances
+	for i = 1,  10 do	--create the arc instances
 		table.insert(player.spells[2], CreateFireballArc())
 	end
 	player.currentSpell = 1
