@@ -243,6 +243,8 @@
     <None Include="Shaders\forwardAnim.vert" />
     <None Include="Shaders\geometryPass.frag" />
     <None Include="Shaders\geometryPass.vert" />
+    <None Include="Shaders\geometryPassShadow.frag" />
+    <None Include="Shaders\geometryPassShadow.vert" />
     <None Include="Shaders\geometryPass_notInstanced.frag" />
     <None Include="Shaders\geometryPass_notInstanced.vert" />
     <None Include="Shaders\geometryPicking.frag" />
@@ -260,6 +262,8 @@
     <None Include="Shaders\particle.vert" />
     <None Include="Shaders\quad.frag" />
     <None Include="Shaders\quad.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
     <None Include="Shaders\text.frag" />
     <None Include="Shaders\text.geom" />
     <None Include="Shaders\text.vert" />
