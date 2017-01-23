@@ -411,6 +411,8 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 			float ood = 1.0f / rayDirection[i];
 			float t1 = (aabbMin[i] - rayPosition[i]) * ood;
 			float t2 = (aabbMax[i] - rayPosition[i]) * ood;
+			tmin = t1;
+			tmax = t2;
 
 			if (t1 > t2) // Make sure t1 is the intersection with near plane and t2 with far plane
 				swap<float>(t1, t2);
@@ -421,7 +423,7 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 			if (t2 > tmax) 
 				tmax = t2;
 
-			if (tmin > tmax) // furthest entry further away than closest exit. Exit function, no collision
+			if (glm::abs(tmin) > glm::abs(tmax)) // furthest entry further away than closest exit. Exit function, no collision
 				return false;
 		}
 
@@ -430,7 +432,10 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 	// ray intersects all slabs, we have a hit. 
 	// hitDistance is tmin and intersection point is (rayposition + raydirection * hitdistance)
 	float hitdistance = tmin;
-	glm::vec3 intersectionPoint = rayPosition + (rayDirection* hitdistance);
+	if (tmin < 0)
+		hitdistance = tmax;
+	float hit2 = tmax;
+	glm::vec3 intersectionPoint = rayPosition + (rayDirection * hitdistance);
 	ray->hit(intersectionPoint, hitdistance);
 
 	return true;
@@ -502,9 +507,116 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, OBBCollider * obb)
 		}
 	}
 	float hitDistance = t[0];
+	if (hitDistance < 0 && t[1] > 0)
+		hitDistance = t[1];
+	else return false;
 	glm::vec3 intersectionPoint = ray->getPosition() + (rayDirection * hitDistance);
 	ray->hit(intersectionPoint, hitDistance);
 	return true;
+}
+
+bool CollisionChecker::collisionCheck(HitBox * hitbox1, HitBox * hitbox2)
+{
+	if (hitbox1->isSphereCollider())
+	{
+		SphereCollider* sphere1 = static_cast<SphereCollider*>(hitbox1);
+		if (hitbox2->isSphereCollider()) // sphere vs sphere
+		{
+			SphereCollider* sphere2 = static_cast<SphereCollider*>(hitbox2);
+			return this->collisionCheck(sphere1,sphere2);
+		}
+		else if (hitbox2->isAabbCollider()) // sphere vs aabb
+		{
+			AABBCollider* aabb = static_cast<AABBCollider*>(hitbox2);
+			return this->collisionCheck(sphere1,aabb);
+		}
+		else if (hitbox2->isObbCollider()) // Sphere vs obb
+		{
+			OBBCollider* obb = static_cast<OBBCollider*>(hitbox2);
+			return this->collisionCheck(obb,sphere1);
+		}
+		else if (hitbox2->isRayCollider()) // sphere vs ray
+		{
+			RayCollider* ray = static_cast<RayCollider*>(hitbox2);
+			return this->collisionCheck(ray, sphere1);
+		}
+
+	}
+	else if (hitbox1->isAabbCollider())
+	{
+		AABBCollider* aabb1 = static_cast<AABBCollider*>(hitbox1);
+		if (hitbox2->isSphereCollider()) // aabb vs sphere
+		{
+			SphereCollider* sphere2 = static_cast<SphereCollider*>(hitbox2);
+			return this->collisionCheck(aabb1, sphere2);
+		}
+		else if (hitbox2->isAabbCollider()) // aabb vs aabb
+		{
+			AABBCollider* aabb2 = static_cast<AABBCollider*>(hitbox2);
+			return this->collisionCheck(aabb1, aabb2);
+		}
+		else if (hitbox2->isObbCollider()) // aabb vs obb
+		{
+			OBBCollider* obb = static_cast<OBBCollider*>(hitbox2);
+			return this->collisionCheck(obb, aabb1);
+		}
+		else if (hitbox2->isRayCollider()) // aabb vs ray
+		{
+			RayCollider* ray = static_cast<RayCollider*>(hitbox2);
+			return this->collisionCheck(ray, aabb1);
+		}
+
+	}
+	else if (hitbox1->isObbCollider())
+	{
+		OBBCollider* obb1 = static_cast<OBBCollider*>(hitbox1);
+		if (hitbox2->isSphereCollider()) // obb vs sphere
+		{
+			SphereCollider* sphere2 = static_cast<SphereCollider*>(hitbox2);
+			return this->collisionCheck(obb1, sphere2);
+		}
+		else if (hitbox2->isAabbCollider()) // obb vs aabb
+		{
+			AABBCollider* aabb2 = static_cast<AABBCollider*>(hitbox2);
+			return this->collisionCheck(obb1, aabb2);
+		}
+		else if (hitbox2->isObbCollider()) // obb vs obb
+		{
+			OBBCollider* obb2 = static_cast<OBBCollider*>(hitbox2);
+			return this->collisionCheck(obb1, obb2);
+		}
+		else if (hitbox2->isRayCollider()) // obb vs ray
+		{
+			RayCollider* ray = static_cast<RayCollider*>(hitbox2);
+			return this->collisionCheck(ray, obb1);
+		}
+
+	}
+	else if (hitbox1->isRayCollider())
+	{
+		RayCollider* ray = static_cast<RayCollider*>(hitbox1);
+		if (hitbox2->isSphereCollider()) // ray vs sphere
+		{
+			SphereCollider* sphere2 = static_cast<SphereCollider*>(hitbox2);
+			return this->collisionCheck(ray, sphere2);
+		}
+		else if (hitbox2->isAabbCollider()) // ray vs aabb
+		{
+			AABBCollider* aabb2 = static_cast<AABBCollider*>(hitbox2);
+			return this->collisionCheck(ray, aabb2);
+		}
+		else if (hitbox2->isObbCollider()) // ray vs obb
+		{
+			OBBCollider* obb2 = static_cast<OBBCollider*>(hitbox2);
+			return this->collisionCheck(ray, obb2);
+		}
+		else if (hitbox2->isRayCollider()) // ray vs ray
+		{
+			return false;
+		}
+
+	}
+	return false;
 }
 
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
