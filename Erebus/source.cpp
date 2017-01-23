@@ -96,6 +96,10 @@ DWORD WINAPI update( LPVOID args )
 
 				case GameplayState:
 					data->gamePlay->Update(data->controls,deltaTime);
+					if ( data->inputs->keyPressed(GLFW_KEY_ESCAPE) )
+					{
+						running = false;
+					}
 					break;
 			}
 
@@ -204,11 +208,6 @@ int main()
 					break;
 			}
 
-			if (inputs.keyPressed(GLFW_KEY_ESCAPE) && threadData.gameState == GameplayState)
-			{
-				saveDeltaTime = deltaTime;
-				running = false;
-			}
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
 			else if( inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
