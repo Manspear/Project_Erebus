@@ -65,9 +65,9 @@ function LoadPlayer()
 	for i = 1,  10 do	--create the projectile instances
 		table.insert(player.spells[1], CreateFireball())
 	end
-	for i = 1,  10 do	--create the arc instances
-		table.insert(player.spells[2], CreateFireballArc())
-	end
+	--for i = 1,  10 do	--create the arc instances
+	table.insert(player.spells[2], CreateSunRay())
+	--end
 	player.currentSpell = 1
 
 	player.Hurt = function(self,damage)

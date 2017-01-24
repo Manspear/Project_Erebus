@@ -219,9 +219,6 @@
     <None Include="Scripts\AI\states.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\test.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Shaders\anim.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -383,6 +380,13 @@
     </None>
     <None Include="Scripts\projectileType.lua">
       <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.frag" />
+    <None Include="Shaders\geometryPassShadow.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
+    <None Include="Scripts\sunRay.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -220,7 +220,7 @@
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\reusable.lua" />
-    <None Include="Scripts\test.lua" />
+    <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Shaders\anim.frag" />
