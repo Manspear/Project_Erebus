@@ -183,7 +183,7 @@ void HitBox::update()
 {
 	if (this->parent != nullptr)
 	{
-		this->pos = this->parent->pos + this->localPos;
+		this->setPos(this->parent->pos + this->localPos);
 	}
 	if (this->children != nullptr)
 	{
