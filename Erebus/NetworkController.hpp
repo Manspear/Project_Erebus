@@ -22,11 +22,16 @@ public:
 	bool getNetworkHost();
 
 	double timeSinceLastTransformPacket();
+	
 	void sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& dir_x, const float& dir_y, const float& dir_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
 	bool fetchTransformPacket(TransformPacket &packet);
+
 	void sendAnimationPacket(const uint16_t& id);
 	bool fetchAnimationPacket(AnimationPacket& packet);
 	
+	void sendAIPacket(const uint16_t& id);
+	bool fetchAIPacket(AIPacket& packet);
+
 private:
 	void startNetworkSending();
 	void startNetworkReceiving();
