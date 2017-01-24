@@ -256,8 +256,6 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders1, std
 
 					if (hit)
 					{
-
-
 						if (firstTempCollider->children == nullptr && secondTempCollider->children == nullptr) // none have children
 						{
 							firstTempCollider->insertCollisionID(secondTempCollider->getID()); // save collision data
@@ -268,24 +266,19 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders1, std
 						}
 						else if (firstTempCollider->children != nullptr && secondTempCollider->children != nullptr) // both have children
 						{
-							checkAnyCollision(firstTempCollider->children,firstTempCollider->children);
+							checkAnyCollision(firstTempCollider->children,secondTempCollider->children);
 						}
 						else // only one of them have children
 						{
-							// NEW TEMPLATE CLASS TAKING A SINGLE HITBOX AND A VECTOR OF HITBOXES
-
-
-							//if (firstTempCollider->children == nullptr) // first collider is the one without children
-							//{
-							//	std::vector<T*>* tempColliderVector = new std::vector<T*>;
-							//	tempColliderVector->push_back(firstTempCollider);
-							//	checkAnyCollision(tempColliderVector, secondTempCollider->children);
-							//	delete tempColliderVector;
-							//}
-							//	
-							//else // second collider is the one without children
-							//	checkAnyCollision(firstTempCollider->children, secondTempCollider);
-
+							if (firstTempCollider->children == nullptr) // first collider is the one without children
+							{
+								checkAnyCollision(firstTempCollider,secondTempCollider->children);
+							}
+								
+							else // second collider is the one without children
+							{
+								checkAnyCollision(secondTempCollider, firstTempCollider->children);
+							}	
 						}
 					}
 				}
@@ -318,10 +311,31 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders)
 						hit = false;
 						hit = this->collisionChecker.collisionCheck(firstTempCollider, secondTempCollider);
 
-						if (hit) // save collision data
+						if (hit) 
 						{
-							firstTempCollider->insertCollisionID(secondTempCollider->getID());
-							secondTempCollider->insertCollisionID(firstTempCollider->getID());
+							if (firstTempCollider->children == nullptr && secondTempCollider->children == nullptr) // none have children
+							{
+								firstTempCollider->insertCollisionID(secondTempCollider->getID()); // save collision data
+								secondTempCollider->insertCollisionID(firstTempCollider->getID());
+								firstTempCollider->setAllParentCollision(true);
+								secondTempCollider->setAllParentCollision(true);
+							}
+							else if (firstTempCollider->children != nullptr && secondTempCollider->children != nullptr) // both have children
+							{
+								checkAnyCollision(firstTempCollider->children, secondTempCollider->children);
+							}
+							else // only one of them have children
+							{
+								if (firstTempCollider->children == nullptr) // first collider is the one without children
+								{
+									checkAnyCollision(firstTempCollider, secondTempCollider->children);
+								}
+
+								else // second collider is the one without children
+								{
+									checkAnyCollision(secondTempCollider, firstTempCollider->children);
+								}
+							}
 						}
 					}
 				}
@@ -333,6 +347,31 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders)
 template<typename T, typename U>
 void CollisionHandler::checkAnyCollision(T collider, std::vector<U*>* colliders)
 {
+	// Antingen har barnen inga fler barn, då kollar vi kollision. Annars kollar vi kollision mot dens barn
+	bool hit = false;
+	U* tempCollider = nullptr;
+	for (size_t i = 0; i < colliders->size(); i++)
+	{
+		tempCollider = colliders->operator[](i);
+		if (tempCollider->children == nullptr) // if hitbox dont have children
+		{
+			hit = false;
+			hit = this->collisionChecker.collisionCheck(collider,tempCollider);
+
+			if (hit) // save collision data and update parents
+			{
+				collider->insertCollisionID(tempCollider->getID());
+				tempCollider->insertCollisionID(collider->getID());
+				collider->setAllParentCollision(true);
+				tempCollider->setAllParentCollision(true);
+			}
+		}
+		else // the hitbox have children
+		{
+			checkAnyCollision(collider,tempCollider->children);
+		}
+
+	}
 
 }
 
