@@ -41,8 +41,14 @@ HitBox::HitBox(int IDTransform)
 
 HitBox::~HitBox()
 {
-	if(children != nullptr)
+	if (this->children != nullptr)
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			delete this->children->at(i);
+		}
 		delete this->children;
+	}
 }
 
 void HitBox::insertCollisionID(unsigned int collisionID)

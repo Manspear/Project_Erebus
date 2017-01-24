@@ -89,6 +89,26 @@ namespace LuaCollision
 		lua_pushvalue(lua, -1);
 		lua_setfield(lua, -2, "__index");
 		lua_setglobal(lua, "RayCollider");
+
+		//OBB
+		//luaL_newmetatable(lua, "obbColliderMeta");
+		//luaL_Reg obbRegs[] =
+		//{
+		//	{ "Create",				createObb },
+		//	{ "GetCollisionIDs",	getCollisionIDs },
+		//	{ "CheckCollision",		checkCollision },
+		//	{ "SetDirection",			setDirection },
+		//	{ "GetID",				getID },
+		//	{ "SetActive", setActive },
+		//	{ "__gc",				destroy },
+		//	{ NULL, NULL }
+		//};
+
+		//luaL_setfuncs(lua, obbRegs, 0);
+		//lua_pushvalue(lua, -1);
+		//lua_setfield(lua, -2, "__index");
+		//lua_setglobal(lua, "OBBCollider");
+
 		lua_pop(lua, 1);
 	}
 

@@ -45,13 +45,6 @@ OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, 
 
 OBBCollider::~OBBCollider()
 {
-	if (this->children != nullptr)
-	{
-		for (size_t i = 0; i < this->children->size(); i++)
-		{
-			delete this->children->at(i);
-		}
-	}
 }
 
 void OBBCollider::rotateAroundX(float radianAngle)
