@@ -6,7 +6,7 @@
 
 namespace Importer
 {
-#define MAXJOINTCOUNT 64 
+#define MAXJOINTCOUNT 32 
 	class ModelAsset : public Asset
 	{
 		friend class HeightMap;

@@ -384,6 +384,54 @@
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
     </None>
+    <None Include="Shaders\anim.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\animShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\animShadow.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\animShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\blur.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\blur.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\effects.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\effects.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
