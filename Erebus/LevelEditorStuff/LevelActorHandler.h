@@ -42,6 +42,8 @@ private:
 	void savePrefab( LevelActor* actor );
 	static void TW_CALL onActorSelected( void* args );
 	static void TW_CALL onSavePrefab( void* args );
+	static void TW_CALL onSetExportType( const void* value, void* clientData );
+	static void TW_CALL onGetExportType( void* value, void* clientData );
 
 	std::map<unsigned int, LevelActor*> actors;
 	LevelActor* selectedActor;

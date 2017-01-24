@@ -32,6 +32,8 @@ public:
 	std::string toXml();
 	std::string toLua();
 	void setExportType( int type );
+
+	int getExportType();
 	const std::string& getActorType() const;
 
 	std::map<std::string, LevelActorComponent*>& getAllComponents();
@@ -77,12 +79,16 @@ public:
 
 	static TwType TW_TYPE_EXPORT_TYPES()
 	{
-		TwEnumVal exportVals[] =
+		static TwEnumVal exportVals[] =
 		{
 			{ EXPORT_NONE, EXPORT_TYPE_NAMES[EXPORT_NONE] },
 			{ EXPORT_STATIC, EXPORT_TYPE_NAMES[EXPORT_STATIC] },
 			{ EXPORT_ENEMY, EXPORT_TYPE_NAMES[EXPORT_ENEMY] },
 		};
+
+		static TwType result = TwDefineEnum( "ExportType", exportVals, MAX_EXPORT_TYPES );
+
+		return result;
 	}
 };
 

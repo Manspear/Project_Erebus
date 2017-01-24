@@ -186,3 +186,17 @@ void LevelActorHandler::onSavePrefab( void* args )
 	LevelActor* actor = (LevelActor*)args;
 	LevelActorHandler::getInstance()->savePrefab(actor);
 }
+
+void LevelActorHandler::onSetExportType( const void* value, void* clientData )
+{
+	int type = *(int*)value;
+	LevelActor* actor = (LevelActor*)clientData;
+	actor->setExportType(type);
+	//LevelActorHandler::updateActorBar();
+}
+
+void LevelActorHandler::onGetExportType( void* value, void* clientData )
+{
+	LevelActor* actor = (LevelActor*)clientData;
+	*(int*)value = actor->getExportType();
+}

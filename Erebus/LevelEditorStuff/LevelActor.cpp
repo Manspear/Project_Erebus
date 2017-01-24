@@ -97,7 +97,12 @@ std::string LevelActor::toLua()
 
 void LevelActor::setExportType( int type )
 {
-	exporType = type;
+	exportType = type;
+}
+
+int LevelActor::getExportType()
+{
+	return exportType;
 }
 
 const std::string& LevelActor::getActorType() const
