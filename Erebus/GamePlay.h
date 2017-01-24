@@ -13,6 +13,7 @@ class GamePlay
 {
 private:
 	Gear::GearEngine * engine;
+	SoundEngine* soundEngine;
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms;
@@ -34,7 +35,7 @@ private:
 	NetworkController networkController;
 
 public:
-	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets);
+	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, SoundEngine * inSoundEngine);
 
 	~GamePlay();
 
@@ -44,5 +45,5 @@ public:
 
 	void Draw();
 
-	bool StartNetwork(const bool& networkHost, PerformanceCounter * counter);
+	bool StartNetwork(const bool& networkHost, PerformanceCounter & counter);
 };

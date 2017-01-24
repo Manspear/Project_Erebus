@@ -51,7 +51,7 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 
-	GamePlay * gamePlay = new GamePlay(&engine, assets);
+	GamePlay * gamePlay = new GamePlay(&engine, assets, &soundEngine);
 	Menu * menu = new Menu(&engine,assets);
 
 	PerformanceCounter counter;
@@ -64,8 +64,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.play("Music/menuBurana.ogg", true);
-	soundEngine.setVolume(0.5);
+	//soundEngine.play("Music/menuBurana.ogg", SOUND_LOOP | SOUND_3D, glm::vec3(31,8,12));
+	soundEngine.setMasterVolume(0.5);
 
 	while (running && window.isWindowOpen())
 	{	
@@ -81,7 +81,7 @@ int main()
 			gameState = menu->Update(inputs);
 			if (gameState == HostGameplayState)
 			{
-				if (gamePlay->StartNetwork(true, &counter))
+				if (gamePlay->StartNetwork(true, counter))
 				{
 					gameState = GameplayState;
 				}
@@ -94,7 +94,7 @@ int main()
 
 			if (gameState == ClientGameplayState)
 			{
-				if (gamePlay->StartNetwork(false, &counter))
+				if (gamePlay->StartNetwork(false, counter))
 				{
 					gameState = GameplayState;
 				}
@@ -122,7 +122,9 @@ int main()
 			break;
 		}
 
-		std::string fps = "FPS: " + std::to_string(counter.getFPS()) + "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" + "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+		std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
+			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
+			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 		engine.print(fps, 0.0f, 0.0f);
 
 		window.update();
@@ -154,13 +156,13 @@ int main()
 		{
 			if (lockMouse)
 			{
-				soundEngine.pause();
+				soundEngine.pauseAll();
 				window.changeCursorStatus(false);
 				lockMouse = false;
 			}
 			else
 			{
-				soundEngine.resume();
+				soundEngine.resumeAll();
 				window.changeCursorStatus(true);
 				lockMouse = true;
 			}
