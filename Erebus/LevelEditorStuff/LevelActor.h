@@ -7,6 +7,15 @@
 					// yes
 #include <sstream>
 
+enum
+{
+	EXPORT_ERROR = -1,
+	EXPORT_NONE = 0,
+	EXPORT_STATIC,
+	EXPORT_ENEMY,
+	MAX_EXPORT_TYPES
+};
+
 class LevelActor
 {
 public:
@@ -22,16 +31,19 @@ public:
 	unsigned int id;
 	std::string toXml();
 	std::string toLua();
+	void setExportType( int type );
 	const std::string& getActorType() const;
 
 	std::map<std::string, LevelActorComponent*>& getAllComponents();
 
 	bool LevelActor::setAsSelectedActor(TwBar * bar);
 
+	static const char* EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES];
+
 private:
 	std::map<std::string, LevelActorComponent*> actorComponents;
 	std::string actorType;
-
+	int exportType;
 
 	// template class here
 public:
@@ -61,6 +73,16 @@ public:
 			deleted = true;
 		}
 		return deleted;
+	}
+
+	static TwType TW_TYPE_EXPORT_TYPES()
+	{
+		TwEnumVal exportVals[] =
+		{
+			{ EXPORT_NONE, EXPORT_TYPE_NAMES[EXPORT_NONE] },
+			{ EXPORT_STATIC, EXPORT_TYPE_NAMES[EXPORT_STATIC] },
+			{ EXPORT_ENEMY, EXPORT_TYPE_NAMES[EXPORT_ENEMY] },
+		};
 	}
 };
 

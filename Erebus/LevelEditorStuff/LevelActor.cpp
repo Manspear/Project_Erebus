@@ -1,8 +1,14 @@
 #include "LevelActor.h"
 
-
+const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
+{
+	"None",
+	"Static",
+	"Enemy"
+};
 
 LevelActor::LevelActor(unsigned int id)
+	: exportType( EXPORT_STATIC )
 {
 	this->id = id;
 }
@@ -87,6 +93,11 @@ std::string LevelActor::toLua()
 	}
 
 	return ss.str();
+}
+
+void LevelActor::setExportType( int type )
+{
+	exporType = type;
 }
 
 const std::string& LevelActor::getActorType() const

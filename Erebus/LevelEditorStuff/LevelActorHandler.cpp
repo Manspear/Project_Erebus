@@ -153,12 +153,9 @@ void LevelActorHandler::updateActorBar()
 	{
 		selectedActor->setAsSelectedActor(actorBar->getBar());
 		TwAddVarCB(actorBar->getBar(), "AddComponent", LevelUI::TW_TYPE_COMPONENTS(), setComponentCallback, getComponentCallback, (void*)&selectedComponent, "label='Add Component'");
-		//TwAddVarRW(actorBar->getBar(), "der", LevelUI::TW_TYPE_COMPONENTS(), &this->selectedComponent, NULL);
-		//for( std::map<std::string,LevelActorComponent*>::iterator it = selectedActor->getAllComponents().begin(); it != selectedActor->getAllComponents().end(); it++ )
-		//	it->second->setTwStruct( actorBar->getBar() );
+		TwAddVarCB(actorBar->getBar(), "ExportType", LevelActor::TW_TYPE_EXPORT_TYPES(), onSetExportType, onGetExportType, selectedActor, "label='Export Type'");
 		TwAddButton( actorBar->getBar(), "SavePrefab", onSavePrefab, selectedActor, "label='Save Prefab'");
 	}
-	 //selectedActor->SetAgent(actorBar->getBar());
 }
 
 void LevelActorHandler::savePrefab( LevelActor* actor )
