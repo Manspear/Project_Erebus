@@ -368,7 +368,10 @@ void CollisionHandler::checkAnyCollision(T collider, std::vector<U*>* colliders)
 		}
 		else // the hitbox have children
 		{
-			checkAnyCollision(collider,tempCollider->children);
+			hit = false;
+			hit = this->collisionChecker.collisionCheck(collider, tempCollider);
+			if(hit) // if you collide with parent check collision with children
+				checkAnyCollision(collider,tempCollider->children);
 		}
 
 	}
