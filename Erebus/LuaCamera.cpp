@@ -16,6 +16,7 @@ namespace LuaCamera {
 			{ "GetPos",         getPos },
 			{ "SetHeight",      setHeight },
 			{ "GetDirection",   getDirection},
+			{ "SetSensitivity", setSensitivity},
 			{ NULL, NULL }
 		};
 
@@ -103,5 +104,11 @@ namespace LuaCamera {
 		lua_setfield(lua, -2, "z");
 
 		return 1;
+	}
+	int setSensitivity(lua_State * lua)
+	{
+		float factor = lua_tonumber(lua, -1);
+		g_camera->sensitivityFactor(factor);
+		return 0;
 	}
 }

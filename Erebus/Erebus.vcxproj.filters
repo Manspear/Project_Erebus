@@ -65,12 +65,6 @@
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
     <ClCompile Include="LuaInputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -159,12 +153,6 @@
     </ClInclude>
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>Header Files\LevelEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelModel.h">
-      <Filter>Header Files\LevelEditor</Filter>
     </ClInclude>
     <ClInclude Include="LuaInputs.h">
       <Filter>Header Files</Filter>
@@ -408,17 +396,11 @@
     <Filter Include="Source Files\Lua">
       <UniqueIdentifier>{a8fe1647-d73d-4eb1-9410-1881a3f2065e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\LevelEditor">
-      <UniqueIdentifier>{aaceba95-ce94-4ffc-8e74-7bd97a26f446}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Collider">
       <UniqueIdentifier>{aec1776e-4d10-4288-b844-ee4f54a62a5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Lua">
       <UniqueIdentifier>{d75575e0-eaad-4316-af5f-f94a0a8bc3b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\LevelEditor">
-      <UniqueIdentifier>{502f47db-5e0e-4d2a-9d9e-2d06ff3edf9f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Network">
       <UniqueIdentifier>{8cc66f27-899d-496d-85ea-b59327e6025c}</UniqueIdentifier>

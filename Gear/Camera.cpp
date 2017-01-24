@@ -12,7 +12,7 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	this->aspectRatio = aspectRatio;
 	this->nearPlane = nearPlane;
 	this->farPlane = farPlane;
-
+	sensitivity = 100.f;
 	horizontalAngle = 3.14f;
 	verticalAngle = 0;
 	inputs = in;
@@ -79,8 +79,8 @@ void Camera::updateLevelEditorCamera(float dt) {
 		glm::vec3 newAxisZ = glm::cross(tempforward, { 0,1,0 });
 		MousePos dPos = inputs->getDeltaPos();
 
-		horizontalAngle += (float)dPos.x / 100.f;
-		verticalAngle += (float)dPos.y / 100.f;
+		horizontalAngle += (float)dPos.x / sensitivity;
+		verticalAngle += (float)dPos.y / sensitivity;
 		if (horizontalAngle > 2 * 3.14f) {
 			horizontalAngle -= 2 * 3.14f;
 		}
@@ -180,7 +180,6 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 	//project the input direction to the xz plane and normalizes it
 	glm::vec3 tempForward(direction.x, 0, direction.z);
 	tempForward = glm::normalize(tempForward);
-	//tempForward *= cosf(angle) * distance;
 
 	//moves the camera to the right with xOffset units, then moves the camera up with yOffset units
 	glm::vec3 offset = xOffset*cross(tempForward, { 0,1,0 }) + glm::vec3(0,yOffset,0);
@@ -191,7 +190,6 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 	this->lookPos = point + offset;
 	this->camDirection = glm::normalize( lookPos - camPosition);
 
-	//camPosition = point - direction*distance;
 	this->viewMat = glm::lookAt(camPosition, point + offset, camUp);
 	this->projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
 }
@@ -213,7 +211,6 @@ GEAR_API void Camera::setPosition(glm::vec3 position)
 GEAR_API void Camera::setHeight(float h)
 {
 	this->camPosition.y = h;
-	//this->lookPos.y += h;
 	setCamera(camPosition, lookPos);
 }
 
@@ -225,6 +222,11 @@ void Camera::setprojection(glm::mat4 m)
 void Camera::setView(glm::mat4 m)
 {
 	this->viewMat = m;
+}
+
+void Camera::sensitivityFactor(float factor) 
+{
+	sensitivity *= factor;
 }
 
 glm::mat4 Camera::getViewPers()

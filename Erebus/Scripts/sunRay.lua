@@ -1,6 +1,7 @@
 SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
+SUNRAY_COOLDOWN = 5
 
 function CreateSunRay()
 	local sunRay = {}
@@ -14,27 +15,36 @@ function CreateSunRay()
 	sunRay.maxChargeTime = SUNRAY_MAX_CHARGETIME
 	sunRay.chargedTime = 0
 	sunRay.Charge = BaseCharge
-	sunRay.ChargeCast = BaseChargeCast
+	sunRay.ChargeCast = BaseChargeCast	
+	sunRay.particles = createFireballParticles()
+
+	sunRay.moveImpairment = 0.5;
 
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, sunRay.type.transformID)
 
 	function sunRay:Update(dt)
 		hits = self.type:Update(dt)
+		self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
 		for index = 1, #hits do
 			if hits[index].Hurt then	
 				if self.effectFlag then
 					table.insert(hits[index].effects, self.effect())
 				end
-				hits[index]:Hurt(self.damage * dt)
+				hits[index]:Hurt(self.damage)
 			end
 		end
 		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), 0)
 		self.lifeTime = self.lifeTime - dt
-		if self.lifeTime < 0 then self:Kill() end
+		if self.lifeTime < 0 then 
+			self.particles.die(self.type.position) 
+			self:Kill() 
+		end
 	end
 	
 	function sunRay:Cast(chargetime, effects)
+		self.particles.cast()
+		Camera.SetSensitivity(self.moveImpairment)
 		chargetime = math.min(chargetime, SUNRAY_MAX_CHARGETIME)
 		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), 0)
 		self.alive = true
@@ -46,6 +56,7 @@ function CreateSunRay()
 
 	function sunRay:Kill()
 		self.alive = false
+		Camera.SetSensitivity(1 / self.moveImpairment)
 		self.type:Kill()
 	end
 	return sunRay
