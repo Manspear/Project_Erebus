@@ -7,7 +7,7 @@ class CascadedShadowMap
 {
 private:
 	const static int NUM_CASCADEDS = 4;
-	GLuint* textureIDs;
+	GLuint textureIDs[NUM_CASCADEDS];
 	GLuint framebufferID;
 	GLuint renderBuffer;
 	int width, height;
@@ -25,12 +25,15 @@ private:
 public:
 	CascadedShadowMap();
 	~CascadedShadowMap();
-	void Init(int windowWidth, int windowHeight, Lights::DirLight light, Camera* mainCam);
+	void Init(int windowWidth, int windowHeight, Lights::DirLight light);
 	void bind(int cascadeIndex);
+	void unBind();
 	void bindTexture(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 	void calcOrthoProjs(Camera* mainCam);
+	int getNumCascades() { return this->NUM_CASCADEDS; }
 	glm::mat4 viewMatrices[NUM_CASCADEDS+1];
 	glm::mat4 projectionMatrices[NUM_CASCADEDS+1];
+	glm::mat4 cropMatrices[NUM_CASCADEDS];
 	glm::vec3 frustumCorners[8];
 
 	glm::vec3 pos;

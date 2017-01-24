@@ -11,11 +11,10 @@ CascadedShadowMap::CascadedShadowMap()
 
 CascadedShadowMap::~CascadedShadowMap()
 {
-	//if (textureIDs != nullptr)
-		//delete textureIDs;
+
 }
 
-void CascadedShadowMap::Init(int windowWidth, int windowHeight, Lights::DirLight light, Camera * mainCam)
+void CascadedShadowMap::Init(int windowWidth, int windowHeight, Lights::DirLight light)
 {
 	this->width = windowWidth;
 	this->height = windowHeight;
@@ -24,14 +23,7 @@ void CascadedShadowMap::Init(int windowWidth, int windowHeight, Lights::DirLight
 	this->splitLambda = 0.5f; 
 	this->nearPlane = 0.1f;
 	this->farPlane = 2000.f;
-
-	for (int i = 0; i < NUM_CASCADEDS; i++)
-	{
-		float splitNear = i > 0 ? glm::mix(nearPlane + (static_cast<float>(i) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i) / (float)NUM_CASCADEDS), splitLambda) : nearPlane;
-		float splitFar = i < NUM_CASCADEDS - 1 ? glm::mix(nearPlane + (static_cast<float>(i + 1) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i + 1) / (float)NUM_CASCADEDS), splitLambda) : farPlane;
-
-		splitPlanes[i] = glm::vec2(splitNear, splitFar);
-	}
+	this->initFramebuffer(windowWidth, windowHeight);
 }
 
 void CascadedShadowMap::bind(int cascadeIndex)
@@ -39,6 +31,11 @@ void CascadedShadowMap::bind(int cascadeIndex)
 	assert(cascadeIndex < NUM_CASCADEDS);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebufferID);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureIDs[cascadeIndex], 0);
+
+}
+
+void CascadedShadowMap::unBind() {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void CascadedShadowMap::bindTexture(ShaderProgram * shader, const char * name, GLuint textureLoc, GLuint textureid)
@@ -59,9 +56,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 		sinCount += 0.003f;
 
-		/*pos.z += 0.5f;
-		if (pos.z > 300)
-			pos.z = 0.0f;*/
+		this->nearPlane = mainCam->getNearPlane();
+		this->farPlane = mainCam->getFarPlane();
 
 		for (int i = 0; i < NUM_CASCADEDS; i++)
 		{
@@ -72,14 +68,14 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		}
 
 		//pos = glm::vec3(200.0f, 10.0f, 200.0f);// mainCam->getPosition();
-		glm::vec3 direction = glm::vec3(1.0f, 0.0f, 0.0f);//mainCam->getDirection();
+		glm::vec3 direction = mainCam->getDirection();
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
-		glm::vec3 up = glm::normalize(glm::cross(right, (pos + direction)));
+		glm::vec3 up = glm::normalize(glm::cross(right, (mainCam->getPosition() + direction)));
 
 
 		glm::vec3 lookat((pos + direction));
 		glm::mat4 camView = glm::lookAt(pos, lookat, up);
-		glm::mat4 view = camView;
+		glm::mat4 view = mainCam->getViewMatrix();
 		glm::mat4 camInv = glm::inverse(view);
 
 		viewMatrices[NUM_CASCADEDS] = view;
@@ -92,8 +88,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 			float farHeight = tanf(glm::radians(45.0f)) * splitPlanes[CascadeID].y;
 			float farWidth = farHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
 
-			glm::vec3 nc = (pos + direction * splitPlanes[CascadeID].x);
-			glm::vec3 fc = (pos + direction * splitPlanes[CascadeID].y);
+			glm::vec3 nc = (mainCam->getPosition() + direction * splitPlanes[CascadeID].x);
+			glm::vec3 fc = (mainCam->getPosition() + direction * splitPlanes[CascadeID].y);
 
 			glm::vec4 vertices[8] = {
 				glm::vec4(nc - up * nearHeight * 0.5f - right * nearWidth * 0.5f, 1), // nbl (near, bottom, left)
@@ -171,6 +167,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 			projectionMatrices[CascadeID] = t_projection;
 			viewMatrices[CascadeID] = t_modelview;
+
+			cropMatrices[CascadeID] = t_projection * t_modelview;
 
 		}
 	}
@@ -392,9 +390,9 @@ void CascadedShadowMap::initFramebuffer(int windowWidth, int windowHeight)
 	glGenFramebuffers(1, &framebufferID);
 
 	glGenTextures(NUM_CASCADEDS, textureIDs);
-
 	for (int i = 0; i < NUM_CASCADEDS; i++)
 	{
+		
 		glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -407,8 +405,8 @@ void CascadedShadowMap::initFramebuffer(int windowWidth, int windowHeight)
 	glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureIDs[0], 0);
 
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
+	//glDrawBuffer(GL_NONE);
+	//glReadBuffer(GL_NONE);
 
 	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 

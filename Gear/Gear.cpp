@@ -26,6 +26,7 @@ namespace Gear
 		shaderInit();
 		lightInit();
 		skyboxInit();
+		map.Init(WINDOW_HEIGHT, WINDOW_HEIGHT, dirLights[0]);
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
@@ -171,7 +172,6 @@ namespace Gear
 	{
 		
 		queue.update(*transformCount, *allTrans);
-		map.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0], camera);
 		map.calcOrthoProjs(camera);
 		Camera tempCamera;
 
@@ -203,33 +203,29 @@ namespace Gear
 		//cam.setDirection(glm::vec3(1.0f, 0.0f, 0.0f));
 
 
+		for (int i = 0; i < map.getNumCascades(); i++)
+		{
+			tempCamera.setView(map.viewMatrices[i]);
+			tempCamera.setprojection(map.projectionMatrices[i]);
+
+			queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
+			queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
+			map.bind(i);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
+			map.unBind();
+		}
+
 		
-
-		tempCamera.setView(map.viewMatrices[0]);
-		tempCamera.setprojection(map.projectionMatrices[0]);
-
-		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
-		shadowMap.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
-		shadowMap.unUse();
 		//shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
+
 		Debug* temp = Debugger::getInstance();
 		temp->drawAABB(map.minAABB[0], map.maxAABB[0], glm::vec3(1.0f,0,0));
 		temp->drawAABB(map.minAABB[1], map.maxAABB[1], glm::vec3(0, 1.0f, 0));
 		temp->drawAABB(map.minAABB[2], map.maxAABB[2], glm::vec3(0, 0, 1.0f));
 		temp->drawAABB(map.minAABB[3], map.maxAABB[3], glm::vec3(0.5f, 0.0f, 0.5f));
 
-		//temp->drawAABB((glm::vec3)(map.viewMatrices[0] * glm::vec4(map.minAABB[0], 1)), (glm::vec3)(map.viewMatrices[0] * glm::vec4(map.maxAABB[0], 1)), glm::vec3(1.0f, 0, 0));
-		//temp->drawAABB((glm::vec3)(map.viewMatrices[1] * glm::vec4(map.minAABB[1], 1)), (glm::vec3)(map.viewMatrices[1] * glm::vec4(map.maxAABB[1], 1)), glm::vec3(0, 1.0f, 0));
-		//temp->drawAABB((glm::vec3)(map.viewMatrices[2] * glm::vec4(map.minAABB[2], 1)), (glm::vec3)(map.viewMatrices[2] * glm::vec4(map.maxAABB[2], 1)), glm::vec3(0, 0, 1.0f));
-		//temp->drawAABB((glm::vec3)(map.viewMatrices[3] * glm::vec4(map.minAABB[3], 1)), (glm::vec3)(map.viewMatrices[3] * glm::vec4(map.maxAABB[3], 1)), glm::vec3(0.5f, 0.5f, 0));
-
-		/*tempCamera.setprojection(camera->getProjectionMatrix());
-		tempCamera.setView(map.viewMatrices[4]);*/
-
-		queue.updateUniforms(&cam);
+		queue.updateUniforms(camera);
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -237,16 +233,16 @@ namespace Gear
 		
 		gBuffer.unUse();
 
-		lightPass(&cam, &tempCamera); //renders the texture with light calculations
+		lightPass(camera, &tempCamera); //renders the texture with light calculations
 
 
 		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
 		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
 		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
-		updateDebug(&cam);
+		updateDebug(camera);
 
-		skybox.update(&cam);
+		skybox.update(camera);
 		skybox.draw();
 		queue.particlePass(particleSystems);
 
@@ -257,55 +253,25 @@ namespace Gear
 
 		glViewport(0, 0, 200, 200);
 		quadShader->use();
-		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		map.bindTexture(quadShader, "gPosition", 0, 0);
 		drawQuad();
 		quadShader->unUse();
 
-
-		tempCamera.setView(map.viewMatrices[1]);
-		tempCamera.setprojection(map.projectionMatrices[1]);
-
-		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
-		shadowMap.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
-		shadowMap.unUse();
 		glViewport(210, 0, 200, 200);
 		quadShader->use();
-		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		map.bindTexture(quadShader, "gPosition", 0, 1);
 		drawQuad();
 		quadShader->unUse();
 
-
-		tempCamera.setView(map.viewMatrices[2]);
-		tempCamera.setprojection(map.projectionMatrices[2]);
-
-		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
-		shadowMap.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
-		shadowMap.unUse();
 		glViewport(420, 0, 200, 200);
 		quadShader->use();
-		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		map.bindTexture(quadShader, "gPosition", 0, 2);
 		drawQuad();
 		quadShader->unUse();
 
-
-		tempCamera.setView(map.viewMatrices[3]);
-		tempCamera.setprojection(map.projectionMatrices[3]);
-
-		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
-		shadowMap.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
-		shadowMap.unUse();
 		glViewport(630, 0, 200, 200);
 		quadShader->use();
-		shadowMap.BindTexturesToProgram(quadShader, "gPosition", 0, 0);
+		map.bindTexture(quadShader, "gPosition", 0, 3);
 		drawQuad();
 		quadShader->unUse();
 
