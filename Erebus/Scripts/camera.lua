@@ -44,7 +44,6 @@ function UpdateCamera(dt)
 		timeSinceShot = 0
 		if camera.state ~= STATE_ZOOMED_IN and camera.state ~= STATE_ZOOMING_IN then --start zooming in if not already zoomed in
 			camera.state = STATE_ZOOMING_IN
-
 			StartState.distance = camera.distance
 			StartState.angle = camera.angle
 			StartState.xOffset = camera.xOffset
@@ -54,6 +53,7 @@ function UpdateCamera(dt)
 			ZoomedIn.timeSpent = 0
 		end
 	end
+
 	timeSinceShot = timeSinceShot + dt
 	if timeSinceShot > DelayZoomOut and camera.state ~= STATE_ZOOMED_OUT and camera.state ~= STATE_ZOOMING_OUT then --start zooming out if not already zoomed out, triggers when player have not shot recently
 		ZoomedOut.timeSpent = 0
@@ -102,19 +102,6 @@ function UpdateCamera(dt)
 			camera.state = STATE_ZOOMED_IN
 		end
 	end
-
-	--[[
-	pos = Transform.GetPos(player.transformID)
-	dir = Transform.GetLookAt(player.transformID)
-	tempDir = {x = pos.x, y = 0, z = pos.z}
-	offset = scalarvec3mult(camera.xOffset, cross(tempDir, {x = 0, y = 1, z = 0}))
-	offset.y = offset.y + camera.yOffset
-
-	lookfrom = {x = 0, y = camera.distance * math.sin(camera.angle), z = 0}
-	lookfrom = vec3sub(lookfrom, scalarvec3mult(camera.distance, scalarvec3mult(math.cos(camera.angle), tempDir)) )
-
-	tempPos = vec3add( vec3add(pos, offset),  )--]]
-
 
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()

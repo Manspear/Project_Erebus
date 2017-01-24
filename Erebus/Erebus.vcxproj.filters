@@ -65,12 +65,6 @@
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
     <ClCompile Include="LuaInputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="SoundEngine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaSound.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,12 +154,6 @@
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>Header Files\LevelEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelModel.h">
-      <Filter>Header Files\LevelEditor</Filter>
-    </ClInclude>
     <ClInclude Include="LuaInputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -184,15 +175,15 @@
     <ClInclude Include="SoundEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LuaSound.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\camera.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\cameraLevelEditor.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\enemies.lua">
@@ -211,9 +202,6 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\AI\states.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\anim.frag">
@@ -385,6 +373,13 @@
       <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\grenadeType.lua">
+    <None Include="Shaders\geometryPassShadow.frag" />
+    <None Include="Shaders\geometryPassShadow.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
+    <None Include="Scripts\sunRay.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
       <Filter>Scripts\types</Filter>
     </None>
   </ItemGroup>
@@ -407,17 +402,11 @@
     <Filter Include="Source Files\Lua">
       <UniqueIdentifier>{a8fe1647-d73d-4eb1-9410-1881a3f2065e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\LevelEditor">
-      <UniqueIdentifier>{aaceba95-ce94-4ffc-8e74-7bd97a26f446}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Collider">
       <UniqueIdentifier>{aec1776e-4d10-4288-b844-ee4f54a62a5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Lua">
       <UniqueIdentifier>{d75575e0-eaad-4316-af5f-f94a0a8bc3b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\LevelEditor">
-      <UniqueIdentifier>{502f47db-5e0e-4d2a-9d9e-2d06ff3edf9f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Network">
       <UniqueIdentifier>{8cc66f27-899d-496d-85ea-b59327e6025c}</UniqueIdentifier>

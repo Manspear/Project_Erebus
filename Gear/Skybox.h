@@ -17,7 +17,7 @@ namespace Gear
 		GEAR_API GLuint getTextureID() { return textureID; }
 		GEAR_API void BindTexturesToProgram(ShaderProgram * shader, const char * name, GLuint textureLoc);
 		GEAR_API void draw();
-		GEAR_API void update(Camera* camera);
+		GEAR_API void update(Camera* camera, GLuint textureID);
 	private:
 		GLuint skyboxVAO;
 		GLuint skyboxVBO;

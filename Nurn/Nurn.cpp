@@ -114,4 +114,19 @@ namespace Nurn
 		return result;
 	}
 
+	void NurnEngine::buildAIPacket(const uint16_t& id)
+	{
+		this->packager->buildAIPacket(id);
+	}
+
+	bool NurnEngine::fetchAIPacket(AIPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAIQueue()->pop(packet);
+
+		return result;
+	}
+
+
 }

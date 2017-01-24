@@ -1,8 +1,9 @@
 #include "GamePlay.h"
 
-GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets)
+GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, SoundEngine* inSoundEngine)
 {
 	engine = inEngine;
+	soundEngine = inSoundEngine;
 	transforms = new Transform[nrOfTransforms];
 	allTransforms = new TransformStruct[nrOfTransforms];
 	engine->addDebugger(Debugger::getInstance());
@@ -50,7 +51,7 @@ GamePlay::~GamePlay()
 
 void GamePlay::Initialize(Importer::Assets & assets, Controls &controls, Inputs &inputs, Camera& camera)
 {
-	luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController);
+	luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController, soundEngine);
 }
 
 void GamePlay::Update(Controls controls, double deltaTime)
