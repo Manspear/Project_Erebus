@@ -98,6 +98,14 @@ function LoadPlayer2()
 
 	player2.animationController = CreatePlayerController(player2)
 
+	-- set spells for player
+	player2.spells = {}
+	--player.spells[1] = dofile( "Scripts/projectile.lua" )
+	player2.spells[1] = CreateIceGrenade()
+	player2.spells[2] = {}
+
+	player2.currentSpell = 1
+
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 end
@@ -229,6 +237,7 @@ function Controls(dt)
 			player.attackTimer = 1
 			player.testCamera = true
 			player.spells[1]:Cast(player, 0.5, false)
+			Network.SendSpellPacket(22)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -262,6 +271,14 @@ function UpdatePlayer2(dt)
 		Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
+
+	newspellpacket, id_2 = Network.GetSpellPacket()
+
+	if newspellpacket == true then
+		player2.spells[1]:Cast(player2, 0.5, false)
+	end
+
+	player2.spells[1]:Update(dt)
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
