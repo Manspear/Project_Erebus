@@ -208,13 +208,19 @@ function UpdatePlayer(dt)
 		Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 
-		animationID = 42
-		Network.SendAnimationPacket(animationID);
+		Network.SendAnimationPacket(42);
 		newAnimationValue, animationID = Network.GetAnimationPacket()
 
-		--if newAnimationValue == true then
-		--	print(animationID)
-		--end
+		Network.SendAIPacket(15)
+		netAIValue, aiID = Network.GetAIPacket()
+
+		--[[if newAnimationValue == true then
+			print(animationID)
+		end
+
+		if netAIValue == true then
+			print(aiID)
+		end]]
 		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
