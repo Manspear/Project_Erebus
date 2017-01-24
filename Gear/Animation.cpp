@@ -48,7 +48,9 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 			//Get the maxtime for this layer
 			float maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 
-																														//resets itself wohahaha
+			sKeyFrame* aids = (sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame));
+			sKeyFrame* aids2 = (sKeyFrame*)((char*)keys + (1) * sizeof(Importer::sKeyFrame));
+			//resets itself wohahaha
 			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
 			float timeOverCompare = INT_MAX;
@@ -317,11 +319,10 @@ GEAR_API void Animation::setStates(int numStates)
 
 GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 {
-	animationMatrixLists[0][0];
-	animationMatrixLists[0][1];
 	if (animationSegments > 1)
-	{	
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * 16);
+	{
+		//animationMatrixLists is a 64 long mat4 list, where each 
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
 
 		for (int i = 1; i < animationSegments; i++)
 		{
@@ -342,11 +343,12 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	}
 	else
 	{
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * 16);
+		//64 slots each with 64 matrices
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
 	}
 
 	/*
-	Adding together matrices like this might not work if both animations aren't affected 
+	Adding together matrices like this might not work if both animations aren't affected
 	by the same root motion. To fix, multiply all joints of the torso with the root motion
 	of the legs. It is assumed that the root is controlled by the lower body.
 	*/
@@ -532,32 +534,15 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 {
 	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
 
-	glm::mat4 translateMat;
-	glm::mat4 rotateMat;
-	glm::mat4 scaleMat;
-
 	for (int i = 0; i < keyList.size(); i++)
 	{
-
+		glm::mat4 translateMat;
+		glm::mat4 scaleMat;
+		glm::mat4 rotateMat;
 		convertToRotMat(keyList[i].keyRotate, &rotateMat);
 		convertToTransMat(keyList[i].keyTranslate, &translateMat);
 		convertToScaleMat(keyList[i].keyScale, &scaleMat);
-		//HERE I AM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//if (i == 0 && animationSegment != 0)
-		//{
-		//	hJoint* modelJointPtr = asset->getJointsStart();
-		//	glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
-		//	glm::mat4x4 aids = animationMatrixLists[0][0] * glm::inverse(invBPose);
-		//	aids[3][0] = 0;
-		//	aids[3][1] = 0;
-		//	aids[3][2] = 0;
-		//	tMatrices[i] = translateMat * scaleMat * rotateMat * aids;
-		//}
-		//else
-		//{
-			tMatrices[i] = translateMat * scaleMat * rotateMat;
-		//}
-		
+		tMatrices[i] = translateMat * scaleMat * rotateMat;
 	}
 	/*
 	Make a special case where when the animation of segment is not calculated, use it's root and add it's rotation
@@ -571,9 +556,11 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 		if (modelJointPtr->parentJointID >= 0)
 		{
 			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
-
 			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
 		}
+		tMatrices[i];
+
+		int checker = modelJointPtr->parentJointID;
 
 		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
 
@@ -599,12 +586,12 @@ void Animation::myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVa
 void Animation::convertToRotMat(float in[3], glm::mat4* result)
 {
 	*result =
-	{
-		cosf(in[1]) * cosf(in[2]), cosf(in[1]) * sinf(in[2]), -sinf(in[1]), 0.f,
-		cosf(in[0]) * (-sinf(in[2])) + sinf(in[0]) * sinf(in[1]) * cosf(in[2]), cosf(in[0]) * cosf(in[2]) + sinf(in[0]) * sinf(in[1]) * sinf(in[2]), sinf(in[0]) * cosf(in[1]), 0.f,
-		-sinf(in[0]) * (-sinf(in[2])) + cosf(in[0]) * sinf(in[1]) * cosf(in[2]), (-sinf(in[0])) * cosf(in[2]) + cosf(in[0]) * sinf(in[1]) * sinf(in[2]), cosf(in[0]) * cosf(in[1]), 0.f,
-		0.f, 0.f, 0.f, 1.f
-	};
+		glm::mat4(
+			cosf(in[1]) * cosf(in[2]), cosf(in[1]) * sinf(in[2]), -sinf(in[1]), 0.f,
+			cosf(in[0]) * (-sinf(in[2])) + sinf(in[0]) * sinf(in[1]) * cosf(in[2]), cosf(in[0]) * cosf(in[2]) + sinf(in[0]) * sinf(in[1]) * sinf(in[2]), sinf(in[0]) * cosf(in[1]), 0.f,
+			-sinf(in[0]) * (-sinf(in[2])) + cosf(in[0]) * sinf(in[1]) * cosf(in[2]), (-sinf(in[0])) * cosf(in[2]) + cosf(in[0]) * sinf(in[1]) * sinf(in[2]), cosf(in[0]) * cosf(in[1]), 0.f,
+			0.f, 0.f, 0.f, 1.f
+		);
 }
 
 void Animation::convertToTransMat(float inputArr[3], glm::mat4 * result)
