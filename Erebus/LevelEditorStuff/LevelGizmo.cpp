@@ -72,7 +72,7 @@ void LevelGizmo::setColors() {
 
 }
 LevelGizmo::~LevelGizmo() {
-
+	delete checker;
 }
 
 void LevelGizmo::drawGizmo() {

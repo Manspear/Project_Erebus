@@ -56,7 +56,7 @@ private:
 
 public:
 	static const float getMainThickness() {
-		return .125f;
+		return .175f;
 	}
 	//Pos in screen space, size of the window, color defines 3 color, and alpha in w if desired
 	TweakBar(glm::vec2 pos, glm::vec2 size, glm::vec4 color, std::string title="UNIQUE_NAME") {

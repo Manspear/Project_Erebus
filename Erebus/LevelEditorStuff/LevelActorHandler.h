@@ -12,6 +12,7 @@ public:
 	~LevelActorHandler();
 
 	static LevelActorHandler* getInstance();
+	static void deleteInstance();
 
 	void addActor( LevelActor* actor );
 	void removeActor( LevelActor* actor );
@@ -44,6 +45,8 @@ private:
 	static void TW_CALL onSavePrefab( void* args );
 	static void TW_CALL onSetExportType( const void* value, void* clientData );
 	static void TW_CALL onGetExportType( void* value, void* clientData );
+
+	const std::string tryActorName(std::string name);
 
 	std::map<unsigned int, LevelActor*> actors;
 	LevelActor* selectedActor;

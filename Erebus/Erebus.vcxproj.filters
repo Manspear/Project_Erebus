@@ -49,6 +49,12 @@
     <ClCompile Include="LuaGear.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaSound.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
     <ClCompile Include="LuaParticles.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
@@ -107,13 +113,22 @@
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="RayCollider.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelGizmo.cpp">
-    <Filter>LevelEditor\SourceLevel</Filter>
+      <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelActionHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelFileDialog.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelLightHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaSound.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,11 +246,17 @@
     <ClInclude Include="LevelEditorStuff\LevelFileDialog.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelLightHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaSound.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\bullets.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\camera.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -246,9 +267,6 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\player.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\projectile.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\test.lua">
@@ -329,6 +347,18 @@
     <None Include="Shaders\debugLine.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="effects.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\gloom.comp">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\playerController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
+    <None Include="Scripts\arcType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
     <None Include="Shaders\debugSphere.geom">
       <Filter>Shaders</Filter>
     </None>
@@ -338,8 +368,14 @@
     <None Include="Shaders\debugSphere.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Scripts\fireEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
     <None Include="Shaders\debugAABB.geom">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\groundAoEType.lua">
+      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Shaders\debugAABB.vert">
       <Filter>Shaders</Filter>
@@ -350,8 +386,8 @@
     <None Include="Shaders\debugOBB.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debugOBB.geom">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\projectileType.lua">
+      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Shaders\debugOBB.vert">
       <Filter>Shaders</Filter>
@@ -404,5 +440,17 @@
     <Filter Include="Lua\Source">
       <UniqueIdentifier>{7213c686-ed4f-4955-94f0-528aca9b86c3}</UniqueIdentifier>
     </Filter>
+    </Filter>
+    <Filter Include="Animation Controllers">
+      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\types">
+      <UniqueIdentifier>{061b3e17-e659-4c55-878e-0c261d61e2ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\effects">
+      <UniqueIdentifier>{829483a9-2d83-4cd6-a51c-3b10ffc34d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\spells">
+      <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
   </ItemGroup>
 </Project>

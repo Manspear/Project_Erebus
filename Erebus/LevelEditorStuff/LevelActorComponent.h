@@ -21,8 +21,26 @@ public:
 
 	virtual void setTwStruct(TwBar * twBar) {};
 
+	virtual void addListener(LevelActorComponent* component) { this->Listeners.push_back(component); };
+	virtual void deleteListener(LevelActorComponent* component) {
+		
+		for (it = Listeners.begin(); it != Listeners.end(); ) {
+
+			if ((*it) == component) {
+				it = Listeners.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+
+	}
+	virtual void callListener(LevelActorComponent* component) {};
+
 protected:
 	LevelActor* parent = nullptr;
+	std::vector<LevelActorComponent*> Listeners;
+	std::vector<LevelActorComponent*>::iterator it;
 
 };
 

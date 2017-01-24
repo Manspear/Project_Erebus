@@ -9,17 +9,21 @@ LevelTransform::LevelTransform()
 	transformStructTemp = new TransformStruct();
 	this->transformRef = new Transform();
 	transformRef->setThePtr(transformStructTemp);
+	recievedModelTransform = false;
 }
 
 
 LevelTransform::~LevelTransform()
 {
-	delete this->transformStructTempStuff;
+	if (!recievedModelTransform)
+	{
+		delete this->transformRef;
+		delete this->transformStructTemp;
+	}
 }
 
 void LevelTransform::initialize(tinyxml2::XMLElement* element)
 {
-	std::string test = element->FirstChildElement("Position")->Attribute("x");
 	this->transformRef->setThePtr(this->transformStructTemp);
 
 	float xPos;
@@ -30,6 +34,10 @@ void LevelTransform::initialize(tinyxml2::XMLElement* element)
 	float yRot;
 	float zRot;
 
+	float xScale;
+	float yScale;
+	float zScale;
+
 
 	xPos = std::stof(element->FirstChildElement("Position")->Attribute("x"));
 	yPos = std::stof(element->FirstChildElement("Position")->Attribute("y"));
@@ -39,12 +47,19 @@ void LevelTransform::initialize(tinyxml2::XMLElement* element)
 	yRot = std::stof(element->FirstChildElement("Rotation")->Attribute("y"));
 	zRot = std::stof(element->FirstChildElement("Rotation")->Attribute("z"));
 
+	xScale = std::stof(element->FirstChildElement("Scale")->Attribute("x"));
+	yScale = std::stof(element->FirstChildElement("Scale")->Attribute("y"));
+	zScale = std::stof(element->FirstChildElement("Scale")->Attribute("z"));
+
 	glm::vec3 pos = glm::vec3(xPos, yPos, zPos);
 	glm::vec3 rot = glm::vec3(xRot, yRot, zRot);
+	glm::vec3 scale = glm::vec3(xScale, yScale, zScale);
 
 	transformRef->setPos(pos);
 
 	transformRef->setRotation(rot);
+
+	transformRef->setScale(scale);
 	
 
 }
@@ -70,12 +85,15 @@ void LevelTransform::postInitialize()
 void LevelTransform::setTransform(int index) {
 	glm::vec3 oldPos = glm::vec3(this->transformRef->getPos());
 	glm::vec3 oldRot = glm::vec3(this->transformRef->getRotation());
+	glm::vec3 oldScale = glm::vec3(this->transformRef->getScale());
 	delete this->transformRef;
 	delete this->transformStructTemp;
+	recievedModelTransform = true;
 
 	this->transformRef = LevelTransformHandler::getInstance()->getTransformAt(index);
 	this->transformRef->setPos(oldPos);
 	this->transformRef->setRotation(oldRot);
+	this->transformRef->setScale(oldScale);
 }
 
 tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
@@ -83,6 +101,7 @@ tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 	tinyxml2::XMLElement* element = doc->NewElement(LevelTransform::name);
 	glm::vec3 position = this->transformRef->getPos();
 	glm::vec3 rotation = this->transformRef->getRotation();
+	glm::vec3 scale = this->transformRef->getScale();
 
 	tinyxml2::XMLElement* positionElement = doc->NewElement("Position");
 	positionElement->SetAttribute("x", position.x);
@@ -94,8 +113,14 @@ tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 	rotationElement->SetAttribute("y", rotation.y);
 	rotationElement->SetAttribute("z", rotation.z);
 
+	tinyxml2::XMLElement* scaleElement = doc->NewElement("Scale");
+	scaleElement->SetAttribute("x", scale.x);
+	scaleElement->SetAttribute("y", scale.y);
+	scaleElement->SetAttribute("z", scale.z);
+
 	element->LinkEndChild(positionElement);
 	element->LinkEndChild(rotationElement);
+	element->LinkEndChild(scaleElement);
 
 	return element;
 }
@@ -112,7 +137,16 @@ std::string LevelTransform::toLua(std::string name)
 	return ss.str();
 }
 
-Transform* LevelTransform::getTransformRef() {
+Transform* LevelTransform::getTransformRef(){
+	for (size_t i = 0; i < this->Listeners.size(); i++)
+	{
+		this->Listeners[i]->callListener(this);
+
+	}
+	return this->transformRef;
+}
+
+Transform* LevelTransform::getChangeTransformRef() {
 	return this->transformRef;
 }
 
@@ -122,4 +156,8 @@ void LevelTransform::setTwStruct(TwBar * twBar) {
 	TwAddVarRW(twBar, "Position", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getPosRef(), NULL);
 	TwAddVarRW(twBar, "Rotation", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getRotationRef(), NULL);
 	TwAddVarRW(twBar, "Scale", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getScaleRef(), NULL);
+}
+
+void LevelTransform::callListener(LevelActorComponent* component) {
+
 }

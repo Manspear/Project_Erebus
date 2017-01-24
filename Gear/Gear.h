@@ -63,6 +63,7 @@ namespace Gear
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+		GEAR_API void effectPreProcess();
 		GEAR_API void pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos);
 		//----------------------
 
@@ -87,11 +88,15 @@ namespace Gear
 		ShaderProgram shadowMap;
 		ShaderProgram shadowMapTemp;
 		ShaderProgram gBuffer;
+		ShaderProgram particleFBO;
 
 		//Shaders
 		ShaderProgram *quadShader;
 		ShaderProgram *lightPassShader;
 		ShaderProgram *blurShader;
+		ShaderProgram *effectShader;
+		ShaderProgram *gloomCompute;
+		GLuint gloomTexture;
 
 		//Models
 		std::vector<staticNonModels*> statModels;

@@ -10,9 +10,24 @@ LevelEditor::~LevelEditor()
 {
 	delete this->inputs;
 	delete this->camera;
+
+	for (int i = 0; i < ps.size(); i++)
+		delete ps.at(i);
+	delete this->transformHandler;
+	delete this->modelHandler;
+	//delete this->levelGizmo;
+	LevelActorFactory::deleteInstance();
+	LevelActorHandler::deleteInstance();
+	LevelAssetHandler::deleteInstance();
+	LevelActionHandler::deleteInstance();
+	LevelLightHandler::deleteInstance();
+	
+	delete this->engine;
+	delete this->ui;
 }
 
 void LevelEditor::start() {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	this->engine = new Gear::GearEngine();
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
@@ -20,12 +35,13 @@ void LevelEditor::start() {
 	LevelTransformHandler::createInstance(engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, &assets);
 
-	std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
+	//std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
 	this->transformHandler = LevelTransformHandler::getInstance();
 	modelHandler = LevelModelHandler::getInstance();
 
 	factory = LevelActorFactory::getInstance();
+
 	//std::vector<LevelActor*>* actors = new std::vector<LevelActor*>[actorTypes::NR_ACTOR_TYPES];
 
 	//for (size_t i = 0; i < 100; i++)
@@ -97,6 +113,7 @@ void LevelEditor::start() {
 
 	//levelGizmo = new LevelGizmo();
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
+	LevelLightHandler::getInstance()->addDebugger(Debugger::getInstance());
 
 	while (running && window.isWindowOpen())
 	{
@@ -131,11 +148,13 @@ void LevelEditor::start() {
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine->print(fps, 0.0f, 0.0f);
 
-		/*for (int n = 0; n < actors.size(); n++)
-		{
-			actors[n]->update();
-		}*/
-		LevelActorHandler::getInstance()->updateActors();
+		if(LevelActorHandler::getInstance()->getSelected() != nullptr)
+			LevelActorHandler::getInstance()->getSelected()->update();
+		//for (int n = 0; n < actors.size(); n++)
+		//{
+		//	actors[n]->update();
+		//}
+		//LevelActorHandler::getInstance()->updateActors();
 		
 		engine->draw(camera);
 		
@@ -224,9 +243,9 @@ void LevelEditor::start() {
 			this->holdingGizmo = false;
 	
 		}*/
-		engine->queueLights(&lights);
-		if( LevelActorHandler::getInstance()->getSelected() )
-			Debugger::getInstance()->drawSphere( LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getPos(), 2.0f );
+		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
+		//if( LevelActorHandler::getInstance()->getSelected() )
+		//	Debugger::getInstance()->drawSphere( LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getPos(), 2.0f );
 
 		/*for( int x = 0; x<hm->mapWidth-1; x++ )
 		{
@@ -248,12 +267,7 @@ void LevelEditor::start() {
 	}
 	
 	
-	delete ui;
-	for (int i = 0; i < ps.size(); i++)
-		delete ps.at(i);
-	delete this->transformHandler;
-	delete this->modelHandler;
-	LevelActorFactory::deleteInstance();
+
 	/*for (size_t i = 0; i < actors.size(); i++)
 	{
 		delete actors[i];

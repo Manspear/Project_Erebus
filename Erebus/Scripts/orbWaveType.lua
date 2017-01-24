@@ -18,6 +18,7 @@ function CreateOrbWaveType()
 
 		type.sphereColliders[i] = SphereCollider.Create(type.transformIDs[i])
 		CollisionHandler.AddSphere(type.sphereColliders[i],1)
+		SphereCollider.SetActive(type.sphereCollider, false);
 
 		angle = angle + math.pi * 2 / ORBWAVEORBS
 	end
@@ -65,6 +66,9 @@ function CreateOrbWaveType()
 		self.origo = position
 		self.lifetime = 0
 		self.laps = 1
+		for i = 1, ORBWAVEORBS do
+			SphereCollider.SetActive(self.sphereCollider, true);
+		end
 	end
 
 	function type:Kill()
@@ -75,6 +79,7 @@ function CreateOrbWaveType()
 			self.positions[i].z = 0
 			Transform.SetPosition(self.transformIDs[i], self.positions[i])
 			Transform.ActiveControl(self.transformIDs[i], true)
+			SphereCollider.SetActive(self.sphereCollider, false);
 		end		
 	end
 

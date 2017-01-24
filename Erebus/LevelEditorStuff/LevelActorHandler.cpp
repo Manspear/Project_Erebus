@@ -25,10 +25,15 @@ void LevelActorHandler::setSelectedComponentCB(LevelUI::DiffComponents index) {
 	{
 		this->selectedComponent = index;
 		LevelActorComponent* c = LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]);
-		selectedActor->addComponent(c);
-		c->postInitialize();
-		updateActorBar();
+		if (!selectedActor->addComponent(c)) {
+			c->postInitialize();
+			updateActorBar();
+			
+		}
+		else
+			delete c;
 		this->selectedComponent = LevelUI::SELECT_COMPONENT;
+		
 	}
 }
 LevelActorHandler::LevelActorHandler()
@@ -39,6 +44,10 @@ LevelActorHandler::LevelActorHandler()
 
 LevelActorHandler::~LevelActorHandler()
 {
+	for (size_t i = 0; i < actors.size(); i++)
+	{
+		delete actors[i];
+	}
 }
 
 LevelActorHandler* LevelActorHandler::getInstance()
@@ -50,6 +59,7 @@ LevelActorHandler* LevelActorHandler::getInstance()
 
 void LevelActorHandler::addActor( LevelActor* actor )
 {
+	actor->setActorDisplayName(this->tryActorName(actor->getActorDisplayName()));
 	actors.insert( std::pair<unsigned int,LevelActor*>( actor->id, actor ) );
 	updateTweakBars();
 }
@@ -135,11 +145,12 @@ void LevelActorHandler::updateWorldBar()
 
 	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 	{
+		std::string displayName = it->second->getActorDisplayName();
 		std::string type = it->second->getActorType();
 
 		char buf[64] = {};
 		if( !type.empty() )
-			sprintf_s( buf, "label='%s' group='%s (%d)'", type.c_str(), type.c_str(), numActorsByType[type] );
+			sprintf_s( buf, "label='%s' group='%s (%d)'", displayName.c_str(), type.c_str(), numActorsByType[type] );
 		else
 			sprintf_s( buf, "label='Actor' group='None (%d)'", numActorsByType["None"] );
 		TwAddButton( worldBar->getBar(), NULL, onActorSelected, it->second, buf );
@@ -199,4 +210,25 @@ void LevelActorHandler::onGetExportType( void* value, void* clientData )
 {
 	LevelActor* actor = (LevelActor*)clientData;
 	*(int*)value = actor->getExportType();
+}
+
+const std::string LevelActorHandler::tryActorName(std::string name) {
+	std::string currentName = name;
+	int currentActorIndex = 0;
+	bool foundNew = true;
+	while (foundNew) {
+		foundNew = false;
+		for (ActorIT it = actors.begin(); it != actors.end(); it++) {
+			
+			if (it->second->getActorDisplayName() == currentName) {
+				currentActorIndex++;
+				currentName = name + std::to_string(currentActorIndex);
+				foundNew = true;
+				it == actors.end();
+			}
+		}
+	}
+
+		
+	return currentName;
 }

@@ -68,6 +68,10 @@ std::string LevelUI::vec3ToString(glm::vec3& val, std::string type) {
 
 LevelUI::~LevelUI()
 {
+	for (size_t i = 0; i < 5; i++)
+	{
+		delete bars[i];
+	}
 }
 
 void LevelUI::Draw() {

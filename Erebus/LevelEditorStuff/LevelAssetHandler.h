@@ -16,6 +16,7 @@ public:
 	~LevelAssetHandler();
 
 	static LevelAssetHandler* getInstance();
+	static void deleteInstance();
 
 	void load();
 	void updateBars();

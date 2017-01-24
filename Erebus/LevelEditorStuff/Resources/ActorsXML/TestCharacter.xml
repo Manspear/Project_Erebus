@@ -1,4 +1,4 @@
-<Actor type="TestCharacter">
+<Actor type="TestCharacter" displayName="Stick Guy">
 	<LevelTransform>
 		<Position x="10.0" y="3.3" z="7.5" />
 		<Rotation x="0" y="0" z="0" />

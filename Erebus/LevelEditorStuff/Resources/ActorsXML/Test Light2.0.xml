@@ -1,0 +1,12 @@
+<LevelActor type="" displayName="">
+    <LevelPointLight>
+        <Position x="209.78572" y="45.843994" z="58.28125"/>
+        <Color x="2" y="7" z="1"/>
+        <Radius r="52"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="187.78572" y="45.843994" z="58.28125"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+    </LevelTransform>
+</LevelActor>

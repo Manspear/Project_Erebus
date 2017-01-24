@@ -22,6 +22,7 @@ class LevelActionHandler
 public:
 	~LevelActionHandler();
 	static LevelActionHandler* getInstance();
+	static void deleteInstance();
 
 	void setupGizmo( Debug* debug, Camera* camera, Inputs* inputs );
 	void update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera );

@@ -18,6 +18,17 @@ LevelAssetHandler* LevelAssetHandler::getInstance()
 	return g_instance;
 }
 
+void LevelAssetHandler::deleteInstance()
+{
+	if (g_instance != nullptr)
+		delete g_instance;
+}
+void LevelActorHandler::deleteInstance()
+{
+	if (g_instance != nullptr)
+		delete g_instance;
+}
+
 void LevelAssetHandler::load()
 {
 	models.clear();

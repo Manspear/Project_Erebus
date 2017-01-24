@@ -25,7 +25,7 @@ public:
 	//bool deleteComponent(std::string componentName);
 	void postInitializeAllComponents();
 	void update();
-	void addComponent(LevelActorComponent* component);
+	bool addComponent(LevelActorComponent* component);
 	void printAllComponents();
 	void insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocument* doc);
 	unsigned int id;
@@ -35,6 +35,7 @@ public:
 
 	int getExportType();
 	const std::string& getActorType() const;
+	const std::string& getActorDisplayName() const;
 
 	std::map<std::string, LevelActorComponent*>& getAllComponents();
 
@@ -42,10 +43,14 @@ public:
 
 	static const char* EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES];
 
+	void setActorType(std::string type);
+	void setActorDisplayName(std::string name);
+
 private:
 	std::map<std::string, LevelActorComponent*> actorComponents;
 	std::string actorType;
 	int exportType;
+	std::string actorDisplayName;
 
 	// template class here
 public:

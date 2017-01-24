@@ -1,4 +1,6 @@
 #include "LevelActor.h"
+#include "LevelActorHandler.h"
+
 
 const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 {
@@ -6,6 +8,24 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Static",
 	"Enemy"
 };
+
+void TW_CALL SetMyStdStringCB(const void *value, void *s /*clientData*/)
+{
+	// Set: copy the value of s from AntTweakBar
+	const std::string *srcPtr = static_cast<const std::string *>(value);
+	LevelActor* actor = (LevelActor*)s;
+	actor->setActorDisplayName(*srcPtr);
+	LevelActorHandler::getInstance()->updateWorldBar();
+	
+}
+
+void TW_CALL GetMyStdStringCB(void *value, void *s /*clientData*/)
+{
+	// Get: copy the value of s to AntTweakBar
+	std::string *destPtr = static_cast<std::string *>(value);
+	LevelActor* actor = (LevelActor*)s;
+	TwCopyStdStringToLibrary(*destPtr, actor->getActorDisplayName()); // the use of TwCopyStdStringToLibrary is required here
+}
 
 LevelActor::LevelActor(unsigned int id)
 	: exportType( EXPORT_STATIC )
@@ -25,6 +45,7 @@ LevelActor::~LevelActor()
 void LevelActor::initialize(tinyxml2::XMLElement* data)
 {
 	this->actorType = data->Attribute("type");
+	this->actorDisplayName = data->Attribute("displayName");
 }
 
 void LevelActor::update()
@@ -35,10 +56,22 @@ void LevelActor::update()
 	}
 }
 
-void LevelActor::addComponent(LevelActorComponent * component)
+bool LevelActor::addComponent(LevelActorComponent * component)
 {
-	this->actorComponents.insert(std::pair<std::string,LevelActorComponent*>(component->getName(),component));
-	component->setParent(this);
+	bool exists = false;// = actorComponents.find(component->getName()) == actorComponents.end();
+	for (auto it = this->actorComponents.begin(); it != this->actorComponents.end(); ++it)
+	{
+		if (component->getName() == it->second->getName()) {
+			exists = true;
+			break;
+		}
+	}
+	if (!exists) {
+		this->actorComponents.insert(std::pair<std::string, LevelActorComponent*>(component->getName(), component));
+		component->setParent(this);
+	}
+	return exists;
+	
 }
 
 void LevelActor::printAllComponents()
@@ -65,6 +98,7 @@ std::string LevelActor::toXml()
 
 	tinyxml2::XMLElement* LevelActorElement = doc.NewElement(LevelActorElementValue);
 	LevelActorElement->SetAttribute("type",this->actorType.c_str());
+	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
 	for (auto element : this->actorComponents)
 	{
 		LevelActorElement->LinkEndChild(element.second->toXml(&doc));
@@ -115,6 +149,7 @@ void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocum
 	
 	tinyxml2::XMLElement* LevelActorElement = doc->NewElement(LevelActorElementValue);
 	LevelActorElement->SetAttribute("type", this->actorType.c_str());
+	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
 	
 	for (auto element : this->actorComponents)
 	{
@@ -135,6 +170,9 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	TwRemoveAllVars(bar);
 	int amountOfComponents = 0;
 	glm::vec3 colorLabel = { 255,0,0 };
+
+	//TwAddVarRW(bar, "ActorName", TW_TYPE_STDSTRING, &this->actorDisplayName, "");
+	TwAddVarCB(bar, "ActorName", TW_TYPE_STDSTRING, SetMyStdStringCB, GetMyStdStringCB, (void*)this, "");
 	for (auto it : this->actorComponents)
 	{
 		std::stringstream ss;
@@ -149,4 +187,14 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	}
 
 	return true;
+}
+
+const std::string& LevelActor::getActorDisplayName() const {
+	return this->actorDisplayName;
+}
+void LevelActor::setActorType(std::string type) {
+	this->actorType = type;
+}
+void LevelActor::setActorDisplayName(std::string name) {
+	this->actorDisplayName = name;
 }

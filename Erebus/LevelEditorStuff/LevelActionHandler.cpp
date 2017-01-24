@@ -30,6 +30,11 @@ LevelActionHandler* LevelActionHandler::getInstance()
 	return g_instance;
 }
 
+void LevelActionHandler::deleteInstance() {
+	if (g_instance != nullptr)
+		delete g_instance;
+}
+
 void LevelActionHandler::setupGizmo( Debug* debug, Camera* camera, Inputs* inputs )
 {
 	gizmo.addVariables( debug, camera, inputs );

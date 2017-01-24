@@ -23,13 +23,16 @@ public:
 	void setTransform(int index);
 
 	Transform* getTransformRef();
+	Transform* getChangeTransformRef();
 
 	void setTwStruct(TwBar * twBar) override;
+	void callListener(LevelActorComponent* component) override;
 
 private:
 	Transform* transformRef;
 	TransformStruct* transformStructTemp;
-	TransformStruct* transformStructTempStuff;
+	bool recievedModelTransform;
+
 	
 };
 
