@@ -20,6 +20,11 @@ function CreateSunRay()
 	sunRay.owner = {}
 	sunRay.moveImpairment = 0.5
 	sunRay.cameraSlow = 2.0
+	sunRay.castSFX = {}
+	sunRay.castSFX[1] = "Effects/CK_Blaster_Shot-226.wav"
+	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
+	sunRay.hitSFX = "Effects/burn_ice_001.wav"
+	sunRay.soundID = {}
 
 	local model = Assets.LoadModel( "Models/sunRay.model" )
 	Gear.AddStaticInstance(model, sunRay.type.transformID)
@@ -36,6 +41,7 @@ function CreateSunRay()
 					table.insert(hits[index].effects, self.effect())
 				end
 				hits[index]:Hurt(self.damage)
+				Sound.Play(self.hitSFX, 1, hits[index].position)
 			end
 		end
 		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), 0)
@@ -57,10 +63,15 @@ function CreateSunRay()
 		self.effectFlag = effects
 		self.damage = (chargetime/SUNRAY_MAX_CHARGETIME) * SUNRAY_DAMAGE
 		self.chargedTime = 0
+		for index = 1, #self.castSFX do
+			self.soundID[index] = Sound.Play(self.castSFX[index], 13, self.type.position)
+			Sound.SetVolume(self.soundID[index], 0.8)
+		end
 	end
 
 	function sunRay:Kill()
 		self.alive = false
+		Sound.Pause(self.soundID[2])
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		player.moveSpeed = player.moveSpeed * (1 / self.moveImpairment) 
 		self.type:Kill()

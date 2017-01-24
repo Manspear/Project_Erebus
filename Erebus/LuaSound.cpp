@@ -51,7 +51,7 @@ namespace LuaSound
 
 		int index = g_soundEngine->play(s, options, pos);
 		lua_pushinteger(lua, index);
-		return 0;
+		return 1;
 	}
 
 	int pause(lua_State* lua)
