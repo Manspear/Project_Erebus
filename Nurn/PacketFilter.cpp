@@ -60,6 +60,12 @@ void PacketFilter::openNetPacket(unsigned char * memoryPointer)
 
 				this->aiQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of AIPacket data to the correct queue
 				break;
+			case SPELL_PACKET:
+				sizeInBytes = (uint16_t)(memoryPointer[bytesRead + 2] | memoryPointer[bytesRead + 3] << 8);
+				bytesRead += sizeof(MetaDataPacket);
+
+				this->spellQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of AIPacket data to the correct queue
+				break;
 			default:
 				printf("KERNEL PANIC!!\n");
 		}
@@ -81,4 +87,9 @@ PacketQueue<AnimationPacket> * PacketFilter::getAnimationQueue()
 PacketQueue<AIPacket> * PacketFilter::getAIQueue()
 {
 	return this->aiQueue;
+}
+
+PacketQueue<SpellPacket> * PacketFilter::getSpellQueue()
+{
+	return this->spellQueue;
 }

@@ -65,6 +65,11 @@ void Packager::buildAIPacket(const uint16_t& ID)
 	this->aiQueue->push(AIPacket(ID));
 }
 
+void Packager::buildSpellPacket(const uint16_t& ID)
+{
+	this->spellQueue->push(SpellPacket(ID));
+}
+
 void Packager::addTransformPackets(uint16_t &netPacketSize)
 {
 	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
@@ -144,6 +149,33 @@ void Packager::addAIPackets(uint16_t& netPacketSize)
 	this->addMetaDataPacket(AI_PACKET, netPacketSize, sizeOfAIPackets);
 
 	netPacketSize += sizeOfAIPackets; // Should now point at the location of the next MetaDataPacket
+}
+
+void Packager::addSpellPackets(uint16_t& netPacketSize)
+{
+	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
+	SpellPacket spellPacket;
+	uint16_t sizeOfSpellPackets = 0;
+	bool breakLoop = false;
+
+	while (this->spellQueue->pop(spellPacket) && breakLoop == false)
+	{
+		// Only add a packet if there's enough space for another AIPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfSpellPackets)) > sizeof(SpellPacket))
+		{
+			// Add AIPacket to the memory ( ...[MetaData][AI][AI]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfSpellPackets, &spellPacket, sizeof(SpellPacket));
+			sizeOfSpellPackets += sizeof(SpellPacket);
+		}
+		else
+		{
+			breakLoop = true;
+		}
+	}
+
+	this->addMetaDataPacket(SPELL_PACKET, netPacketSize, sizeOfSpellPackets);
+
+	netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
 }
 
 void Packager::addMetaDataPacket(uint16_t type, uint16_t &netPacketSize, uint16_t sizeInBytes)

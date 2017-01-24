@@ -62,6 +62,9 @@ namespace Nurn
 		void buildAIPacket(const uint16_t& id);
 		bool fetchAIPacket(AIPacket& packet);
 
+		void buildSpellPacket(const uint16_t& id);
+		bool fetchSpellPacket(SpellPacket& packet);
+
 
 	private:
 		Address address;
