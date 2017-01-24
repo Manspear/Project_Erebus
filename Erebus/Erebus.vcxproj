@@ -204,6 +204,7 @@
     <None Include="Scripts\arcType.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\chronoBall.lua" />
+    <None Include="Scripts\console.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\fireball.lua" />
     <None Include="Scripts\fireballArc.lua" />

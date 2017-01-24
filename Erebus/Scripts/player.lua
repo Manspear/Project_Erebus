@@ -103,6 +103,7 @@ function UnloadPlayer()
 end
 
 function UpdatePlayer(dt)
+	UpdatePlayer2(dt)
 	if player.health > 0 then
 		player.timeSinceShot = player.timeSinceShot + dt
 		player.forward = 0
@@ -143,24 +144,24 @@ function UpdatePlayer(dt)
 		Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 
-		animationID = 42
-		Network.SendAnimationPacket(animationID);
+		Network.SendAnimationPacket(42);
 		newAnimationValue, animationID = Network.GetAnimationPacket()
 
-		--if newAnimationValue == true then
-		--	print(animationID)
-		--end
+		Network.SendAIPacket(15)
+		netAIValue, aiID = Network.GetAIPacket()
+
+		--[[if newAnimationValue == true then
+			print(animationID)
+		end
+
+		if netAIValue == true then
+			print(aiID)
+		end]]
 		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
-		newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
-		if newtransformvalue == true then
-			Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
-			Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
-			Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
-		end
 
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)

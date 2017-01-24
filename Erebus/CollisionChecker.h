@@ -33,6 +33,7 @@ public:
 	bool collisionCheck(RayCollider* ray, SphereCollider* sphere);
 	bool collisionCheck(RayCollider* ray, AABBCollider* aabb);
 	bool collisionCheck(RayCollider* ray, OBBCollider* obb); // https://www.gamedev.net/topic/463718-efficient-ray-obb-intersection-with-distance/
+	bool collisionCheck(HitBox* hitbox1, HitBox* hitbox2);
 
 	//helper functions
 	float closestDistanceAabbToPoint(const float& point, const float aabbMin, const float aabbMax);
