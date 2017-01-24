@@ -131,5 +131,5 @@ void LevelPointLightComponent::setTwStruct(TwBar* tempBar )
 
 void LevelPointLightComponent::callListener(LevelActorComponent* component) {
 	setWorldPos(((LevelTransform*)component));
-	std::cout << "NEW WORLD POS"<<glm::to_string(worldPos) << std::endl;
+	//std::cout << "NEW WORLD POS"<<glm::to_string(worldPos) << std::endl;
 }
