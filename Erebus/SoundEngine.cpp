@@ -30,9 +30,9 @@ SoundEngine::~SoundEngine()
 		engine->drop();
 }
 
-int SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
+size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 {
-	int index = -1;
+	size_t index = -1;
 
 	if (!engine)
 		return index;
@@ -89,6 +89,13 @@ void SoundEngine::resumeAll()
 {
 	if (engine)
 		engine->setAllSoundsPaused(false);
+}
+
+void SoundEngine::clear()
+{
+	for (auto s : sounds)
+		s->drop;
+	sounds.clear();
 }
 
 void SoundEngine::setMasterVolume(float v)
