@@ -23,11 +23,13 @@ void LevelAssetHandler::deleteInstance()
 	if (g_instance != nullptr)
 		delete g_instance;
 }
-void LevelActorHandler::deleteInstance()
-{
+
+void LevelAssetHandler::resetInstance() {
 	if (g_instance != nullptr)
 		delete g_instance;
+	g_instance = new LevelAssetHandler();
 }
+
 
 void LevelAssetHandler::load()
 {

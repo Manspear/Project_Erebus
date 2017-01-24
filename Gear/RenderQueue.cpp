@@ -23,6 +23,10 @@ RenderQueue::~RenderQueue()
 	delete[] tempMatrices;
 }
 
+void RenderQueue::reset() {
+
+}
+
 void RenderQueue::init()
 {
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");

@@ -14,6 +14,7 @@ public:
 	~LevelLightHandler();
 	static LevelLightHandler* getInstance();
 	static void deleteInstance();
+	static void resetInstance();
 
 	std::vector<Lights::PointLight*>* getPointLights();
 	void addDebugger(Debug* debug);

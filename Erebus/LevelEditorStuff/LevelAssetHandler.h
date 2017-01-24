@@ -17,6 +17,7 @@ public:
 
 	static LevelAssetHandler* getInstance();
 	static void deleteInstance();
+	static void resetInstance();
 
 	void load();
 	void updateBars();

@@ -96,7 +96,7 @@ class LevelUI
 {
 private:
 	TweakBar* bars[5];
-
+	void initBars();
 	
 public:
 	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, NUM_DIFF_COMPONENTS} DiffComponents;
@@ -113,6 +113,8 @@ public:
 	static TwType componentTw;
 	static std::string vec2ToString(glm::vec2& val, std::string type = "");
 	static std::string vec3ToString(glm::vec3& val, std::string type = "");
+
+	void reset(GLFWwindow* window);
 #pragma region defines
 	static TwType TW_TYPE_COMPONENTS() {
 

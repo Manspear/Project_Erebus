@@ -57,6 +57,7 @@ public:
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs);
+	void reset();
 
 private:
 	int currentShader = 0;

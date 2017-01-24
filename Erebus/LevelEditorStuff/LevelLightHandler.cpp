@@ -23,7 +23,15 @@ LevelLightHandler* LevelLightHandler::getInstance() {
 	return g_instance;
 }
 void LevelLightHandler::deleteInstance() {
-	delete g_instance;
+	if(g_instance != nullptr)
+		delete g_instance;
+}
+
+void LevelLightHandler::resetInstance()
+{
+	if (g_instance != nullptr)
+		delete g_instance;
+	g_instance = new LevelLightHandler();
 }
 
 std::vector<Lights::PointLight*>* LevelLightHandler::getPointLights() {

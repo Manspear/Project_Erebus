@@ -27,6 +27,7 @@
 #include "LevelActionHandler.h"
 #include "LevelGizmo.h"
 #include "LevelLightHandler.h"
+#include "LevelWorldHandler.h"
 
 #include <SDKDDKVer.h>
 
@@ -51,14 +52,12 @@ private:
 	
 	Gear::GearEngine* engine;
 	LevelUI* ui;
-	LevelActorFactory* factory;
 	std::vector<Gear::ParticleSystem*> ps;
-	LevelTransformHandler* transformHandler;
-	LevelModelHandler* modelHandler;
 	bool running;
 	Camera* camera;
 	Inputs* inputs;
 	Window window;
+	Importer::Assets* assets;
 	std::vector<LevelActor*> actors;
 	int tempSelectedActorID;
 	glm::vec3 tempSelectedHitPoint;

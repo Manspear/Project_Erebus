@@ -13,34 +13,37 @@ LevelEditor::~LevelEditor()
 
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
-	delete this->transformHandler;
-	delete this->modelHandler;
+	//delete this->transformHandler;
+	//delete this->modelHandler;
 	//delete this->levelGizmo;
+	
 	LevelActorFactory::deleteInstance();
 	LevelActorHandler::deleteInstance();
 	LevelAssetHandler::deleteInstance();
 	LevelActionHandler::deleteInstance();
 	LevelLightHandler::deleteInstance();
+	LevelTransformHandler::deleteInstance();
+	LevelModelHandler::deleteInstance();
+	LevelWorldHandler::deleteInstance();
 	
+	delete this->assets;
 	delete this->engine;
 	delete this->ui;
 }
 
+
+
 void LevelEditor::start() {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	this->engine = new Gear::GearEngine();
-	Importer::Assets assets;
-	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
-
+	assets = new Importer::Assets();
+	Importer::FontAsset* font = assets->load<FontAsset>("Fonts/System");
 	LevelTransformHandler::createInstance(engine);
-	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, &assets);
+	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, assets);
 
+	
 	//std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
-	this->transformHandler = LevelTransformHandler::getInstance();
-	modelHandler = LevelModelHandler::getInstance();
-
-	factory = LevelActorFactory::getInstance();
 
 	//std::vector<LevelActor*>* actors = new std::vector<LevelActor*>[actorTypes::NR_ACTOR_TYPES];
 
@@ -64,13 +67,9 @@ void LevelEditor::start() {
 	//factory->saveWorld("Level2", &actors);
 
 	//factory->loadWorld("Level2", &actors);
-	factory->loadWorld("Level2");
+	LevelActorFactory::getInstance()->loadWorld("Level2");
 
 	engine->setFont(font);
-
-	CollisionHandler collisionHandler;
-	collisionHandler.setTransforms(this->transformHandler->getAllTransforms());
-	
 
 	glEnable(GL_DEPTH_TEST);
 	
@@ -96,7 +95,7 @@ void LevelEditor::start() {
 	//
 	//}
 
-	HeightMap* hm = assets.load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
+	HeightMap* hm = assets->load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
 	//glm::vec3 hitPoint;
 	bool hasHit = false;
 	
@@ -105,7 +104,7 @@ void LevelEditor::start() {
 
 	//ps.push_back(new Gear::ParticleSystem(100, 10, 10, 1, 100));
 
-	LevelAssetHandler::getInstance()->setAssets( &assets );
+	LevelAssetHandler::getInstance()->setAssets( assets );
 	LevelAssetHandler::getInstance()->setInputs( inputs );
 	LevelAssetHandler::getInstance()->load();
 
@@ -115,6 +114,12 @@ void LevelEditor::start() {
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
 	LevelLightHandler::getInstance()->addDebugger(Debugger::getInstance());
 
+	
+	//resetWorld();
+	//resetWorld();
+	//resetWorld();
+	LevelWorldHandler::getInstance()->addStuff(engine, assets, ui, &window, inputs, camera, Debugger::getInstance());
+
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -122,11 +127,11 @@ void LevelEditor::start() {
 		
 		camera->updateLevelEditorCamera(deltaTime);
 
-		for (size_t i = 0; i < 100; i++)
-		{
-			//Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
-			//derp->setPos(derp->getPos() + (glm::vec3(i/100.f)* deltaTime));
-		}
+		//for (size_t i = 0; i < 100; i++)
+		//{
+		//	//Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
+		//	//derp->setPos(derp->getPos() + (glm::vec3(i/100.f)* deltaTime));
+		//}
 
 		//for (int i = 0; i < ps.size(); i++)
 		//	ps.at(i)->update(deltaTime);
@@ -139,11 +144,9 @@ void LevelEditor::start() {
 
 		
 
-		engine->queueDynamicModels(modelHandler->getModels());
-		engine->queueAnimModels(modelHandler->getAnimatedModels());
+		engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
+		engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 		engine->queueParticles(&ps);
-
-		collisionHandler.checkCollisions();
 
 		std::string fps = "FPS: " + std::to_string(counter.getFPS());
 		engine->print(fps, 0.0f, 0.0f);
@@ -171,8 +174,8 @@ void LevelEditor::start() {
 			engine->setDrawMode(3);
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_P))
 			engine->setDrawMode(4);
-		else if (inputs->keyPressedThisFrame(GLFW_KEY_N))
-			engine->setDrawMode(5);
+		//else if (inputs->keyPressedThisFrame(GLFW_KEY_N))
+		//	resetWorld();
 		else if (inputs->keyPressedThisFrame(GLFW_KEY_O))
 			engine->setDrawMode(6);
 		else if (inputs->keyPressed(GLFW_KEY_R))
@@ -192,76 +195,7 @@ void LevelEditor::start() {
 
 		LevelActionHandler::getInstance()->update( inputs, engine, camera );
 
-		/*this->levelGizmo->update();
-		this->levelGizmo->drawGizmo();
-		
-		if(inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1)) {
-			this->holdingGizmo = levelGizmo->onMouseDown();
-		}
-
-		if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
-		{
-			
-			if (!holdingGizmo)
-			{
-				pick();
-
-				int action = LevelActionHandler::getInstance()->getAction();
-
-				if (action == ACTION_SELECT)
-					LevelActorHandler::getInstance()->setSelected(tempSelectedActorID);
-				else if (action == ACTION_NEW_ACTOR || action == ACTION_PLACE_PREFAB)
-				{
-					hasHit = this->tempSelectedHitPoint != glm::vec3(0);
-					if (hasHit)
-					{
-						if (action == ACTION_NEW_ACTOR)
-						{
-							LevelActor* newActor = factory->createActor();
-							newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(this->tempSelectedHitPoint);
-							LevelActorHandler::getInstance()->addActor(newActor);
-							LevelActorHandler::getInstance()->setSelected(newActor);
-						}
-						else if (action == ACTION_PLACE_PREFAB)
-						{
-							LevelActor* newActor = factory->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-							if (newActor)
-							{
-								LevelActorHandler::getInstance()->addActor(newActor);
-								LevelActorHandler::getInstance()->setSelected(newActor);
-
-								LevelTransform* trans = newActor->getComponent<LevelTransform>();
-								if (trans)
-									trans->getTransformRef()->setPos(tempSelectedHitPoint);
-							}
-						}
-					}
-				}
-				
-			}
-			this->levelGizmo->onMouseUp();
-			this->holdingGizmo = false;
-	
-		}*/
 		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
-		//if( LevelActorHandler::getInstance()->getSelected() )
-		//	Debugger::getInstance()->drawSphere( LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getPos(), 2.0f );
-
-		/*for( int x = 0; x<hm->mapWidth-1; x++ )
-		{
-			for( int y = 0; y<hm->mapHeight-1; y++ )
-			{
-				glm::vec3 v1( x, hm->getPos(x,y), y );
-				glm::vec3 v2( (x+1), hm->getPos(x+1,y), y );
-				glm::vec3 v3( x, hm->getPos(x,y+1), (y+1) );
-				glm::vec3 v4( x+1, hm->getPos(x+1,y+1), y+1 );
-
-				Debugger::getInstance()->drawLine(v1,v2);
-				Debugger::getInstance()->drawLine(v1,v3);
-				Debugger::getInstance()->drawLine(v2,v3);
-				//Debugger::getInstance()->drawLine(v3,v4);
-			}
-		}*/
 
 		window.update();
 	}
@@ -277,25 +211,14 @@ void LevelEditor::start() {
 }
 
 void LevelEditor::pick() {
-	int actorID = 0;
-	glm::vec3 hitPoint = { 0,0,0 };
-	engine->pickActorFromWorld(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
-		this->inputs->getMousePos(), tempSelectedActorID, tempSelectedHitPoint);
-		
-	
-	/*
-	Agent Ids
-	Static models 
-	Anim models
+	////////////int actorID = 0;
+	////////////glm::vec3 hitPoint = { 0,0,0 };
+	//////////////if (LevelModelHandler::getInstance()->getModels()->size() > 0) {
+	//////////////	engine->pickActorFromWorld(modelHandler->getModels(), this->modelHandler->getModelInstanceAgentIDs(), this->camera,
+	//////////////		this->inputs->getMousePos(), tempSelectedActorID, tempSelectedHitPoint);
+	//////////////}
+	//////////////else {
 
-	Model1
-	0-5
-	52,64,12,42,62
-		Arr modelIndex[0-2]
-		Arr modelIndice[0-20]
-		Arr modelAgentID[0-20]
-		agentData[numModelTypes][numWorldMatrixIndices] = agentId
-		std::vector<std::vector<int>> derp
-		
-	*/
+	//////////////}
+
 }

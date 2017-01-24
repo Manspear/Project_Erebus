@@ -13,6 +13,8 @@ LevelModelHandler::LevelModelHandler(LevelTransformHandler* transHandlerRef,
 	this->assetsRef = assetRef;
 	//modelToActorID.resize(100);
 	modelInstanceAgentIDs.resize(100);
+	this->animatedModels = std::vector<AnimatedInstance>();
+	this->models = std::vector<ModelInstance>();
 }
 
 LevelModelHandler::~LevelModelHandler()

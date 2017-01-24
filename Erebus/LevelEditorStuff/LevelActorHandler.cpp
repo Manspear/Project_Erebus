@@ -232,3 +232,16 @@ const std::string LevelActorHandler::tryActorName(std::string name) {
 		
 	return currentName;
 }
+
+void LevelActorHandler::deleteInstance()
+{
+	if (g_instance != nullptr)
+		delete g_instance;
+}
+
+void LevelActorHandler::resetInstance()
+{
+	if (g_instance != nullptr)
+		delete g_instance;
+	g_instance = new LevelActorHandler();
+}
