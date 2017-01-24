@@ -509,7 +509,6 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, OBBCollider * obb)
 	float hitDistance = t[0];
 	if (hitDistance < 0 && t[1] > 0)
 		hitDistance = t[1];
-	else return false;
 	glm::vec3 intersectionPoint = ray->getPosition() + (rayDirection * hitDistance);
 	ray->hit(intersectionPoint, hitDistance);
 	return true;
