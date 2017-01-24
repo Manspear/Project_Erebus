@@ -18,7 +18,8 @@ function CreateSunRay()
 	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.particles = createFireballParticles()
 	sunRay.owner = {}
-	sunRay.moveImpairment = 0.5;
+	sunRay.moveImpairment = 0.5
+	sunRay.cameraSlow = 2.0
 
 	local model = Assets.LoadModel( "Models/sunRay.model" )
 	Gear.AddStaticInstance(model, sunRay.type.transformID)
@@ -26,7 +27,9 @@ function CreateSunRay()
 	function sunRay:Update(dt)
 		hits = self.type:Update(dt)
 		self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
+		tempDir = Transform.GetRotation(player.tranformID)
 		Transform.SetRotation(self.type.transformID, Transform.GetRotation(player.tranformID))
+		Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(player.tranformID))
 		for index = 1, #hits do
 			if hits[index].Hurt then	
 				if self.effectFlag then
@@ -45,8 +48,9 @@ function CreateSunRay()
 	
 	function sunRay:Cast(chargetime, effects)
 		self.particles.cast()
-		Camera.SetSensitivity(self.moveImpairment)
+		Erebus.CameraSensitivity(self.cameraSlow)
 		chargetime = math.min(chargetime, SUNRAY_MAX_CHARGETIME)
+		player.moveSpeed = player.moveSpeed * self.moveImpairment 
 		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), 0)
 		self.alive = true
 		self.lifeTime = SUNRAY_DURATION 
@@ -57,7 +61,8 @@ function CreateSunRay()
 
 	function sunRay:Kill()
 		self.alive = false
-		Camera.SetSensitivity(1 / self.moveImpairment)
+		Erebus.CameraSensitivity(1 / self.cameraSlow)
+		player.moveSpeed = player.moveSpeed * (1 / self.moveImpairment) 
 		self.type:Kill()
 	end
 	return sunRay

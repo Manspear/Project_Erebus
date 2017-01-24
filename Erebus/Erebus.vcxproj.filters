@@ -186,9 +186,6 @@
     <None Include="Scripts\camera.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\cameraLevelEditor.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\enemies.lua">
       <Filter>Scripts</Filter>
     </None>

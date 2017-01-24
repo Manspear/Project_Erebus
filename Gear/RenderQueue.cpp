@@ -246,39 +246,12 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 	allShaders[FORWARD]->unUse();
 }
 
-glm::vec3 globalLOL = { 0,0,0 };
-struct greater {
-	bool operator()( Gear::ParticleSystem* const &a, Gear::ParticleSystem* const &b ) {
-		return glm::length(a->position - globalLOL) > glm::length(b->position - globalLOL);
-	}
-};
-void RenderQueue::particleSort(std::vector<Gear::ParticleSystem*>* particleSystems, glm::vec3 cameraPos) {
-	globalLOL = cameraPos;
-	std::sort(particleSystems->begin(), particleSystems->end(), greater());
-	/*float distance = 0.f;
-	std::vector<Gear::ParticleSystem*>::iterator index;
-	Gear::ParticleSystem* tempsys;
-	for (std::vector<Gear::ParticleSystem*>::iterator i = particleSystems->begin(); i != particleSystems->end(); ++i) {
-		for (std::vector<Gear::ParticleSystem*>::iterator j = i; j != particleSystems->end(); ++j) {
-			float temp = glm::length((*j)->position - cameraPos);
-			if ( temp > distance ) {
-				distance = temp;
-				index = j;
-			}
-		}
-		tempsys = particleSystems->at(i);
-		particleSystems->at(i) = particleSystems->at(index);
-		particleSystems->at(index) = tempsys;
-	}*/
-}
-
 void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSystems)
 {
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
 	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
-	//glDepthMask(GL_FALSE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	Color c;
@@ -301,7 +274,6 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSyste
 		}
 	}
 	allShaders[PARTICLES]->unUse();
-	//glDisable(GL_BLEND);
 }
 
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)

@@ -115,7 +115,98 @@ function UpdatePlayer(dt)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
 
-		if Inputs.KeyDown("W") then
+		Controls(dt)
+
+		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
+		local newPosition = Transform.GetPosition(player.transformID)
+
+		local posx = math.floor(newPosition.x/512)
+		local posz = math.floor(newPosition.z/512)
+		player.heightmapIndex = (posz*2 + posx)+1
+		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+
+		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+
+		local diff = height - position.y
+		position = newPosition
+
+		position.y = position.y + player.verticalSpeed
+		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
+
+		if position.y <= height then
+			position.y = height
+			player.canJump = true
+			player.verticalSpeed = 0
+		end
+
+		Transform.SetPosition(player.transformID, position)
+		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
+
+		animationID = 42
+		Network.SendAnimationPacket(animationID);
+		newAnimationValue, animationID = Network.GetAnimationPacket()
+
+		--if newAnimationValue == true then
+		--	print(animationID)
+		--end
+		
+		if Network.ShouldSendNewTransform() == true then
+			Network.SendTransformPacket(player.transformID, position, direction, rotation)
+		end
+		newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
+
+		if newtransformvalue == true then
+			Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
+			Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
+			Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
+		end
+
+		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		player.animationController:AnimationUpdate(dt)
+		player2.animationController:AnimationUpdate(dt)
+
+	end
+	-- update the current player spell
+	for i=1, #player.spells do 
+		for _,j in ipairs(player.spells[i]) do
+			if j.alive then
+			j:Update(dt)
+			end
+		end
+	end
+
+	-- check collision against the goal
+	local collisionIDs = player.sphereCollider:GetCollisionIDs()
+	for curID=1, #collisionIDs do
+		if collisionIDs[curID] == goal.collider:GetID() then
+			player.reachedGoal = true
+		end
+	end
+
+	-- show player position and lookat on screen
+	if Inputs.KeyPressed("0") then player.printInfo = not player.printInfo end
+	if player.printInfo then
+		local scale = 0.8
+		local color = {0.4, 1, 0.4, 1}
+		local info = "Player"
+		Gear.Print(info, 60, 570, scale, color)
+
+		local position = Transform.GetPosition(player.transformID)
+		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
+		Gear.Print(info, 0, 600, scale, color)
+
+		local direction = Transform.GetLookAt(player.transformID)
+		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
+		Gear.Print(info, 120, 600, scale, color)
+	end
+
+	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
+	
+end
+
+function Controls(dt)
+	if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 			end
 		if Inputs.KeyDown("S") then
@@ -169,105 +260,6 @@ function UpdatePlayer(dt)
 
 		if Inputs.KeyPressed("1") then player.currentSpell = 1; player.chargedspell = {} end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2; player.chargedspell = {} end
-
-		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
-		local newPosition = Transform.GetPosition(player.transformID)
-
-		local posx = math.floor(newPosition.x/512)
-		local posz = math.floor(newPosition.z/512)
-		player.heightmapIndex = (posz*2 + posx)+1
-		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
-		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
-
-		--print(newPosition.x,newPosition.z)
-		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
-		--print(height)
-
-		local diff = height - position.y
-		--if diff <= player.walkableIncline then
-		--	position = newPosition
-		--else
-		--	posx = math.floor(position.x/512)
-		--	posz = math.floor(position.z/512)
-		--	player.heightmapIndex = (posz*2 + posx)+1
-		--	if player.heightmapIndex<1 then player.heightmapIndex = 1 end
-		--	if player.heightmapIndex>4 then player.heightmapIndex = 4 end
-		--	height = heightmaps[player.heightmapIndex]:GetHeight(position.x,position.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
-		--end
-		position = newPosition
-
-		position.y = position.y + player.verticalSpeed
-		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
-
-		if position.y <= height then
-			position.y = height
-			player.canJump = true
-			player.verticalSpeed = 0
-		end
-
-		Transform.SetPosition(player.transformID, position)
-		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
-
-		animationID = 42
-		Network.SendAnimationPacket(animationID);
-		newAnimationValue, animationID = Network.GetAnimationPacket()
-
-		--if newAnimationValue == true then
-		--	print(animationID)
-		--end
-		
-		if Network.ShouldSendNewTransform() == true then
-			Network.SendTransformPacket(player.transformID, position, direction, rotation)
-		end
-		newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
-
-		if newtransformvalue == true then
-			Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
-			Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
-			Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
-		end
-
-		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		player.animationController:AnimationUpdate(dt)
-		player2.animationController:AnimationUpdate(dt)
-
-	end
-		-- update the current player spell
-		for i=1, #player.spells do 
-			for _,j in ipairs(player.spells[i]) do
-				if j.alive then
-				j:Update(dt)
-				end
-			end
-		end
-
-		-- check collision against the goal
-		local collisionIDs = player.sphereCollider:GetCollisionIDs()
-		for curID=1, #collisionIDs do
-			if collisionIDs[curID] == goal.collider:GetID() then
-				player.reachedGoal = true
-			end
-		end
-
-	-- show player position and lookat on screen
-	if Inputs.KeyPressed("0") then player.printInfo = not player.printInfo end
-	if player.printInfo then
-		local scale = 0.8
-		local color = {0.4, 1, 0.4, 1}
-		local info = "Player"
-		Gear.Print(info, 60, 570, scale, color)
-
-		local position = Transform.GetPosition(player.transformID)
-		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
-		Gear.Print(info, 0, 600, scale, color)
-
-		local direction = Transform.GetLookAt(player.transformID)
-		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
-		Gear.Print(info, 120, 600, scale, color)
-	end
-
-	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
-	
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

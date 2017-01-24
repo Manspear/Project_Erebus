@@ -12,7 +12,6 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	this->aspectRatio = aspectRatio;
 	this->nearPlane = nearPlane;
 	this->farPlane = farPlane;
-	sensitivity = 100.f;
 	horizontalAngle = 3.14f;
 	verticalAngle = 0;
 	inputs = in;
@@ -79,13 +78,13 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 
 		MousePos dPos = inputs->getDeltaPos();
 
-		horizontalAngle += (float)dPos.x / sensitivity;
-		verticalAngle += (float)dPos.y / sensitivity;
+		horizontalAngle += (float)dPos.x / 100;
+		verticalAngle += (float)dPos.y / 100;
 		if (horizontalAngle > 2 * 3.14f) {
 			horizontalAngle -= 2 * 3.14f;
 		}
 		if (abs(verticalAngle) > 3.14f/2) {
-			verticalAngle -= (float)dPos.y / 100.f;
+			verticalAngle -= (float)dPos.y / 100;
 		}
 
 		camDirection = glm::vec3(
@@ -153,11 +152,6 @@ void Camera::setprojection(glm::mat4 m)
 void Camera::setView(glm::mat4 m)
 {
 	this->viewMat = m;
-}
-
-void Camera::sensitivityFactor(float factor) 
-{
-	sensitivity *= factor;
 }
 
 glm::mat4 Camera::getViewPers()
