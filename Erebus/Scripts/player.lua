@@ -238,10 +238,10 @@ function Controls(dt)
 					end
 				end
 			end
-			player.chargedspell:Charge(dt)
+			--player.chargedspell:Charge(dt)
 		end
 		if Inputs.ButtonReleased(Buttons.Right) then
-			player.chargedspell:ChargeCast(dt)
+			--player.chargedspell:ChargeCast(dt)
 		end
 
 		if Inputs.KeyPressed("1") then player.currentSpell = 1; player.chargedspell = {} end
