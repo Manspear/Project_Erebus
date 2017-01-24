@@ -1,7 +1,7 @@
-Ambient color: 0.000000 0.000000 0.000000
-Diffuse color: 1.000000 1.000000 1.000000
-Specular color: 0.500000 0.500000 0.500000
-Shinyfactor: 6.311791
-Diffuse texture: tempLazer.dds
+Ambient color: 1 2 3
+Diffuse color: 4 5 6
+Specular color: 7 8 9
+Shiny factor: 0
+Diffuse texture: dirt2.png
 Specular texture: NOTEXTURE
-Normal texture: NOTEXTURE
+Normal texture: molerat_normalmap.png
