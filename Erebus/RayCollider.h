@@ -30,7 +30,6 @@ public:
 private:
 	glm::vec3 direction, position, intersectionPoint;
 	float hitDistance;
-	int ID, IDTransform;
 	const unsigned short RESERVE_COLLISIONS = 10;
 	bool active;
 	void clearCollisionIDs();
