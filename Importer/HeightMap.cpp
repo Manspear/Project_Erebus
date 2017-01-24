@@ -203,6 +203,7 @@ bool HeightMap::rayIntersection(glm::vec3 rayO, glm::vec3 rayD) {
 namespace Importer
 {
 	HeightMap::HeightMap()
+		: heightData( nullptr )
 	{
 	}
 

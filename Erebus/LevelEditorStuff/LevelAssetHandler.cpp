@@ -37,7 +37,7 @@ void LevelAssetHandler::load()
 
 	loadAssets( &prefabs, "LevelEditorStuff/Resources/ActorsXML" );
 	loadAssets( &models, "Models", ".model" );
-	loadAssets( &textures, "Textures" );
+	loadAssets( &textures, "Textures", ".png" );
 
 	updateAssetsBar();
 }
@@ -106,18 +106,26 @@ void LevelAssetHandler::updateAssetsBar()
 	selectedPrefab = 0;
 
 	for( int i=0; i<models.size(); i++ )
-		TwAddButton( assetsBar->getBar(), models[i].c_str(), onSelectAsset, &models[i], "group='Models'" );
+		TwAddButton( assetsBar->getBar(), models[i].c_str(), onSelectModel, &models[i], "group='Models'" );
 	TwDefine( "Assets/Models opened=false" );
 
 	for( int i=0; i<textures.size(); i++ )
-		TwAddButton( assetsBar->getBar(), textures[i].c_str(), onSelectAsset, NULL, "group='Textures'" );
+		TwAddButton( assetsBar->getBar(), textures[i].c_str(), onSelectTexture, &textures[i], "group='Textures'" );
 	TwDefine( "Assets/Textures opened=false" );
 }
 
-void LevelAssetHandler::selectAsset( std::string model )
+void LevelAssetHandler::selectModel( std::string model )
 {
-	selectedModel = model;
+	selectedAsset = model;
+	modelAsset = false;
 	showContextBar( model );
+}
+
+void LevelAssetHandler::selectTexture( std::string texture )
+{
+	selectedAsset = texture;
+	modelAsset = false;
+	showContextBar( texture );
 }
 
 /*void LevelAssetHandler::selectPrefab( std::string prefab )
@@ -139,14 +147,14 @@ void LevelAssetHandler::selectAsset( std::string model )
 	selectedPrefab = index;
 }*/
 
-void LevelAssetHandler::showContextBar( std::string model )
+void LevelAssetHandler::showContextBar( std::string asset )
 {
 	contextBarVisible = true;
 
 	int xpos = (int)(assetsBar->getPos().x - contextBar->getSize().x);
 	int ypos = (int)inputs->getMousePos().y-32;
 	char buffer[128] = {};
-	sprintf( buffer, "%s visible=true position='%d %d' label='%s'", contextBar->getName().c_str(), xpos, ypos, model.c_str() );
+	sprintf( buffer, "%s visible=true position='%d %d' label='%s'", contextBar->getName().c_str(), xpos, ypos, asset.c_str() );
 	TwDefine( buffer );
 }
 
@@ -159,29 +167,42 @@ void LevelAssetHandler::hideContextBar()
 
 void LevelAssetHandler::addToActor()
 {
-	if( selectedModel.size() > 0 && selectedModel != "" )
+	if( !selectedAsset.empty() )
 	{
 		LevelActor* selectedActor = LevelActorHandler::getInstance()->getSelected();
 		if( selectedActor )
 		{
-			LevelModel* modelComponent = selectedActor->getComponent<LevelModel>();
-			if( modelComponent )
+			if( modelAsset )
 			{
-				modelComponent->setModelName( selectedModel );
+				LevelModel* modelComponent = selectedActor->getComponent<LevelModel>();
+				if( modelComponent )
+				{
+					modelComponent->setModelName( selectedAsset );
+				}
+				else
+				{
+					modelComponent = (LevelModel*)LevelActorFactory::getInstance()->getNewComponent( LevelModel::name );
+					modelComponent->setModelName( selectedAsset );
+					selectedActor->addComponent( modelComponent );
+					modelComponent->postInitialize();
+				}
 			}
 			else
 			{
-				modelComponent = (LevelModel*)LevelActorFactory::getInstance()->getNewComponent( LevelModel::name );
-				modelComponent->setModelName( selectedModel );
-				selectedActor->addComponent( modelComponent );
-				modelComponent->postInitialize();
+				LevelHeightmap* heightmapComponent = selectedActor->getComponent<LevelHeightmap>();
+				if( heightmapComponent )
+				{
+					heightmapComponent->setTextureName( selectedAsset );
+				}
+				else
+					MessageBoxA( NULL, "Can't add heightmap texture without a heightmap component.", "Level Editor - Error", MB_OK );
 			}
 
 			LevelActorHandler::getInstance()->updateActorBar();
 		}
 	}
 
-	selectedModel = "";
+	selectedAsset = "";
 }
 
 void LevelAssetHandler::onMouseReleased()
@@ -232,6 +253,11 @@ void LevelAssetHandler::setTweakBars( TweakBar* ab, TweakBar* cb )
 	contextBarVisible = false;
 }
 
+Importer::Assets* LevelAssetHandler::getAssets()
+{
+	return assets;
+}
+
 void TW_CALL LevelAssetHandler::onSetPrefab( const void* value, void* clientData )
 {
 	int index = *(int*)clientData;
@@ -244,11 +270,16 @@ void TW_CALL LevelAssetHandler::onGetPrefab( void* value, void* clientData )
 	*(bool*)value = ( index == LevelAssetHandler::getInstance()->getSelectedPrefabIndex() );
 }
 
-void TW_CALL LevelAssetHandler::onSelectAsset( void* args )
+void TW_CALL LevelAssetHandler::onSelectModel( void* args )
 {
 	std::string* str = (std::string*)args;
-	//LevelAssetHandler::getInstance()->showContextBar( *str );
-	LevelAssetHandler::getInstance()->selectAsset( *str );
+	LevelAssetHandler::getInstance()->selectModel( *str );
+}
+
+void TW_CALL LevelAssetHandler::onSelectTexture( void* args )
+{
+	std::string* str = (std::string*)args;
+	LevelAssetHandler::getInstance()->selectTexture( *str );
 }
 
 void TW_CALL LevelAssetHandler::onAdd( void* args )

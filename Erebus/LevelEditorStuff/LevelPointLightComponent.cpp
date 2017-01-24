@@ -89,7 +89,12 @@ void LevelPointLightComponent::setWorldPos(LevelTransform* transform) {
 
 std::string LevelPointLightComponent::toLua(std::string name)
 {
+	using namespace std;
 	std::stringstream ss;
+
+	ss << "--Point light information here" << endl;
+	ss << "--Not yet implemented in the game" << endl;
+
 	return ss.str();
 }
 

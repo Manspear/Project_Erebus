@@ -12,6 +12,7 @@
 #include "Gear.h"
 #include "LevelActorHandler.h"
 #include "LevelFileDialog.h"
+#include "LevelHeightmap.h"
 
 class LevelActorFactory
 {

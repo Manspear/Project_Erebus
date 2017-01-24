@@ -24,7 +24,6 @@ LevelActorFactory::LevelActorFactory(LevelTransformHandler* transformHandlerRef,
 	this->modelHandler = modelHandlerRef;
 }
 
-
 LevelActorFactory::~LevelActorFactory()
 {
 	for (auto element : this->savedDocuments)
@@ -150,18 +149,20 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	{
 		returnComponent = new LevelTransform();
 	}
-
-	if (componentName == LevelModel::name) {
+	else if (componentName == LevelModel::name) {
 		returnComponent = new LevelModel();
 	}
-
-	if (componentName == LevelAnimation::name)
+	else if (componentName == LevelAnimation::name)
 	{
 		returnComponent = new LevelAnimation();
 	}
-	if (componentName == LevelPointLightComponent::name)
+	else if (componentName == LevelPointLightComponent::name)
 	{
 		returnComponent = new LevelPointLightComponent();
+	}
+	else if(componentName == LevelHeightmap::name)
+	{
+		returnComponent = new LevelHeightmap();
 	}
 	
 	return returnComponent;

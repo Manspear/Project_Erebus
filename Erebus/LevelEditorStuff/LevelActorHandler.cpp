@@ -169,6 +169,34 @@ void LevelActorHandler::updateActorBar()
 	}
 }
 
+void LevelActorHandler::exportToLua()
+{
+	FileFilter filter = { L"Lua Level File", L"*.lua" };
+	fileDialog.setFilters( &filter, 1 );
+
+	if( fileDialog.show( DIALOG_SAVE_FILE ) )
+	{
+		FILE* file = NULL;
+		fopen_s( &file, fileDialog.getFilePath().c_str(), "w" );
+		if( file )
+		{
+			fprintf( file, "props = {}\nheightmaps = {}\n" );
+
+			for( ActorIT it = actors.begin(); it != actors.end(); it++ )
+			{
+				fprintf( file, "%s", it->second->toLua().c_str() );
+			}
+
+			fprintf( file, "--TEMP: This should probably not be hardcoded into every level?\n" );
+			fprintf( file, "local widthTest = heightmaps[1].asset:GetMapWidth()\n" );
+			fprintf( file, "local heightTest = heightmaps[1].asset:GetMapHeight()\n" );
+			fprintf( file, "AI.SetNav(widthTest,heightTest)\n" );
+
+			fclose( file );
+		}
+	}
+}
+
 void LevelActorHandler::savePrefab( LevelActor* actor )
 {
 	FileFilter filter = { L"XML Prefab", L"*.xml" };

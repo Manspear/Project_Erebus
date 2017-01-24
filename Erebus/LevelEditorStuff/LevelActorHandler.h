@@ -22,6 +22,7 @@ public:
 	void updateTweakBars();
 	void updateWorldBar();
 	void updateActorBar();
+	void exportToLua();
 	
 	void setSelected( unsigned int id );
 	void setSelected( LevelActor* actor );

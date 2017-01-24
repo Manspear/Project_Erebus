@@ -13,6 +13,7 @@ enum
 	EXPORT_NONE = 0,
 	EXPORT_STATIC,
 	EXPORT_ENEMY,
+	EXPORT_HEIGHTMAP,
 	MAX_EXPORT_TYPES
 };
 
@@ -47,6 +48,8 @@ public:
 	void setActorDisplayName(std::string name);
 
 private:
+	typedef std::map<std::string, LevelActorComponent*>::iterator ComponentIT;
+
 	std::map<std::string, LevelActorComponent*> actorComponents;
 	std::string actorType;
 	int exportType;
@@ -89,6 +92,7 @@ public:
 			{ EXPORT_NONE, EXPORT_TYPE_NAMES[EXPORT_NONE] },
 			{ EXPORT_STATIC, EXPORT_TYPE_NAMES[EXPORT_STATIC] },
 			{ EXPORT_ENEMY, EXPORT_TYPE_NAMES[EXPORT_ENEMY] },
+			{ EXPORT_HEIGHTMAP, EXPORT_TYPE_NAMES[EXPORT_HEIGHTMAP] },
 		};
 
 		static TwType result = TwDefineEnum( "ExportType", exportVals, MAX_EXPORT_TYPES );

@@ -23,9 +23,10 @@ public:
 	void updateBars();
 	void updateAssetsBar();
 	//void showContextBar( bool visible );
-	void selectAsset( std::string model );
+	void selectModel( std::string model );
+	void selectTexture( std::string texture );
 	//void selectPrefab( std::string prefab );
-	void showContextBar( std::string model );
+	void showContextBar( std::string asset );
 	void hideContextBar();
 	void addToActor();
 	void onMouseReleased();
@@ -38,13 +39,16 @@ public:
 	void setInputs( Inputs* inputs );
 	void setTweakBars( TweakBar* assetsBar, TweakBar* contextBar );
 
+	Importer::Assets* getAssets();
+
 private:
 	LevelAssetHandler();
 
 	void loadAssets( std::vector<std::string>* container, std::string folder, std::string filter = "*" );
 	static void TW_CALL onSetPrefab( const void* value, void* clientData );
 	static void TW_CALL onGetPrefab( void* value, void* clientData );
-	static void TW_CALL onSelectAsset( void* args );
+	static void TW_CALL onSelectModel( void* args );
+	static void TW_CALL onSelectTexture( void* args );
 	static void TW_CALL onAdd( void* args );
 	static void TW_CALL onClose( void* args );
 
@@ -59,7 +63,9 @@ private:
 	TweakBar* assetsBar, *contextBar;
 	bool contextBarVisible;
 	Inputs* inputs;
-	std::string selectedModel;
+	//std::string selectedModel;
+	std::string selectedAsset;
+	bool modelAsset;
 	int selectedPrefab;
 
 	static LevelAssetHandler* g_instance;
