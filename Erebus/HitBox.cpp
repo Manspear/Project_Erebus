@@ -55,6 +55,14 @@ void HitBox::clearCollisionIDs()
 {
 	this->colliding = false;
 	this->IDCollisions.clear();
+
+	if (this->children != nullptr) // if we have children
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			this->children->operator[](i)->clearCollisionIDs();
+		}
+	}
 }
 
 void HitBox::setPos(glm::vec3 pos)
@@ -169,7 +177,7 @@ void HitBox::addChild(HitBox * child)
 {
 	if (children == nullptr)
 		children = new std::vector<HitBox*>();
-	child->pos = this->pos + child->localPos;
+	child->setPos(this->pos + child->localPos);
 	child->parent = this;
 	children->push_back(child);
 }
