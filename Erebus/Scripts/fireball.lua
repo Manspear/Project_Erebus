@@ -17,7 +17,7 @@ function CreateFireball()
 	fireball.castSFX = "Effects/burn_ice_001.wav"
 	fireball.deathSFX = "Effects/explosion.wav"
 
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/sunRay.model" )
 	Gear.AddStaticInstance(model, fireball.type.transformID)
 
 	function fireball:Update(dt)
