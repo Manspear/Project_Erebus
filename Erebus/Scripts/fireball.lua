@@ -15,7 +15,7 @@ function CreateFireball()
 	fireball.maxChargeTime = FIREBALLMAXCHARGETIME
 	fireball.chargedTime = 0
 
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/sunRay.model" )
 	Gear.AddStaticInstance(model, fireball.type.transformID)
 
 	function fireball:Update(dt)
