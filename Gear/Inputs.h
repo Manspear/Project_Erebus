@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "AntTweakBar.h"
+#include <unordered_map>
 
 #define INPUTS_MAX_TEXT_INPUT 8
 
@@ -27,6 +28,16 @@ public:
 
 private:
 	GLFWwindow* window;
+
+	const static std::unordered_map<int, int> glfw3to2_keymapping;
+	const static std::unordered_map<int, int> glfw2to3_keymapping;
+
+	static inline int TwConvertKeyGLFW3to2(int key);
+	static inline int TwConvertKeyGLFW2to3(int key);
+	static int keyCB,  scancodeCB,  actionCB,  modsCB;
+	static bool antTweakBarThisFrame;
+	static bool holdingDownKey;
+	static void lateUpdateKeyCallback();
 
 public:
 	GEAR_API Inputs(GLFWwindow* w);

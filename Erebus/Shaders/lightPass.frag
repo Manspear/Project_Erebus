@@ -113,7 +113,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 			diffuseColor *= attenuation;
 			//specular *= attenuation;
 
-			lighting += diffuseColor; //+ specular;
+			lighting += light.radius.y * diffuseColor; //+ specular;
 			//lighting = max(dot(Normal, lightDir), 0.0) * Diffuse * lights[i].color;
 		}
 	return lighting;

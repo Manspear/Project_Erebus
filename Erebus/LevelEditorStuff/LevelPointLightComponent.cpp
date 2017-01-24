@@ -13,8 +13,10 @@ LevelPointLightComponent::LevelPointLightComponent()
 
 LevelPointLightComponent::~LevelPointLightComponent()
 {
-	this->parent->getComponent<LevelTransform>()->deleteListener(this);
-	LevelLightHandler::getInstance()->deletePointLight(light);
+	if (this->parent != nullptr)
+		this->parent->getComponent<LevelTransform>()->deleteListener(this);
+	if(light != nullptr)
+		LevelLightHandler::getInstance()->deletePointLight(light);
 }
 
 void LevelPointLightComponent::update(float deltaTime) {
@@ -124,6 +126,7 @@ void LevelPointLightComponent::setTwStruct(TwBar* tempBar )
 	TwAddVarRW(tempBar, "Offset", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->pos, NULL);
 	TwAddVarRW(tempBar, "Color", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->light->color, NULL);
 	TwAddVarRW(tempBar, "Radius", TW_TYPE_FLOAT, (void*)&this->light->radius, NULL);
+	TwAddVarRW(tempBar, "Intensity", TW_TYPE_FLOAT, (void*)&this->light->radius[1], NULL);
 }
 
 void LevelPointLightComponent::callListener(LevelActorComponent* component) {

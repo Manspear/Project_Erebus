@@ -16,7 +16,7 @@ public:
 	//bool deleteComponent(std::string componentName);
 	void postInitializeAllComponents();
 	void update();
-	void addComponent(LevelActorComponent* component);
+	bool addComponent(LevelActorComponent* component);
 	void printAllComponents();
 	void insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocument* doc);
 	unsigned int id;

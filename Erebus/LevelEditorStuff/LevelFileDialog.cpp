@@ -38,7 +38,7 @@ bool LevelFileDialog::show( int mode )
 					fileTypes[i] = { filters[i].name.c_str(), filters[i].pattern.c_str() };
 				}
 				pFileOpen->SetFileTypes(numFilters, fileTypes);
-
+				delete[]fileTypes;
 				// Show the Open dialog box.
 				std::wstring wideExt( defaultExtension.begin(), defaultExtension.end() );
 				hr = pFileOpen->SetDefaultExtension(wideExt.c_str());

@@ -1,6 +1,25 @@
 #include "LevelActor.h"
+#include "LevelActorHandler.h"
 
 
+void TW_CALL SetMyStdStringCB(const void *value, void *s /*clientData*/)
+{
+	// Set: copy the value of s from AntTweakBar
+	const std::string *srcPtr = static_cast<const std::string *>(value);
+	LevelActor* actor = (LevelActor*)s;
+	
+
+	actor->setActorDisplayName(*srcPtr);
+	LevelActorHandler::getInstance()->updateWorldBar();
+	
+}
+void TW_CALL GetMyStdStringCB(void *value, void *s /*clientData*/)
+{
+	// Get: copy the value of s to AntTweakBar
+	std::string *destPtr = static_cast<std::string *>(value);
+	LevelActor* actor = (LevelActor*)s;
+	TwCopyStdStringToLibrary(*destPtr, actor->getActorDisplayName()); // the use of TwCopyStdStringToLibrary is required here
+}
 
 LevelActor::LevelActor(unsigned int id)
 {
@@ -30,10 +49,22 @@ void LevelActor::update()
 	}
 }
 
-void LevelActor::addComponent(LevelActorComponent * component)
+bool LevelActor::addComponent(LevelActorComponent * component)
 {
-	this->actorComponents.insert(std::pair<std::string,LevelActorComponent*>(component->getName(),component));
-	component->setParent(this);
+	bool exists = false;// = actorComponents.find(component->getName()) == actorComponents.end();
+	for (auto it = this->actorComponents.begin(); it != this->actorComponents.end(); ++it)
+	{
+		if (component->getName() == it->second->getName()) {
+			exists = true;
+			break;
+		}
+	}
+	if (!exists) {
+		this->actorComponents.insert(std::pair<std::string, LevelActorComponent*>(component->getName(), component));
+		component->setParent(this);
+	}
+	return exists;
+	
 }
 
 void LevelActor::printAllComponents()
@@ -122,6 +153,9 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	TwRemoveAllVars(bar);
 	int amountOfComponents = 0;
 	glm::vec3 colorLabel = { 255,0,0 };
+
+	//TwAddVarRW(bar, "ActorName", TW_TYPE_STDSTRING, &this->actorDisplayName, "");
+	TwAddVarCB(bar, "ActorName", TW_TYPE_STDSTRING, SetMyStdStringCB, GetMyStdStringCB, (void*)this, "");
 	for (auto it : this->actorComponents)
 	{
 		std::stringstream ss;

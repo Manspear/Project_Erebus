@@ -25,10 +25,15 @@ void LevelActorHandler::setSelectedComponentCB(LevelUI::DiffComponents index) {
 	{
 		this->selectedComponent = index;
 		LevelActorComponent* c = LevelActorFactory::getInstance()->getNewComponent(LevelUI::componentLinker[index]);
-		selectedActor->addComponent(c);
-		c->postInitialize();
-		updateActorBar();
+		if (!selectedActor->addComponent(c)) {
+			c->postInitialize();
+			updateActorBar();
+			
+		}
+		else
+			delete c;
 		this->selectedComponent = LevelUI::SELECT_COMPONENT;
+		
 	}
 }
 LevelActorHandler::LevelActorHandler()
@@ -140,11 +145,12 @@ void LevelActorHandler::updateWorldBar()
 
 	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 	{
+		std::string displayName = it->second->getActorDisplayName();
 		std::string type = it->second->getActorType();
 
 		char buf[64] = {};
 		if( !type.empty() )
-			sprintf_s( buf, "label='%s' group='%s (%d)'", type.c_str(), type.c_str(), numActorsByType[type] );
+			sprintf_s( buf, "label='%s' group='%s (%d)'", displayName.c_str(), type.c_str(), numActorsByType[type] );
 		else
 			sprintf_s( buf, "label='Actor' group='None (%d)'", numActorsByType["None"] );
 		TwAddButton( worldBar->getBar(), NULL, onActorSelected, it->second, buf );

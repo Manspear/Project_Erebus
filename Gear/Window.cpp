@@ -42,15 +42,16 @@ void Window::initWindow()
 	glfwMakeContextCurrent(window);
 
 	//fixar inputs callback funktioner
-	glfwSetKeyCallback(window, Inputs::key_callback);
 	glfwSetCharCallback(window, Inputs::text_callback);
+	glfwSetKeyCallback(window, Inputs::key_callback);
+	
 	glfwSetMouseButtonCallback(window, Inputs::mouse_button_callback);
 	glfwSetScrollCallback(window, Inputs::scroll_callback);
 
 	//Removers the cursor and enables unlimited movement :)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-
+	
 	
 	//glfwSetScrollCallback(window, glfw_scroll);    // - Directly redirect GLFW mouse wheel events to AntTweakBar
 	//glfwSetKeyCallback(window, glfw_key);                         // - Directly redirect GLFW key events to AntTweakBar
