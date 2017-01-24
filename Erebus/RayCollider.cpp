@@ -92,7 +92,7 @@ int RayCollider::getIDTransform() const
 	return this->IDTransform;
 }
 
-unsigned int RayCollider::getID() const
+int RayCollider::getID() const
 {
 	return this->ID;
 }
@@ -102,7 +102,7 @@ float RayCollider::hitdistance() const
 	return this->hitDistance;
 }
 
-std::vector<unsigned int>* RayCollider::getIDCollisionsRef()
+std::vector<int>* RayCollider::getIDCollisionsRef()
 {
 	return &this->IDCollisions;
 }

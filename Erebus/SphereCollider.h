@@ -12,9 +12,9 @@ public:
 	virtual ~SphereCollider();
 
 	//overrides
-	unsigned int getID() const override; // copy elision makes this fast? RVO - NRVO
+	int getID() const override; // copy elision makes this fast? RVO - NRVO
 	int getIDTransform() const override;
-	std::vector<unsigned int>* getIDCollisionsRef() override;
+	std::vector<int>* getIDCollisionsRef() override;
 
 	const glm::vec3& getPos();
 	const float& getRadius();

@@ -10,9 +10,9 @@ public:
 	HitBox(unsigned int ID, int IDTransform);
 	HitBox(int IDTransform);
 	virtual ~HitBox();
-	virtual unsigned int getID() const = 0; // copy elision makes returning values fast? RVO - NRVO
+	virtual int getID() const = 0; // copy elision makes returning values fast? RVO - NRVO
 	virtual int getIDTransform() const = 0;
-	virtual std::vector<unsigned int>* getIDCollisionsRef() = 0;
+	virtual std::vector<int>* getIDCollisionsRef() = 0;
 	virtual void insertCollisionID(unsigned int collisionID);
 	virtual void clearCollisionIDs();
 
@@ -48,7 +48,7 @@ public:
 
 protected:
 	int ID, IDTransform;
-	std::vector<unsigned int> IDCollisions;
+	std::vector<int> IDCollisions;
 	const unsigned short RESERVE_COLLISIONS = 10; // hur många collisions tror vi en enda hitbox max har under en frame
 	bool active, colliding;
 	glm::vec3 pos,localPos;

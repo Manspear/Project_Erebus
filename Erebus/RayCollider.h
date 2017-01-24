@@ -16,9 +16,9 @@ public:
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getIntersectionPoint() const;
 	virtual int getIDTransform() const override;
-	unsigned int getID() const override;
+	int getID() const override;
 	float hitdistance() const;
-	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
+	virtual std::vector<int>* getIDCollisionsRef() override;
 
 	//setters
 	void setIDTransform(unsigned int ID);

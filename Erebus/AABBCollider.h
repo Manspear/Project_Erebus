@@ -16,9 +16,9 @@ public:
 	const glm::vec3& getCenterPos() const;
 
 	//overrides
-	virtual unsigned int getID() const override; // copy elision makes returning values fast? RVO - NRVO
+	virtual int getID() const override; // copy elision makes returning values fast? RVO - NRVO
 	virtual int getIDTransform() const override;
-	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
+	virtual std::vector<int>* getIDCollisionsRef() override;
 
 	virtual void setPos(glm::vec3 pos) override;
 	void setMinPos(glm::vec3 minPos);

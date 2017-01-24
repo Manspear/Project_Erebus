@@ -102,7 +102,7 @@ void OBBCollider::setZHalfLength(float length)
 	this->halfLengths.z = length;
 }
 
-unsigned int OBBCollider::getID() const
+int OBBCollider::getID() const
 {
 	return this->ID;
 }
@@ -112,7 +112,7 @@ int OBBCollider::getIDTransform() const
 	return this->IDTransform;
 }
 
-std::vector<unsigned int>* OBBCollider::getIDCollisionsRef()
+std::vector<int>* OBBCollider::getIDCollisionsRef()
 {
 	return &this->IDCollisions;
 }

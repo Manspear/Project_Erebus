@@ -80,7 +80,7 @@ const glm::vec3 & AABBCollider::getCenterPos() const
 	return this->pos;
 }
 
-unsigned int AABBCollider::getID() const
+int AABBCollider::getID() const
 {
 	return this->ID;
 }
@@ -90,7 +90,7 @@ int AABBCollider::getIDTransform() const
 	return this->IDTransform;
 }
 
-std::vector<unsigned int>* AABBCollider::getIDCollisionsRef()
+std::vector<int>* AABBCollider::getIDCollisionsRef()
 {
 	return &this->IDCollisions;
 }

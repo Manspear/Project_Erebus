@@ -24,9 +24,9 @@ public:
 	void setZHalfLength(float length);
 
 	//Overrides
-	virtual unsigned int getID() const override;
+	virtual int getID() const override;
 	virtual int getIDTransform() const override;
-	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
+	virtual std::vector<int>* getIDCollisionsRef() override;
 
 	//getters
 	const glm::vec3& getPos() const;

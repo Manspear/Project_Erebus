@@ -258,7 +258,7 @@ namespace LuaCollision
 		{
 			HitBox* hitbox = getHitBox( lua, 1 );
 
-			std::vector<unsigned int>* ids = hitbox->getIDCollisionsRef();
+			std::vector<int>* ids = hitbox->getIDCollisionsRef();
 			lua_newtable( lua );
 			for( int i=0; i<ids->size(); i++ )
 			{
@@ -280,7 +280,7 @@ namespace LuaCollision
 		{
 			RayCollider* ray = getRayCollider(lua, 1);
 
-			std::vector<unsigned int>* ids = ray->getIDCollisionsRef();
+			std::vector<int>* ids = ray->getIDCollisionsRef();
 			lua_newtable(lua);
 			for (int i = 0; i<ids->size(); i++)
 			{

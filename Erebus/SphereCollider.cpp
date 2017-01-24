@@ -57,7 +57,7 @@ SphereCollider::~SphereCollider()
 }
 
 //overrides
-unsigned int SphereCollider::getID() const
+int SphereCollider::getID() const
 {
 	return this->ID;
 }
@@ -67,7 +67,7 @@ int SphereCollider::getIDTransform() const
 	return this->IDTransform;
 }
 
-std::vector<unsigned int>* SphereCollider::getIDCollisionsRef()
+std::vector<int>* SphereCollider::getIDCollisionsRef()
 {
 	return &this->IDCollisions;
 }
