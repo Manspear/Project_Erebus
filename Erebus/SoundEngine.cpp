@@ -48,9 +48,9 @@ size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 
 	ISound* s;
 	if (options & SOUND_3D)
-		s = engine->play3D(path.c_str(), ikpos, loop, paused, track, stream, effects);
+		s = engine->play3D(path.c_str(), ikpos, loop, paused, track, ESM_STREAMING, effects);
 	else
-		s = engine->play2D(path.c_str(), loop, paused, track, stream, effects);
+		s = engine->play2D(path.c_str(), loop, paused, track, ESM_STREAMING, effects);
 
 	if (track && s)
 	{
@@ -94,7 +94,7 @@ void SoundEngine::resumeAll()
 void SoundEngine::clear()
 {
 	for (auto s : sounds)
-		s->drop;
+		s->drop();
 	sounds.clear();
 }
 
