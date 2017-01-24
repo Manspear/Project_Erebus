@@ -1,9 +1,10 @@
 #include "LevelHeightmap.h"
 
 const char* LevelHeightmap::name = "LevelHeightmap";
+Debug* LevelHeightmap::s_debugger = nullptr;
 
 LevelHeightmap::LevelHeightmap()
-	: heightmap( nullptr ), draw( false )
+	: heightmap( nullptr ), draw( false ), lineLength( 0.5f )
 {
 }
 
@@ -44,13 +45,29 @@ std::string LevelHeightmap::toLua(std::string name)
 	return ss.str();
 }
 
+void LevelHeightmap::update( float deltaTime )
+{
+	if( heightmap && draw )
+	{
+		for( int x=0; x<heightmap->getMapWidth(); x++ )
+		{
+			for( int y=0; y<heightmap->getMapHeight(); y++ )
+			{
+				float height = heightmap->getHardPosAt(x,y);
+				s_debugger->drawLine( glm::vec3( x,height-lineLength*0.5f,y ), glm::vec3(x,height+lineLength*0.5f,y) );
+			}
+		}
+	}
+}
+
 void LevelHeightmap::setTwStruct( TwBar* bar )
 {
 	std::stringstream ss;
 	ss << " label='Texture: " << textureName << "'" << std::endl;
 	TwAddButton( bar, "textureName", NULL, NULL, ss.str().c_str() );
 
-	TwAddVarRW( bar, "heightmapDraw", TW_TYPE_BOOLCPP, &draw, "label='Draw'" );
+	TwAddVarRW( bar, "heightmapDraw", TW_TYPE_BOOLCPP, &draw, "label='Draw:'" );
+	TwAddVarRW( bar, "heightmapLineLength", TW_TYPE_FLOAT, &lineLength, "label='Line Length:'" );
 	TwAddVarRW( bar, "heightmapOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset'" );
 }
 
@@ -98,4 +115,9 @@ const std::string& LevelHeightmap::getTextureName() const
 Importer::HeightMap* LevelHeightmap::getHeightmap() const
 {
 	return heightmap;
+}
+
+void LevelHeightmap::setDebugger( Debug* debugger )
+{
+	s_debugger = debugger;
 }

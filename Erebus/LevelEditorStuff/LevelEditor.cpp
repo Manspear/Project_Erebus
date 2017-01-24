@@ -110,6 +110,7 @@ void LevelEditor::start() {
 	LevelAssetHandler::getInstance()->load();
 
 	LevelActionHandler::getInstance()->setupGizmo( Debugger::getInstance(), camera, inputs );
+	LevelHeightmap::setDebugger( Debugger::getInstance() );
 
 	//levelGizmo = new LevelGizmo();
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);

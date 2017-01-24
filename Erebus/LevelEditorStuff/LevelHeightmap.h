@@ -15,6 +15,7 @@ public:
 	std::string getName() override;
 	tinyxml2::XMLElement* toXml(tinyxml2::XMLDocument* doc) override;
 	std::string toLua(std::string name) override;
+	void update( float deltaTime ) override;
 	
 	void setTwStruct( TwBar* bar );
 
@@ -29,8 +30,13 @@ public:
 
 	static const char* name;
 
+	static void setDebugger( Debug* debugger );
+
 private:
+	static Debug* s_debugger;
+
 	bool draw;
+	float lineLength;
 	glm::vec3 offset;
 	std::string textureName;
 	Importer::HeightMap* heightmap;
