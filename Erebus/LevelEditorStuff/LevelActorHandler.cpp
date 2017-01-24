@@ -187,6 +187,11 @@ void LevelActorHandler::exportToLua()
 				fprintf( file, "%s", it->second->toLua().c_str() );
 			}
 
+			fprintf( file, "--TEMP: This should probably not be hardcoded into every level?\n" );
+			fprintf( file, "local widthTest = heightmaps[1].asset:GetMapWidth()\n" );
+			fprintf( file, "local heightTest = heightmaps[1].asset:GetMapHeight()\n" );
+			fprintf( file, "AI.SetNav(widthTest,heightTest)\n" );
+
 			fclose( file );
 		}
 	}

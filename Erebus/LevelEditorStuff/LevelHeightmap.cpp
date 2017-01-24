@@ -19,6 +19,7 @@ void LevelHeightmap::initialize( tinyxml2::XMLElement* element )
 
 void LevelHeightmap::postInitialize()
 {
+	parent->setExportType( EXPORT_HEIGHTMAP );
 }
 
 std::string LevelHeightmap::getName()
@@ -41,6 +42,9 @@ std::string LevelHeightmap::toLua(std::string name)
 {
 	using namespace std;
 	stringstream ss;
+
+	ss << name << ".asset = Assets.LoadHeightmap(\"Textures/" << textureName << ".png\")" << endl;
+	ss << name << ".offset = " << offset.y << endl;
 
 	return ss.str();
 }
