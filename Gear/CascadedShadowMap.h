@@ -34,6 +34,7 @@ public:
 	glm::mat4 viewMatrices[NUM_CASCADEDS+1];
 	glm::mat4 projectionMatrices[NUM_CASCADEDS+1];
 	glm::mat4 cropMatrices[NUM_CASCADEDS];
+	glm::mat4 textureMatrices[NUM_CASCADEDS];
 	glm::vec3 frustumCorners[8];
 
 	glm::vec3 pos;
@@ -41,6 +42,16 @@ public:
 
 	glm::vec3 minAABB[NUM_CASCADEDS];
 	glm::vec3 maxAABB[NUM_CASCADEDS];
+
+	float farbound[NUM_CASCADEDS];
+
+	glm::mat4 bias = glm::mat4(
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f
+	);
+
 
 };
 

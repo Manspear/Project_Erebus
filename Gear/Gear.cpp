@@ -452,6 +452,16 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gDepth", 2, 2);
 		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
+
+
+		glUniform1fv(glGetUniformLocation(lightPassShader->getProgramID(), "farbounds"), 4, &map.farbound[0]);
+		glUniformMatrix4fv(glGetUniformLocation(lightPassShader->getProgramID(), "lightMatrixList"), 4, GL_FALSE, &map.cropMatrices[0][0][0]);
+
+		map.bindTexture(lightPassShader, "shadowmap1", 3, 0);
+		map.bindTexture(lightPassShader, "shadowmap2", 4, 1);
+		map.bindTexture(lightPassShader, "shadowmap3", 5, 2);
+		map.bindTexture(lightPassShader, "shadowmap4", 6, 3);
+
 		
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
@@ -512,7 +522,6 @@ namespace Gear
 
 		/*shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
 		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);*/
-		dirLight.direction = glm::vec3(0.0f, -0.8f, 0.2f);
 
 		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA32F, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
 

@@ -7,6 +7,10 @@ uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
 uniform sampler2D gShadowMap;
+uniform sampler2D shadowmap1;
+uniform sampler2D shadowmap2;
+uniform sampler2D shadowmap3;
+uniform sampler2D shadowmap4;
 
 struct PointLight {
 		vec4 pos;
@@ -30,6 +34,9 @@ uniform int drawMode;
 uniform mat4 shadowVPM;
 uniform mat4 invView;
 uniform mat4 invProj;
+
+uniform mat4 lightMatrixList[4];
+uniform float farbounds[4];
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular);
@@ -56,6 +63,29 @@ void main() {
 	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
 	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
 
+	int index = 3;
+
+	if(gl_FragCoord.z < farbounds[0]) {
+    index = 0;
+	} else if(gl_FragCoord.z < farbounds[1]) {
+    index = 1;
+	} else if(gl_FragCoord.z < farbounds[2]) {
+    index = 2;
+	}
+
+	vec4 shadow_coord = lightMatrixList[index] * vec4(FragPos,1);
+	float shadow_d = 0;
+	if( index == 0) {
+		shadow_d = texture2D(shadowmap1, shadow_coord.xy).x;
+	} else if(index == 1) {
+		shadow_d = texture2D(shadowmap2, shadow_coord.xy).x;
+	} else if(index == 2) {
+		shadow_d = texture2D(shadowmap3, shadow_coord.xy).x;
+	}else if(index == 3){
+		shadow_d = texture2D(shadowmap4, shadow_coord.xy).x;
+	}
+
+	float shadow_coaf = gl_FragCoord.z > shadow_d  ? 1.0 : 0.0;  
 
 	vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
@@ -83,7 +113,18 @@ void main() {
     else if(drawMode == 6)
         FragColor = vec4(Normal, 1.0);
     else if(drawMode == 7)
-		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
+	{
+		if( index == 0) {
+		FragColor = vec4(1,0,0,1);
+	} else if(index == 1) {
+		FragColor = vec4(0,1,0,1);
+	} else if(index == 2) {
+		FragColor = vec4(0,0,1,1);
+	}else if(index == 3){
+		FragColor = vec4(0.5,0,0.5,1);
+	}
+	}
+	//	FragColor = vec4(ambient + (directional * shadow_coaf) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
 }
  
