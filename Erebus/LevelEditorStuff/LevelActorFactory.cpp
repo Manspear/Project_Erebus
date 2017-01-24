@@ -24,7 +24,6 @@ LevelActorFactory::LevelActorFactory(LevelTransformHandler* transformHandlerRef,
 	this->modelHandler = modelHandlerRef;
 }
 
-
 LevelActorFactory::~LevelActorFactory()
 {
 	for (auto element : this->savedDocuments)

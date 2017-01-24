@@ -40,6 +40,7 @@ private:
 	static void TW_CALL onGetAction( void* value, void* clientData );
 	static void TW_CALL onSaveWorld( void* args );
 	static void TW_CALL onLoadWorld( void* args );
+	static void TW_CALL onExportToLua( void* args );
 
 	TweakBar* actionBar;
 	int action;

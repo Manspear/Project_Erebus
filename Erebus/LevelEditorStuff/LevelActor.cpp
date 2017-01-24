@@ -6,7 +6,8 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 {
 	"None",
 	"Static",
-	"Enemy"
+	"Enemy",
+	"Heightmap"
 };
 
 void TW_CALL SetMyStdStringCB(const void *value, void *s /*clientData*/)
@@ -111,20 +112,43 @@ std::string LevelActor::toXml()
 
 std::string LevelActor::toLua()
 {
-	std::stringstream ss;
+	using namespace std;
+	stringstream ss;
 
-	std::string name = actorType + std::string("_") + std::to_string(id);
+	ss << "local temp = {}" << endl;
 
-	ss << name << " = {}" << std::endl;
-	
-	if( actorComponents.find("LevelTransform") != actorComponents.end() )
-		ss << actorComponents["LevelTransform"]->toLua( name );
-
-	for( std::map<std::string, LevelActorComponent*>::iterator it = actorComponents.begin(); it != actorComponents.end(); it++ )
+	LevelModel* model = getComponent<LevelModel>();
+	if( model )
 	{
-		if( it->first != "LevelTransform" )
-			ss << it->second->toLua(name);
+		LevelTransform* transform = getComponent<LevelTransform>();
+		ss << transform->toLua("temp");
+		ss << model->toLua("temp");
 	}
+
+	for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
+	{
+		if( it->first != LevelModel::name && it->first != LevelTransform::name )
+		{
+			ss << it->second->toLua("temp");
+		}
+	}
+
+	switch(exportType)
+	{
+		case EXPORT_STATIC:
+			ss << "table.insert(props,temp)" << endl;
+			break;
+
+		case EXPORT_ENEMY:
+			ss << "table.insert(enemies,temp)" << endl;
+			break;
+
+		case EXPORT_HEIGHTMAP:
+			ss << "table.insert(heightmaps,temp)" << endl;
+			break;
+	}
+
+	ss << "temp = nil" << endl << endl;
 
 	return ss.str();
 }

@@ -116,6 +116,7 @@ void LevelActionHandler::setTweakBar( TweakBar* bar )
 	TwAddSeparator( bar->getBar(), "sep2", NULL );
 	TwAddButton( bar->getBar(), "SaveWorld", onSaveWorld, NULL, "label='Save World'" );
 	TwAddButton( bar->getBar(), "LoadWorld", onLoadWorld, NULL, "label='Load World'" );
+	TwAddButton( bar->getBar(), "ExportToLua", onExportToLua, NULL, "label='Export to Lua'" );
 }
 
 void LevelActionHandler::setAction( int a )
@@ -151,4 +152,9 @@ void TW_CALL LevelActionHandler::onSaveWorld( void* args )
 void TW_CALL LevelActionHandler::onLoadWorld( void* args )
 {
 	LevelActorFactory::getInstance()->loadWorld();
+}
+
+void TW_CALL LevelActionHandler::onExportToLua( void* args )
+{
+	LevelActorHandler::getInstance()->exportToLua();
 }
