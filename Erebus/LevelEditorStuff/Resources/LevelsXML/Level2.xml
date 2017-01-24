@@ -1,27 +1,7 @@
 <Level>
-    <LevelActor type="OtherCharacter" displayName="Robot guy1">
+    <LevelActor type="terrain" displayName="Terrain Actor">
         <LevelModel>
-            <ModelName>Robot</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="167" y="36.299999" z="146.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OtherCharacter" displayName="Robot guy">
-        <LevelModel>
-            <ModelName>Robot</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="41" y="61.299999" z="183.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OtherCharacter" displayName="Robot guy2">
-        <LevelModel>
-            <ModelName>Robot</ModelName>
+            <ModelName>tile1_game_x1</ModelName>
         </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
@@ -31,10 +11,10 @@
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor">
         <LevelModel>
-            <ModelName>niclasland_scale1</ModelName>
+            <ModelName>tile1_game_x1_assets</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="0" y="1" z="7"/>
+            <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>

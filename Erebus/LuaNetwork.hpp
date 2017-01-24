@@ -6,7 +6,10 @@
 namespace LuaNetwork
 {
 	void registerFunctions(lua_State* lua, NetworkController* networkController);
-	int sendTransform(lua_State* lua);
-	int getTransform(lua_State* lua);
+	int sendTransformPacket(lua_State* lua);
+	int getTransformPacket(lua_State* lua);
+	int sendAnimationPacket(lua_State* lua);
+	int getAnimationPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
+	int shouldSendNewTransform(lua_State* lua);
 }

@@ -3,7 +3,7 @@
 out vec4 FragColor;
 in vec2 TexCoords;
 
-uniform sampler2D gPosition;
+uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
 uniform sampler2D gShadowMap;
@@ -28,18 +28,30 @@ uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform vec3 viewPos;
 uniform int drawMode;
 uniform mat4 shadowVPM;
+uniform mat4 invView;
+uniform mat4 invProj;
 
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular);
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular);
 float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords);
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare);
+vec3 WorldPosFromDepth(float depth);
 
 void main() {
 
-	vec3 FragPos = vec3(texture2D(gPosition, TexCoords)).rgb;
-	vec3 Normal  = vec3(texture2D(gNormal, TexCoords)).rgb;
-	vec3 Diffuse  = vec3(texture2D(gAlbedoSpec, TexCoords)).rgb;
+	float Depth = vec3(texture2D(gDepth, TexCoords)).r;
+
+	vec3 FragPos = WorldPosFromDepth(Depth);
+
+	vec2 tempNormal = vec2(texture2D(gNormal, TexCoords));
+	vec3 Normal;
+	Normal.r = tempNormal.x;
+	Normal.g = tempNormal.y;
+	Normal.b = 1.0f - (tempNormal.x + tempNormal.y);
+
+	vec3 Diffuse  = vec4(texture2D(gAlbedoSpec, TexCoords)).rgb;
+	float Specular = vec4(texture2D(gAlbedoSpec, TexCoords)).a;
 
 	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
 	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
@@ -52,45 +64,49 @@ void main() {
 	
 	vec3 directional = vec3(0);
 	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
-		directional += CalcDirLight(dirLights[i], norm, viewDir);
+		directional += CalcDirLight(dirLights[i], norm, viewDir, Specular);
 
 	vec3 point = vec3(0,0,0);
 	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
-		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir);
+		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir, Specular);
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
-        FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
+        FragColor = vec4(ambient + directional + point, 1.0);
     else if(drawMode == 2)
 		FragColor = vec4(ambient + point, 1.0);
 	else if(drawMode == 3)
 		FragColor = vec4(ambient + directional, 1.0);
 	else if(drawMode == 4)
-        FragColor = vec4(texture2D(gShadowMap, TexCoords).xyz, 1);//vec4(FragPos, 1.0);
+        FragColor = vec4(Depth,Depth,Depth, 1);//vec4(FragPos, 1.0);
     else if(drawMode == 5)
-        FragColor = vec4(texture2D(gShadowMap, vec2(shadowcoords.x,shadowcoords.y)).xyz, 1);//vec4(Normal, 1.0);
+        FragColor = vec4(FragPos, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)
-        FragColor = vec4(Diffuse, 1.0);
+        FragColor = vec4(Normal, 1.0);
     else if(drawMode == 7)
-		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)), 1.0);
+		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
 }
  
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular)
 {
 	vec3 lightDir = normalize(-light.direction);
     // Diffuse shading
     float diff = max(dot(normal, lightDir), 0.0);
 
-	vec3 Diffuse  = vec3(texture2D(gAlbedoSpec, TexCoords)).rgb;
+	vec3 diffuse  = vec3(texture2D(gAlbedoSpec, TexCoords)).rgb;
 
-	vec3 lighting  = vec3(0);// Diffuse * 0.1;
+	diffuse = max(dot(normal, lightDir), 0.0) * diffuse * light.color;
 
-	lighting += max(dot(normal, lightDir), 0.0) * Diffuse * light.color;
+	vec3 halfwayDir = normalize(lightDir + viewDir);
+	float spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
+	vec3 specular = light.color * spec * Specular;
+
+	vec3 lighting  = diffuse + specular;
 
 	return lighting;
 }
 
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular)
 {
 	vec3 Diffuse  = vec3(texture2D(gAlbedoSpec, TexCoords)).rgb;
 
@@ -104,17 +120,16 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
             vec3 diffuseColor = max(dot(normal, lightDir), 0.0) * Diffuse * light.color.xyz;
 
 			//Specular
-			vec3 reflectDir = reflect(-lightDir, normal);
-			float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-			vec3 specular = light.color.xyz * spec;
+			vec3 halfwayDir = normalize(lightDir + viewDir);
+			float spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
+			vec3 specular = light.color.xyz * spec * Specular;
 
 			float attenuation = smoothstep(light.radius.x, 0.0f, length(light.pos.xyz - fragPos));
 
 			diffuseColor *= attenuation;
-			//specular *= attenuation;
+			specular *= attenuation;
 
-			lighting += light.radius.y * diffuseColor; //+ specular;
-			//lighting = max(dot(Normal, lightDir), 0.0) * Diffuse * lights[i].color;
+			lighting += light.radius.y * diffuseColor + specular;
 		}
 	return lighting;
 }
@@ -150,4 +165,18 @@ float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare)
 	return min(max(p, pMax), 1.0);
 	
 	//return step(compare, texture2D(shadowMap, coords.xy).r);
+}
+
+vec3 WorldPosFromDepth(float depth){
+	float z = depth * 2.0 - 1.0;
+
+	vec4 clipSpacePosition = vec4(TexCoords.xy * 2.0 - 1.0, z, 1.0);
+	vec4 viewSpacePosition = invProj * clipSpacePosition;
+
+	//Perspective division
+	viewSpacePosition /= viewSpacePosition.w;
+
+	vec4 worldSpacePosition = invView * viewSpacePosition;
+
+	return worldSpacePosition.xyz;
 }
