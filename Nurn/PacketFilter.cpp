@@ -5,6 +5,7 @@ PacketFilter::PacketFilter()
 	this->transformQueue = new PacketQueue<TransformPacket>(20);
 	this->animationQueue = new PacketQueue<AnimationPacket>(40);
 	this->aiQueue = new PacketQueue<AIPacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(10);
 }
 
 PacketFilter::~PacketFilter()
@@ -24,6 +25,11 @@ PacketFilter::~PacketFilter()
 	{
 		delete this->aiQueue;
 		this->aiQueue = 0;
+	}
+	if (this->spellQueue)
+	{
+		delete this->spellQueue;
+		this->spellQueue = 0;
 	}
 }
 

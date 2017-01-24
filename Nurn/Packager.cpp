@@ -5,6 +5,7 @@ Packager::Packager()
 	this->transformQueue = new PacketQueue<TransformPacket>(20);
 	this->animationQueue = new PacketQueue<AnimationPacket>(40);
 	this->aiQueue = new PacketQueue<AIPacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(10);
 }
 
 Packager::~Packager()
@@ -23,6 +24,11 @@ Packager::~Packager()
 	{
 		delete this->aiQueue;
 		this->aiQueue = 0;
+	}
+	if (this->spellQueue)
+	{
+		delete this->spellQueue;
+		this->spellQueue = 0;
 	}
 }
 
@@ -43,6 +49,7 @@ void Packager::buildNetPacket()
 	this->addTransformPackets(this->currentNetPacketSize);
 	this->addAnimationPackets(this->currentNetPacketSize);
 	this->addAIPackets(this->currentNetPacketSize);
+	this->addSpellPackets(this->currentNetPacketSize);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
