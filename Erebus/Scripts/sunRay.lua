@@ -17,15 +17,16 @@ function CreateSunRay()
 	sunRay.Charge = BaseCharge
 	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.particles = createFireballParticles()
-
+	sunRay.owner = {}
 	sunRay.moveImpairment = 0.5;
 
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/sunRay.model" )
 	Gear.AddStaticInstance(model, sunRay.type.transformID)
 
 	function sunRay:Update(dt)
 		hits = self.type:Update(dt)
 		self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
+		Transform.SetRotation(self.type.transformID, Transform.GetRotation(player.tranformID))
 		for index = 1, #hits do
 			if hits[index].Hurt then	
 				if self.effectFlag then
