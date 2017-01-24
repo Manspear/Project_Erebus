@@ -89,6 +89,7 @@ namespace Gear
 		ShaderProgram shadowMapTemp;
 		ShaderProgram gBuffer;
 		ShaderProgram particleFBO;
+		ShaderProgram gBufferPicking;
 
 		//Shaders
 		ShaderProgram *quadShader;
@@ -135,5 +136,6 @@ namespace Gear
 		void shaderInit();
 		void lightInit();
 		void skyboxInit();
+		void frameBufferPickInit();
 	};
 }

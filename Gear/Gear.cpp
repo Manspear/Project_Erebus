@@ -23,6 +23,7 @@ namespace Gear
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 
+		frameBufferPickInit();
 		frameBufferInit();
 		shaderInit();
 		lightInit();
@@ -382,7 +383,7 @@ namespace Gear
 #pragma region drawPicking
 		queue.update(*transformCount, *allTrans);
 		queue.updateUniforms(camera);
-		gBuffer.use();
+		gBufferPicking.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.pickingPass(models, ModelInstanceAgentIDs);
 
@@ -412,7 +413,7 @@ namespace Gear
 		//else
 		//	std::cout << "Looking at something :): " << pickedID << std::endl;
 		//gBufferPicking.unUse();
-		gBuffer.unUse();
+		gBufferPicking.unUse();
 		/*
 		
 
@@ -553,6 +554,16 @@ namespace Gear
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
+	}
+
+	void GearEngine::frameBufferPickInit() {
+		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA }; //Format for texture in gBuffer
+		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
+		GLenum type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
+		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST };
+
+		gBufferPicking.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 	}
 }
 
