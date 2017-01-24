@@ -144,12 +144,6 @@ const std::unordered_map<int, int> Inputs::glfw2to3_keymapping ={
 	{ 317, 336 },
 	{ 318, 335 },
 };
-int Inputs::keyCB = 0;
-int Inputs::scancodeCB = 0;
-int Inputs::actionCB = 0;
-int Inputs::modsCB = 0;
-bool Inputs::antTweakBarThisFrame = false;
-bool Inputs::holdingDownKey = false;
 
 Inputs::Inputs(GLFWwindow* w)
 {
@@ -270,6 +264,12 @@ char* Inputs::getTextInput( int* length )
 
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {	
+
+	int isAntTweak = TwEventKeyGLFW(TwConvertKeyGLFW2to3(key), action);
+	int isAntTweak1 = 0;
+	if (isAntTweak == 0)
+		isAntTweak1 = TwEventKeyGLFW(TwConvertKeyGLFW3to2(key), action);
+
 	keys[key] = action > 0;
 	keysRepeated[key] = action > 0;
 	if (action == GLFW_PRESS) {
@@ -305,14 +305,12 @@ void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action
 
 void Inputs::text_callback(GLFWwindow* window, unsigned int key)
 {
+	
 	int isAntTweak = TwEventCharGLFW(key, GLFW_PRESS);
 	if (isAntTweak == 0) {
 		if (key > 0 && key < 128 && textInputLength < INPUTS_MAX_TEXT_INPUT)
 			textInput[textInputLength++] = (char)key;
 	}
-	else
-		antTweakBarThisFrame = true;
-
 }
 
 void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
@@ -355,19 +353,4 @@ inline int Inputs::TwConvertKeyGLFW2to3(int key)
 		return itr->second;
 
 	return key;
-}
-
-void Inputs::lateUpdateKeyCallback() {
-	int isAntTweak = TwEventKeyGLFW(TwConvertKeyGLFW2to3(keyCB), actionCB);
-	int isAntTweak1 = 0;
-	if (isAntTweak == 0)
-		isAntTweak1 = TwEventKeyGLFW(TwConvertKeyGLFW3to2(keyCB), actionCB);
-
-	if (!holdingDownKey && antTweakBarThisFrame)
-		antTweakBarThisFrame = false;
-
-	if (!antTweakBarThisFrame || holdingDownKey) {
-
-	}
-
 }

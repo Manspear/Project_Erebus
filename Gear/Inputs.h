@@ -34,10 +34,6 @@ private:
 
 	static inline int TwConvertKeyGLFW3to2(int key);
 	static inline int TwConvertKeyGLFW2to3(int key);
-	static int keyCB,  scancodeCB,  actionCB,  modsCB;
-	static bool antTweakBarThisFrame;
-	static bool holdingDownKey;
-	static void lateUpdateKeyCallback();
 
 public:
 	GEAR_API Inputs(GLFWwindow* w);
