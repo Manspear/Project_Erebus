@@ -11,6 +11,7 @@ namespace LuaSound
 	int resume(lua_State* lua);
 	int pauseAll(lua_State* lua);
 	int resumeAll(lua_State* lua);
+	int clear(lua_State* lua);
 	int setMasterVolume(lua_State* lua);
 	int setVolume(lua_State* lua);
 	int setPosition(lua_State* lua);
