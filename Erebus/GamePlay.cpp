@@ -1,11 +1,13 @@
 #include "GamePlay.h"
 
 GamePlay::GamePlay(Gear::GearEngine* inEngine, Importer::Assets* assets, WorkQueue* w)
+	: boundTransforms( 0 ), boundAnimations( 0 )
 {
 	engine = inEngine;
 	work = w;
 	transforms = new Transform[nrOfTransforms];
 	allTransforms = new TransformStruct[nrOfTransforms];
+	allAnimations = new Animation[nrOfAnimations];
 	engine->addDebugger(Debugger::getInstance());
 	//moleman = assets.load<ModelAsset>("Models/testGuy.model");
 	/*particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");*/
@@ -17,6 +19,7 @@ GamePlay::GamePlay(Gear::GearEngine* inEngine, Importer::Assets* assets, WorkQue
 	engine->allocateWorlds(nrOfTransforms);
 
 	engine->bindTransforms(&allTransforms, &boundTransforms);
+	engine->bindAnimations(&allAnimations, &boundAnimations);
 
 	collisionHandler.setTransforms(transforms);
 	collisionHandler.setDebugger(Debugger::getInstance());
@@ -51,7 +54,7 @@ GamePlay::~GamePlay()
 
 void GamePlay::Initialize(Importer::Assets* assets, Controls* controls, Inputs* inputs, Camera* camera)
 {
-	luaBinds.load(engine, assets, &collisionHandler, controls, inputs, transforms, &boundTransforms, &models, &animatedModels, camera, &ps, &ai, &networkController, work);
+	luaBinds.load(engine, assets, &collisionHandler, controls, inputs, transforms, &boundTransforms, allAnimations, &boundAnimations, &models, &animatedModels, camera, &ps, &ai, &networkController, work);
 }
 
 void GamePlay::Update(Controls* controls, double deltaTime)

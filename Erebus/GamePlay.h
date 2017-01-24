@@ -15,9 +15,12 @@ class GamePlay
 private:
 	Gear::GearEngine * engine;
 	int nrOfTransforms = 100;
+	int nrOfAnimations = 100;
 	int boundTransforms = 0;
 	Transform* transforms;
 	TransformStruct* allTransforms;
+	int boundAnimations;
+	Animation* allAnimations;
 
 	CollisionHandler collisionHandler;
 	LuaBinds luaBinds;

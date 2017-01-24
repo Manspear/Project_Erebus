@@ -185,6 +185,12 @@ namespace Gear
 		allTrans = theTrans;
 	}
 
+	void GearEngine::bindAnimations(Animation** theAnims, int* n)
+	{
+		animationCount = n;
+		allAnims = theAnims;
+	}
+
 	void GearEngine::setFont(FontAsset* font)
 	{
 		text.setFont(font);
@@ -371,9 +377,9 @@ namespace Gear
 		particleFBO.unUse();
 	}
 
-	void GearEngine::updateTransforms()
+	void GearEngine::update()
 	{
-		queue.update(*transformCount, *allTrans);
+		queue.update(*transformCount, *allTrans, *animationCount, *allAnims);
 	}
 
 	void GearEngine::pickingPass() {

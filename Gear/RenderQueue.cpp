@@ -1,7 +1,8 @@
 #include "RenderQueue.h"
 
 
-RenderQueue::RenderQueue() : nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr)
+RenderQueue::RenderQueue()
+	: nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr), jointMatrices( nullptr )
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
@@ -18,8 +19,11 @@ RenderQueue::RenderQueue() : nrOfWorlds(0), totalWorlds(0), worldMatrices(nullpt
 
 RenderQueue::~RenderQueue()
 {
-	if (worldMatrices != nullptr)
+	if (worldMatrices)
 		delete[] worldMatrices;
+	if( jointMatrices )
+		delete[] jointMatrices;
+
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 		if (allShaders[i] != nullptr)
 			delete allShaders[i];
@@ -133,10 +137,14 @@ void RenderQueue::allocateWorlds(int n)
 {
 	if (worldMatrices)
 		delete[] worldMatrices;
+	if(jointMatrices)
+		delete[] jointMatrices;
+
 	worldMatrices = new glm::mat4[n];
+	jointMatrices = new glm::mat4[n*MAXJOINTCOUNT];
 }
 
-void RenderQueue::update(int n, TransformStruct* theTrans)
+void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
 {
 	/*LARGE_INTEGER s;
 	QueryPerformanceCounter( &s );
@@ -148,7 +156,7 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 	glm::mat4 rotationY = glm::mat4();
 	glm::vec3 tempLook;
 	glm::vec3 axis;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < ntransforms; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
@@ -175,6 +183,11 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 			tempMatrix[3][2] = theTrans[i].pos.z;
 			worldMatrices[i] = tempMatrix;
 		}
+	}
+
+	for( int i=0; i<nanimations; i++ )
+	{
+		memcpy( jointMatrices+i*MAXJOINTCOUNT, animations[i].getShaderMatrices(), sizeof(glm::mat4)*MAXJOINTCOUNT );
 	}
 #else
 	int chunk = n / MAX_THREADS;
@@ -406,7 +419,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0] );
-			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 			{

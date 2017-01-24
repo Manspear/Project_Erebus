@@ -42,7 +42,7 @@ public:
 	void updateUniforms(Camera* camera, ShaderType shader);
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
-	void update(int n, TransformStruct* theTrans);
+	void update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations);
 	//GEAR_API int modelAdded(Model* model);
 	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();
@@ -71,6 +71,7 @@ private:
 	std::vector<ModelInstance> staticInstances;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
+	glm::mat4* jointMatrices;
 	int nrOfWorlds;
 	int totalWorlds;
 	WorkQueue* work;

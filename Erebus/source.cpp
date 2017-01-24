@@ -238,7 +238,8 @@ int main()
 				}
 			}
 
-			engine.updateTransforms();
+			//engine.updateTransforms();
+			engine.update();
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION

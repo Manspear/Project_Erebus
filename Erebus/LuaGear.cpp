@@ -7,17 +7,18 @@ namespace LuaGear
 	static GearEngine* g_gearEngine = nullptr;
 	static std::vector<ModelInstance>* g_models = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
+	static Animation* g_animations = nullptr;
+	static int* g_boundAnimations = 0;
 	static Assets* g_assets = nullptr;
 	static WorkQueue* g_work = nullptr;
 
-	static BlendingData g_blendingData[MAX_ANIMATIONS] = {};
-	static int g_blendingIndex = 0;
-
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_models = models;
 		g_animatedModels = animatedModels;
+		g_animations = animations;
+		g_boundAnimations = boundAnimations;
 		g_assets = assets;
 		g_work = work;
 
@@ -47,8 +48,9 @@ namespace LuaGear
 		luaL_newmetatable( lua, "animationMeta" );
 		luaL_Reg animationRegs[] =
 		{
-			{ "Create", createAnimation },
-			{ "__gc",	destroyAnimation },
+			{ "Bind", bindAnimation },
+			//{ "Create", createAnimation },
+			//{ "__gc",	destroyAnimation },
 			{ "Update",	updateAnimationBlending },
 			{ "UpdateShaderMatrices", assembleAnimationsIntoShadermatrices},
 			{ "SetTransitionTimes", setTransitionTimes},
@@ -193,7 +195,7 @@ namespace LuaGear
 		return 2;
 	}
 
-	int createAnimation( lua_State* lua )
+	/*int createAnimation( lua_State* lua )
 	{
 		Animation* animation = new Animation();
 		lua_newtable( lua );
@@ -202,15 +204,26 @@ namespace LuaGear
 		lua_setfield( lua, -2, "__self" );
 
 		return 1;
-	}
+	}*/
 
-	int destroyAnimation( lua_State* lua )
+	/*int destroyAnimation( lua_State* lua )
 	{
 		lua_getfield( lua, 1, "__self" );
 		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
 		delete animation;
 
 		return 0;
+	}*/
+
+	int bindAnimation( lua_State* lua )
+	{
+		Animation* animation = &g_animations[(*g_boundAnimations)++];
+		lua_newtable( lua );
+		luaL_setmetatable( lua, "animationMeta" );
+		lua_pushlightuserdata( lua, animation );
+		lua_setfield( lua, -2, "__self" );
+
+		return 1;
 	}
 
 	//int updateAnimation( lua_State* lua )
@@ -268,10 +281,6 @@ namespace LuaGear
 			int animationSegment = lua_tointeger(lua, 4);
 
 			animation->updateState(dt, layer, animationSegment);
-			/*g_blendingData[g_blendingIndex] = { animation, dt, layer, animationSegment };
-			g_work->add( asyncUpdateState, &g_blendingData[g_blendingIndex] );
-
-			g_blendingIndex++;*/
 		}
 
 		return result;
@@ -334,16 +343,5 @@ namespace LuaGear
 			animation->assembleAnimationsIntoShadermatrices();
 		}
 		return result;
-	}
-
-	void asyncUpdateState( void* args )
-	{
-		BlendingData* data = (BlendingData*)args;
-		data->animation->updateState( data->dt, data->layer, data->segment );
-	}
-
-	void resetAnimations()
-	{
-		g_blendingIndex = 0;
 	}
 }

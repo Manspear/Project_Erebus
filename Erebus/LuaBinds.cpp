@@ -19,6 +19,8 @@ void LuaBinds::load( GearEngine* gearEngine,
 					Inputs* inputs,
 					Transform* transforms,
 					int* boundTransforms,
+					Animation* animations,
+					int* boundAnimations,
 					std::vector<ModelInstance>* models,
 					std::vector<AnimatedInstance>* animatedModels,
 					Camera* camera,
@@ -30,7 +32,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 	LuaErebus::registerFunctions( lua, transforms, controls );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, assets, work );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
@@ -90,8 +92,6 @@ void LuaBinds::update( Controls* controls, float deltaTime )
 	if( validState )
 	{
 		//LuaControls::sendControls( lua, controls );
-
-		LuaGear::resetAnimations();
 
 		lua_rawgeti( lua, LUA_REGISTRYINDEX, updateReference );
 		lua_pushnumber( lua, deltaTime );
