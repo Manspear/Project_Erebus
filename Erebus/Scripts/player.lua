@@ -219,18 +219,10 @@ function Controls(dt)
 			player.canJump = false
 		end
 		if Inputs.ButtonDown(Buttons.Left) then
-			if player.timeSinceShot > player.shootCD then
-				player.spamCasting = true
-				player.attackTimer = 1
-				player.testCamera = true
-				for _,v in ipairs(player.spells[player.currentSpell]) do
-					if not v.alive then
-						v:Cast(0.5, false)
-						break
-					end
-				end
-				player.timeSinceShot = 0
-			end
+			player.spamCasting = true
+			player.attackTimer = 1
+			player.testCamera = true
+			player.spells[1]:Cast(player, 0.5, false)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
