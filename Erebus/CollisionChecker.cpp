@@ -434,7 +434,6 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 	float hitdistance = tmin;
 	if (tmin < 0)
 		hitdistance = tmax;
-	float hit2 = tmax;
 	glm::vec3 intersectionPoint = rayPosition + (rayDirection * hitdistance);
 	ray->hit(intersectionPoint, hitdistance);
 
