@@ -15,6 +15,7 @@ namespace LuaCollision
 			{ "AddSphere",			addSphere },
 			{ "AddAABB",			addAABB },
 			{ "AddRay",				addRay},
+			{ "AddOBB",				addOBB },
 			{ "SetLayerCollision",	setLayerCollision },
 			{ "PrintCollisions",	printCollisions },
 			{ "DrawHitboxes",		drawHitboxes },
@@ -78,7 +79,7 @@ namespace LuaCollision
 			{ "Create",				createRay },
 			{ "GetCollisionIDs",	getRayCollisionIDs },
 			{ "CheckCollision",		checkRayCollision },
-			{ "SetDirection",			setDirection },
+			{ "SetSize",			setOBBSize },
 			{ "GetID",				getRayID },
 			{ "SetActive", setActive },
 			{ "__gc",				destroyRay },
@@ -91,23 +92,26 @@ namespace LuaCollision
 		lua_setglobal(lua, "RayCollider");
 
 		//OBB
-		//luaL_newmetatable(lua, "obbColliderMeta");
-		//luaL_Reg obbRegs[] =
-		//{
-		//	{ "Create",				createObb },
-		//	{ "GetCollisionIDs",	getCollisionIDs },
-		//	{ "CheckCollision",		checkCollision },
-		//	{ "SetDirection",			setDirection },
-		//	{ "GetID",				getID },
-		//	{ "SetActive", setActive },
-		//	{ "__gc",				destroy },
-		//	{ NULL, NULL }
-		//};
+		luaL_newmetatable(lua, "obbColliderMeta");
+		luaL_Reg obbRegs[] =
+		{
+			{ "Create",				createOBB },
+			{ "GetCollisionIDs",	getCollisionIDs },
+			{ "CheckCollision",		checkCollision },
+			{ "SetSize",			setOBBSize },
+			{ "RotateAroundX",			rotateOBBAroundX },
+			{ "RotateAroundY",			rotateOBBAroundY },
+			{ "RotateAroundZ",			rotateOBBAroundZ },
+			{ "GetID",				getID },
+			{ "SetActive", setActive },
+			{ "__gc",				destroy },
+			{ NULL, NULL }
+		};
 
-		//luaL_setfuncs(lua, obbRegs, 0);
-		//lua_pushvalue(lua, -1);
-		//lua_setfield(lua, -2, "__index");
-		//lua_setglobal(lua, "OBBCollider");
+		luaL_setfuncs(lua, obbRegs, 0);
+		lua_pushvalue(lua, -1);
+		lua_setfield(lua, -2, "__index");
+		lua_setglobal(lua, "OBBCollider");
 
 		lua_pop(lua, 1);
 	}
@@ -136,7 +140,7 @@ namespace LuaCollision
 			int layer = 0;
 			if( nargs >= 2 )
 				layer = lua_tointeger( lua, 2 );
-			g_collisionHandler->addHitbox( collider );
+			g_collisionHandler->addHitbox( collider,layer);
 		}
 
 		return 0;
@@ -151,7 +155,22 @@ namespace LuaCollision
 			int layer = 0;
 			if (nargs >= 2)
 				layer = lua_tointeger(lua, 2);
-			g_collisionHandler->addRay(collider);
+			g_collisionHandler->addRay(collider,layer);
+		}
+
+		return 0;
+	}
+
+	int addOBB(lua_State * lua)
+	{
+		int nargs = lua_gettop(lua);
+		if (nargs >= 1)
+		{
+			OBBCollider* collider = getOBBCollider(lua, 1);
+			int layer = 0;
+			if (nargs >= 2)
+				layer = lua_tointeger(lua, 2);
+			g_collisionHandler->addHitbox(collider,layer);
 		}
 
 		return 0;
@@ -251,6 +270,26 @@ namespace LuaCollision
 
 			result = 1;
 		}
+		return result;
+	}
+
+	int createOBB(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			int transformID = lua_tointeger(lua, 1);
+
+			OBBCollider* collider = new OBBCollider(transformID);
+			lua_newtable(lua);
+			luaL_setmetatable(lua, "obbColliderMeta");
+			lua_pushlightuserdata(lua, collider);
+			lua_setfield(lua, -2, "__self");
+
+			result = 1;
+		}
+
 		return result;
 	}
 
@@ -396,6 +435,60 @@ namespace LuaCollision
 		return 0;
 	}
 
+	int setOBBSize(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float xHalftLength = lua_tonumber(lua, 2);
+			float yHalftLength = lua_tonumber(lua, 3);
+			float zHalftLength = lua_tonumber(lua, 4);
+
+			obb->setSize(glm::vec3(xHalftLength, yHalftLength, zHalftLength));
+		}
+
+		return 0;
+	}
+
+	int rotateOBBAroundX(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float angle = lua_tonumber(lua, 2);
+
+			obb->rotateAroundX(angle);
+		}
+
+		return 0;
+	}
+
+	int rotateOBBAroundY(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float angle = lua_tonumber(lua, 2);
+
+			obb->rotateAroundY(angle);
+		}
+
+		return 0;
+	}
+
+	int rotateOBBAroundZ(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float angle = lua_tonumber(lua, 2);
+
+			obb->rotateAroundZ(angle);
+		}
+
+		return 0;
+	}
+
 	int setLayerCollision( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 3 )
@@ -497,5 +590,10 @@ namespace LuaCollision
 	{
 		lua_getfield(lua, index, "__self");
 		return (RayCollider*)lua_touserdata(lua, -1);
+	}
+	OBBCollider * getOBBCollider(lua_State * lua, int index)
+	{
+		lua_getfield(lua, index, "__self");
+		return (OBBCollider*)lua_touserdata(lua, -1);
 	}
 }

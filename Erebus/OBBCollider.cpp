@@ -95,6 +95,13 @@ void OBBCollider::setZHalfLength(float length)
 	this->halfLengths.z = length;
 }
 
+void OBBCollider::setXAxis(glm::vec3 xAxis)
+{
+	this->xAxis = glm::normalize(xAxis);
+	this->zAxis = glm::normalize(glm::cross(xAxis, glm::vec3(0,1,0)));
+	this->yAxis = glm::normalize(glm::cross(xAxis,zAxis));
+}
+
 int OBBCollider::getID() const
 {
 	return this->ID;

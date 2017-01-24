@@ -33,6 +33,9 @@ private:
 	Importer::HeightMap* heightMap;
 
 	NetworkController networkController;
+	OBBCollider* swag;
+	glm::vec3 dirDerp;
+	Camera* cameraSteal;
 
 public:
 	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, SoundEngine * inSoundEngine);
