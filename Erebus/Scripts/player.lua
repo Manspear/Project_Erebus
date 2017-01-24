@@ -103,7 +103,7 @@ function UnloadPlayer()
 end
 
 function UpdatePlayer(dt)
-	UpdatePlayer2(dt)
+	--UpdatePlayer2(dt)
 	if player.health > 0 then
 		player.timeSinceShot = player.timeSinceShot + dt
 		player.forward = 0
