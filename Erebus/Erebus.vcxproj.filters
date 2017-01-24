@@ -52,9 +52,6 @@
     <ClCompile Include="SoundEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaSound.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="LuaParticles.cpp">
       <Filter>Lua\Source</Filter>
     </ClCompile>
@@ -129,6 +126,10 @@
     </ClCompile>
     <ClCompile Include="LuaSound.cpp">
       <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaSound.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -252,8 +253,9 @@
     <ClInclude Include="SoundEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaSound.h">
-      <Filter>Header Files\Lua</Filter>
+    <ClInclude Include="LuaSound.h" />
+    <ClInclude Include="LevelEditorStuff\LevelHeightmap.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +358,6 @@
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
     </None>
-    <None Include="Scripts\arcType.lua">
-      <Filter>Scripts\types</Filter>
-    </None>
     <None Include="Shaders\debugSphere.geom">
       <Filter>Shaders</Filter>
     </None>
@@ -368,14 +367,8 @@
     <None Include="Shaders\debugSphere.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\fireEffect.lua">
-      <Filter>Scripts\effects</Filter>
-    </None>
     <None Include="Shaders\debugAABB.geom">
       <Filter>Shaders</Filter>
-    </None>
-    <None Include="Scripts\groundAoEType.lua">
-      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Shaders\debugAABB.vert">
       <Filter>Shaders</Filter>
@@ -385,9 +378,6 @@
     </None>
     <None Include="Shaders\debugOBB.frag">
       <Filter>Shaders</Filter>
-    </None>
-    <None Include="Scripts\projectileType.lua">
-      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Shaders\debugOBB.vert">
       <Filter>Shaders</Filter>
@@ -405,6 +395,12 @@
     <None Include="Shaders\image.frag" />
     <None Include="Shaders\image.geom" />
     <None Include="Shaders\image.vert" />
+    <None Include="effects.vert" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\geometryPassShadow.frag" />
+    <None Include="Shaders\geometryPassShadow.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -14,8 +14,8 @@ private:
 	std::stringstream sStream;
 	glm::vec2 posVal, sizeVal;
 	glm::vec4 colorVal;
-	float alphaVal;
-	std::string posStr, sizeStr, colorStr, alphaStr, barName;
+	float alphaVal, valueWidth;
+	std::string posStr, sizeStr, colorStr, alphaStr, barName, valueWidthStr;
 	const std::string resizeStr = " resizable=false"
 					, moveableStr = " movable=false"
 					, refreshStr = " refresh=1.5";
@@ -45,10 +45,11 @@ private:
 		sizeStr = this->vec2ToString(sizeVal, " size=");
 		colorStr = this->vec3ToString(glm::vec3(colorVal), " color=");
 		alphaStr = this->floatToString(alphaVal, " alpha=");
+		valueWidthStr = this->floatToString(valueWidth, " valueswidth=");
 		
 		sStream << barName << posStr << sizeStr << colorStr <<
 			(alphaVal > 0 ? alphaStr : "")
-			<< refreshStr << resizeStr << moveableStr << " valueswidth=fit";
+			<< refreshStr << resizeStr << moveableStr << valueWidthStr;
 
 		TwDefine(sStream.str().c_str());
 		sStream.clear();
@@ -59,12 +60,13 @@ public:
 		return .175f;
 	}
 	//Pos in screen space, size of the window, color defines 3 color, and alpha in w if desired
-	TweakBar(glm::vec2 pos, glm::vec2 size, glm::vec4 color, std::string title="UNIQUE_NAME") {
+	TweakBar(glm::vec2 pos, glm::vec2 size, glm::vec4 color,float width, std::string title="UNIQUE_NAME") {
 		posVal = pos;
 		sizeVal = size;
 		colorVal = color;
 		alphaVal = color.w; 
 		barName = title;
+		valueWidth = width;
 		setupTweakBar();
 		
 	}
@@ -99,7 +101,7 @@ private:
 
 	
 public:
-	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, NUM_DIFF_COMPONENTS} DiffComponents;
+	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, HEIGHTMAP, NUM_DIFF_COMPONENTS} DiffComponents;
 	static const char *componentLinker[];
 	TwEnumVal *componentsEVs;
 	TwType componentType;
@@ -120,7 +122,8 @@ public:
 			{ DiffComponents::SELECT_COMPONENT, "Select Component" },
 			{ DiffComponents::TRANSFORM, "Transform"},
 			{ DiffComponents::MODEL, "Model" } ,
-			{ DiffComponents::POINT_LIGHT, "Point Light"} 
+			{ DiffComponents::POINT_LIGHT, "Point Light"},
+			{ DiffComponents::HEIGHTMAP, "Heightmap" }
 		};
 
 		if (componentTw == TW_TYPE_FLOAT) {
