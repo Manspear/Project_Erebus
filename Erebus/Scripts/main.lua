@@ -19,8 +19,12 @@ local scriptFiles =
 	"Scripts/groundAoEType.lua",
 	"Scripts/timeOrbWave.lua",
 	"Scripts/orbWaveType.lua",
+	"Scripts/sunRay.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
-	"Scripts/reusable.lua"
+	"Scripts/reusable.lua",
+	"Scripts/slowEffect.lua",
+	"Scripts/iceGrenade.lua",
+	"Scripts/grenadeType.lua"
 }
 local drawHitboxes = false
 

@@ -1,0 +1,8 @@
+Material name: robotten.material
+Ambient color: 0 0 0
+Diffuse color: 0 0 0
+Specular color: 0 0 0
+Shinyfactor: 0
+Diffuse texture name: NOTEXTURE
+Specular texture name: NOTEXTURE
+Normal texture name: NOTEXTURE

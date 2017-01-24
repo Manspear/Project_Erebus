@@ -84,7 +84,7 @@ namespace Nurn
 		netCommunication.Shutdown();
 	}
 
-	void NurnEngine::buildTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+	void NurnEngine::buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 	{
 		//std::cout << "Sending position - x: " << pos_x << " y: " << pos_y << " z: " << pos_z << std::endl;
 		//std::cout << "Sending lookAt - x: " << lookAt_x << " y: " << lookAt_y << " z: " << lookAt_z << std::endl << std::endl;
@@ -99,4 +99,34 @@ namespace Nurn
 
 		return result;
 	}
+
+	void NurnEngine::buildAnimationPacket(const uint16_t& id)
+	{
+		this->packager->buildAnimationPacket(id);
+	}
+
+	bool NurnEngine::fetchAnimationPacket(AnimationPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAnimationQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::buildAIPacket(const uint16_t& id)
+	{
+		this->packager->buildAIPacket(id);
+	}
+
+	bool NurnEngine::fetchAIPacket(AIPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAIQueue()->pop(packet);
+
+		return result;
+	}
+
+
 }

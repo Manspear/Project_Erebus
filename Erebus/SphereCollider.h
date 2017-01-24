@@ -9,25 +9,22 @@ public:
 	SphereCollider(int IDTransform, glm::vec3 pos, float radius);
 	SphereCollider(int IDTransform, float x, float y, float z, float radius);
 	SphereCollider(int IDTransform);
-	~SphereCollider();
+	virtual ~SphereCollider();
 
 	//overrides
-	unsigned int getID() const override; // copy elision makes this fast? RVO - NRVO
+	int getID() const override; // copy elision makes this fast? RVO - NRVO
 	int getIDTransform() const override;
-	std::vector<unsigned int>* getIDCollisionsRef() override;
-	void insertCollisionID(unsigned int collisionID) override;
-	void clearCollisionIDs() override;
+	std::vector<int>* getIDCollisionsRef() override;
 
 	const glm::vec3& getPos();
 	const float& getRadius();
 	float getRadiusSquared() const;
 
-	void setPos(glm::vec3 pos) override;
 	void setRadius(float radius);
 
 private:
-	glm::vec3 pos;
 	float radius, radiusSquared;
+	const int FLAG = 0;
 
 
 };

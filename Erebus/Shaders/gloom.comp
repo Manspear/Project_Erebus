@@ -5,15 +5,6 @@ layout(rgba32f, binding = 0) uniform image2D srcTex;
 
 layout (local_size_x = 32, local_size_y = 18) in;
 
-const float kernelNumbers [25] = float[25]
-		(0.0106501, 0.24648, 0.0326031, 0.024648, 0.0106501, 
-		0.024628, 0.0570441, 0.0754548, 0.0570441, 0.0024648, 
-		0.0326031, 0.0754548, 0.0998075, 0.0754548, 0.0326031, 
-		0.024628, 0.0570441, 0.0754548, 0.0570441, 0.0024648,
-		0.0106501, 0.24648, 0.0326031, 0.024648, 0.0106501);
-
-const float scalar = 2.f/62.f;
-
 void main() {
 	ivec2 a = ivec2(gl_GlobalInvocationID.xy) ;
 	vec4 tex = vec4(0);
@@ -34,25 +25,22 @@ void main() {
 		tex += tex1 + tex2;
 	}*/
 	float hits = 0;
-	for(int i =-10; i <= 10; i++)
+	for(int i =-10; i <= 10; i+=2)
 	{
-		if(imageLoad(srcTex, ivec2(a) + ivec2(i, 0)).a != 0){
-			hits++;
-		}
-		if(imageLoad(srcTex, ivec2(a) + ivec2(0, i)).a != 0){
-			hits++;
-		}
-		if(imageLoad(srcTex, ivec2(a) + ivec2(i, i)).a != 0){
-			hits++;
-		}
-		if(imageLoad(srcTex, ivec2(a) + ivec2(-i, i)).a != 0){
+		if(	imageLoad(srcTex, a + ivec2(i, 0)).a != 0 ||
+			imageLoad(srcTex, a + ivec2(0, i)).a != 0 ||
+			imageLoad(srcTex, a + ivec2(i, i)).a != 0 ||
+			imageLoad(srcTex, a + ivec2(-i,i)).a != 0
+		 )
+		{
 			hits++;
 		}
 	}
 	tex = imageLoad(srcTex, ivec2(a));
-	if(hits > 0 && hits < 8){
-		float c = hits/3.f;
-		tex = vec4(c/3.f,c/3.f,c,1);
+	
+	if(hits > 2 && hits < 6){
+		float c = hits;
+		tex = vec4(1-c/6,1-c/6,c/9+0.31,1);
 	}
 	imageStore(destTex, a, tex);
 }

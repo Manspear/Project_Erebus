@@ -28,6 +28,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
+
 	}
 
 	GearEngine::~GearEngine()
@@ -90,7 +91,7 @@ namespace Gear
 
 			light.pos = glm::vec4(position, 1);
 			light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
-																	  //DISCO
+			light.radius.x = LIGHT_RADIUS;														  //DISCO
 																	  /*color[i] = glm::vec3(light.color);
 																	  light.radius.z = LIGHT_RADIUS;*/
 		}
@@ -290,14 +291,17 @@ namespace Gear
 		tempCamera.setView(view);
 		tempCamera.setprojection(dirLights[0].projection);
 
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+
 		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);		
 		
-		shadowMap.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
-		shadowMap.unUse();
-		shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
+		//shadowMap.use();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
+		//shadowMap.unUse();
+		//shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
 
 		queue.updateUniforms(camera);
 
@@ -306,10 +310,13 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		gBuffer.unUse();
 
+		
+
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-		
+
+		glDisable(GL_CULL_FACE);
 		queue.particlePass(particleSystems);
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
@@ -320,14 +327,14 @@ namespace Gear
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		updateDebug(camera);
 
-		skybox.update(camera);
+		skybox.update(camera, gBuffer.getTextures()[2]);
 		skybox.draw();
 
 
-		/*effectShader->use();
+		effectShader->use();
 		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
 		drawQuad();
-		effectShader->unUse();	*/
+		effectShader->unUse();	
 
 		//gloomCompute->use();
 		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
@@ -338,13 +345,13 @@ namespace Gear
 		// 
 		//gloomCompute->unUse();
 
-		effectShader->use();
-		GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
-		glActiveTexture(GL_TEXTURE0 + 0);
-		glUniform1i(uniform, 0);
-		glBindTexture(GL_TEXTURE_2D, gloomTexture);
-		drawQuad();
-		effectShader->unUse();
+		//effectShader->use();
+		//GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
+		//glActiveTexture(GL_TEXTURE0 + 0);
+		//glUniform1i(uniform, 0);
+		//glBindTexture(GL_TEXTURE_2D, gloomTexture);
+		//drawQuad();
+		//effectShader->unUse();
 
 		//Clear lists
 		staticModels = &defaultModelList;
@@ -397,14 +404,16 @@ namespace Gear
 	{
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0, 0); //binds textures
+		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2, 2);
-		shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gDepth", 2, 2);
+		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
 		
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
 		lightPassShader->addUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
+		lightPassShader->addUniform(glm::inverse(camera->getViewMatrix()), "invView");
+		lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");
 
 		for (GLuint i = 0; i < dirLights.size(); i++) //adds dir light
 		{
@@ -449,16 +458,16 @@ namespace Gear
 
 	void GearEngine::frameBufferInit()
 	{
-		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA }; //Format for texture in gBuffer
-		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA }; //Format for texture in gBuffer
+		GLuint internalFormat[] = { GL_RGBA,GL_RG16F, GL_R32F }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGBA,GL_RG, GL_RED }; //Format for texture in gBuffer
 		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
-		GLenum type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
-		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST };
+		GLenum type[] = { GL_UNSIGNED_INT, GL_FLOAT, GL_FLOAT }; //data type for texture
+		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};
 
 		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 
-		shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
-		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		/*shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);*/
 
 		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA32F, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
 
