@@ -135,6 +135,7 @@ void RenderQueue::allocateWorlds(int n)
 
 void RenderQueue::update(int n, TransformStruct* theTrans)
 {
+	allTransforms = theTrans;
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
@@ -295,8 +296,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			if (allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
 
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
@@ -392,15 +394,13 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		// TEMP: Shouldn't have any models without material
 		if (modelAsset->getMaterial())
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
-
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			if(allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
-
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS

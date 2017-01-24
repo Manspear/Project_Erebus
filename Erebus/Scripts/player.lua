@@ -1,6 +1,7 @@
 local MOLERAT_OFFSET = 0.4
 local PLAYER_MAX_SPELLS = 2
 local PLAYER_JUMP_SPEED = 0.35
+
 player = {}
 player2 = {}
 
@@ -60,14 +61,10 @@ function LoadPlayer()
 	-- set spells for player
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
-	player.spells[1] = {}
+	player.spells[1] = CreateIceGrenade()
 	player.spells[2] = {}
-	for i = 1,  10 do	--create the projectile instances
-		table.insert(player.spells[1], CreateFireball())
-	end
-	--for i = 1,  10 do	--create the arc instances
-	table.insert(player.spells[2], CreateSunRay())
-	--end
+
+
 	player.currentSpell = 1
 
 	player.Hurt = function(self,damage)
@@ -169,13 +166,9 @@ function UpdatePlayer(dt)
 
 	end
 	-- update the current player spell
-	for i=1, #player.spells do 
-		for _,j in ipairs(player.spells[i]) do
-			if j.alive then
-			j:Update(dt)
-			end
-		end
-	end
+	player.spells[1]:Update(dt)
+	
+
 
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
@@ -226,18 +219,10 @@ function Controls(dt)
 			player.canJump = false
 		end
 		if Inputs.ButtonDown(Buttons.Left) then
-			if player.timeSinceShot > player.shootCD then
-				player.spamCasting = true
-				player.attackTimer = 1
-				player.testCamera = true
-				for _,v in ipairs(player.spells[player.currentSpell]) do
-					if not v.alive then
-						v:Cast(0.5, false)
-						break
-					end
-				end
-				player.timeSinceShot = 0
-			end
+			player.spamCasting = true
+			player.attackTimer = 1
+			player.testCamera = true
+			player.spells[1]:Cast(player, 0.5, false)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -253,10 +238,10 @@ function Controls(dt)
 					end
 				end
 			end
-			player.chargedspell:Charge(dt)
+			--player.chargedspell:Charge(dt)
 		end
 		if Inputs.ButtonReleased(Buttons.Right) then
-			player.chargedspell:ChargeCast(dt)
+			--player.chargedspell:ChargeCast(dt)
 		end
 
 		if Inputs.KeyPressed("1") then player.currentSpell = 1; player.chargedspell = {} end

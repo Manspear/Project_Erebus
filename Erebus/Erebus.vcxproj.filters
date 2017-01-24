@@ -366,6 +366,13 @@
     <None Include="Scripts\projectileType.lua">
       <Filter>Scripts\types</Filter>
     </None>
+    <None Include="Scripts\slowEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\iceGrenade.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\grenadeType.lua"/>
     <None Include="Shaders\geometryPassShadow.frag" />
     <None Include="Shaders\geometryPassShadow.vert" />
     <None Include="Shaders\skybox.frag" />
