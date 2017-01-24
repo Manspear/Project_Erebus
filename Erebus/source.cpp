@@ -50,10 +50,9 @@ int main()
 	//window.changeCursorStatus(false);
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
-
+	
 	GamePlay * gamePlay = new GamePlay(&engine, assets);
 	Menu * menu = new Menu(&engine,assets);
-
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;

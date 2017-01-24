@@ -211,7 +211,9 @@
     <None Include="Scripts\fireballArc.lua" />
     <None Include="Scripts\fireEffect.lua" />
     <None Include="Scripts\fireGroundAoE.lua" />
+    <None Include="Scripts\grenadeType.lua" />
     <None Include="Scripts\groundAoEType.lua" />
+    <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\orbWaveType.lua" />
@@ -219,6 +221,7 @@
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\reusable.lua" />
+    <None Include="Scripts\slowEffect.lua" />
     <None Include="Scripts\test.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
