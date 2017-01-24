@@ -48,7 +48,8 @@ namespace LuaSound
 			}
 		}
 
-		g_soundEngine->play(s, options, pos);
+		int index = g_soundEngine->play(s, options, pos);
+		lua_pushinteger(lua, index);
 		return 0;
 	}
 

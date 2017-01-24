@@ -20,6 +20,7 @@ function CreateFireball()
 
 	function fireball:Update(dt)
 		hits = self.type:Update(dt)
+		Sound.SetPosition(self.soundID, self.type.position)
 		self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
 		for index = 1, #hits do
 			if hits[index].Hurt then
@@ -54,6 +55,8 @@ function CreateFireball()
 		self.effectFlag = effects
 		self.damage = (chargetime/FIREBALLMAXCHARGETIME) * FIREBALLDAMAGE
 		self.chargedTime = 0
+		self.soundID = Sound.Play("Effects/burn_ice_001.wav", 5, self.type.position)
+		Sound.SetVolume(self.soundID, 1)
 		--Transform.SetPosition(self.transformID, self.position)
 	end
 	
@@ -63,6 +66,7 @@ function CreateFireball()
 	function fireball:Kill()
 		self.alive = false
 		self.type:Kill()
+		Sound.Play("Effects/explosion.wav", 5, self.type.position)
 	end
 	return fireball
 end

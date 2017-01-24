@@ -64,7 +64,7 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.play("Music/menuBurana.ogg", SOUND_LOOP | SOUND_3D, glm::vec3(31,8,12));
+	//soundEngine.play("Music/menuBurana.ogg", SOUND_LOOP | SOUND_3D, glm::vec3(31,8,12));
 	soundEngine.setMasterVolume(0.5);
 
 	while (running && window.isWindowOpen())

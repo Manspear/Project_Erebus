@@ -16,6 +16,7 @@ SoundEngine::SoundEngine()
 	if (engine)
 	{
 		engine->setSoundVolume(0.5f);
+		engine->setDefault3DSoundMinDistance(10);
 	}
 }
 
