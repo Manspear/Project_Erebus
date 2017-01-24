@@ -5,7 +5,9 @@
 enum GameState
 {
 	MenuState,
-	GameplayState
+	GameplayState,
+	HostGameplayState,
+	ClientGameplayState
 };
 
 class Menu
@@ -13,11 +15,16 @@ class Menu
 private:
 	Gear::GearEngine * engine;
 
-	sScreenQuad background;
+	sScreenImage background;
 	Importer::TextureAsset* menuBackground;
 
-	sScreenQuad button;
+	sScreenImage button;
 	Importer::TextureAsset* buttonTex;
+
+	sScreenImage hostButton;
+	Importer::TextureAsset* hostButtonTex;
+	sScreenImage clientButton;
+	Importer::TextureAsset* clientButtonTex;
 
 public:
 

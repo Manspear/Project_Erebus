@@ -13,6 +13,7 @@ RayCollider::RayCollider()
 	this->ID = -1;
 	this->IDTransform = -1;
 	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->active = true;
 }
 
 RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction)
@@ -26,6 +27,7 @@ RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction)
 	this->ID = -1;
 	this->IDTransform = -1;
 	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->active = true;
 }
 
 RayCollider::RayCollider(int IDTransform, glm::vec3 direction)
@@ -39,6 +41,7 @@ RayCollider::RayCollider(int IDTransform, glm::vec3 direction)
 	this->ID = -1;
 	this->IDTransform = IDTransform;
 	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->active = true;
 }
 
 
@@ -117,6 +120,11 @@ bool RayCollider::checkCollision()
 	return collision;
 }
 
+bool RayCollider::isActive()
+{
+	return this->active;
+}
+
 void RayCollider::setIDTransform(unsigned int ID)
 {
 	this->IDTransform = ID;
@@ -125,4 +133,9 @@ void RayCollider::setIDTransform(unsigned int ID)
 void RayCollider::setID(unsigned int ID)
 {
 	this->ID = ID;
+}
+
+void RayCollider::setActive(bool active)
+{
+	this->active = active;
 }

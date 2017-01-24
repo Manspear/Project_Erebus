@@ -12,12 +12,14 @@ function CreateArc()
 	arc.damage = 5
 	arc.explodeTime = 1
 	local arcModel = Assets.LoadModel( "Models/testGuy.model" )
-	arc.sphereCollider = SphereCollider.Create(arc.transformID)
-	CollisionHandler.AddSphere(arc.sphereCollider)
-	SphereCollider.SetRadius(arc.sphereCollider, 5)
-	local fireball = createFireball()
+	--local fireball = createFireball()
+	
+	fireball.effectFlag = false
+	fireball.maxChargeTime = FIREBALLMAXCHARGETIME
+	fireball.chargedTime = 0
 
-	Gear.AddStaticInstance(arcModel, arc.transformID)
+
+	Gear.AddStaticInstance(arcModel, arc.type.transformID)
 
 	function arc:Cast()
 		self.position = Transform.GetPosition(player.transformID)
@@ -32,7 +34,6 @@ function CreateArc()
 		Transform.SetPosition(self.transformID, self.position)
 		fireball.cast()
 	end
-
 
 	function arc:Update(dt)
 		self.velocity.y = self.velocity.y - self.speed*dt
@@ -57,8 +58,11 @@ function CreateArc()
 			for curEnemy=1, #enemies do
 					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 						print ("Träff för fan")
-					fireball.die(self.position.x, self.position.y, self.position.z)
+						fireball.die(self.position.x, self.position.y, self.position.z)
 						enemies[curEnemy]:Hurt(self.damage)
+						if self.effectFlag then
+							table.insert(hits[index].effects, self.effect())
+						end
 						--self:Kill()						
 					end
 

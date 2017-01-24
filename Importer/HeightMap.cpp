@@ -218,8 +218,8 @@ namespace Importer
 		float highestPoint = 14.73f;
 		float lowestPoint = 25.f;
 		heightMulti = 1.0f;
-		widthMulti = 4.0f;//1.015f
-		breadthMulti = 4.0f;
+		widthMulti = 1.0f;//1.015f
+		breadthMulti = 1.0f;
 		//255, 24.435
 		/*
 		(int)(y/256)*3 =pos1 
@@ -257,7 +257,7 @@ namespace Importer
 					int yindex = y;
 					if (yindex >= mapHeight - 1)
 						yindex = mapHeight - 1;
-					heightData[x][y] = map.getPixelValue(xindex, yindex).red;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
+					heightData[x][y] = map.getPixelValue(xindex, yindex).red * (30.2 / 255)+3;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
 				}
 			}
 
@@ -285,10 +285,10 @@ namespace Importer
 			{
 				for( size_t x = 0; x<mapWidth; x++, vertexIndex++ )
 				{
-					vertexData[vertexIndex].position[0] = x *							widthMulti *1.00787401575f;
+					vertexData[vertexIndex].position[0] = x * widthMulti *1.00787401575f;
 					//vertexData[vertexIndex].position[1] = 1; 
-					vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * 0.613f;
-					vertexData[vertexIndex].position[2] = y *							breadthMulti;
+					vertexData[vertexIndex].position[1] = map.getPixelValue(x, y).red * (30.2 / 255) + 3;
+					vertexData[vertexIndex].position[2] = y * breadthMulti;
 
 					vertexData[vertexIndex].UV[0] =	((float)x / (this->mapWidth-1));
 					vertexData[vertexIndex].UV[1] = -((float)y / (this->mapHeight));
@@ -549,7 +549,7 @@ namespace Importer
 		//printf("heightmapIndex: %d, x: %f, z: %f \n", heightmapIndex, realX, realZ);
 		if (heightmapIndex == 1)
 		{
-			return heightVal * 0.613;
+			return heightVal * 1;
 		}
 		else if (heightmapIndex == 2)
 		{

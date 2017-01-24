@@ -16,13 +16,22 @@ DebugHandler::~DebugHandler()
 {
 	for (size_t i = 0; i < debuggers.size(); i++)
 	{
-		delete debuggers[i];
+		if(debuggers[i])
+			delete debuggers[i];
 	}
 }
 
 void DebugHandler::addDebuger(Debug* bugref)
 {
-	this->debuggers.push_back(bugref);
+	bool unique = true;
+	for (size_t i = 0; i < debuggers.size(); i++)
+	{
+		if (debuggers[i] == bugref)
+			unique = false;
+	}
+
+	if(unique)
+		this->debuggers.push_back(bugref);
 }
 
 void DebugHandler::update(Camera* camera, RenderQueue* renderQueRef)

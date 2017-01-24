@@ -4,6 +4,8 @@ namespace Nurn
 {
 	NurnEngine::NurnEngine()
 	{
+		this->packager = new Packager();
+		this->packetFilter = new PacketFilter();
 		return;
 	}
 
@@ -15,22 +17,13 @@ namespace Nurn
 
 	bool NurnEngine::InitializeHost(uint16_t port)
 	{
-		this->Initialize();
 		return netCommunication.InitializeCommunicationHost(port);
 	}
 
 	bool NurnEngine::InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort, uint16_t origPort)
 	{
-		this->Initialize();
 		address = Address(ip1, ip2, ip3, ip4, destPort);
 		return netCommunication.InitializeCommunicationClient(origPort, address);
-	}
-
-	bool NurnEngine::Initialize()
-	{
-		this->packager = new Packager();
-		this->packetFilter = new PacketFilter();
-		return true;
 	}
 
 	bool NurnEngine::AcceptCommunication()
@@ -91,10 +84,11 @@ namespace Nurn
 		netCommunication.Shutdown();
 	}
 
-	void NurnEngine::buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
+	void NurnEngine::buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 	{
-		//std::cout << "Sending - x: " << x << " y: " << y << " z: " << z << std::endl;
-		this->packager->buildTransformPacket(id, x, y, z);
+		//std::cout << "Sending position - x: " << pos_x << " y: " << pos_y << " z: " << pos_z << std::endl;
+		//std::cout << "Sending lookAt - x: " << lookAt_x << " y: " << lookAt_y << " z: " << lookAt_z << std::endl << std::endl;
+		this->packager->buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
 	}
 
 	bool NurnEngine::fetchTransformPacket(TransformPacket &packet)
@@ -105,4 +99,19 @@ namespace Nurn
 
 		return result;
 	}
+
+	void NurnEngine::buildAnimationPacket(const uint16_t& id)
+	{
+		this->packager->buildAnimationPacket(id);
+	}
+
+	bool NurnEngine::fetchAnimationPacket(AnimationPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAnimationQueue()->pop(packet);
+
+		return result;
+	}
+
 }

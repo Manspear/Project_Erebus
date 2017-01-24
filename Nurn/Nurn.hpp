@@ -41,8 +41,6 @@ namespace Nurn
 		// Takes an ipv4 address with each of the 255 values seperated by commas, for example ( 127, 0, 0, 1 )
 		bool InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort = 35500, uint16_t origPort = 35500);
 
-		bool Initialize();
-
 		bool AcceptCommunication();
 
 		bool Send(const void * data, int size);
@@ -55,8 +53,11 @@ namespace Nurn
 
 		void Shutdown();
 
-		void buildTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z);
-		bool fetchTransformPacket(TransformPacket &packet);
+		void buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+		bool fetchTransformPacket(TransformPacket& packet);
+
+		void buildAnimationPacket(const uint16_t& id);
+		bool fetchAnimationPacket(AnimationPacket& packet);
 
 	private:
 		Address address;

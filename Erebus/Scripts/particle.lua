@@ -11,6 +11,7 @@ function createFireballParticles()
 	function fireball.die(pos)
 		Particle.SetDead(fireball.fly)
 		Particle.SetPosition(fireball.exploda, pos.x, pos.y, pos.z)
+		Particle.SetDirection(fireball.exploda, 0, 0, 0)
 		Particle.Explode(fireball.exploda)	
 	end
 

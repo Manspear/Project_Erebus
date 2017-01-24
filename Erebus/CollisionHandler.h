@@ -64,6 +64,9 @@ public:
 	//change if two layers can collide in the layerMatrix
 	void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
 
+	void deactiveteAllHitboxes();
+	void activeteAllHitboxes();
+
 	void printCollisions();
 
 	void drawHitboxes();

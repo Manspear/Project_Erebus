@@ -20,11 +20,14 @@ public:
 	virtual void setID(unsigned int ID);
 	virtual bool checkCollision();
 	virtual bool checkSpecificCollision(unsigned int target);
+	virtual void setActive(bool active);
+	virtual bool isActive();
 
 protected:
 	int ID, IDTransform;
 	std::vector<unsigned int> IDCollisions;
 	const unsigned short RESERVE_COLLISIONS = 10; // hur många collisions tror vi en enda hitbox max har under en frame
+	bool active;
 
 };
 

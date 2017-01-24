@@ -7,7 +7,7 @@ struct ScreenVertex
 {
 	float x, y, s, t;
 };
-GLuint testScreen;
+
 namespace Gear
 {
 	GearEngine::GearEngine()
@@ -16,8 +16,7 @@ namespace Gear
 		//renderQueue.init();
 		queue.init();
 		text.init(1280, 720);
-		screenQuad.init(1280, 720);
-
+		image.init(1280, 720);
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -30,6 +29,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
+
 	}
 
 	GearEngine::~GearEngine()
@@ -42,9 +42,95 @@ namespace Gear
 		delete quadShader;
 		delete lightPassShader;
 		delete blurShader;
-
+		delete effectShader;
 		delete debugHandler;
+		delete gloomCompute;
 
+	}
+
+	void GearEngine::lightInit()
+	{
+		//Generate buffers
+		glGenBuffers(1, &lightBuffer); //Generate buffer to light data
+
+									   //bind light buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind buffer
+		glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(Lights::PointLight), 0, GL_DYNAMIC_DRAW); //allocate size of buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); //unbind buffer
+
+		Lights::DirLight dirLight; //add one dir light
+		dirLight.direction = glm::vec3(-0.0f, -0.5f, 0.5f);
+		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
+		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
+
+		dirLights.push_back(dirLight); //save it to buffer
+
+									   //TEMP LIGHT INIT:
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<> dis(0, 1);
+
+		const int LIGHT_RADIUS = 30; //Radius of lights
+
+		if (lightBuffer == 0) {
+			return;
+		}
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+
+		for (int i = 0; i < NUM_LIGHTS; i++) {
+			Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+
+			glm::vec3 position = glm::vec3(0.0);
+			for (int i = 0; i < 3; i++) { // calculate random pos for light
+				float min = LIGHT_MIN_BOUNDS[i];
+				float max = LIGHT_MAX_BOUNDS[i];
+				position[i] = (GLfloat)dis(gen) * (max - min) + min;
+			}
+
+			light.pos = glm::vec4(position, 1);
+			light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
+			light.radius.x = LIGHT_RADIUS;														  //DISCO
+																	  /*color[i] = glm::vec3(light.color);
+																	  light.radius.z = LIGHT_RADIUS;*/
+		}
+
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	}
+
+	void GearEngine::shaderInit()
+	{
+		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
+		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
+		blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
+		effectShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "effects"); //Draw effect texture on screen
+		gloomCompute = new ShaderProgram(shaderBaseType::COMPUTESHADER, "gloom");//Gloom computeshader
+		
+		glGenTextures(1, &gloomTexture);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, gloomTexture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
+
+	}
+
+	void GearEngine::skyboxInit()
+	{
+		skybox.init();
+
+		std::vector<const GLchar*> faces;
+		faces.push_back("skybox/right.dds");
+		faces.push_back("skybox/left.dds");
+		faces.push_back("skybox/top.dds");
+		faces.push_back("skybox/bottom.dds");
+		faces.push_back("skybox/front.dds");
+		faces.push_back("skybox/back.dds");
+		skybox.loadCubemap(faces);
 	}
 
 	bool GearEngine::isRunning() {
@@ -58,6 +144,7 @@ namespace Gear
 
 	void GearEngine::drawQuad()
 	{
+		glDepthMask(GL_FALSE);
 		if (quadVAO == 0) { //just draws a quad on the screen
 			GLfloat quadVertices[] = {
 				-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
@@ -80,6 +167,12 @@ namespace Gear
 		glBindVertexArray(quadVAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glBindVertexArray(0);
+		glDepthMask(GL_TRUE);
+	}
+
+	void GearEngine::effectPreProcess()
+	{
+
 	}
 
 	void GearEngine::addStaticNonModel(staticNonModels* model) {
@@ -109,9 +202,14 @@ namespace Gear
 		text.print(s, baseX, baseY, scale, color);
 	}
 
+	void GearEngine::showImage(const sScreenImage & quad, Importer::TextureAsset* texture)
+	{
+		image.showImage(quad, texture);
+	}
+
 	void GearEngine::showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
 	{
-		screenQuad.showImage(pos, width, height, texture);
+		image.showImage(pos, width, height, texture);
 	}
 
 	glm::vec2 GearEngine::getTextDimensions( const char* t )
@@ -169,8 +267,7 @@ namespace Gear
 	}
 
 	void GearEngine::draw(Camera* camera)
-	{
-		
+	{		
 		queue.update(*transformCount, *allTrans);
 		map.calcOrthoProjs(camera);
 		Camera tempCamera;
@@ -184,9 +281,7 @@ namespace Gear
 		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
 		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
 		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
-		
-
-		
+			
 		glm::vec3 target;
 
 		target.x = camera->getPosition().x + offset.x;
@@ -208,6 +303,9 @@ namespace Gear
 			tempCamera.setView(map.viewMatrices[i]);
 			tempCamera.setprojection(map.projectionMatrices[i]);
 
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+
 			queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
 			queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);
 			map.bind(i);
@@ -226,29 +324,58 @@ namespace Gear
 		temp->drawAABB(map.minAABB[3], map.maxAABB[3], glm::vec3(0.5f, 0.0f, 0.5f));
 
 		queue.updateUniforms(camera);
+
 		gBuffer.use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
-		
 		gBuffer.unUse();
 
-		lightPass(camera, &tempCamera); //renders the texture with light calculations
-
-
-		glBindFramebuffer( GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID() );
-		glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
-		glBlitFramebuffer( 0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST );
 		
-		updateDebug(camera);
 
-		skybox.update(camera);
-		skybox.draw();
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+		glDisable(GL_CULL_FACE);
 		queue.particlePass(particleSystems);
 
-		
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
+		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-		screenQuad.draw();
+		lightPass(camera, &tempCamera); //renders the texture with light calculations
+		updateDebug(camera);
+
+		skybox.update(camera, gBuffer.getTextures()[2]);
+		skybox.draw();
+
+
+		effectShader->use();
+		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
+		drawQuad();
+		effectShader->unUse();	
+
+		//gloomCompute->use();
+		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
+		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
+		//glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+		//glBindImageTexture(0, this->particleFBO.getTextures()[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
+		//glDispatchCompute(40, 40, 1);
+		// 
+		//gloomCompute->unUse();
+
+		//effectShader->use();
+		//GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
+		//glActiveTexture(GL_TEXTURE0 + 0);
+		//glUniform1i(uniform, 0);
+		//glBindTexture(GL_TEXTURE_2D, gloomTexture);
+		//drawQuad();
+		//effectShader->unUse();
+
+		
+		
+		image.draw();
 		text.draw();
 
 		glViewport(0, 0, 200, 200);
@@ -316,17 +443,21 @@ namespace Gear
 	{
 		return queue.generateWorldMatrix();
 	}
+
 	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
 		lightPassShader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gPosition", 0, 0); //binds textures
+		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 2, 2);
-		shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
+		gBuffer.BindTexturesToProgram(lightPassShader, "gDepth", 2, 2);
+		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
+		
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
 		lightPassShader->addUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
+		lightPassShader->addUniform(glm::inverse(camera->getViewMatrix()), "invView");
+		lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");
 
 		for (GLuint i = 0; i < dirLights.size(); i++) //adds dir light
 		{
@@ -371,97 +502,23 @@ namespace Gear
 
 	void GearEngine::frameBufferInit()
 	{
-		GLuint internalFormat[] = { GL_RGB16F,GL_RGB16F,GL_RGBA }; //Format for texture in gBuffer
-		GLuint format[] = { GL_RGB,GL_RGB,GL_RGBA }; //Format for texture in gBuffer
+		GLuint internalFormat[] = { GL_RGBA,GL_RG16F, GL_R32F }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGBA,GL_RG, GL_RED }; //Format for texture in gBuffer
 		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
-		GLenum type[] = { GL_FLOAT, GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
-		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST };
+		GLenum type[] = { GL_UNSIGNED_INT, GL_FLOAT, GL_FLOAT }; //data type for texture
+		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};
 
 		gBuffer.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 
-		shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
-		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
-	}
-
-	void GearEngine::shaderInit()
-	{
-		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
-		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
-		blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
-	}
-
-	void GearEngine::lightInit()
-	{
-		//Generate buffers
-		glGenBuffers(1, &lightBuffer); //Generate buffer to light data
-
-									   //bind light buffer
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind buffer
-		glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(Lights::PointLight), 0, GL_DYNAMIC_DRAW); //allocate size of buffer
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); //unbind buffer
-
-		Lights::DirLight dirLight; //add one dir light
+		/*shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
+		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);*/
 		dirLight.direction = glm::vec3(0.0f, -0.8f, 0.2f);
-		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
-		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
-		dirLights.push_back(dirLight); //save it to buffer
+		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA32F, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
 
-									   //TEMP LIGHT INIT:
-
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<> dis(0, 1);
-
-		const int LIGHT_RADIUS = 30; //Radius of lights
-
-		if (lightBuffer == 0) {
-			return;
-		}
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
-		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-
-		for (int i = 0; i < NUM_LIGHTS; i++) {
-			Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
-
-			glm::vec3 position = glm::vec3(0.0);
-			for (int i = 0; i < 3; i++) { // calculate random pos for light
-				float min = LIGHT_MIN_BOUNDS[i];
-				float max = LIGHT_MAX_BOUNDS[i];
-				position[i] = (GLfloat)dis(gen) * (max - min) + min;
-			}
-
-			light.pos = glm::vec4(position, 1);
-			light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
-																	  //DISCO
-																	  /*color[i] = glm::vec3(light.color);
-																	  light.radius.z = LIGHT_RADIUS;*/
-		}
-
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	}
-
-	void GearEngine::skyboxInit()
-	{
-		skybox.init();
-
-		std::vector<const GLchar*> faces;
-		faces.push_back("skybox/right.dds");
-		faces.push_back("skybox/left.dds");
-		faces.push_back("skybox/top.dds");
-		faces.push_back("skybox/bottom.dds");
-		faces.push_back("skybox/front.dds");
-		faces.push_back("skybox/back.dds");
-		skybox.loadCubemap(faces);
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
-	}
-	GEAR_API void GearEngine::addScreenQuad(const sScreenQuad & quad, Importer::TextureAsset* texture)
-	{
-		screenQuad.addScreenQuad(quad, texture);
 	}
 }

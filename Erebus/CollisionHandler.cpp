@@ -236,19 +236,27 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders1, std
 	size_t secondSize = colliders2->size();
 	bool hit = false;
 
-	for (unsigned int i = 0; i < firstSize; i++) // sphere mot aabb
+	for (unsigned int i = 0; i < firstSize; i++)
 	{
-		for (unsigned int k = 0; k < secondSize; k++)
+		if (colliders1->operator[](i)->isActive()) // only check collision if hitbox is active
 		{
-			hit = false;
-			hit = this->collisionChecker.collisionCheck(colliders1->operator[](i), colliders2->operator[](k));
-
-			if (hit)
+			for (unsigned int k = 0; k < secondSize; k++)
 			{
-				colliders1->operator[](i)->insertCollisionID(colliders2->operator[](k)->getID());
-				colliders2->operator[](k)->insertCollisionID(colliders1->operator[](i)->getID());
+				if (colliders2->operator[](k)->isActive()) // only check collision if hitbox is active
+				{
+					hit = false;
+					hit = this->collisionChecker.collisionCheck(colliders1->operator[](i), colliders2->operator[](k));
+
+					if (hit)
+					{
+						colliders1->operator[](i)->insertCollisionID(colliders2->operator[](k)->getID());
+						colliders2->operator[](k)->insertCollisionID(colliders1->operator[](i)->getID());
+					}
+				}
+
 			}
 		}
+
 
 	}
 }
@@ -266,20 +274,24 @@ inline void CollisionHandler::checkAnyCollision(std::vector<T*>* colliders)
 		for (unsigned int i = 0; i < colliderSize - 1; i++)
 		{
 			firstTempCollider = colliders->operator[](i);
-			for (unsigned int j = i + 1; j < colliderSize; j++)
+			if (firstTempCollider->isActive()) // only check collision if hitbox is active
 			{
-				secondTempCollider = colliders->operator[](j);
-				hit = false;
-				hit = this->collisionChecker.collisionCheck(firstTempCollider, secondTempCollider);
-
-				if (hit)
+				for (unsigned int j = i + 1; j < colliderSize; j++)
 				{
-					firstTempCollider->insertCollisionID(secondTempCollider->getID());
-					secondTempCollider->insertCollisionID(firstTempCollider->getID());
+					secondTempCollider = colliders->operator[](j);
+					if (secondTempCollider->isActive()) // only check collision if hitbox is active
+					{
+						hit = false;
+						hit = this->collisionChecker.collisionCheck(firstTempCollider, secondTempCollider);
+
+						if (hit)
+						{
+							firstTempCollider->insertCollisionID(secondTempCollider->getID());
+							secondTempCollider->insertCollisionID(firstTempCollider->getID());
+						}
+					}
 				}
-
 			}
-
 		}
 	}
 }
@@ -488,6 +500,30 @@ void CollisionHandler::setLayerCollisionMatrix(int layer1, int layer2, bool canC
 	this->collisionLayers->setLayerCollisionMatrix(layer1,layer2,canCollide);
 }
 
+void CollisionHandler::deactiveteAllHitboxes()
+{
+	for (size_t i = 0; i < this->allColliders.size(); i++)
+	{
+		this->allColliders[i]->setActive(false);
+	}
+	for (size_t i = 0; i < this->rayColliders.size(); i++)
+	{
+		this->rayColliders[i]->setActive(false);
+	}
+}
+
+void CollisionHandler::activeteAllHitboxes()
+{
+	for (size_t i = 0; i < this->allColliders.size(); i++)
+	{
+		this->allColliders[i]->setActive(true);
+	}
+	for (size_t i = 0; i < this->rayColliders.size(); i++)
+	{
+		this->rayColliders[i]->setActive(true);
+	}
+}
+
 void CollisionHandler::printCollisions()
 {
 	int total = collisionChecker.getCollisionCounter();
@@ -510,6 +546,7 @@ void CollisionHandler::drawHitboxes()
 	std::vector<OBBCollider*>* tempObbColliders;
 	std::vector<RayCollider*>* tempRayColliders;
 	SphereCollider* tempSphere = nullptr;
+	const glm::vec3 deactivatedColor(0,0,0);
 	for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
 	{
 		tempSphereColliders = this->collisionLayers->getSphereColliders(i);
@@ -518,21 +555,35 @@ void CollisionHandler::drawHitboxes()
 		tempRayColliders = this->collisionLayers->getRayColliders(i);
 		for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
 		{
-			debugger->drawSphere(tempSphereColliders->operator[](j)->getPos(), tempSphereColliders->operator[](j)->getRadius(),this->colors[i]);
+			SphereCollider* temp = tempSphereColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawSphere(temp->getPos(), temp->getRadius(),this->colors[i]);
+			else
+				debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
 		}
 		for (size_t j = 0; j < tempAabbColliders->size(); j++)
 		{
-			debugger->drawAABB(tempAabbColliders->operator[](j)->getMinPos(), tempAabbColliders->operator[](j)->getMaxPos(),this->colors[i]);
+			AABBCollider* temp = tempAabbColliders->operator[](j);
+			if(temp->isActive())
+				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(),this->colors[i]);
+			else
+				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
 		}
 		for (size_t j = 0; j < tempObbColliders->size(); j++)
 		{
 			OBBCollider* temp = tempObbColliders->operator[](j);
-			debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
+			if(temp->isActive())
+				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), this->colors[i]);
+			else
+				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
 		}
 		for (size_t j = 0; j < tempRayColliders->size(); j++)
 		{
 			RayCollider* temp = tempRayColliders->operator[](j);
-			debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
+			if(temp->isActive())
+				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
+			else
+				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
 		}
 	}
 }

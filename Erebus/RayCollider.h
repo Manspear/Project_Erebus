@@ -25,15 +25,18 @@ public:
 	int getID() const;
 	float hitdistance() const;
 	bool checkCollision();
+	bool isActive();
 
 	//setters
 	void setIDTransform(unsigned int ID);
 	void setID(unsigned int ID);
+	void setActive(bool active);
 private:
 	glm::vec3 direction, position, intersectionPoint;
 	float hitDistance;
 	int ID, IDTransform;
 	std::vector<unsigned int> IDCollisions;
 	const unsigned short RESERVE_COLLISIONS = 10;
+	bool active;
 };
 
