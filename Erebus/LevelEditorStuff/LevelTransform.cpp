@@ -127,12 +127,17 @@ tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 
 std::string LevelTransform::toLua(std::string name)
 {
-	std::stringstream ss;
+	using namespace std;
+	stringstream ss;
 
 	glm::vec3 pos = transformRef->getPos();
+	glm::vec3 scale = transformRef->getScale();
+	glm::vec3 rot = transformRef->getRotation();
 
-	ss << name << ".transformID = Transform.Bind()" << std::endl;
-	ss << "Transform.SetPosition(" << name << ".transformID, " <<  "{x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << std::endl;
+	ss << name << ".transformID = Transform.Bind()" << endl;
+	ss << "Transform.SetPosition(" << name << ".transformID, " <<  "{x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+	ss << "Transform.SetScaleNonUniform(" << name << ".transformID, " << scale.x << ", " << scale.y << ", " << scale.z << ")" << endl;
+	ss << "Transform.SetRotation(" << name << ".transformID" << rot.x << ", " << rot.y << ", " << rot.z << ")" << endl;
 
 	return ss.str();
 }
