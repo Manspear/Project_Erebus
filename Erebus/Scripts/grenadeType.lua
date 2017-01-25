@@ -29,41 +29,40 @@ function CreateGrenadeType()
 		self.radius = explosionRadius
 		self.explodetime = 0
 	end
+	function type:flyUpdate(dt)
+		result = false
+		self.direction.y = self.direction.y - dt
+		self.position.x = self.position.x + self.direction.x*self.speed*dt
+		self.position.y = self.position.y + self.direction.y*self.speed*dt
+		self.position.z = self.position.z + self.direction.z*self.speed*dt
+		Transform.SetPosition(self.transformID, self.position)
 
+		local posx = math.floor(self.position.x/512)
+		local posz = math.floor(self.position.z/512)
+		local heightmapIndex = (posz*2 + posx)+1
+		if heightmapIndex < 1 then heightmapIndex = 1 end
+		if heightmapIndex > 4 then heightmapIndex = 4 end
+		if heightmaps[heightmapIndex]:GetHeight(self.position.x, self.position.z) > self.position.y then
+			result = true
+		end
+		return result
+	end
 	function type:Update(dt)
-		result = {}
-		if not self.hitflag then
-
-			self.direction.y = self.direction.y - dt
-			self.position.x = self.position.x + self.direction.x*self.speed*dt
-			self.position.y = self.position.y + self.direction.y*self.speed*dt
-			self.position.z = self.position.z + self.direction.z*self.speed*dt
-			Transform.SetPosition(self.transformID, self.position)
-
-			local posx = math.floor(self.position.x/512)
-			local posz = math.floor(self.position.z/512)
-			local heightmapIndex = (posz*2 + posx)+1
-			if heightmapIndex < 1 then heightmapIndex = 1 end
-			if heightmapIndex > 4 then heightmapIndex = 4 end
-			if heightmaps[heightmapIndex]:GetHeight(self.position.x, self.position.z) > self.position.y then
-				self.hitflag = true
-			end
-		else
-			self.explodetime = self.explodetime + dt
-			local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* 4 + 1
-			Transform.SetScale(self.transformID, scale)
-			SphereCollider.SetRadius(self.sphereCollider, scale)
-			local collisionIDs = self.sphereCollider:GetCollisionIDs()
-			for curID = 1, #collisionIDs do
-				for curEnemy=1, #enemies do
-					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-						if self.hitflag then
-							table.insert(result, enemies[curEnemy])
-						else
-							self.hitflag = true
-							SphereCollider.SetRadius(self.sphereCollider, self.radius)
-							break
-						end
+		result = {} 
+		self.explodetime = self.explodetime + dt
+		local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* 4 + 1
+		Transform.SetScale(self.transformID, scale)
+		SphereCollider.SetRadius(self.sphereCollider, scale)
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()
+		for curID = 1, #collisionIDs do
+			for curEnemy=1, #enemies do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					if self.hitflag then
+						table.insert(result, enemies[curEnemy])
+					else
+						self.hitflag = true
+						SphereCollider.SetRadius(self.sphereCollider, self.radius)
+						break
 					end
 				end
 			end

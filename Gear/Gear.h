@@ -12,6 +12,7 @@
 #include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
+#include "WorkQueue.h"
 
 namespace Gear
 {
@@ -35,6 +36,7 @@ namespace Gear
 
 		//--TODO: Implement API--
 		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
+		GEAR_API void bindAnimations(Animation** theAnims, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
 
@@ -58,11 +60,13 @@ namespace Gear
 		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
 		GEAR_API void draw(Camera* camera);
+		GEAR_API void update();
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		GEAR_API void effectPreProcess();
 		//----------------------
 
@@ -111,6 +115,9 @@ namespace Gear
 		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
+		int* animationCount;
+		Animation** allAnims;
+		WorkQueue* work;
 
 		//Skybox object
 		Skybox skybox;

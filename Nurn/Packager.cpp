@@ -72,9 +72,9 @@ void Packager::buildAIPacket(const uint16_t& ID)
 	this->aiQueue->push(AIPacket(ID));
 }
 
-void Packager::buildSpellPacket(const uint16_t& ID)
+void Packager::buildSpellPacket(const uint16_t& ID, const uint16_t& currentSpell)
 {
-	this->spellQueue->push(SpellPacket(ID));
+	this->spellQueue->push(SpellPacket(ID, currentSpell));
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize)

@@ -236,31 +236,22 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			player.spells[1]:Cast(player, 0.5, false)
-			Network.SendSpellPacket(22)
+			player.spells[player.currentSpell]:Cast(player, 0.5, false)
+			Network.SendSpellPacket(player.transformID, player.currentSpell)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
 			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
-		
-			if next(player.chargedspell) == nil then
-				for _,v in ipairs(player.spells[player.currentSpell]) do
-					if not v.alive then
-						player.chargedspell = v
-						break
-					end
-				end
-			end
-			--player.chargedspell:Charge(dt)
+			player.spells[player.currentSpell]:Charge(dt)
 		end
 		if Inputs.ButtonReleased(Buttons.Right) then
-			--player.chargedspell:ChargeCast(dt)
+			player.spells[player.currentSpell]:ChargeCast(player)
 		end
 
-		if Inputs.KeyPressed("1") then player.currentSpell = 1; player.chargedspell = {} end
-		if Inputs.KeyPressed("2") then player.currentSpell = 2; player.chargedspell = {} end
+		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
+		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 end
 
 function UpdatePlayer2(dt)
@@ -272,10 +263,11 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	newspellpacket, id_2 = Network.GetSpellPacket()
+	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
 
 	if newspellpacket == true then
-		player2.spells[1]:Cast(player2, 0.5, false)
+		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
+		player2.currentSpell = player2CurrentSpell
 	end
 
 	player2.spells[1]:Update(dt)
