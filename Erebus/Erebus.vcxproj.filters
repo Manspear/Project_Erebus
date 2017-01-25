@@ -383,6 +383,9 @@
     <None Include="Scripts\grenadeType.lua">
       <Filter>Scripts\types</Filter>
     </None>
+    <None Include="Scripts\staticAoEType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

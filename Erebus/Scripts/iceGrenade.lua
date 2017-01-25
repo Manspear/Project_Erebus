@@ -19,6 +19,7 @@ function CreateIceGrenade()
 		nade.alive = false
 		nade.particles = createFireballParticles()
 		nade.exploding = false
+		nade.hits = {}
 
 		local model = Assets.LoadModel( "Models/projectile1.model" )
 		Gear.AddStaticInstance(model, nade.type.transformID)
