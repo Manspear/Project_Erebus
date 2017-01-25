@@ -30,6 +30,9 @@ namespace LuaCollision
 	int rotateOBBAroundX(lua_State* lua);
 	int rotateOBBAroundY(lua_State* lua);
 	int rotateOBBAroundZ(lua_State* lua);
+	int setOBBXAxis(lua_State* lua);
+	int setOBBYAxis(lua_State* lua);
+	int setOBBZAxis(lua_State* lua);
 
 	int setLayerCollision( lua_State* lua );
 	int printCollisions( lua_State* lua );

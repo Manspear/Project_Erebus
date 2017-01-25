@@ -102,6 +102,9 @@ namespace LuaCollision
 			{ "RotateAroundX",			rotateOBBAroundX },
 			{ "RotateAroundY",			rotateOBBAroundY },
 			{ "RotateAroundZ",			rotateOBBAroundZ },
+			{ "SetXAxis",			setOBBXAxis },
+			{ "SetYAxis",			setOBBYAxis },
+			{ "SetZAxis",			setOBBZAxis },
 			{ "GetID",				getID },
 			{ "SetActive", setActive },
 			{ "__gc",				destroy },
@@ -484,6 +487,51 @@ namespace LuaCollision
 			float angle = lua_tonumber(lua, 2);
 
 			obb->rotateAroundZ(angle);
+		}
+
+		return 0;
+	}
+
+	int setOBBXAxis(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			obb->setXAxis(glm::vec3(x,y,z));
+		}
+
+		return 0;
+	}
+
+	int setOBBYAxis(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			obb->setYAxis(glm::vec3(x, y, z));
+		}
+
+		return 0;
+	}
+
+	int setOBBZAxis(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			obb->setZAxis(glm::vec3(x, y, z));
 		}
 
 		return 0;
