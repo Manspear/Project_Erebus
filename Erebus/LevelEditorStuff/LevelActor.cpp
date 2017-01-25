@@ -7,7 +7,8 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"None",
 	"Static",
 	"Enemy",
-	"Heightmap"
+	"Heightmap",
+	"Collider"
 };
 
 void TW_CALL SetMyStdStringCB(const void *value, void *s /*clientData*/)

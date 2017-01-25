@@ -164,6 +164,7 @@
     <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelCollider.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEditor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelGizmo.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelFileDialog.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="LevelEditorStuff\LevelActorHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h" />
     <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h" />
+    <ClInclude Include="LevelEditorStuff\LevelCollider.h" />
     <ClInclude Include="LevelEditorStuff\LevelEditor.h" />
     <ClInclude Include="LevelEditorStuff\LevelGizmo.h" />
     <ClInclude Include="LevelEditorStuff\LevelFileDialog.h" />

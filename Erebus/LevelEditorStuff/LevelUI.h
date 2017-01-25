@@ -101,7 +101,7 @@ private:
 
 	
 public:
-	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, HEIGHTMAP, NUM_DIFF_COMPONENTS} DiffComponents;
+	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, HEIGHTMAP, COLLIDER, NUM_DIFF_COMPONENTS} DiffComponents;
 	static const char *componentLinker[];
 	TwEnumVal *componentsEVs;
 	TwType componentType;
@@ -123,7 +123,8 @@ public:
 			{ DiffComponents::TRANSFORM, "Transform"},
 			{ DiffComponents::MODEL, "Model" } ,
 			{ DiffComponents::POINT_LIGHT, "Point Light"},
-			{ DiffComponents::HEIGHTMAP, "Heightmap" }
+			{ DiffComponents::HEIGHTMAP, "Heightmap" },
+			{ DiffComponents::COLLIDER, "Collider" }
 		};
 
 		if (componentTw == TW_TYPE_FLOAT) {

@@ -13,6 +13,7 @@
 #include "LevelActorHandler.h"
 #include "LevelFileDialog.h"
 #include "LevelHeightmap.h"
+#include "LevelCollider.h"
 
 class LevelActorFactory
 {

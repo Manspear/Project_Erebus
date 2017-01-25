@@ -164,6 +164,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	{
 		returnComponent = new LevelHeightmap();
 	}
+	else if(componentName == LevelCollider::name)
+	{
+		returnComponent = new LevelCollider();
+	}
 	
 	return returnComponent;
 }
