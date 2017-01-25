@@ -25,7 +25,7 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1, 1, false);
 
-	//ai.addDebug(Debugger::getInstance());
+	ai.addDebug(Debugger::getInstance());
 
 	engine->queueDynamicModels(&models);
 	engine->queueAnimModels(&animatedModels);
@@ -60,8 +60,9 @@ void GamePlay::Update(Controls* controls, double deltaTime)
 		ps.at(i)->update(deltaTime);
 	}
 	collisionHandler.checkCollisions();
-	//collisionHandler.drawHitboxes();
+	collisionHandler.drawHitboxes();
 	//engine->print(collisionHandler.getCollisionText(), 1000, 100, 0.6);
+	
 }
 
 void GamePlay::Draw()

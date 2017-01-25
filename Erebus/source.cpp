@@ -101,6 +101,11 @@ DWORD WINAPI update( LPVOID args )
 					break;
 			}
 
+			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
+				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
+				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+			data->engine->print(fps, 0.0f, 0.0f);
+
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
 	}
@@ -250,11 +255,6 @@ int main()
 				threadData.gamePlay->Draw();
 				break;
 			}
-
-			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
-				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
-				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
-			engine.print(fps, 0.0f, 0.0f);
 
 			window.update();
 			engine.draw(&camera);

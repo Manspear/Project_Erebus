@@ -1,6 +1,6 @@
 
 function CreateGroundAoEType(duration, startSize)
-	type = {}
+	local type = {}
 	type.lifetime = 0
 	type.startRadius = startSize
 	type.endRadius = 0

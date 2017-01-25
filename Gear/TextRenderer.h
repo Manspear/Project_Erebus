@@ -36,11 +36,13 @@ public:
 	void print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color);
 	glm::vec2 getTextDimensions( const char* text );
 
+	void updateBuffer();
 	void draw();
 
 private:
 	Importer::FontAsset* font;
 	std::vector<sTextLine> lines;
+	std::vector<sTextLine> bufferedLines;
 
 	ShaderProgram* shader;
 	GLuint VAO, VBO;

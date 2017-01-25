@@ -224,6 +224,7 @@
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\slowEffect.lua" />
+    <None Include="Scripts\staticAoEType.lua" />
     <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />

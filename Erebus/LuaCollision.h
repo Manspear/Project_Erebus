@@ -10,10 +10,12 @@ namespace LuaCollision
 	int addSphere( lua_State* lua );
 	int addAABB( lua_State* lua );
 	int addRay(lua_State* lua);
+	int addOBB(lua_State* lua);
 
 	int createSphere( lua_State* lua );
 	int createAABB( lua_State* lua );
 	int createRay(lua_State* lua);
+	int createOBB(lua_State* lua);
 	int destroy( lua_State* lua );
 	int destroyRay(lua_State* lua);
 	int getCollisionIDs( lua_State* lua );
@@ -24,6 +26,13 @@ namespace LuaCollision
 	int setActive(lua_State* lua);
 	int setRayActive(lua_State* lua);
 	int setDirection(lua_State* lua);
+	int setOBBSize(lua_State* lua);
+	int rotateOBBAroundX(lua_State* lua);
+	int rotateOBBAroundY(lua_State* lua);
+	int rotateOBBAroundZ(lua_State* lua);
+	int setOBBXAxis(lua_State* lua);
+	int setOBBYAxis(lua_State* lua);
+	int setOBBZAxis(lua_State* lua);
 
 	int setLayerCollision( lua_State* lua );
 	int printCollisions( lua_State* lua );
@@ -41,4 +50,5 @@ namespace LuaCollision
 	SphereCollider* getSphereCollider( lua_State* lua, int index );
 	AABBCollider* getAABBCollider( lua_State* lua, int index );
 	RayCollider* getRayCollider(lua_State* lua, int index);
+	OBBCollider* getOBBCollider(lua_State* lua, int index);
 }

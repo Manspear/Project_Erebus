@@ -47,13 +47,6 @@ SphereCollider::SphereCollider(int IDTransform) : HitBox(IDTransform)
 
 SphereCollider::~SphereCollider()
 {
-	if (this->children != nullptr)
-	{
-		for (size_t i = 0; i < this->children->size(); i++)
-		{
-			delete this->children->at(i);
-		}
-	}
 }
 
 //overrides

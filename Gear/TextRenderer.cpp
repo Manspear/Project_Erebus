@@ -97,6 +97,14 @@ glm::vec2 TextRenderer::getTextDimensions( const char* text )
 	return result;
 }
 
+void TextRenderer::updateBuffer()
+{
+	bufferedLines.clear();
+	for( int i=0; i<lines.size(); i++ )
+		bufferedLines.push_back(lines[i]);
+	lines.clear();
+}
+
 void TextRenderer::draw()
 {
 	shader->use();
@@ -118,14 +126,16 @@ void TextRenderer::draw()
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-	for (auto l : lines)
+	//for (auto l : lines)
+	for( auto l : bufferedLines )
 	{
 		glUniform1f(glGetUniformLocation(shader->getProgramID(), "height"), font->getInfo()->size * l.scale);
 		glUniform4f(glGetUniformLocation(shader->getProgramID(), "color"), l.color.r, l.color.g, l.color.b, l.color.a);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(sTextLine), &l, GL_STATIC_DRAW);
 		glDrawArrays(GL_POINTS, 0, l.numberOfCharacters);
 	}
-	lines.clear();
+	//lines.clear();
+	bufferedLines.clear();
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
