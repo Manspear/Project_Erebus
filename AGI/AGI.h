@@ -395,7 +395,7 @@ namespace AGI
 			return returnPos;
 		}
 
-		AGI_API glm::vec3 SetTargetRangeFromPlayer(glm::vec3 enemyPos, glm::vec3 playerPos,float range)
+		AGI_API glm::vec3 setTargetRangeFromPlayer(glm::vec3 enemyPos, glm::vec3 playerPos,float range)
 		{
 			glm::vec3 tempPos = playerPos - (((glm::normalize(playerPos - enemyPos))) * range);
 
@@ -413,7 +413,7 @@ namespace AGI
 			return glm::vec3(influenceMap[x][y]->getPos().x, 0, influenceMap[x][y]->getPos().y);
 		}
 
-		AGI_API glm::vec3 SetTargetRangeFromPlayer(glm::vec3 playerPos, float range, int maxNrOfCirclingEnemies, int indexOfCirclingEnemies)
+		AGI_API glm::vec3 setTargetRangeFromPlayer(glm::vec3 playerPos, float range, int maxNrOfCirclingEnemies, int indexOfCirclingEnemies)
 		{
 			float tempRange = 0;
 			float angleInCircle = indexOfCirclingEnemies * (glm::pi<float>()*2 / maxNrOfCirclingEnemies);
@@ -426,7 +426,7 @@ namespace AGI
 			
 			while (influenceMap[x][y] != nullptr && tempRange<range)
 			{
-				tempRange += 4;
+				tempRange += 1;
 				testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange - 1));
 
 				x = round(((testPos.x / mapWidth)*imWidth));
@@ -436,6 +436,10 @@ namespace AGI
 			return testPos;
 		}
 
+		AGI_API glm::vec3 traverseIMRangeFromPlayer(glm::vec3 playerPos)
+		{
+
+		}
 	private:
 		
 
