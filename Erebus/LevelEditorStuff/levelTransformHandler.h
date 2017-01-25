@@ -34,4 +34,15 @@ public:
 	static LevelTransformHandler* getInstance() {
 		return t_instance;
 	}
+
+	static void deleteInstance() {
+		if (t_instance != nullptr)
+			delete t_instance;
+	}
+
+	static void resetInstance(Gear::GearEngine* gearRef) {
+		if (t_instance)
+			delete t_instance;
+		t_instance = new LevelTransformHandler(gearRef);
+	}
 };

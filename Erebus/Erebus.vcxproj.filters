@@ -128,6 +128,9 @@
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="LuaSound.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelWorldHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
@@ -257,6 +260,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaSound.h" />
+    <ClInclude Include="LevelEditorStuff\LevelWorldHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelHeightmap.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>

@@ -11,6 +11,39 @@ struct ScreenVertex
 
 namespace Gear
 {
+
+	void Gear::GearEngine::resetEngine()
+	{
+		glfwTerminate();
+		for (size_t i = 0; i < statModels.size(); i++) {
+			delete statModels.at(i);
+		}
+		delete quadShader;
+		delete lightPassShader;
+		delete blurShader;
+		delete effectShader;
+		delete debugHandler;
+		delete gloomCompute;
+
+		glewInit();
+		//renderQueue.init();
+		queue.init();
+		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		//screenQuad.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		staticModels = &defaultModelList;
+		dynamicModels = &defaultModelList;
+
+		frameBufferPickInit();
+		frameBufferInit();
+		shaderInit();
+		lightInit();
+		skyboxInit();
+
+		debugHandler = new DebugHandler();
+		debugHandler->addDebuger(Debugger::getInstance());
+	}
 	GearEngine::GearEngine()
 	{
 		glewInit();
@@ -380,93 +413,118 @@ namespace Gear
 
 	void Gear::GearEngine::pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos)
 	{
+		actorID = 0;
+		if (models->size() > 0) {
+
 #pragma region drawPicking
-		queue.update(*transformCount, *allTrans);
-		queue.updateUniforms(camera);
-		gBufferPicking.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.pickingPass(models, ModelInstanceAgentIDs);
+			queue.update(*transformCount, *allTrans);
+			queue.updateUniforms(camera);
+			gBufferPicking.use();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			queue.pickingPass(models, ModelInstanceAgentIDs);
 
-		//queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
+			//queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 
-		//queue.pickingPass(dynamicModels);
+			//queue.pickingPass(dynamicModels);
 
-		glFlush();
-		glFinish();
-#pragma endregion
-		
-
-		glm::vec3 colorAgentID = getPixelColor(mouse, GL_COLOR_ATTACHMENT2);
-		glm::vec3 colorPosition = getPixelColor(mouse, GL_COLOR_ATTACHMENT0);
-		
-
-		int pickedID = colorAgentID[0]*256 +
-			colorAgentID[1] * 256*256 +
-			colorAgentID[2] * 256 * 256*256;
-
-		
-		actorID = pickedID;
-		hitPos = colorPosition;
-		//if (pickedID == 0x00000000) {
-		//	std::cout << "looking at background!" << std::endl;
-		//}
-		//else
-		//	std::cout << "Looking at something :): " << pickedID << std::endl;
-		//gBufferPicking.unUse();
-		gBufferPicking.unUse();
-		/*
-		
-
-#pragma region draw
-
-		Camera tempCamera;
-
-		glm::vec3 offset;
-		offset.x = camera->getDirection().x * 20.0f;
-		offset.y = 0.0f;
-		offset.z = camera->getDirection().z * 20.0f;
-
-		glm::vec3 pos;
-		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
-		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
-		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
-
-
-
-		glm::vec3 target;
-
-		target.x = camera->getPosition().x + offset.x;
-		target.y = 0.0f;
-		target.z = camera->getPosition().z + offset.z;
-
-		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
-
-		tempCamera.setView(view);
-		tempCamera.setprojection(dirLights[0].projection);
-
-		
-
+			glFlush();
+			glFinish();
 #pragma endregion
 
-		lightPass(camera, &tempCamera); //renders the texture with light calculations
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
-		updateDebug(camera);
+			glm::vec3 colorAgentID = getPixelColor(mouse, GL_COLOR_ATTACHMENT2);
+			glm::vec3 colorPosition = getPixelColor(mouse, GL_COLOR_ATTACHMENT0);
 
-		skybox.update(camera);
-		skybox.draw();
-		queue.particlePass(particleSystems);
 
-		//Clear lists
-		staticModels = &defaultModelList;
-		dynamicModels = &defaultModelList;
+			int pickedID = colorAgentID[0] * 256 +
+				colorAgentID[1] * 256 * 256 +
+				colorAgentID[2] * 256 * 256 * 256;
 
-		image.draw();
-		text.draw();
-		*/
-		
+
+			actorID = pickedID;
+			hitPos = colorPosition;
+			//if (pickedID == 0x00000000) {
+			//	std::cout << "looking at background!" << std::endl;
+			//}
+			//else
+			//	std::cout << "Looking at something :): " << pickedID << std::endl;
+			//gBufferPicking.unUse();
+			gBufferPicking.unUse();
+			/*
+
+
+			#pragma region draw
+
+			Camera tempCamera;
+
+			glm::vec3 offset;
+			offset.x = camera->getDirection().x * 20.0f;
+			offset.y = 0.0f;
+			offset.z = camera->getDirection().z * 20.0f;
+
+			glm::vec3 pos;
+			pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
+			pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
+			pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
+
+
+
+			glm::vec3 target;
+
+			target.x = camera->getPosition().x + offset.x;
+			target.y = 0.0f;
+			target.z = camera->getPosition().z + offset.z;
+
+			glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
+
+			tempCamera.setView(view);
+			tempCamera.setprojection(dirLights[0].projection);
+
+
+
+			#pragma endregion
+
+			lightPass(camera, &tempCamera); //renders the texture with light calculations
+			glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
+			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+			glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+			updateDebug(camera);
+
+			skybox.update(camera);
+			skybox.draw();
+			queue.particlePass(particleSystems);
+
+			//Clear lists
+			staticModels = &defaultModelList;
+			dynamicModels = &defaultModelList;
+
+			image.draw();
+			text.draw();
+			*/
+
+		}
+
+		if (actorID == 0) {
+
+			glm::vec3 ray_ndc, ray_world;
+			glm::vec4 ray_clip, ray_eye;
+			ray_ndc = glm::vec3((2.f*mouse.x / WINDOW_WIDTH - 1.f),
+				1.f - (2.f*mouse.y) / WINDOW_HEIGHT,
+				1.f);
+
+			ray_clip = glm::vec4(ray_ndc.x, ray_ndc.y, -1.f, 1.f);
+			ray_eye = glm::inverse(camera->getProjectionMatrix()) * ray_clip;
+			ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.f, 0.f);
+			ray_world = glm::vec3(glm::inverse(camera->getViewMatrix())* ray_eye);
+			ray_world = glm::normalize(ray_world);
+
+
+			hitPos = camera->getPosition() + (ray_world * 10.f);
+
+
+		}
+
 	}
 
 	void GearEngine::allocateWorlds(int n)

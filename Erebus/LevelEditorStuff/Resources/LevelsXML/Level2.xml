@@ -9,7 +9,7 @@
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="terrain" displayName="Terrain Actor">
+    <LevelActor type="terrain" displayName="Terrain Actor1">
         <LevelModel>
             <ModelName>tile1_game_x1_assets</ModelName>
         </LevelModel>
@@ -41,6 +41,16 @@
             <Position x="97.8125" y="33.850536" z="73.016838"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName="">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="26.796875" y="44.017426" z="95.3125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="5" y="5" z="100"/>
         </LevelTransform>
     </LevelActor>
 </Level>

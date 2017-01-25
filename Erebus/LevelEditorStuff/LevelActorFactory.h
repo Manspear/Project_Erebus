@@ -65,6 +65,12 @@ public:
 		if (LevelActorFactory::actorFactoryInstance != nullptr)
 			delete LevelActorFactory::actorFactoryInstance;
 	}
+
+	static void resetInstance() {
+		if (LevelActorFactory::actorFactoryInstance != nullptr)
+			delete LevelActorFactory::actorFactoryInstance;
+		LevelActorFactory::actorFactoryInstance = new LevelActorFactory(LevelTransformHandler::getInstance(), LevelModelHandler::getInstance());
+	}
 };
 
 
