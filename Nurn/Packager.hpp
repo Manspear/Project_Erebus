@@ -23,7 +23,7 @@ public:
 	void buildTransformPacket(const uint16_t& ID, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
 	void buildAnimationPacket(const uint16_t& ID);
 	void buildAIPacket(const uint16_t& ID);
-	void buildSpellPacket(const uint16_t& ID);
+	void buildSpellPacket(const uint16_t& ID, const uint16_t& currentSpell);
 
 private:
 	unsigned char memory[packetSize];

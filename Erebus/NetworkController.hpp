@@ -22,7 +22,6 @@ public:
 	bool getNetworkHost();
 
 	double timeSinceLastTransformPacket();
-	
 	void sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& dir_x, const float& dir_y, const float& dir_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
 	bool fetchTransformPacket(TransformPacket &packet);
 
@@ -32,7 +31,7 @@ public:
 	void sendAIPacket(const uint16_t& id);
 	bool fetchAIPacket(AIPacket& packet);
 
-	void sendSpellPacket(const uint16_t& id);
+	void sendSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
 	bool fetchSpellPacket(SpellPacket& packet);
 
 private:
