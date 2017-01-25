@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "Inputs.h"
+#include "GearStructs.h"
 
 #define BASE_CAM_SPEED 8.0f
 #define TURBO_CAM_SPEED 13.0f
@@ -30,6 +31,7 @@ public:
 	GEAR_API float getFarPlane();
 	GEAR_API float getFoV() { return this->FoV; }
 	GEAR_API void setDirection(glm::vec3 dir) { this->camDirection = dir; }
+	GEAR_API Frustum calculateFrustrum(float near, float far)
 private:
 	Inputs *inputs;
 	bool freeCam;
