@@ -380,6 +380,7 @@ namespace Gear
 		queue.update(*transformCount, *allTrans, *animationCount, *allAnims);
 		debugHandler->update();
 		debugHandler->reset();
+		text.updateBuffer();
 	}
 
 	void GearEngine::pickingPass() {

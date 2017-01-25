@@ -78,17 +78,22 @@ function CreateIceGrenade()
 				else
 					
 					hits = self.nades[i].type:Update(dt)
-		
+		--[[
+					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() and not self.hits[enemies[curEnemy].transformID] then
+						table.insert(result, enemies[curEnemy])
+						self.hits[enemies[curEnemy].transformID] = true
+		]]
 					
 					self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
-						if hits[index].Hurt and not self.nades[i].hits[hits[i]] then
+						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectFlag then
 								local effect = self.effect()
 								table.insert(hits[index].effects, effect)
 								effect:Apply(hits[index])
 							end
 							hits[index]:Hurt(self.nades[i].damage)
+							self.nades[i].hits[hits[index].transformID] = true
 						end
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME then
@@ -104,6 +109,7 @@ function CreateIceGrenade()
 	spell.Charge = BaseCharge
 	spell.ChargeCast = BaseChargeCast
 	function spell:Kill(index)
+		self.nades[index].hits = {}
 		self.nades[index].type:Kill()
 		self.nades[index].alive = false
 		self.nades[index].exploding = false
