@@ -1,21 +1,6 @@
 #include "ParticleSystem.h"
 #include <math.h>
 
-Particle load(std::string path)
-{
-
-	FILE* file;
-	file = fopen(path.c_str(), "rb");
-	Particle p;
-	if (file)
-	{
-		fread(&p, sizeof(Particle), 1, file);
-
-		fclose(file);
-	}
-
-	return p;
-}
 
 namespace Gear
 {
@@ -23,125 +8,86 @@ namespace Gear
 	{
 
 	}
-	ParticleSystem::ParticleSystem(int n, float life, float speed, float rate, int number, float focusSpread) : isActive(false), timer(0)
-	{
-		gravityFactor = 0.0;
-		maxParticles = n;
-		allParticles = new Partikel[n];
-		particlePos = new glm::vec3[n];
-		nrOfActiveParticles = 0;
-		glGenBuffers(1, &particleVertexBuffer);
-		this->lifeTime = life;
-		partSpeed = speed;
-		particleRate = 1 / rate;
-		partPerRate = number;
-		direction = { 0, 0, 0 } ;
-		focus = focusSpread;
-	}
-
-	ParticleSystem::ParticleSystem(std::string path, Importer::Assets* assets, float focusSpread) : isActive(false), timer(0)
-	{
-		Particle part = load(path);
-
-		gravityFactor = 0.0;
-		maxParticles = part.numOfParticles;
-		allParticles = new Partikel[maxParticles];
-		particlePos = new glm::vec3[maxParticles];
-		nrOfActiveParticles = 0;
-		glGenBuffers(1, &particleVertexBuffer);
-		this->lifeTime = part.lifeTime;
-		partSpeed = part.speed;
-		particleRate = 1 / part.emitPerSecond;
-		partPerRate = part.nrOfParticlesPerEmit;
-		direction = { 0, 0, 0 };
-		textureAssetParticles = assets->load<Importer::TextureAsset>("Textures/" + std::string(part.textureName));
-		focus = focusSpread;
-		int x = 0;
-	}
 
 	ParticleSystem::~ParticleSystem()
 	{
-		delete[] allParticles;
-		delete[] particlePos;
+		delete[] newEmitterPos;
+		delete[] particleEmitters;
 	}
 
+	ParticleSystem::ParticleSystem(std::string path, Importer::Assets * assets)
+	{
+		isActive = false;
+
+		this->systemPos = { 0, 0, 0 };
+		this->newEmitterPos = new glm::vec3[3];
+		this->emitterPos = glm::vec3(0, 0, 0);
+		this->dir = glm::vec3(0, 0, 0);
+
+		this->v1 = { 1, 0, 0 };
+		this->v2 = { 0, 1, 0 };
+		this->v3 = { 0, 0, 1 };
+
+		FILE* file;
+		file = fopen(path.c_str(), "rb");
+		Emitter p;
+		int n;
+
+		if (file)
+		{
+			fread(&n, sizeof(int), 1, file);
+			nrOfEmitters = n;
+			particleEmitters = new ParticleEmitter[nrOfEmitters];
+			for (int i = 0; i < nrOfEmitters; i++)
+			{
+				fread(&p, sizeof(Emitter), 1, file);
+				particleEmitters[i].emitterInit(p, assets);
+			}
+			fclose(file);
+		}
+	}
 
 	GEAR_API void ParticleSystem::update(const float &dt)
 	{
 		if (isActive)
 		{
-			if (alive)
+			for (int i = 0; i < nrOfEmitters; i++)
 			{
-				timer += dt;
-				if (timer > particleRate)
+				emitterPos = particleEmitters[i].localPos;
+
+				newEmitterPos[0] = v1 * emitterPos.x;
+				newEmitterPos[1] = emitterPos.y * v2;
+				newEmitterPos[2] = emitterPos.z * v3;
+
+				dir += glm::vec3(0, 10, 0);
+
+				emitterPos = systemPos + newEmitterPos[0] + newEmitterPos[1] + newEmitterPos[2];
+
+				particleEmitters[i].setEmitterPos(emitterPos);
+				particleEmitters[i].setDirection(dir);
+
+				particleEmitters[i].update(dt);
+
+				int nrActive = particleEmitters[i].getNrOfActiveParticles();
+
+				if (nrActive <= 0)
 				{
-					glm::vec3 tempVec = this->position + direction * focus; //circle pos
-					glm::vec3 temp2;
-					int i = 0;
-					while (nrOfActiveParticles < maxParticles && partPerRate > i++)
-					{
-						particlePos[nrOfActiveParticles] = this->position;
-						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-						//allParticles[nrOfActiveParticles++].direction = glm::normalize(glm::vec3((rand() % 1 - 2), (rand() % 1 - 2), (rand() % 1 - 2))) + tempVec; //circle
-						temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
-						allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
-					}
-					timer = 0;
+					isActive = false;
 				}
-			}
-			for (int i = 0; i < nrOfActiveParticles; i++)
-			{
-				allParticles[i].lifeSpan -= dt;
-				if (allParticles[i].lifeSpan > 0.0)
-				{
-					allParticles[i].direction.y += gravityFactor * dt;
-					float randomSpeed = rand() % (int)partSpeed;
-					particlePos[i] += allParticles[i].direction * randomSpeed * dt;
-				}
-				else
-				{
-					particlePos[i] = particlePos[nrOfActiveParticles - 1];
-					allParticles[i] = allParticles[--nrOfActiveParticles];
-					if (nrOfActiveParticles <= 0)
-						isActive = false;
-				}
-			}
+
+			}		
 		}
+
 	}
 
-	void ParticleSystem::explode()
+	GEAR_API int ParticleSystem::getNrOfEmitters()
 	{
-		nrOfActiveParticles = 0;
-		for (int i = 0; i < maxParticles; i++)
-		{
-			particlePos[i] = this->position;
-			allParticles[i].lifeSpan = this->lifeTime;
-			allParticles[i].direction = glm::normalize( glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5));
-			allParticles[i].direction *= rand() % (int)partSpeed;
-			nrOfActiveParticles = i;
-		}
-		isActive = true;
-		alive = false;
+		return this->nrOfEmitters;
 	}
 
-	GLuint ParticleSystem::getPartVertexBuffer()
+	GEAR_API void ParticleSystem::setSystemPos(glm::vec3 pos)
 	{
-		return particleVertexBuffer;
-	}
-
-	void ParticleSystem::setEmmiterPos(glm::vec3 pos)
-	{
-		this->position = pos;
-	}
-
-	GEAR_API void ParticleSystem::setDirection(float r, float g, float b)
-	{
-		this->direction = { r, g, b };
-	}
-
-	GEAR_API int ParticleSystem::getNrOfActiveParticles()
-	{
-		return nrOfActiveParticles;
+		this->systemPos = pos;
 	}
 
 	GEAR_API void ParticleSystem::activate()
@@ -154,35 +100,10 @@ namespace Gear
 	{
 		alive = false;
 	}
-
-	GEAR_API Partikel * ParticleSystem::getThePartikels()
+	
+	GEAR_API void ParticleSystem::setDirection(glm::vec3 direction)
 	{
-		return allParticles;
-	}
-
-	GEAR_API glm::vec3 * ParticleSystem::getPositions()
-	{
-		return particlePos;
-	}
-
-	GEAR_API void ParticleSystem::setColor(float r, float g, float b)
-	{
-		color.r = r; color.g = g; color.b = b;
-	}
-
-	GEAR_API Color ParticleSystem::getColor() const 
-	{
-		return color;
-	}
-
-	GEAR_API void ParticleSystem::setTextrue(Importer::TextureAsset * tAParticles)
-	{
-		textureAssetParticles = tAParticles;
-	}
-
-	GEAR_API Importer::TextureAsset * ParticleSystem::getTexture()
-	{
-		return textureAssetParticles;
+		dir = direction;
 	}
 
 }

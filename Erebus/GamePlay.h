@@ -25,6 +25,8 @@ private:
 	std::vector<AnimatedInstance> animatedModels;
 
 	std::vector<Gear::ParticleSystem*> ps;
+	//std::vector<Gear::ParticleEmitter*> pE;
+	Emitter* emitter;
 
 	Importer::ModelAsset* moleman;
 	Importer::TextureAsset* particlesTexture;

@@ -17,7 +17,7 @@
 #include"Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
-
+Gear::ParticleSystem* ps;
 bool running = true;
 
 int main()
@@ -31,14 +31,14 @@ int main()
 	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
+
 	engine.setFont(font);
+
 
 	Controls controls;
 	
 	engine.addDebugger(Debugger::getInstance());
 
-
- 	std::vector<Gear::ParticleSystem*> ps;
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -156,7 +156,7 @@ int main()
 
 	delete gamePlay;
 	delete menu;
-	
+	delete ps;
 	glfwTerminate();
 
 	return 0;

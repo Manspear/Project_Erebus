@@ -7,7 +7,6 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets)
 	allTransforms = new TransformStruct[nrOfTransforms];
 	engine->addDebugger(Debugger::getInstance());
 	moleman = assets.load<ModelAsset>("Models/testGuy.model");
-	/*particlesTexture = assets.load<TextureAsset>("Textures/fireball.png");*/
 	heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 
 	for (int i = 0; i < nrOfTransforms; i++)
@@ -20,18 +19,12 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets)
 	collisionHandler.setTransforms(transforms);
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1, 1, false);
-	Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
-	//particlesTexture->bind(PARTICLES);
-	//for (int i = 0; i < ps.size(); i++)
-	//{
-	//	ps.at(i)->setTextrue(particlesTexture);
-	//}
 
 	ai.addDebug(Debugger::getInstance());
 
 	engine->queueDynamicModels(&models);
 	engine->queueAnimModels(&animatedModels);
-	engine->queueParticles(&ps);
+	engine->queueParticles(ps);
 }
 
 GamePlay::~GamePlay()
@@ -39,7 +32,6 @@ GamePlay::~GamePlay()
 	networkController.shutdown();
 
 	luaBinds.unload();
-
 
 	delete[] allTransforms;
 	delete[] transforms;
@@ -60,7 +52,6 @@ void GamePlay::Update(Controls controls, double deltaTime)
 	for (int i = 0; i < ps.size(); i++) {
 		ps.at(i)->update(deltaTime);
 	}
-
 	collisionHandler.checkCollisions();
 	collisionHandler.drawHitboxes();
 	//engine->print(collisionHandler.getCollisionText(), 1000, 100, 0.6);

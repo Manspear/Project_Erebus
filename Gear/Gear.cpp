@@ -138,9 +138,9 @@ namespace Gear
 		animatedModels = models;
 	}
 
-	void GearEngine::queueParticles(std::vector<ParticleSystem*>* particles)
+	void GearEngine::queueParticles(std::vector<Gear::ParticleSystem*> &ps)
 	{
-		particleSystems = particles;
+		particleSystem = &ps;
 	}
 
 	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
@@ -230,7 +230,7 @@ namespace Gear
 
 		skybox.update(camera);
 		skybox.draw();
-		queue.particlePass(particleSystems);
+		queue.particlePass(particleSystem);
 
 		//Clear lists
 		staticModels = &defaultModelList;
