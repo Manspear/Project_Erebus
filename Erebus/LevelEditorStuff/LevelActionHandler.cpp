@@ -81,6 +81,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 					newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
 					LevelActorHandler::getInstance()->addActor(newActor);
 					LevelActorHandler::getInstance()->setSelected(newActor);
+					this->resetAction(inputs);
 				} break;
 
 				case ACTION_PLACE_PREFAB:
@@ -94,6 +95,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 						LevelTransform* transform = newActor->getComponent<LevelTransform>();
 						if (transform)
 							transform->getTransformRef()->setPos(hitPoint);
+						this->resetAction(inputs);
 					}
 				} break;
 			} // end of switch
@@ -169,4 +171,19 @@ void TW_CALL LevelActionHandler::onNewWorld(void* args)
 	if(MessageBoxA(NULL, "Are you sure", "New Word", MB_YESNO) == IDYES)
 		LevelWorldHandler::getInstance()->resetWorld();
 	
+}
+
+void LevelActionHandler::resetAction(Inputs * input)
+{
+	if (!input->keyPressed(GLFW_KEY_LEFT_SHIFT)) {
+		action = ACTION_SELECT;
+		TwRemoveAllVars(actionBar->getBar());
+		for (int i = 0; i<MAX_ACTIONS; i++)
+			TwAddVarCB(actionBar->getBar(), ACTION_NAMES[i], TW_TYPE_BOOLCPP, onSetAction, onGetAction, &indices[i], NULL);
+		TwAddSeparator(actionBar->getBar(), "sep2", NULL);
+		TwAddButton(actionBar->getBar(), "SaveWorld", onSaveWorld, NULL, "label='Save World'");
+		TwAddButton(actionBar->getBar(), "LoadWorld", onLoadWorld, NULL, "label='Load World'");
+		TwAddButton(actionBar->getBar(), "NewWorld", onNewWorld, NULL, "label='New World'");
+		TwAddButton(actionBar->getBar(), "ExportToLua", onExportToLua, NULL, "label='Export to Lua'");
+	}
 }
