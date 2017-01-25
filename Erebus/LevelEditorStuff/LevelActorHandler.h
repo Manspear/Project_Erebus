@@ -49,6 +49,7 @@ private:
 	static void TW_CALL onGetExportType( void* value, void* clientData );
 
 	const std::string tryActorName(std::string name);
+	
 
 	std::map<unsigned int, LevelActor*> actors;
 	LevelActor* selectedActor;

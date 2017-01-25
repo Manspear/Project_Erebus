@@ -49,6 +49,7 @@ private:
 	static void TW_CALL onNewWorld(void* args);
 	static void TW_CALL onExportToLua( void* args );
 
+	void resetAction(Inputs* input);
 	TweakBar* actionBar;
 	int action;
 	bool selections[MAX_ACTIONS];
