@@ -5,3 +5,4 @@
 #define TRANSFORM_PACKET 0
 #define ANIMATION_PACKET 1
 #define AI_PACKET 2
+#define SPELL_PACKET 3

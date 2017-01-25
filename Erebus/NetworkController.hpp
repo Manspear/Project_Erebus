@@ -28,9 +28,12 @@ public:
 
 	void sendAnimationPacket(const uint16_t& id);
 	bool fetchAnimationPacket(AnimationPacket& packet);
-	
+
 	void sendAIPacket(const uint16_t& id);
 	bool fetchAIPacket(AIPacket& packet);
+
+	void sendSpellPacket(const uint16_t& id);
+	bool fetchSpellPacket(SpellPacket& packet);
 
 private:
 	void startNetworkSending();

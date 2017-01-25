@@ -26,6 +26,7 @@
     <ClInclude Include="Packager.hpp" />
     <ClInclude Include="PacketEnums.hpp" />
     <ClInclude Include="PacketQueue.hpp" />
+    <ClInclude Include="SpellPacket.hpp" />
     <ClInclude Include="TransformPacket.hpp" />
     <ClInclude Include="UDPPacket.hpp" />
     <ClInclude Include="Address.hpp" />
