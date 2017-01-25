@@ -74,7 +74,7 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 1)
 		{
 			int index = lua_tointeger(lua, 1);
-			//g_systems->at(index)->explode();
+			g_systems->at(index)->explode();
 		}
 		return 0;
 	}

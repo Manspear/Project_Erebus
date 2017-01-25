@@ -270,7 +270,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 				//glUniform3f(loc2, c.r, c.g, c.b );
 				pos = ps->at(i)->particleEmitters[j].getPositions();
 				ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
-				size_t ParticleCount = 3;
+				size_t ParticleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
 
 				glBindBuffer(GL_ARRAY_BUFFER, ps->at(i)->particleEmitters[j].getPartVertexBuffer());
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);

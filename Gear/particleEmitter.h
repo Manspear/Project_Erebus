@@ -69,7 +69,7 @@ namespace Gear
 		float focus;
 		glm::vec3 direction;
 		float gravityFactor;
-
+		bool alive;
 	private:
 		float timer;
 		Partikel* allParticles;
@@ -77,7 +77,7 @@ namespace Gear
 		int nrOfActiveParticles;
 		GLuint particleVertexBuffer;
 	/*	char* particleTextureName;*/
-		bool alive;
+		
 		Color color;
 
 	};

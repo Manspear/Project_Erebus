@@ -34,6 +34,7 @@ namespace Gear
 	void ParticleEmitter::emitterInit(Emitter emitter, Importer::Assets* assets)
 	{		
 		timer = 0;
+		isActive = false;
 		nrOfActiveParticles = 0;
 		glGenBuffers(1, &particleVertexBuffer);
 		this->maxParticles = emitter.numOfParticles;
@@ -41,7 +42,7 @@ namespace Gear
 		this->particlePos = new glm::vec3[maxParticles];
 		this->lifeTime = emitter.lifeTime;
 		this->partSpeed = emitter.speed;
-		this->particleRate = emitter.particleRate;
+		this->particleRate = 1 / emitter.particleRate;
 		this->partPerRate = emitter.partPerRate;
 		this->gravityFactor = emitter.gravity;
 		this->focus = emitter.focusSpread;
@@ -58,41 +59,44 @@ namespace Gear
 	}
 	void ParticleEmitter::update(const float &dt)
 	{
-		if (alive)
+		if (isActive)
 		{
-			timer += dt;
-			if (timer > particleRate)
+			if (alive)
 			{
-				glm::vec3 tempVec = this->position + direction * focus; //emit direction
-				glm::vec3 temp2;
-				int i = 0;
-				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+				timer += dt;
+				if (timer > particleRate)
 				{
+					glm::vec3 tempVec = this->position + direction * focus; //emit direction
+					glm::vec3 temp2;
+					int i = 0;
+					while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+					{
 
-					particlePos[nrOfActiveParticles] = this->position;
-					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-					temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
-					allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
+						particlePos[nrOfActiveParticles] = this->position;
+						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+						temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
+						allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
+					}
+					timer = 0;
 				}
-				timer = 0;
 			}
-		}
-		float randomSpeed;
-		for (int i = 0; i < nrOfActiveParticles; i++)
-		{
-			allParticles[i].lifeSpan -= dt;
-			if (allParticles[i].lifeSpan > 0.0)
+			float randomSpeed;
+			for (int i = 0; i < nrOfActiveParticles; i++)
 			{
-				allParticles[i].direction.y += gravityFactor * dt;
-				randomSpeed = rand() % (int)partSpeed;
-				particlePos[i] += allParticles[i].direction * randomSpeed * dt;
-			}
-			else
-			{
-				particlePos[i] = particlePos[nrOfActiveParticles - 1];
-				allParticles[i] = allParticles[--nrOfActiveParticles];
-		/*		if (nrOfActiveParticles <= 0)
-					isActive = false;*/
+				allParticles[i].lifeSpan -= dt;
+				if (allParticles[i].lifeSpan > 0.0)
+				{
+					allParticles[i].direction.y += gravityFactor * dt;
+					randomSpeed = rand() % (int)partSpeed;
+					particlePos[i] += allParticles[i].direction * randomSpeed * dt;
+				}
+				else
+				{
+					particlePos[i] = particlePos[nrOfActiveParticles - 1];
+					allParticles[i] = allParticles[--nrOfActiveParticles];
+					if (nrOfActiveParticles <= 0)
+						isActive = false;
+				}
 			}
 		}
 	}
