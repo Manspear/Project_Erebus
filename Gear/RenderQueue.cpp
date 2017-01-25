@@ -149,7 +149,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	/*LARGE_INTEGER s;
 	QueryPerformanceCounter( &s );
 	double start = s.QuadPart;*/
-
+	allTransforms = theTrans;
 #if 1
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
@@ -341,7 +341,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			indices[j] = dynamicModels->at(i).worldIndices[j];
-			//if (allTransforms[indices[j]].active)
+			if (allTransforms[indices[j]].active)
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
 
