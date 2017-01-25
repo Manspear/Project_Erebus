@@ -23,7 +23,9 @@ public:
 
 	void addDebuger(Debug* bugref);
 
-	void update(Camera* camera, RenderQueue* renderQueRef);
+	void update();
+	void reset();
+	void draw(Camera* camera, RenderQueue* renderQueRef);
 
 
 };
