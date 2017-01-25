@@ -222,30 +222,21 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			player.spells[1]:Cast(player, 0.5, false)
+			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
 			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
-		
-			if next(player.chargedspell) == nil then
-				for _,v in ipairs(player.spells[player.currentSpell]) do
-					if not v.alive then
-						player.chargedspell = v
-						break
-					end
-				end
-			end
-			--player.chargedspell:Charge(dt)
+			player.spells[player.currentSpell]:Charge(dt)
 		end
 		if Inputs.ButtonReleased(Buttons.Right) then
-			--player.chargedspell:ChargeCast(dt)
+			player.spells[player.currentSpell]:ChargeCast(player)
 		end
 
-		if Inputs.KeyPressed("1") then player.currentSpell = 1; player.chargedspell = {} end
-		if Inputs.KeyPressed("2") then player.currentSpell = 2; player.chargedspell = {} end
+		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
+		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
