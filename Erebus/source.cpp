@@ -44,7 +44,6 @@ DWORD WINAPI update( LPVOID args )
 	// GamePlay and Menu is deleted in the main thread
 	// because the renderer is depending on their transforms
 	data->gamePlay = new GamePlay( data->engine, data->assets, data->workQueue, data->soundEngine );
-	data->gamePlay->Initialize( data->assets, data->controls, data->inputs, data->camera );
 
 	data->menu = new Menu( data->engine, data->assets );
 
@@ -88,6 +87,7 @@ DWORD WINAPI update( LPVOID args )
 
 					if (data->gameState == GameplayState)
 					{
+						data->gamePlay->Initialize(data->assets, data->controls, data->inputs, data->camera);
 						data->soundEngine->play("Effects/bell.wav");
 					}
 					break;
