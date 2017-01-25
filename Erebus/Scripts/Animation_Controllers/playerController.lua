@@ -29,7 +29,7 @@
 function CreatePlayerController(player)
 	local controller = {}
 	controller.currentState = 1
-	controller.animation = Animation.Create()
+	controller.animation = Animation.Bind()
 	controller.animationState1 = 0
 	controller.animationState2 = 0
 	controller.animationState3 = 0
