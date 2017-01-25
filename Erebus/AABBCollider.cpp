@@ -46,13 +46,6 @@ AABBCollider::AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerP
 
 AABBCollider::~AABBCollider()
 {
-	if (this->children != nullptr)
-	{
-		for (size_t i = 0; i < this->children->size(); i++)
-		{
-			delete this->children->at(i);
-		}
-	}
 }
 
 bool AABBCollider::AabbToAabb(const AABBCollider* aabb)

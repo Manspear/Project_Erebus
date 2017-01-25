@@ -62,6 +62,7 @@ void GamePlay::Update(Controls* controls, double deltaTime)
 	collisionHandler.checkCollisions();
 	collisionHandler.drawHitboxes();
 	//engine->print(collisionHandler.getCollisionText(), 1000, 100, 0.6);
+	
 }
 
 void GamePlay::Draw()
