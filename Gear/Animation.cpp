@@ -307,7 +307,15 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 	}
 }
 
+void Animation::setMatrixIndex( int index )
+{
+	matrixIndex = index;
+}
 
+int Animation::getMatrixIndex()
+{
+	return matrixIndex;
+}
 
 GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int numStates)
 {
