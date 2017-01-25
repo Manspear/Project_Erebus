@@ -1,9 +1,9 @@
-<LevelActor type="MrRoboto" displayName="Hej&apos; arrow=&apos;0 0 01">
+<LevelActor type="MrRoboto" displayName="DerpMan371111">
     <LevelModel>
         <ModelName>testGuy</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="77.324638" y="48.143959" z="219.90495"/>
+        <Position x="21.065756" y="7.4862289" z="219.90495"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="272" y="10" z="30"/>
     </LevelTransform>
