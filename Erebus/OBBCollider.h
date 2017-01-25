@@ -23,6 +23,8 @@ public:
 	void setYHalfLength(float length);
 	void setZHalfLength(float length);
 	void setXAxis(glm::vec3 xAxis);
+	void setYAxis(glm::vec3 yAxis);
+	void setZAxis(glm::vec3 zAxis);
 
 	//Overrides
 	virtual int getID() const override;
