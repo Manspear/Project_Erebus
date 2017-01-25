@@ -1,16 +1,15 @@
-MAX_NR_OF_ICENADES = 10
-MAX_CHARGE_TIME_ICENADE = 3
-MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 100
-EXPLOSION_RADIUS_ICENADE = 10
+MAX_NR_OF_PILLARS = 5
+MAX_CHARGE_TIME_PILLAR = 3
+MAX_DAMAGE_PILLAR = 1000
+SPEED_PILLAR = 50
+EXPLOSION_RADIUS_PILLAR = 10
 
-MIN_FALLOFF_ICENADE = 30
-MAX_FALLOFF_ICENADE = 70 - MIN_FALLOFF_ICENADE
-SPAM_CD_ICENADE = 0.3
-SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
+MIN_FALLOFF_PILLAR = 30
+MAX_FALLOFF_PILLAR = 70 - MIN_FALLOFF_PILLAR
+SPAM_CD_PILLAR = 0.3
+SPAM_COMBO_NUMBER_PILLAR = 4 --number of attacks in the combo, last attack of combo applies effect
 
-function CreateIceGrenade()
-
+function CreateHellPillar()
 	function initNade()
 		local nade = {}
 		nade.type = CreateGrenadeType()
@@ -19,6 +18,7 @@ function CreateIceGrenade()
 		nade.alive = false
 		nade.particles = createFireballParticles()
 		nade.exploding = false
+		
 
 		local model = Assets.LoadModel( "Models/projectile1.model" )
 		Gear.AddStaticInstance(model, nade.type.transformID)
@@ -29,12 +29,14 @@ function CreateIceGrenade()
 	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE
 	spell.effect = CreateSlowEffect
 	spell.nades = {}
-	spell.spamcd = SPAM_CD_ICENADE
+	spell.spamcd = SPAM_CD_PILLAR
 	spell.timeSinceSpam = 0
 	spell.chargedTime = 0
 	spell.combo = 0
+	spell.Charge = BaseCharge
+	spell.ChargeCast = BaseChargeCast
 
-	for i = 1, 10 do
+	for i = 1, MAX_NR_OF_PILLARS do
 		table.insert(spell.nades, initNade())
 	end
 
@@ -97,8 +99,7 @@ function CreateIceGrenade()
 				--self.particles.die(self.type.position)
 		end
 	end
-	spell.Charge = BaseCharge
-	spell.ChargeCast = BaseChargeCast
+	
 	function spell:Kill(index)
 		self.nades[index].type:Kill()
 		self.nades[index].alive = false

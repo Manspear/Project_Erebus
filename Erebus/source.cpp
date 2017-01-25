@@ -34,10 +34,8 @@ int main()
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	engine.setFont(font);
 
-	Controls controls;
-	
+	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
-
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();

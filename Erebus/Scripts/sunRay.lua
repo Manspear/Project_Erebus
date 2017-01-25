@@ -1,7 +1,7 @@
 SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
-SUNRAY_COOLDOWN = 5
+SUNRAY_COOLDOWN = 2.7
 
 function CreateSunRay()
 	local sunRay = {}
@@ -24,7 +24,6 @@ function CreateSunRay()
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
-
 	local model = Assets.LoadModel( "Models/sunRay.model" )
 	Gear.AddStaticInstance(model, sunRay.type.transformID)
 
