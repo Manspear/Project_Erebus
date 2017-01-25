@@ -3,6 +3,8 @@ heightmaps = {}
 local temp = {}
 temp.transformID = Transform.Bind()
 Transform.SetPosition(temp.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(temp.transformID, 1, 1, 1)
+Transform.SetRotation(temp.transformID0, 0, 0)
 temp.model = Assets.LoadModel('Models/tile1_game_x1.model')
 Gear.AddStaticInstance(temp.model, temp.transformID)
 table.insert(props,temp)
@@ -11,6 +13,8 @@ temp = nil
 local temp = {}
 temp.transformID = Transform.Bind()
 Transform.SetPosition(temp.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(temp.transformID, 1, 1, 1)
+Transform.SetRotation(temp.transformID0, 0, 0)
 temp.model = Assets.LoadModel('Models/tile1_game_x1_assets.model')
 Gear.AddStaticInstance(temp.model, temp.transformID)
 table.insert(props,temp)
@@ -30,7 +34,9 @@ temp = nil
 
 local temp = {}
 temp.transformID = Transform.Bind()
-Transform.SetPosition(temp.transformID, {x=64.2684, y=128.746, z=169.705})
+Transform.SetPosition(temp.transformID, {x=21.0658, y=7.48623, z=219.905})
+Transform.SetScaleNonUniform(temp.transformID, 272, 10, 30)
+Transform.SetRotation(temp.transformID0, 0, 0)
 temp.model = Assets.LoadModel('Models/testGuy.model')
 Gear.AddStaticInstance(temp.model, temp.transformID)
 table.insert(props,temp)

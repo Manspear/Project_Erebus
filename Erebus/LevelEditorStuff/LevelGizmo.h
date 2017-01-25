@@ -7,7 +7,12 @@
 #include "LevelActorHandler.h"
 #include "Inputs.h"
 
-
+enum GizmoMode {
+	POSITION,
+	ROTATION,
+	SCALE,
+	NUM_MODS
+};
 class LevelGizmo {
 	enum GizmoLocation {
 		X,
@@ -18,6 +23,8 @@ class LevelGizmo {
 		ZY,
 		NUM_LOC
 	};
+
+
 
 	struct GizmoPlane
 	{
@@ -31,6 +38,8 @@ private:
 	glm::vec3 colorLinker[NUM_LOC];
 	glm::vec3 directions[NUM_LOC];
 	GizmoPlane gizmoPlanes[NUM_LOC];
+	
+	
 	glm::vec3 colorSelected;
 	GizmoLocation selectedGizmo;
 
@@ -49,6 +58,10 @@ private:
 	const float gizmoEpsilon = .0001f;
 	float bigVal;
 
+	float scaleSnap, rotSnap, posSnap;
+	float rotationSnapPlacements[11];
+	glm::vec3 realPos, realRot, realScale;
+
 	void setSelectedGizmo(GizmoLocation location);
 	void deSelectGizmo();
 	void createNewRays();
@@ -56,11 +69,19 @@ private:
 	glm::vec3 cameraOldPos;
 	void updateFromCameraPos(LevelActor* selectedActor);
 	void updateGizmoTranslation(LevelActor* selectedActor);
+	void updateGizmoRotation(LevelActor* selectedActor);
+	void updateGizmoScale(LevelActor* selectedActor);
+	
 	void updateGizmoPlanes();
+	float roationSnap(const float oldPos, const float diff, GizmoLocation location);
 
 	glm::vec3 hitPointOffset;
 
 	bool rayPlaneIntersection(glm::vec3& intersectionPoint);
+
+	GizmoMode selectedMode;
+	glm::vec3 oldIntersectionPoint;
+	bool intersectionPointChangedThisFrame;
 public:
 	LevelGizmo();
 	~LevelGizmo();
@@ -71,5 +92,6 @@ public:
 	bool checkRay();
 	bool onMouseDown();
 	void onMouseUp();
+	void setGizmoMode(GizmoMode mode);
 
 };

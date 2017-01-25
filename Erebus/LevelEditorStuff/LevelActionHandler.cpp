@@ -56,6 +56,16 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		holdingGizmo = gizmo.onMouseDown();
 	}
 
+	if (inputs->keyPressedThisFrame(GLFW_KEY_W)) {
+		gizmo.setGizmoMode(GizmoMode::POSITION);
+	}
+	if (inputs->keyPressedThisFrame(GLFW_KEY_E)) {
+		gizmo.setGizmoMode(GizmoMode::ROTATION);
+	}
+	if (inputs->keyPressedThisFrame(GLFW_KEY_R)) {
+		gizmo.setGizmoMode(GizmoMode::SCALE);
+	}
+
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 	{
 		if( !holdingGizmo )

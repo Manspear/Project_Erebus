@@ -1,7 +1,7 @@
 #include "LevelGizmo.h"
 #include "glm/gtx/string_cast.hpp"
 
-LevelGizmo::LevelGizmo() {
+LevelGizmo::LevelGizmo()  {
 
 	this->checker = new CollisionChecker();
 
@@ -14,7 +14,16 @@ LevelGizmo::LevelGizmo() {
 	this->selectedGizmo = NUM_LOC;
 
 	this->cameraOldPos = glm::vec3(0);
-
+	this->selectedMode = GizmoMode::ROTATION;
+	this->oldIntersectionPoint = glm::vec3(0);
+	intersectionPointChangedThisFrame = false;
+	rotSnap = glm::pi<float>() / 6.f;
+	scaleSnap = .5f;
+	posSnap = 1.f;
+	for (size_t i = 0; i < 11; i++)
+	{
+		rotationSnapPlacements[i] = rotSnap * i;
+	}
 }
 
 void LevelGizmo::setPlanes() {
@@ -109,8 +118,26 @@ void LevelGizmo::update()
 		updateGizmoPlanes();
 
 		//Update the translation of the planes, ex moving
-		updateGizmoTranslation(selectedActor);
+		if (this->selectedGizmo != GizmoLocation::NUM_LOC) {
+			createNewRays();
+			switch (this->selectedMode) {
+			case GizmoMode::POSITION:
+				updateGizmoTranslation(selectedActor);
+				break;
+			case GizmoMode::ROTATION:
+				updateGizmoRotation(selectedActor);
+				break;
+			case GizmoMode::SCALE:
+				updateGizmoScale(selectedActor);
+				break;
+			}
+		}
 
+		if (!intersectionPointChangedThisFrame && oldIntersectionPoint != glm::vec3(0)) {
+			oldIntersectionPoint = glm::vec3(0);
+		}
+		else
+			intersectionPointChangedThisFrame = false;
 	}
 
 }
@@ -197,49 +224,164 @@ void LevelGizmo::updateFromCameraPos(LevelActor* selectedActor)
 }
 
 void LevelGizmo::updateGizmoTranslation(LevelActor* selectedActor) {
-	if (this->selectedGizmo != GizmoLocation::NUM_LOC) {
-		createNewRays();
-		glm::vec3 intersection;
-		if (rayPlaneIntersection(intersection)) {
-			//std::cout << glm::to_string(intersection) << std::endl;
+	glm::vec3 intersection;
+	if (rayPlaneIntersection(intersection)) {
+		//std::cout << glm::to_string(intersection) << std::endl;
 
-			Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
-			glm::vec3 newPos = selectedTransform->getPos();
+		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+		glm::vec3 newPos = selectedTransform->getPos();
 
-			this->cameraOldPos = this->cameraRef->getPosition();
-			float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
-			float percentageFromBase = distanceBetween / this->baseCamDistance;
-			switch (selectedGizmo) {
-			case GizmoLocation::X:
-				newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
-				break;
-			case GizmoLocation::Y:
-				newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
-				break;
-			case GizmoLocation::Z:
-				newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
-				break;
-			case GizmoLocation::XZ:
-				newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
-				newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
-				break;
-			case GizmoLocation::XY:
-				newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
-				newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
-				break;
-			case GizmoLocation::ZY:
-				newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
-				newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
-				break;
-			default:
-				break;
-			}
-			//newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
-			selectedTransform->setPos(newPos);
-			//selectedTransform->setPos(selectedTransform->getPos() * )
+		this->cameraOldPos = this->cameraRef->getPosition();
+		float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
+		float percentageFromBase = distanceBetween / this->baseCamDistance;
+		switch (selectedGizmo) {
+		case GizmoLocation::X:
+			newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
+			break;
+		case GizmoLocation::Y:
+			newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
+			break;
+		case GizmoLocation::Z:
+			newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
+			break;
+		case GizmoLocation::XZ:
+			newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
+			newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
+			break;
+		case GizmoLocation::XY:
+			newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
+			newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
+			break;
+		case GizmoLocation::ZY:
+			newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
+			newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
+			break;
+		default:
+			break;
+		}
+		//newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
+		selectedTransform->setPos(newPos);
+		//selectedTransform->setPos(selectedTransform->getPos() * )
+
+	}
+
+}
+void LevelGizmo::updateGizmoRotation(LevelActor* selectedActor) {
+	
+	glm::vec3 intersection;
+	if (rayPlaneIntersection(intersection)) {
+		//std::cout << glm::to_string(intersection) << std::endl;
+
+		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+		glm::vec3 oldRot = selectedTransform->getRotation();
+
+		const float rotMulti = .05f;
+		float xDiff = 0, yDiff = 0, zDiff = 0;
+		intersectionPointChangedThisFrame = true;
+		if (oldIntersectionPoint != glm::vec3(0)) {
+			xDiff = (oldIntersectionPoint.x - intersection.x)*rotMulti;
+			yDiff = (oldIntersectionPoint.y - intersection.y)*rotMulti;
+			zDiff = (oldIntersectionPoint.z - intersection.z)*rotMulti;
 
 		}
+		oldIntersectionPoint = intersection;
+
+		switch (selectedGizmo) {
+		case GizmoLocation::X:
+			oldRot[GizmoLocation::X] = oldRot[GizmoLocation::X] - xDiff;
+			
+			break;
+		case GizmoLocation::Y:
+			//oldRot[GizmoLocation::Y] = oldRot[GizmoLocation::Y] - yDiff;
+			oldRot[GizmoLocation::Y] = roationSnap(oldRot[GizmoLocation::Y], yDiff, GizmoLocation::Y);
+			break;
+		case GizmoLocation::Z:
+			oldRot[GizmoLocation::Z] = oldRot[GizmoLocation::Z] - zDiff;
+			break;
+		case GizmoLocation::XZ:
+			oldRot[GizmoLocation::X] = oldRot[GizmoLocation::X] - xDiff;
+			oldRot[GizmoLocation::Z] = oldRot[GizmoLocation::Z] - zDiff;
+			break;
+		case GizmoLocation::XY:
+			oldRot[GizmoLocation::X] = oldRot[GizmoLocation::X] - xDiff;
+			oldRot[GizmoLocation::Y] = oldRot[GizmoLocation::Y] - yDiff;
+			break;
+		case GizmoLocation::ZY:
+			oldRot[GizmoLocation::Y] = oldRot[GizmoLocation::Y] - yDiff;
+			oldRot[GizmoLocation::Z] = oldRot[GizmoLocation::Z] - zDiff;
+			break;
+		default:
+			break;
+		}
+		//newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
+		selectedTransform->setRotation(oldRot);
+		//selectedTransform->setPos(selectedTransform->getPos() * )
+
 	}
+}
+void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
+
+	glm::vec3 intersection;
+	if (rayPlaneIntersection(intersection)) {
+
+		//std::cout << glm::to_string(intersection) << std::endl;
+
+		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+		glm::vec3 newScale = selectedTransform->getScale();
+
+		float xDiff = 0, yDiff = 0, zDiff = 0;
+		intersectionPointChangedThisFrame = true;
+		if (oldIntersectionPoint != glm::vec3(0)) {
+			xDiff = oldIntersectionPoint.x - intersection.x;
+			yDiff = oldIntersectionPoint.y - intersection.y;
+			zDiff = oldIntersectionPoint.z - intersection.z;
+			
+		}
+		oldIntersectionPoint = intersection;
+		
+		switch (selectedGizmo) {
+		case GizmoLocation::X:
+			newScale[GizmoLocation::X] = newScale[GizmoLocation::X] - xDiff;
+			
+			break;
+		case GizmoLocation::Y:
+			newScale[GizmoLocation::Y] = newScale[GizmoLocation::Y] - yDiff;
+			break;
+		case GizmoLocation::Z:
+			newScale[GizmoLocation::Z] = newScale[GizmoLocation::Z] - zDiff;
+			break;
+		case GizmoLocation::XZ:
+			newScale[GizmoLocation::X] = newScale[GizmoLocation::X] - xDiff;
+			newScale[GizmoLocation::Z] = newScale[GizmoLocation::Z] - zDiff;
+			break;
+		case GizmoLocation::XY:
+			newScale[GizmoLocation::X] = newScale[GizmoLocation::X] - xDiff;
+			newScale[GizmoLocation::Y] = newScale[GizmoLocation::Y] - yDiff;
+			break;
+		case GizmoLocation::ZY:
+			newScale[GizmoLocation::Y] = newScale[GizmoLocation::Y] - yDiff;
+			newScale[GizmoLocation::Z] = newScale[GizmoLocation::Z] - zDiff;
+			break;
+		default:
+			break;
+		}
+		selectedTransform->setScale(newScale);
+
+	}
+}
+
+float LevelGizmo::roationSnap(const float oldPos, const float diff, GizmoLocation location) {
+	float returnVal = 0;
+	realRot[location] += diff;
+	float tempSnapRot = fmod(realRot[location], (rotSnap*11.f));
+	tempSnapRot -= diff;
+	if (realRot[location] > rotSnap) {
+		returnVal = rotSnap;
+	}
+	else if (realRot[location] < rotSnap) {
+		returnVal = -rotSnap;
+	}
+	return returnVal;
 }
 
 bool LevelGizmo::onMouseDown() {
@@ -294,4 +436,8 @@ void LevelGizmo::createNewRays()
 		rayGizmos[i].setDirection(ray_world);
 		rayGizmos[i].setPosition(this->cameraRef->getPosition());
 	}
+}
+
+void LevelGizmo::setGizmoMode(GizmoMode mode) {
+	this->selectedMode = mode;
 }
