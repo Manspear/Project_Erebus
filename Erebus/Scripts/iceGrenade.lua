@@ -19,6 +19,7 @@ function CreateIceGrenade()
 		nade.alive = false
 		nade.particles = createFireballParticles()
 		nade.exploding = false
+		nade.hits = {}
 		nade.soundID = -1
 
 		local model = Assets.LoadModel( "Models/projectile1.model" )
@@ -34,10 +35,6 @@ function CreateIceGrenade()
 	spell.timeSinceSpam = 0
 	spell.chargedTime = 0
 	spell.combo = 0
-	spell.castSFX = "Effects/burn_ice_001.wav"
-	spell.hitSFX = {}
-	spell.hitSFX[1] = "Effects/axe_ice_005.wav"
-	spell.hitSFX[2] = "Effects/debris_ice_001.wav"
 
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
@@ -64,7 +61,6 @@ function CreateIceGrenade()
 					self.nades[i].alive = true
 					self.nades[i].particles.cast()
 					self.timeSinceSpam = 0
-					self.nades[i].soundID = Sound.Play(self.castSFX, 13, pos)
 					break
 				end
 			end
@@ -77,19 +73,16 @@ function CreateIceGrenade()
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
 				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
-				Sound.SetPosition(self.nades[i].soundID, self.nades[i].type.position)
 				if not self.nades[i].exploding then
-					if self.nades[i].type:flyUpdate(dt) then
-						self.nades[i].exploding = true
-						for index = 1, #self.hitSFX do Sound.Play(self.hitSFX[index], 1, self.nades[i].type.position) end
-					end
+					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 				else
 					
 					hits = self.nades[i].type:Update(dt)
 		
+					
+					self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
-						if hits[index].Hurt then
-							self.nades[i].particles.die(self.nades[i].type.position)
+						if hits[index].Hurt and not self.nades[i].hits[hits[i]] then
 							if self.nades[i].effectFlag then
 								local effect = self.effect()
 								table.insert(hits[index].effects, effect)
