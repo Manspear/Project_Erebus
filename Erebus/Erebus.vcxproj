@@ -223,6 +223,7 @@
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectileType.lua" />
+    <None Include="Scripts\rayType.lua" />
     <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\slowEffect.lua" />
     <None Include="Scripts\staticAoEType.lua" />

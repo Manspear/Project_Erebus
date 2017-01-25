@@ -25,6 +25,7 @@ local scriptFiles =
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
 	"Scripts/hellPillar.lua",
+	"Scripts/rayType.lua",
 	"Scripts/grenadeType.lua"
 }
 local drawHitboxes = false
