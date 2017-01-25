@@ -77,10 +77,10 @@ function CreateIceGrenade()
 					
 					hits = self.nades[i].type:Update(dt)
 		
-				self.nades[i].particles.die(self.nades[i].type.position)
+					
+					self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
 						if hits[index].Hurt then
-							self.nades[i].particles.die(self.nades[i].type.position)
 							if self.nades[i].effectFlag then
 								local effect = self.effect()
 								table.insert(hits[index].effects, effect)
