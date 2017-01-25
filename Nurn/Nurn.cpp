@@ -128,5 +128,17 @@ namespace Nurn
 		return result;
 	}
 
+	void NurnEngine::buildSpellPacket(const uint16_t& id)
+	{
+		this->packager->buildSpellPacket(id);
+	}
 
+	bool NurnEngine::fetchSpellPacket(SpellPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getSpellQueue()->pop(packet);
+
+		return result;
+	}
 }
