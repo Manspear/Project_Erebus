@@ -77,7 +77,7 @@ function CreateIceGrenade()
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
 				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
-				--Sound.SetPosition(self.nades[i].soundID, self.nades[i].type.position)
+				Sound.SetPosition(self.nades[i].soundID, self.nades[i].type.position)
 				if not self.nades[i].exploding then
 					if self.nades[i].type:flyUpdate(dt) then
 						self.nades[i].exploding = true
