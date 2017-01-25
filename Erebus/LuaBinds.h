@@ -14,6 +14,7 @@
 #include "LuaAi.h"
 #include "LuaInputs.h"
 #include "LuaNetwork.hpp"
+#include "WorkQueue.h"
 #include "LuaSound.h"
 
 class LuaBinds
@@ -29,12 +30,15 @@ public:
 				Inputs* inputs,
 				Transform* transforms,
 				int* boundTransforms,
+				Animation* animations,
+				int* boundAnimations,
 				std::vector<ModelInstance>* models,
 				std::vector<AnimatedInstance>* animatedModels,
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
 				AGI::AGIEngine* AI,
 				NetworkController* network,
+				WorkQueue* work,
 				SoundEngine* soundEngine);
 	void unload();
 	void update( Controls* controls, float deltaTime );

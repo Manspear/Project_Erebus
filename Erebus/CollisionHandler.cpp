@@ -470,7 +470,6 @@ void CollisionHandler::updateAabbPos()
 	}
 }
 
-
 void CollisionHandler::deleteAllOldCollisions()
 {
 	size_t sphereColliderSize = this->sphereColliders.size();
@@ -497,8 +496,6 @@ void CollisionHandler::deleteAllOldCollisions()
 	{
 		rayColliders[i]->clear();
 	}
-
-
 }
 
 bool CollisionHandler::deleteHitbox(unsigned int ID)
