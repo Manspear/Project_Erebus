@@ -13,7 +13,7 @@ function LoadEnemies(n)
 		enemies[i] = {}
 		enemies[i].timeScalar = 1.0
 		enemies[i].transformID = Transform.Bind()
-		enemies[i].movementSpeed = math.random(5,20)
+		enemies[i].movementSpeed = 5
 		enemies[i].health = 20
 		enemies[i].alive = true
 		enemies[i].effects = {}
@@ -21,7 +21,7 @@ function LoadEnemies(n)
 
 		enemies[i].Hurt = function(self,damage)
 			self.health = self.health - damage
-			if self.health <= 0 then
+			if self.health <= 0 and self.alive == true then
 				self:Kill()
 			end
 		end
@@ -30,6 +30,14 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
+
+			if enemies[i].state.stateName == "PositioningOuterState" then
+				player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
+			end
+
+			if enemies[i].state.stateName == "PositioningInnerState" then
+				player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
+			end
 
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i],player,inState)
@@ -52,8 +60,8 @@ function LoadEnemies(n)
 		enemies[i].state = stateScript.state.idleState
 		enemies[i].animation = Animation.Bind()
 		enemies[i].animationState = 1
-		enemies[i].innerCirclerange = 9
-		enemies[i].outerCirclerange = 18
+		enemies[i].innerCirclerange = 4
+		enemies[i].outerCirclerange = 15
 		enemies[i].visionRange = 30
 		enemies[i].target = nil
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
@@ -71,7 +79,7 @@ end
 
 function UpdateEnemies(dt)
 
-	--AI.DrawDebug(heightmaps[1])
+	AI.DrawDebug(heightmaps[1])
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0then
 		--print ("Clear")
@@ -88,9 +96,9 @@ function UpdateEnemies(dt)
 			AI.AddIP(player.transformID,12)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)
 
-			aiScript.updateEnemyManager(enemies,player)
+			
 	end
-	
+	aiScript.updateEnemyManager(enemies,player)
 	local tempdt
 
 	for i=1, #enemies do

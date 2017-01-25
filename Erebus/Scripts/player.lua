@@ -19,7 +19,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 5.25
+	player.moveSpeed = 12.25
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false

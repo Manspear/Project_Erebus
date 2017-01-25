@@ -32,7 +32,7 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	//	ps.at(i)->setTextrue(particlesTexture);
 	//}
 
-	//ai.addDebug(Debugger::getInstance());
+	ai.addDebug(Debugger::getInstance());
 
 	engine->queueDynamicModels(&models);
 	engine->queueAnimModels(&animatedModels);

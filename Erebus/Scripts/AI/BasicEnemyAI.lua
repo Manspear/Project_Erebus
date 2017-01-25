@@ -12,7 +12,12 @@ local function updateEnemyManager(enemies,playerenemyManager)
 
 		for i=1, #enemies do
 			if enemies[i].state.stateName == "PositioningOuterState" then
-				enemies[i].target = AI.SetSpecificTarget(player.transformID,enemies[i].outerCirclerange,player.nrOfOuterCircleEnemies,outerCounter);
+				inPos = AI.SetSpecificTarget(player.transformID,enemies[i].outerCirclerange,player.nrOfOuterCircleEnemies,outerCounter);
+				
+				if inPos.y ~= -1 then
+					print("Set Pos")
+					enemies[i].target = inPos
+				end
 				
 				--print(enemies[i].target.x,enemies[i].target.z)
 

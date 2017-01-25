@@ -43,19 +43,15 @@ heightTest = heightmaps[1]:GetMapHeight()
 AI.CreateIM(heightmaps[1],widthTest,heightTest)
 
 -- add enemies
-LoadEnemies(10)
+LoadEnemies(8)
 Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
 Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
 Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
-Transform.SetPosition(enemies[4].transformID, {x=121, y=0, z=142})
-Transform.SetPosition(enemies[5].transformID, {x=161, y=0, z=152})
-
-Transform.SetPosition(enemies[6].transformID, {x=191, y=0, z=147})
-Transform.SetPosition(enemies[7].transformID, {x=121, y=0, z=147})
-Transform.SetPosition(enemies[8].transformID, {x=161, y=0, z=157})
-
-Transform.SetPosition(enemies[9].transformID, {x=191, y=0, z=137})
-Transform.SetPosition(enemies[10].transformID, {x=121, y=0, z=137})
+Transform.SetPosition(enemies[4].transformID, {x=44, y=0, z=20})
+Transform.SetPosition(enemies[5].transformID, {x=32, y=0, z=26})
+Transform.SetPosition(enemies[6].transformID, {x=22, y=0, z=26})
+Transform.SetPosition(enemies[7].transformID, {x=16, y=0, z=26})
+Transform.SetPosition(enemies[8].transformID, {x=10, y=0, z=26})
 
 -- set player position
 Transform.SetPosition(player.transformID, {x=44, y=0, z=14})

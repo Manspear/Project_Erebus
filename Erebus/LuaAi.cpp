@@ -232,13 +232,17 @@ namespace LuaAI
 			//glm::vec3 pos  = AI->SetTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), transforms[lua_tointeger(lua, 2)].getPos(),lua_tonumber(lua,3));
 			
 			// NEw Function
-			glm::vec3 pos = AI->SetTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
+			glm::vec3 pos = AI->setTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
 
 			lua_newtable(lua);
 			lua_pushnumber(lua, pos.x);
 			lua_setfield(lua, -2, "x");
 
-			lua_pushnumber(lua, 0);
+			if (pos.y == -1)
+				lua_pushnumber(lua, -1);
+			else
+				lua_pushnumber(lua, 0);
+
 			lua_setfield(lua, -2, "y");
 
 			lua_pushnumber(lua, pos.z);

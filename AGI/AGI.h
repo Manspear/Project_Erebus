@@ -10,6 +10,8 @@
 #include"RadiusInfluenceNode.h"
 #include"InfluenceNode.h"
 
+#include"WorkQueue.h"
+
 #include"HeightMap.h"
 namespace AGI
 {
@@ -19,9 +21,10 @@ namespace AGI
 	public:
 		AGI_API AGIEngine()
 		{
+			
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.4f;  // Never above 1
+			resolution = 0.6f;  // Never above 1
 
 			influenceMap = nullptr;
 		}
@@ -269,7 +272,7 @@ namespace AGI
 #pragma endregion
 
 
-			if (glm::abs(centerHeight - maxHeight) >1.9f || centerHeight <= 15)
+			if (glm::abs(centerHeight - maxHeight) >2.3f || centerHeight <= 0)
 				return false;
 
 			return true;
@@ -417,28 +420,34 @@ namespace AGI
 		{
 			float tempRange = 0;
 			float angleInCircle = indexOfCirclingEnemies * (glm::pi<float>()*2 / maxNrOfCirclingEnemies);
+			
+			InfluenceNode * testIN;
+			testIN = traverseIMRangeFromPlayer(playerPos, tempRange, angleInCircle);
+			if (testIN != nullptr && tempRange<range)
+			{
+				do
+				{
+					tempRange += 1;
+					testIN = traverseIMRangeFromPlayer(playerPos, tempRange, angleInCircle);
+				} while (testIN != nullptr && tempRange < range);
+			}
+			
+			if(testIN != nullptr)
+				return glm::vec3(testIN->getPos().x, 0, testIN->getPos().y);
 
-			glm::vec3 testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange - 1));
+			return glm::vec3(0, -1, 0);
+		}
+
+		AGI_API InfluenceNode * traverseIMRangeFromPlayer(glm::vec3 playerPos,float tempRange,float angleInCircle)
+		{
+			
+			glm::vec3 testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange));
 
 			int x = round(((testPos.x / mapWidth)*imWidth));
 			int y = round(((testPos.z / mapHeight)*imHeight));
-
 			
-			while (influenceMap[x][y] != nullptr && tempRange<range)
-			{
-				tempRange += 1;
-				testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange - 1));
 
-				x = round(((testPos.x / mapWidth)*imWidth));
-				y = round(((testPos.z / mapHeight)*imHeight));
-			}
-			
-			return testPos;
-		}
-
-		AGI_API glm::vec3 traverseIMRangeFromPlayer(glm::vec3 playerPos)
-		{
-
+			return influenceMap[x][y];
 		}
 	private:
 		

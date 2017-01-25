@@ -74,7 +74,7 @@ function state.followState.update(enemy,player,dt)
 
 			Transform.SetPosition(enemy.transformID,pos)
 
-			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.5 then
+			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.8 then
 				enemy.target = nil
 			end
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
@@ -107,9 +107,6 @@ function state.positioningInnerState.enter(enemy,player)
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 	
 	Transform.SetLookAt(enemy.transformID,direction)
-
-	--enemy.target = AI.SetSpecificTarget(enemy.transformID,player.transformID,enemy.innerCirclerange)
-
 end
 
 function state.positioningInnerState.update(enemy,player,dt)
@@ -134,7 +131,13 @@ function state.positioningInnerState.update(enemy,player,dt)
 				Transform.SetLookAt(enemy.transformID,direction)
 			end
 	else
-			
+		length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
+
+		if length > enemy.innerCirclerange then
+			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
+			inState = "FollowState" 
+			changeToState(enemy,player,inState)
+		end	
 
 	end
 end
@@ -149,45 +152,52 @@ function state.positioningOuterState.enter(enemy,player)
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
 	Transform.SetLookAt(enemy.transformID,direction)
-
-	--enemy.target = AI.SetSpecificTarget(enemy.transformID,player.transformID,enemy.outerCirclerange,player.nrOfOuterCircleEnemies,player.nrOfOuterCircleEnemies);
 	
 end
 
 function state.positioningOuterState.update(enemy,player,dt)
 	
-	if enemy.target ~= nil then
+	if(player.nrOfInnerCircleEnemies >= 3) then
+		if enemy.target ~= nil then
 
-		local pos = Transform.GetPosition(enemy.transformID)
+			local pos = Transform.GetPosition(enemy.transformID)
 
-			print("I'm in outer circle")
-			local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
+				--print("I'm in outer circle")
+				local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
 
-			Transform.SetLookAt(enemy.transformID,direction)
-			
-			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
-			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
-			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
-
-			Transform.SetPosition(enemy.transformID,pos)
-
-			rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.target)
-			if rangeTest < 0.9 then
-				enemy.target = nil
-				local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 				Transform.SetLookAt(enemy.transformID,direction)
-			end
-	else
 			
+				pos.x = pos.x + direction.x * enemy.movementSpeed * dt
+				--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
+				pos.z = pos.z + direction.z * enemy.movementSpeed * dt
 
+				Transform.SetPosition(enemy.transformID,pos)
+
+				rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.target)
+				if rangeTest < 0.9 then
+					enemy.target = nil
+					local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
+					Transform.SetLookAt(enemy.transformID,direction)
+				end
+		else
+			length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
+
+			if length > enemy.outerCirclerange then
+				player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
+				inState = "FollowState" 
+				changeToState(enemy,player,inState)
+			end	
+
+		end
+
+	else
+
+		player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
+		inState = "FollowState" 
+		changeToState(enemy,player,inState)
 	end
-		--length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-		--if length > enemy.innerCirclerange then
-		--	player.nrOfEnemiesAttacking = player.nrOfEnemiesAttacking -1
-		--	inState = "FollowState" 
-		--	changeToState(enemy,player,inState)
-		--end
+		
 end
 
 function state.positioningOuterState.exit(enemy,player)

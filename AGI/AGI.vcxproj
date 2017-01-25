@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer;$(SolutionDir)\Threading</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,6 +122,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Importer\Importer.vcxproj">
       <Project>{56d70726-725f-48e5-b935-71a5451ccd72}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Threading\Threading.vcxproj">
+      <Project>{40e3608f-5c8f-4b35-a729-326daac441b6}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
