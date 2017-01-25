@@ -119,6 +119,8 @@ function changeToState(enemy,player,changeState)
 	end
 
 	if changeState == "FollowState" then
+		--print(Network.TestFunction())
+
 			enemy.state = state.followState
 	end
 	if changeState == "AttackState" then
