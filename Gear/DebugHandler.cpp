@@ -34,7 +34,21 @@ void DebugHandler::addDebuger(Debug* bugref)
 		this->debuggers.push_back(bugref);
 }
 
-void DebugHandler::update(Camera* camera, RenderQueue* renderQueRef)
+void DebugHandler::update()
+{
+	for( int i=0; i<debuggers.size(); i++ )
+		debuggers.at(i)->update();
+}
+
+void DebugHandler::reset()
+{
+	for (size_t i = 0; i < debuggers.size(); i++)
+	{
+		debuggers.at(i)->clear();
+	}
+}
+
+void DebugHandler::draw(Camera* camera, RenderQueue* renderQueRef)
 {
 	ShaderProgram* tempProgram;
 	int totalLines = 0,
@@ -58,10 +72,10 @@ void DebugHandler::update(Camera* camera, RenderQueue* renderQueRef)
 	if (totalOBB > 0)
 		drawAllOBBs(camera, renderQueRef);
 
-	for (size_t i = 0; i < debuggers.size(); i++)
+	/*for (size_t i = 0; i < debuggers.size(); i++)
 	{
 		debuggers.at(i)->clear();
-	}
+	}*/
 }
 
 void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
