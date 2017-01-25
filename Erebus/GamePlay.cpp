@@ -48,6 +48,7 @@ GamePlay::~GamePlay()
 
 	delete[] allTransforms;
 	delete[] transforms;
+	delete[] allAnimations;
 
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
