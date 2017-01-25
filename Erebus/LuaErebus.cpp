@@ -14,6 +14,7 @@ namespace LuaErebus
 		luaL_Reg regs[] =
 		{
 			{ "SetControls", setControls },
+			{ "CameraSensitivity", cameraSensitivity },
 			{ NULL, NULL }
 		};
 
@@ -31,6 +32,12 @@ namespace LuaErebus
 			g_controls->setControl( &g_transforms[transformID] );
 		}
 
+		return 0;
+	}
+	
+	int cameraSensitivity(lua_State * lua)
+	{		
+		g_controls->sensitivityFactor(lua_tonumber(lua, 1));
 		return 0;
 	}
 }

@@ -14,6 +14,10 @@ namespace LuaNetwork
 			{ "GetTransformPacket", getTransformPacket },
 			{ "SendAnimationPacket", sendAnimationPacket },
 			{ "GetAnimationPacket", getAnimationPacket },
+			{ "SendAIPacket", sendAIPacket },
+			{ "GetAIPacket", getAIPacket },
+			{ "SendSpellPacket", sendSpellPacket },
+			{ "GetSpellPacket", getSpellPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ NULL, NULL }
@@ -127,6 +131,61 @@ namespace LuaNetwork
 		
 		return 2;
 	}
+
+	int sendAIPacket(lua_State* lua)
+	{
+		int index = lua_tointeger(lua, 1);
+
+		g_networkController->sendAIPacket(index);
+
+		return 0;
+	}
+
+	int getAIPacket(lua_State* lua)
+	{
+		AIPacket aiPacket;
+
+		if (g_networkController->fetchAIPacket(aiPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, aiPacket.data.ID);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 2;
+	}
+
+	int sendSpellPacket(lua_State* lua)
+	{
+		int index = lua_tointeger(lua, 1);
+
+		g_networkController->sendSpellPacket(index);
+
+		return 0;
+	}
+
+	int getSpellPacket(lua_State* lua)
+	{
+		SpellPacket spellPacket;
+
+		if (g_networkController->fetchSpellPacket(spellPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, spellPacket.data.ID);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 2;
+	}
+
 
 	int getNetworkHost(lua_State* lua)
 	{

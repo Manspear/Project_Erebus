@@ -27,7 +27,8 @@ void LuaBinds::load( GearEngine* gearEngine,
 					std::vector<Gear::ParticleSystem*>* ps,
 					AGI::AGIEngine* AI,
 					NetworkController* network,
-					WorkQueue* work )
+					WorkQueue* work,
+					SoundEngine* soundEngine)
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
@@ -41,6 +42,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaParticles::registerFunctions(lua, ps, assets);
 	LuaAI::registerFunctions(lua, transforms, AI);
 	LuaNetwork::registerFunctions(lua, network);
+	LuaSound::registerFunctions(lua, soundEngine);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;

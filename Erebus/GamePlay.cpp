@@ -1,10 +1,11 @@
 #include "GamePlay.h"
 
-GamePlay::GamePlay(Gear::GearEngine* inEngine, Importer::Assets* assets, WorkQueue* w)
+GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQueue* w, SoundEngine* inSoundEngine)
 	: boundTransforms( 0 ), boundAnimations( 0 )
 {
 	engine = inEngine;
 	work = w;
+	soundEngine = inSoundEngine;
 	transforms = new Transform[nrOfTransforms];
 	allTransforms = new TransformStruct[nrOfTransforms];
 	allAnimations = new Animation[nrOfAnimations];
@@ -54,7 +55,7 @@ GamePlay::~GamePlay()
 
 void GamePlay::Initialize(Importer::Assets* assets, Controls* controls, Inputs* inputs, Camera* camera)
 {
-	luaBinds.load(engine, assets, &collisionHandler, controls, inputs, transforms, &boundTransforms, allAnimations, &boundAnimations, &models, &animatedModels, camera, &ps, &ai, &networkController, work);
+	luaBinds.load(engine, assets, &collisionHandler, controls, inputs, transforms, &boundTransforms, allAnimations, &boundAnimations, &models, &animatedModels, camera, &ps, &ai, &networkController, work, soundEngine);
 }
 
 void GamePlay::Update(Controls* controls, double deltaTime)

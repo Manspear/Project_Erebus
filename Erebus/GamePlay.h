@@ -14,6 +14,7 @@ class GamePlay
 {
 private:
 	Gear::GearEngine * engine;
+	SoundEngine* soundEngine;
 	int nrOfTransforms = 100;
 	int nrOfAnimations = 100;
 	int boundTransforms = 0;
@@ -40,7 +41,7 @@ private:
 	WorkQueue* work;
 
 public:
-	GamePlay(Gear::GearEngine* inEngine, Importer::Assets* assets, WorkQueue* work);
+	GamePlay(Gear::GearEngine* inEngine, Importer::Assets* assets, WorkQueue* work, SoundEngine* inSoundEngine);
 
 	~GamePlay();
 

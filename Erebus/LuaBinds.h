@@ -15,6 +15,7 @@
 #include "LuaInputs.h"
 #include "LuaNetwork.hpp"
 #include "WorkQueue.h"
+#include "LuaSound.h"
 
 class LuaBinds
 {
@@ -37,7 +38,8 @@ public:
 				std::vector<Gear::ParticleSystem*>* ps,
 				AGI::AGIEngine* AI,
 				NetworkController* network,
-				WorkQueue* work);
+				WorkQueue* work,
+				SoundEngine* soundEngine);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;

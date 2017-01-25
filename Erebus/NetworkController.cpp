@@ -133,6 +133,26 @@ bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
 	return network.fetchAnimationPacket(packet);
 }
 
+void NetworkController::sendAIPacket(const uint16_t& id)
+{
+	network.buildAIPacket(id);
+}
+
+bool NetworkController::fetchSpellPacket(SpellPacket& packet)
+{
+	return network.fetchSpellPacket(packet);
+}
+
+void NetworkController::sendSpellPacket(const uint16_t& id)
+{
+	network.buildSpellPacket(id);
+}
+
+bool NetworkController::fetchAIPacket(AIPacket& packet)
+{
+	return network.fetchAIPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

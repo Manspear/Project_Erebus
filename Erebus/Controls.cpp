@@ -1,8 +1,7 @@
 #include "Controls.h"
 
-Controls::Controls()
+Controls::Controls(): sensitivity(300)
 {
-
 }
 
 Controls::~Controls()
@@ -39,8 +38,8 @@ void Controls::update( Inputs* input )
 	//rotate the controlled object (prolly shouldnt be dont here, but fuck it)
 	MousePos dPos = input->getDeltaPos();
 	glm::vec3 rotation = controlled->getRotation();
-	rotation.y += (float)dPos.x / 300.f;
-	rotation.z += (float)dPos.y / 300.f;
+	rotation.y += (float)dPos.x / sensitivity;
+	rotation.z += (float)dPos.y / sensitivity;
 	if (rotation.y > 2 * 3.14f) 
 	{
 		rotation.y -= 2 * 3.14f;
@@ -75,6 +74,11 @@ Transform * Controls::getControl()
 void Controls::setControl(Transform * trans)
 {
 	controlled = trans;
+}
+
+void Controls::sensitivityFactor(float factor)
+{
+	sensitivity *= factor;
 }
 
 
