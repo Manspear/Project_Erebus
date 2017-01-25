@@ -426,6 +426,19 @@ void CollisionHandler::initializeColors()
 	}
 }
 
+void CollisionHandler::recursiveSetID(HitBox * hitbox)
+{
+	hitbox->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+	if (hitbox->children != nullptr)
+	{
+		for (size_t i = 0; i < hitbox->children->size(); i++)
+		{
+			this->recursiveSetID(hitbox->children->operator[](i));
+		}
+	}
+}
+
 void CollisionHandler::updateAllHitboxPos()
 {
 	size_t allColliderSize = this->allColliders.size();
