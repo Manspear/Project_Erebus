@@ -58,23 +58,23 @@ function CreateSunRay()
 		self.cooldown = self.cooldown - dt;
 	end
 	
-	function sunRay:Cast(chargetime, effects)
+	function sunRay:Cast(entity, chargetime, effects)
 		if (self.cooldown < 0.0) then
 			self.particles.cast()
 			Erebus.CameraSensitivity(self.cameraSlow)
 			chargetime = math.min(chargetime, SUNRAY_MAX_CHARGETIME)
-			player.moveSpeed = player.moveSpeed * self.moveImpairment 
-			self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), 0)
+			entity.moveSpeed = entity.moveSpeed * self.moveImpairment 
+			self.type:Shoot(Transform.GetPosition(entity.transformID), Camera.GetDirection(), 0)
 			self.alive = true
 			self.lifeTime = SUNRAY_DURATION 
 			self.effectFlag = effects
 			self.damage = (chargetime/SUNRAY_MAX_CHARGETIME) * SUNRAY_DAMAGE
 			self.chargedTime = 0
 			self.cooldown = SUNRAY_COOLDOWN
-		end
-		for index = 1, #self.castSFX do
-			self.soundID[index] = Sound.Play(self.castSFX[index], 13, self.type.position)
-			Sound.SetVolume(self.soundID[index], 0.8)
+			for index = 1, #self.castSFX do
+				self.soundID[index] = Sound.Play(self.castSFX[index], 13, self.type.position)
+				Sound.SetVolume(self.soundID[index], 0.8)
+			end
 		end
 	end
 

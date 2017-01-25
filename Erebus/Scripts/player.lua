@@ -27,7 +27,6 @@ function LoadPlayer()
 	
 	player.walkableIncline = 1
 	player.chargedspell = {}
-	player.timeSinceShot = 0
 	player.shootCD = 0.3
 
 	player.animationController = CreatePlayerController(player)
@@ -49,7 +48,6 @@ function LoadPlayer()
 	
 	player2.walkableIncline = 1
 	player2.chargedspell = {}
-	player2.timeSinceShot = 0
 	player2.shootCD = 0.3
 
 	player2.animationController = CreatePlayerController(player2)
@@ -62,7 +60,7 @@ function LoadPlayer()
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = CreateIceGrenade()
-	player.spells[2] = {}
+	player.spells[2] = CreateSunRay()
 
 
 	player.currentSpell = 1
@@ -75,9 +73,9 @@ function LoadPlayer()
 	end
 
 	player.Kill = function(self)
-			self.health = 0
-			Transform.ActiveControl(self.transformID,false)
-		end
+		self.health = 0
+		Transform.ActiveControl(self.transformID,false)
+	end
 
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
@@ -102,7 +100,6 @@ end
 function UpdatePlayer(dt)
 	--UpdatePlayer2(dt)
 	if player.health > 0 then
-		player.timeSinceShot = player.timeSinceShot + dt
 		player.forward = 0
 		player.left = 0
 		player.testCamera = false
@@ -115,7 +112,7 @@ function UpdatePlayer(dt)
 
 		Controls(dt)
 
-		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
+		--Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
 		local newPosition = Transform.GetPosition(player.transformID)
 
 		local posx = math.floor(newPosition.x/512)
@@ -167,9 +164,8 @@ function UpdatePlayer(dt)
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
+	player.spells[2]:Update(dt)
 	
-
-
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
 	for curID=1, #collisionIDs do
@@ -179,21 +175,11 @@ function UpdatePlayer(dt)
 	end
 
 	-- show player position and lookat on screen
-	if Inputs.KeyPressed("0") then player.printInfo = not player.printInfo end
-	if player.printInfo then
-		local scale = 0.8
-		local color = {0.4, 1, 0.4, 1}
-		local info = "Player"
-		Gear.Print(info, 60, 570, scale, color)
-
-		local position = Transform.GetPosition(player.transformID)
-		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
-		Gear.Print(info, 0, 600, scale, color)
-
-		local direction = Transform.GetLookAt(player.transformID)
-		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
-		Gear.Print(info, 120, 600, scale, color)
+	if Inputs.KeyPressed("0") then 
+		player.printInfo = not player.printInfo
 	end
+	
+	if player.printInfo then PrintInfo() end
 
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
 	
@@ -222,7 +208,7 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			player.spells[1]:Cast(player, 0.5, false)
+			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -244,8 +230,25 @@ function Controls(dt)
 			--player.chargedspell:ChargeCast(dt)
 		end
 
-		if Inputs.KeyPressed("1") then player.currentSpell = 1; player.chargedspell = {} end
-		if Inputs.KeyPressed("2") then player.currentSpell = 2; player.chargedspell = {} end
+		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
+		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
+end
+
+function PrintInfo() 
+	if player.printInfo then
+		local scale = 0.8
+		local color = {0.4, 1, 0.4, 1}
+		local info = "Player"
+		Gear.Print(info, 60, 570, scale, color)
+
+		local position = Transform.GetPosition(player.transformID)
+		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
+		Gear.Print(info, 0, 600, scale, color)
+
+		local direction = Transform.GetLookAt(player.transformID)
+		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
+		Gear.Print(info, 120, 600, scale, color)
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
