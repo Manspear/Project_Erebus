@@ -8,7 +8,8 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Static",
 	"Enemy",
 	"Heightmap",
-	"Collider"
+	"Collider",
+	"Player Spawn",
 };
 
 void TW_CALL SetMyStdStringCB(const void *value, void *s /*clientData*/)
@@ -116,40 +117,52 @@ std::string LevelActor::toLua()
 	using namespace std;
 	stringstream ss;
 
-	ss << "local temp = {}" << endl;
-
-	LevelModel* model = getComponent<LevelModel>();
-	if( model )
+	if( exportType == EXPORT_PLAYER_SPAWN )
 	{
 		LevelTransform* transform = getComponent<LevelTransform>();
-		ss << transform->toLua("temp");
-		ss << model->toLua("temp");
-	}
-
-	for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
-	{
-		if( it->first != LevelModel::name && it->first != LevelTransform::name )
+		if( transform )
 		{
-			ss << it->second->toLua("temp");
+			glm::vec3 pos = transform->getTransformRef()->getPos();
+			ss << "Transform.SetPosition(player.transformID," << pos.x << ", " << pos.y << ", " << pos.z << ")" << endl << endl;
 		}
 	}
-
-	switch(exportType)
+	else
 	{
-		case EXPORT_STATIC:
-			ss << "table.insert(props,temp)" << endl;
-			break;
+		ss << "local temp = {}" << endl;
 
-		case EXPORT_ENEMY:
-			ss << "table.insert(enemies,temp)" << endl;
-			break;
+		LevelModel* model = getComponent<LevelModel>();
+		if( model )
+		{
+			LevelTransform* transform = getComponent<LevelTransform>();
+			ss << transform->toLua("temp");
+			ss << model->toLua("temp");
+		}
 
-		case EXPORT_HEIGHTMAP:
-			ss << "table.insert(heightmaps,temp)" << endl;
-			break;
+		for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
+		{
+			if( it->first != LevelModel::name && it->first != LevelTransform::name )
+			{
+				ss << it->second->toLua("temp");
+			}
+		}
+
+		switch(exportType)
+		{
+			case EXPORT_STATIC:
+				ss << "table.insert(props,temp)" << endl;
+				break;
+
+			case EXPORT_ENEMY:
+				ss << "table.insert(enemies,temp)" << endl;
+				break;
+
+			case EXPORT_HEIGHTMAP:
+				ss << "table.insert(heightmaps,temp)" << endl;
+				break;
+		}
+
+		ss << "temp = nil" << endl << endl;
 	}
-
-	ss << "temp = nil" << endl << endl;
 
 	return ss.str();
 }
