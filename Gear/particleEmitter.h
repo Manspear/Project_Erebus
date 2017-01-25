@@ -35,7 +35,6 @@ namespace Gear
 	public:
 		GEAR_API ParticleEmitter();
 		GEAR_API ~ParticleEmitter();
-	/*	GEAR_API ParticleEmitter(std::string path, Importer::Assets* assets);*/
 		GEAR_API void emitterInit(Emitter emitter, Importer::Assets* assets);
 
 		GEAR_API void update(const float & dt);
@@ -44,16 +43,12 @@ namespace Gear
 		GEAR_API void setEmitterPos(glm::vec3 pos);
 		GEAR_API void setDirection(glm::vec3 dir);
 		GEAR_API int getNrOfActiveParticles();
-		//GEAR_API void activate();
-		//GEAR_API void deActivate();
 		GEAR_API Partikel* getThePartikels();
 		GEAR_API glm::vec3* getPositions();
 		GEAR_API void setParticlePosition(glm::vec3* pos);
 		GEAR_API void setColor(float r, float g, float b);
 		GEAR_API Color getColor() const;
-	/*	GEAR_API void setTextrue(Importer::TextureAsset* tAParticles, char* textureName);*/
 		GEAR_API Importer::TextureAsset* getTexture();
-	/*	GEAR_API char* getTextureName();*/
 		GEAR_API void resetEmitter();
 
 		Importer::TextureAsset* textureAssetParticles;
@@ -76,7 +71,6 @@ namespace Gear
 		glm::vec3* particlePos;
 		int nrOfActiveParticles;
 		GLuint particleVertexBuffer;
-	/*	char* particleTextureName;*/
 		
 		Color color;
 

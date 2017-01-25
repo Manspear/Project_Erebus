@@ -10,27 +10,6 @@ namespace Gear
 
 	}
 
-	//ParticleEmitter::ParticleEmitter(std::string path, Importer::Assets* assets) : isActive(false), timer(0), particleSize(1.0)
-	//{
-	//	emitters = load(path);
-	//	
-	//	//gravityFactor = emitters->gravity;
-	//	//maxParticles = emitters->numOfParticles;
-	//	//allParticles = new Partikel[maxParticles];
-	//	//particlePos = new glm::vec3[maxParticles];
-	//	//nrOfActiveParticles = 0;
-	//	//glGenBuffers(1, &particleVertexBuffer);
-	//	//this->lifeTime = emitters->lifeTime;
-	//	//partSpeed = emitters->speed;
-	//	//particleRate = emitters->particleRate;
-	//	//partPerRate = emitters->partPerRate;
-	//	//direction = { emitters->dirX, emitters->dirY, emitters->dirZ };
-
-	//	//textureAssetParticles = assets->load<Importer::TextureAsset>("Textures/" + std::string(emitters->textureName));
-	//	//focus = emitters->focusSpread;
-
-	//}
-
 	void ParticleEmitter::emitterInit(Emitter emitter, Importer::Assets* assets)
 	{		
 		timer = 0;
@@ -172,19 +151,9 @@ namespace Gear
 		return color;
 	}
 
-	//GEAR_API void ParticleEmitter::setTextrue(Importer::TextureAsset * tAParticles, char* textureName)
-	//{
-	//	textureAssetParticles = tAParticles;
-	//	particleTextureName = textureName;
-	//}
-
 	GEAR_API Importer::TextureAsset * ParticleEmitter::getTexture()
 	{
 		return this->textureAssetParticles;
 	}
 
-	//GEAR_API char* ParticleEmitter::getTextureName()
-	//{
-	//	return this->particleTextureName;
-	//}
 }
