@@ -19,8 +19,8 @@ namespace LuaCollision
 			{ "SetLayerCollision",	setLayerCollision },
 			{ "PrintCollisions",	printCollisions },
 			{ "DrawHitboxes",		drawHitboxes },
-			{"DeactivateAllHitboxes", deactivateAllHitboxes},
-			{"ActivateAllHitboxes", activateAllHitboxes},
+			{ "DeactivateAllHitboxes", deactivateAllHitboxes},
+			{ "ActivateAllHitboxes", activateAllHitboxes},
 			{"Enable", enableCollisionHandler},
 			{"Disable", disableCollisionHandler},
 			{ NULL, NULL }

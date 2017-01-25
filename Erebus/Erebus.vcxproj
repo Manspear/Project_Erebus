@@ -101,13 +101,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)AGI</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)AGI;$(SolutionDir)Threading</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib.lib; OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LuaLib.lib;OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB:MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -138,7 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)Importer;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)AGI;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)Importer;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)AGI;$(SolutionDir);$(SolutionDir)Threading</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -158,8 +158,6 @@
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
-    <ClCompile Include="LevelEditor.cpp" />
-    <ClCompile Include="LevelModel.cpp" />
     <ClCompile Include="LuaAi.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
@@ -196,6 +194,9 @@
     <ProjectReference Include="..\Nurn\Nurn.vcxproj">
       <Project>{db7257bd-f056-4eeb-9db7-66b785ceb0e6}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Threading\Threading.vcxproj">
+      <Project>{40e3608f-5c8f-4b35-a729-326daac441b6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="effects.frag" />
@@ -205,7 +206,6 @@
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\arcType.lua" />
     <None Include="Scripts\camera.lua" />
-    <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\chronoBall.lua" />
     <None Include="Scripts\console.lua" />
     <None Include="Scripts\enemies.lua" />
@@ -213,7 +213,9 @@
     <None Include="Scripts\fireballArc.lua" />
     <None Include="Scripts\fireEffect.lua" />
     <None Include="Scripts\fireGroundAoE.lua" />
+    <None Include="Scripts\grenadeType.lua" />
     <None Include="Scripts\groundAoEType.lua" />
+    <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\orbWaveType.lua" />
@@ -221,7 +223,8 @@
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\reusable.lua" />
-    <None Include="Scripts\test.lua" />
+    <None Include="Scripts\slowEffect.lua" />
+    <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Shaders\anim.frag" />
@@ -274,8 +277,6 @@
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
-    <ClInclude Include="LevelEditor.h" />
-    <ClInclude Include="LevelModel.h" />
     <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />

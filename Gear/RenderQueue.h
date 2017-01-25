@@ -13,6 +13,7 @@
 #include <algorithm>
 #include "Animation.h"
 #include "Light.h"
+#include "WorkQueue.h"
 
 using namespace Importer;
 struct ModelInstance
@@ -41,15 +42,13 @@ public:
 	void updateUniforms(Camera* camera, ShaderType shader);
 	void process(std::vector<RenderQueueElement*> &elements);
 	void allocateWorlds(int n);
-	void update(int n, TransformStruct* theTrans);
+	void update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations);
 	//GEAR_API int modelAdded(Model* model);
 	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
-
-	void particleSort(std::vector<Gear::ParticleSystem*>* particleSystems, glm::vec3 cameraPos);
 
 	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
 	void particlePass(std::vector<Gear::ParticleSystem*>* particleSystems);
@@ -58,7 +57,11 @@ public:
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
 
+	void setWorkQueue( WorkQueue* workQueue );
+
 private:
+	TransformStruct* allTransforms;
+	int indices[105];
 	int currentShader = 0;
 	int currentTexture = 0;
 	int currentCallType = 0;
@@ -68,8 +71,21 @@ private:
 	std::vector<ModelInstance> staticInstances;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
+	glm::mat4* jointMatrices;
 	int nrOfWorlds;
 	int totalWorlds;
+	WorkQueue* work;
+
+	double freq;
+
+	struct AsyncTransformData
+	{
+		TransformStruct* transforms;
+		glm::mat4* worldMatrices;
+		int first, last;
+	};
+	AsyncTransformData asyncTransformData[MAX_THREADS];
+	static void asyncTransformUpdate( void* args );
 
 private:
 	void configure(RenderQueueId &id, GLuint &shaderProgramId);

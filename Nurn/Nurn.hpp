@@ -59,6 +59,13 @@ namespace Nurn
 		void buildAnimationPacket(const uint16_t& id);
 		bool fetchAnimationPacket(AnimationPacket& packet);
 
+		void buildAIPacket(const uint16_t& id);
+		bool fetchAIPacket(AIPacket& packet);
+
+		void buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
+		bool fetchSpellPacket(SpellPacket& packet);
+
+
 	private:
 		Address address;
 		Packager * packager = nullptr;

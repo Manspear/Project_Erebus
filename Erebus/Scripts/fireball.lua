@@ -14,8 +14,10 @@ function CreateFireball()
 	fireball.effectFlag = false
 	fireball.maxChargeTime = FIREBALLMAXCHARGETIME
 	fireball.chargedTime = 0
+	fireball.castSFX = "Effects/burn_ice_001.wav"
+	fireball.deathSFX = "Effects/explosion.wav"
 
-	local model = Assets.LoadModel( "Models/sunRay.model" )
+	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, fireball.type.transformID)
 
 	function fireball:Update(dt)
@@ -55,7 +57,7 @@ function CreateFireball()
 		self.effectFlag = effects
 		self.damage = (chargetime/FIREBALLMAXCHARGETIME) * FIREBALLDAMAGE
 		self.chargedTime = 0
-		self.soundID = Sound.Play("Effects/burn_ice_001.wav", 5, self.type.position)
+		self.soundID = Sound.Play(self.castSFX, 13, self.type.position)
 		Sound.SetVolume(self.soundID, 1)
 		--Transform.SetPosition(self.transformID, self.position)
 	end
@@ -66,7 +68,7 @@ function CreateFireball()
 	function fireball:Kill()
 		self.alive = false
 		self.type:Kill()
-		Sound.Play("Effects/explosion.wav", 5, self.type.position)
+		Sound.Play(self.deathSFX, 13, self.type.position)
 	end
 	return fireball
 end

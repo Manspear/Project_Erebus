@@ -1,4 +1,10 @@
 #pragma once
+#include <Windows.h>
+#include <sstream>
+//#include <fstream>
+//#include <iostream>
+//#include <vector>
+
 #include "fbxsdk.h"
 #include "fileEnums.h"
 #include "ImportStructs.h"
@@ -8,6 +14,15 @@
 #include <fstream>
 #include <string>
 #include <thread>
+
+
+//glm
+namespace boogah {
+#include "include\glm\glm.hpp"
+#include "include\glm\gtc\quaternion.hpp"
+#include "include\glm\gtx\quaternion.hpp"
+}
+//#include "include\glm\common.hpp"
 
 class MFileImporter
 {

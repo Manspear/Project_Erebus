@@ -47,7 +47,7 @@ function LoadEnemies(n)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 		enemies[i].state = stateScript.state.idleState
-		enemies[i].animation = Animation.Create()
+		enemies[i].animation = Animation.Bind()
 		enemies[i].animationState = 1
 		enemies[i].range = 4
 		enemies[i].target = nil
