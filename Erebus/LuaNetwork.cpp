@@ -162,8 +162,9 @@ namespace LuaNetwork
 	int sendSpellPacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
+		int currentSpell = lua_tointeger(lua, 2);
 
-		g_networkController->sendSpellPacket(index);
+		g_networkController->sendSpellPacket(index, currentSpell);
 
 		return 0;
 	}
@@ -176,14 +177,16 @@ namespace LuaNetwork
 		{
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, spellPacket.data.ID);
+			lua_pushnumber(lua, spellPacket.data.currentSpell);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
 		}
 
-		return 2;
+		return 3;
 	}
 
 

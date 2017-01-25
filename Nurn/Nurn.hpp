@@ -62,7 +62,7 @@ namespace Nurn
 		void buildAIPacket(const uint16_t& id);
 		bool fetchAIPacket(AIPacket& packet);
 
-		void buildSpellPacket(const uint16_t& id);
+		void buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
 		bool fetchSpellPacket(SpellPacket& packet);
 
 

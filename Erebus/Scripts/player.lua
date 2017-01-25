@@ -237,7 +237,7 @@ function Controls(dt)
 			player.attackTimer = 1
 			player.testCamera = true
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
-			Network.SendSpellPacket(22)
+			Network.SendSpellPacket(player.transformID, player.currentSpell)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -263,10 +263,11 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	newspellpacket, id_2 = Network.GetSpellPacket()
+	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
 
 	if newspellpacket == true then
-		player2.spells[1]:Cast(player2, 0.5, false)
+		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
+		player2.currentSpell = player2CurrentSpell
 	end
 
 	player2.spells[1]:Update(dt)
