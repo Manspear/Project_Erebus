@@ -1,8 +1,8 @@
 function createFireballParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
 	local fireball = {}
-	fireball.fly = Particle.Bind("ParticleFiles/testParticles.Particle")  
-	fireball.exploda = Particle.Bind("ParticleFiles/testParticles.Particle")
+	fireball.fly = Particle.Bind("ParticleFiles/test.Particle")  
+	fireball.exploda = Particle.Bind("ParticleFiles/test.Particle")
 	
 	function fireball.cast()
 		Particle.SetAlive(fireball.fly)

@@ -16,6 +16,7 @@ struct Color
 struct Emitter
 {
 	int numOfParticles;
+	float posX, posY, posZ;
 	float lifeTime;
 	float speed;
 	float particleRate;

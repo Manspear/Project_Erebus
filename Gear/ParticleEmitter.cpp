@@ -16,6 +16,7 @@ namespace Gear
 		isActive = false;
 		nrOfActiveParticles = 0;
 		glGenBuffers(1, &particleVertexBuffer);
+		this->localPos = {emitter.posX, emitter.posY, emitter.posZ};
 		this->maxParticles = emitter.numOfParticles;
 		this->allParticles = new Partikel[maxParticles];
 		this->particlePos = new glm::vec3[maxParticles];
