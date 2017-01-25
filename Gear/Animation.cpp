@@ -2,6 +2,7 @@
 
 Animation::Animation()
 {
+	animTimer = 0.0f;
 	fromAnimationTimer = 0;
 	toAnimationTimer = 0;
 	animationSegments = 0;
@@ -94,7 +95,13 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 
 std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
 {
-	animTimer += dt;
+	if( animTimer >= 0.0f )
+		animTimer += dt;
+	else
+	{
+		this->animTimer += dt;
+		animTimer = this->animTimer;
+	}
 	Importer::hModel* model = asset->getHeader();
 	int jointOffset = 0;
 	for (int i = 0; i < model->numSkeletons; i++)
