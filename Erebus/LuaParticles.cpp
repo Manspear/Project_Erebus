@@ -2,11 +2,11 @@
 
 namespace LuaParticles
 {
-	static std::vector<Gear::ParticleSystem*>* g_particles = nullptr;
+	static std::vector<Gear::ParticleSystem*>* g_systems = nullptr;
 	static Importer::Assets* ass;
-	void registerFunctions(lua_State* lua, std::vector<Gear::ParticleSystem*>* particleSystem, Importer::Assets* assets)
+	void registerFunctions(lua_State* lua, std::vector<Gear::ParticleSystem*>* particleSystems, Importer::Assets* assets)
 	{
-		g_particles = particleSystem;
+		g_systems = particleSystems;
 		ass = assets;
 
 		luaL_newmetatable(lua, "particleMeta");
@@ -24,16 +24,16 @@ namespace LuaParticles
 		luaL_setfuncs(lua, regs, 0);
 		lua_pushvalue(lua, -1);
 		lua_setfield(lua, -2, "__index");
-
+		std::cout << g_systems << "\n";
 		lua_setglobal(lua, "Particle");
 	}
 
 	int bind(lua_State* lua)
 	{
-		if (lua_gettop(lua) >= 2)
+		if (lua_gettop(lua) >= 1)
 		{
-			lua_pushinteger(lua, g_particles->size());
-			g_particles->push_back(new Gear::ParticleSystem(lua_tostring(lua, 1), ass, lua_tonumber(lua, 2)));
+			lua_pushinteger(lua, g_systems->size());
+			g_systems->push_back(new Gear::ParticleSystem(lua_tostring(lua, 1), ass));
 		}
 		return 1;
 	}
@@ -46,7 +46,7 @@ namespace LuaParticles
 			if (index == 1)
 				int x = 5;
 			glm::vec3 pos(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
-			g_particles->at(index)->setEmmiterPos(pos);
+			g_systems->at(index)->setSystemPos(pos);
 		}
 		return 0;
 	}
@@ -56,7 +56,7 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 1)
 		{
 			int index = lua_tointeger(lua, 1);
-			g_particles->at(index)->activate();
+			g_systems->at(index)->activate();
 		}
 		return 0;
 	}
@@ -65,7 +65,7 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 1)
 		{
 			int index = lua_tointeger(lua, 1);
-			g_particles->at(index)->deActivate();
+			g_systems->at(index)->deActivate();
 		}
 		return 0;
 	}
@@ -74,7 +74,7 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 1)
 		{
 			int index = lua_tointeger(lua, 1);
-			g_particles->at(index)->explode();
+			g_systems->at(index)->explode();
 		}
 		return 0;
 	}
@@ -83,7 +83,7 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 4)
 		{
 			int index = lua_tointeger(lua, 1);
-			g_particles->at(index)->setColor(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
+			//g_particles->at(index)->setColor(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
 		}
 		return 0;
 	}
@@ -92,7 +92,8 @@ namespace LuaParticles
 		if (lua_gettop(lua) >= 4)
 		{
 			int index = lua_tointeger(lua, 1);
-			g_particles->at(index)->setDirection(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
+			glm::vec3 dir(lua_tonumber(lua, 2), lua_tonumber(lua, 3), lua_tonumber(lua, 4));
+			g_systems->at(index)->setDirection(dir);
 		}
 		return 0;
 	}
