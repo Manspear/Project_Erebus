@@ -127,7 +127,8 @@ void LevelEditor::start() {
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
 		
-		camera->updateLevelEditorCamera(deltaTime);
+		//if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_2))
+			camera->updateLevelEditorCamera(deltaTime);
 
 		//for (size_t i = 0; i < 100; i++)
 		//{
@@ -168,30 +169,14 @@ void LevelEditor::start() {
 		if (inputs->keyPressed(GLFW_KEY_ESCAPE))
 			running = false;
 
-		if (inputs->keyPressedThisFrame(GLFW_KEY_J))
-			engine->setDrawMode(1);
-		else if (inputs->keyPressedThisFrame(GLFW_KEY_K))
-			engine->setDrawMode(2);
-		else if (inputs->keyPressedThisFrame(GLFW_KEY_L))
-			engine->setDrawMode(3);
-		else if (inputs->keyPressedThisFrame(GLFW_KEY_P))
-			engine->setDrawMode(4);
-		//else if (inputs->keyPressedThisFrame(GLFW_KEY_N))
-		//	resetWorld();
-		else if (inputs->keyPressedThisFrame(GLFW_KEY_O))
-			engine->setDrawMode(6);
-		else if (inputs->keyPressed(GLFW_KEY_R))
-		{
-			
-			if (lockMouse)
-			{
-				window.changeCursorStatus(false);
-				lockMouse = false;
-			}
-			else
-			{
-				window.changeCursorStatus(true);
-				lockMouse = true;
+		if (inputs->keyPressed(GLFW_KEY_LEFT_CONTROL)) {
+			if (inputs->keyPressedThisFrame(GLFW_KEY_D)) {
+				if (LevelActorHandler::getInstance()->getSelected() != nullptr) {
+					LevelActorFactory::getInstance()->saveActor(LevelActorHandler::getInstance()->getSelected(), "Temporary");
+					LevelActor* temp = LevelActorFactory::getInstance()->loadActor("Temporary");
+					LevelActorHandler::getInstance()->setSelected(temp);
+				}
+				
 			}
 		}
 

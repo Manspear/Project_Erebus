@@ -13,6 +13,9 @@ class LevelGizmo {
 		X,
 		Y,
 		Z,
+		XZ,
+		XY,
+		ZY,
 		NUM_LOC
 	};
 

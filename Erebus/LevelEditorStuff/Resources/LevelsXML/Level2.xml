@@ -43,14 +43,14 @@
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="" displayName="">
+    <LevelActor type="MrRoboto" displayName="DerpMan">
         <LevelModel>
             <ModelName>testGuy</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="26.796875" y="44.017426" z="95.3125"/>
+            <Position x="21.065756" y="7.4862289" z="219.90495"/>
             <Rotation x="0" y="0" z="0"/>
-            <Scale x="5" y="5" z="100"/>
+            <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
 </Level>

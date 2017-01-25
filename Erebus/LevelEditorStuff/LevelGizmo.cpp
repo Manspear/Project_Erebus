@@ -21,6 +21,9 @@ void LevelGizmo::setPlanes() {
 	this->gizmoPlanes[X].direction = { 0,1,0 };
 	this->gizmoPlanes[Y].direction = { 1,0,0 };
 	this->gizmoPlanes[Z].direction = { 0,1,0 };
+	this->gizmoPlanes[XZ].direction = { 0,1,1 };
+	this->gizmoPlanes[XY].direction = { 1,1,0 };
+	this->gizmoPlanes[ZY].direction = { 1,0,1 };
 	for (size_t i = 0; i < GizmoLocation::NUM_LOC; i++)
 	{
 		//this->gizmoPlanes[i].direction = this->directions[i];
@@ -33,6 +36,9 @@ void LevelGizmo::setDirections() {
 	this->directions[Y] = glm::vec3(0, 1, 0);
 	this->directions[Z] = glm::vec3(0, 0, 1);
 
+	this->directions[XZ] = glm::vec3(1, 0, 1);
+	this->directions[XY] = glm::vec3(1, 1, 0);
+	this->directions[ZY] = glm::vec3(0, 1, 1);
 
 }
 
@@ -62,6 +68,10 @@ void LevelGizmo::setColors() {
 	this->colorLinkerBase[X] = glm::vec3(1,0,0);
 	this->colorLinkerBase[Y] = glm::vec3(0, 1, 0);
 	this->colorLinkerBase[Z] = glm::vec3(0, 0, 1);
+
+	this->colorLinkerBase[XZ] = this->colorLinkerBase[Y];
+	this->colorLinkerBase[ZY] = this->colorLinkerBase[X];
+	this->colorLinkerBase[XY] = this->colorLinkerBase[Z];
 
 	for (size_t i = 0; i < GizmoLocation::NUM_LOC; i++)
 	{
@@ -136,15 +146,51 @@ void LevelGizmo::updateFromCameraPos(LevelActor* selectedActor)
 			float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
 			float percentageFromBase = distanceBetween / this->baseCamDistance;
 
-			for (size_t i = 0; i < NUM_LOC; i++) {
+			this->obbGizmos[X].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[X] * this->baseDiffDistace)));
+			this->obbGizmos[Y].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Y] * this->baseDiffDistace)));
+			this->obbGizmos[Z].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Z] * this->baseDiffDistace)));
 
-				this->obbGizmos[i].setXHalfLength(percentageFromBase * this->baseSize* ((i % GizmoLocation::NUM_LOC == GizmoLocation::X) ? basePercGrow : 1));
-				this->obbGizmos[i].setYHalfLength(percentageFromBase * this->baseSize* ((i % GizmoLocation::NUM_LOC == GizmoLocation::Y) ? basePercGrow : 1));
-				this->obbGizmos[i].setZHalfLength(percentageFromBase * this->baseSize* ((i % GizmoLocation::NUM_LOC == GizmoLocation::Z) ? basePercGrow : 1));
+			this->obbGizmos[XZ].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[XZ] * this->baseDiffDistace)));
+			this->obbGizmos[XY].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[XY] * this->baseDiffDistace)));
+			this->obbGizmos[ZY].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[ZY] * this->baseDiffDistace)));
+
+
+			for (size_t i = 0; i < NUM_LOC; i++) {
+				float xMulti = 1, yMulti = 1, zMulti = 1;
+				switch (i) {
+				case GizmoLocation::X:
+					xMulti = basePercGrow;
+					break;
+				case GizmoLocation::Y:
+					yMulti = basePercGrow;
+					break;
+				case GizmoLocation::Z:
+					zMulti = basePercGrow;
+					break;
+				case GizmoLocation::XZ:
+					xMulti = basePercGrow*2;
+					zMulti = basePercGrow*2;
+					yMulti /= 2;
+					break;
+				case GizmoLocation::XY:
+					xMulti = basePercGrow*2;
+					yMulti = basePercGrow*2;
+					zMulti /= 2;
+					break;
+				case GizmoLocation::ZY:
+					yMulti = basePercGrow*2;
+					zMulti = basePercGrow*2;
+					xMulti /= 2;
+					break;
+				default:
+					break;
+				}
+
+				this->obbGizmos[i].setXHalfLength(percentageFromBase * this->baseSize*xMulti);
+				this->obbGizmos[i].setYHalfLength(percentageFromBase * this->baseSize*yMulti);
+				this->obbGizmos[i].setZHalfLength(percentageFromBase * this->baseSize*zMulti);
 				
-				this->obbGizmos[X].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[X]*this->baseDiffDistace)));
-				this->obbGizmos[Y].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Y] *this->baseDiffDistace)));
-				this->obbGizmos[Z].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Z] *this->baseDiffDistace)));
+
 			}
 	}
 
@@ -163,7 +209,32 @@ void LevelGizmo::updateGizmoTranslation(LevelActor* selectedActor) {
 			this->cameraOldPos = this->cameraRef->getPosition();
 			float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
 			float percentageFromBase = distanceBetween / this->baseCamDistance;
-			newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
+			switch (selectedGizmo) {
+			case GizmoLocation::X:
+				newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
+				break;
+			case GizmoLocation::Y:
+				newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
+				break;
+			case GizmoLocation::Z:
+				newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
+				break;
+			case GizmoLocation::XZ:
+				newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
+				newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
+				break;
+			case GizmoLocation::XY:
+				newPos[GizmoLocation::X] = intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]);
+				newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
+				break;
+			case GizmoLocation::ZY:
+				newPos[GizmoLocation::Y] = intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]);
+				newPos[GizmoLocation::Z] = intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]);
+				break;
+			default:
+				break;
+			}
+			//newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
 			selectedTransform->setPos(newPos);
 			//selectedTransform->setPos(selectedTransform->getPos() * )
 

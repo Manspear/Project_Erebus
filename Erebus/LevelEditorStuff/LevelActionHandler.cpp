@@ -87,6 +87,8 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 				case ACTION_PLACE_PREFAB:
 				{
 					LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
+					LevelActorFactory::getInstance()->createActor();
+					
 					if (newActor)
 					{
 						LevelActorHandler::getInstance()->addActor(newActor);

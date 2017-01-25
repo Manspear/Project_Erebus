@@ -31,6 +31,8 @@ public:
 	void loadWorld(std::string fileName);
 	void loadWorld();
 	void saveToLua(std::string fileName, std::vector<LevelActor*>* actors);
+	void saveActor(LevelActor* actor, std::string fileName);
+	LevelActor* loadActor(std::string fileName);
 	LevelActor* loadActor(tinyxml2::XMLElement* element);
 
 	void addToBar( TwBar* bar );
@@ -44,7 +46,7 @@ private:
 	unsigned int actorID;
 	std::map<std::string, tinyxml2::XMLDocument*> savedDocuments;
 	
-	tinyxml2::XMLDocument* getDocument(std::string path);
+	tinyxml2::XMLDocument* getDocument(std::string path, bool saveDoc = true);
 	static LevelActorFactory* actorFactoryInstance;
 	std::map<unsigned int, const char*>* idPathMap;
 	LevelTransformHandler* transformHandler;

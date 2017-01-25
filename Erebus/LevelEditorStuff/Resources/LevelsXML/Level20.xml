@@ -1,0 +1,156 @@
+<Level>
+    <LevelActor type="terrain" displayName="Terrain Actor">
+        <LevelModel>
+            <ModelName>tile1_game_x1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="terrain" displayName="Terrain Actor1">
+        <LevelModel>
+            <ModelName>tile1_game_x1_assets</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TestCharacter" displayName="Stick Guy">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="0" y="0" z="0"/>
+            <Radius r="31"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="131.08182" y="56.28125" z="37.59375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="PointLight" displayName="Point Light">
+        <LevelPointLight>
+            <Position x="40" y="0" z="0"/>
+            <Color x="0" y="0.5" z="0.5"/>
+            <Radius r="60"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="97.8125" y="33.850536" z="73.016838"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="21.065756" y="7.4862289" z="219.90495"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan1">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="21.065756" y="29.047304" z="219.90495"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan11">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="65.894875" y="29.047304" z="219.90495"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="65.894875" y="63.140194" z="219.90495"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan1111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-25.627468" y="63.140194" z="219.90495"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan11111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="30.924507" y="63.140194" z="378.06555"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan111111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="30.924507" y="119.13527" z="378.06555"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan1111111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="216.91554" y="119.13527" z="378.06555"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan11111111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="216.91554" y="119.13527" z="94.523323"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan111111111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="233.71928" y="234.47498" z="225.16484"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="500" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan1111111111">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="233.71928" y="234.47498" z="142.452"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="500" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+</Level>

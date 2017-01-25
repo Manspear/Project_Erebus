@@ -120,22 +120,27 @@ void LevelActorFactory::deleteSavedPaths()
 	}
 }
 
-tinyxml2::XMLDocument* LevelActorFactory::getDocument(std::string path) {
+tinyxml2::XMLDocument* LevelActorFactory::getDocument(std::string path, bool saveDoc) {
 	tinyxml2::XMLDocument* returnDocument = nullptr;
 	auto iterator = savedDocuments.find(path);
-	if (iterator != savedDocuments.end())
-	{
-		//std::cout << "ALREAYD HAS INSTANCE: " + path << std::endl;
-		returnDocument = iterator->second;
+	if (saveDoc) {
+		if (iterator != savedDocuments.end())
+		{
+			//std::cout << "ALREAYD HAS INSTANCE: " + path << std::endl;
+			returnDocument = iterator->second;
+		}
+		else
+		{
+			//std::cout << "Creating new instance HAHA INSTANCE: " + path << std::endl;
+			returnDocument = new tinyxml2::XMLDocument();
+			returnDocument->LoadFile(path.c_str());
+			savedDocuments.insert(std::pair<std::string, tinyxml2::XMLDocument*>(path, returnDocument));
+		}
 	}
-	else 
-	{
-		//std::cout << "Creating new instance HAHA INSTANCE: " + path << std::endl;
+	else {
 		returnDocument = new tinyxml2::XMLDocument();
 		returnDocument->LoadFile(path.c_str());
-		savedDocuments.insert(std::pair<std::string, tinyxml2::XMLDocument*>(path, returnDocument));
 	}
-		
 
 	return returnDocument;
 
@@ -212,6 +217,7 @@ void LevelActorFactory::saveWorld()
 
 		doc.LinkEndChild(LevelElement);
 		tinyxml2::XMLError eResult = doc.SaveFile(fileDialog.getFilePath().c_str());
+		
 	}
 }
 
@@ -288,4 +294,31 @@ void TW_CALL LevelActorFactory::addComponent( void* args )
 	// get selected actor from singleton
 
 	//actor->addComponent( LevelActorFactory::getInstance()->getNewComponent( componentName ) );
+}
+
+void LevelActorFactory::saveActor(LevelActor * actor, std::string fileName)
+{
+	std::string fullPath = folder + fileName + fileExtension;
+	FILE* file = NULL;
+	fopen_s(&file, fullPath.c_str(), "w");
+	if (file)
+	{
+		fprintf(file, "%s", actor->toXml().c_str());
+		fclose(file);
+	}
+}
+
+LevelActor * LevelActorFactory::loadActor(std::string fileName)
+{
+	
+	std::string fullPath = folder + fileName + fileExtension;
+
+	tinyxml2::XMLDocument* doc = getDocument(fullPath, false);
+	LevelActor* tempActor = loadActor(doc->FirstChildElement());
+	LevelActorHandler::getInstance()->addActor(tempActor);
+	delete doc;
+	return tempActor;
+	//for (tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
+	//	LevelActorHandler::getInstance()->addActor(loadActor(pNode));
+	//return nullptr;
 }
