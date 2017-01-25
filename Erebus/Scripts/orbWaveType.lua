@@ -4,7 +4,7 @@ ORBWAVEMAXRADIUS = 70 - ORBWAVEMINRADIUS --the number is how long out the wave w
 ORBWAVELAPTIME = 3
 
 function CreateOrbWaveType() 
-	type = {}
+	local type = {}
 	type.transformIDs = {}
 	type.positions = {}
 	type.directions = {}

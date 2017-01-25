@@ -384,6 +384,9 @@
     <None Include="Scripts\hellPillar.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\staticAoEType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

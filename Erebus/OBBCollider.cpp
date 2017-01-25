@@ -45,13 +45,6 @@ OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, 
 
 OBBCollider::~OBBCollider()
 {
-	if (this->children != nullptr)
-	{
-		for (size_t i = 0; i < this->children->size(); i++)
-		{
-			delete this->children->at(i);
-		}
-	}
 }
 
 void OBBCollider::rotateAroundX(float radianAngle)
@@ -100,6 +93,39 @@ void OBBCollider::setYHalfLength(float length)
 void OBBCollider::setZHalfLength(float length)
 {
 	this->halfLengths.z = length;
+}
+
+void OBBCollider::setXAxis(glm::vec3 xAxis)
+{
+	this->xAxis = glm::normalize(xAxis);
+	if (xAxis != glm::vec3(0, 1, 0))
+		this->zAxis = glm::normalize(glm::cross(xAxis, glm::vec3(0, 1, 0)));
+	else
+		this->zAxis = glm::normalize(glm::cross(xAxis, glm::vec3(1,0,0)));
+
+	this->yAxis = glm::normalize(glm::cross(xAxis,zAxis));
+}
+
+void OBBCollider::setYAxis(glm::vec3 yAxis)
+{
+	this->yAxis = glm::normalize(yAxis);
+	if (yAxis != glm::vec3(0, 1, 0))
+		this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(0, 1, 0)));
+	else
+		this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(1, 0, 0)));
+
+	this->xAxis = glm::normalize(glm::cross(yAxis, zAxis));
+}
+
+void OBBCollider::setZAxis(glm::vec3 zAxis)
+{
+	this->zAxis = glm::normalize(zAxis);
+	if (zAxis != glm::vec3(0, 1, 0))
+		this->yAxis = glm::normalize(glm::cross(zAxis, glm::vec3(0, 1, 0)));
+	else
+		this->yAxis = glm::normalize(glm::cross(zAxis, glm::vec3(1, 0, 0)));
+
+	this->xAxis = glm::normalize(glm::cross(zAxis, yAxis));
 }
 
 int OBBCollider::getID() const

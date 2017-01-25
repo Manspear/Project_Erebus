@@ -199,6 +199,7 @@ function Controls(dt)
 			player.attackTimer = 1
 			player.testCamera = true
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
+			Network.SendSpellPacket(player.transformID, player.currentSpell)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then

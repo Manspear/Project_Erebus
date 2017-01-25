@@ -1,7 +1,8 @@
 #include "RenderQueue.h"
 
 
-RenderQueue::RenderQueue() : nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr)
+RenderQueue::RenderQueue()
+	: nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr), jointMatrices( nullptr )
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
@@ -11,12 +12,18 @@ RenderQueue::RenderQueue() : nrOfWorlds(0), totalWorlds(0), worldMatrices(nullpt
 	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency( &i );
+	freq = i.QuadPart;
 }
 
 RenderQueue::~RenderQueue()
 {
-	if (worldMatrices != nullptr)
+	if (worldMatrices)
 		delete[] worldMatrices;
+	if( jointMatrices )
+		delete[] jointMatrices;
+
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 		if (allShaders[i] != nullptr)
 			delete allShaders[i];
@@ -130,18 +137,26 @@ void RenderQueue::allocateWorlds(int n)
 {
 	if (worldMatrices)
 		delete[] worldMatrices;
+	if(jointMatrices)
+		delete[] jointMatrices;
+
 	worldMatrices = new glm::mat4[n];
+	jointMatrices = new glm::mat4[n*MAXJOINTCOUNT];
 }
 
-void RenderQueue::update(int n, TransformStruct* theTrans)
+void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
 {
+	/*LARGE_INTEGER s;
+	QueryPerformanceCounter( &s );
+	double start = s.QuadPart;*/
 	allTransforms = theTrans;
+#if 1
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
 	glm::vec3 tempLook;
 	glm::vec3 axis;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < ntransforms; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
@@ -169,6 +184,35 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 			worldMatrices[i] = tempMatrix;
 		}
 	}
+
+	for( int i=0; i<nanimations; i++ )
+	{
+		memcpy( jointMatrices+i*MAXJOINTCOUNT, animations[i].getShaderMatrices(), sizeof(glm::mat4)*MAXJOINTCOUNT );
+	}
+#else
+	int chunk = n / MAX_THREADS;
+
+	for( int i=0; i<MAX_THREADS; i++ )
+	{
+		int first = i*chunk;
+
+		if( i == MAX_THREADS-1 )
+			chunk += n % MAX_THREADS;
+
+		int last = first + chunk;
+		
+		asyncTransformData[i] = { theTrans, worldMatrices, first, last };
+
+		work->add( asyncTransformUpdate, &asyncTransformData[i] );
+	}
+	work->execute();
+#endif
+
+	/*LARGE_INTEGER e;
+	QueryPerformanceCounter( &e );
+	double end = e.QuadPart;*/
+
+	//printf( "Time: %f-%f=%f\n", end, start, (end-start)/freq );
 }
 
 int RenderQueue::addModelInstance(ModelAsset* asset)
@@ -247,33 +291,39 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 	allShaders[FORWARD]->unUse();
 }
 
-void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSystems)
+void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 {
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
 	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	Color c;
 	TextureAsset* tA;
 	glm::vec3* pos;
+	
 
-	for (size_t i = 0; i < particleSystems->size(); i++)
+	for (size_t i = 0; i < ps->size(); i++)
 	{
-		if (particleSystems->at(i)->isActive)
+		for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
 		{
-			pos = particleSystems->at(i)->getPositions();
-			particleSystems->at(i)->getTexture()->bind(GL_TEXTURE0);
-			size_t ParticleCount = particleSystems->at(i)->getNrOfActiveParticles();
+			if (ps->at(i)->particleEmitters->isActive)
+			{
 
-			glBindBuffer(GL_ARRAY_BUFFER, particleSystems->at(i)->getPartVertexBuffer());
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
-			glEnableVertexAttribArray(0);
-			glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
+				//c = particleSystems->at(i)->getColor();
+				//glUniform3f(loc2, c.r, c.g, c.b );
+				pos = ps->at(i)->particleEmitters[j].getPositions();
+				ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
+				size_t ParticleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
+
+				glBindBuffer(GL_ARRAY_BUFFER, ps->at(i)->particleEmitters[j].getPartVertexBuffer());
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
+				glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
+				glEnableVertexAttribArray(0);
+				glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
+			}
 		}
-	}
+	}    
 	allShaders[PARTICLES]->unUse();
 }
 
@@ -348,7 +398,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0] );
-			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			//glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
+			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 			{
@@ -445,7 +497,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			glUniformMatrix4fv(worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0]);
-			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 			{
@@ -520,4 +573,52 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 
 	delete[]idColors;
 	allShaders[GEOMETRY_PICKING]->unUse();
+}
+
+void RenderQueue::setWorkQueue( WorkQueue* workQueue )
+{
+	work = workQueue;
+}
+
+void RenderQueue::asyncTransformUpdate( void* args )
+{
+	AsyncTransformData* data = (AsyncTransformData*)args;
+	int last = data->last;
+
+	glm::mat4 ident;
+	for( int i=data->first; i<last; i++ )
+	{
+		//reset the world matrix
+		/*tempMatrix = glm::mat4();
+		glm::vec3 tempLook = glm::normalize(glm::vec3(data->transforms[i].lookAt.x, 0, data->transforms[i].lookAt.z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+		//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
+		rotationZ = glm::rotate(tempMatrix, data->transforms[i].rot.z, axis);
+		//rotatea around Y axis, pretty simple. (makes the model look left/right)
+		rotationY = glm::rotate(tempMatrix, data->transforms[i].rot.y, { 0, 1, 0 });
+		//set the scale of the models
+		tempMatrix[0][0] = data->transforms[i].scale.x;
+		tempMatrix[1][1] = data->transforms[i].scale.y;
+		tempMatrix[2][2] = data->transforms[i].scale.z;
+
+		//rotates a scaled identity matrix
+		tempMatrix = rotationZ * rotationY * tempMatrix;
+
+		//sets the translation of objects, final world matrix
+		tempMatrix[3][0] = data->transforms[i].pos.x;
+		tempMatrix[3][1] = data->transforms[i].pos.y;
+		tempMatrix[3][2] = data->transforms[i].pos.z;
+		data->worldMatrices[i] = tempMatrix;*/
+
+		glm::vec3 tempLook = glm::normalize(glm::vec3(data->transforms[i].lookAt.x, 0, data->transforms[i].lookAt.z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+		glm::mat4 tempMatrix = glm::translate( ident, data->transforms[i].pos );
+		tempMatrix = glm::scale( tempMatrix, data->transforms[i].scale );
+		tempMatrix = glm::rotate( tempMatrix, data->transforms[i].rot.z, axis );
+		tempMatrix = glm::rotate( tempMatrix, data->transforms[i].rot.y, { 0, 1, 0 } );
+
+		data->worldMatrices[i] = tempMatrix;
+	}
 }

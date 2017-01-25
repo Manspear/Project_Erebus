@@ -143,9 +143,9 @@ bool NetworkController::fetchSpellPacket(SpellPacket& packet)
 	return network.fetchSpellPacket(packet);
 }
 
-void NetworkController::sendSpellPacket(const uint16_t& id)
+void NetworkController::sendSpellPacket(const uint16_t& id, const uint16_t& currentSpell)
 {
-	network.buildSpellPacket(id);
+	network.buildSpellPacket(id, currentSpell);
 }
 
 bool NetworkController::fetchAIPacket(AIPacket& packet)
