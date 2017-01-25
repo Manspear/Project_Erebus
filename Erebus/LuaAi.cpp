@@ -27,6 +27,7 @@ namespace LuaAI
 			{ "AddIP",addInfluencePoint },
 			{ "CheckIfTarget",checkIfTargetNodeIsOccupied },
 			{ "DrawDebug",draw},
+			{ "SetSpecificTarget",setSpecificTarget },
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(L, regs, 0);
@@ -223,6 +224,32 @@ namespace LuaAI
 		return result;
 	}
 
+	int setSpecificTarget(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 1)
+		{
+			//OLD Function
+			//glm::vec3 pos  = AI->SetTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), transforms[lua_tointeger(lua, 2)].getPos(),lua_tonumber(lua,3));
+			
+			// NEw Function
+			glm::vec3 pos = AI->SetTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
+
+			lua_newtable(lua);
+			lua_pushnumber(lua, pos.x);
+			lua_setfield(lua, -2, "x");
+
+			lua_pushnumber(lua, 0);
+			lua_setfield(lua, -2, "y");
+
+			lua_pushnumber(lua, pos.z);
+			lua_setfield(lua, -2, "z");
+
+
+		}
+
+		return 1;
+	}
+
 	int draw(lua_State * lua)
 	{
 		if (lua_gettop(lua) >= 1)
@@ -233,6 +260,7 @@ namespace LuaAI
 		}
 		return 0;
 	}
+
 	int addDebug(Debug * bugger)
 	{
 		AI->addDebug(bugger);

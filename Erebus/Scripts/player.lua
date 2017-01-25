@@ -23,6 +23,9 @@ function LoadPlayer()
 	player.heightmapIndex = 1
 	player.walkableIncline = 1
 
+	player.nrOfInnerCircleEnemies = 0
+	player.nrOfOuterCircleEnemies = 0
+
 	-- set basic variables for the player2
 	player2.transformID = Transform.Bind()
 

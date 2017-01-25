@@ -52,7 +52,8 @@ function LoadEnemies(n)
 		enemies[i].state = stateScript.state.idleState
 		enemies[i].animation = Animation.Create()
 		enemies[i].animationState = 1
-		enemies[i].range = 4
+		enemies[i].innerCirclerange = 9
+		enemies[i].outerCirclerange = 18
 		enemies[i].visionRange = 30
 		enemies[i].target = nil
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
@@ -86,9 +87,12 @@ function UpdateEnemies(dt)
 		end
 			AI.AddIP(player.transformID,12)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)
+
+			aiScript.updateEnemyManager(enemies,player)
 	end
 	
 	local tempdt
+
 	for i=1, #enemies do
 		if enemies[i].health > 0 then
 			tempdt = dt * enemies[i].timeScalar

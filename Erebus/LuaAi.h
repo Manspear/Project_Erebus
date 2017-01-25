@@ -17,6 +17,9 @@ namespace LuaAI
 	int normalizeDir(lua_State * lua);
 	int createIM(lua_State * lua);
 	int clearMap(lua_State * lua);
+
+	int setSpecificTarget(lua_State * lua);
+
 	int addInfluencePoint(lua_State * lua);
 	int checkIfTargetNodeIsOccupied(lua_State * lua);
 	int addDebug(Debug*);

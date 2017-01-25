@@ -384,10 +384,10 @@ namespace AGI
 
 			if (mostPosetive > 0)
 			{
-				float dirX = influenceMap[mpX][mpY]->getPos().x;// -enemyPos.x;
-				float dirZ = influenceMap[mpX][mpY]->getPos().y;// -enemyPos.z;
+				float posX = influenceMap[mpX][mpY]->getPos().x;// -enemyPos.x;
+				float posZ = influenceMap[mpX][mpY]->getPos().y;// -enemyPos.z;
 
-				returnPos = glm::vec3(dirX,0, dirZ);
+				returnPos = glm::vec3(posX,0, posZ);
 
 				influenceMap[mpX][mpY]->setStrength(-1);
 			}
@@ -395,6 +395,46 @@ namespace AGI
 			return returnPos;
 		}
 
+		AGI_API glm::vec3 SetTargetRangeFromPlayer(glm::vec3 enemyPos, glm::vec3 playerPos,float range)
+		{
+			glm::vec3 tempPos = playerPos - (((glm::normalize(playerPos - enemyPos))) * range);
+
+			int x = round(((tempPos.x / mapWidth)*imWidth));
+			int y = round(((tempPos.z / mapHeight)*imHeight));
+			while (influenceMap[x][y] == nullptr)
+			{
+				range -= 2;
+				tempPos = playerPos - (((glm::normalize(playerPos - enemyPos))) * range);
+
+				x = round(((tempPos.x / mapWidth)*imWidth));
+				y = round(((tempPos.z / mapHeight)*imHeight));
+			}
+
+			return glm::vec3(influenceMap[x][y]->getPos().x, 0, influenceMap[x][y]->getPos().y);
+		}
+
+		AGI_API glm::vec3 SetTargetRangeFromPlayer(glm::vec3 playerPos, float range, int maxNrOfCirclingEnemies, int indexOfCirclingEnemies)
+		{
+			float tempRange = 0;
+			float angleInCircle = indexOfCirclingEnemies * (glm::pi<float>()*2 / maxNrOfCirclingEnemies);
+
+			glm::vec3 testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange - 1));
+
+			int x = round(((testPos.x / mapWidth)*imWidth));
+			int y = round(((testPos.z / mapHeight)*imHeight));
+
+			
+			while (influenceMap[x][y] != nullptr && tempRange<range)
+			{
+				tempRange += 4;
+				testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange - 1));
+
+				x = round(((testPos.x / mapWidth)*imWidth));
+				y = round(((testPos.z / mapHeight)*imHeight));
+			}
+			
+			return testPos;
+		}
 
 	private:
 		
