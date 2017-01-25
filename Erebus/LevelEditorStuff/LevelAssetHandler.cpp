@@ -117,7 +117,7 @@ void LevelAssetHandler::updateAssetsBar()
 void LevelAssetHandler::selectModel( std::string model )
 {
 	selectedAsset = model;
-	modelAsset = false;
+	modelAsset = true;
 	showContextBar( model );
 }
 

@@ -27,6 +27,7 @@
 #include "LevelActionHandler.h"
 #include "LevelGizmo.h"
 #include "LevelLightHandler.h"
+#include "LevelCollider.h"
 #include "LevelWorldHandler.h"
 
 #include <SDKDDKVer.h>

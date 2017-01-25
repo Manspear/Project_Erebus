@@ -134,6 +134,9 @@
     <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelCollider.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -261,6 +264,9 @@
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelHeightmap.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelCollider.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>

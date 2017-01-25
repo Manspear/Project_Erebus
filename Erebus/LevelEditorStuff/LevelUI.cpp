@@ -6,6 +6,7 @@
 #include "LevelModel.h"
 #include "levelpointlightcomponent.h"
 #include "LevelHeightmap.h"
+#include "LevelCollider.h"
 
 TwType LevelUI::vector3Tw = TW_TYPE_FLOAT;
 TwType LevelUI::componentTw = TW_TYPE_FLOAT;
@@ -14,7 +15,7 @@ const char* LevelUI::worldBarName = "World";
 const char* LevelUI::assetBarName = "Assets";
 const char* LevelUI::assetContextBarName = "AssetsContext";
 const char* LevelUI::actionBarName = "Actions";
-const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelModel::name, LevelPointLightComponent::name, LevelHeightmap::name };
+const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelModel::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name };
 
 void TW_CALL setEditorState(void * clientData)
 {
