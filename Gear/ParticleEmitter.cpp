@@ -21,7 +21,7 @@ namespace Gear
 		this->particlePos = new glm::vec3[maxParticles];
 		this->lifeTime = emitter.lifeTime;
 		this->partSpeed = emitter.speed;
-		this->particleRate = 0.05 / emitter.particleRate;
+		this->particleRate = emitter.particleRate;
 		this->partPerRate = emitter.partPerRate;
 		this->gravityFactor = emitter.gravity;
 		this->focus = emitter.focusSpread;
