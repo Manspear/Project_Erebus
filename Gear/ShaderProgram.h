@@ -60,8 +60,15 @@ public:
 	void addUniform(float &floatValue, std::string position);
 	void addUniform(int &intValue, std::string position);
 
+	void addUniform(glm::mat4 &matrix4x4, GLuint location, int count = 1);
+	void addUniform(glm::vec3 &vec3, GLuint location, int count = 1);
+	void addUniform(float &floatValue, GLuint location);
+	void addUniform(int &intValue, GLuint location);
+
 	int getWidth() { return width; }
 	int getHeight() { return height; }
+
+	GLuint getUniformLocation(std::string pos);
 
 
 private:
@@ -71,12 +78,11 @@ private:
 	GLuint framebufferID;
 	GLuint renderBuffer;
 	int width, height;
-	std::vector<int> uniformLocations;
+	std::vector<GLuint> uniformLocations;
 	int nrOfShaders;
 	int nrOfTextures;
 	int totalAttributes;
 	int nrOfUniforms;
-	GLuint getUniformLocation(std::string pos);
 
 
 	std::string* getPaths(const shaderBaseType& type, const std::string& path);

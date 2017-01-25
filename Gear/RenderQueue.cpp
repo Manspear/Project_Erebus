@@ -7,6 +7,7 @@ RenderQueue::RenderQueue()
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
 		allShaders[i] = nullptr;
+		uniformLocations[i] = nullptr;
 	}
 
 	int maximumNumberOfInstancesPerModel = 105;
@@ -25,8 +26,13 @@ RenderQueue::~RenderQueue()
 		delete[] jointMatrices;
 
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
+	{
 		if (allShaders[i] != nullptr)
 			delete allShaders[i];
+		if (uniformLocations[i] != nullptr)
+			delete[] uniformLocations[i];
+	}
+		
 	delete[] tempMatrices;
 }
 
@@ -45,50 +51,77 @@ void RenderQueue::init()
 	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
 	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
+
+	uniformLocations[FORWARD] = new GLuint[5];
+	uniformLocations[ANIM] = new GLuint[2];
+	uniformLocations[GEOMETRY] = new GLuint[2];
+	uniformLocations[GEOMETRY_NON] = new GLuint[2];
+	uniformLocations[PARTICLES] = new GLuint[2];
+	uniformLocations[GEOMETRY_PICKING] = new GLuint[2];
+	uniformLocations[ANIMSHADOW] = new GLuint[3];
+	uniformLocations[GEOMETRYSHADOW] = new GLuint[3];
+
+	for(int i = 0; i < NUM_SHADER_TYPES; i++) {
+		if (uniformLocations[i]) {
+			uniformLocations[i][0] = allShaders[i]->getUniformLocation("projectionMatrix");
+			uniformLocations[i][1] = allShaders[i]->getUniformLocation("viewMatrix");
+		}
+	}
+
+	uniformLocations[FORWARD][2] = allShaders[FORWARD]->getUniformLocation("viewPos");
+	uniformLocations[FORWARD][3] = allShaders[FORWARD]->getUniformLocation("lightPos");
+	uniformLocations[FORWARD][4] = allShaders[FORWARD]->getUniformLocation("lightColor");
+
+	uniformLocations[ANIMSHADOW][2] = allShaders[ANIMSHADOW]->getUniformLocation("viewPos");
+	uniformLocations[GEOMETRYSHADOW][2] = allShaders[GEOMETRYSHADOW]->getUniformLocation("viewPos");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
 {
+	glm::mat4 projectionMatrix = camera->getProjectionMatrix();
+	glm::mat4 viewMatrix = camera->getViewMatrix();
+	glm::vec3 viewPosition = camera->getPosition();
+
 	allShaders[FORWARD]->use();
-	allShaders[FORWARD]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[FORWARD]->addUniform(camera->getViewMatrix(), "viewMatrix");
-	allShaders[FORWARD]->addUniform(camera->getPosition(), "viewPos");
-	allShaders[FORWARD]->addUniform(camera->getPosition(), "lightPos");
-	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+	allShaders[FORWARD]->addUniform(projectionMatrix, uniformLocations[FORWARD][0]);
+	allShaders[FORWARD]->addUniform(viewMatrix, uniformLocations[FORWARD][1]);
+	allShaders[FORWARD]->addUniform(viewPosition, uniformLocations[FORWARD][2]);
+	allShaders[FORWARD]->addUniform(viewPosition, uniformLocations[FORWARD][3]);
+	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), uniformLocations[FORWARD][4]);
 	allShaders[FORWARD]->unUse();
 	
 	allShaders[ANIM]->use();
-	allShaders[ANIM]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[ANIM]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[ANIM]->addUniform(projectionMatrix, uniformLocations[ANIM][0]);
+	allShaders[ANIM]->addUniform(viewMatrix, uniformLocations[ANIM][1]);
 	allShaders[ANIM]->unUse();
 
 	allShaders[GEOMETRY]->use();
-	allShaders[GEOMETRY]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY]->addUniform(projectionMatrix, uniformLocations[GEOMETRY][0]);
+	allShaders[GEOMETRY]->addUniform(viewMatrix, uniformLocations[GEOMETRY][1]);
 	allShaders[GEOMETRY]->unUse();
 
 	allShaders[GEOMETRY_NON]->use();
-	allShaders[GEOMETRY_NON]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY_NON]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_NON]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_NON][0]);
+	allShaders[GEOMETRY_NON]->addUniform(viewMatrix, uniformLocations[GEOMETRY_NON][1]);
 	allShaders[GEOMETRY_NON]->unUse();
 
 	allShaders[PARTICLES]->use();
-	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[PARTICLES]->addUniform(projectionMatrix, uniformLocations[PARTICLES][0]);
+	allShaders[PARTICLES]->addUniform(viewMatrix, uniformLocations[PARTICLES][1]);
 	allShaders[PARTICLES]->unUse();
 
 	allShaders[GEOMETRY_PICKING]->use();
-	allShaders[GEOMETRY_PICKING]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY_PICKING]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_PICKING]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_PICKING][0]);
+	allShaders[GEOMETRY_PICKING]->addUniform(viewMatrix, uniformLocations[GEOMETRY_PICKING][1]);
 	allShaders[GEOMETRY_PICKING]->unUse();
 }
 
 void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
 {
 	allShaders[shader]->use();
-	allShaders[shader]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[shader]->addUniform(camera->getViewMatrix(), "viewMatrix");
-	allShaders[shader]->addUniform(camera->getPosition(), "viewPos");
+	allShaders[shader]->addUniform(camera->getProjectionMatrix(), uniformLocations[shader][0]);
+	allShaders[shader]->addUniform(camera->getViewMatrix(), uniformLocations[shader][1]);
+	allShaders[shader]->addUniform(camera->getPosition(), uniformLocations[shader][2]);
 	allShaders[shader]->unUse();
 }
 

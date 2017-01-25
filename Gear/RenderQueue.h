@@ -15,6 +15,8 @@
 #include "Light.h"
 #include "WorkQueue.h"
 
+#define loop(n) for(size_t it = 0; it < n; ++it)
+
 using namespace Importer;
 struct ModelInstance
 {
@@ -66,6 +68,7 @@ private:
 	int currentTexture = 0;
 	int currentCallType = 0;
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
+	GLuint* uniformLocations[NUM_SHADER_TYPES];
 	//std::vector<Model*> allModels;
 	std::vector<ModelInstance> instances;
 	std::vector<ModelInstance> staticInstances;
