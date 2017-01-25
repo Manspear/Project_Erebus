@@ -30,12 +30,16 @@ public:
 	tinyxml2::XMLElement* toXml(tinyxml2::XMLDocument* doc) override;
 	std::string toLua(std::string name) override;
 	void update( float deltaTime ) override;
+	void addChildCollider( LevelCollider* collider );
+	void removeChildCollider( int index );
 
 	void setTwStruct(TwBar * twBar) override;
 	void setType( int type );
+	void setParentCollider( LevelCollider* parent );
 	void setColor( glm::vec3 color );
 
 	int getType() const;
+	LevelCollider* getParentCollider();
 	const glm::vec3& getColor() const;
 
 	static const char* name;
@@ -59,7 +63,9 @@ private:
 	static void TW_CALL onGetType( void* value, void* clientData );
 
 	int colliderType;
-	glm::vec3 position, color;
+	glm::vec3 position, offset, color;
+	LevelCollider* parentCollider;
+	std::vector<LevelCollider*> childColliders;
 
 	// sphere
 	//glm::vec3 spherePosition;
