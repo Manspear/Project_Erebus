@@ -112,7 +112,7 @@ function UpdatePlayer(dt)
 
 		Controls(dt)
 
-		--Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
+		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
 		local newPosition = Transform.GetPosition(player.transformID)
 
 		local posx = math.floor(newPosition.x/512)
@@ -186,7 +186,7 @@ function UpdatePlayer(dt)
 end
 
 function Controls(dt)
-	if Inputs.KeyDown("W") then
+		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 			end
 		if Inputs.KeyDown("S") then
@@ -215,19 +215,10 @@ function Controls(dt)
 			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
-		
-			if next(player.chargedspell) == nil then
-				for _,v in ipairs(player.spells[player.currentSpell]) do
-					if not v.alive then
-						player.chargedspell = v
-						break
-					end
-				end
-			end
-			--player.chargedspell:Charge(dt)
+			player.spells[player.currentSpell]:Charge(dt)
 		end
 		if Inputs.ButtonReleased(Buttons.Right) then
-			--player.chargedspell:ChargeCast(dt)
+			player.spells[player.currentSpell]:ChargeCast(player)
 		end
 
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end

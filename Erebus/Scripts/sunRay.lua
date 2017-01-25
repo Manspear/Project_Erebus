@@ -10,8 +10,6 @@ function CreateSunRay()
 	sunRay.lifeTime = SUNRAY_DURATION
 	sunRay.damage = 0
 	sunRay.alive = false
-	sunRay.speed = 100
-	sunRay.effectFlag = false
 	sunRay.maxChargeTime = SUNRAY_MAX_CHARGETIME
 	sunRay.chargedTime = 0
 	sunRay.Charge = BaseCharge
@@ -21,8 +19,6 @@ function CreateSunRay()
 	sunRay.moveImpairment = 0.5
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
-	sunRay.Charge = BaseCharge
-	sunRay.ChargeCast = BaseChargeCast
 	sunRay.castSFX = {}
 	sunRay.castSFX[1] = "Effects/CK_Blaster_Shot-226.wav"
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
