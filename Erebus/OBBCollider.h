@@ -10,7 +10,7 @@ public:
 	OBBCollider(int transformID);
 	OBBCollider(glm::vec3 pos,float xHalfLength, float yHalfLength, float zHalfLength);
 	OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength);
-	~OBBCollider();
+	virtual ~OBBCollider();
 
 	void rotateAroundX(float radianAngle);
 	void rotateAroundY(float radianAngle);
@@ -24,12 +24,9 @@ public:
 	void setZHalfLength(float length);
 
 	//Overrides
-	virtual unsigned int getID() const override;
+	virtual int getID() const override;
 	virtual int getIDTransform() const override;
-	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
-	virtual void insertCollisionID(unsigned int collisionID) override;
-	virtual void clearCollisionIDs() override;
-	virtual void setPos(glm::vec3 pos) override;
+	virtual std::vector<int>* getIDCollisionsRef() override;
 
 	//getters
 	const glm::vec3& getPos() const;
@@ -39,8 +36,8 @@ public:
 	const glm::vec3& getHalfLengths() const;
 	
 private:
-	glm::vec3 pos;
 	glm::vec3 xAxis, yAxis, zAxis;
 	glm::vec3 halfLengths;
+	const int FLAG = 2;
 };
 

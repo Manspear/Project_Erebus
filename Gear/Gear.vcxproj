@@ -162,11 +162,10 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
-    <ClInclude Include="ScreenQuadRenderer.h" />
+    <ClInclude Include="ImageRenderer.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />
@@ -183,10 +182,9 @@
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
-    <ClCompile Include="ScreenQuadRenderer.cpp" />
+    <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
@@ -198,9 +196,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Erebus\screenQuad.frag" />
-    <None Include="..\Erebus\screenQuad.geom" />
-    <None Include="..\Erebus\screenQuad.vert" />
     <None Include="..\Erebus\Shaders\animShadow.frag" />
     <None Include="..\Erebus\Shaders\animShadow.geom" />
     <None Include="..\Erebus\Shaders\animShadow.vert" />

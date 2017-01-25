@@ -12,16 +12,14 @@ class Controls
 public:
 	Controls();
 	~Controls();
-	void sendControls(Inputs &input, lua_State* L);
 	void update( Inputs* input );
 	bool* getKeys();
 	Transform* getControl();
 	void setControl(Transform* trans);
+	void sensitivityFactor(float factor);
 private:
 	Transform* controlled;
-	//int nrOfKeys;
-	//int nrOfRelease;
-	//int keys[CONTROLS_MAX_KEYS];
+	float sensitivity;
 	bool keys[CONTROLS_MAX_KEYS*3];
 
 	int nrOfButtons = 1;

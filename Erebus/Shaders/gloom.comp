@@ -1,0 +1,46 @@
+#version 430
+
+layout(rgba32f, binding = 1) uniform image2D destTex;
+layout(rgba32f, binding = 0) uniform image2D srcTex;
+
+layout (local_size_x = 32, local_size_y = 18) in;
+
+void main() {
+	ivec2 a = ivec2(gl_GlobalInvocationID.xy) ;
+	vec4 tex = vec4(0);
+/*
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			tex += imageLoad(srcTex, ivec2(a) + ivec2(i-2, j-2)) * kernelNumbers[(5*i) + j];
+		}
+	}
+	vec4 tex1;
+	vec4 tex2;
+	for (int i = -15; i <= 15; i++)
+	{
+		tex1 = imageLoad(srcTex, ivec2(a) + ivec2(i, 0)) * scalar;
+		tex2 = imageLoad(srcTex, ivec2(a) + ivec2(0, i)) * scalar;
+		tex += tex1 + tex2;
+	}*/
+	float hits = 0;
+	for(int i =-10; i <= 10; i+=2)
+	{
+		if(	imageLoad(srcTex, a + ivec2(i, 0)).a != 0 ||
+			imageLoad(srcTex, a + ivec2(0, i)).a != 0 ||
+			imageLoad(srcTex, a + ivec2(i, i)).a != 0 ||
+			imageLoad(srcTex, a + ivec2(-i,i)).a != 0
+		 )
+		{
+			hits++;
+		}
+	}
+	tex = imageLoad(srcTex, ivec2(a));
+	
+	if(hits > 2 && hits < 6){
+		float c = hits;
+		tex = vec4(1-c/6,1-c/6,c/9+0.31,1);
+	}
+	imageStore(destTex, a, tex);
+}

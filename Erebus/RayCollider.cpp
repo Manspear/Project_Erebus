@@ -2,43 +2,34 @@
 
 
 
-RayCollider::RayCollider()
+RayCollider::RayCollider() : HitBox()
 {
 	this->position = glm::vec3(0,0,0);
 	this->direction = glm::vec3(1, 0, 0);
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
-
-	this->ID = -1;
-	this->IDTransform = -1;
-	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->typeFlag = FLAG;
 }
 
-RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction)
+RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction) : HitBox()
 {
 	this->position = position;
 	this->direction = glm::normalize(direction);
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
-
-	this->ID = -1;
-	this->IDTransform = -1;
-	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->typeFlag = FLAG;
 }
 
-RayCollider::RayCollider(int IDTransform, glm::vec3 direction)
+RayCollider::RayCollider(int IDTransform, glm::vec3 direction) : HitBox(IDTransform)
 {
 	this->position = glm::vec3(0, 0, 0);
 	this->direction = direction;
 
 	this->intersectionPoint = glm::vec3(0, 0, 0);
 	this->hitDistance = -1;
-
-	this->ID = -1;
-	this->IDTransform = IDTransform;
-	this->IDCollisions.reserve(RESERVE_COLLISIONS);
+	this->typeFlag = FLAG;
 }
 
 
@@ -58,13 +49,9 @@ void RayCollider::setDirection(glm::vec3 direction)
 
 void RayCollider::hit(glm::vec3 intersectionPoint, float hitDistance)
 {
+	this->colliding = true;
 	this->intersectionPoint = intersectionPoint;
 	this->hitDistance = hitDistance;
-}
-
-void RayCollider::insertCollisionID(unsigned int collisionID)
-{
-	this->IDCollisions.push_back(collisionID);
 }
 
 void RayCollider::clearCollisionIDs()
@@ -76,6 +63,13 @@ void RayCollider::clearHitData()
 {
 	this->hitDistance = -1;
 	this->intersectionPoint = glm::vec3(0, 0, 0);
+}
+
+void RayCollider::clear()
+{
+	this->clearCollisionIDs();
+	this->clearHitData();
+	this->colliding = false;
 }
 
 const glm::vec3 & RayCollider::getDirection() const
@@ -108,13 +102,9 @@ float RayCollider::hitdistance() const
 	return this->hitDistance;
 }
 
-bool RayCollider::checkCollision()
+std::vector<int>* RayCollider::getIDCollisionsRef()
 {
-	bool collision = false;
-	if (this->IDCollisions.size() > 0)
-		collision = true;
-
-	return collision;
+	return &this->IDCollisions;
 }
 
 void RayCollider::setIDTransform(unsigned int ID)

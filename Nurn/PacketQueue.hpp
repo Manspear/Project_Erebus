@@ -20,7 +20,7 @@ public:
 
 	bool pop(Packet &packet);
 	bool push(Packet &packet);
-	bool batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy);
+	bool batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy); // Push x bytes of packets to queue
 };
 
 template<typename Packet> PacketQueue<Packet>::PacketQueue(uint8_t queueSize)

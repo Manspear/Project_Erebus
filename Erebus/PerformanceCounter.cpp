@@ -21,6 +21,8 @@ void PerformanceCounter::startCounter()
 	frequency = double(start.QuadPart);
 	QueryPerformanceCounter(&start);
 	last = start;
+	networkSendLast = start;
+	networkRecLast = start;
 }
 
 double PerformanceCounter::getCurrentTime()
@@ -44,6 +46,28 @@ double PerformanceCounter::getDeltaTime()
 	last = timeStamp;
 
 	return deltaTime;
+}
+
+double PerformanceCounter::getNetworkSendDeltaTime()
+{
+	LARGE_INTEGER timeStamp;
+
+	QueryPerformanceCounter(&timeStamp);
+	networkSendDeltaTime = double(timeStamp.QuadPart - networkSendLast.QuadPart) / frequency;
+	networkSendLast = timeStamp;
+
+	return networkSendDeltaTime;
+}
+
+double PerformanceCounter::getNetworkRecDeltaTime()
+{
+	LARGE_INTEGER timeStamp;
+
+	QueryPerformanceCounter(&timeStamp);
+	networkRecDeltaTime = double(timeStamp.QuadPart - networkRecLast.QuadPart) / frequency;
+	networkRecLast = timeStamp;
+
+	return networkRecDeltaTime;
 }
 
 int PerformanceCounter::getFPS()

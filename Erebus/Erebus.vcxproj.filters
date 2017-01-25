@@ -11,9 +11,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source.cpp" />
-    <ClCompile Include="NetworkController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AABBCollider.cpp">
       <Filter>Source Files\Collider</Filter>
     </ClCompile>
@@ -68,19 +65,7 @@
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
     <ClCompile Include="LuaInputs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaNetwork.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
@@ -88,6 +73,21 @@
     </ClCompile>
     <ClCompile Include="GamePlay.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaMath.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaNetwork.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkController.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaSound.cpp">
+      <Filter>Source Files\Lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +98,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkController.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AABBCollider.h">
@@ -157,19 +154,7 @@
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>Header Files\LevelEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelModel.h">
-      <Filter>Header Files\LevelEditor</Filter>
-    </ClInclude>
     <ClInclude Include="LuaInputs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaNetwork.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
@@ -178,24 +163,27 @@
     <ClInclude Include="GamePlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LuaNetwork.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkController.hpp">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaMath.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaSound.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\arc.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\basespell.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\bullets.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\camera.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\cameraLevelEditor.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\enemies.lua">
@@ -213,13 +201,7 @@
     <None Include="Scripts\particle.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\projectile.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\AI\states.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\anim.frag">
@@ -327,38 +309,79 @@
     <None Include="Scripts\particle.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\fireball.lua">
+    <None Include="Scripts\reusable.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\fireEffect.lua">
-      <Filter>Scripts</Filter>
+    <None Include="Shaders\image.frag">
+      <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\projectileType.lua">
-      <Filter>Scripts</Filter>
+    <None Include="Shaders\image.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\image.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="effects.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="effects.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\gloom.comp">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\playerController.lua">
+      <Filter>Animation Controllers</Filter>
     </None>
     <None Include="Scripts\arcType.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\fireballArc.lua">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\chronoBall.lua">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\timeSlowEffect.lua">
-      <Filter>Scripts</Filter>
+    <None Include="Scripts\fireball.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\groundAoEType.lua">
-      <Filter>Scripts</Filter>
+    <None Include="Scripts\fireballArc.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\fireEffect.lua">
+      <Filter>Scripts\effects</Filter>
     </None>
     <None Include="Scripts\fireGroundAoE.lua">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\groundAoEType.lua">
+      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\orbWaveType.lua">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\timeOrbWave.lua">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\timeSlowEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\projectileType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\slowEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\iceGrenade.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.frag" />
+    <None Include="Shaders\geometryPassShadow.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
+    <None Include="Scripts\sunRay.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\console.lua" />
+    <None Include="Scripts\grenadeType.lua">
+      <Filter>Scripts\types</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -380,17 +403,29 @@
     <Filter Include="Source Files\Lua">
       <UniqueIdentifier>{a8fe1647-d73d-4eb1-9410-1881a3f2065e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\LevelEditor">
-      <UniqueIdentifier>{aaceba95-ce94-4ffc-8e74-7bd97a26f446}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Collider">
       <UniqueIdentifier>{aec1776e-4d10-4288-b844-ee4f54a62a5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Lua">
       <UniqueIdentifier>{d75575e0-eaad-4316-af5f-f94a0a8bc3b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\LevelEditor">
-      <UniqueIdentifier>{502f47db-5e0e-4d2a-9d9e-2d06ff3edf9f}</UniqueIdentifier>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{8cc66f27-899d-496d-85ea-b59327e6025c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation Controllers">
+      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\types">
+      <UniqueIdentifier>{061b3e17-e659-4c55-878e-0c261d61e2ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\effects">
+      <UniqueIdentifier>{829483a9-2d83-4cd6-a51c-3b10ffc34d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\spells">
+      <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

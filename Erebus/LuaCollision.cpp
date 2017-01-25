@@ -8,14 +8,20 @@ namespace LuaCollision
 	{
 		g_collisionHandler = handler;
 
+		//CollisionHandler
 		luaL_newmetatable( lua, "collisionHandlerMeta" );
 		luaL_Reg handlerRegs[] =
 		{
 			{ "AddSphere",			addSphere },
 			{ "AddAABB",			addAABB },
+			{ "AddRay",				addRay},
 			{ "SetLayerCollision",	setLayerCollision },
 			{ "PrintCollisions",	printCollisions },
 			{ "DrawHitboxes",		drawHitboxes },
+			{ "DeactivateAllHitboxes", deactivateAllHitboxes},
+			{ "ActivateAllHitboxes", activateAllHitboxes},
+			{"Enable", enableCollisionHandler},
+			{"Disable", disableCollisionHandler},
 			{ NULL, NULL }
 		};
 
@@ -29,6 +35,7 @@ namespace LuaCollision
 		luaL_setmetatable( lua, "collisionHandlerMeta" );
 		lua_setglobal( lua, "CollisionHandler" );
 
+		//Sphere
 		luaL_newmetatable( lua, "sphereColliderMeta" );
 		luaL_Reg sphereRegs[] =
 		{
@@ -37,6 +44,7 @@ namespace LuaCollision
 			{ "CheckCollision",		checkCollision },
 			{ "SetRadius",			setRadius },
 			{ "GetID",				getID },
+			{ "SetActive", setActive },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -46,12 +54,14 @@ namespace LuaCollision
 		lua_setfield( lua, -2, "__index" );
 		lua_setglobal( lua, "SphereCollider" );
 
+		// AABB
 		luaL_newmetatable( lua, "aabbColliderMeta" );
 		luaL_Reg aabbRegs[] =
 		{
 			{ "Create",				createAABB },
 			{ "GetCollisionIDs",	getCollisionIDs },
 			{ "CheckCollision",		checkCollision },
+			{ "SetActive", setActive },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -60,6 +70,25 @@ namespace LuaCollision
 		lua_pushvalue( lua, -1 );
 		lua_setfield( lua, -2, "__index" );
 		lua_setglobal( lua, "AABBCollider" );
+
+		//Ray
+		luaL_newmetatable(lua, "rayColliderMeta");
+		luaL_Reg rayRegs[] =
+		{
+			{ "Create",				createRay },
+			{ "GetCollisionIDs",	getRayCollisionIDs },
+			{ "CheckCollision",		checkRayCollision },
+			{ "SetDirection",			setDirection },
+			{ "GetID",				getRayID },
+			{ "SetActive", setActive },
+			{ "__gc",				destroyRay },
+			{ NULL, NULL }
+		};
+
+		luaL_setfuncs(lua, rayRegs, 0);
+		lua_pushvalue(lua, -1);
+		lua_setfield(lua, -2, "__index");
+		lua_setglobal(lua, "RayCollider");
 		lua_pop(lua, 1);
 	}
 
@@ -88,6 +117,21 @@ namespace LuaCollision
 			if( nargs >= 2 )
 				layer = lua_tointeger( lua, 2 );
 			g_collisionHandler->addHitbox( collider );
+		}
+
+		return 0;
+	}
+
+	int addRay(lua_State * lua)
+	{
+		int nargs = lua_gettop(lua);
+		if (nargs >= 1)
+		{
+			RayCollider* collider = getRayCollider(lua, 1);
+			int layer = 0;
+			if (nargs >= 2)
+				layer = lua_tointeger(lua, 2);
+			g_collisionHandler->addRay(collider);
 		}
 
 		return 0;
@@ -171,10 +215,37 @@ namespace LuaCollision
 		return result;
 	}
 
+	int createRay(lua_State * lua)
+	{
+		int result = 0;
+		if (lua_gettop(lua) >= 1)
+		{
+			int transformID = lua_tointeger(lua, 1);
+
+			RayCollider* ray = new RayCollider(transformID,glm::vec3(0,1,0));
+
+			lua_newtable(lua);
+			luaL_setmetatable(lua, "rayColliderMeta");
+			lua_pushlightuserdata(lua, ray);
+			lua_setfield(lua, -2, "__self");
+
+			result = 1;
+		}
+		return result;
+	}
+
 	int destroy( lua_State* lua )
 	{
 		HitBox* hitbox = getHitBox( lua, 1 );
 		delete hitbox;
+
+		return 0;
+	}
+
+	int destroyRay(lua_State * lua)
+	{
+		RayCollider* ray = getRayCollider(lua, 1);
+		delete ray;
 
 		return 0;
 	}
@@ -187,12 +258,34 @@ namespace LuaCollision
 		{
 			HitBox* hitbox = getHitBox( lua, 1 );
 
-			std::vector<unsigned int>* ids = hitbox->getIDCollisionsRef();
+			std::vector<int>* ids = hitbox->getIDCollisionsRef();
 			lua_newtable( lua );
 			for( int i=0; i<ids->size(); i++ )
 			{
 				lua_pushnumber( lua, ids->at(i) );
 				lua_rawseti( lua, -2, i+1 );
+			}
+
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int getRayCollisionIDs(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			RayCollider* ray = getRayCollider(lua, 1);
+
+			std::vector<int>* ids = ray->getIDCollisionsRef();
+			lua_newtable(lua);
+			for (int i = 0; i<ids->size(); i++)
+			{
+				lua_pushnumber(lua, ids->at(i));
+				lua_rawseti(lua, -2, i + 1);
 			}
 
 			result = 1;
@@ -216,6 +309,21 @@ namespace LuaCollision
 		return result;
 	}
 
+	int checkRayCollision(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			RayCollider* ray = getRayCollider(lua, 1);
+
+			lua_pushboolean(lua, ray->checkCollision());
+			result = 1;
+		}
+
+		return result;
+	}
+
 	int setRadius( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 2 )
@@ -224,6 +332,45 @@ namespace LuaCollision
 			float radius = lua_tonumber( lua, 2 );
 
 			collider->setRadius( radius );
+		}
+
+		return 0;
+	}
+
+	int setActive(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			HitBox* hitbox = getHitBox(lua, 1);
+			bool active = lua_toboolean(lua, 2);
+
+			hitbox->setActive(active);
+		}
+		return 0;
+	}
+
+	int setRayActive(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			RayCollider* ray = getRayCollider(lua, 1);
+			bool active = lua_toboolean(lua, 2);
+
+			ray->setActive(active);
+		}
+		return 0;
+	}
+
+	int setDirection(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			RayCollider* ray = (RayCollider*)getRayCollider(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			ray->setDirection(glm::vec3(x,y,z));
 		}
 
 		return 0;
@@ -255,6 +402,30 @@ namespace LuaCollision
 		return 0;
 	}
 
+	int deactivateAllHitboxes(lua_State * lua)
+	{
+		g_collisionHandler->deactiveteAllHitboxes();
+		return 0;
+	}
+
+	int activateAllHitboxes(lua_State * lua)
+	{
+		g_collisionHandler->activeteAllHitboxes();
+		return 0;
+	}
+
+	int enableCollisionHandler(lua_State * lua)
+	{
+		g_collisionHandler->setEnabled(true);
+		return 0;
+	}
+
+	int disableCollisionHandler(lua_State * lua)
+	{
+		g_collisionHandler->setEnabled(false);
+		return 0;
+	}
+
 	int getID( lua_State* lua )
 	{
 		int result = 0;
@@ -264,6 +435,21 @@ namespace LuaCollision
 			HitBox* hitbox = getHitBox( lua, 1 );
 
 			lua_pushnumber( lua, hitbox->getID() );
+			result = 1;
+		}
+
+		return result;
+	}
+
+	int getRayID(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 1)
+		{
+			RayCollider* ray = getRayCollider(lua, 1);
+
+			lua_pushnumber(lua, ray->getID());
 			result = 1;
 		}
 
@@ -286,5 +472,10 @@ namespace LuaCollision
 	{
 		lua_getfield( lua, index, "__self" );
 		return (AABBCollider*)lua_touserdata( lua, -1 );
+	}
+	RayCollider * getRayCollider(lua_State * lua, int index)
+	{
+		lua_getfield(lua, index, "__self");
+		return (RayCollider*)lua_touserdata(lua, -1);
 	}
 }

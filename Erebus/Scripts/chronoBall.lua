@@ -1,6 +1,7 @@
 CHRONOBALLLIFETIME = 10
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
+CHRONOBALLMAXCHARGETIME = 5
 
 function CreateChronoBall()
 	local spell = {}
@@ -11,6 +12,9 @@ function CreateChronoBall()
 	spell.speed = 10
 	spell.rotatingAngle = 0
 	spell.particles = createFireballParticles() --particles
+	spell.effectFlag = false
+	spell.maxChargeTime = CHRONOBALLMAXCHARGETIME
+	spell.chargedTime = 0
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)
@@ -25,7 +29,7 @@ function CreateChronoBall()
 		self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z, anglex, 0, anglez)
 
 		for index = 1, #hits do
-			if hits[index].timeScalar == 1.0 then
+			if self.effectFlag and hits[index].timeScalar == 1.0then
 				table.insert(hits[index].effects, self.effect())
 			end
 			local hitPos = Transform.GetPosition(self.type.transformID)
@@ -47,17 +51,22 @@ function CreateChronoBall()
 		end
 	end
 	
-	function spell:Cast()
+	function spell:Cast(chargetime, effect)
 		self.position = Transform.GetPosition(casterTransID)
 		self.direction = dir	--Transform.GetLookAt(player.transformID
 		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), self.speed)
 		self.alive = true
 		self.lifeTime = CHRONOBALLLIFETIME 
+		self.chargedTime = chargetime
+		self.effectFlag = effect
 		--self.particles.cast()
 		Transform.SetPosition(self.transformID, self.position)
 		self.particles.cast()
 		
 	end
+
+	spell.Charge = BaseCharge
+	spell.ChargeCast = BaseChargeCast
 
 	function spell:Kill()
 		self.alive = false

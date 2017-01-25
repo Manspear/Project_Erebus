@@ -277,3 +277,6 @@ __pycache__/
 *.dflgadvixe
 **/My Amplifier XE Results*/
 **/My Advisor Results*/
+
+# Audio
+Audio/

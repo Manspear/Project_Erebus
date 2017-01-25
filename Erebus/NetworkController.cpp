@@ -2,7 +2,9 @@
 
 NetworkController::NetworkController()
 {
+	networkHost = true;
 	running = false;
+	transformpackTime = 100;
 }
 
 NetworkController::~NetworkController()
@@ -39,17 +41,29 @@ bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip
 
 void NetworkController::shutdown()
 {
-	running = false;
-	sendingThread.join();
-	receiveThread.join();
+	if (running == true)
+	{
+		running = false;
+		sendingThread.join();
+		receiveThread.join();
+	}
 }
 
 void NetworkController::startNetworkSending()
 {
 	while (running)
-	{		
-		network.Send();
-		Sleep(200);
+	{
+		double deltaTime = counter.getNetworkSendDeltaTime();
+		if (deltaTime > sendFrequency)
+		{
+			network.Send();
+		}
+		else
+		{
+			long long sleepTime = (sendFrequency - deltaTime) * 1000;
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+			network.Send();
+		}
 	}
 }
 
@@ -57,9 +71,17 @@ void NetworkController::startNetworkReceiving()
 {
 	while (running)
 	{
-		printf("Recieving package\n");
-		network.Receive();
-		Sleep(100);
+		double deltaTime = counter.getNetworkRecDeltaTime();
+		if (deltaTime > recFrequency)
+		{
+			network.Receive();
+		}
+		else
+		{
+			long long sleepTime = (recFrequency - deltaTime) * 1000;
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+			network.Receive();
+		}
 	}
 }
 
@@ -67,33 +89,71 @@ void NetworkController::acceptNetworkCommunication()
 {
 	while (running && !network.AcceptCommunication())
 	{
-		Sleep(500);
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 }
 
-void NetworkController::startCommunicationThreads()
+void NetworkController::startCommunicationThreads(PerformanceCounter& counter)
 {
+	this->counter = counter;
+
 	sendingThread = std::thread(&NetworkController::startNetworkSending, this);
 
 	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
 }
 
-void NetworkController::setNetWorkHost(const bool& networkHost)
+void NetworkController::setNetworkHost(const bool& networkHost)
 {
 	this->networkHost = networkHost;
 }
 
-bool NetworkController::getNetWorkHost()
+bool NetworkController::getNetworkHost()
 {
 	return this->networkHost;
 }
 
-void NetworkController::sendTransformPacket(const uint32_t& id, const float& x, const float& y, const float& z)
+void NetworkController::sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 {
-	network.buildTransformPacket(id, x, y, z);
+	transformpackTime = counter.getCurrentTime();
+	network.buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
 }
 
 bool NetworkController::fetchTransformPacket(TransformPacket &packet)
 {
 	return network.fetchTransformPacket(packet);
+}
+
+void NetworkController::sendAnimationPacket(const uint16_t& id)
+{
+	network.buildAnimationPacket(id);
+}
+
+bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
+{
+	return network.fetchAnimationPacket(packet);
+}
+
+void NetworkController::sendAIPacket(const uint16_t& id)
+{
+	network.buildAIPacket(id);
+}
+
+bool NetworkController::fetchSpellPacket(SpellPacket& packet)
+{
+	return network.fetchSpellPacket(packet);
+}
+
+void NetworkController::sendSpellPacket(const uint16_t& id)
+{
+	network.buildSpellPacket(id);
+}
+
+bool NetworkController::fetchAIPacket(AIPacket& packet)
+{
+	return network.fetchAIPacket(packet);
+}
+
+double NetworkController::timeSinceLastTransformPacket()
+{
+	return (counter.getCurrentTime() - transformpackTime);
 }
