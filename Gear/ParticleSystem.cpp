@@ -27,6 +27,7 @@ namespace Gear
 		this->v1 = { 1, 0, 0 };
 		this->v2 = { 0, 1, 0 };
 		this->v3 = { 0, 0, 1 };
+		glDeleteBuffers(1, &particleVertexBuffer);
 
 		FILE* file;
 		file = fopen(path.c_str(), "rb");
@@ -58,6 +59,12 @@ namespace Gear
 				newEmitterPos[0] = v1 * emitterPos.x;
 				newEmitterPos[1] = emitterPos.y * v2;
 				newEmitterPos[2] = emitterPos.z * v3;
+		glm::vec3 tempVec = this->position + direction * focus; //emit direction
+		glm::vec3 temp2;
+		float randomSpeed;
+			temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
+			randomSpeed = rand() % (int)partSpeed;
+			allParticles[i].direction = glm::normalize(temp2 - this->position) * randomSpeed;
 
 				dir += glm::vec3(0, 10, 0);
 

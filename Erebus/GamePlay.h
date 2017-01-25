@@ -7,11 +7,13 @@
 #include "CollisionHandler.h"
 #include "LuaBinds.h"
 #include "AGI.h"
+#include "PerformanceCounter.h"
 
 class GamePlay
 {
 private:
 	Gear::GearEngine * engine;
+	SoundEngine* soundEngine;
 	int nrOfTransforms = 100;
 	int boundTransforms = 0;
 	Transform* transforms;
@@ -32,14 +34,10 @@ private:
 	Importer::TextureAsset* particlesTexture;
 	Importer::HeightMap* heightMap;
 
-	bool networkActive = false;
-	bool networkHost = true;
-	bool networkLonelyDebug = false;
-
 	NetworkController networkController;
 
 public:
-	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets);
+	GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, SoundEngine * inSoundEngine);
 
 	~GamePlay();
 
@@ -49,5 +47,5 @@ public:
 
 	void Draw();
 
-	void StartNetwork(const bool& networkHost);
+	bool StartNetwork(const bool& networkHost, PerformanceCounter & counter);
 };

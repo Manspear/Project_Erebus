@@ -86,8 +86,13 @@ void Gear::Skybox::draw()
 	skyboxShader->unUse();
 }
 
-void Gear::Skybox::update(Camera* camera)
+void Gear::Skybox::update(Camera* camera, GLuint textureID)
 {
+	GLuint uniform = glGetUniformLocation(skyboxShader->getProgramID(), "gDepth");
+	glActiveTexture(GL_TEXTURE1);
+	glUniform1i(uniform, 1);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
 	skyboxShader->use();
 	GLint pos = glGetUniformLocation(skyboxShader->getProgramID(), "view");
 

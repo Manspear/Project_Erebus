@@ -5,9 +5,9 @@ timeSinceShot = 0
 DelayZoomOut = 0.5
 
 --distance was 4
-ZoomedOut = {distance = 7, angle = 0, time =7, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
+ZoomedOut = {distance = 6, angle = 0, time =7, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
 --distance was 3.6
-ZoomedIn = {distance = 6.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
+ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
 StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
@@ -44,7 +44,6 @@ function UpdateCamera(dt)
 		timeSinceShot = 0
 		if camera.state ~= STATE_ZOOMED_IN and camera.state ~= STATE_ZOOMING_IN then --start zooming in if not already zoomed in
 			camera.state = STATE_ZOOMING_IN
-
 			StartState.distance = camera.distance
 			StartState.angle = camera.angle
 			StartState.xOffset = camera.xOffset
@@ -54,6 +53,7 @@ function UpdateCamera(dt)
 			ZoomedIn.timeSpent = 0
 		end
 	end
+
 	timeSinceShot = timeSinceShot + dt
 	if timeSinceShot > DelayZoomOut and camera.state ~= STATE_ZOOMED_OUT and camera.state ~= STATE_ZOOMING_OUT then --start zooming out if not already zoomed out, triggers when player have not shot recently
 		ZoomedOut.timeSpent = 0
@@ -102,19 +102,6 @@ function UpdateCamera(dt)
 			camera.state = STATE_ZOOMED_IN
 		end
 	end
-
-	--[[
-	pos = Transform.GetPos(player.transformID)
-	dir = Transform.GetLookAt(player.transformID)
-	tempDir = {x = pos.x, y = 0, z = pos.z}
-	offset = scalarvec3mult(camera.xOffset, cross(tempDir, {x = 0, y = 1, z = 0}))
-	offset.y = offset.y + camera.yOffset
-
-	lookfrom = {x = 0, y = camera.distance * math.sin(camera.angle), z = 0}
-	lookfrom = vec3sub(lookfrom, scalarvec3mult(camera.distance, scalarvec3mult(math.cos(camera.angle), tempDir)) )
-
-	tempPos = vec3add( vec3add(pos, offset),  )--]]
-
 
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()

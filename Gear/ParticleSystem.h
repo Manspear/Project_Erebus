@@ -24,7 +24,7 @@ namespace Gear
 		ParticleEmitter* particleEmitters;
 		bool isActive;
 		bool alive;
-	private:
+	public:
 		int nrOfEmitters;
 		glm::vec3 systemPos;
 		glm::vec3 dir;

@@ -57,6 +57,8 @@ public:
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
 
 private:
+	TransformStruct* allTransforms;
+	int indices[105];
 	int currentShader = 0;
 	int currentTexture = 0;
 	int currentCallType = 0;

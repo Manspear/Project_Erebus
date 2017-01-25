@@ -163,7 +163,6 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="particleEmitter.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="RenderQueueElement.h" />
@@ -185,7 +184,6 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />

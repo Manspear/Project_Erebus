@@ -11,9 +11,10 @@
 #include "LuaParticles.h"
 #include "LuaTransform.h"
 #include "LuaCamera.h"
-#include"LuaAi.h"
+#include "LuaAi.h"
 #include "LuaInputs.h"
 #include "LuaNetwork.hpp"
+#include "LuaSound.h"
 
 class LuaBinds
 {
@@ -33,7 +34,8 @@ public:
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
 				AGI::AGIEngine* AI,
-				NetworkController* network);
+				NetworkController* network,
+				SoundEngine* soundEngine);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;

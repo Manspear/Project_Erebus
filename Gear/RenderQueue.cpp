@@ -135,17 +135,20 @@ void RenderQueue::allocateWorlds(int n)
 
 void RenderQueue::update(int n, TransformStruct* theTrans)
 {
+	allTransforms = theTrans;
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
+	glm::vec3 tempLook;
+	glm::vec3 axis;
 	for (int i = 0; i < n; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
 			//reset the world matrix
 			tempMatrix = glm::mat4();
-			glm::vec3 tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
-			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+			tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
+			axis = glm::cross(tempLook, { 0, 1, 0 });
 
 			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
 			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
@@ -246,10 +249,8 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 
 void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 {
-	//glDisable(GL_DEPTH_TEST);
 	allShaders[PARTICLES]->use();
 	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	//GLuint loc2 = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "vertexColor");
 	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -280,50 +281,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 		}
 	}    
 	allShaders[PARTICLES]->unUse();
-	glDisable(GL_BLEND);
-	//glEnable(GL_DEPTH_TEST);
 }
-
-/*void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels)
-{
-	allShaders[GEOMETRY]->use();
-	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
-
-	for (int i = 0; i < dynamicModels->size(); i++)
-	{
-		ModelAsset* modelAsset = dynamicModels->at(i).asset;
-		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
-		
-		dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
-
-		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
-		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
-		}
-
-		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
-		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
-		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-	}
-	allShaders[GEOMETRY]->unUse();
-}*/
 
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)
 {
@@ -344,8 +302,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			if (allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
 
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
@@ -365,6 +324,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+			//glDrawElementsInstanced(GL_LINES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
@@ -440,15 +400,13 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		// TEMP: Shouldn't have any models without material
 		if (modelAsset->getMaterial())
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
-
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			if(allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
-
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS

@@ -134,11 +134,12 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)Importer;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)AGI;$(SolutionDir)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,8 +158,6 @@
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
-    <ClCompile Include="LevelEditor.cpp" />
-    <ClCompile Include="LevelModel.cpp" />
     <ClCompile Include="LuaAi.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
@@ -170,12 +169,14 @@
     <ClCompile Include="LuaMath.cpp" />
     <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
+    <ClCompile Include="LuaSound.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="RayCollider.cpp" />
+    <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -195,28 +196,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="effects.frag" />
+    <None Include="effects.vert" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
+    <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\arcType.lua" />
-    <None Include="Scripts\bullets.lua" />
     <None Include="Scripts\camera.lua" />
-    <None Include="Scripts\cameraLevelEditor.lua" />
     <None Include="Scripts\chronoBall.lua" />
+    <None Include="Scripts\console.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\fireball.lua" />
     <None Include="Scripts\fireballArc.lua" />
     <None Include="Scripts\fireEffect.lua" />
     <None Include="Scripts\fireGroundAoE.lua" />
+    <None Include="Scripts\grenadeType.lua" />
     <None Include="Scripts\groundAoEType.lua" />
+    <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
-    <None Include="Scripts\projectile.lua" />
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\reusable.lua" />
-    <None Include="Scripts\test.lua" />
+    <None Include="Scripts\slowEffect.lua" />
+    <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Shaders\anim.frag" />
@@ -237,10 +242,13 @@
     <None Include="Shaders\forwardAnim.vert" />
     <None Include="Shaders\geometryPass.frag" />
     <None Include="Shaders\geometryPass.vert" />
+    <None Include="Shaders\geometryPassShadow.frag" />
+    <None Include="Shaders\geometryPassShadow.vert" />
     <None Include="Shaders\geometryPass_notInstanced.frag" />
     <None Include="Shaders\geometryPass_notInstanced.vert" />
     <None Include="Shaders\geometryPicking.frag" />
     <None Include="Shaders\geometryPicking.vert" />
+    <None Include="Shaders\gloom.comp" />
     <None Include="Shaders\heightmap.frag" />
     <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\image.frag" />
@@ -253,6 +261,8 @@
     <None Include="Shaders\particle.vert" />
     <None Include="Shaders\quad.frag" />
     <None Include="Shaders\quad.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
     <None Include="Shaders\text.frag" />
     <None Include="Shaders\text.geom" />
     <None Include="Shaders\text.vert" />
@@ -264,8 +274,6 @@
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
-    <ClInclude Include="LevelEditor.h" />
-    <ClInclude Include="LevelModel.h" />
     <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
@@ -276,6 +284,7 @@
     <ClInclude Include="LuaMath.h" />
     <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />
+    <ClInclude Include="LuaSound.h" />
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
@@ -286,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RayCollider.h" />
+    <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>

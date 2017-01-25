@@ -5,8 +5,7 @@ in vec2 vertex_UV;
 
 uniform sampler2D tex;
 void main (){
-	vec4 tempColor = texture(tex, vertex_UV);
-	if(tempColor.a == 0)
+	if(color.w < 0.5)
 		discard;
-	gl_FragColor = tempColor;
+	gl_FragColor = color; 
 }

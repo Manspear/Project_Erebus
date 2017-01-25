@@ -1,8 +1,9 @@
 #include "GamePlay.h"
 
-GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets)
+GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, SoundEngine* inSoundEngine)
 {
 	engine = inEngine;
+	soundEngine = inSoundEngine;
 	transforms = new Transform[nrOfTransforms];
 	allTransforms = new TransformStruct[nrOfTransforms];
 	engine->addDebugger(Debugger::getInstance());
@@ -42,7 +43,7 @@ GamePlay::~GamePlay()
 
 void GamePlay::Initialize(Importer::Assets & assets, Controls &controls, Inputs &inputs, Camera& camera)
 {
-	luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController);
+	luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController, soundEngine);
 }
 
 void GamePlay::Update(Controls controls, double deltaTime)
@@ -62,18 +63,25 @@ void GamePlay::Draw()
 	engine->queueDynamicModels(&models);
 }
 
-void GamePlay::StartNetwork(const bool& networkHost)
+bool GamePlay::StartNetwork(const bool& networkHost, PerformanceCounter & counter)
 {
 	networkController.setNetworkHost(networkHost);
 	if (networkHost)
 	{
-		networkController.initNetworkAsHost();
+		if (!networkController.initNetworkAsHost())
+		{
+			return false;
+		}
 		networkController.acceptNetworkCommunication();
 	}
 	else
 	{
-		networkController.initNetworkAsClient(127, 0, 0, 1);
+		if (!networkController.initNetworkAsClient(127, 0, 0, 1))
+		{
+			return false;
+		}
 	}
 		
-	networkController.startCommunicationThreads();
+	networkController.startCommunicationThreads(counter);
+	return true;
 }
