@@ -87,9 +87,6 @@ function LoadPlayer()
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
 
-	player.obbCollider = OBBCollider.Create(-1)
-	CollisionHandler.AddSphere(player.obbCollider)
-
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 	Network.SendTransformPacket(player.transformID, {x=0, y=0, z=0}, {x=0, y=0, z=0}, {x=0, y=0, z=0})
 

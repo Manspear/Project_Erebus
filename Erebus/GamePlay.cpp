@@ -2,10 +2,6 @@
 
 GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, SoundEngine* inSoundEngine)
 {
-	swag = new OBBCollider(0);
-	this->dirDerp = glm::vec3(1, 1, 1);
-	swag->setXAxis(glm::normalize(dirDerp));
-	swag->setSize(10,1,1);
 	engine = inEngine;
 	soundEngine = inSoundEngine;
 	transforms = new Transform[nrOfTransforms];
@@ -25,7 +21,6 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Sound
 	collisionHandler.setTransforms(transforms);
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1, 1, false);
-	collisionHandler.addHitbox(swag);
 	Gear::ParticleSystem ps1111("particle.dp", &assets, 10);
 	//particlesTexture->bind(PARTICLES);
 	//for (int i = 0; i < ps.size(); i++)
@@ -38,20 +33,6 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets & assets, Sound
 	engine->queueDynamicModels(&models);
 	engine->queueAnimModels(&animatedModels);
 	engine->queueParticles(&ps);
-
-	OBBCollider* obb = new OBBCollider();
-	OBBCollider* obb2 = new OBBCollider();
-	OBBCollider* obb3 = new OBBCollider();
-	OBBCollider* obb4 = new OBBCollider();
-	OBBCollider* obb5 = new OBBCollider();
-	OBBCollider* obb6 = new OBBCollider();
-
-	obb5->addChild(obb6);
-	obb4->addChild(obb5);
-	obb3->addChild(obb4);
-	obb2->addChild(obb3);
-	obb->addChild(obb2);
-	delete obb;
 }
 
 GamePlay::~GamePlay()
@@ -70,7 +51,6 @@ GamePlay::~GamePlay()
 
 void GamePlay::Initialize(Importer::Assets & assets, Controls &controls, Inputs &inputs, Camera& camera)
 {
-	this->cameraSteal = &camera;
 	luaBinds.load(engine, &assets, &collisionHandler, &controls, &inputs, transforms, &boundTransforms, &models, &animatedModels, &camera, &ps, &ai, &networkController, soundEngine);
 }
 
@@ -85,7 +65,7 @@ void GamePlay::Update(Controls controls, double deltaTime)
 	collisionHandler.checkCollisions();
 	collisionHandler.drawHitboxes();
 	//engine->print(collisionHandler.getCollisionText(), 1000, 100, 0.6);
-	swag->setXAxis(this->cameraSteal->getDirection());
+	
 }
 
 void GamePlay::Draw()
