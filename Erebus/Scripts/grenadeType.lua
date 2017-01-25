@@ -31,9 +31,9 @@ function CreateGrenadeType()
 	end
 	function type:flyUpdate(dt)
 		result = false
-		self.direction.y = self.direction.y - dt
+		self.direction.y = self.direction.y - dt * self.falloffFactor
 		self.position.x = self.position.x + self.direction.x*self.speed*dt
-		self.position.y = self.position.y + self.direction.y*self.speed*dt
+		self.position.y = self.position.y + self.direction.y*dt
 		self.position.z = self.position.z + self.direction.z*self.speed*dt
 		Transform.SetPosition(self.transformID, self.position)
 
