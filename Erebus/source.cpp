@@ -15,7 +15,7 @@
 #include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
-
+Gear::ParticleSystem* ps;
 #include "SoundEngine.h"
 #include "WorkQueue.h"
 
@@ -121,6 +121,7 @@ int main()
 	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
+
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
@@ -133,6 +134,7 @@ int main()
 	assets.load<ModelAsset>( "Models/Goblin.model" );
 	assets.load<ModelAsset>( "Models/tile1_game_x1.model" );
 	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
+
 
 	Controls controls;
 	
@@ -274,7 +276,6 @@ int main()
 	//delete menu;
 	delete threadData.gamePlay;
 	delete threadData.menu;
-	
 	glfwTerminate();
 
 	return 0;

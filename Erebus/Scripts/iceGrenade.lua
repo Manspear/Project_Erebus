@@ -19,6 +19,8 @@ function CreateIceGrenade()
 		nade.alive = false
 		nade.particles = createFireballParticles()
 		nade.exploding = false
+		nade.hits = {}
+		nade.soundID = -1
 
 		local model = Assets.LoadModel( "Models/projectile1.model" )
 		Gear.AddStaticInstance(model, nade.type.transformID)
@@ -77,9 +79,10 @@ function CreateIceGrenade()
 					
 					hits = self.nades[i].type:Update(dt)
 		
+					
+					self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
-						if hits[index].Hurt then
-							self.nades[i].particles.die(self.nades[i].type.position)
+						if hits[index].Hurt and not self.nades[i].hits[hits[i]] then
 							if self.nades[i].effectFlag then
 								local effect = self.effect()
 								table.insert(hits[index].effects, effect)
