@@ -20,10 +20,6 @@ LevelGizmo::LevelGizmo()  {
 	rotSnap = glm::pi<float>() / 6.f;
 	scaleSnap = .5f;
 	posSnap = 1.f;
-	for (size_t i = 0; i < 11; i++)
-	{
-		rotationSnapPlacements[i] = rotSnap * i;
-	}
 	shouldSnap = false;
 }
 

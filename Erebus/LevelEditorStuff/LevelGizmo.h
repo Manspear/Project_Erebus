@@ -59,8 +59,7 @@ private:
 	float bigVal;
 
 	float scaleSnap, rotSnap, posSnap;
-	float rotationSnapPlacements[11];
-	const float rotationMulti = .05f;
+	const float rotationMulti = .1f;
 	glm::vec3 realPos, realRot, realScale;
 
 	void setSelectedGizmo(GizmoLocation location);
