@@ -137,6 +137,7 @@ int main()
 	assets.load<ModelAsset>( "Models/testGuy.model" );
 	assets.load<ModelAsset>( "Models/projectile1.model" );
 	assets.load<ModelAsset>( "Models/Goblin.model" );
+	assets.load<ModelAsset>("Models/pCube1.model");
 	assets.load<ModelAsset>( "Models/tile1_game_x1.model" );
 	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
 
