@@ -2,20 +2,19 @@ local stateScript = require("Scripts.AI.states")
 
 local baseReturn = {}
 
-local enemyManager = {nrOfOuterCircleEnemies = 0,nrOfInnerCircleEnemies = 0}
+local enemyManager = {nrOfOuterCircleEnemies = 0,nrOfInnerCircleEnemies = 0,actionEnemy = -1}
 
 
-local function updateEnemyManager(enemies,playerenemyManager)
+local function updateEnemyManager(enemies,player)
 
 	--if ).nrOfOuterCircleEnemies ~= player.nrOfOuterCircleEnemies then
 		outerCounter = 1
 
 		for i=1, #enemies do
 			if enemies[i].state.stateName == "PositioningOuterState" then
-				inPos = AI.SetSpecificTarget(player.transformID,enemies[i].outerCirclerange,player.nrOfOuterCircleEnemies,outerCounter);
+				inPos = AI.SetSpecificTarget(player.transformID,player.outerCirclerange,player.nrOfOuterCircleEnemies,outerCounter);
 				
 				if inPos.y ~= -1 then
-					print("Set Pos")
 					enemies[i].target = inPos
 				end
 				

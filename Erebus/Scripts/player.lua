@@ -35,6 +35,10 @@ function LoadPlayer()
 	player.walkableIncline = 1
 	player.chargedspell = {}
 	player.timeSinceShot = 0
+
+	player.innerCirclerange = 4
+	player.outerCirclerange = 15
+
 	player.nrOfInnerCircleEnemies = 0
 	player.nrOfOuterCircleEnemies = 0
 

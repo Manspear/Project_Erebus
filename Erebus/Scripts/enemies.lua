@@ -17,7 +17,6 @@ function LoadEnemies(n)
 		enemies[i].health = 20
 		enemies[i].alive = true
 		enemies[i].effects = {}
-		enemies[i].attackCountdown = 1
 
 		enemies[i].Hurt = function(self,damage)
 			self.health = self.health - damage
@@ -60,11 +59,13 @@ function LoadEnemies(n)
 		enemies[i].state = stateScript.state.idleState
 		enemies[i].animation = Animation.Bind()
 		enemies[i].animationState = 1
-		enemies[i].innerCirclerange = 4
-		enemies[i].outerCirclerange = 15
+		enemies[i].range = 4
+
 		enemies[i].visionRange = 30
 		enemies[i].target = nil
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
+		enemies[i].maxActionCountDown = 3
+		enemies[i].actionCountDown = 3
 	end
 
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -86,6 +87,8 @@ function UpdateEnemies(dt)
 		
 		AI.ClearMap(tempPlayerPosition,12)
 		COUNTDOWN = 0.5
+		print("INNER: ",player.nrOfInnerCircleEnemies)
+		print("OUTER: ",player.nrOfOuterCircleEnemies)
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			AI.ClearMap(enemies[i].lastPos,0)

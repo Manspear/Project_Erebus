@@ -11,7 +11,7 @@ function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-	if length <enemy.visionRange and length > enemy.outerCirclerange then
+	if length <enemy.visionRange and length > player.outerCirclerange then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
@@ -39,7 +39,7 @@ function state.followState.update(enemy,player,dt)
 			changeToState(enemy,player,inState)
 		end
 		if player.nrOfInnerCircleEnemies <3 then 
-			if length < enemy.innerCirclerange then
+			if length < player.innerCirclerange then
 
 			print("DESAD")
 			inState = "PositioningInnerState" 
@@ -48,7 +48,7 @@ function state.followState.update(enemy,player,dt)
 				do return end
 			end
 		else
-			if length < enemy.outerCirclerange then
+			if length < player.outerCirclerange then
 				inState = "PositioningOuterState" 
 				changeToState(enemy,player,inState)
 				do return end
@@ -109,35 +109,54 @@ function state.positioningInnerState.enter(enemy,player)
 	Transform.SetLookAt(enemy.transformID,direction)
 end
 
-function state.positioningInnerState.update(enemy,player,dt)
+function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 	
-		if enemy.target ~= nil then
-			local pos = Transform.GetPosition(enemy.transformID)
+	enemy.actionCountDown = enemy.actionCountDown- dt
+	if enemy.target ~= nil then
+		local pos = Transform.GetPosition(enemy.transformID)
 
-			local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
+		local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
 
-			Transform.SetLookAt(enemy.transformID,direction)
+		Transform.SetLookAt(enemy.transformID,direction)
 			
-			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
-			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
-			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
+		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
+		--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
+		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
 
-			Transform.SetPosition(enemy.transformID,pos)
+		Transform.SetPosition(enemy.transformID,pos)
 
-			rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.target)
-			if rangeTest < 0.9 then
-				enemy.target = nil
-				local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
-				Transform.SetLookAt(enemy.transformID,direction)
-			end
+		rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.target)
+		if rangeTest < 0.9 then
+			enemy.target = nil
+			local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
+			Transform.SetLookAt(enemy.transformID,direction)
+		end
 	else
+
+	--- TIME TO DO ACTIONS
 		length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-		if length > enemy.innerCirclerange then
+		if length > player.innerCirclerange then
 			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
 			inState = "FollowState" 
 			changeToState(enemy,player,inState)
 		end	
+
+		if enemyManager.actionEnemy == -1 then
+
+			enemyManager.actionEnemy = enemy.transformID
+			enemy.actionCountDown = enemy.maxActionCountDown
+			randomNum = math.random(0, 3)
+			if randomNum == 0 then
+				
+				inState = "AttackState" 
+				changeToState(enemy,player,inState)
+			end
+			--if randomNum ==1 then
+			--	inState = "FollowState" 
+			--	changeToState(enemy,player,inState)
+			--	end
+		end
 
 	end
 end
@@ -182,7 +201,7 @@ function state.positioningOuterState.update(enemy,player,dt)
 		else
 			length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-			if length > enemy.outerCirclerange then
+			if length > player.outerCirclerange then
 				player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
 				inState = "FollowState" 
 				changeToState(enemy,player,inState)
@@ -207,7 +226,7 @@ end
 
 function state.attackState.enter(enemy,player)
 	enemy.animationState = 3
-	enemy.attackCountdown = 1
+	--enemy.attackCountdown = 1
 
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
@@ -217,15 +236,17 @@ end
 
 function state.attackState.update(enemy,player,dt)
 	length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-	enemy.attackCountdown = enemy.attackCountdown - dt
-	if length > enemy.range then
-		inState = "FollowState" 
-		changeToState(enemy,player,inState)
-	end
+	--enemy.attackCountdown = enemy.attackCountdown - dt
+	--if length > enemy.range then
+	--	inState = "FollowState" 
+	--	changeToState(enemy,player,inState)
+	--end
 
-	if length < enemy.range and enemy.attackCountdown <= 0 then
-		enemy.attackCountdown = 1
+	if length < enemy.range then
+		--enemy.attackCountdown = 1
 		player:Hurt(12)
+		inState = "PositioningInnerState" 
+		changeToState(enemy,player,inState)
 	end
 end
 

@@ -418,6 +418,8 @@ namespace AGI
 
 		AGI_API glm::vec3 setTargetRangeFromPlayer(glm::vec3 playerPos, float range, int maxNrOfCirclingEnemies, int indexOfCirclingEnemies)
 		{
+			//range = range *(resolution * 10);
+
 			float tempRange = 0;
 			float angleInCircle = indexOfCirclingEnemies * (glm::pi<float>()*2 / maxNrOfCirclingEnemies);
 			
