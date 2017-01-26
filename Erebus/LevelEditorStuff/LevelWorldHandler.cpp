@@ -68,7 +68,6 @@ void LevelWorldHandler::updateAutosave( float deltaTime )
 		LevelActorFactory::getInstance()->saveWorld( autosaveName );
 
 		currentAutosave = (++currentAutosave) % LEVEL_MAX_AUTOSAVES;
-		printf( "Auto-saving.\n" );
 	}
 }
 

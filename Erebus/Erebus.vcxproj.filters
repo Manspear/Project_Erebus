@@ -124,9 +124,6 @@
     <ClCompile Include="SoundEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaSound.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="LuaSound.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelWorldHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
@@ -135,6 +132,13 @@
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelCollider.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaSound.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelParticleEmitter.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelSound.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -267,6 +271,12 @@
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelCollider.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelParticleEmitter.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>

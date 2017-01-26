@@ -171,8 +171,10 @@
     <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModel.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModelHandler.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelParticleEmitter.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelLightHandler.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelSound.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelTransformHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelUI.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelWorldHandler.cpp" />
@@ -294,8 +296,10 @@
     <ClInclude Include="LevelEditorStuff\LevelHeightmap.h" />
     <ClInclude Include="LevelEditorStuff\LevelModel.h" />
     <ClInclude Include="LevelEditorStuff\LevelModelHandler.h" />
+    <ClInclude Include="LevelEditorStuff\LevelParticleEmitter.h" />
     <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelLightHandler.h" />
+    <ClInclude Include="LevelEditorStuff\LevelSound.h" />
     <ClInclude Include="LevelEditorStuff\LevelTransformHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelUI.h" />
     <ClInclude Include="LevelEditorStuff\LevelWorldHandler.h" />
