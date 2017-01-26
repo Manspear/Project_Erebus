@@ -38,7 +38,8 @@ void LevelAssetHandler::load()
 	loadAssets( &prefabs, "LevelEditorStuff/Resources/ActorsXML" );
 	loadAssets( &models, "Models", ".model" );
 	loadAssets( &textures, "Textures", ".png" );
-	loadAssets( &sounds, "Audio" );
+	loadAssets( &sounds, "Audio/Effects" );
+	loadAssets( &sounds, "Audio/Music" );
 
 	updateAssetsBar();
 }
