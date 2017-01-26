@@ -509,13 +509,13 @@ void LevelGizmo::onSnapChange() {
 			glm::vec3 amountScale = glm::vec3(fmod(tempScale.x, scaleSnap), fmod(tempScale.y, scaleSnap), fmod(tempScale.z, scaleSnap));
 			glm::vec3 newScale = tempScale - amountScale;
 			transformRef->setScale(newScale);
-			int k = 0;
 
 			this->imaginaryRotation = newRot;
 			this->imaginaryScale = newScale;
 		}
 		else {
-
+			this->imaginaryRotation = glm::vec3(0);
+			this->imaginaryScale = glm::vec3(0);
 		}
 	}
 
