@@ -101,7 +101,7 @@ private:
 	void initBars();
 	
 public:
-	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, HEIGHTMAP, COLLIDER, NUM_DIFF_COMPONENTS} DiffComponents;
+	typedef enum{SELECT_COMPONENT, TRANSFORM, MODEL, POINT_LIGHT, HEIGHTMAP, COLLIDER, SOUND, NUM_DIFF_COMPONENTS} DiffComponents;
 	static const char *componentLinker[];
 	TwEnumVal *componentsEVs;
 	TwType componentType;
@@ -112,7 +112,7 @@ public:
 	static const char* assetContextBarName;
 	static const char* actionBarName;
 	static TwType vector3Tw;
-	static TwType componentTw;
+	//static TwType componentTw;
 	static std::string vec2ToString(glm::vec2& val, std::string type = "");
 	static std::string vec3ToString(glm::vec3& val, std::string type = "");
 
@@ -126,13 +126,15 @@ public:
 			{ DiffComponents::MODEL, "Model" } ,
 			{ DiffComponents::POINT_LIGHT, "Point Light"},
 			{ DiffComponents::HEIGHTMAP, "Heightmap" },
-			{ DiffComponents::COLLIDER, "Collider" }
+			{ DiffComponents::COLLIDER, "Collider" },
+			{ DiffComponents::SOUND, "Sound" },
 		};
 
-		if (componentTw == TW_TYPE_FLOAT) {
+		/*if (componentTw == TW_TYPE_FLOAT) {
 			return componentTw = TwDefineEnum("SeasonType", componentsEVs, DiffComponents::NUM_DIFF_COMPONENTS);
-		}
-		return componentTw;
+		}*/
+		static TwType result = TwDefineEnum( "componentsEnum", componentsEVs, DiffComponents::NUM_DIFF_COMPONENTS );
+		return result;
 	}
 
 	static TwType TW_TYPE_VECTOR3F() {

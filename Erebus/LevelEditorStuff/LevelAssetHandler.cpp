@@ -3,7 +3,7 @@
 LevelAssetHandler* LevelAssetHandler::g_instance = nullptr;
 
 LevelAssetHandler::LevelAssetHandler()
-	: selectedPrefab( -1 )
+	: selectedPrefab( -1 ), assetType( ASSET_MODEL )
 {
 }
 
@@ -117,15 +117,22 @@ void LevelAssetHandler::updateAssetsBar()
 void LevelAssetHandler::selectModel( std::string model )
 {
 	selectedAsset = model;
-	modelAsset = true;
+	assetType = ASSET_MODEL;
 	showContextBar( model );
 }
 
 void LevelAssetHandler::selectTexture( std::string texture )
 {
 	selectedAsset = texture;
-	modelAsset = false;
+	assetType = ASSET_TEXTURE;
 	showContextBar( texture );
+}
+
+void LevelAssetHandler::selectSound( std::string sound )
+{
+	selectedAsset = sound;
+	assetType = ASSET_SOUND;
+	showContextBar( sound );
 }
 
 /*void LevelAssetHandler::selectPrefab( std::string prefab )
@@ -172,7 +179,7 @@ void LevelAssetHandler::addToActor()
 		LevelActor* selectedActor = LevelActorHandler::getInstance()->getSelected();
 		if( selectedActor )
 		{
-			if( modelAsset )
+			if( assetType == ASSET_MODEL )
 			{
 				LevelModel* modelComponent = selectedActor->getComponent<LevelModel>();
 				if( modelComponent )
@@ -187,7 +194,7 @@ void LevelAssetHandler::addToActor()
 					modelComponent->postInitialize();
 				}
 			}
-			else
+			else if( assetType == ASSET_TEXTURE )
 			{
 				LevelHeightmap* heightmapComponent = selectedActor->getComponent<LevelHeightmap>();
 				if( heightmapComponent )
@@ -196,6 +203,16 @@ void LevelAssetHandler::addToActor()
 				}
 				else
 					MessageBoxA( NULL, "Can't add heightmap texture without a heightmap component.", "Level Editor - Error", MB_OK );
+			}
+			else
+			{
+				LevelSound* soundComponent = selectedActor->getComponent<LevelSound>();
+				if( soundComponent )
+				{
+					soundComponent->setSoundName( selectedAsset );
+				}
+				else
+					MessageBoxA( NULL, "Can't add sound file to an actor without a sound component.", "Level Editor - Error", MB_OK );
 			}
 
 			LevelActorHandler::getInstance()->updateActorBar();
@@ -280,6 +297,12 @@ void TW_CALL LevelAssetHandler::onSelectTexture( void* args )
 {
 	std::string* str = (std::string*)args;
 	LevelAssetHandler::getInstance()->selectTexture( *str );
+}
+
+void TW_CALL LevelAssetHandler::onSelectSound( void* args )
+{
+	std::string* str = (std::string*)args;
+	LevelAssetHandler::getInstance()->selectSound( *str );
 }
 
 void TW_CALL LevelAssetHandler::onAdd( void* args )

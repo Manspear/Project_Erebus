@@ -14,6 +14,7 @@
 #include "LevelFileDialog.h"
 #include "LevelHeightmap.h"
 #include "LevelCollider.h"
+#include "LevelSound.h"
 
 class LevelActorFactory
 {

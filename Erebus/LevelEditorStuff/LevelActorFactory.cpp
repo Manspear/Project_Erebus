@@ -173,6 +173,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	{
 		returnComponent = new LevelCollider();
 	}
+	else if(componentName == LevelSound::name)
+	{
+		returnComponent = new LevelSound();
+	}
 	
 	return returnComponent;
 }

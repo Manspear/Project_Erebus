@@ -111,6 +111,7 @@ void LevelEditor::start() {
 	LevelActionHandler::getInstance()->setupGizmo( Debugger::getInstance(), camera, inputs );
 	LevelHeightmap::setDebugger( Debugger::getInstance() );
 	LevelCollider::setDebugger( Debugger::getInstance() );
+	LevelSound::setDebugger( Debugger::getInstance() );
 
 	//levelGizmo = new LevelGizmo();
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
@@ -145,8 +146,6 @@ void LevelEditor::start() {
 		//	std::cout << actors.at(i)->id << std::endl;
 		//	//std::cout<<actors.at(i)->getComponent<LevelModel>()->
 		//}
-
-		
 
 		engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 		engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());

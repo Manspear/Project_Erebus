@@ -25,6 +25,7 @@ public:
 	//void showContextBar( bool visible );
 	void selectModel( std::string model );
 	void selectTexture( std::string texture );
+	void selectSound( std::string sound );
 	//void selectPrefab( std::string prefab );
 	void showContextBar( std::string asset );
 	void hideContextBar();
@@ -42,6 +43,13 @@ public:
 	Importer::Assets* getAssets();
 
 private:
+	enum
+	{
+		ASSET_MODEL,
+		ASSET_TEXTURE,
+		ASSET_SOUND
+	};
+
 	LevelAssetHandler();
 
 	void loadAssets( std::vector<std::string>* container, std::string folder, std::string filter = "*" );
@@ -49,6 +57,7 @@ private:
 	static void TW_CALL onGetPrefab( void* value, void* clientData );
 	static void TW_CALL onSelectModel( void* args );
 	static void TW_CALL onSelectTexture( void* args );
+	static void TW_CALL onSelectSound( void* args );
 	static void TW_CALL onAdd( void* args );
 	static void TW_CALL onClose( void* args );
 
@@ -65,7 +74,7 @@ private:
 	Inputs* inputs;
 	//std::string selectedModel;
 	std::string selectedAsset;
-	bool modelAsset;
+	int assetType;
 	int selectedPrefab;
 
 	static LevelAssetHandler* g_instance;
