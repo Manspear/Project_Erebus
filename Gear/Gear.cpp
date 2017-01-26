@@ -271,7 +271,6 @@ namespace Gear
 		queue.update(*transformCount, *allTrans);
 		map.calcOrthoProjs(camera);
 		Camera tempCamera;
-
 		glm::vec3 offset;
 		offset.x = camera->getDirection().x * 20.0f;
 		offset.y = 0.0f;
@@ -451,20 +450,16 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(lightPassShader, "gDepth", 2, 2);
-		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
+		map.bindTexture(lightPassShader, "gShadowMap", 3, 0);
 
 
 		glUniform1fv(glGetUniformLocation(lightPassShader->getProgramID(), "farbounds"), 4, &map.farbound[0]);
 		glUniformMatrix4fv(glGetUniformLocation(lightPassShader->getProgramID(), "lightMatrixList"), 4, GL_FALSE, &map.cropMatrices[0][0][0]);
 
-		map.bindTexture(lightPassShader, "shadowmap1", 3, 0);
-		map.bindTexture(lightPassShader, "shadowmap2", 4, 1);
-		map.bindTexture(lightPassShader, "shadowmap3", 5, 2);
-		map.bindTexture(lightPassShader, "shadowmap4", 6, 3);
 
 		
 		lightPassShader->addUniform(camera->getPosition(), "viewPos");
-		lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
+		lightPassShader->addUniform(map.projectionMatrices[0] * map.viewMatrices[0], "shadowVPM");
 		lightPassShader->addUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		lightPassShader->addUniform(glm::inverse(camera->getViewMatrix()), "invView");
 		lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");

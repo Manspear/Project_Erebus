@@ -51,6 +51,99 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 	if (true)
 	{
+		splitPlanes[0].x = mainCam->getNearPlane();
+		splitPlanes[0].y = 20.0f;
+
+		splitPlanes[1].x = 20.0f;
+		splitPlanes[1].y = 80.0f;
+
+		splitPlanes[2].x = 80.0f;
+		splitPlanes[2].y = 400.0f;
+
+		for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
+		{
+			glm::vec3 frustumCorners[8] =
+			{
+				glm::vec3(-1.0f, 1.0f, 0.0f),
+				glm::vec3(1.0f, 1.0f, 0.0f),
+				glm::vec3(1.0f, -1.0f, 0.0f),
+				glm::vec3(-1.0f, -1.0f, 0.0f),
+				glm::vec3(-1.0f, 1.0f, 1.0f),
+				glm::vec3(1.0f, 1.0f, 1.0f),
+				glm::vec3(1.0f, -1.0f, 1.0f),
+				glm::vec3(-1.0f, -1.0f, 1.0f),
+			};
+			glm::mat4 invViewProj = glm::transpose(mainCam->getProjectionWithNearFar(splitPlanes[CascadeID].x, splitPlanes[CascadeID].y) * mainCam->getViewMatrix());
+			invViewProj = glm::inverse(invViewProj);
+			//for (int i = 0; i < 8; i++)
+			//{
+			//	glm::vec4 temp = invViewProj * glm::vec4(frustumCorners[i],1);
+			//	frustumCorners[i] = glm::vec3(temp) / temp.w;
+			//}
+
+			//glm::mat4 cameraviewprojMatrix = mainCam->getViewMatrix();
+			//cameraviewprojMatrix = mainCam->getProjectionWithNearFar(splitPlanes[CascadeID].x, splitPlanes[CascadeID].y) * cameraviewprojMatrix;
+			//glm::mat4 invViewProj;
+			//cameraviewprojMatrix = glm::transpose(cameraviewprojMatrix);
+			//invViewProj = glm::inverse(cameraviewprojMatrix);
+
+			for (int i = 0; i < 8; i++)
+			{
+				glm::vec3 result;
+				glm::vec4 temp(frustumCorners[i].x, frustumCorners[i].y, frustumCorners[i].z, 1); //need a 4-part vector in order to multiply by a 4x4 matrix
+				glm::vec4 temp2;
+
+				temp2.x = invViewProj[0][0] * temp.x + invViewProj[0][1] * temp.y + invViewProj[0][2] * temp.z + invViewProj[0][3] * temp.w;
+				temp2.y = invViewProj[1][0] * temp.x + invViewProj[1][1] * temp.y + invViewProj[1][2] * temp.z + invViewProj[1][3] * temp.w;
+				temp2.z = invViewProj[2][0] * temp.x + invViewProj[2][1] * temp.y + invViewProj[2][2] * temp.z + invViewProj[2][3] * temp.w;
+				temp2.w = invViewProj[2][0] * temp.x + invViewProj[3][1] * temp.y + invViewProj[3][2] * temp.z + invViewProj[3][3] * temp.w;
+
+				result.x = temp2.x / temp2.w;	//view projection matrices make use of the w component
+				result.y = temp2.y / temp2.w;
+				result.z = temp2.z / temp2.w;
+				frustumCorners[i] = result;
+
+				//temp2 = invViewProj * glm::vec4(frustumCorners[i], 1);
+				//result = glm::vec3(temp2) / temp2.w;
+
+				frustumCorners[i] = result;
+			}
+			glm::vec3 frustumCenter;
+			for (int i = 0; i < 8; i++)
+			{
+				frustumCenter = frustumCenter + frustumCorners[i];
+			}
+			frustumCenter = frustumCenter / 8.0f;
+
+			float radius = (frustumCorners[0] - frustumCorners[6]).length() / 2.0f;
+
+			float texelsPerUnit = (float)this->height / (radius * 2.0f);
+			glm::mat4 scalar = glm::scale(glm::vec3(texelsPerUnit));
+
+			glm::vec3 zero(0, 0, 0);
+			glm::vec3 upDir(0, 1, 0);
+			glm::mat4 lookat, lookatInv;
+			glm::vec3 baselookAt(-light.direction);
+
+			lookat = glm::lookAt(zero, baselookAt, upDir);
+			lookat *= scalar;
+			lookatInv = glm::inverse(lookat);
+
+			frustumCenter = glm::vec3(lookat * glm::vec4(frustumCenter, 1));
+			frustumCenter.x = (float)floor(frustumCenter.x);
+			frustumCenter.y = (float)floor(frustumCenter.y);
+			frustumCenter = glm::vec3(lookatInv * glm::vec4(frustumCenter, 1));
+
+			glm::vec3 eye = frustumCenter - (light.direction * radius * 2.0f);
+
+			viewMatrices[CascadeID] = glm::lookAt(eye, frustumCenter, upDir);
+
+			projectionMatrices[CascadeID] = glm::ortho(-radius, radius, -radius, radius, -radius * 6.0f, radius * 6.0f);
+		}
+	}
+	//-----------------------------------------------------------------------------------------------------
+	if (false)
+	{
 
 		pos.z = 100 * sinf(sinCount) + 50;
 
@@ -77,8 +170,9 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		//pos = glm::vec3(200.0f, 10.0f, 200.0f);// mainCam->getPosition();
 		glm::vec3 direction = mainCam->getDirection();
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
-		glm::vec3 up = glm::normalize(glm::cross((mainCam->getPosition() + direction), right));
+		glm::vec3 up = glm::normalize(glm::cross(right, glm::normalize(direction)));
 
+		printf("right: %s up: %s\n", glm::to_string(right).c_str(), glm::to_string(up).c_str());
 
 		glm::vec3 lookat((pos + direction));
 		glm::mat4 camView = glm::lookAt(pos, lookat, up);
@@ -132,7 +226,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 			glm::vec3 center = nc + ((fc - nc) / 2.0f);
 
-			glm::mat4 t_modelview = glm::lookAt(glm::vec3(0.0f), light.direction, glm::vec3(0, 1, 0));
+			glm::mat4 t_modelview = glm::lookAt(center - light.direction * 50.0f, center, glm::vec3(0, 1, 0));
 			
 			glm::vec4 t_transf = t_modelview * vertices[0];
 
@@ -181,217 +275,11 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 		}
 	}
-	//-----------------------------------------------------------------------------------------------------
-	if (false)
-	{
-		for (int i = 0; i < NUM_CASCADEDS; i++)
-		{
-			float splitNear = i > 0 ? glm::mix(nearPlane + (static_cast<float>(i) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i) / (float)NUM_CASCADEDS), splitLambda) : nearPlane;
-			float splitFar = i < NUM_CASCADEDS - 1 ? glm::mix(nearPlane + (static_cast<float>(i + 1) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i + 1) / (float)NUM_CASCADEDS), splitLambda) : farPlane;
+}
 
-			splitPlanes[i] = glm::vec2(splitNear, splitFar);
-		}
-
-		for (int i = 0; i < NUM_CASCADEDS; i++)
-		{
-			frustumCorners[0] = glm::vec3(-1.0f, 1.0f, 0.0f);
-			frustumCorners[1] = glm::vec3(1.0f, 1.0f, 0.0f);
-			frustumCorners[2] = glm::vec3(1.0f, -1.0f, 0.0f);
-			frustumCorners[3] = glm::vec3(-1.0f, -1.0f, 0.0f);
-			frustumCorners[4] = glm::vec3(-1.0f, 1.0f, 1.0f);
-			frustumCorners[5] = glm::vec3(1.0f, 1.0f, 1.0f);
-			frustumCorners[6] = glm::vec3(1.0f, -1.0f, 1.0f);
-			frustumCorners[7] = glm::vec3(-1.0f, -1.0f, 1.0f);
-
-			glm::mat4 invViewProj = glm::inverse(mainCam->getViewPers());
-			for (int j = 0; j < 8; j++)
-			{
-				frustumCorners[j] = glm::vec3(invViewProj * glm::vec4(frustumCorners[j], 1));
-			}
-
-			for (int j = 0; j < 4; j++)
-			{
-				glm::vec3 cornerRay = frustumCorners[j + 4] - frustumCorners[j];
-				glm::vec3 nearCornerRay = cornerRay * splitPlanes[i].x;
-				glm::vec3 farCornerRay = cornerRay * splitPlanes[i].y;
-
-				frustumCorners[i + 4] = frustumCorners[i] + farCornerRay;
-				frustumCorners[i] = frustumCorners[i] + nearCornerRay;
-			}
-
-			glm::vec3 frustrumCenter = glm::vec3(0);
-			for (int j = 0; j < 8; j++)
-			{
-				frustrumCenter += frustumCorners[j];
-			}
-			frustrumCenter /= 8.0f;
-
-			glm::vec3 upDir = glm::normalize(glm::cross(glm::normalize(mainCam->getDirection()), glm::vec3(0.0f, 1.0f, 0.0f)));
-
-			glm::vec3 minExtents;
-			glm::vec3 maxExtents;
-
-			bool StabilizeCascades = true;
-			if (StabilizeCascades)
-			{
-				upDir = glm::vec3(0.0f, 1.0f, 0.0f);
-
-				float sphereRadius = 0.0f;
-				for (int j = 0; j < 8; j++)
-				{
-					float dist = (frustumCorners[j] - frustrumCenter).length();
-					sphereRadius = fmaxf(sphereRadius, dist);
-				}
-
-				sphereRadius = ceilf(sphereRadius * 16.0f) / 16.0f;
-
-				maxExtents = glm::vec3(sphereRadius);
-				minExtents = -maxExtents;
-			}
-
-			minAABB[i] = minExtents;
-			maxAABB[i] = maxExtents;
-
-			glm::vec3 cascadeExtents = maxExtents - minExtents;
-
-			glm::vec3 shadowCameraPos = frustrumCenter + light.direction * -minExtents.z;
-
-			projectionMatrices[i] = glm::ortho(minExtents.x, maxExtents.x, minExtents.y, maxExtents.y, 0.0f, cascadeExtents.z);
-
-			viewMatrices[i] = glm::lookAt(shadowCameraPos, frustrumCenter, upDir);
-
-			if (StabilizeCascades)
-			{
-				glm::mat4 shadowMatrixTemp = projectionMatrices[i] * viewMatrices[i];
-				glm::vec4 shadowOrigin(0.0f, 0.0f, 0.0f, 1.0f);
-				shadowOrigin = shadowMatrixTemp * shadowOrigin;
-				shadowOrigin = shadowOrigin * (WINDOW_HEIGHT / 2.0f);
-
-				glm::vec4 roundedOrigin = glm::round(shadowOrigin);
-				glm::vec4 roundOffset = roundedOrigin - shadowOrigin;
-				roundOffset = roundOffset * (2.0f / WINDOW_HEIGHT);
-				roundOffset.z = 0.0f;
-				roundOffset.w = 0.0f;
-
-				glm::mat4 shadowProj = projectionMatrices[i];
-
-				shadowProj[3][0] += roundOffset.x;
-				shadowProj[3][1] += roundOffset.y;
-				shadowProj[3][2] += roundOffset.z;
-				shadowProj[3][3] += roundOffset.w;
-			}
-		}
-	}
-
-	//-----------------------------------------------------------------------------------------------------
-	if (false)
-	{
-		pos.z += 0.5f;
-		if (pos.z > 300)
-			pos.z = 0.0f;
-
-		//pos = glm::vec3(200.0f, 10.0f, 200.0f);// mainCam->getPosition();
-		glm::vec3 direction = glm::vec3(1.0f, 0.0f, 0.0f);//mainCam->getDirection();
-		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
-		glm::vec3 up = glm::normalize(glm::cross(right, (pos + direction)));
-
-
-		glm::vec3 lookat((pos + direction));
-		glm::mat4 camView = glm::lookAt(pos, lookat, up);
-		glm::mat4 view = camView;
-		glm::mat4 camInv = glm::inverse(view);
-
-		viewMatrices[NUM_CASCADEDS] = view;
-
-		for (int i = 0; i < NUM_CASCADEDS; i++)
-		{
-			float splitNear = i > 0 ? glm::mix(nearPlane + (static_cast<float>(i) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i) / (float)NUM_CASCADEDS), splitLambda) : nearPlane;
-			float splitFar = i < NUM_CASCADEDS - 1 ? glm::mix(nearPlane + (static_cast<float>(i + 1) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i + 1) / (float)NUM_CASCADEDS), splitLambda) : farPlane;
-
-			splitPlanes[i] = glm::vec2(splitNear, splitFar);
-		}
-
-		float ar = WINDOW_HEIGHT / WINDOW_WIDTH;
-		float tanHalfHFOV = tanf(glm::radians(45.0f / 2.0f));
-		float tanHalfVFOV = tanf(glm::radians((45.0f * ar) / 2.0f));
-
-		for (int i = 0; i < NUM_CASCADEDS; i++)
-		{
-			float xn = splitPlanes[i].x * tanHalfHFOV;
-			float xf = splitPlanes[i].y * tanHalfHFOV;
-			float yn = splitPlanes[i].x * tanHalfVFOV;
-			float yf = splitPlanes[i].y * tanHalfVFOV;
-
-			glm::vec4 frustumCorners[8] = {
-				// near face
-				glm::vec4(xn, yn, splitPlanes[i].x, 1.0),
-				glm::vec4(-xn, yn, splitPlanes[i].x, 1.0),
-				glm::vec4(xn, -yn, splitPlanes[i].x, 1.0),
-				glm::vec4(-xn, -yn, splitPlanes[i].x, 1.0),
-
-				// far face
-				glm::vec4(xf, yf, splitPlanes[i].y, 1.0),
-				glm::vec4(-xf, yf, splitPlanes[i].y, 1.0),
-				glm::vec4(xf, -yf, splitPlanes[i].y, 1.0),
-				glm::vec4(-xf, -yf, splitPlanes[i].y, 1.0)
-			};
-
-			glm::vec4 frustumCornersL[8];
-			glm::vec4 frustumCornersW[8];
-
-			float minX = std::numeric_limits<float>::max();
-			float maxX = std::numeric_limits<float>::min();
-			float minY = std::numeric_limits<float>::max();
-			float maxY = std::numeric_limits<float>::min();
-			float minZ = std::numeric_limits<float>::max();
-			float maxZ = std::numeric_limits<float>::min();
-
-			glm::vec4 center;
-
-			for (int j = 0; j < 8; j++) {
-				glm::vec4 vW = camInv * frustumCorners[j];
-
-				center += vW;
-
-				minX = std::fmin(minX, vW.x);
-				maxX = std::fmax(maxX, vW.x);
-				minY = std::fmin(minY, vW.y);
-				maxY = std::fmax(maxY, vW.y);
-				minZ = std::fmin(minZ, vW.z);
-				maxZ = std::fmax(maxZ, vW.z);
-			}
-
-			minAABB[i] = glm::vec3(minX, minY, minZ);
-			maxAABB[i] = glm::vec3(maxX, maxY, maxZ);
-
-			center /= 8;
-			viewMatrices[i] = glm::lookAt(glm::vec3(center) - light.direction * (splitPlanes[i].y - splitPlanes[i].x), glm::vec3(center), glm::vec3(0.f, 1.f, 0.f));
-			//viewMatrices[i] = glm::lookAt(glm::vec3(0.0f), light.direction, glm::vec3(0.0f, 1.0f, 0.0f));
-
-			minX = std::numeric_limits<float>::max();
-			maxX = std::numeric_limits<float>::min();
-			minY = std::numeric_limits<float>::max();
-			maxY = std::numeric_limits<float>::min();
-			minZ = std::numeric_limits<float>::max();
-			maxZ = std::numeric_limits<float>::min();
-
-			for (int j = 0; j < 8; j++)
-			{
-				glm::vec4 vW = camInv * frustumCorners[j];
-				frustumCornersL[j] = viewMatrices[i] * vW;
-
-				minX = std::fmin(minX, frustumCornersL[j].x);
-				maxX = std::fmax(maxX, frustumCornersL[j].x);
-				minY = std::fmin(minY, frustumCornersL[j].y);
-				maxY = std::fmax(maxY, frustumCornersL[j].y);
-				minZ = std::fmin(minZ, frustumCornersL[j].z);
-				maxZ = std::fmax(maxZ, frustumCornersL[j].z);
-			}
-
-			projectionMatrices[i] = glm::ortho(minX, maxX, minY, maxY, minZ, maxZ);
-			//viewMatrices[i] = glm::lookAt(glm::vec3(center) - light.direction * (splitPlanes[i].y - splitPlanes[i].x), glm::vec3(center), glm::vec3(0.f, 1.f, 0.f));
-		}
-	}
+void CascadedShadowMap::calculateShadowMatrices(Camera * cam)
+{
+	
 }
 
 void CascadedShadowMap::initFramebuffer(int windowWidth, int windowHeight)

@@ -114,15 +114,7 @@ void main() {
         FragColor = vec4(Normal, 1.0);
     else if(drawMode == 7)
 	{
-		if( index == 0) {
-		FragColor = vec4(1,0,0,1);
-	} else if(index == 1) {
-		FragColor = vec4(0,1,0,1);
-	} else if(index == 2) {
-		FragColor = vec4(0,0,1,1);
-	}else if(index == 3){
-		FragColor = vec4(0.5,0,0.5,1);
-	}
+		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
 	}
 	//	FragColor = vec4(ambient + (directional * shadow_coaf) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);

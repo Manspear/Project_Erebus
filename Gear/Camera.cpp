@@ -115,6 +115,47 @@ GEAR_API float Camera::getFarPlane()
 	return this->farPlane;
 }
 
+GEAR_API glm::mat4 Camera::getProjectionWithNearFar(float nearPlane, float farPlane)
+{
+	return glm::perspective(this->FoV, this->aspectRatio, nearPlane, farPlane);
+}
+
+GEAR_API void Camera::FindBoundingSphere(glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 & center, float & radius)
+{
+	glm::vec3 ac = c - a;
+	glm::vec3 ab = b - a;
+	glm::vec3 N = glm::normalize(glm::cross(ab, ac));
+
+	glm::vec3 halfAB = a + ab * 0.5f;
+	glm::vec3 halfAC = a + ac * 0.5f;
+
+	glm::vec3 perpAB = glm::normalize(glm::cross(ab, N));
+	glm::vec3 perpAC = glm::normalize(glm::cross(ac, N));
+
+	N = glm::cross(perpAB, perpAC);
+	glm::vec3 SR = halfAB - halfAC;
+
+	float absX = fabs(N.x);
+	float absY = fabs(N.y);
+	float absZ = fabs(N.z);
+	float t;
+	if (absZ > absX && absZ > absY) {
+		t = (SR.x * perpAC.y - SR.y * perpAC.x) / N.z;
+	}
+	else if (absX > absY) {
+		t = (SR.y * perpAC.z - SR.z * perpAC.y) / N.x;
+	}
+	else {
+		t = (SR.z * perpAC.x - SR.x * perpAC.z) / N.y;
+	}
+
+	glm::vec3 Circumcenter = halfAB - t * perpAB;
+	float r = (c - Circumcenter).length();
+
+	radius = r;
+	center = Circumcenter;
+}
+
 void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 {
 	if (inputs->keyPressedThisFrame(GLFW_KEY_L)) {

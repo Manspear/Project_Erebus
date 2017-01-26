@@ -3,10 +3,14 @@
 #include "ShaderProgram.h"
 #include "Light.h"
 #include "Camera.h"
+#include "GearStructs.h"
+#include "glm\gtx\string_cast.hpp"
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\transform.hpp>
 class CascadedShadowMap
 {
 private:
-	const static int NUM_CASCADEDS = 4;
+	const static int NUM_CASCADEDS = 3;
 	GLuint textureIDs[NUM_CASCADEDS];
 	GLuint framebufferID;
 	GLuint renderBuffer;
@@ -30,12 +34,13 @@ public:
 	void unBind();
 	void bindTexture(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 	void calcOrthoProjs(Camera* mainCam);
+	void calculateShadowMatrices(Camera* cam);
 	int getNumCascades() { return this->NUM_CASCADEDS; }
 	glm::mat4 viewMatrices[NUM_CASCADEDS+1];
 	glm::mat4 projectionMatrices[NUM_CASCADEDS+1];
 	glm::mat4 cropMatrices[NUM_CASCADEDS];
 	glm::mat4 textureMatrices[NUM_CASCADEDS];
-	glm::vec3 frustumCorners[8];
+	glm::vec4 frustumCorners[8];
 
 	glm::vec3 pos;
 	float sinCount;

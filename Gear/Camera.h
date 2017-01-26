@@ -24,14 +24,29 @@ public:
 	GEAR_API glm::mat4 getViewPers();								
 	GEAR_API glm::mat4 getViewMatrix();
 	GEAR_API glm::mat4 getProjectionMatrix();
-	GEAR_API glm::vec3 getPosition();								//returns position of camera
-	GEAR_API glm::vec3 getDirection();								//returns look direction of camera
+	//returns position of camera
+	GEAR_API glm::vec3 getPosition();
+	//returns look direction of camera
+	GEAR_API glm::vec3 getDirection();								
 	GEAR_API void updateLevelEditorCamera(float dt);
 	GEAR_API float getNearPlane();
 	GEAR_API float getFarPlane();
 	GEAR_API float getFoV() { return this->FoV; }
 	GEAR_API void setDirection(glm::vec3 dir) { this->camDirection = dir; }
-	GEAR_API Frustum calculateFrustrum(float near, float far)
+	/**
+		Returns a projection matrix with near plane and far plane being the inputs
+
+		@param Near and far plane distances from the camera
+		@return Returns a projection matrix
+	*/
+	GEAR_API glm::mat4 getProjectionWithNearFar(float nearPlane, float farPlane);
+	/**
+	Calculates the center and radius of a bounding sphere using 3 points
+
+	@param a,b and c points for the frustrum. center and radius are used as return values
+	@return Returns the center and radius of a bounding sphere
+	*/
+	GEAR_API void FindBoundingSphere(glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3& center, float& radius);
 private:
 	Inputs *inputs;
 	bool freeCam;
