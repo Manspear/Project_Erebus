@@ -6,7 +6,7 @@ union TransformPacket
 {
 	struct TransformPacketStruct
 	{
-		uint16_t ID;
+		uint16_t id;
 		float pos_x;
 		float pos_y;
 		float pos_z;
@@ -22,9 +22,9 @@ union TransformPacket
 	{
 	}
 
-	TransformPacket(const uint16_t &ID, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+	TransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 	{
-		data.ID = ID;
+		data.id = id;
 		data.pos_x = pos_x;
 		data.pos_y = pos_y;
 		data.pos_z = pos_z;
