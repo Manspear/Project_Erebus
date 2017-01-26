@@ -8,9 +8,16 @@ function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
-function LoadPlayer()
-	-- set basic variables for the player
+function LoadPlayer()	
+	-- Init unique ids
 	player.transformID = Transform.Bind()
+	player2.transformID = Transform.Bind()
+
+	if Network.GetNetworkHost() == false then
+		player.transformID, player2.transformID = player2.transformID, player.transformID
+	end
+
+	-- set basic variables for the player
 	player.moveSpeed = 5.25
 	player.verticalSpeed = 0
 	player.canJump = false
@@ -25,27 +32,6 @@ function LoadPlayer()
 	player.charging = false
 	
 	player.animationController = CreatePlayerController(player)
-
-	-- set basic variables for the player2
-	player2.transformID = Transform.Bind()
-	player2.moveSpeed = 5.25
-	player2.verticalSpeed = 0
-	player2.canJump = false
-	player2.reachedGoal = false
-	player2.health = 100
-	player2.forward = 0
-	player2.left = 0
-	player2.timeScalar = 1.0
-	player2.printInfo = false
-	player2.heightmapIndex = 1
-	player2.spamCasting = false
-	player2.charging = false
-
-	player2.animationController = CreatePlayerController(player2)
-
-	if Network.GetNetworkHost() == false then
-		player.transformID, player2.transformID = player2.transformID, player.transformID
-	end
 
 	-- set spells for player
 	player.spells = {}
@@ -81,16 +67,46 @@ function LoadPlayer()
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
-	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
+	LoadPlayer2()
+end
+
+function LoadPlayer2()
+	-- set basic variables for the player2
+	player2.moveSpeed = 5.25
+	player2.verticalSpeed = 0
+	player2.canJump = false
+	player2.reachedGoal = false
+	player2.health = 100
+	player2.forward = 0
+	player2.left = 0
+	player2.timeScalar = 1.0
+	player2.printInfo = false
+	player2.heightmapIndex = 1
+	player2.spamCasting = false
+	player2.charging = false
+
+	player2.animationController = CreatePlayerController(player2)
+
+	-- set spells for player
+	player2.spells = {}
+	--player.spells[1] = dofile( "Scripts/projectile.lua" )
+	player2.spells[1] = CreateHellPillar()
+	player2.spells[2] = CreateBlackHole()
+	player2.spells[3] = CreateSunRay()
+
+	player2.currentSpell = 1
+
+	local model = Assets.LoadModel("Models/testGuy.model")
+	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 end
 
 function UnloadPlayer()
 end
 
 function UpdatePlayer(dt)
-	--UpdatePlayer2(dt)
+	UpdatePlayer2(dt)
 	if player.health > 0 then
 		player.forward = 0
 		player.left = 0
@@ -231,6 +247,27 @@ function PrintInfo()
 		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
 		Gear.Print(info, 120, 600, scale, color)
 	end
+end
+
+function UpdatePlayer2(dt)
+	newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
+
+	if newtransformvalue == true then
+		Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
+		Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
+		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
+	end
+
+	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
+
+	if newspellpacket == true then
+		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
+		player2.currentSpell = player2CurrentSpell
+	end
+	
+	player2.spells[1]:Update(dt)
+	player2.spells[2]:Update(dt)
+	player2.spells[3]:Update(dt)
 
 
 	--netAIValue, transformID, aiState = Network.GetAIPacket()
