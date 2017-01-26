@@ -247,8 +247,9 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 	allShaders[FORWARD]->unUse();
 }
 
-void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
+bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 {
+	bool blitOrNot = false;
 	allShaders[PARTICLES]->use();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -259,6 +260,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 	{
 		if (ps->at(i)->isActive)
 		{
+			blitOrNot = true;
 			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
 			{
 				if (ps->at(i)->particleEmitters->isActive)
@@ -275,6 +277,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 		}
 	}    
 	allShaders[PARTICLES]->unUse();
+	return blitOrNot;
 }
 
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)
