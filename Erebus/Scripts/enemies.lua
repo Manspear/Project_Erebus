@@ -128,6 +128,7 @@ function UpdateEnemies(dt)
 
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					enemies[i].effects[j]:Deapply(enemies[i])
 					table.remove(enemies[i].effects, j)
 
 				end

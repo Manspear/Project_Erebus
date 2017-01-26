@@ -84,7 +84,9 @@
     <ClInclude Include="MetaDataPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
-    <ClInclude Include="AIPacket.hpp" />
+    <ClInclude Include="AIPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
     <ClInclude Include="SpellPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>

@@ -100,9 +100,9 @@ namespace Nurn
 		return result;
 	}
 
-	void NurnEngine::buildAnimationPacket(const uint16_t& id)
+	void NurnEngine::buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID)
 	{
-		this->packager->buildAnimationPacket(id);
+		this->packager->buildAnimationPacket(id, animationState, dt, animationSegmentID);
 	}
 
 	bool NurnEngine::fetchAnimationPacket(AnimationPacket& packet)
@@ -114,9 +114,9 @@ namespace Nurn
 		return result;
 	}
 
-	void NurnEngine::buildAIPacket(const uint16_t& id)
+	void NurnEngine::buildAIPacket(const uint16_t& id, const uint16_t& aiState)
 	{
-		this->packager->buildAIPacket(id);
+		this->packager->buildAIPacket(id, aiState);
 	}
 
 	bool NurnEngine::fetchAIPacket(AIPacket& packet)
@@ -128,9 +128,9 @@ namespace Nurn
 		return result;
 	}
 
-	void NurnEngine::buildSpellPacket(const uint16_t& id)
+	void NurnEngine::buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell)
 	{
-		this->packager->buildSpellPacket(id);
+		this->packager->buildSpellPacket(id, currentSpell);
 	}
 
 	bool NurnEngine::fetchSpellPacket(SpellPacket& packet)

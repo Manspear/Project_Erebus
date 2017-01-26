@@ -5,7 +5,7 @@
 
 namespace LuaParticles
 {
-	void registerFunctions(lua_State* lua, std::vector<Gear::ParticleSystem*>* particleSystem, Importer::Assets* ass);
+	void registerFunctions(lua_State* lua, std::vector<Gear::ParticleSystem*>* particleSystems, Importer::Assets* ass);
 	int bind(lua_State* lua);
 	int setPosition(lua_State* lua);
 	int setAlive(lua_State* lua);

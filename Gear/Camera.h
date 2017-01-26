@@ -12,6 +12,7 @@ public:
 	GEAR_API Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, Inputs* in);
 	GEAR_API ~Camera();
 
+	GEAR_API void updateBuffer();
 	GEAR_API void camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt);	//old old function, was made before we had a playable character to control, DONT USE
 	GEAR_API void camFreeUpdate();											
 	GEAR_API void follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset, float FoV);	//Used from lua, follows a point, from a direction with a distance and offsets, FoV is the field of view in radians. (3.14/2 is 90 degrees :) )
@@ -47,5 +48,9 @@ private:
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
 
-	
+	glm::vec3 bufferLookPos;
+	glm::vec3 bufferCamDirection;
+	glm::vec3 bufferCamPosition;
+	glm::mat4 bufferViewMat;
+	glm::mat4 bufferProjectionMat;
 };

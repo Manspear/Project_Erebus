@@ -243,9 +243,9 @@ namespace Gear
 		animatedModels = models;
 	}
 
-	void GearEngine::queueParticles(std::vector<ParticleSystem*>* particles)
+	void GearEngine::queueParticles(std::vector<Gear::ParticleSystem*> &ps)
 	{
-		particleSystems = particles;
+		particleSystem = &ps;
 	}
 
 	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
@@ -322,14 +322,12 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		gBuffer.unUse();
 
-		
-
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		glDisable(GL_CULL_FACE);
-		queue.particlePass(particleSystems);
+		queue.particlePass(particleSystem);
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
@@ -337,7 +335,7 @@ namespace Gear
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
-		updateDebug(camera);
+		debugHandler->draw( camera, &queue );
 
 		skybox.update(camera, gBuffer.getTextures()[2]);
 		skybox.draw();
@@ -380,6 +378,9 @@ namespace Gear
 	void GearEngine::update()
 	{
 		queue.update(*transformCount, *allTrans, *animationCount, *allAnims);
+		debugHandler->update();
+		debugHandler->reset();
+		text.updateBuffer();
 	}
 
 	void GearEngine::pickingPass() {
@@ -443,10 +444,6 @@ namespace Gear
 
 		lightPassShader->unUse();
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
-
-	}
-	void GearEngine::updateDebug(Camera* camera) {
-		debugHandler->update(camera, &queue);
 
 	}
 

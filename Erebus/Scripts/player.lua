@@ -50,7 +50,7 @@ function LoadPlayer()
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = CreateIceGrenade()
-	player.spells[2] = {}
+	player.spells[2] = CreateBlackHole()
 
 
 	player.currentSpell = 1
@@ -74,6 +74,9 @@ function LoadPlayer()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 	Network.SendTransformPacket(player.transformID, {x=0, y=0, z=0}, {x=0, y=0, z=0}, {x=0, y=0, z=0})
+	Network.SendAnimationPacket(player.transformID, 0, 0, 0)
+	Network.SendAIPacket(player.transformID, 0)
+
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -109,7 +112,7 @@ function LoadPlayer2()
 	player2.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player2.spells[1] = CreateIceGrenade()
-	player2.spells[2] = {}
+	player2.spells[2] = CreateBlackHole()
 
 	player2.currentSpell = 1
 
@@ -162,24 +165,17 @@ function UpdatePlayer(dt)
 		Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 
-		Network.SendAnimationPacket(42);
-		newAnimationValue, animationID = Network.GetAnimationPacket()
-
-		Network.SendAIPacket(15)
-		netAIValue, aiID = Network.GetAIPacket()
-
-		--[[if newAnimationValue == true then
-			print(animationID)
-		end
-
-		if netAIValue == true then
-			print(aiID)
-		end]]
-
+		--Just a simple example of what an AIPacket can look like
+		--Network.SendAIPacket(15, 2)
+		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
 
+		-- An example of what the AnimationPacket can look like
+		if Network.ShouldSendNewAnimation() == true then
+			Network.SendAnimationPacket(42, 2, 4, 5)
+		end
 
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
@@ -188,6 +184,7 @@ function UpdatePlayer(dt)
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
+	player.spells[2]:Update(dt)
 	
 
 
@@ -244,7 +241,7 @@ function Controls(dt)
 			player.attackTimer = 1
 			player.testCamera = true
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
-			Network.SendSpellPacket(22)
+			Network.SendSpellPacket(player.transformID, player.currentSpell)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -270,13 +267,26 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	newspellpacket, id_2 = Network.GetSpellPacket()
+	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
 
 	if newspellpacket == true then
-		player2.spells[1]:Cast(player2, 0.5, false)
+		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
+		player2.currentSpell = player2CurrentSpell
 	end
 
 	player2.spells[1]:Update(dt)
+
+
+	--netAIValue, transformID, aiState = Network.GetAIPacket()
+
+	--if netAIValue == true then
+	--	print(transformID, aiState)
+	--end
+		
+	newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
+	--if newAnimationValue == true then
+	--	print(animationID, animationState, dt_test, animationSegment)
+	--end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

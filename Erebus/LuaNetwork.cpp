@@ -20,6 +20,7 @@ namespace LuaNetwork
 			{ "GetSpellPacket", getSpellPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
+			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
 			{ NULL, NULL }
 		};
 
@@ -76,7 +77,7 @@ namespace LuaNetwork
 			//std::cout << "Receiving rotation - x: " << transformPacket.data.rotation_x << " y: " << transformPacket.data.rotation_y << " z: " << transformPacket.data.rotation_z << std::endl << std::endl;
 
 			lua_pushboolean(lua, true);
-			lua_pushnumber(lua, transformPacket.data.ID);
+			lua_pushnumber(lua, transformPacket.data.id);
 			lua_pushnumber(lua, transformPacket.data.pos_x);
 			lua_pushnumber(lua, transformPacket.data.pos_y);
 			lua_pushnumber(lua, transformPacket.data.pos_z);
@@ -108,8 +109,11 @@ namespace LuaNetwork
 	int sendAnimationPacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
+		int animationState = lua_tointeger(lua, 2);
+		float dt = lua_tonumber(lua, 3);
+		int animationSegmentID = lua_tointeger(lua, 4);
 
-		g_networkController->sendAnimationPacket(index);
+		g_networkController->sendAnimationPacket(index, animationState, dt, animationSegmentID);
 
 		return 0;
 	}
@@ -121,22 +125,29 @@ namespace LuaNetwork
 		if (g_networkController->fetchAnimationPacket(animationPacket))
 		{
 			lua_pushboolean(lua, true);
-			lua_pushnumber(lua, animationPacket.data.ID);
+			lua_pushnumber(lua, animationPacket.data.id);
+			lua_pushnumber(lua, animationPacket.data.animationState);
+			lua_pushnumber(lua, animationPacket.data.dt);
+			lua_pushnumber(lua, animationPacket.data.animationSegmentID);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
 		}
 		
-		return 2;
+		return 5;
 	}
 
 	int sendAIPacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
+		int aiState = lua_tointeger(lua, 2);
 
-		g_networkController->sendAIPacket(index);
+		g_networkController->sendAIPacket(index, aiState);
 
 		return 0;
 	}
@@ -148,22 +159,25 @@ namespace LuaNetwork
 		if (g_networkController->fetchAIPacket(aiPacket))
 		{
 			lua_pushboolean(lua, true);
-			lua_pushnumber(lua, aiPacket.data.ID);
+			lua_pushnumber(lua, aiPacket.data.transformID);
+			lua_pushnumber(lua, aiPacket.data.aiState);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
 		}
 
-		return 2;
+		return 3;
 	}
 
 	int sendSpellPacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
+		int currentSpell = lua_tointeger(lua, 2);
 
-		g_networkController->sendSpellPacket(index);
+		g_networkController->sendSpellPacket(index, currentSpell);
 
 		return 0;
 	}
@@ -176,14 +190,16 @@ namespace LuaNetwork
 		{
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, spellPacket.data.ID);
+			lua_pushnumber(lua, spellPacket.data.currentSpell);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
 		}
 
-		return 2;
+		return 3;
 	}
 
 
@@ -198,6 +214,19 @@ namespace LuaNetwork
 	int shouldSendNewTransform(lua_State* lua)
 	{
 		if (g_networkController->timeSinceLastTransformPacket() > 0.01)
+		{
+			lua_pushboolean(lua, true);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+		}
+		return 1;
+	}
+
+	int shouldSendNewAnimation(lua_State* lua)
+	{
+		if (g_networkController->timeSinceLastAnimationPacket() > 0.01)
 		{
 			lua_pushboolean(lua, true);
 		}

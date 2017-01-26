@@ -1,5 +1,5 @@
 function CreateArcType()
-	arc = CreateProjectileType()
+	local arc = CreateProjectileType()
 	
 	arc.Shoot = function(self, position, direction, speed)
 		self.velocity.x = direction.x * speed

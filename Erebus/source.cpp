@@ -15,7 +15,7 @@
 #include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
-
+Gear::ParticleSystem* ps;
 #include "SoundEngine.h"
 #include "WorkQueue.h"
 
@@ -44,7 +44,6 @@ DWORD WINAPI update( LPVOID args )
 	// GamePlay and Menu is deleted in the main thread
 	// because the renderer is depending on their transforms
 	data->gamePlay = new GamePlay( data->engine, data->assets, data->workQueue, data->soundEngine );
-	data->gamePlay->Initialize( data->assets, data->controls, data->inputs, data->camera );
 
 	data->menu = new Menu( data->engine, data->assets );
 
@@ -88,6 +87,7 @@ DWORD WINAPI update( LPVOID args )
 
 					if (data->gameState == GameplayState)
 					{
+						data->gamePlay->Initialize(data->assets, data->controls, data->inputs, data->camera);
 						data->soundEngine->play("Effects/bell.wav");
 					}
 					break;
@@ -100,6 +100,11 @@ DWORD WINAPI update( LPVOID args )
 					}
 					break;
 			}
+
+			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
+				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
+				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+			data->engine->print(fps, 0.0f, 0.0f);
 
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
@@ -121,6 +126,7 @@ int main()
 	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
+
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
@@ -133,6 +139,7 @@ int main()
 	assets.load<ModelAsset>( "Models/Goblin.model" );
 	assets.load<ModelAsset>( "Models/tile1_game_x1.model" );
 	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
+
 
 	Controls controls;
 	
@@ -234,6 +241,7 @@ int main()
 
 			//engine.updateTransforms();
 			engine.update();
+			camera.updateBuffer();
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
@@ -248,11 +256,6 @@ int main()
 				threadData.gamePlay->Draw();
 				break;
 			}
-
-			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
-				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
-				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
-			engine.print(fps, 0.0f, 0.0f);
 
 			window.update();
 			engine.draw(&camera);
@@ -274,7 +277,6 @@ int main()
 	//delete menu;
 	delete threadData.gamePlay;
 	delete threadData.menu;
-	
 	glfwTerminate();
 
 	return 0;

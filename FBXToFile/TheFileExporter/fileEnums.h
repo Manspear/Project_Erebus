@@ -15,7 +15,7 @@ enum eModelType
 
 enum eLightType
 {
-	POINT,
+	POINTU,
 	DIRECTIONAL,
 	SPOTLIGHT,
 	AREALIGHT,

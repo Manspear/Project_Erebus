@@ -217,7 +217,11 @@ namespace LuaGear
 
 	int bindAnimation( lua_State* lua )
 	{
-		Animation* animation = &g_animations[(*g_boundAnimations)++];
+		int index = *g_boundAnimations;
+		Animation* animation = &g_animations[index];
+		animation->setMatrixIndex( index );
+		*g_boundAnimations = index+1;
+
 		lua_newtable( lua );
 		luaL_setmetatable( lua, "animationMeta" );
 		lua_pushlightuserdata( lua, animation );

@@ -31,6 +31,15 @@ Camera::~Camera()
 
 }
 
+void Camera::updateBuffer()
+{
+	bufferLookPos = lookPos;
+	bufferCamDirection = camDirection;
+	bufferCamPosition = camPosition;
+	bufferViewMat = viewMat;
+	bufferProjectionMat = projectionMat;
+}
+
 void Camera::camFreeUpdate() 
 {
 
@@ -156,26 +165,31 @@ void Camera::setView(glm::mat4 m)
 
 glm::mat4 Camera::getViewPers()
 {
-	return projectionMat * viewMat;
+	//return projectionMat * viewMat;
+	return bufferProjectionMat * bufferViewMat;
 }
 
 
 glm::mat4 Camera::getViewMatrix()
 {
-	return this->viewMat;
+	//return this->viewMat;
+	return bufferViewMat;
 }
 
 glm::mat4 Camera::getProjectionMatrix()
 {
-	return this->projectionMat;
+	//return this->projectionMat;
+	return bufferProjectionMat;
 }
 
 glm::vec3 Camera::getPosition()
 {
-	return this->camPosition;
+	//return this->camPosition;
+	return bufferCamPosition;
 }
 
 glm::vec3 Camera::getDirection()
 {
-	return this->camDirection;
+	//return this->camDirection;
+	return bufferCamDirection;
 }

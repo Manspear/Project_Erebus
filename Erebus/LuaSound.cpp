@@ -112,7 +112,7 @@ namespace LuaSound
 		glm::vec3 pos(0.f);
 		for (int i = 0; i < 3; i++)
 		{
-			lua_rawgeti(lua, 1, i + 1);
+			lua_rawgeti(lua, 2, i + 1);
 			pos[i] = lua_tonumber(lua, -1);
 		}
 		g_soundEngine->setPosition(i, pos);
@@ -126,7 +126,7 @@ namespace LuaSound
 		glm::vec3 vel(0.f);
 		for (int i = 0; i < 3; i++)
 		{
-			lua_rawgeti(lua, 1, i + 1);
+			lua_rawgeti(lua, 2, i + 1);
 			vel[i] = lua_tonumber(lua, -1);
 		}
 		g_soundEngine->setPosition(i, vel);

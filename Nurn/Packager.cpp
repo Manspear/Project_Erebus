@@ -57,29 +57,28 @@ void Packager::buildNetPacket()
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
 }
 
-void Packager::buildTransformPacket(const uint16_t &ID, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+void Packager::buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 {
-	this->transformQueue->push(TransformPacket(ID, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z));
+	this->transformQueue->push(TransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z));
 }
 
-void Packager::buildAnimationPacket(const uint16_t& ID)
+void Packager::buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID)
 {
-	this->animationQueue->push(AnimationPacket(ID));
+	this->animationQueue->push(AnimationPacket(id, animationState, dt, animationSegmentID));
 }
 
-void Packager::buildAIPacket(const uint16_t& ID)
+void Packager::buildAIPacket(const uint16_t& id, const uint16_t& aiState)
 {
-	this->aiQueue->push(AIPacket(ID));
+	this->aiQueue->push(AIPacket(id, aiState));
 }
 
-void Packager::buildSpellPacket(const uint16_t& ID)
+void Packager::buildSpellPacket(const uint16_t& ID, const uint16_t& currentSpell)
 {
-	this->spellQueue->push(SpellPacket(ID));
+	this->spellQueue->push(SpellPacket(ID, currentSpell));
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize)
 {
-	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
 	TransformPacket transformPacket;
 	uint16_t sizeOfTransformPackets = 0;
 	bool breakLoop = false;
@@ -106,7 +105,6 @@ void Packager::addTransformPackets(uint16_t &netPacketSize)
 
 void Packager::addAnimationPackets(uint16_t& netPacketSize)
 {
-	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
 	AnimationPacket animationPacket;
 	uint16_t sizeOfAnimationPackets = 0;
 	bool breakLoop = false;
@@ -133,7 +131,6 @@ void Packager::addAnimationPackets(uint16_t& netPacketSize)
 
 void Packager::addAIPackets(uint16_t& netPacketSize)
 {
-	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
 	AIPacket aiPacket;
 	uint16_t sizeOfAIPackets = 0;
 	bool breakLoop = false;
@@ -185,7 +182,7 @@ void Packager::addSpellPackets(uint16_t& netPacketSize)
 	netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addMetaDataPacket(uint16_t type, uint16_t &netPacketSize, uint16_t sizeInBytes)
+void Packager::addMetaDataPacket(uint16_t type, uint16_t& netPacketSize, uint16_t sizeInBytes)
 {
 	memcpy(this->memory + netPacketSize, &MetaDataPacket(type, sizeInBytes), sizeof(MetaDataPacket));
 
