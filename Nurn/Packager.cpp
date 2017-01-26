@@ -182,7 +182,7 @@ void Packager::addSpellPackets(uint16_t& netPacketSize)
 	netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addMetaDataPacket(uint16_t type, uint16_t& netPacketSize, uint16_t sizeInBytes)
+void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes)
 {
 	memcpy(this->memory + netPacketSize, &MetaDataPacket(type, sizeInBytes), sizeof(MetaDataPacket));
 
