@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 		//fileIm.importFbx("C:/Users/GiS-1/Desktop/Goblin/Goblin.fbx", 24);
 		//fileIm.writeToBinary("C:/Users/GiS-1/Desktop/Goblin/");
 
-		//fileIm.importFbx("C:/Git_Repos/FBX Importer/FBXToFile/Models/cube3.fbx", 24);
-		//fileIm.writeToBinary("C:/Git_Repos/FBX Importer/FBXToFile/Exported/");
+		fileIm.importFbx("C:/Project_Erebus/FBXHelper/master.fbx", 24);
+		fileIm.writeToBinary("C:/Project_Erebus/FBXHelper/");
 		//
 
 		/*

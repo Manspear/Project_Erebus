@@ -4,5 +4,4 @@ function BaseCharge(self, dt)
 end
 function BaseChargeCast(self, entity)
 	self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
-	--self.chargedTime = 0
 end

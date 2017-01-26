@@ -7,8 +7,8 @@ RenderQueue::RenderQueue()
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
 		allShaders[i] = nullptr;
+		uniformLocations[i] = nullptr;
 	}
-
 	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 
@@ -25,8 +25,13 @@ RenderQueue::~RenderQueue()
 		delete[] jointMatrices;
 
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
+	{
 		if (allShaders[i] != nullptr)
 			delete allShaders[i];
+		if (uniformLocations[i] != nullptr)
+			delete[] uniformLocations[i];
+	}
+		
 	delete[] tempMatrices;
 }
 
@@ -45,92 +50,78 @@ void RenderQueue::init()
 	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
 	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
+	glGenBuffers(1, &particleBuffer);
+	uniformLocations[FORWARD] = new GLuint[5];
+	uniformLocations[ANIM] = new GLuint[2];
+	uniformLocations[GEOMETRY] = new GLuint[2];
+	uniformLocations[GEOMETRY_NON] = new GLuint[2];
+	uniformLocations[PARTICLES] = new GLuint[2];
+	uniformLocations[GEOMETRY_PICKING] = new GLuint[2];
+	uniformLocations[ANIMSHADOW] = new GLuint[3];
+	uniformLocations[GEOMETRYSHADOW] = new GLuint[3];
+
+	for(int i = 0; i < NUM_SHADER_TYPES; i++) {
+		if (uniformLocations[i]) {
+			uniformLocations[i][0] = allShaders[i]->getUniformLocation("projectionMatrix");
+			uniformLocations[i][1] = allShaders[i]->getUniformLocation("viewMatrix");
+		}
+	}
+
+	uniformLocations[FORWARD][2] = allShaders[FORWARD]->getUniformLocation("viewPos");
+	uniformLocations[FORWARD][3] = allShaders[FORWARD]->getUniformLocation("lightPos");
+	uniformLocations[FORWARD][4] = allShaders[FORWARD]->getUniformLocation("lightColor");
+
+	uniformLocations[ANIMSHADOW][2] = allShaders[ANIMSHADOW]->getUniformLocation("viewPos");
+	uniformLocations[GEOMETRYSHADOW][2] = allShaders[GEOMETRYSHADOW]->getUniformLocation("viewPos");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
 {
+	glm::mat4 projectionMatrix = camera->getProjectionMatrix();
+	glm::mat4 viewMatrix = camera->getViewMatrix();
+	glm::vec3 viewPosition = camera->getPosition();
+
 	allShaders[FORWARD]->use();
-	allShaders[FORWARD]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[FORWARD]->addUniform(camera->getViewMatrix(), "viewMatrix");
-	allShaders[FORWARD]->addUniform(camera->getPosition(), "viewPos");
-	allShaders[FORWARD]->addUniform(camera->getPosition(), "lightPos");
-	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+	allShaders[FORWARD]->addUniform(projectionMatrix, uniformLocations[FORWARD][0]);
+	allShaders[FORWARD]->addUniform(viewMatrix, uniformLocations[FORWARD][1]);
+	allShaders[FORWARD]->addUniform(viewPosition, uniformLocations[FORWARD][2]);
+	allShaders[FORWARD]->addUniform(viewPosition, uniformLocations[FORWARD][3]);
+	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), uniformLocations[FORWARD][4]);
 	allShaders[FORWARD]->unUse();
 	
 	allShaders[ANIM]->use();
-	allShaders[ANIM]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[ANIM]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[ANIM]->addUniform(projectionMatrix, uniformLocations[ANIM][0]);
+	allShaders[ANIM]->addUniform(viewMatrix, uniformLocations[ANIM][1]);
 	allShaders[ANIM]->unUse();
 
 	allShaders[GEOMETRY]->use();
-	allShaders[GEOMETRY]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY]->addUniform(projectionMatrix, uniformLocations[GEOMETRY][0]);
+	allShaders[GEOMETRY]->addUniform(viewMatrix, uniformLocations[GEOMETRY][1]);
 	allShaders[GEOMETRY]->unUse();
 
 	allShaders[GEOMETRY_NON]->use();
-	allShaders[GEOMETRY_NON]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY_NON]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_NON]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_NON][0]);
+	allShaders[GEOMETRY_NON]->addUniform(viewMatrix, uniformLocations[GEOMETRY_NON][1]);
 	allShaders[GEOMETRY_NON]->unUse();
 
 	allShaders[PARTICLES]->use();
-	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[PARTICLES]->addUniform(projectionMatrix, uniformLocations[PARTICLES][0]);
+	allShaders[PARTICLES]->addUniform(viewMatrix, uniformLocations[PARTICLES][1]);
 	allShaders[PARTICLES]->unUse();
 
 	allShaders[GEOMETRY_PICKING]->use();
-	allShaders[GEOMETRY_PICKING]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY_PICKING]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_PICKING]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_PICKING][0]);
+	allShaders[GEOMETRY_PICKING]->addUniform(viewMatrix, uniformLocations[GEOMETRY_PICKING][1]);
 	allShaders[GEOMETRY_PICKING]->unUse();
 }
 
 void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
 {
 	allShaders[shader]->use();
-	allShaders[shader]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[shader]->addUniform(camera->getViewMatrix(), "viewMatrix");
-	allShaders[shader]->addUniform(camera->getPosition(), "viewPos");
+	allShaders[shader]->addUniform(camera->getProjectionMatrix(), uniformLocations[shader][0]);
+	allShaders[shader]->addUniform(camera->getViewMatrix(), uniformLocations[shader][1]);
+	allShaders[shader]->addUniform(camera->getPosition(), uniformLocations[shader][2]);
 	allShaders[shader]->unUse();
-}
-
-void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
-{
-
-	if (currentShader != id.shaderProgram)
-	{
-		allShaders[currentShader]->unUse();
-		allShaders[id.shaderProgram]->use();
-		shaderProgramId = allShaders[id.shaderProgram]->getProgramID();
-		currentShader = id.shaderProgram;
-	}
-
-	if (currentTexture != id.texture)
-	{
-		//use id.texture
-		currentTexture = id.texture;
-	}
-}
-
-void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
-{
-	size_t size = elements.size();
-
-	std::vector<size_t> indices(size);
-	std::iota(indices.begin(), indices.end(), 0);
-
-	std::sort(indices.begin(), indices.end(),
-		[&elements](size_t i1, size_t i2) {return elements[i2] < elements[i1]; });
-
-	currentShader = 0;
-	GLuint shaderProgramId = allShaders[currentShader]->getProgramID();
-	allShaders[currentShader]->use();
-
-	for (int i = 0; i < size; i++)
-	{
-		RenderQueueElement* el = elements[indices[i]];
-		configure(el->id, shaderProgramId);
-		el->draw(shaderProgramId);
-	}
-	allShaders[currentShader]->unUse();
 }
 
 void RenderQueue::allocateWorlds(int n)
@@ -146,9 +137,6 @@ void RenderQueue::allocateWorlds(int n)
 
 void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
 {
-	/*LARGE_INTEGER s;
-	QueryPerformanceCounter( &s );
-	double start = s.QuadPart;*/
 	allTransforms = theTrans;
 #if 1
 	glm::mat4 tempMatrix = glm::mat4();
@@ -291,40 +279,37 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 	allShaders[FORWARD]->unUse();
 }
 
-void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
+bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 {
+	bool blitOrNot = false;
 	allShaders[PARTICLES]->use();
-	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	Color c;
-	TextureAsset* tA;
-	glm::vec3* pos;
-	
-
+	SendStruct* pos;
+	size_t particleCount;
+	glBindBuffer(GL_ARRAY_BUFFER, particleBuffer);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
 	for (size_t i = 0; i < ps->size(); i++)
 	{
-		for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
+		if (ps->at(i)->isActive)
 		{
-			if (ps->at(i)->particleEmitters->isActive)
+			blitOrNot = true;
+			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
 			{
-
-				//c = particleSystems->at(i)->getColor();
-				//glUniform3f(loc2, c.r, c.g, c.b );
-				pos = ps->at(i)->particleEmitters[j].getPositions();
-				ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
-				size_t ParticleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
-
-				glBindBuffer(GL_ARRAY_BUFFER, ps->at(i)->particleEmitters[j].getPartVertexBuffer());
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-				glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
-				glEnableVertexAttribArray(0);
-				glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
-			}
+				if (ps->at(i)->particleEmitters->isActive)
+				{				
+					pos = ps->at(i)->particleEmitters[j].getPositions();
+					ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
+					particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
+					glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);				
+					glDrawArraysInstanced(GL_POINTS, 0, particleCount, 1);
+				}
+			}		
 		}
-	}    
+	}  
+	glEnableVertexAttribArray(0);
 	allShaders[PARTICLES]->unUse();
+	return blitOrNot;
 }
 
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)

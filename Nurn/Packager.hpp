@@ -40,6 +40,6 @@ private:
 	void addAnimationPackets(uint16_t& netPacketSize);
 	void addAIPackets(uint16_t& netPacketSize);
 	void addSpellPackets(uint16_t& netPacketSize);
-	void addMetaDataPacket(uint16_t type, uint16_t& netPacketSize, uint16_t sizeInBytes); // After a group of packets have been added the MetaData is added.
+	void addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 };
