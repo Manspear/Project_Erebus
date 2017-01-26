@@ -50,7 +50,7 @@ function LoadPlayer()
 	-- set spells for player
 	player.spells = {}
 	player.spells[1] = CreateHellPillar()
-	player.spells[2] = CreateIceGrenade()
+	player.spells[2] = CreateBlackHole()
 	player.spells[3] = CreateSunRay()
 
 	player.currentSpell = 1

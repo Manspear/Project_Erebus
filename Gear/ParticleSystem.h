@@ -9,6 +9,8 @@ namespace Gear
 	{
 
 	public:
+		GEAR_API static GLuint particleBuffer;
+		GEAR_API static void initParticleSystemBuffer();
 		GEAR_API ParticleSystem();
 		GEAR_API ~ParticleSystem();
 		GEAR_API ParticleSystem(std::string path, Importer::Assets* assets);
@@ -28,6 +30,7 @@ namespace Gear
 		ParticleEmitter* particleEmitters;
 		bool isActive;
 		bool alive;
+		
 	public:
 		int nrOfEmitters;
 		glm::vec3 systemPos;
@@ -40,6 +43,5 @@ namespace Gear
 		glm::vec3 v1;
 		glm::vec3 v2;
 		glm::vec3 v3;
-
 	};
 }

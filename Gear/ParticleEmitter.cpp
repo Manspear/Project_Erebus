@@ -14,8 +14,6 @@ namespace Gear
 		timer = 0;
 		isActive = false;
 		nrOfActiveParticles = 0;
-		glGenBuffers(1, &particleVertexBuffer);
-		/*this->localPos = {emitter.posX, emitter.posY, emitter.posZ};*/
 		this->maxParticles = emitter.numOfParticles;
 		this->allParticles = new Partikel[maxParticles];
 		this->particlePos = new SendStruct[maxParticles];
@@ -118,11 +116,6 @@ namespace Gear
 			allParticles[i].direction = { 0, 0, 0 };
 		}
 		nrOfActiveParticles = 0;
-	}
-
-	GLuint ParticleEmitter::getPartVertexBuffer()
-	{
-		return this->particleVertexBuffer;
 	}
 
 	void ParticleEmitter::setEmitterPos(glm::vec3 pos)

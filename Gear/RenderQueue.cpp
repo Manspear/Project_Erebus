@@ -92,47 +92,6 @@ void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
 	allShaders[shader]->unUse();
 }
 
-void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
-{
-
-	if (currentShader != id.shaderProgram)
-	{
-		allShaders[currentShader]->unUse();
-		allShaders[id.shaderProgram]->use();
-		shaderProgramId = allShaders[id.shaderProgram]->getProgramID();
-		currentShader = id.shaderProgram;
-	}
-
-	if (currentTexture != id.texture)
-	{
-		//use id.texture
-		currentTexture = id.texture;
-	}
-}
-
-void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
-{
-	size_t size = elements.size();
-
-	std::vector<size_t> indices(size);
-	std::iota(indices.begin(), indices.end(), 0);
-
-	std::sort(indices.begin(), indices.end(),
-		[&elements](size_t i1, size_t i2) {return elements[i2] < elements[i1]; });
-
-	currentShader = 0;
-	GLuint shaderProgramId = allShaders[currentShader]->getProgramID();
-	allShaders[currentShader]->use();
-
-	for (int i = 0; i < size; i++)
-	{
-		RenderQueueElement* el = elements[indices[i]];
-		configure(el->id, shaderProgramId);
-		el->draw(shaderProgramId);
-	}
-	allShaders[currentShader]->unUse();
-}
-
 void RenderQueue::allocateWorlds(int n)
 {
 	if (worldMatrices)
@@ -146,9 +105,6 @@ void RenderQueue::allocateWorlds(int n)
 
 void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
 {
-	/*LARGE_INTEGER s;
-	QueryPerformanceCounter( &s );
-	double start = s.QuadPart;*/
 	allTransforms = theTrans;
 #if 1
 	glm::mat4 tempMatrix = glm::mat4();
@@ -294,33 +250,27 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 {
 	allShaders[PARTICLES]->use();
-	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	Color c;
-	TextureAsset* tA;
 	SendStruct* pos;
-	
-
+	size_t particleCount;
+	glBindBuffer(GL_ARRAY_BUFFER, Gear::ParticleSystem::particleBuffer);
 	for (size_t i = 0; i < ps->size(); i++)
 	{
-		for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
+		if (ps->at(i)->isActive)
 		{
-			if (ps->at(i)->particleEmitters->isActive)
+			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
 			{
-
-				//c = particleSystems->at(i)->getColor();
-				//glUniform3f(loc2, c.r, c.g, c.b );
-				pos = ps->at(i)->particleEmitters[j].getPositions();
-				ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
-				size_t ParticleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
-
-				glBindBuffer(GL_ARRAY_BUFFER, ps->at(i)->particleEmitters[j].getPartVertexBuffer());
-				glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
-				glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
-				glEnableVertexAttribArray(0);
-				glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
+				if (ps->at(i)->particleEmitters->isActive)
+				{
+					pos = ps->at(i)->particleEmitters[j].getPositions();
+					ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
+					particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
+					glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
+					glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);
+					glEnableVertexAttribArray(0);
+					glDrawArraysInstanced(GL_POINTS, 0, particleCount, 1);
+				}
 			}
 		}
 	}    

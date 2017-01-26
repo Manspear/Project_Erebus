@@ -14,7 +14,6 @@ in float size[];
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 
-uniform float particleSize;
 out vec2 vertex_UV;
 
  void main()

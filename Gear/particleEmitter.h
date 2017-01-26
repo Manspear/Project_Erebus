@@ -46,7 +46,6 @@ namespace Gear
 
 		GEAR_API bool update(const float & dt);
 		GEAR_API void explode();
-		GEAR_API GLuint getPartVertexBuffer();
 		GEAR_API void setEmitterPos(glm::vec3 pos);
 		GEAR_API void setDirection(glm::vec3 dir);
 		GEAR_API int getNrOfActiveParticles();
@@ -75,13 +74,10 @@ namespace Gear
 		float timer;
 		Partikel* allParticles;
 		float shrinkage;
-		//glm::vec3* particlePos;
 		SendStruct* particlePos;
 		int nrOfActiveParticles;
-		GLuint particleVertexBuffer;
 		void spawn(float dt);
 		Color color;
-
 	};
 }
 

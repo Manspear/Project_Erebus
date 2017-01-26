@@ -49,6 +49,7 @@ GamePlay::~GamePlay()
 void GamePlay::Initialize(Importer::Assets* assets, Controls* controls, Inputs* inputs, Camera* camera)
 {
 	luaBinds.load(engine, assets, &collisionHandler, controls, inputs, transforms, &boundTransforms, allAnimations, &boundAnimations, &models, &animatedModels, camera, &ps, &ai, &networkController, work, soundEngine);
+	Gear::ParticleSystem::initParticleSystemBuffer();
 }
 
 void GamePlay::Update(Controls* controls, double deltaTime)
