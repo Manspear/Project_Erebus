@@ -43,7 +43,7 @@ function LoadPlayer()
 	player.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player.spells[1] = CreateIceGrenade()
-	player.spells[2] = {}
+	player.spells[2] = CreateBlackHole()
 
 
 	player.currentSpell = 1
@@ -102,7 +102,7 @@ function LoadPlayer2()
 	player2.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player2.spells[1] = CreateIceGrenade()
-	player2.spells[2] = {}
+	player2.spells[2] = CreateBlackHole()
 
 	player2.currentSpell = 1
 
@@ -181,6 +181,7 @@ function UpdatePlayer(dt)
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
+	player.spells[2]:Update(dt)
 	
 
 
