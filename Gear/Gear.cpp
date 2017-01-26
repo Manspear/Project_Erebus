@@ -32,11 +32,7 @@ namespace Gear
 
 	GearEngine::~GearEngine()
 	{
-
 		glfwTerminate();
-		for (size_t i = 0; i < statModels.size(); i++) {
-			delete statModels.at(i);
-		}
 		delete quadShader;
 		delete lightPassShader;
 		delete blurShader;
@@ -130,10 +126,6 @@ namespace Gear
 		skybox.loadCubemap(faces);
 	}
 
-	bool GearEngine::isRunning() {
-		return true;//window->isWindowOpen();
-	}
-
 	GEAR_API void GearEngine::setDrawMode(int drawMode)
 	{
 		this->drawMode = drawMode;
@@ -172,11 +164,6 @@ namespace Gear
 
 	}
 
-	void GearEngine::addStaticNonModel(staticNonModels* model) {
-		model->addShaderProgramRef(this->queue.getShaderProgram(model->getShaderType()));
-		this->statModels.push_back(model);
-	}
-
 	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n)
 	{
 		transformCount = n;
@@ -198,11 +185,6 @@ namespace Gear
 	{
 		work = workQueue;
 		queue.setWorkQueue( workQueue );
-	}
-
-	void GearEngine::addModelInstance(ModelAsset* asset)
-	{
-		queue.addModelInstance(asset);
 	}
 
 	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color)

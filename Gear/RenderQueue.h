@@ -39,7 +39,6 @@ public:
 	void updateUniforms(Camera* camera, ShaderType shader);
 	void allocateWorlds(int n);
 	void update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations);
-	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
@@ -60,14 +59,12 @@ private:
 	int currentTexture = 0;
 	int currentCallType = 0;
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
-	std::vector<ModelInstance> instances;
-	std::vector<ModelInstance> staticInstances;
+
 	GLuint particleBuffer;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
 	glm::mat4* jointMatrices;
 	int nrOfWorlds;
-	int totalWorlds;
 	WorkQueue* work;
 
 	double freq;

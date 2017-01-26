@@ -2,7 +2,7 @@
 
 
 RenderQueue::RenderQueue()
-	: nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr), jointMatrices( nullptr )
+	: nrOfWorlds(0),  worldMatrices(nullptr), jointMatrices( nullptr )
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
@@ -171,34 +171,6 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	//printf( "Time: %f-%f=%f\n", end, start, (end-start)/freq );
 }
 
-int RenderQueue::addModelInstance(ModelAsset* asset)
-{
-	int result = this->nrOfWorlds++;
-
-	int index = -1;
-	for (int i = 0; i < instances.size() && index < 0; i++)
-		if (instances[i].asset == asset)
-			index = i;
-
-	if (index < 0)
-	{
-		ModelInstance instance;
-		instance.asset = asset;
-		instance.worldIndices.push_back(result);
-
-		index = instances.size();
-		instances.push_back(instance);
-	}
-
-	instances[index].worldIndices.push_back(result);
-	worldMatrices[result] = glm::mat4(1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, nrOfWorlds, 1);
-
-	return result;
-}
-
 ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
 	return this->allShaders[type];
 }
@@ -221,18 +193,14 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 		ModelAsset* modelAsset = dynamicModels ->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
-		//dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			int index = dynamicModels->at(i).worldIndices[j];
 			tempMatrices[numInstance++] = worldMatrices[index];
 		}
-
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
