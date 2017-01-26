@@ -122,6 +122,7 @@ void LevelEditor::start() {
 	//resetWorld();
 	LevelWorldHandler::getInstance()->addStuff(engine, assets, ui, &window, inputs, camera, Debugger::getInstance());
 
+	float elapsedTime = 0.0f;
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -156,6 +157,9 @@ void LevelEditor::start() {
 
 		if(LevelActorHandler::getInstance()->getSelected() != nullptr)
 			LevelActorHandler::getInstance()->getSelected()->update();
+
+		LevelWorldHandler::getInstance()->updateAutosave( deltaTime );
+
 		//for (int n = 0; n < actors.size(); n++)
 		//{
 		//	actors[n]->update();

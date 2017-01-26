@@ -162,6 +162,7 @@ void TW_CALL LevelActionHandler::onSaveWorld( void* args )
 
 void TW_CALL LevelActionHandler::onLoadWorld( void* args )
 {
+	LevelWorldHandler::getInstance()->resetWorld();
 	LevelActorFactory::getInstance()->loadWorld();
 }
 
