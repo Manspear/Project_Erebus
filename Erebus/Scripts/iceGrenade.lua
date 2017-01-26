@@ -50,16 +50,17 @@ function CreateIceGrenade()
 					local factor = chargetime / self.maxChargeTime
 					local pos = Transform.GetPosition(entity.transformID)
 					local dir = Transform.GetLookAt(entity.transformID)
+					dir.y = dir.y +0.1
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 
 					self.nades[i].type:Cast(pos, dir, falloff, SPEED_ICENADE, radius)
 					self.nades[i].damage = factor * MAX_DAMAGE_ICENADE
 					local effectflag = false
+					self.combo = self.combo + 1
 					if self.combo > SPAM_COMBO_NUMBER_ICENADE then
 						self.combo = 0
 						effectflag = true
-						print("LALE")
 					end
 					self.nades[i].effectflag = effectflag
 					self.nades[i].alive = true
@@ -84,11 +85,6 @@ function CreateIceGrenade()
 				else
 					
 					hits = self.nades[i].type:Update(dt)
-		--[[
-					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() and not self.hits[enemies[curEnemy].transformID] then
-						table.insert(result, enemies[curEnemy])
-						self.hits[enemies[curEnemy].transformID] = true
-		]]
 					
 					self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
