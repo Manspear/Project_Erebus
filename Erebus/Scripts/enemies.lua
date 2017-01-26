@@ -47,7 +47,7 @@ function LoadEnemies(n)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 		enemies[i].state = stateScript.state.idleState
-		enemies[i].animation = Animation.Create()
+		enemies[i].animation = Animation.Bind()
 		enemies[i].animationState = 1
 		enemies[i].range = 4
 		enemies[i].target = nil
@@ -91,6 +91,7 @@ function UpdateEnemies(dt)
 
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					enemies[i].effects[j]:Deapply(enemies[i])
 					table.remove(enemies[i].effects, j)
 
 				end

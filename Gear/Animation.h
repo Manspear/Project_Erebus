@@ -32,6 +32,7 @@ public:
 	The number of parts is equal to
 	*/
 	GEAR_API virtual void setAnimationSegments(int numberOfSegments);
+	GEAR_API void setMatrixIndex( int index );
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:
@@ -57,6 +58,8 @@ public:
 
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
+	GEAR_API int getMatrixIndex();
+
 protected:
 	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 
@@ -77,6 +80,7 @@ protected:
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
+	float animTimer;
 
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
@@ -116,4 +120,6 @@ protected:
 	Importer::ModelAsset* asset;
 	std::vector<glm::mat4> animMatrix;
 	std::vector<sKeyFrame> finalList;
+
+	int matrixIndex;
 };

@@ -123,6 +123,10 @@ void LevelEditor::start() {
 	//resetWorld();
 	LevelWorldHandler::getInstance()->addStuff(engine, assets, ui, &window, inputs, camera, Debugger::getInstance());
 
+	int boundAnimations = 0;
+	Animation* animations = nullptr;
+	engine->bindAnimations( &animations, &boundAnimations );
+
 	float elapsedTime = 0.0f;
 	while (running && window.isWindowOpen())
 	{
@@ -149,7 +153,7 @@ void LevelEditor::start() {
 
 		engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 		engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
-		engine->queueParticles(&ps);
+		engine->queueParticles(ps);
 
 
 		if(LevelActorHandler::getInstance()->getSelected() != nullptr)
@@ -166,6 +170,8 @@ void LevelEditor::start() {
 			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
 			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 		engine->print(fps, 0.0f, 0.0f);
+		engine->update();
+		camera->updateBuffer();
 		engine->draw(camera);
 		
 		this->ui->Draw();

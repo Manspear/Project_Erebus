@@ -16,6 +16,7 @@ SoundEngine::SoundEngine()
 	if (engine)
 	{
 		engine->setSoundVolume(0.5f);
+		engine->setDefault3DSoundMinDistance(10);
 	}
 }
 
@@ -29,9 +30,9 @@ SoundEngine::~SoundEngine()
 		engine->drop();
 }
 
-int SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
+size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 {
-	int index = -1;
+	size_t index = -1;
 
 	if (!engine)
 		return index;
@@ -47,9 +48,9 @@ int SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 
 	ISound* s;
 	if (options & SOUND_3D)
-		s = engine->play3D(path.c_str(), ikpos, loop, paused, track, stream, effects);
+		s = engine->play3D(path.c_str(), ikpos, loop, paused, track, ESM_STREAMING, effects);
 	else
-		s = engine->play2D(path.c_str(), loop, paused, track, stream, effects);
+		s = engine->play2D(path.c_str(), loop, paused, track, ESM_STREAMING, effects);
 
 	if (track && s)
 	{
@@ -88,6 +89,13 @@ void SoundEngine::resumeAll()
 {
 	if (engine)
 		engine->setAllSoundsPaused(false);
+}
+
+void SoundEngine::clear()
+{
+	for (auto s : sounds)
+		s->drop();
+	sounds.clear();
 }
 
 void SoundEngine::setMasterVolume(float v)

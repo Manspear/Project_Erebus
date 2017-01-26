@@ -44,9 +44,9 @@ AI.SetNav(widthTest,heightTest)
 
 -- add enemies
 LoadEnemies(5)
-Transform.SetPosition(enemies[1].transformID, {x=155, y=0, z=158})
-Transform.SetPosition(enemies[2].transformID, {x=161, y=0, z=112})
-Transform.SetPosition(enemies[3].transformID, {x=245, y=0, z=80})
+Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
+Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
+Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
 Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
 Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
 
@@ -59,5 +59,8 @@ goal.transformID = Transform.Bind()
 goal.collider = SphereCollider.Create(goal.transformID)
 goal.collider:SetRadius(10)
 CollisionHandler.AddSphere(goal.collider)
+
+-- set music
+Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })

@@ -119,6 +119,15 @@ private:
 	int totalDebugSpheres;
 	int totalDebugAABBs;
 	int totalDebugOBBs;
+
+	debugLineStruct	bufferDebugLines[1000];
+	debugSphereStruct bufferDebugSpheres[100000];
+	debugAABBStruct bufferDebugAABBs[65000];
+	debugOBBStruct bufferDebugOBBs[10000];
+	int bufferTotalDebugLines;
+	int bufferTotalDebugSpheres;
+	int bufferTotalDebugAABBs;
+	int bufferTotalDebugOBBs;
 	
 public:
 	
@@ -127,6 +136,7 @@ public:
 	GEAR_API ~Debug();
 	//DONT CALL
 	GEAR_API void clear();
+	GEAR_API void update();
 	//Draws a line at starting point until destination
 	GEAR_API void drawLine(glm::vec3 start, glm::vec3 dest, glm::vec3 color = glm::vec3(0,1,0));
 	/*

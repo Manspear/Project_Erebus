@@ -1,25 +1,37 @@
 #include "RenderQueue.h"
 
 
-RenderQueue::RenderQueue() : nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr)
+RenderQueue::RenderQueue()
+	: nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr), jointMatrices( nullptr )
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
 		allShaders[i] = nullptr;
+		uniformLocations[i] = nullptr;
 	}
-
 	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency( &i );
+	freq = i.QuadPart;
 }
 
 RenderQueue::~RenderQueue()
 {
-	if (worldMatrices != nullptr)
+	if (worldMatrices)
 		delete[] worldMatrices;
+	if( jointMatrices )
+		delete[] jointMatrices;
+
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
+	{
 		if (allShaders[i] != nullptr)
 			delete allShaders[i];
+		if (uniformLocations[i] != nullptr)
+			delete[] uniformLocations[i];
+	}
+		
 	delete[] tempMatrices;
 }
 
@@ -42,109 +54,101 @@ void RenderQueue::init()
 	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
 	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
+	glGenBuffers(1, &particleBuffer);
+	uniformLocations[FORWARD] = new GLuint[5];
+	uniformLocations[ANIM] = new GLuint[2];
+	uniformLocations[GEOMETRY] = new GLuint[2];
+	uniformLocations[GEOMETRY_NON] = new GLuint[2];
+	uniformLocations[PARTICLES] = new GLuint[2];
+	uniformLocations[GEOMETRY_PICKING] = new GLuint[2];
+	uniformLocations[ANIMSHADOW] = new GLuint[3];
+	uniformLocations[GEOMETRYSHADOW] = new GLuint[3];
+
+	for(int i = 0; i < NUM_SHADER_TYPES; i++) {
+		if (uniformLocations[i]) {
+			uniformLocations[i][0] = allShaders[i]->getUniformLocation("projectionMatrix");
+			uniformLocations[i][1] = allShaders[i]->getUniformLocation("viewMatrix");
+		}
+	}
+
+	uniformLocations[FORWARD][2] = allShaders[FORWARD]->getUniformLocation("viewPos");
+	uniformLocations[FORWARD][3] = allShaders[FORWARD]->getUniformLocation("lightPos");
+	uniformLocations[FORWARD][4] = allShaders[FORWARD]->getUniformLocation("lightColor");
+
+	uniformLocations[ANIMSHADOW][2] = allShaders[ANIMSHADOW]->getUniformLocation("viewPos");
+	uniformLocations[GEOMETRYSHADOW][2] = allShaders[GEOMETRYSHADOW]->getUniformLocation("viewPos");
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
 {
+	glm::mat4 projectionMatrix = camera->getProjectionMatrix();
+	glm::mat4 viewMatrix = camera->getViewMatrix();
+	glm::vec3 viewPosition = camera->getPosition();
+
 	allShaders[FORWARD]->use();
-	allShaders[FORWARD]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[FORWARD]->addUniform(camera->getViewMatrix(), "viewMatrix");
-	allShaders[FORWARD]->addUniform(camera->getPosition(), "viewPos");
-	allShaders[FORWARD]->addUniform(camera->getPosition(), "lightPos");
-	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), "lightColor");
+	allShaders[FORWARD]->addUniform(projectionMatrix, uniformLocations[FORWARD][0]);
+	allShaders[FORWARD]->addUniform(viewMatrix, uniformLocations[FORWARD][1]);
+	allShaders[FORWARD]->addUniform(viewPosition, uniformLocations[FORWARD][2]);
+	allShaders[FORWARD]->addUniform(viewPosition, uniformLocations[FORWARD][3]);
+	allShaders[FORWARD]->addUniform(glm::vec3(1.0f, 1.0f, 1.0f), uniformLocations[FORWARD][4]);
 	allShaders[FORWARD]->unUse();
 	
 	allShaders[ANIM]->use();
-	allShaders[ANIM]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[ANIM]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[ANIM]->addUniform(projectionMatrix, uniformLocations[ANIM][0]);
+	allShaders[ANIM]->addUniform(viewMatrix, uniformLocations[ANIM][1]);
 	allShaders[ANIM]->unUse();
 
 	allShaders[GEOMETRY]->use();
-	allShaders[GEOMETRY]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY]->addUniform(projectionMatrix, uniformLocations[GEOMETRY][0]);
+	allShaders[GEOMETRY]->addUniform(viewMatrix, uniformLocations[GEOMETRY][1]);
 	allShaders[GEOMETRY]->unUse();
 
 	allShaders[GEOMETRY_NON]->use();
-	allShaders[GEOMETRY_NON]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY_NON]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_NON]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_NON][0]);
+	allShaders[GEOMETRY_NON]->addUniform(viewMatrix, uniformLocations[GEOMETRY_NON][1]);
 	allShaders[GEOMETRY_NON]->unUse();
 
 	allShaders[PARTICLES]->use();
-	allShaders[PARTICLES]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[PARTICLES]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[PARTICLES]->addUniform(projectionMatrix, uniformLocations[PARTICLES][0]);
+	allShaders[PARTICLES]->addUniform(viewMatrix, uniformLocations[PARTICLES][1]);
 	allShaders[PARTICLES]->unUse();
 
 	allShaders[GEOMETRY_PICKING]->use();
-	allShaders[GEOMETRY_PICKING]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[GEOMETRY_PICKING]->addUniform(camera->getViewMatrix(), "viewMatrix");
+	allShaders[GEOMETRY_PICKING]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_PICKING][0]);
+	allShaders[GEOMETRY_PICKING]->addUniform(viewMatrix, uniformLocations[GEOMETRY_PICKING][1]);
 	allShaders[GEOMETRY_PICKING]->unUse();
 }
 
 void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
 {
 	allShaders[shader]->use();
-	allShaders[shader]->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	allShaders[shader]->addUniform(camera->getViewMatrix(), "viewMatrix");
-	allShaders[shader]->addUniform(camera->getPosition(), "viewPos");
+	allShaders[shader]->addUniform(camera->getProjectionMatrix(), uniformLocations[shader][0]);
+	allShaders[shader]->addUniform(camera->getViewMatrix(), uniformLocations[shader][1]);
+	allShaders[shader]->addUniform(camera->getPosition(), uniformLocations[shader][2]);
 	allShaders[shader]->unUse();
-}
-
-void RenderQueue::configure(RenderQueueId &id, GLuint &shaderProgramId)
-{
-
-	if (currentShader != id.shaderProgram)
-	{
-		allShaders[currentShader]->unUse();
-		allShaders[id.shaderProgram]->use();
-		shaderProgramId = allShaders[id.shaderProgram]->getProgramID();
-		currentShader = id.shaderProgram;
-	}
-
-	if (currentTexture != id.texture)
-	{
-		//use id.texture
-		currentTexture = id.texture;
-	}
-}
-
-void RenderQueue::process(std::vector<RenderQueueElement*> &elements)
-{
-	size_t size = elements.size();
-
-	std::vector<size_t> indices(size);
-	std::iota(indices.begin(), indices.end(), 0);
-
-	std::sort(indices.begin(), indices.end(),
-		[&elements](size_t i1, size_t i2) {return elements[i2] < elements[i1]; });
-
-	currentShader = 0;
-	GLuint shaderProgramId = allShaders[currentShader]->getProgramID();
-	allShaders[currentShader]->use();
-
-	for (int i = 0; i < size; i++)
-	{
-		RenderQueueElement* el = elements[indices[i]];
-		configure(el->id, shaderProgramId);
-		el->draw(shaderProgramId);
-	}
-	allShaders[currentShader]->unUse();
 }
 
 void RenderQueue::allocateWorlds(int n)
 {
 	if (worldMatrices)
 		delete[] worldMatrices;
+	if(jointMatrices)
+		delete[] jointMatrices;
+
 	worldMatrices = new glm::mat4[n];
+	jointMatrices = new glm::mat4[n*MAXJOINTCOUNT];
 }
 
-void RenderQueue::update(int n, TransformStruct* theTrans)
+void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
 {
+	allTransforms = theTrans;
+#if 1
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
 	glm::vec3 tempLook;
 	glm::vec3 axis;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < ntransforms; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
@@ -172,6 +176,35 @@ void RenderQueue::update(int n, TransformStruct* theTrans)
 			worldMatrices[i] = tempMatrix;
 		}
 	}
+
+	for( int i=0; i<nanimations; i++ )
+	{
+		memcpy( jointMatrices+i*MAXJOINTCOUNT, animations[i].getShaderMatrices(), sizeof(glm::mat4)*MAXJOINTCOUNT );
+	}
+#else
+	int chunk = n / MAX_THREADS;
+
+	for( int i=0; i<MAX_THREADS; i++ )
+	{
+		int first = i*chunk;
+
+		if( i == MAX_THREADS-1 )
+			chunk += n % MAX_THREADS;
+
+		int last = first + chunk;
+		
+		asyncTransformData[i] = { theTrans, worldMatrices, first, last };
+
+		work->add( asyncTransformUpdate, &asyncTransformData[i] );
+	}
+	work->execute();
+#endif
+
+	/*LARGE_INTEGER e;
+	QueryPerformanceCounter( &e );
+	double end = e.QuadPart;*/
+
+	//printf( "Time: %f-%f=%f\n", end, start, (end-start)/freq );
 }
 
 int RenderQueue::addModelInstance(ModelAsset* asset)
@@ -250,62 +283,37 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 	allShaders[FORWARD]->unUse();
 }
 
-glm::vec3 globalLOL = { 0,0,0 };
-struct greater {
-	bool operator()( Gear::ParticleSystem* const &a, Gear::ParticleSystem* const &b ) {
-		return glm::length(a->position - globalLOL) > glm::length(b->position - globalLOL);
-	}
-};
-void RenderQueue::particleSort(std::vector<Gear::ParticleSystem*>* particleSystems, glm::vec3 cameraPos) {
-	globalLOL = cameraPos;
-	std::sort(particleSystems->begin(), particleSystems->end(), greater());
-	/*float distance = 0.f;
-	std::vector<Gear::ParticleSystem*>::iterator index;
-	Gear::ParticleSystem* tempsys;
-	for (std::vector<Gear::ParticleSystem*>::iterator i = particleSystems->begin(); i != particleSystems->end(); ++i) {
-		for (std::vector<Gear::ParticleSystem*>::iterator j = i; j != particleSystems->end(); ++j) {
-			float temp = glm::length((*j)->position - cameraPos);
-			if ( temp > distance ) {
-				distance = temp;
-				index = j;
-			}
-		}
-		tempsys = particleSystems->at(i);
-		particleSystems->at(i) = particleSystems->at(index);
-		particleSystems->at(index) = tempsys;
-	}*/
-}
-
-void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* particleSystems)
+bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 {
+	bool blitOrNot = false;
 	allShaders[PARTICLES]->use();
-	GLuint loc = glGetUniformLocation(allShaders[PARTICLES]->getProgramID(), "particleSize");
-	glUniform1f(loc, 1.0);
 	glEnable(GL_BLEND);
-	//glDepthMask(GL_FALSE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	Color c;
-	TextureAsset* tA;
-	glm::vec3* pos;
-
-	for (size_t i = 0; i < particleSystems->size(); i++)
+	SendStruct* pos;
+	size_t particleCount;
+	glBindBuffer(GL_ARRAY_BUFFER, particleBuffer);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
+	for (size_t i = 0; i < ps->size(); i++)
 	{
-		if (particleSystems->at(i)->isActive)
+		if (ps->at(i)->isActive)
 		{
-			pos = particleSystems->at(i)->getPositions();
-			particleSystems->at(i)->getTexture()->bind(GL_TEXTURE0);
-			size_t ParticleCount = particleSystems->at(i)->getNrOfActiveParticles();
-
-			glBindBuffer(GL_ARRAY_BUFFER, particleSystems->at(i)->getPartVertexBuffer());
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-			glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
-			glEnableVertexAttribArray(0);
-			glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
+			blitOrNot = true;
+			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
+			{
+				if (ps->at(i)->particleEmitters->isActive)
+				{				
+					pos = ps->at(i)->particleEmitters[j].getPositions();
+					ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
+					particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
+					glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);				
+					glDrawArraysInstanced(GL_POINTS, 0, particleCount, 1);
+				}
+			}		
 		}
-	}
+	}  
+	glEnableVertexAttribArray(0);
 	allShaders[PARTICLES]->unUse();
-	//glDisable(GL_BLEND);
+	return blitOrNot;
 }
 
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)
@@ -327,8 +335,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			//if (allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
 
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
@@ -378,7 +387,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0] );
-			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			//glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
+			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 			{
@@ -424,15 +435,13 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		// TEMP: Shouldn't have any models without material
 		if (modelAsset->getMaterial())
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
-
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			if(allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
-
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
@@ -477,7 +486,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			glUniformMatrix4fv(worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0]);
-			glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
+			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 			{
@@ -569,4 +579,52 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels, std::ve
 
 	delete[]idColors;
 	allShaders[GEOMETRY_PICKING]->unUse();
+}
+
+void RenderQueue::setWorkQueue( WorkQueue* workQueue )
+{
+	work = workQueue;
+}
+
+void RenderQueue::asyncTransformUpdate( void* args )
+{
+	AsyncTransformData* data = (AsyncTransformData*)args;
+	int last = data->last;
+
+	glm::mat4 ident;
+	for( int i=data->first; i<last; i++ )
+	{
+		//reset the world matrix
+		/*tempMatrix = glm::mat4();
+		glm::vec3 tempLook = glm::normalize(glm::vec3(data->transforms[i].lookAt.x, 0, data->transforms[i].lookAt.z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+		//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
+		rotationZ = glm::rotate(tempMatrix, data->transforms[i].rot.z, axis);
+		//rotatea around Y axis, pretty simple. (makes the model look left/right)
+		rotationY = glm::rotate(tempMatrix, data->transforms[i].rot.y, { 0, 1, 0 });
+		//set the scale of the models
+		tempMatrix[0][0] = data->transforms[i].scale.x;
+		tempMatrix[1][1] = data->transforms[i].scale.y;
+		tempMatrix[2][2] = data->transforms[i].scale.z;
+
+		//rotates a scaled identity matrix
+		tempMatrix = rotationZ * rotationY * tempMatrix;
+
+		//sets the translation of objects, final world matrix
+		tempMatrix[3][0] = data->transforms[i].pos.x;
+		tempMatrix[3][1] = data->transforms[i].pos.y;
+		tempMatrix[3][2] = data->transforms[i].pos.z;
+		data->worldMatrices[i] = tempMatrix;*/
+
+		glm::vec3 tempLook = glm::normalize(glm::vec3(data->transforms[i].lookAt.x, 0, data->transforms[i].lookAt.z));
+		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+		glm::mat4 tempMatrix = glm::translate( ident, data->transforms[i].pos );
+		tempMatrix = glm::scale( tempMatrix, data->transforms[i].scale );
+		tempMatrix = glm::rotate( tempMatrix, data->transforms[i].rot.z, axis );
+		tempMatrix = glm::rotate( tempMatrix, data->transforms[i].rot.y, { 0, 1, 0 } );
+
+		data->worldMatrices[i] = tempMatrix;
+	}
 }

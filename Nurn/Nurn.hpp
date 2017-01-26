@@ -56,8 +56,15 @@ namespace Nurn
 		void buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
 		bool fetchTransformPacket(TransformPacket& packet);
 
-		void buildAnimationPacket(const uint16_t& id);
+		void buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID);
 		bool fetchAnimationPacket(AnimationPacket& packet);
+
+		void buildAIPacket(const uint16_t& id, const uint16_t& aiState);
+		bool fetchAIPacket(AIPacket& packet);
+
+		void buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
+		bool fetchSpellPacket(SpellPacket& packet);
+
 
 	private:
 		Address address;

@@ -16,6 +16,19 @@ Debug::~Debug()
 {
 }
 
+void Debug::update()
+{
+	memcpy( bufferDebugLines, debugLines, totalDebugLines*sizeof(debugLineStruct) );
+	memcpy( bufferDebugSpheres, debugSpheres, totalDebugSpheres*sizeof(debugSphereStruct) );
+	memcpy( bufferDebugAABBs, debugAABBs, totalDebugAABBs*sizeof(debugAABBStruct) );
+	memcpy( bufferDebugOBBs, debugOBBs, totalDebugOBBs*sizeof(debugOBBStruct) );
+
+	bufferTotalDebugLines = totalDebugLines;
+	bufferTotalDebugSpheres = totalDebugSpheres;
+	bufferTotalDebugAABBs = totalDebugAABBs;
+	bufferTotalDebugOBBs = totalDebugOBBs;
+}
+
 void Debug::drawLine(glm::vec3 start, glm::vec3 dest, glm::vec3 color)
 {
 	debugLines[totalDebugLines].start = start;
@@ -61,41 +74,41 @@ void Debug::drawRay(glm::vec3 pos, glm::vec3 dir, float length, glm::vec3 color)
 
 int Debug::getTotalLines()
 {
-	return totalDebugLines;
+	return bufferTotalDebugLines;
 }
 int Debug::getTotalSpheres()
 {
-	return totalDebugSpheres;
+	return bufferTotalDebugSpheres;
 }
 
 int Debug::getTotalAABBs()
 {
-	return totalDebugAABBs;
+	return bufferTotalDebugAABBs;
 }
 
 int Debug::getTotalOBBs() 
 {
-	return totalDebugOBBs;
+	return bufferTotalDebugOBBs;
 }
 
 debugLineStruct *Debug::getDebugLines()
 {
-	return this->debugLines;
+	return this->bufferDebugLines;
 }
 
 debugSphereStruct *Debug::getDebugSpheres()
 {
-	return this->debugSpheres;
+	return this->bufferDebugSpheres;
 }
 
 debugAABBStruct *Debug::getDebugAABBs()
 {
-	return this->debugAABBs;
+	return this->bufferDebugAABBs;
 }
 
 debugOBBStruct *Debug::getDebugOBBs() 
 {
-	return this->debugOBBs;
+	return this->bufferDebugOBBs;
 }
 void Debug::clear()
 {

@@ -6,21 +6,22 @@ local scriptFiles =
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
-	--"Scripts/projectile.lua",
-	--"Scripts/arc.lua",
 	"Scripts/ProjectileType.lua",
 	"Scripts/fireEffect.lua",
-	"Scripts/fireball.lua",
-	"Scripts/arcType.lua",
-	"Scripts/fireballArc.lua",
 	"Scripts/timeSlowEffect.lua",
 	"Scripts/chronoBall.lua",
-	"Scripts/fireGroundAoE.lua",
-	"Scripts/groundAoEType.lua",
 	"Scripts/timeOrbWave.lua",
 	"Scripts/orbWaveType.lua",
+	"Scripts/sunRay.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
-	"Scripts/reusable.lua"
+	"Scripts/reusable.lua",
+	"Scripts/slowEffect.lua",
+	"Scripts/iceGrenade.lua",
+	"Scripts/grenadeType.lua",
+	"Scripts/blackHole.lua",
+	"Scripts/hellPillar.lua",
+	"Scripts/rayType.lua",
+	"Scripts/staticAoEType.lua"
 }
 local drawHitboxes = false
 

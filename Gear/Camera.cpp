@@ -12,7 +12,6 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	this->aspectRatio = aspectRatio;
 	this->nearPlane = nearPlane;
 	this->farPlane = farPlane;
-
 	horizontalAngle = 3.14f;
 	verticalAngle = 0;
 	inputs = in;
@@ -32,14 +31,17 @@ Camera::~Camera()
 
 }
 
-void Camera::camFreeUpdate() 
+void Camera::updateBuffer()
 {
-
+	bufferLookPos = lookPos;
+	bufferCamDirection = camDirection;
+	bufferCamPosition = camPosition;
+	bufferViewMat = viewMat;
+	bufferProjectionMat = projectionMat;
 }
 
-void Camera::updateLevelEditorCamera(float dt) {
-
-	
+void Camera::updateLevelEditorCamera(float dt)
+{
 	if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_RIGHT)) {
 		inLevelEditorMoveMouse = true;
 	}
@@ -104,6 +106,11 @@ void Camera::updateLevelEditorCamera(float dt) {
 	viewMat = glm::lookAt(camPosition, camPosition + camDirection, camUp);
 }
 
+void Camera::camFreeUpdate() 
+{
+
+}
+
 void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 {
 	if (inputs->keyPressedThisFrame(GLFW_KEY_L)) {
@@ -141,20 +148,18 @@ void Camera::camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt)
 		if (inputs->keyPressed(GLFW_KEY_D))
 			camPosition += cross(tempforward, { 0,1,0 }) * dt * camSpeed;
 
-
-
 		tempforward = glm::normalize(tempforward);
 		glm::vec3 newAxisZ = glm::cross(tempforward, { 0,1,0 });
 
 		MousePos dPos = inputs->getDeltaPos();
 
-		horizontalAngle += (float)dPos.x / 100.f;
-		verticalAngle += (float)dPos.y / 100.f;
+		horizontalAngle += (float)dPos.x / 100;
+		verticalAngle += (float)dPos.y / 100;
 		if (horizontalAngle > 2 * 3.14f) {
 			horizontalAngle -= 2 * 3.14f;
 		}
 		if (abs(verticalAngle) > 3.14f/2) {
-			verticalAngle -= (float)dPos.y / 100.f;
+			verticalAngle -= (float)dPos.y / 100;
 		}
 
 		camDirection = glm::vec3(
@@ -180,7 +185,6 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 	//project the input direction to the xz plane and normalizes it
 	glm::vec3 tempForward(direction.x, 0, direction.z);
 	tempForward = glm::normalize(tempForward);
-	//tempForward *= cosf(angle) * distance;
 
 	//moves the camera to the right with xOffset units, then moves the camera up with yOffset units
 	glm::vec3 offset = xOffset*cross(tempForward, { 0,1,0 }) + glm::vec3(0,yOffset,0);
@@ -191,7 +195,6 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 	this->lookPos = point + offset;
 	this->camDirection = glm::normalize( lookPos - camPosition);
 
-	//camPosition = point - direction*distance;
 	this->viewMat = glm::lookAt(camPosition, point + offset, camUp);
 	this->projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
 }
@@ -213,7 +216,6 @@ GEAR_API void Camera::setPosition(glm::vec3 position)
 GEAR_API void Camera::setHeight(float h)
 {
 	this->camPosition.y = h;
-	//this->lookPos.y += h;
 	setCamera(camPosition, lookPos);
 }
 
@@ -229,28 +231,33 @@ void Camera::setView(glm::mat4 m)
 
 glm::mat4 Camera::getViewPers()
 {
-	return projectionMat * viewMat;
+	//return projectionMat * viewMat;
+	return bufferProjectionMat * bufferViewMat;
 }
 
 
 glm::mat4 Camera::getViewMatrix()
 {
-	return this->viewMat;
+	//return this->viewMat;
+	return bufferViewMat;
 }
 
 glm::mat4 Camera::getProjectionMatrix()
 {
-	return this->projectionMat;
+	//return this->projectionMat;
+	return bufferProjectionMat;
 }
 
 glm::vec3 Camera::getPosition()
 {
-	return this->camPosition;
+	//return this->camPosition;
+	return bufferCamPosition;
 }
 
 glm::vec3 Camera::getDirection()
 {
-	return this->camDirection;
+	//return this->camDirection;
+	return bufferCamDirection;
 }
 
 glm::vec3 &Camera::getRefPosition() {

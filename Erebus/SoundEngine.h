@@ -32,11 +32,12 @@ public:
 	SoundEngine();
 	~SoundEngine();
 
-	int play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0,0,0));
+	size_t play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0,0,0));
 	void pause(int i);
 	void resume(int i);
 	void pauseAll();
 	void resumeAll();
+	void clear();
 
 	void setMasterVolume(float v);		// Sets volume to a value between 0 (silent) and 1 (full volume)
 	void setVolume(int i, float v);
@@ -49,5 +50,4 @@ private:
 	const std::string basePath = "./Audio/";
 
 	std::vector<ISound*> sounds;
-
 };

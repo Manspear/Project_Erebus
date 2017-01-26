@@ -13,7 +13,7 @@ union MetaDataPacket
 		//Used in combination with memcpy
 	}
 
-	MetaDataPacket(uint16_t packetType, uint16_t sizeInBytes)
+	MetaDataPacket(const uint16_t& packetType, const uint16_t& sizeInBytes)
 	{
 		metaData.packetType = packetType;
 		metaData.sizeInBytes = sizeInBytes;

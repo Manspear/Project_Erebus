@@ -12,6 +12,7 @@
 #include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
+#include "WorkQueue.h"
 
 namespace Gear
 {
@@ -35,6 +36,7 @@ namespace Gear
 
 		//--TODO: Implement API--
 		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
+		GEAR_API void bindAnimations(Animation** theAnims, int* n);
 
 		GEAR_API void addModelInstance(ModelAsset* asset);
 
@@ -54,15 +56,17 @@ namespace Gear
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
-		GEAR_API void queueParticles(std::vector<ParticleSystem*>* particles);
+		GEAR_API void queueParticles(std::vector<Gear::ParticleSystem*> &ps);
 		GEAR_API void queueLights(std::vector<Lights::PointLight*>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
 		GEAR_API void draw(Camera* camera);
+		GEAR_API void update();
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
+		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		GEAR_API void effectPreProcess();
 		GEAR_API void pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos);
 		GEAR_API void resetEngine();
@@ -100,12 +104,16 @@ namespace Gear
 		ShaderProgram *gloomCompute;
 		GLuint gloomTexture;
 
+		std::vector<GLuint> lightDirectionLocations;
+		std::vector<GLuint> lightColorLocations;
+		GLuint *lightPassUniformLocations;
+		
 		//Models
 		std::vector<staticNonModels*> statModels;
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
 		std::vector<AnimatedInstance>* animatedModels;
-		std::vector<ParticleSystem*>* particleSystems;
+		std::vector<Gear::ParticleSystem*>* particleSystem;
 
 		//Transform data
 		TransformStruct** allTrans;
@@ -114,6 +122,9 @@ namespace Gear
 		bool** transformActiveArray;
 		int* transformCount;
 		glm::vec3* transformLookAts;
+		int* animationCount;
+		Animation** allAnims;
+		WorkQueue* work;
 
 		//Skybox object
 		Skybox skybox;
@@ -135,6 +146,7 @@ namespace Gear
 		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount); //ShadowMap bluring
 		void frameBufferInit(); //Init all framebuffers
 		void shaderInit();
+		void uniformLocationInit();
 		void lightInit();
 		void skyboxInit();
 		void frameBufferPickInit();

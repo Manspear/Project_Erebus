@@ -22,11 +22,20 @@ public:
 	bool getNetworkHost();
 
 	double timeSinceLastTransformPacket();
+	double timeSinceLastAnimationPacket();
+	
 	void sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& dir_x, const float& dir_y, const float& dir_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
 	bool fetchTransformPacket(TransformPacket &packet);
-	void sendAnimationPacket(const uint16_t& id);
+
+	void sendAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID);
 	bool fetchAnimationPacket(AnimationPacket& packet);
 	
+	void sendAIPacket(const uint16_t& id, const uint16_t& aiState);
+	bool fetchAIPacket(AIPacket& packet);
+
+	void sendSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
+	bool fetchSpellPacket(SpellPacket& packet);
+
 private:
 	void startNetworkSending();
 	void startNetworkReceiving();
@@ -39,4 +48,5 @@ private:
 	const double sendFrequency = 0.0167; // Time between packages
 	const double recFrequency = 0.0167; // Time between packages
 	double transformpackTime;
+	double animationpackTime;
 };

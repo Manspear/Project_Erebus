@@ -7,6 +7,7 @@ SphereCollider::SphereCollider() : HitBox(-1,-1)
 	this->radius = 1.0f;
 	this->pos = glm::vec3(0, 0, 0);
 	this->radiusSquared = radius*radius;
+	this->typeFlag = FLAG;
 }
 
 SphereCollider::SphereCollider(glm::vec3 pos, float radius) : HitBox()
@@ -14,6 +15,7 @@ SphereCollider::SphereCollider(glm::vec3 pos, float radius) : HitBox()
 	this->pos = pos;
 	this->radius = radius;
 	this->radiusSquared = radius*radius;
+	this->typeFlag = FLAG;
 }
 
 SphereCollider::SphereCollider(int IDTransform, glm::vec3 pos, float radius) : HitBox(IDTransform)
@@ -21,6 +23,7 @@ SphereCollider::SphereCollider(int IDTransform, glm::vec3 pos, float radius) : H
 	this->pos = pos;
 	this->radius = radius;
 	this->radiusSquared = radius*radius;
+	this->typeFlag = FLAG;
 }
 
 SphereCollider::SphereCollider(int IDTransform, float x, float y, float z, float radius) : HitBox(ID, IDTransform)
@@ -30,6 +33,7 @@ SphereCollider::SphereCollider(int IDTransform, float x, float y, float z, float
 	this->pos.z = z;
 	this->radius = radius;
 	this->radiusSquared = radius*radius;
+	this->typeFlag = FLAG;
 }
 
 SphereCollider::SphereCollider(int IDTransform) : HitBox(IDTransform)
@@ -37,6 +41,7 @@ SphereCollider::SphereCollider(int IDTransform) : HitBox(IDTransform)
 	this->radius = 1.0f;
 	this->pos = glm::vec3(0, 0, 0);
 	this->radiusSquared = radius*radius;
+	this->typeFlag = FLAG;
 }
 
 
@@ -45,7 +50,7 @@ SphereCollider::~SphereCollider()
 }
 
 //overrides
-unsigned int SphereCollider::getID() const
+int SphereCollider::getID() const
 {
 	return this->ID;
 }
@@ -55,19 +60,9 @@ int SphereCollider::getIDTransform() const
 	return this->IDTransform;
 }
 
-std::vector<unsigned int>* SphereCollider::getIDCollisionsRef()
+std::vector<int>* SphereCollider::getIDCollisionsRef()
 {
 	return &this->IDCollisions;
-}
-
-void SphereCollider::insertCollisionID(unsigned int collisionID)
-{
-	this->IDCollisions.push_back(collisionID);
-}
-
-void SphereCollider::clearCollisionIDs()
-{
-	this->IDCollisions.clear();
 }
 
 const glm::vec3 & SphereCollider::getPos()
@@ -83,11 +78,6 @@ const float & SphereCollider::getRadius()
 float SphereCollider::getRadiusSquared() const
 {
 	return this->radiusSquared;
-}
-
-void SphereCollider::setPos(glm::vec3 pos)
-{
-	this->pos = pos;
 }
 
 void SphereCollider::setRadius(float radius)
