@@ -59,7 +59,7 @@ private:
 	int currentTexture = 0;
 	int currentCallType = 0;
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
-
+	GLuint* uniformLocations[NUM_SHADER_TYPES];
 	GLuint particleBuffer;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
