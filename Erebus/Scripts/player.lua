@@ -67,6 +67,9 @@ function LoadPlayer()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 	Network.SendTransformPacket(player.transformID, {x=0, y=0, z=0}, {x=0, y=0, z=0}, {x=0, y=0, z=0})
+	Network.SendAnimationPacket(player.transformID, 0, 0, 0)
+	Network.SendAIPacket(player.transformID, 0)
+
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
@@ -155,24 +158,17 @@ function UpdatePlayer(dt)
 		Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 
-		Network.SendAnimationPacket(42);
-		newAnimationValue, animationID = Network.GetAnimationPacket()
-
-		Network.SendAIPacket(15)
-		netAIValue, aiID = Network.GetAIPacket()
-
-		--[[if newAnimationValue == true then
-			print(animationID)
-		end
-
-		if netAIValue == true then
-			print(aiID)
-		end]]
-
+		--Just a simple example of what an AIPacket can look like
+		--Network.SendAIPacket(15, 2)
+		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
 
+		-- An example of what the AnimationPacket can look like
+		if Network.ShouldSendNewAnimation() == true then
+			Network.SendAnimationPacket(42, 2, 4, 5)
+		end
 
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
@@ -272,6 +268,18 @@ function UpdatePlayer2(dt)
 	end
 
 	player2.spells[1]:Update(dt)
+
+
+	--netAIValue, transformID, aiState = Network.GetAIPacket()
+
+	--if netAIValue == true then
+	--	print(transformID, aiState)
+	--end
+		
+	newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
+	--if newAnimationValue == true then
+	--	print(animationID, animationState, dt_test, animationSegment)
+	--end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

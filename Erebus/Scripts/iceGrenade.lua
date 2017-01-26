@@ -35,6 +35,10 @@ function CreateIceGrenade()
 	spell.timeSinceSpam = 0
 	spell.chargedTime = 0
 	spell.combo = 0
+	spell.castSFX = "Effects/burn_ice_001.wav"
+	spell.hitSFX = {}
+	spell.hitSFX[1] = "Effects/debris_ice_001.wav"
+	spell.hitSFX[2] = "Effects/axe_ice_005.wav"
 
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
@@ -61,6 +65,7 @@ function CreateIceGrenade()
 					self.nades[i].alive = true
 					self.nades[i].particles.cast()
 					self.timeSinceSpam = 0
+					self.nades[i].soundID = Sound.Play(self.castSFX, 13, pos)
 					break
 				end
 			end
@@ -75,6 +80,7 @@ function CreateIceGrenade()
 				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
+					if self.nades[i].exploding then for index = 1, #self.hitSFX do Sound.Play(self.hitSFX[index], 1, self.nades[i].type.position) end end
 				else
 					
 					hits = self.nades[i].type:Update(dt)
