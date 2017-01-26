@@ -152,8 +152,6 @@ void LevelEditor::start() {
 		engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 		engine->queueParticles(&ps);
 
-		std::string fps = "FPS: " + std::to_string(counter.getFPS());
-		engine->print(fps, 0.0f, 0.0f);
 
 		if(LevelActorHandler::getInstance()->getSelected() != nullptr)
 			LevelActorHandler::getInstance()->getSelected()->update();
@@ -165,7 +163,10 @@ void LevelEditor::start() {
 		//	actors[n]->update();
 		//}
 		//LevelActorHandler::getInstance()->updateActors();
-		
+		std::string fps = "FPS: " + std::to_string(counter.getFPS())
+			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
+			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+		engine->print(fps, 0.0f, 0.0f);
 		engine->draw(camera);
 		
 		this->ui->Draw();
@@ -179,20 +180,21 @@ void LevelEditor::start() {
 					LevelActorFactory::getInstance()->saveActor(LevelActorHandler::getInstance()->getSelected(), "Temporary");
 					LevelActor* temp = LevelActorFactory::getInstance()->loadActor("Temporary");
 					LevelActorHandler::getInstance()->setSelected(temp);
-				}
+					}
 				
 			}
 		}
 
 		LevelActionHandler::getInstance()->update( inputs, engine, camera );
-
 		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
+		
+
 
 		window.update();
 	}
 	
 	
-
+	
 	/*for (size_t i = 0; i < actors.size(); i++)
 	{
 		delete actors[i];

@@ -277,6 +277,15 @@ namespace Gear
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
 
+		for (size_t i = 0; i < NUM_LIGHTS; i++)
+		{
+			Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+
+			light.pos = { 0,0,0,0 };
+			light.color = { 0,0,0,0 };
+			light.radius = { 0,0,0,0 };
+		}
+
 		for (int i = 0; i < lights->size(); i++) {
 			if (i < NUM_LIGHTS)
 			{
@@ -414,6 +423,7 @@ namespace Gear
 	void Gear::GearEngine::pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos)
 	{
 		actorID = 0;
+
 		if (models->size() > 0) {
 
 #pragma region drawPicking
