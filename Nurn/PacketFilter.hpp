@@ -19,10 +19,12 @@ public:
 	PacketQueue<AnimationPacket> * getAnimationQueue();
 	PacketQueue<AIPacket> * getAIQueue();
 	PacketQueue<SpellPacket> * getSpellQueue();
+	PacketQueue<TransformPacket> * getAITransformQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
 	PacketQueue<AnimationPacket> * animationQueue;
 	PacketQueue<AIPacket> * aiQueue;
 	PacketQueue<SpellPacket> * spellQueue;
+	PacketQueue<TransformPacket> * aiTransformQueue;
 };

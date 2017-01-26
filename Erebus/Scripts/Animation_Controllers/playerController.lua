@@ -231,8 +231,7 @@ function CreatePlayerController(player)
 			self.isDamagedTimerStart = true
 		end
 		if self.isDamagedTimerStart == true then
-			res = self.animation:QuickBlend(dt, self.quickBlendFrom, self.quickBlendTo, 
-			self.damagedMaxTime, controller.quickBlendSegment);
+			res = self.animation:QuickBlend(dt, self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment);
 			if res == true then
 				self.isDamagedTimerStart = false
 			end

@@ -6,6 +6,7 @@ PacketFilter::PacketFilter()
 	this->animationQueue = new PacketQueue<AnimationPacket>(40);
 	this->aiQueue = new PacketQueue<AIPacket>(10);
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
 }
 
 PacketFilter::~PacketFilter()
@@ -15,7 +16,6 @@ PacketFilter::~PacketFilter()
 		delete this->transformQueue;
 		this->transformQueue = 0;
 	}
-
 	if (this->animationQueue)
 	{
 		delete this->animationQueue;
@@ -30,6 +30,11 @@ PacketFilter::~PacketFilter()
 	{
 		delete this->spellQueue;
 		this->spellQueue = 0;
+	}
+	if (this->aiTransformQueue)
+	{
+		delete this->aiTransformQueue;
+		this->aiTransformQueue = 0;
 	}
 }
 
@@ -63,6 +68,9 @@ void PacketFilter::openNetPacket(const unsigned char const * memoryPointer)
 				case SPELL_PACKET:
 					this->spellQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of SpellPacket data to the correct queue
 					break;
+				case AI_TRANSFORM_PACKET:
+					this->aiTransformQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiTransformPacket data to the correct queue
+					break;
 				default:
 					printf("KERNEL PANIC!!\n");
 			}
@@ -89,4 +97,9 @@ PacketQueue<AIPacket> * PacketFilter::getAIQueue()
 PacketQueue<SpellPacket> * PacketFilter::getSpellQueue()
 {
 	return this->spellQueue;
+}
+
+PacketQueue<TransformPacket> * PacketFilter::getAITransformQueue()
+{
+	return this->aiTransformQueue;
 }

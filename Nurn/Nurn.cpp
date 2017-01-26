@@ -86,8 +86,6 @@ namespace Nurn
 
 	void NurnEngine::buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
 	{
-		//std::cout << "Sending position - x: " << pos_x << " y: " << pos_y << " z: " << pos_z << std::endl;
-		//std::cout << "Sending lookAt - x: " << lookAt_x << " y: " << lookAt_y << " z: " << lookAt_z << std::endl << std::endl;
 		this->packager->buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
 	}
 
@@ -138,6 +136,20 @@ namespace Nurn
 		bool result = false;
 
 		result = this->packetFilter->getSpellQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::buildAITransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+	{
+		this->packager->buildAITransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
+	}
+	
+	bool NurnEngine::fetchAITransformPacket(TransformPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAITransformQueue()->pop(packet);
 
 		return result;
 	}
