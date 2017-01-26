@@ -272,7 +272,7 @@ namespace AGI
 #pragma endregion
 
 
-			if (glm::abs(centerHeight - maxHeight) >2.3f || centerHeight <= 0)
+			if (glm::abs(centerHeight - maxHeight) >0.5f || centerHeight <= 3)
 				return false;
 
 			return true;
@@ -419,7 +419,6 @@ namespace AGI
 		AGI_API glm::vec3 setTargetRangeFromPlayer(glm::vec3 playerPos, float range, int maxNrOfCirclingEnemies, int indexOfCirclingEnemies)
 		{
 			//range = range *(resolution * 10);
-
 			float tempRange = 0;
 			float angleInCircle = indexOfCirclingEnemies * (glm::pi<float>()*2 / maxNrOfCirclingEnemies);
 			
@@ -448,8 +447,10 @@ namespace AGI
 			int x = round(((testPos.x / mapWidth)*imWidth));
 			int y = round(((testPos.z / mapHeight)*imHeight));
 			
+			if(x>=0 && x<imWidth && y>=0 && y<imHeight)
+				return influenceMap[x][y];
 
-			return influenceMap[x][y];
+			return nullptr;
 		}
 	private:
 		

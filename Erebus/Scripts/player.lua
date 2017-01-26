@@ -36,7 +36,7 @@ function LoadPlayer()
 	player.chargedspell = {}
 	player.timeSinceShot = 0
 
-	player.innerCirclerange = 4
+	player.innerCirclerange = 7
 	player.outerCirclerange = 15
 
 	player.nrOfInnerCircleEnemies = 0

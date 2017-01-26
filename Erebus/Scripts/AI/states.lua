@@ -41,9 +41,8 @@ function state.followState.update(enemy,player,dt)
 		if player.nrOfInnerCircleEnemies <3 then 
 			if length < player.innerCirclerange then
 
-			print("DESAD")
-			inState = "PositioningInnerState" 
-			changeToState(enemy,player,inState)
+				inState = "PositioningInnerState" 
+				changeToState(enemy,player,inState)
 
 				do return end
 			end
@@ -107,6 +106,8 @@ function state.positioningInnerState.enter(enemy,player)
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 	
 	Transform.SetLookAt(enemy.transformID,direction)
+
+	enemy.insideInnerCircleRange = true
 end
 
 function state.positioningInnerState.update(enemy,player,dt,enemyManager)
@@ -138,24 +139,24 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 
 		if length > player.innerCirclerange then
 			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
+			enemy.insideInnerCircleRange = false
 			inState = "FollowState" 
 			changeToState(enemy,player,inState)
-		end	
-
-		if enemyManager.actionEnemy == -1 then
-
-			enemyManager.actionEnemy = enemy.transformID
-			enemy.actionCountDown = enemy.maxActionCountDown
-			randomNum = math.random(0, 3)
-			if randomNum == 0 then
+			print("TIME FOR FOLLOW MAN")
+		else
+			if enemyManager.actionEnemy == -1 then
+				print("FUUUU")
+				enemyManager.actionEnemy = enemy.transformID
+				enemy.actionCountDown = 1
+				randomNum = math.random(0, 0)
+				if randomNum == 0 then
 				
-				inState = "AttackState" 
-				changeToState(enemy,player,inState)
+					inState = "AttackState" 
+					changeToState(enemy,player,inState)
+
+				end
+
 			end
-			--if randomNum ==1 then
-			--	inState = "FollowState" 
-			--	changeToState(enemy,player,inState)
-			--	end
 		end
 
 	end
@@ -232,26 +233,45 @@ function state.attackState.enter(enemy,player)
 
 
 	Transform.SetLookAt(enemy.transformID,direction)
+
+	Transform.SetScale(enemy.transformID,2)
+
 end
 
-function state.attackState.update(enemy,player,dt)
+function state.attackState.update(enemy,player,dt,enemyManager)
 	length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-	--enemy.attackCountdown = enemy.attackCountdown - dt
+	enemy.actionCountDown = enemy.actionCountDown - dt
 	--if length > enemy.range then
 	--	inState = "FollowState" 
 	--	changeToState(enemy,player,inState)
 	--end
+	if enemy.actionCountDown < 0 then
+		if length < enemy.range then
+			player:Hurt(12)
+			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies - 1
+			enemyManager.actionEnemy = -1
+			print("Fucking ActionEnemy", enemy.range )
+			inState = "PositioningInnerState" 
+			changeToState(enemy,player,inState)
+		
+		else
+			local pos = Transform.GetPosition(enemy.transformID)
+			local direction = AI.NormalizeDir(enemy.transformID, Transform.GetPosition(player.transformID))
+			
+			Transform.SetLookAt(enemy.transformID,direction)
+			
+			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
+			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
+			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
 
-	if length < enemy.range then
-		--enemy.attackCountdown = 1
-		player:Hurt(12)
-		inState = "PositioningInnerState" 
-		changeToState(enemy,player,inState)
+			Transform.SetPosition(enemy.transformID,pos)
+		end
+
 	end
 end
 
 function state.attackState.exit(enemy,player)
-
+	Transform.SetScale(enemy.transformID,1)
 end 
 
 function state.deadState.enter(enemy,player)

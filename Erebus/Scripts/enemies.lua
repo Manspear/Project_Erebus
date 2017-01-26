@@ -59,13 +59,18 @@ function LoadEnemies(n)
 		enemies[i].state = stateScript.state.idleState
 		enemies[i].animation = Animation.Bind()
 		enemies[i].animationState = 1
-		enemies[i].range = 4
+		enemies[i].range = 2
+
+		enemies[i].insideInnerCircleRange = false
 
 		enemies[i].visionRange = 30
 		enemies[i].target = nil
+
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 		enemies[i].maxActionCountDown = 3
 		enemies[i].actionCountDown = 3
+
+		enemies[i].animationController = CreatePlayerController(player)
 	end
 
 	local model = Assets.LoadModel("Models/testGuy.model")
