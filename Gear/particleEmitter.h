@@ -38,7 +38,7 @@ namespace Gear
 		GEAR_API ~ParticleEmitter();
 		GEAR_API void emitterInit(Emitter emitter, Importer::Assets* assets);
 
-		GEAR_API void update(const float & dt);
+		GEAR_API bool update(const float & dt);
 		GEAR_API void explode();
 		GEAR_API GLuint getPartVertexBuffer();
 		GEAR_API void setEmitterPos(glm::vec3 pos);

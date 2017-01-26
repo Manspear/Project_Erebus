@@ -37,7 +37,7 @@ namespace Gear
 		delete[] this->allParticles;
 		delete[] this->particlePos;
 	}
-	void ParticleEmitter::update(const float &dt)
+	bool ParticleEmitter::update(const float &dt)
 	{
 		if (isActive)
 		{
@@ -79,6 +79,7 @@ namespace Gear
 				}
 			}
 		}
+		return !isActive;
 	}
 
 	void ParticleEmitter::explode()
