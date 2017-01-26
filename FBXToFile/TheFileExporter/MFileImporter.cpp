@@ -1813,6 +1813,7 @@ bool MFileImporter::checkMaterialName(const char * materialName)
 		sImMaterial mat;
 		mat.materialName = materialName;
 		imScene.materialList.push_back(mat);
+		imScene.modelList.back().meshList.back().materialID = imScene.materialList.size() - 1;
 	}
 
 	return isMatching;
