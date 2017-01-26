@@ -1,11 +1,22 @@
 #include "LevelSound.h"
 
 const char* LevelSound::name = "LevelSound";
+const char* LevelSound::SOUND_FLAG_NAMES[MAX_SOUND_FLAGS] =
+{
+	"3D",
+	"Track",
+	"Effects",
+	"Stream",
+	"Loop",
+	"Paused"
+};
 Debug* LevelSound::s_debugger = nullptr;
 
 LevelSound::LevelSound()
 	: volume( 0.5f )
 {
+	for( int i=0; i<MAX_SOUND_FLAGS; i++ )
+		flags[i] = false;
 }
 
 LevelSound::~LevelSound()
@@ -50,6 +61,13 @@ void LevelSound::setTwStruct( TwBar* bar )
 	TwAddVarRO( bar, "soundPosition", LevelUI::TW_TYPE_VECTOR3F(), &position, "label='Position:'" );
 	TwAddVarRO( bar, "soundName", TW_TYPE_STDSTRING, &soundName, "label='Sound Name:'" );
 	TwAddVarRW( bar, "soundVolume", TW_TYPE_FLOAT, &volume, "label='Volume:'" );
+
+	for( int i=0; i<MAX_SOUND_FLAGS; i++ )
+	{
+		char buf[32] = {};
+		sprintf_s( buf, "label='%s'", SOUND_FLAG_NAMES[i] );
+		TwAddVarRW( bar, SOUND_FLAG_NAMES[i], TW_TYPE_BOOLCPP, &flags[i], buf );
+	}
 }
 
 void LevelSound::update( float deltaTime )
