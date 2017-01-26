@@ -219,10 +219,12 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels)
 	allShaders[FORWARD]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[FORWARD]->getProgramID(), "worldMatrix");
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[FORWARD]->getProgramID(), "worldMatrices");
-
+	ModelAsset* modelAsset;
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		ModelAsset* modelAsset = dynamicModels ->at(i).asset;
+		modelAsset = dynamicModels ->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
@@ -246,6 +248,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels)
 		}
 	}
 	allShaders[FORWARD]->unUse();
+	//glDisable(GL_BLEND);
 }
 
 bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)

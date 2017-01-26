@@ -2,6 +2,7 @@ SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
 SUNRAY_COOLDOWN = 2.7
+SUNRAY_HALF_LENGTH = 13.5
 
 function CreateSunRay()
 	local sunRay = {}
@@ -25,15 +26,24 @@ function CreateSunRay()
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddStaticInstance(model, sunRay.type.transformID)
+	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
+	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
+	Gear.AddForwardInstance(model2, sunRay.type.transformID)
+	Gear.AddForwardInstance(model, sunRay.type.transformID)
+
+	sunRay.type.oobCollider.SetSize(sunRay.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
 
 	function sunRay:Update(dt)
 		if self.alive then
-			hits = self.type:Update(Transform.GetPosition(self.caster))
+			direction = Transform.GetLookAt(self.caster)
+			pos = Transform.GetPosition(self.caster)
+			pos.x = pos.x + direction.x * SUNRAY_HALF_LENGTH
+			pos.y = pos.y + direction.y * SUNRAY_HALF_LENGTH
+			pos.z = pos.z + direction.z * SUNRAY_HALF_LENGTH
+			hits = self.type:Update(pos, direction)
 			self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
-			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.caster))
+			Transform.SetLookAt(self.type.transformID, direction)
 			for index = 1, #hits do
 				if hits[index].Hurt then	
 					if self.effectFlag then
