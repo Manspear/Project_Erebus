@@ -60,6 +60,7 @@ private:
 
 	float scaleSnap, rotSnap, posSnap;
 	float rotationSnapPlacements[11];
+	const float rotationMulti = .05f;
 	glm::vec3 realPos, realRot, realScale;
 
 	void setSelectedGizmo(GizmoLocation location);
@@ -82,6 +83,18 @@ private:
 	GizmoMode selectedMode;
 	glm::vec3 oldIntersectionPoint;
 	bool intersectionPointChangedThisFrame;
+
+	
+	bool shouldSnap;
+	void onSnapChange();
+
+	float translationUpdate(const glm::vec3&intersection, GizmoLocation location, const glm::vec3& pos);
+	float rotationUpdate(const float& diff, GizmoLocation location, const glm::vec3& rot);
+	float scaleUpdate(const float& diff, GizmoLocation location, const glm::vec3& scale);
+	glm::vec3 imaginaryRotation;
+	glm::vec3 imaginaryScale;
+
+	//void updateGizmoFromOrientation(GizmoLocation location, GizmoMode mode);
 public:
 	LevelGizmo();
 	~LevelGizmo();
@@ -93,5 +106,55 @@ public:
 	bool onMouseDown();
 	void onMouseUp();
 	void setGizmoMode(GizmoMode mode);
+	void setSnappingMode(bool mode);
 
 };
+
+/* POSITION SNAP
+switch (selectedGizmo) {
+case GizmoLocation::X:
+xAmount = (int)(intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]));
+xAmount = xAmount - (fmod(xAmount,posSnap));
+newPos[GizmoLocation::X] = xAmount;
+break;
+case GizmoLocation::Y:
+yAmount = (int)(intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]));
+yAmount = yAmount - (fmod(yAmount, posSnap));
+newPos[GizmoLocation::Y] = yAmount;
+break;
+case GizmoLocation::Z:
+zAmount = (int)(intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]));
+zAmount = zAmount - (fmod(zAmount, posSnap));
+newPos[GizmoLocation::Z] = zAmount;
+break;
+case GizmoLocation::XZ:
+xAmount = (int)(intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]));
+xAmount = xAmount - (fmod(xAmount, posSnap));
+newPos[GizmoLocation::X] = xAmount;
+
+zAmount = (int)(intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]));
+zAmount = zAmount - (fmod(zAmount, posSnap));
+newPos[GizmoLocation::Z] = zAmount;
+break;
+case GizmoLocation::XY:
+xAmount = (int)(intersection[GizmoLocation::X] - (percentageFromBase * (directions[GizmoLocation::X] * this->baseDiffDistace)[GizmoLocation::X]));
+xAmount = xAmount - (fmod(xAmount, posSnap));
+newPos[GizmoLocation::X] = xAmount;
+
+yAmount = (int)(intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]));
+yAmount = yAmount - (fmod(yAmount, posSnap));
+newPos[GizmoLocation::Y] = yAmount;
+break;
+case GizmoLocation::ZY:
+yAmount = (int)(intersection[GizmoLocation::Y] - (percentageFromBase * (directions[GizmoLocation::Y] * this->baseDiffDistace)[GizmoLocation::Y]));
+yAmount = yAmount - (fmod(yAmount, posSnap));
+newPos[GizmoLocation::Y] = yAmount;
+
+zAmount = (int)(intersection[GizmoLocation::Z] - (percentageFromBase * (directions[GizmoLocation::Z] * this->baseDiffDistace)[GizmoLocation::Z]));
+zAmount = zAmount - (fmod(zAmount, posSnap));
+newPos[GizmoLocation::Z] = zAmount;
+break;
+default:
+break;
+}
+*/

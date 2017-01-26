@@ -66,6 +66,13 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		gizmo.setGizmoMode(GizmoMode::SCALE);
 	}
 
+	if (inputs->keyPressedThisFrame(GLFW_KEY_LEFT_CONTROL)) {
+		gizmo.setSnappingMode(true);
+	}
+	if (inputs->keyReleasedThisFrame(GLFW_KEY_LEFT_CONTROL)) {
+		gizmo.setSnappingMode(false);
+	}
+
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 	{
 		if( !holdingGizmo )
