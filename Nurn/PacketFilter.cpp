@@ -33,7 +33,7 @@ PacketFilter::~PacketFilter()
 	}
 }
 
-void PacketFilter::openNetPacket(unsigned char * memoryPointer)
+void PacketFilter::openNetPacket(const unsigned char const * memoryPointer)
 {
 	uint16_t bytesRead = sizeof(uint16_t); // Start reading right after where the value of bytesLeft were located in the packet.
 	uint16_t sizeOfNetPacket =  memoryPointer[0] | memoryPointer[1] << 8; // Size of the content. The first 2 bytes are read immideately.

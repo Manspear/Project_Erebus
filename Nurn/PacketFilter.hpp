@@ -14,7 +14,7 @@ public:
 	PacketFilter();
 	virtual ~PacketFilter();
 
-	void openNetPacket(unsigned char * memoryPointer);
+	void openNetPacket(const unsigned char const * memoryPointer);
 	PacketQueue<TransformPacket> * getTransformQueue();
 	PacketQueue<AnimationPacket> * getAnimationQueue();
 	PacketQueue<AIPacket> * getAIQueue();
