@@ -83,7 +83,8 @@ void LevelActorHandler::removeActor( unsigned int id )
 
 void LevelActorHandler::removeSelectedActor()
 {
-	removeActor( selectedActor );
+	if( selectedActor )
+		removeActor( selectedActor );
 }
 
 void LevelActorHandler::updateActors()
