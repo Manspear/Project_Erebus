@@ -300,7 +300,7 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	Color c;
 	TextureAsset* tA;
-	glm::vec3* pos;
+	SendStruct* pos;
 	
 
 	for (size_t i = 0; i < ps->size(); i++)
@@ -317,8 +317,8 @@ void RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 				size_t ParticleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
 
 				glBindBuffer(GL_ARRAY_BUFFER, ps->at(i)->particleEmitters[j].getPartVertexBuffer());
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (GLvoid*)0);
-				glBufferData(GL_ARRAY_BUFFER, (sizeof(glm::vec3)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
+				glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
+				glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * ParticleCount, &pos[0], GL_STATIC_DRAW);
 				glEnableVertexAttribArray(0);
 				glDrawArraysInstanced(GL_POINTS, 0, ParticleCount, 1);
 			}

@@ -8,6 +8,12 @@ struct Partikel
 	float lifeSpan;
 };
 
+struct SendStruct
+{
+	glm::vec3 pos;
+	float size;
+};
+
 struct Color
 {
 	GLfloat r, g, b;
@@ -45,8 +51,7 @@ namespace Gear
 		GEAR_API void setDirection(glm::vec3 dir);
 		GEAR_API int getNrOfActiveParticles();
 		GEAR_API Partikel* getThePartikels();
-		GEAR_API glm::vec3* getPositions();
-		GEAR_API void setParticlePosition(glm::vec3* pos);
+		GEAR_API SendStruct* getPositions();
 		GEAR_API void setColor(float r, float g, float b);
 		GEAR_API Color getColor() const;
 		GEAR_API Importer::TextureAsset* getTexture();
@@ -69,7 +74,9 @@ namespace Gear
 	private:
 		float timer;
 		Partikel* allParticles;
-		glm::vec3* particlePos;
+		float shrinkage;
+		//glm::vec3* particlePos;
+		SendStruct* particlePos;
 		int nrOfActiveParticles;
 		GLuint particleVertexBuffer;
 		

@@ -77,9 +77,9 @@ function CreateHellPillar()
 		end		
 	end
 	
-	function spell:GrenadeUpdate(dt)
-			self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
+	function spell:GrenadeUpdate(dt)		
 			if not self.nade.exploding then
+				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 				self.nade.exploding = self.nade.type:flyUpdate(dt)
 			else
 				self.nade.particles.die(self.nade.type.position)
