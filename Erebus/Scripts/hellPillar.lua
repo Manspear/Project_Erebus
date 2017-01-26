@@ -3,18 +3,17 @@ MIN_CHARGE_TIME_PILLAR = 1.5
 MAX_DAMAGE_PILLAR = 1000
 SPEED_PILLAR = 75
 EXPLOSION_RADIUS_PILLAR = 10
+COOLDOWN_PILLAR = 3
+PILLAR_DURATION = 2
 
-MIN_FALLOFF_PILLAR = 30
-MAX_FALLOFF_PILLAR = 50
+GRAVITY_PILLAR = 50
 
-Y_SPEED_PILLAR = 15
+Y_SPEED_PILLAR = 20
 
 function CreateHellPillar()
 	function initNade()
 		local nade = {}
 		nade.type = CreateGrenadeType()
-		nade.effectflag = false
-		nade.damage = 0
 		nade.alive = false
 		nade.particles = createFireballParticles()
 		nade.exploding = false
@@ -22,66 +21,94 @@ function CreateHellPillar()
 		Gear.AddStaticInstance(model, nade.type.transformID)
 		return nade
 	end
+
+	function initPillar()
+		local pillz = {}
+		pillz.type = CreateRayType()
+		pillz.effectflag = false
+		pillz.damage = MAX_DAMAGE_PILLAR
+		pillz.alive = false
+		pillz.particles = createFireballParticles()
+		pillz.pos = 0
+		pillz.duration = PILLAR_DURATION
+		local model = Assets.LoadModel( "Models/projectile1.model" )
+		Gear.AddStaticInstance(model, pillz.type.transformID)
+		return pillz
+	end
 	
 	local spell = {}
+	spell.nade = initNade()
+	spell.pillar = initPillar()
+
 	spell.maxChargeTime = MAX_CHARGE_TIME_PILLAR
 	spell.effect = CreateSlowEffect
-	spell.nades = {}
-	spell.spamcd = SPAM_CD_PILLAR
-	spell.timeSinceSpam = 0
-	spell.chargedTime = 0
-	spell.nade = initNade()
+	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.ChargeCast = BaseChargeCast
-	spell.spamcd = SPAM_CD_ICENADE
+	spell.cooldown = 0
+	spell.effect = CreateFireEffect()
 
 	function spell:Cast(entity, chargetime)
-		if self.timeSinceSpam > self.spamcd then
+		if self.cooldown < 0 then
 			if not self.nade.alive then
 				local factor = chargetime / self.maxChargeTime
 				local pos = Transform.GetPosition(entity.transformID)
 				local dir = Transform.GetLookAt(entity.transformID)
-				dir.y = dir.y + Y_SPEED_PILLAR 
-				local falloff = MAX_FALLOFF_ICENADE
-				local radius = factor * EXPLOSION_RADIUS_ICENADE
-				self.nade.type:Cast(pos, dir, falloff, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, radius)
-				self.nade.damage = factor * MAX_DAMAGE_ICENADE		
+				dir.y = dir.y + Y_SPEED_PILLAR
+				self.nade.type:Cast(pos, dir, GRAVITY_PILLAR, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, 0.0)
+				self.nade.damage = factor * MAX_DAMAGE_PILLAR		
 				self.nade.effectflag = effectflag
 				self.nade.alive = true
 				self.nade.particles.cast()
 				self.timeSinceSpam = 0
-				spell.chargedTime = 0
+				self.chargedTime = 0
+				self.cooldown = COOLDOWN_PILLAR
 			end
 		end
 	end
 	
 	function spell:Update(dt)
-		self.timeSinceSpam = self.timeSinceSpam + dt
+		self.cooldown = self.cooldown - dt
 		if self.nade.alive then
+			self:GrenadeUpdate(dt)
+		end
+		if self.pillar.alive then
+			self:PillarUpdate(dt)
+		end		
+	end
+	
+	function spell:GrenadeUpdate(dt)
 			self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 			if not self.nade.exploding then
 				self.nade.exploding = self.nade.type:flyUpdate(dt)
 			else
 				self.nade.particles.die(self.nade.type.position)
-				hits = self.nade.type:Update(dt)
-					
-				for index = 1, #hits do
-					if hits[index].Hurt then
-						if self.nade.effectFlag then
-							local effect = self.effect()
-							table.insert(hits[index].effects, effect)
-							effect:Apply(hits[index])
-						end
-						hits[index]:Hurt(self.nade.damage)
-					end
-				end
-				if self.nade.type.explodetime > GRENADE_EXPLODE_TIME then
-					self:Kill(i)
-				end
+				self.pillar.pos = self.nade.type.position
+				self.pillar.type:Cast(self.pillar.pos)
+				self.pillar.alive = true
+				self.pillar.duration = PILLAR_DURATION			
+				self:Kill(i)
 			end
-		end		
 	end
-	
+
+	function spell:PillarUpdate(dt)
+		hits = self.pillar.type:Update(self.pillar.pos)
+		self.pillar.duration = self.pillar.duration - dt
+		for index = 1, #hits do
+			if hits[index].Hurt then
+				if self.nade.effectFlag then
+					local effect = self.effect()
+					table.insert(hits[index].effects, self.effect)
+					effect:Apply(hits[index])
+				end
+				hits[index]:Hurt(MAX_DAMAGE_PILLAR)
+			end
+		end	
+		if self.pillar.duration < 0 then 
+			self.pillar.alive = false 
+			self.pillar.type:Kill()
+		end
+	end
 	function spell:Kill()
 		self.nade.type:Kill()
 		self.nade.alive = false
