@@ -182,7 +182,7 @@ int RenderQueue::generateWorldMatrix()
 	return result;
 }
 
-void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels)
+void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels)
 {
 	allShaders[FORWARD]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[FORWARD]->getProgramID(), "worldMatrix");
@@ -203,6 +203,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 		{
 			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			modelAsset->getMaterial()->bindTextures(allShaders[FORWARD]->getProgramID());
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));

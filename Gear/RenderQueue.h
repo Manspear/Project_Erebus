@@ -44,7 +44,7 @@ public:
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
-	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
+	void forwardPass(std::vector<ModelInstance>* dynamicModels);
 	bool particlePass(std::vector<Gear::ParticleSystem*>* ps);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);

@@ -28,6 +28,7 @@ private:
 
 	AGI::AGIEngine ai;
 	std::vector<ModelInstance> models;
+	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animatedModels;
 
 	std::vector<Gear::ParticleSystem*> ps;

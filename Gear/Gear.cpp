@@ -223,6 +223,11 @@ namespace Gear
 		animatedModels = models;
 	}
 
+	void GearEngine::queueForwardModels(std::vector<ModelInstance>* models)
+	{
+		forwardModels = models;
+	}
+
 	void GearEngine::queueParticles(std::vector<Gear::ParticleSystem*> &ps)
 	{
 		particleSystem = &ps;
@@ -307,7 +312,6 @@ namespace Gear
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		glDisable(GL_CULL_FACE);
-
 		bool blitOrNot = queue.particlePass(particleSystem);
 		if (blitOrNot) 
 		{
@@ -318,6 +322,7 @@ namespace Gear
 		}
 		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
+		queue.forwardPass(forwardModels);
 		debugHandler->draw( camera, &queue );
 
 		skybox.update(camera, gBuffer.getTextures()[2]);

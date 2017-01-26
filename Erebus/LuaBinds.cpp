@@ -23,6 +23,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 					int* boundAnimations,
 					std::vector<ModelInstance>* models,
 					std::vector<AnimatedInstance>* animatedModels,
+					std::vector<ModelInstance>* forwardModels,
 					Camera* camera,
 					std::vector<Gear::ParticleSystem*>* ps,
 					AGI::AGIEngine* AI,
@@ -33,7 +34,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 	LuaErebus::registerFunctions( lua, transforms, controls );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, assets, work );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, forwardModels, boundAnimations, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
