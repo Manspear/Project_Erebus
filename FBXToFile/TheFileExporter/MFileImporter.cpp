@@ -239,7 +239,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		outFile.write(str.c_str(), str.length());
 
 
-		txt = "Shinyfactor: ";
+		txt = "Shiny factor: ";
 		sprintf(num, "%f", expMat.shinyFactor);
 		str = txt + std::string(num) + "\r\n";
 		outFile.write(str.c_str(), str.length());
@@ -255,7 +255,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 
 
 		txt = "Normal texture: ";
-		str = txt + std::string(expMat.normalTextureFilePath) + "\n";
+		str = txt + std::string(expMat.normalTextureFilePath)/* + "\n"*/;
 		outFile.write(str.c_str(), str.length());
 
 		//str = std::string(txt +  + '\n');
