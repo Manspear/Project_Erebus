@@ -349,7 +349,6 @@ namespace Gear
 			effectShader->unUse();
 		}
 
-	
 		//gloomCompute->use();
 		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
 		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
@@ -373,11 +372,13 @@ namespace Gear
 		
 		image.draw();
 		text.draw();
-	
-		particleFBO.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		particleFBO.unUse();
-					
+		
+		if (blitOrNot) 
+		{
+			particleFBO.use();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			particleFBO.unUse();
+		}
 	}
 
 	void GearEngine::update()
