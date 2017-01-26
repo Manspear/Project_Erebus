@@ -45,6 +45,9 @@ public:
 	static void setDebugger( Debug* debugger );
 
 private:
+	void setCombinedFlags( int f );
+	int getCombinedFlags();
+
 	static Debug* s_debugger;
 
 	glm::vec3 position;
