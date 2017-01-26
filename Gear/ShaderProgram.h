@@ -47,8 +47,6 @@ public:
 	void deferredInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLenum* type, GLuint* attachments);
 	void initFramebuffer(int nrTex, int width, int height, GLfloat* filter, GLenum* internalFormat, GLenum* format, GLenum* type, GLenum* attachments, bool clamp);
 	void initFramebuffer(int nrTex, int width, int height, GLfloat filter, GLenum internalFormat, GLenum format, GLenum type, GLenum attachments, bool clamp);
-	void use();
-	void unUse();
 	void bindTexToLocation(GLuint* textures);
 	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 
@@ -70,6 +68,25 @@ public:
 
 	GLuint getUniformLocation(std::string pos);
 
+public:		// Inlined functions
+	inline void use() {
+		glUseProgram(programID);
+		if (framebufferID != 0)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+			glViewport(0, 0, width, height);
+		}
+		for (int i = 0; i < totalAttributes; i++)
+			glEnableVertexAttribArray(i);
+	}
+
+	inline void unUse() {
+		glUseProgram(0);
+		for (int i = 0; i < totalAttributes; i++)
+			glDisableVertexAttribArray(i);
+		if (framebufferID != 0)
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 
 private:
 	GLuint programID;

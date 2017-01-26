@@ -160,35 +160,6 @@ void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat fi
 	InitRenderTargets(&attachments);
 }
 
-void ShaderProgram::use()
-{
-	//if (programID != 0)
-	//{
-		glUseProgram(programID);
-	//}
-	if (framebufferID != 0)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
-		glViewport(0, 0, width, height);
-		/*for (int i = 0; i < nrOfTextures; i++)
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
-		}*/
-	}
-	for (int i = 0; i < totalAttributes; i++)
-		glEnableVertexAttribArray(i);
-}
-
-void ShaderProgram::unUse()
-{
-	glUseProgram(0);
-	for (int i = 0; i < totalAttributes; i++)
-		glDisableVertexAttribArray(i);
-	if( framebufferID != 0 )
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
 void ShaderProgram::bindTexToLocation(GLuint* textures)
 {
 	for (int i = 0; i < nrOfUniforms; i++)
