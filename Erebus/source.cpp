@@ -142,10 +142,8 @@ int main()
 	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
 
 
-	Controls controls;
-	
+	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
-
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();

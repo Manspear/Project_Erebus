@@ -39,7 +39,7 @@ function CreateProjectileType()
 	end
 
 	function projectile:Kill()
-		Transform.ActiveControl(self.transformID, true)
+		Transform.ActiveControl(self.transformID, false)
 		self.position.x = 0
 		self.position.y = 0
 		self.position.z = 0

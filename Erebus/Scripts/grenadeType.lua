@@ -32,7 +32,7 @@ function CreateGrenadeType()
 		result = false
 		self.direction.y = self.direction.y - self.falloffFactor * dt
 		self.position.x = self.position.x + self.direction.x*self.speed*dt
-		self.position.y = self.position.y + self.direction.y*self.speed*dt
+		self.position.y = self.position.y + self.direction.y*dt
 		self.position.z = self.position.z + self.direction.z*self.speed*dt
 		Transform.SetPosition(self.transformID, self.position)
 
@@ -58,7 +58,7 @@ function CreateGrenadeType()
 	function type:Update(dt)
 		result = {} 
 		self.explodetime = self.explodetime + dt
-		local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* 4 + 1
+		local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* self.radius + 1
 		Transform.SetScale(self.transformID, scale)
 		SphereCollider.SetRadius(self.sphereCollider, scale)
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()

@@ -24,7 +24,6 @@ namespace LuaParticles
 		luaL_setfuncs(lua, regs, 0);
 		lua_pushvalue(lua, -1);
 		lua_setfield(lua, -2, "__index");
-		std::cout << g_systems << "\n";
 		lua_setglobal(lua, "Particle");
 	}
 

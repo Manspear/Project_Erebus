@@ -82,7 +82,7 @@ function CreateIceGrenade()
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then for index = 1, #self.hitSFX do Sound.Play(self.hitSFX[index], 1, self.nades[i].type.position) end end
 				else
-					
+					self.nades[i].particles.die(self.nades[i].type.position)
 					hits = self.nades[i].type:Update(dt)
 		--[[
 					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() and not self.hits[enemies[curEnemy].transformID] then
@@ -106,7 +106,7 @@ function CreateIceGrenade()
 						Transform.SetPosition(self.nades[i].type.transformID, {x=0,y=0,z=0})
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME then
-						self:Kill(i)
+						--self:Kill(i)
 					end
 				end
 

@@ -18,16 +18,14 @@ namespace Gear
 		GEAR_API void activate();
 
 		GEAR_API void deActivate();
-
 		GEAR_API void setDirection(glm::vec3 direction);
-
 		GEAR_API int getNrOfActive();
-
 		GEAR_API void explode();
 
 		ParticleEmitter* particleEmitters;
 		bool isActive;
 		bool alive;
+		
 	public:
 		int nrOfEmitters;
 		glm::vec3 systemPos;
@@ -40,6 +38,5 @@ namespace Gear
 		glm::vec3 v1;
 		glm::vec3 v2;
 		glm::vec3 v3;
-
 	};
 }
