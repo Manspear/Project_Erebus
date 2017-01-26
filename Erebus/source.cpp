@@ -239,6 +239,7 @@ int main()
 
 			//engine.updateTransforms();
 			engine.update();
+			camera.updateBuffer();
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
