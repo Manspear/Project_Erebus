@@ -34,7 +34,7 @@ public:
 
 	void setSelectedComponentCB(LevelUI::DiffComponents index);
 	LevelUI::DiffComponents getSelectedComponentCB(int index);
-
+	const std::string tryActorName(std::string name);
 private:
 	LevelUI::DiffComponents selectedComponent;
 	
@@ -50,7 +50,7 @@ private:
 	static void TW_CALL onGetExportType( void* value, void* clientData );
 	static void TW_CALL onDelete( void* args );
 
-	const std::string tryActorName(std::string name);
+	
 	
 
 	std::map<unsigned int, LevelActor*> actors;

@@ -269,7 +269,7 @@ const std::string LevelActorHandler::tryActorName(std::string name) {
 			
 			if (it->second->getActorDisplayName() == currentName) {
 				currentActorIndex++;
-				currentName = name + std::to_string(currentActorIndex);
+				currentName = name +" ("+ std::to_string(currentActorIndex) + ")";
 				foundNew = true;
 				it == actors.end();
 			}

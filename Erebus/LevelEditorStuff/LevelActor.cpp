@@ -12,22 +12,40 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Player Spawn",
 };
 
-void TW_CALL SetMyStdStringCB(const void *value, void *s /*clientData*/)
+void TW_CALL setDisplayCB(const void *value, void *s /*clientData*/)
 {
 	// Set: copy the value of s from AntTweakBar
 	const std::string *srcPtr = static_cast<const std::string *>(value);
 	LevelActor* actor = (LevelActor*)s;
-	actor->setActorDisplayName(*srcPtr);
-	LevelActorHandler::getInstance()->updateWorldBar();
+	actor->setActorDisplayName(LevelActorHandler::getInstance()->tryActorName(*srcPtr));
+	LevelActorHandler::getInstance()->updateTweakBars();
 	
 }
 
-void TW_CALL GetMyStdStringCB(void *value, void *s /*clientData*/)
+void TW_CALL getDisplayCB(void *value, void *s /*clientData*/)
 {
 	// Get: copy the value of s to AntTweakBar
 	std::string *destPtr = static_cast<std::string *>(value);
 	LevelActor* actor = (LevelActor*)s;
 	TwCopyStdStringToLibrary(*destPtr, actor->getActorDisplayName()); // the use of TwCopyStdStringToLibrary is required here
+}
+
+void TW_CALL setTypeCB(const void *value, void *s /*clientData*/)
+{
+	// Set: copy the value of s from AntTweakBar
+	const std::string *srcPtr = static_cast<const std::string *>(value);
+	LevelActor* actor = (LevelActor*)s;
+	actor->setActorType(*srcPtr);
+	LevelActorHandler::getInstance()->updateTweakBars();
+
+}
+
+void TW_CALL getTypeCB(void *value, void *s /*clientData*/)
+{
+	// Get: copy the value of s to AntTweakBar
+	std::string *destPtr = static_cast<std::string *>(value);
+	LevelActor* actor = (LevelActor*)s;
+	TwCopyStdStringToLibrary(*destPtr, actor->getActorType()); // the use of TwCopyStdStringToLibrary is required here
 }
 
 LevelActor::LevelActor(unsigned int id)
@@ -210,7 +228,8 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	glm::vec3 colorLabel = { 255,0,0 };
 
 	//TwAddVarRW(bar, "ActorName", TW_TYPE_STDSTRING, &this->actorDisplayName, "");
-	TwAddVarCB(bar, "ActorName", TW_TYPE_STDSTRING, SetMyStdStringCB, GetMyStdStringCB, (void*)this, "");
+	TwAddVarCB(bar, "ActorName", TW_TYPE_STDSTRING, setDisplayCB, getDisplayCB, (void*)this, "");
+	TwAddVarCB(bar, "ActorType", TW_TYPE_STDSTRING, setTypeCB, getTypeCB, (void*)this, "");
 	for (auto it : this->actorComponents)
 	{
 		std::stringstream ss;

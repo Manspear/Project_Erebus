@@ -756,5 +756,6 @@ namespace Importer
 			return heightVal * 0.596;
 		}
 		else return 55;
+		
 	}
 }
