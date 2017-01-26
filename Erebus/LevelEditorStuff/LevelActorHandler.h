@@ -18,6 +18,7 @@ public:
 	void addActor( LevelActor* actor );
 	void removeActor( LevelActor* actor );
 	void removeActor( unsigned int id );
+	void removeSelectedActor();
 	void updateActors();
 	void updateTweakBars();
 	void updateWorldBar();
@@ -47,6 +48,7 @@ private:
 	static void TW_CALL onSavePrefab( void* args );
 	static void TW_CALL onSetExportType( const void* value, void* clientData );
 	static void TW_CALL onGetExportType( void* value, void* clientData );
+	static void TW_CALL onDelete( void* args );
 
 	const std::string tryActorName(std::string name);
 	

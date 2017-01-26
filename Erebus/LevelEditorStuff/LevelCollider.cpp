@@ -291,6 +291,9 @@ void LevelCollider::setTwStruct( TwBar* bar )
 			TwAddVarRW( bar, "rayLength", TW_TYPE_FLOAT, &rayLength, "label='Length:'" );
 			break;
 	}
+
+	//TwAddVarRW( bar, "colliderColor", LevelUI::TW_TYPE_VECTOR3F(), &color, "label='Color:'" );
+	TwAddVarRW( bar, "colliderColor", TW_TYPE_COLOR3F, &color, "label='Color:'" );
 }
 
 void LevelCollider::setType( int type )

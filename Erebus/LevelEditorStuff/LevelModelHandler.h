@@ -22,6 +22,7 @@ public:
 	//Loads the model, and returns the index which the transform is in! 
 	int loadModel(std::string modelName, unsigned int &actorID);
 	void replaceModel( std::string modelName, unsigned int actorID );
+	void removeModel( int transformID );
 
 	std::vector<ModelInstance>* getModels();
 	std::vector<AnimatedInstance>* getAnimatedModels();

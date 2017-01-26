@@ -133,3 +133,27 @@ void LevelModelHandler::replaceModel( std::string modelName, unsigned int actorI
 		modelInstanceAgentIDs[index].push_back(agentInfo);
 	}
 }
+
+void LevelModelHandler::removeModel( int transformID )
+{
+	bool found = false;
+	int modelIndex = -1;
+	int worldIndex = -1;
+	for( int i=0; i<models.size() && !found; i++ )
+	{
+		for( int j=0; j<models[i].worldIndices.size(); j++ )
+		{
+			if( models[i].worldIndices[j] == transformID )
+			{
+				modelIndex = i;
+				worldIndex = j;
+				found = true;
+			}
+		}
+	}
+
+	if( found )
+	{
+		models[modelIndex].worldIndices.erase( models[modelIndex].worldIndices.begin() + worldIndex );
+	}
+}

@@ -22,8 +22,10 @@ public:
 	tinyxml2::XMLElement* toXml(tinyxml2::XMLDocument* doc) override;
 	std::string toLua(std::string name) override;
 	void postInitialize() override;
+
 	void setParent(LevelActor* parent);
 	int getModelIndex();
+	int getTransformID();
 
 	void setTwStruct(TwBar * twBar) override;
 	void setModelName( std::string name );
