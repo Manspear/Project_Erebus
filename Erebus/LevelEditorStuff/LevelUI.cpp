@@ -16,7 +16,7 @@ const char* LevelUI::worldBarName = "World";
 const char* LevelUI::assetBarName = "Assets";
 const char* LevelUI::assetContextBarName = "AssetsContext";
 const char* LevelUI::actionBarName = "Actions";
-const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelModel::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name, LevelSound::name };
+const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name, LevelSound::name };
 
 void TW_CALL setEditorState(void * clientData)
 {
