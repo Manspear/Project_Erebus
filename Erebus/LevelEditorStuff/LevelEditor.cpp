@@ -127,6 +127,12 @@ void LevelEditor::start() {
 	Animation* animations = nullptr;
 	engine->bindAnimations( &animations, &boundAnimations );
 
+	int actorID = 0;
+	glm::vec3 hitPoint;
+	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint);
+
+
+
 	float elapsedTime = 0.0f;
 	while (running && window.isWindowOpen())
 	{
