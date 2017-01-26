@@ -41,49 +41,52 @@ namespace Importer
 
 				start = cur;
 
-				while( *cur != ':' )
+				while( *cur && *cur != ':' )
 					cur++;
 
 				int nameLen = cur - start;
 
-				// remove ':'
-				cur++;
-				if( strncmp( start, "Ambient color", nameLen ) == 0 )
+				if( *cur && *cur == ':' )
 				{
-					ambientColor = parseVec3( &cur );
-				}
-				else if( strncmp( start, "Diffuse color", nameLen ) == 0 )
-				{
-					diffuseColor = parseVec3( &cur );
-				}
-				else if( strncmp( start, "Specular color", nameLen ) == 0 )
-				{
-					specularColor = parseVec3( &cur );
-				}
-				else if( strncmp( start, "Shiny factor", nameLen ) == 0 )
-				{
-					shinyFactor = parseFloat( &cur );
-				}
-				else if( strncmp( start, "Diffuse texture", nameLen ) == 0 )
-				{
-					parseString( &cur, buffer );
-					diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
-				}
-				else if( strncmp( start, "Specular texture", nameLen ) == 0 )
-				{
-					parseString( &cur, buffer );
-					specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
-				}
-				else if( strncmp( start, "Normal texture", nameLen ) == 0 )
-				{
-					parseString( &cur, buffer );
-					normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
-				}
-				else
-				{
-					strncpy_s( buffer, start, nameLen );
-					buffer[(nameLen < BUFFER_LEN ? nameLen : BUFFER_LEN)] = 0;
-					printf( "Unrecognized field: \"%s\".\n", buffer );
+					// remove ':'
+					cur++;
+					if( strncmp( start, "Ambient color", nameLen ) == 0 )
+					{
+						ambientColor = parseVec3( &cur );
+					}
+					else if( strncmp( start, "Diffuse color", nameLen ) == 0 )
+					{
+						diffuseColor = parseVec3( &cur );
+					}
+					else if( strncmp( start, "Specular color", nameLen ) == 0 )
+					{
+						specularColor = parseVec3( &cur );
+					}
+					else if( strncmp( start, "Shiny factor", nameLen ) == 0 )
+					{
+						shinyFactor = parseFloat( &cur );
+					}
+					else if( strncmp( start, "Diffuse texture", nameLen ) == 0 )
+					{
+						parseString( &cur, buffer );
+						diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+					}
+					else if( strncmp( start, "Specular texture", nameLen ) == 0 )
+					{
+						parseString( &cur, buffer );
+						specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+					}
+					else if( strncmp( start, "Normal texture", nameLen ) == 0 )
+					{
+						parseString( &cur, buffer );
+						normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+					}
+					else
+					{
+						strncpy_s( buffer, start, nameLen );
+						buffer[(nameLen < BUFFER_LEN-1 ? nameLen : BUFFER_LEN-1)] = 0;
+						printf( "Unrecognized field: \"%s\".\n", buffer );
+					}
 				}
 			}
 

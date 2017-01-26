@@ -25,13 +25,12 @@ function CreateGrenadeType()
 		self.speed = speed
 		Transform.ActiveControl(self.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
-		self.hitflag = false
 		self.radius = explosionRadius
 		self.explodetime = 0
 	end
 	function type:flyUpdate(dt)
 		result = false
-		self.direction.y = self.direction.y - dt * self.falloffFactor
+		self.direction.y = self.direction.y - self.falloffFactor * dt
 		self.position.x = self.position.x + self.direction.x*self.speed*dt
 		self.position.y = self.position.y + self.direction.y*dt
 		self.position.z = self.position.z + self.direction.z*self.speed*dt
@@ -44,6 +43,15 @@ function CreateGrenadeType()
 		if heightmapIndex > 4 then heightmapIndex = 4 end
 		if heightmaps[heightmapIndex]:GetHeight(self.position.x, self.position.z) > self.position.y then
 			result = true
+		else
+			local collisionIDs = self.sphereCollider:GetCollisionIDs()
+			for curID = 1, #collisionIDs do
+				for curEnemy=1, #enemies do
+					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+						result = true
+					end
+				end
+			end
 		end
 		return result
 	end
@@ -57,17 +65,10 @@ function CreateGrenadeType()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					if self.hitflag then
-						table.insert(result, enemies[curEnemy])
-					else
-						self.hitflag = true
-						SphereCollider.SetRadius(self.sphereCollider, self.radius)
-						break
-					end
+					table.insert(result, enemies[curEnemy])
 				end
 			end
 		end
-		
 		return result
 	end
 

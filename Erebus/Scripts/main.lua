@@ -24,9 +24,11 @@ local scriptFiles =
 	"Scripts/reusable.lua",
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
+	"Scripts/grenadeType.lua",
+	"Scripts/blackHole.lua",
 	"Scripts/hellPillar.lua",
 	"Scripts/rayType.lua",
-	"Scripts/grenadeType.lua"
+	"Scripts/staticAoEType.lua"
 }
 local drawHitboxes = false
 
