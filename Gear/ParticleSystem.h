@@ -9,9 +9,6 @@ namespace Gear
 	{
 
 	public:
-		GEAR_API static GLuint particleBuffer;
-		GEAR_API static void initParticleSystemBuffer();
-
 		GEAR_API ParticleSystem();
 		GEAR_API ~ParticleSystem();
 		GEAR_API ParticleSystem(std::string path, Importer::Assets* assets);

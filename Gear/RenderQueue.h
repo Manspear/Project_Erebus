@@ -62,6 +62,7 @@ private:
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	std::vector<ModelInstance> instances;
 	std::vector<ModelInstance> staticInstances;
+	GLuint particleBuffer;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
 	glm::mat4* jointMatrices;

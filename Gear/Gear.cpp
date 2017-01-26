@@ -335,7 +335,6 @@ namespace Gear
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 		
-	
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		debugHandler->draw( camera, &queue );
 

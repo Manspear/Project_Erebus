@@ -8,7 +8,6 @@ RenderQueue::RenderQueue()
 	{
 		allShaders[i] = nullptr;
 	}
-
 	int maximumNumberOfInstancesPerModel = 105;
 	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
 
@@ -45,6 +44,7 @@ void RenderQueue::init()
 	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
 	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
+	glGenBuffers(1, &particleBuffer);
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -255,7 +255,8 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	SendStruct* pos;
 	size_t particleCount;
-	glBindBuffer(GL_ARRAY_BUFFER, Gear::ParticleSystem::particleBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, particleBuffer);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
 	for (size_t i = 0; i < ps->size(); i++)
 	{
 		if (ps->at(i)->isActive)
@@ -264,18 +265,17 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
 			{
 				if (ps->at(i)->particleEmitters->isActive)
-				{
+				{				
 					pos = ps->at(i)->particleEmitters[j].getPositions();
 					ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
 					particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
-					glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
-					glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);
-					glEnableVertexAttribArray(0);
+					glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);				
 					glDrawArraysInstanced(GL_POINTS, 0, particleCount, 1);
 				}
-			}
+			}		
 		}
-	}    
+	}  
+	glEnableVertexAttribArray(0);
 	allShaders[PARTICLES]->unUse();
 	return blitOrNot;
 }

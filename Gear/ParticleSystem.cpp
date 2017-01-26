@@ -3,15 +3,6 @@
 
 namespace Gear
 {
-	GLuint ParticleSystem::particleBuffer = 0;
-
-	GEAR_API void ParticleSystem::initParticleSystemBuffer()
-	{	
-		GLuint buffer;
-		glGenBuffers(1, &buffer);
-		ParticleSystem::particleBuffer = buffer;
-	}
-
 	ParticleSystem::ParticleSystem()
 	{
 		
