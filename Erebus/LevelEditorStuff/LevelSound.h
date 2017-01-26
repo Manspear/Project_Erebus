@@ -6,6 +6,17 @@
 #include "Debug.h"
 #include "LevelTransform.h"
 
+enum
+{
+	SOUND_FLAG_3D = 0,
+	SOUND_FLAG_TRACK,
+	SOUND_FLAG_EFFECTS,
+	SOUND_FLAG_STREAM,
+	SOUND_FLAG_LOOP,
+	SOUND_FLAG_PAUSED,
+	MAX_SOUND_FLAGS
+};
+
 class LevelSound : public LevelActorComponent
 {
 public:
@@ -30,12 +41,17 @@ public:
 	void callListener( LevelActorComponent* component ) override;
 
 	static const char* name;
+	static const char* SOUND_FLAG_NAMES[MAX_SOUND_FLAGS];
 	static void setDebugger( Debug* debugger );
 
 private:
+	void setCombinedFlags( int f );
+	int getCombinedFlags();
+
 	static Debug* s_debugger;
 
 	glm::vec3 position;
 	std::string soundName;
 	float volume;
+	bool flags[MAX_SOUND_FLAGS];
 };

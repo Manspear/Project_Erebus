@@ -68,6 +68,7 @@ private:
 	std::vector<int> prefabSelectionIndices;
 	std::vector<std::string> models;
 	std::vector<std::string> textures;
+	std::vector<std::string> sounds;
 
 	TweakBar* assetsBar, *contextBar;
 	bool contextBarVisible;

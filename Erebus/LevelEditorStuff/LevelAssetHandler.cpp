@@ -38,6 +38,8 @@ void LevelAssetHandler::load()
 	loadAssets( &prefabs, "LevelEditorStuff/Resources/ActorsXML" );
 	loadAssets( &models, "Models", ".model" );
 	loadAssets( &textures, "Textures", ".png" );
+	loadAssets( &sounds, "Audio/Effects" );
+	loadAssets( &sounds, "Audio/Music" );
 
 	updateAssetsBar();
 }
@@ -107,11 +109,18 @@ void LevelAssetHandler::updateAssetsBar()
 
 	for( int i=0; i<models.size(); i++ )
 		TwAddButton( assetsBar->getBar(), models[i].c_str(), onSelectModel, &models[i], "group='Models'" );
-	TwDefine( "Assets/Models opened=false" );
+	if( models.size() > 0 )
+		TwDefine( "Assets/Models opened=false" );
 
 	for( int i=0; i<textures.size(); i++ )
 		TwAddButton( assetsBar->getBar(), textures[i].c_str(), onSelectTexture, &textures[i], "group='Textures'" );
-	TwDefine( "Assets/Textures opened=false" );
+	if( textures.size() > 0 )
+		TwDefine( "Assets/Textures opened=false" );
+
+	for( int i=0; i<sounds.size(); i++ )
+		TwAddButton( assetsBar->getBar(), sounds[i].c_str(), onSelectSound, &sounds[i], "group='Sounds'" );
+	if( sounds.size() > 0 )
+		TwDefine( "Assets/Sounds opened=false" );
 }
 
 void LevelAssetHandler::selectModel( std::string model )
