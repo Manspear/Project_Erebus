@@ -14,11 +14,6 @@ struct SendStruct
 	float size;
 };
 
-struct Color
-{
-	GLfloat r, g, b;
-};
-
 struct Emitter
 {
 	int numOfParticles;
@@ -49,18 +44,23 @@ namespace Gear
 		GEAR_API void setEmitterPos(glm::vec3 pos);
 		GEAR_API void setDirection(glm::vec3 dir);
 		GEAR_API int getNrOfActiveParticles();
-		GEAR_API Partikel* getThePartikels();
 		GEAR_API SendStruct* getPositions();
-		GEAR_API void setColor(float r, float g, float b);
-		GEAR_API Color getColor() const;
 		GEAR_API Importer::TextureAsset* getTexture();
 		GEAR_API void resetEmitter();
-
-		Importer::TextureAsset* textureAssetParticles;
+		
 		bool isActive;
-		float particleSize;
-		glm::vec3 position;
 		glm::vec3 localPos;
+		bool alive;
+	private:
+		float timer;
+		Partikel* allParticles;
+		float shrinkage;
+		SendStruct* particlePos;
+		int nrOfActiveParticles;
+		float particleSize;
+
+		Importer::TextureAsset* textureAssetParticles;	
+		glm::vec3 position;	
 		int maxParticles;
 		float lifeTime;
 		float partSpeed;
@@ -69,15 +69,8 @@ namespace Gear
 		float focus;
 		glm::vec3 direction;
 		float gravityFactor;
-		bool alive;
-	private:
-		float timer;
-		Partikel* allParticles;
-		float shrinkage;
-		SendStruct* particlePos;
-		int nrOfActiveParticles;
+
 		void spawn(float dt);
-		Color color;
 	};
 }
 

@@ -133,29 +133,13 @@ namespace Gear
 		return this->nrOfActiveParticles;
 	}
 
-	GEAR_API Partikel * ParticleEmitter::getThePartikels()
-	{
-		return this->allParticles;
-	}
-
 	GEAR_API SendStruct* ParticleEmitter::getPositions()
 	{
 		return this->particlePos;
-	}
-
-	GEAR_API void ParticleEmitter::setColor(float r, float g, float b)
-	{
-		color.r = r; color.g = g; color.b = b;
-	}
-
-	GEAR_API Color ParticleEmitter::getColor() const
-	{
-		return color;
 	}
 
 	GEAR_API Importer::TextureAsset * ParticleEmitter::getTexture()
 	{
 		return this->textureAssetParticles;
 	}
-
 }

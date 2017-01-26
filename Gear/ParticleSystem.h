@@ -11,6 +11,7 @@ namespace Gear
 	public:
 		GEAR_API static GLuint particleBuffer;
 		GEAR_API static void initParticleSystemBuffer();
+
 		GEAR_API ParticleSystem();
 		GEAR_API ~ParticleSystem();
 		GEAR_API ParticleSystem(std::string path, Importer::Assets* assets);
@@ -20,11 +21,8 @@ namespace Gear
 		GEAR_API void activate();
 
 		GEAR_API void deActivate();
-
 		GEAR_API void setDirection(glm::vec3 direction);
-
 		GEAR_API int getNrOfActive();
-
 		GEAR_API void explode();
 
 		ParticleEmitter* particleEmitters;
