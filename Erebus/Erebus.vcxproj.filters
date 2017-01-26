@@ -372,6 +372,7 @@
     <None Include="Scripts\iceGrenade.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\grenadeType.lua" />
     <None Include="Shaders\geometryPassShadow.frag" />
     <None Include="Shaders\geometryPassShadow.vert" />
     <None Include="Shaders\skybox.frag" />
@@ -380,10 +381,13 @@
       <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\console.lua" />
-    <None Include="Scripts\grenadeType.lua">
-      <Filter>Scripts\types</Filter>
+    <None Include="Scripts\hellPillar.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\staticAoEType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\rayType.lua">
       <Filter>Scripts\types</Filter>
     </None>
   </ItemGroup>

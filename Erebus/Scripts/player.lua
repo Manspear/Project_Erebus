@@ -1,5 +1,4 @@
 local MOLERAT_OFFSET = 0.4
-local PLAYER_MAX_SPELLS = 2
 local PLAYER_JUMP_SPEED = 0.35
 
 player = {}
@@ -10,15 +9,8 @@ function Round(num, idp)
 end
 
 function LoadPlayer()
-	-- Init unique ids
-	player.transformID = Transform.Bind()
-	player2.transformID = Transform.Bind()
-
-	if Network.GetNetworkHost() == false then
-		player.transformID, player2.transformID = player2.transformID, player.transformID
-	end
-
 	-- set basic variables for the player
+	player.transformID = Transform.Bind()
 	player.moveSpeed = 5.25
 	player.verticalSpeed = 0
 	player.canJump = false
@@ -32,19 +24,34 @@ function LoadPlayer()
 	player.spamCasting = false
 	player.charging = false
 	
-	player.walkableIncline = 1
-	player.chargedspell = {}
-	player.timeSinceShot = 0
-	player.shootCD = 0.3
-
 	player.animationController = CreatePlayerController(player)
+
+	-- set basic variables for the player2
+	player2.transformID = Transform.Bind()
+	player2.moveSpeed = 5.25
+	player2.verticalSpeed = 0
+	player2.canJump = false
+	player2.reachedGoal = false
+	player2.health = 100
+	player2.forward = 0
+	player2.left = 0
+	player2.timeScalar = 1.0
+	player2.printInfo = false
+	player2.heightmapIndex = 1
+	player2.spamCasting = false
+	player2.charging = false
+
+	player2.animationController = CreatePlayerController(player2)
+
+	if Network.GetNetworkHost() == false then
+		player.transformID, player2.transformID = player2.transformID, player.transformID
+	end
 
 	-- set spells for player
 	player.spells = {}
-	--player.spells[1] = dofile( "Scripts/projectile.lua" )
-	player.spells[1] = CreateIceGrenade()
-	player.spells[2] = {}
-
+	player.spells[1] = CreateHellPillar()
+	player.spells[2] = CreateBlackHole()
+	player.spells[3] = CreateSunRay()
 
 	player.currentSpell = 1
 
@@ -56,9 +63,9 @@ function LoadPlayer()
 	end
 
 	player.Kill = function(self)
-			self.health = 0
-			Transform.ActiveControl(self.transformID,false)
-		end
+		self.health = 0
+		Transform.ActiveControl(self.transformID,false)
+	end
 
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
@@ -74,52 +81,17 @@ function LoadPlayer()
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
+	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
-	LoadPlayer2()
-end
-
-function LoadPlayer2()
-	-- set basic variables for the player2
-	player2.moveSpeed = 5.25
-	player2.verticalSpeed = 0
-	player2.canJump = false
-	player2.reachedGoal = false
-	player2.health = 100
-	player2.forward = 0
-	player2.left = 0
-	player2.timeScalar = 1.0
-	player2.printInfo = false
-	player2.heightmapIndex = 1
-	player2.spamCasting = false
-	player2.charging = false
-	
-	player2.walkableIncline = 1
-	player2.chargedspell = {}
-	player2.timeSinceShot = 0
-	player2.shootCD = 0.3
-
-	player2.animationController = CreatePlayerController(player2)
-
-	-- set spells for player
-	player2.spells = {}
-	--player.spells[1] = dofile( "Scripts/projectile.lua" )
-	player2.spells[1] = CreateIceGrenade()
-	player2.spells[2] = {}
-
-	player2.currentSpell = 1
-
-	local model = Assets.LoadModel("Models/testGuy.model")
-	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 end
 
 function UnloadPlayer()
 end
 
 function UpdatePlayer(dt)
-	UpdatePlayer2(dt)
+	--UpdatePlayer2(dt)
 	if player.health > 0 then
-		player.timeSinceShot = player.timeSinceShot + dt
 		player.forward = 0
 		player.left = 0
 		player.testCamera = false
@@ -130,7 +102,9 @@ function UpdatePlayer(dt)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
 
-		Controls(dt)
+		if not console.visible then
+			Controls(dt)
+		end
 
 		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
 		local newPosition = Transform.GetPosition(player.transformID)
@@ -161,6 +135,7 @@ function UpdatePlayer(dt)
 		--Just a simple example of what an AIPacket can look like
 		--Network.SendAIPacket(15, 2)
 		
+		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
@@ -177,9 +152,9 @@ function UpdatePlayer(dt)
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
+	player.spells[2]:Update(dt)
+	player.spells[3]:Update(dt)
 	
-
-
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
 	for curID=1, #collisionIDs do
@@ -189,28 +164,18 @@ function UpdatePlayer(dt)
 	end
 
 	-- show player position and lookat on screen
-	if Inputs.KeyPressed("0") then player.printInfo = not player.printInfo end
-	if player.printInfo then
-		local scale = 0.8
-		local color = {0.4, 1, 0.4, 1}
-		local info = "Player"
-		Gear.Print(info, 60, 570, scale, color)
-
-		local position = Transform.GetPosition(player.transformID)
-		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
-		Gear.Print(info, 0, 600, scale, color)
-
-		local direction = Transform.GetLookAt(player.transformID)
-		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
-		Gear.Print(info, 120, 600, scale, color)
+	if Inputs.KeyPressed("0") then 
+		player.printInfo = not player.printInfo
 	end
+	
+	if player.printInfo then PrintInfo() end
 
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
 	
 end
 
 function Controls(dt)
-	if Inputs.KeyDown("W") then
+		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 			end
 		if Inputs.KeyDown("S") then
@@ -248,25 +213,24 @@ function Controls(dt)
 
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
+		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
 end
 
-function UpdatePlayer2(dt)
-	newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
+function PrintInfo() 
+	if player.printInfo then
+		local scale = 0.8
+		local color = {0.4, 1, 0.4, 1}
+		local info = "Player"
+		Gear.Print(info, 60, 570, scale, color)
 
-	if newtransformvalue == true then
-		Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
-		Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
-		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
+		local position = Transform.GetPosition(player.transformID)
+		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
+		Gear.Print(info, 0, 600, scale, color)
+
+		local direction = Transform.GetLookAt(player.transformID)
+		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
+		Gear.Print(info, 120, 600, scale, color)
 	end
-
-	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
-
-	if newspellpacket == true then
-		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
-		player2.currentSpell = player2CurrentSpell
-	end
-
-	player2.spells[1]:Update(dt)
 
 
 	--netAIValue, transformID, aiState = Network.GetAIPacket()

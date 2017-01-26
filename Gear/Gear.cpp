@@ -13,7 +13,6 @@ namespace Gear
 	GearEngine::GearEngine()
 	{
 		glewInit();
-		//renderQueue.init();
 		queue.init();
 		text.init(1280, 720);
 		image.init(1280, 720);
@@ -45,7 +44,6 @@ namespace Gear
 		delete effectShader;
 		delete debugHandler;
 		delete gloomCompute;
-
 		delete[] lightPassUniformLocations;
 	}
 #pragma region init functions
@@ -300,7 +298,7 @@ namespace Gear
 		this->dirLights.at(0).direction = lights->direction;
 	}
 #pragma endregion
-
+	
 	void GearEngine::draw(Camera* camera)
 	{		
 		//queue.update(*transformCount, *allTrans);
@@ -351,24 +349,29 @@ namespace Gear
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		glDisable(GL_CULL_FACE);
-		queue.particlePass(particleSystem);
 
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
-		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+		bool blitOrNot = queue.particlePass(particleSystem);
+		if (blitOrNot) 
+		{
+			glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
+			glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		debugHandler->draw( camera, &queue );
 
 		skybox.update(camera, gBuffer.getTextures()[2]);
 		skybox.draw();
 
-
-		effectShader->use();
-		particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
-		drawQuad();
-		effectShader->unUse();	
+		if (blitOrNot)
+		{
+			effectShader->use();
+			particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
+			drawQuad();
+			effectShader->unUse();
+		}
 
 		//gloomCompute->use();
 		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
@@ -393,10 +396,13 @@ namespace Gear
 		
 		image.draw();
 		text.draw();
-
-		particleFBO.use();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		particleFBO.unUse();
+		
+		if (blitOrNot) 
+		{
+			particleFBO.use();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			particleFBO.unUse();
+		}
 	}
 
 	void GearEngine::update()

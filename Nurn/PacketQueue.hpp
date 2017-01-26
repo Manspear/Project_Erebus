@@ -49,7 +49,7 @@ template<typename Packet> bool PacketQueue<Packet>::pop(Packet &packet)
 	}
 
 	packet = this->queuePointer[this->readIndex];
-	this->readIndex = (this->readIndex + 1) % this->queueSize;;
+	this->readIndex = (this->readIndex + 1) % this->queueSize;
 
 	return true;
 }
@@ -58,7 +58,7 @@ template<typename Packet> bool PacketQueue<Packet>::push(Packet &packet)
 {
 	int nextElement = (this->writeIndex + 1) % this->queueSize;
 	
-	if (nextElement != this->readIndex)
+	if (nextElement != this->readIndex) // Return false if readIndex is the next element
 	{
 		this->queuePointer[this->writeIndex] = packet;
 		this->writeIndex = nextElement;
@@ -72,40 +72,48 @@ template<typename Packet> bool PacketQueue<Packet>::push(Packet &packet)
 
 template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy)
 {
+	uint8_t currReadIndex = this->readIndex;
 	uint8_t nrOfPacketsToCopy = sizeToCopy / sizeof(Packet); 
 	uint8_t distanceFromEndOfQueue = this->queueSize - this->writeIndex;
-	uint8_t newWriteIndexLocation = (this->writeIndex + nrOfPacketsToCopy) % this->queueSize;
 	uint8_t distanceBetweenWriteAndRead = 0;
 
-	if (this->writeIndex < this->readIndex) // Calculating distance between write and read
+	if (this->writeIndex < currReadIndex) // Calculating distance between write and read
 	{
-		distanceBetweenWriteAndRead = this->readIndex - this->writeIndex;
+		distanceBetweenWriteAndRead = currReadIndex - this->writeIndex;
 	}
 	else
 	{
-		distanceBetweenWriteAndRead = distanceFromEndOfQueue + this->readIndex;
+		distanceBetweenWriteAndRead = distanceFromEndOfQueue + currReadIndex;
 	}
 
-	if (distanceBetweenWriteAndRead > nrOfPacketsToCopy)
+	if (distanceBetweenWriteAndRead > 1)
 	{
-		nrOfPacketsToCopy = distanceBetweenWriteAndRead; //Discard any "excess" packages
-	}
 
-	if (nrOfPacketsToCopy <= distanceFromEndOfQueue) // Circlebuffer spliting of data check
-	{
-		memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, sizeToCopy);
-		this->writeIndex = newWriteIndexLocation;
+		if (distanceBetweenWriteAndRead <= nrOfPacketsToCopy)
+		{
+			nrOfPacketsToCopy = distanceBetweenWriteAndRead - 1; //Discard any "excess" packages has to end before readIndex
+		}
+
+		if (nrOfPacketsToCopy < distanceFromEndOfQueue) // Circlebuffer spliting of data check
+		{
+			memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, sizeToCopy);
+			this->writeIndex = (this->writeIndex + nrOfPacketsToCopy) % this->queueSize;
+		}
+		else
+		{
+			// Fill the rest of the queue
+			memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, distanceFromEndOfQueue * sizeof(Packet));
+
+			// Add what's left to copy from the beginning of the queue
+			memcpy(this->queuePointer, memoryPointer + startPoint + (distanceFromEndOfQueue * sizeof(Packet)), (nrOfPacketsToCopy - distanceFromEndOfQueue) * sizeof(Packet));
+
+			this->writeIndex = (this->writeIndex + nrOfPacketsToCopy) % this->queueSize;
+		}
+
+		return true;
 	}
 	else
 	{
-		// Fill the rest of the queue
-		memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, distanceFromEndOfQueue * sizeof(Packet));
-
-		// Add what's left to copy from the beginning of the queue
-		memcpy(this->queuePointer, memoryPointer + startPoint + (distanceFromEndOfQueue * sizeof(Packet)), (nrOfPacketsToCopy - distanceFromEndOfQueue) * sizeof(Packet));
-
-		this->writeIndex = newWriteIndexLocation;
+		return false; // return if next element is readIndex
 	}
-
-	return true;
 }

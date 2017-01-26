@@ -12,11 +12,17 @@ FbxToFile:
 
 FbxHelper script
 installing-
+	FBX-
+		1 remmember to install fbx sdk.
+		2 build solution. exe file will be created.
+		3 copy libfbxsdk.dll to project exe file location
+	
+	script- 
 
-	1 Copy or Load the FbxHelper.py into the Maya Script Editor
-	2 Find the filepath to the FBXToFile.exe #(should look something like "C:\Project_Erebus\FBXToFile\x64\Debug\FBXToFile.exe"),
-	-If you dont have an exe file you will have to build the FBXToFile solution
-	3 Copy filepath into the variable "filepathToFbxExe" in the script.
+		1 Copy or Load the FbxHelper.py into the Maya Script Editor
+		2 Find the filepath to the FBXToFile.exe #(should look something like "C:\Project_Erebus\FBXToFile\x64\Debug\FBXToFile.exe"),
+		-If you dont have an exe file you will have to build the FBXToFile solution
+		3 Copy filepath into the variable "filepathToFbxExe" in the script
 
 Use-
 	1 Run the script from the script editor # a small UI should appear
