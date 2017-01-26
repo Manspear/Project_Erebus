@@ -103,7 +103,7 @@ function CreateIceGrenade()
 						end
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME then
-						self:Kill(i)
+						--self:Kill(i)
 					end
 				end
 

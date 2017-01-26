@@ -50,7 +50,7 @@ function CreateGrenadeType()
 	function type:Update(dt)
 		result = {} 
 		self.explodetime = self.explodetime + dt
-		local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* 4 + 1
+		local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* self.radius + 1
 		Transform.SetScale(self.transformID, scale)
 		SphereCollider.SetRadius(self.sphereCollider, scale)
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
