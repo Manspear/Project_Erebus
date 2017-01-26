@@ -40,29 +40,35 @@ namespace Gear
 		delete[] this->allParticles;
 		delete[] this->particlePos;
 	}
+
+	void ParticleEmitter::spawn(float dt)
+	{
+		if (alive)
+		{
+			timer += dt;
+			if (timer > particleRate)
+			{
+				glm::vec3 tempVec = this->position + direction * focus; //emit direction
+				glm::vec3 temp2;
+				int i = 0;
+				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+				{
+					particlePos[nrOfActiveParticles].pos = this->position;
+					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+					temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
+					allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
+				}
+				timer = 0;
+			}
+		}
+	}
+
 	bool ParticleEmitter::update(const float &dt)
 	{
 		if (isActive)
 		{
-			if (alive)
-			{
-				timer += dt;
-				if (timer > particleRate)
-				{
-					glm::vec3 tempVec = this->position + direction * focus; //emit direction
-					glm::vec3 temp2;
-					int i = 0;
-					while (nrOfActiveParticles < maxParticles && partPerRate > i++)
-					{
+			spawn(dt);
 
-						particlePos[nrOfActiveParticles].pos = this->position;
-						allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-						temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
-						allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
-					}
-					timer = 0;
-				}
-			}
 			float randomSpeed;
 			for (int i = 0; i < nrOfActiveParticles; i++)
 			{

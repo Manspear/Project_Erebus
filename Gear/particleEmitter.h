@@ -79,7 +79,7 @@ namespace Gear
 		SendStruct* particlePos;
 		int nrOfActiveParticles;
 		GLuint particleVertexBuffer;
-		
+		void spawn(float dt);
 		Color color;
 
 	};
