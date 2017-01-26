@@ -71,8 +71,19 @@ void LevelActorHandler::removeActor( LevelActor* actor )
 
 void LevelActorHandler::removeActor( unsigned int id )
 {
+	LevelActor* actor = actors.at(id);
+
 	actors.erase( id );
+
+	delete actor;
+	selectedActor = nullptr;
+
 	updateTweakBars();
+}
+
+void LevelActorHandler::removeSelectedActor()
+{
+	removeActor( selectedActor );
 }
 
 void LevelActorHandler::updateActors()
@@ -166,6 +177,7 @@ void LevelActorHandler::updateActorBar()
 		TwAddVarCB(actorBar->getBar(), "AddComponent", LevelUI::TW_TYPE_COMPONENTS(), setComponentCallback, getComponentCallback, (void*)&selectedComponent, "label='Add Component'");
 		TwAddVarCB(actorBar->getBar(), "ExportType", LevelActor::TW_TYPE_EXPORT_TYPES(), onSetExportType, onGetExportType, selectedActor, "label='Export Type'");
 		TwAddButton( actorBar->getBar(), "SavePrefab", onSavePrefab, selectedActor, "label='Save Prefab'");
+		TwAddButton( actorBar->getBar(), "DeleteActor", onDelete, selectedActor, "label='Delete'" );
 	}
 }
 
@@ -238,6 +250,12 @@ void LevelActorHandler::onGetExportType( void* value, void* clientData )
 {
 	LevelActor* actor = (LevelActor*)clientData;
 	*(int*)value = actor->getExportType();
+}
+
+void LevelActorHandler::onDelete( void* args )
+{
+	LevelActor* actor = (LevelActor*)args;
+	LevelActorHandler::getInstance()->removeActor( actor );
 }
 
 const std::string LevelActorHandler::tryActorName(std::string name) {

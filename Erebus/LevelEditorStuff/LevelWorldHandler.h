@@ -8,6 +8,9 @@
 #include "LevelActorFactory.h"
 #include "LevelAssetHandler.h"
 
+#define LEVEL_AUTOSAVE_TIME 60.0f // seconds
+#define LEVEL_MAX_AUTOSAVES 5
+
 class LevelWorldHandler {
 private:
 	Gear::GearEngine* engineRef;
@@ -17,6 +20,8 @@ private:
 	Inputs* inputRef;
 	Camera* cameraRef;
 	Debug* debugRef;
+	float elapsedTime;
+	int currentAutosave;
 	
 	//engine, assets, ui, window, inputs, camera;
 public:
@@ -30,4 +35,7 @@ public:
 	void addStuff(Gear::GearEngine* engineRef,Assets* assetsRef,LevelUI* levelUiRef,Window* windowRef,Inputs* inputRef,Camera* cameraRef, Debug* debugRef);
 
 	void resetWorld();
+	void updateAutosave( float deltaTime );
+	int findLastAutosave();
+	std::string getLastAutosaveFile();
 };

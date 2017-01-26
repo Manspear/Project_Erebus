@@ -42,7 +42,7 @@ Lights::PointLight* LevelLightHandler::addPointLight(glm::vec3 pos, glm::vec3 co
 	Lights::PointLight* light = new Lights::PointLight();
 	light->pos = glm::vec4(pos,1);
 	light->color = glm::vec4(color, 1);
-	light->radius = glm::vec4(radius, 0, 0, 0);
+	light->radius = glm::vec4(radius, 1, 0, 0);
 
 	this->pointLights->push_back(light);
 

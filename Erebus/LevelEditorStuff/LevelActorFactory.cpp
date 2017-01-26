@@ -177,7 +177,7 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	return returnComponent;
 }
 
-void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>* actors) {
+/*void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>* actors) {
 	tinyxml2::XMLDocument doc;
 	std::string fullPath = levelFolder + fileName + fileExtension;
 
@@ -194,30 +194,31 @@ void LevelActorFactory::saveWorld(std::string fileName, std::vector<LevelActor*>
 	
 	int k = 0;
 	//tinyxml2::XMLDeclaration* dcl = new tinyxml2::XMLDeclaration(&doc);
+}*/
+
+void LevelActorFactory::saveWorld( const std::string& filename )
+{
+	tinyxml2::XMLDocument doc;
+
+	const char* LevelActorElementValue = "Level";
+	tinyxml2::XMLElement* LevelElement = doc.NewElement(LevelActorElementValue);
+
+	std::map<unsigned int, LevelActor*>& actors = LevelActorHandler::getInstance()->getActors();
+
+	for( std::map<unsigned int, LevelActor*>::iterator it = actors.begin(); it != actors.end(); it++ )
+	{
+		it->second->insertXmlElement(LevelElement, &doc);
+	}
+
+	doc.LinkEndChild(LevelElement);
+	tinyxml2::XMLError eResult = doc.SaveFile(filename.c_str());
 }
 
 void LevelActorFactory::saveWorld()
 {
 	if( fileDialog.show( DIALOG_SAVE_FILE ) )
 	{
-		tinyxml2::XMLDocument doc;
-
-		const char* LevelActorElementValue = "Level";
-		tinyxml2::XMLElement* LevelElement = doc.NewElement(LevelActorElementValue);
-
-		std::map<unsigned int, LevelActor*>& actors = LevelActorHandler::getInstance()->getActors();
-		/*for (size_t i = 0; i < actors.size(); i++)
-		{
-			actors.at(i)->insertXmlElement(LevelElement, &doc);
-		}*/
-		for( std::map<unsigned int, LevelActor*>::iterator it = actors.begin(); it != actors.end(); it++ )
-		{
-			it->second->insertXmlElement(LevelElement, &doc);
-		}
-
-		doc.LinkEndChild(LevelElement);
-		tinyxml2::XMLError eResult = doc.SaveFile(fileDialog.getFilePath().c_str());
-		
+		saveWorld( fileDialog.getFilePath() );
 	}
 }
 

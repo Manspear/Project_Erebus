@@ -11,6 +11,7 @@ LevelModel::LevelModel()
 
 LevelModel::~LevelModel()
 {
+	LevelModelHandler::getInstance()->removeModel( transformIndice );
 }
 
 void LevelModel::initialize(tinyxml2::XMLElement* element)
@@ -59,6 +60,11 @@ void LevelModel::postInitialize()
 
 int LevelModel::getModelIndex() {
 	return this->modelIndex;
+}
+
+int LevelModel::getTransformID()
+{
+	return transformIndice;
 }
 
 tinyxml2::XMLElement* LevelModel::toXml(tinyxml2::XMLDocument* doc)

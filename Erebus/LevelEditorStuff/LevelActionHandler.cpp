@@ -48,6 +48,9 @@ void LevelActionHandler::setupGizmo( Debug* debug, Camera* camera, Inputs* input
 
 void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera )
 {
+	if( inputs->keyPressedThisFrame( GLFW_KEY_DELETE ) )
+		LevelActorHandler::getInstance()->removeSelectedActor();
+
 	gizmo.update();
 	gizmo.drawGizmo();
 
@@ -138,9 +141,9 @@ void LevelActionHandler::setTweakBar( TweakBar* bar )
 		TwAddVarCB( actionBar->getBar(), ACTION_NAMES[i], TW_TYPE_BOOLCPP, onSetAction, onGetAction, &indices[i], NULL );
 
 	TwAddSeparator( bar->getBar(), "sep2", NULL );
+	TwAddButton(bar->getBar(), "NewWorld", onNewWorld, NULL, "label='New World'");
 	TwAddButton( bar->getBar(), "SaveWorld", onSaveWorld, NULL, "label='Save World'" );
 	TwAddButton( bar->getBar(), "LoadWorld", onLoadWorld, NULL, "label='Load World'" );
-	TwAddButton(bar->getBar(), "NewWorld", onNewWorld, NULL, "label='New World'");
 	TwAddButton( bar->getBar(), "ExportToLua", onExportToLua, NULL, "label='Export to Lua'" );
 }
 
@@ -176,6 +179,7 @@ void TW_CALL LevelActionHandler::onSaveWorld( void* args )
 
 void TW_CALL LevelActionHandler::onLoadWorld( void* args )
 {
+	LevelWorldHandler::getInstance()->resetWorld();
 	LevelActorFactory::getInstance()->loadWorld();
 }
 
@@ -200,9 +204,9 @@ void LevelActionHandler::resetAction(Inputs * input)
 		for (int i = 0; i<MAX_ACTIONS; i++)
 			TwAddVarCB(actionBar->getBar(), ACTION_NAMES[i], TW_TYPE_BOOLCPP, onSetAction, onGetAction, &indices[i], NULL);
 		TwAddSeparator(actionBar->getBar(), "sep2", NULL);
+		TwAddButton(actionBar->getBar(), "NewWorld", onNewWorld, NULL, "label='New World'");
 		TwAddButton(actionBar->getBar(), "SaveWorld", onSaveWorld, NULL, "label='Save World'");
 		TwAddButton(actionBar->getBar(), "LoadWorld", onLoadWorld, NULL, "label='Load World'");
-		TwAddButton(actionBar->getBar(), "NewWorld", onNewWorld, NULL, "label='New World'");
 		TwAddButton(actionBar->getBar(), "ExportToLua", onExportToLua, NULL, "label='Export to Lua'");
 	}
 }

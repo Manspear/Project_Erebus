@@ -56,7 +56,9 @@ private:
 			{ COLLIDER_RAY, COLLIDER_TYPE_NAMES[COLLIDER_RAY] },
 		};
 
-		return TwDefineEnum( "colliderTypesEnum", colliderVals, MAX_COLLIDER_TYPES );
+		static TwType result = TwDefineEnum( "colliderTypesEnum", colliderVals, MAX_COLLIDER_TYPES );
+
+		return result;
 	}
 
 	static void TW_CALL onSetType( const void* value, void* clientData );
