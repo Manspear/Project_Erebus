@@ -16,7 +16,7 @@ function CreateSunRay()
 	sunRay.Charge = BaseCharge
 	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.particles = createFireballParticles()
-	sunRay.owner = {}
+	sunRay.casterTrans = 0
 	sunRay.moveImpairment = 0.5
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
@@ -37,11 +37,11 @@ function CreateSunRay()
 		if self.alive then
 			direction = Transform.GetLookAt(self.caster)
 			pos = Transform.GetPosition(self.caster)
+			self.particles.update(pos.x, pos.y, pos.z)
 			pos.x = pos.x + direction.x * SUNRAY_HALF_LENGTH
 			pos.y = pos.y + direction.y * SUNRAY_HALF_LENGTH
 			pos.z = pos.z + direction.z * SUNRAY_HALF_LENGTH
-			hits = self.type:Update(pos, direction)
-			self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
+			hits = self.type:Update(pos, direction)			
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
 			Transform.SetLookAt(self.type.transformID, direction)
 			for index = 1, #hits do
