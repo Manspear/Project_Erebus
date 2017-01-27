@@ -80,7 +80,7 @@ function UpdateEnemies(dt)
 			local posz = math.floor(pos.z/512)
 			local heightmapIndex = (posz*2 + posx)+1
 
-			local height = heightmaps[heightmapIndex]:GetHeight(pos.x,pos.z)+1
+			local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+1
 			pos.y = pos.y - 10*dt
 			if pos.y < height then
 				pos.y = height
