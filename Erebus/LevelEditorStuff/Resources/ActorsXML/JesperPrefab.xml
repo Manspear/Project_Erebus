@@ -1,0 +1,10 @@
+<LevelActor type="terrain" displayName="Terrain Actor (1) (1) (1)">
+    <LevelModel>
+        <ModelName>tile1_game_x1</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="-26.302114" y="54.272202" z="-6.4434953"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="5" y="2" z="4"/>
+    </LevelTransform>
+</LevelActor>

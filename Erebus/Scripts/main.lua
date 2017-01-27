@@ -36,7 +36,7 @@ function Load()
 		if value.Load then value.Load() end
 	end
 	
-	dofile( "Scripts/level.lua" )
+	dofile( "Scripts/Fgt2.lua" )
 end
 
 function Unload()

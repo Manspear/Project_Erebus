@@ -54,6 +54,11 @@ void LevelWorldHandler::resetWorld()
 	//levelGizmo = new LevelGizmo();
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
 	LevelLightHandler::getInstance()->addDebugger(debugRef);
+
+
+	//engineRef->queueParticles(ps);
+	engineRef->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
+	engineRef->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 }
 
 void LevelWorldHandler::updateAutosave( float deltaTime )

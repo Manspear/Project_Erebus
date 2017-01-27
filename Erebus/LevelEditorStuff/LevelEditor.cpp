@@ -134,6 +134,11 @@ void LevelEditor::start() {
 
 
 	float elapsedTime = 0.0f;
+
+
+	engine->queueParticles(ps);
+	engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
+	engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 	while (running && window.isWindowOpen())
 	{
 		deltaTime = counter.getDeltaTime();
@@ -157,9 +162,8 @@ void LevelEditor::start() {
 		//	//std::cout<<actors.at(i)->getComponent<LevelModel>()->
 		//}
 
-		engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
-		engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
-		engine->queueParticles(ps);
+
+		
 
 
 		if(LevelActorHandler::getInstance()->getSelected() != nullptr)

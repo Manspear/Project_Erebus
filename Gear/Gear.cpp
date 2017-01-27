@@ -436,8 +436,6 @@ namespace Gear
 		//effectShader->unUse();
 
 		//Clear lists
-		staticModels = &defaultModelList;
-		dynamicModels = &defaultModelList;
 		
 		image.draw();
 		text.draw();

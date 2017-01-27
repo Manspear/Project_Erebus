@@ -1,0 +1,152 @@
+<Level>
+    <LevelActor type="terrain" displayName="Terrain Actor">
+        <LevelModel>
+            <ModelName>tile1_game_x1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="terrain" displayName="Terrain Actor1">
+        <LevelModel>
+            <ModelName>tile1_game_x1_assets</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TestCharacter" displayName="Stick Guy">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="0" y="0" z="0"/>
+            <Radius r="31"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="131.08182" y="56.28125" z="37.59375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="PointLight" displayName="Point Light">
+        <LevelPointLight>
+            <Position x="40" y="0" z="0"/>
+            <Color x="0" y="0.5" z="0.5"/>
+            <Radius r="60"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="97.8125" y="33.850536" z="73.016838"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="MrRoboto" displayName="DerpMan">
+        <LevelModel>
+            <ModelName>testGuy</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="21.065756" y="7.4862289" z="219.90495"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.3921569" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="90.125" y="22.390625" z="99.4375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2) (1)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.3921569" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="104" y="28.21875" z="106.3125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2) (2)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.3921569" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="117" y="32.78125" z="106.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2) (3)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.3921569" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="29.125" y="12.34375" z="17.671875"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2) (4)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.3921569" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="32.875" y="12.117188" z="20.578125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2) (5)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.58823532" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="35.96875" y="12.4375" z="23.359375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2) (6)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.3921569" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="54.25" y="10.84375" z="50.9375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="" displayName=" (2) (7) (1)">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="0.3921569" z="0"/>
+            <Radius r="13"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="35.34375" y="9.84375" z="47.28125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+</Level>
