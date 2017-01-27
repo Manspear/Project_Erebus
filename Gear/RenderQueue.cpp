@@ -220,17 +220,21 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels)
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[FORWARD]->getProgramID(), "worldMatrix");
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[FORWARD]->getProgramID(), "worldMatrices");
 	ModelAsset* modelAsset;
+	int meshes;
+	int numInstance;
+	int index;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
 		modelAsset = dynamicModels ->at(i).asset;
-		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
+		meshes = modelAsset->getHeader()->numMeshes;
+		numInstance = 0;
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			if (allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
