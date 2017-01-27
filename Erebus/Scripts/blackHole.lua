@@ -1,13 +1,13 @@
-BLACK_HOLE_DURATION = 10
+BLACK_HOLE_DURATION = 7
 BLACK_HOLE_RADIUS = 5
 BLACK_HOLE_DAMAGE = 1
 BLACK_HOLE_TICK_TIME = 1 --interval between damage ticks
 --BLACK_HOLE_CASTER_SLOW = 0.01  optional for possible later use
-BLACK_HOLE_WHOBLE_FACTOR = 3
+BLACK_HOLE_WHOBLE_FACTOR = 0.5
 BLACK_HOLE_WHOBLE_INTERVAL = 0.5
 BLACK_HOLE_COOLDOWN = 6
 BLACK_HOLE_PULL_SPEED = 1
-BLACK_HOLE_SPIN_SPEED = 3.14/0.5
+BLACK_HOLE_SPIN_SPEED = 3.14/1
 
 function CreateBlackHole()
 	local spell = {}
@@ -56,9 +56,9 @@ function CreateBlackHole()
 			hits = self.type:Update(dt)
 			local scale = Transform.GetScale(self.type.transformID)
 			scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos((self.timeSinceShot/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
-			Transform.SetScale(self.type.transformID, scale) -- change 0 to scale when we have final model :D:D
+			Transform.SetScale(self.type.transformID, scale) 
 			for index = 1, #hits do
-				local position = Transform.GetPosition(hits[index].transformID)
+				local position = Transform.GetPosition(hits[index].transformID)--kanske borde flyttas ut till c
 				local pos = self.type.position
 				local direction = {x=0,y=0,z=0}
 				direction.x = position.x - pos.x

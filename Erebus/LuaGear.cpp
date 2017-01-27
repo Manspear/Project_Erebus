@@ -6,15 +6,19 @@ namespace LuaGear
 {
 	static GearEngine* g_gearEngine = nullptr;
 	static std::vector<ModelInstance>* g_models = nullptr;
+	static std::vector<ModelInstance>* g_ForwardModels = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Animation* g_animations = nullptr;
 	static int* g_boundAnimations = 0;
 	static Assets* g_assets = nullptr;
 	static WorkQueue* g_work = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, 
+							std::vector<AnimatedInstance>* animatedModels, Animation* animations, std::vector<ModelInstance>* forwardModels,
+							int* boundAnimations, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
+		g_ForwardModels = forwardModels;
 		g_models = models;
 		g_animatedModels = animatedModels;
 		g_animations = animations;
@@ -28,6 +32,7 @@ namespace LuaGear
 		{
 			{ "AddStaticInstance", addStaticInstance },
 			{ "AddAnimatedInstance", addAnimatedInstance },
+			{ "AddForwardInstance",	addForwardInstance},
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
 			{ NULL, NULL }
@@ -49,8 +54,6 @@ namespace LuaGear
 		luaL_Reg animationRegs[] =
 		{
 			{ "Bind", bindAnimation },
-			//{ "Create", createAnimation },
-			//{ "__gc",	destroyAnimation },
 			{ "Update",	updateAnimationBlending },
 			{ "UpdateShaderMatrices", assembleAnimationsIntoShadermatrices},
 			{ "SetTransitionTimes", setTransitionTimes},
@@ -74,7 +77,6 @@ namespace LuaGear
 			int transformID = lua_tointeger( lua, 2 );
 
 			int result = g_gearEngine->generateWorldMatrix();
-			//g_gearEngine->renderQueue.incrementWorldMatrix();
 
 			int index = -1;
 			for( int i=0; i<g_models->size(); i++ )
@@ -113,7 +115,6 @@ namespace LuaGear
 			Animation* animation = (Animation*)lua_touserdata( lua, -1 );
 
 			int result = g_gearEngine->generateWorldMatrix();
-			//g_gearEngine->renderQueue.incrementWorldMatrix();
 
 			int index = -1;
 			for( int i=0; i<g_animatedModels->size(); i++ )
@@ -140,6 +141,35 @@ namespace LuaGear
 			//lua_pushnumber( lua, result );
 		}
 
+		return 0;
+	}
+
+	int addForwardInstance(lua_State * lua)
+	{
+		int ntop = lua_gettop(lua);
+		if (ntop >= 2)
+		{
+			ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+			int transformID = lua_tointeger(lua, 2);
+
+			int result = g_gearEngine->generateWorldMatrix();
+
+			int index = -1;
+			for (int i = 0; i<g_ForwardModels->size(); i++)
+				if (g_ForwardModels->at(i).asset == asset)
+					index = i;
+
+			if (index < 0)
+			{
+				ModelInstance instance;
+				instance.asset = asset;
+			
+				index = g_ForwardModels->size();
+				g_ForwardModels->push_back(instance);
+
+			}
+			g_ForwardModels->at(index).worldIndices.push_back(transformID);
+		}
 		return 0;
 	}
 
