@@ -22,7 +22,7 @@ function LoadPlayer()
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
-	player.health = 100
+	player.health = 100.0
 	player.forward = 0
 	player.left = 0
 	player.timeScalar = 1.0
@@ -59,10 +59,6 @@ function LoadPlayer()
 	player.sphereCollider:GetCollisionIDs()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
-	Network.SendTransformPacket(player.transformID, {x=0, y=0, z=0}, {x=0, y=0, z=0}, {x=0, y=0, z=0})
-	Network.SendAnimationPacket(player.transformID, 0, 0, 0)
-	Network.SendAIPacket(player.transformID, 0)
-
 
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")

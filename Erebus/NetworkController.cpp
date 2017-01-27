@@ -4,8 +4,8 @@ NetworkController::NetworkController()
 {
 	networkHost = true;
 	running = false;
-	transformpackTime = 100.0;
-	animationpackTime = 100.0;
+	transformpackTime = 0.0;
+	animationpackTime = 0.0;
 }
 
 NetworkController::~NetworkController()

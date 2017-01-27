@@ -43,7 +43,7 @@ public:
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;
-
+	lua_State* getState();
 
 private:
 	lua_State* lua;
