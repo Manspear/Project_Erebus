@@ -142,6 +142,8 @@ int main()
 	assets.load<ModelAsset>("Models/pCube1.model");
 	assets.load<ModelAsset>( "Models/tile1_game_x1.model" );
 	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
+	assets.load<TextureAsset>("Textures/HealthBar.png");
+	assets.load<TextureAsset>("Textures/HealthBackground.png");
 
 
 	Controls controls;	

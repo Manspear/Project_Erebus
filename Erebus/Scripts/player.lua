@@ -22,7 +22,7 @@ function LoadPlayer()
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
-	player.health = 100
+	player.health = 100.0
 	player.forward = 0
 	player.left = 0
 	player.timeScalar = 1.0
