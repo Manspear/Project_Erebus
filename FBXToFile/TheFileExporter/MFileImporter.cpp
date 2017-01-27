@@ -239,7 +239,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		outFile.write(str.c_str(), str.length());
 
 
-		txt = "Shinyfactor: ";
+		txt = "Shiny factor: ";
 		sprintf(num, "%f", expMat.shinyFactor);
 		str = txt + std::string(num) + "\r\n";
 		outFile.write(str.c_str(), str.length());
@@ -255,7 +255,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 
 
 		txt = "Normal texture: ";
-		str = txt + std::string(expMat.normalTextureFilePath) + "\n";
+		str = txt + std::string(expMat.normalTextureFilePath)/* + "\n"*/;
 		outFile.write(str.c_str(), str.length());
 
 		//str = std::string(txt +  + '\n');
@@ -483,11 +483,11 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
 
 	//Takes too long
-	//processIndexes();
-	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+	processIndexes();
+	/*for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
 	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
-		imScene.modelList.back().meshList.back().indexList.push_back(i);
+		imScene.modelList.back().meshList.back().indexList.push_back(i);*/
 
 	/*CALLS ITSELF INFINITELY*/
 	//For eventual mesh-hierarchy
@@ -1813,6 +1813,7 @@ bool MFileImporter::checkMaterialName(const char * materialName)
 		sImMaterial mat;
 		mat.materialName = materialName;
 		imScene.materialList.push_back(mat);
+		imScene.modelList.back().meshList.back().materialID = imScene.materialList.size() - 1;
 	}
 
 	return isMatching;

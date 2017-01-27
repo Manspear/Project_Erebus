@@ -33,50 +33,41 @@ PacketFilter::~PacketFilter()
 	}
 }
 
-void PacketFilter::openNetPacket(unsigned char * memoryPointer)
+void PacketFilter::openNetPacket(const unsigned char const * memoryPointer)
 {
 	uint16_t bytesRead = sizeof(uint16_t); // Start reading right after where the value of bytesLeft were located in the packet.
 	uint16_t sizeOfNetPacket =  memoryPointer[0] | memoryPointer[1] << 8; // Size of the content. The first 2 bytes are read immideately.
+	MetaDataPacket metaDataPacket;
 
-	while(bytesRead < sizeOfNetPacket)
+	while (bytesRead < sizeOfNetPacket)
 	{
-		uint16_t sizeInBytes = 0;
+		memcpy(metaDataPacket.bytes, memoryPointer + bytesRead, sizeof(MetaDataPacket));
+		bytesRead += sizeof(MetaDataPacket);
 
 		// For each metaDataPacket, do...
-		
-		// Get the PacketType data from MetaDataPacket
-		switch ((uint16_t)(memoryPointer[bytesRead] | memoryPointer[bytesRead + 1] << 8))
+
+		if (metaDataPacket.metaData.sizeInBytes > 0)
 		{
-			case TRANSFORM_PACKET:
-				sizeInBytes = (uint16_t)(memoryPointer[bytesRead + 2] | memoryPointer[bytesRead + 3] << 8);
-				bytesRead += sizeof(MetaDataPacket);
-				
-				this->transformQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of TransformPacket data to the correct queue
-				break;
-			case ANIMATION_PACKET:
-				sizeInBytes = (uint16_t)(memoryPointer[bytesRead + 2] | memoryPointer[bytesRead + 3] << 8);
-				bytesRead += sizeof(MetaDataPacket);
-
-				this->animationQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of AnimationPacket data to the correct queue
-				break;
-
-			case AI_PACKET:
-				sizeInBytes = (uint16_t)(memoryPointer[bytesRead + 2] | memoryPointer[bytesRead + 3] << 8);
-				bytesRead += sizeof(MetaDataPacket);
-
-				this->aiQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of AIPacket data to the correct queue
-				break;
-			case SPELL_PACKET:
-				sizeInBytes = (uint16_t)(memoryPointer[bytesRead + 2] | memoryPointer[bytesRead + 3] << 8);
-				bytesRead += sizeof(MetaDataPacket);
-
-				this->spellQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of AIPacket data to the correct queue
-				break;
-			default:
-				printf("KERNEL PANIC!!\n");
+			// Get the PacketType data from MetaDataPacket
+			switch (metaDataPacket.metaData.packetType)
+			{
+				case TRANSFORM_PACKET:
+					this->transformQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of TransformPacket data to the correct queue
+					break;
+				case ANIMATION_PACKET:
+					this->animationQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of AnimationPacket data to the correct queue
+					break;
+				case AI_PACKET:
+					this->aiQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of AIPacket data to the correct queue
+					break;
+				case SPELL_PACKET:
+					this->spellQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of SpellPacket data to the correct queue
+					break;
+				default:
+					printf("KERNEL PANIC!!\n");
+			}
+			bytesRead += metaDataPacket.metaData.sizeInBytes;
 		}
-
-		bytesRead += sizeInBytes;
 	}
 }
 

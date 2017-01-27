@@ -377,7 +377,7 @@ namespace LuaTransform
 		{
 			int index = lua_tointeger( lua, 1 );
 
-			//lua_pushnumber( lua, g_transforms[index].getScale() );
+			lua_pushnumber( lua, g_transforms[index].getScale().x );
 
 			result = 1;
 		}

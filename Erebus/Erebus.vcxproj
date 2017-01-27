@@ -207,6 +207,7 @@
     <None Include="Scripts\AI\states.lua" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\arcType.lua" />
+    <None Include="Scripts\blackHole.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\chronoBall.lua" />
     <None Include="Scripts\console.lua" />
@@ -217,6 +218,7 @@
     <None Include="Scripts\fireGroundAoE.lua" />
     <None Include="Scripts\grenadeType.lua" />
     <None Include="Scripts\groundAoEType.lua" />
+    <None Include="Scripts\hellPillar.lua" />
     <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
@@ -224,6 +226,7 @@
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectileType.lua" />
+    <None Include="Scripts\rayType.lua" />
     <None Include="Scripts\reusable.lua" />
     <None Include="Scripts\slowEffect.lua" />
     <None Include="Scripts\staticAoEType.lua" />

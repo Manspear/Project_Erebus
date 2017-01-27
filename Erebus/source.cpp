@@ -44,7 +44,6 @@ DWORD WINAPI update( LPVOID args )
 	// GamePlay and Menu is deleted in the main thread
 	// because the renderer is depending on their transforms
 	data->gamePlay = new GamePlay( data->engine, data->assets, data->workQueue, data->soundEngine );
-	data->gamePlay->Initialize( data->assets, data->controls, data->inputs, data->camera );
 
 	data->menu = new Menu( data->engine, data->assets );
 
@@ -88,6 +87,7 @@ DWORD WINAPI update( LPVOID args )
 
 					if (data->gameState == GameplayState)
 					{
+						data->gamePlay->Initialize(data->assets, data->controls, data->inputs, data->camera);
 						data->soundEngine->play("Effects/bell.wav");
 					}
 					break;
@@ -136,15 +136,18 @@ int main()
 	assets.load<TextureAsset>("Textures/buttonConnect.png");
 	assets.load<ModelAsset>( "Models/testGuy.model" );
 	assets.load<ModelAsset>( "Models/projectile1.model" );
+	assets.load<ModelAsset>("Models/SunRayInner.model");
+	assets.load<ModelAsset>("Models/SunRayOuter.model");
 	assets.load<ModelAsset>( "Models/Goblin.model" );
+	assets.load<ModelAsset>("Models/pCube1.model");
 	assets.load<ModelAsset>( "Models/tile1_game_x1.model" );
 	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
+	assets.load<TextureAsset>("Textures/HealthBar.png");
+	assets.load<TextureAsset>("Textures/HealthBackground.png");
 
 
-	Controls controls;
-	
+	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
-
 	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow* w = window.getGlfwWindow();
@@ -241,6 +244,7 @@ int main()
 
 			//engine.updateTransforms();
 			engine.update();
+			camera.updateBuffer();
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION

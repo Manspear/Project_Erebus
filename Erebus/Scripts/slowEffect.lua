@@ -14,9 +14,7 @@ function CreateSlowEffect()
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
-		if effect.duration == SLOWEFFECTDURATION then
-			
-		end
+		self.duration = self.duration - dt
 		
 		return self.duration > 0 
 	end

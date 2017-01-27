@@ -11,7 +11,6 @@ namespace LuaCollision
 	int addAABB( lua_State* lua );
 	int addRay(lua_State* lua);
 	int addOBB(lua_State* lua);
-
 	int createSphere( lua_State* lua );
 	int createAABB( lua_State* lua );
 	int createRay(lua_State* lua);

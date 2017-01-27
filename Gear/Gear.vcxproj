@@ -165,12 +165,10 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
-    <ClInclude Include="RenderQueueElement.h" />
     <ClInclude Include="ImageRenderer.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />
-    <ClInclude Include="staticNonModels.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

@@ -1,0 +1,42 @@
+FbxToFile:
+	Animations:
+	- All joints must be a part of all layers
+	- All joints need at least 2 keyframes on each layer
+	Models:
+	- Triangulate the mesh before exporting to FBX
+	- It is allowed to parent meshes to joints and meshes
+	Tags:
+	- If you want a mesh to be interpreted as a boundingbox, make a custom attribute in maya called BOUNDINGBOX
+	- If you want a mesh to be interpreted as a spawn, make a custom attribute in maya called SPAWN
+		
+
+FbxHelper script
+installing-
+	FBX-
+		1 remmember to install fbx sdk.
+		2 build solution. exe file will be created.
+		3 copy libfbxsdk.dll to project exe file location
+	
+	script- 
+
+		1 Copy or Load the FbxHelper.py into the Maya Script Editor
+		2 Find the filepath to the FBXToFile.exe #(should look something like "C:\Project_Erebus\FBXToFile\x64\Debug\FBXToFile.exe"),
+		-If you dont have an exe file you will have to build the FBXToFile solution
+		3 Copy filepath into the variable "filepathToFbxExe" in the script
+
+Use-
+	1 Run the script from the script editor # a small UI should appear
+	2 On the UI- click the browse button. Select where to save the fbxfile.
+	3 Press the "ExportButton". The fbx will be saved and the FBXToFile.exe will run
+
+	optional-
+		 If you want to export only the selection, Cross the "Selection" checkbox
+		 if you haven't already trianglulated the mesh. select the mesh and press the trianglulate button-
+
+	
+
+Result-
+	.Model file and .Material files will appear in the directory you chose with the browse button. 
+	.Model will have the name of the main mesh
+	.Material will have the name of the connected material
+

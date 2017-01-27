@@ -382,19 +382,38 @@
     <None Include="Scripts\iceGrenade.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Shaders\geometryPassShadow.frag" />
-    <None Include="Shaders\geometryPassShadow.vert" />
-    <None Include="Shaders\skybox.frag" />
-    <None Include="Shaders\skybox.vert" />
     <None Include="Scripts\sunRay.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\console.lua" />
-    <None Include="Scripts\grenadeType.lua">
-      <Filter>Scripts\types</Filter>
+    <None Include="Scripts\hellPillar.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\staticAoEType.lua">
       <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\rayType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\blackHole.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\console.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\grenadeType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

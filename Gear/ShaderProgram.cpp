@@ -160,35 +160,6 @@ void ShaderProgram::initFramebuffer(int nrTex, int width, int height, GLfloat fi
 	InitRenderTargets(&attachments);
 }
 
-void ShaderProgram::use()
-{
-	if (programID != 0)
-	{
-		glUseProgram(programID);
-	}
-	if (framebufferID != 0)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
-		glViewport(0, 0, width, height);
-		/*for (int i = 0; i < nrOfTextures; i++)
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, textureIDs[i]);
-		}*/
-	}
-	for (int i = 0; i < totalAttributes; i++)
-		glEnableVertexAttribArray(i);
-}
-
-void ShaderProgram::unUse()
-{
-	glUseProgram(0);
-	for (int i = 0; i < totalAttributes; i++)
-		glDisableVertexAttribArray(i);
-	if( framebufferID != 0 )
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
 void ShaderProgram::bindTexToLocation(GLuint* textures)
 {
 	for (int i = 0; i < nrOfUniforms; i++)
@@ -241,6 +212,23 @@ void ShaderProgram::addUniform(float &floatValue, std::string position)
 void ShaderProgram::addUniform(int &intValue, std::string position)
 {
 	glUniform1i(getUniformLocation(position), intValue);
+}
+
+void ShaderProgram::addUniform(glm::mat4 &matrix4x4, GLuint location, int count)
+{
+	glUniformMatrix4fv(location, count, GL_FALSE, glm::value_ptr(matrix4x4));
+}
+void ShaderProgram::addUniform(glm::vec3 &vec3, GLuint location, int count)
+{
+	glUniform3fv(location, count, glm::value_ptr(vec3));
+}
+void ShaderProgram::addUniform(float &floatValue, GLuint location)
+{
+	glUniform1f(location, floatValue);
+}
+void ShaderProgram::addUniform(int &intValue, GLuint location)
+{
+	glUniform1i(location, intValue);
 }
 
 std::string* ShaderProgram::getPaths(const shaderBaseType& type, const std::string& path) {
