@@ -29,6 +29,11 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	engine->queueAnimModels(&animatedModels);
 	engine->queueForwardModels(&forwardModels);
 	engine->queueParticles(ps);
+
+	healthBackground = sScreenImage(glm::vec2(290, 630), 700, 80);
+	healthBackgroundTex = assets->load<TextureAsset>("Textures/HealthBackground.png");
+	healthBar = sScreenImage(glm::vec2(332, 640), 614, 60);
+	healthBarTex = assets->load<TextureAsset>("Textures/HealthBar.png");
 }
 
 GamePlay::~GamePlay()
@@ -55,16 +60,36 @@ void GamePlay::Update(Controls* controls, double deltaTime)
 	luaBinds.update(controls, deltaTime);
 	work->execute();
 
+
 	for (int i = 0; i < ps.size(); i++) {
 		ps.at(i)->update(deltaTime);
 	}
 	collisionHandler.checkCollisions();
 	collisionHandler.drawHitboxes();
+
+	lua_State* l = luaBinds.getState();
+	lua_getglobal(l, "player");
+	lua_getfield(l, -1, "health");
+	playerHealthReal = (float)lua_tonumber(l, -1);
+	lua_pop(l, 2);
+
+	if (playerHealthCurrent > playerHealthReal)
+	{
+		playerHealthCurrent  -= 50 * deltaTime;
+		playerHealthCurrent < 0 ? 0 : playerHealthCurrent;
+	}
+
+	float a = (playerHealthCurrent * healthBarLength) / 100.0f;
+
+	healthBar.width = a;
+	
 }
 
 void GamePlay::Draw()
 {
 	engine->queueDynamicModels(&models);
+	engine->showImage(healthBackground, healthBackgroundTex);
+	engine->showImage(healthBar, healthBarTex);
 }
 
 bool GamePlay::StartNetwork(const bool& networkHost, PerformanceCounter & counter)

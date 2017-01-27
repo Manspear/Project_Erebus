@@ -111,6 +111,11 @@ void LuaBinds::printLuaTop() const
 	std::cout << lua_gettop(lua) << "\n";
 }
 
+lua_State * LuaBinds::getState()
+{
+	return this->lua;
+}
+
 /*namespace LuaBinds
 {
 	void registerFunctions( lua_State* lua,
