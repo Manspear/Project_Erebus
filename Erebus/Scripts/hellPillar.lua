@@ -93,7 +93,6 @@ function CreateHellPillar()
 
 	function spell:PillarUpdate(dt)
 		Transform.SetRotation(self.pillar.type.transformID, self.pillarDir)
-		--Transform.SetLookAt(self.pillar.type.transformID, self.pillarDir)
 		hits = self.pillar.type:Update(self.pillar.pos, {x = 0, y = 1, z = 0})
 		self.pillar.duration = self.pillar.duration - dt
 	
