@@ -142,12 +142,17 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
+	glm::mat4 rotationX = glm::mat4();
 	glm::vec3 tempLook;
 	glm::vec3 axis;
 	for (int i = 0; i < ntransforms; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
+			//THIS WHOLE FUNCTION CAN DEFINETELY BE OPTIMIZED (do something along the lines of mat4 = {coscoscosos, coscsocsosins, coscoscoscos, x,
+			//																							sinsinssin, sinsinsinsn, ccoscosocosco, y,
+			//																							x,x,x,x,				
+			//																							yt.t.t..y,y,y,}
 			//reset the world matrix
 			tempMatrix = glm::mat4();
 			tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
@@ -155,6 +160,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 
 			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
 			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
+			rotationX = glm::rotate(tempMatrix, theTrans[i].rot.x, tempLook); //remove if too much trouble xd
 			//rotatea around Y axis, pretty simple. (makes the model look left/right)
 			rotationY = glm::rotate(tempMatrix, theTrans[i].rot.y, { 0, 1, 0 });
 			//set the scale of the models
@@ -163,7 +169,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 			tempMatrix[2][2] = theTrans[i].scale.z;
 
 			//rotates a scaled identity matrix
-			tempMatrix = rotationZ * rotationY * tempMatrix;
+			tempMatrix = rotationZ * rotationY * rotationX * tempMatrix;
 
 			//sets the translation of objects, final world matrix
 			tempMatrix[3][0] = theTrans[i].pos.x;
