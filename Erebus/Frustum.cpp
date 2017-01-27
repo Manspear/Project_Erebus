@@ -55,10 +55,14 @@ void Frustum::updateFrustum(const glm::vec3 & position, const glm::vec3 & direct
 	this->farBottomLeft = farCenter - (y * farHeight) - (x * farWidth);
 	this->farBottomRight = farCenter - (y * farHeight) + (x * farWidth);
 
+	//							OPTIMIZE DIS FFS :OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 	// compute all planes
 	this->planes[TOP].setPlane3Points(nearTopRight, nearTopLeft, farTopLeft); // makes plane from these three points
 	this->planes[BOTTOM].setPlane3Points(nearBottomLeft,nearBottomRight,farBottomRight);
 	this->planes[LEFT].setPlane3Points(nearTopLeft,nearBottomLeft,farBottomLeft);
+	this->planes[RIGHT].setPlane3Points(nearTopLeft,nearTopRight,farBottomRight);
+	this->planes[NEAR].setPlane3Points(nearTopLeft,nearTopRight,nearBottomRight);
+	this->planes[FAR].setPlane3Points(farTopRight, farTopLeft, farBottomLeft);
 
 
 

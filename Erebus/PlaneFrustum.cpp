@@ -17,7 +17,7 @@ void PlaneFrustum::setPlane3Points(const glm::vec3 & first, const glm::vec3 & se
 	helper1 = first - second; // doing vectors from (2->1) and (2->3)
 	helper2 = third - second;
 
-	this->normal = glm::cross(helper2,helper1);
+	this->normal = glm::normalize(glm::cross(helper2,helper1));
 
 	this->point = second;
 
