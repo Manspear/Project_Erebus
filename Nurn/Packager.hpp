@@ -36,10 +36,10 @@ private:
 
 	//void addPacketGroup(uint16_t packetType, void * packet, void * queue, uint16_t &netPacketSize);
 
-	void addTransformPackets(uint16_t& netPacketSize);
-	void addAnimationPackets(uint16_t& netPacketSize);
-	void addAIPackets(uint16_t& netPacketSize);
-	void addSpellPackets(uint16_t& netPacketSize);
-	void addMetaDataPacket(uint16_t type, uint16_t& netPacketSize, uint16_t sizeInBytes); // After a group of packets have been added the MetaData is added.
+	void addTransformPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addAIPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addSpellPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 };

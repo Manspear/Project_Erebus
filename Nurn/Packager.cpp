@@ -44,12 +44,13 @@ uint16_t Packager::getCurrentNetPacketSize() const
 
 void Packager::buildNetPacket()
 {
+	bool fullPackage = false;
 	this->currentNetPacketSize = sizeof(uint16_t);
 
-	this->addTransformPackets(this->currentNetPacketSize);
-	this->addAnimationPackets(this->currentNetPacketSize);
-	this->addAIPackets(this->currentNetPacketSize);
-	this->addSpellPackets(this->currentNetPacketSize);
+	this->addTransformPackets(this->currentNetPacketSize, fullPackage);
+	this->addAnimationPackets(this->currentNetPacketSize, fullPackage);
+	this->addAIPackets(this->currentNetPacketSize, fullPackage);
+	this->addSpellPackets(this->currentNetPacketSize, fullPackage);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -77,13 +78,12 @@ void Packager::buildSpellPacket(const uint16_t& ID, const uint16_t& currentSpell
 	this->spellQueue->push(SpellPacket(ID, currentSpell));
 }
 
-void Packager::addTransformPackets(uint16_t &netPacketSize)
+void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
 {
 	TransformPacket transformPacket;
 	uint16_t sizeOfTransformPackets = 0;
-	bool breakLoop = false;
 
-	while (this->transformQueue->pop(transformPacket) && breakLoop == false)
+	while (this->transformQueue->pop(transformPacket) && fullPackage == false)
 	{
 		// Only add a packet if there's enough space for another TransformPacket in the buffer
 		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfTransformPackets)) > sizeof(TransformPacket))
@@ -94,7 +94,7 @@ void Packager::addTransformPackets(uint16_t &netPacketSize)
 		}
 		else		
 		{
-			breakLoop = true;
+			fullPackage = true;
 		}
 	}
 
@@ -103,13 +103,12 @@ void Packager::addTransformPackets(uint16_t &netPacketSize)
 	netPacketSize += sizeOfTransformPackets; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addAnimationPackets(uint16_t& netPacketSize)
+void Packager::addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage)
 {
 	AnimationPacket animationPacket;
 	uint16_t sizeOfAnimationPackets = 0;
-	bool breakLoop = false;
 
-	while (this->animationQueue->pop(animationPacket) && breakLoop == false)
+	while (this->animationQueue->pop(animationPacket) && fullPackage == false)
 	{
 		// Only add a packet if there's enough space for another AnimationPacket in the buffer
 		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAnimationPackets)) > sizeof(AnimationPacket))
@@ -120,7 +119,7 @@ void Packager::addAnimationPackets(uint16_t& netPacketSize)
 		}
 		else
 		{
-			breakLoop = true;
+			fullPackage = true;
 		}
 	}
 
@@ -129,13 +128,12 @@ void Packager::addAnimationPackets(uint16_t& netPacketSize)
 	netPacketSize += sizeOfAnimationPackets; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addAIPackets(uint16_t& netPacketSize)
+void Packager::addAIPackets(uint16_t& netPacketSize, bool& fullPackage)
 {
 	AIPacket aiPacket;
 	uint16_t sizeOfAIPackets = 0;
-	bool breakLoop = false;
 
-	while (this->aiQueue->pop(aiPacket) && breakLoop == false)
+	while (this->aiQueue->pop(aiPacket) && fullPackage == false)
 	{
 		// Only add a packet if there's enough space for another AIPacket in the buffer
 		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAIPackets)) > sizeof(AIPacket))
@@ -146,7 +144,7 @@ void Packager::addAIPackets(uint16_t& netPacketSize)
 		}
 		else
 		{
-			breakLoop = true;
+			fullPackage = true;
 		}
 	}
 
@@ -155,14 +153,13 @@ void Packager::addAIPackets(uint16_t& netPacketSize)
 	netPacketSize += sizeOfAIPackets; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addSpellPackets(uint16_t& netPacketSize)
+void Packager::addSpellPackets(uint16_t& netPacketSize, bool& fullPackage)
 {
 	//Grab and add all the transformpackets in a loop before adding the MetaDataPacket
 	SpellPacket spellPacket;
 	uint16_t sizeOfSpellPackets = 0;
-	bool breakLoop = false;
 
-	while (this->spellQueue->pop(spellPacket) && breakLoop == false)
+	while (this->spellQueue->pop(spellPacket) && fullPackage == false)
 	{
 		// Only add a packet if there's enough space for another AIPacket in the buffer
 		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfSpellPackets)) > sizeof(SpellPacket))
@@ -173,7 +170,7 @@ void Packager::addSpellPackets(uint16_t& netPacketSize)
 		}
 		else
 		{
-			breakLoop = true;
+			fullPackage = true;
 		}
 	}
 
@@ -182,7 +179,7 @@ void Packager::addSpellPackets(uint16_t& netPacketSize)
 	netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
 }
 
-void Packager::addMetaDataPacket(uint16_t type, uint16_t& netPacketSize, uint16_t sizeInBytes)
+void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes)
 {
 	memcpy(this->memory + netPacketSize, &MetaDataPacket(type, sizeInBytes), sizeof(MetaDataPacket));
 
