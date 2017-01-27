@@ -13,10 +13,10 @@ uniform sampler2D diffuseTexture;
 
 void main (){
 	//vec3 color = vec3(0.5, 0.9, 0.5); //model base color, replace with texture sampling
-	vec3 color = texture( diffuseTexture, geom_UV ).rgb;
+	vec4 color = texture( diffuseTexture, geom_UV );
 
 	//Ambient
-	vec3 ambient = vec3(lightColor * 0.1);
+	/*vec3 ambient = vec3(lightColor * 0.1);
 
 	//Diffuse
 	vec3 norm = normalize(geom_normal);
@@ -30,6 +30,6 @@ void main (){
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	vec3 specular = vec3(lightColor * spec);
 	
-	color = (ambient + diffuse + specular)/2 * color;
-	finalColor = vec4(color, 1.0);
+	color = (ambient + diffuse + specular)/2 * color;*/
+	finalColor = vec4(color);
 }

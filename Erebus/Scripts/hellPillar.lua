@@ -2,7 +2,6 @@ MAX_CHARGE_TIME_PILLAR = 3
 MIN_CHARGE_TIME_PILLAR = 1.5
 MAX_DAMAGE_PILLAR = 1000
 SPEED_PILLAR = 75
-EXPLOSION_RADIUS_PILLAR = 10
 COOLDOWN_PILLAR = 3
 PILLAR_DURATION = 2
 
@@ -18,7 +17,7 @@ function CreateHellPillar()
 		nade.particles = createFireballParticles()
 		nade.exploding = false
 		local model = Assets.LoadModel( "Models/projectile1.model" )
-		Gear.AddStaticInstance(model, nade.type.transformID)
+		Gear.AddForwardInstance(model, nade.type.transformID)
 		return nade
 	end
 
@@ -31,7 +30,8 @@ function CreateHellPillar()
 		pillz.particles = createFireballParticles()
 		pillz.pos = 0
 		pillz.duration = PILLAR_DURATION
-		local model = Assets.LoadModel( "Models/projectile1.model" )
+		pillz.type.oobCollider.SetSize(pillz.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
+		local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 		Gear.AddStaticInstance(model, pillz.type.transformID)
 		return pillz
 	end
@@ -47,7 +47,7 @@ function CreateHellPillar()
 	spell.ChargeCast = BaseChargeCast
 	spell.cooldown = 0
 	spell.effect = CreateFireEffect()
-
+	spell.pillarDir = {x = 0, y = 0, z = 29.85}
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then
 			if not self.nade.alive then
@@ -92,8 +92,10 @@ function CreateHellPillar()
 	end
 
 	function spell:PillarUpdate(dt)
-		hits = self.pillar.type:Update(self.pillar.pos)
+		Transform.SetRotation(self.pillar.type.transformID, self.pillarDir)
+		hits = self.pillar.type:Update(self.pillar.pos, {x = 0, y = 1, z = 0})
 		self.pillar.duration = self.pillar.duration - dt
+	
 		for index = 1, #hits do
 			if hits[index].Hurt then
 				if self.nade.effectFlag then
