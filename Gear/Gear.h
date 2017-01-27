@@ -68,7 +68,7 @@ namespace Gear
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		GEAR_API void effectPreProcess();
-		GEAR_API void pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos);
+		GEAR_API void pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos, glm::vec3& hitNormal = glm::vec3(0));
 		GEAR_API void resetEngine();
 		//----------------------
 

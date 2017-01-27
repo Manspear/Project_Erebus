@@ -570,6 +570,8 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

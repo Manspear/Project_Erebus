@@ -58,6 +58,8 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	{
 		holdingGizmo = gizmo.onMouseDown();
 	}
+	
+
 
 	if (inputs->keyPressedThisFrame(GLFW_KEY_W)) {
 		gizmo.setGizmoMode(GizmoMode::POSITION);
@@ -82,10 +84,11 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		{
 			int actorID = 0;
 			glm::vec3 hitPoint( 0.0f );
-
+			glm::vec3 hitNorm(0.f);
 			
 
-			engine->pickActorFromWorld( LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint );
+			engine->pickActorFromWorld( LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+			std::cout << glm::to_string(hitNorm)<<std::endl;
 			
 			switch( action )
 			{
@@ -179,7 +182,7 @@ void TW_CALL LevelActionHandler::onSaveWorld( void* args )
 
 void TW_CALL LevelActionHandler::onLoadWorld( void* args )
 {
-	LevelWorldHandler::getInstance()->resetWorld();
+	
 	LevelActorFactory::getInstance()->loadWorld();
 }
 

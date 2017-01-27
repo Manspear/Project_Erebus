@@ -1,4 +1,5 @@
 #include "LevelActorFactory.h"
+#include "LevelActionHandler.h"
 
 LevelActorFactory* LevelActorFactory::actorFactoryInstance = nullptr;
 
@@ -42,6 +43,8 @@ LevelActor* LevelActorFactory::createActor()
 	LevelActor* actor = new LevelActor(++actorID);
 	actor->addComponent( getNewComponent( LevelTransform::name ) );
 
+	actor->setActorDisplayName(LevelActorHandler::getInstance()->tryActorName("New"));
+	actor->setActorType("Empty");
 	return actor;
 }
 
@@ -261,6 +264,7 @@ void LevelActorFactory::loadWorld()
 {
 	if( fileDialog.show( DIALOG_OPEN_FILE ) )
 	{
+		LevelWorldHandler::getInstance()->resetWorld();
 		tinyxml2::XMLDocument* doc = getDocument( fileDialog.getFilePath() );
 		tinyxml2::XMLElement* startElement = doc->FirstChildElement();
 

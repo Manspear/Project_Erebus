@@ -466,7 +466,8 @@ namespace Gear
 		return glm::vec3(data[0], data[1], data[2]);
 	}
 
-	void Gear::GearEngine::pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos)
+	void Gear::GearEngine::pickActorFromWorld(std::vector<ModelInstance>* models, std::vector<std::vector<std::pair<int, unsigned int>>> *ModelInstanceAgentIDs, Camera* camera, MousePos mouse, int& actorID, glm::vec3& hitPos, glm::vec3& hitNormal)
+		
 	{
 		actorID = 0;
 
@@ -490,7 +491,7 @@ namespace Gear
 
 			glm::vec3 colorAgentID = getPixelColor(mouse, GL_COLOR_ATTACHMENT1);
 			glm::vec3 colorPosition = getPixelColor(mouse, GL_COLOR_ATTACHMENT0);
-
+			glm::vec3 colorNormal = getPixelColor(mouse, GL_COLOR_ATTACHMENT2);
 
 			int pickedID = colorAgentID[0] * 256 +
 				colorAgentID[1] * 256 * 256 +
@@ -499,6 +500,7 @@ namespace Gear
 
 			actorID = pickedID;
 			hitPos = colorPosition;
+			hitNormal = colorNormal;
 			//if (pickedID == 0x00000000) {
 			//	std::cout << "looking at background!" << std::endl;
 			//}
@@ -680,13 +682,13 @@ namespace Gear
 	}
 
 	void GearEngine::frameBufferPickInit() {
-		GLuint internalFormat[] = { GL_RGB16F,GL_RGB }; //Format for texture in gBuffer
-		GLuint format[] = { GL_RGB,GL_RGB }; //Format for texture in gBuffer
-		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 }; //gBuffer attachements
-		GLenum type[] = { GL_FLOAT, GL_UNSIGNED_INT }; //data type for texture
-		GLfloat filter[] = { GL_NEAREST, GL_NEAREST };
+		GLuint internalFormat[] = { GL_RGB16F,GL_RGB, GL_RGB16F }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGB,GL_RGB, GL_RGB }; //Format for texture in gBuffer
+		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
+		GLenum type[] = { GL_FLOAT, GL_UNSIGNED_INT, GL_FLOAT }; //data type for texture
+		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST };
 
-		gBufferPicking.initFramebuffer(2, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
+		gBufferPicking.initFramebuffer(3, WINDOW_WIDTH, WINDOW_HEIGHT, filter, internalFormat, format, type, attachment, false);
 	}
 }
 

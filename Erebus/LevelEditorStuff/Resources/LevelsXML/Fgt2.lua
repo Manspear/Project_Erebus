@@ -7,7 +7,9 @@ Transform.SetScaleNonUniform(temp.transformID, 1, 1, 1)
 Transform.SetRotation(temp.transformID0, 0, 0)
 temp.model = Assets.LoadModel('Models/tile1_game_x1.model')
 Gear.AddStaticInstance(temp.model, temp.transformID)
-table.insert(props,temp)
+temp.asset = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128.png")
+temp.offset = 0
+table.insert(heightmaps,temp)
 temp = nil
 
 local temp = {}
@@ -87,6 +89,10 @@ temp = nil
 local temp = {}
 --Point light information here
 --Not yet implemented in the game
+table.insert(props,temp)
+temp = nil
+
+local temp = {}
 table.insert(props,temp)
 temp = nil
 
