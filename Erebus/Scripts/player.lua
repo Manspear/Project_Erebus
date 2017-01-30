@@ -22,7 +22,7 @@ function LoadPlayer()
 	player.verticalSpeed = 0
 	player.canJump = false
 	player.reachedGoal = false
-	player.health = 100
+	player.health = 100.0
 	player.forward = 0
 	player.left = 0
 	player.timeScalar = 1.0
@@ -128,7 +128,7 @@ function UpdatePlayer(dt)
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex].asset:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 
 		local diff = height - position.y
 		position = newPosition
@@ -144,10 +144,6 @@ function UpdatePlayer(dt)
 
 		Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
-
-		--Just a simple example of what an AIPacket can look like
-		--Network.SendAIPacket(15, 2)
-		
 		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
@@ -210,8 +206,10 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+			end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
-			Network.SendSpellPacket(player.transformID, player.currentSpell)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -266,13 +264,6 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
-
-
-	--netAIValue, transformID, aiState = Network.GetAIPacket()
-
-	--if netAIValue == true then
-	--	print(transformID, aiState)
-	--end
 		
 	newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
 	--if newAnimationValue == true then

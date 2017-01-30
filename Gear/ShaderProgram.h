@@ -101,7 +101,6 @@ private:
 	int totalAttributes;
 	int nrOfUniforms;
 
-
 	std::string* getPaths(const shaderBaseType& type, const std::string& path);
 	GLuint* getTypes(const shaderBaseType& type);
 	int getNumShaders(const shaderBaseType& type);

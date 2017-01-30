@@ -1,11 +1,9 @@
 #pragma once
 #include "BaseIncludes.h"
 #include "Camera.h"
-//#include "Model.h"
 #include "RenderQueue.h"
 #include "Light.h"
 #include "Inputs.h"
-#include "staticNonModels.h"
 #include "Debug.h"
 #include "TextRenderer.h"
 #include "ImageRenderer.h"
@@ -16,29 +14,19 @@
 
 namespace Gear
 {
-	class Dummy {};
-
-	class Light {};
-
 	class GearEngine {
 	public:
 		GEAR_API GearEngine();
 		GEAR_API ~GearEngine();
-		GEAR_API void draw(Camera* camera, std::vector<ModelInstance>* instances);
 
-		GEAR_API bool isRunning();
 		//Temporay debug function
 		GEAR_API void setDrawMode(int drawMode);
-		
-		GEAR_API void addStaticNonModel(staticNonModels* model);
 
 		GEAR_API void addDebugger(Debug* debugger);
 
 		//--TODO: Implement API--
 		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 		GEAR_API void bindAnimations(Animation** theAnims, int* n);
-
-		GEAR_API void addModelInstance(ModelAsset* asset);
 
 		GEAR_API glm::vec2 getTextDimensions( const char* text );
 		GEAR_API void print(const std::string	&s, 
@@ -56,6 +44,7 @@ namespace Gear
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
+		GEAR_API void queueForwardModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueParticles(std::vector<Gear::ParticleSystem*> &ps);
 		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
@@ -106,19 +95,15 @@ namespace Gear
 		GLuint *lightPassUniformLocations;
 		
 		//Models
-		std::vector<staticNonModels*> statModels;
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
 		std::vector<AnimatedInstance>* animatedModels;
 		std::vector<Gear::ParticleSystem*>* particleSystem;
+		std::vector<ModelInstance>* forwardModels;
 
 		//Transform data
 		TransformStruct** allTrans;
-		float** transformArray;		//Sekvens: {pos0x, pos0y, pos0z, rot0x, rot0y, rot0z, pos1x...}
-		int** transformIndexArray;
-		bool** transformActiveArray;
 		int* transformCount;
-		glm::vec3* transformLookAts;
 		int* animationCount;
 		Animation** allAnims;
 		WorkQueue* work;
@@ -138,7 +123,6 @@ namespace Gear
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
 		void pickingPass();
 		void drawQuad(); //Draw Screen quad
-		void updateDebug(Camera* camera);
 		void BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale); //Blur texture post processing
 		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount); //ShadowMap bluring
 		void frameBufferInit(); //Init all framebuffers
