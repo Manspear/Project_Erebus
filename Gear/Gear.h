@@ -11,6 +11,7 @@
 #include "DebugHandler.h"
 #include "Skybox.h"
 #include "WorkQueue.h"
+#include "SFXs.h"
 
 namespace Gear
 {

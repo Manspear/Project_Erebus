@@ -14,8 +14,8 @@ namespace Gear
 	{
 		glewInit();
 		queue.init();
-		text.init(1280, 720);
-		image.init(1280, 720);
+		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -333,17 +333,9 @@ namespace Gear
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer.getFramebufferID());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		glDisable(GL_CULL_FACE);
-		bool blitOrNot = queue.particlePass(particleSystem);
-		if (blitOrNot) 
-		{
-			glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, particleFBO.getFramebufferID());
-			glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		}
 		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		queue.forwardPass(forwardModels);
@@ -351,45 +343,13 @@ namespace Gear
 
 		skybox.update(camera, gBuffer.getTextures()[2]);
 		skybox.draw();
+		queue.particlePass(particleSystem);		
 
-		if (blitOrNot)
-		{
-			effectShader->use();
-			particleFBO.BindTexturesToProgram(effectShader, "tex", 0, 0);
-			drawQuad();
-			effectShader->unUse();
-		}
-
-		//gloomCompute->use();
-		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "destTex"), 0);
-		////glUniform1i(glGetUniformLocation(gloomCompute->getProgramID(), "srcTex"), 1);
-		//glBindImageTexture(1, gloomTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
-		//glBindImageTexture(0, this->particleFBO.getTextures()[0], 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
-		//glDispatchCompute(40, 40, 1);
-		// 
-		//gloomCompute->unUse();
-
-		//effectShader->use();
-		//GLuint uniform = glGetUniformLocation(effectShader->getProgramID(), "tex");
-		//glActiveTexture(GL_TEXTURE0 + 0);
-		//glUniform1i(uniform, 0);
-		//glBindTexture(GL_TEXTURE_2D, gloomTexture);
-		//drawQuad();
-		//effectShader->unUse();
-
-		//Clear lists
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		
 		image.draw();
 		text.draw();
-		
-		if (blitOrNot) 
-		{
-			particleFBO.use();
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			particleFBO.unUse();
-		}
 	}
 
 	void GearEngine::update()
@@ -512,9 +472,7 @@ namespace Gear
 
 		/*shadowMap.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);
 		shadowMapTemp.initFramebuffer(1, WINDOW_HEIGHT, WINDOW_HEIGHT, GL_LINEAR, GL_RG32F, GL_RGBA, GL_UNSIGNED_BYTE, GL_COLOR_ATTACHMENT0, true);*/
-
-		particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA32F, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
-
+		//particleFBO.initFramebuffer(1, WINDOW_WIDTH, WINDOW_HEIGHT, GL_LINEAR, GL_RGBA32F, GL_RGBA, GL_FLOAT, GL_COLOR_ATTACHMENT0, false);
 	}
 
 	void GearEngine::addDebugger(Debug* debugger) {

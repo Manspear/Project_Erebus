@@ -166,6 +166,7 @@
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="ImageRenderer.h" />
+    <ClInclude Include="SFXs.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
+    <ClCompile Include="SFXs.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TextRenderer.cpp" />

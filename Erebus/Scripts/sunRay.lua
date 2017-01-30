@@ -15,8 +15,7 @@ function CreateSunRay()
 	sunRay.chargedTime = 0
 	sunRay.Charge = BaseCharge
 	sunRay.ChargeCast = BaseChargeCast	
-	sunRay.particles = createFireballParticles()
-	sunRay.casterTrans = 0
+	sunRay.owner = {}
 	sunRay.moveImpairment = 0.5
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
@@ -37,11 +36,10 @@ function CreateSunRay()
 		if self.alive then
 			direction = Transform.GetLookAt(self.caster)
 			pos = Transform.GetPosition(self.caster)
-			self.particles.update(pos.x, pos.y, pos.z)
 			pos.x = pos.x + direction.x * SUNRAY_HALF_LENGTH
 			pos.y = pos.y + direction.y * SUNRAY_HALF_LENGTH
 			pos.z = pos.z + direction.z * SUNRAY_HALF_LENGTH
-			hits = self.type:Update(pos, direction)			
+			hits = self.type:Update(pos, direction)
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
 			Transform.SetLookAt(self.type.transformID, direction)
 			for index = 1, #hits do
@@ -55,7 +53,6 @@ function CreateSunRay()
 			end
 			self.lifeTime = self.lifeTime - dt
 			if self.lifeTime < 0 then 
-				self.particles.die(self.type.position) 
 				self:Kill() 
 			end
 		end
@@ -68,7 +65,6 @@ function CreateSunRay()
 			self.type:Cast(Transform.GetPosition(self.caster))
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
 			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.caster))
-			self.particles.cast()
 			Erebus.CameraSensitivity(self.cameraSlow)
 			chargetime = math.min(chargetime, SUNRAY_MAX_CHARGETIME)
 			entity.moveSpeed = entity.moveSpeed * self.moveImpairment 	
