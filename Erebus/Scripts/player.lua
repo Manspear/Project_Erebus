@@ -30,6 +30,7 @@ function LoadPlayer()
 	player.heightmapIndex = 1
 	player.spamCasting = false
 	player.charging = false
+	player.move = {}
 	
 	player.animationController = CreatePlayerController(player)
 
@@ -54,12 +55,10 @@ function LoadPlayer()
 	end
 
 	-- add a sphere collider to the player
-	derp = {};
-	derp.child = OBBCollider.Create(-1)
 	player.sphereCollider = SphereCollider.Create(player.transformID)
-	player.sphereCollider.AddChild(player.sphereCollider,derp.child)
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
+
 
 
 
@@ -184,6 +183,10 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
+
+	-- update player controller -- this moves the player
+	player.controller:Move(player.left * dt, 0, player.forward * dt)
+	player.controller:Update()
 	
 end
 

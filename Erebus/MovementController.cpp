@@ -41,8 +41,6 @@ void MovementController::update()
 	// Collision on y axis
 
 	// Collision on z axis
-	
-	std::cout << "Heightmap->getPos: " << this->heightmap->getPos(pos.x,pos.z) << std::endl;
 
 	transform->setPos(newPos);
 	this->movement = glm::vec3();
