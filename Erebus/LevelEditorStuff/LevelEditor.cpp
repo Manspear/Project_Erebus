@@ -141,8 +141,6 @@ void LevelEditor::start() {
 	engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 	engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 
-	
-	LevelActor* actor = LevelActorFactory::getInstance()->loadActor("MyBrush");
 	while (running && window.isWindowOpen())
 	{
 
@@ -211,9 +209,6 @@ void LevelEditor::start() {
 		LevelActionHandler::getInstance()->update( inputs, engine, camera );
 		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
 		
-		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
-
-		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 10));
 		//actor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint + (glm::vec3(0, 1, 0) * 10));
 
 		window.update();
