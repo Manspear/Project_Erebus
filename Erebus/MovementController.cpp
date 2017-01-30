@@ -15,11 +15,15 @@ void MovementController::move( glm::vec3 distance )
 
 void MovementController::update()
 {
+	assert( transform && heightmap );
+
 	glm::vec3 pos = transform->getPos();
 
 	pos += movement;
 
 	// TODO: heightmap collision
+	float height = heightmap->getPos( pos.x, pos.z );
+	pos.y = height;
 
 	// TODO: wall collision
 
@@ -39,4 +43,9 @@ void MovementController::setTransform( Transform* t )
 void MovementController::setCollisionLayer( CollisionLayers* layer )
 {
 	collisionLayer = layer;
+}
+
+void MovementController::setHeightmap( HeightMap* hm )
+{
+	heightmap = hm;
 }

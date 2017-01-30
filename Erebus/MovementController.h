@@ -14,10 +14,12 @@ public:
 	void setHitbox( HitBox* hitbox );
 	void setTransform( Transform* transform );
 	void setCollisionLayer( CollisionLayers* layer );
+	void setHeightmap( HeightMap* heightmap );
 
 private:
 	HitBox* hitbox;
 	Transform* transform;
 	glm::vec3 movement;
 	CollisionLayers* collisionLayer;
+	Importer::HeightMap* heightmap;
 };
