@@ -146,13 +146,19 @@ void LevelEditor::start() {
 		inputs->update();
 
 
-		//if(inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
-		//engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
-		//
-		//Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 10));
+		
+		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
+		
+		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 10));
 		//if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_2))
-			camera->updateLevelEditorCamera(deltaTime);
+		camera->updateLevelEditorCamera(deltaTime);
+		if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
+		{
+			glm::normalize(hitNormal);
+			std::cout << "Position: " << hitPoint.x << " " << hitPoint.y << " " << hitPoint.z << " " << std::endl;
+			std::cout << "Normal: " << hitNormal.x << " " << hitNormal.y << " " << hitNormal.z << " " << std::endl;
 
+		}
 		//for (size_t i = 0; i < 100; i++)
 		//{
 		//	//Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
