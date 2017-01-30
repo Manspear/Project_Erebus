@@ -199,6 +199,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\AI\client_AI.lua" />
     <None Include="effects.frag" />
     <None Include="effects.vert" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
