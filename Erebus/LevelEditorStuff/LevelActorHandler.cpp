@@ -223,7 +223,9 @@ void LevelActorHandler::savePrefab( LevelActor* actor )
 		{
 			fprintf( file, "%s", actor->toXml().c_str() );
 			fclose( file );
+			LevelAssetHandler::getInstance()->load();
 		}
+		
 	}
 }
 

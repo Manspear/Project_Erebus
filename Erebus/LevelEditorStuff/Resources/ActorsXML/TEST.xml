@@ -1,0 +1,13 @@
+<LevelActor type="OBBColider" displayName="OBBBase">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="0.125" y="0.125" z="0.125"/>
+    </LevelCollider>
+    <LevelTransform>
+        <Position x="-12.320313" y="26.605572" z="123.4375"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+    </LevelTransform>
+</LevelActor>

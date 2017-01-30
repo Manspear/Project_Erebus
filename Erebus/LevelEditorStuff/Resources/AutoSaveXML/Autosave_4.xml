@@ -10,12 +10,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor1">
-        <LevelCollider>
-            <Position x="0" y="0" z="0"/>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="1"/>
-        </LevelCollider>
         <LevelModel>
             <ModelName>tile1_game_x1_assets</ModelName>
         </LevelModel>
@@ -61,31 +55,102 @@
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="BrushType" displayName="BrushTool">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="0.38039219" z="1"/>
-            <Radius r="17"/>
-            <Intensity i="150"/>
-        </LevelPointLight>
+    <LevelActor type="SphereColider" displayName="SphereBase">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="5"/>
+        </LevelCollider>
         <LevelTransform>
-            <Position x="25.687084" y="99.617737" z="144.75084"/>
+            <Position x="0.30883789" y="34.152229" z="121.3125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ABBColider" displayName="AbbBase">
+        <LevelCollider type="1">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <MinPos x="-2" y="-2" z="-2"/>
+            <MaxPos x="2" y="2" z="2"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="-1.1835938" y="30.399864" z="119.875"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="OBBColider" displayName="ObbBase">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <xAxis x="0" y="-1" z="0"/>
+            <yAxis x="-1" y="0" z="0"/>
+            <zAxis x="0" y="0" z="1"/>
+            <HalfLengths x="1" y="1" z="1"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="-0.11651611" y="31.078737" z="116.6875"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="RayColider" displayName="RayBase">
+        <LevelCollider type="3">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Direction x="0" y="0" z="1"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="-3.5136719" y="37.727921" z="143.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Empty" displayName="New">
-        <LevelCollider>
-            <Position x="-12.68002" y="97.237839" z="133.62976"/>
-            <Position x="0" y="0" z="0"/>
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <xAxis x="1" y="10" z="0"/>
-            <yAxis x="2" y="1" z="0"/>
-            <zAxis x="10" y="0" z="1"/>
-            <HalfLengths x="7.5" y="9.5" z="0.5"/>
+            <Radius r="5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-12.68002" y="97.237839" z="133.62976"/>
+            <Position x="37.5" y="-7.4765625" z="408.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (1)">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="88.75" y="-7.4726563" z="334.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2)">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="64.5625" y="-7.4726563" z="297"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (3)">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="30.140625" y="-7.4765625" z="338.25"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>

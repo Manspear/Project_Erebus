@@ -110,7 +110,6 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 				case ACTION_PLACE_PREFAB:
 				{
 					LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-					LevelActorFactory::getInstance()->createActor();
 					
 					if (newActor)
 					{
@@ -118,9 +117,16 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 						LevelActorHandler::getInstance()->setSelected(newActor);
 
 						LevelTransform* transform = newActor->getComponent<LevelTransform>();
-						if (transform)
+						if (transform) {
 							transform->getTransformRef()->setPos(hitPoint);
+							if (inputs->keyPressed(GLFW_KEY_LEFT_ALT)) {
+								transform->getTransformRef()->setLookAt(hitNorm);
+							}
+						}
+							
 						this->resetAction(inputs);
+
+						
 					}
 				} break;
 			} // end of switch

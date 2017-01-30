@@ -104,7 +104,8 @@ void LevelAssetHandler::updateAssetsBar()
 	}
 	TwDefine( "Assets/Prefabs opened=false" );
 
-	prefabSelection[0] = true;
+	if(prefabSelection.size()>0)
+		prefabSelection[0] = true;
 	selectedPrefab = 0;
 
 	for( int i=0; i<models.size(); i++ )

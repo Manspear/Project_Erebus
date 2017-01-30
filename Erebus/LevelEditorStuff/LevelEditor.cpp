@@ -134,7 +134,6 @@ void LevelEditor::start() {
 
 
 	float elapsedTime = 0.0f;
-	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint);
 
 
 	engine->queueParticles(ps);
@@ -143,10 +142,11 @@ void LevelEditor::start() {
 
 	while (running && window.isWindowOpen())
 	{
+		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
 
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
-
+		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 5));
 
 		//if(inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
 

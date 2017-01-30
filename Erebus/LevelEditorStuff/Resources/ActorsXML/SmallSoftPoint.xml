@@ -1,11 +1,12 @@
-<LevelActor type="" displayName=" (2)">
+<LevelActor type="PointLight" displayName="smallsoftlight">
     <LevelPointLight>
         <Position x="0" y="0" z="0"/>
-        <Color x="1" y="0.3921569" z="0"/>
-        <Radius r="13"/>
+        <Color x="0.82352948" y="1" z="1"/>
+        <Radius r="15"/>
+        <Intensity i="3"/>
     </LevelPointLight>
     <LevelTransform>
-        <Position x="90.125" y="22.328125" z="99.4375"/>
+        <Position x="2.9045334" y="-1.3417149" z="197"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
     </LevelTransform>

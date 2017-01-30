@@ -11,28 +11,58 @@ const char* LevelCollider::COLLIDER_TYPE_NAMES[MAX_COLLIDER_TYPES] =
 };
 
 LevelCollider::LevelCollider()
-	: colliderType( COLLIDER_SPHERE ), position( 0.0f ), color( 0.0f, 1.0f, 0.0f ), parentCollider( nullptr ),
-	sphereRadius( 1.0f ),
-	aabbMinPos( -1.0f ), aabbMaxPos( 1.0f ),
-	xAxis( 1.0f, 0.0f, 0.0f ), yAxis( 0.0f, 1.0f, 0.0f ), zAxis( 0.0f, 0.0f, 1.0f ), halfLengths( 0.5f ),
-	rayDirection( 0.0f, 0.0f, 1.0f ), rayLength( 100.0f )
+	: colliderType(COLLIDER_SPHERE), position(0.0f), color(0.0f, 1.0f, 0.0f), parentCollider(nullptr),
+	sphereRadius(1.0f),
+	aabbMinPos(-1.0f), aabbMaxPos(1.0f),
+	xAxis(1.0f, 0.0f, 0.0f), yAxis(0.0f, 1.0f, 0.0f), zAxis(0.0f, 0.0f, 1.0f), halfLengths(0.5f),
+	rayDirection(0.0f, 0.0f, 1.0f), totalRot(0)
 {
+	this->sphereColider = new SphereCollider();
+	this->abbColider = new AABBCollider();
+	this->obbColider = new OBBCollider();
+	this->rayColider = new RayCollider(); 
+
+
+	this->sphereColider->setPos(position);
+	this->sphereColider->setRadius(sphereRadius);
+
+
+	this->abbColider->setPos(this->position);
+	this->abbColider->setMinPos(this->aabbMinPos);
+	this->abbColider->setMaxPos(this->aabbMaxPos);
+
+	this->obbColider->setPos(this->position);
+	this->obbColider->setXAxis(this->xAxis);
+	this->obbColider->setYAxis(this->yAxis);
+	this->obbColider->setZAxis(this->zAxis);
+	this->obbColider->setXHalfLength(this->halfLengths.x);
+	this->obbColider->setYHalfLength(this->halfLengths.y);
+	this->obbColider->setYHalfLength(this->halfLengths.z);
+
+	this->rayColider->setPos(this->position);
+	this->rayColider->setDirection(this->rayDirection);
+	
+	obbRotationStep = " ";
+	obbRotationStep +=  LevelUI::actorBarName;
+	obbRotationStep += "/coliderRotation step=1 ";
+	int k = 0;
+
 }
 
 LevelCollider::~LevelCollider()
 {
+	delete this->sphereColider;
+	delete this->obbColider;
+	delete this->abbColider;
+	delete this->rayColider;
 }
 
 void LevelCollider::initialize( tinyxml2::XMLElement* element )
 {
 	colliderType = element->IntAttribute("type");
 
-	tinyxml2::XMLElement* child = element->FirstChildElement("Position");
-	position.x = child->FloatAttribute("x");
-	position.y = child->FloatAttribute("y");
-	position.z = child->FloatAttribute("z");
 
-	child = element->FirstChildElement("Offset");
+	tinyxml2::XMLElement* child = element->FirstChildElement("Offset");
 	offset.x = child->FloatAttribute("x");
 	offset.y = child->FloatAttribute("y");
 	offset.z = child->FloatAttribute("z");
@@ -42,45 +72,53 @@ void LevelCollider::initialize( tinyxml2::XMLElement* element )
 	color.y = child->FloatAttribute("y");
 	color.z = child->FloatAttribute("z");
 
+	this->position += this->offset;
+
 	switch( colliderType )
 	{
 		case COLLIDER_SPHERE:
 			child = element->FirstChildElement("Radius");
 			sphereRadius = child->FloatAttribute("r");
+			this->sphereColider->setPos(position);
+			this->sphereColider->setRadius(sphereRadius);
 			break;
 
 		case COLLIDER_AABB:
 			child = element->FirstChildElement("MinPos");
-			aabbMinPos.x = element->FloatAttribute("x");
-			aabbMinPos.y = element->FloatAttribute("y");
-			aabbMinPos.z = element->FloatAttribute("z");
+			aabbMinPos.x = child->FloatAttribute("x");
+			aabbMinPos.y = child->FloatAttribute("y");
+			aabbMinPos.z = child->FloatAttribute("z");
 
 			child = element->FirstChildElement("MaxPos");
-			aabbMaxPos.x = element->FloatAttribute("x");
-			aabbMaxPos.y = element->FloatAttribute("y");
-			aabbMaxPos.z = element->FloatAttribute("z");
+			aabbMaxPos.x = child->FloatAttribute("x");
+			aabbMaxPos.y = child->FloatAttribute("y");
+			aabbMaxPos.z = child->FloatAttribute("z");
+
+			this->abbColider->setPos(this->position);
+			this->abbColider->setMinPos(this->aabbMinPos);
+			this->abbColider->setMaxPos(this->aabbMaxPos);
 			break;
 
 		case COLLIDER_OBB:
-			child = element->FirstChildElement("xAxis");
-			xAxis.x = element->FloatAttribute("x");
-			xAxis.y = element->FloatAttribute("y");
-			xAxis.z = element->FloatAttribute("z");
-
-			child = element->FirstChildElement("yAxis");
-			yAxis.x = element->FloatAttribute("x");
-			yAxis.y = element->FloatAttribute("y");
-			yAxis.z = element->FloatAttribute("z");
-
-			child = element->FirstChildElement("zAxis");
-			zAxis.x = element->FloatAttribute("x");
-			zAxis.y = element->FloatAttribute("y");
-			zAxis.z = element->FloatAttribute("z");
+			child = element->FirstChildElement("Rotation");
+			rotation.x = child->FloatAttribute("x");
+			rotation.y = child->FloatAttribute("y");
+			rotation.z = child->FloatAttribute("z");
 
 			child = element->FirstChildElement("HalfLengths");
-			halfLengths.x = element->FloatAttribute("x");
-			halfLengths.y = element->FloatAttribute("y");
-			halfLengths.z = element->FloatAttribute("z");
+			halfLengths.x = child->FloatAttribute("x");
+			halfLengths.y = child->FloatAttribute("y");
+			halfLengths.z = child->FloatAttribute("z");
+
+			this->obbColider->setPos(this->position);
+			obbColider->setXAxis({ 1,0,0 });
+			obbColider->rotateAroundX(rotation.x);
+			obbColider->rotateAroundY(rotation.y);
+			obbColider->rotateAroundZ(rotation.z);
+			obbColider->setSize(halfLengths.x, halfLengths.y, halfLengths.z);
+			this->obbColider->setXHalfLength(this->halfLengths.x);
+			this->obbColider->setYHalfLength(this->halfLengths.y);
+			this->obbColider->setYHalfLength(this->halfLengths.z);
 			break;
 
 		case COLLIDER_RAY:
@@ -89,8 +127,9 @@ void LevelCollider::initialize( tinyxml2::XMLElement* element )
 			rayDirection.y = child->FloatAttribute("y");
 			rayDirection.z = child->FloatAttribute("z");
 
-			child = element->FirstChildElement("Length");
-			rayLength = child->FloatAttribute("l");
+			this->rayColider->setPos(this->position);
+			this->rayColider->setDirection(this->rayDirection);
+
 			break;
 	}
 }
@@ -101,7 +140,17 @@ void LevelCollider::postInitialize()
 	if( transform )
 		position = transform->getTransformRef()->getPos();
 
-	parent->setExportType( EXPORT_COLLIDER );
+	bool onlyComponent = true;
+	for (auto element : parent->getAllComponents()) {
+		if (element.second->getName() != LevelTransform::name && element.second->getName() != LevelCollider::name) {
+			onlyComponent = false;
+			break;
+		}
+	}
+	
+	if (onlyComponent)
+		parent->setExportType(EXPORT_COLLIDER);
+		
 }
 
 std::string LevelCollider::getName()
@@ -113,12 +162,9 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 {
 	tinyxml2::XMLElement* element = doc->NewElement(name);
 
-	tinyxml2::XMLElement* positionElement = doc->NewElement("Position");
-	positionElement->SetAttribute( "x", position.x );
-	positionElement->SetAttribute( "y", position.y );
-	positionElement->SetAttribute( "z", position.z );
+	element->SetAttribute("type", this->colliderType);
 
-	tinyxml2::XMLElement* offsetElement = doc->NewElement("Position");
+	tinyxml2::XMLElement* offsetElement = doc->NewElement("Offset");
 	offsetElement->SetAttribute( "x", offset.x );
 	offsetElement->SetAttribute( "y", offset.y );
 	offsetElement->SetAttribute( "z", offset.z );
@@ -128,7 +174,6 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 	colorElement->SetAttribute( "y", color.y );
 	colorElement->SetAttribute( "z", color.z );
 
-	element->LinkEndChild( positionElement );
 	element->LinkEndChild( offsetElement );
 	element->LinkEndChild( colorElement );
 
@@ -137,7 +182,7 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 		case COLLIDER_SPHERE:
 		{
 			tinyxml2::XMLElement* radiusElement = doc->NewElement("Radius");
-			radiusElement->SetAttribute( "r", sphereRadius );
+			radiusElement->SetAttribute( "r", this->sphereColider->getRadius() );
 
 			element->LinkEndChild( radiusElement );
 		} break;
@@ -145,14 +190,14 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 		case COLLIDER_AABB:
 		{
 			tinyxml2::XMLElement* minPosElement = doc->NewElement("MinPos");
-			minPosElement->SetAttribute( "x", aabbMinPos.x );
-			minPosElement->SetAttribute( "y", aabbMinPos.y );
-			minPosElement->SetAttribute( "z", aabbMinPos.z );
+			minPosElement->SetAttribute( "x", abbColider->getMinPos().x - this->position.x );
+			minPosElement->SetAttribute( "y", abbColider->getMinPos().y - this->position.y);
+			minPosElement->SetAttribute( "z", abbColider->getMinPos().z - this->position.z);
 
-			tinyxml2::XMLElement* maxPosElement = doc->NewElement("MinPos");
-			maxPosElement->SetAttribute( "x", aabbMaxPos.x );
-			maxPosElement->SetAttribute( "y", aabbMaxPos.y );
-			maxPosElement->SetAttribute( "z", aabbMaxPos.z );
+			tinyxml2::XMLElement* maxPosElement = doc->NewElement("MaxPos");
+			maxPosElement->SetAttribute( "x", abbColider->getMaxPos().x - this->position.x);
+			maxPosElement->SetAttribute( "y", abbColider->getMaxPos().y - this->position.y);
+			maxPosElement->SetAttribute( "z", abbColider->getMaxPos().z - this->position.z);
 
 			element->LinkEndChild( minPosElement );
 			element->LinkEndChild( maxPosElement );
@@ -160,44 +205,29 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 
 		case COLLIDER_OBB:
 		{
-			tinyxml2::XMLElement* xAxisElement = doc->NewElement("xAxis");
-			xAxisElement->SetAttribute( "x", xAxis.x );
-			xAxisElement->SetAttribute( "y", xAxis.y );
-			xAxisElement->SetAttribute( "z", xAxis.z );
 
-			tinyxml2::XMLElement* yAxisElement = doc->NewElement("yAxis");
-			yAxisElement->SetAttribute( "x", yAxis.x );
-			yAxisElement->SetAttribute( "y", yAxis.y );
-			yAxisElement->SetAttribute( "z", yAxis.z );
-
-			tinyxml2::XMLElement* zAxisElement = doc->NewElement("zAxis");
-			zAxisElement->SetAttribute( "x", zAxis.x );
-			zAxisElement->SetAttribute( "y", zAxis.y );
-			zAxisElement->SetAttribute( "z", zAxis.z );
+			tinyxml2::XMLElement* rotationElement = doc->NewElement("Rotation");
+			rotationElement->SetAttribute("x", this->rotation.x);
+			rotationElement->SetAttribute("y", this->rotation.y);
+			rotationElement->SetAttribute("z", this->rotation.z);
 
 			tinyxml2::XMLElement* halfLengthElement = doc->NewElement("HalfLengths");
-			halfLengthElement->SetAttribute( "x", halfLengths.x );
-			halfLengthElement->SetAttribute( "y", halfLengths.y );
-			halfLengthElement->SetAttribute( "z", halfLengths.z );
+			halfLengthElement->SetAttribute( "x", this->obbColider->getHalfLengths().x);
+			halfLengthElement->SetAttribute( "y", this->obbColider->getHalfLengths().y);
+			halfLengthElement->SetAttribute( "z", this->obbColider->getHalfLengths().z);
 
-			element->LinkEndChild( xAxisElement );
-			element->LinkEndChild( yAxisElement );
-			element->LinkEndChild( zAxisElement );
+			element->LinkEndChild(rotationElement);
 			element->LinkEndChild( halfLengthElement );
 		} break;
 
 		case COLLIDER_RAY:
 		{
 			tinyxml2::XMLElement* directionElement = doc->NewElement("Direction");
-			directionElement->SetAttribute( "x", rayDirection.x );
-			directionElement->SetAttribute( "y", rayDirection.y );
-			directionElement->SetAttribute( "z", rayDirection.z );
-
-			tinyxml2::XMLElement* lengthElement = doc->NewElement("Length");
-			lengthElement->SetAttribute("l", rayLength);
+			directionElement->SetAttribute( "x", this->rayColider->getDirection().x );
+			directionElement->SetAttribute( "y", this->rayColider->getDirection().y);
+			directionElement->SetAttribute( "z", this->rayColider->getDirection().z);
 
 			element->LinkEndChild( directionElement );
-			element->LinkEndChild( lengthElement );
 		} break;
 	}
 
@@ -239,28 +269,77 @@ std::string LevelCollider::toLua( std::string name )
 
 void LevelCollider::update( float deltaTime )
 {
-	static OBBCollider* colider = new OBBCollider();
+	//static OBBCollider* colider = new OBBCollider();
+	LevelTransform* transform = parent->getComponent<LevelTransform>();
+	position = transform->getTransformRef()->getPos() + this->offset;
+	
+	if (transform) {
+
+		switch (colliderType) {
+		case COLLIDER_SPHERE:
+			this->sphereColider->setPos(position);
+			this->sphereColider->setRadius(sphereRadius);
+			break;
+		case COLLIDER_AABB: 
+			this->abbColider->setPos(this->position);
+			this->abbColider->setMinPos(this->aabbMinPos);
+			this->abbColider->setMaxPos(this->aabbMaxPos);
+			
+			break;
+		case COLLIDER_OBB:
+			totalRot = transform->getTransformRef()->getRotation();// +transform->getTransformRef()->getLookAt();// +this->rotation;
+			scale = transform->getTransformRef()->getScale();
+			this->obbColider->setPos(this->position);
+			//this->obbColider->setXAxis(this->xAxis);
+			//this->obbColider->setYAxis(this->yAxis);
+			//this->obbColider->setZAxis(this->zAxis);
+			if(parent->getExportType() == EXPORT_COLLIDER)
+				obbColider->setZAxis(glm::normalize(transform->getTransformRef()->getLookAt()));
+			else {
+				obbColider->setXAxis({ 1,0,0 });
+				obbColider->rotateAroundX(totalRot.x);
+				obbColider->rotateAroundY(totalRot.y);
+				obbColider->rotateAroundZ(totalRot.z);
+			}
+			
+			obbColider->setXHalfLength(halfLengths.x * scale.x);
+			obbColider->setYHalfLength(halfLengths.y * scale.y);
+			obbColider->setZHalfLength(halfLengths.z * scale.z);
+			//glm::rotate(glm::vec3(0, 0, 1), transform->getTransformRef()->getRotation());
+
+			
+			break;
+		case COLLIDER_RAY: 
+			this->rayColider->setPos(this->position);
+			this->rayColider->setDirection(this->rayDirection);
+			break;
+		}
+		
+		//colider->setPos(position);
+		//glm::rotate(glm::vec3(0, 0, 1), transform->getTransformRef()->getRotation());
+		//colider->setXAxis({ 1,0,0 });
+		
+		//colider->rotateAroundX(transform->getTransformRef()->getRotation().x);
+		//colider->rotateAroundY(transform->getTransformRef()->getRotation().y);
+		//colider->rotateAroundZ(transform->getTransformRef()->getRotation().z);
+		//colider->setSize(halfLengths.x, halfLengths.y, halfLengths.z);
+		//s_debugger->drawOBB(colider->getPos(), colider->getXAxis(), colider->getYAxis(), colider->getZAxis(), colider->getHalfLengths(), { 1,0,0 });
+	}
+
 	switch( colliderType )
 	{
-		case COLLIDER_SPHERE: s_debugger->drawSphere( position, sphereRadius, color ); break;
-		case COLLIDER_AABB: s_debugger->drawAABB( position+aabbMinPos, position+aabbMaxPos, color ); break;	
-		//case COLLIDER_OBB: s_debugger->drawOBB( position, xAxis, yAxis, zAxis, halfLengths, color ); break;
-		case COLLIDER_RAY: s_debugger->drawRay( position, rayDirection, rayLength, color ); break;
+		
+		case COLLIDER_SPHERE: s_debugger->drawSphere( this->sphereColider->getPos(), this->sphereColider->getRadius(), color ); break;
+		case COLLIDER_AABB: s_debugger->drawAABB( this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color ); break;
+		case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
+			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color ); break;
+		case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color ); break;
+		default:
+			std::cout << "WARNING: Colider doesnt have type!" << std::endl;
+			break;
 	}
 
-	LevelTransform* transform = parent->getComponent<LevelTransform>();
-	if (transform) {
-		position = transform->getTransformRef()->getPos();
-		colider->setPos(position);
-		//glm::rotate(glm::vec3(0, 0, 1), transform->getTransformRef()->getRotation());
-		colider->setXAxis({ 1,0,0 });
 
-		colider->rotateAroundX(transform->getTransformRef()->getRotation().x);
-		colider->rotateAroundY(transform->getTransformRef()->getRotation().y);
-		colider->rotateAroundZ(transform->getTransformRef()->getRotation().z);
-		colider->setSize(halfLengths.x, halfLengths.y, halfLengths.z);
-		s_debugger->drawOBB(colider->getPos(), colider->getXAxis(), colider->getYAxis(), colider->getZAxis(), colider->getHalfLengths(), { 1,0,0 });
-	}
 		
 }
 
@@ -278,7 +357,10 @@ void LevelCollider::setTwStruct( TwBar* bar )
 {
 	TwAddVarCB( bar, "colliderType", TW_TYPE_COLLIDERS(), onSetType, onGetType, this, "label='Type:'" );
 	
-	TwAddVarRO( bar, "colliderPosition", LevelUI::TW_TYPE_VECTOR3F(), &position, "label='Position:'" );
+	TwAddVarRW( bar, "coliderOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'" );
+
+	
+	
 	switch( colliderType )
 	{
 		case COLLIDER_SPHERE:
@@ -291,16 +373,18 @@ void LevelCollider::setTwStruct( TwBar* bar )
 			break;
 
 		case COLLIDER_OBB:
-			TwAddVarRW( bar, "obbColliderXAxis", LevelUI::TW_TYPE_VECTOR3F(), &xAxis, "label='X-Axis:'" );
-			TwAddVarRW( bar, "obbColliderYAxis", LevelUI::TW_TYPE_VECTOR3F(), &yAxis, "label='Y-Axis:'" );
+			//TwAddVarRW( bar, "obbColliderXAxis", LevelUI::TW_TYPE_VECTOR3F(), &xAxis, "label='X-Axis:'" );
+			//TwAddVarRW( bar, "obbColliderYAxis", LevelUI::TW_TYPE_VECTOR3F(), &yAxis, "label='Y-Axis:'" );
 	
-		TwAddVarRW( bar, "obbColliderZAxis", LevelUI::TW_TYPE_VECTOR3F(), &zAxis, "label='Z-Axis:'" );
+			//TwAddVarRW( bar, "obbColliderZAxis", LevelUI::TW_TYPE_VECTOR3F(), &zAxis, "label='Z-Axis:'" );
 			TwAddVarRW( bar, "obbColliderHalfLengths", LevelUI::TW_TYPE_VECTOR3F(), &halfLengths, "label='Half lengths:'" );
+
+			TwAddVarRW(bar, "coliderRotation", LevelUI::TW_TYPE_VECTOR3F(), &rotation, "label='Rotation:'");
+
 			break;
 
 		case COLLIDER_RAY:
 			TwAddVarRW( bar, "rayDirection", LevelUI::TW_TYPE_VECTOR3F(), &rayDirection, "label='Direction:'" );
-			TwAddVarRW( bar, "rayLength", TW_TYPE_FLOAT, &rayLength, "label='Length:'" );
 			break;
 	}
 
