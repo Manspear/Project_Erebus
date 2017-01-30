@@ -172,6 +172,7 @@
     <ClCompile Include="LuaSound.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MovementController.cpp" />
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
@@ -296,6 +297,7 @@
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MovementController.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
