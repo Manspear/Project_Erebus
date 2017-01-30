@@ -165,7 +165,7 @@ void LevelEditor::start() {
 			//LevelActorHandler::getInstance()->setSelected(newActor);
 			LevelModel* modelComponent = newActor->getComponent<LevelModel>();
 			modelComponent = (LevelModel*)LevelActorFactory::getInstance()->getNewComponent(LevelModel::name);
-			modelComponent->setModelName("Goblin");
+			modelComponent->setModelName("SunRayInner");
 			newActor->addComponent(modelComponent);
 			modelComponent->postInitialize();
 

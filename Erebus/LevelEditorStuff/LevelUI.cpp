@@ -16,6 +16,7 @@ const char* LevelUI::worldBarName = "World";
 const char* LevelUI::assetBarName = "Assets";
 const char* LevelUI::assetContextBarName = "AssetsContext";
 const char* LevelUI::actionBarName = "Actions";
+const char* LevelUI::brushBarName = "Brush";
 const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name, LevelSound::name };
 
 void TW_CALL setEditorState(void * clientData)
@@ -93,6 +94,7 @@ void LevelUI::initBars()
 
 	bars[4] = new TweakBar(glm::vec2(bar2Position.x - 148, 0), glm::vec2(148, 178), glm::vec4(128, 32, 32, 200), 1, actionBarName);
 
+	bars[5] = new TweakBar(glm::vec2(bar2Position.x - 148, 178), glm::vec2(148, 178), glm::vec4(128, 32, 32, 200), 1, brushBarName);
 	
 
 	LevelActorHandler::getInstance()->setTweakBars(bars[1], bars[0]);
