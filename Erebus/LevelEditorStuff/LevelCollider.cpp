@@ -243,7 +243,7 @@ void LevelCollider::update( float deltaTime )
 	switch( colliderType )
 	{
 		case COLLIDER_SPHERE: s_debugger->drawSphere( position, sphereRadius, color ); break;
-		case COLLIDER_AABB: s_debugger->drawAABB( position+aabbMinPos, position+aabbMaxPos, color ); break;
+		case COLLIDER_AABB: s_debugger->drawAABB( position+aabbMinPos, position+aabbMaxPos, color ); break;	
 		//case COLLIDER_OBB: s_debugger->drawOBB( position, xAxis, yAxis, zAxis, halfLengths, color ); break;
 		case COLLIDER_RAY: s_debugger->drawRay( position, rayDirection, rayLength, color ); break;
 	}
