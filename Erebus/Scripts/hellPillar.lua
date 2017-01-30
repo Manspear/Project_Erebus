@@ -17,7 +17,7 @@ function CreateHellPillar()
 		nade.alive = false
 		nade.particles = createFireballParticles()
 		nade.exploding = false
-		local model = Assets.LoadModel( "Models/projectile1.model" )
+		local model = Assets.LoadModel( "Models/fireSpell.model" )
 		Gear.AddStaticInstance(model, nade.type.transformID)
 		return nade
 	end
