@@ -74,10 +74,6 @@ namespace Nurn
 		Packager * packager = nullptr;
 		PacketFilter * packetFilter = nullptr;
 
-		unsigned char buffer[packetSize];
-
-
-
 #ifdef USING_UDP
 		UDPCommunication netCommunication;
 #elif USING_TCP

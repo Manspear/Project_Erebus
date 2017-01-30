@@ -7,6 +7,8 @@ Packager::Packager()
 	this->aiQueue = new PacketQueue<AIPacket>(10);
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->memory = new unsigned char[packetSize];
+	this->currentNetPacketSize = 0;
 }
 
 Packager::~Packager()
@@ -36,11 +38,17 @@ Packager::~Packager()
 		delete this->aiTransformQueue;
 		this->aiTransformQueue = 0;
 	}
+	if (this->memory)
+	{
+		delete [] this->memory;
+		this->memory = 0;
+	}
+
 }
 
 unsigned char * Packager::getPacketPointer()
 {
-	return (unsigned char*)this->memory;
+	return this->memory;
 }
 
 uint16_t Packager::getCurrentNetPacketSize() const
@@ -104,15 +112,18 @@ void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
 			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfTransformPackets, &transformPacket, sizeof(TransformPacket));
 			sizeOfTransformPackets += sizeof(TransformPacket);
 		}
-		else		
+		else
 		{
 			fullPackage = true;
 		}
 	}
 
-	this->addMetaDataPacket(TRANSFORM_PACKET, netPacketSize, sizeOfTransformPackets);
+	if (sizeOfTransformPackets > 0)
+	{
+		this->addMetaDataPacket(TRANSFORM_PACKET, netPacketSize, sizeOfTransformPackets);
 
-	netPacketSize += sizeOfTransformPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfTransformPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage)
@@ -135,9 +146,12 @@ void Packager::addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(ANIMATION_PACKET, netPacketSize, sizeOfAnimationPackets);
+	if (sizeOfAnimationPackets > 0)
+	{
+		this->addMetaDataPacket(ANIMATION_PACKET, netPacketSize, sizeOfAnimationPackets);
 
-	netPacketSize += sizeOfAnimationPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfAnimationPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addAIPackets(uint16_t& netPacketSize, bool& fullPackage)
@@ -160,9 +174,12 @@ void Packager::addAIPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(AI_PACKET, netPacketSize, sizeOfAIPackets);
+	if (sizeOfAIPackets > 0)
+	{
+		this->addMetaDataPacket(AI_PACKET, netPacketSize, sizeOfAIPackets);
 
-	netPacketSize += sizeOfAIPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfAIPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addSpellPackets(uint16_t& netPacketSize, bool& fullPackage)
@@ -185,9 +202,12 @@ void Packager::addSpellPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(SPELL_PACKET, netPacketSize, sizeOfSpellPackets);
+	if (sizeOfSpellPackets > 0)
+	{
+		this->addMetaDataPacket(SPELL_PACKET, netPacketSize, sizeOfSpellPackets);
 
-	netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage)
@@ -210,9 +230,12 @@ void Packager::addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(AI_TRANSFORM_PACKET, netPacketSize, sizeOfAITransformPackets);
+	if (sizeOfAITransformPackets > 0)
+	{
+		this->addMetaDataPacket(AI_TRANSFORM_PACKET, netPacketSize, sizeOfAITransformPackets);
 
-	netPacketSize += sizeOfAITransformPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfAITransformPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes)
