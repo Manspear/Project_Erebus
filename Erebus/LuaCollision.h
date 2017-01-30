@@ -2,10 +2,11 @@
 
 #include "lua\lua.hpp"
 #include "CollisionHandler.h"
+#include "MovementController.h"
 
 namespace LuaCollision
 {
-	void registerFunctions( lua_State* lua, CollisionHandler* handler );
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms );
 
 	int addSphere( lua_State* lua );
 	int addAABB( lua_State* lua );
@@ -15,8 +16,10 @@ namespace LuaCollision
 	int createAABB( lua_State* lua );
 	int createRay(lua_State* lua);
 	int createOBB(lua_State* lua);
+	int createMovementController(lua_State* lua);
 	int destroy( lua_State* lua );
 	int destroyRay(lua_State* lua);
+	int destroyMovementController(lua_State* lua);
 	int getCollisionIDs( lua_State* lua );
 	int getRayCollisionIDs(lua_State* lua);
 	int checkCollision( lua_State* lua );
@@ -33,6 +36,8 @@ namespace LuaCollision
 	int setOBBYAxis(lua_State* lua);
 	int setOBBZAxis(lua_State* lua);
 	int addChild(lua_State* lua);
+	int setMovementControllerHitbox(lua_State* lua);
+	int setMovementControllerTransform(lua_State* lua);;
 
 	int setLayerCollision( lua_State* lua );
 	int printCollisions( lua_State* lua );
@@ -51,4 +56,5 @@ namespace LuaCollision
 	AABBCollider* getAABBCollider( lua_State* lua, int index );
 	RayCollider* getRayCollider(lua_State* lua, int index);
 	OBBCollider* getOBBCollider(lua_State* lua, int index);
+	MovementController* getMovementController(lua_State* lua, int index);
 }

@@ -193,7 +193,9 @@
     <ClInclude Include="PlaneFrustum.h">
       <Filter>Header Files\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="Frustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
