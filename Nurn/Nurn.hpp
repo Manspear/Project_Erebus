@@ -65,6 +65,9 @@ namespace Nurn
 		void buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
 		bool fetchSpellPacket(SpellPacket& packet);
 
+		void buildAITransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+		bool fetchAITransformPacket(TransformPacket& packet);
+
 
 	private:
 		Address address;

@@ -1,5 +1,6 @@
 local aiScript = require("Scripts.AI.BasicEnemyAI")
-local stateScript = require("Scripts.AI.states")
+local stateScript = require("Scripts.AI.states") 
+local clientAIScript = require("Scripts.AI.client_AI")
 
 MAX_ENEMIES = 10
 enemies = {}
@@ -67,37 +68,51 @@ function UpdateEnemies(dt)
 	AI.ClearMap()
 	AI.AddIP(player.transformID,4)
 	local tempdt
-	for i=1, #enemies do
-		if enemies[i].health > 0 then
-			tempdt = dt * enemies[i].timeScalar
-			--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
-			AI.AddIP(enemies[i].transformID,-1)
-			aiScript.update(enemies[i],player,tempdt)
 
-			local pos = Transform.GetPosition(enemies[i].transformID)
+	if Network.GetNetworkHost() == true then
+		for i=1, #enemies do
+			if enemies[i].health > 0 then
+				tempdt = dt * enemies[i].timeScalar
+				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
+				AI.AddIP(enemies[i].transformID,-1)
+				aiScript.update(enemies[i],player,tempdt)
 
-			local posx = math.floor(pos.x/512)
-			local posz = math.floor(pos.z/512)
-			local heightmapIndex = (posz*2 + posx)+1
+				local pos = Transform.GetPosition(enemies[i].transformID)
 
-			local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+1
-			pos.y = pos.y - 10*dt
-			if pos.y < height then
-				pos.y = height
-			end
-			Transform.SetPosition(enemies[i].transformID, pos)
+				local posx = math.floor(pos.x/512)
+				local posz = math.floor(pos.z/512)
+				local heightmapIndex = (posz*2 + posx)+1
 
-			--enemies[i].animation:Update(tempdt, enemies[i].animationState)
+				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+1
+				pos.y = pos.y - 10*dt
+				if pos.y < height then
+					pos.y = height
+				end
+				Transform.SetPosition(enemies[i].transformID, pos)
+
+				--enemies[i].animation:Update(tempdt, enemies[i].animationState)
+
+				local direction = Transform.GetLookAt(enemies[i].transformID)
+				local rotation = Transform.GetRotation(enemies[i].transformID)
+
+				if Network.ShouldSendNewAITransform() == true then
+					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
+				end
 
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
 					enemies[i].effects[j]:Deapply(enemies[i])
 					table.remove(enemies[i].effects, j)
-
+					end
 				end
 			end
+			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
-		Transform.UpdateRotationFromLookVector(enemies[i].transformID);
+	else
+		-- Run client_AI script
+		for i=1, #enemies do	
+			clientAIScript.updateClientAI()
+		end
 	end
 end
 
