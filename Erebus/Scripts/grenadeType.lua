@@ -41,7 +41,7 @@ function CreateGrenadeType()
 		local heightmapIndex = (posz*2 + posx)+1
 		if heightmapIndex < 1 then heightmapIndex = 1 end
 		if heightmapIndex > 4 then heightmapIndex = 4 end
-		if heightmaps[heightmapIndex]:GetHeight(self.position.x, self.position.z) > self.position.y then
+		if heightmaps[heightmapIndex].asset:GetHeight(self.position.x, self.position.z) > self.position.y then
 			result = true
 		else
 			local collisionIDs = self.sphereCollider:GetCollisionIDs()

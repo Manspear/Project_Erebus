@@ -128,7 +128,7 @@ function UpdatePlayer(dt)
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		local height = heightmaps[player.heightmapIndex].asset:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 
 		local diff = height - position.y
 		position = newPosition
@@ -144,10 +144,6 @@ function UpdatePlayer(dt)
 
 		Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
-
-		--Just a simple example of what an AIPacket can look like
-		--Network.SendAIPacket(15, 2)
-		
 		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
@@ -286,13 +282,6 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
-
-
-	--netAIValue, transformID, aiState = Network.GetAIPacket()
-
-	--if netAIValue == true then
-	--	print(transformID, aiState)
-	--end
 		
 	newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
 	--if newAnimationValue == true then

@@ -18,9 +18,12 @@ namespace LuaNetwork
 			{ "GetAIPacket", getAIPacket },
 			{ "SendSpellPacket", sendSpellPacket },
 			{ "GetSpellPacket", getSpellPacket },
+			{ "SendAITransformPacket", sendAITransformPacket },
+			{ "GetAITransformPacket", getAITransformPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
+			{ "ShouldSendNewAITransform", shouldSendNewAITransform },
 			{ NULL, NULL }
 		};
 
@@ -202,6 +205,71 @@ namespace LuaNetwork
 		return 3;
 	}
 
+	int sendAITransformPacket(lua_State* lua)
+	{
+		int index = lua_tointeger(lua, 1);
+
+		lua_getfield(lua, 2, "x");
+		float pos_x = lua_tonumber(lua, -1);
+		lua_getfield(lua, 2, "y");
+		float pos_y = lua_tonumber(lua, -1);
+		lua_getfield(lua, 2, "z");
+		float pos_z = lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 3, "x");
+		float lookAt_x = lua_tonumber(lua, -1);
+		lua_getfield(lua, 3, "y");
+		float lookAt_y = lua_tonumber(lua, -1);
+		lua_getfield(lua, 3, "z");
+		float lookAt_z = lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 4, "x");
+		float rotation_x = lua_tonumber(lua, -1);
+		lua_getfield(lua, 4, "y");
+		float rotation_y = lua_tonumber(lua, -1);
+		lua_getfield(lua, 4, "z");
+		float rotation_z = lua_tonumber(lua, -1);
+
+		g_networkController->sendAITransformPacket(index, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
+
+		return 0;
+	}
+
+	int getAITransformPacket(lua_State* lua)
+	{
+		TransformPacket aiTransformPacket;
+
+		if (g_networkController->fetchAITransformPacket(aiTransformPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, aiTransformPacket.data.id);
+			lua_pushnumber(lua, aiTransformPacket.data.pos_x);
+			lua_pushnumber(lua, aiTransformPacket.data.pos_y);
+			lua_pushnumber(lua, aiTransformPacket.data.pos_z);
+			lua_pushnumber(lua, aiTransformPacket.data.lookAt_x);
+			lua_pushnumber(lua, aiTransformPacket.data.lookAt_y);
+			lua_pushnumber(lua, aiTransformPacket.data.lookAt_z);
+			lua_pushnumber(lua, aiTransformPacket.data.rotation_x);
+			lua_pushnumber(lua, aiTransformPacket.data.rotation_y);
+			lua_pushnumber(lua, aiTransformPacket.data.rotation_z);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 80);
+			lua_pushnumber(lua, 27);
+			lua_pushnumber(lua, 160);
+			lua_pushnumber(lua, 0.5);
+			lua_pushnumber(lua, 0.25);
+			lua_pushnumber(lua, 0.75);
+			lua_pushnumber(lua, 0.0);
+			lua_pushnumber(lua, 3.14);
+			lua_pushnumber(lua, 1.57);
+		}
+
+		return 11;
+	}
 
 	int getNetworkHost(lua_State* lua)
 	{
@@ -236,4 +304,18 @@ namespace LuaNetwork
 		}
 		return 1;
 	}
+
+	int shouldSendNewAITransform(lua_State* lua)
+	{
+		if (g_networkController->timeSinceLastAITransformPacket() > 0.01)
+		{
+			lua_pushboolean(lua, true);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+		}
+		return 1;
+	}
+
 }
