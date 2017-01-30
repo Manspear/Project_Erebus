@@ -152,11 +152,24 @@ void LevelEditor::start() {
 		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 10));
 		//if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_2))
 		camera->updateLevelEditorCamera(deltaTime);
-		if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
+		//if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
+		if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
 		{
 			glm::normalize(hitNormal);
 			std::cout << "Position: " << hitPoint.x << " " << hitPoint.y << " " << hitPoint.z << " " << std::endl;
 			std::cout << "Normal: " << hitNormal.x << " " << hitNormal.y << " " << hitNormal.z << " " << std::endl;
+
+			LevelActor* newActor = LevelActorFactory::getInstance()->createActor();
+			newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+			LevelActorHandler::getInstance()->addActor(newActor);
+			//LevelActorHandler::getInstance()->setSelected(newActor);
+			LevelModel* modelComponent = newActor->getComponent<LevelModel>();
+			modelComponent = (LevelModel*)LevelActorFactory::getInstance()->getNewComponent(LevelModel::name);
+			modelComponent->setModelName("Goblin");
+			newActor->addComponent(modelComponent);
+			modelComponent->postInitialize();
+
+			LevelActorHandler::getInstance()->updateActorBar();
 
 		}
 		//for (size_t i = 0; i < 100; i++)

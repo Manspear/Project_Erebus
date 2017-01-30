@@ -53,4 +53,18 @@
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
+    <LevelActor type="Empty" displayName="New">
+        <LevelTransform>
+            <Position x="38.170341" y="70.268059" z="161.79652"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (1) (1)">
+        <LevelTransform>
+            <Position x="41.411156" y="71.891098" z="163.32753"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
 </Level>
