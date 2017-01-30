@@ -15,7 +15,6 @@
 #include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
-Gear::ParticleSystem* ps;
 #include "SoundEngine.h"
 #include "WorkQueue.h"
 
@@ -36,7 +35,10 @@ struct ThreadData
 	WorkQueue* workQueue;
 	std::vector<ModelInstance>* models;
 	std::vector<AnimatedInstance>* animatedModels;
+	std::vector<Gear::ParticleSystem*>* particleSystems;
 	bool queueModels;
+	TransformStruct* allTransforms;
+	Animation* allAnimations;
 	//GameState gameState;
 	//GamePlay* gamePlay;
 	Menu* menu;
@@ -55,25 +57,25 @@ DWORD WINAPI update( LPVOID args )
 
 	CollisionHandler collisionHandler;
 	Transform* transforms = new Transform[MAX_TRANSFORMS];
-	TransformStruct* allTransforms = new TransformStruct[MAX_TRANSFORMS];
+	//TransformStruct* allTransforms = new TransformStruct[MAX_TRANSFORMS];
 	int boundTransforms = 0;
-	Animation* animations = new Animation[MAX_ANIMATIONS];
+	//Animation* animations = new Animation[MAX_ANIMATIONS];
 	int boundAnimations = 0;
 	//std::vector<ModelInstance> models;
 	//std::vector<AnimatedInstance> animatedModels;
-	std::vector<Gear::ParticleSystem*> particleSystems;
+	//std::vector<Gear::ParticleSystem*> particleSystems;
 	AGI::AGIEngine ai;
 	NetworkController network;
 
 	data->engine->addDebugger( Debugger::getInstance() );
 
 	for( int i=0; i<MAX_TRANSFORMS; i++ )
-		transforms[i].setThePtr( &allTransforms[i] );
+		transforms[i].setThePtr( &data->allTransforms[i] );
 
 	data->engine->allocateWorlds( MAX_TRANSFORMS );
 
-	data->engine->bindTransforms( &allTransforms, &boundTransforms );
-	data->engine->bindAnimations( &animations, &boundAnimations );
+	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
+	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());
@@ -83,10 +85,10 @@ DWORD WINAPI update( LPVOID args )
 
 	data->engine->queueDynamicModels( data->models );
 	data->engine->queueAnimModels( data->animatedModels );
-	data->engine->queueParticles( particleSystems );
+	data->engine->queueParticles( *data->particleSystems );
 
 	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, animations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, data->camera, &particleSystems, &ai, &network, data->workQueue, data->soundEngine );
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine );
 
 	PerformanceCounter counter;
 	while( running )
@@ -142,15 +144,18 @@ DWORD WINAPI update( LPVOID args )
 					break;
 			}*/
 
-			data->controls->update( data->inputs );
+			
+
 			luaBinds.update( data->controls, deltaTime );
 			data->workQueue->execute();
 
-			for( int i=0; i<particleSystems.size(); i++ )
-				particleSystems.at(i)->update( deltaTime );
+			data->controls->update( data->inputs );
+
+			for( int i=0; i<data->particleSystems->size(); i++ )
+				data->particleSystems->at(i)->update( deltaTime );
 
 			collisionHandler.checkCollisions();
-			collisionHandler.drawHitboxes();
+			//collisionHandler.drawHitboxes();
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
@@ -167,12 +172,12 @@ DWORD WINAPI update( LPVOID args )
 	network.shutdown();
 	luaBinds.unload();
 
-	delete[] allTransforms;
+	//delete[] allTransforms;
 	delete[] transforms;
-	delete[] animations;
+	//delete[] animations;
 
-	for( int i=0; i<particleSystems.size(); i++ )
-		delete particleSystems.at(i);
+	/*for( int i=0; i<particleSystems.size(); i++ )
+		delete particleSystems.at(i);*/
 
 	return 0;
 }
@@ -242,6 +247,7 @@ int main()
 
 	std::vector<ModelInstance> models;
 	std::vector<AnimatedInstance> animModels;
+	std::vector<Gear::ParticleSystem*> particleSystems;
 	ThreadData threadData =
 	{
 		&engine,
@@ -253,8 +259,11 @@ int main()
 		&work,
 		&models,
 		&animModels,
-		false
+		&particleSystems,
+		false,
 	};
+	threadData.allTransforms = new TransformStruct[MAX_TRANSFORMS];
+	threadData.allAnimations = new Animation[MAX_ANIMATIONS];
 	threadData.produce = CreateSemaphore( NULL, 1, 1, NULL );
 	threadData.consume = CreateSemaphore( NULL, 0, 1, NULL );
 
@@ -358,6 +367,8 @@ int main()
 	//delete gamePlay;
 	//delete menu;
 	//delete threadData.gamePlay;
+	delete[] threadData.allTransforms;
+	delete[] threadData.allAnimations;
 	delete threadData.menu;
 	glfwTerminate();
 

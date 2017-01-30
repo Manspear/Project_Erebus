@@ -21,7 +21,7 @@ local scriptFiles =
 	"Scripts/blackHole.lua",
 	"Scripts/hellPillar.lua",
 	"Scripts/rayType.lua",
-	"Scripts/staticAoEType.lua"
+	"Scripts/staticAoEType.lua",
 }
 local drawHitboxes = false
 
@@ -42,6 +42,9 @@ function Load()
 
 	image = UI.load(50,50,50,50);
 	texture = Assets.LoadTexture("Textures/firepillar.dds");
+
+	gamestate = dofile("Scripts/gamestate.lua")
+	gamestate.Load()
 end
 
 function Unload()
@@ -50,12 +53,29 @@ function Unload()
 			value.Unload()
 		end
 	end
+
+	gamestate.Unload()
 end
 
 function Update(dt)
-	for key,value in pairs(scripts) do
+	--[[for key,value in pairs(scripts) do
 		value.Update(dt)
-	end
+	end--]]
+
+	gamestate.Update(dt)
 
 	UI.drawImage(image, texture);
 end
+
+--[[function Load()
+	state = dofile("Scripts/gamestate.lua")
+	state.Load()
+end
+
+function Unload()
+	state.Unload()
+end
+
+function Update(dt)
+	state.Update(dt)
+end]]--
