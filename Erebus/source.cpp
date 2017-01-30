@@ -144,6 +144,11 @@ int main()
 	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
 	assets.load<TextureAsset>("Textures/HealthBar.png");
 	assets.load<TextureAsset>("Textures/HealthBackground.png");
+	assets.load<TextureAsset>("Textures/firepillar.dds");
+	assets.load<TextureAsset>("Textures/cooldown.png");
+	assets.load<TextureAsset>("Textures/spell1.png");
+	assets.load<TextureAsset>("Textures/spell1.png");
+	assets.load<TextureAsset>("Textures/spell1.png");
 
 
 	Controls controls;	

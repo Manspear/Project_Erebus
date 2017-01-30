@@ -31,10 +31,23 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	engine->queueAnimModels(&animatedModels);
 	engine->queueParticles(ps);
 
-	healthBackground = sScreenImage(glm::vec2(290, 630), 700, 80);
+	healthBackground = sScreenImage(glm::vec2(371, 630), 538, 60);
 	healthBackgroundTex = assets->load<TextureAsset>("Textures/HealthBackground.png");
-	healthBar = sScreenImage(glm::vec2(332, 640), 614, 60);
+	healthBar = sScreenImage(glm::vec2(405, 638), 470, 43);
 	healthBarTex = assets->load<TextureAsset>("Textures/HealthBar.png");
+	firepillar = sScreenImage(glm::vec2(371, 565), 64, 64);
+	firepillarTex = assets->load<TextureAsset>("Textures/firepillar.dds");
+	cooldown = sScreenImage(glm::vec2(371, 565), 64, 0);
+	cooldownTex = assets->load<TextureAsset>("Textures/cooldown.png");
+
+	spell1 = sScreenImage(glm::vec2(371, 565), 64, 64);
+	spell1Tex = assets->load<TextureAsset>("Textures/spell1.png");
+	spell2 = sScreenImage(glm::vec2(438, 565), 64, 64);
+	spell2Tex = assets->load<TextureAsset>("Textures/spell2.png");
+	spell3 = sScreenImage(glm::vec2(505, 565), 64, 64);
+	spell3Tex = assets->load<TextureAsset>("Textures/spell3.png");
+
+
 }
 
 GamePlay::~GamePlay()
@@ -92,6 +105,11 @@ void GamePlay::Draw()
 	engine->queueDynamicModels(&models);
 	engine->showImage(healthBackground, healthBackgroundTex);
 	engine->showImage(healthBar, healthBarTex);
+	engine->showImage(firepillar, firepillarTex);
+	engine->showImage(cooldown, cooldownTex);
+	engine->showImage(spell1, spell1Tex);
+	engine->showImage(spell2, spell2Tex);
+	engine->showImage(spell3, spell3Tex);
 }
 
 bool GamePlay::StartNetwork(const bool& networkHost, PerformanceCounter & counter)

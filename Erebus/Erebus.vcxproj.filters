@@ -89,6 +89,9 @@
     <ClCompile Include="LuaSound.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="LuaUI.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -176,6 +179,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaSound.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaUI.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
   </ItemGroup>
@@ -390,6 +396,7 @@
     <None Include="Scripts\rayType.lua">
       <Filter>Scripts\types</Filter>
     </None>
+    <None Include="Scripts\blackHole.lua" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

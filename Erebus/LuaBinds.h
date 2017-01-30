@@ -16,6 +16,7 @@
 #include "LuaNetwork.hpp"
 #include "WorkQueue.h"
 #include "LuaSound.h"
+#include "LuaUI.h"
 
 class LuaBinds
 {

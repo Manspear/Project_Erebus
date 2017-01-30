@@ -171,6 +171,7 @@
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaSound.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="LuaUI.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
@@ -295,6 +296,7 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="LuaUI.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
