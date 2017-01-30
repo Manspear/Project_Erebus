@@ -397,7 +397,7 @@
       <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\blackHole.lua">
-    <Filter>Scripts\spells</Filter>
+      <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\HUD.lua">
       <Filter>Scripts</Filter>
@@ -410,6 +410,9 @@
     </None>
     <None Include="Scripts\gameplay.lua">
       <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\MenuUI.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,5 @@
 local screenImages = {}
 local imageTextures = {}
-local hej = {}
 
 local playerHealthCurrent = 100;
 local healthBarLength = 470;

@@ -16,6 +16,7 @@ namespace LuaUI {
 			{ "mousePick", mousePick },
 			{ "load", loadScreenImage },
 			{ "resize", resizeScreenImage },
+			{ "mousePick", mousePick },
 			{ "__gc", unloadScreenImage },
 			{ NULL, NULL }
 		};
@@ -49,7 +50,17 @@ namespace LuaUI {
 
 	int LuaUI::mousePick(lua_State * lua)
 	{
-		return 0;
+		if (lua_gettop(lua) >= 3)
+		{
+			lua_getfield(lua, 1, "__self");
+			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
+			int posX = lua_tonumber(lua, 2);
+			int posY = lua_tonumber(lua, 3);
+			bool x = (image->mousePick(posX, posY));
+			lua_pushboolean(lua, x);
+		}
+
+		return 1;
 	}
 
 	int LuaUI::loadScreenImage(lua_State * lua)
@@ -64,7 +75,6 @@ namespace LuaUI {
 			int sizeY = lua_tonumber(lua, 4);
 
 			sScreenImage* image = new sScreenImage(glm::vec2(posX, posY), sizeX, sizeY);
-
 			if (image)
 			{
 				lua_newtable(lua);
