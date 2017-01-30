@@ -18,9 +18,12 @@ void MovementController::update()
 {
 	assert( transform && heightmap && collisionLayer && layerID >= 0 );
 
-	glm::vec3 pos = transform->getPos();
+	glm::vec3 lookDirection = glm::normalize(transform->getLookAt());
+	glm::vec3 moveFinal = lookDirection * movement.z;
+	moveFinal += glm::cross({ 0, 1, 0 }, lookDirection) * movement.x; // get right axis and move
 
-	glm::vec3 newPos = pos + movement;
+	glm::vec3 pos = transform->getPos();
+	glm::vec3 newPos = pos + moveFinal;
 
 	float height = heightmap->getPos( newPos.x, newPos.z );
 	newPos.y = height;
@@ -41,7 +44,8 @@ void MovementController::update()
 	
 	std::cout << "Heightmap->getPos: " << this->heightmap->getPos(pos.x,pos.z) << std::endl;
 
-	transform->setPos( pos );
+	transform->setPos(newPos);
+	this->movement = glm::vec3();
 }
 
 void MovementController::setHitbox( HitBox* hb )
@@ -58,11 +62,6 @@ void MovementController::setCollisionLayer( CollisionLayers* layer, unsigned int
 {
 	collisionLayer = layer;
 	layerID = id;
-}
-
-void MovementController::setHeightmap( HeightMap* hm )
-{
-	heightmap = hm;
 }
 
 void MovementController::setHeightmap(HeightMap * heightmap)

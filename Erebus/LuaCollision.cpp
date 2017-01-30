@@ -129,6 +129,8 @@ namespace LuaCollision
 			{ "SetTransform",		setMovementControllerTransform },
 			{ "SetHeightmap",		setMovementControllerHeightmap },
 			{ "Update",				movementControllerUpdate },
+			{ "SetCollisionLayer",	setMovementControllerCollisionLayer },
+			{ "Move",				movementControllerMove },
 			{ "__gc",				destroyMovementController },
 			{ NULL, NULL }
 		};
@@ -588,7 +590,6 @@ namespace LuaCollision
 			luaL_setmetatable(lua, "movementControllerMeta");
 			lua_pushlightuserdata(lua, movementController);
 			lua_setfield(lua, -2, "__self");
-			movementController->setCollisionLayer(g_collisionHandler->getCollisionLayers());
 		}
 
 		return 1;
@@ -632,6 +633,19 @@ namespace LuaCollision
 		return 0;
 	}
 
+	int setMovementControllerCollisionLayer(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			MovementController* movementController = getMovementController(lua, 1);
+			int layer = (int)lua_tointeger(lua, 2);
+
+			movementController->setCollisionLayer(g_collisionHandler->getCollisionLayers(),layer);
+		}
+
+		return 0;
+	}
+
 	int movementControllerUpdate(lua_State * lua)
 	{
 		if (lua_gettop(lua) >= 1)
@@ -639,6 +653,21 @@ namespace LuaCollision
 			MovementController* movementController = getMovementController(lua, 1);
 
 			movementController->update();
+		}
+
+		return 0;
+	}
+
+	int movementControllerMove(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			MovementController* controller = getMovementController(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			controller->move(glm::vec3(x,y,z));
 		}
 
 		return 0;

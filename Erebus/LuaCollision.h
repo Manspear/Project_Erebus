@@ -40,7 +40,9 @@ namespace LuaCollision
 	int setMovementControllerHitbox(lua_State* lua);
 	int setMovementControllerTransform(lua_State* lua);
 	int setMovementControllerHeightmap(lua_State* lua);
+	int setMovementControllerCollisionLayer(lua_State* lua);
 	int movementControllerUpdate(lua_State* lua);
+	int movementControllerMove(lua_State* lua);
 
 	int setLayerCollision( lua_State* lua );
 	int printCollisions( lua_State* lua );
