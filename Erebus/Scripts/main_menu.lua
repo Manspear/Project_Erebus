@@ -23,15 +23,15 @@ function UpdateMainMenu(dt)
 	if Inputs.KeyPressed("W") then
 		gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 	end
+	for key,value in pairs(scriptsMenu) do
+		value.Update(dt)
+	end
 end
 
 function EnterMainMenu()
 	Gear.QueueModels(false)
 	CollisionHandler.Disable()
 	Gear.CursorVisible(true)
-	for key,value in pairs(scriptsMenu) do
-		value.Update(dt)
-	end
 end
 
 function ExitMainMenu()

@@ -23,7 +23,9 @@ function UpdateMenuUI(dt)
 	DrawMenuUI()
 	x,y = Inputs.GetMousePos()
 	if UI.mousePick(screenImages["play"], x,y) then
-		
+		if Inputs.ButtonReleased(Buttons.Left) then
+			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+		end
 	end
 
 end
