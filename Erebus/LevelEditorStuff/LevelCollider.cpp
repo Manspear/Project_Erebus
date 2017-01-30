@@ -239,17 +239,29 @@ std::string LevelCollider::toLua( std::string name )
 
 void LevelCollider::update( float deltaTime )
 {
+	static OBBCollider* colider = new OBBCollider();
 	switch( colliderType )
 	{
 		case COLLIDER_SPHERE: s_debugger->drawSphere( position, sphereRadius, color ); break;
 		case COLLIDER_AABB: s_debugger->drawAABB( position+aabbMinPos, position+aabbMaxPos, color ); break;
-		case COLLIDER_OBB: s_debugger->drawOBB( position, xAxis, yAxis, zAxis, halfLengths, color ); break;
+		//case COLLIDER_OBB: s_debugger->drawOBB( position, xAxis, yAxis, zAxis, halfLengths, color ); break;
 		case COLLIDER_RAY: s_debugger->drawRay( position, rayDirection, rayLength, color ); break;
 	}
 
 	LevelTransform* transform = parent->getComponent<LevelTransform>();
-	if( transform )
+	if (transform) {
 		position = transform->getTransformRef()->getPos();
+		colider->setPos(position);
+		//glm::rotate(glm::vec3(0, 0, 1), transform->getTransformRef()->getRotation());
+		colider->setXAxis({ 1,0,0 });
+
+		colider->rotateAroundX(transform->getTransformRef()->getRotation().x);
+		colider->rotateAroundY(transform->getTransformRef()->getRotation().y);
+		colider->rotateAroundZ(transform->getTransformRef()->getRotation().z);
+		colider->setSize(halfLengths.x, halfLengths.y, halfLengths.z);
+		s_debugger->drawOBB(colider->getPos(), colider->getXAxis(), colider->getYAxis(), colider->getZAxis(), colider->getHalfLengths(), { 1,0,0 });
+	}
+		
 }
 
 void LevelCollider::addChildCollider( LevelCollider* collider )

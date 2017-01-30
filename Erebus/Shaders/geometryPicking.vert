@@ -19,5 +19,5 @@ void main(){
 
 	fColor = instanceColors[gl_InstanceID];
 
-	fragNormal = normal;
+	fragNormal = normalize(normal);
 }

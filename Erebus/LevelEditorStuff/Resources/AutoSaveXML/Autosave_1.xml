@@ -24,6 +24,7 @@
             <Position x="0" y="0" z="0"/>
             <Color x="0" y="0" z="0"/>
             <Radius r="31"/>
+            <Intensity i="1"/>
         </LevelPointLight>
         <LevelTransform>
             <Position x="131.08182" y="56.28125" z="37.59375"/>
@@ -36,6 +37,7 @@
             <Position x="40" y="0" z="0"/>
             <Color x="0" y="0.5" z="0.5"/>
             <Radius r="60"/>
+            <Intensity i="1"/>
         </LevelPointLight>
         <LevelTransform>
             <Position x="97.8125" y="33.850536" z="73.016838"/>
@@ -51,6 +53,35 @@
             <Position x="21.065756" y="7.4862289" z="219.90495"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="272" y="10" z="30"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="BrushType" displayName="BrushTool">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="0" y="0.38039219" z="1"/>
+            <Radius r="17"/>
+            <Intensity i="150"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="7" y="2" z="187"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New">
+        <LevelCollider>
+            <Position x="-14.56454" y="8.9428024" z="113.22467"/>
+            <Position x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <xAxis x="1" y="0" z="0"/>
+            <yAxis x="0" y="1" z="0"/>
+            <zAxis x="0" y="0" z="1"/>
+            <HalfLengths x="0.5" y="0.5" z="20"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="-14.56454" y="8.9428024" z="113.22467"/>
+            <Rotation x="0" y="0.31200957" z="0"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
 </Level>

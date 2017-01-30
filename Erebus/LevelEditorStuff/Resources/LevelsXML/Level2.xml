@@ -24,6 +24,7 @@
             <Position x="0" y="0" z="0"/>
             <Color x="0" y="0" z="0"/>
             <Radius r="31"/>
+	    <Intensity i="1"/>
         </LevelPointLight>
         <LevelTransform>
             <Position x="131.08182" y="56.28125" z="37.59375"/>
@@ -36,6 +37,7 @@
             <Position x="40" y="0" z="0"/>
             <Color x="0" y="0.5" z="0.5"/>
             <Radius r="60"/>
+            <Intensity i="1"/>
         </LevelPointLight>
         <LevelTransform>
             <Position x="97.8125" y="33.850536" z="73.016838"/>

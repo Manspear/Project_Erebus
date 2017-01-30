@@ -10,6 +10,12 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor1">
+        <LevelCollider>
+            <Position x="0" y="0" z="0"/>
+            <Position x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="1"/>
+        </LevelCollider>
         <LevelModel>
             <ModelName>tile1_game_x1_assets</ModelName>
         </LevelModel>
@@ -63,21 +69,24 @@
             <Intensity i="150"/>
         </LevelPointLight>
         <LevelTransform>
-            <Position x="-33.957455" y="41.451202" z="192.96782"/>
+            <Position x="24.284803" y="101.34332" z="145.75888"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="MrRoboto" displayName="New (1)">
+    <LevelActor type="Empty" displayName="New">
         <LevelCollider>
-            <Position x="-27.874411" y="33" z="189.30237"/>
+            <Position x="-12.68002" y="97.237839" z="133.62976"/>
             <Position x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <Radius r="1"/>
+            <xAxis x="1" y="10" z="0"/>
+            <yAxis x="2" y="1" z="0"/>
+            <zAxis x="10" y="0" z="1"/>
+            <HalfLengths x="7.5" y="9.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-27.874411" y="33" z="189.30237"/>
-            <Rotation x="1.2121439" y="-1.4973319" z="-0.46599534"/>
+            <Position x="-12.68002" y="97.237839" z="133.62976"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
