@@ -126,7 +126,9 @@ namespace LuaCollision
 		{
 			{ "Create",				createMovementController },
 			{ "SetHitbox",			setMovementControllerHitbox },
-			{ "SetTransform",			setMovementControllerTransform },
+			{ "SetTransform",		setMovementControllerTransform },
+			{ "SetHeightmap",		setMovementControllerHeightmap },
+			{ "Update",				movementControllerUpdate },
 			{ "__gc",				destroyMovementController },
 			{ NULL, NULL }
 		};
@@ -617,6 +619,31 @@ namespace LuaCollision
 		return 0;
 	}
 
+	int setMovementControllerHeightmap(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			MovementController* movementController = getMovementController(lua, 1);
+			HeightMap* heightmap = getHeightmap(lua, 2);
+
+			movementController->setHeightmap(heightmap);
+		}
+
+		return 0;
+	}
+
+	int movementControllerUpdate(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 1)
+		{
+			MovementController* movementController = getMovementController(lua, 1);
+
+			movementController->update();
+		}
+
+		return 0;
+	}
+
 	int setLayerCollision( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 3 )
@@ -728,5 +755,10 @@ namespace LuaCollision
 	{
 		lua_getfield(lua, index, "__self");
 		return (MovementController*)lua_touserdata(lua, -1);
+	}
+	HeightMap * getHeightmap(lua_State * lua, int index)
+	{
+		lua_getfield(lua, index, "__self");
+		return (HeightMap*)lua_touserdata(lua, -1);
 	}
 }

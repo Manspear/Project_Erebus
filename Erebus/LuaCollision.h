@@ -3,6 +3,7 @@
 #include "lua\lua.hpp"
 #include "CollisionHandler.h"
 #include "MovementController.h"
+#include "HeightMap.h"
 
 namespace LuaCollision
 {
@@ -37,7 +38,9 @@ namespace LuaCollision
 	int setOBBZAxis(lua_State* lua);
 	int addChild(lua_State* lua);
 	int setMovementControllerHitbox(lua_State* lua);
-	int setMovementControllerTransform(lua_State* lua);;
+	int setMovementControllerTransform(lua_State* lua);
+	int setMovementControllerHeightmap(lua_State* lua);
+	int movementControllerUpdate(lua_State* lua);
 
 	int setLayerCollision( lua_State* lua );
 	int printCollisions( lua_State* lua );
@@ -57,4 +60,5 @@ namespace LuaCollision
 	RayCollider* getRayCollider(lua_State* lua, int index);
 	OBBCollider* getOBBCollider(lua_State* lua, int index);
 	MovementController* getMovementController(lua_State* lua, int index);
+	HeightMap* getHeightmap(lua_State* lua, int index);
 }

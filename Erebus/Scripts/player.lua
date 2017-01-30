@@ -60,7 +60,8 @@ function LoadPlayer()
 	player.sphereCollider.AddChild(player.sphereCollider,derp.child)
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
-	print("SWAG"..derp.child:GetID())
+
+
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 

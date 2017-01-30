@@ -1,6 +1,7 @@
 #include "MovementController.h"
 
-MovementController::MovementController() : transform(nullptr), collisionLayer(nullptr)
+MovementController::MovementController() 
+	: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
 {
 }
 
@@ -22,6 +23,8 @@ void MovementController::update()
 	// TODO: heightmap collision
 
 	// TODO: wall collision
+	
+	std::cout << "Heightmap->getPos: " << this->heightmap->getPos(pos.x,pos.z) << std::endl;
 
 	transform->setPos( pos );
 }
@@ -39,4 +42,9 @@ void MovementController::setTransform( Transform* t )
 void MovementController::setCollisionLayer( CollisionLayers* layer )
 {
 	collisionLayer = layer;
+}
+
+void MovementController::setHeightmap(HeightMap * heightmap)
+{
+	this->heightmap = heightmap;
 }
