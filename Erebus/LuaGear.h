@@ -4,6 +4,7 @@
 #include "Gear.h"
 #include "Assets.h"
 #include "WorkQueue.h"
+#include "Window.h"
 
 #define MAX_ANIMATIONS 100
 
@@ -16,6 +17,7 @@ namespace LuaGear
 							Animation* animations,
 							int* boundAnimations,
 							bool* queueModels,
+							bool* mouseVisible,
 							Assets* assets,
 							WorkQueue* work );
 
@@ -24,6 +26,7 @@ namespace LuaGear
 	int activateInstance( lua_State* lua );
 	int deactivateInstance( lua_State* lua );
 	int setQueueModels( lua_State* lua );
+	int setCursorVisible( lua_State* lua );
 
 	int print( lua_State* lua );
 	int getTextDimensions( lua_State* lua );

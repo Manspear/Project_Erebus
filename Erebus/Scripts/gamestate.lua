@@ -2,7 +2,7 @@ GAMESTATE_MAIN_MENU = 1
 GAMESTATE_GAMEPLAY = 2
 
 gamestate = {}
-gamestate.currentState = GAMESTATE_MAIN_MENU
+gamestate.currentState = -1
 gamestate.states= {}
 local gamestateScripts = 
 {
@@ -20,6 +20,8 @@ function gamestate.Load()
 			v.Load()
 		end
 	end
+
+	gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 end
 
 function gamestate.Unload()
@@ -32,4 +34,13 @@ end
 
 function gamestate.Update(dt)
 	gamestate.states[gamestate.currentState].Update(dt)
+end
+
+function gamestate.ChangeState(newState)
+	if gamestate.currentState > 0 then
+		gamestate.states[gamestate.currentState].Exit()
+	end
+
+	gamestate.currentState = newState
+	gamestate.states[gamestate.currentState].Enter()
 end

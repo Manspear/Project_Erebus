@@ -20,16 +20,21 @@ function UnloadMainMenu()
 end
 
 function UpdateMainMenu(dt)
-	Gear.QueueModels(false)
-	CollisionHandler.Disable()
-
-	for key,value in pairs(scriptsMenu) do
-		value.Update(dt)
-	end
-
 	if Inputs.KeyPressed("W") then
-		gamestate.currentState = GAMESTATE_GAMEPLAY
+		gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 	end
 end
 
-return { Load = LoadMainMenu, Unload = UnloadMainMenu, Update = UpdateMainMenu }
+function EnterMainMenu()
+	Gear.QueueModels(false)
+	CollisionHandler.Disable()
+	Gear.CursorVisible(true)
+	for key,value in pairs(scriptsMenu) do
+		value.Update(dt)
+	end
+end
+
+function ExitMainMenu()
+end
+
+return { Load = LoadMainMenu, Unload = UnloadMainMenu, Update = UpdateMainMenu, Enter = EnterMainMenu, Exit = ExitMainMenu }
