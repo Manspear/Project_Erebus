@@ -37,6 +37,7 @@ struct ThreadData
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
 	bool queueModels;
+	bool mouseVisible;
 	TransformStruct* allTransforms;
 	Animation* allAnimations;
 	HANDLE produce, consume;
@@ -75,7 +76,7 @@ DWORD WINAPI update( LPVOID args )
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine, &counter );
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, &data->mouseVisible, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	while( running )
 	{
@@ -158,13 +159,11 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	window.changeCursorStatus(true);
-
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 	
 	PerformanceCounter counter;
 	double deltaTime;
-	bool lockMouse = false;
+	//bool lockMouse = false;
 	Debug* tempDebug = Debugger::getInstance();
 
 	float alpha = 0.0f;
@@ -190,6 +189,7 @@ int main()
 		&animModels,
 		&particleSystems,
 		false,
+		true
 	};
 	threadData.allTransforms = new TransformStruct[MAX_TRANSFORMS];
 	threadData.allAnimations = new Animation[MAX_ANIMATIONS];
@@ -200,6 +200,7 @@ int main()
 
 	double saveDeltaTime = 0.0f;
 
+	bool prevMouseVisible = threadData.mouseVisible;
 	while (running && window.isWindowOpen())
 	{
 		// START OF CRITICAL SECTION
@@ -210,7 +211,8 @@ int main()
 			inputs.update();
 
 			// TODO: Stop using the controls class
-			controls.update( &inputs );
+			if( threadData.queueModels )
+				controls.update( &inputs );
 
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
@@ -226,7 +228,7 @@ int main()
 				engine.setDrawMode(6);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
 				engine.setDrawMode(7);
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
+			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 			{
 				if (lockMouse)
 				{
@@ -240,6 +242,12 @@ int main()
 					window.changeCursorStatus(true);
 					lockMouse = true;
 				}
+			}*/
+
+			if( prevMouseVisible != threadData.mouseVisible )
+			{
+				window.changeCursorStatus(!threadData.mouseVisible);
+				prevMouseVisible = threadData.mouseVisible;
 			}
 
 			engine.update();

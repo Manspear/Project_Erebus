@@ -48,8 +48,6 @@ function UnloadGameplay()
 end
 
 function UpdateGameplay(dt)
-	Gear.QueueModels(true)
-	CollisionHandler.Enable()
 	CollisionHandler.DrawHitboxes()
 
 	for key,value in pairs(scripts) do
@@ -57,4 +55,13 @@ function UpdateGameplay(dt)
 	end
 end
 
-return { Load = LoadGameplay, Unload = UnloadGameplay, Update = UpdateGameplay }
+function EnterGameplay()
+	Gear.QueueModels(true)
+	CollisionHandler.Enable()
+	Gear.CursorVisible(false)
+end
+
+function ExitGameplay()
+end
+
+return { Load = LoadGameplay, Unload = UnloadGameplay, Update = UpdateGameplay, Enter = EnterGameplay, Exit = ExitGameplay }

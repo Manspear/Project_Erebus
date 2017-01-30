@@ -36,6 +36,7 @@ public:
 				std::vector<ModelInstance>* models,
 				std::vector<AnimatedInstance>* animatedModels,
 				bool* queueModels,
+				bool* mouseVisible,
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
 				AGI::AGIEngine* AI,

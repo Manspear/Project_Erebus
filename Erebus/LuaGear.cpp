@@ -12,8 +12,9 @@ namespace LuaGear
 	static Assets* g_assets = nullptr;
 	static WorkQueue* g_work = nullptr;
 	static bool* g_queueModels = nullptr;
+	static bool* g_mouseVisible = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, bool* queueModels, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, bool* queueModels, bool* mouseVisible, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_models = models;
@@ -23,6 +24,7 @@ namespace LuaGear
 		g_assets = assets;
 		g_work = work;
 		g_queueModels = queueModels;
+		g_mouseVisible = mouseVisible;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -33,6 +35,7 @@ namespace LuaGear
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "QueueModels", setQueueModels },
+			{ "CursorVisible", setCursorVisible },
 			{ NULL, NULL }
 		};
 
@@ -150,6 +153,13 @@ namespace LuaGear
 	{
 		assert( lua_gettop( lua ) >= 1 );
 		*g_queueModels = lua_toboolean( lua, 1 );
+		return 0;
+	}
+
+	int setCursorVisible( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+		*g_mouseVisible = lua_toboolean( lua, 1 );
 		return 0;
 	}
 
