@@ -279,6 +279,9 @@
     <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
+    <ClInclude Include="LevelBrushHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\camera.lua">
@@ -349,9 +352,6 @@
     </None>
     <None Include="Shaders\anim.frag">
       <Filter>Shaders</Filter>
-    </None>
-    <None Include="Scripts\cameraLevelEditor.lua">
-      <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\geometryPicking.frag">
       <Filter>Shaders</Filter>
@@ -444,6 +444,7 @@
     <None Include="Scripts\rayType.lua">
       <Filter>Scripts\types</Filter>
     </None>
+    <None Include="Scripts\blackHole.lua" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -291,6 +291,7 @@
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
+    <ClInclude Include="LevelBrushHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActionHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActor.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorComponent.h" />
