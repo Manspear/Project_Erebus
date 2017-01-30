@@ -46,18 +46,22 @@ function LoadEnemies(n)
 		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		enemies[i].sphereCollider:SetRadius(2)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
-
-		enemies[i].state = stateScript.state.idleState
+		
 		enemies[i].animation = Animation.Bind()
-		enemies[i].animationState = 1
-		enemies[i].range = 4
-		enemies[i].target = nil
+		if Network.GetNetworkHost() == true then
+			enemies[i].state = stateScript.state.idleState
+			enemies[i].animationState = 1
+			enemies[i].range = 4
+			enemies[i].target = nil
+		else
+			enemies[i].state = clientAIScript.clientAIState.idleState
+			--enemies[i].state.update(enemies[i], player, inState) -- just a test
+		end
 	end
 
 	local model = Assets.LoadModel("Models/testGuy.model")
 	for i=1, n do
-		Gear.AddAnimatedInstance(model,  enemies[i].transformID, enemies[i].animation)
-
+		Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animation)
 	end
 end
 
@@ -68,7 +72,7 @@ function UpdateEnemies(dt)
 	AI.ClearMap()
 	AI.AddIP(player.transformID,4)
 	local tempdt
-
+	
 	if Network.GetNetworkHost() == true then
 		for i=1, #enemies do
 			if enemies[i].health > 0 then
@@ -110,8 +114,9 @@ function UpdateEnemies(dt)
 		end
 	else
 		-- Run client_AI script
-		for i=1, #enemies do	
-			clientAIScript.updateClientAI()
+		for i=1, #enemies do
+			--enemies[i].state.update(enemies[i], player, dt)
+			clientAIScript.getAITransformPacket() -- Retrieve packets from host
 		end
 	end
 end
