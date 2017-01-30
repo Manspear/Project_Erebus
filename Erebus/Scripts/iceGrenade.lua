@@ -17,12 +17,12 @@ function CreateIceGrenade()
 		nade.effectflag = false
 		nade.damage = 0
 		nade.alive = false
-		nade.particles = createFireballParticles()
+		nade.particles = createIceGrenadeParticles()
 		nade.exploding = false
 		nade.hits = {}
 		nade.soundID = -1
 
-		local model = Assets.LoadModel( "Models/projectile1.model" )
+		local model = Assets.LoadModel( "Models/grenade.model" )
 		Gear.AddStaticInstance(model, nade.type.transformID)
 		return nade
 	end
@@ -101,13 +101,13 @@ function CreateIceGrenade()
 						Transform.SetPosition(self.nades[i].type.transformID, {x=0,y=0,z=0})
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME then
-						--self:Kill(i)
+						self:Kill(i)
 					end
 				end
 
 			end
 
-				--self.particles.die(self.type.position)
+				--self.nades[i].particles.die(self.type.position)
 		end
 	end
 	spell.Charge = BaseCharge
