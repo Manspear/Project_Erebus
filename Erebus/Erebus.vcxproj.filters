@@ -396,9 +396,12 @@
     <None Include="Scripts\rayType.lua">
       <Filter>Scripts\types</Filter>
     </None>
-    <None Include="Scripts\blackHole.lua" />
+    <None Include="Scripts\blackHole.lua">
+    <Filter>Scripts\spells</Filter>
+    </None>
     <None Include="Scripts\HUD.lua">
       <Filter>Scripts</Filter>
+    </None>
     <None Include="Scripts\gamestate.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>

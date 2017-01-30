@@ -269,7 +269,14 @@ int main()
 
 	delete[] threadData.allTransforms;
 	delete[] threadData.allAnimations;
+
+	for (int i = 0; i < particleSystems.size(); i++)
+	{
+		delete particleSystems[i];
+	}
+
 	glfwTerminate();
+
 
 	return 0;
 }

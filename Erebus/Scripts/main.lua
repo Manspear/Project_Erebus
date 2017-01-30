@@ -1,5 +1,3 @@
-	"Scripts/staticAoEType.lua",
-	"Scripts/HUD.lua"
 function Load()
 	dofile( "Scripts/gamestate.lua" )
 	gamestate.Load()

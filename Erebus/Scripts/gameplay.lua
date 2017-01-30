@@ -21,7 +21,8 @@ local scriptFiles =
 	"Scripts/blackHole.lua",
 	"Scripts/hellPillar.lua",
 	"Scripts/rayType.lua",
-	"Scripts/staticAoEType.lua"
+	"Scripts/staticAoEType.lua",
+	"Scripts/HUD.lua"
 }
 
 function LoadGameplay()
