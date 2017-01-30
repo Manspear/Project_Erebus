@@ -14,7 +14,7 @@
             <ModelName>tile1_game_x1_assets</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="35.928024" y="10.07563" z="0.25951576"/>
+            <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>

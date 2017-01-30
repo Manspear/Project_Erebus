@@ -236,7 +236,7 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 		ss << " label='" << it.second->getName() << ": '";
 		std::string test = ss.str().c_str();
 		TwAddButton(bar, "Name"+amountOfComponents, NULL, NULL, ss.str().c_str());
-		//TwAddVarRW(bar, "name", TW_TYPE_CSSTRING(sizeof(it.second->getName())), (void*)it.second->getName().c_str(), "");
+		TwAddVarRW(bar, "name", TW_TYPE_CSSTRING(sizeof(it.second->getName())), (void*)it.second->getName().c_str(), "");
 		//TwDefine(ss.str().c_str());
 		it.second->setTwStruct(bar);
 		TwAddSeparator(bar, NULL, NULL);

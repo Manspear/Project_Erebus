@@ -47,7 +47,7 @@ void LevelActionHandler::setupGizmo( Debug* debug, Camera* camera, Inputs* input
 	gizmo.addVariables( debug, camera, inputs );
 }
 
-void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera )
+void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera, Debug* debug)
 {
 	if( inputs->keyPressedThisFrame( GLFW_KEY_DELETE ) )
 		LevelActorHandler::getInstance()->removeSelectedActor();
@@ -78,14 +78,16 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	if (inputs->keyReleasedThisFrame(GLFW_KEY_LEFT_CONTROL)) {
 		gizmo.setSnappingMode(false);
 	}
-	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
+	if (action == ACTION_USE_BRUSH)
 	{
-		if (action == ACTION_USE_BRUSH)
+		int actorID = 0;
+		glm::vec3 hitPoint(0.0f);
+		glm::vec3 hitNorm(0.f);
+		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+		debug->drawLine(hitPoint, hitPoint + (hitNorm * 10));
+
+		if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
 		{
-			int actorID = 0;
-			glm::vec3 hitPoint(0.0f);
-			glm::vec3 hitNorm(0.f);
-			engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
 			//MODEL
 			/*	glm::normalize(hitNormal);
 			std::cout << "Position: " << hitPoint.x << " " << hitPoint.y << " " << hitPoint.z << " " << std::endl;
@@ -105,7 +107,6 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 
 			//Using PREFABS
 			LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-			LevelActorFactory::getInstance()->createActor();
 
 			if (newActor)
 			{

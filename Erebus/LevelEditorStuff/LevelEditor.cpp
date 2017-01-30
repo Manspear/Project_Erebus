@@ -147,10 +147,6 @@ void LevelEditor::start() {
 
 
 		
-		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
-		
-		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 10));
-		//if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_2))
 		camera->updateLevelEditorCamera(deltaTime);
 		//if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
 		
@@ -207,7 +203,7 @@ void LevelEditor::start() {
 			}
 		}
 
-		LevelActionHandler::getInstance()->update( inputs, engine, camera );
+		LevelActionHandler::getInstance()->update( inputs, engine, camera,Debugger::getInstance());
 		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
 		
 

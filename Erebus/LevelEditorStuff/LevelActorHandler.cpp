@@ -121,6 +121,7 @@ void LevelActorHandler::setTweakBars( TweakBar* world, TweakBar* actor )
 
 void LevelActorHandler::setTweakBarBrush(TweakBar * brush)
 {
+
 }
 
 LevelActor* LevelActorHandler::getSelected()
