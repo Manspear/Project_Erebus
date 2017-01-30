@@ -38,7 +38,8 @@ function LoadPlayer()
 	player.spells = {}
 	player.spells[1] = CreateHellPillar()
 	player.spells[2] = CreateBlackHole()
-	player.spells[3] = CreateSunRay()
+	player.spells[3] = CreateIceGrenade()
+	player.spells[4] = CreateSunRay() 
 
 	player.currentSpell = 1
 
@@ -213,9 +214,9 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			if player.spells[player.currentSpell].cooldown < 0 then 
-				Network.SendSpellPacket(player.transformID, player.currentSpell)
-			end
+			--if player.spells[player.currentSpell].cooldown < 0 then 
+			--	Network.SendSpellPacket(player.transformID, player.currentSpell)
+			--end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
@@ -232,6 +233,7 @@ function Controls(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
+		if Inputs.KeyPressed("4") then player.currentSpell = 4 end
 end
 
 function PrintInfo() 

@@ -46,7 +46,7 @@ function clientAIState.attackState.exit(enemy, player)
 end 
 
 function clientAIState.deadState.enter(enemy, player)
-	print("DEAD")
+	--print("DEAD")
 end
 
 function clientAIState.deadState.update(enemy, player)
@@ -64,18 +64,23 @@ function getAIStatePacket(enemy)
 	--Update state of the enemy
 	if netAIValue == true then
 		if aiState == 0 then--IdleState
+			enemy.state = clientAIState.idleState
 		end
 		
 		if aiState == 1 then--FollowState
-		end	
+			enemy.state = clientAIState.followState
+		end
 		
 		if aiState == 2 then--AttackState
+			enemy.state = clientAIState.attackState
 		end
 			
 		if aiState == 3 then--DeadState
+			enemy.state = clientAIState.deadState
 		end
 
-		--print(enemy.state)
+		--print(transformID, aiState)
+		enemy.state.enter(enemy, player)
 	end
 end
 
