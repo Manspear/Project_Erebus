@@ -30,7 +30,8 @@ function LoadPlayer()
 	player.heightmapIndex = 1
 	player.spamCasting = false
 	player.charging = false
-	
+	player.rayCollider = RayCollider.Create(player.transformID)
+	RayCollider.SetActive(player.rayCollider, false)
 	player.animationController = CreatePlayerController(player)
 
 	-- set spells for player
@@ -185,7 +186,12 @@ function UpdatePlayer(dt)
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
 	
 end
+function SendCombine(spell)
+	--TOBEDEFINED
+end
+function GetCombined(--[[may take damage, an effect, and such]])
 
+end
 function Controls(dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
@@ -201,6 +207,22 @@ function Controls(dt)
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
 			end
+		if Inputs.KeyPressed("T") then
+			local dir = Camera.GetDirection()
+			local pos = Transform.GetPosition(player.transformID)
+			RayCollider.SetActive(player.rayCollider, true)
+			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+		end
+		if Inputs.KeyReleased("T") then
+			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+			for curID = 1, #collisionIDs do
+				if collisionIDs[curID] == player2.sphereCollider:GetID() then
+					SendCombine(player.spells[currentSpell])
+					break
+				end
+			end
+			RayCollider.SetActive(player.rayCollider, false)
+		end
 		if Inputs.KeyPressed(Keys.Space) and player.canJump then
 			player.verticalSpeed = PLAYER_JUMP_SPEED
 			player.canJump = false

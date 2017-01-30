@@ -24,7 +24,7 @@ namespace LuaCollision
 	int setRadius( lua_State* lua );
 	int setActive(lua_State* lua);
 	int setRayActive(lua_State* lua);
-	int setDirection(lua_State* lua);
+	int setRayDirection(lua_State* lua);
 	int setOBBSize(lua_State* lua);
 	int rotateOBBAroundX(lua_State* lua);
 	int rotateOBBAroundY(lua_State* lua);
