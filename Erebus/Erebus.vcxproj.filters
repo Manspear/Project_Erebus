@@ -92,6 +92,12 @@
     <ClCompile Include="MovementController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlaneFrustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -184,6 +190,10 @@
     <ClInclude Include="MovementController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlaneFrustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
@@ -410,6 +420,9 @@
     </None>
     <None Include="Shaders\skybox.vert">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\AI\client_AI.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
