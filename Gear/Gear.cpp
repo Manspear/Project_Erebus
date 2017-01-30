@@ -411,6 +411,7 @@ namespace Gear
 		debugHandler->update();
 		debugHandler->reset();
 		text.updateBuffer();
+		image.updateBuffer();
 	}
 
 	void GearEngine::pickingPass() {
