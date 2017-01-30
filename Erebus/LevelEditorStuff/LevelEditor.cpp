@@ -153,40 +153,7 @@ void LevelEditor::start() {
 		//if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_2))
 		camera->updateLevelEditorCamera(deltaTime);
 		//if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
-		if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
-		{
-			//MODEL
-		/*	glm::normalize(hitNormal);
-			std::cout << "Position: " << hitPoint.x << " " << hitPoint.y << " " << hitPoint.z << " " << std::endl;
-			std::cout << "Normal: " << hitNormal.x << " " << hitNormal.y << " " << hitNormal.z << " " << std::endl;
-
-			LevelActor* newActor = LevelActorFactory::getInstance()->createActor();
-			newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
-			LevelActorHandler::getInstance()->addActor(newActor);
-			
-			LevelModel* modelComponent = newActor->getComponent<LevelModel>();
-			modelComponent = (LevelModel*)LevelActorFactory::getInstance()->getNewComponent(LevelModel::name);
-			modelComponent->setModelName("SunRayInner");
-			newActor->addComponent(modelComponent);
-			modelComponent->postInitialize();
-
-			LevelActorHandler::getInstance()->updateActorBar();*/
-
-			//PREFAB
-			LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-			LevelActorFactory::getInstance()->createActor();
-
-			if (newActor)
-			{
-				LevelActorHandler::getInstance()->addActor(newActor);
-				LevelActorHandler::getInstance()->setSelected(newActor);
-
-				LevelTransform* transform = newActor->getComponent<LevelTransform>();
-				if (transform)
-					transform->getTransformRef()->setPos(hitPoint);
-				
-			}
-		}
+		
 		//for (size_t i = 0; i < 100; i++)
 		//{
 		//	//Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
