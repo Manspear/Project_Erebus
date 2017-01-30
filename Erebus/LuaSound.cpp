@@ -16,7 +16,7 @@ namespace LuaSound
 			{ "Resume", resume},
 			{ "PauseAll", pauseAll },
 			{ "ResumeAll", resumeAll },
-			{ "Clear", clear },
+			{ "ClearAll", clearAll },
 			{ "SetMasterVolume", setMasterVolume },
 			{ "SetVolume", setVolume},
 			{ "SetPosition", setPosition},
@@ -82,9 +82,9 @@ namespace LuaSound
 		return 0;
 	}
 
-	int clear(lua_State* lua)
+	int clearAll(lua_State* lua)
 	{
-		g_soundEngine->clear();
+		g_soundEngine->clearAll();
 		return 0;
 	}
 

@@ -23,6 +23,8 @@ function CreateBlackHole()
 	spell.hits = {}
 	spell.alive = false
 	spell.timeSinceShot = 1616661
+	spell.castSFX = "Effects/Bluezone-BC0212-sound-effect-004.wav"
+	spell.soundID = -1
 	--spell.spamcd = 5
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
@@ -46,6 +48,8 @@ function CreateBlackHole()
 			--entity.moveSpeed = entity.moveSpeed * BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 			self.alive = true
 			self.timeSinceShot = 0
+			self.soundID = Sound.Play(self.castSFX, 13, pos)
+			Sound.SetVolume(self.soundID, 1)
 		end
 	end
 
@@ -89,6 +93,7 @@ function CreateBlackHole()
 	end
 
 	function spell:Kill()
+		Sound.Pause(self.soundID)
 		self.type:Kill()
 		self.hits = {}
 		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole

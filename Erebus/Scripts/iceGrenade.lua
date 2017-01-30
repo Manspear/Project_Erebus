@@ -37,8 +37,7 @@ function CreateIceGrenade()
 	spell.combo = 0
 	spell.castSFX = "Effects/burn_ice_001.wav"
 	spell.hitSFX = {}
-	spell.hitSFX[1] = "Effects/debris_ice_001.wav"
-	spell.hitSFX[2] = "Effects/axe_ice_005.wav"
+	spell.hitSFX[1] = "Effects/Ice_impact_lite_02.wav"
 
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
