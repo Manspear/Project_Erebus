@@ -8,11 +8,12 @@ namespace LuaGear
 	static std::vector<ModelInstance>* g_models = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Animation* g_animations = nullptr;
-	static int* g_boundAnimations = 0;
+	static int* g_boundAnimations = nullptr;
 	static Assets* g_assets = nullptr;
 	static WorkQueue* g_work = nullptr;
+	static bool* g_queueModels = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, bool* queueModels, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_models = models;
@@ -21,6 +22,7 @@ namespace LuaGear
 		g_boundAnimations = boundAnimations;
 		g_assets = assets;
 		g_work = work;
+		g_queueModels = queueModels;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -30,6 +32,7 @@ namespace LuaGear
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
+			{ "QueueModels", setQueueModels },
 			{ NULL, NULL }
 		};
 
@@ -140,6 +143,13 @@ namespace LuaGear
 			//lua_pushnumber( lua, result );
 		}
 
+		return 0;
+	}
+
+	int setQueueModels( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+		*g_queueModels = lua_toboolean( lua, 1 );
 		return 0;
 	}
 

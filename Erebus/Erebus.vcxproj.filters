@@ -399,6 +399,14 @@
     <None Include="Scripts\blackHole.lua" />
     <None Include="Scripts\HUD.lua">
       <Filter>Scripts</Filter>
+    <None Include="Scripts\gamestate.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\main_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\gameplay.lua">
+      <Filter>Scripts\gamestates</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +451,9 @@
     </Filter>
     <Filter Include="Scripts\spells">
       <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\gamestates">
+      <UniqueIdentifier>{62e4b110-7689-454a-91f5-f6a0e0ee22ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -215,6 +215,8 @@
     <None Include="Scripts\fireballArc.lua" />
     <None Include="Scripts\fireEffect.lua" />
     <None Include="Scripts\fireGroundAoE.lua" />
+    <None Include="Scripts\gameplay.lua" />
+    <None Include="Scripts\gamestate.lua" />
     <None Include="Scripts\grenadeType.lua" />
     <None Include="Scripts\groundAoEType.lua" />
     <None Include="Scripts\hellPillar.lua" />
@@ -222,6 +224,7 @@
     <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
+    <None Include="Scripts\main_menu.lua" />
     <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
