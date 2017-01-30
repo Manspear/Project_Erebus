@@ -45,7 +45,8 @@ namespace LuaCollision
 			{ "CheckCollision",		checkCollision },
 			{ "SetRadius",			setRadius },
 			{ "GetID",				getID },
-			{ "SetActive", setActive },
+			{ "SetActive",			setActive },
+			{ "AddChild",			addChild },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -62,7 +63,8 @@ namespace LuaCollision
 			{ "Create",				createAABB },
 			{ "GetCollisionIDs",	getCollisionIDs },
 			{ "CheckCollision",		checkCollision },
-			{ "SetActive", setActive },
+			{ "SetActive",			setActive },
+			{ "AddChild",			addChild },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -81,7 +83,7 @@ namespace LuaCollision
 			{ "CheckCollision",		checkRayCollision },
 			{ "SetSize",			setOBBSize },
 			{ "GetID",				getRayID },
-			{ "SetActive", setActive },
+			{ "SetActive",			setActive },
 			{ "__gc",				destroyRay },
 			{ NULL, NULL }
 		};
@@ -106,7 +108,8 @@ namespace LuaCollision
 			{ "SetYAxis",			setOBBYAxis },
 			{ "SetZAxis",			setOBBZAxis },
 			{ "GetID",				getID },
-			{ "SetActive", setActive },
+			{ "SetActive",			setActive },
+			{ "AddChild",			addChild },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -299,7 +302,8 @@ namespace LuaCollision
 	int destroy( lua_State* lua )
 	{
 		HitBox* hitbox = getHitBox( lua, 1 );
-		delete hitbox;
+		if(hitbox->parent == nullptr)
+			delete hitbox;
 
 		return 0;
 	}
@@ -534,6 +538,18 @@ namespace LuaCollision
 			obb->setZAxis(glm::vec3(x, y, z));
 		}
 
+		return 0;
+	}
+
+	int addChild(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			HitBox* hitbox = getHitBox(lua, 1);
+			HitBox* child = getHitBox(lua, 2);
+
+			hitbox->addChild(child);
+		}
 		return 0;
 	}
 

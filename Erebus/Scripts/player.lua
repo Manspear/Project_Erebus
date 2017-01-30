@@ -54,9 +54,13 @@ function LoadPlayer()
 	end
 
 	-- add a sphere collider to the player
+	derp = {};
+	derp.child = OBBCollider.Create(-1)
 	player.sphereCollider = SphereCollider.Create(player.transformID)
+	player.sphereCollider.AddChild(player.sphereCollider,derp.child)
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
+	print("SWAG"..derp.child:GetID())
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
