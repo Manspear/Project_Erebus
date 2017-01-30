@@ -287,7 +287,7 @@ void LevelCollider::update( float deltaTime )
 			
 			break;
 		case COLLIDER_OBB:
-			totalRot = transform->getTransformRef()->getRotation();// +transform->getTransformRef()->getLookAt();// +this->rotation;
+			totalRot = transform->getTransformRef()->getRotation() + rotation;// +transform->getTransformRef()->getLookAt();// +this->rotation;
 			scale = transform->getTransformRef()->getScale();
 			this->obbColider->setPos(this->position);
 			//this->obbColider->setXAxis(this->xAxis);
