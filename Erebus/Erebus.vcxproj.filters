@@ -415,6 +415,9 @@
     <None Include="Shaders\skybox.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Scripts\AI\client_AI.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
