@@ -33,11 +33,7 @@ namespace Gear
 
 	GearEngine::~GearEngine()
 	{
-
 		glfwTerminate();
-		for (size_t i = 0; i < statModels.size(); i++) {
-			delete statModels.at(i);
-		}
 		delete quadShader;
 		delete lightPassShader;
 		delete blurShader;
@@ -153,10 +149,6 @@ namespace Gear
 	}
 #pragma endregion
 #pragma region bluh
-	bool GearEngine::isRunning() {
-		return true;//window->isWindowOpen();
-	}
-
 	GEAR_API void GearEngine::setDrawMode(int drawMode)
 	{
 		this->drawMode = drawMode;
@@ -195,11 +187,6 @@ namespace Gear
 
 	}
 
-	void GearEngine::addStaticNonModel(staticNonModels* model) {
-		model->addShaderProgramRef(this->queue.getShaderProgram(model->getShaderType()));
-		this->statModels.push_back(model);
-	}
-
 	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n)
 	{
 		transformCount = n;
@@ -221,11 +208,6 @@ namespace Gear
 	{
 		work = workQueue;
 		queue.setWorkQueue( workQueue );
-	}
-
-	void GearEngine::addModelInstance(ModelAsset* asset)
-	{
-		queue.addModelInstance(asset);
 	}
 
 	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color)
@@ -262,6 +244,11 @@ namespace Gear
 	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
 	{
 		animatedModels = models;
+	}
+
+	void GearEngine::queueForwardModels(std::vector<ModelInstance>* models)
+	{
+		forwardModels = models;
 	}
 
 	void GearEngine::queueParticles(std::vector<Gear::ParticleSystem*> &ps)
@@ -349,7 +336,6 @@ namespace Gear
 		glBlitFramebuffer(0, 0, 1280, 720, 0, 0, 1280, 720, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		glDisable(GL_CULL_FACE);
-
 		bool blitOrNot = queue.particlePass(particleSystem);
 		if (blitOrNot) 
 		{
@@ -360,6 +346,7 @@ namespace Gear
 		}
 		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
+		queue.forwardPass(forwardModels);
 		debugHandler->draw( camera, &queue );
 
 		skybox.update(camera, gBuffer.getTextures()[2]);

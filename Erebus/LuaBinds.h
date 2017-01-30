@@ -35,6 +35,7 @@ public:
 				int* boundAnimations,
 				std::vector<ModelInstance>* models,
 				std::vector<AnimatedInstance>* animatedModels,
+				std::vector<ModelInstance>* forwardModels,
 				bool* queueModels,
 				bool* mouseVisible,
 				Camera* camera,

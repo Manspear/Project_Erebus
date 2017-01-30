@@ -2,7 +2,7 @@
 
 
 RenderQueue::RenderQueue()
-	: nrOfWorlds(0), totalWorlds(0), worldMatrices(nullptr), jointMatrices( nullptr )
+	: nrOfWorlds(0),  worldMatrices(nullptr), jointMatrices( nullptr )
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
@@ -142,12 +142,17 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	glm::mat4 tempMatrix = glm::mat4();
 	glm::mat4 rotationZ = glm::mat4();
 	glm::mat4 rotationY = glm::mat4();
+	glm::mat4 rotationX = glm::mat4();
 	glm::vec3 tempLook;
 	glm::vec3 axis;
 	for (int i = 0; i < ntransforms; i++)
 	{
 		if (theTrans[i].active == true) 
 		{
+			//THIS WHOLE FUNCTION CAN DEFINETELY BE OPTIMIZED (do something along the lines of mat4 = {coscoscosos, coscsocsosins, coscoscoscos, x,
+			//																							sinsinssin, sinsinsinsn, ccoscosocosco, y,
+			//																							x,x,x,x,				
+			//																							yt.t.t..y,y,y,}
 			//reset the world matrix
 			tempMatrix = glm::mat4();
 			tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
@@ -155,6 +160,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 
 			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
 			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
+			rotationX = glm::rotate(tempMatrix, theTrans[i].rot.x, tempLook); //remove if too much trouble xd
 			//rotatea around Y axis, pretty simple. (makes the model look left/right)
 			rotationY = glm::rotate(tempMatrix, theTrans[i].rot.y, { 0, 1, 0 });
 			//set the scale of the models
@@ -163,7 +169,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 			tempMatrix[2][2] = theTrans[i].scale.z;
 
 			//rotates a scaled identity matrix
-			tempMatrix = rotationZ * rotationY * tempMatrix;
+			tempMatrix = rotationZ * rotationY * rotationX * tempMatrix;
 
 			//sets the translation of objects, final world matrix
 			tempMatrix[3][0] = theTrans[i].pos.x;
@@ -203,34 +209,6 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	//printf( "Time: %f-%f=%f\n", end, start, (end-start)/freq );
 }
 
-int RenderQueue::addModelInstance(ModelAsset* asset)
-{
-	int result = this->nrOfWorlds++;
-
-	int index = -1;
-	for (int i = 0; i < instances.size() && index < 0; i++)
-		if (instances[i].asset == asset)
-			index = i;
-
-	if (index < 0)
-	{
-		ModelInstance instance;
-		instance.asset = asset;
-		instance.worldIndices.push_back(result);
-
-		index = instances.size();
-		instances.push_back(instance);
-	}
-
-	instances[index].worldIndices.push_back(result);
-	worldMatrices[result] = glm::mat4(1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, nrOfWorlds, 1);
-
-	return result;
-}
-
 ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
 	return this->allShaders[type];
 }
@@ -242,31 +220,34 @@ int RenderQueue::generateWorldMatrix()
 	return result;
 }
 
-void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels)
+void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels)
 {
 	allShaders[FORWARD]->use();
 	GLuint worldMatrixLocation = glGetUniformLocation(this->allShaders[FORWARD]->getProgramID(), "worldMatrix");
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[FORWARD]->getProgramID(), "worldMatrices");
-
+	ModelAsset* modelAsset;
+	int meshes;
+	int numInstance;
+	int index;
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		ModelAsset* modelAsset = dynamicModels ->at(i).asset;
-		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
-		//dynamicModels->at(i).material.bindTextures(allShaders[FORWARD]->getProgramID());
+		modelAsset = dynamicModels ->at(i).asset;
+		meshes = modelAsset->getHeader()->numMeshes;
+		numInstance = 0;
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
-			int index = dynamicModels->at(i).worldIndices[j];
-			tempMatrices[numInstance++] = worldMatrices[index];
+			indices[j] = dynamicModels->at(i).worldIndices[j];
+			if (allTransforms[indices[j]].active)
+				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
-
 		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
 			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+			modelAsset->getMaterial()->bindTextures(allShaders[FORWARD]->getProgramID());
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
@@ -277,6 +258,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* staticModels, std::vec
 		}
 	}
 	allShaders[FORWARD]->unUse();
+	//glDisable(GL_BLEND);
 }
 
 bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)

@@ -43,7 +43,7 @@ function CreateFireball()
 		local heightmapIndex = (posz*2 + posx)+1
 		if heightmapIndex < 1 then heightmapIndex = 1 end
 		if heightmapIndex > 4 then heightmapIndex = 4 end
-		if heightmaps[heightmapIndex]:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y or self.lifeTime < 0 then
+		if heightmaps[heightmapIndex].asset:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y or self.lifeTime < 0 then
 			self.particles.die(self.type.position)
 			self.Kill(self)
 		end

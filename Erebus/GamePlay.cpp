@@ -10,8 +10,6 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	allTransforms = new TransformStruct[nrOfTransforms];
 	allAnimations = new Animation[nrOfAnimations];
 	engine->addDebugger(Debugger::getInstance());
-	//moleman = assets.load<ModelAsset>("Models/testGuy.model");
-	//heightMap = assets.load<Importer::HeightMap>("Textures/scale1c.png");
 
 	for (int i = 0; i < nrOfTransforms; i++)
 		transforms[i].setThePtr(&allTransforms[i]);
@@ -29,13 +27,12 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 
 	engine->queueDynamicModels(&models);
 	engine->queueAnimModels(&animatedModels);
+	engine->queueForwardModels(&forwardModels);
 	engine->queueParticles(ps);
 }
 
 GamePlay::~GamePlay()
 {
-	networkController.shutdown();
-
 	luaBinds.unload();
 
 	delete[] allTransforms;
@@ -44,6 +41,8 @@ GamePlay::~GamePlay()
 
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
+
+	networkController.shutdown();
 }
 
 void GamePlay::Initialize(Importer::Assets* assets, Controls* controls, Inputs* inputs, Camera* camera)
@@ -62,7 +61,6 @@ void GamePlay::Update(Controls* controls, double deltaTime)
 	}
 	collisionHandler.checkCollisions();
 	collisionHandler.drawHitboxes();
-	//engine->print(collisionHandler.getCollisionText(), 1000, 100, 0.6);
 
 	lua_State* l = luaBinds.getState();
 	lua_getglobal(l, "player");
