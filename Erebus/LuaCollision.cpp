@@ -3,10 +3,12 @@
 namespace LuaCollision
 {
 	static CollisionHandler* g_collisionHandler = nullptr;
+	static Transform* g_transforms = nullptr;
 
-	void registerFunctions( lua_State* lua, CollisionHandler* handler )
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms)
 	{
 		g_collisionHandler = handler;
+		g_transforms = transforms;
 
 		//CollisionHandler
 		luaL_newmetatable( lua, "collisionHandlerMeta" );
@@ -113,11 +115,25 @@ namespace LuaCollision
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
-
 		luaL_setfuncs(lua, obbRegs, 0);
 		lua_pushvalue(lua, -1);
 		lua_setfield(lua, -2, "__index");
 		lua_setglobal(lua, "OBBCollider");
+
+		//MovementController
+		luaL_newmetatable(lua, "movementControllerMeta");
+		luaL_Reg movementControllerRegs[] =
+		{
+			{ "Create",				createMovementController },
+			{ "SetHitbox",			setMovementControllerHitbox },
+			{ "SetTransform",			setMovementControllerTransform },
+			{ "__gc",				destroyMovementController },
+			{ NULL, NULL }
+		};
+		luaL_setfuncs(lua, movementControllerRegs, 0);
+		lua_pushvalue(lua, -1);
+		lua_setfield(lua, -2, "__index");
+		lua_setglobal(lua, "MovementController");
 
 		lua_pop(lua, 1);
 	}
@@ -312,6 +328,14 @@ namespace LuaCollision
 	{
 		RayCollider* ray = getRayCollider(lua, 1);
 		delete ray;
+
+		return 0;
+	}
+
+	int destroyMovementController(lua_State * lua)
+	{
+		MovementController* controller = getMovementController(lua, 1);
+		delete controller;
 
 		return 0;
 	}
@@ -553,6 +577,46 @@ namespace LuaCollision
 		return 0;
 	}
 
+	int createMovementController(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 0)
+		{
+			MovementController* movementController = new MovementController();
+			lua_newtable(lua);
+			luaL_setmetatable(lua, "movementControllerMeta");
+			lua_pushlightuserdata(lua, movementController);
+			lua_setfield(lua, -2, "__self");
+			movementController->setCollisionLayer(g_collisionHandler->getCollisionLayers());
+		}
+
+		return 1;
+	}
+
+	int setMovementControllerHitbox(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			MovementController* movementController = getMovementController(lua, 1);
+			HitBox* hitbox = getHitBox(lua, 2);
+
+			movementController->setHitbox(hitbox);
+		}
+		return 0;
+	}
+
+	int setMovementControllerTransform(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			MovementController* movementController = getMovementController(lua, 1);
+			int transformIndex = (int)lua_tointeger(lua, 2);
+
+			movementController->setTransform(&g_transforms[transformIndex]);
+		}
+
+		return 0;
+	}
+
 	int setLayerCollision( lua_State* lua )
 	{
 		if( lua_gettop( lua ) >= 3 )
@@ -659,5 +723,10 @@ namespace LuaCollision
 	{
 		lua_getfield(lua, index, "__self");
 		return (OBBCollider*)lua_touserdata(lua, -1);
+	}
+	MovementController * getMovementController(lua_State * lua, int index)
+	{
+		lua_getfield(lua, index, "__self");
+		return (MovementController*)lua_touserdata(lua, -1);
 	}
 }

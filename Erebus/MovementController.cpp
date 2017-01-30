@@ -1,6 +1,6 @@
 #include "MovementController.h"
 
-MovementController::MovementController()
+MovementController::MovementController() : transform(nullptr), collisionLayer(nullptr)
 {
 }
 
