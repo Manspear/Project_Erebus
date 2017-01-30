@@ -1,3 +1,4 @@
+CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 CHRONOBALLLIFETIME = 10
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
@@ -15,6 +16,7 @@ function CreateChronoBall()
 	spell.effectFlag = false
 	spell.maxChargeTime = CHRONOBALLMAXCHARGETIME
 	spell.chargedTime = 0
+	spell.hudtexture = CHRONOBALL_SPELL_TEXTURE
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)

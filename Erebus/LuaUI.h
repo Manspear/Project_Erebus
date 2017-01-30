@@ -9,4 +9,5 @@ namespace LuaUI {
 	int mousePick(lua_State* lua);
 	int loadScreenImage(lua_State* lua);
 	int unloadScreenImage(lua_State* lua);
+	int resizeScreenImage(lua_State* lua);
 }

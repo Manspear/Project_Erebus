@@ -1,3 +1,4 @@
+SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
@@ -25,6 +26,7 @@ function CreateSunRay()
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
+	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, sunRay.type.transformID)
 

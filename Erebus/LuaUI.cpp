@@ -15,6 +15,7 @@ namespace LuaUI {
 			{ "drawImage", drawImage },
 			{ "mousePick", mousePick },
 			{ "load", loadScreenImage },
+			{ "resize", resizeScreenImage },
 			{ "__gc", unloadScreenImage },
 			{ NULL, NULL }
 		};
@@ -83,6 +84,23 @@ namespace LuaUI {
 		sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
 		delete image;
 		return 0;
+	}
+
+	int resizeScreenImage(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 3)
+		{
+			lua_getfield(lua, 1, "__self");
+			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
+			int sizeX = lua_tonumber(lua, 2);
+			int sizeY = lua_tonumber(lua, 3);
+
+			image->height = sizeY;
+			image->width = sizeX;
+		}
+		return result;
 	}
 
 }

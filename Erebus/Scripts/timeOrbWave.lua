@@ -1,3 +1,4 @@
+TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 TIMEORBWAVEDURATION = 20
 
 function CreateTimeOrbWave()
@@ -7,6 +8,7 @@ function CreateTimeOrbWave()
 	spell.lifetime = TIMEORBWAVEDURATION
 	spell.damage = 3
 	spell.alive = false
+	spell.hudtexture = TIMEORB_SPELL_TEXTURE
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	for i = 1, ORBWAVEORBS do

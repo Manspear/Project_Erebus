@@ -1,3 +1,4 @@
+ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
@@ -39,6 +40,7 @@ function CreateIceGrenade()
 	spell.hitSFX = {}
 	spell.hitSFX[1] = "Effects/debris_ice_001.wav"
 	spell.hitSFX[2] = "Effects/axe_ice_005.wav"
+	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
 
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())

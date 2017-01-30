@@ -147,8 +147,10 @@ int main()
 	assets.load<TextureAsset>("Textures/firepillar.dds");
 	assets.load<TextureAsset>("Textures/cooldown.png");
 	assets.load<TextureAsset>("Textures/spell1.png");
-	assets.load<TextureAsset>("Textures/spell1.png");
-	assets.load<TextureAsset>("Textures/spell1.png");
+	assets.load<TextureAsset>("Textures/spell2.png");
+	assets.load<TextureAsset>("Textures/spell3.png");
+	assets.load<TextureAsset>("Textures/sunbeam.dds");
+	assets.load<TextureAsset>("Textures/blackhole.dds");
 
 
 	Controls controls;	

@@ -42,22 +42,6 @@ private:
 
 	WorkQueue* work;
 
-	sScreenImage healthBar;
-	Importer::TextureAsset* healthBarTex;
-	sScreenImage healthBackground;
-	Importer::TextureAsset* healthBackgroundTex;
-	sScreenImage firepillar;
-	Importer::TextureAsset* firepillarTex;
-	sScreenImage cooldown;
-	Importer::TextureAsset* cooldownTex;
-
-	sScreenImage spell1;
-	Importer::TextureAsset* spell1Tex;
-	sScreenImage spell2;
-	Importer::TextureAsset* spell2Tex;
-	sScreenImage spell3;
-	Importer::TextureAsset* spell3Tex;
-
 	float playerHealthReal = 100;
 	float playerHealthCurrent = 100;
 	int healthBarLength = 470;

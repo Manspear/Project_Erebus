@@ -397,6 +397,9 @@
       <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\blackHole.lua" />
+    <None Include="Scripts\HUD.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
