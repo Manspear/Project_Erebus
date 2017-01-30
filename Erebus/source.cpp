@@ -19,6 +19,9 @@ Gear::ParticleSystem* ps;
 #include "SoundEngine.h"
 #include "WorkQueue.h"
 
+#define MAX_TRANSFORMS 100
+#define MAX_ANIMATIONS 100
+
 bool running = true;
 
 #define THREAD_TIMEOUT 100 // ms
@@ -31,8 +34,11 @@ struct ThreadData
 	Controls* controls;
 	Importer::Assets* assets;
 	WorkQueue* workQueue;
-	GameState gameState;
-	GamePlay* gamePlay;
+	std::vector<ModelInstance>* models;
+	std::vector<AnimatedInstance>* animatedModels;
+	bool queueModels;
+	//GameState gameState;
+	//GamePlay* gamePlay;
 	Menu* menu;
 	HANDLE produce, consume;
 };
@@ -43,9 +49,44 @@ DWORD WINAPI update( LPVOID args )
 
 	// GamePlay and Menu is deleted in the main thread
 	// because the renderer is depending on their transforms
-	data->gamePlay = new GamePlay( data->engine, data->assets, data->workQueue, data->soundEngine );
+	//data->gamePlay = new GamePlay( data->engine, data->assets, data->workQueue, data->soundEngine );
 
 	data->menu = new Menu( data->engine, data->assets );
+
+	CollisionHandler collisionHandler;
+	Transform* transforms = new Transform[MAX_TRANSFORMS];
+	TransformStruct* allTransforms = new TransformStruct[MAX_TRANSFORMS];
+	int boundTransforms = 0;
+	Animation* animations = new Animation[MAX_ANIMATIONS];
+	int boundAnimations = 0;
+	//std::vector<ModelInstance> models;
+	//std::vector<AnimatedInstance> animatedModels;
+	std::vector<Gear::ParticleSystem*> particleSystems;
+	AGI::AGIEngine ai;
+	NetworkController network;
+
+	data->engine->addDebugger( Debugger::getInstance() );
+
+	for( int i=0; i<MAX_TRANSFORMS; i++ )
+		transforms[i].setThePtr( &allTransforms[i] );
+
+	data->engine->allocateWorlds( MAX_TRANSFORMS );
+
+	data->engine->bindTransforms( &allTransforms, &boundTransforms );
+	data->engine->bindAnimations( &animations, &boundAnimations );
+
+	collisionHandler.setTransforms( transforms );
+	collisionHandler.setDebugger(Debugger::getInstance());
+	collisionHandler.setLayerCollisionMatrix(1,1,false);
+
+	ai.addDebug(Debugger::getInstance());
+
+	data->engine->queueDynamicModels( data->models );
+	data->engine->queueAnimModels( data->animatedModels );
+	data->engine->queueParticles( particleSystems );
+
+	LuaBinds luaBinds;
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, animations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, data->camera, &particleSystems, &ai, &network, data->workQueue, data->soundEngine );
 
 	PerformanceCounter counter;
 	while( running )
@@ -55,7 +96,7 @@ DWORD WINAPI update( LPVOID args )
 		{
 			double deltaTime = counter.getDeltaTime();
 
-			switch (data->gameState)
+			/*switch (data->gameState)
 			{
 				case MenuState:
 					data->gameState = data->menu->Update(data->inputs);
@@ -99,16 +140,39 @@ DWORD WINAPI update( LPVOID args )
 						running = false;
 					}
 					break;
-			}
+			}*/
+
+			data->controls->update( data->inputs );
+			luaBinds.update( data->controls, deltaTime );
+			data->workQueue->execute();
+
+			for( int i=0; i<particleSystems.size(); i++ )
+				particleSystems.at(i)->update( deltaTime );
+
+			collisionHandler.checkCollisions();
+			collisionHandler.drawHitboxes();
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
 
+			if( data->inputs->keyPressed( GLFW_KEY_ESCAPE ) )
+				running = false;
+
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
 	}
+
+	network.shutdown();
+	luaBinds.unload();
+
+	delete[] allTransforms;
+	delete[] transforms;
+	delete[] animations;
+
+	for( int i=0; i<particleSystems.size(); i++ )
+		delete particleSystems.at(i);
 
 	return 0;
 }
@@ -121,7 +185,6 @@ int main()
 	SoundEngine soundEngine;
 	WorkQueue work;
 
-	//GameState gameState = MenuState;
 	window.changeCursorStatus(false);
 	
 	Importer::Assets assets;
@@ -158,6 +221,8 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
+	window.changeCursorStatus(true);
+
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 	
 	//GamePlay * gamePlay = new GamePlay(&engine, &assets, &work);
@@ -175,6 +240,8 @@ int main()
 	//soundEngine.play("Music/menuBurana.ogg", SOUND_LOOP | SOUND_3D, glm::vec3(31,8,12));
 	soundEngine.setMasterVolume(0.5);
 
+	std::vector<ModelInstance> models;
+	std::vector<AnimatedInstance> animModels;
 	ThreadData threadData =
 	{
 		&engine,
@@ -184,6 +251,9 @@ int main()
 		&controls,
 		&assets,
 		&work,
+		&models,
+		&animModels,
+		false
 	};
 	threadData.produce = CreateSemaphore( NULL, 1, 1, NULL );
 	threadData.consume = CreateSemaphore( NULL, 0, 1, NULL );
@@ -201,7 +271,7 @@ int main()
 			deltaTime = counter.getDeltaTime();
 			inputs.update();
 
-			switch( threadData.gameState )
+			/*switch( threadData.gameState )
 			{
 				case MenuState:
 					threadData.menu->Update(&inputs);
@@ -215,7 +285,8 @@ int main()
 					}
 					controls.update(&inputs);
 					break;
-			}
+			}*/
+			controls.update( &inputs );
 
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
@@ -254,7 +325,7 @@ int main()
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
 
-			switch (threadData.gameState)
+			/*switch (threadData.gameState)
 			{
 			case MenuState:
 				threadData.menu->Draw();
@@ -263,7 +334,10 @@ int main()
 			case GameplayState:
 				threadData.gamePlay->Draw();
 				break;
-			}
+			}*/
+
+			if( threadData.queueModels )
+				engine.queueDynamicModels( &models );
 
 			window.update();
 			engine.draw(&camera);
@@ -283,7 +357,7 @@ int main()
 
 	//delete gamePlay;
 	//delete menu;
-	delete threadData.gamePlay;
+	//delete threadData.gamePlay;
 	delete threadData.menu;
 	glfwTerminate();
 

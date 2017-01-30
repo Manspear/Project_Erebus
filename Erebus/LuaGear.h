@@ -15,6 +15,7 @@ namespace LuaGear
 							std::vector<AnimatedInstance>* animatedModels,
 							Animation* animations,
 							int* boundAnimations,
+							bool* queueModels,
 							Assets* assets,
 							WorkQueue* work );
 
@@ -22,6 +23,7 @@ namespace LuaGear
 	int addAnimatedInstance( lua_State* lua );
 	int activateInstance( lua_State* lua );
 	int deactivateInstance( lua_State* lua );
+	int setQueueModels( lua_State* lua );
 
 	int print( lua_State* lua );
 	int getTextDimensions( lua_State* lua );

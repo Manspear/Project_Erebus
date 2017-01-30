@@ -35,6 +35,7 @@ public:
 				int* boundAnimations,
 				std::vector<ModelInstance>* models,
 				std::vector<AnimatedInstance>* animatedModels,
+				bool* queueModels,
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
 				AGI::AGIEngine* AI,
