@@ -41,7 +41,8 @@ public:
 				AGI::AGIEngine* AI,
 				NetworkController* network,
 				WorkQueue* work,
-				SoundEngine* soundEngine);
+				SoundEngine* soundEngine,
+				PerformanceCounter* counter );
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;

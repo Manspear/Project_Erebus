@@ -29,11 +29,12 @@ void LuaBinds::load( GearEngine* gearEngine,
 					AGI::AGIEngine* AI,
 					NetworkController* network,
 					WorkQueue* work,
-					SoundEngine* soundEngine)
+					SoundEngine* soundEngine,
+					PerformanceCounter* counter )
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
-	LuaErebus::registerFunctions( lua, transforms, controls );
+	LuaErebus::registerFunctions( lua, transforms, controls, network, counter );
 	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, queueModels, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler );

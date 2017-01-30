@@ -73,10 +73,10 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueAnimModels( data->animatedModels );
 	data->engine->queueParticles( *data->particleSystems );
 
-	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine );
-
 	PerformanceCounter counter;
+	LuaBinds luaBinds;
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine, &counter );
+
 	while( running )
 	{
 		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
