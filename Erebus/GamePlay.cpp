@@ -38,8 +38,6 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 
 GamePlay::~GamePlay()
 {
-	networkController.shutdown();
-
 	luaBinds.unload();
 
 	delete[] allTransforms;
@@ -48,6 +46,8 @@ GamePlay::~GamePlay()
 
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
+
+	networkController.shutdown();
 }
 
 void GamePlay::Initialize(Importer::Assets* assets, Controls* controls, Inputs* inputs, Camera* camera)

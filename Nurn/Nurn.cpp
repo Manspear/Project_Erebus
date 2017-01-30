@@ -59,10 +59,11 @@ namespace Nurn
 
 	bool NurnEngine::Receive()
 	{
-		int bytes_read = this->Receive(this->buffer, packetSize);
+		unsigned char buffer[packetSize];
+		bool bytes_read = this->Receive(buffer, packetSize);
 		if (bytes_read)
 		{
-			this->packetFilter->openNetPacket(this->buffer);
+			this->packetFilter->openNetPacket(buffer);
 		}
 		return true;
 	}
