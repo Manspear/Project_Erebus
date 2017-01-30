@@ -69,3 +69,12 @@ CollisionHandler.AddSphere(goal.collider)
 Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
+
+	
+	-- Setting controller for player
+	player.controller = {};
+	player.controller = MovementController.Create()
+	player.controller:SetHitbox(player.sphereCollider)
+	player.controller:SetTransform(player.transformID)
+	player.controller:SetCollisionLayer(0)
+	player.controller:SetHeightmap(heightmaps[1].asset);
