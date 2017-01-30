@@ -34,6 +34,7 @@ struct ThreadData
 	Importer::Assets* assets;
 	WorkQueue* workQueue;
 	std::vector<ModelInstance>* models;
+	std::vector<ModelInstance>* forwardModels;
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
 	bool queueModels;
@@ -73,10 +74,11 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueDynamicModels( data->models );
 	data->engine->queueAnimModels( data->animatedModels );
 	data->engine->queueParticles( *data->particleSystems );
+	data->engine->queueForwardModels(data->forwardModels);
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, &data->queueModels, &data->mouseVisible, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine, &counter );
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	while( running )
 	{
@@ -174,6 +176,7 @@ int main()
 	soundEngine.setMasterVolume(0.5);
 
 	std::vector<ModelInstance> models;
+	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
 	ThreadData threadData =
@@ -186,6 +189,7 @@ int main()
 		&assets,
 		&work,
 		&models,
+		&forwardModels,
 		&animModels,
 		&particleSystems,
 		false,
