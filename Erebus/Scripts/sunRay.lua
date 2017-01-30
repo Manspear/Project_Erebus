@@ -4,7 +4,7 @@ SUNRAY_DAMAGE = 3
 SUNRAY_COOLDOWN = 2.7
 SUNRAY_HALF_LENGTH = 23
 
-function CreateSunRay()
+function CreateSunRay(entity)
 	local sunRay = {}
 	sunRay.type = CreateRayType()
 	sunRay.effect = CreateFireEffect --reference to function
@@ -15,7 +15,7 @@ function CreateSunRay()
 	sunRay.chargedTime = 0
 	sunRay.Charge = BaseCharge
 	sunRay.ChargeCast = BaseChargeCast	
-	sunRay.owner = {}
+	sunRay.owner = entity
 	sunRay.moveImpairment = 0.5
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
@@ -61,13 +61,12 @@ function CreateSunRay()
 	
 	function sunRay:Cast(entity, chargetime, effects)
 		if (self.cooldown < 0.0) then
-			self.caster = entity.transformID
-			self.type:Cast(Transform.GetPosition(self.caster))
-			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
-			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.caster))
+			self.type:Cast(Transform.GetPosition(self.owner.transformID))
+			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
+			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
 			Erebus.CameraSensitivity(self.cameraSlow)
 			chargetime = math.min(chargetime, SUNRAY_MAX_CHARGETIME)
-			entity.moveSpeed = entity.moveSpeed * self.moveImpairment 	
+			self.owner.moveSpeed = self.owner.moveSpeed * self.moveImpairment 	
 			self.alive = true
 			self.lifeTime = SUNRAY_DURATION 
 			self.effectFlag = effects

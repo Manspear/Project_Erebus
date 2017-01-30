@@ -35,9 +35,9 @@ function LoadPlayer()
 
 	-- set spells for player
 	player.spells = {}
-	player.spells[1] = CreateHellPillar()
-	player.spells[2] = CreateBlackHole()
-	player.spells[3] = CreateSunRay()
+	player.spells[1] = CreateHellPillar(player)
+	player.spells[2] = CreateBlackHole(player)
+	player.spells[3] = CreateSunRay(player)
 
 	player.currentSpell = 1
 
