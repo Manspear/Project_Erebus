@@ -39,9 +39,6 @@ struct ThreadData
 	bool queueModels;
 	TransformStruct* allTransforms;
 	Animation* allAnimations;
-	//GameState gameState;
-	//GamePlay* gamePlay;
-	Menu* menu;
 	HANDLE produce, consume;
 };
 
@@ -49,21 +46,10 @@ DWORD WINAPI update( LPVOID args )
 {
 	ThreadData* data = (ThreadData*)args;
 
-	// GamePlay and Menu is deleted in the main thread
-	// because the renderer is depending on their transforms
-	//data->gamePlay = new GamePlay( data->engine, data->assets, data->workQueue, data->soundEngine );
-
-	data->menu = new Menu( data->engine, data->assets );
-
 	CollisionHandler collisionHandler;
 	Transform* transforms = new Transform[MAX_TRANSFORMS];
-	//TransformStruct* allTransforms = new TransformStruct[MAX_TRANSFORMS];
 	int boundTransforms = 0;
-	//Animation* animations = new Animation[MAX_ANIMATIONS];
 	int boundAnimations = 0;
-	//std::vector<ModelInstance> models;
-	//std::vector<AnimatedInstance> animatedModels;
-	//std::vector<Gear::ParticleSystem*> particleSystems;
 	AGI::AGIEngine ai;
 	NetworkController network;
 
@@ -98,64 +84,13 @@ DWORD WINAPI update( LPVOID args )
 		{
 			double deltaTime = counter.getDeltaTime();
 
-			/*switch (data->gameState)
-			{
-				case MenuState:
-					data->gameState = data->menu->Update(data->inputs);
-					if (data->gameState == HostGameplayState)
-					{
-						if (data->gamePlay->StartNetwork(true, counter))
-						{
-							data->gameState = GameplayState;
-						}
-						else
-						{
-							std::cout << "Failed to init network" << std::endl;
-							data->gameState = MenuState;
-						}
-					}
-
-					if (data->gameState == ClientGameplayState)
-					{
-						if (data->gamePlay->StartNetwork(false, counter))
-						{
-							data->gameState = GameplayState;
-						}
-						else
-						{
-							std::cout << "Failed to init network" << std::endl;
-							data->gameState = MenuState;
-						}
-					}
-
-					if (data->gameState == GameplayState)
-					{
-						data->gamePlay->Initialize(data->assets, data->controls, data->inputs, data->camera);
-						data->soundEngine->play("Effects/bell.wav");
-					}
-					break;
-
-				case GameplayState:
-					data->gamePlay->Update(data->controls,deltaTime);
-					if ( data->inputs->keyPressed(GLFW_KEY_ESCAPE) )
-					{
-						running = false;
-					}
-					break;
-			}*/
-
-			
-
 			luaBinds.update( data->controls, deltaTime );
 			data->workQueue->execute();
-
-			data->controls->update( data->inputs );
 
 			for( int i=0; i<data->particleSystems->size(); i++ )
 				data->particleSystems->at(i)->update( deltaTime );
 
 			collisionHandler.checkCollisions();
-			//collisionHandler.drawHitboxes();
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
@@ -172,12 +107,7 @@ DWORD WINAPI update( LPVOID args )
 	network.shutdown();
 	luaBinds.unload();
 
-	//delete[] allTransforms;
 	delete[] transforms;
-	//delete[] animations;
-
-	/*for( int i=0; i<particleSystems.size(); i++ )
-		delete particleSystems.at(i);*/
 
 	return 0;
 }
@@ -230,8 +160,6 @@ int main()
 
 	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
 	
-	//GamePlay * gamePlay = new GamePlay(&engine, &assets, &work);
-	//Menu * menu = new Menu(&engine,&assets);
 	PerformanceCounter counter;
 	double deltaTime;
 	bool lockMouse = false;
@@ -242,7 +170,6 @@ int main()
 	
 	inputs.getMousePos();
 
-	//soundEngine.play("Music/menuBurana.ogg", SOUND_LOOP | SOUND_3D, glm::vec3(31,8,12));
 	soundEngine.setMasterVolume(0.5);
 
 	std::vector<ModelInstance> models;
@@ -280,21 +207,7 @@ int main()
 			deltaTime = counter.getDeltaTime();
 			inputs.update();
 
-			/*switch( threadData.gameState )
-			{
-				case MenuState:
-					threadData.menu->Update(&inputs);
-					break;
-
-				case GameplayState:
-					if( !lockMouse )
-					{
-						window.changeCursorStatus( true );
-						lockMouse = true;
-					}
-					controls.update(&inputs);
-					break;
-			}*/
+			// TODO: Stop using the controls class
 			controls.update( &inputs );
 
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
@@ -327,23 +240,11 @@ int main()
 				}
 			}
 
-			//engine.updateTransforms();
 			engine.update();
 			camera.updateBuffer();
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
-
-			/*switch (threadData.gameState)
-			{
-			case MenuState:
-				threadData.menu->Draw();
-				break;
-
-			case GameplayState:
-				threadData.gamePlay->Draw();
-				break;
-			}*/
 
 			if( threadData.queueModels )
 				engine.queueDynamicModels( &models );
@@ -364,12 +265,8 @@ int main()
 
 	work.stop();
 
-	//delete gamePlay;
-	//delete menu;
-	//delete threadData.gamePlay;
 	delete[] threadData.allTransforms;
 	delete[] threadData.allAnimations;
-	delete threadData.menu;
 	glfwTerminate();
 
 	return 0;
