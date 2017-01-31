@@ -24,7 +24,9 @@ namespace AGI
 			
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.6f;  // Never above 1
+			resolution = 0.5f;  // Never above 1
+
+			blurIterations = 6;
 
 			dynamicInfluenceMap = nullptr;
 			staticInfluenceMap = nullptr;
@@ -37,23 +39,20 @@ namespace AGI
 				for (int i = 0; i < imHeight; i++)
 				{
 					if (dynamicInfluenceMap[n][i])
+					{
 						delete dynamicInfluenceMap[n][i];
-				}
-				delete [] dynamicInfluenceMap[n];
-			}
-			delete[]dynamicInfluenceMap;
-
-
-			for (int n = 0; n < imWidth; n++)
-			{
-				for (int i = 0; i < imHeight; i++)
-				{
-					if (staticInfluenceMap[n][i])
 						delete staticInfluenceMap[n][i];
+						delete finalInfluenceMap[n][i];
+					}
 				}
 				delete[] staticInfluenceMap[n];
+				delete [] dynamicInfluenceMap[n];
+				delete[] finalInfluenceMap[n];
 			}
+			delete[]dynamicInfluenceMap;
 			delete[]staticInfluenceMap;
+			delete[]finalInfluenceMap;
+			
 
 			//delete [] dynamicInfluenceMap;
 			//if (!radiusInfluenceNodes)
@@ -182,10 +181,14 @@ namespace AGI
 
 			dynamicInfluenceMap = new InfluenceNode**[this->imWidth];
 			staticInfluenceMap = new InfluenceNode**[this->imWidth];
+
+			finalInfluenceMap = new InfluenceNode**[this->imWidth];
 			for( int x=0; x<imWidth; x++ )
 			{
 				dynamicInfluenceMap[x] = new InfluenceNode*[this->imHeight];
 				staticInfluenceMap[x] = new InfluenceNode*[this->imHeight];
+
+				finalInfluenceMap[x] = new InfluenceNode*[this->imHeight];
 
 				for( int y=0; y<imHeight; y++ )
 				{
@@ -195,24 +198,24 @@ namespace AGI
 					{
 						dynamicInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
 						staticInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
+						finalInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
 					}
 					else
 					{
 						dynamicInfluenceMap[x][y] = nullptr;
 						staticInfluenceMap[x][y] = nullptr;
+						finalInfluenceMap[x][y] = nullptr;
 					}
 				}
 			}
 
 
-			for (int iteration = 0; iteration < 4; iteration++)
-			{
+			//for (int iteration = 0; iteration < blurIterations; iteration++)
+			//{
 				for (int x = 0; x < imWidth; x++)
 				{
-
 					for (int y = 0; y < imHeight; y++)
 					{
-						float sumBlur = 0;
 						if (staticInfluenceMap[x][y] != nullptr)
 						{
 							for (int surroundX = -1; surroundX <= 1; surroundX++)
@@ -223,48 +226,44 @@ namespace AGI
 									{
 										if (staticInfluenceMap[x + surroundX][y + surroundY] == nullptr)
 										{
-											if (iteration == 0)
-												sumBlur = sumBlur + -1.0f;
+											staticInfluenceMap[x][y]->setStrength(-1);
 										}
-										else
-											sumBlur = sumBlur + dynamicInfluenceMap[x + surroundX][y + surroundY]->getStrength();
+										//else
+										//	sumBlur = sumBlur + dynamicInfluenceMap[x + surroundX][y + surroundY]->getStrength();
 									}
-
 								}
 
 							}
-								staticInfluenceMap[x][y]->setStrength((sumBlur / 9));
+								
 						}
 					}
 				}
-				copyBuffer(imWidth, imHeight);
+				//copyBuffer(staticInfluenceMap, dynamicInfluenceMap,imWidth, imHeight);
 
-			}
-
-			clearDynamic(imWidth, imHeight);
-
+			//}
+			clearIMBuffer(dynamicInfluenceMap,imWidth, imHeight);
 		}
 
-		AGI_API void copyBuffer(int width,int height)
+		AGI_API void copyBuffer(InfluenceNode***  &copyFrom, InfluenceNode*** & copyTo,int width,int height)
 		{
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					if(staticInfluenceMap[x][y] != nullptr)
-						dynamicInfluenceMap[x][y]->setStrength(staticInfluenceMap[x][y]->getStrength());
+					if(copyFrom[x][y] != nullptr)
+						copyTo[x][y]->setStrength(copyFrom[x][y]->getStrength());
 				}
 			}
 		}
 
-		AGI_API void clearDynamic(int width, int height)
+		AGI_API void clearIMBuffer(InfluenceNode***  &clearBuffer,int width, int height)
 		{
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					if (dynamicInfluenceMap[x][y] != nullptr)
-						dynamicInfluenceMap[x][y]->setStrength(0);
+					if (clearBuffer[x][y] != nullptr)
+						clearBuffer[x][y]->setStrength(0);
 				}
 			}
 		}
@@ -374,28 +373,12 @@ namespace AGI
 		{
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
-			if (inStr != 0)
-			{
-				inStr = inStr *(resolution * 10);
-
-				for (int strX = -inStr; strX <= inStr; strX++)
-				{
-					if (x + strX >= 0 && x + strX < imWidth&& x < imWidth && x >= 0)
-						for (int strY = -inStr; strY <= inStr; strY++)
-						{
-							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
-								if(dynamicInfluenceMap[x + strX][y + strY] != nullptr)
-									dynamicInfluenceMap[x + strX][y + strY]->setStrength(0);
-						}
-				}
-			}
-			else
-			{
+			
 				if (x >= 0 && x < imWidth)
 					if (y >= 0 && y < imHeight)
 						if (dynamicInfluenceMap[x ][y ] != nullptr)
 							dynamicInfluenceMap[x][y]->setStrength(0);
-			}
+			
 
 		}
 
@@ -407,42 +390,10 @@ namespace AGI
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
 
-
-			float tempX = (float)((mapWidth / imWidth)*range+1);
-			float tempY = (float)((mapHeight / imHeight)*range+1);
-
-			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
-
-				for (int strX = -range; strX <= range; strX++)
-				{
-
-					if(x + strX >=0 && x + strX< imWidth&& x < imWidth && x>=0)
-						for (int strY = -range; strY <= range; strY++)
-						{
-							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
-							{
-								//float tempStrength = str / inStr;// / (resolution));
-								//tempStrength = tempStrength / resolution;
-								//dynamicInfluenceMap[x + strX][y + strY].setStrength(tempStrength);
-
-								if (dynamicInfluenceMap[x + strX][y + strY])
-								{
-									///TESt THIS
-									float tempStrength = glm::distance(glm::vec2(inPos.x,inPos.z), dynamicInfluenceMap[x + strX][y + strY]->getPos());
-									tempStrength = maxDistance / tempStrength * inStr;
-									dynamicInfluenceMap[x + strX][y + strY]->setStrength(tempStrength);
-								}
-							}
-						}
-				}
-
 				if (x >= 0 && x < imWidth)
 					if (y >= 0 && y  < imHeight)
 						if (dynamicInfluenceMap[x][y])
-							if(inStr<0)
-								dynamicInfluenceMap[x][y]->setStrength(-1);
-							else
-								dynamicInfluenceMap[x][y]->setStrength(-2);
+								dynamicInfluenceMap[x][y]->setStrength(inStr);
 
 		}
 
@@ -546,19 +497,74 @@ namespace AGI
 			return nullptr;
 		}
 
-
 		AGI_API float getCombinedStrength(int x, int y)
 		{
-			return staticInfluenceMap[x][y]->getStrength() +dynamicInfluenceMap[x][y]->getStrength();
+			return finalInfluenceMap[x][y]->getStrength();
 		}
+
+		AGI_API void blur()
+		{
+			clearIMBuffer(finalInfluenceMap, imWidth, imHeight);
+			for (int iteration = 0; iteration < blurIterations; iteration++)
+			{
+				for (int x = 0; x < imWidth; x++)
+				{
+					for (int y = 0; y < imHeight; y++)
+					{
+						if (dynamicInfluenceMap[x][y] != nullptr)
+						{
+							float sumBlur = 0;
+							for (int surroundX = -1; surroundX <= 1; surroundX++)
+							{
+								for (int surroundY = -1; surroundY <= +1; surroundY++)
+								{
+									if (x + surroundX >= 0 && x + surroundX < imWidth && y + surroundY >= 0 && y + surroundY < imHeight)
+									{
+										if (dynamicInfluenceMap[x + surroundX][y + surroundY] != nullptr)
+										{
+											sumBlur = sumBlur + (dynamicInfluenceMap[x + surroundX][y + surroundY]->getStrength());
+											if (iteration == 0)
+												sumBlur = sumBlur + (staticInfluenceMap[x + surroundX][y + surroundY]->getStrength());
+										}
+									}
+
+								}
+							}
+							finalInfluenceMap[x][y]->setStrength(0.11111111111f * sumBlur);
+						}
+					}
+				}
+				copyBuffer(finalInfluenceMap, dynamicInfluenceMap, imWidth, imHeight);
+
+			}
+			clearIMBuffer(dynamicInfluenceMap, imWidth, imHeight);
+
+			//for (int x = 0; x < imWidth; x++)
+			//{
+			//	for (int y = 0; y < imHeight; y++)
+			//	{
+			//		if (staticInfluenceMap[x][y] != nullptr)
+			//		{
+			//			finalInfluenceMap[x][y]->setStrength(finalInfluenceMap[x][y]->getStrength());
+			//		}
+			//	}
+			//}
+
+		}
+
 	private:
 		
-		// Only needed in creation
+		// For player and enemies
 		InfluenceNode*** dynamicInfluenceMap;
-
+		// For all the static things in the map, walls, props etc.
 		InfluenceNode *** staticInfluenceMap;
+
+		InfluenceNode *** finalInfluenceMap;
+
 		int imWidth, imHeight;
 		int mapWidth,mapHeight;
+
+		int blurIterations;
 
 		
 		float resolution;//Resolution between 0.0 - 1.0, at 1.0 we will create a influenceNode for ever tile of the map

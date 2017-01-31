@@ -28,6 +28,7 @@ namespace LuaAI
 			{ "CheckIfTarget",checkIfTargetNodeIsOccupied },
 			{ "DrawDebug",draw},
 			{ "SetSpecificTarget",setSpecificTarget },
+			{ "Blur",blurIM },
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(L, regs, 0);
@@ -224,6 +225,11 @@ namespace LuaAI
 		return result;
 	}
 
+	int blurIM(lua_State * lua)
+	{
+		AI->blur();
+		return 0;
+	}
 	int setSpecificTarget(lua_State * lua)
 	{
 		if (lua_gettop(lua) >= 1)

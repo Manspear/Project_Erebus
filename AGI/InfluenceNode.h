@@ -36,10 +36,10 @@ public:
 
 	AGI_API void setStrength(const float &inStrength)
 	{
-		if (inStrength == 0 || inStrength == -1)
+		//if (inStrength == 0 || inStrength == -1)
 			strength = inStrength;
-		else
-			strength = strength + inStrength;
+	//	else
+	//		strength = strength + inStrength;
 
 
 	}

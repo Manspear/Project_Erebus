@@ -17,6 +17,7 @@ namespace LuaAI
 	int normalizeDir(lua_State * lua);
 	int createIM(lua_State * lua);
 	int clearMap(lua_State * lua);
+	int blurIM(lua_State * lua);
 
 	int setSpecificTarget(lua_State * lua);
 

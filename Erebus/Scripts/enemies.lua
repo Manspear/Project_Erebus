@@ -104,10 +104,10 @@ function UpdateEnemies(dt)
 			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			AI.AddIP(enemies[i].transformID,-1,0)
 		end
-			AI.AddIP(player.transformID,6,20)
+			AI.AddIP(player.transformID,12,20)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)
 
-			
+			AI.Blur()
 	end
 	aiScript.updateEnemyManager(enemies,player)
 	local tempdt
@@ -118,7 +118,7 @@ function UpdateEnemies(dt)
 			--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 			
 			aiScript.update(enemies[i],player,tempdt)
-			AI.AddIP(enemies[i].transformID,-1,0)
+
 			local pos = Transform.GetPosition(enemies[i].transformID)
 
 			local posx = math.floor(pos.x/512)
