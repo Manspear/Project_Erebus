@@ -72,6 +72,8 @@ function LoadEnemies(n)
 		enemies[i].actionCountDown = 3
 
 		enemies[i].animationController = CreateEnemyController(enemies[i])
+
+		enemies[i].playerTarget = nil
 	end
 
 	local model = Assets.LoadModel("Models/goblin.model")
@@ -91,8 +93,7 @@ function UpdateEnemies(dt)
 	if COUNTDOWN <0then
 		--print ("Clear")
 
-		
-		AI.ClearMap(tempPlayerPosition,8)
+		AI.ClearMap(tempPlayerPosition,20)
 		COUNTDOWN = 0.3
 		print("INNER: ",player.nrOfInnerCircleEnemies)
 		print("OUTER: ",player.nrOfOuterCircleEnemies)
@@ -101,9 +102,9 @@ function UpdateEnemies(dt)
 			AI.ClearMap(enemies[i].lastPos,0)
 			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			--AI.AddIP(enemies[i].transformID,-1)
+			AI.AddIP(enemies[i].transformID,-1,0)
 		end
-			AI.AddIP(player.transformID,8)
+			AI.AddIP(player.transformID,6,20)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)
 
 			
@@ -117,7 +118,7 @@ function UpdateEnemies(dt)
 			--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 			
 			aiScript.update(enemies[i],player,tempdt)
-			AI.AddIP(enemies[i].transformID,-1)
+			AI.AddIP(enemies[i].transformID,-1,0)
 			local pos = Transform.GetPosition(enemies[i].transformID)
 
 			local posx = math.floor(pos.x/512)

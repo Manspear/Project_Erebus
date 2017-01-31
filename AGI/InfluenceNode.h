@@ -36,7 +36,12 @@ public:
 
 	AGI_API void setStrength(const float &inStrength)
 	{
-		strength = inStrength;
+		if (inStrength == 0 || inStrength == -1)
+			strength = inStrength;
+		else
+			strength = strength + inStrength;
+
+
 	}
 private:
 	glm::vec2 pos;

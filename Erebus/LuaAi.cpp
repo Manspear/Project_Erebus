@@ -218,7 +218,7 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			AI->addInfluencePoint(transforms[lua_tointeger(lua, 1)].getPos(), lua_tointeger(lua, 2));
+			AI->addInfluencePoint(transforms[lua_tointeger(lua, 1)].getPos(), lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 			result = 0;
 		}
 		return result;

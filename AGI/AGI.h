@@ -205,11 +205,12 @@ namespace AGI
 			}
 
 
-			//for(int iteration= 0;iteration<2;iteration++)
-				for (int x = 0; x<imWidth; x++)
+			for (int iteration = 0; iteration < 4; iteration++)
+			{
+				for (int x = 0; x < imWidth; x++)
 				{
 
-					for (int y = 0; y<imHeight; y++)
+					for (int y = 0; y < imHeight; y++)
 					{
 						float sumBlur = 0;
 						if (staticInfluenceMap[x][y] != nullptr)
@@ -222,24 +223,50 @@ namespace AGI
 									{
 										if (staticInfluenceMap[x + surroundX][y + surroundY] == nullptr)
 										{
-											//if(iteration == 0)
-												sumBlur = sumBlur + -3.0f;
+											if (iteration == 0)
+												sumBlur = sumBlur + -1.0f;
 										}
-										//else
-											//sumBlur = sumBlur + staticInfluenceMap[x + surroundX][y + surroundY]->getStrength();
+										else
+											sumBlur = sumBlur + dynamicInfluenceMap[x + surroundX][y + surroundY]->getStrength();
 									}
 
 								}
 
 							}
-
-							staticInfluenceMap[x][y]->setStrength((sumBlur));
+								staticInfluenceMap[x][y]->setStrength((sumBlur / 9));
 						}
 					}
 				}
+				copyBuffer(imWidth, imHeight);
 
+			}
 
+			clearDynamic(imWidth, imHeight);
 
+		}
+
+		AGI_API void copyBuffer(int width,int height)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					if(staticInfluenceMap[x][y] != nullptr)
+						dynamicInfluenceMap[x][y]->setStrength(staticInfluenceMap[x][y]->getStrength());
+				}
+			}
+		}
+
+		AGI_API void clearDynamic(int width, int height)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					if (dynamicInfluenceMap[x][y] != nullptr)
+						dynamicInfluenceMap[x][y]->setStrength(0);
+				}
+			}
 		}
 
 		AGI_API bool checkSurroundingHeightMap(Importer::HeightMap* heightmap, int x, int y)
@@ -372,26 +399,25 @@ namespace AGI
 
 		}
 
-		AGI_API void addInfluencePoint(glm::vec3 inPos, float inStr)
+		AGI_API void addInfluencePoint(glm::vec3 inPos, float inStr,float range)
 		{
-			if (inStr != -1)
-				inStr = inStr *(resolution * 10);
-			float str = inStr;
+			//if (inStr != -1)
+			//	range = range *(resolution * 10);
 
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
 
 
-			float tempX = (float)((mapWidth / imWidth)*inStr);
-			float tempY = (float)((mapHeight / imHeight)*inStr);
+			float tempX = (float)((mapWidth / imWidth)*range+1);
+			float tempY = (float)((mapHeight / imHeight)*range+1);
 
 			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
 
-				for (int strX = -inStr; strX <= inStr; strX++)
+				for (int strX = -range; strX <= range; strX++)
 				{
 
 					if(x + strX >=0 && x + strX< imWidth&& x < imWidth && x>=0)
-						for (int strY = -inStr; strY <= inStr; strY++)
+						for (int strY = -range; strY <= range; strY++)
 						{
 							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
 							{
@@ -402,9 +428,8 @@ namespace AGI
 								if (dynamicInfluenceMap[x + strX][y + strY])
 								{
 									///TESt THIS
-
 									float tempStrength = glm::distance(glm::vec2(inPos.x,inPos.z), dynamicInfluenceMap[x + strX][y + strY]->getPos());
-									tempStrength = maxDistance / tempStrength *0.7f;
+									tempStrength = maxDistance / tempStrength * inStr;
 									dynamicInfluenceMap[x + strX][y + strY]->setStrength(tempStrength);
 								}
 							}
@@ -431,7 +456,7 @@ namespace AGI
 		//	if ((x >= 0 && x < imWidth) && (y >= 0 && y < imHeight))
 			//	debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[x][y].getPos().x, 1, dynamicInfluenceMap[x][y].getPos().y), 3, glm::vec3(1, 1, 0.4));
 
-			float mostPosetive = 0;
+			float mostPosetive = -1;
 			int mpX = -1;
 			int mpY = -1;
 
@@ -453,7 +478,7 @@ namespace AGI
 					}
 			}
 
-			if (mostPosetive > 0)
+			if (mostPosetive > -1)
 			{
 				float posX = dynamicInfluenceMap[mpX][mpY]->getPos().x;// -enemyPos.x;
 				float posZ = dynamicInfluenceMap[mpX][mpY]->getPos().y;// -enemyPos.z;
@@ -520,6 +545,7 @@ namespace AGI
 
 			return nullptr;
 		}
+
 
 		AGI_API float getCombinedStrength(int x, int y)
 		{

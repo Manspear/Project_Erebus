@@ -10,12 +10,21 @@ end
 function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
+	
+
 
 	if length <enemy.visionRange and length > player.outerCirclerange then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
 
+	if player2 ~= nil then
+		lengthP2 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
+		if lengthP2 <enemy.visionRange and lengthP2 > player.outerCirclerange then
+			inState = "FollowState" 
+			changeToState(enemy,player,inState)
+		end
+	end
 end
 
 function state.idleState.exit(enemy,player)
