@@ -338,14 +338,16 @@ namespace Gear
 		glDisable(GL_CULL_FACE);
 		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
-		queue.forwardPass(forwardModels);
+		
 		debugHandler->draw( camera, &queue );
 
 		skybox.update(camera, gBuffer.getTextures()[2]);
 		skybox.draw();
-		queue.particlePass(particleSystem);		
 
+		queue.particlePass(particleSystem);		
+		queue.forwardPass(forwardModels);
 		staticModels = &defaultModelList;
+
 		dynamicModels = &defaultModelList;
 		
 		image.draw();

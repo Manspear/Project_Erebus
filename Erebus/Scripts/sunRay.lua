@@ -20,6 +20,8 @@ function CreateSunRay(entity)
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
 	sunRay.caster = 0
+	sunRay.angle = 0.2
+	sunRay.spin = 0.8
 	sunRay.castSFX = {}
 	sunRay.castSFX[1] = "Effects/CK_Blaster_Shot-226.wav"
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
@@ -40,7 +42,10 @@ function CreateSunRay(entity)
 			pos.y = pos.y + direction.y * SUNRAY_HALF_LENGTH
 			pos.z = pos.z + direction.z * SUNRAY_HALF_LENGTH
 			hits = self.type:Update(pos, direction)
-			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
+			theRotation =  Transform.GetRotation(self.caster) 
+			self.angle = self.angle + self.spin * dt
+			theRotation.x =  theRotation.x + self.angle
+			Transform.SetRotation(self.type.transformID, theRotation)
 			Transform.SetLookAt(self.type.transformID, direction)
 			for index = 1, #hits do
 				if hits[index].Hurt then	
@@ -62,8 +67,8 @@ function CreateSunRay(entity)
 	function sunRay:Cast(entity, chargetime, effects)
 		if (self.cooldown < 0.0) then
 			self.type:Cast(Transform.GetPosition(self.owner.transformID))
-			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
-			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
+			--Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
+			--Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
 			Erebus.CameraSensitivity(self.cameraSlow)
 			chargetime = math.min(chargetime, SUNRAY_MAX_CHARGETIME)
 			self.owner.moveSpeed = self.owner.moveSpeed * self.moveImpairment 	
