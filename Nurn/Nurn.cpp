@@ -145,12 +145,26 @@ namespace Nurn
 	{
 		this->packager->pushAITransformPacket(packet);
 	}
-	
+
 	bool NurnEngine::fetchAITransformPacket(TransformPacket& packet)
 	{
 		bool result = false;
 
 		result = this->packetFilter->getAITransformQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::pushChargingPacket(const ChargingPacket& packet)
+	{
+		this->packager->pushChargingPacket(packet);
+	}
+
+	bool NurnEngine::fetchChargingPacket(ChargingPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getChargingQueue()->pop(packet);
 
 		return result;
 	}

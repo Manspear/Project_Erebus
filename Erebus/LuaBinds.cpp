@@ -39,7 +39,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaErebus::registerFunctions( lua, transforms, controls, network, counter );
 	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, queueModels, mouseVisible, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
-	LuaCollision::registerFunctions( lua, collisionHandler );
+	LuaCollision::registerFunctions( lua, collisionHandler, transforms );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
 	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);

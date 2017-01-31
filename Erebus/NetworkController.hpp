@@ -40,6 +40,9 @@ public:
 	void sendAITransformPacket(const TransformPacket& packet);
 	bool fetchAITransformPacket(TransformPacket &packet);
 
+	void sendChargingPacket(const ChargingPacket& packet);
+	bool fetchChargingPacket(ChargingPacket &packet);
+
 
 private:
 	void startNetworkSending();
