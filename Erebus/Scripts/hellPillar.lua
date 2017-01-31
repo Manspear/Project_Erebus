@@ -28,6 +28,8 @@ function CreateHellPillar()
 		pillz.damage = MAX_DAMAGE_PILLAR
 		pillz.alive = false
 		pillz.particles = createFireballParticles()
+		pillz.effects = {}
+		table.insert(pillz.effects, FIRE_EFFECT_INDEX)
 		pillz.pos = 0
 		pillz.duration = PILLAR_DURATION
 		pillz.type.oobCollider.SetSize(pillz.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
@@ -40,7 +42,6 @@ function CreateHellPillar()
 	spell.nade = initNade()
 	spell.pillar = initPillar()
 	spell.maxChargeTime = MAX_CHARGE_TIME_PILLAR
-	spell.effect = CreateSlowEffect
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.ChargeCast = BaseChargeCast
@@ -99,10 +100,12 @@ function CreateHellPillar()
 	
 		for index = 1, #hits do
 			if hits[index].Hurt then
-				if self.nade.effectFlag then
-					local effect = self.effect()
-					table.insert(hits[index].effects, self.effect)
-					effect:Apply(hits[index])
+				if self.nade.effectFlag then	
+					for e = 1, #self.nade.effects do
+						local effect = effectTable[self.nade.effects[e]]()
+						table.insert(hits[index].effects, self.effect)
+						effect:Apply(hits[index])
+					end
 				end
 				hits[index]:Hurt(MAX_DAMAGE_PILLAR)
 			end

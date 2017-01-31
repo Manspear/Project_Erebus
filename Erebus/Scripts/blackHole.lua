@@ -14,7 +14,7 @@ function CreateBlackHole()
 	local spell = {}
 	spell.type = CreateStaticAoEType()
 	spell.effects = {}
-	table.insert(spell.effects, CreateTimeSlowEffect)
+	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
 	spell.maxChargeTime = 0
 	spell.chargedTime = 0
 	spell.damage = 0
@@ -23,7 +23,7 @@ function CreateBlackHole()
 	spell.owner = {}
 	spell.hits = {}
 	spell.alive = false
-	spell.timeSinceShot = 1616661
+	spell.cooldown = 0
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
@@ -35,7 +35,7 @@ function CreateBlackHole()
 	function spell:Charge(dt) end
 
 	function spell:ChargeCast(entity)
-		if self.timeSinceShot > BLACK_HOLE_COOLDOWN then
+		if self.cooldown < 0 then
 			local pos = Transform.GetPosition(entity.transformID)
 			local dir = Transform.GetLookAt(entity.transformID)
 			pos.x = pos.x  + 5*dir.x
@@ -48,17 +48,17 @@ function CreateBlackHole()
 			self.owner = entity
 			--entity.moveSpeed = entity.moveSpeed * BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 			self.alive = true
-			self.timeSinceShot = 0
+			self.cooldown = BLACK_HOLE_COOLDOWN
 		end
 	end
 
 	function spell:Update(dt)
-		self.timeSinceShot = self.timeSinceShot + dt
+		self.cooldown = self.cooldown - dt
 		if self.alive then
 			self.duration = self.duration + dt
 			hits = self.type:Update(dt)
 			local scale = Transform.GetScale(self.type.transformID)
-			scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos((self.timeSinceShot/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
+			scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos(((BLACK_HOLE_COOLDOWN -self.cooldown)/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
 			Transform.SetScale(self.type.transformID, scale) 
 			for index = 1, #hits do
 				local position = Transform.GetPosition(hits[index].transformID)--kanske borde flyttas ut till c
@@ -75,12 +75,12 @@ function CreateBlackHole()
 
 				if hits[index].Hurt and not self.hits[hits[index].transformID] then
 					for i = 1, #self.effects do
-						local effect = self.effects[i]()
+						local effect = effectTable[self.effects[i]]()
 						table.insert(hits[index].effects, effect)
 						effect:Apply(hits[index])
-						hits[index]:Hurt(self.damage)
 						self.hits[hits[index].transformID] = true
 					end
+					hits[index]:Hurt(self.damage)
 				end
 			end
 

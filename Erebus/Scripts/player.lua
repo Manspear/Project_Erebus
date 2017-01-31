@@ -1,17 +1,23 @@
 local MOLERAT_OFFSET = 0.4
 local PLAYER_JUMP_SPEED = 0.35
 
+SLOW_EFFECT_INDEX = 1
+TIME_SLOW_EFFECT_INDEX = 2
+FIRE_EFFECT_INDEX = 3
+
 player = {}
 player2 = {}
+
 effectTable = {}
-table.insert(effectTable, CreateFireEffect)
-table.insert(effectTable, CreateSlowEffect)
-table.insert(effectTable, CreateTimeSlowEffect)
+
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
 function LoadPlayer()	
+	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
+	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
+	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()
@@ -98,6 +104,7 @@ function LoadPlayer2()
 	player2.spells[1] = CreateHellPillar()
 	player2.spells[2] = CreateBlackHole()
 	player2.spells[3] = CreateSunRay()
+	--player2.spells[4] = CreateSunRay()
 
 	player2.currentSpell = 1
 
@@ -169,6 +176,7 @@ function UpdatePlayer(dt)
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
+	--player.spells[4]:Update(dt)
 	
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
@@ -193,8 +201,8 @@ function SendCombine(spell)
 end
 function GetCombined(effectIndex, damage)
 	if Inputs.ButtonDown(Buttons.Right) then
-		table.insert(player.spells[currentSpell].effects, globalEffects[effectIndex])
-		player.spells[currentSpell].damage = player.spells[currentSpell].damage + damage
+		table.insert(player.spells[player.currentSpell].effects, globalEffects[effectIndex])
+		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage
 	end
 end
 function Controls(dt)
@@ -222,7 +230,7 @@ function Controls(dt)
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
-					SendCombine(player.spells[currentSpell])
+					SendCombine(player.spells[player.currentSpell])
 					break
 				end
 			end

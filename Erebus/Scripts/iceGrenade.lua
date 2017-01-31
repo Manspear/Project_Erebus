@@ -16,6 +16,8 @@ function CreateIceGrenade()
 		local nade = {}
 		nade.type = CreateGrenadeType()
 		nade.effectflag = false
+		nade.effects = {}
+		table.insert(nade.effects, SLOW_EFFECT_INDEX)
 		nade.damage = 0
 		nade.alive = false
 		nade.particles = createIceGrenadeParticles()
@@ -30,7 +32,7 @@ function CreateIceGrenade()
 	
 	local spell = {}
 	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE
-	spell.effect = CreateSlowEffect
+	--spell.effect = CreateSlowEffect
 	spell.nades = {}
 	spell.spamcd = SPAM_CD_ICENADE
 	spell.timeSinceSpam = 0
@@ -84,7 +86,12 @@ function CreateIceGrenade()
 				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
-					if self.nades[i].exploding then for index = 1, #self.hitSFX do Sound.Play(self.hitSFX[index], 1, self.nades[i].type.position) end end
+					if self.nades[i].exploding then 
+						Transform.ActiveControl(self.nades[i].type.transformID, false)
+						for index = 1, #self.hitSFX do 
+							Sound.Play(self.hitSFX[index], 1, self.nades[i].type.position) 
+						end
+					end
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
 					hits = self.nades[i].type:Update(dt)
@@ -93,9 +100,11 @@ function CreateIceGrenade()
 					for index = 1, #hits do
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
-								local effect = self.effect()
-								table.insert(hits[index].effects, effect)
-								effect:Apply(hits[index])
+								for e = 1, #self.nades[i].effects do
+									local effect = effectTable[self.nades[i].effects[e]]()
+									table.insert(hits[index].effects, effect)
+									effect:Apply(hits[index])
+								end
 							end
 							hits[index]:Hurt(self.nades[i].damage)
 							self.nades[i].hits[hits[index].transformID] = true
