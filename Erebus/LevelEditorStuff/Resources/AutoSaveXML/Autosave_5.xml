@@ -53,4 +53,304 @@
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
+    <LevelActor type="HEJ" displayName="New">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-7.046875" y="-7.4765625" z="360.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (1)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-5.203125" y="-7.4765625" z="357.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (2)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-1.9726563" y="-7.4765625" z="347.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (3)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-0.64404297" y="-7.4765625" z="332.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (4)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-0.78125" y="-7.4765625" z="324"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (5)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-2.0976563" y="-7.4765625" z="324"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (6)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-7.8476563" y="-7.4765625" z="328.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (7)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-17.625" y="-7.4765625" z="345.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (8)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-26.265625" y="-7.4765625" z="391.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (9)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-17.515625" y="-7.4765625" z="436"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (10)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-5.3671875" y="-7.4765625" z="452.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (11)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="2.7304688" y="-7.4765625" z="451.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (12)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="10.46875" y="-7.4765625" z="433.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (13)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="19.765625" y="-7.4765625" z="388"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (14)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="20.21875" y="-7.4765625" z="349.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (15)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="17.140625" y="-7.4765625" z="332.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (16)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="13.75" y="-7.4765625" z="326.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (17)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="10.992188" y="-7.4765625" z="326.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (18)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-0.93603516" y="-7.4765625" z="337.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (19)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-17.0625" y="-7.4765625" z="366.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (20)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-18.71875" y="-7.4765625" z="386.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (21)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-11.570313" y="-7.4765625" z="402.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (22)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="1.2460938" y="-7.4765625" z="409.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (23)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="17.515625" y="-7.4765625" z="405.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (24)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="34.46875" y="-7.4765625" z="388.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (25)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="45.34375" y="-7.4765625" z="367.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (26)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="42.53125" y="-7.4765625" z="347.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (27)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="36.375" y="-7.4765625" z="339.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (28)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="24.78125" y="-7.4765625" z="337"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="HEJ" displayName="New (29)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="10.8125" y="-7.4765625" z="342"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
 </Level>
