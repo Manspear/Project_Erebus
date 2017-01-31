@@ -8,7 +8,8 @@ SUNRAY_HALF_LENGTH = 23
 function CreateSunRay()
 	local sunRay = {}
 	sunRay.type = CreateRayType()
-	sunRay.effect = CreateFireEffect --reference to function
+	sunRay.effects = {} 
+	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)
 	sunRay.lifeTime = SUNRAY_DURATION
 	sunRay.damage = 0
 	sunRay.alive = false
@@ -50,7 +51,11 @@ function CreateSunRay()
 			for index = 1, #hits do
 				if hits[index].Hurt then	
 					if self.effectFlag then
-						table.insert(hits[index].effects, self.effect())
+						for e =1, #self.effects do
+							local effect = effectTable[self.effects[e]]()
+							table.insert(hits[index].effects, effect)
+							effect:Apply(hits[index])
+						end
 					end
 					hits[index]:Hurt(self.damage)
 					Sound.Play(self.hitSFX, 1, hits[index].position)

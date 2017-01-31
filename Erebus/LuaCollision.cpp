@@ -79,9 +79,9 @@ namespace LuaCollision
 			{ "Create",				createRay },
 			{ "GetCollisionIDs",	getRayCollisionIDs },
 			{ "CheckCollision",		checkRayCollision },
-			{ "SetSize",			setOBBSize },
+			{ "SetRayDirection",	setRayDirection },
 			{ "GetID",				getRayID },
-			{ "SetActive", setActive },
+			{ "SetActive",          setActive },
 			{ "__gc",				destroyRay },
 			{ NULL, NULL }
 		};
@@ -423,7 +423,7 @@ namespace LuaCollision
 		return 0;
 	}
 
-	int setDirection(lua_State * lua)
+	int setRayDirection(lua_State * lua)
 	{
 		if (lua_gettop(lua) >= 4)
 		{
