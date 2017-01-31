@@ -1,3 +1,4 @@
+BLACK_HOLE_SPELL_TEXTURE = Assets.LoadTexture("Textures/blackhole.dds");
 BLACK_HOLE_DURATION = 7
 BLACK_HOLE_RADIUS = 5
 BLACK_HOLE_DAMAGE = 1
@@ -24,6 +25,8 @@ function CreateBlackHole()
 	spell.alive = false
 	spell.timeSinceShot = 1616661
 	--spell.spamcd = 5
+	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
+	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)

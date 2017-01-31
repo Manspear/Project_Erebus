@@ -23,8 +23,11 @@ private:
 
 	sScreenImage hostButton;
 	Importer::TextureAsset* hostButtonTex;
+
 	sScreenImage clientButton;
 	Importer::TextureAsset* clientButtonTex;
+
+
 
 public:
 
