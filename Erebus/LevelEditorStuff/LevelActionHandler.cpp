@@ -1,5 +1,5 @@
 #include "LevelActionHandler.h"
-
+#include "LevelBrushHandler.h"
 LevelActionHandler* LevelActionHandler::g_instance = nullptr;
 const char* ACTION_NAMES[MAX_ACTIONS] =
 {
@@ -80,44 +80,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	}
 	if (action == ACTION_USE_BRUSH)
 	{
-		int actorID = 0;
-		glm::vec3 hitPoint(0.0f);
-		glm::vec3 hitNorm(0.f);
-		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
-		debug->drawLine(hitPoint, hitPoint + (hitNorm * 10));
-
-		if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
-		{
-			//MODEL
-			/*	glm::normalize(hitNormal);
-			std::cout << "Position: " << hitPoint.x << " " << hitPoint.y << " " << hitPoint.z << " " << std::endl;
-			std::cout << "Normal: " << hitNormal.x << " " << hitNormal.y << " " << hitNormal.z << " " << std::endl;
-
-			LevelActor* newActor = LevelActorFactory::getInstance()->createActor();
-			newActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
-			LevelActorHandler::getInstance()->addActor(newActor);
-
-			LevelModel* modelComponent = newActor->getComponent<LevelModel>();
-			modelComponent = (LevelModel*)LevelActorFactory::getInstance()->getNewComponent(LevelModel::name);
-			modelComponent->setModelName("SunRayInner");
-			newActor->addComponent(modelComponent);
-			modelComponent->postInitialize();
-
-			LevelActorHandler::getInstance()->updateActorBar();*/
-
-			//Using PREFABS
-			LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-
-			if (newActor)
-			{
-				LevelActorHandler::getInstance()->addActor(newActor);
-				LevelActorHandler::getInstance()->setSelected(newActor);
-
-				LevelTransform* transform = newActor->getComponent<LevelTransform>();
-				if (transform)
-					transform->getTransformRef()->setPos(hitPoint);
-			}
-		}
+			LevelBrushHandler::testDraw(engine,camera,inputs,debug);
 	}
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )

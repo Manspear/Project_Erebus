@@ -11,6 +11,33 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	TwAddVarRW(actionBar->getBar(), "radius", TW_TYPE_FLOAT, &this->radius, NULL);
 	TwAddVarRW(actionBar->getBar(), "density", TW_TYPE_FLOAT, &this->density, NULL);
 }
+void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera, Inputs* inputs,Debug* debug)
+{
+	int actorID = 0;
+	glm::vec3 hitPoint(0.0f);
+	glm::vec3 hitNorm(0.f);
+	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+	debug->drawLine(hitPoint, hitPoint + (hitNorm * 10));
+
+	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
+	{
+		LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
+		if (newActor)
+		{
+			LevelActorHandler::getInstance()->addActor(newActor);
+			//LevelActorHandler::getInstance()->setSelected(newActor);
+
+			newActor->setActorType("BRUSH");
+			//LevelBrushHandler::getInstance()->
+			LevelTransform* transform = newActor->getComponent<LevelTransform>();
+
+			if (transform)
+				transform->getTransformRef()->setPos(hitPoint);
+		}
+
+	}
+
+}
 LevelBrushHandler::LevelBrushHandler()
 {
 

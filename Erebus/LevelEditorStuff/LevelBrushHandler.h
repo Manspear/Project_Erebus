@@ -15,6 +15,7 @@ public:
 
 	~LevelBrushHandler();
 
+	
 	static LevelBrushHandler* getInstance();
 	static void deleteInstance();
 	static void resetInstance();
@@ -34,7 +35,7 @@ public:
 
 	
 	void setTweakBar(TweakBar* brushBar);
-
+	static void testDraw(Gear::GearEngine* engine, Camera* camera, Inputs* inputs, Debug* debug);
 	//Importer::Assets* getAssets();
 
 private:

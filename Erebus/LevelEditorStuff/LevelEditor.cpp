@@ -13,6 +13,7 @@ LevelEditor::~LevelEditor()
 
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
+
 	//delete this->transformHandler;
 	//delete this->modelHandler;
 	//delete this->levelGizmo;
@@ -117,10 +118,6 @@ void LevelEditor::start() {
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
 	LevelLightHandler::getInstance()->addDebugger(Debugger::getInstance());
 
-	
-	//resetWorld();
-	//resetWorld();
-	//resetWorld();
 	LevelWorldHandler::getInstance()->addStuff(engine, assets, ui, &window, inputs, camera, Debugger::getInstance());
 
 	int boundAnimations = 0;
@@ -130,8 +127,6 @@ void LevelEditor::start() {
 	int actorID = 0;
 	glm::vec3 hitPoint;
 	glm::vec3 hitNormal;
-
-
 
 	float elapsedTime = 0.0f;
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint);
