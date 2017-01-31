@@ -359,7 +359,9 @@ void LevelCollider::setTwStruct( TwBar* bar )
 	
 	TwAddVarRW( bar, "coliderOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'" );
 
-	
+	if(this->parentCollider == nullptr)
+		TwAddVarRW(bar, "coliderLayer", TW_TYPE_INT16, &layer, "label='Layer:'");
+
 	
 	switch( colliderType )
 	{

@@ -23,8 +23,9 @@ public:
 
 	double timeSinceLastTransformPacket();
 	double timeSinceLastAnimationPacket();
+	double timeSinceLastAITransformPacket();
 	
-	void sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& dir_x, const float& dir_y, const float& dir_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+	void sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
 	bool fetchTransformPacket(TransformPacket &packet);
 
 	void sendAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID);
@@ -35,6 +36,10 @@ public:
 
 	void sendSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
 	bool fetchSpellPacket(SpellPacket& packet);
+
+	void sendAITransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+	bool fetchAITransformPacket(TransformPacket &packet);
+
 
 private:
 	void startNetworkSending();
@@ -49,4 +54,5 @@ private:
 	const double recFrequency = 0.0167; // Time between packages
 	double transformpackTime;
 	double animationpackTime;
+	double aiTransformpackTime;
 };

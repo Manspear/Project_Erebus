@@ -95,4 +95,6 @@ private:
 	static void incrementHitboxID();
 	void initializeColors();
 	bool enabled = true;
+
+	void recursiveSetID(HitBox* hitbox);
 };

@@ -52,8 +52,7 @@ void CollisionHandler::addHitbox(SphereCollider * sphere)
 {
 	this->allColliders.push_back(sphere);
 	this->sphereColliders.push_back(sphere);
-	sphere->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(sphere);
 
 	this->collisionLayers->addHitbox(sphere);
 
@@ -63,8 +62,7 @@ void CollisionHandler::addHitbox(AABBCollider * aabb)
 {
 	this->allColliders.push_back(aabb);
 	this->aabbColliders.push_back(aabb);
-	aabb->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(aabb);
 
 	this->collisionLayers->addHitbox(aabb);
 }
@@ -73,8 +71,7 @@ void CollisionHandler::addHitbox(SphereCollider * sphere, int layer)
 {
 	this->allColliders.push_back(sphere);
 	this->sphereColliders.push_back(sphere);
-	sphere->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(sphere);
 
 	this->collisionLayers->addHitbox(sphere, layer);
 }
@@ -83,8 +80,8 @@ void CollisionHandler::addHitbox(AABBCollider * aabb, int layer)
 {
 	this->allColliders.push_back(aabb);
 	this->aabbColliders.push_back(aabb);
-	aabb->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(aabb);
+	
 
 	this->collisionLayers->addHitbox(aabb, layer);
 }
@@ -93,8 +90,7 @@ void CollisionHandler::addHitbox(OBBCollider * obb)
 {
 	this->allColliders.push_back(obb);
 	this->obbColliders.push_back(obb);
-	obb->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(obb);
 
 	this->collisionLayers->addHitbox(obb);
 }
@@ -103,8 +99,7 @@ void CollisionHandler::addHitbox(OBBCollider * obb, int layer)
 {
 	this->allColliders.push_back(obb);
 	this->obbColliders.push_back(obb);
-	obb->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(obb);
 
 	this->collisionLayers->addHitbox(obb, layer);
 }
@@ -113,8 +108,7 @@ void CollisionHandler::addRay(RayCollider * ray)
 {
 	this->rayColliders.push_back(ray);
 
-	ray->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(ray);
 
 	this->collisionLayers->addRay(ray);
 }
@@ -123,8 +117,7 @@ void CollisionHandler::addRay(RayCollider * ray, int layer)
 {
 	this->rayColliders.push_back(ray);
 
-	ray->setID(CollisionHandler::hitboxID);
-	CollisionHandler::incrementHitboxID();
+	this->recursiveSetID(ray);
 
 	this->collisionLayers->addRay(ray, layer);
 }
@@ -423,6 +416,19 @@ void CollisionHandler::initializeColors()
 	for (size_t i = 0; i < hardcoddedColorSize; i++)
 	{
 		this->colors[i] = hardCodedColors[i];
+	}
+}
+
+void CollisionHandler::recursiveSetID(HitBox * hitbox)
+{
+	hitbox->setID(CollisionHandler::hitboxID);
+	CollisionHandler::incrementHitboxID();
+	if (hitbox->children != nullptr)
+	{
+		for (size_t i = 0; i < hitbox->children->size(); i++)
+		{
+			this->recursiveSetID(hitbox->children->operator[](i));
+		}
 	}
 }
 

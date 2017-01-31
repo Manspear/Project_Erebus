@@ -105,9 +105,9 @@ function UpdateCamera(dt)
 
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()
-	local height = heightmaps[1]:GetHeight(temppos.x, temppos.z)
+	local height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z)
 	if height + 0.5 > temppos.y then
-		--Camera.SetHeight(height+ 0.5) 
+		--Camera.SetHeight(height + 0.5) 
 	end
 
 

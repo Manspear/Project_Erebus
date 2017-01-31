@@ -3,7 +3,6 @@
 #include "ImageAsset.h"
 #include "Assets.h"
 #include <math.h>
-#include "staticNonModels.h"
 #include "ModelAsset.h"
 
 namespace Importer

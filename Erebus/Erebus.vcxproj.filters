@@ -141,6 +141,12 @@
     <ClCompile Include="LevelEditorStuff\LevelSound.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="PlaneFrustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -279,6 +285,10 @@
     <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
+    <ClInclude Include="PlaneFrustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\camera.lua">
@@ -416,10 +426,6 @@
     <None Include="Scripts\iceGrenade.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\grenadeType.lua" />
-    <None Include="Shaders\geometryPassShadow.frag" />
-    <None Include="Shaders\geometryPassShadow.vert" />
-    <None Include="Shaders\skybox.frag" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Shaders\image.frag" />
     <None Include="Shaders\image.geom" />
@@ -430,11 +436,9 @@
     <None Include="Shaders\geometryPassShadow.vert" />
     <None Include="Shaders\skybox.frag" />
     <None Include="Shaders\skybox.vert" />
-    <None Include="Shaders\skybox.vert" />
     <None Include="Scripts\sunRay.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\console.lua" />
     <None Include="Scripts\hellPillar.lua">
       <Filter>Scripts\spells</Filter>
     </None>
@@ -443,6 +447,30 @@
     </None>
     <None Include="Scripts\rayType.lua">
       <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\blackHole.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\console.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\grenadeType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\AI\client_AI.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

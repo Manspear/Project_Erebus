@@ -26,6 +26,7 @@ struct Emitter
 	float focusSpread;
 	float particleSize;
 	float dirX, dirY, dirZ;
+	float shrinkage;
 	char textureName[32];
 };
 

@@ -65,6 +65,7 @@ private:
 	static void TW_CALL onGetType( void* value, void* clientData );
 
 	int colliderType;
+	unsigned int layer;
 	glm::vec3 position, offset, color, rotation;
 	LevelCollider* parentCollider;
 	std::vector<LevelCollider*> childColliders;

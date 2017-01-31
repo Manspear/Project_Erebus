@@ -40,7 +40,7 @@ void LevelEditor::start() {
 	Importer::FontAsset* font = assets->load<FontAsset>("Fonts/System");
 	LevelTransformHandler::createInstance(engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, assets);
-
+	std::vector<ModelInstance> forwardInstances;
 	
 	//std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
@@ -117,10 +117,7 @@ void LevelEditor::start() {
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
 	LevelLightHandler::getInstance()->addDebugger(Debugger::getInstance());
 
-	
-	//resetWorld();
-	//resetWorld();
-	//resetWorld();
+
 	LevelWorldHandler::getInstance()->addStuff(engine, assets, ui, &window, inputs, camera, Debugger::getInstance());
 
 	int boundAnimations = 0;
@@ -139,6 +136,7 @@ void LevelEditor::start() {
 	engine->queueParticles(ps);
 	engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 	engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
+	engine->queueForwardModels(&forwardInstances);
 
 	while (running && window.isWindowOpen())
 	{

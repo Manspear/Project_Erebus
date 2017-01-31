@@ -25,8 +25,8 @@ public:
 
 template<typename Packet> PacketQueue<Packet>::PacketQueue(uint8_t queueSize)
 {
-	readIndex = 0;
-	writeIndex = 0;
+	this->readIndex = 0;
+	this->writeIndex = 0;
 	this->queueSize = queueSize;
 
 	this->queuePointer = new Packet[this->queueSize];
@@ -39,6 +39,10 @@ template<typename Packet> PacketQueue<Packet>::~PacketQueue()
 		delete [] this->queuePointer;
 		this->queuePointer = 0;
 	}
+
+	this->readIndex = 0;
+	this->writeIndex = 0;
+	this->queueSize = 0;
 }
 
 template<typename Packet> bool PacketQueue<Packet>::pop(Packet &packet)
@@ -96,7 +100,7 @@ template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned cha
 
 		if (nrOfPacketsToCopy < distanceFromEndOfQueue) // Circlebuffer spliting of data check
 		{
-			memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, sizeToCopy);
+			memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, nrOfPacketsToCopy * sizeof(Packet));
 			this->writeIndex = (this->writeIndex + nrOfPacketsToCopy) % this->queueSize;
 		}
 		else
