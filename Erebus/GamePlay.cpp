@@ -19,9 +19,13 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	engine->bindTransforms(&allTransforms, &boundTransforms);
 	engine->bindAnimations(&allAnimations, &boundAnimations);
 
+	OBBCollider* swag = new OBBCollider(glm::vec3(30,10,25),5,5,5);
+	swag->setZAxis(glm::vec3(1, 1, 1));
+	collisionHandler.addHitbox(swag,1);
+
 	collisionHandler.setTransforms(transforms);
 	collisionHandler.setDebugger(Debugger::getInstance());
-	collisionHandler.setLayerCollisionMatrix(1, 1, false);
+	collisionHandler.setLayerCollisionMatrix(1, 1, false); // layer1 will not collide with itself
 
 	ai.addDebug(Debugger::getInstance());
 
