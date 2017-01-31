@@ -215,9 +215,7 @@
     <None Include="Scripts\console.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\fireball.lua" />
-    <None Include="Scripts\fireballArc.lua" />
     <None Include="Scripts\fireEffect.lua" />
-    <None Include="Scripts\fireGroundAoE.lua" />
     <None Include="Scripts\gameplay.lua" />
     <None Include="Scripts\gamestate.lua" />
     <None Include="Scripts\grenadeType.lua" />

@@ -18,6 +18,7 @@ function CreateFireball()
 	fireball.castSFX = "Effects/burn_ice_001.wav"
 	fireball.deathSFX = "Effects/explosion.wav"
 	fireball.hudtexture = FIREBALL_SPELL_TEXTURE
+	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, fireball.type.transformID)

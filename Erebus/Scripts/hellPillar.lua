@@ -48,6 +48,7 @@ function CreateHellPillar()
 	spell.effect = CreateFireEffect()
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.pillarDir = {x = 0, y = 0, z = 29.85}
+	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then
 			if not self.nade.alive then

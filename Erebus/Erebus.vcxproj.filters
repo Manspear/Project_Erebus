@@ -358,14 +358,8 @@
     <None Include="Scripts\fireball.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\fireballArc.lua">
-      <Filter>Scripts\spells</Filter>
-    </None>
     <None Include="Scripts\fireEffect.lua">
       <Filter>Scripts\effects</Filter>
-    </None>
-    <None Include="Scripts\fireGroundAoE.lua">
-      <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\groundAoEType.lua">
       <Filter>Scripts\types</Filter>

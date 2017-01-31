@@ -28,6 +28,7 @@ function CreateSunRay()
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
 	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
+	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
 	Gear.AddForwardInstance(model2, sunRay.type.transformID)

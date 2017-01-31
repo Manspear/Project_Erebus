@@ -205,9 +205,9 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			if player.spells[player.currentSpell].cooldown < 0 then 
-				Network.SendSpellPacket(player.transformID, player.currentSpell)
-			end
+			--if player.spells[player.currentSpell].cooldown < 0 then 
+				--Network.SendSpellPacket(player.transformID, player.currentSpell)
+			--end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
