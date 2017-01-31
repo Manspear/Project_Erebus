@@ -1,10 +1,10 @@
+HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 MAX_CHARGE_TIME_PILLAR = 3
 MIN_CHARGE_TIME_PILLAR = 1.5
 MAX_DAMAGE_PILLAR = 1000
 SPEED_PILLAR = 75
 COOLDOWN_PILLAR = 3
 PILLAR_DURATION = 2
-
 GRAVITY_PILLAR = 50
 
 Y_SPEED_PILLAR = 20
@@ -39,7 +39,6 @@ function CreateHellPillar()
 	local spell = {}
 	spell.nade = initNade()
 	spell.pillar = initPillar()
-
 	spell.maxChargeTime = MAX_CHARGE_TIME_PILLAR
 	spell.effect = CreateSlowEffect
 	spell.chargedTime = 0	
@@ -47,7 +46,9 @@ function CreateHellPillar()
 	spell.ChargeCast = BaseChargeCast
 	spell.cooldown = 0
 	spell.effect = CreateFireEffect()
+	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.pillarDir = {x = 0, y = 0, z = 29.85}
+	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then
 			if not self.nade.alive then

@@ -47,6 +47,7 @@ namespace Gear
 
 		GEAR_API void showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture);
 
+		GEAR_API void updateBuffer();
 		GEAR_API void draw();
 		
 		//GEAR_API bool getPicking(MousePos mousePos);
@@ -54,6 +55,9 @@ namespace Gear
 	private:
 		std::vector<sScreenImage> quads;
 		std::vector<Importer::TextureAsset*> textures;
+
+		std::vector<sScreenImage> bufferQuads;
+		std::vector<Importer::TextureAsset*> bufferTextures;
 
 		ShaderProgram* shader;
 		GLuint VAO, VBO;

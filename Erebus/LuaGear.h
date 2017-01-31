@@ -4,6 +4,7 @@
 #include "Gear.h"
 #include "Assets.h"
 #include "WorkQueue.h"
+#include "Window.h"
 
 #define MAX_ANIMATIONS 100
 
@@ -14,8 +15,10 @@ namespace LuaGear
 							std::vector<ModelInstance>* models,
 							std::vector<AnimatedInstance>* animatedModels,
 							Animation* animations,
-							std::vector<ModelInstance>* forwardModels,
 							int* boundAnimations,
+							std::vector<ModelInstance>* forwardModels,
+							bool* queueModels,
+							bool* mouseVisible,
 							Assets* assets,
 							WorkQueue* work );
 
@@ -23,6 +26,8 @@ namespace LuaGear
 	int addAnimatedInstance( lua_State* lua );
 	int addForwardInstance(lua_State* lua);
 
+	int setQueueModels( lua_State* lua );
+	int setCursorVisible( lua_State* lua );
 
 	int print( lua_State* lua );
 	int getTextDimensions( lua_State* lua );

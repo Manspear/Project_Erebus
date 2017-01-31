@@ -69,3 +69,4 @@ CollisionHandler.AddSphere(goal.collider)
 Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
+

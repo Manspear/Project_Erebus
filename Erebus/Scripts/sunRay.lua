@@ -1,3 +1,4 @@
+SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
@@ -26,6 +27,8 @@ function CreateSunRay()
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
+	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
+	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
 	Gear.AddForwardInstance(model2, sunRay.type.transformID)
