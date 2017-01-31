@@ -157,6 +157,7 @@ int main()
 	assets.load<TextureAsset>("Textures/blackhole.dds");
 	assets.load<TextureAsset>("Textures/select.dds");
 	assets.load<TextureAsset>("Textures/crosshair.png");
+	assets.load<TextureAsset>("Textures/icegrenade.dds");
 
 	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
