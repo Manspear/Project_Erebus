@@ -141,11 +141,10 @@
     <ClCompile Include="LevelEditorStuff\LevelSound.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PlaneFrustum.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>Source Files\Collider</Filter>
+    <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="PlaneFrustum.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelColiderHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,10 +284,11 @@
     <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="PlaneFrustum.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="Frustum.h" />
+    <ClInclude Include="PlaneFrustum.h" />
+    <ClInclude Include="LevelEditorStuff\LevelColiderHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\camera.lua">
@@ -359,9 +359,6 @@
     </None>
     <None Include="Shaders\anim.frag">
       <Filter>Shaders</Filter>
-    </None>
-    <None Include="Scripts\cameraLevelEditor.lua">
-      <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\geometryPicking.frag">
       <Filter>Shaders</Filter>

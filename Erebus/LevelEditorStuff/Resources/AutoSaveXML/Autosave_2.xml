@@ -55,28 +55,15 @@
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Empty" displayName="New (1)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="-27.84375" y="19.109375" z="106.625"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
     <LevelActor type="OBBColider" displayName="OBBBase">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="25"/>
+            <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="87.5625" y="12.570313" z="137"/>
+            <Position x="-15.243524" y="16.84375" z="130.65056"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
@@ -86,10 +73,10 @@
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="11" z="1"/>
+            <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="95.25" y="30.5" z="86.3125"/>
+            <Position x="10.453125" y="2.5566406" z="134.125"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
@@ -99,10 +86,10 @@
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="5" y="14" z="1"/>
+            <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-14.947841" y="6.3682251" z="114.93438"/>
+            <Position x="19.796875" y="11.84375" z="113.8125"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
@@ -115,7 +102,7 @@
             <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-8.328125" y="3.7636719" z="97.4375"/>
+            <Position x="-7.53125" y="14.578125" z="96.375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
@@ -128,7 +115,7 @@
             <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-7.28125" y="3.3671875" z="96.375"/>
+            <Position x="-22.890625" y="23.171875" z="119.8125"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
@@ -141,7 +128,7 @@
             <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-7.9335938" y="3.484375" z="94.9375"/>
+            <Position x="-17" y="18.28125" z="136.125"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
@@ -154,7 +141,7 @@
             <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-6.6914063" y="13.210938" z="92.875"/>
+            <Position x="-16.203125" y="-4.7304688" z="167"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
@@ -167,9 +154,67 @@
             <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-4.9414063" y="13.101563" z="97"/>
-            <Rotation x="0" y="0.13007665" z="0"/>
+            <Position x="3.203125" y="-7.4726563" z="170.5"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="OBBColider" displayName="OBBBase (8)">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1" y="1" z="1"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="20.1875" y="2.4375" z="122.8125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="OBBColider" displayName="OBBBase (9)">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1" y="1" z="1"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="-16.546875" y="6.7734375" z="107.5625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="OBBColider" displayName="OBBBase (10)">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="13.256502" y="7.4978561" z="12.549927"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="2.0410156" y="24.32128" z="133.375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="13.256502" y="7.4978561" z="12.549927"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="OBBColider" displayName="OBBBase (11)">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="22.5" y="19" z="19.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-2" y="54" z="108"/>
+            <Rotation x="0" y="-1.0471976" z="0"/>
+            <Scale x="22.5" y="19" z="19.5"/>
         </LevelTransform>
     </LevelActor>
 </Level>

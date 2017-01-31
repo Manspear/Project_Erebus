@@ -25,6 +25,7 @@ LevelEditor::~LevelEditor()
 	LevelTransformHandler::deleteInstance();
 	LevelModelHandler::deleteInstance();
 	LevelWorldHandler::deleteInstance();
+	LevelColiderHandler::deleteInstance();
 	
 	delete this->assets;
 	delete this->engine;
@@ -179,7 +180,7 @@ void LevelEditor::start() {
 		//{
 		//	actors[n]->update();
 		//}
-		//LevelActorHandler::getInstance()->updateActors();
+		LevelActorHandler::getInstance()->updateActors();
 		std::string fps = "FPS: " + std::to_string(counter.getFPS())
 			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
 			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";

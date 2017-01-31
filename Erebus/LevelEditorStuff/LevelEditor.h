@@ -29,6 +29,7 @@
 #include "LevelLightHandler.h"
 #include "LevelCollider.h"
 #include "LevelWorldHandler.h"
+#include "LevelColiderHandler.h"
 
 #include <SDKDDKVer.h>
 

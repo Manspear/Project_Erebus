@@ -45,6 +45,7 @@ public:
 	static const char* name;
 	static const char* COLLIDER_TYPE_NAMES[MAX_COLLIDER_TYPES];
 	static void setDebugger( Debug* debug );
+	void updateLayer();
 
 private:
 	TwType TW_TYPE_COLLIDERS()

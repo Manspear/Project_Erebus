@@ -42,7 +42,7 @@ void LevelWorldHandler::resetWorld()
 	LevelLightHandler::resetInstance();
 	LevelTransformHandler::resetInstance(engineRef);
 	LevelModelHandler::resetInstance(LevelTransformHandler::getInstance(), engineRef, assetsRef);
-
+	LevelColiderHandler::resetInstance();
 	this->levelUiRef->reset(windowRef->getGlfwWindow());
 
 	LevelAssetHandler::getInstance()->setAssets(assetsRef);

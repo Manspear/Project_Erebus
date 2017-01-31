@@ -40,6 +40,7 @@ LevelActorHandler::LevelActorHandler()
 	: worldBar( nullptr ), actorBar( nullptr ), selectedActor( nullptr )
 {
 	this->selectedComponent = LevelUI::SELECT_COMPONENT;
+	this->selectedDisplayHitbox = DisplayHitBoxes::NONE;
 }
 
 LevelActorHandler::~LevelActorHandler()
@@ -89,8 +90,44 @@ void LevelActorHandler::removeSelectedActor()
 
 void LevelActorHandler::updateActors()
 {
-	for( ActorIT it = actors.begin(); it != actors.end(); it++ )
-		it->second->update();
+	//for( ActorIT it = actors.begin(); it != actors.end(); it++ )
+	//	it->second->update();
+
+	//Displays hitbox
+	switch (selectedDisplayHitbox) {
+	case DisplayHitBoxes::STATIC_ONLY:
+		for (ActorIT it = actors.begin(); it != actors.end(); it++) {
+			for (auto element : it->second->getAllComponents())
+			{
+				if (element.second->getName() == LevelCollider::name && it->second->getExportType() == EXPORT_COLLIDER) {
+					element.second->update(0);
+				}
+			}
+		}
+		
+			//it->second->update();
+		break;
+	case DisplayHitBoxes::DYNAMIC_ONLY:
+		for (ActorIT it = actors.begin(); it != actors.end(); it++) {
+			for (auto element : it->second->getAllComponents())
+			{
+				if (element.second->getName() == LevelCollider::name && it->second->getExportType() != EXPORT_COLLIDER) {
+					element.second->update(0);
+				}
+			}
+		}
+		break;
+	case DisplayHitBoxes::STATIC_DYNAMIC:
+		for (ActorIT it = actors.begin(); it != actors.end(); it++) {
+			for (auto element : it->second->getAllComponents())
+			{
+				if (element.second->getName() == LevelCollider::name) {
+					element.second->update(0);
+				}
+			}
+		}
+		break;
+	}
 }
 
 void LevelActorHandler::setSelected( unsigned int id )
@@ -293,4 +330,8 @@ void LevelActorHandler::resetInstance()
 	if (g_instance != nullptr)
 		delete g_instance;
 	g_instance = new LevelActorHandler();
+}
+
+void LevelActorHandler::changeDisplayHitbox() {
+	this->selectedDisplayHitbox = (DisplayHitBoxes)(((int)this->selectedDisplayHitbox + 1) % (int)DisplayHitBoxes::NUM_DISPLAY_HB);
 }

@@ -1,12 +1,12 @@
-<LevelActor type="Empty" displayName="New">
-    <LevelPointLight>
-        <Position x="0" y="0" z="0"/>
-        <Color x="1" y="0" z="1"/>
-        <Radius r="41"/>
-        <Intensity i="10"/>
-    </LevelPointLight>
+<LevelActor type="ABBColider" displayName="AbbBase (1) (1) (1) (1) (1)">
+    <LevelCollider type="1">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <MinPos x="-2" y="-2" z="-2"/>
+        <MaxPos x="2" y="2" z="2"/>
+    </LevelCollider>
     <LevelTransform>
-        <Position x="-36" y="22" z="197"/>
+        <Position x="17" y="24" z="98"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
     </LevelTransform>

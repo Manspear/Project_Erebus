@@ -176,13 +176,13 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 
 	element->LinkEndChild( offsetElement );
 	element->LinkEndChild( colorElement );
-
+	scale = parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
 	switch( colliderType )
 	{
 		case COLLIDER_SPHERE:
 		{
 			tinyxml2::XMLElement* radiusElement = doc->NewElement("Radius");
-			radiusElement->SetAttribute( "r", this->sphereColider->getRadius() );
+			radiusElement->SetAttribute( "r", this->sphereColider->getRadius() / scale.x);
 
 			element->LinkEndChild( radiusElement );
 		} break;
@@ -190,14 +190,14 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 		case COLLIDER_AABB:
 		{
 			tinyxml2::XMLElement* minPosElement = doc->NewElement("MinPos");
-			minPosElement->SetAttribute( "x", abbColider->getMinPos().x - this->position.x );
-			minPosElement->SetAttribute( "y", abbColider->getMinPos().y - this->position.y);
-			minPosElement->SetAttribute( "z", abbColider->getMinPos().z - this->position.z);
+			minPosElement->SetAttribute( "x", (abbColider->getMinPos().x - this->position.x)/ scale.x);
+			minPosElement->SetAttribute( "y", (abbColider->getMinPos().y - this->position.y)/ scale.y);
+			minPosElement->SetAttribute( "z", (abbColider->getMinPos().z - this->position.z)/ scale.z);
 
 			tinyxml2::XMLElement* maxPosElement = doc->NewElement("MaxPos");
-			maxPosElement->SetAttribute( "x", abbColider->getMaxPos().x - this->position.x);
-			maxPosElement->SetAttribute( "y", abbColider->getMaxPos().y - this->position.y);
-			maxPosElement->SetAttribute( "z", abbColider->getMaxPos().z - this->position.z);
+			maxPosElement->SetAttribute( "x", (abbColider->getMaxPos().x - this->position.x) / scale.x);
+			maxPosElement->SetAttribute( "y", (abbColider->getMaxPos().y - this->position.y) / scale.y);
+			maxPosElement->SetAttribute( "z", (abbColider->getMaxPos().z - this->position.z) / scale.z);
 
 			element->LinkEndChild( minPosElement );
 			element->LinkEndChild( maxPosElement );
@@ -212,9 +212,9 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 			rotationElement->SetAttribute("z", this->rotation.z);
 
 			tinyxml2::XMLElement* halfLengthElement = doc->NewElement("HalfLengths");
-			halfLengthElement->SetAttribute( "x", this->obbColider->getHalfLengths().x);
-			halfLengthElement->SetAttribute( "y", this->obbColider->getHalfLengths().y);
-			halfLengthElement->SetAttribute( "z", this->obbColider->getHalfLengths().z);
+			halfLengthElement->SetAttribute( "x", this->obbColider->getHalfLengths().x / scale.x);
+			halfLengthElement->SetAttribute( "y", this->obbColider->getHalfLengths().y / scale.y);
+			halfLengthElement->SetAttribute( "z", this->obbColider->getHalfLengths().z / scale.z);
 
 			element->LinkEndChild(rotationElement);
 			element->LinkEndChild( halfLengthElement );
@@ -278,12 +278,13 @@ void LevelCollider::update( float deltaTime )
 		switch (colliderType) {
 		case COLLIDER_SPHERE:
 			this->sphereColider->setPos(position);
-			this->sphereColider->setRadius(sphereRadius);
+			this->sphereColider->setRadius(sphereRadius * scale.x);
 			break;
 		case COLLIDER_AABB: 
+			scale = transform->getTransformRef()->getScale();
 			this->abbColider->setPos(this->position);
-			this->abbColider->setMinPos(this->aabbMinPos);
-			this->abbColider->setMaxPos(this->aabbMaxPos);
+			this->abbColider->setMinPos(glm::vec3(this->aabbMinPos.x * scale.x, this->aabbMinPos.y * scale.y, this->aabbMinPos.z * scale.z));
+			this->abbColider->setMaxPos(glm::vec3(this->aabbMaxPos.x * scale.x, this->aabbMaxPos.y * scale.y, this->aabbMaxPos.z * scale.z));
 			
 			break;
 		case COLLIDER_OBB:
@@ -442,4 +443,32 @@ void TW_CALL LevelCollider::onGetType( void* value, void* clientData )
 {
 	LevelCollider* collider = (LevelCollider*)clientData;
 	*(int*)value = collider->getType();
+}
+
+void LevelCollider::updateLayer() {
+	int tempLayer = 0;
+	if (this->parentCollider == nullptr) {
+		switch (this->parent->getExportType()) {
+		case EXPORT_ENEMY:
+			tempLayer = 2;
+			break;
+		case EXPORT_PLAYER:
+			tempLayer = 1;
+			break;
+		case EXPORT_HEALTH_ORB:
+			tempLayer = 5;
+			break;
+		
+		case EXPORT_STATIC:
+			tempLayer = 4;
+			break;
+		case EXPORT_COLLIDER:
+			tempLayer = 4;
+			break;
+		}
+	}
+	else {
+		tempLayer = this->parentCollider->layer;
+	}
+	layer = tempLayer;
 }
