@@ -80,7 +80,11 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	}
 	if (action == ACTION_USE_BRUSH)
 	{
-			LevelBrushHandler::testDraw(engine,camera,inputs,debug);
+		TwDefine("Brush visible=true");
+		LevelBrushHandler::getInstance()->testDraw(engine,camera,inputs,debug);
+	}
+	else {
+		TwDefine("Brush visible=false");
 	}
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )

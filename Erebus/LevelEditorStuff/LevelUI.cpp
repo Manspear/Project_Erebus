@@ -97,11 +97,6 @@ void LevelUI::initBars()
 
 	bars[5] = new TweakBar(glm::vec2(bar2Position.x - 148, 178), glm::vec2(148, 178), glm::vec4(128, 32, 32, 200), 1, brushBarName);
 	
-	//Make Class tomorrow->
-	//float radius;
-	//TwAddVarRW(bars[5]->getBar(), "radius", TW_TYPE_FLOAT, &radius, NULL);
-	//End of things to Add.
-
 	LevelActorHandler::getInstance()->setTweakBars(bars[1], bars[0]);
 	LevelAssetHandler::getInstance()->setTweakBars(bars[2], bars[3]);
 	LevelActionHandler::getInstance()->setTweakBar(bars[4]);

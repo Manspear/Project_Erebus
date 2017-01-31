@@ -7,6 +7,7 @@
 #include "LevelActionHandler.h"
 #include "LevelActorFactory.h"
 #include "LevelAssetHandler.h"
+#include "LevelBrushHandler.h"
 
 #define LEVEL_AUTOSAVE_TIME 60.0f // seconds
 #define LEVEL_MAX_AUTOSAVES 5

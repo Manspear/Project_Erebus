@@ -26,6 +26,7 @@ LevelEditor::~LevelEditor()
 	LevelTransformHandler::deleteInstance();
 	LevelModelHandler::deleteInstance();
 	LevelWorldHandler::deleteInstance();
+	LevelBrushHandler::deleteInstance();
 	
 	delete this->assets;
 	delete this->engine;
