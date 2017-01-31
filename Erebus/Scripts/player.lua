@@ -88,10 +88,10 @@ function LoadPlayer2()
 
 	-- set spells for player
 	player2.spells = {}
-	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player2.spells[1] = CreateHellPillar()
 	player2.spells[2] = CreateBlackHole()
-	player2.spells[3] = CreateSunRay()
+	player2.spells[3] = CreateIceGrenade()
+	player2.spells[4] = CreateSunRay()
 
 	player2.currentSpell = 1
 
@@ -264,6 +264,7 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
+	player2.spells[4]:Update(dt)
 		
 	local newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
 	--if newAnimationValue == true then
