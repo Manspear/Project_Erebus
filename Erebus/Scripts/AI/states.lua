@@ -24,7 +24,7 @@ end
 
 function state.followState.enter(enemy,player)
 	print("Enter FOLLOW")
-	enemy.animationState = 2
+	enemy.animationController:doWalk()
 	
 	--AI.FollowPlayer(player.transformID)
 end
@@ -142,10 +142,9 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 			enemy.insideInnerCircleRange = false
 			inState = "FollowState" 
 			changeToState(enemy,player,inState)
-			print("TIME FOR FOLLOW MAN")
+			--print("TIME FOR FOLLOW MAN")
 		else
-			if enemyManager.actionEnemy == -1 then
-				print("FUUUU")
+			if enemyManager.actionEnemy == -3 then
 				enemyManager.actionEnemy = enemy.transformID
 				enemy.actionCountDown = 1
 				randomNum = math.random(0, 0)
@@ -226,7 +225,7 @@ end
 
 
 function state.attackState.enter(enemy,player)
-	enemy.animationState = 3
+	enemy.animationController:doAttack()
 	--enemy.attackCountdown = 1
 
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
@@ -272,6 +271,8 @@ end
 
 function state.attackState.exit(enemy,player)
 	Transform.SetScale(enemy.transformID,1)
+	enemy.animationController:doWalk()
+
 end 
 
 function state.deadState.enter(enemy,player)

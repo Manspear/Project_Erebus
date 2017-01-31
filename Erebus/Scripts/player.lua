@@ -151,7 +151,9 @@ function UpdatePlayer(dt)
 		local height = heightmaps[player.heightmapIndex]:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
 
 		local diff = height - position.y
-		position = newPosition
+		if AI.CheckIfTarget(newPosition) == false then
+			position = newPosition
+		end
 
 		position.y = position.y + player.verticalSpeed
 		player.verticalSpeed = player.verticalSpeed - 0.982 * dt

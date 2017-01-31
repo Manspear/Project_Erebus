@@ -25,9 +25,9 @@ local function updateEnemyManager(enemies,player)
 			end
 
 			if enemies[i].insideInnerCircleRange == true then
-			print("DISTANCE",AI.DistanceTransTrans(enemies[i].transformID,player.transformID))
+			--print("DISTANCE",AI.DistanceTransTrans(enemies[i].transformID,player.transformID))
 				if( enemies[i].target == nil and  AI.DistanceTransTrans(enemies[i].transformID,player.transformID) > player.innerCirclerange +2 )or (AI.DistanceTransTrans(enemies[i].transformID, player.transformID) < enemies[i].range+4 and enemies[i].target == nil) then
-					inPos = AI.SetSpecificTarget(player.transformID,player.innerCirclerange,player.nrOfInnerCircleEnemies,innerCounter);
+					inPos = AI.SetSpecificTarget(player.transformID,player.innerCirclerange,player.nrOfInnerCircleEnemies,innerCounter)
 				
 					if inPos.y ~= -1 then
 						enemies[i].target = inPos

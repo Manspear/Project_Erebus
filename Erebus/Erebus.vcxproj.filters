@@ -331,7 +331,7 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Scripts\Animation_Controllers\playerController.lua">
-      <Filter>Animation Controllers</Filter>
+      <Filter>Scripts\Animation Controllers</Filter>
     </None>
     <None Include="Scripts\arcType.lua">
       <Filter>Scripts\types</Filter>
@@ -389,6 +389,9 @@
     <None Include="Scripts\blackHole.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
+      <Filter>Scripts\Animation Controllers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -421,9 +424,6 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Animation Controllers">
-      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts\types">
       <UniqueIdentifier>{061b3e17-e659-4c55-878e-0c261d61e2ea}</UniqueIdentifier>
     </Filter>
@@ -432,6 +432,9 @@
     </Filter>
     <Filter Include="Scripts\spells">
       <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Animation Controllers">
+      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

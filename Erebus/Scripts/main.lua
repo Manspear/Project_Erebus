@@ -9,6 +9,7 @@ local scriptFiles =
 	--"Scripts/projectile.lua",
 	--"Scripts/arc.lua",
 	"Scripts/ProjectileType.lua",
+	"Scripts/Animation_Controllers/meleeGoblinController.lua",
 	"Scripts/fireEffect.lua",
 	"Scripts/fireball.lua",
 	"Scripts/arcType.lua",

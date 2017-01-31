@@ -20,6 +20,7 @@ function LoadEnemies(n)
 
 		enemies[i].Hurt = function(self,damage)
 			self.health = self.health - damage
+			self.animationController.AnimationHurt()
 			if self.health <= 0 and self.alive == true then
 				self:Kill()
 			end
@@ -57,8 +58,8 @@ function LoadEnemies(n)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 		enemies[i].state = stateScript.state.idleState
-		enemies[i].animation = Animation.Bind()
-		enemies[i].animationState = 1
+
+
 		enemies[i].range = 2
 
 		enemies[i].insideInnerCircleRange = false
@@ -70,12 +71,12 @@ function LoadEnemies(n)
 		enemies[i].maxActionCountDown = 3
 		enemies[i].actionCountDown = 3
 
-		enemies[i].animationController = CreatePlayerController(player)
+		enemies[i].animationController = CreateEnemyController(enemies[i])
 	end
 
-	local model = Assets.LoadModel("Models/testGuy.model")
+	local model = Assets.LoadModel("Models/goblin.model")
 	for i=1, n do
-		Gear.AddAnimatedInstance(model,  enemies[i].transformID, enemies[i].animation)
+		Gear.AddAnimatedInstance(model,  enemies[i].transformID, enemies[i].animationController.animation)
 
 	end
 end
@@ -89,9 +90,10 @@ function UpdateEnemies(dt)
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0then
 		--print ("Clear")
+
 		
-		AI.ClearMap(tempPlayerPosition,12)
-		COUNTDOWN = 0.5
+		AI.ClearMap(tempPlayerPosition,8)
+		COUNTDOWN = 0.3
 		print("INNER: ",player.nrOfInnerCircleEnemies)
 		print("OUTER: ",player.nrOfOuterCircleEnemies)
 		for i=1, #enemies do
@@ -101,7 +103,7 @@ function UpdateEnemies(dt)
 			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			--AI.AddIP(enemies[i].transformID,-1)
 		end
-			AI.AddIP(player.transformID,12)
+			AI.AddIP(player.transformID,8)
 			tempPlayerPosition = Transform.GetPosition(player.transformID)
 
 			
@@ -139,6 +141,8 @@ function UpdateEnemies(dt)
 				end
 			end
 		end
+
+		enemies[i].animationController:AnimationUpdate(dt)
 		Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 	end
 end
