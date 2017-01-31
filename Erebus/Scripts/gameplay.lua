@@ -41,11 +41,11 @@ function UnloadGameplay()
 end
 
 function UpdateGameplay(dt)
-	CollisionHandler.DrawHitboxes()
 
 	for key,value in pairs(scripts) do
 		value.Update(dt)
 	end
+	CollisionHandler.DrawHitboxes()
 end
 
 function EnterGameplay()
