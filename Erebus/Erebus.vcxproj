@@ -164,6 +164,7 @@
     <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelCollider.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEditor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelGizmo.cpp" />
@@ -291,7 +292,6 @@
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
-    <ClInclude Include="LevelBrushHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActionHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActor.h" />
     <ClInclude Include="LevelEditorStuff\LevelActorComponent.h" />
@@ -299,6 +299,7 @@
     <ClInclude Include="LevelEditorStuff\LevelActorHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h" />
     <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h" />
+    <ClInclude Include="LevelEditorStuff\LevelBrushHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelCollider.h" />
     <ClInclude Include="LevelEditorStuff\LevelEditor.h" />
     <ClInclude Include="LevelEditorStuff\LevelGizmo.h" />

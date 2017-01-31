@@ -141,6 +141,9 @@
     <ClCompile Include="LevelEditorStuff\LevelSound.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -279,7 +282,7 @@
     <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="LevelBrushHandler.h">
+    <ClInclude Include="LevelEditorStuff\LevelBrushHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
