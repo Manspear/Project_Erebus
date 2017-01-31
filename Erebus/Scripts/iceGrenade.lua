@@ -1,16 +1,16 @@
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 100
+SPEED_ICENADE = 50
 EXPLOSION_RADIUS_ICENADE = 10
 
-MIN_FALLOFF_ICENADE = 0.5
+MIN_FALLOFF_ICENADE = 1
 MAX_FALLOFF_ICENADE = 2 - MIN_FALLOFF_ICENADE
 SPAM_CD_ICENADE = 0.3
 SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
 
 function CreateIceGrenade()
-
+	
 	function initNade()
 		local nade = {}
 		nade.type = CreateGrenadeType()

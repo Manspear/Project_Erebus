@@ -3,7 +3,10 @@ local PLAYER_JUMP_SPEED = 0.35
 
 player = {}
 player2 = {}
-
+effectTable = {}
+table.insert(effectTable, CreateFireEffect)
+table.insert(effectTable, CreateSlowEffect)
+table.insert(effectTable, CreateTimeSlowEffect)
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end

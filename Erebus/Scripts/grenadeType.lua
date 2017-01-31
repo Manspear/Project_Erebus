@@ -32,7 +32,7 @@ function CreateGrenadeType()
 		result = false
 		self.direction.y = self.direction.y - self.falloffFactor * dt
 		self.position.x = self.position.x + self.direction.x*self.speed*dt
-		self.position.y = self.position.y + self.direction.y*dt
+		self.position.y = self.position.y + self.direction.y*self.speed *dt
 		self.position.z = self.position.z + self.direction.z*self.speed*dt
 		Transform.SetPosition(self.transformID, self.position)
 
