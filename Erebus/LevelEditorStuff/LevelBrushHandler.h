@@ -12,12 +12,12 @@
 class LevelBrushHandler
 {
 public:
-	//LevelAssetHandler( Importer::Assets* assets );
+
 	~LevelBrushHandler();
 
 	static LevelBrushHandler* getInstance();
-	//static void deleteInstance();
-	//static void resetInstance();
+	static void deleteInstance();
+	static void resetInstance();
 
 	//void updateBrushBar(); //nothing here right now
 
@@ -33,7 +33,7 @@ public:
 	//const std::string& getSelectedPrefab();
 
 	
-	//void setTweakBar(TweakBar* brushBar);
+	void setTweakBar(TweakBar* brushBar);
 
 	//Importer::Assets* getAssets();
 
