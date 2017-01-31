@@ -32,7 +32,7 @@ void MovementController::update()
 	newPos.y = height;
 
 	// TODO: wall collision
-	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( 1 ); // HARDCODAT HÄR TA BORT MIG HEEEEEEEEEEEEEEEEEEEEEEEEERP
+	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( this->layerID );
 
 	glm::vec3 dif = newPos - pos;
 	glm::vec3 newXPos = pos + glm::vec3( dif.x, 0.0f, 0.0f );
