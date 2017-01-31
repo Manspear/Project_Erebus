@@ -15,6 +15,8 @@ using namespace irrklang;
 #define ValidateIndex(i,lim) i = i < 0 ? -1 : i >= lim ? -1 : i				// If 0 <= i < lim, i is valid. Otherwise, i is set to -1
 #define Clamp(val,min,max) val = val < min ? min : val > max ? max : val	// Clamps val between min and max
 
+static const uint8_t S_ID_SHIFT = 8;
+
 enum eSoundOptions : uint8_t
 {
 	SOUND_NO_FLAG		= 0x00,
@@ -32,10 +34,8 @@ struct sSound
 {
 	size_t id;
 	ISound* sound;
-	std::string target;
 
 	inline bool operator==(const size_t &val) { return id == val; }
-	inline bool operator==(const std::string& s) { return target == s; }
 };
 
 struct sSoundSource
@@ -44,10 +44,9 @@ struct sSoundSource
 	std::string target;
 	ISoundSource* source;
 
-	bool operator==(const size_t& val) { return sourceID == val; }
-	bool operator!=(const size_t& val) { return sourceID != val; }
-	bool operator==(const std::string& s) { return target == s; }
-	bool operator!=(const std::string& s) { return target != s; }
+	inline bool operator==(const size_t& val) { return sourceID == val; }
+	inline bool operator==(const std::string& s) { return target == s; }
+	inline bool operator==(const ISoundSource* ss) { return source == ss; }
 };
 
 class SoundEngine
@@ -58,7 +57,6 @@ public:
 
 	void update(const float &dt);
 
-	size_t add(std::string target);
 	size_t play(size_t sourceID, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0, 0, 0));
 	size_t play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0, 0, 0));
 
@@ -76,13 +74,15 @@ public:
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
 private:
-	size_t generateID(std::string target);
+	size_t addSource(std::string target, bool stream);
+	bool isPlaying(size_t sourceID);
 
 private:
 	ISoundEngine* engine;
 	const std::string basePath = "./Audio/";
 
 	std::vector<sSound> sounds;
-	std::map<ISoundSource*, std::vector<size_t>> sourceMap;
+	std::vector<sSoundSource> sources;
 	size_t currSoundID;
+	size_t currSoundSourceID;
 };
