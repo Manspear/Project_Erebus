@@ -19,7 +19,7 @@ public:
 	static void deleteInstance();
 	static void resetInstance();
 
-	//void updateBrushBar(); //nothing here right now
+	void updateBrushBar(); //nothing here right now
 
 	//void selectPrefab( std::string prefab );
 	//void selectPrefab(int index);
@@ -38,9 +38,10 @@ public:
 	//Importer::Assets* getAssets();
 
 private:
-	//float radius = 0;
+	float radius = 1;
+	float density = 1;
 	LevelBrushHandler();
-
+	TweakBar* actionBar;
 /*	void loadAssets(std::vector<std::string>* container, std::string folder, std::string filter = "*");
 	static void TW_CALL onSetPrefab(const void* value, void* clientData);
 	static void TW_CALL onGetPrefab(void* value, void* clientData);

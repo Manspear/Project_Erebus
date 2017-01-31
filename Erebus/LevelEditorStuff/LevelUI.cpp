@@ -2,6 +2,7 @@
 #include "LevelActorHandler.h"
 #include "LevelAssetHandler.h"
 #include "LevelActionHandler.h"
+#include "LevelBrushHandler.h"
 #include "LevelTransform.h"
 #include "LevelModel.h"
 #include "levelpointlightcomponent.h"
@@ -104,6 +105,7 @@ void LevelUI::initBars()
 	LevelActorHandler::getInstance()->setTweakBars(bars[1], bars[0]);
 	LevelAssetHandler::getInstance()->setTweakBars(bars[2], bars[3]);
 	LevelActionHandler::getInstance()->setTweakBar(bars[4]);
+	LevelBrushHandler::getInstance()->setTweakBar(bars[5]);
 	
 	const char* errorMessage = TwGetLastError();
 	if (errorMessage != nullptr) {
