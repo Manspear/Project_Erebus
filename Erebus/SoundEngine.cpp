@@ -32,7 +32,36 @@ SoundEngine::~SoundEngine()
 
 void SoundEngine::update(const double &dt)
 {
-	
+	for (auto f : fades)
+	{
+		if (!f.finished)
+			fade(f, dt);
+	}
+
+
+}
+
+void SoundEngine::fade(size_t i, float t)
+{
+	auto s = std::find(sounds.begin(), sounds.end(), i);
+	if (s != sounds.end())
+	{
+		sFade f((*s).sound, t);
+		fades.push_back(f);
+	}
+}
+
+void SoundEngine::crossfade(size_t from, size_t to, float t)
+{
+	auto s_from = std::find(sounds.begin(), sounds.end(), from);
+	auto s_to = std::find(sounds.begin(), sounds.end(), to);
+	if (s_from != sounds.end() && s_to != sounds.end())
+	{
+		sFade f_from((*s_from).sound, t);
+		sFade f_to((*s_to).sound, t, (*s_from).sound->getVolume());
+		fades.push_back(f_from);
+		fades.push_back(f_to);
+	}
 }
 
 size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
@@ -161,3 +190,19 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 	engine->setListenerPosition(ikpos, iklook);
 }
 #pragma endregion Functions for manipulating sound attributes
+
+#pragma region Helper functions
+void SoundEngine::fade(sFade &f, const float &dt)
+{
+	f.elapsedTime += dt;
+	f.finished = f.elapsedTime >= f.targetTime;
+	const float t = (f.elapsedTime / f.targetTime);
+	const float v = (1 - t) * f.initialVolume + t * f.targetVolume;
+	f.sound->setVolume(v);
+}
+
+bool SoundEngine::checkSound(const sSound &s)
+{
+	return s.sound->isFinished();
+}
+#pragma endregion Private functions for managing data

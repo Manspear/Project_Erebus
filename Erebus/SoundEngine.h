@@ -29,15 +29,6 @@ enum eSoundOptions : uint8_t
 	SOUND_BLURB5		= 0x80
 };
 
-struct sSound
-{
-	size_t id;
-	ISound* sound;
-
-	inline bool operator==(const size_t &val) { return id == val; }
-	inline bool operator!() { return sound->isFinished(); }
-};
-
 class SoundEngine
 {
 public:
@@ -45,6 +36,8 @@ public:
 	~SoundEngine();
 
 	void update(const double &dt);
+	void fade(size_t i, float t);
+	void crossfade(size_t from, size_t to, float t);
 
 	size_t play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0, 0, 0));
 
@@ -62,9 +55,37 @@ public:
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
 private:
+	struct sSound
+	{
+		size_t id;
+		ISound* sound;
+
+		inline bool operator==(const size_t &val) { return id == val; }
+		inline bool operator!() { return sound->isFinished(); }
+	};
+
+	struct sFade
+	{
+		ISound* sound;
+		float elapsedTime = 0;
+		float targetTime;
+		float targetVolume;
+		float initialVolume;
+		bool finished = false;
+
+		sFade(ISound* s, float t, float v = 0.f)
+			: sound(s), targetTime(t), targetVolume(v), initialVolume(s->getVolume()) {}
+	};
+
+
 	ISoundEngine* engine;
 	const std::string basePath = "./Audio/";
 
 	std::vector<sSound> sounds;
+	std::vector<sFade> fades;
 	size_t currSoundID;
+
+private:
+	inline void fade(sFade &f, const float &dt);
+	inline bool checkSound(const sSound &s);
 };
