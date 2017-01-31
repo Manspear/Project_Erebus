@@ -40,8 +40,7 @@ function CreateIceGrenade()
 	spell.combo = 0
 	spell.castSFX = "Effects/burn_ice_001.wav"
 	spell.hitSFX = {}
-	spell.hitSFX[1] = "Effects/debris_ice_001.wav"
-	spell.hitSFX[2] = "Effects/axe_ice_005.wav"
+	spell.hitSFX[1] = "Effects/Ice_impact_lite_02.wav"
 	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 

@@ -85,9 +85,9 @@ namespace Nurn
 		netCommunication.Shutdown();
 	}
 
-	void NurnEngine::buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+	void NurnEngine::pushTransformPacket(const TransformPacket& packet)
 	{
-		this->packager->buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
+		this->packager->pushTransformPacket(packet);
 	}
 
 	bool NurnEngine::fetchTransformPacket(TransformPacket &packet)
@@ -99,9 +99,9 @@ namespace Nurn
 		return result;
 	}
 
-	void NurnEngine::buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID)
+	void NurnEngine::pushAnimationPacket(const AnimationPacket& packet)
 	{
-		this->packager->buildAnimationPacket(id, animationState, dt, animationSegmentID);
+		this->packager->pushAnimationPacket(packet);
 	}
 
 	bool NurnEngine::fetchAnimationPacket(AnimationPacket& packet)
@@ -113,23 +113,23 @@ namespace Nurn
 		return result;
 	}
 
-	void NurnEngine::buildAIPacket(const uint16_t& id, const uint16_t& aiState)
+	void NurnEngine::pushAIStatePacket(const AIStatePacket& packet)
 	{
-		this->packager->buildAIPacket(id, aiState);
+		this->packager->pushAIStatePacket(packet);
 	}
 
-	bool NurnEngine::fetchAIPacket(AIPacket& packet)
+	bool NurnEngine::fetchAIPacket(AIStatePacket& packet)
 	{
 		bool result = false;
 
-		result = this->packetFilter->getAIQueue()->pop(packet);
+		result = this->packetFilter->getAIStateQueue()->pop(packet);
 
 		return result;
 	}
 
-	void NurnEngine::buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell)
+	void NurnEngine::pushSpellPacket(const SpellPacket& packet)
 	{
-		this->packager->buildSpellPacket(id, currentSpell);
+		this->packager->pushSpellPacket(packet);
 	}
 
 	bool NurnEngine::fetchSpellPacket(SpellPacket& packet)
@@ -141,9 +141,9 @@ namespace Nurn
 		return result;
 	}
 
-	void NurnEngine::buildAITransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+	void NurnEngine::pushAITransformPacket(const TransformPacket& packet)
 	{
-		this->packager->buildAITransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
+		this->packager->pushAITransformPacket(packet);
 	}
 	
 	bool NurnEngine::fetchAITransformPacket(TransformPacket& packet)

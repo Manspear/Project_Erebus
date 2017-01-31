@@ -100,11 +100,10 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player2.spells[1] = CreateHellPillar()
 	player2.spells[2] = CreateBlackHole()
-	player2.spells[3] = CreateSunRay()
-	--player2.spells[4] = CreateSunRay()
+	player2.spells[3] = CreateIceGrenade()
+	player2.spells[4] = CreateSunRay()
 
 	player2.currentSpell = 1
 
@@ -244,9 +243,9 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			--if player.spells[player.currentSpell].cooldown < 0 then 
-			--	Network.SendSpellPacket(player.transformID, player.currentSpell)
-			--end
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+			end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
@@ -284,7 +283,7 @@ function PrintInfo()
 end
 
 function UpdatePlayer2(dt)
-	newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
+	local newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
 	if newtransformvalue == true then
 		Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
@@ -292,7 +291,7 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
+	local newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
 
 	if newspellpacket == true then
 		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
@@ -302,8 +301,9 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
+	player2.spells[4]:Update(dt)
 		
-	newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
+	local newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
 	--if newAnimationValue == true then
 	--	print(animationID, animationState, dt_test, animationSegment)
 	--end
