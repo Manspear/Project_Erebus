@@ -31,7 +31,8 @@ function LoadPlayer()
 	player.spamCasting = false
 	player.charging = false
 	player.rayCollider = RayCollider.Create(player.transformID)
-	RayCollider.SetActive(player.rayCollider, false)
+	CollisionHandler.AddRay(player.rayCollider)
+	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
 
 	-- set spells for player
@@ -85,7 +86,8 @@ function LoadPlayer2()
 	player2.charging = false
 
 	player2.animationController = CreatePlayerController(player2)
-
+	player2.sphereCollider = SphereCollider.Create(player2.transformID)
+	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
 	--player.spells[1] = dofile( "Scripts/projectile.lua" )
@@ -185,8 +187,11 @@ end
 function SendCombine(spell)
 	--TOBEDEFINED
 end
-function GetCombined(--[[may take damage, an effect, and such]])
-
+function GetCombined(effectIndex, damage)
+	if Inputs.ButtonDown(Buttons.Right) then
+		table.insert(player.spells[currentSpell].effects, globalEffects[effectIndex])
+		player.spells[currentSpell].damage = player.spells[currentSpell].damage + damage
+	end
 end
 function Controls(dt)
 		if Inputs.KeyDown("W") then
@@ -203,7 +208,7 @@ function Controls(dt)
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
 			end
-		if Inputs.KeyPressed("T") then
+		if Inputs.KeyDown("T") then
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)

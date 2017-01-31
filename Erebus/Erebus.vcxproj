@@ -207,7 +207,6 @@
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
-    <None Include="Scripts\arcType.lua" />
     <None Include="Scripts\blackHole.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\chronoBall.lua" />

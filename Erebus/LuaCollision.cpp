@@ -79,9 +79,9 @@ namespace LuaCollision
 			{ "Create",				createRay },
 			{ "GetCollisionIDs",	getRayCollisionIDs },
 			{ "CheckCollision",		checkRayCollision },
-			{ "SetDirection",		setRayDirection },
+			{ "SetRayDirection",	setRayDirection },
 			{ "GetID",				getRayID },
-			{ "SetActive", setActive },
+			{ "SetActive",          setActive },
 			{ "__gc",				destroyRay },
 			{ NULL, NULL }
 		};

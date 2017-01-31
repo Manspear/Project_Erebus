@@ -343,9 +343,6 @@
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
     </None>
-    <None Include="Scripts\arcType.lua">
-      <Filter>Scripts\types</Filter>
-    </None>
     <None Include="Scripts\chronoBall.lua">
       <Filter>Scripts\spells</Filter>
     </None>
