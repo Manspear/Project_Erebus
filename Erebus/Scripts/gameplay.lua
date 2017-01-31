@@ -25,6 +25,8 @@ local scriptFiles =
 	"Scripts/HUD.lua"
 }
 
+local gameStarted = false
+
 function LoadGameplay()
 	-- run scripts
 	for i=1, #scriptFiles do
@@ -49,7 +51,9 @@ end
 
 function UpdateGameplay(dt)
 	CollisionHandler.DrawHitboxes()
-
+	if Inputs.KeyReleased(Keys.Escape) then
+		gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+	end
 	for key,value in pairs(scripts) do
 		value.Update(dt)
 	end
@@ -59,6 +63,7 @@ function EnterGameplay()
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
+	gameStarted = true
 end
 
 function ExitGameplay()

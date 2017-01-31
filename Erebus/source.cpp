@@ -39,6 +39,8 @@ struct ThreadData
 	std::vector<Gear::ParticleSystem*>* particleSystems;
 	bool queueModels;
 	bool mouseVisible;
+	bool fullscreen;
+	bool running;
 	TransformStruct* allTransforms;
 	Animation* allAnimations;
 	HANDLE produce, consume;
@@ -78,9 +80,11 @@ DWORD WINAPI update( LPVOID args )
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, data->camera, data->particleSystems, &ai, &network, data->workQueue, data->soundEngine, &counter );
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
+		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
+		&ai, &network, data->workQueue, data->soundEngine, &counter );
 
-	while( running )
+	while( data->running )
 	{
 		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
 		if( waitResult == WAIT_OBJECT_0 )
@@ -99,9 +103,6 @@ DWORD WINAPI update( LPVOID args )
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
-
-			if( data->inputs->keyPressed( GLFW_KEY_ESCAPE ) )
-				running = false;
 
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
@@ -135,6 +136,11 @@ int main()
 	assets.load<TextureAsset>("Textures/button.png");
 	assets.load<TextureAsset>("Textures/buttonHost.png");
 	assets.load<TextureAsset>("Textures/buttonConnect.png");
+	assets.load<TextureAsset>("Textures/buttonOptions.png");
+	assets.load<TextureAsset>("Textures/buttonExit.png");
+	assets.load<TextureAsset>("Textures/buttonReturn.png");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOn.png");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOff.png");
 	//assets.load<TextureAsset>("Textures/whiteWhiteTexture.png");
 	assets.load<TextureAsset>("Textures/brightParticle.png");
 	assets.load<ModelAsset>( "Models/testGuy.model" );
@@ -198,6 +204,8 @@ int main()
 		&animModels,
 		&particleSystems,
 		false,
+		true,
+		false,
 		true
 	};
 	threadData.allTransforms = new TransformStruct[MAX_TRANSFORMS];
@@ -209,8 +217,11 @@ int main()
 
 	double saveDeltaTime = 0.0f;
 
+	bool fullscreen = threadData.fullscreen;
+	
+
 	bool prevMouseVisible = threadData.mouseVisible;
-	while (running && window.isWindowOpen())
+	while (threadData.running && window.isWindowOpen())
 	{
 		// START OF CRITICAL SECTION
 		DWORD waitResult = WaitForSingleObject( threadData.consume, THREAD_TIMEOUT );
@@ -225,7 +236,7 @@ int main()
 
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
-			else if( inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
 				engine.setDrawMode(2);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
 				engine.setDrawMode(3);
@@ -234,9 +245,9 @@ int main()
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
 				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
-				engine.setDrawMode(6);
+				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
-				engine.setDrawMode(7);
+				engine.setDrawMode(5);
 			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 			{
 				if (lockMouse)
@@ -257,6 +268,12 @@ int main()
 			{
 				window.changeCursorStatus(!threadData.mouseVisible);
 				prevMouseVisible = threadData.mouseVisible;
+			}
+
+			if (fullscreen != threadData.fullscreen)
+			{
+				window.createWindow(threadData.fullscreen);
+				fullscreen = threadData.fullscreen;
 			}
 
 			engine.update();

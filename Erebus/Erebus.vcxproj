@@ -227,6 +227,8 @@
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\main_menu.lua" />
     <None Include="Scripts\MenuUI.lua" />
+    <None Include="Scripts\optionsUI.lua" />
+    <None Include="Scripts\options_menu.lua" />
     <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />

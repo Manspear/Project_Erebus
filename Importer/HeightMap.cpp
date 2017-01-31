@@ -500,8 +500,8 @@ namespace Importer
 		}
 			
 		int heightTile = 0;
-		float positionOnHeightmapX = x - heightTile;
-		float positionOnHeightmapZ= z - heightTile;
+		float positionOnHeightmapX = realX - heightTile;
+		float positionOnHeightmapZ= realZ - heightTile;
 
 		// we'll use integer division to figure out where in the "heights" array
 		// positionOnHeightmap is. Remember that integer division always rounds
