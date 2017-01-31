@@ -33,24 +33,6 @@ void MovementController::update()
 
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( 1 ); // HARDCODAT HÄR TA BORT MIG HEEEEEEEEEEEEEEEEEEEEEEEEERP
-	
-	/*this->hitbox->setPos(newPos); // move hitbox
-
-	bool herro = this->checkCollision(colliders); // Check collision against all the walls
-
-	if (herro) // if our new position results in a collision
-	{
-
-		newPos = pos;
-	}*/
-
-	//NEW PLAN
-	// Flytta din egen hitbox
-	// Sortera alla hitboxarna till sin riktiga klass
-	// ha en collisionHandler och kör checkAnycollision
-	// Om vi tar i något så flyttar vi tillbaka
-	// Behöver nytt sätt att kolla collision, vi vill bara ha en bool
-	// amazing
 
 	glm::vec3 dif = newPos - pos;
 	glm::vec3 newXPos = pos + glm::vec3( dif.x, 0.0f, 0.0f );
@@ -58,34 +40,20 @@ void MovementController::update()
 	glm::vec3 finalPos = pos;
 	finalPos.y = height;
 
-	this->hitbox->setPos(newXPos); // move hitbox
-
-	bool herro = this->checkCollision(colliders); // Check collision against all the walls
-
-	if (!herro) // if our new position results in a collision
+	this->hitbox->setPos(newXPos); // move hitbox on X
+	bool playerColliding = this->checkCollision(colliders); // Check collision against all the walls
+	if (!playerColliding) // if our new position is safe
 	{
 		finalPos.x = newXPos.x;
 	}
 
-	this->hitbox->setPos(newZPos); // move hitbox
 
-	herro = this->checkCollision(colliders); // Check collision against all the walls
-
-	if (!herro) // if our new position results in a collision
+	this->hitbox->setPos(newZPos); // move hitbox on Z
+	playerColliding = this->checkCollision(colliders); // Check collision against all the walls
+	if (!playerColliding) // if our new position is safe
 	{
 		finalPos.z = newZPos.z;
 	}
-
-	//Kolla om vi har någon kollision
-	//Har vi någon kollision så kolla om det är med någon vägg
-	// är det med någon vägg så gå inte dit
-	//Laters adda slide också
-
-	// Collision on x axis
-
-	// Collision on y axis
-
-	// Collision on z axis
 
 	
 	transform->setPos(finalPos);
@@ -140,12 +108,15 @@ bool MovementController::checkCollision(std::vector<HitBox*>* walls) // Check ou
 	for (size_t i = 0; i < walls->size(); i++) // sort hitboxes in correct vectors
 	{
 		HitBox* temp = walls->at(i);
-		if (temp->isAabbCollider())
-			aabbColliders.push_back(static_cast<AABBCollider*>(temp));
-		if (temp->isSphereCollider())
-			sphereColliders.push_back(static_cast<SphereCollider*>(temp));
-		if (temp->isObbCollider())
-			obbColliders.push_back(static_cast<OBBCollider*>(temp));
+		if (temp->isActive())
+		{
+			if (temp->isAabbCollider())
+				aabbColliders.push_back(static_cast<AABBCollider*>(temp));
+			if (temp->isSphereCollider())
+				sphereColliders.push_back(static_cast<SphereCollider*>(temp));
+			if (temp->isObbCollider())
+				obbColliders.push_back(static_cast<OBBCollider*>(temp));
+		}
 	}
 
 	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &sphereColliders)) // if we collide with any spheres
