@@ -74,24 +74,17 @@ function CreatePlayerController(player)
 		--The higher the priority of the action, the longer down in this update function it should be
 		--since the prioritized actions override the unprioritized ones
 
-		--you cannot run if you jump
-		if self.watch.canJump == true then
-			--if you don't move you're Idle
-			if self.watch.forward == 0 and self.watch.left == 0 then
-				self:IdleState(dt)
-			--else running
-			elseif self.watch.forward ~= 0 or self.watch ~= left then
-				self:RunningState(dt)
-			end
+		--if you don't move you're Idle
+		if self.watch.forward == 0 and self.watch.left == 0 then
+			self:IdleState(dt)
+		--else running
+		elseif self.watch.forward ~= 0 or self.watch ~= left then
+			self:RunningState(dt)
 		end
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
 		then
 			self:DamagedState(dt)
-		end
-
-		if self.oldWatch.canJump ~= self.watch.canJump or self.watch.verticalSpeed ~= 0 then
-			self:JumpState(dt)
 		end
 
 		if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
@@ -235,48 +228,6 @@ function CreatePlayerController(player)
 			if res == true then
 				self.isDamagedTimerStart = false
 			end
-		end
-	end
-
-	function controller:JumpState(dt)
-		--if jumped
-		if self.oldWatch.canJump == true and self.watch.canJump == false then
-			self.animationState1 = 33
-			self.animationState2 = 0
-			self.jumpTimerStart = true
-		end
-		
-		--if landed
-		if self.oldWatch.canJump == false and self.watch.canJump == true then
-			self.animationState1 = 36
-			self.animationState2 = 0
-		end
-
-		if self.jumpTimerStart == true then
-			self.jumpTimer = self.jumpTimer + dt
-		end
-
-		if self.jumpTimer >= self.jumpTimerThreshhold then
-			self.jumpTimer = 0
-			self.jumpTimerStart = false
-		end
-
-		if self.jumpTimerStart == false then
-			self:AirState(dt)
-		end
-
-	end
-
-	function controller:AirState(dt)
-		--if falling
-		if self.watch.verticalSpeed <= 0 and self.watch.canJump == false then
-			self.animationState1 = 35
-			self.animationState2 = 0
-		end
-		--if ascending
-		if self.watch.verticalSpeed > 0 and self.watch.canJump == false then
-			self.animationState1 = 34
-			self.animationState2 = 0
 		end
 	end
 
