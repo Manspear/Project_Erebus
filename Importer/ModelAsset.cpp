@@ -29,7 +29,7 @@ namespace Importer
 			fread(&header, sizeof(hModel), 1, file);
 
 			dataptr = malloc(datasize + sizeof(GLuint)*header.numMeshes * 3);
-			void* bufferptr = malloc(buffersize);
+			bufferptr = malloc(buffersize);
 
 			fread(dataptr, 1, datasize, file);
 			fread(bufferptr, 1, buffersize, file);
@@ -67,7 +67,7 @@ namespace Importer
 			bufferSizes = (int*)ptr;
 			ptr += sizeof(int)*header.numMeshes;
 
-			ptr = (char*)bufferptr;
+			/*ptr = (char*)bufferptr;
 			sVertex* vertices = (sVertex*)ptr;
 			ptr += sizeof(sVertex)*header.numVertices;
 
@@ -100,7 +100,7 @@ namespace Importer
 				bufferSizes[curMesh] = meshes[curMesh].numIndices;
 			}
 
-			free(bufferptr);
+			free(bufferptr);*/
 
 			material = assets->load<MaterialAsset>( "Materials/" + std::string(header.materialName) );
 
@@ -115,6 +115,46 @@ namespace Importer
 	{
 		free(dataptr);
 		dataptr = nullptr;
+	}
+
+	void ModelAsset::upload()
+	{
+		if( bufferptr )
+		{
+			char* ptr = (char*)bufferptr;
+			sVertex* vertices = (sVertex*)ptr;
+			ptr += sizeof(sVertex)*header.numVertices;
+
+			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
+			ptr += sizeof(sSkeletonVertex)*header.numSkeletonVertices;
+
+			GLuint* indices = (GLuint*)ptr;
+			ptr += sizeof(GLuint)*header.numIndices;
+
+			for (int curMesh = 0; curMesh < header.numMeshes; curMesh++)
+			{
+				glGenBuffers(1, &vertexBuffers[curMesh]);
+				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[curMesh]);
+				if (meshes[curMesh].numVertices > 0)
+				{
+					glBufferData(GL_ARRAY_BUFFER, sizeof(sVertex)*meshes[curMesh].numVertices, vertices + offsets[curMesh].vertex, GL_STATIC_DRAW);
+				}
+				else
+				{
+					glBufferData(GL_ARRAY_BUFFER, sizeof(sSkeletonVertex)*meshes[curMesh].numAnimVertices, skeletonVertices + offsets[curMesh].skeletonVertex, GL_STATIC_DRAW);
+				}
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+				glGenBuffers(1, &indexBuffers[curMesh]);
+				glBindBuffer(GL_ARRAY_BUFFER, indexBuffers[curMesh]);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint)*meshes[0].numIndices, indices, GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				bufferSizes[curMesh] = meshes[curMesh].numIndices;
+			}
+
+			free( bufferptr );
+			bufferptr = nullptr;
+		}
 	}
 
 	hModel* ModelAsset::getHeader()

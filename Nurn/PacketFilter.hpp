@@ -2,11 +2,12 @@
 
 #include "PacketQueue.hpp"
 #include "PacketEnums.hpp"
-#include "AIPacket.hpp"
+#include "AIStatePacket.hpp"
 #include "TransformPacket.hpp"
 #include "AnimationPacket.hpp"
 #include "MetaDataPacket.hpp"
 #include "SpellPacket.hpp"
+#include "ChargingPacket.hpp"
 
 class PacketFilter
 {
@@ -17,14 +18,16 @@ public:
 	void openNetPacket(const unsigned char * const memoryPointer);
 	PacketQueue<TransformPacket> * getTransformQueue();
 	PacketQueue<AnimationPacket> * getAnimationQueue();
-	PacketQueue<AIPacket> * getAIQueue();
+	PacketQueue<AIStatePacket> * getAIStateQueue();
 	PacketQueue<SpellPacket> * getSpellQueue();
 	PacketQueue<TransformPacket> * getAITransformQueue();
+	PacketQueue<ChargingPacket> * getChargingQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
 	PacketQueue<AnimationPacket> * animationQueue;
-	PacketQueue<AIPacket> * aiQueue;
+	PacketQueue<AIStatePacket> * aiStateQueue;
 	PacketQueue<SpellPacket> * spellQueue;
 	PacketQueue<TransformPacket> * aiTransformQueue;
+	PacketQueue<ChargingPacket> * chargingQueue;
 };

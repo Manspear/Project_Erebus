@@ -25,20 +25,23 @@ public:
 	double timeSinceLastAnimationPacket();
 	double timeSinceLastAITransformPacket();
 	
-	void sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+	void sendTransformPacket(const TransformPacket& packet);
 	bool fetchTransformPacket(TransformPacket &packet);
 
-	void sendAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID);
+	void sendAnimationPacket(const AnimationPacket& packet);
 	bool fetchAnimationPacket(AnimationPacket& packet);
 	
-	void sendAIPacket(const uint16_t& id, const uint16_t& aiState);
-	bool fetchAIPacket(AIPacket& packet);
+	void sendAIStatePacket(const AIStatePacket& packet);
+	bool fetchAIStatePacket(AIStatePacket& packet);
 
-	void sendSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
+	void sendSpellPacket(const SpellPacket& packet);
 	bool fetchSpellPacket(SpellPacket& packet);
 
-	void sendAITransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+	void sendAITransformPacket(const TransformPacket& packet);
 	bool fetchAITransformPacket(TransformPacket &packet);
+
+	void sendChargingPacket(const ChargingPacket& packet);
+	bool fetchChargingPacket(ChargingPacket &packet);
 
 
 private:

@@ -4,8 +4,8 @@ local imageTextures = {}
 function LoadMenuUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
 	imageTextures["play"] = Assets.LoadTexture("Textures/button.png");
-	imageTextures["host"] = Assets.LoadTexture("Textures/buttonConnect.png");
-	imageTextures["connect"] = Assets.LoadTexture("Textures/buttonHost.png");
+	imageTextures["host"] = Assets.LoadTexture("Textures/buttonHost.png");
+	imageTextures["connect"] = Assets.LoadTexture("Textures/buttonConnect.png");
 	imageTextures["options"] = Assets.LoadTexture("Textures/buttonOptions.png");
 	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.png");
 

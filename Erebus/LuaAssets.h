@@ -17,7 +17,7 @@ namespace LuaAssets
 
 	int loadHeightmap( lua_State* lua );
 	int getHeight( lua_State* lua );
-	int getHeightmapModel( lua_State* lua );
+	//int getHeightmapModel( lua_State* lua );
 
 	int getMapWidth(lua_State * lua);
 	int getMapHeight(lua_State * lua);

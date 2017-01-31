@@ -89,6 +89,9 @@
     <ClCompile Include="LuaSound.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="MovementController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="LuaUI.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -187,13 +190,18 @@
     <ClInclude Include="LuaSound.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="MovementController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="LuaUI.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="PlaneFrustum.h">
       <Filter>Header Files\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="Frustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
@@ -348,9 +356,6 @@
     </None>
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
-    </None>
-    <None Include="Scripts\arcType.lua">
-      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\chronoBall.lua">
       <Filter>Scripts\spells</Filter>
