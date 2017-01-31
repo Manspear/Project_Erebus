@@ -4,7 +4,7 @@ PacketFilter::PacketFilter()
 {
 	this->transformQueue = new PacketQueue<TransformPacket>(20);
 	this->animationQueue = new PacketQueue<AnimationPacket>(40);
-	this->aiQueue = new PacketQueue<AIPacket>(10);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
 }
@@ -21,10 +21,10 @@ PacketFilter::~PacketFilter()
 		delete this->animationQueue;
 		this->animationQueue = 0;
 	}
-	if (this->aiQueue)
+	if (this->aiStateQueue)
 	{
-		delete this->aiQueue;
-		this->aiQueue = 0;
+		delete this->aiStateQueue;
+		this->aiStateQueue = 0;
 	}
 	if (this->spellQueue)
 	{
@@ -62,8 +62,8 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				case ANIMATION_PACKET:
 					this->animationQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of AnimationPacket data to the correct queue
 					break;
-				case AI_PACKET:
-					this->aiQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of AIPacket data to the correct queue
+				case AI_STATE_PACKET:
+					this->aiStateQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of AIPacket data to the correct queue
 					break;
 				case SPELL_PACKET:
 					this->spellQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of SpellPacket data to the correct queue
@@ -89,9 +89,9 @@ PacketQueue<AnimationPacket> * PacketFilter::getAnimationQueue()
 	return this->animationQueue;
 }
 
-PacketQueue<AIPacket> * PacketFilter::getAIQueue()
+PacketQueue<AIStatePacket> * PacketFilter::getAIStateQueue()
 {
-	return this->aiQueue;
+	return this->aiStateQueue;
 }
 
 PacketQueue<SpellPacket> * PacketFilter::getSpellQueue()
