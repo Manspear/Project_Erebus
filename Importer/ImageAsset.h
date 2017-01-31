@@ -59,8 +59,9 @@ namespace Importer
 		IMPORTER_API ImageAsset();
 		IMPORTER_API virtual ~ImageAsset();
 
-		IMPORTER_API virtual bool load( std::string path, Assets* assets ) override;
-		IMPORTER_API virtual void unload() override;
+		IMPORTER_API bool load( std::string path, Assets* assets ) override;
+		IMPORTER_API void unload() override;
+		IMPORTER_API void upload() override;
 
 		IMPORTER_API uint8_t* getPixels() const;
 		IMPORTER_API Pixel getPixelValue( int x, int y ) const;

@@ -41,7 +41,7 @@ namespace LuaAssets
 		luaL_Reg heightmapRegs[] =
 		{
 			{ "GetHeight", getHeight },
-			{ "GetModel", getHeightmapModel },
+			//{ "GetModel", getHeightmapModel },
 			{ "GetMapWidth", getMapWidth },
 			{ "GetMapHeight", getMapHeight },
 			{ NULL, NULL }
@@ -182,7 +182,7 @@ namespace LuaAssets
 		return result;
 	}
 
-	int getHeightmapModel( lua_State* lua )
+	/*int getHeightmapModel( lua_State* lua )
 	{
 		int result = 0;
 
@@ -196,5 +196,5 @@ namespace LuaAssets
 		}
 
 		return result;
-	}
+	}*/
 }

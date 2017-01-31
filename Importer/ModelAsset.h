@@ -9,15 +9,13 @@ namespace Importer
 #define MAXJOINTCOUNT 64 
 	class ModelAsset : public Asset
 	{
-		friend class HeightMap;
-
 	public:
-		//IMPORTER_API --> Macro --> DLL thing... Look into it. Macro stands for __declspec(DLLNAME) says that this function is to be exported to the DLLNAME .dll
 		IMPORTER_API ModelAsset();
 		IMPORTER_API ~ModelAsset();
 
 		IMPORTER_API bool load(std::string path, Assets* assets) override;
 		IMPORTER_API void unload() override;
+		IMPORTER_API void upload() override;
 
 		IMPORTER_API hModel* getHeader();
 		IMPORTER_API hMesh* getMesh(int index) const;
@@ -49,5 +47,6 @@ namespace Importer
 		int* bufferSizes;
 
 		void* dataptr;
+		void* bufferptr;
 	};
 };
