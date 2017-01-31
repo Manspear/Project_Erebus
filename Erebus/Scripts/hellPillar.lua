@@ -16,6 +16,7 @@ function CreateHellPillar()
 		nade.alive = false
 		nade.exploding = false
 		local model = Assets.LoadModel( "Models/projectile1.model" )
+		nade.particles = createFireballParticles()
 		Gear.AddForwardInstance(model, nade.type.transformID)
 		return nade
 	end
@@ -52,6 +53,7 @@ function CreateHellPillar()
 				local factor = chargetime / self.maxChargeTime
 				local pos = Transform.GetPosition(entity.transformID)
 				local dir = Transform.GetLookAt(entity.transformID)
+				self.nade.particles.cast()
 				dir.y = dir.y + Y_SPEED_PILLAR
 				self.nade.type:Cast(pos, dir, GRAVITY_PILLAR, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, 0.0)
 				self.nade.damage = factor * MAX_DAMAGE_PILLAR		
@@ -77,6 +79,7 @@ function CreateHellPillar()
 	function spell:GrenadeUpdate(dt)		
 			if not self.nade.exploding then
 				self.nade.exploding = self.nade.type:flyUpdate(dt)
+				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 			else
 				self.pillar.pos = self.nade.type.position
 				self:Kill()
@@ -107,6 +110,7 @@ function CreateHellPillar()
 	end
 	function spell:Kill()
 		self.nade.type:Kill()
+		self.nade.particles.die(self.nade.type.position)
 		self.nade.alive = false
 		self.nade.exploding = false
 	end

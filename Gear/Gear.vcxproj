@@ -156,6 +156,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DebugHandler.h" />
+    <ClInclude Include="EffectsProgram.h" />
     <ClInclude Include="Gear.h" />
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Model.h" />
@@ -166,7 +167,6 @@
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="ImageRenderer.h" />
-    <ClInclude Include="SFXs.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />
@@ -178,6 +178,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DebugHandler.cpp" />
+    <ClCompile Include="EffectsProgram.cpp" />
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -186,7 +187,6 @@
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="ImageRenderer.cpp" />
-    <ClCompile Include="SFXs.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TextRenderer.cpp" />

@@ -344,7 +344,7 @@ namespace Gear
 		skybox.update(camera, gBuffer.getTextures()[2]);
 		skybox.draw();
 
-		queue.particlePass(particleSystem);		
+		queue.effectPass(particleSystem, forwardModels);
 		queue.forwardPass(forwardModels);
 		staticModels = &defaultModelList;
 

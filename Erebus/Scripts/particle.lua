@@ -15,7 +15,7 @@ function createFireballParticles()
 		Particle.Explode(fireball.exploda)	
 	end
 
-	function fireball.update(x, y, z, mx, my, mz)
+	function fireball.update(x, y, z)
 		Particle.SetPosition(fireball.fly, x, y, z)
 		Particle.SetDirection(fireball.fly, 0, 0, 0)
 	end

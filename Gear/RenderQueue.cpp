@@ -60,6 +60,8 @@ void RenderQueue::init()
 	uniformLocations[ANIMSHADOW] = new GLuint[3];
 	uniformLocations[GEOMETRYSHADOW] = new GLuint[3];
 
+	effectsProg.addShader(allShaders[ShaderType::PARTICLES], particleBuffer);
+
 	for(int i = 0; i < NUM_SHADER_TYPES; i++) {
 		if (uniformLocations[i]) {
 			uniformLocations[i][0] = allShaders[i]->getUniformLocation("projectionMatrix");
@@ -261,37 +263,9 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels)
 	//glDisable(GL_BLEND);
 }
 
-bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
+void RenderQueue::effectPass(std::vector<Gear::ParticleSystem*>* ps, std::vector<ModelInstance>* dynamicModels)
 {
-	bool blitOrNot = false;
-	allShaders[PARTICLES]->use();
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	SendStruct* pos;
-	size_t particleCount;
-	glBindBuffer(GL_ARRAY_BUFFER, particleBuffer);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
-	for (size_t i = 0; i < ps->size(); i++)
-	{
-		if (ps->at(i)->isActive)
-		{
-			blitOrNot = true;
-			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
-			{
-				if (ps->at(i)->particleEmitters->isActive)
-				{				
-					pos = ps->at(i)->particleEmitters[j].getPositions();
-					ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
-					particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
-					glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);				
-					glDrawArraysInstanced(GL_POINTS, 0, particleCount, 1);
-				}
-			}		
-		}
-	}  
-	glEnableVertexAttribArray(0);
-	allShaders[PARTICLES]->unUse();
-	return blitOrNot;
+	effectsProg.effectsPass(ps, dynamicModels);
 }
 
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)

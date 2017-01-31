@@ -361,9 +361,6 @@
     <None Include="Scripts\fireGroundAoE.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\groundAoEType.lua">
-      <Filter>Scripts\types</Filter>
-    </None>
     <None Include="Scripts\orbWaveType.lua">
       <Filter>Scripts\types</Filter>
     </None>

@@ -20,7 +20,7 @@ function CreateSunRay(entity)
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
 	sunRay.caster = 0
-	sunRay.angle = 0.2
+	sunRay.angle = 2
 	sunRay.spin = 0.8
 	sunRay.castSFX = {}
 	sunRay.castSFX[1] = "Effects/CK_Blaster_Shot-226.wav"
@@ -67,8 +67,8 @@ function CreateSunRay(entity)
 	function sunRay:Cast(entity, chargetime, effects)
 		if (self.cooldown < 0.0) then
 			self.type:Cast(Transform.GetPosition(self.owner.transformID))
-			--Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
-			--Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
+			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
+			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
 			Erebus.CameraSensitivity(self.cameraSlow)
 			chargetime = math.min(chargetime, SUNRAY_MAX_CHARGETIME)
 			self.owner.moveSpeed = self.owner.moveSpeed * self.moveImpairment 	
@@ -89,7 +89,7 @@ function CreateSunRay(entity)
 		self.alive = false
 		Sound.Pause(self.soundID[2])
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
-		player.moveSpeed = player.moveSpeed * (1 / self.moveImpairment) 
+		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.type:Kill()
 	end
 	return sunRay
