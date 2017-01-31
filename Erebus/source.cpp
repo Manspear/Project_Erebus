@@ -131,15 +131,6 @@ int main()
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
-	assets.load<TextureAsset>("Textures/cooldown.png");
-	assets.load<TextureAsset>("Textures/spell1.png");
-	assets.load<TextureAsset>("Textures/spell2.png");
-	assets.load<TextureAsset>("Textures/spell3.png");
-	assets.load<TextureAsset>("Textures/sunbeam.dds");
-	assets.load<TextureAsset>("Textures/blackhole.dds");
-	assets.load<TextureAsset>("Textures/select.dds");
-	assets.load<TextureAsset>("Textures/crosshair.png");
-	assets.load<TextureAsset>("Textures/icegrenade.dds");
 	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
 	glEnable(GL_DEPTH_TEST);
