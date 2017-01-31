@@ -55,6 +55,22 @@
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
+    <LevelActor type="Empty" displayName="New">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="47" y="28" z="331"/>
+            <Rotation x="0" y="-0.52359879" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
     <LevelActor type="OBBColider" displayName="OBBBase">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
@@ -62,159 +78,462 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
-        <LevelTransform>
-            <Position x="-15.243524" y="16.84375" z="130.65056"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (1)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="10.453125" y="2.5566406" z="134.125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (2)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="19.796875" y="11.84375" z="113.8125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (3)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="-7.53125" y="14.578125" z="96.375"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (4)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="-22.890625" y="23.171875" z="119.8125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (5)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="-17" y="18.28125" z="136.125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (6)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="-16.203125" y="-4.7304688" z="167"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (7)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="3.203125" y="-7.4726563" z="170.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (8)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="20.1875" y="2.4375" z="122.8125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (9)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="-16.546875" y="6.7734375" z="107.5625"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (10)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="13.256502" y="7.4978561" z="12.549927"/>
-        </LevelCollider>
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="2.0410156" y="24.32128" z="133.375"/>
+            <Position x="52.8125" y="42.220886" z="308"/>
             <Rotation x="0" y="0" z="0"/>
-            <Scale x="13.256502" y="7.4978561" z="12.549927"/>
+            <Scale x="9.2904053" y="17.984314" z="11.271332"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (11)">
+    <LevelActor type="Empty" displayName="New (1)">
         <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
+            <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="22.5" y="19" z="19.5"/>
+            <HalfLengths x="2" y="4" z="2"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Goblin</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="-2" y="54" z="108"/>
-            <Rotation x="0" y="-1.0471976" z="0"/>
-            <Scale x="22.5" y="19" z="19.5"/>
+            <Position x="52.149113" y="208.66214" z="339.56049"/>
+            <Rotation x="0" y="15.619753" z="0"/>
+            <Scale x="100.22728" y="1.045517" z="112.93466"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="1.2995987" y="-7.4765625" z="399.17609"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (3)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="54.625" y="-7.4765625" z="411.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (4)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="69.9375" y="-7.4765625" z="389.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (5)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="72" y="-7" z="358"/>
+            <Rotation x="0" y="-0.11899061" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (6)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="25.34375" y="-6.7280903" z="350.06686"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (7)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="2.4785156" y="-7.421875" z="398.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (8)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="19.40625" y="-7.4765625" z="431.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (9)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="55.71875" y="-7.4726563" z="433.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (10)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="75.0625" y="-7.4726563" z="419"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (11)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="83.0625" y="-7.4726563" z="402.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (12)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="89.75" y="-7.4726563" z="381.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (13)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="91.3125" y="-7.4726563" z="368"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (14)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="89" y="-7.4726563" z="354.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (15)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="61.125" y="-7.4765625" z="372.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (16)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="26.796875" y="-7.4765625" z="377.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (17)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="2.1191406" y="-7.4765625" z="357"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (18)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="52.59375" y="-7.4765625" z="336"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (19)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="76.25" y="-7.4726563" z="343.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (20)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="95.4375" y="-7.4726563" z="350"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (21)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="97" y="-7.4726563" z="376.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (22)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="91.125" y="-7.4726563" z="405.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (23)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="82.3125" y="-7.4726563" z="427"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (24)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="70.3125" y="-7.4726563" z="443.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (25)">
+        <LevelCollider type="2">
+            <Offset x="0" y="4" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="4" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="59.4375" y="-4.0820313" z="373.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (26)">
+        <LevelModel>
+            <ModelName>stone1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="56" y="-7" z="347"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2.5" y="1.5" z="3"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (26) (1)">
+        <LevelModel>
+            <ModelName>stone1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="52.446609" y="24.055958" z="356.15527"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2.5" y="0.76990318" z="3"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (1) (1)">
+        <LevelPointLight>
+            <Position x="0" y="1" z="0"/>
+            <Color x="1" y="0.45490199" z="1"/>
+            <Radius r="48"/>
+            <Intensity i="-19"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="47.340248" y="-0.39997673" z="317.12347"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (27)">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="1" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>stone1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="20.75" y="2.3530359" z="425.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
 </Level>

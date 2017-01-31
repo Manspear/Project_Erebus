@@ -195,6 +195,7 @@
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaSound.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="LuaUI.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
@@ -232,10 +233,15 @@
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\console.lua" />
     <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\gameplay.lua" />
+    <None Include="Scripts\gamestate.lua" />
     <None Include="Scripts\grenadeType.lua" />
     <None Include="Scripts\hellPillar.lua" />
+    <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\main.lua" />
+    <None Include="Scripts\main_menu.lua" />
+    <None Include="Scripts\MenuUI.lua" />
     <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
@@ -334,6 +340,7 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="LuaUI.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />

@@ -409,6 +409,7 @@ namespace Gear
 		debugHandler->update();
 		debugHandler->reset();
 		text.updateBuffer();
+		image.updateBuffer();
 	}
 
 	glm::vec3 Gear::GearEngine::getPixelColor(MousePos mouse, GLenum colorAttach) {

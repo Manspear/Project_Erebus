@@ -1,0 +1,16 @@
+<LevelActor type="Empty" displayName="New (27)">
+    <LevelCollider type="2">
+        <Offset x="0" y="1" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="1.7" y="1" z="1.5"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>stone1</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="20.75" y="2.3530359" z="425.5"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+    </LevelTransform>
+</LevelActor>

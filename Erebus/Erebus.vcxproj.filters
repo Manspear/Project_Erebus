@@ -128,6 +128,9 @@
     <ClCompile Include="LevelEditorStuff\LevelWorldHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LuaUI.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
@@ -272,6 +275,9 @@
     <ClInclude Include="LevelEditorStuff\LevelWorldHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
+    <ClInclude Include="LuaUI.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelHeightmap.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
@@ -393,12 +399,6 @@
     <None Include="Shaders\debugSphere.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\debugAABB.geom">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\debugAABB.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\debugAABB.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -469,6 +469,24 @@
     <None Include="Scripts\AI\client_AI.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\blackHole.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\HUD.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\gamestate.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\main_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\gameplay.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\MenuUI.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -515,6 +533,9 @@
     </Filter>
     <Filter Include="Scripts\spells">
       <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\gamestates">
+      <UniqueIdentifier>{62e4b110-7689-454a-91f5-f6a0e0ee22ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -10,6 +10,8 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Heightmap",
 	"Collider",
 	"Player Spawn",
+	"Player",
+	"Health Orb"
 };
 
 void TW_CALL setDisplayCB(const void *value, void *s /*clientData*/)

@@ -188,6 +188,7 @@ void LevelEditor::start() {
 		engine->update();
 		camera->updateBuffer();
 		engine->draw(camera);
+		LevelAssetHandler::getInstance()->getAssets()->upload();
 		
 		this->ui->Draw();
 
