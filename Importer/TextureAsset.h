@@ -13,8 +13,9 @@ namespace Importer
 		IMPORTER_API TextureAsset();
 		IMPORTER_API virtual ~TextureAsset();
 
-		IMPORTER_API virtual bool load( std::string path, Assets* assets ) override;
-		IMPORTER_API virtual void unload() override;
+		IMPORTER_API bool load( std::string path, Assets* assets ) override;
+		IMPORTER_API void unload() override;
+		IMPORTER_API void upload() override;
 
 		IMPORTER_API void bind( GLenum position = GL_TEXTURE0 );
 
@@ -22,6 +23,9 @@ namespace Importer
 		IMPORTER_API int getHeight();
 
 	private:
+		ImageAsset image;
+		bool hasImage;
+
 		GLuint id;
 		int width, height;
 	};

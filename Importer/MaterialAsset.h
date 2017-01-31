@@ -14,6 +14,7 @@ namespace Importer
 
 		IMPORTER_API bool load( std::string path, Assets* assets ) override;
 		IMPORTER_API void unload() override;
+		IMPORTER_API void upload() override;
 
 		IMPORTER_API glm::vec3 getAmbientColor();
 		IMPORTER_API glm::vec3 getDiffuseColor();

@@ -15,6 +15,7 @@ Menu::Menu(Gear::GearEngine* inEngine, Importer::Assets* assets)
 	clientButton = sScreenImage(glm::vec2(350, 550), 350, 100);
 	clientButtonTex = assets->load<TextureAsset>("Textures/buttonConnect.png");
 
+
 }
 
 Menu::~Menu()

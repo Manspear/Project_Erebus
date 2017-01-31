@@ -28,6 +28,7 @@ namespace LuaInputs
 			{ "ButtonReleased", buttonReleased },
 
 			{ "GetTextInput", getTextInput },
+			{ "GetMousePos", getMousePos },
 			{ NULL, NULL }
 		};
 
@@ -137,5 +138,11 @@ namespace LuaInputs
 	{
 		lua_pushstring( lua, g_inputs->getTextInput() );
 		return 1;
+	}
+	int getMousePos(lua_State * lua)
+	{
+		lua_pushnumber(lua, g_inputs->getMousePos().x);
+		lua_pushnumber(lua, g_inputs->getMousePos().y);
+		return 2;
 	}
 }
