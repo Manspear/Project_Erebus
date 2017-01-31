@@ -35,7 +35,7 @@ function CreateIceGrenade()
 	--spell.effect = CreateSlowEffect
 	spell.nades = {}
 	spell.spamcd = SPAM_CD_ICENADE
-	spell.timeSinceSpam = 0
+	spell.cooldown = 0
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.castSFX = "Effects/burn_ice_001.wav"
@@ -48,7 +48,7 @@ function CreateIceGrenade()
 		table.insert(spell.nades, initNade())
 	end
 	function spell:Cast(entity, chargetime)
-		if self.timeSinceSpam > self.spamcd then
+		if self.cooldown < 0 then
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = chargetime / self.maxChargeTime
@@ -69,7 +69,7 @@ function CreateIceGrenade()
 					self.nades[i].effectflag = effectflag
 					self.nades[i].alive = true
 					self.nades[i].particles.cast()
-					self.timeSinceSpam = 0
+					self.cooldown = self.spamcd
 					self.nades[i].soundID = Sound.Play(self.castSFX, 13, pos)
 					break
 				end
@@ -78,7 +78,7 @@ function CreateIceGrenade()
 	end
 	
 	function spell:Update(dt)
-		self.timeSinceSpam = self.timeSinceSpam + dt
+		self.cooldown = self.cooldown - dt
 		
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
