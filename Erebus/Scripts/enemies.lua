@@ -115,8 +115,12 @@ function UpdateEnemies(dt)
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
-			--enemies[i].state.update(enemies[i], player, dt)
 			clientAIScript.getAITransformPacket() -- Retrieve packets from host
+			clientAIScript.getAIStatePacket(enemies[i], player)
+
+			enemies[i].state.update(enemies[i], player, dt)
+			--enemies[i].animation:Update(tempdt, enemies[i].animationState)
+
 		end
 	end
 end

@@ -135,8 +135,11 @@ int main()
 	assets.load<TextureAsset>("Textures/button.png");
 	assets.load<TextureAsset>("Textures/buttonHost.png");
 	assets.load<TextureAsset>("Textures/buttonConnect.png");
+	//assets.load<TextureAsset>("Textures/whiteWhiteTexture.png");
+	assets.load<TextureAsset>("Textures/brightParticle.png");
 	assets.load<ModelAsset>( "Models/testGuy.model" );
 	assets.load<ModelAsset>( "Models/projectile1.model" );
+	assets.load<ModelAsset>("Models/grenade.model");
 	assets.load<ModelAsset>("Models/SunRayInner.model");
 	assets.load<ModelAsset>("Models/SunRayOuter.model");
 	assets.load<ModelAsset>( "Models/Goblin.model" );

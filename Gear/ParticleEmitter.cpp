@@ -30,7 +30,7 @@ namespace Gear
 		{
 			particlePos[i].size = 1.0;
 		}
-		shrinkage = -1;
+		shrinkage = emitter.shrinkage;
 	}
 
 	ParticleEmitter::~ParticleEmitter()
