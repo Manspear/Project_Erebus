@@ -109,11 +109,11 @@ void LevelAssetHandler::updateAssetsBar()
 	{
 		//TwAddButton( assetsBar->getBar(), prefabs[i].c_str(), onSelectPrefab, &prefabs[i], "group='Prefabs'" );
 		int* ptr = &prefabSelectionIndices[i];
-		TwAddVarCB(assetsBar->getBar(), prefabs[i].c_str(), TW_TYPE_BOOLCPP, onSetPrefab, onGetPrefab, &prefabSelectionIndices[i], "group='Prefabs'");
-		//const char* derp = getBarLabel("group='Prefabs' ", curIndex, prefabs[i].c_str()).c_str();
+		//TwAddVarCB(assetsBar->getBar(), prefabs[i].c_str(), TW_TYPE_BOOLCPP, onSetPrefab, onGetPrefab, &prefabSelectionIndices[i], "group='Prefabs'");
+		//std::string derp = ;
 		//std::string derp =
-		//	TwAddVarCB(assetsBar->getBar(), prefabs[i].c_str(), TW_TYPE_BOOLCPP, onSetPrefab,
-		//		onGetPrefab, &prefabSelectionIndices[i], "group='Prefabs' ");
+			TwAddVarCB(assetsBar->getBar(), std::to_string(curIndex).c_str(), TW_TYPE_BOOLCPP, onSetPrefab,
+				onGetPrefab, &prefabSelectionIndices[i], getBarLabel("group='Prefabs' ", curIndex, prefabs[i].c_str()).c_str());
 	}
 	TwDefine( "Assets/Prefabs opened=false" );
 
@@ -122,17 +122,18 @@ void LevelAssetHandler::updateAssetsBar()
 	selectedPrefab = 0;
 
 	for( int i=0; i<models.size(); i++ )
-		TwAddButton( assetsBar->getBar(), models[i].c_str(), onSelectModel, &models[i], "group='Models'" );
+		
+		TwAddButton( assetsBar->getBar(), std::to_string(curIndex).c_str(), onSelectModel, &models[i], getBarLabel("group='Models' ", curIndex, models[i].c_str()).c_str() );
 	if( models.size() > 0 )
 		TwDefine( "Assets/Models opened=false" );
 
 	for( int i=0; i<textures.size(); i++ )
-		TwAddButton( assetsBar->getBar(), textures[i].c_str(), onSelectTexture, &textures[i], "group='Textures'" );
+		TwAddButton( assetsBar->getBar(), std::to_string(curIndex).c_str(), onSelectTexture, &textures[i], getBarLabel("group='Textures' ", curIndex, textures[i].c_str()).c_str());
 	if( textures.size() > 0 )
 		TwDefine( "Assets/Textures opened=false" );
 
 	for( int i=0; i<sounds.size(); i++ )
-		TwAddButton( assetsBar->getBar(), sounds[i].c_str(), onSelectSound, &sounds[i], "group='Sounds'" );
+		TwAddButton( assetsBar->getBar(), std::to_string(curIndex).c_str(), onSelectSound, &sounds[i], getBarLabel("group='Sounds' ", curIndex, sounds[i].c_str()).c_str());
 	if( sounds.size() > 0 )
 		TwDefine( "Assets/Sounds opened=false" );
 }
