@@ -66,6 +66,6 @@ goal.collider:SetRadius(10)
 CollisionHandler.AddSphere(goal.collider)
 
 -- set music
---Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
+Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
