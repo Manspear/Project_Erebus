@@ -262,6 +262,39 @@ namespace LuaNetwork
 		return 11;
 	}
 
+	int sendChargingPacket(lua_State* lua)
+	{
+		int index = lua_tointeger(lua, 1);
+		int currentSpell = lua_tointeger(lua, 2);
+		int charging = lua_tointeger(lua, 3);
+
+		g_networkController->sendChargingPacket(ChargingPacket(index, currentSpell, charging));
+
+		return 0;
+	}
+
+	int getChargingPacket(lua_State* lua)
+	{
+		ChargingPacket chargingPacket;
+
+		if (g_networkController->fetchChargingPacket(chargingPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, chargingPacket.data.ID);
+			lua_pushnumber(lua, chargingPacket.data.currentSpell);
+			lua_pushnumber(lua, chargingPacket.data.charging);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushboolean(lua, false);
+		}
+
+		return 4;
+	}
+
 	int getNetworkHost(lua_State* lua)
 	{
 		bool networkHost = g_networkController->getNetworkHost();
