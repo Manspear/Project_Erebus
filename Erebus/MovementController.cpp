@@ -34,7 +34,7 @@ void MovementController::update()
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( 1 ); // HARDCODAT HÄR TA BORT MIG HEEEEEEEEEEEEEEEEEEEEEEEEERP
 	
-	this->hitbox->setPos(newPos); // move hitbox
+	/*this->hitbox->setPos(newPos); // move hitbox
 
 	bool herro = this->checkCollision(colliders); // Check collision against all the walls
 
@@ -42,7 +42,7 @@ void MovementController::update()
 	{
 
 		newPos = pos;
-	}
+	}*/
 
 	//NEW PLAN
 	// Flytta din egen hitbox
@@ -53,9 +53,28 @@ void MovementController::update()
 	// amazing
 
 	glm::vec3 dif = newPos - pos;
-	glm::vec3 newXPos = pos + glm::vec3( newPos.x, 0.0f, 0.0f );
-	glm::vec3 newYPos = pos + glm::vec3( 0.0f, newPos.y, 0.0f );
-	glm::vec3 newZPos = pos + glm::vec3( 0.0f, 0.0f, newPos.z );
+	glm::vec3 newXPos = pos + glm::vec3( dif.x, 0.0f, 0.0f );
+	glm::vec3 newZPos = pos + glm::vec3( 0.0f, 0.0f, dif.z );
+	glm::vec3 finalPos = pos;
+	finalPos.y = height;
+
+	this->hitbox->setPos(newXPos); // move hitbox
+
+	bool herro = this->checkCollision(colliders); // Check collision against all the walls
+
+	if (!herro) // if our new position results in a collision
+	{
+		finalPos.x = newXPos.x;
+	}
+
+	this->hitbox->setPos(newZPos); // move hitbox
+
+	herro = this->checkCollision(colliders); // Check collision against all the walls
+
+	if (!herro) // if our new position results in a collision
+	{
+		finalPos.z = newZPos.z;
+	}
 
 	//Kolla om vi har någon kollision
 	//Har vi någon kollision så kolla om det är med någon vägg
@@ -69,7 +88,7 @@ void MovementController::update()
 	// Collision on z axis
 
 	
-	transform->setPos(newPos);
+	transform->setPos(finalPos);
 	this->movement = glm::vec3();
 }
 

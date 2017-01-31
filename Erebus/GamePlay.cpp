@@ -20,7 +20,7 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	engine->bindAnimations(&allAnimations, &boundAnimations);
 
 	OBBCollider* swag = new OBBCollider(glm::vec3(30,10,25),5,5,5);
-	swag->setZAxis(glm::vec3(1, 1, 1));
+	swag->setZAxis(glm::vec3(1, 0, 1));
 	collisionHandler.addHitbox(swag,1);
 
 	collisionHandler.setTransforms(transforms);
