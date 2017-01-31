@@ -28,7 +28,7 @@ function CreateBlackHole()
 	spell.soundID = -1
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
-	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
+	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)
