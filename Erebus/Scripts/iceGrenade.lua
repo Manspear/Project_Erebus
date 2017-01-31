@@ -37,8 +37,7 @@ function CreateIceGrenade()
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.castSFX = "Effects/burn_ice_001.wav"
-	spell.hitSFX = {}
-	spell.hitSFX[1] = "Effects/Ice_impact_lite_02.wav"
+	spell.hitSFX = "Effects/Ice_impact_lite_02.wav"
 	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 
@@ -68,7 +67,7 @@ function CreateIceGrenade()
 					self.nades[i].alive = true
 					self.nades[i].particles.cast()
 					self.timeSinceSpam = 0
-					self.nades[i].soundID = Sound.Play(self.castSFX, 13, pos)
+					self.nades[i].soundID = Sound.Play(self.castSFX, 11, pos)
 					break
 				end
 			end
@@ -83,7 +82,9 @@ function CreateIceGrenade()
 				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
-					if self.nades[i].exploding then for index = 1, #self.hitSFX do Sound.Play(self.hitSFX[index], 1, self.nades[i].type.position) end end
+					if self.nades[i].exploding then 
+						Sound.Play(self.hitSFX, 3, self.nades[i].type.position)
+					end
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
 					hits = self.nades[i].type:Update(dt)

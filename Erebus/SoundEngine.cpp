@@ -20,7 +20,6 @@ SoundEngine::SoundEngine()
 	}
 
 	currSoundID = 0;
-	currSoundSourceID = 0;
 }
 
 SoundEngine::~SoundEngine()
@@ -31,48 +30,37 @@ SoundEngine::~SoundEngine()
 		engine->drop();
 }
 
-void SoundEngine::update(const float &dt)
+void SoundEngine::update(const double &dt)
 {
-	for (auto s : sounds)
-	{
-		if (s.sound->isFinished())
-		{
-			s.sound->drop();
-			s = std::move(sounds.back());
-			sounds.pop_back();
-		}
-	}
+	
 }
 
-size_t SoundEngine::play(size_t sourceID, uint8_t options, glm::vec3 pos)
+size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 {
 	size_t id = -1;
-	auto s = std::find(sources.begin(), sources.end(), sourceID);
-
-	if (!engine || s == sources.end())
+	if (!engine)
 		return id;
 
-	sSoundSource ss = *s;
-
-	if (!isPlaying(ss.sourceID) || (options & SOUND_COPY))
+	const std::string path = basePath + target;
+	const char* c_path = path.c_str();
+	if ( (options & SOUND_COPY) || !engine->isCurrentlyPlaying(c_path) )
 	{
 		const vec3df ikpos = vec3df(pos.x, pos.y, pos.z);
 		bool loop = static_cast<bool>(options & SOUND_LOOP);
 		bool paused = static_cast<bool>(options & SOUND_PAUSED);
-		bool track = static_cast<bool>(options & (SOUND_LOOP | SOUND_TRACK | SOUND_EFFECTS | SOUND_PAUSED));
 		bool effects = static_cast<bool>(options & SOUND_EFFECTS);
+		E_STREAM_MODE stream = static_cast<bool>(options & SOUND_STREAM) ? ESM_STREAMING : ESM_AUTO_DETECT;
 
-		sSound newSound;
+		sSound s;
 		if (options & SOUND_3D)
-			newSound.sound = engine->play3D(ss.source, ikpos, loop, paused, track, effects);
+			s.sound = engine->play3D(c_path, ikpos, loop, paused, true, stream, effects);
 		else
-			newSound.sound = engine->play2D(ss.source, loop, paused, track, effects);
+			s.sound = engine->play2D(c_path, loop, paused, true, stream, effects);
 
-		if (track && newSound.sound)
+		if (s.sound)
 		{
-			id = ss.sourceID + currSoundID;
-			newSound.id = id;
-			sounds.push_back(newSound);
+			s.id = id = currSoundID;
+			sounds.push_back(s);
 			currSoundID++;
 		}
 	}
@@ -80,14 +68,7 @@ size_t SoundEngine::play(size_t sourceID, uint8_t options, glm::vec3 pos)
 	return id;
 }
 
-// TODO: Integrate with soundsource system
-size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
-{
-	size_t sourceID = addSource(target, (options & SOUND_STREAM));
-	size_t soundID = play(sourceID, options, pos);
-	return soundID;
-}
-
+#pragma region Pause/resume/stop
 void SoundEngine::pause(size_t i)
 {
 	auto s = std::find(sounds.begin(), sounds.end(), i);
@@ -127,7 +108,9 @@ void SoundEngine::clearAll()
 		s.sound->drop();
 	sounds.clear();
 }
+#pragma endregion Functions for pausing/playing sounds
 
+#pragma region Setters
 void SoundEngine::setMasterVolume(float v)
 {
 	if (!engine)
@@ -177,44 +160,4 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 
 	engine->setListenerPosition(ikpos, iklook);
 }
-
-size_t SoundEngine::addSource(std::string target, bool stream)
-{
-	size_t id = -1;
-
-	if (!engine)
-		return id;
-
-	const std::string path = basePath + target;
-	ISoundSource* source = engine->getSoundSource(path.c_str());
-
-	E_STREAM_MODE mode = stream ? ESM_STREAMING : ESM_AUTO_DETECT;
-	source->setStreamMode(mode);
-
-	auto s = std::find(sources.begin(), sources.end(), source);
-	if (s == sources.end())
-	{
-		sSoundSource newSource;
-		newSource.source = source;
-		newSource.target = target;
-		id = currSoundSourceID << S_ID_SHIFT;
-		newSource.sourceID = id;
-		sources.push_back(newSource);
-		currSoundSourceID++;
-	}
-	else
-	{
-		id = (*s).sourceID;
-	}
-
-	return id;
-}
-
-bool SoundEngine::isPlaying(size_t sourceID)
-{
-	for (auto s : sounds)
-		if (s.id >> S_ID_SHIFT == sourceID >> S_ID_SHIFT)
-			if (!s.sound->isFinished())
-				return true;
-	return false;
-}
+#pragma endregion Functions for manipulating sound attributes
