@@ -25,6 +25,8 @@ local scriptFiles =
 	"Scripts/HUD.lua"
 }
 
+local loadedGameplay = false
+
 function LoadGameplay()
 	-- run scripts
 	for i=1, #scriptFiles do
@@ -49,12 +51,15 @@ function UpdateGameplay(dt)
 end
 
 function EnterGameplay()
-	-- call their load function
-	for key,value in pairs(scripts) do
-		if value.Load then value.Load() end
-	end
+	if loadedGameplay == false then 
+		-- call their load function
+		for key,value in pairs(scripts) do
+			if value.Load then value.Load() end
+		end
 
-	dofile( "Scripts/level.lua" )
+		dofile( "Scripts/level.lua" )
+		loadedGameplay = true
+	end
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
