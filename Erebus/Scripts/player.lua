@@ -1,14 +1,23 @@
 local MOLERAT_OFFSET = 0.4
 local PLAYER_JUMP_SPEED = 0.35
 
+SLOW_EFFECT_INDEX = 1
+TIME_SLOW_EFFECT_INDEX = 2
+FIRE_EFFECT_INDEX = 3
+
 player = {}
 player2 = {}
+
+effectTable = {}
 
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
 function LoadPlayer()	
+	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
+	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
+	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()
@@ -28,8 +37,10 @@ function LoadPlayer()
 	player.heightmapIndex = 1
 	player.spamCasting = false
 	player.charging = false
+	player.rayCollider = RayCollider.Create(player.transformID)
 	player.move = {}
-	
+	CollisionHandler.AddRay(player.rayCollider)
+	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
 
 	-- set spells for player
@@ -85,13 +96,14 @@ function LoadPlayer2()
 	player2.charging = false
 
 	player2.animationController = CreatePlayerController(player2)
-
+	player2.sphereCollider = SphereCollider.Create(player2.transformID)
+	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player2.spells[1] = CreateHellPillar()
 	player2.spells[2] = CreateBlackHole()
-	player2.spells[3] = CreateSunRay()
+	player2.spells[3] = CreateIceGrenade()
+	player2.spells[4] = CreateSunRay()
 
 	player2.currentSpell = 1
 
@@ -163,6 +175,7 @@ function UpdatePlayer(dt)
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
+	--player.spells[4]:Update(dt)
 	
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
@@ -186,7 +199,15 @@ function UpdatePlayer(dt)
 	player.controller:Update()
 	
 end
-
+function SendCombine(spell)
+	--TOBEDEFINED
+end
+function GetCombined(effectIndex, damage)
+	if Inputs.ButtonDown(Buttons.Right) then
+		table.insert(player.spells[player.currentSpell].effects, globalEffects[effectIndex])
+		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage
+	end
+end
 function Controls(dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
@@ -200,13 +221,29 @@ function Controls(dt)
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
 		end
+		if Inputs.KeyDown("T") then
+			local dir = Camera.GetDirection()
+			local pos = Transform.GetPosition(player.transformID)
+			RayCollider.SetActive(player.rayCollider, true)
+			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+		end
+		if Inputs.KeyReleased("T") then
+			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+			for curID = 1, #collisionIDs do
+				if collisionIDs[curID] == player2.sphereCollider:GetID() then
+					SendCombine(player.spells[player.currentSpell])
+					break
+				end
+			end
+			RayCollider.SetActive(player.rayCollider, false)
+		end
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			--if player.spells[player.currentSpell].cooldown < 0 then 
-			--	Network.SendSpellPacket(player.transformID, player.currentSpell)
-			--end
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+			end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
@@ -223,7 +260,7 @@ function Controls(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
-		if Inputs.KeyPressed("4") then player.currentSpell = 4 end
+		if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
 end
 
 function PrintInfo() 
@@ -244,7 +281,7 @@ function PrintInfo()
 end
 
 function UpdatePlayer2(dt)
-	newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
+	local newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
 	if newtransformvalue == true then
 		Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
@@ -252,7 +289,7 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
+	local newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
 
 	if newspellpacket == true then
 		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
@@ -262,8 +299,9 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
+	player2.spells[4]:Update(dt)
 		
-	newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
+	local newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
 	--if newAnimationValue == true then
 	--	print(animationID, animationState, dt_test, animationSegment)
 	--end

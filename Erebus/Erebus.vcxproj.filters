@@ -92,6 +92,9 @@
     <ClCompile Include="MovementController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LuaUI.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
     <ClCompile Include="PlaneFrustum.cpp">
       <Filter>Source Files\Collider</Filter>
     </ClCompile>
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="MovementController.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaUI.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="PlaneFrustum.h">
       <Filter>Header Files\Collider</Filter>
@@ -351,23 +357,14 @@
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
     </None>
-    <None Include="Scripts\arcType.lua">
-      <Filter>Scripts\types</Filter>
-    </None>
     <None Include="Scripts\chronoBall.lua">
       <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\fireball.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\fireballArc.lua">
-      <Filter>Scripts\spells</Filter>
-    </None>
     <None Include="Scripts\fireEffect.lua">
       <Filter>Scripts\effects</Filter>
-    </None>
-    <None Include="Scripts\fireGroundAoE.lua">
-      <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\groundAoEType.lua">
       <Filter>Scripts\types</Filter>
@@ -426,6 +423,24 @@
     <None Include="Scripts\AI\client_AI.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\blackHole.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\HUD.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\gamestate.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\main_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\gameplay.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\MenuUI.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -469,6 +484,9 @@
     </Filter>
     <Filter Include="Scripts\spells">
       <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\gamestates">
+      <UniqueIdentifier>{62e4b110-7689-454a-91f5-f6a0e0ee22ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

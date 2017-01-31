@@ -9,13 +9,13 @@ namespace LuaGear
 	static std::vector<ModelInstance>* g_ForwardModels = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Animation* g_animations = nullptr;
-	static int* g_boundAnimations = 0;
+	static int* g_boundAnimations = nullptr;
 	static Assets* g_assets = nullptr;
 	static WorkQueue* g_work = nullptr;
+	static bool* g_queueModels = nullptr;
+	static bool* g_mouseVisible = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, 
-							std::vector<AnimatedInstance>* animatedModels, Animation* animations, std::vector<ModelInstance>* forwardModels,
-							int* boundAnimations, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations,std::vector<ModelInstance>* forwardModels, bool* queueModels, bool* mouseVisible, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
@@ -25,6 +25,8 @@ namespace LuaGear
 		g_boundAnimations = boundAnimations;
 		g_assets = assets;
 		g_work = work;
+		g_queueModels = queueModels;
+		g_mouseVisible = mouseVisible;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -35,6 +37,8 @@ namespace LuaGear
 			{ "AddForwardInstance",	addForwardInstance},
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
+			{ "QueueModels", setQueueModels },
+			{ "CursorVisible", setCursorVisible },
 			{ NULL, NULL }
 		};
 
@@ -144,6 +148,20 @@ namespace LuaGear
 		return 0;
 	}
 
+	int setQueueModels( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+		*g_queueModels = lua_toboolean( lua, 1 );
+		return 0;
+	}
+
+	int setCursorVisible( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+		*g_mouseVisible = lua_toboolean( lua, 1 );
+		return 0;
+	}
+	
 	int addForwardInstance(lua_State * lua)
 	{
 		int ntop = lua_gettop(lua);

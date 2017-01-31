@@ -103,6 +103,10 @@ namespace Importer
 	{
 	}
 
+	void MaterialAsset::upload()
+	{
+	}
+
 	glm::vec3 MaterialAsset::parseVec3( char** cursor )
 	{
 		glm::vec3 result;

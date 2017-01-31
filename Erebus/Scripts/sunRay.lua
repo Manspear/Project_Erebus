@@ -1,3 +1,4 @@
+SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
@@ -7,7 +8,8 @@ SUNRAY_HALF_LENGTH = 23
 function CreateSunRay()
 	local sunRay = {}
 	sunRay.type = CreateRayType()
-	sunRay.effect = CreateFireEffect --reference to function
+	sunRay.effects = {} 
+	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)
 	sunRay.lifeTime = SUNRAY_DURATION
 	sunRay.damage = 0
 	sunRay.alive = false
@@ -26,6 +28,8 @@ function CreateSunRay()
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
+	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
+	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
 	Gear.AddForwardInstance(model2, sunRay.type.transformID)
@@ -47,7 +51,11 @@ function CreateSunRay()
 			for index = 1, #hits do
 				if hits[index].Hurt then	
 					if self.effectFlag then
-						table.insert(hits[index].effects, self.effect())
+						for e =1, #self.effects do
+							local effect = effectTable[self.effects[e]]()
+							table.insert(hits[index].effects, effect)
+							effect:Apply(hits[index])
+						end
 					end
 					hits[index]:Hurt(self.damage)
 					Sound.Play(self.hitSFX, 1, hits[index].position)

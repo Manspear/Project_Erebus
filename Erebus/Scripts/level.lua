@@ -70,7 +70,7 @@ Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
 
-	
+
 	-- Setting controller for player
 	player.controller = {};
 	player.controller = MovementController.Create()

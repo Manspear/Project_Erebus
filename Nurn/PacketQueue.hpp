@@ -18,9 +18,9 @@ public:
 	PacketQueue(uint8_t size);
 	virtual ~PacketQueue();
 
-	bool pop(Packet &packet);
-	bool push(Packet &packet);
-	bool batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy); // Push x bytes of packets to queue
+	bool pop(Packet& packet);
+	bool push(const Packet& packet);
+	bool batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy); // Push x bytes of packets to queue
 };
 
 template<typename Packet> PacketQueue<Packet>::PacketQueue(uint8_t queueSize)
@@ -45,7 +45,7 @@ template<typename Packet> PacketQueue<Packet>::~PacketQueue()
 	this->queueSize = 0;
 }
 
-template<typename Packet> bool PacketQueue<Packet>::pop(Packet &packet)
+template<typename Packet> bool PacketQueue<Packet>::pop(Packet& packet)
 {
 	if (this->readIndex == this->writeIndex)
 	{
@@ -58,7 +58,7 @@ template<typename Packet> bool PacketQueue<Packet>::pop(Packet &packet)
 	return true;
 }
 
-template<typename Packet> bool PacketQueue<Packet>::push(Packet &packet)
+template<typename Packet> bool PacketQueue<Packet>::push(const Packet& packet)
 {
 	int nextElement = (this->writeIndex + 1) % this->queueSize;
 	
@@ -74,7 +74,7 @@ template<typename Packet> bool PacketQueue<Packet>::push(Packet &packet)
 	}
 }
 
-template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy)
+template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy)
 {
 	uint8_t currReadIndex = this->readIndex;
 	uint8_t nrOfPacketsToCopy = sizeToCopy / sizeof(Packet); 
