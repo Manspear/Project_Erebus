@@ -91,7 +91,6 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 			
 
 			engine->pickActorFromWorld( LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
-			std::cout << glm::to_string(hitNorm)<<std::endl;
 			
 			switch( action )
 			{

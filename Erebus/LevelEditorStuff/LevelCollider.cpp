@@ -10,6 +10,7 @@ const char* LevelCollider::COLLIDER_TYPE_NAMES[MAX_COLLIDER_TYPES] =
 	"Ray",
 };
 
+
 LevelCollider::LevelCollider()
 	: colliderType(COLLIDER_SPHERE), position(0.0f), color(0.0f, 1.0f, 0.0f), parentCollider(nullptr),
 	sphereRadius(1.0f),
@@ -363,6 +364,7 @@ void LevelCollider::setTwStruct( TwBar* bar )
 	if(this->parentCollider == nullptr)
 		TwAddVarRW(bar, "coliderLayer", TW_TYPE_INT16, &layer, "label='Layer:'");
 
+
 	
 	switch( colliderType )
 	{
@@ -383,7 +385,8 @@ void LevelCollider::setTwStruct( TwBar* bar )
 			TwAddVarRW( bar, "obbColliderHalfLengths", LevelUI::TW_TYPE_VECTOR3F(), &halfLengths, "label='Half lengths:'" );
 
 			TwAddVarRW(bar, "coliderRotation", LevelUI::TW_TYPE_VECTOR3F(), &rotation, "label='Rotation:'");
-
+			TwDefine("Brush visible=false");
+			TwDefine("Brush visible=true");
 			break;
 
 		case COLLIDER_RAY:
