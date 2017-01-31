@@ -49,6 +49,10 @@ namespace Importer
 		width = height = 0;
 	}
 
+	void ImageAsset::upload()
+	{
+	}
+
 	uint8_t* ImageAsset::getPixels() const
 	{
 		return pixels;

@@ -131,24 +131,6 @@ int main()
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
-	assets.load<TextureAsset>("Textures/menuBackground.png");
-	assets.load<TextureAsset>("Textures/button.png");
-	assets.load<TextureAsset>("Textures/buttonHost.png");
-	assets.load<TextureAsset>("Textures/buttonConnect.png");
-	//assets.load<TextureAsset>("Textures/whiteWhiteTexture.png");
-	assets.load<TextureAsset>("Textures/brightParticle.png");
-	assets.load<ModelAsset>( "Models/testGuy.model" );
-	assets.load<ModelAsset>( "Models/projectile1.model" );
-	assets.load<ModelAsset>("Models/grenade.model");
-	assets.load<ModelAsset>("Models/SunRayInner.model");
-	assets.load<ModelAsset>("Models/SunRayOuter.model");
-	assets.load<ModelAsset>( "Models/Goblin.model" );
-	assets.load<ModelAsset>("Models/pCube1.model");
-	assets.load<ModelAsset>( "Models/tile1_game_x1.model" );
-	assets.load<ModelAsset>( "Models/tile1_game_x1_assets.model" );
-	assets.load<TextureAsset>("Textures/HealthBar.png");
-	assets.load<TextureAsset>("Textures/HealthBackground.png");
-	assets.load<TextureAsset>("Textures/firepillar.dds");
 	assets.load<TextureAsset>("Textures/cooldown.png");
 	assets.load<TextureAsset>("Textures/spell1.png");
 	assets.load<TextureAsset>("Textures/spell2.png");
@@ -158,7 +140,6 @@ int main()
 	assets.load<TextureAsset>("Textures/select.dds");
 	assets.load<TextureAsset>("Textures/crosshair.png");
 	assets.load<TextureAsset>("Textures/icegrenade.dds");
-
 	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
 	glEnable(GL_DEPTH_TEST);
@@ -261,6 +242,8 @@ int main()
 
 			engine.update();
 			camera.updateBuffer();
+
+			assets.upload();
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
