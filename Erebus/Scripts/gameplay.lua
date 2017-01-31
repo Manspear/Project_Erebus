@@ -30,13 +30,6 @@ function LoadGameplay()
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
 	end
-
-	-- call their load function
-	for key,value in pairs(scripts) do
-		if value.Load then value.Load() end
-	end
-
-	dofile( "Scripts/level.lua" )
 end
 
 function UnloadGameplay()
@@ -56,6 +49,13 @@ function UpdateGameplay(dt)
 end
 
 function EnterGameplay()
+	-- call their load function
+	for key,value in pairs(scripts) do
+		if value.Load then value.Load() end
+	end
+
+	dofile( "Scripts/level.lua" )
+
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
