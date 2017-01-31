@@ -2,7 +2,7 @@
 
 #include "PacketEnums.hpp"
 #include "PacketQueue.hpp"
-#include "AIPacket.hpp"
+#include "AIStatePacket.hpp"
 #include "AnimationPacket.hpp"
 #include "TransformPacket.hpp"
 #include "MetaDataPacket.hpp"
@@ -20,18 +20,18 @@ public:
 	uint16_t getCurrentNetPacketSize() const;
 
 	void buildNetPacket(); // Call in 
-	void buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
-	void buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID);
-	void buildAIPacket(const uint16_t& id, const uint16_t& aiState);
-	void buildSpellPacket(const uint16_t& ID, const uint16_t& currentSpell);
-	void buildAITransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+	void pushTransformPacket(const TransformPacket& packet);
+	void pushAnimationPacket(const AnimationPacket& packet);
+	void pushAIStatePacket(const AIStatePacket& packet);
+	void pushSpellPacket(const SpellPacket& packet);
+	void pushAITransformPacket(const TransformPacket& packet);
 
 private:
 	unsigned char * memory;
 
 	PacketQueue<TransformPacket> * transformQueue;
 	PacketQueue<AnimationPacket> * animationQueue;
-	PacketQueue<AIPacket> * aiQueue;
+	PacketQueue<AIStatePacket> * aiStateQueue;
 	PacketQueue<SpellPacket> * spellQueue;
 	PacketQueue<TransformPacket> * aiTransformQueue;
 	uint16_t currentNetPacketSize;
