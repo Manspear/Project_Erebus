@@ -28,6 +28,20 @@ function UpdateMenuUI(dt)
 		end
 	end
 
+	if UI.mousePick(screenImages["host"], x,y) then
+		if Inputs.ButtonReleased(Buttons.Left) then
+			Erebus.StartNetwork(true)
+			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+		end
+	end
+
+	if UI.mousePick(screenImages["connect"], x,y) then
+		if Inputs.ButtonReleased(Buttons.Left) then
+			Erebus.StartNetwork(false)
+			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+		end
+	end
+
 end
 
 function DrawMenuUI()

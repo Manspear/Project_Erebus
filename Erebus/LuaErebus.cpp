@@ -19,6 +19,7 @@ namespace LuaErebus
 		{
 			{ "SetControls", setControls },
 			{ "CameraSensitivity", cameraSensitivity },
+			{ "StartNetwork", startNetwork },
 			{ NULL, NULL }
 		};
 
