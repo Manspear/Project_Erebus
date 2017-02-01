@@ -1,4 +1,4 @@
-<LevelActor type="OBBColider" displayName="OBBBase">
+<LevelActor type="OBBColider" displayName="OBBBase (3)">
     <LevelCollider type="2">
         <Offset x="0" y="0" z="0"/>
         <Color x="0" y="1" z="0"/>
@@ -9,8 +9,8 @@
         <ModelName>Goblin</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="13.609375" y="1.0762272" z="204.625"/>
+        <Position x="50.875" y="-7.4726563" z="271.75"/>
         <Rotation x="0" y="0" z="0"/>
-        <Scale x="1" y="1" z="1"/>
+        <Scale x="10" y="10" z="10"/>
     </LevelTransform>
 </LevelActor>

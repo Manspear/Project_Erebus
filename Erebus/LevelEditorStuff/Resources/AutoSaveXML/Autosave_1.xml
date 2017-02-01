@@ -10,11 +10,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="0"/>
-        </LevelCollider>
         <LevelModel>
             <ModelName>tile1_game_x1_assets</ModelName>
         </LevelModel>
@@ -65,10 +60,22 @@
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="6" y="1" z="1"/>
+            <HalfLengths x="1" y="1" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="-11.492188" y="7.7070313" z="130.5"/>
+            <Position x="14.898438" y="-7.4726563" z="164.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="SphereColider" displayName="SphereBase">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="0"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="33.15625" y="-7.4726563" z="202.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>

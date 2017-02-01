@@ -1,12 +1,12 @@
-<LevelActor type="Empty" displayName="New (1)">
+<LevelActor type="Empty" displayName="New">
     <LevelCollider type="0">
-        <Offset x="0" y="0" z="0"/>
+        <IDs x="0" y="0" z="0"/>
         <Color x="0" y="1" z="0"/>
         <IDs ID="1" parentID="0"/>
         <Radius r="0"/>
     </LevelCollider>
     <LevelTransform>
-        <Position x="16" y="19" z="125"/>
+        <Position x="-21.046875" y="23.859375" z="119.375"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
     </LevelTransform>

@@ -47,7 +47,8 @@ LevelCollider::LevelCollider()
 	obbRotationStep +=  LevelUI::actorBarName;
 	obbRotationStep += "/coliderRotation step=1 ";
 	int k = 0;
-
+	this->coliderID = LevelColiderHandler::getInstance()->getNewID();
+	this->parentColiderID = 0;
 }
 
 LevelCollider::~LevelCollider()
@@ -72,6 +73,11 @@ void LevelCollider::initialize( tinyxml2::XMLElement* element )
 	color.x = child->FloatAttribute("x");
 	color.y = child->FloatAttribute("y");
 	color.z = child->FloatAttribute("z");
+
+	child = element->FirstChildElement("IDs");
+	this->coliderID = child->IntAttribute("ID");
+	this->parentColiderID = child->IntAttribute("parentID");
+
 
 	this->position += this->offset;
 
@@ -151,6 +157,10 @@ void LevelCollider::postInitialize()
 	
 	if (onlyComponent)
 		parent->setExportType(EXPORT_COLLIDER);
+
+	if (this->parentColiderID != 0) {
+		this->parentCollider = LevelColiderHandler::getInstance()->getLoadColider(this->parentColiderID, this);
+	}
 		
 }
 
@@ -175,8 +185,13 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 	colorElement->SetAttribute( "y", color.y );
 	colorElement->SetAttribute( "z", color.z );
 
+	tinyxml2::XMLElement* idElement = doc->NewElement("IDs");
+	idElement->SetAttribute("ID", this->coliderID);
+	idElement->SetAttribute("parentID", this->parentColiderID);
+
 	element->LinkEndChild( offsetElement );
 	element->LinkEndChild( colorElement );
+	element->LinkEndChild(idElement);
 	scale = parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
 	switch( colliderType )
 	{
@@ -237,25 +252,29 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 
 std::string LevelCollider::toLua( std::string name )
 {
+	this->updateLayer();
+
 	using namespace std;
 	stringstream ss;
 
 	ss << name << ".collider = ";
 
-	switch( colliderType )
-	{
+	if (this->parentCollider == nullptr) { // TOP PARENT
+		switch (colliderType)
+		{
 		case COLLIDER_SPHERE:
-			ss << "SphereCollider.Create(" << name << ".transformID)" << endl;
+			ss << "SphereCollider.Create(temp.transformID)" << endl;
 			ss << "CollisionHandler.AddSphere(" << name << ".collider)" << endl;
 			break;
 
 		case COLLIDER_AABB:
-			ss << "AABBCollider.Create(" << name << ".transformID)" << endl;
+			ss << "AABBCollider.Create(temp.transformID)" << endl;
 			ss << "CollisionHandler.AddAABB(" << name << ".collider)" << endl;
 			break;
 
 		case COLLIDER_OBB:
-			ss << "OBBCollider.Create(" << name << ".transformID)" << endl;
+			ss << "OBBCollider.Create(temp.transformID)" << endl;
+			ss << "CollisionHandler.AddOBB(" << name << ".collider)" << endl;
 			ss << "CollisionHandler.AddOBB(" << name << ".collider)" << endl;
 			break;
 
@@ -263,8 +282,16 @@ std::string LevelCollider::toLua( std::string name )
 			ss << "RayCollider.Create(" << name << ".transformID)" << endl;
 			ss << "CollisionHandler.AddRay(" << name << ".collider)" << endl;
 			break;
+		}
+
+	}
+	else {//CHILD
+
 	}
 
+
+
+	
 	return ss.str();
 }
 
@@ -345,18 +372,68 @@ void LevelCollider::update( float deltaTime )
 		
 }
 
-void LevelCollider::addChildCollider( LevelCollider* collider )
+static void TW_CALL setParentID(const void *value, void *s /*clientData*/)
 {
-	childColliders.push_back( collider );
+	// Set: copy the value of s from AntTweakBar
+	const int val = (*static_cast<const int*>(value));
+	LevelCollider* actor = (LevelCollider*)s;
+	
+	LevelCollider* parent = LevelColiderHandler::getInstance()->getColiderWithID(val, actor);
+	if (parent != nullptr) {
+		actor->setParentColider(parent);
+		actor->setParentColiderID(val);
+		LevelActorHandler::getInstance()->updateTweakBars();
+	}
+	
+	//actor->setParentColiderID(*srcPtr);
+	//LevelActorHandler::getInstance()->updateTweakBars();
+
 }
 
-void LevelCollider::removeChildCollider( int index )
+static void TW_CALL getParentID(void *value, void *s /*clientData*/)
 {
-	childColliders.erase( childColliders.begin() + index );
+	// Get: copy the value of s to AntTweakBar
+	int *destPtr = static_cast<int *>(value);
+	LevelCollider* actor = (LevelCollider*)s;
+	*destPtr = actor->getParendColiderID(); // the use of TwCopyStdStringToLibrary is required here
 }
+
+void LevelCollider::addChildColider(LevelCollider* colider) {
+	this->childColliders.push_back(colider);
+}
+
+LevelCollider* LevelCollider::getParentColider() {
+	return this->parentCollider;
+}
+
+void LevelCollider::deleteChildColider(LevelCollider * colider)
+{
+	for (size_t i = 0; i < this->childColliders.size(); i++)
+	{
+		if (colider == this->childColliders.at(i)) {
+			this->childColliders.erase(this->childColliders.begin() + i);
+		}
+	}
+
+}
+
+unsigned int LevelCollider::getParendColiderID() {
+	return this->parentColiderID;
+}
+void LevelCollider::setParentColiderID(unsigned int ID) {
+	this->parentColiderID = ID;
+}
+
+void LevelCollider::setParentColider(LevelCollider* colider) {
+	this->parentCollider = colider;
+}
+
 
 void LevelCollider::setTwStruct( TwBar* bar )
 {
+	TwAddVarRO(bar, "coliderID", TW_TYPE_INT16, &this->coliderID, "");
+	TwAddVarCB(bar, "coliderParent", TW_TYPE_INT32, setParentID, getParentID, this, "");
+
 	TwAddVarCB( bar, "colliderType", TW_TYPE_COLLIDERS(), onSetType, onGetType, this, "label='Type:'" );
 	
 	TwAddVarRW( bar, "coliderOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'" );
@@ -385,8 +462,6 @@ void LevelCollider::setTwStruct( TwBar* bar )
 			TwAddVarRW( bar, "obbColliderHalfLengths", LevelUI::TW_TYPE_VECTOR3F(), &halfLengths, "label='Half lengths:'" );
 
 			TwAddVarRW(bar, "coliderRotation", LevelUI::TW_TYPE_VECTOR3F(), &rotation, "label='Rotation:'");
-			TwDefine("Brush visible=false");
-			TwDefine("Brush visible=true");
 			break;
 
 		case COLLIDER_RAY:
@@ -405,9 +480,9 @@ void LevelCollider::setType( int type )
 	LevelActorHandler::getInstance()->updateActorBar();
 }
 
-void LevelCollider::setParentCollider( LevelCollider* parent )
+unsigned int LevelCollider::getColiderID()
 {
-	parentCollider = parent;
+	return this->coliderID;
 }
 
 void LevelCollider::setColor( glm::vec3 c )
@@ -418,11 +493,6 @@ void LevelCollider::setColor( glm::vec3 c )
 int LevelCollider::getType() const
 {
 	return colliderType;
-}
-
-LevelCollider* LevelCollider::getParentCollider()
-{
-	return parentCollider;
 }
 
 const glm::vec3& LevelCollider::getColor() const
@@ -471,7 +541,7 @@ void LevelCollider::updateLayer() {
 		}
 	}
 	else {
-		tempLayer = this->parentCollider->layer;
+		//tempLayer = this->parentCollider->layer;
 	}
 	layer = tempLayer;
 }

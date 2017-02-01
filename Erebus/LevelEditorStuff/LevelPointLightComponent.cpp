@@ -9,6 +9,15 @@ LevelPointLightComponent::LevelPointLightComponent()
 	this->color = { 1,0,1 };
 	this->worldPos = { 0,0,0 };
 	this->light = LevelLightHandler::getInstance()->addPointLight(pos, color, radius);
+	std::vector<std::map<unsigned int, std::string>> derp;
+
+
+	for (auto it : derp)
+	{
+		
+	}
+
+
 }
 
 LevelPointLightComponent::~LevelPointLightComponent()
@@ -94,13 +103,15 @@ void LevelPointLightComponent::setWorldPos(LevelTransform* transform) {
 
 std::string LevelPointLightComponent::toLua(std::string name)
 {
+	
 	using namespace std;
 	std::stringstream ss;
-
+	/*
 	ss << "--Point light information here" << endl;
 	ss << "--Not yet implemented in the game" << endl;
-
+	*/
 	return ss.str();
+	
 }
 
 float LevelPointLightComponent::getRadius()

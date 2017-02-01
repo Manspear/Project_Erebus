@@ -7,10 +7,9 @@
 #include "..\OBBCollider.h"
 #include "..\RayCollider.h"
 #include "LevelActorHandler.h"
-
+#include "LevelColiderHandler.h"
 enum
-{
-	COLLIDER_ERROR = -1,
+{	COLLIDER_ERROR = -1,
 	COLLIDER_SPHERE = 0,
 	COLLIDER_AABB,
 	COLLIDER_OBB,
@@ -30,16 +29,14 @@ public:
 	tinyxml2::XMLElement* toXml(tinyxml2::XMLDocument* doc) override;
 	std::string toLua(std::string name) override;
 	void update( float deltaTime ) override;
-	void addChildCollider( LevelCollider* collider );
-	void removeChildCollider( int index );
+
 
 	void setTwStruct(TwBar * twBar) override;
 	void setType( int type );
-	void setParentCollider( LevelCollider* parent );
 	void setColor( glm::vec3 color );
 
 	int getType() const;
-	LevelCollider* getParentCollider();
+
 	const glm::vec3& getColor() const;
 
 	static const char* name;
@@ -47,6 +44,13 @@ public:
 	static void setDebugger( Debug* debug );
 	void updateLayer();
 
+	unsigned int getParendColiderID();
+	void setParentColiderID(unsigned int ID);
+	void setParentColider(LevelCollider* colider);
+	unsigned int getColiderID();
+	void addChildColider(LevelCollider* colider);
+	void deleteChildColider(LevelCollider* colider);
+	LevelCollider* getParentColider();
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{
@@ -65,11 +69,14 @@ private:
 	static void TW_CALL onSetType( const void* value, void* clientData );
 	static void TW_CALL onGetType( void* value, void* clientData );
 
+	unsigned int coliderID, parentColiderID;
 	int colliderType;
 	unsigned int layer;
 	glm::vec3 position, offset, color, rotation;
 	LevelCollider* parentCollider;
 	std::vector<LevelCollider*> childColliders;
+
+
 
 	// sphere
 	//glm::vec3 spherePosition;

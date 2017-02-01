@@ -1,15 +1,12 @@
 <Level>
     <LevelActor type="terrain" displayName="Terrain Actor">
-        <LevelHeightmap>
-            <TextureName>mikael_stor2_heights_128</TextureName>
-        </LevelHeightmap>
         <LevelModel>
             <ModelName>tile1_game_x1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="-8" y="33" z="0"/>
-            <Rotation x="-1.0471976" y="0" z="0"/>
-            <Scale x="8" y="5.5" z="1"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor1">
@@ -27,6 +24,7 @@
             <Position x="0" y="0" z="0"/>
             <Color x="0" y="0" z="0"/>
             <Radius r="31"/>
+            <Intensity i="1"/>
         </LevelPointLight>
         <LevelTransform>
             <Position x="131.08182" y="56.28125" z="37.59375"/>
@@ -39,6 +37,7 @@
             <Position x="40" y="0" z="0"/>
             <Color x="0" y="0.5" z="0.5"/>
             <Radius r="60"/>
+            <Intensity i="1"/>
         </LevelPointLight>
         <LevelTransform>
             <Position x="97.8125" y="33.850536" z="73.016838"/>
@@ -56,105 +55,15 @@
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="" displayName=" (2)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.3921569" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="90.125" y="22.390625" z="99.4375"/>
+    <LevelActor type="OBBColider" displayName="OBBBase">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName=" (2) (1)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.3921569" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
+            <HalfLengths x="1" y="1" z="1"/>
+        </LevelCollider>
         <LevelTransform>
-            <Position x="104" y="28.21875" z="106.3125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName=" (2) (2)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.3921569" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="117" y="32.78125" z="106.25"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName=" (2) (3)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.3921569" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="29.125" y="12.34375" z="17.671875"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName=" (2) (4)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.3921569" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="32.875" y="12.117188" z="20.578125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName=" (2) (5)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.58823532" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="35.96875" y="12.4375" z="23.359375"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName=" (2) (6)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.3921569" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="54.25" y="10.84375" z="50.9375"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName=" (2) (7) (1)">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0.3921569" z="0"/>
-            <Radius r="13"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="35.34375" y="9.84375" z="47.28125"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="" displayName="">
-        <LevelTransform>
-            <Position x="32" y="8.7586346" z="9.4765625"/>
+            <Position x="8.4296875" y="-7.4726563" z="190.75"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
