@@ -161,14 +161,12 @@ function UpdatePlayer(dt)
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
 
-		-- An example of what the AnimationPacket can look like
-		if Network.ShouldSendNewAnimation() == true then
-			Network.SendAnimationPacket(42, 2, 4, 5)
-		end
-
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
-		player2.animationController:AnimationUpdate(dt)
+
+		if Network.ShouldSendNewAnimation() == true then
+			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+		end
 
 	end
 	-- update the current player spell
@@ -243,9 +241,9 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			--if player.spells[player.currentSpell].cooldown < 0 then 
-			--	Network.SendSpellPacket(player.transformID, player.currentSpell)
-			--end
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+			end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
@@ -302,11 +300,12 @@ function UpdatePlayer2(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
 	player2.spells[4]:Update(dt)
-		
-	local newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
-	--if newAnimationValue == true then
-	--	print(animationID, animationState, dt_test, animationSegment)
-	--end
+	
+	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
+	if newAnimationValue == true then
+		player2.animationController:AnimationUpdatePlayer2(dt, animationState1, animationState2)
+	end
+
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
