@@ -11,9 +11,12 @@ namespace LuaSound
 		luaL_newmetatable(lua, "soundMeta");
 		luaL_Reg regs[] =
 		{
+			{ "Fade", fade },
+			{ "Crossfade", crossfade },
 			{ "Play", play },
 			{ "Pause", pause},
 			{ "Resume", resume},
+			{ "Stop", stop },
 			{ "PauseAll", pauseAll },
 			{ "ResumeAll", resumeAll },
 			{ "ClearAll", clearAll },
@@ -29,6 +32,25 @@ namespace LuaSound
 		lua_pushvalue(lua, -1);
 		lua_setfield(lua, -2, "__index");
 		lua_setglobal(lua, "Sound");
+	}
+
+	int fade(lua_State* lua)
+	{
+		assert(lua_gettop(lua) >= 2);
+		int index = lua_tointeger(lua, 1);
+		float time = lua_tonumber(lua, 2);
+		g_soundEngine->fade(index, time);
+		return 0;
+	}
+
+	int crossfade(lua_State* lua)
+	{
+		assert(lua_gettop(lua) >= 3);
+		int from = lua_tointeger(lua, 1);
+		int to = lua_tointeger(lua, 2);
+		float time = lua_tonumber(lua, 3);
+		g_soundEngine->crossfade(from, to, time);
+		return 0;
 	}
 
 	int play(lua_State* lua)
@@ -67,6 +89,14 @@ namespace LuaSound
 		assert(lua_gettop(lua) >= 1);
 		int index = lua_tointeger(lua, 1);
 		g_soundEngine->resume(index);
+		return 0;
+	}
+
+	int stop(lua_State* lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		int index = lua_tointeger(lua, 1);
+		g_soundEngine->stop(index);
 		return 0;
 	}
 
