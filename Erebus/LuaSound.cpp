@@ -16,6 +16,7 @@ namespace LuaSound
 			{ "Play", play },
 			{ "Pause", pause},
 			{ "Resume", resume},
+			{ "Stop", stop },
 			{ "PauseAll", pauseAll },
 			{ "ResumeAll", resumeAll },
 			{ "ClearAll", clearAll },
@@ -88,6 +89,14 @@ namespace LuaSound
 		assert(lua_gettop(lua) >= 1);
 		int index = lua_tointeger(lua, 1);
 		g_soundEngine->resume(index);
+		return 0;
+	}
+
+	int stop(lua_State* lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		int index = lua_tointeger(lua, 1);
+		g_soundEngine->stop(index);
 		return 0;
 	}
 

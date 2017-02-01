@@ -69,7 +69,7 @@ function CreateIceGrenade()
 					self.nades[i].alive = true
 					self.nades[i].particles.cast()
 					self.cooldown = self.spamcd
-					self.nades[i].soundID = Sound.Play(self.castSFX, 11, pos)
+					self.nades[i].soundID = Sound.Play(self.castSFX, 3, pos)
 					break
 				end
 			end
@@ -86,7 +86,8 @@ function CreateIceGrenade()
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 
 						Transform.ActiveControl(self.nades[i].type.transformID, false)
-						Sound.Play(self.hitSFX, 1, self.nades[i].type.position) 
+						Sound.Play(self.hitSFX, 3, self.nades[i].type.position) 
+						Sound.Stop(self.nades[i].soundID)
 					end
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
