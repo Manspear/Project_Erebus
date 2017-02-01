@@ -617,6 +617,48 @@ bool CollisionChecker::collisionCheck(HitBox * hitbox1, HitBox * hitbox2)
 	return false;
 }
 
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereCollider * sphere2, glm::vec3 & normal)
+{
+	this->sphereCollisionCounter++;
+	bool collision = false;
+
+	glm::vec3 distanceVector = sphere1->getPos() - sphere2->getPos();
+	float distanceSquared = glm::dot(distanceVector, distanceVector); // dot with itself = length^2
+
+	float radiusSquared = (sphere1->getRadius() + sphere2->getRadius());
+	radiusSquared *= radiusSquared;
+
+	//if distance squared is less than radius squared = collision
+	if (distanceSquared <= radiusSquared)
+	{
+		collision = true;
+		normal = glm::normalize(distanceVector);
+	}
+		
+
+
+	return collision;
+}
+
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollider * aabb, glm::vec3 & normal)
+{
+	this->sphereToAabbCollisionCounter++;
+	bool collision = false;
+
+	float squaredDistance = SquaredDistancePointToAabb(aabb, sphere);
+	float radiusSquared = sphere->getRadiusSquared();
+	if (squaredDistance <= radiusSquared) // if squared distance between aabb and sphere center is closer than squared radius of spheres
+		collision = true;
+
+
+	return collision;
+}
+
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, glm::vec3 & normal)
+{
+	return false;
+}
+
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
 {
 	float val = 0;

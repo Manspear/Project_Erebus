@@ -75,6 +75,8 @@ function UpdateEnemies(dt)
 	local tempdt
 	
 	if Network.GetNetworkHost() == true then
+		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
+
 		for i=1, #enemies do
 			if enemies[i].health > 0 then
 				tempdt = dt * enemies[i].timeScalar
@@ -101,7 +103,7 @@ function UpdateEnemies(dt)
 				local direction = Transform.GetLookAt(enemies[i].transformID)
 				local rotation = Transform.GetRotation(enemies[i].transformID)
 
-				if Network.ShouldSendNewAITransform() == true then
+				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
 
@@ -114,6 +116,7 @@ function UpdateEnemies(dt)
 			end
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
+
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
