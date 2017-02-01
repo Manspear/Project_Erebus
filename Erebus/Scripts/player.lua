@@ -201,8 +201,10 @@ function UpdatePlayer(dt)
 end
 function SendCombine(spell)
 	--TOBEDEFINED
+	--Network.SendChargingPacket(id, damage)
 end
 function GetCombined(effectIndex, damage)
+	--local id_2, damage_2 = Network.GetChargingPacket()
 	if Inputs.ButtonDown(Buttons.Right) then
 		table.insert(player.spells[player.currentSpell].effects, globalEffects[effectIndex])
 		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage

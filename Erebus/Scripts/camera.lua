@@ -5,7 +5,7 @@ timeSinceShot = 0
 DelayZoomOut = 0.5
 
 --distance was 4
-ZoomedOut = {distance = 6, angle = 0, time =7, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
+ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
 --distance was 3.6
 ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
@@ -105,10 +105,25 @@ function UpdateCamera(dt)
 
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()
-	local height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z)
-	if height + 0.5 > temppos.y then
-		--Camera.SetHeight(height + 0.5) 
+	local distance = camera.distance
+	local dir = Camera.GetDirection()
+	local height = 0
+	local incrementfactor = (0.03/math.sqrt(3))
+	while distance > 0.5 do
+		height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z)
+		if height > temppos.y then
+			distance = distance - 0.03
+			temppos.x = temppos.x + dir.x 
+			temppos.y = temppos.y + dir.y
+			temppos.z = temppos.z + dir.z 
+			camera.state = STATE_ZOOMED_IN
+			--Camera.SetHeight(height + 0.5) 
+		else
+			break
+		end
 	end
+	camera.distance = distance
+	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 
 
 end
