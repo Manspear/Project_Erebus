@@ -38,6 +38,7 @@ function CreateIceGrenade()
 	spell.cooldown = 0
 	spell.chargedTime = 0
 	spell.combo = 0
+	spell.damage = MAX_DAMAGE_ICENADE
 	spell.castSFX = "Effects/burn_ice_001.wav"
 	spell.hitSFX = "Effects/Ice_impact_lite_02.wav"
 	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
@@ -53,12 +54,12 @@ function CreateIceGrenade()
 					local factor = chargetime / self.maxChargeTime
 					local pos = Transform.GetPosition(entity.transformID)
 					local dir = Transform.GetLookAt(entity.transformID)
-					dir.y = dir.y +0.1
+					dir.y = dir.y + 0.1
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 
 					self.nades[i].type:Cast(pos, dir, falloff, SPEED_ICENADE, radius)
-					self.nades[i].damage = factor * MAX_DAMAGE_ICENADE
+					self.nades[i].damage = factor * self.damage
 					local effectflag = false
 					self.combo = self.combo + 1
 					if self.combo > SPAM_COMBO_NUMBER_ICENADE then
@@ -73,6 +74,7 @@ function CreateIceGrenade()
 					break
 				end
 			end
+			self.damage = MAX_DAMAGE_ICENADE
 		end
 	end
 	
@@ -131,9 +133,17 @@ function CreateIceGrenade()
 		self.nades[index].type:Kill()
 		self.nades[index].alive = false
 		self.nades[index].exploding = false
+		if #self.nades[index].effects > 1 then
+			table.remove(self.nades[index].effects)
+		end
 	end
 	function spell:GetEffect()
 		return self.nades[1].effects[1]
+	end
+	function spell:Combine(effect,damage)
+		self.damage = self.damage + 2 * damage
+		table.insert(self.pillar.effects, effect)
+		self.pillar.damage = self.pillar.damage + damage
 	end
 	return spell
 end

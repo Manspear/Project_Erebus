@@ -201,13 +201,12 @@ function UpdatePlayer(dt)
 end
 function SendCombine(spell)
 	--TOBEDEFINED
-	Network.SendChargingPacket(spell.damage, spell:GetEffect())
+	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
-		table.insert(player.spells[player.currentSpell].effects, effectTable[effectIndex])
-		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage
+		player.spells[currentSpell]:Combine(damage, effectIndex)
 	end
 end
 function Controls(dt)

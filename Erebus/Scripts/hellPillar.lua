@@ -127,5 +127,10 @@ function CreateHellPillar()
 	function spell:GetEffect()
 		return self.pillar.effects[1]
 	end
+	function spell:Combine(effect,damage)
+		table.insert(self.pillar.effects, effect)
+		self.pillar.damage = self.pillar.damage + damage
+	end
+
 	return spell
 end
