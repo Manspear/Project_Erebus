@@ -12,6 +12,14 @@
 #include "Light.h"
 #include "WorkQueue.h"
 
+struct textureBlendings
+{
+	int n;
+	std::vector<TextureAsset*> textureVector;
+	int modellIndex;
+	bool ifBlendingPass;
+};
+
 using namespace Importer;
 struct ModelInstance
 {
@@ -49,6 +57,7 @@ public:
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
+	void textureBlendingPass(std::vector<textureBlendings*> textureBlends);
 
 	void setWorkQueue( WorkQueue* workQueue );
 

@@ -113,6 +113,8 @@ namespace Gear
 		std::vector<Gear::ParticleSystem*>* particleSystem;
 		std::vector<ModelInstance>* forwardModels;
 
+		std::vector<textureBlendings*> textureBlends;
+
 		//Transform data
 		TransformStruct** allTrans;
 		int* transformCount;

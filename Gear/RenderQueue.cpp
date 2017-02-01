@@ -50,6 +50,7 @@ void RenderQueue::init()
 	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
 	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
+	allShaders[ShaderType::TEXTURE_BLENDING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "textureBlending");
 	glGenBuffers(1, &particleBuffer);
 	uniformLocations[FORWARD] = new GLuint[5];
 	uniformLocations[ANIM] = new GLuint[2];
@@ -59,6 +60,7 @@ void RenderQueue::init()
 	uniformLocations[GEOMETRY_PICKING] = new GLuint[2];
 	uniformLocations[ANIMSHADOW] = new GLuint[3];
 	uniformLocations[GEOMETRYSHADOW] = new GLuint[3];
+	uniformLocations[TEXTURE_BLENDING] = new GLuint[2];
 
 	for(int i = 0; i < NUM_SHADER_TYPES; i++) {
 		if (uniformLocations[i]) {
@@ -73,6 +75,7 @@ void RenderQueue::init()
 
 	uniformLocations[ANIMSHADOW][2] = allShaders[ANIMSHADOW]->getUniformLocation("viewPos");
 	uniformLocations[GEOMETRYSHADOW][2] = allShaders[GEOMETRYSHADOW]->getUniformLocation("viewPos");
+
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -540,6 +543,10 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 
 	delete[]idColors;
 	allShaders[GEOMETRY_PICKING]->unUse();
+}
+
+void RenderQueue::textureBlendingPass(std::vector<textureBlendings*> textureBlends)
+{
 }
 
 void RenderQueue::setWorkQueue( WorkQueue* workQueue )
