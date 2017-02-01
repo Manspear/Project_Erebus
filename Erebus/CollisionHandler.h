@@ -39,9 +39,6 @@ public:
 	template <typename T, typename U>
 	void checkAnyCollision(T collider, std::vector<U*>* colliders); // Single hitbox vs array of hitboxes // Hitbox vs children of other hitbox
 
-	template<typename T>
-	void recursiveCollision(std::vector<T*>* colliders1, std::vector<T*>* colliders2);
-
 	//Update
 	//Update all hitboxes with corresponding positions in transform array
 	void updateAllHitboxPos();
@@ -97,4 +94,34 @@ private:
 	bool enabled = true;
 
 	void recursiveSetID(HitBox* hitbox);
+
+
+
+public: // This is used by movementController
+	template <typename T, typename U>
+	bool checkAnyCollisionBoolNoSave(T collider, std::vector<U*>* colliders) // this check dont save any collision but simpy return a bool
+	{
+		// Antingen har barnen inga fler barn, då kollar vi kollision. Annars kollar vi kollision mot dens barn
+		bool hit = false;
+		U* tempCollider = nullptr;
+		for (size_t i = 0; i < colliders->size(); i++)
+		{
+			tempCollider = colliders->operator[](i);
+			if (tempCollider->children == nullptr) // if hitbox dont have children
+			{
+				hit = false;
+				hit = this->collisionChecker.collisionCheck(collider, tempCollider);
+				if (hit) // if we hit something return true, else keep checking
+					return hit;
+			}
+			else // the hitbox have children
+			{
+				hit = false;
+				hit = this->collisionChecker.collisionCheck(collider, tempCollider);
+				if (hit) // if you collide with parent check collision with children
+					return checkAnyCollisionBoolNoSave(collider, tempCollider->children);
+			}
+		}
+		return false;
+	}
 };

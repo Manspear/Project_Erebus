@@ -17,12 +17,13 @@ public:
 	GEAR_API GLFWwindow* getGlfwWindow();
 	GLFWwindow * getWindow();
 	GEAR_API void changeCursorStatus(bool hidden);
-
+	GEAR_API void createWindow(bool fullscreen = false);
 private:
 
 	static inline void TwEventMousePosGLFW3(GLFWwindow* window, double xpos, double ypos) { TwMouseMotion(int(xpos), int(ypos)); }
 
 	GLFWwindow* window;
+	GLFWcursor* cursor;
 
 	void initWindow();
 	

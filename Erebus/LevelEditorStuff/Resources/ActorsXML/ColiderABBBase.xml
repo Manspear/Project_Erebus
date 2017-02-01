@@ -2,6 +2,7 @@
     <LevelCollider type="1">
         <Offset x="0" y="0" z="0"/>
         <Color x="0" y="1" z="0"/>
+	<IDs ID="2" parentID="0"/>
         <MinPos x="-2" y="-2" z="-2"/>
         <MaxPos x="2" y="2" z="2"/>
     </LevelCollider>

@@ -19,6 +19,7 @@ namespace LuaGear
 							std::vector<ModelInstance>* forwardModels,
 							bool* queueModels,
 							bool* mouseVisible,
+							bool* fullscreen,
 							Assets* assets,
 							WorkQueue* work );
 
@@ -28,6 +29,7 @@ namespace LuaGear
 
 	int setQueueModels( lua_State* lua );
 	int setCursorVisible( lua_State* lua );
+	int setFullscreen(lua_State* lua);
 
 	int print( lua_State* lua );
 	int getTextDimensions( lua_State* lua );

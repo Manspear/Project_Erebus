@@ -2,6 +2,7 @@
     <LevelCollider type="0">
         <Offset x="0" y="0" z="0"/>
         <Color x="0" y="1" z="0"/>
+	<IDs ID="4" parentID="0"/>
         <Radius r="5"/>
     </LevelCollider>
     <LevelTransform>

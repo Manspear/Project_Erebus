@@ -144,7 +144,6 @@ void LevelEditor::start() {
 
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
-		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 5));
 
 		
 

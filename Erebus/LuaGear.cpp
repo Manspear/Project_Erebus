@@ -14,8 +14,9 @@ namespace LuaGear
 	static WorkQueue* g_work = nullptr;
 	static bool* g_queueModels = nullptr;
 	static bool* g_mouseVisible = nullptr;
+	static bool* g_fullscreen = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations,std::vector<ModelInstance>* forwardModels, bool* queueModels, bool* mouseVisible, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations,std::vector<ModelInstance>* forwardModels, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
@@ -27,6 +28,7 @@ namespace LuaGear
 		g_work = work;
 		g_queueModels = queueModels;
 		g_mouseVisible = mouseVisible;
+		g_fullscreen = fullscreen;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -39,6 +41,7 @@ namespace LuaGear
 			{ "GetTextDimensions", getTextDimensions },
 			{ "QueueModels", setQueueModels },
 			{ "CursorVisible", setCursorVisible },
+			{ "Fullscreen", setFullscreen },
 			{ NULL, NULL }
 		};
 
@@ -159,6 +162,13 @@ namespace LuaGear
 	{
 		assert( lua_gettop( lua ) >= 1 );
 		*g_mouseVisible = lua_toboolean( lua, 1 );
+		return 0;
+	}
+
+	int setFullscreen(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		*g_fullscreen = lua_toboolean(lua, 1);
 		return 0;
 	}
 	

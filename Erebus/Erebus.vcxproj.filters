@@ -128,6 +128,9 @@
     <ClCompile Include="LevelEditorStuff\LevelWorldHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="MovementController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
@@ -276,6 +279,9 @@
     <ClInclude Include="LevelEditorStuff\LevelWorldHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
+    <ClInclude Include="MovementController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelHeightmap.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
@@ -288,7 +294,9 @@
     <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="Frustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
     <ClInclude Include="PlaneFrustum.h" />
     <ClInclude Include="LevelEditorStuff\LevelColiderHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
@@ -474,9 +482,6 @@
     <None Include="Scripts\blackHole.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\HUD.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\gamestate.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
@@ -486,8 +491,17 @@
     <None Include="Scripts\gameplay.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
+    <None Include="Scripts\HUD.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
     <None Include="Scripts\MenuUI.lua">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\optionsUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\options_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
     </None>
     <None Include="Shaders\debugAABB.geom" />
     <None Include="Shaders\debugAABB.vert" />
@@ -540,6 +554,9 @@
     </Filter>
     <Filter Include="Scripts\gamestates">
       <UniqueIdentifier>{62e4b110-7689-454a-91f5-f6a0e0ee22ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI">
+      <UniqueIdentifier>{8c25589e-b3cf-4cef-b42a-c67b5dc0f631}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

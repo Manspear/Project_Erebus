@@ -7,6 +7,7 @@ Packager::Packager()
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
@@ -38,6 +39,11 @@ Packager::~Packager()
 		delete this->aiTransformQueue;
 		this->aiTransformQueue = 0;
 	}
+	if (this->chargingQueue)
+	{
+		delete this->chargingQueue;
+		this->chargingQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -66,6 +72,7 @@ void Packager::buildNetPacket()
 	this->addAIPackets(this->currentNetPacketSize, fullPackage);
 	this->addSpellPackets(this->currentNetPacketSize, fullPackage);
 	this->addAITransformPackets(this->currentNetPacketSize, fullPackage);
+	this->addChargingPackets(this->currentNetPacketSize, fullPackage);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -96,6 +103,11 @@ void Packager::pushSpellPacket(const SpellPacket& packet)
 void Packager::pushAITransformPacket(const TransformPacket& packet)
 {
 	this->aiTransformQueue->push(packet);
+}
+
+void Packager::pushChargingPacket(const ChargingPacket& packet)
+{
+	this->chargingQueue->push(packet);
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
@@ -235,6 +247,34 @@ void Packager::addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage)
 		this->addMetaDataPacket(AI_TRANSFORM_PACKET, netPacketSize, sizeOfAITransformPackets);
 
 		netPacketSize += sizeOfAITransformPackets; // Should now point at the location of the next MetaDataPacket
+	}
+}
+
+void Packager::addChargingPackets(uint16_t& netPacketSize, bool& fullPackage)
+{
+	ChargingPacket chargingPacket;
+	uint16_t sizeOfChargingPackets = 0;
+
+	while (this->chargingQueue->pop(chargingPacket) && fullPackage == false)
+	{
+		// Only add a packet if there's enough space for another ChargingPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfChargingPackets)) > sizeof(ChargingPacket))
+		{
+			// Add ChargingPacket to the memory ( ...[MetaData][Charging][Charging]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfChargingPackets, &chargingPacket, sizeof(ChargingPacket));
+			sizeOfChargingPackets += sizeof(ChargingPacket);
+		}
+		else
+		{
+			fullPackage = true;
+		}
+	}
+
+	if (sizeOfChargingPackets > 0)
+	{
+		this->addMetaDataPacket(CHARGING_PACKET, netPacketSize, sizeOfChargingPackets);
+
+		netPacketSize += sizeOfChargingPackets; // Should now point at the location of the next MetaDataPacket
 	}
 }
 
