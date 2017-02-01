@@ -130,7 +130,7 @@ function UpdatePlayer(dt)
 		if not console.visible then
 			Controls(dt)
 		end
-
+		GetCombined()
 		--Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
 		--local newPosition = Transform.GetPosition(player.transformID)
 
@@ -161,14 +161,12 @@ function UpdatePlayer(dt)
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
 
-		-- An example of what the AnimationPacket can look like
-		if Network.ShouldSendNewAnimation() == true then
-			Network.SendAnimationPacket(42, 2, 4, 5)
-		end
-
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
-		player2.animationController:AnimationUpdate(dt)
+
+		if Network.ShouldSendNewAnimation() == true then
+			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+		end
 
 	end
 	-- update the current player spell
@@ -201,13 +199,12 @@ function UpdatePlayer(dt)
 end
 function SendCombine(spell)
 	--TOBEDEFINED
-	--Network.SendChargingPacket(id, damage)
+	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
-function GetCombined(effectIndex, damage)
-	--local id_2, damage_2 = Network.GetChargingPacket()
-	if Inputs.ButtonDown(Buttons.Right) then
-		table.insert(player.spells[player.currentSpell].effects, globalEffects[effectIndex])
-		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage
+function GetCombined()
+	local combine, effectIndex, damage = Network.GetChargingPacket()
+	if combine and Inputs.ButtonDown(Buttons.Right) then
+		player.spells[currentSpell]:Combine(damage, effectIndex)
 	end
 end
 function Controls(dt)
@@ -234,6 +231,7 @@ function Controls(dt)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
 					SendCombine(player.spells[player.currentSpell])
+					print("combine!!")
 					break
 				end
 			end
@@ -243,9 +241,9 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			--if player.spells[player.currentSpell].cooldown < 0 then 
-			--	Network.SendSpellPacket(player.transformID, player.currentSpell)
-			--end
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+			end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
@@ -302,11 +300,12 @@ function UpdatePlayer2(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
 	player2.spells[4]:Update(dt)
-		
-	local newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
-	--if newAnimationValue == true then
-	--	print(animationID, animationState, dt_test, animationSegment)
-	--end
+	
+	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
+	if newAnimationValue == true then
+		player2.animationController:AnimationUpdatePlayer2(dt, animationState1, animationState2)
+	end
+
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

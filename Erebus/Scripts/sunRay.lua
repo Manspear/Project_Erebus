@@ -4,6 +4,7 @@ SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
 SUNRAY_COOLDOWN = 2.7
 SUNRAY_HALF_LENGTH = 23
+SUN_RAY_TICK_INTERVAL = 0.5
 
 function CreateSunRay()
 	local sunRay = {}
@@ -22,6 +23,7 @@ function CreateSunRay()
 	sunRay.moveImpairment = 0.5
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
+	sunRay.timeSinceTick = 0
 	sunRay.caster = 0
 	sunRay.castSFX = {}
 	sunRay.castSFX[1] = "Effects/CK_Blaster_Shot-226.wav"
@@ -48,17 +50,21 @@ function CreateSunRay()
 			hits = self.type:Update(pos, direction)			
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
 			Transform.SetLookAt(self.type.transformID, direction)
-			for index = 1, #hits do
-				if hits[index].Hurt then	
-					if self.effectFlag then
-						for e =1, #self.effects do
-							local effect = effectTable[self.effects[e]]()
-							table.insert(hits[index].effects, effect)
-							effect:Apply(hits[index])
+			self.timeSinceTick = self.timeSinceTick + dt
+			if self.timeSinceTick > SUN_RAY_TICK_INTERVAL then
+				self.timeSinceTick = self.timeSinceTick - SUN_RAY_TICK_INTERVAL
+				for index = 1, #hits do
+					if hits[index].Hurt then	
+						if self.effectFlag then
+							for e =1, #self.effects do
+								local effect = effectTable[self.effects[e]]()
+								table.insert(hits[index].effects, effect)
+								effect:Apply(hits[index])
+							end
 						end
+						hits[index]:Hurt(self.damage)
+						Sound.Play(self.hitSFX, 1, hits[index].position)
 					end
-					hits[index]:Hurt(self.damage)
-					Sound.Play(self.hitSFX, 1, hits[index].position)
 				end
 			end
 			self.lifeTime = self.lifeTime - dt
@@ -99,6 +105,9 @@ function CreateSunRay()
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		player.moveSpeed = player.moveSpeed * (1 / self.moveImpairment) 
 		self.type:Kill()
+	end
+	function sunRay:GetEffect()
+		return self.effects[1]
 	end
 	return sunRay
 end

@@ -167,6 +167,7 @@
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="LuaLight.cpp" />
     <ClCompile Include="LuaMath.cpp" />
     <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
@@ -208,6 +209,7 @@
     <None Include="effects.vert" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
+    <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\blackHole.lua" />
     <None Include="Scripts\camera.lua" />
@@ -298,6 +300,7 @@
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="LuaLight.h" />
     <ClInclude Include="LuaMath.h" />
     <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />

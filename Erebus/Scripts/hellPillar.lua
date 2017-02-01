@@ -5,9 +5,9 @@ MAX_DAMAGE_PILLAR = 1000
 SPEED_PILLAR = 75
 COOLDOWN_PILLAR = 3
 PILLAR_DURATION = 2
-GRAVITY_PILLAR = 50
+GRAVITY_PILLAR = 5
 
-Y_SPEED_PILLAR = 20
+Y_SPEED_PILLAR = 2
 
 function CreateHellPillar()
 	function initNade()
@@ -46,7 +46,7 @@ function CreateHellPillar()
 	spell.Charge = BaseCharge
 	spell.ChargeCast = BaseChargeCast
 	spell.cooldown = 0
-	spell.effect = CreateFireEffect()
+	--spell.effect = CreateFireEffect()
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.pillarDir = {x = 0, y = 0, z = 29.85}
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
@@ -57,6 +57,7 @@ function CreateHellPillar()
 				local pos = Transform.GetPosition(entity.transformID)
 				local dir = Transform.GetLookAt(entity.transformID)
 				dir.y = dir.y + Y_SPEED_PILLAR
+				self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
 				self.nade.type:Cast(pos, dir, GRAVITY_PILLAR, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, 0.0)
 				self.nade.damage = factor * MAX_DAMAGE_PILLAR		
 				self.nade.effectflag = effectflag
@@ -83,8 +84,11 @@ function CreateHellPillar()
 			if not self.nade.exploding then
 				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 				self.nade.exploding = self.nade.type:flyUpdate(dt)
+				Light.updatePos(self.nade.light, self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 			else
-				self.nade.particles.die(self.nade.type.position)
+				self.nade.particles.die(self.nade.type.position)		
+				Light.removeLight(self.nade.light)
+				self.nade.light = nil
 				self.pillar.pos = self.nade.type.position
 				self.pillar.type:Cast(self.pillar.pos)
 				self.pillar.alive = true
@@ -120,5 +124,13 @@ function CreateHellPillar()
 		self.nade.alive = false
 		self.nade.exploding = false
 	end
+	function spell:GetEffect()
+		return self.pillar.effects[1]
+	end
+	function spell:Combine(effect,damage)
+		table.insert(self.pillar.effects, effect)
+		self.pillar.damage = self.pillar.damage + damage
+	end
+
 	return spell
 end
