@@ -30,12 +30,14 @@ namespace LuaCollision
 	int setRayActive(lua_State* lua);
 	int setRayDirection(lua_State* lua);
 	int setOBBSize(lua_State* lua);
+	int setOffset(lua_State* lua);
 	int rotateOBBAroundX(lua_State* lua);
 	int rotateOBBAroundY(lua_State* lua);
 	int rotateOBBAroundZ(lua_State* lua);
 	int setOBBXAxis(lua_State* lua);
 	int setOBBYAxis(lua_State* lua);
 	int setOBBZAxis(lua_State* lua);
+	int setOBBHalfLengths(lua_State* lua);
 	int addChild(lua_State* lua);
 	int setMovementControllerHitbox(lua_State* lua);
 	int setMovementControllerTransform(lua_State* lua);
