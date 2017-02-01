@@ -53,6 +53,8 @@ namespace Gear
 		glBufferData(GL_SHADER_STORAGE_BUFFER, NUM_LIGHTS * sizeof(Lights::PointLight), 0, GL_DYNAMIC_DRAW); //allocate size of buffer
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); //unbind buffer
 
+		resetLightbuffer();
+
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::vec3(-0.0f, -0.5f, 0.5f);
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
@@ -72,28 +74,28 @@ namespace Gear
 			return;
 		}
 
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
-		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+		//glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		//Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
 
-		for (int i = 0; i < NUM_LIGHTS; i++) {
-			Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+		//for (int i = 0; i < NUM_LIGHTS; i++) {
+		//	Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
 
-			glm::vec3 position = glm::vec3(0.0);
-			for (int i = 0; i < 3; i++) { // calculate random pos for light
-				float min = LIGHT_MIN_BOUNDS[i];
-				float max = LIGHT_MAX_BOUNDS[i];
-				position[i] = (GLfloat)dis(gen) * (max - min) + min;
-			}
+		//	glm::vec3 position = glm::vec3(0.0);
+		//	for (int i = 0; i < 3; i++) { // calculate random pos for light
+		//		float min = LIGHT_MIN_BOUNDS[i];
+		//		float max = LIGHT_MAX_BOUNDS[i];
+		//		position[i] = (GLfloat)dis(gen) * (max - min) + min;
+		//	}
 
-			light.pos = glm::vec4(position, 1);
-			light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
-			light.radius.x = LIGHT_RADIUS;														  //DISCO
-																	  /*color[i] = glm::vec3(light.color);
-																	  light.radius.z = LIGHT_RADIUS;*/
-		}
+		//	light.pos = glm::vec4(position, 1);
+		//	light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
+		//	light.radius.x = LIGHT_RADIUS;														  //DISCO
+		//															  /*color[i] = glm::vec3(light.color);
+		//															  light.radius.z = LIGHT_RADIUS;*/
+		//}
 
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		//glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 
 	void GearEngine::shaderInit()
@@ -269,6 +271,7 @@ namespace Gear
 				light.pos = lights->at(i).pos;
 				light.color = lights->at(i).color;
 				light.radius = lights->at(i).radius;
+				light.radius.a = i;
 			}
 			else {
 				printf("ERROR: Too many lights : " + lights->size());
@@ -283,6 +286,18 @@ namespace Gear
 	{
 		this->dirLights.at(0).color = lights->color;
 		this->dirLights.at(0).direction = lights->direction;
+	}
+	GEAR_API void GearEngine::queueAddLights(Lights::PointLight * lights)
+	{
+		this->addLightQueue.push_back(lights);
+	}
+	GEAR_API void GearEngine::queueUpdateLights(Lights::PointLight * lights)
+	{
+		this->updateLightQueue.push_back(lights);
+	}
+	GEAR_API void GearEngine::queueRemoveLights(Lights::PointLight * lights)
+	{
+		this->removeLightQueue.push_back(lights);
 	}
 #pragma endregion
 	
@@ -399,6 +414,104 @@ namespace Gear
 		debugHandler->reset();
 		text.updateBuffer();
 		image.updateBuffer();
+		addLight();
+		updateLight();
+		removeLight();
+	}
+
+	GEAR_API void GearEngine::addLight()
+	{
+		if (addLightQueue.size() > 0)
+		{
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+			for (int j = 0; j < addLightQueue.size(); j++)
+			{
+				for (int i = 0; i < NUM_LIGHTS; i++) {
+					Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+					if (light.radius.a == -1)
+					{
+
+
+						light.pos = addLightQueue[j]->pos;
+						light.color = addLightQueue[j]->color;
+						light.radius = addLightQueue[j]->radius;
+						light.radius.a = i;
+						addLightQueue[j]->radius.a = i;
+						i = NUM_LIGHTS;
+					}
+				}
+			}
+			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+			addLightQueue.clear();
+		}
+	}
+
+	GEAR_API void GearEngine::updateLight()
+	{
+		if (updateLightQueue.size() > 0)
+		{
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+			for (int j = 0; j < updateLightQueue.size(); j++)
+			{
+				if ((int)updateLightQueue[j]->radius.a >= 0)
+				{
+					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
+
+					light.pos = updateLightQueue[j]->pos;
+					light.color = updateLightQueue[j]->color;
+					light.radius = updateLightQueue[j]->radius;
+				}
+			}
+			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+			updateLightQueue.clear();
+		}
+	}
+
+	GEAR_API void GearEngine::removeLight()
+	{
+		if (removeLightQueue.size() > 0)
+		{
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+			for (int j = 0; j < removeLightQueue.size(); j++)
+			{
+				for (int i = 0; i < NUM_LIGHTS; i++) {
+					if (i == removeLightQueue[j]->radius.a)
+					{
+						Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+
+						light.pos = { 0,0,0,0 };
+						light.color = { 0,0,0,0 };
+						light.radius = { 0,0,0,-1 };
+					}
+				}
+			}
+
+			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+
+	GEAR_API void GearEngine::resetLightbuffer()
+	{
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+
+		for (int i = 0; i < NUM_LIGHTS; i++) {
+			Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+
+			light.pos = {0,0,0,0};
+			light.color = { 0,0,0,0 };
+			light.radius = { 0,0,0,-1 };
+		}
+
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 
 	void GearEngine::pickingPass() {

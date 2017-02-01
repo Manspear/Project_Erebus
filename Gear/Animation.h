@@ -25,6 +25,7 @@ public:
 
 	//The state is an enum defined for each subclass of Animation
 	GEAR_API virtual void updateState(float dt, int state, int animationSegment);
+	GEAR_API void update(float dt);
 
 	//Returns true when transition is complete
 	GEAR_API virtual bool quickBlend(float dt, int originState, int transitionState, float blendTime, int animationSegment);
@@ -33,6 +34,8 @@ public:
 	*/
 	GEAR_API virtual void setAnimationSegments(int numberOfSegments);
 	GEAR_API void setMatrixIndex( int index );
+	GEAR_API void setSegmentState( int state, int segment );
+	GEAR_API void setQuickBlend( int from, int to, float blendTime, int segment );
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:
@@ -122,4 +125,8 @@ protected:
 	std::vector<sKeyFrame> finalList;
 
 	int matrixIndex;
+	std::vector<int> currentSegmentStates;
+	int quickBlendFrom, quickBlendTo, quickBlendSegment;
+	float quickBlendTime;
+	bool quickBlendingDone;
 };

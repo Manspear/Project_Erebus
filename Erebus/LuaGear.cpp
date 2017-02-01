@@ -66,6 +66,8 @@ namespace LuaGear
 			{ "SetTransitionTimes", setTransitionTimes},
 			{ "SetAnimationSegments", setAnimationSegments},
 			{ "QuickBlend", quickBlend },
+			{ "SetSegmentState", setSegmentState },
+			{ "SetQuickBlend", setQuickBlend },
 			{ NULL, NULL }
 		};
 
@@ -405,5 +407,35 @@ namespace LuaGear
 			animation->assembleAnimationsIntoShadermatrices();
 		}
 		return result;
+	}
+
+	int setSegmentState( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 3 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int state = lua_tointeger( lua, 2 );
+		int segment = lua_tointeger( lua, 3 );
+
+		animation->setSegmentState( state, segment );
+		return 0;
+	}
+
+	int setQuickBlend( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 5 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int from = lua_tointeger( lua, 2 );
+		int to = lua_tointeger( lua, 3 );
+		float blendTime = lua_tointeger( lua, 4 );
+		int segment = lua_tointeger( lua, 5 );
+
+		animation->setQuickBlend( from, to, blendTime, segment );
+		return 0;
 	}
 }

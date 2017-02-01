@@ -46,8 +46,9 @@ function LoadEnemies(n)
 		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		enemies[i].sphereCollider:SetRadius(2)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
-		
-		enemies[i].animation = Animation.Bind()
+
+		enemies[i].animationController = CreateEnemyController(enemies[i])
+		--enemies[i].animation = Animation.Bind()
 		if Network.GetNetworkHost() == true then
 			enemies[i].state = stateScript.state.idleState
 			enemies[i].animationState = 1
@@ -59,9 +60,9 @@ function LoadEnemies(n)
 		end
 	end
 
-	local model = Assets.LoadModel("Models/testGuy.model")
+	local model = Assets.LoadModel("Models/Goblin.model")
 	for i=1, n do
-		Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animation)
+		Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)
 	end
 end
 
@@ -80,6 +81,7 @@ function UpdateEnemies(dt)
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],player,tempdt)
+				enemies[i].animationController:AnimationUpdate(dt)
 
 				local pos = Transform.GetPosition(enemies[i].transformID)
 

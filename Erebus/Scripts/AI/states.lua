@@ -24,6 +24,7 @@ end
 
 function state.followState.enter(enemy,player)
 	print("Enter FOLLOW")
+	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
