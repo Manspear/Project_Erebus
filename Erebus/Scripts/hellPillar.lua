@@ -15,9 +15,10 @@ function CreateHellPillar()
 		local nade = {}
 		nade.type = CreateGrenadeType()
 		nade.alive = false
-		nade.particles = createFireballParticles()
 		nade.exploding = false
+		--nade.light = Light.addLight(0,0,0,1,0,0,20,2)
 		local model = Assets.LoadModel( "Models/projectile1.model" )
+		nade.particles = createFireballParticles()
 		Gear.AddForwardInstance(model, nade.type.transformID)
 		return nade
 	end
@@ -28,7 +29,6 @@ function CreateHellPillar()
 		pillz.effectflag = false
 		pillz.damage = MAX_DAMAGE_PILLAR
 		pillz.alive = false
-		pillz.particles = createFireballParticles()
 		pillz.effects = {}
 		table.insert(pillz.effects, FIRE_EFFECT_INDEX)
 		pillz.pos = 0
@@ -58,13 +58,13 @@ function CreateHellPillar()
 				local factor = chargetime / self.maxChargeTime
 				local pos = Transform.GetPosition(entity.transformID)
 				local dir = Transform.GetLookAt(entity.transformID)
+				self.nade.particles.cast()
 				dir.y = dir.y + Y_SPEED_PILLAR
-				self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
+				--self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
 				self.nade.type:Cast(pos, dir, GRAVITY_PILLAR, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, 0.0)
 				self.nade.damage = factor * MAX_DAMAGE_PILLAR		
 				self.nade.effectflag = effectflag
 				self.nade.alive = true
-				self.nade.particles.cast()
 				self.timeSinceSpam = 0
 				self.chargedTime = 0
 				self.cooldown = COOLDOWN_PILLAR
@@ -84,18 +84,18 @@ function CreateHellPillar()
 	
 	function spell:GrenadeUpdate(dt)		
 			if not self.nade.exploding then
-				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 				self.nade.exploding = self.nade.type:flyUpdate(dt)
-				Light.updatePos(self.nade.light, self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
+				--Light.updatePos(self.nade.light, self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
+				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 			else
 				self.nade.particles.die(self.nade.type.position)		
-				Light.removeLight(self.nade.light)
+			--	Light.removeLight(self.nade.light)
 				self.nade.light = nil
 				self.pillar.pos = self.nade.type.position
+				self:Kill()
 				self.pillar.type:Cast(self.pillar.pos)
 				self.pillar.alive = true
-				self.pillar.duration = PILLAR_DURATION			
-				self:Kill(i)
+				self.pillar.duration = PILLAR_DURATION						
 			end
 	end
 
@@ -126,6 +126,7 @@ function CreateHellPillar()
 	end
 	function spell:Kill()
 		self.nade.type:Kill()
+		self.nade.particles.die(self.nade.type.position)
 		self.nade.alive = false
 		self.nade.exploding = false
 	end

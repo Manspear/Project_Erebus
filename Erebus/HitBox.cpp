@@ -76,7 +76,7 @@ void HitBox::clearCollisionIDs()
 
 void HitBox::setPos(glm::vec3 pos)
 {
-	this->pos = pos;
+	this->pos = pos + this->localPos;
 	if (this->children != nullptr) // if we have any children update their position
 	{
 		for (size_t i = 0; i < this->children->size(); i++)

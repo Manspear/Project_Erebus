@@ -68,7 +68,9 @@ namespace Gear
 				
 			}	
 			if (nrActive == 0)
+			{
 				isActive = false;
+			}
 		}
 	}
 
