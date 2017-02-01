@@ -27,6 +27,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	this->actionBar = brushBar;
 
 	TwAddVarRW(actionBar->getBar(), "radius", TW_TYPE_FLOAT, &this->radius, NULL);
+	//TwAddSeparator(actionBar->getBar(), "sep2", NULL);
 	TwAddVarRW(actionBar->getBar(), "density", TW_TYPE_FLOAT, &this->density, NULL);
 	TwAddVarCB(actionBar->getBar(), "saveAsType", TW_TYPE_STDSTRING,setSaveTypeCB,getSaveTypeCB,&saveAsType,"");
 }
