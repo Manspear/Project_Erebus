@@ -55,7 +55,7 @@ function CreateSunRay(entity)
 			hits = self.type:Update(pos, direction)
 			theRotation =  Transform.GetRotation(self.caster) 
 			self.angle = self.angle + self.spin * dt
-			--theRotation.x =  theRotation.x + self.angle
+			theRotation.x =  theRotation.x + self.angle
 			Transform.SetRotation(self.type.transformID, theRotation)
 			Transform.SetLookAt(self.type.transformID, direction)
 			self.timeSinceTick = self.timeSinceTick + dt

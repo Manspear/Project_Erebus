@@ -47,8 +47,9 @@ function LoadPlayer()
 	player.spells = {}
 	player.spells[1] = CreateHellPillar(player)
 	player.spells[2] = CreateBlackHole(player)
-	player.spells[3] = CreateIceGrenade()
-	player.spells[4] = CreateSunRay() 
+	player.spells[3] = CreateSunRay(player) 
+	player.spells[4] = CreateIceGrenade(player)
+	
 
 	player.currentSpell = 1
 

@@ -15,6 +15,7 @@ function CreateHellPillar()
 		nade.type = CreateGrenadeType()
 		nade.alive = false
 		nade.exploding = false
+		--nade.light = Light.addLight(0,0,0,1,0,0,20,2)
 		local model = Assets.LoadModel( "Models/projectile1.model" )
 		nade.particles = createFireballParticles()
 		Gear.AddForwardInstance(model, nade.type.transformID)
@@ -57,7 +58,7 @@ function CreateHellPillar()
 				local dir = Transform.GetLookAt(entity.transformID)
 				self.nade.particles.cast()
 				dir.y = dir.y + Y_SPEED_PILLAR
-				self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
+				--self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
 				self.nade.type:Cast(pos, dir, GRAVITY_PILLAR, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, 0.0)
 				self.nade.damage = factor * MAX_DAMAGE_PILLAR		
 				self.nade.effectflag = effectflag
@@ -82,11 +83,11 @@ function CreateHellPillar()
 	function spell:GrenadeUpdate(dt)		
 			if not self.nade.exploding then
 				self.nade.exploding = self.nade.type:flyUpdate(dt)
-				Light.updatePos(self.nade.light, self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
+				--Light.updatePos(self.nade.light, self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 			else
 				self.nade.particles.die(self.nade.type.position)		
-				Light.removeLight(self.nade.light)
+			--	Light.removeLight(self.nade.light)
 				self.nade.light = nil
 				self.pillar.pos = self.nade.type.position
 				self:Kill()

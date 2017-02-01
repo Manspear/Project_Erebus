@@ -401,4 +401,22 @@ namespace LuaGear
 		animation->setQuickBlend( from, to, blendTime, segment );
 		return 0;
 	}
+
+	int setUniformValue(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).value = lua_tonumber(lua, 2);
+		}
+		return 0;
+	}
+
+	int setUniformLocation(lua_State* lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).location = lua_tointeger(lua, 2);
+		}
+		return 0;
+	}
 }
