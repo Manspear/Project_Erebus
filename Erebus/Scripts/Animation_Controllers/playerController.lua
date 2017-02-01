@@ -107,10 +107,13 @@ function CreatePlayerController(player)
 	end
 	
 	function controller:AnimationUpdatePlayer2(dt, animationState1, animationState2)
-		self.animation:Update(dt, animationState1, 0)
-		self.animation:Update(dt, animationState2, 1)
+		--self.animation:Update(dt, animationState1, 0)
+		--self.animation:Update(dt, animationState2, 1)
 
-		self.animation:UpdateShaderMatrices()
+		--self.animation:UpdateShaderMatrices()
+
+		self.animation:SetSegmentState( animationState1, 0 )
+		self.animation:SetSegmentState( animationState2, 1 )
 
 		self:copyWatch()
 	end
