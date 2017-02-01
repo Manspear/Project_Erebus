@@ -2,7 +2,6 @@ local scripts = {}
 local scriptFiles =
 {
 	"Scripts/console.lua",
-	"Scripts/player.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
@@ -23,6 +22,7 @@ local scriptFiles =
 	"Scripts/hellPillar.lua",
 	"Scripts/rayType.lua",
 	"Scripts/staticAoEType.lua",
+	"Scripts/player.lua",
 	"Scripts/HUD.lua"
 }
 
@@ -47,6 +47,9 @@ end
 function UpdateGameplay(dt)
 	if Inputs.KeyReleased(Keys.Escape) then
 		gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+	end
+		if Inputs.KeyDown(Keys.Enter) then
+		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 	for key,value in pairs(scripts) do
 		value.Update(dt)
