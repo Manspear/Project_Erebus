@@ -104,12 +104,10 @@ namespace LuaNetwork
 
 	int sendAnimationPacket(lua_State* lua)
 	{
-		int index = lua_tointeger(lua, 1);
-		int animationState = lua_tointeger(lua, 2);
-		float dt = lua_tonumber(lua, 3);
-		int animationSegmentID = lua_tointeger(lua, 4);
+		int animationState1 = lua_tointeger(lua, 1);
+		int animationState2 = lua_tointeger(lua, 2);
 
-		g_networkController->sendAnimationPacket(AnimationPacket(index, animationState, dt, animationSegmentID));
+		g_networkController->sendAnimationPacket(AnimationPacket(animationState1, animationState2));
 
 		return 0;
 	}
@@ -121,21 +119,17 @@ namespace LuaNetwork
 		if (g_networkController->fetchAnimationPacket(animationPacket))
 		{
 			lua_pushboolean(lua, true);
-			lua_pushnumber(lua, animationPacket.data.id);
-			lua_pushnumber(lua, animationPacket.data.animationState);
-			lua_pushnumber(lua, animationPacket.data.dt);
-			lua_pushnumber(lua, animationPacket.data.animationSegmentID);
+			lua_pushnumber(lua, animationPacket.data.animationState1);
+			lua_pushnumber(lua, animationPacket.data.animationState2);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
 			lua_pushnumber(lua, 0);
-			lua_pushnumber(lua, 0);
-			lua_pushnumber(lua, 0);
 		}
 		
-		return 5;
+		return 3;
 	}
 
 	int sendAIPacket(lua_State* lua)

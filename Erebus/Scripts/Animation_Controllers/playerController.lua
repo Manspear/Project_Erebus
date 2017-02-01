@@ -106,6 +106,18 @@ function CreatePlayerController(player)
 		self:copyWatch()
 	end
 	
+	function controller:AnimationUpdatePlayer2(dt, animationState1, animationState2)
+		--self.animation:Update(dt, animationState1, 0)
+		--self.animation:Update(dt, animationState2, 1)
+
+		--self.animation:UpdateShaderMatrices()
+
+		self.animation:SetSegmentState( animationState1, 0 )
+		self.animation:SetSegmentState( animationState2, 1 )
+
+		self:copyWatch()
+	end
+
 	function controller:RunningState(dt)
 		--oldWatch remembers old stuff. Used sometime maybe.
 
