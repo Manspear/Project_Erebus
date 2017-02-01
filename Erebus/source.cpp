@@ -156,7 +156,7 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.setMasterVolume(0.5);
+	//soundEngine.setMasterVolume(0.5);
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
