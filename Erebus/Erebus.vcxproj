@@ -221,7 +221,6 @@
     <None Include="Scripts\gameplay.lua" />
     <None Include="Scripts\gamestate.lua" />
     <None Include="Scripts\grenadeType.lua" />
-    <None Include="Scripts\groundAoEType.lua" />
     <None Include="Scripts\hellPillar.lua" />
     <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />

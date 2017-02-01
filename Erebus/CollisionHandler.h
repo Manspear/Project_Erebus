@@ -112,7 +112,10 @@ public: // This is used by movementController
 				hit = false;
 				hit = this->collisionChecker.collisionCheck(collider, tempCollider);
 				if (hit) // if we hit something return true, else keep checking
+				{
 					return hit;
+				}
+					
 			}
 			else // the hitbox have children
 			{

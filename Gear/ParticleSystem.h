@@ -7,7 +7,7 @@ namespace Gear
 {
 	class ParticleSystem
 	{
-
+	
 	public:
 		GEAR_API ParticleSystem();
 		GEAR_API ~ParticleSystem();
