@@ -84,7 +84,8 @@ function CreatePlayerController(player)
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
 		then
-			self:DamagedState(dt)
+			--self:DamagedState(dt)
+			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
 
 		if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
@@ -94,11 +95,13 @@ function CreatePlayerController(player)
 			self:AttackReadyState(dt)
 		end
 
-		self.animation:Update(dt, self.animationState1, 0)
-		self.animation:Update(dt, self.animationState2, 1)
-		--self.animation:Update(dt, self.animationState3, 2)
+		--self.animation:Update(dt, self.animationState1, 0)
+		--self.animation:Update(dt, self.animationState2, 1)
 
-		self.animation:UpdateShaderMatrices()
+		--self.animation:UpdateShaderMatrices()
+		
+		self.animation:SetSegmentState( self.animationState1, 0 )
+		self.animation:SetSegmentState( self.animationState2, 1 )
 
 		self:copyWatch()
 	end
@@ -219,7 +222,7 @@ function CreatePlayerController(player)
 		self.animationState2 = 0
 	end
 
-	function controller:DamagedState(dt)
+	--[[function controller:DamagedState(dt)
 		if self.isDamagedTimerStart == false then
 			self.isDamagedTimerStart = true
 		end
@@ -229,7 +232,7 @@ function CreatePlayerController(player)
 				self.isDamagedTimerStart = false
 			end
 		end
-	end
+	end--]]
 
 	function controller:copyWatch()
 		self.oldWatch.health = self.watch.health

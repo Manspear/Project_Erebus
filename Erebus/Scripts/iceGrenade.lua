@@ -132,5 +132,8 @@ function CreateIceGrenade()
 		self.nades[index].alive = false
 		self.nades[index].exploding = false
 	end
+	function spell:GetEffect()
+		return self.nades[1].effects[1]
+	end
 	return spell
 end

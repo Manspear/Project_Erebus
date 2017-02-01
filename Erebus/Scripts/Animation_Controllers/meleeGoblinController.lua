@@ -59,15 +59,14 @@ function CreateEnemyController(enemy)
 	--to be set in the parametre
 
 	function controller:AnimationUpdate(dt,enemy)
-
-		self.animation:Update(dt, self.currentAnimation, 0)
-
-
-		self.animation:UpdateShaderMatrices()
+		--self.animation:Update(dt, self.currentAnimation, 0)
+		--self.animation:UpdateShaderMatrices()
+		self.animation:SetSegmentState(self.currentAnimation,0)
+		self:copyWatch()
 	end
 
 	function controller:AnimationHurt(dt,enemy)
-		self.animation:Update(dt, 0, 1)
+		--self.animation:Update(dt, 0, 1)
 	end
 
 
