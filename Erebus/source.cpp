@@ -253,6 +253,7 @@ int main()
 			}
 
 			engine.update();
+			soundEngine.update(deltaTime);
 			camera.updateBuffer();
 
 			assets.upload();
