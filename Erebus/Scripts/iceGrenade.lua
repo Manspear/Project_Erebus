@@ -143,7 +143,7 @@ function CreateIceGrenade()
 	function spell:Combine(effect,damage)
 		self.damage = self.damage + 2 * damage
 		for i=1, #self.nades do
-			if not nades[i].alive then
+			if not sel.fnades[i].alive then
 				self.nades[i], self.nades[1] =  self.nades[1], self.nades[i]
 				table.insert(self.nades[i].effects, effect)
 				break

@@ -106,6 +106,12 @@ function CreateBlackHole()
 	function spell:GetEffect()
 		return self.effects[1]
 	end
+	function spell:Combine(effect, damage)
+		if #self.effects < 2 then
+			self.damage = self.damage + 2 * damage
+			table.insert(self.effects, effect)
+		end
+	end
 
 	return spell
 end

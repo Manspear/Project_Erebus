@@ -1,10 +1,10 @@
 SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
-SUNRAY_DAMAGE = 3
+SUNRAY_DAMAGE = 10 --the full damage for the full duration sunray with max chargetime
 SUNRAY_COOLDOWN = 2.7
 SUNRAY_HALF_LENGTH = 23
-SUN_RAY_TICK_INTERVAL = 0.5
+SUNRAY_TICK_INTERVAL = 0.5
 
 function CreateSunRay()
 	local sunRay = {}
@@ -51,8 +51,8 @@ function CreateSunRay()
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
 			Transform.SetLookAt(self.type.transformID, direction)
 			self.timeSinceTick = self.timeSinceTick + dt
-			if self.timeSinceTick > SUN_RAY_TICK_INTERVAL then
-				self.timeSinceTick = self.timeSinceTick - SUN_RAY_TICK_INTERVAL
+			if self.timeSinceTick > SUNRAY_TICK_INTERVAL then
+				self.timeSinceTick = self.timeSinceTick - SUNRAY_TICK_INTERVAL
 				for index = 1, #hits do
 					if hits[index].Hurt then	
 						if self.effectFlag then
@@ -62,7 +62,7 @@ function CreateSunRay()
 								effect:Apply(hits[index])
 							end
 						end
-						hits[index]:Hurt(self.damage)
+						hits[index]:Hurt(self.damage/(SUNRAY_DURATION/SUNRAY_TICK_INTERVAL))
 						Sound.Play(self.hitSFX, 1, hits[index].position)
 					end
 				end
@@ -109,5 +109,12 @@ function CreateSunRay()
 	function sunRay:GetEffect()
 		return self.effects[1]
 	end
+	function sunRay:Combine(effect,damage)
+		if #self.effects < 2 then
+			self.damage = self.damage + 2 * damage
+			table.insert(self.effects, effect)
+		end
+	end
+
 	return sunRay
 end
