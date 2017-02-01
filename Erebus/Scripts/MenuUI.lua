@@ -1,5 +1,6 @@
 local screenImages = {}
 local imageTextures = {}
+local tempLight
 
 function LoadMenuUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
@@ -32,13 +33,18 @@ function UpdateMenuUI(dt)
 		end
 
 		if UI.mousePick(screenImages["host"], x,y) then
-			Erebus.StartNetwork(true)
-			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			tempLight = Light.addLight(44,10,14,1,0,0,20,2)
+
+			--Erebus.StartNetwork(true)
+			--gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
 
 		if UI.mousePick(screenImages["connect"], x,y) then
-			Erebus.StartNetwork(false)
-			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			
+			Light.updateColor(tempLight, 0,1,0)
+
+			--Erebus.StartNetwork(false)
+			--gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
 
 		if UI.mousePick(screenImages["options"], x,y) then

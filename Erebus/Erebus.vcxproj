@@ -167,6 +167,7 @@
     <ClCompile Include="LuaErebus.cpp" />
     <ClCompile Include="LuaGear.cpp" />
     <ClCompile Include="LuaInputs.cpp" />
+    <ClCompile Include="LuaLight.cpp" />
     <ClCompile Include="LuaMath.cpp" />
     <ClCompile Include="LuaNetwork.cpp" />
     <ClCompile Include="LuaParticles.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="LuaErebus.h" />
     <ClInclude Include="LuaGear.h" />
     <ClInclude Include="LuaInputs.h" />
+    <ClInclude Include="LuaLight.h" />
     <ClInclude Include="LuaMath.h" />
     <ClInclude Include="LuaNetwork.hpp" />
     <ClInclude Include="LuaParticles.h" />
