@@ -46,6 +46,17 @@ struct ThreadData
 	HANDLE produce, consume;
 };
 
+struct AnimationData
+{
+	Animation* animation;
+	float dt;
+};
+void updateAnimation( void* args )
+{
+	AnimationData* data = (AnimationData*)args;
+	data->animation->update( data->dt );
+}
+
 DWORD WINAPI update( LPVOID args )
 {
 	ThreadData* data = (ThreadData*)args;
@@ -84,6 +95,10 @@ DWORD WINAPI update( LPVOID args )
 		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
 		&ai, &network, data->workQueue, data->soundEngine, &counter );
 
+	AnimationData animationData[MAX_ANIMATIONS];
+	for( int i=0; i<MAX_ANIMATIONS; i++ )
+		animationData[i].animation = &data->allAnimations[i];
+
 	while( data->running )
 	{
 		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
@@ -103,6 +118,14 @@ DWORD WINAPI update( LPVOID args )
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
+
+			for( int i=0; i<boundAnimations; i++ )
+			{
+				animationData[i].dt = deltaTime;
+				//data->allAnimations[i].update(deltaTime);
+				data->workQueue->add( updateAnimation, &animationData[i] );
+			}
+			data->workQueue->execute();
 
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
@@ -249,6 +272,7 @@ int main()
 			}
 
 			engine.update();
+			soundEngine.update(deltaTime);
 			camera.updateBuffer();
 
 			assets.upload();

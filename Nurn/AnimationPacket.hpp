@@ -6,22 +6,18 @@ union AnimationPacket
 {
 	struct AnimationPacketStruct
 	{
-		uint16_t id;
-		uint16_t animationState;
-		float dt;
-		uint16_t animationSegmentID;
+		uint8_t animationState1;
+		uint8_t animationState2;
 	}data;
 
 	AnimationPacket()
 	{
 	}
 
-	AnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID)
+	AnimationPacket(const uint8_t& animationState1, const uint8_t& animationState2)
 	{
-		data.id = id;
-		data.animationState = animationState;
-		data.dt = dt;
-		data.animationSegmentID = animationSegmentID;
+		data.animationState1 = animationState1;
+		data.animationState2 = animationState2;
 	}
 
 	unsigned char bytes[sizeof(AnimationPacketStruct)];

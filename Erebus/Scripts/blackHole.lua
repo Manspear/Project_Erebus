@@ -51,7 +51,7 @@ function CreateBlackHole()
 			--entity.moveSpeed = entity.moveSpeed * BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 			self.alive = true
 			self.cooldown = BLACK_HOLE_COOLDOWN
-			self.soundID = Sound.Play(self.castSFX, 13, pos)
+			self.soundID = Sound.Play(self.castSFX, 11, pos)
 			Sound.SetVolume(self.soundID, 1)
 		end
 	end
@@ -102,6 +102,9 @@ function CreateBlackHole()
 		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 		self.alive = false
 	
+	end
+	function spell:GetEffect()
+		return self.effects[1]
 	end
 
 	return spell
