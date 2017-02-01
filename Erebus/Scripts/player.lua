@@ -197,6 +197,7 @@ function UpdatePlayer(dt)
 end
 function SendCombine(spell)
 	--TOBEDEFINED
+	--Network.SendCharging(t)
 end
 function GetCombined(effectIndex, damage)
 	if Inputs.ButtonDown(Buttons.Right) then
