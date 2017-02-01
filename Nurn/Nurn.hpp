@@ -68,6 +68,9 @@ namespace Nurn
 		void pushAITransformPacket(const TransformPacket& packet);
 		bool fetchAITransformPacket(TransformPacket& packet);
 
+		void pushChargingPacket(const ChargingPacket& packet);
+		bool fetchChargingPacket(ChargingPacket& packet);
+
 
 	private:
 		Address address;

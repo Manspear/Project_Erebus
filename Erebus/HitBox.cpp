@@ -41,7 +41,7 @@ HitBox::HitBox(int IDTransform)
 
 HitBox::~HitBox()
 {
-	if (this->children != nullptr)
+	if (this->children != nullptr) // Recursive delete, wont work with lua because lua deletes all the children automatically
 	{
 		for (size_t i = 0; i < this->children->size(); i++)
 		{
@@ -49,6 +49,9 @@ HitBox::~HitBox()
 		}
 		delete this->children;
 	}
+
+	//if (this->children != nullptr)
+	//	delete this->children;
 }
 
 void HitBox::insertCollisionID(unsigned int collisionID)

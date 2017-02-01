@@ -28,8 +28,6 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 5.25
-	player.verticalSpeed = 0
-	player.canJump = false
 	player.reachedGoal = false
 	player.health = 100.0
 	player.forward = 0
@@ -40,6 +38,7 @@ function LoadPlayer()
 	player.spamCasting = false
 	player.charging = false
 	player.rayCollider = RayCollider.Create(player.transformID)
+	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
@@ -70,6 +69,9 @@ function LoadPlayer()
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
 
+
+
+
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
@@ -83,8 +85,6 @@ end
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
-	player2.verticalSpeed = 0
-	player2.canJump = false
 	player2.reachedGoal = false
 	player2.health = 100
 	player2.forward = 0
@@ -131,30 +131,30 @@ function UpdatePlayer(dt)
 			Controls(dt)
 		end
 
-		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
-		local newPosition = Transform.GetPosition(player.transformID)
+		--Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
+		--local newPosition = Transform.GetPosition(player.transformID)
 
-		local posx = math.floor(newPosition.x/512)
-		local posz = math.floor(newPosition.z/512)
-		player.heightmapIndex = (posz*2 + posx)+1
-		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
-		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+		--local posx = math.floor(newPosition.x/512)
+		--local posz = math.floor(newPosition.z/512)
+		--player.heightmapIndex = (posz*2 + posx)+1
+		--if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		--if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local height = heightmaps[player.heightmapIndex].asset:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		--local height = heightmaps[player.heightmapIndex].asset:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET
 
-		local diff = height - position.y
-		position = newPosition
+		--local diff = height - position.y
+		--position = newPosition
 
-		position.y = position.y + player.verticalSpeed
-		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
+		--position.y = position.y + player.verticalSpeed
+		--player.verticalSpeed = player.verticalSpeed - 0.982 * dt
 
-		if position.y <= height then
-			position.y = height
-			player.canJump = true
-			player.verticalSpeed = 0
-		end
+		--if position.y <= height then
+			--position.y = height
+			--player.canJump = true
+			--player.verticalSpeed = 0
+		--end
 
-		Transform.SetPosition(player.transformID, position)
+		--Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 		
 		if Network.ShouldSendNewTransform() == true then
@@ -193,6 +193,10 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
+
+	-- update player controller -- this moves the player
+	player.controller:Move(player.left * dt, 0, player.forward * dt)
+	player.controller:Update()
 	
 end
 function SendCombine(spell)
@@ -208,18 +212,16 @@ end
 function Controls(dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
-			end
+		end
 		if Inputs.KeyDown("S") then
 			player.forward = -player.moveSpeed
-				
-			end
+		end
 		if Inputs.KeyDown("A") then
 				player.left = player.moveSpeed
-				
-			end
+		end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
-			end
+		end
 		if Inputs.KeyDown("T") then
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
@@ -235,10 +237,6 @@ function Controls(dt)
 				end
 			end
 			RayCollider.SetActive(player.rayCollider, false)
-		end
-		if Inputs.KeyPressed(Keys.Space) and player.canJump then
-			player.verticalSpeed = PLAYER_JUMP_SPEED
-			player.canJump = false
 		end
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.spamCasting = true

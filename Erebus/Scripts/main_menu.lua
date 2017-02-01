@@ -20,9 +20,6 @@ function UnloadMainMenu()
 end
 
 function UpdateMainMenu(dt)
-	if Inputs.KeyPressed("W") then
-		gamestate.ChangeState(GAMESTATE_GAMEPLAY)
-	end
 	for key,value in pairs(scriptsMenu) do
 		value.Update(dt)
 	end

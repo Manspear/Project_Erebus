@@ -21,7 +21,7 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 
 	collisionHandler.setTransforms(transforms);
 	collisionHandler.setDebugger(Debugger::getInstance());
-	collisionHandler.setLayerCollisionMatrix(1, 1, false);
+	collisionHandler.setLayerCollisionMatrix(1, 1, false); // layer1 will not collide with itself
 
 	ai.addDebug(Debugger::getInstance());
 

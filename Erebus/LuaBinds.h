@@ -38,6 +38,8 @@ public:
 				std::vector<ModelInstance>* forwardModels,
 				bool* queueModels,
 				bool* mouseVisible,
+				bool* fullscreen,
+				bool* running,
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
 				AGI::AGIEngine* AI,
