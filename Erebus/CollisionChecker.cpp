@@ -348,6 +348,7 @@ bool CollisionChecker::collisionCheck(OBBCollider * obb, SphereCollider * sphere
 	float sphereRadiusSquared = sphere->getRadiusSquared();
 
 	glm::vec3 v = closestPointOnOBB(obb, sphereCenter) - sphereCenter;
+	glm::vec3 v2 = closestPointOnOBB(obb, sphereCenter);
 	float vSquared = glm::dot(v, v);
 	return glm::dot(v,v) <= sphereRadiusSquared;
 }

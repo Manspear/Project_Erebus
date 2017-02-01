@@ -57,6 +57,14 @@ DWORD WINAPI update( LPVOID args )
 	AGI::AGIEngine ai;
 	NetworkController network;
 
+	AABBCollider* swag = new AABBCollider(glm::vec3(-10, -1, -1), glm::vec3(10, 1, 1), glm::vec3(20, 6, 27));
+	OBBCollider* swag2 = new OBBCollider(glm::vec3(30, 6, 26), 5, 5, 5);
+	SphereCollider* swag3 = new SphereCollider(glm::vec3(40,6,20),4);
+	swag2->rotateAroundY(1.5f);
+	collisionHandler.addHitbox(swag, 3);
+	collisionHandler.addHitbox(swag2, 3);
+	collisionHandler.addHitbox(swag3, 3);
+
 	data->engine->addDebugger( Debugger::getInstance() );
 
 	for( int i=0; i<MAX_TRANSFORMS; i++ )
