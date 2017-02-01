@@ -13,6 +13,7 @@ enum
 	ACTION_SELECT = 0,
 	ACTION_NEW_ACTOR,
 	ACTION_PLACE_PREFAB,
+	ACTION_USE_BRUSH,
 	MAX_ACTIONS
 };
 
@@ -27,7 +28,7 @@ public:
 	static void resetInstance();
 
 	void setupGizmo( Debug* debug, Camera* camera, Inputs* inputs );
-	void update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera );
+	void update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera, Debug* debug );
 
 	void setTweakBar( TweakBar* bar );
 	void setAction( int action );

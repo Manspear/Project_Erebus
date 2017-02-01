@@ -128,9 +128,6 @@
     <ClCompile Include="LevelEditorStuff\LevelWorldHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-    <ClCompile Include="LuaUI.cpp">
-      <Filter>Source Files\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
@@ -147,6 +144,10 @@
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="PlaneFrustum.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelColiderHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaUI.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -275,9 +276,6 @@
     <ClInclude Include="LevelEditorStuff\LevelWorldHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="LuaUI.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelHeightmap.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
@@ -293,6 +291,10 @@
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="PlaneFrustum.h" />
     <ClInclude Include="LevelEditorStuff\LevelColiderHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaUI.h" />
+    <ClInclude Include="LevelEditorStuff\LevelBrushHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -487,6 +489,8 @@
     <None Include="Scripts\MenuUI.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Shaders\debugAABB.geom" />
+    <None Include="Shaders\debugAABB.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

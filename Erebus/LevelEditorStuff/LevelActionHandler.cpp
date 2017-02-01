@@ -1,11 +1,12 @@
 #include "LevelActionHandler.h"
-
+#include "LevelBrushHandler.h"
 LevelActionHandler* LevelActionHandler::g_instance = nullptr;
 const char* ACTION_NAMES[MAX_ACTIONS] =
 {
 	"Select",
 	"New Actor",
 	"Place Prefab",
+	"Use Brush"
 };
 
 LevelActionHandler::LevelActionHandler()
@@ -17,6 +18,8 @@ LevelActionHandler::LevelActionHandler()
 		selections[i] = false;
 	for( int i=0; i<MAX_ACTIONS; i++ )
 		indices[i] = i;
+
+	TwDefine("Brush visible=false");
 }
 
 LevelActionHandler::~LevelActionHandler()
@@ -46,7 +49,7 @@ void LevelActionHandler::setupGizmo( Debug* debug, Camera* camera, Inputs* input
 	gizmo.addVariables( debug, camera, inputs );
 }
 
-void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera )
+void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera, Debug* debug)
 {
 	if( inputs->keyPressedThisFrame( GLFW_KEY_DELETE ) )
 		LevelActorHandler::getInstance()->removeSelectedActor();
@@ -79,6 +82,10 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	if (inputs->keyReleasedThisFrame(GLFW_KEY_LEFT_CONTROL)) {
 		gizmo.setSnappingMode(false);
 	}
+	if (action == ACTION_USE_BRUSH)
+	{
+		LevelBrushHandler::getInstance()->testDraw(engine,camera,inputs,debug);
+	}
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 	{
@@ -91,6 +98,8 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 			
 
 			engine->pickActorFromWorld( LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+			//std::cout << glm::to_string(hitPoint) << std::endl;
+			//std::cout << glm::to_string(hitNorm)<<std::endl;
 			
 			switch( action )
 			{
@@ -129,7 +138,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 
 						
 					}
-				} break;
+				} 
 			} // end of switch
 
 			LevelAssetHandler::getInstance()->onMouseReleased();
@@ -163,6 +172,11 @@ void LevelActionHandler::setAction( int a )
 	selections[a] = true;
 
 	action = a;
+	
+	if (action == ACTION_USE_BRUSH)
+		TwDefine("Brush visible=true");
+	else 
+		TwDefine("Brush visible=false");
 }
 
 int LevelActionHandler::getAction()

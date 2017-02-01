@@ -281,13 +281,13 @@ void LevelAssetHandler::setInputs( Inputs* i )
 	inputs = i;
 }
 
-void LevelAssetHandler::setTweakBars( TweakBar* ab, TweakBar* cb )
+void LevelAssetHandler::setTweakBars( TweakBar* ab, TweakBar* cb)
 {
 	assetsBar = ab;
 	contextBar = cb;
 
 	TwRemoveAllVars( contextBar->getBar() );
-	TwAddButton( contextBar->getBar(), "Add to Actor", onAdd, NULL, NULL );
+	TwAddButton( contextBar->getBar(), "Add to Actor", onAdd, NULL, NULL ); //yhis is for when you add a model
 	TwAddButton( contextBar->getBar(), "Close", onClose, NULL, NULL );
 	TwDefine( "AssetsContext visible=false iconifiable=false fontresizable=false contained=true" );
 

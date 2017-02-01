@@ -156,6 +156,11 @@ void LevelActorHandler::setTweakBars( TweakBar* world, TweakBar* actor )
 	updateTweakBars();
 }
 
+void LevelActorHandler::setTweakBarBrush(TweakBar * brush)
+{
+
+}
+
 LevelActor* LevelActorHandler::getSelected()
 {
 	return selectedActor;
@@ -168,7 +173,7 @@ std::map<unsigned int, LevelActor*>& LevelActorHandler::getActors()
 
 void LevelActorHandler::updateTweakBars()
 {
-	if( worldBar )
+	if( worldBar ) 
 		updateWorldBar();
 	if( actorBar )
 		updateActorBar();

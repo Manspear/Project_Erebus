@@ -13,6 +13,7 @@ LevelEditor::~LevelEditor()
 
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
+
 	//delete this->transformHandler;
 	//delete this->modelHandler;
 	//delete this->levelGizmo;
@@ -25,6 +26,7 @@ LevelEditor::~LevelEditor()
 	LevelTransformHandler::deleteInstance();
 	LevelModelHandler::deleteInstance();
 	LevelWorldHandler::deleteInstance();
+	LevelBrushHandler::deleteInstance();
 	LevelColiderHandler::deleteInstance();
 	
 	delete this->assets;
@@ -118,7 +120,6 @@ void LevelEditor::start() {
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
 	LevelLightHandler::getInstance()->addDebugger(Debugger::getInstance());
 
-
 	LevelWorldHandler::getInstance()->addStuff(engine, assets, ui, &window, inputs, camera, Debugger::getInstance());
 
 	int boundAnimations = 0;
@@ -128,8 +129,6 @@ void LevelEditor::start() {
 	int actorID = 0;
 	glm::vec3 hitPoint;
 	glm::vec3 hitNormal;
-
-
 
 	float elapsedTime = 0.0f;
 
@@ -147,11 +146,11 @@ void LevelEditor::start() {
 		inputs->update();
 		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 5));
 
-		//if(inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
+		
 
-		//if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_2))
-			camera->updateLevelEditorCamera(deltaTime);
-
+		camera->updateLevelEditorCamera(deltaTime);
+		//if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
+		
 		//for (size_t i = 0; i < 100; i++)
 		//{
 		//	//Transform* derp = actors[i]->getComponent<LevelTransform>()->getTransformRef();
@@ -208,7 +207,7 @@ void LevelEditor::start() {
 		//ID = Gear->CreatePointlight();
 		//Gear->DeletePointlight(ID);
 
-		LevelActionHandler::getInstance()->update( inputs, engine, camera );
+		LevelActionHandler::getInstance()->update( inputs, engine, camera,Debugger::getInstance());
 		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
 
 		//actor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint + (glm::vec3(0, 1, 0) * 10));

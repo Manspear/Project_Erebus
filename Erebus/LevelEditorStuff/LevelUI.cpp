@@ -2,6 +2,7 @@
 #include "LevelActorHandler.h"
 #include "LevelAssetHandler.h"
 #include "LevelActionHandler.h"
+#include "LevelBrushHandler.h"
 #include "LevelTransform.h"
 #include "LevelModel.h"
 #include "levelpointlightcomponent.h"
@@ -16,6 +17,7 @@ const char* LevelUI::worldBarName = "World";
 const char* LevelUI::assetBarName = "Assets";
 const char* LevelUI::assetContextBarName = "AssetsContext";
 const char* LevelUI::actionBarName = "Actions";
+const char* LevelUI::brushBarName = "Brush";
 const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name, LevelSound::name };
 
 void TW_CALL setEditorState(void * clientData)
@@ -50,7 +52,7 @@ std::string LevelUI::vec3ToString(glm::vec3& val, std::string type) {
 
 LevelUI::~LevelUI()
 {
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < 6; i++)
 	{
 		delete bars[i];
 	}
@@ -93,11 +95,12 @@ void LevelUI::initBars()
 
 	bars[4] = new TweakBar(glm::vec2(bar2Position.x - 148, 0), glm::vec2(148, 178), glm::vec4(128, 32, 32, 200), 1, actionBarName);
 
+	bars[5] = new TweakBar(glm::vec2(bar2Position.x - 148, 178), glm::vec2(148, 178), glm::vec4(128, 32, 32, 200), 1, brushBarName);
 	
-
 	LevelActorHandler::getInstance()->setTweakBars(bars[1], bars[0]);
 	LevelAssetHandler::getInstance()->setTweakBars(bars[2], bars[3]);
 	LevelActionHandler::getInstance()->setTweakBar(bars[4]);
+	LevelBrushHandler::getInstance()->setTweakBar(bars[5]);
 	
 	const char* errorMessage = TwGetLastError();
 	if (errorMessage != nullptr) {

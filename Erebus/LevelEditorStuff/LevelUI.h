@@ -111,6 +111,7 @@ public:
 	static const char* assetBarName;
 	static const char* assetContextBarName;
 	static const char* actionBarName;
+	static const char* brushBarName;
 	static TwType vector3Tw;
 	//static TwType componentTw;
 	static std::string vec2ToString(glm::vec2& val, std::string type = "");
