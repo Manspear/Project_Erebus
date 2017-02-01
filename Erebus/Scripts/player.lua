@@ -130,7 +130,7 @@ function UpdatePlayer(dt)
 		if not console.visible then
 			Controls(dt)
 		end
-
+		GetCombined()
 		--Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
 		--local newPosition = Transform.GetPosition(player.transformID)
 
@@ -201,12 +201,14 @@ function UpdatePlayer(dt)
 end
 function SendCombine(spell)
 	--TOBEDEFINED
-	--Network.SendChargingPacket(id, damage)
+	print(spell:GetEffect())
+	Network.SendChargingPacket(spell.damage, spell:GetEffect())
 end
-function GetCombined(effectIndex, damage)
-	--local id_2, damage_2 = Network.GetChargingPacket()
-	if Inputs.ButtonDown(Buttons.Right) then
-		table.insert(player.spells[player.currentSpell].effects, globalEffects[effectIndex])
+function GetCombined()
+	local combine, effectIndex, damage = Network.GetChargingPacket()
+	print(effectIndex)
+	if combine and Inputs.ButtonDown(Buttons.Right) then
+		table.insert(player.spells[player.currentSpell].effects, effectTable[effectIndex])
 		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage
 	end
 end
@@ -234,6 +236,7 @@ function Controls(dt)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
 					SendCombine(player.spells[player.currentSpell])
+					print("combine!!")
 					break
 				end
 			end

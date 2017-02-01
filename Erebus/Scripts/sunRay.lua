@@ -106,5 +106,8 @@ function CreateSunRay()
 		player.moveSpeed = player.moveSpeed * (1 / self.moveImpairment) 
 		self.type:Kill()
 	end
+	function sunRay:GetEffect()
+		return self.effects[1]
+	end
 	return sunRay
 end
