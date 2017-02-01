@@ -453,6 +453,9 @@
     <None Include="Scripts\options_menu.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
+    <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

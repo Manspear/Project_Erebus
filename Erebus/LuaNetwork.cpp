@@ -20,6 +20,8 @@ namespace LuaNetwork
 			{ "GetSpellPacket", getSpellPacket },
 			{ "SendAITransformPacket", sendAITransformPacket },
 			{ "GetAITransformPacket", getAITransformPacket },
+			{ "SendChargingPacket", sendChargingPacket },
+			{ "GetChargingPacket", getChargingPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -265,10 +267,9 @@ namespace LuaNetwork
 	int sendChargingPacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
-		int currentSpell = lua_tointeger(lua, 2);
-		int charging = lua_tointeger(lua, 3);
+		float damage = lua_tonumber(lua, 2);
 
-		g_networkController->sendChargingPacket(ChargingPacket(index, currentSpell, charging));
+		g_networkController->sendChargingPacket(ChargingPacket(index, damage));
 
 		return 0;
 	}
@@ -281,18 +282,16 @@ namespace LuaNetwork
 		{
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, chargingPacket.data.ID);
-			lua_pushnumber(lua, chargingPacket.data.currentSpell);
-			lua_pushnumber(lua, chargingPacket.data.charging);
+			lua_pushnumber(lua, chargingPacket.data.damage);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
 			lua_pushnumber(lua, 0);
-			lua_pushboolean(lua, false);
 		}
 
-		return 4;
+		return 3;
 	}
 
 	int getNetworkHost(lua_State* lua)

@@ -21,7 +21,7 @@ void MovementController::update()
 	assert( transform && heightmap && collisionLayer && layerID >= 0 );
 	CollisionHandler collisionHandler;
 
-	glm::vec3 lookDirection = glm::normalize(transform->getLookAt());
+	glm::vec3 lookDirection = glm::normalize(glm::vec3(transform->getLookAt().x,0, transform->getLookAt().z));
 	glm::vec3 moveFinal = lookDirection * movement.z;
 	moveFinal += glm::cross({ 0, 1, 0 }, lookDirection) * movement.x; // get right axis and move
 

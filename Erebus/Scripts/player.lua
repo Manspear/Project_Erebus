@@ -201,8 +201,10 @@ function UpdatePlayer(dt)
 end
 function SendCombine(spell)
 	--TOBEDEFINED
+	--Network.SendChargingPacket(id, damage)
 end
 function GetCombined(effectIndex, damage)
+	--local id_2, damage_2 = Network.GetChargingPacket()
 	if Inputs.ButtonDown(Buttons.Right) then
 		table.insert(player.spells[player.currentSpell].effects, globalEffects[effectIndex])
 		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage
@@ -241,9 +243,9 @@ function Controls(dt)
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
-			if player.spells[player.currentSpell].cooldown < 0 then 
-				Network.SendSpellPacket(player.transformID, player.currentSpell)
-			end
+			--if player.spells[player.currentSpell].cooldown < 0 then 
+			--	Network.SendSpellPacket(player.transformID, player.currentSpell)
+			--end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
