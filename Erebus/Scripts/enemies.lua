@@ -81,6 +81,7 @@ function UpdateEnemies(dt)
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],player,tempdt)
+				enemies[i].animationController:AnimationUpdate(dt)
 
 				local pos = Transform.GetPosition(enemies[i].transformID)
 
