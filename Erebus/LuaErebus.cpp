@@ -53,20 +53,32 @@ namespace LuaErebus
 	{
 		assert( lua_gettop( lua ) >= 1 );
 
+		bool result = false;
+
 		bool host = lua_toboolean( lua, 1 );
 		g_network->setNetworkHost( host );
 		if( host )
 		{
-			if( g_network->initNetworkAsHost() )
+			if (g_network->initNetworkAsHost())
+			{
+				result = true;
 				g_network->acceptNetworkCommunication();
+			}
 		}
 		else
 		{
-			g_network->initNetworkAsClient(127,0,0,1);
+			if (g_network->initNetworkAsClient(127, 0, 0, 1))
+			{
+				result = true;
+			}
 		}
 
-		g_network->startCommunicationThreads(*g_counter);
-		return 0;
+		if (result)
+		{
+			g_network->startCommunicationThreads(*g_counter);
+		}
+		lua_pushboolean(lua, result);
+		return 1;
 	}
 	int setRunning(lua_State * lua)
 	{
