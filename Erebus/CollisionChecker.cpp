@@ -617,6 +617,35 @@ bool CollisionChecker::collisionCheck(HitBox * hitbox1, HitBox * hitbox2)
 	return false;
 }
 
+bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, glm::vec3 & normal)
+{
+	if (hitbox1->isSphereCollider())
+	{
+		SphereCollider* sphere1 = static_cast<SphereCollider*>(hitbox1);
+		if (hitbox2->isSphereCollider()) // sphere vs sphere
+		{
+			SphereCollider* sphere2 = static_cast<SphereCollider*>(hitbox2);
+			return this->collisionCheckNormal(sphere1, sphere2,normal);
+		}
+		else if (hitbox2->isAabbCollider()) // sphere vs aabb
+		{
+			AABBCollider* aabb = static_cast<AABBCollider*>(hitbox2);
+			return this->collisionCheckNormal(sphere1, aabb,normal);
+		}
+		else if (hitbox2->isObbCollider()) // Sphere vs obb
+		{
+			OBBCollider* obb = static_cast<OBBCollider*>(hitbox2);
+			return this->collisionCheckNormal(obb, sphere1,normal);
+		}
+	}
+	else
+	{
+		// Normal calculations is only supported with spheres
+		assert(false);
+	}
+	return false;
+}
+
 bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereCollider * sphere2, glm::vec3 & normal)
 {
 	this->sphereCollisionCounter++;
@@ -648,14 +677,62 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 	float squaredDistance = SquaredDistancePointToAabb(aabb, sphere);
 	float radiusSquared = sphere->getRadiusSquared();
 	if (squaredDistance <= radiusSquared) // if squared distance between aabb and sphere center is closer than squared radius of spheres
-		collision = true;
+	{									 // this means that we have a hit, save hit normal and return true
+		// Axis to check against
+		const int axisAmount = 6;
+		glm::vec3 axes[axisAmount];
+		axes[0] = glm::vec3(1, 0, 0);
+		axes[1] = glm::vec3(-1, 0, 0);
+		axes[2] = glm::vec3(0, 0, 1);
+		axes[3] = glm::vec3(0, 0, -1);
+		axes[4] = glm::vec3(0, 1, 0);
+		axes[5] = glm::vec3(0, -1, 0);
 
+		// hit normal
+		glm::vec3 hitNormal = glm::normalize(sphere->getPos() - aabb->getCenterPos());
+
+		//Cos angle, who is closest
+		float x = glm::dot(axes[0], hitNormal);
+		float xNegative = glm::dot(axes[1], hitNormal);
+		float z = glm::dot(axes[2], hitNormal);
+		float zNegative = glm::dot(axes[3], hitNormal);
+		float y = glm::dot(axes[4], hitNormal);
+		float yNegative = glm::dot(axes[5], hitNormal);
+
+		float cosAngle[axisAmount];
+
+		cosAngle[0] = glm::dot(axes[0], hitNormal); // x
+		cosAngle[1] = glm::dot(axes[1], hitNormal); // x negative
+		cosAngle[2] = glm::dot(axes[2], hitNormal); // z
+		cosAngle[3] = glm::dot(axes[3], hitNormal); // z negative
+		cosAngle[4] = glm::dot(axes[4], hitNormal); // y
+		cosAngle[5] = glm::dot(axes[4], hitNormal); // y negative
+
+		//The one with closest angle is the normal of the plane
+		float closest = std::numeric_limits<float>().min();
+		int index = -1;
+		for (int i = 0; i < axisAmount; i++)
+		{
+			if (cosAngle[i] > closest) // if the angle is closer than the last angle. It is the closest
+			{
+				closest = cosAngle[i];
+				index = i;
+			}
+				
+		}
+		if (index != -1) // if we found the closest angle. Probably reduntant check
+		{
+			normal = axes[index];
+		}
+		collision = true;
+	}
 
 	return collision;
 }
 
 bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, glm::vec3 & normal)
 {
+	normal = glm::vec3(0, 0, 0);
 	return false;
 }
 

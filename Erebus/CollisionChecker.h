@@ -37,6 +37,7 @@ public:
 
 	//Get collision normals also, used by movementController. ONLY SUPPORTS SPHERE COLLISION
 	// Returns normal from hitbox2 -> hitbox 1
+	bool collisionCheckNormal(HitBox* hitbox1, HitBox* hitbox2, glm::vec3& normal);
 	bool collisionCheckNormal(SphereCollider* sphere1, SphereCollider* sphere2, glm::vec3& normal);
 	bool collisionCheckNormal(SphereCollider* sphere, AABBCollider* aabb, glm::vec3& normal);
 	bool collisionCheckNormal(SphereCollider* sphere, OBBCollider* obb, glm::vec3& normal);
