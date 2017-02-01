@@ -19,7 +19,7 @@ function CreateSunRay(entity)
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
 	sunRay.timeSinceTick = 0
-	sunRay.caster = 0
+	sunRay.caster = entity.transformID
 	sunRay.angle = 2	sunRay.spin = 0.0
 	sunRay.UVpushing = 2.0	sunRay.UVpushed = 0.0	
 	sunRay.startUp = false	sunRay.startUpTime = 0.4	sunRay.startUpTimeLVL2 = 0.7
