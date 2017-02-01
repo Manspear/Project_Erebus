@@ -27,7 +27,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 5.25
+	player.moveSpeed = 25.25
 	player.reachedGoal = false
 	player.health = 100.0
 	player.forward = 0

@@ -57,7 +57,7 @@ namespace Importer
 					int yindex = y;
 					if (yindex >= mapHeight - 1)
 						yindex = mapHeight - 1;
-					heightData[x][y] = map.getPixelValue(xindex, yindex).red * (30.2 / 255)+3;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
+					heightData[x][y] = map.getPixelValue(xindex, yindex).red * (33.8 / 255)+3;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
 				}
 			}
 
