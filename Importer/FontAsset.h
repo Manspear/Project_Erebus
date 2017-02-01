@@ -25,6 +25,7 @@ namespace Importer
 
 		IMPORTER_API bool load( std::string path, Assets* assets ) override;
 		IMPORTER_API void unload() override;
+		IMPORTER_API void upload() override;
 
 		IMPORTER_API int getWidth( char c );
 		IMPORTER_API glm::vec4 getUV( char c );

@@ -21,7 +21,7 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 
 	collisionHandler.setTransforms(transforms);
 	collisionHandler.setDebugger(Debugger::getInstance());
-	collisionHandler.setLayerCollisionMatrix(1, 1, false);
+	collisionHandler.setLayerCollisionMatrix(1, 1, false); // layer1 will not collide with itself
 
 	ai.addDebug(Debugger::getInstance());
 
@@ -29,17 +29,10 @@ GamePlay::GamePlay(Gear::GearEngine * inEngine, Importer::Assets* assets, WorkQu
 	engine->queueAnimModels(&animatedModels);
 	engine->queueForwardModels(&forwardModels);
 	engine->queueParticles(ps);
-
-	healthBackground = sScreenImage(glm::vec2(290, 630), 700, 80);
-	healthBackgroundTex = assets->load<TextureAsset>("Textures/HealthBackground.png");
-	healthBar = sScreenImage(glm::vec2(332, 640), 614, 60);
-	healthBarTex = assets->load<TextureAsset>("Textures/HealthBar.png");
 }
 
 GamePlay::~GamePlay()
 {
-	networkController.shutdown();
-
 	luaBinds.unload();
 
 	delete[] allTransforms;
@@ -48,11 +41,13 @@ GamePlay::~GamePlay()
 
 	for (int i = 0; i < ps.size(); i++)
 		delete ps.at(i);
+
+	networkController.shutdown();
 }
 
 void GamePlay::Initialize(Importer::Assets* assets, Controls* controls, Inputs* inputs, Camera* camera)
 {
-	luaBinds.load(engine, assets, &collisionHandler, controls, inputs, transforms, &boundTransforms, allAnimations, &boundAnimations, &models, &animatedModels, &forwardModels, camera, &ps, &ai, &networkController, work, soundEngine);
+	//luaBinds.load(engine, assets, &collisionHandler, controls, inputs, transforms, &boundTransforms, allAnimations, &boundAnimations, &models, &animatedModels, camera, &ps, &ai, &networkController, work, soundEngine);
 }
 
 void GamePlay::Update(Controls* controls, double deltaTime)
@@ -73,23 +68,15 @@ void GamePlay::Update(Controls* controls, double deltaTime)
 	playerHealthReal = (float)lua_tonumber(l, -1);
 	lua_pop(l, 2);
 
-	if (playerHealthCurrent > playerHealthReal)
-	{
-		playerHealthCurrent  -= 50 * deltaTime;
-		playerHealthCurrent < 0 ? 0 : playerHealthCurrent;
-	}
+	
 
-	float a = (playerHealthCurrent * healthBarLength) / 100.0f;
-
-	healthBar.width = a;
+	
 	
 }
 
 void GamePlay::Draw()
 {
 	engine->queueDynamicModels(&models);
-	engine->showImage(healthBackground, healthBackgroundTex);
-	engine->showImage(healthBar, healthBarTex);
 }
 
 bool GamePlay::StartNetwork(const bool& networkHost, PerformanceCounter & counter)

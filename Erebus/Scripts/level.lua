@@ -66,6 +66,17 @@ goal.collider:SetRadius(10)
 CollisionHandler.AddSphere(goal.collider)
 
 -- set music
-Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
+sid = Sound.Play("Music/menuBurana.ogg", 48)
+Sound.SetVolume(sid, 0.03)
+Sound.Resume(sid)
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
+
+
+	-- Setting controller for player
+	player.controller = {};
+	player.controller = MovementController.Create()
+	player.controller:SetHitbox(player.sphereCollider)
+	player.controller:SetTransform(player.transformID)
+	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
+	player.controller:SetHeightmap(heightmaps[1].asset);

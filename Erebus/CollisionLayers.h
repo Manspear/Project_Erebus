@@ -18,6 +18,7 @@ public:
 	void addRay(RayCollider* ray);
 	void addRay(RayCollider* ray, unsigned int layer);
 
+	std::vector<HitBox*>* getAllColliders(unsigned int layer);
 	std::vector<SphereCollider*>* getSphereColliders(unsigned int layer);
 	std::vector<AABBCollider*>* getAABBColliders(unsigned int layer);
 	std::vector<OBBCollider*>* getOBBColliders(unsigned int layer);
@@ -42,6 +43,7 @@ public:
 private:
 	bool** layerMatrix; // which layers may collide with each other
 	bool** collisionCheckedMatrix; // which layers have collided this frame
+	std::vector<std::vector<HitBox*>> allColliders;
 	std::vector<std::vector<AABBCollider*>> aabbColliders; // aabbColliders[0] holds a vector with all aabbColliders in layer 0
 	std::vector<std::vector<SphereCollider*>> sphereColliders;
 	std::vector<std::vector<OBBCollider*>> obbColliders;

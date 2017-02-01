@@ -33,6 +33,7 @@ namespace Importer
 
 		virtual bool load( std::string path, Assets* assets ) = 0;
 		virtual void unload() = 0;
+		virtual void upload() = 0;
 
 		IMPORTER_API FileInfo* getFileInfo();
 
@@ -82,6 +83,7 @@ namespace Importer
 				{
 					result->getFileInfo()->setPath( path );
 					assets.insert( std::pair<AssetID, Asset*>( id, result ) );
+					pending.push_back( result );
 				}
 				else
 				{
@@ -93,11 +95,13 @@ namespace Importer
 			return result;
 		}
 		void unload();
+		IMPORTER_API void upload();
 
 		IMPORTER_API void checkHotload( float dt );
 
 	private:
 		float elapsedTime;
 		std::map<AssetID, Asset*> assets;
+		std::vector<Asset*> pending;
 	};
 }

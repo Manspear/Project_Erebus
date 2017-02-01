@@ -53,30 +53,29 @@ namespace Nurn
 
 		void Shutdown();
 
-		void buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+		void pushTransformPacket(const TransformPacket& packet);
 		bool fetchTransformPacket(TransformPacket& packet);
 
-		void buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID);
+		void pushAnimationPacket(const AnimationPacket& packet);
 		bool fetchAnimationPacket(AnimationPacket& packet);
 
-		void buildAIPacket(const uint16_t& id, const uint16_t& aiState);
-		bool fetchAIPacket(AIPacket& packet);
+		void pushAIStatePacket(const AIStatePacket& packet);
+		bool fetchAIPacket(AIStatePacket& packet);
 
-		void buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
+		void pushSpellPacket(const SpellPacket& packet);
 		bool fetchSpellPacket(SpellPacket& packet);
 
-		void buildAITransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+		void pushAITransformPacket(const TransformPacket& packet);
 		bool fetchAITransformPacket(TransformPacket& packet);
+
+		void pushChargingPacket(const ChargingPacket& packet);
+		bool fetchChargingPacket(ChargingPacket& packet);
 
 
 	private:
 		Address address;
 		Packager * packager = nullptr;
 		PacketFilter * packetFilter = nullptr;
-
-		unsigned char buffer[packetSize];
-
-
 
 #ifdef USING_UDP
 		UDPCommunication netCommunication;

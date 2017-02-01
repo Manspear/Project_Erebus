@@ -7,6 +7,9 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
+
+#include <iostream>
 
 using namespace irrklang;
 
@@ -17,7 +20,7 @@ enum eSoundOptions : uint8_t
 {
 	SOUND_NO_FLAG		= 0x00,
 	SOUND_3D			= 0x01,
-	SOUND_TRACK			= 0x02,
+	SOUND_COPY			= 0x02,
 	SOUND_EFFECTS		= 0x04,
 	SOUND_STREAM		= 0x08,
 	SOUND_LOOP			= 0x10,
@@ -32,22 +35,54 @@ public:
 	SoundEngine();
 	~SoundEngine();
 
-	size_t play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0,0,0));
-	void pause(int i);
-	void resume(int i);
+	void update(const double &dt);
+	void fade(size_t i, float t);
+	void crossfade(size_t from, size_t to, float t);
+
+	size_t play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0, 0, 0));
+
+	void pause(size_t i);
+	void resume(size_t i);
+	void stop(size_t i);
 	void pauseAll();
 	void resumeAll();
-	void clear();
+	void clearAll();
 
 	void setMasterVolume(float v);		// Sets volume to a value between 0 (silent) and 1 (full volume)
-	void setVolume(int i, float v);
-	void setPosition(int i, const glm::vec3 &pos);
-	void setVelocity(int i, const glm::vec3 &vel);
+	void setVolume(size_t i, float v);
+	void setPosition(size_t i, const glm::vec3 &pos);
+	void setVelocity(size_t i, const glm::vec3 &vel);
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
 private:
+	struct sSound
+	{
+		size_t id;
+		ISound* sound;
+
+		inline bool operator==(const size_t &val) { return id == val; }
+	};
+
+	struct sFade
+	{
+		ISound* sound;
+		float elapsedTime = 0;
+		float targetTime;
+		float targetVolume;
+		float initialVolume;
+
+		sFade(ISound* s, float t, float v = 0.f)
+			: sound(s), targetTime(t), targetVolume(v), initialVolume(s->getVolume()) {}
+	};
+
+
 	ISoundEngine* engine;
 	const std::string basePath = "./Audio/";
 
-	std::vector<ISound*> sounds;
+	std::vector<sSound> sounds;
+	std::vector<sFade> fades;
+	size_t currSoundID;
+
+private:
+	inline void processFade(sFade &f, const float &dt);
 };

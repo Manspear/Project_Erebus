@@ -1,13 +1,13 @@
+HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 MAX_CHARGE_TIME_PILLAR = 3
 MIN_CHARGE_TIME_PILLAR = 1.5
 MAX_DAMAGE_PILLAR = 1000
 SPEED_PILLAR = 75
 COOLDOWN_PILLAR = 3
 PILLAR_DURATION = 2
+GRAVITY_PILLAR = 5
 
-GRAVITY_PILLAR = 50
-
-Y_SPEED_PILLAR = 20
+Y_SPEED_PILLAR = 2
 
 function CreateHellPillar()
 	function initNade()
@@ -27,6 +27,8 @@ function CreateHellPillar()
 		pillz.effectflag = false
 		pillz.damage = MAX_DAMAGE_PILLAR
 		pillz.alive = false
+		pillz.effects = {}
+		table.insert(pillz.effects, FIRE_EFFECT_INDEX)
 		pillz.pos = 0
 		pillz.duration = PILLAR_DURATION
 		pillz.type.oobCollider.SetSize(pillz.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
@@ -38,15 +40,15 @@ function CreateHellPillar()
 	local spell = {}
 	spell.nade = initNade()
 	spell.pillar = initPillar()
-
 	spell.maxChargeTime = MAX_CHARGE_TIME_PILLAR
-	spell.effect = CreateSlowEffect
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.ChargeCast = BaseChargeCast
 	spell.cooldown = 0
-	spell.effect = CreateFireEffect()
+	--spell.effect = CreateFireEffect()
+	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.pillarDir = {x = 0, y = 0, z = 29.85}
+	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then
 			if not self.nade.alive then
@@ -55,6 +57,7 @@ function CreateHellPillar()
 				local dir = Transform.GetLookAt(entity.transformID)
 				self.nade.particles.cast()
 				dir.y = dir.y + Y_SPEED_PILLAR
+				self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
 				self.nade.type:Cast(pos, dir, GRAVITY_PILLAR, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, 0.0)
 				self.nade.damage = factor * MAX_DAMAGE_PILLAR		
 				self.nade.effectflag = effectflag
@@ -79,8 +82,12 @@ function CreateHellPillar()
 	function spell:GrenadeUpdate(dt)		
 			if not self.nade.exploding then
 				self.nade.exploding = self.nade.type:flyUpdate(dt)
+				Light.updatePos(self.nade.light, self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
 			else
+				self.nade.particles.die(self.nade.type.position)		
+				Light.removeLight(self.nade.light)
+				self.nade.light = nil
 				self.pillar.pos = self.nade.type.position
 				self:Kill()
 				self.pillar.type:Cast(self.pillar.pos)
@@ -95,10 +102,12 @@ function CreateHellPillar()
 		self.pillar.duration = self.pillar.duration - dt
 		for index = 1, #hits do
 			if hits[index].Hurt then
-				if self.nade.effectFlag then
-					local effect = self.effect()
-					table.insert(hits[index].effects, self.effect)
-					effect:Apply(hits[index])
+				if self.nade.effectFlag then	
+					for e = 1, #self.nade.effects do
+						local effect = effectTable[self.nade.effects[e]]()
+						table.insert(hits[index].effects, self.effect)
+						effect:Apply(hits[index])
+					end
 				end
 				hits[index]:Hurt(MAX_DAMAGE_PILLAR)
 			end
@@ -114,5 +123,13 @@ function CreateHellPillar()
 		self.nade.alive = false
 		self.nade.exploding = false
 	end
+	function spell:GetEffect()
+		return self.pillar.effects[1]
+	end
+	function spell:Combine(effect,damage)
+		table.insert(self.pillar.effects, effect)
+		self.pillar.damage = self.pillar.damage + damage
+	end
+
 	return spell
 end

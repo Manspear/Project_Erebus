@@ -1,14 +1,23 @@
 local MOLERAT_OFFSET = 0.4
 local PLAYER_JUMP_SPEED = 0.35
 
+SLOW_EFFECT_INDEX = 1
+TIME_SLOW_EFFECT_INDEX = 2
+FIRE_EFFECT_INDEX = 3
+
 player = {}
 player2 = {}
+
+effectTable = {}
 
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
 function LoadPlayer()	
+	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
+	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
+	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()
@@ -19,8 +28,6 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 5.25
-	player.verticalSpeed = 0
-	player.canJump = false
 	player.reachedGoal = false
 	player.health = 100.0
 	player.forward = 0
@@ -30,14 +37,18 @@ function LoadPlayer()
 	player.heightmapIndex = 1
 	player.spamCasting = false
 	player.charging = false
-	
+	player.rayCollider = RayCollider.Create(player.transformID)
+	player.move = {}
+	CollisionHandler.AddRay(player.rayCollider)
+	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
 
 	-- set spells for player
 	player.spells = {}
 	player.spells[1] = CreateHellPillar(player)
 	player.spells[2] = CreateBlackHole(player)
-	player.spells[3] = CreateSunRay(player)
+	player.spells[3] = CreateIceGrenade()
+	player.spells[4] = CreateSunRay() 
 
 	player.currentSpell = 1
 
@@ -58,6 +69,9 @@ function LoadPlayer()
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
 
+
+
+
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- load and set a model for the player
@@ -71,8 +85,6 @@ end
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
-	player2.verticalSpeed = 0
-	player2.canJump = false
 	player2.reachedGoal = false
 	player2.health = 100
 	player2.forward = 0
@@ -84,13 +96,14 @@ function LoadPlayer2()
 	player2.charging = false
 
 	player2.animationController = CreatePlayerController(player2)
-
+	player2.sphereCollider = SphereCollider.Create(player2.transformID)
+	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	--player.spells[1] = dofile( "Scripts/projectile.lua" )
 	player2.spells[1] = CreateHellPillar()
 	player2.spells[2] = CreateBlackHole()
-	player2.spells[3] = CreateSunRay()
+	player2.spells[3] = CreateIceGrenade()
+	player2.spells[4] = CreateSunRay()
 
 	player2.currentSpell = 1
 
@@ -117,51 +130,50 @@ function UpdatePlayer(dt)
 		if not console.visible then
 			Controls(dt)
 		end
+		GetCombined()
+		--Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
+		--local newPosition = Transform.GetPosition(player.transformID)
 
-		Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
-		local newPosition = Transform.GetPosition(player.transformID)
+		--local posx = math.floor(newPosition.x/512)
+		--local posz = math.floor(newPosition.z/512)
+		--player.heightmapIndex = (posz*2 + posx)+1
+		--if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		--if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		local posx = math.floor(newPosition.x/512)
-		local posz = math.floor(newPosition.z/512)
-		player.heightmapIndex = (posz*2 + posx)+1
-		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
-		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+		--local height = heightmaps[player.heightmapIndex].asset:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET
 
-		local height = heightmaps[player.heightmapIndex].asset:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET --+heightmaps[player.heightmapIndex].offset +MOLERAT_OFFSET
+		--local diff = height - position.y
+		--position = newPosition
 
-		local diff = height - position.y
-		position = newPosition
+		--position.y = position.y + player.verticalSpeed
+		--player.verticalSpeed = player.verticalSpeed - 0.982 * dt
 
-		position.y = position.y + player.verticalSpeed
-		player.verticalSpeed = player.verticalSpeed - 0.982 * dt
+		--if position.y <= height then
+			--position.y = height
+			--player.canJump = true
+			--player.verticalSpeed = 0
+		--end
 
-		if position.y <= height then
-			position.y = height
-			player.canJump = true
-			player.verticalSpeed = 0
-		end
-
-		Transform.SetPosition(player.transformID, position)
+		--Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
 
-		-- An example of what the AnimationPacket can look like
-		if Network.ShouldSendNewAnimation() == true then
-			Network.SendAnimationPacket(42, 2, 4, 5)
-		end
-
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
-		player2.animationController:AnimationUpdate(dt)
+
+		if Network.ShouldSendNewAnimation() == true then
+			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+		end
 
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
+	--player.spells[4]:Update(dt)
 	
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
@@ -179,34 +191,60 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
+
+	-- update player controller -- this moves the player
+	player.controller:Move(player.left * dt, 0, player.forward * dt)
+	player.controller:Update()
 	
 end
-
+function SendCombine(spell)
+	--TOBEDEFINED
+	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+end
+function GetCombined()
+	local combine, effectIndex, damage = Network.GetChargingPacket()
+	if combine and Inputs.ButtonDown(Buttons.Right) then
+		player.spells[currentSpell]:Combine(damage, effectIndex)
+	end
+end
 function Controls(dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
-			end
+		end
 		if Inputs.KeyDown("S") then
 			player.forward = -player.moveSpeed
-				
-			end
+		end
 		if Inputs.KeyDown("A") then
 				player.left = player.moveSpeed
-				
-			end
+		end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
+		end
+		if Inputs.KeyDown("T") then
+			local dir = Camera.GetDirection()
+			local pos = Transform.GetPosition(player.transformID)
+			RayCollider.SetActive(player.rayCollider, true)
+			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+		end
+		if Inputs.KeyReleased("T") then
+			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+			for curID = 1, #collisionIDs do
+				if collisionIDs[curID] == player2.sphereCollider:GetID() then
+					SendCombine(player.spells[player.currentSpell])
+					print("combine!!")
+					break
+				end
 			end
-		if Inputs.KeyPressed(Keys.Space) and player.canJump then
-			player.verticalSpeed = PLAYER_JUMP_SPEED
-			player.canJump = false
+			RayCollider.SetActive(player.rayCollider, false)
 		end
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.spamCasting = true
 			player.attackTimer = 1
 			player.testCamera = true
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+			end
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
-			Network.SendSpellPacket(player.transformID, player.currentSpell)
 		end
 
 		if Inputs.ButtonReleased(Buttons.Left) then
@@ -222,6 +260,7 @@ function Controls(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
+		if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
 end
 
 function PrintInfo() 
@@ -242,7 +281,7 @@ function PrintInfo()
 end
 
 function UpdatePlayer2(dt)
-	newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
+	local newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
 	if newtransformvalue == true then
 		Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
@@ -250,7 +289,7 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
+	local newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
 
 	if newspellpacket == true then
 		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
@@ -260,11 +299,13 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
-		
-	newAnimationValue, animationID, animationState, dt_test, animationSegment = Network.GetAnimationPacket()
-	--if newAnimationValue == true then
-	--	print(animationID, animationState, dt_test, animationSegment)
-	--end
+	player2.spells[4]:Update(dt)
+	
+	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
+	if newAnimationValue == true then
+		player2.animationController:AnimationUpdatePlayer2(dt, animationState1, animationState2)
+	end
+
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

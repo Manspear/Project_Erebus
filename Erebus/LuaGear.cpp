@@ -9,13 +9,14 @@ namespace LuaGear
 	static std::vector<ModelInstance>* g_ForwardModels = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Animation* g_animations = nullptr;
-	static int* g_boundAnimations = 0;
+	static int* g_boundAnimations = nullptr;
 	static Assets* g_assets = nullptr;
 	static WorkQueue* g_work = nullptr;
+	static bool* g_queueModels = nullptr;
+	static bool* g_mouseVisible = nullptr;
+	static bool* g_fullscreen = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, 
-							std::vector<AnimatedInstance>* animatedModels, Animation* animations, std::vector<ModelInstance>* forwardModels,
-							int* boundAnimations, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations,std::vector<ModelInstance>* forwardModels, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
@@ -25,6 +26,9 @@ namespace LuaGear
 		g_boundAnimations = boundAnimations;
 		g_assets = assets;
 		g_work = work;
+		g_queueModels = queueModels;
+		g_mouseVisible = mouseVisible;
+		g_fullscreen = fullscreen;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
@@ -37,6 +41,9 @@ namespace LuaGear
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
 			{ "SetUniformLocation", setUniformLocation },
+			{ "QueueModels", setQueueModels },
+			{ "CursorVisible", setCursorVisible },
+			{ "Fullscreen", setFullscreen },
 			{ NULL, NULL }
 		};
 
@@ -61,6 +68,8 @@ namespace LuaGear
 			{ "SetTransitionTimes", setTransitionTimes},
 			{ "SetAnimationSegments", setAnimationSegments},
 			{ "QuickBlend", quickBlend },
+			{ "SetSegmentState", setSegmentState },
+			{ "SetQuickBlend", setQuickBlend },
 			{ NULL, NULL }
 		};
 
@@ -146,6 +155,27 @@ namespace LuaGear
 		return 0;
 	}
 
+	int setQueueModels( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+		*g_queueModels = lua_toboolean( lua, 1 );
+		return 0;
+	}
+
+	int setCursorVisible( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+		*g_mouseVisible = lua_toboolean( lua, 1 );
+		return 0;
+	}
+
+	int setFullscreen(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		*g_fullscreen = lua_toboolean(lua, 1);
+		return 0;
+	}
+	
 	int addForwardInstance(lua_State * lua)
 	{
 		int ntop = lua_gettop(lua);
@@ -342,21 +372,33 @@ namespace LuaGear
 		return result;
 	}
 
-	int setUniformValue(lua_State * lua)
+	int setSegmentState( lua_State* lua )
 	{
-		if (lua_gettop(lua) >= 2)
-		{
-			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).value = lua_tonumber(lua, 2);
-		}
+		assert( lua_gettop( lua ) >= 3 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int state = lua_tointeger( lua, 2 );
+		int segment = lua_tointeger( lua, 3 );
+
+		animation->setSegmentState( state, segment );
 		return 0;
 	}
 
-	int setUniformLocation(lua_State* lua)
+	int setQuickBlend( lua_State* lua )
 	{
-		if (lua_gettop(lua) >= 2)
-		{
-			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).location = lua_tointeger(lua, 2);
-		}
+		assert( lua_gettop( lua ) >= 5 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int from = lua_tointeger( lua, 2 );
+		int to = lua_tointeger( lua, 3 );
+		float blendTime = lua_tointeger( lua, 4 );
+		int segment = lua_tointeger( lua, 5 );
+
+		animation->setQuickBlend( from, to, blendTime, segment );
 		return 0;
 	}
 }

@@ -122,6 +122,7 @@ namespace Importer
 	Assets::Assets()
 		: elapsedTime( 0.0f )
 	{
+		pending.reserve(10);
 	}
 
 	Assets::~Assets()
@@ -139,6 +140,14 @@ namespace Importer
 		}
 
 		assets.clear();
+	}
+
+	void Assets::upload()
+	{
+		for( int i=0; i<pending.size(); i++ )
+			pending.at(i)->upload();
+
+		pending.clear();
 	}
 
 	void Assets::checkHotload( float dt )

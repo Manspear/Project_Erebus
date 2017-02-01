@@ -4,9 +4,12 @@ Packager::Packager()
 {
 	this->transformQueue = new PacketQueue<TransformPacket>(20);
 	this->animationQueue = new PacketQueue<AnimationPacket>(40);
-	this->aiQueue = new PacketQueue<AIPacket>(10);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
+	this->memory = new unsigned char[packetSize];
+	this->currentNetPacketSize = 0;
 }
 
 Packager::~Packager()
@@ -21,10 +24,10 @@ Packager::~Packager()
 		delete this->animationQueue;
 		this->animationQueue = 0;
 	}
-	if (this->aiQueue)
+	if (this->aiStateQueue)
 	{
-		delete this->aiQueue;
-		this->aiQueue = 0;
+		delete this->aiStateQueue;
+		this->aiStateQueue = 0;
 	}
 	if (this->spellQueue)
 	{
@@ -36,11 +39,22 @@ Packager::~Packager()
 		delete this->aiTransformQueue;
 		this->aiTransformQueue = 0;
 	}
+	if (this->chargingQueue)
+	{
+		delete this->chargingQueue;
+		this->chargingQueue = 0;
+	}
+	if (this->memory)
+	{
+		delete [] this->memory;
+		this->memory = 0;
+	}
+
 }
 
 unsigned char * Packager::getPacketPointer()
 {
-	return (unsigned char*)this->memory;
+	return this->memory;
 }
 
 uint16_t Packager::getCurrentNetPacketSize() const
@@ -58,6 +72,7 @@ void Packager::buildNetPacket()
 	this->addAIPackets(this->currentNetPacketSize, fullPackage);
 	this->addSpellPackets(this->currentNetPacketSize, fullPackage);
 	this->addAITransformPackets(this->currentNetPacketSize, fullPackage);
+	this->addChargingPackets(this->currentNetPacketSize, fullPackage);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -65,29 +80,34 @@ void Packager::buildNetPacket()
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
 }
 
-void Packager::buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+void Packager::pushTransformPacket(const TransformPacket& packet)
 {
-	this->transformQueue->push(TransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z));
+	this->transformQueue->push(packet);
 }
 
-void Packager::buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID)
+void Packager::pushAnimationPacket(const AnimationPacket& packet)
 {
-	this->animationQueue->push(AnimationPacket(id, animationState, dt, animationSegmentID));
+	this->animationQueue->push(packet);
 }
 
-void Packager::buildAIPacket(const uint16_t& id, const uint16_t& aiState)
+void Packager::pushAIStatePacket(const AIStatePacket& packet)
 {
-	this->aiQueue->push(AIPacket(id, aiState));
+	this->aiStateQueue->push(packet);
 }
 
-void Packager::buildSpellPacket(const uint16_t& ID, const uint16_t& currentSpell)
+void Packager::pushSpellPacket(const SpellPacket& packet)
 {
-	this->spellQueue->push(SpellPacket(ID, currentSpell));
+	this->spellQueue->push(packet);
 }
 
-void Packager::buildAITransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+void Packager::pushAITransformPacket(const TransformPacket& packet)
 {
-	this->aiTransformQueue->push(TransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z));
+	this->aiTransformQueue->push(packet);
+}
+
+void Packager::pushChargingPacket(const ChargingPacket& packet)
+{
+	this->chargingQueue->push(packet);
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
@@ -104,15 +124,18 @@ void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
 			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfTransformPackets, &transformPacket, sizeof(TransformPacket));
 			sizeOfTransformPackets += sizeof(TransformPacket);
 		}
-		else		
+		else
 		{
 			fullPackage = true;
 		}
 	}
 
-	this->addMetaDataPacket(TRANSFORM_PACKET, netPacketSize, sizeOfTransformPackets);
+	if (sizeOfTransformPackets > 0)
+	{
+		this->addMetaDataPacket(TRANSFORM_PACKET, netPacketSize, sizeOfTransformPackets);
 
-	netPacketSize += sizeOfTransformPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfTransformPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage)
@@ -135,24 +158,27 @@ void Packager::addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(ANIMATION_PACKET, netPacketSize, sizeOfAnimationPackets);
+	if (sizeOfAnimationPackets > 0)
+	{
+		this->addMetaDataPacket(ANIMATION_PACKET, netPacketSize, sizeOfAnimationPackets);
 
-	netPacketSize += sizeOfAnimationPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfAnimationPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addAIPackets(uint16_t& netPacketSize, bool& fullPackage)
 {
-	AIPacket aiPacket;
+	AIStatePacket aiPacket;
 	uint16_t sizeOfAIPackets = 0;
 
-	while (this->aiQueue->pop(aiPacket) && fullPackage == false)
+	while (this->aiStateQueue->pop(aiPacket) && fullPackage == false)
 	{
 		// Only add a packet if there's enough space for another AIPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAIPackets)) > sizeof(AIPacket))
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAIPackets)) > sizeof(AIStatePacket))
 		{
 			// Add AIPacket to the memory ( ...[MetaData][AI][AI]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfAIPackets, &aiPacket, sizeof(AIPacket));
-			sizeOfAIPackets += sizeof(AIPacket);
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfAIPackets, &aiPacket, sizeof(AIStatePacket));
+			sizeOfAIPackets += sizeof(AIStatePacket);
 		}
 		else
 		{
@@ -160,9 +186,12 @@ void Packager::addAIPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(AI_PACKET, netPacketSize, sizeOfAIPackets);
+	if (sizeOfAIPackets > 0)
+	{
+		this->addMetaDataPacket(AI_STATE_PACKET, netPacketSize, sizeOfAIPackets);
 
-	netPacketSize += sizeOfAIPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfAIPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addSpellPackets(uint16_t& netPacketSize, bool& fullPackage)
@@ -185,9 +214,12 @@ void Packager::addSpellPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(SPELL_PACKET, netPacketSize, sizeOfSpellPackets);
+	if (sizeOfSpellPackets > 0)
+	{
+		this->addMetaDataPacket(SPELL_PACKET, netPacketSize, sizeOfSpellPackets);
 
-	netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage)
@@ -210,9 +242,40 @@ void Packager::addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	this->addMetaDataPacket(AI_TRANSFORM_PACKET, netPacketSize, sizeOfAITransformPackets);
+	if (sizeOfAITransformPackets > 0)
+	{
+		this->addMetaDataPacket(AI_TRANSFORM_PACKET, netPacketSize, sizeOfAITransformPackets);
 
-	netPacketSize += sizeOfAITransformPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfAITransformPackets; // Should now point at the location of the next MetaDataPacket
+	}
+}
+
+void Packager::addChargingPackets(uint16_t& netPacketSize, bool& fullPackage)
+{
+	ChargingPacket chargingPacket;
+	uint16_t sizeOfChargingPackets = 0;
+
+	while (this->chargingQueue->pop(chargingPacket) && fullPackage == false)
+	{
+		// Only add a packet if there's enough space for another ChargingPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfChargingPackets)) > sizeof(ChargingPacket))
+		{
+			// Add ChargingPacket to the memory ( ...[MetaData][Charging][Charging]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfChargingPackets, &chargingPacket, sizeof(ChargingPacket));
+			sizeOfChargingPackets += sizeof(ChargingPacket);
+		}
+		else
+		{
+			fullPackage = true;
+		}
+	}
+
+	if (sizeOfChargingPackets > 0)
+	{
+		this->addMetaDataPacket(CHARGING_PACKET, netPacketSize, sizeOfChargingPackets);
+
+		netPacketSize += sizeOfChargingPackets; // Should now point at the location of the next MetaDataPacket
+	}
 }
 
 void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes)
