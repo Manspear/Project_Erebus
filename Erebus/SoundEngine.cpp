@@ -35,10 +35,20 @@ void SoundEngine::update(const double &dt)
 	for (auto f : fades)
 	{
 		if (!f.finished)
-			fade(f, dt);
+			processFade(f, dt);
 	}
 
+	fades.erase(
+		std::remove_if(fades.begin(), fades.end(), 
+			[](const sFade &f) { return f.finished; }),
+		fades.end()
+	);
 
+	sounds.erase(
+		std::remove_if(sounds.begin(), sounds.end(), 
+			[](const sSound &o) { return o.sound->isFinished(); }), 
+		sounds.end()
+	);
 }
 
 void SoundEngine::fade(size_t i, float t)
@@ -192,17 +202,12 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 #pragma endregion Functions for manipulating sound attributes
 
 #pragma region Helper functions
-void SoundEngine::fade(sFade &f, const float &dt)
+void SoundEngine::processFade(sFade &f, const float &dt)
 {
 	f.elapsedTime += dt;
 	f.finished = f.elapsedTime >= f.targetTime;
 	const float t = (f.elapsedTime / f.targetTime);
 	const float v = (1 - t) * f.initialVolume + t * f.targetVolume;
 	f.sound->setVolume(v);
-}
-
-bool SoundEngine::checkSound(const sSound &s)
-{
-	return s.sound->isFinished();
 }
 #pragma endregion Private functions for managing data

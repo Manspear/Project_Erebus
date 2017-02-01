@@ -14,8 +14,6 @@ using namespace irrklang;
 #define ValidateIndex(i,lim) i = i < 0 ? -1 : i >= lim ? -1 : i				// If 0 <= i < lim, i is valid. Otherwise, i is set to -1
 #define Clamp(val,min,max) val = val < min ? min : val > max ? max : val	// Clamps val between min and max
 
-static const uint8_t S_ID_SHIFT = 8;
-
 enum eSoundOptions : uint8_t
 {
 	SOUND_NO_FLAG		= 0x00,
@@ -61,7 +59,6 @@ private:
 		ISound* sound;
 
 		inline bool operator==(const size_t &val) { return id == val; }
-		inline bool operator!() { return sound->isFinished(); }
 	};
 
 	struct sFade
@@ -86,6 +83,5 @@ private:
 	size_t currSoundID;
 
 private:
-	inline void fade(sFade &f, const float &dt);
-	inline bool checkSound(const sSound &s);
+	inline void processFade(sFade &f, const float &dt);
 };

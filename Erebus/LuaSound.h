@@ -6,6 +6,8 @@
 namespace LuaSound
 {
 	void registerFunctions(lua_State* lua, SoundEngine* soundEngine);
+	int fade(lua_State* lua);
+	int crossfade(lua_State* lua);
 	int play(lua_State* lua);
 	int pause(lua_State* lua);
 	int resume(lua_State* lua);
