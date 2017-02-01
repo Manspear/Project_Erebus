@@ -214,38 +214,49 @@ int RenderQueue::generateWorldMatrix()
 	return result;
 }
 
-void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels)
+void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues)
 {
 	allShaders[FORWARD]->use();
 	ModelAsset* modelAsset;
 	int meshes;
 	int numInstance;
 	size_t size = sizeof(Importer::sVertex);
+	bool atLeastOne = false;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		modelAsset = dynamicModels ->at(i).asset;
-		meshes = modelAsset->getHeader()->numMeshes;
 		numInstance = 0;
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			indices[j] = dynamicModels->at(i).worldIndices[j];
 			if (allTransforms[indices[j]].active)
+			{
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
+				atLeastOne = true;
+			}
+			
 		}
-		glUniformMatrix4fv(uniformLocations[FORWARD][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+		if (atLeastOne) 
 		{
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			modelAsset->getMaterial()->bindTextures(allShaders[FORWARD]->getProgramID());
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			modelAsset = dynamicModels->at(i).asset;
+			meshes = modelAsset->getHeader()->numMeshes;
+			
+			glUniformMatrix4fv(uniformLocations[FORWARD][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+			if (uniValues->at(i).location > -1)
+				allShaders[FORWARD]->addUniform(uniValues->at(i).value, uniformLocations[FORWARD][uniValues->at(i).location]);
+			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+				modelAsset->getMaterial()->bindTextures(allShaders[FORWARD]->getProgramID());
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
 		}
 	}
 	allShaders[FORWARD]->unUse();

@@ -7,11 +7,9 @@
 #include "Debug.h"
 #include "TextRenderer.h"
 #include "ImageRenderer.h"
-#include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
 #include "WorkQueue.h"
-#include "EffectsProgram.h"
 
 namespace Gear
 {
@@ -57,7 +55,7 @@ namespace Gear
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
-
+		EffectsProgram effectsProg;
 		//----------------------
 
 	private:
@@ -92,7 +90,6 @@ namespace Gear
 
 		//Effects stuff
 		GLuint gloomTexture;
-		EffectsProgram effectsProg;
 
 		std::vector<GLuint> lightDirectionLocations;
 		std::vector<GLuint> lightColorLocations;

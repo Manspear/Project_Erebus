@@ -17,4 +17,5 @@ void main(){
 	vert_worldPos = (worldMatrices[gl_InstanceID] * vec4(pos,1.0)).xyz;
 	vec3 dummy = normal;
 	vert_UV = UV;
+	vert_UV.x -= aValue;
 }

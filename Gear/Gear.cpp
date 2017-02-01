@@ -182,11 +182,6 @@ namespace Gear
 		glDepthMask(GL_TRUE);
 	}
 
-	void GearEngine::effectPreProcess()
-	{
-
-	}
-
 	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n)
 	{
 		transformCount = n;
@@ -345,7 +340,7 @@ namespace Gear
 		skybox.draw();
 
 		queue.particlePass(particleSystem);
-		queue.forwardPass(forwardModels);
+		queue.forwardPass(forwardModels, effectsProg.getUniformValues());
 		
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;

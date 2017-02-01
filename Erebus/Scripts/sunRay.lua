@@ -1,7 +1,7 @@
-SUNRAY_DURATION = 2
+SUNRAY_DURATION = 3
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
-SUNRAY_COOLDOWN = 2.7
+SUNRAY_COOLDOWN = 3.7
 SUNRAY_HALF_LENGTH = 23
 
 function CreateSunRay(entity)
@@ -22,6 +22,8 @@ function CreateSunRay(entity)
 	sunRay.caster = 0
 	sunRay.angle = 2
 	sunRay.spin = 0.8
+	sunRay.UVpushing = 0.2
+	sunRay.UVpushed = 0.0
 	sunRay.castSFX = {}
 	sunRay.castSFX[1] = "Effects/CK_Blaster_Shot-226.wav"
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
@@ -30,12 +32,15 @@ function CreateSunRay(entity)
 	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
 	Gear.AddForwardInstance(model2, sunRay.type.transformID)
-	Gear.AddForwardInstance(model, sunRay.type.transformID)
 
+	sunRay.modelIndex = Gear.AddForwardInstance(model, sunRay.type.transformID)
+	Gear.SetUniformLocation(sunRay.modelIndex, 3);
 	sunRay.type.oobCollider.SetSize(sunRay.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
 
 	function sunRay:Update(dt)
 		if self.alive then
+			self.UVpushed = self.UVpushed + self.UVpushing * dt 
+			Gear.SetUniformValue(self.modelIndex, self.UVpushed)
 			direction = Transform.GetLookAt(self.caster)
 			pos = Transform.GetPosition(self.caster)
 			pos.x = pos.x + direction.x * SUNRAY_HALF_LENGTH
@@ -44,7 +49,7 @@ function CreateSunRay(entity)
 			hits = self.type:Update(pos, direction)
 			theRotation =  Transform.GetRotation(self.caster) 
 			self.angle = self.angle + self.spin * dt
-			theRotation.x =  theRotation.x + self.angle
+			--theRotation.x =  theRotation.x + self.angle
 			Transform.SetRotation(self.type.transformID, theRotation)
 			Transform.SetLookAt(self.type.transformID, direction)
 			for index = 1, #hits do
@@ -78,6 +83,7 @@ function CreateSunRay(entity)
 			self.damage = (chargetime/SUNRAY_MAX_CHARGETIME) * SUNRAY_DAMAGE
 			self.chargedTime = 0
 			self.cooldown = SUNRAY_COOLDOWN
+			self.UVpushed = 0.0
 			for index = 1, #self.castSFX do
 				self.soundID[index] = Sound.Play(self.castSFX[index], 13, self.type.position)
 				Sound.SetVolume(self.soundID[index], 0.8)
