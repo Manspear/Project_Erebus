@@ -49,6 +49,7 @@ namespace LuaCollision
 			{ "GetID",				getID },
 			{ "SetActive",			setActive },
 			{ "AddChild",			addChild },
+			{ "SetOffset",			setOffset},
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -67,6 +68,9 @@ namespace LuaCollision
 			{ "CheckCollision",		checkCollision },
 			{ "SetActive",			setActive },
 			{ "AddChild",			addChild },
+			{ "SetOffset",			setOffset },
+			{ "SetMinPos",			setAABBMinPos },
+			{ "SetMaxPos",			setAABBMaxPos },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -112,6 +116,8 @@ namespace LuaCollision
 			{ "GetID",				getID },
 			{ "SetActive",			setActive },
 			{ "AddChild",			addChild },
+			{ "SetOffset",			setOffset },
+			{ "SetHalfLengths",			setOBBHalfLengths },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -485,6 +491,20 @@ namespace LuaCollision
 		return 0;
 	}
 
+	int setOffset(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			HitBox* hitbox = getHitBox(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			hitbox->setLocalPos(glm::vec3(x,y,z));
+		}
+		return 0;
+	}
+
 	int rotateOBBAroundX(lua_State * lua)
 	{
 		if (lua_gettop(lua) >= 2)
@@ -564,6 +584,53 @@ namespace LuaCollision
 			float z = lua_tonumber(lua, 4);
 
 			obb->setZAxis(glm::vec3(x, y, z));
+		}
+
+		return 0;
+	}
+
+	int setOBBHalfLengths(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			obb->setXHalfLength(x);
+			obb->setYHalfLength(y);
+			obb->setZHalfLength(z);
+		}
+
+		return 0;
+	}
+
+	int setAABBMinPos(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			AABBCollider* aabb = (AABBCollider*)getAABBCollider(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			aabb->setMinPos(glm::vec3(x,y,z));
+		}
+
+		return 0;
+	}
+
+	int setAABBMaxPos(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			AABBCollider* aabb = (AABBCollider*)getAABBCollider(lua, 1);
+			float x = lua_tonumber(lua, 2);
+			float y = lua_tonumber(lua, 3);
+			float z = lua_tonumber(lua, 4);
+
+			aabb->setMaxPos(glm::vec3(x, y, z));
 		}
 
 		return 0;
