@@ -65,7 +65,8 @@ function state.followState.update(enemy,player,dt)
 		end
 
 		if length < enemy.range then
-			inState = "AttackState" 
+			inState = "AttackState"
+			 
 			changeToState(enemy,player,inState)
 		end
 end
@@ -77,6 +78,7 @@ end
 
 
 function state.attackState.enter(enemy,player)
+enemy.animationController:doAttack()
 enemy.animationState = 3
 enemy.attackCountdown = 1
 end
