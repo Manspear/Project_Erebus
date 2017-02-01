@@ -35,7 +35,7 @@ void Window::initWindow()
 	}
 
 
-
+	glfwSetWindowPos(window, WINDOW_X, WINDOW_Y);
 	//fixar inputs callback funktioner
 	glfwSetCharCallback(window, Inputs::text_callback);
 	glfwSetKeyCallback(window, Inputs::key_callback);

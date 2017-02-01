@@ -36,7 +36,7 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera, Input
 	glm::vec3 hitPoint(0.0f);
 	glm::vec3 hitNorm(0.f);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
-	//debug->drawLine(hitPoint, hitPoint + (hitNorm * 10));
+	debug->drawLine(hitPoint, hitPoint + (hitNorm * 10));
 
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
 	{
