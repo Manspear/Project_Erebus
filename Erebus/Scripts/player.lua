@@ -155,6 +155,15 @@ function UpdatePlayer(dt)
 		--end
 
 		--Transform.SetPosition(player.transformID, position)
+
+		local posx = math.floor(position.x/512)
+		local posz = math.floor(position.z/512)
+		player.heightmapIndex = (posz*2 + posx)+1
+		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+
+		player.controller:SetHeightmap(heightmaps[player.heightmapIndex].asset)
+
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 		
 		if Network.ShouldSendNewTransform() == true then

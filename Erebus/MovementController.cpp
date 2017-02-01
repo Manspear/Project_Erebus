@@ -28,7 +28,7 @@ void MovementController::update()
 	glm::vec3 pos = transform->getPos();
 	glm::vec3 newPos = pos + moveFinal;
 
-	float height = heightmap->getPos( newPos.x, newPos.z );
+	float height = heightmap->getPos( fmod(newPos.x, heightmap->getMapWidth()), fmod(newPos.z, heightmap->getMapHeight()) );
 	newPos.y = height;
 
 	// TODO: wall collision
