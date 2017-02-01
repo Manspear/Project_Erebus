@@ -27,6 +27,7 @@ LevelEditor::~LevelEditor()
 	LevelModelHandler::deleteInstance();
 	LevelWorldHandler::deleteInstance();
 	LevelBrushHandler::deleteInstance();
+	LevelColiderHandler::deleteInstance();
 	
 	delete this->assets;
 	delete this->engine;
@@ -42,7 +43,7 @@ void LevelEditor::start() {
 	Importer::FontAsset* font = assets->load<FontAsset>("Fonts/System");
 	LevelTransformHandler::createInstance(engine);
 	LevelModelHandler::createInstance(LevelTransformHandler::getInstance(), engine, assets);
-
+	std::vector<ModelInstance> forwardInstances;
 	
 	//std::vector<Lights::PointLight*> lights;// = new std::vector<Lights::PointLight>();
 
@@ -130,19 +131,23 @@ void LevelEditor::start() {
 	glm::vec3 hitNormal;
 
 	float elapsedTime = 0.0f;
-	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint);
 
 
 	engine->queueParticles(ps);
 	engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 	engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
+	engine->queueForwardModels(&forwardInstances);
+
 	while (running && window.isWindowOpen())
 	{
+		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
+
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
-
+		Debugger::getInstance()->drawLine(hitPoint, hitPoint + (hitNormal * 5));
 
 		
+
 		camera->updateLevelEditorCamera(deltaTime);
 		//if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))
 		
@@ -174,7 +179,7 @@ void LevelEditor::start() {
 		//{
 		//	actors[n]->update();
 		//}
-		//LevelActorHandler::getInstance()->updateActors();
+		LevelActorHandler::getInstance()->updateActors();
 		std::string fps = "FPS: " + std::to_string(counter.getFPS())
 			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
 			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
@@ -182,6 +187,7 @@ void LevelEditor::start() {
 		engine->update();
 		camera->updateBuffer();
 		engine->draw(camera);
+		LevelAssetHandler::getInstance()->getAssets()->upload();
 		
 		this->ui->Draw();
 
@@ -202,7 +208,7 @@ void LevelEditor::start() {
 		LevelActionHandler::getInstance()->update( inputs, engine, camera,Debugger::getInstance());
 		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
 		
-
+		//actor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint + (glm::vec3(0, 1, 0) * 10));
 
 		window.update();
 	}

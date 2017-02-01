@@ -1,0 +1,16 @@
+<LevelActor type="Empty" displayName="New">
+    <LevelCollider type="2">
+        <Offset x="0" y="3" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="4.5" y="4" z="5"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>House1</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="9.3828125" y="18.532829" z="307.25"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+    </LevelTransform>
+</LevelActor>

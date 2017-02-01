@@ -9,6 +9,13 @@
 class LevelActorHandler
 {
 public:
+	enum DisplayHitBoxes {
+		NONE,
+		STATIC_ONLY,
+		DYNAMIC_ONLY,
+		STATIC_DYNAMIC,
+		NUM_DISPLAY_HB
+	};
 	~LevelActorHandler();
 
 	static LevelActorHandler* getInstance();
@@ -36,8 +43,10 @@ public:
 	void setSelectedComponentCB(LevelUI::DiffComponents index);
 	LevelUI::DiffComponents getSelectedComponentCB(int index);
 	const std::string tryActorName(std::string name);
+	void changeDisplayHitbox();
 private:
 	LevelUI::DiffComponents selectedComponent;
+	DisplayHitBoxes selectedDisplayHitbox;
 	
 	typedef std::map<unsigned int, LevelActor*>::iterator ActorIT;
 

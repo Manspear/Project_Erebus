@@ -39,13 +39,12 @@ public:
 	void updateUniforms(Camera* camera, ShaderType shader);
 	void allocateWorlds(int n);
 	void update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations);
-	int addModelInstance(ModelAsset* asset);
 	int generateWorldMatrix();
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
-	void forwardPass(std::vector<ModelInstance>* staticModels, std::vector<ModelInstance>* dynamicModels);
+	void forwardPass(std::vector<ModelInstance>* dynamicModels);
 	bool particlePass(std::vector<Gear::ParticleSystem*>* ps);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
@@ -62,14 +61,11 @@ private:
 	int currentCallType = 0;
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	GLuint* uniformLocations[NUM_SHADER_TYPES];
-	std::vector<ModelInstance> instances;
-	std::vector<ModelInstance> staticInstances;
 	GLuint particleBuffer;
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
 	glm::mat4* jointMatrices;
 	int nrOfWorlds;
-	int totalWorlds;
 	WorkQueue* work;
 
 	double freq;

@@ -4,8 +4,9 @@ NetworkController::NetworkController()
 {
 	networkHost = true;
 	running = false;
-	transformpackTime = 100.0;
-	animationpackTime = 100.0;
+	transformpackTime = 0.0;
+	animationpackTime = 0.0;
+	aiTransformpackTime = 0.0;
 }
 
 NetworkController::~NetworkController()
@@ -113,10 +114,10 @@ bool NetworkController::getNetworkHost()
 	return this->networkHost;
 }
 
-void NetworkController::sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+void NetworkController::sendTransformPacket(const TransformPacket& packet)
 {
 	transformpackTime = counter.getCurrentTime();
-	network.buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
+	network.pushTransformPacket(packet);
 }
 
 bool NetworkController::fetchTransformPacket(TransformPacket &packet)
@@ -124,10 +125,10 @@ bool NetworkController::fetchTransformPacket(TransformPacket &packet)
 	return network.fetchTransformPacket(packet);
 }
 
-void NetworkController::sendAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID)
+void NetworkController::sendAnimationPacket(const AnimationPacket& packet)
 {
 	animationpackTime = counter.getCurrentTime();
-	network.buildAnimationPacket(id, animationState, dt, animationSegmentID);
+	network.pushAnimationPacket(packet);
 }
 
 bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
@@ -135,9 +136,14 @@ bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
 	return network.fetchAnimationPacket(packet);
 }
 
-void NetworkController::sendAIPacket(const uint16_t& id, const uint16_t& aiState)
+void NetworkController::sendAIStatePacket(const AIStatePacket& packet)
 {
-	network.buildAIPacket(id, aiState);
+	network.pushAIStatePacket(packet);
+}
+
+bool NetworkController::fetchAIStatePacket(AIStatePacket& packet)
+{
+	return network.fetchAIPacket(packet);
 }
 
 bool NetworkController::fetchSpellPacket(SpellPacket& packet)
@@ -145,15 +151,22 @@ bool NetworkController::fetchSpellPacket(SpellPacket& packet)
 	return network.fetchSpellPacket(packet);
 }
 
-void NetworkController::sendSpellPacket(const uint16_t& id, const uint16_t& currentSpell)
+void NetworkController::sendSpellPacket(const SpellPacket& packet)
 {
-	network.buildSpellPacket(id, currentSpell);
+	network.pushSpellPacket(packet);
 }
 
-bool NetworkController::fetchAIPacket(AIPacket& packet)
+void NetworkController::sendAITransformPacket(const TransformPacket& packet)
 {
-	return network.fetchAIPacket(packet);
+	aiTransformpackTime = counter.getCurrentTime();
+	network.pushAITransformPacket(packet);
 }
+
+bool NetworkController::fetchAITransformPacket(TransformPacket &packet)
+{
+	return network.fetchAITransformPacket(packet);
+}
+
 
 double NetworkController::timeSinceLastTransformPacket()
 {
@@ -163,4 +176,9 @@ double NetworkController::timeSinceLastTransformPacket()
 double NetworkController::timeSinceLastAnimationPacket()
 {
 	return (counter.getCurrentTime() - animationpackTime);
+}
+
+double NetworkController::timeSinceLastAITransformPacket()
+{
+	return (counter.getCurrentTime() - aiTransformpackTime);
 }

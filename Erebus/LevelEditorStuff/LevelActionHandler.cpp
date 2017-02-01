@@ -62,7 +62,9 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		holdingGizmo = gizmo.onMouseDown();
 	}
 	
-
+	if (inputs->keyPressedThisFrame(GLFW_KEY_H)) {
+		LevelActorHandler::getInstance()->changeDisplayHitbox();
+	}
 
 	if (inputs->keyPressedThisFrame(GLFW_KEY_W)) {
 		gizmo.setGizmoMode(GizmoMode::POSITION);
@@ -90,6 +92,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		if( !holdingGizmo )
 		{
 			int actorID = 0;
+			int noneSelect = 0;
 			glm::vec3 hitPoint( 0.0f );
 			glm::vec3 hitNorm(0.f);
 			
@@ -102,8 +105,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 			{
 				case ACTION_SELECT:
 				{
-					if(actorID)
-						LevelActorHandler::getInstance()->setSelected(actorID);
+					LevelActorHandler::getInstance()->setSelected(actorID);
 				} break;
 
 				case ACTION_NEW_ACTOR:
@@ -118,7 +120,6 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 				case ACTION_PLACE_PREFAB:
 				{
 					LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-					LevelActorFactory::getInstance()->createActor();
 					
 					if (newActor)
 					{
@@ -126,9 +127,16 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 						LevelActorHandler::getInstance()->setSelected(newActor);
 
 						LevelTransform* transform = newActor->getComponent<LevelTransform>();
-						if (transform)
+						if (transform) {
 							transform->getTransformRef()->setPos(hitPoint);
+							if (inputs->keyPressed(GLFW_KEY_LEFT_ALT)) {
+								transform->getTransformRef()->setLookAt(hitNorm);
+							}
+						}
+							
 						this->resetAction(inputs);
+
+						
 					}
 				} 
 			} // end of switch

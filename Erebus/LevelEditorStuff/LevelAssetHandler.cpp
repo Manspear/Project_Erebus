@@ -1,4 +1,5 @@
 #include "LevelAssetHandler.h"
+#include <strstream>
 
 LevelAssetHandler* LevelAssetHandler::g_instance = nullptr;
 
@@ -83,8 +84,16 @@ void LevelAssetHandler::updateBars()
 	updateAssetsBar();
 }
 
+std::string getBarLabel(std::string preText, int &index, std::string desiredName) {
+	std::stringstream ss;
+	ss << preText << "label='" << desiredName << "'";
+	index++;
+	return ss.str();
+}
+
 void LevelAssetHandler::updateAssetsBar()
 {
+	int curIndex = 0;
 	TwRemoveAllVars( assetsBar->getBar() );
 
 	prefabSelection.clear();
@@ -100,11 +109,16 @@ void LevelAssetHandler::updateAssetsBar()
 	{
 		//TwAddButton( assetsBar->getBar(), prefabs[i].c_str(), onSelectPrefab, &prefabs[i], "group='Prefabs'" );
 		int* ptr = &prefabSelectionIndices[i];
-		TwAddVarCB( assetsBar->getBar(), prefabs[i].c_str(), TW_TYPE_BOOLCPP, onSetPrefab, onGetPrefab, &prefabSelectionIndices[i] , "group='Prefabs'" );
+		TwAddVarCB(assetsBar->getBar(), prefabs[i].c_str(), TW_TYPE_BOOLCPP, onSetPrefab, onGetPrefab, &prefabSelectionIndices[i], "group='Prefabs'");
+		//const char* derp = getBarLabel("group='Prefabs' ", curIndex, prefabs[i].c_str()).c_str();
+		//std::string derp =
+		//	TwAddVarCB(assetsBar->getBar(), prefabs[i].c_str(), TW_TYPE_BOOLCPP, onSetPrefab,
+		//		onGetPrefab, &prefabSelectionIndices[i], "group='Prefabs' ");
 	}
 	TwDefine( "Assets/Prefabs opened=false" );
 
-	prefabSelection[0] = true;
+	if(prefabSelection.size()>0)
+		prefabSelection[0] = true;
 	selectedPrefab = 0;
 
 	for( int i=0; i<models.size(); i++ )

@@ -1,3 +1,4 @@
+CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 CHRONOBALLLIFETIME = 10
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
@@ -15,6 +16,8 @@ function CreateChronoBall()
 	spell.effectFlag = false
 	spell.maxChargeTime = CHRONOBALLMAXCHARGETIME
 	spell.chargedTime = 0
+	spell.hudtexture = CHRONOBALL_SPELL_TEXTURE
+	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)
@@ -45,7 +48,7 @@ function CreateChronoBall()
 		if heightmapIndex < 1 then heightmapIndex = 1 end
 		if heightmapIndex > 4 then heightmapIndex = 4 end
 
-		if heightmaps[heightmapIndex]:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y or self.lifeTime < 0 then
+		if heightmaps[heightmapIndex].asset:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y or self.lifeTime < 0 then
 			--self.particles.die(self.type.position.x, self.type.position.y, self.type.position.z)
 			self.Kill(self)
 		end

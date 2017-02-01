@@ -18,15 +18,15 @@ public:
 	PacketQueue(uint8_t size);
 	virtual ~PacketQueue();
 
-	bool pop(Packet &packet);
-	bool push(Packet &packet);
-	bool batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy); // Push x bytes of packets to queue
+	bool pop(Packet& packet);
+	bool push(const Packet& packet);
+	bool batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy); // Push x bytes of packets to queue
 };
 
 template<typename Packet> PacketQueue<Packet>::PacketQueue(uint8_t queueSize)
 {
-	readIndex = 0;
-	writeIndex = 0;
+	this->readIndex = 0;
+	this->writeIndex = 0;
 	this->queueSize = queueSize;
 
 	this->queuePointer = new Packet[this->queueSize];
@@ -39,9 +39,13 @@ template<typename Packet> PacketQueue<Packet>::~PacketQueue()
 		delete [] this->queuePointer;
 		this->queuePointer = 0;
 	}
+
+	this->readIndex = 0;
+	this->writeIndex = 0;
+	this->queueSize = 0;
 }
 
-template<typename Packet> bool PacketQueue<Packet>::pop(Packet &packet)
+template<typename Packet> bool PacketQueue<Packet>::pop(Packet& packet)
 {
 	if (this->readIndex == this->writeIndex)
 	{
@@ -54,7 +58,7 @@ template<typename Packet> bool PacketQueue<Packet>::pop(Packet &packet)
 	return true;
 }
 
-template<typename Packet> bool PacketQueue<Packet>::push(Packet &packet)
+template<typename Packet> bool PacketQueue<Packet>::push(const Packet& packet)
 {
 	int nextElement = (this->writeIndex + 1) % this->queueSize;
 	
@@ -70,7 +74,7 @@ template<typename Packet> bool PacketQueue<Packet>::push(Packet &packet)
 	}
 }
 
-template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned char * const memoryPointer, const uint16_t &startPoint, const uint16_t &sizeToCopy)
+template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy)
 {
 	uint8_t currReadIndex = this->readIndex;
 	uint8_t nrOfPacketsToCopy = sizeToCopy / sizeof(Packet); 
@@ -96,7 +100,7 @@ template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned cha
 
 		if (nrOfPacketsToCopy < distanceFromEndOfQueue) // Circlebuffer spliting of data check
 		{
-			memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, sizeToCopy);
+			memcpy(this->queuePointer + this->writeIndex, memoryPointer + startPoint, nrOfPacketsToCopy * sizeof(Packet));
 			this->writeIndex = (this->writeIndex + nrOfPacketsToCopy) % this->queueSize;
 		}
 		else

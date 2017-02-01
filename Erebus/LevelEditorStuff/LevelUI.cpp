@@ -33,7 +33,7 @@ LevelUI::LevelUI(GLFWwindow* window)
 	TwInit(TW_OPENGL_CORE, NULL);
 	TwWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-
+	
 	initBars();
 
 }

@@ -3,19 +3,23 @@
 --heightmap.transformID = Transform.Bind()
 -- In lua you start counting from 1
 heightmaps = {}
-heightmaps[1] = Assets.LoadHeightmap("Textures/tile1_heights_33.png")-- skicka in här. problem hos Assets.load. hmap maste ha en egen load da. Ett alternativ vore att gora en hmapHandlar i c++
+heightmaps[1] = {}
+heightmaps[1].asset = Assets.LoadHeightmap("Textures/tile1_heights_33.png")-- skicka in här. problem hos Assets.load. hmap maste ha en egen load da. Ett alternativ vore att gora en hmapHandlar i c++
 heightmaps[1].transformID = Transform.Bind()
 heightmaps[1].offset = 0
 
-heightmaps[2] = Assets.LoadHeightmap("Textures/secondTile_hieghts128_heights.png")-- skicka in heightmapIndex här
+heightmaps[2] = {}
+heightmaps[2].asset = Assets.LoadHeightmap("Textures/secondTile_hieghts128_heights.png")-- skicka in heightmapIndex här
 heightmaps[2].transformID = Transform.Bind()
 heightmaps[2].offset = 0
 
-heightmaps[3] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här
+heightmaps[3] = {}
+heightmaps[3].asset = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här
 heightmaps[3].transformID = Transform.Bind()
 heightmaps[3].offset = 0
 
-heightmaps[4] = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här
+heightmaps[4] = {}
+heightmaps[4].asset = Assets.LoadHeightmap("Textures/mikael_stor2_heights_128a.png")-- skicka in heightmapIndex här
 heightmaps[4].transformID = Transform.Bind()
 heightmaps[4].offset = 0
 
@@ -38,8 +42,9 @@ Transform.SetPosition(heightmaps[2].transformID, {x=20, y=6.72, z=27})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 
 --AI
-widthTest = heightmaps[1]:GetMapWidth()
-heightTest = heightmaps[1]:GetMapHeight()
+print(heightmaps[1].asset)
+widthTest = heightmaps[1].asset:GetMapWidth()
+heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
 
 -- add enemies
@@ -64,3 +69,4 @@ CollisionHandler.AddSphere(goal.collider)
 Sound.Play("Music/menuBurana.ogg", 17, {31, 8, 12})
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
+

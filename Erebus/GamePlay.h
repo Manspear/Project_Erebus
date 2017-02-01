@@ -29,6 +29,7 @@ private:
 
 	AGI::AGIEngine ai;
 	std::vector<ModelInstance> models;
+	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animatedModels;
 
 	std::vector<Gear::ParticleSystem*> ps;
@@ -43,6 +44,10 @@ private:
 
 	WorkQueue* work;
 
+	float playerHealthReal = 100;
+	float playerHealthCurrent = 100;
+	int healthBarLength = 470;
+
 public:
 	GamePlay(Gear::GearEngine* inEngine, Importer::Assets* assets, WorkQueue* work, SoundEngine* inSoundEngine);
 
@@ -55,4 +60,6 @@ public:
 	void Draw();
 
 	bool StartNetwork(const bool& networkHost, PerformanceCounter & counter);
+
+
 };

@@ -45,6 +45,7 @@ public:
 	static const char* name;
 	static const char* COLLIDER_TYPE_NAMES[MAX_COLLIDER_TYPES];
 	static void setDebugger( Debug* debug );
+	void updateLayer();
 
 private:
 	TwType TW_TYPE_COLLIDERS()
@@ -65,25 +66,32 @@ private:
 	static void TW_CALL onGetType( void* value, void* clientData );
 
 	int colliderType;
-	glm::vec3 position, offset, color;
+	unsigned int layer;
+	glm::vec3 position, offset, color, rotation;
 	LevelCollider* parentCollider;
 	std::vector<LevelCollider*> childColliders;
 
 	// sphere
 	//glm::vec3 spherePosition;
+	SphereCollider* sphereColider;
 	float sphereRadius;
 
 	// aabb
 	glm::vec3 aabbMinPos, aabbMaxPos;
+	AABBCollider* abbColider;
 
 	// obb
 	//glm::vec3 obbPosition;
 	glm::vec3 xAxis, yAxis, zAxis;
 	glm::vec3 halfLengths;
+	glm::vec3 totalRot;
+	std::string obbRotationStep;
+	glm::vec3 scale;
+	OBBCollider* obbColider;
 
 	// ray
 	glm::vec3 rayDirection;
-	float rayLength;
+	RayCollider* rayColider;
 
 	static Debug* s_debugger;
 };

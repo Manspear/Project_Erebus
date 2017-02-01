@@ -155,6 +155,7 @@
     <ClCompile Include="CollisionChecker.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
@@ -164,7 +165,7 @@
     <ClCompile Include="LevelEditorStuff\LevelActorHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAnimation.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelAssetHandler.cpp" />
-    <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelColiderHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelCollider.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEditor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelGizmo.cpp" />
@@ -194,10 +195,12 @@
     <ClCompile Include="LuaParticles.cpp" />
     <ClCompile Include="LuaSound.cpp" />
     <ClCompile Include="LuaTransform.cpp" />
+    <ClCompile Include="LuaUI.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkController.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
+    <ClCompile Include="PlaneFrustum.cpp" />
     <ClCompile Include="RayCollider.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="source.cpp" />
@@ -222,6 +225,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\AI\client_AI.lua" />
     <None Include="effects.frag" />
     <None Include="effects.vert" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
@@ -229,10 +233,15 @@
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\console.lua" />
     <None Include="Scripts\enemies.lua" />
+    <None Include="Scripts\gameplay.lua" />
+    <None Include="Scripts\gamestate.lua" />
     <None Include="Scripts\grenadeType.lua" />
     <None Include="Scripts\hellPillar.lua" />
+    <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\main.lua" />
+    <None Include="Scripts\main_menu.lua" />
+    <None Include="Scripts\MenuUI.lua" />
     <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
     <None Include="Scripts\player.lua" />
@@ -290,6 +299,7 @@
     <ClInclude Include="CollisionChecker.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditorStuff\LevelActionHandler.h" />
@@ -299,7 +309,7 @@
     <ClInclude Include="LevelEditorStuff\LevelActorHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelAnimation.h" />
     <ClInclude Include="LevelEditorStuff\LevelAssetHandler.h" />
-    <ClInclude Include="LevelEditorStuff\LevelBrushHandler.h" />
+    <ClInclude Include="LevelEditorStuff\LevelColiderHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelCollider.h" />
     <ClInclude Include="LevelEditorStuff\LevelEditor.h" />
     <ClInclude Include="LevelEditorStuff\LevelGizmo.h" />
@@ -330,12 +340,14 @@
     <ClInclude Include="LuaTransform.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="LuaBinds.h" />
+    <ClInclude Include="LuaUI.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PlaneFrustum.h" />
     <ClInclude Include="RayCollider.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SphereCollider.h" />

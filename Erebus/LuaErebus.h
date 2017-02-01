@@ -2,11 +2,13 @@
 
 #include "lua\lua.hpp"
 #include "Controls.h"
+#include "NetworkController.hpp"
 
 namespace LuaErebus
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls );
+	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter );
 
 	int setControls( lua_State* lua );
 	int cameraSensitivity(lua_State* lua);
+	int startNetwork( lua_State* lua );
 }

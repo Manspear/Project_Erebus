@@ -1,3 +1,4 @@
+ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/icegrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
@@ -17,12 +18,12 @@ function CreateIceGrenade()
 		nade.effectflag = false
 		nade.damage = 0
 		nade.alive = false
-		nade.particles = createFireballParticles()
+		nade.particles = createIceGrenadeParticles()
 		nade.exploding = false
 		nade.hits = {}
 		nade.soundID = -1
 
-		local model = Assets.LoadModel( "Models/projectile1.model" )
+		local model = Assets.LoadModel( "Models/grenade.model" )
 		Gear.AddStaticInstance(model, nade.type.transformID)
 		return nade
 	end
@@ -37,8 +38,9 @@ function CreateIceGrenade()
 	spell.combo = 0
 	spell.castSFX = "Effects/burn_ice_001.wav"
 	spell.hitSFX = {}
-	spell.hitSFX[1] = "Effects/debris_ice_001.wav"
-	spell.hitSFX[2] = "Effects/axe_ice_005.wav"
+	spell.hitSFX[1] = "Effects/Ice_impact_lite_02.wav"
+	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
+	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
@@ -50,16 +52,17 @@ function CreateIceGrenade()
 					local factor = chargetime / self.maxChargeTime
 					local pos = Transform.GetPosition(entity.transformID)
 					local dir = Transform.GetLookAt(entity.transformID)
+					dir.y = dir.y +0.1
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 
 					self.nades[i].type:Cast(pos, dir, falloff, SPEED_ICENADE, radius)
 					self.nades[i].damage = factor * MAX_DAMAGE_ICENADE
 					local effectflag = false
+					self.combo = self.combo + 1
 					if self.combo > SPAM_COMBO_NUMBER_ICENADE then
 						self.combo = 0
 						effectflag = true
-						print("LALE")
 					end
 					self.nades[i].effectflag = effectflag
 					self.nades[i].alive = true
@@ -84,11 +87,6 @@ function CreateIceGrenade()
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
 					hits = self.nades[i].type:Update(dt)
-		--[[
-					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() and not self.hits[enemies[curEnemy].transformID] then
-						table.insert(result, enemies[curEnemy])
-						self.hits[enemies[curEnemy].transformID] = true
-		]]
 					
 					self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
@@ -106,13 +104,13 @@ function CreateIceGrenade()
 						Transform.SetPosition(self.nades[i].type.transformID, {x=0,y=0,z=0})
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME then
-						--self:Kill(i)
+						self:Kill(i)
 					end
 				end
 
 			end
 
-				--self.particles.die(self.type.position)
+				--self.nades[i].particles.die(self.type.position)
 		end
 	end
 	spell.Charge = BaseCharge

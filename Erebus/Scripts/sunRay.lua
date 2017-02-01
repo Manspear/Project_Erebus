@@ -1,7 +1,9 @@
+SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 2
 SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE = 3
 SUNRAY_COOLDOWN = 2.7
+SUNRAY_HALF_LENGTH = 23
 
 function CreateSunRay()
 	local sunRay = {}
@@ -15,7 +17,7 @@ function CreateSunRay()
 	sunRay.Charge = BaseCharge
 	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.particles = createFireballParticles()
-	sunRay.owner = {}
+	sunRay.casterTrans = 0
 	sunRay.moveImpairment = 0.5
 	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
@@ -25,15 +27,26 @@ function CreateSunRay()
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddStaticInstance(model, sunRay.type.transformID)
+	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
+	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
+	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
+	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
+	Gear.AddForwardInstance(model2, sunRay.type.transformID)
+	Gear.AddForwardInstance(model, sunRay.type.transformID)
+
+	sunRay.type.oobCollider.SetSize(sunRay.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
 
 	function sunRay:Update(dt)
 		if self.alive then
-			hits = self.type:Update(Transform.GetPosition(self.caster))
-			self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
+			direction = Transform.GetLookAt(self.caster)
+			pos = Transform.GetPosition(self.caster)
+			self.particles.update(pos.x, pos.y, pos.z)
+			pos.x = pos.x + direction.x * SUNRAY_HALF_LENGTH
+			pos.y = pos.y + direction.y * SUNRAY_HALF_LENGTH
+			pos.z = pos.z + direction.z * SUNRAY_HALF_LENGTH
+			hits = self.type:Update(pos, direction)			
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.caster))
-			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.caster))
+			Transform.SetLookAt(self.type.transformID, direction)
 			for index = 1, #hits do
 				if hits[index].Hurt then	
 					if self.effectFlag then

@@ -30,6 +30,7 @@
 #include "LevelCollider.h"
 #include "LevelWorldHandler.h"
 #include "LevelBrushHandler.h"
+#include "LevelColiderHandler.h"
 
 #include <SDKDDKVer.h>
 

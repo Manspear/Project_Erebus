@@ -1,11 +1,15 @@
-<LevelActor type="" displayName=" (1)">
-    <LevelPointLight>
-        <Position x="0" y="0" z="0"/>
-        <Color x="1" y="0.56470591" z="0"/>
-        <Radius r="32"/>
-    </LevelPointLight>
+<LevelActor type="Empty" displayName="New (28) (1) (1) (1)">
+    <LevelCollider type="2">
+        <Offset x="0" y="4" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="2" y="4" z="2"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>pineTree1</ModelName>
+    </LevelModel>
     <LevelTransform>
-        <Position x="33" y="9" z="11"/>
+        <Position x="92" y="423" z="394"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
     </LevelTransform>
