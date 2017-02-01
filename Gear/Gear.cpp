@@ -340,7 +340,7 @@ namespace Gear
 		skybox.draw();
 
 		queue.particlePass(particleSystem);
-		queue.forwardPass(forwardModels, effectsProg.getUniformValues());
+		queue.forwardPass(forwardModels, &uniValues);
 		
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;

@@ -55,7 +55,7 @@ namespace Gear
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
-		EffectsProgram effectsProg;
+		std::vector<UniformValues> uniValues;
 		//----------------------
 
 	private:

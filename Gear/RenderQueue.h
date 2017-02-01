@@ -10,7 +10,11 @@
 #include "Animation.h"
 #include "Light.h"
 #include "WorkQueue.h"
-#include "EffectsProgram.h"
+
+struct UniformValues {
+	int location;
+	GLfloat value;
+};
 
 using namespace Importer;
 struct ModelInstance

@@ -165,11 +165,11 @@ namespace LuaGear
 			
 				index = g_ForwardModels->size();
 				g_ForwardModels->push_back(instance);
-				g_gearEngine->effectsProg.addUniformValue(-1, 0);
+				g_gearEngine->uniValues.push_back({ -1, 0 });
 			}
 			g_ForwardModels->at(index).worldIndices.push_back(transformID);
 		}
-		lua_pushinteger(lua, g_ForwardModels->size() - 1);
+		lua_pushinteger(lua, index);
 		return 1;
 	}
 
@@ -346,7 +346,7 @@ namespace LuaGear
 	{
 		if (lua_gettop(lua) >= 2)
 		{
-			g_gearEngine->effectsProg.setUniformValue(lua_tointeger(lua, 1), lua_tonumber(lua, 2));
+			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).value = lua_tonumber(lua, 2);
 		}
 		return 0;
 	}
@@ -355,7 +355,7 @@ namespace LuaGear
 	{
 		if (lua_gettop(lua) >= 2)
 		{
-			g_gearEngine->effectsProg.setUniformLocation(lua_tointeger(lua, 1), lua_tointeger(lua, 2));
+			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).location = lua_tointeger(lua, 2);
 		}
 		return 0;
 	}
