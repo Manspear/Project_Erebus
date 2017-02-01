@@ -33,18 +33,13 @@ function UpdateMenuUI(dt)
 		end
 
 		if UI.mousePick(screenImages["host"], x,y) then
-			tempLight = Light.addLight(44,10,14,1,0,0,20,2)
-
-			--Erebus.StartNetwork(true)
-			--gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			Erebus.StartNetwork(true)
+			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
 
 		if UI.mousePick(screenImages["connect"], x,y) then
-			
-			Light.updateColor(tempLight, 0,1,0)
-
-			--Erebus.StartNetwork(false)
-			--gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			Erebus.StartNetwork(false)
+			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
 
 		if UI.mousePick(screenImages["options"], x,y) then
