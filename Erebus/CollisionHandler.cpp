@@ -371,16 +371,6 @@ void CollisionHandler::checkAnyCollision(T collider, std::vector<U*>* colliders)
 
 }
 
-template<typename T>
-void CollisionHandler::recursiveCollision(std::vector<T*>* colliders1, std::vector<T*>* colliders2)
-{
-	T* firstTempCollider = nullptr;
-	T* secondTempCollider = nullptr;
-	for (size_t i = 0; i < colliders1->size(); i++)
-	{
-
-	}
-}
 
 void CollisionHandler::incrementHitboxID()
 {

@@ -16,6 +16,8 @@ namespace LuaNetwork
 	int getSpellPacket(lua_State* lua);
 	int sendAITransformPacket(lua_State* lua);
 	int getAITransformPacket(lua_State* lua);
+	int sendChargingPacket(lua_State* lua);
+	int getChargingPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);

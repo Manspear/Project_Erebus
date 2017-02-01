@@ -1,4 +1,4 @@
-GRENADE_EXPLODE_TIME = 0.5
+GRENADE_EXPLODE_TIME = 0.05
 
 function CreateGrenadeType()
 	local type = {}
@@ -17,7 +17,6 @@ function CreateGrenadeType()
 	type.radius = 0
 	type.explodetime = 0
 
-
 	function type:Cast(position, direction, falloff, speed, explosionRadius)
 		self.direction = direction
 		self.position = position
@@ -32,7 +31,7 @@ function CreateGrenadeType()
 		result = false
 		self.direction.y = self.direction.y - self.falloffFactor * dt
 		self.position.x = self.position.x + self.direction.x*self.speed*dt
-		self.position.y = self.position.y + self.direction.y*dt
+		self.position.y = self.position.y + self.direction.y*self.speed*dt
 		self.position.z = self.position.z + self.direction.z*self.speed*dt
 		Transform.SetPosition(self.transformID, self.position)
 

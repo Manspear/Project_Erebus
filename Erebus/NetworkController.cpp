@@ -167,6 +167,15 @@ bool NetworkController::fetchAITransformPacket(TransformPacket &packet)
 	return network.fetchAITransformPacket(packet);
 }
 
+void NetworkController::sendChargingPacket(const ChargingPacket& packet)
+{
+	network.pushChargingPacket(packet);
+}
+
+bool NetworkController::fetchChargingPacket(ChargingPacket &packet)
+{
+	return network.fetchChargingPacket(packet);
+}
 
 double NetworkController::timeSinceLastTransformPacket()
 {

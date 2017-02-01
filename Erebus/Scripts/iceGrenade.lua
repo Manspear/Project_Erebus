@@ -2,20 +2,22 @@ ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/icegrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 100
+SPEED_ICENADE = 50
 EXPLOSION_RADIUS_ICENADE = 10
 
-MIN_FALLOFF_ICENADE = 0.5
+MIN_FALLOFF_ICENADE = 1
 MAX_FALLOFF_ICENADE = 2 - MIN_FALLOFF_ICENADE
 SPAM_CD_ICENADE = 0.3
 SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
 
 function CreateIceGrenade()
-
+	
 	function initNade()
 		local nade = {}
 		nade.type = CreateGrenadeType()
 		nade.effectflag = false
+		nade.effects = {}
+		table.insert(nade.effects, SLOW_EFFECT_INDEX)
 		nade.damage = 0
 		nade.alive = false
 		nade.particles = createIceGrenadeParticles()
@@ -30,10 +32,10 @@ function CreateIceGrenade()
 	
 	local spell = {}
 	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE
-	spell.effect = CreateSlowEffect
+	--spell.effect = CreateSlowEffect
 	spell.nades = {}
 	spell.spamcd = SPAM_CD_ICENADE
-	spell.timeSinceSpam = 0
+	spell.cooldown = 0
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.castSFX = "Effects/burn_ice_001.wav"
@@ -45,7 +47,7 @@ function CreateIceGrenade()
 		table.insert(spell.nades, initNade())
 	end
 	function spell:Cast(entity, chargetime)
-		if self.timeSinceSpam > self.spamcd then
+		if self.cooldown < 0 then
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = chargetime / self.maxChargeTime
@@ -66,7 +68,7 @@ function CreateIceGrenade()
 					self.nades[i].effectflag = effectflag
 					self.nades[i].alive = true
 					self.nades[i].particles.cast()
-					self.timeSinceSpam = 0
+					self.cooldown = self.spamcd
 					self.nades[i].soundID = Sound.Play(self.castSFX, 11, pos)
 					break
 				end
@@ -75,7 +77,7 @@ function CreateIceGrenade()
 	end
 	
 	function spell:Update(dt)
-		self.timeSinceSpam = self.timeSinceSpam + dt
+		self.cooldown = self.cooldown - dt
 		
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
@@ -83,7 +85,8 @@ function CreateIceGrenade()
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 
-						Sound.Play(self.hitSFX, 3, self.nades[i].type.position)
+						Transform.ActiveControl(self.nades[i].type.transformID, false)
+						Sound.Play(self.hitSFX, 1, self.nades[i].type.position) 
 					end
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
@@ -93,9 +96,11 @@ function CreateIceGrenade()
 					for index = 1, #hits do
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
-								local effect = self.effect()
-								table.insert(hits[index].effects, effect)
-								effect:Apply(hits[index])
+								for e = 1, #self.nades[i].effects do
+									local effect = effectTable[self.nades[i].effects[e]]()
+									table.insert(hits[index].effects, effect)
+									effect:Apply(hits[index])
+								end
 							end
 							hits[index]:Hurt(self.nades[i].damage)
 							self.nades[i].hits[hits[index].transformID] = true

@@ -7,6 +7,7 @@
 #include "AnimationPacket.hpp"
 #include "MetaDataPacket.hpp"
 #include "SpellPacket.hpp"
+#include "ChargingPacket.hpp"
 
 class PacketFilter
 {
@@ -20,6 +21,7 @@ public:
 	PacketQueue<AIStatePacket> * getAIStateQueue();
 	PacketQueue<SpellPacket> * getSpellQueue();
 	PacketQueue<TransformPacket> * getAITransformQueue();
+	PacketQueue<ChargingPacket> * getChargingQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -27,4 +29,5 @@ private:
 	PacketQueue<AIStatePacket> * aiStateQueue;
 	PacketQueue<SpellPacket> * spellQueue;
 	PacketQueue<TransformPacket> * aiTransformQueue;
+	PacketQueue<ChargingPacket> * chargingQueue;
 };

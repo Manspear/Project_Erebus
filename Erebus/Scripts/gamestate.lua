@@ -1,5 +1,6 @@
 GAMESTATE_MAIN_MENU = 1
 GAMESTATE_GAMEPLAY = 2
+GAMESTATE_OPTIONS = 3
 
 gamestate = {}
 gamestate.currentState = -1
@@ -7,7 +8,8 @@ gamestate.states= {}
 local gamestateScripts = 
 {
 	"Scripts/main_menu.lua",
-	"Scripts/gameplay.lua"
+	"Scripts/gameplay.lua",
+	"Scripts/options_menu.lua"
 }
 
 function gamestate.Load()
