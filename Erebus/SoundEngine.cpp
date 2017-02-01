@@ -15,8 +15,10 @@ SoundEngine::SoundEngine()
 	engine = createIrrKlangDevice(ESOD_AUTO_DETECT, options);
 	if (engine)
 	{
-		engine->setSoundVolume(0.5f);
-		engine->setDefault3DSoundMinDistance(10);
+		//engine->setSoundVolume(0.5f);
+		engine->setDefault3DSoundMinDistance(5);
+		engine->setDefault3DSoundMaxDistance(20);
+		engine->setRolloffFactor(5.f);
 	}
 
 	currSoundID = 0;
@@ -32,15 +34,12 @@ SoundEngine::~SoundEngine()
 
 void SoundEngine::update(const double &dt)
 {
-	for (auto f : fades)
-	{
-		if (!f.finished)
-			processFade(f, dt);
-	}
-
+	for (auto &f : fades)
+		processFade(f, dt);
+	
 	fades.erase(
 		std::remove_if(fades.begin(), fades.end(), 
-			[](const sFade &f) { return f.finished; }),
+			[](const sFade &f) { return (f.elapsedTime >= f.targetTime); }),
 		fades.end()
 	);
 
@@ -56,7 +55,7 @@ void SoundEngine::fade(size_t i, float t)
 	auto s = std::find(sounds.begin(), sounds.end(), i);
 	if (s != sounds.end())
 	{
-		sFade f((*s).sound, t);
+		sFade f(s->sound, t);
 		fades.push_back(f);
 	}
 }
@@ -205,7 +204,6 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 void SoundEngine::processFade(sFade &f, const float &dt)
 {
 	f.elapsedTime += dt;
-	f.finished = f.elapsedTime >= f.targetTime;
 	const float t = (f.elapsedTime / f.targetTime);
 	const float v = (1 - t) * f.initialVolume + t * f.targetVolume;
 	f.sound->setVolume(v);

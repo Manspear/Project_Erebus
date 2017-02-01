@@ -45,10 +45,11 @@ function LoadPlayer()
 
 	-- set spells for player
 	player.spells = {}
-	player.spells[1] = CreateHellPillar()
-	player.spells[2] = CreateBlackHole()
-	player.spells[3] = CreateIceGrenade()
-	player.spells[4] = CreateSunRay() 
+	player.spells[1] = CreateHellPillar(player)
+	player.spells[2] = CreateBlackHole(player)
+	player.spells[3] = CreateSunRay(player) 
+	player.spells[4] = CreateIceGrenade(player)
+	
 
 	player.currentSpell = 1
 
@@ -199,13 +200,12 @@ function UpdatePlayer(dt)
 end
 function SendCombine(spell)
 	--TOBEDEFINED
-	Network.SendChargingPacket(spell.damage, spell:GetEffect())
+	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
-		table.insert(player.spells[player.currentSpell].effects, effectTable[effectIndex])
-		player.spells[player.currentSpell].damage = player.spells[player.currentSpell].damage + damage
+		player.spells[currentSpell]:Combine(damage, effectIndex)
 	end
 end
 function Controls(dt)
