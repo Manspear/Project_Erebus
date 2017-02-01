@@ -140,7 +140,6 @@ void LevelEditor::start() {
 
 	while (running && window.isWindowOpen())
 	{
-		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
 
 		deltaTime = counter.getDeltaTime();
 		inputs->update();

@@ -151,10 +151,13 @@ std::string LevelActor::toLua()
 		ss << "local temp = {}" << endl;
 
 		LevelModel* model = getComponent<LevelModel>();
-		if( model )
-		{
+		
+		if (getExportType() == EXPORT_COLLIDER || getExportType() == EXPORT_STATIC || model) {
 			LevelTransform* transform = getComponent<LevelTransform>();
 			ss << transform->toLua("temp");
+		}
+		if( model )
+		{
 			ss << model->toLua("temp");
 		}
 

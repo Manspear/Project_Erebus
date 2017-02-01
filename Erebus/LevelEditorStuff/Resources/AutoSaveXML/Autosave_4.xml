@@ -50,20 +50,35 @@
             <ModelName>testGuy</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="7.766058" y="-0.082778931" z="171.51675"/>
-            <Rotation x="0" y="3.1415927" z="0"/>
+            <Position x="21.065756" y="7.4862289" z="219.90495"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase">
+    <LevelActor type="Empty" displayName="New">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
+            <IDs ID="1" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="14.898438" y="-7.4726563" z="164.25"/>
+            <Position x="-14.273438" y="-7.4765625" z="207.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (1)">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="2" parentID="1"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="16.453125" y="-7.4726563" z="188.25"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>

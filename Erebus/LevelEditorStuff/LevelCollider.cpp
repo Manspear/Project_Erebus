@@ -250,6 +250,46 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 	return element;
 }
 
+std::string LevelCollider::printChildren(std::string name, std::string depth) {
+	this->updateLayer();
+	using namespace std;
+	string luaText = "";
+	if (depth == "")
+		depth = "0";
+	int cDepth = atoi(depth.c_str())+1;
+	stringstream ss;
+	std::string fullName = "";
+	std::string parentFullName = "";
+	if(depth!="0")
+		parentFullName = name + depth + ".collider";
+	else
+		parentFullName = name + ".collider";
+
+	fullName = name + std::to_string(cDepth) + ".collider";
+	
+
+	for (size_t i = 0; i < this->childColliders.size(); i++)
+	{
+		ss << fullName << " = ";
+		switch (colliderType) {
+		case COLLIDER_OBB:
+			ss << "OBBCollider.Create(-1)" << endl;
+			ss << fullName << ":SetOffset(" << this->childColliders[i]->offset.x << "," << this->childColliders[i]->offset.y << "," << this->childColliders[i]->offset.z << ")" << endl;
+
+			ss << fullName << ":SetZAxis(" << this->childColliders[i]->obbColider->getZAxis().x << "," <<
+				this->childColliders[i]->obbColider->getZAxis().y << "," << this->childColliders[i]->obbColider->getZAxis().z << ")" << endl;
+
+			ss << fullName << ":SetHalfLengths(" << this->childColliders[i]->obbColider->getHalfLengths().x << ","
+				<< this->childColliders[i]->obbColider->getHalfLengths().y << "," << this->childColliders[i]->obbColider->getHalfLengths().z << ")" << endl;
+			break;
+		}
+		ss << parentFullName << ":AddChild(" << fullName<<")" << endl;
+		luaText += ss.str() + this->childColliders[i]->printChildren(name, std::to_string(cDepth));
+	}
+
+	return luaText;
+}
+
 std::string LevelCollider::toLua( std::string name )
 {
 	this->updateLayer();
@@ -257,13 +297,16 @@ std::string LevelCollider::toLua( std::string name )
 	using namespace std;
 	stringstream ss;
 
-	ss << name << ".collider = ";
+	std::string depth = "";
+
+	std::string fullName = name + depth + ".collider";
+	ss << fullName <<" = ";
 
 	if (this->parentCollider == nullptr) { // TOP PARENT
 		switch (colliderType)
 		{
 		case COLLIDER_SPHERE:
-			ss << "SphereCollider.Create(temp.transformID)" << endl;
+			ss << "SphereCollider.Create("<< name <<".transformID)" << endl;
 			ss << "CollisionHandler.AddSphere(" << name << ".collider)" << endl;
 			break;
 
@@ -273,9 +316,15 @@ std::string LevelCollider::toLua( std::string name )
 			break;
 
 		case COLLIDER_OBB:
-			ss << "OBBCollider.Create(temp.transformID)" << endl;
-			ss << "CollisionHandler.AddOBB(" << name << ".collider)" << endl;
-			ss << "CollisionHandler.AddOBB(" << name << ".collider)" << endl;
+			ss << "OBBCollider.Create(" << name << ".transformID)" << endl;
+			ss << "CollisionHandler.AddOBB("<< fullName<< ")" << endl;
+			ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
+
+			ss << fullName << ":SetZAxis(" << this->obbColider->getZAxis().x << "," <<
+				this->obbColider->getZAxis().y << "," << this->obbColider->getZAxis().z << ")" << endl;
+
+			ss << fullName << ":SetHalfLengths(" << this->obbColider->getHalfLengths().x << ","
+				<< this->obbColider->getHalfLengths().y << "," << this->obbColider->getHalfLengths().z << ")" << endl;
 			break;
 
 		case COLLIDER_RAY:
@@ -283,6 +332,8 @@ std::string LevelCollider::toLua( std::string name )
 			ss << "CollisionHandler.AddRay(" << name << ".collider)" << endl;
 			break;
 		}
+
+		ss<<printChildren(name, depth);
 
 	}
 	else {//CHILD
