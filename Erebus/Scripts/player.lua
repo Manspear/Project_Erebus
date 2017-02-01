@@ -301,13 +301,11 @@ function UpdatePlayer2(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
 	player2.spells[4]:Update(dt)
-		
+	
 	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
 	if newAnimationValue == true then
-		player2.animationController.animationState1 = animationState1
-		player2.animationController.animationState2 = animationState2
+		player2.animationController:AnimationUpdatePlayer2(dt, animationState1, animationState2)
 	end
-	player2.animationController:AnimationUpdate(dt)
 
 end
 
