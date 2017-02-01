@@ -104,6 +104,11 @@ DWORD WINAPI update( LPVOID args )
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
 
+			for( int i=0; i<boundAnimations; i++ )
+			{
+				data->allAnimations[i].update(deltaTime);
+			}
+
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
 	}
