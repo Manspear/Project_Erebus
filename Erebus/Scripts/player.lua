@@ -48,7 +48,7 @@ function LoadPlayer()
 	player.spells[1] = CreateHellPillar(player)
 	player.spells[2] = CreateBlackHole(player)
 	player.spells[3] = CreateSunRay(player) 
-	player.spells[4] = CreateIceGrenade(player)
+	--player.spells[4] = CreateIceGrenade(player)
 	
 
 	player.currentSpell = 1
@@ -101,10 +101,10 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	player2.spells[1] = CreateHellPillar()
-	player2.spells[2] = CreateBlackHole()
-	player2.spells[3] = CreateIceGrenade()
-	player2.spells[4] = CreateSunRay()
+	player2.spells[1] = CreateHellPillar(player2)
+	player2.spells[2] = CreateBlackHole(player2)
+	player2.spells[3] = CreateSunRay(player2) 
+	--player2.spells[4] = CreateIceGrenade(player2)
 
 	player2.currentSpell = 1
 
@@ -261,7 +261,7 @@ function Controls(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
-		if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
+		--if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
 end
 
 function PrintInfo() 
@@ -296,11 +296,11 @@ function UpdatePlayer2(dt)
 		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
 		player2.currentSpell = player2CurrentSpell
 	end
-	
+
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
-	player2.spells[4]:Update(dt)
+	--player2.spells[4]:Update(dt)
 	
 	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
 	if newAnimationValue == true then
