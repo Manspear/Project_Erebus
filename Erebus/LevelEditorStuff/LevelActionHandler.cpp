@@ -18,6 +18,8 @@ LevelActionHandler::LevelActionHandler()
 		selections[i] = false;
 	for( int i=0; i<MAX_ACTIONS; i++ )
 		indices[i] = i;
+
+	TwDefine("Brush visible=false");
 }
 
 LevelActionHandler::~LevelActionHandler()
@@ -80,11 +82,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	}
 	if (action == ACTION_USE_BRUSH)
 	{
-		TwDefine("Brush visible=true");
 		LevelBrushHandler::getInstance()->testDraw(engine,camera,inputs,debug);
-	}
-	else {
-		TwDefine("Brush visible=false");
 	}
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
@@ -166,6 +164,11 @@ void LevelActionHandler::setAction( int a )
 	selections[a] = true;
 
 	action = a;
+	
+	if (action == ACTION_USE_BRUSH)
+		TwDefine("Brush visible=true");
+	else 
+		TwDefine("Brush visible=false");
 }
 
 int LevelActionHandler::getAction()

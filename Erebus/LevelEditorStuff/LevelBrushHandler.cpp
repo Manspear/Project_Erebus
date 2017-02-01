@@ -45,8 +45,6 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera, Input
 		{
 			LevelActorHandler::getInstance()->addActor(newActor);
 			LevelActorHandler::getInstance()->setSelected(newActor);
-
-			newActor->setActorType("BRUSH");
 			newActor->setActorType(saveAsType);
 		
 			LevelTransform* transform = newActor->getComponent<LevelTransform>();
