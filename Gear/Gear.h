@@ -11,6 +11,7 @@
 #include "DebugHandler.h"
 #include "Skybox.h"
 #include "WorkQueue.h"
+#include "EffectsProgram.h"
 
 namespace Gear
 {
@@ -56,7 +57,7 @@ namespace Gear
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
-		GEAR_API void effectPreProcess();
+
 		//----------------------
 
 	private:
@@ -88,7 +89,10 @@ namespace Gear
 		ShaderProgram *blurShader;
 		ShaderProgram *effectShader;
 		ShaderProgram *gloomCompute;
+
+		//Effects stuff
 		GLuint gloomTexture;
+		EffectsProgram effectsProg;
 
 		std::vector<GLuint> lightDirectionLocations;
 		std::vector<GLuint> lightColorLocations;

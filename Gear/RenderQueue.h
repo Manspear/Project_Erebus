@@ -11,14 +11,16 @@
 #include "Animation.h"
 #include "Light.h"
 #include "WorkQueue.h"
-#include "EffectsProgram.h"
 
 using namespace Importer;
-
+struct ModelInstance
+{
+	Importer::ModelAsset* asset;
+	std::vector<int> worldIndices;
+};
 struct AnimatedInstance
 {
 	ModelAsset* asset;
-	//Material material;
 	std::vector<int> worldIndices;
 	std::vector<Animation*> animations;
 };
@@ -40,7 +42,7 @@ public:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
 	void forwardPass(std::vector<ModelInstance>* dynamicModels);
-	void effectPass(std::vector<Gear::ParticleSystem*>* ps, std::vector<ModelInstance>* dynamicModels);
+	bool particlePass(std::vector<Gear::ParticleSystem*>* ps);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
@@ -63,8 +65,6 @@ private:
 	WorkQueue* work;
 
 	double freq;
-
-	EffectsProgram effectsProg;
 
 	struct AsyncTransformData
 	{
