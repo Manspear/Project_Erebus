@@ -51,6 +51,7 @@ LevelCollider::LevelCollider()
 	//this->coliderID = LevelColiderHandler::getInstance()->getNewID();
 	this->parentColiderID = 0;
 	this->layer = 0;
+	
 }
 
 LevelCollider::~LevelCollider()
@@ -168,7 +169,7 @@ void LevelCollider::postInitialize()
 	}
 
 	LevelColiderHandler::getInstance()->checkIfHighestID(this->coliderID);
-		
+	this->update(1337.f);
 }
 
 std::string LevelCollider::getName()
@@ -293,7 +294,7 @@ std::string LevelCollider::printChildren(std::string name, std::string depth, in
 		glm::vec3 totalOffset = (this->childColliders[i]->parent->getComponent<LevelTransform>()->getTransformRef()->getPos() + this->childColliders[i]->offset) -
 			(this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos() + this->offset);
 		glm::vec3 realMin, realMax;
-		switch (colliderType) {
+		switch (this->childColliders[i]->colliderType) {
 		case COLLIDER_SPHERE:
 			ss << "SphereCollider.Create(-1)" << endl;
 			ss << fullName << ":SetOffset(" << totalOffset.x << "," << totalOffset.y << "," << totalOffset.z << ")" << endl;
@@ -369,7 +370,7 @@ std::string LevelCollider::toLua( std::string name )
 				this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
 			realMax = this->abbColider->getMaxPos() -
 				this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
-			ss << "AABBCollider.Create(temp.transformID)" << endl;
+			ss << "AABBCollider.Create(" << name << ".transformID)" << endl;
 			ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
 			ss << fullName << ":SetMinPos(" << realMin.x / scale.x << "," <<
 				realMin.y / scale.y << "," << realMin.z / scale.z << ")" << endl;
@@ -387,7 +388,7 @@ std::string LevelCollider::toLua( std::string name )
 				this->obbColider->getZAxis().y << "," << this->obbColider->getZAxis().z << ")" << endl;
 
 			ss << fullName << ":SetHalfLengths(" << this->obbColider->getHalfLengths().x / scale.x << ","
-				<< this->obbColider->getHalfLengths().y / scale.y << "," << this->obbColider->getHalfLengths().z / scale.x<< ")" << endl;
+				<< this->obbColider->getHalfLengths().y / scale.y << "," << this->obbColider->getHalfLengths().z / scale.z<< ")" << endl;
 
 			coliderType = "AddOBB(";
 			break;
@@ -482,20 +483,23 @@ void LevelCollider::update( float deltaTime )
 		//s_debugger->drawOBB(colider->getPos(), colider->getXAxis(), colider->getYAxis(), colider->getZAxis(), colider->getHalfLengths(), { 1,0,0 });
 	}
 
-	switch( colliderType )
-	{
-		
+	if (deltaTime != 1337.f) {
+		switch (colliderType)
+		{
+
 		case COLLIDER_SPHERE:
-			s_debugger->drawSphere( this->sphereColider->getPos(), this->sphereColider->getRadius(), color );
+			s_debugger->drawSphere(this->sphereColider->getPos(), this->sphereColider->getRadius(), color);
 			break;
-		case COLLIDER_AABB: s_debugger->drawAABB( this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color ); break;
+		case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color); break;
 		case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
-			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color ); break;
-		case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color ); break;
+			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color); break;
+		case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color); break;
 		default:
 			std::cout << "WARNING: Colider doesnt have type!" << std::endl;
 			break;
+		}
 	}
+
 
 
 		
@@ -652,20 +656,20 @@ void LevelCollider::updateLayer() {
 	if (this->parentCollider == nullptr) {
 		switch (this->parent->getExportType()) {
 		case EXPORT_ENEMY:
-			tempLayer = 2;
-			break;
-		case EXPORT_PLAYER:
 			tempLayer = 1;
 			break;
+		case EXPORT_PLAYER:
+			tempLayer = 0;
+			break;
 		case EXPORT_HEALTH_ORB:
-			tempLayer = 5;
+			tempLayer = 4;
 			break;
 		
 		case EXPORT_STATIC:
-			tempLayer = 4;
+			tempLayer = 3;
 			break;
 		case EXPORT_COLLIDER:
-			tempLayer = 4;
+			tempLayer = 3;
 			break;
 		}
 	}
