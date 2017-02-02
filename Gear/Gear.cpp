@@ -574,8 +574,8 @@ namespace Gear
 
 	void GearEngine::frameBufferInit()
 	{
-		GLuint internalFormat[] = { GL_RGBA,GL_RG16F, GL_R32F }; //Format for texture in gBuffer
-		GLuint format[] = { GL_RGBA,GL_RG, GL_RED }; //Format for texture in gBuffer
+		GLuint internalFormat[] = { GL_RGBA,GL_RGB16F, GL_R32F }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGBA,GL_RGB, GL_RED }; //Format for texture in gBuffer
 		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
 		GLenum type[] = { GL_UNSIGNED_INT, GL_FLOAT, GL_FLOAT }; //data type for texture
 		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};
