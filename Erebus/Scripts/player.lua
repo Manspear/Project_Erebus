@@ -80,7 +80,6 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 5.25
-	player.reachedGoal = false
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -116,6 +115,13 @@ function LoadPlayer()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
+	-- Setting controller for player
+	player.controller = {};
+	player.controller = MovementController.Create()
+	player.controller:SetHitbox(player.sphereCollider)
+	player.controller:SetTransform(player.transformID)
+	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
+
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
@@ -128,7 +134,6 @@ end
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
-	player2.reachedGoal = false
 	player2.health = 100
 	player2.forward = 0
 	player2.left = 0
@@ -216,14 +221,6 @@ function UpdatePlayer(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
 	--player.spells[4]:Update(dt)
-	
-	-- check collision against the goal
-	local collisionIDs = player.sphereCollider:GetCollisionIDs()
-	for curID=1, #collisionIDs do
-		if collisionIDs[curID] == goal.collider:GetID() then
-			player.reachedGoal = true
-		end
-	end
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 
@@ -231,8 +228,6 @@ function UpdatePlayer(dt)
 	end
 	
 	if player.printInfo then PrintInfo() end
-
-	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
 
 	-- update player controller -- this moves the player
 	player.controller:Move(player.left * dt, 0, player.forward * dt)

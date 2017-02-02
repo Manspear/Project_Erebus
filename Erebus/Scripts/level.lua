@@ -58,25 +58,9 @@ Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
 -- set player position
 Transform.SetPosition(player.transformID, {x=44, y=0, z=14})
 
--- set goal
-goal = {}
-goal.transformID = Transform.Bind()
-goal.collider = SphereCollider.Create(goal.transformID)
-goal.collider:SetRadius(10)
-CollisionHandler.AddSphere(goal.collider)
-
 -- set music
 sid = Sound.Play("Music/menuBurana.ogg", 48)
 Sound.SetVolume(sid, 0.03)
 Sound.Resume(sid)
 
-Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
-
-
-	-- Setting controller for player
-	player.controller = {};
-	player.controller = MovementController.Create()
-	player.controller:SetHitbox(player.sphereCollider)
-	player.controller:SetTransform(player.transformID)
-	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
-	player.controller:SetHeightmap(heightmaps[1].asset);
+player.controller:SetHeightmap(heightmaps[1].asset)
