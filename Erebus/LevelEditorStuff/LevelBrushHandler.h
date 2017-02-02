@@ -42,6 +42,7 @@ public:
 private:
 	float radius = 1;
 	float density = 1;
+	float yOffset = 0;
 	double timer = 0;
 	std::vector<glm::vec3> earlierPositions; //this will have a max size of 4
 	std::string saveAsType = "Brush";

@@ -30,6 +30,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	TwAddVarRW(actionBar->getBar(), "radius", TW_TYPE_FLOAT, &this->radius, NULL);
 	//TwAddSeparator(actionBar->getBar(), "sep2", NULL);
 	TwAddVarRW(actionBar->getBar(), "density", TW_TYPE_FLOAT, &this->density, NULL);
+	TwAddVarRW(actionBar->getBar(), "Y_Offset", TW_TYPE_FLOAT, &this->yOffset, NULL);
 	TwAddVarCB(actionBar->getBar(), "saveAsType", TW_TYPE_STDSTRING,setSaveTypeCB,getSaveTypeCB,&saveAsType,"");
 }
 void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
@@ -47,7 +48,7 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 	
 	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
 	hitPoint.z = (hitPoint.z += RNG::range((-this->radius),this->radius) );
-	//hitPoint.y = hitPoint.y;
+	hitPoint.y = hitPoint.y + yOffset;
 	
 	//jag skulle kunna köra en stråle från marken till kameran. och sen köra tillbaka för att få ett bättre y värde.
 	//jag borde kolla om det finns mark där. Om normalen är för offsetad borde jag inte rita.
