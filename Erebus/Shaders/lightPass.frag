@@ -44,19 +44,16 @@ void main() {
 
 	vec3 FragPos = WorldPosFromDepth(Depth);
 
-	vec2 tempNormal = vec2(texture2D(gNormal, TexCoords));
-	vec3 Normal;
-	Normal.r = tempNormal.x;
-	Normal.g = tempNormal.y;
-	Normal.b = 1.0f - (tempNormal.x + tempNormal.y);
+	vec3 Normal = vec3(texture2D(gNormal, TexCoords).rgb);
+	
+	Normal = normalize(Normal);
 
 	vec3 Diffuse  = vec4(texture2D(gAlbedoSpec, TexCoords)).rgb;
 	float Specular = vec4(texture2D(gAlbedoSpec, TexCoords)).a;
 
 	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
 	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
-
-
+	
 	vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
@@ -79,7 +76,7 @@ void main() {
 	else if(drawMode == 4)
         FragColor = vec4(Depth,Depth,Depth, 1);//vec4(FragPos, 1.0);
     else if(drawMode == 5)
-        FragColor = vec4(FragPos, 1);//vec4(Normal, 1.0);
+        FragColor = vec4(Normal, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)
         FragColor = vec4(Normal, 1.0);
     else if(drawMode == 7)
