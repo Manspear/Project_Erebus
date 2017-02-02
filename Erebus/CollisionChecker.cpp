@@ -633,7 +633,7 @@ bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, 
 		else if (hitbox2->isObbCollider()) // Sphere vs obb
 		{
 			OBBCollider* obb = static_cast<OBBCollider*>(hitbox2);
-			return this->collisionCheckNormal(obb, sphere1,normal);
+			return this->collisionCheckNormal(sphere1, obb, normal);
 		}
 	}
 	else
@@ -731,7 +731,20 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, glm::vec3 & normal)
 {
 	normal = glm::vec3(0, 0, 0);
-	return false;
+	bool collision = false;
+	this->obbToSphereCollisionCounter++;
+	const glm::vec3 sphereCenter = sphere->getPos();
+	float sphereRadius = sphere->getRadius();
+	float sphereRadiusSquared = sphere->getRadiusSquared();
+
+	glm::vec3 v = closestPointOnOBB(obb, sphereCenter) - sphereCenter;
+	float vSquared = glm::dot(v, v);
+
+	if (glm::dot(v, v) <= sphereRadiusSquared) // if we have a collision
+	{
+		collision = true;
+	}
+	return collision; 
 }
 
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)

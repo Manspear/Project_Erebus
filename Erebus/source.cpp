@@ -78,10 +78,12 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
-	//AABBCollider aabb = AABBCollider(glm::vec3(-1,-1,-1),glm::vec3(1,1,1),glm::vec3(20,6,20));
-	//SphereCollider sphere = SphereCollider(glm::vec3(20,6,23),2);
-	//collisionHandler.addHitbox(&aabb,3);
-	//collisionHandler.addHitbox(&sphere, 3);
+	AABBCollider aabb2 = AABBCollider(glm::vec3(-1,-1,-1),glm::vec3(1,1,1),glm::vec3(20,6,20));
+	SphereCollider sphere = SphereCollider(glm::vec3(20,6,24),2);
+	OBBCollider obb2 = OBBCollider(glm::vec3(20, 6, 28), 1, 1, 1);
+	collisionHandler.addHitbox(&aabb2,3);
+	collisionHandler.addHitbox(&sphere, 3);
+	collisionHandler.addHitbox(&obb2, 3);
 
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());

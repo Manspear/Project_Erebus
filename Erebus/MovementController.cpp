@@ -54,10 +54,10 @@ void MovementController::update()
 		finalPos.z = newZPos.z;
 	}
 
-	//if (hitNormal != glm::vec3(0,0,0))
-	//{
-	//	std::cout << "hitNormal: " << hitNormal.x << ", " << hitNormal.y << ", " << hitNormal.z << std::endl;
-	//}
+	if (hitNormal != glm::vec3(0,0,0))
+	{
+		std::cout << "hitNormal: " << hitNormal.x << ", " << hitNormal.y << ", " << hitNormal.z << std::endl;
+	}
 	
 	transform->setPos(finalPos);
 	this->movement = glm::vec3();
