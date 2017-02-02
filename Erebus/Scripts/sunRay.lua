@@ -47,8 +47,6 @@ function CreateSunRay(entity)
 				self:StartingUp(dt)
 			else
 				self:Blasting(dt)
-						local id = Sound.Play(self.hitSFX, 1, hits[index].position)
-						if id ~= -1 then self.hitID = id end
 			end
 		end
 		self.cooldown = self.cooldown - dt;
@@ -71,7 +69,7 @@ function CreateSunRay(entity)
 			self.cooldown = SUNRAY_COOLDOWN
 			self.UVpushed = 0.0
 			for index = 1, #self.castSFX do
-				self.soundID[index] = Sound.Play(self.castSFX[index], 13, self.type.position)
+				self.soundID[index] = Sound.Play(self.castSFX[index], 3, self.type.position)
 				Sound.SetVolume(self.soundID[index], 0.8)
 			end
 			self.timeSinceTick = SUNRAY_TICK_INTERVAL
@@ -114,7 +112,8 @@ function CreateSunRay(entity)
 						end
 					end
 					hits[index]:Hurt(self.damage)
-					Sound.Play(self.hitSFX, 1, hits[index].position)
+					local id = Sound.Play(self.hitSFX, 1, hits[index].position)
+					if id ~= -1 then self.hitID = id end
 				end
 			end
 		end

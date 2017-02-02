@@ -122,6 +122,7 @@ DWORD WINAPI update( LPVOID args )
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
+			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
 
 			for( int i=0; i<boundAnimations; i++ )
 			{
