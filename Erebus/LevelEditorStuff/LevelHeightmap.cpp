@@ -55,7 +55,7 @@ std::string LevelHeightmap::toLua(std::string name)
 	glm::vec3 position = transform->getTransformRef()->getPos();
 
 	ss << name << ".asset = Assets.LoadHeightmap(\"Textures/" << textureName << ".png\")" << endl;
-	ss << name << ".asset:SetPosition({x=" << position.x << ", y=" << position.y << ", z=" << position.z << "})" << endl;
+	ss << name << ".asset:SetPosition({x=" << position.x+offset.x << ", y=" << position.y+offset.y << ", z=" << position.z+offset.z << "})" << endl;
 	ss << name << ".heightMultiplier = " << heightMultiplier << endl;
 	ss << name << ".surrounding = { ";
 
@@ -90,12 +90,12 @@ void LevelHeightmap::update( float deltaTime )
 				for( int z=0; z<heightmap->getMapHeight(); z++ )
 				{
 					float height = heightmap->getHardPosAt(x,z) * heightMultiplier;
-					s_debugger->drawLine( glm::vec3( position.x+x,position.y+height-lineLength*0.5f,position.z+z ), glm::vec3(position.x+x,position.y+height+lineLength*0.5f,position.z+z) );
+					s_debugger->drawLine( glm::vec3( position.x+offset.x+x,position.y+offset.y+height-lineLength*0.5f,position.z+offset.z+z ), glm::vec3(position.x+offset.x+x,position.y+offset.y+height+lineLength*0.5f,position.z+offset.z+z) );
 				}
 			}
 		}
 
-		s_debugger->drawAABB( position, position + glm::vec3( heightmap->getMapWidth(), 100.0f, heightmap->getMapHeight() ), glm::vec3( 1, 0, 0 ) );
+		s_debugger->drawAABB( position+offset, position + offset + glm::vec3( heightmap->getMapWidth(), 100.0f, heightmap->getMapHeight() ), glm::vec3( 1, 0, 0 ) );
 	}
 }
 
@@ -108,6 +108,7 @@ void LevelHeightmap::setTwStruct( TwBar* bar )
 	TwAddVarRW( bar, "heightmapDraw", TW_TYPE_BOOLCPP, &draw, "label='Draw:'" );
 	TwAddVarRW( bar, "heightmapLineLength", TW_TYPE_FLOAT, &lineLength, "label='Line Length:'" );
 	TwAddVarRW( bar, "heightmapHeightMultiplier", TW_TYPE_FLOAT, &heightMultiplier, "label='Height Multiplier:'" );
+	TwAddVarRW( bar, "heightmapOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'" );
 
 	TwAddVarRW( bar, "heightmapID", TW_TYPE_INT32, &heightmapID, "label='HeightmapID:'" );
 	
@@ -150,6 +151,11 @@ void LevelHeightmap::setHeightmapID( int id )
 	heightmapID = id;
 }
 
+void LevelHeightmap::setOffset( const glm::vec3& o )
+{
+	offset = o;
+}
+
 bool LevelHeightmap::getDraw()
 {
 	return draw;
@@ -173,6 +179,11 @@ Importer::HeightMap* LevelHeightmap::getHeightmap() const
 int LevelHeightmap::getHeightmapID() const
 {
 	return heightmapID;
+}
+
+const glm::vec3& LevelHeightmap::getOffset() const
+{
+	return offset;
 }
 
 void LevelHeightmap::setDebugger( Debug* debugger )
