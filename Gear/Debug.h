@@ -79,7 +79,7 @@ public:
 	};
 private:
 	
-	debugLineStruct debugLines[1000];
+	debugLineStruct debugLines[50000];
 	debugSphereStruct debugSpheres[100000];
 	debugAABBStruct debugAABBs[65000];
 	debugOBBStruct debugOBBs[10000];
@@ -88,7 +88,7 @@ private:
 	int totalDebugAABBs;
 	int totalDebugOBBs;
 
-	debugLineStruct	bufferDebugLines[1000];
+	debugLineStruct	bufferDebugLines[50000];
 	debugSphereStruct bufferDebugSpheres[100000];
 	debugAABBStruct bufferDebugAABBs[65000];
 	debugOBBStruct bufferDebugOBBs[10000];

@@ -24,5 +24,9 @@ public:
 
 	LevelCollider* getLoadColider(unsigned int ID, LevelCollider* colider);
 
+	bool getDoesIDExists(unsigned int ID);
+
+	void checkIfHighestID(unsigned int ID);
+
 	//void changedLayer;
 };
