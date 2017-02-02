@@ -102,9 +102,9 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	player2.spells[1] = SpellList[1].spell(player2)
-	player2.spells[2] = SpellList[2].spell(player2)
-	player2.spells[3] = SpellList[3].spell(player2)
+	player2.spells[1] = CreateBlackHole()--SpellList[1].spell(player2)
+	player2.spells[2] = CreateBlackHole()--SpellList[2].spell(player2)
+	player2.spells[3] = CreateBlackHole()--SpellList[3].spell(player2)
 	--player2.spells[4] = SpellList[4].spell(player2)
 
 	player2.currentSpell = 1
