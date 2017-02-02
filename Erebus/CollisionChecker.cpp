@@ -390,7 +390,7 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 	this->rayToAabbCollisionCounter++;
 	float epsilon = glm::epsilon<float>();
 	float tmin = 0.0f;
-	float tmax = std::numeric_limits<float>::max();
+	float tmax = std::numeric_limits<float>().max();
 	glm::vec3 rayDirection = ray->getDirection();
 	glm::vec3 rayPosition = ray->getPosition();
 	glm::vec3 aabbMin = aabb->getMinPos();
@@ -400,7 +400,7 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 
 	for (unsigned int i = 0; i < threeSlabs; i++)
 	{
-		if (glm::abs(rayDirection[i] < epsilon)) // Ray is parallell to slab
+		if (glm::abs(rayDirection[i]) < epsilon) // Ray is parallell to slab
 		{
 			if (rayPosition[i] < aabbMin[i] || rayPosition[i] > aabbMax[i]) // No hit if origin not inside slab
 				return false;
@@ -411,8 +411,6 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 			float ood = 1.0f / rayDirection[i];
 			float t1 = (aabbMin[i] - rayPosition[i]) * ood;
 			float t2 = (aabbMax[i] - rayPosition[i]) * ood;
-			tmin = t1;
-			tmax = t2;
 
 			if (t1 > t2) // Make sure t1 is the intersection with near plane and t2 with far plane
 				swap<float>(t1, t2);
@@ -420,10 +418,10 @@ bool CollisionChecker::collisionCheck(RayCollider * ray, AABBCollider * aabb)
 			if (t1 > tmin)
 				tmin = t1;
 
-			if (t2 > tmax) 
+			if (t2 < tmax) 
 				tmax = t2;
 
-			if (glm::abs(tmin) > glm::abs(tmax)) // furthest entry further away than closest exit. Exit function, no collision
+			if (tmin > tmax) // furthest entry further away than closest exit. Exit function, no collision
 				return false;
 		}
 
