@@ -87,12 +87,19 @@ void NetworkController::startNetworkReceiving()
 	}
 }
 
-void NetworkController::acceptNetworkCommunication()
+bool NetworkController::acceptNetworkCommunication()
 {
-	while (running && !network.AcceptCommunication())
+	int counter = 0;
+	while (running && counter < 20)
 	{
+		if (network.AcceptCommunication())
+		{
+			return true;
+		}
+		counter++;
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
+	return false;
 }
 
 void NetworkController::startCommunicationThreads(PerformanceCounter& counter)

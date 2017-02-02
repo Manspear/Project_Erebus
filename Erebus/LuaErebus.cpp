@@ -61,8 +61,7 @@ namespace LuaErebus
 		{
 			if (g_network->initNetworkAsHost())
 			{
-				result = true;
-				g_network->acceptNetworkCommunication();
+				result = g_network->acceptNetworkCommunication();
 			}
 		}
 		else
