@@ -180,7 +180,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	{
 		returnComponent = new LevelSound();
 	}
-	
+	else if (componentName == LevelEnemy::name)
+	{
+		returnComponent = new LevelEnemy();
+	}
 	return returnComponent;
 }
 

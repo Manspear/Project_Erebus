@@ -31,6 +31,7 @@
 #include "LevelWorldHandler.h"
 #include "LevelBrushHandler.h"
 #include "LevelColiderHandler.h"
+#include "LevelEnemy.h"
 
 #include <SDKDDKVer.h>
 

@@ -153,8 +153,9 @@
     <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-    <ClCompile Include="LuaLight.cpp">
-      <Filter>Source Files\Lua</Filter>
+    <ClCompile Include="LuaLight.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelEnemy.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,18 +298,17 @@
     <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaLight.h">
-      <Filter>Header Files\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="PlaneFrustum.h" />
     <ClInclude Include="LevelEditorStuff\LevelColiderHandler.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LuaUI.h" />
     <ClInclude Include="LevelEditorStuff\LevelBrushHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="LuaLight.h" />
+    <ClInclude Include="LevelEditorStuff\LevelEnemy.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>

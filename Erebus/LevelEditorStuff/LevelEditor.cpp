@@ -115,6 +115,7 @@ void LevelEditor::start() {
 	LevelHeightmap::setDebugger( Debugger::getInstance() );
 	LevelCollider::setDebugger( Debugger::getInstance() );
 	LevelSound::setDebugger( Debugger::getInstance() );
+	LevelEnemy::setDebugger(Debugger::getInstance());
 
 	//levelGizmo = new LevelGizmo();
 	//levelGizmo->addVariables(Debugger::getInstance(), this->camera, this->inputs);
