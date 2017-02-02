@@ -79,7 +79,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 5.25
+	player.moveSpeed = 10
 	player.reachedGoal = false
 	player.health = 100.0
 	player.forward = 0
@@ -209,13 +209,11 @@ function UpdatePlayer(dt)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
-
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
-	--player.spells[4]:Update(dt)
 	
 	-- check collision against the goal
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
@@ -257,7 +255,7 @@ function Controls(dt)
 			player.forward = -player.moveSpeed
 		end
 		if Inputs.KeyDown("A") then
-				player.left = player.moveSpeed
+			player.left = player.moveSpeed
 		end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
@@ -301,7 +299,6 @@ function Controls(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
-		--if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
 end
 
 function PrintInfo() 
