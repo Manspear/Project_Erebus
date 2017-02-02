@@ -6,8 +6,9 @@ SPEED_PILLAR = 75
 COOLDOWN_PILLAR = 3
 PILLAR_DURATION = 2
 GRAVITY_PILLAR = 5
-
+DAMAGE_INTERVAL_PILLAR = 0.5
 Y_SPEED_PILLAR = 2
+
 
 function CreateHellPillar()
 	function initNade()
@@ -46,6 +47,7 @@ function CreateHellPillar()
 	spell.Charge = BaseCharge
 	spell.ChargeCast = BaseChargeCast
 	spell.cooldown = 0
+	spell.timeSinceTick = 0
 	--spell.effect = CreateFireEffect()
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.pillarDir = {x = 0, y = 0, z = 29.85}
@@ -101,18 +103,22 @@ function CreateHellPillar()
 		Transform.SetRotation(self.pillar.type.transformID, self.pillarDir)
 		hits = self.pillar.type:Update(self.pillar.pos, {x = 0, y = 1, z = 0})
 		self.pillar.duration = self.pillar.duration - dt
-		for index = 1, #hits do
-			if hits[index].Hurt then
-				if self.nade.effectFlag then	
-					for e = 1, #self.nade.effects do
-						local effect = effectTable[self.nade.effects[e]]()
-						table.insert(hits[index].effects, self.effect)
-						effect:Apply(hits[index])
+		self.timeSinceTick = self.timeSinceTick - dt
+		if self.timeSinceTick < 0 then
+			for index = 1, #hits do
+				if hits[index].Hurt then
+					if self.nade.effectFlag then	
+						for e = 1, #self.nade.effects do
+							local effect = effectTable[self.nade.effects[e]]()
+							table.insert(hits[index].effects, self.effect)
+							effect:Apply(hits[index])
+						end
 					end
+					hits[index]:Hurt(self.pillar.damage/(PILLAR_DURATION/DAMAGE_INTERVAL_PILLAR))
 				end
-				hits[index]:Hurt(MAX_DAMAGE_PILLAR)
-			end
-		end	
+			end	
+			self.timeSinceTick = self.timeSinceTick + DAMAGE_INTERVAL_PILLAR
+		end
 		if self.pillar.duration < 0 then 
 			self.pillar.alive = false 
 			self.pillar.type:Kill()
@@ -128,8 +134,10 @@ function CreateHellPillar()
 		return self.pillar.effects[1]
 	end
 	function spell:Combine(effect,damage)
-		table.insert(self.pillar.effects, effect)
-		self.pillar.damage = self.pillar.damage + damage
+		if #self.pillar.effects < 2 then
+			table.insert(self.pillar.effects, effect)
+			self.pillar.damage = self.pillar.damage + damage
+		end
 	end
 
 	return spell

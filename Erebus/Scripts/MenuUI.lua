@@ -47,6 +47,7 @@ function UpdateMenuUI(dt)
 		end
 
 		if UI.mousePick(screenImages["options"], x,y) then
+			OPTIONS_RETURN_STATE = GAMESTATE_MAIN_MENU
 			gamestate.ChangeState(GAMESTATE_OPTIONS)
 		end
 

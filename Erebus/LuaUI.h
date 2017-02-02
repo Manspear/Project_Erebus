@@ -10,4 +10,5 @@ namespace LuaUI {
 	int loadScreenImage(lua_State* lua);
 	int unloadScreenImage(lua_State* lua);
 	int resizeScreenImage(lua_State* lua);
+	int repositionScreenImage(lua_State* lua);
 }

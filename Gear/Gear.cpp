@@ -451,6 +451,7 @@ namespace Gear
 
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+			removeLightQueue.clear();
 		}
 	}
 
