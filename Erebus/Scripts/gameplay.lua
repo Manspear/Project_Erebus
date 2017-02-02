@@ -48,11 +48,11 @@ function UpdateGameplay(dt)
 	if Inputs.KeyReleased(Keys.Escape) then
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
-		if Inputs.KeyDown(Keys.Enter) then
+		if Inputs.KeyReleased("B") then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 
-	if Inputs.KeyDown("Y") then
+	if player.health <= 0 then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
 
