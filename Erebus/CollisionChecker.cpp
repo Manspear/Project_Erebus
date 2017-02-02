@@ -634,7 +634,7 @@ bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, 
 		else if (hitbox2->isObbCollider()) // Sphere vs obb
 		{
 			OBBCollider* obb = static_cast<OBBCollider*>(hitbox2);
-			return this->collisionCheckNormal(obb, sphere1,normal);
+			return this->collisionCheckNormal(sphere1, obb, normal);
 		}
 	}
 	else
@@ -732,7 +732,67 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, glm::vec3 & normal)
 {
 	normal = glm::vec3(0, 0, 0);
-	return false;
+	bool collision = false;
+	this->obbToSphereCollisionCounter++;
+	const glm::vec3 sphereCenter = sphere->getPos();
+	float sphereRadius = sphere->getRadius();
+	float sphereRadiusSquared = sphere->getRadiusSquared();
+
+	glm::vec3 v = closestPointOnOBB(obb, sphereCenter) - sphereCenter;
+	float vSquared = glm::dot(v, v);
+
+	if (glm::dot(v, v) <= sphereRadiusSquared) // if we have a collision
+	{
+		// Axis to check against
+		const int axisAmount = 6;
+		glm::vec3 axes[axisAmount];
+		axes[0] = obb->getXAxis();
+		axes[1] = -obb->getXAxis();
+		axes[2] = obb->getZAxis();
+		axes[3] = -obb->getZAxis();
+		axes[4] = obb->getYAxis();
+		axes[5] = -obb->getYAxis();
+
+		// hit normal
+		glm::vec3 closestPoint = closestPointOnOBB(obb, sphereCenter);
+		glm::vec3 hitNormal = glm::normalize(closestPoint - obb->getPos());
+
+		//Cos angle, who is closest
+		float x = glm::dot(axes[0], hitNormal);
+		float xNegative = glm::dot(axes[1], hitNormal);
+		float z = glm::dot(axes[2], hitNormal);
+		float zNegative = glm::dot(axes[3], hitNormal);
+		float y = glm::dot(axes[4], hitNormal);
+		float yNegative = glm::dot(axes[5], hitNormal);
+
+		float cosAngle[axisAmount];
+
+		cosAngle[0] = glm::dot(axes[0], hitNormal); // x
+		cosAngle[1] = glm::dot(axes[1], hitNormal); // x negative
+		cosAngle[2] = glm::dot(axes[2], hitNormal); // z
+		cosAngle[3] = glm::dot(axes[3], hitNormal); // z negative
+		cosAngle[4] = glm::dot(axes[4], hitNormal); // y
+		cosAngle[5] = glm::dot(axes[4], hitNormal); // y negative
+
+													//The one with closest angle is the normal of the plane
+		float closest = std::numeric_limits<float>().min();
+		int index = -1;
+		for (int i = 0; i < axisAmount; i++)
+		{
+			if (cosAngle[i] > closest) // if the angle is closer than the last angle. It is the closest
+			{
+				closest = cosAngle[i];
+				index = i;
+			}
+
+		}
+		if (index != -1) // if we found the closest angle. Probably reduntant check
+		{
+			normal = axes[index];
+		}
+		collision = true;
+	}
+	return collision; 
 }
 
 float CollisionChecker::closestDistanceAabbToPoint(const float & point, const float aabbMin, const float aabbMax)
