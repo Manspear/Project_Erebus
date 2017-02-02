@@ -42,12 +42,14 @@ namespace LuaAssets
 		{
 			{ "Inside", insideHeightmap },
 			{ "SetPosition", setHeightmapPosition },
-			{ "GetPosition", getHeightmapPosition },
+			{ "SetHeightMultiplier", setHeightmapMultiplier },
 			{ "GetSize", getHeightmapSize },
 			{ "GetHeight", getHeight },
 			//{ "GetModel", getHeightmapModel },
 			{ "GetMapWidth", getMapWidth },
 			{ "GetMapHeight", getMapHeight },
+			{ "GetPosition", getHeightmapPosition },
+			{ "GetHeightMultiplier", getHeightmapMultiplier },
 			{ NULL, NULL }
 		};
 
@@ -157,14 +159,15 @@ namespace LuaAssets
 		return 0;
 	}
 
-	int getHeightmapPosition( lua_State* lua )
+	int setHeightmapMultiplier( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 1 );
+		assert( lua_gettop( lua ) >= 2 );
 
 		HeightMap* heightmap = getHeightmap( lua, 1 );
-		setVec3( lua, heightmap->getPosition() );
+		float height = lua_tonumber( lua, 2 );
 
-		return 1;
+		heightmap->setHeightMultiplier( height );
+		return 0;
 	}
 
 	int getHeightmapSize( lua_State* lua )
@@ -227,6 +230,25 @@ namespace LuaAssets
 		}
 
 		return result;
+	}
+
+	int getHeightmapPosition( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+
+		HeightMap* heightmap = getHeightmap( lua, 1 );
+		setVec3( lua, heightmap->getPosition() );
+
+		return 1;
+	}
+
+	int getHeightmapMultiplier( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+
+		HeightMap* heightmap = getHeightmap( lua, 1 );
+		lua_pushnumber( lua, heightmap->getHeightMultiplier() );
+		return 1;
 	}
 
 	/*int getHeightmapModel( lua_State* lua )

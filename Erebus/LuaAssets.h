@@ -18,13 +18,14 @@ namespace LuaAssets
 	int loadHeightmap( lua_State* lua );
 	int insideHeightmap( lua_State* lua );
 	int setHeightmapPosition( lua_State* lua );
-	int getHeightmapPosition( lua_State* lua );
+	int setHeightmapMultiplier( lua_State* lua );
 	int getHeightmapSize( lua_State* lua );
 	int getHeight( lua_State* lua );
 	//int getHeightmapModel( lua_State* lua );
-
 	int getMapWidth(lua_State * lua);
 	int getMapHeight(lua_State * lua);
+	int getHeightmapPosition( lua_State* lua );
+	int getHeightmapMultiplier( lua_State* lua );
 
 	// helper functions
 	Importer::HeightMap* getHeightmap( lua_State* lua, int index );

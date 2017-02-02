@@ -57,7 +57,9 @@ namespace Importer
 					int yindex = y;
 					if (yindex >= mapHeight - 1)
 						yindex = mapHeight - 1;
-					heightData[x][y] = map.getPixelValue(xindex, yindex).red * (33.8 / 255)+3;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
+					//heightData[x][y] = map.getPixelValue(xindex, yindex).red * (33.8 / 255)+3;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
+
+					heightData[x][y] = map.getPixelValue(xindex,yindex).red;
 				}
 			}
 
@@ -172,9 +174,9 @@ namespace Importer
 		position = pos;
 	}
 
-	const glm::vec3& HeightMap::getPosition() const
+	void HeightMap::setHeightMultiplier( float multi )
 	{
-		return position;
+		heightMultiplier = multi;
 	}
 
 	int HeightMap::getMapWidth()
@@ -185,6 +187,16 @@ namespace Importer
 	int HeightMap::getMapHeight()
 	{
 		return mapHeight*breadthMulti;
+	}
+
+	const glm::vec3& HeightMap::getPosition() const
+	{
+		return position;
+	}
+
+	float HeightMap::getHeightMultiplier()
+	{
+		return heightMultiplier;
 	}
 
 	/*glm::mat4 HeightMap::getWorldMat()
@@ -367,8 +379,8 @@ namespace Importer
 		fractPart = modf(posx, &xFloored);// xFractPart = 0.141593 x = 3.141593 xFloored = 3
 		fractPart = modf(posz, &zFloored);
 
-		heightmapIndex = (zFloored * 2 + xFloored) + 1;
-		//printf("heightmapIndex: %d, x: %f, z: %f \n", heightmapIndex, realX, realZ);
+		/*heightmapIndex = (zFloored * 2 + xFloored) + 1;
+
 		if (heightmapIndex == 1)
 		{
 			return heightVal * 1;
@@ -385,6 +397,9 @@ namespace Importer
 		{
 			return heightVal * 0.596;
 		}
-		else return 55;
+		else return 55;*/
+
+		// TODO: What does this magic number mean? Ask Jesper.
+		return heightVal*heightMultiplier + 3;
 	}
 }

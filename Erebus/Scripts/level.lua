@@ -8,6 +8,7 @@ heightmaps[1].asset = Assets.LoadHeightmap("Textures/tile1_128.png")-- skicka in
 heightmaps[1].transformID = Transform.Bind()
 heightmaps[1].offset = 0
 heightmaps[1].asset:SetPosition({x=0, y=0, z=128})
+heightmaps[1].asset:SetHeightMultiplier(33.8/255)
 heightmaps[1].surrounding = {}
 
 heightmaps[2] = {}
@@ -15,6 +16,7 @@ heightmaps[2].asset = Assets.LoadHeightmap("Textures/tile2_heights.png")-- skick
 heightmaps[2].transformID = Transform.Bind()
 heightmaps[2].offset = 0
 heightmaps[2].asset:SetPosition({x=128, y=0, z=128})
+heightmaps[2].asset:SetHeightMultiplier(33.8/255)
 heightmaps[2].surrounding = {}
 
 heightmaps[3] = {}

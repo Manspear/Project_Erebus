@@ -20,7 +20,7 @@ namespace Importer
 		IMPORTER_API bool inside( const glm::vec3& position );
 
 		IMPORTER_API void setPosition( const glm::vec3& position );
-		IMPORTER_API const glm::vec3& getPosition() const;
+		IMPORTER_API void setHeightMultiplier( float multi );
 
 		//IMPORTER_API glm::mat4 getWorldMat();
 		//IMPORTER_API void setPos( const glm::vec3& pos );
@@ -31,6 +31,8 @@ namespace Importer
 
 		IMPORTER_API int getMapWidth();
 		IMPORTER_API int getMapHeight();
+		IMPORTER_API const glm::vec3& getPosition() const;
+		IMPORTER_API float getHeightMultiplier();
 
 	private:
 		float getHardPosAt( int x, int y );
@@ -41,5 +43,7 @@ namespace Importer
 		float minX, maxX, minZ, maxZ;
 		float widthMulti, heightMulti, breadthMulti;
 		glm::vec3 position;
+
+		float heightMultiplier;
 	};
 }
