@@ -153,6 +153,61 @@ ID15name2 = nil
 table.insert(colliders,ID15name)
 ID15name = nil
 
+local ID18name = {}
+ID18name.transformID = Transform.Bind()
+Transform.SetPosition(ID18name.transformID, {x=40, y=10, z=15})
+Transform.SetScaleNonUniform(ID18name.transformID, 1, 1, 1)
+Transform.SetRotation(ID18name.transformID, {x=0, y=0, z=0})
+ID18name.collider = SphereCollider.Create(ID18name.transformID)
+ID18name.collider:SetOffset(0,0,0)
+ID18name.collider:SetRadius(1)
+ID18name1 = {}
+ID18name1.collider = SphereCollider.Create(-1)
+ID18name1.collider:SetOffset(0,2,0)
+ID18name1.collider:SetRadius(1)
+ID18name.collider:AddChild(ID18name1.collider)
+table.insert(colliders,ID18name1)
+ID18name2 = {}
+ID18name2.collider = SphereCollider.Create(-1)
+ID18name2.collider:SetOffset(0,2,0)
+ID18name2.collider:SetRadius(1)
+ID18name1.collider:AddChild(ID18name2.collider)
+table.insert(colliders,ID18name2)
+CollisionHandler.AddSphere(ID18name.collider, 3)
+ID18name1 = nil
+ID18name2 = nil
+table.insert(colliders,ID18name)
+ID18name = nil
+
+local ID23name = {}
+ID23name.transformID = Transform.Bind()
+Transform.SetPosition(ID23name.transformID, {x=35, y=10, z=20})
+Transform.SetScaleNonUniform(ID23name.transformID, 1, 1, 1)
+Transform.SetRotation(ID23name.transformID, {x=0, y=0, z=0})
+ID23name.collider = AABBCollider.Create(ID23name.transformID)
+ID23name.collider:SetOffset(0,0,0)
+ID23name.collider:SetMinPos(-0.5,-0.5,-0.5)
+ID23name.collider:SetMaxPos(0.5,0.5,0.5)
+ID23name1 = {}
+ID23name1.collider = AABBCollider.Create(-1)
+ID23name1.collider:SetOffset(0,2,0)
+ID23name1.collider:SetMinPos(-0.5,-0.5,-0.5)
+ID23name1.collider:SetMaxPos(0.5,0.5,0.5)
+ID23name.collider:AddChild(ID23name1.collider)
+table.insert(colliders,ID23name1)
+ID23name2 = {}
+ID23name2.collider = AABBCollider.Create(-1)
+ID23name2.collider:SetOffset(0,2,0)
+ID23name2.collider:SetMinPos(-0.5,-0.5,-0.5)
+ID23name2.collider:SetMaxPos(0.5,0.5,0.5)
+ID23name1.collider:AddChild(ID23name2.collider)
+table.insert(colliders,ID23name2)
+CollisionHandler.AddAABB(ID23name.collider, 3)
+ID23name1 = nil
+ID23name2 = nil
+table.insert(colliders,ID23name)
+ID23name = nil
+
 --TEMP: This should probably not be hardcoded into every level?
 local widthTest = heightmaps[1].asset:GetMapWidth()
 local heightTest = heightmaps[1].asset:GetMapHeight()
