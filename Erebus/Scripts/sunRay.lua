@@ -94,7 +94,7 @@ function CreateSunRay(entity)
 			self.alive = true
 			self.lifeTime = SUNRAY_DURATION 
 			self.effectFlag = effects
-			self.damage = (chargetime/SUNRAY_MAX_CHARGETIME) * SUNRAY_DAMAGE
+			self.damage = (chargetime/SUNRAY_MAX_CHARGETIME) * self.damage
 			self.chargedTime = 0
 			self.cooldown = SUNRAY_COOLDOWN
 			self.UVpushed = 0.0
@@ -111,6 +111,7 @@ function CreateSunRay(entity)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.type:Kill()
+		self.damage = SUNRAY_DAMAGE
 	end
 	function sunRay:GetEffect()
 		return self.effects[1]
