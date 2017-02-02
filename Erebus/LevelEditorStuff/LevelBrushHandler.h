@@ -42,7 +42,7 @@ private:
 	float radius = 1;
 	float density = 1;
 	double timer = 0;
-	glm::vec3 earlierPositions[3];
+	std::vector<glm::vec3> earlierPositions; //this will have a max size of 4
 	std::string saveAsType = "Brush";
 	LevelBrushHandler();
 	TweakBar* actionBar;

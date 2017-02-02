@@ -45,6 +45,22 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 	std::cout << timer;
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
 	{
+
+		for (unsigned int i = 0; i < 3; i++)
+		{
+			glm::vec3 result = hitPoint - earlierPositions[i];
+			int minMax = 8;
+			
+			if ((result.x <= 0 && result.x >(-minMax)) || (result.x >= 0 && result.x < minMax))
+			{
+				if ((result.z <= 0 && result.z >(-minMax)) || (result.z >= 0 && result.z < minMax))
+				{
+					return;
+				}
+				
+			}
+		}
+
 		LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
 		if (newActor)
 		{
@@ -56,7 +72,11 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 
 			if (transform)
 				transform->getTransformRef()->setPos(hitPoint);
-			timer = 0.3;
+			
+			timer = 0.2;
+			earlierPositions.insert(earlierPositions.begin(),hitPoint);
+			earlierPositions.pop_back();
+
 		}
 
 	}
@@ -64,7 +84,10 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 }
 LevelBrushHandler::LevelBrushHandler()
 {
-
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		earlierPositions.push_back(glm::vec3(9999, 9999, 9999));
+	}
 }
 
 LevelBrushHandler * LevelBrushHandler::getInstance()
