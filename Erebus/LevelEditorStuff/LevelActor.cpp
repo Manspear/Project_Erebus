@@ -254,6 +254,7 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	//TwAddVarRW(bar, "ActorName", TW_TYPE_STDSTRING, &this->actorDisplayName, "");
 	TwAddVarCB(bar, "ActorName", TW_TYPE_STDSTRING, setDisplayCB, getDisplayCB, (void*)this, "");
 	TwAddVarCB(bar, "ActorType", TW_TYPE_STDSTRING, setTypeCB, getTypeCB, (void*)this, "");
+	TwAddSeparator(bar, NULL, NULL);
 	for (auto it : this->actorComponents)
 	{
 		std::stringstream ss;
