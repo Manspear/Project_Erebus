@@ -127,10 +127,10 @@ function FindHeightmap(position)
 
 	-- check surrounding
 	if not found then
-		for _,hm in pairs(player.currentHeightmap.surrounding) do
-			if hm.asset:Inside(position) then
-				player.controller:SetHeightmap(hm.asset)
-				player.currentHeightmap = hm
+		for _,heightmapIndex in pairs(player.currentHeightmap.surrounding) do
+			if heightmaps[heightmapIndex].asset:Inside(position) then
+				player.currentHeightmap = heightmaps[heightmapIndex]
+				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				found = true
 				break
 			end

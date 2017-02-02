@@ -29,8 +29,8 @@ heightmaps[4].transformID = Transform.Bind()
 heightmaps[4].offset = 0
 heightmaps[4].surrounding = {}
 
-table.insert(heightmaps[1].surrounding, heightmaps[2])
-table.insert(heightmaps[2].surrounding, heightmaps[1])
+table.insert(heightmaps[1].surrounding, 2)
+table.insert(heightmaps[2].surrounding, 1)
 
 --Tile1----------------------------------------------------------------
 local tile1 = Assets.LoadModel("Models/tile1.model")
