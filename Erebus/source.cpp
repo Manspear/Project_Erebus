@@ -85,6 +85,8 @@ DWORD WINAPI update( LPVOID args )
 	collisionHandler.addHitbox(&sphere, 3);
 	collisionHandler.addHitbox(&obb2, 3);
 
+	obb2.rotateAroundY(1.3f);
+
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
