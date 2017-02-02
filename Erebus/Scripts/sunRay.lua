@@ -24,11 +24,10 @@ function CreateSunRay(entity)
 	sunRay.UVpushing = 2.0	sunRay.UVpushed = 0.0	
 	sunRay.startUp = false	sunRay.startUpTime = 0.4	sunRay.startUpTimeLVL2 = 0.7
 	sunRay.startUpScale = {x = 0.2, y = 0.2, z = 1}
-	sunRay.castSFX = {}
-	sunRay.castSFX[1] = "Effects/CK_Blaster_Shot-226.wav"
-	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
+	sunRay.castSFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav" }
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
+	sunRay.hitID = -1
 	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
@@ -67,19 +66,17 @@ function CreateSunRay(entity)
 			self.chargedTime = 0
 			self.cooldown = SUNRAY_COOLDOWN
 			self.UVpushed = 0.0
-			for index = 1, #self.castSFX do
-				self.soundID[index] = Sound.Play(self.castSFX[index], 13, self.type.position)
-				Sound.SetVolume(self.soundID[index], 0.8)
-			end
 			self.timeSinceTick = SUNRAY_TICK_INTERVAL
 			Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x, self.startUpScale.y, self.startUpScale.z)
+			self.soundID[1] = Sound.Play(self.castSFX[1], 3, self.type.position)
 			self.startUp = true
 		end
 	end
 
 	function sunRay:Kill()
 		self.alive = false
-		Sound.Pause(self.soundID[2])
+		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
+		Sound.Stop(self.hitID)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.startUpScale.x = 0.2 self.startUpScale.y = 0.2
@@ -110,7 +107,8 @@ function CreateSunRay(entity)
 						end
 					end
 					hits[index]:Hurt(self.damage)
-					Sound.Play(self.hitSFX, 1, hits[index].position)
+					local id = Sound.Play(self.hitSFX, 1, hits[index].position)
+					if id ~= -1 then self.hitID = id end
 				end
 			end
 		end
@@ -131,6 +129,10 @@ function CreateSunRay(entity)
 			Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x, self.startUpScale.y, self.startUpScale.z)
 			self.shakeIt = self.shakeIt * -1
 		else
+			for index = 1, #self.castSFX do
+				self.soundID[index] = Sound.Play(self.castSFX[index], 3, self.type.position)
+				Sound.SetVolume(self.soundID[index], 0.8)
+			end
 			Transform.SetScaleNonUniform(self.type.transformID, 1, 1, 1)
 			self.startUpTime = 0.4
 			self.startUpTimeLVL2 = 0.7

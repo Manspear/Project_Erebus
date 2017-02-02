@@ -54,6 +54,8 @@ public:
 	void setVelocity(size_t i, const glm::vec3 &vel);
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
+	std::string getDbgTxt();
+
 private:
 	struct sSound
 	{
