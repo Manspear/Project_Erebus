@@ -200,7 +200,7 @@ end
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
-		player.spells[currentSpell]:Combine(damage, effectIndex)
+		player.spells[player.currentSpell]:Combine(damage, effectIndex)
 	end
 end
 function Controls(dt)
