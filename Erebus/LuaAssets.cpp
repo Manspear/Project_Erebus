@@ -40,6 +40,10 @@ namespace LuaAssets
 		luaL_newmetatable( lua, "heightmapMeta" );
 		luaL_Reg heightmapRegs[] =
 		{
+			{ "Inside", insideHeightmap },
+			{ "SetPosition", setHeightmapPosition },
+			{ "GetPosition", getHeightmapPosition },
+			{ "GetSize", getHeightmapSize },
 			{ "GetHeight", getHeight },
 			//{ "GetModel", getHeightmapModel },
 			{ "GetMapWidth", getMapWidth },
@@ -131,14 +135,59 @@ namespace LuaAssets
 		return result;
 	}
 
+	int insideHeightmap( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 2 );
+
+		HeightMap* heightmap = getHeightmap( lua, 1 );
+		glm::vec3 position = getVec3( lua, 2 );
+
+		lua_pushboolean( lua, heightmap->inside( position ) );
+		return 1;
+	}
+
+	int setHeightmapPosition( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 2 );
+
+		HeightMap* heightmap = getHeightmap( lua, 1 );
+		glm::vec3 position = getVec3( lua, 2 );
+
+		heightmap->setPosition( position );
+		return 0;
+	}
+
+	int getHeightmapPosition( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+
+		HeightMap* heightmap = getHeightmap( lua, 1 );
+		setVec3( lua, heightmap->getPosition() );
+
+		return 1;
+	}
+
+	int getHeightmapSize( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 1 );
+
+		HeightMap* heightmap = getHeightmap( lua, 1 );
+
+		lua_newtable( lua );
+		lua_pushnumber( lua, heightmap->getMapWidth() );
+		lua_setfield( lua, -2, "width" );
+		lua_pushnumber( lua, heightmap->getMapHeight() );
+		lua_setfield( lua, -2, "height" );
+		return 1;
+	}
+
 	int getHeight( lua_State* lua )
 	{
 		int result = 0;
 
 		if( lua_gettop( lua ) >= 3 )
 		{
-			lua_getfield( lua, 1, "__self" );
-			HeightMap* heightmap = (HeightMap*)lua_touserdata( lua, -1 );
+			HeightMap* heightmap = getHeightmap( lua, 1 );
 
 			float x = lua_tonumber( lua, 2 );
 			float y = lua_tonumber( lua, 3 );
@@ -156,8 +205,7 @@ namespace LuaAssets
 
 		if (lua_gettop(lua) >= 1)
 		{
-			lua_getfield(lua, 1, "__self");
-			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
+			HeightMap* heightmap = getHeightmap( lua, 1 );
 
 			lua_pushnumber(lua, heightmap->getMapWidth());
 			result = 1;
@@ -172,8 +220,7 @@ namespace LuaAssets
 
 		if (lua_gettop(lua) >= 1)
 		{
-			lua_getfield(lua, 1, "__self");
-			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
+			HeightMap* heightmap = getHeightmap( lua, 1 );
 
 			lua_pushnumber(lua, heightmap->getMapHeight());
 			result = 1;
@@ -197,4 +244,34 @@ namespace LuaAssets
 
 		return result;
 	}*/
+
+	Importer::HeightMap* getHeightmap( lua_State* lua, int index )
+	{
+		lua_getfield( lua, index, "__self" );
+		return (HeightMap*)lua_touserdata( lua, -1 );
+	}
+
+	void setVec3( lua_State* lua, const glm::vec3& v )
+	{
+		lua_newtable( lua );
+		lua_pushnumber( lua, v.x );
+		lua_setfield( lua, -2, "x" );
+		lua_pushnumber( lua, v.y );
+		lua_setfield( lua, -2, "y" );
+		lua_pushnumber( lua, v.z );
+		lua_setfield( lua, -2, "z" );
+	}
+
+	glm::vec3 getVec3( lua_State* lua, int index )
+	{
+		glm::vec3 result;
+		lua_getfield( lua, index, "x" );
+		result.x = lua_tonumber( lua, -1 );
+		lua_getfield( lua, index, "y" );
+		result.y = lua_tonumber( lua, -1 );
+		lua_getfield( lua, index, "z" );
+		result.z = lua_tonumber( lua, -1 );
+
+		return result;
+	}
 }

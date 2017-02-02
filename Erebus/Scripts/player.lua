@@ -114,6 +114,79 @@ end
 function UnloadPlayer()
 end
 
+function FindHeightmap(position)
+	assert( player.currentHeightmap, "Player has no heightmap to check collision against." )
+
+	local found = false
+
+	-- check current
+	local hm = player.currentHeightmap
+	--local hmpos = hm.asset:GetPosition()
+	--local hmsize = hm.asset:GetSize()
+
+	--[[if position.x >= hmpos.x and
+		position.x <= hmpos.x + hmsize.width and
+		position.z >= hmpos.z and
+		position.z <= hmpos.z + hmsize.height then
+		found = true
+	end--]]
+	if hm.asset:Inside(position) then
+		found = true
+	end
+
+	-- check next
+	if not found then
+		for _,hm in pairs(player.currentHeightmap.next) do
+			--[[hmpos = hm.asset:GetPosition()
+			hmsize = hm.asset:GetSize()
+
+			if position.x >= hmpos.x and
+				position.x <= hmpos.x + hmsize.width and
+				position.z >= hmpos.z and
+				position.z <= hmpos.z + hmsize.height then
+				player.controller:SetHeightmap(hm.asset)
+				player.currentHeightmap = hm
+				print("IN NEXT")
+				found = true
+				break
+			end--]]
+
+			if hm.asset:Inside(position) then
+				player.controller:SetHeightmap(hm.asset)
+				player.currentHeightmap = hm
+				found = true
+				break
+			end
+		end
+	end
+
+	-- check previous
+	if not found then
+		for _,hm in pairs(player.currentHeightmap.prev) do
+			--[[hmpos = hm.asset:GetPosition()
+			hmsize = hm.asset:GetSize()
+
+			if position.x >= hmpos.x and
+				position.x <= hmpos.x + hmsize.width and
+				position.z >= hmpos.z and
+				position.z <= hmpos.z + hmsize.height then
+				player.controller:SetHeightmap(hm.asset)
+				player.currentHeightmap = hm
+				print("IN PREV")
+				found = true
+				break
+			end--]]
+
+			if hm.asset:Inside(position) then
+				player.controller:SetHeightmap(hm.asset)
+				player.currentHeightmap = hm
+				found = true
+				break
+			end
+		end
+	end
+end
+
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
 	if player.health > 0 then
@@ -156,13 +229,15 @@ function UpdatePlayer(dt)
 
 		--Transform.SetPosition(player.transformID, position)
 
-		local posx = math.floor(position.x/512)
+		--[[local posx = math.floor(position.x/512)
 		local posz = math.floor(position.z/512)
 		player.heightmapIndex = (posz*2 + posx)+1
 		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
 		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
 
-		player.controller:SetHeightmap(heightmaps[player.heightmapIndex].asset)
+		player.controller:SetHeightmap(heightmaps[player.heightmapIndex].asset)--]]
+
+		FindHeightmap(position)
 
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 		
@@ -206,16 +281,19 @@ function UpdatePlayer(dt)
 	player.controller:Update()
 	
 end
+
 function SendCombine(spell)
 	--TOBEDEFINED
 	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
+
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[currentSpell]:Combine(damage, effectIndex)
 	end
 end
+
 function Controls(dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed

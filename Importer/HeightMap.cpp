@@ -161,6 +161,22 @@ namespace Importer
 	{
 	}
 
+	bool HeightMap::inside( const glm::vec3& pos )
+	{
+		return ( pos.x >= position.x && pos.x <= position.x + mapWidth &&
+				pos.z >= position.z && pos.z <= position.z + mapHeight );
+	}
+
+	void HeightMap::setPosition( const glm::vec3& pos )
+	{
+		position = pos;
+	}
+
+	const glm::vec3& HeightMap::getPosition() const
+	{
+		return position;
+	}
+
 	int HeightMap::getMapWidth()
 	{
 		return mapWidth*widthMulti;
