@@ -143,10 +143,10 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	player2.spells[1] = CreateHellPillar(player2)
-	player2.spells[2] = CreateBlackHole(player2)
-	player2.spells[3] = CreateIceGrenade(player2) 
-	--player2.spells[4] = CreateSunRay(player2)
+	player2.spells[1] = SpellList[1].spell(player2)
+	player2.spells[2] = SpellList[2].spell(player2)
+	player2.spells[3] = SpellList[3].spell(player2)
+	--player2.spells[4] = SpellList[4].spell(player2)
 
 	player2.currentSpell = 1
 
@@ -292,9 +292,15 @@ function Controls(dt)
 			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
+			--if player.spells[player.currentSpell].cooldown < 0 then 
+			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
+			--end
 			player.spells[player.currentSpell]:Charge(dt)
 		end
 		if Inputs.ButtonReleased(Buttons.Right) then
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
+			end
 			player.spells[player.currentSpell]:ChargeCast(player)
 		end
 
@@ -330,11 +336,19 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	local newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
-
+	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast = Network.GetSpellPacket()
+	
 	if newspellpacket == true then
-		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
 		player2.currentSpell = player2CurrentSpell
+		if isCharging == false then
+			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
+		else
+			if shouldCast == false then
+				player2.spells[player2.currentSpell]:Charge(dt)
+			else
+				player2.spells[player2.currentSpell]:ChargeCast(player2)
+			end
+		end
 	end
 
 	player2.spells[1]:Update(dt)

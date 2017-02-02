@@ -13,6 +13,7 @@ namespace LuaNetwork
 	int sendAIStatePacket(lua_State* lua);
 	int getAIStatePacket(lua_State* lua);
 	int sendSpellPacket(lua_State* lua);
+	int sendChargeSpellPacket(lua_State* lua);
 	int getSpellPacket(lua_State* lua);
 	int sendAITransformPacket(lua_State* lua);
 	int getAITransformPacket(lua_State* lua);
