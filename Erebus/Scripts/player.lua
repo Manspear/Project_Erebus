@@ -116,6 +116,20 @@ end
 function UnloadPlayer()
 end
 
+function FindHeightmap(position)
+	local hm = player.currentHeightmap
+	if not hm.asset:Inside(position) then
+		for _,hmIndex in pairs(hm.surrounding) do
+			if heightmaps[hmIndex].asset:Inside(position) then
+				print("CHANGING")
+				player.currentHeightmap = heightmaps[hmIndex]
+				player.controller:SetHeightmap(player.currentHeightmap.asset)
+				break
+			end
+		end
+	end
+end
+
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
 	if player.health > 0 then
@@ -156,6 +170,17 @@ function UpdatePlayer(dt)
 		--end
 
 		--Transform.SetPosition(player.transformID, position)
+
+		--[[local posx = math.floor(position.x/512)
+		local posz = math.floor(position.z/512)
+		player.heightmapIndex = (posz*2 + posx)+1
+		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+
+		player.controller:SetHeightmap(heightmaps[player.heightmapIndex].asset)--]]
+
+		FindHeightmap(position)
+
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 		
 		if Network.ShouldSendNewTransform() == true then
@@ -188,16 +213,19 @@ function UpdatePlayer(dt)
 	player.controller:Update()
 	
 end
+
 function SendCombine(spell)
 	--TOBEDEFINED
 	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
+
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(damage, effectIndex)
 	end
 end
+
 function Controls(dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
