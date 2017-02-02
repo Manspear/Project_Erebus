@@ -52,12 +52,12 @@ void GamePlay::Initialize(Importer::Assets* assets, Controls* controls, Inputs* 
 
 void GamePlay::Update(Controls* controls, double deltaTime)
 {
-	luaBinds.update(controls, deltaTime);
+	luaBinds.update(controls, (float)deltaTime);
 	work->execute();
 
 
 	for (int i = 0; i < ps.size(); i++) {
-		ps.at(i)->update(deltaTime);
+		ps.at(i)->update((float)deltaTime);
 	}
 	collisionHandler.checkCollisions();
 	collisionHandler.drawHitboxes();

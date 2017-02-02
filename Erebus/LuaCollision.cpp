@@ -156,7 +156,7 @@ namespace LuaCollision
 			SphereCollider* collider = getSphereCollider( lua, 1 );
 			int layer = 0;
 			if( nargs >= 2 )
-				layer = lua_tointeger( lua, 2 );
+				layer = (int)lua_tointeger( lua, 2 );
 			g_collisionHandler->addHitbox( collider, layer );
 		}
 
@@ -171,7 +171,7 @@ namespace LuaCollision
 			AABBCollider* collider = getAABBCollider( lua, 1 );
 			int layer = 0;
 			if( nargs >= 2 )
-				layer = lua_tointeger( lua, 2 );
+				layer = (int)lua_tointeger( lua, 2 );
 			g_collisionHandler->addHitbox( collider,layer);
 		}
 
@@ -186,7 +186,7 @@ namespace LuaCollision
 			RayCollider* collider = getRayCollider(lua, 1);
 			int layer = 0;
 			if (nargs >= 2)
-				layer = lua_tointeger(lua, 2);
+				layer = (int)lua_tointeger(lua, 2);
 			g_collisionHandler->addRay(collider,layer);
 		}
 
@@ -201,7 +201,7 @@ namespace LuaCollision
 			OBBCollider* collider = getOBBCollider(lua, 1);
 			int layer = 0;
 			if (nargs >= 2)
-				layer = lua_tointeger(lua, 2);
+				layer = (int)lua_tointeger(lua, 2);
 			g_collisionHandler->addHitbox(collider,layer);
 		}
 
@@ -232,7 +232,7 @@ namespace LuaCollision
 
 		if( lua_gettop(lua) >= 1 )
 		{
-			int transformID = lua_tointeger( lua, 1 );
+			int transformID = (int)lua_tointeger( lua, 1 );
 
 			SphereCollider* collider = new SphereCollider( transformID );
 			lua_newtable( lua );
@@ -272,7 +272,7 @@ namespace LuaCollision
 
 		if( lua_gettop( lua ) >= 1 )
 		{
-			int transformID = lua_tointeger( lua, 1 );
+			int transformID = (int)lua_tointeger( lua, 1 );
 
 			AABBCollider* collider = new AABBCollider( transformID );
 			lua_newtable( lua );
@@ -291,7 +291,7 @@ namespace LuaCollision
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			int transformID = lua_tointeger(lua, 1);
+			int transformID = (int)lua_tointeger(lua, 1);
 
 			RayCollider* ray = new RayCollider(transformID,glm::vec3(0,1,0));
 
@@ -311,7 +311,7 @@ namespace LuaCollision
 
 		if (lua_gettop(lua) >= 1)
 		{
-			int transformID = lua_tointeger(lua, 1);
+			int transformID = (int)lua_tointeger(lua, 1);
 
 			OBBCollider* collider = new OBBCollider(transformID);
 			lua_newtable(lua);
@@ -429,7 +429,7 @@ namespace LuaCollision
 		if( lua_gettop( lua ) >= 2 )
 		{
 			SphereCollider* collider = (SphereCollider*)getHitBox( lua, 1 );
-			float radius = lua_tonumber( lua, 2 );
+			float radius = (float)lua_tonumber( lua, 2 );
 
 			collider->setRadius( radius );
 		}
@@ -442,7 +442,7 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 2)
 		{
 			HitBox* hitbox = getHitBox(lua, 1);
-			bool active = lua_toboolean(lua, 2);
+			bool active = lua_toboolean(lua, 2) != 0;
 
 			hitbox->setActive(active);
 		}
@@ -454,7 +454,7 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 2)
 		{
 			RayCollider* ray = getRayCollider(lua, 1);
-			bool active = lua_toboolean(lua, 2);
+			bool active = lua_toboolean(lua, 2) !=0;
 
 			ray->setActive(active);
 		}
@@ -466,9 +466,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			RayCollider* ray = (RayCollider*)getRayCollider(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			ray->setDirection(glm::vec3(x,y,z));
 		}
@@ -481,9 +481,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float xHalftLength = lua_tonumber(lua, 2);
-			float yHalftLength = lua_tonumber(lua, 3);
-			float zHalftLength = lua_tonumber(lua, 4);
+			float xHalftLength = (float)lua_tonumber(lua, 2);
+			float yHalftLength = (float)lua_tonumber(lua, 3);
+			float zHalftLength = (float)lua_tonumber(lua, 4);
 
 			obb->setSize(glm::vec3(xHalftLength, yHalftLength, zHalftLength));
 		}
@@ -496,9 +496,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			HitBox* hitbox = getHitBox(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			hitbox->setLocalPos(glm::vec3(x,y,z));
 		}
@@ -510,7 +510,7 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 2)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float angle = lua_tonumber(lua, 2);
+			float angle = (float)lua_tonumber(lua, 2);
 
 			obb->rotateAroundX(angle);
 		}
@@ -523,7 +523,7 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 2)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float angle = lua_tonumber(lua, 2);
+			float angle = (float)lua_tonumber(lua, 2);
 
 			obb->rotateAroundY(angle);
 		}
@@ -536,7 +536,7 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 2)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float angle = lua_tonumber(lua, 2);
+			float angle = (float)lua_tonumber(lua, 2);
 
 			obb->rotateAroundZ(angle);
 		}
@@ -549,9 +549,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			obb->setXAxis(glm::vec3(x,y,z));
 		}
@@ -564,9 +564,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			obb->setYAxis(glm::vec3(x, y, z));
 		}
@@ -579,9 +579,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			obb->setZAxis(glm::vec3(x, y, z));
 		}
@@ -594,9 +594,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			obb->setXHalfLength(x);
 			obb->setYHalfLength(y);
@@ -611,9 +611,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			AABBCollider* aabb = (AABBCollider*)getAABBCollider(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			aabb->setMinPos(glm::vec3(x,y,z));
 		}
@@ -626,9 +626,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			AABBCollider* aabb = (AABBCollider*)getAABBCollider(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			aabb->setMaxPos(glm::vec3(x, y, z));
 		}
@@ -730,9 +730,9 @@ namespace LuaCollision
 		if (lua_gettop(lua) >= 4)
 		{
 			MovementController* controller = getMovementController(lua, 1);
-			float x = lua_tonumber(lua, 2);
-			float y = lua_tonumber(lua, 3);
-			float z = lua_tonumber(lua, 4);
+			float x = (float)lua_tonumber(lua, 2);
+			float y = (float)lua_tonumber(lua, 3);
+			float z = (float)lua_tonumber(lua, 4);
 
 			controller->move(glm::vec3(x,y,z));
 		}
@@ -744,9 +744,9 @@ namespace LuaCollision
 	{
 		if( lua_gettop( lua ) >= 3 )
 		{
-			int layer1 = lua_tointeger( lua, 1 );
-			int layer2 = lua_tointeger( lua, 2 );
-			bool canCollide = lua_toboolean( lua, 3 );
+			int layer1 = (int)lua_tointeger( lua, 1 );
+			int layer2 = (int)lua_tointeger( lua, 2 );
+			bool canCollide = lua_toboolean( lua, 3 ) != 0;
 
 			g_collisionHandler->setLayerCollisionMatrix( layer1, layer2, canCollide );
 		}

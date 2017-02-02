@@ -36,7 +36,7 @@ namespace LuaErebus
 	{
 		if( lua_gettop( lua ) >= 1 )
 		{
-			int transformID = lua_tointeger( lua, 1 );
+			int transformID = (int)lua_tointeger( lua, 1 );
 			g_controls->setControl( &g_transforms[transformID] );
 		}
 
@@ -45,7 +45,7 @@ namespace LuaErebus
 	
 	int cameraSensitivity(lua_State * lua)
 	{		
-		g_controls->sensitivityFactor(lua_tonumber(lua, 1));
+		g_controls->sensitivityFactor((float)lua_tonumber(lua, 1));
 		return 0;
 	}
 
@@ -55,7 +55,7 @@ namespace LuaErebus
 
 		bool result = false;
 
-		bool host = lua_toboolean( lua, 1 );
+		bool host = lua_toboolean( lua, 1 ) != 0;
 		g_network->setNetworkHost( host );
 		if( host )
 		{
@@ -83,7 +83,7 @@ namespace LuaErebus
 	int setRunning(lua_State * lua)
 	{
 		assert(lua_gettop(lua) >= 1);
-		*g_running = lua_toboolean(lua, 1);
+		*g_running = lua_toboolean(lua, 1) != 0;
 		return 0;
 	}
 }

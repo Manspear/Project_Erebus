@@ -71,7 +71,7 @@ namespace AGI
 			for (int w = 0; w < imWidth; w ++)
 			{
 				
-					int tempStrength = influenceMap[w][h].getStrength();
+					int tempStrength = (int)influenceMap[w][h].getStrength();
 					if(tempStrength == 0)
 						debugRef->drawSphere(glm::vec3(influenceMap[w][h].getPos().x, HP->getPos(influenceMap[w][h].getPos().x, influenceMap[w][h].getPos().y), influenceMap[w][h].getPos().y), 1, glm::vec3(0,0,0));
 					else
@@ -129,8 +129,8 @@ namespace AGI
 		{
 			this->mapWidth = width;
 			this->mapHeight = height;
-			this->imWidth = width * resolution;
-			this->imHeight = height* resolution;
+			this->imWidth = (int)(width * resolution);
+			this->imHeight = (int)(height* resolution);
 
 			influenceMap = new InfluenceNode*[this->imWidth];
 
@@ -163,8 +163,8 @@ namespace AGI
 				inStr = inStr *(resolution * 10);
 			float str = inStr;
 
-			int x = round(((inPos.x / mapWidth)*imWidth));
-			int y = round(((inPos.z / mapHeight)*imHeight));
+			int x = (int)round(((inPos.x / mapWidth)*imWidth));
+			int y = (int)round(((inPos.z / mapHeight)*imHeight));
 
 			if (x >= 0 && x < imWidth)
 				if (y  >= 0 && y  < imHeight)
@@ -175,11 +175,11 @@ namespace AGI
 
 			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
 
-				for (int strX = -inStr; strX < inStr; strX++)
+				for (int strX = -(int)inStr; strX < inStr; strX++)
 				{
 
 					if(x + strX >=0 && x + strX< imWidth&& x < imWidth && x>=0)
-						for (int strY = -inStr; strY < inStr; strY++)
+						for (int strY = -(int)inStr; strY < inStr; strY++)
 						{
 							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
 							{
@@ -202,8 +202,8 @@ namespace AGI
 		{
 			glm::vec3 returnPos = glm::vec3(0, -1, 0);
 
-			int x = round(((enemyPos.x / mapWidth)*imWidth));
-			int y = round(((enemyPos.z / mapHeight)*imHeight));
+			int x = (int)round(((enemyPos.x / mapWidth)*imWidth));
+			int y = (int)round(((enemyPos.z / mapHeight)*imHeight));
 
 		//	if ((x >= 0 && x < imWidth) && (y >= 0 && y < imHeight))
 			//	debugRef->drawSphere(glm::vec3(influenceMap[x][y].getPos().x, 1, influenceMap[x][y].getPos().y), 3, glm::vec3(1, 1, 0.4));

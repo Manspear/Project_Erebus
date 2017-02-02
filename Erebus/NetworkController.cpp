@@ -62,7 +62,7 @@ void NetworkController::startNetworkSending()
 		}
 		else
 		{
-			long long sleepTime = (sendFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(sendFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Send();
 		}
@@ -80,7 +80,7 @@ void NetworkController::startNetworkReceiving()
 		}
 		else
 		{
-			long long sleepTime = (recFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(recFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Receive();
 		}
