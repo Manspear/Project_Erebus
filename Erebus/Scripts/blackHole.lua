@@ -90,7 +90,6 @@ function CreateBlackHole()
 				end
 			end
 
-
 			if self.duration > BLACK_HOLE_DURATION then
 				self:Kill()
 			end

@@ -1,8 +1,8 @@
 SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 3
 SUNRAY_MAX_CHARGETIME = 3
-SUNRAY_DAMAGE = 3
-SUNRAY_COOLDOWN = 3.7
+SUNRAY_DAMAGE =0
+SUNRAY_COOLDOWN = 4.7
 SUNRAY_HALF_LENGTH = 23
 SUNRAY_TICK_INTERVAL = 0.5
 
@@ -54,6 +54,7 @@ function CreateSunRay(entity)
 	
 	function sunRay:Cast(entity, chargetime, effects)
 		if (self.cooldown < 0.0) then
+			ZoomInCamera()
 			self.type:Cast(Transform.GetPosition(self.owner.transformID))
 			Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
 			Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
@@ -62,7 +63,7 @@ function CreateSunRay(entity)
 			self.owner.moveSpeed = self.owner.moveSpeed * self.moveImpairment 	
 			self.alive = true
 			self.lifeTime = SUNRAY_DURATION 
-			self.effectFlag = effects
+			self.effectFlag = true
 			self.damage = (chargetime/SUNRAY_MAX_CHARGETIME) * SUNRAY_DAMAGE
 			self.chargedTime = 0
 			self.cooldown = SUNRAY_COOLDOWN
@@ -83,8 +84,10 @@ function CreateSunRay(entity)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.startUpScale.x = 0.2 self.startUpScale.y = 0.2
+		ZoomOutCamera()
 		self.type:Kill()
 	end
+
 	function sunRay:GetEffect()
 		return self.effects[1]
 	end
@@ -104,7 +107,7 @@ function CreateSunRay(entity)
 						for e =1, #self.effects do
 							local effect = effectTable[self.effects[e]]()
 							table.insert(hits[index].effects, effect)
-							effect:Apply(hits[index])
+							effect:Apply(hits[index])							
 						end
 					end
 					hits[index]:Hurt(self.damage)
