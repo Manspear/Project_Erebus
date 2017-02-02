@@ -33,6 +33,7 @@ function CreateSunRay(entity)
 	sunRay.castSFX[2] = "Effects/CK_Force_Field_Loop-32.wav"
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
+	sunRay.hitID = -1
 	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
@@ -71,7 +72,8 @@ function CreateSunRay(entity)
 							end
 						end
 						hits[index]:Hurt(self.damage)
-						Sound.Play(self.hitSFX, 1, hits[index].position)
+						local id = Sound.Play(self.hitSFX, 1, hits[index].position)
+						if id ~= -1 then self.hitID = id end
 					end
 				end
 			end
@@ -107,7 +109,8 @@ function CreateSunRay(entity)
 
 	function sunRay:Kill()
 		self.alive = false
-		Sound.Pause(self.soundID[2])
+		Sound.Stop(self.soundID[2])
+		Sound.Stop(self.hitID)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.type:Kill()
