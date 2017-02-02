@@ -16,6 +16,7 @@ namespace LuaUI {
 			{ "mousePick", mousePick },
 			{ "load", loadScreenImage },
 			{ "resize", resizeScreenImage },
+			{ "repos", repositionScreenImage },
 			{ "mousePick", mousePick },
 			{ "__gc", unloadScreenImage },
 			{ NULL, NULL }
@@ -113,4 +114,19 @@ namespace LuaUI {
 		return result;
 	}
 
+	int repositionScreenImage(lua_State * lua)
+	{
+		int result = 0;
+
+		if (lua_gettop(lua) >= 3)
+		{
+			lua_getfield(lua, 1, "__self");
+			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
+			int sizeX = lua_tonumber(lua, 2);
+			int sizeY = lua_tonumber(lua, 3);
+
+			image->pos = glm::vec2(sizeX, sizeY);
+		}
+		return result;
+	}
 }

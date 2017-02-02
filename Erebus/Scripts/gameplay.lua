@@ -46,14 +46,38 @@ end
 
 function UpdateGameplay(dt)
 	if Inputs.KeyReleased(Keys.Escape) then
-		gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 		if Inputs.KeyDown(Keys.Enter) then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
+
+	if Inputs.KeyDown("Y") then
+		gamestate.ChangeState(GAMESTATE_DEATH)
+	end
+
 	for key,value in pairs(scripts) do
 		value.Update(dt)
 	end
+
+	if Inputs.KeyReleased("E") then
+		local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+		local dir = Camera.GetDirection()
+		local pos = Transform.GetPosition(player.transformID)
+		RayCollider.SetActive(player.rayCollider, true)
+		RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+		for curID = 1, #collisionIDs do
+		print(collisionIDs[curID])
+			if collisionIDs[curID] == 0 then
+			
+				gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+				print("hit")
+				break
+			end
+		end
+		--RayCollider.SetActive(player.rayCollider, false)
+	end
+
 	CollisionHandler.DrawHitboxes()
 end
 

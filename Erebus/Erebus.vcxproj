@@ -215,6 +215,8 @@
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\chronoBall.lua" />
     <None Include="Scripts\console.lua" />
+    <None Include="Scripts\death.lua" />
+    <None Include="Scripts\deathUI.lua" />
     <None Include="Scripts\enemies.lua" />
     <None Include="Scripts\fireball.lua" />
     <None Include="Scripts\fireEffect.lua" />
@@ -232,6 +234,8 @@
     <None Include="Scripts\options_menu.lua" />
     <None Include="Scripts\orbWaveType.lua" />
     <None Include="Scripts\particle.lua" />
+    <None Include="Scripts\pauseMenu.lua" />
+    <None Include="Scripts\pauseMenuUI.lua" />
     <None Include="Scripts\player.lua" />
     <None Include="Scripts\projectileType.lua" />
     <None Include="Scripts\rayType.lua" />

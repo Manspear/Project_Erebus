@@ -79,7 +79,9 @@ function UpdateSpellbookUI(dt)
 					break
 				end
 			end
+			player.spells[selectedPlayerSpell]:Kill()
 			player.spells[selectedPlayerSpell] = SpellList[selectedBookSpell].spell
+
 			selectedPlayerSpell = -1
 			selectedBookSpell = -1
 		end
