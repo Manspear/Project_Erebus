@@ -120,6 +120,8 @@ function UpdateEnemies(dt)
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
+			enemies[i].animationController:AnimationUpdate(dt)
+
 			clientAIScript.getAITransformPacket() -- Retrieve packets from host
 			clientAIScript.getAIStatePacket(enemies[i], player)
 

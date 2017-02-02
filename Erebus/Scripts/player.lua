@@ -140,8 +140,8 @@ function LoadPlayer2()
 	player2.spells = {}
 	player2.spells[1] = CreateHellPillar(player2)
 	player2.spells[2] = CreateBlackHole(player2)
-	player2.spells[3] = CreateSunRay(player2) 
-	--player2.spells[4] = CreateIceGrenade(player2)
+	player2.spells[3] = CreateIceGrenade(player2) 
+	--player2.spells[4] = CreateSunRay(player2)
 
 	player2.currentSpell = 1
 
