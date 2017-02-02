@@ -1,5 +1,5 @@
 STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2, 3
-camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOM_OUT}
+camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOMING_OUT}
 
 timeSinceShot = 0
 DelayZoomOut = 0.5
@@ -52,7 +52,7 @@ end
 
 function ZoomOutCamera()
 	ZoomedOut.timeSpent = 0
-
+	
 	StartState.distance = camera.distance
 	StartState.angle = camera.angle
 	StartState.xOffset = camera.xOffset
@@ -62,11 +62,12 @@ function ZoomOutCamera()
 	camera.state = STATE_ZOOMING_OUT
 end
 
-function UpdateCamera(dt)
+function UpdateCamera(dt)	
 	if camera.state == STATE_ZOOMING_OUT then
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
 		--i vilket läge övergången är i
+		print("yo zooming out")
 		local factor = math.sin((math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time)*3.14 - 3.14*0.5)*0.5 + 0.5	--ciruklär (mjukare, men dyrare)
 		--local factor = math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time										--linjär
 
@@ -79,8 +80,10 @@ function UpdateCamera(dt)
 
 		if ZoomedOut.timeSpent > ZoomedOut.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_OUT
+			print("yo zoomed out")
 		end
 	elseif camera.state == STATE_ZOOMING_IN then
+		print("yo zooming in")
 		ZoomedIn.timeSpent =  ZoomedIn.timeSpent + dt 
 		
 		--i vilket läge övergången är i
@@ -96,6 +99,7 @@ function UpdateCamera(dt)
 
 		if ZoomedIn.timeSpent > ZoomedIn.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_IN
+			print("yo zoomed in")
 		end
 	end
 
@@ -112,7 +116,7 @@ function UpdateCamera(dt)
 			temppos.x = temppos.x + dir.x 
 			temppos.y = temppos.y + dir.y
 			temppos.z = temppos.z + dir.z 
-			camera.state = STATE_ZOOMED_IN
+			--camera.state = STATE_ZOOMED_IN
 			--Camera.SetHeight(height + 0.5) 
 		else
 			break

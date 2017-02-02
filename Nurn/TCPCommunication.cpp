@@ -62,6 +62,6 @@ namespace Nurn
 			return 0;
 		}
 
-		return received_bytes;
+		return true;
 	}
 }

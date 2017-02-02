@@ -10,63 +10,11 @@ player2 = {}
 
 effectTable = {}
 
-function wrap(str, limit, indent, indent1)
-  indent = indent or ""
-  indent1 = indent1 or indent
-  limit = limit or 72
-  local here = 1-#indent1
-  return indent1..str:gsub("(%s+)()(%S+)()",
-                          function(sp, st, word, fi)
-                            if fi-here > limit then
-                              here = st - #indent
-                              return "\n"..indent..word
-                            end
-                          end)
-end
-
-SpellList = {}
-
-function LoadSpells()
-	local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
-						info = wrap("'Just as a candle cannot burn without fire, men cannot live without a spiritual life.' - Buddha", 30, "",""),
-						spell = CreateHellPillar
-						}
-
-	table.insert(SpellList, Hellpillar)
-
-	local BlackHole = {	texture =  Assets.LoadTexture("Textures/blackhole.dds"),
-						info = wrap("'Consideration of particle emission from black holes would seem to suggest that God not only plays dice, but also sometimes throws them where they cannot be seen.' - Stephen Hawking", 30, "",""),
-						spell = CreateBlackHole
-						}
-
-	table.insert(SpellList, BlackHole)
-
-	local SunRay = {texture =  Assets.LoadTexture("Textures/sunbeam.dds"),
-					info = wrap("'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.' - Martin Luther King Jr.", 30, "",""),
-					spell = CreateSunRay
-	}
-	table.insert(SpellList, SunRay)
-
-	local IceGrenade = {texture =  Assets.LoadTexture("Textures/icegrenade.dds"),
-						info = wrap("'When I'm not longer rapping, I want to open up an ice cream parlor and call myself Scoop Dogg.' - Snoop Dog", 30, "",""),
-						spell = CreateIceGrenade
-	}
-	table.insert(SpellList, IceGrenade)
-
-	-- set spells for player
-	player.spells = {}
-	player.spells[1] = SpellList[1].spell(player)
-	player.spells[2] = SpellList[2].spell(player)
-	player.spells[3] = SpellList[3].spell(player)
-	--player.spells[4] = SpellList[4].spell
-end
-
-
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
-function LoadPlayer()	
+function LoadPlayer()
 	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
@@ -80,7 +28,6 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 5.25
-	player.reachedGoal = false
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -94,6 +41,13 @@ function LoadPlayer()
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
+
+	-- set spells for player
+	player.spells = {}
+	player.spells[1] = CreateHellPillar(player)
+	player.spells[2] = CreateBlackHole(player)
+	player.spells[3] = CreateIceGrenade(player)	
+	--player.spells[4] = CreateSunRay(player) 
 	
 	player.currentSpell = 1
 
@@ -116,19 +70,24 @@ function LoadPlayer()
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
+	-- Setting controller for player
+	player.controller = {};
+	player.controller = MovementController.Create()
+	player.controller:SetHitbox(player.sphereCollider)
+	player.controller:SetTransform(player.transformID)
+	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
+
 	-- load and set a model for the player
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
-	LoadSpells()
 	LoadPlayer2()
 end
 
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
-	player2.reachedGoal = false
 	player2.health = 100
 	player2.forward = 0
 	player2.left = 0
@@ -143,10 +102,10 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	player2.spells[1] = CreateHellPillar(player2)
-	player2.spells[2] = CreateBlackHole(player2)
-	player2.spells[3] = CreateIceGrenade(player2) 
-	--player2.spells[4] = CreateSunRay(player2)
+	player2.spells[1] = CreateBlackHole()--SpellList[1].spell(player2)
+	player2.spells[2] = CreateBlackHole()--SpellList[2].spell(player2)
+	player2.spells[3] = CreateBlackHole()--SpellList[3].spell(player2)
+	--player2.spells[4] = SpellList[4].spell(player2)
 
 	player2.currentSpell = 1
 
@@ -216,14 +175,6 @@ function UpdatePlayer(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
 	--player.spells[4]:Update(dt)
-	
-	-- check collision against the goal
-	local collisionIDs = player.sphereCollider:GetCollisionIDs()
-	for curID=1, #collisionIDs do
-		if collisionIDs[curID] == goal.collider:GetID() then
-			player.reachedGoal = true
-		end
-	end
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 
@@ -231,8 +182,6 @@ function UpdatePlayer(dt)
 	end
 	
 	if player.printInfo then PrintInfo() end
-
-	if player.reachedGoal then Gear.Print("You win!", 560, 100) end
 
 	-- update player controller -- this moves the player
 	player.controller:Move(player.left * dt, 0, player.forward * dt)
@@ -246,7 +195,7 @@ end
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
-		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		player.spells[player.currentSpell]:Combine(damage, effectIndex)
 	end
 end
 function Controls(dt)
@@ -292,9 +241,15 @@ function Controls(dt)
 			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
+			--if player.spells[player.currentSpell].cooldown < 0 then 
+			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
+			--end
 			player.spells[player.currentSpell]:Charge(dt)
 		end
 		if Inputs.ButtonReleased(Buttons.Right) then
+			if player.spells[player.currentSpell].cooldown < 0 then 
+				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
+			end
 			player.spells[player.currentSpell]:ChargeCast(player)
 		end
 
@@ -330,11 +285,19 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	local newspellpacket, id_2, player2CurrentSpell = Network.GetSpellPacket()
-
+	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast = Network.GetSpellPacket()
+	
 	if newspellpacket == true then
-		player2.spells[player2CurrentSpell]:Cast(player2, 0.5, false)
 		player2.currentSpell = player2CurrentSpell
+		if isCharging == false then
+			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
+		else
+			if shouldCast == false then
+				player2.spells[player2.currentSpell]:Charge(dt)
+			else
+				player2.spells[player2.currentSpell]:ChargeCast(player2)
+			end
+		end
 	end
 
 	player2.spells[1]:Update(dt)

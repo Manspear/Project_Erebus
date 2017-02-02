@@ -74,7 +74,7 @@ namespace Gear
 				if (allParticles[i].lifeSpan > 0.0)
 				{
 					allParticles[i].direction.y += gravityFactor * dt;
-					randomSpeed = rand() % (int)partSpeed;
+					randomSpeed = (float)(rand() % (int)partSpeed);
 					particlePos[i].pos += allParticles[i].direction * randomSpeed * dt;
 					particlePos[i].size += shrinkage * dt;
 				}

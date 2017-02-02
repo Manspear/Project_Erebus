@@ -49,15 +49,15 @@ namespace Importer
 			{
 				for (size_t x = 0; x < mapWidth; x++)
 				{
-					int xindex = x - 1;
+					int xindex = (int)x - 1;
 					if (xindex < 0)
 						xindex = 0;
 					else if (xindex >= mapWidth - 1)
 						xindex = mapWidth - 1;
-					int yindex = y;
+					int yindex = (int)y;
 					if (yindex >= mapHeight - 1)
 						yindex = mapHeight - 1;
-					heightData[x][y] = map.getPixelValue(xindex, yindex).red * (30.2 / 255)+3;// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
+					heightData[x][y] = (float)(map.getPixelValue(xindex, yindex).red * (30.2f / 255)+3);// max height / det jag har.  //mikael. 1 ska bli 0.47 .   * 0.47. 0.61 nu 512stora
 				}
 			}
 
@@ -163,12 +163,12 @@ namespace Importer
 
 	int HeightMap::getMapWidth()
 	{
-		return mapWidth*widthMulti;
+		return (int)(mapWidth*widthMulti);
 	}
 
 	int HeightMap::getMapHeight()
 	{
-		return mapHeight*breadthMulti;
+		return (int)(mapHeight*breadthMulti);
 	}
 
 	/*glm::mat4 HeightMap::getWorldMat()
@@ -293,8 +293,8 @@ namespace Importer
 		float realX = x;
 		float realZ = z;
 
-		x = (int)x % 512;
-		z = (int)z % 512;
+		x = (float)((int)x % 512);
+		z = (float)((int)z % 512);
 
 		// the first thing we need to do is figure out where on the heightmap
 		// "position" is. This'll make the math much simpler later.
@@ -351,24 +351,24 @@ namespace Importer
 		fractPart = modf(posx, &xFloored);// xFractPart = 0.141593 x = 3.141593 xFloored = 3
 		fractPart = modf(posz, &zFloored);
 
-		heightmapIndex = (zFloored * 2 + xFloored) + 1;
+		heightmapIndex = (int)(zFloored * 2 + xFloored) + 1;
 		//printf("heightmapIndex: %d, x: %f, z: %f \n", heightmapIndex, realX, realZ);
 		if (heightmapIndex == 1)
 		{
-			return heightVal * 1;
+			return heightVal * 1.f;
 		}
 		else if (heightmapIndex == 2)
 		{
-			return heightVal * 0.733;
+			return heightVal * 0.733f;
 		}
 		else if (heightmapIndex == 3)
 		{
-			return heightVal * 0.596;
+			return heightVal * 0.596f;
 		}
 		else if (heightmapIndex == 4)
 		{
-			return heightVal * 0.596;
+			return heightVal * 0.596f;
 		}
-		else return 55;
+		else return 55.f;
 	}
 }

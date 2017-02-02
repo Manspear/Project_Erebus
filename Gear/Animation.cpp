@@ -43,7 +43,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 			//get animation layer
 			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
 
-			Importer::hJoint* joint;
+			//Importer::hJoint* joint;
 			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
@@ -54,8 +54,8 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 			//resets itself wohahaha
 			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
-			float timeOverCompare = INT_MAX;
-			float timeUnderCompare = -INT_MAX;
+			float timeOverCompare = (float)INT_MAX;
+			float timeUnderCompare = -(float)INT_MAX;
 
 			Importer::sKeyFrame overKey;
 			Importer::sKeyFrame underKey;
@@ -114,7 +114,7 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 			//get animation layer
 			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
 
-			Importer::hJoint* joint;
+			//Importer::hJoint* joint;
 			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
@@ -122,8 +122,8 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 																														//resets itself wohahaha
 			animTimer = abs(std::fmod(animTimer, maxTime));
 
-			float timeOverCompare = INT_MAX;
-			float timeUnderCompare = -INT_MAX;
+			float timeOverCompare = (float)INT_MAX;
+			float timeUnderCompare = -(float)INT_MAX;
 
 			Importer::sKeyFrame overKey;
 			Importer::sKeyFrame underKey;

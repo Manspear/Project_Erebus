@@ -102,7 +102,7 @@ namespace LuaAssets
 
 			int index = GL_TEXTURE0;
 			if( numArgs > 1 )
-				index = lua_tointeger( lua, 2 );
+				index = (int)lua_tointeger( lua, 2 );
 
 			texture->bind( index );
 		}
@@ -140,8 +140,8 @@ namespace LuaAssets
 			lua_getfield( lua, 1, "__self" );
 			HeightMap* heightmap = (HeightMap*)lua_touserdata( lua, -1 );
 
-			float x = lua_tonumber( lua, 2 );
-			float y = lua_tonumber( lua, 3 );
+			float x = (float)lua_tonumber( lua, 2 );
+			float y = (float)lua_tonumber( lua, 3 );
 
 			lua_pushnumber( lua, heightmap->getPos(x,y) );
 			result = 1;

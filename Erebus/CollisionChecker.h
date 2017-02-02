@@ -29,14 +29,15 @@ public:
 	bool collisionCheck(OBBCollider* collider, OBBCollider* collider2); //http://www.jkh.me/files/tutorials/Separating%20Axis%20Theorem%20for%20Oriented%20Bounding%20Boxes.pdf
 	bool collisionCheck(OBBCollider* collider, AABBCollider* collider2); // same technique as obb vs obb
 	// Real-Time Collision Detection book - Christer Ericson https://www.gamedev.net/topic/579584-obb---sphere-collision-detection/
-	bool collisionCheck(OBBCollider* obb, SphereCollider* sphere);
-	bool collisionCheck(RayCollider* ray, SphereCollider* sphere);
-	bool collisionCheck(RayCollider* ray, AABBCollider* aabb);
+	bool collisionCheck(OBBCollider* obb, SphereCollider* sphere);// Real-Time Collision Detection book - Christer Ericson
+	bool collisionCheck(RayCollider* ray, SphereCollider* sphere);// Real-Time Collision Detection book - Christer Ericson
+	bool collisionCheck(RayCollider* ray, AABBCollider* aabb);// Real-Time Collision Detection book - Christer Ericson
 	bool collisionCheck(RayCollider* ray, OBBCollider* obb); // https://www.gamedev.net/topic/463718-efficient-ray-obb-intersection-with-distance/
 	bool collisionCheck(HitBox* hitbox1, HitBox* hitbox2);
 
 	//Get collision normals also, used by movementController. ONLY SUPPORTS SPHERE COLLISION
 	// Returns normal from hitbox2 -> hitbox 1
+	bool collisionCheckNormal(HitBox* hitbox1, HitBox* hitbox2, glm::vec3& normal);
 	bool collisionCheckNormal(SphereCollider* sphere1, SphereCollider* sphere2, glm::vec3& normal);
 	bool collisionCheckNormal(SphereCollider* sphere, AABBCollider* aabb, glm::vec3& normal);
 	bool collisionCheckNormal(SphereCollider* sphere, OBBCollider* obb, glm::vec3& normal);

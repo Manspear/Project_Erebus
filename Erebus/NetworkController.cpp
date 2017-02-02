@@ -2,6 +2,7 @@
 
 NetworkController::NetworkController()
 {
+	initalized = false;
 	networkHost = true;
 	running = false;
 	transformpackTime = 0.0;
@@ -11,32 +12,35 @@ NetworkController::NetworkController()
 
 NetworkController::~NetworkController()
 {
-	printf("Closing socket on port\n");
-	network.Shutdown();
+	NetworkController::shutdown();
 }
 
 bool NetworkController::initNetworkAsHost()
 {
-	if (!network.InitializeHost())
+	if (!initalized)
 	{
-		printf("failed to initialize sockets\n");
-		return false;
+		if (!network.InitializeHost())
+		{
+			std::cout << "failed to initialize sockets" << std::endl;
+			return false;
+		}
+		initalized = true;
 	}
-
-	running = true;
 
 	return true;
 }
 
 bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4)
 {
-	if (!network.InitializeClient(ip1, ip2, ip3, ip4))
+	if (!initalized)
 	{
-		printf("failed to initialize sockets\n");
-		return false;
+		if (!network.InitializeClient(ip1, ip2, ip3, ip4))
+		{
+			std::cout << "failed to initialize sockets" << std::endl;
+			return false;
+		}
+		initalized = true;
 	}
-
-	running = true;
 
 	return true;
 }
@@ -49,6 +53,7 @@ void NetworkController::shutdown()
 		sendingThread.join();
 		receiveThread.join();
 	}
+	network.Shutdown();
 }
 
 void NetworkController::startNetworkSending()
@@ -62,7 +67,7 @@ void NetworkController::startNetworkSending()
 		}
 		else
 		{
-			long long sleepTime = (sendFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(sendFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Send();
 		}
@@ -80,28 +85,45 @@ void NetworkController::startNetworkReceiving()
 		}
 		else
 		{
-			long long sleepTime = (recFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(recFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Receive();
 		}
 	}
 }
 
-void NetworkController::acceptNetworkCommunication()
+bool NetworkController::acceptNetworkCommunication()
 {
-	while (running && !network.AcceptCommunication())
+	int counter = 0;
+	while (initalized && counter < 20)
 	{
+		if (network.AcceptCommunication())
+		{
+			return true;
+		}
+		counter++;
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
+
+	return false;
 }
 
 void NetworkController::startCommunicationThreads(PerformanceCounter& counter)
 {
-	this->counter = counter;
+	if (initalized)
+	{
+		running = true;
 
-	sendingThread = std::thread(&NetworkController::startNetworkSending, this);
+		this->counter = counter;
 
-	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
+		sendingThread = std::thread(&NetworkController::startNetworkSending, this);
+
+		receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
+	}
+	else
+	{
+		std::cout << "Network has not been initalized yet" << std::endl;
+	}
 }
 
 void NetworkController::setNetworkHost(const bool& networkHost)

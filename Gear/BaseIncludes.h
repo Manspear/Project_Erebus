@@ -44,8 +44,8 @@ struct TransformStruct
 	bool active;
 };
 
-#define WINDOW_WIDTH 1280.f
-#define WINDOW_HEIGHT 720.f
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
 
 #ifdef GEAR_EXPORTS  
 #define GEAR_API __declspec(dllexport)   

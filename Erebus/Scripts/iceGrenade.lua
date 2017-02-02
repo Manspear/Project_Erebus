@@ -128,6 +128,7 @@ function CreateIceGrenade()
 	function spell:ChargeCast(entity)
 		self.combo = 100
 		self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
+		self.chargedTime = 0
 	end
 
 	function spell:Kill(index)
