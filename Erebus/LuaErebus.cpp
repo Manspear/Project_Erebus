@@ -76,6 +76,7 @@ namespace LuaErebus
 		{
 			g_network->startCommunicationThreads(*g_counter);
 		}
+
 		lua_pushboolean(lua, result);
 		return 1;
 	}
