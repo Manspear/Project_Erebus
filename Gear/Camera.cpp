@@ -24,6 +24,7 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	freeCam = true;
 	dir = 1;
 	inLevelEditorMoveMouse = false;
+	fov = FoV;
 }
 
 Camera::~Camera()
@@ -192,4 +193,9 @@ glm::vec3 Camera::getDirection()
 {
 	//return this->camDirection;
 	return bufferCamDirection;
+}
+
+float Camera::getFov()
+{
+	return this->fov;
 }

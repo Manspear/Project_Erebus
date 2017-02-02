@@ -28,12 +28,14 @@ public:
 	GEAR_API glm::mat4 getProjectionMatrix();
 	GEAR_API glm::vec3 getPosition();								//returns position of camera
 	GEAR_API glm::vec3 getDirection();								//returns look direction of camera
+	GEAR_API float getFov();
 private:
 	Inputs *inputs;
 	bool freeCam;
 	float horizontalAngle;
 	float verticalAngle;
 	float camSpeed;
+	float fov;
 
 	int dir;
 	bool inLevelEditor;
