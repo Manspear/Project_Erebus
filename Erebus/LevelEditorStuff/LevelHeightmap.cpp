@@ -2,10 +2,14 @@
 
 const char* LevelHeightmap::name = "LevelHeightmap";
 Debug* LevelHeightmap::s_debugger = nullptr;
+int LevelHeightmap::currentID = 1;
 
 LevelHeightmap::LevelHeightmap()
-	: heightmap( nullptr ), draw( false ), lineLength( 0.5f )
+	: heightmap( nullptr ), draw( true ), lineLength( 0.5f ), heightMultiplier( 0.1f )
 {
+	memset( surrounding, 0, sizeof(int)*HEIGHTMAP_MAX_SURROUNDING );
+
+	heightmapID = currentID++;
 }
 
 LevelHeightmap::~LevelHeightmap()
@@ -20,6 +24,8 @@ void LevelHeightmap::initialize( tinyxml2::XMLElement* element )
 void LevelHeightmap::postInitialize()
 {
 	parent->setExportType( EXPORT_HEIGHTMAP );
+
+	parent->getComponent<LevelTransform>()->addListener(this);
 }
 
 std::string LevelHeightmap::getName()
@@ -43,24 +49,35 @@ std::string LevelHeightmap::toLua(std::string name)
 	using namespace std;
 	stringstream ss;
 
+	LevelTransform* transform = parent->getComponent<LevelTransform>();
+	assert( transform );
+
+	glm::vec3 position = transform->getTransformRef()->getPos();
+
 	ss << name << ".asset = Assets.LoadHeightmap(\"Textures/" << textureName << ".png\")" << endl;
-	ss << name << ".offset = " << offset.y << endl;
+	ss << name << ".asset:SetPosition({x=" << position.x << ", y=" << position.y << ", z=" << position.z << "})" << endl;
+	ss << name << ".heightMultiplier = " << heightMultiplier << endl;
 
 	return ss.str();
 }
 
 void LevelHeightmap::update( float deltaTime )
 {
-	if( heightmap && draw )
+	if( heightmap )
 	{
-		for( int x=0; x<heightmap->getMapWidth(); x++ )
+		if( draw )
 		{
-			for( int y=0; y<heightmap->getMapHeight(); y++ )
+			for( int x=0; x<heightmap->getMapWidth(); x++ )
 			{
-				float height = heightmap->getHardPosAt(x,y);
-				s_debugger->drawLine( glm::vec3( x,height-lineLength*0.5f,y ), glm::vec3(x,height+lineLength*0.5f,y) );
+				for( int z=0; z<heightmap->getMapHeight(); z++ )
+				{
+					float height = heightmap->getHardPosAt(x,z) * heightMultiplier;
+					s_debugger->drawLine( glm::vec3( position.x+x,position.y+height-lineLength*0.5f,position.z+z ), glm::vec3(position.x+x,position.y+height+lineLength*0.5f,position.z+z) );
+				}
 			}
 		}
+
+		s_debugger->drawAABB( position, position + glm::vec3( heightmap->getMapWidth(), 100.0f, heightmap->getMapHeight() ), glm::vec3( 1, 0, 0 ) );
 	}
 }
 
@@ -72,7 +89,16 @@ void LevelHeightmap::setTwStruct( TwBar* bar )
 
 	TwAddVarRW( bar, "heightmapDraw", TW_TYPE_BOOLCPP, &draw, "label='Draw:'" );
 	TwAddVarRW( bar, "heightmapLineLength", TW_TYPE_FLOAT, &lineLength, "label='Line Length:'" );
-	TwAddVarRW( bar, "heightmapOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset'" );
+	TwAddVarRW( bar, "heightmapHeightMultiplier", TW_TYPE_FLOAT, &heightMultiplier, "label='Height Multiplier:'" );
+
+	TwAddVarRW( bar, "heightmapID", TW_TYPE_INT32, &heightmapID, "label='HeightmapID:'" );
+	
+	for( int i=0; i<HEIGHTMAP_MAX_SURROUNDING; i++ )
+	{
+		std::string name = "heightmapSurrounding" + std::to_string(i+1);
+		std::string lbl = "label='#" + std::to_string(i+1) + "'";
+		TwAddVarRW( bar, name.c_str(), TW_TYPE_INT32, &surrounding[i], lbl.c_str() );
+	}
 }
 
 void LevelHeightmap::setDraw( bool d )
@@ -80,9 +106,9 @@ void LevelHeightmap::setDraw( bool d )
 	draw = d;
 }
 
-void LevelHeightmap::setOffset( glm::vec3 o )
+void LevelHeightmap::setHeightMultiplier( float multi )
 {
-	offset = o;
+	heightMultiplier = multi;
 }
 
 void LevelHeightmap::setTextureName( std::string name )
@@ -101,14 +127,19 @@ void LevelHeightmap::setTextureName( std::string name )
 	}
 }
 
+void LevelHeightmap::setHeightmapID( int id )
+{
+	heightmapID = id;
+}
+
 bool LevelHeightmap::getDraw()
 {
 	return draw;
 }
 
-const glm::vec3& LevelHeightmap::getOffset() const
+float LevelHeightmap::getHeightMultiplier() const
 {
-	return offset;
+	return heightMultiplier;
 }
 
 const std::string& LevelHeightmap::getTextureName() const
@@ -121,7 +152,17 @@ Importer::HeightMap* LevelHeightmap::getHeightmap() const
 	return heightmap;
 }
 
+int LevelHeightmap::getHeightmapID() const
+{
+	return heightmapID;
+}
+
 void LevelHeightmap::setDebugger( Debug* debugger )
 {
 	s_debugger = debugger;
+}
+
+void LevelHeightmap::callListener( LevelActorComponent* component )
+{
+	position = ((LevelTransform*)component)->getChangeTransformRef()->getPos();
 }
