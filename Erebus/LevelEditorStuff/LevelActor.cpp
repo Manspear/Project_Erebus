@@ -177,7 +177,12 @@ std::string LevelActor::toLua()
 				break;
 
 			case EXPORT_HEIGHTMAP:
-				ss << "table.insert(heightmaps,temp)" << endl;
+				//ss << "table.insert(heightmaps,temp)" << endl;
+				LevelHeightmap* heightmap = getComponent<LevelHeightmap>();
+				if( heightmap )
+				{
+					ss << "heightmaps[" << heightmap->getHeightmapID() << "] = temp" << endl;
+				}
 				break;
 		}
 
