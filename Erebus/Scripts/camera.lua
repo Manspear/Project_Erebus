@@ -39,34 +39,30 @@ function vec3sub(a, b)
 			z = a.z-b.z}
 end
 
+function ZoomInCamera()
+	timeSinceShot = 0
+	camera.state = STATE_ZOOMING_IN
+	StartState.distance = camera.distance
+	StartState.angle = camera.angle
+	StartState.xOffset = camera.xOffset
+	StartState.yOffset = camera.yOffset
+	StartState.fov = camera.fov		
+	ZoomedIn.timeSpent = 0
+end
+
+function ZoomOutCamera()
+	ZoomedOut.timeSpent = 0
+
+	StartState.distance = camera.distance
+	StartState.angle = camera.angle
+	StartState.xOffset = camera.xOffset
+	StartState.yOffset = camera.yOffset
+	StartState.fov = camera.fov
+
+	camera.state = STATE_ZOOMING_OUT
+end
+
 function UpdateCamera(dt)
-	if player.testCamera == true then 
-		timeSinceShot = 0
-		if camera.state ~= STATE_ZOOMED_IN and camera.state ~= STATE_ZOOMING_IN then --start zooming in if not already zoomed in
-			camera.state = STATE_ZOOMING_IN
-			StartState.distance = camera.distance
-			StartState.angle = camera.angle
-			StartState.xOffset = camera.xOffset
-			StartState.yOffset = camera.yOffset
-			StartState.fov = camera.fov
-			
-			ZoomedIn.timeSpent = 0
-		end
-	end
-
-	timeSinceShot = timeSinceShot + dt
-	if timeSinceShot > DelayZoomOut and camera.state ~= STATE_ZOOMED_OUT and camera.state ~= STATE_ZOOMING_OUT then --start zooming out if not already zoomed out, triggers when player have not shot recently
-		ZoomedOut.timeSpent = 0
-
-		StartState.distance = camera.distance
-		StartState.angle = camera.angle
-		StartState.xOffset = camera.xOffset
-		StartState.yOffset = camera.yOffset
-		StartState.fov = camera.fov
-
-		camera.state = STATE_ZOOMING_OUT
-	end 
-
 	if camera.state == STATE_ZOOMING_OUT then
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
@@ -124,10 +120,6 @@ function UpdateCamera(dt)
 	end
 	camera.distance = distance
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
-
-
 end
-
-
 
 return { Update = UpdateCamera }
