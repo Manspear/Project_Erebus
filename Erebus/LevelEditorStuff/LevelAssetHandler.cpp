@@ -226,7 +226,16 @@ void LevelAssetHandler::addToActor()
 					heightmapComponent->setTextureName( selectedAsset );
 				}
 				else
-					MessageBoxA( NULL, "Can't add heightmap texture without a heightmap component.", "Level Editor - Error", MB_OK );
+				{
+					//MessageBoxA( NULL, "Can't add heightmap texture without a heightmap component.", "Level Editor - Error", MB_OK );
+					if( MessageBoxA( NULL, "This actor has no heightmap component.\nWould you like to add one?", "Level Editor - Add Heightmap Component?", MB_YESNO ) == IDYES )
+					{
+						heightmapComponent = (LevelHeightmap*)LevelActorFactory::getInstance()->getNewComponent( LevelHeightmap::name );
+						selectedActor->addComponent( heightmapComponent );
+						heightmapComponent->postInitialize();
+						heightmapComponent->setTextureName( selectedAsset );
+					}
+				}
 			}
 			else
 			{
