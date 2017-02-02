@@ -1,4 +1,5 @@
 #include "LevelBrushHandler.h"
+
 LevelBrushHandler* LevelBrushHandler::g_instance = nullptr;
 LevelBrushHandler::~LevelBrushHandler()
 {
@@ -33,6 +34,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 }
 void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
 {
+
 	int actorID = 0;
 	glm::vec3 hitPoint(0.0f);
 	glm::vec3 hitNorm(0.f);
@@ -41,10 +43,13 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
 	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
 
+
+
 	timer -= deltaTime;
-	std::cout << timer;
+	
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
 	{
+		std::cout<<RNG::range(float(5), (float(4)))<<"\n";
 
 		for (unsigned int i = 0; i < 3; i++)
 		{
@@ -84,7 +89,13 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 }
 LevelBrushHandler::LevelBrushHandler()
 {
-	for (unsigned int i = 0; i < 3; i++)
+	
+
+	/* Intializes random number generator */
+	time_t t;
+	srand((unsigned)time(&t));
+
+	for (unsigned int i = 0; i < 3; i++) //fill upp the 3 earlier brush positions
 	{
 		earlierPositions.push_back(glm::vec3(9999, 9999, 9999));
 	}

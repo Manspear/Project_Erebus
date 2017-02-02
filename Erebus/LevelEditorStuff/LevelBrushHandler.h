@@ -8,6 +8,7 @@
 #include <string>
 #include "AntTweakBar.h"
 #include "LevelActorHandler.h"
+#include "../RNG.h"
 
 class LevelBrushHandler
 {

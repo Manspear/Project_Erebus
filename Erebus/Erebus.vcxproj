@@ -355,6 +355,7 @@
   <ItemGroup>
     <ClInclude Include="PlaneFrustum.h" />
     <ClInclude Include="RayCollider.h" />
+    <ClInclude Include="RNG.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
