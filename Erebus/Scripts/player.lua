@@ -10,6 +10,47 @@ player2 = {}
 
 effectTable = {}
 
+function wrap(str, limit, indent, indent1)
+  indent = indent or ""
+  indent1 = indent1 or indent
+  limit = limit or 72
+  local here = 1-#indent1
+  return indent1..str:gsub("(%s+)()(%S+)()",
+                          function(sp, st, word, fi)
+                            if fi-here > limit then
+                              here = st - #indent
+                              return "\n"..indent..word
+                            end
+                          end)
+end
+
+SpellList = {}
+
+local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
+					info = wrap("'Just as a candle cannot burn without fire, men cannot live without a spiritual life.' - Buddha", 30, "",""),
+					spell = CreateHellPillar(player)}
+
+table.insert(SpellList, Hellpillar)
+
+local BlackHole = {	texture =  Assets.LoadTexture("Textures/blackhole.dds"),
+					info = wrap("'Consideration of particle emission from black holes would seem to suggest that God not only plays dice, but also sometimes throws them where they cannot be seen.' - Stephen Hawking", 30, "",""),
+					spell = CreateBlackHole(player)}
+
+table.insert(SpellList, BlackHole)
+
+local IceGrenade = {texture =  Assets.LoadTexture("Textures/icegrenade.dds"),
+					info = wrap("'When I'm not longer rapping, I want to open up an ice cream parlor and call myself Scoop Dogg.' - Snoop Dog", 30, "",""),
+					spell = CreateIceGrenade(player)
+}
+
+table.insert(SpellList, IceGrenade)
+
+local SunRay = {texture =  Assets.LoadTexture("Textures/sunbeam.dds"),
+				info = wrap("'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.' - Martin Luther King Jr.", 30, "",""),
+				spell = CreateSunRay(player)
+}
+table.insert(SpellList, SunRay)
+
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
@@ -45,10 +86,10 @@ function LoadPlayer()
 
 	-- set spells for player
 	player.spells = {}
-	player.spells[1] = CreateHellPillar(player)
-	player.spells[2] = CreateBlackHole(player)
-	player.spells[3] = CreateIceGrenade(player)	
-	--player.spells[4] = CreateSunRay(player) 
+	player.spells[1] = SpellList[1].spell
+	player.spells[2] = SpellList[2].spell
+	player.spells[3] = SpellList[3].spell
+	--player.spells[4] = SpellList[4].spell
 	
 	player.currentSpell = 1
 

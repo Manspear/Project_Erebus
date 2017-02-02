@@ -82,6 +82,10 @@ DWORD WINAPI update( LPVOID args )
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
+	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(31.3, 8.5, 12.1));
+
+	collisionHandler.addHitbox(&aabb);
+
 	ai.addDebug(Debugger::getInstance());
 
 	data->engine->queueDynamicModels( data->models );
@@ -179,7 +183,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	//soundEngine.setMasterVolume(0.5);
+	soundEngine.setMasterVolume(10);
+
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
