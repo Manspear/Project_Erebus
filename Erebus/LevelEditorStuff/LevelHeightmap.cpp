@@ -56,6 +56,7 @@ std::string LevelHeightmap::toLua(std::string name)
 
 	ss << name << ".asset = Assets.LoadHeightmap(\"Textures/" << textureName << ".png\")" << endl;
 	ss << name << ".asset:SetPosition({x=" << position.x << ", y=" << position.y << ", z=" << position.z << "})" << endl;
+	ss << name << ".surrounding = {}" << endl;
 	ss << name << ".heightMultiplier = " << heightMultiplier << endl;
 
 	return ss.str();
