@@ -198,14 +198,11 @@ function UpdatePlayer(dt)
 
 		--Transform.SetPosition(player.transformID, position)
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
-		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
-
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
-
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end

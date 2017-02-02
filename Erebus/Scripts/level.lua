@@ -42,7 +42,6 @@ Transform.SetPosition(heightmaps[2].transformID, {x=20, y=6.72, z=27})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 
 --AI
-print(heightmaps[1].asset)
 widthTest = heightmaps[1].asset:GetMapWidth()
 heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
@@ -72,11 +71,10 @@ Sound.Resume(sid)
 
 Transform.SetPosition(goal.transformID, { x = 335, y = 41, z = 137 })
 
-
-	-- Setting controller for player
-	player.controller = {};
-	player.controller = MovementController.Create()
-	player.controller:SetHitbox(player.sphereCollider)
-	player.controller:SetTransform(player.transformID)
-	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
-	player.controller:SetHeightmap(heightmaps[1].asset);
+-- Setting controller for player
+player.controller = {};
+player.controller = MovementController.Create()
+player.controller:SetHitbox(player.sphereCollider)
+player.controller:SetTransform(player.transformID)
+player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
+player.controller:SetHeightmap(heightmaps[1].asset);

@@ -133,7 +133,6 @@ function CreateSunRay(entity)
 					if self.effectFlag then
 						for e =1, #self.effects do
 							local effect = effectTable[self.effects[e]]()
-							print("Stack")
 							table.insert(hits[index].effects, effect)
 							effect:Apply(hits[index])							
 						end
@@ -165,7 +164,6 @@ function CreateSunRay(entity)
 			self.startUpTime = 0.4
 			self.startUpTimeLVL2 = 0.7
 			self.startUp = false
-			print(self.scale)
 			self.startUpScale.x = self.scale 
 			self.startUpScale.y = self.scale
 		end

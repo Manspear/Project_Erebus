@@ -10,19 +10,7 @@ DAMAGE_INTERVAL_PILLAR = 0.5
 Y_SPEED_PILLAR = 2
 
 
-function CreateHellPillar()
-	function initNade()
-		local nade = {}
-		nade.type = CreateGrenadeType()
-		nade.alive = false
-		nade.exploding = false
-		--nade.light = Light.addLight(0,0,0,1,0,0,20,2)
-		local model = Assets.LoadModel( "Models/projectile1.model" )
-		nade.particles = createFireballParticles()
-		Gear.AddForwardInstance(model, nade.type.transformID)
-		return nade
-	end
-
+function CreateHellPillar(entity)
 	function initPillar()
 		local pillz = {}
 		pillz.type = CreateRayType()
@@ -40,96 +28,63 @@ function CreateHellPillar()
 	end
 	
 	local spell = {}
-	spell.nade = initNade()
 	spell.pillar = initPillar()
+	spell.caster = entity.transformID
 	spell.maxChargeTime = MAX_CHARGE_TIME_PILLAR
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.ChargeCast = BaseChargeCast
 	spell.cooldown = 0
 	spell.timeSinceTick = 0
-	--spell.effect = CreateFireEffect()
+	spell.effect = CreateFireEffect()
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.pillarDir = {x = 0, y = 0, z = 29.85}
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	function spell:Cast(entity, chargetime)
-		if self.cooldown < 0 then
-			if not self.nade.alive then
-				local factor = chargetime / self.maxChargeTime
-				local pos = Transform.GetPosition(entity.transformID)
-				local dir = Transform.GetLookAt(entity.transformID)
-				self.nade.particles.cast()
-				dir.y = dir.y + Y_SPEED_PILLAR
-				--self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
-				self.nade.type:Cast(pos, dir, GRAVITY_PILLAR, MIN_CHARGE_TIME_PILLAR + SPEED_PILLAR * factor, 0.0)
-				self.nade.damage = factor * MAX_DAMAGE_PILLAR		
-				self.nade.effectflag = effectflag
-				self.nade.alive = true
-				self.timeSinceSpam = 0
-				self.chargedTime = 0
-				self.cooldown = COOLDOWN_PILLAR
-			end
+		if self.cooldown < 0 then	
+			--self.nade.light = Light.addLight(0,0,0,1,0,0,20,2)
+			self:GeneralCast()
+			self.timeSinceSpam = 0
+			self.chargedTime = 0
+			self.cooldown = COOLDOWN_PILLAR			
 		end
+	end
+
+	function spell:GeneralCast()
+		self.pillar.alive = true
+		self.pillar.duration = PILLAR_DURATION
+		self.pillar.pos = Transform.GetPosition(self.caster)
+		self.pillar.type:Cast(self.pillar.pos)
 	end
 	
 	function spell:Update(dt)
 		self.cooldown = self.cooldown - dt
-		if self.nade.alive then
-			self:GrenadeUpdate(dt)
-		end
 		if self.pillar.alive then
 			self:PillarUpdate(dt)
 		end		
 	end
-	
-	function spell:GrenadeUpdate(dt)		
-			if not self.nade.exploding then
-				self.nade.exploding = self.nade.type:flyUpdate(dt)
-				--Light.updatePos(self.nade.light, self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
-				self.nade.particles.update(self.nade.type.position.x, self.nade.type.position.y, self.nade.type.position.z)
-			else
-				self.nade.particles.die(self.nade.type.position)		
-			--	Light.removeLight(self.nade.light)
-				self.nade.light = nil
-				self.pillar.pos = self.nade.type.position
-				self:Kill()
-				self.pillar.type:Cast(self.pillar.pos)
-				self.pillar.alive = true
-				self.pillar.duration = PILLAR_DURATION						
-			end
-	end
 
-	function spell:PillarUpdate(dt)
+	function spell:PillarUpdate(dt)		
 		Transform.SetRotation(self.pillar.type.transformID, self.pillarDir)
 		hits = self.pillar.type:Update(self.pillar.pos, {x = 0, y = 1, z = 0})
 		self.pillar.duration = self.pillar.duration - dt
-		self.timeSinceTick = self.timeSinceTick - dt
-		if self.timeSinceTick < 0 then
-			for index = 1, #hits do
-				if hits[index].Hurt then
-					if self.nade.effectFlag then	
-						for e = 1, #self.nade.effects do
-							local effect = effectTable[self.nade.effects[e]]()
-							table.insert(hits[index].effects, self.effect)
-							effect:Apply(hits[index])
-						end
-					end
-					hits[index]:Hurt(self.pillar.damage/(PILLAR_DURATION/DAMAGE_INTERVAL_PILLAR))
-				end
-			end	
-			self.timeSinceTick = self.timeSinceTick + DAMAGE_INTERVAL_PILLAR
-		end
+	
+		for index = 1, #hits do
+			if hits[index].Hurt then
+				hits[index]:Hurt(self.pillar.damage/(PILLAR_DURATION/DAMAGE_INTERVAL_PILLAR))
+			end
+		end	
+	
 		if self.pillar.duration < 0 then 
 			self.pillar.alive = false 
 			self.pillar.type:Kill()
 		end
 	end
+
 	function spell:Kill()
-		self.nade.type:Kill()
-		self.nade.particles.die(self.nade.type.position)
-		self.nade.alive = false
-		self.nade.exploding = false
+		
 	end
+
 	function spell:GetEffect()
 		return self.pillar.effects[1]
 	end
