@@ -26,30 +26,41 @@ end
 
 SpellList = {}
 
-local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
-					info = wrap("'Just as a candle cannot burn without fire, men cannot live without a spiritual life.' - Buddha", 30, "",""),
-					spell = CreateHellPillar(player)}
+function LoadSpells()
+	local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
+						info = wrap("'Just as a candle cannot burn without fire, men cannot live without a spiritual life.' - Buddha", 30, "",""),
+						spell = CreateHellPillar
+						}
 
-table.insert(SpellList, Hellpillar)
+	table.insert(SpellList, Hellpillar)
 
-local BlackHole = {	texture =  Assets.LoadTexture("Textures/blackhole.dds"),
-					info = wrap("'Consideration of particle emission from black holes would seem to suggest that God not only plays dice, but also sometimes throws them where they cannot be seen.' - Stephen Hawking", 30, "",""),
-					spell = CreateBlackHole(player)}
+	local BlackHole = {	texture =  Assets.LoadTexture("Textures/blackhole.dds"),
+						info = wrap("'Consideration of particle emission from black holes would seem to suggest that God not only plays dice, but also sometimes throws them where they cannot be seen.' - Stephen Hawking", 30, "",""),
+						spell = CreateBlackHole
+						}
 
-table.insert(SpellList, BlackHole)
+	table.insert(SpellList, BlackHole)
 
-local IceGrenade = {texture =  Assets.LoadTexture("Textures/icegrenade.dds"),
-					info = wrap("'When I'm not longer rapping, I want to open up an ice cream parlor and call myself Scoop Dogg.' - Snoop Dog", 30, "",""),
-					spell = CreateIceGrenade(player)
-}
+	local SunRay = {texture =  Assets.LoadTexture("Textures/sunbeam.dds"),
+					info = wrap("'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.' - Martin Luther King Jr.", 30, "",""),
+					spell = CreateSunRay
+	}
+	table.insert(SpellList, SunRay)
 
-table.insert(SpellList, IceGrenade)
+	local IceGrenade = {texture =  Assets.LoadTexture("Textures/icegrenade.dds"),
+						info = wrap("'When I'm not longer rapping, I want to open up an ice cream parlor and call myself Scoop Dogg.' - Snoop Dog", 30, "",""),
+						spell = CreateIceGrenade
+	}
+	table.insert(SpellList, IceGrenade)
 
-local SunRay = {texture =  Assets.LoadTexture("Textures/sunbeam.dds"),
-				info = wrap("'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.' - Martin Luther King Jr.", 30, "",""),
-				spell = CreateSunRay(player)
-}
-table.insert(SpellList, SunRay)
+	-- set spells for player
+	player.spells = {}
+	player.spells[1] = SpellList[1].spell(player)
+	player.spells[2] = SpellList[2].spell(player)
+	player.spells[3] = SpellList[3].spell(player)
+	--player.spells[4] = SpellList[4].spell
+end
+
 
 function Round(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
@@ -83,13 +94,6 @@ function LoadPlayer()
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
-
-	-- set spells for player
-	player.spells = {}
-	player.spells[1] = SpellList[1].spell
-	player.spells[2] = SpellList[2].spell
-	player.spells[3] = SpellList[3].spell
-	--player.spells[4] = SpellList[4].spell
 	
 	player.currentSpell = 1
 
@@ -117,6 +121,7 @@ function LoadPlayer()
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
+	LoadSpells()
 	LoadPlayer2()
 end
 

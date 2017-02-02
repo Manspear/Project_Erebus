@@ -40,7 +40,6 @@ function CreateSunRay(entity)
 	sunRay.type.oobCollider.SetSize(sunRay.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
 
 	function sunRay:Update(dt)
-
 		if self.alive then
 			self:MoveWithPlayer(dt)
 			if self.startUp then
