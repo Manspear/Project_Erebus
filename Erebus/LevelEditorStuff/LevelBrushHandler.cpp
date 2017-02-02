@@ -43,14 +43,25 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
 	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
 
+	glm::vec3 newHitPoint;
+	
+	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
+	hitPoint.z = (hitPoint.z += RNG::range((-this->radius),this->radius) );
+	//hitPoint.y = hitPoint.y;
+	
+	//jag skulle kunna köra en stråle från marken till kameran. och sen köra tillbaka för att få ett bättre y värde.
+	//jag borde kolla om det finns mark där. Om normalen är för offsetad borde jag inte rita.
 
-
+	
 	timer -= deltaTime;
 	
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
 	{
-		std::cout<<RNG::range(float(5), (float(4)))<<"\n";
+		bool drawOver = true;
+		if (drawOver)
+		{
 
+		
 		for (unsigned int i = 0; i < 3; i++)
 		{
 			glm::vec3 result = hitPoint - earlierPositions[i];
@@ -62,8 +73,8 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 				{
 					return;
 				}
-				
 			}
+		}
 		}
 
 		LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
