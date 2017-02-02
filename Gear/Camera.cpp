@@ -195,6 +195,11 @@ glm::vec3 Camera::getDirection()
 	return bufferCamDirection;
 }
 
+glm::vec3 Camera::getUp()
+{
+	return this->camUp;
+}
+
 float Camera::getFov()
 {
 	return this->fov;
