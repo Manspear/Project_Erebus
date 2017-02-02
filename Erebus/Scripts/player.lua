@@ -121,15 +121,6 @@ function FindHeightmap(position)
 
 	-- check current
 	local hm = player.currentHeightmap
-	--local hmpos = hm.asset:GetPosition()
-	--local hmsize = hm.asset:GetSize()
-
-	--[[if position.x >= hmpos.x and
-		position.x <= hmpos.x + hmsize.width and
-		position.z >= hmpos.z and
-		position.z <= hmpos.z + hmsize.height then
-		found = true
-	end--]]
 	if hm.asset:Inside(position) then
 		found = true
 	end
@@ -137,20 +128,6 @@ function FindHeightmap(position)
 	-- check next
 	if not found then
 		for _,hm in pairs(player.currentHeightmap.next) do
-			--[[hmpos = hm.asset:GetPosition()
-			hmsize = hm.asset:GetSize()
-
-			if position.x >= hmpos.x and
-				position.x <= hmpos.x + hmsize.width and
-				position.z >= hmpos.z and
-				position.z <= hmpos.z + hmsize.height then
-				player.controller:SetHeightmap(hm.asset)
-				player.currentHeightmap = hm
-				print("IN NEXT")
-				found = true
-				break
-			end--]]
-
 			if hm.asset:Inside(position) then
 				player.controller:SetHeightmap(hm.asset)
 				player.currentHeightmap = hm
@@ -163,20 +140,6 @@ function FindHeightmap(position)
 	-- check previous
 	if not found then
 		for _,hm in pairs(player.currentHeightmap.prev) do
-			--[[hmpos = hm.asset:GetPosition()
-			hmsize = hm.asset:GetSize()
-
-			if position.x >= hmpos.x and
-				position.x <= hmpos.x + hmsize.width and
-				position.z >= hmpos.z and
-				position.z <= hmpos.z + hmsize.height then
-				player.controller:SetHeightmap(hm.asset)
-				player.currentHeightmap = hm
-				print("IN PREV")
-				found = true
-				break
-			end--]]
-
 			if hm.asset:Inside(position) then
 				player.controller:SetHeightmap(hm.asset)
 				player.currentHeightmap = hm
