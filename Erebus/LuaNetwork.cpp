@@ -14,8 +14,8 @@ namespace LuaNetwork
 			{ "GetTransformPacket", getTransformPacket },
 			{ "SendAnimationPacket", sendAnimationPacket },
 			{ "GetAnimationPacket", getAnimationPacket },
-			{ "SendAIPacket", sendAIPacket },
-			{ "GetAIPacket", getAIPacket },
+			{ "SendAIStatePacket", sendAIStatePacket },
+			{ "GetAIStatePacket", getAIStatePacket },
 			{ "SendSpellPacket", sendSpellPacket },
 			{ "GetSpellPacket", getSpellPacket },
 			{ "SendAITransformPacket", sendAITransformPacket },
@@ -132,7 +132,7 @@ namespace LuaNetwork
 		return 3;
 	}
 
-	int sendAIPacket(lua_State* lua)
+	int sendAIStatePacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
 		int aiState = lua_tointeger(lua, 2);
@@ -142,7 +142,7 @@ namespace LuaNetwork
 		return 0;
 	}
 
-	int getAIPacket(lua_State* lua)
+	int getAIStatePacket(lua_State* lua)
 	{
 		AIStatePacket aiPacket;
 

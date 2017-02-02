@@ -28,7 +28,7 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
-
+			SphereCollider.SetActive(self.sphereCollider, false)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i],player,inState)
 		end
@@ -56,7 +56,7 @@ function LoadEnemies(n)
 			enemies[i].target = nil
 		else
 			enemies[i].state = clientAIScript.clientAIState.idleState
-			--enemies[i].state.update(enemies[i], player, inState) -- just a test
+			--enemies[i].state.update(enemies[i], player, inState)
 		end
 	end
 
@@ -120,6 +120,8 @@ function UpdateEnemies(dt)
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
+			enemies[i].animationController:AnimationUpdate(dt)
+
 			clientAIScript.getAITransformPacket() -- Retrieve packets from host
 			clientAIScript.getAIStatePacket(enemies[i], player)
 

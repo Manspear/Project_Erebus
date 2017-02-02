@@ -1,4 +1,3 @@
-
 function BaseCharge(self, dt)
 	self.chargedTime = self.chargedTime + dt
 end
