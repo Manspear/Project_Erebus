@@ -28,7 +28,7 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
-
+			SphereCollider.SetActive(self.sphereCollider, false)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i],player,inState)
 		end
@@ -56,7 +56,7 @@ function LoadEnemies(n)
 			enemies[i].target = nil
 		else
 			enemies[i].state = clientAIScript.clientAIState.idleState
-			--enemies[i].state.update(enemies[i], player, inState) -- just a test
+			--enemies[i].state.update(enemies[i], player, inState)
 		end
 	end
 
@@ -75,6 +75,8 @@ function UpdateEnemies(dt)
 	local tempdt
 	
 	if Network.GetNetworkHost() == true then
+		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
+
 		for i=1, #enemies do
 			if enemies[i].health > 0 then
 				tempdt = dt * enemies[i].timeScalar
@@ -101,7 +103,7 @@ function UpdateEnemies(dt)
 				local direction = Transform.GetLookAt(enemies[i].transformID)
 				local rotation = Transform.GetRotation(enemies[i].transformID)
 
-				if Network.ShouldSendNewAITransform() == true then
+				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
 
@@ -114,9 +116,12 @@ function UpdateEnemies(dt)
 			end
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
+
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
+			enemies[i].animationController:AnimationUpdate(dt)
+
 			clientAIScript.getAITransformPacket() -- Retrieve packets from host
 			clientAIScript.getAIStatePacket(enemies[i], player)
 

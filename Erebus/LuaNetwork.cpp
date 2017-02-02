@@ -14,9 +14,10 @@ namespace LuaNetwork
 			{ "GetTransformPacket", getTransformPacket },
 			{ "SendAnimationPacket", sendAnimationPacket },
 			{ "GetAnimationPacket", getAnimationPacket },
-			{ "SendAIPacket", sendAIPacket },
-			{ "GetAIPacket", getAIPacket },
+			{ "SendAIStatePacket", sendAIStatePacket },
+			{ "GetAIStatePacket", getAIStatePacket },
 			{ "SendSpellPacket", sendSpellPacket },
+			{ "SendChargeSpellPacket", sendChargeSpellPacket },
 			{ "GetSpellPacket", getSpellPacket },
 			{ "SendAITransformPacket", sendAITransformPacket },
 			{ "GetAITransformPacket", getAITransformPacket },
@@ -132,7 +133,7 @@ namespace LuaNetwork
 		return 3;
 	}
 
-	int sendAIPacket(lua_State* lua)
+	int sendAIStatePacket(lua_State* lua)
 	{
 		int index = lua_tointeger(lua, 1);
 		int aiState = lua_tointeger(lua, 2);
@@ -142,7 +143,7 @@ namespace LuaNetwork
 		return 0;
 	}
 
-	int getAIPacket(lua_State* lua)
+	int getAIStatePacket(lua_State* lua)
 	{
 		AIStatePacket aiPacket;
 
@@ -167,7 +168,18 @@ namespace LuaNetwork
 		int index = lua_tointeger(lua, 1);
 		int currentSpell = lua_tointeger(lua, 2);
 
-		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell));
+		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell, false, true));
+
+		return 0;
+	}
+
+	int sendChargeSpellPacket(lua_State* lua)
+	{
+		int index = lua_tointeger(lua, 1);
+		int currentSpell = lua_tointeger(lua, 2);
+		int cast = lua_toboolean(lua, 3);
+
+		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell, true, cast));
 
 		return 0;
 	}
@@ -181,15 +193,19 @@ namespace LuaNetwork
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, spellPacket.data.ID);
 			lua_pushnumber(lua, spellPacket.data.currentSpell);
+			lua_pushboolean(lua, spellPacket.data.chargeSpell);
+			lua_pushboolean(lua, spellPacket.data.cast);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
 			lua_pushnumber(lua, 0);
+			lua_pushboolean(lua, false);
+			lua_pushboolean(lua, false);
 		}
 
-		return 3;
+		return 5;
 	}
 
 	int sendAITransformPacket(lua_State* lua)

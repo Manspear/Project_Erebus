@@ -7,7 +7,6 @@
 #include "Debug.h"
 #include "TextRenderer.h"
 #include "ImageRenderer.h"
-#include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
 #include "WorkQueue.h"
@@ -64,7 +63,7 @@ namespace Gear
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
-		GEAR_API void effectPreProcess();
+		std::vector<UniformValues> uniValues;
 		//----------------------
 
 	private:
@@ -100,6 +99,8 @@ namespace Gear
 		ShaderProgram *blurShader;
 		ShaderProgram *effectShader;
 		ShaderProgram *gloomCompute;
+
+		//Effects stuff
 		GLuint gloomTexture;
 
 		std::vector<GLuint> lightDirectionLocations;
