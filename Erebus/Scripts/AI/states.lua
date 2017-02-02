@@ -118,21 +118,21 @@ function changeToState(enemy,player,changeState)
 	enemy.state.exit(enemy,player)
 
 	if changeState == "IdleState" then
-		Network.SendAIPacket(player.transformID, 0)
+		Network.SendAIStatePacket(player.transformID, 0)
 		enemy.state = state.idleState
 	end
 
 	if changeState == "FollowState" then
-		Network.SendAIPacket(player.transformID, 1)
+		Network.SendAIStatePacket(player.transformID, 1)
 		enemy.state = state.followState
 	end
 	if changeState == "AttackState" then
-		Network.SendAIPacket(player.transformID, 2)
+		Network.SendAIStatePacket(player.transformID, 2)
 		enemy.state = state.attackState
 	end
 
 	if changeState == "DeadState" then	
-		Network.SendAIPacket(player.transformID, 3)
+		Network.SendAIStatePacket(player.transformID, 3)
 		enemy.state = state.deadState
 	end 
 
