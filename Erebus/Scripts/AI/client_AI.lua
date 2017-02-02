@@ -1,4 +1,4 @@
-local returnTable = {}
+local baseReturn = {}
 
 clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, State = {}}
 
@@ -16,7 +16,8 @@ function clientAIState.idleState.exit(enemy, player)
 end
 
 function clientAIState.followState.enter(enemy, player)
-
+	print("Walking")
+	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
@@ -33,8 +34,10 @@ end
 
 
 function clientAIState.attackState.enter(enemy, player)
+	print("Attacking")
+	enemy.animationController:doAttack()
 	enemy.animationState = 3
-
+	enemy.attackCountdown = 1
 end
 
 function clientAIState.attackState.update(enemy, player, dt)
@@ -59,7 +62,7 @@ end
 
 
 function getAIStatePacket(enemy)
-	netAIValue, transformID, aiState = Network.GetAIPacket()
+	netAIValue, transformID, aiState = Network.GetAIStatePacket()
 
 	--Update state of the enemy
 	if netAIValue == true then
@@ -96,8 +99,8 @@ function getAITransformPacket()
 	end
 end
 
-returnTable.getAIStatePacket = getAIStatePacket
-returnTable.getAITransformPacket = getAITransformPacket
-returnTable.clientAIState = clientAIState
+baseReturn.getAIStatePacket = getAIStatePacket
+baseReturn.getAITransformPacket = getAITransformPacket
+baseReturn.clientAIState = clientAIState
 
-return returnTable
+return baseReturn

@@ -7,6 +7,14 @@ function CreateFireEffect()
 	effect.damage = FIREEFFECTDAMAGE
 	effect.duration = FIREEFFECTDURATION
 	effect.interval = FIREEFFECTINTERVAL
+	
+	function effect:Apply(entity)
+		print("Applied")	
+	end
+
+	function effect:Deapply(entity)
+		print("Deapplied")	
+	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
 		self.duration = self.duration - dt

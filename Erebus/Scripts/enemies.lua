@@ -56,7 +56,7 @@ function LoadEnemies(n)
 			enemies[i].target = nil
 		else
 			enemies[i].state = clientAIScript.clientAIState.idleState
-			--enemies[i].state.update(enemies[i], player, inState) -- just a test
+			--enemies[i].state.update(enemies[i], player, inState)
 		end
 	end
 

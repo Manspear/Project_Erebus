@@ -32,7 +32,6 @@ function CreateIceGrenade()
 	
 	local spell = {}
 	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE
-	--spell.effect = CreateSlowEffect
 	spell.nades = {}
 	spell.spamcd = SPAM_CD_ICENADE
 	spell.cooldown = 0
@@ -43,12 +42,14 @@ function CreateIceGrenade()
 	spell.hitSFX = "Effects/Ice_impact_lite_02.wav"
 	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
-
+	spell.timeSinceLastPoop = 0
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
 	end
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then
+			ZoomInCamera()
+			self.timeSinceLastPoop = 2
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = chargetime / self.maxChargeTime
@@ -79,8 +80,12 @@ function CreateIceGrenade()
 	end
 	
 	function spell:Update(dt)
-		self.cooldown = self.cooldown - dt
-		
+		self.cooldown = self.cooldown - dt	
+		self.timeSinceLastPoop = self.timeSinceLastPoop - dt
+		if self.timeSinceLastPoop < 0 then
+			ZoomOutCamera()
+			self.timeSinceLastPoop = 1000
+		end
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
 				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
@@ -93,8 +98,7 @@ function CreateIceGrenade()
 					end
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
-					hits = self.nades[i].type:Update(dt)
-					
+					hits = self.nades[i].type:Update(dt)				
 					self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
@@ -116,10 +120,7 @@ function CreateIceGrenade()
 						self:Kill(i)
 					end
 				end
-
 			end
-
-				--self.nades[i].particles.die(self.type.position)
 		end
 	end
 	spell.Charge = BaseCharge
@@ -143,7 +144,7 @@ function CreateIceGrenade()
 	function spell:Combine(effect,damage)
 		self.damage = self.damage + 2 * damage
 		for i=1, #self.nades do
-			if not nades[i].alive then
+			if not sel.fnades[i].alive then
 				self.nades[i], self.nades[1] =  self.nades[1], self.nades[i]
 				table.insert(self.nades[i].effects, effect)
 				break

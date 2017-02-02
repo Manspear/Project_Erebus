@@ -91,7 +91,6 @@ function LoadPlayer()
 	player.spells[3] = SpellList[3].spell
 	--player.spells[4] = SpellList[4].spell
 	
-
 	player.currentSpell = 1
 
 	player.Hurt = function(self,damage)
@@ -110,9 +109,6 @@ function LoadPlayer()
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
 	player.sphereCollider:GetCollisionIDs()
-
-
-
 
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
@@ -161,7 +157,6 @@ function UpdatePlayer(dt)
 	if player.health > 0 then
 		player.forward = 0
 		player.left = 0
-		player.testCamera = false
 
 		dt = dt * player.timeScalar
 
@@ -282,7 +277,6 @@ function Controls(dt)
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.spamCasting = true
 			player.attackTimer = 1
-			player.testCamera = true
 			if player.spells[player.currentSpell].cooldown < 0 then 
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
 			end
