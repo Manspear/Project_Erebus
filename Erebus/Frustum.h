@@ -11,15 +11,17 @@ public:
 
 	void setCameraParameters(float fov, float aspectRatio, float nearDistance, float farDistance);
 	void updateFrustum(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& up);
+
+	bool pointCollision(glm::vec3 point);
 private:
-	enum 
+	enum
 	{
-		TOP,
-		BOTTOM,
-		LEFT,
-		RIGHT,
-		NEAR,
-		FAR
+		FRUSTUM_TOP,
+		FRUSTUM_BOTTOM,
+		FRUSTUM_LEFT,
+		FRUSTUM_RIGHT,
+		FRUSTUM_NEAR,
+		FRUSTUM_FAR
 	};
 	PlaneFrustum planes[6];
 
@@ -28,7 +30,7 @@ private:
 	float nearDistance, farDistance, aspectRatio, fov, tang;
 	float nearWidth, nearHeight, farWidth, farHeight;
 	const float ONE_DEGREE_RADIAN = glm::pi<float>() / 180;
-	const short PLANE_AMOUNT = 6;
+	const short unsigned int PLANE_AMOUNT = 6;
 
 };
 

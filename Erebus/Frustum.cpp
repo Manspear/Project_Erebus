@@ -57,13 +57,26 @@ void Frustum::updateFrustum(const glm::vec3 & position, const glm::vec3 & direct
 
 	//							OPTIMIZE DIS FFS :OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 	// compute all planes
-	this->planes[TOP].setPlane3Points(nearTopRight, nearTopLeft, farTopLeft); // makes plane from these three points
-	this->planes[BOTTOM].setPlane3Points(nearBottomLeft,nearBottomRight,farBottomRight);
-	this->planes[LEFT].setPlane3Points(nearTopLeft,nearBottomLeft,farBottomLeft);
-	this->planes[RIGHT].setPlane3Points(nearTopLeft,nearTopRight,farBottomRight);
-	this->planes[NEAR].setPlane3Points(nearTopLeft,nearTopRight,nearBottomRight);
-	this->planes[FAR].setPlane3Points(farTopRight, farTopLeft, farBottomLeft);
+	this->planes[FRUSTUM_TOP].setPlane3Points(nearTopRight, nearTopLeft, farTopLeft); // makes plane from these three points
+	this->planes[FRUSTUM_BOTTOM].setPlane3Points(nearBottomLeft,nearBottomRight,farBottomRight);
+	this->planes[FRUSTUM_LEFT].setPlane3Points(nearTopLeft,nearBottomLeft,farBottomLeft);
+	this->planes[FRUSTUM_RIGHT].setPlane3Points(nearBottomRight,nearTopRight,farBottomRight);
+	this->planes[FRUSTUM_NEAR].setPlane3Points(nearTopLeft,nearTopRight,nearBottomRight);
+	this->planes[FRUSTUM_FAR].setPlane3Points(farTopRight, farTopLeft, farBottomLeft);
 
 
 
+}
+
+bool Frustum::pointCollision(glm::vec3 point)
+{
+	bool collision = true;
+
+	for (size_t i = 0; i < PLANE_AMOUNT; i++)
+	{
+		float distance = this->planes[i].distance(point);
+		if (this->planes[i].distance(point) < 0) // if it is outside ANY plane it is no collision
+			collision = false;
+	}
+	return collision;
 }

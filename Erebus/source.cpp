@@ -17,6 +17,7 @@
 #include "RayCollider.h"
 #include "SoundEngine.h"
 #include "WorkQueue.h"
+#include "Frustum.h"
 
 #define MAX_TRANSFORMS 100
 #define MAX_ANIMATIONS 100
@@ -45,7 +46,8 @@ struct ThreadData
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
-
+Frustum f = Frustum();
+const glm::vec3 POINT33(30, 30, 30);
 struct AnimationData
 {
 	Animation* animation;
@@ -82,6 +84,24 @@ DWORD WINAPI update( LPVOID args )
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
+	SphereCollider sphere = SphereCollider(POINT33, 3);
+	collisionHandler.addHitbox(&sphere,4);
+
+	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
+	float fov = data->camera->getFov();
+	float aspectRatio = data->camera->getAspectRatio();
+	float nearDistance = data->camera->getNearPlaneDistance();
+	float farDistance = data->camera->getFarPlaneDistance();
+	f.setCameraParameters(fov,aspectRatio,nearDistance,farDistance);
+
+	glm::vec3 cameraPosition = data->camera->getPosition();
+	glm::vec3 cameraLookDirection = data->camera->getDirection();
+	glm::vec3 cameraUp = data->camera->getUp();
+	f.updateFrustum(cameraPosition,cameraLookDirection,cameraUp);
+
+
+	///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
+
 	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(31.3, 8.5, 12.1));
 
 	collisionHandler.addHitbox(&aabb);
@@ -105,6 +125,17 @@ DWORD WINAPI update( LPVOID args )
 
 	while( data->running )
 	{
+		glm::vec3 cameraPosition = data->camera->getPosition();
+		glm::vec3 cameraLookDirection = data->camera->getDirection();
+		glm::vec3 cameraUp = data->camera->getUp();
+
+		///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
+		f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
+		if (f.pointCollision(POINT33))
+			std::cout << "I see point\n";
+		///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
+
+
 		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
 		if( waitResult == WAIT_OBJECT_0 )
 		{
