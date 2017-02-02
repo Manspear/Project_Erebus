@@ -8,11 +8,18 @@ public:
 	{
 		pos = glm::vec2(INFINITE, INFINITE);
 		strength = 1;
+		gCost = 0;
+		hCost = 0;
+		parentNode = nullptr;
 	};
 	AGI_API InfluenceNode(glm::vec2 inPos, float inStrength)
 	{
 		pos = inPos;
 		strength = inStrength;
+
+		gCost = 0;
+		hCost = 0;
+		parentNode = nullptr;
 	};
 	AGI_API ~InfluenceNode()
 	{
@@ -36,14 +43,53 @@ public:
 
 	AGI_API void setStrength(const float &inStrength)
 	{
-		//if (inStrength == 0 || inStrength == -1)
+		if (inStrength == 0 || inStrength == -1)
 			strength = inStrength;
-	//	else
-	//		strength = strength + inStrength;
-
-
+		else
+			strength = strength + inStrength;
 	}
+
+	AGI_API void setParent(InfluenceNode* parent)
+	{
+		this->parentNode = parent;
+	}
+	 
+	AGI_API InfluenceNode * getParent()
+	{
+		return parentNode;
+	}
+
+	AGI_API void setHCost(int inCost)
+	{
+		hCost = inCost;
+	}
+
+	AGI_API int getHCost()
+	{
+		return hCost;
+	}
+
+	AGI_API void setGCost(int inCost)
+	{
+		gCost = inCost;
+	}
+
+	AGI_API int getGCost()
+	{
+		return gCost;
+	}
+
+	AGI_API int getFCost()
+	{
+		return gCost + hCost;
+	}
+
 private:
+	InfluenceNode * parentNode;
+
+	int gCost;
+	int hCost;
+
 	glm::vec2 pos;
 	float strength;
 };

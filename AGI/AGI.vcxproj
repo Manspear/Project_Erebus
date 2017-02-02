@@ -113,6 +113,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AGI.h" />
+    <ClInclude Include="AStarNode.h" />
     <ClInclude Include="InfluenceNode.h" />
     <ClInclude Include="RadiusInfluenceNode.h" />
   </ItemGroup>

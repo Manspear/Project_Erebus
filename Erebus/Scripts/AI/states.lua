@@ -43,25 +43,25 @@ function state.followState.update(enemy,player,dt)
 	if enemy.target == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
-		if length >enemy.visionRange then
-			inState = "IdleState" 
-			changeToState(enemy,player,inState)
-		end
-		if player.nrOfInnerCircleEnemies <3 then 
-			if length < player.innerCirclerange then
-
-				inState = "PositioningInnerState" 
-				changeToState(enemy,player,inState)
-
-				do return end
-			end
-		else
-			if length < player.outerCirclerange then
-				inState = "PositioningOuterState" 
-				changeToState(enemy,player,inState)
-				do return end
-			end
-		end
+--		if length >enemy.visionRange then
+--			inState = "IdleState" 
+--			changeToState(enemy,player,inState)
+--		end
+--		if player.nrOfInnerCircleEnemies <3 then 
+--			if length < player.innerCirclerange then
+--
+--				inState = "PositioningInnerState" 
+--				changeToState(enemy,player,inState)
+--
+--				do return end
+--			end
+--		else
+--			if length < player.outerCirclerange then
+--				inState = "PositioningOuterState" 
+--				changeToState(enemy,player,inState)
+--				do return end
+--			end
+--		end
 		
 
 		local dir = AI.NavigateMesh(enemy.transformID)

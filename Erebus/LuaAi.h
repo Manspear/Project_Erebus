@@ -21,6 +21,8 @@ namespace LuaAI
 
 	int setSpecificTarget(lua_State * lua);
 
+	int aStarSearch(lua_State * lua);
+
 	int addInfluencePoint(lua_State * lua);
 	int checkIfTargetNodeIsOccupied(lua_State * lua);
 	int addDebug(Debug*);

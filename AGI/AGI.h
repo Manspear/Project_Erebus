@@ -9,24 +9,45 @@
 #include "Debug.h"
 #include"RadiusInfluenceNode.h"
 #include"InfluenceNode.h"
+#include"AStarNode.h"
 
 #include"WorkQueue.h"
 
 #include"HeightMap.h"
+
+
+
 namespace AGI
 {
+	struct Enemy
+	{
+		int id;
+		std::vector<InfluenceNode*> targetPath;
+
+		Enemy(int inID)
+		{
+			this->id = inID;
+		};
+
+		bool matchId(int checkId)
+		{
+			if (checkId == id)
+				return false;
+			return true;
+		}
+	};
+
+
 	class AGIEngine
 	{
 
 	public:
 		AGI_API AGIEngine()
 		{
-			
+
 			imWidth = 0;
 			imHeight = 0;
 			resolution = 0.5f;  // Never above 1
-
-			blurIterations = 6;
 
 			dynamicInfluenceMap = nullptr;
 			staticInfluenceMap = nullptr;
@@ -39,20 +60,23 @@ namespace AGI
 				for (int i = 0; i < imHeight; i++)
 				{
 					if (dynamicInfluenceMap[n][i])
-					{
 						delete dynamicInfluenceMap[n][i];
-						delete staticInfluenceMap[n][i];
-						delete finalInfluenceMap[n][i];
-					}
 				}
-				delete[] staticInfluenceMap[n];
-				delete [] dynamicInfluenceMap[n];
-				delete[] finalInfluenceMap[n];
+				delete[] dynamicInfluenceMap[n];
 			}
 			delete[]dynamicInfluenceMap;
+
+
+			for (int n = 0; n < imWidth; n++)
+			{
+				for (int i = 0; i < imHeight; i++)
+				{
+					if (staticInfluenceMap[n][i])
+						delete staticInfluenceMap[n][i];
+				}
+				delete[] staticInfluenceMap[n];
+			}
 			delete[]staticInfluenceMap;
-			delete[]finalInfluenceMap;
-			
 
 			//delete [] dynamicInfluenceMap;
 			//if (!radiusInfluenceNodes)
@@ -67,16 +91,6 @@ namespace AGI
 		AGI_API glm::vec2 dirToTarget(glm::vec2 pos, glm::vec2 target)
 		{
 			return pos - target;
-		}
-
-		AGI_API void setTarget(glm::vec3 pos)
-		{
-		//	radiusInfluenceNodes[0].setPos(pos);
-		}
-
-		AGI_API void addNewInfluenceNode(glm::vec3 pos, float influence)
-		{
-
 		}
 
 		AGI_API bool checkIfTargetNodeIsOccupied(glm::vec3 inPos)
@@ -99,9 +113,9 @@ namespace AGI
 			return false;
 		}
 
-		AGI_API void drawDebug(Importer::HeightMap * HP,glm::vec3 pos)
+		AGI_API void drawDebug(Importer::HeightMap * HP, glm::vec3 pos)
 		{
-			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.z), pos.z), 3, glm::vec3(3 * 0.02, 2* 0.02, 0.4));
+			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.z), pos.z), 3, glm::vec3(3 * 0.02, 2 * 0.02, 0.4));
 		}
 
 		AGI_API void drawDebug(Importer::HeightMap * HP)
@@ -138,39 +152,39 @@ namespace AGI
 		/*  Calculate Radius
 		AGI_API glm::vec3 calculateRadiusPath(glm::vec3 enemyPos)
 		{
-			glm::vec3 outDir = glm::vec3(0, 0, 0);
-			float * inRange = new float[nrOfNodes];
-			float dubby = 0;
-			for (int n = 0; n < nrOfNodes; n++)
-			{
-				if (radiusInfluenceNodes[n].withinRange(enemyPos))
-				{
-					inRange[n] = 1.000f - (radiusInfluenceNodes[n].getDistance(enemyPos) / radiusInfluenceNodes[n].getRadius());
-					dubby += inRange[n];
-				
-				}
-			} 
+		glm::vec3 outDir = glm::vec3(0, 0, 0);
+		float * inRange = new float[nrOfNodes];
+		float dubby = 0;
+		for (int n = 0; n < nrOfNodes; n++)
+		{
+		if (radiusInfluenceNodes[n].withinRange(enemyPos))
+		{
+		inRange[n] = 1.000f - (radiusInfluenceNodes[n].getDistance(enemyPos) / radiusInfluenceNodes[n].getRadius());
+		dubby += inRange[n];
 
-			for (int n = 0; n < nrOfNodes; n++)
-			{
-				if (outDir == glm::vec3(0,0,0))
-				{
-					outDir = radiusInfluenceNodes[n].getDir(enemyPos);
-				}
-				else
-				{
-					outDir += radiusInfluenceNodes[n].getDir(enemyPos) * (inRange[n]/ dubby);
-				}
-			}
+		}
+		}
 
-			delete[]inRange;
+		for (int n = 0; n < nrOfNodes; n++)
+		{
+		if (outDir == glm::vec3(0,0,0))
+		{
+		outDir = radiusInfluenceNodes[n].getDir(enemyPos);
+		}
+		else
+		{
+		outDir += radiusInfluenceNodes[n].getDir(enemyPos) * (inRange[n]/ dubby);
+		}
+		}
 
-			return outDir;
+		delete[]inRange;
+
+		return outDir;
 		}
 		*/
-		
+
 		//// CLASSIC INFLUENCE MAP
-		AGI_API void createInfluenceMap(Importer::HeightMap* heightmap ,int width,int height)
+		AGI_API void createInfluenceMap(Importer::HeightMap* heightmap, int width, int height)
 		{
 			//width -= 100;
 			//height -= 300;
@@ -181,16 +195,12 @@ namespace AGI
 
 			dynamicInfluenceMap = new InfluenceNode**[this->imWidth];
 			staticInfluenceMap = new InfluenceNode**[this->imWidth];
-
-			finalInfluenceMap = new InfluenceNode**[this->imWidth];
-			for( int x=0; x<imWidth; x++ )
+			for (int x = 0; x<imWidth; x++)
 			{
 				dynamicInfluenceMap[x] = new InfluenceNode*[this->imHeight];
 				staticInfluenceMap[x] = new InfluenceNode*[this->imHeight];
 
-				finalInfluenceMap[x] = new InfluenceNode*[this->imHeight];
-
-				for( int y=0; y<imHeight; y++ )
+				for (int y = 0; y<imHeight; y++)
 				{
 					float w = (float)x / (resolution);
 					float h = (float)y / (resolution);
@@ -198,24 +208,24 @@ namespace AGI
 					{
 						dynamicInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
 						staticInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
-						finalInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
 					}
 					else
 					{
 						dynamicInfluenceMap[x][y] = nullptr;
 						staticInfluenceMap[x][y] = nullptr;
-						finalInfluenceMap[x][y] = nullptr;
 					}
 				}
 			}
 
 
-			//for (int iteration = 0; iteration < blurIterations; iteration++)
-			//{
+			for (int iteration = 0; iteration < 2; iteration++)
+			{
 				for (int x = 0; x < imWidth; x++)
 				{
+
 					for (int y = 0; y < imHeight; y++)
 					{
+						float sumBlur = 0;
 						if (staticInfluenceMap[x][y] != nullptr)
 						{
 							for (int surroundX = -1; surroundX <= 1; surroundX++)
@@ -226,44 +236,48 @@ namespace AGI
 									{
 										if (staticInfluenceMap[x + surroundX][y + surroundY] == nullptr)
 										{
-											staticInfluenceMap[x][y]->setStrength(-1);
+											if (iteration == 0)
+												sumBlur = sumBlur + -1;
 										}
-										//else
-										//	sumBlur = sumBlur + dynamicInfluenceMap[x + surroundX][y + surroundY]->getStrength();
+										else
+											sumBlur = sumBlur + dynamicInfluenceMap[x + surroundX][y + surroundY]->getStrength();
 									}
+
 								}
 
 							}
-								
+							staticInfluenceMap[x][y]->setStrength((sumBlur / 9));
 						}
 					}
 				}
-				//copyBuffer(staticInfluenceMap, dynamicInfluenceMap,imWidth, imHeight);
+				copyBuffer(imWidth, imHeight);
 
-			//}
-			clearIMBuffer(dynamicInfluenceMap,imWidth, imHeight);
+			}
+
+			clearDynamic(imWidth, imHeight);
+
 		}
 
-		AGI_API void copyBuffer(InfluenceNode***  &copyFrom, InfluenceNode*** & copyTo,int width,int height)
+		AGI_API void copyBuffer(int width, int height)
 		{
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					if(copyFrom[x][y] != nullptr)
-						copyTo[x][y]->setStrength(copyFrom[x][y]->getStrength());
+					if (staticInfluenceMap[x][y] != nullptr)
+						dynamicInfluenceMap[x][y]->setStrength(staticInfluenceMap[x][y]->getStrength());
 				}
 			}
 		}
 
-		AGI_API void clearIMBuffer(InfluenceNode***  &clearBuffer,int width, int height)
+		AGI_API void clearDynamic(int width, int height)
 		{
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					if (clearBuffer[x][y] != nullptr)
-						clearBuffer[x][y]->setStrength(0);
+					if (dynamicInfluenceMap[x][y] != nullptr)
+						dynamicInfluenceMap[x][y]->setStrength(0);
 				}
 			}
 		}
@@ -275,12 +289,12 @@ namespace AGI
 			float maxHeight = 0.0f;
 
 			float w = ((float)x) / (resolution);
-			float h = ((float)y ) / (resolution);
+			float h = ((float)y) / (resolution);
 			float centerHeight = heightmap->getPos(w, h);
 
 #pragma region x-1,y+1 MAYBEE
 
-			w = ((float)x- doJump) / (resolution);
+			w = ((float)x - doJump) / (resolution);
 			h = ((float)y + doJump) / (resolution);
 			float inHeight = heightmap->getPos(w, h);
 			inHeight = glm::abs(inHeight - centerHeight);
@@ -290,10 +304,10 @@ namespace AGI
 #pragma endregion
 
 #pragma region x,y+1
-			
-			 w = ((float)x) / (resolution);
-			 h = ((float)y + doJump) / (resolution);
-			 inHeight = heightmap->getPos(w, h);
+
+			w = ((float)x) / (resolution);
+			h = ((float)y + doJump) / (resolution);
+			inHeight = heightmap->getPos(w, h);
 			inHeight = glm::abs(inHeight - centerHeight);
 
 			if (inHeight > maxHeight)
@@ -302,38 +316,38 @@ namespace AGI
 
 #pragma region x+1,y+1  Maybee
 
-			w = ((float)x+ doJump) / (resolution);
+			w = ((float)x + doJump) / (resolution);
 			h = ((float)y + doJump) / (resolution);
-			 inHeight = heightmap->getPos(w, h);
+			inHeight = heightmap->getPos(w, h);
 			inHeight = glm::abs(inHeight - centerHeight);
 
 			if (inHeight > maxHeight)
 				maxHeight = glm::abs(inHeight - centerHeight);
 #pragma endregion
 
-		#pragma region x-1,y
-			 w = ((float)x-doJump) / (resolution);
-			 h = ((float)y) / (resolution);
+#pragma region x-1,y
+			w = ((float)x - doJump) / (resolution);
+			h = ((float)y) / (resolution);
 
-			 inHeight = heightmap->getPos(w, h);
-			 inHeight = glm::abs(inHeight - centerHeight);
+			inHeight = heightmap->getPos(w, h);
+			inHeight = glm::abs(inHeight - centerHeight);
 			if (inHeight > maxHeight)
 				maxHeight = glm::abs(inHeight - centerHeight);
-		#pragma endregion
+#pragma endregion
 
-		#pragma region x+1,y
-			 w = ((float)x+doJump) / (resolution);
-			 h = ((float)y) / (resolution);
+#pragma region x+1,y
+			w = ((float)x + doJump) / (resolution);
+			h = ((float)y) / (resolution);
 
-			 inHeight = heightmap->getPos(w, h);
-			 inHeight = glm::abs(inHeight - centerHeight);
+			inHeight = heightmap->getPos(w, h);
+			inHeight = glm::abs(inHeight - centerHeight);
 
 			if (inHeight > maxHeight)
 				maxHeight = glm::abs(inHeight - centerHeight);
-		#pragma endregion
+#pragma endregion
 
 #pragma region x-1,y-1  MAYBE
-			w = ((float)x- doJump) / (resolution);
+			w = ((float)x - doJump) / (resolution);
 			h = ((float)y - doJump) / (resolution);
 
 			inHeight = heightmap->getPos(w, h);
@@ -342,15 +356,15 @@ namespace AGI
 				maxHeight = glm::abs(inHeight - centerHeight);
 #pragma endregion
 
-		#pragma region x,y-1
-			 w = ((float)x) / (resolution);
-			 h = ((float)y-doJump) / (resolution);
+#pragma region x,y-1
+			w = ((float)x) / (resolution);
+			h = ((float)y - doJump) / (resolution);
 
-			 inHeight = heightmap->getPos(w, h);
-			 inHeight = glm::abs(inHeight - centerHeight);
+			inHeight = heightmap->getPos(w, h);
+			inHeight = glm::abs(inHeight - centerHeight);
 			if (inHeight > maxHeight)
 				maxHeight = glm::abs(inHeight - centerHeight);
-		#pragma endregion
+#pragma endregion
 
 #pragma region x+1,y-1  MAYBE
 			w = ((float)x + doJump) / (resolution);
@@ -373,16 +387,32 @@ namespace AGI
 		{
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
-			
+			if (inStr != 0)
+			{
+				inStr = inStr *(resolution * 10);
+
+				for (int strX = -inStr; strX <= inStr; strX++)
+				{
+					if (x + strX >= 0 && x + strX < imWidth&& x < imWidth && x >= 0)
+						for (int strY = -inStr; strY <= inStr; strY++)
+						{
+							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
+								if (dynamicInfluenceMap[x + strX][y + strY] != nullptr)
+									dynamicInfluenceMap[x + strX][y + strY]->setStrength(0);
+						}
+				}
+			}
+			else
+			{
 				if (x >= 0 && x < imWidth)
 					if (y >= 0 && y < imHeight)
-						if (dynamicInfluenceMap[x ][y ] != nullptr)
+						if (dynamicInfluenceMap[x][y] != nullptr)
 							dynamicInfluenceMap[x][y]->setStrength(0);
-			
+			}
 
 		}
 
-		AGI_API void addInfluencePoint(glm::vec3 inPos, float inStr,float range)
+		AGI_API void addInfluencePoint(glm::vec3 inPos, float inStr, float range)
 		{
 			//if (inStr != -1)
 			//	range = range *(resolution * 10);
@@ -390,12 +420,298 @@ namespace AGI
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
 
-				if (x >= 0 && x < imWidth)
-					if (y >= 0 && y  < imHeight)
-						if (dynamicInfluenceMap[x][y])
-								dynamicInfluenceMap[x][y]->setStrength(inStr);
+
+			float tempX = (float)((mapWidth / imWidth)*range + 1);
+			float tempY = (float)((mapHeight / imHeight)*range + 1);
+
+			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
+
+			for (int strX = -range; strX <= range; strX++)
+			{
+
+				if (x + strX >= 0 && x + strX< imWidth&& x < imWidth && x >= 0)
+					for (int strY = -range; strY <= range; strY++)
+					{
+						if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
+						{
+							//float tempStrength = str / inStr;// / (resolution));
+							//tempStrength = tempStrength / resolution;
+							//dynamicInfluenceMap[x + strX][y + strY].setStrength(tempStrength);
+
+							if (dynamicInfluenceMap[x + strX][y + strY])
+							{
+								///TESt THIS
+								float tempStrength = glm::distance(glm::vec2(inPos.x, inPos.z), dynamicInfluenceMap[x + strX][y + strY]->getPos());
+								tempStrength = maxDistance / tempStrength * inStr;
+								dynamicInfluenceMap[x + strX][y + strY]->setStrength(tempStrength);
+							}
+						}
+					}
+			}
+
+			if (x >= 0 && x < imWidth)
+				if (y >= 0 && y  < imHeight)
+					if (dynamicInfluenceMap[x][y])
+						if (inStr<0)
+							dynamicInfluenceMap[x][y]->setStrength(-1);
+						else
+							dynamicInfluenceMap[x][y]->setStrength(-2);
 
 		}
+
+		AGI_API void addInfluencePoint(glm::vec2 inPos, float inStr, float range)
+		{
+			//if (inStr != -1)
+			//	range = range *(resolution * 10);
+
+			int x = round(((inPos.x / mapWidth)*imWidth));
+			int y = round(((inPos.y / mapHeight)*imHeight));
+
+
+			float tempX = (float)((mapWidth / imWidth)*range + 1);
+			float tempY = (float)((mapHeight / imHeight)*range + 1);
+
+			float maxDistance = glm::distance(glm::vec2(tempX, tempY), glm::vec2(0, 0));
+
+			for (int strX = -range; strX <= range; strX++)
+			{
+
+				if (x + strX >= 0 && x + strX< imWidth&& x < imWidth && x >= 0)
+					for (int strY = -range; strY <= range; strY++)
+					{
+						if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
+						{
+							//float tempStrength = str / inStr;// / (resolution));
+							//tempStrength = tempStrength / resolution;
+							//dynamicInfluenceMap[x + strX][y + strY].setStrength(tempStrength);
+
+							if (dynamicInfluenceMap[x + strX][y + strY])
+							{
+								///TESt THIS
+								float tempStrength = glm::distance(glm::vec2(inPos.x, inPos.y), dynamicInfluenceMap[x + strX][y + strY]->getPos());
+								if (tempStrength == 0)
+									tempStrength = 1;
+
+								tempStrength = maxDistance / tempStrength;
+
+								tempStrength = tempStrength * inStr;
+								dynamicInfluenceMap[x + strX][y + strY]->setStrength(tempStrength);
+							}
+						}
+					}
+			}
+
+			/*	if (x >= 0 && x < imWidth)
+			if (y >= 0 && y  < imHeight)
+			if (dynamicInfluenceMap[x][y])
+			dynamicInfluenceMap[x][y]->setStrength(inStr);
+			*/
+		}
+
+#pragma region A Star Search
+
+		AGI_API void aStarSearch(int id, glm::vec3 from, glm::vec3 target)
+		{
+			int enemyPos = -1;
+			bool matchedAnyId = false;
+			for (int n = 0; n < enemies.size(); n++)
+			{
+				if (enemies[n].matchId(id))
+				{
+					matchedAnyId = true;
+					enemyPos = n;
+				}
+			}
+			if (!matchedAnyId)
+			{
+				enemies.push_back(Enemy(id));
+				enemyPos = 0;
+			}
+
+			int xFrom = round(((from.x / mapWidth)*imWidth));
+			int yFrom = round(((from.z / mapHeight)*imHeight));
+
+			int xTarget = round(((target.x / mapWidth)*imWidth));
+			int yTarget = round(((target.z / mapHeight)*imHeight));
+
+			std::vector<InfluenceNode*> openList;
+
+			std::vector<InfluenceNode*> closedListList;
+
+			InfluenceNode* starterNode = dynamicInfluenceMap[xFrom][yFrom];
+			InfluenceNode* finishNode = nullptr;
+
+			if (starterNode != nullptr && (xFrom != xTarget && yFrom != yTarget))
+			{
+				starterNode->setParent(nullptr);
+
+				addToClosedList(starterNode, xTarget, yTarget, openList, closedListList);
+
+				while (finishNode == nullptr)
+				{
+					finishNode = checkOpenList(xTarget, yTarget, openList, closedListList);
+				}
+
+				float countDown = 3;
+				finishNode = finishNode->getParent();
+				while (finishNode != nullptr)
+				{
+					addInfluencePoint(finishNode->getPos(), countDown, 1);
+					countDown = countDown * 0.8f;
+					finishNode = finishNode->getParent();
+				}
+			}
+
+		}
+
+		AGI_API void addToClosedList(InfluenceNode * inNode, int xTarget, int yTarget, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*> &closedList)
+		{
+
+			int xFrom = round(((inNode->getPos().x / mapWidth)*imWidth));
+			int yFrom = round(((inNode->getPos().y / mapHeight)*imHeight));
+
+			int n = 0;
+			for (; n < openList.size(); n++)
+			{
+				if (openList[n] == dynamicInfluenceMap[xFrom][yFrom])
+				{
+					openList.erase(openList.begin() + n);
+				}
+			}
+
+			closedList.push_back(dynamicInfluenceMap[xFrom][yFrom]);
+
+			//TOP
+			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom - 1, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom - 1][yFrom - 1]->setParent(inNode);
+				dynamicInfluenceMap[xFrom - 1][yFrom - 1]->setGCost(inNode->getGCost() + 14);
+				dynamicInfluenceMap[xFrom - 1][yFrom - 1]->setHCost(calculateH(xFrom - 1, yFrom - 1, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom - 1]);
+			}
+
+			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom - 1, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom][yFrom - 1]->setParent(inNode);
+				dynamicInfluenceMap[xFrom][yFrom - 1]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom][yFrom - 1]->setHCost(calculateH(xFrom, yFrom - 1, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom][yFrom - 1]);
+			}
+
+			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom - 1, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom + 1][yFrom - 1]->setParent(inNode);
+				dynamicInfluenceMap[xFrom + 1][yFrom - 1]->setGCost(inNode->getGCost() + 14);
+				dynamicInfluenceMap[xFrom + 1][yFrom - 1]->setHCost(calculateH(xFrom + 1, yFrom - 1, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom - 1]);
+			}
+
+			//MID
+			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom - 1][yFrom]->setParent(inNode);
+				dynamicInfluenceMap[xFrom - 1][yFrom]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom - 1][yFrom]->setHCost(calculateH(xFrom - 1, yFrom, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom]);
+			}
+
+			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom + 1][yFrom]->setParent(inNode);
+				dynamicInfluenceMap[xFrom + 1][yFrom]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom + 1][yFrom]->setHCost(calculateH(xFrom + 1, yFrom, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom]);
+			}
+
+
+			//BOT
+			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom + 1, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom - 1][yFrom + 1]->setParent(inNode);
+				dynamicInfluenceMap[xFrom - 1][yFrom + 1]->setGCost(inNode->getGCost() + 14);
+				dynamicInfluenceMap[xFrom - 1][yFrom + 1]->setHCost(calculateH(xFrom - 1, yFrom + 1, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom + 1]);
+			}
+
+			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom + 1, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom][yFrom + 1]->setParent(inNode);
+				dynamicInfluenceMap[xFrom][yFrom + 1]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom][yFrom + 1]->setHCost(calculateH(xFrom, yFrom + 1, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom][yFrom + 1]);
+			}
+
+			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom + 1, openList, closedList))
+			{
+				dynamicInfluenceMap[xFrom + 1][yFrom + 1]->setParent(inNode);
+				dynamicInfluenceMap[xFrom + 1][yFrom + 1]->setGCost(inNode->getGCost() + 14);
+				dynamicInfluenceMap[xFrom + 1][yFrom + 1]->setHCost(calculateH(xFrom + 1, yFrom + 1, xTarget, yTarget));
+
+				openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom + 1]);
+			}
+
+		}
+
+		AGI_API bool checkIfNodeIsAlreadyChecked(int xFrom, int yFrom, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*>& closedList)
+		{
+			if (dynamicInfluenceMap[xFrom][yFrom] == nullptr)
+				return false;
+
+			for (int n = 0; n < openList.size(); n++)
+			{
+				if (openList[n] == dynamicInfluenceMap[xFrom][yFrom])
+					return false;
+			}
+
+			for (int n = 0; n < closedList.size(); n++)
+			{
+				if (closedList[n] == dynamicInfluenceMap[xFrom][yFrom])
+					return false;
+			}
+
+			return true;
+		}
+
+		AGI_API InfluenceNode * checkOpenList(int xTarget, int yTarget, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*>& closedList)
+		{
+			int lowestValue = 9999999;
+			int lowestPos = -1;
+
+			for (int n = 0; n < openList.size(); n++)
+			{
+				if (dynamicInfluenceMap[xTarget][yTarget] == openList[n])
+					return openList[n];
+
+				int tempFCost = openList[n]->getFCost();
+				if (tempFCost < lowestValue)
+				{
+					lowestValue = tempFCost;
+					lowestPos = n;
+				}
+			}
+
+			if (lowestPos == -1)
+				return dynamicInfluenceMap[xTarget][yTarget];
+
+			addToClosedList(openList[lowestPos], xTarget, yTarget, openList, closedList);
+
+			return nullptr;
+
+		}
+
+		AGI_API int calculateH(int fromX, int fromY, int targetX, int targetY)
+		{
+			return (glm::abs(fromX - targetX) * 10) + (glm::abs(fromY - targetY) * 10);
+		}
+
+#pragma endregion
 
 		AGI_API glm::vec3 calculateIMPath(glm::vec3 enemyPos)
 		{
@@ -404,7 +720,7 @@ namespace AGI
 			int x = round(((enemyPos.x / mapWidth)*imWidth));
 			int y = round(((enemyPos.z / mapHeight)*imHeight));
 
-		//	if ((x >= 0 && x < imWidth) && (y >= 0 && y < imHeight))
+			//	if ((x >= 0 && x < imWidth) && (y >= 0 && y < imHeight))
 			//	debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[x][y].getPos().x, 1, dynamicInfluenceMap[x][y].getPos().y), 3, glm::vec3(1, 1, 0.4));
 
 			float mostPosetive = -1;
@@ -418,8 +734,8 @@ namespace AGI
 					{
 						if (y + strY >= 0 && y + strY < imHeight)
 						{
-							if(dynamicInfluenceMap[x + strX][y + strY])
-								if (mostPosetive < getCombinedStrength(x + strX,y + strY))
+							if (dynamicInfluenceMap[x + strX][y + strY])
+								if (mostPosetive < getCombinedStrength(x + strX, y + strY))
 								{
 									mpX = x + strX;
 									mpY = y + strY;
@@ -434,15 +750,15 @@ namespace AGI
 				float posX = dynamicInfluenceMap[mpX][mpY]->getPos().x;// -enemyPos.x;
 				float posZ = dynamicInfluenceMap[mpX][mpY]->getPos().y;// -enemyPos.z;
 
-				returnPos = glm::vec3(posX,0, posZ);
+				returnPos = glm::vec3(posX, 0, posZ);
 
-				dynamicInfluenceMap[mpX][mpY]->setStrength(-1);
+				//dynamicInfluenceMap[mpX][mpY]->setStrength(-1);
 			}
 
 			return returnPos;
 		}
 
-		AGI_API glm::vec3 setTargetRangeFromPlayer(glm::vec3 enemyPos, glm::vec3 playerPos,float range)
+		AGI_API glm::vec3 setTargetRangeFromPlayer(glm::vec3 enemyPos, glm::vec3 playerPos, float range)
 		{
 			glm::vec3 tempPos = playerPos - (((glm::normalize(playerPos - enemyPos))) * range);
 
@@ -464,8 +780,8 @@ namespace AGI
 		{
 			//range = range *(resolution * 10);
 			float tempRange = 0;
-			float angleInCircle = indexOfCirclingEnemies * (glm::pi<float>()*2 / maxNrOfCirclingEnemies);
-			
+			float angleInCircle = indexOfCirclingEnemies * (glm::pi<float>() * 2 / maxNrOfCirclingEnemies);
+
 			InfluenceNode * testIN;
 			testIN = traverseIMRangeFromPlayer(playerPos, tempRange, angleInCircle);
 			if (testIN != nullptr && tempRange<range)
@@ -476,22 +792,22 @@ namespace AGI
 					testIN = traverseIMRangeFromPlayer(playerPos, tempRange, angleInCircle);
 				} while (testIN != nullptr && tempRange < range);
 			}
-			
-			if(testIN != nullptr)
+
+			if (testIN != nullptr)
 				return glm::vec3(testIN->getPos().x, 0, testIN->getPos().y);
 
 			return glm::vec3(0, -1, 0);
 		}
 
-		AGI_API InfluenceNode * traverseIMRangeFromPlayer(glm::vec3 playerPos,float tempRange,float angleInCircle)
+		AGI_API InfluenceNode * traverseIMRangeFromPlayer(glm::vec3 playerPos, float tempRange, float angleInCircle)
 		{
-			
+
 			glm::vec3 testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange));
 
 			int x = round(((testPos.x / mapWidth)*imWidth));
 			int y = round(((testPos.z / mapHeight)*imHeight));
-			
-			if(x>=0 && x<imWidth && y>=0 && y<imHeight)
+
+			if (x >= 0 && x<imWidth && y >= 0 && y<imHeight)
 				return dynamicInfluenceMap[x][y];
 
 			return nullptr;
@@ -499,77 +815,27 @@ namespace AGI
 
 		AGI_API float getCombinedStrength(int x, int y)
 		{
-			return finalInfluenceMap[x][y]->getStrength();
-		}
 
-		AGI_API void blur()
-		{
-			clearIMBuffer(finalInfluenceMap, imWidth, imHeight);
-			for (int iteration = 0; iteration < blurIterations; iteration++)
-			{
-				for (int x = 0; x < imWidth; x++)
-				{
-					for (int y = 0; y < imHeight; y++)
-					{
-						if (dynamicInfluenceMap[x][y] != nullptr)
-						{
-							float sumBlur = 0;
-							for (int surroundX = -1; surroundX <= 1; surroundX++)
-							{
-								for (int surroundY = -1; surroundY <= +1; surroundY++)
-								{
-									if (x + surroundX >= 0 && x + surroundX < imWidth && y + surroundY >= 0 && y + surroundY < imHeight)
-									{
-										if (dynamicInfluenceMap[x + surroundX][y + surroundY] != nullptr)
-										{
-											sumBlur = sumBlur + (dynamicInfluenceMap[x + surroundX][y + surroundY]->getStrength());
-											if (iteration == 0)
-												sumBlur = sumBlur + (staticInfluenceMap[x + surroundX][y + surroundY]->getStrength());
-										}
-									}
-
-								}
-							}
-							finalInfluenceMap[x][y]->setStrength(0.11111111111f * sumBlur);
-						}
-					}
-				}
-				copyBuffer(finalInfluenceMap, dynamicInfluenceMap, imWidth, imHeight);
-
-			}
-			clearIMBuffer(dynamicInfluenceMap, imWidth, imHeight);
-
-			//for (int x = 0; x < imWidth; x++)
-			//{
-			//	for (int y = 0; y < imHeight; y++)
-			//	{
-			//		if (staticInfluenceMap[x][y] != nullptr)
-			//		{
-			//			finalInfluenceMap[x][y]->setStrength(finalInfluenceMap[x][y]->getStrength());
-			//		}
-			//	}
-			//}
-
+			return dynamicInfluenceMap[x][y]->getStrength() + staticInfluenceMap[x][y]->getStrength();;
 		}
 
 	private:
-		
-		// For player and enemies
+
+		std::vector<Enemy> enemies;
+
 		InfluenceNode*** dynamicInfluenceMap;
-		// For all the static things in the map, walls, props etc.
+
 		InfluenceNode *** staticInfluenceMap;
 
-		InfluenceNode *** finalInfluenceMap;
+		AStarNode * aStarNodeStarter;
 
 		int imWidth, imHeight;
-		int mapWidth,mapHeight;
+		int mapWidth, mapHeight;
 
-		int blurIterations;
 
-		
 		float resolution;//Resolution between 0.0 - 1.0, at 1.0 we will create a influenceNode for ever tile of the map
 
-		//RadiusInfluenceNode * radiusInfluenceNodes;
+						 //RadiusInfluenceNode * radiusInfluenceNodes;
 		int nrOfNodes = 1;
 		Debug* debugRef;
 	};
