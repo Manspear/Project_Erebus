@@ -199,3 +199,18 @@ float Camera::getFov()
 {
 	return this->fov;
 }
+
+GEAR_API float Camera::getAspectRatio()
+{
+	return this->aspectRatio;
+}
+
+float Camera::getNearPlaneDistance()
+{
+	return this->nearPlane;
+}
+
+float Camera::getFarPlaneDistance()
+{
+	return this->farPlane;
+}
