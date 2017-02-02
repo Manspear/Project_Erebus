@@ -112,7 +112,7 @@ namespace Gear
 		glBindTexture(GL_TEXTURE_2D, gloomTexture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, (GLsizei)WINDOW_WIDTH, (GLsizei)WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
 
 	}
 
@@ -266,7 +266,7 @@ namespace Gear
 				light.pos = lights->at(i).pos;
 				light.color = lights->at(i).color;
 				light.radius = lights->at(i).radius;
-				light.radius.a = i;
+				light.radius.a = (float)i;
 			}
 			else {
 				printf("ERROR: Too many lights : " + lights->size());
@@ -393,8 +393,8 @@ namespace Gear
 						light.pos = addLightQueue[j]->pos;
 						light.color = addLightQueue[j]->color;
 						light.radius = addLightQueue[j]->radius;
-						light.radius.a = i;
-						addLightQueue[j]->radius.a = i;
+						light.radius.a = (float)i;
+						addLightQueue[j]->radius.a = (float)i;
 						i = NUM_LIGHTS;
 					}
 				}
@@ -574,8 +574,8 @@ namespace Gear
 
 	void GearEngine::frameBufferInit()
 	{
-		GLuint internalFormat[] = { GL_RGBA,GL_RG16F, GL_R32F }; //Format for texture in gBuffer
-		GLuint format[] = { GL_RGBA,GL_RG, GL_RED }; //Format for texture in gBuffer
+		GLuint internalFormat[] = { GL_RGBA,GL_RGB16F, GL_R32F }; //Format for texture in gBuffer
+		GLuint format[] = { GL_RGBA,GL_RGB, GL_RED }; //Format for texture in gBuffer
 		GLuint attachment[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }; //gBuffer attachements
 		GLenum type[] = { GL_UNSIGNED_INT, GL_FLOAT, GL_FLOAT }; //data type for texture
 		GLfloat filter[] = { GL_NEAREST, GL_NEAREST, GL_NEAREST};

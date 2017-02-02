@@ -35,7 +35,7 @@ GLuint Gear::Skybox::loadCubemap(std::vector<const GLchar*> faces)
 	GLuint textureID;
 	glGenTextures(1, &textureID);
 
-	int width, height;
+	//int width, height;
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 	Importer::ImageAsset image;

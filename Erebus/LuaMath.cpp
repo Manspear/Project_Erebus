@@ -25,13 +25,13 @@ namespace LuaMath {
 
 			glm::vec3 position;
 			lua_getfield(lua, 1, "x");
-			position.x = lua_tonumber(lua, -1);
+			position.x = (float)lua_tonumber(lua, -1);
 
 			lua_getfield(lua, 1, "y");
-			position.y = lua_tonumber(lua, -1);
+			position.y = (float)lua_tonumber(lua, -1);
 
 			lua_getfield(lua, 1, "z");
-			position.z = lua_tonumber(lua, -1);
+			position.z = (float)lua_tonumber(lua, -1);
 
 			position = glm::normalize(position);
 

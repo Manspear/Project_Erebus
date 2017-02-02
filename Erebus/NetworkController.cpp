@@ -62,7 +62,7 @@ void NetworkController::startNetworkSending()
 		}
 		else
 		{
-			long long sleepTime = (sendFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(sendFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Send();
 		}
@@ -80,19 +80,26 @@ void NetworkController::startNetworkReceiving()
 		}
 		else
 		{
-			long long sleepTime = (recFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(recFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Receive();
 		}
 	}
 }
 
-void NetworkController::acceptNetworkCommunication()
+bool NetworkController::acceptNetworkCommunication()
 {
-	while (running && !network.AcceptCommunication())
+	int counter = 0;
+	while (running && counter < 20)
 	{
+		if (network.AcceptCommunication())
+		{
+			return true;
+		}
+		counter++;
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
+	return false;
 }
 
 void NetworkController::startCommunicationThreads(PerformanceCounter& counter)

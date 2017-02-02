@@ -3,7 +3,6 @@
 #include "NetworkDefines.hpp"
 
 #if PLATFORM == PLATFORM_WINDOWS
-
 #include <winsock2.h>
 #pragma comment( lib, "wsock32.lib" )
 //#pragma comment( lib, "ws2_32.lib" )
@@ -31,7 +30,7 @@
 
 namespace Nurn
 {
-	class NURN_API NurnEngine 
+	class NURN_API NurnEngine
 	{
 	public:
 		NurnEngine();

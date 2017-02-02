@@ -35,7 +35,7 @@ SoundEngine::~SoundEngine()
 void SoundEngine::update(const double &dt)
 {
 	for (auto &f : fades)
-		processFade(f, dt);
+		processFade(f, (float)dt);
 	
 	fades.erase(
 		std::remove_if(fades.begin(), fades.end(), 
@@ -84,10 +84,10 @@ size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 	if ( (options & SOUND_COPY) || !engine->isCurrentlyPlaying(c_path) )
 	{
 		const vec3df ikpos = vec3df(pos.x, pos.y, pos.z);
-		bool loop = static_cast<bool>(options & SOUND_LOOP);
-		bool paused = static_cast<bool>(options & SOUND_PAUSED);
-		bool effects = static_cast<bool>(options & SOUND_EFFECTS);
-		E_STREAM_MODE stream = static_cast<bool>(options & SOUND_STREAM) ? ESM_STREAMING : ESM_AUTO_DETECT;
+		bool loop = (options & SOUND_LOOP) != 0;
+		bool paused = (options & SOUND_PAUSED) != 0;
+		bool effects = (options & SOUND_EFFECTS) != 0;
+		E_STREAM_MODE stream = ((options & SOUND_STREAM) != 0) ? ESM_STREAMING : ESM_AUTO_DETECT;
 
 		sSound s;
 		if (options & SOUND_3D)
