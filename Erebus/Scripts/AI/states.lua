@@ -24,6 +24,7 @@ end
 
 function state.followState.enter(enemy,player)
 	print("Enter FOLLOW")
+	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
@@ -64,7 +65,8 @@ function state.followState.update(enemy,player,dt)
 		end
 
 		if length < enemy.range then
-			inState = "AttackState" 
+			inState = "AttackState"
+			 
 			changeToState(enemy,player,inState)
 		end
 end
@@ -76,6 +78,7 @@ end
 
 
 function state.attackState.enter(enemy,player)
+enemy.animationController:doAttack()
 enemy.animationState = 3
 enemy.attackCountdown = 1
 end
@@ -115,21 +118,21 @@ function changeToState(enemy,player,changeState)
 	enemy.state.exit(enemy,player)
 
 	if changeState == "IdleState" then
-		Network.SendAIPacket(player.transformID, 0)
+		Network.SendAIStatePacket(player.transformID, 0)
 		enemy.state = state.idleState
 	end
 
 	if changeState == "FollowState" then
-		Network.SendAIPacket(player.transformID, 1)
+		Network.SendAIStatePacket(player.transformID, 1)
 		enemy.state = state.followState
 	end
 	if changeState == "AttackState" then
-		Network.SendAIPacket(player.transformID, 2)
+		Network.SendAIStatePacket(player.transformID, 2)
 		enemy.state = state.attackState
 	end
 
 	if changeState == "DeadState" then	
-		Network.SendAIPacket(player.transformID, 3)
+		Network.SendAIStatePacket(player.transformID, 3)
 		enemy.state = state.deadState
 	end 
 

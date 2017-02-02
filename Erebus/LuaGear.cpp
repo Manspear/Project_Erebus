@@ -39,6 +39,8 @@ namespace LuaGear
 			{ "AddForwardInstance",	addForwardInstance},
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
+			{ "SetUniformValue", setUniformValue },
+			{ "SetUniformLocation", setUniformLocation },
 			{ "QueueModels", setQueueModels },
 			{ "CursorVisible", setCursorVisible },
 			{ "Fullscreen", setFullscreen },
@@ -66,6 +68,8 @@ namespace LuaGear
 			{ "SetTransitionTimes", setTransitionTimes},
 			{ "SetAnimationSegments", setAnimationSegments},
 			{ "QuickBlend", quickBlend },
+			{ "SetSegmentState", setSegmentState },
+			{ "SetQuickBlend", setQuickBlend },
 			{ NULL, NULL }
 		};
 
@@ -175,18 +179,15 @@ namespace LuaGear
 	int addForwardInstance(lua_State * lua)
 	{
 		int ntop = lua_gettop(lua);
+		int index = -1;
 		if (ntop >= 2)
 		{
 			ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
 			int transformID = lua_tointeger(lua, 2);
-
-			int result = g_gearEngine->generateWorldMatrix();
-
-			int index = -1;
+			int result = g_gearEngine->generateWorldMatrix();	
 			for (int i = 0; i<g_ForwardModels->size(); i++)
 				if (g_ForwardModels->at(i).asset == asset)
 					index = i;
-
 			if (index < 0)
 			{
 				ModelInstance instance;
@@ -194,11 +195,12 @@ namespace LuaGear
 			
 				index = g_ForwardModels->size();
 				g_ForwardModels->push_back(instance);
-
+				g_gearEngine->uniValues.push_back({ -1, 0 });
 			}
 			g_ForwardModels->at(index).worldIndices.push_back(transformID);
 		}
-		return 0;
+		lua_pushinteger(lua, index);
+		return 1;
 	}
 
 	int print(lua_State* lua)
@@ -253,26 +255,6 @@ namespace LuaGear
 		return 2;
 	}
 
-	/*int createAnimation( lua_State* lua )
-	{
-		Animation* animation = new Animation();
-		lua_newtable( lua );
-		luaL_setmetatable( lua, "animationMeta" );
-		lua_pushlightuserdata( lua, animation );
-		lua_setfield( lua, -2, "__self" );
-
-		return 1;
-	}*/
-
-	/*int destroyAnimation( lua_State* lua )
-	{
-		lua_getfield( lua, 1, "__self" );
-		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
-		delete animation;
-
-		return 0;
-	}*/
-
 	int bindAnimation( lua_State* lua )
 	{
 		int index = *g_boundAnimations;
@@ -287,23 +269,6 @@ namespace LuaGear
 
 		return 1;
 	}
-
-	//int updateAnimation( lua_State* lua )
-	//{
-	//	int result = 0;
-	//
-	//	if( lua_gettop( lua ) >= 3 )
-	//	{
-	//		lua_getfield( lua, 1, "__self" );
-	//		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
-	//		float dt = lua_tonumber( lua, 2 );
-	//		int layer = lua_tointeger( lua, 3 );
-	//
-	//		animation->updateAnimation( dt, layer );
-	//	}
-	//
-	//	return result;
-	//}
 
 	int quickBlend(lua_State * lua)
 	{
@@ -405,5 +370,53 @@ namespace LuaGear
 			animation->assembleAnimationsIntoShadermatrices();
 		}
 		return result;
+	}
+
+	int setSegmentState( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 3 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int state = lua_tointeger( lua, 2 );
+		int segment = lua_tointeger( lua, 3 );
+
+		animation->setSegmentState( state, segment );
+		return 0;
+	}
+
+	int setQuickBlend( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) >= 5 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int from = lua_tointeger( lua, 2 );
+		int to = lua_tointeger( lua, 3 );
+		float blendTime = lua_tointeger( lua, 4 );
+		int segment = lua_tointeger( lua, 5 );
+
+		animation->setQuickBlend( from, to, blendTime, segment );
+		return 0;
+	}
+
+	int setUniformValue(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).value = lua_tonumber(lua, 2);
+		}
+		return 0;
+	}
+
+	int setUniformLocation(lua_State* lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			g_gearEngine->uniValues.at(lua_tointeger(lua, 1)).location = lua_tointeger(lua, 2);
+		}
+		return 0;
 	}
 }

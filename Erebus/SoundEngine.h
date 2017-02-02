@@ -9,6 +9,8 @@
 #include <vector>
 #include <algorithm>
 
+#include <iostream>
+
 using namespace irrklang;
 
 #define ValidateIndex(i,lim) i = i < 0 ? -1 : i >= lim ? -1 : i				// If 0 <= i < lim, i is valid. Otherwise, i is set to -1
@@ -68,7 +70,6 @@ private:
 		float targetTime;
 		float targetVolume;
 		float initialVolume;
-		bool finished = false;
 
 		sFade(ISound* s, float t, float v = 0.f)
 			: sound(s), targetTime(t), targetVolume(v), initialVolume(s->getVolume()) {}

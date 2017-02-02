@@ -50,6 +50,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaNetwork::registerFunctions(lua, network);
 	LuaSound::registerFunctions(lua, soundEngine);
 	LuaUI::registerFunctions(lua, gearEngine);
+	LuaLight::registerFunctions(lua, gearEngine);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;

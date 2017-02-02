@@ -28,7 +28,7 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
-
+			SphereCollider.SetActive(self.sphereCollider, false)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i],player,inState)
 		end
@@ -46,8 +46,9 @@ function LoadEnemies(n)
 		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		enemies[i].sphereCollider:SetRadius(2)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
-		
-		enemies[i].animation = Animation.Bind()
+
+		enemies[i].animationController = CreateEnemyController(enemies[i])
+		--enemies[i].animation = Animation.Bind()
 		if Network.GetNetworkHost() == true then
 			enemies[i].state = stateScript.state.idleState
 			enemies[i].animationState = 1
@@ -55,13 +56,13 @@ function LoadEnemies(n)
 			enemies[i].target = nil
 		else
 			enemies[i].state = clientAIScript.clientAIState.idleState
-			--enemies[i].state.update(enemies[i], player, inState) -- just a test
+			--enemies[i].state.update(enemies[i], player, inState)
 		end
 	end
 
-	local model = Assets.LoadModel("Models/testGuy.model")
+	local model = Assets.LoadModel("Models/Goblin.model")
 	for i=1, n do
-		Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animation)
+		Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)
 	end
 end
 
@@ -74,12 +75,15 @@ function UpdateEnemies(dt)
 	local tempdt
 	
 	if Network.GetNetworkHost() == true then
+		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
+
 		for i=1, #enemies do
 			if enemies[i].health > 0 then
 				tempdt = dt * enemies[i].timeScalar
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],player,tempdt)
+				enemies[i].animationController:AnimationUpdate(dt)
 
 				local pos = Transform.GetPosition(enemies[i].transformID)
 
@@ -87,7 +91,7 @@ function UpdateEnemies(dt)
 				local posz = math.floor(pos.z/512)
 				local heightmapIndex = (posz*2 + posx)+1
 
-				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+1
+				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
 				pos.y = pos.y - 10*dt
 				if pos.y < height then
 					pos.y = height
@@ -99,7 +103,7 @@ function UpdateEnemies(dt)
 				local direction = Transform.GetLookAt(enemies[i].transformID)
 				local rotation = Transform.GetRotation(enemies[i].transformID)
 
-				if Network.ShouldSendNewAITransform() == true then
+				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
 
@@ -112,9 +116,12 @@ function UpdateEnemies(dt)
 			end
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
+
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
+			enemies[i].animationController:AnimationUpdate(dt)
+
 			clientAIScript.getAITransformPacket() -- Retrieve packets from host
 			clientAIScript.getAIStatePacket(enemies[i], player)
 

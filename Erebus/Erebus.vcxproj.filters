@@ -153,6 +153,9 @@
     <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LuaLight.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -296,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="Frustum.h">
       <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaLight.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="PlaneFrustum.h" />
     <ClInclude Include="LevelEditorStuff\LevelColiderHandler.h">
@@ -501,6 +507,27 @@
       <Filter>Scripts\UI</Filter>
     </None>
     <None Include="Scripts\options_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
+    <None Include="Scripts\spellbook.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellbookUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\pauseMenu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\pauseMenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\deathUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\death.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
     <None Include="Shaders\debugAABB.geom" />

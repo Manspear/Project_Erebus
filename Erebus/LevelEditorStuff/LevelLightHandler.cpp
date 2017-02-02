@@ -39,10 +39,7 @@ std::vector<Lights::PointLight*>* LevelLightHandler::getPointLights() {
 }
 
 Lights::PointLight* LevelLightHandler::addPointLight(glm::vec3 pos, glm::vec3 color, float radius) {
-	Lights::PointLight* light = new Lights::PointLight();
-	light->pos = glm::vec4(pos,1);
-	light->color = glm::vec4(color, 1);
-	light->radius = glm::vec4(radius, 1, 0, 0);
+	Lights::PointLight* light = new Lights::PointLight(glm::vec4(pos, 1), glm::vec4(color, 1), glm::vec4(radius, 1, 0, 0));
 
 	this->pointLights->push_back(light);
 
