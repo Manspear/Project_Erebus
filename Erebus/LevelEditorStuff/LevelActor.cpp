@@ -134,6 +134,11 @@ std::string LevelActor::toXml()
 
 std::string LevelActor::toLua()
 {
+	LevelCollider* testCol = getComponent<LevelCollider>();
+	if (testCol != nullptr) {
+		if (testCol->getParentColider() != nullptr)
+			return "";
+	}
 	using namespace std;
 	stringstream ss;
 
@@ -148,43 +153,50 @@ std::string LevelActor::toLua()
 	}
 	else
 	{
-		ss << "local temp = {}" << endl;
+		std::string fullName = "ID" +to_string(id) + "name";
+		ss<<"local " << fullName <<" = {}" << endl;
 
 		LevelModel* model = getComponent<LevelModel>();
 		
 		if (getExportType() == EXPORT_COLLIDER || getExportType() == EXPORT_STATIC || model) {
 			LevelTransform* transform = getComponent<LevelTransform>();
-			ss << transform->toLua("temp");
+			ss << transform->toLua(fullName);
 		}
 		if( model )
 		{
-			ss << model->toLua("temp");
+			ss << model->toLua(fullName);
 		}
 
 		for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
 		{
 			if( it->first != LevelModel::name && it->first != LevelTransform::name )
 			{
-				ss << it->second->toLua("temp");
+				ss << it->second->toLua(fullName);
 			}
 		}
 
 		switch(exportType)
 		{
 			case EXPORT_STATIC:
-				ss << "table.insert(props,temp)" << endl;
+				ss << "table.insert(props," << fullName << ")" << endl;
+				//ss << "table.insert(props,temp)" << endl;
 				break;
 
 			case EXPORT_ENEMY:
-				ss << "table.insert(enemies,temp)" << endl;
+				ss << "table.insert(enemies," << fullName << ")" << endl;
+				//ss << "table.insert(enemies,temp)" << endl;
 				break;
 
 			case EXPORT_HEIGHTMAP:
-				ss << "table.insert(heightmaps,temp)" << endl;
+				ss << "table.insert(heightmaps," << fullName << ")" << endl;
+				//ss << "table.insert(heightmaps,temp)" << endl;
+				break;
+			case EXPORT_COLLIDER:
+				ss << "table.insert(colliders," << fullName << ")" << endl;
+				//ss << "table.insert(heightmaps,temp)" << endl;
 				break;
 		}
-
-		ss << "temp = nil" << endl << endl;
+		ss << fullName << " = nil" << endl<<endl;
 	}
 
 	return ss.str();

@@ -75,7 +75,7 @@ private:
 	glm::vec3 position, offset, color, rotation;
 	LevelCollider* parentCollider;
 	std::vector<LevelCollider*> childColliders;
-	std::string printChildren(std::string name, std::string depth);
+	std::string printChildren(std::string name, std::string depth, int &globalDepth, int parentIndex);
 
 
 

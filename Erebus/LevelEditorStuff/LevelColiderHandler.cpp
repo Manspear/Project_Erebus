@@ -50,7 +50,7 @@ LevelCollider* LevelColiderHandler::getColiderWithID(unsigned int ID, LevelColli
 LevelCollider * LevelColiderHandler::getLoadColider(unsigned int ID, LevelCollider* colider)
 {
 	LevelCollider* returnActor = nullptr;
-	if (this->ID < ID)
+	if (this->ID <= ID)
 		this->ID = ID + 1;
 	for (auto element : LevelActorHandler::getInstance()->getActors()) {
 		LevelCollider* tempColider = element.second->getComponent<LevelCollider>();
@@ -63,4 +63,26 @@ LevelCollider * LevelColiderHandler::getLoadColider(unsigned int ID, LevelCollid
 		}
 	}
 	return returnActor;
+}
+
+bool LevelColiderHandler::getDoesIDExists(unsigned int ID) {
+	if (ID == 0)
+		return true;
+	bool exists = false;
+	for (auto element : LevelActorHandler::getInstance()->getActors()) {
+		LevelCollider* tempColider = element.second->getComponent<LevelCollider>();
+		if (tempColider != nullptr) {
+			if (tempColider->getColiderID() == ID) {
+				exists = true;
+				break;
+			}
+		}
+	}
+
+	return exists;
+}
+
+void LevelColiderHandler::checkIfHighestID(unsigned int ID) {
+	if (this->ID <= ID)
+		this->ID = ID + 1;
 }

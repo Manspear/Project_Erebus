@@ -137,7 +137,7 @@ std::string LevelTransform::toLua(std::string name)
 	ss << name << ".transformID = Transform.Bind()" << endl;
 	ss << "Transform.SetPosition(" << name << ".transformID, " <<  "{x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
 	ss << "Transform.SetScaleNonUniform(" << name << ".transformID, " << scale.x << ", " << scale.y << ", " << scale.z << ")" << endl;
-	ss << "Transform.SetRotation(" << name << ".transformID, " << rot.x << ", " << rot.y << ", " << rot.z << ")" << endl;
+	ss << "Transform.SetRotation(" << name << ".transformID, "<<"{x="  << rot.x << ", y=" << rot.y << ", z=" << rot.z << "})" << endl;
 
 	return ss.str();
 }
