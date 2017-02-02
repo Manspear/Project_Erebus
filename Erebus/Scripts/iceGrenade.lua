@@ -104,6 +104,7 @@ function CreateIceGrenade()
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
 								for e = 1, #self.nades[i].effects do
+									print(self.nades[i].effects[e])
 									local effect = effectTable[self.nades[i].effects[e]]()
 									table.insert(hits[index].effects, effect)
 									effect:Apply(hits[index])
@@ -144,7 +145,7 @@ function CreateIceGrenade()
 	function spell:Combine(effect,damage)
 		self.damage = self.damage + 2 * damage
 		for i=1, #self.nades do
-			if not nades[i].alive then
+			if not self.nades[i].alive then
 				self.nades[i], self.nades[1] =  self.nades[1], self.nades[i]
 				table.insert(self.nades[i].effects, effect)
 				break

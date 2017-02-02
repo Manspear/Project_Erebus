@@ -28,7 +28,7 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
-
+			SphereCollider.SetActive(self.sphereCollider, false)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i],player,inState)
 		end
