@@ -7,46 +7,26 @@
 
 #include <string>
 #include <vector>
-#include <map>
 #include <algorithm>
+
+#include <iostream>
 
 using namespace irrklang;
 
 #define ValidateIndex(i,lim) i = i < 0 ? -1 : i >= lim ? -1 : i				// If 0 <= i < lim, i is valid. Otherwise, i is set to -1
 #define Clamp(val,min,max) val = val < min ? min : val > max ? max : val	// Clamps val between min and max
 
-static const uint8_t S_ID_SHIFT = 8;
-
 enum eSoundOptions : uint8_t
 {
 	SOUND_NO_FLAG		= 0x00,
 	SOUND_3D			= 0x01,
-	SOUND_TRACK			= 0x02,
+	SOUND_COPY			= 0x02,
 	SOUND_EFFECTS		= 0x04,
 	SOUND_STREAM		= 0x08,
 	SOUND_LOOP			= 0x10,
 	SOUND_PAUSED		= 0x20,
-	SOUND_COPY			= 0x40,
+	SOUND_BLURB4		= 0x40,
 	SOUND_BLURB5		= 0x80
-};
-
-struct sSound
-{
-	size_t id;
-	ISound* sound;
-
-	inline bool operator==(const size_t &val) { return id == val; }
-};
-
-struct sSoundSource
-{
-	size_t sourceID;
-	std::string target;
-	ISoundSource* source;
-
-	inline bool operator==(const size_t& val) { return sourceID == val; }
-	inline bool operator==(const std::string& s) { return target == s; }
-	inline bool operator==(const ISoundSource* ss) { return source == ss; }
 };
 
 class SoundEngine
@@ -55,9 +35,10 @@ public:
 	SoundEngine();
 	~SoundEngine();
 
-	void update(const float &dt);
+	void update(const double &dt);
+	void fade(size_t i, float t);
+	void crossfade(size_t from, size_t to, float t);
 
-	size_t play(size_t sourceID, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0, 0, 0));
 	size_t play(std::string target, uint8_t options = SOUND_NO_FLAG, glm::vec3 pos = glm::vec3(0, 0, 0));
 
 	void pause(size_t i);
@@ -74,15 +55,34 @@ public:
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
 private:
-	size_t addSource(std::string target, bool stream);
-	bool isPlaying(size_t sourceID);
+	struct sSound
+	{
+		size_t id;
+		ISound* sound;
 
-private:
+		inline bool operator==(const size_t &val) { return id == val; }
+	};
+
+	struct sFade
+	{
+		ISound* sound;
+		float elapsedTime = 0;
+		float targetTime;
+		float targetVolume;
+		float initialVolume;
+
+		sFade(ISound* s, float t, float v = 0.f)
+			: sound(s), targetTime(t), targetVolume(v), initialVolume(s->getVolume()) {}
+	};
+
+
 	ISoundEngine* engine;
 	const std::string basePath = "./Audio/";
 
 	std::vector<sSound> sounds;
-	std::vector<sSoundSource> sources;
+	std::vector<sFade> fades;
 	size_t currSoundID;
-	size_t currSoundSourceID;
+
+private:
+	inline void processFade(sFade &f, const float &dt);
 };

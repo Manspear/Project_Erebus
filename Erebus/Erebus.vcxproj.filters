@@ -101,6 +101,9 @@
     <ClCompile Include="Frustum.cpp">
       <Filter>Source Files\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="LuaLight.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -201,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="Frustum.h">
       <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaLight.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -366,9 +372,6 @@
     <None Include="Scripts\fireEffect.lua">
       <Filter>Scripts\effects</Filter>
     </None>
-    <None Include="Scripts\groundAoEType.lua">
-      <Filter>Scripts\types</Filter>
-    </None>
     <None Include="Scripts\orbWaveType.lua">
       <Filter>Scripts\types</Filter>
     </None>
@@ -445,6 +448,27 @@
       <Filter>Scripts\UI</Filter>
     </None>
     <None Include="Scripts\options_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
+    <None Include="Scripts\spellbook.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellbookUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\pauseMenu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\pauseMenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\deathUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\death.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
   </ItemGroup>

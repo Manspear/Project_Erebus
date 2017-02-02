@@ -7,7 +7,6 @@
 #include "Debug.h"
 #include "TextRenderer.h"
 #include "ImageRenderer.h"
-#include "Material.h"
 #include "DebugHandler.h"
 #include "Skybox.h"
 #include "WorkQueue.h"
@@ -48,21 +47,33 @@ namespace Gear
 		GEAR_API void queueParticles(std::vector<Gear::ParticleSystem*> &ps);
 		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
+		GEAR_API void queueAddLights(Lights::PointLight* lights);
+		GEAR_API void queueUpdateLights(Lights::PointLight* lights);
+		GEAR_API void queueRemoveLights(Lights::PointLight* lights);
 		GEAR_API void draw(Camera* camera);
 		GEAR_API void update();
+
+		GEAR_API void addLight();
+		GEAR_API void updateLight();
+		GEAR_API void removeLight();
+		GEAR_API void resetLightbuffer();
 
 		GEAR_API void allocateWorlds(int n);
 		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
-		GEAR_API void effectPreProcess();
+		std::vector<UniformValues> uniValues;
 		//----------------------
 
 	private:
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
 		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
+
+		std::vector<Lights::PointLight*> addLightQueue;
+		std::vector<Lights::PointLight*> updateLightQueue;
+		std::vector<Lights::PointLight*> removeLightQueue;
 
 		GLuint lightBuffer = 0; //StorageBuffer for point lights
 		int drawMode = 1; //Texture draw mode
@@ -88,6 +99,8 @@ namespace Gear
 		ShaderProgram *blurShader;
 		ShaderProgram *effectShader;
 		ShaderProgram *gloomCompute;
+
+		//Effects stuff
 		GLuint gloomTexture;
 
 		std::vector<GLuint> lightDirectionLocations;

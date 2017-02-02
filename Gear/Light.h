@@ -6,6 +6,12 @@ namespace Lights {
 		glm::vec4 pos;
 		glm::vec4 color;
 		glm::vec4 radius;
+
+		PointLight(glm::vec4 pos, glm::vec4 color, glm::vec4 radius) {
+			this->pos = pos;
+			this->color = color;
+			this->radius = radius;
+		}
 	};
 
 	struct DirLight {

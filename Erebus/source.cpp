@@ -46,6 +46,17 @@ struct ThreadData
 	HANDLE produce, consume;
 };
 
+struct AnimationData
+{
+	Animation* animation;
+	float dt;
+};
+void updateAnimation( void* args )
+{
+	AnimationData* data = (AnimationData*)args;
+	data->animation->update( data->dt );
+}
+
 DWORD WINAPI update( LPVOID args )
 {
 	ThreadData* data = (ThreadData*)args;
@@ -75,9 +86,18 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
+	//AABBCollider aabb = AABBCollider(glm::vec3(-1,-1,-1),glm::vec3(1,1,1),glm::vec3(20,6,20));
+	//SphereCollider sphere = SphereCollider(glm::vec3(20,6,23),2);
+	//collisionHandler.addHitbox(&aabb,3);
+	//collisionHandler.addHitbox(&sphere, 3);
+
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
+
+	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(31.3, 8.5, 12.1));
+
+	collisionHandler.addHitbox(&aabb);
 
 	ai.addDebug(Debugger::getInstance());
 
@@ -91,6 +111,10 @@ DWORD WINAPI update( LPVOID args )
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
 		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
 		&ai, &network, data->workQueue, data->soundEngine, &counter );
+
+	AnimationData animationData[MAX_ANIMATIONS];
+	for( int i=0; i<MAX_ANIMATIONS; i++ )
+		animationData[i].animation = &data->allAnimations[i];
 
 	while( data->running )
 	{
@@ -111,6 +135,14 @@ DWORD WINAPI update( LPVOID args )
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
+
+			for( int i=0; i<boundAnimations; i++ )
+			{
+				animationData[i].dt = deltaTime;
+				//data->allAnimations[i].update(deltaTime);
+				data->workQueue->add( updateAnimation, &animationData[i] );
+			}
+			data->workQueue->execute();
 
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
@@ -164,7 +196,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.setMasterVolume(0.5);
+	soundEngine.setMasterVolume(10);
+
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
@@ -257,6 +290,7 @@ int main()
 			}
 
 			engine.update();
+			soundEngine.update(deltaTime);
 			camera.updateBuffer();
 
 			assets.upload();

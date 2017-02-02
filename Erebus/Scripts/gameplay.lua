@@ -2,7 +2,6 @@ local scripts = {}
 local scriptFiles =
 {
 	"Scripts/console.lua",
-	"Scripts/player.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
@@ -14,6 +13,7 @@ local scriptFiles =
 	"Scripts/orbWaveType.lua",
 	"Scripts/sunRay.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
+	"Scripts/Animation_Controllers/meleeGoblinController.lua",
 	"Scripts/reusable.lua",
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
@@ -22,6 +22,7 @@ local scriptFiles =
 	"Scripts/hellPillar.lua",
 	"Scripts/rayType.lua",
 	"Scripts/staticAoEType.lua",
+	"Scripts/player.lua",
 	"Scripts/HUD.lua"
 }
 
@@ -45,11 +46,38 @@ end
 
 function UpdateGameplay(dt)
 	if Inputs.KeyReleased(Keys.Escape) then
-		gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
+		if Inputs.KeyReleased("B") then
+		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+	end
+
+	if player.health <= 0 then
+		gamestate.ChangeState(GAMESTATE_DEATH)
+	end
+
 	for key,value in pairs(scripts) do
 		value.Update(dt)
 	end
+
+	if Inputs.KeyReleased("E") then
+		local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+		local dir = Camera.GetDirection()
+		local pos = Transform.GetPosition(player.transformID)
+		RayCollider.SetActive(player.rayCollider, true)
+		RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+		for curID = 1, #collisionIDs do
+		print(collisionIDs[curID])
+			if collisionIDs[curID] == 0 then
+			
+				gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+				print("hit")
+				break
+			end
+		end
+		--RayCollider.SetActive(player.rayCollider, false)
+	end
+
 	CollisionHandler.DrawHitboxes()
 end
 

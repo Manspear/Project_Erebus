@@ -15,12 +15,13 @@ SoundEngine::SoundEngine()
 	engine = createIrrKlangDevice(ESOD_AUTO_DETECT, options);
 	if (engine)
 	{
-		engine->setSoundVolume(0.5f);
-		engine->setDefault3DSoundMinDistance(10);
+		//engine->setSoundVolume(0.5f);
+		engine->setDefault3DSoundMinDistance(5);
+		engine->setDefault3DSoundMaxDistance(20);
+		engine->setRolloffFactor(5.f);
 	}
 
 	currSoundID = 0;
-	currSoundSourceID = 0;
 }
 
 SoundEngine::~SoundEngine()
@@ -31,48 +32,73 @@ SoundEngine::~SoundEngine()
 		engine->drop();
 }
 
-void SoundEngine::update(const float &dt)
+void SoundEngine::update(const double &dt)
 {
-	for (auto s : sounds)
+	for (auto &f : fades)
+		processFade(f, dt);
+	
+	fades.erase(
+		std::remove_if(fades.begin(), fades.end(), 
+			[](const sFade &f) { return (f.elapsedTime >= f.targetTime); }),
+		fades.end()
+	);
+
+	sounds.erase(
+		std::remove_if(sounds.begin(), sounds.end(), 
+			[](const sSound &o) { return o.sound->isFinished(); }), 
+		sounds.end()
+	);
+}
+
+void SoundEngine::fade(size_t i, float t)
+{
+	auto s = std::find(sounds.begin(), sounds.end(), i);
+	if (s != sounds.end())
 	{
-		if (s.sound->isFinished())
-		{
-			s.sound->drop();
-			s = std::move(sounds.back());
-			sounds.pop_back();
-		}
+		sFade f(s->sound, t);
+		fades.push_back(f);
 	}
 }
 
-size_t SoundEngine::play(size_t sourceID, uint8_t options, glm::vec3 pos)
+void SoundEngine::crossfade(size_t from, size_t to, float t)
+{
+	auto s_from = std::find(sounds.begin(), sounds.end(), from);
+	auto s_to = std::find(sounds.begin(), sounds.end(), to);
+	if (s_from != sounds.end() && s_to != sounds.end())
+	{
+		sFade f_from((*s_from).sound, t);
+		sFade f_to((*s_to).sound, t, (*s_from).sound->getVolume());
+		fades.push_back(f_from);
+		fades.push_back(f_to);
+	}
+}
+
+size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 {
 	size_t id = -1;
-	auto s = std::find(sources.begin(), sources.end(), sourceID);
-
-	if (!engine || s == sources.end())
+	if (!engine)
 		return id;
 
-	sSoundSource ss = *s;
-
-	if (!isPlaying(ss.sourceID) || (options & SOUND_COPY))
+	const std::string path = basePath + target;
+	const char* c_path = path.c_str();
+	if ( (options & SOUND_COPY) || !engine->isCurrentlyPlaying(c_path) )
 	{
 		const vec3df ikpos = vec3df(pos.x, pos.y, pos.z);
 		bool loop = static_cast<bool>(options & SOUND_LOOP);
 		bool paused = static_cast<bool>(options & SOUND_PAUSED);
-		bool track = static_cast<bool>(options & (SOUND_LOOP | SOUND_TRACK | SOUND_EFFECTS | SOUND_PAUSED));
 		bool effects = static_cast<bool>(options & SOUND_EFFECTS);
+		E_STREAM_MODE stream = static_cast<bool>(options & SOUND_STREAM) ? ESM_STREAMING : ESM_AUTO_DETECT;
 
-		sSound newSound;
+		sSound s;
 		if (options & SOUND_3D)
-			newSound.sound = engine->play3D(ss.source, ikpos, loop, paused, track, effects);
+			s.sound = engine->play3D(c_path, ikpos, loop, paused, true, stream, effects);
 		else
-			newSound.sound = engine->play2D(ss.source, loop, paused, track, effects);
+			s.sound = engine->play2D(c_path, loop, paused, true, stream, effects);
 
-		if (track && newSound.sound)
+		if (s.sound)
 		{
-			id = ss.sourceID + currSoundID;
-			newSound.id = id;
-			sounds.push_back(newSound);
+			s.id = id = currSoundID;
+			sounds.push_back(s);
 			currSoundID++;
 		}
 	}
@@ -80,14 +106,7 @@ size_t SoundEngine::play(size_t sourceID, uint8_t options, glm::vec3 pos)
 	return id;
 }
 
-// TODO: Integrate with soundsource system
-size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
-{
-	size_t sourceID = addSource(target, (options & SOUND_STREAM));
-	size_t soundID = play(sourceID, options, pos);
-	return soundID;
-}
-
+#pragma region Pause/resume/stop
 void SoundEngine::pause(size_t i)
 {
 	auto s = std::find(sounds.begin(), sounds.end(), i);
@@ -127,7 +146,9 @@ void SoundEngine::clearAll()
 		s.sound->drop();
 	sounds.clear();
 }
+#pragma endregion Functions for pausing/playing sounds
 
+#pragma region Setters
 void SoundEngine::setMasterVolume(float v)
 {
 	if (!engine)
@@ -177,44 +198,14 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 
 	engine->setListenerPosition(ikpos, iklook);
 }
+#pragma endregion Functions for manipulating sound attributes
 
-size_t SoundEngine::addSource(std::string target, bool stream)
+#pragma region Helper functions
+void SoundEngine::processFade(sFade &f, const float &dt)
 {
-	size_t id = -1;
-
-	if (!engine)
-		return id;
-
-	const std::string path = basePath + target;
-	ISoundSource* source = engine->getSoundSource(path.c_str());
-
-	E_STREAM_MODE mode = stream ? ESM_STREAMING : ESM_AUTO_DETECT;
-	source->setStreamMode(mode);
-
-	auto s = std::find(sources.begin(), sources.end(), source);
-	if (s == sources.end())
-	{
-		sSoundSource newSource;
-		newSource.source = source;
-		newSource.target = target;
-		id = currSoundSourceID << S_ID_SHIFT;
-		newSource.sourceID = id;
-		sources.push_back(newSource);
-		currSoundSourceID++;
-	}
-	else
-	{
-		id = (*s).sourceID;
-	}
-
-	return id;
+	f.elapsedTime += dt;
+	const float t = (f.elapsedTime / f.targetTime);
+	const float v = (1 - t) * f.initialVolume + t * f.targetVolume;
+	f.sound->setVolume(v);
 }
-
-bool SoundEngine::isPlaying(size_t sourceID)
-{
-	for (auto s : sounds)
-		if (s.id >> S_ID_SHIFT == sourceID >> S_ID_SHIFT)
-			if (!s.sound->isFinished())
-				return true;
-	return false;
-}
+#pragma endregion Private functions for managing data
