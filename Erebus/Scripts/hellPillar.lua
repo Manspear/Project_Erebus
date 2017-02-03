@@ -9,6 +9,7 @@ GRAVITY_PILLAR = 5
 DAMAGE_INTERVAL_PILLAR = 0.5
 Y_SPEED_PILLAR = 2
 PILLAR_SFX = "Effects/explosion.wav"
+HIT_SFX = "Effects/burn_ice_001.wav"
 
 
 function CreateHellPillar()
@@ -117,6 +118,7 @@ function CreateHellPillar()
 						end
 					end
 					hits[index]:Hurt(self.pillar.damage/(PILLAR_DURATION/DAMAGE_INTERVAL_PILLAR))
+					Sound.Play(HIT_SFX, 1, self.pillar.pos)
 				end
 			end	
 			self.timeSinceTick = self.timeSinceTick + DAMAGE_INTERVAL_PILLAR
