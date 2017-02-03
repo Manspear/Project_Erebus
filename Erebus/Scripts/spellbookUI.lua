@@ -97,11 +97,11 @@ function DrawSpellbookUI()
 	UI.drawImage(screenImages["back"], imageTextures["back"]);
 
 	for i=1, #screenImages do
-				UI.drawImage(screenImages[i], player.spells[i].hudtexture);
+		UI.drawImage(screenImages[i], player.spells[i].hudtexture);
 	end
 
 	for i=1, #SpellList do
-			UI.drawImage(screenImagesSpells[i], SpellList[i].texture);
+		UI.drawImage(screenImagesSpells[i], SpellList[i].texture);
 	end
 
 	if selectedPlayerSpell ~= -1 then

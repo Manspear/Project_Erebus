@@ -105,12 +105,12 @@ GEAR_API bool Inputs::buttonReleasedThisFrame(unsigned int button)
 
 GEAR_API int Inputs::getScroll()
 {
-	return scrollY;
+	return (int)scrollY;
 }
 
 GEAR_API int Inputs::getDeltaScroll()
 {
-	return dScrollY;
+	return (int)dScrollY;
 }
 
 MousePos Inputs::getMousePos()

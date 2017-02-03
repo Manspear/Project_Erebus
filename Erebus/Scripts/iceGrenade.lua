@@ -104,7 +104,6 @@ function CreateIceGrenade()
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
 								for e = 1, #self.nades[i].effects do
-									print(self.nades[i].effects[e])
 									local effect = effectTable[self.nades[i].effects[e]]()
 									table.insert(hits[index].effects, effect)
 									effect:Apply(hits[index])
@@ -128,16 +127,32 @@ function CreateIceGrenade()
 	function spell:ChargeCast(entity)
 		self.combo = 100
 		self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
+		self.chargedTime = 0
 	end
 
 	function spell:Kill(index)
-		self.nades[index].hits = {}
-		self.nades[index].type:Kill()
-		self.nades[index].alive = false
-		self.nades[index].exploding = false
-		if #self.nades[index].effects > 1 then
-			table.remove(self.nades[index].effects)
+
+		if index then 
+			self.nades[index].hits = {}
+			self.nades[index].type:Kill()
+			self.nades[index].alive = false
+			self.nades[index].exploding = false
+			if #self.nades[index].effects > 1 then
+				table.remove(self.nades[index].effects)
+			end
+		else
+			for i = 1, #self.nades do
+				self.nades[i].hits = {}
+				self.nades[i].type:Kill()
+				self.nades[i].alive = false
+				self.nades[i].exploding = false
+				if #self.nades[i].effects > 1 then
+					table.remove(self.nades[i].effects)
+				end
+			end
 		end
+
+		
 	end
 	function spell:GetEffect()
 		return self.nades[1].effects[1]
