@@ -116,7 +116,7 @@ LevelBrushHandler::LevelBrushHandler()
 	time_t t;
 	srand((unsigned)time(&t));
 
-	for (unsigned int i = 0; i < 3; i++) //fill upp the 3 earlier brush positions
+	for (unsigned int i = 0; i < numSavedPositions; i++) //fill upp the 3 earlier brush positions
 	{
 		earlierPositions.push_back(glm::vec3(9999, 9999, 9999));
 	}

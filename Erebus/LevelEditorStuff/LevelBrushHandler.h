@@ -42,6 +42,7 @@ public:
 	//Importer::Assets* getAssets();
 
 private:
+	int numSavedPositions = 10;
 	float radius = 1;
 	float density = 1;
 	float yOffset = 0;
