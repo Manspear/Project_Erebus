@@ -1,9 +1,6 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-MAX_CHARGE_TIME_PILLAR = 3
 MIN_CHARGE_TIME_PILLAR = 1
-MAX_DAMAGE_PILLAR = 1000
 COOLDOWN_PILLAR = 4
-PILLAR_DURATION = 2
 PILLAR_SFX = "Effects/explosion.wav"
 HIT_SFX = "Effects/burn_ice_001.wav"
 
@@ -31,7 +28,6 @@ function CreateHellPillar(entity)
 	spell.effectflag = false
 	spell.damage = MAX_DAMAGE_PILLAR
 	spell.alive = false
-	spell.duration = PILLAR_DURATION
 	spell.attack = false
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
@@ -63,7 +59,7 @@ function CreateHellPillar(entity)
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then		
 			self.cooldown = COOLDOWN_PILLAR	
-			self.startUpTime = 1.5		self.finishingTime = 2.0	self.startUpScale = 3
+			self.startUpTime = 1.5		self.finishingTime = 1.5	self.startUpScale = 3
 			self.maxScale = 3
 			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
@@ -74,7 +70,6 @@ function CreateHellPillar(entity)
 	
 	function spell:GeneralCast()
 		self.alive = true	self.growAgain = true
-		self.duration = PILLAR_DURATION
 		self.pos = Transform.GetPosition(self.caster)
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
@@ -116,7 +111,7 @@ function CreateHellPillar(entity)
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
 			Transform.SetPosition(self.transformID, self.pos)
-				Sound.Play(PILLAR_SFX, 7, self.pillar.pos)				
+			Sound.Play(PILLAR_SFX, 7, self.pos)				
 			Transform.ActiveControl(self.transformID, true)
 			self.startUpTime = 0.2
 			--Light.updateRadius(self.light, 10)
@@ -130,7 +125,7 @@ function CreateHellPillar(entity)
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 					enemies[curEnemy]:Hurt(self.damage)
 				end
-					Sound.Play(HIT_SFX, 1, self.pillar.pos)
+					Sound.Play(HIT_SFX, 1, self.pos)
 			end
 		end		
 		self.startUp = false

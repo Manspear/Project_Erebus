@@ -67,6 +67,7 @@ function CreateSunRay(entity)
 			self.tickInterval = 1.3
 			self.startUpScale.x = self.startUpScale.x * 0.55	self.startUpScale.y = self.startUpScale.y * 0.55	self.startUpScale.z = self.startUpScale.z / 2
 			self:GeneralCast()
+			ZoomInCamera()
 		end
 	end
 
