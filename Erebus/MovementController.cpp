@@ -32,6 +32,7 @@ void MovementController::update()
 	float height = heightmap->getPos( newPos.x, newPos.z );
 	newPos.y = height;
 
+
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( this->layerID );
 

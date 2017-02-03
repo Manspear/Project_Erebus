@@ -131,13 +131,28 @@ function CreateIceGrenade()
 	end
 
 	function spell:Kill(index)
-		self.nades[index].hits = {}
-		self.nades[index].type:Kill()
-		self.nades[index].alive = false
-		self.nades[index].exploding = false
-		if #self.nades[index].effects > 1 then
-			table.remove(self.nades[index].effects)
+
+		if index then 
+			self.nades[index].hits = {}
+			self.nades[index].type:Kill()
+			self.nades[index].alive = false
+			self.nades[index].exploding = false
+			if #self.nades[index].effects > 1 then
+				table.remove(self.nades[index].effects)
+			end
+		else
+			for i = 1, #self.nades do
+				self.nades[i].hits = {}
+				self.nades[i].type:Kill()
+				self.nades[i].alive = false
+				self.nades[i].exploding = false
+				if #self.nades[i].effects > 1 then
+					table.remove(self.nades[i].effects)
+				end
+			end
 		end
+
+		
 	end
 	function spell:GetEffect()
 		return self.nades[1].effects[1]

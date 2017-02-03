@@ -10,6 +10,8 @@ namespace LuaErebus
 
 	int setControls( lua_State* lua );
 	int cameraSensitivity(lua_State* lua);
-	int startNetwork( lua_State* lua );
+	int startNetworkHost(lua_State* lua);
+	int startNetworkClient(lua_State* lua);
+	int shutdownNetwork(lua_State* lua);
 	int setRunning(lua_State* lua);
 }

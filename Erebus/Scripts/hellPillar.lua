@@ -4,6 +4,8 @@ MIN_CHARGE_TIME_PILLAR = 1
 MAX_DAMAGE_PILLAR = 1000
 COOLDOWN_PILLAR = 4
 PILLAR_DURATION = 2
+PILLAR_SFX = "Effects/explosion.wav"
+HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateHellPillar(entity)
 	local spell = {}
@@ -114,6 +116,7 @@ function CreateHellPillar(entity)
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
 			Transform.SetPosition(self.transformID, self.pos)
+				Sound.Play(PILLAR_SFX, 7, self.pillar.pos)				
 			Transform.ActiveControl(self.transformID, true)
 			self.startUpTime = 0.2
 			--Light.updateRadius(self.light, 10)
@@ -127,6 +130,7 @@ function CreateHellPillar(entity)
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 					enemies[curEnemy]:Hurt(self.damage)
 				end
+					Sound.Play(HIT_SFX, 1, self.pillar.pos)
 			end
 		end		
 		self.startUp = false

@@ -34,6 +34,7 @@ function UpdatePauseMenuUI(dt)
 
 		if UI.mousePick(screenImages["exit"], x,y) then
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+			Erebus.ShutdownNetwork()
 		end
 	end
 end

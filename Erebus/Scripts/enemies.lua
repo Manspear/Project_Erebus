@@ -5,6 +5,11 @@ local clientAIScript = require("Scripts.AI.client_AI")
 MAX_ENEMIES = 10
 enemies = {}
 
+SFX_AGGRO = "Goblin/Voice/Goblin laugh aggro.ogg"
+SFX_ATTACK = "Goblin/Voice/albin goblin - attack3.ogg"
+SFX_HURT = "Goblin/Voice/albin goblin alerted.ogg"
+SFX_DEAD = { "Goblin/Voice/albin goblin - death.ogg", "Goblin/Machine/Goblin Machine Dead.ogg"}
+
 function LoadEnemies(n)
 	if n > MAX_ENEMIES then n = MAX_ENEMIES end
 	for i=1, n do
@@ -16,11 +21,18 @@ function LoadEnemies(n)
 		enemies[i].alive = true
 		enemies[i].effects = {}
 		enemies[i].attackCountdown = 1
+		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
 		enemies[i].Hurt = function(self,damage)
+			local pos = Transform.GetPosition(self.transformID)
+
 			self.health = self.health - damage
 			if self.health <= 0 then
+				for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
+				for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
 				self:Kill()
+			else
+				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 			end
 		end
 

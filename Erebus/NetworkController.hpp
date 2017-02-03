@@ -50,6 +50,7 @@ private:
 	Nurn::NurnEngine network;
 	std::thread sendingThread;
 	std::thread receiveThread;
+	bool initalized;
 	bool running;
 	bool networkHost;
 	PerformanceCounter counter;

@@ -6,7 +6,7 @@ SoundEngine::SoundEngine()
 		//| ESEO_DEFAULT_OPTIONS
 		| ESEO_MULTI_THREADED
 		//| ESEO_MUTE_IF_NOT_FOCUSED
-		| ESEO_LOAD_PLUGINS
+		//| ESEO_LOAD_PLUGINS
 		| ESEO_USE_3D_BUFFERS
 		| ESEO_PRINT_DEBUG_INFO_TO_DEBUGGER
 		| ESEO_PRINT_DEBUG_INFO_TO_STDOUT
@@ -21,7 +21,7 @@ SoundEngine::SoundEngine()
 		engine->setRolloffFactor(5.f);
 	}
 
-	currSoundID = 0;
+	currSoundID = 1;
 }
 
 SoundEngine::~SoundEngine()
@@ -81,22 +81,24 @@ size_t SoundEngine::play(std::string target, uint8_t options, glm::vec3 pos)
 
 	const std::string path = basePath + target;
 	const char* c_path = path.c_str();
-	if ( (options & SOUND_COPY) || !engine->isCurrentlyPlaying(c_path) )
+	if ( (options & SOUND_COPY) != 0 || !engine->isCurrentlyPlaying(c_path) )
 	{
 		const vec3df ikpos = vec3df(pos.x, pos.y, pos.z);
 		bool loop = (options & SOUND_LOOP) != 0;
 		bool paused = (options & SOUND_PAUSED) != 0;
-		bool effects = (options & SOUND_EFFECTS) != 0;
+		bool effects = (options & (SOUND_BOOST | SOUND_REVERB)) != 0;
 		E_STREAM_MODE stream = ((options & SOUND_STREAM) != 0) ? ESM_STREAMING : ESM_AUTO_DETECT;
 
 		sSound s;
-		if (options & SOUND_3D)
+		if ((options & SOUND_3D) != 0)
 			s.sound = engine->play3D(c_path, ikpos, loop, paused, true, stream, effects);
 		else
 			s.sound = engine->play2D(c_path, loop, paused, true, stream, effects);
 
 		if (s.sound)
 		{
+			if ((options & SOUND_BOOST) != 0) { s.sound->getSoundEffectControl()->enableParamEqSoundEffect(8000, 12, 15); }
+			if ((options & SOUND_REVERB) != 0) { s.sound->getSoundEffectControl()->enableI3DL2ReverbSoundEffect(); }
 			s.id = id = currSoundID;
 			sounds.push_back(s);
 			currSoundID++;
@@ -194,13 +196,24 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 		return;
 
 	const vec3df ikpos	= vec3df(pos.x, pos.y, pos.z);
-	const vec3df iklook	= -vec3df(look.x, look.y, look.z);
+	const vec3df iklook	= vec3df(look.x, look.y, look.z);
 
 	engine->setListenerPosition(ikpos, iklook);
 }
 #pragma endregion Functions for manipulating sound attributes
 
 #pragma region Helper functions
+std::string SoundEngine::getDbgTxt()
+{
+	std::string dbg = "currSoundID: " + std::to_string(currSoundID)
+		+ "\nmaster: \t" + std::to_string(engine->getSoundVolume());
+	for (int i = 0; i < sounds.size(); i++)
+		dbg += "\nsound" + std::to_string(i) + ": \t" + std::to_string(sounds[i].sound->getVolume())
+		+ " \t" + sounds[i].sound->getSoundSource()->getName();
+
+	return dbg;
+}
+
 void SoundEngine::processFade(sFade &f, const float &dt)
 {
 	f.elapsedTime += dt;

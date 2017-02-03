@@ -4,6 +4,7 @@ local PLAYER_JUMP_SPEED = 0.35
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
+DASH_COOLDOWN = 0.6
 
 player = {}
 player2 = {}
@@ -41,13 +42,12 @@ function LoadPlayer()
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
+	player.dashdir = {x= 0, z= 0}
+	player.dashtime = 0
+	player.dashcd = 0
 
 	-- set spells for player
 	player.spells = {}
-	player.spells[1] = CreateHellPillar(player)
-	player.spells[2] = CreateBlackHole(player)
-	player.spells[3] = CreateIceGrenade(player)	
-	--player.spells[4] = CreateSunRay(player) 
 	
 	player.currentSpell = 1
 
@@ -116,9 +116,30 @@ end
 function UnloadPlayer()
 end
 
+function LoadSpells(player)
+	player.spells[1] = SpellList[1].spell
+	player.spells[2] = SpellList[2].spell
+	player.spells[3] = SpellList[3].spell
+end
+
+function FindHeightmap(position)
+	local hm = player.currentHeightmap
+	if not hm.asset:Inside(position) then
+		for _,hmIndex in pairs(hm.surrounding) do
+			if heightmaps[hmIndex].asset:Inside(position) then
+				print("CHANGING")
+				player.currentHeightmap = heightmaps[hmIndex]
+				player.controller:SetHeightmap(player.currentHeightmap.asset)
+				break
+			end
+		end
+	end
+end
+
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
 	if player.health > 0 then
+		player.dashcd = player.dashcd - dt
 		player.forward = 0
 		player.left = 0
 
@@ -156,6 +177,17 @@ function UpdatePlayer(dt)
 		--end
 
 		--Transform.SetPosition(player.transformID, position)
+
+		--[[local posx = math.floor(position.x/512)
+		local posz = math.floor(position.z/512)
+		player.heightmapIndex = (posz*2 + posx)+1
+		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
+		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
+
+		player.controller:SetHeightmap(heightmaps[player.heightmapIndex].asset)--]]
+
+		FindHeightmap(position)
+
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
@@ -181,18 +213,28 @@ function UpdatePlayer(dt)
 	-- update player controller -- this moves the player
 	player.controller:Move(player.left * dt, 0, player.forward * dt)
 	player.controller:Update()
+	if player.dashtime > 0 then
+		local factor = math.sqrt(math.sqrt(math.sqrt(player.dashtime/DASH_COOLDOWN)))
+		local left = player.dashdir.z * factor
+		local fwd = player.dashdir.x * factor
+		player.controller:Move(left*dt, 0, fwd*dt)
+		player.dashtime = player.dashtime - dt
+	end
 	
 end
+
 function SendCombine(spell)
 	--TOBEDEFINED
 	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
+
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(damage, effectIndex)
 	end
 end
+
 function Controls(dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
@@ -251,6 +293,14 @@ function Controls(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
+
+		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
+			player.dashcd = DASH_COOLDOWN
+			player.dashdir.x = player.forward * 3
+			player.dashdir.z = player.left * 3
+			player.dashtime = 0.35
+		end
+
 end
 
 function PrintInfo() 

@@ -2,6 +2,7 @@
 
 NetworkController::NetworkController()
 {
+	initalized = false;
 	networkHost = true;
 	running = false;
 	transformpackTime = 0.0;
@@ -11,43 +12,52 @@ NetworkController::NetworkController()
 
 NetworkController::~NetworkController()
 {
-	printf("Closing socket on port\n");
-	network.Shutdown();
+	NetworkController::shutdown();
 }
 
 bool NetworkController::initNetworkAsHost()
 {
-	if (!network.InitializeHost())
+	if (!initalized)
 	{
-		printf("failed to initialize sockets\n");
-		return false;
+		if (!network.InitializeHost())
+		{
+			std::cout << "failed to initialize sockets" << std::endl;
+			return false;
+		}
+		initalized = true;
 	}
-
-	running = true;
 
 	return true;
 }
 
 bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4)
 {
-	if (!network.InitializeClient(ip1, ip2, ip3, ip4))
+	if (!initalized)
 	{
-		printf("failed to initialize sockets\n");
-		return false;
+		if (!network.InitializeClient(ip1, ip2, ip3, ip4))
+		{
+			std::cout << "failed to initialize sockets" << std::endl;
+			return false;
+		}
+		initalized = true;
 	}
-
-	running = true;
 
 	return true;
 }
 
 void NetworkController::shutdown()
 {
-	if (running == true)
+	if (running)
 	{
 		running = false;
 		sendingThread.join();
 		receiveThread.join();
+	}
+	
+	if (initalized)
+	{
+		initalized = false;
+		network.Shutdown();
 	}
 }
 
@@ -90,7 +100,7 @@ void NetworkController::startNetworkReceiving()
 bool NetworkController::acceptNetworkCommunication()
 {
 	int counter = 0;
-	while (running && counter < 20)
+	while (initalized && counter < 20)
 	{
 		if (network.AcceptCommunication())
 		{
@@ -99,16 +109,26 @@ bool NetworkController::acceptNetworkCommunication()
 		counter++;
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
+
 	return false;
 }
 
 void NetworkController::startCommunicationThreads(PerformanceCounter& counter)
 {
-	this->counter = counter;
+	if (initalized)
+	{
+		running = true;
 
-	sendingThread = std::thread(&NetworkController::startNetworkSending, this);
+		this->counter = counter;
 
-	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
+		sendingThread = std::thread(&NetworkController::startNetworkSending, this);
+
+		receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
+	}
+	else
+	{
+		std::cout << "Network has not been initalized yet" << std::endl;
+	}
 }
 
 void NetworkController::setNetworkHost(const bool& networkHost)
