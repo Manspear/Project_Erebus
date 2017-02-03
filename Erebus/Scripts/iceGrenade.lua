@@ -154,9 +154,14 @@ function CreateIceGrenade()
 
 		
 	end
+
 	function spell:GetEffect()
 		return self.nades[1].effects[1]
 	end
+
+	function spell:Aim()
+	end
+
 	function spell:Combine(effect,damage)
 		self.damage = self.damage + 2 * damage
 		for i=1, #self.nades do

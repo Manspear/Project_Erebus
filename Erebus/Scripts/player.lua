@@ -83,6 +83,8 @@ function LoadPlayer()
 
 	Erebus.SetControls(player.transformID)
 	LoadPlayer2()
+
+	player.aim = CreateAim(player)
 end
 
 function LoadPlayer2()
@@ -300,7 +302,7 @@ function Controls(dt)
 			player.dashdir.z = player.left * 3
 			player.dashtime = 0.35
 		end
-
+		player.spells[player.currentSpell]:Aim()
 end
 
 function PrintInfo() 
@@ -347,7 +349,6 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
-	--player2.spells[4]:Update(dt)
 	
 	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
 	if newAnimationValue == true then

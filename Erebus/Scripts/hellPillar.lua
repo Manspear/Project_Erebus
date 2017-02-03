@@ -156,6 +156,13 @@ function CreateHellPillar(entity)
 		end	
 	end
 
+	function spell:Aim()
+		lookAt = Transform.GetLookAt(self.caster)
+		aPos = Transform.GetPosition(self.caster)
+		aimPos = {x = aPos.x + lookAt.x *10, y = aPos.y + lookAt.y *10, z = aPos.z + lookAt.z *10 }
+		player.aim:SetPos(aimPos)
+	end
+
 	function spell:GetEffect()
 		return self.effects[1]
 	end

@@ -468,6 +468,9 @@
     <None Include="Scripts\spellList.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\aim.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

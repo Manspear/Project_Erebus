@@ -106,6 +106,11 @@ function CreateBlackHole()
 		self.alive = false
 	
 	end
+
+	function spell:Aim()
+	
+	end
+
 	function spell:GetEffect()
 		return self.effects[1]
 	end
