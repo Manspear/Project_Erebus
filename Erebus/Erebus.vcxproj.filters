@@ -71,9 +71,6 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LuaMath.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -173,9 +170,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaNetwork.hpp">
