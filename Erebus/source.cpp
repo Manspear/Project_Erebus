@@ -69,20 +69,17 @@ DWORD WINAPI update( LPVOID args )
 	NetworkController network;
 
 	////////////////////////////////// HARDCODED SHIT ////////////////////////////////
-	AABBCollider* swag = new AABBCollider(glm::vec3(-10, -1, -1), glm::vec3(10, 1, 1), glm::vec3(20, 6, 27));
-	OBBCollider* swag2 = new OBBCollider(glm::vec3(30, 6, 26), 5, 5, 5);
-	SphereCollider* swag3 = new SphereCollider(glm::vec3(45,9,7),4);
-	swag2->rotateAroundY(1.8f);
+	AABBCollider* swag = new AABBCollider(glm::vec3(-3, -1, -1), glm::vec3(1, 1, 4), glm::vec3(15, 6, 27));
+	OBBCollider* swag2 = new OBBCollider(glm::vec3(30, 6, 26), 5, 3, 1);
+	OBBCollider* swag3 = new OBBCollider(glm::vec3(25, 6, 26), 5, 3, 1);
+	swag3->rotateAroundY(-1.5f);
+	SphereCollider* swag4 = new SphereCollider(glm::vec3(25, 6, 26),4);
+	//swag2->rotateAroundY(1.8f);
 	collisionHandler.addHitbox(swag, 3);
 	collisionHandler.addHitbox(swag2, 3);
 	collisionHandler.addHitbox(swag3, 3);
-	AABBCollider aabb2 = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(20, 6, 20));
-	SphereCollider sphere = SphereCollider(glm::vec3(20, 6.5, 24), 1.3f);
-	OBBCollider obb2 = OBBCollider(glm::vec3(45, 9, 24), 1, 1, 1);
-	collisionHandler.addHitbox(&aabb2, 3);
-	collisionHandler.addHitbox(&sphere, 3);
-	collisionHandler.addHitbox(&obb2, 3);
-	obb2.rotateAroundY(1.3f);
+	collisionHandler.addHitbox(swag4, 3);
+
 	////////////////////////////////// HARDCODED END ////////////////////////////////
 
 	data->engine->addDebugger( Debugger::getInstance() );

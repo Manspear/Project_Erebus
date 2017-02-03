@@ -68,21 +68,33 @@ void MovementController::update()
 
 	hitbox->setPos( newPos );
 	bool playerColliding = checkCollision(colliders);
-	if( hitNormal != glm::vec3(0.0f) )
+	if(playerColliding && hitNormal != glm::vec3(0.0f) )
 	{
-		std::cout << "hitNormal X : " << hitNormal.x << ", " << hitNormal.y << ", " << hitNormal.z << std::endl;
+		if(this->hitNormals.size() > 1)
+			std::cout << "hitNormal X : " << hitNormal.x << ", " << hitNormal.y << ", " << hitNormal.z << " : NORMALS YO " << this->hitNormals.size() << std::endl;
 
-		glm::vec3 proj = glm::dot( dif, hitNormal ) * hitNormal;
+		glm::vec3 normalFinal;
+		for (size_t i = 0; i < this->hitNormals.size(); i++)
+		{
+			normalFinal += hitNormals[i];
+		}
+		normalFinal = glm::normalize(normalFinal);
+
+		glm::vec3 proj = glm::dot( dif, normalFinal) * normalFinal;
 
 		glm::vec3 finalDif = dif - proj;
 		finalPos = pos + finalDif;
+		if (dif.x < 0.1f)
+			std::cout << "TINY DIF\n";
 	}
 	else
 		finalPos = newPos;
-	
-	transform->setPos(finalPos);
+	if (this->hitNormals.size() <= 1) // NIKLAS HEEEEEELP, IF we have several collisions you may not move, rekt
+		transform->setPos(finalPos);
+
 	this->movement = glm::vec3();
 	this->hitNormal = glm::vec3(0, 0, 0);
+	this->hitNormals.clear();
 }
 
 void MovementController::setHitbox( HitBox* hb )
@@ -127,6 +139,7 @@ inline bool MovementController::idCheck(std::vector<int>* playerCollisions, std:
 
 bool MovementController::checkCollision(std::vector<HitBox*>* walls) // Check our hitbox vs all the walls
 {
+	bool collision = false;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
 	std::vector<OBBCollider*> obbColliders;
@@ -144,12 +157,12 @@ bool MovementController::checkCollision(std::vector<HitBox*>* walls) // Check ou
 		}
 	}
 
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &sphereColliders, hitNormal)) // if we collide with any spheres
-		return true;
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &aabbColliders, hitNormal)) // if we collide with any AABBColliders
-		return true;
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &obbColliders, hitNormal)) // if we collide with any OBBColliders
-		return true;
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &sphereColliders, hitNormal, hitNormals)) // if we collide with any spheres
+		collision = true;
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &aabbColliders, hitNormal, hitNormals)) // if we collide with any AABBColliders
+		collision = true;
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &obbColliders, hitNormal, hitNormals)) // if we collide with any OBBColliders
+		collision = true;
 
-	return false;
+	return collision;
 }

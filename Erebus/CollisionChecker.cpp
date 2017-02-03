@@ -616,7 +616,7 @@ bool CollisionChecker::collisionCheck(HitBox * hitbox1, HitBox * hitbox2)
 	return false;
 }
 
-bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, glm::vec3 & normal)
+bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
 	if (hitbox1->isSphereCollider())
 	{
@@ -624,17 +624,17 @@ bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, 
 		if (hitbox2->isSphereCollider()) // sphere vs sphere
 		{
 			SphereCollider* sphere2 = static_cast<SphereCollider*>(hitbox2);
-			return this->collisionCheckNormal(sphere1, sphere2,normal);
+			return this->collisionCheckNormal(sphere1, sphere2,normal, hitNormals, saveNormals);
 		}
 		else if (hitbox2->isAabbCollider()) // sphere vs aabb
 		{
 			AABBCollider* aabb = static_cast<AABBCollider*>(hitbox2);
-			return this->collisionCheckNormal(sphere1, aabb,normal);
+			return this->collisionCheckNormal(sphere1, aabb,normal, hitNormals, saveNormals);
 		}
 		else if (hitbox2->isObbCollider()) // Sphere vs obb
 		{
 			OBBCollider* obb = static_cast<OBBCollider*>(hitbox2);
-			return this->collisionCheckNormal(sphere1, obb, normal);
+			return this->collisionCheckNormal(sphere1, obb, normal, hitNormals, saveNormals);
 		}
 	}
 	else
@@ -645,7 +645,7 @@ bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, 
 	return false;
 }
 
-bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereCollider * sphere2, glm::vec3 & normal)
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereCollider * sphere2, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
 	this->sphereCollisionCounter++;
 	bool collision = false;
@@ -660,7 +660,11 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereColl
 	if (distanceSquared <= radiusSquared)
 	{
 		collision = true;
-		normal = glm::normalize(distanceVector);
+		if (saveNormals)
+		{
+			normal = glm::normalize(distanceVector);
+			hitNormals.push_back(normal);
+		}
 	}
 		
 
@@ -668,7 +672,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereColl
 	return collision;
 }
 
-bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollider * aabb, glm::vec3 & normal)
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollider * aabb, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
 	this->sphereToAabbCollisionCounter++;
 	bool collision = false;
@@ -678,6 +682,8 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 	glm::vec3 spherePos = sphere->getPos();
 	glm::vec3 minPos = aabb->getMinPos();
 	glm::vec3 maxPos = aabb->getMaxPos();
+	const float DEGREE_THRESHOLD = 0.6f; // this threshold is in cos(angle)
+
 	if (squaredDistance <= radiusSquared) // if squared distance between aabb and sphere center is closer than squared radius of spheres
 	{									 // this means that we have a hit, save hit normal and return true
 		// Axis to check against
@@ -723,9 +729,21 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 			}
 				
 		}
-		if (index != -1) // if we found the closest angle. Probably reduntant check
+
+		for (size_t i = 0; i < axisAmount; i++) // find if any angle is very close, this might mean we are touching 2 walls at the same time
+		{
+			if (i != index && cosAngle[i] + DEGREE_THRESHOLD > cosAngle[index]) // if the angle + threshold is bigger than closest cos(angle)
+			{
+				std::cout << "ANGLE VERY CLOSE INDEED\n";
+				if(saveNormals)
+					hitNormals.push_back(axes[i]); // this saves the other normal if angle is very close
+			}
+		}
+
+		if (index != -1 && saveNormals) // if we found the closest angle. Probably reduntant check
 		{
 			normal = axes[index];
+			hitNormals.push_back(normal); // this saves the first normal
 		}
 		collision = true;
 	}
@@ -733,14 +751,15 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 	return collision;
 }
 
-bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, glm::vec3 & normal)
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
-	normal = glm::vec3(0, 0, 0);
+	//normal = glm::vec3(0, 0, 0);
 	bool collision = false;
 	this->obbToSphereCollisionCounter++;
 	const glm::vec3 sphereCenter = sphere->getPos();
 	float sphereRadius = sphere->getRadius();
 	float sphereRadiusSquared = sphere->getRadiusSquared();
+	const float DEGREE_THRESHOLD = 0.6f; // this threshold is in cos(angle)
 
 	glm::vec3 v = closestPointOnOBB(obb, sphereCenter) - sphereCenter;
 	float vSquared = glm::dot(v, v);
@@ -788,11 +807,22 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider
 				closest = cosAngle[i];
 				index = i;
 			}
-
 		}
-		if (index != -1) // if we found the closest angle. Probably reduntant check
+
+		for (size_t i = 0; i < axisAmount; i++) // find if any angle is very close, this might mean we are touching 2 walls at the same time
+		{
+			if (i != index && cosAngle[i] + DEGREE_THRESHOLD > cosAngle[index]) // if the angle + threshold is bigger than closest cos(angle)
+			{
+				std::cout << "ANGLE VERY CLOSE INDEED\n";
+				if(saveNormals)
+					hitNormals.push_back(axes[i]);
+			}
+		}
+
+		if (index != -1 && saveNormals) // if we found the closest angle. Probably reduntant check
 		{
 			normal = axes[index];
+			hitNormals.push_back(normal);
 		}
 		collision = true;
 	}

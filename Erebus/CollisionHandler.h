@@ -99,7 +99,7 @@ private:
 
 public: // This is used by movementController
 	template <typename T, typename U>
-	bool checkAnyCollisionBoolNoSave(T collider, std::vector<U*>* colliders, glm::vec3& normal) // this check dont save any collision but simpy return a bool
+	bool checkAnyCollisionBoolNoSave(T collider, std::vector<U*>* colliders, glm::vec3& normal, std::vector<glm::vec3>& hitNormals) // this check dont save any collision but simpy return a bool
 	{
 		// Antingen har barnen inga fler barn, då kollar vi kollision. Annars kollar vi kollision mot dens barn
 		bool hit = false;
@@ -109,22 +109,22 @@ public: // This is used by movementController
 			tempCollider = colliders->operator[](i);
 			if (tempCollider->children == nullptr) // if hitbox dont have children
 			{
-				hit = false;
-				hit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, normal);
-				if (hit) // if we hit something return true, else keep checking
+				bool tempHit = false;
+				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, normal, hitNormals,true);
+				if (tempHit) // if we hit something hit is true, and keep checking
 				{
-					return hit;
+					hit = true;
 				}
 					
 			}
 			else // the hitbox have children
 			{
-				hit = false;
-				hit = this->collisionChecker.collisionCheckNormal(collider, tempCollider,normal);
-				if (hit) // if you collide with parent check collision with children
-					return checkAnyCollisionBoolNoSave(collider, tempCollider->children,normal);
+				bool tempHit = false;
+				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider,normal, hitNormals,false);
+				if (tempHit) // if you collide with parent check collision with children
+					hit = checkAnyCollisionBoolNoSave(collider, tempCollider->children,normal, hitNormals);
 			}
 		}
-		return false;
+		return hit;
 	}
 };
