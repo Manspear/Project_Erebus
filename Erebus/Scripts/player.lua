@@ -122,6 +122,12 @@ function LoadSpells(player)
 	player.spells[3] = SpellList[3].spell
 end
 
+function LoadSpellsPlayer2()
+	player2.spells[1] = SpellListPlayer2[1].spell
+	player2.spells[2] = SpellListPlayer2[2].spell
+	player2.spells[3] = SpellListPlayer2[3].spell
+end
+
 function FindHeightmap(position)
 	local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
