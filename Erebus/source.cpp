@@ -161,7 +161,7 @@ int main()
 
 ///////////////////////////////////////////////////////////////
 	engine.setTextureBlendings(assets.load<TextureAsset>("Textures/brightParticle.png"));
-	//engine.setTextureBlendings(assets.load<TextureAsset>("Textures/Lazer.png"));
+	engine.setTextureBlendings(assets.load<TextureAsset>("Textures/Lazer.png"));
 ///////////////////////////////////////////////////////////////
 
 	assets.load<TextureAsset>("Textures/buttonOptions.png");
