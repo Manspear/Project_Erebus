@@ -202,6 +202,11 @@ std::string LevelActor::toLua()
 				ss << "table.insert(colliders," << fullName << ")" << endl;
 				//ss << "table.insert(heightmaps,temp)" << endl;
 				break;
+
+			case EXPORT_PARTICLE:
+				ss << "table.insert(particles," << fullName << ")" << endl;
+				//ss << "table.insert(heightmaps,temp)" << endl;
+				break;
 		}
 		ss << fullName << " = nil" << endl<<endl;
 	}

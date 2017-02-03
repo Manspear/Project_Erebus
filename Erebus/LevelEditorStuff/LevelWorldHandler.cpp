@@ -44,11 +44,13 @@ void LevelWorldHandler::resetWorld()
 	LevelModelHandler::resetInstance(LevelTransformHandler::getInstance(), engineRef, assetsRef);
 	LevelBrushHandler::resetInstance();
 	LevelColiderHandler::resetInstance();
+	LevelParticleHandler::resetInstance();
 	this->levelUiRef->reset(windowRef->getGlfwWindow());
 
 	LevelAssetHandler::getInstance()->setAssets(assetsRef);
 	LevelAssetHandler::getInstance()->setInputs(inputRef);
 	LevelAssetHandler::getInstance()->load();
+	
 
 	LevelActionHandler::getInstance()->setupGizmo(debugRef, cameraRef, inputRef);
 

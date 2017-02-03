@@ -179,6 +179,32 @@ ID18name2 = nil
 table.insert(colliders,ID18name)
 ID18name = nil
 
+local ID21name = {}
+ID21name.transformID = Transform.Bind()
+Transform.SetPosition(ID21name.transformID, {x=35, y=14, z=20})
+Transform.SetScaleNonUniform(ID21name.transformID, 1, 1, 1)
+Transform.SetRotation(ID21name.transformID, {x=0, y=0, z=0})
+ID21name.collider = AABBCollider.Create(ID21name.transformID)
+ID21name.collider:SetOffset(0,0,0)
+ID21name.collider:SetMinPos(-0.5,-0.5,-0.5)
+ID21name.collider:SetMaxPos(0.5,0.5,0.5)
+CollisionHandler.AddAABB(ID21name.collider, 3)
+table.insert(colliders,ID21name)
+ID21name = nil
+
+local ID22name = {}
+ID22name.transformID = Transform.Bind()
+Transform.SetPosition(ID22name.transformID, {x=35, y=12, z=20})
+Transform.SetScaleNonUniform(ID22name.transformID, 1, 1, 1)
+Transform.SetRotation(ID22name.transformID, {x=0, y=0, z=0})
+ID22name.collider = AABBCollider.Create(ID22name.transformID)
+ID22name.collider:SetOffset(0,0,0)
+ID22name.collider:SetMinPos(-0.5,-0.5,-0.5)
+ID22name.collider:SetMaxPos(0.5,0.5,0.5)
+CollisionHandler.AddAABB(ID22name.collider, 3)
+table.insert(colliders,ID22name)
+ID22name = nil
+
 local ID23name = {}
 ID23name.transformID = Transform.Bind()
 Transform.SetPosition(ID23name.transformID, {x=35, y=10, z=20})
@@ -188,25 +214,141 @@ ID23name.collider = AABBCollider.Create(ID23name.transformID)
 ID23name.collider:SetOffset(0,0,0)
 ID23name.collider:SetMinPos(-0.5,-0.5,-0.5)
 ID23name.collider:SetMaxPos(0.5,0.5,0.5)
-ID23name1 = {}
-ID23name1.collider = AABBCollider.Create(-1)
-ID23name1.collider:SetOffset(0,2,0)
-ID23name1.collider:SetMinPos(-0.5,-0.5,-0.5)
-ID23name1.collider:SetMaxPos(0.5,0.5,0.5)
-ID23name.collider:AddChild(ID23name1.collider)
-table.insert(colliders,ID23name1)
-ID23name2 = {}
-ID23name2.collider = AABBCollider.Create(-1)
-ID23name2.collider:SetOffset(0,2,0)
-ID23name2.collider:SetMinPos(-0.5,-0.5,-0.5)
-ID23name2.collider:SetMaxPos(0.5,0.5,0.5)
-ID23name1.collider:AddChild(ID23name2.collider)
-table.insert(colliders,ID23name2)
 CollisionHandler.AddAABB(ID23name.collider, 3)
-ID23name1 = nil
-ID23name2 = nil
 table.insert(colliders,ID23name)
 ID23name = nil
+
+local ID24name = {}
+ID24name.transformID = Transform.Bind()
+Transform.SetPosition(ID24name.transformID, {x=-6.16797, y=2.79883, z=97.0625})
+Transform.SetScaleNonUniform(ID24name.transformID, 1, 1, 1)
+Transform.SetRotation(ID24name.transformID, {x=0, y=0, z=0})
+ID24name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID24name.particle, -6.16797, 2.79883, 97.0625)
+Particle.SetAlive(ID24name.particle)
+table.insert(props,ID24name)
+ID24name = nil
+
+local ID25name = {}
+ID25name.transformID = Transform.Bind()
+Transform.SetPosition(ID25name.transformID, {x=39.375, y=-3.16992, z=120.125})
+Transform.SetScaleNonUniform(ID25name.transformID, 1, 1, 1)
+Transform.SetRotation(ID25name.transformID, {x=0, y=0, z=0})
+ID25name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID25name.particle, 39.375, -3.16992, 120.125)
+Particle.SetAlive(ID25name.particle)
+table.insert(props,ID25name)
+ID25name = nil
+
+local ID26name = {}
+ID26name.transformID = Transform.Bind()
+Transform.SetPosition(ID26name.transformID, {x=79.1875, y=-1.12695, z=107.125})
+Transform.SetScaleNonUniform(ID26name.transformID, 1, 1, 1)
+Transform.SetRotation(ID26name.transformID, {x=0, y=0, z=0})
+ID26name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID26name.particle, 79.1875, -1.12695, 107.125)
+Particle.SetAlive(ID26name.particle)
+table.insert(props,ID26name)
+ID26name = nil
+
+local ID27name = {}
+ID27name.transformID = Transform.Bind()
+Transform.SetPosition(ID27name.transformID, {x=85.625, y=21.0781, z=80.6875})
+Transform.SetScaleNonUniform(ID27name.transformID, 1, 1, 1)
+Transform.SetRotation(ID27name.transformID, {x=0, y=0, z=0})
+ID27name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID27name.particle, 85.625, 21.0781, 80.6875)
+Particle.SetAlive(ID27name.particle)
+table.insert(props,ID27name)
+ID27name = nil
+
+local ID28name = {}
+ID28name.transformID = Transform.Bind()
+Transform.SetPosition(ID28name.transformID, {x=68.5625, y=15.8984, z=57.125})
+Transform.SetScaleNonUniform(ID28name.transformID, 1, 1, 1)
+Transform.SetRotation(ID28name.transformID, {x=0, y=0, z=0})
+ID28name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID28name.particle, 68.5625, 15.8984, 57.125)
+Particle.SetAlive(ID28name.particle)
+table.insert(props,ID28name)
+ID28name = nil
+
+local ID29name = {}
+ID29name.transformID = Transform.Bind()
+Transform.SetPosition(ID29name.transformID, {x=40.1875, y=8.15936, z=72.0661})
+Transform.SetScaleNonUniform(ID29name.transformID, 1, 1, 1)
+Transform.SetRotation(ID29name.transformID, {x=0, y=0, z=0})
+ID29name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID29name.particle, 40.1875, 8.15936, 72.0661)
+Particle.SetAlive(ID29name.particle)
+table.insert(props,ID29name)
+ID29name = nil
+
+local ID30name = {}
+ID30name.transformID = Transform.Bind()
+Transform.SetPosition(ID30name.transformID, {x=19.7656, y=2.94141, z=111.25})
+Transform.SetScaleNonUniform(ID30name.transformID, 1, 1, 1)
+Transform.SetRotation(ID30name.transformID, {x=0, y=0, z=0})
+ID30name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID30name.particle, 19.7656, 2.94141, 111.25)
+Particle.SetAlive(ID30name.particle)
+table.insert(props,ID30name)
+ID30name = nil
+
+local ID31name = {}
+ID31name.transformID = Transform.Bind()
+Transform.SetPosition(ID31name.transformID, {x=-2.05469, y=-3.34961, z=150.75})
+Transform.SetScaleNonUniform(ID31name.transformID, 1, 1, 1)
+Transform.SetRotation(ID31name.transformID, {x=0, y=0, z=0})
+ID31name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID31name.particle, -2.05469, -3.34961, 150.75)
+Particle.SetAlive(ID31name.particle)
+table.insert(props,ID31name)
+ID31name = nil
+
+local ID32name = {}
+ID32name.transformID = Transform.Bind()
+Transform.SetPosition(ID32name.transformID, {x=-2.42969, y=-7.47266, z=169.625})
+Transform.SetScaleNonUniform(ID32name.transformID, 1, 1, 1)
+Transform.SetRotation(ID32name.transformID, {x=0, y=0, z=0})
+ID32name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID32name.particle, -2.42969, -7.47266, 169.625)
+Particle.SetAlive(ID32name.particle)
+table.insert(props,ID32name)
+ID32name = nil
+
+local ID33name = {}
+ID33name.transformID = Transform.Bind()
+Transform.SetPosition(ID33name.transformID, {x=52.094, y=-9.29826, z=173.5})
+Transform.SetScaleNonUniform(ID33name.transformID, 1, 1, 1)
+Transform.SetRotation(ID33name.transformID, {x=0, y=0, z=0})
+ID33name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID33name.particle, 52.094, -9.29826, 173.5)
+Particle.SetAlive(ID33name.particle)
+table.insert(props,ID33name)
+ID33name = nil
+
+local ID34name = {}
+ID34name.transformID = Transform.Bind()
+Transform.SetPosition(ID34name.transformID, {x=83.4375, y=7.60547, z=134.25})
+Transform.SetScaleNonUniform(ID34name.transformID, 1, 1, 1)
+Transform.SetRotation(ID34name.transformID, {x=0, y=0, z=0})
+ID34name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID34name.particle, 83.4375, 7.60547, 134.25)
+Particle.SetAlive(ID34name.particle)
+table.insert(props,ID34name)
+ID34name = nil
+
+local ID35name = {}
+ID35name.transformID = Transform.Bind()
+Transform.SetPosition(ID35name.transformID, {x=84.1875, y=0.0553894, z=122})
+Transform.SetScaleNonUniform(ID35name.transformID, 1, 1, 1)
+Transform.SetRotation(ID35name.transformID, {x=0, y=0, z=0})
+ID35name.particle = Particle.Bind("ParticleFiles/grenadeTest.particle")
+Particle.SetPosition(ID35name.particle, 84.1875, 0.0553894, 122)
+Particle.SetAlive(ID35name.particle)
+table.insert(props,ID35name)
+ID35name = nil
 
 --TEMP: This should probably not be hardcoded into every level?
 local widthTest = heightmaps[1].asset:GetMapWidth()

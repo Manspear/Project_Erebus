@@ -28,6 +28,7 @@ LevelEditor::~LevelEditor()
 	LevelWorldHandler::deleteInstance();
 	LevelBrushHandler::deleteInstance();
 	LevelColiderHandler::deleteInstance();
+	LevelParticleHandler::deleteInstance();
 	
 	delete this->assets;
 	delete this->engine;
@@ -134,10 +135,12 @@ void LevelEditor::start() {
 	float elapsedTime = 0.0f;
 
 
-	engine->queueParticles(ps);
+	engine->queueParticles(LevelParticleHandler::getInstance()->getParticleSystem());
 	engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 	engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 	engine->queueForwardModels(&forwardInstances);
+	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
+
 
 	while (running && window.isWindowOpen())
 	{
@@ -173,7 +176,7 @@ void LevelEditor::start() {
 			LevelActorHandler::getInstance()->getSelected()->update();
 
 		LevelWorldHandler::getInstance()->updateAutosave( deltaTime );
-
+		LevelParticleHandler::getInstance()->update(deltaTime);
 		//for (int n = 0; n < actors.size(); n++)
 		//{
 		//	actors[n]->update();

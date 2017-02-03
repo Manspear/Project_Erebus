@@ -41,6 +41,7 @@ void LevelAssetHandler::load()
 	loadAssets( &textures, "Textures", ".png" );
 	loadAssets( &sounds, "Audio/Effects" );
 	loadAssets( &sounds, "Audio/Music" );
+	loadAssets(&particles, "ParticleFiles");
 
 	updateAssetsBar();
 }
@@ -136,6 +137,11 @@ void LevelAssetHandler::updateAssetsBar()
 		TwAddButton( assetsBar->getBar(), std::to_string(curIndex).c_str(), onSelectSound, &sounds[i], getBarLabel("group='Sounds' ", curIndex, sounds[i].c_str()).c_str());
 	if( sounds.size() > 0 )
 		TwDefine( "Assets/Sounds opened=false" );
+
+	for (int i = 0; i<particles.size(); i++)
+		TwAddButton(assetsBar->getBar(), std::to_string(curIndex).c_str(), onSelectParticle, &particles[i], getBarLabel("group='Particle' ", curIndex, particles[i].c_str()).c_str());
+	if (sounds.size() > 0)
+		TwDefine("Assets/Sounds opened=false");
 }
 
 void LevelAssetHandler::selectModel( std::string model )
@@ -157,6 +163,12 @@ void LevelAssetHandler::selectSound( std::string sound )
 	selectedAsset = sound;
 	assetType = ASSET_SOUND;
 	showContextBar( sound );
+}
+
+void LevelAssetHandler::selectParticle(std::string particle) {
+	selectedAsset = particle;
+	assetType = ASSET_PARTICLE;
+	showContextBar(particle);
 }
 
 /*void LevelAssetHandler::selectPrefab( std::string prefab )
@@ -234,6 +246,24 @@ void LevelAssetHandler::addToActor()
 						selectedActor->addComponent( heightmapComponent );
 						heightmapComponent->postInitialize();
 						heightmapComponent->setTextureName( selectedAsset );
+					}
+				}
+			}
+			else if (assetType == ASSET_PARTICLE) {
+				LevelParticleSystem* particleSystemComponent = selectedActor->getComponent<LevelParticleSystem>();
+
+				if (particleSystemComponent){
+					particleSystemComponent->assignParticleSystem(selectedAsset);
+				}
+				else
+				{
+					//MessageBoxA( NULL, "Can't add heightmap texture without a heightmap component.", "Level Editor - Error", MB_OK );
+					if (MessageBoxA(NULL, "This actor has no Particle component.\nWould you like to add one?", "Level Editor - Add Particle Component?", MB_YESNO) == IDYES)
+					{
+						particleSystemComponent = (LevelParticleSystem*)LevelActorFactory::getInstance()->getNewComponent(LevelParticleSystem::name);
+						selectedActor->addComponent(particleSystemComponent);
+						particleSystemComponent->postInitialize();
+						particleSystemComponent->assignParticleSystem(selectedAsset);
 					}
 				}
 			}
@@ -338,6 +368,12 @@ void TW_CALL LevelAssetHandler::onSelectSound( void* args )
 	LevelAssetHandler::getInstance()->selectSound( *str );
 }
 
+void TW_CALL LevelAssetHandler::onSelectParticle(void* args)
+{
+	std::string* str = (std::string*)args;
+	LevelAssetHandler::getInstance()->selectParticle(*str);
+}
+
 void TW_CALL LevelAssetHandler::onAdd( void* args )
 {
 	LevelAssetHandler::getInstance()->addToActor();
@@ -348,3 +384,4 @@ void TW_CALL LevelAssetHandler::onClose( void* args )
 {
 	LevelAssetHandler::getInstance()->hideContextBar();
 }
+

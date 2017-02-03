@@ -18,7 +18,7 @@ const char* LevelUI::assetBarName = "Assets";
 const char* LevelUI::assetContextBarName = "AssetsContext";
 const char* LevelUI::actionBarName = "Actions";
 const char* LevelUI::brushBarName = "Brush";
-const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name, LevelSound::name, LevelEnemy::name };
+const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name, LevelSound::name, LevelEnemy::name, LevelParticleSystem::name };
 
 void TW_CALL setEditorState(void * clientData)
 {
@@ -67,7 +67,7 @@ TwBar* LevelUI::getMainBar() {
 
 void LevelUI::reset(GLFWwindow* window)
 {
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < 6; i++)
 	{
 		delete bars[i];
 	}
@@ -101,7 +101,50 @@ void LevelUI::initBars()
 	LevelAssetHandler::getInstance()->setTweakBars(bars[2], bars[3]);
 	LevelActionHandler::getInstance()->setTweakBar(bars[4]);
 	LevelBrushHandler::getInstance()->setTweakBar(bars[5]);
+
+	//std::string derp = " visible=false ";
+	//std::string derp1 = " visible=true ";
+	//std::stringstream ss;
+	//ss<<" " << actorBarName << derp;
+	//std::string derp3 = ss.str().c_str();
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << worldBarName << derp;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << assetBarName << derp;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << assetContextBarName << derp;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << actionBarName << derp;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << brushBarName << derp;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+
+	//ss<<" " << actorBarName << derp1;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << worldBarName << derp1;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << assetBarName << derp1;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << assetContextBarName << derp1;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << actionBarName << derp1;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
+	//ss << brushBarName << derp1;
+	//TwDefine(ss.str().c_str());
+	//ss.clear();
 	
+	TwDefine(" TW_HELP visible=false ");
 	const char* errorMessage = TwGetLastError();
 	if (errorMessage != nullptr) {
 		printf(errorMessage);
