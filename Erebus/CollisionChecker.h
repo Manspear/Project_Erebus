@@ -46,6 +46,7 @@ public:
 	float closestDistanceAabbToPoint(const float& point, const float aabbMin, const float aabbMax);
 	float SquaredDistancePointToAabb(AABBCollider* aabb, SphereCollider* sphere);
 	glm::vec3 closestPointOnOBB(OBBCollider* collider, const glm::vec3& point) const;
+	glm::vec3 closestPointOnAABB(AABBCollider* collider, const glm::vec3& point) const;
 	template<typename T>
 	inline void swap(T& first, T& second);
 

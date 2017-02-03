@@ -675,6 +675,9 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 
 	float squaredDistance = SquaredDistancePointToAabb(aabb, sphere);
 	float radiusSquared = sphere->getRadiusSquared();
+	glm::vec3 spherePos = sphere->getPos();
+	glm::vec3 minPos = aabb->getMinPos();
+	glm::vec3 maxPos = aabb->getMaxPos();
 	if (squaredDistance <= radiusSquared) // if squared distance between aabb and sphere center is closer than squared radius of spheres
 	{									 // this means that we have a hit, save hit normal and return true
 		// Axis to check against
@@ -688,7 +691,8 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 		axes[5] = glm::vec3(0, -1, 0);
 
 		// hit normal
-		glm::vec3 hitNormal = glm::normalize(sphere->getPos() - aabb->getCenterPos());
+		glm::vec3 closestPoint = closestPointOnAABB(aabb, sphere->getPos());
+		glm::vec3 hitNormal = glm::normalize(sphere->getPos() - closestPoint);
 
 		//Cos angle, who is closest
 		float x = glm::dot(axes[0], hitNormal);
@@ -755,7 +759,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider
 
 		// hit normal
 		glm::vec3 closestPoint = closestPointOnOBB(obb, sphereCenter);
-		glm::vec3 hitNormal = glm::normalize(closestPoint - obb->getPos());
+		glm::vec3 hitNormal = glm::normalize(closestPoint - sphereCenter);
 
 		//Cos angle, who is closest
 		float x = glm::dot(axes[0], hitNormal);
@@ -856,6 +860,42 @@ glm::vec3 CollisionChecker::closestPointOnOBB(OBBCollider* collider, const glm::
 		distance = halfLengths.z;
 	if (distance < -halfLengths.z)
 		distance = -halfLengths.z;
+	returnPoint += distance * zAxis;
+
+	return returnPoint;
+}
+
+glm::vec3 CollisionChecker::closestPointOnAABB(AABBCollider * collider, const glm::vec3 & point) const
+{
+	glm::vec3 returnPoint;
+	glm::vec3 minHalfLengths = collider->getMinPos() - collider->getCenterPos();
+	glm::vec3 maxHalfLengths = collider->getMaxPos() - collider->getCenterPos();
+	glm::vec3 xAxis = glm::vec3(1, 0, 0);
+	glm::vec3 yAxis = glm::vec3(0, 1, 0);
+	glm::vec3 zAxis = glm::vec3(0, 0, 1);
+
+	glm::vec3 d = point - collider->getCenterPos();
+	returnPoint = collider->getCenterPos();
+
+	float distance = glm::dot(d, xAxis);
+	if (distance > maxHalfLengths.x)
+		distance = maxHalfLengths.x;
+	if (distance < minHalfLengths.x)
+		distance = minHalfLengths.x;
+	returnPoint += distance * xAxis;
+
+	distance = glm::dot(d, yAxis);
+	if (distance > maxHalfLengths.y)
+		distance = maxHalfLengths.y;
+	if (distance < minHalfLengths.y)
+		distance = minHalfLengths.y;
+	returnPoint += distance * yAxis;
+
+	distance = glm::dot(d, zAxis);
+	if (distance > maxHalfLengths.z)
+		distance = maxHalfLengths.z;
+	if (distance < minHalfLengths.z)
+		distance = minHalfLengths.z;
 	returnPoint += distance * zAxis;
 
 	return returnPoint;
