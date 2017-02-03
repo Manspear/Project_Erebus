@@ -29,7 +29,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 
 	TwAddVarRW(actionBar->getBar(), "radius", TW_TYPE_FLOAT, &this->radius, NULL);
 	//TwAddSeparator(actionBar->getBar(), "sep2", NULL);
-	TwAddVarRW(actionBar->getBar(), "density", TW_TYPE_FLOAT, &this->density, NULL);
+	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, NULL);
 	TwAddVarRW(actionBar->getBar(), "Y_Offset", TW_TYPE_FLOAT, &this->yOffset, NULL);
 	TwAddVarCB(actionBar->getBar(), "saveAsType", TW_TYPE_STDSTRING,setSaveTypeCB,getSaveTypeCB,&saveAsType,"");
 }
@@ -44,10 +44,11 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
 	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
 
-	/*if (hitNorm.y < 0.65)
+	if (hitNorm.y < 0.65)
 	{
 		return;
-	}*/
+	}
+
 	glm::vec3 newHitPoint;
 	
 	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
@@ -67,14 +68,13 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 		{
 
 		
-		for (unsigned int i = 0; i < 3; i++)
+		for (glm::vec3 position : earlierPositions)
 		{
-			glm::vec3 result = hitPoint - earlierPositions[i];
-			int minMax = 8;
+			glm::vec3 result = hitPoint - position;
 			
-			if ((result.x <= 0 && result.x >(-minMax)) || (result.x >= 0 && result.x < minMax))
+			if ((result.x <= 0 && result.x >(-this->VacancyRadius)) || (result.x >= 0 && result.x < this->VacancyRadius))
 			{
-				if ((result.z <= 0 && result.z >(-minMax)) || (result.z >= 0 && result.z < minMax))
+				if ((result.z <= 0 && result.z >(-this->VacancyRadius)) || (result.z >= 0 && result.z < this->VacancyRadius))
 				{
 					return;
 				}

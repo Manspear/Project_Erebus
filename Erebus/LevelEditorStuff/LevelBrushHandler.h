@@ -42,9 +42,9 @@ public:
 	//Importer::Assets* getAssets();
 
 private:
-	int numSavedPositions = 10;
+	int numSavedPositions = 20;
 	float radius = 1;
-	float density = 1;
+	float VacancyRadius = 8;
 	float yOffset = 0;
 	float PIx2 = 6.2832;
 	double timer = 0;
