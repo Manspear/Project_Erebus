@@ -21,7 +21,9 @@ namespace LuaErebus
 		{
 			{ "SetControls", setControls },
 			{ "CameraSensitivity", cameraSensitivity },
-			{ "StartNetwork", startNetwork },
+			{ "StartNetworkHost", startNetworkHost },
+			{ "StartNetworkClient", startNetworkClient },
+			{ "ShutdownNetwork", shutdownNetwork },
 			{ "Running", setRunning },
 			{ NULL, NULL }
 		};
@@ -36,7 +38,7 @@ namespace LuaErebus
 	{
 		if( lua_gettop( lua ) >= 1 )
 		{
-			int transformID = lua_tointeger( lua, 1 );
+			int transformID = (int)lua_tointeger( lua, 1 );
 			g_controls->setControl( &g_transforms[transformID] );
 		}
 
@@ -45,45 +47,66 @@ namespace LuaErebus
 	
 	int cameraSensitivity(lua_State * lua)
 	{		
-		g_controls->sensitivityFactor(lua_tonumber(lua, 1));
+		g_controls->sensitivityFactor((float)lua_tonumber(lua, 1));
 		return 0;
 	}
 
-	int startNetwork( lua_State* lua )
+	int startNetworkHost( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 1 );
-
 		bool result = false;
-
-		bool host = lua_toboolean( lua, 1 );
-		g_network->setNetworkHost( host );
-		if( host )
+		g_network->setNetworkHost( true );
+		if (g_network->initNetworkAsHost())
 		{
-			if (g_network->initNetworkAsHost())
-			{
-				result = true;
-				g_network->acceptNetworkCommunication();
-			}
-		}
-		else
-		{
-			if (g_network->initNetworkAsClient(127,0,0,1))
-			{
-				result = true;
-			}
+			result = g_network->acceptNetworkCommunication();
 		}
 
 		if (result)
 		{
 			g_network->startCommunicationThreads(*g_counter);
 		}
+
 		lua_pushboolean(lua, result);
 		return 1;
 	}
+
+	int startNetworkClient(lua_State* lua)
+	{
+		bool result = false;
+		g_network->setNetworkHost(false);
+
+		lua_getfield(lua, 1, "a");
+		uint8_t a = (uint8_t) lua_tointeger(lua, -1);
+		lua_getfield(lua, 1, "b");
+		uint8_t b = (uint8_t) lua_tointeger(lua, -1);
+		lua_getfield(lua, 1, "c");
+		uint8_t c = (uint8_t) lua_tointeger(lua, -1);
+		lua_getfield(lua, 1, "d");
+		uint8_t d = (uint8_t) lua_tointeger(lua, -1);
+
+		if (g_network->initNetworkAsClient(a, b, c, d))
+		{
+			result = true;
+		}
+
+		if (result)
+		{
+			g_network->startCommunicationThreads(*g_counter);
+		}
+
+		lua_pushboolean(lua, result);
+		return 1;
+	}
+
+	int shutdownNetwork(lua_State* lua)
+	{
+		g_network->shutdown();
+		return 0;
+	}
+
 	int setRunning(lua_State * lua)
 	{
 		assert(lua_gettop(lua) >= 1);
-		*g_running = lua_toboolean(lua, 1);
+		*g_running = lua_toboolean(lua, 1) != 0;
 		return 0;
 	}
 }

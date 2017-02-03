@@ -1,5 +1,5 @@
 STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2, 3
-camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOM_OUT}
+camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOMING_OUT}
 
 timeSinceShot = 0
 DelayZoomOut = 0.5
@@ -9,7 +9,7 @@ ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffs
 --distance was 3.6
 ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
-StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
+StartState = {distance = 6, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
@@ -52,7 +52,7 @@ end
 
 function ZoomOutCamera()
 	ZoomedOut.timeSpent = 0
-
+	
 	StartState.distance = camera.distance
 	StartState.angle = camera.angle
 	StartState.xOffset = camera.xOffset
@@ -62,7 +62,7 @@ function ZoomOutCamera()
 	camera.state = STATE_ZOOMING_OUT
 end
 
-function UpdateCamera(dt)
+function UpdateCamera(dt)	
 	if camera.state == STATE_ZOOMING_OUT then
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
@@ -106,16 +106,22 @@ function UpdateCamera(dt)
 	local height = 0
 	local incrementfactor = (0.03/math.sqrt(3))
 	while distance > 0.5 do
-		height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z)
-		if height > temppos.y then
-			distance = distance - 0.03
-			temppos.x = temppos.x + dir.x 
-			temppos.y = temppos.y + dir.y
-			temppos.z = temppos.z + dir.z 
-			camera.state = STATE_ZOOMED_IN
-			--Camera.SetHeight(height + 0.5) 
+		--height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z
+		local hm = GetHeightmap(temppos)
+		if hm then
+			height = hm.asset:GetHeight(temppos.x, temppos.z)
+			if height > temppos.y then
+				distance = distance - 0.03
+				temppos.x = temppos.x + dir.x 
+				temppos.y = temppos.y + dir.y
+				temppos.z = temppos.z + dir.z 
+			--camera.state = STATE_ZOOMED_IN
+				--Camera.SetHeight(height + 0.5) 
+			else
+				break
+			end
 		else
-			break
+			distance = distance - 0.03
 		end
 	end
 	camera.distance = distance

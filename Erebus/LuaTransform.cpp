@@ -82,9 +82,9 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 5 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 			glm::vec3 direction( lua_tonumber( lua, 2 ), lua_tonumber( lua, 3 ), lua_tonumber( lua, 4 ) );
-			float dt = lua_tonumber( lua, 5 );
+			float dt = (float)lua_tonumber( lua, 5 );
 
 			g_transforms[index].move( direction, dt );
 		}
@@ -101,10 +101,10 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 4 )
 		{
-			int followIndex = lua_tointeger( lua, 1 );
-			int myIndex = lua_tointeger( lua, 2 );
-			float speed = lua_tonumber( lua, 3 );
-			float dt = lua_tonumber( lua, 4 );
+			int followIndex = (int)lua_tointeger( lua, 1 );
+			int myIndex = (int)lua_tointeger( lua, 2 );
+			float speed = (float)lua_tonumber( lua, 3 );
+			float dt = (float)lua_tonumber( lua, 4 );
 
 			g_transforms[myIndex].follow( g_transforms[followIndex].getPos(), speed, dt );
 		}
@@ -116,9 +116,9 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 3 )
 		{
-			int index = lua_tointeger( lua, 1 );
-			int speed = lua_tointeger( lua, 2 );
-			float dt = lua_tonumber( lua, 3 );
+			int index = (int)lua_tointeger( lua, 1 );
+			int speed = (int)lua_tointeger( lua, 2 );
+			float dt = (float)lua_tonumber( lua, 3 );
 
 			g_transforms[index].move( glm::vec3( speed, g_transforms[index].getLookAt().y*(float)speed, 0 ), dt );
 		}
@@ -130,8 +130,8 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 2 )
 		{
-			int a = lua_tointeger( lua, 1 );
-			int b = lua_tointeger( lua, 2 );
+			int a = (int)lua_tointeger( lua, 1 );
+			int b = (int)lua_tointeger( lua, 2 );
 
 			g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
 			g_transforms[a].setPos(g_transforms[b].getPos());
@@ -144,8 +144,8 @@ namespace LuaTransform
 	{
 		if (lua_gettop(lua) >= 2)
 		{
-			int index = lua_tointeger(lua, 1);
-			bool active = lua_toboolean(lua, 2);
+			int index = (int)lua_tointeger(lua, 1);
+			bool active = lua_toboolean(lua, 2) != 0;
 
 			g_transforms[index].setActive( active);
 		}
@@ -156,17 +156,17 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 2 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 
 			glm::vec3 position;
 			lua_getfield( lua, 2, "x" );
-			position.x = lua_tonumber( lua, -1 );
+			position.x = (float)lua_tonumber( lua, -1 );
 
 			lua_getfield( lua, 2, "y" );
-			position.y = lua_tonumber( lua, -1 );
+			position.y = (float)lua_tonumber( lua, -1 );
 
 			lua_getfield( lua, 2, "z" );
-			position.z = lua_tonumber( lua, -1 );
+			position.z = (float)lua_tonumber( lua, -1 );
 
 			g_transforms[index].setPos( position );
 		}
@@ -178,17 +178,17 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 2 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 
 			glm::vec3 position;
 			lua_getfield( lua, 2, "x" );
-			position.x = lua_tonumber( lua, -1 );
+			position.x = (float)lua_tonumber( lua, -1 );
 
 			lua_getfield( lua, 2, "y" );
-			position.y = lua_tonumber( lua, -1 );
+			position.y = (float)lua_tonumber( lua, -1 );
 
 			lua_getfield( lua, 2, "z" );
-			position.z = lua_tonumber( lua, -1 );
+			position.z = (float)lua_tonumber( lua, -1 );
 
 			g_transforms[index].setRotation( position );
 		}
@@ -200,17 +200,17 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 2 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 
 			glm::vec3 lookAt;
 			lua_getfield( lua, 2, "x" );
-			lookAt.x = lua_tonumber( lua, -1 );
+			lookAt.x = (float)lua_tonumber( lua, -1 );
 
 			lua_getfield( lua, 2, "y" );
-			lookAt.y = lua_tonumber( lua, -1 );
+			lookAt.y = (float)lua_tonumber( lua, -1 );
 
 			lua_getfield( lua, 2, "z" );
-			lookAt.z = lua_tonumber( lua, -1 );
+			lookAt.z = (float)lua_tonumber( lua, -1 );
 
 			g_transforms[index].setLookAt( lookAt );
 		}
@@ -222,8 +222,8 @@ namespace LuaTransform
 	{
 		if( lua_gettop( lua ) >= 2 )
 		{
-			int index = lua_tointeger( lua, 1 );
-			float scale = lua_tonumber( lua, 2 );
+			int index = (int)lua_tointeger( lua, 1 );
+			float scale = (float)lua_tonumber( lua, 2 );
 
 			g_transforms[index].setScale( scale );
 		}
@@ -236,10 +236,10 @@ namespace LuaTransform
 		if (lua_gettop(lua) >= 2)
 		{
 			glm::vec3 scale;
-			int index = lua_tointeger(lua, 1);
-			scale.x = lua_tonumber(lua, 2);
-			scale.y = lua_tonumber(lua, 3);
-			scale.z = lua_tonumber(lua, 4);
+			int index = (int)lua_tointeger(lua, 1);
+			scale.x = (float)lua_tonumber(lua, 2);
+			scale.y = (float)lua_tonumber(lua, 3);
+			scale.z = (float)lua_tonumber(lua, 4);
 
 			g_transforms[index].setScale(scale);
 		}
@@ -250,8 +250,8 @@ namespace LuaTransform
 	int setPosFromTransID(lua_State* lua) {
 		if (lua_gettop(lua) >= 2)
 		{
-			int indexFrom = lua_tointeger(lua, 2);
-			int indexTo = lua_tointeger(lua, 1);
+			int indexFrom = (int)lua_tointeger(lua, 2);
+			int indexTo = (int)lua_tointeger(lua, 1);
 
 			g_transforms[indexTo].setPos(g_transforms[indexFrom].getPos());
 		}
@@ -265,7 +265,7 @@ namespace LuaTransform
 
 		if( lua_gettop( lua ) >= 1 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 
 			glm::vec3 position = g_transforms[index].getPos();
 
@@ -291,9 +291,9 @@ namespace LuaTransform
 
 		if (lua_gettop(lua) >= 3)
 		{
-			int index = lua_tointeger(lua, 1);
-			float forward = lua_tonumber(lua, 2);
-			float left = lua_tonumber(lua, 3);
+			int index = (int)lua_tointeger(lua, 1);
+			float forward = (float)lua_tonumber(lua, 2);
+			float left = (float)lua_tonumber(lua, 3);
 
 			glm::vec3 fwd = g_transforms[index].getLookAt();
 			glm::vec3 lfd = glm::cross(glm::normalize(glm::vec3(fwd.x, 0, fwd.z)), {0,1,0});
@@ -323,7 +323,7 @@ namespace LuaTransform
 
 		if( lua_gettop( lua ) >= 1 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 
 			glm::vec3 rotation = g_transforms[index].getRotation();
 
@@ -349,7 +349,7 @@ namespace LuaTransform
 
 		if( lua_gettop( lua ) >= 1 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 
 			glm::vec3 lookAt = g_transforms[index].getLookAt();
 
@@ -375,7 +375,7 @@ namespace LuaTransform
 
 		if( lua_gettop( lua ) >= 1 )
 		{
-			int index = lua_tointeger( lua, 1 );
+			int index = (int)lua_tointeger( lua, 1 );
 
 			lua_pushnumber( lua, g_transforms[index].getScale().x );
 
@@ -386,7 +386,7 @@ namespace LuaTransform
 	}
 	int updateRotationFromLookVector(lua_State * lua)
 	{
-		int transID = lua_tointeger(lua, -1);
+		int transID = (int)lua_tointeger(lua, -1);
 		glm::vec3 tempLookdir = g_transforms[transID].getLookAt();
 		tempLookdir.y = 0;
 		tempLookdir = glm::normalize(tempLookdir);

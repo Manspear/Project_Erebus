@@ -3,7 +3,6 @@
 #include "NetworkDefines.hpp"
 
 #if PLATFORM == PLATFORM_WINDOWS
-
 #include <winsock2.h>
 #pragma comment( lib, "wsock32.lib" )
 //#pragma comment( lib, "ws2_32.lib" )
@@ -31,45 +30,45 @@
 
 namespace Nurn
 {
-	class NURN_API NurnEngine 
+	class NurnEngine
 	{
 	public:
-		NurnEngine();
-		virtual ~NurnEngine();
+		NURN_API NurnEngine();
+		NURN_API virtual ~NurnEngine();
 
-		bool InitializeHost(uint16_t port = 35500);
+		NURN_API bool InitializeHost(uint16_t port = 35500);
 		// Takes an ipv4 address with each of the 255 values seperated by commas, for example ( 127, 0, 0, 1 )
-		bool InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort = 35500, uint16_t origPort = 35500);
+		NURN_API bool InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort = 35500, uint16_t origPort = 35500);
 
-		bool AcceptCommunication();
+		NURN_API bool AcceptCommunication();
 
-		bool Send(const void * data, int size);
-		bool Send(const Address & destination, const void * data, int size);
-		bool Send();
+		NURN_API bool Send(const void * data, int size);
+		NURN_API bool Send(const Address & destination, const void * data, int size);
+		NURN_API bool Send();
 
 		// Returns 1 or 0 if a byte has been recieved or not. Then returns the data through the void *
-		bool Receive(void * data, int size);
-		bool Receive();
+		NURN_API bool Receive(void * data, int size);
+		NURN_API bool Receive();
 
-		void Shutdown();
+		NURN_API void Shutdown();
 
-		void pushTransformPacket(const TransformPacket& packet);
-		bool fetchTransformPacket(TransformPacket& packet);
+		NURN_API void pushTransformPacket(const TransformPacket& packet);
+		NURN_API bool fetchTransformPacket(TransformPacket& packet);
 
-		void pushAnimationPacket(const AnimationPacket& packet);
-		bool fetchAnimationPacket(AnimationPacket& packet);
+		NURN_API void pushAnimationPacket(const AnimationPacket& packet);
+		NURN_API bool fetchAnimationPacket(AnimationPacket& packet);
 
-		void pushAIStatePacket(const AIStatePacket& packet);
-		bool fetchAIPacket(AIStatePacket& packet);
+		NURN_API void pushAIStatePacket(const AIStatePacket& packet);
+		NURN_API bool fetchAIPacket(AIStatePacket& packet);
 
-		void pushSpellPacket(const SpellPacket& packet);
-		bool fetchSpellPacket(SpellPacket& packet);
+		NURN_API void pushSpellPacket(const SpellPacket& packet);
+		NURN_API bool fetchSpellPacket(SpellPacket& packet);
 
-		void pushAITransformPacket(const TransformPacket& packet);
-		bool fetchAITransformPacket(TransformPacket& packet);
+		NURN_API void pushAITransformPacket(const TransformPacket& packet);
+		NURN_API bool fetchAITransformPacket(TransformPacket& packet);
 
-		void pushChargingPacket(const ChargingPacket& packet);
-		bool fetchChargingPacket(ChargingPacket& packet);
+		NURN_API void pushChargingPacket(const ChargingPacket& packet);
+		NURN_API bool fetchChargingPacket(ChargingPacket& packet);
 
 
 	private:

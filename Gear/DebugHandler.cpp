@@ -50,7 +50,7 @@ void DebugHandler::reset()
 
 void DebugHandler::draw(Camera* camera, RenderQueue* renderQueRef)
 {
-	ShaderProgram* tempProgram;
+	//ShaderProgram* tempProgram;
 	int totalLines = 0,
 		totalSphere = 0,
 		totalAABB = 0,
