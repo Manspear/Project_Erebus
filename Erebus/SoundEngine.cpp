@@ -21,7 +21,7 @@ SoundEngine::SoundEngine()
 		engine->setRolloffFactor(5.f);
 	}
 
-	currSoundID = 0;
+	currSoundID = 1;
 }
 
 SoundEngine::~SoundEngine()
@@ -201,6 +201,17 @@ void SoundEngine::setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look
 #pragma endregion Functions for manipulating sound attributes
 
 #pragma region Helper functions
+std::string SoundEngine::getDbgTxt()
+{
+	std::string dbg = "currSoundID: " + std::to_string(currSoundID)
+		+ "\nmaster: \t" + std::to_string(engine->getSoundVolume());
+	for (int i = 0; i < sounds.size(); i++)
+		dbg += "\nsound" + std::to_string(i) + ": \t" + std::to_string(sounds[i].sound->getVolume())
+		+ " \t" + sounds[i].sound->getSoundSource()->getName();
+
+	return dbg;
+}
+
 void SoundEngine::processFade(sFade &f, const float &dt)
 {
 	f.elapsedTime += dt;

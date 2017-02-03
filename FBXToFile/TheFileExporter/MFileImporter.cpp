@@ -26,7 +26,8 @@ void MFileImporter::importFbx(const char * filePath, float animationFramerate)
 	bool importStatus = fbxImporter->Initialize(filePath, -1, pmManager->GetIOSettings());
 	/*Abort if the importer can't be intitialized.*/
 	if (importStatus == false) {
-		FBXSDK_printf("Error: Can't initialize the importer. Aborting...\n");
+		FBXSDK_printf("Error: Can't initialize the importer. Aborting... Tip: Filepath miss-spelled or without .fbx \n");
+		getchar();
 		exit(1);
 	}
 
@@ -35,7 +36,9 @@ void MFileImporter::importFbx(const char * filePath, float animationFramerate)
 	importStatus = fbxImporter->Import(pmScene);
 	/*Abort if the scene can't be imported.*/
 	if (importStatus == false) {
+		printf("Scene cannot be imported!");
 		FBXSDK_printf("Error: Can't import the scene. Aborting...\n");
+		getchar();
 		exit(1);
 	}
 	fbxImporter->Destroy();
@@ -483,11 +486,11 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
 
 	//Takes too long
-	processIndexes();
-	/*for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+	//processIndexes();
+	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
 	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
-		imScene.modelList.back().meshList.back().indexList.push_back(i);*/
+		imScene.modelList.back().meshList.back().indexList.push_back(i);
 
 	/*CALLS ITSELF INFINITELY*/
 	//For eventual mesh-hierarchy

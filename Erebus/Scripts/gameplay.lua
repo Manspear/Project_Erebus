@@ -1,6 +1,7 @@
 local scripts = {}
 local scriptFiles =
 {
+	"Scripts/reusable.lua",
 	"Scripts/console.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
@@ -14,7 +15,6 @@ local scriptFiles =
 	"Scripts/sunRay.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
 	"Scripts/Animation_Controllers/meleeGoblinController.lua",
-	"Scripts/reusable.lua",
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
 	"Scripts/grenadeType.lua",
