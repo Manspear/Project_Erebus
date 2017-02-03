@@ -8,6 +8,7 @@ PILLAR_DURATION = 2
 GRAVITY_PILLAR = 5
 DAMAGE_INTERVAL_PILLAR = 0.5
 Y_SPEED_PILLAR = 2
+PILLAR_SFX = "Effects/explosion.wav"
 
 
 function CreateHellPillar()
@@ -95,7 +96,8 @@ function CreateHellPillar()
 				self:Kill()
 				self.pillar.type:Cast(self.pillar.pos)
 				self.pillar.alive = true
-				self.pillar.duration = PILLAR_DURATION						
+				self.pillar.duration = PILLAR_DURATION		
+				Sound.Play(PILLAR_SFX, 7, self.pillar.pos)				
 			end
 	end
 
