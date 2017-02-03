@@ -362,7 +362,7 @@ namespace Gear
 		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		
-		debugHandler->draw( camera, &queue );
+		
 
 		skybox.update(camera, gBuffer.getTextures()[2]);
 		skybox.draw();
@@ -373,6 +373,7 @@ namespace Gear
 		
 		image.draw();
 		text.draw();
+		debugHandler->draw(camera, &queue);
 	}
 
 	void GearEngine::update()
@@ -660,7 +661,9 @@ namespace Gear
 		drawQuad(); //draws quad
 
 		lightPassShader->unUse();
+		
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
+		
 
 	}
 
