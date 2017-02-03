@@ -542,6 +542,9 @@
     <None Include="Scripts\death.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
+    <None Include="Scripts\spellList.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
     <None Include="Shaders\debugAABB.geom" />
     <None Include="Shaders\debugAABB.vert" />
   </ItemGroup>

@@ -156,7 +156,6 @@
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
     <ClCompile Include="Frustum.cpp" />
-    <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActionHandler.cpp" />
@@ -263,6 +262,7 @@
     <None Include="Scripts\slowEffect.lua" />
     <None Include="Scripts\spellbook.lua" />
     <None Include="Scripts\spellbookUI.lua" />
+    <None Include="Scripts\spellList.lua" />
     <None Include="Scripts\staticAoEType.lua" />
     <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
@@ -315,7 +315,6 @@
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="Frustum.h" />
-    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditorStuff\LevelActionHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActor.h" />

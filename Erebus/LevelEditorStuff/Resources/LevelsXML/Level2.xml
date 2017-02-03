@@ -1,7 +1,7 @@
 <Level>
     <LevelActor type="terrain" displayName="Terrain Actor">
         <LevelModel>
-            <ModelName>tile1_game_x1</ModelName>
+            <ModelName>tile1</ModelName>
         </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
@@ -11,7 +11,7 @@
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor1">
         <LevelModel>
-            <ModelName>tile1_game_x1_assets</ModelName>
+            <ModelName>tile1_assets</ModelName>
         </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>

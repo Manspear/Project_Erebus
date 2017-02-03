@@ -37,7 +37,7 @@ namespace Nurn
 		if (networkSocket != 0)
 		{
 #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
-				close(socket);
+				close(networkSocket);
 #elif PLATFORM == PLATFORM_WINDOWS
 				closesocket(networkSocket);
 #endif

@@ -55,9 +55,9 @@ namespace LuaUI {
 		{
 			lua_getfield(lua, 1, "__self");
 			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
-			int posX = lua_tonumber(lua, 2);
-			int posY = lua_tonumber(lua, 3);
-			bool x = (image->mousePick(posX, posY));
+			int posX = (int)lua_tonumber(lua, 2);
+			int posY = (int)lua_tonumber(lua, 3);
+			bool x = (image->mousePick((float)posX, (float)posY));
 			lua_pushboolean(lua, x);
 		}
 
@@ -70,12 +70,12 @@ namespace LuaUI {
 
 		if (lua_gettop(lua) >= 4)
 		{
-			int posX = lua_tonumber(lua, 1);
-			int posY = lua_tonumber(lua, 2);
-			int sizeX = lua_tonumber(lua, 3);
-			int sizeY = lua_tonumber(lua, 4);
+			int posX = (int)lua_tonumber(lua, 1);
+			int posY = (int)lua_tonumber(lua, 2);
+			int sizeX = (int)lua_tonumber(lua, 3);
+			int sizeY = (int)lua_tonumber(lua, 4);
 
-			sScreenImage* image = new sScreenImage(glm::vec2(posX, posY), sizeX, sizeY);
+			sScreenImage* image = new sScreenImage(glm::vec2(posX, posY), (float)sizeX, (float)sizeY);
 			if (image)
 			{
 				lua_newtable(lua);
@@ -105,11 +105,11 @@ namespace LuaUI {
 		{
 			lua_getfield(lua, 1, "__self");
 			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
-			int sizeX = lua_tonumber(lua, 2);
-			int sizeY = lua_tonumber(lua, 3);
+			int sizeX = (int)lua_tonumber(lua, 2);
+			int sizeY = (int)lua_tonumber(lua, 3);
 
-			image->height = sizeY;
-			image->width = sizeX;
+			image->height = (float)sizeY;
+			image->width = (float)sizeX;
 		}
 		return result;
 	}
@@ -122,8 +122,8 @@ namespace LuaUI {
 		{
 			lua_getfield(lua, 1, "__self");
 			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
-			int sizeX = lua_tonumber(lua, 2);
-			int sizeY = lua_tonumber(lua, 3);
+			int sizeX = (int)lua_tonumber(lua, 2);
+			int sizeY = (int)lua_tonumber(lua, 3);
 
 			image->pos = glm::vec2(sizeX, sizeY);
 		}

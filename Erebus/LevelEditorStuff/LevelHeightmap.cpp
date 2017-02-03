@@ -89,7 +89,7 @@ void LevelHeightmap::update( float deltaTime )
 			{
 				for( int z=0; z<heightmap->getMapHeight(); z++ )
 				{
-					float height = heightmap->getHardPosAt(x,z) * heightMultiplier;
+					float height = heightmap->getPos(x,z) * heightMultiplier;
 					s_debugger->drawLine( glm::vec3( position.x+offset.x+x,position.y+offset.y+height-lineLength*0.5f,position.z+offset.z+z ), glm::vec3(position.x+offset.x+x,position.y+offset.y+height+lineLength*0.5f,position.z+offset.z+z) );
 				}
 			}
