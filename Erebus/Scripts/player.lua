@@ -28,7 +28,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 5.25
+	player.moveSpeed = 10
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -102,9 +102,9 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	player2.spells[1] = CreateBlackHole()--SpellList[1].spell(player2)
-	player2.spells[2] = CreateBlackHole()--SpellList[2].spell(player2)
-	player2.spells[3] = CreateBlackHole()--SpellList[3].spell(player2)
+	--player2.spells[1] = SpellList[1].spell --CreateBlackHole()
+	--player2.spells[2] = SpellList[2].spell --CreateBlackHole()
+	--player2.spells[3] = SpellList[3].spell --CreateBlackHole()
 	--player2.spells[4] = SpellList[4].spell(player2)
 
 	player2.currentSpell = 1
@@ -189,24 +189,19 @@ function UpdatePlayer(dt)
 		FindHeightmap(position)
 
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
-		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
-
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
-
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
-
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
-	--player.spells[4]:Update(dt)
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 
@@ -248,7 +243,7 @@ function Controls(dt)
 			player.forward = -player.moveSpeed
 		end
 		if Inputs.KeyDown("A") then
-				player.left = player.moveSpeed
+			player.left = player.moveSpeed
 		end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
@@ -306,7 +301,6 @@ function Controls(dt)
 			player.dashtime = 0.35
 		end
 
-		--if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
 end
 
 function PrintInfo() 

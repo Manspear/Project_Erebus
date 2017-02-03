@@ -53,7 +53,6 @@ Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=0})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 
 --AI
-print(heightmaps[1].asset)
 widthTest = heightmaps[1].asset:GetMapWidth()
 heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
@@ -78,3 +77,7 @@ player.controller:SetHeightmap(heightmaps[1].asset)
 
 player.currentHeightmap = heightmaps[1]
 player.controller:SetHeightmap(player.currentHeightmap.asset)
+
+player.controller:SetTransform(player.transformID)
+player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
+player.controller:SetHeightmap(heightmaps[1].asset);

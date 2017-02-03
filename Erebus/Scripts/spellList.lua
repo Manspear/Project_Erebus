@@ -41,6 +41,7 @@ function LoadSpellbook()
 	table.insert(SpellList, SunRay)
 
 	LoadSpells(player)
+	LoadSpells(player2)
 end
 
 function UnloadSpellbook()
