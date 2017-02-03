@@ -105,7 +105,7 @@ DWORD WINAPI update( LPVOID args )
 
 	///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
 
-	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(31.3, 8.5, 12.1));
+	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(30.5, 7.5, 138.5));
 
 	collisionHandler.addHitbox(&aabb);
 
@@ -134,8 +134,8 @@ DWORD WINAPI update( LPVOID args )
 
 		///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
 		f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
-		if (f.pointCollision(POINT33))
-			std::cout << "I see point\n";
+		//if (f.pointCollision(POINT33))
+		//	std::cout << "I see point\n";
 		///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
 
 
