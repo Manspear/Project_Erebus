@@ -16,12 +16,11 @@ function CreateSunRay(entity)
 	sunRay.spam = false
 	sunRay.alive = false
 	sunRay.chargedTime = 0	sunRay.Charge = BaseCharge	sunRay.ChargeCast = BaseChargeCast	
-	sunRay.owner = entity
+	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
 	sunRay.cooldown = 0.0
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
 	sunRay.length = 0
-	sunRay.caster = entity.transformID
 	sunRay.angle = 2	sunRay.spin = 0.3
 	sunRay.UVpushing = 2.0	sunRay.UVpushed = 0.0	
 	sunRay.startUp = false	sunRay.startUpTime = 0.4	sunRay.startUpTimeLVL2 = 0.7
@@ -93,7 +92,6 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:GeneralCast()
-		ZoomInCamera()
 		self.timeSinceTick = 0.0
 		self.type.oobCollider.SetSize(sunRay.type.oobCollider, self.length, 1, 1)
 		self.type:Cast(Transform.GetPosition(self.owner.transformID))
