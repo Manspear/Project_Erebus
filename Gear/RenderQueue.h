@@ -16,6 +16,12 @@ struct UniformValues {
 	GLfloat value;
 };
 
+struct UniformBlendingValues
+{
+	int location;
+	GLfloat value;
+};
+
 struct textureBlendings
 {
 	int numTextures;

@@ -66,6 +66,7 @@ namespace Gear
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		std::vector<UniformValues> uniValues;
+		std::vector<UniformBlendingValues> uniBlendValues;
 		//----------------------
 
 	private:

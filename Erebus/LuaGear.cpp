@@ -44,6 +44,8 @@ namespace LuaGear
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
 			{ "SetUniformLocation", setUniformLocation },
+			{ "SetBlendUniformValue", setBlendUniformValue },
+			{ "SetBlendUniformLocation", setBlendUniformLocation },
 			{ "QueueModels", setQueueModels },
 			{ "CursorVisible", setCursorVisible },
 			{ "Fullscreen", setFullscreen },
@@ -226,7 +228,7 @@ namespace LuaGear
 
 				index = g_blendingModels->size();
 				g_blendingModels->push_back(instance);
-				g_gearEngine->uniValues.push_back({ -1, 0 });
+				g_gearEngine->uniBlendValues.push_back({ -1, 0 });
 			}
 			g_blendingModels->at(index).worldIndices.push_back(transformID);
 		}
@@ -447,6 +449,24 @@ namespace LuaGear
 		if (lua_gettop(lua) >= 2)
 		{
 			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (int)lua_tointeger(lua, 2);
+		}
+		return 0;
+	}
+
+	int setBlendUniformValue(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			g_gearEngine->uniBlendValues.at((int)lua_tointeger(lua, 1)).value = (float)lua_tonumber(lua, 2);
+		}
+		return 0;
+	}
+
+	int setBlendUniformLocation(lua_State* lua)
+	{
+		if (lua_gettop(lua) >= 2)
+		{
+			g_gearEngine->uniBlendValues.at((int)lua_tointeger(lua, 1)).location = (int)lua_tointeger(lua, 2);
 		}
 		return 0;
 	}
