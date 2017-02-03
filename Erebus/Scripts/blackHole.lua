@@ -52,7 +52,7 @@ function CreateBlackHole()
 			self.alive = true
 			self.cooldown = BLACK_HOLE_COOLDOWN
 			for i = 1, #self.castSFX do
-				self.soundID[i] = Sound.Play(self.castSFX[i], 1, pos)
+				self.soundID[i] = Sound.Play(self.castSFX[i], 5, pos)
 				--Sound.SetVolume(self.soundID[i], 0.1)
 			end
 		end

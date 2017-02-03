@@ -59,8 +59,8 @@ Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
 Transform.SetPosition(player.transformID, {x=44, y=0, z=14})
 
 -- set music
-sid = Sound.Play("Music/menuBurana.ogg", 48)
-Sound.SetVolume(sid, 0.03)
+sid = Sound.Play("Music/Area1.ogg", 48)
+Sound.SetVolume(sid, 0.06)
 Sound.Resume(sid)
 
 player.controller:SetHeightmap(heightmaps[1].asset)
