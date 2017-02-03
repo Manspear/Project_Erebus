@@ -67,7 +67,6 @@ function UpdateCamera(dt)
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
 		--i vilket läge övergången är i
-		print("yo zooming out")
 		local factor = math.sin((math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time)*3.14 - 3.14*0.5)*0.5 + 0.5	--ciruklär (mjukare, men dyrare)
 		--local factor = math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time										--linjär
 
@@ -80,10 +79,8 @@ function UpdateCamera(dt)
 
 		if ZoomedOut.timeSpent > ZoomedOut.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_OUT
-			print("yo zoomed out")
 		end
 	elseif camera.state == STATE_ZOOMING_IN then
-		print("yo zooming in")
 		ZoomedIn.timeSpent =  ZoomedIn.timeSpent + dt 
 		
 		--i vilket läge övergången är i
@@ -99,7 +96,6 @@ function UpdateCamera(dt)
 
 		if ZoomedIn.timeSpent > ZoomedIn.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_IN
-			print("yo zoomed in")
 		end
 	end
 
@@ -110,16 +106,22 @@ function UpdateCamera(dt)
 	local height = 0
 	local incrementfactor = (0.03/math.sqrt(3))
 	while distance > 0.5 do
-		height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z)
-		if height > temppos.y then
-			distance = distance - 0.03
-			temppos.x = temppos.x + dir.x 
-			temppos.y = temppos.y + dir.y
-			temppos.z = temppos.z + dir.z 
+		--height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z
+		local hm = GetHeightmap(temppos)
+		if hm then
+			height = hm.asset:GetHeight(temppos.x, temppos.z)
+			if height > temppos.y then
+				distance = distance - 0.03
+				temppos.x = temppos.x + dir.x 
+				temppos.y = temppos.y + dir.y
+				temppos.z = temppos.z + dir.z 
 			--camera.state = STATE_ZOOMED_IN
-			--Camera.SetHeight(height + 0.5) 
+				--Camera.SetHeight(height + 0.5) 
+			else
+				break
+			end
 		else
-			break
+			distance = distance - 0.03
 		end
 	end
 	camera.distance = distance

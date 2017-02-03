@@ -243,6 +243,7 @@
     <None Include="Scripts\slowEffect.lua" />
     <None Include="Scripts\spellbook.lua" />
     <None Include="Scripts\spellbookUI.lua" />
+    <None Include="Scripts\spellList.lua" />
     <None Include="Scripts\staticAoEType.lua" />
     <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
