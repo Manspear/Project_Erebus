@@ -51,7 +51,7 @@ protected:
 	std::vector<int> IDCollisions;
 	const unsigned short RESERVE_COLLISIONS = 10; // hur många collisions tror vi en enda hitbox max har under en frame
 	bool active, colliding;
-	glm::vec3 pos,localPos;
+	glm::vec3 pos,localPos, transformPos;
 	int typeFlag;
 	virtual void update();
 public:

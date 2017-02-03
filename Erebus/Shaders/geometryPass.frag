@@ -1,7 +1,7 @@
 #version 430 core
 
 layout (location = 0) out vec4 gAlbedoSpec;
-layout (location = 1) out vec2 gNormal;
+layout (location = 1) out vec3 gNormal;
 layout (location = 2) out float gDepth;
 
 in vec2 TexCoords;
@@ -26,14 +26,12 @@ void main (){
 		vec3 normal = texture2D(normalTexture, TexCoords).rgb;
 		normal = normalize(normal * 2.0 - 1.0);
 		normal = normalize(TBN * normal);
-		gNormal.x = normal.x;
-		gNormal.y = normal.y;
+		gNormal = normal;
 	}
 	else
 	{
 		vec3 normal = normalize(Normal);
-		gNormal.x = normal.x;
-		gNormal.y = normal.y;
+		gNormal = normal;
 	}
     // And the diffuse per-fragment color
 	if(hasDiffuse == 1) //if has diffuse texture it else use error color

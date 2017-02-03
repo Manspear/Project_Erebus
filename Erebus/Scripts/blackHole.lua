@@ -52,7 +52,7 @@ function CreateBlackHole()
 			self.alive = true
 			self.cooldown = BLACK_HOLE_COOLDOWN
 			for i = 1, #self.castSFX do
-				self.soundID[i] = Sound.Play(self.castSFX[i], 1, pos)
+				self.soundID[i] = Sound.Play(self.castSFX[i], 5, pos)
 				--Sound.SetVolume(self.soundID[i], 0.1)
 			end
 		end
@@ -90,7 +90,6 @@ function CreateBlackHole()
 				end
 			end
 
-
 			if self.duration > BLACK_HOLE_DURATION then
 				self:Kill()
 			end
@@ -109,6 +108,12 @@ function CreateBlackHole()
 	end
 	function spell:GetEffect()
 		return self.effects[1]
+	end
+	function spell:Combine(effect, damage)
+		if #self.effects < 2 then
+			self.damage = self.damage + 2 * damage
+			table.insert(self.effects, effect)
+		end
 	end
 
 	return spell

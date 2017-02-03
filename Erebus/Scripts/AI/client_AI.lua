@@ -1,4 +1,4 @@
-local returnTable = {}
+local baseReturn = {}
 
 clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, State = {}}
 
@@ -16,14 +16,14 @@ function clientAIState.idleState.exit(enemy, player)
 end
 
 function clientAIState.followState.enter(enemy, player)
-
+	print("Client AI Walking")
+	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
 
 function clientAIState.followState.update(enemy, player, dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
-
 end
 
 function clientAIState.followState.exit(enemy, player)
@@ -33,8 +33,12 @@ end
 
 
 function clientAIState.attackState.enter(enemy, player)
-	enemy.animationState = 3
+	print("Client AI Attacking")
 
+	enemy.animationController:doAttack()
+
+	enemy.animationState = 3
+	enemy.attackCountdown = 1
 end
 
 function clientAIState.attackState.update(enemy, player, dt)
@@ -46,11 +50,11 @@ function clientAIState.attackState.exit(enemy, player)
 end 
 
 function clientAIState.deadState.enter(enemy, player)
-	--print("DEAD")
+	print("Client enemy died", enemy.transformID)
+	enemy.animationController:doNothing()
 end
 
 function clientAIState.deadState.update(enemy, player)
-
 end
 
 function clientAIState.deadState.exit(enemy, player)
@@ -58,11 +62,14 @@ function clientAIState.deadState.exit(enemy, player)
 end 
 
 
-function getAIStatePacket(enemy)
-	netAIValue, transformID, aiState = Network.GetAIPacket()
+function getAIStatePacket(enemy, player)
+	netAIValue, transformID, aiState = Network.GetAIStatePacket()
 
 	--Update state of the enemy
 	if netAIValue == true then
+		--print("Enemy", enemy.transformID)
+		--print("AI transformpacket", transformID, aiState)
+		--print("Client AI ID", enemy.transformID)
 		if aiState == 0 then--IdleState
 			enemy.state = clientAIState.idleState
 		end
@@ -79,7 +86,6 @@ function getAIStatePacket(enemy)
 			enemy.state = clientAIState.deadState
 		end
 
-		--print(transformID, aiState)
 		enemy.state.enter(enemy, player)
 	end
 end
@@ -96,8 +102,8 @@ function getAITransformPacket()
 	end
 end
 
-returnTable.getAIStatePacket = getAIStatePacket
-returnTable.getAITransformPacket = getAITransformPacket
-returnTable.clientAIState = clientAIState
+baseReturn.getAIStatePacket = getAIStatePacket
+baseReturn.getAITransformPacket = getAITransformPacket
+baseReturn.clientAIState = clientAIState
 
-return returnTable
+return baseReturn

@@ -1,3 +1,4 @@
+OPTIONS_RETURN_STATE = 1
 local screenImages = {}
 local imageTextures = {}
 local isFullscreen
@@ -37,7 +38,7 @@ function UpdateOptionsUI(dt)
 	x,y = Inputs.GetMousePos()
 	if UI.mousePick(screenImages["back"], x,y) then
 		if Inputs.ButtonReleased(Buttons.Left) then
-			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+			gamestate.ChangeState(OPTIONS_RETURN_STATE)
 		end
 	end
 end

@@ -71,9 +71,6 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LuaMath.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -173,9 +170,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaNetwork.hpp">
@@ -453,11 +447,30 @@
     <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
       <Filter>Animation Controllers</Filter>
     </None>
+    <None Include="Scripts\spellbook.lua">
+      <Filter>Scripts\gamestates</Filter>
     <None Include="Shaders\textureBlending.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\textureBlending.frag">
       <Filter>Shaders</Filter>
+    <None Include="Scripts\spellbookUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\pauseMenu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\pauseMenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\deathUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\death.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellList.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -37,7 +37,7 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			int index = lua_tointeger(lua, 1);
+			int index = (int)lua_tointeger(lua, 1);
 
 			//AI.setTarget(transforms[index].getPos());
 			result = 0;
@@ -51,7 +51,7 @@ namespace LuaAI
 
 		if (lua_gettop(lua) >= 1)
 		{
-			int index = lua_tointeger(lua, 1);
+			int index = (int)lua_tointeger(lua, 1);
 
 			glm::vec3 pos = AI->calculateIMPath(transforms[index].getPos());
 
@@ -78,8 +78,8 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			int playerIndex = lua_tointeger(lua, 2);
-			int enemyIndex = lua_tointeger(lua, 1);
+			int playerIndex = (int)lua_tointeger(lua, 2);
+			int enemyIndex = (int)lua_tointeger(lua, 1);
 
 			float distance = glm::distance(transforms[playerIndex].getPos(), transforms[enemyIndex].getPos());
 
@@ -96,17 +96,17 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			int enemyIndex = lua_tointeger(lua, 1);
+			int enemyIndex = (int)lua_tointeger(lua, 1);
 
 			glm::vec3 position;
 			lua_getfield(lua, 2, "x");
-			position.x = lua_tonumber(lua, -1);
+			position.x = (float)lua_tonumber(lua, -1);
 
 			lua_getfield(lua, 2, "y");
-			position.y = lua_tonumber(lua, -1);
+			position.y = (float)lua_tonumber(lua, -1);
 
 			lua_getfield(lua, 2, "z");
-			position.z = lua_tonumber(lua, -1);
+			position.z = (float)lua_tonumber(lua, -1);
 
 			//AI->drawDebug(position);
 
@@ -126,17 +126,17 @@ namespace LuaAI
 		if (lua_gettop(lua) >= 2)
 		{
 
-			int index = lua_tointeger(lua, 1);
+			int index = (int)lua_tointeger(lua, 1);
 
 			glm::vec3 position;
 			lua_getfield(lua, 2, "x");
-			position.x = lua_tonumber(lua, -1);
+			position.x = (float)lua_tonumber(lua, -1);
 
 			lua_getfield(lua, 2, "y");
-			position.y = lua_tonumber(lua, -1);
+			position.y = (float)lua_tonumber(lua, -1);
 
 			lua_getfield(lua, 2, "z");
-			position.z = lua_tonumber(lua, -1);
+			position.z = (float)lua_tonumber(lua, -1);
 
 			position.y = 0;
 
@@ -166,7 +166,7 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 2)
 		{
-			AI->createInfluenceMap(lua_tointeger(lua, 1), lua_tointeger(lua, 2));
+			AI->createInfluenceMap((int)lua_tointeger(lua, 1), (int)lua_tointeger(lua, 2));
 
 		}
 		return result;
@@ -183,7 +183,7 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			AI->addInfluencePoint(transforms[lua_tointeger(lua, 1)].getPos(), lua_tointeger(lua, 2));
+			AI->addInfluencePoint(transforms[(int)lua_tointeger(lua, 1)].getPos(), (float)lua_tointeger(lua, 2));
 			result = 0;
 		}
 		return result;

@@ -10,9 +10,10 @@ namespace LuaNetwork
 	int getTransformPacket(lua_State* lua);
 	int sendAnimationPacket(lua_State* lua);
 	int getAnimationPacket(lua_State* lua);
-	int sendAIPacket(lua_State* lua);
-	int getAIPacket(lua_State* lua);
+	int sendAIStatePacket(lua_State* lua);
+	int getAIStatePacket(lua_State* lua);
 	int sendSpellPacket(lua_State* lua);
+	int sendChargeSpellPacket(lua_State* lua);
 	int getSpellPacket(lua_State* lua);
 	int sendAITransformPacket(lua_State* lua);
 	int getAITransformPacket(lua_State* lua);

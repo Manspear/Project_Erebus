@@ -5,6 +5,11 @@ local clientAIScript = require("Scripts.AI.client_AI")
 MAX_ENEMIES = 10
 enemies = {}
 
+SFX_AGGRO = "Goblin/Voice/Goblin laugh aggro.ogg"
+SFX_ATTACK = "Goblin/Voice/albin goblin - attack3.ogg"
+SFX_HURT = "Goblin/Voice/albin goblin alerted.ogg"
+SFX_DEAD = { "Goblin/Voice/albin goblin - death.ogg", "Goblin/Machine/Goblin Machine Dead.ogg"}
+
 function LoadEnemies(n)
 	if n > MAX_ENEMIES then n = MAX_ENEMIES end
 	for i=1, n do
@@ -16,11 +21,23 @@ function LoadEnemies(n)
 		enemies[i].alive = true
 		enemies[i].effects = {}
 		enemies[i].attackCountdown = 1
+		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
 		enemies[i].Hurt = function(self,damage)
+			local pos = Transform.GetPosition(self.transformID)
+
 			self.health = self.health - damage
+			--print(self.transformID)
 			if self.health <= 0 then
-				self:Kill()
+				for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
+				for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
+				if Network.GetNetworkHost() == true then
+					self:Kill()
+				else
+					self:KillClientEnemy()
+				end
+			else
+				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 			end
 		end
 
@@ -28,9 +45,29 @@ function LoadEnemies(n)
 			self.health = 0
 			self.alive = false
 			Transform.ActiveControl(self.transformID,false)
-
+			SphereCollider.SetActive(self.sphereCollider, false)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i],player,inState)
+
+			if self.alive then
+				self.health = 0
+				self.alive = false
+				Transform.ActiveControl(self.transformID,false)
+
+				inState = "DeadState"
+				stateScript.changeToState(enemies[i], player, inState)
+			end
+		end
+
+		enemies[i].KillClientEnemy = function(self)		
+			if self.alive then	
+				self.health = 0
+				self.alive = false
+				Transform.ActiveControl(self.transformID,false)
+
+				self.state = clientAIScript.clientAIState.deadState
+				--print(self)
+			end
 		end
 
 		enemies[i].Spawn = function(self,position)
@@ -48,7 +85,7 @@ function LoadEnemies(n)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 		enemies[i].animationController = CreateEnemyController(enemies[i])
-		--enemies[i].animation = Animation.Bind()
+
 		if Network.GetNetworkHost() == true then
 			enemies[i].state = stateScript.state.idleState
 			enemies[i].animationState = 1
@@ -56,7 +93,6 @@ function LoadEnemies(n)
 			enemies[i].target = nil
 		else
 			enemies[i].state = clientAIScript.clientAIState.idleState
-			--enemies[i].state.update(enemies[i], player, inState) -- just a test
 		end
 	end
 
@@ -98,8 +134,6 @@ function UpdateEnemies(dt)
 				end
 				Transform.SetPosition(enemies[i].transformID, pos)
 
-				--enemies[i].animation:Update(tempdt, enemies[i].animationState)
-
 				local direction = Transform.GetLookAt(enemies[i].transformID)
 				local rotation = Transform.GetRotation(enemies[i].transformID)
 
@@ -120,12 +154,15 @@ function UpdateEnemies(dt)
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
-			clientAIScript.getAITransformPacket() -- Retrieve packets from host
-			clientAIScript.getAIStatePacket(enemies[i], player)
+			if enemies[i].health > 0 then
+				enemies[i].animationController:AnimationUpdate(dt)
 
-			enemies[i].state.update(enemies[i], player, dt)
-			--enemies[i].animation:Update(tempdt, enemies[i].animationState)
+				-- Retrieve packets from host
+				clientAIScript.getAITransformPacket()
+				clientAIScript.getAIStatePacket(enemies[i], player)
 
+				enemies[i].state.update(enemies[i], player, dt)
+			end
 		end
 	end
 end
