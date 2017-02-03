@@ -4,6 +4,7 @@ local PLAYER_JUMP_SPEED = 0.35
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
+DASH_COOLDOWN = 0.6
 
 player = {}
 player2 = {}
@@ -41,6 +42,9 @@ function LoadPlayer()
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
 	player.animationController = CreatePlayerController(player)
+	player.dashdir = {x= 0, z= 0}
+	player.dashtime = 0
+	player.dashcd = 0
 
 	-- set spells for player
 	player.spells = {}
@@ -135,6 +139,7 @@ end
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
 	if player.health > 0 then
+		player.dashcd = player.dashcd - dt
 		player.forward = 0
 		player.left = 0
 
@@ -213,6 +218,13 @@ function UpdatePlayer(dt)
 	-- update player controller -- this moves the player
 	player.controller:Move(player.left * dt, 0, player.forward * dt)
 	player.controller:Update()
+	if player.dashtime > 0 then
+		local factor = math.sqrt(math.sqrt(math.sqrt(player.dashtime/DASH_COOLDOWN)))
+		local left = player.dashdir.z * factor
+		local fwd = player.dashdir.x * factor
+		player.controller:Move(left*dt, 0, fwd*dt)
+		player.dashtime = player.dashtime - dt
+	end
 	
 end
 
@@ -286,6 +298,14 @@ function Controls(dt)
 		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
 		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
 		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
+
+		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
+			player.dashcd = DASH_COOLDOWN
+			player.dashdir.x = player.forward * 3
+			player.dashdir.z = player.left * 3
+			player.dashtime = 0.35
+		end
+
 		--if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
 end
 
