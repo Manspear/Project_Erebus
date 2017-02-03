@@ -14,7 +14,7 @@
             <ModelName>tile1_assets</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="0" y="0" z="0"/>
+            <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
