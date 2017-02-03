@@ -4,7 +4,7 @@ in vec2 vertex_UV[3];
 
 out vec4 finalColor;
 
-uniform sampler2D diffuseTexture[3];
+uniform sampler2D diffuseTexture[2];
 uniform int numTextures;
 
 void main (){

@@ -580,9 +580,9 @@ void RenderQueue::textureBlendingPass(textureBlendings textureBlends, std::vecto
 	textureBlendings* tB = new textureBlendings[blendingModels->size()];
 
 	tempHej += 0.04;
-	textureBlends.blendFactor[0] = { 0.002 - tempHej, 0.002 + tempHej };
-	textureBlends.blendFactor[1] = { 0.005 - tempHej, 0.005 - tempHej };
-	textureBlends.blendFactor[2] = { 0.001 * tempHej, 0.001 + tempHej };
+	textureBlends.blendFactor[0] = { 0.002 * tempHej, 0.002 + tempHej };
+	textureBlends.blendFactor[1] = { 0.005 * tempHej, 0.005 + tempHej };
+	textureBlends.blendFactor[2] = { 0.001 * tempHej, 0.001 - tempHej };
 
 	int numTextures = 0;	
 	std::vector<Importer::TextureAsset*> tA;
