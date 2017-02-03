@@ -26,17 +26,18 @@ heightmaps[4].offset = 0
 --Tile1----------------------------------------------------------------
 local tile1 = Assets.LoadModel("Models/tile1.model")
 Gear.AddStaticInstance(tile1, heightmaps[3].transformID)
+Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=128})
 
 local tile1_assets = Assets.LoadModel("Models/tile1_assets.model")
 Gear.AddStaticInstance(tile1_assets, heightmaps[1].transformID)
-Transform.SetPosition(heightmaps[1].transformID, {x=0, y=0, z=128})
+Transform.SetPosition(heightmaps[1].transformID, {x=0, y=0, z=0})
 
 --Tile2-----------------------------------------------------------------
 local tile2 = Assets.LoadModel("Models/tile2.model")
 Gear.AddStaticInstance(tile2, heightmaps[2].transformID)
 
 --Transform.SetPosition(heightmaps[2].transformID, {x=128, y=0, z=128})
-Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=0})
+Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=128})
 
 --Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=512})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
