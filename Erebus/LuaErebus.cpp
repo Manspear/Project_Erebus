@@ -23,6 +23,7 @@ namespace LuaErebus
 			{ "CameraSensitivity", cameraSensitivity },
 			{ "StartNetworkHost", startNetworkHost },
 			{ "StartNetworkClient", startNetworkClient },
+			{ "ShutdownNetwork", shutdownNetwork },
 			{ "Running", setRunning },
 			{ NULL, NULL }
 		};
@@ -94,6 +95,12 @@ namespace LuaErebus
 
 		lua_pushboolean(lua, result);
 		return 1;
+	}
+
+	int shutdownNetwork(lua_State* lua)
+	{
+		g_network->shutdown();
+		return 0;
 	}
 
 	int setRunning(lua_State * lua)
