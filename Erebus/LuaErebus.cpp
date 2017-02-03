@@ -67,7 +67,7 @@ namespace LuaErebus
 		}
 		else
 		{
-			if (g_network->initNetworkAsClient(127, 0, 0, 1))
+			if (g_network->initNetworkAsClient(127,0,0,1))
 			{
 				result = true;
 			}

@@ -4,6 +4,7 @@ MovementController::MovementController()
 	: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
 {
 	this->myCollisionHandler = new CollisionHandler();
+	this->hitNormal = glm::vec3(0);
 }
 
 MovementController::~MovementController()
@@ -28,7 +29,7 @@ void MovementController::update()
 	glm::vec3 pos = transform->getPos();
 	glm::vec3 newPos = pos + moveFinal;
 
-	float height = heightmap->getPos( fmod(newPos.x, heightmap->getMapWidth()), fmod(newPos.z, heightmap->getMapHeight()) );
+	float height = heightmap->getPos( newPos.x, newPos.z );
 	newPos.y = height;
 
 	// TODO: wall collision
@@ -46,8 +47,6 @@ void MovementController::update()
 	{
 		finalPos.x = newXPos.x;
 	}
-
-
 	this->hitbox->setPos(newZPos); // move hitbox on Z
 	playerColliding = this->checkCollision(colliders); // Check collision against all the walls
 	if (!playerColliding) // if our new position is safe
@@ -55,9 +54,14 @@ void MovementController::update()
 		finalPos.z = newZPos.z;
 	}
 
+	//if (hitNormal != glm::vec3(0,0,0))
+	//{
+	//	std::cout << "hitNormal: " << hitNormal.x << ", " << hitNormal.y << ", " << hitNormal.z << std::endl;
+	//}
 	
 	transform->setPos(finalPos);
 	this->movement = glm::vec3();
+	this->hitNormal = glm::vec3(0, 0, 0);
 }
 
 void MovementController::setHitbox( HitBox* hb )
@@ -119,11 +123,11 @@ bool MovementController::checkCollision(std::vector<HitBox*>* walls) // Check ou
 		}
 	}
 
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &sphereColliders)) // if we collide with any spheres
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &sphereColliders, hitNormal)) // if we collide with any spheres
 		return true;
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &aabbColliders)) // if we collide with any AABBColliders
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &aabbColliders, hitNormal)) // if we collide with any AABBColliders
 		return true;
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &obbColliders)) // if we collide with any OBBColliders
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &obbColliders, hitNormal)) // if we collide with any OBBColliders
 		return true;
 
 	return false;

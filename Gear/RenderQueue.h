@@ -4,7 +4,6 @@
 #include "ParticleSystem.h"
 #include "ModelAsset.h"
 #include "TextureAsset.h"
-#include "Material.h"
 #include <vector>
 #include <numeric>
 #include <algorithm>
@@ -12,18 +11,20 @@
 #include "Light.h"
 #include "WorkQueue.h"
 
+struct UniformValues {
+	int location;
+	GLfloat value;
+};
+
 using namespace Importer;
 struct ModelInstance
 {
-	ModelAsset* asset;
-	//Material material;
+	Importer::ModelAsset* asset;
 	std::vector<int> worldIndices;
 };
-
 struct AnimatedInstance
 {
 	ModelAsset* asset;
-	//Material material;
 	std::vector<int> worldIndices;
 	std::vector<Animation*> animations;
 };
@@ -44,7 +45,7 @@ public:
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
-	void forwardPass(std::vector<ModelInstance>* dynamicModels);
+	void forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues);
 	bool particlePass(std::vector<Gear::ParticleSystem*>* ps);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);

@@ -7,7 +7,8 @@ function CreateRayType()
 	ray.oobCollider = OBBCollider.Create(ray.transformID)
 	CollisionHandler.AddOBB(ray.oobCollider, 1)
 	OBBCollider.SetActive(ray.oobCollider, false);
-
+	Transform.ActiveControl(ray.transformID, false)
+	
 	function ray:Cast(position)
 		Transform.ActiveControl(self.transformID, true)
 		Transform.SetPosition(self.transformID, position)

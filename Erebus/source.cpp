@@ -78,9 +78,18 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
+	//AABBCollider aabb = AABBCollider(glm::vec3(-1,-1,-1),glm::vec3(1,1,1),glm::vec3(20,6,20));
+	//SphereCollider sphere = SphereCollider(glm::vec3(20,6,23),2);
+	//collisionHandler.addHitbox(&aabb,3);
+	//collisionHandler.addHitbox(&sphere, 3);
+
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
+
+	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(31.3, 8.5, 12.1));
+
+	collisionHandler.addHitbox(&aabb);
 
 	ai.addDebug(Debugger::getInstance());
 
@@ -179,7 +188,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.setMasterVolume(0.5);
+	soundEngine.setMasterVolume(10);
+
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
