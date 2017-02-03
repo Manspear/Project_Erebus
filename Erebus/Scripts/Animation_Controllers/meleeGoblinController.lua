@@ -74,6 +74,10 @@ function CreateEnemyController(enemy)
 		self.oldWatch.health = self.watch.health
 	end
 
+	function controller:doNothing()
+		self.currentAnimation = 0
+	end
+
 	function controller:doAttack()
 		self.currentAnimation = 2
 	end
