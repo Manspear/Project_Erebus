@@ -47,13 +47,18 @@ bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip
 
 void NetworkController::shutdown()
 {
-	if (running == true)
+	if (running)
 	{
 		running = false;
 		sendingThread.join();
 		receiveThread.join();
 	}
-	network.Shutdown();
+	
+	if (initalized)
+	{
+		initalized = false;
+		network.Shutdown();
+	}
 }
 
 void NetworkController::startNetworkSending()
