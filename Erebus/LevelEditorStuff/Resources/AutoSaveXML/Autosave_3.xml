@@ -63,8 +63,21 @@
             <Intensity i="10"/>
         </LevelPointLight>
         <LevelTransform>
-            <Position x="32.21875" y="-7.4726563" z="139.625"/>
-            <Rotation x="0" y="0" z="0"/>
+            <Position x="-3.8974047" y="1.1132813" z="150.42287"/>
+            <Rotation x="0.67724609" y="0.34057617" z="0.65136719"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (1) (1)">
+        <LevelPointLight>
+            <Position x="0" y="1" z="0"/>
+            <Color x="1" y="0" z="1"/>
+            <Radius r="41"/>
+            <Intensity i="10"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="4.1995664" y="0.34692383" z="142.46468"/>
+            <Rotation x="0.67871094" y="0.33203125" z="0.65429688"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>

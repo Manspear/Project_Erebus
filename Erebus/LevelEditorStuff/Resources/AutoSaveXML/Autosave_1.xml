@@ -55,204 +55,274 @@
             <Scale x="272" y="10" z="30"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="New (1)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
+    <LevelActor type="Empty" displayName="New">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
         <LevelTransform>
-            <Position x="35.336491" y="-12.476563" z="361.98721"/>
+            <Position x="-3.21875" y="-7.4765625" z="321.25"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (3)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (1)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="20.984375" y="-7.4765625" z="430.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-6.2548766" y="-7.4765625" z="318.56885"/>
+            <Rotation x="1.7881393e-07" y="2" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (1)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (2)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="29.817749" y="24.523438" z="412.62238"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="1.8947608" y="-7.4765625" z="319.22586"/>
+            <Rotation x="1.7881393e-07" y="4" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (2)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="62.321171" y="24.523438" z="405.80463"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-2.0012274" y="-7.4765625" z="328.14148"/>
+            <Rotation x="1.7881393e-07" y="3" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (3)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (4)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="54.947704" y="24.523438" z="423.52109"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-10.083776" y="-7.4765625" z="327.12854"/>
+            <Rotation x="1.7881393e-07" y="0" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (4)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (5)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="49.227612" y="24.523438" z="437.14777"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="6.27142" y="-7.4765625" z="328.08475"/>
+            <Rotation x="1.7881393e-07" y="3" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (5)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (6)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="45.379257" y="24.527344" z="450.02191"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="0.31764191" y="-7.4765625" z="336.38266"/>
+            <Rotation x="1.7881393e-07" y="3" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (6)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (7)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="54.529423" y="-1.4765625" z="387.93552"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-0.7723338" y="-7.4765625" z="344.4617"/>
+            <Rotation x="1.7881393e-07" y="5" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (7)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (8)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="57.015118" y="-1.4765625" z="398.91745"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-7.9128242" y="-7.4765625" z="334.82422"/>
+            <Rotation x="1.7881393e-07" y="0" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (8)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (9)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="53.947514" y="-1.4765625" z="408.62683"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-8.8558531" y="-7.4765625" z="324.13669"/>
+            <Rotation x="1.7881393e-07" y="3" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (9)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (10)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="51.21426" y="-1.4765625" z="416.73035"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-13.700851" y="-7.4765625" z="315.64191"/>
+            <Rotation x="1.7881393e-07" y="4" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="OBBBase (3) (10)">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="1" y="1" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (11)">
         <LevelModel>
             <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="46.289162" y="-1.4765625" z="425.60751"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="10" y="10" z="10"/>
+            <Position x="-8.3685751" y="-7.4765625" z="307.6355"/>
+            <Rotation x="1.7881393e-07" y="5" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (12)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="19.563929" y="-7.4765625" z="313.45862"/>
+            <Rotation x="1.7881393e-07" y="4" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (13)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="48.625515" y="-7.4765625" z="326.57056"/>
+            <Rotation x="-8.4042549e-06" y="2" z="3.5762787e-06"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (14)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="11.171717" y="-7.4765625" z="313.04517"/>
+            <Rotation x="1.7881393e-07" y="4" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (15)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="1.7387099" y="-7.4765625" z="307.39545"/>
+            <Rotation x="1.7881393e-07" y="0" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (16)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="11.093382" y="-7.4765625" z="301.74362"/>
+            <Rotation x="1.7881393e-07" y="6" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (17)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="26.197077" y="-7.4765625" z="299.57724"/>
+            <Rotation x="1.7881393e-07" y="5" z="1.7881393e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (18)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="37.501606" y="-7.4765625" z="310.52484"/>
+            <Rotation x="-8.5234642e-06" y="4" z="3.5762787e-06"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (19)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="26.188038" y="-7.4765625" z="321.27213"/>
+            <Rotation x="1.7881393e-07" y="6" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (20)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="14.538754" y="-7.4765625" z="318.97736"/>
+            <Rotation x="1.7881393e-07" y="4" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (21)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="3.6449685" y="-7.4765625" z="313.24423"/>
+            <Rotation x="1.7881393e-07" y="4" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (22)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="4.280508" y="-7.4765625" z="304.91559"/>
+            <Rotation x="1.7881393e-07" y="5" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (23)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-3.8211527" y="-7.4765625" z="303.09326"/>
+            <Rotation x="1.7881393e-07" y="3" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (24)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-9.5799122" y="-7.4765625" z="312.31683"/>
+            <Rotation x="1.7881393e-07" y="5" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (25)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-14.439346" y="-7.4765625" z="320.55228"/>
+            <Rotation x="1.7881393e-07" y="6" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (26)">
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="4.2352934" y="-7.4765625" z="305.72198"/>
+            <Rotation x="1.7881393e-07" y="1" z="1.1920929e-07"/>
+            <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
 </Level>

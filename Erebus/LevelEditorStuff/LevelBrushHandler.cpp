@@ -44,6 +44,10 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
 	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
 
+	/*if (hitNorm.y < 0.65)
+	{
+		return;
+	}*/
 	glm::vec3 newHitPoint;
 	
 	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
@@ -88,7 +92,12 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 			LevelTransform* transform = newActor->getComponent<LevelTransform>();
 
 			if (transform)
+			{
+				glm::vec3 newNormal = hitNorm;
+				newNormal.y = RNG::range(0.0,PIx2);
 				transform->getTransformRef()->setPos(hitPoint);
+				transform->getChangeTransformRef()->setRotation(newNormal);
+			}
 			
 			timer = 0.2;
 			earlierPositions.insert(earlierPositions.begin(),hitPoint);
