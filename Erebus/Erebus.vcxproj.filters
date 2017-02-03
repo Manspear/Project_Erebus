@@ -160,6 +160,9 @@
     <ClCompile Include="LevelEditorStuff\LevelParticleSystem.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+     <ClCompile Include="LevelEditorStuff\LevelSettings.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelParticleSystem.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelSettings.h">
+	<Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

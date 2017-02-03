@@ -17,6 +17,7 @@
 #include "LevelSound.h"
 #include "LevelEnemy.h"
 #include "LevelParticleSystem.h"
+#include "LevelSettings.h"
 
 class LevelActorFactory
 {

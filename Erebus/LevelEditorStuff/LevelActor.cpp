@@ -9,7 +9,6 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Enemy",
 	"Heightmap",
 	"Collider",
-	"Player Spawn",
 	"Player",
 	"Health Orb"
 };
@@ -142,7 +141,7 @@ std::string LevelActor::toLua()
 	using namespace std;
 	stringstream ss;
 
-	if( exportType == EXPORT_PLAYER_SPAWN )
+	/*if( exportType == EXPORT_PLAYER_SPAWN )
 	{
 		LevelTransform* transform = getComponent<LevelTransform>();
 		if( transform )
@@ -152,7 +151,7 @@ std::string LevelActor::toLua()
 		}
 	}
 	else
-	{
+	{*/
 		std::string fullName = "ID" +to_string(id) + "name";
 		ss<<"local " << fullName <<" = {}" << endl;
 
@@ -209,7 +208,7 @@ std::string LevelActor::toLua()
 				break;
 		}
 		ss << fullName << " = nil" << endl<<endl;
-	}
+	//}
 
 	return ss.str();
 }

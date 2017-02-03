@@ -25,12 +25,14 @@ public:
 	void setHeightMultiplier( float multi );
 	void setTextureName( std::string name );
 	void setHeightmapID( int id );
+	void setOffset( const glm::vec3& offset );
 
 	bool getDraw();
 	float getHeightMultiplier() const;
 	const std::string& getTextureName() const;
 	Importer::HeightMap* getHeightmap() const;
 	int getHeightmapID() const;
+	const glm::vec3& getOffset() const;
 
 	void callListener( LevelActorComponent* component ) override;
 
@@ -43,7 +45,7 @@ private:
 
 	bool draw;
 	float lineLength, heightMultiplier;
-	glm::vec3 position;
+	glm::vec3 position, offset;
 	std::string textureName;
 	Importer::HeightMap* heightmap;
 

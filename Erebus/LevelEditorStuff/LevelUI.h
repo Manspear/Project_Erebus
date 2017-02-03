@@ -101,8 +101,21 @@ private:
 	void initBars();
 	
 public:
-	typedef enum{SELECT_COMPONENT, TRANSFORM, POINT_LIGHT, HEIGHTMAP, COLLIDER, SOUND, BASE_ENEMY, PARTICLE_SYSTEM, NUM_DIFF_COMPONENTS} DiffComponents;
-	static const char *componentLinker[];
+	typedef enum
+	{
+		SELECT_COMPONENT,
+		TRANSFORM,
+		POINT_LIGHT,
+		HEIGHTMAP,
+		COLLIDER,
+		SOUND,
+		BASE_ENEMY,
+		PARTICLE_SYSTEM,
+		TILE_SETTINGS,
+		NUM_DIFF_COMPONENTS
+	} DiffComponents;
+
+	static const char *componentLinker[NUM_DIFF_COMPONENTS];
 	TwEnumVal *componentsEVs;
 	TwType componentType;
 
@@ -129,7 +142,8 @@ public:
 			{ DiffComponents::COLLIDER, "Collider" },
 			{ DiffComponents::SOUND, "Sound" },
 			{ DiffComponents::BASE_ENEMY, "Base Enemy" },
-			{DiffComponents::PARTICLE_SYSTEM, "Particle System"}
+			{DiffComponents::PARTICLE_SYSTEM, "Particle System"},
+			{ DiffComponents::TILE_SETTINGS, "Tile Settings" },
 
 		};
 
