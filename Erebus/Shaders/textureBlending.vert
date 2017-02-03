@@ -9,6 +9,7 @@ out vec2 vertex_UV[3];
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 worldMatrices[105];
+
 uniform vec2 blendValue1;
 uniform vec2 blendValue2;
 uniform vec2 blendValue3;

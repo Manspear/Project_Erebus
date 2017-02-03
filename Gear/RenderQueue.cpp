@@ -577,18 +577,15 @@ void RenderQueue::textureBlendingPass(textureBlendings textureBlends, std::vecto
 	bool atLeastOne = false;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	textureBlendings* tB = new textureBlendings[blendingModels->size()];
 
 	tempHej += 0.04;
-	textureBlends.blendFactor[0] = { 0.002 + tempHej, 0.002 + tempHej };
+	textureBlends.blendFactor[0] = { 0.002 - tempHej, 0.002 + tempHej };
 	textureBlends.blendFactor[1] = { 0.005 - tempHej, 0.005 - tempHej };
 	textureBlends.blendFactor[2] = { 0.001 * tempHej, 0.001 + tempHej };
 
-	int numTextures = textureBlends.numTextures;
-	
+	int numTextures = 0;	
 	std::vector<Importer::TextureAsset*> tA;
-	tA = textureBlends.textureVector;
-	int blendValue = 0;
 
 	for (size_t i = 0; i < blendingModels->size(); i++)
 	{
@@ -607,15 +604,24 @@ void RenderQueue::textureBlendingPass(textureBlendings textureBlends, std::vecto
 		{
 			modelAsset = blendingModels->at(i).asset;
 			meshes = modelAsset->getHeader()->numMeshes;
-	
+		
+			tB[i].blendFactor[0] = textureBlends.blendFactor[0];
+			tB[i].blendFactor[1] = textureBlends.blendFactor[1];
+			tB[i].blendFactor[2] = textureBlends.blendFactor[2];
+
+			tB[i].numTextures = textureBlends.numTextures;
+			numTextures = tB[i].numTextures;
+
+			tB[i].textureVector = textureBlends.textureVector;
+			tA = tB[i].textureVector;
+		
 			//uniforms for how many textures to send to the frag shader
 			glUniform1i(uniformLocations[TEXTURE_BLENDING][3], numTextures);
 			glUniformMatrix4fv(uniformLocations[TEXTURE_BLENDING][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 
-
-			allShaders[TEXTURE_BLENDING]->addUniform(textureBlends.blendFactor[0], uniformLocations[TEXTURE_BLENDING][4], 1);
-			allShaders[TEXTURE_BLENDING]->addUniform(textureBlends.blendFactor[1], uniformLocations[TEXTURE_BLENDING][5], 1);
-			allShaders[TEXTURE_BLENDING]->addUniform(textureBlends.blendFactor[2], uniformLocations[TEXTURE_BLENDING][6], 1);
+			allShaders[TEXTURE_BLENDING]->addUniform(tB[i].blendFactor[0], uniformLocations[TEXTURE_BLENDING][4], 1);
+			allShaders[TEXTURE_BLENDING]->addUniform(tB[i].blendFactor[1], uniformLocations[TEXTURE_BLENDING][5], 1);
+			allShaders[TEXTURE_BLENDING]->addUniform(tB[i].blendFactor[2], uniformLocations[TEXTURE_BLENDING][6], 1);
 
 			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 			{
@@ -638,6 +644,7 @@ void RenderQueue::textureBlendingPass(textureBlendings textureBlends, std::vecto
 		}
 	}
 	allShaders[TEXTURE_BLENDING]->unUse();
+	delete[] tB;
 
 }
 
