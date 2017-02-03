@@ -12,6 +12,16 @@ public:
 		hCost = 0;
 		parentNode = nullptr;
 	};
+
+	AGI_API InfluenceNode(InfluenceNode & copyFrom,int x,int y)
+	{
+		pos = glm::vec2(x, y);
+		strength = copyFrom.getStrength();
+		gCost = 0;
+		hCost = 0;
+		parentNode = nullptr;
+	};
+
 	AGI_API InfluenceNode(glm::vec2 inPos, float inStrength)
 	{
 		pos = inPos;
@@ -43,7 +53,7 @@ public:
 
 	AGI_API void setStrength(const float &inStrength)
 	{
-		if (inStrength == 0 || inStrength == -1)
+		if (inStrength <=  0)
 			strength = inStrength;
 		else
 			strength = strength + inStrength;

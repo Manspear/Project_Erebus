@@ -60,7 +60,7 @@ namespace LuaAI
 		{
 			int index = lua_tointeger(lua, 1);
 
-			glm::vec3 pos = AI->calculateIMPath(transforms[index].getPos());
+			glm::vec3 pos = AI->calculateIMPath(index,transforms[index].getPos());
 
 
 			lua_newtable(lua);
@@ -263,28 +263,55 @@ namespace LuaAI
 
 	int aStarSearch(lua_State * lua)
 	{
-		if (lua_gettop(lua) >= 2)
+		if (lua_gettop(lua) >= 3)
 		{
-			//OLD Function
-			//glm::vec3 pos  = AI->SetTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), transforms[lua_tointeger(lua, 2)].getPos(),lua_tonumber(lua,3));
+			glm::vec3 fromPosition;
+			lua_getfield(lua, 1, "x");
+			fromPosition.x = lua_tonumber(lua, -1);
 
-			// NEw Function
-			AI->aStarSearch(lua_tointeger(lua, 1),transforms[lua_tointeger(lua, 1)].getPos(), transforms[lua_tointeger(lua, 2)].getPos());
-/*
-			lua_newtable(lua);
-			lua_pushnumber(lua, pos.x);
-			lua_setfield(lua, -2, "x");
+			lua_getfield(lua, 1, "y");
+			fromPosition.y = lua_tonumber(lua, -1);
 
-			if (pos.y == -1)
-				lua_pushnumber(lua, -1);
-			else
-				lua_pushnumber(lua, 0);
+			lua_getfield(lua, 1, "z");
+			fromPosition.z = lua_tonumber(lua, -1);
 
-			lua_setfield(lua, -2, "y");
+			glm::vec3 toPosition;
+			lua_getfield(lua, 2, "x");
+			toPosition.x = lua_tonumber(lua, -1);
 
-			lua_pushnumber(lua, pos.z);
-			lua_setfield(lua, -2, "z");
-*/
+			lua_getfield(lua, 2, "y");
+			toPosition.y = lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "z");
+			toPosition.z = lua_tonumber(lua, -1);
+
+			AI->aStarSearch(lua_tointeger(lua, 3), fromPosition, toPosition);
+
+			/*
+			glm::vec3 fromPosition;
+			lua_getfield(lua, 1, "x");
+			fromPosition.x = lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 1, "y");
+			fromPosition.y = lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 1, "z");
+			fromPosition.z = lua_tonumber(lua, -1);
+
+
+
+			glm::vec3 toPosition;
+			lua_getfield(lua, 2, "x");
+			toPosition.x = lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "y");
+			toPosition.y = lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "z");
+			toPosition.z = lua_tonumber(lua, -1);
+
+			AI->aStarSearch(2,fromPosition,toPosition);
+			*/
 
 		}
 

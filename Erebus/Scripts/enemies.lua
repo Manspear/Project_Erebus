@@ -97,17 +97,25 @@ function UpdateEnemies(dt)
 		COUNTDOWN = 0.5
 		print("INNER: ",player.nrOfInnerCircleEnemies)
 		print("OUTER: ",player.nrOfOuterCircleEnemies)
+
+
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			AI.ClearMap(enemies[i].lastPos,0)
+
 			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
-			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			--AI.AddIP(enemies[i].transformID,-1,0)
+
 		end
 			--AI.AddIP(player.transformID,-1,0)
-			tempPlayerPosition = Transform.GetPosition(player.transformID)
+		tempPlayerPosition = Transform.GetPosition(player.transformID)
 
-			AI.AStarSearch(enemies[2].transformID,player.transformID)
+		
+
+		for i=1, #enemies do
+			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
+			AI.AStarSearch(enemies[i].lastPos,tempPlayerPosition,enemies[i].transformID)
+			AI.AddIP(enemies[i].transformID,-1,0)
+		end
 	end
 	aiScript.updateEnemyManager(enemies,player)
 	local tempdt

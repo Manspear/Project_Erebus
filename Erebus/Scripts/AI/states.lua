@@ -4,7 +4,7 @@ state = {stateName = " ",idleState = {},followState = {},attackState = {},positi
 
 
 function state.idleState.enter(enemy,player)
-enemy.animationState = 1
+	enemy.animationState = 1
 end
 
 function state.idleState.update(enemy,player,dt,enemyManager)
@@ -113,8 +113,8 @@ function state.positioningInnerState.enter(enemy,player)
 	player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies + 1
 
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
-	
-	Transform.SetLookAt(enemy.transformID,direction)
+
+ 	Transform.SetLookAt(enemy.transformID,direction)
 
 	enemy.insideInnerCircleRange = true
 end
