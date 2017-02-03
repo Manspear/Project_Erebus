@@ -23,6 +23,7 @@ local scriptFiles =
 	"Scripts/rayType.lua",
 	"Scripts/staticAoEType.lua",
 	"Scripts/player.lua",
+	"Scripts/spellList.lua",
 	"Scripts/HUD.lua"
 }
 

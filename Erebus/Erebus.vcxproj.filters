@@ -471,6 +471,9 @@
     <None Include="Scripts\death.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
+    <None Include="Scripts\spellList.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

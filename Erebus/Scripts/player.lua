@@ -44,10 +44,6 @@ function LoadPlayer()
 
 	-- set spells for player
 	player.spells = {}
-	player.spells[1] = CreateHellPillar(player)
-	player.spells[2] = CreateBlackHole(player)
-	player.spells[3] = CreateIceGrenade(player)	
-	--player.spells[4] = CreateSunRay(player) 
 	
 	player.currentSpell = 1
 
@@ -114,6 +110,12 @@ function LoadPlayer2()
 end
 
 function UnloadPlayer()
+end
+
+function LoadSpells(player)
+	player.spells[1] = SpellList[1].spell
+	player.spells[2] = SpellList[2].spell
+	player.spells[3] = SpellList[3].spell
 end
 
 function FindHeightmap(position)
