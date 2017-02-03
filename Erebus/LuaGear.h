@@ -17,6 +17,7 @@ namespace LuaGear
 							Animation* animations,
 							int* boundAnimations,
 							std::vector<ModelInstance>* forwardModels,
+							std::vector<ModelInstance>* blendingModels,
 							bool* queueModels,
 							bool* mouseVisible,
 							bool* fullscreen,
@@ -26,6 +27,7 @@ namespace LuaGear
 	int addStaticInstance( lua_State* lua );
 	int addAnimatedInstance( lua_State* lua );
 	int addForwardInstance(lua_State* lua);
+	int addBlendingInstance(lua_State* lua);
 
 	int setQueueModels( lua_State* lua );
 	int setCursorVisible( lua_State* lua );

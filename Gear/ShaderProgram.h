@@ -55,6 +55,7 @@ public:
 	GLuint* getTextures();
 	GLuint getFramebufferID();
 	void addUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
+	void addUniform(glm::vec2& vec2, GLuint location, int count = 1);
 	void addUniform(glm::vec3 &vec3, std::string position, int count = 1);
 	void addUniform(float &floatValue, std::string position);
 	void addUniform(int &intValue, std::string position);

@@ -34,7 +34,7 @@ function CreateHellPillar()
 		pillz.duration = PILLAR_DURATION
 		pillz.type.oobCollider.SetSize(pillz.type.oobCollider, SUNRAY_HALF_LENGTH,1,1)
 		local model = Assets.LoadModel( "Models/SunRayOuter.model" )
-		Gear.AddStaticInstance(model, pillz.type.transformID)
+		Gear.AddBlendingInstance(model, pillz.type.transformID)
 		return pillz
 	end
 	

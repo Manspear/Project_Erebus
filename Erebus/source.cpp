@@ -37,6 +37,7 @@ struct ThreadData
 	std::vector<ModelInstance>* forwardModels;
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
+	std::vector<ModelInstance>* blendingModels;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -89,10 +90,14 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueParticles( *data->particleSystems );
 	data->engine->queueForwardModels(data->forwardModels);
 
+	//////////////////////////////////////////////////////////////////////////////
+	data->engine->queueTextureBlendings(data->blendingModels);
+	/////////////////////////////////////////////////////////////////////////////
+
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
-		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
+		data->models, data->animatedModels, data->forwardModels, data->blendingModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
 		&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
@@ -148,12 +153,16 @@ int main()
 	WorkQueue work;
 
 	window.changeCursorStatus(false);
-	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
+
+///////////////////////////////////////////////////////////////
+	engine.setTextureBlendings(assets.load<TextureAsset>("Textures/brightParticle.png"));
+	engine.setTextureBlendings(assets.load<TextureAsset>("Textures/lazer.png"));
+///////////////////////////////////////////////////////////////
 
 	assets.load<TextureAsset>("Textures/buttonOptions.png");
 	assets.load<TextureAsset>("Textures/buttonExit.png");
@@ -185,6 +194,8 @@ int main()
 	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
+	std::vector<ModelInstance> blendingModels;
+
 	ThreadData threadData =
 	{
 		&engine,
@@ -198,6 +209,7 @@ int main()
 		&forwardModels,
 		&animModels,
 		&particleSystems,
+		&blendingModels,
 		false,
 		true,
 		false,

@@ -24,6 +24,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 					std::vector<ModelInstance>* models,
 					std::vector<AnimatedInstance>* animatedModels,
 					std::vector<ModelInstance>* forwardModels,
+					std::vector<ModelInstance>* blendingModels,
 					bool* queueModels,
 					bool* mouseVisible,
 					bool* fullscreen,
@@ -39,7 +40,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 	LuaErebus::registerFunctions( lua, transforms, controls, network, counter, running );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, queueModels, mouseVisible, fullscreen, assets, work );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, queueModels, mouseVisible, fullscreen, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler, transforms );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
