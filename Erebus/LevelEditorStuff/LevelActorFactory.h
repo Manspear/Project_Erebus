@@ -16,6 +16,7 @@
 #include "LevelCollider.h"
 #include "LevelSound.h"
 #include "LevelEnemy.h"
+#include "LevelSettings.h"
 
 class LevelActorFactory
 {

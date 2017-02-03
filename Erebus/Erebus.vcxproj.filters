@@ -157,6 +157,9 @@
     <ClCompile Include="LevelEditorStuff\LevelEnemy.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelSettings.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -309,6 +312,9 @@
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="LuaLight.h" />
     <ClInclude Include="LevelEditorStuff\LevelEnemy.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelSettings.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
