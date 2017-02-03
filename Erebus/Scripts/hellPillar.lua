@@ -5,7 +5,7 @@ PILLAR_SFX = "Effects/explosion.wav"
 HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateHellPillar(entity)
-		Gear.AddBlendingInstance(model, pillz.type.transformID)
+		
 	local spell = {}
 	spell.caster = entity.transformID	
 	spell.pos = Transform.GetPosition(spell.caster)
@@ -23,8 +23,9 @@ function CreateHellPillar(entity)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
-	Gear.AddForwardInstance(model, spell.transformID)
+	local model = Assets.LoadModel( "Models/hellpillar.model" )
+	spell.modelIndex = Gear.AddBlendingInstance(model, spell.transformID)
+	--Gear.AddForwardInstance(model, spell.transformID)
 
 	spell.effectflag = false
 	spell.damage = MAX_DAMAGE_PILLAR
@@ -47,7 +48,7 @@ function CreateHellPillar(entity)
 		if self.cooldown < 0 then	
 			self.timeSinceLastPoop = 2
 			self.cooldown = 1.5
-			self.startUpTime = 0.4		self.finishingTime = 0.6	self.startUpScale = 1	
+			self.startUpTime = 0.4		self.finishingTime = 2	self.startUpScale = 1	
 			self.damage = 10
 			self.maxScale = 1
 			Transform.SetScale(spell.transformID, 0.2)
@@ -143,8 +144,8 @@ function CreateHellPillar(entity)
 			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
 			--Light.removeLight(self.light)
 		else
-			self.someRotation.y = self.someRotation.y + 15 * dt 	
-			Transform.SetRotation(self.transformID, self.someRotation)
+			--self.someRotation.y = self.someRotation.y + 15 * dt 	
+			--Transform.SetRotation(self.transformID, self.someRotation)
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt
