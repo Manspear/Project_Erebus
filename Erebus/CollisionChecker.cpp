@@ -734,7 +734,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 		{
 			if (i != index && cosAngle[i] + DEGREE_THRESHOLD > cosAngle[index]) // if the angle + threshold is bigger than closest cos(angle)
 			{
-				std::cout << "ANGLE VERY CLOSE INDEED\n";
+				std::cout << "Saving other corner normal \t CollisionChecker\n";
 				if(saveNormals)
 					hitNormals.push_back(axes[i]); // this saves the other normal if angle is very close
 			}
@@ -813,7 +813,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider
 		{
 			if (i != index && cosAngle[i] + DEGREE_THRESHOLD > cosAngle[index]) // if the angle + threshold is bigger than closest cos(angle)
 			{
-				std::cout << "ANGLE VERY CLOSE INDEED\n";
+				std::cout << "Saving other corner normal \t CollisionChecker\n";
 				if(saveNormals)
 					hitNormals.push_back(axes[i]);
 			}

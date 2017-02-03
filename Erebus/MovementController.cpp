@@ -71,7 +71,7 @@ void MovementController::update()
 	if(playerColliding)
 	{
 		if(this->hitNormals.size() > 1)
-			std::cout << " : NORMAL AMOUNT YO " << this->hitNormals.size() << std::endl;
+			std::cout << "NORMAL AMOUNT YO " << this->hitNormals.size() << "\t\t MovementController\n" << std::endl;
 
 		glm::vec3 normalFinal;
 		for (size_t i = 0; i < this->hitNormals.size(); i++) // add all the normals together
