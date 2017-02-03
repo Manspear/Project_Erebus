@@ -616,7 +616,7 @@ bool CollisionChecker::collisionCheck(HitBox * hitbox1, HitBox * hitbox2)
 	return false;
 }
 
-bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
+bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
 	if (hitbox1->isSphereCollider())
 	{
@@ -624,17 +624,17 @@ bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, 
 		if (hitbox2->isSphereCollider()) // sphere vs sphere
 		{
 			SphereCollider* sphere2 = static_cast<SphereCollider*>(hitbox2);
-			return this->collisionCheckNormal(sphere1, sphere2,normal, hitNormals, saveNormals);
+			return this->collisionCheckNormal(sphere1, sphere2, hitNormals, saveNormals);
 		}
 		else if (hitbox2->isAabbCollider()) // sphere vs aabb
 		{
 			AABBCollider* aabb = static_cast<AABBCollider*>(hitbox2);
-			return this->collisionCheckNormal(sphere1, aabb,normal, hitNormals, saveNormals);
+			return this->collisionCheckNormal(sphere1, aabb, hitNormals, saveNormals);
 		}
 		else if (hitbox2->isObbCollider()) // Sphere vs obb
 		{
 			OBBCollider* obb = static_cast<OBBCollider*>(hitbox2);
-			return this->collisionCheckNormal(sphere1, obb, normal, hitNormals, saveNormals);
+			return this->collisionCheckNormal(sphere1, obb, hitNormals, saveNormals);
 		}
 	}
 	else
@@ -645,7 +645,7 @@ bool CollisionChecker::collisionCheckNormal(HitBox * hitbox1, HitBox * hitbox2, 
 	return false;
 }
 
-bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereCollider * sphere2, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereCollider * sphere2, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
 	this->sphereCollisionCounter++;
 	bool collision = false;
@@ -662,7 +662,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereColl
 		collision = true;
 		if (saveNormals)
 		{
-			normal = glm::normalize(distanceVector);
+			glm::vec3 normal = glm::normalize(distanceVector);
 			hitNormals.push_back(normal);
 		}
 	}
@@ -672,7 +672,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere1, SphereColl
 	return collision;
 }
 
-bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollider * aabb, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollider * aabb, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
 	this->sphereToAabbCollisionCounter++;
 	bool collision = false;
@@ -742,7 +742,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 
 		if (index != -1 && saveNormals) // if we found the closest angle. Probably reduntant check
 		{
-			normal = axes[index];
+			glm::vec3 normal = axes[index];
 			hitNormals.push_back(normal); // this saves the first normal
 		}
 		collision = true;
@@ -751,7 +751,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 	return collision;
 }
 
-bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, glm::vec3 & normal, std::vector<glm::vec3>& hitNormals, bool saveNormals)
+bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider * obb, std::vector<glm::vec3>& hitNormals, bool saveNormals)
 {
 	//normal = glm::vec3(0, 0, 0);
 	bool collision = false;
@@ -821,7 +821,7 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider
 
 		if (index != -1 && saveNormals) // if we found the closest angle. Probably reduntant check
 		{
-			normal = axes[index];
+			glm::vec3 normal = axes[index];
 			hitNormals.push_back(normal);
 		}
 		collision = true;

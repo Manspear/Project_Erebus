@@ -38,10 +38,10 @@ public:
 
 	//Get collision normals also, used by movementController. ONLY SUPPORTS SPHERE COLLISION
 	// Returns normal from hitbox2 -> hitbox 1
-	bool collisionCheckNormal(HitBox* hitbox1, HitBox* hitbox2, glm::vec3& normal, std::vector<glm::vec3>& hitNormals, bool saveNormals);
-	bool collisionCheckNormal(SphereCollider* sphere1, SphereCollider* sphere2, glm::vec3& normal, std::vector<glm::vec3>& hitNormals, bool saveNormals);
-	bool collisionCheckNormal(SphereCollider* sphere, AABBCollider* aabb, glm::vec3& normal, std::vector<glm::vec3>& hitNormals, bool saveNormals);
-	bool collisionCheckNormal(SphereCollider* sphere, OBBCollider* obb, glm::vec3& normal, std::vector<glm::vec3>& hitNormals, bool saveNormals);
+	bool collisionCheckNormal(HitBox* hitbox1, HitBox* hitbox2,std::vector<glm::vec3>& hitNormals, bool saveNormals);
+	bool collisionCheckNormal(SphereCollider* sphere1, SphereCollider* sphere2, std::vector<glm::vec3>& hitNormals, bool saveNormals);
+	bool collisionCheckNormal(SphereCollider* sphere, AABBCollider* aabb, std::vector<glm::vec3>& hitNormals, bool saveNormals);
+	bool collisionCheckNormal(SphereCollider* sphere, OBBCollider* obb,std::vector<glm::vec3>& hitNormals, bool saveNormals);
 
 	//helper functions
 	float closestDistanceAabbToPoint(const float& point, const float aabbMin, const float aabbMax);
