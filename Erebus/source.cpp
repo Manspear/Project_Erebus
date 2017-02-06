@@ -12,12 +12,15 @@
 #include "ParticleImport.h"
 
 #include "./LevelEditorStuff/LevelEditor.h"
-#include "GamePlay.h"
 #include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 #include "SoundEngine.h"
 #include "WorkQueue.h"
+#include "CollisionHandler.h"
+#include "AGI.h"
+#include "NetworkController.hpp"
+#include "LuaBinds.h"
 
 #define MAX_TRANSFORMS 100
 #define MAX_ANIMATIONS 100
@@ -47,6 +50,17 @@ struct ThreadData
 	HANDLE produce, consume;
 };
 
+struct AnimationData
+{
+	Animation* animation;
+	float dt;
+};
+void updateAnimation( void* args )
+{
+	AnimationData* data = (AnimationData*)args;
+	data->animation->update( data->dt );
+}
+
 DWORD WINAPI update( LPVOID args )
 {
 	ThreadData* data = (ThreadData*)args;
@@ -68,9 +82,18 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
+	//AABBCollider aabb = AABBCollider(glm::vec3(-1,-1,-1),glm::vec3(1,1,1),glm::vec3(20,6,20));
+	//SphereCollider sphere = SphereCollider(glm::vec3(20,6,23),2);
+	//collisionHandler.addHitbox(&aabb,3);
+	//collisionHandler.addHitbox(&sphere, 3);
+
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
+
+	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(31.3, 8.5, 12.1));
+
+	collisionHandler.addHitbox(&aabb);
 
 	ai.addDebug(Debugger::getInstance());
 
@@ -85,6 +108,10 @@ DWORD WINAPI update( LPVOID args )
 		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
 		&ai, &network, data->workQueue, data->soundEngine, &counter );
 
+	AnimationData animationData[MAX_ANIMATIONS];
+	for( int i=0; i<MAX_ANIMATIONS; i++ )
+		animationData[i].animation = &data->allAnimations[i];
+
 	while( data->running )
 	{
 		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
@@ -92,11 +119,11 @@ DWORD WINAPI update( LPVOID args )
 		{
 			double deltaTime = counter.getDeltaTime();
 
-			luaBinds.update( data->controls, deltaTime );
+			luaBinds.update( data->controls, (float)deltaTime );
 			data->workQueue->execute();
 
 			for( int i=0; i<data->particleSystems->size(); i++ )
-				data->particleSystems->at(i)->update( deltaTime );
+				data->particleSystems->at(i)->update( (float)deltaTime );
 
 			collisionHandler.checkCollisions();
 
@@ -104,6 +131,15 @@ DWORD WINAPI update( LPVOID args )
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
+			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
+
+			for( int i=0; i<boundAnimations; i++ )
+			{
+				animationData[i].dt = (float)deltaTime;
+				//data->allAnimations[i].update(deltaTime);
+				data->workQueue->add( updateAnimation, &animationData[i] );
+			}
+			data->workQueue->execute();
 
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
@@ -160,7 +196,8 @@ int main()
 	
 	inputs.getMousePos();
 
-	soundEngine.setMasterVolume(0.5);
+	soundEngine.setMasterVolume(10);
+
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
@@ -268,7 +305,7 @@ int main()
 			engine.draw(&camera);
 
 #ifdef _DEBUG
-			assets.checkHotload(deltaTime);
+			assets.checkHotload((float)deltaTime);
 #endif // DEBUG
 		}
 	}

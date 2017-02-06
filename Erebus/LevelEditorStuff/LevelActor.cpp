@@ -9,9 +9,9 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Enemy",
 	"Heightmap",
 	"Collider",
-	"Player Spawn",
 	"Player",
-	"Health Orb"
+	"Health Orb",
+	"Particle"
 };
 
 void TW_CALL setDisplayCB(const void *value, void *s /*clientData*/)
@@ -134,10 +134,15 @@ std::string LevelActor::toXml()
 
 std::string LevelActor::toLua()
 {
+	LevelCollider* testCol = getComponent<LevelCollider>();
+	if (testCol != nullptr) {
+		if (testCol->getParentColider() != nullptr)
+			return "";
+	}
 	using namespace std;
 	stringstream ss;
 
-	if( exportType == EXPORT_PLAYER_SPAWN )
+	/*if( exportType == EXPORT_PLAYER_SPAWN )
 	{
 		LevelTransform* transform = getComponent<LevelTransform>();
 		if( transform )
@@ -147,42 +152,64 @@ std::string LevelActor::toLua()
 		}
 	}
 	else
-	{
-		ss << "local temp = {}" << endl;
+	{*/
+		std::string fullName = "ID" +to_string(id) + "name";
+		ss<<"local " << fullName <<" = {}" << endl;
 
 		LevelModel* model = getComponent<LevelModel>();
+		
+		if (getExportType() == EXPORT_COLLIDER || getExportType() == EXPORT_STATIC || model) {
+			LevelTransform* transform = getComponent<LevelTransform>();
+			ss << transform->toLua(fullName);
+		}
 		if( model )
 		{
-			LevelTransform* transform = getComponent<LevelTransform>();
-			ss << transform->toLua("temp");
-			ss << model->toLua("temp");
+			ss << model->toLua(fullName);
 		}
 
 		for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
 		{
 			if( it->first != LevelModel::name && it->first != LevelTransform::name )
 			{
-				ss << it->second->toLua("temp");
+				ss << it->second->toLua(fullName);
 			}
 		}
 
 		switch(exportType)
 		{
 			case EXPORT_STATIC:
-				ss << "table.insert(props,temp)" << endl;
+				ss << "table.insert(props," << fullName << ")" << endl;
+				//ss << "table.insert(props,temp)" << endl;
 				break;
 
 			case EXPORT_ENEMY:
-				ss << "table.insert(enemies,temp)" << endl;
+				ss << "table.insert(enemies," << fullName << ")" << endl;
+				//ss << "table.insert(enemies,temp)" << endl;
 				break;
 
 			case EXPORT_HEIGHTMAP:
-				ss << "table.insert(heightmaps,temp)" << endl;
+			{
+				//ss << "table.insert(heightmaps,temp)" << endl;
+				LevelHeightmap* heightmap = getComponent<LevelHeightmap>();
+				if( heightmap )
+				{
+					ss << "heightmaps[" << heightmap->getHeightmapID() << "] = " << fullName << endl;
+				}
+				//ss << "table.insert(heightmaps,temp)" << endl;
+			} break;
+
+			case EXPORT_COLLIDER:
+				ss << "table.insert(colliders," << fullName << ")" << endl;
+				//ss << "table.insert(heightmaps,temp)" << endl;
+				break;
+
+			case EXPORT_PARTICLE:
+				ss << "table.insert(particles," << fullName << ")" << endl;
+				//ss << "table.insert(heightmaps,temp)" << endl;
 				break;
 		}
-
-		ss << "temp = nil" << endl << endl;
-	}
+		ss << fullName << " = nil" << endl<<endl;
+	//}
 
 	return ss.str();
 }
@@ -232,6 +259,7 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	//TwAddVarRW(bar, "ActorName", TW_TYPE_STDSTRING, &this->actorDisplayName, "");
 	TwAddVarCB(bar, "ActorName", TW_TYPE_STDSTRING, setDisplayCB, getDisplayCB, (void*)this, "");
 	TwAddVarCB(bar, "ActorType", TW_TYPE_STDSTRING, setTypeCB, getTypeCB, (void*)this, "");
+	TwAddSeparator(bar, NULL, NULL);
 	for (auto it : this->actorComponents)
 	{
 		std::stringstream ss;

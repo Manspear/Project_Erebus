@@ -43,7 +43,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 			//get animation layer
 			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
 
-			Importer::hJoint* joint;
+			//Importer::hJoint* joint;
 			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
@@ -54,8 +54,8 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 			//resets itself wohahaha
 			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
-			float timeOverCompare = INT_MAX;
-			float timeUnderCompare = -INT_MAX;
+			float timeOverCompare = (float)INT_MAX;
+			float timeUnderCompare = -(float)INT_MAX;
 
 			Importer::sKeyFrame overKey;
 			Importer::sKeyFrame underKey;
@@ -114,7 +114,7 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 			//get animation layer
 			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
 
-			Importer::hJoint* joint;
+			//Importer::hJoint* joint;
 			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
@@ -122,8 +122,8 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 																														//resets itself wohahaha
 			animTimer = abs(std::fmod(animTimer, maxTime));
 
-			float timeOverCompare = INT_MAX;
-			float timeUnderCompare = -INT_MAX;
+			float timeOverCompare = (float)INT_MAX;
+			float timeUnderCompare = -(float)INT_MAX;
 
 			Importer::sKeyFrame overKey;
 			Importer::sKeyFrame underKey;
@@ -285,6 +285,7 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 {
 	this->animationSegments = numberOfSegments;
+	currentSegmentStates.resize(numberOfSegments);
 
 	std::vector<int> animStack;
 	animStack.push_back(0);
@@ -304,6 +305,8 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 
 		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
 		animationMatrixLists.push_back(allahu);
+
+		currentSegmentStates[i] = 0;
 	}
 }
 
@@ -337,7 +340,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	if (animationSegments > 1)
 	{
 		//animationMatrixLists is a 64 long mat4 list, where each 
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4) );
 
 		for (int i = 1; i < animationSegments; i++)
 		{
@@ -359,7 +362,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	else
 	{
 		//64 slots each with 64 matrices
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * MAXJOINTCOUNT);
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4) );
 	}
 
 	/*
@@ -557,6 +560,7 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 		convertToRotMat(keyList[i].keyRotate, &rotateMat);
 		convertToTransMat(keyList[i].keyTranslate, &translateMat);
 		convertToScaleMat(keyList[i].keyScale, &scaleMat);
+
 		tMatrices[i] = translateMat * scaleMat * rotateMat;
 	}
 	/*
@@ -619,4 +623,39 @@ void Animation::convertToScaleMat(float inputArr[3], glm::mat4 * result)
 {
 	for (int i = 0; i < 3; i++)
 		(*result)[i][i] = inputArr[i];
+}
+
+void Animation::setSegmentState( int state, int segment )
+{
+	currentSegmentStates[segment] = state;
+}
+
+void Animation::setQuickBlend( int from, int to, float blendTime, int segment )
+{
+	quickBlendFrom = from;
+	quickBlendTo = to;
+	quickBlendTime = blendTime;
+	quickBlendSegment = segment;
+	quickBlendingDone = false;
+}
+
+void Animation::update(float dt)
+{
+	if( animationMatrixLists.size() <= 0 )
+		return;
+
+	for(int i = 0; i< animationSegments; i++)
+	{
+		if(i == quickBlendSegment)
+		{
+			if( !quickBlendingDone )
+			{
+				quickBlendingDone = quickBlend( dt, quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment );
+			}
+		}
+		else
+			updateState( dt, currentSegmentStates[i], i );
+	}
+
+	assembleAnimationsIntoShadermatrices();
 }

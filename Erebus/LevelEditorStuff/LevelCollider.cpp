@@ -47,8 +47,11 @@ LevelCollider::LevelCollider()
 	obbRotationStep +=  LevelUI::actorBarName;
 	obbRotationStep += "/coliderRotation step=1 ";
 	int k = 0;
-	this->coliderID = LevelColiderHandler::getInstance()->getNewID();
+	this->coliderID = 0;
+	//this->coliderID = LevelColiderHandler::getInstance()->getNewID();
 	this->parentColiderID = 0;
+	this->layer = 0;
+	
 }
 
 LevelCollider::~LevelCollider()
@@ -76,6 +79,8 @@ void LevelCollider::initialize( tinyxml2::XMLElement* element )
 
 	child = element->FirstChildElement("IDs");
 	this->coliderID = child->IntAttribute("ID");
+	if (LevelColiderHandler::getInstance()->getDoesIDExists(this->coliderID))
+		this->coliderID = LevelColiderHandler::getInstance()->getNewID();
 	this->parentColiderID = child->IntAttribute("parentID");
 
 
@@ -143,6 +148,7 @@ void LevelCollider::initialize( tinyxml2::XMLElement* element )
 
 void LevelCollider::postInitialize()
 {
+	this->updateLayer();
 	LevelTransform* transform = parent->getComponent<LevelTransform>();
 	if( transform )
 		position = transform->getTransformRef()->getPos();
@@ -161,7 +167,9 @@ void LevelCollider::postInitialize()
 	if (this->parentColiderID != 0) {
 		this->parentCollider = LevelColiderHandler::getInstance()->getLoadColider(this->parentColiderID, this);
 	}
-		
+
+	LevelColiderHandler::getInstance()->checkIfHighestID(this->coliderID);
+	this->update(1337.f);
 }
 
 std::string LevelCollider::getName()
@@ -250,39 +258,158 @@ tinyxml2::XMLElement* LevelCollider::toXml( tinyxml2::XMLDocument* doc )
 	return element;
 }
 
-std::string LevelCollider::toLua( std::string name )
-{
+std::string LevelCollider::printChildren(std::string name, std::string depth, int &globalDepth, int parentIndex) {
+	this->updateLayer();
+	using namespace std;
+
+	int myIndex = globalDepth + 1;
+
+
+	string luaText = "";
+
+	std::string additionIndexName = "";
+	if (parentIndex != 0)
+		additionIndexName = to_string(parentIndex);
+	
+
+	std::string fullName = "";
+	std::string parentFullName = "";
+
+	parentFullName = name + additionIndexName + ".collider";
+
+	
 	this->updateLayer();
 
+	for (size_t i = 0; i < this->childColliders.size(); i++)
+	{
+		glm::vec3 childScale = this->childColliders[i]->parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
+		stringstream ss;
+		globalDepth++;
+		int myIndex = globalDepth;
+		std::string tableName = name + std::to_string(myIndex);
+		fullName = name + std::to_string(myIndex) + ".collider";
+		ss << name + std::to_string(myIndex) << " = {}"<<endl;
+
+		ss << fullName << " = ";
+		glm::vec3 totalOffset = (this->childColliders[i]->parent->getComponent<LevelTransform>()->getTransformRef()->getPos() + this->childColliders[i]->offset) -
+			(this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos() + this->offset);
+		glm::vec3 realMin, realMax;
+		switch (this->childColliders[i]->colliderType) {
+		case COLLIDER_SPHERE:
+			ss << "SphereCollider.Create(-1)" << endl;
+			ss << fullName << ":SetOffset(" << totalOffset.x << "," << totalOffset.y << "," << totalOffset.z << ")" << endl;
+			ss << fullName << ":SetRadius(" << this->childColliders[i]->sphereColider->getRadius() / childScale.x << ")" << endl;
+			break;
+
+		case COLLIDER_AABB:
+			realMin = this->childColliders[i]->abbColider->getMinPos() - 
+				childColliders[i]->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
+			realMax = this->childColliders[i]->abbColider->getMaxPos() -
+				childColliders[i]->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
+			ss << "AABBCollider.Create(-1)" << endl;
+			ss << fullName << ":SetOffset(" << totalOffset.x << "," << totalOffset.y << "," << totalOffset.z << ")" << endl;
+			ss << fullName << ":SetMinPos(" << realMin.x / childScale.x << "," <<
+				realMin.y / childScale.y << "," << realMin.z / childScale.z<< ")" << endl;
+			ss << fullName << ":SetMaxPos(" << realMax.x / childScale.x << "," <<
+				realMax.y / childScale.y << "," << realMax.z / childScale.z << ")" << endl;
+			break;
+		case COLLIDER_OBB:
+			ss << "OBBCollider.Create(-1)" << endl;
+			ss << fullName << ":SetOffset(" << totalOffset.x << "," << totalOffset.y << "," << totalOffset.z << ")" << endl;
+
+			ss << fullName << ":SetZAxis(" << this->childColliders[i]->obbColider->getZAxis().x << "," <<
+				this->childColliders[i]->obbColider->getZAxis().y << "," << this->childColliders[i]->obbColider->getZAxis().z << ")" << endl;
+
+			ss << fullName << ":SetHalfLengths(" << this->childColliders[i]->obbColider->getHalfLengths().x / childScale.x << ","
+				<< this->childColliders[i]->obbColider->getHalfLengths().y / childScale.y << "," << this->childColliders[i]->obbColider->getHalfLengths().z / childScale.z << ")" << endl;
+			break;
+		case COLLIDER_RAY:
+			ss << "RayCollider.Create(" << name << ".transformID)" << endl;
+			ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
+			ss << fullName << ":SetDirection(" << this->rayColider->getDirection().x << "," <<
+				this->rayColider->getDirection().y << "," << this->rayColider->getDirection().z << ")" << endl;
+			break;
+		}
+		
+
+		ss << parentFullName << ":AddChild(" << fullName<<")" << endl;
+		ss << "table.insert(colliders," << tableName << ")"<<endl;
+		
+		luaText += ss.str() + this->childColliders[i]->printChildren(name, std::to_string(globalDepth), globalDepth, myIndex);
+	}
+
+	return luaText;
+}
+
+std::string LevelCollider::toLua( std::string name )
+{
+	
+	this->updateLayer();
 	using namespace std;
 	stringstream ss;
 
-	ss << name << ".collider = ";
+	std::string depth = "";
 
+	std::string fullName = name + depth + ".collider";
+	std::string coliderType = "";
+	ss << fullName <<" = ";
+	scale = parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
+	glm::vec3 realMin, realMax;
 	if (this->parentCollider == nullptr) { // TOP PARENT
 		switch (colliderType)
 		{
 		case COLLIDER_SPHERE:
-			ss << "SphereCollider.Create(temp.transformID)" << endl;
-			ss << "CollisionHandler.AddSphere(" << name << ".collider)" << endl;
+			ss << "SphereCollider.Create("<< name <<".transformID)" << endl;
+			ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
+			ss << fullName << ":SetRadius(" << this->sphereColider->getRadius() / scale.x << ")" << endl;
+			coliderType = "AddSphere(";
 			break;
 
 		case COLLIDER_AABB:
-			ss << "AABBCollider.Create(temp.transformID)" << endl;
-			ss << "CollisionHandler.AddAABB(" << name << ".collider)" << endl;
+			realMin = this->abbColider->getMinPos() -
+				this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
+			realMax = this->abbColider->getMaxPos() -
+				this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
+			ss << "AABBCollider.Create(" << name << ".transformID)" << endl;
+			ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
+			ss << fullName << ":SetMinPos(" << realMin.x / scale.x << "," <<
+				realMin.y / scale.y << "," << realMin.z / scale.z << ")" << endl;
+			ss << fullName << ":SetMaxPos(" << realMax.x / scale.x << "," <<
+				realMax.y / scale.y << "," << realMax.z / scale.z << ")" << endl;
+			coliderType = "AddAABB(";
 			break;
 
 		case COLLIDER_OBB:
-			ss << "OBBCollider.Create(temp.transformID)" << endl;
-			ss << "CollisionHandler.AddOBB(" << name << ".collider)" << endl;
-			ss << "CollisionHandler.AddOBB(" << name << ".collider)" << endl;
+			ss << "OBBCollider.Create(" << name << ".transformID)" << endl;
+			
+			ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
+
+			ss << fullName << ":SetZAxis(" << this->obbColider->getZAxis().x << "," <<
+				this->obbColider->getZAxis().y << "," << this->obbColider->getZAxis().z << ")" << endl;
+
+			ss << fullName << ":SetHalfLengths(" << this->obbColider->getHalfLengths().x / scale.x << ","
+				<< this->obbColider->getHalfLengths().y / scale.y << "," << this->obbColider->getHalfLengths().z / scale.z<< ")" << endl;
+
+			coliderType = "AddOBB(";
 			break;
 
 		case COLLIDER_RAY:
 			ss << "RayCollider.Create(" << name << ".transformID)" << endl;
-			ss << "CollisionHandler.AddRay(" << name << ".collider)" << endl;
+			ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
+			ss << fullName << ":SetDirection(" << this->rayColider->getDirection().x << "," <<
+				this->rayColider->getDirection().y << "," << this->rayColider->getDirection().z << ")" << endl;
+			coliderType = "AddRay(";
 			break;
 		}
+		int gi = 0;
+		ss<<printChildren(name, depth, gi, 0);
+		ss << "CollisionHandler."<< coliderType << fullName << ", "<< this->layer<<")" << endl;
+		for (size_t i = 1; i < gi+1; i++)
+		{
+			std::string tableName = name + std::to_string(i);
+			ss << tableName << " = nil" << endl;
+		}
+		
 
 	}
 	else {//CHILD
@@ -305,6 +432,7 @@ void LevelCollider::update( float deltaTime )
 
 		switch (colliderType) {
 		case COLLIDER_SPHERE:
+			scale = transform->getTransformRef()->getScale();
 			this->sphereColider->setPos(position);
 			this->sphereColider->setRadius(sphereRadius * scale.x);
 			break;
@@ -355,18 +483,23 @@ void LevelCollider::update( float deltaTime )
 		//s_debugger->drawOBB(colider->getPos(), colider->getXAxis(), colider->getYAxis(), colider->getZAxis(), colider->getHalfLengths(), { 1,0,0 });
 	}
 
-	switch( colliderType )
-	{
-		
-		case COLLIDER_SPHERE: s_debugger->drawSphere( this->sphereColider->getPos(), this->sphereColider->getRadius(), color ); break;
-		case COLLIDER_AABB: s_debugger->drawAABB( this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color ); break;
+	if (deltaTime != 1337.f) {
+		switch (colliderType)
+		{
+
+		case COLLIDER_SPHERE:
+			s_debugger->drawSphere(this->sphereColider->getPos(), this->sphereColider->getRadius(), color);
+			break;
+		case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color); break;
 		case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
-			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color ); break;
-		case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color ); break;
+			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color); break;
+		case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color); break;
 		default:
 			std::cout << "WARNING: Colider doesnt have type!" << std::endl;
 			break;
+		}
 	}
+
 
 
 		
@@ -523,20 +656,20 @@ void LevelCollider::updateLayer() {
 	if (this->parentCollider == nullptr) {
 		switch (this->parent->getExportType()) {
 		case EXPORT_ENEMY:
-			tempLayer = 2;
-			break;
-		case EXPORT_PLAYER:
 			tempLayer = 1;
 			break;
+		case EXPORT_PLAYER:
+			tempLayer = 0;
+			break;
 		case EXPORT_HEALTH_ORB:
-			tempLayer = 5;
+			tempLayer = 4;
 			break;
 		
 		case EXPORT_STATIC:
-			tempLayer = 4;
+			tempLayer = 3;
 			break;
 		case EXPORT_COLLIDER:
-			tempLayer = 4;
+			tempLayer = 3;
 			break;
 		}
 	}

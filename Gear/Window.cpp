@@ -106,7 +106,22 @@ GEAR_API void Window::createWindow(bool fullscreen)
 		}
 		else
 		{
-			glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
+			int xpos, ypos;
+			glfwGetWindowPos(window, &xpos, &ypos);
+			int count;
+			int monitor;
+
+			GLFWmonitor** monitors = glfwGetMonitors(&count);
+			if (xpos < 0)
+			{
+				monitor = (int)(-(xpos + MONITOR_WIDTH) / MONITOR_WIDTH);
+			}
+			else
+			{
+				monitor = (int)(xpos / MONITOR_WIDTH);
+			}
+
+			glfwSetWindowMonitor(window, monitors[monitor], 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
 			glfwSetCursor(window, cursor);
 		}
 	}

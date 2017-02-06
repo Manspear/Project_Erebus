@@ -5,6 +5,7 @@
 #pragma region struct_debug
 struct debugLineStruct {
 	glm::vec3 start, end, color;
+	bool drawThroughWall;
 
 	debugLineStruct(glm::vec3 start, glm::vec3 end, glm::vec3 color) {
 		this->start = start;
@@ -20,6 +21,7 @@ struct debugLineStruct {
 struct debugSphereStruct {
 	glm::vec3 start, color;
 	float radius;
+	bool drawThroughWall;
 
 	debugSphereStruct(glm::vec3 start, float radius, glm::vec3 color) {
 		this->start = start;
@@ -34,6 +36,7 @@ struct debugSphereStruct {
 
 struct debugAABBStruct {
 	glm::vec3 minPos, maxPos, color;
+	bool drawThroughWall;
 
 	debugAABBStruct(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 color) {
 		this->minPos = minPos;
@@ -51,6 +54,7 @@ struct debugOBBStruct {
 	glm::vec3 xAxis, yAxis, zAxis;
 	glm::vec3 halfLengths;
 	glm::vec3 color;
+	bool drawThroughWall;
 
 	debugOBBStruct(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color) {
 		this->pos = pos;
@@ -79,7 +83,7 @@ public:
 	};
 private:
 	
-	debugLineStruct debugLines[1000];
+	debugLineStruct debugLines[50000];
 	debugSphereStruct debugSpheres[100000];
 	debugAABBStruct debugAABBs[65000];
 	debugOBBStruct debugOBBs[10000];
@@ -88,7 +92,7 @@ private:
 	int totalDebugAABBs;
 	int totalDebugOBBs;
 
-	debugLineStruct	bufferDebugLines[1000];
+	debugLineStruct	bufferDebugLines[50000];
 	debugSphereStruct bufferDebugSpheres[100000];
 	debugAABBStruct bufferDebugAABBs[65000];
 	debugOBBStruct bufferDebugOBBs[10000];
@@ -106,19 +110,19 @@ public:
 	GEAR_API void clear();
 	GEAR_API void update();
 	//Draws a line at starting point until destination
-	GEAR_API void drawLine(glm::vec3 start, glm::vec3 dest, glm::vec3 color = glm::vec3(0,1,0));
+	GEAR_API void drawLine(glm::vec3 start, glm::vec3 dest, glm::vec3 color = glm::vec3(0,1,0), const bool drawThroughWalls = false);
 	/*
 		Draw a cube
 		minPos indicates near bot left corner
 		maxPos indicated far top right corner
 	*/
-	GEAR_API void drawAABB(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color = glm::vec3(0, 1, 0));
+	GEAR_API void drawAABB(const glm::vec3 minPos, const glm::vec3 maxPos, glm::vec3 color = glm::vec3(0, 1, 0), const bool drawThroughWalls = false);
 	//Draws a sphere at give poisiton and radius
-	GEAR_API void drawSphere(const glm::vec3 position, const float radius, glm::vec3 color = glm::vec3(0, 1, 0));
+	GEAR_API void drawSphere(const glm::vec3 position, const float radius, glm::vec3 color = glm::vec3(0, 1, 0), const bool drawThroughWalls = false);
 	//Draws a obb at position
-	GEAR_API void drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color = glm::vec3(0, 1, 0));
+	GEAR_API void drawOBB(glm::vec3 pos, glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis, glm::vec3 helfLengths, glm::vec3 color = glm::vec3(0, 1, 0), const bool drawThroughWalls = false);
 	//Draws a ray at given position to inf
-	GEAR_API void drawRay(glm::vec3 pos, glm::vec3 dir, float length = HIGH_NUMBER, glm::vec3 color = glm::vec3(0, 1, 0));
+	GEAR_API void drawRay(glm::vec3 pos, glm::vec3 dir, float length = HIGH_NUMBER, glm::vec3 color = glm::vec3(0, 1, 0), const bool drawThroughWalls = false);
 
 	//DONT CALL
 	GEAR_API int getTotalLines();

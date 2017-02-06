@@ -10,10 +10,10 @@ private:
 	const int totalToIntance = 256;
 	std::vector<Debug*> debuggers;
 
-	void drawAllLines(Camera* camera, RenderQueue* renderQueRef);
-	void drawAllSpheres(Camera* camera, RenderQueue* renderQueRef);
-	void drawAllAABBs(Camera* camera, RenderQueue* renderQueRef);
-	void drawAllOBBs(Camera* camera, RenderQueue* renderQueRef);
+	void drawAllLines(Camera* camera, RenderQueue* renderQueRef, const bool drawThroughWalls);
+	void drawAllSpheres(Camera* camera, RenderQueue* renderQueRef, const bool drawThroughWalls);
+	void drawAllAABBs(Camera* camera, RenderQueue* renderQueRef, const bool drawThroughWalls);
+	void drawAllOBBs(Camera* camera, RenderQueue* renderQueRef, const bool drawThroughWalls);
 
 	GLuint tempBuffer;
 	void draw(int &numInstances);

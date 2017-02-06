@@ -13,7 +13,7 @@ namespace Nurn
 
 		// create socket
 
-		networkSocket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+		networkSocket = (int)::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 		if (networkSocket <= 0)
 		{

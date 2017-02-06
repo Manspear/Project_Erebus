@@ -9,6 +9,8 @@
 #include <vector>
 #include <algorithm>
 
+#include <iostream>
+
 using namespace irrklang;
 
 #define ValidateIndex(i,lim) i = i < 0 ? -1 : i >= lim ? -1 : i				// If 0 <= i < lim, i is valid. Otherwise, i is set to -1
@@ -19,11 +21,11 @@ enum eSoundOptions : uint8_t
 	SOUND_NO_FLAG		= 0x00,
 	SOUND_3D			= 0x01,
 	SOUND_COPY			= 0x02,
-	SOUND_EFFECTS		= 0x04,
+	SOUND_BOOST			= 0x04,
 	SOUND_STREAM		= 0x08,
 	SOUND_LOOP			= 0x10,
 	SOUND_PAUSED		= 0x20,
-	SOUND_BLURB4		= 0x40,
+	SOUND_REVERB		= 0x40,
 	SOUND_BLURB5		= 0x80
 };
 
@@ -52,6 +54,8 @@ public:
 	void setVelocity(size_t i, const glm::vec3 &vel);
 	void setPlayerTransform(const glm::vec3 &pos, const glm::vec3 &look);
 
+	std::string getDbgTxt();
+
 private:
 	struct sSound
 	{
@@ -68,7 +72,6 @@ private:
 		float targetTime;
 		float targetVolume;
 		float initialVolume;
-		bool finished = false;
 
 		sFade(ISound* s, float t, float v = 0.f)
 			: sound(s), targetTime(t), targetVolume(v), initialVolume(s->getVolume()) {}

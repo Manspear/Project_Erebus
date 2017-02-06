@@ -17,6 +17,11 @@ namespace Importer
 		IMPORTER_API void unload() override;
 		IMPORTER_API void upload() override;
 
+		IMPORTER_API bool inside( const glm::vec3& position );
+
+		IMPORTER_API void setPosition( const glm::vec3& position );
+		IMPORTER_API void setHeightMultiplier( float multi );
+
 		//IMPORTER_API glm::mat4 getWorldMat();
 		//IMPORTER_API void setPos( const glm::vec3& pos );
 		IMPORTER_API float getPos( float x, float y);
@@ -26,8 +31,8 @@ namespace Importer
 
 		IMPORTER_API int getMapWidth();
 		IMPORTER_API int getMapHeight();
-		IMPORTER_API float getHardPosAt( int x, int y );
-
+		IMPORTER_API const glm::vec3& getPosition() const;
+		IMPORTER_API float getHeightMultiplier();
 		IMPORTER_API float distanceToLine( glm::vec2 origin, glm::vec2 direction, glm::vec2 point );
 
 	private:
@@ -39,8 +44,8 @@ namespace Importer
 
 		float minX, maxX, minZ, maxZ;
 		float widthMulti, heightMulti, breadthMulti;
-		//glm::vec3 pos;
+		glm::vec3 position;
 
-		glm::vec3* vertices;
+		float heightMultiplier;
 	};
 }

@@ -18,7 +18,7 @@ private:
 	std::string posStr, sizeStr, colorStr, alphaStr, barName, valueWidthStr;
 	const std::string resizeStr = " resizable=false"
 					, moveableStr = " movable=false"
-					, refreshStr = " refresh=1.5";
+					, refreshStr = " refresh=0.1";
 	TwBar* bar;
 
 	std::string floatToString(float& val, std::string type) {
@@ -101,8 +101,21 @@ private:
 	void initBars();
 	
 public:
-	typedef enum{SELECT_COMPONENT, TRANSFORM, POINT_LIGHT, HEIGHTMAP, COLLIDER, SOUND, NUM_DIFF_COMPONENTS} DiffComponents;
-	static const char *componentLinker[];
+	typedef enum
+	{
+		SELECT_COMPONENT,
+		TRANSFORM,
+		POINT_LIGHT,
+		HEIGHTMAP,
+		COLLIDER,
+		SOUND,
+		BASE_ENEMY,
+		PARTICLE_SYSTEM,
+		TILE_SETTINGS,
+		NUM_DIFF_COMPONENTS
+	} DiffComponents;
+
+	static const char *componentLinker[NUM_DIFF_COMPONENTS];
 	TwEnumVal *componentsEVs;
 	TwType componentType;
 
@@ -128,6 +141,10 @@ public:
 			{ DiffComponents::HEIGHTMAP, "Heightmap" },
 			{ DiffComponents::COLLIDER, "Collider" },
 			{ DiffComponents::SOUND, "Sound" },
+			{ DiffComponents::BASE_ENEMY, "Base Enemy" },
+			{DiffComponents::PARTICLE_SYSTEM, "Particle System"},
+			{ DiffComponents::TILE_SETTINGS, "Tile Settings" },
+
 		};
 
 		/*if (componentTw == TW_TYPE_FLOAT) {

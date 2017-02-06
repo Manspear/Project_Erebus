@@ -138,9 +138,6 @@
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
     <ClCompile Include="LuaSound.cpp" />
-    <ClCompile Include="LevelEditorStuff\LevelParticleEmitter.cpp">
-      <Filter>LevelEditor\SourceLevel</Filter>
-    </ClCompile>
     <ClCompile Include="LevelEditorStuff\LevelSound.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
@@ -151,6 +148,19 @@
     </ClCompile>
     <ClCompile Include="LuaUI.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaLight.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelEnemy.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelParticleHandler.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelParticleSystem.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+     <ClCompile Include="LevelEditorStuff\LevelSettings.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -288,9 +298,6 @@
     <ClInclude Include="LevelEditorStuff\LevelCollider.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
-    <ClInclude Include="LevelEditorStuff\LevelParticleEmitter.h">
-      <Filter>LevelEditor\HeaderLevel</Filter>
-    </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelSound.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
@@ -303,8 +310,18 @@
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="Frustum.h" />
-    <ClInclude Include="RNG.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="LuaLight.h" />
+    <ClInclude Include="LevelEditorStuff\LevelEnemy.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelParticleHandler.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelParticleSystem.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelSettings.h">
+	<Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -503,6 +520,30 @@
     </None>
     <None Include="Scripts\options_menu.lua">
       <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
+    <None Include="Scripts\spellbook.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellbookUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\pauseMenu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\pauseMenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\deathUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\death.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellList.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Shaders\debugAABB.geom" />
     <None Include="Shaders\debugAABB.vert" />

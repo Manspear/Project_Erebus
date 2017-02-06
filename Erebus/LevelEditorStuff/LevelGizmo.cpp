@@ -96,7 +96,7 @@ void LevelGizmo::drawGizmo() {
 		for (size_t i = 0; i < NUM_LOC; i++)
 		{
 			this->debugRef->drawOBB(this->obbGizmos[i].getPos(), this->obbGizmos[i].getXAxis(), this->obbGizmos[i].getYAxis(),
-				this->obbGizmos[i].getZAxis(), this->obbGizmos[i].getHalfLengths(), colorLinker[i]);
+				this->obbGizmos[i].getZAxis(), this->obbGizmos[i].getHalfLengths(), colorLinker[i], true);
 		}
 	}
 

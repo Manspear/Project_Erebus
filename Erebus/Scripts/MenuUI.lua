@@ -1,5 +1,8 @@
 local screenImages = {}
 local imageTextures = {}
+local tempLight
+
+connectionIPAddress = {a = 127, b = 0, c = 0, d = 1}
 
 function LoadMenuUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
@@ -32,16 +35,21 @@ function UpdateMenuUI(dt)
 		end
 
 		if UI.mousePick(screenImages["host"], x,y) then
-			Erebus.StartNetwork(true)
-			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			local result = Erebus.StartNetworkHost()			
+			if result == true then
+				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			end
 		end
 
 		if UI.mousePick(screenImages["connect"], x,y) then
-			Erebus.StartNetwork(false)
-			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			local result = Erebus.StartNetworkClient(connectionIPAddress)
+			if result == true then
+				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+			end
 		end
 
 		if UI.mousePick(screenImages["options"], x,y) then
+			OPTIONS_RETURN_STATE = GAMESTATE_MAIN_MENU
 			gamestate.ChangeState(GAMESTATE_OPTIONS)
 		end
 

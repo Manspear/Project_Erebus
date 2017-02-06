@@ -50,7 +50,7 @@ void DebugHandler::reset()
 
 void DebugHandler::draw(Camera* camera, RenderQueue* renderQueRef)
 {
-	ShaderProgram* tempProgram;
+	//ShaderProgram* tempProgram;
 	int totalLines = 0,
 		totalSphere = 0,
 		totalAABB = 0,
@@ -63,14 +63,26 @@ void DebugHandler::draw(Camera* camera, RenderQueue* renderQueRef)
 		totalOBB += debuggers.at(i)->getTotalOBBs();
 	}
 
-	if(totalLines>0)
-		drawAllLines(camera, renderQueRef);
-	if (totalSphere>0)
-		drawAllSpheres(camera, renderQueRef);
-	if (totalAABB>0)
-		drawAllAABBs(camera, renderQueRef);
-	if (totalOBB > 0)
-		drawAllOBBs(camera, renderQueRef);
+	if (totalLines > 0) {
+		drawAllLines(camera, renderQueRef, false);
+		drawAllLines(camera, renderQueRef, true);
+	}
+		
+	if (totalSphere > 0) {
+		drawAllSpheres(camera, renderQueRef,false);
+		drawAllSpheres(camera, renderQueRef, true);
+	}
+		
+	if (totalAABB > 0) {
+		drawAllAABBs(camera, renderQueRef,false);
+		drawAllAABBs(camera, renderQueRef, true);
+	}
+		
+	if (totalOBB > 0) {
+		drawAllOBBs(camera, renderQueRef,false);
+		drawAllOBBs(camera, renderQueRef, true);
+	}
+		
 
 	/*for (size_t i = 0; i < debuggers.size(); i++)
 	{
@@ -78,8 +90,10 @@ void DebugHandler::draw(Camera* camera, RenderQueue* renderQueRef)
 	}*/
 }
 
-void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
+void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef, const bool drawThroughWalls)
 {
+	if (drawThroughWalls)
+		glDisable(GL_DEPTH_TEST);
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_OBB);
 	tempProgram->use();
 	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -106,24 +120,26 @@ void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
 		for (size_t k = 0; k < debuggers.at(i)->getTotalOBBs(); k++)
 		{
 			debugOBBStruct*temp = &debugRefVec[k];
-			pos[numInstance] = temp->pos;
-			xAxis[numInstance] = temp->xAxis;
-			yAxis[numInstance] = temp->yAxis;
-			zAxis[numInstance] = temp->zAxis;
-			halfLengths[numInstance] = temp->halfLengths;
-			colors[numInstance] = temp->color;
-			numInstance++;
+			if (temp->drawThroughWall == drawThroughWalls) {
+				pos[numInstance] = temp->pos;
+				xAxis[numInstance] = temp->xAxis;
+				yAxis[numInstance] = temp->yAxis;
+				zAxis[numInstance] = temp->zAxis;
+				halfLengths[numInstance] = temp->halfLengths;
+				colors[numInstance] = temp->color;
+				numInstance++;
 
-			if (numInstance == obbInstances)
-			{
-				glUniform3fv(positionLocation, numInstance, &pos[0][0]);
-				glUniform3fv(xAxisLocation, numInstance, &xAxis[0][0]);
-				glUniform3fv(yAxisLocation, numInstance, &yAxis[0][0]);
-				glUniform3fv(zAxisLocation, numInstance, &zAxis[0][0]);
-				glUniform3fv(halfLengthsLocation, numInstance, &halfLengths[0][0]);
-				glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+				if (numInstance == obbInstances)
+				{
+					glUniform3fv(positionLocation, numInstance, &pos[0][0]);
+					glUniform3fv(xAxisLocation, numInstance, &xAxis[0][0]);
+					glUniform3fv(yAxisLocation, numInstance, &yAxis[0][0]);
+					glUniform3fv(zAxisLocation, numInstance, &zAxis[0][0]);
+					glUniform3fv(halfLengthsLocation, numInstance, &halfLengths[0][0]);
+					glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
 
-				draw(numInstance);
+					draw(numInstance);
+				}
 			}
 		}
 	}
@@ -146,10 +162,14 @@ void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
 	delete[]halfLengths;
 	delete[]colors;
 	tempProgram->unUse();
+	if (drawThroughWalls)
+		glEnable(GL_DEPTH_TEST);
 }
 
-void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef)
+void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef, const bool drawThroughWalls)
 {
+	if (drawThroughWalls)
+		glDisable(GL_DEPTH_TEST);
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_SPHERE);
 	tempProgram->use();
 	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -170,6 +190,8 @@ void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef)
 		for (size_t k = 0; k < debuggers.at(i)->getTotalSpheres(); k++)
 		{
 			debugSphereStruct*temp = &lineRefVec[k];
+			if (temp->drawThroughWall != drawThroughWalls)
+				break;
 			start[numInstance] = temp->start;
 			radius[numInstance] = temp->radius;
 			colors[numInstance] = temp->color;
@@ -199,10 +221,14 @@ void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef)
 	delete[]radius;
 	delete[]colors;
 	tempProgram->unUse();
+	if (drawThroughWalls)
+		glEnable(GL_DEPTH_TEST);
 }
 
-void DebugHandler::drawAllAABBs(Camera * camera, RenderQueue * renderQueRef)
+void DebugHandler::drawAllAABBs(Camera * camera, RenderQueue * renderQueRef, const bool drawThroughWalls)
 {
+	if (drawThroughWalls)
+		glDisable(GL_DEPTH_TEST);
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_AABB);
 	tempProgram->use();
 	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -222,6 +248,8 @@ void DebugHandler::drawAllAABBs(Camera * camera, RenderQueue * renderQueRef)
 		for (size_t k = 0; k < debuggers.at(i)->getTotalAABBs(); k++)
 		{
 			debugAABBStruct*temp = &aabbRefVec[k];
+			if (temp->drawThroughWall != drawThroughWalls)
+				break;
 			min[numInstance] = temp->minPos;
 			max[numInstance] = temp->maxPos;
 			colors[numInstance] = temp->color;
@@ -251,10 +279,14 @@ void DebugHandler::drawAllAABBs(Camera * camera, RenderQueue * renderQueRef)
 	delete[]max;
 	delete[]colors;
 	tempProgram->unUse();
+	if (drawThroughWalls)
+		glEnable(GL_DEPTH_TEST);
 }
 
-void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef) 
+void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef, const bool drawThroughWalls)
 {
+	if (drawThroughWalls)
+		glDisable(GL_DEPTH_TEST);
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_LINE);
 	tempProgram->use();
 	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
@@ -274,6 +306,8 @@ void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef)
 		for (size_t k = 0; k < debuggers.at(i)->getTotalLines(); k++)
 		{
 			debugLineStruct*temp = &lineRefVec[k];
+			if (temp->drawThroughWall != drawThroughWalls)
+				break;
 			start[numInstance] = temp->start;
 			end[numInstance] = temp->end;
 			colors[numInstance] = temp->color;
@@ -303,6 +337,8 @@ void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef)
 	delete[]end;
 	delete[]colors;
 	tempProgram->unUse();
+	if (drawThroughWalls)
+		glEnable(GL_DEPTH_TEST);
 }
 
 void DebugHandler::draw(int &numInstances)

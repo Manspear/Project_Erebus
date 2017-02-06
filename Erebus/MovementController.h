@@ -21,7 +21,7 @@ public:
 private:
 	HitBox* hitbox;
 	Transform* transform;
-	glm::vec3 movement;
+	glm::vec3 movement, hitNormal;
 	CollisionLayers* collisionLayer;
 	CollisionHandler* myCollisionHandler;
 	unsigned int layerID;

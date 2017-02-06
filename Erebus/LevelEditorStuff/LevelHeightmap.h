@@ -4,6 +4,8 @@
 #include "HeightMap.h"
 #include "LevelAssetHandler.h"
 
+#define HEIGHTMAP_MAX_SURROUNDING 5
+
 class LevelHeightmap : public LevelActorComponent
 {
 public:
@@ -20,13 +22,19 @@ public:
 	void setTwStruct( TwBar* bar );
 
 	void setDraw( bool draw );
-	void setOffset( glm::vec3 offset );
+	void setHeightMultiplier( float multi );
 	void setTextureName( std::string name );
+	void setHeightmapID( int id );
+	void setOffset( const glm::vec3& offset );
 
 	bool getDraw();
-	const glm::vec3& getOffset() const;
+	float getHeightMultiplier() const;
 	const std::string& getTextureName() const;
 	Importer::HeightMap* getHeightmap() const;
+	int getHeightmapID() const;
+	const glm::vec3& getOffset() const;
+
+	void callListener( LevelActorComponent* component ) override;
 
 	static const char* name;
 
@@ -36,8 +44,12 @@ private:
 	static Debug* s_debugger;
 
 	bool draw;
-	float lineLength;
-	glm::vec3 offset;
+	float lineLength, heightMultiplier;
+	glm::vec3 position, offset;
 	std::string textureName;
 	Importer::HeightMap* heightmap;
+
+	static int currentID;
+	int heightmapID;
+	int surrounding[HEIGHTMAP_MAX_SURROUNDING];
 };
