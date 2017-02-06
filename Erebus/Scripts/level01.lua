@@ -44,7 +44,7 @@ Transform.SetRotation(ID5name.transformID, {x=0, y=0, z=0})
 ID5name.model = Assets.LoadModel('Models/tile2.model')
 Gear.AddStaticInstance(ID5name.model, ID5name.transformID)
 ID5name.asset = Assets.LoadHeightmap("Textures/tile2_heights.png")
-ID5name.asset:SetPosition({x=128, y=31.26, z=0})
+ID5name.asset:SetPosition({x=128, y=31, z=0})
 ID5name.heightMultiplier = (60.18-31.26) / 255
 ID5name.asset:SetHeightMultiplier(ID5name.heightMultiplier)
 ID5name.surrounding = { 1 }
