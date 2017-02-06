@@ -102,7 +102,8 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	print("DEAD")
+	print("DEAD", enemy.transformID)
+	enemy.animationController:doNothing()
 end
 
 function state.deadState.update(enemy,player)
@@ -117,22 +118,27 @@ function changeToState(enemy,player,changeState)
 
 	enemy.state.exit(enemy,player)
 
+	--print(enemy.transformID)
 	if changeState == "IdleState" then
-		Network.SendAIStatePacket(player.transformID, 0)
+		--print("changeToState 1")
+		Network.SendAIStatePacket(enemy.transformID, 0)
 		enemy.state = state.idleState
 	end
 
 	if changeState == "FollowState" then
-		Network.SendAIStatePacket(player.transformID, 1)
+		--print("changeToState 2")
+		Network.SendAIStatePacket(enemy.transformID, 1)
 		enemy.state = state.followState
 	end
 	if changeState == "AttackState" then
-		Network.SendAIStatePacket(player.transformID, 2)
+		--print("changeToState 3")
+		Network.SendAIStatePacket(enemy.transformID, 2)
 		enemy.state = state.attackState
 	end
 
 	if changeState == "DeadState" then	
-		Network.SendAIStatePacket(player.transformID, 3)
+		--print("changeToState 4")
+		Network.SendAIStatePacket(enemy.transformID, 3)
 		enemy.state = state.deadState
 	end 
 

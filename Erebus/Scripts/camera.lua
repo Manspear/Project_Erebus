@@ -9,7 +9,7 @@ ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffs
 --distance was 3.6
 ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
-StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
+StartState = {distance = 6, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
@@ -67,7 +67,6 @@ function UpdateCamera(dt)
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
 		--i vilket läge övergången är i
-		print("yo zooming out")
 		local factor = math.sin((math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time)*3.14 - 3.14*0.5)*0.5 + 0.5	--ciruklär (mjukare, men dyrare)
 		--local factor = math.min(ZoomedOut.timeSpent, ZoomedOut.time)/ZoomedOut.time										--linjär
 
@@ -80,10 +79,8 @@ function UpdateCamera(dt)
 
 		if ZoomedOut.timeSpent > ZoomedOut.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_OUT
-			print("yo zoomed out")
 		end
 	elseif camera.state == STATE_ZOOMING_IN then
-		print("yo zooming in")
 		ZoomedIn.timeSpent =  ZoomedIn.timeSpent + dt 
 		
 		--i vilket läge övergången är i
@@ -99,7 +96,6 @@ function UpdateCamera(dt)
 
 		if ZoomedIn.timeSpent > ZoomedIn.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_IN
-			print("yo zoomed in")
 		end
 	end
 
