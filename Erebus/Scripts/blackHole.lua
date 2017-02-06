@@ -24,7 +24,7 @@ function CreateBlackHole()
 	spell.hits = {}
 	spell.alive = false
 	spell.cooldown = 0
-	spell.castSFX = {"Effects/Bluezone-BC0212-sound-effect-004.wav", "Effects/wind_howl.wav"}
+	spell.castSFX = {"Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
 	spell.soundID = {}
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
@@ -52,7 +52,7 @@ function CreateBlackHole()
 			self.alive = true
 			self.cooldown = BLACK_HOLE_COOLDOWN
 			for i = 1, #self.castSFX do
-				self.soundID[i] = Sound.Play(self.castSFX[i], 5, pos)
+				self.soundID[i] = Sound.Play(self.castSFX[i], 7, pos)
 				--Sound.SetVolume(self.soundID[i], 0.1)
 			end
 		end

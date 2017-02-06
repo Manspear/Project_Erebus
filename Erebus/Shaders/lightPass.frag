@@ -24,6 +24,7 @@ const int NR_DIR_LIGHTS  = 1;
 layout(std430, binding = 0) readonly buffer LightBuffer {
 	PointLight data[];
 } lightBuffer;
+
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform vec3 viewPos;
 uniform int drawMode;
@@ -37,6 +38,22 @@ float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords);
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 vec3 WorldPosFromDepth(float depth);
+
+float getFogFactor(float fFogCoord) 
+{ 
+	int parm = 2;
+   float fResult = 0.0; 
+   if(parm == 0) 
+      fResult = (200-fFogCoord)/(200-20); 
+   else if(parm == 1) 
+      fResult = exp(-0.02*fFogCoord); 
+   else if(parm == 2) 
+      fResult = (500-fFogCoord)/(500-5) * exp(-pow(0.01*fFogCoord, 2.0)); 
+       
+   fResult = 1.0-clamp(fResult, 0.0, 1.0); 
+    
+   return fResult; 
+}
 
 void main() {
 
@@ -67,8 +84,12 @@ void main() {
 	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
 		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir, Specular);
 
+	vec3 outputColor = (ambient + directional + point);
+
+	//outputColor = mix(outputColor, vec3(0.50,0.50,0.50),getFogFactor(length(FragPos - viewPos)));
+
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
-        FragColor = vec4(ambient + directional + point, 1.0);
+        FragColor = vec4(outputColor, 1.0);
     else if(drawMode == 2)
 		FragColor = vec4(ambient + point, 1.0);
 	else if(drawMode == 3)
@@ -96,7 +117,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular)
 
 	vec3 halfwayDir = normalize(lightDir + viewDir);
 	float spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
-	vec3 specular = light.color * spec * Specular;
+	vec3 specular = light.color * spec * (Specular);;
 
 	vec3 lighting  = diffuse + specular;
 
@@ -119,7 +140,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, f
 			//Specular
 			vec3 halfwayDir = normalize(lightDir + viewDir);
 			float spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
-			vec3 specular = light.color.xyz * spec * Specular;
+			vec3 specular = light.color.xyz * spec * (Specular/16.0);
 
 			float attenuation = smoothstep(light.radius.x, 0.0f, length(light.pos.xyz - fragPos));
 

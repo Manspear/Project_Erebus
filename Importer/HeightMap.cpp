@@ -135,13 +135,23 @@ namespace Importer
 		float xNormalized = fmod(x,1.0f);
 		float zNormalized = fmod(z,1.0f);
 
-		float topHeight =getPos(left, top);
+		float topHeight = lerp(
+			heightData[left][top],
+			heightData[left+1][top],
+			xNormalized);
 
-		float bottomHeight = getPos(left, top);
+		float bottomHeight = lerp(
+			heightData[left][top+1],
+			heightData[left+1][top+1],
+			xNormalized);
 
 		float heightVal = lerp(topHeight, bottomHeight, zNormalized);
 
-		// TODO: What does this magic number mean? Ask Jesper
-		return heightVal*heightMultiplier + 3;
+		return heightVal*heightMultiplier + position.y;
+	}
+
+	float HeightMap::getHeightData( int x, int z )
+	{
+		return heightData[x][z];
 	}
 }

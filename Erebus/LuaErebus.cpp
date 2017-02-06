@@ -75,13 +75,13 @@ namespace LuaErebus
 		g_network->setNetworkHost(false);
 
 		lua_getfield(lua, 1, "a");
-		uint8_t a = lua_tointeger(lua, -1);
+		uint8_t a = (uint8_t) lua_tointeger(lua, -1);
 		lua_getfield(lua, 1, "b");
-		uint8_t b = lua_tointeger(lua, -1);
+		uint8_t b = (uint8_t) lua_tointeger(lua, -1);
 		lua_getfield(lua, 1, "c");
-		uint8_t c = lua_tointeger(lua, -1);
+		uint8_t c = (uint8_t) lua_tointeger(lua, -1);
 		lua_getfield(lua, 1, "d");
-		uint8_t d = lua_tointeger(lua, -1);
+		uint8_t d = (uint8_t) lua_tointeger(lua, -1);
 
 		if (g_network->initNetworkAsClient(a, b, c, d))
 		{

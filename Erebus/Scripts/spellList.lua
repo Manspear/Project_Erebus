@@ -13,6 +13,7 @@ function wrap(str, limit, indent, indent1)
 end
 
 SpellList = {}
+SpellListPlayer2 = {}
 
 function LoadSpellbook()
 	local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
@@ -41,7 +42,26 @@ function LoadSpellbook()
 	table.insert(SpellList, SunRay)
 
 	LoadSpells(player)
+	LoadSpellbookPlayer2()
 end
+
+
+function LoadSpellbookPlayer2()
+	local Hellpillar = {spell = CreateHellPillar(player2)}
+	table.insert(SpellListPlayer2, Hellpillar)
+
+	local BlackHole = {spell = CreateBlackHole(player2)}
+	table.insert(SpellListPlayer2, BlackHole)
+
+	local IceGrenade = {spell = CreateIceGrenade(player2)}
+	table.insert(SpellListPlayer2, IceGrenade)
+
+	local SunRay = {spell = CreateSunRay(player2)}
+	table.insert(SpellListPlayer2, SunRay)
+
+	LoadSpellsPlayer2()
+end
+
 
 function UnloadSpellbook()
 

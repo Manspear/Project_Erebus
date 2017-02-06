@@ -275,8 +275,10 @@ void LevelActorFactory::loadWorld()
 {
 	if( fileDialog.show( DIALOG_OPEN_FILE ) )
 	{
-		LevelWorldHandler::getInstance()->resetWorld();
-		tinyxml2::XMLDocument* doc = getDocument( fileDialog.getFilePath() );
+		std::string filePath = fileDialog.getFilePath();
+
+		//LevelWorldHandler::getInstance()->resetWorld();
+		tinyxml2::XMLDocument* doc = getDocument( filePath );
 		tinyxml2::XMLElement* startElement = doc->FirstChildElement();
 
 		for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())

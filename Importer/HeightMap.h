@@ -25,6 +25,7 @@ namespace Importer
 		//IMPORTER_API glm::mat4 getWorldMat();
 		//IMPORTER_API void setPos( const glm::vec3& pos );
 		IMPORTER_API float getPos( float x, float y);
+		IMPORTER_API float getHeightData( int x, int z );
 		//IMPORTER_API bool rayIntersection( glm::vec3 rayO, glm::vec3 dayD );
 
 		//IMPORTER_API ModelAsset* getModel();
