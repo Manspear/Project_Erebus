@@ -55,7 +55,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	TwAddVarCB(actionBar->getBar(), "IsRotate", TW_TYPE_BOOL16, setRotateCB, getRotateCB, (void*)this, "label='Rotate'");
 	TwAddVarCB(actionBar->getBar(), "IsScale", TW_TYPE_BOOL16, setScaleCB, getScaleCB, (void*)this, "label='Scale'");
 }
-void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
+void LevelBrushHandler::brushDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
 {
 
 	int actorID = 0;

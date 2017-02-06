@@ -44,13 +44,13 @@ public:
 
 	
 	void setTweakBar(TweakBar* brushBar);
-	void testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs, Debug* debug);
+	void brushDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs, Debug* debug);
 	//Importer::Assets* getAssets();
 
 private:
 	int numSavedPositions = 20;
 	float radius = 1;
-	float VacancyRadius = 8;
+	float VacancyRadius = 5;
 	float yOffset = 0;
 	float PIx2 = 6.2832;
 	double timer = 0;
