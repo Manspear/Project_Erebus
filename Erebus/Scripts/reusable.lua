@@ -1,3 +1,5 @@
+MAX_FIRE_EFFECT_PARTICLES = 50
+
 function BaseCharge(self, dt)
 	if self.chargedTime < self.maxChargeTime then 
 		self.chargedTime = self.chargedTime + dt
@@ -25,4 +27,17 @@ function GetHeightmap(position)
 	end
 
 	return result
+end
+
+
+fireeffectparticles = {particles = {}, nextIndex = 0}
+function InitFireEffectParticles()
+	for i = 1, MAX_FIRE_EFFECT_PARTICLES do
+		fireeffectparticles.particles[i] = CreateFireEffectParticles()
+	end
+end
+
+function GetNextFireEffectParticle()
+	fireeffectparticles.nextIndex = (fireeffectparticles.nextIndex%MAX_FIRE_EFFECT_PARTICLES)+1
+	return fireeffectparticles.particles[fireeffectparticles.nextIndex]
 end
