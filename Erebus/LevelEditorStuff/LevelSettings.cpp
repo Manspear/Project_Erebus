@@ -69,8 +69,9 @@ std::string LevelSettings::toLua( std::string name )
 	stringstream ss;
 
 	ss << "Transform.SetPosition(player.transformID, {x=" << playerStart.x << ", y=" << playerStart.y << ", z=" << playerStart.z << "})" << endl;
-	ss << "player.currentHeightmap = heightmaps[" << heightmapStart << "]" << endl;
+	//ss << "player.currentHeightmap = heightmaps[" << heightmapStart << "]" << endl;
 	//ss << "player.controller:SetHeightmap(player.currentHeightmap)" << endl;
+	ss << "player:ChangeHeightmap(heightmaps[" << heightmapStart << "])" << endl;
 
 	return ss.str();
 }

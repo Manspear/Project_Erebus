@@ -5,7 +5,7 @@ Debug* LevelHeightmap::s_debugger = nullptr;
 int LevelHeightmap::currentID = 1;
 
 LevelHeightmap::LevelHeightmap()
-	: heightmap( nullptr ), draw( true ), lineLength( 0.5f ), heightMultiplier( 0.1f )
+	: heightmap( nullptr ), draw( true ), lineLength( 0.5f ), heightMin( 0.0f), heightMax( 1.0f )
 {
 	memset( surrounding, 0, sizeof(int)*HEIGHTMAP_MAX_SURROUNDING );
 
@@ -55,8 +55,8 @@ std::string LevelHeightmap::toLua(std::string name)
 	glm::vec3 position = transform->getTransformRef()->getPos();
 
 	ss << name << ".asset = Assets.LoadHeightmap(\"Textures/" << textureName << ".png\")" << endl;
-	ss << name << ".asset:SetPosition({x=" << position.x+offset.x << ", y=" << position.y+offset.y << ", z=" << position.z+offset.z << "})" << endl;
-	ss << name << ".heightMultiplier = " << heightMultiplier << endl;
+	ss << name << ".asset:SetPosition({x=" << position.x+offset.x << ", y=" << position.y+offset.y+heightMin << ", z=" << position.z+offset.z << "})" << endl;
+	ss << name << ".heightMultiplier = " << heightMax - heightMin << endl;
 	ss << name << ".surrounding = { ";
 
 	bool needComma = false;
@@ -89,7 +89,7 @@ void LevelHeightmap::update( float deltaTime )
 			{
 				for( int z=0; z<heightmap->getMapHeight(); z++ )
 				{
-					float height = heightmap->getHardPosAt(x,z) * heightMultiplier;
+					float height = heightmap->getHardPosAt(x,z) * (heightMax-heightMin);
 					s_debugger->drawLine( glm::vec3( position.x+offset.x+x,position.y+offset.y+height-lineLength*0.5f,position.z+offset.z+z ), glm::vec3(position.x+offset.x+x,position.y+offset.y+height+lineLength*0.5f,position.z+offset.z+z) );
 				}
 			}
@@ -107,7 +107,9 @@ void LevelHeightmap::setTwStruct( TwBar* bar )
 
 	TwAddVarRW( bar, "heightmapDraw", TW_TYPE_BOOLCPP, &draw, "label='Draw:'" );
 	TwAddVarRW( bar, "heightmapLineLength", TW_TYPE_FLOAT, &lineLength, "label='Line Length:'" );
-	TwAddVarRW( bar, "heightmapHeightMultiplier", TW_TYPE_FLOAT, &heightMultiplier, "label='Height Multiplier:'" );
+	//TwAddVarRW( bar, "heightmapHeightMultiplier", TW_TYPE_FLOAT, &heightMultiplier, "label='Height Multiplier:'" );
+	TwAddVarRW( bar, "heightmapMax", TW_TYPE_FLOAT, &heightMax, "label='Y Max:'" );
+	TwAddVarRW( bar, "heightmapMin", TW_TYPE_FLOAT, &heightMin, "label='Y Min:'" );
 	TwAddVarRW( bar, "heightmapOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'" );
 
 	TwAddVarRW( bar, "heightmapID", TW_TYPE_INT32, &heightmapID, "label='HeightmapID:'" );
@@ -123,11 +125,6 @@ void LevelHeightmap::setTwStruct( TwBar* bar )
 void LevelHeightmap::setDraw( bool d )
 {
 	draw = d;
-}
-
-void LevelHeightmap::setHeightMultiplier( float multi )
-{
-	heightMultiplier = multi;
 }
 
 void LevelHeightmap::setTextureName( std::string name )
@@ -159,11 +156,6 @@ void LevelHeightmap::setOffset( const glm::vec3& o )
 bool LevelHeightmap::getDraw()
 {
 	return draw;
-}
-
-float LevelHeightmap::getHeightMultiplier() const
-{
-	return heightMultiplier;
 }
 
 const std::string& LevelHeightmap::getTextureName() const
