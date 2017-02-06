@@ -52,6 +52,14 @@ Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=0})
 --Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=512})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 
+--TEMP
+heightmaps[5] = {}
+heightmaps[5].transformID = Transform.Bind()
+local goblin = Assets.LoadModel("Models/Goblin.model")
+Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
+Transform.SetPosition(heightmaps[5].transformID, {x=15, y=6.72, z=158})
+Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
+
 --AI
 widthTest = heightmaps[1].asset:GetMapWidth()
 heightTest = heightmaps[1].asset:GetMapHeight()
