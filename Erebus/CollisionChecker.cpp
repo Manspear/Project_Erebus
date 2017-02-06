@@ -699,6 +699,8 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 		// hit normal
 		glm::vec3 closestPoint = closestPointOnAABB(aabb, sphere->getPos());
 		glm::vec3 hitNormal = glm::normalize(sphere->getPos() - closestPoint);
+		if (closestPoint == sphere->getPos())
+			hitNormal = sphere->getPos() - aabb->getCenterPos();
 
 		//Cos angle, who is closest
 		float x = glm::dot(axes[0], hitNormal);
@@ -734,7 +736,6 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, AABBCollide
 		{
 			if (i != index && cosAngle[i] + DEGREE_THRESHOLD > cosAngle[index]) // if the angle + threshold is bigger than closest cos(angle)
 			{
-				std::cout << "Saving other corner normal \t CollisionChecker\n";
 				if(saveNormals)
 					hitNormals.push_back(axes[i]); // this saves the other normal if angle is very close
 			}
@@ -778,7 +779,9 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider
 
 		// hit normal
 		glm::vec3 closestPoint = closestPointOnOBB(obb, sphereCenter);
-		glm::vec3 hitNormal = glm::normalize(closestPoint - sphereCenter);
+		glm::vec3 hitNormal = glm::normalize(sphereCenter - closestPoint);
+		if (closestPoint == sphereCenter)
+			hitNormal = glm::normalize(sphereCenter - obb->getPos());
 
 		//Cos angle, who is closest
 		float x = glm::dot(axes[0], hitNormal);
@@ -813,7 +816,6 @@ bool CollisionChecker::collisionCheckNormal(SphereCollider * sphere, OBBCollider
 		{
 			if (i != index && cosAngle[i] + DEGREE_THRESHOLD > cosAngle[index]) // if the angle + threshold is bigger than closest cos(angle)
 			{
-				std::cout << "Saving other corner normal \t CollisionChecker\n";
 				if(saveNormals)
 					hitNormals.push_back(axes[i]);
 			}

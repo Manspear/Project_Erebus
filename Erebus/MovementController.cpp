@@ -19,7 +19,6 @@ void MovementController::move( glm::vec3 distance )
 void MovementController::update()
 {
 	assert( transform && heightmap && collisionLayer && layerID >= 0 );
-	CollisionHandler collisionHandler;
 
 	glm::vec3 lookDirection = glm::normalize(glm::vec3(transform->getLookAt().x,0, transform->getLookAt().z));
 	glm::vec3 moveFinal = lookDirection * movement.z;
@@ -70,26 +69,25 @@ void MovementController::update()
 	bool playerColliding = checkCollision(colliders);
 	if(playerColliding)
 	{
-		if(this->hitNormals.size() > 1)
-			std::cout << "NORMAL AMOUNT YO " << this->hitNormals.size() << "\t\t MovementController\n" << std::endl;
-
 		glm::vec3 normalFinal;
 		for (size_t i = 0; i < this->hitNormals.size(); i++) // add all the normals together
 		{
 			normalFinal += hitNormals[i];
 		}
-		normalFinal = glm::normalize(normalFinal);
 
 		glm::vec3 proj = glm::dot( dif, normalFinal) * normalFinal;
-
 		glm::vec3 finalDif = dif - proj;
+
 		finalPos = pos + finalDif;
+		hitbox->setPos(finalPos);
+		bool newPosCollision = checkCollision(colliders);
+		if (newPosCollision)
+			finalPos = pos;
 	}
 	else
 		finalPos = newPos;
-	if (this->hitNormals.size() <= 1) // NICLAS HEEEEEELP, IF we have several collisions you may not move, rekt
-		transform->setPos(finalPos);
 
+	transform->setPos(finalPos);
 	this->movement = glm::vec3();
 	this->hitNormals.clear();
 }
