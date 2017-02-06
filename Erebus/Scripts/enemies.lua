@@ -16,7 +16,6 @@ function CreateEnemy(type, position)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
 
 	local i = #enemies+1
-	print("Enemy index: " .. i)
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	enemies[i].transformID = Transform.Bind()
