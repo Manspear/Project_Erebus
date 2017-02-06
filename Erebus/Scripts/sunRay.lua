@@ -36,7 +36,7 @@ function CreateSunRay(entity)
 	Gear.AddForwardInstance(model2, sunRay.type.transformID)
 
 	sunRay.modelIndex = Gear.AddForwardInstance(model, sunRay.type.transformID)
-	Gear.SetUniformLocation(sunRay.modelIndex, 3);
+	Gear.SetUniformLocation(sunRay.modelIndex, "aValue");
 
 	function sunRay:Update(dt)
 		if self.alive then

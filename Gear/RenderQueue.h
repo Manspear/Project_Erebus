@@ -12,7 +12,7 @@
 #include "WorkQueue.h"
 
 struct UniformValues {
-	int location;
+	std::string location;
 	GLfloat value;
 };
 

@@ -60,6 +60,15 @@ Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
 Transform.SetPosition(heightmaps[5].transformID, {x=15, y=6.72, z=158})
 Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
 
+heightmaps[6] = {}
+heightmaps[6].transformID = Transform.Bind()
+local goblin = Assets.LoadModel("Models/PineTree2.model")
+Gear.AddStaticInstance(goblin, heightmaps[6].transformID)
+Transform.SetPosition(heightmaps[6].transformID, {x=20, y=6.72, z=168})
+Gear.AddStaticInstance(goblin, heightmaps[6].transformID)
+
+pointLight = Light.addLight(15, 7.5, 158, 0.54, 0.17, 0.88, 20, 2)
+
 --AI
 widthTest = heightmaps[1].asset:GetMapWidth()
 heightTest = heightmaps[1].asset:GetMapHeight()

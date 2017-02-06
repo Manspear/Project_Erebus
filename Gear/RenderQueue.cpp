@@ -38,38 +38,108 @@ RenderQueue::~RenderQueue()
 void RenderQueue::init()
 {
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
-	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "anim");
-	allShaders[ShaderType::ANIMSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "animShadow");
-	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
-	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
-	allShaders[ShaderType::GEOMETRYSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPassShadow");
-	allShaders[ShaderType::GEOMETRY_NON] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass_notInstanced");
-	allShaders[ShaderType::HEIGHTMAP] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "heightmap");
-	allShaders[ShaderType::DEBUG_LINE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugLine");
-	allShaders[ShaderType::DEBUG_SPHERE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugSphere");
-	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
-	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
-	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
-	glGenBuffers(1, &particleBuffer);
-	uniformLocations[FORWARD] = new GLuint[4];
-	uniformLocations[ANIM] = new GLuint[2];
-	uniformLocations[GEOMETRY] = new GLuint[2];
-	uniformLocations[GEOMETRY_NON] = new GLuint[2];
-	uniformLocations[PARTICLES] = new GLuint[2];
-	uniformLocations[GEOMETRY_PICKING] = new GLuint[2];
-	uniformLocations[ANIMSHADOW] = new GLuint[3];
-	uniformLocations[GEOMETRYSHADOW] = new GLuint[3];
+	allShaders[ShaderType::FORWARD]->addUniform("projectionMatrix");
+	allShaders[ShaderType::FORWARD]->addUniform("viewMatrix");
+	allShaders[ShaderType::FORWARD]->addUniform("aValue");
+	allShaders[ShaderType::FORWARD]->addUniform("worldMatrices");
+	allShaders[ShaderType::FORWARD]->addUniform("diffuseTexture");
 
-	for(int i = 0; i < NUM_SHADER_TYPES; i++) {
-		if (uniformLocations[i]) {
-			uniformLocations[i][0] = allShaders[i]->getUniformLocation("projectionMatrix");
-			uniformLocations[i][1] = allShaders[i]->getUniformLocation("viewMatrix");
-		}
-	}
-	uniformLocations[FORWARD][2] = allShaders[FORWARD]->getUniformLocation("worldMatrices");
-	uniformLocations[FORWARD][3] = allShaders[FORWARD]->getUniformLocation("aValue");
-	uniformLocations[ANIMSHADOW][2] = allShaders[ANIMSHADOW]->getUniformLocation("viewPos");
-	uniformLocations[GEOMETRYSHADOW][2] = allShaders[GEOMETRYSHADOW]->getUniformLocation("viewPos");
+	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "anim");
+	allShaders[ShaderType::ANIM]->addUniform("projectionMatrix");
+	allShaders[ShaderType::ANIM]->addUniform("viewMatrix");
+	allShaders[ShaderType::ANIM]->addUniform("worldMatrices");
+	allShaders[ShaderType::ANIM]->addUniform("jointMatrices");
+	allShaders[ShaderType::ANIM]->addUniform("diffuseTexture");
+	allShaders[ShaderType::ANIM]->addUniform("specularTexture");
+	allShaders[ShaderType::ANIM]->addUniform("normalTexture");
+	allShaders[ShaderType::ANIM]->addUniform("hasDiffuse");
+	allShaders[ShaderType::ANIM]->addUniform("hasSpecular");
+	allShaders[ShaderType::ANIM]->addUniform("hasNormal");
+
+	allShaders[ShaderType::ANIMSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "animShadow");
+	allShaders[ShaderType::ANIMSHADOW]->addUniform("projectionMatrix");
+	allShaders[ShaderType::ANIMSHADOW]->addUniform("viewMatrix");
+	allShaders[ShaderType::ANIMSHADOW]->addUniform("worldMatrices");
+	allShaders[ShaderType::ANIMSHADOW]->addUniform("jointMatrices");
+
+	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
+	allShaders[ShaderType::PARTICLES]->addUniform("projectionMatrix");
+	allShaders[ShaderType::PARTICLES]->addUniform("viewMatrix");
+	allShaders[ShaderType::PARTICLES]->addUniform("tex");
+
+	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
+	allShaders[ShaderType::GEOMETRY]->addUniform("projectionMatrix");
+	allShaders[ShaderType::GEOMETRY]->addUniform("viewMatrix");
+	allShaders[ShaderType::GEOMETRY]->addUniform("worldMatrices");
+	allShaders[ShaderType::GEOMETRY]->addUniform("diffuseTexture");
+	allShaders[ShaderType::GEOMETRY]->addUniform("specularTexture");
+	allShaders[ShaderType::GEOMETRY]->addUniform("normalTexture");
+	allShaders[ShaderType::GEOMETRY]->addUniform("hasDiffuse");
+	allShaders[ShaderType::GEOMETRY]->addUniform("hasSpecular");
+	allShaders[ShaderType::GEOMETRY]->addUniform("hasNormal");
+
+	allShaders[ShaderType::GEOMETRYSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPassShadow");
+	allShaders[ShaderType::GEOMETRYSHADOW]->addUniform("projectionMatrix");
+	allShaders[ShaderType::GEOMETRYSHADOW]->addUniform("viewMatrix");
+	allShaders[ShaderType::GEOMETRYSHADOW]->addUniform("worldMatrices");
+
+	allShaders[ShaderType::DEBUG_LINE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugLine");
+	allShaders[ShaderType::DEBUG_LINE]->addUniform("projectionMatrix");
+	allShaders[ShaderType::DEBUG_LINE]->addUniform("viewMatrix");
+	allShaders[ShaderType::DEBUG_LINE]->addUniform("pos1");
+	allShaders[ShaderType::DEBUG_LINE]->addUniform("pos2");
+	allShaders[ShaderType::DEBUG_LINE]->addUniform("colors");
+
+	allShaders[ShaderType::DEBUG_SPHERE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugSphere");
+	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("projectionMatrix");
+	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("viewMatrix");
+	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("pos1");
+	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("rad");
+	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("colors");
+
+	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
+	allShaders[ShaderType::DEBUG_AABB]->addUniform("projectionMatrix");
+	allShaders[ShaderType::DEBUG_AABB]->addUniform("viewMatrix");
+	allShaders[ShaderType::DEBUG_AABB]->addUniform("minPos");
+	allShaders[ShaderType::DEBUG_AABB]->addUniform("maxPos");
+	allShaders[ShaderType::DEBUG_AABB]->addUniform("colors");
+
+	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("projectionMatrix");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("viewMatrix");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("pos");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("xAxis");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("yAxis");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("zAxis");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("halfLengths");
+	allShaders[ShaderType::DEBUG_OBB]->addUniform("colors");
+
+	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
+	allShaders[ShaderType::GEOMETRY_PICKING]->addUniform("projectionMatrix");
+	allShaders[ShaderType::GEOMETRY_PICKING]->addUniform("viewMatrix");
+	allShaders[ShaderType::GEOMETRY_PICKING]->addUniform("worldMatrices");
+
+	allShaders[ShaderType::QUAD] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
+	allShaders[ShaderType::QUAD]->addUniform("texture");
+
+	allShaders[ShaderType::LIGHT_PASS] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("viewPos");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("drawMode");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("shadowVPM");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("invView");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("invProj");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("gDepth");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("gNormal");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("gAlbedoSpec");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("gShadowMap");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.direction");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.color");
+
+	allShaders[ShaderType::BLUR] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
+	allShaders[ShaderType::BLUR]->addUniform("blurScale");
+	allShaders[ShaderType::BLUR]->addUniform("filterTexture");
+
+	glGenBuffers(1, &particleBuffer);
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -79,42 +149,36 @@ void RenderQueue::updateUniforms(Camera* camera)
 	glm::vec3 viewPosition = camera->getPosition();
 
 	allShaders[FORWARD]->use();
-	allShaders[FORWARD]->addUniform(projectionMatrix, uniformLocations[FORWARD][0]);
-	allShaders[FORWARD]->addUniform(viewMatrix, uniformLocations[FORWARD][1]);
+	allShaders[FORWARD]->setUniform(projectionMatrix, "projectionMatrix");
+	allShaders[FORWARD]->setUniform(viewMatrix, "viewMatrix");
 	allShaders[FORWARD]->unUse();
 	
 	allShaders[ANIM]->use();
-	allShaders[ANIM]->addUniform(projectionMatrix, uniformLocations[ANIM][0]);
-	allShaders[ANIM]->addUniform(viewMatrix, uniformLocations[ANIM][1]);
+	allShaders[ANIM]->setUniform(projectionMatrix, "projectionMatrix");
+	allShaders[ANIM]->setUniform(viewMatrix, "viewMatrix");
 	allShaders[ANIM]->unUse();
 
 	allShaders[GEOMETRY]->use();
-	allShaders[GEOMETRY]->addUniform(projectionMatrix, uniformLocations[GEOMETRY][0]);
-	allShaders[GEOMETRY]->addUniform(viewMatrix, uniformLocations[GEOMETRY][1]);
+	allShaders[GEOMETRY]->setUniform(projectionMatrix, "projectionMatrix");
+	allShaders[GEOMETRY]->setUniform(viewMatrix, "viewMatrix");
 	allShaders[GEOMETRY]->unUse();
 
-	allShaders[GEOMETRY_NON]->use();
-	allShaders[GEOMETRY_NON]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_NON][0]);
-	allShaders[GEOMETRY_NON]->addUniform(viewMatrix, uniformLocations[GEOMETRY_NON][1]);
-	allShaders[GEOMETRY_NON]->unUse();
-
 	allShaders[PARTICLES]->use();
-	allShaders[PARTICLES]->addUniform(projectionMatrix, uniformLocations[PARTICLES][0]);
-	allShaders[PARTICLES]->addUniform(viewMatrix, uniformLocations[PARTICLES][1]);
+	allShaders[PARTICLES]->setUniform(projectionMatrix, "projectionMatrix");
+	allShaders[PARTICLES]->setUniform(viewMatrix, "viewMatrix");
 	allShaders[PARTICLES]->unUse();
 
 	allShaders[GEOMETRY_PICKING]->use();
-	allShaders[GEOMETRY_PICKING]->addUniform(projectionMatrix, uniformLocations[GEOMETRY_PICKING][0]);
-	allShaders[GEOMETRY_PICKING]->addUniform(viewMatrix, uniformLocations[GEOMETRY_PICKING][1]);
+	allShaders[GEOMETRY_PICKING]->setUniform(projectionMatrix, "projectionMatrix");
+	allShaders[GEOMETRY_PICKING]->setUniform(viewMatrix, "viewMatrix");
 	allShaders[GEOMETRY_PICKING]->unUse();
 }
 
 void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
 {
 	allShaders[shader]->use();
-	allShaders[shader]->addUniform(camera->getProjectionMatrix(), uniformLocations[shader][0]);
-	allShaders[shader]->addUniform(camera->getViewMatrix(), uniformLocations[shader][1]);
-	allShaders[shader]->addUniform(camera->getPosition(), uniformLocations[shader][2]);
+	allShaders[shader]->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	allShaders[shader]->setUniform(camera->getViewMatrix(), "viewMatrix");
 	allShaders[shader]->unUse();
 }
 
@@ -244,9 +308,9 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			modelAsset = dynamicModels->at(i).asset;
 			meshes = modelAsset->getHeader()->numMeshes;
 			
-			glUniformMatrix4fv(uniformLocations[FORWARD][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-			if (uniValues->at(i).location > -1)
-				allShaders[FORWARD]->addUniform(uniValues->at(i).value, uniformLocations[FORWARD][uniValues->at(i).location]);
+			allShaders[FORWARD]->setUniform(*tempMatrices, "worldMatrices", numInstance);
+			if (uniValues->at(i).location != "NULL")
+				allShaders[FORWARD]->setUniform(uniValues->at(i).value, uniValues->at(i).location);
 			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
@@ -260,8 +324,8 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 			
-			if (uniValues->at(i).location > -1)
-				allShaders[FORWARD]->addUniform(resetValue, uniformLocations[FORWARD][uniValues->at(i).location]);
+			if (uniValues->at(i).location != "NULL")
+				allShaders[FORWARD]->setUniform(resetValue, uniValues->at(i).location);
 		}
 	}
 	allShaders[FORWARD]->unUse();
@@ -304,7 +368,6 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)
 {
 	allShaders[GEOMETRY]->use();
-	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
 
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
@@ -324,8 +387,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			if (allTransforms[indices[j]].active)
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
-
-		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+		allShaders[GEOMETRY]->setUniform4fv(tempMatrices, "worldMatrices", numInstance);
+		//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
@@ -351,8 +414,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 	currentShader = ANIM;
 	allShaders[currentShader]->use();
-	GLuint jointMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "jointMatrices");
-	worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
+
+	//GLuint jointMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "jointMatrices");
+	//worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
 
 	for (int i = 0; i<animatedModels->size(); i++)
 	{
@@ -370,11 +434,11 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			glm::mat4 tempMatrix = worldMatrices[animatedModels->at(i).worldIndices[j]];
 
 
-			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0] );
-			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
-			//glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
-			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
+	
+			allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
+
+			//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
+			allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 			{
@@ -504,8 +568,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 	allShaders[GEOMETRY_PICKING]->use();
-	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "worldMatrices");
-	GLuint colorIdLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "instanceColors");
+	//GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "worldMatrices");
+	//GLuint colorIdLocation = glGetUniformLocation(allShaders[GEOMETRY_PICKING]->getProgramID(), "instanceColors");
 	glm::vec3* idColors = new glm::vec3[105];
 	glm::vec3 color = glm::vec3(1, 0, 0);
 	for (int i = 0; i < dynamicModels->size(); i++)
@@ -526,10 +590,11 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 			int b = 0;// (j & 0x00FF0000) >> 16;
 			idColors[numInstance-1] = glm::vec3((float)r / 255.f, (float)g / 255.f, (float)b / 255.f);
 		}
+		allShaders[GEOMETRY]->setUniform(*tempMatrices, "worldMatrices", numInstance);
+		//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 
-		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
-		glUniform3fv(colorIdLocation, numInstance, &idColors[0][0]);//glm::value_ptr(idColors[0]));
+		allShaders[GEOMETRY]->setUniform(*idColors, "instanceColors", numInstance);
+		//glUniform3fv(colorIdLocation, numInstance, &idColors[0][0]);//glm::value_ptr(idColors[0]));
 
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{

@@ -195,7 +195,7 @@ namespace LuaGear
 			
 				index = (int)g_ForwardModels->size();
 				g_ForwardModels->push_back(instance);
-				g_gearEngine->uniValues.push_back({ -1, 0 });
+				g_gearEngine->uniValues.push_back({ "NULL", 0 });
 			}
 			g_ForwardModels->at(index).worldIndices.push_back(transformID);
 		}
@@ -415,7 +415,7 @@ namespace LuaGear
 	{
 		if (lua_gettop(lua) >= 2)
 		{
-			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (int)lua_tointeger(lua, 2);
+			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
 		}
 		return 0;
 	}

@@ -18,9 +18,10 @@ void TextRenderer::init(int screenWidth, int screenHeight)
 {
 	shader = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "text");
 	shader->use();
+	shader->addUniform("projectionMatrix");
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	shader->addUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
+	shader->setUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
 	shader->unUse();
 }
 

@@ -94,9 +94,6 @@ namespace Gear
 		ShaderProgram particleFBO;
 
 		//Shaders
-		ShaderProgram *quadShader;
-		ShaderProgram *lightPassShader;
-		ShaderProgram *blurShader;
 		ShaderProgram *effectShader;
 		ShaderProgram *gloomCompute;
 

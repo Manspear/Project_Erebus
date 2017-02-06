@@ -25,7 +25,7 @@ layout(std430, binding = 0) readonly buffer LightBuffer {
 	PointLight data[];
 } lightBuffer;
 
-uniform DirLight dirLights[NR_DIR_LIGHTS];
+uniform DirLight dirLights;
 uniform vec3 viewPos;
 uniform int drawMode;
 uniform mat4 shadowVPM;
@@ -78,7 +78,7 @@ void main() {
 	
 	vec3 directional = vec3(0);
 	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
-		directional += CalcDirLight(dirLights[i], norm, viewDir, Specular);
+		directional += CalcDirLight(dirLights, norm, viewDir, Specular);
 
 	vec3 point = vec3(0,0,0);
 	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
@@ -91,15 +91,15 @@ void main() {
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
         FragColor = vec4(outputColor, 1.0);
     else if(drawMode == 2)
-		FragColor = vec4(ambient + point, 1.0);
+		FragColor = vec4(FragPos, 1.0);
 	else if(drawMode == 3)
-		FragColor = vec4(ambient + directional, 1.0);
+		FragColor = vec4(Normal, 1.0);
 	else if(drawMode == 4)
         FragColor = vec4(Depth,Depth,Depth, 1);//vec4(FragPos, 1.0);
     else if(drawMode == 5)
-        FragColor = vec4(Normal, 1);//vec4(Normal, 1.0);
+        FragColor = vec4(Diffuse, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)
-        FragColor = vec4(Normal, 1.0);
+        FragColor = vec4(Specular,Specular,Specular, 1.0);
     else if(drawMode == 7)
 		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
