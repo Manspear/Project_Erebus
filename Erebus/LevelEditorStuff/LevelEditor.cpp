@@ -210,7 +210,7 @@ void LevelEditor::start() {
 		//ID = Gear->CreatePointlight();
 		//Gear->DeletePointlight(ID);
 
-		LevelActionHandler::getInstance()->update( inputs, engine, camera,Debugger::getInstance());
+		LevelActionHandler::getInstance()->update( inputs, engine, camera,deltaTime,Debugger::getInstance());
 		engine->queueLights(LevelLightHandler::getInstance()->getPointLights());
 
 		//actor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint + (glm::vec3(0, 1, 0) * 10));

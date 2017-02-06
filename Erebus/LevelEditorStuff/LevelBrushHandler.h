@@ -8,6 +8,9 @@
 #include <string>
 #include "AntTweakBar.h"
 #include "LevelActorHandler.h"
+#include "../RNG.h"
+
+
 
 class LevelBrushHandler
 {
@@ -35,15 +38,21 @@ public:
 
 	
 	void setTweakBar(TweakBar* brushBar);
-	void testDraw(Gear::GearEngine* engine, Camera* camera, Inputs* inputs, Debug* debug);
+	void testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs, Debug* debug);
 	//Importer::Assets* getAssets();
 
 private:
+	int numSavedPositions = 20;
 	float radius = 1;
-	float density = 1;
-	std::string saveAsType = "HEJ";
+	float VacancyRadius = 8;
+	float yOffset = 0;
+	float PIx2 = 6.2832;
+	double timer = 0;
+	std::vector<glm::vec3> earlierPositions; //this will have a max size of 4
+	std::string saveAsType = "Brush";
 	LevelBrushHandler();
 	TweakBar* actionBar;
+
 /*	void loadAssets(std::vector<std::string>* container, std::string folder, std::string filter = "*");
 	static void TW_CALL onSetPrefab(const void* value, void* clientData);
 	static void TW_CALL onGetPrefab(void* value, void* clientData);

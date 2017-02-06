@@ -49,7 +49,7 @@ void LevelActionHandler::setupGizmo( Debug* debug, Camera* camera, Inputs* input
 	gizmo.addVariables( debug, camera, inputs );
 }
 
-void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera, Debug* debug)
+void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera,const double deltaTime, Debug* debug)
 {
 	if( inputs->keyPressedThisFrame( GLFW_KEY_DELETE ) )
 		LevelActorHandler::getInstance()->removeSelectedActor();
@@ -84,7 +84,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	}
 	if (action == ACTION_USE_BRUSH)
 	{
-		LevelBrushHandler::getInstance()->testDraw(engine,camera,inputs,debug);
+		LevelBrushHandler::getInstance()->testDraw(engine,camera,deltaTime,inputs,debug);
 	}
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )

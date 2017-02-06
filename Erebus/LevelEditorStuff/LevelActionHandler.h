@@ -28,7 +28,7 @@ public:
 	static void resetInstance();
 
 	void setupGizmo( Debug* debug, Camera* camera, Inputs* inputs );
-	void update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera, Debug* debug );
+	void update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera,const double deltaTime, Debug* debug );
 
 	void setTweakBar( TweakBar* bar );
 	void setAction( int action );

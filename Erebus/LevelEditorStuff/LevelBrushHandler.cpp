@@ -1,4 +1,5 @@
 #include "LevelBrushHandler.h"
+
 LevelBrushHandler* LevelBrushHandler::g_instance = nullptr;
 LevelBrushHandler::~LevelBrushHandler()
 {
@@ -27,19 +28,60 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	this->actionBar = brushBar;
 
 	TwAddVarRW(actionBar->getBar(), "radius", TW_TYPE_FLOAT, &this->radius, NULL);
-	TwAddVarRW(actionBar->getBar(), "density", TW_TYPE_FLOAT, &this->density, NULL);
+	//TwAddSeparator(actionBar->getBar(), "sep2", NULL);
+	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, NULL);
+	TwAddVarRW(actionBar->getBar(), "Y_Offset", TW_TYPE_FLOAT, &this->yOffset, NULL);
 	TwAddVarCB(actionBar->getBar(), "saveAsType", TW_TYPE_STDSTRING,setSaveTypeCB,getSaveTypeCB,&saveAsType,"");
 }
-void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera, Inputs* inputs,Debug* debug)
+void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
 {
+
 	int actorID = 0;
 	glm::vec3 hitPoint(0.0f);
 	glm::vec3 hitNorm(0.f);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
-	debug->drawLine(hitPoint, hitPoint + (hitNorm * 10));
 
-	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1))
+	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
+	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
+
+	if (hitNorm.y < 0.65)
 	{
+		return;
+	}
+
+	glm::vec3 newHitPoint;
+	
+	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
+	hitPoint.z = (hitPoint.z += RNG::range((-this->radius),this->radius) );
+	hitPoint.y = hitPoint.y + yOffset;
+	
+	//jag skulle kunna köra en stråle från marken till kameran. och sen köra tillbaka för att få ett bättre y värde.
+	//jag borde kolla om det finns mark där. Om normalen är för offsetad borde jag inte rita.
+
+	
+	timer -= deltaTime;
+	
+	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
+	{
+		bool drawOver = true;
+		if (drawOver)
+		{
+
+		
+		for (glm::vec3 position : earlierPositions)
+		{
+			glm::vec3 result = hitPoint - position;
+			
+			if ((result.x <= 0 && result.x >(-this->VacancyRadius)) || (result.x >= 0 && result.x < this->VacancyRadius))
+			{
+				if ((result.z <= 0 && result.z >(-this->VacancyRadius)) || (result.z >= 0 && result.z < this->VacancyRadius))
+				{
+					return;
+				}
+			}
+		}
+		}
+
 		LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
 		if (newActor)
 		{
@@ -50,7 +92,17 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera, Input
 			LevelTransform* transform = newActor->getComponent<LevelTransform>();
 
 			if (transform)
+			{
+				glm::vec3 newNormal = hitNorm;
+				newNormal.y = RNG::range(0.0,PIx2);
 				transform->getTransformRef()->setPos(hitPoint);
+				transform->getChangeTransformRef()->setRotation(newNormal);
+			}
+			
+			timer = 0.2;
+			earlierPositions.insert(earlierPositions.begin(),hitPoint);
+			earlierPositions.pop_back();
+
 		}
 
 	}
@@ -58,7 +110,16 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera, Input
 }
 LevelBrushHandler::LevelBrushHandler()
 {
+	
 
+	/* Intializes random number generator */
+	time_t t;
+	srand((unsigned)time(&t));
+
+	for (unsigned int i = 0; i < numSavedPositions; i++) //fill upp the 3 earlier brush positions
+	{
+		earlierPositions.push_back(glm::vec3(9999, 9999, 9999));
+	}
 }
 
 LevelBrushHandler * LevelBrushHandler::getInstance()
