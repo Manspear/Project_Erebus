@@ -9,7 +9,7 @@ ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffs
 --distance was 3.6
 ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
-StartState = {distance = 6, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
+StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
@@ -104,7 +104,14 @@ function UpdateCamera(dt)
 	local distance = camera.distance
 	local dir = Camera.GetDirection()
 	local height = 0
-	local incrementfactor = (0.03/math.sqrt(3))
+	local hm = GetHeightmap(temppos)
+	if hm then
+		height = hm.asset:GetHeight(temppos.x, temppos.z)
+	end
+	local incrementfactor = (0.03) --absolute length of increment is 0.03 units
+	if height  < temppos.y then
+		camera.state = STATE_ZOOMING_OUT
+	end
 	while distance > 0.5 do
 		--height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z
 		local hm = GetHeightmap(temppos)
@@ -112,16 +119,19 @@ function UpdateCamera(dt)
 			height = hm.asset:GetHeight(temppos.x, temppos.z)
 			if height > temppos.y then
 				distance = distance - 0.03
-				temppos.x = temppos.x + dir.x 
-				temppos.y = temppos.y + dir.y
-				temppos.z = temppos.z + dir.z 
-			--camera.state = STATE_ZOOMED_IN
+				temppos.x = temppos.x + dir.x * incrementfactor
+				temppos.y = temppos.y + dir.y * incrementfactor
+				temppos.z = temppos.z + dir.z * incrementfactor
+				camera.state = STATE_ZOOMING_OUT
+				StartState.distance = distance
+				ZoomedOut.timeSpent = 0
 				--Camera.SetHeight(height + 0.5) 
 			else
 				break
 			end
 		else
-			distance = distance - 0.03
+			break
+			--distance = distance - 0.03
 		end
 	end
 	camera.distance = distance

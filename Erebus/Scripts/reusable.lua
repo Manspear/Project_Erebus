@@ -7,12 +7,15 @@ function BaseChargeCast(self, entity)
 end
 function GetHeightmap(position)
 	local result = player.currentHeightmap
+
+	assert( result, "Player has no current heightmap!" )
+
 	if not result.asset:Inside(position) then
 		result = nil
 
 		for _,hmIndex in pairs(player.currentHeightmap.surrounding) do
 			if heightmaps[hmIndex].asset:Inside(position) then
-				hm = heightmaps[hmIndex]
+				result = heightmaps[hmIndex]
 				break
 			end
 		end
