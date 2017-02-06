@@ -4,7 +4,7 @@ local stateScript = require("Scripts.AI.states")
 MAX_ENEMIES = 10
 enemies = {}
 
-COUNTDOWN = 1
+COUNTDOWN = 0
 tempPlayerPosition = Transform.GetPosition(player.transformID)
 
 function LoadEnemies(n)
@@ -90,7 +90,7 @@ function UpdateEnemies(dt)
 
 	AI.DrawDebug(heightmaps[1])
 	COUNTDOWN = COUNTDOWN-dt
-	if COUNTDOWN <0then
+	if COUNTDOWN <0 then
 		--print ("Clear")
 		
 		COUNTDOWN = 0.4
@@ -110,7 +110,6 @@ function UpdateEnemies(dt)
 
 		for i=1, #enemies do
 			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			
 			AI.AStarSearch(enemies[i].lastPos,tempPlayerPosition,enemies[i].transformID)
 		end
 	end

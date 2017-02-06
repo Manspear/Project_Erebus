@@ -22,7 +22,13 @@ namespace AGI
 	struct Enemy
 	{
 		int id;
-		std::vector<InfluenceNode*> targetPath;
+		std::vector<InfluenceNode> targetPath;
+
+		Enemy()
+		{
+			this->id = -1;
+			targetPath.clear();
+		};
 
 		Enemy(int inID)
 		{
@@ -30,13 +36,16 @@ namespace AGI
 		};
 		~Enemy()
 		{
-			//this->id = inID;
-			for (int n = 0; n < targetPath.size(); n++)
-				if(targetPath[n] != nullptr)
-					delete targetPath[n];
-			
-			targetPath.clear();
+			clearPath();
 		};
+
+		void clearPath()
+		{
+		//	for (int i = 0; i < targetPath.size(); i++)
+		//		delete targetPath[i];
+
+			targetPath.clear();
+		}
 
 		bool matchId(int checkId)
 		{
@@ -55,33 +64,27 @@ namespace AGI
 
 		void hasReachedTarget(int xEnemyPos,int yEnemyPos, int playerPosX,int playerPosY)
 		{
-			glm::vec2 tempPos = targetPath[0]->getPos();
-			if (tempPos.x == xEnemyPos && tempPos.y == yEnemyPos)
-			{
-				/*for (int n = 0; n < targetPath.size(); n++)
-					if (targetPath[n] != nullptr)
-					delete targetPath[n];*/
-				targetPath.clear();
-			}
+				glm::vec2 tempPos = targetPath[0].getPos();
+				if (tempPos.x == xEnemyPos && tempPos.y == yEnemyPos)
+				{
+					clearPath();
+				}
 
 
-			if (tempPos.x  - playerPosX > 2 || tempPos.y - playerPosY >2)
-			{
-				/*for (int n = 0; n < targetPath.size(); n++)
-					if(targetPath[n] != nullptr)
-						delete targetPath[n];*/
-				targetPath.clear();
-			}
+				if (glm::abs(tempPos.x - playerPosX) > 2 || glm::abs(tempPos.y - playerPosY) > 2)
+				{
+					clearPath();
+				}
 		}
 
 		float getStrengthAt(int x, int y)
 		{
 			for (int n = 0; n < targetPath.size(); n++)
 			{
-				glm::vec2 tempPos = targetPath[n]->getPos();
+				glm::vec2 tempPos = targetPath[n].getPos();
 
 				if (tempPos.x == x && tempPos.y == y)
-					return targetPath[n]->getStrength();
+					return targetPath[n].getStrength();
 			}
 
 			return -99;
@@ -98,7 +101,7 @@ namespace AGI
 
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.5f;  // Never above 1
+			resolution = 0.4f;  // Never above 1
 
 			dynamicInfluenceMap = nullptr;
 			staticInfluenceMap = nullptr;
@@ -595,7 +598,7 @@ namespace AGI
 			if (!matchedAnyId)
 			{
 				enemies.push_back(Enemy(id));
-				enemyPos = 0;
+				enemyPos = enemies.size()-1;
 			}
 
 			int xFrom = round(((from.x / mapWidth)*imWidth));
@@ -641,7 +644,7 @@ namespace AGI
 						int tempX = round(((inPos.x / mapWidth)*imWidth));
 						int tempY = round(((inPos.y / mapHeight)*imHeight));
 
-						enemies.at(enemyPos).targetPath.push_back(new InfluenceNode(glm::vec2(tempX,tempY), countDown));
+						enemies.at(enemyPos).targetPath.push_back(InfluenceNode(glm::vec2(tempX,tempY), countDown));
 
 						countDown = countDown * 0.8f;
 						finishNode = finishNode->getParent();
@@ -656,9 +659,9 @@ namespace AGI
 		{
 			for (int n = 0; n < enemies.at(enemyPos).targetPath.size(); n++)
 			{
-				InfluenceNode * tempNode = enemies.at(enemyPos).targetPath[n];
+				InfluenceNode tempNode = enemies.at(enemyPos).targetPath[n];
 
-				addInfluencePoint(tempNode->getPos(), tempNode->getStrength(), 1);
+				addInfluencePoint(tempNode.getPos(), tempNode.getStrength(), 1);
 			}
 		}
 
@@ -785,11 +788,10 @@ namespace AGI
 			{
 				for (int i = 0; i < 4; i++)
 				{
-					if(enemies[n].targetPath.size() >0 && enemies[n].targetPath.size() >i)
-					if (enemies[n].targetPath[i] != nullptr)
+					if (enemies[n].targetPath.size() > 0 && enemies[n].targetPath.size() > i)
 					{
+						glm::vec2 tempVec2 = enemies[n].targetPath[i].getPos();
 
-						glm::vec2 tempVec2 = enemies[n].targetPath[i]->getPos();
 						if (tempVec2.x == xFrom && tempVec2.y == yFrom)
 							returnerBool = false;
 					}
@@ -836,7 +838,7 @@ namespace AGI
 		AGI_API glm::vec3 calculateIMPath(int id,glm::vec3 enemyPos)
 		{
 			glm::vec3 returnPos = glm::vec3(0, -1, 0);
-
+			
 			int x = round(((enemyPos.x / mapWidth)*imWidth));
 			int y = round(((enemyPos.z / mapHeight)*imHeight));
 
