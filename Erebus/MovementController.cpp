@@ -29,9 +29,9 @@ void MovementController::update()
 	glm::vec3 pos = transform->getPos();
 	glm::vec3 newPos = pos + moveFinal;
 
-	float height = heightmap->getPos( newPos.x, newPos.z );
+	//float height = heightmap->getPos( newPos.x, newPos.z );
+	float height = heightmap->getPos( pos.x, pos.z );
 	newPos.y = height;
-
 
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( this->layerID );
