@@ -216,10 +216,13 @@ function UpdatePlayer(dt)
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		player.animationController:AnimationUpdate(dt)
+		player.animationController:AnimationUpdate(dt, Network)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
+
+
+
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
@@ -380,6 +383,10 @@ function UpdatePlayer2(dt)
 		player2.animationController:AnimationUpdatePlayer2(dt, animationState1, animationState2)
 	end
 
+	local newQuickBlendValue, quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment = Network.GetQuickBlendPacket()
+	if newQuickBlendValue == true then
+		player2.animationController:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

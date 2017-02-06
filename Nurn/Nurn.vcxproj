@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="QuickBlendPacket.hpp" />
     <ClInclude Include="AIStatePacket.hpp" />
     <ClInclude Include="AnimationPacket.hpp" />
     <ClInclude Include="ChargingPacket.hpp" />

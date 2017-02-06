@@ -70,7 +70,7 @@ function CreatePlayerController(player)
 	-- . == says that you send self into the function, although a name has 
 	--to be set in the parametre
 
-	function controller:AnimationUpdate(dt)
+	function controller:AnimationUpdate(dt, Network)
 		--The higher the priority of the action, the longer down in this update function it should be
 		--since the prioritized actions override the unprioritized ones
 
@@ -86,6 +86,7 @@ function CreatePlayerController(player)
 		then
 			--self:DamagedState(dt)
 			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
+			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
 
 		if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
@@ -105,6 +106,8 @@ function CreatePlayerController(player)
 
 		self:copyWatch()
 	end
+
+
 	
 	function controller:AnimationUpdatePlayer2(dt, animationState1, animationState2)
 		--self.animation:Update(dt, animationState1, 0)
@@ -115,7 +118,15 @@ function CreatePlayerController(player)
 		self.animation:SetSegmentState( animationState1, 0 )
 		self.animation:SetSegmentState( animationState2, 1 )
 
-		self:copyWatch()
+		--self:copyWatch()
+	end
+
+	function controller:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+		print("Quickblend player 2:", quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+
+		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true then
+			self.animation.SetQuickBlend(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+		end
 	end
 
 	function controller:RunningState(dt)
