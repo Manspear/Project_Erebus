@@ -4,7 +4,8 @@ local PLAYER_JUMP_SPEED = 0.35
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
-DASH_COOLDOWN = 0.6
+DASH_COOLDOWN = 0.4
+DASH_DURATION = 0.25
 
 player = {}
 player2 = {}
@@ -28,7 +29,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 5.25
+	player.moveSpeed = 10
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -61,6 +62,11 @@ function LoadPlayer()
 	player.Kill = function(self)
 		self.health = 0
 		Transform.ActiveControl(self.transformID,false)
+	end
+	
+	player.ChangeHeightmap = function(self, heightmap)
+		player.currentHeightmap = heightmap
+		player.controller:SetHeightmap(player.currentHeightmap.asset)
 	end
 
 	-- add a sphere collider to the player
@@ -102,9 +108,9 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	player2.spells[1] = CreateBlackHole()--SpellList[1].spell(player2)
-	player2.spells[2] = CreateBlackHole()--SpellList[2].spell(player2)
-	player2.spells[3] = CreateBlackHole()--SpellList[3].spell(player2)
+	--player2.spells[1] = SpellList[1].spell --CreateBlackHole()
+	--player2.spells[2] = SpellList[2].spell --CreateBlackHole()
+	--player2.spells[3] = SpellList[3].spell --CreateBlackHole()
 	--player2.spells[4] = SpellList[4].spell(player2)
 
 	player2.currentSpell = 1
@@ -122,12 +128,18 @@ function LoadSpells(player)
 	player.spells[3] = SpellList[3].spell
 end
 
+function LoadSpellsPlayer2()
+	player2.spells[1] = SpellListPlayer2[1].spell
+	player2.spells[2] = SpellListPlayer2[2].spell
+	player2.spells[3] = SpellListPlayer2[3].spell
+end
+
 function FindHeightmap(position)
 	local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
-		for _,hmIndex in pairs(hm.surrounding) do
+		for k,hmIndex in pairs(hm.surrounding) do
 			if heightmaps[hmIndex].asset:Inside(position) then
-				print("CHANGING")
+				print("Heightmap index: " .. k)
 				player.currentHeightmap = heightmaps[hmIndex]
 				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				break
@@ -189,24 +201,19 @@ function UpdatePlayer(dt)
 		FindHeightmap(position)
 
 		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
-		
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, position, direction, rotation)
 		end
-
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt)
-
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
-
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
-	--player.spells[4]:Update(dt)
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 
@@ -216,14 +223,18 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	-- update player controller -- this moves the player
-	player.controller:Move(player.left * dt, 0, player.forward * dt)
 	player.controller:Update()
 	if player.dashtime > 0 then
-		local factor = math.sqrt(math.sqrt(math.sqrt(player.dashtime/DASH_COOLDOWN)))
+		local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
 		local left = player.dashdir.z * factor
 		local fwd = player.dashdir.x * factor
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
+		if player.dashtime < 0 then
+			SphereCollider.SetActive(player.sphereCollider, true)
+		end
+	else
+		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
 	
 end
@@ -248,7 +259,7 @@ function Controls(dt)
 			player.forward = -player.moveSpeed
 		end
 		if Inputs.KeyDown("A") then
-				player.left = player.moveSpeed
+			player.left = player.moveSpeed
 		end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
@@ -301,12 +312,12 @@ function Controls(dt)
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
 			player.dashcd = DASH_COOLDOWN
-			player.dashdir.x = player.forward * 3
-			player.dashdir.z = player.left * 3
-			player.dashtime = 0.35
+			player.dashdir.x = player.forward * 5
+			player.dashdir.z = player.left * 5
+			player.dashtime = DASH_DURATION
+			SphereCollider.SetActive(player.sphereCollider, false)
 		end
 
-		--if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
 end
 
 function PrintInfo() 

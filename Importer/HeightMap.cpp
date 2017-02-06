@@ -141,7 +141,6 @@ namespace Importer
 
 		float heightVal = lerp(topHeight, bottomHeight, zNormalized);
 
-		// TODO: What does this magic number mean? Ask Jesper
-		return heightVal*heightMultiplier + 3;
+		return heightVal*heightMultiplier + position.y;
 	}
 }

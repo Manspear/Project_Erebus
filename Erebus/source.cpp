@@ -184,7 +184,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
+	Camera camera(45.f, 1280.f / 720.f, 0.1f, 500.f, &inputs);
 	
 	PerformanceCounter counter;
 	double deltaTime;
