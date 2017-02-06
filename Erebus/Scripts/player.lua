@@ -139,7 +139,6 @@ function FindHeightmap(position)
 	if not hm.asset:Inside(position) then
 		for k,hmIndex in pairs(hm.surrounding) do
 			if heightmaps[hmIndex].asset:Inside(position) then
-				print("Heightmap index: " .. k)
 				player.currentHeightmap = heightmaps[hmIndex]
 				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				break
@@ -236,7 +235,6 @@ function UpdatePlayer(dt)
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
-	
 end
 
 function SendCombine(spell)
