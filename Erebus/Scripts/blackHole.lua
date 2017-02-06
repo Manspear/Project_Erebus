@@ -26,6 +26,7 @@ function CreateBlackHole()
 	spell.cooldown = 0
 	spell.castSFX = {"Effects/Bluezone-BC0212-sound-effect-004.wav", "Effects/wind_howl.wav"}
 	spell.soundID = {}
+	spell.Change = GenericChange
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
 	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
@@ -107,8 +108,10 @@ function CreateBlackHole()
 	
 	end
 
-	function spell:Aim()
-	
+	function spell:Aim()	
+	end
+
+	function spell:Change()
 	end
 
 	function spell:GetEffect()

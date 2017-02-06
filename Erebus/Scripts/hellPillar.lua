@@ -7,6 +7,7 @@ HIT_SFX = "Effects/burn_ice_001.wav"
 function CreateHellPillar(entity)
 	local spell = {}
 	spell.caster = entity.transformID	
+	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
@@ -14,6 +15,7 @@ function CreateHellPillar(entity)
 	spell.effect = CreateFireEffect()
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
+	spell.Change = GenericChange
 	
 	--Set up collider, model and transform for the pillar
 	spell.transformID = Transform.Bind()
@@ -31,11 +33,12 @@ function CreateHellPillar(entity)
 	spell.attack = false
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
+	spell.aimPos = {}
 	
 	spell.timeSinceLastPoop = 2
-
 	spell.startUp = true	spell.startUpTime = 1.5		spell.growAgain = true	
 	spell.finishingTime = 2.0	spell.maxScale = 3
+	spell.isActiveSpell = false
 	--spell.lightRadius = 0	spell.light = 0
 	--Set up the first model
 	spell.firstModel = Transform.Bind()
@@ -64,13 +67,14 @@ function CreateHellPillar(entity)
 			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
 			self.damage = 50
+			Transform.ActiveControl(player.aim.transformID, false)
 			self:GeneralCast()	
 		end
 	end
 	
 	function spell:GeneralCast()
 		self.alive = true	self.growAgain = true
-		self.pos = Transform.GetPosition(self.caster)
+		self.pos = self.aimPos
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
 		self.chargedTime = 0
@@ -94,6 +98,9 @@ function CreateHellPillar(entity)
 				self:Finishing(dt)
 			end
 		end		
+		if self.isActiveSpell then
+			self:Aim()
+		end
 	end
 
 	spell.someRotation = {x = 0, y = 0, z = 0}
@@ -102,7 +109,7 @@ function CreateHellPillar(entity)
 		self.startUpTime = self.startUpTime - dt
 		self.startUpScale = self.startUpScale - dt * 2
 		Transform.SetScale(self.firstModel,  self.startUpScale )
-		self.someRotation.y = self.someRotation.y + 10 * dt 
+		self.someRotation.y = self.someRotation.y + 8 * dt 
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
 		--self.lightRadius = self.lightRadius - 5*dt
 		--Light.updateRadius(self.light, self.lightRadius)
@@ -157,15 +164,23 @@ function CreateHellPillar(entity)
 	end
 
 	function spell:Aim()
-		lookAt = Transform.GetLookAt(self.caster)
-		aPos = Transform.GetPosition(self.caster)
-		aimPos = {x = aPos.x + lookAt.x *10, y = aPos.y + lookAt.y *10, z = aPos.z + lookAt.z *10 }
-		player.aim:SetPos(aimPos)
+		local lookAt = Transform.GetLookAt(self.caster)
+		local aPos = Transform.GetPosition(self.caster)
+		self.aimPos = {x = aPos.x + lookAt.x *10, y = 0, z = aPos.z + lookAt.z *10 }
+		local hm = GetHeightmap(self.aimPos)
+		self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z)
+		player.aim:SetPos(self.aimPos)
+	end
+
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+		Transform.ActiveControl(self.owner.aim.transformID, self.isActiveSpell)
 	end
 
 	function spell:GetEffect()
 		return self.effects[1]
 	end
+
 	function spell:Combine(effect,damage)
 		if #self.effects < 2 then
 			table.insert(self.effects, effect)

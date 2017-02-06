@@ -174,6 +174,10 @@ function CreateSunRay(entity)
 
 	end
 
+	function sunRay:Change()
+		
+	end
+
 	function sunRay:MoveWithPlayer(dt)
 		Gear.SetUniformValue(self.modelIndex, self.UVpushed)
 		direction = Transform.GetLookAt(self.caster)

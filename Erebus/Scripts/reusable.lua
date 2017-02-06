@@ -5,7 +5,6 @@ end
 function BaseChargeCast(self, entity)
 	self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
 end
-
 function GetHeightmap(position)
 	local result = player.currentHeightmap
 	if not result.asset:Inside(position) then
