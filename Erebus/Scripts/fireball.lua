@@ -39,13 +39,23 @@ function CreateFireball()
 		end
 		self.lifeTime = self.lifeTime - dt
 
-		local posx = math.floor(self.type.position.x/512)
+		--[[local posx = math.floor(self.type.position.x/512)
 		local posz = math.floor(self.type.position.z/512)
 		local heightmapIndex = (posz*2 + posx)+1
 		if heightmapIndex < 1 then heightmapIndex = 1 end
 		if heightmapIndex > 4 then heightmapIndex = 4 end
 		if heightmaps[heightmapIndex].asset:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y or self.lifeTime < 0 then
 			self.particles.die(self.type.position)
+			self.Kill(self)
+		end--]]
+
+		local hm = GetHeightmap(self.type.position)
+		if hm and hm.asset:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y then
+			self.particle.die(self.type.position)
+			self.Kill(self)
+		end
+
+		if self.alive and self.lifeTime < 0 then
 			self.Kill(self)
 		end
 	end

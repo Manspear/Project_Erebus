@@ -56,7 +56,7 @@ std::string LevelHeightmap::toLua(std::string name)
 
 	ss << name << ".asset = Assets.LoadHeightmap(\"Textures/" << textureName << ".png\")" << endl;
 	ss << name << ".asset:SetPosition({x=" << position.x+offset.x << ", y=" << position.y+offset.y+heightMin << ", z=" << position.z+offset.z << "})" << endl;
-	ss << name << ".heightMultiplier = " << heightMax - heightMin << endl;
+	ss << name << ".heightMultiplier = " << (heightMax - heightMin)/255.0f << endl;
 	ss << name << ".surrounding = { ";
 
 	bool needComma = false;
@@ -89,7 +89,7 @@ void LevelHeightmap::update( float deltaTime )
 			{
 				for( int z=0; z<heightmap->getMapHeight(); z++ )
 				{
-					float height = heightmap->getHardPosAt(x,z) * (heightMax-heightMin);
+					float height = heightmap->getHeightData(x,z) * (heightMax-heightMin)/255.0f;
 					s_debugger->drawLine( glm::vec3( position.x+offset.x+x,position.y+offset.y+height-lineLength*0.5f,position.z+offset.z+z ), glm::vec3(position.x+offset.x+x,position.y+offset.y+height+lineLength*0.5f,position.z+offset.z+z) );
 				}
 			}

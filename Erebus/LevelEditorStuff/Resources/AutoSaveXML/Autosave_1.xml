@@ -1,10 +1,10 @@
 <Level>
     <LevelActor type="terrain" displayName="Terrain Actor">
         <LevelHeightmap>
-            <TextureName>tile1_heights_33</TextureName>
+            <TextureName>tile1_128</TextureName>
         </LevelHeightmap>
         <LevelModel>
-            <ModelName>tile1_game_x1</ModelName>
+            <ModelName>tile1</ModelName>
         </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
@@ -14,10 +14,10 @@
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor1">
         <LevelModel>
-            <ModelName>tile1_game_x1_assets</ModelName>
+            <ModelName>tile1_assets</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="0" y="0" z="0"/>
+            <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>

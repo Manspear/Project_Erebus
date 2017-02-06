@@ -12,12 +12,15 @@
 #include "ParticleImport.h"
 
 #include "./LevelEditorStuff/LevelEditor.h"
-#include "GamePlay.h"
 #include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 #include "SoundEngine.h"
 #include "WorkQueue.h"
+#include "CollisionHandler.h"
+#include "AGI.h"
+#include "NetworkController.hpp"
+#include "LuaBinds.h"
 
 #define MAX_TRANSFORMS 100
 #define MAX_ANIMATIONS 100
@@ -116,11 +119,11 @@ DWORD WINAPI update( LPVOID args )
 		{
 			double deltaTime = counter.getDeltaTime();
 
-			luaBinds.update( data->controls, deltaTime );
+			luaBinds.update( data->controls, (float)deltaTime );
 			data->workQueue->execute();
 
 			for( int i=0; i<data->particleSystems->size(); i++ )
-				data->particleSystems->at(i)->update( deltaTime );
+				data->particleSystems->at(i)->update( (float)deltaTime );
 
 			collisionHandler.checkCollisions();
 
@@ -128,10 +131,11 @@ DWORD WINAPI update( LPVOID args )
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
 			data->engine->print(fps, 0.0f, 0.0f);
+			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
 
 			for( int i=0; i<boundAnimations; i++ )
 			{
-				animationData[i].dt = deltaTime;
+				animationData[i].dt = (float)deltaTime;
 				//data->allAnimations[i].update(deltaTime);
 				data->workQueue->add( updateAnimation, &animationData[i] );
 			}
@@ -180,7 +184,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	Camera camera(45.f, 1280.f / 720.f, 0.1f, 2000.f, &inputs);
+	Camera camera(45.f, 1280.f / 720.f, 0.1f, 500.f, &inputs);
 	
 	PerformanceCounter counter;
 	double deltaTime;
@@ -301,7 +305,7 @@ int main()
 			engine.draw(&camera);
 
 #ifdef _DEBUG
-			assets.checkHotload(deltaTime);
+			assets.checkHotload((float)deltaTime);
 #endif // DEBUG
 		}
 	}

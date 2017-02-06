@@ -1,6 +1,7 @@
 local scripts = {}
 local scriptFiles =
 {
+	"Scripts/reusable.lua",
 	"Scripts/console.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
@@ -14,7 +15,6 @@ local scriptFiles =
 	"Scripts/sunRay.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
 	"Scripts/Animation_Controllers/meleeGoblinController.lua",
-	"Scripts/reusable.lua",
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
 	"Scripts/grenadeType.lua",
@@ -23,6 +23,7 @@ local scriptFiles =
 	"Scripts/rayType.lua",
 	"Scripts/staticAoEType.lua",
 	"Scripts/player.lua",
+	"Scripts/spellList.lua",
 	"Scripts/HUD.lua"
 }
 
@@ -88,7 +89,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level.lua" )
+		dofile( "Scripts/level01.lua" )
 		loadedGameplay = true
 	end
 

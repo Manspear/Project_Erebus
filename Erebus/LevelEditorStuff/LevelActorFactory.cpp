@@ -184,6 +184,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	{
 		returnComponent = new LevelEnemy();
 	}
+	else if (componentName == LevelParticleSystem::name)
+	{
+		returnComponent = new LevelParticleSystem();
+	}
 	else if(componentName == LevelSettings::name)
 	{
 		returnComponent = new LevelSettings();

@@ -32,6 +32,7 @@
 #include "LevelBrushHandler.h"
 #include "LevelColiderHandler.h"
 #include "LevelEnemy.h"
+#include "LevelParticleHandler.h"
 
 #include <SDKDDKVer.h>
 

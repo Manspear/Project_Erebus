@@ -36,14 +36,14 @@ namespace LuaLight {
 
 		if (lua_gettop(lua) >= 8)
 		{
-			float posX = lua_tonumber(lua, 1);
-			float posY = lua_tonumber(lua, 2);
-			float posZ = lua_tonumber(lua, 3);
-			float colorR = lua_tonumber(lua, 4);
-			float colorG = lua_tonumber(lua, 5);
-			float colorB = lua_tonumber(lua, 6);
-			float radius = lua_tonumber(lua, 7);
-			float intensity = lua_tonumber(lua, 8);
+			float posX = (float)lua_tonumber(lua, 1);
+			float posY = (float)lua_tonumber(lua, 2);
+			float posZ = (float)lua_tonumber(lua, 3);
+			float colorR = (float)lua_tonumber(lua, 4);
+			float colorG = (float)lua_tonumber(lua, 5);
+			float colorB = (float)lua_tonumber(lua, 6);
+			float radius = (float)lua_tonumber(lua, 7);
+			float intensity = (float)lua_tonumber(lua, 8);
 
 			Lights::PointLight* light = new Lights::PointLight(glm::vec4(posX, posY, posZ, 0), glm::vec4(colorR, colorG, colorB, 0), glm::vec4(radius, intensity, 0, 0));
 
@@ -69,9 +69,9 @@ namespace LuaLight {
 			lua_getfield(lua, 1, "__self");
 			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
 
-			float posX = lua_tonumber(lua, 2);
-			float posY = lua_tonumber(lua, 3);
-			float posZ = lua_tonumber(lua, 4);
+			float posX = (float)lua_tonumber(lua, 2);
+			float posY = (float)lua_tonumber(lua, 3);
+			float posZ = (float)lua_tonumber(lua, 4);
 
 			light->pos = glm::vec4(posX, posY, posZ, 0);
 
@@ -87,9 +87,9 @@ namespace LuaLight {
 			lua_getfield(lua, 1, "__self");
 			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
 
-			float colorR = lua_tonumber(lua, 2);
-			float colorG = lua_tonumber(lua, 3);
-			float colorB = lua_tonumber(lua, 4);
+			float colorR = (float)lua_tonumber(lua, 2);
+			float colorG = (float)lua_tonumber(lua, 3);
+			float colorB = (float)lua_tonumber(lua, 4);
 
 			light->color = glm::vec4(colorR, colorG, colorB, 0);
 
@@ -105,7 +105,7 @@ namespace LuaLight {
 			lua_getfield(lua, 1, "__self");
 			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
 
-			float radius = lua_tonumber(lua, 2);
+			float radius = (float)lua_tonumber(lua, 2);
 
 			light->radius.r = radius;
 
@@ -121,7 +121,7 @@ namespace LuaLight {
 			lua_getfield(lua, 1, "__self");
 			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
 
-			float intensity = lua_tonumber(lua, 2);
+			float intensity = (float)lua_tonumber(lua, 2);
 
 			light->radius.g = intensity;
 			g_gearEngine->queueUpdateLights(light);

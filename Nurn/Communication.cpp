@@ -61,6 +61,8 @@ namespace Nurn
 	{
 		listenSocket.ShutdownSockets();
 		communicationSocket.ShutdownSockets();
+		listenSocket.CloseSocket();
+		communicationSocket.CloseSocket();
 	}
 
 	bool Communication::ConnectSocket(const Address & connectionAddress)

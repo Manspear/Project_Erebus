@@ -8,6 +8,7 @@
 #include <string>
 #include "AntTweakBar.h"
 #include "LevelActorHandler.h"
+#include "LevelParticleSystem.h"
 
 class LevelAssetHandler
 {
@@ -26,6 +27,7 @@ public:
 	void selectModel( std::string model );
 	void selectTexture( std::string texture );
 	void selectSound( std::string sound );
+	void selectParticle(std::string particle);
 	//void selectPrefab( std::string prefab );
 	void showContextBar( std::string asset );
 	void hideContextBar();
@@ -47,7 +49,8 @@ private:
 	{
 		ASSET_MODEL,
 		ASSET_TEXTURE,
-		ASSET_SOUND
+		ASSET_SOUND,
+		ASSET_PARTICLE
 	};
 
 	LevelAssetHandler();
@@ -58,6 +61,7 @@ private:
 	static void TW_CALL onSelectModel( void* args );
 	static void TW_CALL onSelectTexture( void* args );
 	static void TW_CALL onSelectSound( void* args );
+	static void TW_CALL onSelectParticle(void* args);
 	static void TW_CALL onAdd( void* args );
 	static void TW_CALL onClose( void* args );
 
@@ -69,6 +73,7 @@ private:
 	std::vector<std::string> models;
 	std::vector<std::string> textures;
 	std::vector<std::string> sounds;
+	std::vector<std::string> particles;
 
 	TweakBar* assetsBar, *contextBar;
 	bool contextBarVisible;

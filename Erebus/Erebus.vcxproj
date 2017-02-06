@@ -156,7 +156,6 @@
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CollisionLayers.cpp" />
     <ClCompile Include="Frustum.cpp" />
-    <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelActionHandler.cpp" />
@@ -175,7 +174,8 @@
     <ClCompile Include="LevelEditorStuff\LevelHeightmap.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModel.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelModelHandler.cpp" />
-    <ClCompile Include="LevelEditorStuff\LevelParticleEmitter.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelParticleHandler.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelParticleSystem.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelPointLightComponent.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelLightHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelSettings.cpp" />
@@ -262,6 +262,7 @@
     <None Include="Scripts\slowEffect.lua" />
     <None Include="Scripts\spellbook.lua" />
     <None Include="Scripts\spellbookUI.lua" />
+    <None Include="Scripts\spellList.lua" />
     <None Include="Scripts\staticAoEType.lua" />
     <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
@@ -314,7 +315,6 @@
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CollisionLayers.h" />
     <ClInclude Include="Frustum.h" />
-    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="HitBox.h" />
     <ClInclude Include="LevelEditorStuff\LevelActionHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelActor.h" />
@@ -333,7 +333,8 @@
     <ClInclude Include="LevelEditorStuff\LevelHeightmap.h" />
     <ClInclude Include="LevelEditorStuff\LevelModel.h" />
     <ClInclude Include="LevelEditorStuff\LevelModelHandler.h" />
-    <ClInclude Include="LevelEditorStuff\LevelParticleEmitter.h" />
+    <ClInclude Include="LevelEditorStuff\LevelParticleHandler.h" />
+    <ClInclude Include="LevelEditorStuff\LevelParticleSystem.h" />
     <ClInclude Include="LevelEditorStuff\levelpointlightcomponent.h" />
     <ClInclude Include="LevelEditorStuff\LevelLightHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelSettings.h" />
@@ -368,6 +369,7 @@
   <ItemGroup>
     <ClInclude Include="PlaneFrustum.h" />
     <ClInclude Include="RayCollider.h" />
+    <ClInclude Include="RNG.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />

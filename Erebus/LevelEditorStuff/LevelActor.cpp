@@ -10,7 +10,8 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Heightmap",
 	"Collider",
 	"Player",
-	"Health Orb"
+	"Health Orb",
+	"Particle"
 };
 
 void TW_CALL setDisplayCB(const void *value, void *s /*clientData*/)
@@ -199,6 +200,11 @@ std::string LevelActor::toLua()
 
 			case EXPORT_COLLIDER:
 				ss << "table.insert(colliders," << fullName << ")" << endl;
+				//ss << "table.insert(heightmaps,temp)" << endl;
+				break;
+
+			case EXPORT_PARTICLE:
+				ss << "table.insert(particles," << fullName << ")" << endl;
 				//ss << "table.insert(heightmaps,temp)" << endl;
 				break;
 		}

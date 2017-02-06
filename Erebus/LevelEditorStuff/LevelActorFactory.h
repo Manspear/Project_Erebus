@@ -16,6 +16,7 @@
 #include "LevelCollider.h"
 #include "LevelSound.h"
 #include "LevelEnemy.h"
+#include "LevelParticleSystem.h"
 #include "LevelSettings.h"
 
 class LevelActorFactory
@@ -73,9 +74,11 @@ public:
 	}
 
 	static void resetInstance() {
-		if (LevelActorFactory::actorFactoryInstance != nullptr)
-			delete LevelActorFactory::actorFactoryInstance;
-		LevelActorFactory::actorFactoryInstance = new LevelActorFactory(LevelTransformHandler::getInstance(), LevelModelHandler::getInstance());
+		//if (LevelActorFactory::actorFactoryInstance != nullptr)
+		//	delete LevelActorFactory::actorFactoryInstance;
+		//actorID = 1;
+		LevelActorFactory::actorFactoryInstance->actorID = 1;
+		//LevelActorFactory::actorFactoryInstance = new LevelActorFactory(LevelTransformHandler::getInstance(), LevelModelHandler::getInstance());
 	}
 };
 

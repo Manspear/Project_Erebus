@@ -35,7 +35,7 @@ function CreateGrenadeType()
 		self.position.z = self.position.z + self.direction.z*self.speed*dt
 		Transform.SetPosition(self.transformID, self.position)
 
-		local posx = math.floor(self.position.x/512)
+		--[[local posx = math.floor(self.position.x/512)
 		local posz = math.floor(self.position.z/512)
 		local heightmapIndex = (posz*2 + posx)+1
 		if heightmapIndex < 1 then heightmapIndex = 1 end
@@ -51,7 +51,22 @@ function CreateGrenadeType()
 					end
 				end
 			end
+		end--]]
+
+		local hm = GetHeightmap(self.position)
+		if not hm or hm.asset:GetHeight(self.position.x, self.position.z) > self.position.y then
+			result = true
+		else
+			local collisionIDs = self.sphereCollider:GetCollisionIDs()
+			for curID = 1, #collisionIDs do
+				for curEnemy=1, #enemies do
+					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+						result = true
+					end
+				end
+			end
 		end
+
 		return result
 	end
 	function type:Update(dt)
