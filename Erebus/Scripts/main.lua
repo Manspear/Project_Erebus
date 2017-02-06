@@ -1,6 +1,7 @@
 function Load()
 	dofile( "Scripts/gamestate.lua" )
 	gamestate.Load()
+	ZoomOutCamera()
 end
 
 function Unload()

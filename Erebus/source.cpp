@@ -11,12 +11,15 @@
 #include "Controls.h"
 #include "ParticleImport.h"
 
-#include "GamePlay.h"
 #include "Menu.h"
 #include "CollisionChecker.h"
 #include "RayCollider.h"
 #include "SoundEngine.h"
 #include "WorkQueue.h"
+#include "CollisionHandler.h"
+#include "AGI.h"
+#include "NetworkController.hpp"
+#include "LuaBinds.h"
 
 #define MAX_TRANSFORMS 100
 #define MAX_ANIMATIONS 100
