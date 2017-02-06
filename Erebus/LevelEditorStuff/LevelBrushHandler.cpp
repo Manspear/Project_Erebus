@@ -49,7 +49,6 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	this->actionBar = brushBar;
 
 	TwAddVarRW(actionBar->getBar(), "radius", TW_TYPE_FLOAT, &this->radius, NULL);
-	//TwAddSeparator(actionBar->getBar(), "sep2", NULL);
 	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, NULL);
 	TwAddVarRW(actionBar->getBar(), "Y_Offset", TW_TYPE_FLOAT, &this->yOffset, NULL);
 	TwAddVarCB(actionBar->getBar(), "saveAsType", TW_TYPE_STDSTRING,setSaveTypeCB,getSaveTypeCB,&saveAsType,"");
@@ -86,23 +85,20 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 	
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
 	{
-		bool drawOver = true;
-		if (drawOver)
+		if (this->preventOverDraw == false)
 		{
-
-		
-		for (glm::vec3 position : earlierPositions)
-		{
-			glm::vec3 result = hitPoint - position;
-			
-			if ((result.x <= 0 && result.x >(-this->VacancyRadius)) || (result.x >= 0 && result.x < this->VacancyRadius))
+			for (glm::vec3 position : earlierPositions)
 			{
-				if ((result.z <= 0 && result.z >(-this->VacancyRadius)) || (result.z >= 0 && result.z < this->VacancyRadius))
+				glm::vec3 result = hitPoint - position;
+			
+				if ((result.x <= 0 && result.x >(-this->VacancyRadius)) || (result.x >= 0 && result.x < this->VacancyRadius))
 				{
-					return;
+					if ((result.z <= 0 && result.z >(-this->VacancyRadius)) || (result.z >= 0 && result.z < this->VacancyRadius))
+					{
+						return;
+					}
 				}
 			}
-		}
 		}
 
 		LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
@@ -113,13 +109,21 @@ void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const 
 			newActor->setActorType(saveAsType);
 		
 			LevelTransform* transform = newActor->getComponent<LevelTransform>();
-
+			
 			if (transform)
 			{
 				glm::vec3 newNormal = hitNorm;
-				newNormal.y = RNG::range(0.0,PIx2);
+				glm::vec3 scale = transform->getChangeTransformRef()->getScale();
+				
+				if (isRotation)
+					newNormal.y = RNG::range(0.0,PIx2);
+
+				if (isScale)
+					scale *= RNG::range(this->minScale, this->maxScale);
+
 				transform->getTransformRef()->setPos(hitPoint);
 				transform->getChangeTransformRef()->setRotation(newNormal);
+				transform->getTransformRef()->setScale(scale);
 			}
 			
 			timer = 0.2;

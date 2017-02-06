@@ -54,8 +54,13 @@ private:
 	float yOffset = 0;
 	float PIx2 = 6.2832;
 	double timer = 0;
+	bool preventOverDraw = false; //Allow Meshes to be drawn in the same place?
 	bool isRotation = false;
 	bool isScale = false;
+
+
+	float maxScale = 2.0;
+	float minScale = 0.5;
 	std::vector<glm::vec3> earlierPositions; //this will have a max size of 4
 	std::string saveAsType = "Brush";
 	LevelBrushHandler();
