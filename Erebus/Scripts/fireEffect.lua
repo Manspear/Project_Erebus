@@ -7,19 +7,20 @@ function CreateFireEffect()
 	effect.damage = FIREEFFECTDAMAGE
 	effect.duration = FIREEFFECTDURATION
 	effect.interval = FIREEFFECTINTERVAL
-	
+	effect.particles = CreateFireEffectParticles()
 	function effect:Apply(entity)
 		print("Applied")	
 	end
 
 	function effect:Deapply(entity)
 		print("Deapplied")	
+		self.particles:die()
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
 		self.duration = self.duration - dt
 		self.interval = self.interval - dt
-
+		self.particles:update(Transform.GetPosition(entity.transformID))
 		if self.interval < 0 then
 			self.interval = self.interval + FIREEFFECTINTERVAL
 			entity:Hurt(self.damage)

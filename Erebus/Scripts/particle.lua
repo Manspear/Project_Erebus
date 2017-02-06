@@ -47,3 +47,17 @@ function createIceGrenadeParticles()
 
 	return fireball
 end
+
+function CreateFireEffectParticles()
+	local particle = {}
+	particle.burn = Particle.Bind("ParticleFiles/fireballPart.Particle")
+	Particle.SetAlive(particle.burn)
+
+	function particle:die(pos)
+		Particle.SetDead(self.burn)
+	end
+
+	function particle:update(pos)
+		Particle.SetPosition(self.fly, pos.x, pos.y, pos.z)
+	end
+end
