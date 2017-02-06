@@ -21,11 +21,11 @@ enum eSoundOptions : uint8_t
 	SOUND_NO_FLAG		= 0x00,
 	SOUND_3D			= 0x01,
 	SOUND_COPY			= 0x02,
-	SOUND_EFFECTS		= 0x04,
+	SOUND_BOOST			= 0x04,
 	SOUND_STREAM		= 0x08,
 	SOUND_LOOP			= 0x10,
 	SOUND_PAUSED		= 0x20,
-	SOUND_BLURB4		= 0x40,
+	SOUND_REVERB		= 0x40,
 	SOUND_BLURB5		= 0x80
 };
 

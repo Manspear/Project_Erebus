@@ -175,9 +175,9 @@ namespace LuaNetwork
 
 	int sendChargeSpellPacket(lua_State* lua)
 	{
-		int index = lua_tointeger(lua, 1);
-		int currentSpell = lua_tointeger(lua, 2);
-		int cast = lua_toboolean(lua, 3);
+		int index = (int)lua_tointeger(lua, 1);
+		int currentSpell = (int)lua_tointeger(lua, 2);
+		bool cast = lua_toboolean(lua, 3) != 0;
 
 		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell, true, cast));
 

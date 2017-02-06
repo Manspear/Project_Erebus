@@ -52,8 +52,15 @@ Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=0})
 --Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=512})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 
+--TEMP
+heightmaps[5] = {}
+heightmaps[5].transformID = Transform.Bind()
+local goblin = Assets.LoadModel("Models/Goblin.model")
+Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
+Transform.SetPosition(heightmaps[5].transformID, {x=15, y=6.72, z=158})
+Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
+
 --AI
-print(heightmaps[1].asset)
 widthTest = heightmaps[1].asset:GetMapWidth()
 heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
@@ -70,11 +77,15 @@ Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
 Transform.SetPosition(player.transformID, {x=44, y=0, z=140})
 
 -- set music
-sid = Sound.Play("Music/menuBurana.ogg", 48)
-Sound.SetVolume(sid, 0.03)
+sid = Sound.Play("Music/Area1.ogg", 48)
+Sound.SetVolume(sid, 0.06)
 Sound.Resume(sid)
 
 player.controller:SetHeightmap(heightmaps[1].asset)
 
 player.currentHeightmap = heightmaps[1]
 player.controller:SetHeightmap(player.currentHeightmap.asset)
+
+player.controller:SetTransform(player.transformID)
+player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
+player.controller:SetHeightmap(heightmaps[1].asset);

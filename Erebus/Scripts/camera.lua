@@ -9,7 +9,7 @@ ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffs
 --distance was 3.6
 ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
-StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
+StartState = {distance = 6, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
