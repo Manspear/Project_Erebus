@@ -67,7 +67,6 @@ function CreateHellPillar(entity)
 			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
 			self.damage = 50
-			Transform.ActiveControl(player.aim.transformID, false)
 			self:GeneralCast()	
 		end
 	end
