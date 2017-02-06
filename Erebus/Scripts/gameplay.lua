@@ -24,7 +24,8 @@ local scriptFiles =
 	"Scripts/staticAoEType.lua",
 	"Scripts/player.lua",
 	"Scripts/spellList.lua",
-	"Scripts/HUD.lua"
+	"Scripts/HUD.lua",
+	"Scripts/aim.lua"
 }
 
 local gameStarted = false
@@ -89,7 +90,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level.lua" )
+		dofile( "Scripts/level01.lua" )
 		loadedGameplay = true
 	end
 

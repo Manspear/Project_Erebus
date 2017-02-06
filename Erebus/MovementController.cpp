@@ -4,7 +4,6 @@ MovementController::MovementController()
 	: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
 {
 	this->myCollisionHandler = new CollisionHandler();
-	this->hitNormal = glm::vec3(0);
 }
 
 MovementController::~MovementController()
@@ -20,7 +19,6 @@ void MovementController::move( glm::vec3 distance )
 void MovementController::update()
 {
 	assert( transform && heightmap && collisionLayer && layerID >= 0 );
-	CollisionHandler collisionHandler;
 
 	glm::vec3 lookDirection = glm::normalize(glm::vec3(transform->getLookAt().x,0, transform->getLookAt().z));
 	glm::vec3 moveFinal = lookDirection * movement.z;
@@ -29,9 +27,9 @@ void MovementController::update()
 	glm::vec3 pos = transform->getPos();
 	glm::vec3 newPos = pos + moveFinal;
 
-	float height = heightmap->getPos( newPos.x, newPos.z );
+	//float height = heightmap->getPos( newPos.x, newPos.z );
+	float height = heightmap->getPos( pos.x, pos.z );
 	newPos.y = height;
-
 
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( this->layerID );
@@ -42,7 +40,7 @@ void MovementController::update()
 	glm::vec3 finalPos = pos;
 	finalPos.y = height;
 
-	this->hitbox->setPos(newXPos); // move hitbox on X
+	/*this->hitbox->setPos(newXPos); // move hitbox on X
 	bool playerColliding = this->checkCollision(colliders); // Check collision against all the walls
 	if (!playerColliding) // if our new position is safe
 	{
@@ -53,11 +51,33 @@ void MovementController::update()
 	if (!playerColliding) // if our new position is safe
 	{
 		finalPos.z = newZPos.z;
+	}*/
+
+	hitbox->setPos( newPos );
+	bool playerColliding = checkCollision(colliders);
+	if(playerColliding)
+	{
+		glm::vec3 normalFinal;
+		for (size_t i = 0; i < this->hitNormals.size(); i++) // add all the normals together
+		{
+			normalFinal += hitNormals[i];
+		}
+
+		glm::vec3 proj = glm::dot( dif, normalFinal) * normalFinal;
+		glm::vec3 finalDif = dif - proj;
+
+		finalPos = pos + finalDif;
+		hitbox->setPos(finalPos);
+		bool newPosCollision = checkCollision(colliders);
+		if (newPosCollision)
+			finalPos = pos;
 	}
-	
+	else
+		finalPos = newPos;
+
 	transform->setPos(finalPos);
 	this->movement = glm::vec3();
-	this->hitNormal = glm::vec3(0, 0, 0);
+	this->hitNormals.clear();
 }
 
 void MovementController::setHitbox( HitBox* hb )
@@ -102,6 +122,7 @@ inline bool MovementController::idCheck(std::vector<int>* playerCollisions, std:
 
 bool MovementController::checkCollision(std::vector<HitBox*>* walls) // Check our hitbox vs all the walls
 {
+	bool collision = false;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
 	std::vector<OBBCollider*> obbColliders;
@@ -119,12 +140,12 @@ bool MovementController::checkCollision(std::vector<HitBox*>* walls) // Check ou
 		}
 	}
 
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &sphereColliders, hitNormal)) // if we collide with any spheres
-		return true;
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &aabbColliders, hitNormal)) // if we collide with any AABBColliders
-		return true;
-	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &obbColliders, hitNormal)) // if we collide with any OBBColliders
-		return true;
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &sphereColliders, hitNormals)) // if we collide with any spheres
+		collision = true;
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &aabbColliders, hitNormals)) // if we collide with any AABBColliders
+		collision = true;
+	if (this->myCollisionHandler->checkAnyCollisionBoolNoSave(this->hitbox, &obbColliders, hitNormals)) // if we collide with any OBBColliders
+		collision = true;
 
-	return false;
+	return collision;
 }

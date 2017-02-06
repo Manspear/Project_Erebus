@@ -4,7 +4,8 @@ local PLAYER_JUMP_SPEED = 0.35
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
-DASH_COOLDOWN = 0.6
+DASH_COOLDOWN = 0.4
+DASH_DURATION = 0.25
 
 player = {}
 player2 = {}
@@ -62,6 +63,11 @@ function LoadPlayer()
 		self.health = 0
 		Transform.ActiveControl(self.transformID,false)
 	end
+	
+	player.ChangeHeightmap = function(self, heightmap)
+		player.currentHeightmap = heightmap
+		player.controller:SetHeightmap(player.currentHeightmap.asset)
+	end
 
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
@@ -83,6 +89,8 @@ function LoadPlayer()
 
 	Erebus.SetControls(player.transformID)
 	LoadPlayer2()
+
+	player.aim = CreateAim(player)
 end
 
 function LoadPlayer2()
@@ -120,6 +128,7 @@ function LoadSpells(player)
 	player.spells[1] = SpellList[1].spell
 	player.spells[2] = SpellList[2].spell
 	player.spells[3] = SpellList[3].spell
+	player.spells[1].isActiveSpell = true
 end
 
 function LoadSpellsPlayer2()
@@ -131,9 +140,8 @@ end
 function FindHeightmap(position)
 	local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
-		for _,hmIndex in pairs(hm.surrounding) do
+		for k,hmIndex in pairs(hm.surrounding) do
 			if heightmaps[hmIndex].asset:Inside(position) then
-				print("CHANGING")
 				player.currentHeightmap = heightmaps[hmIndex]
 				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				break
@@ -217,16 +225,19 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	-- update player controller -- this moves the player
-	player.controller:Move(player.left * dt, 0, player.forward * dt)
 	player.controller:Update()
 	if player.dashtime > 0 then
-		local factor = math.sqrt(math.sqrt(math.sqrt(player.dashtime/DASH_COOLDOWN)))
+		local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
 		local left = player.dashdir.z * factor
 		local fwd = player.dashdir.x * factor
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
+		if player.dashtime < 0 then
+			SphereCollider.SetActive(player.sphereCollider, true)
+		end
+	else
+		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
-	
 end
 
 function SendCombine(spell)
@@ -289,6 +300,7 @@ function Controls(dt)
 			--end
 			player.spells[player.currentSpell]:Charge(dt)
 		end
+		
 		if Inputs.ButtonReleased(Buttons.Right) then
 			if player.spells[player.currentSpell].cooldown < 0 then 
 				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
@@ -296,17 +308,17 @@ function Controls(dt)
 			player.spells[player.currentSpell]:ChargeCast(player)
 		end
 
-		if Inputs.KeyPressed("1") then player.currentSpell = 1 end
-		if Inputs.KeyPressed("2") then player.currentSpell = 2 end
-		if Inputs.KeyPressed("3") then player.currentSpell = 3 end
+		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
+		if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+		if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
 			player.dashcd = DASH_COOLDOWN
-			player.dashdir.x = player.forward * 3
-			player.dashdir.z = player.left * 3
-			player.dashtime = 0.35
+			player.dashdir.x = player.forward * 5
+			player.dashdir.z = player.left * 5
+			player.dashtime = DASH_DURATION
+			SphereCollider.SetActive(player.sphereCollider, false)
 		end
-
 end
 
 function PrintInfo() 
@@ -353,7 +365,6 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
-	--player2.spells[4]:Update(dt)
 	
 	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
 	if newAnimationValue == true then
