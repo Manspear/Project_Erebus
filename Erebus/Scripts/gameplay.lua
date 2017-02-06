@@ -88,7 +88,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level.lua" )
+		dofile( "Scripts/level01.lua" )
 		loadedGameplay = true
 	end
 

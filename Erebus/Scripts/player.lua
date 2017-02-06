@@ -124,9 +124,9 @@ end
 function FindHeightmap(position)
 	local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
-		for _,hmIndex in pairs(hm.surrounding) do
+		for k,hmIndex in pairs(hm.surrounding) do
 			if heightmaps[hmIndex].asset:Inside(position) then
-				print("CHANGING")
+				print("Heightmap index: " .. k)
 				player.currentHeightmap = heightmaps[hmIndex]
 				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				break
