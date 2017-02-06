@@ -204,6 +204,16 @@ bool NetworkController::fetchChargingPacket(ChargingPacket &packet)
 	return network.fetchChargingPacket(packet);
 }
 
+void NetworkController::sendQuickBlendPacket(const QuickBlendPacket& packet)
+{
+	network.pushQuickBlendPacket(packet);
+}
+
+bool NetworkController::fetchQuickBlendPacket(QuickBlendPacket& packet)
+{
+	return network.fetchQuickBlendPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

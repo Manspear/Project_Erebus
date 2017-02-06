@@ -167,8 +167,10 @@ function CreateHellPillar(entity)
 		local aPos = Transform.GetPosition(self.caster)
 		self.aimPos = {x = aPos.x + lookAt.x *10, y = 0, z = aPos.z + lookAt.z *10 }
 		local hm = GetHeightmap(self.aimPos)
-		self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z)
-		player.aim:SetPos(self.aimPos)
+		if hm then
+			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z)
+			player.aim:SetPos(self.aimPos)
+		end
 	end
 
 	function spell:Change()
