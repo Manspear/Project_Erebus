@@ -20,6 +20,7 @@ void LevelParticleSystem::initialize(tinyxml2::XMLElement* element) {
 	this->offset.z = std::stof(element->FirstChildElement("Offset")->Attribute("z"));
 
 	this->alive = std::atoi(element->FirstChildElement("Alive")->Attribute("IsAlive"));
+	//vad händer här. Vi hämtar isAlive från Alive? och sparar det.
 }
 void LevelParticleSystem::update(float deltaTime) {
 

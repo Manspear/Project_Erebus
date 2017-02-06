@@ -23,8 +23,14 @@ public:
 	static void deleteInstance();
 	static void resetInstance();
 
+	
 	void updateBrushBar(); //nothing here right now
 
+	void setIsRotation(bool t_f);
+	void setIsScale(bool t_f);
+
+	bool getIsRotation();
+	bool getIsScale();
 	//void selectPrefab( std::string prefab );
 	//void selectPrefab(int index);
 	//void showContextBar(std::string asset);
@@ -48,6 +54,8 @@ private:
 	float yOffset = 0;
 	float PIx2 = 6.2832;
 	double timer = 0;
+	bool isRotation = false;
+	bool isScale = false;
 	std::vector<glm::vec3> earlierPositions; //this will have a max size of 4
 	std::string saveAsType = "Brush";
 	LevelBrushHandler();

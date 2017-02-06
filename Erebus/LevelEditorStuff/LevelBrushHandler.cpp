@@ -23,6 +23,27 @@ void TW_CALL getSaveTypeCB(void *value, void *s /*clientData*/)
 }
 
 
+void TW_CALL setScaleCB(const void *value, void *s /*clientData*/)
+{
+	LevelBrushHandler::getInstance()->setIsScale(!LevelBrushHandler::getInstance()->getIsScale());
+}
+
+void TW_CALL getScaleCB(void *value, void *s /*clientData*/)
+{
+	*(bool*)value = LevelBrushHandler::getInstance()->getIsScale();
+}
+
+void TW_CALL setRotateCB(const void *value, void *s /*clientData*/)
+{
+	LevelBrushHandler::getInstance()->setIsRotation(!LevelBrushHandler::getInstance()->getIsRotation());
+}
+
+void TW_CALL getRotateCB(void *value, void *s /*clientData*/)
+{
+	*(bool*)value = LevelBrushHandler::getInstance()->getIsRotation();
+}
+
+
 void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 {
 	this->actionBar = brushBar;
@@ -32,6 +53,8 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, NULL);
 	TwAddVarRW(actionBar->getBar(), "Y_Offset", TW_TYPE_FLOAT, &this->yOffset, NULL);
 	TwAddVarCB(actionBar->getBar(), "saveAsType", TW_TYPE_STDSTRING,setSaveTypeCB,getSaveTypeCB,&saveAsType,"");
+	TwAddVarCB(actionBar->getBar(), "IsRotate", TW_TYPE_BOOL16, setRotateCB, getRotateCB, (void*)this, "label='Rotate'");
+	TwAddVarCB(actionBar->getBar(), "IsScale", TW_TYPE_BOOL16, setScaleCB, getScaleCB, (void*)this, "label='Scale'");
 }
 void LevelBrushHandler::testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
 {
@@ -146,6 +169,26 @@ void LevelBrushHandler::resetInstance()
 void LevelBrushHandler::updateBrushBar()
 {
 	//nothing 
+}
+
+void LevelBrushHandler::setIsRotation(bool t_f)
+{
+	this->isRotation = t_f;
+}
+
+void LevelBrushHandler::setIsScale(bool t_f)
+{
+	isScale = t_f;
+}
+
+bool LevelBrushHandler::getIsRotation()
+{
+	return isRotation;
+}
+
+bool LevelBrushHandler::getIsScale()
+{
+	return isScale;
 }
 
 
