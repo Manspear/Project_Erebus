@@ -71,20 +71,6 @@ DWORD WINAPI update( LPVOID args )
 	AGI::AGIEngine ai;
 	NetworkController network;
 
-	////////////////////////////////// HARDCODED SHIT ////////////////////////////////
-	AABBCollider* swag = new AABBCollider(glm::vec3(-3, -1, -1), glm::vec3(1, 1, 4), glm::vec3(15, 6, 27 + 120));
-	OBBCollider* swag2 = new OBBCollider(glm::vec3(30, 6, 26 + 120), 5, 3, 1);
-	OBBCollider* swag3 = new OBBCollider(glm::vec3(25, 6, 26 + 120), 5, 3, 1);
-	swag3->rotateAroundY(-1.5f);
-	SphereCollider* swag4 = new SphereCollider(glm::vec3(25, 6, 26 + 120),4);
-	//swag2->rotateAroundY(1.8f);
-	collisionHandler.addHitbox(swag, 3);
-	collisionHandler.addHitbox(swag2, 3);
-	collisionHandler.addHitbox(swag3, 3);
-	collisionHandler.addHitbox(swag4, 3);
-
-	////////////////////////////////// HARDCODED END ////////////////////////////////
-
 	data->engine->addDebugger( Debugger::getInstance() );
 
 	for( int i=0; i<MAX_TRANSFORMS; i++ )
@@ -136,7 +122,6 @@ DWORD WINAPI update( LPVOID args )
 				data->particleSystems->at(i)->update( (float)deltaTime );
 
 			collisionHandler.checkCollisions();
-			collisionHandler.drawHitboxes();
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
