@@ -4,7 +4,8 @@ local PLAYER_JUMP_SPEED = 0.35
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
-DASH_COOLDOWN = 0.6
+DASH_COOLDOWN = 0.4
+DASH_DURATION = 0.25
 
 player = {}
 player2 = {}
@@ -214,14 +215,18 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	-- update player controller -- this moves the player
-	player.controller:Move(player.left * dt, 0, player.forward * dt)
 	player.controller:Update()
 	if player.dashtime > 0 then
-		local factor = math.sqrt(math.sqrt(math.sqrt(player.dashtime/DASH_COOLDOWN)))
+		local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
 		local left = player.dashdir.z * factor
 		local fwd = player.dashdir.x * factor
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
+		if player.dashtime < 0 then
+			SphereCollider.SetActive(player.sphereCollider, true)
+		end
+	else
+		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
 	
 end
@@ -299,9 +304,10 @@ function Controls(dt)
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
 			player.dashcd = DASH_COOLDOWN
-			player.dashdir.x = player.forward * 3
-			player.dashdir.z = player.left * 3
-			player.dashtime = 0.35
+			player.dashdir.x = player.forward * 5
+			player.dashdir.z = player.left * 5
+			player.dashtime = DASH_DURATION
+			SphereCollider.SetActive(player.sphereCollider, false)
 		end
 
 		--if Inputs.KeyPressed("4") then--[[ player.currentSpell = 4]] end
