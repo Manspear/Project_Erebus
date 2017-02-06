@@ -280,6 +280,7 @@
     <None Include="Shaders\image.frag" />
     <None Include="Shaders\image.geom" />
     <None Include="Shaders\image.vert" />
+    <None Include="Shaders\include.glsl" />
     <None Include="Shaders\lightPass.frag" />
     <None Include="Shaders\lightPass.vert" />
     <None Include="Shaders\particle.frag" />

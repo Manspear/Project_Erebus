@@ -477,6 +477,9 @@
     <None Include="Shaders\blur.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\include.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

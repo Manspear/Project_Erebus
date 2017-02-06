@@ -106,6 +106,7 @@ private:
 	int nrOfTextures;
 	int totalAttributes;
 	int nrOfUniforms;
+	std::string shaderName;
 
 	std::map<std::string, int> uniforms;
 

@@ -8,6 +8,7 @@ ShaderProgram::ShaderProgram() :programID(0), shaderIDs(nullptr), textureIDs(nul
 
 ShaderProgram::ShaderProgram(int nrShaders, std::string* paths, GLuint* shaderTypes) : ShaderProgram()
 {
+
 	nrOfShaders = nrShaders;
 	shaderIDs = new GLuint[nrOfShaders];
 	programID = createShaderProgram();
@@ -31,6 +32,7 @@ ShaderProgram::ShaderProgram(int nrShaders, std::string* paths, GLuint* shaderTy
 
 ShaderProgram::ShaderProgram(shaderBaseType type, std::string shaderName) : ShaderProgram() {
 
+	this->shaderName = shaderName;
 	nrOfShaders = getNumShaders(type);
 	std::string* paths = getPaths(type, shaderName);
 	GLuint* shaderTypes = getTypes(type);
@@ -196,7 +198,7 @@ void ShaderProgram::addUniform(std::string uniform)
 
 	if (uniformLocation == 0xFFFFFFFF)
 	{
-		printf("Error: Could not find uniform: %d", uniform);
+		printf("Error in shader %s : Could not find uniform: %s\n", shaderName.c_str(), uniform.c_str());
 		return;
 	}
 
