@@ -205,6 +205,7 @@ void ShaderProgram::addUniform(glm::vec3 &vec3, std::string position, int count)
 {
 	glUniform3fv(getUniformLocation(position), count, glm::value_ptr(vec3));
 }
+
 void ShaderProgram::addUniform(float &floatValue, std::string position)
 {
 	glUniform1f(getUniformLocation(position), floatValue);
@@ -221,6 +222,10 @@ void ShaderProgram::addUniform(glm::mat4 &matrix4x4, GLuint location, int count)
 void ShaderProgram::addUniform(glm::vec3 &vec3, GLuint location, int count)
 {
 	glUniform3fv(location, count, glm::value_ptr(vec3));
+}
+void ShaderProgram::addUniform(glm::vec2 & vec2, GLuint location, int count)
+{
+	glUniform2fv(location, count, glm::value_ptr(vec2));
 }
 void ShaderProgram::addUniform(float &floatValue, GLuint location)
 {

@@ -13,7 +13,7 @@
 
 struct UniformValues {
 	int location;
-	GLfloat value;
+	glm::vec2 values;
 };
 
 using namespace Importer;

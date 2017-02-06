@@ -223,7 +223,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 	int numInstance;
 	size_t size = sizeof(Importer::sVertex);
 	bool atLeastOne = false;
-	float resetValue = 0.0;
+	glm::vec2 resetValue = { 0.0, 0.0 };
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (int i = 0; i < dynamicModels->size(); i++)
@@ -246,7 +246,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			
 			glUniformMatrix4fv(uniformLocations[FORWARD][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			if (uniValues->at(i).location > -1)
-				allShaders[FORWARD]->addUniform(uniValues->at(i).value, uniformLocations[FORWARD][uniValues->at(i).location]);
+				allShaders[FORWARD]->addUniform(uniValues->at(i).values, uniformLocations[FORWARD][uniValues->at(i).location]);
 			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));

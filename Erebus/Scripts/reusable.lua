@@ -1,9 +1,12 @@
 function BaseCharge(self, dt)
-	self.chargedTime = self.chargedTime + dt
+	if self.chargedTime < self.maxChargeTime then 
+		self.chargedTime = self.chargedTime + dt
+	end
 	ZoomInCamera()
 end
+
 function BaseChargeCast(self, entity)
-	self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
+	self:Cast(entity, self.chargedTime)
 end
 function GetHeightmap(position)
 	local result = player.currentHeightmap

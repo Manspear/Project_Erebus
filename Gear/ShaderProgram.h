@@ -60,6 +60,7 @@ public:
 
 	void addUniform(glm::mat4 &matrix4x4, GLuint location, int count = 1);
 	void addUniform(glm::vec3 &vec3, GLuint location, int count = 1);
+	void addUniform(glm::vec2 &vec2, GLuint location, int count = 1);
 	void addUniform(float &floatValue, GLuint location);
 	void addUniform(int &intValue, GLuint location);
 
