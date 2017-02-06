@@ -91,6 +91,15 @@ function LoadPlayer()
 	LoadPlayer2()
 
 	player.aim = CreateAim(player)
+
+	InitFireEffectParticles()
+	LoadEnemies(5)
+	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
+	Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
+	Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
+	Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
+	Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
+
 end
 
 function LoadPlayer2()
