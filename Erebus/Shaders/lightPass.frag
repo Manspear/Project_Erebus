@@ -86,7 +86,7 @@ void main() {
 
 	vec3 outputColor = (ambient + directional + point);
 
-	outputColor = mix(outputColor, vec3(0.48,0.73,0.44),getFogFactor(length(FragPos - viewPos)));
+	outputColor = mix(outputColor, vec3(0.50,0.50,0.50),getFogFactor(length(FragPos - viewPos)));
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
         FragColor = vec4(outputColor, 1.0);
