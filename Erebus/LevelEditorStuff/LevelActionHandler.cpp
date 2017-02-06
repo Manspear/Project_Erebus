@@ -84,7 +84,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	}
 	if (action == ACTION_USE_BRUSH)
 	{
-		LevelBrushHandler::getInstance()->testDraw(engine,camera,deltaTime,inputs,debug);
+		LevelBrushHandler::getInstance()->brushDraw(engine,camera,deltaTime,inputs,debug);
 	}
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
