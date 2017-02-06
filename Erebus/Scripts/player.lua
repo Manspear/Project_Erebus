@@ -62,6 +62,11 @@ function LoadPlayer()
 		self.health = 0
 		Transform.ActiveControl(self.transformID,false)
 	end
+	
+	player.ChangeHeightmap = function(self, heightmap)
+		player.currentHeightmap = heightmap
+		player.controller:SetHeightmap(player.currentHeightmap.asset)
+	end
 
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
