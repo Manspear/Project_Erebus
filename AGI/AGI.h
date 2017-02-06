@@ -31,9 +31,9 @@ namespace AGI
 		~Enemy()
 		{
 			//this->id = inID;
-
 			for (int n = 0; n < targetPath.size(); n++)
-				delete targetPath[n];
+				if(targetPath[n] != nullptr)
+					delete targetPath[n];
 			
 			targetPath.clear();
 		};
@@ -53,13 +53,23 @@ namespace AGI
 			return false;
 		}
 
-		void hasReachedTarget(int x,int y)
+		void hasReachedTarget(int xEnemyPos,int yEnemyPos, int playerPosX,int playerPosY)
 		{
 			glm::vec2 tempPos = targetPath[0]->getPos();
-			if (tempPos.x == x && tempPos.y == y)
+			if (tempPos.x == xEnemyPos && tempPos.y == yEnemyPos)
 			{
-				for (int n = 0; n < targetPath.size(); n++)
-					delete targetPath[n];
+				/*for (int n = 0; n < targetPath.size(); n++)
+					if (targetPath[n] != nullptr)
+					delete targetPath[n];*/
+				targetPath.clear();
+			}
+
+
+			if (tempPos.x  - playerPosX > 2 || tempPos.y - playerPosY >2)
+			{
+				/*for (int n = 0; n < targetPath.size(); n++)
+					if(targetPath[n] != nullptr)
+						delete targetPath[n];*/
 				targetPath.clear();
 			}
 		}
@@ -96,6 +106,8 @@ namespace AGI
 
 		AGI_API ~AGIEngine()
 		{
+			enemies.clear();
+
 			for (int n = 0; n < imWidth; n++)
 			{
 				for (int i = 0; i < imHeight; i++)
@@ -119,7 +131,7 @@ namespace AGI
 			}
 			delete[]staticInfluenceMap;
 
-			enemies.clear();
+			
 
 			//delete [] dynamicInfluenceMap;
 			//if (!radiusInfluenceNodes)
@@ -170,7 +182,7 @@ namespace AGI
 
 					if (dynamicInfluenceMap[w][h] != nullptr)
 					{
-						int tempStrength = getCombinedStrength(w, h);
+						int tempStrength = getCombinedStrength(w, h,30);
 
 						if (tempStrength == 0)
 							debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(0, 0, 0));
@@ -430,6 +442,9 @@ namespace AGI
 		{
 			int x = round(((inPos.x / mapWidth)*imWidth));
 			int y = round(((inPos.z / mapHeight)*imHeight));
+
+
+
 			if (inStr != 0)
 			{
 				inStr = inStr *(resolution * 10);
@@ -441,7 +456,10 @@ namespace AGI
 						{
 							if (y + strY >= 0 && y + strY < imHeight&& y < imHeight && y >= 0)
 								if (dynamicInfluenceMap[x + strX][y + strY] != nullptr)
+								{
 									dynamicInfluenceMap[x + strX][y + strY]->setStrength(0);
+									dynamicInfluenceMap[x + strX][y + strY]->setIfOccupied(false);
+								}
 						}
 				}
 			}
@@ -450,7 +468,10 @@ namespace AGI
 				if (x >= 0 && x < imWidth)
 					if (y >= 0 && y < imHeight)
 						if (dynamicInfluenceMap[x][y] != nullptr)
+						{
 							dynamicInfluenceMap[x][y]->setStrength(0);
+							dynamicInfluenceMap[x][y]->setIfOccupied(false);
+						}
 			}
 
 		}
@@ -495,11 +516,16 @@ namespace AGI
 			if (x >= 0 && x < imWidth)
 				if (y >= 0 && y  < imHeight)
 					if (dynamicInfluenceMap[x][y])
-						if (inStr<0)
+						if (inStr < 0)
+						{
 							dynamicInfluenceMap[x][y]->setStrength(-1);
+							dynamicInfluenceMap[x][y]->setIfOccupied(true);
+						}
 						else
+						{
+							dynamicInfluenceMap[x][y]->setIfOccupied(true);
 							dynamicInfluenceMap[x][y]->setStrength(-2);
-
+						}
 		}
 
 		AGI_API void addInfluencePoint(glm::vec2 inPos, float inStr, float range)
@@ -507,8 +533,8 @@ namespace AGI
 			//if (inStr != -1)
 			//	range = range *(resolution * 10);
 
-			int x = round(((inPos.x / mapWidth)*imWidth));
-			int y = round(((inPos.y / mapHeight)*imHeight));
+			int x = inPos.x;
+			int y = inPos.y;
 
 
 			float tempX = (float)((mapWidth / imWidth)*range + 1);
@@ -518,7 +544,6 @@ namespace AGI
 
 			for (int strX = -range; strX <= range; strX++)
 			{
-
 				if (x + strX >= 0 && x + strX< imWidth&& x < imWidth && x >= 0)
 					for (int strY = -range; strY <= range; strY++)
 					{
@@ -531,15 +556,15 @@ namespace AGI
 							if (dynamicInfluenceMap[x + strX][y + strY])
 							{
 								///TESt THIS
-								float tempStrength = glm::distance(glm::vec2(inPos.x, inPos.y), dynamicInfluenceMap[x + strX][y + strY]->getPos());
-								if (tempStrength == 0)
-									tempStrength = 1;
+							//	float tempStrength = glm::distance(glm::vec2(inPos.x, inPos.y), dynamicInfluenceMap[x + strX][y + strY]->getPos());
+							//	if (tempStrength == 0)
+							//		tempStrength = 1;
 
-								tempStrength = maxDistance / tempStrength;
+							//	tempStrength = maxDistance / tempStrength;
 
-								tempStrength = tempStrength * inStr;
+							//	tempStrength = tempStrength * inStr;
 
-								dynamicInfluenceMap[x + strX][y + strY]->setStrength(tempStrength);
+								dynamicInfluenceMap[x + strX][y + strY]->setStrength(inStr);
 							}
 						}
 					}
@@ -566,6 +591,7 @@ namespace AGI
 					enemyPos = n;
 				}
 			}
+
 			if (!matchedAnyId)
 			{
 				enemies.push_back(Enemy(id));
@@ -575,9 +601,12 @@ namespace AGI
 			int xFrom = round(((from.x / mapWidth)*imWidth));
 			int yFrom = round(((from.z / mapHeight)*imHeight));
 
+			int xPlayerPos = round(((target.x / mapWidth)*imWidth));
+			int yPlayerPos = round(((target.z / mapHeight)*imHeight));
+
 			if (enemies.at(enemyPos).hasTarget())
 			{
-				enemies.at(enemyPos).hasReachedTarget(xFrom, yFrom);
+				enemies.at(enemyPos).hasReachedTarget(xFrom, yFrom, xPlayerPos, yPlayerPos);
 			}
 			else
 			{
@@ -602,7 +631,7 @@ namespace AGI
 						finishNode = checkOpenList(xTarget, yTarget, openList, closedListList);
 					}
 
-					float countDown =3;
+					float countDown =66;
 					if(finishNode != nullptr)
 						finishNode = finishNode->getParent();
 					while (finishNode != nullptr)
@@ -617,13 +646,24 @@ namespace AGI
 						countDown = countDown * 0.8f;
 						finishNode = finishNode->getParent();
 					}
+
+					//addInfluenceAroundPath(enemyPos);
 				}
+			}
+		}
+
+		AGI_API void addInfluenceAroundPath(int enemyPos)
+		{
+			for (int n = 0; n < enemies.at(enemyPos).targetPath.size(); n++)
+			{
+				InfluenceNode * tempNode = enemies.at(enemyPos).targetPath[n];
+
+				addInfluencePoint(tempNode->getPos(), tempNode->getStrength(), 1);
 			}
 		}
 
 		AGI_API void addToClosedList(InfluenceNode * inNode, int xTarget, int yTarget, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*> &closedList)
 		{
-
 			int xFrom = round(((inNode->getPos().x / mapWidth)*imWidth));
 			int yFrom = round(((inNode->getPos().y / mapHeight)*imHeight));
 
@@ -721,6 +761,13 @@ namespace AGI
 			if (dynamicInfluenceMap[xFrom][yFrom] == nullptr)
 				return false;
 
+			if (dynamicInfluenceMap[xFrom][yFrom]->getStrength() < 0)
+				return false;
+
+			if (dynamicInfluenceMap[xFrom][yFrom]->checkIfOccupied())
+				return false;
+
+
 			for (int n = 0; n < openList.size(); n++)
 			{
 				if (openList[n] == dynamicInfluenceMap[xFrom][yFrom])
@@ -733,7 +780,23 @@ namespace AGI
 					return false;
 			}
 
-			return true;
+			bool returnerBool = true;
+			for (int n = 0; n < enemies.size(); n++)
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					if(enemies[n].targetPath.size() >0 && enemies[n].targetPath.size() >i)
+					if (enemies[n].targetPath[i] != nullptr)
+					{
+
+						glm::vec2 tempVec2 = enemies[n].targetPath[i]->getPos();
+						if (tempVec2.x == xFrom && tempVec2.y == yFrom)
+							returnerBool = false;
+					}
+				}
+			}
+
+			return returnerBool;
 		}
 
 		AGI_API InfluenceNode * checkOpenList(int xTarget, int yTarget, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*>& closedList)
@@ -791,7 +854,7 @@ namespace AGI
 					{
 						if (y + strY >= 0 && y + strY < imHeight)
 						{
-							if (dynamicInfluenceMap[x + strX][y + strY])
+							if (dynamicInfluenceMap[x + strX][y + strY] && !dynamicInfluenceMap[x + strX][y + strY]->checkIfOccupied())
 								if (mostPosetive < getCombinedStrength(x + strX, y + strY, id))
 								{
 									mpX = x + strX;
@@ -807,9 +870,11 @@ namespace AGI
 				float posX = dynamicInfluenceMap[mpX][mpY]->getPos().x;// -enemyPos.x;
 				float posZ = dynamicInfluenceMap[mpX][mpY]->getPos().y;// -enemyPos.z;
 
+
 				returnPos = glm::vec3(posX, 0, posZ);
 
 				//dynamicInfluenceMap[mpX][mpY]->setStrength(-1);
+				//dynamicInfluenceMap[mpX][mpY]->setIfOccupied(true);
 			}
 
 			return returnPos;
@@ -858,7 +923,6 @@ namespace AGI
 
 		AGI_API InfluenceNode * traverseIMRangeFromPlayer(glm::vec3 playerPos, float tempRange, float angleInCircle)
 		{
-
 			glm::vec3 testPos = playerPos - (glm::vec3(glm::cos(angleInCircle), 0, glm::sin(angleInCircle))*(tempRange));
 
 			int x = round(((testPos.x / mapWidth)*imWidth));
@@ -875,7 +939,6 @@ namespace AGI
 			if (enemyId != -1)
 			{
 				int enemyPos = -1;
-
 				for (int n = 0; n < enemies.size(); n++)
 				{
 					if (enemyId == enemies[n].id)
@@ -886,7 +949,7 @@ namespace AGI
 
 				if (enemyPos != -1)
 				{
-					return enemies[enemyPos].getStrengthAt(x,y);// dynamicInfluenceMap[x][y]->getStrength()
+					return enemies[enemyPos].getStrengthAt(x,y)+ dynamicInfluenceMap[x][y]->getStrength();
 				}
 			}
 

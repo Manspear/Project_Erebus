@@ -11,6 +11,7 @@ public:
 		gCost = 0;
 		hCost = 0;
 		parentNode = nullptr;
+		occupied = false;
 	};
 
 	AGI_API InfluenceNode(InfluenceNode & copyFrom,int x,int y)
@@ -20,6 +21,7 @@ public:
 		gCost = 0;
 		hCost = 0;
 		parentNode = nullptr;
+		occupied = false;
 	};
 
 	AGI_API InfluenceNode(glm::vec2 inPos, float inStrength)
@@ -27,13 +29,16 @@ public:
 		pos = inPos;
 		strength = inStrength;
 
+		occupied = false;
+
 		gCost = 0;
 		hCost = 0;
 		parentNode = nullptr;
 	};
+
 	AGI_API ~InfluenceNode()
 	{
-
+		//delete parentNode;
 	};
 
 	AGI_API glm::vec2 getPos()
@@ -94,11 +99,23 @@ public:
 		return gCost + hCost;
 	}
 
+	AGI_API bool checkIfOccupied()
+	{
+		return occupied;
+	}
+
+	AGI_API void setIfOccupied(bool inBool)
+	{
+		occupied = inBool;
+	}
+
 private:
 	InfluenceNode * parentNode;
 
 	int gCost;
 	int hCost;
+
+	bool occupied;
 
 	glm::vec2 pos;
 	float strength;
