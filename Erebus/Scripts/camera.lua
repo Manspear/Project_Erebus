@@ -64,7 +64,6 @@ end
 
 function UpdateCamera(dt)	
 	if camera.state == STATE_ZOOMING_OUT then
-		print("yo zooming out")
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
 		--i vilket läge övergången är i
@@ -80,10 +79,8 @@ function UpdateCamera(dt)
 
 		if ZoomedOut.timeSpent > ZoomedOut.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_OUT
-			print("yo zoomed out")
 		end
 	elseif camera.state == STATE_ZOOMING_IN then
-		print("yo zooming int")
 		ZoomedIn.timeSpent =  ZoomedIn.timeSpent + dt 
 		
 		--i vilket läge övergången är i
@@ -99,7 +96,6 @@ function UpdateCamera(dt)
 
 		if ZoomedIn.timeSpent > ZoomedIn.time then --if transition complete -> change state to reflect that
 			camera.state = STATE_ZOOMED_IN
-			print("yo zoomed in")
 		end
 	end
 
@@ -112,7 +108,6 @@ function UpdateCamera(dt)
 	if hm then
 		height = hm.asset:GetHeight(temppos.x, temppos.z)
 	end
-	print(temppos.x .. "  " .. temppos.y .. "   " .. temppos.z)
 	local incrementfactor = (0.03) --absolute length of increment is 0.03 units
 	if height  < temppos.y then
 		camera.state = STATE_ZOOMING_OUT
