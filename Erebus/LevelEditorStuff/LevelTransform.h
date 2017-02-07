@@ -33,7 +33,6 @@ private:
 	Transform* transformRef;
 	TransformStruct* transformStructTemp;
 	bool recievedModelTransform;
-
-	
+	bool exportTransform;
 };
 
