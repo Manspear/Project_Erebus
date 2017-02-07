@@ -12,6 +12,7 @@ ShaderProgram::ShaderProgram(int nrShaders, std::string* paths, GLuint* shaderTy
 	nrOfShaders = nrShaders;
 	shaderIDs = new GLuint[nrOfShaders];
 	programID = createShaderProgram();
+
 	std::string* shaderContent = new std::string[nrOfShaders];
 	for (int i = 0; i < nrShaders; i++)
 	{
@@ -31,6 +32,7 @@ ShaderProgram::ShaderProgram(int nrShaders, std::string* paths, GLuint* shaderTy
 
 ShaderProgram::ShaderProgram(shaderBaseType type, std::string shaderName) : ShaderProgram() {
 
+	this->shaderName = shaderName;
 	nrOfShaders = getNumShaders(type);
 	std::string* paths = getPaths(type, shaderName);
 	GLuint* shaderTypes = getTypes(type);
@@ -51,6 +53,11 @@ ShaderProgram::ShaderProgram(shaderBaseType type, std::string shaderName) : Shad
 		glDetachShader(programID, shaderIDs[i]);
 		glDeleteShader(shaderIDs[i]);
 	}
+	for (int i = 0; i < nrOfShaders; i++)
+	{
+		addAllUniforms(shaderContent[i]);
+	}
+
 	delete[] shaderContent;
 	delete[] paths;
 	delete[] shaderTypes;
@@ -170,9 +177,8 @@ void ShaderProgram::bindTexToLocation(GLuint* textures)
 
 void ShaderProgram::BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid)
 {
-	GLuint uniform = glGetUniformLocation(shader->getProgramID(), name);
 	glActiveTexture(GL_TEXTURE0 + textureLoc);
-	glUniform1i(uniform, textureLoc);
+	glUniform1i(shader->getUniformLocation(name), textureLoc);
 	glBindTexture(GL_TEXTURE_2D, textureIDs[textureid]);
 }
 
@@ -191,44 +197,79 @@ GLuint ShaderProgram::getFramebufferID()
 	return framebufferID;
 }
 
+void ShaderProgram::addUniform(std::string uniform)
+{
+	int uniformLocation = glGetUniformLocation(programID, uniform.c_str());
+
+	if (uniformLocation == 0xFFFFFFFF)
+	{
+		printf("Error in shader %s : Could not find uniform: %s\n", shaderName.c_str(), uniform.c_str());
+		return;
+	}
+
+	uniforms.insert(std::pair<std::string, int>(uniform, uniformLocation));
+}
+
+void ShaderProgram::addAllUniforms(std::string shaderText)
+{
+	const static std::string UNIFORM_KEYWORD = "uniform";
+	int uniformStartLocation = shaderText.find(UNIFORM_KEYWORD);
+	while (uniformStartLocation > -1)
+	{
+		int begin = uniformStartLocation + UNIFORM_KEYWORD.length() + 1;
+		int end = shaderText.find(";", begin);
+
+		std::string uniformLine = shaderText.substr(begin, (end-begin));
+		int tempEnd = uniformLine.find("[");
+		if (tempEnd > -1)
+		{
+			uniformLine = uniformLine.substr(0, (tempEnd));
+		}
+
+		std::string uniformType = uniformLine.substr(0, (uniformLine.find(" ")));
+		std::string uniformName = uniformLine.substr(uniformLine.find(" ") + 1, uniformLine.length() - uniformType.length() - 1);
+
+		addUniform(uniformName);
+
+		uniformStartLocation = shaderText.find(UNIFORM_KEYWORD, uniformStartLocation + UNIFORM_KEYWORD.length());
+	}
+}
+
 GLuint ShaderProgram::getUniformLocation(std::string pos)
 {
-	return glGetUniformLocation(programID, pos.c_str());
+	return uniforms.at(pos);
 }
 
-void ShaderProgram::addUniform(glm::mat4 &matrix4x4, std::string position, int count)
+void ShaderProgram::setUniform(glm::mat4 &matrix4x4, std::string position, int count)
 {
-	glUniformMatrix4fv(getUniformLocation(position), count, GL_FALSE, glm::value_ptr(matrix4x4));
+	glUniformMatrix4fv(uniforms.at(position), count, GL_FALSE, glm::value_ptr(matrix4x4));
 }
 
-void ShaderProgram::addUniform(glm::vec3 &vec3, std::string position, int count)
+void ShaderProgram::setUniform(glm::vec3 &vec3, std::string position, int count)
 {
-	glUniform3fv(getUniformLocation(position), count, glm::value_ptr(vec3));
+	glUniform3fv(uniforms.at(position), count, glm::value_ptr(vec3));
 }
-void ShaderProgram::addUniform(float &floatValue, std::string position)
+void ShaderProgram::setUniform4fv(glm::mat4 *matrix4x4, std::string position, int count)
 {
-	glUniform1f(getUniformLocation(position), floatValue);
-}
-void ShaderProgram::addUniform(int &intValue, std::string position)
-{
-	glUniform1i(getUniformLocation(position), intValue);
+	glUniformMatrix4fv(uniforms.at(position), count, GL_FALSE, &matrix4x4[0][0][0]);
 }
 
-void ShaderProgram::addUniform(glm::mat4 &matrix4x4, GLuint location, int count)
+void ShaderProgram::setUniform4cfv(const GLfloat *matrix4x4, std::string position, int count)
 {
-	glUniformMatrix4fv(location, count, GL_FALSE, glm::value_ptr(matrix4x4));
+	glUniformMatrix4fv(uniforms.at(position), count, GL_FALSE, matrix4x4);
 }
-void ShaderProgram::addUniform(glm::vec3 &vec3, GLuint location, int count)
+
+void ShaderProgram::setUniform1fv(float & vec1, std::string position, int count)
 {
-	glUniform3fv(location, count, glm::value_ptr(vec3));
+	glUniform1fv(uniforms.at(position), count, &vec1);
 }
-void ShaderProgram::addUniform(float &floatValue, GLuint location)
+void ShaderProgram::setUniform(float &floatValue, std::string position)
 {
-	glUniform1f(location, floatValue);
+	glUniform1f(uniforms.at(position), floatValue);
 }
-void ShaderProgram::addUniform(int &intValue, GLuint location)
+void ShaderProgram::setUniform(int &intValue, std::string position)
 {
-	glUniform1i(location, intValue);
+	glUniform1i(uniforms.at(position), intValue);
 }
 
 std::string* ShaderProgram::getPaths(const shaderBaseType& type, const std::string& path) {

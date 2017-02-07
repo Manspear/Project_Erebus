@@ -61,17 +61,16 @@ namespace LuaAssets
 
 	int loadModel( lua_State* lua )
 	{
+		assert( lua_gettop( lua ) == 1 );
+
 		int result = 0;
 
-		if( lua_gettop( lua ) >= 1 )
-		{
-			ModelAsset* model = g_assets->load<ModelAsset>( lua_tostring( lua, 1 ) );
+		ModelAsset* model = g_assets->load<ModelAsset>( lua_tostring( lua, 1 ) );
 
-			if( model )
-			{
-				lua_pushlightuserdata( lua, model );
-				result = 1;
-			}
+		if( model )
+		{
+			lua_pushlightuserdata( lua, model );
+			result = 1;
 		}
 
 		return result;
@@ -79,20 +78,19 @@ namespace LuaAssets
 
 	int loadTexture( lua_State* lua )
 	{
+		assert( lua_gettop( lua ) == 1 );
+
 		int result = 0;
 
-		if( lua_gettop( lua ) >= 1 )
-		{
-			TextureAsset* texture = g_assets->load<TextureAsset>( lua_tostring( lua, 1 ) );
+		TextureAsset* texture = g_assets->load<TextureAsset>( lua_tostring( lua, 1 ) );
 
-			if( texture )
-			{
-				lua_newtable( lua );
-				luaL_setmetatable( lua, "textureMeta" );
-				lua_pushlightuserdata( lua, texture );
-				lua_setfield( lua, -2, "__self" );
-				result = 1;
-			}
+		if( texture )
+		{
+			lua_newtable( lua );
+			luaL_setmetatable( lua, "textureMeta" );
+			lua_pushlightuserdata( lua, texture );
+			lua_setfield( lua, -2, "__self" );
+			result = 1;
 		}
 
 		return result;
@@ -101,37 +99,36 @@ namespace LuaAssets
 	int bindTexture( lua_State* lua )
 	{
 		int numArgs = lua_gettop( lua );
-		if( numArgs >= 1 )
-		{
-			lua_getfield( lua, 1, "__self" );
-			TextureAsset* texture = (TextureAsset*)lua_touserdata( lua, -1 );
 
-			int index = GL_TEXTURE0;
-			if( numArgs > 1 )
-				index = (int)lua_tointeger( lua, 2 );
+		assert( numArgs == 1 || numArgs == 2 );
 
-			texture->bind( index );
-		}
+		lua_getfield( lua, 1, "__self" );
+		TextureAsset* texture = (TextureAsset*)lua_touserdata( lua, -1 );
+
+		int index = GL_TEXTURE0;
+		if( numArgs == 2 )
+			index = (int)lua_tointeger( lua, 2 );
+
+		texture->bind( index );
 
 		return 0;
 	}
 
 	int loadHeightmap( lua_State* lua )
 	{
+		assert( lua_gettop( lua ) == 1 );
+
 		int result = 0;
 
-		if( lua_gettop( lua ) >= 1 )
+		HeightMap* heightmap = g_assets->load<HeightMap>( lua_tostring( lua, 1 ) );
+		if( heightmap )
 		{
-			HeightMap* heightmap = g_assets->load<HeightMap>( lua_tostring( lua, 1 ) );
-			if( heightmap )
-			{
-				lua_newtable( lua );
-				luaL_setmetatable( lua, "heightmapMeta" );
-				lua_pushlightuserdata( lua, heightmap );
-				lua_setfield( lua, -2, "__self" );
+			lua_newtable( lua );
+			luaL_setmetatable( lua, "heightmapMeta" );
+			lua_pushlightuserdata( lua, heightmap );
+			lua_setfield( lua, -2, "__self" );
 
-				result = 1;
-			}
+			result = 1;
 		}
 
 		return result;
@@ -139,7 +136,7 @@ namespace LuaAssets
 
 	int insideHeightmap( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 2 );
+		assert( lua_gettop( lua ) == 2 );
 
 		HeightMap* heightmap = getHeightmap( lua, 1 );
 		glm::vec3 position = getVec3( lua, 2 );
@@ -150,7 +147,7 @@ namespace LuaAssets
 
 	int setHeightmapPosition( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 2 );
+		assert( lua_gettop( lua ) == 2 );
 
 		HeightMap* heightmap = getHeightmap( lua, 1 );
 		glm::vec3 position = getVec3( lua, 2 );
@@ -161,7 +158,7 @@ namespace LuaAssets
 
 	int setHeightmapMultiplier( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 2 );
+		assert( lua_gettop( lua ) == 2 );
 
 		HeightMap* heightmap = getHeightmap( lua, 1 );
 		float height = lua_tonumber( lua, 2 );
@@ -172,7 +169,7 @@ namespace LuaAssets
 
 	int getHeightmapSize( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		HeightMap* heightmap = getHeightmap( lua, 1 );
 
@@ -186,55 +183,48 @@ namespace LuaAssets
 
 	int getHeight( lua_State* lua )
 	{
+		assert( lua_gettop( lua ) == 3 );
+
 		int result = 0;
 
-		if( lua_gettop( lua ) >= 3 )
-		{
-			HeightMap* heightmap = getHeightmap( lua, 1 );
+		HeightMap* heightmap = getHeightmap( lua, 1 );
 
-			float x = (float)lua_tonumber( lua, 2 );
-			float y = (float)lua_tonumber( lua, 3 );
+		float x = (float)lua_tonumber( lua, 2 );
+		float y = (float)lua_tonumber( lua, 3 );
 
-			lua_pushnumber( lua, heightmap->getPos(x,y) );
-			result = 1;
-		}
+		lua_pushnumber( lua, heightmap->getPos(x,y) );
+		result = 1;
 
 		return result;
 	}
 
 	int getMapWidth(lua_State* lua)
 	{
+		assert( lua_gettop( lua ) == 1 );
+
 		int result = 0;
 
-		if (lua_gettop(lua) >= 1)
-		{
-			HeightMap* heightmap = getHeightmap( lua, 1 );
+		HeightMap* heightmap = getHeightmap( lua, 1 );
 
-			lua_pushnumber(lua, heightmap->getMapWidth());
-			result = 1;
-		}
+		lua_pushnumber(lua, heightmap->getMapWidth());
+		result = 1;
 
 		return result;
 	}
 
 	int getMapHeight(lua_State* lua)
 	{
-		int result = 0;
+		assert( lua_gettop( lua ) == 1 );
 
-		if (lua_gettop(lua) >= 1)
-		{
-			HeightMap* heightmap = getHeightmap( lua, 1 );
+		HeightMap* heightmap = getHeightmap( lua, 1 );
+		lua_pushnumber(lua, heightmap->getMapHeight());
 
-			lua_pushnumber(lua, heightmap->getMapHeight());
-			result = 1;
-		}
-
-		return result;
+		return 1;
 	}
 
 	int getHeightmapPosition( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		HeightMap* heightmap = getHeightmap( lua, 1 );
 		setVec3( lua, heightmap->getPosition() );
@@ -244,7 +234,7 @@ namespace LuaAssets
 
 	int getHeightmapMultiplier( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) >= 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		HeightMap* heightmap = getHeightmap( lua, 1 );
 		lua_pushnumber( lua, heightmap->getHeightMultiplier() );
