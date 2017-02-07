@@ -3,6 +3,7 @@
 namespace Importer
 {
 	HeightMap::HeightMap()
+		: heightData( nullptr )
 	{
 	}
 

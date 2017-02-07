@@ -14,6 +14,8 @@ LevelHeightmap::LevelHeightmap()
 
 LevelHeightmap::~LevelHeightmap()
 {
+	if (this->parent != nullptr)
+		this->parent->getComponent<LevelTransform>()->deleteListener(this);
 }
 
 void LevelHeightmap::initialize( tinyxml2::XMLElement* element )
@@ -52,7 +54,8 @@ void LevelHeightmap::postInitialize()
 
 	parent->getComponent<LevelTransform>()->addListener(this);
 
-	setTextureName( textureName );
+	if( !textureName.empty() )
+		setTextureName( textureName );
 }
 
 std::string LevelHeightmap::getName()
