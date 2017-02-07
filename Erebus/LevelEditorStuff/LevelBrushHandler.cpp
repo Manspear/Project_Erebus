@@ -74,19 +74,16 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	TwAddVarCB(actionBar->getBar(), "IsScale", TW_TYPE_BOOL16, setScaleCB, getScaleCB, (void*)this, "label='Scale'");
 	TwAddButton(actionBar->getBar(), "UNDO", undoButton, NULL, "label='Undo'");
 }
-void LevelBrushHandler::brushDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
+void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
 {
 
 	if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1))
 	{
-		std::cout << actorsMadeThisKeyPress.size() << " yesh" << std::endl;
-
 		if (actorsMadeThisKeyPress.size()>0)
 		{
 			actorsMade.push_back(actorsMadeThisKeyPress);
 			actorsMadeThisKeyPress.clear();
 		}
-
 	}
 
 	int actorID = 0;
@@ -106,11 +103,7 @@ void LevelBrushHandler::brushDraw(Gear::GearEngine* engine, Camera* camera,const
 	
 	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
 	hitPoint.z = (hitPoint.z += RNG::range((-this->radius),this->radius) );
-	hitPoint.y = hitPoint.y + yOffset;
-	
-	//jag skulle kunna köra en stråle från marken till kameran. och sen köra tillbaka för att få ett bättre y värde.
-	//jag borde kolla om det finns mark där. Om normalen är för offsetad borde jag inte rita.
-
+	hitPoint.y = hitPoint.y + yOffset;	
 	
 	timer -= deltaTime;
 	
