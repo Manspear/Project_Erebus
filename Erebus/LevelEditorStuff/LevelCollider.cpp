@@ -59,7 +59,9 @@ LevelCollider::LevelCollider()
 	this->parentColiderID = 0;
 	this->layer = 0;
 	this->colliderBehavior = 0;
-	this->triggerEventString = "";
+	this->onTriggeringEventString = "";
+	this->onEnterEventString = "";
+	this->onExitEventString = "";
 	
 }
 
@@ -341,8 +343,12 @@ std::string LevelCollider::printChildren(std::string name, std::string depth, in
 		}
 		
 
+
 		ss << parentFullName << ":AddChild(" << fullName<<")" << endl;
-		ss << "table.insert(colliders," << tableName << ")"<<endl;
+		if (this->childColliders[i]->childColliders.size() == 0 && this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
+			ss << this->childColliders[i]->getLuaTriggerString(fullName);
+		if(this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_COLLISION)
+			ss << "table.insert(colliders," << tableName << ")"<<endl;
 		
 		luaText += ss.str() + this->childColliders[i]->printChildren(name, std::to_string(globalDepth), globalDepth, myIndex);
 	}
@@ -412,6 +418,8 @@ std::string LevelCollider::toLua( std::string name )
 			break;
 		}
 		int gi = 0;
+		if (this->childColliders.size() == 0 && this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
+			ss << this->getLuaTriggerString(fullName);
 		ss<<printChildren(name, depth, gi, 0);
 		ss << "CollisionHandler."<< coliderType << fullName << ", "<< this->layer<<")" << endl;
 		for (size_t i = 1; i < gi+1; i++)
@@ -579,16 +587,20 @@ void LevelCollider::setTwStruct( TwBar* bar )
 
 	TwAddVarCB( bar, "colliderType", TW_TYPE_COLLIDERS(), onSetType, onGetType, this, "label='Type:'" );
 
-	TwAddVarCB(bar, "colliderBehave", TW_BEHAVIOR_COLLIDERS(), onSetBehave, onGetBehave, this, "label='Behavior:'");
-
-	if(this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
-		TwAddVarCB(bar, "coliderTriggerEvenet", TW_TYPE_STDSTRING, setTriggerEventCB, getTriggerEventCB, (void*)this, "label='Lua-F'");
-
-	
-	TwAddVarRW( bar, "coliderOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'" );
-
-	if(this->parentCollider == nullptr)
+	if (this->parentCollider == nullptr) {
 		TwAddVarRW(bar, "coliderLayer", TW_TYPE_INT16, &layer, "label='Layer:'");
+		TwAddVarCB(bar, "colliderBehave", TW_BEHAVIOR_COLLIDERS(), onSetBehave, onGetBehave, this, "label='Behavior:'");
+	}
+
+	if (this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER && this->childColliders.size() == 0) {
+		TwAddVarCB(bar, "coliderTriggeringEvent", TW_TYPE_STDSTRING, setOnTriggeringEventCB, getOnTriggeringEventCB, (void*)this, "label='On Triggering'");
+		TwAddVarCB(bar, "coliderEnterEvent", TW_TYPE_STDSTRING, setOnEnterEventCB, getOnEnterEventCB, (void*)this, "label='On Enter'");
+		TwAddVarCB(bar, "coliderExitEvent", TW_TYPE_STDSTRING, setOnExitEventCB, getOnExitEventCB, (void*)this, "label='On Exit'");
+	}
+		
+
+
+	TwAddVarRW(bar, "coliderOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'");
 
 	switch( colliderType )
 	{
@@ -675,64 +687,109 @@ void TW_CALL LevelCollider::onGetType( void* value, void* clientData )
 void TW_CALL LevelCollider::onSetBehave(const void* value, void* clientData) {
 	int type = *(int*)value;
 	LevelCollider* collider = (LevelCollider*)clientData;
-	collider->setBehave(type);
+	collider->updateHierecyBehavior((ColiderBehavior)type);
 	LevelActorHandler::getInstance()->updateTweakBars();
+
 }
 void TW_CALL LevelCollider::onGetBehave(void* value, void* clientData) {
 	LevelCollider* collider = (LevelCollider*)clientData;
 	*(int*)value = collider->getBehave();
 }
 
-void TW_CALL LevelCollider::setTriggerEventCB(const void *value, void *s /*clientData*/)
+void TW_CALL LevelCollider::setOnTriggeringEventCB(const void *value, void *s /*clientData*/)
 {
 	// Set: copy the value of s from AntTweakBar
 	const std::string *srcPtr = static_cast<const std::string *>(value);
 	LevelCollider* colider = (LevelCollider*)s;
-	colider->setTriggerEvent(*srcPtr);
+	colider->setOnTriggeringString(*srcPtr);
 	LevelActorHandler::getInstance()->updateTweakBars();
 
 }
 
-void TW_CALL LevelCollider::getTriggerEventCB(void *value, void *s /*clientData*/)
+void TW_CALL LevelCollider::getOnTriggeringEventCB(void *value, void *s /*clientData*/)
 {
 	// Get: copy the value of s to AntTweakBar
 	std::string *destPtr = static_cast<std::string *>(value);
 	LevelCollider* colider = (LevelCollider*)s;
-	TwCopyStdStringToLibrary(*destPtr, colider->getTriggerEvent()); // the use of TwCopyStdStringToLibrary is required here
+	TwCopyStdStringToLibrary(*destPtr, colider->getOnTriggeringString()); // the use of TwCopyStdStringToLibrary is required here
+}
+
+ void TW_CALL LevelCollider::setOnEnterEventCB(const void* value, void* s) {
+	 // Set: copy the value of s from AntTweakBar
+	 const std::string *srcPtr = static_cast<const std::string *>(value);
+	 LevelCollider* colider = (LevelCollider*)s;
+	 colider->setOnEnterString(*srcPtr);
+	 LevelActorHandler::getInstance()->updateTweakBars();
+}
+ void TW_CALL LevelCollider::getOnEnterEventCB(void* value, void* s) {
+	 // Get: copy the value of s to AntTweakBar
+	 std::string *destPtr = static_cast<std::string *>(value);
+	 LevelCollider* colider = (LevelCollider*)s;
+	 TwCopyStdStringToLibrary(*destPtr, colider->getOnEnterString()); // the use of TwCopyStdStringToLibrary is required here
+}
+
+ void TW_CALL LevelCollider::setOnExitEventCB(const void* value, void* s) {
+	 // Set: copy the value of s from AntTweakBar
+	 const std::string *srcPtr = static_cast<const std::string *>(value);
+	 LevelCollider* colider = (LevelCollider*)s;
+	 colider->setOnExitString(*srcPtr);
+	 LevelActorHandler::getInstance()->updateTweakBars();
+}
+ void TW_CALL LevelCollider::getOnExitEventCB(void* value, void* s) {
+	 // Get: copy the value of s to AntTweakBar
+	 std::string *destPtr = static_cast<std::string *>(value);
+	 LevelCollider* colider = (LevelCollider*)s;
+	 TwCopyStdStringToLibrary(*destPtr, colider->getOnExitString()); // the use of TwCopyStdStringToLibrary is required here
 }
 
 
-std::string LevelCollider::getTriggerEvent() {
-	return this->triggerEventString;
-}
-void LevelCollider::setTriggerEvent(std::string function) {
-	this->triggerEventString = function;
-}
+ std::string LevelCollider::getOnTriggeringString() {
+	 return this->onTriggeringEventString;
+ }
+ void LevelCollider::setOnTriggeringString(std::string function) {
+	 this->onTriggeringEventString = function;
+ }
+ std::string LevelCollider::getOnEnterString() {
+	 return this->onEnterEventString;
+ }
+ void LevelCollider::setOnEnterString(std::string function) {
+	 this->onEnterEventString = function;
+ }
+ std::string LevelCollider::getOnExitString() {
+	 return this->onExitEventString;
+ }
+ void LevelCollider::setOnExitString(std::string function) {
+	 this->onExitEventString = function;
+ }
 
 void LevelCollider::updateLayer() {
 	int tempLayer = 0;
 	if (this->parentCollider == nullptr) {
-		switch (this->parent->getExportType()) {
-		case EXPORT_ENEMY:
-			tempLayer = 1;
-			break;
-		case EXPORT_PLAYER:
-			tempLayer = 0;
-			break;
-		case EXPORT_HEALTH_ORB:
-			tempLayer = 4;
-			break;
-		
-		case EXPORT_STATIC:
-			tempLayer = 3;
-			break;
-		case EXPORT_COLLIDER:
-			tempLayer = 3;
-			break;
+		if (this->getBehave() != ColiderBehavior::COLLIDER_BEHAVE_TRIGGER) {
+			switch (this->parent->getExportType()) {
+			case EXPORT_ENEMY:
+				tempLayer = 1;
+				break;
+			case EXPORT_PLAYER:
+				tempLayer = 0;
+				break;
+			case EXPORT_HEALTH_ORB:
+				tempLayer = 4;
+				break;
+
+			case EXPORT_STATIC:
+				tempLayer = 3;
+				break;
+			case EXPORT_COLLIDER:
+				tempLayer = 3;
+				break;
+			}
 		}
+		else
+			tempLayer = 4;
 	}
 	else {
-		//tempLayer = this->parentCollider->layer;
+		tempLayer = this->parentCollider->layer;
 	}
 	layer = tempLayer;
 }
@@ -742,4 +799,50 @@ void LevelCollider::removeComponent() {
 		this->parentCollider->deleteChildColider(this);
 	}
 	this->parent->deleteComponent<LevelCollider>();
+}
+
+std::vector<LevelCollider*>& LevelCollider::getChildColiders()
+{
+	return this->childColliders;
+}
+
+void LevelCollider::updateHierecyBehavior(ColiderBehavior newBehave)
+{
+
+	this->colliderBehavior = newBehave;
+	if (newBehave == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
+		this->parent->setExportType(EXPORT_TRIGGER);
+
+	for (size_t i = 0; i < childColliders.size(); i++)
+	{
+		childColliders[i]->updateHierecyBehavior(newBehave);
+	}
+}
+
+
+/*
+temp.OnEnter
+temp.OnExit
+temp.OnTrigger
+temp.triggered = false
+table.insert(triggers, temp)
+*/
+std::string LevelCollider::getLuaTriggerString(std::string colName) {
+	using namespace std;
+	stringstream ss;
+	ss << "";
+	if(onEnterEventString != "")
+		ss << colName << ".OnEnter = " << this->onEnterEventString << endl;
+	if (onExitEventString != "")
+		ss << colName << ".OnExit = " << this->onExitEventString << endl;
+	if (onTriggeringEventString != "")
+		ss << colName << ".OnTriggering = " << this->onTriggeringEventString << endl;
+
+	if (ss.str() != "") {
+		ss << colName << ".triggered = false" << endl;
+		ss <<"table.insert(triggers, " << colName << ")"<<endl;
+	}
+
+	return ss.str().c_str();
+
 }

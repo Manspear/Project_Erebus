@@ -47,8 +47,12 @@ public:
 	int getBehave()const;
 	void setBehave(int behavior);
 
-	std::string getTriggerEvent();
-	void setTriggerEvent(std::string function);
+	std::string getOnTriggeringString();
+	void setOnTriggeringString(std::string function);
+	std::string getOnEnterString();
+	void setOnEnterString(std::string function);
+	std::string getOnExitString();
+	void setOnExitString(std::string function);
 
 
 	const glm::vec3& getColor() const;
@@ -68,6 +72,9 @@ public:
 	void deleteChildColider(LevelCollider* colider);
 	LevelCollider* getParentColider();
 	void removeComponent() override;
+	std::vector<LevelCollider*>& getChildColiders();
+	void updateHierecyBehavior(ColiderBehavior newBehave);
+	std::string getLuaTriggerString(std::string colName);
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{
@@ -95,14 +102,22 @@ private:
 		return result;
 	}
 
-	static void TW_CALL onSetType( const void* value, void* clientData );
-	static void TW_CALL onGetType( void* value, void* clientData );
+	static void TW_CALL onSetType( const void* value, void* s );
+	static void TW_CALL onGetType( void* value, void* s );
 
-	static void TW_CALL onSetBehave(const void* value, void* clientData);
-	static void TW_CALL onGetBehave(void* value, void* clientData);
+	static void TW_CALL onSetBehave(const void* value, void* s);
+	static void TW_CALL onGetBehave(void* value, void* s);
 
-	static void TW_CALL setTriggerEventCB(const void* value, void* clientData);
-	static void TW_CALL getTriggerEventCB(void* value, void* clientData);
+	static void TW_CALL setOnTriggeringEventCB(const void* value, void* s);
+	static void TW_CALL getOnTriggeringEventCB(void* value, void* s);
+
+	static void TW_CALL setOnEnterEventCB(const void* value, void* s);
+	static void TW_CALL getOnEnterEventCB(void* value, void* s);
+
+	static void TW_CALL setOnExitEventCB(const void* value, void* s);
+	static void TW_CALL getOnExitEventCB(void* value, void* s);
+
+
 
 	unsigned int coliderID, parentColiderID;
 	int colliderType;
@@ -112,7 +127,7 @@ private:
 	std::vector<LevelCollider*> childColliders;
 	std::string printChildren(std::string name, std::string depth, int &globalDepth, int parentIndex);
 	int colliderBehavior;
-	std::string triggerEventString;
+	std::string onTriggeringEventString, onEnterEventString, onExitEventString;
 
 	// sphere
 	//glm::vec3 spherePosition;
