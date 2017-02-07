@@ -250,6 +250,30 @@ function UpdatePlayer(dt)
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
+
+	-- check collision against triggers and call their designated function
+	for _,v in pairs(triggers) do
+		if v.collider:CheckCollision() then
+			if not v.triggered then
+				if v.OnEnter then
+					v.OnEnter()
+				else
+					v.OnTrigger()
+				end
+
+				v.triggered = true
+			else
+				v.OnTrigger()
+			end
+		else
+			if v.triggered then
+				if v.OnExit then
+					v.OnExit()
+				end
+				v.triggered = false
+			end
+		end
+	end
 end
 
 function SendCombine(spell)
