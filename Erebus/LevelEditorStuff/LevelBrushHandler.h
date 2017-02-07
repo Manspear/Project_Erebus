@@ -46,14 +46,13 @@ private:
 	float VacancyRadius = 5;
 	float yOffset = 0;
 	
-	float maxScale = 2.0;
-	float minScale = 0.5;
+	float maxScale = 1;
+	float minScale = 1;
 
 	double timer = 0;
 
 	bool preventOverDraw = false; //Allow Meshes to be drawn in the same place
 	bool isRotation = false;
-	bool isScale = false;
 
 	std::vector<std::vector<LevelActor*>> actorsMade; //contains all actors created with brush
 	std::vector<LevelActor*> actorsMadeThisKeyPress; //contains all actors made on this keypress;
