@@ -181,7 +181,7 @@ namespace LuaGear
 			
 			index = (int)g_ForwardModels->size();
 			g_ForwardModels->push_back(instance);
-				g_gearEngine->uniValues.push_back({ "NULL", 0 });
+			g_gearEngine->uniValues.push_back({ "NULL",{ 0, 0 } });
 		}
 		g_ForwardModels->at(index).worldIndices.push_back(transformID);
 		lua_pushinteger(lua, index);
@@ -376,19 +376,15 @@ namespace LuaGear
 
 	int setUniformValue(lua_State * lua)
 	{
-		assert( lua_gettop( lua ) == 2 );
-
-			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).values = { (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3) };
-
+		assert( lua_gettop( lua ) == 3 );
+		g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).values = { (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3) };
 		return 0;
 	}
 
 	int setUniformLocation(lua_State* lua)
 	{
-		assert( lua_gettop( lua ) == 2 );
-		
-			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
-
+		assert( lua_gettop( lua ) == 2 );	
+		g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
 		return 0;
 	}
 }

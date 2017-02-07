@@ -84,11 +84,13 @@ function CreateIceGrenade(entity)
 	end
 	
 	function spell:Update(dt)
-		self.cooldown = self.cooldown - dt	
-		self.timeSinceLastPoop = self.timeSinceLastPoop - dt
-		if self.timeSinceLastPoop < 0 then
-			ZoomOutCamera()
-			self.timeSinceLastPoop = 1000
+		self.cooldown = self.cooldown - dt
+		if self.isActiveSpell then	
+			self.timeSinceLastPoop = self.timeSinceLastPoop - dt
+			if self.timeSinceLastPoop < 0 then
+				ZoomOutCamera()
+				self.timeSinceLastPoop = 1000
+			end
 		end
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
@@ -128,6 +130,7 @@ function CreateIceGrenade(entity)
 		end
 		if self.isActiveSpell then self:Aim(Transform.GetPosition(self.owner.transformID), Transform.GetLookAt(self.owner.transformID), dt) end
 	end
+	
 	spell.Charge = BaseCharge
 	function spell:ChargeCast(entity)
 		self.combo = 100

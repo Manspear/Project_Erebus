@@ -84,11 +84,7 @@ function CreateHellPillar(entity)
 	
 	function spell:Update(dt)
 		self.cooldown = self.cooldown - dt
-		self.timeSinceLastPoop = self.timeSinceLastPoop - dt
-		if self.timeSinceLastPoop < 0 then
-			ZoomOutCamera()
-			self.timeSinceLastPoop = 1000
-		end
+		
 		if self.alive then
 			if self.startUp then
 				self:StartingUp(dt)			
@@ -100,6 +96,11 @@ function CreateHellPillar(entity)
 		end		
 		if self.isActiveSpell then
 			self:Aim()
+			self.timeSinceLastPoop = self.timeSinceLastPoop - dt
+			if self.timeSinceLastPoop < 0 then
+				ZoomOutCamera()
+				self.timeSinceLastPoop = 1000
+			end
 		end
 	end
 

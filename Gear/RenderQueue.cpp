@@ -225,7 +225,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			
 			allShaders[FORWARD]->setUniform(*tempMatrices, "worldMatrices", numInstance);
 			if (uniValues->at(i).location != "NULL")
-				allShaders[FORWARD]->addUniform(uniValues->at(i).values, uniformLocations[FORWARD][uniValues->at(i).location]);
+				allShaders[FORWARD]->addUniform(uniValues->at(i).values, uniValues->at(i).location);
 			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
@@ -240,7 +240,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			}
 			
 			if (uniValues->at(i).location != "NULL")
-				allShaders[FORWARD]->setUniform(resetValue, uniValues->at(i).location);
+				allShaders[FORWARD]->addUniform(resetValue, uniValues->at(i).location);
 		}
 	}
 	allShaders[FORWARD]->unUse();

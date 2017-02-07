@@ -17,7 +17,7 @@ function CreateChargeThing(entity)
 	chargeThing.transformID = Transform.Bind()
 	local model = Assets.LoadModel("Models/projectile1.model")
 	chargeThing.modelIndex = Gear.AddForwardInstance(model, chargeThing.transformID)
-	Gear.SetUniformLocation(chargeThing.modelIndex, 3);
+	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 	chargeThing.caster = entity.transformID
 	chargeThing.rot = {x = 0, y = 0, z = 0}
 	chargeThing.UVpushed = 0	

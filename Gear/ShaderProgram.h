@@ -61,7 +61,7 @@ public:
 
 	void addUniform(std::string uniform);
 	void addAllUniforms(std::string shaderText);
-	void addUniform(glm::vec2 &vec2, GLuint location, int count = 1);
+	void addUniform(glm::vec2 &vec2, std::string position, int count = 1);
 	void setUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
 	void setUniform(glm::vec3 &vec3, std::string position, int count = 1);
 	void setUniform4fv(glm::mat4 *matrix4x4, std::string position, int count = 1);
