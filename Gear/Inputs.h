@@ -23,6 +23,7 @@ public:
 	static bool mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST];
 	static double scrollY;
 	static double dScrollY;
+	static int atbScroll;
 	static char textInput[INPUTS_MAX_TEXT_INPUT];
 	static int textInputLength;
 

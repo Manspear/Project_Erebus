@@ -11,6 +11,7 @@ bool Inputs::mouseButtonsPressedThisFrame[GLFW_MOUSE_BUTTON_LAST] = { false };
 bool Inputs::mouseButtonsReleasedThisFrame[GLFW_MOUSE_BUTTON_LAST] = { false };
 double Inputs::dScrollY = 0.0;
 double Inputs::scrollY = 0.0;
+int Inputs::atbScroll = 0;
 char Inputs::textInput[INPUTS_MAX_TEXT_INPUT] = {};
 int Inputs::textInputLength = 0;
 const std::unordered_map<int, int> Inputs::glfw3to2_keymapping = {// Keyboard key definitions [GLFW3 -> GLFW2]
@@ -330,7 +331,8 @@ void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, 
 
 void Inputs::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	int isAntTweak = TwEventMouseWheelGLFW(xoffset);
+	atbScroll += yoffset;
+	int isAntTweak = TwEventMouseWheelGLFW(atbScroll);
 	if (isAntTweak == 0) {
 		scrollY += yoffset;
 		dScrollY = yoffset;

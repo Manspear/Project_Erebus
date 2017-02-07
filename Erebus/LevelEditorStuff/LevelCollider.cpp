@@ -10,6 +10,13 @@ const char* LevelCollider::COLLIDER_TYPE_NAMES[MAX_COLLIDER_TYPES] =
 	"Ray",
 };
 
+const char* LevelCollider::COLLIDER_BEHAVIOR_NAMES[MAX_COLLIDER_BEHAVIOR] =
+{
+	"Collider",
+	"Trigger",
+};
+
+
 
 LevelCollider::LevelCollider()
 	: colliderType(COLLIDER_SPHERE), position(0.0f), color(0.0f, 1.0f, 0.0f), parentCollider(nullptr),
@@ -51,6 +58,8 @@ LevelCollider::LevelCollider()
 	//this->coliderID = LevelColiderHandler::getInstance()->getNewID();
 	this->parentColiderID = 0;
 	this->layer = 0;
+	this->colliderBehavior = 0;
+	this->triggerEventString = "";
 	
 }
 
@@ -341,6 +350,7 @@ std::string LevelCollider::printChildren(std::string name, std::string depth, in
 	return luaText;
 }
 
+//TO IMPLEMENT:::: TRIGGER LUA EVENT ;) ;) ;) ;) ;)
 std::string LevelCollider::toLua( std::string name )
 {
 	
@@ -568,14 +578,18 @@ void LevelCollider::setTwStruct( TwBar* bar )
 	TwAddVarCB(bar, "coliderParent", TW_TYPE_INT32, setParentID, getParentID, this, "");
 
 	TwAddVarCB( bar, "colliderType", TW_TYPE_COLLIDERS(), onSetType, onGetType, this, "label='Type:'" );
+
+	TwAddVarCB(bar, "colliderBehave", TW_BEHAVIOR_COLLIDERS(), onSetBehave, onGetBehave, this, "label='Behavior:'");
+
+	if(this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
+		TwAddVarCB(bar, "coliderTriggerEvenet", TW_TYPE_STDSTRING, setTriggerEventCB, getTriggerEventCB, (void*)this, "label='Lua-F'");
+
 	
 	TwAddVarRW( bar, "coliderOffset", LevelUI::TW_TYPE_VECTOR3F(), &offset, "label='Offset:'" );
 
 	if(this->parentCollider == nullptr)
 		TwAddVarRW(bar, "coliderLayer", TW_TYPE_INT16, &layer, "label='Layer:'");
 
-
-	
 	switch( colliderType )
 	{
 		case COLLIDER_SPHERE:
@@ -628,6 +642,13 @@ int LevelCollider::getType() const
 	return colliderType;
 }
 
+int LevelCollider::getBehave()const {
+	return this->colliderBehavior;
+}
+void LevelCollider::setBehave(int behavior) {
+	this->colliderBehavior = behavior;
+}
+
 const glm::vec3& LevelCollider::getColor() const
 {
 	return color;
@@ -649,6 +670,43 @@ void TW_CALL LevelCollider::onGetType( void* value, void* clientData )
 {
 	LevelCollider* collider = (LevelCollider*)clientData;
 	*(int*)value = collider->getType();
+}
+
+void TW_CALL LevelCollider::onSetBehave(const void* value, void* clientData) {
+	int type = *(int*)value;
+	LevelCollider* collider = (LevelCollider*)clientData;
+	collider->setBehave(type);
+	LevelActorHandler::getInstance()->updateTweakBars();
+}
+void TW_CALL LevelCollider::onGetBehave(void* value, void* clientData) {
+	LevelCollider* collider = (LevelCollider*)clientData;
+	*(int*)value = collider->getBehave();
+}
+
+void TW_CALL LevelCollider::setTriggerEventCB(const void *value, void *s /*clientData*/)
+{
+	// Set: copy the value of s from AntTweakBar
+	const std::string *srcPtr = static_cast<const std::string *>(value);
+	LevelCollider* colider = (LevelCollider*)s;
+	colider->setTriggerEvent(*srcPtr);
+	LevelActorHandler::getInstance()->updateTweakBars();
+
+}
+
+void TW_CALL LevelCollider::getTriggerEventCB(void *value, void *s /*clientData*/)
+{
+	// Get: copy the value of s to AntTweakBar
+	std::string *destPtr = static_cast<std::string *>(value);
+	LevelCollider* colider = (LevelCollider*)s;
+	TwCopyStdStringToLibrary(*destPtr, colider->getTriggerEvent()); // the use of TwCopyStdStringToLibrary is required here
+}
+
+
+std::string LevelCollider::getTriggerEvent() {
+	return this->triggerEventString;
+}
+void LevelCollider::setTriggerEvent(std::string function) {
+	this->triggerEventString = function;
 }
 
 void LevelCollider::updateLayer() {
