@@ -20,8 +20,7 @@ function CreateHellPillar(entity)
 	spell.texture1 = BLEND_TERXTURE1
 	spell.texture2 = BLEND_TERXTURE2
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
-	spell.blendValue1 = {x = 5.6, y = 5.4} spell.blendValue2 = {x = 5.0, y = 4.0}
-
+	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.0}
 	--Set up collider, model and transform for the pillar
 	spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
@@ -68,7 +67,7 @@ function CreateHellPillar(entity)
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then		
 			self.cooldown = COOLDOWN_PILLAR	
-			self.startUpTime = 1.5		self.finishingTime = 1.5	self.startUpScale = 3
+			self.startUpTime = 1.5		self.finishingTime = 5.5	self.startUpScale = 3
 			self.maxScale = 3
 			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
@@ -154,11 +153,11 @@ function CreateHellPillar(entity)
 		else
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
 			--Transform.SetRotation(self.transformID, self.someRotation)
-			self.blendValue1.x = self.blendValue1.x + 2.0 * dt
-			self.blendValue1.y = self.blendValue1.y / 3.0 * dt
+			self.blendValue1.x = self.blendValue1.x + 0.1 * dt
+			self.blendValue1.y = self.blendValue1.y + 0.4 * dt
 
-			self.blendValue2.x = self.blendValue2.x - 1.5 * dt
-			self.blendValue2.y = self.blendValue2.y + 5.5 * dt
+			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
+			self.blendValue2.y = self.blendValue2.y - 0.2 * dt
 
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
 

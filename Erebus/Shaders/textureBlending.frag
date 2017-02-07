@@ -4,16 +4,17 @@ in vec2 vertex_UV[3];
 
 out vec4 finalColor;
 
-uniform sampler2D diffuseTexture[2];
-uniform int numTextures;
+uniform sampler2D tex1;
+uniform sampler2D tex2;
+uniform sampler2D tex3;
+//uniform int numTextures;
 
 void main (){
 
 	vec4 color = vec4(0);
-	for(int i = 0; i < numTextures; i++)
-	{
-		color += texture( diffuseTexture[i], vertex_UV[i]);
-	}
+
+	color += texture( tex1, vertex_UV[0]);
+	color += texture( tex2, vertex_UV[1]);
 
 	finalColor = color;
 }
