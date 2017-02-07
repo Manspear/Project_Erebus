@@ -12,11 +12,6 @@ LevelPointLightComponent::LevelPointLightComponent()
 	std::vector<std::map<unsigned int, std::string>> derp;
 
 
-	for (auto it : derp)
-	{
-		
-	}
-
 
 }
 
@@ -106,9 +101,12 @@ std::string LevelPointLightComponent::toLua(std::string name)
 	
 	using namespace std;
 	std::stringstream ss;
+	ss << "Light.addLight(" << light->pos.x << ", " << light->pos.y << ", " << light->pos.z << ", "
+		<< light->color.r << ", " << light->color.g << ", " << light->color.b << ", "
+		<< light->radius.x << "," << light->radius.y << ")" << std::endl;
 	/*
 	ss << "--Point light information here" << endl;
-	ss << "--Not yet implemented in the game" << endl;
+	ss << "--Not yet implemented in the game" << endl; Light.addLight(xPos, yPos, zPos, r, g, b, Rad, Intens)
 	*/
 	return ss.str();
 	
@@ -144,11 +142,12 @@ void LevelPointLightComponent::setRadius(float inRadius)
 
 void LevelPointLightComponent::setTwStruct(TwBar* tempBar )
 {
-	TwAddVarRW(tempBar, "Offset", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->pos, NULL);
+	
+	TwAddVarRW(tempBar, ("Offset" + std::string(name)).c_str(), LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->pos, "Label='Offset'");
 	//TwAddVarRW(tempBar, "Color", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->light->color, NULL);
-	TwAddVarRW( tempBar, "Color", TW_TYPE_COLOR3F, &light->color, NULL );
-	TwAddVarRW(tempBar, "Radius", TW_TYPE_FLOAT, (void*)&this->light->radius, NULL);
-	TwAddVarRW(tempBar, "Intensity", TW_TYPE_FLOAT, (void*)&this->light->radius[1], NULL);
+	TwAddVarRW( tempBar, ("Color" + std::string(name)).c_str(), TW_TYPE_COLOR3F, &light->color, "Label='Color'" );
+	TwAddVarRW(tempBar, ("Radius" + std::string(name)).c_str(), TW_TYPE_FLOAT, (void*)&this->light->radius, "Label='Radius'");
+	TwAddVarRW(tempBar, ("Intensity" + std::string(name)).c_str(), TW_TYPE_FLOAT, (void*)&this->light->radius[1], "Label='Intensity'");
 }
 
 void LevelPointLightComponent::callListener(LevelActorComponent* component) {
