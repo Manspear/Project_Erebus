@@ -105,13 +105,8 @@ function UpdateEnemies(dt)
 			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 			AI.AddIP(enemies[i].transformID,-1,0)
 		end
-			--AI.AddIP(player.transformID,-1,0)
+			AI.AddIP(player.transformID,1,0)
 		tempPlayerPosition = Transform.GetPosition(player.transformID)
-
-		for i=1, #enemies do
-			--print ("New Pos: " ..enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			AI.AStarSearch(enemies[i].lastPos,tempPlayerPosition,enemies[i].transformID)
-		end
 	end
 	aiScript.updateEnemyManager(enemies,player)
 	local tempdt

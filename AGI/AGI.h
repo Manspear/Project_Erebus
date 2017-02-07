@@ -242,6 +242,7 @@ namespace AGI
 		*/
 
 		//// CLASSIC INFLUENCE MAP
+
 		AGI_API void createInfluenceMap(Importer::HeightMap* heightmap, int width, int height)
 		{
 			//width -= 100;
@@ -841,9 +842,6 @@ namespace AGI
 			
 			int x = round(((enemyPos.x / mapWidth)*imWidth));
 			int y = round(((enemyPos.z / mapHeight)*imHeight));
-
-			//	if ((x >= 0 && x < imWidth) && (y >= 0 && y < imHeight))
-			//	debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[x][y].getPos().x, 1, dynamicInfluenceMap[x][y].getPos().y), 3, glm::vec3(1, 1, 0.4));
 
 			float mostPosetive = -1;
 			int mpX = -1;
