@@ -18,7 +18,32 @@ LevelHeightmap::~LevelHeightmap()
 
 void LevelHeightmap::initialize( tinyxml2::XMLElement* element )
 {
+	using namespace tinyxml2;
+
 	textureName = element->FirstChildElement("TextureName")->GetText();
+
+	XMLElement* e = element->FirstChildElement( "Draw" );
+	draw = e->BoolAttribute("d");
+
+	e = element->FirstChildElement( "LineLength" );
+	lineLength = e->FloatAttribute( "l" );
+
+	e = element->FirstChildElement( "Heights" );
+	heightMax = e->FloatAttribute( "max" );
+	heightMin = e->FloatAttribute( "min" );
+
+	e = element->FirstChildElement( "Offset" );
+	offset.x = e->FloatAttribute( "x" );
+	offset.y = e->FloatAttribute( "y" );
+	offset.z = e->FloatAttribute( "z" );
+
+	e = element->FirstChildElement( "ID" );
+	heightmapID = e->IntAttribute( "heightmapID" );
+
+	for( int i=0; i<HEIGHTMAP_MAX_SURROUNDING; i++ )
+	{
+		surrounding[i] = element->BoolAttribute( (std::string("surrounding") + std::to_string(i)).c_str() );
+	}
 }
 
 void LevelHeightmap::postInitialize()
@@ -26,6 +51,8 @@ void LevelHeightmap::postInitialize()
 	parent->setExportType( EXPORT_HEIGHTMAP );
 
 	parent->getComponent<LevelTransform>()->addListener(this);
+
+	setTextureName( textureName );
 }
 
 std::string LevelHeightmap::getName()
@@ -35,9 +62,38 @@ std::string LevelHeightmap::getName()
 
 tinyxml2::XMLElement* LevelHeightmap::toXml( tinyxml2::XMLDocument* doc )
 {
-	tinyxml2::XMLElement* element = doc->NewElement(LevelHeightmap::name);
-	tinyxml2::XMLElement* heightmapElement = doc->NewElement("TextureName");
+	using namespace tinyxml2;
+
+	XMLElement* element = doc->NewElement(LevelHeightmap::name);
+	XMLElement* heightmapElement = doc->NewElement("TextureName");
 	heightmapElement->SetText(textureName.c_str());
+
+	XMLElement* drawElement = doc->NewElement("Draw");
+	drawElement->SetAttribute("d", draw);
+
+	XMLElement* lineElement = doc->NewElement("LineLength");
+	lineElement->SetAttribute("l", lineLength);
+
+	XMLElement* heightElement = doc->NewElement("Heights");
+	heightElement->SetAttribute("max", heightMax);
+	heightElement->SetAttribute("min", heightMin);
+
+	XMLElement* offsetElement = doc->NewElement("Offset");
+	heightElement->SetAttribute("x", offset.x);
+	heightElement->SetAttribute("y", offset.y);
+	heightElement->SetAttribute("z", offset.z);
+
+	XMLElement* idElement = doc->NewElement("ID");
+	idElement->SetAttribute("heightmapID", heightmapID);
+	for( int i=0; i<HEIGHTMAP_MAX_SURROUNDING; i++ )
+		idElement->SetAttribute( (std::string( "surrounding" ) + std::to_string(i)).c_str(), surrounding[i] );
+
+	element->LinkEndChild( heightmapElement );
+	element->LinkEndChild( drawElement );
+	element->LinkEndChild( lineElement );
+	element->LinkEndChild( heightElement );
+	element->LinkEndChild( offsetElement );
+	element->LinkEndChild( idElement );
 
 	element->LinkEndChild(heightmapElement);
 
