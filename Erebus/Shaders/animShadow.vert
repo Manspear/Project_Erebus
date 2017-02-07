@@ -14,7 +14,6 @@ out mat3 TBN;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
-uniform vec3 viewPos;
 uniform mat4 worldMatrices[105];
 uniform mat4 jointMatrices[64];
 
