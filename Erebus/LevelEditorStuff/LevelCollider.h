@@ -17,6 +17,13 @@ enum
 	MAX_COLLIDER_TYPES
 };
 
+enum ColiderBehavior
+{
+	COLLIDER_BEHAVE_COLLISION,
+	COLLIDER_BEHAVE_TRIGGER,
+	MAX_COLLIDER_BEHAVIOR
+};
+
 class LevelCollider : public LevelActorComponent
 {
 public:
@@ -37,10 +44,19 @@ public:
 
 	int getType() const;
 
+	int getBehave()const;
+	void setBehave(int behavior);
+
+	std::string getTriggerEvent();
+	void setTriggerEvent(std::string function);
+
+
 	const glm::vec3& getColor() const;
 
 	static const char* name;
 	static const char* COLLIDER_TYPE_NAMES[MAX_COLLIDER_TYPES];
+	
+	static const char* COLLIDER_BEHAVIOR_NAMES[MAX_COLLIDER_BEHAVIOR];
 	static void setDebugger( Debug* debug );
 	void updateLayer();
 
@@ -66,8 +82,26 @@ private:
 		return result;
 	}
 
+	TwType TW_BEHAVIOR_COLLIDERS()
+	{
+		TwEnumVal colliderVals[] = {
+			{ COLLIDER_BEHAVE_COLLISION, COLLIDER_BEHAVIOR_NAMES[COLLIDER_BEHAVE_COLLISION] },
+			{ COLLIDER_BEHAVE_TRIGGER, COLLIDER_BEHAVIOR_NAMES[COLLIDER_BEHAVE_TRIGGER] },
+		};
+
+		static TwType result = TwDefineEnum("colliderBehaveEnum", colliderVals, MAX_COLLIDER_BEHAVIOR);
+
+		return result;
+	}
+
 	static void TW_CALL onSetType( const void* value, void* clientData );
 	static void TW_CALL onGetType( void* value, void* clientData );
+
+	static void TW_CALL onSetBehave(const void* value, void* clientData);
+	static void TW_CALL onGetBehave(void* value, void* clientData);
+
+	static void TW_CALL setTriggerEventCB(const void* value, void* clientData);
+	static void TW_CALL getTriggerEventCB(void* value, void* clientData);
 
 	unsigned int coliderID, parentColiderID;
 	int colliderType;
@@ -76,8 +110,8 @@ private:
 	LevelCollider* parentCollider;
 	std::vector<LevelCollider*> childColliders;
 	std::string printChildren(std::string name, std::string depth, int &globalDepth, int parentIndex);
-
-
+	int colliderBehavior;
+	std::string triggerEventString;
 
 	// sphere
 	//glm::vec3 spherePosition;

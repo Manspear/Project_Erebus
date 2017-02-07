@@ -87,6 +87,25 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		LevelBrushHandler::getInstance()->brushDraw(engine,camera,deltaTime,inputs,debug);
 	}
 
+	if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_3)) {
+		if (!holdingGizmo)
+		{
+			LevelActor* tempSelectedActor = LevelActorHandler::getInstance()->getSelected();
+			if (tempSelectedActor != nullptr) {
+				int actorID = 0;
+				int noneSelect = 0;
+				glm::vec3 hitPoint(0.0f);
+				glm::vec3 hitNorm(0.f);
+
+				engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+				if(actorID)
+					tempSelectedActor->getComponent<LevelTransform>()->getTransformRef()->setPos(hitPoint);
+			}
+
+
+		}
+	}
+
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 	{
 		if( !holdingGizmo )
