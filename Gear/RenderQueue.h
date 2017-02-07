@@ -22,6 +22,19 @@ struct ModelInstance
 	Importer::ModelAsset* asset;
 	std::vector<int> worldIndices;
 	GLuint instanceVBO;
+	glm::mat4** worldMatrices;
+
+	ModelInstance() { glGenBuffers(1, &instanceVBO); }
+	~ModelInstance() { glDeleteBuffers(1, &instanceVBO); }
+
+	int addInstance(int transformID)
+	{
+		worldIndices.push_back(transformID);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), worldMatrices, GL_STREAM_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		return worldIndices.size();
+	}
 };
 struct AnimatedInstance
 {
@@ -68,6 +81,8 @@ private:
 	glm::mat4* jointMatrices;
 	int nrOfWorlds;
 	WorkQueue* work;
+
+	GLuint instanceTest;
 
 	double freq;
 
