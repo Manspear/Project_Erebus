@@ -69,45 +69,106 @@ void Frustum::updateFrustum(const glm::vec3 & position, const glm::vec3 & direct
 
 }
 
-bool Frustum::pointCollision(glm::vec3 point)
+bool Frustum::pointCollision(glm::vec3& point)
 {
 	bool collision = true;
 
-	for (size_t i = 0; i < PLANE_AMOUNT; i++)
+	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
 	{
 		float distance = this->planes[i].distance(point);
 		if (this->planes[i].distance(point) < 0) // if it is outside ANY plane it is no collision
 		{
 			collision = false;
-			printf("I AM outside plane nr %i\n",i);
+			//printf("I AM outside plane nr %i\n",i);
+			i = FRUSTUM_PLANE_AMOUNT;
 		}
 			
 	}
 	return collision;
 }
 
-bool Frustum::aabbCollision(AABBCollider * aabb)
+bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
 {
-	bool collision = true;
-
-	glm::vec3 corners[8];
+	bool collision = false;
+	const short int CORNER_AMOUNT = 8;
+	glm::vec3 corners[CORNER_AMOUNT];
 	glm::vec3 minPos = aabb->getMinPosLocal();
 	glm::vec3 maxPos = aabb->getMaxPosLocal();
 	glm::vec3 center = aabb->getCenterPos();
+	glm::vec3 dif = maxPos - minPos;
+	glm::vec3 maxPosX = glm::vec3(dif.x, 0, 0);
+	glm::vec3 maxPosY = glm::vec3(0, dif.y, 0);
+	glm::vec3 maxPosZ = glm::vec3(0,0, dif.z);
+	glm::vec3 maxPosXZ = glm::vec3(dif.x, 0, dif.z);
+	glm::vec3 maxPosXY = glm::vec3(dif.x, dif.y, 0);
+	glm::vec3 maxPosYZ = glm::vec3(0, dif.y, dif.z);
 
-	corners[0] = minPos + center;						// left near bottom
-	corners[1] = minPos + maxPos.x + center;			// right near bottom
-	corners[2] = minPos + maxPos.z + center;			// left far bottom
-	corners[3] = minPos + maxPos.x + maxPos.z + center; // right far bottom
+	corners[0] = minPos + center;					// left near bottom
+	corners[1] = minPos + maxPosX + center;			// right near bottom
+	corners[2] = minPos + maxPosZ + center;			// left far bottom
+	corners[3] = minPos + maxPosXZ + center;		// right far bottom
 
 	corners[4] = maxPos + center;						// right top far
-	corners[5] = minPos + maxPos.y + maxPos.z + center;	// left top far
-	corners[6] = minPos + maxPos.y + center;			// left top near
-	corners[7] = minPos + maxPos.y + maxPos.x + center;	// right top near
+	corners[5] = minPos + maxPosYZ + center;	// left top far
+	corners[6] = minPos + maxPosY + center;			// left top near
+	corners[7] = minPos + maxPosXY + center;	// right top near
 
-	// check every corner
-	// if corners are outside different planes
+	for (size_t i = 0; i < 8; i++)
+	{
+		debugger->drawSphere(corners[i], 0.3f);
+	}
 
 
+	// FIRST CHECK, IS ANY CORNER INSIDE THE FRUSTUM
+	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+	{
+		if (this->pointCollision(corners[i])) // if any corner is inside the frustum, collision true and end loop
+		{
+			collision = true;
+			i = FRUSTUM_PLANE_AMOUNT;
+		}
+		
+	}
+
+	// FOR EVERY PLANE, is all points outside the same plane, is collision
+	// if point is outside plane, check if the others are outside tha same plane
+	// is point not outside that plane, check next plane
+	// if all corners are outside the same plane, no collision
+	if (!collision) // Nichals algorithm
+	{
+		collision = true;
+		for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+		{
+			int cornerCounter = 0;
+			for (size_t j = 0; j < CORNER_AMOUNT; j++)
+			{
+				if (!pointPlaneCollision(i, corners[j])) //corner is outside
+				{
+					cornerCounter++;
+					
+				}
+			}	
+			if (cornerCounter == CORNER_AMOUNT) // all corners outside same plane, defenitely no collision
+			{
+				collision = false;
+				i = FRUSTUM_PLANE_AMOUNT; // early exit
+			}
+			std::cout << "CORNER COUNTER: " << cornerCounter << std::endl;
+		}
+	}
+
+
+
+	return collision;
+}
+
+bool Frustum::pointPlaneCollision(int plane, glm::vec3 & point)
+{
+	bool collision = true;
+	float distance = this->planes[plane].distance(point);
+	if (this->planes[plane].distance(point) < 0) // if it is outside
+	{
+		collision = false;
+	}
 	return collision;
 }

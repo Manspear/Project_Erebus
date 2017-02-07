@@ -50,7 +50,7 @@ struct ThreadData
 	HANDLE produce, consume;
 };
 Frustum f = Frustum();
-const glm::vec3 POINT33(125, 35, 230);
+glm::vec3 POINT33(125, 35, 230);
 struct AnimationData
 {
 	Animation* animation;
@@ -91,6 +91,8 @@ DWORD WINAPI update( LPVOID args )
 	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
 	SphereCollider sphere = SphereCollider(POINT33, 0.08f);
 	collisionHandler.addHitbox(&sphere,8);
+	AABBCollider aabb = AABBCollider(glm::vec3(-4,-40,-4),glm::vec3(4,40,4),glm::vec3(125, 35, 230));
+	collisionHandler.addHitbox(&aabb);
 
 	float fov = data->camera->getFov();
 	float aspectRatio = data->camera->getAspectRatio();
@@ -146,9 +148,12 @@ DWORD WINAPI update( LPVOID args )
 		if (data->inputs->keyPressed(GLFW_KEY_H))
 		{
 			f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
-			std::cout << "UPDATING CAMERA\n";
 			if (f.pointCollision(POINT33))
 				std::cout << "I see point\n";
+			if (f.aabbCollision(&aabb,Debugger::getInstance()))
+				std::cout << "AABB COLLISION\n";
+			else
+				std::cout << "NO AABB COLLISION\n";
 		}
 			
 
