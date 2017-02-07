@@ -22,12 +22,6 @@ struct UniformBlendingValues
 	GLfloat value;
 };
 
-struct textureBlendings
-{
-	std::vector<TextureAsset*> textureVector;
-	glm::vec2 blendFactor[3];
-};
-
 using namespace Importer;
 struct ModelInstance
 {
@@ -39,6 +33,13 @@ struct AnimatedInstance
 	ModelAsset* asset;
 	std::vector<int> worldIndices;
 	std::vector<Animation*> animations;
+};
+
+struct textureBlendings
+{
+	std::vector<TextureAsset*> textureVector;
+	std::vector<ModelInstance>* blendingModels;
+	glm::vec2 blendFactor[3];
 };
 
 class RenderQueue
@@ -62,7 +63,7 @@ public:
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
-	void textureBlendingPass(std::vector<textureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels);
+	void textureBlendingPass(std::vector<textureBlendings>* textureBlends);
 
 	void setWorkQueue( WorkQueue* workQueue );
 

@@ -32,10 +32,10 @@ function CreateHellPillar(entity)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
 	local model = Assets.LoadModel( "Models/hellpillar.model" )
-	spell.modelIndex = Gear.AddBlendingInstance(model, spell.transformID)
+	Gear.AddBlendingInstance(1, model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
 	print("hej")
-	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
+	Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
 
 	spell.effectflag = false
 	spell.damage = MAX_DAMAGE_PILLAR
@@ -168,7 +168,7 @@ function CreateHellPillar(entity)
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 0.2 * dt
 
-			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
+			Gear.SetBlendUniformValue(1, 2, self.blendValue1, self.blendValue2)
 
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then
