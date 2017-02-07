@@ -54,6 +54,7 @@ namespace Gear
 				{
 					particlePos[nrOfActiveParticles].pos = this->position;
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+					particlePos[nrOfActiveParticles].size = this->particleSize;
 					temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
 					allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
 				}
@@ -107,7 +108,7 @@ namespace Gear
 				{
 					particlePos[i] = particlePos[nrOfActiveParticles - 1];
 					allParticles[i] = allParticles[--nrOfActiveParticles];
-					particlePos[i].size = this->particleSize;
+					//particlePos[i].size = this->particleSize;
 					if (nrOfActiveParticles <= 0)
 						isActive = false;
 				}

@@ -46,6 +46,7 @@ function LoadPlayer()
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
+	player.invulnerable = false
 	player.position = {}
 
 	-- set spells for player
@@ -54,10 +55,12 @@ function LoadPlayer()
 	player.currentSpell = 1
 
 	player.Hurt = function(self,damage)
+		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health <= 0 then
 				self:Kill()
 			end
+		end
 	end
 
 	player.Kill = function(self)
@@ -217,7 +220,7 @@ function UpdatePlayer(dt)
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
 		if player.dashtime < 0 then
-			SphereCollider.SetActive(player.sphereCollider, true)
+			player.invulnerable = false
 		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
@@ -329,7 +332,7 @@ function Controls(dt)
 			player.dashdir.x = player.forward * 5
 			player.dashdir.z = player.left * 5
 			player.dashtime = DASH_DURATION
-			SphereCollider.SetActive(player.sphereCollider, false)
+			player.invulnerable = true
 		end
 end
 
