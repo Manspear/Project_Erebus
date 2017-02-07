@@ -24,12 +24,13 @@ private:
 		FRUSTUM_FAR
 	};
 	PlaneFrustum planes[6];
+public:
 
 	glm::vec3 nearTopLeft, nearTopRight, nearBottomRight, nearBottomLeft,
 		farTopLeft, farTopRight, farBottomRight, farBottomLeft;
 	float nearDistance, farDistance, aspectRatio, fov, tang;
 	float nearWidth, nearHeight, farWidth, farHeight;
-	const float ONE_DEGREE_RADIAN = glm::pi<float>() / 180;
+	const float ONE_DEGREE_RADIAN = 3.14159265358979323846f / 180;
 	const short unsigned int PLANE_AMOUNT = 6;
 
 };
