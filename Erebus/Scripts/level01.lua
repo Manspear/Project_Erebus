@@ -1,6 +1,8 @@
 props = {}
 heightmaps = {}
 colliders = {}
+triggers = {}
+
 local ID2name = {}
 ID2name.transformID = Transform.Bind()
 Transform.SetPosition(ID2name.transformID, {x=0, y=0, z=128})
@@ -51,10 +53,27 @@ ID5name.surrounding = { 1 }
 heightmaps[2] = ID5name
 ID5name = nil
 
+local ID6name = {}
+ID6name.transformID = Transform.Bind()
+ID6name.collider = SphereCollider.Create(ID6name.transformID)
+ID6name.collider:SetRadius(2)
+Transform.SetPosition(ID6name.transformID, {x=120, y=32, z=220})
+CollisionHandler.AddSphere(ID6name.collider, 4)
+ID6name.OnTrigger = function() Gear.Print("Triggered", 400, 400) end
+ID6name.triggered = false
+table.insert(triggers,ID6name)
+ID6name = nil
+
+CollisionHandler.SetLayerCollision(0,4,true);
+CollisionHandler.SetLayerCollision(1,4,false);
+CollisionHandler.SetLayerCollision(2,4,false);
+CollisionHandler.SetLayerCollision(3,4,false);
+CollisionHandler.SetLayerCollision(4,4,false);
+
 --TEMP: This should probably not be hardcoded into every level?
 local widthTest = heightmaps[1].asset:GetMapWidth()
 local heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
 
 Transform.SetPosition(player.transformID, {x=124, y=32, z=220})
-CreateEnemy(ENEMY_MELEE, {x=120, y=32, z=220})
+CreateEnemy(ENEMY_MELEE, {x=122, y=32, z=230})

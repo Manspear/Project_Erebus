@@ -47,6 +47,7 @@ function LoadPlayer()
 	player.dashtime = 0
 	player.dashcd = 0
 	player.invulnerable = false
+	player.position = {}
 
 	-- set spells for player
 	player.spells = {}
@@ -94,7 +95,7 @@ function LoadPlayer()
 	LoadPlayer2()
 
 	player.aim = CreateAim(player)
-
+	player.charger = CreateChargeThing(player)
 	InitFireEffectParticles()
 	--[[LoadEnemies(5)
 	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
@@ -131,6 +132,9 @@ function LoadPlayer2()
 
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
+
+	player2.aim = CreateAim(player2)
+	player2.charger = CreateChargeThing(player2)
 end
 
 function UnloadPlayer()
@@ -147,6 +151,7 @@ function LoadSpellsPlayer2()
 	player2.spells[1] = SpellListPlayer2[1].spell
 	player2.spells[2] = SpellListPlayer2[2].spell
 	player2.spells[3] = SpellListPlayer2[3].spell
+	player2.spells[1].isActiveSpell = true
 end
 
 function FindHeightmap(position)
@@ -171,7 +176,7 @@ function UpdatePlayer(dt)
 
 		dt = dt * player.timeScalar
 
-		local position = Transform.GetPosition(player.transformID)
+		player.position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
 
@@ -179,44 +184,11 @@ function UpdatePlayer(dt)
 			Controls(dt)
 		end
 		GetCombined()
-		--Transform.Move(player.transformID, player.forward, player.verticalPosition, player.left, dt)
-		--local newPosition = Transform.GetPosition(player.transformID)
+		FindHeightmap(player.position)
 
-		--local posx = math.floor(newPosition.x/512)
-		--local posz = math.floor(newPosition.z/512)
-		--player.heightmapIndex = (posz*2 + posx)+1
-		--if player.heightmapIndex<1 then player.heightmapIndex = 1 end
-		--if player.heightmapIndex>4 then player.heightmapIndex = 4 end
-
-		--local height = heightmaps[player.heightmapIndex].asset:GetHeight(newPosition.x,newPosition.z) + MOLERAT_OFFSET
-
-		--local diff = height - position.y
-		--position = newPosition
-
-		--position.y = position.y + player.verticalSpeed
-		--player.verticalSpeed = player.verticalSpeed - 0.982 * dt
-
-		--if position.y <= height then
-			--position.y = height
-			--player.canJump = true
-			--player.verticalSpeed = 0
-		--end
-
-		--Transform.SetPosition(player.transformID, position)
-
-		--[[local posx = math.floor(position.x/512)
-		local posz = math.floor(position.z/512)
-		player.heightmapIndex = (posz*2 + posx)+1
-		if player.heightmapIndex<1 then player.heightmapIndex = 1 end
-		if player.heightmapIndex>4 then player.heightmapIndex = 4 end
-
-		player.controller:SetHeightmap(heightmaps[player.heightmapIndex].asset)--]]
-
-		FindHeightmap(position)
-
-		Sound.SetPlayerTransform({position.x, position.y, position.z}, {direction.x, direction.y, direction.z})
+		Sound.SetPlayerTransform({player.position.x, player.position.y, player.position.z}, {direction.x, direction.y, direction.z})
 		if Network.ShouldSendNewTransform() == true then
-			Network.SendTransformPacket(player.transformID, position, direction, rotation)
+			Network.SendTransformPacket(player.transformID, player.position, direction, rotation)
 		end
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		player.animationController:AnimationUpdate(dt, Network)
@@ -252,6 +224,30 @@ function UpdatePlayer(dt)
 		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
+	end
+
+	-- check collision against triggers and call their designated function
+	for _,v in pairs(triggers) do
+		if v.collider:CheckCollision() then
+			if not v.triggered then
+				if v.OnEnter then
+					v.OnEnter()
+				else
+					v.OnTrigger()
+				end
+
+				v.triggered = true
+			else
+				v.OnTrigger()
+			end
+		else
+			if v.triggered then
+				if v.OnExit then
+					v.OnExit()
+				end
+				v.triggered = false
+			end
+		end
 	end
 end
 
@@ -314,13 +310,17 @@ function Controls(dt)
 			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 			--end
 			player.spells[player.currentSpell]:Charge(dt)
+			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
 		end
+
+		if Inputs.ButtonPressed(Buttons.Right) then player.charger:StartCharge(player.position) end
 		
 		if Inputs.ButtonReleased(Buttons.Right) then
 			if player.spells[player.currentSpell].cooldown < 0 then 
 				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 			end
 			player.spells[player.currentSpell]:ChargeCast(player)
+			player.charger:EndCharge()
 		end
 
 		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
@@ -344,7 +344,7 @@ function PrintInfo()
 		Gear.Print(info, 60, 570, scale, color)
 
 		local position = Transform.GetPosition(player.transformID)
-		info = "Position\nx:"..Round(position.x, 1).."\ny:"..Round(position.y, 1).."\nz:"..Round(position.z, 1)
+		info = "Position\nx:"..Round(player.position.x, 1).."\ny:"..Round(player.position.y, 1).."\nz:"..Round(player.position.z, 1)
 		Gear.Print(info, 0, 600, scale, color)
 
 		local direction = Transform.GetLookAt(player.transformID)
@@ -365,7 +365,10 @@ function UpdatePlayer2(dt)
 	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast = Network.GetSpellPacket()
 	
 	if newspellpacket == true then
+		player2.spells[player2.currentSpell]:Change()
 		player2.currentSpell = player2CurrentSpell
+		player2.spells[player2.currentSpell]:Change()
+
 		if isCharging == false then
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else

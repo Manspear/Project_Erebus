@@ -16,6 +16,7 @@ function CreateHellPillar(entity)
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.Change = GenericChange
+	spell.maxChargeTime = 3
 	
 	--Set up collider, model and transform for the pillar
 	spell.transformID = Transform.Bind()
@@ -69,6 +70,7 @@ function CreateHellPillar(entity)
 			self.damage = 50
 			self:GeneralCast()	
 		end
+		self.chargedTime = 0
 	end
 	
 	function spell:GeneralCast()
@@ -76,18 +78,13 @@ function CreateHellPillar(entity)
 		self.pos = self.aimPos
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
-		self.chargedTime = 0
 		--self.lightRadius = 10
 		--self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10)
 	end
 	
 	function spell:Update(dt)
 		self.cooldown = self.cooldown - dt
-		self.timeSinceLastPoop = self.timeSinceLastPoop - dt
-		if self.timeSinceLastPoop < 0 then
-			ZoomOutCamera()
-			self.timeSinceLastPoop = 1000
-		end
+		
 		if self.alive then
 			if self.startUp then
 				self:StartingUp(dt)			
@@ -99,6 +96,11 @@ function CreateHellPillar(entity)
 		end		
 		if self.isActiveSpell then
 			self:Aim()
+			self.timeSinceLastPoop = self.timeSinceLastPoop - dt
+			if self.timeSinceLastPoop < 0 then
+				ZoomOutCamera()
+				self.timeSinceLastPoop = 1000
+			end
 		end
 	end
 
@@ -188,5 +190,6 @@ function CreateHellPillar(entity)
 			self.damage = self.damage + damage
 		end
 	end
+	function spell:Kill() Transform.ActiveControl(self.owner.aim.transformID, false) end
 	return spell
 end

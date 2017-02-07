@@ -16,10 +16,11 @@ Gear::ImageRenderer::~ImageRenderer()
 void Gear::ImageRenderer::init(int screenWidth, int screenHeight)
 {
 	shader = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "image");
+	shader->addUniform("projectionMatrix");
 	shader->use();
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	shader->addUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
+	shader->setUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
 	shader->unUse();
 }
 
