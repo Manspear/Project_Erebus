@@ -42,24 +42,12 @@ void MovementController::update()
 
 	/*this->hitbox->setPos(newXPos); // move hitbox on X
 	bool playerColliding = this->checkCollision(colliders); // Check collision against all the walls
-
-	if (hitNormal != glm::vec3(0, 0, 0))
-	{
-		std::cout << "hitNormal X : " << hitNormal.x << ", " << hitNormal.y << ", " << hitNormal.z << std::endl;
-	}
-
-
 	if (!playerColliding) // if our new position is safe
 	{
 		finalPos.x = newXPos.x;
 	}
 	this->hitbox->setPos(newZPos); // move hitbox on Z
 	playerColliding = this->checkCollision(colliders); // Check collision against all the walls
-
-	if (hitNormal != glm::vec3(0, 0, 0))
-	{
-		std::cout << "hitNormal Z : " << hitNormal.x << ", " << hitNormal.y << ", " << hitNormal.z << std::endl;
-	}
 	if (!playerColliding) // if our new position is safe
 	{
 		finalPos.z = newZPos.z;

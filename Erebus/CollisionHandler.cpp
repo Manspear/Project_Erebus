@@ -104,6 +104,18 @@ void CollisionHandler::addHitbox(OBBCollider * obb, int layer)
 	this->collisionLayers->addHitbox(obb, layer);
 }
 
+void CollisionHandler::addHitbox(HitBox * hitbox, int layer)
+{
+	if (hitbox->isSphereCollider())
+		this->addHitbox(static_cast<SphereCollider*>(hitbox));
+	if (hitbox->isObbCollider())
+		this->addHitbox(static_cast<OBBCollider*>(hitbox));
+	if (hitbox->isAabbCollider())
+		this->addHitbox(static_cast<AABBCollider*>(hitbox));
+	if (hitbox->isRayCollider())
+		this->addRay(static_cast<RayCollider*>(hitbox));
+}
+
 void CollisionHandler::addRay(RayCollider * ray)
 {
 	this->rayColliders.push_back(ray);
