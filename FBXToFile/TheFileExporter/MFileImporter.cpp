@@ -486,11 +486,11 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
 
 	//Takes too long
-	//processIndexes();
-	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+	processIndexes();
+	/*for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
 	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
-		imScene.modelList.back().meshList.back().indexList.push_back(i);
+		imScene.modelList.back().meshList.back().indexList.push_back(i);*/
 
 	/*CALLS ITSELF INFINITELY*/
 	//For eventual mesh-hierarchy
@@ -856,6 +856,9 @@ void checkIndexAgainstIndexedList(bool& isUnique, int& offset, int& duplicateInd
 
 void MFileImporter::processIndexes()
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// lets be fab
+	SetConsoleTextAttribute(hConsole, 8);
+	const char* name = imScene.modelList.back().name; //used for printing progress
 	if (imScene.modelList.back().meshList.back().isAnimated)
 	{
 		std::vector<sSkeletonVertex> indexedList;
@@ -863,8 +866,10 @@ void MFileImporter::processIndexes()
 		//Split each of these "loop through everything-calls" into four, for four processors. Making it 4x as quick.
 		//If all threads say "isUnique", then the value is unique.
 
-		for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+		size_t animVertListSize = imScene.modelList.back().meshList.back().animVertList.size();
+		for (int i = 0; i < animVertListSize; i++)
 		{
+			std::cout << name << " indexing :: Vertex: " << i+1 << " :out of " << animVertListSize << std::endl;
 			if (indexedList.size() > 4)
 			{
 				bool isUnique1;
@@ -948,13 +953,16 @@ void MFileImporter::processIndexes()
 				}
 			}
 		}
+		std::cout << name << " indexing :: indexing Done!"<< std::endl;
 		imScene.modelList.back().meshList.back().animVertList = indexedList;
 	}
 	else
 	{
+		size_t vertListSize = imScene.modelList.back().meshList.back().vertList.size();
 		std::vector<sVertex> indexedList;
-		for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
+		for (int i = 0; i < vertListSize; i++)
 		{
+			std::cout << name <<  "indexing :: Vertex: " << i+1 << " :out of " << vertListSize << std::endl;
 			if (indexedList.size() > 4)
 			{
 				bool isUnique1;
@@ -1039,6 +1047,7 @@ void MFileImporter::processIndexes()
 
 			}
 		}
+		std::cout << name << " indexing :: indexing Done!" << std::endl;
 		imScene.modelList.back().meshList.back().vertList = indexedList;
 	}
 
@@ -1046,6 +1055,7 @@ void MFileImporter::processIndexes()
 	int vertNum = imScene.modelList.back().meshList.back().vertList.size();
 	int indexNum = imScene.modelList.back().meshList.back().indexList.size();
 	int wolo = 0;
+	SetConsoleTextAttribute(hConsole, 7); //Lets not be fab anymore
 }
 
 void MFileImporter::processTransformations(FbxNode * node, eObjectType TYPE, int index)

@@ -52,18 +52,35 @@ Transform.SetPosition(heightmaps[2].transformID, {x=0, y=0, z=0})
 --Transform.SetPosition(heightmaps[3].transformID, {x=0, y=0, z=512})
 --.SetPosition(heightmaps[4].transformID, {x=512, y=0, z=512})
 
+--TEMP
+heightmaps[5] = {}
+heightmaps[5].transformID = Transform.Bind()
+local goblin = Assets.LoadModel("Models/Goblin.model")
+Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
+Transform.SetPosition(heightmaps[5].transformID, {x=15, y=6.72, z=158})
+Gear.AddStaticInstance(goblin, heightmaps[5].transformID)
+
+heightmaps[6] = {}
+heightmaps[6].transformID = Transform.Bind()
+local goblin = Assets.LoadModel("Models/PineTree2.model")
+Gear.AddStaticInstance(goblin, heightmaps[6].transformID)
+Transform.SetPosition(heightmaps[6].transformID, {x=20, y=6.72, z=168})
+Gear.AddStaticInstance(goblin, heightmaps[6].transformID)
+
+pointLight = Light.addLight(15, 7.5, 158, 0.54, 0.17, 0.88, 20, 2)
+
 --AI
 widthTest = heightmaps[1].asset:GetMapWidth()
 heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
 
 -- add enemies
-LoadEnemies(5)
+--[[LoadEnemies(5)
 Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
 Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
 Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
 Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
-Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
+Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})--]]
 
 -- set player position
 Transform.SetPosition(player.transformID, {x=44, y=0, z=140})

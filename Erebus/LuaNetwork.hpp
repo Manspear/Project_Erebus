@@ -19,6 +19,8 @@ namespace LuaNetwork
 	int getAITransformPacket(lua_State* lua);
 	int sendChargingPacket(lua_State* lua);
 	int getChargingPacket(lua_State* lua);
+	int sendQuickBlendPacket(lua_State* lua);
+	int getQuickBlendPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);
