@@ -7,6 +7,7 @@
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="terrain" displayName="Terrain Actor1">
@@ -17,6 +18,7 @@
             <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="TestCharacter" displayName="Stick Guy">
@@ -30,6 +32,7 @@
             <Position x="131.08182" y="56.28125" z="37.59375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="PointLight" displayName="Point Light">
@@ -43,6 +46,7 @@
             <Position x="97.8125" y="33.850536" z="73.016838"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="MrRoboto" displayName="DerpMan">
@@ -53,6 +57,7 @@
             <Position x="21.065756" y="7.4862289" z="219.90495"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="272" y="10" z="30"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="ABBColider" displayName="AbbBase">
@@ -67,6 +72,7 @@
             <Position x="52.59375" y="8.3318806" z="43.0625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="ABBColider" displayName="AbbBase (1)">
@@ -81,6 +87,7 @@
             <Position x="52.625" y="8.7100077" z="43.140263"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="OBBColider" displayName="OBBBase">
@@ -95,6 +102,7 @@
             <Position x="49.46875" y="7.6835938" z="41.71875"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="OBBColider" displayName="OBBBase (1)">
@@ -109,6 +117,7 @@
             <Position x="48.875" y="7.703125" z="48.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="SphereColider" displayName="SphereBase">
@@ -122,6 +131,7 @@
             <Position x="53.432632" y="9.4225378" z="42.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="SphereColider" displayName="SphereBase (1)">
@@ -135,6 +145,7 @@
             <Position x="44.4375" y="7.6054688" z="50.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Empty" displayName="New">
@@ -142,6 +153,7 @@
             <Position x="22.578125" y="-1.4663553" z="194.375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Empty" displayName="New (1)">
@@ -149,6 +161,7 @@
             <Position x="6.4296875" y="-1.5546517" z="206.375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="OBBColider" displayName="OBBBase (2)">
@@ -163,6 +176,7 @@
             <Position x="40" y="10" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="OBBColider" displayName="OBBBase (3)">
@@ -177,6 +191,7 @@
             <Position x="40" y="12" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="OBBColider" displayName="OBBBase (4)">
@@ -191,6 +206,7 @@
             <Position x="40" y="14" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="SphereColider" displayName="SphereBase (2)">
@@ -204,6 +220,7 @@
             <Position x="40" y="10" z="15"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="SphereColider" displayName="SphereBase (3)">
@@ -217,6 +234,7 @@
             <Position x="40" y="12" z="15"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="SphereColider" displayName="SphereBase (4)">
@@ -230,6 +248,7 @@
             <Position x="40" y="14" z="15"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="ABBColider" displayName="AbbBase (2)">
@@ -244,6 +263,7 @@
             <Position x="35" y="14" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="ABBColider" displayName="AbbBase (3)">
@@ -258,6 +278,7 @@
             <Position x="35" y="12" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
     <LevelActor type="ABBColider" displayName="AbbBase (4)">
@@ -272,6 +293,7 @@
             <Position x="35" y="10" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
 </Level>

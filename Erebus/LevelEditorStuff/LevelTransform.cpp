@@ -5,6 +5,7 @@ const char* LevelTransform::name = "LevelTransform";
 
 
 LevelTransform::LevelTransform()
+	: exportTransform( true )
 {
 	transformStructTemp = new TransformStruct();
 	this->transformRef = new Transform();
@@ -38,6 +39,7 @@ void LevelTransform::initialize(tinyxml2::XMLElement* element)
 	float yScale;
 	float zScale;
 
+	bool exp;
 
 	xPos = std::stof(element->FirstChildElement("Position")->Attribute("x"));
 	yPos = std::stof(element->FirstChildElement("Position")->Attribute("y"));
@@ -51,6 +53,8 @@ void LevelTransform::initialize(tinyxml2::XMLElement* element)
 	yScale = std::stof(element->FirstChildElement("Scale")->Attribute("y"));
 	zScale = std::stof(element->FirstChildElement("Scale")->Attribute("z"));
 
+	exp = element->FirstChildElement("Export")->BoolAttribute("e");
+
 	glm::vec3 pos = glm::vec3(xPos, yPos, zPos);
 	glm::vec3 rot = glm::vec3(xRot, yRot, zRot);
 	glm::vec3 scale = glm::vec3(xScale, yScale, zScale);
@@ -61,7 +65,7 @@ void LevelTransform::initialize(tinyxml2::XMLElement* element)
 
 	transformRef->setScale(scale);
 	
-
+	exportTransform = exp;
 }
 
 void LevelTransform::update(float deltaTime)
@@ -118,9 +122,13 @@ tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 	scaleElement->SetAttribute("y", scale.y);
 	scaleElement->SetAttribute("z", scale.z);
 
+	tinyxml2::XMLElement* exportElement = doc->NewElement("Export");
+	exportElement->SetAttribute("e", exportTransform );
+
 	element->LinkEndChild(positionElement);
 	element->LinkEndChild(rotationElement);
 	element->LinkEndChild(scaleElement);
+	element->LinkEndChild(exportElement);
 
 	return element;
 }
@@ -130,14 +138,17 @@ std::string LevelTransform::toLua(std::string name)
 	using namespace std;
 	stringstream ss;
 
-	glm::vec3 pos = transformRef->getPos();
-	glm::vec3 scale = transformRef->getScale();
-	glm::vec3 rot = transformRef->getRotation();
+	if( exportTransform )
+	{
+		glm::vec3 pos = transformRef->getPos();
+		glm::vec3 scale = transformRef->getScale();
+		glm::vec3 rot = transformRef->getRotation();
 
-	ss << name << ".transformID = Transform.Bind()" << endl;
-	ss << "Transform.SetPosition(" << name << ".transformID, " <<  "{x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
-	ss << "Transform.SetScaleNonUniform(" << name << ".transformID, " << scale.x << ", " << scale.y << ", " << scale.z << ")" << endl;
-	ss << "Transform.SetRotation(" << name << ".transformID, "<<"{x="  << rot.x << ", y=" << rot.y << ", z=" << rot.z << "})" << endl;
+		ss << name << ".transformID = Transform.Bind()" << endl;
+		ss << "Transform.SetPosition(" << name << ".transformID, " <<  "{x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+		ss << "Transform.SetScaleNonUniform(" << name << ".transformID, " << scale.x << ", " << scale.y << ", " << scale.z << ")" << endl;
+		ss << "Transform.SetRotation(" << name << ".transformID, "<<"{x="  << rot.x << ", y=" << rot.y << ", z=" << rot.z << "})" << endl;
+	}
 
 	return ss.str();
 }
@@ -158,9 +169,10 @@ Transform* LevelTransform::getChangeTransformRef() {
 void LevelTransform::setTwStruct(TwBar * twBar) {
 
 	//TwAddVarRO(twBar, "compName", TW_TYPE_CHAR, this->name, NULL);
-	TwAddVarRW(twBar, "Position", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getPosRef(), NULL);
-	TwAddVarRW(twBar, "Rotation", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getRotationRef(), NULL);
-	TwAddVarRW(twBar, "Scale", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getScaleRef(), NULL);
+	TwAddVarRW(twBar, "transformPosition", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getPosRef(), "label='Position:'");
+	TwAddVarRW(twBar, "transformRotation", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getRotationRef(), "label='Rotation:'");
+	TwAddVarRW(twBar, "transformScale", LevelUI::TW_TYPE_VECTOR3F(), (void*)&transformRef->getScaleRef(), "label='Scale:'");
+	TwAddVarRW(twBar, "transformExport", TW_TYPE_BOOLCPP, &exportTransform, "label='Export:'" );
 }
 
 void LevelTransform::callListener(LevelActorComponent* component) {
