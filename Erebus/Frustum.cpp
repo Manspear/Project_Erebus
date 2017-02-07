@@ -77,7 +77,37 @@ bool Frustum::pointCollision(glm::vec3 point)
 	{
 		float distance = this->planes[i].distance(point);
 		if (this->planes[i].distance(point) < 0) // if it is outside ANY plane it is no collision
+		{
 			collision = false;
+			printf("I AM outside plane nr %i\n",i);
+		}
+			
 	}
+	return collision;
+}
+
+bool Frustum::aabbCollision(AABBCollider * aabb)
+{
+	bool collision = true;
+
+	glm::vec3 corners[8];
+	glm::vec3 minPos = aabb->getMinPosLocal();
+	glm::vec3 maxPos = aabb->getMaxPosLocal();
+	glm::vec3 center = aabb->getCenterPos();
+
+	corners[0] = minPos + center;						// left near bottom
+	corners[1] = minPos + maxPos.x + center;			// right near bottom
+	corners[2] = minPos + maxPos.z + center;			// left far bottom
+	corners[3] = minPos + maxPos.x + maxPos.z + center; // right far bottom
+
+	corners[4] = maxPos + center;						// right top far
+	corners[5] = minPos + maxPos.y + maxPos.z + center;	// left top far
+	corners[6] = minPos + maxPos.y + center;			// left top near
+	corners[7] = minPos + maxPos.y + maxPos.x + center;	// right top near
+
+	// check every corner
+	// if corners are outside different planes
+
+
 	return collision;
 }

@@ -2,7 +2,7 @@
 #pragma once
 #include "PlaneFrustum.h"
 #include "glm\ext.hpp"
-
+#include "AABBCollider.h"
 class Frustum
 {
 public:
@@ -13,6 +13,7 @@ public:
 	void updateFrustum(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& up);
 
 	bool pointCollision(glm::vec3 point);
+	bool aabbCollision(AABBCollider* aabb);
 private:
 	enum
 	{
