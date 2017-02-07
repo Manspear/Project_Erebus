@@ -82,6 +82,9 @@ void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
 {
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_OBB);
 	tempProgram->use();
+	tempProgram->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	tempProgram->setUniform(camera->getViewMatrix(), "viewMatrix");
+
 	int obbInstances = totalToIntance / 4;
 	glm::vec3* pos = new glm::vec3[obbInstances];
 	glm::vec3* xAxis = new glm::vec3[obbInstances];
