@@ -43,6 +43,7 @@ public:
 	static const char* name;
 	static const char* SOUND_FLAG_NAMES[MAX_SOUND_FLAGS];
 	static void setDebugger( Debug* debugger );
+	void removeComponent() override;
 
 private:
 	void setCombinedFlags( int f );

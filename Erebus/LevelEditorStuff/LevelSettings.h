@@ -22,6 +22,7 @@ public:
 	static const char* name;
 	static Debug* s_debugger;
 	static void setDebugger( Debug* debugger );
+	void removeComponent() override;
 
 private:
 	glm::vec3 playerStart;

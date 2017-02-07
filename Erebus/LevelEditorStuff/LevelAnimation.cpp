@@ -45,3 +45,8 @@ void LevelAnimation::setParent(LevelActor* parent)
 {
 	this->parent = parent;
 }
+
+
+void LevelAnimation::removeComponent() {
+	this->parent->deleteComponent<LevelAnimation>();
+}

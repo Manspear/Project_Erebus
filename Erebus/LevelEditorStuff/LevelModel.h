@@ -31,6 +31,7 @@ public:
 	void setModelName( std::string name );
 
 	const std::string& getModelName() const;
+	void removeComponent() override;
 
 private:
 	std::string modelName;

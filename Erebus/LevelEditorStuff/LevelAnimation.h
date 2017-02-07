@@ -2,6 +2,7 @@
 
 #include "LevelActorComponent.h"
 #include "BaseIncludes.h"
+#include "LevelActor.h"
 
 class LevelAnimation : public LevelActorComponent
 {
@@ -17,6 +18,7 @@ public:
 	std::string toLua(std::string name) override;
 	void postInitialize() override;
 	void setParent(LevelActor* parent);
+	void removeComponent() override;
 
 
 };

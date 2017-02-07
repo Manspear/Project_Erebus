@@ -83,17 +83,35 @@ void LevelTransform::postInitialize()
 }
 
 void LevelTransform::setTransform(int index) {
-	glm::vec3 oldPos = glm::vec3(this->transformRef->getPos());
-	glm::vec3 oldRot = glm::vec3(this->transformRef->getRotation());
-	glm::vec3 oldScale = glm::vec3(this->transformRef->getScale());
-	delete this->transformRef;
-	delete this->transformStructTemp;
-	recievedModelTransform = true;
+	if (index < 0)
+	{
+		glm::vec3 oldPos = glm::vec3(this->transformRef->getPos());
+		glm::vec3 oldRot = glm::vec3(this->transformRef->getRotation());
+		glm::vec3 oldScale = glm::vec3(this->transformRef->getScale());
 
-	this->transformRef = LevelTransformHandler::getInstance()->getTransformAt(index);
-	this->transformRef->setPos(oldPos);
-	this->transformRef->setRotation(oldRot);
-	this->transformRef->setScale(oldScale);
+		transformStructTemp = new TransformStruct();
+		this->transformRef = new Transform();
+		transformRef->setThePtr(transformStructTemp);
+		recievedModelTransform = false;
+
+		this->transformRef->setPos(oldPos);
+		this->transformRef->setRotation(oldRot);
+		this->transformRef->setScale(oldScale);
+	}
+	else
+	{
+		glm::vec3 oldPos = glm::vec3(this->transformRef->getPos());
+		glm::vec3 oldRot = glm::vec3(this->transformRef->getRotation());
+		glm::vec3 oldScale = glm::vec3(this->transformRef->getScale());
+		delete this->transformRef;
+		delete this->transformStructTemp;
+		recievedModelTransform = true;
+
+		this->transformRef = LevelTransformHandler::getInstance()->getTransformAt(index);
+		this->transformRef->setPos(oldPos);
+		this->transformRef->setRotation(oldRot);
+		this->transformRef->setScale(oldScale);
+	}
 }
 
 tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
@@ -164,5 +182,9 @@ void LevelTransform::setTwStruct(TwBar * twBar) {
 }
 
 void LevelTransform::callListener(LevelActorComponent* component) {
+
+}
+
+void LevelTransform::removeComponent() {
 
 }

@@ -27,6 +27,7 @@ public:
 
 	void setTwStruct(TwBar * twBar) override;
 	void callListener(LevelActorComponent* component) override;
+	void removeComponent() override;
 
 private:
 	Transform* transformRef;

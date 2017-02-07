@@ -12,6 +12,8 @@ LevelParticleSystem::LevelParticleSystem() : offset(0), alive(true) {
 LevelParticleSystem::~LevelParticleSystem() {
 	if (this->systemRef != nullptr)
 		LevelParticleHandler::getInstance()->deleteParticleSystem(this->systemRef);
+	if (this->parent != nullptr)
+		this->parent->getComponent<LevelTransform>()->deleteListener(this);
 }
 void LevelParticleSystem::initialize(tinyxml2::XMLElement* element) {
 	this->particleFile = element->FirstChildElement("ParticleLocation")->Attribute("Location");
@@ -141,4 +143,10 @@ void LevelParticleSystem::setAlive(bool val) {
 }
 bool LevelParticleSystem::getAlive(){
 	return this->alive;
+}
+
+void LevelParticleSystem::removeComponent() {
+	LevelParticleHandler::getInstance()->deleteParticleSystem(this->systemRef);
+
+	this->parent->deleteComponent<LevelParticleSystem>();
 }

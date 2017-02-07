@@ -250,8 +250,17 @@ std::map<std::string, LevelActorComponent*>& LevelActor::getAllComponents()
 	return this->actorComponents;
 }
 
+void TW_CALL removeCompBtnCB(void *compIn)
+{
+	
+	LevelActorComponent*srcPtr = static_cast<LevelActorComponent *>(compIn);
+	srcPtr->removeComponent();
+	LevelActorHandler::getInstance()->updateTweakBars();
+}
+
 bool LevelActor::setAsSelectedActor(TwBar * bar)
 {
+	
 	TwRemoveAllVars(bar);
 	int amountOfComponents = 0;
 	glm::vec3 colorLabel = { 255,0,0 };
@@ -268,8 +277,11 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 		TwAddButton(bar, "Name"+amountOfComponents, NULL, NULL, ss.str().c_str());
 		//TwDefine(ss.str().c_str());
 		it.second->setTwStruct(bar);
-		TwAddSeparator(bar, NULL, NULL);
+		
 		amountOfComponents++;
+
+		TwAddButton(bar, ("remove" + std::to_string(amountOfComponents)).c_str(), removeCompBtnCB, it.second, "label='Remove Comp'");
+		TwAddSeparator(bar, NULL, NULL);
 	}
 
 	return true;

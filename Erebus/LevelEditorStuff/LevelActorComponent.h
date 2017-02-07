@@ -20,6 +20,7 @@ public:
 	virtual void setParent(LevelActor* parent) { this->parent = parent; };
 
 	virtual void setTwStruct(TwBar * twBar) {};
+	virtual void removeComponent() = 0;
 
 	virtual void addListener(LevelActorComponent* component) { this->Listeners.push_back(component); };
 	virtual void deleteListener(LevelActorComponent* component) {

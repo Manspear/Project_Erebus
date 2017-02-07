@@ -37,6 +37,7 @@ public:
 	static const char* name;
 
 	static void setDebugger( Debug* debugger );
+	void removeComponent() override;
 
 private:
 	static Debug* s_debugger;

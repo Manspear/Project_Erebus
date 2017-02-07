@@ -67,6 +67,7 @@ public:
 	void addChildColider(LevelCollider* colider);
 	void deleteChildColider(LevelCollider* colider);
 	LevelCollider* getParentColider();
+	void removeComponent() override;
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{

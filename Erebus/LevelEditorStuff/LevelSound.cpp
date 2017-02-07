@@ -177,3 +177,8 @@ int LevelSound::getCombinedFlags()
 
 	return combinedFlags;
 }
+
+void LevelSound::removeComponent() {
+	this->parent->deleteComponent<LevelSound>();
+}
+

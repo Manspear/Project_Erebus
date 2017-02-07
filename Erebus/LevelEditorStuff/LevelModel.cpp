@@ -11,7 +11,8 @@ LevelModel::LevelModel()
 
 LevelModel::~LevelModel()
 {
-	LevelModelHandler::getInstance()->removeModel( transformIndice );
+	parent->getComponent<LevelTransform>()->setTransform(-1);
+	LevelModelHandler::getInstance()->removeModel( transformIndice, parent->id );
 }
 
 void LevelModel::initialize(tinyxml2::XMLElement* element)
@@ -131,4 +132,8 @@ void LevelModel::setModelName( std::string name )
 const std::string& LevelModel::getModelName() const
 {
 	return modelName;
+}
+
+void LevelModel::removeComponent() {
+	this->parent->deleteComponent<LevelModel>();
 }

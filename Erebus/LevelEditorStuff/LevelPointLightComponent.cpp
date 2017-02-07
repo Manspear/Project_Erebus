@@ -155,3 +155,10 @@ void LevelPointLightComponent::callListener(LevelActorComponent* component) {
 	setWorldPos(((LevelTransform*)component));
 	//std::cout << "NEW WORLD POS"<<glm::to_string(worldPos) << std::endl;
 }
+
+void LevelPointLightComponent::removeComponent() {
+	LevelLightHandler::getInstance()->deletePointLight(this->light);
+
+	this->parent->deleteComponent<LevelPointLightComponent>();
+
+}

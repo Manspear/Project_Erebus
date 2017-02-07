@@ -32,6 +32,7 @@ public:
 	Lights::PointLight* light;
 
 	void callListener(LevelActorComponent* component) override;
+	void removeComponent() override;
 private:
 	float radius;
 	glm::vec3 color;

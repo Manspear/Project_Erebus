@@ -16,6 +16,8 @@ LevelSettings::LevelSettings()
 
 LevelSettings::~LevelSettings()
 {
+	if (this->parent != nullptr)
+		this->parent->getComponent<LevelTransform>()->deleteListener(this);
 }
 
 void LevelSettings::initialize( tinyxml2::XMLElement* element )
@@ -90,4 +92,10 @@ void LevelSettings::setTwStruct( TwBar* bar )
 void LevelSettings::callListener( LevelActorComponent* component )
 {
 	playerStart = ((LevelTransform*)component)->getChangeTransformRef()->getPos();
+}
+
+
+void LevelSettings::removeComponent() {
+	this->parent->deleteComponent<LevelSettings>();
+
 }

@@ -266,9 +266,12 @@ void LevelActorFactory::loadWorld( std::string fileName )
 
 	tinyxml2::XMLDocument* doc = getDocument( fullPath, false );
 	tinyxml2::XMLElement* startElement = doc->FirstChildElement();
+	
 
 	for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 		LevelActorHandler::getInstance()->addActor(loadActor(pNode));
+
+	delete doc;
 }
 
 void LevelActorFactory::loadWorld()
@@ -280,9 +283,12 @@ void LevelActorFactory::loadWorld()
 		LevelWorldHandler::getInstance()->resetWorld();
 		tinyxml2::XMLDocument* doc = getDocument( filePath, false );
 		tinyxml2::XMLElement* startElement = doc->FirstChildElement();
+		
 
 		for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 			LevelActorHandler::getInstance()->addActor(loadActor(pNode));
+
+		delete doc;
 	}
 }
 

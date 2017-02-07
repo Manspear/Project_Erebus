@@ -26,4 +26,5 @@ public:
 	void postInitialize() override;
 	void setTwStruct(TwBar * twBar) override;
 	static void setDebugger(Debug* debug);
+	void removeComponent() override;
 };

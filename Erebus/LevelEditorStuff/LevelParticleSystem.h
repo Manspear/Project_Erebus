@@ -33,4 +33,5 @@ public:
 	void setAlive(bool val);
 	void swapAlive();
 	bool getAlive();
+	void removeComponent() override;
 };

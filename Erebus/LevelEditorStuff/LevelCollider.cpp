@@ -736,3 +736,10 @@ void LevelCollider::updateLayer() {
 	}
 	layer = tempLayer;
 }
+
+void LevelCollider::removeComponent() {
+	if (this->parentCollider != nullptr) {
+		this->parentCollider->deleteChildColider(this);
+	}
+	this->parent->deleteComponent<LevelCollider>();
+}

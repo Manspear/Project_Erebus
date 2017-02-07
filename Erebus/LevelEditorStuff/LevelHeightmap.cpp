@@ -244,3 +244,7 @@ void LevelHeightmap::callListener( LevelActorComponent* component )
 {
 	position = ((LevelTransform*)component)->getChangeTransformRef()->getPos();
 }
+
+void LevelHeightmap::removeComponent() {
+	this->parent->deleteComponent<LevelHeightmap>();
+}

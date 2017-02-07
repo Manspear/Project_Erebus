@@ -58,3 +58,7 @@ void LevelEnemy::setTwStruct(TwBar * twBar) {
 void LevelEnemy::setDebugger(Debug* debug) {
 	g_debugger = debug;
 }
+
+void LevelEnemy::removeComponent() {
+	this->parent->deleteComponent<LevelEnemy>();
+}

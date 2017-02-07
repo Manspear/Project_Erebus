@@ -134,7 +134,7 @@ void LevelModelHandler::replaceModel( std::string modelName, unsigned int actorI
 	}
 }
 
-void LevelModelHandler::removeModel( int transformID )
+void LevelModelHandler::removeModel( int transformID, int parentID )
 {
 	bool found = false;
 	int modelIndex = -1;
@@ -155,5 +155,13 @@ void LevelModelHandler::removeModel( int transformID )
 	if( found )
 	{
 		models[modelIndex].worldIndices.erase( models[modelIndex].worldIndices.begin() + worldIndex );
+
+		for (size_t i = 0; i < modelInstanceAgentIDs.at(modelIndex).size(); i++)
+		{
+			if (modelInstanceAgentIDs.at(modelIndex).at(i).second == parentID) {
+				modelInstanceAgentIDs.at(modelIndex).erase(modelInstanceAgentIDs.at(modelIndex).begin() + i);
+				i = modelInstanceAgentIDs.at(modelIndex).size();
+			}
+		}
 	}
 }
