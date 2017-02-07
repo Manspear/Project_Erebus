@@ -10,9 +10,10 @@ BLACK_HOLE_COOLDOWN = 6
 BLACK_HOLE_PULL_SPEED = 1
 BLACK_HOLE_SPIN_SPEED = 3.14/1
 
-function CreateBlackHole()
+function CreateBlackHole(entity)
 	local spell = {}
 	spell.type = CreateStaticAoEType()
+	spell.owner = entity
 	spell.effects = {}
 	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
 	spell.maxChargeTime = 0
@@ -20,12 +21,12 @@ function CreateBlackHole()
 	spell.damage = 0
 	spell.lastTick = 0
 	spell.duration = 0
-	spell.owner = {}
 	spell.hits = {}
 	spell.alive = false
 	spell.cooldown = 0
 	spell.castSFX = {"Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
 	spell.soundID = {}
+	spell.Change = GenericChange
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
 	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
@@ -94,6 +95,7 @@ function CreateBlackHole()
 				self:Kill()
 			end
 		end
+		if self.isActiveSpell then self:Aim() end
 	end
 
 	function spell:Kill()
@@ -106,6 +108,19 @@ function CreateBlackHole()
 		self.alive = false
 	
 	end
+
+	function spell:Aim()	
+		local lookAt = Transform.GetLookAt(self.caster)
+		local aPos = Transform.GetPosition(self.caster)
+		self.aimPos = {x = aPos.x + lookAt.x *10, y = aPos.y + lookAt.y *10, z = aPos.z + lookAt.z *10 }
+		player.aim:SetPos(self.aimPos)
+	end
+
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+		Transform.ActiveControl(self.owner.aim.transformID, self.isActiveSpell)
+	end
+
 	function spell:GetEffect()
 		return self.effects[1]
 	end

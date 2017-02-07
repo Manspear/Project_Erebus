@@ -78,8 +78,8 @@ namespace Importer
 
 	bool HeightMap::inside( const glm::vec3& pos )
 	{
-		return ( pos.x >= position.x && pos.x <= position.x + mapWidth &&
-				pos.z >= position.z && pos.z <= position.z + mapHeight );
+		return ( pos.x >= position.x && pos.x <= position.x + mapWidth-1 &&
+				pos.z >= position.z && pos.z <= position.z + mapHeight-1 );
 	}
 
 	void HeightMap::setPosition( const glm::vec3& pos )
@@ -152,7 +152,6 @@ namespace Importer
 
 		float heightVal = lerp(topHeight, bottomHeight, zNormalized);
 
-		// TODO: What does this magic number mean? Ask Jesper
-		return heightVal*heightMultiplier + 3;
+		return heightVal*heightMultiplier + position.y;
 	}
 }

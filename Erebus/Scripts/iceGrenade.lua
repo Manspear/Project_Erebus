@@ -43,6 +43,7 @@ function CreateIceGrenade()
 	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.timeSinceLastPoop = 0
+	spell.Change = GenericChange
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
 	end
@@ -154,9 +155,16 @@ function CreateIceGrenade()
 
 		
 	end
+
 	function spell:GetEffect()
 		return self.nades[1].effects[1]
 	end
+
+	function spell:Aim()
+	end
+	function spell:Change()
+	end
+
 	function spell:Combine(effect,damage)
 		self.damage = self.damage + 2 * damage
 		for i=1, #self.nades do
