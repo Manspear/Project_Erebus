@@ -49,8 +49,6 @@ struct ThreadData
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
-Frustum f = Frustum();
-const glm::vec3 POINT33(125, 35, 230);
 struct AnimationData
 {
 	Animation* animation;
@@ -87,27 +85,6 @@ DWORD WINAPI update( LPVOID args )
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
-	SphereCollider sphere = SphereCollider(POINT33, 0.08f);
-	collisionHandler.addHitbox(&sphere,8);
-
-	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
-	float fov = data->camera->getFov();
-	float aspectRatio = data->camera->getAspectRatio();
-	float nearDistance = data->camera->getNearPlaneDistance();
-	float farDistance = data->camera->getFarPlaneDistance();
-	f.setCameraParameters(fov,aspectRatio,nearDistance,farDistance);
-
-	glm::vec3 cameraPosition = data->camera->getPosition();
-	glm::vec3 cameraLookDirection = data->camera->getDirection();
-	glm::vec3 cameraUp = data->camera->getUp();
-	f.updateFrustum(cameraPosition,cameraLookDirection,cameraUp);
-
-
-	///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
-
-	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(30.5, 7.5, 138.5));
-
-	collisionHandler.addHitbox(&aabb);
 
 	ai.addDebug(Debugger::getInstance());
 
