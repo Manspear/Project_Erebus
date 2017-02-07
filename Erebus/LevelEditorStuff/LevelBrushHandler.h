@@ -23,8 +23,14 @@ public:
 	static void deleteInstance();
 	static void resetInstance();
 
+	
 	void updateBrushBar(); //nothing here right now
 
+	void setIsRotation(bool t_f);
+	void setIsScale(bool t_f);
+
+	bool getIsRotation();
+	bool getIsScale();
 	//void selectPrefab( std::string prefab );
 	//void selectPrefab(int index);
 	//void showContextBar(std::string asset);
@@ -38,16 +44,23 @@ public:
 
 	
 	void setTweakBar(TweakBar* brushBar);
-	void testDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs, Debug* debug);
+	void brushDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs, Debug* debug);
 	//Importer::Assets* getAssets();
 
 private:
 	int numSavedPositions = 20;
 	float radius = 1;
-	float VacancyRadius = 8;
+	float VacancyRadius = 5;
 	float yOffset = 0;
 	float PIx2 = 6.2832;
 	double timer = 0;
+	bool preventOverDraw = false; //Allow Meshes to be drawn in the same place?
+	bool isRotation = false;
+	bool isScale = false;
+
+
+	float maxScale = 2.0;
+	float minScale = 0.5;
 	std::vector<glm::vec3> earlierPositions; //this will have a max size of 4
 	std::string saveAsType = "Brush";
 	LevelBrushHandler();
