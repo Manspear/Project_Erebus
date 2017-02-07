@@ -224,6 +224,8 @@
     <None Include="Scripts\hellPillar.lua" />
     <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />
+    <None Include="Scripts\ipconnect.lua" />
+    <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\main_menu.lua" />

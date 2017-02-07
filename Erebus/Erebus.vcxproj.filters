@@ -483,6 +483,12 @@
     <None Include="Scripts\spellUtility.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\ipconnectUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\ipconnect.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
