@@ -23,7 +23,7 @@ namespace Gear
 		frameBufferInit();
 		shaderInit();
 		lightInit();
-		uniformLocationInit();
+		//uniformLocationInit();
 		skyboxInit();
 
 		debugHandler = new DebugHandler();
@@ -34,13 +34,7 @@ namespace Gear
 	GearEngine::~GearEngine()
 	{
 		glfwTerminate();
-		delete quadShader;
-		delete lightPassShader;
-		delete blurShader;
-		delete effectShader;
 		delete debugHandler;
-		delete gloomCompute;
-		delete[] lightPassUniformLocations;
 	}
 #pragma region init functions
 	void GearEngine::lightInit()
@@ -100,11 +94,6 @@ namespace Gear
 
 	void GearEngine::shaderInit()
 	{
-		quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
-		lightPassShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
-		blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
-		effectShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "effects"); //Draw effect texture on screen
-		gloomCompute = new ShaderProgram(shaderBaseType::COMPUTESHADER, "gloom");//Gloom computeshader
 		
 		glGenTextures(1, &gloomTexture);
 
@@ -114,26 +103,6 @@ namespace Gear
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, (GLsizei)WINDOW_WIDTH, (GLsizei)WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
 
-	}
-
-	void GearEngine::uniformLocationInit()
-	{
-		lightPassUniformLocations = new GLuint[5];
-		lightPassShader->use();
-		lightPassUniformLocations[0] = lightPassShader->getUniformLocation("viewPos");
-		lightPassUniformLocations[1] = lightPassShader->getUniformLocation("shadowVPM");
-		lightPassUniformLocations[2] = lightPassShader->getUniformLocation("drawMode");
-		lightPassUniformLocations[3] = lightPassShader->getUniformLocation("invView");
-		lightPassUniformLocations[4] = lightPassShader->getUniformLocation("invProj");
-
-		for (int i = 0; i < dirLights.size(); i++)
-		{
-			GLuint loc = lightPassShader->getUniformLocation(("dirLights[" + std::to_string(i) + "].direction"));
-			lightDirectionLocations.push_back(loc);
-			loc = lightPassShader->getUniformLocation(("dirLights[" + std::to_string(i) + "].color"));
-			lightColorLocations.push_back(loc);
-		}
-		lightPassShader->unUse();
 	}
 
 	void GearEngine::skyboxInit()
@@ -351,7 +320,7 @@ namespace Gear
 		
 		debugHandler->draw( camera, &queue );
 
-		skybox.update(camera, gBuffer.getTextures()[2]);
+		skybox.update(camera);
 		skybox.draw();
 
 		queue.particlePass(particleSystem);
@@ -510,11 +479,12 @@ namespace Gear
 
 	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
-		lightPassShader->use();
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::LIGHT_PASS);
+		shader->use();
 		glClear(GL_COLOR_BUFFER_BIT);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gAlbedoSpec", 0, 0); //binds textures
-		gBuffer.BindTexturesToProgram(lightPassShader, "gNormal", 1, 1);
-		gBuffer.BindTexturesToProgram(lightPassShader, "gDepth", 2, 2);
+		gBuffer.BindTexturesToProgram(shader, "gAlbedoSpec", 0, 0); //binds textures
+		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
+		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
 		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
 		
 		//lightPassShader->addUniform(camera->getPosition(), "viewPos");
@@ -523,11 +493,11 @@ namespace Gear
 		//lightPassShader->addUniform(glm::inverse(camera->getViewMatrix()), "invView");
 		//lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");
 
-		lightPassShader->addUniform(camera->getPosition(), lightPassUniformLocations[0]); // viewPos
-		lightPassShader->addUniform(tempCam->getViewPers(), lightPassUniformLocations[1]); //shadowVPM
-		lightPassShader->addUniform(drawMode, lightPassUniformLocations[2]); //sets the draw mode to show diffrent lights calculations and textures for debugging  
-		lightPassShader->addUniform(glm::inverse(camera->getViewMatrix()), lightPassUniformLocations[3]); // invView
-		lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), lightPassUniformLocations[4]); // invProj
+		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
+		shader->setUniform(tempCam->getViewPers(), "shadowVPM"); //shadowVPM
+		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
+		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
+		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
 
 		//for (GLuint i = 0; i < dirLights.size(); i++) //adds dir light
 		//{
@@ -537,30 +507,31 @@ namespace Gear
 
 		for (GLuint i = 0; i < dirLights.size(); i++)
 		{
-			lightPassShader->addUniform(dirLights[i].direction, lightDirectionLocations[i]);
-			lightPassShader->addUniform(dirLights[i].color, lightColorLocations[i]);
+			shader->setUniform(dirLights[i].direction, "dirLights.direction");
+			shader->setUniform(dirLights[i].color, "dirLights.color");
 		}
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, lightBuffer); //binds the light buffer to the shader
 		drawQuad(); //draws quad
 
-		lightPassShader->unUse();
+		shader->unUse();
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
 
 	}
 
 	void GearEngine::BlurFilter(ShaderProgram * dest, ShaderProgram * source, glm::vec3 blurScale)
 	{
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::LIGHT_PASS);
 		dest->use();
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		blurShader->use();
+		shader->use();
 
-		blurShader->addUniform(blurScale, "blurScale");
-		source->BindTexturesToProgram(blurShader, "filterTexture", 0, 0);
+		shader->setUniform(blurScale, "blurScale");
+		source->BindTexturesToProgram(shader, "filterTexture", 0, 0);
 		drawQuad();
 
-		blurShader->unUse();
+		shader->unUse();
 	}
 
 	void GearEngine::shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount)
