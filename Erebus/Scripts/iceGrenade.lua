@@ -105,7 +105,7 @@ function CreateIceGrenade(entity)
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
 					hits = self.nades[i].type:Update(dt)				
-					self.nades[i].particles.die(self.nades[i].type.position)
+					--self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then

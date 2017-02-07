@@ -27,6 +27,7 @@ function CreateBlackHole(entity)
 	spell.castSFX = {"Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
 	spell.soundID = {}
 	spell.Change = GenericChange
+	spell.particles = createIceGrenadeParticles()
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
 	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
@@ -34,7 +35,7 @@ function CreateBlackHole(entity)
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)
 
-	function spell:Cast(entity, chargetime) end
+	function spell:Cast(entity, chargetime)self.particles.cast() end
 	function spell:Charge(dt) end
 
 	function spell:ChargeCast(entity)
@@ -60,6 +61,8 @@ function CreateBlackHole(entity)
 	end
 
 	function spell:Update(dt)
+		local pos = Transform.GetPosition(player.transformID)
+		self.particles.update(pos.x, pos.y, pos.z)
 		self.cooldown = self.cooldown - dt
 		if self.alive then
 			self.duration = self.duration + dt

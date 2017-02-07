@@ -48,6 +48,7 @@ namespace Gear
 		GEAR_API SendStruct* getPositions();
 		GEAR_API Importer::TextureAsset* getTexture();
 		GEAR_API void resetEmitter();
+		GEAR_API void setExtrovert(bool yesNo);
 		
 		bool isActive;
 		glm::vec3 localPos;
@@ -70,8 +71,10 @@ namespace Gear
 		float focus;
 		glm::vec3 direction;
 		float gravityFactor;
+		bool extrovert;
 
 		void spawn(float dt);
+		void introvertSpawn(float dt);
 	};
 }
 

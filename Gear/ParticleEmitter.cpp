@@ -11,6 +11,7 @@ namespace Gear
 
 	void ParticleEmitter::emitterInit(Emitter emitter, Importer::Assets* assets)
 	{		
+		this->extrovert = true;
 		timer = 0;
 		isActive = false;
 		nrOfActiveParticles = 0;
@@ -61,11 +62,35 @@ namespace Gear
 		}
 	}
 
+
+	void ParticleEmitter::introvertSpawn(float dt)
+	{
+		if (alive)
+		{
+			timer += dt;
+			if (timer > particleRate)
+			{
+				int i = 0;
+				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+				{
+					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10)) + this->position;
+					allParticles[nrOfActiveParticles].direction = glm::normalize(this->position - particlePos[nrOfActiveParticles].pos);
+					nrOfActiveParticles++;
+				}
+				timer = 0;
+			}
+		}
+	}
+
 	bool ParticleEmitter::update(const float &dt)
 	{
 		if (isActive)
 		{
-			spawn(dt);
+			if (this->extrovert)
+				spawn(dt);
+			else
+				introvertSpawn(dt);
 
 			float randomSpeed;
 			for (int i = 0; i < nrOfActiveParticles; i++)
@@ -100,7 +125,7 @@ namespace Gear
 			particlePos[i].size = this->particleSize;
 			allParticles[i].lifeSpan = this->lifeTime;
 			allParticles[i].direction = glm::normalize(glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5));
-			allParticles[i].direction *= rand() % (int)partSpeed;
+			allParticles[i].direction *= rand() % (int)partSpeed;		
 			nrOfActiveParticles = i;
 		}
 		isActive = true;
@@ -116,6 +141,11 @@ namespace Gear
 			allParticles[i].direction = { 0, 0, 0 };
 		}
 		nrOfActiveParticles = 0;
+	}
+
+	GEAR_API void ParticleEmitter::setExtrovert(bool yesNo)
+	{
+		this->extrovert = yesNo;
 	}
 
 	void ParticleEmitter::setEmitterPos(glm::vec3 pos)
