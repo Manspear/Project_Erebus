@@ -142,17 +142,19 @@ std::string LevelActor::toLua()
 	using namespace std;
 	stringstream ss;
 
-	/*if( exportType == EXPORT_PLAYER_SPAWN )
+	if( exportType == EXPORT_ENEMY )
 	{
 		LevelTransform* transform = getComponent<LevelTransform>();
-		if( transform )
-		{
-			glm::vec3 pos = transform->getTransformRef()->getPos();
-			ss << "Transform.SetPosition(player.transformID," << pos.x << ", " << pos.y << ", " << pos.z << ")" << endl << endl;
-		}
+		glm::vec3 pos = transform->getTransformRef()->getPos();
+
+		std::string fullName = "ID" + to_string(id) + "name";
+		
+
+		LevelEnemy* enemy = getComponent<LevelEnemy>();
+		ss << enemy->toLua( fullName ) << endl;
 	}
 	else
-	{*/
+	{
 		std::string fullName = "ID" +to_string(id) + "name";
 		ss<<"local " << fullName <<" = {}" << endl;
 
@@ -182,10 +184,10 @@ std::string LevelActor::toLua()
 				//ss << "table.insert(props,temp)" << endl;
 				break;
 
-			case EXPORT_ENEMY:
+			/*case EXPORT_ENEMY:
 				ss << "table.insert(enemies," << fullName << ")" << endl;
 				//ss << "table.insert(enemies,temp)" << endl;
-				break;
+				break;*/
 
 			case EXPORT_HEIGHTMAP:
 			{
@@ -209,7 +211,7 @@ std::string LevelActor::toLua()
 				break;
 		}
 		ss << fullName << " = nil" << endl<<endl;
-	//}
+	}
 
 	return ss.str();
 }
