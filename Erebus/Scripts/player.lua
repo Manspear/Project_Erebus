@@ -129,6 +129,9 @@ function LoadPlayer2()
 
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
+
+	player2.aim = CreateAim(player2)
+	player2.charger = CreateChargeThing(player2)
 end
 
 function UnloadPlayer()
@@ -145,6 +148,7 @@ function LoadSpellsPlayer2()
 	player2.spells[1] = SpellListPlayer2[1].spell
 	player2.spells[2] = SpellListPlayer2[2].spell
 	player2.spells[3] = SpellListPlayer2[3].spell
+	player2.spells[1].isActiveSpell = true
 end
 
 function FindHeightmap(position)
@@ -358,7 +362,10 @@ function UpdatePlayer2(dt)
 	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast = Network.GetSpellPacket()
 	
 	if newspellpacket == true then
+		player2.spells[player2.currentSpell]:Change()
 		player2.currentSpell = player2CurrentSpell
+		player2.spells[player2.currentSpell]:Change()
+
 		if isCharging == false then
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
