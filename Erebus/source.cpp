@@ -49,6 +49,8 @@ struct ThreadData
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
+Frustum f = Frustum();
+const glm::vec3 POINT33(125, 35, 230);
 struct AnimationData
 {
 	Animation* animation;
@@ -86,6 +88,22 @@ DWORD WINAPI update( LPVOID args )
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
 
+	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
+	SphereCollider sphere = SphereCollider(POINT33, 0.08f);
+	collisionHandler.addHitbox(&sphere,8);
+
+	float fov = data->camera->getFov();
+	float aspectRatio = data->camera->getAspectRatio();
+	float nearDistance = data->camera->getNearPlaneDistance();
+	float farDistance = data->camera->getFarPlaneDistance();
+	f.setCameraParameters(fov,aspectRatio,nearDistance,farDistance);
+
+	glm::vec3 cameraPosition = data->camera->getPosition();
+	glm::vec3 cameraLookDirection = data->camera->getDirection();
+	glm::vec3 cameraUp = data->camera->getUp();
+	f.updateFrustum(cameraPosition,cameraLookDirection,cameraUp);
+	///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
+
 	ai.addDebug(Debugger::getInstance());
 
 	data->engine->queueDynamicModels( data->models );
@@ -108,6 +126,33 @@ DWORD WINAPI update( LPVOID args )
 		glm::vec3 cameraPosition = data->camera->getPosition();
 		glm::vec3 cameraLookDirection = data->camera->getDirection();
 		glm::vec3 cameraUp = data->camera->getUp();
+
+		///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
+		Debugger::getInstance()->drawLine(f.farTopLeft,f.farTopRight,glm::vec3(1,0,0)); // far square RED
+		Debugger::getInstance()->drawLine(f.farTopRight, f.farBottomRight, glm::vec3(1, 0, 0));
+		Debugger::getInstance()->drawLine(f.farBottomLeft, f.farBottomRight, glm::vec3(1, 0, 0));
+		Debugger::getInstance()->drawLine(f.farBottomLeft, f.farTopLeft, glm::vec3(1, 0, 0));
+
+		Debugger::getInstance()->drawLine(f.nearTopLeft, f.nearTopRight, glm::vec3(0, 0, 1)); // near square BLUE
+		Debugger::getInstance()->drawLine(f.nearTopLeft, f.nearBottomLeft, glm::vec3(0, 0, 1));
+		Debugger::getInstance()->drawLine(f.nearTopRight, f.nearBottomRight, glm::vec3(0, 0, 1));
+		Debugger::getInstance()->drawLine(f.nearBottomLeft, f.nearBottomRight, glm::vec3(0, 0, 1));
+
+		Debugger::getInstance()->drawLine(f.nearTopLeft, f.farTopLeft); // between suqres GREEN
+		Debugger::getInstance()->drawLine(f.nearTopRight, f.farTopRight);
+		Debugger::getInstance()->drawLine(f.nearBottomLeft, f.farBottomLeft);
+		Debugger::getInstance()->drawLine(f.nearBottomRight,f.farBottomRight);
+		
+		if (data->inputs->keyPressed(GLFW_KEY_H))
+		{
+			f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
+			std::cout << "UPDATING CAMERA\n";
+			if (f.pointCollision(POINT33))
+				std::cout << "I see point\n";
+		}
+			
+
+		///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
 
 
 		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
