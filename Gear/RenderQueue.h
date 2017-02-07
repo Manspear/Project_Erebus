@@ -21,6 +21,7 @@ struct ModelInstance
 {
 	Importer::ModelAsset* asset;
 	std::vector<int> worldIndices;
+	GLuint instanceVBO;
 };
 struct AnimatedInstance
 {

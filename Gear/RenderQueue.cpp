@@ -306,6 +306,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	allShaders[GEOMETRY]->use();
 	GLuint worldMatricesLocation = glGetUniformLocation(allShaders[GEOMETRY]->getProgramID(), "worldMatrices");
 
+	GLuint instanceTest;
+	glGenBuffers(1, &instanceTest);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
@@ -315,8 +317,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
 
 		// TEMP: Shouldn't have any models without material
-		if( modelAsset->getMaterial() )
-		modelAsset->getMaterial()->bindTextures( allShaders[GEOMETRY]->getProgramID() );
+		if (modelAsset->getMaterial())
+			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
@@ -325,12 +327,31 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
 
-		glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+		//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+		size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 
+		glBindBuffer(GL_ARRAY_BUFFER, instanceTest);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4)*numInstance, &tempMatrices[0][0][0], GL_STATIC_DRAW);
+
+		//glBindBuffer(GL_ARRAY_BUFFER, instanceTest);
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, 0);
+		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4)));
+		glEnableVertexAttribArray(6);
+		glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4) * 2));
+		glEnableVertexAttribArray(7);
+		glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4) * 3));
+
+		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(5, 1);
+		glVertexAttribDivisor(6, 1);
+		glVertexAttribDivisor(7, 1);
+		
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
 			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+			
 			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, 0);
@@ -340,6 +361,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, (GLsizei)size, (void*)(sizeof(float) * 6));
 			glEnableVertexAttribArray(3);
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, (void*)(sizeof(float) * 8));
+
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
 			//glDrawElementsInstanced(GL_LINES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
@@ -347,6 +369,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
+	glDeleteBuffers(1, &instanceTest);
 	allShaders[GEOMETRY]->unUse();
 
 	currentShader = ANIM;
@@ -393,6 +416,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				glVertexAttribIPointer(4, 4, GL_INT, size, (void*)(sizeof(float) * 11));
 				glEnableVertexAttribArray(5);
 				glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 11 + sizeof(int) * 4));
+
+				glVertexAttribDivisor(4, 0);
+				glVertexAttribDivisor(5, 0);
 
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, 1);
