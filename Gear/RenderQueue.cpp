@@ -38,106 +38,23 @@ RenderQueue::~RenderQueue()
 void RenderQueue::init()
 {
 	allShaders[ShaderType::FORWARD] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "forward");
-	allShaders[ShaderType::FORWARD]->addUniform("projectionMatrix");
-	allShaders[ShaderType::FORWARD]->addUniform("viewMatrix");
-	allShaders[ShaderType::FORWARD]->addUniform("aValue");
-	allShaders[ShaderType::FORWARD]->addUniform("worldMatrices");
-	allShaders[ShaderType::FORWARD]->addUniform("diffuseTexture");
-
 	allShaders[ShaderType::ANIM] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "anim");
-	allShaders[ShaderType::ANIM]->addUniform("projectionMatrix");
-	allShaders[ShaderType::ANIM]->addUniform("viewMatrix");
-	allShaders[ShaderType::ANIM]->addUniform("worldMatrices");
-	allShaders[ShaderType::ANIM]->addUniform("jointMatrices");
-	allShaders[ShaderType::ANIM]->addUniform("diffuseTexture");
-	allShaders[ShaderType::ANIM]->addUniform("specularTexture");
-	allShaders[ShaderType::ANIM]->addUniform("normalTexture");
-	allShaders[ShaderType::ANIM]->addUniform("hasDiffuse");
-	allShaders[ShaderType::ANIM]->addUniform("hasSpecular");
-	allShaders[ShaderType::ANIM]->addUniform("hasNormal");
-
 	allShaders[ShaderType::ANIMSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "animShadow");
-	allShaders[ShaderType::ANIMSHADOW]->addUniform("projectionMatrix");
-	allShaders[ShaderType::ANIMSHADOW]->addUniform("viewMatrix");
-	allShaders[ShaderType::ANIMSHADOW]->addUniform("worldMatrices");
-	allShaders[ShaderType::ANIMSHADOW]->addUniform("jointMatrices");
-
 	allShaders[ShaderType::PARTICLES] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "particle");
-	allShaders[ShaderType::PARTICLES]->addUniform("projectionMatrix");
-	allShaders[ShaderType::PARTICLES]->addUniform("viewMatrix");
-	allShaders[ShaderType::PARTICLES]->addUniform("tex");
-
 	allShaders[ShaderType::GEOMETRY] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPass");
-	allShaders[ShaderType::GEOMETRY]->addUniform("projectionMatrix");
-	allShaders[ShaderType::GEOMETRY]->addUniform("viewMatrix");
-	allShaders[ShaderType::GEOMETRY]->addUniform("worldMatrices");
-	allShaders[ShaderType::GEOMETRY]->addUniform("diffuseTexture");
-	allShaders[ShaderType::GEOMETRY]->addUniform("specularTexture");
-	allShaders[ShaderType::GEOMETRY]->addUniform("normalTexture");
-	allShaders[ShaderType::GEOMETRY]->addUniform("hasDiffuse");
-	allShaders[ShaderType::GEOMETRY]->addUniform("hasSpecular");
-	allShaders[ShaderType::GEOMETRY]->addUniform("hasNormal");
-
 	allShaders[ShaderType::GEOMETRYSHADOW] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPassShadow");
-	allShaders[ShaderType::GEOMETRYSHADOW]->addUniform("projectionMatrix");
-	allShaders[ShaderType::GEOMETRYSHADOW]->addUniform("viewMatrix");
-	allShaders[ShaderType::GEOMETRYSHADOW]->addUniform("worldMatrices");
-
 	allShaders[ShaderType::DEBUG_LINE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugLine");
-	allShaders[ShaderType::DEBUG_LINE]->addUniform("projectionMatrix");
-	allShaders[ShaderType::DEBUG_LINE]->addUniform("viewMatrix");
-	allShaders[ShaderType::DEBUG_LINE]->addUniform("pos1");
-	allShaders[ShaderType::DEBUG_LINE]->addUniform("pos2");
-	allShaders[ShaderType::DEBUG_LINE]->addUniform("colors");
-
 	allShaders[ShaderType::DEBUG_SPHERE] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugSphere");
-	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("projectionMatrix");
-	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("viewMatrix");
-	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("pos1");
-	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("rad");
-	allShaders[ShaderType::DEBUG_SPHERE]->addUniform("colors");
-
 	allShaders[ShaderType::DEBUG_AABB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugAABB");
-	allShaders[ShaderType::DEBUG_AABB]->addUniform("projectionMatrix");
-	allShaders[ShaderType::DEBUG_AABB]->addUniform("viewMatrix");
-	allShaders[ShaderType::DEBUG_AABB]->addUniform("minPos");
-	allShaders[ShaderType::DEBUG_AABB]->addUniform("maxPos");
-	allShaders[ShaderType::DEBUG_AABB]->addUniform("colors");
-
 	allShaders[ShaderType::DEBUG_OBB] = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "debugOBB");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("projectionMatrix");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("viewMatrix");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("pos");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("xAxis");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("yAxis");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("zAxis");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("halfLengths");
-	allShaders[ShaderType::DEBUG_OBB]->addUniform("colors");
-
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
-	allShaders[ShaderType::GEOMETRY_PICKING]->addUniform("projectionMatrix");
-	allShaders[ShaderType::GEOMETRY_PICKING]->addUniform("viewMatrix");
-	allShaders[ShaderType::GEOMETRY_PICKING]->addUniform("worldMatrices");
-
 	allShaders[ShaderType::QUAD] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
-	allShaders[ShaderType::QUAD]->addUniform("texture");
 
 	allShaders[ShaderType::LIGHT_PASS] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("viewPos");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("drawMode");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("shadowVPM");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("invView");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("invProj");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("gDepth");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("gNormal");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("gAlbedoSpec");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("gShadowMap");
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.direction");
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.color");
 
 	allShaders[ShaderType::BLUR] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
-	allShaders[ShaderType::BLUR]->addUniform("blurScale");
-	allShaders[ShaderType::BLUR]->addUniform("filterTexture");
 
 	glGenBuffers(1, &particleBuffer);
 }

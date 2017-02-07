@@ -68,6 +68,16 @@ const glm::vec3& AABBCollider::getMinPos() const
 	return this->minPosTotal;
 }
 
+const glm::vec3 & AABBCollider::getMaxPosLocal() const
+{
+	return this->maxPos;
+}
+
+const glm::vec3 & AABBCollider::getMinPosLocal() const
+{
+	return this->minPos;
+}
+
 const glm::vec3 & AABBCollider::getCenterPos() const
 {
 	return this->pos;

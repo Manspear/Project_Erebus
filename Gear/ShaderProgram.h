@@ -60,6 +60,7 @@ public:
 	GLuint getFramebufferID();
 
 	void addUniform(std::string uniform);
+	void addAllUniforms(std::string shaderText);
 
 	void setUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
 	void setUniform(glm::vec3 &vec3, std::string position, int count = 1);
