@@ -56,6 +56,8 @@ void LevelHeightmap::postInitialize()
 
 	if( !textureName.empty() )
 		setTextureName( textureName );
+
+	parent->setTileID( heightmapID );
 }
 
 std::string LevelHeightmap::getName()
@@ -236,6 +238,16 @@ int LevelHeightmap::getHeightmapID() const
 const glm::vec3& LevelHeightmap::getOffset() const
 {
 	return offset;
+}
+
+glm::vec3 LevelHeightmap::getMinPos() const
+{
+	return position + offset;
+}
+
+glm::vec3 LevelHeightmap::getMaxPos() const
+{
+	return position + offset + glm::vec3( heightmap->getMapWidth(), 100.0f, heightmap->getMapHeight() );
 }
 
 void LevelHeightmap::setDebugger( Debug* debugger )

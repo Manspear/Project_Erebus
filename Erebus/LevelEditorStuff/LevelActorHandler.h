@@ -39,6 +39,7 @@ public:
 
 	LevelActor* getSelected();
 	std::map<unsigned int, LevelActor*>& getActors();
+	LevelActor* getActor( unsigned int id );
 
 	void setSelectedComponentCB(LevelUI::DiffComponents index);
 	LevelUI::DiffComponents getSelectedComponentCB(int index);

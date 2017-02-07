@@ -71,7 +71,7 @@ void LevelEditor::start() {
 	//factory->saveWorld("Level2", &actors);
 
 	//factory->loadWorld("Level2", &actors);
-	LevelActorFactory::getInstance()->loadWorld("Level2");
+	
 
 	engine->setFont(font);
 
@@ -141,6 +141,8 @@ void LevelEditor::start() {
 	engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 	engine->queueForwardModels(&forwardInstances);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
+
+	LevelActorFactory::getInstance()->loadWorld("Level2");
 
 	while (running && window.isWindowOpen())
 	{

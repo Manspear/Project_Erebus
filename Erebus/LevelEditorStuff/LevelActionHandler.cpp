@@ -134,6 +134,43 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 					LevelActorHandler::getInstance()->addActor(newActor);
 					LevelActorHandler::getInstance()->setSelected(newActor);
 					this->resetAction(inputs);
+
+					LevelActor* pickedActor = LevelActorHandler::getInstance()->getActor( actorID );
+					if( pickedActor )
+					{
+						newActor->setTileID( pickedActor->getTileID() );
+					}
+					else
+					{
+						// check against heightmap aabb
+						int tileID = TILE_ID_INVALID;
+
+						for( std::map<unsigned int, LevelActor*>::iterator it = LevelActorHandler::getInstance()->getActors().begin(); it != LevelActorHandler::getInstance()->getActors().end() && tileID == TILE_ID_INVALID; it++ )
+						{
+							if( it->second )
+							{
+								LevelHeightmap* heightmap = it->second->getComponent<LevelHeightmap>();
+								if( heightmap )
+								{
+									glm::vec3 minPos = heightmap->getMinPos();
+									glm::vec3 maxPos = heightmap->getMaxPos();
+
+									if( hitPoint.x >= minPos.x && hitPoint.z >= minPos.z &&
+										hitPoint.x <= maxPos.x && hitPoint.z <= maxPos.z )
+									{
+										tileID = it->second->getTileID();
+									}
+								}
+							}
+						}
+
+						if( tileID != TILE_ID_INVALID )
+							newActor->setTileID( tileID );
+						else
+						{
+							MessageBoxA( NULL, "Actor was placed outside of a tile and will not get a TileID.", "Level Editor - No TileID", MB_OK );
+						}
+					}
 				} break;
 
 				case ACTION_PLACE_PREFAB:

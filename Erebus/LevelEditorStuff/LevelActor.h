@@ -7,6 +7,8 @@
 					// yes
 #include <sstream>
 
+#define TILE_ID_INVALID 0
+
 enum
 {
 	EXPORT_ERROR = -1,
@@ -41,6 +43,7 @@ public:
 	int getExportType();
 	const std::string& getActorType() const;
 	const std::string& getActorDisplayName() const;
+	int getTileID() const;
 
 	std::map<std::string, LevelActorComponent*>& getAllComponents();
 
@@ -50,13 +53,14 @@ public:
 
 	void setActorType(std::string type);
 	void setActorDisplayName(std::string name);
+	void setTileID( int id );
 
 private:
 	typedef std::map<std::string, LevelActorComponent*>::iterator ComponentIT;
 
 	std::map<std::string, LevelActorComponent*> actorComponents;
 	std::string actorType;
-	int exportType;
+	int exportType, tileID;
 	std::string actorDisplayName;
 
 	// template class here
