@@ -58,9 +58,10 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 	TwAddVarCB(actionBar->getBar(), "Type", TW_TYPE_STDSTRING, setSaveTypeCB, getSaveTypeCB, &saveAsType, NULL);
 	TwAddSeparator(actionBar->getBar(), "brushSep1", NULL);
 
-	TwAddVarRW(actionBar->getBar(), "Radius", TW_TYPE_FLOAT, &this->radius, NULL);
-	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, NULL);
+	TwAddVarRW(actionBar->getBar(), "Radius", TW_TYPE_FLOAT, &this->radius, "label=Radius min=0.1");
+	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, "label=Vacansy min=0.1");
 	TwAddSeparator(actionBar->getBar(), "brushSep2", NULL);
+	
 	
 
 	TwAddVarCB(actionBar->getBar(), "isRotate", TW_TYPE_BOOL16, setRotateCB, getRotateCB, (void*)this, "label='Rotate'");
@@ -70,6 +71,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 
 	TwAddVarRW(actionBar->getBar(), "ScaleMin", TW_TYPE_FLOAT, &this->minScale, NULL);
 	TwAddVarRW(actionBar->getBar(), "ScaleMax", TW_TYPE_FLOAT, &this->maxScale, NULL);
+
 	TwAddSeparator(actionBar->getBar(), "brushSep4", NULL);
 	
 	TwAddButton(actionBar->getBar(), "UNDO", undoButton, NULL, "label='Undo'");
@@ -86,19 +88,20 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 		}
 	}
 
+	//draw debug
 	int actorID = 0;
 	glm::vec3 hitPoint(0.0f);
 	glm::vec3 hitNorm(0.f);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
-
+	
 	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
 	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
+	//end of draw
 
-	if (hitNorm.y < 0.65)
-	{
+	if (hitNorm.y < 0.65) //dont draw if very steep platform
 		return;
-	}
 
+	
 	glm::vec3 newHitPoint;
 	
 	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
