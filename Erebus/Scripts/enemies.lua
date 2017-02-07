@@ -61,7 +61,13 @@ function CreateEnemy(type, position)
 		end
 	end
 
-	enemies[i].KillClientEnemy = function(self)		
+	enemies[i].KillClientEnemy = function(self)
+		self.health = 0
+		self.alive = false
+		Transform.ActiveControl(self.transformID,false)
+		SphereCollider.SetActive(self.sphereCollider, false)
+		self.state = clientAIScript.clientAIState.deadState
+		
 		if self.alive then	
 			self.health = 0
 			self.alive = false
