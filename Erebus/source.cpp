@@ -172,11 +172,6 @@ int main()
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
-///////////////////////////////////////////////////////////////
-	engine.setTextureBlendings(assets.load<TextureAsset>("Textures/brightParticle.png"));
-	engine.setTextureBlendings(assets.load<TextureAsset>("Textures/Lazer.png"));
-///////////////////////////////////////////////////////////////
-
 	assets.load<TextureAsset>("Textures/buttonOptions.png");
 	assets.load<TextureAsset>("Textures/buttonExit.png");
 	assets.load<TextureAsset>("Textures/buttonReturn.png");

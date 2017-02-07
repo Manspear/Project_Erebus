@@ -45,7 +45,7 @@ namespace LuaGear
 			{ "SetUniformValue", setUniformValue },
 			{ "SetUniformLocation", setUniformLocation },
 			{ "SetBlendUniformValue", setBlendUniformValue },
-			{ "SetBlendUniformLocation", setBlendUniformLocation },
+			{ "SetBlendTextures", setBlendTextures },
 			{ "QueueModels", setQueueModels },
 			{ "CursorVisible", setCursorVisible },
 			{ "Fullscreen", setFullscreen },
@@ -226,9 +226,10 @@ namespace LuaGear
 				ModelInstance instance;
 				instance.asset = asset;
 
+				textureBlendings tBlend;
+				g_gearEngine->textureBlend.push_back(tBlend);
 				index = g_blendingModels->size();
 				g_blendingModels->push_back(instance);
-				g_gearEngine->uniBlendValues.push_back({ -1, 0 });
 			}
 			g_blendingModels->at(index).worldIndices.push_back(transformID);
 		}
@@ -455,19 +456,43 @@ namespace LuaGear
 
 	int setBlendUniformValue(lua_State * lua)
 	{
-		if (lua_gettop(lua) >= 2)
+		if (lua_gettop(lua) >= 4)
 		{
-			g_gearEngine->uniBlendValues.at((int)lua_tointeger(lua, 1)).value = (float)lua_tonumber(lua, 2);
+			int index = (int)lua_tointeger(lua, 1);
+			int size = (int)lua_tointeger(lua, 2);
+			glm::vec2 blend;
+			for (int i = 0; i < size; i++)
+			{
+				lua_getfield(lua, 3 + i, "x");
+				blend.x = (float)lua_tonumber(lua, -1);
+
+				lua_getfield(lua, 3 + i, "y");
+				blend.y = (float)lua_tonumber(lua, -1);
+
+				g_gearEngine->textureBlend.at(index).blendFactor[i] = blend;
+			}
+			
 		}
 		return 0;
 	}
 
-	int setBlendUniformLocation(lua_State* lua)
+	int setBlendTextures(lua_State * lua)
 	{
-		if (lua_gettop(lua) >= 2)
+
+		if (lua_gettop(lua) >= 4)
 		{
-			g_gearEngine->uniBlendValues.at((int)lua_tointeger(lua, 1)).location = (int)lua_tointeger(lua, 2);
+			int index = (int)lua_tointeger(lua, 1);
+			int size = (int)lua_tointeger(lua, 2);
+			TextureAsset* texture;
+			for (int i = 0; i < size; i++)
+			{
+				lua_getfield(lua, i + 3, "__self");
+				texture = (TextureAsset*)lua_touserdata(lua, -1);
+
+				g_gearEngine->textureBlend.at(index).textureVector.push_back(texture);
+			}
 		}
 		return 0;
 	}
+
 }

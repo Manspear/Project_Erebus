@@ -47,5 +47,6 @@ namespace LuaGear
 	int setUniformValue(lua_State* lua);
 	int setUniformLocation(lua_State* lua);
 	int setBlendUniformValue(lua_State* lua);
-	int setBlendUniformLocation(lua_State* lua);
+	int setBlendTextures(lua_State* lua);
+
 }

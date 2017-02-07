@@ -1,4 +1,7 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+BLEND_TERXTURE1 = Assets.LoadTexture("Textures/brightParticle.png");
+BLEND_TERXTURE2 = Assets.LoadTexture("Textures/Lazer.png");
+
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_PILLAR = 4
 PILLAR_SFX = "Effects/explosion.wav"
@@ -14,8 +17,11 @@ function CreateHellPillar(entity)
 	spell.cooldown = 0
 	spell.effect = CreateFireEffect()
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
+	spell.texture1 = BLEND_TERXTURE1
+	spell.texture2 = BLEND_TERXTURE2
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
-	
+	spell.blendValue1 = {x = 5.6, y = 5.4} spell.blendValue2 = {x = 5.0, y = 4.0}
+
 	--Set up collider, model and transform for the pillar
 	spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
@@ -26,6 +32,7 @@ function CreateHellPillar(entity)
 	local model = Assets.LoadModel( "Models/hellpillar.model" )
 	spell.modelIndex = Gear.AddBlendingInstance(model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
+	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
 
 	spell.effectflag = false
 	spell.damage = MAX_DAMAGE_PILLAR
@@ -142,10 +149,19 @@ function CreateHellPillar(entity)
 			self.startUp = true
 			Transform.ActiveControl(self.transformID, false)
 			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
+
 			--Light.removeLight(self.light)
 		else
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
 			--Transform.SetRotation(self.transformID, self.someRotation)
+			self.blendValue1.x = self.blendValue1.x + 2.0 * dt
+			self.blendValue1.y = self.blendValue1.y / 3.0 * dt
+
+			self.blendValue2.x = self.blendValue2.x - 1.5 * dt
+			self.blendValue2.y = self.blendValue2.y + 5.5 * dt
+
+			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
+
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt

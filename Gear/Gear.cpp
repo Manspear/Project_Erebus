@@ -295,16 +295,11 @@ namespace Gear
 		this->removeLightQueue.push_back(lights);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////
 	GEAR_API void GearEngine::queueTextureBlendings(std::vector<ModelInstance>* blendingModels)
 	{
 		blendModels = blendingModels;
 	}
-	GEAR_API void GearEngine::setTextureBlendings(Importer::TextureAsset* texture)
-	{
-		textures.push_back(texture);
-	}
-	////////////////////////////////////////////////////////////////////////////////
+
 #pragma endregion
 	
 	void GearEngine::draw(Camera* camera)
@@ -367,16 +362,10 @@ namespace Gear
 
 		queue.particlePass(particleSystem);
 		
-		/////////////////////////////////////////////////////////////////
-		
-		textureBlend.numTextures = textures.size();
-		textureBlend.textureVector = textures;
-		
-		queue.textureBlendingPass(textureBlend, blendModels);
+		queue.textureBlendingPass(&textureBlend, blendModels);
 
 		queue.forwardPass(forwardModels, &uniValues);
 
-		/////////////////////////////////////////////////////////////////
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
