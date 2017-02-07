@@ -122,11 +122,7 @@ function CreatePlayerController(player)
 	end
 
 	function controller:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
-		print("Quickblend player 2:", quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
-
-		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true then
-			self.animation.SetQuickBlend(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
-		end
+		self.animation:SetQuickBlend(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
 	end
 
 	function controller:RunningState(dt)
