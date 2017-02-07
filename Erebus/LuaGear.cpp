@@ -192,7 +192,7 @@ namespace LuaGear
 	int print(lua_State* lua)
 	{
 		int ntop = lua_gettop( lua );
-		assert( ntop == 3 || ntop == 4 || ntop == 5 );
+		assert( ntop == 3 || ntop == 4 || ntop == 5);
 
 		std::string s = lua_tostring(lua, 1);
 		float x = (float)lua_tonumber(lua, 2);
