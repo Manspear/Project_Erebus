@@ -94,12 +94,12 @@ function LoadPlayer()
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeThing(player)
 	InitFireEffectParticles()
-	LoadEnemies(5)
+	--[[LoadEnemies(5)
 	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
 	Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
 	Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
 	Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
-	Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})
+	Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})--]]
 
 end
 
@@ -217,6 +217,30 @@ function UpdatePlayer(dt)
 		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
+	end
+
+	-- check collision against triggers and call their designated function
+	for _,v in pairs(triggers) do
+		if v.collider:CheckCollision() then
+			if not v.triggered then
+				if v.OnEnter then
+					v.OnEnter()
+				else
+					v.OnTrigger()
+				end
+
+				v.triggered = true
+			else
+				v.OnTrigger()
+			end
+		else
+			if v.triggered then
+				if v.OnExit then
+					v.OnExit()
+				end
+				v.triggered = false
+			end
+		end
 	end
 end
 

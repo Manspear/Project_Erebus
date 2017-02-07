@@ -12,7 +12,7 @@
 #include "WorkQueue.h"
 
 struct UniformValues {
-	int location;
+	std::string location;
 	glm::vec2 values;
 };
 

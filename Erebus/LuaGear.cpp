@@ -81,76 +81,62 @@ namespace LuaGear
 
 	int addStaticInstance( lua_State* lua )
 	{
-		int ntop = lua_gettop( lua );
-		if( ntop >= 2 )
+		assert( lua_gettop( lua ) == 2 );
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+		int transformID = (int)lua_tointeger( lua, 2 );
+
+		int result = g_gearEngine->generateWorldMatrix();
+
+		int index = -1;
+		for( int i=0; i<g_models->size(); i++ )
+			if( g_models->at(i).asset == asset )
+				index = i;
+
+		if( index < 0 )
 		{
-			ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
-			int transformID = (int)lua_tointeger( lua, 2 );
+			ModelInstance instance;
+			instance.asset = asset;
 
-			int result = g_gearEngine->generateWorldMatrix();
+			index = (int)g_models->size();
+			g_models->push_back( instance );
 
-			int index = -1;
-			for( int i=0; i<g_models->size(); i++ )
-				if( g_models->at(i).asset == asset )
-					index = i;
-
-			if( index < 0 )
-			{
-				ModelInstance instance;
-				instance.asset = asset;
-				//TEMP TODO: move to importer
-				//instance.material = Material(g_assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
-				
-				index = (int)g_models->size();
-				g_models->push_back( instance );
-
-			}
-
-			g_models->at(index).worldIndices.push_back(transformID);
-
-			// NOTE: Should we push the result to Lua? Like this:
-			//lua_pushnumber( lua, result );
 		}
+
+		g_models->at(index).worldIndices.push_back(transformID);
 
 		return 0;
 	}
 
 	int addAnimatedInstance( lua_State* lua )
 	{
-		int ntop = lua_gettop( lua );
-		if( ntop >= 3 )
+		assert( lua_gettop( lua ) == 3 );
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+		int transformID = (int)lua_tointeger( lua, 2 );
+		lua_getfield( lua, 3, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int result = g_gearEngine->generateWorldMatrix();
+
+		int index = -1;
+		for( int i=0; i<g_animatedModels->size(); i++ )
+			if( g_animatedModels->at(i).asset == asset )
+				index = i;
+
+		if( index < 0 )
 		{
-			ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
-			int transformID = (int)lua_tointeger( lua, 2 );
-			lua_getfield( lua, 3, "__self" );
-			Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+			AnimatedInstance instance;
+			instance.asset = asset;
 
-			int result = g_gearEngine->generateWorldMatrix();
-
-			int index = -1;
-			for( int i=0; i<g_animatedModels->size(); i++ )
-				if( g_animatedModels->at(i).asset == asset )
-					index = i;
-
-			if( index < 0 )
-			{
-				AnimatedInstance instance;
-				instance.asset = asset;
-				//TEMP TODO: move to importer
-				//instance.material = Material(g_assets, "Materials/MaterialTextures/molerat_texturemap2.png", "Materials/MaterialTextures/molerat_normalmap.png");
-
-				index = (int)g_animatedModels->size();
-				g_animatedModels->push_back( instance );
-			}
-
-			animation->setAsset(asset);
-
-			g_animatedModels->at(index).worldIndices.push_back(transformID);
-			g_animatedModels->at(index).animations.push_back(animation);
-
-			// NOTE: Should we push the result to Lua? Like this:
-			//lua_pushnumber( lua, result );
+			index = (int)g_animatedModels->size();
+			g_animatedModels->push_back( instance );
 		}
+
+		animation->setAsset(asset);
+
+		g_animatedModels->at(index).worldIndices.push_back(transformID);
+		g_animatedModels->at(index).animations.push_back(animation);
 
 		return 0;
 	}
@@ -178,70 +164,70 @@ namespace LuaGear
 	
 	int addForwardInstance(lua_State * lua)
 	{
-		int ntop = lua_gettop(lua);
+		assert( lua_gettop( lua ) == 2 );
+
 		int index = -1;
-		if (ntop >= 2)
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+		int transformID = (int)lua_tointeger(lua, 2);
+		int result = g_gearEngine->generateWorldMatrix();	
+		for (int i = 0; i<g_ForwardModels->size(); i++)
+			if (g_ForwardModels->at(i).asset == asset)
+				index = i;
+		if (index < 0)
 		{
-			ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
-			int transformID = (int)lua_tointeger(lua, 2);
-			int result = g_gearEngine->generateWorldMatrix();	
-			for (int i = 0; i<g_ForwardModels->size(); i++)
-				if (g_ForwardModels->at(i).asset == asset)
-					index = i;
-			if (index < 0)
-			{
-				ModelInstance instance;
-				instance.asset = asset;
+			ModelInstance instance;
+			instance.asset = asset;
 			
-				index = (int)g_ForwardModels->size();
-				g_ForwardModels->push_back(instance);
-				g_gearEngine->uniValues.push_back({ -1, glm::vec2(0,0) });
-			}
-			g_ForwardModels->at(index).worldIndices.push_back(transformID);
+			index = (int)g_ForwardModels->size();
+			g_ForwardModels->push_back(instance);
+				g_gearEngine->uniValues.push_back({ "NULL", 0 });
 		}
+		g_ForwardModels->at(index).worldIndices.push_back(transformID);
 		lua_pushinteger(lua, index);
+
 		return 1;
 	}
 
 	int print(lua_State* lua)
 	{
-		int ntop = lua_gettop(lua);
-		if (ntop >= 3)
+		int ntop = lua_gettop( lua );
+		assert( ntop == 3 || ntop == 4 || ntop == 5 );
+
+		std::string s = lua_tostring(lua, 1);
+		float x = (float)lua_tonumber(lua, 2);
+		float y = (float)lua_tonumber(lua, 3);
+
+		float scale = 1.0f;
+		int type = -1;
+		if( ntop == 4 )
+			type = lua_type( lua, 4 );
+
+		glm::vec4 color( 1.0f );
+		if( type == LUA_TNUMBER )
 		{
-			std::string s = lua_tostring(lua, 1);
-			float x = (float)lua_tonumber(lua, 2);
-			float y = (float)lua_tonumber(lua, 3);
+			scale = (float)lua_tonumber( lua, 4 );
 
-			float scale = 1.0f;
-			int type = -1;
-			if( ntop >= 4 )
-				type = lua_type( lua, 4 );
-
-			glm::vec4 color( 1.0f );
-			if( type == LUA_TNUMBER )
-			{
-				scale = (float)lua_tonumber( lua, 4 );
-
-				if( ntop >= 5 )
-				{
-					for( int i=0; i<4; i++ )
-					{
-						lua_rawgeti( lua, 5, i+1 );
-						color[i] = (float)lua_tonumber( lua, -1 );
-					}
-				}
-			}
-			else if( type == LUA_TTABLE )
+			if( ntop >= 5 )
 			{
 				for( int i=0; i<4; i++ )
 				{
-					lua_rawgeti( lua, 4, i+1 );
+					lua_rawgeti( lua, 5, i+1 );
 					color[i] = (float)lua_tonumber( lua, -1 );
 				}
 			}
-
-			g_gearEngine->print(s, x, y, scale, color);
 		}
+		else if( type == LUA_TTABLE )
+		{
+			for( int i=0; i<4; i++ )
+			{
+				lua_rawgeti( lua, 4, i+1 );
+				color[i] = (float)lua_tonumber( lua, -1 );
+			}
+		}
+
+		g_gearEngine->print(s, x, y, scale, color);
+
 		return 0;
 	}
 
@@ -272,104 +258,90 @@ namespace LuaGear
 
 	int quickBlend(lua_State * lua)
 	{
-		int result = 0;
+		assert( lua_gettop( lua ) == 6 );
 
-		if (lua_gettop(lua) >= 5)
-		{
-			lua_getfield(lua, 1, "__self");
-			Animation* animation = (Animation*)lua_touserdata(lua, -1);
-			float dt = (float)lua_tonumber(lua, 2);
-			int originState = (int)lua_tointeger(lua, 3);
-			int transitionState = (int)lua_tointeger(lua, 4);
-			float blendTime = (float)lua_tonumber(lua, 5);
-			int animationSegment = (int)lua_tointeger(lua, 6);
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+		float dt = (float)lua_tonumber(lua, 2);
+		int originState = (int)lua_tointeger(lua, 3);
+		int transitionState = (int)lua_tointeger(lua, 4);
+		float blendTime = (float)lua_tonumber(lua, 5);
+		int animationSegment = (int)lua_tointeger(lua, 6);
 
-			bool res = animation->quickBlend(dt, originState,
-			transitionState, blendTime, animationSegment);
+		bool res = animation->quickBlend(dt, originState,
+		transitionState, blendTime, animationSegment);
 
-			lua_pushboolean(lua, res);
+		lua_pushboolean(lua, res);
 
-			result = 1;
-		}
-
-		return result;
+		return 1;
 	}
 
 	int updateAnimationBlending(lua_State* lua)
 	{
-		int result = 0;
+		assert( lua_gettop( lua ) == 4 );
 
-		if (lua_gettop(lua) >= 3)
-		{
-			lua_getfield(lua, 1, "__self");
-			Animation* animation = (Animation*)lua_touserdata(lua, -1);
-			float dt = (float)lua_tonumber(lua, 2);
-			int layer = (int)lua_tointeger(lua, 3);
-			int animationSegment = (int)lua_tointeger(lua, 4);
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+		float dt = (float)lua_tonumber(lua, 2);
+		int layer = (int)lua_tointeger(lua, 3);
+		int animationSegment = (int)lua_tointeger(lua, 4);
 
-			animation->updateState(dt, layer, animationSegment);
-		}
+		animation->updateState(dt, layer, animationSegment);
 
-		return result;
+		return 1;
 	}
 
 	int setTransitionTimes(lua_State * lua)
 	{
-		int result = 0;
+		assert( lua_gettop( lua ) == 2 );
 
-		if (lua_gettop(lua) >= 2)
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+		int numStates = (int)lua_rawlen(lua, 2);
+
+		float* transitions = new float[numStates*numStates];
+
+		for (int curState = 0, index = 0; curState < numStates; curState++)
 		{
-			lua_getfield(lua, 1, "__self");
-			Animation* animation = (Animation*)lua_touserdata(lua, -1);
-
-			int numStates = (int)lua_rawlen(lua, 2);
-
-			float* transitions = new float[numStates*numStates];
-
-			for (int curState = 0, index = 0; curState < numStates; curState++)
+			lua_rawgeti(lua, 2, curState+1);
+			for (int curTransition = 0; curTransition < numStates; curTransition++, index++)
 			{
-				lua_rawgeti(lua, 2, curState+1);
-				for (int curTransition = 0; curTransition < numStates; curTransition++, index++)
-				{
-					lua_rawgeti(lua, -1, curTransition+1);
-					transitions[index] = (float)lua_tonumber(lua, -1);
-					lua_pop(lua, 1);
-				}
+				lua_rawgeti(lua, -1, curTransition+1);
+				transitions[index] = (float)lua_tonumber(lua, -1);
 				lua_pop(lua, 1);
 			}
-
-			animation->setTransitionTimes(transitions, numStates);
-
-			delete[] transitions;
+			lua_pop(lua, 1);
 		}
-		return result;
+
+		animation->setTransitionTimes(transitions, numStates);
+
+		delete[] transitions;
+
+		return 0;
 	}
 
 	int setAnimationSegments(lua_State * lua)
 	{
-		int result = 0;
+		assert( lua_gettop( lua ) == 2 );
 
-		if (lua_gettop(lua) >= 1)
-		{
-			lua_getfield(lua, 1, "__self");
-			Animation* animation = (Animation*)lua_touserdata(lua, -1);
-			int numberOfSegments = (int)lua_tointeger(lua, 2);
-			animation->setAnimationSegments(numberOfSegments);
-		}
-		return result;
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+		int numberOfSegments = (int)lua_tointeger(lua, 2);
+		animation->setAnimationSegments(numberOfSegments);
+
+		return 1;
 	}
 
 	int assembleAnimationsIntoShadermatrices(lua_State * lua)
 	{
-		int result = 0;
+		assert( lua_gettop( lua ) == 1 );
 
-		if (lua_gettop(lua) >= 0)
-		{
-			lua_getfield(lua, 1, "__self");
-			Animation* animation = (Animation*)lua_touserdata(lua, -1);
-			animation->assembleAnimationsIntoShadermatrices();
-		}
-		return result;
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+		animation->assembleAnimationsIntoShadermatrices();
+
+		return 0;
 	}
 
 	int setSegmentState( lua_State* lua )
@@ -404,19 +376,19 @@ namespace LuaGear
 
 	int setUniformValue(lua_State * lua)
 	{
-		if (lua_gettop(lua) >= 3)
-		{
+		assert( lua_gettop( lua ) == 2 );
+
 			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).values = { (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3) };
-		}
+
 		return 0;
 	}
 
 	int setUniformLocation(lua_State* lua)
 	{
-		if (lua_gettop(lua) >= 2)
-		{
-			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (int)lua_tointeger(lua, 2);
-		}
+		assert( lua_gettop( lua ) == 2 );
+		
+			g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
+
 		return 0;
 	}
 }

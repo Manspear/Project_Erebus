@@ -26,7 +26,9 @@ namespace LuaCamera {
 		lua_setglobal(lua, "Camera");
 	}
 
-	int follow(lua_State* lua) {
+	int follow(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 6 );
 
 		glm::vec3 pos, dir;
 		int transformIndex;
@@ -46,7 +48,9 @@ namespace LuaCamera {
 		return 1;
 	}
 
-	int cameraUpdate(lua_State* lua) {
+	int cameraUpdate(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 6 );
 
 		glm::vec3 campos, lookpos;
 
@@ -62,10 +66,8 @@ namespace LuaCamera {
 		return 1;
 	}
 
-	int getPos(lua_State* lua) {
-
-		int index = (int)lua_tointeger(lua, 1);
-
+	int getPos(lua_State* lua)
+	{
 		glm::vec3 position = g_camera->getPosition();
 
 		lua_newtable(lua);
@@ -80,16 +82,19 @@ namespace LuaCamera {
 
 		return 1;
 	}
+
 	int setHeight(lua_State * lua)
 	{
+		assert( lua_gettop( lua ) == 1 );
+
 		float height = (float)lua_tonumber(lua, -1);
 		g_camera->setHeight(height);
+
 		return 1;
 	}
+
 	int getDirection(lua_State * lua)
 	{
-		int index = (int)lua_tointeger(lua, 1);
-
 		glm::vec3 position = g_camera->getDirection();
 
 		lua_newtable(lua);
