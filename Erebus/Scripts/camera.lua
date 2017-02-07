@@ -39,6 +39,18 @@ function vec3sub(a, b)
 			z = a.z-b.z}
 end
 
+function vec3length(a)
+	return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
+end
+
+function vec3equal(a, b)
+	return a.x == b.x and a.y == b.y and a.z == b.z
+end
+
+function vec3print(a)
+	print("x: " .. a.x .. "\ty:" .. a.y .. "\tz:" ..a.z)
+end
+
 function ZoomInCamera()
 	timeSinceShot = 0
 	camera.state = STATE_ZOOMING_IN

@@ -216,7 +216,6 @@ int RenderQueue::generateWorldMatrix()
 
 void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues)
 {
-	//glDisable(GL_CULL_FACE);
 	allShaders[FORWARD]->use();
 	ModelAsset* modelAsset;
 	int meshes;
@@ -236,8 +235,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			{
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 				atLeastOne = true;
-			}
-			
+			}			
 		}
 		if (atLeastOne) 
 		{
@@ -265,7 +263,6 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 		}
 	}
 	allShaders[FORWARD]->unUse();
-	//glEnable(GL_CULL_FACE);
 }
 
 bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps)

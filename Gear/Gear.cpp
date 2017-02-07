@@ -257,16 +257,16 @@ namespace Gear
 	{
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-
+		Lights::PointLight* light;
 		for (int i = 0; i < lights->size(); i++) {
 			if (i < NUM_LIGHTS)
 			{
-				Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+				light = &pointLightsPtr[i]; //get light at pos i
 
-				light.pos = lights->at(i).pos;
-				light.color = lights->at(i).color;
-				light.radius = lights->at(i).radius;
-				light.radius.a = (float)i;
+				light->pos = lights->at(i).pos;
+				light->color = lights->at(i).color;
+				light->radius = lights->at(i).radius;
+				light->radius.a = (float)i;
 			}
 			else {
 				printf("ERROR: Too many lights : " + lights->size());
@@ -382,18 +382,17 @@ namespace Gear
 		{
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+			Lights::PointLight *light;
 			for (int j = 0; j < addLightQueue.size(); j++)
 			{
 				for (int i = 0; i < NUM_LIGHTS; i++) {
-					Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
-					if (light.radius.a == -1)
+					light = &pointLightsPtr[i]; //get light at pos i
+					if (light->radius.a == -1)
 					{
-
-
-						light.pos = addLightQueue[j]->pos;
-						light.color = addLightQueue[j]->color;
-						light.radius = addLightQueue[j]->radius;
-						light.radius.a = (float)i;
+						light->pos = addLightQueue[j]->pos;
+						light->color = addLightQueue[j]->color;
+						light->radius = addLightQueue[j]->radius;
+						light->radius.a = (float)i;
 						addLightQueue[j]->radius.a = (float)i;
 						i = NUM_LIGHTS;
 					}
@@ -401,7 +400,6 @@ namespace Gear
 			}
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
 			addLightQueue.clear();
 		}
 	}
