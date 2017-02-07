@@ -34,6 +34,7 @@ function CreateHellPillar(entity)
 	local model = Assets.LoadModel( "Models/hellpillar.model" )
 	spell.modelIndex = Gear.AddBlendingInstance(model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
+	print("hej")
 	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
 
 	spell.effectflag = false

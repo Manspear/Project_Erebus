@@ -50,7 +50,7 @@ void RenderQueue::init()
 	allShaders[ShaderType::GEOMETRY_PICKING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "geometryPicking");
 	allShaders[ShaderType::TEXTURE_BLENDING] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "textureBlending");
 	allShaders[ShaderType::QUAD] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad"); //shader to draw texture to the screen
-	uniformLocations[TEXTURE_BLENDING] = new GLuint[9];
+	//uniformLocations[TEXTURE_BLENDING] = new GLuint[9];
 
 	allShaders[ShaderType::LIGHT_PASS] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "lightPass"); //Shader for calculating lighting
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.direction");
@@ -60,15 +60,15 @@ void RenderQueue::init()
 
 	glGenBuffers(1, &particleBuffer);
 
-	uniformLocations[TEXTURE_BLENDING][2] = allShaders[TEXTURE_BLENDING]->getUniformLocation("worldMatrices");
+	//uniformLocations[TEXTURE_BLENDING][2] = allShaders[TEXTURE_BLENDING]->getUniformLocation("worldMatrices");
 	//uniformLocations[TEXTURE_BLENDING][3] = allShaders[TEXTURE_BLENDING]->getUniformLocation("numTextures");
-	uniformLocations[TEXTURE_BLENDING][3] = allShaders[TEXTURE_BLENDING]->getUniformLocation("blendValue1");
-	uniformLocations[TEXTURE_BLENDING][4] = allShaders[TEXTURE_BLENDING]->getUniformLocation("blendValue2");
-	uniformLocations[TEXTURE_BLENDING][5] = allShaders[TEXTURE_BLENDING]->getUniformLocation("blendValue3");
+	//uniformLocations[TEXTURE_BLENDING][3] = allShaders[TEXTURE_BLENDING]->getUniformLocation("blendValue1");
+	//uniformLocations[TEXTURE_BLENDING][4] = allShaders[TEXTURE_BLENDING]->getUniformLocation("blendValue2");
+	//uniformLocations[TEXTURE_BLENDING][5] = allShaders[TEXTURE_BLENDING]->getUniformLocation("blendValue3");
 
-	uniformLocations[TEXTURE_BLENDING][6] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex1");
-	uniformLocations[TEXTURE_BLENDING][7] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex2");
-	uniformLocations[TEXTURE_BLENDING][8] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex3");
+	//uniformLocations[TEXTURE_BLENDING][6] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex1");
+	//uniformLocations[TEXTURE_BLENDING][7] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex2");
+	//uniformLocations[TEXTURE_BLENDING][8] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex3");
 
 
 }
@@ -105,8 +105,8 @@ void RenderQueue::updateUniforms(Camera* camera)
 	allShaders[GEOMETRY_PICKING]->unUse();
 
 	allShaders[TEXTURE_BLENDING]->use();
-	allShaders[TEXTURE_BLENDING]->addUniform(projectionMatrix, uniformLocations[TEXTURE_BLENDING][0]);
-	allShaders[TEXTURE_BLENDING]->addUniform(viewMatrix, uniformLocations[TEXTURE_BLENDING][1]);
+	allShaders[TEXTURE_BLENDING]->setUniform(projectionMatrix, "projectionMatrix");
+	allShaders[TEXTURE_BLENDING]->setUniform(viewMatrix, "viewMatrix");
 	allShaders[TEXTURE_BLENDING]->unUse();
 }
 
@@ -566,6 +566,16 @@ void RenderQueue::textureBlendingPass(std::vector<textureBlendings>* textureBlen
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	std::string blendValuesloc[3];
+	blendValuesloc[0] = "blendValue1";
+	blendValuesloc[1] = "blendValue2";
+	blendValuesloc[2] = "blendValue3";
+
+	std::string texturesLoc[3];
+	texturesLoc[0] = "tex1";
+	texturesLoc[1] = "tex2";
+	texturesLoc[2] = "tex3";
+
 	int numTextures = 0;	
 	std::vector<Importer::TextureAsset*> tA;
 
@@ -592,12 +602,16 @@ void RenderQueue::textureBlendingPass(std::vector<textureBlendings>* textureBlen
 		
 			//uniforms for how many textures to send to the frag shader
 			//glUniform1i(uniformLocations[TEXTURE_BLENDING][3], numTextures);
-			glUniformMatrix4fv(uniformLocations[TEXTURE_BLENDING][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+			//glUniformMatrix4fv(uniformLocations[TEXTURE_BLENDING][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
+
+			allShaders[TEXTURE_BLENDING]->setUniform4cfv(&tempMatrices[0][0][0], "worldMatrices", numInstance);
+
 
 			for (int k = 0; k < numTextures; k++)
 			{
-				allShaders[TEXTURE_BLENDING]->addUniform(textureBlends->at(i).blendFactor[k], uniformLocations[TEXTURE_BLENDING][k + 3]);
-				glUniform1i(uniformLocations[TEXTURE_BLENDING][k + 6], k);
+				allShaders[TEXTURE_BLENDING]->setUniform(textureBlends->at(i).blendFactor[k], blendValuesloc[k], 1);
+				allShaders[TEXTURE_BLENDING]->setUniform(k, texturesLoc[k]);
+			/*	glUniform1i(uniformLocations[TEXTURE_BLENDING][k + 6], k);*/
 				tA.at(k)->bind(GL_TEXTURE0 + k);
 			}
 		

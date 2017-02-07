@@ -194,35 +194,6 @@ namespace LuaGear
 		return 1;
 	}
 
-
-	int addBlendingInstance(lua_State * lua)
-	{
-		int ntop = lua_gettop(lua);
-		int index = -1;
-		if (ntop >= 2)
-		{
-			ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
-			int transformID = lua_tointeger(lua, 2);
-			int result = g_gearEngine->generateWorldMatrix();
-			for (int i = 0; i<g_blendingModels->size(); i++)
-				if (g_blendingModels->at(i).asset == asset)
-					index = i;
-			if (index < 0)
-			{
-				ModelInstance instance;
-				instance.asset = asset;
-
-				textureBlendings tBlend;
-				g_gearEngine->textureBlend.push_back(tBlend);
-				index = g_blendingModels->size();
-				g_blendingModels->push_back(instance);
-			}
-			g_blendingModels->at(index).worldIndices.push_back(transformID);
-		}
-		lua_pushinteger(lua, index);
-		return 1;
-	}
-
 	int print(lua_State* lua)
 	{
 		int ntop = lua_gettop( lua );
@@ -461,6 +432,34 @@ namespace LuaGear
 			}
 		}
 		return 0;
+	}
+
+	int addBlendingInstance(lua_State * lua)
+	{
+		int ntop = lua_gettop(lua);
+		int index = -1;
+		if (ntop >= 2)
+		{
+			ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+			int transformID = lua_tointeger(lua, 2);
+			int result = g_gearEngine->generateWorldMatrix();
+			for (int i = 0; i<g_blendingModels->size(); i++)
+				if (g_blendingModels->at(i).asset == asset)
+					index = i;
+			if (index < 0)
+			{
+				ModelInstance instance;
+				instance.asset = asset;
+
+				textureBlendings tBlend;
+				g_gearEngine->textureBlend.push_back(tBlend);
+				index = g_blendingModels->size();
+				g_blendingModels->push_back(instance);
+			}
+			g_blendingModels->at(index).worldIndices.push_back(transformID);
+		}
+		lua_pushinteger(lua, index);
+		return 1;
 	}
 
 }
