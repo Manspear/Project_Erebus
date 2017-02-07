@@ -157,6 +157,7 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 			earlierPositions.pop_back();
 		
 			this->actorsMadeThisKeyPress.push_back(newActor);
+			LevelActorHandler::getInstance()->updateTweakBars();
 		}
 
 	}
