@@ -25,7 +25,8 @@ local scriptFiles =
 	"Scripts/player.lua",
 	"Scripts/spellList.lua",
 	"Scripts/HUD.lua",
-	"Scripts/aim.lua"
+	"Scripts/aim.lua",
+	"Scripts/boss.lua"
 }
 
 local gameStarted = false

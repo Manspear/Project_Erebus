@@ -50,11 +50,11 @@ end
 
 function CreateFireEffectParticles()
 	local particle = {}
-	particle.burn = Particle.Bind("ParticleFiles/fireeffectparticles.Particle")
+	particle.burn = Particle.Bind("ParticleFiles/yoooo.particle")
 	function particle:Cast()
 		Particle.SetAlive(particle.burn)
 	end
-	function particle:Die(pos)
+	function particle:Die()
 		Particle.SetDead(self.burn)
 	end
 
