@@ -19,20 +19,29 @@ void LuaBinds::load( GearEngine* gearEngine,
 					Inputs* inputs,
 					Transform* transforms,
 					int* boundTransforms,
+					Animation* animations,
+					int* boundAnimations,
 					std::vector<ModelInstance>* models,
 					std::vector<AnimatedInstance>* animatedModels,
+					std::vector<ModelInstance>* forwardModels,
+					bool* queueModels,
+					bool* mouseVisible,
+					bool* fullscreen,
+					bool* running,
 					Camera* camera,
 					std::vector<Gear::ParticleSystem*>* ps,
 					AGI::AGIEngine* AI,
 					NetworkController* network,
-					SoundEngine* soundEngine)
+					WorkQueue* work,
+					SoundEngine* soundEngine,
+					PerformanceCounter* counter )
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
-	LuaErebus::registerFunctions( lua, transforms, controls );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, assets);
+	LuaErebus::registerFunctions( lua, transforms, controls, network, counter, running );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, queueModels, mouseVisible, fullscreen, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
-	LuaCollision::registerFunctions( lua, collisionHandler );
+	LuaCollision::registerFunctions( lua, collisionHandler, transforms );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
 	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);
@@ -40,6 +49,8 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaAI::registerFunctions(lua, transforms, AI);
 	LuaNetwork::registerFunctions(lua, network);
 	LuaSound::registerFunctions(lua, soundEngine);
+	LuaUI::registerFunctions(lua, gearEngine);
+	LuaLight::registerFunctions(lua, gearEngine);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;
@@ -105,6 +116,11 @@ void LuaBinds::update( Controls* controls, float deltaTime )
 void LuaBinds::printLuaTop() const
 {
 	std::cout << lua_gettop(lua) << "\n";
+}
+
+lua_State * LuaBinds::getState()
+{
+	return this->lua;
 }
 
 /*namespace LuaBinds

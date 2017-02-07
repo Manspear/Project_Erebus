@@ -28,6 +28,7 @@ namespace LuaInputs
 			{ "ButtonReleased", buttonReleased },
 
 			{ "GetTextInput", getTextInput },
+			{ "GetMousePos", getMousePos },
 			{ NULL, NULL }
 		};
 
@@ -65,7 +66,7 @@ namespace LuaInputs
 			result = str[0];
 		}
 		else
-			result = lua_tointeger( lua, 1 );
+			result = (int)lua_tointeger( lua, 1 );
 
 		return result;
 	}
@@ -110,7 +111,7 @@ namespace LuaInputs
 	{
 		assert( lua_gettop( lua ) >= 1 );
 
-		unsigned int button = lua_tointeger( lua, 1 );
+		unsigned int button = (unsigned int)lua_tointeger( lua, 1 );
 		lua_pushboolean( lua, g_inputs->buttonPressed( button ) );
 		return 1;
 	}
@@ -119,7 +120,7 @@ namespace LuaInputs
 	{
 		assert( lua_gettop( lua ) >= 1 );
 
-		unsigned int button = lua_tointeger( lua, 1 );
+		unsigned int button = (unsigned int)lua_tointeger( lua, 1 );
 		lua_pushboolean( lua, g_inputs->buttonPressedThisFrame( button ) );
 		return 1;
 	}
@@ -128,7 +129,7 @@ namespace LuaInputs
 	{
 		assert( lua_gettop( lua ) >= 1 );
 
-		unsigned int button = lua_tointeger( lua, 1 );
+		unsigned int button = (unsigned int)lua_tointeger( lua, 1 );
 		lua_pushboolean( lua, g_inputs->buttonReleasedThisFrame( button ) );
 		return 1;
 	}
@@ -137,5 +138,11 @@ namespace LuaInputs
 	{
 		lua_pushstring( lua, g_inputs->getTextInput() );
 		return 1;
+	}
+	int getMousePos(lua_State * lua)
+	{
+		lua_pushnumber(lua, g_inputs->getMousePos().x);
+		lua_pushnumber(lua, g_inputs->getMousePos().y);
+		return 2;
 	}
 }

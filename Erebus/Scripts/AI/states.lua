@@ -23,7 +23,8 @@ function state.idleState.exit(enemy,player)
 end
 
 function state.followState.enter(enemy,player)
-	print("Enter FOLLOW")
+	--print("Enter FOLLOW")
+	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
@@ -50,7 +51,7 @@ function state.followState.update(enemy,player,dt)
 
 			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.1 then
 				enemy.target = nil
-				print("DISTANCE")
+				--print("DISTANCE")
 			end
 
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
@@ -64,7 +65,8 @@ function state.followState.update(enemy,player,dt)
 		end
 
 		if length < enemy.range then
-			inState = "AttackState" 
+			inState = "AttackState"
+			 
 			changeToState(enemy,player,inState)
 		end
 end
@@ -76,6 +78,7 @@ end
 
 
 function state.attackState.enter(enemy,player)
+enemy.animationController:doAttack()
 enemy.animationState = 3
 enemy.attackCountdown = 1
 end
@@ -99,7 +102,8 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	print("DEAD")
+	--print("DEAD", enemy.transformID)
+	enemy.animationController:doNothing()
 end
 
 function state.deadState.update(enemy,player)
@@ -114,19 +118,28 @@ function changeToState(enemy,player,changeState)
 
 	enemy.state.exit(enemy,player)
 
+	--print(enemy.transformID)
 	if changeState == "IdleState" then
-			enemy.state = state.idleState
+		--print("changeToState 1")
+		Network.SendAIStatePacket(enemy.transformID, 0)
+		enemy.state = state.idleState
 	end
 
 	if changeState == "FollowState" then
-			enemy.state = state.followState
+		--print("changeToState 2")
+		Network.SendAIStatePacket(enemy.transformID, 1)
+		enemy.state = state.followState
 	end
 	if changeState == "AttackState" then
-			enemy.state = state.attackState
+		--print("changeToState 3")
+		Network.SendAIStatePacket(enemy.transformID, 2)
+		enemy.state = state.attackState
 	end
 
-	if changeState == "DeadState" then
-			enemy.state = state.deadState
+	if changeState == "DeadState" then	
+		--print("changeToState 4")
+		Network.SendAIStatePacket(enemy.transformID, 3)
+		enemy.state = state.deadState
 	end 
 
 	enemy.state.enter(enemy,player)

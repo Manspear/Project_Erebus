@@ -39,7 +39,7 @@ double PerformanceCounter::getCurrentTime()
 double PerformanceCounter::getDeltaTime()
 {
 	LARGE_INTEGER timeStamp;
-	double elapsedTime;
+	//double elapsedTime;
 
 	QueryPerformanceCounter(&timeStamp);
 	deltaTime = double(timeStamp.QuadPart - last.QuadPart) / frequency;
@@ -76,7 +76,7 @@ int PerformanceCounter::getFPS()
 	frameTime += deltaTime;
 	if (frameTime >= 0.7)
 	{
-		fps = double(frameCounter) / frameTime;
+		fps = (int)(double(frameCounter) / frameTime);
 		frameTime -= 0.7;
 		frameCounter = 0;
 	}
@@ -93,7 +93,7 @@ int PerformanceCounter::getVramUsage()
 		{
 			if (SUCCEEDED(dxgiAdapter3->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &info)))
 			{
-				int memoryUsage = info.CurrentUsage / 1024 / 1024; //MiB
+				int memoryUsage = (int)info.CurrentUsage / 1024 / 1024; //MiB
 				
 				return memoryUsage;
 			};

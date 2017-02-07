@@ -34,9 +34,23 @@ void DebugHandler::addDebuger(Debug* bugref)
 		this->debuggers.push_back(bugref);
 }
 
-void DebugHandler::update(Camera* camera, RenderQueue* renderQueRef)
+void DebugHandler::update()
 {
-	ShaderProgram* tempProgram;
+	for( int i=0; i<debuggers.size(); i++ )
+		debuggers.at(i)->update();
+}
+
+void DebugHandler::reset()
+{
+	for (size_t i = 0; i < debuggers.size(); i++)
+	{
+		debuggers.at(i)->clear();
+	}
+}
+
+void DebugHandler::draw(Camera* camera, RenderQueue* renderQueRef)
+{
+	//ShaderProgram* tempProgram;
 	int totalLines = 0,
 		totalSphere = 0,
 		totalAABB = 0,
@@ -58,25 +72,20 @@ void DebugHandler::update(Camera* camera, RenderQueue* renderQueRef)
 	if (totalOBB > 0)
 		drawAllOBBs(camera, renderQueRef);
 
-	for (size_t i = 0; i < debuggers.size(); i++)
+	/*for (size_t i = 0; i < debuggers.size(); i++)
 	{
 		debuggers.at(i)->clear();
-	}
+	}*/
 }
 
 void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
 {
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_OBB);
 	tempProgram->use();
-	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+	tempProgram->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	tempProgram->setUniform(camera->getViewMatrix(), "viewMatrix");
+
 	int obbInstances = totalToIntance / 4;
-	GLuint positionLocation = glGetUniformLocation(tempProgram->getProgramID(), "pos");
-	GLuint xAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "xAxis");
-	GLuint yAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "yAxis");
-	GLuint zAxisLocation = glGetUniformLocation(tempProgram->getProgramID(), "zAxis");
-	GLuint halfLengthsLocation = glGetUniformLocation(tempProgram->getProgramID(), "halfLengths");
-	GLuint colorIdLocation = glGetUniformLocation(tempProgram->getProgramID(), "colors");
 	glm::vec3* pos = new glm::vec3[obbInstances];
 	glm::vec3* xAxis = new glm::vec3[obbInstances];
 	glm::vec3* yAxis = new glm::vec3[obbInstances];
@@ -102,12 +111,12 @@ void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
 
 			if (numInstance == obbInstances)
 			{
-				glUniform3fv(positionLocation, numInstance, &pos[0][0]);
-				glUniform3fv(xAxisLocation, numInstance, &xAxis[0][0]);
-				glUniform3fv(yAxisLocation, numInstance, &yAxis[0][0]);
-				glUniform3fv(zAxisLocation, numInstance, &zAxis[0][0]);
-				glUniform3fv(halfLengthsLocation, numInstance, &halfLengths[0][0]);
-				glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+				tempProgram->setUniform(*pos, "pos", numInstance);
+				tempProgram->setUniform(*xAxis, "xAxis", numInstance);
+				tempProgram->setUniform(*yAxis, "yAxis", numInstance);
+				tempProgram->setUniform(*zAxis, "zAxis", numInstance);
+				tempProgram->setUniform(*halfLengths, "halfLengths", numInstance);
+				tempProgram->setUniform(*colors, "colors", numInstance);
 
 				draw(numInstance);
 			}
@@ -115,12 +124,12 @@ void DebugHandler::drawAllOBBs(Camera* camera, RenderQueue* renderQueRef)
 	}
 
 	if (numInstance > 0) {
-		glUniform3fv(positionLocation, numInstance, &pos[0][0]);
-		glUniform3fv(xAxisLocation, numInstance, &xAxis[0][0]);
-		glUniform3fv(yAxisLocation, numInstance, &yAxis[0][0]);
-		glUniform3fv(zAxisLocation, numInstance, &zAxis[0][0]);
-		glUniform3fv(halfLengthsLocation, numInstance, &halfLengths[0][0]);
-		glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+		tempProgram->setUniform(*pos, "pos", numInstance);
+		tempProgram->setUniform(*xAxis, "xAxis", numInstance);
+		tempProgram->setUniform(*yAxis, "yAxis", numInstance);
+		tempProgram->setUniform(*zAxis, "zAxis", numInstance);
+		tempProgram->setUniform(*halfLengths, "halfLengths", numInstance);
+		tempProgram->setUniform(*colors, "colors", numInstance);
 
 		draw(numInstance);
 	}
@@ -138,12 +147,9 @@ void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef)
 {
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_SPHERE);
 	tempProgram->use();
-	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+	tempProgram->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	tempProgram->setUniform(camera->getViewMatrix(), "viewMatrix");
 
-	GLuint positionLocation = glGetUniformLocation(tempProgram->getProgramID(), "pos1");
-	GLuint radiusLocation = glGetUniformLocation(tempProgram->getProgramID(), "rad");
-	GLuint colorIdLocation = glGetUniformLocation(tempProgram->getProgramID(), "colors");
 	glm::vec3* start = new glm::vec3[totalToIntance];
 	float* radius = new float[totalToIntance];
 	glm::vec3* colors = new glm::vec3[totalToIntance];
@@ -163,9 +169,9 @@ void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef)
 
 			if (numInstance == totalToIntance)
 			{
-				glUniform3fv(positionLocation, numInstance, &start[0][0]);
-				glUniform1fv(radiusLocation, numInstance, &radius[0]);
-				glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+				tempProgram->setUniform(*start, "pos1", numInstance);
+				tempProgram->setUniform1fv(*radius, "rad", numInstance);
+				tempProgram->setUniform(*colors, "colors", numInstance);
 
 				draw(numInstance);
 			}
@@ -174,9 +180,9 @@ void DebugHandler::drawAllSpheres(Camera* camera, RenderQueue* renderQueRef)
 
 	if (numInstance > 0) 
 	{
-		glUniform3fv(positionLocation, numInstance, &start[0][0]);
-		glUniform1fv(radiusLocation, numInstance, &radius[0]);
-		glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+		tempProgram->setUniform(*start, "pos1", numInstance);
+		tempProgram->setUniform1fv(*radius, "rad", numInstance);
+		tempProgram->setUniform(*colors, "colors", numInstance);
 
 		draw(numInstance);
 	}
@@ -191,12 +197,9 @@ void DebugHandler::drawAllAABBs(Camera * camera, RenderQueue * renderQueRef)
 {
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_AABB);
 	tempProgram->use();
-	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+	tempProgram->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	tempProgram->setUniform(camera->getViewMatrix(), "viewMatrix");
 
-	GLuint minLocation = glGetUniformLocation(tempProgram->getProgramID(), "minPos");
-	GLuint maxLocation = glGetUniformLocation(tempProgram->getProgramID(), "maxPos");
-	GLuint colorIdLocation = glGetUniformLocation(tempProgram->getProgramID(), "colors");
 	glm::vec3* min = new glm::vec3[totalToIntance];
 	glm::vec3* max = new glm::vec3[totalToIntance];
 	glm::vec3* colors = new glm::vec3[totalToIntance];
@@ -215,9 +218,9 @@ void DebugHandler::drawAllAABBs(Camera * camera, RenderQueue * renderQueRef)
 
 			if (numInstance == totalToIntance) 
 			{
-				glUniform3fv(minLocation, numInstance, &min[0][0]);
-				glUniform3fv(maxLocation, numInstance, &max[0][0]);
-				glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+				tempProgram->setUniform(*min, "minPos", numInstance);
+				tempProgram->setUniform(*max, "maxPos", numInstance);
+				tempProgram->setUniform(*colors, "colors", numInstance);
 
 				draw(numInstance);
 			}
@@ -226,9 +229,9 @@ void DebugHandler::drawAllAABBs(Camera * camera, RenderQueue * renderQueRef)
 
 	if (numInstance > 0)
 	{
-		glUniform3fv(minLocation, numInstance, &min[0][0]);
-		glUniform3fv(maxLocation, numInstance, &max[0][0]);
-		glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+		tempProgram->setUniform(*min, "minPos", numInstance);
+		tempProgram->setUniform(*max, "maxPos", numInstance);
+		tempProgram->setUniform(*colors, "colors", numInstance);
 
 		draw(numInstance);
 	}
@@ -243,12 +246,9 @@ void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef)
 {
 	ShaderProgram* tempProgram = renderQueRef->getShaderProgram(DEBUG_LINE);
 	tempProgram->use();
-	tempProgram->addUniform(camera->getProjectionMatrix(), "projectionMatrix");
-	tempProgram->addUniform(camera->getViewMatrix(), "viewMatrix");
+	tempProgram->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+	tempProgram->setUniform(camera->getViewMatrix(), "viewMatrix");
 
-	GLuint startLocation = glGetUniformLocation(tempProgram->getProgramID(), "pos1");
-	GLuint endLocation = glGetUniformLocation(tempProgram->getProgramID(), "pos2");
-	GLuint colorIdLocation = glGetUniformLocation(tempProgram->getProgramID(), "colors");
 	glm::vec3* start = new glm::vec3[totalToIntance];
 	glm::vec3* end = new glm::vec3[totalToIntance];
 	glm::vec3* colors = new glm::vec3[totalToIntance];
@@ -267,9 +267,10 @@ void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef)
 
 			if (numInstance == totalToIntance) 
 			{
-				glUniform3fv(startLocation, numInstance, &start[0][0]);
-				glUniform3fv(endLocation, numInstance, &end[0][0]);
-				glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+
+				tempProgram->setUniform(*start, "pos1", numInstance);
+				tempProgram->setUniform(*end, "pos2", numInstance);
+				tempProgram->setUniform(*colors, "colors", numInstance);
 
 				draw(numInstance);
 			}
@@ -278,9 +279,9 @@ void DebugHandler::drawAllLines(Camera* camera, RenderQueue* renderQueRef)
 
 	if (numInstance > 0)
 	{
-		glUniform3fv(startLocation, numInstance, &start[0][0]);
-		glUniform3fv(endLocation, numInstance, &end[0][0]);
-		glUniform3fv(colorIdLocation, numInstance, &colors[0][0]);
+		tempProgram->setUniform(*start, "pos1", numInstance);
+		tempProgram->setUniform(*end, "pos2", numInstance);
+		tempProgram->setUniform(*colors, "colors", numInstance);
 
 		draw(numInstance);
 	}

@@ -28,7 +28,7 @@ namespace Importer
 			fseek( file, 0, SEEK_SET );
 
 			char* text = new char[len+1];
-			len = fread( text, 1, len, file );
+			len = (int)fread( text, 1, len, file );
 			text[len] = 0;
 
 			char* start = text;
@@ -41,49 +41,52 @@ namespace Importer
 
 				start = cur;
 
-				while( *cur != ':' )
+				while( *cur && *cur != ':' )
 					cur++;
 
-				int nameLen = cur - start;
+				int nameLen = (int)(cur - start);
 
-				// remove ':'
-				cur++;
-				if( strncmp( start, "Ambient color", nameLen ) == 0 )
+				if( *cur && *cur == ':' )
 				{
-					ambientColor = parseVec3( &cur );
-				}
-				else if( strncmp( start, "Diffuse color", nameLen ) == 0 )
-				{
-					diffuseColor = parseVec3( &cur );
-				}
-				else if( strncmp( start, "Specular color", nameLen ) == 0 )
-				{
-					specularColor = parseVec3( &cur );
-				}
-				else if( strncmp( start, "Shiny factor", nameLen ) == 0 )
-				{
-					shinyFactor = parseFloat( &cur );
-				}
-				else if( strncmp( start, "Diffuse texture", nameLen ) == 0 )
-				{
-					parseString( &cur, buffer );
-					diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
-				}
-				else if( strncmp( start, "Specular texture", nameLen ) == 0 )
-				{
-					parseString( &cur, buffer );
-					specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
-				}
-				else if( strncmp( start, "Normal texture", nameLen ) == 0 )
-				{
-					parseString( &cur, buffer );
-					normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
-				}
-				else
-				{
-					strncpy_s( buffer, start, nameLen );
-					buffer[(nameLen < BUFFER_LEN ? nameLen : BUFFER_LEN)] = 0;
-					printf( "Unrecognized field: \"%s\".\n", buffer );
+					// remove ':'
+					cur++;
+					if( strncmp( start, "Ambient color", nameLen ) == 0 )
+					{
+						ambientColor = parseVec3( &cur );
+					}
+					else if( strncmp( start, "Diffuse color", nameLen ) == 0 )
+					{
+						diffuseColor = parseVec3( &cur );
+					}
+					else if( strncmp( start, "Specular color", nameLen ) == 0 )
+					{
+						specularColor = parseVec3( &cur );
+					}
+					else if( strncmp( start, "Shiny factor", nameLen ) == 0 )
+					{
+						shinyFactor = parseFloat( &cur );
+					}
+					else if( strncmp( start, "Diffuse texture", nameLen ) == 0 )
+					{
+						parseString( &cur, buffer );
+						diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+					}
+					else if( strncmp( start, "Specular texture", nameLen ) == 0 )
+					{
+						parseString( &cur, buffer );
+						specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+					}
+					else if( strncmp( start, "Normal texture", nameLen ) == 0 )
+					{
+						parseString( &cur, buffer );
+						normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+					}
+					else
+					{
+						strncpy_s( buffer, start, nameLen );
+						buffer[(nameLen < BUFFER_LEN-1 ? nameLen : BUFFER_LEN-1)] = 0;
+						printf( "Unrecognized field: \"%s\".\n", buffer );
+					}
 				}
 			}
 
@@ -97,6 +100,10 @@ namespace Importer
 	}
 
 	void MaterialAsset::unload()
+	{
+	}
+
+	void MaterialAsset::upload()
 	{
 	}
 
@@ -114,7 +121,7 @@ namespace Importer
 			while( *cur && !isWhitespace( *cur ) )
 				cur++;
 
-			result[i] = atof(start);
+			result[i] = (float)atof(start);
 		}
 
 		*cursor = cur;
@@ -135,7 +142,7 @@ namespace Importer
 		while( *cur && !isWhitespace( *cur ) )
 			cur++;
 
-		result = atof(start);
+		result = (float)atof(start);
 		*cursor = cur;
 
 		return result;
@@ -152,7 +159,7 @@ namespace Importer
 		while( *cur && !isWhitespace( *cur ) )
 			cur++;
 
-		int len = cur-start;
+		int len = (int)(cur-start);
 		strncpy( dst, start, len );
 		dst[len] = 0;
 

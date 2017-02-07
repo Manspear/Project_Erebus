@@ -25,6 +25,7 @@ public:
 
 	//The state is an enum defined for each subclass of Animation
 	GEAR_API virtual void updateState(float dt, int state, int animationSegment);
+	GEAR_API void update(float dt);
 
 	//Returns true when transition is complete
 	GEAR_API virtual bool quickBlend(float dt, int originState, int transitionState, float blendTime, int animationSegment);
@@ -32,6 +33,9 @@ public:
 	The number of parts is equal to
 	*/
 	GEAR_API virtual void setAnimationSegments(int numberOfSegments);
+	GEAR_API void setMatrixIndex( int index );
+	GEAR_API void setSegmentState( int state, int segment );
+	GEAR_API void setQuickBlend( int from, int to, float blendTime, int segment );
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:
@@ -57,6 +61,8 @@ public:
 
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
+	GEAR_API int getMatrixIndex();
+
 protected:
 	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 
@@ -77,6 +83,7 @@ protected:
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
+	float animTimer;
 
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
@@ -116,4 +123,10 @@ protected:
 	Importer::ModelAsset* asset;
 	std::vector<glm::mat4> animMatrix;
 	std::vector<sKeyFrame> finalList;
+
+	int matrixIndex;
+	std::vector<int> currentSegmentStates;
+	int quickBlendFrom, quickBlendTo, quickBlendSegment;
+	float quickBlendTime;
+	bool quickBlendingDone;
 };

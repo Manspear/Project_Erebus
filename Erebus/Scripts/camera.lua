@@ -1,13 +1,13 @@
 STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2, 3
-camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOM_OUT}
+camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOMING_IN}
 
 timeSinceShot = 0
 DelayZoomOut = 0.5
 
 --distance was 4
-ZoomedOut = {distance = 6, angle = 0, time =7, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
+ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
 --distance was 3.6
-ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
+ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 1, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
 StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
 
@@ -39,34 +39,30 @@ function vec3sub(a, b)
 			z = a.z-b.z}
 end
 
-function UpdateCamera(dt)
-	if player.testCamera == true then 
-		timeSinceShot = 0
-		if camera.state ~= STATE_ZOOMED_IN and camera.state ~= STATE_ZOOMING_IN then --start zooming in if not already zoomed in
-			camera.state = STATE_ZOOMING_IN
+function ZoomInCamera()
+	timeSinceShot = 0
+	camera.state = STATE_ZOOMING_IN
+	StartState.distance = camera.distance
+	StartState.angle = camera.angle
+	StartState.xOffset = camera.xOffset
+	StartState.yOffset = camera.yOffset
+	StartState.fov = camera.fov		
+	ZoomedIn.timeSpent = 0
+end
 
-			StartState.distance = camera.distance
-			StartState.angle = camera.angle
-			StartState.xOffset = camera.xOffset
-			StartState.yOffset = camera.yOffset
-			StartState.fov = camera.fov
-			
-			ZoomedIn.timeSpent = 0
-		end
-	end
-	timeSinceShot = timeSinceShot + dt
-	if timeSinceShot > DelayZoomOut and camera.state ~= STATE_ZOOMED_OUT and camera.state ~= STATE_ZOOMING_OUT then --start zooming out if not already zoomed out, triggers when player have not shot recently
-		ZoomedOut.timeSpent = 0
+function ZoomOutCamera()
+	ZoomedOut.timeSpent = 0
+	
+	StartState.distance = camera.distance
+	StartState.angle = camera.angle
+	StartState.xOffset = camera.xOffset
+	StartState.yOffset = camera.yOffset
+	StartState.fov = camera.fov
 
-		StartState.distance = camera.distance
-		StartState.angle = camera.angle
-		StartState.xOffset = camera.xOffset
-		StartState.yOffset = camera.yOffset
-		StartState.fov = camera.fov
+	camera.state = STATE_ZOOMING_OUT
+end
 
-		camera.state = STATE_ZOOMING_OUT
-	end 
-
+function UpdateCamera(dt)	
 	if camera.state == STATE_ZOOMING_OUT then
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
@@ -103,29 +99,43 @@ function UpdateCamera(dt)
 		end
 	end
 
-	--[[
-	pos = Transform.GetPos(player.transformID)
-	dir = Transform.GetLookAt(player.transformID)
-	tempDir = {x = pos.x, y = 0, z = pos.z}
-	offset = scalarvec3mult(camera.xOffset, cross(tempDir, {x = 0, y = 1, z = 0}))
-	offset.y = offset.y + camera.yOffset
-
-	lookfrom = {x = 0, y = camera.distance * math.sin(camera.angle), z = 0}
-	lookfrom = vec3sub(lookfrom, scalarvec3mult(camera.distance, scalarvec3mult(math.cos(camera.angle), tempDir)) )
-
-	tempPos = vec3add( vec3add(pos, offset),  )--]]
-
-
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()
-	local height = heightmaps[1]:GetHeight(temppos.x, temppos.z)
-	if height + 0.5 > temppos.y then
-		Camera.SetHeight(height+ 0.5) 
+	local distance = camera.distance
+	local dir = Camera.GetDirection()
+	local height = 0
+	local hm = GetHeightmap(temppos)
+	if hm then
+		height = hm.asset:GetHeight(temppos.x, temppos.z)
 	end
-
-
+	local incrementfactor = (0.03) --absolute length of increment is 0.03 units
+	if height  < temppos.y then
+		camera.state = STATE_ZOOMING_OUT
+	end
+	while distance > 0.5 do
+		--height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z
+		local hm = GetHeightmap(temppos)
+		if hm then
+			height = hm.asset:GetHeight(temppos.x, temppos.z)
+			if height > temppos.y then
+				distance = distance - 0.03
+				temppos.x = temppos.x + dir.x * incrementfactor
+				temppos.y = temppos.y + dir.y * incrementfactor
+				temppos.z = temppos.z + dir.z * incrementfactor
+				camera.state = STATE_ZOOMING_OUT
+				StartState.distance = distance
+				ZoomedOut.timeSpent = 0
+				--Camera.SetHeight(height + 0.5) 
+			else
+				break
+			end
+		else
+			break
+			--distance = distance - 0.03
+		end
+	end
+	camera.distance = distance
+	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 end
-
-
 
 return { Update = UpdateCamera }

@@ -26,18 +26,20 @@ namespace LuaCamera {
 		lua_setglobal(lua, "Camera");
 	}
 
-	int follow(lua_State* lua) {
+	int follow(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 6 );
 
 		glm::vec3 pos, dir;
 		int transformIndex;
 		float distance, angle, xoffset, yoffset, fov;
 		
-		angle = lua_tonumber(lua, -1);
-		distance = lua_tonumber(lua, -2);
-		xoffset = lua_tonumber(lua, -3);
-		yoffset = lua_tonumber(lua, -4);
-		transformIndex = lua_tointeger(lua, -5);
-		fov = lua_tonumber(lua, -6);
+		angle = (float)lua_tonumber(lua, -1);
+		distance = (float)lua_tonumber(lua, -2);
+		xoffset = (float)lua_tonumber(lua, -3);
+		yoffset = (float)lua_tonumber(lua, -4);
+		transformIndex = (int)lua_tointeger(lua, -5);
+		fov = (float)lua_tonumber(lua, -6);
 		pos = g_transforms[transformIndex].getPos();
 		dir = g_transforms[transformIndex].getLookAt();
 
@@ -46,26 +48,26 @@ namespace LuaCamera {
 		return 1;
 	}
 
-	int cameraUpdate(lua_State* lua) {
+	int cameraUpdate(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 6 );
 
 		glm::vec3 campos, lookpos;
 
-		campos.x = lua_tonumber(lua, -6);
-		campos.y = lua_tonumber(lua, -5);
-		campos.z = lua_tonumber(lua, -4);
-		lookpos.x = lua_tonumber(lua, -3);
-		lookpos.y = lua_tonumber(lua, -2);
-		lookpos.z = lua_tonumber(lua, -1);
+		campos.x = (float)lua_tonumber(lua, -6);
+		campos.y = (float)lua_tonumber(lua, -5);
+		campos.z = (float)lua_tonumber(lua, -4);
+		lookpos.x = (float)lua_tonumber(lua, -3);
+		lookpos.y = (float)lua_tonumber(lua, -2);
+		lookpos.z = (float)lua_tonumber(lua, -1);
 
 		g_camera->setCamera(campos, lookpos);
 
 		return 1;
 	}
 
-	int getPos(lua_State* lua) {
-
-		int index = lua_tointeger(lua, 1);
-
+	int getPos(lua_State* lua)
+	{
 		glm::vec3 position = g_camera->getPosition();
 
 		lua_newtable(lua);
@@ -80,16 +82,19 @@ namespace LuaCamera {
 
 		return 1;
 	}
+
 	int setHeight(lua_State * lua)
 	{
-		float height = lua_tonumber(lua, -1);
+		assert( lua_gettop( lua ) == 1 );
+
+		float height = (float)lua_tonumber(lua, -1);
 		g_camera->setHeight(height);
+
 		return 1;
 	}
+
 	int getDirection(lua_State * lua)
 	{
-		int index = lua_tointeger(lua, 1);
-
 		glm::vec3 position = g_camera->getDirection();
 
 		lua_newtable(lua);

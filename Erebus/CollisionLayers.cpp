@@ -20,6 +20,7 @@ CollisionLayers::CollisionLayers(int size)
 
 	this->resetLayerCollisionCheckedMatrix(); // all layer collisions are set to false
 
+	this->allColliders.resize(layerMatrixSize);
 	this->sphereColliders.resize(layerMatrixSize); // resize to fit the amount of layers we have, fake 2d array
 	this->aabbColliders.resize(layerMatrixSize);
 	this->obbColliders.resize(layerMatrixSize);
@@ -34,42 +35,56 @@ CollisionLayers::~CollisionLayers()
 
 void CollisionLayers::addHitbox(AABBCollider * aabbCollider) 
 {
+	this->allColliders[0].push_back(aabbCollider);
 	this->aabbColliders[0].push_back(aabbCollider); // default layer is 0
 }
 
 void CollisionLayers::addHitbox(SphereCollider * sphereCollider)
 {
+	this->allColliders[0].push_back(sphereCollider);
 	this->sphereColliders[0].push_back(sphereCollider);
 }
 
 void CollisionLayers::addHitbox(AABBCollider * aabbCollider, unsigned int layer)
 {
+	this->allColliders[layer].push_back(aabbCollider);
 	this->aabbColliders[layer].push_back(aabbCollider);
 }
 
 void CollisionLayers::addHitbox(SphereCollider * sphereCollider, unsigned int layer)
 {
+	this->allColliders[layer].push_back(sphereCollider);
 	this->sphereColliders[layer].push_back(sphereCollider);
 }
 
 void CollisionLayers::addHitbox(OBBCollider * obbCollider)
 {
+	this->allColliders[0].push_back(obbCollider);
 	this->obbColliders[0].push_back(obbCollider);
 }
 
 void CollisionLayers::addHitbox(OBBCollider * obbCollider, unsigned int layer)
 {
+	this->allColliders[layer].push_back(obbCollider);
 	this->obbColliders[layer].push_back(obbCollider);
 }
 
 void CollisionLayers::addRay(RayCollider * ray)
 {
+	this->allColliders[0].push_back(ray);
 	this->rayColliders[0].push_back(ray);
 }
 
 void CollisionLayers::addRay(RayCollider * ray, unsigned int layer)
 {
+	allColliders[layer].push_back(ray);
 	rayColliders[layer].push_back(ray);
+}
+
+std::vector<HitBox*>* CollisionLayers::getAllColliders(unsigned int layer)
+{
+	assert( layer < layerMatrixSize );
+	return &allColliders[layer];
 }
 
 std::vector<SphereCollider*>* CollisionLayers::getSphereColliders(unsigned int layer)
@@ -147,7 +162,7 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 			}
 		}
 		if (deleted)
-			i = this->sphereColliders[i].size();
+			i = this->sphereColliders.size();
 
 	}
 
@@ -166,7 +181,27 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 
 			}
 			if (deleted)
-				i = this->aabbColliders[i].size();
+				i = this->aabbColliders.size();
+
+		}
+	}
+
+	if (!deleted)
+	{
+		for (size_t i = 0; i < this->obbColliders.size(); i++) //check if it is a AABB collider and delete
+		{
+			for (size_t j = 0; j < this->obbColliders[i].size(); j++)
+			{
+				if (this->obbColliders[i][j]->getID() == ID)
+				{
+					this->obbColliders[i].erase(this->obbColliders[i].begin() + j);
+					deleted = true;
+					j = this->obbColliders[i].size();
+				}
+
+			}
+			if (deleted)
+				i = this->obbColliders.size();
 
 		}
 	}

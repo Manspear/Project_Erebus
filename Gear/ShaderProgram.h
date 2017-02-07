@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseIncludes.h"
+#include <map>
 
 
 enum shaderBaseType
@@ -26,6 +27,10 @@ enum ShaderType {
 	DEBUG_OBB,
 	GEOMETRY_PICKING,
 	SKYBOX,
+	QUAD,
+	LIGHT_PASS,
+	BLUR,
+
 	NUM_SHADER_TYPES
 };
 
@@ -47,22 +52,48 @@ public:
 	void deferredInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLenum* type, GLuint* attachments);
 	void initFramebuffer(int nrTex, int width, int height, GLfloat* filter, GLenum* internalFormat, GLenum* format, GLenum* type, GLenum* attachments, bool clamp);
 	void initFramebuffer(int nrTex, int width, int height, GLfloat filter, GLenum internalFormat, GLenum format, GLenum type, GLenum attachments, bool clamp);
-	void use();
-	void unUse();
 	void bindTexToLocation(GLuint* textures);
 	void BindTexturesToProgram(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 
 	GLuint getProgramID();
 	GLuint* getTextures();
 	GLuint getFramebufferID();
-	void addUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
-	void addUniform(glm::vec3 &vec3, std::string position, int count = 1);
-	void addUniform(float &floatValue, std::string position);
-	void addUniform(int &intValue, std::string position);
+
+	void addUniform(std::string uniform);
+	void addAllUniforms(std::string shaderText);
+
+	void setUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
+	void setUniform(glm::vec3 &vec3, std::string position, int count = 1);
+	void setUniform4fv(glm::mat4 *matrix4x4, std::string position, int count = 1);
+	void setUniform4cfv(const GLfloat *matrix4x4, std::string position, int count = 1);
+	void setUniform1fv(float &vec1, std::string position, int count = 1);
+	void setUniform(float &floatValue, std::string position);
+	void setUniform(int &intValue, std::string position);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }
 
+	GLuint getUniformLocation(std::string pos);
+
+public:		// Inlined functions
+	inline void use() {
+		glUseProgram(programID);
+		if (framebufferID != 0)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+			glViewport(0, 0, width, height);
+		}
+		for (int i = 0; i < totalAttributes; i++)
+			glEnableVertexAttribArray(i);
+	}
+
+	inline void unUse() {
+		glUseProgram(0);
+		for (int i = 0; i < totalAttributes; i++)
+			glDisableVertexAttribArray(i);
+		if (framebufferID != 0)
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 
 private:
 	GLuint programID;
@@ -71,13 +102,14 @@ private:
 	GLuint framebufferID;
 	GLuint renderBuffer;
 	int width, height;
-	std::vector<int> uniformLocations;
+	std::vector<GLuint> uniformLocations;
 	int nrOfShaders;
 	int nrOfTextures;
 	int totalAttributes;
 	int nrOfUniforms;
-	GLuint getUniformLocation(std::string pos);
+	std::string shaderName;
 
+	std::map<std::string, int> uniforms;
 
 	std::string* getPaths(const shaderBaseType& type, const std::string& path);
 	GLuint* getTypes(const shaderBaseType& type);

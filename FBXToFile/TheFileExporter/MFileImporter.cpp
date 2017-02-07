@@ -26,7 +26,8 @@ void MFileImporter::importFbx(const char * filePath, float animationFramerate)
 	bool importStatus = fbxImporter->Initialize(filePath, -1, pmManager->GetIOSettings());
 	/*Abort if the importer can't be intitialized.*/
 	if (importStatus == false) {
-		FBXSDK_printf("Error: Can't initialize the importer. Aborting...\n");
+		FBXSDK_printf("Error: Can't initialize the importer. Aborting... Tip: Filepath miss-spelled or without .fbx \n");
+		getchar();
 		exit(1);
 	}
 
@@ -35,7 +36,9 @@ void MFileImporter::importFbx(const char * filePath, float animationFramerate)
 	importStatus = fbxImporter->Import(pmScene);
 	/*Abort if the scene can't be imported.*/
 	if (importStatus == false) {
+		printf("Scene cannot be imported!");
 		FBXSDK_printf("Error: Can't import the scene. Aborting...\n");
+		getchar();
 		exit(1);
 	}
 	fbxImporter->Destroy();
@@ -239,7 +242,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		outFile.write(str.c_str(), str.length());
 
 
-		txt = "Shinyfactor: ";
+		txt = "Shiny factor: ";
 		sprintf(num, "%f", expMat.shinyFactor);
 		str = txt + std::string(num) + "\r\n";
 		outFile.write(str.c_str(), str.length());
@@ -255,7 +258,7 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 
 
 		txt = "Normal texture: ";
-		str = txt + std::string(expMat.normalTextureFilePath) + "\n";
+		str = txt + std::string(expMat.normalTextureFilePath)/* + "\n"*/;
 		outFile.write(str.c_str(), str.length());
 
 		//str = std::string(txt +  + '\n');
@@ -483,11 +486,11 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
 
 	//Takes too long
-	//processIndexes();
-	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+	processIndexes();
+	/*for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
 	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
-		imScene.modelList.back().meshList.back().indexList.push_back(i);
+		imScene.modelList.back().meshList.back().indexList.push_back(i);*/
 
 	/*CALLS ITSELF INFINITELY*/
 	//For eventual mesh-hierarchy
@@ -853,6 +856,9 @@ void checkIndexAgainstIndexedList(bool& isUnique, int& offset, int& duplicateInd
 
 void MFileImporter::processIndexes()
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// lets be fab
+	SetConsoleTextAttribute(hConsole, 8);
+	const char* name = imScene.modelList.back().name; //used for printing progress
 	if (imScene.modelList.back().meshList.back().isAnimated)
 	{
 		std::vector<sSkeletonVertex> indexedList;
@@ -860,8 +866,10 @@ void MFileImporter::processIndexes()
 		//Split each of these "loop through everything-calls" into four, for four processors. Making it 4x as quick.
 		//If all threads say "isUnique", then the value is unique.
 
-		for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+		size_t animVertListSize = imScene.modelList.back().meshList.back().animVertList.size();
+		for (int i = 0; i < animVertListSize; i++)
 		{
+			std::cout << name << " indexing :: Vertex: " << i+1 << " :out of " << animVertListSize << std::endl;
 			if (indexedList.size() > 4)
 			{
 				bool isUnique1;
@@ -945,13 +953,16 @@ void MFileImporter::processIndexes()
 				}
 			}
 		}
+		std::cout << name << " indexing :: indexing Done!"<< std::endl;
 		imScene.modelList.back().meshList.back().animVertList = indexedList;
 	}
 	else
 	{
+		size_t vertListSize = imScene.modelList.back().meshList.back().vertList.size();
 		std::vector<sVertex> indexedList;
-		for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
+		for (int i = 0; i < vertListSize; i++)
 		{
+			std::cout << name <<  "indexing :: Vertex: " << i+1 << " :out of " << vertListSize << std::endl;
 			if (indexedList.size() > 4)
 			{
 				bool isUnique1;
@@ -1036,6 +1047,7 @@ void MFileImporter::processIndexes()
 
 			}
 		}
+		std::cout << name << " indexing :: indexing Done!" << std::endl;
 		imScene.modelList.back().meshList.back().vertList = indexedList;
 	}
 
@@ -1043,6 +1055,7 @@ void MFileImporter::processIndexes()
 	int vertNum = imScene.modelList.back().meshList.back().vertList.size();
 	int indexNum = imScene.modelList.back().meshList.back().indexList.size();
 	int wolo = 0;
+	SetConsoleTextAttribute(hConsole, 7); //Lets not be fab anymore
 }
 
 void MFileImporter::processTransformations(FbxNode * node, eObjectType TYPE, int index)
@@ -1813,6 +1826,7 @@ bool MFileImporter::checkMaterialName(const char * materialName)
 		sImMaterial mat;
 		mat.materialName = materialName;
 		imScene.materialList.push_back(mat);
+		imScene.modelList.back().meshList.back().materialID = imScene.materialList.size() - 1;
 	}
 
 	return isMatching;
@@ -1952,15 +1966,15 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 					}
 				}
 			}
-			else if(emptyLayers)
+			else if (emptyLayers)
 			{
-				for (int i = 0; i < 6; i++)
+				for (int i = 0; i < 6; i++) //Comment out this to check if layers aren't found
 				{
 					storeCurve[i];
 					FbxAnimCurveNode* aidsAss = FbxAnimCurveNode::CreateTypedCurveNode(currJoint->LclRotation, pmScene);
 					FbxAnimCurve* lol;
 					lol = FbxAnimCurve::Create(pmManager, "aidsCurve");
-					
+
 					storeCurve[i] = lol;
 					storeCurve[i]->KeyAdd(0, 0);
 					storeCurve[i]->KeyAdd(1, 0);
@@ -1977,7 +1991,7 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 				FbxVector4 tempTranslation;
 				FbxVector4 tempRotation;
 				FbxVector4 tempScale;
-				
+
 				//Rotations converted to radians
 				//tempRotation = 
 				//	//FbxVector4(storeCurve[0]->KeyGet(keyCounter).GetValue() * asRadians,
@@ -1994,25 +2008,33 @@ void MFileImporter::processAnimationLayers(FbxNode* currJoint)
 				//	FbxVector4(storeCurve[6]->KeyGet(keyCounter).GetValue(),
 				//			   storeCurve[7]->KeyGet(keyCounter).GetValue(),
 				//			   storeCurve[8]->KeyGet(keyCounter).GetValue());
-				
+
 				tempTranslation = animationEvaluator->GetNodeLocalTranslation(currJoint, currKey.GetTime());
 				tempRotation = animationEvaluator->GetNodeLocalRotation(currJoint, currKey.GetTime());
 				tempScale = animationEvaluator->GetNodeLocalScaling(currJoint, currKey.GetTime());
-				//tempRotation[0] = tempRotation[0] * asRadians;
-				//tempRotation[1] = tempRotation[1] * asRadians;
-				//tempRotation[2] = tempRotation[2] * asRadians;
+
+				//FOR GLM
+				tempRotation[0] = tempRotation[0] * asRadians;
+				tempRotation[1] = tempRotation[1] * asRadians;
+				tempRotation[2] = tempRotation[2] * asRadians;
 				//tempScale = animationEvaluator->GetNodeLocalScaling(currJoint, currKey.GetTime());
 
-				FbxQuaternion quatRot;
-				quatRot.ComposeSphericalXYZ(tempRotation);
-				
+
+				//FbxQuaternion quatRot;
+				//quatRot.ComposeSphericalXYZ(tempRotation);
+				boogah::glm::vec3 glEuler = boogah::glm::vec3(tempRotation[0], tempRotation[1], tempRotation[2]);
+				boogah::glm::quat glQuat = boogah::glm::quat(glEuler);
 				float keyTime = currKey.GetTime().GetSecondDouble();
 				float translation[3] = { tempTranslation[0],  tempTranslation[1], tempTranslation[2] };
-				float rotation[4] = { quatRot.GetAt(0), quatRot.GetAt(1), quatRot.GetAt(2), quatRot.GetAt(3) };
+				//float rotation[4] = { quatRot.GetAt(0), quatRot.GetAt(1), quatRot.GetAt(2), quatRot.GetAt(3) };
+				float rotation[4] = { glQuat.x, glQuat.y, glQuat.z, glQuat.w };
 				//float rotation[4] = { tempRotation[0], tempRotation[1], tempRotation[2], tempRotation[3] };
 				float scale[3] = { tempScale[0], tempScale[1], tempScale[2] };
 
-				//FbxQuaternion::ComposeSphericalXYZ()
+				//if (std::string(currJoint->GetName()) == "joint16")
+				//{
+				//	int popo = 4;
+				//}
 
 				//add these values to a sKey-struct, then append it to the keyFrame vector.
 				sKeyFrame tempKey;
@@ -2084,6 +2106,10 @@ void MFileImporter::processBlendWeightsAndIndices(FbxMesh * inputMesh, std::vect
 
 			for (int i = 0; i < bd[index].size(); i++)
 			{
+				if (bd[index][i].jointID == 16)
+				{
+					int mongobongo = 1;
+				}
 				imScene.modelList.back().meshList.back().animVertList[indexCounter].influences[i] = bd[index][i].jointID;
 				imScene.modelList.back().meshList.back().animVertList[indexCounter].weights[i] = bd[index][i].blendingWeight;
 			}

@@ -1,0 +1,5 @@
+Imorgon. 
+Hämta normalMap
+lägg alla nödvändigheter på rätt ställe?
+testa att föra över texturer.
+Se om du kan få över joints osv.

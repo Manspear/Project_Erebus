@@ -9,6 +9,7 @@ OBBCollider::OBBCollider() : HitBox()
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(1, 1, 1);
+	this->typeFlag = FLAG;
 }
 
 OBBCollider::OBBCollider(int transformID) : HitBox(transformID)
@@ -18,6 +19,7 @@ OBBCollider::OBBCollider(int transformID) : HitBox(transformID)
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(1, 1, 1);
+	this->typeFlag = FLAG;
 }
 
 OBBCollider::OBBCollider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox()
@@ -27,6 +29,7 @@ OBBCollider::OBBCollider(glm::vec3 pos, float xHalfLength, float yHalfLength, fl
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(xHalfLength,yHalfLength,zHalfLength);
+	this->typeFlag = FLAG;
 }
 
 OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox(transformID)
@@ -36,6 +39,7 @@ OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, 
 	this->yAxis = glm::vec3(0, 1, 0);
 	this->zAxis = glm::vec3(0, 0, 1);
 	this->halfLengths = glm::vec3(xHalfLength, yHalfLength, zHalfLength);
+	this->typeFlag = FLAG;
 }
 
 
@@ -91,7 +95,40 @@ void OBBCollider::setZHalfLength(float length)
 	this->halfLengths.z = length;
 }
 
-unsigned int OBBCollider::getID() const
+void OBBCollider::setXAxis(glm::vec3 xAxis)
+{
+	this->xAxis = glm::normalize(xAxis);
+	if (xAxis != glm::vec3(0, 1, 0))
+		this->zAxis = glm::normalize(glm::cross(xAxis, glm::vec3(0, 1, 0)));
+	else
+		this->zAxis = glm::normalize(glm::cross(xAxis, glm::vec3(1,0,0)));
+
+	this->yAxis = glm::normalize(glm::cross(xAxis,zAxis));
+}
+
+void OBBCollider::setYAxis(glm::vec3 yAxis)
+{
+	this->yAxis = glm::normalize(yAxis);
+	if (yAxis != glm::vec3(0, 1, 0))
+		this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(0, 1, 0)));
+	else
+		this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(1, 0, 0)));
+
+	this->xAxis = glm::normalize(glm::cross(yAxis, zAxis));
+}
+
+void OBBCollider::setZAxis(glm::vec3 zAxis)
+{
+	this->zAxis = glm::normalize(zAxis);
+	if (zAxis != glm::vec3(0, 1, 0))
+		this->yAxis = glm::normalize(glm::cross(zAxis, glm::vec3(0, 1, 0)));
+	else
+		this->yAxis = glm::normalize(glm::cross(zAxis, glm::vec3(1, 0, 0)));
+
+	this->xAxis = glm::normalize(glm::cross(zAxis, yAxis));
+}
+
+int OBBCollider::getID() const
 {
 	return this->ID;
 }
@@ -101,24 +138,9 @@ int OBBCollider::getIDTransform() const
 	return this->IDTransform;
 }
 
-std::vector<unsigned int>* OBBCollider::getIDCollisionsRef()
+std::vector<int>* OBBCollider::getIDCollisionsRef()
 {
 	return &this->IDCollisions;
-}
-
-void OBBCollider::insertCollisionID(unsigned int collisionID)
-{
-	this->IDCollisions.push_back(collisionID);
-}
-
-void OBBCollider::clearCollisionIDs()
-{
-	this->IDCollisions.clear();
-}
-
-void OBBCollider::setPos(glm::vec3 pos)
-{
-	this->pos = pos;
 }
 
 const glm::vec3& OBBCollider::getPos() const

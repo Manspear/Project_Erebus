@@ -15,28 +15,51 @@ public:
 	// Returns true on success, false for failure to initialize
 	bool initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4);
 	void shutdown();
-	void acceptNetworkCommunication();
+	bool acceptNetworkCommunication();
 	void startCommunicationThreads(PerformanceCounter& counter);
 
 	void setNetworkHost(const bool& networkHost);
 	bool getNetworkHost();
 
 	double timeSinceLastTransformPacket();
-	void sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& dir_x, const float& dir_y, const float& dir_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
+	double timeSinceLastAnimationPacket();
+	double timeSinceLastAITransformPacket();
+	
+	void sendTransformPacket(const TransformPacket& packet);
 	bool fetchTransformPacket(TransformPacket &packet);
-	void sendAnimationPacket(const uint16_t& id);
+
+	void sendAnimationPacket(const AnimationPacket& packet);
 	bool fetchAnimationPacket(AnimationPacket& packet);
 	
+	void sendAIStatePacket(const AIStatePacket& packet);
+	bool fetchAIStatePacket(AIStatePacket& packet);
+
+	void sendSpellPacket(const SpellPacket& packet);
+	bool fetchSpellPacket(SpellPacket& packet);
+
+	void sendAITransformPacket(const TransformPacket& packet);
+	bool fetchAITransformPacket(TransformPacket &packet);
+
+	void sendChargingPacket(const ChargingPacket& packet);
+	bool fetchChargingPacket(ChargingPacket &packet);
+
+	void sendQuickBlendPacket(const QuickBlendPacket& packet);
+	bool fetchQuickBlendPacket(QuickBlendPacket& packet);
+
+
 private:
 	void startNetworkSending();
 	void startNetworkReceiving();
 	Nurn::NurnEngine network;
 	std::thread sendingThread;
 	std::thread receiveThread;
+	bool initalized;
 	bool running;
 	bool networkHost;
 	PerformanceCounter counter;
 	const double sendFrequency = 0.0167; // Time between packages
 	const double recFrequency = 0.0167; // Time between packages
 	double transformpackTime;
+	double animationpackTime;
+	double aiTransformpackTime;
 };

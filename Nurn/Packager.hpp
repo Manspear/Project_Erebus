@@ -2,9 +2,13 @@
 
 #include "PacketEnums.hpp"
 #include "PacketQueue.hpp"
+#include "AIStatePacket.hpp"
 #include "AnimationPacket.hpp"
 #include "TransformPacket.hpp"
 #include "MetaDataPacket.hpp"
+#include "SpellPacket.hpp"
+#include "ChargingPacket.hpp"
+#include "QuickBlendPacket.hpp"
 
 #define packetSize 1400
 
@@ -18,20 +22,35 @@ public:
 	uint16_t getCurrentNetPacketSize() const;
 
 	void buildNetPacket(); // Call in 
-	void buildTransformPacket(const uint16_t& ID, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
-	void buildAnimationPacket(const uint16_t& ID);
+	void pushTransformPacket(const TransformPacket& packet);
+	void pushAnimationPacket(const AnimationPacket& packet);
+	void pushAIStatePacket(const AIStatePacket& packet);
+	void pushSpellPacket(const SpellPacket& packet);
+	void pushAITransformPacket(const TransformPacket& packet);
+	void pushChargingPacket(const ChargingPacket& packet);
+	void pushQuickBlendPacket(const QuickBlendPacket& packet);
 
 private:
-	unsigned char memory[packetSize];
+	unsigned char * memory;
 
 	PacketQueue<TransformPacket> * transformQueue;
 	PacketQueue<AnimationPacket> * animationQueue;
+	PacketQueue<AIStatePacket> * aiStateQueue;
+	PacketQueue<SpellPacket> * spellQueue;
+	PacketQueue<TransformPacket> * aiTransformQueue;
+	PacketQueue<ChargingPacket> * chargingQueue;
+	PacketQueue<QuickBlendPacket> * quickBlendQueue;
 	uint16_t currentNetPacketSize;
 
 	//void addPacketGroup(uint16_t packetType, void * packet, void * queue, uint16_t &netPacketSize);
 
-	void addTransformPackets(uint16_t& netPacketSize);
-	void addAnimationPackets(uint16_t& netPacketSize);
-	void addMetaDataPacket(uint16_t type, uint16_t &netPacketSize, uint16_t sizeInBytes); // After a group of packets have been added the MetaData is added.
+	void addTransformPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addAIPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addSpellPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addChargingPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addQuickBlendPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 };

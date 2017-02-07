@@ -23,16 +23,19 @@ private:
 
 	sScreenImage hostButton;
 	Importer::TextureAsset* hostButtonTex;
+
 	sScreenImage clientButton;
 	Importer::TextureAsset* clientButtonTex;
 
+
+
 public:
 
-	Menu(Gear::GearEngine * inEngine, Importer::Assets & assets);
+	Menu(Gear::GearEngine* inEngine, Importer::Assets* assets);
 
 	~Menu();
 
-	enum GameState Update(Inputs& inputs);
+	enum GameState Update(Inputs* inputs);
 
 	void Draw();
 };

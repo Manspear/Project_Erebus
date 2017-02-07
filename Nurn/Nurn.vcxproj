@@ -19,12 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="QuickBlendPacket.hpp" />
+    <ClInclude Include="AIStatePacket.hpp" />
     <ClInclude Include="AnimationPacket.hpp" />
+    <ClInclude Include="ChargingPacket.hpp" />
     <ClInclude Include="PacketFilter.hpp" />
     <ClInclude Include="MetaDataPacket.hpp" />
     <ClInclude Include="Packager.hpp" />
     <ClInclude Include="PacketEnums.hpp" />
     <ClInclude Include="PacketQueue.hpp" />
+    <ClInclude Include="SpellPacket.hpp" />
     <ClInclude Include="TransformPacket.hpp" />
     <ClInclude Include="UDPPacket.hpp" />
     <ClInclude Include="Address.hpp" />

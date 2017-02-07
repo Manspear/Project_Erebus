@@ -7,7 +7,7 @@ public:
 	AABBCollider(int IDTransform);
 	AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos);
 	AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerPos);
-	~AABBCollider();
+	virtual ~AABBCollider();
 	bool AabbToAabb(const AABBCollider* aabb);
 
 	//getters
@@ -16,13 +16,11 @@ public:
 	const glm::vec3& getCenterPos() const;
 
 	//overrides
-	virtual unsigned int getID() const override; // copy elision makes returning values fast? RVO - NRVO
+	virtual int getID() const override; // copy elision makes returning values fast? RVO - NRVO
 	virtual int getIDTransform() const override;
-	virtual std::vector<unsigned int>* getIDCollisionsRef() override;
-	virtual void insertCollisionID(unsigned int collisionID) override;
-	virtual void clearCollisionIDs() override;
+	virtual std::vector<int>* getIDCollisionsRef() override;
 
-	void setPos(glm::vec3 pos) override;
+	virtual void setPos(glm::vec3 pos) override;
 	void setMinPos(glm::vec3 minPos);
 	void setMaxPos(glm::vec3 maxPos);
 
@@ -30,6 +28,6 @@ public:
 private:
 	glm::vec3 minPos, minPosTotal;
 	glm::vec3 maxPos, maxPosTotal;
-	glm::vec3 centerPos;
+	const int FLAG = 1;
 };
 

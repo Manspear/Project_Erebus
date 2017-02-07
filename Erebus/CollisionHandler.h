@@ -11,11 +11,6 @@
 
 //extern Transform* allTransforms;
 
-/*
-	Ta bort hitboxes med ID
-	delete allt här?
-
-*/
 class CollisionHandler
 {
 	
@@ -36,12 +31,16 @@ public:
 	void checkCollisions();
 
 	template <typename T, typename U>
-	void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2);
+	void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2); // 2 arrays collision against eachother
 
 	template <typename T>
-	void checkAnyCollision(std::vector<T*>* colliders);
+	void checkAnyCollision(std::vector<T*>* colliders); // one array against itself
+
+	template <typename T, typename U>
+	void checkAnyCollision(T collider, std::vector<U*>* colliders); // Single hitbox vs array of hitboxes // Hitbox vs children of other hitbox
 
 	//Update
+	//Update all hitboxes with corresponding positions in transform array
 	void updateAllHitboxPos();
 	void updateSpherePos();
 	void updateAabbPos();
@@ -53,6 +52,7 @@ public:
 	//setters
 	void setTransforms( Transform* transforms );
 	void setDebugger(Debug* debugger);
+	void setEnabled(bool enabled);
 
 	//getters
 	std::string getCollisionText();
@@ -70,6 +70,7 @@ public:
 	void printCollisions();
 
 	void drawHitboxes();
+	void recursiveDraw(HitBox* hitbox,glm::vec3 color);
 	
 
 private:
@@ -84,8 +85,46 @@ private:
 
 	Debug* debugger;
 	glm::vec3 colors[64]; // 64 colors to use on hitbox layers
+	glm::vec3 childColor = glm::vec3(1,1,1);
+	glm::vec3 deactivatedColor = glm::vec3(0, 0, 0);
 
 	static unsigned int hitboxID;
 	static void incrementHitboxID();
 	void initializeColors();
+	bool enabled = true;
+
+	void recursiveSetID(HitBox* hitbox);
+
+
+
+public: // This is used by movementController
+	template <typename T, typename U>
+	bool checkAnyCollisionBoolNoSave(T collider, std::vector<U*>* colliders, std::vector<glm::vec3>& hitNormals) // this check dont save any collision but simpy return a bool
+	{
+		// Antingen har barnen inga fler barn, då kollar vi kollision. Annars kollar vi kollision mot dens barn
+		bool hit = false;
+		U* tempCollider = nullptr;
+		for (size_t i = 0; i < colliders->size(); i++)
+		{
+			tempCollider = colliders->operator[](i);
+			if (tempCollider->children == nullptr) // if hitbox dont have children
+			{
+				bool tempHit = false;
+				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals,true); // only save normals if u are the leaf child
+				if (tempHit) // if we hit something hit is true, and keep checking
+				{
+					hit = true;
+				}
+					
+			}
+			else // the hitbox have children
+			{
+				bool tempHit = false;
+				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals,false); // dont save normals if u have children
+				if (tempHit) // if you collide with parent check collision with children
+					hit = checkAnyCollisionBoolNoSave(collider, tempCollider->children, hitNormals);
+			}
+		}
+		return hit;
+	}
 };

@@ -65,19 +65,10 @@
     <ClCompile Include="LuaTransform.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelModel.cpp">
-      <Filter>Source Files\LevelEditor</Filter>
-    </ClCompile>
     <ClCompile Include="LuaInputs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LuaMath.cpp">
@@ -93,6 +84,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LuaSound.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaUI.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneFrustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaLight.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
   </ItemGroup>
@@ -160,19 +166,10 @@
     <ClInclude Include="LuaTransform.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>Header Files\LevelEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelModel.h">
-      <Filter>Header Files\LevelEditor</Filter>
-    </ClInclude>
     <ClInclude Include="LuaInputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaNetwork.hpp">
@@ -190,15 +187,27 @@
     <ClInclude Include="LuaSound.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="MovementController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaUI.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneFrustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaLight.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\camera.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\cameraLevelEditor.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\enemies.lua">
@@ -217,9 +226,6 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\AI\states.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\test.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\anim.frag">
@@ -276,22 +282,10 @@
     <None Include="Shaders\geometryPass.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\geometryPass_notInstanced.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\geometryPass_notInstanced.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\geometryPicking.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\geometryPicking.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\lightPass.frag">
@@ -339,20 +333,11 @@
     <None Include="Shaders\image.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="effects.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="effects.frag">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\gloom.comp">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Scripts\Animation_Controllers\playerController.lua">
       <Filter>Animation Controllers</Filter>
-    </None>
-    <None Include="Scripts\arcType.lua">
-      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\chronoBall.lua">
       <Filter>Scripts\spells</Filter>
@@ -360,17 +345,8 @@
     <None Include="Scripts\fireball.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\fireballArc.lua">
-      <Filter>Scripts\spells</Filter>
-    </None>
     <None Include="Scripts\fireEffect.lua">
       <Filter>Scripts\effects</Filter>
-    </None>
-    <None Include="Scripts\fireGroundAoE.lua">
-      <Filter>Scripts\spells</Filter>
-    </None>
-    <None Include="Scripts\groundAoEType.lua">
-      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\orbWaveType.lua">
       <Filter>Scripts\types</Filter>
@@ -383,6 +359,129 @@
     </None>
     <None Include="Scripts\projectileType.lua">
       <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\slowEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\iceGrenade.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\sunRay.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\hellPillar.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\staticAoEType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\rayType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\blackHole.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\console.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\grenadeType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\AI\client_AI.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\blackHole.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\gamestate.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\main_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\gameplay.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\HUD.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\MenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\optionsUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\options_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
+    <None Include="Scripts\spellbook.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellbookUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\pauseMenu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\pauseMenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\deathUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\death.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellList.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Shaders\anim.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\animShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\animShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\blur.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\blur.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\include.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\aim.lua">
+      <Filter>Scripts\UI</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -404,17 +503,11 @@
     <Filter Include="Source Files\Lua">
       <UniqueIdentifier>{a8fe1647-d73d-4eb1-9410-1881a3f2065e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\LevelEditor">
-      <UniqueIdentifier>{aaceba95-ce94-4ffc-8e74-7bd97a26f446}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Collider">
       <UniqueIdentifier>{aec1776e-4d10-4288-b844-ee4f54a62a5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Lua">
       <UniqueIdentifier>{d75575e0-eaad-4316-af5f-f94a0a8bc3b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\LevelEditor">
-      <UniqueIdentifier>{502f47db-5e0e-4d2a-9d9e-2d06ff3edf9f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Network">
       <UniqueIdentifier>{8cc66f27-899d-496d-85ea-b59327e6025c}</UniqueIdentifier>
@@ -433,6 +526,12 @@
     </Filter>
     <Filter Include="Scripts\spells">
       <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\gamestates">
+      <UniqueIdentifier>{62e4b110-7689-454a-91f5-f6a0e0ee22ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI">
+      <UniqueIdentifier>{8c25589e-b3cf-4cef-b42a-c67b5dc0f631}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

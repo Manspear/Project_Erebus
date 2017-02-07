@@ -4,6 +4,11 @@ PacketFilter::PacketFilter()
 {
 	this->transformQueue = new PacketQueue<TransformPacket>(20);
 	this->animationQueue = new PacketQueue<AnimationPacket>(40);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
 }
 
 PacketFilter::~PacketFilter()
@@ -13,45 +18,82 @@ PacketFilter::~PacketFilter()
 		delete this->transformQueue;
 		this->transformQueue = 0;
 	}
-
 	if (this->animationQueue)
 	{
 		delete this->animationQueue;
 		this->animationQueue = 0;
 	}
+	if (this->aiStateQueue)
+	{
+		delete this->aiStateQueue;
+		this->aiStateQueue = 0;
+	}
+	if (this->spellQueue)
+	{
+		delete this->spellQueue;
+		this->spellQueue = 0;
+	}
+	if (this->aiTransformQueue)
+	{
+		delete this->aiTransformQueue;
+		this->aiTransformQueue = 0;
+	}
+	if (this->chargingQueue)
+	{
+		delete this->chargingQueue;
+		this->chargingQueue = 0;
+	}
+	if (this->quickBlendQueue)
+	{
+		delete this->quickBlendQueue;
+		this->quickBlendQueue = 0;
+	}
 }
 
-void PacketFilter::openNetPacket(unsigned char * memoryPointer)
+void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 {
 	uint16_t bytesRead = sizeof(uint16_t); // Start reading right after where the value of bytesLeft were located in the packet.
 	uint16_t sizeOfNetPacket =  memoryPointer[0] | memoryPointer[1] << 8; // Size of the content. The first 2 bytes are read immideately.
+	MetaDataPacket metaDataPacket;
 
-	while(bytesRead < sizeOfNetPacket)
+	while (bytesRead < sizeOfNetPacket)
 	{
-		uint16_t sizeInBytes = 0;
+		memcpy(metaDataPacket.bytes, memoryPointer + bytesRead, sizeof(MetaDataPacket));
+		bytesRead += sizeof(MetaDataPacket);
 
 		// For each metaDataPacket, do...
-		
-		// Get the PacketType data from MetaDataPacket
-		switch ((uint16_t)(memoryPointer[bytesRead] | memoryPointer[bytesRead + 1] << 8))
+
+		if (metaDataPacket.metaData.sizeInBytes > 0)
 		{
-			case TRANSFORM_PACKET:
-				sizeInBytes = (uint16_t)(memoryPointer[bytesRead + 2] | memoryPointer[bytesRead + 3] << 8);
-				bytesRead += sizeof(MetaDataPacket);
-				
-				this->transformQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of TransformPacket data to the correct queue
-				break;
-			case ANIMATION_PACKET:
-				sizeInBytes = (uint16_t)(memoryPointer[bytesRead + 2] | memoryPointer[bytesRead + 3] << 8);
-				bytesRead += sizeof(MetaDataPacket);
-
-				this->animationQueue->batchPush(memoryPointer, bytesRead, sizeInBytes); // Add x bytes of AnimationPacket data to the correct queue
-				break;
-			default:
-				printf("KERNEL PANIC!!\n");
+			// Get the PacketType data from MetaDataPacket
+			switch (metaDataPacket.metaData.packetType)
+			{
+				case TRANSFORM_PACKET:
+					this->transformQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of TransformPacket data to the correct queue
+					break;
+				case ANIMATION_PACKET:
+					this->animationQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of AnimationPacket data to the correct queue
+					break;
+				case AI_STATE_PACKET:
+					this->aiStateQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of AIPacket data to the correct queue
+					break;
+				case SPELL_PACKET:
+					this->spellQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of SpellPacket data to the correct queue
+					break;
+				case AI_TRANSFORM_PACKET:
+					this->aiTransformQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiTransformPacket data to the correct queue
+					break;
+				case CHARGING_PACKET:
+					this->chargingQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ChargingPacket data to the correct queue
+					break;
+				case QUICKBLEND_PACKET:
+					this->quickBlendQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of QuickBlendPacket data to the correct queue
+					break;
+				default:
+					printf("KERNEL PANIC!!\n");
+			}
+			bytesRead += metaDataPacket.metaData.sizeInBytes;
 		}
-
-		bytesRead += sizeInBytes;
 	}
 }
 
@@ -63,4 +105,29 @@ PacketQueue<TransformPacket> * PacketFilter::getTransformQueue()
 PacketQueue<AnimationPacket> * PacketFilter::getAnimationQueue()
 {
 	return this->animationQueue;
+}
+
+PacketQueue<AIStatePacket> * PacketFilter::getAIStateQueue()
+{
+	return this->aiStateQueue;
+}
+
+PacketQueue<SpellPacket> * PacketFilter::getSpellQueue()
+{
+	return this->spellQueue;
+}
+
+PacketQueue<TransformPacket> * PacketFilter::getAITransformQueue()
+{
+	return this->aiTransformQueue;
+}
+
+PacketQueue<ChargingPacket> * PacketFilter::getChargingQueue()
+{
+	return this->chargingQueue;
+}
+
+PacketQueue<QuickBlendPacket> * PacketFilter::getQuickBlendQueue()
+{
+	return this->quickBlendQueue;
 }
