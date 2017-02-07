@@ -31,6 +31,8 @@ public:
 
 	bool getIsRotation();
 	bool getIsScale();
+
+	void undoLastBrushAction();
 	//void selectPrefab( std::string prefab );
 	//void selectPrefab(int index);
 	//void showContextBar(std::string asset);
@@ -57,13 +59,16 @@ private:
 	bool preventOverDraw = false; //Allow Meshes to be drawn in the same place?
 	bool isRotation = false;
 	bool isScale = false;
-
+	std::vector<std::vector<LevelActor*>> actorsMade; //contains all actors created with brush
+	std::vector<LevelActor*> actorsMadeThisKeyPress; //contains all actors made on this keypress;
 
 	float maxScale = 2.0;
 	float minScale = 0.5;
 	std::vector<glm::vec3> earlierPositions; //this will have a max size of 4
 	std::string saveAsType = "Brush";
 	LevelBrushHandler();
+
+	
 	TweakBar* actionBar;
 
 /*	void loadAssets(std::vector<std::string>* container, std::string folder, std::string filter = "*");

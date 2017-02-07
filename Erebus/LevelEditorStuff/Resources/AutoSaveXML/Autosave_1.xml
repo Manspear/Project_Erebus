@@ -1,8 +1,5 @@
 <Level>
     <LevelActor type="terrain" displayName="Terrain Actor">
-        <LevelHeightmap>
-            <TextureName>tile1_128</TextureName>
-        </LevelHeightmap>
         <LevelModel>
             <ModelName>tile1</ModelName>
         </LevelModel>
