@@ -8,6 +8,7 @@ PacketFilter::PacketFilter()
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
 	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
 }
 
 PacketFilter::~PacketFilter()
@@ -41,6 +42,11 @@ PacketFilter::~PacketFilter()
 	{
 		delete this->chargingQueue;
 		this->chargingQueue = 0;
+	}
+	if (this->quickBlendQueue)
+	{
+		delete this->quickBlendQueue;
+		this->quickBlendQueue = 0;
 	}
 }
 
@@ -80,6 +86,9 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				case CHARGING_PACKET:
 					this->chargingQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ChargingPacket data to the correct queue
 					break;
+				case QUICKBLEND_PACKET:
+					this->quickBlendQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of QuickBlendPacket data to the correct queue
+					break;
 				default:
 					printf("KERNEL PANIC!!\n");
 			}
@@ -116,4 +125,9 @@ PacketQueue<TransformPacket> * PacketFilter::getAITransformQueue()
 PacketQueue<ChargingPacket> * PacketFilter::getChargingQueue()
 {
 	return this->chargingQueue;
+}
+
+PacketQueue<QuickBlendPacket> * PacketFilter::getQuickBlendQueue()
+{
+	return this->quickBlendQueue;
 }

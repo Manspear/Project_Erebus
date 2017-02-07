@@ -480,6 +480,9 @@
     <None Include="Shaders\include.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Scripts\aim.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -429,9 +429,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		{
-			int index = animatedModels->at(i).worldIndices.at(i);
+			int index = animatedModels->at(i).worldIndices.at(j);
 			//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
-			glm::mat4 tempMatrix = worldMatrices[animatedModels->at(i).worldIndices[j]];
+			glm::mat4 tempMatrix = worldMatrices[index];
 
 
 	
