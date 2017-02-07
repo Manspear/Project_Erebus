@@ -132,9 +132,10 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 			LevelActorHandler::getInstance()->addActor(newActor);
 			LevelActorHandler::getInstance()->setSelected(newActor);
 			newActor->setActorType(saveAsType);
+			newActor->setActorDisplayName(LevelActorHandler::getInstance()->tryActorName(newActor->getActorDisplayName()));
 		
 			LevelTransform* transform = newActor->getComponent<LevelTransform>();
-			
+
 			if (transform)
 			{
 				glm::vec3 newNormal = hitNorm;
@@ -163,8 +164,6 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 }
 LevelBrushHandler::LevelBrushHandler()
 {
-	
-
 	/* Intializes random number generator */
 	time_t t;
 	srand((unsigned)time(&t));

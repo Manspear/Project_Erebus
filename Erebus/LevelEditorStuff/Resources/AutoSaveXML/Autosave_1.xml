@@ -274,81 +274,13 @@
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="New (1) (1)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
+    <LevelActor type="Empty" displayName="New (2)">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
-            <Position x="11.597336" y="25.546875" z="243.16843"/>
-            <Rotation x="-0.1529541" y="0.98583984" z="0.063964844"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (1) (2)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="11.698932" y="25.140625" z="235.92284"/>
-            <Rotation x="-0.28637695" y="0.95654297" z="-0.033172607"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (1) (3)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="9.0320492" y="25.203125" z="227.71489"/>
-            <Rotation x="-0.35717773" y="0.92578125" z="0.11895752"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (1) (4)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="5.8692956" y="25.03125" z="215.39783"/>
-            <Rotation x="-0.3293457" y="0.93457031" z="0.12792969"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (1) (5)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="-1.1497411" y="24.03125" z="208.73207"/>
-            <Rotation x="-0.26782227" y="0.95214844" z="0.1315918"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (1) (6)">
-        <LevelPointLight>
-            <Position x="0" y="1" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="41"/>
-            <Intensity i="10"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="-6.6575823" y="22.765625" z="214.03444"/>
-            <Rotation x="-0.19421387" y="0.96972656" z="0.11877441"/>
+            <Position x="-53.65625" y="22.03125" z="184.375"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
         </LevelTransform>
     </LevelActor>
