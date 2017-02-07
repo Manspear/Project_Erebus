@@ -18,6 +18,7 @@ namespace LuaCollision
 			{ "AddAABB",			addAABB },
 			{ "AddRay",				addRay},
 			{ "AddOBB",				addOBB },
+			{ "AddHitbox",			addHitbox},
 			{ "SetLayerCollision",	setLayerCollision },
 			{ "PrintCollisions",	printCollisions },
 			{ "DrawHitboxes",		drawHitboxes },
@@ -50,6 +51,7 @@ namespace LuaCollision
 			{ "SetActive",			setActive },
 			{ "AddChild",			addChild },
 			{ "SetOffset",			setOffset},
+			{ "SetPos",				setPos },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -71,6 +73,7 @@ namespace LuaCollision
 			{ "SetOffset",			setOffset },
 			{ "SetMinPos",			setAABBMinPos },
 			{ "SetMaxPos",			setAABBMaxPos },
+			{ "SetPos",				setPos },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -90,6 +93,7 @@ namespace LuaCollision
 			{ "SetRayDirection",	setRayDirection },
 			{ "GetID",				getRayID },
 			{ "SetActive",          setActive },
+			{ "SetPos",				setPos },
 			{ "__gc",				destroyRay },
 			{ NULL, NULL }
 		};
@@ -118,6 +122,7 @@ namespace LuaCollision
 			{ "AddChild",			addChild },
 			{ "SetOffset",			setOffset },
 			{ "SetHalfLengths",			setOBBHalfLengths },
+			{ "SetPos",				setPos },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -200,6 +205,20 @@ namespace LuaCollision
 		if (nargs == 2)
 			layer = (int)lua_tointeger(lua, 2);
 		g_collisionHandler->addHitbox(collider,layer);
+
+		return 0;
+	}
+
+	int addHitbox(lua_State * lua)
+	{
+		int nargs = lua_gettop(lua);
+		assert(nargs == 1 || nargs == 2);
+
+		HitBox* collider = getHitBox(lua, 1);
+		int layer = 0;
+		if (nargs == 2)
+			layer = (int)lua_tointeger(lua, 2);
+		g_collisionHandler->addHitbox(collider, layer);
 
 		return 0;
 	}
@@ -343,6 +362,20 @@ namespace LuaCollision
 		lua_pushboolean(lua, ray->checkCollision());
 
 		return 1;
+	}
+
+	int setPos(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 4);
+
+		HitBox* hitbox = (HitBox*)getHitBox(lua, 1);
+		float x = (float)lua_tonumber(lua, 2);
+		float y = (float)lua_tonumber(lua, 3);
+		float z = (float)lua_tonumber(lua, 4);
+
+		hitbox->setPos(glm::vec3(x,y,z));
+
+		return 0;
 	}
 
 	int setRadius( lua_State* lua )

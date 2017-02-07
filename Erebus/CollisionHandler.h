@@ -24,6 +24,7 @@ public:
 	void addHitbox(SphereCollider* sphere, int layer);
 	void addHitbox(AABBCollider* aabb, int layer);
 	void addHitbox(OBBCollider* obb, int layer);
+	void addHitbox(HitBox* hitbox, int layer);
 	void addRay(RayCollider* ray);
 	void addRay(RayCollider* ray, int layer);
 
