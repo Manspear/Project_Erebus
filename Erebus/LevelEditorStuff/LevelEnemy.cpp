@@ -1,13 +1,17 @@
 #include "LevelEnemy.h"
 
+const char* LevelEnemy::ENEMY_TYPE_NAMES[MAX_ENEMY_TYPES] =
+{
+	 "Melee",
+	 "Ranged"
+};
+
 const char* LevelEnemy::name = "LevelEnemy";
 Debug* LevelEnemy::g_debugger = nullptr;
 
-LevelEnemy::LevelEnemy() {
-	this->health = 50;
-	this->moveSpeed = 5;
-	this->visionRange = 10;
-	this->visionColor = glm::vec3(192, 192, 192);
+LevelEnemy::LevelEnemy()
+	: moveSpeed( 5 ), health( 50 ), visionRange( 10 ), visionColor( 192, 192, 192), type( ENEMY_MELEE )
+{
 }
 LevelEnemy::~LevelEnemy() {
 
@@ -42,17 +46,30 @@ tinyxml2::XMLElement* LevelEnemy::toXml(tinyxml2::XMLDocument* doc) {
 
 	return element;
 }
-std::string LevelEnemy::toLua(std::string name) {
-	return "";
+std::string LevelEnemy::toLua(std::string name){
+	using namespace std;
+	stringstream ss;
+
+	LevelTransform* transform = parent->getComponent<LevelTransform>();
+	glm::vec3 pos = transform->getTransformRef()->getPos();
+
+	ss << "local " << name << " = CreateEnemy(" << ( type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED" ) << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+
+	ss << name << ".moveSpeed = " << moveSpeed << endl;
+	ss << name << ".health = " << health << endl;
+	ss << name << ".visionRange = " << visionRange << endl;
+
+	return ss.str();
 }
 void LevelEnemy::postInitialize() {
-
+	parent->setExportType( EXPORT_ENEMY );
 }
 
 void LevelEnemy::setTwStruct(TwBar * twBar) {
-	TwAddVarRW(twBar, "MoveSpeed", TW_TYPE_FLOAT, &this->moveSpeed, "label='Movement Speed'");
-	TwAddVarRW(twBar, "Health", TW_TYPE_FLOAT, &this->health, NULL);
-	TwAddVarRW(twBar, "VisionRange", TW_TYPE_FLOAT, &this->visionRange, "label='Vision Range'");
+	TwAddVarRW(twBar, "enemyMoveSpeed", TW_TYPE_FLOAT, &this->moveSpeed, "label='Movement Speed:'");
+	TwAddVarRW(twBar, "enemyHealth", TW_TYPE_FLOAT, &this->health, "label='Health:'");
+	TwAddVarRW(twBar, "enemyVisionRange", TW_TYPE_FLOAT, &this->visionRange, "label='Vision Range:'");
+	TwAddVarRW(twBar, "enemyType", TW_TYPE_ENEMY_ENUM(), &type, "label='Type:'" );
 }
 
 void LevelEnemy::setDebugger(Debug* debug) {
