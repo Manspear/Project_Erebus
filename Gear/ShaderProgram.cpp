@@ -53,6 +53,11 @@ ShaderProgram::ShaderProgram(shaderBaseType type, std::string shaderName) : Shad
 		glDetachShader(programID, shaderIDs[i]);
 		glDeleteShader(shaderIDs[i]);
 	}
+	for (int i = 0; i < nrOfShaders; i++)
+	{
+		addAllUniforms(shaderContent[i]);
+	}
+
 	delete[] shaderContent;
 	delete[] paths;
 	delete[] shaderTypes;
@@ -203,6 +208,31 @@ void ShaderProgram::addUniform(std::string uniform)
 	}
 
 	uniforms.insert(std::pair<std::string, int>(uniform, uniformLocation));
+}
+
+void ShaderProgram::addAllUniforms(std::string shaderText)
+{
+	const static std::string UNIFORM_KEYWORD = "uniform";
+	int uniformStartLocation = shaderText.find(UNIFORM_KEYWORD);
+	while (uniformStartLocation > -1)
+	{
+		int begin = uniformStartLocation + UNIFORM_KEYWORD.length() + 1;
+		int end = shaderText.find(";", begin);
+
+		std::string uniformLine = shaderText.substr(begin, (end-begin));
+		int tempEnd = uniformLine.find("[");
+		if (tempEnd > -1)
+		{
+			uniformLine = uniformLine.substr(0, (tempEnd));
+		}
+
+		std::string uniformType = uniformLine.substr(0, (uniformLine.find(" ")));
+		std::string uniformName = uniformLine.substr(uniformLine.find(" ") + 1, uniformLine.length() - uniformType.length() - 1);
+
+		addUniform(uniformName);
+
+		uniformStartLocation = shaderText.find(UNIFORM_KEYWORD, uniformStartLocation + UNIFORM_KEYWORD.length());
+	}
 }
 
 GLuint ShaderProgram::getUniformLocation(std::string pos)
