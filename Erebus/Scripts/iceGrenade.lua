@@ -115,7 +115,7 @@ function CreateIceGrenade(entity)
 									effect:Apply(hits[index])
 								end
 							end
-							hits[index]:Hurt(self.nades[i].damage)
+							hits[index]:Hurt(self.nades[i].damage, spell.owner)
 							self.nades[i].hits[hits[index].transformID] = true
 						end
 					end

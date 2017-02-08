@@ -26,27 +26,29 @@ function CreateEnemy(type, position)
 	enemies[i].attackCountdown = 1
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
-	enemies[i].Hurt = function(self,damage)
-		--if Network.GetNetworkHost() == true then
-			local pos = Transform.GetPosition(self.transformID)
+	enemies[i].Hurt = function(self,damage, source)
+		if source.transformID ~= player2.transformID then
+			--if Network.GetNetworkHost() == true then
+				local pos = Transform.GetPosition(self.transformID)
 
-			self.health = self.health - damage
-			if self.health <= 0 then
-				for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
-				for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
-				if Network.GetNetworkHost() == true then
-					print("Dead for host", enemies[i].transformID)
-					self:Kill(stateScript)
+				self.health = self.health - damage
+				if self.health <= 0 then
+					for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
+					for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
+					if Network.GetNetworkHost() == true then
+						print("Dead for host", enemies[i].transformID)
+						self:Kill(stateScript)
+					else
+						print("Dead for client", enemies[i].transformID)
+						self:Kill(clientAIScript)
+					end
 				else
-					print("Dead for client", enemies[i].transformID)
-					self:Kill(clientAIScript)
+					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 				end
-			else
-				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
-			end
-		--else
-		--	print("Ouch :C")
-		--end
+			--else
+			--	print("Ouch :C")
+			--end
+		end
 	end
 
 	enemies[i].Kill = function(self, script)

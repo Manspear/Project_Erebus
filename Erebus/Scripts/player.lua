@@ -53,7 +53,7 @@ function LoadPlayer()
 	
 	player.currentSpell = 1
 
-	player.Hurt = function(self,damage)
+	player.Hurt = function(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health <= 0 then
