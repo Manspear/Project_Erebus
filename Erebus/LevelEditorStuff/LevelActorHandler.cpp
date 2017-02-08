@@ -156,10 +156,10 @@ void LevelActorHandler::setTweakBars( TweakBar* world, TweakBar* actor )
 	updateTweakBars();
 }
 
-void LevelActorHandler::setTweakBarBrush(TweakBar * brush)
-{
-
-}
+//void LevelActorHandler::setTweakBarBrush(TweakBar * brush)
+//{
+//
+//}
 
 LevelActor* LevelActorHandler::getSelected()
 {
