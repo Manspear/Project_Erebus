@@ -35,6 +35,10 @@ void LevelAssetHandler::resetInstance() {
 void LevelAssetHandler::load()
 {
 	models.clear();
+	prefabs.clear();
+	textures.clear();
+	sounds.clear();
+	particles.clear();
 
 	loadAssets( &prefabs, "LevelEditorStuff/Resources/ActorsXML" );
 	loadAssets( &models, "Models", ".model" );

@@ -134,9 +134,13 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 			axis = glm::cross(tempLook, { 0, 1, 0 });
 
 			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
-			rotationX = glm::rotate(tempMatrix, theTrans[i].rot.x, theTrans[i].lookAt); //remove if too much trouble xd
-			//rotatea around Y axis, pretty simple. (makes the model look left/right)
+			rotationX = glm::rotate(tempMatrix, theTrans[i].rot.x, axis);
+			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, -theTrans[i].lookAt); //remove if too much trouble xd
+
+			////rotatea around Y axis, pretty simple. (makes the model look left/right)
 			rotationY = glm::rotate(tempMatrix, theTrans[i].rot.y, { 0, 1, 0 });
+
+			//rotationX = glm::rotate(tempMatrix, theTrans[i].rot.x, theTrans[i].lookAt);
 			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
 			//set the scale of the models
 			tempMatrix[0][0] = theTrans[i].scale.x;
@@ -144,7 +148,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 			tempMatrix[2][2] = theTrans[i].scale.z;
 
 			//rotates a scaled identity matrix
-			tempMatrix = rotationX *  rotationZ * rotationY *  tempMatrix;
+			tempMatrix = rotationX *  rotationY *rotationZ *  tempMatrix;
 
 			//sets the translation of objects, final world matrix
 			tempMatrix[3][0] = theTrans[i].pos.x;

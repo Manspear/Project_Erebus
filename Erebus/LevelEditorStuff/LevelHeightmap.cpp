@@ -44,7 +44,7 @@ void LevelHeightmap::initialize( tinyxml2::XMLElement* element )
 
 	for( int i=0; i<HEIGHTMAP_MAX_SURROUNDING; i++ )
 	{
-		surrounding[i] = element->BoolAttribute( (std::string("surrounding") + std::to_string(i)).c_str() );
+		surrounding[i] = std::atoi(element->FirstChildElement("ID")->Attribute((std::string("surrounding") + std::to_string(i)).c_str()));
 	}
 }
 
@@ -84,9 +84,9 @@ tinyxml2::XMLElement* LevelHeightmap::toXml( tinyxml2::XMLDocument* doc )
 	heightElement->SetAttribute("min", heightMin);
 
 	XMLElement* offsetElement = doc->NewElement("Offset");
-	heightElement->SetAttribute("x", offset.x);
-	heightElement->SetAttribute("y", offset.y);
-	heightElement->SetAttribute("z", offset.z);
+	offsetElement->SetAttribute("x", offset.x);
+	offsetElement->SetAttribute("y", offset.y);
+	offsetElement->SetAttribute("z", offset.z);
 
 	XMLElement* idElement = doc->NewElement("ID");
 	idElement->SetAttribute("heightmapID", heightmapID);

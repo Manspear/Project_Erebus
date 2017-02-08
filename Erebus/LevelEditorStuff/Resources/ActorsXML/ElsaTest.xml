@@ -1,0 +1,15 @@
+<LevelActor type="Empty" displayName="New" tileID="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="0" parentID="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="3" y="2" z="1"/>
+    </LevelCollider>
+    <LevelTransform>
+        <Position x="29.90625" y="10.015758" z="163.5"/>
+        <Rotation x="0" y="0.19114979" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

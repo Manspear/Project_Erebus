@@ -1,0 +1,18 @@
+<LevelActor type="Tree" displayName="PineTree2" tileID="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="5.5" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="0" parentID="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="2" y="5" z="2"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>PineTree2</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="14.136906" y="80.3125" z="217.17035"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
