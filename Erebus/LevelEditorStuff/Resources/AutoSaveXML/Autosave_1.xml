@@ -1,5 +1,13 @@
 <Level>
-    <LevelActor type="terrain" displayName="Terrain Actor">
+    <LevelActor type="terrain" displayName="Terrain Actor" tileID="1">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="36.5" min="3" x="0" y="0" z="0"/>
+            <Offset/>
+            <ID heightmapID="1" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile1_128</TextureName>
+        </LevelHeightmap>
         <LevelModel>
             <ModelName>tile1</ModelName>
         </LevelModel>
@@ -7,9 +15,10 @@
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="terrain" displayName="Terrain Actor1">
+    <LevelActor type="terrain" displayName="Terrain Actor1" tileID="0">
         <LevelModel>
             <ModelName>tile1_assets</ModelName>
         </LevelModel>
@@ -17,9 +26,10 @@
             <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="TestCharacter" displayName="Stick Guy">
+    <LevelActor type="TestCharacter" displayName="Stick Guy" tileID="0">
         <LevelPointLight>
             <Position x="0" y="0" z="0"/>
             <Color x="0" y="0" z="0"/>
@@ -30,9 +40,10 @@
             <Position x="131.08182" y="56.28125" z="37.59375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="PointLight" displayName="Point Light">
+    <LevelActor type="PointLight" displayName="Point Light" tileID="0">
         <LevelPointLight>
             <Position x="40" y="0" z="0"/>
             <Color x="0" y="0.5" z="0.5"/>
@@ -43,9 +54,10 @@
             <Position x="97.8125" y="33.850536" z="73.016838"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="MrRoboto" displayName="DerpMan">
+    <LevelActor type="MrRoboto" displayName="DerpMan" tileID="0">
         <LevelModel>
             <ModelName>testGuy</ModelName>
         </LevelModel>
@@ -53,9 +65,10 @@
             <Position x="21.065756" y="7.4862289" z="219.90495"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="272" y="10" z="30"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="ABBColider" displayName="AbbBase">
+    <LevelActor type="ABBColider" displayName="AbbBase" tileID="0">
         <LevelCollider type="1">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -67,9 +80,10 @@
             <Position x="52.59375" y="8.3318806" z="43.0625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="ABBColider" displayName="AbbBase (1)">
+    <LevelActor type="ABBColider" displayName="AbbBase (1)" tileID="0">
         <LevelCollider type="1">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -81,9 +95,10 @@
             <Position x="52.625" y="8.7100077" z="43.140263"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase">
+    <LevelActor type="OBBColider" displayName="OBBBase" tileID="0">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -95,9 +110,10 @@
             <Position x="49.46875" y="7.6835938" z="41.71875"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (1)">
+    <LevelActor type="OBBColider" displayName="OBBBase (1)" tileID="0">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -109,9 +125,10 @@
             <Position x="48.875" y="7.703125" z="48.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="SphereColider" displayName="SphereBase">
+    <LevelActor type="SphereColider" displayName="SphereBase" tileID="0">
         <LevelCollider type="0">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -122,9 +139,10 @@
             <Position x="53.432632" y="9.4225378" z="42.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="SphereColider" displayName="SphereBase (1)">
+    <LevelActor type="SphereColider" displayName="SphereBase (1)" tileID="0">
         <LevelCollider type="0">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -135,23 +153,10 @@
             <Position x="44.4375" y="7.6054688" z="50.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Empty" displayName="New">
-        <LevelTransform>
-            <Position x="22.578125" y="-1.4663553" z="194.375"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Empty" displayName="New (1)">
-        <LevelTransform>
-            <Position x="6.4296875" y="-1.5546517" z="206.375"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (2)">
+    <LevelActor type="OBBColider" displayName="OBBBase (2)" tileID="0">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -163,9 +168,10 @@
             <Position x="40" y="10" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (3)">
+    <LevelActor type="OBBColider" displayName="OBBBase (3)" tileID="0">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -177,9 +183,10 @@
             <Position x="40" y="12" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="OBBColider" displayName="OBBBase (4)">
+    <LevelActor type="OBBColider" displayName="OBBBase (4)" tileID="0">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -191,9 +198,10 @@
             <Position x="40" y="14" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="SphereColider" displayName="SphereBase (2)">
+    <LevelActor type="SphereColider" displayName="SphereBase (2)" tileID="0">
         <LevelCollider type="0">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -204,9 +212,10 @@
             <Position x="40" y="10" z="15"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="SphereColider" displayName="SphereBase (3)">
+    <LevelActor type="SphereColider" displayName="SphereBase (3)" tileID="0">
         <LevelCollider type="0">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -217,9 +226,10 @@
             <Position x="40" y="12" z="15"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="SphereColider" displayName="SphereBase (4)">
+    <LevelActor type="SphereColider" displayName="SphereBase (4)" tileID="0">
         <LevelCollider type="0">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -230,9 +240,10 @@
             <Position x="40" y="14" z="15"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="ABBColider" displayName="AbbBase (2)">
+    <LevelActor type="ABBColider" displayName="AbbBase (2)" tileID="0">
         <LevelCollider type="1">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -244,9 +255,10 @@
             <Position x="35" y="14" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="ABBColider" displayName="AbbBase (3)">
+    <LevelActor type="ABBColider" displayName="AbbBase (3)" tileID="0">
         <LevelCollider type="1">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -258,9 +270,10 @@
             <Position x="35" y="12" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="ABBColider" displayName="AbbBase (4)">
+    <LevelActor type="ABBColider" displayName="AbbBase (4)" tileID="0">
         <LevelCollider type="1">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -272,6 +285,23 @@
             <Position x="35" y="10" z="20"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="0" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="grenadeParticles"/>
+        </LevelParticleSystem>
+        <LevelTransform>
+            <Position x="-888.5" y="-7.4765625" z="374.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
         </LevelTransform>
     </LevelActor>
 </Level>

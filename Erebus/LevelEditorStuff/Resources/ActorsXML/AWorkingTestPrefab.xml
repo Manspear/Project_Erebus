@@ -1,0 +1,16 @@
+<LevelActor type="Empty" displayName="New" tileID="0">
+    <LevelModel>
+        <ModelName>pineTree1</ModelName>
+    </LevelModel>
+    <LevelParticleSystem>
+        <Offset x="0" y="0" z="0"/>
+        <Alive IsAlive="1"/>
+        <ParticleLocation Location="grenadeParticles"/>
+    </LevelParticleSystem>
+    <LevelTransform>
+        <Position x="-888.5" y="-7.4765625" z="374.75"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
