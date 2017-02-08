@@ -340,23 +340,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		//world matrix buffer
 		{
+			glBindVertexArray(dynamicModels->at(i).instanceVAO);
 			glBindBuffer(GL_ARRAY_BUFFER, dynamicModels->at(i).instanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, &tempMatrices[0][0][0]);
-			
-			glEnableVertexAttribArray(4);
-			glEnableVertexAttribArray(5);
-			glEnableVertexAttribArray(6);
-			glEnableVertexAttribArray(7);
-		
-			glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, 0);
-			glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4)));
-			glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4) * 2));
-			glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4) * 3));
-		
-			glVertexAttribDivisor(4, 1);
-			glVertexAttribDivisor(5, 1);
-			glVertexAttribDivisor(6, 1);
-			glVertexAttribDivisor(7, 1);
 		} 
 		
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
@@ -380,6 +366,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
+	glBindVertexArray(0);
 	allShaders[GEOMETRY]->unUse();
 
 	currentShader = ANIM;
