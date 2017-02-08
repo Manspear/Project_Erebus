@@ -41,6 +41,8 @@ struct ThreadData
 	std::vector<ModelInstance>* forwardModels;
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
+	std::vector<Gear::ParticleEmitter*>* particleEmitters;
+	std::vector<ModelInstance>* blendingModels;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -111,13 +113,16 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueDynamicModels( data->models );
 	data->engine->queueAnimModels( data->animatedModels );
 	data->engine->queueParticles( *data->particleSystems );
+	data->engine->queueEmitters(*data->particleEmitters);
 	data->engine->queueForwardModels(data->forwardModels);
+
+	data->engine->queueTextureBlendings(data->blendingModels);
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
-		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
-		&ai, &network, data->workQueue, data->soundEngine, &counter );
+		data->models, data->animatedModels, data->forwardModels, data->blendingModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
+		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
 	for( int i=0; i<MAX_ANIMATIONS; i++ )
@@ -173,6 +178,8 @@ DWORD WINAPI update( LPVOID args )
 
 			for( int i=0; i<data->particleSystems->size(); i++ )
 				data->particleSystems->at(i)->update( (float)deltaTime );
+			for (int i = 0; i<data->particleEmitters->size(); i++)
+				data->particleEmitters->at(i)->update((float)deltaTime);
 
 			collisionHandler.checkCollisions();
 
@@ -211,7 +218,6 @@ int main()
 	WorkQueue work;
 
 	window.changeCursorStatus(false);
-	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 
@@ -249,6 +255,9 @@ int main()
 	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
+	std::vector<Gear::ParticleEmitter*> particleEmitters;
+	std::vector<ModelInstance> blendingModels;
+
 	ThreadData threadData =
 	{
 		&engine,
@@ -262,6 +271,8 @@ int main()
 		&forwardModels,
 		&animModels,
 		&particleSystems,
+		&particleEmitters,
+		&blendingModels,
 		false,
 		true,
 		false,
@@ -370,6 +381,8 @@ int main()
 	{
 		delete particleSystems[i];
 	}
+	for (int i = 0; i < particleEmitters.size(); i++)
+		delete particleEmitters.at(i);
 
 	glfwTerminate();
 

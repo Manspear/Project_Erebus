@@ -203,13 +203,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\aim.lua" />
+    <None Include="Scripts\iphost.lua" />
+    <None Include="Scripts\iphostUI.lua" />
+    <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
     <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\blackHole.lua" />
+    <None Include="Scripts\boss.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\chronoBall.lua" />
     <None Include="Scripts\console.lua" />
@@ -224,6 +227,8 @@
     <None Include="Scripts\hellPillar.lua" />
     <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />
+    <None Include="Scripts\ipconnect.lua" />
+    <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\main_menu.lua" />
@@ -294,6 +299,8 @@
     <None Include="Shaders\text.frag" />
     <None Include="Shaders\text.geom" />
     <None Include="Shaders\text.vert" />
+    <None Include="Shaders\textureBlending.frag" />
+    <None Include="Shaders\textureBlending.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />

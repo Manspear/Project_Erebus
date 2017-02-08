@@ -23,7 +23,6 @@ namespace Gear
 		frameBufferInit();
 		shaderInit();
 		lightInit();
-		//uniformLocationInit();
 		skyboxInit();
 
 		debugHandler = new DebugHandler();
@@ -205,6 +204,8 @@ namespace Gear
 	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
 	{
 		dynamicModels = models;
+		for (auto &m : *dynamicModels)
+			m.allocateBuffer();
 	}
 
 	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
@@ -222,20 +223,25 @@ namespace Gear
 		particleSystem = &ps;
 	}
 
+	GEAR_API void GearEngine::queueEmitters(std::vector<Gear::ParticleEmitter*> &emitters)
+	{
+		particleEmitters = &emitters;
+	}
+
 	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
 	{
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-
+		Lights::PointLight* light;
 		for (int i = 0; i < lights->size(); i++) {
 			if (i < NUM_LIGHTS)
 			{
-				Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+				light = &pointLightsPtr[i]; //get light at pos i
 
-				light.pos = lights->at(i).pos;
-				light.color = lights->at(i).color;
-				light.radius = lights->at(i).radius;
-				light.radius.a = (float)i;
+				light->pos = lights->at(i).pos;
+				light->color = lights->at(i).color;
+				light->radius = lights->at(i).radius;
+				light->radius.a = (float)i;
 			}
 			else {
 				printf("ERROR: Too many lights : " + lights->size());
@@ -263,6 +269,12 @@ namespace Gear
 	{
 		this->removeLightQueue.push_back(lights);
 	}
+
+	GEAR_API void GearEngine::queueTextureBlendings(std::vector<ModelInstance>* blendingModels)
+	{
+		blendModels = blendingModels;
+	}
+
 #pragma endregion
 	
 	void GearEngine::draw(Camera* camera)
@@ -323,9 +335,13 @@ namespace Gear
 		skybox.update(camera);
 		skybox.draw();
 
-		queue.particlePass(particleSystem);
-		queue.forwardPass(forwardModels, &uniValues);
+		queue.particlePass(particleSystem, particleEmitters);
 		
+		queue.textureBlendingPass(&textureBlend, blendModels);
+
+		queue.forwardPass(forwardModels, &uniValues);
+
+
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		
@@ -351,18 +367,17 @@ namespace Gear
 		{
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+			Lights::PointLight *light;
 			for (int j = 0; j < addLightQueue.size(); j++)
 			{
 				for (int i = 0; i < NUM_LIGHTS; i++) {
-					Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
-					if (light.radius.a == -1)
+					light = &pointLightsPtr[i]; //get light at pos i
+					if (light->radius.a == -1)
 					{
-
-
-						light.pos = addLightQueue[j]->pos;
-						light.color = addLightQueue[j]->color;
-						light.radius = addLightQueue[j]->radius;
-						light.radius.a = (float)i;
+						light->pos = addLightQueue[j]->pos;
+						light->color = addLightQueue[j]->color;
+						light->radius = addLightQueue[j]->radius;
+						light->radius.a = (float)i;
 						addLightQueue[j]->radius.a = (float)i;
 						i = NUM_LIGHTS;
 					}
@@ -370,7 +385,6 @@ namespace Gear
 			}
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
 			addLightQueue.clear();
 		}
 	}
@@ -386,7 +400,6 @@ namespace Gear
 				if ((int)updateLightQueue[j]->radius.a >= 0)
 				{
 					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
-
 					light.pos = updateLightQueue[j]->pos;
 					light.color = updateLightQueue[j]->color;
 					light.radius = updateLightQueue[j]->radius;

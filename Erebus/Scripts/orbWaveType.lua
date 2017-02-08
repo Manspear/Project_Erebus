@@ -9,16 +9,16 @@ function CreateOrbWaveType()
 	type.positions = {}
 	type.directions = {}
 	type.sphereColliders = {}
-
+	
 	local angle = 0
 	for i = 1, ORBWAVEORBS do
 		table.insert(type.transformIDs, Transform.Bind())
 		table.insert(type.positions, {x=0,y=0,z=0})
 		table.insert(type.directions, {x = math.cos(angle), y = 0, z= math.sin(angle)})
-
+		
 		type.sphereColliders[i] = SphereCollider.Create(type.transformIDs[i])
 		CollisionHandler.AddSphere(type.sphereColliders[i],1)
-		SphereCollider.SetActive(type.sphereCollider, false);
+		SphereCollider.SetActive(type.sphereColliders[i], false);
 
 		angle = angle + math.pi * 2 / ORBWAVEORBS
 	end
@@ -49,11 +49,9 @@ function CreateOrbWaveType()
 			Transform.SetScale(self.transformIDs[i], scale)
 			SphereCollider.SetRadius(self.sphereColliders[i], scale)
 			for curID = 1, #collisionIDs do
-				for curEnemy=1, #enemies do
-					if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() and not self.hits[enemies[curEnemy].transformID] then
-						table.insert(result, enemies[curEnemy])
-						self.hits[enemies[curEnemy].transformID] = true
-					end
+				if collisionIDs[curID] == player.sphereCollider:GetID() and not self.hits[player.transformID] then
+					table.insert(result, player)
+					self.hits[player.transformID] = true
 				end
 			end
 		end
@@ -67,7 +65,8 @@ function CreateOrbWaveType()
 		self.lifetime = 0
 		self.laps = 1
 		for i = 1, ORBWAVEORBS do
-			SphereCollider.SetActive(self.sphereCollider, true);
+			SphereCollider.SetActive(self.sphereColliders[i], true);
+			Transform.ActiveControl(self.transformIDs[i], true)
 		end
 	end
 
@@ -78,8 +77,8 @@ function CreateOrbWaveType()
 			self.positions[i].y = 0
 			self.positions[i].z = 0
 			Transform.SetPosition(self.transformIDs[i], self.positions[i])
-			Transform.ActiveControl(self.transformIDs[i], true)
-			SphereCollider.SetActive(self.sphereCollider, false);
+			Transform.ActiveControl(self.transformIDs[i], false)
+			SphereCollider.SetActive(self.sphereColliders[i], false);
 		end		
 	end
 

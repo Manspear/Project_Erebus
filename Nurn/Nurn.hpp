@@ -73,6 +73,10 @@ namespace Nurn
 		NURN_API void pushQuickBlendPacket(const QuickBlendPacket& packet);
 		NURN_API bool fetchQuickBlendPacket(QuickBlendPacket& packet);
 
+		NURN_API void pushDamagePacket(const DamagePacket& packet);
+		NURN_API bool fetchDamagePacket(DamagePacket& packet);
+
+
 
 	private:
 		Address address;

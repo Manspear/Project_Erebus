@@ -9,7 +9,7 @@ ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffs
 --distance was 3.6
 ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 1, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
-StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = 0}
+StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = (3.14/180)*50}
 
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
@@ -37,6 +37,18 @@ function vec3sub(a, b)
 	return {x = a.x-b.x,
 			y = a.y-b.y,
 			z = a.z-b.z}
+end
+
+function vec3length(a)
+	return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
+end
+
+function vec3equal(a, b)
+	return a.x == b.x and a.y == b.y and a.z == b.z
+end
+
+function vec3print(a)
+	print("x: " .. a.x .. "\ty:" .. a.y .. "\tz:" ..a.z)
 end
 
 function ZoomInCamera()
