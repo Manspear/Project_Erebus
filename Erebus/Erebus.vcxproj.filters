@@ -478,6 +478,12 @@
     <None Include="Scripts\boss.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\iphost.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\iphostUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
