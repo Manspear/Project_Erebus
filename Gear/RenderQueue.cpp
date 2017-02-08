@@ -554,7 +554,7 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 
 float tempHej = 0.1;
 
-void RenderQueue::textureBlendingPass(std::vector<textureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels)
+void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels)
 {
 	allShaders[TEXTURE_BLENDING]->use();
 

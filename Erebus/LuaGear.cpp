@@ -452,7 +452,7 @@ namespace LuaGear
 				ModelInstance instance;
 				instance.asset = asset;
 
-				textureBlendings tBlend;
+				TextureBlendings tBlend;
 				g_gearEngine->textureBlend.push_back(tBlend);
 				index = g_blendingModels->size();
 				g_blendingModels->push_back(instance);

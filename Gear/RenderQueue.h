@@ -22,7 +22,7 @@ struct UniformBlendingValues
 	GLfloat value;
 };
 
-struct textureBlendings
+struct TextureBlendings
 {
 	int modelIndex;
 	int numTextures;
@@ -64,7 +64,7 @@ public:
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
-	void textureBlendingPass(std::vector<textureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels);
+	void textureBlendingPass(std::vector<TextureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels);
 
 	void setWorkQueue( WorkQueue* workQueue );
 

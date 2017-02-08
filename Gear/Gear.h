@@ -65,7 +65,7 @@ namespace Gear
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		std::vector<UniformValues> uniValues;
-		std::vector<textureBlendings> textureBlend;
+		std::vector<TextureBlendings> textureBlend;
 		//----------------------
 
 	private:
@@ -139,7 +139,6 @@ namespace Gear
 		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount); //ShadowMap bluring
 		void frameBufferInit(); //Init all framebuffers
 		void shaderInit();
-		void uniformLocationInit();
 		void lightInit();
 		void skyboxInit();
 	};

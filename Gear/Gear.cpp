@@ -23,7 +23,6 @@ namespace Gear
 		frameBufferInit();
 		shaderInit();
 		lightInit();
-		//uniformLocationInit();
 		skyboxInit();
 
 		debugHandler = new DebugHandler();
