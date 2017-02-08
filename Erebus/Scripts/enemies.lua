@@ -34,22 +34,24 @@ function CreateEnemy(type, position)
 			for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 			for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
 			if Network.GetNetworkHost() == true then
-				self:Kill()
+				print("Dead for host", enemies[i].transformID)
+				self:Kill(stateScript)
 			else
-				self:KillClientEnemy()
+				print("Dead for client", enemies[i].transformID)
+				self:Kill(clientAIScript)
 			end
 		else
 			self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		end
 	end
 
-	enemies[i].Kill = function(self)
+	enemies[i].Kill = function(self, script)
 		self.health = 0
 		self.alive = false
 		Transform.ActiveControl(self.transformID,false)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		inState = "DeadState" 
-		stateScript.changeToState(enemies[i],player,inState)
+		script.changeToState(enemies[i],player,inState)
 
 		if self.alive then
 			self.health = 0
@@ -57,23 +59,7 @@ function CreateEnemy(type, position)
 			Transform.ActiveControl(self.transformID,false)
 
 			inState = "DeadState"
-			stateScript.changeToState(enemies[i], player, inState)
-		end
-	end
-
-	enemies[i].KillClientEnemy = function(self)
-		self.health = 0
-		self.alive = false
-		Transform.ActiveControl(self.transformID,false)
-		SphereCollider.SetActive(self.sphereCollider, false)
-		self.state = clientAIScript.clientAIState.deadState
-		
-		if self.alive then	
-			self.health = 0
-			self.alive = false
-			Transform.ActiveControl(self.transformID,false)
-
-			self.state = clientAIScript.clientAIState.deadState
+			script.changeToState(enemies[i], player, inState)
 		end
 	end
 
