@@ -16,11 +16,35 @@ struct UniformValues {
 	glm::vec2 values;
 };
 
+struct UniformBlendingValues
+{
+	int location;
+	GLfloat value;
+};
+
+struct TextureBlendings
+{
+	int modelIndex;
+	int numTextures;
+	std::vector<TextureAsset*> textureVector;
+	glm::vec2 blendFactor[3];
+};
+
 using namespace Importer;
 struct ModelInstance
 {
 	Importer::ModelAsset* asset;
 	std::vector<int> worldIndices;
+	GLuint instanceVBO = 0;
+
+	inline void allocateBuffer()
+	{
+		if (instanceVBO == 0)
+			glGenBuffers(1, &instanceVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
 };
 struct AnimatedInstance
 {
@@ -50,6 +74,7 @@ public:
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
+	void textureBlendingPass(std::vector<TextureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels);
 
 	void setWorkQueue( WorkQueue* workQueue );
 
@@ -66,7 +91,9 @@ private:
 	glm::mat4* tempMatrices;
 	glm::mat4* jointMatrices;
 	int nrOfWorlds;
-	WorkQueue* work;
+	WorkQueue* work;	
+
+	GLuint instanceTest;
 
 	double freq;
 

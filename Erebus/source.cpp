@@ -42,6 +42,7 @@ struct ThreadData
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
 	std::vector<Gear::ParticleEmitter*>* particleEmitters;
+	std::vector<ModelInstance>* blendingModels;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -95,10 +96,12 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueEmitters(*data->particleEmitters);
 	data->engine->queueForwardModels(data->forwardModels);
 
+	data->engine->queueTextureBlendings(data->blendingModels);
+
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
-		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
+		data->models, data->animatedModels, data->forwardModels, data->blendingModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
 		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
@@ -162,7 +165,6 @@ int main()
 	WorkQueue work;
 
 	window.changeCursorStatus(false);
-	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 
@@ -201,6 +203,8 @@ int main()
 	std::vector<AnimatedInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
+	std::vector<ModelInstance> blendingModels;
+
 	ThreadData threadData =
 	{
 		&engine,
@@ -215,6 +219,7 @@ int main()
 		&animModels,
 		&particleSystems,
 		&particleEmitters,
+		&blendingModels,
 		false,
 		true,
 		false,

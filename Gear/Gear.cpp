@@ -23,7 +23,6 @@ namespace Gear
 		frameBufferInit();
 		shaderInit();
 		lightInit();
-		//uniformLocationInit();
 		skyboxInit();
 
 		debugHandler = new DebugHandler();
@@ -205,6 +204,8 @@ namespace Gear
 	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
 	{
 		dynamicModels = models;
+		for (auto &m : *dynamicModels)
+			m.allocateBuffer();
 	}
 
 	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
@@ -268,6 +269,12 @@ namespace Gear
 	{
 		this->removeLightQueue.push_back(lights);
 	}
+
+	GEAR_API void GearEngine::queueTextureBlendings(std::vector<ModelInstance>* blendingModels)
+	{
+		blendModels = blendingModels;
+	}
+
 #pragma endregion
 	
 	void GearEngine::draw(Camera* camera)
@@ -329,8 +336,12 @@ namespace Gear
 		skybox.draw();
 
 		queue.particlePass(particleSystem, particleEmitters);
-		queue.forwardPass(forwardModels, &uniValues);
 		
+		queue.textureBlendingPass(&textureBlend, blendModels);
+
+		queue.forwardPass(forwardModels, &uniValues);
+
+
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		
