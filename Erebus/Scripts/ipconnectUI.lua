@@ -38,7 +38,7 @@ function UpdateipconnectUI(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["connect"], x,y) and hosting == false then
-			if ipString:match"(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)" ~= nil then
+			if ipString:match"(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)" ~= nil then
 				local result = Erebus.StartNetworkClient(stringToIp(ipString))
 				if result == true then
 						gamestate.ChangeState(GAMESTATE_GAMEPLAY)
