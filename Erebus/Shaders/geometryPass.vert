@@ -13,25 +13,22 @@ out mat3 TBN;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
-uniform mat4 worldMatrices[100];
 
 void main(){
-	//mat4 world = worldMatrices[gl_InstanceID];
-	mat4 world = worldMatrix;
-	gl_Position = projectionMatrix * viewMatrix * world * vec4(position,1.0); 
+	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(position,1.0); 
 	
-	FragPos = (world * vec4(position,1.0)).xyz;
+	FragPos = (worldMatrix * vec4(position,1.0)).xyz;
 	TexCoords = texCoords * vec2(1,-1);
 
-	mat3 normalMatrix = transpose(inverse(mat3(world)));
+	mat3 normalMatrix = transpose(inverse(mat3(worldMatrix)));
     Normal = normalMatrix * normal;
 
-	vec3 T = normalize(vec3(world * vec4(tangent, 0.0))); //calculate TBN matrix
+	vec3 T = normalize(vec3(worldMatrix * vec4(tangent, 0.0))); //calculate TBN matrix
 
 	vec3 biTangent = normalize(cross(normal, tangent));
 
-	vec3 B = normalize(vec3(world * vec4(biTangent, 0.0)));
-	vec3 N = normalize(vec3(world * vec4(normal, 0.0)));
+	vec3 B = normalize(vec3(worldMatrix * vec4(biTangent, 0.0)));
+	vec3 N = normalize(vec3(worldMatrix * vec4(normal, 0.0)));
 
 	TBN = mat3(T,B,N);
 }

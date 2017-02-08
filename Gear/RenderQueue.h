@@ -21,18 +21,15 @@ struct ModelInstance
 {
 	Importer::ModelAsset* asset;
 	std::vector<int> worldIndices;
-	GLuint instanceVBO;
+	GLuint instanceVBO = 0;
 
-	ModelInstance() { glGenBuffers(1, &instanceVBO); }
-	~ModelInstance() { glDeleteBuffers(1, &instanceVBO); }
-
-	int addInstance(int transformID)
+	inline void allocateBuffer()
 	{
-		worldIndices.push_back(transformID);
+		if (instanceVBO == 0)
+			glGenBuffers(1, &instanceVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		return worldIndices.size();
 	}
 };
 struct AnimatedInstance

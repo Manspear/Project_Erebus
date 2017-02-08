@@ -236,6 +236,8 @@ namespace Gear
 	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
 	{
 		dynamicModels = models;
+		for (auto &m : *dynamicModels)
+			m.allocateBuffer();
 	}
 
 	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)

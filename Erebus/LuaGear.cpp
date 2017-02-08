@@ -106,7 +106,7 @@ namespace LuaGear
 
 			}
 
-			g_models->at(index).addInstance(transformID);
+			g_models->at(index).worldIndices.push_back(transformID);
 
 			// NOTE: Should we push the result to Lua? Like this:
 			//lua_pushnumber( lua, result );
