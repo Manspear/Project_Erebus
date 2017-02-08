@@ -94,9 +94,7 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueParticles( *data->particleSystems );
 	data->engine->queueForwardModels(data->forwardModels);
 
-	//////////////////////////////////////////////////////////////////////////////
 	data->engine->queueTextureBlendings(data->blendingModels);
-	/////////////////////////////////////////////////////////////////////////////
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
