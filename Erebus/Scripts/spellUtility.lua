@@ -26,7 +26,6 @@ function CreateChargeThing(entity)
 	chargeThing.UVpushed = 0	
 	function chargeThing:Charging(position, dt, chargePower)
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
-		vec3print(chargeThing.pos)
 		Transform.SetPosition(chargeThing.transformID, chargeThing.pos)
 		chargeThing.particles.update(chargeThing.pos) 
 		local daPower = math.min(chargePower, MAX_CHARGE)

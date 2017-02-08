@@ -37,6 +37,7 @@ namespace Gear
 
 	public:
 		GEAR_API ParticleEmitter();
+		GEAR_API ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus, float size, glm::vec3 direction, Importer::TextureAsset* texture, float growFactor);
 		GEAR_API ~ParticleEmitter();
 		GEAR_API void emitterInit(Emitter emitter, Importer::Assets* assets);
 

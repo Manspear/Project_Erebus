@@ -222,6 +222,11 @@ namespace Gear
 		particleSystem = &ps;
 	}
 
+	GEAR_API void GearEngine::queueEmitters(std::vector<Gear::ParticleEmitter>* emitters)
+	{
+		particleEmitters = emitters;
+	}
+
 	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
 	{
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
@@ -323,7 +328,7 @@ namespace Gear
 		skybox.update(camera);
 		skybox.draw();
 
-		queue.particlePass(particleSystem);
+		queue.particlePass(particleSystem, particleEmitters);
 		queue.forwardPass(forwardModels, &uniValues);
 		
 		staticModels = &defaultModelList;
@@ -384,7 +389,6 @@ namespace Gear
 				if ((int)updateLightQueue[j]->radius.a >= 0)
 				{
 					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
-
 					light.pos = updateLightQueue[j]->pos;
 					light.color = updateLightQueue[j]->color;
 					light.radius = updateLightQueue[j]->radius;

@@ -45,6 +45,7 @@ namespace Gear
 		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
 		GEAR_API void queueForwardModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueParticles(std::vector<Gear::ParticleSystem*> &ps);
+		GEAR_API void queueEmitters(std::vector<Gear::ParticleEmitter>* emitters);
 		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
 		GEAR_API void queueAddLights(Lights::PointLight* lights);
@@ -109,6 +110,7 @@ namespace Gear
 		std::vector<ModelInstance>* dynamicModels;
 		std::vector<AnimatedInstance>* animatedModels;
 		std::vector<Gear::ParticleSystem*>* particleSystem;
+		std::vector<ParticleEmitter>* particleEmitters;
 		std::vector<ModelInstance>* forwardModels;
 
 		//Transform data

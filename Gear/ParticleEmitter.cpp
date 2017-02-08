@@ -9,6 +9,32 @@ namespace Gear
 
 	}
 
+	ParticleEmitter::ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus,
+		float size, glm::vec3 direction, Importer::TextureAsset* texture, float growFactor)
+	{
+		this->extrovert = true;
+		timer = 0;
+		isActive = false;
+		nrOfActiveParticles = 0;
+		this->maxParticles = maxPart;
+		this->allParticles = new Partikel[maxParticles];
+		this->particlePos = new SendStruct[maxParticles];
+		this->lifeTime = life;
+		this->partSpeed = speed;
+		this->particleRate = particleRate;
+		this->partPerRate = partPerSprut;
+		this->gravityFactor = gravity;
+		this->focus = foccus;
+		this->particleSize = size;
+		this->direction = direction ;
+		this->textureAssetParticles = texture;
+		for (size_t i = 0; i <maxParticles; i++)
+		{
+			particlePos[i].size = this->particleSize;
+		}
+		shrinkage = growFactor;
+	}
+
 	void ParticleEmitter::emitterInit(Emitter emitter, Importer::Assets* assets)
 	{		
 		this->extrovert = true;
@@ -77,6 +103,7 @@ namespace Gear
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
 					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10)) + this->position;
 					allParticles[nrOfActiveParticles].direction = glm::normalize(this->position - particlePos[nrOfActiveParticles].pos);
+					particlePos[nrOfActiveParticles].size = 1.0;
 					nrOfActiveParticles++;
 				}
 				timer = 0;

@@ -41,6 +41,7 @@ struct ThreadData
 	std::vector<ModelInstance>* forwardModels;
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
+	std::vector<Gear::ParticleEmitter>* particleEmitters;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -91,13 +92,14 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueDynamicModels( data->models );
 	data->engine->queueAnimModels( data->animatedModels );
 	data->engine->queueParticles( *data->particleSystems );
+	data->engine->queueEmitters(data->particleEmitters);
 	data->engine->queueForwardModels(data->forwardModels);
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
 		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
-		&ai, &network, data->workQueue, data->soundEngine, &counter );
+		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
 	for( int i=0; i<MAX_ANIMATIONS; i++ )
@@ -196,6 +198,7 @@ int main()
 	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
+	std::vector<Gear::ParticleEmitter> particleEmitters;
 	ThreadData threadData =
 	{
 		&engine,
@@ -209,6 +212,7 @@ int main()
 		&forwardModels,
 		&animModels,
 		&particleSystems,
+		&particleEmitters,
 		false,
 		true,
 		false,
