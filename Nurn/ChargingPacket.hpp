@@ -7,7 +7,7 @@ union ChargingPacket
 	struct ChargingPacketStruct
 	{
 		uint16_t ID;
-		float damage;
+		uint16_t damage;
 
 	}data;
 
