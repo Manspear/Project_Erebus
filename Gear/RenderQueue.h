@@ -16,6 +16,20 @@ struct UniformValues {
 	glm::vec2 values;
 };
 
+struct UniformBlendingValues
+{
+	int location;
+	GLfloat value;
+};
+
+struct TextureBlendings
+{
+	int modelIndex;
+	int numTextures;
+	std::vector<TextureAsset*> textureVector;
+	glm::vec2 blendFactor[3];
+};
+
 using namespace Importer;
 struct ModelInstance
 {
@@ -50,6 +64,7 @@ public:
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
+	void textureBlendingPass(std::vector<TextureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels);
 
 	void setWorkQueue( WorkQueue* workQueue );
 
@@ -66,7 +81,7 @@ private:
 	glm::mat4* tempMatrices;
 	glm::mat4* jointMatrices;
 	int nrOfWorlds;
-	WorkQueue* work;
+	WorkQueue* work;	
 
 	double freq;
 

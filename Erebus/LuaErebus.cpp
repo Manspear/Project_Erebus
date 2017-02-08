@@ -21,6 +21,7 @@ namespace LuaErebus
 		{
 			{ "SetControls", setControls },
 			{ "CameraSensitivity", cameraSensitivity },
+			{ "InitNetworkHost", initNetworkHost },
 			{ "StartNetworkHost", startNetworkHost },
 			{ "StartNetworkClient", startNetworkClient },
 			{ "ShutdownNetwork", shutdownNetwork },
@@ -52,18 +53,22 @@ namespace LuaErebus
 		return 0;
 	}
 
-	int startNetworkHost( lua_State* lua )
+	int initNetworkHost( lua_State* lua )
 	{
 		bool result = false;
 		g_network->setNetworkHost( true );
-		if (g_network->initNetworkAsHost())
-		{
-			result = g_network->acceptNetworkCommunication();
-		}
+		result = g_network->initNetworkAsHost();
+		lua_pushboolean(lua, result);
+		return 1;
+	}
 
-		if (result)
+	int startNetworkHost(lua_State* lua)
+	{
+		bool result = false;
+		if (g_network->acceptNetworkCommunication())
 		{
 			g_network->startCommunicationThreads(*g_counter);
+			result = true;
 		}
 
 		lua_pushboolean(lua, result);
