@@ -282,22 +282,10 @@
     <None Include="Shaders\geometryPass.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\geometryPass_notInstanced.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\geometryPass_notInstanced.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\geometryPicking.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\geometryPicking.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\lightPass.frag">
@@ -343,12 +331,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\image.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="effects.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="effects.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\gloom.comp">
@@ -468,11 +450,23 @@
     <None Include="Scripts\spellList.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\aim.lua">
-      <Filter>Scripts\UI</Filter>
-    </None>
     <None Include="Scripts\boss.lua">
       <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\ipconnect.lua" />
+    <None Include="Scripts\ipconnectUI.lua" />
+    <None Include="Shaders\anim.geom" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\animShadow.frag" />
+    <None Include="Shaders\animShadow.vert" />
+    <None Include="Shaders\blur.frag" />
+    <None Include="Shaders\blur.vert" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
+    <None Include="Shaders\include.glsl" />
+    <None Include="Scripts\spellUtility.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

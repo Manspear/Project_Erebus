@@ -94,7 +94,7 @@ function CreateIceGrenade(entity)
 		end
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
-				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
+				self.nades[i].particles.update(self.nades[i].type.position)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 

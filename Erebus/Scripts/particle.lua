@@ -10,7 +10,7 @@ function createFireballParticles()
 
 	function fireball.die(pos)
 		Particle.SetDead(fireball.fly)
-		Particle.SetPosition(fireball.exploda, pos.x, pos.y, pos.z)
+		Particle.SetPosition(fireball.exploda, pos)
 		Particle.SetDirection(fireball.exploda, 0, 0, 0)
 		Particle.Explode(fireball.exploda)	
 	end
@@ -35,16 +35,13 @@ function createIceGrenadeParticles()
 
 	function fireball.die(pos)
 		Particle.SetDead(fireball.fly)
-		Particle.SetPosition(fireball.exploda, pos.x, pos.y, pos.z)
-		Particle.SetDirection(fireball.exploda, 0, 0, 0)
+		Particle.SetPosition(fireball.exploda, pos)
 		Particle.Explode(fireball.exploda)	
 	end
 
-	function fireball.update(x, y, z)
-		Particle.SetPosition(fireball.fly, x, y, z)
-		Particle.SetDirection(fireball.fly, 0, 0, 0)
+	function fireball.update(pos)
+		Particle.SetPosition(fireball.fly, pos)
 	end
-
 	return fireball
 end
 
@@ -59,7 +56,31 @@ function CreateFireEffectParticles()
 	end
 
 	function particle:Update(pos)
-		Particle.SetPosition(self.burn, pos.x, pos.y, pos.z)
+		Particle.SetPosition(self.burn, pos)
 	end
 	return particle
+end
+
+function createChargeParticles()
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
+	local charge = {}
+	charge.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
+		
+	function charge.cast()
+		Particle.SetAlive(charge.fly)
+	end
+
+	function charge.die()
+		Particle.SetDead(charge.fly)	
+	end
+
+	function charge.update(pos)
+		Particle.SetPosition(charge.fly, pos)
+	end
+
+	function charge.extrovert(yesNo)
+		Particle.SetExtro(charge.fly, yesNo)
+	end
+
+	return charge
 end

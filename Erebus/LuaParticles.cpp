@@ -19,6 +19,7 @@ namespace LuaParticles
 			{ "Explode",		explode},
 			{ "SetColor",		setColor},
 			{ "SetDirection",	setDirection},
+			{ "SetExtro",		setExtro},
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(lua, regs, 0);
@@ -39,13 +40,21 @@ namespace LuaParticles
 
 	int setPosition(lua_State* lua)
 	{
-		assert( lua_gettop( lua ) == 4 );
+		assert(lua_gettop(lua) == 2);
 
 		int index = (int)lua_tointeger(lua, 1);
-		if (index == 1)
-			int x = 5;
-		glm::vec3 pos((float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3), (float)lua_tonumber(lua, 4));
-		g_systems->at(index)->setSystemPos(pos);
+
+		glm::vec3 position;
+		lua_getfield(lua, 2, "x");
+		position.x = (float)lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 2, "y");
+		position.y = (float)lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 2, "z");
+		position.z = (float)lua_tonumber(lua, -1);
+
+		g_systems->at(index)->setSystemPos(position);
 
 		return 0;
 	}
@@ -94,6 +103,12 @@ namespace LuaParticles
 		glm::vec3 dir((float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3), (float)lua_tonumber(lua, 4));
 		g_systems->at(index)->setDirection(dir);
 
+		return 0;
+	}
+	int setExtro(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+		g_systems->at((int)lua_tointeger(lua, 1))->setExtroversion((bool)lua_toboolean(lua, 2));
 		return 0;
 	}
 }
