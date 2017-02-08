@@ -29,6 +29,7 @@ namespace LuaNetwork
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
 			{ "ShouldSendNewAITransform", shouldSendNewAITransform },
+			{ "GetIP", getIP },
 			{ NULL, NULL }
 		};
 
@@ -375,6 +376,36 @@ namespace LuaNetwork
 		{
 			lua_pushboolean(lua, false);
 		}
+		return 1;
+	}
+
+	int getIP(lua_State * lua)
+	{
+		std::string line;
+		std::ifstream IPFile;
+		int offset;
+		char* search0 = "IPv4 Address. . . . . . . . . . . :";      // search pattern
+
+		system("ipconfig > ip.txt");
+
+		IPFile.open("ip.txt");
+		if (IPFile.is_open())
+		{
+			while (!IPFile.eof())
+			{
+				getline(IPFile, line);
+				if ((offset = line.find(search0, 0)) != std::string::npos)
+				{
+					//   IPv4 Address. . . . . . . . . . . : 1   
+					line.erase(0, 39);
+					lua_pushstring(lua, line.c_str());
+					IPFile.close();
+				}
+			}
+		}
+
+		remove("ip.txt");
+
 		return 1;
 	}
 
