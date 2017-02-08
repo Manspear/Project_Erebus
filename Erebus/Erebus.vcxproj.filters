@@ -449,7 +449,11 @@
     </None>
     <None Include="Scripts\spellbook.lua">
       <Filter>Scripts\gamestates</Filter>
+    <None Include="Shaders\textureBlending.vert">
+      <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\textureBlending.frag">
+      <Filter>Shaders</Filter>
     <None Include="Scripts\spellbookUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>

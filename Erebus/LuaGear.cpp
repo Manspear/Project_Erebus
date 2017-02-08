@@ -7,6 +7,7 @@ namespace LuaGear
 	static GearEngine* g_gearEngine = nullptr;
 	static std::vector<ModelInstance>* g_models = nullptr;
 	static std::vector<ModelInstance>* g_ForwardModels = nullptr;
+	static std::vector<ModelInstance>* g_blendingModels = nullptr;
 	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Animation* g_animations = nullptr;
 	static int* g_boundAnimations = nullptr;
@@ -16,10 +17,11 @@ namespace LuaGear
 	static bool* g_mouseVisible = nullptr;
 	static bool* g_fullscreen = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations,std::vector<ModelInstance>* forwardModels, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
+		g_blendingModels = blendingModels;
 		g_models = models;
 		g_animatedModels = animatedModels;
 		g_animations = animations;
@@ -37,10 +39,13 @@ namespace LuaGear
 			{ "AddStaticInstance", addStaticInstance },
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "AddForwardInstance",	addForwardInstance},
+			{ "AddBlendingInstance", addBlendingInstance},
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
 			{ "SetUniformLocation", setUniformLocation },
+			{ "SetBlendUniformValue", setBlendUniformValue },
+			{ "SetBlendTextures", setBlendTextures },
 			{ "QueueModels", setQueueModels },
 			{ "CursorVisible", setCursorVisible },
 			{ "Fullscreen", setFullscreen },
@@ -387,4 +392,76 @@ namespace LuaGear
 		g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
 		return 0;
 	}
+
+	int setBlendUniformValue(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 4)
+		{
+			int index = (int)lua_tointeger(lua, 1);
+			int size = (int)lua_tointeger(lua, 2);
+			glm::vec2 blend;
+			for (int i = 0; i < size; i++)
+			{
+				lua_getfield(lua, 3 + i, "x");
+				blend.x = (float)lua_tonumber(lua, -1);
+
+				lua_getfield(lua, 3 + i, "y");
+				blend.y = (float)lua_tonumber(lua, -1);
+
+				g_gearEngine->textureBlend.at(index).blendFactor[i] = blend;
+			}
+			
+		}
+		return 0;
+	}
+
+	int setBlendTextures(lua_State * lua)
+	{
+
+		if (lua_gettop(lua) >= 4)
+		{
+			int index = (int)lua_tointeger(lua, 1);
+			int size = (int)lua_tointeger(lua, 2);
+			TextureAsset* texture;
+			for (int i = 0; i < size; i++)
+			{
+				lua_getfield(lua, i + 3, "__self");
+				texture = (TextureAsset*)lua_touserdata(lua, -1);
+
+				g_gearEngine->textureBlend.at(index).textureVector.push_back(texture);
+				g_gearEngine->textureBlend.at(index).numTextures = size;
+			}
+		}
+		return 0;
+	}
+
+	int addBlendingInstance(lua_State * lua)
+	{
+		int ntop = lua_gettop(lua);
+		int index = -1;
+		if (ntop >= 2)
+		{
+			ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+			int transformID = lua_tointeger(lua, 2);
+			int result = g_gearEngine->generateWorldMatrix();
+			for (int i = 0; i<g_blendingModels->size(); i++)
+				if (g_blendingModels->at(i).asset == asset)
+					index = i;
+			if (index < 0)
+			{
+				ModelInstance instance;
+				instance.asset = asset;
+
+				textureBlendings tBlend;
+				g_gearEngine->textureBlend.push_back(tBlend);
+				index = g_blendingModels->size();
+				g_blendingModels->push_back(instance);
+			}
+			g_blendingModels->at(index).worldIndices.push_back(transformID);
+			g_gearEngine->textureBlend.at(index).modelIndex = index;
+		}
+		lua_pushinteger(lua, index);
+		return 1;;
+	}
+
 }

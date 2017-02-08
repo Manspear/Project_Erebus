@@ -50,6 +50,7 @@ namespace Gear
 		GEAR_API void queueAddLights(Lights::PointLight* lights);
 		GEAR_API void queueUpdateLights(Lights::PointLight* lights);
 		GEAR_API void queueRemoveLights(Lights::PointLight* lights);
+		GEAR_API void queueTextureBlendings(std::vector<ModelInstance>* blendingModels);
 		GEAR_API void draw(Camera* camera);
 		GEAR_API void update();
 
@@ -64,6 +65,7 @@ namespace Gear
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		std::vector<UniformValues> uniValues;
+		std::vector<textureBlendings> textureBlend;
 		//----------------------
 
 	private:
@@ -110,6 +112,7 @@ namespace Gear
 		std::vector<AnimatedInstance>* animatedModels;
 		std::vector<Gear::ParticleSystem*>* particleSystem;
 		std::vector<ModelInstance>* forwardModels;
+		std::vector<ModelInstance>* blendModels;
 
 		//Transform data
 		TransformStruct** allTrans;
@@ -126,7 +129,6 @@ namespace Gear
 
 		//Debug Draw handler
 		DebugHandler* debugHandler;
-
 		TextRenderer text;
 		ImageRenderer image;
 
