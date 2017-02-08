@@ -37,7 +37,7 @@ public:
 				std::vector<ModelInstance>* models,
 				std::vector<AnimatedInstance>* animatedModels,
 				std::vector<ModelInstance>* forwardModels,
-				std::vector<textureBlendings>* textureBlends,
+				std::vector<ModelInstance>* blendingModels,
 				bool* queueModels,
 				bool* mouseVisible,
 				bool* fullscreen,

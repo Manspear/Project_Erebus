@@ -264,9 +264,9 @@ namespace Gear
 		this->removeLightQueue.push_back(lights);
 	}
 
-	GEAR_API void GearEngine::queueTextureBlendings(std::vector<textureBlendings>* textureBlends)
+	GEAR_API void GearEngine::queueTextureBlendings(std::vector<ModelInstance>* blendingModels)
 	{
-		textureB = textureBlends;
+		blendModels = blendingModels;
 	}
 
 #pragma endregion
@@ -331,7 +331,7 @@ namespace Gear
 
 		queue.particlePass(particleSystem);
 		
-		queue.textureBlendingPass(textureB);
+		queue.textureBlendingPass(&textureBlend, blendModels);
 
 		queue.forwardPass(forwardModels, &uniValues);
 

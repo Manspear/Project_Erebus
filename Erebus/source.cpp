@@ -41,7 +41,7 @@ struct ThreadData
 	std::vector<ModelInstance>* forwardModels;
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
-	std::vector<textureBlendings>* textureBlends;
+	std::vector<ModelInstance>* blendingModels;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -95,13 +95,13 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueForwardModels(data->forwardModels);
 
 	//////////////////////////////////////////////////////////////////////////////
-	data->engine->queueTextureBlendings(data->textureBlends);
+	data->engine->queueTextureBlendings(data->blendingModels);
 	/////////////////////////////////////////////////////////////////////////////
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
-		data->models, data->animatedModels, data->forwardModels, data->textureBlends, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
+		data->models, data->animatedModels, data->forwardModels, data->blendingModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
 		&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
@@ -200,7 +200,7 @@ int main()
 	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
-	std::vector<textureBlendings> textureBlends;
+	std::vector<ModelInstance> blendingModels;
 
 	ThreadData threadData =
 	{
@@ -215,7 +215,7 @@ int main()
 		&forwardModels,
 		&animModels,
 		&particleSystems,
-		&textureBlends,
+		&blendingModels,
 		false,
 		true,
 		false,
