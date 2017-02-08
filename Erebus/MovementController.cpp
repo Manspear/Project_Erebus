@@ -1,5 +1,5 @@
 #include "MovementController.h"
-
+#define PLAYER_Y_OFFSET 0.5;
 MovementController::MovementController() 
 	: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
 {
@@ -29,7 +29,7 @@ void MovementController::update()
 
 	//float height = heightmap->getPos( newPos.x, newPos.z );
 	float height = heightmap->getPos( pos.x, pos.z );
-	newPos.y = height;
+	newPos.y = height + PLAYER_Y_OFFSET;
 
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( this->layerID );
