@@ -59,7 +59,7 @@ function CreateHellPillar(entity)
 		if self.cooldown < 0 then	
 			self.timeSinceLastPoop = 2
 			self.cooldown = 1.5
-			self.startUpTime = 0.4		self.finishingTime = 2	self.startUpScale = 1	
+			self.startUpTime = 0.4		self.finishingTime = 1	self.startUpScale = 1	
 			self.damage = 10
 			self.maxScale = 1
 			Transform.SetScale(spell.transformID, 0.2)
