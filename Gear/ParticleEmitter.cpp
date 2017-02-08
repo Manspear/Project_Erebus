@@ -101,7 +101,7 @@ namespace Gear
 				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
 				{
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10)) + this->position;
+					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + this->position;
 					allParticles[nrOfActiveParticles].direction = glm::normalize(this->position - particlePos[nrOfActiveParticles].pos);
 					particlePos[nrOfActiveParticles].size = this->particleSize;
 					nrOfActiveParticles++;

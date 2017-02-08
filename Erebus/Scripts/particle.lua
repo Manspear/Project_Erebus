@@ -65,7 +65,7 @@ CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.png");
 function createChargeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
-	charge.ID = Emitter.Bind(38, 0.5, 25, 15, 5, 0, 0, 0, 1)  
+	charge.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)  
 	Emitter.SetTexture(charge.ID, CHARGE_PARTICLES_TEX)
 	function charge.cast()
 		Emitter.SetAlive(charge.ID)
