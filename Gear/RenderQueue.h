@@ -35,6 +35,16 @@ struct ModelInstance
 {
 	Importer::ModelAsset* asset;
 	std::vector<int> worldIndices;
+	GLuint instanceVBO = 0;
+
+	inline void allocateBuffer()
+	{
+		if (instanceVBO == 0)
+			glGenBuffers(1, &instanceVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
 };
 struct AnimatedInstance
 {
@@ -60,7 +70,7 @@ public:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
 	void forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues);
-	bool particlePass(std::vector<Gear::ParticleSystem*>* ps);
+	bool particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
@@ -82,6 +92,8 @@ private:
 	glm::mat4* jointMatrices;
 	int nrOfWorlds;
 	WorkQueue* work;	
+
+	GLuint instanceTest;
 
 	double freq;
 

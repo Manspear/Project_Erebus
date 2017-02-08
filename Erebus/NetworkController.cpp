@@ -210,6 +210,16 @@ bool NetworkController::fetchQuickBlendPacket(QuickBlendPacket& packet)
 	return network.fetchQuickBlendPacket(packet);
 }
 
+void NetworkController::sendDamagePacket(const DamagePacket& packet)
+{
+	network.pushDamagePacket(packet);
+}
+
+bool NetworkController::fetchDamagePacket(DamagePacket& packet)
+{
+	return network.fetchDamagePacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

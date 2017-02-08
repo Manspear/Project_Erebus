@@ -189,7 +189,7 @@ function CreateHellPillar(entity)
 		local hm = GetHeightmap(self.aimPos)
 		if hm then
 			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z)
-			player.aim:SetPos(self.aimPos)
+			self.owner.aim:SetPos(self.aimPos)
 		end
 	end
 

@@ -129,6 +129,7 @@ function CreateSunRay(entity)
 					if self.effectFlag then
 						for e =1, #self.effects do
 							local effect = effectTable[self.effects[e]]()
+	
 							table.insert(hits[index].effects, effect)
 							effect:Apply(hits[index])							
 						end

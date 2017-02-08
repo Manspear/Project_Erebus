@@ -9,6 +9,7 @@ Packager::Packager()
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
 	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
 	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
+	this->damageQueue = new PacketQueue<DamagePacket>(20);
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
@@ -50,6 +51,11 @@ Packager::~Packager()
 		delete this->quickBlendQueue;
 		this->quickBlendQueue = 0;
 	}
+	if (this->damageQueue)
+	{
+		delete this->damageQueue;
+		this->damageQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -80,6 +86,7 @@ void Packager::buildNetPacket()
 	this->addAITransformPackets(this->currentNetPacketSize, fullPackage);
 	this->addChargingPackets(this->currentNetPacketSize, fullPackage);
 	this->addQuickBlendPackets(this->currentNetPacketSize, fullPackage);
+	this->addDamagePackets(this->currentNetPacketSize, fullPackage);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -120,6 +127,11 @@ void Packager::pushChargingPacket(const ChargingPacket& packet)
 void Packager::pushQuickBlendPacket(const QuickBlendPacket& packet)
 {
 	this->quickBlendQueue->push(packet);
+}
+
+void Packager::pushDamagePacket(const DamagePacket& packet)
+{
+	this->damageQueue->push(packet);
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
@@ -317,6 +329,35 @@ void Packager::addQuickBlendPackets(uint16_t& netPacketSize, bool& fullPackage)
 		netPacketSize += sizeOfQuickBlendPackets; // Should now point at the location of the next MetaDataPacket
 	}
 }
+
+void Packager::addDamagePackets(uint16_t& netPacketSize, bool& fullPackage)
+{
+	DamagePacket damagePacket;
+	uint16_t sizeOfDamagePackets = 0;
+
+	while (this->damageQueue->pop(damagePacket) && fullPackage == false)
+	{
+		// Only add a packet if there's enough space for another QuickBlendPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfDamagePackets)) > sizeof(DamagePacket))
+		{
+			// Add DamagePacket to the memory ( ...[MetaData][Damage][Damage]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfDamagePackets, &damagePacket, sizeof(DamagePacket));
+			sizeOfDamagePackets += sizeof(DamagePacket);
+		}
+		else
+		{
+			fullPackage = true;
+		}
+	}
+
+	if (sizeOfDamagePackets > 0)
+	{
+		this->addMetaDataPacket(DAMAGE_PACKET, netPacketSize, sizeOfDamagePackets);
+
+		netPacketSize += sizeOfDamagePackets; // Should now point at the location of the next MetaDataPacket
+	}
+}
+
 
 void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes)
 {

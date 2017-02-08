@@ -204,6 +204,8 @@ namespace Gear
 	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
 	{
 		dynamicModels = models;
+		for (auto &m : *dynamicModels)
+			m.allocateBuffer();
 	}
 
 	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
@@ -219,6 +221,11 @@ namespace Gear
 	void GearEngine::queueParticles(std::vector<Gear::ParticleSystem*> &ps)
 	{
 		particleSystem = &ps;
+	}
+
+	GEAR_API void GearEngine::queueEmitters(std::vector<Gear::ParticleEmitter*> &emitters)
+	{
+		particleEmitters = &emitters;
 	}
 
 	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
@@ -328,7 +335,7 @@ namespace Gear
 		skybox.update(camera);
 		skybox.draw();
 
-		queue.particlePass(particleSystem);
+		queue.particlePass(particleSystem, particleEmitters);
 		
 		queue.textureBlendingPass(&textureBlend, blendModels);
 
@@ -393,7 +400,6 @@ namespace Gear
 				if ((int)updateLightQueue[j]->radius.a >= 0)
 				{
 					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
-
 					light.pos = updateLightQueue[j]->pos;
 					light.color = updateLightQueue[j]->color;
 					light.radius = updateLightQueue[j]->radius;
