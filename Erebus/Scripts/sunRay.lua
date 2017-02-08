@@ -134,7 +134,7 @@ function CreateSunRay(entity)
 							effect:Apply(hits[index])							
 						end
 					end
-					hits[index]:Hurt(self.damage)
+					hits[index]:Hurt(self.damage, sunRay.owner)
 					self.timeSinceTick = self.tickInterval
 					local id = Sound.Play(self.hitSFX, 1, hits[index].position)
 					if id ~= -1 then self.hitID = id end

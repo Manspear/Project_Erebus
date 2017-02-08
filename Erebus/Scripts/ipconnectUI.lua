@@ -51,7 +51,7 @@ function UpdateipconnectUI(dt)
 		end
 
 		if UI.mousePick(screenImages["host"], x,y) and hosting == false then
-			hosting = true
+			hosting = Erebus.InitNetworkHost()
 			timeoutCounter = 0
 		end
 

@@ -140,7 +140,7 @@ function CreateHellPillar(entity)
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage)
+					enemies[curEnemy]:Hurt(self.damage, spell.owner)
 				end
 					Sound.Play(HIT_SFX, 1, self.pos)
 			end
