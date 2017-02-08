@@ -1,8 +1,11 @@
 local screenImages = {}
 local imageTextures = {}
 local ipString = ""
+local hostText = "Waiting for connection"
 local ourIpString = ""
 local incorrectIP = false
+local hosting = false
+local textCounter = 1
 
 function LoadipconnectUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
@@ -26,20 +29,10 @@ end
 
 function UpdateipconnectUI(dt)
 	DrawipconnectUI()
-	Gear.Print("Your IP address is:", 488, 250)
-	Gear.Print(ourIpString, 531, 285)
-
-	ipString = ipKeyboardInput(ipString)
-	Gear.Print("Type the IP to connect to", 446, 320)
-	Gear.Print(ipString, 465, 370)
-
-	if incorrectIP then
-		Gear.Print("Error in IP formatting", 465, 460)
-	end
 
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
-		if UI.mousePick(screenImages["connect"], x,y) then
+		if UI.mousePick(screenImages["connect"], x,y) and hosting == false then
 			if ipString:match"(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)%.(%d%d?%d?)" ~= nil then
 				local result = Erebus.StartNetworkClient(stringToIp(ipString))
 				if result == true then
@@ -52,20 +45,45 @@ function UpdateipconnectUI(dt)
 			end
 		end
 
-		if UI.mousePick(screenImages["host"], x,y) then
-			local result = Erebus.StartNetworkHost()			
-			if result == true then
-				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
-			end
+		if UI.mousePick(screenImages["host"], x,y) and hosting == false then
+			hosting = true
 		end
 
 		if UI.mousePick(screenImages["back"], x,y) then
 			ipString = ""
+			hosting = false
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 		end
 	end
-	
 
+	if hosting then
+		local text = hostText
+		for i=1, math.floor(textCounter) do
+			text = text .. "."
+		end
+		Gear.Print(text, 464, 320)
+		if Erebus.StartNetworkHost() then
+			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+		end
+		textCounter = textCounter + (1 * dt)
+		if textCounter > 4 then 
+			textCounter = 1
+		end
+	else
+		Gear.Print("Type the IP to connect to", 446, 320)
+	end
+
+
+	Gear.Print("Your IP address is:", 488, 250)
+	Gear.Print(ourIpString, 531, 285)
+
+	ipString = ipKeyboardInput(ipString)
+	
+	Gear.Print(ipString, 531, 370)
+
+	if incorrectIP then
+		Gear.Print("Error in IP formatting", 465, 460)
+	end
 end
 
 function DrawipconnectUI()
@@ -87,7 +105,6 @@ function ipKeyboardInput(string)
 	
 	if Inputs.KeyRepeated(Keys.Backspace) == true then
 		string = string:sub(1, -2)
-		print(string)
 	end
 
 	return string

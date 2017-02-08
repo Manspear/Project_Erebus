@@ -31,8 +31,6 @@ function UpdateMenuUI(dt)
 		end
 
 		if UI.mousePick(screenImages["network"], x,y) then
-			Erebus.InitNetworkHost()
-			gamestate.ChangeState(GAMESTATE_IPHOST)
 			gamestate.ChangeState(GAMESTATE_IPCONNECT)
 		end
 

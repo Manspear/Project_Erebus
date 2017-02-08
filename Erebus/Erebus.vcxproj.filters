@@ -464,6 +464,7 @@
     </None>
     <None Include="Scripts\iphostUI.lua">
       <Filter>Scripts\UI</Filter>
+    </None>
     <None Include="Scripts\spellUtility.lua" />
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />
