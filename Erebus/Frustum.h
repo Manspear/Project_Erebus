@@ -15,6 +15,11 @@ public:
 
 	bool pointCollision(glm::vec3& point);
 	bool aabbCollision(AABBCollider* aabb, Debug* debugger);
+
+	void updateClipSpaceFrustum(const glm::mat4 viewProjectionMatrix);
+
+	//Clip space collision does not use exactly the same algorithm as regular aabbCollision
+	bool clipSpaceAabbCollision(AABBCollider* aabb);
 private:
 	enum
 	{
@@ -27,6 +32,7 @@ private:
 		FRUSTUM_PLANE_AMOUNT
 	};
 	PlaneFrustum planes[6];
+	glm::vec4 clipSpacePlanes[6];
 
 	//helper functions
 	bool pointPlaneCollision(int plane, glm::vec3& point);

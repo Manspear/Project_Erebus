@@ -32,6 +32,7 @@ void Frustum::updateFrustum(const glm::vec3 & position, const glm::vec3 & direct
 	//compute z axis of camera, opposite direction from the looking direction
 	// this is like (-direction)?
 	//z = glm::normalize(position - direction);
+	//z = glm::normalize(glm::vec3(-direction.x,0,-direction.z));
 	z = -direction;
 
 	// x axis of camera with given up vector and z axis
@@ -120,21 +121,20 @@ bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
 
 
 	// FIRST CHECK, IS ANY CORNER INSIDE THE FRUSTUM
-	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+	for (size_t i = 0; i < CORNER_AMOUNT; i++)
 	{
 		if (this->pointCollision(corners[i])) // if any corner is inside the frustum, collision true and end loop
 		{
 			collision = true;
-			i = FRUSTUM_PLANE_AMOUNT;
+			i = CORNER_AMOUNT;
 		}
 		
 	}
 
-	// FOR EVERY PLANE, is all points outside the same plane, is collision
 	// if point is outside plane, check if the others are outside tha same plane
 	// is point not outside that plane, check next plane
 	// if all corners are outside the same plane, no collision
-	if (!collision) // Nichals algorithm
+	if (!collision) // Niclas algorithm			This is the algorithm used in clip space collision
 	{
 		collision = true;
 		for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
@@ -153,13 +153,108 @@ bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
 				collision = false;
 				i = FRUSTUM_PLANE_AMOUNT; // early exit
 			}
-			std::cout << "CORNER COUNTER: " << cornerCounter << std::endl;
+			//std::cout << "CORNER COUNTER: " << cornerCounter << std::endl;
 		}
 	}
 
 
 
 	return collision;
+}
+
+void Frustum::updateClipSpaceFrustum(const glm::mat4 viewProjectionMatrix)
+{
+	clipSpacePlanes[0].x = viewProjectionMatrix[0][3] + viewProjectionMatrix[0][0];
+	clipSpacePlanes[0].y = viewProjectionMatrix[1][3] + viewProjectionMatrix[1][0];
+	clipSpacePlanes[0].z = viewProjectionMatrix[2][3] + viewProjectionMatrix[2][0];
+	clipSpacePlanes[0].w = viewProjectionMatrix[3][3] + viewProjectionMatrix[3][0];
+
+	// Right clipping plane
+	clipSpacePlanes[1].x = viewProjectionMatrix[0][3] - viewProjectionMatrix[0][0];
+	clipSpacePlanes[1].y = viewProjectionMatrix[1][3] - viewProjectionMatrix[1][0];
+	clipSpacePlanes[1].z = viewProjectionMatrix[2][3] - viewProjectionMatrix[2][0];
+	clipSpacePlanes[1].w = viewProjectionMatrix[3][3] - viewProjectionMatrix[3][0];
+
+	// Top clipping plane
+	clipSpacePlanes[2].x = viewProjectionMatrix[0][3] - viewProjectionMatrix[0][1];
+	clipSpacePlanes[2].y = viewProjectionMatrix[1][3] - viewProjectionMatrix[1][1];
+	clipSpacePlanes[2].z = viewProjectionMatrix[2][3] - viewProjectionMatrix[2][1];
+	clipSpacePlanes[2].w = viewProjectionMatrix[3][3] - viewProjectionMatrix[3][1];
+
+	// Bottom clipping plane
+	clipSpacePlanes[3].x = viewProjectionMatrix[0][3] + viewProjectionMatrix[0][1];
+	clipSpacePlanes[3].y = viewProjectionMatrix[1][3] + viewProjectionMatrix[1][1];
+	clipSpacePlanes[3].z = viewProjectionMatrix[2][3] + viewProjectionMatrix[2][1];
+	clipSpacePlanes[3].w = viewProjectionMatrix[3][3] + viewProjectionMatrix[3][1];
+
+	// Near clipping plane
+	clipSpacePlanes[4].x = viewProjectionMatrix[0][3] + viewProjectionMatrix[0][2];
+	clipSpacePlanes[4].y = viewProjectionMatrix[1][3] + viewProjectionMatrix[1][2];
+	clipSpacePlanes[4].z = viewProjectionMatrix[2][3] + viewProjectionMatrix[2][2];
+	clipSpacePlanes[4].w = viewProjectionMatrix[3][3] + viewProjectionMatrix[3][2];
+
+	// Far clipping plane
+	clipSpacePlanes[5].x = viewProjectionMatrix[0][3] - viewProjectionMatrix[0][2];
+	clipSpacePlanes[5].y = viewProjectionMatrix[1][3] - viewProjectionMatrix[1][2];
+	clipSpacePlanes[5].z = viewProjectionMatrix[2][3] - viewProjectionMatrix[2][2];
+	clipSpacePlanes[5].w = viewProjectionMatrix[3][3] - viewProjectionMatrix[3][2];
+
+	for (int i = 0; i<6; i++)
+		clipSpacePlanes[i] = glm::normalize(clipSpacePlanes[i]);
+}
+
+bool Frustum::clipSpaceAabbCollision(AABBCollider * aabb)
+{
+	const short int CORNER_AMOUNT = 8;
+	glm::vec3 corners[CORNER_AMOUNT];
+	glm::vec3 minPos = aabb->getMinPosLocal();
+	glm::vec3 maxPos = aabb->getMaxPosLocal();
+	glm::vec3 center = aabb->getCenterPos();
+	glm::vec3 dif = maxPos - minPos;
+	glm::vec3 maxPosX = glm::vec3(dif.x, 0, 0);
+	glm::vec3 maxPosY = glm::vec3(0, dif.y, 0);
+	glm::vec3 maxPosZ = glm::vec3(0, 0, dif.z);
+	glm::vec3 maxPosXZ = glm::vec3(dif.x, 0, dif.z);
+	glm::vec3 maxPosXY = glm::vec3(dif.x, dif.y, 0);
+	glm::vec3 maxPosYZ = glm::vec3(0, dif.y, dif.z);
+
+	corners[0] = minPos + center;					// left near bottom
+	corners[1] = minPos + maxPosX + center;			// right near bottom
+	corners[2] = minPos + maxPosZ + center;			// left far bottom
+	corners[3] = minPos + maxPosXZ + center;		// right far bottom
+
+	corners[4] = maxPos + center;						// right top far
+	corners[5] = minPos + maxPosYZ + center;	// left top far
+	corners[6] = minPos + maxPosY + center;			// left top near
+	corners[7] = minPos + maxPosXY + center;	// right top near
+
+	int totalInside = 0;
+
+	for (int i = 0; i<6; i++)
+	{
+		int inCount = 8;
+		int ptIn = 1;
+
+		glm::vec3 planeNormal(clipSpacePlanes[i].x, clipSpacePlanes[i].y, clipSpacePlanes[i].z);
+		for (int j = 0; j<8; j++)
+		{
+			float dist = glm::dot(planeNormal, corners[j]) + clipSpacePlanes[i].w;
+			if (dist < 0.0f)
+			{
+				ptIn = 0;
+				inCount--;
+			}
+		}
+
+		if (inCount == 0)
+			return 0;
+
+		totalInside += ptIn;
+	}
+
+	if (totalInside == 6)
+		return 1; // intersect
+	return 1; // inside
 }
 
 bool Frustum::pointPlaneCollision(int plane, glm::vec3 & point)
