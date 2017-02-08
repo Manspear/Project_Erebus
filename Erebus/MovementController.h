@@ -21,13 +21,14 @@ public:
 private:
 	HitBox* hitbox;
 	Transform* transform;
-	glm::vec3 movement, hitNormal;
+	glm::vec3 movement;
 	CollisionLayers* collisionLayer;
 	CollisionHandler* myCollisionHandler;
 	unsigned int layerID;
 	Importer::HeightMap* heightmap;
 	std::vector<HitBox*> playerCollidingWalls;
 	glm::vec3 positionLastFrame;
+	std::vector<glm::vec3> hitNormals;
 
 	//Helper functions
 	//Check if the player has collided with any of the ID:s that the walls have

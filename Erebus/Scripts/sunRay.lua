@@ -1,6 +1,5 @@
 SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 3
-SUNRAY_MAX_CHARGETIME = 3
 SUNRAY_DAMAGE =0
 SUNRAY_COOLDOWN = 4.7
 SUNRAY_HALF_LENGTH = 23
@@ -18,11 +17,12 @@ function CreateSunRay(entity)
 	sunRay.chargedTime = 0	sunRay.Charge = BaseCharge	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
+	sunRay.maxChargeTime = 3
 	sunRay.cooldown = 0.0
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
 	sunRay.length = 0
 	sunRay.angle = 2	sunRay.spin = 0.3
-	sunRay.UVpushing = 2.0	sunRay.UVpushed = 0.0	
+	sunRay.UVpushing = 2.0	sunRay.UVpushed = 0
 	sunRay.startUp = false	sunRay.startUpTime = 0.4	sunRay.startUpTimeLVL2 = 0.7
 	sunRay.startUpScale = {x = 1, y = 1, z = 1}
 	sunRay.castSFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav" }
@@ -36,7 +36,7 @@ function CreateSunRay(entity)
 	Gear.AddForwardInstance(model2, sunRay.type.transformID)
 
 	sunRay.modelIndex = Gear.AddForwardInstance(model, sunRay.type.transformID)
-	Gear.SetUniformLocation(sunRay.modelIndex, 3);
+	Gear.SetUniformLocation(sunRay.modelIndex, "aValue");
 
 	function sunRay:Update(dt)
 		if self.alive then
@@ -74,8 +74,8 @@ function CreateSunRay(entity)
 	function sunRay:ChargeCast(entity)
 		if (self.cooldown < 0.0) then
 			self.spam = false	self.alive = true	self.startUp = true
-			self.chargedTime = math.min(self.chargedTime, SUNRAY_MAX_CHARGETIME)
-			self.scale = (self.chargedTime / SUNRAY_MAX_CHARGETIME)/2 + 0.5
+			self.chargedTime = math.min(self.chargedTime, self.maxChargeTime)
+			self.scale = (self.chargedTime / self.maxChargeTime)/2 + 0.5
 			self.cooldown = SUNRAY_COOLDOWN
 			self.lifeTime = SUNRAY_DURATION
 			self.length = SUNRAY_HALF_LENGTH		
@@ -121,7 +121,7 @@ function CreateSunRay(entity)
 		self.startUpScale.y = self.startUpScale.y + self.shakeIt * dt
 		Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x, self.startUpScale.y, self.startUpScale.z)
 		self.shakeIt = self.shakeIt * -1
-		self.UVpushed = self.UVpushed + self.UVpushing * dt 
+		self.UVpushed = self.UVpushed - self.UVpushing * dt 
 		self.timeSinceTick = self.timeSinceTick - dt
 		if 0 > self.timeSinceTick then
 			for index = 1, #hits do
@@ -170,8 +170,16 @@ function CreateSunRay(entity)
 		end
 	end
 
+	function sunRay:Aim()
+
+	end
+
+	function sunRay:Change()
+		
+	end
+
 	function sunRay:MoveWithPlayer(dt)
-		Gear.SetUniformValue(self.modelIndex, self.UVpushed)
+		Gear.SetUniformValue(self.modelIndex, self.UVpushed, 0)
 		direction = Transform.GetLookAt(self.caster)
 		pos = Transform.GetPosition(self.caster)
 		pos.x = pos.x + direction.x * self.length 

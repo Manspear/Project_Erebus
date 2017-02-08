@@ -449,7 +449,13 @@
     </None>
     <None Include="Scripts\spellbook.lua">
       <Filter>Scripts\gamestates</Filter>
+	</None>
+    <None Include="Shaders\textureBlending.vert">
+      <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\textureBlending.frag">
+      <Filter>Shaders</Filter>
+	</None>
     <None Include="Scripts\spellbookUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>
@@ -467,6 +473,18 @@
     </None>
     <None Include="Scripts\spellList.lua">
       <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\aim.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\boss.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\iphost.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\iphostUI.lua">
+      <Filter>Scripts\UI</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

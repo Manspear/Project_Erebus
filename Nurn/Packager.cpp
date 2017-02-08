@@ -8,6 +8,7 @@ Packager::Packager()
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
 	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
@@ -44,6 +45,11 @@ Packager::~Packager()
 		delete this->chargingQueue;
 		this->chargingQueue = 0;
 	}
+	if (this->quickBlendQueue)
+	{
+		delete this->quickBlendQueue;
+		this->quickBlendQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -73,6 +79,7 @@ void Packager::buildNetPacket()
 	this->addSpellPackets(this->currentNetPacketSize, fullPackage);
 	this->addAITransformPackets(this->currentNetPacketSize, fullPackage);
 	this->addChargingPackets(this->currentNetPacketSize, fullPackage);
+	this->addQuickBlendPackets(this->currentNetPacketSize, fullPackage);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -108,6 +115,11 @@ void Packager::pushAITransformPacket(const TransformPacket& packet)
 void Packager::pushChargingPacket(const ChargingPacket& packet)
 {
 	this->chargingQueue->push(packet);
+}
+
+void Packager::pushQuickBlendPacket(const QuickBlendPacket& packet)
+{
+	this->quickBlendQueue->push(packet);
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
@@ -275,6 +287,34 @@ void Packager::addChargingPackets(uint16_t& netPacketSize, bool& fullPackage)
 		this->addMetaDataPacket(CHARGING_PACKET, netPacketSize, sizeOfChargingPackets);
 
 		netPacketSize += sizeOfChargingPackets; // Should now point at the location of the next MetaDataPacket
+	}
+}
+
+void Packager::addQuickBlendPackets(uint16_t& netPacketSize, bool& fullPackage)
+{
+	QuickBlendPacket quickBlendPacket;
+	uint16_t sizeOfQuickBlendPackets = 0;
+
+	while (this->quickBlendQueue->pop(quickBlendPacket) && fullPackage == false)
+	{
+		// Only add a packet if there's enough space for another QuickBlendPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfQuickBlendPackets)) > sizeof(QuickBlendPacket))
+		{
+			// Add QuickBlendPacket to the memory ( ...[MetaData][QuickBlend][QuickBlend]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfQuickBlendPackets, &quickBlendPacket, sizeof(QuickBlendPacket));
+			sizeOfQuickBlendPackets += sizeof(QuickBlendPacket);
+		}
+		else
+		{
+			fullPackage = true;
+		}
+	}
+
+	if (sizeOfQuickBlendPackets > 0)
+	{
+		this->addMetaDataPacket(QUICKBLEND_PACKET, netPacketSize, sizeOfQuickBlendPackets);
+
+		netPacketSize += sizeOfQuickBlendPackets; // Should now point at the location of the next MetaDataPacket
 	}
 }
 

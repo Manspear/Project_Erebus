@@ -21,6 +21,7 @@ namespace LuaErebus
 		{
 			{ "SetControls", setControls },
 			{ "CameraSensitivity", cameraSensitivity },
+			{ "InitNetworkHost", initNetworkHost },
 			{ "StartNetworkHost", startNetworkHost },
 			{ "StartNetworkClient", startNetworkClient },
 			{ "ShutdownNetwork", shutdownNetwork },
@@ -36,33 +37,38 @@ namespace LuaErebus
 
 	int setControls( lua_State* lua )
 	{
-		if( lua_gettop( lua ) >= 1 )
-		{
-			int transformID = (int)lua_tointeger( lua, 1 );
-			g_controls->setControl( &g_transforms[transformID] );
-		}
+		assert( lua_gettop( lua ) == 1 );
+
+		int transformID = (int)lua_tointeger( lua, 1 );
+		g_controls->setControl( &g_transforms[transformID] );
 
 		return 0;
 	}
 	
 	int cameraSensitivity(lua_State * lua)
-	{		
+	{
+		assert( lua_gettop( lua ) == 1 );
+
 		g_controls->sensitivityFactor((float)lua_tonumber(lua, 1));
 		return 0;
 	}
 
-	int startNetworkHost( lua_State* lua )
+	int initNetworkHost( lua_State* lua )
 	{
 		bool result = false;
 		g_network->setNetworkHost( true );
-		if (g_network->initNetworkAsHost())
-		{
-			result = g_network->acceptNetworkCommunication();
-		}
+		result = g_network->initNetworkAsHost();
+		lua_pushboolean(lua, result);
+		return 1;
+	}
 
-		if (result)
+	int startNetworkHost(lua_State* lua)
+	{
+		bool result = false;
+		if (g_network->acceptNetworkCommunication())
 		{
 			g_network->startCommunicationThreads(*g_counter);
+			result = true;
 		}
 
 		lua_pushboolean(lua, result);
@@ -71,6 +77,8 @@ namespace LuaErebus
 
 	int startNetworkClient(lua_State* lua)
 	{
+		assert( lua_gettop( lua ) == 1 );
+
 		bool result = false;
 		g_network->setNetworkHost(false);
 
@@ -105,7 +113,7 @@ namespace LuaErebus
 
 	int setRunning(lua_State * lua)
 	{
-		assert(lua_gettop(lua) >= 1);
+		assert(lua_gettop(lua) == 1);
 		*g_running = lua_toboolean(lua, 1) != 0;
 		return 0;
 	}

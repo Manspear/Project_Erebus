@@ -184,4 +184,18 @@ namespace Nurn
 
 		return result;
 	}
+
+	void NurnEngine::pushQuickBlendPacket(const QuickBlendPacket& packet)
+	{
+		this->packager->pushQuickBlendPacket(packet);
+	}
+
+	bool NurnEngine::fetchQuickBlendPacket(QuickBlendPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getQuickBlendQueue()->pop(packet);
+
+		return result;
+	}
 }

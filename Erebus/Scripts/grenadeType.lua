@@ -54,11 +54,7 @@ function CreateGrenadeType()
 		end--]]
 
 		local hm = GetHeightmap(self.position)
-		local height = hm.asset:GetHeight(self.position.x, self.position.z)
-		--print(self.position.x)
-		--print(self.position.z)
-		--print(height)
-		if hm and hm.asset:GetHeight(self.position.x, self.position.z) > self.position.y then
+		if not hm or hm.asset:GetHeight(self.position.x, self.position.z) > self.position.y then
 			result = true
 		else
 			local collisionIDs = self.sphereCollider:GetCollisionIDs()
@@ -73,6 +69,7 @@ function CreateGrenadeType()
 
 		return result
 	end
+
 	function type:Update(dt)
 		result = {} 
 		self.explodetime = self.explodetime + dt

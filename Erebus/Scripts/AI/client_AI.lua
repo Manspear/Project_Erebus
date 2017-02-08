@@ -61,6 +61,26 @@ function clientAIState.deadState.exit(enemy, player)
 
 end 
 
+function changeToState(enemy, player, changeState)
+
+	enemy.state.exit(enemy,player)
+
+	if changeState == "IdleState" then
+		enemy.state = clientAIState.idleState
+	end
+	if changeState == "FollowState" then
+		enemy.state = clientAIState.followState
+	end
+	if changeState == "AttackState" then
+		enemy.state = clientAIState.attackState
+	end
+	if changeState == "DeadState" then	
+		enemy.state = clientAIState.deadState
+	end 
+
+	enemy.state.enter(enemy,player)
+end
+
 
 function getAIStatePacket(enemy, player)
 	netAIValue, transformID, aiState = Network.GetAIStatePacket()
@@ -102,6 +122,7 @@ function getAITransformPacket()
 	end
 end
 
+baseReturn.changeToState = changeToState
 baseReturn.getAIStatePacket = getAIStatePacket
 baseReturn.getAITransformPacket = getAITransformPacket
 baseReturn.clientAIState = clientAIState

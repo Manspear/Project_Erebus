@@ -99,16 +99,12 @@ void NetworkController::startNetworkReceiving()
 
 bool NetworkController::acceptNetworkCommunication()
 {
-	int counter = 0;
-	while (initalized && counter < 20)
+
+	if (network.AcceptCommunication())
 	{
-		if (network.AcceptCommunication())
-		{
-			return true;
-		}
-		counter++;
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		return true;
 	}
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 	return false;
 }
@@ -202,6 +198,16 @@ void NetworkController::sendChargingPacket(const ChargingPacket& packet)
 bool NetworkController::fetchChargingPacket(ChargingPacket &packet)
 {
 	return network.fetchChargingPacket(packet);
+}
+
+void NetworkController::sendQuickBlendPacket(const QuickBlendPacket& packet)
+{
+	network.pushQuickBlendPacket(packet);
+}
+
+bool NetworkController::fetchQuickBlendPacket(QuickBlendPacket& packet)
+{
+	return network.fetchQuickBlendPacket(packet);
 }
 
 double NetworkController::timeSinceLastTransformPacket()

@@ -3,6 +3,8 @@ local stateScript = require("Scripts.AI.states")
 local clientAIScript = require("Scripts.AI.client_AI")
 
 MAX_ENEMIES = 10
+ENEMY_MELEE = 1
+ENEMY_RANGED = 2
 enemies = {}
 
 SFX_AGGRO = "Goblin/Voice/Goblin laugh aggro.ogg"
@@ -10,7 +12,100 @@ SFX_ATTACK = "Goblin/Voice/albin goblin - attack3.ogg"
 SFX_HURT = "Goblin/Voice/albin goblin alerted.ogg"
 SFX_DEAD = { "Goblin/Voice/albin goblin - death.ogg", "Goblin/Machine/Goblin Machine Dead.ogg"}
 
-function LoadEnemies(n)
+function CreateEnemy(type, position)
+	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
+
+	local i = #enemies+1
+	enemies[i] = {}
+	enemies[i].timeScalar = 1.0
+	enemies[i].transformID = Transform.Bind()
+	enemies[i].movementSpeed = math.random(5,20)
+	enemies[i].health = 20
+	enemies[i].alive = true
+	enemies[i].effects = {}
+	enemies[i].attackCountdown = 1
+	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
+
+	enemies[i].Hurt = function(self,damage)
+		local pos = Transform.GetPosition(self.transformID)
+
+		self.health = self.health - damage
+		if self.health <= 0 then
+			for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
+			for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
+			if Network.GetNetworkHost() == true then
+				print("Dead for host", enemies[i].transformID)
+				self:Kill(stateScript)
+			else
+				print("Dead for client", enemies[i].transformID)
+				self:Kill(clientAIScript)
+			end
+		else
+			self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+		end
+	end
+
+	enemies[i].Kill = function(self, script)
+		self.health = 0
+		self.alive = false
+		Transform.ActiveControl(self.transformID,false)
+		SphereCollider.SetActive(self.sphereCollider, false)
+		inState = "DeadState" 
+		script.changeToState(enemies[i],player,inState)
+
+		if self.alive then
+			self.health = 0
+			self.alive = false
+			Transform.ActiveControl(self.transformID,false)
+
+			inState = "DeadState"
+			script.changeToState(enemies[i], player, inState)
+		end
+	end
+
+	enemies[i].Spawn = function(self,position)
+		self.alive = true
+		self.health = 20
+		self.position.x = position.x
+		self.position.y = position.y
+		self.position.z = position.z
+		Transform.ActiveControl(self.transformID,true)
+	end
+
+	Transform.SetPosition(enemies[i].transformID, position)
+	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
+	enemies[i].sphereCollider:SetRadius(2)
+	CollisionHandler.AddSphere(enemies[i].sphereCollider)
+
+	enemies[i].animationController = CreateEnemyController(enemies[i])
+
+	if Network.GetNetworkHost() == true then
+		enemies[i].state = stateScript.state.idleState
+		enemies[i].animationState = 1
+		enemies[i].range = 4
+		enemies[i].target = nil
+	else
+		enemies[i].state = clientAIScript.clientAIState.idleState
+	end
+
+	local modelName = ""
+	if type == ENEMY_MELEE then
+		modelName = "Models/Goblin.model"
+	else
+		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
+	end
+
+	local model = Assets.LoadModel(modelName)
+
+	assert( model, "Failed to load model Models/Goblin.model" )
+
+	Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)
+
+	--NOTE: Not sure if we need this?
+	return enemies[i]
+end
+
+--[[function LoadEnemies(n)
 	if n > MAX_ENEMIES then n = MAX_ENEMIES end
 	for i=1, n do
 		enemies[i] = {}
@@ -100,7 +195,7 @@ function LoadEnemies(n)
 	for i=1, n do
 		Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)
 	end
-end
+end--]]
 
 function UnloadEnemies()
 end

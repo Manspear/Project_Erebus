@@ -23,7 +23,7 @@ function state.idleState.exit(enemy,player)
 end
 
 function state.followState.enter(enemy,player)
-	print("Enter FOLLOW")
+	--print("Enter FOLLOW")
 	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
@@ -51,7 +51,7 @@ function state.followState.update(enemy,player,dt)
 
 			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.1 then
 				enemy.target = nil
-				print("DISTANCE")
+				--print("DISTANCE")
 			end
 
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
@@ -102,7 +102,7 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	print("DEAD", enemy.transformID)
+	--print("DEAD", enemy.transformID)
 	enemy.animationController:doNothing()
 end
 
@@ -121,23 +121,27 @@ function changeToState(enemy,player,changeState)
 	--print(enemy.transformID)
 	if changeState == "IdleState" then
 		--print("changeToState 1")
+		--print("Sending Idle", enemy.transformID)
 		Network.SendAIStatePacket(enemy.transformID, 0)
 		enemy.state = state.idleState
 	end
 
 	if changeState == "FollowState" then
 		--print("changeToState 2")
+		--print("Sending Follow", enemy.transformID)
 		Network.SendAIStatePacket(enemy.transformID, 1)
 		enemy.state = state.followState
 	end
 	if changeState == "AttackState" then
 		--print("changeToState 3")
+		--print("Sending Attack", enemy.transformID)
 		Network.SendAIStatePacket(enemy.transformID, 2)
 		enemy.state = state.attackState
 	end
 
 	if changeState == "DeadState" then	
 		--print("changeToState 4")
+		--print("Sending Dead", enemy.transformID)
 		Network.SendAIStatePacket(enemy.transformID, 3)
 		enemy.state = state.deadState
 	end 
