@@ -70,6 +70,12 @@ namespace Gear
 		//----------------------
 
 	private:
+		GLfloat quadVertices[20] = {
+			-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+			1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+			1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		};
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
 		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
@@ -77,6 +83,7 @@ namespace Gear
 		std::vector<Lights::PointLight*> addLightQueue;
 		std::vector<Lights::PointLight*> updateLightQueue;
 		std::vector<Lights::PointLight*> removeLightQueue;
+		std::vector<Lights::PointLight*> dynamicPointLights;
 
 		GLuint lightBuffer = 0; //StorageBuffer for point lights
 		int drawMode = 1; //Texture draw mode
