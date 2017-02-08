@@ -40,9 +40,9 @@ end
 
 function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
-	if enemy.target == nil then
+	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-
+		print("Follow",length)
 		if length >enemy.visionRange then
 			inState = "IdleState" 
 			changeToState(enemy,player,inState)
@@ -68,12 +68,12 @@ function state.followState.update(enemy,player,dt)
 		AI.AStarSearch(enemy.lastPos,Transform.GetPosition(player.transformID),enemy.transformID)
 
 		if dir.y ~= -1  then
-			enemy.target = dir
+			enemy.subPathtarget = dir
 		end
 	
-	elseif enemy.target ~= 0 then
+	elseif enemy.subPathtarget ~= 0 then
 			local pos = Transform.GetPosition(enemy.transformID)
-			local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
+			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 			Transform.SetLookAt(enemy.transformID,direction)
 			
@@ -83,8 +83,8 @@ function state.followState.update(enemy,player,dt)
 
 			Transform.SetPosition(enemy.transformID,pos)
 
-			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.8 then
-				enemy.target = nil
+			if AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget) < 0.8 then
+				enemy.subPathtarget = nil
 			end
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
 	end
@@ -93,7 +93,7 @@ function state.followState.update(enemy,player,dt)
 end
 
 function state.followState.exit(enemy,player)
-
+	AI.ClearAStar(enemy.transformID)
 end
 
 function state.actionState.enter(enemy,player)
@@ -124,60 +124,60 @@ end
 function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 
 	enemy.actionCountDown = enemy.actionCountDown- dt
-	if enemy.target ~= nil then
+	print("IN HERE", enemy.transformID)
+	if enemy.subPathtarget ~= nil then
 		local pos = Transform.GetPosition(enemy.transformID)
-		local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
+		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 		Transform.SetLookAt(enemy.transformID,direction)
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
-
+		
 		Transform.SetPosition(enemy.transformID,pos)
 
-		rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.target)
+		rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 		if rangeTest < 0.8 then
-			enemy.target = nil
+			enemy.subPathtarget = nil
 			local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 			Transform.SetLookAt(enemy.transformID,direction)
 		end
-
 	else
---
+		local dir = AI.NavigateMesh(enemy.transformID)
+		if dir.y ~= -1 and enemy.pathTarget ~= nil  then
+			enemy.subPathtarget = dir
+			print("Subtarget this fucker")
+		end
+	end
+
 --	--- TIME TO DO ACTIONS
 		length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
---
---		if length > player.innerCirclerange then
---			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
---			enemy.insideInnerCircleRange = false
---
---			inState = "FollowState" 
---			changeToState(enemy,player,inState)
---		else
---			if enemyManager.actionEnemy == -1 then
---
---				print("THINGS ARE GOING TO FUCKING DIE")
---				enemyManager.actionEnemy = enemy.transformID
---				enemy.actionCountDown = 2
---				randomNum = math.random(0, 0)
---				if randomNum == 0 then
---				
---					inState = "AttackState" 
---					changeToState(enemy,player,inState)
---
---				end
---
---			end
---		end
-			local dir = AI.NavigateMesh(enemy.transformID)
-			if dir.y ~= -1  then
-				enemy.target = dir
+
+		if length > player.innerCirclerange then
+			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
+			enemy.insideInnerCircleRange = false
+			inState = "FollowState" 
+			changeToState(enemy,player,inState)
+		else
+			print("CAN I ATTACK PLS", enemy.transformID)
+
+			if enemyManager.actionEnemy == -1 and enemy.actionCountDown<0 then
+				enemyManager.actionEnemy = enemy.transformID
+				randomNum = math.random(0, 0)
+				if randomNum == 0 then
+				
+					inState = "AttackState" 
+					changeToState(enemy,player,inState)
+
+				end
+
 			end
-	end
+		end
+
 end
 
 function state.positioningInnerState.exit(enemy,player)
-	
+		AI.ClearAStar(enemy.transformID)
 end
 
 function state.positioningOuterState.enter(enemy,player)
@@ -192,12 +192,12 @@ end
 function state.positioningOuterState.update(enemy,player,dt)
 	
 	if(player.nrOfInnerCircleEnemies >= 3) then
-		if enemy.target ~= nil then
+		if enemy.subPathtarget ~= nil then
 
 			local pos = Transform.GetPosition(enemy.transformID)
 
 				--print("I'm in outer circle")
-				local direction = AI.NormalizeDir(enemy.transformID,enemy.target)
+				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 				Transform.SetLookAt(enemy.transformID,direction)
 			
@@ -206,9 +206,9 @@ function state.positioningOuterState.update(enemy,player,dt)
 
 				Transform.SetPosition(enemy.transformID,pos)
 
-				rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.target)
+				rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 				if rangeTest < 0.9 then
-					enemy.target = nil
+					enemy.subPathtarget = nil
 					local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 					Transform.SetLookAt(enemy.transformID,direction)
 				end
@@ -248,26 +248,25 @@ function state.attackState.enter(enemy,player)
 	Transform.SetLookAt(enemy.transformID,direction)
 
 	Transform.SetScale(enemy.transformID,2)
-
+	enemy.actionCountDown = 1.2
 end
 
 function state.attackState.update(enemy,player,dt,enemyManager)
 
 	length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-	if length > enemy.range then
-		inState = "FollowState" 
-		changeToState(enemy,player,inState)
-	end
 
+	enemy.actionCountDown= enemy.actionCountDown - dt
 
 	if length < enemy.range then
-		player:Hurt(12)
-		--player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies - 1
-		enemyManager.actionEnemy = -1
+		if enemy.actionCountDown <0 then
+			player:Hurt(12)
+			enemyManager.actionEnemy = -1
 		--print("Fucking ActionEnemy", enemy.range )
-		inState = "PositioningInnerState" 
-		changeToState(enemy,player,inState)
+			inState = "PositioningInnerState" 
+			changeToState(enemy,player,inState)
+		end
 	else
+
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID, Transform.GetPosition(player.transformID))
 		
@@ -278,11 +277,19 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		
 		Transform.SetPosition(enemy.transformID,pos)
 	end
+	if length > 8 then
+			enemyManager.actionEnemy = -1
+		inState = "FollowState" 
+		changeToState(enemy,player,inState)
+	end
 end
 
 function state.attackState.exit(enemy,player)
 	Transform.SetScale(enemy.transformID,1)
 	enemy.animationController:doWalk()
+
+	enemy.actionCountDown = 1
+	player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies - 1
 
 end 
 

@@ -19,6 +19,8 @@ namespace LuaAI
 	int clearMap(lua_State * lua);
 	int blurIM(lua_State * lua);
 
+	int clearAStarSearch(lua_State * lua);
+
 	int setSpecificTarget(lua_State * lua);
 
 	int aStarSearch(lua_State * lua);

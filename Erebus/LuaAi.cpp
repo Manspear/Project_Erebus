@@ -30,6 +30,7 @@ namespace LuaAI
 			{ "SetSpecificTarget",setSpecificTarget },
 			{ "Blur",blurIM },
 			{ "AStarSearch",aStarSearch },
+			{ "ClearAStar",clearAStarSearch },
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(L, regs, 0);
@@ -231,6 +232,7 @@ namespace LuaAI
 		//AI->blur();
 		return 0;
 	}
+	
 	int setSpecificTarget(lua_State * lua)
 	{
 		if (lua_gettop(lua) >= 1)
@@ -318,7 +320,15 @@ namespace LuaAI
 		return 0;
 	}
 
-	
+	int clearAStarSearch(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 1)
+		{
+			AI->clearAStarSearch(lua_tointeger(lua,1));
+		}
+
+		return 0;
+	}
 
 	int draw(lua_State * lua)
 	{

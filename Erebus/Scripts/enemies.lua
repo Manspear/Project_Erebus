@@ -56,7 +56,6 @@ function LoadEnemies(n)
 		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 		enemies[i].sphereCollider:SetRadius(2)
 		CollisionHandler.AddSphere(enemies[i].sphereCollider)
-
 		enemies[i].state = stateScript.state.idleState
 
 
@@ -65,7 +64,8 @@ function LoadEnemies(n)
 		enemies[i].insideInnerCircleRange = false
 
 		enemies[i].visionRange = 30
-		enemies[i].target = nil
+		enemies[i].subPathtarget = nil
+		enemies[i].pathTarget = nil
 
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 		enemies[i].maxActionCountDown = 3
@@ -105,8 +105,11 @@ function UpdateEnemies(dt)
 			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 			AI.AddIP(enemies[i].transformID,-1,0)
 		end
-			AI.AddIP(player.transformID,1,0)
-		tempPlayerPosition = Transform.GetPosition(player.transformID)
+		AI.ClearMap(player.lastPos,0)
+		player.lastPos = Transform.GetPosition(player.transformID)
+		
+		AI.AddIP(player.transformID,1,0)
+		
 	end
 	aiScript.updateEnemyManager(enemies,player)
 	local tempdt

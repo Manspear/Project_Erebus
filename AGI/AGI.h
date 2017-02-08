@@ -101,7 +101,7 @@ namespace AGI
 
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.4f;  // Never above 1
+			resolution = 0.67f;  // Never above 1
 
 			dynamicInfluenceMap = nullptr;
 			staticInfluenceMap = nullptr;
@@ -187,7 +187,9 @@ namespace AGI
 					{
 						int tempStrength = getCombinedStrength(w, h,30);
 
-						if (tempStrength == 0)
+						if (dynamicInfluenceMap[w][h]->checkIfOccupied())
+							debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(42, 0, 42));
+						else if (tempStrength == 0)
 							debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(0, 0, 0));
 						else
 							debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
@@ -614,8 +616,6 @@ namespace AGI
 			}
 			else
 			{
-				int xTarget = round(((target.x / mapWidth)*imWidth));
-				int yTarget = round(((target.z / mapHeight)*imHeight));
 
 				std::vector<InfluenceNode*> openList;
 
@@ -624,15 +624,15 @@ namespace AGI
 				InfluenceNode* starterNode = dynamicInfluenceMap[xFrom][yFrom];
 				InfluenceNode* finishNode = nullptr;
 
-				if (starterNode != nullptr && (xFrom != xTarget && yFrom != yTarget))
+				if (starterNode != nullptr && (xFrom != xPlayerPos || yFrom != yPlayerPos))
 				{
 					starterNode->setParent(nullptr);
 
-					addToClosedList(starterNode, xTarget, yTarget, openList, closedListList);
+					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList, closedListList);
 
-					while (finishNode == nullptr && closedListList.size() < 26)
+					while (finishNode == nullptr && closedListList.size() < 50)
 					{
-						finishNode = checkOpenList(xTarget, yTarget, openList, closedListList);
+						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, closedListList);
 					}
 
 					float countDown =66;
@@ -653,6 +653,23 @@ namespace AGI
 
 					//addInfluenceAroundPath(enemyPos);
 				}
+			}
+		}
+
+		AGI_API void clearAStarSearch(int id)
+		{
+			int enemyPos = -1;
+			for (int n = 0; n < enemies.size(); n++)
+			{
+				if (enemies[n].matchId(id))
+				{
+					enemyPos = n;
+				}
+			}
+
+			if (enemyPos != -1)
+			{
+				enemies[enemyPos].clearPath();
 			}
 		}
 
@@ -765,8 +782,8 @@ namespace AGI
 			if (dynamicInfluenceMap[xFrom][yFrom] == nullptr)
 				return false;
 
-			if (dynamicInfluenceMap[xFrom][yFrom]->getStrength() < 0)
-				return false;
+			//if (dynamicInfluenceMap[xFrom][yFrom]->getStrength() < 0)
+			//	return false;
 
 			if (dynamicInfluenceMap[xFrom][yFrom]->checkIfOccupied())
 				return false;
@@ -774,6 +791,10 @@ namespace AGI
 
 			for (int n = 0; n < openList.size(); n++)
 			{
+				
+				
+				//debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(111, 111, 2));
+				//debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(111,111, 2));
 				if (openList[n] == dynamicInfluenceMap[xFrom][yFrom])
 					return false;
 			}
@@ -785,9 +806,9 @@ namespace AGI
 			}
 
 			bool returnerBool = true;
-			for (int n = 0; n < enemies.size(); n++)
+		/*	for (int n = 0; n < enemies.size(); n++)
 			{
-				for (int i = 0; i < 4; i++)
+				for (int i = 0; i <2 ; i++)
 				{
 					if (enemies[n].targetPath.size() > 0 && enemies[n].targetPath.size() > i)
 					{
@@ -797,7 +818,7 @@ namespace AGI
 							returnerBool = false;
 					}
 				}
-			}
+			}*/
 
 			return returnerBool;
 		}

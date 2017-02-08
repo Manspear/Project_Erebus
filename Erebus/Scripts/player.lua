@@ -42,6 +42,8 @@ function LoadPlayer()
 	player.nrOfInnerCircleEnemies = 0
 	player.nrOfOuterCircleEnemies = 0
 
+	player.lastPos = Transform.GetPosition(player.transformID)
+
 	player.shootCD = 0.3
 
 	player.animationController = CreatePlayerController(player)
