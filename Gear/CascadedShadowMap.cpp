@@ -99,14 +99,14 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 			glm::vec3 fc = (mainCam->getPosition() - (-direction * splitPlanes[CascadeID].y));
 
 			glm::vec4 vertices[8] = {
-				glm::vec4(nc - up * nearHeight * 0.5f - right * nearWidth * 0.5f, 1), // nbl (near, bottom, left)
-				glm::vec4(nc - up * nearHeight * 0.5f + right * nearWidth * 0.5f, 1), // nbr
-				glm::vec4(nc + up * nearHeight * 0.5f + right * nearWidth * 0.5f, 1), // ntr
-				glm::vec4(nc + up * nearHeight * 0.5f - right * nearWidth * 0.5f, 1), // ntl
-				glm::vec4(fc - up * farHeight  * 0.5f - right * farWidth * 0.5f, 1), // fbl (far, bottom, left)
-				glm::vec4(fc - up * farHeight  * 0.5f + right * farWidth * 0.5f, 1), // fbr
-				glm::vec4(fc + up * farHeight  * 0.5f + right * farWidth * 0.5f, 1), // ftr
-				glm::vec4(fc + up * farHeight  * 0.5f - right * farWidth * 0.5f, 1), // ftl
+				glm::vec4(nc - up * nearHeight - right * nearWidth, 1), // nbl (near, bottom, left)
+				glm::vec4(nc - up * nearHeight + right * nearWidth, 1), // nbr
+				glm::vec4(nc + up * nearHeight + right * nearWidth, 1), // ntr
+				glm::vec4(nc + up * nearHeight - right * nearWidth, 1), // ntl
+				glm::vec4(fc - up * farHeight - right * farWidth, 1), // fbl (far, bottom, left)
+				glm::vec4(fc - up * farHeight + right * farWidth, 1), // fbr
+				glm::vec4(fc + up * farHeight + right * farWidth, 1), // ftr
+				glm::vec4(fc + up * farHeight - right * farWidth, 1), // ftl
 			};
 
 			glm::vec4 frustumMin(std::numeric_limits<float>::max());
@@ -133,7 +133,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 			aminAABB[NUM_CASCADEDS+ CascadeID] = center;
 
-			glm::mat4 t_modelview = glm::lookAt(center - light.direction, center, glm::vec3(0, 1, 0));
+			glm::mat4 t_modelview = glm::lookAt(center - (light.direction * 50.0f), center, glm::vec3(0, 1, 0));
 			
 			glm::vec4 t_transf = t_modelview * vertices[0];
 
