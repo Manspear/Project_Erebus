@@ -23,7 +23,7 @@ function state.idleState.exit(enemy,player)
 end
 
 function state.followState.enter(enemy,player)
-	print("Enter FOLLOW")
+	--print("Enter FOLLOW")
 	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
@@ -51,7 +51,7 @@ function state.followState.update(enemy,player,dt)
 
 			if AI.DistanceTransPos(enemy.transformID,enemy.target) < 0.1 then
 				enemy.target = nil
-				print("DISTANCE")
+				--print("DISTANCE")
 			end
 
 			--local dist = AI.distanceTransTrans(enemy.transformID,player.transformID)
@@ -102,7 +102,7 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	print("DEAD", enemy.transformID)
+	--print("DEAD", enemy.transformID)
 	enemy.animationController:doNothing()
 end
 

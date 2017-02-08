@@ -23,6 +23,8 @@ namespace LuaNetwork
 			{ "GetAITransformPacket", getAITransformPacket },
 			{ "SendChargingPacket", sendChargingPacket },
 			{ "GetChargingPacket", getChargingPacket },
+			{ "SendQuickBlendPacket", sendQuickBlendPacket },
+			{ "GetQuickBlendPacket", getQuickBlendPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -302,6 +304,44 @@ namespace LuaNetwork
 		}
 
 		return 3;
+	}
+
+	int sendQuickBlendPacket(lua_State* lua)
+	{
+		uint16_t quickBlendFrom = lua_tointeger(lua, 1);
+		uint16_t quickBlendTo = lua_tointeger(lua, 2);
+		uint16_t damagedMaxTime = lua_tointeger(lua, 3);
+		uint16_t quickBlendSegment = lua_tointeger(lua, 4);
+
+		g_networkController->sendQuickBlendPacket(QuickBlendPacket(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment));
+
+		return 0;
+	}
+
+	int getQuickBlendPacket(lua_State* lua)
+	{
+		QuickBlendPacket quickBlendPacket;
+
+
+
+		if (g_networkController->fetchQuickBlendPacket(quickBlendPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, quickBlendPacket.data.quickBlendFrom);
+			lua_pushnumber(lua, quickBlendPacket.data.quickBlendTo);
+			lua_pushnumber(lua, quickBlendPacket.data.damagedMaxTime);
+			lua_pushnumber(lua, quickBlendPacket.data.quickBlendSegment);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 5;
 	}
 
 	int getNetworkHost(lua_State* lua)

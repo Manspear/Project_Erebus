@@ -31,12 +31,18 @@ public:
 	GEAR_API void updateLevelEditorCamera(float dt);
 	GEAR_API glm::vec3 &getRefPosition();
 	GEAR_API glm::vec3 &getRefDirection();
+	GEAR_API glm::vec3 getUp();
+	GEAR_API float getFov();
+	GEAR_API float getAspectRatio();
+	GEAR_API float getNearPlaneDistance();
+	GEAR_API float getFarPlaneDistance();
 private:
 	Inputs *inputs;
 	bool freeCam;
 	float horizontalAngle;
 	float verticalAngle;
 	float camSpeed;
+	float fov;
 
 	int dir;
 	bool inLevelEditor;

@@ -13,6 +13,7 @@ Window::Window()
 		std::cout << "Error init GLFW!" << std::endl;
 
 	createWindow(false);
+	glfwSwapInterval(0);
 	glClearColor(0, 0, 0, 0);
 }
 

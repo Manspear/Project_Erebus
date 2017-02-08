@@ -24,7 +24,9 @@ local scriptFiles =
 	"Scripts/staticAoEType.lua",
 	"Scripts/player.lua",
 	"Scripts/spellList.lua",
-	"Scripts/HUD.lua"
+	"Scripts/HUD.lua",
+	"Scripts/spellUtility.lua",
+	"Scripts/boss.lua"
 }
 
 local gameStarted = false
@@ -69,7 +71,7 @@ function UpdateGameplay(dt)
 		RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
 		for curID = 1, #collisionIDs do
 		print(collisionIDs[curID])
-			if collisionIDs[curID] == 0 then
+			if collisionIDs[curID] == 1 then
 			
 				gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 				print("hit")

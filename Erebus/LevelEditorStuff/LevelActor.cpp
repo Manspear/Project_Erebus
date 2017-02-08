@@ -270,10 +270,16 @@ std::map<std::string, LevelActorComponent*>& LevelActor::getAllComponents()
 
 void TW_CALL removeCompBtnCB(void *compIn)
 {
-	
 	LevelActorComponent*srcPtr = static_cast<LevelActorComponent *>(compIn);
-	srcPtr->removeComponent();
-	LevelActorHandler::getInstance()->updateTweakBars();
+	std::string message = "";
+	message += "Are you sure you would like to remove component:\n" + srcPtr->getName();
+	if (MessageBoxA(NULL, message.c_str(), "Level Editor - Remove Component", MB_YESNO) == IDYES)
+	{
+		
+		srcPtr->removeComponent();
+		LevelActorHandler::getInstance()->updateTweakBars();
+	}
+
 }
 
 bool LevelActor::setAsSelectedActor(TwBar * bar)

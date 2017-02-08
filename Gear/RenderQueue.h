@@ -12,8 +12,8 @@
 #include "WorkQueue.h"
 
 struct UniformValues {
-	int location;
-	GLfloat value;
+	std::string location;
+	glm::vec2 values;
 };
 
 using namespace Importer;

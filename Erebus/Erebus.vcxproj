@@ -230,12 +230,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
-    <None Include="effects.frag" />
-    <None Include="effects.vert" />
     <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\blackHole.lua" />
+    <None Include="Scripts\boss.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\console.lua" />
     <None Include="Scripts\death.lua" />
@@ -247,6 +247,8 @@
     <None Include="Scripts\hellPillar.lua" />
     <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />
+    <None Include="Scripts\ipconnect.lua" />
+    <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\main_menu.lua" />
     <None Include="Scripts\MenuUI.lua" />
@@ -267,6 +269,12 @@
     <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Shaders\anim.frag" />
+    <None Include="Shaders\anim.geom" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\animShadow.frag" />
+    <None Include="Shaders\animShadow.vert" />
+    <None Include="Shaders\blur.frag" />
+    <None Include="Shaders\blur.vert" />
     <None Include="Shaders\debugAABB.frag" />
     <None Include="Shaders\debugAABB.geom" />
     <None Include="Shaders\debugAABB.vert" />
@@ -289,16 +297,13 @@
     <None Include="Shaders\geometryPass.vert" />
     <None Include="Shaders\geometryPassShadow.frag" />
     <None Include="Shaders\geometryPassShadow.vert" />
-    <None Include="Shaders\geometryPass_notInstanced.frag" />
-    <None Include="Shaders\geometryPass_notInstanced.vert" />
     <None Include="Shaders\geometryPicking.frag" />
     <None Include="Shaders\geometryPicking.vert" />
     <None Include="Shaders\gloom.comp" />
-    <None Include="Shaders\heightmap.frag" />
-    <None Include="Shaders\heightmap.vert" />
     <None Include="Shaders\image.frag" />
     <None Include="Shaders\image.geom" />
     <None Include="Shaders\image.vert" />
+    <None Include="Shaders\include.glsl" />
     <None Include="Shaders\lightPass.frag" />
     <None Include="Shaders\lightPass.vert" />
     <None Include="Shaders\particle.frag" />

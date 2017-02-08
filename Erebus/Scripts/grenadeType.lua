@@ -69,6 +69,7 @@ function CreateGrenadeType()
 
 		return result
 	end
+
 	function type:Update(dt)
 		result = {} 
 		self.explodetime = self.explodetime + dt

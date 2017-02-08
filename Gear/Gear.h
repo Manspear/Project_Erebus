@@ -96,9 +96,6 @@ namespace Gear
 		ShaderProgram gBufferPicking;
 
 		//Shaders
-		ShaderProgram *quadShader;
-		ShaderProgram *lightPassShader;
-		ShaderProgram *blurShader;
 		ShaderProgram *effectShader;
 		ShaderProgram *gloomCompute;
 

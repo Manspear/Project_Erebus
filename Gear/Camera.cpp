@@ -24,6 +24,7 @@ Camera::Camera(float FoV, float aspectRatio, float nearPlane, float farPlane, In
 	freeCam = true;
 	dir = 1;
 	inLevelEditorMoveMouse = false;
+	fov = FoV;
 }
 
 Camera::~Camera()
@@ -258,6 +259,31 @@ glm::vec3 Camera::getDirection()
 {
 	//return this->camDirection;
 	return bufferCamDirection;
+}
+
+glm::vec3 Camera::getUp()
+{
+	return this->camUp;
+}
+
+float Camera::getFov()
+{
+	return this->fov;
+}
+
+GEAR_API float Camera::getAspectRatio()
+{
+	return this->aspectRatio;
+}
+
+float Camera::getNearPlaneDistance()
+{
+	return this->nearPlane;
+}
+
+float Camera::getFarPlaneDistance()
+{
+	return this->farPlane;
 }
 
 glm::vec3 &Camera::getRefPosition() {

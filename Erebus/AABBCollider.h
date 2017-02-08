@@ -13,6 +13,8 @@ public:
 	//getters
 	const glm::vec3& getMaxPos() const;
 	const glm::vec3& getMinPos() const;
+	const glm::vec3& getMaxPosLocal() const;
+	const glm::vec3& getMinPosLocal() const;
 	const glm::vec3& getCenterPos() const;
 
 	//overrides

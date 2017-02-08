@@ -1,6 +1,6 @@
 #include "Inputs.h"
 
-bool Inputs::keys[GLFW_KEY_LAST] = {false};
+bool Inputs::keys[GLFW_KEY_LAST] = { false };
 bool Inputs::keysRepeated[GLFW_KEY_LAST] = {};
 bool Inputs::keysPressedThisFrame[GLFW_KEY_LAST] = { false };
 bool Inputs::keysReleasedThisFrame[GLFW_KEY_LAST] = { false };
@@ -79,7 +79,7 @@ const std::unordered_map<int, int> Inputs::glfw3to2_keymapping = {// Keyboard ke
 { 336,	317 },
 { 335,	318 },
 };
-const std::unordered_map<int, int> Inputs::glfw2to3_keymapping ={
+const std::unordered_map<int, int> Inputs::glfw2to3_keymapping = {
 	// Keyboard key definitions [GLFW2 -> GLFW3]
 	{ 256, 255 },
 	{ 257, 256 },
@@ -148,8 +148,8 @@ const std::unordered_map<int, int> Inputs::glfw2to3_keymapping ={
 
 Inputs::Inputs(GLFWwindow* w)
 {
-	deltaPos = {0.0 , 0.0};
-	
+	deltaPos = { 0.0 , 0.0 };
+
 	scrollY = 0;
 	dScrollY = 0;
 	for (size_t i = 0; i < GLFW_KEY_LAST; i++)
@@ -168,8 +168,8 @@ Inputs::Inputs(GLFWwindow* w)
 
 	glfwGetCursorPos(window, &mousePos.x, &mousePos.y);
 
-	
-	
+
+
 }
 
 Inputs::~Inputs()
@@ -182,8 +182,8 @@ void Inputs::update()
 	glfwGetCursorPos(window, &newPos.x, &newPos.y);
 	deltaPos = { mousePos.x - newPos.x, mousePos.y - newPos.y };
 	mousePos = newPos;
-	
-	memset( textInput, 0, textInputLength );
+
+	memset(textInput, 0, textInputLength);
 	textInputLength = 0;
 
 	dScrollY = 0;
@@ -192,7 +192,7 @@ void Inputs::update()
 		keysRepeated[i] = false;
 		keysPressedThisFrame[i] = false;
 		keysReleasedThisFrame[i] = false;
-	} 
+	}
 	for (size_t i = 0; i < GLFW_MOUSE_BUTTON_LAST; i++)
 	{
 		mouseButtonsPressedThisFrame[i] = false;
@@ -256,57 +256,58 @@ MousePos Inputs::getDeltaPos()
 	return deltaPos;
 }
 
-char* Inputs::getTextInput( int* length )
+char* Inputs::getTextInput(int* length)
 {
-	if( length )
+	if (length)
 		*length = textInputLength;
 	return textInput;
 }
 
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
-{	
+{
+	if (key >= 0 && key <= GLFW_KEY_LAST) {
+		int isAntTweak = TwEventKeyGLFW(TwConvertKeyGLFW2to3(key), action);
+		int isAntTweak1 = 0;
+		if (isAntTweak == 0)
+			isAntTweak1 = TwEventKeyGLFW(TwConvertKeyGLFW3to2(key), action);
 
-	int isAntTweak = TwEventKeyGLFW(TwConvertKeyGLFW2to3(key), action);
-	int isAntTweak1 = 0;
-	if (isAntTweak == 0)
-		isAntTweak1 = TwEventKeyGLFW(TwConvertKeyGLFW3to2(key), action);
+		keys[key] = action > 0;
+		keysRepeated[key] = action > 0;
+		if (action == GLFW_PRESS) {
+			keysPressedThisFrame[key] = true;
+		}
+		if (action == GLFW_RELEASE) {
+			keysReleasedThisFrame[key] = true;
+		}
+		//if (action == GLFW_PRESS)
+		//	holdingDownKey = true;
+		//else if(action == GLFW_RELEASE){
+		//	std::cout << "releasing key!" << std::endl;
+		//	holdingDownKey = false;
 
-	keys[key] = action > 0;
-	keysRepeated[key] = action > 0;
-	if (action == GLFW_PRESS) {
-		keysPressedThisFrame[key] = true;
+		//}
+		//	
+		//keyCB = key;
+		//scancodeCB = scancode;
+		//actionCB = action;
+		//modsCB = mods;
+		////if (isAntTweak == 0 && isAntTweak1 == 0) {
+		//	keys[key] = action > 0;
+		//	keysRepeated[key] = action > 0;
+		//	if (action == GLFW_PRESS) {
+		//		keysPressedThisFrame[key] = true;
+		//	}
+		//	if (action == GLFW_RELEASE) {
+		//		keysReleasedThisFrame[key] = true;
+		//	}
+		//}
+
 	}
-	if (action == GLFW_RELEASE) {
-		keysReleasedThisFrame[key] = true;
-	}
-	//if (action == GLFW_PRESS)
-	//	holdingDownKey = true;
-	//else if(action == GLFW_RELEASE){
-	//	std::cout << "releasing key!" << std::endl;
-	//	holdingDownKey = false;
-
-	//}
-	//	
-	//keyCB = key;
-	//scancodeCB = scancode;
-	//actionCB = action;
-	//modsCB = mods;
-	////if (isAntTweak == 0 && isAntTweak1 == 0) {
-	//	keys[key] = action > 0;
-	//	keysRepeated[key] = action > 0;
-	//	if (action == GLFW_PRESS) {
-	//		keysPressedThisFrame[key] = true;
-	//	}
-	//	if (action == GLFW_RELEASE) {
-	//		keysReleasedThisFrame[key] = true;
-	//	}
-	//}
-
 }
 
 void Inputs::text_callback(GLFWwindow* window, unsigned int key)
 {
-	
+
 	int isAntTweak = TwEventCharGLFW(key, GLFW_PRESS);
 	if (isAntTweak == 0) {
 		if (key > 0 && key < 128 && textInputLength < INPUTS_MAX_TEXT_INPUT)
@@ -316,14 +317,16 @@ void Inputs::text_callback(GLFWwindow* window, unsigned int key)
 
 void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
-	int isAntTweak = TwEventMouseButtonGLFW(button, action);
-	if (isAntTweak == 0) {
-		mouseButtons[button] = action > 0;
-		if (action == GLFW_PRESS) {
-			mouseButtonsPressedThisFrame[button] = true;
-		}
-		if (action == GLFW_RELEASE) {
-			mouseButtonsReleasedThisFrame[button] = true;
+	if (button >= 0 && button <= GLFW_MOUSE_BUTTON_LAST) {
+		int isAntTweak = TwEventMouseButtonGLFW(button, action);
+		if (isAntTweak == 0) {
+			mouseButtons[button] = action > 0;
+			if (action == GLFW_PRESS) {
+				mouseButtonsPressedThisFrame[button] = true;
+			}
+			if (action == GLFW_RELEASE) {
+				mouseButtonsReleasedThisFrame[button] = true;
+			}
 		}
 	}
 

@@ -56,6 +56,14 @@ void compileShader(const std::string& content, GLuint shaderID)
 	}
 }
 
+bool StartsWith(const std::string& text, const std::string& token)
+{
+	if (text.length() < token.length())
+		return false;
+	return (text.compare(0, token.length(), token) == 0);
+}
+
+const static std::string INCLUDE_DIRECTIVE = "#include";
 std::string readShader(const std::string& filePath)
 {
 	std::ifstream shaderFile(filePath);
@@ -64,8 +72,15 @@ std::string readShader(const std::string& filePath)
 	}
 	std::stringstream fileContent;
 	std::string line;
+
 	while (std::getline(shaderFile, line)) {
-		fileContent << line << "\n";
+
+		if (StartsWith(line, INCLUDE_DIRECTIVE))
+		{
+			fileContent << readShader(baseFolder + line.substr(INCLUDE_DIRECTIVE.length() + 2, line.length() - (INCLUDE_DIRECTIVE.length() + 3)));
+		}
+		else
+			fileContent << line << "\n";
 	}
 
 	shaderFile.close();
