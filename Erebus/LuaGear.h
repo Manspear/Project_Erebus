@@ -17,7 +17,7 @@ namespace LuaGear
 							Animation* animations,
 							int* boundAnimations,
 							std::vector<ModelInstance>* forwardModels,
-							std::vector<ModelInstance>* blendingModels,
+							std::vector<textureBlendings>* textureBlends,
 							bool* queueModels,
 							bool* mouseVisible,
 							bool* fullscreen,
