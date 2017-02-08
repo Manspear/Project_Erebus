@@ -24,6 +24,8 @@ struct UniformBlendingValues
 
 struct textureBlendings
 {
+	int modelIndex;
+	int numTextures;
 	std::vector<TextureAsset*> textureVector;
 	glm::vec2 blendFactor[3];
 };

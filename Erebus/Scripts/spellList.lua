@@ -47,7 +47,7 @@ end
 
 
 function LoadSpellbookPlayer2()
-	local Hellpillar = {spell = CreateBlackHole(player2)}
+	local Hellpillar = {spell = CreateHellPillar(player2)}
 	table.insert(SpellListPlayer2, Hellpillar)
 
 	local BlackHole = {spell = CreateBlackHole(player2)}

@@ -72,7 +72,7 @@ function CreateHellPillar(entity)
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then		
 			self.cooldown = COOLDOWN_PILLAR	
-			self.startUpTime = 1.5		self.finishingTime = 5.5	self.startUpScale = 3
+			self.startUpTime = 1.5		self.finishingTime = 1.5	self.startUpScale = 3
 			self.maxScale = 3
 			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)

@@ -578,13 +578,16 @@ void RenderQueue::textureBlendingPass(std::vector<textureBlendings>* textureBlen
 
 	int numTextures = 0;	
 	std::vector<Importer::TextureAsset*> tA;
+	numInstance = 0;
+	int modelIndex = 0;
 
-	for (size_t i = 0; i < blendingModels->size(); i++)
+	for (int i = 0; i < textureBlends->size(); i++)
 	{
-		numInstance = 0;
-		for (int j = 0; j < blendingModels->at(i).worldIndices.size(); j++)
+		modelIndex = textureBlends->at(i).modelIndex;
+
+		for (int j = 0; j < blendingModels->at(modelIndex).worldIndices.size(); j++)
 		{
-			indices[j] = blendingModels->at(i).worldIndices[j];
+			indices[j] = blendingModels->at(modelIndex).worldIndices[j];
 			if (allTransforms[indices[j]].active)
 			{
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
@@ -594,45 +597,40 @@ void RenderQueue::textureBlendingPass(std::vector<textureBlendings>* textureBlen
 
 		if (atLeastOne)
 		{
-			modelAsset = blendingModels->at(i).asset;
+			modelAsset = blendingModels->at(modelIndex).asset;
 			meshes = modelAsset->getHeader()->numMeshes;
-		
-			numTextures = textureBlends->at(i).textureVector.size();
+
+			numTextures = textureBlends->at(i).numTextures;
 			tA = textureBlends->at(i).textureVector;
-		
+
 			//uniforms for how many textures to send to the frag shader
-			//glUniform1i(uniformLocations[TEXTURE_BLENDING][3], numTextures);
-			//glUniformMatrix4fv(uniformLocations[TEXTURE_BLENDING][2], numInstance, GL_FALSE, &tempMatrices[0][0][0]);
-
 			allShaders[TEXTURE_BLENDING]->setUniform4cfv(&tempMatrices[0][0][0], "worldMatrices", numInstance);
-
 
 			for (int k = 0; k < numTextures; k++)
 			{
 				allShaders[TEXTURE_BLENDING]->setUniform(textureBlends->at(i).blendFactor[k], blendValuesloc[k], 1);
 				allShaders[TEXTURE_BLENDING]->setUniform(k, texturesLoc[k]);
-			/*	glUniform1i(uniformLocations[TEXTURE_BLENDING][k + 6], k);*/
 				tA.at(k)->bind(GL_TEXTURE0 + k);
 			}
-		
-			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
-			{
-				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-				/*modelAsset->getMaterial()->bindTextures(allShaders[TEXTURE_BLENDING]->getProgramID());*/
 
+			for (int l = 0; l < modelAsset->getHeader()->numMeshes; l++)
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(l));
+				/*modelAsset->getMaterial()->bindTextures(allShaders[TEXTURE_BLENDING]->getProgramID());*/
 
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(l));
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(l), GL_UNSIGNED_INT, 0, numInstance);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
+
 		}
 	}
-	allShaders[TEXTURE_BLENDING]->unUse();
 
+	allShaders[TEXTURE_BLENDING]->unUse();
 }
 
 void RenderQueue::setWorkQueue( WorkQueue* workQueue )

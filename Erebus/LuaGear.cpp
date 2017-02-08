@@ -429,6 +429,7 @@ namespace LuaGear
 				texture = (TextureAsset*)lua_touserdata(lua, -1);
 
 				g_gearEngine->textureBlend.at(index).textureVector.push_back(texture);
+				g_gearEngine->textureBlend.at(index).numTextures = size;
 			}
 		}
 		return 0;
@@ -457,6 +458,7 @@ namespace LuaGear
 				g_blendingModels->push_back(instance);
 			}
 			g_blendingModels->at(index).worldIndices.push_back(transformID);
+			g_gearEngine->textureBlend.at(index).modelIndex = index;
 		}
 		lua_pushinteger(lua, index);
 		return 1;
