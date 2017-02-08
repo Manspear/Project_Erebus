@@ -151,8 +151,12 @@ void LevelHeightmap::update( float deltaTime )
 			{
 				for( int z=0; z<heightmap->getMapHeight(); z++ )
 				{
-					float height = heightmap->getHeightData(x,z) * (heightMax-heightMin)/255.0f + heightMin;
-					s_debugger->drawLine( glm::vec3( position.x+offset.x+x,position.y+offset.y+height-lineLength*0.5f,position.z+offset.z+z ), glm::vec3(position.x+offset.x+x,position.y+offset.y+height+lineLength*0.5f,position.z+offset.z+z) );
+					float heightData = heightmap->getHeightData(x,z);
+					if( heightData > 0.5f )
+					{
+						float height = heightmap->getHeightData(x,z) * (heightMax-heightMin)/255.0f + heightMin;
+						s_debugger->drawLine( glm::vec3( position.x+offset.x+x,position.y+offset.y+height-lineLength*0.5f,position.z+offset.z+z ), glm::vec3(position.x+offset.x+x,position.y+offset.y+height+lineLength*0.5f,position.z+offset.z+z) );
+					}
 				}
 			}
 		}
