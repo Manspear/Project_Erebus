@@ -163,7 +163,6 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 		}
 		if (deleted)
 			i = this->sphereColliders.size();
-
 	}
 
 	if (!deleted)
@@ -202,6 +201,26 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 			}
 			if (deleted)
 				i = this->obbColliders.size();
+
+		}
+	}
+
+	if (!deleted)
+	{
+		for (size_t i = 0; i < this->rayColliders.size(); i++) //check if it is a AABB collider and delete
+		{
+			for (size_t j = 0; j < this->rayColliders[i].size(); j++)
+			{
+				if (this->rayColliders[i][j]->getID() == ID)
+				{
+					this->rayColliders[i].erase(this->rayColliders[i].begin() + j);
+					deleted = true;
+					j = this->rayColliders[i].size();
+				}
+
+			}
+			if (deleted)
+				i = this->rayColliders.size();
 
 		}
 	}
