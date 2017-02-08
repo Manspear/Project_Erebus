@@ -18,6 +18,7 @@
 #include "SoundEngine.h"
 #include "WorkQueue.h"
 #include "CollisionHandler.h"
+#include "Frustum.h"
 #include "AGI.h"
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
@@ -49,7 +50,6 @@ struct ThreadData
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
-
 struct AnimationData
 {
 	Animation* animation;
@@ -65,7 +65,7 @@ DWORD WINAPI update( LPVOID args )
 {
 	ThreadData* data = (ThreadData*)args;
 
-	CollisionHandler collisionHandler;
+	CollisionHandler collisionHandler = CollisionHandler(10);
 	Transform* transforms = new Transform[MAX_TRANSFORMS];
 	int boundTransforms = 0;
 	int boundAnimations = 0;
@@ -82,18 +82,10 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
-	//AABBCollider aabb = AABBCollider(glm::vec3(-1,-1,-1),glm::vec3(1,1,1),glm::vec3(20,6,20));
-	//SphereCollider sphere = SphereCollider(glm::vec3(20,6,23),2);
-	//collisionHandler.addHitbox(&aabb,3);
-	//collisionHandler.addHitbox(&sphere, 3);
-
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
-	AABBCollider aabb = AABBCollider(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), glm::vec3(31.3, 8.5, 12.1));
-
-	collisionHandler.addHitbox(&aabb);
 
 	ai.addDebug(Debugger::getInstance());
 
@@ -114,6 +106,11 @@ DWORD WINAPI update( LPVOID args )
 
 	while( data->running )
 	{
+		glm::vec3 cameraPosition = data->camera->getPosition();
+		glm::vec3 cameraLookDirection = data->camera->getDirection();
+		glm::vec3 cameraUp = data->camera->getUp();
+
+
 		DWORD waitResult = WaitForSingleObject( data->produce, THREAD_TIMEOUT );
 		if( waitResult == WAIT_OBJECT_0 )
 		{

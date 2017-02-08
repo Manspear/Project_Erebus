@@ -43,6 +43,9 @@ public:
 	void sendChargingPacket(const ChargingPacket& packet);
 	bool fetchChargingPacket(ChargingPacket &packet);
 
+	void sendQuickBlendPacket(const QuickBlendPacket& packet);
+	bool fetchQuickBlendPacket(QuickBlendPacket& packet);
+
 
 private:
 	void startNetworkSending();

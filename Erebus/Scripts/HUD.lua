@@ -15,7 +15,7 @@ function LoadHUD()
 	imageTextures["select"] = Assets.LoadTexture("Textures/select.dds")
 	imageTextures["crosshair"] = Assets.LoadTexture("Textures/crosshair.png")
 
-	screenImages["crosshair"] = UI.load(620, 340, 40, 40);
+	--screenImages["crosshair"] = UI.load(620, 340, 40, 40);
 
 	screenImages["healthBackground"] = UI.load(371, 680, 538, 32);
 	screenImages["healthBar"] = UI.load(405, 686, 470, 2);
@@ -101,7 +101,7 @@ function DrawHUD()
 	UI.drawImage(screenImages[2], imageTextures["number2"]);
 	UI.drawImage(screenImages[3], imageTextures["number3"]);
 
-	UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
+	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 end
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }

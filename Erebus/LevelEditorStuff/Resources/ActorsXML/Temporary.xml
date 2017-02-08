@@ -1,20 +1,11 @@
-<LevelActor type="Empty" displayName="New (2) (1) (1) (1)">
-    <LevelEnemy>
-        <MoveSpeed amount="5"/>
-        <Health amount="50"/>
-        <VisionRange amount="10"/>
-    </LevelEnemy>
+<LevelActor type="Empty" displayName="New" tileID="1">
     <LevelModel>
-        <ModelName>Goblin</ModelName>
+        <ModelName>WoodenCrate2</ModelName>
     </LevelModel>
-    <LevelParticleSystem>
-        <Offset x="0" y="4" z="0"/>
-        <Alive IsAlive="1"/>
-        <ParticleLocation Location="testWhite"/>
-    </LevelParticleSystem>
     <LevelTransform>
-        <Position x="75" y="13" z="204"/>
+        <Position x="31" y="8" z="67"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
     </LevelTransform>
 </LevelActor>
