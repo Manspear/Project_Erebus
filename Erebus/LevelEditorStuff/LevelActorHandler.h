@@ -35,7 +35,6 @@ public:
 	void setSelected( unsigned int id );
 	void setSelected( LevelActor* actor );
 	void setTweakBars( TweakBar* world, TweakBar* actor );
-	void setTweakBarBrush(TweakBar* brush);
 
 	LevelActor* getSelected();
 	std::map<unsigned int, LevelActor*>& getActors();
