@@ -177,7 +177,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	Camera camera(45.f, 1280.f / 720.f, 0.1f, 500.f, &inputs);
+	Camera camera(45.f, 1280.f / 720.f, 0.1f, 100.f, &inputs);
 	
 	PerformanceCounter counter;
 	double deltaTime;
@@ -281,7 +281,10 @@ int main()
 				window.createWindow(threadData.fullscreen);
 				fullscreen = threadData.fullscreen;
 			}
-
+			if (inputs.keyPressedThisFrame(GLFW_KEY_H))
+			{
+				engine.drawAABBSHADOW();
+			}
 			engine.update();
 			soundEngine.update(deltaTime);
 			camera.updateBuffer();

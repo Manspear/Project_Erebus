@@ -48,109 +48,15 @@ void CascadedShadowMap::bindTexture(ShaderProgram * shader, const char * name, G
 
 void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 {
-
 	if (true)
-	{
-		splitPlanes[0].x = mainCam->getNearPlane();
-		splitPlanes[0].y = 20.0f;
-
-		splitPlanes[1].x = 20.0f;
-		splitPlanes[1].y = 80.0f;
-
-		splitPlanes[2].x = 80.0f;
-		splitPlanes[2].y = 400.0f;
-
-		for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
-		{
-			glm::vec3 frustumCorners[8] =
-			{
-				glm::vec3(-1.0f, 1.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 0.0f),
-				glm::vec3(1.0f, -1.0f, 0.0f),
-				glm::vec3(-1.0f, -1.0f, 0.0f),
-				glm::vec3(-1.0f, 1.0f, 1.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f),
-				glm::vec3(1.0f, -1.0f, 1.0f),
-				glm::vec3(-1.0f, -1.0f, 1.0f),
-			};
-			glm::mat4 invViewProj = glm::transpose(mainCam->getProjectionWithNearFar(splitPlanes[CascadeID].x, splitPlanes[CascadeID].y) * mainCam->getViewMatrix());
-			invViewProj = glm::inverse(invViewProj);
-			//for (int i = 0; i < 8; i++)
-			//{
-			//	glm::vec4 temp = invViewProj * glm::vec4(frustumCorners[i],1);
-			//	frustumCorners[i] = glm::vec3(temp) / temp.w;
-			//}
-
-			//glm::mat4 cameraviewprojMatrix = mainCam->getViewMatrix();
-			//cameraviewprojMatrix = mainCam->getProjectionWithNearFar(splitPlanes[CascadeID].x, splitPlanes[CascadeID].y) * cameraviewprojMatrix;
-			//glm::mat4 invViewProj;
-			//cameraviewprojMatrix = glm::transpose(cameraviewprojMatrix);
-			//invViewProj = glm::inverse(cameraviewprojMatrix);
-
-			for (int i = 0; i < 8; i++)
-			{
-				glm::vec3 result;
-				glm::vec4 temp(frustumCorners[i].x, frustumCorners[i].y, frustumCorners[i].z, 1); //need a 4-part vector in order to multiply by a 4x4 matrix
-				glm::vec4 temp2;
-
-				temp2.x = invViewProj[0][0] * temp.x + invViewProj[0][1] * temp.y + invViewProj[0][2] * temp.z + invViewProj[0][3] * temp.w;
-				temp2.y = invViewProj[1][0] * temp.x + invViewProj[1][1] * temp.y + invViewProj[1][2] * temp.z + invViewProj[1][3] * temp.w;
-				temp2.z = invViewProj[2][0] * temp.x + invViewProj[2][1] * temp.y + invViewProj[2][2] * temp.z + invViewProj[2][3] * temp.w;
-				temp2.w = invViewProj[2][0] * temp.x + invViewProj[3][1] * temp.y + invViewProj[3][2] * temp.z + invViewProj[3][3] * temp.w;
-
-				result.x = temp2.x / temp2.w;	//view projection matrices make use of the w component
-				result.y = temp2.y / temp2.w;
-				result.z = temp2.z / temp2.w;
-				frustumCorners[i] = result;
-
-				//temp2 = invViewProj * glm::vec4(frustumCorners[i], 1);
-				//result = glm::vec3(temp2) / temp2.w;
-
-				frustumCorners[i] = result;
-			}
-			glm::vec3 frustumCenter;
-			for (int i = 0; i < 8; i++)
-			{
-				frustumCenter = frustumCenter + frustumCorners[i];
-			}
-			frustumCenter = frustumCenter / 8.0f;
-
-			float radius = (frustumCorners[0] - frustumCorners[6]).length() / 2.0f;
-
-			float texelsPerUnit = (float)this->height / (radius * 2.0f);
-			glm::mat4 scalar = glm::scale(glm::vec3(texelsPerUnit));
-
-			glm::vec3 zero(0, 0, 0);
-			glm::vec3 upDir(0, 1, 0);
-			glm::mat4 lookat, lookatInv;
-			glm::vec3 baselookAt(-light.direction);
-
-			lookat = glm::lookAt(zero, baselookAt, upDir);
-			lookat *= scalar;
-			lookatInv = glm::inverse(lookat);
-
-			frustumCenter = glm::vec3(lookat * glm::vec4(frustumCenter, 1));
-			frustumCenter.x = (float)floor(frustumCenter.x);
-			frustumCenter.y = (float)floor(frustumCenter.y);
-			frustumCenter = glm::vec3(lookatInv * glm::vec4(frustumCenter, 1));
-
-			glm::vec3 eye = frustumCenter - (light.direction * radius * 2.0f);
-
-			viewMatrices[CascadeID] = glm::lookAt(eye, frustumCenter, upDir);
-
-			projectionMatrices[CascadeID] = glm::ortho(-radius, radius, -radius, radius, -radius * 6.0f, radius * 6.0f);
-		}
-	}
-	//-----------------------------------------------------------------------------------------------------
-	if (false)
 	{
 
 		pos.z = 100 * sinf(sinCount) + 50;
 
 		sinCount += 0.003f;
 
-		this->nearPlane = mainCam->getNearPlane();
-		this->farPlane = mainCam->getFarPlane();
+		this->nearPlane = mainCam->getNearPlaneDistance();
+		this->farPlane = mainCam->getFarPlaneDistance();
 
 		for (int i = 0; i < NUM_CASCADEDS; i++)
 		{
@@ -160,19 +66,19 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 			splitPlanes[i] = glm::vec2(splitNear, splitFar);
 		}
 
-		for (int i = 0; i < NUM_CASCADEDS; i++)
-		{
-			farbound[i] = (farPlane + nearPlane - 2.0 * nearPlane * farPlane / splitPlanes[i].y) / (farPlane - nearPlane);
-			farbound[i] = (farbound[i] + 1) / 2.0;
-			//farbound[i] = 0.5f * (-splitPlanes[i].y * mainCam->getProjectionMatrix()[2][2] + mainCam->getProjectionMatrix()[3][2]) / splitPlanes[i].y + 0.5f;
-		}
+		//for (int i = 0; i < NUM_CASCADEDS; i++)
+		//{
+		//	farbound[i] = (farPlane + nearPlane - 2.0 * nearPlane * farPlane / splitPlanes[i].y) / (farPlane - nearPlane);
+		//	farbound[i] = (farbound[i] + 1) / 2.0;
+		//	//farbound[i] = 0.5f * (-splitPlanes[i].y * mainCam->getProjectionMatrix()[2][2] + mainCam->getProjectionMatrix()[3][2]) / splitPlanes[i].y + 0.5f;
+		//}
 
-		//pos = glm::vec3(200.0f, 10.0f, 200.0f);// mainCam->getPosition();
+		//pos = mainCam->getPosition();
 		glm::vec3 direction = mainCam->getDirection();
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::vec3 up = glm::normalize(glm::cross(right, glm::normalize(direction)));
 
-		printf("right: %s up: %s\n", glm::to_string(right).c_str(), glm::to_string(up).c_str());
+		//printf("right: %s up: %s\n", glm::to_string(right).c_str(), glm::to_string(up).c_str());
 
 		glm::vec3 lookat((pos + direction));
 		glm::mat4 camView = glm::lookAt(pos, lookat, up);
@@ -184,13 +90,13 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
 		{
 
-			float nearHeight = tanf(glm::radians(45.0f / 2)) * splitPlanes[CascadeID].x;
+			float nearHeight = tanf(glm::radians(mainCam->getFov() / 2)) * splitPlanes[CascadeID].x;
 			float nearWidth = nearHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
-			float farHeight = tanf(glm::radians(45.0f / 2)) * splitPlanes[CascadeID].y;
+			float farHeight = tanf(glm::radians(mainCam->getFov() / 2)) * splitPlanes[CascadeID].y;
 			float farWidth = farHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
 
-			glm::vec3 nc = (mainCam->getPosition() + direction * splitPlanes[CascadeID].x);
-			glm::vec3 fc = (mainCam->getPosition() + direction * splitPlanes[CascadeID].y);
+			glm::vec3 nc = (mainCam->getPosition() - (-direction * splitPlanes[CascadeID].x));
+			glm::vec3 fc = (mainCam->getPosition() - (-direction * splitPlanes[CascadeID].y));
 
 			glm::vec4 vertices[8] = {
 				glm::vec4(nc - up * nearHeight * 0.5f - right * nearWidth * 0.5f, 1), // nbl (near, bottom, left)
@@ -220,13 +126,14 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 				minExtents.z = std::fmin(minExtents.z, vW.z);
 				maxExtents.z = std::fmax(maxExtents.z, vW.z);
 			}
-
-			minAABB[CascadeID] = minExtents;
-			maxAABB[CascadeID] = maxExtents;
+			aminAABB[CascadeID] = minExtents;
+			amaxAABB[CascadeID] = maxExtents;
 
 			glm::vec3 center = nc + ((fc - nc) / 2.0f);
 
-			glm::mat4 t_modelview = glm::lookAt(center - light.direction * 50.0f, center, glm::vec3(0, 1, 0));
+			aminAABB[NUM_CASCADEDS+ CascadeID] = center;
+
+			glm::mat4 t_modelview = glm::lookAt(center - light.direction, center, glm::vec3(0, 1, 0));
 			
 			glm::vec4 t_transf = t_modelview * vertices[0];
 
@@ -266,7 +173,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 			glm::mat4 t_projection = t_shad_crop * t_ortho;
 
-			projectionMatrices[CascadeID] = t_projection;
+			projectionMatrices[CascadeID] = t_projection;// glm::ortho<float>(-50, 50, -50, 50, -50, 50);// t_projection;
 			viewMatrices[CascadeID] = t_modelview;
 
 			cropMatrices[CascadeID] = t_projection * t_modelview;
@@ -296,7 +203,7 @@ void CascadedShadowMap::initFramebuffer(int windowWidth, int windowHeight)
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, windowHeight, windowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, windowHeight, windowHeight, 0, GL_RG, GL_UNSIGNED_BYTE, NULL);
 	}
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);

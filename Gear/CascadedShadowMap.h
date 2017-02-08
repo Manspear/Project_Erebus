@@ -35,6 +35,7 @@ public:
 	void bindTexture(ShaderProgram *shader, const char *name, GLuint textureLoc, GLuint textureid);
 	void calcOrthoProjs(Camera* mainCam);
 	void calculateShadowMatrices(Camera* cam);
+	void drawAABB() { for (int i = 0; i < NUM_CASCADEDS; i++) { minAABB[i] = aminAABB[i];  maxAABB[i] = amaxAABB[i]; minAABB[i + NUM_CASCADEDS] = aminAABB[i + NUM_CASCADEDS]; } }
 	int getNumCascades() { return this->NUM_CASCADEDS; }
 	glm::mat4 viewMatrices[NUM_CASCADEDS+1];
 	glm::mat4 projectionMatrices[NUM_CASCADEDS+1];
@@ -45,8 +46,11 @@ public:
 	glm::vec3 pos;
 	float sinCount;
 
-	glm::vec3 minAABB[NUM_CASCADEDS];
+	glm::vec3 minAABB[NUM_CASCADEDS+ NUM_CASCADEDS];
 	glm::vec3 maxAABB[NUM_CASCADEDS];
+
+	glm::vec3 aminAABB[NUM_CASCADEDS + NUM_CASCADEDS];
+	glm::vec3 amaxAABB[NUM_CASCADEDS];
 
 	float farbound[NUM_CASCADEDS];
 

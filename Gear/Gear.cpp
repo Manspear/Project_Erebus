@@ -28,7 +28,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
-
+		shadow.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0]);
 	}
 
 	GearEngine::~GearEngine()
@@ -39,6 +39,9 @@ namespace Gear
 #pragma region init functions
 	void GearEngine::lightInit()
 	{
+		
+		this->updateLightQueue.push_back(l);
+
 		//Generate buffers
 		glGenBuffers(1, &lightBuffer); //Generate buffer to light data
 
@@ -270,33 +273,70 @@ namespace Gear
 		//queue.update(*transformCount, *allTrans);
 		Camera tempCamera;
 
-		glm::vec3 offset;
-		offset.x = camera->getDirection().x * 20.0f;
-		offset.y = 0.0f;
-		offset.z = camera->getDirection().z * 20.0f;
-
-		glm::vec3 pos;
-		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
-		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
-		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
-			
-		glm::vec3 target;
-
-		target.x = camera->getPosition().x + offset.x;
-		target.y = 0.0f;
-		target.z = camera->getPosition().z + offset.z;
-
-		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
-
-		tempCamera.setView(view);
-		tempCamera.setprojection(dirLights[0].projection);
+		shadow.calcOrthoProjs(camera);
 
 		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-
-		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);		
+		glCullFace(GL_BACK);	
 		
+		shadow.bind(0);
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+		shader->use();
+		shader->setUniform(shadow.viewMatrices[0], "viewMatrix");
+		shader->setUniform(shadow.projectionMatrices[0], "projectionMatrix");
+		shader->unUse();
+
+		shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
+		shader->use();
+		shader->setUniform(shadow.viewMatrices[0], "viewMatrix");
+		shader->setUniform(shadow.projectionMatrices[0], "projectionMatrix");
+		shader->unUse();
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+		shadow.unBind();
+
+		shadow.bind(1);
+		shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+		shader->use();
+		shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
+		shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
+		shader->unUse();
+
+		shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
+		shader->use();
+		shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
+		shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
+		shader->unUse();
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+		shadow.unBind();
+
+		shadow.bind(2);
+		shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+		shader->use();
+		shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
+		shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
+		shader->unUse();
+
+		shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
+		shader->use();
+		shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
+		shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
+		shader->unUse();
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+		shadow.unBind();
+
+		Debugger::getInstance()->drawAABB(shadow.minAABB[0], shadow.maxAABB[0], glm::vec3(1, 0, 0));
+		Debugger::getInstance()->drawAABB(shadow.minAABB[1], shadow.maxAABB[1], glm::vec3(0, 1, 0));
+		Debugger::getInstance()->drawAABB(shadow.minAABB[2], shadow.maxAABB[2], glm::vec3(0, 0, 1));
+
+		Debugger::getInstance()->drawSphere(shadow.minAABB[3], 2);
+		Debugger::getInstance()->drawSphere(shadow.minAABB[4], 2);
+		Debugger::getInstance()->drawSphere(shadow.minAABB[5], 2);
+
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
@@ -306,6 +346,7 @@ namespace Gear
 		queue.updateUniforms(camera);
 
 		gBuffer.use();
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		gBuffer.unUse();
@@ -328,7 +369,27 @@ namespace Gear
 		
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
-		
+
+		shader = queue.getShaderProgram(ShaderType::QUAD);
+		glViewport(10,10,200,200);
+		shader->use();
+		shadow.bindTexture(shader, "texture", 0, 0);
+		drawQuad(); //draws quad
+		shader->unUse();
+
+		glViewport(220, 10, 200, 200);
+		shader->use();
+		shadow.bindTexture(shader, "texture", 0, 1);
+		drawQuad(); //draws quad
+		shader->unUse();
+
+		glViewport(430, 10, 200, 200);
+		shader->use();
+		shadow.bindTexture(shader, "texture", 0, 2);
+		drawQuad(); //draws quad
+		shader->unUse();
+
+		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.draw();
 		text.draw();
 	}
@@ -377,25 +438,25 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLight()
 	{
-		if (updateLightQueue.size() > 0)
-		{
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
-			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-			for (int j = 0; j < updateLightQueue.size(); j++)
-			{
-				if ((int)updateLightQueue[j]->radius.a >= 0)
-				{
-					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
+		//if (updateLightQueue.size() > 0)
+		//{
+		//	glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		//	Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY); //get pointer of the data in the buffer
+		//	/*for (int j = 0; j < updateLightQueue.size(); j++)
+		//	{
+		//		if ((int)updateLightQueue[j]->radius.a >= 0)
+		//		{
+		//			Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
 
-					light.pos = updateLightQueue[j]->pos;
-					light.color = updateLightQueue[j]->color;
-					light.radius = updateLightQueue[j]->radius;
-				}
-			}
-			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-			updateLightQueue.clear();
-		}
+		//			light.pos = updateLightQueue[j]->pos;
+		//			light.color = updateLightQueue[j]->color;
+		//			light.radius = updateLightQueue[j]->radius;
+		//		}
+		//	}*/
+		//	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		//	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		//	//updateLightQueue.clear();
+		//}
 	}
 
 	GEAR_API void GearEngine::removeLight()
