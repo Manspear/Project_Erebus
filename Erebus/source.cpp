@@ -91,8 +91,8 @@ DWORD WINAPI update( LPVOID args )
 	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
 	SphereCollider sphere = SphereCollider(POINT33, 0.08f);
 	collisionHandler.addHitbox(&sphere,8);
-	AABBCollider aabb = AABBCollider(glm::vec3(-4,-40,-4),glm::vec3(4,40,4),glm::vec3(125, 35, 230));
-	collisionHandler.addHitbox(&aabb);
+	AABBCollider aabb = AABBCollider(glm::vec3(-400,-500,-400),glm::vec3(400,500,400),glm::vec3(125, 35, 230));
+	collisionHandler.addHitbox(&aabb,2);
 
 	float fov = data->camera->getFov();
 	float aspectRatio = data->camera->getAspectRatio();
@@ -148,12 +148,15 @@ DWORD WINAPI update( LPVOID args )
 		if (data->inputs->keyPressed(GLFW_KEY_H))
 		{
 			f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
-			if (f.pointCollision(POINT33))
-				std::cout << "I see point\n";
-			if (f.aabbCollision(&aabb,Debugger::getInstance()))
-				std::cout << "AABB COLLISION\n";
-			else
-				std::cout << "NO AABB COLLISION\n";
+			//if (f.pointCollision(POINT33))
+			//	std::cout << "I see point\n";
+			if (f.aabbCollision(&aabb, Debugger::getInstance()))
+				data->engine->print("I see it",400,400);
+
+			f.updateClipSpaceFrustum(data->camera->getViewPers());
+			if (f.clipSpaceAabbCollision(&aabb))
+				data->engine->print("NICLAS COLLISION", 600, 400);
+			
 		}
 			
 
