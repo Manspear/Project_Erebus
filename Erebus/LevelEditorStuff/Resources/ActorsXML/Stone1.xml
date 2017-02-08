@@ -1,0 +1,17 @@
+<LevelActor type="Stone" displayName="Stone1" tileID="1">
+    <LevelCollider type="0">
+        <Offset x="0" y="0.5" z="0.60000002"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="0" parentID="0"/>
+        <Radius r="2"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>Stone2</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="15.628646" y="18.387573" z="148.90273"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

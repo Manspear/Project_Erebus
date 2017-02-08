@@ -1,0 +1,137 @@
+<Level>
+    <LevelActor type="TileStuff" displayName="Tile Assets" tileID="1">
+        <LevelModel>
+            <ModelName>tile_assets</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TileStuff" displayName="Tile Placeholder" tileID="1">
+        <LevelModel>
+            <ModelName>tile_assets_placeholders</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TileStuff" displayName="tile1" tileID="1">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="36.5" min="3"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="1" surrounding0="2" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile1_128</TextureName>
+        </LevelHeightmap>
+        <LevelModel>
+            <ModelName>tile1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="128"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="settings" displayName="Tile Settings" tileID="1">
+        <LevelSettings>
+            <PlayerStart x="32.90625" y="7.4882813" z="145.625"/>
+            <HeightmapStart index="1"/>
+        </LevelSettings>
+        <LevelTransform>
+            <Position x="32.90625" y="7.4882813" z="145.625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="false"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TileStuff" displayName="tile2" tileID="2">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="60" min="30"/>
+            <Offset x="128" y="0" z="-128"/>
+            <ID heightmapID="2" surrounding0="1" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile2_heights</TextureName>
+        </LevelHeightmap>
+        <LevelModel>
+            <ModelName>tile2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="128"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree" tileID="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="1.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1" parentID="5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="3" y="7" z="3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="14.875" y="6.4257813" z="156.875"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New" tileID="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="3" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="3" y="2" z="1"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="119.07797" y="37.886684" z="210.72469"/>
+            <Rotation x="0" y="0.19114979" z="0"/>
+            <Scale x="1" y="4.8467674" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (1)" tileID="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="4" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="3" y="2" z="1"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="133.5" y="34.34375" z="216.5"/>
+            <Rotation x="0" y="0.19114979" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2)" tileID="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="5" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="3" y="2" z="1"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="16.40625" y="18.65625" z="153.125"/>
+            <Rotation x="0" y="0.19114979" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+</Level>

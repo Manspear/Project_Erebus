@@ -99,7 +99,7 @@ void LevelEditor::start() {
 	//
 	//}
 
-	HeightMap* hm = assets->load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
+	//HeightMap* hm = assets->load<HeightMap>( "Textures/mikael_stor2_heights_128a.png" );
 	//glm::vec3 hitPoint;
 	bool hasHit = false;
 	
@@ -142,7 +142,7 @@ void LevelEditor::start() {
 	engine->queueForwardModels(&forwardInstances);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
 
-	LevelActorFactory::getInstance()->loadWorld("Level2");
+	LevelActorFactory::getInstance()->loadWorld("Level1");
 
 	while (running && window.isWindowOpen())
 	{
