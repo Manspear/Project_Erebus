@@ -46,7 +46,7 @@ public:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
 	void forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues);
-	bool particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter>* emitters);
+	bool particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters);
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);

@@ -9,8 +9,8 @@ namespace Gear
 
 	}
 
-	ParticleEmitter::ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus,
-		float size, glm::vec3 direction, Importer::TextureAsset* texture, float growFactor)
+	ParticleEmitter::ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, 
+									float gravity, float foccus, float size, float growFactor)
 	{
 		this->extrovert = true;
 		timer = 0;
@@ -21,18 +21,18 @@ namespace Gear
 		this->particlePos = new SendStruct[maxParticles];
 		this->lifeTime = life;
 		this->partSpeed = speed;
-		this->particleRate = particleRate;
+		this->particleRate = 1 / particleRate;
 		this->partPerRate = partPerSprut;
 		this->gravityFactor = gravity;
 		this->focus = foccus;
 		this->particleSize = size;
-		this->direction = direction ;
-		this->textureAssetParticles = texture;
+		this->direction = { 0, 0, 0 };
+		this->textureAssetParticles = nullptr;
 		for (size_t i = 0; i <maxParticles; i++)
 		{
 			particlePos[i].size = this->particleSize;
 		}
-		shrinkage = growFactor;
+		this->shrinkage = growFactor;
 	}
 
 	void ParticleEmitter::emitterInit(Emitter emitter, Importer::Assets* assets)
@@ -103,7 +103,7 @@ namespace Gear
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
 					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10)) + this->position;
 					allParticles[nrOfActiveParticles].direction = glm::normalize(this->position - particlePos[nrOfActiveParticles].pos);
-					particlePos[nrOfActiveParticles].size = 1.0;
+					particlePos[nrOfActiveParticles].size = this->particleSize;
 					nrOfActiveParticles++;
 				}
 				timer = 0;
@@ -174,6 +174,22 @@ namespace Gear
 	GEAR_API void ParticleEmitter::setExtrovert(bool yesNo)
 	{
 		this->extrovert = yesNo;
+	}
+
+	GEAR_API void ParticleEmitter::activate()
+	{
+		this->isActive = true;
+		this->alive = true;
+	}
+
+	GEAR_API void ParticleEmitter::deActivate()
+	{
+		this->alive = false;
+	}
+
+	GEAR_API void ParticleEmitter::setTexture(Importer::TextureAsset * texture)
+	{
+		this->textureAssetParticles = texture;
 	}
 
 	void ParticleEmitter::setEmitterPos(glm::vec3 pos)

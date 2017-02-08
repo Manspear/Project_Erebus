@@ -61,25 +61,26 @@ function CreateFireEffectParticles()
 	return particle
 end
 
+CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.png");
 function createChargeParticles()
-	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
-	charge.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
-		
+	charge.ID = Emitter.Bind(38, 0.5, 25, 15, 5, 0, 0, 0, 1)  
+	Emitter.SetTexture(charge.ID, CHARGE_PARTICLES_TEX)
 	function charge.cast()
-		Particle.SetAlive(charge.fly)
+		Emitter.SetAlive(charge.ID)
 	end
 
 	function charge.die()
-		Particle.SetDead(charge.fly)	
+		Emitter.SetDead(charge.ID)	
 	end
 
 	function charge.update(pos)
-		Particle.SetPosition(charge.fly, pos)
+		Emitter.SetPosition(charge.ID, pos)
 	end
 
 	function charge.extrovert(yesNo)
-		Particle.SetExtro(charge.fly, yesNo)
+		Emitter.SetExtro(charge.ID, yesNo)
 	end
 
 	return charge

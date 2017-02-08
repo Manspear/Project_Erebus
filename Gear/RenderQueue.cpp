@@ -246,7 +246,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 	allShaders[FORWARD]->unUse();
 }
 
-bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter>* emitters)
+bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters)
 {
 	bool results = false;
 	allShaders[PARTICLES]->use();
@@ -277,11 +277,11 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 	
 	for (size_t i = 0; i < emitters->size(); i++)
 	{
-		if (emitters->at(i).isActive)
+		if (emitters->at(i)->isActive)
 		{
-			pos = emitters->at(i).getPositions();
-			emitters->at(i).getTexture()->bind(GL_TEXTURE0);
-			particleCount = emitters->at(i).getNrOfActiveParticles();
+			pos = emitters->at(i)->getPositions();
+			emitters->at(i)->getTexture()->bind(GL_TEXTURE0);
+			particleCount = emitters->at(i)->getNrOfActiveParticles();
 			std::cout << particleCount << std::endl;
 			glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);
 			glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);

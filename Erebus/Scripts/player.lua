@@ -134,7 +134,7 @@ function LoadPlayer2()
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
-	player2.charger = CreateChargeThing(player2)
+	--player2.charger = CreateChargeThing(player2)
 end
 
 function UnloadPlayer()

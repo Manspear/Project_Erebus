@@ -222,9 +222,9 @@ namespace Gear
 		particleSystem = &ps;
 	}
 
-	GEAR_API void GearEngine::queueEmitters(std::vector<Gear::ParticleEmitter>* emitters)
+	GEAR_API void GearEngine::queueEmitters(std::vector<Gear::ParticleEmitter*> &emitters)
 	{
-		particleEmitters = emitters;
+		particleEmitters = &emitters;
 	}
 
 	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)

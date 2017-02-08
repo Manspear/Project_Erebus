@@ -41,7 +41,7 @@ struct ThreadData
 	std::vector<ModelInstance>* forwardModels;
 	std::vector<AnimatedInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
-	std::vector<Gear::ParticleEmitter>* particleEmitters;
+	std::vector<Gear::ParticleEmitter*>* particleEmitters;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -92,7 +92,7 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->queueDynamicModels( data->models );
 	data->engine->queueAnimModels( data->animatedModels );
 	data->engine->queueParticles( *data->particleSystems );
-	data->engine->queueEmitters(data->particleEmitters);
+	data->engine->queueEmitters(*data->particleEmitters);
 	data->engine->queueForwardModels(data->forwardModels);
 
 	PerformanceCounter counter;
@@ -122,6 +122,8 @@ DWORD WINAPI update( LPVOID args )
 
 			for( int i=0; i<data->particleSystems->size(); i++ )
 				data->particleSystems->at(i)->update( (float)deltaTime );
+			for (int i = 0; i<data->particleEmitters->size(); i++)
+				data->particleEmitters->at(i)->update((float)deltaTime);
 
 			collisionHandler.checkCollisions();
 
@@ -198,7 +200,7 @@ int main()
 	std::vector<ModelInstance> forwardModels;
 	std::vector<AnimatedInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
-	std::vector<Gear::ParticleEmitter> particleEmitters;
+	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	ThreadData threadData =
 	{
 		&engine,
@@ -321,6 +323,8 @@ int main()
 	{
 		delete particleSystems[i];
 	}
+	for (int i = 0; i < particleEmitters.size(); i++)
+		delete particleEmitters.at(i);
 
 	glfwTerminate();
 

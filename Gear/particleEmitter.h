@@ -37,7 +37,7 @@ namespace Gear
 
 	public:
 		GEAR_API ParticleEmitter();
-		GEAR_API ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus, float size, glm::vec3 direction, Importer::TextureAsset* texture, float growFactor);
+		GEAR_API ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus, float size, float growFactor);
 		GEAR_API ~ParticleEmitter();
 		GEAR_API void emitterInit(Emitter emitter, Importer::Assets* assets);
 
@@ -50,6 +50,9 @@ namespace Gear
 		GEAR_API Importer::TextureAsset* getTexture();
 		GEAR_API void resetEmitter();
 		GEAR_API void setExtrovert(bool yesNo);
+		GEAR_API void activate();
+		GEAR_API void deActivate();
+		GEAR_API void setTexture(Importer::TextureAsset* texture);
 		
 		bool isActive;
 		glm::vec3 localPos;
