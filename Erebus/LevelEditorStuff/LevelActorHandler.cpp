@@ -242,7 +242,7 @@ void LevelActorHandler::exportToLua()
 		fopen_s( &file, fileDialog.getFilePath().c_str(), "w" );
 		if( file )
 		{
-			fprintf( file, "props = {}\nheightmaps = {}\ncolliders = {}\n" );
+			fprintf( file, "props = {}\nheightmaps = {}\ncolliders = {}\ntriggers = {}\n" );
 
 			for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 			{

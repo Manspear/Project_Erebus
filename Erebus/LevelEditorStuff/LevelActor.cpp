@@ -11,7 +11,8 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Collider",
 	"Player",
 	"Health Orb",
-	"Particle"
+	"Particle",
+	"Trigger"
 };
 
 void TW_CALL setDisplayCB(const void *value, void *s /*clientData*/)
@@ -176,10 +177,8 @@ std::string LevelActor::toLua()
 
 		LevelModel* model = getComponent<LevelModel>();
 		
-		if (getExportType() == EXPORT_COLLIDER || getExportType() == EXPORT_STATIC || model) {
-			LevelTransform* transform = getComponent<LevelTransform>();
-			ss << transform->toLua(fullName);
-		}
+		LevelTransform* transform = getComponent<LevelTransform>();
+		ss << transform->toLua(fullName);
 		if( model )
 		{
 			ss << model->toLua(fullName);

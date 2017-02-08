@@ -116,9 +116,9 @@ void LevelParticleSystem::postInitialize() {
 
 //TODO!!! ADD CB FOR ALIVE!!!!
 void LevelParticleSystem::setTwStruct(TwBar * twBar) {
-	TwAddVarRO(twBar, "ParticleName", TW_TYPE_STDSTRING, (void*)&this->particleFile, NULL);
-	TwAddVarRW(twBar, "Offset", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->offset, NULL);
-	TwAddVarCB(twBar, "Alive", TW_TYPE_BOOL16, setAliveCB, getAliveCB, (void*)this, NULL);
+	TwAddVarRO(twBar, ("ParticleName" + std::string(name)).c_str(), TW_TYPE_STDSTRING, (void*)&this->particleFile, "label='Particle Name'");
+	TwAddVarRW(twBar, ("Offset" + std::string(name)).c_str(), LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->offset, "label='Offset'");
+	TwAddVarCB(twBar, ("Alive" + std::string(name)).c_str(), TW_TYPE_BOOL16, setAliveCB, getAliveCB, (void*)this, "label='Alive'");
 	//TwAddVarRW(twBar, "Alive", LevelUI)
 	//TwAddVarRW(tempBar, "Color", LevelUI::TW_TYPE_VECTOR3F(), (void*)&this->light->color, NULL);
 }
