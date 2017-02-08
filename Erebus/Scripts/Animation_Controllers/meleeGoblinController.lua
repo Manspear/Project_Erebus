@@ -1,6 +1,6 @@
 --DESCRIPTION OF THE USAGE OF AN ANIMATION controller
 --[[
-	GENERAL:
+	'GENERAL:
 	The purpose of an animation controller is to divide the complexities of animation and game logic in 
 	the code, making it easier to read, and therefore easier to manage. 
 	You could say that an animation controller "watches and reacts" to gameplay variables.
@@ -60,6 +60,7 @@ function CreateEnemyController(enemy)
 
 	function controller:AnimationUpdate(dt,enemy)
 		--self.animation:Update(dt, self.currentAnimation, 0)
+		
 		--self.animation:UpdateShaderMatrices()
 		self.animation:SetSegmentState(self.currentAnimation,0)
 		self:copyWatch()

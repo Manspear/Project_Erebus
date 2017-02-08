@@ -1,4 +1,6 @@
 #include "Animation.h"
+#include <glm/gtx/matrix_decompose.hpp>
+
 
 Animation::Animation()
 {
@@ -623,6 +625,23 @@ void Animation::convertToScaleMat(float inputArr[3], glm::mat4 * result)
 {
 	for (int i = 0; i < 3; i++)
 		(*result)[i][i] = inputArr[i];
+}
+void Animation::calcfeet()
+{
+	glm::mat4x4 getpos = this->shaderMatrices[1];
+	//multiplicera med inverse modelMatrix för att  //hur med cameran?
+	//then get pos
+	glm::mat4x4 inverted = glm::inverse(getpos);
+	
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+
+	
+	glm::decompose(getpos, scale, rotation, translation, skew, perspective);
+	std::cout << 5 << std::endl;
 }
 
 void Animation::setSegmentState( int state, int segment )

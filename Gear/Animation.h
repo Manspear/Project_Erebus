@@ -63,6 +63,8 @@ public:
 
 	GEAR_API int getMatrixIndex();
 
+	GEAR_API void calcfeet();
+
 protected:
 	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 

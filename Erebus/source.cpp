@@ -58,6 +58,8 @@ void updateAnimation( void* args )
 {
 	AnimationData* data = (AnimationData*)args;
 	data->animation->update( data->dt );
+	data->animation->calcfeet();
+	
 }
 
 DWORD WINAPI update( LPVOID args )
