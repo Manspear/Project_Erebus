@@ -51,8 +51,22 @@ void TW_CALL getTypeCB(void *value, void *s /*clientData*/)
 	TwCopyStdStringToLibrary(*destPtr, actor->getActorType()); // the use of TwCopyStdStringToLibrary is required here
 }
 
+void TW_CALL setTileIDCB( const void* value, void* clientData )
+{
+	int newID = *(int*)value;
+	LevelActor* actor = (LevelActor*)clientData;
+
+	actor->setTileID( newID );
+}
+
+void TW_CALL getTileIDCB( void* value, void* clientData )
+{
+	LevelActor* actor = (LevelActor*)clientData;
+	*(int*)value = actor->getTileID();
+}
+
 LevelActor::LevelActor(unsigned int id)
-	: exportType( EXPORT_STATIC )
+	: exportType( EXPORT_STATIC ), tileID( TILE_ID_INVALID )
 {
 	this->id = id;
 }
@@ -70,6 +84,7 @@ void LevelActor::initialize(tinyxml2::XMLElement* data)
 {
 	this->actorType = data->Attribute("type");
 	this->actorDisplayName = data->Attribute("displayName");
+	this->tileID = data->IntAttribute("tileID");
 }
 
 void LevelActor::update()
@@ -123,6 +138,7 @@ std::string LevelActor::toXml()
 	tinyxml2::XMLElement* LevelActorElement = doc.NewElement(LevelActorElementValue);
 	LevelActorElement->SetAttribute("type",this->actorType.c_str());
 	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
+	LevelActorElement->SetAttribute("tileID", tileID);
 	for (auto element : this->actorComponents)
 	{
 		LevelActorElement->LinkEndChild(element.second->toXml(&doc));
@@ -236,6 +252,7 @@ void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocum
 	tinyxml2::XMLElement* LevelActorElement = doc->NewElement(LevelActorElementValue);
 	LevelActorElement->SetAttribute("type", this->actorType.c_str());
 	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
+	LevelActorElement->SetAttribute("tileID", tileID);
 	
 	for (auto element : this->actorComponents)
 	{
@@ -275,6 +292,7 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	//TwAddVarRW(bar, "ActorName", TW_TYPE_STDSTRING, &this->actorDisplayName, "");
 	TwAddVarCB(bar, "ActorName", TW_TYPE_STDSTRING, setDisplayCB, getDisplayCB, (void*)this, "");
 	TwAddVarCB(bar, "ActorType", TW_TYPE_STDSTRING, setTypeCB, getTypeCB, (void*)this, "");
+	TwAddVarCB(bar, "actorTileID", TW_TYPE_INT32, setTileIDCB, getTileIDCB, this, "label='TileID:'" );
 	TwAddSeparator(bar, NULL, NULL);
 	for (auto it : this->actorComponents)
 	{
@@ -297,9 +315,15 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 const std::string& LevelActor::getActorDisplayName() const {
 	return this->actorDisplayName;
 }
+int LevelActor::getTileID() const {
+	return tileID;
+}
 void LevelActor::setActorType(std::string type) {
 	this->actorType = type;
 }
 void LevelActor::setActorDisplayName(std::string name) {
 	this->actorDisplayName = name;
+}
+void LevelActor::setTileID( int id ) {
+	tileID = id;
 }

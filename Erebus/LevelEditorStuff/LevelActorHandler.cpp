@@ -171,6 +171,13 @@ std::map<unsigned int, LevelActor*>& LevelActorHandler::getActors()
 	return actors;
 }
 
+LevelActor* LevelActorHandler::getActor( unsigned int id )
+{
+	if( id == 0 )
+		return nullptr;
+	return actors[id];
+}
+
 void LevelActorHandler::updateTweakBars()
 {
 	if( worldBar ) 

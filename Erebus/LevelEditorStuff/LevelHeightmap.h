@@ -31,6 +31,8 @@ public:
 	Importer::HeightMap* getHeightmap() const;
 	int getHeightmapID() const;
 	const glm::vec3& getOffset() const;
+	glm::vec3 getMinPos() const;
+	glm::vec3 getMaxPos() const;
 
 	void callListener( LevelActorComponent* component ) override;
 
