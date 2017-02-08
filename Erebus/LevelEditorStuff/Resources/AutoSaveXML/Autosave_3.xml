@@ -13,11 +13,6 @@
         <LevelModel>
             <ModelName>tile1_assets</ModelName>
         </LevelModel>
-        <LevelParticleSystem>
-            <Offset x="0" y="0" z="0"/>
-            <Alive IsAlive="0"/>
-            <ParticleLocation Location="fireballPart"/>
-        </LevelParticleSystem>
         <LevelTransform>
             <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>

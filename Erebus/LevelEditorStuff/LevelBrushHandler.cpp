@@ -22,17 +22,6 @@ void TW_CALL getSaveTypeCB(void *value, void *s /*clientData*/)
 	TwCopyStdStringToLibrary(*destPtr, *srcPtr); // the use of TwCopyStdStringToLibrary is required here
 }
 
-
-void TW_CALL setScaleCB(const void *value, void *s /*clientData*/)
-{
-	LevelBrushHandler::getInstance()->setIsScale(!LevelBrushHandler::getInstance()->getIsScale());
-}
-
-void TW_CALL getScaleCB(void *value, void *s /*clientData*/)
-{
-	*(bool*)value = LevelBrushHandler::getInstance()->getIsScale();
-}
-
 void TW_CALL setRotateCB(const void *value, void *s /*clientData*/)
 {
 	LevelBrushHandler::getInstance()->setIsRotation(!LevelBrushHandler::getInstance()->getIsRotation());
@@ -43,46 +32,85 @@ void TW_CALL getRotateCB(void *value, void *s /*clientData*/)
 	*(bool*)value = LevelBrushHandler::getInstance()->getIsRotation();
 }
 
+void TW_CALL undoButton(void* args)
+{
+	LevelBrushHandler::getInstance()->undoLastBrushAction();
+}
+
+void LevelBrushHandler::undoLastBrushAction()
+{
+	if (this->actorsMade.size() > 0)
+	{
+		for (LevelActor* actor : this->actorsMade.back())
+		{
+			LevelActorHandler::getInstance()->removeActor(actor);
+		}
+		
+		std::cout << this->actorsMade.size();
+		this->actorsMade.pop_back();
+	}
+}
 
 void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 {
 	this->actionBar = brushBar;
 
-	TwAddVarRW(actionBar->getBar(), "radius", TW_TYPE_FLOAT, &this->radius, NULL);
-	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, NULL);
+	TwAddVarCB(actionBar->getBar(), "Type", TW_TYPE_STDSTRING, setSaveTypeCB, getSaveTypeCB, &saveAsType, NULL);
+	TwAddSeparator(actionBar->getBar(), "brushSep1", NULL);
+
+	TwAddVarRW(actionBar->getBar(), "Radius", TW_TYPE_FLOAT, &this->radius, "label=Radius min=0.1");
+	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, "label=Vacansy min=0.1");
+	TwAddSeparator(actionBar->getBar(), "brushSep2", NULL);
+	
+	
+
+	TwAddVarCB(actionBar->getBar(), "isRotate", TW_TYPE_BOOL16, setRotateCB, getRotateCB, (void*)this, "label='Rotate'");
+	TwAddSeparator(actionBar->getBar(), "brushSep3", NULL);
+
 	TwAddVarRW(actionBar->getBar(), "Y_Offset", TW_TYPE_FLOAT, &this->yOffset, NULL);
-	TwAddVarCB(actionBar->getBar(), "saveAsType", TW_TYPE_STDSTRING,setSaveTypeCB,getSaveTypeCB,&saveAsType,"");
-	TwAddVarCB(actionBar->getBar(), "IsRotate", TW_TYPE_BOOL16, setRotateCB, getRotateCB, (void*)this, "label='Rotate'");
-	TwAddVarCB(actionBar->getBar(), "IsScale", TW_TYPE_BOOL16, setScaleCB, getScaleCB, (void*)this, "label='Scale'");
+
+	TwAddVarRW(actionBar->getBar(), "ScaleMin", TW_TYPE_FLOAT, &this->minScale, NULL);
+	TwAddVarRW(actionBar->getBar(), "ScaleMax", TW_TYPE_FLOAT, &this->maxScale, NULL);
+
+	TwAddSeparator(actionBar->getBar(), "brushSep4", NULL);
+	
+	TwAddButton(actionBar->getBar(), "UNDO", undoButton, NULL, "label='Undo'");
 }
-void LevelBrushHandler::brushDraw(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
+void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
 {
 
+	if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1))
+	{
+		if (actorsMadeThisKeyPress.size()>0)
+		{
+			actorsMade.push_back(actorsMadeThisKeyPress);
+			actorsMadeThisKeyPress.clear();
+		}
+	}
+
+	//draw debug
 	int actorID = 0;
 	glm::vec3 hitPoint(0.0f);
 	glm::vec3 hitNorm(0.f);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
-
+	
 	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
 	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
+	//end of draw
 
-	if (hitNorm.y < 0.65)
-	{
+	if (hitNorm.y < 0.65) //dont draw if very steep platform
 		return;
-	}
 
+	
 	glm::vec3 newHitPoint;
 	
 	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
 	hitPoint.z = (hitPoint.z += RNG::range((-this->radius),this->radius) );
-	hitPoint.y = hitPoint.y + yOffset;
-	
-	//jag skulle kunna köra en stråle från marken till kameran. och sen köra tillbaka för att få ett bättre y värde.
-	//jag borde kolla om det finns mark där. Om normalen är för offsetad borde jag inte rita.
-
+	hitPoint.y = hitPoint.y + yOffset;	
 	
 	timer -= deltaTime;
 	
+
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
 	{
 		if (this->preventOverDraw == false)
@@ -107,19 +135,18 @@ void LevelBrushHandler::brushDraw(Gear::GearEngine* engine, Camera* camera,const
 			LevelActorHandler::getInstance()->addActor(newActor);
 			LevelActorHandler::getInstance()->setSelected(newActor);
 			newActor->setActorType(saveAsType);
+			newActor->setActorDisplayName(LevelActorHandler::getInstance()->tryActorName(newActor->getActorDisplayName()));
 		
 			LevelTransform* transform = newActor->getComponent<LevelTransform>();
-			
+
 			if (transform)
 			{
 				glm::vec3 newNormal = hitNorm;
 				glm::vec3 scale = transform->getChangeTransformRef()->getScale();
-				
+				scale *= RNG::range(this->minScale, this->maxScale);
+
 				if (isRotation)
 					newNormal.y = RNG::range(0.0,PIx2);
-
-				if (isScale)
-					scale *= RNG::range(this->minScale, this->maxScale);
 
 				transform->getTransformRef()->setPos(hitPoint);
 				transform->getChangeTransformRef()->setRotation(newNormal);
@@ -129,7 +156,9 @@ void LevelBrushHandler::brushDraw(Gear::GearEngine* engine, Camera* camera,const
 			timer = 0.2;
 			earlierPositions.insert(earlierPositions.begin(),hitPoint);
 			earlierPositions.pop_back();
-
+		
+			this->actorsMadeThisKeyPress.push_back(newActor);
+			LevelActorHandler::getInstance()->updateTweakBars();
 		}
 
 	}
@@ -137,8 +166,6 @@ void LevelBrushHandler::brushDraw(Gear::GearEngine* engine, Camera* camera,const
 }
 LevelBrushHandler::LevelBrushHandler()
 {
-	
-
 	/* Intializes random number generator */
 	time_t t;
 	srand((unsigned)time(&t));
@@ -180,20 +207,10 @@ void LevelBrushHandler::setIsRotation(bool t_f)
 	this->isRotation = t_f;
 }
 
-void LevelBrushHandler::setIsScale(bool t_f)
-{
-	isScale = t_f;
-}
 
 bool LevelBrushHandler::getIsRotation()
 {
 	return isRotation;
 }
-
-bool LevelBrushHandler::getIsScale()
-{
-	return isScale;
-}
-
 
 
