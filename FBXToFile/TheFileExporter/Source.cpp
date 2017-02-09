@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 		//fileIm.importFbx("C:/Users/GiS-1/Desktop/Goblin/Goblin.fbx", 24);
 		//fileIm.writeToBinary("C:/Users/GiS-1/Desktop/Goblin/");
 
-		fileIm.importFbx("C:/Users/BTH/Desktop/heightmap/tile1_assets.fbx", 24);
+		fileIm.importFbx("C:/Users/BTH/Desktop/heightmap/tile1_assets_placeholders.fbx", 24);
 		fileIm.writeToBinary("C:/Users/BTH/Desktop/heightmap/Model/");
 		printf("Finished with no errors! Press ENTER to exit");
 		getchar();
