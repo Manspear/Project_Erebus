@@ -86,6 +86,7 @@ function UpdateipconnectUI(dt)
 			hosting = false
 			hostFailed = true
 			timeoutCounter = 0
+			Erebus.ShutdownNetwork()
 		end
 		local text = hostText
 		for i=1, math.floor(textCounter) do
