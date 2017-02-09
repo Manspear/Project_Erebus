@@ -9,13 +9,13 @@ out vec2 vert_UV;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
-uniform float aValue;
+uniform vec2 aValue;
 uniform mat4 worldMatrices[105];
 
 void main(){
 	gl_Position = projectionMatrix * viewMatrix * worldMatrices[gl_InstanceID] * vec4(pos,1.0);
 	vert_worldPos = (worldMatrices[gl_InstanceID] * vec4(pos,1.0)).xyz;
 	vec3 dummy = normal;
-	vert_UV = UV;
-	vert_UV.x -= aValue;
+	vert_UV = UV + aValue;
+	//vert_UV += aValue;
 }

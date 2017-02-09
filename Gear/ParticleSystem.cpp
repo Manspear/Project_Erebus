@@ -126,4 +126,11 @@ namespace Gear
 		isActive = true;
 		alive = false;
 	}
+	GEAR_API void ParticleSystem::setExtroversion(bool yesNo)
+	{
+		for (size_t i = 0; i < nrOfEmitters; i++)
+		{
+			particleEmitters[i].setExtrovert(yesNo);
+		}
+	}
 }

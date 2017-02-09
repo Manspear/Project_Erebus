@@ -3,9 +3,10 @@ FIREBALLLIFETIME = 2
 FIREBALLMAXCHARGETIME = 3
 FIREBALLDAMAGE = 3
 
-function CreateFireball()
+function CreateFireball(entity)
 	local fireball = {}
 	fireball.type = CreateProjectileType()
+	fireball.owner = entity
 	fireball.effect = CreateFireEffect --reference to function
 	fireball.lifeTime = FIREBALLLIFETIME
 	fireball.damage = 0
@@ -33,7 +34,7 @@ function CreateFireball()
 				if self.effectFlag then
 					table.insert(hits[index].effects, self.effect())
 				end
-				hits[index]:Hurt(self.damage)
+				hits[index]:Hurt(self.damage, fireball.owner)
 				self:Kill()
 			end
 		end

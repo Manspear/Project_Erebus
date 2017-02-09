@@ -2,6 +2,9 @@
 
 #include "lua\lua.hpp"
 #include "NetworkController.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
 
 namespace LuaNetwork
 {
@@ -21,8 +24,11 @@ namespace LuaNetwork
 	int getChargingPacket(lua_State* lua);
 	int sendQuickBlendPacket(lua_State* lua);
 	int getQuickBlendPacket(lua_State* lua);
+	int sendDamagePacket(lua_State* lua);
+	int getDamagePacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);
 	int shouldSendNewAnimation(lua_State* lua);
+	int getIP(lua_State* lua);
 }

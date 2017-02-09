@@ -27,6 +27,7 @@ enum ShaderType {
 	DEBUG_OBB,
 	GEOMETRY_PICKING,
 	SKYBOX,
+	TEXTURE_BLENDING,
 	QUAD,
 	LIGHT_PASS,
 	BLUR,
@@ -58,15 +59,17 @@ public:
 	GLuint getProgramID();
 	GLuint* getTextures();
 	GLuint getFramebufferID();
+	void addUniform(glm::vec2& vec2, GLuint location, int count = 1);
 
 	void addUniform(std::string uniform);
-	void addAllUniforms(std::string shaderText);
-
+	void addAllUniforms(std::string shaderText);	
+	void addUniform(glm::vec2 &vec2, std::string position, int count = 1);
 	void setUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
 	void setUniform(glm::vec3 &vec3, std::string position, int count = 1);
 	void setUniform4fv(glm::mat4 *matrix4x4, std::string position, int count = 1);
 	void setUniform4cfv(const GLfloat *matrix4x4, std::string position, int count = 1);
 	void setUniform1fv(float &vec1, std::string position, int count = 1);
+	void setUniform(glm::vec2 & vec2, std::string position, int count);
 	void setUniform(float &floatValue, std::string position);
 	void setUniform(int &intValue, std::string position);
 
