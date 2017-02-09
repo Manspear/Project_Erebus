@@ -70,6 +70,11 @@ void RenderQueue::init()
 	//uniformLocations[TEXTURE_BLENDING][7] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex2");
 	//uniformLocations[TEXTURE_BLENDING][8] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex3");
 
+	//glGenBuffers(1, &vpBuffer);
+	//glBindBuffer(GL_UNIFORM_BUFFER, vpBuffer);
+	//glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4) * 2, NULL, GL_STATIC_DRAW);
+	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	//glBindBufferRange(GL_UNIFORM_BUFFER, 0, vpBuffer, 0, sizeof(glm::mat4) * 2);
 
 	glGenBuffers(1, &instanceTest);
 }
@@ -79,6 +84,11 @@ void RenderQueue::updateUniforms(Camera* camera)
 	glm::mat4 projectionMatrix = camera->getProjectionMatrix();
 	glm::mat4 viewMatrix = camera->getViewMatrix();
 	glm::vec3 viewPosition = camera->getPosition();
+
+	//glBindBuffer(GL_UNIFORM_BUFFER, vpBuffer);
+	//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &projectionMatrix);
+	//glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), &viewMatrix);
+	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	allShaders[FORWARD]->use();
 	allShaders[FORWARD]->setUniform(projectionMatrix, "projectionMatrix");

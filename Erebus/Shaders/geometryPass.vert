@@ -11,6 +11,12 @@ out vec2 TexCoords;
 out vec3 Normal;
 out mat3 TBN;
 
+layout (std140, binding = 0) uniform test
+{
+	mat4 test1;
+	mat4 test2;
+};
+
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 

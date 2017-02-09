@@ -116,6 +116,7 @@ private:
 	int nrOfWorlds;
 	WorkQueue* work;	
 
+	GLuint vpBuffer;
 	GLuint instanceTest;
 
 	double freq;
