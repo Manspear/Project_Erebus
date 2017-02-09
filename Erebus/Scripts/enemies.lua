@@ -81,12 +81,12 @@ function CreateEnemy(type, position)
 
 	if Network.GetNetworkHost() == true then
 		enemies[i].state = stateScript.state.idleState
-		enemies[i].animationState = 1
-		enemies[i].range = 4
-		enemies[i].target = nil
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
+	enemies[i].animationState = 1
+	enemies[i].range = 4
+	enemies[i].target = nil
 
 	local modelName = ""
 	if type == ENEMY_MELEE then
