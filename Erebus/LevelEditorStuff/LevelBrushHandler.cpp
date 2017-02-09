@@ -92,14 +92,18 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 	int actorID = 0;
 	glm::vec3 hitPoint(0.0f);
 	glm::vec3 hitNorm(0.f);
-	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+
+	glm::vec3 oldCamDirection = camera->getDirection();
+	glm::vec3 oldCamPos = camera->getPosition();
+
 	
+	//camera->updateLevelEditorCamera(deltaTime);
+	
+	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+
 	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
 	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
 	//end of draw
-
-	if (hitNorm.y < 0.65) //dont draw if very steep platform
-		return;
 
 	
 	glm::vec3 newHitPoint;
@@ -113,6 +117,33 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
 	{
+		
+		
+		/*glm::vec3 ortogonalCamAboveHitpoint = glm::vec3(hitPoint.x,50,hitPoint.z);
+		
+		camera->setPosition(ortogonalCamAboveHitpoint);
+		camera->setDirection(glm::vec3(0.00000, -0.99999, 0.00001));
+		camera->updateBuffer();
+		camera->updateLevelEditorCamera(deltaTime);*/
+
+		float mousePosX = 600;//, (GLsizei)WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL); //should be 1280
+		float mousePosY = 400;
+
+		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+		
+		//camera->setPosition(oldCamPos);
+		//camera->setDirection(oldCamDirection);
+		//camera->updateBuffer();
+		//camera->updateLevelEditorCamera(deltaTime);
+
+		if (hitNorm.y < 0.65) 
+		{
+
+			std::cout << "ToSteep" << " normY: " << hitNorm.y << std::endl;
+			return;
+		}
+			
+
 		if (this->preventOverDraw == false)
 		{
 			for (glm::vec3 position : earlierPositions)

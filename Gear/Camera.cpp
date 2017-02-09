@@ -261,6 +261,11 @@ glm::vec3 Camera::getDirection()
 	return bufferCamDirection;
 }
 
+GEAR_API void Camera::setDirection(glm::vec3 direction)
+{
+	this->camDirection = direction;
+}
+
 glm::vec3 Camera::getUp()
 {
 	return this->camUp;
