@@ -78,11 +78,12 @@ namespace Gear
 				int i = 0;
 				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
 				{
+					temp2 = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + tempVec;
 					particlePos[nrOfActiveParticles].pos = this->position;
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
 					particlePos[nrOfActiveParticles].size = this->particleSize;
-					temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
-					allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
+					allParticles[nrOfActiveParticles].direction = glm::normalize(temp2 - this->position);
+					nrOfActiveParticles++;
 				}
 				timer = 0;
 			}
@@ -97,13 +98,14 @@ namespace Gear
 			timer += dt;
 			if (timer > particleRate)
 			{
+				glm::vec3 tempVec = this->position + direction * focus;
 				int i = 0;
 				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
 				{
+					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + tempVec;
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
-					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + this->position;
-					allParticles[nrOfActiveParticles].direction = glm::normalize(this->position - particlePos[nrOfActiveParticles].pos);
 					particlePos[nrOfActiveParticles].size = this->particleSize;
+					allParticles[nrOfActiveParticles].direction = glm::normalize(this->position - particlePos[nrOfActiveParticles].pos);
 					nrOfActiveParticles++;
 				}
 				timer = 0;

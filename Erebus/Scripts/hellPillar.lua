@@ -62,7 +62,7 @@ function CreateHellPillar(entity)
 			self.startUpTime = 0.4		self.finishingTime = 1	self.startUpScale = 1	
 			self.damage = 10
 			self.maxScale = 1
-			Transform.SetScale(spell.transformID, 0.2)
+			Transform.SetScale(self.transformID, 0.2)
 			SphereCollider.SetRadius(self.sphereCollider, 0.8)
 			ZoomInCamera()
 			self:GeneralCast()	
@@ -74,8 +74,8 @@ function CreateHellPillar(entity)
 			self.cooldown = COOLDOWN_PILLAR	
 			self.startUpTime = 1.5		self.finishingTime = 1.5	self.startUpScale = 3
 			self.maxScale = 3
-			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
+			Transform.SetScaleNonUniform(self.transformID, 1, 0.1, 1)			
 			self.damage = 50
 			self:GeneralCast()	
 		end
@@ -86,6 +86,7 @@ function CreateHellPillar(entity)
 		self.alive = true	self.growAgain = true
 		self.pos = self.aimPos
 		Transform.SetPosition(self.firstModel, self.pos)
+		Transform.SetPosition(self.transformID, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
 		--self.lightRadius = 10
 		--self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10)
@@ -127,7 +128,6 @@ function CreateHellPillar(entity)
 			self.startUp = false
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
-			Transform.SetPosition(self.transformID, self.pos)
 			Sound.Play(PILLAR_SFX, 7, self.pos)				
 			Transform.ActiveControl(self.transformID, true)
 			self.startUpTime = 0.2
@@ -150,14 +150,16 @@ function CreateHellPillar(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 	end
 
+	spell.riseFactor = 0.1
 	function spell:Finishing(dt)
 		self.finishingTime = self.finishingTime - dt
 		if self.finishingTime < 0 then
 			self.alive = false 
 			self.startUp = true
 			Transform.ActiveControl(self.transformID, false)
-			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
-
+			Transform.SetPosition(self.transformID, {x=0, y= 0 ,z=0})
+			self.riseFactor = 0.1
+			Transform.SetScaleNonUniform(self.transformID, 1 , self.riseFactor , 1)
 			--Light.removeLight(self.light)
 		else
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
@@ -168,6 +170,9 @@ function CreateHellPillar(entity)
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 0.2 * dt
 
+			
+			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + 6 * dt end
+			Transform.SetScaleNonUniform(self.transformID, 1 , self.riseFactor , 1)
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
 
 			self.startUpTime = self.startUpTime - dt

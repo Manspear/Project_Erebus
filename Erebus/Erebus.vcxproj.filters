@@ -213,9 +213,6 @@
     <None Include="Scripts\enemies.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\level.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\main.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -467,6 +464,13 @@
     <None Include="Shaders\include.glsl" />
     <None Include="Scripts\spellUtility.lua">
       <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\iphost.lua" />
+    <None Include="Scripts\iphostUI.lua" />
+    <None Include="Shaders\textureBlending.frag" />
+    <None Include="Shaders\textureBlending.vert" />
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
