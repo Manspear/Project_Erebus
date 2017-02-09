@@ -62,6 +62,7 @@ void LevelWorldHandler::resetWorld()
 	//engineRef->queueParticles(ps);
 	engineRef->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 	engineRef->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
+	LevelHeightmap::setCurrentID(1);
 }
 
 void LevelWorldHandler::updateAutosave( float deltaTime )

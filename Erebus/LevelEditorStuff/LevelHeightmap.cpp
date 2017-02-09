@@ -42,6 +42,9 @@ void LevelHeightmap::initialize( tinyxml2::XMLElement* element )
 	e = element->FirstChildElement( "ID" );
 	heightmapID = e->IntAttribute( "heightmapID" );
 
+	if (currentID <= heightmapID)
+		currentID = heightmapID + 1;
+
 	for( int i=0; i<HEIGHTMAP_MAX_SURROUNDING; i++ )
 	{
 		surrounding[i] = std::atoi(element->FirstChildElement("ID")->Attribute((std::string("surrounding") + std::to_string(i)).c_str()));
@@ -266,4 +269,12 @@ void LevelHeightmap::callListener( LevelActorComponent* component )
 
 void LevelHeightmap::removeComponent() {
 	this->parent->deleteComponent<LevelHeightmap>();
+}
+
+void LevelHeightmap::setCurrentID(int id) {
+	currentID = id;
+}
+
+int LevelHeightmap::getCurrentID() {
+	return currentID;
 }

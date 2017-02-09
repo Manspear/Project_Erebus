@@ -40,7 +40,8 @@ public:
 
 	static void setDebugger( Debug* debugger );
 	void removeComponent() override;
-
+	static void setCurrentID(int id);
+	static int getCurrentID();
 private:
 	static Debug* s_debugger;
 

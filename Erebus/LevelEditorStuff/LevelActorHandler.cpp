@@ -231,6 +231,31 @@ void LevelActorHandler::updateActorBar()
 	}
 }
 
+std::string LevelActorHandler::getHeightData() {
+	std::string heightReturnString = "\n---------------------------------Hieghtmap-----------------------------\n\n";
+	for (size_t i = 1; i < LevelHeightmap::getCurrentID(); i++)
+	{
+		for (ActorIT it = actors.begin(); it != actors.end(); it++)
+		{
+			LevelHeightmap* mapRef = it->second->getComponent<LevelHeightmap>();
+			if (mapRef != nullptr) {
+				if (mapRef->getHeightmapID() == i) {
+					std::string hmapName = "Heightmap" + std::to_string(i);
+					heightReturnString += hmapName + " = {}\n";
+					heightReturnString += mapRef->toLua(hmapName);
+					heightReturnString += "heightmaps[" + std::to_string(i) + "] = " + hmapName + "\n";
+					heightReturnString += hmapName + " = nil\n";
+					break;
+				}
+			}
+		}
+	}
+
+	heightReturnString += "\n---------------------------------Hieghtmap-----------------------------\n\n";
+
+	return heightReturnString;
+}
+
 void LevelActorHandler::exportToLua()
 {
 	FileFilter filter = { L"Lua Level File", L"*.lua" };
@@ -242,12 +267,42 @@ void LevelActorHandler::exportToLua()
 		fopen_s( &file, fileDialog.getFilePath().c_str(), "w" );
 		if( file )
 		{
-			fprintf( file, "props = {}\nheightmaps = {}\ncolliders = {}\ntriggers = {}\n" );
-
-			for( ActorIT it = actors.begin(); it != actors.end(); it++ )
+			fprintf(file, "levels = {}\nheightmaps = {}\n");
+			fprintf(file, getHeightData().c_str());
+			//fprintf(file, "function loadLevel(index)\n");
+			//fprintf(file, "end");
+			for (size_t i = 1; i < LevelHeightmap::getCurrentID(); i++)
 			{
-				fprintf( file, "%s", it->second->toLua().c_str() );
+				
+				std::string levelName = ("level0" + std::to_string(i));
+				
+				fprintf(file, "-------------------------------------%s-----------------------------------------------\n\n", levelName.c_str());
+				fprintf(file, "%s = {}\n", levelName.c_str());
+				fprintf(file, "%s.load = function()\n", levelName.c_str());
+				
+				fprintf(file, "props = {}\ncolliders = {}\ntriggers = {}\n");
+				for (ActorIT it = actors.begin(); it != actors.end(); it++)
+				{
+					//If the current acotr is on the current tile, PRINT IT! AW YIZ
+					if (it->second->getTileID() == i) {
+						fprintf(file, "%s", it->second->toLua().c_str());
+					}
+					
+				}
+				fprintf(file, "table.insert(%s, props)\n", levelName.c_str());
+				//fprintf(file, "table.insert(%s, heightmaps)\n", levelName.c_str());
+				fprintf(file, "table.insert(%s, colliders)\n", levelName.c_str());
+				fprintf(file, "table.insert(%s, triggers)\n", levelName.c_str());
+				fprintf(file, "end\n");
+				fprintf(file, "%s.unload = function()\n", levelName.c_str());
+				fprintf(file, "end\n");
+				fprintf(file, "levels[%d] = %s\n",i, levelName.c_str());
+
+				fprintf(file, "-------------------------------------%s-----------------------------------------------\n\n\n", levelName.c_str());
 			}
+		//	fprintf( file, "props = {}\nheightmaps = {}\ncolliders = {}\ntriggers = {}\n" );
+
+
 
 			fprintf( file, "--TEMP: This should probably not be hardcoded into every level?\n" );
 			fprintf( file, "local widthTest = heightmaps[1].asset:GetMapWidth()\n" );
@@ -346,4 +401,11 @@ void LevelActorHandler::resetInstance()
 
 void LevelActorHandler::changeDisplayHitbox() {
 	this->selectedDisplayHitbox = (DisplayHitBoxes)(((int)this->selectedDisplayHitbox + 1) % (int)DisplayHitBoxes::NUM_DISPLAY_HB);
+}
+
+void LevelActorHandler::postInitAllActors() {
+	for (ActorIT it = actors.begin(); it != actors.end(); it++)
+	{
+		it->second->postInitializeAllComponents();
+	}
 }
