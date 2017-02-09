@@ -73,7 +73,7 @@ CollisionHandler.SetLayerCollision(4,4,false);
 --TEMP: This should probably not be hardcoded into every level?
 local widthTest = heightmaps[1].asset:GetMapWidth()
 local heightTest = heightmaps[1].asset:GetMapHeight()
-AI.SetNav(widthTest,heightTest)
+AI.CreateIM(heightmaps[1].asset,widthTest,heightTest)
 
 Transform.SetPosition(player.transformID, {x=124, y=32, z=220})
 CreateEnemy(ENEMY_MELEE, {x=122, y=32, z=230})

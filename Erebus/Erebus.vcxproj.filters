@@ -485,6 +485,13 @@
     <None Include="Scripts\ipconnectUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>
+    <None Include="Scripts\iphost.lua" />
+    <None Include="Scripts\iphostUI.lua" />
+    <None Include="Shaders\textureBlending.frag" />
+    <None Include="Shaders\textureBlending.vert" />
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

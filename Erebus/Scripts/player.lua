@@ -48,6 +48,12 @@ function LoadPlayer()
 	player.invulnerable = false
 	player.position = {}
 
+	player.lastPos = Transform.GetPosition(player.transformID)
+
+	player.nrOfInnerCircleEnemies = 0
+	player.nrOfOuterCircleEnemies = 0
+
+
 	-- set spells for player
 	player.spells = {}
 	
