@@ -30,7 +30,11 @@ end
 
 function EnterSpellbook()
 	--Gear.QueueModels(false)
-	CollisionHandler.Disable()
+		if SETTING_DEBUG then 
+		CollisionHandler.Enable()
+	else
+		CollisionHandler.Disable()
+	end
 	Gear.CursorVisible(true)
 end
 
