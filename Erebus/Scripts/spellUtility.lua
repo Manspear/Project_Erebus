@@ -29,9 +29,7 @@ function CreateChargeThing(entity)
 		Transform.SetPosition(self.transformID, self.pos)
 		chargeThing.particles.update(self.pos) 
 		local daPower = math.min(chargePower, MAX_CHARGE)
-		Transform.SetScale(self.transformID, chargePower)
-		self.rot.y = self.rot.y + (chargePower * chargePower * 2) * dt
-		Transform.SetRotation(self.transformID, self.rot)
+		Transform.SetScale(self.transformID, chargePower + 5 * dt)
 		self.UVpushed = self.UVpushed + chargePower * dt 
 		Gear.SetUniformValue(self.modelIndex, 0, self.UVpushed)
 	end

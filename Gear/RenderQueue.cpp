@@ -117,11 +117,7 @@ void RenderQueue::allocateWorlds(int n)
 	worldMatrices = new glm::mat4[n];
 	jointMatrices = new glm::mat4[n*MAXJOINTCOUNT];
 }
-struct tjo {
-	int jaja;
-	short  cepe;
-};
-tjo* hej = new tjo[1];
+
 void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
 {
 	allTransforms = theTrans;

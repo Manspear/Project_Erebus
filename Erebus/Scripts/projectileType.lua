@@ -7,6 +7,7 @@ function CreateProjectileType()
 	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
 	CollisionHandler.AddSphere(projectile.sphereCollider, 1)
 	SphereCollider.SetActive(projectile.sphereCollider, false);
+	Transform.ActiveControl(projectile.transformID, false)
 
 	function projectile:Shoot(position, direction, speed)
 		self.velocity.x = direction.x * speed
@@ -15,6 +16,7 @@ function CreateProjectileType()
 		self.position = position
 		Transform.SetPosition(self.transformID, self.position)
 		SphereCollider.SetActive(self.sphereCollider, true);
+		Transform.ActiveControl(self.transformID, true)
 	end
 
 	function projectile:Update(dt)

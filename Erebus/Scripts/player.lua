@@ -139,11 +139,11 @@ end
 function UnloadPlayer()
 end
 
-function LoadSpells(player)
-	player.spells[1] = SpellList[1].spell
-	player.spells[2] = SpellList[2].spell
-	player.spells[3] = SpellList[3].spell
-	player.spells[1].isActiveSpell = true
+function LoadSpells(entity)
+	entity.spells[1] = SpellList[1].spell
+	entity.spells[2] = SpellList[2].spell
+	entity.spells[3] = SpellList[3].spell
+	entity.spells[1].isActiveSpell = true
 end
 
 function LoadSpellsPlayer2()
@@ -312,7 +312,9 @@ function Controls(dt)
 			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
 		end
 
-		if Inputs.ButtonPressed(Buttons.Right) then player.charger:StartCharge(player.position) end
+		if Inputs.ButtonPressed(Buttons.Right) then 
+			player.charger:StartCharge(player.position) 
+		end
 		
 		if Inputs.ButtonReleased(Buttons.Right) then
 			if player.spells[player.currentSpell].cooldown < 0 then 

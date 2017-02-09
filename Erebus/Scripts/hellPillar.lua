@@ -171,7 +171,7 @@ function CreateHellPillar(entity)
 			self.blendValue2.y = self.blendValue2.y - 0.2 * dt
 
 			
-			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + 6 * dt end
+			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * dt * 5 end
 			Transform.SetScaleNonUniform(self.transformID, 1 , self.riseFactor , 1)
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
 

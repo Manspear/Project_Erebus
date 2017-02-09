@@ -124,15 +124,11 @@ namespace LuaParticles
 		return 0;
 	}
 
-
-
-
+	//Emitter kod kommer här!!!
 	int bindEm(lua_State* lua)
 	{
 		assert(lua_gettop(lua) == 9);
-		/*int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus,
-		float size, glm::vec3 direction, Importer::TextureAsset* texture, float growFactor*/
-		lua_pushinteger(lua, g_systems->size());
+		lua_pushinteger(lua, g_emitters->size());
 		g_emitters->push_back(new Gear::ParticleEmitter((int)lua_tointeger(lua, 1), (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3), (float)lua_tonumber(lua, 4), (int)lua_tointeger(lua, 5),
 			(float)lua_tonumber(lua, 6), (float)lua_tonumber(lua, 7), (float)lua_tonumber(lua, 8), (float)lua_tonumber(lua, 9)));
 		return 1;
@@ -211,6 +207,7 @@ namespace LuaParticles
 		assert(lua_gettop(lua) == 2);
 		lua_getfield(lua, 2, "__self");
 		Importer::TextureAsset* texture = (Importer::TextureAsset*)lua_touserdata(lua, -1);
+		int x = (int)lua_tointeger(lua, 1);
 		g_emitters->at((int)lua_tointeger(lua, 1))->setTexture(texture);
 		return 0;
 	}

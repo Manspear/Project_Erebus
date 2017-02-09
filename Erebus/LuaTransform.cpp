@@ -11,7 +11,6 @@ namespace LuaTransform
 	// variable from this compilation unit.
 	static Transform* g_transforms = nullptr;
 	static int* g_boundTransforms = nullptr;
-	static bool* g_activeTransforms = nullptr;
 	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms)
 	{
 		g_transforms = transforms;
@@ -21,12 +20,6 @@ namespace LuaTransform
 		luaL_Reg regs[] =
 		{
 			{ "Bind",				bind },
-			{ "Destroy",			destroy },
-			{ "Move",				move },
-			{ "Switch",				switchTransform },
-			{ "Follow",				follow },
-			{ "Fly",				fly },
-			{ "Shoot",				shoot },
 			{ "ActiveControl",		activeControl},
 
 			{ "SetPosition",		setPosition },
@@ -65,37 +58,6 @@ namespace LuaTransform
 		return 1;
 	}
 
-	// NOTE: Copied from the old LuaBinds.h
-	// What is this function supposed to do?
-	//Det var på tiden vi skapade new Transform() fårn lua istället för att ge ett index
-	int destroy( lua_State* lua )
-	{
-		assert( lua_gettop( lua ) == 1 );
-		
-		Transform* transform = (Transform*)lua_touserdata( lua, 1 );
-		delete transform;
-
-		return 0;
-	}
-
-	int move( lua_State* lua )
-	{
-		assert( lua_gettop( lua ) == 5 );
-
-		int index = (int)lua_tointeger( lua, 1 );
-		glm::vec3 direction( lua_tonumber( lua, 2 ), lua_tonumber( lua, 3 ), lua_tonumber( lua, 4 ) );
-		float dt = (float)lua_tonumber( lua, 5 );
-
-		g_transforms[index].move( direction, dt );
-
-		return 0;
-	}
-
-	int switchTransform( lua_State* lua )
-	{
-		return 0;
-	}
-
 	int follow( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 4 );
@@ -106,32 +68,6 @@ namespace LuaTransform
 		float dt = (float)lua_tonumber( lua, 4 );
 
 		g_transforms[myIndex].follow( g_transforms[followIndex].getPos(), speed, dt );
-
-		return 0;
-	}
-
-	int fly( lua_State* lua )
-	{
-		assert( lua_gettop( lua ) == 3 );
-
-		int index = (int)lua_tointeger( lua, 1 );
-		int speed = (int)lua_tointeger( lua, 2 );
-		float dt = (float)lua_tonumber( lua, 3 );
-
-		g_transforms[index].move( glm::vec3( speed, g_transforms[index].getLookAt().y*(float)speed, 0 ), dt );
-
-		return 0;
-	}
-
-	int shoot( lua_State* lua )
-	{
-		assert( lua_gettop( lua ) == 2 );
-
-		int a = (int)lua_tointeger( lua, 1 );
-		int b = (int)lua_tointeger( lua, 2 );
-
-		g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
-		g_transforms[a].setPos(g_transforms[b].getPos());
 
 		return 0;
 	}
