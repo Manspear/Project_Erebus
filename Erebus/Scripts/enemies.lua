@@ -27,9 +27,9 @@ function CreateEnemy(type, position)
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
 	enemies[i].Hurt = function(self, damage, source)
-		if source.transformID ~= player2.transformID then
-			local pos = Transform.GetPosition(self.transformID)
+		local pos = Transform.GetPosition(self.transformID)
 
+		if source.transformID ~= player2.transformID then
 			if Network.GetNetworkHost() == true then
 				self.health = self.health - damage
 
@@ -41,9 +41,8 @@ function CreateEnemy(type, position)
 				print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
-
-			self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		end
+		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
 
 	enemies[i].Kill = function(self)
