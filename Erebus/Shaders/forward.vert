@@ -8,8 +8,11 @@ layout (location = 3) in mat4 worldMatrix;
 out vec3 vert_worldPos;
 out vec2 vert_UV;
 
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+layout (std140, binding = 0) uniform vpBuffer
+{
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
 uniform vec2 aValue;
 
 void main(){

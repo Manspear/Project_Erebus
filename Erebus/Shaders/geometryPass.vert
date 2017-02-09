@@ -11,14 +11,11 @@ out vec2 TexCoords;
 out vec3 Normal;
 out mat3 TBN;
 
-layout (std140, binding = 0) uniform test
+layout (std140, binding = 0) uniform vpBuffer
 {
-	mat4 test1;
-	mat4 test2;
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
 };
-
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
 
 void main(){
 	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(position,1.0); 

@@ -70,55 +70,18 @@ void RenderQueue::init()
 	//uniformLocations[TEXTURE_BLENDING][7] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex2");
 	//uniformLocations[TEXTURE_BLENDING][8] = allShaders[TEXTURE_BLENDING]->getUniformLocation("tex3");
 
-	//glGenBuffers(1, &vpBuffer);
-	//glBindBuffer(GL_UNIFORM_BUFFER, vpBuffer);
-	//glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4) * 2, NULL, GL_STATIC_DRAW);
-	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	//glBindBufferRange(GL_UNIFORM_BUFFER, 0, vpBuffer, 0, sizeof(glm::mat4) * 2);
+	glGenBuffers(1, &vpBuffer);
+	glBindBuffer(GL_UNIFORM_BUFFER, vpBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4) * 2, NULL, GL_STREAM_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, 0, vpBuffer, 0, sizeof(glm::mat4) * 2);
 
 	glGenBuffers(1, &instanceTest);
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
 {
-	glm::mat4 projectionMatrix = camera->getProjectionMatrix();
-	glm::mat4 viewMatrix = camera->getViewMatrix();
-	glm::vec3 viewPosition = camera->getPosition();
-
-	//glBindBuffer(GL_UNIFORM_BUFFER, vpBuffer);
-	//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &projectionMatrix);
-	//glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), &viewMatrix);
-	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-	allShaders[FORWARD]->use();
-	allShaders[FORWARD]->setUniform(projectionMatrix, "projectionMatrix");
-	allShaders[FORWARD]->setUniform(viewMatrix, "viewMatrix");
-	allShaders[FORWARD]->unUse();
-	
-	allShaders[ANIM]->use();
-	allShaders[ANIM]->setUniform(projectionMatrix, "projectionMatrix");
-	allShaders[ANIM]->setUniform(viewMatrix, "viewMatrix");
-	allShaders[ANIM]->unUse();
-
-	allShaders[GEOMETRY]->use();
-	allShaders[GEOMETRY]->setUniform(projectionMatrix, "projectionMatrix");
-	allShaders[GEOMETRY]->setUniform(viewMatrix, "viewMatrix");
-	allShaders[GEOMETRY]->unUse();
-
-	allShaders[PARTICLES]->use();
-	allShaders[PARTICLES]->setUniform(projectionMatrix, "projectionMatrix");
-	allShaders[PARTICLES]->setUniform(viewMatrix, "viewMatrix");
-	allShaders[PARTICLES]->unUse();
-
-	allShaders[GEOMETRY_PICKING]->use();
-	allShaders[GEOMETRY_PICKING]->setUniform(projectionMatrix, "projectionMatrix");
-	allShaders[GEOMETRY_PICKING]->setUniform(viewMatrix, "viewMatrix");
-	allShaders[GEOMETRY_PICKING]->unUse();
-
-	allShaders[TEXTURE_BLENDING]->use();
-	allShaders[TEXTURE_BLENDING]->setUniform(projectionMatrix, "projectionMatrix");
-	allShaders[TEXTURE_BLENDING]->setUniform(viewMatrix, "viewMatrix");
-	allShaders[TEXTURE_BLENDING]->unUse();
+	const glm::mat4 vp[] = { camera->getProjectionMatrix(), camera->getViewMatrix() };
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4) * 2, vp);
 }
 
 void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
