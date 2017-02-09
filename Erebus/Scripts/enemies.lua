@@ -60,6 +60,8 @@ function CreateEnemy(type, position)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i], player, inState)
 		end
+
+		enemies[i].animationController:AnimationUpdate(0) -- play death animation
 	end
 
 	enemies[i].Spawn = function(self,position)
