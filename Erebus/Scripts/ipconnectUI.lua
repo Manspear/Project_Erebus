@@ -1,4 +1,4 @@
-HOST_TIMEOUT_LIMIT = 30
+HOST_TIMEOUT_LIMIT = 60
 local screenImages = {}
 local imageTextures = {}
 local ipString = ""
@@ -17,6 +17,7 @@ function LoadipconnectUI()
 	imageTextures["host"] = Assets.LoadTexture("Textures/buttonHost.png");
 	imageTextures["connect"] = Assets.LoadTexture("Textures/buttonConnect.png");
 	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.png");
+	imageTextures["cancel"] = Assets.LoadTexture("Textures/buttonCancel.png");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["Input"] = UI.load(340, 370, 600, 45);
@@ -38,21 +39,33 @@ function UpdateipconnectUI(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["connect"], x,y) and hosting == false then
+			if ipString == "" then
+				ipString = Network.GetIP()
+			end
 			if ipString:match"(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)" ~= nil then
 				local result = Erebus.StartNetworkClient(stringToIp(ipString))
 				if result == true then
+						ipString = ""
 						gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 				else
+						ipString = ""
 						gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 				end
 			else
 				incorrectIP = true
+				ipString = ""
 			end
 		end
 
-		if UI.mousePick(screenImages["host"], x,y) and hosting == false then
-			hosting = Erebus.InitNetworkHost()
-			timeoutCounter = 0
+		if UI.mousePick(screenImages["host"], x,y) then
+			if hosting then
+				hosting = false
+			else
+				ipString = ""
+				hosting = Erebus.InitNetworkHost()
+				timeoutCounter = 0
+			end
+			
 		end
 
 		if UI.mousePick(screenImages["textField"], x,y) and hosting == false then
@@ -121,7 +134,11 @@ end
 function DrawipconnectUI()
 	UI.drawImage(screenImages["background"], imageTextures["background"]);
 	UI.drawImage(screenImages["Input"], imageTextures["Input"]);
-	UI.drawImage(screenImages["host"], imageTextures["host"]);
+	if hosting then
+		UI.drawImage(screenImages["host"], imageTextures["cancel"]);
+	else
+		UI.drawImage(screenImages["host"], imageTextures["host"]);
+	end
 	UI.drawImage(screenImages["connect"], imageTextures["connect"]);
 	UI.drawImage(screenImages["back"], imageTextures["back"]);
 end
@@ -144,10 +161,6 @@ end
 
 function stringToIp(string)
 	local a2, b2, c2, d2 = string:match"(%d%d?%d?).(%d%d?%d?).(%d%d?%d?).(%d%d?%d?)"
-	print(a2)
-	print(b2)
-	print(c2)
-	print(d2)
 	return {a = a2, b = b2, c = c2, d = d2}
 end
 

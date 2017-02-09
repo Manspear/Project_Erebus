@@ -1,19 +1,20 @@
 OPTIONS_RETURN_STATE = 1
 local screenImages = {}
 local imageTextures = {}
-local isFullscreen
 
 function LoadOptionsUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
 	imageTextures["FullscreenOff"] = Assets.LoadTexture("Textures/buttonFullscreenOff.png");
 	imageTextures["FullscreenOn"] = Assets.LoadTexture("Textures/buttonFullscreenOn.png");
+
+	imageTextures["debugOff"] = Assets.LoadTexture("Textures/buttonFullscreenOff.png");
+	imageTextures["debugOn"] = Assets.LoadTexture("Textures/buttonFullscreenOn.png");
 	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.png");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["fullscreen"] = UI.load(465, 240, 350, 60);
-	screenImages["back"] = UI.load(465, 310, 350, 60);
-
-	isFullscreen = false
+	screenImages["debug"] = UI.load(465, 310, 350, 60);
+	screenImages["back"] = UI.load(465, 380, 350, 60);
 end
 
 function UnloadOptionsUI()
@@ -26,16 +27,25 @@ function UpdateOptionsUI(dt)
 	x,y = Inputs.GetMousePos()
 	if UI.mousePick(screenImages["fullscreen"], x,y) then
 		if Inputs.ButtonReleased(Buttons.Left) then
-			if isFullscreen then
-				isFullscreen = false
+			if SETTING_FULLSCREEN then
+				SETTING_FULLSCREEN = false
 			else
-				isFullscreen = true
+				SETTING_FULLSCREEN = true
 			end
-			Gear.Fullscreen(isFullscreen);
+			Gear.Fullscreen(SETTING_FULLSCREEN);
 		end
 	end
 
-	x,y = Inputs.GetMousePos()
+	if UI.mousePick(screenImages["debug"], x,y) then
+		if Inputs.ButtonReleased(Buttons.Left) then
+			if SETTING_DEBUG then
+				SETTING_DEBUG = false
+			else
+				SETTING_DEBUG = true
+			end
+		end
+	end
+
 	if UI.mousePick(screenImages["back"], x,y) then
 		if Inputs.ButtonReleased(Buttons.Left) then
 			gamestate.ChangeState(OPTIONS_RETURN_STATE)
@@ -45,11 +55,18 @@ end
 
 function DrawOptionsUI()
 	UI.drawImage(screenImages["background"], imageTextures["background"]);
-	if isFullscreen then
+	if SETTING_FULLSCREEN then
 		UI.drawImage(screenImages["fullscreen"], imageTextures["FullscreenOn"]);
 	else
 		UI.drawImage(screenImages["fullscreen"], imageTextures["FullscreenOff"]);
 	end
+
+	if SETTING_DEBUG then
+		UI.drawImage(screenImages["debug"], imageTextures["debugOn"]);
+	else
+		UI.drawImage(screenImages["debug"], imageTextures["debugOff"]);
+	end
+
 	UI.drawImage(screenImages["back"], imageTextures["back"]);
 end
 
