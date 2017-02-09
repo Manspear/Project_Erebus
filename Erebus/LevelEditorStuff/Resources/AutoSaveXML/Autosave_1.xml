@@ -143,8 +143,8 @@
             <HalfLengths x="3" y="2" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="19.625" y="5.6171875" z="170.25"/>
-            <Rotation x="-0.027801514" y="0.99804688" z="0.015457153"/>
+            <Position x="15.6875" y="19.125" z="153.75"/>
+            <Rotation x="-0.098327637" y="0.84472656" z="-0.47290039"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
@@ -158,8 +158,8 @@
             <HalfLengths x="3" y="2" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="17.921875" y="6.25" z="156.625"/>
-            <Rotation x="0.0075035095" y="0.99658203" z="0.056610107"/>
+            <Position x="20.703125" y="6.09375" z="155.125"/>
+            <Rotation x="0.0061416626" y="0.99804688" z="0.034820557"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
@@ -173,8 +173,8 @@
             <HalfLengths x="3" y="2" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="23.390625" y="5.9335938" z="156.375"/>
-            <Rotation x="0.0019798279" y="0.99951172" z="0.021743774"/>
+            <Position x="30.59375" y="6.5429688" z="160.625"/>
+            <Rotation x="-0.11657715" y="0.99267578" z="0.0095825195"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
@@ -188,386 +188,878 @@
             <HalfLengths x="3" y="2" z="1"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="21.875" y="5.796875" z="162.375"/>
-            <Rotation x="-0.025665283" y="0.99804688" z="0.049041748"/>
+            <Position x="22.921875" y="5.9257813" z="170.875"/>
+            <Rotation x="-0.140625" y="0.97607422" z="-0.16296387"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (1)" tileID="1">
+    <LevelActor type="Brush" displayName="New (3) (5)" tileID="1">
         <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
+            <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
             <IDs ID="10" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
+            <HalfLengths x="3" y="2" z="1"/>
         </LevelCollider>
-        <LevelModel>
-            <ModelName>PineTree2</ModelName>
-        </LevelModel>
         <LevelTransform>
-            <Position x="13.679688" y="5.4179688" z="175.25"/>
-            <Rotation x="0.010551453" y="0.99511719" z="0.092773438"/>
+            <Position x="12.03125" y="5.7695313" z="171.25"/>
+            <Rotation x="0.070922852" y="0.99511719" z="0.014961243"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (2)" tileID="1">
+    <LevelActor type="Brush" displayName="New (3) (6)" tileID="1">
         <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
+            <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
             <IDs ID="11" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
+            <HalfLengths x="3" y="2" z="1"/>
         </LevelCollider>
-        <LevelModel>
-            <ModelName>PineTree2</ModelName>
-        </LevelModel>
         <LevelTransform>
-            <Position x="11.984375" y="3.78125" z="188.375"/>
-            <Rotation x="-0.016418457" y="0.99560547" z="0.08215332"/>
+            <Position x="23.625" y="6.3007813" z="149.75"/>
+            <Rotation x="-0.044219971" y="0.99462891" z="0.085449219"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (3)" tileID="1">
+    <LevelActor type="Brush" displayName="New (3) (7)" tileID="1">
         <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
+            <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
             <IDs ID="12" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
+            <HalfLengths x="3" y="2" z="1"/>
         </LevelCollider>
-        <LevelModel>
-            <ModelName>PineTree2</ModelName>
-        </LevelModel>
         <LevelTransform>
-            <Position x="25.0625" y="10.992188" z="172.375"/>
-            <Rotation x="-0.16601563" y="0.96289063" z="-0.20690918"/>
+            <Position x="18.109375" y="5.71875" z="164.125"/>
+            <Rotation x="-0.0079269409" y="0.99804688" z="0.051940918"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (4)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="13" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (8)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="30.265625" y="6.5" z="161"/>
-            <Rotation x="-0.11657715" y="0.99267578" z="0.0095825195"/>
+            <Position x="28.921875" y="7.0117188" z="149.125"/>
+            <Rotation x="-0.10308838" y="0.98974609" z="0.076904297"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (5)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="14" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (9)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="39.28125" y="6.8359375" z="168.375"/>
-            <Rotation x="-0.081787109" y="0.99609375" z="0.030715942"/>
+            <Position x="6.3515625" y="5.9140625" z="162.125"/>
+            <Rotation x="0.0048179626" y="0.99804688" z="0.057037354"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (6)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="15" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (10)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="51.65625" y="7.7109375" z="182.875"/>
-            <Rotation x="-0.14233398" y="0.98291016" z="-0.11468506"/>
+            <Position x="7.0351563" y="6.9179688" z="151"/>
+            <Rotation x="0.05859375" y="0.99804688" z="0.0069198608"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (7)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="16" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (11)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="16.046875" y="5.7773438" z="163.375"/>
-            <Rotation x="-0.0082626343" y="0.99804688" z="0.052581787"/>
+            <Position x="21.9375" y="3.9824219" z="197.75"/>
+            <Rotation x="-0.05682373" y="0.99804688" z="-0.0048713684"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (8)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="17" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (12)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="23.734375" y="6.2421875" z="150.5"/>
-            <Rotation x="-0.04309082" y="0.99462891" z="0.084228516"/>
+            <Position x="31.34375" y="4.0429688" z="224.375"/>
+            <Rotation x="0.016784668" y="0.99853516" z="0.042022705"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (9)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="18" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (13)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="15.390625" y="6.6484375" z="146"/>
-            <Rotation x="0.02154541" y="0.99707031" z="0.058227539"/>
+            <Position x="30.578125" y="4.2695313" z="219"/>
+            <Rotation x="0.016708374" y="0.99853516" z="0.042053223"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (10)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="19" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (14)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="10.085938" y="6.953125" z="145.25"/>
-            <Rotation x="0.044525146" y="0.99755859" z="0.049407959"/>
+            <Position x="36.96875" y="3.7792969" z="225.75"/>
+            <Rotation x="0.0024147034" y="0.99853516" z="0.046112061"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (11)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="20" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (15)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="1.3339844" y="6.7578125" z="140.125"/>
-            <Rotation x="-0.17749023" y="0.98291016" z="-0.038848877"/>
+            <Position x="42.21875" y="9.7109375" z="211.375"/>
+            <Rotation x="-0.052490234" y="0.99560547" z="-0.061798096"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (12)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="21" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (16)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="-3.8046875" y="9.0703125" z="133.875"/>
-            <Rotation x="-0.31176758" y="0.92626953" z="0.20849609"/>
+            <Position x="47.59375" y="9.9765625" z="210.625"/>
+            <Rotation x="-0.084289551" y="0.99365234" z="-0.062286377"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (13)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="22" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (17)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="4.1015625" y="6.9765625" z="146.375"/>
-            <Rotation x="0.2890625" y="0.90185547" z="-0.32055664"/>
+            <Position x="58.71875" y="12.140625" z="212.5"/>
+            <Rotation x="-0.23779297" y="0.96582031" z="-0.042724609"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (14)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="23" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (18)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="30.953125" y="11.476563" z="169.25"/>
-            <Rotation x="-0.21911621" y="0.88134766" z="-0.41748047"/>
+            <Position x="60.65625" y="31.9375" z="200.375"/>
+            <Rotation x="-0.27539063" y="0.95117188" z="0.092285156"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (15)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="24" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (19)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="24.25" y="10.90625" z="178"/>
-            <Rotation x="-0.14245605" y="0.98339844" z="0.094909668"/>
+            <Position x="88.375" y="20.328125" z="218.125"/>
+            <Rotation x="-0.30883789" y="0.93798828" z="0.15356445"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (16)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="25" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (20)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="19.421875" y="4.3476563" z="184.875"/>
-            <Rotation x="-0.0064125061" y="0.98876953" z="0.14892578"/>
+            <Position x="68.625" y="34.46875" z="200.875"/>
+            <Rotation x="-0.32592773" y="0.94433594" z="-0.036590576"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (17)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="26" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (21)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="34.46875" y="12.882813" z="191.75"/>
-            <Rotation x="-0.50195313" y="0.81933594" z="0.27514648"/>
+            <Position x="208.75" y="52.34375" z="231.5"/>
+            <Rotation x="-0.25146484" y="0.9375" z="-0.22924805"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (18)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="27" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (22)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="41.28125" y="9.3984375" z="201.375"/>
-            <Rotation x="-0.058288574" y="0.99804688" z="-0.002368927"/>
+            <Position x="177.625" y="44.09375" z="232.625"/>
+            <Rotation x="-0.32910156" y="0.93164063" z="-0.1451416"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (19)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="28" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (23)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="52.6875" y="21.9375" z="202.5"/>
-            <Rotation x="-0.38330078" y="0.86132813" z="0.32666016"/>
+            <Position x="194.625" y="48.9375" z="230.5"/>
+            <Rotation x="-0.22851563" y="0.94677734" z="-0.21936035"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (20)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="29" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (24)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="62.28125" y="26.453125" z="204.875"/>
-            <Rotation x="-0.40161133" y="0.80371094" z="0.39233398"/>
+            <Position x="208" y="53.125" z="236.75"/>
+            <Rotation x="-0.26367188" y="0.95019531" z="-0.15637207"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree2 (21)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="5.5" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="30" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2" y="5" z="2"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (3) (25)" tileID="0">
         <LevelModel>
-            <ModelName>PineTree2</ModelName>
+            <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="269" y="59.125" z="241.875"/>
-            <Rotation x="0.038635254" y="0.99804688" z="0.016571045"/>
+            <Position x="202.75" y="50.375" z="229.875"/>
+            <Rotation x="-0.22131348" y="0.9375" z="-0.25170898"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (26)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="240.375" y="58.09375" z="235.625"/>
+            <Rotation x="-0.19335938" y="0.91308594" z="-0.34204102"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (27)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="234.625" y="57.90625" z="237.875"/>
+            <Rotation x="-0.069458008" y="0.95654297" z="-0.25366211"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (28)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="213" y="56.59375" z="243.625"/>
+            <Rotation x="-0.26782227" y="0.93212891" z="-0.21618652"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (29)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="119" y="35.03125" z="206.625"/>
+            <Rotation x="-0.15234375" y="0.95800781" z="-0.22143555"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (30)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="56.5625" y="20.9375" z="188.625"/>
+            <Rotation x="-0.022399902" y="0.91503906" z="0.1451416"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (31)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="34.28125" y="6.5117188" z="166.875"/>
+            <Rotation x="-0.07421875" y="0.99658203" z="0.032684326"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (32)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0.084289551" y="19.3125" z="116.3125"/>
+            <Rotation x="0.17456055" y="0.95458984" z="-0.23425293"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (33)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="10.796875" y="10.40625" z="129.75"/>
+            <Rotation x="0.085876465" y="0.99462891" z="0.055603027"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (34)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="19.234375" y="20.109375" z="129.625"/>
+            <Rotation x="-0.040802002" y="0.99414063" z="0.095214844"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (35)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="21.828125" y="20.578125" z="138.25"/>
+            <Rotation x="-0.39453125" y="0.90429688" z="-0.14038086"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (36)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="54.375" y="15.039063" z="130.75"/>
+            <Rotation x="0.069641113" y="0.99609375" z="-0.020462036"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (37)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="49.28125" y="8.796875" z="134.125"/>
+            <Rotation x="-0.37939453" y="0.89599609" z="0.2265625"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (38)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="36.9375" y="7.9726563" z="136.5"/>
+            <Rotation x="-0.021835327" y="0.99902344" z="0.036132813"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (39)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="27.328125" y="20.421875" z="137"/>
+            <Rotation x="0.65771484" y="0.70117188" z="-0.11804199"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (40)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="33.375" y="8.1015625" z="131"/>
+            <Rotation x="-0.03137207" y="0.99853516" z="0.039764404"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (41)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="36.65625" y="13.53125" z="142"/>
+            <Rotation x="0" y="1" z="4.7683716e-07"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (42)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="45.65625" y="8.53125" z="144.875"/>
+            <Rotation x="-0.06439209" y="0.99707031" z="-0.037384033"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (43)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="36.375" y="7.734375" z="147.625"/>
+            <Rotation x="-0.082702637" y="0.99560547" z="-0.033538818"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (44)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="55.5" y="9.25" z="144.5"/>
+            <Rotation x="-0.36254883" y="0.93164063" z="0.016387939"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (45)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="28.375" y="5.9570313" z="166.5"/>
+            <Rotation x="-0.080566406" y="0.99511719" z="0.043945313"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (46)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="41.5" y="23.140625" z="155.375"/>
+            <Rotation x="0.15563965" y="0.8984375" z="0.23596191"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (47)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="40.46875" y="6.890625" z="170.125"/>
+            <Rotation x="-0.083374023" y="0.99560547" z="0.030303955"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (48)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="46.09375" y="7.6640625" z="176.75"/>
+            <Rotation x="-0.02381897" y="0.99902344" z="-0.026596069"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (49)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="48.125" y="7.703125" z="183.625"/>
+            <Rotation x="0" y="1" z="5.9604645e-08"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (50)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="42.96875" y="20.203125" z="183"/>
+            <Rotation x="0.53125" y="0.8125" z="-0.18334961"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (51)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="19.78125" y="4.2226563" z="187"/>
+            <Rotation x="-0.047546387" y="0.99755859" z="0.047790527"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (52)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-8.296875" y="17.578125" z="183.375"/>
+            <Rotation x="0.35986328" y="0.93017578" z="-0.058746338"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (53)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-10.828125" y="20.125" z="194.625"/>
+            <Rotation x="0.18310547" y="0.96630859" z="0.17956543"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (54)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-5.8632813" y="2.6152344" z="212.5"/>
+            <Rotation x="-0.084411621" y="0.99609375" z="-0.021286011"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (55)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-3.3164063" y="3.0175781" z="221"/>
+            <Rotation x="-0.08605957" y="0.99609375" z="-0.016723633"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (56)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="26.125" y="6.046875" z="159"/>
+            <Rotation x="-0.019271851" y="0.99853516" z="0.02406311"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (57)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="21.25" y="6.0664063" z="153.25"/>
+            <Rotation x="0.0077018738" y="0.99853516" z="0.025588989"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (58)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="8.7421875" y="10.414063" z="132.375"/>
+            <Rotation x="0.086303711" y="0.99414063" z="0.057861328"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (59)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-4.8164063" y="12.34375" z="147.75"/>
+            <Rotation x="-0.14074707" y="0.97607422" z="-0.15441895"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (60)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-23" y="29.5" z="155.5"/>
+            <Rotation x="0.16101074" y="0.98681641" z="-0.0004901886"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (61)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-25.4375" y="28.53125" z="173.125"/>
+            <Rotation x="0.36987305" y="0.92871094" z="-0.0030174255"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (62)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-32.3125" y="31.34375" z="189.375"/>
+            <Rotation x="0.35864258" y="0.93310547" z="-0.0181427"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (63)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-35.65625" y="8.1328125" z="204"/>
+            <Rotation x="-0.047302246" y="0.99804688" z="0.0083236694"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (64)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-47.21875" y="16.390625" z="223.125"/>
+            <Rotation x="0.38476563" y="0.89013672" z="-0.24255371"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (65)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-52.6875" y="27.109375" z="226.75"/>
+            <Rotation x="0.038024902" y="0.9140625" z="-0.40258789"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (66)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-37.65625" y="0.049224854" z="224.625"/>
+            <Rotation x="-0.093811035" y="0.99462891" z="0.032470703"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (67)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-58.34375" y="39.15625" z="230.875"/>
+            <Rotation x="-0.16821289" y="0.98242188" z="0.072387695"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (68)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-65.3125" y="38.25" z="233.375"/>
+            <Rotation x="-0.16345215" y="0.98193359" z="0.079956055"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (69)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-71.75" y="37.5625" z="234.875"/>
+            <Rotation x="-0.1574707" y="0.98193359" z="0.08807373"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (70)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-82.75" y="36" z="240.125"/>
+            <Rotation x="-0.15270996" y="0.98095703" z="0.098083496"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (71)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-93.625" y="35.125" z="233.75"/>
+            <Rotation x="-0.15332031" y="0.97705078" z="0.13195801"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (72)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-116.25" y="36.21875" z="212"/>
+            <Rotation x="-0.32519531" y="0.94042969" z="0.093933105"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (73)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-133.875" y="35.1875" z="193.875"/>
+            <Rotation x="-0.14318848" y="0.97509766" z="0.15551758"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (74)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-93.0625" y="-7.4765625" z="273.5"/>
+            <Rotation x="0" y="1" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (75)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-141.375" y="34.75" z="193"/>
+            <Rotation x="-0.13232422" y="0.97314453" z="0.17578125"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (76)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="-109.125" y="38.65625" z="213.125"/>
+            <Rotation x="-0.32836914" y="0.93701172" z="0.11029053"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (77)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="74.875" y="-0.45776367" z="225.5"/>
+            <Rotation x="-0.077514648" y="0.99072266" z="0.10858154"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (78)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="260" y="57.25" z="225.875"/>
+            <Rotation x="-0.41186523" y="0.88964844" z="-0.19689941"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (79)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="123.4375" y="58.125" z="285"/>
+            <Rotation x="-0.0546875" y="0.97509766" z="0.21130371"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (80)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="75.3125" y="-7.4726563" z="460.5"/>
+            <Rotation x="-4.4107437e-06" y="1" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (81)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="252.5" y="-7.4726563" z="624.5"/>
+            <Rotation x="-8.9406967e-07" y="1" z="1.0728836e-06"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (3) (82)" tileID="0">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="186.75" y="65.25" z="259.5"/>
+            <Rotation x="-0.59521484" y="0.74023438" z="-0.29980469"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
