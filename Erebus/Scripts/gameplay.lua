@@ -80,11 +80,7 @@ function EnterGameplay()
 	end
 
 	Gear.QueueModels(true)
-	if SETTING_DEBUG then 
-		CollisionHandler.Enable()
-	else
-		CollisionHandler.Disable()
-	end
+	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
 	gameStarted = true
 end
