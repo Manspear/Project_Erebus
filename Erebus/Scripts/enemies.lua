@@ -60,20 +60,6 @@ function CreateEnemy(type, position)
 		if Network.GetNetworkHost() == true then
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i], player, inState)
-
-			if self.alive then
-				self.health = 0
-				self.alive = false
-				Transform.ActiveControl(self.transformID, false)
-
-				stateScript.changeToState(enemies[i], player, inState)
-			end
-		else
-			if self.alive then
-				self.health = 0
-				self.alive = false
-				Transform.ActiveControl(self.transformID, false)
-			end
 		end
 	end
 
