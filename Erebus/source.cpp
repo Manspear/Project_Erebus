@@ -93,7 +93,7 @@ DWORD WINAPI update( LPVOID args )
 	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
 	SphereCollider sphere = SphereCollider(POINT33, 0.08f);
 	collisionHandler.addHitbox(&sphere,8);
-	AABBCollider aabb = AABBCollider(glm::vec3(-4,-500,-4),glm::vec3(4,500,4),glm::vec3(18, 7, 150));
+	AABBCollider aabb = AABBCollider(glm::vec3(-4,-500,-4),glm::vec3(4,40,4),glm::vec3(18, 7, 150));
 	collisionHandler.addHitbox(&aabb,2);
 
 	float fov = data->camera->getFov();
@@ -135,7 +135,25 @@ DWORD WINAPI update( LPVOID args )
 		glm::vec3 cameraUp = data->camera->getUp();
 
 		///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
-		Debugger::getInstance()->drawLine(f.farTopLeft,f.farTopRight,glm::vec3(1,0,0)); // far square RED
+		
+		if (data->inputs->keyPressed(GLFW_KEY_H))
+		{
+			f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
+			//if (f.pointCollision(POINT33))
+			//	std::cout << "I see point\n";
+			if (f.aabbCollision(&aabb,Debugger::getInstance()))
+				data->engine->print("Collision",200,400);
+
+			//f.updateClipSpaceFrustum(data->camera->getViewPers());
+			//if (f.clipSpaceAabbCollision(&aabb))
+			//	data->engine->print("NICLAS", 500, 400);
+
+			//if (f.aabbCollisionOptimized(&aabb))
+			//	data->engine->print("OPTIMIZED", 800, 400);
+			
+		}
+
+		Debugger::getInstance()->drawLine(f.farTopLeft, f.farTopRight, glm::vec3(1, 0, 0)); // far square RED
 		Debugger::getInstance()->drawLine(f.farTopRight, f.farBottomRight, glm::vec3(1, 0, 0));
 		Debugger::getInstance()->drawLine(f.farBottomLeft, f.farBottomRight, glm::vec3(1, 0, 0));
 		Debugger::getInstance()->drawLine(f.farBottomLeft, f.farTopLeft, glm::vec3(1, 0, 0));
@@ -148,24 +166,7 @@ DWORD WINAPI update( LPVOID args )
 		Debugger::getInstance()->drawLine(f.nearTopLeft, f.farTopLeft); // between suqres GREEN
 		Debugger::getInstance()->drawLine(f.nearTopRight, f.farTopRight);
 		Debugger::getInstance()->drawLine(f.nearBottomLeft, f.farBottomLeft);
-		Debugger::getInstance()->drawLine(f.nearBottomRight,f.farBottomRight);
-		
-		if (data->inputs->keyPressed(GLFW_KEY_H))
-		{
-			f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
-			//if (f.pointCollision(POINT33))
-			//	std::cout << "I see point\n";
-			if (f.aabbCollision(&aabb))
-				data->engine->print("Normal",200,400);
-
-			f.updateClipSpaceFrustum(data->camera->getViewPers());
-			if (f.clipSpaceAabbCollision(&aabb))
-				data->engine->print("NICLAS", 500, 400);
-
-			if (f.aabbCollisionOptimized(&aabb))
-				data->engine->print("OPTIMIZED", 800, 400);
-			
-		}
+		Debugger::getInstance()->drawLine(f.nearBottomRight, f.farBottomRight);
 			
 
 		///////////////////////////// FRUSTUM TESTING END //////////////////////////////////////
