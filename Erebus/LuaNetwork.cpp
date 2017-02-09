@@ -348,7 +348,7 @@ namespace LuaNetwork
 	int sendDamagePacket(lua_State* lua)
 	{
 		uint16_t index = lua_tointeger(lua, 1);
-		uint16_t damage = lua_tonumber(lua, 2);
+		float  damage = (float)lua_tonumber(lua, 2);
 
 		g_networkController->sendDamagePacket(DamagePacket(index, damage));
 
