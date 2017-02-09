@@ -280,4 +280,4 @@ __pycache__/
 
 # Audio
 Audio/
-settings.lua
+*settings.lua
