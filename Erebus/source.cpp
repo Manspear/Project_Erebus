@@ -299,11 +299,11 @@ int main()
 
 			assets.upload();
 
-			ReleaseSemaphore( threadData.produce, 1, NULL );
-			// END OF CRITICAL SECTION
-
 			if( threadData.queueModels )
 				engine.queueDynamicModels( &models );
+
+			ReleaseSemaphore( threadData.produce, 1, NULL );
+			// END OF CRITICAL SECTION
 
 			window.update();
 			engine.draw(&camera);

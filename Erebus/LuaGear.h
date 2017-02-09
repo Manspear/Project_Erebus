@@ -29,6 +29,9 @@ namespace LuaGear
 	int addForwardInstance(lua_State* lua);
 	int addBlendingInstance(lua_State* lua);
 
+	int bindStaticInstance( lua_State* lua );
+	int bindAnimatedInstance( lua_State* lua );
+
 	int setQueueModels( lua_State* lua );
 	int setCursorVisible( lua_State* lua );
 	int setFullscreen(lua_State* lua);

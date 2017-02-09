@@ -20,8 +20,18 @@ function LoadPlayer()
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	-- Init unique ids
-	player.transformID = Transform.Bind()
-	player2.transformID = Transform.Bind()
+	--player.transformID = Transform.Bind()
+	--player2.transformID = Transform.Bind()
+
+	local model = Assets.LoadModel("Models/testGuy.model")
+	
+	--player.transformID = Gear.BindStaticInstance(model)
+	--player2.transformID = Gear.BindStaticInstance(model)
+	player.animationController = CreatePlayerController(player)
+	player2.animationController = CreatePlayerController(player2)
+	player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+	Erebus.SetControls(player.transformID)
+	player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
 
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
@@ -41,7 +51,7 @@ function LoadPlayer()
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
-	player.animationController = CreatePlayerController(player)
+	--player.animationController = CreatePlayerController(player)
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
@@ -87,15 +97,15 @@ function LoadPlayer()
 	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/testGuy.model")
-	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
+	--local model = Assets.LoadModel("Models/testGuy.model")
+	--Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
-	Erebus.SetControls(player.transformID)
+	--Erebus.SetControls(player.transformID)
 	LoadPlayer2()
 
-	player.aim = CreateAim(player)
-	player.charger = CreateChargeThing(player)
-	InitFireEffectParticles()
+	--player.aim = CreateAim(player)
+	--player.charger = CreateChargeThing(player)
+	--InitFireEffectParticles()
 	--[[LoadEnemies(5)
 	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
 	Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
@@ -117,7 +127,7 @@ function LoadPlayer2()
 	player2.spamCasting = false
 	player2.charging = false
 
-	player2.animationController = CreatePlayerController(player2)
+	--player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
@@ -132,7 +142,7 @@ function LoadPlayer2()
 	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
-	player2.aim = CreateAim(player2)
+	--player2.aim = CreateAim(player2)
 	--player2.charger = CreateChargeThing(player2)
 end
 
@@ -154,7 +164,7 @@ function LoadSpellsPlayer2()
 end
 
 function FindHeightmap(position)
-	local hm = player.currentHeightmap
+	--[[local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
 		for k,hmIndex in pairs(hm.surrounding) do
 			if heightmaps[hmIndex].asset:Inside(position) then
@@ -163,7 +173,7 @@ function FindHeightmap(position)
 				break
 			end
 		end
-	end
+	end--]]
 end
 
 function UpdatePlayer(dt)
@@ -179,9 +189,9 @@ function UpdatePlayer(dt)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
 
-		if not console.visible then
+		--if not console.visible then
 			Controls(dt)
-		end
+		--end
 		GetCombined()
 		FindHeightmap(player.position)
 
@@ -199,9 +209,9 @@ function UpdatePlayer(dt)
 
 	end
 	-- update the current player spell
-	player.spells[1]:Update(dt)
-	player.spells[2]:Update(dt)
-	player.spells[3]:Update(dt)
+	--player.spells[1]:Update(dt)
+	--player.spells[2]:Update(dt)
+	--player.spells[3]:Update(dt)
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 
@@ -379,9 +389,9 @@ function UpdatePlayer2(dt)
 		end
 	end
 
-	player2.spells[1]:Update(dt)
-	player2.spells[2]:Update(dt)
-	player2.spells[3]:Update(dt)
+	--player2.spells[1]:Update(dt)
+	--player2.spells[2]:Update(dt)
+	--player2.spells[3]:Update(dt)
 	
 	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
 	if newAnimationValue == true then

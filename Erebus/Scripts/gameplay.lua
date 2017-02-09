@@ -1,7 +1,7 @@
 local scripts = {}
 local scriptFiles =
 {
-	"Scripts/reusable.lua",
+	--[["Scripts/reusable.lua",
 	"Scripts/console.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
@@ -26,7 +26,11 @@ local scriptFiles =
 	"Scripts/spellList.lua",
 	"Scripts/HUD.lua",
 	"Scripts/spellUtility.lua",
-	"Scripts/boss.lua"
+	"Scripts/boss.lua"--]]
+	"Scripts/reusable.lua",
+	"Scripts/camera.lua",
+	"Scripts/Animation_Controllers/playerController.lua",
+	"Scripts/player.lua"
 }
 
 local gameStarted = false

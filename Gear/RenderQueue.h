@@ -35,6 +35,8 @@ struct ModelInstance
 {
 	Importer::ModelAsset* asset;
 	std::vector<int> worldIndices;
+	std::vector<TransformStruct> transforms;
+	std::vector<glm::mat4> worldMatrices;
 	GLuint instanceVBO = 0;
 	GLuint instanceVAO = 0;
 
@@ -48,7 +50,8 @@ struct ModelInstance
 		
 		glBindVertexArray(instanceVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldMatrices.size(), &worldMatrices[0][0][0], GL_STREAM_DRAW);
 
 		glEnableVertexAttribArray(4);
 		glEnableVertexAttribArray(5);
@@ -73,6 +76,8 @@ struct AnimatedInstance
 {
 	ModelAsset* asset;
 	std::vector<int> worldIndices;
+	std::vector<TransformStruct> transforms;
+	std::vector<glm::mat4> worldMatrices;
 	std::vector<Animation*> animations;
 };
 

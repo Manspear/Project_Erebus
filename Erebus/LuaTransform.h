@@ -2,10 +2,11 @@
 
 #include "lua\lua.hpp"
 #include "Transform.h"
+#include "RenderQueue.h"
 
 namespace LuaTransform
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms);
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels );
 	int bind( lua_State* lua );
 	int destroy( lua_State* lua );
 	int move( lua_State* lua );

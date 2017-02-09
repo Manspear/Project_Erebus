@@ -40,6 +40,8 @@ namespace LuaGear
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "AddForwardInstance",	addForwardInstance},
 			{ "AddBlendingInstance", addBlendingInstance},
+			{ "BindStaticInstance", bindStaticInstance },
+			{ "BindAnimatedInstance", bindAnimatedInstance },
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
@@ -144,6 +146,96 @@ namespace LuaGear
 		g_animatedModels->at(index).animations.push_back(animation);
 
 		return 0;
+	}
+
+	int bindStaticInstance( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+
+		int index = -1;
+		for( int i=0; i<g_models->size(); i++ )
+			if( g_models->at(i).asset == asset )
+				index = i;
+
+		if( index < 0 )
+		{
+			ModelInstance instance;
+			instance.asset = asset;
+
+			index = (int)g_models->size();
+			g_models->push_back( instance );
+		}
+
+		int transformID = g_models->at(index).transforms.size();
+		g_models->at(index).worldMatrices.push_back(glm::mat4());
+		TransformStruct t = {};
+		t.active = true;
+		t.lookAt = glm::vec3( 0, 0, 1 );
+		t.scale = glm::vec3( 1.0f );
+		g_models->at(index).transforms.push_back(t);
+		//g_models->at(index).transforms.push_back(TransformStruct());
+
+		/*lua_newtable( lua );
+		lua_pushnumber( lua, index );
+		lua_setfield( lua, -2, "modelID" );
+		lua_pushnumber( lua, transformID );
+		lua_setfield( lua, -2, "transformID" );
+		lua_pushboolean( lua, false );
+		lua_setfield( lua, -2, "animated" );
+		return 1;*/
+
+		lua_pushlightuserdata( lua, &g_models->at(index).transforms.at(transformID) );
+		return 1;
+	}
+
+	int bindAnimatedInstance( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 2 );
+		assert( lua_isuserdata( lua, 1 ) );
+		assert( lua_istable( lua, 2 ) );
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+		lua_getfield( lua, 2, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int index = -1;
+		for( int i=0; i<g_animatedModels->size(); i++ )
+			if( g_animatedModels->at(i).asset == asset )
+				index = i;
+
+		if( index < 0 )
+		{
+			AnimatedInstance instance;
+			instance.asset = asset;
+
+			index = (int)g_animatedModels->size();
+			g_animatedModels->push_back( instance );
+		}
+
+		animation->setAsset( asset );
+
+		int transformID = g_animatedModels->at(index).transforms.size();
+		g_animatedModels->at(index).worldMatrices.push_back(glm::mat4());
+		TransformStruct t = {};
+		t.active = true;
+		t.lookAt = glm::vec3( 0, 0, 1 );
+		t.scale = glm::vec3( 1.0f );
+		g_animatedModels->at(index).transforms.push_back(t);
+		g_animatedModels->at(index).animations.push_back(animation);
+
+		/*lua_newtable( lua );
+		lua_pushnumber( lua, index );
+		lua_setfield( lua, -2, "modelID" );
+		lua_pushnumber( lua, transformID );
+		lua_setfield( lua, -2, "transformID" );
+		lua_pushboolean( lua, true );
+		lua_setfield( lua, -2, "animated" );
+		return 1;*/
+
+		lua_pushlightuserdata( lua, &g_animatedModels->at(index).transforms.at(transformID) );
+		return 1;
 	}
 
 	int setQueueModels( lua_State* lua )

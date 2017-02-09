@@ -37,7 +37,8 @@ void Controls::update( Inputs* input )
 
 	//rotate the controlled object (prolly shouldnt be dont here, but fuck it)
 	MousePos dPos = input->getDeltaPos();
-	glm::vec3 rotation = controlled->getRotation();
+	//glm::vec3 rotation = controlled->getRotation();
+	glm::vec3 rotation = controlled->rot;
 	rotation.y += (float)dPos.x / sensitivity;
 	rotation.z += (float)dPos.y / sensitivity;
 	if (rotation.y > 2 * 3.14f) 
@@ -53,12 +54,18 @@ void Controls::update( Inputs* input )
 		rotation.z = -3.14f / 2;
 	}
 
-	controlled->setRotation(rotation);
+	/*controlled->setRotation(rotation);
 	controlled->setLookAt(glm::normalize(glm::vec3(
 		cos(rotation.z) * sin(rotation.y),
 		sin(rotation.z),
 		cos(rotation.z)*cos(rotation.y)
-	)));
+	)));*/
+
+	controlled->rot = rotation;
+	controlled->lookAt = glm::normalize(glm::vec3(
+		cos(rotation.z) * sin(rotation.y),
+		sin(rotation.z),
+		cos(rotation.z)*cos(rotation.y) ));
 }
 
 bool* Controls::getKeys()
@@ -66,12 +73,22 @@ bool* Controls::getKeys()
 	return keys;
 }
 
-Transform * Controls::getControl()
+/*Transform * Controls::getControl()
 {
 	return controlled;
 }
 
 void Controls::setControl(Transform * trans)
+{
+	controlled = trans;
+}*/
+
+TransformStruct* Controls::getControl()
+{
+	return controlled;
+}
+
+void Controls::setControl( TransformStruct* trans )
 {
 	controlled = trans;
 }

@@ -15,7 +15,7 @@ function GetHeightmap(position)
 
 	assert( result, "Player has no current heightmap!" )
 
-	if not result.asset:Inside(position) then
+	--[[if not result.asset:Inside(position) then
 		result = nil
 
 		for _,hmIndex in pairs(player.currentHeightmap.surrounding) do
@@ -24,7 +24,7 @@ function GetHeightmap(position)
 				break
 			end
 		end
-	end
+	end--]]
 
 	return result
 end

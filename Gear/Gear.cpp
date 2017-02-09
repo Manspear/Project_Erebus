@@ -11,6 +11,7 @@ struct ScreenVertex
 namespace Gear
 {
 	GearEngine::GearEngine()
+		: dynamicModels( nullptr ), animatedModels( nullptr )
 	{
 		glewInit();
 		queue.init();
@@ -204,6 +205,27 @@ namespace Gear
 	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
 	{
 		dynamicModels = models;
+
+		glm::mat4 ident;
+		for( int i=0; i<dynamicModels->size(); i++ )
+		{
+			for( int j=0; j<dynamicModels->at(i).transforms.size(); j++ )
+			{
+				TransformStruct& t = dynamicModels->at(i).transforms.at(j);
+				glm::vec3 tempLook = glm::vec3(t.lookAt.x, 0, t.lookAt.z);
+				if( glm::length(t.lookAt) > glm::epsilon<float>() )
+					tempLook = glm::normalize( tempLook );
+				glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+				glm::mat4 tempMatrix = glm::translate( ident, t.pos );
+				tempMatrix = glm::scale( tempMatrix, t.scale );
+				tempMatrix = glm::rotate( tempMatrix, t.rot.z, axis );
+				tempMatrix = glm::rotate( tempMatrix, t.rot.y, { 0, 1, 0 } );
+
+				dynamicModels->at(i).worldMatrices[j] = tempMatrix;
+			}
+		}
+
 		for (auto &m : *dynamicModels)
 			m.allocateBuffer();
 	}
@@ -359,6 +381,29 @@ namespace Gear
 		addLight();
 		updateLight();
 		removeLight();
+
+		if( animatedModels )
+		{
+			glm::mat4 ident;
+			for( int i=0; i<animatedModels->size(); i++ )
+			{
+				for( int j=0; j<animatedModels->at(i).transforms.size(); j++ )
+				{
+					TransformStruct& t = animatedModels->at(i).transforms.at(j);
+					glm::vec3 tempLook = glm::vec3(t.lookAt.x, 0, t.lookAt.z);
+					if( glm::length(t.lookAt) > glm::epsilon<float>() )
+						tempLook = glm::normalize( tempLook );
+					glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+					glm::mat4 tempMatrix = glm::translate( ident, t.pos );
+					tempMatrix = glm::scale( tempMatrix, t.scale );
+					tempMatrix = glm::rotate( tempMatrix, t.rot.z, axis );
+					tempMatrix = glm::rotate( tempMatrix, t.rot.y, { 0, 1, 0 } );
+
+					animatedModels->at(i).worldMatrices[j] = tempMatrix;
+				}
+			}
+		}
 	}
 
 	GEAR_API void GearEngine::addLight()

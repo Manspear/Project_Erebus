@@ -37,10 +37,17 @@ namespace LuaErebus
 
 	int setControls( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) == 1 );
+		/*assert( lua_gettop( lua ) == 1 );
 
 		int transformID = (int)lua_tointeger( lua, 1 );
 		g_controls->setControl( &g_transforms[transformID] );
+
+		return 0;*/
+
+		assert( lua_gettop( lua ) == 1 );
+
+		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
+		g_controls->setControl( t );
 
 		return 0;
 	}

@@ -329,11 +329,15 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		if (modelAsset->getMaterial())
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
 
-		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
+		//for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
+		for (int j = 0; j < dynamicModels->at(i).worldMatrices.size(); j++)
 		{
-			indices[j] = dynamicModels->at(i).worldIndices[j];
-			if (allTransforms[indices[j]].active)
-				tempMatrices[numInstance++] = worldMatrices[indices[j]];
+			//indices[j] = dynamicModels->at(i).worldIndices[j];
+			//if (allTransforms[indices[j]].active)
+			{
+				//tempMatrices[numInstance++] = worldMatrices[indices[j]];
+				tempMatrices[numInstance++] = dynamicModels->at(i).worldMatrices[j];
+			}
 		}
 		//allShaders[GEOMETRY]->setUniform4fv(tempMatrices, "worldMatrices", numInstance);
 		GLsizei size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
@@ -386,12 +390,15 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
 		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
-		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
+		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
+		for (int j = 0; j< animatedModels->at(i).worldMatrices.size(); j++)
 		{
-			int index = animatedModels->at(i).worldIndices.at(j);
+			//int index = animatedModels->at(i).worldIndices.at(j);
 			//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
-			glm::mat4 tempMatrix = worldMatrices[index];
+			//glm::mat4 tempMatrix = worldMatrices[index];
 
+			//allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
+			glm::mat4 tempMatrix = animatedModels->at(i).worldMatrices[j];
 			allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
 
 			//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );

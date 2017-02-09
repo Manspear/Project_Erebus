@@ -14,11 +14,14 @@ public:
 	~Controls();
 	void update( Inputs* input );
 	bool* getKeys();
-	Transform* getControl();
-	void setControl(Transform* trans);
+	//Transform* getControl();
+	//void setControl(Transform* trans);
+	TransformStruct* getControl();
+	void setControl( TransformStruct* trans );
 	void sensitivityFactor(float factor);
 private:
-	Transform* controlled;
+	//Transform* controlled;
+	TransformStruct* controlled;
 	float sensitivity;
 	bool keys[CONTROLS_MAX_KEYS*3];
 
