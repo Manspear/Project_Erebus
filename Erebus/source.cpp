@@ -93,7 +93,7 @@ DWORD WINAPI update( LPVOID args )
 	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
 	SphereCollider sphere = SphereCollider(POINT33, 0.08f);
 	collisionHandler.addHitbox(&sphere,8);
-	AABBCollider aabb = AABBCollider(glm::vec3(-400,-500,-400),glm::vec3(400,500,400),glm::vec3(125, 35, 230));
+	AABBCollider aabb = AABBCollider(glm::vec3(-4,-500,-4),glm::vec3(4,500,4),glm::vec3(18, 7, 150));
 	collisionHandler.addHitbox(&aabb,2);
 
 	float fov = data->camera->getFov();
@@ -155,12 +155,15 @@ DWORD WINAPI update( LPVOID args )
 			f.updateFrustum(cameraPosition, cameraLookDirection, cameraUp);
 			//if (f.pointCollision(POINT33))
 			//	std::cout << "I see point\n";
-			if (f.aabbCollision(&aabb, Debugger::getInstance()))
-				data->engine->print("I see it",400,400);
+			if (f.aabbCollision(&aabb))
+				data->engine->print("Normal",200,400);
 
 			f.updateClipSpaceFrustum(data->camera->getViewPers());
 			if (f.clipSpaceAabbCollision(&aabb))
-				data->engine->print("NICLAS COLLISION", 600, 400);
+				data->engine->print("NICLAS", 500, 400);
+
+			if (f.aabbCollisionOptimized(&aabb))
+				data->engine->print("OPTIMIZED", 800, 400);
 			
 		}
 			

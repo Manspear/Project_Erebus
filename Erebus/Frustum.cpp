@@ -30,8 +30,6 @@ void Frustum::updateFrustum(const glm::vec3 & position, const glm::vec3 & direct
 	glm::vec3 nearCenter, farCenter, x, y, z;
 
 	//compute z axis of camera, opposite direction from the looking direction
-	// this is like (-direction)?
-	//z = glm::normalize(position - direction);
 	//z = glm::normalize(glm::vec3(-direction.x,0,-direction.z));
 	z = -direction;
 
@@ -39,7 +37,7 @@ void Frustum::updateFrustum(const glm::vec3 & position, const glm::vec3 & direct
 	x = glm::normalize(glm::cross(up, z));
 
 	//y the real "up vector" is the cross product of Z and X
-	y = glm::normalize(glm::cross(z, x)); // might just be able to use up vector from camera?
+	y = glm::normalize(glm::cross(z, x));
 
 	// compute near and far planes
 	nearCenter = position - (z * nearDistance);
@@ -88,7 +86,7 @@ bool Frustum::pointCollision(glm::vec3& point)
 	return collision;
 }
 
-bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
+bool Frustum::aabbCollision(AABBCollider * aabb)
 {
 	bool collision = false;
 	const short int CORNER_AMOUNT = 8;
@@ -113,11 +111,6 @@ bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
 	corners[5] = minPos + maxPosYZ + center;	// left top far
 	corners[6] = minPos + maxPosY + center;			// left top near
 	corners[7] = minPos + maxPosXY + center;	// right top near
-
-	for (size_t i = 0; i < 8; i++)
-	{
-		debugger->drawSphere(corners[i], 0.3f);
-	}
 
 
 	// FIRST CHECK, IS ANY CORNER INSIDE THE FRUSTUM
@@ -159,6 +152,20 @@ bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
 
 
 
+	return collision;
+}
+
+bool Frustum::aabbCollisionOptimized(AABBCollider * aabb)
+{
+	bool collision = true; // box inside frustum
+
+	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+	{
+		if (planes[i].distance(aabb->getPositiveVertex(planes[i].getNormal())) < 0) // is the positive vertex outside?
+			return false; // outside
+		else if (planes[i].distance(aabb->getNegativeVertex(planes[i].getNormal())) < 0) // is the negative vertex outside?
+			collision = true; // box intersects frustum
+	}
 	return collision;
 }
 

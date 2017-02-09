@@ -11,15 +11,19 @@ public:
 	~Frustum();
 
 	void setCameraParameters(float fov, float aspectRatio, float nearDistance, float farDistance);
+
+	// geometric solution
 	void updateFrustum(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& up);
-
 	bool pointCollision(glm::vec3& point);
-	bool aabbCollision(AABBCollider* aabb, Debug* debugger);
+	bool aabbCollision(AABBCollider* aabb);
+	bool aabbCollisionOptimized(AABBCollider* aabb);
 
+
+	//clip space
 	void updateClipSpaceFrustum(const glm::mat4 viewProjectionMatrix);
+	bool clipSpaceAabbCollision(AABBCollider* aabb); //Clip space collision does not use exactly the same algorithm as regular aabbCollision
 
-	//Clip space collision does not use exactly the same algorithm as regular aabbCollision
-	bool clipSpaceAabbCollision(AABBCollider* aabb);
+
 private:
 	enum
 	{
