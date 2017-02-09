@@ -86,7 +86,7 @@ bool Frustum::pointCollision(glm::vec3& point)
 	return collision;
 }
 
-bool Frustum::aabbCollision(AABBCollider * aabb)
+bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
 {
 	bool collision = false;
 	const short int CORNER_AMOUNT = 8;
@@ -112,43 +112,46 @@ bool Frustum::aabbCollision(AABBCollider * aabb)
 	corners[6] = minPos + maxPosY + center;			// left top near
 	corners[7] = minPos + maxPosXY + center;	// right top near
 
+	for (size_t i = 0; i < CORNER_AMOUNT; i++)
+	{
+		debugger->drawSphere(corners[i], 1, glm::vec3(1,1,0));
+	}
+
 
 	// FIRST CHECK, IS ANY CORNER INSIDE THE FRUSTUM
-	for (size_t i = 0; i < CORNER_AMOUNT; i++)
+	for (size_t i = 0; i < CORNER_AMOUNT && !collision; i++)
 	{
 		if (this->pointCollision(corners[i])) // if any corner is inside the frustum, collision true and end loop
 		{
-			collision = true;
-			i = CORNER_AMOUNT;
+			collision = true; // early exit
 		}
-		
 	}
 
 	// if point is outside plane, check if the others are outside tha same plane
 	// is point not outside that plane, check next plane
 	// if all corners are outside the same plane, no collision
-	if (!collision) // Niclas algorithm			This is the algorithm used in clip space collision
-	{
-		collision = true;
-		for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
-		{
-			int cornerCounter = 0;
-			for (size_t j = 0; j < CORNER_AMOUNT; j++)
-			{
-				if (!pointPlaneCollision(i, corners[j])) //corner is outside
-				{
-					cornerCounter++;
-					
-				}
-			}	
-			if (cornerCounter == CORNER_AMOUNT) // all corners outside same plane, defenitely no collision
-			{
-				collision = false;
-				i = FRUSTUM_PLANE_AMOUNT; // early exit
-			}
-			//std::cout << "CORNER COUNTER: " << cornerCounter << std::endl;
-		}
-	}
+	//if (!collision) // Niclas algorithm			This is the algorithm used in clip space collision
+	//{
+	//	collision = true;
+	//	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+	//	{
+	//		int cornerCounter = 0;
+	//		for (size_t j = 0; j < CORNER_AMOUNT; j++)
+	//		{
+	//			if (!pointPlaneCollision(i, corners[j])) //corner is outside
+	//			{
+	//				cornerCounter++;
+	//				
+	//			}
+	//		}	
+	//		if (cornerCounter == CORNER_AMOUNT) // all corners outside same plane, defenitely no collision
+	//		{
+	//			collision = false;
+	//			i = FRUSTUM_PLANE_AMOUNT; // early exit
+	//		}
+	//		//std::cout << "CORNER COUNTER: " << cornerCounter << std::endl;
+	//	}
+	//}
 
 
 
@@ -262,6 +265,15 @@ bool Frustum::clipSpaceAabbCollision(AABBCollider * aabb)
 	if (totalInside == 6)
 		return 1; // intersect
 	return 1; // inside
+}
+
+bool Frustum::pointAABBCollision(glm::vec3 point, AABBCollider * aabb)
+{
+	glm::vec3 minPos = aabb->getMinPos();
+	glm::vec3 maxPos = aabb->getMaxPos();
+	return (point.x >= minPos.x && point.x <= maxPos.x) &&
+			(point.y >= minPos.y && point.y <= maxPos.y) &&
+			(point.z >= minPos.z && point.z <= maxPos.z);
 }
 
 bool Frustum::pointPlaneCollision(int plane, glm::vec3 & point)

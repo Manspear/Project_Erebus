@@ -1,0 +1,2 @@
+SETTING_FULLSCREEN = false
+SETTING_DEBUG = true
