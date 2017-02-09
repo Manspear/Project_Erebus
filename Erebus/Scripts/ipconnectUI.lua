@@ -161,10 +161,6 @@ end
 
 function stringToIp(string)
 	local a2, b2, c2, d2 = string:match"(%d%d?%d?).(%d%d?%d?).(%d%d?%d?).(%d%d?%d?)"
-	print(a2)
-	print(b2)
-	print(c2)
-	print(d2)
 	return {a = a2, b = b2, c = c2, d = d2}
 end
 
