@@ -26,6 +26,7 @@ private:
 	GLFWcursor* cursor;
 
 	const static int MONITOR_WIDTH = 1920;
+	bool currentFullscreen = true;
 
 	void initWindow();
 	

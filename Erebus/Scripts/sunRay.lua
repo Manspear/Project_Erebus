@@ -129,11 +129,12 @@ function CreateSunRay(entity)
 					if self.effectFlag then
 						for e =1, #self.effects do
 							local effect = effectTable[self.effects[e]]()
+	
 							table.insert(hits[index].effects, effect)
 							effect:Apply(hits[index])							
 						end
 					end
-					hits[index]:Hurt(self.damage)
+					hits[index]:Hurt(self.damage, sunRay.owner)
 					self.timeSinceTick = self.tickInterval
 					local id = Sound.Play(self.hitSFX, 1, hits[index].position)
 					if id ~= -1 then self.hitID = id end

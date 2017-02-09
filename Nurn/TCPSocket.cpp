@@ -64,7 +64,7 @@ namespace Nurn
 		// If failed, throw exception
 		if (OutSocketHandle == INVALID_SOCKET)
 		{
-			printf("failed to accept connection \n");
+			//printf("failed to accept connection \n");
 			return false;
 		}
 
