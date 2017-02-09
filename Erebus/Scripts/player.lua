@@ -116,6 +116,7 @@ function LoadPlayer2()
 	player2.heightmapIndex = 1
 	player2.spamCasting = false
 	player2.charging = false
+	player2.position = {}
 
 	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
@@ -369,7 +370,7 @@ function UpdatePlayer2(dt)
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
-				player.charger:StartCharge(player.position)
+				player2.charger:StartCharge(player2.position)
 				isPlayer2Charging = true
 			else
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
