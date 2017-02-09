@@ -101,7 +101,7 @@ namespace AGI
 
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.67f;  // Never above 1
+			resolution = 0.4f;  // Never above 1
 
 			dynamicInfluenceMap = nullptr;
 			staticInfluenceMap = nullptr;
@@ -630,7 +630,7 @@ namespace AGI
 
 					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList, closedListList);
 
-					while (finishNode == nullptr && closedListList.size() < 50)
+					while (finishNode == nullptr && closedListList.size() < 60)
 					{
 						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, closedListList);
 					}
@@ -712,7 +712,7 @@ namespace AGI
 			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom - 1, openList, closedList))
 			{
 				dynamicInfluenceMap[xFrom][yFrom - 1]->setParent(inNode);
-				dynamicInfluenceMap[xFrom][yFrom - 1]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom][yFrom - 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom][yFrom - 1]->setHCost(calculateH(xFrom, yFrom - 1, xTarget, yTarget));
 
 				openList.push_back(dynamicInfluenceMap[xFrom][yFrom - 1]);
@@ -731,7 +731,7 @@ namespace AGI
 			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom, openList, closedList))
 			{
 				dynamicInfluenceMap[xFrom - 1][yFrom]->setParent(inNode);
-				dynamicInfluenceMap[xFrom - 1][yFrom]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom - 1][yFrom]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom - 1][yFrom]->setHCost(calculateH(xFrom - 1, yFrom, xTarget, yTarget));
 
 				openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom]);
@@ -740,7 +740,7 @@ namespace AGI
 			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom, openList, closedList))
 			{
 				dynamicInfluenceMap[xFrom + 1][yFrom]->setParent(inNode);
-				dynamicInfluenceMap[xFrom + 1][yFrom]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom + 1][yFrom]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom + 1][yFrom]->setHCost(calculateH(xFrom + 1, yFrom, xTarget, yTarget));
 
 				openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom]);
@@ -760,7 +760,7 @@ namespace AGI
 			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom + 1, openList, closedList))
 			{
 				dynamicInfluenceMap[xFrom][yFrom + 1]->setParent(inNode);
-				dynamicInfluenceMap[xFrom][yFrom + 1]->setGCost(inNode->getGCost() + 10);
+				dynamicInfluenceMap[xFrom][yFrom + 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom][yFrom + 1]->setHCost(calculateH(xFrom, yFrom + 1, xTarget, yTarget));
 
 				openList.push_back(dynamicInfluenceMap[xFrom][yFrom + 1]);
@@ -785,16 +785,12 @@ namespace AGI
 			//if (dynamicInfluenceMap[xFrom][yFrom]->getStrength() < 0)
 			//	return false;
 
-			if (dynamicInfluenceMap[xFrom][yFrom]->checkIfOccupied())
-				return false;
+			//if (dynamicInfluenceMap[xFrom][yFrom]->checkIfOccupied())
+			//	return false;
 
 
 			for (int n = 0; n < openList.size(); n++)
 			{
-				
-				
-				//debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(111, 111, 2));
-				//debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(111,111, 2));
 				if (openList[n] == dynamicInfluenceMap[xFrom][yFrom])
 					return false;
 			}
@@ -806,9 +802,9 @@ namespace AGI
 			}
 
 			bool returnerBool = true;
-		/*	for (int n = 0; n < enemies.size(); n++)
+			for (int n = 0; n < enemies.size(); n++)
 			{
-				for (int i = 0; i <2 ; i++)
+				for (int i = 0; i <4 ; i++)
 				{
 					if (enemies[n].targetPath.size() > 0 && enemies[n].targetPath.size() > i)
 					{
@@ -818,7 +814,7 @@ namespace AGI
 							returnerBool = false;
 					}
 				}
-			}*/
+			}
 
 			return returnerBool;
 		}
@@ -962,6 +958,7 @@ namespace AGI
 				int enemyPos = -1;
 				for (int n = 0; n < enemies.size(); n++)
 				{
+					
 					if (enemyId == enemies[n].id)
 					{
 						enemyPos = n;
