@@ -27,23 +27,22 @@ function CreateEnemy(type, position)
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
 	enemies[i].Hurt = function(self, damage, source)
-		if source.transformID ~= player2.transformID then
-			local pos = Transform.GetPosition(self.transformID)
+		local pos = Transform.GetPosition(self.transformID)
 
+		if source.transformID ~= player2.transformID then
 			if Network.GetNetworkHost() == true then
 				self.health = self.health - damage
 
 				if self.health <= 0 then
-					print("Dead for host", enemies[i].transformID)
+					--print("Dead for host", enemies[i].transformID)
 					self:Kill()
 				end
 			else
 				print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
-
-			self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		end
+		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
 
 	enemies[i].Kill = function(self)
@@ -61,6 +60,8 @@ function CreateEnemy(type, position)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i], player, inState)
 		end
+
+		enemies[i].animationController:AnimationUpdate(0) -- play death animation
 	end
 
 	enemies[i].Spawn = function(self,position)
@@ -81,12 +82,12 @@ function CreateEnemy(type, position)
 
 	if Network.GetNetworkHost() == true then
 		enemies[i].state = stateScript.state.idleState
-		enemies[i].animationState = 1
-		enemies[i].range = 4
-		enemies[i].target = nil
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
+	enemies[i].animationState = 1
+	enemies[i].range = 4
+	enemies[i].target = nil
 
 	local modelName = ""
 	if type == ENEMY_MELEE then
