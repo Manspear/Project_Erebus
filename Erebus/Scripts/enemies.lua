@@ -34,7 +34,7 @@ function CreateEnemy(type, position)
 				self.health = self.health - damage
 
 				if self.health <= 0 then
-					print("Dead for host", enemies[i].transformID)
+					--print("Dead for host", enemies[i].transformID)
 					self:Kill()
 				end
 			else
