@@ -237,24 +237,48 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			if (allTransforms[indices[j]].active)
 			{
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
-				atLeastOne = true;
-			}			
-			
+				//atLeastOne = true;
+			}
 		}
-		if (atLeastOne)
+		if (numInstance != 0)
 		{
 			modelAsset = dynamicModels->at(i).asset;
 			meshes = modelAsset->getHeader()->numMeshes;
 
-			allShaders[FORWARD]->setUniform(*tempMatrices, "worldMatrices", numInstance);
+			//allShaders[FORWARD]->setUniform(*tempMatrices, "worldMatrices", numInstance);
 			if (uniValues->at(i).location != "NULL")
 				allShaders[FORWARD]->addUniform(uniValues->at(i).values, uniValues->at(i).location);
+
+			//world matrix buffer
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, instanceTest);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, &tempMatrices[0][0][0], GL_STREAM_DRAW);
+
+				glEnableVertexAttribArray(3);
+				glEnableVertexAttribArray(4);
+				glEnableVertexAttribArray(5);
+				glEnableVertexAttribArray(6);
+
+				glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, 0);
+				glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4)));
+				glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4) * 2));
+				glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (void*)(sizeof(glm::vec4) * 3));
+
+				glVertexAttribDivisor(3, 1);
+				glVertexAttribDivisor(4, 1);
+				glVertexAttribDivisor(5, 1);
+				glVertexAttribDivisor(6, 1);
+			}
+
 			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
 				modelAsset->getMaterial()->bindTextures(allShaders[FORWARD]->getProgramID());
+				glEnableVertexAttribArray(0);
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, 0);
+				glEnableVertexAttribArray(1);
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, (void*)(sizeof(float) * 3));
+				glEnableVertexAttribArray(2);
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, (GLsizei)size, (void*)(sizeof(float) * 6));
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
 				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
@@ -266,6 +290,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 				allShaders[FORWARD]->addUniform(resetValue, uniValues->at(i).location);
 		}
 	}
+	glBindVertexArray(0);
 	allShaders[FORWARD]->unUse();
 }
 
