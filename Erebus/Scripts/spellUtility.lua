@@ -90,7 +90,7 @@ function CreateChargeThing(entity)
 		chargeThing.timer = 0
 		Transform.ActiveControl(chargeThing.transformID, true)
 		Transform.ActiveControl(chargeThing.transformID2, true)  
-		Transform.SetPosition(chargeThing.caster, position) 
+		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
 		chargeThing.particles.cast() 
 	end
 
