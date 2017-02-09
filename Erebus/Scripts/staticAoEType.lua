@@ -6,14 +6,16 @@ function CreateStaticAoEType()
 	CollisionHandler.AddSphere(type.sphereCollider, 1)
 	SphereCollider.SetActive(type.sphereCollider, false)
 	Transform.ActiveControl(type.transformID, false)
+	type.position = {x=0,y=0,z=0}
 	type.maxradius = 0
 	type.duration = 0
 	type.timer = 0
 
 	function type:Cast(duration, radius, position)
+		self.position = position
 		Transform.ActiveControl(type.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
-		Transform.SetPosition(self.transformID, position)
+		Transform.SetPosition(self.transformID, self.position)
 		self.maxradius = radius
 		self.duration = duration
 		self.timer = 0

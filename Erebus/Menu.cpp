@@ -15,6 +15,7 @@ Menu::Menu(Gear::GearEngine* inEngine, Importer::Assets* assets)
 	clientButton = sScreenImage(glm::vec2(350, 550), 350, 100);
 	clientButtonTex = assets->load<TextureAsset>("Textures/buttonConnect.png");
 
+
 }
 
 Menu::~Menu()
@@ -25,17 +26,17 @@ Menu::~Menu()
 enum GameState Menu::Update(Inputs* inputs)
 {
 
-	if (button.mousePick(inputs->getMousePos().x, inputs->getMousePos().y) && inputs->buttonReleasedThisFrame(0))
+	if (button.mousePick((float)inputs->getMousePos().x, (float)inputs->getMousePos().y) && inputs->buttonReleasedThisFrame(0))
 	{
 
 		return  GameplayState;
 	}
-	else if (hostButton.mousePick(inputs->getMousePos().x, inputs->getMousePos().y) && inputs->buttonReleasedThisFrame(0))
+	else if (hostButton.mousePick((float)inputs->getMousePos().x, (float)inputs->getMousePos().y) && inputs->buttonReleasedThisFrame(0))
 	{
 
 		return  HostGameplayState;
 	}
-	else if (clientButton.mousePick(inputs->getMousePos().x, inputs->getMousePos().y) && inputs->buttonReleasedThisFrame(0))
+	else if (clientButton.mousePick((float)inputs->getMousePos().x, (float)inputs->getMousePos().y) && inputs->buttonReleasedThisFrame(0))
 	{
 
 		return  ClientGameplayState;

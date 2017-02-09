@@ -28,7 +28,7 @@ namespace Importer
 			fseek( file, 0, SEEK_SET );
 
 			char* text = new char[len+1];
-			len = fread( text, 1, len, file );
+			len = (int)fread( text, 1, len, file );
 			text[len] = 0;
 
 			char* start = text;
@@ -44,7 +44,7 @@ namespace Importer
 				while( *cur && *cur != ':' )
 					cur++;
 
-				int nameLen = cur - start;
+				int nameLen = (int)(cur - start);
 
 				if( *cur && *cur == ':' )
 				{
@@ -103,6 +103,10 @@ namespace Importer
 	{
 	}
 
+	void MaterialAsset::upload()
+	{
+	}
+
 	glm::vec3 MaterialAsset::parseVec3( char** cursor )
 	{
 		glm::vec3 result;
@@ -117,7 +121,7 @@ namespace Importer
 			while( *cur && !isWhitespace( *cur ) )
 				cur++;
 
-			result[i] = atof(start);
+			result[i] = (float)atof(start);
 		}
 
 		*cursor = cur;
@@ -138,7 +142,7 @@ namespace Importer
 		while( *cur && !isWhitespace( *cur ) )
 			cur++;
 
-		result = atof(start);
+		result = (float)atof(start);
 		*cursor = cur;
 
 		return result;
@@ -155,7 +159,7 @@ namespace Importer
 		while( *cur && !isWhitespace( *cur ) )
 			cur++;
 
-		int len = cur-start;
+		int len = (int)(cur-start);
 		strncpy( dst, start, len );
 		dst[len] = 0;
 

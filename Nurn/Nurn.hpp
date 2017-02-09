@@ -3,7 +3,6 @@
 #include "NetworkDefines.hpp"
 
 #if PLATFORM == PLATFORM_WINDOWS
-
 #include <winsock2.h>
 #pragma comment( lib, "wsock32.lib" )
 //#pragma comment( lib, "ws2_32.lib" )
@@ -31,49 +30,58 @@
 
 namespace Nurn
 {
-	class NURN_API NurnEngine 
+	class NurnEngine
 	{
 	public:
-		NurnEngine();
-		virtual ~NurnEngine();
+		NURN_API NurnEngine();
+		NURN_API virtual ~NurnEngine();
 
-		bool InitializeHost(uint16_t port = 35500);
+		NURN_API bool InitializeHost(uint16_t port = 35500);
 		// Takes an ipv4 address with each of the 255 values seperated by commas, for example ( 127, 0, 0, 1 )
-		bool InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort = 35500, uint16_t origPort = 35500);
+		NURN_API bool InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort = 35500, uint16_t origPort = 35500);
 
-		bool AcceptCommunication();
+		NURN_API bool AcceptCommunication();
 
-		bool Send(const void * data, int size);
-		bool Send(const Address & destination, const void * data, int size);
-		bool Send();
+		NURN_API bool Send(const void * data, int size);
+		NURN_API bool Send(const Address & destination, const void * data, int size);
+		NURN_API bool Send();
 
 		// Returns 1 or 0 if a byte has been recieved or not. Then returns the data through the void *
-		bool Receive(void * data, int size);
-		bool Receive();
+		NURN_API bool Receive(void * data, int size);
+		NURN_API bool Receive();
 
-		void Shutdown();
+		NURN_API void Shutdown();
 
-		void buildTransformPacket(const uint16_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z);
-		bool fetchTransformPacket(TransformPacket& packet);
+		NURN_API void pushTransformPacket(const TransformPacket& packet);
+		NURN_API bool fetchTransformPacket(TransformPacket& packet);
 
-		void buildAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID);
-		bool fetchAnimationPacket(AnimationPacket& packet);
+		NURN_API void pushAnimationPacket(const AnimationPacket& packet);
+		NURN_API bool fetchAnimationPacket(AnimationPacket& packet);
 
-		void buildAIPacket(const uint16_t& id, const uint16_t& aiState);
-		bool fetchAIPacket(AIPacket& packet);
+		NURN_API void pushAIStatePacket(const AIStatePacket& packet);
+		NURN_API bool fetchAIPacket(AIStatePacket& packet);
 
-		void buildSpellPacket(const uint16_t& id, const uint16_t& currentSpell);
-		bool fetchSpellPacket(SpellPacket& packet);
+		NURN_API void pushSpellPacket(const SpellPacket& packet);
+		NURN_API bool fetchSpellPacket(SpellPacket& packet);
+
+		NURN_API void pushAITransformPacket(const TransformPacket& packet);
+		NURN_API bool fetchAITransformPacket(TransformPacket& packet);
+
+		NURN_API void pushChargingPacket(const ChargingPacket& packet);
+		NURN_API bool fetchChargingPacket(ChargingPacket& packet);
+
+		NURN_API void pushQuickBlendPacket(const QuickBlendPacket& packet);
+		NURN_API bool fetchQuickBlendPacket(QuickBlendPacket& packet);
+
+		NURN_API void pushDamagePacket(const DamagePacket& packet);
+		NURN_API bool fetchDamagePacket(DamagePacket& packet);
+
 
 
 	private:
 		Address address;
 		Packager * packager = nullptr;
 		PacketFilter * packetFilter = nullptr;
-
-		unsigned char buffer[packetSize];
-
-
 
 #ifdef USING_UDP
 		UDPCommunication netCommunication;

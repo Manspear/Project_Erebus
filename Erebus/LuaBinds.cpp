@@ -23,26 +23,36 @@ void LuaBinds::load( GearEngine* gearEngine,
 					int* boundAnimations,
 					std::vector<ModelInstance>* models,
 					std::vector<AnimatedInstance>* animatedModels,
+					std::vector<ModelInstance>* forwardModels,
+					std::vector<ModelInstance>* blendingModels,
+					bool* queueModels,
+					bool* mouseVisible,
+					bool* fullscreen,
+					bool* running,
 					Camera* camera,
 					std::vector<Gear::ParticleSystem*>* ps,
+					std::vector<Gear::ParticleEmitter*>* emitters,
 					AGI::AGIEngine* AI,
 					NetworkController* network,
 					WorkQueue* work,
-					SoundEngine* soundEngine)
+					SoundEngine* soundEngine,
+					PerformanceCounter* counter )
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
-	LuaErebus::registerFunctions( lua, transforms, controls );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, assets, work );
+	LuaErebus::registerFunctions( lua, transforms, controls, network, counter, running );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, queueModels, mouseVisible, fullscreen, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
-	LuaCollision::registerFunctions( lua, collisionHandler );
+	LuaCollision::registerFunctions( lua, collisionHandler, transforms );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
 	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);
-	LuaParticles::registerFunctions(lua, ps, assets);
+	LuaParticles::registerFunctions(lua, ps, emitters, assets);
 	LuaAI::registerFunctions(lua, transforms, AI, assets);
 	LuaNetwork::registerFunctions(lua, network);
 	LuaSound::registerFunctions(lua, soundEngine);
+	LuaUI::registerFunctions(lua, gearEngine);
+	LuaLight::registerFunctions(lua, gearEngine);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;
@@ -108,6 +118,11 @@ void LuaBinds::update( Controls* controls, float deltaTime )
 void LuaBinds::printLuaTop() const
 {
 	std::cout << lua_gettop(lua) << "\n";
+}
+
+lua_State * LuaBinds::getState()
+{
+	return this->lua;
 }
 
 /*namespace LuaBinds

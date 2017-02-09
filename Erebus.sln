@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Erebus", "Erebus\Erebus.vcxproj", "{E6A0A219-1A11-429B-8E14-C814B88EADBE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gear", "Gear\Gear.vcxproj", "{7AE8F691-75C9-447C-AE7B-63364E8DAA79}"
+	ProjectSection(ProjectDependencies) = postProject
+		{40E3608F-5C8F-4B35-A729-326DAAC441B6} = {40E3608F-5C8F-4B35-A729-326DAAC441B6}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Importer", "Importer\Importer.vcxproj", "{56D70726-725F-48E5-B935-71A5451CCD72}"
 EndProject

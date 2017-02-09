@@ -71,9 +71,6 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LuaMath.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -87,6 +84,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LuaSound.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaUI.cpp">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneFrustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaLight.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
   </ItemGroup>
@@ -160,9 +172,6 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GamePlay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LuaNetwork.hpp">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
@@ -176,6 +185,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LuaSound.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaUI.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneFrustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaLight.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
   </ItemGroup>
@@ -258,22 +282,10 @@
     <None Include="Shaders\geometryPass.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\geometryPass_notInstanced.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\geometryPass_notInstanced.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\geometryPicking.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\geometryPicking.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\heightmap.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\lightPass.frag">
@@ -321,20 +333,11 @@
     <None Include="Shaders\image.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="effects.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="effects.frag">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\gloom.comp">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Scripts\Animation_Controllers\playerController.lua">
-      <Filter>Scripts\Animation Controllers</Filter>
-    </None>
-    <None Include="Scripts\arcType.lua">
-      <Filter>Scripts\types</Filter>
+      <Filter>Animation Controllers</Filter>
     </None>
     <None Include="Scripts\chronoBall.lua">
       <Filter>Scripts\spells</Filter>
@@ -342,17 +345,8 @@
     <None Include="Scripts\fireball.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\fireballArc.lua">
-      <Filter>Scripts\spells</Filter>
-    </None>
     <None Include="Scripts\fireEffect.lua">
       <Filter>Scripts\effects</Filter>
-    </None>
-    <None Include="Scripts\fireGroundAoE.lua">
-      <Filter>Scripts\spells</Filter>
-    </None>
-    <None Include="Scripts\groundAoEType.lua">
-      <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\orbWaveType.lua">
       <Filter>Scripts\types</Filter>
@@ -372,25 +366,124 @@
     <None Include="Scripts\iceGrenade.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Shaders\geometryPassShadow.frag" />
-    <None Include="Shaders\geometryPassShadow.vert" />
-    <None Include="Shaders\skybox.frag" />
-    <None Include="Shaders\skybox.vert" />
     <None Include="Scripts\sunRay.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\console.lua" />
-    <None Include="Scripts\grenadeType.lua">
-      <Filter>Scripts\types</Filter>
+    <None Include="Scripts\hellPillar.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\staticAoEType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Scripts\rayType.lua">
       <Filter>Scripts\types</Filter>
     </None>
     <None Include="Scripts\blackHole.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\console.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\geometryPassShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\grenadeType.lua">
+      <Filter>Scripts\types</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\AI\client_AI.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\blackHole.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\gamestate.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\main_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\gameplay.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\HUD.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\MenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\optionsUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\options_menu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
     <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua">
-      <Filter>Scripts\Animation Controllers</Filter>
+      <Filter>Animation Controllers</Filter>
+    </None>
+    <None Include="Scripts\spellbook.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellbookUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\pauseMenu.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\pauseMenuUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\deathUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
+    <None Include="Scripts\death.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\spellList.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\boss.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\ipconnect.lua" />
+    <None Include="Scripts\ipconnectUI.lua" />
+    <None Include="Shaders\anim.geom" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\animShadow.frag" />
+    <None Include="Shaders\animShadow.vert" />
+    <None Include="Shaders\blur.frag" />
+    <None Include="Shaders\blur.vert" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
+    <None Include="Shaders\include.glsl" />
+    <None Include="Scripts\spellUtility.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\spellUtility.lua" />
+    <None Include="Shaders\anim.geom" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\animShadow.frag" />
+    <None Include="Shaders\animShadow.vert" />
+    <None Include="Shaders\blur.frag" />
+    <None Include="Shaders\blur.vert" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
+    <None Include="Shaders\include.glsl" />
+    <None Include="Scripts\ipconnect.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\ipconnectUI.lua">
+      <Filter>Scripts\UI</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +517,9 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{12bece78-ec56-4a5e-9f3b-af6eebb18685}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animation Controllers">
+      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Scripts\types">
       <UniqueIdentifier>{061b3e17-e659-4c55-878e-0c261d61e2ea}</UniqueIdentifier>
     </Filter>
@@ -433,8 +529,11 @@
     <Filter Include="Scripts\spells">
       <UniqueIdentifier>{59a9e95d-f1f3-47b8-9edc-22038a2b993f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Animation Controllers">
-      <UniqueIdentifier>{2c0d5205-e3f6-4a0a-8931-34f91f4f02a0}</UniqueIdentifier>
+    <Filter Include="Scripts\gamestates">
+      <UniqueIdentifier>{62e4b110-7689-454a-91f5-f6a0e0ee22ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI">
+      <UniqueIdentifier>{8c25589e-b3cf-4cef-b42a-c67b5dc0f631}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

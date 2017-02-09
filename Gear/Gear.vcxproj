@@ -165,12 +165,10 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderQueue.h" />
-    <ClInclude Include="RenderQueueElement.h" />
     <ClInclude Include="ImageRenderer.h" />
     <ClInclude Include="ShaderCreator.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />
-    <ClInclude Include="staticNonModels.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -199,28 +197,6 @@
     <ProjectReference Include="..\Threading\Threading.vcxproj">
       <Project>{40e3608f-5c8f-4b35-a729-326daac441b6}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Erebus\Shaders\animShadow.frag" />
-    <None Include="..\Erebus\Shaders\animShadow.geom" />
-    <None Include="..\Erebus\Shaders\animShadow.vert" />
-    <None Include="..\Erebus\Shaders\forward.frag" />
-    <None Include="..\Erebus\Shaders\forward.geom" />
-    <None Include="..\Erebus\Shaders\forward.vert" />
-    <None Include="..\Erebus\Shaders\anim.frag" />
-    <None Include="..\Erebus\Shaders\anim.geom" />
-    <None Include="..\Erebus\Shaders\anim.vert" />
-    <None Include="..\Erebus\Shaders\geometryPass.frag" />
-    <None Include="..\Erebus\Shaders\geometryPass.vert" />
-    <None Include="..\Erebus\Shaders\geometryPassShadow.frag" />
-    <None Include="..\Erebus\Shaders\geometryPassShadow.vert" />
-    <None Include="..\Erebus\Shaders\g_Buffer.frag" />
-    <None Include="..\Erebus\Shaders\g_Buffer.vert" />
-    <None Include="..\Erebus\Shaders\heightmap.frag" />
-    <None Include="..\Erebus\Shaders\heightmap.vert" />
-    <None Include="..\Erebus\Shaders\text.frag" />
-    <None Include="..\Erebus\Shaders\text.geom" />
-    <None Include="..\Erebus\Shaders\text.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

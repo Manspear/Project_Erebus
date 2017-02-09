@@ -24,6 +24,7 @@ public:
 	void addHitbox(SphereCollider* sphere, int layer);
 	void addHitbox(AABBCollider* aabb, int layer);
 	void addHitbox(OBBCollider* obb, int layer);
+	void addHitbox(HitBox* hitbox, int layer);
 	void addRay(RayCollider* ray);
 	void addRay(RayCollider* ray, int layer);
 
@@ -38,9 +39,6 @@ public:
 
 	template <typename T, typename U>
 	void checkAnyCollision(T collider, std::vector<U*>* colliders); // Single hitbox vs array of hitboxes // Hitbox vs children of other hitbox
-
-	template<typename T>
-	void recursiveCollision(std::vector<T*>* colliders1, std::vector<T*>* colliders2);
 
 	//Update
 	//Update all hitboxes with corresponding positions in transform array
@@ -95,4 +93,39 @@ private:
 	static void incrementHitboxID();
 	void initializeColors();
 	bool enabled = true;
+
+	void recursiveSetID(HitBox* hitbox);
+
+
+
+public: // This is used by movementController
+	template <typename T, typename U>
+	bool checkAnyCollisionBoolNoSave(T collider, std::vector<U*>* colliders, std::vector<glm::vec3>& hitNormals) // this check dont save any collision but simpy return a bool
+	{
+		// Antingen har barnen inga fler barn, då kollar vi kollision. Annars kollar vi kollision mot dens barn
+		bool hit = false;
+		U* tempCollider = nullptr;
+		for (size_t i = 0; i < colliders->size(); i++)
+		{
+			tempCollider = colliders->operator[](i);
+			if (tempCollider->children == nullptr) // if hitbox dont have children
+			{
+				bool tempHit = false;
+				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals,true); // only save normals if u are the leaf child
+				if (tempHit) // if we hit something hit is true, and keep checking
+				{
+					hit = true;
+				}
+					
+			}
+			else // the hitbox have children
+			{
+				bool tempHit = false;
+				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals,false); // dont save normals if u have children
+				if (tempHit) // if you collide with parent check collision with children
+					hit = checkAnyCollisionBoolNoSave(collider, tempCollider->children, hitNormals);
+			}
+		}
+		return hit;
+	}
 };

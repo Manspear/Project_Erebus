@@ -11,12 +11,15 @@ namespace LuaSound
 		luaL_newmetatable(lua, "soundMeta");
 		luaL_Reg regs[] =
 		{
+			{ "Fade", fade },
+			{ "Crossfade", crossfade },
 			{ "Play", play },
 			{ "Pause", pause},
 			{ "Resume", resume},
+			{ "Stop", stop },
 			{ "PauseAll", pauseAll },
 			{ "ResumeAll", resumeAll },
-			{ "Clear", clear },
+			{ "ClearAll", clearAll },
 			{ "SetMasterVolume", setMasterVolume },
 			{ "SetVolume", setVolume},
 			{ "SetPosition", setPosition},
@@ -31,6 +34,25 @@ namespace LuaSound
 		lua_setglobal(lua, "Sound");
 	}
 
+	int fade(lua_State* lua)
+	{
+		assert(lua_gettop(lua) >= 2);
+		int index = (int)lua_tointeger(lua, 1);
+		float time = (float)lua_tonumber(lua, 2);
+		g_soundEngine->fade(index, time);
+		return 0;
+	}
+
+	int crossfade(lua_State* lua)
+	{
+		assert(lua_gettop(lua) >= 3);
+		int from = (int)lua_tointeger(lua, 1);
+		int to = (int)lua_tointeger(lua, 2);
+		float time = (float)lua_tonumber(lua, 3);
+		g_soundEngine->crossfade(from, to, time);
+		return 0;
+	}
+
 	int play(lua_State* lua)
 	{
 		assert(lua_gettop(lua) >= 1);
@@ -39,17 +61,17 @@ namespace LuaSound
 		glm::vec3 pos(0.f);
 
 		if (lua_gettop(lua) >= 2)
-			options = lua_tointeger(lua, 2);
+			options = (int)lua_tointeger(lua, 2);
 		if (lua_gettop(lua) >= 3)
 		{
 			for (int i = 0; i < 3; i++)
 			{
 				lua_rawgeti(lua, 3, i + 1);
-				pos[i] = lua_tonumber(lua, -1);
+				pos[i] = (float)lua_tonumber(lua, -1);
 			}
 		}
 
-		int index = g_soundEngine->play(s, options, pos);
+		int index = (int)g_soundEngine->play(s, options, pos);
 		lua_pushinteger(lua, index);
 		return 1;
 	}
@@ -57,7 +79,7 @@ namespace LuaSound
 	int pause(lua_State* lua)
 	{
 		assert(lua_gettop(lua) >= 1);
-		int index = lua_tointeger(lua, 1);
+		int index = (int)lua_tointeger(lua, 1);
 		g_soundEngine->pause(index);
 		return 0;
 	}
@@ -65,8 +87,16 @@ namespace LuaSound
 	int resume(lua_State* lua)
 	{
 		assert(lua_gettop(lua) >= 1);
-		int index = lua_tointeger(lua, 1);
+		int index = (int)lua_tointeger(lua, 1);
 		g_soundEngine->resume(index);
+		return 0;
+	}
+
+	int stop(lua_State* lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		int index = (int)lua_tointeger(lua, 1);
+		g_soundEngine->stop(index);
 		return 0;
 	}
 
@@ -82,16 +112,16 @@ namespace LuaSound
 		return 0;
 	}
 
-	int clear(lua_State* lua)
+	int clearAll(lua_State* lua)
 	{
-		g_soundEngine->clear();
+		g_soundEngine->clearAll();
 		return 0;
 	}
 
 	int setMasterVolume(lua_State* lua)
 	{
 		assert(lua_gettop(lua) >= 1);
-		float v = lua_tonumber(lua, 1);
+		float v = (float)lua_tonumber(lua, 1);
 		g_soundEngine->setMasterVolume(v);
 		return 0;
 	}
@@ -99,8 +129,8 @@ namespace LuaSound
 	int setVolume(lua_State* lua)
 	{
 		assert(lua_gettop(lua) >= 2);
-		int i = lua_tointeger(lua, 1);
-		float v = lua_tonumber(lua, 2);
+		int i = (int)lua_tointeger(lua, 1);
+		float v = (float)lua_tonumber(lua, 2);
 		g_soundEngine->setVolume(i, v);
 		return 0;
 	}
@@ -108,12 +138,12 @@ namespace LuaSound
 	int setPosition(lua_State* lua)
 	{
 		assert(lua_gettop(lua) >= 2);
-		int i = lua_tointeger(lua, 1);
+		int i = (int)lua_tointeger(lua, 1);
 		glm::vec3 pos(0.f);
 		for (int i = 0; i < 3; i++)
 		{
 			lua_rawgeti(lua, 2, i + 1);
-			pos[i] = lua_tonumber(lua, -1);
+			pos[i] = (float)lua_tonumber(lua, -1);
 		}
 		g_soundEngine->setPosition(i, pos);
 		return 0;
@@ -122,12 +152,12 @@ namespace LuaSound
 	int setVelocity(lua_State* lua)
 	{
 		assert(lua_gettop(lua) >= 2);
-		int i = lua_tointeger(lua, 1);
+		int i = (int)lua_tointeger(lua, 1);
 		glm::vec3 vel(0.f);
 		for (int i = 0; i < 3; i++)
 		{
 			lua_rawgeti(lua, 2, i + 1);
-			vel[i] = lua_tonumber(lua, -1);
+			vel[i] = (float)lua_tonumber(lua, -1);
 		}
 		g_soundEngine->setPosition(i, vel);
 		return 0;
@@ -142,13 +172,13 @@ namespace LuaSound
 		for (int i = 0; i < 3; i++)
 		{
 			lua_rawgeti(lua, 1, i + 1);
-			pos[i] = lua_tonumber(lua, -1);
+			pos[i] = (float)lua_tonumber(lua, -1);
 		}
 
 		for (int i = 0; i < 3; i++)
 		{
 			lua_rawgeti(lua, 2, i + 1);
-			look[i] = lua_tonumber(lua, -1);
+			look[i] = (float)lua_tonumber(lua, -1);
 		}
 		g_soundEngine->setPlayerTransform(pos, look);
 		return 0;

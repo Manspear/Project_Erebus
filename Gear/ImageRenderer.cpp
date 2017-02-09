@@ -16,10 +16,11 @@ Gear::ImageRenderer::~ImageRenderer()
 void Gear::ImageRenderer::init(int screenWidth, int screenHeight)
 {
 	shader = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "image");
+	shader->addUniform("projectionMatrix");
 	shader->use();
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	shader->addUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
+	shader->setUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
 	shader->unUse();
 }
 
@@ -38,6 +39,17 @@ void Gear::ImageRenderer::showImage(const glm::vec2 &pos, const float &width, co
 
 	quads.push_back(quad);
 	textures.push_back(texture);
+}
+
+void Gear::ImageRenderer::updateBuffer()
+{
+	for( int i=0; i<quads.size(); i++ )
+		bufferQuads.push_back(quads.at(i));
+	for( int i=0; i<textures.size(); i++ )
+		bufferTextures.push_back(textures[i]);
+
+	quads.clear();
+	textures.clear();
 }
 
 void Gear::ImageRenderer::draw()
@@ -59,14 +71,14 @@ void Gear::ImageRenderer::draw()
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-	for (int i = 0; i < quads.size(); i++)
+	for (int i = 0; i < bufferQuads.size(); i++)
 	{
-		textures[i]->bind(GL_TEXTURE0);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(sScreenImage), &(quads[i]), GL_STATIC_DRAW);
+		bufferTextures[i]->bind(GL_TEXTURE0);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(sScreenImage), &(bufferQuads[i]), GL_STATIC_DRAW);
 		glDrawArrays(GL_POINTS, 0, 1);
 	}
-	textures.clear();
-	quads.clear();
+	bufferTextures.clear();
+	bufferQuads.clear();
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);

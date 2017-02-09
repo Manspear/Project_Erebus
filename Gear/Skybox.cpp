@@ -23,6 +23,9 @@ void Gear::Skybox::init()
 	glBindVertexArray(0);
 
 	skyboxShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "skybox");
+	skyboxShader->addUniform("skybox");
+	skyboxShader->addUniform("view");
+	skyboxShader->addUniform("projection");
 }
 
 GLuint Gear::Skybox::loadTexture(GLchar * path, GLboolean alpha)
@@ -35,7 +38,7 @@ GLuint Gear::Skybox::loadCubemap(std::vector<const GLchar*> faces)
 	GLuint textureID;
 	glGenTextures(1, &textureID);
 
-	int width, height;
+	//int width, height;
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 	Importer::ImageAsset image;
@@ -63,12 +66,9 @@ GLuint Gear::Skybox::loadCubemap(std::vector<const GLchar*> faces)
 	return textureID;
 }
 
-void Gear::Skybox::BindTexturesToProgram(ShaderProgram * shader, const char * name, GLuint textureLoc)
+GEAR_API void Gear::Skybox::addUniform(std::string uniform)
 {
-	GLuint uniform = glGetUniformLocation(shader->getProgramID(), name);
-	glActiveTexture(GL_TEXTURE0 + textureLoc);
-	glUniform1i(uniform, textureLoc);
-	glBindTexture(GL_TEXTURE_CUBE_MAP,textureID);
+	skyboxShader->addUniform(uniform);
 }
 
 void Gear::Skybox::draw()
@@ -79,28 +79,24 @@ void Gear::Skybox::draw()
 	// skybox cube
 	glBindVertexArray(skyboxVAO);
 
-	BindTexturesToProgram(skyboxShader, "skybox", 0);
+	glActiveTexture(GL_TEXTURE0 + TEXTURE_LOC);
+	skyboxShader->setUniform(TEXTURE_LOC, "skybox");
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS); // Set depth function back to default
 	skyboxShader->unUse();
 }
 
-void Gear::Skybox::update(Camera* camera, GLuint textureID)
+void Gear::Skybox::update(Camera* camera)
 {
-	GLuint uniform = glGetUniformLocation(skyboxShader->getProgramID(), "gDepth");
-	glActiveTexture(GL_TEXTURE1);
-	glUniform1i(uniform, 1);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-
 	skyboxShader->use();
-	GLint pos = glGetUniformLocation(skyboxShader->getProgramID(), "view");
 
 	glm::mat4 view = glm::mat4(glm::mat3(camera->getViewMatrix()));
 
-	glUniformMatrix4fv(pos, 1, GL_FALSE, glm::value_ptr(view));
+	skyboxShader->setUniform(view, "view");
+	skyboxShader->setUniform(camera->getProjectionMatrix(), "projection");
 
-	pos = glGetUniformLocation(skyboxShader->getProgramID(), "projection");
-	glUniformMatrix4fv(pos, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 	skyboxShader->unUse();
 }

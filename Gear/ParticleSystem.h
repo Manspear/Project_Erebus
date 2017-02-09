@@ -7,7 +7,7 @@ namespace Gear
 {
 	class ParticleSystem
 	{
-
+	
 	public:
 		GEAR_API ParticleSystem();
 		GEAR_API ~ParticleSystem();
@@ -18,16 +18,15 @@ namespace Gear
 		GEAR_API void activate();
 
 		GEAR_API void deActivate();
-
 		GEAR_API void setDirection(glm::vec3 direction);
-
 		GEAR_API int getNrOfActive();
-
 		GEAR_API void explode();
+		GEAR_API void setExtroversion(bool yesNo);
 
 		ParticleEmitter* particleEmitters;
 		bool isActive;
 		bool alive;
+		
 	public:
 		int nrOfEmitters;
 		glm::vec3 systemPos;
@@ -40,6 +39,5 @@ namespace Gear
 		glm::vec3 v1;
 		glm::vec3 v2;
 		glm::vec3 v3;
-
 	};
 }

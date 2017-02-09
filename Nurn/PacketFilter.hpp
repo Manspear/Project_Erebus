@@ -2,11 +2,14 @@
 
 #include "PacketQueue.hpp"
 #include "PacketEnums.hpp"
-#include "AIPacket.hpp"
+#include "AIStatePacket.hpp"
 #include "TransformPacket.hpp"
 #include "AnimationPacket.hpp"
 #include "MetaDataPacket.hpp"
 #include "SpellPacket.hpp"
+#include "ChargingPacket.hpp"
+#include "QuickBlendPacket.hpp"
+#include "DamagePacket.hpp"
 
 class PacketFilter
 {
@@ -14,15 +17,24 @@ public:
 	PacketFilter();
 	virtual ~PacketFilter();
 
-	void openNetPacket(unsigned char * memoryPointer);
+	void openNetPacket(const unsigned char * const memoryPointer);
 	PacketQueue<TransformPacket> * getTransformQueue();
 	PacketQueue<AnimationPacket> * getAnimationQueue();
-	PacketQueue<AIPacket> * getAIQueue();
+	PacketQueue<AIStatePacket> * getAIStateQueue();
 	PacketQueue<SpellPacket> * getSpellQueue();
+	PacketQueue<TransformPacket> * getAITransformQueue();
+	PacketQueue<ChargingPacket> * getChargingQueue();
+	PacketQueue<QuickBlendPacket> * getQuickBlendQueue();
+	PacketQueue<DamagePacket> * getDamageQueue();
+
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
 	PacketQueue<AnimationPacket> * animationQueue;
-	PacketQueue<AIPacket> * aiQueue;
+	PacketQueue<AIStatePacket> * aiStateQueue;
 	PacketQueue<SpellPacket> * spellQueue;
+	PacketQueue<TransformPacket> * aiTransformQueue;
+	PacketQueue<ChargingPacket> * chargingQueue;
+	PacketQueue<QuickBlendPacket> * quickBlendQueue;
+	PacketQueue<DamagePacket> * damageQueue;
 };

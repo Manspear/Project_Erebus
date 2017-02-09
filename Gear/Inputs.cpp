@@ -105,12 +105,12 @@ GEAR_API bool Inputs::buttonReleasedThisFrame(unsigned int button)
 
 GEAR_API int Inputs::getScroll()
 {
-	return scrollY;
+	return (int)scrollY;
 }
 
 GEAR_API int Inputs::getDeltaScroll()
 {
-	return dScrollY;
+	return (int)dScrollY;
 }
 
 MousePos Inputs::getMousePos()
@@ -132,13 +132,15 @@ char* Inputs::getTextInput( int* length )
 
 void Inputs::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {	
-	keys[key] = action > 0;
-	keysRepeated[key] = action > 0 ;
-	if (action == GLFW_PRESS) {
-		keysPressedThisFrame[key] = true;
-	}
-	if (action == GLFW_RELEASE) {
-		keysReleasedThisFrame[key] = true;
+	if (key >= 0 && key <= GLFW_KEY_LAST) {
+		keys[key] = action > 0;
+		keysRepeated[key] = action > 0;
+		if (action == GLFW_PRESS) {
+			keysPressedThisFrame[key] = true;
+		}
+		if (action == GLFW_RELEASE) {
+			keysReleasedThisFrame[key] = true;
+		}
 	}
 }
 
@@ -150,12 +152,14 @@ void Inputs::text_callback(GLFWwindow* window, unsigned int key)
 
 void Inputs::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
-	mouseButtons[button] = action > 0;
-	if (action == GLFW_PRESS) {
-		mouseButtonsPressedThisFrame[button] = true;
-	}
-	if (action == GLFW_RELEASE) {
-		mouseButtonsReleasedThisFrame[button] = true;
+	if (button >= 0 && button <= GLFW_MOUSE_BUTTON_LAST) {
+		mouseButtons[button] = action > 0;
+		if (action == GLFW_PRESS) {
+			mouseButtonsPressedThisFrame[button] = true;
+		}
+		if (action == GLFW_RELEASE) {
+			mouseButtonsReleasedThisFrame[button] = true;
+		}
 	}
 }
 

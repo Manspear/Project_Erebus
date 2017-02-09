@@ -41,7 +41,7 @@ HitBox::HitBox(int IDTransform)
 
 HitBox::~HitBox()
 {
-	if (this->children != nullptr)
+	if (this->children != nullptr) // Recursive delete, wont work with lua because lua deletes all the children automatically
 	{
 		for (size_t i = 0; i < this->children->size(); i++)
 		{
@@ -49,6 +49,9 @@ HitBox::~HitBox()
 		}
 		delete this->children;
 	}
+
+	//if (this->children != nullptr)
+	//	delete this->children;
 }
 
 void HitBox::insertCollisionID(unsigned int collisionID)
@@ -73,7 +76,8 @@ void HitBox::clearCollisionIDs()
 
 void HitBox::setPos(glm::vec3 pos)
 {
-	this->pos = pos;
+	this->transformPos = pos;
+	this->pos = transformPos + this->localPos;
 	if (this->children != nullptr) // if we have any children update their position
 	{
 		for (size_t i = 0; i < this->children->size(); i++)
@@ -130,6 +134,16 @@ void HitBox::setLocalPos(glm::vec3 pos)
 	this->localPos = pos;
 	if (this->parent != nullptr)
 		this->pos = this->parent->pos + this->localPos;
+	else
+		this->pos = this->transformPos + this->localPos;
+
+	if (this->children != nullptr) // if we have any children update their position
+	{
+		for (size_t i = 0; i < this->children->size(); i++)
+		{
+			this->children->operator[](i)->update();
+		}
+	}
 }
 
 void HitBox::setCollision(bool colliding)
@@ -183,7 +197,7 @@ void HitBox::addChild(HitBox * child)
 {
 	if (children == nullptr)
 		children = new std::vector<HitBox*>();
-	child->setPos(this->pos + child->localPos);
+	child->setPos(this->pos);
 	child->parent = this;
 	children->push_back(child);
 }
@@ -197,7 +211,7 @@ void HitBox::update()
 {
 	if (this->parent != nullptr)
 	{
-		this->setPos(this->parent->pos + this->localPos);
+		this->setPos(this->parent->pos);
 	}
 	if (this->children != nullptr)
 	{

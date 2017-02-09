@@ -8,9 +8,10 @@ struct Partikel
 	float lifeSpan;
 };
 
-struct Color
+struct SendStruct
 {
-	GLfloat r, g, b;
+	glm::vec3 pos;
+	float size;
 };
 
 struct Emitter
@@ -25,6 +26,7 @@ struct Emitter
 	float focusSpread;
 	float particleSize;
 	float dirX, dirY, dirZ;
+	float shrinkage;
 	char textureName[32];
 };
 
@@ -35,28 +37,36 @@ namespace Gear
 
 	public:
 		GEAR_API ParticleEmitter();
+		GEAR_API ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus, float size, float growFactor);
 		GEAR_API ~ParticleEmitter();
 		GEAR_API void emitterInit(Emitter emitter, Importer::Assets* assets);
 
-		GEAR_API void update(const float & dt);
+		GEAR_API bool update(const float & dt);
 		GEAR_API void explode();
-		GEAR_API GLuint getPartVertexBuffer();
 		GEAR_API void setEmitterPos(glm::vec3 pos);
 		GEAR_API void setDirection(glm::vec3 dir);
 		GEAR_API int getNrOfActiveParticles();
-		GEAR_API Partikel* getThePartikels();
-		GEAR_API glm::vec3* getPositions();
-		GEAR_API void setParticlePosition(glm::vec3* pos);
-		GEAR_API void setColor(float r, float g, float b);
-		GEAR_API Color getColor() const;
+		GEAR_API SendStruct* getPositions();
 		GEAR_API Importer::TextureAsset* getTexture();
 		GEAR_API void resetEmitter();
-
-		Importer::TextureAsset* textureAssetParticles;
+		GEAR_API void setExtrovert(bool yesNo);
+		GEAR_API void activate();
+		GEAR_API void deActivate();
+		GEAR_API void setTexture(Importer::TextureAsset* texture);
+		
 		bool isActive;
-		float particleSize;
-		glm::vec3 position;
 		glm::vec3 localPos;
+		bool alive;
+	private:
+		float timer;
+		Partikel* allParticles;
+		float shrinkage;
+		SendStruct* particlePos;
+		int nrOfActiveParticles;
+		float particleSize;
+
+		Importer::TextureAsset* textureAssetParticles;	
+		glm::vec3 position;	
 		int maxParticles;
 		float lifeTime;
 		float partSpeed;
@@ -65,16 +75,10 @@ namespace Gear
 		float focus;
 		glm::vec3 direction;
 		float gravityFactor;
-		bool alive;
-	private:
-		float timer;
-		Partikel* allParticles;
-		glm::vec3* particlePos;
-		int nrOfActiveParticles;
-		GLuint particleVertexBuffer;
-		
-		Color color;
+		bool extrovert;
 
+		void spawn(float dt);
+		void introvertSpawn(float dt);
 	};
 }
 

@@ -13,6 +13,7 @@ public:
 	GEAR_API ~Camera();
 
 	GEAR_API void updateBuffer();
+	GEAR_API void updateRotation();
 	GEAR_API void camUpdate(glm::vec3 newPos, glm::vec3 newDir, float dt);	//old old function, was made before we had a playable character to control, DONT USE
 	GEAR_API void camFreeUpdate();											
 	GEAR_API void follow(glm::vec3 point, glm::vec3 direction, float distance, float angle, float xOffset, float yOffset, float FoV);	//Used from lua, follows a point, from a direction with a distance and offsets, FoV is the field of view in radians. (3.14/2 is 90 degrees :) )
@@ -21,17 +22,24 @@ public:
 	GEAR_API void setHeight(float h);								//sets the height of the camera, is atm used for camera to height map collisions
 	GEAR_API void setprojection(glm::mat4 m);
 	GEAR_API void setView(glm::mat4 m);
+
 	GEAR_API glm::mat4 getViewPers();								
 	GEAR_API glm::mat4 getViewMatrix();
 	GEAR_API glm::mat4 getProjectionMatrix();
 	GEAR_API glm::vec3 getPosition();								//returns position of camera
 	GEAR_API glm::vec3 getDirection();								//returns look direction of camera
+	GEAR_API glm::vec3 getUp();
+	GEAR_API float getFov();
+	GEAR_API float getAspectRatio();
+	GEAR_API float getNearPlaneDistance();
+	GEAR_API float getFarPlaneDistance();
 private:
 	Inputs *inputs;
 	bool freeCam;
 	float horizontalAngle;
 	float verticalAngle;
 	float camSpeed;
+	float fov;
 
 	int dir;
 	bool inLevelEditor;

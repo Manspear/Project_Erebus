@@ -49,6 +49,10 @@ namespace Importer
 		width = height = 0;
 	}
 
+	void ImageAsset::upload()
+	{
+	}
+
 	uint8_t* ImageAsset::getPixels() const
 	{
 		return pixels;
@@ -114,7 +118,7 @@ namespace Importer
 			png_bytep* rowPointers = (png_bytep*)malloc( height * sizeof( png_bytep ) );
 			pixels = (uint8_t*)malloc( width * height * bpp );
 
-			for( unsigned int i = 0; i < height; i++ )
+			for( int i = 0; i < height; i++ )
 				rowPointers[i] = (png_bytep)&pixels[width*bpp*i];
 
 			png_read_image( pPNG, rowPointers );

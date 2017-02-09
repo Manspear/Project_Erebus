@@ -2,51 +2,62 @@
 
 NetworkController::NetworkController()
 {
+	initalized = false;
 	networkHost = true;
 	running = false;
-	transformpackTime = 100.0;
-	animationpackTime = 100.0;
+	transformpackTime = 0.0;
+	animationpackTime = 0.0;
+	aiTransformpackTime = 0.0;
 }
 
 NetworkController::~NetworkController()
 {
-	printf("Closing socket on port\n");
-	network.Shutdown();
+	NetworkController::shutdown();
 }
 
 bool NetworkController::initNetworkAsHost()
 {
-	if (!network.InitializeHost())
+	if (!initalized)
 	{
-		printf("failed to initialize sockets\n");
-		return false;
+		if (!network.InitializeHost())
+		{
+			std::cout << "failed to initialize sockets" << std::endl;
+			return false;
+		}
+		initalized = true;
 	}
-
-	running = true;
 
 	return true;
 }
 
 bool NetworkController::initNetworkAsClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4)
 {
-	if (!network.InitializeClient(ip1, ip2, ip3, ip4))
+	if (!initalized)
 	{
-		printf("failed to initialize sockets\n");
-		return false;
+		if (!network.InitializeClient(ip1, ip2, ip3, ip4))
+		{
+			std::cout << "failed to initialize sockets" << std::endl;
+			return false;
+		}
+		initalized = true;
 	}
-
-	running = true;
 
 	return true;
 }
 
 void NetworkController::shutdown()
 {
-	if (running == true)
+	if (running)
 	{
 		running = false;
 		sendingThread.join();
 		receiveThread.join();
+	}
+	
+	if (initalized)
+	{
+		initalized = false;
+		network.Shutdown();
 	}
 }
 
@@ -61,7 +72,7 @@ void NetworkController::startNetworkSending()
 		}
 		else
 		{
-			long long sleepTime = (sendFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(sendFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Send();
 		}
@@ -79,28 +90,41 @@ void NetworkController::startNetworkReceiving()
 		}
 		else
 		{
-			long long sleepTime = (recFrequency - deltaTime) * 1000;
+			long long sleepTime = (long long)(recFrequency - deltaTime) * 1000;
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 			network.Receive();
 		}
 	}
 }
 
-void NetworkController::acceptNetworkCommunication()
+bool NetworkController::acceptNetworkCommunication()
 {
-	while (running && !network.AcceptCommunication())
+
+	if (network.AcceptCommunication())
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		return true;
 	}
+	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+	return false;
 }
 
 void NetworkController::startCommunicationThreads(PerformanceCounter& counter)
 {
-	this->counter = counter;
+	if (initalized)
+	{
+		running = true;
 
-	sendingThread = std::thread(&NetworkController::startNetworkSending, this);
+		this->counter = counter;
 
-	receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
+		sendingThread = std::thread(&NetworkController::startNetworkSending, this);
+
+		receiveThread = std::thread(&NetworkController::startNetworkReceiving, this);
+	}
+	else
+	{
+		std::cout << "Network has not been initalized yet" << std::endl;
+	}
 }
 
 void NetworkController::setNetworkHost(const bool& networkHost)
@@ -113,10 +137,10 @@ bool NetworkController::getNetworkHost()
 	return this->networkHost;
 }
 
-void NetworkController::sendTransformPacket(const uint32_t& id, const float& pos_x, const float& pos_y, const float& pos_z, const float& lookAt_x, const float& lookAt_y, const float& lookAt_z, const float& rotation_x, const float& rotation_y, const float& rotation_z)
+void NetworkController::sendTransformPacket(const TransformPacket& packet)
 {
 	transformpackTime = counter.getCurrentTime();
-	network.buildTransformPacket(id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z);
+	network.pushTransformPacket(packet);
 }
 
 bool NetworkController::fetchTransformPacket(TransformPacket &packet)
@@ -124,10 +148,10 @@ bool NetworkController::fetchTransformPacket(TransformPacket &packet)
 	return network.fetchTransformPacket(packet);
 }
 
-void NetworkController::sendAnimationPacket(const uint16_t& id, const uint16_t& animationState, const float& dt, const uint16_t& animationSegmentID)
+void NetworkController::sendAnimationPacket(const AnimationPacket& packet)
 {
 	animationpackTime = counter.getCurrentTime();
-	network.buildAnimationPacket(id, animationState, dt, animationSegmentID);
+	network.pushAnimationPacket(packet);
 }
 
 bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
@@ -135,9 +159,14 @@ bool NetworkController::fetchAnimationPacket(AnimationPacket& packet)
 	return network.fetchAnimationPacket(packet);
 }
 
-void NetworkController::sendAIPacket(const uint16_t& id, const uint16_t& aiState)
+void NetworkController::sendAIStatePacket(const AIStatePacket& packet)
 {
-	network.buildAIPacket(id, aiState);
+	network.pushAIStatePacket(packet);
+}
+
+bool NetworkController::fetchAIStatePacket(AIStatePacket& packet)
+{
+	return network.fetchAIPacket(packet);
 }
 
 bool NetworkController::fetchSpellPacket(SpellPacket& packet)
@@ -145,14 +174,50 @@ bool NetworkController::fetchSpellPacket(SpellPacket& packet)
 	return network.fetchSpellPacket(packet);
 }
 
-void NetworkController::sendSpellPacket(const uint16_t& id, const uint16_t& currentSpell)
+void NetworkController::sendSpellPacket(const SpellPacket& packet)
 {
-	network.buildSpellPacket(id, currentSpell);
+	network.pushSpellPacket(packet);
 }
 
-bool NetworkController::fetchAIPacket(AIPacket& packet)
+void NetworkController::sendAITransformPacket(const TransformPacket& packet)
 {
-	return network.fetchAIPacket(packet);
+	aiTransformpackTime = counter.getCurrentTime();
+	network.pushAITransformPacket(packet);
+}
+
+bool NetworkController::fetchAITransformPacket(TransformPacket &packet)
+{
+	return network.fetchAITransformPacket(packet);
+}
+
+void NetworkController::sendChargingPacket(const ChargingPacket& packet)
+{
+	network.pushChargingPacket(packet);
+}
+
+bool NetworkController::fetchChargingPacket(ChargingPacket &packet)
+{
+	return network.fetchChargingPacket(packet);
+}
+
+void NetworkController::sendQuickBlendPacket(const QuickBlendPacket& packet)
+{
+	network.pushQuickBlendPacket(packet);
+}
+
+bool NetworkController::fetchQuickBlendPacket(QuickBlendPacket& packet)
+{
+	return network.fetchQuickBlendPacket(packet);
+}
+
+void NetworkController::sendDamagePacket(const DamagePacket& packet)
+{
+	network.pushDamagePacket(packet);
+}
+
+bool NetworkController::fetchDamagePacket(DamagePacket& packet)
+{
+	return network.fetchDamagePacket(packet);
 }
 
 double NetworkController::timeSinceLastTransformPacket()
@@ -163,4 +228,9 @@ double NetworkController::timeSinceLastTransformPacket()
 double NetworkController::timeSinceLastAnimationPacket()
 {
 	return (counter.getCurrentTime() - animationpackTime);
+}
+
+double NetworkController::timeSinceLastAITransformPacket()
+{
+	return (counter.getCurrentTime() - aiTransformpackTime);
 }

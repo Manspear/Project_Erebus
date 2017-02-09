@@ -12,7 +12,7 @@ namespace Nurn
 
 		// create socket
 
-		networkSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		networkSocket = (int)::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if (networkSocket <= 0)
 		{
@@ -59,12 +59,12 @@ namespace Nurn
 		socklen_t fromLength = sizeof(address);
 
 		// Accept a incomming connection, returns a socket used to send to later
-		int OutSocketHandle = accept(networkSocket, (sockaddr*)&address, &fromLength);
+		int OutSocketHandle = (int) accept(networkSocket, (sockaddr*)&address, &fromLength);
 
 		// If failed, throw exception
 		if (OutSocketHandle == INVALID_SOCKET)
 		{
-			printf("failed to accept connection \n");
+			//printf("failed to accept connection \n");
 			return false;
 		}
 

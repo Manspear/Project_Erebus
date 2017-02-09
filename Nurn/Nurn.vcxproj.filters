@@ -84,10 +84,19 @@
     <ClInclude Include="MetaDataPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
-    <ClInclude Include="AIPacket.hpp">
+    <ClInclude Include="SpellPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
-    <ClInclude Include="SpellPacket.hpp">
+    <ClInclude Include="AIStatePacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="ChargingPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="QuickBlendPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="DamagePacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
   </ItemGroup>
