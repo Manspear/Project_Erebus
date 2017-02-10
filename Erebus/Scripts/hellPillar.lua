@@ -1,5 +1,5 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarAnimBurn2.dds");
+BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarAnimBurn.dds");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarAnimFlame.dds");
 
 MIN_CHARGE_TIME_PILLAR = 1
