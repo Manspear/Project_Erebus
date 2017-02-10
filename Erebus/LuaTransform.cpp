@@ -173,6 +173,7 @@ namespace LuaTransform
 		return 0;*/
 
 		assert( lua_gettop( lua ) == 2 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -220,6 +221,7 @@ namespace LuaTransform
 		return 0;*/
 
 		assert( lua_gettop( lua ) == 2 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -267,6 +269,7 @@ namespace LuaTransform
 		return 0;*/
 
 		assert( lua_gettop( lua ) == 2 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -296,6 +299,7 @@ namespace LuaTransform
 	int setScale( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 2 );
+		assert( lua_istable( lua, 1 ) );
 
 		/*int index = (int)lua_tointeger( lua, 1 );
 		float scale = (float)lua_tonumber( lua, 2 );
@@ -322,6 +326,7 @@ namespace LuaTransform
 	int setScaleNonUniform(lua_State * lua)
 	{
 		assert( lua_gettop( lua ) == 4 );
+		assert( lua_istable( lua, 1 ) );
 
 		/*glm::vec3 scale;
 		int index = (int)lua_tointeger(lua, 1);
@@ -384,6 +389,7 @@ namespace LuaTransform
 		return 1;*/
 
 		assert( lua_gettop( lua ) == 1 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -438,6 +444,7 @@ namespace LuaTransform
 		return 1;*/
 
 		assert( lua_gettop( lua ) == 3 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -493,6 +500,7 @@ namespace LuaTransform
 		return 1;*/
 
 		assert( lua_gettop( lua ) == 1 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -541,6 +549,7 @@ namespace LuaTransform
 		return 1;*/
 
 		assert( lua_gettop( lua ) == 1 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -578,6 +587,7 @@ namespace LuaTransform
 		return 1;*/
 
 		assert( lua_gettop( lua ) == 1 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -609,6 +619,7 @@ namespace LuaTransform
 		return 0;*/
 
 		assert( lua_gettop( lua ) == 1 );
+		assert( lua_istable( lua, 1 ) );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );

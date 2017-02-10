@@ -1,6 +1,8 @@
-function CreateRayType()
+function CreateRayType(model)
 	local ray = {}
-	ray.transformID = Transform.Bind()
+	--local model = Assets.LoadModel("Models/projectile1.model")
+	--ray.transformID = Transform.Bind()
+	ray.transformID = Gear.BindStaticInstance(model)
 	ray.position = {x=0,y=0,z=0}
 	ray.direction = {x=0,y=0,z=0}
 

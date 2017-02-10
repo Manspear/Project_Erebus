@@ -16,6 +16,7 @@ function Round(num, idp)
 end
 
 function LoadPlayer()
+	print("LOADING PLAYER")
 	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
@@ -103,16 +104,16 @@ function LoadPlayer()
 	--Erebus.SetControls(player.transformID)
 	LoadPlayer2()
 
-	--player.aim = CreateAim(player)
-	--player.charger = CreateChargeThing(player)
-	--InitFireEffectParticles()
+	player.aim = CreateAim(player)
+	player.charger = CreateChargeThing(player)
+	InitFireEffectParticles()
 	--[[LoadEnemies(5)
 	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
 	Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
 	Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
 	Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
 	Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})--]]
-
+	print("DONE LOADING PLAYER")
 end
 
 function LoadPlayer2()
@@ -139,11 +140,11 @@ function LoadPlayer2()
 
 	player2.currentSpell = 1
 
-	local model = Assets.LoadModel("Models/testGuy.model")
-	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
+	--local model = Assets.LoadModel("Models/testGuy.model")
+	--Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
-	--player2.aim = CreateAim(player2)
-	--player2.charger = CreateChargeThing(player2)
+	player2.aim = CreateAim(player2)
+	player2.charger = CreateChargeThing(player2)
 end
 
 function UnloadPlayer()
@@ -157,10 +158,13 @@ function LoadSpells(player)
 end
 
 function LoadSpellsPlayer2()
+	print("LOADING STUFF")
+	print(player2.spells)
 	player2.spells[1] = SpellListPlayer2[1].spell
 	player2.spells[2] = SpellListPlayer2[2].spell
 	player2.spells[3] = SpellListPlayer2[3].spell
 	player2.spells[1].isActiveSpell = true
+	print("DONE WITH STUFF")
 end
 
 function FindHeightmap(position)
@@ -209,9 +213,9 @@ function UpdatePlayer(dt)
 
 	end
 	-- update the current player spell
-	--player.spells[1]:Update(dt)
-	--player.spells[2]:Update(dt)
-	--player.spells[3]:Update(dt)
+	player.spells[1]:Update(dt)
+	player.spells[2]:Update(dt)
+	player.spells[3]:Update(dt)
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 

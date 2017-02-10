@@ -8,7 +8,6 @@ PILLAR_SFX = "Effects/explosion.wav"
 HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateHellPillar(entity)
-		
 	local spell = {}
 	spell.caster = entity.transformID	
 	spell.owner = entity
@@ -25,17 +24,19 @@ function CreateHellPillar(entity)
 	spell.Change = GenericChange
 	spell.maxChargeTime = 3
 	--Set up collider, model and transform for the pillar
-	spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/hellpillar.model" )
+	--spell.transformID = Transform.Bind()
+	spell.transformID = Gear.BindStaticInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	local model = Assets.LoadModel( "Models/hellpillar.model" )
-	Gear.AddBlendingInstance(model, spell.transformID)
+	--local model = Assets.LoadModel( "Models/hellpillar.model" )
+	--Gear.AddBlendingInstance(model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
 
-	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
+	--Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
 
 	spell.effectflag = false
 	spell.damage = MAX_DAMAGE_PILLAR
@@ -51,9 +52,12 @@ function CreateHellPillar(entity)
 	spell.isActiveSpell = false
 	--spell.lightRadius = 0	spell.light = 0
 	--Set up the first model
-	spell.firstModel = Transform.Bind()
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddForwardInstance(model, spell.firstModel)
+	
+	--spell.firstModel = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/projectile1.model" )
+	--Gear.AddForwardInstance(model, spell.firstModel)
+	local model = Assets.LoadModel("Models/projectile1.model")
+	spell.firstModel = Gear.BindStaticInstance(model)
 
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then	
@@ -168,7 +172,7 @@ function CreateHellPillar(entity)
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 0.2 * dt
 
-			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
+			--Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
 
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then

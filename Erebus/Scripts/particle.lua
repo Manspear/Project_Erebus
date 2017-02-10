@@ -1,4 +1,5 @@
 function createFireballParticles()
+	print("CREATING FIREBALL PARTICLES")
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
 	local fireball = {}
 	fireball.fly = Particle.Bind("ParticleFiles/fireballPart.Particle")  
@@ -20,10 +21,14 @@ function createFireballParticles()
 		Particle.SetDirection(fireball.fly, 0, 0, 0)
 	end
 
+	print("DONE CREATING")
+
 	return fireball
 end
 
 function createIceGrenadeParticles()
+	print("CREATING ICE GRENADE PARTICLES")
+
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
 	local fireball = {}
 	fireball.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
@@ -42,10 +47,15 @@ function createIceGrenadeParticles()
 	function fireball.update(pos)
 		Particle.SetPosition(fireball.fly, pos)
 	end
+
+	print("DONE CREATING PARTICLES")
+
 	return fireball
 end
 
 function CreateFireEffectParticles()
+	print("CREATEING FIRE EFFECT PARTICLES")
+
 	local particle = {}
 	particle.burn = Particle.Bind("ParticleFiles/yoooo.particle")
 	function particle:Cast()
@@ -58,11 +68,16 @@ function CreateFireEffectParticles()
 	function particle:Update(pos)
 		Particle.SetPosition(self.burn, pos)
 	end
+
+	print("DONE CREATING")
+
 	return particle
 end
 
 CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.png");
 function createChargeParticles()
+	print("CREATEING CHARGE PARTICLES")
+	
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
 	charge.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)  
@@ -82,6 +97,8 @@ function createChargeParticles()
 	function charge.extrovert(yesNo)
 		Emitter.SetExtro(charge.ID, yesNo)
 	end
+
+	print("DONE CREATING")
 
 	return charge
 end

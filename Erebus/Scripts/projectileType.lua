@@ -1,6 +1,7 @@
-function CreateProjectileType()
+function CreateProjectileType(model)
 	local projectile = {}
-	projectile.transformID = Transform.Bind()
+	--projectile.transformID = Transform.Bind()
+	projectile.transformID = Gear.BindStaticInstance(model)
 	projectile.velocity = {x=0,y=0,z=0}
 	projectile.position = {x=0,y=0,z=0}
 

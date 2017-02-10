@@ -5,7 +5,8 @@ FIREBALLDAMAGE = 3
 
 function CreateFireball(entity)
 	local fireball = {}
-	fireball.type = CreateProjectileType()
+	local model = Assets.LoadModel( "Models/projectile1.model" )
+	fireball.type = CreateProjectileType(model)
 	fireball.owner = entity
 	fireball.effect = CreateFireEffect --reference to function
 	fireball.lifeTime = FIREBALLLIFETIME
@@ -21,8 +22,8 @@ function CreateFireball(entity)
 	fireball.hudtexture = FIREBALL_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddStaticInstance(model, fireball.type.transformID)
+	--local model = Assets.LoadModel( "Models/projectile1.model" )
+	--Gear.AddStaticInstance(model, fireball.type.transformID)
 
 	function fireball:Update(dt)
 		hits = self.type:Update(dt)

@@ -1,36 +1,36 @@
 local scripts = {}
 local scriptFiles =
 {
+	"Scripts/reusable.lua",--
+	"Scripts/console.lua",--
+	"Scripts/enemies.lua",--
+	"Scripts/camera.lua",--
+	"Scripts/particle.lua",--
+	"Scripts/ProjectileType.lua",--
+	"Scripts/fireEffect.lua",--
+	"Scripts/timeSlowEffect.lua",--
+	"Scripts/chronoBall.lua",--
+	"Scripts/timeOrbWave.lua",--
+	"Scripts/orbWaveType.lua",--
+	"Scripts/sunRay.lua",--
+	"Scripts/Animation_Controllers/playerController.lua",--
+	"Scripts/Animation_Controllers/meleeGoblinController.lua",--
+	"Scripts/slowEffect.lua",--
+	"Scripts/iceGrenade.lua",--
+	"Scripts/grenadeType.lua",--
+	"Scripts/blackHole.lua",--
+	"Scripts/hellPillar.lua",--
+	"Scripts/rayType.lua",--
+	"Scripts/staticAoEType.lua",--
+	"Scripts/player.lua",--
+	"Scripts/spellList.lua",--
+	"Scripts/HUD.lua",--
+	"Scripts/spellUtility.lua",--
+	"Scripts/boss.lua"--
 	--[["Scripts/reusable.lua",
-	"Scripts/console.lua",
-	"Scripts/enemies.lua",
-	"Scripts/camera.lua",
-	"Scripts/particle.lua",
-	"Scripts/ProjectileType.lua",
-	"Scripts/fireEffect.lua",
-	"Scripts/timeSlowEffect.lua",
-	"Scripts/chronoBall.lua",
-	"Scripts/timeOrbWave.lua",
-	"Scripts/orbWaveType.lua",
-	"Scripts/sunRay.lua",
-	"Scripts/Animation_Controllers/playerController.lua",
-	"Scripts/Animation_Controllers/meleeGoblinController.lua",
-	"Scripts/slowEffect.lua",
-	"Scripts/iceGrenade.lua",
-	"Scripts/grenadeType.lua",
-	"Scripts/blackHole.lua",
-	"Scripts/hellPillar.lua",
-	"Scripts/rayType.lua",
-	"Scripts/staticAoEType.lua",
-	"Scripts/player.lua",
-	"Scripts/spellList.lua",
-	"Scripts/HUD.lua",
-	"Scripts/spellUtility.lua",
-	"Scripts/boss.lua"--]]
-	"Scripts/reusable.lua",
 	"Scripts/camera.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
-	"Scripts/player.lua"
+	"Scripts/player.lua"--]]
 }
 
 local gameStarted = false
@@ -64,6 +64,7 @@ function UpdateGameplay(dt)
 	end
 
 	for key,value in pairs(scripts) do
+		--print("Updating: " .. scriptFiles[key])
 		value.Update(dt)
 	end
 
@@ -92,10 +93,15 @@ function EnterGameplay()
 	if loadedGameplay == false then 
 		-- call their load function
 		for key,value in pairs(scripts) do
+			print("Loading: " .. scriptFiles[key])
 			if value.Load then value.Load() end
 		end
 
+		print("Done loading scripts")
+
+		print("Loading level")
 		dofile( "Scripts/level01.lua" )
+		print("Done loading level")
 		loadedGameplay = true
 	end
 

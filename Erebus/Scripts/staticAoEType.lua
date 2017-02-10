@@ -1,6 +1,10 @@
-function CreateStaticAoEType()
+function CreateStaticAoEType(model)
 	local type = {}
-	type.transformID = Transform.Bind()
+	--local model = Assets.LoadModel("Models/projectile1.model")
+	--type.transformID = Transform.Bind()
+	type.transformID = Gear.BindStaticInstance(model)
+	print(type.transformID)
+	print(type.transformID.modelID)
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
 	CollisionHandler.AddSphere(type.sphereCollider, 1)

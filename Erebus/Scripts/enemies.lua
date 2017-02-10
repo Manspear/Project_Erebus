@@ -13,12 +13,29 @@ SFX_HURT = "Goblin/Voice/albin goblin alerted.ogg"
 SFX_DEAD = { "Goblin/Voice/albin goblin - death.ogg", "Goblin/Machine/Goblin Machine Dead.ogg"}
 
 function CreateEnemy(type, position)
+	print("Loading Enemies")
+
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
 
 	local i = #enemies+1
+
+	local modelName = ""
+	if type == ENEMY_MELEE then
+		modelName = "Models/Goblin.model"
+	else
+		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
+	end
+
+	local model = Assets.LoadModel(modelName)
+
+	assert( model, "Failed to load model Models/Goblin.model" )
+
+	enemies[i].animationController = CreateEnemyController(enemies[i])
+
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
-	enemies[i].transformID = Transform.Bind()
+	--enemies[i].transformID = Transform.Bind()
+	enemies[i].transformID = Gear.BindAnimatedModel(model, enemies[i].animationController.animation)
 	enemies[i].movementSpeed = math.random(5,20)
 	enemies[i].health = 20
 	enemies[i].alive = true
@@ -83,7 +100,7 @@ function CreateEnemy(type, position)
 	enemies[i].sphereCollider:SetRadius(2)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
-	enemies[i].animationController = CreateEnemyController(enemies[i])
+	--enemies[i].animationController = CreateEnemyController(enemies[i])
 
 	if Network.GetNetworkHost() == true then
 		enemies[i].state = stateScript.state.idleState
@@ -94,7 +111,7 @@ function CreateEnemy(type, position)
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
 
-	local modelName = ""
+	--[[local modelName = ""
 	if type == ENEMY_MELEE then
 		modelName = "Models/Goblin.model"
 	else
@@ -105,7 +122,7 @@ function CreateEnemy(type, position)
 
 	assert( model, "Failed to load model Models/Goblin.model" )
 
-	Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)
+	Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)--]]
 
 	--NOTE: Not sure if we need this?
 	return enemies[i]

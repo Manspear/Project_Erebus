@@ -11,6 +11,8 @@ ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 1, xOffset = 0.6,
 
 StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = (3.14/180)*50}
 
+
+
 function interpolate(a, b, factor) 
 	return a + factor*(b-a)
 end

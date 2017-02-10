@@ -4,13 +4,20 @@ boss.spells = {}
 boss.spellcooldowns = {}
 
 function LoadBoss()
+	print("STARTING TO LOAD THE BOSS")
 	boss.spells[1] = CreateTimeOrbWave()
+	print("DONE WITH TIME ORB")
 	boss.spellcooldowns[1] = 0
-	boss.transformID = Transform.Bind()
-	Transform.SetPosition(boss.transformID, { x=100, y=-5, z=100 })
-	local model = Assets.LoadModel("Models/testGuy.model")
+	--boss.transformID = Transform.Bind()
+	
+	--local model = Assets.LoadModel("Models/testGuy.model")
 	boss.animationController = CreatePlayerController(boss)
-	Gear.AddAnimatedInstance(model, boss.transformID, boss.animationController.animation)
+	--Gear.AddAnimatedInstance(model, boss.transformID, boss.animationController.animation)
+	local model = Assets.LoadModel("Models/testGuy.model")
+	boss.transformID = Gear.BindAnimatedInstance(model, boss.animationController.animation)
+	print("TRYING TO SET POSITION")
+	Transform.SetPosition(boss.transformID, { x=100, y=-5, z=100 })
+	print("DONE SETTING POSITION")
 	Transform.ActiveControl(boss.transformID, true)
 	
 	boss.sphereCollider = SphereCollider.Create(boss.transformID)
@@ -20,6 +27,8 @@ function LoadBoss()
 	function boss:Hurt()
 
 	end
+
+	print("DONE LOADING THE BOSS")
 end
 function UnloadBoss()
 

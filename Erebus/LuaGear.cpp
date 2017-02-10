@@ -91,6 +91,7 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 2 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+
 		int transformID = (int)lua_tointeger( lua, 2 );
 
 		int result = g_gearEngine->generateWorldMatrix();
@@ -153,6 +154,8 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+		
+		assert( asset );
 
 		int index = -1;
 		for( int i=0; i<g_models->size(); i++ )
@@ -196,6 +199,8 @@ namespace LuaGear
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
 		lua_getfield( lua, 2, "__self" );
 		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		assert( asset );
 
 		int index = -1;
 		for( int i=0; i<g_animatedModels->size(); i++ )
@@ -503,7 +508,8 @@ namespace LuaGear
 
 	int setBlendTextures(lua_State * lua)
 	{
-
+		// TEMP: FIX ME
+		return 0;
 		if (lua_gettop(lua) >= 4)
 		{
 			int index = (int)lua_tointeger(lua, 1);

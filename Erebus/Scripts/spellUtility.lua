@@ -1,8 +1,10 @@
 function CreateAim(entity)
 	local aim = {}
-	aim.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddForwardInstance(model, aim.transformID)
+	--aim.transformID = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/projectile1.model" )
+	--Gear.AddForwardInstance(model, aim.transformID)
+	local model = Assets.LoadModel("Models/projectile1.model")
+	aim.transformID = Gear.BindStaticInstance(model)
 	Transform.ActiveControl(aim.transformID, true)
 	aim.caster = entity.transformID
 	function aim:SetPos(position)
@@ -14,10 +16,10 @@ end
 MAX_CHARGE = 1
 function CreateChargeThing(entity)
 	local chargeThing = {}
-	chargeThing.transformID = Transform.Bind()
-	local model = Assets.LoadModel("Models/projectile1.model")
-	chargeThing.modelIndex = Gear.AddForwardInstance(model, chargeThing.transformID)
-	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
+	--chargeThing.transformID = Transform.Bind()
+	--local model = Assets.LoadModel("Models/projectile1.model")
+	--chargeThing.modelIndex = Gear.AddForwardInstance(model, chargeThing.transformID)
+	--Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 	chargeThing.particles = createChargeParticles()
 	chargeThing.particles.extrovert(false)
 	chargeThing.caster = entity.transformID
