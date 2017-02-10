@@ -1,4 +1,3 @@
-local MOLERAT_OFFSET = 0.4
 local PLAYER_JUMP_SPEED = 0.35
 
 SLOW_EFFECT_INDEX = 1
@@ -57,7 +56,7 @@ function LoadPlayer()
 	
 	player.currentSpell = 1
 
-	player.Hurt = function(self,damage)
+	player.Hurt = function(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health <= 0 then
@@ -127,6 +126,7 @@ function LoadPlayer2()
 	player2.heightmapIndex = 1
 	player2.spamCasting = false
 	player2.charging = false
+	player2.position = {}
 
 	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
@@ -278,7 +278,7 @@ end
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
-		player.spells[player.currentSpell]:Combine(damage, effectIndex)
+		player.spells[player.currentSpell]:Combine(effectIndex, damage)
 	end
 end
 
@@ -315,9 +315,7 @@ function Controls(dt)
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.spamCasting = true
 			player.attackTimer = 1
-			if player.spells[player.currentSpell].cooldown < 0 then 
-				Network.SendSpellPacket(player.transformID, player.currentSpell)
-			end
+			Network.SendSpellPacket(player.transformID, player.currentSpell)
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
@@ -325,19 +323,17 @@ function Controls(dt)
 			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
-			--if player.spells[player.currentSpell].cooldown < 0 then 
-			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-			--end
 			player.spells[player.currentSpell]:Charge(dt)
 			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
 		end
 
-		if Inputs.ButtonPressed(Buttons.Right) then player.charger:StartCharge(player.position) end
+		if Inputs.ButtonPressed(Buttons.Right) then 
+			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
+			player.charger:StartCharge(player.position) 
+		end
 		
 		if Inputs.ButtonReleased(Buttons.Right) then
-			if player.spells[player.currentSpell].cooldown < 0 then 
-				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
-			end
+			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 			player.spells[player.currentSpell]:ChargeCast(player)
 			player.charger:EndCharge()
 		end
@@ -372,6 +368,7 @@ function PrintInfo()
 	end
 end
 
+local isPlayer2Charging = false
 function UpdatePlayer2(dt)
 	local newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
@@ -392,13 +389,21 @@ function UpdatePlayer2(dt)
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
-				player2.spells[player2.currentSpell]:Charge(dt)
+				player2.charger:StartCharge(player2.position)
+				isPlayer2Charging = true
 			else
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
+				player2.charger:EndCharge()
+				isPlayer2Charging = false
 			end
 		end
 	end
-
+	
+	if isPlayer2Charging == true then
+		player2.spells[player2.currentSpell]:Charge(dt)
+		player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime)
+	end
+	
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)

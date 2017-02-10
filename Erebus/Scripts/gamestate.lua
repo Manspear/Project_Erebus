@@ -5,6 +5,7 @@ GAMESTATE_SPELLBOOK = 4
 GAMESTATE_PAUSEMENU = 5
 GAMESTATE_DEATH = 6
 GAMESTATE_IPCONNECT = 7
+GAMESTATE_IPHOST = 8
 
 gamestate = {}
 gamestate.currentState = -1
@@ -17,7 +18,8 @@ local gamestateScripts =
 	"Scripts/spellbook.lua",
 	"Scripts/pauseMenu.lua",
 	"Scripts/death.lua",
-	"Scripts/ipconnect.lua"
+	"Scripts/ipconnect.lua",
+	"Scripts/iphost.lua"
 }
 
 function gamestate.Load()

@@ -25,10 +25,13 @@ namespace LuaNetwork
 			{ "GetChargingPacket", getChargingPacket },
 			{ "SendQuickBlendPacket", sendQuickBlendPacket },
 			{ "GetQuickBlendPacket", getQuickBlendPacket },
+			{ "SendDamagePacket", sendDamagePacket },
+			{ "GetDamagePacket", getDamagePacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
 			{ "ShouldSendNewAITransform", shouldSendNewAITransform },
+			{ "GetIP", getIP },
 			{ NULL, NULL }
 		};
 
@@ -279,9 +282,9 @@ namespace LuaNetwork
 	int sendChargingPacket(lua_State* lua)
 	{
 		int index = (int)lua_tointeger(lua, 1);
-		float damage = (float)lua_tonumber(lua, 2);
+		uint16_t damage = lua_tonumber(lua, 2);
 
-		g_networkController->sendChargingPacket(ChargingPacket(index, (uint16_t)damage));
+		g_networkController->sendChargingPacket(ChargingPacket(index, damage));
 
 		return 0;
 	}
@@ -322,8 +325,6 @@ namespace LuaNetwork
 	{
 		QuickBlendPacket quickBlendPacket;
 
-
-
 		if (g_networkController->fetchQuickBlendPacket(quickBlendPacket))
 		{
 			lua_pushboolean(lua, true);
@@ -343,6 +344,37 @@ namespace LuaNetwork
 
 		return 5;
 	}
+
+	int sendDamagePacket(lua_State* lua)
+	{
+		uint16_t index = lua_tointeger(lua, 1);
+		float  damage = (float)lua_tonumber(lua, 2);
+
+		g_networkController->sendDamagePacket(DamagePacket(index, damage));
+
+		return 0;
+	}
+
+	int getDamagePacket(lua_State* lua)
+	{
+		DamagePacket damagePacket;
+
+		if (g_networkController->fetchDamagePacket(damagePacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, damagePacket.data.transformID);
+			lua_pushnumber(lua, damagePacket.data.damage);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 3;
+	}
+
 
 	int getNetworkHost(lua_State* lua)
 	{
@@ -375,6 +407,36 @@ namespace LuaNetwork
 		{
 			lua_pushboolean(lua, false);
 		}
+		return 1;
+	}
+
+	int getIP(lua_State * lua)
+	{
+		std::string line;
+		std::ifstream IPFile;
+		int offset;
+		char* search0 = "IPv4 Address. . . . . . . . . . . :";      // search pattern
+
+		system("ipconfig > ip.txt");
+
+		IPFile.open("ip.txt");
+		if (IPFile.is_open())
+		{
+			while (!IPFile.eof())
+			{
+				getline(IPFile, line);
+				if ((offset = line.find(search0, 0)) != std::string::npos)
+				{
+					//   IPv4 Address. . . . . . . . . . . : 1   
+					line.erase(0, 39);
+					lua_pushstring(lua, line.c_str());
+					IPFile.close();
+				}
+			}
+		}
+
+		remove("ip.txt");
+
 		return 1;
 	}
 

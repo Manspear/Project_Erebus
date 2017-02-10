@@ -24,12 +24,14 @@ void LuaBinds::load( GearEngine* gearEngine,
 					std::vector<ModelInstance>* models,
 					std::vector<AnimatedInstance>* animatedModels,
 					std::vector<ModelInstance>* forwardModels,
+					std::vector<ModelInstance>* blendingModels,
 					bool* queueModels,
 					bool* mouseVisible,
 					bool* fullscreen,
 					bool* running,
 					Camera* camera,
 					std::vector<Gear::ParticleSystem*>* ps,
+					std::vector<Gear::ParticleEmitter*>* emitters,
 					AGI::AGIEngine* AI,
 					NetworkController* network,
 					WorkQueue* work,
@@ -39,13 +41,13 @@ void LuaBinds::load( GearEngine* gearEngine,
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 	LuaErebus::registerFunctions( lua, transforms, controls, network, counter, running );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, queueModels, mouseVisible, fullscreen, assets, work );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, queueModels, mouseVisible, fullscreen, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler, transforms );
 	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
 	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);
-	LuaParticles::registerFunctions(lua, ps, assets);
+	LuaParticles::registerFunctions(lua, ps, emitters, assets);
 	LuaAI::registerFunctions(lua, transforms, AI);
 	LuaNetwork::registerFunctions(lua, network);
 	LuaSound::registerFunctions(lua, soundEngine);

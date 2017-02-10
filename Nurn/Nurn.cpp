@@ -198,4 +198,19 @@ namespace Nurn
 
 		return result;
 	}
+
+	void NurnEngine::pushDamagePacket(const DamagePacket& packet)
+	{
+		this->packager->pushDamagePacket(packet);
+	}
+
+	bool NurnEngine::fetchDamagePacket(DamagePacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getDamageQueue()->pop(packet);
+
+		return result;
+	}
+
 }
