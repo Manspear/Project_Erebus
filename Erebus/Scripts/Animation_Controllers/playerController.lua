@@ -128,13 +128,7 @@ function CreatePlayerController(player)
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == true then
 			self.animationState1 = 9
 		end
-		--self.animation:Update(dt, self.animationState1, 0)
-		--self.animation:Update(dt, self.animationState2, 1)
-	    --self.animationState1 = 9
-		print (self.attackTimerStarted)
-		print("State1 ", self.animationState1)
-		print("State2 ", self.animationState2)
-		--self.animation:UpdateShaderMatrices()
+
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
 

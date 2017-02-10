@@ -1,6 +1,6 @@
 FIREEFFECTINTERVAL = 0.5
 FIREEFFECTDURATION = 5
-FIREEFFECTDAMAGE = 0
+FIREEFFECTDAMAGE = 1
 
 function CreateFireEffect(effectowner)
 	local effect = {}
@@ -27,7 +27,7 @@ function CreateFireEffect(effectowner)
 		self.particles:Update(Transform.GetPosition(entity.transformID))
 		if self.interval < 0 then
 			self.interval = self.interval + FIREEFFECTINTERVAL
-			entity:Hurt(self.damage, effect.owner)
+			entity:Hurt(self.damage, self.owner)
 		end
 		
 		return self.duration > 0 

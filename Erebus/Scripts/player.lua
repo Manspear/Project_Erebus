@@ -131,14 +131,18 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	--player2.spells[1] = SpellList[1].spell --CreateBlackHole()
-	--player2.spells[2] = SpellList[2].spell --CreateBlackHole()
-	--player2.spells[3] = SpellList[3].spell --CreateBlackHole()
-	--player2.spells[4] = SpellList[4].spell(player2)
-
 	player2.currentSpell = 1
 
 	local model = Assets.LoadModel("Models/player1.model")
+	player2.effects = {}
+
+	player2.Apply = function(self, effect)
+		if not self.invulnerable then
+			table.insert(self.effects, effect)
+			effect:Apply(self)
+		end
+	end
+
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
@@ -410,6 +414,13 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
+
+	for j = #player2.effects, 1, -1 do 
+		if not player2.effects[j]:Update(player2, dt) then
+			player2.effects[j]:Deapply(player2)
+			table.remove(player2.effects, j)
+		end
+	end
 	
 	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
 	if newAnimationValue == true then

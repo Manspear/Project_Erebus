@@ -10,6 +10,7 @@ Packager::Packager()
 	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
 	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
 	this->damageQueue = new PacketQueue<DamagePacket>(20);
+	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
@@ -56,6 +57,11 @@ Packager::~Packager()
 		delete this->damageQueue;
 		this->damageQueue = 0;
 	}
+	if (this->changeSpellsQueue)
+	{
+		delete this->changeSpellsQueue;
+		this->changeSpellsQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -87,6 +93,7 @@ void Packager::buildNetPacket()
 	this->addChargingPackets(this->currentNetPacketSize, fullPackage);
 	this->addQuickBlendPackets(this->currentNetPacketSize, fullPackage);
 	this->addDamagePackets(this->currentNetPacketSize, fullPackage);
+	this->addChangeSpellsPackets(this->currentNetPacketSize,fullPackage);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -132,6 +139,11 @@ void Packager::pushQuickBlendPacket(const QuickBlendPacket& packet)
 void Packager::pushDamagePacket(const DamagePacket& packet)
 {
 	this->damageQueue->push(packet);
+}
+
+void Packager::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
+{
+	this->changeSpellsQueue->push(packet);
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
@@ -358,6 +370,33 @@ void Packager::addDamagePackets(uint16_t& netPacketSize, bool& fullPackage)
 	}
 }
 
+void Packager::addChangeSpellsPackets(uint16_t& netPacketSize, bool& fullPackage)
+{
+	ChangeSpellsPacket changeSpellsPacket;
+	uint16_t sizeOfChangeSpellsPackets = 0;
+
+	while (this->changeSpellsQueue->pop(changeSpellsPacket) && fullPackage == false)
+	{
+		// Only add a packet if there's enough space for another ChangeSpellsPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfChangeSpellsPackets)) > sizeof(ChangeSpellsPacket))
+		{
+			// Add ChangeSpellsPacket to the memory ( ...[MetaData][ChangeSpells][ChangeSpells]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfChangeSpellsPackets, &changeSpellsPacket, sizeof(ChangeSpellsPacket));
+			sizeOfChangeSpellsPackets += sizeof(ChangeSpellsPacket);
+		}
+		else
+		{
+			fullPackage = true;
+		}
+	}
+
+	if (sizeOfChangeSpellsPackets > 0)
+	{
+		this->addMetaDataPacket(CHANGESPELLS_PACKET, netPacketSize, sizeOfChangeSpellsPackets);
+
+		netPacketSize += sizeOfChangeSpellsPackets; // Should now point at the location of the next MetaDataPacket
+	}
+}
 
 void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes)
 {
