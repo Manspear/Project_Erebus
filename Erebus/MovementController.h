@@ -14,13 +14,16 @@ public:
 
 	//Setters
 	void setHitbox( HitBox* hitbox );
-	void setTransform( Transform* transform );
+	//void setTransform( Transform* transform );
+	void setTransform( std::vector<TransformStruct>* transforms, int id );
 	void setCollisionLayer( CollisionLayers* layer, unsigned int id );
 	void setHeightmap(HeightMap* heightmap);
 
 private:
 	HitBox* hitbox;
-	Transform* transform;
+	//Transform* transform;
+	std::vector<TransformStruct>* transforms;
+	int transformID;
 	glm::vec3 movement;
 	CollisionLayers* collisionLayer;
 	CollisionHandler* myCollisionHandler;

@@ -4,10 +4,12 @@
 namespace LuaCamera {
 	static Camera* g_camera = nullptr;
 	static Transform* g_transforms = nullptr;
+
 	void registerFunctions(lua_State * lua, Camera * camera, Transform* transform)
 	{
 		g_camera = camera;
 		g_transforms = transform;
+
 		luaL_newmetatable(lua, "cameraMeta");
 		luaL_Reg regs[] =
 		{
@@ -28,24 +30,39 @@ namespace LuaCamera {
 
 	int follow(lua_State* lua)
 	{
-		assert( lua_gettop( lua ) == 6 );
+		assert( lua_gettop( lua ) == 7 );
 
 		glm::vec3 pos, dir;
 		int transformIndex;
 		float distance, angle, xoffset, yoffset, fov;
 		
-		angle = (float)lua_tonumber(lua, -1);
-		distance = (float)lua_tonumber(lua, -2);
-		xoffset = (float)lua_tonumber(lua, -3);
-		yoffset = (float)lua_tonumber(lua, -4);
-		transformIndex = (int)lua_tointeger(lua, -5);
-		fov = (float)lua_tonumber(lua, -6);
-		pos = g_transforms[transformIndex].getPos();
-		dir = g_transforms[transformIndex].getLookAt();
+		fov = (float)lua_tonumber(lua, 1);
+
+		//transformIndex = (int)lua_tointeger(lua, 2);
+		lua_getfield( lua, 2, "x" );
+		pos.x = (float)lua_tonumber( lua, -1 );
+		lua_getfield( lua, 2, "y" );
+		pos.y = (float)lua_tonumber( lua, -1 );
+		lua_getfield( lua, 2, "z" );
+		pos.z = (float)lua_tonumber( lua, -1 );
+
+		lua_getfield( lua, 3, "x" );
+		dir.x = (float)lua_tonumber( lua, -1 );
+		lua_getfield( lua, 3, "y" );
+		dir.y = (float)lua_tonumber( lua, -1 );
+		lua_getfield( lua, 3, "z" );
+		dir.z = (float)lua_tonumber( lua, -1 );
+
+		yoffset = (float)lua_tonumber(lua, 4);
+		xoffset = (float)lua_tonumber(lua, 5);
+		distance = (float)lua_tonumber(lua, 6);
+		angle = (float)lua_tonumber(lua, 7);
+		//pos = g_transforms[transformIndex].getPos();
+		//dir = g_transforms[transformIndex].getLookAt();
 
 		g_camera->follow(pos, dir, distance, angle, xoffset, yoffset, fov);
 
-		return 1;
+		return 0;
 	}
 
 	int cameraUpdate(lua_State* lua)

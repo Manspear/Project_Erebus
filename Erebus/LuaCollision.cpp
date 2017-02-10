@@ -4,11 +4,15 @@ namespace LuaCollision
 {
 	static CollisionHandler* g_collisionHandler = nullptr;
 	static Transform* g_transforms = nullptr;
+	static std::vector<ModelInstance>* g_models = nullptr;
+	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms)
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels )
 	{
 		g_collisionHandler = handler;
 		g_transforms = transforms;
+		g_models = models;
+		g_animatedModels = animatedModels;
 
 		//CollisionHandler
 		luaL_newmetatable( lua, "collisionHandlerMeta" );
@@ -617,12 +621,29 @@ namespace LuaCollision
 
 	int setMovementControllerTransform(lua_State * lua)
 	{
-		assert( lua_gettop( lua ) == 2 );
+		/*assert( lua_gettop( lua ) == 2 );
 
 		MovementController* movementController = getMovementController(lua, 1);
 		int transformIndex = (int)lua_tointeger(lua, 2);
 
 		movementController->setTransform(&g_transforms[transformIndex]);
+
+		return 0;*/
+
+		assert( lua_gettop( lua ) == 2 );
+
+		MovementController* movementController = getMovementController( lua, 1 );
+		lua_getfield( lua, 2, "modelID" );
+		int modelID = (int)lua_tointeger( lua, -1 );
+		lua_getfield( lua, 2, "transformID" );
+		int transformID = (int)lua_tointeger( lua, -1 );
+		lua_getfield( lua, 2, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
+
+		if( animated )
+			movementController->setTransform( &g_animatedModels->at(modelID).transforms, transformID );
+		else
+			movementController->setTransform( &g_models->at(modelID).transforms, transformID );
 
 		return 0;
 	}

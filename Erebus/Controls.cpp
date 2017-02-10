@@ -38,18 +38,24 @@ void Controls::update( Inputs* input )
 	//rotate the controlled object (prolly shouldnt be dont here, but fuck it)
 	MousePos dPos = input->getDeltaPos();
 	//glm::vec3 rotation = controlled->getRotation();
-	glm::vec3 rotation = controlled->rot;
+	//glm::vec3 rotation = controlled->rot;
+	TransformStruct& controlled = transforms->at(transformID);
+	glm::vec3 rotation = controlled.rot;
 	rotation.y += (float)dPos.x / sensitivity;
 	rotation.z += (float)dPos.y / sensitivity;
 	if (rotation.y > 2 * 3.14f) 
 	{
 		rotation.y -= 2 * 3.14f;
 	}
+	else if (rotation.y < -2 * 3.14f) 
+	{
+		rotation.y += 2 * 3.14f;
+	}
 	if (rotation.z > 3.14f / 2) 
 	{
 		rotation.z = 3.14f / 2;
 	}
-	if (rotation.z < -3.14f / 2) 
+	else if (rotation.z < -3.14f / 2) 
 	{
 		rotation.z = -3.14f / 2;
 	}
@@ -61,8 +67,8 @@ void Controls::update( Inputs* input )
 		cos(rotation.z)*cos(rotation.y)
 	)));*/
 
-	controlled->rot = rotation;
-	controlled->lookAt = glm::normalize(glm::vec3(
+	controlled.rot = rotation;
+	controlled.lookAt = glm::normalize(glm::vec3(
 		cos(rotation.z) * sin(rotation.y),
 		sin(rotation.z),
 		cos(rotation.z)*cos(rotation.y) ));
@@ -83,14 +89,10 @@ void Controls::setControl(Transform * trans)
 	controlled = trans;
 }*/
 
-TransformStruct* Controls::getControl()
+void Controls::setControl( std::vector<TransformStruct>* trans, int id )
 {
-	return controlled;
-}
-
-void Controls::setControl( TransformStruct* trans )
-{
-	controlled = trans;
+	transforms = trans;
+	transformID = id;
 }
 
 void Controls::sensitivityFactor(float factor)

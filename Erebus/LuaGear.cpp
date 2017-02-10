@@ -177,16 +177,13 @@ namespace LuaGear
 		g_models->at(index).transforms.push_back(t);
 		//g_models->at(index).transforms.push_back(TransformStruct());
 
-		/*lua_newtable( lua );
+		lua_newtable( lua );
 		lua_pushnumber( lua, index );
 		lua_setfield( lua, -2, "modelID" );
 		lua_pushnumber( lua, transformID );
 		lua_setfield( lua, -2, "transformID" );
 		lua_pushboolean( lua, false );
 		lua_setfield( lua, -2, "animated" );
-		return 1;*/
-
-		lua_pushlightuserdata( lua, &g_models->at(index).transforms.at(transformID) );
 		return 1;
 	}
 
@@ -225,16 +222,13 @@ namespace LuaGear
 		g_animatedModels->at(index).transforms.push_back(t);
 		g_animatedModels->at(index).animations.push_back(animation);
 
-		/*lua_newtable( lua );
+		lua_newtable( lua );
 		lua_pushnumber( lua, index );
 		lua_setfield( lua, -2, "modelID" );
 		lua_pushnumber( lua, transformID );
 		lua_setfield( lua, -2, "transformID" );
 		lua_pushboolean( lua, true );
 		lua_setfield( lua, -2, "animated" );
-		return 1;*/
-
-		lua_pushlightuserdata( lua, &g_animatedModels->at(index).transforms.at(transformID) );
 		return 1;
 	}
 

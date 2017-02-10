@@ -6,14 +6,18 @@ namespace LuaErebus
 	static Controls* g_controls = nullptr;
 	static NetworkController* g_network = nullptr;
 	static PerformanceCounter* g_counter = nullptr;
+	static std::vector<ModelInstance>* g_models = nullptr;
+	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static bool* g_running = nullptr;
 
-	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running)
+	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, bool* running)
 	{
 		g_transforms = transforms;
 		g_controls = controls;
 		g_network = network;
 		g_counter = counter;
+		g_models = models;
+		g_animatedModels = animatedModels;
 		g_running = running;
 
 		luaL_newmetatable( lua, "erebusMeta" );
@@ -46,8 +50,17 @@ namespace LuaErebus
 
 		assert( lua_gettop( lua ) == 1 );
 
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-		g_controls->setControl( t );
+		lua_getfield( lua, 1, "modelID" );
+		int modelID = (int)lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "transformID" );
+		int transformID = (int)lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
+
+		if( animated )
+			g_controls->setControl( &g_animatedModels->at(modelID).transforms, transformID );
+		else
+			g_controls->setControl( &g_models->at(modelID).transforms, transformID );
 
 		return 0;
 	}

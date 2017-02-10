@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "Transform.h"
+#include "RenderQueue.h"
 #include "lua\lua.hpp"
 
 namespace LuaCamera 

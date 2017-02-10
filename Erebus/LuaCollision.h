@@ -4,10 +4,11 @@
 #include "CollisionHandler.h"
 #include "MovementController.h"
 #include "HeightMap.h"
+#include "RenderQueue.h"
 
 namespace LuaCollision
 {
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms );
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels );
 
 	int addSphere( lua_State* lua );
 	int addAABB( lua_State* lua );

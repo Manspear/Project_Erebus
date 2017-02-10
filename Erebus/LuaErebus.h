@@ -3,10 +3,11 @@
 #include "lua\lua.hpp"
 #include "Controls.h"
 #include "NetworkController.hpp"
+#include "RenderQueue.h"
 
 namespace LuaErebus
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running);
+	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, bool* running);
 
 	int setControls( lua_State* lua );
 	int cameraSensitivity(lua_State* lua);

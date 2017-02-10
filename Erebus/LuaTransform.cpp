@@ -172,7 +172,7 @@ namespace LuaTransform
 
 		return 0;*/
 
-		/*assert( lua_gettop( lua ) == 2 );
+		assert( lua_gettop( lua ) == 2 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
@@ -191,24 +191,10 @@ namespace LuaTransform
 		lua_getfield( lua, 2, "z" );
 		position.z = (float)lua_tonumber( lua, -1 );
 
-		g_models->at(modelID).transforms.at(transformID).pos = position;
-
-		return 0;*/
-
-		assert( lua_gettop( lua ) == 2 );
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		glm::vec3 position;
-		lua_getfield( lua, 2, "x" );
-		position.x = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "y" );
-		position.y = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "z" );
-		position.z = (float)lua_tonumber( lua, -1 );
-
-		t->pos = position;
+		if( animated )
+			g_animatedModels->at(modelID).transforms.at(transformID).pos = position;
+		else
+			g_models->at(modelID).transforms.at(transformID).pos = position;
 
 		return 0;
 	}
@@ -233,12 +219,14 @@ namespace LuaTransform
 
 		return 0;*/
 
-		/*assert( lua_gettop( lua ) == 2 );
+		assert( lua_gettop( lua ) == 2 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
 		glm::vec3 rotation;
 		lua_getfield( lua, 2, "x" );
@@ -250,25 +238,10 @@ namespace LuaTransform
 		lua_getfield( lua, 2, "z" );
 		rotation.z = (float)lua_tonumber( lua, -1 );
 
-		g_models->at(modelID).transforms.at(transformID).rot = rotation;
-
-		return 0;*/
-
-		assert( lua_gettop( lua ) == 2 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		glm::vec3 rotation;
-		lua_getfield( lua, 2, "x" );
-		rotation.x = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "y" );
-		rotation.y = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "z" );
-		rotation.z = (float)lua_tonumber( lua, -1 );
-
-		t->rot = rotation;
+		if( animated )
+			g_animatedModels->at(modelID).transforms.at(transformID).rot = rotation;
+		else
+			g_models->at(modelID).transforms.at(transformID).rot = rotation;
 
 		return 0;
 	}
@@ -293,12 +266,14 @@ namespace LuaTransform
 
 		return 0;*/
 
-		/*assert( lua_gettop( lua ) == 2 );
+		assert( lua_gettop( lua ) == 2 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
 		glm::vec3 lookAt;
 		lua_getfield( lua, 2, "x" );
@@ -310,25 +285,10 @@ namespace LuaTransform
 		lua_getfield( lua, 2, "z" );
 		lookAt.z = (float)lua_tonumber( lua, -1 );
 
-		g_models->at(modelID).transforms.at(transformID).lookAt = lookAt;
-
-		return 0;*/
-
-		assert( lua_gettop( lua ) == 2 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		glm::vec3 lookAt;
-		lua_getfield( lua, 2, "x" );
-		lookAt.x = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "y" );
-		lookAt.y = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "z" );
-		lookAt.z = (float)lua_tonumber( lua, -1 );
-
-		t->lookAt = lookAt;
+		if( animated )
+			g_animatedModels->at(modelID).transforms.at(transformID).lookAt = lookAt;
+		else
+			g_models->at(modelID).transforms.at(transformID).lookAt = lookAt;
 
 		return 0;
 	}
@@ -342,20 +302,19 @@ namespace LuaTransform
 
 		g_transforms[index].setScale( scale );*/
 
-		/*lua_getfield( lua, 1, "modelID" );
+		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
 		float scale = (float)lua_tonumber( lua, 2 );
-		g_models->at(modelID).transforms.at(transformID).scale = glm::vec3( scale );
 
-		return 0;*/
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		float scale = (float)lua_tonumber( lua, 2 );
-		t->scale = glm::vec3( scale );
+		if( animated )
+			g_animatedModels->at(modelID).transforms.at(transformID).scale = glm::vec3(scale);
+		else
+			g_models->at(modelID).transforms.at(transformID).scale = glm::vec3( scale );
 
 		return 0;
 	}
@@ -372,28 +331,22 @@ namespace LuaTransform
 
 		g_transforms[index].setScale(scale);*/
 
-		/*glm::vec3 scale;
+		glm::vec3 scale;
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
 		scale.x = (float)lua_tonumber(lua, 2);
 		scale.y = (float)lua_tonumber(lua, 3);
 		scale.z = (float)lua_tonumber(lua, 4);
 
-		g_models->at(modelID).transforms.at(transformID).scale = scale;
-
-		return 0;*/
-
-		glm::vec3 scale;
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		scale.x = (float)lua_tonumber(lua, 2);
-		scale.y = (float)lua_tonumber(lua, 3);
-		scale.z = (float)lua_tonumber(lua, 4);
-
-		t->scale = scale;
+		if( animated )
+			g_animatedModels->at(modelID).transforms.at(transformID).scale = scale;
+		else
+			g_models->at(modelID).transforms.at(transformID).scale = scale;
 
 		return 0;
 	}
@@ -430,32 +383,20 @@ namespace LuaTransform
 
 		return 1;*/
 
-		/*assert( lua_gettop( lua ) == 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
-		glm::vec3 position = g_models->at(modelID).transforms.at(transformID).pos;
-
-		lua_newtable( lua );
-		lua_pushnumber( lua, position.x );
-		lua_setfield( lua, -2, "x" );
-
-		lua_pushnumber( lua, position.y );
-		lua_setfield( lua, -2, "y" );
-
-		lua_pushnumber( lua, position.z );
-		lua_setfield( lua, -2, "z" );
-
-		return 1;*/
-
-		assert( lua_gettop( lua ) == 1 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		glm::vec3 position = t->pos;
+		glm::vec3 position;
+		if( animated )
+			position = g_animatedModels->at(modelID).transforms.at(transformID).pos;
+		else
+			position = g_models->at(modelID).transforms.at(transformID).pos;
 
 		lua_newtable( lua );
 		lua_pushnumber( lua, position.x );
@@ -496,40 +437,23 @@ namespace LuaTransform
 
 		return 1;*/
 
-		/*assert( lua_gettop( lua ) == 3 );
+		assert( lua_gettop( lua ) == 3 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
+
 		float forward = (float)lua_tonumber(lua, 2);
 		float left = (float)lua_tonumber(lua, 3);
 
-		glm::vec3 fwd = g_models->at(modelID).transforms.at(transformID).lookAt;
-		glm::vec3 lfd = glm::cross(glm::normalize(glm::vec3(fwd.x, 0, fwd.z)), {0,1,0});
-		lfd *= left;
-		fwd = fwd*forward + lfd;
-
-
-		lua_newtable(lua);
-		lua_pushnumber(lua, fwd.x);
-		lua_setfield(lua, -2, "x");
-
-		lua_pushnumber(lua, fwd.y);
-		lua_setfield(lua, -2, "y");
-
-		lua_pushnumber(lua, fwd.z);
-		lua_setfield(lua, -2, "z");
-
-		return 1;*/
-
-		assert( lua_gettop( lua ) == 3 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-		float forward = (float)lua_tonumber(lua, 2);
-		float left = (float)lua_tonumber(lua, 3);
-
-		glm::vec3 fwd = t->lookAt;
+		glm::vec3 fwd;
+		if( animated )
+			fwd = g_animatedModels->at(modelID).transforms.at(transformID).lookAt;
+		else
+			fwd = g_models->at(modelID).transforms.at(transformID).lookAt;
 		glm::vec3 lfd = glm::cross(glm::normalize(glm::vec3(fwd.x, 0, fwd.z)), {0,1,0});
 		lfd *= left;
 		fwd = fwd*forward + lfd;
@@ -568,32 +492,20 @@ namespace LuaTransform
 
 		return 1;*/
 
-		/*assert( lua_gettop( lua ) == 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
-		glm::vec3 rotation = g_models->at(modelID).transforms.at(transformID).rot;
-
-		lua_newtable( lua );
-		lua_pushnumber( lua, rotation.x );
-		lua_setfield( lua, -2, "x" );
-
-		lua_pushnumber( lua, rotation.y );
-		lua_setfield( lua, -2, "y" );
-
-		lua_pushnumber( lua, rotation.z );
-		lua_setfield( lua, -2, "z" );
-
-		return 1;*/
-
-		assert( lua_gettop( lua ) == 1 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		glm::vec3 rotation = t->rot;
+		glm::vec3 rotation;
+		if( animated )
+			rotation = g_animatedModels->at(modelID).transforms.at(transformID).rot;
+		else
+			rotation = g_models->at(modelID).transforms.at(transformID).rot;
 
 		lua_newtable( lua );
 		lua_pushnumber( lua, rotation.x );
@@ -628,32 +540,20 @@ namespace LuaTransform
 
 		return 1;*/
 
-		/*assert( lua_gettop( lua ) == 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
-		glm::vec3 lookAt = g_models->at(modelID).transforms.at(transformID).lookAt;
-
-		lua_newtable( lua );
-		lua_pushnumber( lua, lookAt.x );
-		lua_setfield( lua, -2, "x" );
-
-		lua_pushnumber( lua, lookAt.y );
-		lua_setfield( lua, -2, "y" );
-
-		lua_pushnumber( lua, lookAt.z );
-		lua_setfield( lua, -2, "z" );
-
-		return 1;*/
-
-		assert( lua_gettop( lua ) == 1 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		glm::vec3 lookAt = t->lookAt;
+		glm::vec3 lookAt;
+		if( animated )
+			lookAt = g_animatedModels->at(modelID).transforms.at(transformID).lookAt;
+		else
+			lookAt = g_models->at(modelID).transforms.at(transformID).lookAt;
 
 		lua_newtable( lua );
 		lua_pushnumber( lua, lookAt.x );
@@ -677,23 +577,22 @@ namespace LuaTransform
 
 		return 1;*/
 
-		/*assert( lua_gettop( lua ) == 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
-		lua_pushnumber( lua, g_models->at(modelID).transforms.at(transformID).scale.x );
+		float scale;
+		if( animated )
+			scale = g_animatedModels->at(modelID).transforms.at(transformID).scale.x;
+		else
+			scale = g_models->at(modelID).transforms.at(transformID).scale.x;
 
-		return 1;*/
-
-		assert( lua_gettop( lua ) == 1 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		lua_pushnumber( lua, t->scale.x );
-
+		lua_pushnumber( lua, scale );
 		return 1;
 	}
 	int updateRotationFromLookVector(lua_State * lua)
@@ -709,30 +608,29 @@ namespace LuaTransform
 
 		return 0;*/
 
-		/*assert( lua_gettop( lua ) == 1 );
+		assert( lua_gettop( lua ) == 1 );
 
 		lua_getfield( lua, 1, "modelID" );
 		int modelID = lua_tointeger( lua, -1 );
 		lua_getfield( lua, 1, "transformID" );
 		int transformID = lua_tointeger( lua, -1 );
+		lua_getfield( lua, 1, "animated" );
+		bool animated = (bool)lua_toboolean( lua, -1 );
 
-		glm::vec3 tempLookdir = g_models->at(modelID).transforms.at(transformID).lookAt;
+		glm::vec3 tempLookdir;
+		if( animated )
+			tempLookdir = g_animatedModels->at(modelID).transforms.at(transformID).lookAt;
+		else
+			tempLookdir = g_models->at(modelID).transforms.at(transformID).lookAt;
+
 		tempLookdir.y = 0;
 		tempLookdir = glm::normalize(tempLookdir);
 		float rotY = ((tempLookdir.x > 0) * 2 - 1) * acos(glm::dot(tempLookdir, {0,0,1}));
-		g_models->at(modelID).transforms.at(transformID).rot = { 0, rotY, 0 };
 
-		return 0;*/
-
-		assert( lua_gettop( lua ) == 1 );
-
-		TransformStruct* t = (TransformStruct*)lua_touserdata( lua, 1 );
-
-		glm::vec3 tempLookdir = t->lookAt;
-		tempLookdir.y = 0;
-		tempLookdir = glm::normalize(tempLookdir);
-		float rotY = ((tempLookdir.x > 0) * 2 - 1) * acos(glm::dot(tempLookdir, {0,0,1}));
-		t->rot = { 0, rotY, 0 };
+		if( animated )
+			g_animatedModels->at(modelID).transforms.at(transformID).rot = { 0, rotY, 0 };
+		else
+			g_models->at(modelID).transforms.at(transformID).rot = { 0, rotY, 0 };
 
 		return 0;
 	}

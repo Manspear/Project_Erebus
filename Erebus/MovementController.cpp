@@ -1,7 +1,8 @@
 #include "MovementController.h"
 #define PLAYER_Y_OFFSET 0.5;
 MovementController::MovementController() 
-	: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
+	//: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
+	: transforms(nullptr), collisionLayer(nullptr), heightmap(nullptr)
 {
 	this->myCollisionHandler = new CollisionHandler();
 }
@@ -18,13 +19,18 @@ void MovementController::move( glm::vec3 distance )
 
 void MovementController::update()
 {
-	assert( transform && heightmap && collisionLayer && layerID >= 0 );
+	//assert( transform && heightmap && collisionLayer && layerID >= 0 );
+	assert( transforms && heightmap && collisionLayer && layerID >= 0 );
 
-	glm::vec3 lookDirection = glm::normalize(glm::vec3(transform->getLookAt().x,0, transform->getLookAt().z));
+	TransformStruct& transform = transforms->at(transformID);
+
+	//glm::vec3 lookDirection = glm::normalize(glm::vec3(transform->getLookAt().x,0, transform->getLookAt().z));
+	glm::vec3 lookDirection = glm::normalize( glm::vec3( transform.lookAt.x, 0, transform.lookAt.z ) );
 	glm::vec3 moveFinal = lookDirection * movement.z;
 	moveFinal += glm::cross({ 0, 1, 0 }, lookDirection) * movement.x; // get right axis and move
 
-	glm::vec3 pos = transform->getPos();
+	//glm::vec3 pos = transform->getPos();
+	glm::vec3 pos = transform.pos;
 	glm::vec3 newPos = pos + moveFinal;
 
 	//float height = heightmap->getPos( newPos.x, newPos.z );
@@ -75,7 +81,8 @@ void MovementController::update()
 	else
 		finalPos = newPos;
 
-	transform->setPos(finalPos);
+	//transform->setPos(finalPos);
+	transform.pos = finalPos;
 	this->movement = glm::vec3();
 	this->hitNormals.clear();
 }
@@ -85,9 +92,15 @@ void MovementController::setHitbox( HitBox* hb )
 	hitbox = hb;
 }
 
-void MovementController::setTransform( Transform* t )
+/*void MovementController::setTransform( Transform* t )
 {
 	transform = t;
+}*/
+
+void MovementController::setTransform( std::vector<TransformStruct>* trans, int id )
+{
+	transforms = trans;
+	transformID = id;
 }
 
 void MovementController::setCollisionLayer( CollisionLayers* layer, unsigned int id )

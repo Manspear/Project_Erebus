@@ -16,12 +16,12 @@ public:
 	bool* getKeys();
 	//Transform* getControl();
 	//void setControl(Transform* trans);
-	TransformStruct* getControl();
-	void setControl( TransformStruct* trans );
+	void setControl( std::vector<TransformStruct>* trans, int id );
 	void sensitivityFactor(float factor);
 private:
 	//Transform* controlled;
-	TransformStruct* controlled;
+	std::vector<TransformStruct>* transforms;
+	int transformID;
 	float sensitivity;
 	bool keys[CONTROLS_MAX_KEYS*3];
 

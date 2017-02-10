@@ -111,7 +111,9 @@ function UpdateCamera(dt)
 		end
 	end
 
-	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
+	local playerPosition = Transform.GetPosition(player.transformID)
+	local playerLookAt = Transform.GetLookAt(player.transformID)
+	Camera.Follow(camera.fov, playerPosition, playerLookAt, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()
 	local distance = camera.distance
 	local dir = Camera.GetDirection()
@@ -147,7 +149,7 @@ function UpdateCamera(dt)
 		end
 	end
 	camera.distance = distance
-	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
+	Camera.Follow(camera.fov, playerPosition, playerLookAt, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 end
 
 return { Update = UpdateCamera }
