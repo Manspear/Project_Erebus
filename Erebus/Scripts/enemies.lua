@@ -41,7 +41,8 @@ function CreateEnemy(type, position)
 				print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
-		--end
+		end
+		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
 
@@ -60,6 +61,12 @@ function CreateEnemy(type, position)
 			inState = "DeadState" 
 			stateScript.changeToState(enemies[i], player, inState)
 		end
+
+		enemies[i].animationController:AnimationUpdate(0) -- play death animation
+	end
+	enemies[i].Apply = function(self, effect)
+		table.insert(self.effects, effect)
+		effect:Apply(self)
 
 		enemies[i].animationController:AnimationUpdate(0) -- play death animation
 	end
