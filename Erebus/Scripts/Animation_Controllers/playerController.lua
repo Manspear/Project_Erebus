@@ -52,12 +52,14 @@ function CreatePlayerController(player)
 	controller.attackTimer = 0
 	controller.attackTimerThreshhold = 1
 
-
+	controller.chargeTimerStart = false
+	controller.chargeTimer = 0
+	controller.chargeMaxTime = 1.3 -- the length of the chargeRelease-animation
 
 	local animationTransitionTimes = {}
-	for i = 1, 37 do
+	for i = 1, 33 do
 		animationTransitionTimes[i] = {}
-		for j = 1, 37 do
+		for j = 1, 33 do
 			animationTransitionTimes[i][j] = 0.1
 		end
 	end
@@ -77,9 +79,11 @@ function CreatePlayerController(player)
 		--if you don't move AND HAVENT ATTACKED you're Idle
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
 			self:IdleState(dt)
-		--else running
-		elseif self.watch.forward ~= 0 or self.watch ~= left then
+		--else running noncombat
+		elseif (self.watch.forward ~= 0 or self.watch ~= left) and self.attackTimerStarted == false then
 			self:RunningState(dt)
+		elseif (self.watch.forward ~= 0 or self.watch ~= left) and self.attackTimerStarted == true then
+			self:CombatRunningState(dt)
 		--else legs stand still
 		else
 			self.animationState1 = 9
@@ -100,11 +104,37 @@ function CreatePlayerController(player)
 			self:AttackReadyState(dt)
 		end
 
+		if self.watch.charging == true then 
+			self.animationState2 = 27
+			self.attackTimerStarted = true
+		end
+
+		if self.watch.charging == false and self.oldWatch.charging == true then
+			self.chargeTimerStart = true
+		end
+
+		if self.chargeTimerStart == true then 
+			
+			self.chargeTimer = self.chargeTimer + dt
+			if self.chargeTimer <= self.chargeMaxTime then
+				self.animationState2 = 28
+			else
+				self.chargeTimer = 0
+				self.chargeTimerStart = false
+				self.attackTimerStarted = true
+			end
+		end
+
+		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == true then
+			self.animationState1 = 9
+		end
 		--self.animation:Update(dt, self.animationState1, 0)
 		--self.animation:Update(dt, self.animationState2, 1)
-
+	    --self.animationState1 = 9
+		print (self.attackTimerStarted)
+		print("State1 ", self.animationState1)
+		print("State2 ", self.animationState2)
 		--self.animation:UpdateShaderMatrices()
-		
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
 
@@ -129,115 +159,99 @@ function CreatePlayerController(player)
 		self.animation:SetQuickBlend(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
 	end
 
+	function controller:CombatRunningState(dt)
+		--if walking left forward
+		if self.watch.left > 0 and self.watch.forward > 0 then
+			self.animationState1 = 17
+		end
+		--if walking left back
+		if self.watch.left > 0 and self.watch.forward < 0 then
+			self.animationState1 = 19
+		end
+		--if walking left
+		if self.watch.left > 0 and self.watch.forward == 0 then
+			self.animationState1 = 18
+		end
+		--if walking forward
+		if self.watch.left == 0 and self.watch.forward > 0 then
+			self.animationState1 = 10
+		end
+		--if walking backward
+		if self.watch.left == 0 and self.watch.forward < 0 then
+			self.animationState1 = 20
+		end
+		--if walking right forward
+		if self.watch.left < 0 and self.watch.forward > 0 then
+			self.animationState1 = 16
+		end
+		--if walking right back
+		if self.watch.left < 0 and self.watch.forward < 0 then
+			self.animationState1 = 21
+		end
+		--if walking right
+		if self.watch.left < 0 and self.watch.forward == 0 then
+			self.animationState1 = 15
+		end
+
+		self.animationState2 = 26
+	end
+
 	function controller:RunningState(dt)
 		--oldWatch remembers old stuff. Used sometime maybe.
 
 		--if walking left forward
 		if self.watch.left > 0 and self.watch.forward > 0 then
-			self.animationState1 = 10
-			self.animationState2 = 18
+			self.animationState1 = 11
 		end
 		--if walking left back
 		if self.watch.left > 0 and self.watch.forward < 0 then
-			self.animationState1 = 13
-			self.animationState2 = 19
+			self.animationState1 = 19
 		end
 		--if walking left
 		if self.watch.left > 0 and self.watch.forward == 0 then
-			self.animationState1 = 11
-			self.animationState2 = 18
+			self.animationState1 = 12
 		end
 		--if walking forward
 		if self.watch.left == 0 and self.watch.forward > 0 then
-			self.animationState1 = 9
-			self.animationState2 = 17
+			self.animationState1 = 10
 		end
 		--if walking backward
 		if self.watch.left == 0 and self.watch.forward < 0 then
-			self.animationState1 = 13
-			self.animationState2 = 19
+			self.animationState1 = 20
 		end
 		--if walking right forward
 		if self.watch.left < 0 and self.watch.forward > 0 then
-			self.animationState1 = 16
-			self.animationState2 = 20
+			self.animationState1 = 14
 		end
 		--if walking right back
 		if self.watch.left < 0 and self.watch.forward < 0 then
-			self.animationState1 = 13
-			self.animationState2 = 20
+			self.animationState1 = 21
 		end
 		--if walking right
 		if self.watch.left < 0 and self.watch.forward == 0 then
-			self.animationState1 = 15
-			self.animationState2 = 20
+			self.animationState1 = 13
+		end
+		if self.watch.forward < 0 then
+			self.animationState2 = 23
+		elseif self.watch.forward > 0 then
+			self.animationState2 = 24
 		end
 	end
 
 	function controller:AttackState(dt)
 		--the attack animation is different depending on what the legs do.
 		
-		if self.animationState1 == 9 then
-			self.animationState2 = 21
-		
-		elseif self.animationState1 == 10 then
-			self.animationState2 = 22
-		
-		elseif self.animationState1 == 11 then
-			self.animationState2 = 22
-		
-		elseif self.animationState1 == 12 then
-			self.animationState2 = 23
-		
-		elseif self.animationState1 == 13 then
-			self.animationState2 = 23
-		
-		elseif self.animationState1 == 14 then
-			self.animationState2 = 23
-		
-		elseif self.animationState1 == 15 then
-			self.animationState2 = 24
-		elseif self.animationState1 == 16 then
-			self.animationState2 = 24
-		elseif self.animationState1 == 1 then
-			self.animationState2 = 21
-		end
+		self.animationState2 = 34
 
 		self.attackTimerStarted = true
 	end
 
 	function controller:AttackReadyState(dt)
 		self.attackTimer = self.attackTimer + dt
-		if self.attackTimer > self.attackTimerThreshhold then
+		if self.attackTimer >= self.attackTimerThreshhold then
 			self.attackTimerStarted = false
 			self.attackTimer = 0
 		end
-
-		if self.animationState1 == 9 then
-			self.animationState2 = 29
-		
-		elseif self.animationState1 == 10 then
-			self.animationState2 = 30
-		
-		elseif self.animationState1 == 11 then
-			self.animationState2 = 30
-		
-		elseif self.animationState1 == 12 then
-			self.animationState2 = 31
-		
-		elseif self.animationState1 == 13 then
-			self.animationState2 = 31
-		
-		elseif self.animationState1 == 14 then
-			self.animationState2 = 31
-		
-		elseif self.animationState1 == 15 then
-			self.animationState2 = 32
-		
-		elseif self.animationState1 == 16 then
-			self.animationState2 = 32
-		end
-
 	end
 
 	function controller:IdleState(dt)
@@ -246,7 +260,6 @@ function CreatePlayerController(player)
 	end
 
 	function controller:DamagedState(dt)
-		print( self.isDamagedTimerStart) 
 		if self.isDamagedTimerStart == false then
 			self.isDamagedTimerStart = true
 		end
@@ -255,7 +268,6 @@ function CreatePlayerController(player)
 			if res == true then
 				self.isDamagedTimerStart = false
 			end
-			print( self.isDamagedTimerStart) 
 		end
 	end
 

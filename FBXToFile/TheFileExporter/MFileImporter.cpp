@@ -488,10 +488,10 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//Takes too long
 	//processIndexes();
 
-	/*for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
 	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
-		imScene.modelList.back().meshList.back().indexList.push_back(i);*/
+		imScene.modelList.back().meshList.back().indexList.push_back(i);
 
 	/*CALLS ITSELF INFINITELY*/
 	//For eventual mesh-hierarchy

@@ -1,5 +1,5 @@
 #include "MovementController.h"
-#define PLAYER_Y_OFFSET 0.5;
+
 MovementController::MovementController() 
 	: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
 {

@@ -11,7 +11,7 @@ function CreateFireEffect(effectowner)
 	effect.particles = GetNextFireEffectParticle()
 	function effect:Apply(entity)
 		print("Applied")	
-		print(entity.transformID)
+		--print(entity.transformID)
 		self.particles:Update(Transform.GetPosition(entity.transformID))
 		self.particles:Cast()
 	end

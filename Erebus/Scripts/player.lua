@@ -326,6 +326,7 @@ function Controls(dt)
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)
 			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
+			player.charging = true
 		end
 
 		if Inputs.ButtonPressed(Buttons.Right) then 
@@ -337,6 +338,7 @@ function Controls(dt)
 			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 			player.spells[player.currentSpell]:ChargeCast(player)
 			player.charger:EndCharge()
+			player.charging = false
 		end
 
 		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
