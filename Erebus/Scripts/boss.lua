@@ -8,7 +8,7 @@ boss.spellcooldowns = {}
 function LoadBoss()
 	boss.spells[1] = CreateTimeOrbWave()
 	boss.spellcooldowns[1] = 0
-	boss.spells[2] = CreateChronoBall()
+	boss.spells[2] = CreateChronoBall(boss)
 	boss.spellcooldowns[2] = 0
 	boss.transformID = Transform.Bind()
 	boss.health = 500
