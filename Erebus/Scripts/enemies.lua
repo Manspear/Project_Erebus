@@ -193,6 +193,15 @@ function UpdateEnemies(dt)
 				clientAIScript.getAIStatePacket(enemies[i], player)
 
 				enemies[i].state.update(enemies[i], player, dt)
+				
+				tempdt = dt * enemies[i].timeScalar
+
+				for j = #enemies[i].effects, 1, -1 do 
+					if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+						enemies[i].effects[j]:Deapply(enemies[i])
+						table.remove(enemies[i].effects, j)
+					end
+				end
 			end
 		end
 	end
