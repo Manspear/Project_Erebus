@@ -38,7 +38,7 @@ function CreateEnemy(type, position)
 					self:Kill()
 				end
 			else
-				print("Sending damage", self.transformID, damage)
+				--print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
 		end
@@ -163,7 +163,6 @@ function UpdateEnemies(dt)
 			end
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
-					print(enemies[i].effects[j])
 					enemies[i].effects[j]:Deapply(enemies[i])
 					table.remove(enemies[i].effects, j)
 				end
