@@ -42,8 +42,12 @@ function UpdateBoss(dt)
 		if hm then
 			Transform.SetPosition(boss.transformID, { x=14, y= hm.asset:GetHeight(14, 150)+5, z=150 })
 		end
-		for i = 1, #boss.effects do
-			boss.effects[i]:Update(boss, dt)
+		for i = #boss.effects, 1, -1 do
+			if not boss.effects[i]:Update(boss, dt) then
+				boss.effects[i]:Deapply(boss)
+				table.remove(boss.effects, i)
+
+			end
 		end
 		for i = 1, #boss.spells do
 			boss.spells[i]:Update(dt)
