@@ -21,6 +21,7 @@ function CreateFireball(entity)
 	end
 	--General variables
 	local spell = {}
+	spell.damage = FIREBALL_BASE_DMG
 	spell.isActiveSpell = false		spell.aSmallIsActive = 0
 	spell.cooldown = FIREBALL_COOLDOWN		spell.maxcooldown = 8
 	spell.chargedTime = 0	spell.maxChargeTime = 3
@@ -59,11 +60,15 @@ function CreateFireball(entity)
 		for i = 1, 4 do 
 			if self.smallFB[i].alive then 
 				self.smallFB[i].particles.update(self.smallFB[i].type.position)
-				local hits = self.smallFB[i].type:Update(dt) 
-				for index = 1, #hits do
-					if hits[index].Hurt then		
-						hits[index]:Hurt(self.smallFB[i].damage)
-						self:Kill(i)
+				self.smallFB[i].type:Update(dt)
+
+				local collisionIDs = self.smallFB[i].type.sphereCollider:GetCollisionIDs()
+				for curID = 1, #collisionIDs do
+					for curEnemy=1, #enemies do
+						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+							enemies[curEnemy]:Hurt(self.smallFB[i].damage, self.owner)
+							self:Kill(i)
+						end
 					end
 				end
 				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
@@ -129,7 +134,7 @@ function CreateFireball(entity)
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage)
+					enemies[curEnemy]:Hurt(self.damage, self.owner)
 				end
 			end
 		end

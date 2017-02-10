@@ -33,44 +33,37 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 	animationTimers[animationSegment] += dt;
 	Importer::hModel* model = asset->getHeader();
 	int jointOffset = 0;
-	Importer::hSkeleton* skeleton;
-	Importer::hAnimationState* state;
-	Importer::sKeyFrame* keys;
-	sKeyFrame* aids; sKeyFrame* aids2;
-	float maxTime, timeOverCompare, timeUnderCompare, diff;
-	Importer::sKeyFrame overKey, underKey;
-	Importer::sKeyFrame* currKey;
 	for (int i = 0; i < model->numSkeletons; i++)
 	{
 		//layer gives the current animation layer/state
-		skeleton = asset->getSkeleton(i);
+		Importer::hSkeleton* skeleton = asset->getSkeleton(i);
 
 		for (int j = 0; j < skeleton->jointCount; j++)
 		{
 			//get animation layer
-			state = asset->getAnimationState(i, j, layer);
+			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
 
 			//Importer::hJoint* joint;
-			keys = asset->getKeyFrames(i, j, layer);
+			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
-			maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
+			float maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 
-			aids = (sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame));
-			aids2 = (sKeyFrame*)((char*)keys + (1) * sizeof(Importer::sKeyFrame));
+			sKeyFrame* aids = (sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame));
+			sKeyFrame* aids2 = (sKeyFrame*)((char*)keys + (1) * sizeof(Importer::sKeyFrame));
 			//resets itself wohahaha
 			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
-			timeOverCompare = (float)INT_MAX;
-			timeUnderCompare = -(float)INT_MAX;
+			float timeOverCompare = (float)INT_MAX;
+			float timeUnderCompare = -(float)INT_MAX;
 
-			overKey;
-			underKey;
+			Importer::sKeyFrame overKey;
+			Importer::sKeyFrame underKey;
 
 			for (int k = 0; k < state->keyCount; k++)
 			{
-				currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
-				diff = animationTimers[animationSegment] - currKey->keyTime;
+				Importer::sKeyFrame* currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
+				float diff = animationTimers[animationSegment] - currKey->keyTime;
 
 				if (timeOverCompare == INT_MAX && timeUnderCompare == -INT_MAX)
 				{
@@ -110,11 +103,6 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 		animTimer = this->animTimer;
 	}
 	Importer::hModel* model = asset->getHeader();
-	Importer::hAnimationState* state;
-	Importer::sKeyFrame* keys;
-	Importer::sKeyFrame overKey, underKey;
-	Importer::sKeyFrame* currKey;
-	float maxTime, timeOverCompare, timeUnderCompare;
 	int jointOffset = 0;
 	for (int i = 0; i < model->numSkeletons; i++)
 	{
@@ -124,25 +112,25 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 		for (int j = 0; j < skeleton->jointCount; j++)
 		{
 			//get animation layer
-			state = asset->getAnimationState(i, j, layer);
+			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
 
 			//Importer::hJoint* joint;
-			keys = asset->getKeyFrames(i, j, layer);
+			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
-			maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
+			float maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 																														//resets itself wohahaha
 			animTimer = abs(std::fmod(animTimer, maxTime));
 
-			timeOverCompare = (float)INT_MAX;
-			timeUnderCompare = -(float)INT_MAX;
+			float timeOverCompare = (float)INT_MAX;
+			float timeUnderCompare = -(float)INT_MAX;
 
-			overKey;
-			underKey;
+			Importer::sKeyFrame overKey;
+			Importer::sKeyFrame underKey;
 
 			for (int k = 0; k < state->keyCount; k++)
 			{
-				currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
+				Importer::sKeyFrame* currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
 				float diff = animTimer - currKey->keyTime;
 
 				if (timeOverCompare == INT_MAX && timeUnderCompare == -INT_MAX)
@@ -535,20 +523,19 @@ void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
 		tMatrices[i] = translateMat * scaleMat * rotateMat;
 	}
 
-	int jointIdxOffset = 0, parentID;
+	int jointIdxOffset = 0;
 	hSkeleton* skelPtr = asset->getSkeleton(0);
 	hJoint* modelJointPtr = asset->getJointsStart();
-	glm::mat4x4 invBPose;
 	for (int i = 0; i < keyList.size(); i++)
 	{
 		if (modelJointPtr->parentJointID >= 0)
 		{
-			parentID = modelJointPtr->parentJointID + jointIdxOffset;
+			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
 
 			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
 		}
 
-		invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
+		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
 
 		shaderMatrices[i] = tMatrices[i] * invBPose;
 
@@ -564,33 +551,37 @@ void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
 void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment)
 {
 	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
-	glm::mat4 translateMat, scaleMat, rotateMat, invBPose;
+
 	for (int i = 0; i < keyList.size(); i++)
-	{		
+	{
+		glm::mat4 translateMat;
+		glm::mat4 scaleMat;
+		glm::mat4 rotateMat;
 		convertToRotMat(keyList[i].keyRotate, &rotateMat);
 		convertToTransMat(keyList[i].keyTranslate, &translateMat);
 		convertToScaleMat(keyList[i].keyScale, &scaleMat);
+
 		tMatrices[i] = translateMat * scaleMat * rotateMat;
 	}
 	/*
 	Make a special case where when the animation of segment is not calculated, use it's root and add it's rotation
 	to the other segment's rotation
 	*/
-	int jointIdxOffset = 0, parentID, checker;
+	int jointIdxOffset = 0;
 	hSkeleton* skelPtr = asset->getSkeleton(0);
 	hJoint* modelJointPtr = asset->getJointsStart();
 	for (int i = 0; i < keyList.size(); i++)
 	{
 		if (modelJointPtr->parentJointID >= 0)
 		{
-			parentID = modelJointPtr->parentJointID + jointIdxOffset;
+			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
 			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
 		}
 		tMatrices[i];
 
-		checker = modelJointPtr->parentJointID;
+		int checker = modelJointPtr->parentJointID;
 
-		invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
+		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
 
 		animationMatrixLists[animationSegment][i] = tMatrices[i] * invBPose;
 

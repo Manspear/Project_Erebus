@@ -3,6 +3,11 @@
 #include <random>
 #include <math.h>
 
+struct ScreenVertex
+{
+	float x, y, s, t;
+};
+
 namespace Gear
 {
 	GearEngine::GearEngine()
@@ -14,12 +19,15 @@ namespace Gear
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
+
 		frameBufferInit();
 		shaderInit();
 		lightInit();
 		skyboxInit();
+
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
+
 	}
 
 	GearEngine::~GearEngine()
@@ -58,6 +66,29 @@ namespace Gear
 		if (lightBuffer == 0) {
 			return;
 		}
+
+		//glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		//Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+
+		//for (int i = 0; i < NUM_LIGHTS; i++) {
+		//	Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+
+		//	glm::vec3 position = glm::vec3(0.0);
+		//	for (int i = 0; i < 3; i++) { // calculate random pos for light
+		//		float min = LIGHT_MIN_BOUNDS[i];
+		//		float max = LIGHT_MAX_BOUNDS[i];
+		//		position[i] = (GLfloat)dis(gen) * (max - min) + min;
+		//	}
+
+		//	light.pos = glm::vec4(position, 1);
+		//	light.color = glm::vec4(dis(gen), dis(gen), dis(gen), 1); //give the light a random color between 0 and 1
+		//	light.radius.x = LIGHT_RADIUS;														  //DISCO
+		//															  /*color[i] = glm::vec3(light.color);
+		//															  light.radius.z = LIGHT_RADIUS;*/
+		//}
+
+		//glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 
 	void GearEngine::shaderInit()
@@ -97,6 +128,13 @@ namespace Gear
 	{
 		glDepthMask(GL_FALSE);
 		if (quadVAO == 0) { //just draws a quad on the screen
+			GLfloat quadVertices[] = {
+				-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+				-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+				1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+				1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+			};
+
 			glGenVertexArrays(1, &quadVAO);
 			glGenBuffers(1, &quadVBO);
 			glBindVertexArray(quadVAO);
@@ -357,15 +395,14 @@ namespace Gear
 		{
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-			Lights::PointLight* light;
 			for (int j = 0; j < updateLightQueue.size(); j++)
 			{
 				if ((int)updateLightQueue[j]->radius.a >= 0)
 				{
-					light = &pointLightsPtr[(int)updateLightQueue[j]->radius.a];
-					light->pos = updateLightQueue[j]->pos;
-					light->color = updateLightQueue[j]->color;
-					light->radius = updateLightQueue[j]->radius;
+					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
+					light.pos = updateLightQueue[j]->pos;
+					light.color = updateLightQueue[j]->color;
+					light.radius = updateLightQueue[j]->radius;
 				}
 			}
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer

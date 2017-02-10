@@ -7,6 +7,12 @@ namespace LuaTransform
 {
 	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms);
 	int bind( lua_State* lua );
+	int destroy( lua_State* lua );
+	int move( lua_State* lua );
+	int switchTransform( lua_State* lua );
+	int follow( lua_State* lua );
+	int fly( lua_State* lua );
+	int shoot( lua_State* lua );
 	int activeControl(lua_State* lua);
 
 	int setPosition( lua_State* lua );

@@ -48,17 +48,25 @@ function LoadPlayer()
 	player.invulnerable = false
 	player.position = {}
 
+	player.effects = {}
+
 	-- set spells for player
 	player.spells = {}
 	
 	player.currentSpell = 1
 
-	player.Hurt = function(self,damage)
+	player.Hurt = function(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health <= 0 then
 				self:Kill()
 			end
+		end
+	end
+	player.Apply = function(self, effect)
+		if not self.invulnerable then
+			table.insert(self.effects, effect)
+			effect:Apply(self)
 		end
 	end
 
@@ -116,6 +124,7 @@ function LoadPlayer2()
 	player2.heightmapIndex = 1
 	player2.spamCasting = false
 	player2.charging = false
+	player2.position = {}
 
 	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
@@ -133,17 +142,17 @@ function LoadPlayer2()
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
-	--player2.charger = CreateChargeThing(player2)
+	player2.charger = CreateChargeThing(player2)
 end
 
 function UnloadPlayer()
 end
 
-function LoadSpells(entity)
-	entity.spells[1] = SpellList[1].spell
-	entity.spells[2] = SpellList[2].spell
-	entity.spells[3] = SpellList[3].spell
-	entity.spells[1].isActiveSpell = true
+function LoadSpells(player)
+	player.spells[1] = SpellList[1].spell
+	player.spells[2] = SpellList[2].spell
+	player.spells[3] = SpellList[3].spell
+	player.spells[1].isActiveSpell = true
 end
 
 function LoadSpellsPlayer2()
@@ -169,11 +178,16 @@ end
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
 	if player.health > 0 then
+		local scale = 0.8
+		local color = {0.6, 0.3, 0.1, 0.8}
+		local info = ""..player.timeScalar
+		Gear.Print(info, 1230, 0, scale, color)
+		dt = dt * player.timeScalar
+
 		player.dashcd = player.dashcd - dt
 		player.forward = 0
 		player.left = 0
 
-		dt = dt * player.timeScalar
 
 		player.position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
@@ -202,6 +216,13 @@ function UpdatePlayer(dt)
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
+
+	for j = #player.effects, 1, -1 do 
+		if not player.effects[j]:Update(player, dt) then
+			player.effects[j]:Deapply(player)
+			table.remove(player.effects, j)
+		end
+	end
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 
@@ -258,7 +279,7 @@ end
 function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
-		player.spells[player.currentSpell]:Combine(damage, effectIndex)
+		player.spells[player.currentSpell]:Combine(effectIndex, damage)
 	end
 end
 
@@ -295,9 +316,7 @@ function Controls(dt)
 		if Inputs.ButtonDown(Buttons.Left) then
 			player.spamCasting = true
 			player.attackTimer = 1
-			if player.spells[player.currentSpell].cooldown < 0 then 
-				Network.SendSpellPacket(player.transformID, player.currentSpell)
-			end
+			Network.SendSpellPacket(player.transformID, player.currentSpell)
 			player.spells[player.currentSpell]:Cast(player, 0.5, false)
 		end
 
@@ -305,21 +324,17 @@ function Controls(dt)
 			player.spamCasting = false
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
-			--if player.spells[player.currentSpell].cooldown < 0 then 
-			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-			--end
 			player.spells[player.currentSpell]:Charge(dt)
 			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
 		end
 
 		if Inputs.ButtonPressed(Buttons.Right) then 
+			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 			player.charger:StartCharge(player.position) 
 		end
 		
 		if Inputs.ButtonReleased(Buttons.Right) then
-			if player.spells[player.currentSpell].cooldown < 0 then 
-				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
-			end
+			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 			player.spells[player.currentSpell]:ChargeCast(player)
 			player.charger:EndCharge()
 		end
@@ -354,6 +369,7 @@ function PrintInfo()
 	end
 end
 
+local isPlayer2Charging = false
 function UpdatePlayer2(dt)
 	local newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
@@ -374,13 +390,21 @@ function UpdatePlayer2(dt)
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
-				player2.spells[player2.currentSpell]:Charge(dt)
+				player2.charger:StartCharge(player2.position)
+				isPlayer2Charging = true
 			else
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
+				player2.charger:EndCharge()
+				isPlayer2Charging = false
 			end
 		end
 	end
-
+	
+	if isPlayer2Charging == true then
+		player2.spells[player2.currentSpell]:Charge(dt)
+		player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime)
+	end
+	
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)

@@ -71,59 +71,61 @@ void Window::changeCursorStatus(bool hidden) {
 GEAR_API void Window::createWindow(bool fullscreen)
 {
 	/* Create a windowed mode window and its OpenGL context */
-	if (fullscreen)
+	if (fullscreen != currentFullscreen)
 	{
-		if (!window)
+		currentFullscreen = fullscreen;
+		if (fullscreen)
 		{
-			window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", glfwGetPrimaryMonitor(), NULL);
-
-			// DEBUG: This moves the main window out of the way of the console window
-			glfwSetWindowPos(window, 0, 0);
-
-			/* Make the window's context current */
-			glfwMakeContextCurrent(window);
-			initWindow();
-		}
-		else
-		{
-			int xpos, ypos;
-			glfwGetWindowPos(window, &xpos, &ypos);
-			int count;
-			int monitor;
-
-			GLFWmonitor** monitors = glfwGetMonitors(&count);
-			if (xpos < 0)
+			if (!window)
 			{
-				monitor = (int)(-(xpos + MONITOR_WIDTH) / MONITOR_WIDTH);
+				window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", glfwGetPrimaryMonitor(), NULL);
+
+				// DEBUG: This moves the main window out of the way of the console window
+				glfwSetWindowPos(window, 0, 0);
+
+				/* Make the window's context current */
+				glfwMakeContextCurrent(window);
+				initWindow();
 			}
 			else
 			{
-				monitor = (int)(xpos / MONITOR_WIDTH);
+				int xpos, ypos;
+				glfwGetWindowPos(window, &xpos, &ypos);
+				int count;
+				int monitor;
+
+				GLFWmonitor** monitors = glfwGetMonitors(&count);
+				if (xpos < 0)
+				{
+					monitor = (int)(-(xpos + MONITOR_WIDTH) / MONITOR_WIDTH);
+				}
+				else
+				{
+					monitor = (int)(xpos / MONITOR_WIDTH);
+				}
+
+				glfwSetWindowMonitor(window, monitors[monitor], 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
+				glfwSetCursor(window, cursor);
 			}
-
-			glfwSetWindowMonitor(window, monitors[monitor], 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
-			glfwSetCursor(window, cursor);
-		}
-	}
-	else
-	{
-		if (!window)
-		{
-			window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", NULL, NULL);
-
-			// DEBUG: This moves the main window out of the way of the console window
-			glfwSetWindowPos(window, 512, 128);
-
-			/* Make the window's context current */
-			glfwMakeContextCurrent(window);
-			initWindow();
 		}
 		else
 		{
-			glfwSetWindowMonitor(window, NULL, 512, 128, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
-			glfwSetCursor(window, cursor);
+			if (!window)
+			{
+				window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", NULL, NULL);
+
+				// DEBUG: This moves the main window out of the way of the console window
+				glfwSetWindowPos(window, 512, 128);
+
+				/* Make the window's context current */
+				glfwMakeContextCurrent(window);
+				initWindow();
+			}
+			else
+			{
+				glfwSetWindowMonitor(window, NULL, 512, 128, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
+				glfwSetCursor(window, cursor);
+			}
 		}
 	}
-
-	
 }

@@ -2,6 +2,9 @@
 
 #include "lua\lua.hpp"
 #include "NetworkController.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
 
 namespace LuaNetwork
 {
@@ -27,4 +30,5 @@ namespace LuaNetwork
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);
 	int shouldSendNewAnimation(lua_State* lua);
+	int getIP(lua_State* lua);
 }

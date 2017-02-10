@@ -1,10 +1,11 @@
 TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 TIMEORBWAVEDURATION = 20
 
-function CreateTimeOrbWave()
+function CreateTimeOrbWave(entity)
 	local spell = {}
 	spell.type = CreateOrbWaveType()
-	spell.effect = CreateTimeSlowEffect
+	spell.owner = entity
+	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifetime = TIMEORBWAVEDURATION
 	spell.damage = 3
 	spell.alive = false
@@ -20,11 +21,10 @@ function CreateTimeOrbWave()
 		local hits = self.type:Update(dt)
 		self.lifetime = self.lifetime - dt
 		for i = 1, #hits do
-			print("hit some faggot")
 			if hits[i].Hurt then
-				--table.insert(hits[i].effects, self.effect())
-				hits[i]:Hurt(self.damage)
-				print("faggot got hit")
+				local effect = effectTable[self.effect]()
+				hits[i]:Apply(effect)
+				hits[i]:Hurt(self.damage, spell.owner)
 			end
 		end
 		if self.lifetime < 0 then
@@ -32,8 +32,10 @@ function CreateTimeOrbWave()
 		end
 	end
 
-	function spell:Cast(position)
-		self.type:Cast(position)
+	function spell:Cast(entity)
+		local pos = Transform.GetPosition(entity.transformID)
+		pos.y = pos.y - 5
+		self.type:Cast(pos)
 		self.lifetime = TIMEORBWAVEDURATION
 		self.alive = true
 	end

@@ -213,6 +213,9 @@
     <None Include="Scripts\enemies.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\level.lua">
+      <Filter>Scripts</Filter>
+    </None>
     <None Include="Scripts\main.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -450,8 +453,6 @@
     <None Include="Scripts\boss.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\ipconnect.lua" />
-    <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />
     <None Include="Shaders\animShadow.frag" />
@@ -465,12 +466,30 @@
     <None Include="Scripts\spellUtility.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\iphost.lua" />
-    <None Include="Scripts\iphostUI.lua" />
+    <None Include="Scripts\spellUtility.lua" />
+    <None Include="Shaders\anim.geom" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\animShadow.frag" />
+    <None Include="Shaders\animShadow.vert" />
+    <None Include="Shaders\blur.frag" />
+    <None Include="Shaders\blur.vert" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
+    <None Include="Shaders\include.glsl" />
+    <None Include="Scripts\ipconnect.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\ipconnectUI.lua">
+      <Filter>Scripts\UI</Filter>
+    </None>
     <None Include="Shaders\textureBlending.frag" />
     <None Include="Shaders\textureBlending.vert" />
-    <None Include="Scripts\level01.lua">
-      <Filter>Scripts</Filter>
+    <None Include="Scripts\ipconnect.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\ipconnectUI.lua">
+      <Filter>Scripts\UI</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

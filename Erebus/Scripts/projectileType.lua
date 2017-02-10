@@ -6,7 +6,7 @@ function CreateProjectileType()
 
 	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
 	CollisionHandler.AddSphere(projectile.sphereCollider, 1)
-	SphereCollider.SetActive(projectile.sphereCollider, false);
+	SphereCollider.SetActive(projectile.sphereCollider, false)
 	Transform.ActiveControl(projectile.transformID, false)
 
 	function projectile:Shoot(position, direction, speed)
@@ -15,8 +15,8 @@ function CreateProjectileType()
 		self.velocity.z = direction.z * speed
 		self.position = position
 		Transform.SetPosition(self.transformID, self.position)
-		SphereCollider.SetActive(self.sphereCollider, true);
 		Transform.ActiveControl(self.transformID, true)
+		SphereCollider.SetActive(self.sphereCollider, true)
 	end
 
 	function projectile:Update(dt)
@@ -31,10 +31,8 @@ function CreateProjectileType()
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 
 		for curID = 1, #collisionIDs do
-			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					table.insert(result, enemies[curEnemy])
-				end
+			if collisionIDs[curID] == player.sphereCollider:GetID() then
+				table.insert(result, player)
 			end
 		end
 		return result

@@ -7,7 +7,7 @@ union DamagePacket
 	struct DamagePacketStruct
 	{
 		uint16_t transformID;
-		uint16_t damage;
+		float damage;
 
 	}data;
 
@@ -15,7 +15,7 @@ union DamagePacket
 	{
 	}
 
-	DamagePacket(const uint16_t &transformID, const uint16_t &damage)
+	DamagePacket(const uint16_t &transformID, const float &damage)
 	{
 		data.transformID = transformID;
 		data.damage = damage;
