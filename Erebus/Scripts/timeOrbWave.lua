@@ -1,9 +1,10 @@
 TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 TIMEORBWAVEDURATION = 20
 
-function CreateTimeOrbWave()
+function CreateTimeOrbWave(entity)
 	local spell = {}
 	spell.type = CreateOrbWaveType()
+	spell.owner = entity
 	spell.effect = CreateTimeSlowEffect
 	spell.lifetime = TIMEORBWAVEDURATION
 	spell.damage = 3
@@ -23,7 +24,7 @@ function CreateTimeOrbWave()
 			print("hit some faggot")
 			if hits[i].Hurt then
 				--table.insert(hits[i].effects, self.effect())
-				hits[i]:Hurt(self.damage)
+				hits[i]:Hurt(self.damage, spell.owner)
 				print("faggot got hit")
 			end
 		end

@@ -54,14 +54,15 @@ LevelCollider::LevelCollider()
 	obbRotationStep += LevelUI::actorBarName;
 	obbRotationStep += "/coliderRotation step=1 ";
 	int k = 0;
-	this->coliderID = 0;
-	//this->coliderID = LevelColiderHandler::getInstance()->getNewID();
+	//this->coliderID = 0;
+	this->coliderID = LevelColiderHandler::getInstance()->getNewID();
 	this->parentColiderID = 0;
 	this->layer = 0;
 	this->colliderBehavior = 0;
 	this->onTriggeringEventString = "";
 	this->onEnterEventString = "";
 	this->onExitEventString = "";
+	this->childColliders = std::vector<LevelCollider*>();
 
 }
 
@@ -71,6 +72,8 @@ LevelCollider::~LevelCollider()
 	delete this->obbColider;
 	delete this->abbColider;
 	delete this->rayColider;
+	this->removeMeFromParent();
+
 }
 
 void LevelCollider::initialize(tinyxml2::XMLElement* element)
@@ -89,11 +92,14 @@ void LevelCollider::initialize(tinyxml2::XMLElement* element)
 	color.z = child->FloatAttribute("z");
 
 	child = element->FirstChildElement("IDs");
-	this->coliderID = child->IntAttribute("ID");
-	if (LevelColiderHandler::getInstance()->getDoesIDExists(this->coliderID))
-		this->coliderID = LevelColiderHandler::getInstance()->getNewID();
+	int tempColID = child->IntAttribute("ID");
+	//this->coliderID = child->IntAttribute("ID");
+	if (!LevelColiderHandler::getInstance()->getDoesIDExists(tempColID))
+		this->coliderID = tempColID;
 	this->parentColiderID = child->IntAttribute("parentID");
 
+
+	glm::vec3 tempRot;
 
 	this->position += this->offset;
 
@@ -124,20 +130,18 @@ void LevelCollider::initialize(tinyxml2::XMLElement* element)
 
 	case COLLIDER_OBB:
 		child = element->FirstChildElement("Rotation");
-		rotation.x = child->FloatAttribute("x");
-		rotation.y = child->FloatAttribute("y");
-		rotation.z = child->FloatAttribute("z");
+		tempRot.x = child->FloatAttribute("x");
+		tempRot.y = child->FloatAttribute("y");
+		tempRot.z = child->FloatAttribute("z");
+		this->rotation = tempRot;
 
 		child = element->FirstChildElement("HalfLengths");
 		halfLengths.x = child->FloatAttribute("x");
 		halfLengths.y = child->FloatAttribute("y");
 		halfLengths.z = child->FloatAttribute("z");
 
+
 		this->obbColider->setPos(this->position);
-		obbColider->setXAxis({ 1,0,0 });
-		obbColider->rotateAroundX(rotation.x);
-		obbColider->rotateAroundY(rotation.y);
-		obbColider->rotateAroundZ(rotation.z);
 		obbColider->setSize(halfLengths.x, halfLengths.y, halfLengths.z);
 		this->obbColider->setXHalfLength(this->halfLengths.x);
 		this->obbColider->setYHalfLength(this->halfLengths.y);
@@ -175,6 +179,11 @@ void LevelCollider::postInitialize()
 	if (onlyComponent)
 		parent->setExportType(EXPORT_COLLIDER);
 
+	if (this->parent->getExportType() == EXPORT_COLLIDER) {
+		this->parent->getComponent<LevelTransform>()->getTransformRef()->setLookAt(this->rotation);
+	}
+
+	std::string derp = this->parent->getActorDisplayName();
 	if (this->parentColiderID != 0) {
 		this->parentCollider = LevelColiderHandler::getInstance()->getLoadColider(this->parentColiderID, this);
 	}
@@ -242,9 +251,18 @@ tinyxml2::XMLElement* LevelCollider::toXml(tinyxml2::XMLDocument* doc)
 	{
 
 		tinyxml2::XMLElement* rotationElement = doc->NewElement("Rotation");
-		rotationElement->SetAttribute("x", this->rotation.x);
-		rotationElement->SetAttribute("y", this->rotation.y);
-		rotationElement->SetAttribute("z", this->rotation.z);
+		if (parent->getExportType() == EXPORT_COLLIDER) {
+			rotationElement->SetAttribute("x", this->obbColider->getZAxis().x);
+			rotationElement->SetAttribute("y", this->obbColider->getZAxis().y);
+			rotationElement->SetAttribute("z", this->obbColider->getZAxis().z);
+		}
+		else {
+			rotationElement->SetAttribute("x", this->rotation.x);
+			rotationElement->SetAttribute("y", this->rotation.y);
+			rotationElement->SetAttribute("z", this->rotation.z);
+		}
+		
+		
 
 		tinyxml2::XMLElement* halfLengthElement = doc->NewElement("HalfLengths");
 		halfLengthElement->SetAttribute("x", this->obbColider->getHalfLengths().x / scale.x);
@@ -359,7 +377,7 @@ std::string LevelCollider::printChildren(std::string name, std::string depth, in
 //TO IMPLEMENT:::: TRIGGER LUA EVENT ;) ;) ;) ;) ;)
 std::string LevelCollider::toLua(std::string name)
 {
-	if (this->parentCollider != nullptr)
+	if (this->parentColiderID != 0)
 		return "";
 	this->updateLayer();
 	using namespace std;
@@ -519,12 +537,13 @@ static void TW_CALL setParentID(const void *value, void *s /*clientData*/)
 {
 	// Set: copy the value of s from AntTweakBar
 	const int val = (*static_cast<const int*>(value));
-	LevelCollider* actor = (LevelCollider*)s;
+	LevelCollider* colider = (LevelCollider*)s;
 
-	LevelCollider* parent = LevelColiderHandler::getInstance()->getColiderWithID(val, actor);
+	LevelCollider* parent = LevelColiderHandler::getInstance()->getColiderWithID(val, colider);
 	if (parent != nullptr) {
-		actor->setParentColider(parent);
-		actor->setParentColiderID(val);
+		colider->removeMeFromParent();
+		colider->setParentColider(parent);
+		colider->setParentColiderID(val);
 		LevelActorHandler::getInstance()->updateTweakBars();
 	}
 
@@ -837,4 +856,16 @@ std::string LevelCollider::getLuaTriggerString(std::string colName) {
 
 	return ss.str().c_str();
 
+}
+
+void LevelCollider::removeMeFromParent() {
+	if (this->parentCollider != nullptr) {
+		for (size_t i = 0; i < this->parentCollider->childColliders.size(); i++)
+		{
+			if (this->parentCollider->childColliders[i] == this) {
+				this->parentCollider->childColliders.erase(this->parentCollider->childColliders.begin() + i);
+				i = this->parentCollider->childColliders.size();
+			}
+		}
+	}
 }

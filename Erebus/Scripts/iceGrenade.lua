@@ -94,7 +94,7 @@ function CreateIceGrenade(entity)
 		end
 		for i = 1, #spell.nades do
 			if self.nades[i].alive then
-				self.nades[i].particles.update(self.nades[i].type.position.x, self.nades[i].type.position.y, self.nades[i].type.position.z)
+				self.nades[i].particles.update(self.nades[i].type.position)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 
@@ -105,7 +105,7 @@ function CreateIceGrenade(entity)
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
 					hits = self.nades[i].type:Update(dt)				
-					self.nades[i].particles.die(self.nades[i].type.position)
+					--self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
@@ -115,7 +115,7 @@ function CreateIceGrenade(entity)
 									effect:Apply(hits[index])
 								end
 							end
-							hits[index]:Hurt(self.nades[i].damage)
+							hits[index]:Hurt(self.nades[i].damage, spell.owner)
 							self.nades[i].hits[hits[index].transformID] = true
 						end
 					end

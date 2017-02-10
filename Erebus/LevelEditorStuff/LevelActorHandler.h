@@ -44,6 +44,7 @@ public:
 	LevelUI::DiffComponents getSelectedComponentCB(int index);
 	const std::string tryActorName(std::string name);
 	void changeDisplayHitbox();
+	void postInitAllActors();
 private:
 	LevelUI::DiffComponents selectedComponent;
 	DisplayHitBoxes selectedDisplayHitbox;
@@ -67,4 +68,5 @@ private:
 	LevelActor* selectedActor;
 	TweakBar* worldBar, *actorBar;
 	LevelFileDialog fileDialog;
+	std::string getHeightData();
 };

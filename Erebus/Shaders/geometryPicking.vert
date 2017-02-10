@@ -7,8 +7,12 @@ out vec3 FragPos;
 out vec3 fColor;
 out vec3 fragNormal;
 
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+layout (std140, binding = 0) uniform vpBuffer
+{
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
+
 uniform mat4 worldMatrices[100];
 uniform vec3 instanceColors[100];
 

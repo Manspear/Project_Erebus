@@ -1,0 +1,15 @@
+<LevelActor type="ObbWall" displayName="Obb" tileID="1" exportType="4">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="13" parentID="0"/>
+        <Rotation x="-0.58169031" y="0.059371725" z="0.81124061"/>
+        <HalfLengths x="0.5" y="0.5" z="0.5"/>
+    </LevelCollider>
+    <LevelTransform>
+        <Position x="44.1875" y="9.6015625" z="128.875"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

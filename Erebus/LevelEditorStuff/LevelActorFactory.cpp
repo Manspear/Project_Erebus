@@ -97,7 +97,7 @@ LevelActor* LevelActorFactory::loadActor(tinyxml2::XMLElement* element) {
 		returnActor->addComponent(temp);
 	}
 
-	returnActor->postInitializeAllComponents();
+	
 
 	return returnActor;
 }
@@ -271,6 +271,7 @@ void LevelActorFactory::loadWorld( std::string fileName )
 	for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 		LevelActorHandler::getInstance()->addActor(loadActor(pNode));
 
+	LevelActorHandler::getInstance()->postInitAllActors();
 	delete doc;
 }
 
@@ -288,6 +289,7 @@ void LevelActorFactory::loadWorld()
 		for( tinyxml2::XMLElement* pNode = startElement->FirstChildElement(); pNode; pNode = pNode->NextSiblingElement())
 			LevelActorHandler::getInstance()->addActor(loadActor(pNode));
 
+		LevelActorHandler::getInstance()->postInitAllActors();
 		delete doc;
 	}
 }

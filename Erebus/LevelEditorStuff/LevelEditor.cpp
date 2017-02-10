@@ -135,9 +135,10 @@ void LevelEditor::start() {
 
 	float elapsedTime = 0.0f;
 
-
+	std::vector<Gear::ParticleEmitter*> derp;
 	engine->queueParticles(LevelParticleHandler::getInstance()->getParticleSystem());
-	engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
+	engine->queueEmitters(derp);
+	
 	engine->queueAnimModels(LevelModelHandler::getInstance()->getAnimatedModels());
 	engine->queueForwardModels(&forwardInstances);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
@@ -146,7 +147,7 @@ void LevelEditor::start() {
 
 	while (running && window.isWindowOpen())
 	{
-
+		engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
 

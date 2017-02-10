@@ -46,6 +46,10 @@ public:
 	void sendQuickBlendPacket(const QuickBlendPacket& packet);
 	bool fetchQuickBlendPacket(QuickBlendPacket& packet);
 
+	void sendDamagePacket(const DamagePacket& packet);
+	bool fetchDamagePacket(DamagePacket& packet);
+
+
 
 private:
 	void startNetworkSending();

@@ -1,8 +1,8 @@
-<LevelActor type="Tree" displayName="OakTree" tileID="1">
+<LevelActor type="Tree" displayName="OakTree" tileID="1" exportType="1">
     <LevelCollider type="2">
         <Offset x="0" y="7" z="1.5"/>
         <Color x="0" y="1" z="0"/>
-        <IDs ID="0" parentID="0"/>
+        <IDs ID="9" parentID="12"/>
         <Rotation x="0" y="0" z="0"/>
         <HalfLengths x="3" y="7" z="3"/>
     </LevelCollider>
@@ -10,8 +10,8 @@
         <ModelName>OakTree1</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="15.59375" y="50.561909" z="155"/>
-        <Rotation x="0" y="0" z="0"/>
+        <Position x="25.117025" y="7.5117188" z="140.22615"/>
+        <Rotation x="0" y="0.13111129" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>
     </LevelTransform>

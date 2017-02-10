@@ -75,6 +75,7 @@ public:
 	std::vector<LevelCollider*>& getChildColiders();
 	void updateHierecyBehavior(ColiderBehavior newBehave);
 	std::string getLuaTriggerString(std::string colName);
+	void removeMeFromParent();
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{
@@ -128,6 +129,7 @@ private:
 	std::string printChildren(std::string name, std::string depth, int &globalDepth, int parentIndex);
 	int colliderBehavior;
 	std::string onTriggeringEventString, onEnterEventString, onExitEventString;
+	
 
 	// sphere
 	//glm::vec3 spherePosition;

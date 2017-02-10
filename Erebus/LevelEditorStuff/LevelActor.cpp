@@ -85,6 +85,7 @@ void LevelActor::initialize(tinyxml2::XMLElement* data)
 	this->actorType = data->Attribute("type");
 	this->actorDisplayName = data->Attribute("displayName");
 	this->tileID = data->IntAttribute("tileID");
+	this->exportType = data->IntAttribute("exportType");
 }
 
 void LevelActor::update()
@@ -139,6 +140,7 @@ std::string LevelActor::toXml()
 	LevelActorElement->SetAttribute("type",this->actorType.c_str());
 	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
 	LevelActorElement->SetAttribute("tileID", tileID);
+	LevelActorElement->SetAttribute("exportType", this->exportType);
 	for (auto element : this->actorComponents)
 	{
 		LevelActorElement->LinkEndChild(element.second->toXml(&doc));
@@ -159,12 +161,24 @@ std::string LevelActor::toLua()
 	using namespace std;
 	stringstream ss;
 
+	
+
+	std::string tempName = this->actorDisplayName;
+	tempName.erase(remove_if(tempName.begin(), tempName.end(), isspace), tempName.end());
+	char chars[] = "()";
+
+	for (unsigned int i = 0; i < strlen(chars); ++i)
+	{
+		// you need include <algorithm> to use general algorithms like std::remove()
+		tempName.erase(std::remove(tempName.begin(), tempName.end(), chars[i]), tempName.end());
+	}
+	std::string fullName = tempName + to_string(id) + "ID";
+
 	if( exportType == EXPORT_ENEMY )
 	{
 		LevelTransform* transform = getComponent<LevelTransform>();
 		glm::vec3 pos = transform->getTransformRef()->getPos();
 
-		std::string fullName = "ID" + to_string(id) + "name";
 		
 
 		LevelEnemy* enemy = getComponent<LevelEnemy>();
@@ -172,7 +186,6 @@ std::string LevelActor::toLua()
 	}
 	else
 	{
-		std::string fullName = "ID" +to_string(id) + "name";
 		ss<<"local " << fullName <<" = {}" << endl;
 
 		LevelModel* model = getComponent<LevelModel>();
@@ -188,7 +201,8 @@ std::string LevelActor::toLua()
 		{
 			if( it->first != LevelModel::name && it->first != LevelTransform::name )
 			{
-				ss << it->second->toLua(fullName);
+				if(it->second->getName() != LevelHeightmap::name)
+					ss << it->second->toLua(fullName);
 			}
 		}
 
@@ -210,7 +224,8 @@ std::string LevelActor::toLua()
 				LevelHeightmap* heightmap = getComponent<LevelHeightmap>();
 				if( heightmap )
 				{
-					ss << "heightmaps[" << heightmap->getHeightmapID() << "] = " << fullName << endl;
+					ss << "table.insert(props," << fullName << ")" << endl;
+					//ss << "heightmaps[" << heightmap->getHeightmapID() << "] = " << fullName << endl;
 				}
 				//ss << "table.insert(heightmaps,temp)" << endl;
 			} break;
@@ -253,6 +268,7 @@ void LevelActor::insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocum
 	LevelActorElement->SetAttribute("type", this->actorType.c_str());
 	LevelActorElement->SetAttribute("displayName", this->actorDisplayName.c_str());
 	LevelActorElement->SetAttribute("tileID", tileID);
+	LevelActorElement->SetAttribute("exportType", this->exportType);
 	
 	for (auto element : this->actorComponents)
 	{
