@@ -109,6 +109,17 @@ function CreateBlackHole(entity)
 	
 	end
 
+	function spell:End()
+		for i = 1, #self.soundID do
+			Sound.Fade(self.soundID[i], 3)
+		end
+		self.type:Kill()
+		self.hits = {}
+		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
+		self.alive = false
+	
+	end
+	
 	function spell:Aim()	
 		local lookAt = Transform.GetLookAt(self.caster)
 		local aPos = Transform.GetPosition(self.caster)
