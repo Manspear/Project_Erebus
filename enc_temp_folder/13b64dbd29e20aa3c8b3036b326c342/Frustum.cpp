@@ -194,7 +194,7 @@ bool Frustum::aabbCollisionOptimized(AABBCollider * aabb)
 	float nearn = planes[4].distance(aabb->getNegativeVertex(planes[4].getNormal()));
 	float farn = planes[5].distance(aabb->getNegativeVertex(planes[5].getNormal()));
 
-	if (topPositive == glm::vec3(21, -490, 151))
+	if (topPositive == glm::vec3(11, -499, 150))
 		int k = 0;
 
 	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
