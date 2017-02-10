@@ -1,8 +1,9 @@
 FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 FIRESPAM_COOLDOWN = 0.6
+FIREBALL_COOLDOWN = 8
 FIRESPAM_SPEED = 120
-FIREBALL_SPEED = 70
-MIN_CHARGETIME_FIREBALL = 1.5
+FIREBALL_SPEED = 60
+MIN_CHARGETIME_FIREBALL = 0.5
 
 function CreateFireball(entity)
 	function initSmallFireball()
@@ -20,11 +21,11 @@ function CreateFireball(entity)
 	--General variables
 	local spell = {}
 	spell.isActiveSpell = false		spell.aSmallIsActive = 0
-	spell.cooldown = FIRESPAM_COOLDOWN		spell.maxcooldown = 2
+	spell.cooldown = FIREBALL_COOLDOWN		spell.maxcooldown = 8
 	spell.chargedTime = 0	spell.maxChargeTime = 3
 	spell.caster = entity.transformID
 	spell.owner = entity
-	spell.chargeCooldown = 8
+	spell.spamCooldown = FIRESPAM_COOLDOWN
 	--Small spamming fireballs
 	spell.smallFB = {}		spell.currentFB = 1
 	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
@@ -44,13 +45,13 @@ function CreateFireball(entity)
 	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 
 	function spell:Update(dt)
-		self.cooldown = self.cooldown - dt
+		self.spamCooldown = self.spamCooldown - dt
 		if self.aSmallIsActive > 0 then
 			self:UpdateSmallFBs(dt)
 		end
 		if self.bigBallActive then
 			self:BigBallUpdate(dt)
-		else	self.chargeCooldown = self.chargeCooldown - dt end
+		else	self.cooldown = self.cooldown - dt end
 	end
 	
 	function spell:UpdateSmallFBs(dt)
@@ -73,8 +74,8 @@ function CreateFireball(entity)
 	end
 
 	function spell:Cast(entity)
-		if self.cooldown < 0 and not self.bigBallActive then
-			self.cooldown = FIRESPAM_COOLDOWN
+		if self.spamCooldown < 0 and not self.bigBallActive then
+			self.spamCooldown = FIRESPAM_COOLDOWN
 			self.aSmallIsActive = self.aSmallIsActive + 1
 			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles.cast()
@@ -91,8 +92,9 @@ function CreateFireball(entity)
 		if self.bigBallActive then
 			self:KillFireball()
 		end
-		if self.chargeCooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then			
+		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then			
 			self.scale = self.chargedTime	
+			self.cooldown = FIREBALL_COOLDOWN
 			self.bigBallActive = true
 			self.position = entity.position
 			SphereCollider.SetRadius(self.sphereCollider, self.scale)
@@ -100,7 +102,7 @@ function CreateFireball(entity)
 			Transform.ActiveControl(self.bigBallID, true)
 			Transform.SetPosition(self.bigBallID, self.position)
 			Transform.SetScale(self.bigBallID, self.scale)
-			self.damage = 50
+			self.damage = 20 * self.chargedTime
 			self.ballParticles.cast()
 		end
 		self.chargedTime = 0
@@ -152,8 +154,6 @@ function CreateFireball(entity)
 		self.ballParticles.die()
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
-		self.cooldown = FIRESPAM_COOLDOWN
-		self.chargeCooldown = 8
 	end
 	return spell
 end
