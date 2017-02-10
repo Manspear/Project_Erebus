@@ -161,6 +161,37 @@ bool Frustum::aabbCollision(AABBCollider * aabb, Debug* debugger)
 bool Frustum::aabbCollisionOptimized(AABBCollider * aabb)
 {
 	bool collision = true; // box inside frustum
+	glm::vec3 topPositive = aabb->getPositiveVertex(planes[0].getNormal());
+	glm::vec3 topNegative = aabb->getNegativeVertex(planes[0].getNormal());
+
+	glm::vec3 botPositive = aabb->getPositiveVertex(planes[1].getNormal());
+	glm::vec3 botNegative = aabb->getNegativeVertex(planes[1].getNormal());
+
+	glm::vec3 leftPositive = aabb->getPositiveVertex(planes[2].getNormal());
+	glm::vec3 leftNegative = aabb->getNegativeVertex(planes[2].getNormal());
+
+	glm::vec3 rightPositive = aabb->getPositiveVertex(planes[3].getNormal());
+	glm::vec3 rightNegative = aabb->getNegativeVertex(planes[3].getNormal());
+
+	glm::vec3 nearPositive = aabb->getPositiveVertex(planes[4].getNormal());
+	glm::vec3 nearNegative = aabb->getNegativeVertex(planes[4].getNormal());
+
+	glm::vec3 farPositive = aabb->getPositiveVertex(planes[5].getNormal());
+	glm::vec3 farNegative = aabb->getNegativeVertex(planes[5].getNormal());
+
+	float topp = planes[0].distance(aabb->getPositiveVertex(planes[0].getNormal()));
+	float botp = planes[1].distance(aabb->getPositiveVertex(planes[1].getNormal()));
+	float leftp = planes[2].distance(aabb->getPositiveVertex(planes[2].getNormal()));
+	float rightp = planes[3].distance(aabb->getPositiveVertex(planes[3].getNormal()));
+	float nearp = planes[4].distance(aabb->getPositiveVertex(planes[4].getNormal()));
+	float farp = planes[5].distance(aabb->getPositiveVertex(planes[5].getNormal()));
+
+	float topn = planes[0].distance(aabb->getNegativeVertex(planes[0].getNormal()));
+	float botn = planes[1].distance(aabb->getNegativeVertex(planes[1].getNormal()));
+	float leftn = planes[2].distance(aabb->getNegativeVertex(planes[2].getNormal()));
+	float rightn = planes[3].distance(aabb->getNegativeVertex(planes[3].getNormal()));
+	float nearn = planes[4].distance(aabb->getNegativeVertex(planes[4].getNormal()));
+	float farn = planes[5].distance(aabb->getNegativeVertex(planes[5].getNormal()));
 
 	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
 	{

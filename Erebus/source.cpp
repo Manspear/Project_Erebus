@@ -93,7 +93,7 @@ DWORD WINAPI update( LPVOID args )
 	///////////////////////////// FRUSTUM TESTING START //////////////////////////////////////
 	SphereCollider sphere = SphereCollider(POINT33, 0.08f);
 	collisionHandler.addHitbox(&sphere,8);
-	AABBCollider aabb = AABBCollider(glm::vec3(-4,-500,-4),glm::vec3(4,400,4),glm::vec3(18, 10, 150));
+	AABBCollider aabb = AABBCollider(glm::vec3(-1,-500,-1),glm::vec3(1,400,1),glm::vec3(20, 10, 150));
 	collisionHandler.addHitbox(&aabb,2);
 
 	float fov = data->camera->getFov();
