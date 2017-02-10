@@ -99,6 +99,9 @@
     <ClInclude Include="DamagePacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
+    <ClInclude Include="ChangeSpellsPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Packages">
