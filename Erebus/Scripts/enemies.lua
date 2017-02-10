@@ -172,7 +172,7 @@ function UpdateEnemies(dt)
 		local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
 		while newDamageVal == true do 
 			for i=1, #enemies do
-				print("Receiving damage", enemies[i].transformID, dmg_transformID, dmg_damage)
+				--print("Receiving damage", enemies[i].transformID, dmg_transformID, dmg_damage)
 				if enemies[i].transformID == dmg_transformID then
 					enemies[i]:Hurt(dmg_damage, player)
 					break

@@ -11,7 +11,7 @@ function CreateFireEffect(effectowner)
 	effect.particles = GetNextFireEffectParticle()
 	function effect:Apply(entity)
 		print("Applied")	
-		print(entity.transformID)
+		--print(entity.transformID)
 		self.particles:Update(Transform.GetPosition(entity.transformID))
 		self.particles:Cast()
 	end
@@ -27,7 +27,7 @@ function CreateFireEffect(effectowner)
 		self.particles:Update(Transform.GetPosition(entity.transformID))
 		if self.interval < 0 then
 			self.interval = self.interval + FIREEFFECTINTERVAL
-			entity:Hurt(self.damage, effect.owner)
+			entity:Hurt(self.damage, self.owner)
 		end
 		
 		return self.duration > 0 

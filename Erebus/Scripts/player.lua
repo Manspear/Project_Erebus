@@ -95,7 +95,7 @@ function LoadPlayer()
 	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/testGuy.model")
+	local model = Assets.LoadModel("Models/player1.model")
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
@@ -133,6 +133,7 @@ function LoadPlayer2()
 	player2.spells = {}
 	player2.currentSpell = 1
 
+	local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
 
 	player2.Apply = function(self, effect)
@@ -142,7 +143,6 @@ function LoadPlayer2()
 		end
 	end
 
-	local model = Assets.LoadModel("Models/testGuy.model")
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
@@ -330,6 +330,7 @@ function Controls(dt)
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)
 			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
+			player.charging = true
 		end
 
 		if Inputs.ButtonPressed(Buttons.Right) then 
@@ -341,6 +342,7 @@ function Controls(dt)
 			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 			player.spells[player.currentSpell]:ChargeCast(player)
 			player.charger:EndCharge()
+			player.charging = false
 		end
 
 		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end

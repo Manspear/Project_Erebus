@@ -87,7 +87,7 @@ function CreateBlackHole(entity)
 						hits[index]:Apply(effect)
 						self.hits[hits[index].transformID] = true
 					end
-					hits[index]:Hurt(self.damage, spell.owner)
+					hits[index]:Hurt(self.damage, self.owner)
 				end
 			end
 
