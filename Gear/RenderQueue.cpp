@@ -323,12 +323,12 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	{
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
+		int numInstance = dynamicModels->at(i).worldMatrices.size();
 
-		// TEMP: Shouldn't have any models without material
-		if (modelAsset->getMaterial())
-			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
+		assert( modelAsset->getMaterial() );
+		modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
 
+		/*
 		//for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		for (int j = 0; j < dynamicModels->at(i).worldMatrices.size(); j++)
 		{
@@ -339,6 +339,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				tempMatrices[numInstance++] = dynamicModels->at(i).worldMatrices[j];
 			}
 		}
+		*/
+
 		//allShaders[GEOMETRY]->setUniform4fv(tempMatrices, "worldMatrices", numInstance);
 		GLsizei size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 
@@ -346,7 +348,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		{
 			glBindVertexArray(dynamicModels->at(i).instanceVAO);
 			glBindBuffer(GL_ARRAY_BUFFER, dynamicModels->at(i).instanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, &tempMatrices[0][0][0]);
+			//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, &tempMatrices[0][0][0]);
+			glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]) );
 		} 
 		
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
@@ -385,7 +388,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	{
 		ModelAsset* modelAsset = animatedModels->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
+		int numInstance = animatedModels->at(i).worldMatrices.size();
 
 		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
 		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
