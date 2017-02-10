@@ -60,7 +60,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 
 	TwAddVarRW(actionBar->getBar(), "Radius", TW_TYPE_FLOAT, &this->radius, "label=Radius min=0.1");
 	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, "label=Vacansy min=0.1");
-	TwAddVarRW(actionBar->getBar(), "tilt", TW_TYPE_FLOAT, &this->OBJTiltTolerance, "label=tiltTol min=0.1 max=1");
+	TwAddVarRW(actionBar->getBar(), "tilt", TW_TYPE_FLOAT, &this->OBJTiltTolerance, "label=TiltTol min=0.1 max=1");
 	TwAddSeparator(actionBar->getBar(), "brushSep2", NULL);
 	
 	
