@@ -1,6 +1,6 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-BLEND_TERXTURE1 = Assets.LoadTexture("Textures/brightParticle.png");
-BLEND_TERXTURE2 = Assets.LoadTexture("Textures/Lazer.png");
+BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarAnimBurn2.dds");
+BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarAnimFlame.dds");
 
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_PILLAR = 4
@@ -21,7 +21,7 @@ function CreateHellPillar(entity)
 	spell.texture1 = BLEND_TERXTURE1
 	spell.texture2 = BLEND_TERXTURE2
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
-	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.0}
+	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.Change = GenericChange
 	spell.maxChargeTime = 3
 	--Set up collider, model and transform for the pillar
@@ -31,7 +31,7 @@ function CreateHellPillar(entity)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	local model = Assets.LoadModel( "Models/hellpillar.model" )
+	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
 	Gear.AddBlendingInstance(model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
 
@@ -52,7 +52,7 @@ function CreateHellPillar(entity)
 	--spell.lightRadius = 0	spell.light = 0
 	--Set up the first model
 	spell.firstModel = Transform.Bind()
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/hellpillarOut1.model" )
 	Gear.AddForwardInstance(model, spell.firstModel)
 
 	function spell:Cast(entity, chargetime)
@@ -157,16 +157,17 @@ function CreateHellPillar(entity)
 			self.startUp = true
 			Transform.ActiveControl(self.transformID, false)
 			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
-
+			self.blendValue1.x, self.blendValue1.y = 0, 0
+			self.blendValue2.x, self.blendValue2.y = 0, 0
 			--Light.removeLight(self.light)
 		else
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
 			--Transform.SetRotation(self.transformID, self.someRotation)
-			self.blendValue1.x = self.blendValue1.x + 0.1 * dt
-			self.blendValue1.y = self.blendValue1.y + 0.4 * dt
+			self.blendValue1.x = self.blendValue1.x + 0.2 * dt
+			self.blendValue1.y = self.blendValue1.y + 0.6 * dt
 
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
-			self.blendValue2.y = self.blendValue2.y - 0.2 * dt
+			self.blendValue2.y = self.blendValue2.y - 0.3 * dt
 
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
 

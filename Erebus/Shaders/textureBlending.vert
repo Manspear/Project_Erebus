@@ -22,5 +22,9 @@ void main(){
 	vertex_UV[0] = UV + blendValue1;
 	vertex_UV[1] = UV + blendValue2;
 	vertex_UV[2] = UV + blendValue3;
+	
+	vertex_UV[0] = vertex_UV[0] * vec2(1,-1); 
+	vertex_UV[1] = vertex_UV[1] * vec2(1,-1); 
+	vertex_UV[2] = vertex_UV[2] * vec2(1,-1); 
 
 }
