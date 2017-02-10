@@ -495,6 +495,7 @@ namespace Gear
 
 			actorID = pickedID;
 			hitPos = colorPosition;
+			bool result = std::isnan(hitPos.x);
 			hitNormal = colorNormal;
 			//if (pickedID == 0x00000000) {
 			//	std::cout << "looking at background!" << std::endl;

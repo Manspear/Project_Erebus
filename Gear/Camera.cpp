@@ -210,8 +210,15 @@ GEAR_API void Camera::setCamera(glm::vec3 campos, glm::vec3 lookPos)
 GEAR_API void Camera::setPosition(glm::vec3 position)
 {
 	this->camPosition = position;
-	this->camDirection = position - camDirection;
-	this->viewMat = glm::lookAt(position, camDirection, camUp);
+	this->camDirection = glm::normalize(position - camDirection); //prevents blackness
+	this->viewMat = glm::lookAt(position, camPosition + camDirection, camUp);
+}
+
+GEAR_API void Camera::setDirection(glm::vec3 direction)
+{
+	this->camDirection = direction;
+	this->viewMat = glm::lookAt(camPosition, camPosition + camDirection, camUp);
+	
 }
 
 GEAR_API void Camera::setHeight(float h)
@@ -261,11 +268,7 @@ glm::vec3 Camera::getDirection()
 	return bufferCamDirection;
 }
 
-GEAR_API void Camera::setDirection(glm::vec3 direction)
-{
-	this->camDirection = direction;
-	this->viewMat = glm::lookAt(camPosition, camPosition+camDirection, camUp);
-}
+
 
 glm::vec3 Camera::getUp()
 {
