@@ -276,6 +276,16 @@ bool Frustum::pointAABBCollision(glm::vec3 point, AABBCollider * aabb)
 			(point.z >= minPos.z && point.z <= maxPos.z);
 }
 
+void Frustum::drawMeSelf(Debug * debugger)
+{
+	glm::vec3 drawPoint = this->nearTopLeft + 10.0f;
+	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+	{
+		debugger->drawLine(drawPoint, drawPoint + this->planes[i].getNormal());
+		debugger->drawSphere(drawPoint + this->planes[i].getNormal(), 0.1f);
+	}
+}
+
 bool Frustum::pointPlaneCollision(int plane, glm::vec3 & point)
 {
 	bool collision = true;
