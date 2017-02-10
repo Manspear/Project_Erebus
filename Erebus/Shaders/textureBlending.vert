@@ -6,8 +6,11 @@ in vec2 UV;
 
 out vec2 vertex_UV[3];
 
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+layout (std140, binding = 0) uniform vpBuffer
+{
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
 uniform mat4 worldMatrices[105];
 
 uniform vec2 blendValue1;

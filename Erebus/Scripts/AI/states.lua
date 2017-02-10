@@ -102,7 +102,7 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	print("DEAD", enemy.transformID)
+	--print("DEAD", enemy.transformID)
 	enemy.animationController:doNothing()
 end
 

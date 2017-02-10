@@ -10,6 +10,7 @@
 #include "ChargingPacket.hpp"
 #include "QuickBlendPacket.hpp"
 #include "DamagePacket.hpp"
+#include "ChangeSpellsPacket.hpp"
 
 class PacketFilter
 {
@@ -26,7 +27,7 @@ public:
 	PacketQueue<ChargingPacket> * getChargingQueue();
 	PacketQueue<QuickBlendPacket> * getQuickBlendQueue();
 	PacketQueue<DamagePacket> * getDamageQueue();
-
+	PacketQueue<ChangeSpellsPacket> * getChangeSpellsQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -37,4 +38,5 @@ private:
 	PacketQueue<ChargingPacket> * chargingQueue;
 	PacketQueue<QuickBlendPacket> * quickBlendQueue;
 	PacketQueue<DamagePacket> * damageQueue;
+	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
 };

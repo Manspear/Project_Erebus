@@ -11,8 +11,11 @@ layout(triangle_strip, max_vertices = 4) out;
 
 in float size[];
 
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+layout (std140, binding = 0) uniform vpBuffer
+{
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
 
 out vec2 vertex_UV;
 
