@@ -278,11 +278,18 @@ bool Frustum::pointAABBCollision(glm::vec3 point, AABBCollider * aabb)
 
 void Frustum::drawMeSelf(Debug * debugger)
 {
-	glm::vec3 drawPoint = this->nearTopLeft + 10.0f;
+	glm::vec3 drawPoint = this->nearTopLeft;
+	glm::vec3 colors[6];
+	colors[0] = glm::vec3(1, 0, 0); // top
+	colors[1] = glm::vec3(0, 1, 0); // bot
+	colors[2] = glm::vec3(0, 0, 1); // left
+	colors[3] = glm::vec3(1, 0, 1); // right
+	colors[4] = glm::vec3(1, 1, 0); // near
+	colors[5] = glm::vec3(1, 1, 1); // far
 	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
 	{
 		debugger->drawLine(drawPoint, drawPoint + this->planes[i].getNormal());
-		debugger->drawSphere(drawPoint + this->planes[i].getNormal(), 0.1f);
+		debugger->drawSphere(drawPoint + this->planes[i].getNormal(), 0.1f, colors[i]);
 	}
 }
 
