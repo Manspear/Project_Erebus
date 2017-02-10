@@ -1,7 +1,7 @@
 function CreateAim(entity)
 	local aim = {}
 	aim.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/aim.model" )
 	Gear.AddForwardInstance(model, aim.transformID)
 	Transform.ActiveControl(aim.transformID, true)
 	aim.caster = entity.transformID
