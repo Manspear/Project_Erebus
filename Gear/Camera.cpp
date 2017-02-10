@@ -264,6 +264,7 @@ glm::vec3 Camera::getDirection()
 GEAR_API void Camera::setDirection(glm::vec3 direction)
 {
 	this->camDirection = direction;
+	this->viewMat = glm::lookAt(camPosition, camPosition+camDirection, camUp);
 }
 
 glm::vec3 Camera::getUp()
