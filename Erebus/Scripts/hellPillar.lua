@@ -26,6 +26,7 @@ function CreateHellPillar(entity)
 	spell.Change = GenericChange
 	spell.maxChargeTime = 3
 	--Set up collider, model and transform for the pillar
+	spell.riseFactor = 0.1
 	spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)
@@ -164,6 +165,7 @@ function CreateHellPillar(entity)
 			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
 			self.blendValue1.x, self.blendValue1.y = 0, 0
 			self.blendValue2.x, self.blendValue2.y = 0, 0
+			self.riseFactor = 0.1
 			--Light.removeLight(self.light)
 		else
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
@@ -175,7 +177,9 @@ function CreateHellPillar(entity)
 			self.blendValue2.y = self.blendValue2.y - 0.3 * dt
 
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
-
+			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * dt end
+			
+			Transform.SetScaleNonUniform(self.transformID, 1, self.riseFactor, 1)
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt
