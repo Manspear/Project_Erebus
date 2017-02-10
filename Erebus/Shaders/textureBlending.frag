@@ -11,10 +11,14 @@ uniform sampler2D tex3;
 
 void main (){
 
-	vec4 color = vec4(0);
+	vec4 color1 = vec4(0);
+	vec4 color2 = vec4(0);
 
-	color += texture( tex1, vertex_UV[0]);
-	color += texture( tex2, vertex_UV[1]);
+	color1 += texture( tex1, vertex_UV[0]);
+	color2 += texture( tex2, vertex_UV[1]); 
 
-	finalColor = color;
+	color1.rgb *= color1.a; 
+	color2.rgb *= color2.a;
+
+	finalColor = color1 + color2;
 }
