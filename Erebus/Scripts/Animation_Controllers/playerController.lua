@@ -41,8 +41,8 @@ function CreatePlayerController(player)
 	controller.damagedMaxTime = 2
 
 	controller.quickBlendFrom = 0
-	controller.quickBlendTo = 7
-	controller.quickBlendSegment = 2
+	controller.quickBlendTo = 4
+	controller.quickBlendSegment = 2 --0, 1, 2
 
 	controller.jumpTimerStart = false
 	controller.jumpTimer = 0
@@ -74,17 +74,21 @@ function CreatePlayerController(player)
 		--The higher the priority of the action, the longer down in this update function it should be
 		--since the prioritized actions override the unprioritized ones
 
-		--if you don't move you're Idle
-		if self.watch.forward == 0 and self.watch.left == 0 then
+		--if you don't move AND HAVENT ATTACKED you're Idle
+		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
 			self:IdleState(dt)
 		--else running
 		elseif self.watch.forward ~= 0 or self.watch ~= left then
 			self:RunningState(dt)
+		--else legs stand still
+		else
+			self.animationState1 = 9
 		end
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
 		then
-			--self:DamagedState(dt)
+			self:DamagedState(dt)
+			
 			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
@@ -241,7 +245,8 @@ function CreatePlayerController(player)
 		self.animationState2 = 0
 	end
 
-	--[[function controller:DamagedState(dt)
+	function controller:DamagedState(dt)
+		print( self.isDamagedTimerStart) 
 		if self.isDamagedTimerStart == false then
 			self.isDamagedTimerStart = true
 		end
@@ -250,8 +255,9 @@ function CreatePlayerController(player)
 			if res == true then
 				self.isDamagedTimerStart = false
 			end
+			print( self.isDamagedTimerStart) 
 		end
-	end--]]
+	end
 
 	function controller:copyWatch()
 		self.oldWatch.health = self.watch.health

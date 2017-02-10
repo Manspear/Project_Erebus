@@ -486,7 +486,8 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
 
 	//Takes too long
-	processIndexes();
+	//processIndexes();
+
 	/*for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
 		imScene.modelList.back().meshList.back().indexList.push_back(i);
 	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)

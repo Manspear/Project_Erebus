@@ -8,7 +8,7 @@ function LoadBoss()
 	boss.spellcooldowns[1] = 0
 	boss.transformID = Transform.Bind()
 	Transform.SetPosition(boss.transformID, { x=100, y=-5, z=100 })
-	local model = Assets.LoadModel("Models/testGuy.model")
+	local model = Assets.LoadModel("Models/The_Timelord.model")
 	boss.animationController = CreatePlayerController(boss)
 	Gear.AddAnimatedInstance(model, boss.transformID, boss.animationController.animation)
 	Transform.ActiveControl(boss.transformID, true)
