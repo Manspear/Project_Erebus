@@ -5,9 +5,10 @@ CHRONOBALLORBITSPEED = 10
 CHRONOBALLMAXCHARGETIME = 5
 CHRONOBALL_DAMAGE = 30
 
-function CreateChronoBall()
+function CreateChronoBall(entity)
 	local spell = {}
 	spell.type = CreateProjectileType()
+	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifeTime = CHRONOBALLLIFETIME
 	spell.alive = false
@@ -38,7 +39,7 @@ function CreateChronoBall()
 				if not self.hitflag then
 					local effect = effectTable[self.effect]()
 					hits[index]:Apply(effect)
-					hits[index]:Hurt(CHRONOBALL_DAMAGE)
+					hits[index]:Hurt(CHRONOBALL_DAMAGE, self.owner)
 					self.hitflag = true
 				end
 				local hitPos = Transform.GetPosition(self.type.transformID)
