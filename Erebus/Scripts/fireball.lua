@@ -162,8 +162,7 @@ function CreateFireball(entity)
 		self.ballParticles.die()
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
-		self.damage = FIREBALL_BASE_DMG
-		
+		self.damage = FIREBALL_BASE_DMG	
 	end
 
 	function spell:SpamFireball(index)
