@@ -221,6 +221,5 @@ function CreateIceGrenade(entity)
 		end
 		return result
 	end
-	function spell:End() Transform.ActiveControl(self.owner.aim.transformID, false) self.isActiveSpell = false end
 	return spell
 end

@@ -214,6 +214,5 @@ function CreateHellPillar(entity)
 		end
 	end
 	function spell:Kill() Transform.ActiveControl(self.owner.aim.transformID, false) end
-	function spell:End() Transform.ActiveControl(self.owner.aim.transformID, false) self.isActiveSpell = false end
 	return spell
 end

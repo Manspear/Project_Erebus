@@ -112,10 +112,6 @@ function CreateSunRay(entity)
 		self.type:Kill()
 	end
 
-	function sunRay:End()
-		self:Kill()	
-	end
-
 	function sunRay:GetEffect()
 		return self.effects[1]
 	end
