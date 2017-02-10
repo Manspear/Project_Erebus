@@ -46,7 +46,6 @@ function UpdateBoss(dt)
 			if not boss.effects[i]:Update(boss, dt) then
 				boss.effects[i]:Deapply(boss)
 				table.remove(boss.effects, i)
-
 			end
 		end
 		for i = 1, #boss.spells do
