@@ -51,7 +51,7 @@ function CreateChargeThing(entity)
 			chargeThing.scaleSmall.x = chargeThing.scaleSmall.x + (chargePower * chargePower * 75) * dt
 			chargeThing.scaleSmall.z = chargeThing.scaleSmall.z + (chargePower * chargePower * 75) * dt
 		end
-		if(chargeThing.scaleSmall.y < 0.5) then
+		if(chargeThing.scaleSmall.y < 0.25) then
 			chargeThing.scaleSmall.y = chargeThing.scaleSmall.y + (0.075*dt)
 		end
 
