@@ -115,7 +115,7 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 		hitPoint.y = hitPoint.y + yOffset;
 
 		//set upp camera for additional picking pass
-		glm::vec3 ortogonalCamAboveHitpoint = glm::vec3(hitPoint.x, (hitPoint.y + 1), hitPoint.z); //Make an additional draw call above hitpoint	
+		glm::vec3 ortogonalCamAboveHitpoint = glm::vec3(hitPoint.x, (hitPoint.y + 3), hitPoint.z); //Make an additional draw call above hitpoint	
 		camera->setPosition(ortogonalCamAboveHitpoint);
 		camera->setDirection(glm::normalize(glm::vec3(-0.01, -0.98, -0.01)));
 		
