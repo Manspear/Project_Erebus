@@ -18,6 +18,7 @@
 #include "LuaSound.h"
 #include "LuaUI.h"
 #include "LuaLight.h"
+#include "LuaMath.h"
 
 class LuaBinds
 {
