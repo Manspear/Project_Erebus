@@ -16,7 +16,6 @@ function Round(num, idp)
 end
 
 function LoadPlayer()
-	print("ey1")
 	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
@@ -105,7 +104,6 @@ function LoadPlayer()
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeThing(player)
 	InitFireEffectParticles()
-	print("ey3")
 	--[[LoadEnemies(5)
 	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
 	Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
@@ -180,7 +178,10 @@ end
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
 	if player.health > 0 then
-		print(player.timeScalar)
+		local scale = 0.8
+		local color = {0.6, 0.3, 0.1, 0.8}
+		local info = ""..player.timeScalar
+		Gear.Print(info, 1230, 0, scale, color)
 		dt = dt * player.timeScalar
 
 		player.dashcd = player.dashcd - dt

@@ -6,7 +6,6 @@ boss.spells = {}
 boss.spellcooldowns = {}
 
 function LoadBoss()
-	print("ey2")
 	boss.spells[1] = CreateTimeOrbWave()
 	boss.spellcooldowns[1] = 0
 	boss.spells[2] = CreateChronoBall()
