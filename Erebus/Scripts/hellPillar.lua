@@ -16,7 +16,8 @@ function CreateHellPillar(entity)
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.cooldown = 0
-	spell.effect = CreateFireEffect()
+	spell.effects = {}
+	table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.texture1 = BLEND_TERXTURE1
 	spell.texture2 = BLEND_TERXTURE2
@@ -141,6 +142,10 @@ function CreateHellPillar(entity)
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 					enemies[curEnemy]:Hurt(self.damage, spell.owner)
+					for i = 1, #self.effects do
+						local effect = effectTable[self.effects[i]]()
+						enemies[curEnemy]:Apply(effect)
+					end	
 				end
 					Sound.Play(HIT_SFX, 1, self.pos)
 			end

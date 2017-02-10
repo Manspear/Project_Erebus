@@ -63,6 +63,10 @@ function CreateEnemy(type, position)
 
 		enemies[i].animationController:AnimationUpdate(0) -- play death animation
 	end
+	enemies[i].Apply = function(self, effect)
+		table.insert(self.effects, effect)
+		effect:Apply(self)
+	end
 
 	enemies[i].Spawn = function(self,position)
 		self.alive = true

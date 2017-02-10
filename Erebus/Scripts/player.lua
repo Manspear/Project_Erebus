@@ -48,6 +48,8 @@ function LoadPlayer()
 	player.invulnerable = false
 	player.position = {}
 
+	player.effects = {}
+
 	-- set spells for player
 	player.spells = {}
 	
@@ -59,6 +61,12 @@ function LoadPlayer()
 			if self.health <= 0 then
 				self:Kill()
 			end
+		end
+	end
+	player.Apply = function(self, effect)
+		if not self.invulnerable then
+			table.insert(self.effects, effect)
+			effect:Apply(self)
 		end
 	end
 
@@ -170,11 +178,16 @@ end
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
 	if player.health > 0 then
+		local scale = 0.8
+		local color = {0.6, 0.3, 0.1, 0.8}
+		local info = ""..player.timeScalar
+		Gear.Print(info, 1230, 0, scale, color)
+		dt = dt * player.timeScalar
+
 		player.dashcd = player.dashcd - dt
 		player.forward = 0
 		player.left = 0
 
-		dt = dt * player.timeScalar
 
 		player.position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
@@ -203,6 +216,13 @@ function UpdatePlayer(dt)
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
 	player.spells[3]:Update(dt)
+
+	for j = #player.effects, 1, -1 do 
+		if not player.effects[j]:Update(player, dt) then
+			player.effects[j]:Deapply(player)
+			table.remove(player.effects, j)
+		end
+	end
 
 	-- show player position and lookat on screen
 	if Inputs.KeyPressed("0") then 

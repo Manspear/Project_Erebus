@@ -84,8 +84,7 @@ function CreateBlackHole(entity)
 				if hits[index].Hurt and not self.hits[hits[index].transformID] then
 					for i = 1, #self.effects do
 						local effect = effectTable[self.effects[i]]()
-						table.insert(hits[index].effects, effect)
-						effect:Apply(hits[index])
+						hits[index]:Apply(effect)
 						self.hits[hits[index].transformID] = true
 					end
 					hits[index]:Hurt(self.damage, spell.owner)
