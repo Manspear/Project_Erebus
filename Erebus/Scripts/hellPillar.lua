@@ -54,7 +54,7 @@ function CreateHellPillar(entity)
 	--spell.lightRadius = 0	spell.light = 0
 	--Set up the first model
 	spell.firstModel = Transform.Bind()
-	local model = Assets.LoadModel( "Models/hellpillarOut1.model" )
+	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
 	Gear.AddForwardInstance(model, spell.firstModel)
 
 	function spell:Cast(entity, chargetime)
