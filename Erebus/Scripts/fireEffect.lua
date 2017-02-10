@@ -1,6 +1,6 @@
 FIREEFFECTINTERVAL = 0.5
 FIREEFFECTDURATION = 5
-FIREEFFECTDAMAGE = 0
+FIREEFFECTDAMAGE = 1
 
 function CreateFireEffect(effectowner)
 	local effect = {}

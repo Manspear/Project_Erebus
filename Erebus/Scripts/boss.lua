@@ -12,6 +12,9 @@ function LoadBoss()
 	boss.spellcooldowns[2] = 0
 	boss.transformID = Transform.Bind()
 	boss.health = 500
+	boss.effects = {}
+	boss.timeScalar = 1
+	boss.movementSpeed = 1
 	local model = Assets.LoadModel("Models/The_Timelord.model")
 	Gear.AddStaticInstance(model, boss.transformID)
 	Transform.ActiveControl(boss.transformID, true)
@@ -21,24 +24,35 @@ function LoadBoss()
 	SphereCollider.SetActive(boss.sphereCollider, true);
 
 	function boss:Hurt(damage)
-		self.health = self.health - damage
+		print("boss got hit omfgwtfbbq   "..boss.health )
+		boss.health = boss.health - damage
+	end
+	function boss:Apply(effect)
+		table.insert(boss.effects, effect)
+		effect:Apply(boss)
 	end
 end
 function UnloadBoss()
 
 end
 function UpdateBoss(dt)
-	local hm = GetHeightmap({x=15,y=0,z=150})
-	if hm then
-		Transform.SetPosition(boss.transformID, { x=14, y= hm.asset:GetHeight(14, 150)+5, z=150 })
-	end
-	for i = 1, #boss.spells do
-		boss.spells[i]:Update(dt)
-		boss.spellcooldowns[i]  = boss.spellcooldowns[i] - dt
-		if boss.spellcooldowns[i] < 0 then
-			print("shot")
-			boss.spellcooldowns[i] = BOSS_SPELLCD[i]
-			boss.spells[i]:Cast(boss)
+	if boss.health > 0 then
+		dt = dt * boss.timeScalar
+		local hm = GetHeightmap({x=15,y=0,z=150})
+		if hm then
+			Transform.SetPosition(boss.transformID, { x=14, y= hm.asset:GetHeight(14, 150)+5, z=150 })
+		end
+		for i = 1, #boss.effects do
+			boss.effects[i]:Update(boss, dt)
+		end
+		for i = 1, #boss.spells do
+			boss.spells[i]:Update(dt)
+			boss.spellcooldowns[i]  = boss.spellcooldowns[i] - dt
+			if boss.spellcooldowns[i] < 0 then
+				--print("shot")
+				boss.spellcooldowns[i] = BOSS_SPELLCD[i]
+				boss.spells[i]:Cast(boss)
+			end
 		end
 	end
 end
