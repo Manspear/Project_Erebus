@@ -23,7 +23,7 @@ function state.idleState.exit(enemy,player)
 end
 
 function state.followState.enter(enemy,player)
-	--print("Enter FOLLOW")
+	print("Enter FOLLOW")
 	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
@@ -93,7 +93,7 @@ function state.attackState.update(enemy,player,dt)
 
 	if length < enemy.range and enemy.attackCountdown <= 0 then
 		enemy.attackCountdown = 1
-		player:Hurt(12)
+		player:Hurt(12, enemy)
 	end
 end
 

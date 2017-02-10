@@ -9,6 +9,8 @@
 #include "SpellPacket.hpp"
 #include "ChargingPacket.hpp"
 #include "QuickBlendPacket.hpp"
+#include "DamagePacket.hpp"
+#include "ChangeSpellsPacket.hpp"
 
 #define packetSize 1400
 
@@ -29,6 +31,8 @@ public:
 	void pushAITransformPacket(const TransformPacket& packet);
 	void pushChargingPacket(const ChargingPacket& packet);
 	void pushQuickBlendPacket(const QuickBlendPacket& packet);
+	void pushDamagePacket(const DamagePacket& packet);
+	void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
 
 private:
 	unsigned char * memory;
@@ -40,6 +44,8 @@ private:
 	PacketQueue<TransformPacket> * aiTransformQueue;
 	PacketQueue<ChargingPacket> * chargingQueue;
 	PacketQueue<QuickBlendPacket> * quickBlendQueue;
+	PacketQueue<DamagePacket> * damageQueue;
+	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
 	uint16_t currentNetPacketSize;
 
 	//void addPacketGroup(uint16_t packetType, void * packet, void * queue, uint16_t &netPacketSize);
@@ -51,6 +57,8 @@ private:
 	void addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage);
 	void addChargingPackets(uint16_t& netPacketSize, bool& fullPackage);
 	void addQuickBlendPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addDamagePackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addChangeSpellsPackets(uint16_t& netPacketSize, bool& fullPackage);
 	void addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 };

@@ -205,7 +205,7 @@ namespace LuaGear
 
 		float scale = 1.0f;
 		int type = -1;
-		if( ntop == 4 )
+		if( ntop >= 4 )
 			type = lua_type( lua, 4 );
 
 		glm::vec4 color( 1.0f );

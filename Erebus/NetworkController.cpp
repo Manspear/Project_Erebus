@@ -104,7 +104,7 @@ bool NetworkController::acceptNetworkCommunication()
 	{
 		return true;
 	}
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 	return false;
 }
@@ -208,6 +208,16 @@ void NetworkController::sendQuickBlendPacket(const QuickBlendPacket& packet)
 bool NetworkController::fetchQuickBlendPacket(QuickBlendPacket& packet)
 {
 	return network.fetchQuickBlendPacket(packet);
+}
+
+void NetworkController::sendDamagePacket(const DamagePacket& packet)
+{
+	network.pushDamagePacket(packet);
+}
+
+bool NetworkController::fetchDamagePacket(DamagePacket& packet)
+{
+	return network.fetchDamagePacket(packet);
 }
 
 double NetworkController::timeSinceLastTransformPacket()

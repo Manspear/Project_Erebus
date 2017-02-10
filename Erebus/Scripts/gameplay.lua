@@ -26,7 +26,8 @@ local scriptFiles =
 	"Scripts/spellList.lua",
 	"Scripts/HUD.lua",
 	"Scripts/spellUtility.lua",
-	"Scripts/boss.lua"
+	"Scripts/boss.lua",
+	"Scripts/fireball.lua"
 }
 
 local gameStarted = false
@@ -63,25 +64,9 @@ function UpdateGameplay(dt)
 		value.Update(dt)
 	end
 
-	if Inputs.KeyReleased("E") then
-		local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
-		local dir = Camera.GetDirection()
-		local pos = Transform.GetPosition(player.transformID)
-		RayCollider.SetActive(player.rayCollider, true)
-		RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
-		for curID = 1, #collisionIDs do
-		print(collisionIDs[curID])
-			if collisionIDs[curID] == 1 then
-			
-				gamestate.ChangeState(GAMESTATE_SPELLBOOK)
-				print("hit")
-				break
-			end
-		end
-		--RayCollider.SetActive(player.rayCollider, false)
+	if SETTING_DEBUG then 
+		CollisionHandler.DrawHitboxes()
 	end
-
-	CollisionHandler.DrawHitboxes()
 end
 
 function EnterGameplay()

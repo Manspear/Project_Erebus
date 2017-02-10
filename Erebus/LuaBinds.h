@@ -18,6 +18,7 @@
 #include "LuaSound.h"
 #include "LuaUI.h"
 #include "LuaLight.h"
+#include "LuaMath.h"
 
 class LuaBinds
 {
@@ -44,6 +45,7 @@ public:
 				bool* running,
 				Camera* camera,
 				std::vector<Gear::ParticleSystem*>* ps,
+				std::vector<Gear::ParticleEmitter*>* emitters,
 				AGI::AGIEngine* AI,
 				NetworkController* network,
 				WorkQueue* work,

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChangeSpellsPacket.hpp" />
+    <ClInclude Include="DamagePacket.hpp" />
     <ClInclude Include="QuickBlendPacket.hpp" />
     <ClInclude Include="AIStatePacket.hpp" />
     <ClInclude Include="AnimationPacket.hpp" />

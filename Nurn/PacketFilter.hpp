@@ -9,6 +9,8 @@
 #include "SpellPacket.hpp"
 #include "ChargingPacket.hpp"
 #include "QuickBlendPacket.hpp"
+#include "DamagePacket.hpp"
+#include "ChangeSpellsPacket.hpp"
 
 class PacketFilter
 {
@@ -24,7 +26,8 @@ public:
 	PacketQueue<TransformPacket> * getAITransformQueue();
 	PacketQueue<ChargingPacket> * getChargingQueue();
 	PacketQueue<QuickBlendPacket> * getQuickBlendQueue();
-
+	PacketQueue<DamagePacket> * getDamageQueue();
+	PacketQueue<ChangeSpellsPacket> * getChangeSpellsQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -34,4 +37,6 @@ private:
 	PacketQueue<TransformPacket> * aiTransformQueue;
 	PacketQueue<ChargingPacket> * chargingQueue;
 	PacketQueue<QuickBlendPacket> * quickBlendQueue;
+	PacketQueue<DamagePacket> * damageQueue;
+	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
 };

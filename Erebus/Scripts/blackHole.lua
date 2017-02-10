@@ -60,6 +60,7 @@ function CreateBlackHole(entity)
 	end
 
 	function spell:Update(dt)
+		local pos = Transform.GetPosition(player.transformID)
 		self.cooldown = self.cooldown - dt
 		if self.alive then
 			self.duration = self.duration + dt
@@ -83,11 +84,10 @@ function CreateBlackHole(entity)
 				if hits[index].Hurt and not self.hits[hits[index].transformID] then
 					for i = 1, #self.effects do
 						local effect = effectTable[self.effects[i]]()
-						table.insert(hits[index].effects, effect)
-						effect:Apply(hits[index])
+						hits[index]:Apply(effect)
 						self.hits[hits[index].transformID] = true
 					end
-					hits[index]:Hurt(self.damage)
+					hits[index]:Hurt(self.damage, self.owner)
 				end
 			end
 

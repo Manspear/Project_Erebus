@@ -1,20 +1,23 @@
 #version 420 core
 
-in vec3 pos;
-in vec3 normal;
-in vec2 UV;
+layout (location = 0) in vec3 pos;
+layout (location = 1) in vec3 normal;
+layout (location = 2) in vec2 UV;
+layout (location = 3) in mat4 worldMatrix;
 
 out vec3 vert_worldPos;
 out vec2 vert_UV;
 
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+layout (std140, binding = 0) uniform vpBuffer
+{
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
 uniform vec2 aValue;
-uniform mat4 worldMatrices[105];
 
 void main(){
-	gl_Position = projectionMatrix * viewMatrix * worldMatrices[gl_InstanceID] * vec4(pos,1.0);
-	vert_worldPos = (worldMatrices[gl_InstanceID] * vec4(pos,1.0)).xyz;
+	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(pos,1.0);
+	vert_worldPos = (worldMatrix * vec4(pos,1.0)).xyz;
 	vec3 dummy = normal;
 
 	vert_UV = UV + aValue;
