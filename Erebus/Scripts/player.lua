@@ -95,7 +95,7 @@ function LoadPlayer()
 	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/testGuy.model")
+	local model = Assets.LoadModel("Models/player1.model")
 	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
@@ -131,14 +131,18 @@ function LoadPlayer2()
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
-	--player2.spells[1] = SpellList[1].spell --CreateBlackHole()
-	--player2.spells[2] = SpellList[2].spell --CreateBlackHole()
-	--player2.spells[3] = SpellList[3].spell --CreateBlackHole()
-	--player2.spells[4] = SpellList[4].spell(player2)
-
 	player2.currentSpell = 1
 
-	local model = Assets.LoadModel("Models/testGuy.model")
+	local model = Assets.LoadModel("Models/player1.model")
+	player2.effects = {}
+
+	player2.Apply = function(self, effect)
+		if not self.invulnerable then
+			table.insert(self.effects, effect)
+			effect:Apply(self)
+		end
+	end
+
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
@@ -326,6 +330,7 @@ function Controls(dt)
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)
 			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
+			player.charging = true
 		end
 
 		if Inputs.ButtonPressed(Buttons.Right) then 
@@ -337,6 +342,7 @@ function Controls(dt)
 			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 			player.spells[player.currentSpell]:ChargeCast(player)
 			player.charger:EndCharge()
+			player.charging = false
 		end
 
 		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
@@ -408,6 +414,13 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
+
+	for j = #player2.effects, 1, -1 do 
+		if not player2.effects[j]:Update(player2, dt) then
+			player2.effects[j]:Deapply(player2)
+			table.remove(player2.effects, j)
+		end
+	end
 	
 	local newAnimationValue, animationState1, animationState2 = Network.GetAnimationPacket()
 	if newAnimationValue == true then

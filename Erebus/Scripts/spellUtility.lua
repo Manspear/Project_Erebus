@@ -44,10 +44,11 @@ function CreateChargeThing(entity)
 	function chargeThing:Charging(position, dt, chargePower)
 		chargeThing.timer = chargeThing.timer + dt
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		chargeThing.pos.y = chargeThing.pos.y - 1
 
 		--Cyl
 
-		if(chargeThing.scaleSmall.x < 0.5) then
+		if(chargeThing.scaleSmall.x < 0.75) then
 			chargeThing.scaleSmall.x = chargeThing.scaleSmall.x + (chargePower * chargePower * 75) * dt
 			chargeThing.scaleSmall.z = chargeThing.scaleSmall.z + (chargePower * chargePower * 75) * dt
 		end

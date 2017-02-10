@@ -24,7 +24,7 @@ function CreateTimeOrbWave(entity)
 			if hits[i].Hurt then
 				local effect = effectTable[self.effect]()
 				hits[i]:Apply(effect)
-				hits[i]:Hurt(self.damage, spell.owner)
+				hits[i]:Hurt(self.damage, self.owner)
 			end
 		end
 		if self.lifetime < 0 then
