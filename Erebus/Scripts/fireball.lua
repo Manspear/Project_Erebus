@@ -4,6 +4,7 @@ FIREBALL_COOLDOWN = 8
 FIRESPAM_SPEED = 120
 FIREBALL_SPEED = 60
 MIN_CHARGETIME_FIREBALL = 0.5
+FIREBALL_BASE_DMG = 20
 
 function CreateFireball(entity)
 	function initSmallFireball()
@@ -102,7 +103,7 @@ function CreateFireball(entity)
 			Transform.ActiveControl(self.bigBallID, true)
 			Transform.SetPosition(self.bigBallID, self.position)
 			Transform.SetScale(self.bigBallID, self.scale)
-			self.damage = 20 * self.chargedTime
+			self.damage = FIREBALL_BASE_DMG * self.chargedTime
 			self.ballParticles.cast()
 		end
 		self.chargedTime = 0
@@ -114,7 +115,7 @@ function CreateFireball(entity)
 		self.position.y = self.position.y + direction.y * FIREBALL_SPEED * dt
 		self.position.z = self.position.z + direction.z * FIREBALL_SPEED * dt
 		Transform.SetPosition(self.bigBallID, self.position)
-		self.damage = self.damage + 5 * dt
+		self.damage = self.damage + 3 * dt
 		self.ballParticles.update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
@@ -122,6 +123,15 @@ function CreateFireball(entity)
 		end
 		if self.position.x > 1000 and self.position.x < -1000 and self.position.y > 1000 and self.position.z < -1000 and self.position.z > 1000 then
 			self:KillFireball()
+		end
+
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()
+		for curID = 1, #collisionIDs do
+			for curEnemy=1, #enemies do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					enemies[curEnemy]:Hurt(self.damage)
+				end
+			end
 		end
 	end
 
@@ -154,6 +164,7 @@ function CreateFireball(entity)
 		self.ballParticles.die()
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
+		self.damage = FIREBALL_BASE_DMG
 	end
 	return spell
 end
