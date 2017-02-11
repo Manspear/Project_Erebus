@@ -67,13 +67,13 @@ function CreateFireball(entity)
 					for curEnemy=1, #enemies do
 						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 							enemies[curEnemy]:Hurt(self.smallFB[i].damage, self.owner)
-							self:Kill(i)
+							self:SpamFireball(i)
 						end
 					end
 				end
 				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
 				if(self.smallFB[i].lifeTime < 0) then 
-					self:Kill(i)
+					self:SpamFireball(i)
 				end
 			end		
 		end	
@@ -96,7 +96,7 @@ function CreateFireball(entity)
 
 	function spell:ChargeCast(entity)
 		if self.bigBallActive then
-			self:KillFireball()
+			self:Kill()
 		end
 		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then			
 			self.scale = self.chargedTime	
@@ -124,10 +124,10 @@ function CreateFireball(entity)
 		self.ballParticles.update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
-			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:KillFireball() end
+			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:Kill() end
 		end
 		if self.position.x > 1000 and self.position.x < -1000 and self.position.y > 1000 and self.position.z < -1000 and self.position.z > 1000 then
-			self:KillFireball()
+			self:Kill()
 		end
 
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
@@ -157,19 +157,19 @@ function CreateFireball(entity)
 		end
 	end
 
-	function spell:Kill(index)
-		self.smallFB[index].particles.die(self.smallFB[index].type.position)
-		self.smallFB[index].type:Kill() 
-		self.smallFB[index].alive = false 
-		self.aSmallIsActive = self.aSmallIsActive - 1
-	end
-
-	function spell:KillFireball()
+	function spell:Kill()
 		self.bigBallActive = false
 		self.ballParticles.die()
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
-		self.damage = FIREBALL_BASE_DMG
+		self.damage = FIREBALL_BASE_DMG	
+	end
+
+	function spell:SpamFireball(index)
+		self.smallFB[index].particles.die(self.smallFB[index].type.position)
+		self.smallFB[index].type:Kill() 
+		self.smallFB[index].alive = false 
+		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
 	return spell
 end

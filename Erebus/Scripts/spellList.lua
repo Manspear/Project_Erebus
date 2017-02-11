@@ -28,7 +28,7 @@ function LoadSpellbook()
 
 	table.insert(SpellList, BlackHole)
 
-	local FireBall = {texture =  Assets.LoadTexture("Textures/sunbeam.dds"),
+	local FireBall = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
 					info = wrap("'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.' - Martin Luther King Jr.", 30, "",""),
 					spell = CreateFireball(player)
 	}

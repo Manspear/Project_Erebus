@@ -26,10 +26,10 @@ function CreateEnemy(type, position)
 	enemies[i].attackCountdown = 1
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
-	enemies[i].Hurt = function(self, damage)
+	enemies[i].Hurt = function(self, damage, source)
 		local pos = Transform.GetPosition(self.transformID)
 
-		--if source.transformID ~= player2.transformID then
+		if source.transformID ~= player2.transformID then
 			if Network.GetNetworkHost() == true then
 				self.health = self.health - damage
 
@@ -38,10 +38,10 @@ function CreateEnemy(type, position)
 					self:Kill()
 				end
 			else
-				print("Sending damage", self.transformID, damage)
+				--print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
-
+		end
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
@@ -59,20 +59,23 @@ function CreateEnemy(type, position)
 
 		if Network.GetNetworkHost() == true then
 			inState = "DeadState" 
-			stateScript.changeToState(enemies[i], player, inState)
+			stateScript.changeToState(self, player, inState)
 		end
 
-		enemies[i].animationController:AnimationUpdate(0) -- play death animation
+		self.animationController:AnimationUpdate(0) -- play death animation
+		
+		--[[for j = #self.effects, 1, -1 do
+			self.effects[j]:Deapply(self)
+			table.remove(self.effects, j)
+		end]]
 	end
-	enemies[i].Apply = function(self, effect)
-		table.insert(self.effects, effect)
-		effect:Apply(self)
 
-		enemies[i].animationController:AnimationUpdate(0) -- play death animation
-	end
 	enemies[i].Apply = function(self, effect)
-		table.insert(self.effects, effect)
-		effect:Apply(self)
+		--if self.alive == true then
+			table.insert(self.effects, effect)
+			effect:Apply(self)
+		--	enemies[i].animationController:AnimationUpdate(0) -- play death animation
+		--end
 	end
 
 	enemies[i].Spawn = function(self,position)
@@ -131,8 +134,8 @@ function UpdateEnemies(dt)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
+			tempdt = dt * enemies[i].timeScalar
 			if enemies[i].health > 0 then
-				tempdt = dt * enemies[i].timeScalar
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],player,tempdt)
@@ -157,12 +160,11 @@ function UpdateEnemies(dt)
 				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
-
-				for j = #enemies[i].effects, 1, -1 do 
-					if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
-						enemies[i].effects[j]:Deapply(enemies[i])
-						table.remove(enemies[i].effects, j)
-					end
+			end
+			for j = #enemies[i].effects, 1, -1 do 
+				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					enemies[i].effects[j]:Deapply(enemies[i])
+					table.remove(enemies[i].effects, j)
 				end
 			end
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
@@ -185,6 +187,8 @@ function UpdateEnemies(dt)
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
+			tempdt = dt * enemies[i].timeScalar
+
 			if enemies[i].health > 0 then
 				enemies[i].animationController:AnimationUpdate(dt)
 
@@ -193,6 +197,13 @@ function UpdateEnemies(dt)
 				clientAIScript.getAIStatePacket(enemies[i], player)
 
 				enemies[i].state.update(enemies[i], player, dt)
+				
+			end				
+			for j = #enemies[i].effects, 1, -1 do 
+				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					enemies[i].effects[j]:Deapply(enemies[i])
+					table.remove(enemies[i].effects, j)
+				end
 			end
 		end
 	end

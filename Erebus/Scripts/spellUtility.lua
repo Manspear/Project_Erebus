@@ -1,7 +1,7 @@
 function CreateAim(entity)
 	local aim = {}
 	aim.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/aim.model" )
 	Gear.AddForwardInstance(model, aim.transformID)
 	Transform.ActiveControl(aim.transformID, true)
 	aim.caster = entity.transformID
@@ -44,10 +44,11 @@ function CreateChargeThing(entity)
 	function chargeThing:Charging(position, dt, chargePower)
 		chargeThing.timer = chargeThing.timer + dt
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		chargeThing.pos.y = chargeThing.pos.y - 1
 
 		--Cyl
 
-		if(chargeThing.scaleSmall.x < 0.5) then
+		if(chargeThing.scaleSmall.x < 0.75) then
 			chargeThing.scaleSmall.x = chargeThing.scaleSmall.x + (chargePower * chargePower * 75) * dt
 			chargeThing.scaleSmall.z = chargeThing.scaleSmall.z + (chargePower * chargePower * 75) * dt
 		end
@@ -72,7 +73,7 @@ function CreateChargeThing(entity)
 			Transform.SetPosition(chargeThing.transformID, chargeThing.pos)
 			chargeThing.particles.update(chargeThing.pos) 
 			local daPower = math.min(chargePower, MAX_CHARGE)
-			chargeThing.rot.y = chargeThing.rot.y - (chargePower * 2) * dt
+			chargeThing.rot.y = chargeThing.rot.y - (chargePower * 1) * dt
 			Transform.SetRotation(chargeThing.transformID, self.rot)
 			self.UVpushed = self.UVpushed + chargePower * dt 
 			Gear.SetUniformValue(self.modelIndex, 0, self.UVpushed)

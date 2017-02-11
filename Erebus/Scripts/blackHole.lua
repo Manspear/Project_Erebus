@@ -108,7 +108,7 @@ function CreateBlackHole(entity)
 		self.alive = false
 	
 	end
-
+	
 	function spell:Aim()	
 		local lookAt = Transform.GetLookAt(self.caster)
 		local aPos = Transform.GetPosition(self.caster)
