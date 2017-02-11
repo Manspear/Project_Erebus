@@ -286,13 +286,14 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 {
 	this->animationSegments = numberOfSegments;
 	currentSegmentStates.resize(numberOfSegments);
-
+	timeMultiplier.resize(numberOfSegments);
 	std::vector<int> animStack;
 	animStack.push_back(0);
 	for (int i = 0; i < animationSegments; i++)
 	{
-		isTransitionCompletes.push_back(true);
+		timeMultiplier[i] = 1;
 
+		isTransitionCompletes.push_back(true);
 		oldTos.push_back(-1337);
 		oldFroms.push_back(-1337);
 
@@ -328,6 +329,11 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 	memcpy((char*)this->transitionTimeArray, (char*)transitionTimeArray, sizeof(float) * numStates * numStates);
 	this->transitionTimeArraySize = numStates * numStates;
 	setStates(numStates);
+}
+
+GEAR_API void Animation::setTimeMultiplier(float multiplier, int segment)
+{
+	timeMultiplier[segment] = multiplier;
 }
 
 GEAR_API void Animation::setStates(int numStates)
@@ -646,15 +652,16 @@ void Animation::update(float dt)
 
 	for(int i = 0; i< animationSegments; i++)
 	{
+
 		if(i == quickBlendSegment)
 		{
 			if( !quickBlendingDone )
 			{
-				quickBlendingDone = quickBlend( dt, quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment );
+				quickBlendingDone = quickBlend( dt * timeMultiplier[i], quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment );
 			}
 		}
 		else
-			updateState( dt, currentSegmentStates[i], i );
+			updateState( dt * timeMultiplier[i], currentSegmentStates[i], i );
 	}
 
 	assembleAnimationsIntoShadermatrices();

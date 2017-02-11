@@ -55,6 +55,8 @@ public:
 	*/
 	GEAR_API void setTransitionTimes(float* transitionTimeArray, int numStates);
 
+	GEAR_API void setTimeMultiplier(float multiplier, int segment);
+
 	GEAR_API virtual void setStates(int numStates);
 
 	GEAR_API virtual void assembleAnimationsIntoShadermatrices();
@@ -85,6 +87,8 @@ protected:
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
 	float animTimer;
 
+	//One timeMultiplier-element per segment
+	std::vector<float> timeMultiplier; 
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
 

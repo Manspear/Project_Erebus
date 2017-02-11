@@ -28,6 +28,8 @@
 
 function CreatePlayerController(player)
 	local controller = {}
+	controller.deltaTimeModifier = 5
+
 	controller.currentState = 1
 	controller.animation = Animation.Bind()
 	controller.animationState1 = 0
@@ -55,6 +57,14 @@ function CreatePlayerController(player)
 	controller.chargeTimerStart = false
 	controller.chargeTimer = 0
 	controller.chargeMaxTime = 1.3 -- the length of the chargeRelease-animation
+
+	controller.attackAnimationMaxTimes = {
+		spamAttack1 = 0.5,
+		spamAttack2 = 0.67,
+		spamAttack3 = 1.17,
+		spamAttack4 = 1.67,
+		chargeAttackReleaseMaxTime = 1.33
+	}
 
 	local animationTransitionTimes = {}
 	for i = 1, 33 do
@@ -97,7 +107,7 @@ function CreatePlayerController(player)
 			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
 
-		if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
+		if self.watch.casting == true or self.watch.casting == false and self.oldWatch.casting == true 
 		then
 			self:AttackState(dt)
 		elseif self.attackTimerStarted == true then
@@ -229,6 +239,8 @@ function CreatePlayerController(player)
 			self.animationState2 = 23
 		elseif self.watch.forward > 0 then
 			self.animationState2 = 24
+		else 
+			self.animationState2 = 23
 		end
 	end
 
@@ -271,6 +283,7 @@ function CreatePlayerController(player)
 		self.oldWatch.verticalSpeed = self.watch.verticalSpeed
 		self.oldWatch.forward = self.watch.forward
 		self.oldWatch.left = self.watch.left 
+			self.oldWatch.casting = self.watch.casting
 		self.oldWatch.spamCasting = self.watch.spamCasting
 		self.oldWatch.charging = self.watch.charging
 	end

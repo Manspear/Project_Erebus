@@ -46,6 +46,8 @@ function LoadPlayer()
 	player.dashtime = 0
 	player.dashcd = 0
 	player.invulnerable = false
+	player.casting = false
+	player.castDelay = 100
 	player.position = {}
 
 	player.effects = {}
@@ -317,13 +319,29 @@ function Controls(dt)
 			end
 			RayCollider.SetActive(player.rayCollider, false)
 		end
-		if Inputs.ButtonDown(Buttons.Left) then
-			player.spamCasting = true
-			player.attackTimer = 1
-			Network.SendSpellPacket(player.transformID, player.currentSpell)
-			player.spells[player.currentSpell]:Cast(player, 0.5, false)
+
+		if Inputs.ButtonPressed(Buttons.Left) then
+			player.casting = true
+			player.castDelay = player.spells[player.currentSpell].castDelay
 		end
 
+		if Inputs.ButtonDown(Buttons.Left) then
+			if player.casting == false then
+				player.casting = true
+				player.castDelay = player.spells[player.currentSpell].castDelay
+			end
+
+			player.spamCasting = true
+			Network.SendSpellPacket(player.transformID, player.currentSpell)			
+			--player.spells[player.currentSpell]:Cast(player, 0.5, false)			
+		end
+		if player.casting then		
+			player.castDelay = player.castDelay - dt
+			if player.castDelay < 0 then
+				player.spells[player.currentSpell]:Cast(player, 0.5, false)
+				player.casting = false
+			end
+		end
 		if Inputs.ButtonReleased(Buttons.Left) then
 			player.spamCasting = false
 		end

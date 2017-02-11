@@ -3,6 +3,7 @@ BLEND_TERXTURE1 = Assets.LoadTexture("Textures/brightParticle.png");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/Lazer.png");
 
 MIN_CHARGE_TIME_PILLAR = 1
+SPAMCOOLDOWN_PILLAR = 1
 COOLDOWN_PILLAR = 4
 PILLAR_SFX = "Effects/explosion.wav"
 HIT_SFX = "Effects/burn_ice_001.wav"
@@ -16,12 +17,14 @@ function CreateHellPillar(entity)
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.cooldown = 0
+	spell.castDelay = 0.3
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.texture1 = BLEND_TERXTURE1
 	spell.texture2 = BLEND_TERXTURE2
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
+	spell.maxSpamcooldown = SPAMCOOLDOWN_PILLAR
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.0}
 	spell.Change = GenericChange
 	spell.maxChargeTime = 3
@@ -59,14 +62,14 @@ function CreateHellPillar(entity)
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then	
 			self.timeSinceLastPoop = 2
-			self.cooldown = 1.5
+			self.cooldown = 1.0
 			self.startUpTime = 0.4		self.finishingTime = 2	self.startUpScale = 1	
 			self.damage = 10
 			self.maxScale = 1
 			Transform.SetScale(spell.transformID, 0.2)
 			SphereCollider.SetRadius(self.sphereCollider, 0.8)
 			ZoomInCamera()
-			self:GeneralCast()	
+			self:GeneralCast()
 		end
 	end
 
