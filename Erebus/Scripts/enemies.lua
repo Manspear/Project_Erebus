@@ -236,7 +236,7 @@ end
 function UpdateEnemies(dt)
 
 	--for i = 1, #heightmaps do
-	--	AI.DrawDebug()
+	AI.DrawDebug()
 	--end
 
 	COUNTDOWN = COUNTDOWN-dt
@@ -303,20 +303,19 @@ function UpdateEnemies(dt)
 				end
 			end
 
-		enemies[i].animationController:AnimationUpdate(dt)
+		--enemies[i].animationController:AnimationUpdate(dt)
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
-
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
 			if enemies[i].health > 0 then
 				enemies[i].animationController:AnimationUpdate(dt)
-
+	
 				-- Retrieve packets from host
 				clientAIScript.getAITransformPacket()
 				clientAIScript.getAIStatePacket(enemies[i], player)
-
+	
 				enemies[i].state.update(enemies[i], player, dt)
 			end
 		end

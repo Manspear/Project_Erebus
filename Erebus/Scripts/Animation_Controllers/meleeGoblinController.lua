@@ -41,7 +41,7 @@ function CreateEnemyController(enemy)
 	controller.quickBlendSegment = 2
 
 
-	currentAnimation = 1
+	controller.currentAnimation = 1
 
 	local animationTransitionTimes = {}
 	for i = 1, 9 do
@@ -59,9 +59,7 @@ function CreateEnemyController(enemy)
 	--to be set in the parametre
 
 	function controller:AnimationUpdate(dt,enemy)
-
-		self.animation:Update(dt, self.currentAnimation, 0)
-
+		self.animation:Update(dt, currentAnimation, 0)
 
 		self.animation:UpdateShaderMatrices()
 	end

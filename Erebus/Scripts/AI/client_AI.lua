@@ -61,7 +61,7 @@ function clientAIState.deadState.exit(enemy, player)
 
 end 
 
-function changeToState(enemy, player, changeState)
+function changeToStateClient(enemy, player, changeState)
 
 	enemy.state.exit(enemy,player)
 
@@ -122,7 +122,7 @@ function getAITransformPacket()
 	end
 end
 
-baseReturn.changeToState = changeToState
+baseReturn.changeToStateClient = changeToStateClient
 baseReturn.getAIStatePacket = getAIStatePacket
 baseReturn.getAITransformPacket = getAITransformPacket
 baseReturn.clientAIState = clientAIState

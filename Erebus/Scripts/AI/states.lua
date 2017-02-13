@@ -11,20 +11,18 @@ function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	
-	print("dsaddw ",length)
-
-	if length <enemy.visionRange and length > player.outerCirclerange then
+	if length <enemy.visionRange then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
 
-	if player2 ~= nil then
-		lengthP2 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
-		if lengthP2 <enemy.visionRange and lengthP2 > player.outerCirclerange then
-			inState = "FollowState" 
-			changeToState(enemy,player,inState)
-		end
-	end
+	--if player2 ~= nil then
+	--	lengthP2 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
+	--	if lengthP2 <enemy.visionRange and lengthP2 > player.outerCirclerange then
+	--		inState = "FollowState" 
+	--		changeToState(enemy,player,inState)
+	--	end
+	--end
 end
 
 function state.idleState.exit(enemy,player)
@@ -124,7 +122,6 @@ end
 function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 
 	enemy.actionCountDown = enemy.actionCountDown- dt
-	print("IN HERE", enemy.transformID)
 	if enemy.subPathtarget ~= nil then
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
@@ -159,7 +156,6 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 			inState = "FollowState" 
 			changeToState(enemy,player,inState)
 		else
-			print("CAN I ATTACK PLS", enemy.transformID)
 
 			if enemyManager.actionEnemy == -1 and enemy.actionCountDown<0 then
 				enemyManager.actionEnemy = enemy.transformID
@@ -307,7 +303,7 @@ end
 
 function changeToState(enemy,player,changeState)
 
-	
+	print("CHANGE STATE")
 	enemy.state.exit(enemy,player)
 
 	if changeState == "IdleState" then
@@ -316,7 +312,6 @@ function changeToState(enemy,player,changeState)
 
 	if changeState == "FollowState" then
 		--print(Network.TestFunction())
-
 			enemy.state = state.followState
 	end
 	if changeState == "AttackState" then
