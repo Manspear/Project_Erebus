@@ -1,4 +1,4 @@
-FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.png");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 8
 FIRESPAM_SPEED = 120
@@ -23,7 +23,7 @@ function CreateFireball(entity)
 	local spell = {}
 	spell.damage = FIREBALL_BASE_DMG
 	spell.isActiveSpell = false		spell.aSmallIsActive = 0
-	spell.cooldown = FIREBALL_COOLDOWN		spell.maxcooldown = 8
+	spell.cooldown = 0		spell.maxcooldown = FIREBALL_COOLDOWN
 	spell.chargedTime = 0	spell.maxChargeTime = 3
 	spell.caster = entity.transformID
 	spell.owner = entity
