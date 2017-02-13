@@ -104,18 +104,17 @@ function CreateIceGrenade(entity)
 					end
 				else
 					self.nades[i].particles.die(self.nades[i].type.position)
-					hits = self.nades[i].type:Update(dt)				
+					hits = self.nades[i].type:Update(dt)
 					--self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
 								for e = 1, #self.nades[i].effects do
 									local effect = effectTable[self.nades[i].effects[e]]()
-									table.insert(hits[index].effects, effect)
-									effect:Apply(hits[index])
+									hits[index]:Apply(effect)
 								end
 							end
-							hits[index]:Hurt(self.nades[i].damage, spell.owner)
+							hits[index]:Hurt(self.nades[i].damage, self.owner)
 							self.nades[i].hits[hits[index].transformID] = true
 						end
 					end
@@ -195,6 +194,7 @@ function CreateIceGrenade(entity)
 	function spell:Change()
 		self.isActiveSpell = not self.isActiveSpell
 		Transform.ActiveControl(self.owner.aim.transformID, self.isActiveSpell)
+		print( self.isActiveSpell )
 	end
 
 	function spell:Combine(effect,damage)
@@ -221,6 +221,5 @@ function CreateIceGrenade(entity)
 		end
 		return result
 	end
-
 	return spell
 end

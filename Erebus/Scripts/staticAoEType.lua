@@ -35,6 +35,9 @@ function CreateStaticAoEType()
 					table.insert(result, enemies[curEnemy])
 				end
 			end
+			if collisionIDs[curID] == boss.sphereCollider:GetID() then
+				table.insert(result, boss)
+			end
 		end
 		return result
 	end

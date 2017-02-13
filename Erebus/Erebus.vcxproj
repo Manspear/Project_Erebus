@@ -203,9 +203,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\iphost.lua" />
-    <None Include="Scripts\iphostUI.lua" />
-    <None Include="Scripts\level01.lua" />
     <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />

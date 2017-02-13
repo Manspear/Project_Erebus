@@ -113,9 +113,11 @@ private:
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
 	glm::mat4* jointMatrices;
+	bool* oneMoreUpdate;
 	int nrOfWorlds;
 	WorkQueue* work;	
 
+	GLuint vpBuffer;
 	GLuint instanceTest;
 
 	double freq;

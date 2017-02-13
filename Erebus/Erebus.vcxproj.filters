@@ -453,8 +453,6 @@
     <None Include="Scripts\boss.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\ipconnect.lua" />
-    <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />
     <None Include="Shaders\animShadow.frag" />
@@ -485,12 +483,13 @@
     <None Include="Scripts\ipconnectUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>
-    <None Include="Scripts\iphost.lua" />
-    <None Include="Scripts\iphostUI.lua" />
     <None Include="Shaders\textureBlending.frag" />
     <None Include="Shaders\textureBlending.vert" />
-    <None Include="Scripts\level01.lua">
-      <Filter>Scripts</Filter>
+    <None Include="Scripts\ipconnect.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\ipconnectUI.lua">
+      <Filter>Scripts\UI</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

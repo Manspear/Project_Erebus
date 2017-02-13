@@ -1,6 +1,6 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-BLEND_TERXTURE1 = Assets.LoadTexture("Textures/brightParticle.png");
-BLEND_TERXTURE2 = Assets.LoadTexture("Textures/Lazer.png");
+BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarAnimBurn2.dds");
+BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarAnimFlame.dds");
 
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_PILLAR = 4
@@ -16,22 +16,24 @@ function CreateHellPillar(entity)
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.cooldown = 0
-	spell.effect = CreateFireEffect()
+	spell.effects = {}
+	table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.texture1 = BLEND_TERXTURE1
 	spell.texture2 = BLEND_TERXTURE2
 	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
-	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.0}
+	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.Change = GenericChange
 	spell.maxChargeTime = 3
 	--Set up collider, model and transform for the pillar
+	spell.riseFactor = 0.1
 	spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	local model = Assets.LoadModel( "Models/hellpillar.model" )
+	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
 	Gear.AddBlendingInstance(model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
 
@@ -52,7 +54,7 @@ function CreateHellPillar(entity)
 	--spell.lightRadius = 0	spell.light = 0
 	--Set up the first model
 	spell.firstModel = Transform.Bind()
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
 	Gear.AddForwardInstance(model, spell.firstModel)
 
 	function spell:Cast(entity, chargetime)
@@ -72,7 +74,7 @@ function CreateHellPillar(entity)
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then		
 			self.cooldown = COOLDOWN_PILLAR	
-			self.startUpTime = 1.5		self.finishingTime = 1.5	self.startUpScale = 3
+			self.startUpTime = 1.5		self.finishingTime = 4.5	self.startUpScale = 3
 			self.maxScale = 3
 			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
@@ -118,7 +120,7 @@ function CreateHellPillar(entity)
 	function spell:StartingUp(dt)
 		self.startUpTime = self.startUpTime - dt
 		self.startUpScale = self.startUpScale - dt * 2
-		Transform.SetScale(self.firstModel,  self.startUpScale )
+		
 		self.someRotation.y = self.someRotation.y + 8 * dt 
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
 		--self.lightRadius = self.lightRadius - 5*dt
@@ -140,7 +142,11 @@ function CreateHellPillar(entity)
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage, spell.owner)
+					enemies[curEnemy]:Hurt(self.damage, self.owner)
+					for i = 1, #self.effects do
+						local effect = effectTable[self.effects[i]](self.owner)
+						enemies[curEnemy]:Apply(effect)
+					end	
 				end
 					Sound.Play(HIT_SFX, 1, self.pos)
 			end
@@ -157,26 +163,31 @@ function CreateHellPillar(entity)
 			self.startUp = true
 			Transform.ActiveControl(self.transformID, false)
 			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
-
+			self.blendValue1.x, self.blendValue1.y = 0, 0
+			self.blendValue2.x, self.blendValue2.y = 0, 0
+			self.riseFactor = 0.1
 			--Light.removeLight(self.light)
 		else
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
 			--Transform.SetRotation(self.transformID, self.someRotation)
-			self.blendValue1.x = self.blendValue1.x + 0.1 * dt
-			self.blendValue1.y = self.blendValue1.y + 0.4 * dt
+			self.blendValue1.x = self.blendValue1.x + 0.2 * dt
+			self.blendValue1.y = self.blendValue1.y - 0.6 * dt
 
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
-			self.blendValue2.y = self.blendValue2.y - 0.2 * dt
+			self.blendValue2.y = self.blendValue2.y - 0.3 * dt
 
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
-
+			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 2 * dt end
+			
+			Transform.SetScaleNonUniform(self.transformID, 1, self.riseFactor, 1)
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt
 				if self.startUpScale > self.maxScale  then self.startUpScale = self.maxScale  end
-				Transform.SetScale(self.firstModel, self.startUpScale )
+			
 			else
 				Transform.ActiveControl(self.firstModel, false)
+				Transform.SetPosition(self.firstModel, {x=0,y=0,z=0})
 				self.growAgain = false
 			end
 		end	

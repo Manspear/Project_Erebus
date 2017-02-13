@@ -6,6 +6,8 @@
 class MovementController
 {
 public:
+	#define PLAYER_Y_OFFSET 1.2;
+
 	MovementController();
 	~MovementController();
 
