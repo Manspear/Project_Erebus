@@ -30,11 +30,24 @@ struct TextureBlendings
 	glm::vec2 blendFactor[3];
 };
 
+enum
+{
+	INSTANCE_DYNAMIC = 0,
+	INSTANCE_ANIMATED,
+	INSTANCE_FORWARD,
+	INSTANCE_BLENDING,
+	MAX_INSTANCE_TYPES
+};
+
 using namespace Importer;
 struct ModelInstance
 {
 	Importer::ModelAsset* asset;
-	std::vector<int> worldIndices;
+	//std::vector<int> worldIndices;
+	std::vector<TransformStruct> transforms;
+	int activeTransforms;
+	std::vector<glm::mat4> worldMatrices;
+	std::vector<Animation*> animations; // only used for animated instances
 	GLuint instanceVBO = 0;
 	GLuint instanceVAO = 0;
 
@@ -48,7 +61,8 @@ struct ModelInstance
 		
 		glBindVertexArray(instanceVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldMatrices.size(), NULL, GL_STREAM_DRAW);
 
 		glEnableVertexAttribArray(4);
 		glEnableVertexAttribArray(5);
@@ -69,12 +83,12 @@ struct ModelInstance
 		glBindVertexArray(0);
 	}
 };
-struct AnimatedInstance
+/*struct AnimatedInstance
 {
 	ModelAsset* asset;
 	std::vector<int> worldIndices;
 	std::vector<Animation*> animations;
-};
+};*/
 
 class RenderQueue
 {

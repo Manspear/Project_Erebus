@@ -21,6 +21,7 @@
 #include "AGI.h"
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
+#include "TransformHandler.h"
 
 #define MAX_TRANSFORMS 100
 #define MAX_ANIMATIONS 100
@@ -39,10 +40,12 @@ struct ThreadData
 	WorkQueue* workQueue;
 	std::vector<ModelInstance>* models;
 	std::vector<ModelInstance>* forwardModels;
-	std::vector<AnimatedInstance>* animatedModels;
+	//std::vector<AnimatedInstance>* animatedModels;
+	std::vector<ModelInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
 	std::vector<Gear::ParticleEmitter*>* particleEmitters;
 	std::vector<ModelInstance>* blendingModels;
+	TransformHandler* transformHandler;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -101,7 +104,7 @@ DWORD WINAPI update( LPVOID args )
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
-		data->models, data->animatedModels, data->forwardModels, data->blendingModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
+		data->models, data->animatedModels, data->forwardModels, data->blendingModels, data->transformHandler, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
 		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
@@ -200,7 +203,8 @@ int main()
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
-	std::vector<AnimatedInstance> animModels;
+	//std::vector<AnimatedInstance> animModels;
+	std::vector<ModelInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	std::vector<ModelInstance> blendingModels;

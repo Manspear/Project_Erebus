@@ -22,9 +22,11 @@ void LuaBinds::load( GearEngine* gearEngine,
 					Animation* animations,
 					int* boundAnimations,
 					std::vector<ModelInstance>* models,
-					std::vector<AnimatedInstance>* animatedModels,
+					//std::vector<AnimatedInstance>* animatedModels,
+					std::vector<ModelInstance>* animatedModels,
 					std::vector<ModelInstance>* forwardModels,
 					std::vector<ModelInstance>* blendingModels,
+					TransformHandler* transformHandler,
 					bool* queueModels,
 					bool* mouseVisible,
 					bool* fullscreen,
@@ -41,10 +43,10 @@ void LuaBinds::load( GearEngine* gearEngine,
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
 	LuaErebus::registerFunctions( lua, transforms, controls, network, counter, running );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, queueModels, mouseVisible, fullscreen, assets, work );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, transformHandler, queueModels, mouseVisible, fullscreen, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
 	LuaCollision::registerFunctions( lua, collisionHandler, transforms );
-	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
+	LuaTransform::registerFunctions( lua, transforms, boundTransforms, transformHandler);
 	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);
 	LuaParticles::registerFunctions(lua, ps, emitters, assets);

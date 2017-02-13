@@ -6,9 +6,10 @@ namespace LuaGear
 {
 	static GearEngine* g_gearEngine = nullptr;
 	static std::vector<ModelInstance>* g_models = nullptr;
+	static std::vector<ModelInstance>* g_animatedModels = nullptr;
 	static std::vector<ModelInstance>* g_ForwardModels = nullptr;
 	static std::vector<ModelInstance>* g_blendingModels = nullptr;
-	static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
+	//static std::vector<AnimatedInstance>* g_animatedModels = nullptr;
 	static Animation* g_animations = nullptr;
 	static int* g_boundAnimations = nullptr;
 	static Assets* g_assets = nullptr;
@@ -16,8 +17,9 @@ namespace LuaGear
 	static bool* g_queueModels = nullptr;
 	static bool* g_mouseVisible = nullptr;
 	static bool* g_fullscreen = nullptr;
+	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<AnimatedInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work )
+	void registerFunctions( lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work )
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
@@ -31,15 +33,20 @@ namespace LuaGear
 		g_queueModels = queueModels;
 		g_mouseVisible = mouseVisible;
 		g_fullscreen = fullscreen;
+		g_transformHandler = transformHandler;
 
 		// Gear
 		luaL_newmetatable( lua, "gearMeta" );
 		luaL_Reg regs[] =
 		{
-			{ "AddStaticInstance", addStaticInstance },
+			/*{ "AddStaticInstance", addStaticInstance },
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "AddForwardInstance",	addForwardInstance},
-			{ "AddBlendingInstance", addBlendingInstance},
+			{ "AddBlendingInstance", addBlendingInstance},*/
+			{ "BindStaticInstance", bindStaticInstance },
+			{ "BindAnimatedInstance", bindAnimatedInstance },
+			{ "BindForwardInstance", bindForwardInstance },
+			{ "BindBlendingInstance", bindBlendingInstance },
 			{ "Print", print},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
@@ -84,7 +91,7 @@ namespace LuaGear
 		lua_setglobal( lua, "Animation" );
 	}
 
-	int addStaticInstance( lua_State* lua )
+	/*int addStaticInstance( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 2 );
 
@@ -144,6 +151,32 @@ namespace LuaGear
 		g_animatedModels->at(index).animations.push_back(animation);
 
 		return 0;
+	}*/
+
+	int bindStaticInstance( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 2 );
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+		
+		int result = g_transformHandler->bindStaticInstance( asset );
+		lua_pushinteger( lua, result );
+
+		return 1;
+	}
+
+	int bindAnimatedInstance( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 3 );
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+		lua_getfield( lua, 2, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+
+		int result = g_transformHandler->bindAnimatedInstance( asset, animation );
+		lua_pushinteger( lua, result );
+
+		return 1;
 	}
 
 	int setQueueModels( lua_State* lua )
@@ -167,7 +200,7 @@ namespace LuaGear
 		return 0;
 	}
 	
-	int addForwardInstance(lua_State * lua)
+	/*int addForwardInstance(lua_State * lua)
 	{
 		assert( lua_gettop( lua ) == 2 );
 
@@ -190,6 +223,19 @@ namespace LuaGear
 		}
 		g_ForwardModels->at(index).worldIndices.push_back(transformID);
 		lua_pushinteger(lua, index);
+
+		return 1;
+	}*/
+
+	int bindForwardInstance(lua_State * lua)
+	{
+		assert( lua_gettop( lua ) == 2 );
+
+		int index = -1;
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+		int result = g_transformHandler->bindForwardInstance( asset );
+		lua_pushinteger(lua, result );
 
 		return 1;
 	}
@@ -435,7 +481,7 @@ namespace LuaGear
 		return 0;
 	}
 
-	int addBlendingInstance(lua_State * lua)
+	/*int addBlendingInstance(lua_State * lua)
 	{
 		int ntop = lua_gettop(lua);
 		int index = -1;
@@ -462,6 +508,16 @@ namespace LuaGear
 		}
 		lua_pushinteger(lua, index);
 		return 1;;
-	}
+	}*/
 
+	int bindBlendingInstance(lua_State * lua)
+	{
+		assert( lua_gettop( lua ) == 2 );
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+		int result = g_transformHandler->bindBlendingInstance( asset );
+
+		lua_pushinteger(lua, result );
+		return 1;
+	}
 }

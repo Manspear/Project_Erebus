@@ -203,7 +203,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 	for (size_t i = 0; i < dynamicModels->size(); i++)
 	{
 
-		numInstance = 0;
+		/*numInstance = 0;
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			indices[j] = dynamicModels->at(i).worldIndices[j];
@@ -213,7 +213,10 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 				//atLeastOne = true;
 			}
 		}
-		if (numInstance != 0)
+		if (numInstance != 0)*/
+
+		numInstance = dynamicModels->at(i).worldMatrices.size();
+		if( numInstance > 0 )
 		{
 			modelAsset = dynamicModels->at(i).asset;
 			meshes = modelAsset->getHeader()->numMeshes;
@@ -225,7 +228,8 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			//world matrix buffer
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, instanceTest);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, &tempMatrices[0][0][0], GL_STREAM_DRAW);
+				//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, &tempMatrices[0][0][0], GL_STREAM_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]), GL_STREAM_DRAW);
 
 				glEnableVertexAttribArray(3);
 				glEnableVertexAttribArray(4);
@@ -443,6 +447,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		// TEMP: Shouldn't have any models without material
 		if (modelAsset->getMaterial())
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
+		
+		// CONTINUE WORK HERE:D:D:D:DD:
+
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
 			indices[j] = dynamicModels->at(i).worldIndices[j];

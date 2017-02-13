@@ -1,7 +1,6 @@
 #include "LuaTransform.h"
 #include "glm\gtx\vector_angle.hpp"
 
-
 #define GLM_FORCE_RADIANS
 
 namespace LuaTransform
@@ -12,10 +11,13 @@ namespace LuaTransform
 	static Transform* g_transforms = nullptr;
 	static int* g_boundTransforms = nullptr;
 	static bool* g_activeTransforms = nullptr;
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms)
+	static TransformHandler* g_transformHandler = nullptr;
+
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, TransformHandler* transformHandler )
 	{
 		g_transforms = transforms;
 		g_boundTransforms = boundTransforms;
+		g_transformHandler = transformHandler;
 
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
@@ -164,7 +166,8 @@ namespace LuaTransform
 		lua_getfield( lua, 2, "z" );
 		position.z = (float)lua_tonumber( lua, -1 );
 
-		g_transforms[index].setPos( position );
+		//g_transforms[index].setPos( position );
+		g_transformHandler->getTransform( index )->pos = position;
 
 		return 0;
 	}
@@ -175,17 +178,18 @@ namespace LuaTransform
 
 		int index = (int)lua_tointeger( lua, 1 );
 
-		glm::vec3 position;
+		glm::vec3 rotation;
 		lua_getfield( lua, 2, "x" );
-		position.x = (float)lua_tonumber( lua, -1 );
+		rotation.x = (float)lua_tonumber( lua, -1 );
 
 		lua_getfield( lua, 2, "y" );
-		position.y = (float)lua_tonumber( lua, -1 );
+		rotation.y = (float)lua_tonumber( lua, -1 );
 
 		lua_getfield( lua, 2, "z" );
-		position.z = (float)lua_tonumber( lua, -1 );
+		rotation.z = (float)lua_tonumber( lua, -1 );
 
-		g_transforms[index].setRotation( position );
+		//g_transforms[index].setRotation( position );
+		g_transformHandler->getTransform( index )->rot = rotation;
 
 		return 0;
 	}
@@ -206,7 +210,8 @@ namespace LuaTransform
 		lua_getfield( lua, 2, "z" );
 		lookAt.z = (float)lua_tonumber( lua, -1 );
 
-		g_transforms[index].setLookAt( lookAt );
+		//g_transforms[index].setLookAt( lookAt );
+		g_transformHandler->getTransform( index )->lookAt = lookAt;
 
 		return 0;
 	}
@@ -218,7 +223,8 @@ namespace LuaTransform
 		int index = (int)lua_tointeger( lua, 1 );
 		float scale = (float)lua_tonumber( lua, 2 );
 
-		g_transforms[index].setScale( scale );
+		//g_transforms[index].setScale( scale );
+		g_transformHandler->getTransform( index )->scale = glm::vec3( scale );
 
 		return 0;
 	}
@@ -233,7 +239,8 @@ namespace LuaTransform
 		scale.y = (float)lua_tonumber(lua, 3);
 		scale.z = (float)lua_tonumber(lua, 4);
 
-		g_transforms[index].setScale(scale);
+		//g_transforms[index].setScale(scale);
+		g_transformHandler->getTransform( index )->scale = scale;
 
 		return 0;
 	}
@@ -245,7 +252,8 @@ namespace LuaTransform
 		int indexFrom = (int)lua_tointeger(lua, 2);
 		int indexTo = (int)lua_tointeger(lua, 1);
 
-		g_transforms[indexTo].setPos(g_transforms[indexFrom].getPos());
+		//g_transforms[indexTo].setPos(g_transforms[indexFrom].getPos());
+		g_transformHandler->getTransform( indexTo )->pos = g_transformHandler->getTransform( indexFrom )->pos;
 
 		return 0;
 	}
@@ -256,7 +264,8 @@ namespace LuaTransform
 
 		int index = (int)lua_tointeger( lua, 1 );
 
-		glm::vec3 position = g_transforms[index].getPos();
+		//glm::vec3 position = g_transforms[index].getPos();
+		glm::vec3 position = g_transformHandler->getTransform(index)->pos;
 
 		lua_newtable( lua );
 		lua_pushnumber( lua, position.x );
@@ -279,7 +288,8 @@ namespace LuaTransform
 		float forward = (float)lua_tonumber(lua, 2);
 		float left = (float)lua_tonumber(lua, 3);
 
-		glm::vec3 fwd = g_transforms[index].getLookAt();
+		//glm::vec3 fwd = g_transforms[index].getLookAt();
+		glm::vec3 fwd = g_transformHandler->getTransform(index)->lookAt;
 		glm::vec3 lfd = glm::cross(glm::normalize(glm::vec3(fwd.x, 0, fwd.z)), {0,1,0});
 		lfd *= left;
 		fwd = fwd*forward + lfd;
@@ -304,7 +314,8 @@ namespace LuaTransform
 
 		int index = (int)lua_tointeger( lua, 1 );
 
-		glm::vec3 rotation = g_transforms[index].getRotation();
+		//glm::vec3 rotation = g_transforms[index].getRotation();
+		glm::vec3 rotation = g_transformHandler->getTransform(index)->rot;
 
 		lua_newtable( lua );
 		lua_pushnumber( lua, rotation.x );
@@ -325,7 +336,8 @@ namespace LuaTransform
 
 		int index = (int)lua_tointeger( lua, 1 );
 
-		glm::vec3 lookAt = g_transforms[index].getLookAt();
+		//glm::vec3 lookAt = g_transforms[index].getLookAt();
+		glm::vec3 lookAt = g_transformHandler->getTransform(index)->lookAt;
 
 		lua_newtable( lua );
 		lua_pushnumber( lua, lookAt.x );
@@ -345,7 +357,8 @@ namespace LuaTransform
 		assert( lua_gettop( lua ) == 1 );
 
 		int index = (int)lua_tointeger( lua, 1 );
-		lua_pushnumber( lua, g_transforms[index].getScale().x );
+		//lua_pushnumber( lua, g_transforms[index].getScale().x );
+		lua_pushnumber( lua, g_transformHandler->getTransform(index)->scale.x );
 
 		return 1;
 	}
@@ -354,7 +367,8 @@ namespace LuaTransform
 		assert( lua_gettop( lua ) == 1 );
 
 		int transID = (int)lua_tointeger(lua, 1);
-		glm::vec3 tempLookdir = g_transforms[transID].getLookAt();
+		//glm::vec3 tempLookdir = g_transforms[transID].getLookAt();
+		glm::vec3 tempLookdir = g_transformHandler->getTransform(transID)->lookAt;
 		tempLookdir.y = 0;
 		tempLookdir = glm::normalize(tempLookdir);
 		float rotY = ((tempLookdir.x > 0) * 2 - 1) * acos(glm::dot(tempLookdir, {0,0,1}));

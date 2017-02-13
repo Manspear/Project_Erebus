@@ -2,10 +2,11 @@
 
 #include "lua\lua.hpp"
 #include "Transform.h"
+#include "TransformHandler.h"
 
 namespace LuaTransform
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms);
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, TransformHandler* transformHandler );
 	int bind( lua_State* lua );
 	int destroy( lua_State* lua );
 	int move( lua_State* lua );
