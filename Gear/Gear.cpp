@@ -295,47 +295,47 @@ namespace Gear
 		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
 		shadow.unBind();
 
-		shadow.bind(1);
-		shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
-		shader->use();
-		shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
-		shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
-		shader->unUse();
+		//shadow.bind(1);
+		//shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+		//shader->use();
+		//shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
+		//shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
+		//shader->unUse();
 
-		shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
-		shader->use();
-		shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
-		shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
-		shader->unUse();
+		//shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
+		//shader->use();
+		//shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
+		//shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
+		//shader->unUse();
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
-		shadow.unBind();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+		//shadow.unBind();
 
-		shadow.bind(2);
-		shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
-		shader->use();
-		shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
-		shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
-		shader->unUse();
+		//shadow.bind(2);
+		//shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+		//shader->use();
+		//shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
+		//shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
+		//shader->unUse();
 
-		shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
-		shader->use();
-		shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
-		shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
-		shader->unUse();
+		//shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
+		//shader->use();
+		//shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
+		//shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
+		//shader->unUse();
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
-		shadow.unBind();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+		//shadow.unBind();
 
 		Debugger::getInstance()->drawAABB(shadow.minAABB[0], shadow.maxAABB[0], glm::vec3(1, 0, 0));
-		Debugger::getInstance()->drawAABB(shadow.minAABB[1], shadow.maxAABB[1], glm::vec3(0, 1, 0));
-		Debugger::getInstance()->drawAABB(shadow.minAABB[2], shadow.maxAABB[2], glm::vec3(0, 0, 1));
+	/*	Debugger::getInstance()->drawAABB(shadow.minAABB[1], shadow.maxAABB[1], glm::vec3(0, 1, 0));
+		Debugger::getInstance()->drawAABB(shadow.minAABB[2], shadow.maxAABB[2], glm::vec3(0, 0, 1));*/
 
 		Debugger::getInstance()->drawSphere(shadow.minAABB[3], 2);
-		Debugger::getInstance()->drawSphere(shadow.minAABB[4], 2);
-		Debugger::getInstance()->drawSphere(shadow.minAABB[5], 2);
+		//Debugger::getInstance()->drawSphere(shadow.minAABB[4], 2);
+		//Debugger::getInstance()->drawSphere(shadow.minAABB[5], 2);
 
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -377,17 +377,17 @@ namespace Gear
 		drawQuad(); //draws quad
 		shader->unUse();
 
-		glViewport(220, 10, 200, 200);
-		shader->use();
-		shadow.bindTexture(shader, "texture", 0, 1);
-		drawQuad(); //draws quad
-		shader->unUse();
+		//glViewport(220, 10, 200, 200);
+		//shader->use();
+		//shadow.bindTexture(shader, "texture", 0, 1);
+		//drawQuad(); //draws quad
+		//shader->unUse();
 
-		glViewport(430, 10, 200, 200);
-		shader->use();
-		shadow.bindTexture(shader, "texture", 0, 2);
-		drawQuad(); //draws quad
-		shader->unUse();
+		//glViewport(430, 10, 200, 200);
+		//shader->use();
+		//shadow.bindTexture(shader, "texture", 0, 2);
+		//drawQuad(); //draws quad
+		//shader->unUse();
 
 		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.draw();

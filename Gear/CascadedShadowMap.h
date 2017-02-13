@@ -10,7 +10,7 @@
 class CascadedShadowMap
 {
 private:
-	const static int NUM_CASCADEDS = 3;
+	const static int NUM_CASCADEDS = 1;
 	GLuint textureIDs[NUM_CASCADEDS];
 	GLuint framebufferID;
 	GLuint renderBuffer;

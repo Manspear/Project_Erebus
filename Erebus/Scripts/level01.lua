@@ -75,5 +75,5 @@ local widthTest = heightmaps[1].asset:GetMapWidth()
 local heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
 
-Transform.SetPosition(player.transformID, {x=124, y=32, z=220})
+Transform.SetPosition(player.transformID, {x=28, y=0, z=153})
 CreateEnemy(ENEMY_MELEE, {x=122, y=32, z=230})

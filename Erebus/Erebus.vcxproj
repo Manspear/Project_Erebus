@@ -225,6 +225,7 @@
     <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />
     <None Include="Scripts\level.lua" />
+    <None Include="Scripts\level01.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\main_menu.lua" />
     <None Include="Scripts\MenuUI.lua" />
