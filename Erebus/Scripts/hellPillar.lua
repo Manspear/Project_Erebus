@@ -120,7 +120,7 @@ function CreateHellPillar(entity)
 	function spell:StartingUp(dt)
 		self.startUpTime = self.startUpTime - dt
 		self.startUpScale = self.startUpScale - dt * 2
-		Transform.SetScale(self.firstModel,  self.startUpScale )
+		
 		self.someRotation.y = self.someRotation.y + 8 * dt 
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
 		--self.lightRadius = self.lightRadius - 5*dt
@@ -171,7 +171,7 @@ function CreateHellPillar(entity)
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
 			--Transform.SetRotation(self.transformID, self.someRotation)
 			self.blendValue1.x = self.blendValue1.x + 0.2 * dt
-			self.blendValue1.y = self.blendValue1.y + 0.6 * dt
+			self.blendValue1.y = self.blendValue1.y - 0.6 * dt
 
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 0.3 * dt
@@ -184,9 +184,10 @@ function CreateHellPillar(entity)
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt
 				if self.startUpScale > self.maxScale  then self.startUpScale = self.maxScale  end
-				Transform.SetScale(self.firstModel, self.startUpScale )
+			
 			else
 				Transform.ActiveControl(self.firstModel, false)
+				Transform.SetPosition(self.firstModel, {x=0,y=0,z=0})
 				self.growAgain = false
 			end
 		end	
