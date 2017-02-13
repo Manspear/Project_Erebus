@@ -6,6 +6,7 @@ namespace LuaUI {
 	void registerFunctions(lua_State* lua,
 		Gear::GearEngine* gearEngine);
 	int drawImage(lua_State* lua);
+	int drawWorldImage(lua_State* lua);
 	int mousePick(lua_State* lua);
 	int loadScreenImage(lua_State* lua);
 	int unloadScreenImage(lua_State* lua);

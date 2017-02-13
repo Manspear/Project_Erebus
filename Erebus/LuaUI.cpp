@@ -49,6 +49,22 @@ namespace LuaUI {
 		return 0;
 	}
 
+	int drawWorldImage(lua_State * lua)
+	{
+		int numArgs = lua_gettop(lua);
+		if (numArgs >= 2)
+		{
+			lua_getfield(lua, 1, "__self");
+			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
+
+			lua_getfield(lua, 2, "__self");
+			TextureAsset* texture = (TextureAsset*)lua_touserdata(lua, -1);
+
+			g_gearEngine->showImage(*image, texture);
+		}
+		return 0;
+	}
+
 	int LuaUI::mousePick(lua_State * lua)
 	{
 		if (lua_gettop(lua) >= 3)
