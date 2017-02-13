@@ -23,7 +23,7 @@ public:
 	unsigned char * getPacketPointer();
 	uint16_t getCurrentNetPacketSize() const;
 
-	void buildNetPacket(); // Call in 
+	void buildNetPacket();
 	void pushTransformPacket(const TransformPacket& packet);
 	void pushAnimationPacket(const AnimationPacket& packet);
 	void pushAIStatePacket(const AIStatePacket& packet);

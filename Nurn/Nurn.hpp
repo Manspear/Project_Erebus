@@ -22,6 +22,10 @@
 #include "Packager.hpp"
 #include "PacketFilter.hpp"
 
+#ifndef DEBUGGING_NETWORK
+#include "DebugNetwork.hpp"
+#endif
+
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"
 #elif USING_TCP
@@ -79,6 +83,7 @@ namespace Nurn
 		NURN_API void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
 		NURN_API bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
 
+		NURN_API uint8_t getPing() const;
 
 
 	private:
@@ -90,6 +95,10 @@ namespace Nurn
 		UDPCommunication netCommunication;
 #elif USING_TCP
 		TCPCommunication netCommunication;
+#endif
+
+#ifndef DEBUGGING_NETWORK
+		DebugNetwork networkDebug;
 #endif
 	};
 }

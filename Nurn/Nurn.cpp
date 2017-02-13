@@ -227,4 +227,12 @@ namespace Nurn
 		return result;
 	}
 
+
+
+
+	uint8_t NurnEngine::getPing() const
+	{
+		return this->networkDebug.getPing();
+	}
+
 }
