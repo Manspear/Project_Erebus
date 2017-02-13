@@ -47,6 +47,11 @@ function LoadSpellbook()
 	}
 	table.insert(SpellList, SunRay)
 
+	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.png"),
+					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
+					spell = CreatePolymorph(player)
+	}
+	table.insert(SpellList, polymorph)
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
 end

@@ -212,9 +212,6 @@ function UpdatePlayer(dt)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
-
-
-
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
@@ -358,7 +355,6 @@ function Controls(dt)
 			player.dashtime = DASH_DURATION
 			player.invulnerable = true
 		end
-
 end
 
 function PrintInfo() 
