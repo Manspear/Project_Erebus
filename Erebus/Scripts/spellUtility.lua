@@ -85,6 +85,8 @@ function CreateChargeThing(entity)
 		chargeThing.scaleLarge = {x = 0, y = 1, z = 0}
 		Transform.ActiveControl(chargeThing.transformID, false)
 		Transform.ActiveControl(chargeThing.transformID2, false)  
+		Transform.SetPosition(chargeThing.transformID,  {x = 0, y = 0, z = 0})
+		Transform.SetPosition(chargeThing.transformID2, {x = 0, y = 0, z = 0})  
 		chargeThing.particles.die()
 	end
 	function chargeThing:StartCharge(position) 
