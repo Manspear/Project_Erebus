@@ -202,6 +202,23 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		}
 		animationStacks[animationSegment].push_back(state);
 	}
+
+	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
+	//make sure to reset the timeMultiplier after the attack is done. It is crucial. Or else the animation will get faster and faster.
+	if (animationPlayTime[animationSegment] > 0)
+	{
+		Importer::hAnimationState* stater = asset->getAnimationState(0, 5, state);
+		Importer::sKeyFrame* keys = asset->getKeyFrames(0, 5, state);
+		float animMaxTime = ((sKeyFrame*)((char*)keys + (stater->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime;
+		timeMultiplier[animationSegment] = animMaxTime / animationPlayTime[animationSegment];
+		std::cout << timeMultiplier[animationSegment] << std::endl;
+		
+		//std::cout << "animMax: " << animMaxTime << " " << "animPlayTime: " << animationPlayTime[animationSegment] << std::endl;
+	}
+	else
+	{
+		timeMultiplier[animationSegment] = 1.f;
+	}
 }
 
 void Animation::updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime)
@@ -287,11 +304,13 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 	this->animationSegments = numberOfSegments;
 	currentSegmentStates.resize(numberOfSegments);
 	timeMultiplier.resize(numberOfSegments);
+	animationPlayTime.resize(numberOfSegments);
 	std::vector<int> animStack;
 	animStack.push_back(0);
 	for (int i = 0; i < animationSegments; i++)
 	{
 		timeMultiplier[i] = 1;
+		animationPlayTime[i] = -1;
 
 		isTransitionCompletes.push_back(true);
 		oldTos.push_back(-1337);
@@ -331,9 +350,9 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 	setStates(numStates);
 }
 
-GEAR_API void Animation::setTimeMultiplier(float multiplier, int segment)
+GEAR_API void Animation::setAnimationPlayTime(float animTime, int segment)
 {
-	timeMultiplier[segment] = multiplier;
+	animationPlayTime[segment] = animTime;
 }
 
 GEAR_API void Animation::setStates(int numStates)

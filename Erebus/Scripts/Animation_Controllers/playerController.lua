@@ -86,6 +86,8 @@ function CreatePlayerController(player)
 		--The higher the priority of the action, the longer down in this update function it should be
 		--since the prioritized actions override the unprioritized ones
 
+		
+
 		--if you don't move AND HAVENT ATTACKED you're Idle
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
 			self:IdleState(dt)
@@ -138,6 +140,9 @@ function CreatePlayerController(player)
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == true then
 			self.animationState1 = 9
 		end
+
+		--Intended to time attack animations with spell cast-times. 
+		self.animation:SetAnimationPlayTime( self.watch.castSpeed , 1)
 
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
@@ -247,7 +252,16 @@ function CreatePlayerController(player)
 	function controller:AttackState(dt)
 		--the attack animation is different depending on what the legs do.
 		
-		self.animationState2 = 34
+		--34 for full attack reel
+		if self.watch.spamAttackSpeedCounter == 1 then
+			self.animationState2 = 29
+		elseif self.watch.spamAttackSpeedCounter == 2 then
+			self.animationState2 = 30
+		elseif self.watch.spamAttackSpeedCounter == 3 then
+			self.animationState2 = 31
+		else
+			self.animationState2 = 32
+		end
 
 		self.attackTimerStarted = true
 	end

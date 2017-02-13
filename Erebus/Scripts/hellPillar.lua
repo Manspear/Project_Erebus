@@ -3,7 +3,7 @@ BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarAnimBurn2.dds");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarAnimFlame.dds");
 
 MIN_CHARGE_TIME_PILLAR = 1
-SPAMCOOLDOWN_PILLAR = 1
+SPAMCOOLDOWN_PILLAR = 0.5
 COOLDOWN_PILLAR = 4
 PILLAR_SFX = "Effects/explosion.wav"
 HIT_SFX = "Effects/burn_ice_001.wav"
@@ -17,14 +17,18 @@ function CreateHellPillar(entity)
 	spell.chargedTime = 0	
 	spell.Charge = BaseCharge
 	spell.cooldown = 0
-	spell.castDelay = 0.3
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
 	spell.texture1 = BLEND_TERXTURE1
 	spell.texture2 = BLEND_TERXTURE2
-	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
-	spell.maxSpamcooldown = SPAMCOOLDOWN_PILLAR
+	spell.maxcooldown = COOLDOWN_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1, is used by HUD.lua
+	spell.maxSpamCooldown = {} --I have chosen 1 2 3 4 as my keys. One key per spamAttackAnimation
+	spell.maxSpamCooldown[1] = SPAMCOOLDOWN_PILLAR --first attack
+	spell.maxSpamCooldown[2] = SPAMCOOLDOWN_PILLAR * 2
+	spell.maxSpamCooldown[3] = SPAMCOOLDOWN_PILLAR * 3
+	spell.maxSpamCooldown[4] = SPAMCOOLDOWN_PILLAR * 4 -- last "combo" attack
+	
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.Change = GenericChange
 	spell.maxChargeTime = 3
@@ -49,7 +53,7 @@ function CreateHellPillar(entity)
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.aimPos = {}
-	
+	spell.castDelay = 0.2
 	spell.timeSinceLastPoop = 2
 	spell.startUp = true	spell.startUpTime = 1.5		spell.growAgain = true	
 	spell.finishingTime = 2.0	spell.maxScale = 3
@@ -63,7 +67,7 @@ function CreateHellPillar(entity)
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then	
 			self.timeSinceLastPoop = 2
-			self.cooldown = 1.0
+			self.cooldown = 0.1
 			self.startUpTime = 0.4		self.finishingTime = 2	self.startUpScale = 1	
 			self.damage = 10
 			self.maxScale = 1

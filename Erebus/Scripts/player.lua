@@ -48,6 +48,8 @@ function LoadPlayer()
 	player.invulnerable = false
 	player.casting = false
 	player.castDelay = 100
+	player.spamAttackSpeedCounter = 1
+	player.castSpeed = 1 --Variable that should determine the total length of the animation
 	player.position = {}
 
 	player.effects = {}
@@ -323,13 +325,24 @@ function Controls(dt)
 
 		if Inputs.ButtonPressed(Buttons.Left) then
 			player.casting = true
-			player.castDelay = player.spells[player.currentSpell].castDelay
+			
+			player.castSpeed = player.spells[player.currentSpell].maxSpamCooldown[player.spamAttackSpeedCounter]
+			player.castDelay = player.castSpeed
 		end
 
 		if Inputs.ButtonDown(Buttons.Left) then
 			if player.casting == false then
 				player.casting = true
-				player.castDelay = player.spells[player.currentSpell].castDelay
+				--The spamAttackSpeedCounter works both as an index into the "maxSpamcooldown"-table, and as a sort of index that determines which spamAttackAnimation to play.
+				if player.spamAttackSpeedCounter < 4 then
+					player.spamAttackSpeedCounter = player.spamAttackSpeedCounter + 1
+			    elseif player.spamAttackSpeedCounter == 4 then
+					player.spamAttackSpeedCounter = 1
+				end
+
+				player.castSpeed = player.spells[player.currentSpell].maxSpamCooldown[player.spamAttackSpeedCounter]
+				player.castDelay = player.castSpeed
+				
 			end
 
 			player.spamCasting = true
@@ -344,7 +357,10 @@ function Controls(dt)
 			end
 		end
 		if Inputs.ButtonReleased(Buttons.Left) then
+			player.casting = false
 			player.spamCasting = false
+			player.castSpeed = -1
+			player.spamAttackSpeedCounter = 1
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)

@@ -55,7 +55,7 @@ public:
 	*/
 	GEAR_API void setTransitionTimes(float* transitionTimeArray, int numStates);
 
-	GEAR_API void setTimeMultiplier(float multiplier, int segment);
+	GEAR_API void setAnimationPlayTime(float animTime, int segment);
 
 	GEAR_API virtual void setStates(int numStates);
 
@@ -88,7 +88,9 @@ protected:
 	float animTimer;
 
 	//One timeMultiplier-element per segment
-	std::vector<float> timeMultiplier; 
+	std::vector<float> timeMultiplier;
+	//Saves the time that the animation is allowed to play for. Used mainly to time attack-animations with spells.
+	std::vector<float> animationPlayTime;
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
 
