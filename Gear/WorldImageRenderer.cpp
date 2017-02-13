@@ -19,6 +19,18 @@ void Gear::WorldImageRenderer::init(int screenWidth, int screenHeight)
 	shader->use();
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+
+	static const GLfloat g_vertex_buffer_data[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		-0.5f,  0.5f, 0.0f,
+		0.5f,  0.5f, 0.0f,
+	};
+
+	glGenBuffers(1, &VertexVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VertexVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
 	shader->unUse();
 }
 
@@ -73,6 +85,10 @@ void Gear::WorldImageRenderer::draw()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VertexVBO);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+	glEnableVertexAttribArray(3);
 
 	for (int i = 0; i < bufferQuads.size(); i++)
 	{
