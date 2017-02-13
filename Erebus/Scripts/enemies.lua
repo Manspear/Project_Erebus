@@ -29,7 +29,8 @@ function CreateEnemy(type, position)
 	enemies[i].attackCountdown = 1
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
-	
+	enemies[i].animationController = CreateEnemyController(enemies[i])
+
 	enemies[i].visionRange = 30
 	enemies[i].subPathtarget = nil
 	enemies[i].pathTarget = nil
@@ -112,7 +113,7 @@ function CreateEnemy(type, position)
 	enemies[i].sphereCollider:SetRadius(2)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
-	enemies[i].animationController = CreateEnemyController(enemies[i])
+	
 
 	if Network.GetNetworkHost() == true then
 		enemies[i].state = stateScript.state.idleState
@@ -143,13 +144,13 @@ function CreateEnemy(type, position)
 
 end
 
-			if enemies[i].state.stateName == "PositioningOuterState" then
-				player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
-			end
-
-			if enemies[i].state.stateName == "PositioningInnerState" then
-				player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
-			end
+	--		if enemies[i].state.stateName == "PositioningOuterState" then
+	--			player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
+	--		end
+	--
+	--		if enemies[i].state.stateName == "PositioningInnerState" then
+	--			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
+	--		end
 
 
 	
@@ -160,7 +161,7 @@ end
 function UpdateEnemies(dt)
 
 	--for i = 1, #heightmaps do
-	AI.DrawDebug()
+	--AI.DrawDebug()
 	--end
 
 	COUNTDOWN = COUNTDOWN-dt
@@ -197,7 +198,7 @@ function UpdateEnemies(dt)
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],player,tempdt)
-				enemies[i].animationController:AnimationUpdate(dt)
+				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 
 				local pos = Transform.GetPosition(enemies[i].transformID)
 
@@ -226,7 +227,7 @@ function UpdateEnemies(dt)
 				end
 			end
 
-		--enemies[i].animationController:AnimationUpdate(dt)
+			--enemies[i].animationController:AnimationUpdate(dt)
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
 		-- Empty DamagePacket queue and apply the values to the host AI

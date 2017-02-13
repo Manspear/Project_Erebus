@@ -59,9 +59,10 @@ function CreateEnemyController(enemy)
 	--to be set in the parametre
 
 	function controller:AnimationUpdate(dt,enemy)
-		self.animation:Update(dt, currentAnimation, 0)
+		--self.animation:Update(dt, 2, 0)
+		--self.animation:UpdateShaderMatrices()
 
-		self.animation:UpdateShaderMatrices()
+		self.animation:SetSegmentState( self.currentAnimation, 0 )
 	end
 
 	function controller:AnimationHurt(dt,enemy)
@@ -74,7 +75,7 @@ function CreateEnemyController(enemy)
 	end
 
 	function controller:doAttack()
-		self.currentAnimation = 2
+		self.currentAnimation = 7
 	end
 
 	function controller:doWalk()
