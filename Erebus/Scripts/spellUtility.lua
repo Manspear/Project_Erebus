@@ -1,7 +1,7 @@
 function CreateAim(entity)
 	local aim = {}
 	aim.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/aim.model" )
 	Gear.AddForwardInstance(model, aim.transformID)
 	Transform.ActiveControl(aim.transformID, true)
 	aim.caster = entity.transformID
@@ -22,7 +22,7 @@ function CreateChargeThing(entity)
 	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
 	chargeThing.transformID2 = Transform.Bind()
-	local cylinder = Assets.LoadModel("Models/Cylinder_Hollow.model")
+	local cylinder = Assets.LoadModel("Models/innerSpell.model")
 	chargeThing.modelIndex2 = Gear.AddForwardInstance(cylinder, chargeThing.transformID2)
 	Transform.SetScaleNonUniform(chargeThing.transformID2, 1,0.1,1)
 	
@@ -44,22 +44,23 @@ function CreateChargeThing(entity)
 	function chargeThing:Charging(position, dt, chargePower)
 		chargeThing.timer = chargeThing.timer + dt
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		chargeThing.pos.y = chargeThing.pos.y - 1
 
 		--Cyl
 
-		if(chargeThing.scaleSmall.x < 0.5) then
+		if(chargeThing.scaleSmall.x < 0.75) then
 			chargeThing.scaleSmall.x = chargeThing.scaleSmall.x + (chargePower * chargePower * 75) * dt
 			chargeThing.scaleSmall.z = chargeThing.scaleSmall.z + (chargePower * chargePower * 75) * dt
 		end
-		if(chargeThing.scaleSmall.y < 0.5) then
+		if(chargeThing.scaleSmall.y < 0.25) then
 			chargeThing.scaleSmall.y = chargeThing.scaleSmall.y + (0.075*dt)
 		end
 
 		Transform.SetScaleNonUniform(chargeThing.transformID2, chargeThing.scaleSmall.x,chargeThing.scaleSmall.y,chargeThing.scaleSmall.z)
 		Transform.SetPosition(chargeThing.transformID2, chargeThing.pos)
 		daPower = math.min(chargePower, MAX_CHARGE)
-		chargeThing.rot.y = chargeThing.rot.y + (2) * dt
-		Transform.SetRotation(chargeThing.transformID2, self.rot)
+		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (2) * dt
+		Transform.SetRotation(chargeThing.transformID2, self.rotSmall)
 
 		if(chargeThing.timer > 0.75) then
 		
@@ -72,8 +73,8 @@ function CreateChargeThing(entity)
 			Transform.SetPosition(chargeThing.transformID, chargeThing.pos)
 			chargeThing.particles.update(chargeThing.pos) 
 			local daPower = math.min(chargePower, MAX_CHARGE)
-			chargeThing.rot.y = chargeThing.rot.y - (chargePower * 2) * dt
-			Transform.SetRotation(chargeThing.transformID, self.rot)
+			chargeThing.rotLarge.y = chargeThing.rotLarge.y - (chargePower * 2) * dt
+			Transform.SetRotation(chargeThing.transformID, self.rotLarge)
 			self.UVpushed = self.UVpushed + chargePower * dt 
 			Gear.SetUniformValue(self.modelIndex, 0, self.UVpushed)
 		end

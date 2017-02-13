@@ -38,10 +38,11 @@ function CreateEnemy(type, position)
 					self:Kill()
 				end
 			else
-				print("Sending damage", self.transformID, damage)
+				--print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
 		end
+		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
 
@@ -58,14 +59,23 @@ function CreateEnemy(type, position)
 
 		if Network.GetNetworkHost() == true then
 			inState = "DeadState" 
-			stateScript.changeToState(enemies[i], player, inState)
+			stateScript.changeToState(self, player, inState)
 		end
 
-		enemies[i].animationController:AnimationUpdate(0) -- play death animation
+		self.animationController:AnimationUpdate(0) -- play death animation
+		
+		--[[for j = #self.effects, 1, -1 do
+			self.effects[j]:Deapply(self)
+			table.remove(self.effects, j)
+		end]]
 	end
+
 	enemies[i].Apply = function(self, effect)
-		table.insert(self.effects, effect)
-		effect:Apply(self)
+		--if self.alive == true then
+			table.insert(self.effects, effect)
+			effect:Apply(self)
+		--	enemies[i].animationController:AnimationUpdate(0) -- play death animation
+		--end
 	end
 
 	enemies[i].Spawn = function(self,position)
@@ -108,99 +118,9 @@ function CreateEnemy(type, position)
 
 	--NOTE: Not sure if we need this?
 	return enemies[i]
+
 end
 
---[[function LoadEnemies(n)
-	if n > MAX_ENEMIES then n = MAX_ENEMIES end
-	for i=1, n do
-		enemies[i] = {}
-		enemies[i].timeScalar = 1.0
-		enemies[i].transformID = Transform.Bind()
-		enemies[i].movementSpeed = math.random(5,20)
-		enemies[i].health = 20
-		enemies[i].alive = true
-		enemies[i].effects = {}
-		enemies[i].attackCountdown = 1
-		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
-
-		enemies[i].Hurt = function(self,damage)
-			local pos = Transform.GetPosition(self.transformID)
-
-			self.health = self.health - damage
-			--print(self.transformID)
-			if self.health <= 0 then
-				for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
-				for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
-				if Network.GetNetworkHost() == true then
-					self:Kill()
-				else
-					self:KillClientEnemy()
-				end
-			else
-				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
-			end
-		end
-
-		enemies[i].Kill = function(self)
-			self.health = 0
-			self.alive = false
-			Transform.ActiveControl(self.transformID,false)
-			SphereCollider.SetActive(self.sphereCollider, false)
-			inState = "DeadState" 
-			stateScript.changeToState(enemies[i],player,inState)
-
-			if self.alive then
-				self.health = 0
-				self.alive = false
-				Transform.ActiveControl(self.transformID,false)
-
-				inState = "DeadState"
-				stateScript.changeToState(enemies[i], player, inState)
-			end
-		end
-
-		enemies[i].KillClientEnemy = function(self)		
-			if self.alive then	
-				self.health = 0
-				self.alive = false
-				Transform.ActiveControl(self.transformID,false)
-
-				self.state = clientAIScript.clientAIState.deadState
-				--print(self)
-			end
-		end
-
-		enemies[i].Spawn = function(self,position)
-			self.alive = true
-			self.health = 20
-			self.position.x = position.x
-			self.position.y = position.y
-			self.position.z = position.z
-			Transform.ActiveControl(self.transformID,true)
-		end
-
-		Transform.SetPosition(enemies[i].transformID, {x = math.random(10, 255), y = math.random(15, 30), z = math.random(10, 245)})
-		enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
-		enemies[i].sphereCollider:SetRadius(2)
-		CollisionHandler.AddSphere(enemies[i].sphereCollider)
-
-		enemies[i].animationController = CreateEnemyController(enemies[i])
-
-		if Network.GetNetworkHost() == true then
-			enemies[i].state = stateScript.state.idleState
-			enemies[i].animationState = 1
-			enemies[i].range = 4
-			enemies[i].target = nil
-		else
-			enemies[i].state = clientAIScript.clientAIState.idleState
-		end
-	end
-
-	local model = Assets.LoadModel("Models/Goblin.model")
-	for i=1, n do
-		Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)
-	end
-end--]]
 
 function UnloadEnemies()
 end
@@ -214,8 +134,8 @@ function UpdateEnemies(dt)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
+			tempdt = dt * enemies[i].timeScalar
 			if enemies[i].health > 0 then
-				tempdt = dt * enemies[i].timeScalar
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],player,tempdt)
@@ -240,12 +160,11 @@ function UpdateEnemies(dt)
 				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
-
-				for j = #enemies[i].effects, 1, -1 do 
-					if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
-						enemies[i].effects[j]:Deapply(enemies[i])
-						table.remove(enemies[i].effects, j)
-					end
+			end
+			for j = #enemies[i].effects, 1, -1 do 
+				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					enemies[i].effects[j]:Deapply(enemies[i])
+					table.remove(enemies[i].effects, j)
 				end
 			end
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
@@ -255,7 +174,7 @@ function UpdateEnemies(dt)
 		local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
 		while newDamageVal == true do 
 			for i=1, #enemies do
-				print("Receiving damage", enemies[i].transformID, dmg_transformID, dmg_damage)
+				--print("Receiving damage", enemies[i].transformID, dmg_transformID, dmg_damage)
 				if enemies[i].transformID == dmg_transformID then
 					enemies[i]:Hurt(dmg_damage, player)
 					break
@@ -268,6 +187,8 @@ function UpdateEnemies(dt)
 	else
 		-- Run client_AI script
 		for i=1, #enemies do
+			tempdt = dt * enemies[i].timeScalar
+
 			if enemies[i].health > 0 then
 				enemies[i].animationController:AnimationUpdate(dt)
 
@@ -276,6 +197,13 @@ function UpdateEnemies(dt)
 				clientAIScript.getAIStatePacket(enemies[i], player)
 
 				enemies[i].state.update(enemies[i], player, dt)
+				
+			end				
+			for j = #enemies[i].effects, 1, -1 do 
+				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					enemies[i].effects[j]:Deapply(enemies[i])
+					table.remove(enemies[i].effects, j)
+				end
 			end
 		end
 	end

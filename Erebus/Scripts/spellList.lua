@@ -28,6 +28,12 @@ function LoadSpellbook()
 
 	table.insert(SpellList, BlackHole)
 
+	local FireBall = {texture =  Assets.LoadTexture("Textures/fireball.png"),
+					info = wrap("'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.' - Martin Luther King Jr.", 30, "",""),
+					spell = CreateFireball(player)
+	}
+	table.insert(SpellList, FireBall)
+
 	local IceGrenade = {texture =  Assets.LoadTexture("Textures/icegrenade.dds"),
 						info = wrap("'When I'm not longer rapping, I want to open up an ice cream parlor and call myself Scoop Dogg.' - Snoop Dog", 30, "",""),
 						spell = CreateIceGrenade(player)

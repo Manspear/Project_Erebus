@@ -114,7 +114,7 @@ function CreateIceGrenade(entity)
 									hits[index]:Apply(effect)
 								end
 							end
-							hits[index]:Hurt(self.nades[i].damage, spell.owner)
+							hits[index]:Hurt(self.nades[i].damage, self.owner)
 							self.nades[i].hits[hits[index].transformID] = true
 						end
 					end
@@ -194,6 +194,7 @@ function CreateIceGrenade(entity)
 	function spell:Change()
 		self.isActiveSpell = not self.isActiveSpell
 		Transform.ActiveControl(self.owner.aim.transformID, self.isActiveSpell)
+		print( self.isActiveSpell )
 	end
 
 	function spell:Combine(effect,damage)
@@ -220,6 +221,5 @@ function CreateIceGrenade(entity)
 		end
 		return result
 	end
-
 	return spell
 end
