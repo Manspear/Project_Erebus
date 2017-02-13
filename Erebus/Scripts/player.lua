@@ -3,8 +3,8 @@ local PLAYER_JUMP_SPEED = 0.35
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
-DASH_COOLDOWN = 0.4
-DASH_DURATION = 0.25
+DASH_COOLDOWN = 0.75
+DASH_DURATION = 0.38
 
 player = {}
 player2 = {}
@@ -245,6 +245,7 @@ function UpdatePlayer(dt)
 		player.dashtime = player.dashtime - dt
 		if player.dashtime < 0 then
 			player.invulnerable = false
+			Transform.SetScale(player.transformID, 1)
 		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
@@ -350,12 +351,14 @@ function Controls(dt)
 		if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
+			Transform.SetScale(player.transformID, 0)
 			player.dashcd = DASH_COOLDOWN
-			player.dashdir.x = player.forward * 5
-			player.dashdir.z = player.left * 5
+			player.dashdir.x = player.forward * 3.5
+			player.dashdir.z = player.left * 3.5
 			player.dashtime = DASH_DURATION
 			player.invulnerable = true
 		end
+
 end
 
 function PrintInfo() 
