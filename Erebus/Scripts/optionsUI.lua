@@ -7,8 +7,8 @@ function LoadOptionsUI()
 	imageTextures["FullscreenOff"] = Assets.LoadTexture("Textures/buttonFullscreenOff.png");
 	imageTextures["FullscreenOn"] = Assets.LoadTexture("Textures/buttonFullscreenOn.png");
 
-	imageTextures["debugOff"] = Assets.LoadTexture("Textures/buttonFullscreenOff.png");
-	imageTextures["debugOn"] = Assets.LoadTexture("Textures/buttonFullscreenOn.png");
+	imageTextures["debugOff"] = Assets.LoadTexture("Textures/buttonDebugOff.png");
+	imageTextures["debugOn"] = Assets.LoadTexture("Textures/buttonDebugOn.png");
 	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.png");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
