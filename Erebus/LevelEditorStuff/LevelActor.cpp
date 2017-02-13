@@ -186,7 +186,7 @@ std::string LevelActor::toLua()
 	}
 	else
 	{
-		ss<<"local " << fullName <<" = {}" << endl;
+		ss<< fullName <<" = {}" << endl;
 
 		LevelModel* model = getComponent<LevelModel>();
 		

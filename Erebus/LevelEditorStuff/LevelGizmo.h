@@ -92,6 +92,8 @@ private:
 	float scaleUpdate(const float& diff, GizmoLocation location, const glm::vec3& scale);
 	glm::vec3 imaginaryRotation;
 	glm::vec3 imaginaryScale;
+	bool isColider;
+	void checkIfActorIsColider(LevelActor* selectedActor);
 
 	//void updateGizmoFromOrientation(GizmoLocation location, GizmoMode mode);
 public:

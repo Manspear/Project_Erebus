@@ -8,7 +8,7 @@
 #include "..\RayCollider.h"
 #include "LevelActorHandler.h"
 #include "LevelColiderHandler.h"
-enum
+enum ColiderType
 {	COLLIDER_ERROR = -1,
 	COLLIDER_SPHERE = 0,
 	COLLIDER_AABB,
@@ -76,6 +76,7 @@ public:
 	void updateHierecyBehavior(ColiderBehavior newBehave);
 	std::string getLuaTriggerString(std::string colName);
 	void removeMeFromParent();
+	OBBCollider* getObbCollider();
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{

@@ -168,16 +168,16 @@ void LevelCollider::postInitialize()
 	if (transform)
 		position = transform->getTransformRef()->getPos();
 
-	bool onlyComponent = true;
-	for (auto element : parent->getAllComponents()) {
-		if (element.second->getName() != LevelTransform::name && element.second->getName() != LevelCollider::name) {
-			onlyComponent = false;
-			break;
-		}
-	}
+	//bool onlyComponent = true;
+	//for (auto element : parent->getAllComponents()) {
+	//	if (element.second->getName() != LevelTransform::name && element.second->getName() != LevelCollider::name) {
+	//		onlyComponent = false;
+	//		break;
+	//	}
+	//}
 
-	if (onlyComponent)
-		parent->setExportType(EXPORT_COLLIDER);
+	//if (onlyComponent)
+	//	parent->setExportType(EXPORT_COLLIDER);
 
 	if (this->parent->getExportType() == EXPORT_COLLIDER) {
 		this->parent->getComponent<LevelTransform>()->getTransformRef()->setLookAt(this->rotation);
@@ -478,8 +478,10 @@ void LevelCollider::update(float deltaTime)
 			//this->obbColider->setXAxis(this->xAxis);
 			//this->obbColider->setYAxis(this->yAxis);
 			//this->obbColider->setZAxis(this->zAxis);
-			if (parent->getExportType() == EXPORT_COLLIDER)
-				obbColider->setZAxis(glm::normalize(transform->getTransformRef()->getLookAt()));
+			if (parent->getExportType() == EXPORT_COLLIDER) {
+				glm::vec3 tempLook = glm::normalize(transform->getTransformRef()->getLookAt());
+				obbColider->setZAxis(glm::normalize(glm::vec3(tempLook.x, 0, tempLook.z)));
+			}
 			else {
 				obbColider->setXAxis({ 1,0,0 });
 				obbColider->rotateAroundX(totalRot.x);
@@ -520,7 +522,7 @@ void LevelCollider::update(float deltaTime)
 			break;
 		case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color); break;
 		case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
-			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color); break;
+			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color,true); break;
 		case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color); break;
 		default:
 			std::cout << "WARNING: Colider doesnt have type!" << std::endl;
@@ -868,4 +870,8 @@ void LevelCollider::removeMeFromParent() {
 			}
 		}
 	}
+}
+
+OBBCollider* LevelCollider::getObbCollider() {
+	return this->obbColider;
 }

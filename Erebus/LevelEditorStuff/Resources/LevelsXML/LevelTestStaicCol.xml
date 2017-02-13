@@ -1,0 +1,1069 @@
+<Level>
+    <LevelActor type="TileStuff" displayName="Tile Assets" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile_assets</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TileStuff" displayName="Tile Placeholder" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile_assets_placeholders</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="500" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TileStuff" displayName="tile1" tileID="1" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="36.5" min="3"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="1" surrounding0="2" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile1_128</TextureName>
+        </LevelHeightmap>
+        <LevelModel>
+            <ModelName>tile1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="128"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="settings" displayName="Tile Settings" tileID="1" exportType="1">
+        <LevelSettings>
+            <PlayerStart x="32.90625" y="7.4882813" z="145.625"/>
+            <HeightmapStart index="1"/>
+        </LevelSettings>
+        <LevelTransform>
+            <Position x="32.90625" y="7.4882813" z="145.625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="false"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="TileStuff" displayName="tile2" tileID="2" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="60" min="30"/>
+            <Offset x="128" y="0" z="-128"/>
+            <ID heightmapID="2" surrounding0="1" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile2_heights</TextureName>
+        </LevelHeightmap>
+        <LevelModel>
+            <ModelName>tile2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="128"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Colider" displayName="Tile1Colider" tileID="1" exportType="4">
+        <LevelCollider type="1">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="11" parentID="0"/>
+            <MinPos x="-64" y="-64" z="-64"/>
+            <MaxPos x="77" y="64" z="64"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="64" y="0" z="180"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Colider" displayName="StartHouseCol" tileID="1" exportType="4">
+        <LevelCollider type="1">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="12" parentID="11"/>
+            <MinPos x="-25" y="-25" z="-25"/>
+            <MaxPos x="15" y="15" z="15"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="44.525204" y="23.879112" z="152.08107"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="13" parentID="12"/>
+            <Rotation x="0.035006676" y="0" z="0.99938715"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="39.21875" y="11.09629" z="126.48466"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="5.3384323" y="5.9049931" z="0.88786316"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (1)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="14" parentID="12"/>
+            <Rotation x="-0.58327299" y="0" z="0.81227618"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="44.794708" y="12.015119" z="129.06911"/>
+            <Rotation x="0" y="-0.013188928" z="0"/>
+            <Scale x="8.3067131" y="7.2067556" z="0.65567017"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (2)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="16" parentID="12"/>
+            <Rotation x="-0.82314181" y="0" z="0.56783581"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="52.26593" y="14.235667" z="137.02818"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="13.476295" y="11.344176" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (3)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="18" parentID="12"/>
+            <Rotation x="-0.99692947" y="0" z="0.078305706"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="56.61129" y="15.16912" z="145.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="5.7812309" y="12.691256" z="1.2918396"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (4)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="19" parentID="12"/>
+            <Rotation x="-0.73256689" y="0" z="-0.68069506"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="52.775723" y="13.341702" z="152.96643"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="12.209171" y="9.2974262" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (5)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="20" parentID="12"/>
+            <Rotation x="-0.11751912" y="0" z="-0.9930706"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="44.135559" y="13.608734" z="157.73021"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="9.8299599" y="9.174901" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="23" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="24.296875" y="7.515625" z="139.5"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree (1)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="24" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="38.165016" y="9.1640625" z="155.14267"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (6)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="27" parentID="12"/>
+            <Rotation x="-0.94260168" y="0" z="0.33391955"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="37" y="9.5332985" z="157.94873"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="9.357048" y="5.5095949" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (7)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="28" parentID="42"/>
+            <Rotation x="-0.40652356" y="0" z="0.91364032"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="42.20438" y="10.327062" z="163.59593"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="8.1569443" y="6.0024271" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (8)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="30" parentID="42"/>
+            <Rotation x="0.065996289" y="0" z="0.99781996"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="48.978313" y="10.952744" z="164.67487"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="6.9781532" y="7.4917784" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (9)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="31" parentID="42"/>
+            <Rotation x="-0.67208916" y="0" z="0.74047029"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="55.355572" y="11.120399" z="168.44778"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="10.849548" y="9.5411224" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (10)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="32" parentID="42"/>
+            <Rotation x="-0.99728155" y="0" z="-0.073685043"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="58.667797" y="12.117468" z="174.95789"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="10.967567" y="9.6408167" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (11)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="33" parentID="42"/>
+            <Rotation x="-0.77962816" y="0" z="-0.6262427"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="55.946331" y="12.650141" z="182.81169"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="10.108799" y="9.3819942" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (12)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="34" parentID="42"/>
+            <Rotation x="-0.22777098" y="0" z="-0.97371477"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="48.680782" y="12.501387" z="187.18279"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="13.708729" y="11.724567" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (13)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="35" parentID="42"/>
+            <Rotation x="0.62272751" y="0" z="-0.78243887"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="38.15136" y="13.655736" z="185.95633"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="11.392548" y="13.599276" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (14)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="38" parentID="42"/>
+            <Rotation x="0.97150874" y="0" z="-0.23700409"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="34.577068" y="13.85419" z="180.31308"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="12.933151" y="12.395346" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (15)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="39" parentID="42"/>
+            <Rotation x="0.91969579" y="0" z="-0.39263174"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="31.868843" y="14.251117" z="173.02126"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="8.306324" y="13.756979" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Colider" displayName="StartHouseAdjCol" tileID="1" exportType="4">
+        <LevelCollider type="1">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="42" parentID="11"/>
+            <MinPos x="-25" y="-15" z="-15"/>
+            <MaxPos x="15" y="15" z="25"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="45.8125" y="16.865643" z="175.375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (17)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="65" parentID="42"/>
+            <Rotation x="-0.59560859" y="0" z="-0.80327487"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="27.125725" y="8.6962795" z="170.81844"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4.7122383" y="6.0426521" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (18)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="66" parentID="42"/>
+            <Rotation x="-0.4675681" y="0" z="-0.88395715"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="24.539751" y="8.390625" z="172.84912"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2.5146179" y="7.8126097" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (19)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="67" parentID="42"/>
+            <Rotation x="-0.850097" y="0" z="-0.52662623"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="23.093777" y="8.5625" z="173.16974"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="7.3110065" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (20)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="68" parentID="42"/>
+            <Rotation x="-0.9972049" y="0" z="0.074716568"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="23.149023" y="8.234375" z="175.22766"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4.0456467" y="9.0840139" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (21)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="69" parentID="42"/>
+            <Rotation x="-0.90524083" y="0" z="0.42489895"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="24.460899" y="8.2265625" z="179.03282"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4.805603" y="9.3568583" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (22)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="71" parentID="42"/>
+            <Rotation x="-0.7291081" y="0" z="0.68439859"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="29.792318" y="8.6328125" z="186.25426"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="12.906504" y="11.814676" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (23)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="72" parentID="42"/>
+            <Rotation x="-0.76571453" y="0" z="0.64318055"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="35.083565" y="9.703125" z="192.44205"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="7.622551" y="11.560366" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (16)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="74" parentID="42"/>
+            <Rotation x="-0.037748486" y="0" z="-0.99928725"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="30.038565" y="8.421875" z="169.58015"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2.8202438" y="10.043696" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Colider" displayName="StartHouseAdj2Col" tileID="1" exportType="4">
+        <LevelCollider type="1">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="75" parentID="11"/>
+            <MinPos x="-15" y="-15" z="-15"/>
+            <MaxPos x="15" y="15" z="60"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="15" y="12" z="150"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (24)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="76" parentID="75"/>
+            <Rotation x="0.3508555" y="0" z="0.93642968"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="19.437904" y="10.021884" z="140.00793"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2.7929573" y="6.5835323" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (25)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="77" parentID="75"/>
+            <Rotation x="-7.5808953e-06" y="0" z="1"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="16.068682" y="11.380149" z="140.44913"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4.1654682" y="10.243199" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (26)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="78" parentID="75"/>
+            <Rotation x="-0.4826507" y="0" z="0.87581301"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="12.207579" y="10.892352" z="139.38849"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4.4551182" y="8.3905649" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (27)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="80" parentID="75"/>
+            <Rotation x="-0.32954448" y="0" z="0.94414008"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="8.2569904" y="8.234375" z="137.8278"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4.879817" y="7.7494373" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (28)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="86" parentID="75"/>
+            <Rotation x="0.63835043" y="0" z="-0.76974595"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="5.1875" y="7.3125" z="201.625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="6.7188358" y="9.4806395" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (29)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="87" parentID="75"/>
+            <Rotation x="0.90033543" y="0" z="-0.43519655"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="2.3847656" y="6.9570313" z="198.375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="8.5479565" y="11.219877" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (30)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="88" parentID="75"/>
+            <Rotation x="0.99584633" y="0" z="-0.09105064"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="0.62358713" y="6.1953125" z="191.70212"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="9.7465029" y="12.274277" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (31)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="89" parentID="75"/>
+            <Rotation x="0.99972266" y="0" z="0.023553841"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="0.61075068" y="7.921875" z="184.86287"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="12.667379" y="10.044514" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (32)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="90" parentID="75"/>
+            <Rotation x="0.61750853" y="0" z="0.78656417"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="3.3757229" y="7.921875" z="178.55128"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="10.050556" y="12.809709" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (33)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="91" parentID="75"/>
+            <Rotation x="0.89761358" y="0" z="0.44078317"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="7.7476363" y="10.109375" z="174.37302"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2.7186737" y="9.2832737" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (34)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="92" parentID="75"/>
+            <Rotation x="0.97332764" y="0" z="-0.22941972"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="8.1131716" y="9.328125" z="172.22318"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="3.4360809" y="7.865633" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (35)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="93" parentID="75"/>
+            <Rotation x="0.69760287" y="0" z="-0.71648467"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="5.5651608" y="9.4850292" z="168.72009"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="5.8761463" y="10.075093" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (36)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="94" parentID="75"/>
+            <Rotation x="0.93109024" y="0" z="-0.36478895"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="2.5951817" y="10.09375" z="164.51965"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="8.0949078" y="9.5044746" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (37)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="98" parentID="75"/>
+            <Rotation x="0.97914958" y="0" z="0.20314042"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="2.7833657" y="10.704916" z="156.6976"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="14.401758" y="9.8827543" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (38)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="101" parentID="75"/>
+            <Rotation x="0.68494141" y="0" z="-0.72859824"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="3.6259584" y="11.133711" z="148.58289"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="2.8583927" y="9.8154869" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Colider" displayName="StartHouseAdj3Col" tileID="1" exportType="4">
+        <LevelCollider type="1">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="103" parentID="11"/>
+            <MinPos x="-15" y="-15" z="-18"/>
+            <MaxPos x="100" y="35" z="40"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="40" y="20" z="205"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (39)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="104" parentID="103"/>
+            <Rotation x="-0.75369817" y="0" z="0.65722084"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="50.829796" y="12.445313" z="201.87051"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="10.643894" y="9.9263496" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (40)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="105" parentID="103"/>
+            <Rotation x="-0.52929264" y="0" z="0.84843946"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="56.160728" y="13.054688" z="206.77893"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="5.4279137" y="13.484072" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (41)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="106" parentID="103"/>
+            <Rotation x="0.040317733" y="0" z="0.99918699"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="62.741924" y="16.6875" z="207.50987"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="9.207283" y="18.785282" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (42)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="108" parentID="103"/>
+            <Rotation x="0.42487431" y="0" z="0.90525246"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="72.685699" y="20.507353" z="203.93434"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="16.058395" y="24.634796" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (43)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="110" parentID="103"/>
+            <Rotation x="0.62373477" y="0" z="0.78163606"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="83.170555" y="28.295643" z="197.48082"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="11.361771" y="14.244686" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New" tileID="1" exportType="1">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="0.8705883" y="0.627451" z="0"/>
+            <Radius r="100"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="118.25438" y="53.178276" z="226.97983"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (44)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="114" parentID="103"/>
+            <Rotation x="0.47415894" y="0" z="0.88043928"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="93.233994" y="28.910427" z="190.85309"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="15.327118" y="14.828787" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (45)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="115" parentID="103"/>
+            <Rotation x="-0.34548348" y="0" z="0.93842483"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="108.00191" y="33.3125" z="192.66953"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="28.574562" y="34.300125" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (46)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="116" parentID="103"/>
+            <Rotation x="-0.94534165" y="0" z="0.32608151"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="120.9792" y="41.375" z="202.83813"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="13.179001" y="19.656616" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (47)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="118" parentID="103"/>
+            <Rotation x="0.54142487" y="0" z="-0.84074914"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="105.84368" y="32.74762" z="202.39279"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="13.55233" y="19.488342" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (49)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="120" parentID="103"/>
+            <Rotation x="-0.90817726" y="0" z="0.41858581"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="89.69928" y="29.302691" z="211.72589"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="8.3599548" y="23.288334" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (50)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="121" parentID="103"/>
+            <Rotation x="-0.82573819" y="0" z="0.56405354"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="92.625" y="24.875" z="216.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="4.8411102" y="11.619556" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (51)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="122" parentID="103"/>
+            <Rotation x="-0.17784345" y="0" z="0.98405886"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="98.53466" y="39" z="219.37863"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="9.8434982" y="33.970055" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (52)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="124" parentID="103"/>
+            <Rotation x="-0.65091693" y="0" z="0.75914901"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="105.50024" y="31.69842" z="221.86737"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="5.8515015" y="12.725876" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (53)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="126" parentID="103"/>
+            <Rotation x="0.44872674" y="0" z="0.89366901"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="110.3125" y="32.53125" z="221.625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="7.4360657" y="11.625988" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (54)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="129" parentID="103"/>
+            <Rotation x="0.95103407" y="0" z="0.30908608"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="114.00496" y="32.9375" z="217.16573"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="6.0915909" y="14.793316" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (55)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="133" parentID="103"/>
+            <Rotation x="-0.94410998" y="0" z="0.32963094"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="112.84616" y="36.71875" z="210.20532"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="9.3098831" y="8.534359" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (48)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="135" parentID="0"/>
+            <Rotation x="-0.46122205" y="0" z="-0.88728476"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="96.173546" y="33.4375" z="201.02646"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="10.043465" y="18.01651" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWall" displayName="Obb (56)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="139" parentID="0"/>
+            <Rotation x="-0.90023178" y="0" z="-0.43541113"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="90.520401" y="26.462685" z="206.34703"/>
+            <Rotation x="0" y="0.41914064" z="0"/>
+            <Scale x="7.2639923" y="16.002621" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (1)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="140" parentID="103"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="132.8009" y="34" z="224.96808"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="5.3165283" y="8" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+</Level>

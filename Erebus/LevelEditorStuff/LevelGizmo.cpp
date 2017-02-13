@@ -21,12 +21,14 @@ LevelGizmo::LevelGizmo()  {
 	scaleSnap = .5f;
 	posSnap = 1.f;
 	shouldSnap = false;
+	bool isColider = false;
 }
 
 void LevelGizmo::setPlanes() {
 	this->gizmoPlanes[X].direction = { 0,1,0 };
 	this->gizmoPlanes[Y].direction = { 1,0,0 };
 	this->gizmoPlanes[Z].direction = { 0,1,0 };
+
 	this->gizmoPlanes[XZ].direction = { 0,1,1 };
 	this->gizmoPlanes[XY].direction = { 1,1,0 };
 	this->gizmoPlanes[ZY].direction = { 1,0,1 };
@@ -102,12 +104,24 @@ void LevelGizmo::drawGizmo() {
 
 }
 
+void LevelGizmo::checkIfActorIsColider(LevelActor* selectedActor) {
+	bool isAColiderType = true;
+	for (auto element : selectedActor->getAllComponents())
+	{
+		if (!(element.second->getName() == LevelCollider::name || element.second->getName() == LevelTransform::name)) {
+			isAColiderType = false;
+			break;
+		}
+	}
+	this->isColider = isAColiderType;
+}
+
 void LevelGizmo::update()
 {
 	LevelActor* selectedActor = this->actorHandlerRef->getSelected();
 
 	if (selectedActor) {
-		
+		checkIfActorIsColider(selectedActor);
 		//Updates the orientation of the gizmo UI
 		updateFromCameraPos(selectedActor);
 
@@ -361,6 +375,7 @@ void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
 
 		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
 		glm::vec3 newScale = selectedTransform->getScale();
+		
 
 		float xDiff = 0, yDiff = 0, zDiff = 0;
 		intersectionPointChangedThisFrame = true;
@@ -398,7 +413,100 @@ void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
 		default:
 			break;
 		}
-		selectedTransform->setScale(newScale);
+
+
+
+		if(!isColider)
+
+			selectedTransform->setScale(newScale);
+		else {
+			LevelCollider* tempCol = selectedActor->getComponent<LevelCollider>();
+			if (tempCol->getType() != ColiderType::COLLIDER_OBB) {
+				selectedTransform->setScale(newScale);
+			}
+			else {
+				glm::vec3 oldScale = selectedTransform->getScale();
+				glm::vec3 diffrence = (oldScale - newScale);
+				glm::vec3 newLocation = selectedTransform->getPos();
+				glm::vec3 xDir, yDir, zDir;
+				
+				switch (selectedGizmo) {
+				case GizmoLocation::X:
+					if(xDiff>0)
+						xDir = tempCol->getObbCollider()->getXAxis() * glm::length(diffrence/2);
+					else
+						xDir = tempCol->getObbCollider()->getXAxis() * -glm::length(diffrence/2);
+					newLocation += xDir;
+					break;
+				case GizmoLocation::Y:
+					if (yDiff>0)
+						yDir = tempCol->getObbCollider()->getYAxis() * glm::length(diffrence / 2);
+					else
+						yDir = tempCol->getObbCollider()->getYAxis() * -glm::length(diffrence / 2);
+					newLocation += yDir;
+					break;
+				case GizmoLocation::Z:
+					if (zDiff>0)
+						zDir = tempCol->getObbCollider()->getZAxis() * glm::length(diffrence / 2);
+					else
+						zDir = tempCol->getObbCollider()->getZAxis() * -glm::length(diffrence / 2);
+					newLocation += zDir;
+					break;
+				case GizmoLocation::XZ:
+					if (xDiff>0)
+						xDir = tempCol->getObbCollider()->getXAxis() * glm::length(diffrence / 2);
+					else
+						xDir = tempCol->getObbCollider()->getXAxis() * -glm::length(diffrence / 2);
+					newLocation += xDir;
+					if (zDiff>0)
+						zDir = tempCol->getObbCollider()->getZAxis() * glm::length(diffrence / 2);
+					else
+						zDir = tempCol->getObbCollider()->getZAxis() * -glm::length(diffrence / 2);
+					newLocation += zDir;
+					break;
+				case GizmoLocation::XY:
+					if (xDiff>0)
+						xDir = tempCol->getObbCollider()->getXAxis() * glm::length(diffrence / 2);
+					else
+						xDir = tempCol->getObbCollider()->getXAxis() * -glm::length(diffrence / 2);
+					newLocation += xDir;
+					if (yDiff>0)
+						yDir = tempCol->getObbCollider()->getYAxis() * glm::length(diffrence / 2);
+					else
+						yDir = tempCol->getObbCollider()->getYAxis() * -glm::length(diffrence / 2);
+					newLocation += yDir;
+					break;
+				case GizmoLocation::ZY:
+					if (zDiff>0)
+						zDir = tempCol->getObbCollider()->getZAxis() * glm::length(diffrence / 2);
+					else
+						zDir = tempCol->getObbCollider()->getZAxis() * -glm::length(diffrence / 2);
+					newLocation += zDir;
+					if (yDiff>0)
+						yDir = tempCol->getObbCollider()->getYAxis() * glm::length(diffrence / 2);
+					else
+						yDir = tempCol->getObbCollider()->getYAxis() * -glm::length(diffrence / 2);
+					newLocation += yDir;
+					break;
+				default:
+					break;
+				}
+				if (!inputRef->keyPressed(GLFW_KEY_LEFT_ALT)) {
+					selectedTransform->setScale(oldScale + glm::abs(diffrence));
+				}
+					
+				else {
+					selectedTransform->setScale(oldScale - glm::abs(diffrence));
+				}
+					
+				selectedTransform->setPos(newLocation);
+			}
+			
+
+			
+
+
+		}
 
 	}
 }

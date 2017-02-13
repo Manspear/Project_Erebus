@@ -1,16 +1,12 @@
-<LevelActor type="Stone" displayName="Stone2" tileID="1">
-    <LevelCollider type="2">
-        <Offset x="0.30000001" y="0.60000002" z="0"/>
-        <Color x="0" y="1" z="0"/>
-        <IDs ID="0" parentID="0"/>
-        <Rotation x="0" y="0" z="0"/>
-        <HalfLengths x="1" y="0.60000002" z="1"/>
-    </LevelCollider>
-    <LevelModel>
-        <ModelName>Stone3</ModelName>
-    </LevelModel>
+<LevelActor type="Empty" displayName="New" tileID="1" exportType="1">
+    <LevelPointLight>
+        <Position x="0" y="0" z="0"/>
+        <Color x="0.8705883" y="0.627451" z="0"/>
+        <Radius r="100"/>
+        <Intensity i="1"/>
+    </LevelPointLight>
     <LevelTransform>
-        <Position x="25" y="19" z="152"/>
+        <Position x="96" y="40" z="222"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>

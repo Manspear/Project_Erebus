@@ -1,0 +1,73 @@
+<Level>
+    <LevelActor type="Empty" displayName="New" tileID="0" exportType="1">
+        <LevelModel>
+            <ModelName>tile1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="105.74551" y="115.28085" z="239.86719"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="141" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="152.5354" y="127.33453" z="424.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="24.738586" y="9.0440826" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (1)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="143" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="141.75" y="127.26231" z="415.81842"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="10.525536" z="19.708893"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="141" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="156.36839" y="126.94111" z="406.03342"/>
+            <Rotation x="0" y="-0.090393059" z="0"/>
+            <Scale x="10.752914" y="7.2614365" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (1)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="142" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="161.48659" y="126.90573" z="415.47461"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="7.3396759" z="17.9776"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+</Level>

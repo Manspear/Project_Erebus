@@ -1,0 +1,13 @@
+<Level>
+    <LevelActor type="Empty" displayName="New" tileID="0" exportType="1">
+        <LevelModel>
+            <ModelName>tile1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="105.74551" y="115.28085" z="239.86719"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+</Level>

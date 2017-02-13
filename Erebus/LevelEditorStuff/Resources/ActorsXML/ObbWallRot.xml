@@ -1,0 +1,15 @@
+<LevelActor type="ObbWalRot" displayName="ObbRot" tileID="1" exportType="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="141" parentID="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="0.5" y="0.5" z="0.5"/>
+    </LevelCollider>
+    <LevelTransform>
+        <Position x="122.75" y="30.84375" z="229"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
