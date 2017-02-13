@@ -31,7 +31,7 @@ RenderQueue::~RenderQueue()
 		if (uniformLocations[i] != nullptr)
 			delete[] uniformLocations[i];
 	}
-		
+	delete[] oneMoreUpdate;
 	delete[] tempMatrices;
 }
 
@@ -101,6 +101,7 @@ void RenderQueue::allocateWorlds(int n)
 
 	worldMatrices = new glm::mat4[n];
 	jointMatrices = new glm::mat4[n*MAXJOINTCOUNT];
+	oneMoreUpdate = new bool[n];
 }
 
 void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
@@ -115,7 +116,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	glm::vec3 axis;
 	for (int i = 0; i < ntransforms; i++)
 	{
-		if (theTrans[i].active == true) 
+		if (oneMoreUpdate[i])
 		{
 			//THIS WHOLE FUNCTION CAN DEFINETELY BE OPTIMIZED (do something along the lines of mat4 = {coscoscosos, coscsocsosins, coscoscoscos, x,
 			//																							sinsinssin, sinsinsinsn, ccoscosocosco, y,
@@ -145,6 +146,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 			tempMatrix[3][2] = theTrans[i].pos.z;
 			worldMatrices[i] = tempMatrix;
 		}
+		oneMoreUpdate[i] = theTrans[i].active;
 	}
 
 	for( int i=0; i<nanimations; i++ )
@@ -190,6 +192,7 @@ int RenderQueue::generateWorldMatrix()
 
 void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues)
 {
+	glDisable(GL_CULL_FACE);
 	allShaders[FORWARD]->use();
 	ModelAsset* modelAsset;
 	int meshes;
@@ -265,6 +268,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 	}
 	glBindVertexArray(0);
 	allShaders[FORWARD]->unUse();
+	//glEnable(GL_CULL_FACE);
 }
 
 bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters)
