@@ -345,6 +345,12 @@ function Controls(dt)
 			player.charger:EndCharge()
 			player.charging = false
 		end
+		--[[if Inputs.KeyPressed("N") then
+			ZoomInCamera()
+		end
+		if Inputs.KeyReleased("N") then
+			ZoomOutCamera()
+		end]]
 
 		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
 		if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
