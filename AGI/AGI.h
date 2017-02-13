@@ -176,7 +176,7 @@ namespace AGI
 			debugRef->drawSphere(glm::vec3(pos.x, HP->getPos(pos.x, pos.z), pos.z), 3, glm::vec3(3 * 0.02, 2 * 0.02, 0.4));
 		}
 
-		AGI_API void drawDebug(Importer::HeightMap * HP)
+		AGI_API void drawDebug(Importer::HeightMap ** HP)
 		{
 			for (int h = 0; h < imHeight; h++)
 			{
@@ -185,14 +185,27 @@ namespace AGI
 
 					if (dynamicInfluenceMap[w][h] != nullptr)
 					{
-						int tempStrength = getCombinedStrength(w, h,30);
 
-						if (dynamicInfluenceMap[w][h]->checkIfOccupied())
-							debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(42, 0, 42));
-						else if (tempStrength == 0)
-							debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(0, 0, 0));
-						else
-							debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
+						int stupid = 1;
+
+						for (int n = 1; n < 3; n++)
+						{
+
+							if (HP[n]->inside(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, 0, dynamicInfluenceMap[w][h]->getPos().y)))
+							{
+								stupid = n;
+							}
+						}
+
+							int tempStrength = getCombinedStrength(w, h, 30);
+
+							if (dynamicInfluenceMap[w][h]->checkIfOccupied())
+								debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP[stupid]->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(42, 0, 42));
+							else if (tempStrength == 0)
+								debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP[stupid]->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(0, 0, 0));
+							else
+								debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP[stupid]->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(tempStrength * 0.1, tempStrength* 0.1, 0.4));
+						//}
 					}
 				}
 
@@ -245,10 +258,10 @@ namespace AGI
 
 		//// CLASSIC INFLUENCE MAP
 
-		AGI_API void createInfluenceMap(Importer::HeightMap* heightmap, int width, int height)
+		AGI_API void createInfluenceMap(Importer::HeightMap** heightmaps, int width, int height)
 		{
-			//width -= 100;
-			//height -= 300;
+			width = 1000;
+			height = 2000;
 			this->mapWidth = width;
 			this->mapHeight = height;
 			this->imWidth = width * resolution;
@@ -263,9 +276,22 @@ namespace AGI
 
 				for (int y = 0; y<imHeight; y++)
 				{
+
 					float w = (float)x / (resolution);
 					float h = (float)y / (resolution);
-					if (checkSurroundingHeightMap(heightmap, x, y))
+
+					int stupid =1;
+
+					for (int n = 1; n < 3; n++)
+					{
+						
+						if (heightmaps[n]->inside(glm::vec3(w,0,h)))
+						{
+							stupid = n;
+						}
+					}
+
+					if (checkSurroundingHeightMap(heightmaps[stupid], x, y))
 					{
 						dynamicInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
 						staticInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
@@ -353,92 +379,92 @@ namespace AGI
 			float h = ((float)y) / (resolution);
 			float centerHeight = heightmap->getPos(w, h);
 
-#pragma region x-1,y+1 MAYBEE
+			#pragma region x-1,y+1 MAYBEE
 
-			w = ((float)x - doJump) / (resolution);
-			h = ((float)y + doJump) / (resolution);
-			float inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
+						w = ((float)x - doJump) / (resolution);
+						h = ((float)y + doJump) / (resolution);
+						float inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
 
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
-#pragma region x,y+1
+			#pragma region x,y+1
 
-			w = ((float)x) / (resolution);
-			h = ((float)y + doJump) / (resolution);
-			inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
+						w = ((float)x) / (resolution);
+						h = ((float)y + doJump) / (resolution);
+						inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
 
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
-#pragma region x+1,y+1  Maybee
+			#pragma region x+1,y+1  Maybee
 
-			w = ((float)x + doJump) / (resolution);
-			h = ((float)y + doJump) / (resolution);
-			inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
+						w = ((float)x + doJump) / (resolution);
+						h = ((float)y + doJump) / (resolution);
+						inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
 
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
-#pragma region x-1,y
-			w = ((float)x - doJump) / (resolution);
-			h = ((float)y) / (resolution);
+			#pragma region x-1,y
+						w = ((float)x - doJump) / (resolution);
+						h = ((float)y) / (resolution);
 
-			inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
-#pragma region x+1,y
-			w = ((float)x + doJump) / (resolution);
-			h = ((float)y) / (resolution);
+			#pragma region x+1,y
+						w = ((float)x + doJump) / (resolution);
+						h = ((float)y) / (resolution);
 
-			inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
+						inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
 
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
-#pragma region x-1,y-1  MAYBE
-			w = ((float)x - doJump) / (resolution);
-			h = ((float)y - doJump) / (resolution);
+			#pragma region x-1,y-1  MAYBE
+						w = ((float)x - doJump) / (resolution);
+						h = ((float)y - doJump) / (resolution);
 
-			inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
-#pragma region x,y-1
-			w = ((float)x) / (resolution);
-			h = ((float)y - doJump) / (resolution);
+			#pragma region x,y-1
+						w = ((float)x) / (resolution);
+						h = ((float)y - doJump) / (resolution);
 
-			inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
-#pragma region x+1,y-1  MAYBE
-			w = ((float)x + doJump) / (resolution);
-			h = ((float)y - doJump) / (resolution);
+			#pragma region x+1,y-1  MAYBE
+						w = ((float)x + doJump) / (resolution);
+						h = ((float)y - doJump) / (resolution);
 
-			inHeight = heightmap->getPos(w, h);
-			inHeight = glm::abs(inHeight - centerHeight);
-			if (inHeight > maxHeight)
-				maxHeight = glm::abs(inHeight - centerHeight);
-#pragma endregion
+						inHeight = heightmap->getPos(w, h);
+						inHeight = glm::abs(inHeight - centerHeight);
+						if (inHeight > maxHeight)
+							maxHeight = glm::abs(inHeight - centerHeight);
+			#pragma endregion
 
 
-			if (glm::abs(centerHeight - maxHeight) >1.4f || centerHeight <= 3)
+			if (glm::abs(centerHeight - maxHeight) >2.4f || centerHeight <= 3)
 				return false;
 
 			return true;

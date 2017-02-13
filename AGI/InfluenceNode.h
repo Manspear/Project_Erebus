@@ -56,7 +56,7 @@ public:
 		pos = inPos;
 	}
 
-	AGI_API void setStrength(const float &inStrength)
+	AGI_API void setStrength(const short int &inStrength)
 	{
 		if (inStrength <=  0)
 			strength = inStrength;
@@ -79,7 +79,7 @@ public:
 		hCost = inCost;
 	}
 
-	AGI_API int getHCost()
+	AGI_API short int getHCost()
 	{
 		return hCost;
 	}
@@ -89,7 +89,7 @@ public:
 		gCost = inCost;
 	}
 
-	AGI_API int getGCost()
+	AGI_API short int getGCost()
 	{
 		return gCost;
 	}
@@ -112,11 +112,12 @@ public:
 private:
 	InfluenceNode * parentNode;
 
-	int gCost;
-	int hCost;
+	short int gCost;
+	short int hCost;
 
 	bool occupied;
 
 	glm::vec2 pos;
-	float strength;
+	char strength;
+
 };

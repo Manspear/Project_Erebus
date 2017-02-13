@@ -53,6 +53,8 @@ function LoadPlayer()
 	player.nrOfInnerCircleEnemies = 0
 	player.nrOfOuterCircleEnemies = 0
 
+	player.outerCirclerange = 4
+	player.innerCirclerange = 8
 
 	-- set spells for player
 	player.spells = {}

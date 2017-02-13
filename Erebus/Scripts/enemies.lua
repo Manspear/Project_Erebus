@@ -235,7 +235,10 @@ end
 
 function UpdateEnemies(dt)
 
-	AI.DrawDebug(heightmaps[1].asset)
+	--for i = 1, #heightmaps do
+	--	AI.DrawDebug()
+	--end
+
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0 then
 		--print ("Clear")
@@ -261,63 +264,63 @@ function UpdateEnemies(dt)
 	aiScript.updateEnemyManager(enemies,player)
 	local tempdt
 
---	if Network.GetNetworkHost() == true then
---		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
---
---		for i=1, #enemies do
---			if enemies[i].health > 0 then
---				tempdt = dt * enemies[i].timeScalar
---				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
---				AI.AddIP(enemies[i].transformID,-1)
---				aiScript.update(enemies[i],player,tempdt)
---				enemies[i].animationController:AnimationUpdate(dt)
---
---				local pos = Transform.GetPosition(enemies[i].transformID)
---
---				local posx = math.floor(pos.x/512)
---				local posz = math.floor(pos.z/512)
---				local heightmapIndex = (posz*2 + posx)+1
---
---				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
---				pos.y = pos.y - 10*dt
---				if pos.y < height then
---					pos.y = height
---				end
---				Transform.SetPosition(enemies[i].transformID, pos)
---
---				local direction = Transform.GetLookAt(enemies[i].transformID)
---				local rotation = Transform.GetRotation(enemies[i].transformID)
---
---				if shouldSendNewTransform == true then
---					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
---				end
---
---			for j = #enemies[i].effects, 1, -1 do 
---				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
---					enemies[i].effects[j]:Deapply(enemies[i])
---					table.remove(enemies[i].effects, j)
---					end
---				end
---			end
---
---		enemies[i].animationController:AnimationUpdate(dt)
---			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
---		end
---
---	else
---		-- Run client_AI script
---		for i=1, #enemies do
---			if enemies[i].health > 0 then
---				enemies[i].animationController:AnimationUpdate(dt)
---
---				-- Retrieve packets from host
---				clientAIScript.getAITransformPacket()
---				clientAIScript.getAIStatePacket(enemies[i], player)
---
---				enemies[i].state.update(enemies[i], player, dt)
---			end
---		end
---	end
+	if Network.GetNetworkHost() == true then
+		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
+
+		for i=1, #enemies do
+			if enemies[i].health > 0 then
+				tempdt = dt * enemies[i].timeScalar
+				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
+				AI.AddIP(enemies[i].transformID,-1)
+				aiScript.update(enemies[i],player,tempdt)
+				enemies[i].animationController:AnimationUpdate(dt)
+
+				local pos = Transform.GetPosition(enemies[i].transformID)
+
+				local posx = math.floor(pos.x/512)
+				local posz = math.floor(pos.z/512)
+				local heightmapIndex = (posz*2 + posx)+1
+
+				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+				pos.y = pos.y - 10*dt
+				if pos.y < height then
+					pos.y = height
+				end
+				Transform.SetPosition(enemies[i].transformID, pos)
+
+				local direction = Transform.GetLookAt(enemies[i].transformID)
+				local rotation = Transform.GetRotation(enemies[i].transformID)
+
+				if shouldSendNewTransform == true then
+					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
+				end
+
+			for j = #enemies[i].effects, 1, -1 do 
+				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+					enemies[i].effects[j]:Deapply(enemies[i])
+					table.remove(enemies[i].effects, j)
+					end
+				end
+			end
+
+		enemies[i].animationController:AnimationUpdate(dt)
+			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
+		end
+
+	else
+		-- Run client_AI script
+		for i=1, #enemies do
+			if enemies[i].health > 0 then
+				enemies[i].animationController:AnimationUpdate(dt)
+
+				-- Retrieve packets from host
+				clientAIScript.getAITransformPacket()
+				clientAIScript.getAIStatePacket(enemies[i], player)
+
+				enemies[i].state.update(enemies[i], player, dt)
+			end
+		end
+	end
 end
 
 return { Unload = UnloadEnemies, Update = UpdateEnemies }

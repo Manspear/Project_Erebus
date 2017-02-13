@@ -8,6 +8,8 @@ namespace LuaAI
 	static Transform* transforms = nullptr;
 	static Assets* g_assets = nullptr;
 
+	static HeightMap ** heightMaps = nullptr;
+
 	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI, Assets* assets)
 	{
 		AI = inAI;
@@ -23,6 +25,8 @@ namespace LuaAI
 			{ "DistanceTransPos",distanceTransPos },
 			{ "NormalizeDir",normalizeDir },
 			{ "CreateIM",createIM },
+			{ "AddHeightMap", addHeightMap},
+			{ "CreateHM", createHM },
 			{ "ClearMap",clearMap },
 			{ "AddIP",addInfluencePoint },
 			{ "CheckIfTarget",checkIfTargetNodeIsOccupied },
@@ -171,16 +175,35 @@ namespace LuaAI
 
 	int createIM(lua_State * lua)
 	{
-		int result = 0;
+		if (lua_gettop(lua) >= 3)
+		{
+			AI->createInfluenceMap(heightMaps,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+		}
+		return 0;
+	}
+
+	int createHM(lua_State * lua)
+	{
+		if (lua_gettop(lua) >= 1)
+		{
+			std::cout << lua_tointeger(lua, 1);
+			heightMaps = new HeightMap*[lua_tointeger(lua, 1)];
+		}
+		return 0;
+	}
+
+	int addHeightMap(lua_State * lua)
+	{
 		if (lua_gettop(lua) >= 2)
 		{
+			//heightMaps[0] = g_assets->load<HeightMap>(lua_tostring(lua, 1));
+			
 			lua_getfield(lua, 1, "__self");
-			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
-			//HeightMap* heightmap = g_assets->load<HeightMap>(lua_tostring(lua, 1));
-
-			AI->createInfluenceMap(heightmap,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			std::cout << lua_tointeger(lua, 2);
+			heightMaps[lua_tointeger(lua,2)] = (HeightMap*)lua_touserdata(lua, -1);
+			//	AI->createInfluenceMap(heightmaps,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 		}
-		return result;
+		return 0;
 	}
 
 	int clearMap(lua_State * lua)
@@ -332,12 +355,9 @@ namespace LuaAI
 
 	int draw(lua_State * lua)
 	{
-		if (lua_gettop(lua) >= 1)
-		{
-			lua_getfield(lua, 1, "__self");
-			HeightMap* heightmap = (HeightMap*)lua_touserdata(lua, -1);
-			AI->drawDebug(heightmap);
-		}
+
+			AI->drawDebug(heightMaps);
+
 		return 0;
 	}
 
