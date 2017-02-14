@@ -49,7 +49,7 @@ private:
 	PlaneFrustum planes[6];
 	glm::vec4 clipSpacePlanes[6];
 	const int LUA_HARDCODED = 5;
-	const int WIDEN_FRUSTUM = 25;
+	const int WIDEN_FRUSTUM = 35;
 
 	//helper functions
 	bool pointPlaneCollision(int plane, glm::vec3& point);
