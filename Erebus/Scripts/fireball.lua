@@ -5,6 +5,9 @@ FIRESPAM_SPEED = 120
 FIREBALL_SPEED = 60
 MIN_CHARGETIME_FIREBALL = 0.5
 FIREBALL_BASE_DMG = 20
+FIREBALL_CAST_SFX = ""
+FIREBALL_SMALL_HIT_SFX = "Effects/explosion.wav"
+FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
 
 function CreateFireball(entity)
 	function initSmallFireball()
@@ -159,6 +162,7 @@ function CreateFireball(entity)
 	end
 
 	function spell:Kill()
+		Sound.Play(FIREBALL_BIG_HIT_SFX, 7, self.position)
 		self.bigBallActive = false
 		self.ballParticles.die()
 		SphereCollider.SetActive(self.sphereCollider, false)
@@ -167,6 +171,9 @@ function CreateFireball(entity)
 	end
 
 	function spell:SpamFireball(index)
+		local id = Sound.Play(FIREBALL_SMALL_HIT_SFX, 39, self.smallFB[index].type.position)
+		Sound.SetVolume(id, 0.5)
+		Sound.Resume(id)
 		self.smallFB[index].particles.die(self.smallFB[index].type.position)
 		self.smallFB[index].type:Kill() 
 		self.smallFB[index].alive = false 

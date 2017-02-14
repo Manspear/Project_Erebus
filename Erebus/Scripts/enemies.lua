@@ -50,7 +50,7 @@ function CreateEnemy(type, position)
 		local pos = Transform.GetPosition(self.transformID)
 
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
-		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
+		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 		
 		self.health = 0
 		self.alive = false
