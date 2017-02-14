@@ -48,7 +48,14 @@ function LoadPlayer()
 	player.invulnerable = false
 	player.position = {}
 
+	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
+
+	player.nrOfInnerCircleEnemies = 0
+	player.nrOfOuterCircleEnemies = 0
+
+	player.outerCirclerange = 4
+	player.innerCirclerange = 8
 
 	-- set spells for player
 	player.spells = {}
@@ -126,6 +133,13 @@ function LoadPlayer2()
 	player2.charging = false
 	player2.position = {}
 
+	
+	player2.nrOfInnerCircleEnemies = 0
+	player2.nrOfOuterCircleEnemies = 0
+
+	player2.outerCirclerange = 4
+	player2.innerCirclerange = 8
+
 	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
@@ -135,6 +149,14 @@ function LoadPlayer2()
 
 	local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
+
+	player2.Hurt = function(self,damage, source)
+
+	end
+
+	player2.Kill = function(self)
+
+	end
 
 	player2.Apply = function(self, effect)
 		if not self.invulnerable then

@@ -28,6 +28,7 @@
 
 function CreateEnemyController(enemy)
 	local controller = {}
+	controller.currentState = 1
 	controller.animation = Animation.Bind()
 	controller.animationState1 = 0
 	controller.animationState2 = 0
@@ -41,8 +42,6 @@ function CreateEnemyController(enemy)
 	controller.quickBlendSegment = 2
 
 
-	controller.currentAnimation = 1
-
 	local animationTransitionTimes = {}
 	for i = 1, 9 do
 		animationTransitionTimes[i] = {}
@@ -53,35 +52,21 @@ function CreateEnemyController(enemy)
 
 	controller.animation:SetTransitionTimes(animationTransitionTimes)
 
-	controller.animation:SetAnimationSegments(2);
+	controller.animation:SetAnimationSegments(1);
 	-- : == syntactic sugar to send self as a variable into the function
 	-- . == says that you send self into the function, although a name has 
 	--to be set in the parametre
 
-	function controller:AnimationUpdate(dt,enemy)
-		--self.animation:Update(dt, 2, 0)
-		--self.animation:UpdateShaderMatrices()
+	function controller:AnimationUpdate(dt)
+		--self.animation:Update(dt, 1, 0)
+		self.animation:Update(dt, 1, 1)
 
-		self.animation:SetSegmentState( self.currentAnimation, 0 )
+		self.animation:UpdateShaderMatrices()
 	end
-
-	function controller:AnimationHurt(dt,enemy)
-		self.animation:Update(dt, 0, 1)
-	end
-
 
 	function controller:copyWatch()
 		self.oldWatch.health = self.watch.health
 	end
-
-	function controller:doAttack()
-		self.currentAnimation = 7
-	end
-
-	function controller:doWalk()
-		self.currentAnimation = 1
-	end
-
 
 	--Use this to initialize oldWatch
 	controller:copyWatch()
