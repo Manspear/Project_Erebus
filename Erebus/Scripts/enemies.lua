@@ -22,7 +22,7 @@ function CreateEnemy(type, position)
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	enemies[i].transformID = Transform.Bind()
-	enemies[i].movementSpeed = math.random(5,20)
+	enemies[i].movementSpeed = 10--math.random(5,20)
 	enemies[i].health = 20
 	enemies[i].alive = true
 	enemies[i].effects = {}

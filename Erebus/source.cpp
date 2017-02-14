@@ -22,7 +22,7 @@
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
 
-#define MAX_TRANSFORMS 100
+#define MAX_TRANSFORMS 150
 #define MAX_ANIMATIONS 100
 
 bool running = true;

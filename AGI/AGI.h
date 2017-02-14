@@ -280,7 +280,6 @@ namespace AGI
 					float w = (float)x / (resolution);
 					float h = (float)y / (resolution);
 
-
 					if (checkSurroundingHeightMap(heightmaps, x, y))
 					{
 						dynamicInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);

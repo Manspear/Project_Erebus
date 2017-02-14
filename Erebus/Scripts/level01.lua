@@ -82,3 +82,9 @@ AI.CreateIM(heightmaps,widthTest,heightTest)--,#heightmaps,widthTest,heightTest)
 
 Transform.SetPosition(player.transformID, {x=124, y=32, z=220})
 CreateEnemy(ENEMY_MELEE, {x=122, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=120, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=110, y=42, z=230})
+
+CreateEnemy(ENEMY_MELEE, {x=112, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=107, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=118, y=42, z=230})
