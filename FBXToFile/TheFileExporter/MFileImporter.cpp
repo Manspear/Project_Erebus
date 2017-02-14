@@ -471,18 +471,19 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 		index = imScene.modelList.back().meshList.size() - 1;
 
 	/*Reading all the information for a mesh in FBX.*/
+	std::cout << "Processing vertices" << std::endl;
 	processVertices(inputMesh);
-
+	std::cout << "Processing normals" << std::endl;
 	processNormals(inputMesh);
-
+	std::cout << "Processing tangents" << std::endl;
 	processTangents(inputMesh);
-
+	std::cout << "Processing UVs" << std::endl;
 	processUVs(inputMesh);
-
+	std::cout << "Processing materials" << std::endl;
 	processMaterials(inputMesh);
-
+	std::cout << "Processing textures" << std::endl;
 	processTextures(inputMesh);
-
+	std::cout << "Processing transformations" << std::endl;
 	processTransformations(inputMesh->GetNode(), TYPE, index);
 
 	processJoints(inputMesh, rootList, influenceOffset);
@@ -900,6 +901,8 @@ void MFileImporter::processIndexes()
 	SetConsoleTextAttribute(hConsole, 8);
 	const char* name = imScene.modelList.back().name; //used for printing progress
 
+	std::cout << "Progress through indexing: 0%" << std::endl;
+
 	int counter = 0;
 	if (imScene.modelList.back().meshList.back().isAnimated)
 	{
@@ -1114,6 +1117,7 @@ void MFileImporter::processJoints(FbxMesh * inputMesh, std::vector<FbxNode*>& ro
 	size_t miniInfluenceOffset = 0;
 	for (int i = 0; i < deformercount; i++)
 	{
+		std::cout << "Started processing joints!" << std::endl;
 		sImSkeleton skel;
 		imScene.modelList.back().skeletonList.push_back(skel);
 
@@ -1128,6 +1132,7 @@ void MFileImporter::processJoints(FbxMesh * inputMesh, std::vector<FbxNode*>& ro
 
 		for (int j = 0; j < clusterCount; j++)
 		{
+			std::cout << "Processing animations for joint number: " << j << " of " << clusterCount << std::endl;
 			imScene.modelList.back().skeletonList.back().jointList.push_back(sImJoint());
 			//imScene.modelList.back().skeletonList.back().jointList.back().jointID = imScene.modelList.back().skeletonList.back().jointList.size() - 1 + influenceOffset;
 
@@ -2050,6 +2055,7 @@ void MFileImporter::processBlendWeightsAndIndices(FbxMesh * inputMesh, std::vect
 
 	for (int o = 0; o < inputMesh->GetDeformerCount(); o++)
 	{
+		std::cout << "Processing blendweights and indices" << std::endl;
 		FbxSkin* currSkin = reinterpret_cast<FbxSkin*>(inputMesh->GetDeformer(o, FbxDeformer::eSkin));
 		if (!currSkin)
 			continue;
