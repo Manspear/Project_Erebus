@@ -102,7 +102,6 @@ function getAITransformPacket()
 	end
 end
 
-baseReturn.changeToState = changeToState
 baseReturn.getAIStatePacket = getAIStatePacket
 baseReturn.getAITransformPacket = getAITransformPacket
 baseReturn.clientAIState = clientAIState

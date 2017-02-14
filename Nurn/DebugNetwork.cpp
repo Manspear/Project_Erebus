@@ -2,7 +2,7 @@
 
 DebugNetwork::DebugNetwork()
 {
-
+	this->ping = 0;
 }
 
 DebugNetwork::~DebugNetwork()
@@ -10,9 +10,9 @@ DebugNetwork::~DebugNetwork()
 
 }
 
-void DebugNetwork::getPing()
+uint8_t DebugNetwork::getPing() const
 {
-
+	return this->ping;
 }
 
 void DebugNetwork::getMaxSizeOfQueue()

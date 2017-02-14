@@ -45,6 +45,7 @@ private:
 	std::vector<sTextLine> bufferedLines;
 
 	ShaderProgram* shader;
+	GLuint heightLoc, colorLoc;
 	GLuint VAO, VBO;
 };
 

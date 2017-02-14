@@ -36,3 +36,8 @@ float PlaneFrustum::distance(const glm::vec3 & point)
 {
 	return (this->d + glm::dot(this->normal, point));
 }
+
+glm::vec3 PlaneFrustum::getNormal() const
+{
+	return this->normal;
+}
