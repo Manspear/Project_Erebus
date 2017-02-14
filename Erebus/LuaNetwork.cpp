@@ -29,6 +29,8 @@ namespace LuaNetwork
 			{ "GetDamagePacket", getDamagePacket },
 			{ "SendChangeSpellsPacket", sendChangeSpellsPacket },
 			{ "GetChangeSpellsPacket", getChangeSpellsPacket },
+			{ "SendPlayerEventPacket", sendPlayerEventPacket },
+			{ "GetPlayerEventPacket", getPlayerEventPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -408,6 +410,33 @@ namespace LuaNetwork
 		}
 
 		return 4;
+	}
+
+	int sendPlayerEventPacket(lua_State* lua)
+	{
+		uint8_t eventId = lua_tointeger(lua, 1);
+
+		g_networkController->sendPlayerEventPacket(EventPacket(eventId));
+
+		return 0;
+	}
+
+	int getPlayerEventPacket(lua_State* lua)
+	{
+		EventPacket playerEventPacket;
+
+		if (g_networkController->fetchPlayerEventPacket(playerEventPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, playerEventPacket.data.eventID);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 2;
 	}
 
 

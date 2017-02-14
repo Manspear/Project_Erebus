@@ -52,6 +52,9 @@ public:
 	void sendChangeSpellsPacket(const ChangeSpellsPacket& packet);
 	bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
 
+	void sendPlayerEventPacket(const EventPacket& packet);
+	bool fetchPlayerEventPacket(EventPacket& packet);
+
 
 
 private:
