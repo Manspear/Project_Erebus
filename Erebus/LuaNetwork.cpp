@@ -450,7 +450,7 @@ namespace LuaNetwork
 
 	int shouldSendNewTransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastTransformPacket() > 0.01)
+		if (g_networkController->timeSinceLastTransformPacket() > 0.04)
 		{
 			lua_pushboolean(lua, true);
 		}
@@ -463,7 +463,7 @@ namespace LuaNetwork
 
 	int shouldSendNewAnimation(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastAnimationPacket() > 0.01)
+		if (g_networkController->timeSinceLastAnimationPacket() > 0.04)
 		{
 			lua_pushboolean(lua, true);
 		}
@@ -506,7 +506,7 @@ namespace LuaNetwork
 
 	int shouldSendNewAITransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastAITransformPacket() > 0.01)
+		if (g_networkController->timeSinceLastAITransformPacket() > 0.06)
 		{
 			lua_pushboolean(lua, true);
 		}
