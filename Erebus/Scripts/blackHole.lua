@@ -9,6 +9,7 @@ BLACK_HOLE_WHOBLE_INTERVAL = 0.5
 BLACK_HOLE_COOLDOWN = 6
 BLACK_HOLE_PULL_SPEED = 1
 BLACK_HOLE_SPIN_SPEED = 3.14/1
+BLACK_HOLE_CAST_SFX = "Effects/portal-idle.wav"
 
 function CreateBlackHole(entity)
 	local spell = {}
@@ -24,7 +25,6 @@ function CreateBlackHole(entity)
 	spell.hits = {}
 	spell.alive = false
 	spell.cooldown = 0
-	spell.castSFX = "Effects/portal-idle.wav"
 	spell.soundID = -1
 	spell.Change = GenericChange
 	--spell.spamcd = 5
@@ -56,7 +56,7 @@ function CreateBlackHole(entity)
 			if self.soundID ~= -1 then
 				Sound.Fade(self.soundID, 1)
 			end
-			self.soundID = Sound.Play(self.castSFX, 7, pos)
+			self.soundID = Sound.Play(BLACK_HOLE_CAST_SFX, 7, pos)
 			--Sound.SetVolume(self.soundID[i], 0.1)
 		end
 	end

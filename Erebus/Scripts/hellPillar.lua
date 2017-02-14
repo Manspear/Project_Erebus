@@ -4,8 +4,9 @@ BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarAnimFlame.dds");
 
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_PILLAR = 4
-PILLAR_SFX = "Effects/explosion.wav"
-HIT_SFX = "Effects/burn_ice_001.wav"
+HELLPILLAR_CHARGE_SFX = "Effects/flames-2.wav"
+HELLPILLAR_PILLAR_SFX = "Effects/explosion.wav"
+HELLPILLAR_HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateHellPillar(entity)
 		
@@ -27,6 +28,7 @@ function CreateHellPillar(entity)
 	spell.maxChargeTime = 3
 	--Set up collider, model and transform for the pillar
 	spell.riseFactor = 0.1
+	spell.chargeID = -1
 	spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)
@@ -81,6 +83,7 @@ function CreateHellPillar(entity)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
 			self.damage = 50
 			self:GeneralCast()	
+			self.chargeID = Sound.Play(HELLPILLAR_CHARGE_SFX, 1, self.pos)
 		end
 		self.chargedTime = 0
 	end
@@ -130,7 +133,9 @@ function CreateHellPillar(entity)
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
 			Transform.SetPosition(self.transformID, self.pos)
-			Sound.Play(PILLAR_SFX, 7, self.pos)				
+			Sound.Fade(self.chargeID, 0.5)
+			Sound.Play(HELLPILLAR_PILLAR_SFX, 7, self.pos)
+			Sound.Play(HELLPILLAR_CHARGE_SFX, 7, self.pos)				
 			Transform.ActiveControl(self.transformID, true)
 			self.startUpTime = 0.2
 			--Light.updateRadius(self.light, 10)
@@ -148,7 +153,7 @@ function CreateHellPillar(entity)
 						enemies[curEnemy]:Apply(effect)
 					end	
 				end
-					Sound.Play(HIT_SFX, 1, self.pos)
+					Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
 			end
 		end		
 		self.startUp = false
@@ -219,6 +224,8 @@ function CreateHellPillar(entity)
 			self.damage = self.damage + damage
 		end
 	end
-	function spell:Kill() Transform.ActiveControl(self.owner.aim.transformID, false) end
+	function spell:Kill() 
+		Transform.ActiveControl(self.owner.aim.transformID, false) 
+	end
 	return spell
 end
