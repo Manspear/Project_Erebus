@@ -28,7 +28,9 @@ local scriptFiles =
 	"Scripts/spellUtility.lua",
 	"Scripts/boss.lua",
 	"Scripts/fireball.lua",
-	"Scripts/polymorph.lua"
+	"Scripts/polymorphEffect.lua",
+	"Scripts/polymorph.lua",
+	"Scripts/tumbleThorns.lua"
 }
 
 local gameStarted = false

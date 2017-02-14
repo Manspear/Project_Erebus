@@ -3,6 +3,7 @@ local PLAYER_JUMP_SPEED = 0.35
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
+POLYMORPH_EFFECT_INDEX = 4
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
@@ -19,6 +20,7 @@ function LoadPlayer()
 	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
+	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()

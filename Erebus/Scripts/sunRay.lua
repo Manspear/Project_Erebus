@@ -14,6 +14,7 @@ function CreateSunRay(entity)
 	sunRay.damage = 0
 	sunRay.spam = false
 	sunRay.alive = false
+	sunRay.isActiveSpell = false
 	sunRay.chargedTime = 0	sunRay.Charge = BaseCharge	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.75	sunRay.cameraSlow = 2.0
@@ -174,7 +175,7 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:Change()
-		
+		self.isActiveSpell = not self.isActiveSpell
 	end
 
 	function sunRay:MoveWithPlayer(dt)
