@@ -2,11 +2,11 @@
 
 Packager::Packager()
 {
-	this->transformQueue = new PacketQueue<TransformPacket>(20);
-	this->animationQueue = new PacketQueue<AnimationPacket>(40);
+	this->transformQueue = new PacketQueue<TransformPacket>(10);
+	this->animationQueue = new PacketQueue<AnimationPacket>(10);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
-	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
 	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
 	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
 	this->damageQueue = new PacketQueue<DamagePacket>(20);
