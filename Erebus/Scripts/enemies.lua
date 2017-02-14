@@ -12,6 +12,8 @@ SFX_ATTACK = "Goblin/Voice/albin goblin - attack3.ogg"
 SFX_HURT = "Goblin/Voice/albin goblin alerted.ogg"
 SFX_DEAD = { "Goblin/Voice/albin goblin - death.ogg", "Goblin/Machine/Goblin Machine Dead.ogg"}
 
+HEALTHBAR_WIDTH = 0.5
+
 function CreateEnemy(type, position)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
 
@@ -25,6 +27,8 @@ function CreateEnemy(type, position)
 	enemies[i].effects = {}
 	enemies[i].attackCountdown = 1
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
+	enemies[i].healthbar = UI.load(0, 0, 0, 2, HEALTHBAR_WIDTH);
+	enemies[i].currentHealthbar = HEALTHBAR_WIDTH;
 
 	enemies[i].Hurt = function(self, damage, source)
 		local pos = Transform.GetPosition(self.transformID)

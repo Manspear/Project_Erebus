@@ -23,8 +23,6 @@ function LoadPlayer()
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()
 
-	print(player.transformID)
-
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
 	end

@@ -38,14 +38,6 @@ end
 
 function UpdateHUD(dt)
 
-	y = Transform.GetPosition(player.tranformID).y
-
-	y2 = y + 2
-
-	h = Transform.GetPosition(player.tranformID)
-	vec3print(h)
-
-	print(Transform.GetPosition(player.tranformID).x)
 	UI.reposWorld(screenImages["temp"], Transform.GetPosition(player.tranformID).x, y2, Transform.GetPosition(player.tranformID).z)
 
 	if playerHealthCurrent > player.health then
