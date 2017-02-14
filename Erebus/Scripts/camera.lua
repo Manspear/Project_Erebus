@@ -1,13 +1,15 @@
-STATE_ZOOMED_IN, STATE_ZOOMED_OUT, STATE_ZOOMING_IN, STATE_ZOOMING_OUT = 0, 1, 2, 3
-camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOMING_IN}
+STATE_ZOOMING_IN, STATE_ZOOMING_OUT, STATE_INTERUPT = 0, 1, 2
+camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOMING_OUT}
+
+interuptedState = 0
 
 timeSinceShot = 0
 DelayZoomOut = 0.5
 
 --distance was 4
-ZoomedOut = {distance = 6, angle = 0, time =1, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
+ZoomedOut = {distance = 6, angle = 0, time = 1, timeSpent = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50}	--fov är i radianer, strange things happen with higher values. 90 grader ar standard i fps spel
 --distance was 3.6
-ZoomedIn = {distance = 5.6, angle = 0, time = 0.2, timeSpent = 1, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
+ZoomedIn = {distance = 5.6, angle = 0, time = 1, timeSpent = 0, xOffset = 0.6, yOffset = 1.4, fov = (3.14/180)*50}		--fov är i radianer, be careful when changing
 
 StartState = {distance = 0, angle = 0, xOffset = 0, yOffset = 0, fov = (3.14/180)*50}
 
@@ -56,26 +58,29 @@ function vec3gief(a, b)
 end
 
 function ZoomInCamera()
-	timeSinceShot = 0
-	camera.state = STATE_ZOOMING_IN
-	StartState.distance = camera.distance
-	StartState.angle = camera.angle
-	StartState.xOffset = camera.xOffset
-	StartState.yOffset = camera.yOffset
-	StartState.fov = camera.fov		
-	ZoomedIn.timeSpent = 0
+	if camera.state ~= STATE_ZOOMING_IN then
+		print("camera zooming in boi")
+		camera.state = STATE_ZOOMING_IN
+		StartState.distance = camera.distance
+		StartState.angle = camera.angle
+		StartState.xOffset = camera.xOffset
+		StartState.yOffset = camera.yOffset
+		StartState.fov = camera.fov		
+		ZoomedIn.timeSpent = 0
+	end
 end
 
 function ZoomOutCamera()
-	ZoomedOut.timeSpent = 0
-	
-	StartState.distance = camera.distance
-	StartState.angle = camera.angle
-	StartState.xOffset = camera.xOffset
-	StartState.yOffset = camera.yOffset
-	StartState.fov = camera.fov
-
-	camera.state = STATE_ZOOMING_OUT
+	if camera.state ~= STATE_ZOOMING_OUT then
+		print("camera zooming out boi")
+		camera.state = STATE_ZOOMING_OUT
+		StartState.distance = camera.distance
+		StartState.angle = camera.angle
+		StartState.xOffset = camera.xOffset
+		StartState.yOffset = camera.yOffset
+		StartState.fov = camera.fov
+		ZoomedOut.timeSpent = 0
+	end
 end
 
 function UpdateCamera(dt)	
@@ -93,9 +98,6 @@ function UpdateCamera(dt)
 		camera.yOffset = interpolate(	StartState.yOffset,		ZoomedOut.yOffset,	factor	) 
 		camera.fov = interpolate(		StartState.fov,			ZoomedOut.fov,		factor	) 
 
-		if ZoomedOut.timeSpent > ZoomedOut.time then --if transition complete -> change state to reflect that
-			camera.state = STATE_ZOOMED_OUT
-		end
 	elseif camera.state == STATE_ZOOMING_IN then
 		ZoomedIn.timeSpent =  ZoomedIn.timeSpent + dt 
 		
@@ -110,9 +112,6 @@ function UpdateCamera(dt)
 		camera.yOffset = interpolate(	StartState.yOffset,		ZoomedIn.yOffset,	factor	)
 		camera.fov = interpolate(		StartState.fov,			ZoomedIn.fov,		factor	) 
 
-		if ZoomedIn.timeSpent > ZoomedIn.time then --if transition complete -> change state to reflect that
-			camera.state = STATE_ZOOMED_IN
-		end
 	end
 
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
@@ -125,8 +124,10 @@ function UpdateCamera(dt)
 		height = hm.asset:GetHeight(temppos.x, temppos.z)
 	end
 	local incrementfactor = (0.03) --absolute length of increment is 0.03 units
-	if height  < temppos.y then
-		camera.state = STATE_ZOOMING_OUT
+	local interupted = false
+
+	if camera.state ~= STATE_INTERUPT then --save the state of the camera or something
+		interuptedState = camera.state
 	end
 	while distance > 0.5 do
 		--height = heightmaps[1].asset:GetHeight(temppos.x, temppos.z
@@ -138,9 +139,18 @@ function UpdateCamera(dt)
 				temppos.x = temppos.x + dir.x * incrementfactor
 				temppos.y = temppos.y + dir.y * incrementfactor
 				temppos.z = temppos.z + dir.z * incrementfactor
-				camera.state = STATE_ZOOMING_OUT
+				if camera.state ~= STATE_INTERUPT then
+					interuptedState = camera.state
+					camera.state = STATE_INTERUPT
+					if camera.state == STATE_ZOOMING_IN then
+						ZoomedIn.timeSpent = 0
+					else
+						ZoomedOut.timeSpent = 0
+					end
+				end
 				StartState.distance = distance
-				ZoomedOut.timeSpent = 0
+				ZoomedIn.timeSpent = 0
+				interupted = true
 				--Camera.SetHeight(height + 0.5) 
 			else
 				break
@@ -148,6 +158,14 @@ function UpdateCamera(dt)
 		else
 			break
 			--distance = distance - 0.03
+		end
+	end
+	if not interupted then -- restore the state of the camera or somehting
+		
+		if interuptedState == STATE_ZOOMING_IN then
+			ZoomInCamera()
+		else
+			ZoomOutCamera()
 		end
 	end
 	camera.distance = distance

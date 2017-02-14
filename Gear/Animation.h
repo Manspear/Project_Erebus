@@ -33,9 +33,9 @@ public:
 	The number of parts is equal to
 	*/
 	GEAR_API virtual void setAnimationSegments(int numberOfSegments);
-	GEAR_API void setMatrixIndex( int index );
-	GEAR_API void setSegmentState( int state, int segment );
-	GEAR_API void setQuickBlend( int from, int to, float blendTime, int segment );
+	GEAR_API void setMatrixIndex(int index);
+	GEAR_API void setSegmentState(int state, int segment);
+	GEAR_API void setQuickBlend(int from, int to, float blendTime, int segment);
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:
@@ -55,6 +55,8 @@ public:
 	*/
 	GEAR_API void setTransitionTimes(float* transitionTimeArray, int numStates);
 
+	GEAR_API void setAnimationPlayTime(float animTime, int segment);
+
 	GEAR_API virtual void setStates(int numStates);
 
 	GEAR_API virtual void assembleAnimationsIntoShadermatrices();
@@ -67,7 +69,7 @@ protected:
 	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
 
 	/*
-	The difference between this and the other UpdateState() is that 
+	The difference between this and the other UpdateState() is that
 	animation time is set by transitionTime, and not by the animation.
 	*/
 	void updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime);
@@ -85,6 +87,10 @@ protected:
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
 	float animTimer;
 
+	//One timeMultiplier-element per segment
+	std::vector<float> timeMultiplier;
+	//Saves the time that the animation is allowed to play for. Used mainly to time attack-animations with spells.
+	std::vector<float> animationPlayTime;
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
 

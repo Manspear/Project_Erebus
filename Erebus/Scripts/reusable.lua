@@ -8,6 +8,7 @@ function BaseCharge(self, dt)
 end
 
 function BaseChargeCast(self, entity)
+	ZoomOutCamera()
 	self:Cast(entity, self.chargedTime)
 end
 

@@ -32,7 +32,6 @@ private:
 	float hitDistance;
 	const unsigned short RESERVE_COLLISIONS = 10;
 	bool active;
-	void clearCollisionIDs();
 	void clearHitData();
 	const int FLAG = 3;
 };

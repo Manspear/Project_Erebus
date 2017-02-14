@@ -227,4 +227,26 @@ namespace Nurn
 		return result;
 	}
 
+	void NurnEngine::pushPlayerEventPacket(const EventPacket& packet)
+	{
+		this->packager->pushPlayerEventPacket(packet);
+	}
+
+	bool NurnEngine::fetchPlayerEventPacket(EventPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getPlayerEventQueue()->pop(packet);
+
+		return result;
+	}
+
+
+
+
+	uint8_t NurnEngine::getPing() const
+	{
+		return this->networkDebug.getPing();
+	}
+
 }

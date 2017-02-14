@@ -2,15 +2,16 @@
 
 Packager::Packager()
 {
-	this->transformQueue = new PacketQueue<TransformPacket>(20);
-	this->animationQueue = new PacketQueue<AnimationPacket>(40);
+	this->transformQueue = new PacketQueue<TransformPacket>(10);
+	this->animationQueue = new PacketQueue<AnimationPacket>(10);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
 	this->spellQueue = new PacketQueue<SpellPacket>(10);
-	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
 	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
 	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
 	this->damageQueue = new PacketQueue<DamagePacket>(20);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
+	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
@@ -62,6 +63,11 @@ Packager::~Packager()
 		delete this->changeSpellsQueue;
 		this->changeSpellsQueue = 0;
 	}
+	if (this->playerEventQueue)
+	{
+		delete this->playerEventQueue;
+		this->playerEventQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -93,7 +99,8 @@ void Packager::buildNetPacket()
 	this->addChargingPackets(this->currentNetPacketSize, fullPackage);
 	this->addQuickBlendPackets(this->currentNetPacketSize, fullPackage);
 	this->addDamagePackets(this->currentNetPacketSize, fullPackage);
-	this->addChangeSpellsPackets(this->currentNetPacketSize,fullPackage);
+	this->addChangeSpellsPackets(this->currentNetPacketSize, fullPackage);
+	this->addPlayerEventPackets(this->currentNetPacketSize, fullPackage);
 	
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -144,6 +151,11 @@ void Packager::pushDamagePacket(const DamagePacket& packet)
 void Packager::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
 {
 	this->changeSpellsQueue->push(packet);
+}
+
+void Packager::pushPlayerEventPacket(const EventPacket& packet)
+{
+	this->playerEventQueue->push(packet);
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
@@ -395,6 +407,34 @@ void Packager::addChangeSpellsPackets(uint16_t& netPacketSize, bool& fullPackage
 		this->addMetaDataPacket(CHANGESPELLS_PACKET, netPacketSize, sizeOfChangeSpellsPackets);
 
 		netPacketSize += sizeOfChangeSpellsPackets; // Should now point at the location of the next MetaDataPacket
+	}
+}
+
+void Packager::addPlayerEventPackets(uint16_t& netPacketSize, bool& fullPackage)
+{
+	EventPacket eventPacketPacket;
+	uint16_t sizeOfEventPacketPackets = 0;
+
+	while (this->playerEventQueue->pop(eventPacketPacket) && fullPackage == false)
+	{
+		// Only add a packet if there's enough space for another EventPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfEventPacketPackets)) > sizeof(EventPacket))
+		{
+			// Add EventPacket to the memory ( ...[MetaData][Event][Event]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfEventPacketPackets, &eventPacketPacket, sizeof(EventPacket));
+			sizeOfEventPacketPackets += sizeof(EventPacket);
+		}
+		else
+		{
+			fullPackage = true;
+		}
+	}
+
+	if (sizeOfEventPacketPackets > 0)
+	{
+		this->addMetaDataPacket(PLAYER_EVENT_PACKET, netPacketSize, sizeOfEventPacketPackets);
+
+		netPacketSize += sizeOfEventPacketPackets; // Should now point at the location of the next MetaDataPacket
 	}
 }
 

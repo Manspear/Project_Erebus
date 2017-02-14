@@ -27,6 +27,10 @@ namespace LuaNetwork
 			{ "GetQuickBlendPacket", getQuickBlendPacket },
 			{ "SendDamagePacket", sendDamagePacket },
 			{ "GetDamagePacket", getDamagePacket },
+			{ "SendChangeSpellsPacket", sendChangeSpellsPacket },
+			{ "GetChangeSpellsPacket", getChangeSpellsPacket },
+			{ "SendPlayerEventPacket", sendPlayerEventPacket },
+			{ "GetPlayerEventPacket", getPlayerEventPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -375,6 +379,66 @@ namespace LuaNetwork
 		return 3;
 	}
 
+	int sendChangeSpellsPacket(lua_State* lua)
+	{
+		uint8_t spellSlot1 = lua_tointeger(lua, 1);
+		uint8_t spellSlot2 = lua_tointeger(lua, 2);
+		uint8_t spellSlot3 = lua_tointeger(lua, 2);
+
+		g_networkController->sendChangeSpellsPacket(ChangeSpellsPacket(spellSlot1, spellSlot2, spellSlot3));
+
+		return 0;
+	}
+
+	int getChangeSpellsPacket(lua_State* lua)
+	{
+		ChangeSpellsPacket changeSpellsPacket;
+
+		if (g_networkController->fetchChangeSpellsPacket(changeSpellsPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, changeSpellsPacket.data.spellSlot1);
+			lua_pushnumber(lua, changeSpellsPacket.data.spellSlot2);
+			lua_pushnumber(lua, changeSpellsPacket.data.spellSlot3);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 4;
+	}
+
+	int sendPlayerEventPacket(lua_State* lua)
+	{
+		uint8_t eventId = lua_tointeger(lua, 1);
+
+		g_networkController->sendPlayerEventPacket(EventPacket(eventId));
+
+		return 0;
+	}
+
+	int getPlayerEventPacket(lua_State* lua)
+	{
+		EventPacket playerEventPacket;
+
+		if (g_networkController->fetchPlayerEventPacket(playerEventPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, playerEventPacket.data.eventID);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 2;
+	}
+
 
 	int getNetworkHost(lua_State* lua)
 	{
@@ -386,7 +450,7 @@ namespace LuaNetwork
 
 	int shouldSendNewTransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastTransformPacket() > 0.01)
+		if (g_networkController->timeSinceLastTransformPacket() > 0.033)
 		{
 			lua_pushboolean(lua, true);
 		}
@@ -399,7 +463,7 @@ namespace LuaNetwork
 
 	int shouldSendNewAnimation(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastAnimationPacket() > 0.01)
+		if (g_networkController->timeSinceLastAnimationPacket() > 0.033)
 		{
 			lua_pushboolean(lua, true);
 		}
@@ -442,7 +506,7 @@ namespace LuaNetwork
 
 	int shouldSendNewAITransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastAITransformPacket() > 0.01)
+		if (g_networkController->timeSinceLastAITransformPacket() > 0.066)
 		{
 			lua_pushboolean(lua, true);
 		}

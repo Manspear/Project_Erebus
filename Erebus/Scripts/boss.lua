@@ -46,7 +46,6 @@ function UpdateBoss(dt)
 			if not boss.effects[i]:Update(boss, dt) then
 				boss.effects[i]:Deapply(boss)
 				table.remove(boss.effects, i)
-
 			end
 		end
 		for i = 1, #boss.spells do
@@ -55,7 +54,7 @@ function UpdateBoss(dt)
 			if boss.spellcooldowns[i] < 0 then
 				--print("shot")
 				boss.spellcooldowns[i] = BOSS_SPELLCD[i]
-				boss.spells[i]:Cast(boss)
+				--boss.spells[i]:Cast(boss)
 			end
 		end
 	end

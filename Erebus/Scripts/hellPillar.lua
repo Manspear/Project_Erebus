@@ -66,13 +66,14 @@ function CreateHellPillar(entity)
 			self.maxScale = 1
 			Transform.SetScale(spell.transformID, 0.2)
 			SphereCollider.SetRadius(self.sphereCollider, 0.8)
-			ZoomInCamera()
+			--ZoomInCamera()
 			self:GeneralCast()	
 		end
 	end
 
 	function spell:ChargeCast(entity)
-		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then		
+		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then	
+			ZoomOutCamera()	
 			self.cooldown = COOLDOWN_PILLAR	
 			self.startUpTime = 1.5		self.finishingTime = 4.5	self.startUpScale = 3
 			self.maxScale = 3
@@ -109,7 +110,6 @@ function CreateHellPillar(entity)
 			self:Aim()
 			self.timeSinceLastPoop = self.timeSinceLastPoop - dt
 			if self.timeSinceLastPoop < 0 then
-				ZoomOutCamera()
 				self.timeSinceLastPoop = 1000
 			end
 		end

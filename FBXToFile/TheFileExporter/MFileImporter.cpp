@@ -416,6 +416,8 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 			{
 				outFile.write((const char*)imScene.modelList[i].meshList[j].vertList.data(), sizeof(sVertex) * imScene.modelList[i].meshList[j].vertList.size());
 				bufferSize += sizeof(sVertex) * imScene.modelList[i].meshList[j].vertList.size();
+
+				std::cout << "Number of vertices: " << imScene.modelList[i].meshList[j].vertList.size() << std::endl;
 			}
 		}
 		//Skeletal vertices
@@ -432,7 +434,11 @@ void MFileImporter::writeToBinary(const char * fileDestination)
 		{
 			outFile.write((const char*)imScene.modelList[i].meshList[j].indexList.data(), sizeof(int) * imScene.modelList[i].meshList[j].indexList.size());
 			bufferSize += sizeof(int) * imScene.modelList[i].meshList[j].indexList.size();
+
+			std::cout << "Number of indices: " << imScene.modelList[i].meshList[j].indexList.size() << std::endl;
 		}
+
+
 		//Now dataHeader is updated
 		outFile.seekp(std::ios::beg);
 		outFile.write((const char*)&dataSize, sizeof(int));
@@ -465,18 +471,19 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 		index = imScene.modelList.back().meshList.size() - 1;
 
 	/*Reading all the information for a mesh in FBX.*/
+	std::cout << "Processing vertices" << std::endl;
 	processVertices(inputMesh);
-
+	std::cout << "Processing normals" << std::endl;
 	processNormals(inputMesh);
-
+	std::cout << "Processing tangents" << std::endl;
 	processTangents(inputMesh);
-
+	std::cout << "Processing UVs" << std::endl;
 	processUVs(inputMesh);
-
+	std::cout << "Processing materials" << std::endl;
 	processMaterials(inputMesh);
-
+	std::cout << "Processing textures" << std::endl;
 	processTextures(inputMesh);
-
+	std::cout << "Processing transformations" << std::endl;
 	processTransformations(inputMesh->GetNode(), TYPE, index);
 
 	processJoints(inputMesh, rootList, influenceOffset);
@@ -486,12 +493,12 @@ void MFileImporter::processMesh(FbxMesh * inputMesh, eObjectType TYPE)
 	//Performed last since blendweight-processing in joints need vertices to be in "per-vertex-per-triangle"
 
 	//Takes too long
-	//processIndexes();
+	processIndexes();
 
-	for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
-		imScene.modelList.back().meshList.back().indexList.push_back(i);
-	for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
-		imScene.modelList.back().meshList.back().indexList.push_back(i);
+	//for (int i = 0; i < imScene.modelList.back().meshList.back().animVertList.size(); i++)
+	//	imScene.modelList.back().meshList.back().indexList.push_back(i);
+	//for (int i = 0; i < imScene.modelList.back().meshList.back().vertList.size(); i++)
+	//	imScene.modelList.back().meshList.back().indexList.push_back(i);
 
 	/*CALLS ITSELF INFINITELY*/
 	//For eventual mesh-hierarchy
@@ -834,25 +841,58 @@ void checkIndexAgainstIndexedSkeletonList(bool& isUnique, int& offset, int& dupl
 	return;
 }
 //if isUnique false the main thread will have a modified duplicateIndex, if true main thread will push_back the unique vertex into the vertex buffer
-void checkIndexAgainstIndexedList(bool& isUnique, int& offset, int& duplicateIndex, std::vector<sVertex>& indexedList, sVertex& sceneVertex)
+//void checkIndexAgainstIndexedList(bool& isUnique, int& offset, int& duplicateIndex, std::vector<sVertex>& indexedList, sVertex& sceneVertex)
+//{
+//	isUnique = true;
+//	for (int j = offset; j < indexedList.size(); j++)
+//	{
+//		if (indexedList[j].pos == sceneVertex.pos)
+//		{
+//			if (indexedList[j].normal == sceneVertex.normal)
+//			{
+//				if (indexedList[j].UV == sceneVertex.UV)
+//				{
+//					duplicateIndex = j;
+//					isUnique = false;
+//					return;
+//				}
+//			}
+//		}
+//	}
+//	return;
+//}
+
+void checkIndexAgainstIndexedSkeletonList(bool& isUnique, std::vector<sSkeletonVertex>& indexedList, sVertex& inVert, int& duplicateIndex)
 {
-	isUnique = true;
-	for (int j = offset; j < indexedList.size(); j++)
+
+#pragma omp parallel
 	{
-		if (indexedList[j].pos == sceneVertex.pos)
+#pragma omp for
+		for (int j = 0; j < indexedList.size(); j++)
 		{
-			if (indexedList[j].normal == sceneVertex.normal)
+			if (std::memcmp((char*)&indexedList[j].vert, (char*)&inVert, sizeof(sVertex)) == 0)
 			{
-				if (indexedList[j].UV == sceneVertex.UV)
-				{
-					duplicateIndex = j;
-					isUnique = false;
-					return;
-				}
+				duplicateIndex = j;
+				isUnique = false;
 			}
 		}
 	}
-	return;
+}
+
+void checkIndexAgainstIndexedStaticList(bool& isUnique, std::vector<sVertex>& indexedList, sVertex& inVert, int& duplicateIndex)
+{
+#pragma omp parallel
+	{
+#pragma omp for
+		for (int j = 0; j < indexedList.size(); j++)
+		{
+			if (std::memcmp((char*)&indexedList[j], (char*)&inVert, sizeof(sVertex)) == 0)
+			{
+				duplicateIndex = j;
+				isUnique = false;
+			}
+		}
+	}
 }
 
 void MFileImporter::processIndexes()
@@ -860,6 +900,10 @@ void MFileImporter::processIndexes()
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// lets be fab
 	SetConsoleTextAttribute(hConsole, 8);
 	const char* name = imScene.modelList.back().name; //used for printing progress
+
+	std::cout << "Progress through indexing: 0%" << std::endl;
+
+	int counter = 0;
 	if (imScene.modelList.back().meshList.back().isAnimated)
 	{
 		std::vector<sSkeletonVertex> indexedList;
@@ -868,63 +912,32 @@ void MFileImporter::processIndexes()
 		//If all threads say "isUnique", then the value is unique.
 
 		size_t animVertListSize = imScene.modelList.back().meshList.back().animVertList.size();
+		int fraction = animVertListSize / 5;
 		for (int i = 0; i < animVertListSize; i++)
 		{
-			std::cout << name << " indexing :: Vertex: " << i+1 << " :out of " << animVertListSize << std::endl;
+			counter++;
+
+			if (counter == fraction || counter == fraction * 2 || counter == fraction * 3 || counter == fraction * 4 || counter >= animVertListSize)
+			{
+				std::cout << "Progress through indexing: " << ((float)counter / animVertListSize) * 100 << "%" << std::endl;
+			}
+
 			if (indexedList.size() > 4)
 			{
-				bool isUnique1;
-				bool isUnique2;
-				bool isUnique3;
-				bool isUnique4;
-				int duplicateIndex1 = -1;
-				int duplicateIndex2 = -1;
-				int duplicateIndex3 = -1;
-				int duplicateIndex4 = -1;
-				int rest = 4 % indexedList.size();
-				int fourth = indexedList.size() / 4;
-				int offset = fourth;
+				bool isUnique = true;
+				int duplicateIndex = -1;
 
-				std::thread t1(checkIndexAgainstIndexedSkeletonList, std::ref(isUnique1), std::ref(offset), std::ref(duplicateIndex1),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
-				offset += fourth;
-				std::thread t2(checkIndexAgainstIndexedSkeletonList, std::ref(isUnique2), std::ref(offset), std::ref(duplicateIndex2),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
-				offset += fourth;
-				std::thread t3(checkIndexAgainstIndexedSkeletonList, std::ref(isUnique3), std::ref(offset), std::ref(duplicateIndex3),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
-				offset += fourth + rest;
-				std::thread t4(checkIndexAgainstIndexedSkeletonList, std::ref(isUnique4), std::ref(offset), std::ref(duplicateIndex4),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().animVertList[i].vert));
+				/*Have all threads start at different locations in the for-loop going through the indexedList. */
+				checkIndexAgainstIndexedSkeletonList(isUnique, indexedList, imScene.modelList.back().meshList.back().animVertList[i].vert, duplicateIndex);
 
-				t1.join();
-				t2.join();
-				t3.join();
-				t4.join();
-
-				if (isUnique1 && isUnique2 && isUnique3 && isUnique4)
+				if (isUnique == false)
 				{
-					indexedList.push_back(imScene.modelList.back().meshList.back().animVertList[i]);
-					imScene.modelList.back().meshList.back().indexList.push_back(indexedList.size() - 1);
+					imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex);
 				}
 				else
 				{
-					if (duplicateIndex1 != -1)
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex1);
-					}
-					else if (duplicateIndex2 != -1)
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex2);
-					}
-					else if (duplicateIndex3 != -1)
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex3);
-					}
-					else
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex4);
-					}
+					indexedList.push_back(imScene.modelList.back().meshList.back().animVertList[i]);
+					imScene.modelList.back().meshList.back().indexList.push_back(indexedList.size() - 1);
 				}
 			}
 			else
@@ -954,74 +967,46 @@ void MFileImporter::processIndexes()
 				}
 			}
 		}
-		std::cout << name << " indexing :: indexing Done!"<< std::endl;
+		std::cout << name << " indexing :: indexing Done!" << std::endl;
 		imScene.modelList.back().meshList.back().animVertList = indexedList;
 	}
+	//IF STATIC
 	else
 	{
 		size_t vertListSize = imScene.modelList.back().meshList.back().vertList.size();
 		std::vector<sVertex> indexedList;
+		int fraction = vertListSize / 5;
+
 		for (int i = 0; i < vertListSize; i++)
 		{
-			std::cout << name <<  "indexing :: Vertex: " << i+1 << " :out of " << vertListSize << std::endl;
+			counter++;
+
+			if (counter == fraction || counter == fraction * 2 || counter == fraction * 3 || counter == fraction * 4 || counter >= vertListSize)
+			{
+				std::cout << "Progress through indexing: " << ((float)counter / vertListSize) * 100 << "%" << std::endl;
+			}
+
 			if (indexedList.size() > 4)
 			{
-				bool isUnique1;
-				bool isUnique2;
-				bool isUnique3;
-				bool isUnique4;
-				int duplicateIndex1 = -1;
-				int duplicateIndex2 = -1;
-				int duplicateIndex3 = -1;
-				int duplicateIndex4 = -1;
+				bool isUnique = true;
+				int duplicateIndex = -1;
 
-				int rest = 4 % indexedList.size();
-				int fourth = indexedList.size() / 4;
-				int offset = fourth;
-				std::thread t1(checkIndexAgainstIndexedList, std::ref(isUnique1), std::ref(offset), std::ref(duplicateIndex1),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().vertList[i]));
-				offset += fourth;
-				std::thread t2(checkIndexAgainstIndexedList, std::ref(isUnique2), std::ref(offset), std::ref(duplicateIndex2),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().vertList[i]));
-				offset += fourth;
-				std::thread t3(checkIndexAgainstIndexedList, std::ref(isUnique3), std::ref(offset), std::ref(duplicateIndex3),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().vertList[i]));
-				offset += fourth + rest;
-				std::thread t4(checkIndexAgainstIndexedList, std::ref(isUnique4), std::ref(offset), std::ref(duplicateIndex4),
-					std::ref(indexedList), std::ref(imScene.modelList.back().meshList.back().vertList[i]));
+				/*Have all threads start at different locations in the for-loop going through the indexedList. */
+				checkIndexAgainstIndexedStaticList(isUnique, indexedList, imScene.modelList.back().meshList.back().vertList[i], duplicateIndex);
 
-				t1.join();
-				t2.join();
-				t3.join();
-				t4.join();
-
-				if (isUnique1 && isUnique2 && isUnique3 && isUnique4)
+				if (isUnique == false)
+				{
+					imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex);
+				}
+				else
 				{
 					indexedList.push_back(imScene.modelList.back().meshList.back().vertList[i]);
 					imScene.modelList.back().meshList.back().indexList.push_back(indexedList.size() - 1);
 				}
-				else
-				{
-					if (duplicateIndex1 != -1)
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex1);
-					}
-					else if (duplicateIndex2 != -1)
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex2);
-					}
-					else if (duplicateIndex3 != -1)
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex3);
-					}
-					else if (duplicateIndex4 != -1)
-					{
-						imScene.modelList.back().meshList.back().indexList.push_back(duplicateIndex4);
-					}
-				}
 			}
 			else
 			{
+
 				bool isUnique = true;
 				for (int j = 0; j < indexedList.size(); j++)
 				{
@@ -1132,6 +1117,7 @@ void MFileImporter::processJoints(FbxMesh * inputMesh, std::vector<FbxNode*>& ro
 	size_t miniInfluenceOffset = 0;
 	for (int i = 0; i < deformercount; i++)
 	{
+		std::cout << "Started processing joints!" << std::endl;
 		sImSkeleton skel;
 		imScene.modelList.back().skeletonList.push_back(skel);
 
@@ -1146,6 +1132,7 @@ void MFileImporter::processJoints(FbxMesh * inputMesh, std::vector<FbxNode*>& ro
 
 		for (int j = 0; j < clusterCount; j++)
 		{
+			std::cout << "Processing animations for joint number: " << j << " of " << clusterCount << std::endl;
 			imScene.modelList.back().skeletonList.back().jointList.push_back(sImJoint());
 			//imScene.modelList.back().skeletonList.back().jointList.back().jointID = imScene.modelList.back().skeletonList.back().jointList.size() - 1 + influenceOffset;
 
@@ -2068,6 +2055,7 @@ void MFileImporter::processBlendWeightsAndIndices(FbxMesh * inputMesh, std::vect
 
 	for (int o = 0; o < inputMesh->GetDeformerCount(); o++)
 	{
+		std::cout << "Processing blendweights and indices" << std::endl;
 		FbxSkin* currSkin = reinterpret_cast<FbxSkin*>(inputMesh->GetDeformer(o, FbxDeformer::eSkin));
 		if (!currSkin)
 			continue;

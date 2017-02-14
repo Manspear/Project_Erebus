@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugNetwork.hpp" />
+    <ClInclude Include="EventPacket.hpp" />
+    <ClInclude Include="PingPacket.hpp" />
     <ClInclude Include="ChangeSpellsPacket.hpp" />
     <ClInclude Include="DamagePacket.hpp" />
     <ClInclude Include="QuickBlendPacket.hpp" />
@@ -44,6 +47,7 @@
     <ClInclude Include="UDPSocket.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DebugNetwork.cpp" />
     <ClCompile Include="Packager.cpp" />
     <ClCompile Include="PacketFilter.cpp" />
     <ClCompile Include="Address.cpp" />

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 class DebugNetwork
 {
 
@@ -9,7 +11,7 @@ public:
 	DebugNetwork();
 	~DebugNetwork();
 
-	void getPing();
+	uint8_t getPing() const;
 	void getMaxSizeOfQueue();
 
 	// Queue as parameter? Uneccessary to have a "getQueue()"?
@@ -22,5 +24,7 @@ public:
 	void writePacketInfoToFile();
 
 private:
+	uint8_t ping;
+
 
 };

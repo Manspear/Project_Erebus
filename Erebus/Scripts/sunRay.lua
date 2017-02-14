@@ -68,7 +68,7 @@ function CreateSunRay(entity)
 			self.tickInterval = 1.3
 			self.startUpScale.x = self.startUpScale.x * 0.55	self.startUpScale.y = self.startUpScale.y * 0.55	self.startUpScale.z = self.startUpScale.z / 2
 			self:GeneralCast()
-			ZoomInCamera()
+			--ZoomInCamera()
 		end
 	end
 
@@ -86,6 +86,7 @@ function CreateSunRay(entity)
 			self:GeneralCast()
 			self.chargedTime = 0.0
 			self.soundID[1] = Sound.Play(self.castSFX[1], 3, self.type.position)
+			ZoomOutCamera()
 		end
 	end
 
@@ -109,7 +110,6 @@ function CreateSunRay(entity)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
-		ZoomOutCamera()
 		self.type:Kill()
 	end
 
