@@ -83,7 +83,8 @@ void Gear::WorldImageRenderer::updateBuffer()
 void Gear::WorldImageRenderer::draw()
 {
 	shader->use();
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindVertexArray(VAO);
 
 	glEnableVertexAttribArray(0);
@@ -104,8 +105,8 @@ void Gear::WorldImageRenderer::draw()
 	bufferTextures.clear();
 	bufferQuads.clear();
 
-	/*glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);*/
+	/*glEnable(GL_DEPTH_TEST);*/
+	glDisable(GL_BLEND);
 
 	glBindVertexArray(0);
 

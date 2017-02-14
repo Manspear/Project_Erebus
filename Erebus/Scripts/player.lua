@@ -46,7 +46,11 @@ function LoadPlayer()
 	player.dashtime = 0
 	player.dashcd = 0
 	player.invulnerable = false
-	player.position = {}
+	player.position = Transform.GetPosition(player.transformID)
+	player.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.pingTexture = Assets.LoadTexture("Textures/ping.png")
+	player.pingDuration = 1
+	player.ping = 0
 
 	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
@@ -214,6 +218,9 @@ function UpdatePlayer(dt)
 		player.forward = 0
 		player.left = 0
 
+		if player.ping > 0 then
+			player.ping = player.ping - dt;
+		end
 
 		player.position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
@@ -273,6 +280,9 @@ function UpdatePlayer(dt)
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
 
+	--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
 		if v.collider:CheckCollision() then
@@ -322,6 +332,10 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
+		end
+		if Inputs.KeyDown("Q") then
+			Sound.Play("Effects/ping.wav", 1, player.position)
+			player.ping = player.pingDuration
 		end
 		if Inputs.KeyDown("T") then
 			local dir = Camera.GetDirection()

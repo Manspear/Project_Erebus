@@ -343,8 +343,7 @@ namespace Gear
 
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 
-		worldImage.update(camera);
-		worldImage.draw();
+		
 
 		debugHandler->draw( camera, &queue );
 
@@ -357,6 +356,8 @@ namespace Gear
 
 		queue.forwardPass(forwardModels, &uniValues);
 
+		worldImage.update(camera);
+		worldImage.draw();
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
