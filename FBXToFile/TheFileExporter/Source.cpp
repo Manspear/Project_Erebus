@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 		//fileIm.writeToBinary("C:/Users/GiS-1/Desktop/Goblin/");
 
 		fileIm.importFbx("C:/Git_Repos/Project_Erebus/FBXToFile/Models/player1Wizard.fbx", 24);
-		fileIm.writeToBinary("C:/Git_Repos/Project_Erebus/Erebus/Models/");
+		fileIm.writeToBinary("C:/Users/Taccoa/Documents/GitHub/Project_Erebus/FBXHelper/ModelAndMaterials");
 		printf("Finished with no errors! Press ENTER to exit");
 		getchar();
 		//
