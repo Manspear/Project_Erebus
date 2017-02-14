@@ -440,6 +440,13 @@ function UpdatePlayer2(dt)
 	if newQuickBlendValue == true then
 		player2.animationController:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
 	end
+	
+	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
+	if newChangeSpellsValue == true then
+		player2.spells[1] = SpellListPlayer2[changeSpell1].spell
+		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
+		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

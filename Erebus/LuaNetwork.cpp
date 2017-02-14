@@ -27,6 +27,8 @@ namespace LuaNetwork
 			{ "GetQuickBlendPacket", getQuickBlendPacket },
 			{ "SendDamagePacket", sendDamagePacket },
 			{ "GetDamagePacket", getDamagePacket },
+			{ "SendChangeSpellsPacket", sendChangeSpellsPacket },
+			{ "GetChangeSpellsPacket", getChangeSpellsPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -373,6 +375,39 @@ namespace LuaNetwork
 		}
 
 		return 3;
+	}
+
+	int sendChangeSpellsPacket(lua_State* lua)
+	{
+		uint8_t spellSlot1 = lua_tointeger(lua, 1);
+		uint8_t spellSlot2 = lua_tointeger(lua, 2);
+		uint8_t spellSlot3 = lua_tointeger(lua, 2);
+
+		g_networkController->sendChangeSpellsPacket(ChangeSpellsPacket(spellSlot1, spellSlot2, spellSlot3));
+
+		return 0;
+	}
+
+	int getChangeSpellsPacket(lua_State* lua)
+	{
+		ChangeSpellsPacket changeSpellsPacket;
+
+		if (g_networkController->fetchChangeSpellsPacket(changeSpellsPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, changeSpellsPacket.data.spellSlot1);
+			lua_pushnumber(lua, changeSpellsPacket.data.spellSlot2);
+			lua_pushnumber(lua, changeSpellsPacket.data.spellSlot3);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 4;
 	}
 
 

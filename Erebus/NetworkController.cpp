@@ -220,6 +220,16 @@ bool NetworkController::fetchDamagePacket(DamagePacket& packet)
 	return network.fetchDamagePacket(packet);
 }
 
+void NetworkController::sendChangeSpellsPacket(const ChangeSpellsPacket& packet)
+{
+	network.pushChangeSpellsPacket(packet);
+}
+
+bool NetworkController::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
+{
+	return network.fetchChangeSpellsPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);
