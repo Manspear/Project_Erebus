@@ -59,7 +59,9 @@ function CreateEnemy(type, position)
 		if source ~= player2 then
 			if Network.GetNetworkHost() == true then
 				self.health = self.health - damage
-		
+
+				Network.SendAIHealthPacket(self.transformID, self.health)
+
 				if self.health <= 0 then
 					--print("Dead for host", enemies[i].transformID)
 					self:Kill()
@@ -272,11 +274,18 @@ function UpdateEnemies(dt)
 		end
 
 	else
+		local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
+
 		-- Run client_AI script
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
 			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 			tempdt = dt * enemies[i].timeScalar
+
+			if newAIHealthVal == true and enemies[i].transformID == aiHealth_transformID then
+				--print("Do i reach here?", aiHealth_health)
+				enemies[i].health = aiHealth_health
+			end
 
 			if enemies[i].health > 0 then
 				enemies[i].animationController:AnimationUpdate(dt)

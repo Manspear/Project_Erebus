@@ -271,4 +271,18 @@ namespace Nurn
 
 		return result;
 	}
+
+	void NurnEngine::pushAIHealthPacket(const AIHealthPacket& packet)
+	{
+		this->packager->pushAIHealthPacket(packet);
+	}
+
+	bool NurnEngine::fetchAIHealthPacket(AIHealthPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAIHealthQueue()->pop(packet);
+
+		return result;
+	}
 }

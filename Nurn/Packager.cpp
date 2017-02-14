@@ -13,6 +13,8 @@ Packager::Packager(DebugNetwork * debugNetwork_ptr)
 	this->damageQueue = new PacketQueue<DamagePacket>(20);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
+	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 
@@ -31,6 +33,8 @@ Packager::Packager()
 	this->damageQueue = new PacketQueue<DamagePacket>(20);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
+	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
@@ -129,6 +133,7 @@ void Packager::buildNetPacket()
 	this->addDamagePackets(this->currentNetPacketSize, fullPackage);
 	this->addChangeSpellsPackets(this->currentNetPacketSize, fullPackage);
 	this->addPlayerEventPackets(this->currentNetPacketSize, fullPackage);
+	this->addAIHealthPackets(this->currentNetPacketSize, fullPackage);
 
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
@@ -184,6 +189,11 @@ void Packager::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
 void Packager::pushPlayerEventPacket(const EventPacket& packet)
 {
 	this->playerEventQueue->push(packet);
+}
+
+void Packager::pushAIHealthPacket(const AIHealthPacket& packet)
+{
+	this->aiHealthQueue->push(packet);
 }
 
 void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
@@ -463,6 +473,34 @@ void Packager::addPlayerEventPackets(uint16_t& netPacketSize, bool& fullPackage)
 		this->addMetaDataPacket(PLAYER_EVENT_PACKET, netPacketSize, sizeOfEventPacketPackets);
 
 		netPacketSize += sizeOfEventPacketPackets; // Should now point at the location of the next MetaDataPacket
+	}
+}
+
+void Packager::addAIHealthPackets(uint16_t& netPacketSize, bool& fullPackage)
+{
+	AIHealthPacket aiHealthPacket;
+	uint16_t sizeOfAIHealthPackets = 0;
+
+	while (this->aiHealthQueue->pop(aiHealthPacket) && fullPackage == false)
+	{
+		// Only add a packet if there's enough space for another ChangeSpellsPacket in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAIHealthPackets)) > sizeof(AIHealthPacket))
+		{
+			// Add ChangeSpellsPacket to the memory ( ...[MetaData][AIHealth][AIHealth]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfAIHealthPackets, &aiHealthPacket, sizeof(AIHealthPacket));
+			sizeOfAIHealthPackets += sizeof(AIHealthPacket);
+		}
+		else
+		{
+			fullPackage = true;
+		}
+	}
+
+	if (sizeOfAIHealthPackets > 0)
+	{
+		this->addMetaDataPacket(AI_HEALTH_PACKET, netPacketSize, sizeOfAIHealthPackets);
+
+		netPacketSize += sizeOfAIHealthPackets; // Should now point at the location of the next MetaDataPacket
 	}
 }
 

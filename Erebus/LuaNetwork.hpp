@@ -30,6 +30,8 @@ namespace LuaNetwork
 	int getChangeSpellsPacket(lua_State* lua);
 	int sendPlayerEventPacket(lua_State* lua);
 	int getPlayerEventPacket(lua_State* lua);
+	int sendAIHealthPacket(lua_State* lua);
+	int getAIHealthPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);

@@ -85,6 +85,9 @@ namespace Nurn
 
 		NURN_API void pushPlayerEventPacket(const EventPacket& packet);
 		NURN_API bool fetchPlayerEventPacket(EventPacket& packet);
+
+		NURN_API void pushAIHealthPacket(const AIHealthPacket& packet);
+		NURN_API bool fetchAIHealthPacket(AIHealthPacket& packet);
 		
 	private:
 		Address address;
