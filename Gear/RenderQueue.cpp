@@ -651,10 +651,12 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 				atLeastOne = true;
 			}
-		}
+		}*/
 
-		if (atLeastOne)*/
-		if( blendingModels->at(modelIndex).worldMatrices.size() > 0 )
+		numInstance = blendingModels->at(modelIndex).worldMatrices.size();
+
+		//if (atLeastOne)
+		if( numInstance > 0 )
 		{
 			modelAsset = blendingModels->at(modelIndex).asset;
 			meshes = modelAsset->getHeader()->numMeshes;
@@ -664,7 +666,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 
 			//uniforms for how many textures to send to the frag shader
 			//allShaders[TEXTURE_BLENDING]->setUniform4cfv(&tempMatrices[0][0][0], "worldMatrices", numInstance);
-			allShaders[TEXTURE_BLENDING]->setUniform4cfv( glm::value_ptr( blendingModels->at(modelIndex).worldMatrices[0] ), "worldMatrices", blendingModels->at(modelIndex).worldMatrices.size() );
+			allShaders[TEXTURE_BLENDING]->setUniform4cfv( glm::value_ptr( blendingModels->at(modelIndex).worldMatrices[0] ), "worldMatrices", numInstance );
 
 			for (int k = 0; k < numTextures; k++)
 			{

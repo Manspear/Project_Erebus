@@ -62,7 +62,7 @@ struct AnimationData
 void updateAnimation( void* args )
 {
 	AnimationData* data = (AnimationData*)args;
-	//data->animation->update( data->dt );
+	data->animation->update( data->dt );
 }
 
 DWORD WINAPI update( LPVOID args )

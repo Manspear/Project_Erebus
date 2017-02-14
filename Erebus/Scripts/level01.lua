@@ -63,9 +63,9 @@ local ID6name = {}
 --ID6name.transformID = Transform.Bind()
 ID6name.collider = SphereCollider.Create(-1)
 ID6name.collider:SetRadius(2)
---ID6name.collider:SetPosition(120,32,220)
+ID6name.collider:SetPos(120,32,220)
 CollisionHandler.AddSphere(ID6name.collider, 4)
-ID6name.OnTrigger = function() Gear.Print("Triggered", 400, 400) end
+ID6name.OnTrigger = function() Gear.Print(os.date(), 400, 400) end
 ID6name.triggered = false
 table.insert(triggers,ID6name)
 ID6name = nil

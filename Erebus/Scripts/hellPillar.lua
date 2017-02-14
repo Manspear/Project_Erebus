@@ -27,7 +27,9 @@ function CreateHellPillar(entity)
 	spell.maxChargeTime = 3
 	--Set up collider, model and transform for the pillar
 	spell.riseFactor = 0.1
-	spell.transformID = Transform.Bind()
+	--spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
+	spell.transformID = Gear.BindBlendingInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
@@ -36,8 +38,7 @@ function CreateHellPillar(entity)
 	--local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
 	--Gear.AddBlendingInstance(model, spell.transformID)
 
-	-- TODO(Niclas): Put this back
-	--Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
+	Gear.SetBlendTextures(spell.transformID, 2, spell.texture1, spell.texture2)
 
 	spell.effectflag = false
 	spell.damage = MAX_DAMAGE_PILLAR
@@ -178,7 +179,7 @@ function CreateHellPillar(entity)
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 0.3 * dt
 
-			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
+			Gear.SetBlendUniformValue(self.transformID, 2, self.blendValue1, self.blendValue2)
 			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 2 * dt end
 			
 			Transform.SetScaleNonUniform(self.transformID, 1, self.riseFactor, 1)
