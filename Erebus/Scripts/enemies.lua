@@ -7,7 +7,7 @@ ENEMY_MELEE = 1
 ENEMY_RANGED = 2
 enemies = {}
 
-COUNTDOWN = 0
+COUNTDOWN = -1
 --tempPlayerPosition = Transform.GetPosition(player.transformID)
 
 SFX_AGGRO = "Goblin/Voice/Goblin laugh aggro.ogg"
@@ -169,16 +169,17 @@ function UpdateEnemies(dt)
 		--print ("Clear")
 		
 		COUNTDOWN = 0.4
-		print("INNER: ",player.nrOfInnerCircleEnemies)
-		print("OUTER: ",player.nrOfOuterCircleEnemies)
+		--print("INNER: ",player.nrOfInnerCircleEnemies)
+		--print("OUTER: ",player.nrOfOuterCircleEnemies)
 
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
+			
 			AI.ClearMap(enemies[i].lastPos,0)
-
 			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 			AI.AddIP(enemies[i].transformID,-1,0)
+			calculatePlayerTarget(enemies[i])
 		end
 		AI.ClearMap(player.lastPos,0)
 		player.lastPos = Transform.GetPosition(player.transformID)
@@ -186,7 +187,10 @@ function UpdateEnemies(dt)
 		AI.AddIP(player.transformID,1,0)
 		
 	end
-	aiScript.updateEnemyManager(enemies,player)
+	
+	aiScript.updateEnemyManager(enemies)
+
+
 	local tempdt
 
 	if Network.GetNetworkHost() == true then
@@ -196,15 +200,19 @@ function UpdateEnemies(dt)
 			tempdt = dt * enemies[i].timeScalar
 			if enemies[i].health > 0 then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
-				AI.AddIP(enemies[i].transformID,-1)
-				aiScript.update(enemies[i],player,tempdt)
+				--AI.AddIP(enemies[i].transformID,-1)
+				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 
 				local pos = Transform.GetPosition(enemies[i].transformID)
 
-				local posx = math.floor(pos.x/512)
-				local posz = math.floor(pos.z/512)
-				local heightmapIndex = (posz*2 + posx)+1
+				local heightmapIndex = 1
+
+				for i = 1, #heightmaps do
+					if heightmaps[i].asset:Inside(pos) then
+						heightmapIndex = i
+					end
+				end
 
 				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
 				pos.y = pos.y - 10*dt
@@ -266,6 +274,22 @@ function UpdateEnemies(dt)
 				end
 			end
 		end
+	end
+end
+
+function calculatePlayerTarget(enemy)
+	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
+	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
+
+	if lengthToP1 < lengthToP2 then
+		enemy.playerTarget = player
+	else
+		enemy.playerTarget = player2
+	end
+
+
+	if player2 == nil then
+		enemy.playerTarget = player
 	end
 end
 

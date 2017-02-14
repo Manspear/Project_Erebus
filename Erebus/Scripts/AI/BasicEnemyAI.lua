@@ -5,7 +5,7 @@ local baseReturn = {}
 local enemyManager = {nrOfOuterCircleEnemies = 0,nrOfInnerCircleEnemies = 0,actionEnemy = -1}
 
 
-local function updateEnemyManager(enemies,player)
+local function updateEnemyManager(enemies)
 		outerCounter = 0
 		innerCounter = 0
 		for i=1, #enemies do
@@ -22,7 +22,7 @@ local function updateEnemyManager(enemies,player)
 
 			if enemies[i].insideInnerCircleRange == true then
 				if enemies[i].state.stateName == "PositioningInnerState" then
-					inPos = AI.SetSpecificTarget(player.transformID,player.innerCirclerange,player.nrOfInnerCircleEnemies,innerCounter)
+					inPos = AI.SetSpecificTarget(enemies[i].playerTarget.transformID,player.innerCirclerange,player.nrOfInnerCircleEnemies,innerCounter)
 					length = AI.DistanceTransPos(enemies[i].transformID,inPos)
 
 					
