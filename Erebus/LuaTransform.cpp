@@ -140,12 +140,24 @@ namespace LuaTransform
 
 	int activeControl(lua_State* lua)
 	{
-		assert( lua_gettop( lua ) == 2 );
+		/*assert( lua_gettop( lua ) == 2 );
 
 		int index = (int)lua_tointeger(lua, 1);
 		bool active = lua_toboolean(lua, 2) != 0;
 
 		g_transforms[index].setActive( active);
+
+		return 0;*/
+
+		assert( lua_gettop( lua ) == 2 );
+
+		int index = (int)lua_tointeger( lua, 1 );
+		bool active = (bool)lua_toboolean( lua, 2 );
+
+		if( active )
+			g_transformHandler->activateTransform( index );
+		else
+			g_transformHandler->deactivateTransform( index );
 
 		return 0;
 	}

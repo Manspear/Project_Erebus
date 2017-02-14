@@ -43,5 +43,6 @@ private:
 	std::vector<ModelInstance>* instances[MAX_INSTANCE_TYPES];
 
 	std::vector<TransformHandle> handles;
-	int lastIndices[MAX_INSTANCE_TYPES];
+	//int lastIndices[MAX_INSTANCE_TYPES];
+	std::vector<int> lastIndices[MAX_INSTANCE_TYPES];
 };

@@ -215,7 +215,8 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 		}
 		if (numInstance != 0)*/
 
-		numInstance = dynamicModels->at(i).worldMatrices.size();
+		//numInstance = dynamicModels->at(i).worldMatrices.size();
+		numInstance = dynamicModels->at(i).activeTransforms;
 		if( numInstance > 0 )
 		{
 			modelAsset = dynamicModels->at(i).asset;
@@ -329,7 +330,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		modelAsset = dynamicModels->at(i).asset;
 		meshes = modelAsset->getHeader()->numMeshes;
 		//numInstance = 0;
-		numInstance = dynamicModels->at(i).worldMatrices.size();
+		//numInstance = dynamicModels->at(i).worldMatrices.size();
+		numInstance = dynamicModels->at(i).activeTransforms;
 
 		// TEMP: Shouldn't have any models without material
 		if (modelAsset->getMaterial())
@@ -391,7 +393,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
-		for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
+		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
+		for( int j=0; j<animatedModels->at(i).activeTransforms; j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
 			{
@@ -459,7 +462,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}*/
 
-		int numInstance = dynamicModels->at(i).worldMatrices.size();
+		//int numInstance = dynamicModels->at(i).worldMatrices.size();
+		int numInstance = dynamicModels->at(i).activeTransforms;
 
 		size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 
@@ -521,7 +525,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
-		for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
+		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
+		for( int j=0; j<animatedModels->at(i).activeTransforms; j++ )
 		{
 			//int index = animatedModels->at(i).worldIndices.at(i);
 			//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
@@ -653,7 +658,8 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 			}
 		}*/
 
-		numInstance = blendingModels->at(modelIndex).worldMatrices.size();
+		//numInstance = blendingModels->at(modelIndex).worldMatrices.size();
+		numInstance = blendingModels->at(i).activeTransforms;
 
 		//if (atLeastOne)
 		if( numInstance > 0 )
