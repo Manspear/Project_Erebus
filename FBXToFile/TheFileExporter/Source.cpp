@@ -1,6 +1,8 @@
 #include "MFileImporter.h"
 #include <iostream>
 #include <sstream>
+#include <chrono>
+#include <ctime>
 using namespace std;
 int main(int argc, char *argv[])
 {
@@ -61,8 +63,19 @@ int main(int argc, char *argv[])
 		//fileIm.importFbx("C:/Users/GiS-1/Desktop/Goblin/Goblin.fbx", 24);
 		//fileIm.writeToBinary("C:/Users/GiS-1/Desktop/Goblin/");
 
+		std::chrono::time_point<std::chrono::system_clock> start, end;
+		start = std::chrono::system_clock::now();
+
 		fileIm.importFbx("C:/Git_Repos/Project_Erebus/FBXToFile/Models/player1Wizard.fbx", 24);
 		fileIm.writeToBinary("C:/Git_Repos/Project_Erebus/Erebus/Models/");
+
+		end = std::chrono::system_clock::now();
+
+		std::chrono::duration<double> elapsed_seconds = end - start;
+		std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+		cout << "Export started at time: " << std::ctime(&end_time) << "Export time: " << elapsed_seconds.count() << endl;
+
 		printf("Finished with no errors! Press ENTER to exit");
 		getchar();
 		//
