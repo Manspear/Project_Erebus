@@ -299,6 +299,9 @@ int main()
 				fullscreen = threadData.fullscreen;
 			}
 
+			if( threadData.queueModels )
+				engine.queueDynamicModels( &models );
+
 			engine.update();
 			soundEngine.update(deltaTime);
 			camera.updateBuffer();
@@ -307,9 +310,6 @@ int main()
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
-
-			if( threadData.queueModels )
-				engine.queueDynamicModels( &models );
 
 			window.update();
 			engine.draw(&camera);

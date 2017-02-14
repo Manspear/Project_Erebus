@@ -205,7 +205,7 @@ namespace Gear
 	{
 		dynamicModels = models;
 
-		updateTransforms( dynamicModels );
+		//updateTransforms( dynamicModels );
 
 		for (auto &m : *dynamicModels)
 			m.allocateBuffer();
@@ -363,7 +363,7 @@ namespace Gear
 		updateLight();
 		removeLight();
 
-		//updateTransforms( dynamicModels );
+		updateTransforms( dynamicModels );
 		updateTransforms( animatedModels );
 		updateTransforms( forwardModels );
 		updateTransforms( blendModels );
