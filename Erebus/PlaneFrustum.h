@@ -18,6 +18,8 @@ public:
 
 
 	//getters
+	glm::vec3 getNormal() const;
+
 private:
 	glm::vec3 normal, point;
 	float d;
