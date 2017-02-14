@@ -92,15 +92,16 @@
     <ClCompile Include="LuaUI.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="PlaneFrustum.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="LuaLight.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Source Files\Collider\FrustumCulling</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneFrustum.cpp">
+      <Filter>Source Files\Collider\FrustumCulling</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -193,15 +194,16 @@
     <ClInclude Include="LuaUI.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="PlaneFrustum.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="LuaLight.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Header Files\Collider\FrustumCulling</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneFrustum.h">
+      <Filter>Header Files\Collider\FrustumCulling</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
@@ -540,6 +542,12 @@
     </Filter>
     <Filter Include="Scripts\UI">
       <UniqueIdentifier>{8c25589e-b3cf-4cef-b42a-c67b5dc0f631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collider\FrustumCulling">
+      <UniqueIdentifier>{d07f86d8-eb64-4fcf-b062-b010e50b9011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collider\FrustumCulling">
+      <UniqueIdentifier>{fca5ce19-6a24-48fd-9ccf-f7bfca00b70f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -179,6 +179,7 @@
     <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
     <ClCompile Include="PlaneFrustum.cpp" />
+    <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="RayCollider.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="source.cpp" />
@@ -331,6 +332,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlaneFrustum.h" />
+    <ClInclude Include="QuadTree.h" />
     <ClInclude Include="RayCollider.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SphereCollider.h" />
