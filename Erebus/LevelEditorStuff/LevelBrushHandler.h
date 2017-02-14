@@ -27,10 +27,8 @@ public:
 	void updateBrushBar(); //nothing here right now
 
 	void setIsRotation(bool t_f);
-	void setIsScale(bool t_f);
 
 	bool getIsRotation();
-	bool getIsScale(); //return 
 
 	void undoLastBrushAction(); //deletes actors placed on last mousebutton1 down
 
@@ -39,11 +37,12 @@ public:
 	void update(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs, Debug* debug);
 
 private:
-	int numSavedPositions = 20;
+	int numSavedPositions = 1000;
 
 	float PIx2 = 6.2832;
 	float radius = 1;
-	float VacancyRadius = 5;
+	float VacancyRadius = 3;
+	float OBJTiltTolerance = 0.25;
 	float yOffset = 0;
 	
 	float maxScale = 1;

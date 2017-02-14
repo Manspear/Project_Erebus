@@ -28,6 +28,7 @@ public:
 	GEAR_API glm::mat4 getProjectionMatrix();
 	GEAR_API glm::vec3 getPosition();								//returns position of camera
 	GEAR_API glm::vec3 getDirection();								//returns look direction of camera
+	GEAR_API void setDirection(glm::vec3 direction);				//call updateBuffer() to update viewMatrix
 	GEAR_API void updateLevelEditorCamera(float dt);
 	GEAR_API glm::vec3 &getRefPosition();
 	GEAR_API glm::vec3 &getRefDirection();

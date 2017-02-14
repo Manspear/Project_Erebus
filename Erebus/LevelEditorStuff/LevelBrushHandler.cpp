@@ -60,6 +60,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 
 	TwAddVarRW(actionBar->getBar(), "Radius", TW_TYPE_FLOAT, &this->radius, "label=Radius min=0.1");
 	TwAddVarRW(actionBar->getBar(), "Vacansy", TW_TYPE_FLOAT, &this->VacancyRadius, "label=Vacansy min=0.1");
+	TwAddVarRW(actionBar->getBar(), "tilt", TW_TYPE_FLOAT, &this->OBJTiltTolerance, "label=TiltTol min=0.1 max=1");
 	TwAddSeparator(actionBar->getBar(), "brushSep2", NULL);
 	
 	
@@ -78,6 +79,7 @@ void LevelBrushHandler::setTweakBar(TweakBar * brushBar)
 }
 void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs,Debug* debug)
 {
+#pragma region UndoButton
 
 	if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1))
 	{
@@ -88,31 +90,58 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 		}
 	}
 
-	//draw debug
+#pragma endregion
+
 	int actorID = 0;
 	glm::vec3 hitPoint(0.0f);
 	glm::vec3 hitNorm(0.f);
+
+	glm::vec3 oldCamDirection = camera->getDirection();
+	glm::vec3 oldCamPos = camera->getPosition();
+
+	
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
 	
-	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));
-	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1));
-	//end of draw
-
-	if (hitNorm.y < 0.65) //dont draw if very steep platform
-		return;
-
-	
-	glm::vec3 newHitPoint;
-	
-	hitPoint.x = (hitPoint.x += RNG::range((-this->radius),this->radius) );
-	hitPoint.z = (hitPoint.z += RNG::range((-this->radius),this->radius) );
-	hitPoint.y = hitPoint.y + yOffset;	
+	debug->drawLine(hitPoint, hitPoint + (hitNorm * this->radius * 2.5));//draw brush indicators
+	debug->drawSphere(hitPoint, this->radius, glm::vec3(1, 0, 1)); //draw brush indicators
 	
 	timer -= deltaTime;
-	
 
 	if (inputs->buttonPressed(GLFW_MOUSE_BUTTON_1) && timer <=0)
 	{
+		//Randomize brush position
+		hitPoint.x = (hitPoint.x += RNG::range((-this->radius), this->radius));
+		hitPoint.z = (hitPoint.z += RNG::range((-this->radius), this->radius));
+		hitPoint.y = hitPoint.y + yOffset;
+
+		//set upp camera for additional picking pass
+		glm::vec3 ortogonalCamAboveHitpoint = glm::vec3(hitPoint.x, (hitPoint.y + 3), hitPoint.z); //Make an additional draw call above hitpoint	
+		camera->setPosition(ortogonalCamAboveHitpoint);
+		camera->setDirection(glm::normalize(glm::vec3(-0.01, -0.98, -0.01)));
+		
+		camera->updateBuffer();
+		camera->updateLevelEditorCamera(deltaTime);
+
+		MousePos pos;
+		pos.x = WINDOW_WIDTH / 2;
+		pos.y = WINDOW_HEIGHT / 2;
+		
+		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, pos, actorID, hitPoint, hitNorm);
+
+		//return camera to original position
+		camera->setPosition(oldCamPos);
+		camera->setDirection(oldCamDirection);
+
+		camera->updateBuffer();
+		camera->updateLevelEditorCamera(deltaTime);
+
+		//if (hitNorm.x > OBJTiltTolerance || hitNorm.z > OBJTiltTolerance )
+		if (hitNorm.y < 1.01 - OBJTiltTolerance)
+		{
+			return;
+		}
+			
+
 		if (this->preventOverDraw == false)
 		{
 			for (glm::vec3 position : earlierPositions)
@@ -133,7 +162,7 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 		if (newActor)
 		{
 			LevelActorHandler::getInstance()->addActor(newActor);
-			LevelActorHandler::getInstance()->setSelected(newActor);
+			//LevelActorHandler::getInstance()->setSelected(newActor);
 			newActor->setActorType(saveAsType);
 			newActor->setActorDisplayName(LevelActorHandler::getInstance()->tryActorName(newActor->getActorDisplayName()));
 		
@@ -153,7 +182,7 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 				transform->getTransformRef()->setScale(scale);
 			}
 			
-			timer = 0.2;
+			timer = 0.16;
 			earlierPositions.insert(earlierPositions.begin(),hitPoint);
 			earlierPositions.pop_back();
 		

@@ -24,7 +24,7 @@ public:
 	void setIDTransform(unsigned int ID);
 	void setID(unsigned int ID);
 	void setPosition(glm::vec3 position);
-	void setDirection(glm::vec3 direction);
+	void setDirection(glm::vec3 direction); 
 	void hit(glm::vec3 intersectionPoint, float hitDistance);
 
 private:
