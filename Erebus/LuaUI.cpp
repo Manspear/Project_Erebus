@@ -122,11 +122,11 @@ namespace LuaUI {
 		int result = 0;
 		if (lua_gettop(lua) >= 5)
 		{
-			int posX = (int)lua_tonumber(lua, 1);
-			int posY = (int)lua_tonumber(lua, 2);
-			int posZ = (int)lua_tonumber(lua, 3);
-			int sizeX = (int)lua_tonumber(lua, 4);
-			int sizeY = (int)lua_tonumber(lua, 5);
+			float posX = (float)lua_tonumber(lua, 1);
+			float posY = (float)lua_tonumber(lua, 2);
+			float posZ = (float)lua_tonumber(lua, 3);
+			float sizeX = (float)lua_tonumber(lua, 4);
+			float sizeY = (float)lua_tonumber(lua, 5);
 
 			sWorldImage* image = new sWorldImage(glm::vec3(posX, posY, posZ), (float)sizeX, (float)sizeY);
 			if (image)
@@ -224,8 +224,8 @@ namespace LuaUI {
 
 			if (worldImage != NULL)
 			{
-				int sizeX = (int)lua_tonumber(lua, 2);
-				int sizeY = (int)lua_tonumber(lua, 3);
+				float sizeX = (float)lua_tonumber(lua, 2);
+				float sizeY = (float)lua_tonumber(lua, 3);
 
 				worldImage->height = (float)sizeY;
 				worldImage->width = (float)sizeX;

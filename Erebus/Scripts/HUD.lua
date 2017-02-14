@@ -37,7 +37,7 @@ function UnloadHUD()
 end
 
 function UpdateHUD(dt)
-
+	
 	UI.reposWorld(screenImages["temp"], Transform.GetPosition(player.tranformID).x, y2, Transform.GetPosition(player.tranformID).z)
 
 	if playerHealthCurrent > player.health then
@@ -105,9 +105,12 @@ function DrawHUD()
 	UI.drawImage(screenImages[2], imageTextures["number2"]);
 	UI.drawImage(screenImages[3], imageTextures["number3"]);
 
-	UI.drawWorldImage(screenImages["temp"], imageTextures["healthBackground"]);
+	--UI.drawWorldImage(screenImages["temp"], imageTextures["healthBackground"]);
 
 	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
+	for i=1, #enemies do
+		UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
+	end
 end
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }
