@@ -13,11 +13,12 @@ end
 
 MAX_CHARGE = 1
 function CreateChargeThing(entity)
+	print("createCharge")
 	local chargeThing = {}
 	chargeThing.timer = 0
 
 	chargeThing.transformID = Transform.Bind()
-	local model = Assets.LoadModel("Models/pPlane1.model")
+	local model = Assets.LoadModel("Models/SpellChargeSphere.model")
 	chargeThing.modelIndex = Gear.AddForwardInstance(model, chargeThing.transformID)
 	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
@@ -36,13 +37,21 @@ function CreateChargeThing(entity)
 	chargeThing.scaleSmall = {x = 0, y = 0.1, z = 0}
 
 	chargeThing.rotLarge = {x = 0, y = 0, z = 0}
-	chargeThing.scaleLarge = {x = 0, y = 1, z = 0}
+	chargeThing.scaleLarge = {x = 0, y = 1.5, z = 0}
 
 	chargeThing.pos = {x = 0, y = 0, z = 0}
 	chargeThing.UVpushed = 0	
 
+	function chargeThing:TEST(position)
+		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		Transform.SetPosition(chargeThing.transformID2, chargeThing.pos)
+
+		end
+
 	function chargeThing:Charging(position, dt, chargePower)
+		--print("CHARGING!")
 		chargeThing.timer = chargeThing.timer + dt
+		Transform.SetScaleNonUniform(chargeThing.transformID, 1,1,1)
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
 		chargeThing.pos.y = chargeThing.pos.y - 1
 
@@ -64,8 +73,9 @@ function CreateChargeThing(entity)
 
 		if(chargeThing.timer > 0.75) then
 		
-			if(chargeThing.scaleLarge.x < 6) then
+			if(chargeThing.scaleLarge.x < 3) then
 				chargeThing.scaleLarge.x = chargeThing.scaleLarge.x + (chargePower * chargePower * 30) * dt
+				chargeThing.scaleLarge.Y = chargeThing.scaleLarge.y + (chargePower * chargePower * 30) * dt
 				chargeThing.scaleLarge.z = chargeThing.scaleLarge.z + (chargePower * chargePower * 30) * dt
 			end
 
@@ -82,7 +92,7 @@ function CreateChargeThing(entity)
 
 	function chargeThing:EndCharge() 
 		chargeThing.scaleSmall = {x = 0, y = 0.1, z = 0}
-		chargeThing.scaleLarge = {x = 0, y = 1, z = 0}
+		chargeThing.scaleLarge = {x = 0, y = 1.5, z = 0}
 		Transform.ActiveControl(chargeThing.transformID, false)
 		Transform.ActiveControl(chargeThing.transformID2, false)  
 		Transform.SetPosition(chargeThing.transformID,  {x = 0, y = 0, z = 0})
@@ -90,6 +100,7 @@ function CreateChargeThing(entity)
 		chargeThing.particles.die()
 	end
 	function chargeThing:StartCharge(position) 
+		
 		chargeThing.timer = 0
 		Transform.ActiveControl(chargeThing.transformID, true)
 		Transform.ActiveControl(chargeThing.transformID2, true)  

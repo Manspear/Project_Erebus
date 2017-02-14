@@ -330,13 +330,15 @@ function Controls(dt)
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)
-			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
+			--player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime) --this is where it happens
+			player.charger:TEST(player.position)
 			player.charging = true
 		end
 
 		if Inputs.ButtonPressed(Buttons.Right) then 
 			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 			player.charger:StartCharge(player.position) 
+			
 		end
 		
 		if Inputs.ButtonReleased(Buttons.Right) then
