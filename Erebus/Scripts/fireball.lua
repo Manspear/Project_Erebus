@@ -1,88 +1,176 @@
-FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-FIREBALLLIFETIME = 2
-FIREBALLMAXCHARGETIME = 3
-FIREBALLDAMAGE = 3
+FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.png");
+FIRESPAM_COOLDOWN = 0.6
+FIREBALL_COOLDOWN = 8
+FIRESPAM_SPEED = 120
+FIREBALL_SPEED = 60
+MIN_CHARGETIME_FIREBALL = 0.5
+FIREBALL_BASE_DMG = 20
 
 function CreateFireball(entity)
-	local fireball = {}
-	fireball.type = CreateProjectileType()
-	fireball.owner = entity
-	fireball.effect = CreateFireEffect --reference to function
-	fireball.lifeTime = FIREBALLLIFETIME
-	fireball.damage = 0
-	fireball.alive = false
-	fireball.speed = 100
-	fireball.particles = createFireballParticles() --particles
-	fireball.effectFlag = false
-	fireball.maxChargeTime = FIREBALLMAXCHARGETIME
-	fireball.chargedTime = 0
-	fireball.castSFX = "Effects/burn_ice_001.wav"
-	fireball.deathSFX = "Effects/explosion.wav"
-	fireball.hudtexture = FIREBALL_SPELL_TEXTURE
-	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
+	function initSmallFireball()
+		local tiny = {}
+		tiny.type = CreateProjectileType()
+		tiny.damage = 1
+		tiny.alive = false
+		tiny.lifeTime = 1.8
+		tiny.hits = {}
+		local model = Assets.LoadModel( "Models/grenade.model" )
+		Gear.AddForwardInstance(model, tiny.type.transformID)
+		tiny.particles = createIceGrenadeParticles()
+		return tiny
+	end
+	--General variables
+	local spell = {}
+	spell.damage = FIREBALL_BASE_DMG
+	spell.isActiveSpell = false		spell.aSmallIsActive = 0
+	spell.cooldown = 0		spell.maxcooldown = FIREBALL_COOLDOWN
+	spell.chargedTime = 0	spell.maxChargeTime = 3
+	spell.caster = entity.transformID
+	spell.owner = entity
+	spell.spamCooldown = FIRESPAM_COOLDOWN
+	--Small spamming fireballs
+	spell.smallFB = {}		spell.currentFB = 1
+	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
+	--Big fireball
+	spell.bigBallActive = false
+	spell.bigBallID = Transform.Bind()	
+	spell.ballParticles = createChargeParticles()
+	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
+	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
+	spell.position = {x = 0, y = 0, z = 0}
+	SphereCollider.SetActive(spell.sphereCollider, false)
+	Transform.ActiveControl(spell.bigBallID, false)
+	local model = Assets.LoadModel("Models/projectile1.model")
+	Gear.AddStaticInstance(model, spell.bigBallID)
+	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
 
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddStaticInstance(model, fireball.type.transformID)
+	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 
-	function fireball:Update(dt)
-		hits = self.type:Update(dt)
-		Sound.SetPosition(self.soundID, self.type.position)
-		self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z)
-		for index = 1, #hits do
-			if hits[index].Hurt then
-				self.particles.die(self.type.position)
-				if self.effectFlag then
-					table.insert(hits[index].effects, self.effect())
+	function spell:Update(dt)
+		self.spamCooldown = self.spamCooldown - dt
+		if self.aSmallIsActive > 0 then
+			self:UpdateSmallFBs(dt)
+		end
+		if self.bigBallActive then
+			self:BigBallUpdate(dt)
+		else	self.cooldown = self.cooldown - dt end
+	end
+	
+	function spell:UpdateSmallFBs(dt)
+		for i = 1, 4 do 
+			if self.smallFB[i].alive then 
+				self.smallFB[i].particles.update(self.smallFB[i].type.position)
+				self.smallFB[i].type:Update(dt)
+
+				local collisionIDs = self.smallFB[i].type.sphereCollider:GetCollisionIDs()
+				for curID = 1, #collisionIDs do
+					for curEnemy=1, #enemies do
+						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+							enemies[curEnemy]:Hurt(self.smallFB[i].damage, self.owner)
+							self:SpamFireball(i)
+						end
+					end
 				end
-				hits[index]:Hurt(self.damage, fireball.owner)
-				self:Kill()
+				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
+				if(self.smallFB[i].lifeTime < 0) then 
+					self:SpamFireball(i)
+				end
+			end		
+		end	
+	end
+
+	function spell:Cast(entity)
+		if self.spamCooldown < 0 and not self.bigBallActive then
+			self.spamCooldown = FIRESPAM_COOLDOWN
+			self.aSmallIsActive = self.aSmallIsActive + 1
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].particles.cast()
+			self.smallFB[self.currentFB].lifeTime = 2.1	
+			self.smallFB[self.currentFB].alive = true
+			if self.currentFB < 4 then		
+				self.currentFB = self.currentFB + 1
+			else	self.currentFB = 1
 			end
 		end
-		self.lifeTime = self.lifeTime - dt
-
-		--[[local posx = math.floor(self.type.position.x/512)
-		local posz = math.floor(self.type.position.z/512)
-		local heightmapIndex = (posz*2 + posx)+1
-		if heightmapIndex < 1 then heightmapIndex = 1 end
-		if heightmapIndex > 4 then heightmapIndex = 4 end
-		if heightmaps[heightmapIndex].asset:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y or self.lifeTime < 0 then
-			self.particles.die(self.type.position)
-			self.Kill(self)
-		end--]]
-
-		local hm = GetHeightmap(self.type.position)
-		if hm and hm.asset:GetHeight(self.type.position.x, self.type.position.z) > self.type.position.y then
-			self.particle.die(self.type.position)
-			self.Kill(self)
-		end
-
-		if self.alive and self.lifeTime < 0 then
-			self.Kill(self)
-		end
 	end
-	
-	function fireball:Cast(chargetime, effects)
-		--self.direction = dir	--Transform.GetLookAt(player.transformID
-		chargetime = math.min(chargetime, FIREBALLMAXCHARGETIME)
-		self.type:Shoot(Transform.GetPosition(player.transformID), Camera.GetDirection(), self.speed * chargetime)
-		self.alive = true
-		self.lifeTime = FIREBALLLIFETIME 
-		self.particles.cast()
-		self.effectFlag = effects
-		self.damage = (chargetime/FIREBALLMAXCHARGETIME) * FIREBALLDAMAGE
+
+	function spell:ChargeCast(entity)
+		if self.bigBallActive then
+			self:Kill()
+		end
+		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then	
+			ZoomOutCamera()		
+			self.scale = self.chargedTime	
+			self.cooldown = FIREBALL_COOLDOWN
+			self.bigBallActive = true
+			self.position = entity.position
+			SphereCollider.SetRadius(self.sphereCollider, self.scale)
+			SphereCollider.SetActive(self.sphereCollider, true)
+			Transform.ActiveControl(self.bigBallID, true)
+			Transform.SetPosition(self.bigBallID, self.position)
+			Transform.SetScale(self.bigBallID, self.scale)
+			self.damage = FIREBALL_BASE_DMG * self.chargedTime
+			self.ballParticles.cast()
+		end
 		self.chargedTime = 0
-		self.soundID = Sound.Play(self.castSFX, 13, self.type.position)
-		Sound.SetVolume(self.soundID, 1)
-		--Transform.SetPosition(self.transformID, self.position)
 	end
-	
-	fireball.Charge = BaseCharge
-	fireball.ChargeCast = BaseChargeCast
 
-	function fireball:Kill()
-		self.alive = false
-		self.type:Kill()
-		Sound.Play(self.deathSFX, 13, self.type.position)
+	function spell:BigBallUpdate(dt)
+		local direction = Transform.GetLookAt(self.caster)
+		self.position.x = self.position.x + direction.x * FIREBALL_SPEED * dt
+		self.position.y = self.position.y + direction.y * FIREBALL_SPEED * dt
+		self.position.z = self.position.z + direction.z * FIREBALL_SPEED * dt
+		Transform.SetPosition(self.bigBallID, self.position)
+		self.damage = self.damage + 3 * dt
+		self.ballParticles.update(self.position)
+		local hm = GetHeightmap(self.position)
+		if hm then
+			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:Kill() end
+		end
+		if self.position.x > 1000 and self.position.x < -1000 and self.position.y > 1000 and self.position.z < -1000 and self.position.z > 1000 then
+			self:Kill()
+		end
+
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()
+		for curID = 1, #collisionIDs do
+			for curEnemy=1, #enemies do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					enemies[curEnemy]:Hurt(self.damage, self.owner)
+				end
+			end
+		end
 	end
-	return fireball
+
+	spell.Charge = BaseCharge
+
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+	end
+
+	function spell:GetEffect()
+		return self.effects[1]
+	end
+
+	function spell:Combine(effect,damage)
+		if #self.effects < 2 then
+			table.insert(self.effects, effect)
+			self.damage = self.damage + damage
+		end
+	end
+
+	function spell:Kill()
+		self.bigBallActive = false
+		self.ballParticles.die()
+		SphereCollider.SetActive(self.sphereCollider, false)
+		Transform.ActiveControl(self.bigBallID, false)
+		self.damage = FIREBALL_BASE_DMG	
+	end
+
+	function spell:SpamFireball(index)
+		self.smallFB[index].particles.die(self.smallFB[index].type.position)
+		self.smallFB[index].type:Kill() 
+		self.smallFB[index].alive = false 
+		self.aSmallIsActive = self.aSmallIsActive - 1
+	end
+	return spell
 end

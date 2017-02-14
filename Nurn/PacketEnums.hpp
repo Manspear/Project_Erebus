@@ -10,3 +10,7 @@
 #define CHARGING_PACKET 5
 #define QUICKBLEND_PACKET 6
 #define DAMAGE_PACKET 7
+#define CHANGESPELLS_PACKET 8
+
+// Define only when neccessary :)
+#define PING_PACKET 20

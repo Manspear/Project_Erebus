@@ -52,6 +52,8 @@ end
 function clientAIState.deadState.enter(enemy, player)
 	print("Client enemy died", enemy.transformID)
 	enemy.animationController:doNothing()
+
+	enemy:Kill()
 end
 
 function clientAIState.deadState.update(enemy, player)
@@ -61,34 +63,13 @@ function clientAIState.deadState.exit(enemy, player)
 
 end 
 
-function changeToState(enemy, player, changeState)
-
-	enemy.state.exit(enemy,player)
-
-	if changeState == "IdleState" then
-		enemy.state = clientAIState.idleState
-	end
-	if changeState == "FollowState" then
-		enemy.state = clientAIState.followState
-	end
-	if changeState == "AttackState" then
-		enemy.state = clientAIState.attackState
-	end
-	if changeState == "DeadState" then	
-		enemy.state = clientAIState.deadState
-	end 
-
-	enemy.state.enter(enemy,player)
-end
-
-
 function getAIStatePacket(enemy, player)
 	netAIValue, transformID, aiState = Network.GetAIStatePacket()
 
 	--Update state of the enemy
 	if netAIValue == true then
 		--print("Enemy", enemy.transformID)
-		--print("AI transformpacket", transformID, aiState)
+		--print("AI statepacket", transformID, aiState)
 		--print("Client AI ID", enemy.transformID)
 		if aiState == 0 then--IdleState
 			enemy.state = clientAIState.idleState
@@ -110,7 +91,6 @@ function getAIStatePacket(enemy, player)
 	end
 end
 
-
 function getAITransformPacket()	
 	--Update the transform of the enemy
 	newtransformvalue, id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
@@ -122,7 +102,6 @@ function getAITransformPacket()
 	end
 end
 
-baseReturn.changeToState = changeToState
 baseReturn.getAIStatePacket = getAIStatePacket
 baseReturn.getAITransformPacket = getAITransformPacket
 baseReturn.clientAIState = clientAIState

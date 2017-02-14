@@ -1,6 +1,6 @@
 SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
 SUNRAY_DURATION = 3
-SUNRAY_DAMAGE =0
+SUNRAY_DAMAGE = 1
 SUNRAY_COOLDOWN = 4.7
 SUNRAY_HALF_LENGTH = 23
 SUNRAY_TICK_INTERVAL = 0.5
@@ -16,7 +16,7 @@ function CreateSunRay(entity)
 	sunRay.alive = false
 	sunRay.chargedTime = 0	sunRay.Charge = BaseCharge	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.owner = entity	sunRay.caster = entity.transformID
-	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
+	sunRay.moveImpairment = 0.75	sunRay.cameraSlow = 2.0
 	sunRay.maxChargeTime = 3
 	sunRay.cooldown = 0.0
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
@@ -67,7 +67,7 @@ function CreateSunRay(entity)
 			self.tickInterval = 1.3
 			self.startUpScale.x = self.startUpScale.x * 0.55	self.startUpScale.y = self.startUpScale.y * 0.55	self.startUpScale.z = self.startUpScale.z / 2
 			self:GeneralCast()
-			ZoomInCamera()
+			--ZoomInCamera()
 		end
 	end
 
@@ -85,6 +85,7 @@ function CreateSunRay(entity)
 			self:GeneralCast()
 			self.chargedTime = 0.0
 			self.soundID[1] = Sound.Play(self.castSFX[1], 3, self.type.position)
+			ZoomOutCamera()
 		end
 	end
 
@@ -108,7 +109,6 @@ function CreateSunRay(entity)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
-		ZoomOutCamera()
 		self.type:Kill()
 	end
 
@@ -129,12 +129,10 @@ function CreateSunRay(entity)
 					if self.effectFlag then
 						for e =1, #self.effects do
 							local effect = effectTable[self.effects[e]]()
-	
-							table.insert(hits[index].effects, effect)
-							effect:Apply(hits[index])							
+							hits[index]:Apply(effect)				
 						end
 					end
-					hits[index]:Hurt(self.damage, sunRay.owner)
+					hits[index]:Hurt(self.damage, self.owner)
 					self.timeSinceTick = self.tickInterval
 					local id = Sound.Play(self.hitSFX, 1, hits[index].position)
 					if id ~= -1 then self.hitID = id end

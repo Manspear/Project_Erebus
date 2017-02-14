@@ -123,7 +123,8 @@ public: // This is used by movementController
 				bool tempHit = false;
 				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals,false); // dont save normals if u have children
 				if (tempHit) // if you collide with parent check collision with children
-					hit = checkAnyCollisionBoolNoSave(collider, tempCollider->children, hitNormals);
+					if (checkAnyCollisionBoolNoSave(collider, tempCollider->children, hitNormals))
+						hit = true;
 			}
 		}
 		return hit;

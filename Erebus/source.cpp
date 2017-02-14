@@ -22,8 +22,8 @@
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
 
-#define MAX_TRANSFORMS 100
-#define MAX_ANIMATIONS 100
+#define MAX_TRANSFORMS 300
+#define MAX_ANIMATIONS 300
 
 bool running = true;
 
@@ -241,7 +241,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	Camera camera(45.f, 1280.f / 720.f, 0.1f, 500.f, &inputs);
+	Camera camera(45.f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 500.f, &inputs);
 	
 	PerformanceCounter counter;
 	double deltaTime;

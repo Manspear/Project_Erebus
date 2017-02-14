@@ -213,4 +213,26 @@ namespace Nurn
 		return result;
 	}
 
+	void NurnEngine::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
+	{
+		this->packager->pushChangeSpellsPacket(packet);
+	}
+
+	bool NurnEngine::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getChangeSpellsQueue()->pop(packet);
+
+		return result;
+	}
+
+
+
+
+	uint8_t NurnEngine::getPing() const
+	{
+		return this->networkDebug.getPing();
+	}
+
 }

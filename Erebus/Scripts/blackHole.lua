@@ -35,10 +35,11 @@ function CreateBlackHole(entity)
 	Gear.AddStaticInstance(model, spell.type.transformID)
 
 	function spell:Cast(entity, chargetime) end
-	function spell:Charge(dt) end
+	function spell:Charge(dt) ZoomInCamera() end
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0 then
+			ZoomOutCamera()
 			local pos = Transform.GetPosition(entity.transformID)
 			local dir = Transform.GetLookAt(entity.transformID)
 			pos.x = pos.x  + 5*dir.x
@@ -84,11 +85,10 @@ function CreateBlackHole(entity)
 				if hits[index].Hurt and not self.hits[hits[index].transformID] then
 					for i = 1, #self.effects do
 						local effect = effectTable[self.effects[i]]()
-						table.insert(hits[index].effects, effect)
-						effect:Apply(hits[index])
+						hits[index]:Apply(effect)
 						self.hits[hits[index].transformID] = true
 					end
-					hits[index]:Hurt(self.damage, spell.owner)
+					hits[index]:Hurt(self.damage, self.owner)
 				end
 			end
 
@@ -109,7 +109,7 @@ function CreateBlackHole(entity)
 		self.alive = false
 	
 	end
-
+	
 	function spell:Aim()	
 		local lookAt = Transform.GetLookAt(self.caster)
 		local aPos = Transform.GetPosition(self.caster)
