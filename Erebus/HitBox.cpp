@@ -4,7 +4,8 @@
 
 HitBox::HitBox()
 {
-	this->ID = -1;
+	static int s_ID = 1;
+	this->ID = s_ID++;
 	this->IDTransform = -1;
 	this->IDCollisions.reserve(RESERVE_COLLISIONS);
 	this->active = true;
@@ -12,6 +13,8 @@ HitBox::HitBox()
 	this->children = nullptr;
 	this->parent = nullptr;
 	this->colliding = false;
+
+	
 }
 
 HitBox::HitBox(unsigned int ID, int IDTransform)
@@ -218,6 +221,33 @@ void HitBox::update()
 		for (size_t i = 0; i < this->children->size(); i++)
 		{
 			this->children->operator[](i)->update();
+		}
+	}
+}
+
+void HitBox::deleteAllChildren()
+{
+
+	if (this->children != nullptr) {
+		for (size_t i = 0; i < children->size(); i++)
+		{
+			children->at(i)->deleteAllChildren();
+			delete children->at(i);
+		}
+		delete this->children;
+		this->children = nullptr;
+	}
+
+}
+
+void HitBox::replaceChild(HitBox* hitBoxToAdd, HitBox* hitBoxToRemove) {
+	if (this->children != nullptr) {
+		for (size_t i = 0; i < children->size(); i++) {
+			if (children->at(i) == hitBoxToRemove) {
+				delete children->at(i);
+				this->children->at(i) = hitBoxToAdd;
+				break;
+			}
 		}
 	}
 }

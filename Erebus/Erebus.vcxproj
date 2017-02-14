@@ -167,6 +167,7 @@
     <ClCompile Include="LevelEditorStuff\LevelBrushHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelColiderHandler.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelCollider.cpp" />
+    <ClCompile Include="LevelEditorStuff\LevelColliderGenerator.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEditor.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelEnemy.cpp" />
     <ClCompile Include="LevelEditorStuff\LevelGizmo.cpp" />
@@ -333,6 +334,7 @@
     <ClInclude Include="LevelEditorStuff\LevelBrushHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelColiderHandler.h" />
     <ClInclude Include="LevelEditorStuff\LevelCollider.h" />
+    <ClInclude Include="LevelEditorStuff\LevelColliderGenerator.h" />
     <ClInclude Include="LevelEditorStuff\LevelEditor.h" />
     <ClInclude Include="LevelEditorStuff\LevelEnemy.h" />
     <ClInclude Include="LevelEditorStuff\LevelGizmo.h" />

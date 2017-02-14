@@ -76,7 +76,12 @@ public:
 	void updateHierecyBehavior(ColiderBehavior newBehave);
 	std::string getLuaTriggerString(std::string colName);
 	void removeMeFromParent();
+	void removeChildrensParents();
 	OBBCollider* getObbCollider();
+	void adjustAABB(AABBCollider* colliderToCopy);
+	AABBCollider* getAbbCollider();
+	unsigned int getMainColliderID();
+	std::vector<HitBox*>* getMainColliderChildren();
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{

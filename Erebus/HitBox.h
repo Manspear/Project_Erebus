@@ -29,6 +29,8 @@ public:
 	// otherwise we need to insert a scrap value in the parents collisionIds to simulate a collision
 	virtual void setCollision(bool colliding);
 	virtual void setAllParentCollision(bool colliding);
+	virtual void deleteAllChildren();
+	virtual void replaceChild(HitBox* hitBoxToAdd, HitBox* hitBoxToRemove);
 
 	//getters
 	//Returns if we have a collision or not

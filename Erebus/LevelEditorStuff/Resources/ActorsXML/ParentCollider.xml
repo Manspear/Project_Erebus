@@ -1,0 +1,15 @@
+<LevelActor type="ColliderParents" displayName="AutoGenParent" tileID="1" exportType="4">
+    <LevelCollider type="1">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="140" parentID="0"/>
+        <MinPos x="-1" y="-1" z="-1"/>
+        <MaxPos x="1" y="1" z="1"/>
+    </LevelCollider>
+    <LevelTransform>
+        <Position x="67.9375" y="45.79269" z="194.375"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

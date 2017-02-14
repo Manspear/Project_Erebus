@@ -104,7 +104,6 @@
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
     <ClCompile Include="CollisionChecker.cpp" />
-    <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="LuaMath.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="OBBCollider.cpp" />
@@ -160,7 +159,10 @@
     <ClCompile Include="LevelEditorStuff\LevelParticleSystem.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
-     <ClCompile Include="LevelEditorStuff\LevelSettings.cpp">
+    <ClCompile Include="LevelEditorStuff\LevelSettings.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelColliderGenerator.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -265,7 +267,6 @@
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="CollisionChecker.h" />
-    <ClInclude Include="GamePlay.h" />
     <ClInclude Include="LuaMath.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="OBBCollider.h" />
@@ -321,7 +322,11 @@
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditorStuff\LevelSettings.h">
-	<Filter>LevelEditor\HeaderLevel</Filter>
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="RNG.h" />
+    <ClInclude Include="LevelEditorStuff\LevelColliderGenerator.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -395,9 +400,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\debugLine.frag">
-    <Filter>Shaders</Filter>
-    </None>
-<None Include="effects.frag">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\gloom.comp">
@@ -443,7 +445,6 @@
     <None Include="Shaders\image.frag" />
     <None Include="Shaders\image.geom" />
     <None Include="Shaders\image.vert" />
-    <None Include="effects.vert" />
     <None Include="Shaders\debugOBB.geom" />
     <None Include="Shaders\geometryPassShadow.frag" />
     <None Include="Shaders\geometryPassShadow.vert" />

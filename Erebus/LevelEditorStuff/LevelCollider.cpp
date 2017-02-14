@@ -68,11 +68,49 @@ LevelCollider::LevelCollider()
 
 LevelCollider::~LevelCollider()
 {
-	delete this->sphereColider;
-	delete this->obbColider;
-	delete this->abbColider;
-	delete this->rayColider;
+
+	switch (colliderType)
+	{
+
+	case COLLIDER_SPHERE:
+		delete abbColider;
+		delete obbColider;
+		delete rayColider;
+		if (this->parentColiderID == 0)
+			delete sphereColider;
+		break;
+
+	case COLLIDER_AABB:
+		delete sphereColider;
+		delete obbColider;
+		delete rayColider;
+		if (this->parentColiderID == 0)
+			delete abbColider;
+		break;
+
+	case COLLIDER_OBB:
+		delete sphereColider;
+		delete abbColider;
+		delete rayColider;
+		if (this->parentColiderID == 0)
+			delete obbColider;
+		break;
+
+	case COLLIDER_RAY:
+		delete sphereColider;
+		delete obbColider;
+		delete abbColider;
+		if (this->parentColiderID == 0)
+			delete rayColider;
+		break;
+	}
+	this->removeChildrensParents();
 	this->removeMeFromParent();
+
+	this->sphereColider = nullptr;
+	this->obbColider = nullptr;
+	this->abbColider = nullptr;
+	this->rayColider = nullptr;
 
 }
 
@@ -514,20 +552,40 @@ void LevelCollider::update(float deltaTime)
 	}
 
 	if (deltaTime != 1337.f) {
-		switch (colliderType)
-		{
 
-		case COLLIDER_SPHERE:
-			s_debugger->drawSphere(this->sphereColider->getPos(), this->sphereColider->getRadius(), color);
-			break;
-		case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color); break;
-		case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
-			this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color,true); break;
-		case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color); break;
-		default:
-			std::cout << "WARNING: Colider doesnt have type!" << std::endl;
-			break;
+		if (this->childColliders.size() == 0) {
+			switch (colliderType)
+			{
+
+			case COLLIDER_SPHERE:
+				s_debugger->drawSphere(this->sphereColider->getPos(), this->sphereColider->getRadius(), color);
+				break;
+			case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), color); break;
+			case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
+				this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), color); break;
+			case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, color); break;
+			default:
+				std::cout << "WARNING: Colider doesnt have type!" << std::endl;
+				break;
+			}
 		}
+		else {
+			switch (colliderType)
+			{
+
+			case COLLIDER_SPHERE:
+				s_debugger->drawSphere(this->sphereColider->getPos(), this->sphereColider->getRadius(), { .5f, .5f, .5f });
+				break;
+			case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), { .5f, .5f, .5f }); break;
+			case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
+				this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), { .5f, .5f, .5f }); break;
+			case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, { .5f, .5f, .5f }); break;
+			default:
+				std::cout << "WARNING: Colider doesnt have type!" << std::endl;
+				break;
+			}
+		}
+
 	}
 
 
@@ -874,4 +932,80 @@ void LevelCollider::removeMeFromParent() {
 
 OBBCollider* LevelCollider::getObbCollider() {
 	return this->obbColider;
+}
+
+void LevelCollider::removeChildrensParents() {
+	for (size_t i = 0; i < this->childColliders.size(); i++)
+	{
+		this->childColliders.at(i)->setParentColider(nullptr);
+		this->childColliders.at(i)->setParentColiderID(0);
+	}
+}
+
+void LevelCollider::adjustAABB(AABBCollider* colliderToCopy) {
+
+	if (this->abbColider != nullptr)
+		delete abbColider;
+	this->abbColider = colliderToCopy;
+
+	this->aabbMinPos = colliderToCopy->getMinPos();
+	this->aabbMaxPos = colliderToCopy->getMaxPos();
+
+	scale = this->parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
+	this->parent->getComponent<LevelTransform>()->getTransformRef()->setPos({ 0,0,0 });
+
+	
+	
+}
+
+AABBCollider* LevelCollider::getAbbCollider() {
+	return this->abbColider;
+}
+
+unsigned int LevelCollider::getMainColliderID() {
+	unsigned int returnId = -1;
+	switch (colliderType)
+	{
+	case COLLIDER_SPHERE:
+		returnId = this->sphereColider->getID();
+		break;
+
+	case COLLIDER_AABB:
+		returnId = this->abbColider->getID();
+		break;
+
+	case COLLIDER_OBB:
+		returnId = this->obbColider->getID();
+		break;
+
+	case COLLIDER_RAY:
+		returnId = this->rayColider->getID();
+		break;
+	}
+
+	return returnId;
+}
+
+std::vector<HitBox*>* LevelCollider::getMainColliderChildren() {
+	std::vector<HitBox*>* returnChildren = nullptr;
+	switch (colliderType)
+	{
+	case COLLIDER_SPHERE:
+		returnChildren = this->sphereColider->getChildren();
+		break;
+
+	case COLLIDER_AABB:
+		returnChildren = this->abbColider->getChildren();
+		break;
+
+	case COLLIDER_OBB:
+		returnChildren = this->obbColider->getChildren();
+		break;
+
+	case COLLIDER_RAY:
+		returnChildren = this->rayColider->getChildren();
+		break;
+	}
+
+	return returnChildren;
 }

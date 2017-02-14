@@ -6,7 +6,8 @@ const char* ACTION_NAMES[MAX_ACTIONS] =
 	"Select",
 	"New Actor",
 	"Place Prefab",
-	"Use Brush"
+	"Use Brush",
+	"Gen Parent Col"
 };
 
 LevelActionHandler::LevelActionHandler()
@@ -47,6 +48,7 @@ void LevelActionHandler::resetInstance() {
 void LevelActionHandler::setupGizmo( Debug* debug, Camera* camera, Inputs* inputs )
 {
 	gizmo.addVariables( debug, camera, inputs );
+	LevelColliderGenerator::getInstance()->addDebug(debug);
 }
 
 void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camera* camera,const double deltaTime, Debug* debug)
@@ -104,6 +106,10 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 
 
 		}
+	}
+
+	if (action == ACTION_COLLIDER_GEN) {
+		LevelColliderGenerator::getInstance()->update();
 	}
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
@@ -233,6 +239,11 @@ void LevelActionHandler::setAction( int a )
 		TwDefine("Brush visible=true");
 	else 
 		TwDefine("Brush visible=false");
+
+
+	if (action == ACTION_COLLIDER_GEN) {
+		LevelColliderGenerator::getInstance()->generateQuadTree();
+	}
 }
 
 int LevelActionHandler::getAction()
