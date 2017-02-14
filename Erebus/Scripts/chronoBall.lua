@@ -7,7 +7,8 @@ CHRONOBALL_DAMAGE = 30
 
 function CreateChronoBall(entity)
 	local spell = {}
-	spell.type = CreateProjectileType()
+	local model = Assets.LoadModel( "Models/projectile1.model" )
+	spell.type = CreateProjectileType(model)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifeTime = CHRONOBALLLIFETIME
@@ -22,8 +23,8 @@ function CreateChronoBall(entity)
 	spell.hudtexture = CHRONOBALL_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddStaticInstance(model, spell.type.transformID)
+	--local model = Assets.LoadModel( "Models/projectile1.model" )
+	--Gear.AddStaticInstance(model, spell.type.transformID)
 
 	function spell:Update(dt)
 		if self.alive then

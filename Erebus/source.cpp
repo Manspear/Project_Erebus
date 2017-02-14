@@ -62,7 +62,7 @@ struct AnimationData
 void updateAnimation( void* args )
 {
 	AnimationData* data = (AnimationData*)args;
-	data->animation->update( data->dt );
+	//data->animation->update( data->dt );
 }
 
 DWORD WINAPI update( LPVOID args )
@@ -86,7 +86,8 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
-	collisionHandler.setTransforms( transforms );
+	//collisionHandler.setTransforms( transforms );
+	collisionHandler.setTransforms( data->transformHandler );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
@@ -208,6 +209,7 @@ int main()
 	std::vector<Gear::ParticleSystem*> particleSystems;
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	std::vector<ModelInstance> blendingModels;
+	TransformHandler transformHandler( &engine, &models, &animModels, &forwardModels, &blendingModels );
 
 	ThreadData threadData =
 	{
@@ -224,6 +226,7 @@ int main()
 		&particleSystems,
 		&particleEmitters,
 		&blendingModels,
+		&transformHandler,
 		false,
 		true,
 		false,
@@ -239,7 +242,6 @@ int main()
 	double saveDeltaTime = 0.0f;
 
 	bool fullscreen = threadData.fullscreen;
-	
 
 	bool prevMouseVisible = threadData.mouseVisible;
 	while (threadData.running && window.isWindowOpen())

@@ -204,11 +204,14 @@ namespace Gear
 	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
 	{
 		dynamicModels = models;
+
+		updateTransforms( dynamicModels );
+
 		for (auto &m : *dynamicModels)
 			m.allocateBuffer();
 	}
 
-	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
+	void GearEngine::queueAnimModels(std::vector<ModelInstance>* models)
 	{
 		animatedModels = models;
 	}
@@ -359,6 +362,32 @@ namespace Gear
 		addLight();
 		updateLight();
 		removeLight();
+
+		//updateTransforms( dynamicModels );
+		updateTransforms( animatedModels );
+		updateTransforms( forwardModels );
+		updateTransforms( blendModels );
+	}
+
+	void GearEngine::updateTransforms( std::vector<ModelInstance>* models )
+	{
+		for( int curModel=0; curModel<models->size(); curModel++ )
+		{
+			glm::mat4 ident;
+			for( int curTrans=0; curTrans < models->at(curModel).transforms.size(); curTrans++ )
+			{
+				TransformStruct& t = models->at(curModel).transforms.at(curTrans);
+				glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
+				glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+
+				glm::mat4 tempMatrix = glm::translate( ident, t.pos );
+				tempMatrix = glm::scale( tempMatrix, t.scale );
+				tempMatrix = glm::rotate( tempMatrix, t.rot.z, axis );
+				tempMatrix = glm::rotate( tempMatrix, t.rot.y, { 0, 1, 0 } );
+
+				models->at(curModel).worldMatrices.at(curTrans) = tempMatrix;
+			}
+		}
 	}
 
 	GEAR_API void GearEngine::addLight()

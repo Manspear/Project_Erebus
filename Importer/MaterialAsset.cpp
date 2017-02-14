@@ -69,17 +69,20 @@ namespace Importer
 					else if( strncmp( start, "Diffuse texture", nameLen ) == 0 )
 					{
 						parseString( &cur, buffer );
-						diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+						if( strcmp( buffer, "NOTEXTURE" ) != 0 )
+							diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
 					}
 					else if( strncmp( start, "Specular texture", nameLen ) == 0 )
 					{
 						parseString( &cur, buffer );
-						specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+						if( strcmp( buffer, "NOTEXTURE" ) != 0 )
+							specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
 					}
 					else if( strncmp( start, "Normal texture", nameLen ) == 0 )
 					{
 						parseString( &cur, buffer );
-						normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+						if( strcmp( buffer, "NOTEXTURE" ) != 0 )
+							normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
 					}
 					else
 					{

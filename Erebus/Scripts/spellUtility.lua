@@ -1,8 +1,10 @@
 function CreateAim(entity)
 	local aim = {}
-	aim.transformID = Transform.Bind()
+	--aim.transformID = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/aim.model" )
+	--Gear.AddForwardInstance(model, aim.transformID)
 	local model = Assets.LoadModel( "Models/aim.model" )
-	Gear.AddForwardInstance(model, aim.transformID)
+	aim.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(aim.transformID, true)
 	aim.caster = entity.transformID
 	function aim:SetPos(position)
@@ -16,14 +18,21 @@ function CreateChargeThing(entity)
 	local chargeThing = {}
 	chargeThing.timer = 0
 
-	chargeThing.transformID = Transform.Bind()
-	local model = Assets.LoadModel("Models/pPlane1.model")
-	chargeThing.modelIndex = Gear.AddForwardInstance(model, chargeThing.transformID)
+	--chargeThing.transformID = Transform.Bind()
+	--local model = Assets.LoadModel("Models/pPlane1.model")
+	--chargeThing.modelIndex = Gear.AddForwardInstance(model, chargeThing.transformID)
+	local model = Assets.LoadModel( "Models/pPlane1.model" )
+	chargeThing.transformID = Gear.BindForwardInstance(model)
+	-- TEMP(Niclas): Figure this out
+	chargeThing.modelIndex = chargeThing.transformID
 	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
-	chargeThing.transformID2 = Transform.Bind()
-	local cylinder = Assets.LoadModel("Models/innerSpell.model")
-	chargeThing.modelIndex2 = Gear.AddForwardInstance(cylinder, chargeThing.transformID2)
+	--chargeThing.transformID2 = Transform.Bind()
+	--local cylinder = Assets.LoadModel("Models/innerSpell.model")
+	--chargeThing.modelIndex2 = Gear.AddForwardInstance(cylinder, chargeThing.transformID2)
+	local cylinder = Assets.LoadModel( "Models/innerSpell.model" )
+	chargeThing.transformID2 = Gear.BindForwardInstance(cylinder)
+	chargeThing.modelIndex2 = chargeThing.transformID2
 	Transform.SetScaleNonUniform(chargeThing.transformID2, 1,0.1,1)
 	
 	

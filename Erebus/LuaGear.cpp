@@ -155,7 +155,7 @@ namespace LuaGear
 
 	int bindStaticInstance( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) == 2 );
+		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
 		
@@ -167,7 +167,7 @@ namespace LuaGear
 
 	int bindAnimatedInstance( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) == 3 );
+		assert( lua_gettop( lua ) == 2 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
 		lua_getfield( lua, 2, "__self" );
@@ -229,9 +229,7 @@ namespace LuaGear
 
 	int bindForwardInstance(lua_State * lua)
 	{
-		assert( lua_gettop( lua ) == 2 );
-
-		int index = -1;
+		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
 		int result = g_transformHandler->bindForwardInstance( asset );
@@ -435,7 +433,16 @@ namespace LuaGear
 	int setUniformLocation(lua_State* lua)
 	{
 		assert( lua_gettop( lua ) == 2 );	
-		g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
+		//g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
+
+		int index = (int)lua_tointeger( lua, 1 );
+
+		TransformHandle handle = g_transformHandler->getHandle( index );
+
+		std::string location = lua_tostring( lua, 2 );
+
+		g_gearEngine->uniValues.at( handle.modelIndex ).location = location;
+
 		return 0;
 	}
 
@@ -463,8 +470,7 @@ namespace LuaGear
 
 	int setBlendTextures(lua_State * lua)
 	{
-
-		if (lua_gettop(lua) >= 4)
+		/*if (lua_gettop(lua) >= 4)
 		{
 			int index = (int)lua_tointeger(lua, 1);
 			int size = (int)lua_tointeger(lua, 2);
@@ -478,6 +484,25 @@ namespace LuaGear
 				g_gearEngine->textureBlend.at(index).numTextures = size;
 			}
 		}
+		return 0;*/
+
+		assert( lua_gettop( lua ) >= 4 );
+
+		int index = (int)lua_tointeger( lua, 1 );
+		int size = (int)lua_tointeger( lua, 2 );
+
+		TransformHandle handle = g_transformHandler->getHandle( index );
+
+		TextureAsset* texture;
+		for( int i=0; i<size; i++ )
+		{
+			lua_getfield( lua, i+3, "__self" );
+			texture = (TextureAsset*)lua_touserdata( lua, -1 );
+
+			g_gearEngine->textureBlend.at( handle.modelIndex ).textureVector.push_back( texture );
+			g_gearEngine->textureBlend.at( handle.modelIndex ).numTextures = size;
+		}
+
 		return 0;
 	}
 
@@ -512,7 +537,7 @@ namespace LuaGear
 
 	int bindBlendingInstance(lua_State * lua)
 	{
-		assert( lua_gettop( lua ) == 2 );
+		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
 		int result = g_transformHandler->bindBlendingInstance( asset );

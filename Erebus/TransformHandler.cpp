@@ -11,13 +11,15 @@ static const TransformStruct DEFAULT_TRANSFORM =
 
 TransformHandler::TransformHandler
 (
-	Gear::GearEngine* gearEngine,
+	Gear::GearEngine* engine,
 	std::vector<ModelInstance>* models,
 	std::vector<ModelInstance>* animatedModels,
 	std::vector<ModelInstance>* forwardModels,
 	std::vector<ModelInstance>* blendingModels
 )
 {
+	gearEngine = engine;
+
 	instances[INSTANCE_DYNAMIC] = models;
 	instances[INSTANCE_ANIMATED] = animatedModels;
 	instances[INSTANCE_FORWARD] = forwardModels;
@@ -50,12 +52,6 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 	models->at(modelIndex).transforms.push_back( DEFAULT_TRANSFORM );
 	models->at(modelIndex).worldMatrices.push_back( glm::mat4() );
 	models->at(modelIndex).activeTransforms++;
-
-	TransformHandle handle = {};
-	handle.instanceIndex = INSTANCE_DYNAMIC;
-	handle.modelIndex = modelIndex;
-	handle.transformIndex = transformIndex;
-	handle.active = true;
 
 	TransformHandle handle =
 	{

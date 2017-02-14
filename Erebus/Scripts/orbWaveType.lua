@@ -3,7 +3,7 @@ ORBWAVEMINRADIUS = 1
 ORBWAVEMAXRADIUS = 70 - ORBWAVEMINRADIUS --the number is how long out the wave will travel
 ORBWAVELAPTIME = 3
 
-function CreateOrbWaveType() 
+function CreateOrbWaveType(model) 
 	local type = {}
 	type.transformIDs = {}
 	type.positions = {}
@@ -12,7 +12,8 @@ function CreateOrbWaveType()
 	
 	local angle = 0
 	for i = 1, ORBWAVEORBS do
-		table.insert(type.transformIDs, Transform.Bind())
+		--table.insert(type.transformIDs, Transform.Bind())
+		table.insert(type.transformIDs, Gear.BindStaticInstance(model))
 		table.insert(type.positions, {x=0,y=0,z=0})
 		table.insert(type.directions, {x = math.cos(angle), y = 0, z= math.sin(angle)})
 		

@@ -3,10 +3,11 @@
 #include "lua\lua.hpp"
 #include "Controls.h"
 #include "NetworkController.hpp"
+#include "TransformHandler.h"
 
 namespace LuaErebus
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running);
+	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running, TransformHandler* transformHandler );
 
 	int setControls( lua_State* lua );
 	int cameraSensitivity(lua_State* lua);

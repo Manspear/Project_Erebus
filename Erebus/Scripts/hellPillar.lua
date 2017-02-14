@@ -33,11 +33,11 @@ function CreateHellPillar(entity)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
-	Gear.AddBlendingInstance(model, spell.transformID)
-	--Gear.AddForwardInstance(model, spell.transformID)
+	--local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
+	--Gear.AddBlendingInstance(model, spell.transformID)
 
-	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
+	-- TODO(Niclas): Put this back
+	--Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
 
 	spell.effectflag = false
 	spell.damage = MAX_DAMAGE_PILLAR
@@ -53,9 +53,11 @@ function CreateHellPillar(entity)
 	spell.isActiveSpell = false
 	--spell.lightRadius = 0	spell.light = 0
 	--Set up the first model
-	spell.firstModel = Transform.Bind()
+	--spell.firstModel = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
+	--Gear.AddForwardInstance(model, spell.firstModel)
 	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
-	Gear.AddForwardInstance(model, spell.firstModel)
+	spell.firstModel = Gear.BindForwardInstance(model)
 
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then	

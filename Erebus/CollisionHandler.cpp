@@ -4,7 +4,8 @@
 unsigned int CollisionHandler::hitboxID = 0;
 
 CollisionHandler::CollisionHandler()
-	: transforms( nullptr )
+	//: transforms( nullptr )
+	: transformHandler( nullptr )
 {
 	int reserveAmount = 200;
 	this->sphereColliders.reserve(reserveAmount);
@@ -30,7 +31,8 @@ CollisionHandler::CollisionHandler()
 }
 
 CollisionHandler::CollisionHandler(int layers)
-	: transforms(nullptr)
+	//: transforms(nullptr)
+	: transformHandler( nullptr )
 {
 	int reserveAmount = 200;
 	this->sphereColliders.reserve(reserveAmount);
@@ -443,14 +445,16 @@ void CollisionHandler::updateAllHitboxPos()
 	{
 		int idTransform = this->allColliders[i]->getIDTransform();
 		if (idTransform >= 0)
-			this->allColliders[i]->setPos(transforms[idTransform].getPos());
+			//this->allColliders[i]->setPos(transforms[idTransform].getPos());
+			this->allColliders[i]->setPos(transformHandler->getTransform(idTransform)->pos);
 	}
 
 	for (size_t i = 0; i < rayColliderSize; i++) // update rays also
 	{
 		int idTransform = this->rayColliders[i]->getIDTransform();
 		if (idTransform >= 0)
-			this->rayColliders[i]->setPosition(transforms[idTransform].getPos());
+			//this->rayColliders[i]->setPosition(transforms[idTransform].getPos());
+			this->rayColliders[i]->setPos(transformHandler->getTransform(idTransform)->pos);
 	}
 }
 
@@ -462,7 +466,8 @@ void CollisionHandler::updateSpherePos()
 	{
 		int idTransform = sphereColliders[i]->getIDTransform();
 		if (idTransform >= 0)
-			sphereColliders[i]->setPos(transforms[idTransform].getPos());
+			//sphereColliders[i]->setPos(transforms[idTransform].getPos());
+			sphereColliders[i]->setPos(transformHandler->getTransform(idTransform)->pos);
 	}
 }
 
@@ -474,7 +479,8 @@ void CollisionHandler::updateAabbPos()
 	{
 		int idTransform = aabbColliders[i]->getIDTransform();
 		if (idTransform >= 0)
-			aabbColliders[i]->setPos(transforms[idTransform].getPos());
+			//aabbColliders[i]->setPos(transforms[idTransform].getPos());
+			aabbColliders[i]->setPos(transformHandler->getTransform(idTransform)->pos);
 	}
 }
 
@@ -571,9 +577,14 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 	return deleted;
 }
 
-void CollisionHandler::setTransforms( Transform* t )
+/*void CollisionHandler::setTransforms( Transform* t )
 {
 	transforms = t;
+}*/
+
+void CollisionHandler::setTransforms( TransformHandler* handler )
+{
+	transformHandler = handler;
 }
 
 void CollisionHandler::setDebugger(Debug * debugger)

@@ -42,7 +42,7 @@ namespace Gear
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
-		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
+		GEAR_API void queueAnimModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueForwardModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueParticles(std::vector<Gear::ParticleSystem*> &ps);
 		GEAR_API void queueEmitters(std::vector<Gear::ParticleEmitter*> &emitters);
@@ -70,6 +70,8 @@ namespace Gear
 		//----------------------
 
 	private:
+		void updateTransforms( std::vector<ModelInstance>* models );
+
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
 		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
@@ -110,7 +112,7 @@ namespace Gear
 		//Models
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
-		std::vector<AnimatedInstance>* animatedModels;
+		std::vector<ModelInstance>* animatedModels;
 		std::vector<Gear::ParticleSystem*>* particleSystem;
 		std::vector<ParticleEmitter*>* particleEmitters;
 		std::vector<ModelInstance>* forwardModels;

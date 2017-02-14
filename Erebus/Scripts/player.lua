@@ -20,8 +20,13 @@ function LoadPlayer()
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	-- Init unique ids
-	player.transformID = Transform.Bind()
-	player2.transformID = Transform.Bind()
+	--player.transformID = Transform.Bind()
+	--player2.transformID = Transform.Bind()
+	player.animationController = CreatePlayerController(player)
+	player2.animationController = CreatePlayerController(player2)
+	local model = Assets.LoadModel("Models/player1.model")
+	player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+	player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
 
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
@@ -41,7 +46,6 @@ function LoadPlayer()
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
-	player.animationController = CreatePlayerController(player)
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
@@ -95,8 +99,8 @@ function LoadPlayer()
 	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/player1.model")
-	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
+	--local model = Assets.LoadModel("Models/player1.model")
+	--Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
 	LoadPlayer2()
@@ -126,14 +130,14 @@ function LoadPlayer2()
 	player2.charging = false
 	player2.position = {}
 
-	player2.animationController = CreatePlayerController(player2)
+	--player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
 	player2.currentSpell = 1
 
-	local model = Assets.LoadModel("Models/player1.model")
+	--local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
 
 	player2.Apply = function(self, effect)
@@ -143,7 +147,7 @@ function LoadPlayer2()
 		end
 	end
 
-	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
+	--Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeThing(player2)
