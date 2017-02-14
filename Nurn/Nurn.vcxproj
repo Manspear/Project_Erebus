@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebugNetwork.hpp" />
+    <ClInclude Include="EventPacket.hpp" />
     <ClInclude Include="PingPacket.hpp" />
     <ClInclude Include="ChangeSpellsPacket.hpp" />
     <ClInclude Include="DamagePacket.hpp" />
