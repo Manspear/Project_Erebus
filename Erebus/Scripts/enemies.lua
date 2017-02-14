@@ -29,19 +29,19 @@ function CreateEnemy(type, position)
 	enemies[i].Hurt = function(self, damage, source)
 		local pos = Transform.GetPosition(self.transformID)
 
-		if source.transformID ~= player2.transformID then
-			if Network.GetNetworkHost() == true then
-				self.health = self.health - damage
-
-				if self.health <= 0 then
-					--print("Dead for host", enemies[i].transformID)
-					self:Kill()
-				end
-			else
-				--print("Sending damage", self.transformID, damage)
-				Network.SendDamagePacket(self.transformID, damage)
-			end
-		end
+		--if source.transformID ~= player2.transformID then
+		--	if Network.GetNetworkHost() == true then
+		--		self.health = self.health - damage
+		--
+		--		if self.health <= 0 then
+		--			--print("Dead for host", enemies[i].transformID)
+		--			self:Kill()
+		--		end
+		--	else
+		--		--print("Sending damage", self.transformID, damage)
+		--		Network.SendDamagePacket(self.transformID, damage)
+		--	end
+		--end
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end

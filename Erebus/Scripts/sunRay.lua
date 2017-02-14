@@ -186,7 +186,7 @@ function CreateSunRay(entity)
 		pos.y = pos.y + direction.y * self.length 
 		pos.z = pos.z + direction.z * self.length 
 		hits = self.type:Update(pos, direction)
-		theRotation =  Transform.GetRotation(self.caster) 
+		local theRotation =  Transform.GetRotation(self.caster) 
 		self.angle = self.angle + self.spin * dt
 		theRotation.x =  theRotation.x + self.angle
 		Transform.SetRotation(self.type.transformID, theRotation)
