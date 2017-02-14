@@ -1,5 +1,24 @@
 #include "Packager.hpp"
 
+#ifdef DEBUGGING_NETWORK
+Packager::Packager(DebugNetwork * debugNetwork_ptr)
+{
+	this->transformQueue = new PacketQueue<TransformPacket>(20);
+	this->animationQueue = new PacketQueue<AnimationPacket>(40);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
+	this->damageQueue = new PacketQueue<DamagePacket>(20);
+	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
+	this->playerEventQueue = new PacketQueue<EventPacket>(10);
+	this->memory = new unsigned char[packetSize];
+	this->currentNetPacketSize = 0;
+
+	this->debugNetwork_ptr = debugNetwork_ptr;
+}
+#else
 Packager::Packager()
 {
 	this->transformQueue = new PacketQueue<TransformPacket>(10);
@@ -15,6 +34,7 @@ Packager::Packager()
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
+#endif
 
 Packager::~Packager()
 {
@@ -91,6 +111,14 @@ void Packager::buildNetPacket()
 	bool fullPackage = false;
 	this->currentNetPacketSize = sizeof(uint16_t);
 
+#ifdef DEBUGGING_NETWORK
+	if(this->debugNetwork_ptr->getTimeToSendPingPacket())
+	{
+		this->addPingPacket(this->currentNetPacketSize, fullPackage);
+		this->debugNetwork_ptr->setTimeToSendPingPacket(false);
+	}
+#endif
+
 	this->addTransformPackets(this->currentNetPacketSize, fullPackage);
 	this->addAnimationPackets(this->currentNetPacketSize, fullPackage);
 	this->addAIPackets(this->currentNetPacketSize, fullPackage);
@@ -101,7 +129,7 @@ void Packager::buildNetPacket()
 	this->addDamagePackets(this->currentNetPacketSize, fullPackage);
 	this->addChangeSpellsPackets(this->currentNetPacketSize, fullPackage);
 	this->addPlayerEventPackets(this->currentNetPacketSize, fullPackage);
-	
+
 	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
 
 	// Add the size of the netpacket at the start
@@ -444,3 +472,15 @@ void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, 
 
 	netPacketSize += sizeof(MetaDataPacket);
 }
+
+#ifdef DEBUGGING_NETWORK
+void Packager::addPingPacket(uint16_t& netPacketSize, bool& fullPackage)
+{
+	uint16_t sizeOfPingPackets = sizeof(PingPacket);
+	memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket), &PingPacket(this->debugNetwork_ptr->getPingPacket().data.loopNumber), sizeof(PingPacket));
+
+	this->addMetaDataPacket(PING_PACKET, netPacketSize, sizeOfPingPackets);
+
+	netPacketSize += sizeOfPingPackets; // Should now point at the location of the next MetaDataPacket
+}
+#endif

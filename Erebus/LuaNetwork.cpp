@@ -286,7 +286,7 @@ namespace LuaNetwork
 	int sendChargingPacket(lua_State* lua)
 	{
 		int index = (int)lua_tointeger(lua, 1);
-		uint16_t damage = lua_tonumber(lua, 2);
+		uint16_t damage = (uint16_t)lua_tonumber(lua, 2);
 
 		g_networkController->sendChargingPacket(ChargingPacket(index, damage));
 
@@ -315,10 +315,10 @@ namespace LuaNetwork
 
 	int sendQuickBlendPacket(lua_State* lua)
 	{
-		uint16_t quickBlendFrom = lua_tointeger(lua, 1);
-		uint16_t quickBlendTo = lua_tointeger(lua, 2);
-		uint16_t damagedMaxTime = lua_tointeger(lua, 3);
-		uint16_t quickBlendSegment = lua_tointeger(lua, 4);
+		uint16_t quickBlendFrom = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t quickBlendTo = (uint16_t)lua_tointeger(lua, 2);
+		uint16_t damagedMaxTime = (uint16_t)lua_tointeger(lua, 3);
+		uint16_t quickBlendSegment = (uint16_t)lua_tointeger(lua, 4);
 
 		g_networkController->sendQuickBlendPacket(QuickBlendPacket(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment));
 
@@ -351,7 +351,7 @@ namespace LuaNetwork
 
 	int sendDamagePacket(lua_State* lua)
 	{
-		uint16_t index = lua_tointeger(lua, 1);
+		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
 		float  damage = (float)lua_tonumber(lua, 2);
 
 		g_networkController->sendDamagePacket(DamagePacket(index, damage));
@@ -489,7 +489,7 @@ namespace LuaNetwork
 			while (!IPFile.eof())
 			{
 				getline(IPFile, line);
-				if ((offset = line.find(search0, 0)) != std::string::npos)
+				if ((offset = (int)line.find(search0, 0)) != std::string::npos)
 				{
 					//   IPv4 Address. . . . . . . . . . . : 1   
 					line.erase(0, 39);

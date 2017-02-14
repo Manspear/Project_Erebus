@@ -1,5 +1,22 @@
 #include "PacketFilter.hpp"
 
+#ifdef DEBUGGING_NETWORK
+PacketFilter::PacketFilter(DebugNetwork * debugNetwork_ptr)
+{
+	this->transformQueue = new PacketQueue<TransformPacket>(20);
+	this->animationQueue = new PacketQueue<AnimationPacket>(40);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
+	this->damageQueue = new PacketQueue<DamagePacket>(20);
+	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
+	this->playerEventQueue = new PacketQueue<EventPacket>(10);
+
+	this->debugNetwork_ptr = debugNetwork_ptr;
+}
+#else
 PacketFilter::PacketFilter()
 {
 	this->transformQueue = new PacketQueue<TransformPacket>(10);
@@ -13,6 +30,7 @@ PacketFilter::PacketFilter()
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 }
+#endif
 
 PacketFilter::~PacketFilter()
 {
@@ -116,6 +134,28 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				case PLAYER_EVENT_PACKET:
 					this->playerEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
 					break;
+
+#ifdef DEBUGGING_NETWORK
+				case PING_PACKET:
+					// Copy the PingPacket data to the PingPacket in DebugNetwork
+					memcpy(&this->debugNetwork_ptr->getPingPacket(), memoryPointer + bytesRead, sizeof(PingPacket));
+
+					if (this->debugNetwork_ptr->getPingPacket().data.loopNumber == 1)
+					{
+						// On Client
+						this->debugNetwork_ptr->getPingPacket().data.loopNumber--;
+					}
+					else
+					{
+						// On Host
+						this->debugNetwork_ptr->getPingPacket().data.loopNumber++;
+					}
+
+					// Send PingPacket back to the other player
+					this->debugNetwork_ptr->setTimeToSendPingPacket(true);
+
+					break;
+#endif
 				default:
 					printf("KERNEL PANIC!!\n");
 			}
