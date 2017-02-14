@@ -24,8 +24,8 @@ function CreateBlackHole(entity)
 	spell.hits = {}
 	spell.alive = false
 	spell.cooldown = 0
-	spell.castSFX = {"Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
-	spell.soundID = {}
+	spell.castSFX = "Effects/portal-idle.wav"
+	spell.soundID = -1
 	spell.Change = GenericChange
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
@@ -53,10 +53,11 @@ function CreateBlackHole(entity)
 			--entity.moveSpeed = entity.moveSpeed * BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 			self.alive = true
 			self.cooldown = BLACK_HOLE_COOLDOWN
-			for i = 1, #self.castSFX do
-				self.soundID[i] = Sound.Play(self.castSFX[i], 7, pos)
-				--Sound.SetVolume(self.soundID[i], 0.1)
+			if self.soundID ~= -1 then
+				Sound.Fade(self.soundID, 1)
 			end
+			self.soundID = Sound.Play(self.castSFX, 7, pos)
+			--Sound.SetVolume(self.soundID[i], 0.1)
 		end
 	end
 
@@ -100,9 +101,7 @@ function CreateBlackHole(entity)
 	end
 
 	function spell:Kill()
-		for i = 1, #self.soundID do
-			Sound.Fade(self.soundID[i], 3)
-		end
+		Sound.Fade(self.soundID, 1)
 		self.type:Kill()
 		self.hits = {}
 		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
