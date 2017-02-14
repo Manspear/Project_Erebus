@@ -32,7 +32,7 @@ public:
 	//Helper functions
 	bool pointAABBCollision(glm::vec3 point, AABBCollider* aabb); // https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection
 
-	void drawMeSelf(Debug* debugger);
+	void draw(Debug* debugger, bool drawFrustum = true, bool drawNormals = false);
 
 
 private:

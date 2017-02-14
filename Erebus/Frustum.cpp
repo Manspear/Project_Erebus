@@ -311,21 +311,45 @@ bool Frustum::pointAABBCollision(glm::vec3 point, AABBCollider * aabb)
 			(point.z >= minPos.z && point.z <= maxPos.z);
 }
 
-void Frustum::drawMeSelf(Debug * debugger)
+void Frustum::draw(Debug * debugger, bool drawFrustum, bool drawNormals)
 {
 	glm::vec3 drawPoint = this->nearTopLeft;
 	glm::vec3 colors[6];
-	colors[0] = glm::vec3(1, 0, 0); // top
-	colors[1] = glm::vec3(0, 1, 0); // bot
-	colors[2] = glm::vec3(0, 0, 1); // left
-	colors[3] = glm::vec3(1, 0, 1); // right
-	colors[4] = glm::vec3(1, 1, 0); // near
-	colors[5] = glm::vec3(1, 1, 1); // far
-	for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+	// DRAWING NORMALS
+	if (drawNormals)
 	{
-		debugger->drawLine(drawPoint, drawPoint + this->planes[i].getNormal());
-		debugger->drawSphere(drawPoint + this->planes[i].getNormal(), 0.1f, colors[i]);
+		colors[0] = glm::vec3(1, 0, 0); // top
+		colors[1] = glm::vec3(0, 1, 0); // bot
+		colors[2] = glm::vec3(0, 0, 1); // left
+		colors[3] = glm::vec3(1, 0, 1); // right
+		colors[4] = glm::vec3(1, 1, 0); // near
+		colors[5] = glm::vec3(1, 1, 1); // far
+		for (size_t i = 0; i < FRUSTUM_PLANE_AMOUNT; i++)
+		{
+			debugger->drawLine(drawPoint, drawPoint + this->planes[i].getNormal());
+			debugger->drawSphere(drawPoint + this->planes[i].getNormal(), 0.1f, colors[i]);
+		}
 	}
+
+	if (drawFrustum)
+	{
+		debugger->drawLine(farTopLeft, farTopRight, glm::vec3(1, 0, 0)); // far square RED
+		debugger->drawLine(farTopRight, farBottomRight, glm::vec3(1, 0, 0));
+		debugger->drawLine(farBottomLeft, farBottomRight, glm::vec3(1, 0, 0));
+		debugger->drawLine(farBottomLeft, farTopLeft, glm::vec3(1, 0, 0));
+
+		debugger->drawLine(nearTopLeft, nearTopRight, glm::vec3(0, 0, 1)); // near square BLUE
+		debugger->drawLine(nearTopLeft, nearBottomLeft, glm::vec3(0, 0, 1));
+		debugger->drawLine(nearTopRight, nearBottomRight, glm::vec3(0, 0, 1));
+		debugger->drawLine(nearBottomLeft, nearBottomRight, glm::vec3(0, 0, 1));
+
+		debugger->drawLine(nearTopLeft, farTopLeft); // between suqres GREEN
+		debugger->drawLine(nearTopRight, farTopRight);
+		debugger->drawLine(nearBottomLeft, farBottomLeft);
+		debugger->drawLine(nearBottomRight, farBottomRight);
+	}
+
+	//DRAWING FRUSTUM
 }
 
 bool Frustum::pointPlaneCollision(int plane, glm::vec3 & point)
