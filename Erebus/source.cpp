@@ -21,6 +21,7 @@
 #include "AGI.h"
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
+#include "QuadTree.h"
 
 #define MAX_TRANSFORMS 300
 #define MAX_ANIMATIONS 300
@@ -206,6 +207,11 @@ int main()
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	std::vector<ModelInstance> blendingModels;
 
+	//				QUADTREE TESTING
+	QuadTree quadTree = QuadTree();
+	quadTree.generateQuadtree(3,glm::vec3(200,0,200), 750.0f);
+	//				END QUADTREE TESTING
+
 	ThreadData threadData =
 	{
 		&engine,
@@ -241,6 +247,7 @@ int main()
 	bool prevMouseVisible = threadData.mouseVisible;
 	while (threadData.running && window.isWindowOpen())
 	{
+		quadTree.draw(Debugger::getInstance());
 		// START OF CRITICAL SECTION
 		DWORD waitResult = WaitForSingleObject( threadData.consume, THREAD_TIMEOUT );
 		if( waitResult == WAIT_OBJECT_0 )

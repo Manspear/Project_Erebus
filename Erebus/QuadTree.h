@@ -4,6 +4,7 @@
 #include "Frustum.h"
 #include "RenderQueue.h"
 #include "Transform.h"
+#include "Debug.h"
 
 class QuadTree
 {
@@ -13,6 +14,8 @@ public:
 
 	bool addModel();
 	void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
+
+	void draw(Debug* debugger);
 	
 
 private:
@@ -25,14 +28,19 @@ private:
 		NODE_AMOUNT
 
 	};
-	struct Node
+	class Node
 	{
 		// COllider, transform, model, children
-		AABBCollider* collider = nullptr;
+	public:
+		AABBCollider* collider;
 		Node* children[NODE_AMOUNT];
 		Node(AABBCollider* collider)
 		{
-			collider = collider;
+			this->collider = collider;
+			for (int i = 0; i < NODE_AMOUNT; i++)
+			{
+				children[i] = nullptr;
+			}
 		}
 
 	};
@@ -40,5 +48,11 @@ private:
 	glm::vec3 position;
 	float width;
 	unsigned int depth;
+	const int COLLIDER_HEIGHT = 500;
+
+
+	//Helper functions
+	void createChildren(Node* parent, glm::vec3 center, float width, unsigned int depth);
+	void reqursiveDraw(Node* node, Debug* debugger);
 };
 
