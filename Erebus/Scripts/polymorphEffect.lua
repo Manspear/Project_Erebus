@@ -27,7 +27,7 @@ function CreatePolyEffect(duration)
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
 		self.duration = self.duration - dt
 		self.poofTime = self.poofTime - dt
-		if self.poofTime < 0 then Transform.ActiveControl(self.polymorphTransform, true) print("tja") end
+		if self.poofTime < 0 then Transform.ActiveControl(self.polymorphTransform, true) end
 		Transform.SetPosition(self.polymorphTransform, Transform.GetPosition(entity.transformID))	
 		return self.duration > 0 
 	end

@@ -24,7 +24,6 @@ function LoadBoss()
 	SphereCollider.SetActive(boss.sphereCollider, true);
 
 	function boss:Hurt(damage)
-		print("boss got hit omfgwtfbbq   "..boss.health )
 		boss.health = boss.health - damage
 	end
 	function boss:Apply(effect)
