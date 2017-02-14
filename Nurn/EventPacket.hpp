@@ -6,15 +6,16 @@ union EventPacket
 {
 	struct EventPacketStruct
 	{
-		//Empty
+		uint16_t eventID;
 	}data;
 
 	EventPacket()
 	{
 	}
 
-	EventPacket()
+	EventPacket(const uint16_t& eventID)
 	{
+		data.eventID = eventID;
 	}
 
 	unsigned char bytes[sizeof(EventPacketStruct)];
