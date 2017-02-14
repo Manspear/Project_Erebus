@@ -1,4 +1,10 @@
 // influenced by LightHouse3D frustum culling tutorial
+/*
+	This frustum is locked on Y-Axis
+	This is because on big AABB:s you get lots of false positives otherwise
+	To get rid of false positives you can either make the AABB:s small compared to the frustum or you can
+	do the separating axis theorem to calculate collision instead, but this is too slow.
+*/
 #pragma once
 #include "PlaneFrustum.h"
 #include "glm\ext.hpp"
@@ -42,6 +48,8 @@ private:
 	};
 	PlaneFrustum planes[6];
 	glm::vec4 clipSpacePlanes[6];
+	const int LUA_HARDCODED = 5;
+	const int WIDEN_FRUSTUM = 25;
 
 	//helper functions
 	bool pointPlaneCollision(int plane, glm::vec3& point);

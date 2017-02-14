@@ -13,7 +13,7 @@ Frustum::~Frustum()
 
 void Frustum::setCameraParameters(float fov, float aspectRatio, float nearDistance, float farDistance)
 {
-	this->fov = 50; // this needs to be hardcoded as the fov is also hardcoded in lua (camera.lua)
+	this->fov = fov + LUA_HARDCODED + WIDEN_FRUSTUM; // this needs to be hardcoded as the fov is also hardcoded in lua (camera.lua)
 	this->aspectRatio = aspectRatio;
 	this->nearDistance = nearDistance;
 	this->farDistance = farDistance;
@@ -30,8 +30,8 @@ void Frustum::updateFrustum(const glm::vec3 & position, const glm::vec3 & direct
 	glm::vec3 nearCenter, farCenter, x, y, z;
 
 	//compute z axis of camera, opposite direction from the looking direction
-	//z = glm::normalize(glm::vec3(-direction.x,0,-direction.z));
-	z = -direction;
+	//z = -direction;
+	z = glm::normalize(glm::vec3(-direction.x, 0, -direction.z));
 
 	// x axis of camera with given up vector and z axis
 	x = glm::normalize(glm::cross(up, z));
