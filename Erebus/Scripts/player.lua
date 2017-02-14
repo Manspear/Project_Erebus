@@ -46,9 +46,20 @@ function LoadPlayer()
 	player.dashtime = 0
 	player.dashcd = 0
 	player.invulnerable = false
-	player.position = {}
+	player.position = Transform.GetPosition(player.transformID)
+	player.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.pingTexture = Assets.LoadTexture("Textures/ping.png")
+	player.pingDuration = 1
+	player.ping = 0
 
+	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
+
+	player.nrOfInnerCircleEnemies = 0
+	player.nrOfOuterCircleEnemies = 0
+
+	player.outerCirclerange = 4
+	player.innerCirclerange = 8
 
 	-- set spells for player
 	player.spells = {}
@@ -126,6 +137,13 @@ function LoadPlayer2()
 	player2.charging = false
 	player2.position = {}
 
+	
+	player2.nrOfInnerCircleEnemies = 0
+	player2.nrOfOuterCircleEnemies = 0
+
+	player2.outerCirclerange = 4
+	player2.innerCirclerange = 8
+
 	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
@@ -135,6 +153,14 @@ function LoadPlayer2()
 
 	local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
+
+	player2.Hurt = function(self,damage, source)
+
+	end
+
+	player2.Kill = function(self)
+
+	end
 
 	player2.Apply = function(self, effect)
 		if not self.invulnerable then
@@ -192,6 +218,9 @@ function UpdatePlayer(dt)
 		player.forward = 0
 		player.left = 0
 
+		if player.ping > 0 then
+			player.ping = player.ping - dt;
+		end
 
 		player.position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
@@ -251,6 +280,9 @@ function UpdatePlayer(dt)
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
 
+	--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
 		if v.collider:CheckCollision() then
@@ -300,6 +332,10 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
+		end
+		if Inputs.KeyDown("Q") then
+			Sound.Play("Effects/ping.wav", 1, player.position)
+			player.ping = player.pingDuration
 		end
 		if Inputs.KeyDown("T") then
 			local dir = Camera.GetDirection()
@@ -439,6 +475,13 @@ function UpdatePlayer2(dt)
 	local newQuickBlendValue, quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment = Network.GetQuickBlendPacket()
 	if newQuickBlendValue == true then
 		player2.animationController:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+	end
+	
+	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
+	if newChangeSpellsValue == true then
+		player2.spells[1] = SpellListPlayer2[changeSpell1].spell
+		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
+		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
 	end
 end
 

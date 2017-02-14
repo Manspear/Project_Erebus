@@ -52,7 +52,7 @@ function UpdateGameplay(dt)
 	if Inputs.KeyReleased(Keys.Escape) then
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
-		if Inputs.KeyReleased("B") then
+	if Inputs.KeyReleased("B") then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 

@@ -41,7 +41,7 @@ function CreateEnemyController(enemy)
 	controller.quickBlendSegment = 2
 
 
-	currentAnimation = 1
+	controller.currentAnimation = 1
 
 	local animationTransitionTimes = {}
 	for i = 1, 9 do
@@ -59,14 +59,14 @@ function CreateEnemyController(enemy)
 	--to be set in the parametre
 
 	function controller:AnimationUpdate(dt,enemy)
-		--self.animation:Update(dt, self.currentAnimation, 0)
+		--self.animation:Update(dt, 2, 0)
 		--self.animation:UpdateShaderMatrices()
-		self.animation:SetSegmentState(self.currentAnimation,0)
-		self:copyWatch()
+
+		self.animation:SetSegmentState( self.currentAnimation, 0 )
 	end
 
 	function controller:AnimationHurt(dt,enemy)
-		--self.animation:Update(dt, 0, 1)
+		self.animation:Update(dt, 0, 1)
 	end
 
 
@@ -74,12 +74,8 @@ function CreateEnemyController(enemy)
 		self.oldWatch.health = self.watch.health
 	end
 
-	function controller:doNothing()
-		self.currentAnimation = 0
-	end
-
 	function controller:doAttack()
-		self.currentAnimation = 2
+		self.currentAnimation = 7
 	end
 
 	function controller:doWalk()

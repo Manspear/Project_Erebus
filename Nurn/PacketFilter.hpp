@@ -11,6 +11,7 @@
 #include "QuickBlendPacket.hpp"
 #include "DamagePacket.hpp"
 #include "ChangeSpellsPacket.hpp"
+#include "EventPacket.hpp"
 
 class PacketFilter
 {
@@ -28,6 +29,7 @@ public:
 	PacketQueue<QuickBlendPacket> * getQuickBlendQueue();
 	PacketQueue<DamagePacket> * getDamageQueue();
 	PacketQueue<ChangeSpellsPacket> * getChangeSpellsQueue();
+	PacketQueue<EventPacket> * getPlayerEventQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -39,4 +41,5 @@ private:
 	PacketQueue<QuickBlendPacket> * quickBlendQueue;
 	PacketQueue<DamagePacket> * damageQueue;
 	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
+	PacketQueue<EventPacket> * playerEventQueue;
 };

@@ -83,6 +83,9 @@ namespace Nurn
 		NURN_API void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
 		NURN_API bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
 
+		NURN_API void pushPlayerEventPacket(const EventPacket& packet);
+		NURN_API bool fetchPlayerEventPacket(EventPacket& packet);
+
 		NURN_API uint8_t getPing() const;
 
 

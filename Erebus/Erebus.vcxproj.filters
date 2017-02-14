@@ -493,6 +493,15 @@
     <None Include="Scripts\ipconnectUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>
+    <None Include="Shaders\worldImage.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\worldImage.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

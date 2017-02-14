@@ -11,6 +11,7 @@ PacketFilter::PacketFilter()
 	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
 	this->damageQueue = new PacketQueue<DamagePacket>(20);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
+	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 }
 
 PacketFilter::~PacketFilter()
@@ -60,6 +61,11 @@ PacketFilter::~PacketFilter()
 		delete this->changeSpellsQueue;
 		this->changeSpellsQueue = 0;
 	}
+	if (this->playerEventQueue)
+	{
+		delete this->playerEventQueue;
+		this->playerEventQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -106,6 +112,9 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 				case CHANGESPELLS_PACKET:
 					this->changeSpellsQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
+					break;
+				case PLAYER_EVENT_PACKET:
+					this->playerEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
 					break;
 				default:
 					printf("KERNEL PANIC!!\n");
@@ -158,4 +167,9 @@ PacketQueue<DamagePacket> * PacketFilter::getDamageQueue()
 PacketQueue<ChangeSpellsPacket> * PacketFilter::getChangeSpellsQueue()
 {
 	return this->changeSpellsQueue;
+}
+
+PacketQueue<EventPacket> * PacketFilter::getPlayerEventQueue()
+{
+	return this->playerEventQueue;
 }
