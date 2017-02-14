@@ -15,10 +15,11 @@ Gear::WorldImageRenderer::~WorldImageRenderer()
 
 void Gear::WorldImageRenderer::init(int screenWidth, int screenHeight)
 {
-	shader = new ShaderProgram(shaderBaseType::VERTEX_GEOMETRY_FRAGMENT, "worldImage");
+	shader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "worldImage");
 	shader->use();
 	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	//glGenBuffers(1, &VBO);
 
 	static const GLfloat g_vertex_buffer_data[] = {
 		-0.5f, -0.5f, 0.0f,
@@ -29,7 +30,7 @@ void Gear::WorldImageRenderer::init(int screenWidth, int screenHeight)
 
 	glGenBuffers(1, &VertexVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VertexVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_DYNAMIC_DRAW);
 
 	shader->unUse();
 }
@@ -42,10 +43,22 @@ void Gear::WorldImageRenderer::showImage(const sWorldImage & quad, Importer::Tex
 
 GEAR_API void Gear::WorldImageRenderer::update(Camera * mainCamera)
 {
+	shader->use();
+	glm::mat4 view = mainCamera->getViewMatrix();
+	glm::mat4 pers = mainCamera->getProjectionMatrix();
 
+	glm::mat4 VM = pers * view;
+
+	glm::vec3 right = glm::vec3(view[0][0], view[1][0], view[2][0]);
+	glm::vec3 up = glm::vec3(view[0][1], view[1][1], view[2][1]);
+
+	shader->setUniform(up, "CameraUp_worldspace");
+	shader->setUniform(right, "CameraRight_worldspace");
+	shader->setUniform4cfv(&VM[0][0], "VP");
+	shader->unUse();
 }
 
-void Gear::WorldImageRenderer::showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
+void Gear::WorldImageRenderer::showImage(const glm::vec3 &pos, const float &width, const float &height, Importer::TextureAsset* texture)
 {
 	sWorldImage quad;
 	quad.pos = pos;
@@ -72,35 +85,27 @@ void Gear::WorldImageRenderer::draw()
 	shader->use();
 
 	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(sWorldImage), (GLvoid*)0);
-	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(sWorldImage), (GLvoid*)(sizeof(float) * 2));
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(sWorldImage), (GLvoid*)(sizeof(float) * 3));
 
 	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VertexVBO);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	
 
 	for (int i = 0; i < bufferQuads.size(); i++)
 	{
 		bufferTextures[i]->bind(GL_TEXTURE0);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(sWorldImage), &(bufferQuads[i]), GL_STATIC_DRAW);
-		glDrawArrays(GL_POINTS, 0, 1);
+
+		shader->setUniform(bufferQuads[i].pos, "pos");
+		shader->setUniform(bufferQuads[i].width, "width");
+		shader->setUniform(bufferQuads[i].height, "height");
+
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	}
 	bufferTextures.clear();
 	bufferQuads.clear();
 
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+	/*glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);*/
 
 	glBindVertexArray(0);
 

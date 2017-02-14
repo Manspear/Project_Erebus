@@ -55,6 +55,8 @@ function UpdateSpellbookUI(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["back"], x,y) then
+				selectedPlayerSpell = -1
+				selectedBookSpell = -1
 				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
 

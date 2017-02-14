@@ -30,10 +30,10 @@ ID3name = nil
 
 local ID4name = {}
 ID4name.transformID = Transform.Bind()
-Transform.SetPosition(ID4name.transformID, {x=47.3438, y=13.7729, z=137.75})
+Transform.SetPosition(ID4name.transformID, {x=20, y=-3, z=339})
 Transform.SetScaleNonUniform(ID4name.transformID, 1, 1, 1)
 Transform.SetRotation(ID4name.transformID, {x=0, y=0, z=0})
-Transform.SetPosition(player.transformID, {x=47.3438, y=13.7729, z=137.75})
+Transform.SetPosition(player.transformID, {x=20, y=-3, z=339})
 player:ChangeHeightmap(heightmaps[1])
 table.insert(props,ID4name)
 ID4name = nil
@@ -75,5 +75,5 @@ local widthTest = heightmaps[1].asset:GetMapWidth()
 local heightTest = heightmaps[1].asset:GetMapHeight()
 AI.SetNav(widthTest,heightTest)
 
-Transform.SetPosition(player.transformID, {x=124, y=32, z=220})
+Transform.SetPosition(player.transformID, {x=0, y=-3, z=0})
 CreateEnemy(ENEMY_MELEE, {x=122, y=32, z=230})

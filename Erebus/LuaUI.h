@@ -13,8 +13,6 @@ namespace LuaUI {
 	int resizeScreenImage(lua_State* lua);
 	int repositionScreenImage(lua_State* lua);
 
-	int loadWorldImage(lua_State* lua);
-	int unloadWorldImage(lua_State* lua);
 	int resizeWorldImage(lua_State* lua);
 	int repositionWorldImage(lua_State* lua);
 }

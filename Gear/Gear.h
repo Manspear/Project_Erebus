@@ -42,7 +42,7 @@ namespace Gear
 								Importer::TextureAsset* texture);
 
 		GEAR_API void showWorldImage(const sWorldImage & quad, Importer::TextureAsset* texture);
-		GEAR_API void showWorldImage(const glm::vec2 &pos,
+		GEAR_API void showWorldImage(const glm::vec3 &pos,
 			const float &width,
 			const float &height,
 			Importer::TextureAsset* texture);

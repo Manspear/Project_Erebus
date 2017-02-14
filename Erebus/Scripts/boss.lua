@@ -55,7 +55,7 @@ function UpdateBoss(dt)
 			if boss.spellcooldowns[i] < 0 then
 				--print("shot")
 				boss.spellcooldowns[i] = BOSS_SPELLCD[i]
-				boss.spells[i]:Cast(boss)
+				--boss.spells[i]:Cast(boss)
 			end
 		end
 	end

@@ -16,6 +16,7 @@ namespace Gear
 		queue.init();
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		worldImage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -196,7 +197,7 @@ namespace Gear
 		worldImage.showImage(quad, texture);
 	}
 
-	GEAR_API void GearEngine::showWorldImage(const glm::vec2 & pos, const float & width, const float & height, Importer::TextureAsset * texture)
+	GEAR_API void GearEngine::showWorldImage(const glm::vec3 & pos, const float & width, const float & height, Importer::TextureAsset * texture)
 	{
 		worldImage.showImage(pos, width, height, texture);
 	}
@@ -336,10 +337,15 @@ namespace Gear
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
+		
+
 		glDisable(GL_CULL_FACE);
-		
+
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
-		
+
+		worldImage.update(camera);
+		worldImage.draw();
+
 		debugHandler->draw( camera, &queue );
 
 		skybox.update(camera);
@@ -354,6 +360,7 @@ namespace Gear
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
+
 		
 		image.draw();
 		text.draw();
@@ -366,6 +373,7 @@ namespace Gear
 		debugHandler->reset();
 		text.updateBuffer();
 		image.updateBuffer();
+		worldImage.updateBuffer();
 		addLight();
 		updateLight();
 		removeLight();

@@ -10,18 +10,18 @@ struct sWorldImage
 {
 	sWorldImage()
 	{
-		glm::vec2 pos(0, 0);
+		glm::vec3 pos(0, 0, 0);
 		width = 0;
 		height = 0;
 	}
-	sWorldImage(glm::vec2 pos, float width, float height)
+	sWorldImage(glm::vec3 pos, float width, float height)
 	{
 		this->pos = pos;
 		this->width = width;
 		this->height = height;
 	}
 
-	glm::vec2 pos;
+	glm::vec3 pos;
 	float width;
 	float height;
 };
@@ -38,7 +38,7 @@ namespace Gear
 
 		GEAR_API void showImage(const sWorldImage & quad, Importer::TextureAsset* texture);
 
-		GEAR_API void showImage(const glm::vec2 &pos, const float &width, const float &height, Importer::TextureAsset* texture);
+		GEAR_API void showImage(const glm::vec3 &pos, const float &width, const float &height, Importer::TextureAsset* texture);
 
 		GEAR_API void updateBuffer();
 		GEAR_API void update(Camera* mainCamera);
@@ -55,5 +55,6 @@ namespace Gear
 
 		ShaderProgram* shader;
 		GLuint VAO, VBO, VertexVBO;
+
 	};
 }

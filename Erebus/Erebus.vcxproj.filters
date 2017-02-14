@@ -497,6 +497,9 @@
     <None Include="Shaders\worldImage.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

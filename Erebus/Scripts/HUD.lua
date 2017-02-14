@@ -27,7 +27,9 @@ function LoadHUD()
 	screenImages[1] = UI.load(375, 638, 40, 40);
 	screenImages[2] = UI.load(420, 638, 40, 40);
 	screenImages[3] = UI.load(465, 638, 40, 40);
-	
+
+
+	screenImages["temp"] = UI.load(0, -3, 0, 2, 1);
 end
 
 function UnloadHUD()
@@ -35,6 +37,16 @@ function UnloadHUD()
 end
 
 function UpdateHUD(dt)
+
+	y = Transform.GetPosition(player.tranformID).y
+
+	y2 = y + 2
+
+	h = Transform.GetPosition(player.tranformID)
+	vec3print(h)
+
+	print(Transform.GetPosition(player.tranformID).x)
+	UI.reposWorld(screenImages["temp"], Transform.GetPosition(player.tranformID).x, y2, Transform.GetPosition(player.tranformID).z)
 
 	if playerHealthCurrent > player.health then
 	
@@ -100,6 +112,8 @@ function DrawHUD()
 	UI.drawImage(screenImages[1], imageTextures["number1"]);
 	UI.drawImage(screenImages[2], imageTextures["number2"]);
 	UI.drawImage(screenImages[3], imageTextures["number3"]);
+
+	UI.drawWorldImage(screenImages["temp"], imageTextures["healthBackground"]);
 
 	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 end

@@ -29,6 +29,8 @@ public:
 	GEAR_API glm::vec3 getPosition();								//returns position of camera
 	GEAR_API glm::vec3 getDirection();								//returns look direction of camera
 	GEAR_API glm::vec3 getUp();
+	GEAR_API glm::vec3 getTrueUp();
+	GEAR_API glm::vec3 getRight();
 	GEAR_API float getFov();
 	GEAR_API float getAspectRatio();
 	GEAR_API float getNearPlaneDistance();
@@ -53,6 +55,8 @@ private:
 	glm::vec3 camDirection;
 	glm::vec3 camPosition;
 	glm::vec3 camUp;
+	glm::vec3 camTrueUp;
+	glm::vec3 camRight;
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
 
