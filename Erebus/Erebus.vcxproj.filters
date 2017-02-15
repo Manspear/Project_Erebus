@@ -497,6 +497,18 @@
     <None Include="Scripts\ipconnectUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>
+    <None Include="Scripts\polymorph.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\polymorphEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\tumbleThorns.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

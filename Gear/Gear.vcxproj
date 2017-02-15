@@ -172,6 +172,7 @@
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="WorldImageRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WorldImageRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Importer\Importer.vcxproj">

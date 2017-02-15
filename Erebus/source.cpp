@@ -23,8 +23,8 @@
 #include "LuaBinds.h"
 #include "TransformHandler.h"
 
-#define MAX_TRANSFORMS 100
-#define MAX_ANIMATIONS 100
+#define MAX_TRANSFORMS 300
+#define MAX_ANIMATIONS 300
 
 bool running = true;
 
@@ -54,6 +54,8 @@ struct ThreadData
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
+Frustum f = Frustum();
+glm::vec3 POINT33(125, 35, 230);
 struct AnimationData
 {
 	Animation* animation;
@@ -62,7 +64,7 @@ struct AnimationData
 void updateAnimation( void* args )
 {
 	AnimationData* data = (AnimationData*)args;
-	data->animation->update( data->dt );
+	//data->animation->update( data->dt );
 }
 
 DWORD WINAPI update( LPVOID args )
@@ -90,7 +92,6 @@ DWORD WINAPI update( LPVOID args )
 	collisionHandler.setTransforms( data->transformHandler );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
-
 
 	ai.addDebug(Debugger::getInstance());
 

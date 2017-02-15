@@ -12,6 +12,12 @@ Animation::Animation()
 	transitionTimeArray = nullptr;
 
 	transitionTimeArraySize = 9;
+
+	quickBlendFrom = 0;
+	quickBlendTo = 0;
+	quickBlendSegment = -1;
+	quickBlendTime = 0;
+	quickBlendingDone = true;
 }
 
 Animation::~Animation()
@@ -26,6 +32,7 @@ void Animation::setAsset(Importer::ModelAsset * asset)
 	this->asset = asset;
 	Importer::hModel* model = asset->getHeader();
 	finalList.resize(model->numJoints);
+	blendedList.resize(model->numJoints);
 }
 
 void Animation::updateAnimation(float dt, int layer, int animationSegment)
@@ -33,6 +40,13 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 	animationTimers[animationSegment] += dt;
 	Importer::hModel* model = asset->getHeader();
 	int jointOffset = 0;
+	float maxTime;
+	float diff;
+	Importer::sKeyFrame* currKey;
+
+	float timeOverCompare;
+	float timeUnderCompare;
+
 	for (int i = 0; i < model->numSkeletons; i++)
 	{
 		//layer gives the current animation layer/state
@@ -47,23 +61,21 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
-			float maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
+			maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 
-			sKeyFrame* aids = (sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame));
-			sKeyFrame* aids2 = (sKeyFrame*)((char*)keys + (1) * sizeof(Importer::sKeyFrame));
 			//resets itself wohahaha
 			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
-			float timeOverCompare = (float)INT_MAX;
-			float timeUnderCompare = -(float)INT_MAX;
+			timeOverCompare = (float)INT_MAX;
+			timeUnderCompare = -(float)INT_MAX;
 
 			Importer::sKeyFrame overKey;
 			Importer::sKeyFrame underKey;
 
 			for (int k = 0; k < state->keyCount; k++)
 			{
-				Importer::sKeyFrame* currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
-				float diff = animationTimers[animationSegment] - currKey->keyTime;
+				currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
+				diff = animationTimers[animationSegment] - currKey->keyTime;
 
 				if (timeOverCompare == INT_MAX && timeUnderCompare == -INT_MAX)
 				{
@@ -95,7 +107,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 
 std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
 {
-	if( animTimer >= 0.0f )
+	if (animTimer >= 0.0f)
 		animTimer += dt;
 	else
 	{
@@ -103,7 +115,15 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 		animTimer = this->animTimer;
 	}
 	Importer::hModel* model = asset->getHeader();
+	Importer::sKeyFrame* keys;
+	Importer::hAnimationState* state;
 	int jointOffset = 0;
+	float maxTime;
+	float timeOverCompare;
+	float timeUnderCompare;
+	Importer::sKeyFrame overKey;
+	Importer::sKeyFrame underKey;
+	Importer::sKeyFrame* currKey;
 	for (int i = 0; i < model->numSkeletons; i++)
 	{
 		//layer gives the current animation layer/state
@@ -112,25 +132,22 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 		for (int j = 0; j < skeleton->jointCount; j++)
 		{
 			//get animation layer
-			Importer::hAnimationState* state = asset->getAnimationState(i, j, layer);
+			state = asset->getAnimationState(i, j, layer);
 
 			//Importer::hJoint* joint;
-			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
+			keys = asset->getKeyFrames(i, j, layer);
 
 			//Get the maxtime for this layer
-			float maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
+			maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 																														//resets itself wohahaha
 			animTimer = abs(std::fmod(animTimer, maxTime));
 
-			float timeOverCompare = (float)INT_MAX;
-			float timeUnderCompare = -(float)INT_MAX;
-
-			Importer::sKeyFrame overKey;
-			Importer::sKeyFrame underKey;
+			timeOverCompare = (float)INT_MAX;
+			timeUnderCompare = -(float)INT_MAX;
 
 			for (int k = 0; k < state->keyCount; k++)
 			{
-				Importer::sKeyFrame* currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
+				currKey = (sKeyFrame*)((char*)keys + k * sizeof(Importer::sKeyFrame));
 				float diff = animTimer - currKey->keyTime;
 
 				if (timeOverCompare == INT_MAX && timeUnderCompare == -INT_MAX)
@@ -201,6 +218,22 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 			animationStacks[animationSegment].push_back(back);
 		}
 		animationStacks[animationSegment].push_back(state);
+	}
+
+	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
+	//make sure to reset the timeMultiplier after the attack is done. It is crucial. Or else the animation will get faster and faster.
+	if (animationPlayTime[animationSegment] > 0)
+	{
+		Importer::hAnimationState* stater = asset->getAnimationState(0, 5, state);
+		Importer::sKeyFrame* keys = asset->getKeyFrames(0, 5, state);
+		float animMaxTime = ((sKeyFrame*)((char*)keys + (stater->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime;
+		timeMultiplier[animationSegment] = animMaxTime / animationPlayTime[animationSegment];
+
+		//std::cout << "animMax: " << animMaxTime << " " << "animPlayTime: " << animationPlayTime[animationSegment] << std::endl;
+	}
+	else
+	{
+		timeMultiplier[animationSegment] = 1.f;
 	}
 }
 
@@ -286,13 +319,16 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 {
 	this->animationSegments = numberOfSegments;
 	currentSegmentStates.resize(numberOfSegments);
-
+	timeMultiplier.resize(numberOfSegments);
+	animationPlayTime.resize(numberOfSegments);
 	std::vector<int> animStack;
 	animStack.push_back(0);
 	for (int i = 0; i < animationSegments; i++)
 	{
-		isTransitionCompletes.push_back(true);
+		timeMultiplier[i] = 1;
+		animationPlayTime[i] = -1;
 
+		isTransitionCompletes.push_back(true);
 		oldTos.push_back(-1337);
 		oldFroms.push_back(-1337);
 
@@ -310,7 +346,7 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 	}
 }
 
-void Animation::setMatrixIndex( int index )
+void Animation::setMatrixIndex(int index)
 {
 	matrixIndex = index;
 }
@@ -330,6 +366,11 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 	setStates(numStates);
 }
 
+GEAR_API void Animation::setAnimationPlayTime(float animTime, int segment)
+{
+	animationPlayTime[segment] = animTime;
+}
+
 GEAR_API void Animation::setStates(int numStates)
 {
 	this->numStates = numStates;
@@ -340,29 +381,26 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	if (animationSegments > 1)
 	{
 		//animationMatrixLists is a 64 long mat4 list, where each 
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4) );
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4x4));
 
 		for (int i = 1; i < animationSegments; i++)
 		{
-			for (int j = 0; j < MAXJOINTCOUNT; j++)
+			//if the whole animation is full of identity matrices, skip it.
+			if (memcmp(&animationMatrixLists[i][0], &identityMatrixList, sizeof(glm::mat4x4) * MAXJOINTCOUNT) != 0)
 			{
-				//if (animationMatrixLists[i][j] != glm::mat4x4())
-				//	animationMatrixLists[i][j] = animationMatrixLists[i][j];
-				//
-				//glm::mat4x4 popo;
-				//popo = inverse(animationMatrixLists[0][0]);
-				//// popo = inverse(animationMatrixLists[0][0]);
-				//popo[3][0] = 0;
-				//popo[3][1] = 0;
-				//popo[3][2] = 0;
-				shaderMatrices[j] *= animationMatrixLists[i][j]; //* popo;
+				for (int j = 0; j < MAXJOINTCOUNT; j++)
+				{
+					//If the new matrix isn't an identity matrix, do the multiplication. 
+					if (memcmp(&animationMatrixLists[i][j], &glm::mat4x4(), sizeof(glm::mat4x4)) != 0)
+						shaderMatrices[j] *= animationMatrixLists[i][j]; //* popo;
+				}
 			}
 		}
 	}
 	else
 	{
 		//64 slots each with 64 matrices
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4) );
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4));
 	}
 
 	/*
@@ -391,10 +429,9 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	blendFromKeys = updateAnimationForBlending(dt, blendFrom, fromAnimationTimer);
 	blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
 
-	std::vector<sKeyFrame> blendedList;
 	for (int i = 0; i < blendToKeys.size(); i++)
 	{
-		blendedList.push_back(interpolateKeysForBlending(blendToKeys[i], blendFromKeys[i], animationSegment));
+		blendedList[i] = interpolateKeysForBlending(blendToKeys[i], blendFromKeys[i], animationSegment);
 	}
 
 	//Now update the matrix list with the blended keys
@@ -437,7 +474,7 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 	myLerp(underKey.keyTranslate, overKey.keyTranslate, interpolatedKey.keyTranslate, underAffect);
 
 	myLerp(underKey.keyScale, overKey.keyScale, interpolatedKey.keyScale, underAffect);
-
+	
 	//Lerping the quaternion
 	glm::quat resQ = glm::slerp(rotUnder, rotOver, underAffect);
 	glm::vec3 endRot = glm::eulerAngles(resQ);
@@ -551,18 +588,20 @@ void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
 void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment)
 {
 	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
-
+	glm::mat4 translateMat;
+	glm::mat4 scaleMat;
+	glm::mat4 rotateMat;
+	
 	for (int i = 0; i < keyList.size(); i++)
 	{
-		glm::mat4 translateMat;
-		glm::mat4 scaleMat;
-		glm::mat4 rotateMat;
-		convertToRotMat(keyList[i].keyRotate, &rotateMat);
-		convertToTransMat(keyList[i].keyTranslate, &translateMat);
-		convertToScaleMat(keyList[i].keyScale, &scaleMat);
-
-		tMatrices[i] = translateMat * scaleMat * rotateMat;
+		//rotations are expressed in degrees / euler
+		//convertToRotMat(keyList[i].keyRotate, &rotateMat);
+		//convertToTransMat(keyList[i].keyTranslate, &translateMat);
+		//convertToScaleMat(keyList[i].keyScale, &scaleMat);
+		//tMatrices[i] = translateMat * scaleMat * rotateMat;
+		makeTRSMatrix(keyList[i].keyTranslate, keyList[i].keyRotate, keyList[i].keyScale, &tMatrices[i]);
 	}
+	
 	/*
 	Make a special case where when the animation of segment is not calculated, use it's root and add it's rotation
 	to the other segment's rotation
@@ -570,18 +609,19 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 	int jointIdxOffset = 0;
 	hSkeleton* skelPtr = asset->getSkeleton(0);
 	hJoint* modelJointPtr = asset->getJointsStart();
+	glm::mat4x4 invBPose;
+	int parentID;
 	for (int i = 0; i < keyList.size(); i++)
 	{
 		if (modelJointPtr->parentJointID >= 0)
 		{
-			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
+			parentID = modelJointPtr->parentJointID + jointIdxOffset;
 			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
 		}
-		tMatrices[i];
 
 		int checker = modelJointPtr->parentJointID;
 
-		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
+		invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
 
 		animationMatrixLists[animationSegment][i] = tMatrices[i] * invBPose;
 
@@ -597,9 +637,12 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 
 void Animation::myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal)
 {
-	fillArr[0] = (arr1[0] * (1 - iVal)) + (arr2[0] * (iVal));
-	fillArr[1] = (arr1[1] * (1 - iVal)) + (arr2[1] * (iVal));
-	fillArr[2] = (arr1[2] * (1 - iVal)) + (arr2[2] * (iVal));
+	fillArr[0] = glm::mix(arr1[0], arr2[0], iVal);
+	fillArr[1] = glm::mix(arr1[1], arr2[1], iVal);
+	fillArr[2] = glm::mix(arr1[2], arr2[2], iVal);
+	//fillArr[0] = (arr1[0] * (1 - iVal)) + (arr2[0] * (iVal));
+	//fillArr[1] = (arr1[1] * (1 - iVal)) + (arr2[1] * (iVal));
+	//fillArr[2] = (arr1[2] * (1 - iVal)) + (arr2[2] * (iVal));
 }
 
 void Animation::convertToRotMat(float in[3], glm::mat4* result)
@@ -611,6 +654,18 @@ void Animation::convertToRotMat(float in[3], glm::mat4* result)
 			-sinf(in[0]) * (-sinf(in[2])) + cosf(in[0]) * sinf(in[1]) * cosf(in[2]), (-sinf(in[0])) * cosf(in[2]) + cosf(in[0]) * sinf(in[1]) * sinf(in[2]), cosf(in[0]) * cosf(in[1]), 0.f,
 			0.f, 0.f, 0.f, 1.f
 		);
+	glm::mat4 aids = glm::rotate(in[0], glm::vec3(1, 0, 0)) * glm::rotate(in[1], glm::vec3(0, 1, 0)) * glm::rotate(in[2], glm::vec3(0, 0, 1));
+}
+
+void Animation::makeTRSMatrix(float inTranslation[3], float inRotation[3], float inScale[3], glm::mat4x4* result)
+{
+	glm::mat4 translation = glm::translate(glm::vec3(inTranslation[0], inTranslation[1], inTranslation[2]));
+	
+	glm::mat4 rotation = glm::rotate(inRotation[2], glm::vec3(0, 0, 1))  * glm::rotate(inRotation[1], glm::vec3(0, 1, 0)) * glm::rotate(inRotation[0], glm::vec3(1, 0, 0));
+
+	glm::mat4 scale = glm::scale(glm::vec3(inScale[0], inScale[1], inScale[2]));
+
+	*result = translation * scale  * rotation;
 }
 
 void Animation::convertToTransMat(float inputArr[3], glm::mat4 * result)
@@ -625,12 +680,12 @@ void Animation::convertToScaleMat(float inputArr[3], glm::mat4 * result)
 		(*result)[i][i] = inputArr[i];
 }
 
-void Animation::setSegmentState( int state, int segment )
+void Animation::setSegmentState(int state, int segment)
 {
 	currentSegmentStates[segment] = state;
 }
 
-void Animation::setQuickBlend( int from, int to, float blendTime, int segment )
+void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 {
 	quickBlendFrom = from;
 	quickBlendTo = to;
@@ -641,20 +696,21 @@ void Animation::setQuickBlend( int from, int to, float blendTime, int segment )
 
 void Animation::update(float dt)
 {
-	if( animationMatrixLists.size() <= 0 )
+	if (animationMatrixLists.size() <= 0)
 		return;
 
-	for(int i = 0; i< animationSegments; i++)
+	for (int i = 0; i< animationSegments; i++)
 	{
-		if(i == quickBlendSegment)
+
+		if (i == quickBlendSegment)
 		{
-			if( !quickBlendingDone )
+			if (!quickBlendingDone)
 			{
-				quickBlendingDone = quickBlend( dt, quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment );
+				quickBlendingDone = quickBlend(dt * timeMultiplier[i], quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment);
 			}
 		}
 		else
-			updateState( dt, currentSegmentStates[i], i );
+			updateState(dt * timeMultiplier[i], currentSegmentStates[i], i);
 	}
 
 	assembleAnimationsIntoShadermatrices();

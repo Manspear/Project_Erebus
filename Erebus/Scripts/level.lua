@@ -81,9 +81,9 @@ Transform.SetPosition(heightmaps[6].transformID, {x=20, y=6.72, z=168})
 pointLight = Light.addLight(15, 7.5, 158, 0.54, 0.17, 0.88, 20, 2)
 
 --AI
-widthTest = heightmaps[1].asset:GetMapWidth()
-heightTest = heightmaps[1].asset:GetMapHeight()
-AI.SetNav(widthTest,heightTest)
+--widthTest = heightmaps[1].asset:GetMapWidth()
+--heightTest = heightmaps[1].asset:GetMapHeight()
+--AI.CreateIM(heightmaps[1].asset,widthTest,heightTest)
 
 -- add enemies
 --[[LoadEnemies(5)

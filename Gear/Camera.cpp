@@ -200,6 +200,16 @@ glm::vec3 Camera::getUp()
 	return this->camUp;
 }
 
+GEAR_API glm::vec3 Camera::getTrueUp()
+{
+	return glm::normalize(glm::cross(getRight(), this->camDirection));
+}
+
+GEAR_API glm::vec3 Camera::getRight()
+{
+	return glm::normalize(glm::cross(this->camDirection, glm::vec3(0,1,0)));
+}
+
 float Camera::getFov()
 {
 	return this->fov;

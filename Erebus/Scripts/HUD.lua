@@ -4,6 +4,7 @@ local imageTextures = {}
 local playerHealthCurrent = 100;
 local healthBarLength = 470;
 local spellHeight = 40;
+local showHealthbar = true;
 
 function LoadHUD()
 	imageTextures["healthBackground"] = Assets.LoadTexture("Textures/HealthBackground.png");
@@ -27,7 +28,6 @@ function LoadHUD()
 	screenImages[1] = UI.load(375, 638, 40, 40);
 	screenImages[2] = UI.load(420, 638, 40, 40);
 	screenImages[3] = UI.load(465, 638, 40, 40);
-	
 end
 
 function UnloadHUD()
@@ -79,6 +79,10 @@ function UpdateHUD(dt)
 		UI.resize(screenImages["cooldownSpell3"], spellHeight, 0)
 	end
 
+	if Inputs.KeyReleased("H") then
+		showHealthbar = not showHealthbar
+	end
+
 	DrawHUD()
 
 end
@@ -101,7 +105,15 @@ function DrawHUD()
 	UI.drawImage(screenImages[2], imageTextures["number2"]);
 	UI.drawImage(screenImages[3], imageTextures["number3"]);
 
+	if player.ping > 0 then
+		UI.drawWorldImage(player.pingImage, player.pingTexture);
+	end
 	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
+	if showHealthbar then 
+		for i=1, #enemies do
+			UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
+		end
+	end
 end
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }

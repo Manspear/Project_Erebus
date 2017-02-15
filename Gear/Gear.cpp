@@ -16,6 +16,7 @@ namespace Gear
 		queue.init();
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		worldImage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -191,6 +192,16 @@ namespace Gear
 		image.showImage(pos, width, height, texture);
 	}
 
+	GEAR_API void GearEngine::showWorldImage(const sWorldImage & quad, Importer::TextureAsset * texture)
+	{
+		worldImage.showImage(quad, texture);
+	}
+
+	GEAR_API void GearEngine::showWorldImage(const glm::vec3 & pos, const float & width, const float & height, Importer::TextureAsset * texture)
+	{
+		worldImage.showImage(pos, width, height, texture);
+	}
+
 	glm::vec2 GearEngine::getTextDimensions( const char* t )
 	{
 		return text.getTextDimensions( t );
@@ -329,10 +340,14 @@ namespace Gear
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
+		
+
 		glDisable(GL_CULL_FACE);
-		
+
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
+
 		
+
 		debugHandler->draw( camera, &queue );
 
 		skybox.update(camera);
@@ -344,9 +359,12 @@ namespace Gear
 
 		queue.forwardPass(forwardModels, &uniValues);
 
+		worldImage.update(camera);
+		worldImage.draw();
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
+
 		
 		image.draw();
 		text.draw();
@@ -359,6 +377,7 @@ namespace Gear
 		debugHandler->reset();
 		text.updateBuffer();
 		image.updateBuffer();
+		worldImage.updateBuffer();
 		addLight();
 		updateLight();
 		removeLight();
@@ -530,25 +549,12 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(shader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
-		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
-		
-		//lightPassShader->addUniform(camera->getPosition(), "viewPos");
-		//lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
-		//lightPassShader->addUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
-		//lightPassShader->addUniform(glm::inverse(camera->getViewMatrix()), "invView");
-		//lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");
 
 		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
 		shader->setUniform(tempCam->getViewPers(), "shadowVPM"); //shadowVPM
 		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
-
-		//for (GLuint i = 0; i < dirLights.size(); i++) //adds dir light
-		//{
-		//	lightPassShader->addUniform(dirLights[i].direction, ("dirLights[" + std::to_string(i) + "].direction").c_str());
-		//	lightPassShader->addUniform(dirLights[i].color, ("dirLights[" + std::to_string(i) + "].color").c_str());
-		//}
 
 		for (GLuint i = 0; i < dirLights.size(); i++)
 		{

@@ -10,6 +10,7 @@
 #include "DebugHandler.h"
 #include "Skybox.h"
 #include "WorkQueue.h"
+#include "WorldImageRenderer.h"
 
 namespace Gear
 {
@@ -39,6 +40,12 @@ namespace Gear
 								const float &width, 
 								const float &height, 
 								Importer::TextureAsset* texture);
+
+		GEAR_API void showWorldImage(const sWorldImage & quad, Importer::TextureAsset* texture);
+		GEAR_API void showWorldImage(const glm::vec3 &pos,
+			const float &width,
+			const float &height,
+			Importer::TextureAsset* texture);
 
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
@@ -135,6 +142,7 @@ namespace Gear
 		DebugHandler* debugHandler;
 		TextRenderer text;
 		ImageRenderer image;
+		WorldImageRenderer worldImage;
 
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
 		void pickingPass();

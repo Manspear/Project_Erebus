@@ -15,6 +15,7 @@ function CreateSunRay(entity)
 	sunRay.damage = 0
 	sunRay.spam = false
 	sunRay.alive = false
+	sunRay.isActiveSpell = false
 	sunRay.chargedTime = 0	sunRay.Charge = BaseCharge	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.75	sunRay.cameraSlow = 2.0
@@ -71,7 +72,7 @@ function CreateSunRay(entity)
 			self.tickInterval = 1.3
 			self.startUpScale.x = self.startUpScale.x * 0.55	self.startUpScale.y = self.startUpScale.y * 0.55	self.startUpScale.z = self.startUpScale.z / 2
 			self:GeneralCast()
-			ZoomInCamera()
+			--ZoomInCamera()
 		end
 	end
 
@@ -89,6 +90,7 @@ function CreateSunRay(entity)
 			self:GeneralCast()
 			self.chargedTime = 0.0
 			self.soundID[1] = Sound.Play(self.castSFX[1], 3, self.type.position)
+			ZoomOutCamera()
 		end
 	end
 
@@ -112,7 +114,6 @@ function CreateSunRay(entity)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
-		ZoomOutCamera()
 		self.type:Kill()
 	end
 
@@ -178,7 +179,7 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:Change()
-		
+		self.isActiveSpell = not self.isActiveSpell
 	end
 
 	function sunRay:MoveWithPlayer(dt)
@@ -189,7 +190,7 @@ function CreateSunRay(entity)
 		pos.y = pos.y + direction.y * self.length 
 		pos.z = pos.z + direction.z * self.length 
 		hits = self.type:Update(pos, direction)
-		theRotation =  Transform.GetRotation(self.caster) 
+		local theRotation =  Transform.GetRotation(self.caster) 
 		self.angle = self.angle + self.spin * dt
 		theRotation.x =  theRotation.x + self.angle
 		Transform.SetRotation(self.type.transformID, theRotation)
