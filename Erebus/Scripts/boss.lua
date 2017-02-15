@@ -24,7 +24,6 @@ function LoadBoss()
 	SphereCollider.SetActive(boss.sphereCollider, true);
 
 	function boss:Hurt(damage)
-		print("boss got hit omfgwtfbbq   "..boss.health )
 		boss.health = boss.health - damage
 	end
 	function boss:Apply(effect)
@@ -54,7 +53,7 @@ function UpdateBoss(dt)
 			if boss.spellcooldowns[i] < 0 then
 				--print("shot")
 				boss.spellcooldowns[i] = BOSS_SPELLCD[i]
-				boss.spells[i]:Cast(boss)
+				--boss.spells[i]:Cast(boss)
 			end
 		end
 	end

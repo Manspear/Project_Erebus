@@ -14,6 +14,7 @@ BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.wav", "Effects/Bluezone-BC0212-ambie
 function CreateBlackHole(entity)
 	local spell = {}
 	spell.type = CreateStaticAoEType()
+	spell.innerTransformID = Transform.Bind()
 	spell.owner = entity
 	spell.effects = {}
 	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
@@ -33,6 +34,7 @@ function CreateBlackHole(entity)
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)
+	Gear.AddStaticInstance(model, spell.innerTransformID)
 
 	function spell:Cast(entity, chargetime) end
 	function spell:Charge(dt) ZoomInCamera() end
@@ -46,6 +48,8 @@ function CreateBlackHole(entity)
 			pos.y = pos.y  + 5*dir.y
 			pos.z = pos.z  + 5*dir.z
 			self.type:Cast(1, BLACK_HOLE_RADIUS, pos)
+			Transform.SetPosition(self.innerTransformID, pos)
+			Transform.ActiveControl(self.innerTransformID, true)
 			self.damage = BLACK_HOLE_DAMAGE
 			self.lastTick = 0
 			self.duration = 0
@@ -71,7 +75,7 @@ function CreateBlackHole(entity)
 			hits = self.type:Update(dt)
 			local scale = Transform.GetScale(self.type.transformID)
 			scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos(((BLACK_HOLE_COOLDOWN -self.cooldown)/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
-			Transform.SetScale(self.type.transformID, scale) 
+			Transform.SetScaleNonUniform(self.type.transformID, scale, 0.01, scale) 
 			for index = 1, #hits do
 				local position = Transform.GetPosition(hits[index].transformID)--kanske borde flyttas ut till c
 				local pos = self.type.position
@@ -111,6 +115,7 @@ function CreateBlackHole(entity)
 		self.hits = {}
 		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 		self.alive = false
+		Transform.ActiveControl(self.innerTransformID, false)
 	
 	end
 	

@@ -17,6 +17,7 @@ function CreateSunRay(entity)
 	sunRay.damage = 0
 	sunRay.spam = false
 	sunRay.alive = false
+	sunRay.isActiveSpell = false
 	sunRay.chargedTime = 0	sunRay.Charge = BaseCharge	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.75	sunRay.cameraSlow = 2.0
@@ -177,7 +178,7 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:Change()
-		
+		self.isActiveSpell = not self.isActiveSpell
 	end
 
 	function sunRay:MoveWithPlayer(dt)
@@ -188,7 +189,7 @@ function CreateSunRay(entity)
 		pos.y = pos.y + direction.y * self.length 
 		pos.z = pos.z + direction.z * self.length 
 		hits = self.type:Update(pos, direction)
-		theRotation =  Transform.GetRotation(self.caster) 
+		local theRotation =  Transform.GetRotation(self.caster) 
 		self.angle = self.angle + self.spin * dt
 		theRotation.x =  theRotation.x + self.angle
 		Transform.SetRotation(self.type.transformID, theRotation)

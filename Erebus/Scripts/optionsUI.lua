@@ -27,6 +27,7 @@ function UpdateOptionsUI(dt)
 	x,y = Inputs.GetMousePos()
 	if UI.mousePick(screenImages["fullscreen"], x,y) then
 		if Inputs.ButtonReleased(Buttons.Left) then
+			Sound.Play("Effects/button.wav", 2)
 			if SETTING_FULLSCREEN then
 				SETTING_FULLSCREEN = false
 			else
@@ -38,6 +39,7 @@ function UpdateOptionsUI(dt)
 
 	if UI.mousePick(screenImages["debug"], x,y) then
 		if Inputs.ButtonReleased(Buttons.Left) then
+			Sound.Play("Effects/button.wav", 2)
 			if SETTING_DEBUG then
 				SETTING_DEBUG = false
 			else
@@ -47,6 +49,7 @@ function UpdateOptionsUI(dt)
 	end
 
 	if UI.mousePick(screenImages["back"], x,y) then
+		Sound.Play("Effects/button.wav", 2)
 		if Inputs.ButtonReleased(Buttons.Left) then
 			gamestate.ChangeState(OPTIONS_RETURN_STATE)
 		end

@@ -16,7 +16,7 @@ function clientAIState.idleState.exit(enemy, player)
 end
 
 function clientAIState.followState.enter(enemy, player)
-	print("Client AI Walking")
+	--print("Client AI Walking")
 	enemy.animationController:doWalk()
 	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
@@ -33,7 +33,7 @@ end
 
 
 function clientAIState.attackState.enter(enemy, player)
-	print("Client AI Attacking")
+	--print("Client AI Attacking")
 
 	enemy.animationController:doAttack()
 
@@ -50,8 +50,8 @@ function clientAIState.attackState.exit(enemy, player)
 end 
 
 function clientAIState.deadState.enter(enemy, player)
-	print("Client enemy died", enemy.transformID)
-	enemy.animationController:doNothing()
+	--print("Client enemy died", enemy.transformID)
+	--enemy.animationController:doNothing()
 
 	enemy:Kill()
 end
@@ -63,32 +63,29 @@ function clientAIState.deadState.exit(enemy, player)
 
 end 
 
-function getAIStatePacket(enemy, player)
-	netAIValue, transformID, aiState = Network.GetAIStatePacket()
-
-	--Update state of the enemy
-	if netAIValue == true then
-		--print("Enemy", enemy.transformID)
-		--print("AI statepacket", transformID, aiState)
-		--print("Client AI ID", enemy.transformID)
-		if aiState == 0 then--IdleState
-			enemy.state = clientAIState.idleState
-		end
-		
-		if aiState == 1 then--FollowState
-			enemy.state = clientAIState.followState
-		end
-		
-		if aiState == 2 then--AttackState
-			enemy.state = clientAIState.attackState
-		end
-			
-		if aiState == 3 then--DeadState
-			enemy.state = clientAIState.deadState
-		end
-
-		enemy.state.enter(enemy, player)
+function getAIStatePacket(enemy, player, transformID, aiState)
+	--print("Enemy", enemy.transformID)
+	--print("Client AI ID", enemy.transformID)
+	if aiState == 0 then--IdleState
+		--print("Received IdleState", transformID, aiState)
+		enemy.state = clientAIState.idleState
 	end
+	if aiState == 1 then--FollowState
+		--print("Received FollowState", transformID, aiState)
+		enemy.state = clientAIState.followState
+	end
+		
+	if aiState == 2 then--AttackState
+		--print("Received AttackState", transformID, aiState)
+		enemy.state = clientAIState.attackState
+	end
+			
+	if aiState == 3 then--DeadState
+		--print("Received DeadState", transformID, aiState)
+		enemy.state = clientAIState.deadState
+	end
+
+	enemy.state.enter(enemy, player)
 end
 
 function getAITransformPacket()	

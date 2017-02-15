@@ -2,7 +2,7 @@ FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.png");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 8
 FIRESPAM_SPEED = 120
-FIREBALL_SPEED = 60
+FIREBALL_SPEED = 50
 MIN_CHARGETIME_FIREBALL = 0.5
 FIREBALL_BASE_DMG = 20
 FIREBALL_CAST_SFX = ""
@@ -25,29 +25,30 @@ function CreateFireball(entity)
 	--General variables
 	local spell = {}
 	spell.damage = FIREBALL_BASE_DMG
+	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 	spell.isActiveSpell = false		spell.aSmallIsActive = 0
 	spell.cooldown = 0		spell.maxcooldown = FIREBALL_COOLDOWN
 	spell.chargedTime = 0	spell.maxChargeTime = 3
 	spell.caster = entity.transformID
 	spell.owner = entity
 	spell.spamCooldown = FIRESPAM_COOLDOWN
+	spell.position = {x = 0, y = 0, z = 0}
 	--Small spamming fireballs
 	spell.smallFB = {}		spell.currentFB = 1
 	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
+	
 	--Big fireball
 	spell.bigBallActive = false
 	spell.bigBallID = Transform.Bind()	
 	spell.ballParticles = createChargeParticles()
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
-	spell.position = {x = 0, y = 0, z = 0}
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.bigBallID, false)
 	local model = Assets.LoadModel("Models/projectile1.model")
 	Gear.AddStaticInstance(model, spell.bigBallID)
+	
 	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
-
-	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
@@ -113,7 +114,7 @@ function CreateFireball(entity)
 			Transform.SetPosition(self.bigBallID, self.position)
 			Transform.SetScale(self.bigBallID, self.scale)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
-			self.ballParticles.cast()
+			self.ballParticles:cast()
 		end
 		self.chargedTime = 0
 	end
@@ -125,7 +126,7 @@ function CreateFireball(entity)
 		self.position.z = self.position.z + direction.z * FIREBALL_SPEED * dt
 		Transform.SetPosition(self.bigBallID, self.position)
 		self.damage = self.damage + 3 * dt
-		self.ballParticles.update(self.position)
+		self.ballParticles:update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
 			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:Kill() end
@@ -164,7 +165,7 @@ function CreateFireball(entity)
 	function spell:Kill()
 		Sound.Play(FIREBALL_BIG_HIT_SFX, 7, self.position)
 		self.bigBallActive = false
-		self.ballParticles.die()
+		self.ballParticles:die()
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	

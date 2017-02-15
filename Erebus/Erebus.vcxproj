@@ -203,7 +203,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\level01.lua" />
+    <None Include="Scripts\lifeStealEffect.lua" />
+    <None Include="Scripts\polymorph.lua" />
+    <None Include="Scripts\polymorphEffect.lua" />
+    <None Include="Scripts\siphon.lua" />
     <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
