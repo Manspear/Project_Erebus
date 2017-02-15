@@ -35,8 +35,7 @@ function createIceGrenadeParticles()
 
 	function ice.die(pos)
 		Particle.SetDead(ice.fly)
-		Particle.SetPosition(ice.exploda, pos)
-		Particle.Explode(ice.exploda)	
+		Particle.Explode(ice.exploda, pos)	
 	end
 
 	function ice.update(pos)
