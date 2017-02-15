@@ -35,10 +35,11 @@ function CreateBlackHole(entity)
 	Gear.AddStaticInstance(model, spell.type.transformID)
 
 	function spell:Cast(entity, chargetime) end
-	function spell:Charge(dt) end
+	function spell:Charge(dt) ZoomInCamera() end
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0 then
+			ZoomOutCamera()
 			local pos = Transform.GetPosition(entity.transformID)
 			local dir = Transform.GetLookAt(entity.transformID)
 			pos.x = pos.x  + 5*dir.x

@@ -30,9 +30,7 @@ function state.idleState.exit(enemy,player)
 end
 
 function state.followState.enter(enemy,player)
-	--print("Enter FOLLOW")
 	enemy.animationController:doWalk()
-	
 	--AI.FollowPlayer(player.transformID)
 end
 
@@ -40,7 +38,6 @@ function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
 	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-		--print("Follow",length)
 		if length >enemy.visionRange then
 			inState = "IdleState" 
 			changeToState(enemy,player,inState)
@@ -282,7 +279,7 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	print("DEAD")
+	
 end
 
 function state.deadState.update(enemy,player)

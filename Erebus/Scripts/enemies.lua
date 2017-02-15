@@ -15,6 +15,9 @@ SFX_ATTACK = "Goblin/Voice/albin goblin - attack3.ogg"
 SFX_HURT = "Goblin/Voice/albin goblin alerted.ogg"
 SFX_DEAD = { "Goblin/Voice/albin goblin - death.ogg", "Goblin/Machine/Goblin Machine Dead.ogg"}
 
+ENEMY_HEALTHBAR_WIDTH = 2
+ENEMY_HEALTHBAR_HEIGHT = 0.15
+
 function CreateEnemy(type, position)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
 
@@ -23,11 +26,14 @@ function CreateEnemy(type, position)
 	enemies[i].timeScalar = 1.0
 	enemies[i].transformID = Transform.Bind()
 	enemies[i].movementSpeed = 10--math.random(5,20)
-	enemies[i].health = 20
+	enemies[i].maxHealth = 20
+	enemies[i].health = enemies[i].maxHealth
 	enemies[i].alive = true
 	enemies[i].effects = {}
 	enemies[i].attackCountdown = 1
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
+	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
+	enemies[i].currentHealth = enemies[i].health
 
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 
@@ -50,9 +56,11 @@ function CreateEnemy(type, position)
 	enemies[i].Hurt = function(self, damage, source)
 		local pos = Transform.GetPosition(self.transformID)
 
-		if source.transformID ~= player2.transformID then
+		if source ~= player2 then
 			if Network.GetNetworkHost() == true then
 				self.health = self.health - damage
+
+				Network.SendAIHealthPacket(self.transformID, self.health)
 
 				if self.health <= 0 then
 					--print("Dead for host", enemies[i].transformID)
@@ -198,6 +206,19 @@ function UpdateEnemies(dt)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
+			pos = Transform.GetPosition(enemies[i].transformID)
+			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
+
+			if enemies[i].currentHealth > enemies[i].health then
+				enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
+				if enemies[i].currentHealth < 0 then
+					enemies[i].currentHealth = 0;
+				end
+			end
+
+			a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
+			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
+
 			tempdt = dt * enemies[i].timeScalar
 			if enemies[i].health > 0 then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
@@ -254,9 +275,28 @@ function UpdateEnemies(dt)
 		end
 
 	else
+		local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
+
 		-- Run client_AI script
 		for i=1, #enemies do
+			pos = Transform.GetPosition(enemies[i].transformID)
+			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 			tempdt = dt * enemies[i].timeScalar
+
+			if newAIHealthVal == true and enemies[i].transformID == aiHealth_transformID then
+				--print("Do i reach here?", aiHealth_health)
+				enemies[i].health = aiHealth_health
+
+				if enemies[i].currentHealth > enemies[i].health then
+					enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
+					if enemies[i].currentHealth < 0 then
+						enemies[i].currentHealth = 0;
+					end
+				end
+
+				a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
+				UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
+			end
 
 			if enemies[i].health > 0 then
 				enemies[i].animationController:AnimationUpdate(dt)

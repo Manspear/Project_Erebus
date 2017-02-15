@@ -4,8 +4,14 @@ namespace Nurn
 {
 	NurnEngine::NurnEngine()
 	{
+#ifdef DEBUGGING_NETWORK
+		this->packager = new Packager(&this->debugNetwork);
+		this->packetFilter = new PacketFilter(&this->debugNetwork);
+#else
 		this->packager = new Packager();
 		this->packetFilter = new PacketFilter();
+#endif
+
 		return;
 	}
 
@@ -19,12 +25,24 @@ namespace Nurn
 	{
 		if (!packager)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packager = new Packager(&this->debugNetwork);
+#else
 			this->packager = new Packager();
+#endif
 		}
 		if (!packetFilter)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packetFilter = new PacketFilter(&this->debugNetwork);
+#else
 			this->packetFilter = new PacketFilter();
+#endif
 		}
+#ifdef DEBUGGING_NETWORK
+		this->debugNetwork.initializeDebugNetwork(0, true);
+#endif
+
 		return netCommunication.InitializeCommunicationHost(port);
 	}
 
@@ -32,13 +50,26 @@ namespace Nurn
 	{
 		if (!packager)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packager = new Packager(&this->debugNetwork);
+#else
 			this->packager = new Packager();
+#endif
 		}
 		if (!packetFilter)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packetFilter = new PacketFilter(&this->debugNetwork);
+#else
 			this->packetFilter = new PacketFilter();
+#endif
 		}
+#ifdef DEBUGGING_NETWORK
+		this->debugNetwork.initializeDebugNetwork(1, false);
+#endif
+
 		address = Address(ip1, ip2, ip3, ip4, destPort);
+
 		return netCommunication.InitializeCommunicationClient(origPort, address);
 	}
 
@@ -227,4 +258,31 @@ namespace Nurn
 		return result;
 	}
 
+	void NurnEngine::pushPlayerEventPacket(const EventPacket& packet)
+	{
+		this->packager->pushPlayerEventPacket(packet);
+	}
+
+	bool NurnEngine::fetchPlayerEventPacket(EventPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getPlayerEventQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::pushAIHealthPacket(const AIHealthPacket& packet)
+	{
+		this->packager->pushAIHealthPacket(packet);
+	}
+
+	bool NurnEngine::fetchAIHealthPacket(AIHealthPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAIHealthQueue()->pop(packet);
+
+		return result;
+	}
 }

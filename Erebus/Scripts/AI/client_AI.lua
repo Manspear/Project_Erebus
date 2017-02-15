@@ -51,7 +51,7 @@ end
 
 function clientAIState.deadState.enter(enemy, player)
 	print("Client enemy died", enemy.transformID)
-	enemy.animationController:doNothing()
+	--enemy.animationController:doNothing()
 
 	enemy:Kill()
 end
@@ -102,7 +102,6 @@ function getAITransformPacket()
 	end
 end
 
-baseReturn.changeToState = changeToState
 baseReturn.getAIStatePacket = getAIStatePacket
 baseReturn.getAITransformPacket = getAITransformPacket
 baseReturn.clientAIState = clientAIState

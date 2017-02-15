@@ -11,6 +11,8 @@
 #include "Light.h"
 #include "WorkQueue.h"
 
+#define MAX_INSTANCE_COUNT 200
+
 struct UniformValues {
 	std::string location;
 	glm::vec2 values;
