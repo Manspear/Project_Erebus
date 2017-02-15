@@ -86,8 +86,8 @@ DWORD WINAPI update( LPVOID args )
 	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
-	collisionHandler.setTransforms( transforms );
-	collisionHandler.setDebugger(Debugger::getInstance());
+	//collisionHandler.setTransforms( transforms );
+	//collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
 	ai.addDebug(Debugger::getInstance());
@@ -247,7 +247,7 @@ int main()
 	bool prevMouseVisible = threadData.mouseVisible;
 	while (threadData.running && window.isWindowOpen())
 	{
-		quadTree.draw(Debugger::getInstance());
+		//quadTree.draw(Debugger::getInstance());
 		// START OF CRITICAL SECTION
 		DWORD waitResult = WaitForSingleObject( threadData.consume, THREAD_TIMEOUT );
 		if( waitResult == WAIT_OBJECT_0 )

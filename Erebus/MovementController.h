@@ -2,11 +2,16 @@
 
 #include "CollisionHandler.h"
 #include <iostream>
+#include "Transform.h"
+#include "HeightMap.h"
+
+using namespace Collisions;
+using namespace Importer;
 
 class MovementController
 {
 public:
-	#define PLAYER_Y_OFFSET 1.2;
+	#define PLAYER_Y_OFFSET 1.2
 
 	MovementController();
 	~MovementController();

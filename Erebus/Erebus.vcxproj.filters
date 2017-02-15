@@ -11,30 +11,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source.cpp" />
-    <ClCompile Include="AABBCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionChecker.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionHandler.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionLayers.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="OBBCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="RayCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="LuaAi.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -95,15 +71,6 @@
     <ClCompile Include="LuaLight.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>Source Files\Collider\FrustumCulling</Filter>
-    </ClCompile>
-    <ClCompile Include="PlaneFrustum.cpp">
-      <Filter>Source Files\Collider\FrustumCulling</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadTree.cpp">
-      <Filter>Source Files\Collider\FrustumCulling</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -114,30 +81,6 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBCollider.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionChecker.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionHandler.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionLayers.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="OBBCollider.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="RayCollider.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Header Files\Collider</Filter>
     </ClInclude>
     <ClInclude Include="LuaAi.h">
       <Filter>Header Files\Lua</Filter>
@@ -198,15 +141,6 @@
     </ClInclude>
     <ClInclude Include="LuaLight.h">
       <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>Header Files\Collider\FrustumCulling</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaneFrustum.h">
-      <Filter>Header Files\Collider\FrustumCulling</Filter>
-    </ClInclude>
-    <ClInclude Include="QuadTree.h">
-      <Filter>Header Files\Collider\FrustumCulling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -520,14 +454,8 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{f96c7fea-059e-434e-8a0e-4b60fe343727}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Collider">
-      <UniqueIdentifier>{d74441e7-093e-467e-9a30-a04fa7ab4f1a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Lua">
       <UniqueIdentifier>{a8fe1647-d73d-4eb1-9410-1881a3f2065e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Collider">
-      <UniqueIdentifier>{aec1776e-4d10-4288-b844-ee4f54a62a5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Lua">
       <UniqueIdentifier>{d75575e0-eaad-4316-af5f-f94a0a8bc3b0}</UniqueIdentifier>
@@ -555,12 +483,6 @@
     </Filter>
     <Filter Include="Scripts\UI">
       <UniqueIdentifier>{8c25589e-b3cf-4cef-b42a-c67b5dc0f631}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Collider\FrustumCulling">
-      <UniqueIdentifier>{d07f86d8-eb64-4fcf-b062-b010e50b9011}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Collider\FrustumCulling">
-      <UniqueIdentifier>{fca5ce19-6a24-48fd-9ccf-f7bfca00b70f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

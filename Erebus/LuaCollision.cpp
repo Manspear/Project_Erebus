@@ -695,7 +695,7 @@ namespace LuaCollision
 
 	int drawHitboxes( lua_State* lua )
 	{
-		g_collisionHandler->drawHitboxes();
+		//g_collisionHandler->drawHitboxes();
 		return 0;
 	}
 
