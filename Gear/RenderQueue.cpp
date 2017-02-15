@@ -216,10 +216,10 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 		if (numInstance != 0)*/
 
 		//numInstance = dynamicModels->at(i).worldMatrices.size();
-		numInstance = dynamicModels->at(i).activeTransforms;
+		numInstance = dynamicModels->at(i).getActiveTransforms();
 		if( numInstance > 0 )
 		{
-			modelAsset = dynamicModels->at(i).asset;
+			modelAsset = dynamicModels->at(i).getAsset();
 			meshes = modelAsset->getHeader()->numMeshes;
 
 			//allShaders[FORWARD]->setUniform(*tempMatrices, "worldMatrices", numInstance);
@@ -230,7 +230,8 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, instanceTest);
 				//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, &tempMatrices[0][0][0], GL_STREAM_DRAW);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]), GL_STREAM_DRAW);
+				//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]), GL_STREAM_DRAW);
+				dynamicModels->at(i).bufferData();
 
 				glEnableVertexAttribArray(3);
 				glEnableVertexAttribArray(4);
@@ -327,11 +328,11 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	int meshes, numInstance;
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		modelAsset = dynamicModels->at(i).asset;
+		modelAsset = dynamicModels->at(i).getAsset();
 		meshes = modelAsset->getHeader()->numMeshes;
 		//numInstance = 0;
 		//numInstance = dynamicModels->at(i).worldMatrices.size();
-		numInstance = dynamicModels->at(i).activeTransforms;
+		numInstance = dynamicModels->at(i).getActiveTransforms();
 
 		// TEMP: Shouldn't have any models without material
 		if (modelAsset->getMaterial())
@@ -348,11 +349,13 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		//world matrix buffer
 		{
-			glBindVertexArray(dynamicModels->at(i).instanceVAO);
-			glBindBuffer(GL_ARRAY_BUFFER, dynamicModels->at(i).instanceVBO);
+			//glBindVertexArray(dynamicModels->at(i).getVAO());
+			//glBindBuffer(GL_ARRAY_BUFFER, dynamicModels->at(i).getVBO());
 			//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, &tempMatrices[0][0][0]);
-			glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]) );
+			//glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]) );
 		} 
+
+		dynamicModels->at(i).bindBuffers();
 		
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
@@ -385,7 +388,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 	for (int i = 0; i<animatedModels->size(); i++)
 	{
-		modelAsset = animatedModels->at(i).asset;
+		modelAsset = animatedModels->at(i).getAsset();
 		meshes = modelAsset->getHeader()->numMeshes;
 		numInstance = 0;
 
@@ -394,7 +397,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
-		for( int j=0; j<animatedModels->at(i).activeTransforms; j++ )
+		for( int j=0; j<animatedModels->at(i).getActiveTransforms(); j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
 			{
@@ -403,10 +406,10 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				//tempMatrix = worldMatrices[index];
 
 				//allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
-				allShaders[ANIM]->setUniform4cfv(glm::value_ptr(animatedModels->at(i).worldMatrices.at(j)), "worldMatrices", 1);
+				allShaders[ANIM]->setUniform4cfv(glm::value_ptr(animatedModels->at(i).getWorldMatrix(j)), "worldMatrices", 1);
 
 				//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
-				allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);
+				allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).getAnimationMatrixIndex(j)*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);
 
 				for (int k = 0; k < modelAsset->getHeader()->numMeshes; k++)
 				{
@@ -445,7 +448,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		ModelAsset* modelAsset = dynamicModels->at(i).asset;
+		ModelAsset* modelAsset = dynamicModels->at(i).getAsset();
 		int meshes = modelAsset->getHeader()->numMeshes;
 		//int numInstance = 0;
 
@@ -463,12 +466,12 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		}*/
 
 		//int numInstance = dynamicModels->at(i).worldMatrices.size();
-		int numInstance = dynamicModels->at(i).activeTransforms;
+		int numInstance = dynamicModels->at(i).getActiveTransforms();
 
 		size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 
 		//world matrix buffer
-		{
+		/*{
 			glBindBuffer(GL_ARRAY_BUFFER, dynamicModels->at(i).instanceVBO);
 			//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, &tempMatrices[0][0][0]);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]) );
@@ -487,7 +490,9 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			glVertexAttribDivisor(5, 1);
 			glVertexAttribDivisor(6, 1);
 			glVertexAttribDivisor(7, 1);
-		}
+		}*/
+
+		dynamicModels->at(i).bufferData();
 
 		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
 		{
@@ -517,7 +522,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 	for (int i = 0; i<animatedModels->size(); i++)
 	{
-		ModelAsset* modelAsset = animatedModels->at(i).asset;
+		ModelAsset* modelAsset = animatedModels->at(i).getAsset();
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
@@ -526,7 +531,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
-		for( int j=0; j<animatedModels->at(i).activeTransforms; j++ )
+		for( int j=0; j<animatedModels->at(i).getActiveTransforms(); j++ )
 		{
 			//int index = animatedModels->at(i).worldIndices.at(i);
 			//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
@@ -534,7 +539,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 			//glUniformMatrix4fv(worldMatricesLocation, numInstance, GL_FALSE, &tempMatrices[0][0][0]);
 			//glUniformMatrix4fv(worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0]);
-			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, glm::value_ptr(animatedModels->at(i).worldMatrices.at(j)) );
+			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, glm::value_ptr(animatedModels->at(i).getWorldMatrix(j)) );
 			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
 			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
 
@@ -574,7 +579,7 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 	glm::vec3 color = glm::vec3(1, 0, 0);
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		ModelAsset* modelAsset = dynamicModels->at(i).asset;
+		ModelAsset* modelAsset = dynamicModels->at(i).getAsset();
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 
@@ -659,12 +664,12 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 		}*/
 
 		//numInstance = blendingModels->at(modelIndex).worldMatrices.size();
-		numInstance = blendingModels->at(i).activeTransforms;
+		numInstance = blendingModels->at(i).getActiveTransforms();
 
 		//if (atLeastOne)
 		if( numInstance > 0 )
 		{
-			modelAsset = blendingModels->at(modelIndex).asset;
+			modelAsset = blendingModels->at(modelIndex).getAsset();
 			meshes = modelAsset->getHeader()->numMeshes;
 
 			numTextures = textureBlends->at(i).numTextures;
@@ -672,7 +677,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 
 			//uniforms for how many textures to send to the frag shader
 			//allShaders[TEXTURE_BLENDING]->setUniform4cfv(&tempMatrices[0][0][0], "worldMatrices", numInstance);
-			allShaders[TEXTURE_BLENDING]->setUniform4cfv( glm::value_ptr( blendingModels->at(modelIndex).worldMatrices[0] ), "worldMatrices", numInstance );
+			allShaders[TEXTURE_BLENDING]->setUniform4cfv( glm::value_ptr( blendingModels->at(modelIndex).getWorldMatrix(0) ), "worldMatrices", numInstance );
 
 			for (int k = 0; k < numTextures; k++)
 			{

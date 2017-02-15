@@ -371,23 +371,26 @@ namespace Gear
 
 	void GearEngine::updateTransforms( std::vector<ModelInstance>* models )
 	{
-		for( int curModel=0; curModel<models->size(); curModel++ )
-		{
-			glm::mat4 ident;
-			for( int curTrans=0; curTrans < models->at(curModel).transforms.size(); curTrans++ )
-			{
-				TransformStruct& t = models->at(curModel).transforms.at(curTrans);
-				glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
-				glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		//for( int curModel=0; curModel<models->size(); curModel++ )
+		//{
+		//	glm::mat4 ident;
+		//	for( int curTrans=0; curTrans < models->at(curModel).transforms.size(); curTrans++ )
+		//	{
+		//		TransformStruct& t = models->at(curModel).transforms.at(curTrans);
+		//		glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
+		//		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		//
+		//		glm::mat4 tempMatrix = glm::translate( ident, t.pos );
+		//		tempMatrix = glm::scale( tempMatrix, t.scale );
+		//		tempMatrix = glm::rotate( tempMatrix, t.rot.z, axis );
+		//		tempMatrix = glm::rotate( tempMatrix, t.rot.y, { 0, 1, 0 } );
+		//
+		//		models->at(curModel).worldMatrices.at(curTrans) = tempMatrix;
+		//	}
+		//}
 
-				glm::mat4 tempMatrix = glm::translate( ident, t.pos );
-				tempMatrix = glm::scale( tempMatrix, t.scale );
-				tempMatrix = glm::rotate( tempMatrix, t.rot.z, axis );
-				tempMatrix = glm::rotate( tempMatrix, t.rot.y, { 0, 1, 0 } );
-
-				models->at(curModel).worldMatrices.at(curTrans) = tempMatrix;
-			}
-		}
+		for (auto &m : *models)
+			m.updateWorldMatrices();
 	}
 
 	GEAR_API void GearEngine::addLight()

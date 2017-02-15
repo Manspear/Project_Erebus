@@ -161,6 +161,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="ModelInstance.h" />
     <ClInclude Include="particleEmitter.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Ray.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="ModelInstance.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Ray.cpp" />

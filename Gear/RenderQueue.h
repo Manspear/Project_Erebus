@@ -10,6 +10,7 @@
 #include "Animation.h"
 #include "Light.h"
 #include "WorkQueue.h"
+#include "ModelInstance.h"
 
 struct UniformValues {
 	std::string location;
@@ -40,7 +41,8 @@ enum
 };
 
 using namespace Importer;
-struct ModelInstance
+using namespace Gear;
+/*struct ModelInstance
 {
 	Importer::ModelAsset* asset;
 	//std::vector<int> worldIndices;
@@ -82,7 +84,7 @@ struct ModelInstance
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-};
+};*/
 /*struct AnimatedInstance
 {
 	ModelAsset* asset;
