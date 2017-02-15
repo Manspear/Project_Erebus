@@ -18,14 +18,13 @@ function CreateChargeThing(entity)
 	chargeThing.timer = 0
 
 	chargeThing.transformID = Transform.Bind()
-	local model = Assets.LoadModel("Models/SpellChargeSphere.model")
+	local model = Assets.LoadModel("Models/SignPost.model")
 	chargeThing.modelIndex = Gear.AddForwardInstance(model, chargeThing.transformID)
 	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
 	chargeThing.transformID2 = Transform.Bind()
-	local cylinder = Assets.LoadModel("Models/innerSpell.model")
+	local cylinder = Assets.LoadModel("Models/SpellChargingFireMo.model")
 	chargeThing.modelIndex2 = Gear.AddForwardInstance(cylinder, chargeThing.transformID2)
-	Transform.SetScaleNonUniform(chargeThing.transformID2, 1,0.1,1)
 	
 	
 	chargeThing.particles = createChargeParticles()
@@ -43,10 +42,12 @@ function CreateChargeThing(entity)
 	chargeThing.UVpushed = 0	
 
 	function chargeThing:TEST(position)
-		--chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
 		Transform.SetPosition(chargeThing.transformID2, chargeThing.pos)
 
 		end
+
+
 
 	function chargeThing:Charging(position, dt, chargePower)
 		--print("CHARGING!")
@@ -65,7 +66,7 @@ function CreateChargeThing(entity)
 			chargeThing.scaleSmall.y = chargeThing.scaleSmall.y + (0.075*dt)
 		end
 
-		Transform.SetScaleNonUniform(chargeThing.transformID2, chargeThing.scaleSmall.x,chargeThing.scaleSmall.y,chargeThing.scaleSmall.z)
+		--Transform.SetScaleNonUniform(chargeThing.transformID2, chargeThing.scaleSmall.x,chargeThing.scaleSmall.y,chargeThing.scaleSmall.z)
 		Transform.SetPosition(chargeThing.transformID2, chargeThing.pos)
 		daPower = math.min(chargePower, MAX_CHARGE)
 		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (2) * dt
@@ -84,7 +85,7 @@ function CreateChargeThing(entity)
 			chargeThing.particles.update(chargeThing.pos) 
 			local daPower = math.min(chargePower, MAX_CHARGE)
 			chargeThing.rotLarge.y = chargeThing.rotLarge.y - (chargePower * 2) * dt
-			Transform.SetRotation(chargeThing.transformID, self.rotLarge)
+			--Transform.SetRotation(chargeThing.transformID, self.rotLarge)
 			self.UVpushed = self.UVpushed + chargePower * dt 
 			Gear.SetUniformValue(self.modelIndex, 0, self.UVpushed)
 		end
