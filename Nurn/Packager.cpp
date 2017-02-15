@@ -92,6 +92,11 @@ Packager::~Packager()
 		delete this->playerEventQueue;
 		this->playerEventQueue = 0;
 	}
+	if (this->aiHealthQueue)
+	{
+		delete this->aiHealthQueue;
+		this->aiHealthQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
