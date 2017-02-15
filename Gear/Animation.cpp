@@ -12,6 +12,12 @@ Animation::Animation()
 	transitionTimeArray = nullptr;
 
 	transitionTimeArraySize = 9;
+
+	quickBlendFrom = 0;
+	quickBlendTo = 0;
+	quickBlendSegment = -1;
+	quickBlendTime = 0;
+	quickBlendingDone = true;
 }
 
 Animation::~Animation()
