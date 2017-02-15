@@ -43,7 +43,7 @@ function CreateChargeThing(entity)
 	chargeThing.UVpushed = 0	
 
 	function chargeThing:TEST(position)
-		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		--chargeThing.pos = Transform.GetPosition(chargeThing.caster)
 		Transform.SetPosition(chargeThing.transformID2, chargeThing.pos)
 
 		end

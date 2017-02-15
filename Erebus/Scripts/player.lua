@@ -29,7 +29,7 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 10
-	player.isCombined = false;
+	player.isCombined = true;
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -355,7 +355,7 @@ function Controls(dt)
 			player.spells[player.currentSpell]:ChargeCast(player)
 			player.charger:EndCharge()
 			player.charging = false
-			player.isCombined = false
+			player.isCombined = true --change here
 		end
 		--[[if Inputs.KeyPressed("N") then
 			ZoomInCamera()
