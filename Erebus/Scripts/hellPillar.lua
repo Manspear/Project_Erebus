@@ -133,9 +133,9 @@ function CreateHellPillar(entity)
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
 			Transform.SetPosition(self.transformID, self.pos)
-			Sound.Fade(self.chargeID, 0.5)
+			Sound.Fade(self.chargeID, 1.3)
 			Sound.Play(HELLPILLAR_PILLAR_SFX, 7, self.pos)
-			Sound.Play(HELLPILLAR_CHARGE_SFX, 7, self.pos)				
+			--Sound.Play(HELLPILLAR_CHARGE_SFX, 7, self.pos)				
 			Transform.ActiveControl(self.transformID, true)
 			self.startUpTime = 0.2
 			--Light.updateRadius(self.light, 10)
