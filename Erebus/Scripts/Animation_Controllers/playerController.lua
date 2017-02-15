@@ -129,8 +129,12 @@ function CreatePlayerController(player)
 			self.animationState1 = 9
 		end
 
-		self.animation:SetSegmentState( self.animationState1, 0 )
-		self.animation:SetSegmentState( self.animationState2, 1 )
+		
+		--self.animation:SetSegmentState( self.animationState1, 0 )
+		--self.animation:SetSegmentState( self.animationState2, 1 )
+
+		self.animation:SetSegmentState( self.animationState2, 0 )
+		self.animation:SetSegmentState( self.animationState1, 1 )
 
 		self:copyWatch()
 	end
