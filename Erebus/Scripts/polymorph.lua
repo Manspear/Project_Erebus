@@ -25,8 +25,8 @@ function CreatePolymorph(entity)
 	spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
-	local model = Assets.LoadModel( "Models/grenade.model" )
-	Gear.AddForwardInstance(model, spell.transformID)
+	--local model = Assets.LoadModel( "Models/grenade.model" )
+	--Gear.AddForwardInstance(model, spell.transformID)
 
 	spell.Charge = BaseCharge
 	function spell:Update(dt)

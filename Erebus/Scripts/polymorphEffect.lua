@@ -49,8 +49,9 @@ function InitPolymorphs()
 end
 
 function GetNextFreeMorph()
-	if currentFree > POLYMORPH_POOL_SIZE then currentFree = 0 end
+	if currentFree >= POLYMORPH_POOL_SIZE then currentFree = 0 end
 	currentFree = currentFree + 1	
+	print(currentFree)
 	return polymorphPool[currentFree], polymorphParticles[currentFree]
 end
 
