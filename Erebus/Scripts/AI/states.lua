@@ -41,6 +41,7 @@ function state.followState.update(enemy,player,dt)
 		if length >enemy.visionRange then
 			inState = "IdleState" 
 			changeToState(enemy,player,inState)
+			print("hehe idle")
 		end
 		if player.nrOfInnerCircleEnemies <3 then 
 			if length < player.innerCirclerange then
@@ -118,7 +119,6 @@ end
 
 function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 
-	enemy.actionCountDown = enemy.actionCountDown- dt
 	if enemy.subPathtarget ~= nil then
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
@@ -140,7 +140,7 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		local dir = AI.NavigateMesh(enemy.transformID)
 		if dir.y ~= -1 and enemy.pathTarget ~= nil  then
 			enemy.subPathtarget = dir
-			print("Subtarget this fucker")
+
 		end
 	end
 
@@ -154,7 +154,7 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 			changeToState(enemy,player,inState)
 		else
 
-			if enemyManager.actionEnemy == -1 and enemy.actionCountDown<0 then
+			if enemyManager.actionEnemy == -1 then
 				enemyManager.actionEnemy = enemy.transformID
 				randomNum = math.random(0, 0)
 				if randomNum == 0 then
@@ -183,13 +183,11 @@ function state.positioningOuterState.enter(enemy,player)
 end
 
 function state.positioningOuterState.update(enemy,player,dt)
-	
+
 	if(player.nrOfInnerCircleEnemies >= 3) then
 		if enemy.subPathtarget ~= nil then
 
 			local pos = Transform.GetPosition(enemy.transformID)
-
-				--print("I'm in outer circle")
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 				Transform.SetLookAt(enemy.transformID,direction)
@@ -206,16 +204,11 @@ function state.positioningOuterState.update(enemy,player,dt)
 					Transform.SetLookAt(enemy.transformID,direction)
 				end
 		else
-			length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
-
-			if length > player.outerCirclerange then
-				player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
-				inState = "FollowState" 
-				changeToState(enemy,player,inState)
-			end	
-
+		local dir = AI.NavigateMesh(enemy.transformID)
+			if dir.y ~= -1 and enemy.pathTarget ~= nil  then
+				enemy.subPathtarget = dir
+			end
 		end
-
 	else
 
 		player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
@@ -240,7 +233,6 @@ function state.attackState.enter(enemy,player)
 
 	Transform.SetLookAt(enemy.transformID,direction)
 
-	Transform.SetScale(enemy.transformID,2)
 	enemy.actionCountDown = 1.2
 end
 
@@ -254,7 +246,7 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		if enemy.actionCountDown <0 then
 			player:Hurt(12)
 			enemyManager.actionEnemy = -1
-		--print("Fucking ActionEnemy", enemy.range )
+
 			inState = "PositioningInnerState" 
 			changeToState(enemy,player,inState)
 		end
@@ -278,10 +270,9 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 end
 
 function state.attackState.exit(enemy,player)
-	Transform.SetScale(enemy.transformID,1)
+
 	enemy.animationController:doWalk()
 
-	enemy.actionCountDown = 1
 	player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies - 1
 
 end 

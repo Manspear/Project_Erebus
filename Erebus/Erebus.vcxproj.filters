@@ -500,6 +500,9 @@
     <None Include="Scripts\tumbleThorns.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
