@@ -29,7 +29,7 @@ function CreateEnemy(type, position)
 	enemies[i].Hurt = function(self, damage, source)
 		local pos = Transform.GetPosition(self.transformID)
 
-		if source.transformID ~= player2.transformID then
+		if source ~= player2 then
 			if Network.GetNetworkHost() == true then
 				self.health = self.health - damage
 

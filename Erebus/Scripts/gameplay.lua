@@ -27,7 +27,9 @@ local scriptFiles =
 	"Scripts/HUD.lua",
 	"Scripts/spellUtility.lua",
 	"Scripts/boss.lua",
-	"Scripts/fireball.lua"
+	"Scripts/fireball.lua",
+	"Scripts/lifeStealEffect.lua",
+	"Scripts/siphon.lua"
 }
 
 local gameStarted = false

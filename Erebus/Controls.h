@@ -21,7 +21,7 @@ private:
 	Transform* controlled;
 	float sensitivity;
 	bool keys[CONTROLS_MAX_KEYS*3];
-
+	float xrot;
 	int nrOfButtons = 1;
 	// the keys that we use, put keys first and buttons last, if you put a new button in the list, please increment the number of buttons variable (and maybe the CONTROLS_MAX_KEYS xd) :)
 	int inputKeys[CONTROLS_MAX_KEYS] = { 

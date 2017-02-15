@@ -47,6 +47,12 @@ function LoadSpellbook()
 	}
 	table.insert(SpellList, SunRay)
 
+	local siphon = {texture =  Assets.LoadTexture("Textures/siphon.png"),
+					info = wrap("i steal life yo", 30, "",""),
+					spell = CreateSiphon(player)
+	}
+	table.insert(SpellList, siphon)
+
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
 end
