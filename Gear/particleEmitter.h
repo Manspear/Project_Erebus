@@ -43,6 +43,7 @@ namespace Gear
 
 		GEAR_API bool update(const float & dt);
 		GEAR_API void explode();
+		GEAR_API void explode2(glm::vec3 position);
 		GEAR_API void setEmitterPos(glm::vec3 pos);
 		GEAR_API void setDirection(glm::vec3 dir);
 		GEAR_API int getNrOfActiveParticles();
