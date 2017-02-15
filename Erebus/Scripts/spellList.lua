@@ -56,7 +56,7 @@ function LoadSpellbook()
 	}
 	table.insert(SpellList, siphon)
 	
-	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.png"),
+	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
 					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
 					spell = CreatePolymorph(player)
 	}
