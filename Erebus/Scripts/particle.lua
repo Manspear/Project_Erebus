@@ -66,20 +66,20 @@ function createChargeParticles()
 	local charge = {}
 	charge.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)  
 	Emitter.SetTexture(charge.ID, CHARGE_PARTICLES_TEX)
-	function charge.cast()
-		Emitter.SetAlive(charge.ID)
+	function charge:cast()
+		Emitter.SetAlive(self.ID)
 	end
 
-	function charge.die()
-		Emitter.SetDead(charge.ID)	
+	function charge:die()
+		Emitter.SetDead(self.ID)	
 	end
 
-	function charge.update(pos)
-		Emitter.SetPosition(charge.ID, pos)
+	function charge:update(pos)
+		Emitter.SetPosition(self.ID, pos)
 	end
 
-	function charge.extrovert(yesNo)
-		Emitter.SetExtro(charge.ID, yesNo)
+	function charge:extrovert(yesNo)
+		Emitter.SetExtro(self.ID, yesNo)
 	end
 
 	return charge
