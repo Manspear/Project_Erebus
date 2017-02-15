@@ -46,6 +46,10 @@ namespace LuaTransform
 			{ "GetMovementDirection", getMoveDirection },
 			
 			{ "UpdateRotationFromLookVector", updateRotationFromLookVector},
+			{ "RotateToVector",		rotateToVector},
+
+			{ "GetDistanceBetweenTrans", getDistance }, 
+
 			{ NULL, NULL }
 		};
 
@@ -374,6 +378,28 @@ namespace LuaTransform
 
 		return 1;
 	}
+
+	int rotateToVector(lua_State* lua) {
+		assert(lua_gettop(lua) == 2);
+		int transID = (int)lua_tointeger(lua, 1);
+
+		glm::vec3 vector;
+		lua_getfield(lua, 2, "x");		vector.x = (float)lua_tonumber(lua, -1);
+		lua_getfield(lua, 2, "y");		vector.y = (float)lua_tonumber(lua, -1);
+		lua_getfield(lua, 2, "z");		vector.z = (float)lua_tonumber(lua, -1);
+
+		vector = glm::normalize(vector);
+		g_transforms[transID].setLookAt(vector);
+
+		glm::vec3 rotationxz = glm::normalize(glm::vec3(vector.x,0,vector.z));
+		float pitch = acosf(rotationxz.z);
+		float yaw = asinf(vector.y);
+
+		if (vector.x < 0)
+			pitch *= -1;
+		g_transforms[transID].setRotation({0, pitch,yaw});
+		return 0;
+	}
 	int updateRotationFromLookVector(lua_State * lua)
 	{
 		assert( lua_gettop( lua ) == 1 );
@@ -387,5 +413,14 @@ namespace LuaTransform
 		g_transforms[transID].setRotation({ 0, rotY, 0 });
 
 		return 0;
+	}
+
+
+	int getDistance(lua_State* lua) {
+		assert(lua_gettop(lua) == 2);
+		int id1 = lua_tointeger(lua, 1);
+		int id2 = lua_tointeger(lua, 2);
+		lua_pushnumber(lua, glm::length(g_transforms[id1].getPos() - g_transforms[id2].getPos()));
+		return 1;
 	}
 }

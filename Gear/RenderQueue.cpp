@@ -117,10 +117,6 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	{
 		if (oneMoreUpdate[i])
 		{
-			//THIS WHOLE FUNCTION CAN DEFINETELY BE OPTIMIZED (do something along the lines of mat4 = {coscoscosos, coscsocsosins, coscoscoscos, x,
-			//																							sinsinssin, sinsinsinsn, ccoscosocosco, y,
-			//																							x,x,x,x,				
-			//																							yt.t.t..y,y,y,}
 			//reset the world matrix
 			tempMatrix = glm::mat4();
 			tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));

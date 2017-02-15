@@ -2,6 +2,7 @@
 
 Controls::Controls(): sensitivity(300)
 {
+	xrot = 0;
 }
 
 Controls::~Controls()
@@ -42,36 +43,32 @@ void Controls::update( Inputs* input )
 	//glm::vec3 rotation = controlled->getRotation();
 	glm::vec3 rotation = controlled->rot;
 	rotation.y += (float)dPos.x / sensitivity;
-	rotation.z += (float)dPos.y / sensitivity;
+	xrot += (float)dPos.y / sensitivity;
 	if (rotation.y > 2 * 3.14f) 
 	{
 		rotation.y -= 2 * 3.14f;
 	}
-	else if( rotation.y < -2 * 3.14f )
+	if( rotation.z > 3.14f / 2 )
 	{
-		rotation.y += 2 *3.14f;
+		xrot = 3.14f / 2;
 	}
-	if (rotation.z > 3.14f / 2) 
+	if (rotation.z < -3.14f / 2) 
 	{
-		rotation.z = 3.14f / 2;
-	}
-	else if (rotation.z < -3.14f / 2) 
-	{
-		rotation.z = -3.14f / 2;
+		xrot = -3.14f / 2;
 	}
 
 	/*controlled->setRotation(rotation);
 	controlled->setLookAt(glm::normalize(glm::vec3(
-		cos(rotation.z) * sin(rotation.y),
-		sin(rotation.z),
-		cos(rotation.z)*cos(rotation.y)
+		cos(xrot) * sin(rotation.y),
+		sin(xrot),
+		cos(xrot)*cos(rotation.y)
 	)));*/
 
 	controlled->rot = rotation;
 	controlled->lookAt = glm::normalize(glm::vec3(
-		cos(rotation.z) * sin(rotation.y),
-		sin(rotation.z),
-		cos(rotation.z)*cos(rotation.y)
+		cos(xrot) * sin(rotation.y),
+		sin(xrot),
+		cos(xrot)*cos(rotation.y)
 	));
 }
 

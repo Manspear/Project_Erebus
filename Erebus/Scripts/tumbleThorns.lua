@@ -17,7 +17,7 @@ function CreateTumblethorns(entity)
 	spell.originalPos = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
-	
+		
 	--spell.transformID = Transform.Bind()
 	--local model = Assets.LoadModel( "Models/Stone4.model" )
 	--Gear.AddForwardInstance(model, spell.transformID )
@@ -29,14 +29,18 @@ function CreateTumblethorns(entity)
 
 	spell.effects = {} 
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
+	spell.particles = createTumbleParticles()
 
 	function spell:Update(dt)
 		if self.alive then
 			self.position.x = self.position.x + self.direction.x * TUMBLETHORN_SPEED * dt
 			self.position.z = self.position.z + self.direction.z * TUMBLETHORN_SPEED * dt
 			local hm = GetHeightmap(self.position)
+			
 			if hm then
-				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z) + TUMBLETHORN_RADIUS
+				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)
+				self.particles:update(self.position)
+				self.position.y = self.position.y + TUMBLETHORN_RADIUS
 			end
 			Transform.SetPosition(self.transformID, self.position)
 			self.lifeTime = self.lifeTime - dt
@@ -61,9 +65,15 @@ function CreateTumblethorns(entity)
 			self.position = Transform.GetPosition(self.caster)
 			self.direction = Transform.GetLookAt(self.caster)
 			Transform.SetLookAt(self.transformID, self.direction)
+
+			self.direction.z = self.direction.z - 1
+			self.particles:cast(self.direction.x, self.direction.y, self.direction.z)
+			self.direction = Transform.GetLookAt(self.caster)
+
 			Transform.ActiveControl(self.transformID, true)
 			self.rotation = Transform.GetRotation(self.caster)
 			Transform.SetRotation(self.transformID, self.rotation)
+
 		end
 		if self.canRollBack then
 			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
@@ -82,7 +92,7 @@ function CreateTumblethorns(entity)
 	end
 
 	function spell:GeneralCast()
-	
+		
 	end
 
 	function spell:Kill()

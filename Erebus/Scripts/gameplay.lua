@@ -28,6 +28,8 @@ local scriptFiles =
 	"Scripts/spellUtility.lua",
 	"Scripts/boss.lua",
 	"Scripts/fireball.lua",
+	"Scripts/lifeStealEffect.lua",
+	"Scripts/siphon.lua",
 	"Scripts/polymorphEffect.lua",
 	"Scripts/polymorph.lua",
 	"Scripts/tumbleThorns.lua"
