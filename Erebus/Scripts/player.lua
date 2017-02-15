@@ -368,7 +368,7 @@ function Controls(dt)
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)
-			
+			--player.spells[player.currentSpell]
 			player.charger:TEST(player.position)
 
 			if player.isCombined == true then
