@@ -101,7 +101,9 @@
     <ClCompile Include="PlaneFrustum.cpp">
       <Filter>Source Files\Collider\FrustumCulling</Filter>
     </ClCompile>
-    <ClCompile Include="QuadTree.cpp" />
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>Source Files\Collider\FrustumCulling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -203,7 +205,9 @@
     <ClInclude Include="PlaneFrustum.h">
       <Filter>Header Files\Collider\FrustumCulling</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="QuadTree.h">
+      <Filter>Header Files\Collider\FrustumCulling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
