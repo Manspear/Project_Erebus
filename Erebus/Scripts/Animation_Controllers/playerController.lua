@@ -130,11 +130,8 @@ function CreatePlayerController(player)
 		end
 
 		
-		--self.animation:SetSegmentState( self.animationState1, 0 )
-		--self.animation:SetSegmentState( self.animationState2, 1 )
-
-		self.animation:SetSegmentState( self.animationState2, 0 )
-		self.animation:SetSegmentState( self.animationState1, 1 )
+		self.animation:SetSegmentState( self.animationState1, 0 )
+		self.animation:SetSegmentState( self.animationState2, 1 )
 
 		self:copyWatch()
 	end
@@ -229,9 +226,9 @@ function CreatePlayerController(player)
 		if self.watch.left < 0 and self.watch.forward == 0 then
 			self.animationState1 = 13
 		end
-		if self.watch.forward < 0 then
+		if self.watch.forward < 0 or self.watch.left < 0 then
 			self.animationState2 = 23
-		elseif self.watch.forward > 0 then
+		elseif self.watch.forward > 0 or self.watch.left > 0 then
 			self.animationState2 = 24
 		end
 	end
