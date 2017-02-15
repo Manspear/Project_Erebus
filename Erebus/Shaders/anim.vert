@@ -38,7 +38,7 @@ void main()
 	gl_Position = projectionMatrix * viewMatrix * worldMatrices[gl_InstanceID] * vPos;
 	FragPos = (worldMatrices[gl_InstanceID] * vPos).xyz;
 	//vert_viewPos = viewPos;
-	Normal = vNorm.xyz;
+	Normal = ( worldMatrices[gl_InstanceID] * vNorm).xyz;
 	//Flipping the Y-axis of the UV
 	TexCoords = UV*vec2(1,-1);
 	//49

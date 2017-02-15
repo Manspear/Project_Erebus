@@ -1,6 +1,7 @@
 #include "PacketFilter.hpp"
 
-PacketFilter::PacketFilter()
+#ifdef DEBUGGING_NETWORK
+PacketFilter::PacketFilter(DebugNetwork * debugNetwork_ptr)
 {
 	this->transformQueue = new PacketQueue<TransformPacket>(20);
 	this->animationQueue = new PacketQueue<AnimationPacket>(40);
@@ -12,7 +13,26 @@ PacketFilter::PacketFilter()
 	this->damageQueue = new PacketQueue<DamagePacket>(20);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
+	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+
+	this->debugNetwork_ptr = debugNetwork_ptr;
 }
+#else
+PacketFilter::PacketFilter()
+{
+	this->transformQueue = new PacketQueue<TransformPacket>(10);
+	this->animationQueue = new PacketQueue<AnimationPacket>(10);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
+	this->damageQueue = new PacketQueue<DamagePacket>(20);
+	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
+	this->playerEventQueue = new PacketQueue<EventPacket>(10);
+	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+}
+#endif
 
 PacketFilter::~PacketFilter()
 {
@@ -66,6 +86,11 @@ PacketFilter::~PacketFilter()
 		delete this->playerEventQueue;
 		this->playerEventQueue = 0;
 	}
+	if (this->aiHealthQueue)
+	{
+		delete this->aiHealthQueue;
+		this->aiHealthQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -115,7 +140,31 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 				case PLAYER_EVENT_PACKET:
 					this->playerEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
+				case AI_HEALTH_PACKET:
+					this->aiHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiHealthPacket data to the correct queue
 					break;
+
+#ifdef DEBUGGING_NETWORK
+				case PING_PACKET:
+					// Copy the PingPacket data to the PingPacket in DebugNetwork
+					memcpy(&this->debugNetwork_ptr->getPingPacket(), memoryPointer + bytesRead, sizeof(PingPacket));
+
+					if (this->debugNetwork_ptr->getPingPacket().data.loopNumber == 1)
+					{
+						// On Client
+						this->debugNetwork_ptr->getPingPacket().data.loopNumber--;
+					}
+					else
+					{
+						// On Host
+						this->debugNetwork_ptr->getPingPacket().data.loopNumber++;
+					}
+
+					// Send PingPacket back to the other player
+					this->debugNetwork_ptr->setTimeToSendPingPacket(true);
+
+					break;
+#endif
 				default:
 					printf("KERNEL PANIC!!\n");
 			}
@@ -172,4 +221,9 @@ PacketQueue<ChangeSpellsPacket> * PacketFilter::getChangeSpellsQueue()
 PacketQueue<EventPacket> * PacketFilter::getPlayerEventQueue()
 {
 	return this->playerEventQueue;
+}
+
+PacketQueue<AIHealthPacket> * PacketFilter::getAIHealthQueue()
+{
+	return this->aiHealthQueue;
 }

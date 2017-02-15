@@ -22,7 +22,7 @@
 #include "Packager.hpp"
 #include "PacketFilter.hpp"
 
-#ifndef DEBUGGING_NETWORK
+#ifdef DEBUGGING_NETWORK
 #include "DebugNetwork.hpp"
 #endif
 
@@ -86,9 +86,9 @@ namespace Nurn
 		NURN_API void pushPlayerEventPacket(const EventPacket& packet);
 		NURN_API bool fetchPlayerEventPacket(EventPacket& packet);
 
-		NURN_API uint8_t getPing() const;
-
-
+		NURN_API void pushAIHealthPacket(const AIHealthPacket& packet);
+		NURN_API bool fetchAIHealthPacket(AIHealthPacket& packet);
+		
 	private:
 		Address address;
 		Packager * packager = nullptr;
@@ -100,8 +100,8 @@ namespace Nurn
 		TCPCommunication netCommunication;
 #endif
 
-#ifndef DEBUGGING_NETWORK
-		DebugNetwork networkDebug;
+#ifdef DEBUGGING_NETWORK
+		DebugNetwork debugNetwork;
 #endif
 	};
 }

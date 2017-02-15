@@ -478,7 +478,6 @@ namespace LuaGear
 			g_gearEngine->textureBlend.at(index).modelIndex = index;
 		}
 		lua_pushinteger(lua, index);
-		return 1;;
+		return 1;
 	}
-
 }

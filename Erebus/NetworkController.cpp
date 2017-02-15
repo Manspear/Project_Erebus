@@ -240,6 +240,16 @@ bool NetworkController::fetchPlayerEventPacket(EventPacket& packet)
 	return network.fetchPlayerEventPacket(packet);
 }
 
+void NetworkController::sendAIHealthPacket(const AIHealthPacket& packet)
+{
+	network.pushAIHealthPacket(packet);
+}
+
+bool NetworkController::fetchAIHealthPacket(AIHealthPacket& packet)
+{
+	return network.fetchAIHealthPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

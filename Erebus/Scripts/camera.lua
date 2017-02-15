@@ -53,9 +53,12 @@ function vec3print(a)
 	print("x: " .. a.x .. "\ty:" .. a.y .. "\tz:" ..a.z)
 end
 
+function vec3gief(a, b)
+	a.x, a.y, a.z = b.x, b.y, b.z
+end
+
 function ZoomInCamera()
 	if camera.state ~= STATE_ZOOMING_IN then
-		print("camera zooming in boi")
 		camera.state = STATE_ZOOMING_IN
 		StartState.distance = camera.distance
 		StartState.angle = camera.angle
@@ -68,7 +71,6 @@ end
 
 function ZoomOutCamera()
 	if camera.state ~= STATE_ZOOMING_OUT then
-		print("camera zooming out boi")
 		camera.state = STATE_ZOOMING_OUT
 		StartState.distance = camera.distance
 		StartState.angle = camera.angle

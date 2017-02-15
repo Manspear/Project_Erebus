@@ -55,6 +55,8 @@ public:
 	void sendPlayerEventPacket(const EventPacket& packet);
 	bool fetchPlayerEventPacket(EventPacket& packet);
 
+	void sendAIHealthPacket(const AIHealthPacket& packet);
+	bool fetchAIHealthPacket(AIHealthPacket& packet);
 
 
 private:

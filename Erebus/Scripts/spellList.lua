@@ -50,6 +50,18 @@ function LoadSpellbook()
 	SunRay.spell.spellListId = 5
 	table.insert(SpellList, SunRay)
 
+	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.png"),
+					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
+					spell = CreatePolymorph(player)
+	}
+	table.insert(SpellList, polymorph)
+	
+	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.png"),
+					info = wrap("'Akta alla sma taggar va?!'", 30, "",""),
+					spell = CreateTumblethorns(player)
+	}
+	table.insert(SpellList, tumblethorns)
+
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
 end

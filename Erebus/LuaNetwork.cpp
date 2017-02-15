@@ -31,6 +31,8 @@ namespace LuaNetwork
 			{ "GetChangeSpellsPacket", getChangeSpellsPacket },
 			{ "SendPlayerEventPacket", sendPlayerEventPacket },
 			{ "GetPlayerEventPacket", getPlayerEventPacket },
+			{ "SendAIHealthPacket", sendAIHealthPacket },
+			{ "GetAIHealthPacket", getAIHealthPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -286,7 +288,7 @@ namespace LuaNetwork
 	int sendChargingPacket(lua_State* lua)
 	{
 		int index = (int)lua_tointeger(lua, 1);
-		uint16_t damage = lua_tonumber(lua, 2);
+		uint16_t damage = (uint16_t)lua_tonumber(lua, 2);
 
 		g_networkController->sendChargingPacket(ChargingPacket(index, damage));
 
@@ -315,10 +317,10 @@ namespace LuaNetwork
 
 	int sendQuickBlendPacket(lua_State* lua)
 	{
-		uint16_t quickBlendFrom = lua_tointeger(lua, 1);
-		uint16_t quickBlendTo = lua_tointeger(lua, 2);
-		uint16_t damagedMaxTime = lua_tointeger(lua, 3);
-		uint16_t quickBlendSegment = lua_tointeger(lua, 4);
+		uint16_t quickBlendFrom = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t quickBlendTo = (uint16_t)lua_tointeger(lua, 2);
+		uint16_t damagedMaxTime = (uint16_t)lua_tointeger(lua, 3);
+		uint16_t quickBlendSegment = (uint16_t)lua_tointeger(lua, 4);
 
 		g_networkController->sendQuickBlendPacket(QuickBlendPacket(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment));
 
@@ -351,7 +353,7 @@ namespace LuaNetwork
 
 	int sendDamagePacket(lua_State* lua)
 	{
-		uint16_t index = lua_tointeger(lua, 1);
+		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
 		float  damage = (float)lua_tonumber(lua, 2);
 
 		g_networkController->sendDamagePacket(DamagePacket(index, damage));
@@ -381,9 +383,9 @@ namespace LuaNetwork
 
 	int sendChangeSpellsPacket(lua_State* lua)
 	{
-		uint8_t spellSlot1 = lua_tointeger(lua, 1);
-		uint8_t spellSlot2 = lua_tointeger(lua, 2);
-		uint8_t spellSlot3 = lua_tointeger(lua, 2);
+		uint8_t spellSlot1 = (uint8_t)lua_tointeger(lua, 1);
+		uint8_t spellSlot2 = (uint8_t)lua_tointeger(lua, 2);
+		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 2);
 
 		g_networkController->sendChangeSpellsPacket(ChangeSpellsPacket(spellSlot1, spellSlot2, spellSlot3));
 
@@ -417,7 +419,7 @@ namespace LuaNetwork
 		uint8_t eventId = lua_tointeger(lua, 1);
 
 		g_networkController->sendPlayerEventPacket(EventPacket(eventId));
-
+		
 		return 0;
 	}
 
@@ -435,10 +437,38 @@ namespace LuaNetwork
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
 		}
-
 		return 2;
 	}
 
+	int sendAIHealthPacket(lua_State* lua)
+	{
+		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+
+		g_networkController->sendAIHealthPacket(AIHealthPacket(transformID, health));
+
+		return 0;
+	}
+
+	int getAIHealthPacket(lua_State* lua)
+	{
+		AIHealthPacket aiHealthPacket;
+
+		if (g_networkController->fetchAIHealthPacket(aiHealthPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, aiHealthPacket.data.transformID);
+			lua_pushnumber(lua, aiHealthPacket.data.health);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 3;
+	}
 
 	int getNetworkHost(lua_State* lua)
 	{
@@ -450,7 +480,7 @@ namespace LuaNetwork
 
 	int shouldSendNewTransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastTransformPacket() > 0.04)
+		if (g_networkController->timeSinceLastTransformPacket() > 0.033)
 		{
 			lua_pushboolean(lua, true);
 		}
@@ -463,7 +493,7 @@ namespace LuaNetwork
 
 	int shouldSendNewAnimation(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastAnimationPacket() > 0.04)
+		if (g_networkController->timeSinceLastAnimationPacket() > 0.033)
 		{
 			lua_pushboolean(lua, true);
 		}
@@ -489,7 +519,7 @@ namespace LuaNetwork
 			while (!IPFile.eof())
 			{
 				getline(IPFile, line);
-				if ((offset = line.find(search0, 0)) != std::string::npos)
+				if ((offset = (int)line.find(search0, 0)) != std::string::npos)
 				{
 					//   IPv4 Address. . . . . . . . . . . : 1   
 					line.erase(0, 39);
@@ -506,7 +536,7 @@ namespace LuaNetwork
 
 	int shouldSendNewAITransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastAITransformPacket() > 0.06)
+		if (g_networkController->timeSinceLastAITransformPacket() > 0.066)
 		{
 			lua_pushboolean(lua, true);
 		}
