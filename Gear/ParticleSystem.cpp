@@ -107,6 +107,12 @@ namespace Gear
 	GEAR_API void ParticleSystem::setDirection(glm::vec3 direction)
 	{
 		dir = direction;
+
+		for (int i = 0; i < nrOfEmitters; i++)
+		{
+			particleEmitters[i].setDirection(dir);
+		}
+		
 	}
 
 	GEAR_API int ParticleSystem::getNrOfActive()
