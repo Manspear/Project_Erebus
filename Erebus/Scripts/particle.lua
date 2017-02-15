@@ -60,7 +60,7 @@ function CreateFireEffectParticles()
 	return particle
 end
 
-CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.dds");
+CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.png");
 function createChargeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
