@@ -156,6 +156,7 @@ end
 	
 
 function UnloadEnemies()
+	AI.Unload()
 end
 
 function UpdateEnemies(dt)

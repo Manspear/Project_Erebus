@@ -247,7 +247,7 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 
 	if length < enemy.range then
 		if enemy.actionCountDown <0 then
-			--player:Hurt(12)
+			player:Hurt(12)
 			enemyManager.actionEnemy = -1
 
 			inState = "PositioningInnerState" 
