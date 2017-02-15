@@ -82,6 +82,8 @@ protected:
 	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
 	void calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
+	
+	void makeTRSMatrix(float inTranslation[3], float inRotation[3], float inScale[3], glm::mat4x4* result);
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
@@ -124,11 +126,12 @@ protected:
 	bool quickBlendBeginEnd = true;
 
 	std::vector<std::vector<int>> animationStacks;
-
+	glm::mat4x4 identityMatrixList[MAXJOINTCOUNT];
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
 	std::vector<glm::mat4> animMatrix;
 	std::vector<sKeyFrame> finalList;
+	std::vector<sKeyFrame> blendedList;
 
 	int matrixIndex;
 	std::vector<int> currentSegmentStates;

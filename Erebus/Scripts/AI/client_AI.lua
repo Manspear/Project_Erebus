@@ -69,21 +69,23 @@ function getAIStatePacket(enemy, player)
 	--Update state of the enemy
 	if netAIValue == true then
 		--print("Enemy", enemy.transformID)
-		print("AI statepacket", transformID, aiState)
 		--print("Client AI ID", enemy.transformID)
 		if aiState == 0 then--IdleState
+			--print("Received IdleState", transformID, aiState)
 			enemy.state = clientAIState.idleState
 		end
-		
 		if aiState == 1 then--FollowState
+			--print("Received FollowState", transformID, aiState)
 			enemy.state = clientAIState.followState
 		end
 		
 		if aiState == 2 then--AttackState
+			--print("Received AttackState", transformID, aiState)
 			enemy.state = clientAIState.attackState
 		end
 			
 		if aiState == 3 then--DeadState
+			--print("Received DeadState", transformID, aiState)
 			enemy.state = clientAIState.deadState
 		end
 
