@@ -35,8 +35,7 @@ function createIceGrenadeParticles()
 
 	function ice.die(pos)
 		Particle.SetDead(ice.fly)
-		Particle.SetPosition(ice.exploda, pos)
-		Particle.Explode(ice.exploda)	
+		Particle.Explode(ice.exploda, pos)	
 	end
 
 	function ice.update(pos)
@@ -106,7 +105,26 @@ function createSparklyParticles()
 	return sparkles
 end
 
---SMOKE_PARTICLES_TEX = Assets.LoadTexture("Textures/smoke.png");
+function  createTumbleParticles()
+	local tumbleParticles = {}
+	tumbleParticles.fly = Particle.Bind("ParticleFiles/nature.Particle");
+
+	function tumbleParticles:cast(x, y, z)
+		Particle.SetAlive(self.fly)
+		Particle.SetDirection(Particle.fly, x, y, z);
+
+	end
+
+	function tumbleParticles:die(pos)
+		Particle.SetDead(self.fly)
+	end
+
+	function tumbleParticles:update(pos)
+		Particle.SetPosition(self.fly, pos)
+	end
+	return tumbleParticles
+end
+
 
 function createCloudParticles()
 	local cloud = {}
