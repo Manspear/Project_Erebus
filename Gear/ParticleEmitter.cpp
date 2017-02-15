@@ -147,13 +147,16 @@ namespace Gear
 	void ParticleEmitter::explode()
 	{
 		nrOfActiveParticles = 0;
+		glm::vec3 tempVec = this->position + direction * focus;
+		glm::vec3 temp2;
 		for (int i = 0; i < maxParticles; i++)
 		{
 			particlePos[i].pos = this->position;
 			particlePos[i].size = this->particleSize;
-			allParticles[i].lifeSpan = this->lifeTime;
-			allParticles[i].direction = glm::normalize(glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5));
-			allParticles[i].direction *= rand() % (int)partSpeed;		
+			allParticles[i].lifeSpan = this->lifeTime;	
+			temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
+			allParticles[i].direction = glm::normalize(temp2 - this->position);
+			allParticles[i].direction *= rand() % (int)partSpeed;
 			nrOfActiveParticles = i;
 		}
 		isActive = true;

@@ -12,6 +12,12 @@ Animation::Animation()
 	transitionTimeArray = nullptr;
 
 	transitionTimeArraySize = 9;
+
+	quickBlendFrom = 0;
+	quickBlendTo = 0;
+	quickBlendSegment = -1;
+	quickBlendTime = 0;
+	quickBlendingDone = true;
 }
 
 Animation::~Animation()
@@ -95,7 +101,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 
 std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
 {
-	if( animTimer >= 0.0f )
+	if (animTimer >= 0.0f)
 		animTimer += dt;
 	else
 	{
@@ -202,6 +208,22 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		}
 		animationStacks[animationSegment].push_back(state);
 	}
+
+	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
+	//make sure to reset the timeMultiplier after the attack is done. It is crucial. Or else the animation will get faster and faster.
+	if (animationPlayTime[animationSegment] > 0)
+	{
+		Importer::hAnimationState* stater = asset->getAnimationState(0, 5, state);
+		Importer::sKeyFrame* keys = asset->getKeyFrames(0, 5, state);
+		float animMaxTime = ((sKeyFrame*)((char*)keys + (stater->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime;
+		timeMultiplier[animationSegment] = animMaxTime / animationPlayTime[animationSegment];
+
+		//std::cout << "animMax: " << animMaxTime << " " << "animPlayTime: " << animationPlayTime[animationSegment] << std::endl;
+	}
+	else
+	{
+		timeMultiplier[animationSegment] = 1.f;
+	}
 }
 
 void Animation::updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime)
@@ -286,13 +308,16 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 {
 	this->animationSegments = numberOfSegments;
 	currentSegmentStates.resize(numberOfSegments);
-
+	timeMultiplier.resize(numberOfSegments);
+	animationPlayTime.resize(numberOfSegments);
 	std::vector<int> animStack;
 	animStack.push_back(0);
 	for (int i = 0; i < animationSegments; i++)
 	{
-		isTransitionCompletes.push_back(true);
+		timeMultiplier[i] = 1;
+		animationPlayTime[i] = -1;
 
+		isTransitionCompletes.push_back(true);
 		oldTos.push_back(-1337);
 		oldFroms.push_back(-1337);
 
@@ -310,7 +335,7 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 	}
 }
 
-void Animation::setMatrixIndex( int index )
+void Animation::setMatrixIndex(int index)
 {
 	matrixIndex = index;
 }
@@ -330,6 +355,11 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 	setStates(numStates);
 }
 
+GEAR_API void Animation::setAnimationPlayTime(float animTime, int segment)
+{
+	animationPlayTime[segment] = animTime;
+}
+
 GEAR_API void Animation::setStates(int numStates)
 {
 	this->numStates = numStates;
@@ -340,7 +370,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	if (animationSegments > 1)
 	{
 		//animationMatrixLists is a 64 long mat4 list, where each 
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4) );
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4));
 
 		for (int i = 1; i < animationSegments; i++)
 		{
@@ -362,7 +392,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 	else
 	{
 		//64 slots each with 64 matrices
-		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4) );
+		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4));
 	}
 
 	/*
@@ -625,12 +655,12 @@ void Animation::convertToScaleMat(float inputArr[3], glm::mat4 * result)
 		(*result)[i][i] = inputArr[i];
 }
 
-void Animation::setSegmentState( int state, int segment )
+void Animation::setSegmentState(int state, int segment)
 {
 	currentSegmentStates[segment] = state;
 }
 
-void Animation::setQuickBlend( int from, int to, float blendTime, int segment )
+void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 {
 	quickBlendFrom = from;
 	quickBlendTo = to;
@@ -641,20 +671,21 @@ void Animation::setQuickBlend( int from, int to, float blendTime, int segment )
 
 void Animation::update(float dt)
 {
-	if( animationMatrixLists.size() <= 0 )
+	if (animationMatrixLists.size() <= 0)
 		return;
 
-	for(int i = 0; i< animationSegments; i++)
+	for (int i = 0; i< animationSegments; i++)
 	{
-		if(i == quickBlendSegment)
+
+		if (i == quickBlendSegment)
 		{
-			if( !quickBlendingDone )
+			if (!quickBlendingDone)
 			{
-				quickBlendingDone = quickBlend( dt, quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment );
+				quickBlendingDone = quickBlend(dt * timeMultiplier[i], quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment);
 			}
 		}
 		else
-			updateState( dt, currentSegmentStates[i], i );
+			updateState(dt * timeMultiplier[i], currentSegmentStates[i], i);
 	}
 
 	assembleAnimationsIntoShadermatrices();

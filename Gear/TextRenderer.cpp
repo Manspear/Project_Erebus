@@ -22,6 +22,16 @@ void TextRenderer::init(int screenWidth, int screenHeight)
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	shader->setUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)(sizeof(float) * 2));
+	glVertexAttribPointer(2, 1, GL_INT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)(sizeof(float) * 6));
+	glBufferData(GL_ARRAY_BUFFER, sizeof(sTextLine), NULL, GL_STREAM_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	heightLoc = glGetUniformLocation(shader->getProgramID(), "height");
+	colorLoc = glGetUniformLocation(shader->getProgramID(), "color");
 	shader->unUse();
 }
 
@@ -119,10 +129,6 @@ void TextRenderer::draw()
 
 	font->getTexture()->bind(GL_TEXTURE0);
 
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)0);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)(sizeof(float) * 2));
-	glVertexAttribPointer(2, 1, GL_INT, GL_FALSE, sizeof(sTextVertex), (GLvoid*)(sizeof(float) * 6));
-
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
@@ -130,9 +136,9 @@ void TextRenderer::draw()
 	//for (auto l : lines)
 	for( auto l : bufferedLines )
 	{
-		glUniform1f(glGetUniformLocation(shader->getProgramID(), "height"), font->getInfo()->size * l.scale);
-		glUniform4f(glGetUniformLocation(shader->getProgramID(), "color"), l.color.r, l.color.g, l.color.b, l.color.a);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(sTextLine), &l, GL_STATIC_DRAW);
+		glUniform1f(heightLoc, font->getInfo()->size * l.scale);
+		glUniform4f(colorLoc, l.color.r, l.color.g, l.color.b, l.color.a);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(sTextLine), &l);
 		glDrawArrays(GL_POINTS, 0, (GLsizei)l.numberOfCharacters);
 	}
 	//lines.clear();

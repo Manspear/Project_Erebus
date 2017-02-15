@@ -220,6 +220,36 @@ bool NetworkController::fetchDamagePacket(DamagePacket& packet)
 	return network.fetchDamagePacket(packet);
 }
 
+void NetworkController::sendChangeSpellsPacket(const ChangeSpellsPacket& packet)
+{
+	network.pushChangeSpellsPacket(packet);
+}
+
+bool NetworkController::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
+{
+	return network.fetchChangeSpellsPacket(packet);
+}
+
+void NetworkController::sendPlayerEventPacket(const EventPacket& packet)
+{
+	network.pushPlayerEventPacket(packet);
+}
+
+bool NetworkController::fetchPlayerEventPacket(EventPacket& packet)
+{
+	return network.fetchPlayerEventPacket(packet);
+}
+
+void NetworkController::sendAIHealthPacket(const AIHealthPacket& packet)
+{
+	network.pushAIHealthPacket(packet);
+}
+
+bool NetworkController::fetchAIHealthPacket(AIHealthPacket& packet)
+{
+	return network.fetchAIHealthPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

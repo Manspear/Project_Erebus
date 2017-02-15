@@ -25,24 +25,24 @@ end
 
 function createIceGrenadeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
-	local fireball = {}
-	fireball.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
-	fireball.exploda = Particle.Bind("ParticleFiles/grenadeParticles.Particle")
+	local ice = {}
+	ice.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
+	ice.exploda = Particle.Bind("ParticleFiles/ice.Particle")
 	
-	function fireball.cast()
-		Particle.SetAlive(fireball.fly)
+	function ice.cast()
+		Particle.SetAlive(ice.fly)
 	end
 
-	function fireball.die(pos)
-		Particle.SetDead(fireball.fly)
-		Particle.SetPosition(fireball.exploda, pos)
-		Particle.Explode(fireball.exploda)	
+	function ice.die(pos)
+		Particle.SetDead(ice.fly)
+		Particle.SetPosition(ice.exploda, pos)
+		Particle.Explode(ice.exploda)	
 	end
 
-	function fireball.update(pos)
-		Particle.SetPosition(fireball.fly, pos)
+	function ice.update(pos)
+		Particle.SetPosition(ice.fly, pos)
 	end
-	return fireball
+	return ice
 end
 
 function CreateFireEffectParticles()
@@ -84,4 +84,36 @@ function createChargeParticles()
 	end
 
 	return charge
+end
+
+function createSparklyParticles()
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
+	local sparkles = {}
+	sparkles.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
+	
+	function sparkles:cast()
+		Particle.SetAlive(self.fly)
+	end
+
+	function sparkles:die(pos)
+		Particle.SetDead(self.fly)
+	end
+
+	function sparkles:update(pos)
+		Particle.SetPosition(self.fly, pos)
+	end
+	return sparkles
+end
+
+function createCloudParticles()
+	local cloud = {}
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
+	cloud.ID = Emitter.Bind(30, 0.8, 4, 0, 0, 0, 1, 1, 1)   
+	Emitter.SetDirection(cloud.ID, {x = 0, y = 1, z = 0})
+	Emitter.SetTexture(cloud.ID, CHARGE_PARTICLES_TEX)
+	function cloud:poof(pos)
+		Emitter.SetPosition(self.ID, pos)
+		Emitter.Explode(self.ID)	
+	end
+	return cloud
 end

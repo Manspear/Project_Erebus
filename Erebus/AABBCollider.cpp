@@ -114,3 +114,30 @@ void AABBCollider::setMaxPos(glm::vec3 maxPos)
 {
 	this->maxPos = maxPos;
 }
+
+glm::vec3 AABBCollider::getPositiveVertex(const glm::vec3 & normal)
+{
+	glm::vec3 positiveVertex = this->minPosTotal; // Should this be in world space or aabb local space?
+
+	if (normal.x >= 0)
+		positiveVertex.x = this->maxPosTotal.x;
+	if (normal.y >= 0)
+		positiveVertex.y = this->maxPosTotal.y;
+	if (normal.z >= 0)
+		positiveVertex.z = this->maxPosTotal.z;
+	return positiveVertex;
+}
+
+glm::vec3 AABBCollider::getNegativeVertex(const glm::vec3 & normal)
+{
+	glm::vec3 negativeVertex = this->maxPosTotal;
+
+	if (normal.x >= 0)
+		negativeVertex.x = this->minPosTotal.x;
+	if (normal.y >= 0)
+		negativeVertex.y = this->minPosTotal.y;
+	if (normal.z >= 0)
+		negativeVertex.z = this->minPosTotal.z;
+
+	return negativeVertex;
+}

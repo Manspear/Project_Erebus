@@ -13,6 +13,12 @@
 //#define USING_UDP 1
 #define USING_TCP 1
 
+
+// Debug definition
+
+//#define DEBUGGING_NETWORK 1
+
+
 // Platform detection
 
 #define PLATFORM_WINDOWS  1

@@ -1,6 +1,6 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarAnimBurn2.dds");
-BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarAnimFlame.dds");
+BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.png");
+BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.png");
 
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_PILLAR = 4
@@ -61,7 +61,7 @@ function CreateHellPillar(entity)
 		if self.cooldown < 0 then	
 			self.timeSinceLastPoop = 2
 			self.cooldown = 1.5
-			self.startUpTime = 0.4		self.finishingTime = 2	self.startUpScale = 1	
+			self.startUpTime = 0.4		self.finishingTime = 1.0	self.startUpScale = 1	
 			self.damage = 10
 			self.maxScale = 1
 			Transform.SetScale(spell.transformID, 0.2)
@@ -75,8 +75,8 @@ function CreateHellPillar(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then	
 			ZoomOutCamera()	
 			self.cooldown = COOLDOWN_PILLAR	
-			self.startUpTime = 1.5		self.finishingTime = 4.5	self.startUpScale = 3
-			self.maxScale = 3
+			self.startUpTime = 1.5		self.finishingTime = 2.0	self.startUpScale = 6
+			self.maxScale = 6
 			Transform.SetScale(spell.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
 			self.damage = 50
@@ -119,7 +119,7 @@ function CreateHellPillar(entity)
 	spell.startUpScale = 0
 	function spell:StartingUp(dt)
 		self.startUpTime = self.startUpTime - dt
-		self.startUpScale = self.startUpScale - dt * 2
+		self.startUpScale = self.startUpScale - dt * 3
 		
 		self.someRotation.y = self.someRotation.y + 8 * dt 
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
@@ -174,10 +174,10 @@ function CreateHellPillar(entity)
 			self.blendValue1.y = self.blendValue1.y - 0.6 * dt
 
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
-			self.blendValue2.y = self.blendValue2.y - 0.3 * dt
+			self.blendValue2.y = self.blendValue2.y - 1.0 * dt
 
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
-			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 2 * dt end
+			if self.riseFactor < 1 then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end
 			
 			Transform.SetScaleNonUniform(self.transformID, 1, self.riseFactor, 1)
 			self.startUpTime = self.startUpTime - dt

@@ -30,9 +30,7 @@ function state.idleState.exit(enemy,player)
 end
 
 function state.followState.enter(enemy,player)
-	print("Enter FOLLOW")
 	enemy.animationController:doWalk()
-	
 	--AI.FollowPlayer(player.transformID)
 end
 
@@ -40,7 +38,6 @@ function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
 	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-		print("Follow",length)
 		if length >enemy.visionRange then
 			inState = "IdleState" 
 			changeToState(enemy,player,inState)
@@ -143,7 +140,7 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		local dir = AI.NavigateMesh(enemy.transformID)
 		if dir.y ~= -1 and enemy.pathTarget ~= nil  then
 			enemy.subPathtarget = dir
-			print("Subtarget this fucker")
+
 		end
 	end
 
@@ -186,13 +183,11 @@ function state.positioningOuterState.enter(enemy,player)
 end
 
 function state.positioningOuterState.update(enemy,player,dt)
-	
+
 	if(player.nrOfInnerCircleEnemies >= 3) then
 		if enemy.subPathtarget ~= nil then
 
 			local pos = Transform.GetPosition(enemy.transformID)
-
-				--print("I'm in outer circle")
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 				Transform.SetLookAt(enemy.transformID,direction)
@@ -209,16 +204,11 @@ function state.positioningOuterState.update(enemy,player,dt)
 					Transform.SetLookAt(enemy.transformID,direction)
 				end
 		else
-			length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
-
-			if length > player.outerCirclerange then
-				player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
-				inState = "FollowState" 
-				changeToState(enemy,player,inState)
-			end	
-
+		local dir = AI.NavigateMesh(enemy.transformID)
+			if dir.y ~= -1 and enemy.pathTarget ~= nil  then
+				enemy.subPathtarget = dir
+			end
 		end
-
 	else
 
 		player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
@@ -243,7 +233,6 @@ function state.attackState.enter(enemy,player)
 
 	Transform.SetLookAt(enemy.transformID,direction)
 
-	Transform.SetScale(enemy.transformID,2)
 	enemy.actionCountDown = 1.2
 end
 
@@ -257,7 +246,7 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		if enemy.actionCountDown <0 then
 			player:Hurt(12)
 			enemyManager.actionEnemy = -1
-		--print("Fucking ActionEnemy", enemy.range )
+
 			inState = "PositioningInnerState" 
 			changeToState(enemy,player,inState)
 		end
@@ -281,7 +270,7 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 end
 
 function state.attackState.exit(enemy,player)
-	Transform.SetScale(enemy.transformID,1)
+
 	enemy.animationController:doWalk()
 
 	enemy.actionCountDown = 1
@@ -290,7 +279,7 @@ function state.attackState.exit(enemy,player)
 end 
 
 function state.deadState.enter(enemy,player)
-	print("DEAD")
+	
 end
 
 function state.deadState.update(enemy,player)
@@ -303,19 +292,23 @@ end
 
 function changeToState(enemy,player,changeState)
 
-	print("CHANGE STATE")
+	--print("CHANGE STATE")
 	enemy.state.exit(enemy,player)
 
 	if changeState == "IdleState" then
-			enemy.state = state.idleState
+		enemy.state = state.idleState
+		Network.SendAIStatePacket(enemy.transformID,0)
+
 	end
 
 	if changeState == "FollowState" then
 		--print(Network.TestFunction())
-			enemy.state = state.followState
+		enemy.state = state.followState
+		Network.SendAIStatePacket(enemy.transformID,1)
 	end
 	if changeState == "AttackState" then
-			enemy.state = state.attackState
+		enemy.state = state.attackState
+		Network.SendAIStatePacket(enemy.transformID,2)
 	end
 	if changeState == "ActionState" then
 		enemy.state = state.actionState
@@ -329,7 +322,8 @@ function changeToState(enemy,player,changeState)
 	end
 
 	if changeState == "DeadState" then
-			enemy.state = state.deadState
+		enemy.state = state.deadState
+		Network.SendAIStatePacket(enemy.transformID,3)
 	end 
 
 	enemy.state.enter(enemy,player)
