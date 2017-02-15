@@ -148,6 +148,32 @@ DWORD WINAPI update( LPVOID args )
 			}
 			data->workQueue->execute();
 
+			for( int curModel = 0; curModel < data->models->size(); curModel++ )
+			{
+				ModelInstance& instance = data->models->at(curModel);
+				for( int curInstance = 0; curInstance < instance.activeTransforms; curInstance++ )
+				{
+					TransformStruct& t = instance.transforms.at(curInstance);
+					glm::vec3 minPos = instance.asset->getMinPosition()*t.scale + t.pos;
+					glm::vec3 maxPos = instance.asset->getMaxPosition()*t.scale + t.pos;
+
+					Debugger::getInstance()->drawAABB( minPos, maxPos, glm::vec3( 1.0f, 0.0f, 1.0f ) );
+				}
+			}
+
+			for( int curModel = 0; curModel < data->animatedModels->size(); curModel++ )
+			{
+				ModelInstance& instance = data->animatedModels->at(curModel);
+				for( int curInstance = 0; curInstance < instance.activeTransforms; curInstance++ )
+				{
+					TransformStruct& t = instance.transforms.at(curInstance);
+					glm::vec3 minPos = instance.asset->getMinPosition()*t.scale + t.pos;
+					glm::vec3 maxPos = instance.asset->getMaxPosition()*t.scale + t.pos;
+
+					Debugger::getInstance()->drawAABB( minPos, maxPos, glm::vec3( 1.0f, 0.0f, 1.0f ) );
+				}
+			}
+
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
 	}
