@@ -85,35 +85,34 @@ function createChargeParticles()
 
 	return charge
 end
-
+STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
 function createSparklyParticles()
-	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
-	sparkles.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
-	
+	sparkles.ID = Emitter.Bind(50, 1.0, 2, 25, 2, 0, 0, 1, -1)   
+	Emitter.SetTexture(sparkles.ID, STAR_PARTICLES_TEX)
+
 	function sparkles:cast()
-		Particle.SetAlive(self.fly)
+		Emitter.SetAlive(self.ID)
 	end
 
-	function sparkles:die(pos)
-		Particle.SetDead(self.fly)
+	function sparkles:die()
+		Emitter.SetDead(self.ID)
 	end
 
 	function sparkles:update(pos)
-		Particle.SetPosition(self.fly, pos)
+		Emitter.SetPosition(self.ID, pos)
 	end
 	return sparkles
 end
 
+--SMOKE_PARTICLES_TEX = Assets.LoadTexture("Textures/smoke.png");
+
 function createCloudParticles()
 	local cloud = {}
-	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
-	cloud.ID = Emitter.Bind(30, 0.8, 4, 0, 0, 0, 1, 1, 1)   
-	Emitter.SetDirection(cloud.ID, {x = 0, y = 1, z = 0})
-	Emitter.SetTexture(cloud.ID, CHARGE_PARTICLES_TEX)
+	cloud.ID = Particle.Bind("ParticleFiles/smokeParticles.Particle")
 	function cloud:poof(pos)
-		Emitter.SetPosition(self.ID, pos)
-		Emitter.Explode(self.ID)	
+		Particle.Explode(self.ID, pos)
 	end
 	return cloud
 end
