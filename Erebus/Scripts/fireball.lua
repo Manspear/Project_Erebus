@@ -111,7 +111,7 @@ function CreateFireball(entity)
 			Transform.SetPosition(self.bigBallID, self.position)
 			Transform.SetScale(self.bigBallID, self.scale)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
-			self.ballParticles.cast()
+			self.ballParticles:cast()
 		end
 		self.chargedTime = 0
 	end
@@ -123,7 +123,7 @@ function CreateFireball(entity)
 		self.position.z = self.position.z + direction.z * FIREBALL_SPEED * dt
 		Transform.SetPosition(self.bigBallID, self.position)
 		self.damage = self.damage + 3 * dt
-		self.ballParticles.update(self.position)
+		self.ballParticles:update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
 			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:Kill() end
@@ -161,7 +161,7 @@ function CreateFireball(entity)
 
 	function spell:Kill()
 		self.bigBallActive = false
-		self.ballParticles.die()
+		self.ballParticles:die()
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	

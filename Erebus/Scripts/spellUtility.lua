@@ -28,7 +28,7 @@ function CreateChargeThing(entity)
 	
 	
 	chargeThing.particles = createChargeParticles()
-	chargeThing.particles.extrovert(false)
+	chargeThing.particles:extrovert(false)
 	chargeThing.caster = entity.transformID
 	chargeThing.rot = {x = 0, y = 0, z = 0}
 
@@ -71,7 +71,7 @@ function CreateChargeThing(entity)
 
 			Transform.SetScaleNonUniform(chargeThing.transformID, chargeThing.scaleLarge.x,chargeThing.scaleLarge.y,chargeThing.scaleLarge.z)
 			Transform.SetPosition(chargeThing.transformID, chargeThing.pos)
-			chargeThing.particles.update(chargeThing.pos) 
+			chargeThing.particles:update(chargeThing.pos) 
 			local daPower = math.min(chargePower, MAX_CHARGE)
 			chargeThing.rotLarge.y = chargeThing.rotLarge.y - (chargePower * 2) * dt
 			Transform.SetRotation(chargeThing.transformID, self.rotLarge)
@@ -87,14 +87,14 @@ function CreateChargeThing(entity)
 		Transform.ActiveControl(chargeThing.transformID2, false)  
 		Transform.SetPosition(chargeThing.transformID,  {x = 0, y = 0, z = 0})
 		Transform.SetPosition(chargeThing.transformID2, {x = 0, y = 0, z = 0})  
-		chargeThing.particles.die()
+		chargeThing.particles:die()
 	end
 	function chargeThing:StartCharge(position) 
 		chargeThing.timer = 0
 		Transform.ActiveControl(chargeThing.transformID, true)
 		Transform.ActiveControl(chargeThing.transformID2, true)  
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
-		chargeThing.particles.cast() 
+		chargeThing.particles:cast() 
 	end
 
 	return chargeThing

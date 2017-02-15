@@ -35,8 +35,7 @@ function createIceGrenadeParticles()
 
 	function ice.die(pos)
 		Particle.SetDead(ice.fly)
-		Particle.SetPosition(ice.exploda, pos)
-		Particle.Explode(ice.exploda)	
+		Particle.Explode(ice.exploda, pos)	
 	end
 
 	function ice.update(pos)
@@ -61,26 +60,26 @@ function CreateFireEffectParticles()
 	return particle
 end
 
-CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.png");
+CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.dds");
 function createChargeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
 	charge.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)  
 	Emitter.SetTexture(charge.ID, CHARGE_PARTICLES_TEX)
-	function charge.cast()
-		Emitter.SetAlive(charge.ID)
+	function charge:cast()
+		Emitter.SetAlive(self.ID)
 	end
 
-	function charge.die()
-		Emitter.SetDead(charge.ID)	
+	function charge:die()
+		Emitter.SetDead(self.ID)	
 	end
 
-	function charge.update(pos)
-		Emitter.SetPosition(charge.ID, pos)
+	function charge:update(pos)
+		Emitter.SetPosition(self.ID, pos)
 	end
 
-	function charge.extrovert(yesNo)
-		Emitter.SetExtro(charge.ID, yesNo)
+	function charge:extrovert(yesNo)
+		Emitter.SetExtro(self.ID, yesNo)
 	end
 
 	return charge
@@ -106,7 +105,26 @@ function createSparklyParticles()
 	return sparkles
 end
 
---SMOKE_PARTICLES_TEX = Assets.LoadTexture("Textures/smoke.png");
+function  createTumbleParticles()
+	local tumbleParticles = {}
+	tumbleParticles.fly = Particle.Bind("ParticleFiles/nature.Particle");
+
+	function tumbleParticles:cast(x, y, z)
+		Particle.SetAlive(self.fly)
+		Particle.SetDirection(Particle.fly, x, y, z);
+
+	end
+
+	function tumbleParticles:die(pos)
+		Particle.SetDead(self.fly)
+	end
+
+	function tumbleParticles:update(pos)
+		Particle.SetPosition(self.fly, pos)
+	end
+	return tumbleParticles
+end
+
 
 function createCloudParticles()
 	local cloud = {}
