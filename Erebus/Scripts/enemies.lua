@@ -25,7 +25,7 @@ function CreateEnemy(type, position)
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	enemies[i].transformID = Transform.Bind()
-	enemies[i].movementSpeed = math.random(5,20)
+	enemies[i].movementSpeed = 12--math.random(5,20)
 	enemies[i].maxHealth = 20
 	enemies[i].health = enemies[i].maxHealth
 	enemies[i].alive = true
@@ -37,7 +37,7 @@ function CreateEnemy(type, position)
 
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 
-	enemies[i].visionRange = 30
+	enemies[i].visionRange = 100
 	enemies[i].subPathtarget = nil
 	enemies[i].pathTarget = nil
 
@@ -59,6 +59,7 @@ function CreateEnemy(type, position)
 		if source ~= player2 then
 			if Network.GetNetworkHost() == true then
 				self.health = self.health - damage
+				--print("HP before damage:", self.health+damage, "Taking damage:", damage)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
@@ -116,6 +117,10 @@ function CreateEnemy(type, position)
 		Transform.ActiveControl(self.transformID,true)
 	end
 
+	enemies[i].SetState = function(self,inState)
+		stateScript.changeToState(self, player, inState)
+	end
+
 	Transform.SetPosition(enemies[i].transformID, position)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 	enemies[i].sphereCollider:SetRadius(2)
@@ -164,6 +169,7 @@ end
 	
 
 function UnloadEnemies()
+	AI.Unload()
 end
 
 function UpdateEnemies(dt)
@@ -274,30 +280,32 @@ function UpdateEnemies(dt)
 		end
 
 	else
-		local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
-
 		-- Run client_AI script
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
 			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 			tempdt = dt * enemies[i].timeScalar
 
+			local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
+
+			-- Update Client_AI health
 			if newAIHealthVal == true and enemies[i].transformID == aiHealth_transformID then
-				--print("Do i reach here?", aiHealth_health)
+				--print("HP before damage:", enemies[i].health, "Taking damage:", enemies[i].health - aiHealth_health)
 				enemies[i].health = aiHealth_health
-
-				if enemies[i].currentHealth > enemies[i].health then
-					enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
-					if enemies[i].currentHealth < 0 then
-						enemies[i].currentHealth = 0;
-					end
-				end
-
-				a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
-				UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 			end
 
-			if enemies[i].health > 0 then
+			if enemies[i].currentHealth > enemies[i].health then
+				enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
+				if enemies[i].currentHealth < 0 then
+					enemies[i].currentHealth = 0;
+				end
+			end
+
+			a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
+			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
+
+
+			if enemies[i].health >= 0 then
 				enemies[i].animationController:AnimationUpdate(dt)
 	
 				-- Retrieve packets from host
