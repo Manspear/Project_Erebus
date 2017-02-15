@@ -716,7 +716,7 @@ namespace AGI
 
 					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList, closedListList);
 
-					while (finishNode == nullptr && closedListList.size() < 60)
+					while (finishNode == nullptr && closedListList.size() < 100)
 					{
 						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, closedListList);
 					}

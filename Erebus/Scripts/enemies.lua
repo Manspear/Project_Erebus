@@ -25,7 +25,7 @@ function CreateEnemy(type, position)
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	enemies[i].transformID = Transform.Bind()
-	enemies[i].movementSpeed = 10--math.random(5,20)
+	enemies[i].movementSpeed = 12--math.random(5,20)
 	enemies[i].maxHealth = 20
 	enemies[i].health = enemies[i].maxHealth
 	enemies[i].alive = true
@@ -37,7 +37,7 @@ function CreateEnemy(type, position)
 
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 
-	enemies[i].visionRange = 30
+	enemies[i].visionRange = 100
 	enemies[i].subPathtarget = nil
 	enemies[i].pathTarget = nil
 
@@ -114,6 +114,10 @@ function CreateEnemy(type, position)
 		self.position.y = position.y
 		self.position.z = position.z
 		Transform.ActiveControl(self.transformID,true)
+	end
+
+	enemies[i].SetState = function(self,inState)
+		stateScript.changeToState(self, player, inState)
 	end
 
 	Transform.SetPosition(enemies[i].transformID, position)

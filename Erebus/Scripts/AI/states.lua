@@ -41,6 +41,7 @@ function state.followState.update(enemy,player,dt)
 		if length >enemy.visionRange then
 			inState = "IdleState" 
 			changeToState(enemy,player,inState)
+			print("hehe idle")
 		end
 		if player.nrOfInnerCircleEnemies <3 then 
 			if length < player.innerCirclerange then
@@ -118,7 +119,6 @@ end
 
 function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 
-	enemy.actionCountDown = enemy.actionCountDown- dt
 	if enemy.subPathtarget ~= nil then
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
@@ -154,7 +154,7 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 			changeToState(enemy,player,inState)
 		else
 
-			if enemyManager.actionEnemy == -1 and enemy.actionCountDown<0 then
+			if enemyManager.actionEnemy == -1 then
 				enemyManager.actionEnemy = enemy.transformID
 				randomNum = math.random(0, 0)
 				if randomNum == 0 then
@@ -273,7 +273,6 @@ function state.attackState.exit(enemy,player)
 
 	enemy.animationController:doWalk()
 
-	enemy.actionCountDown = 1
 	player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies - 1
 
 end 
