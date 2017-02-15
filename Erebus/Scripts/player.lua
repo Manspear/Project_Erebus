@@ -1,9 +1,8 @@
-local PLAYER_JUMP_SPEED = 0.35
-
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
-POLYMORPH_EFFECT_INDEX = 4
+LIFE_STEAL_EFFECT_INDEX = 4
+POLYMORPH_EFFECT_INDEX = 5
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
@@ -20,6 +19,7 @@ function LoadPlayer()
 	effectTable[FIRE_EFFECT_INDEX] = CreateFireEffect
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
+	effectTable[LIFE_STEAL_EFFECT_INDEX] = CreateLifeStealEffect
 	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
@@ -117,13 +117,6 @@ function LoadPlayer()
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeThing(player)
 	InitFireEffectParticles()
-	--[[LoadEnemies(5)
-	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
-	Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
-	Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
-	Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
-	Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})--]]
-
 end
 
 function LoadPlayer2()
@@ -316,6 +309,7 @@ function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		print("i got the D please senapi")
 	end
 end
 
@@ -353,43 +347,43 @@ function Controls(dt)
 			end
 			RayCollider.SetActive(player.rayCollider, false)
 		end
-		if Inputs.ButtonDown(Buttons.Left) then
-			player.spamCasting = true
-			player.attackTimer = 1
-			Network.SendSpellPacket(player.transformID, player.currentSpell)
-			player.spells[player.currentSpell]:Cast(player, 0.5, false)
+
+		if not player.charging then
+			if Inputs.ButtonDown(Buttons.Left) then
+				player.spamCasting = true
+				player.attackTimer = 1
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+				player.spells[player.currentSpell]:Cast(player, 0.5, false)
+			end
+
+			if Inputs.ButtonReleased(Buttons.Left) then
+				player.spamCasting = false
+			end
+
+			if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 		end
 
-		if Inputs.ButtonReleased(Buttons.Left) then
-			player.spamCasting = false
-		end
-		if Inputs.ButtonDown(Buttons.Right) then
-			player.spells[player.currentSpell]:Charge(dt)
-			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
-			player.charging = true
-		end
+		if not player.spamCasting then
+			if Inputs.ButtonDown(Buttons.Right) then
+				player.spells[player.currentSpell]:Charge(dt)
+				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
+				player.charging = true
+			end
 
-		if Inputs.ButtonPressed(Buttons.Right) then 
-			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-			player.charger:StartCharge(player.position) 
-		end
+			if Inputs.ButtonPressed(Buttons.Right) then 
+				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
+				player.charger:StartCharge(player.position) 
+			end
 		
-		if Inputs.ButtonReleased(Buttons.Right) then
-			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
-			player.spells[player.currentSpell]:ChargeCast(player)
-			player.charger:EndCharge()
-			player.charging = false
+			if Inputs.ButtonReleased(Buttons.Right) then
+				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
+				player.spells[player.currentSpell]:ChargeCast(player)
+				player.charger:EndCharge()
+				player.charging = false
+			end
 		end
-		--[[if Inputs.KeyPressed("N") then
-			ZoomInCamera()
-		end
-		if Inputs.KeyReleased("N") then
-			ZoomOutCamera()
-		end]]
-
-		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
-		if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
-		if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
 			Transform.SetScale(player.transformID, 0)
