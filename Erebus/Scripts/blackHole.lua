@@ -12,6 +12,7 @@ BLACK_HOLE_SPIN_SPEED = 3.14/1
 
 function CreateBlackHole(entity)
 	local spell = {}
+	spell.element = "nature"
 	spell.type = CreateStaticAoEType()
 	spell.owner = entity
 	spell.effects = {}

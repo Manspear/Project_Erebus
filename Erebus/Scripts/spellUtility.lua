@@ -13,7 +13,6 @@ end
 
 MAX_CHARGE = 1
 function CreateChargeThing(entity)
-	print("createCharge")
 	local chargeThing = {}
 	chargeThing.timer = 0
 
@@ -27,8 +26,8 @@ function CreateChargeThing(entity)
 	chargeThing.modelIndex2 = Gear.AddForwardInstance(fireModel, chargeThing.transformID2)
 
 	chargeThing.transformID3 = Transform.Bind()
-	local fireModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	chargeThing.modelIndex3 = Gear.AddForwardInstance(fireModel, chargeThing.transformID2)
+	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
+	chargeThing.modelIndex3 = Gear.AddForwardInstance(natureModel, chargeThing.transformID3)
 	
 	
 	chargeThing.particles = createChargeParticles()
@@ -45,19 +44,47 @@ function CreateChargeThing(entity)
 	chargeThing.pos = {x = 0, y = 0, z = 0}
 	chargeThing.UVpushed = 0	
 
-	function chargeThing:TEST(position)
+	function chargeThing:ChargeMePlease(position,spellElement,spellElement)
+
 		elementalTransformID = chargeThing.transformID
 
+		if spellElement == "fire" then
+			Transform.ActiveControl(chargeThing.transformID2, true)
+			elementalTransformID = chargeThing.transformID2
+
+		elseif spellElement == "nature" then
+			Transform.ActiveControl(chargeThing.transformID3, true) 
+			elementalTransformID = chargeThing.transformID3
+		
+		else 
+			Transform.ActiveControl(chargeThing.transformID, true)
+		end
+	 
+		--chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		--Transform.SetPosition(elementalTransformID, chargeThing.pos)
+
+		Transform.SetScaleNonUniform(elementalTransformID, 1,1,1) --det här gäller bara den första
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
-		Transform.SetPosition(elementalTransformID, chargeThing.pos)
-		--basicaly no charge here.
+		chargeThing.pos.y = chargeThing.pos.y - 1
 		end
 
 
 
-	function chargeThing:Charging(position, dt, chargePower)
-		--print("CHARGING!")
+	function chargeThing:Charging(position, dt, chargePower,spellElement)
+		
 		elementalTransformID = chargeThing.transformID
+		if spellElement == "fire" then
+			Transform.ActiveControl(chargeThing.transformID2, true)
+			elementalTransformID = chargeThing.transformID2
+
+		elseif spellElement == "nature" then
+			Transform.ActiveControl(chargeThing.transformID3, true) 
+			elementalTransformID = chargeThing.transformID3
+		
+		else 
+			Transform.ActiveControl(chargeThing.transformID, true)
+		end
+		
 		
 		chargeThing.timer = chargeThing.timer + dt
 		Transform.SetScaleNonUniform(elementalTransformID, 1,1,1) --det här gäller bara den första
@@ -72,7 +99,7 @@ function CreateChargeThing(entity)
 		end
 
 		if(chargeThing.scaleSmall.y < 1.1) then
-			--chargeThing.scaleSmall.y = chargeThing.scaleSmall.y + (0.075*dt)
+			chargeThing.scaleSmall.y = chargeThing.scaleSmall.y + (0.075*dt)
 		end
 
 		Transform.SetScaleNonUniform(elementalTransformID, chargeThing.scaleSmall.x,chargeThing.scaleSmall.y,chargeThing.scaleSmall.z) --changed 
@@ -103,17 +130,16 @@ function CreateChargeThing(entity)
 	function chargeThing:EndCharge() 
 		chargeThing.scaleSmall = {x = 1, y = 1, z = 1}
 		chargeThing.scaleLarge = {x = 1.4, y = 1.1, z = 1.4}
-		Transform.ActiveControl(elementalTransformID, false)
-		--Transform.ActiveControl(chargeThing.transformID2, false)  
+		Transform.ActiveControl(chargeThing.transformID, false)
+		Transform.ActiveControl(chargeThing.transformID2, false)  
+		Transform.ActiveControl(chargeThing.transformID3, false)  
 		--Transform.SetPosition(chargeThing.transformID,  {x = 0, y = 0, z = 0})
 		--Transform.SetPosition(chargeThing.transformID2, {x = 0, y = 0, z = 0})  
 		chargeThing.particles.die()
 	end
 	function chargeThing:StartCharge(position) 
 		
-		chargeThing.timer = 0
-		Transform.ActiveControl(chargeThing.transformID, true)
-		Transform.ActiveControl(chargeThing.transformID2, true)  
+		chargeThing.timer = 0   
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
 		chargeThing.particles.cast() 
 	end

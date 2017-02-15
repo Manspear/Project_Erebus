@@ -31,6 +31,7 @@ function CreateIceGrenade(entity)
 	end
 	
 	local spell = {}
+	spell.element = "Ice"
 	spell.simulation = {position = {x = 0, y = 0, z = 0}, direction = {x = 0, y = 0, z = 0}, falloff = 0}
 	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE
 	spell.owner = entity

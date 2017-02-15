@@ -10,6 +10,7 @@ HIT_SFX = "Effects/burn_ice_001.wav"
 function CreateHellPillar(entity)
 		
 	local spell = {}
+	spell.element = "fire"
 	spell.caster = entity.transformID	
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)

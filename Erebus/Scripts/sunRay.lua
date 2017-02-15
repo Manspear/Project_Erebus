@@ -7,6 +7,7 @@ SUNRAY_TICK_INTERVAL = 0.5
 
 function CreateSunRay(entity)
 	local sunRay = {}
+	sunRay.element="fire"
 	sunRay.type = CreateRayType()
 	sunRay.effects = {} 
 	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)

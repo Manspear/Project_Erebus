@@ -368,11 +368,12 @@ function Controls(dt)
 		end
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)
-			--player.spells[player.currentSpell]
-			player.charger:TEST(player.position)
+			sElement = player.spells[player.currentSpell].element
+			print(a)
+			player.charger:ChargeMePlease(player.position,sElement)
 
 			if player.isCombined == true then
-				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
+				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
 				player.Charging=true
 				end
 			
