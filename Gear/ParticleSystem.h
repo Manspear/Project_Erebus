@@ -20,7 +20,7 @@ namespace Gear
 		GEAR_API void deActivate();
 		GEAR_API void setDirection(glm::vec3 direction);
 		GEAR_API int getNrOfActive();
-		GEAR_API void explode();
+		GEAR_API void explode(glm::vec3 position);
 		GEAR_API void setExtroversion(bool yesNo);
 
 		ParticleEmitter* particleEmitters;

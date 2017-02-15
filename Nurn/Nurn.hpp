@@ -22,6 +22,10 @@
 #include "Packager.hpp"
 #include "PacketFilter.hpp"
 
+#ifdef DEBUGGING_NETWORK
+#include "DebugNetwork.hpp"
+#endif
+
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"
 #elif USING_TCP
@@ -79,8 +83,12 @@ namespace Nurn
 		NURN_API void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
 		NURN_API bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
 
+		NURN_API void pushPlayerEventPacket(const EventPacket& packet);
+		NURN_API bool fetchPlayerEventPacket(EventPacket& packet);
 
-
+		NURN_API void pushAIHealthPacket(const AIHealthPacket& packet);
+		NURN_API bool fetchAIHealthPacket(AIHealthPacket& packet);
+		
 	private:
 		Address address;
 		Packager * packager = nullptr;
@@ -90,6 +98,10 @@ namespace Nurn
 		UDPCommunication netCommunication;
 #elif USING_TCP
 		TCPCommunication netCommunication;
+#endif
+
+#ifdef DEBUGGING_NETWORK
+		DebugNetwork debugNetwork;
 #endif
 	};
 }

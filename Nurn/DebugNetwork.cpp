@@ -2,18 +2,37 @@
 
 DebugNetwork::DebugNetwork()
 {
-
+	this->timeToSendPingPacket = false;
+	this->pingPacket.data.loopNumber = 0;
 }
 
 DebugNetwork::~DebugNetwork()
 {
-
 }
 
-void DebugNetwork::getPing()
+void DebugNetwork::initializeDebugNetwork(uint8_t loopNumber, bool timeToSendPingPacket)
 {
+	this->timeToSendPingPacket = timeToSendPingPacket;
 
+	this->pingPacket.data.loopNumber = loopNumber;
 }
+
+PingPacket& DebugNetwork::getPingPacket()
+{
+	return this->pingPacket;
+}
+
+void DebugNetwork::setTimeToSendPingPacket(bool timeToSendPingPacket)
+{
+	this->timeToSendPingPacket = timeToSendPingPacket;
+}
+
+bool DebugNetwork::getTimeToSendPingPacket() const
+{
+	return this->timeToSendPingPacket;
+}
+
+
 
 void DebugNetwork::getMaxSizeOfQueue()
 {

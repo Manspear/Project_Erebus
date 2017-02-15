@@ -1,5 +1,10 @@
 #pragma once
 
+#include <iostream>
+#include <atomic>
+
+#include "PingPacket.hpp"
+
 class DebugNetwork
 {
 
@@ -7,9 +12,15 @@ public:
 	// The functions will probably be rewritten soon ;)
 
 	DebugNetwork();
-	~DebugNetwork();
+	virtual ~DebugNetwork();
 
-	void getPing();
+	void initializeDebugNetwork(uint8_t loopNumber, bool timeToSendPingPacket);
+
+	PingPacket& getPingPacket();
+	void setTimeToSendPingPacket(bool timeToSendPingPacket);
+	bool getTimeToSendPingPacket() const;
+
+
 	void getMaxSizeOfQueue();
 
 	// Queue as parameter? Uneccessary to have a "getQueue()"?
@@ -22,5 +33,6 @@ public:
 	void writePacketInfoToFile();
 
 private:
-
+	PingPacket pingPacket;
+	std::atomic<bool> timeToSendPingPacket;
 };

@@ -25,24 +25,24 @@ end
 
 function createIceGrenadeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
-	local fireball = {}
-	fireball.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
-	fireball.exploda = Particle.Bind("ParticleFiles/grenadeParticles.Particle")
+	local ice = {}
+	ice.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
+	ice.exploda = Particle.Bind("ParticleFiles/ice.Particle")
 	
-	function fireball.cast()
-		Particle.SetAlive(fireball.fly)
+	function ice.cast()
+		Particle.SetAlive(ice.fly)
 	end
 
-	function fireball.die(pos)
-		Particle.SetDead(fireball.fly)
-		Particle.SetPosition(fireball.exploda, pos)
-		Particle.Explode(fireball.exploda)	
+	function ice.die(pos)
+		Particle.SetDead(ice.fly)
+		Particle.SetPosition(ice.exploda, pos)
+		Particle.Explode(ice.exploda)	
 	end
 
-	function fireball.update(pos)
-		Particle.SetPosition(fireball.fly, pos)
+	function ice.update(pos)
+		Particle.SetPosition(ice.fly, pos)
 	end
-	return fireball
+	return ice
 end
 
 function CreateFireEffectParticles()
@@ -84,4 +84,35 @@ function createChargeParticles()
 	end
 
 	return charge
+end
+STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
+function createSparklyParticles()
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
+	local sparkles = {}
+	sparkles.ID = Emitter.Bind(50, 1.0, 2, 25, 2, 0, 0, 1, -1)   
+	Emitter.SetTexture(sparkles.ID, STAR_PARTICLES_TEX)
+
+	function sparkles:cast()
+		Emitter.SetAlive(self.ID)
+	end
+
+	function sparkles:die()
+		Emitter.SetDead(self.ID)
+	end
+
+	function sparkles:update(pos)
+		Emitter.SetPosition(self.ID, pos)
+	end
+	return sparkles
+end
+
+--SMOKE_PARTICLES_TEX = Assets.LoadTexture("Textures/smoke.png");
+
+function createCloudParticles()
+	local cloud = {}
+	cloud.ID = Particle.Bind("ParticleFiles/smokeParticles.Particle")
+	function cloud:poof(pos)
+		Particle.Explode(self.ID, pos)
+	end
+	return cloud
 end

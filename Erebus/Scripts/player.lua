@@ -1,9 +1,8 @@
-local PLAYER_JUMP_SPEED = 0.35
-
 SLOW_EFFECT_INDEX = 1
 TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
 LIFE_STEAL_EFFECT_INDEX = 4
+POLYMORPH_EFFECT_INDEX = 5
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
@@ -21,6 +20,7 @@ function LoadPlayer()
 	effectTable[SLOW_EFFECT_INDEX] = CreateSlowEffect
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	effectTable[LIFE_STEAL_EFFECT_INDEX] = CreateLifeStealEffect
+	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()
@@ -48,9 +48,20 @@ function LoadPlayer()
 	player.dashtime = 0
 	player.dashcd = 0
 	player.invulnerable = false
-	player.position = {}
+	player.position = Transform.GetPosition(player.transformID)
+	player.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.pingTexture = Assets.LoadTexture("Textures/ping.png")
+	player.pingDuration = 1
+	player.ping = 0
 
+	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
+
+	player.nrOfInnerCircleEnemies = 0
+	player.nrOfOuterCircleEnemies = 0
+
+	player.outerCirclerange = 4
+	player.innerCirclerange = 8
 
 	-- set spells for player
 	player.spells = {}
@@ -106,13 +117,6 @@ function LoadPlayer()
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeThing(player)
 	InitFireEffectParticles()
-	--[[LoadEnemies(5)
-	Transform.SetPosition(enemies[1].transformID, {x=37, y=9, z=75})
-	Transform.SetPosition(enemies[2].transformID, {x=110, y=28, z=102})
-	Transform.SetPosition(enemies[3].transformID, {x=100, y=26, z=64})
-	Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
-	Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})--]]
-
 end
 
 function LoadPlayer2()
@@ -128,6 +132,13 @@ function LoadPlayer2()
 	player2.charging = false
 	player2.position = {}
 
+	
+	player2.nrOfInnerCircleEnemies = 0
+	player2.nrOfOuterCircleEnemies = 0
+
+	player2.outerCirclerange = 4
+	player2.innerCirclerange = 8
+
 	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
@@ -137,6 +148,14 @@ function LoadPlayer2()
 
 	local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
+
+	player2.Hurt = function(self,damage, source)
+
+	end
+
+	player2.Kill = function(self)
+
+	end
 
 	player2.Apply = function(self, effect)
 		if not self.invulnerable then
@@ -194,6 +213,9 @@ function UpdatePlayer(dt)
 		player.forward = 0
 		player.left = 0
 
+		if player.ping > 0 then
+			player.ping = player.ping - dt;
+		end
 
 		player.position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
@@ -214,9 +236,6 @@ function UpdatePlayer(dt)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
-
-
-
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
@@ -252,6 +271,9 @@ function UpdatePlayer(dt)
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
+
+	--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
@@ -304,6 +326,10 @@ function Controls(dt)
 		if Inputs.KeyDown("D") then
 			player.left = -player.moveSpeed
 		end
+		if Inputs.KeyDown("Q") then
+			Sound.Play("Effects/ping.wav", 1, player.position)
+			player.ping = player.pingDuration
+		end
 		if Inputs.KeyDown("T") then
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
@@ -321,43 +347,43 @@ function Controls(dt)
 			end
 			RayCollider.SetActive(player.rayCollider, false)
 		end
-		if Inputs.ButtonDown(Buttons.Left) then
-			player.spamCasting = true
-			player.attackTimer = 1
-			Network.SendSpellPacket(player.transformID, player.currentSpell)
-			player.spells[player.currentSpell]:Cast(player, 0.5, false)
+
+		if not player.charging then
+			if Inputs.ButtonDown(Buttons.Left) then
+				player.spamCasting = true
+				player.attackTimer = 1
+				Network.SendSpellPacket(player.transformID, player.currentSpell)
+				player.spells[player.currentSpell]:Cast(player, 0.5, false)
+			end
+
+			if Inputs.ButtonReleased(Buttons.Left) then
+				player.spamCasting = false
+			end
+
+			if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 		end
 
-		if Inputs.ButtonReleased(Buttons.Left) then
-			player.spamCasting = false
-		end
-		if Inputs.ButtonDown(Buttons.Right) then
-			player.spells[player.currentSpell]:Charge(dt)
-			player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
-			player.charging = true
-		end
+		if not player.spamCasting then
+			if Inputs.ButtonDown(Buttons.Right) then
+				player.spells[player.currentSpell]:Charge(dt)
+				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
+				player.charging = true
+			end
 
-		if Inputs.ButtonPressed(Buttons.Right) then 
-			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-			player.charger:StartCharge(player.position) 
-		end
+			if Inputs.ButtonPressed(Buttons.Right) then 
+				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
+				player.charger:StartCharge(player.position) 
+			end
 		
-		if Inputs.ButtonReleased(Buttons.Right) then
-			Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
-			player.spells[player.currentSpell]:ChargeCast(player)
-			player.charger:EndCharge()
-			player.charging = false
+			if Inputs.ButtonReleased(Buttons.Right) then
+				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
+				player.spells[player.currentSpell]:ChargeCast(player)
+				player.charger:EndCharge()
+				player.charging = false
+			end
 		end
-		--[[if Inputs.KeyPressed("N") then
-			ZoomInCamera()
-		end
-		if Inputs.KeyReleased("N") then
-			ZoomOutCamera()
-		end]]
-
-		if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
-		if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
-		if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
 			Transform.SetScale(player.transformID, 0)
@@ -367,7 +393,6 @@ function Controls(dt)
 			player.dashtime = DASH_DURATION
 			player.invulnerable = true
 		end
-
 end
 
 function PrintInfo() 
@@ -442,6 +467,13 @@ function UpdatePlayer2(dt)
 	local newQuickBlendValue, quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment = Network.GetQuickBlendPacket()
 	if newQuickBlendValue == true then
 		player2.animationController:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+	end
+	
+	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
+	if newChangeSpellsValue == true then
+		player2.spells[1] = SpellListPlayer2[changeSpell1].spell
+		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
+		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
 	end
 end
 

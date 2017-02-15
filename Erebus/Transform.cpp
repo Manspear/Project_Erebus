@@ -76,7 +76,7 @@ void Transform::setRotation(glm::vec3 rot)
 
 void Transform::setLookAt(glm::vec3 lookAt)
 {
-	this->theTran->lookAt = lookAt;
+	this->theTran->lookAt = glm::normalize(lookAt);
 }
 
 void Transform::setActive(bool isActive)

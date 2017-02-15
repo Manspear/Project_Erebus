@@ -14,7 +14,7 @@
 #include <fstream>
 #include <string>
 #include <thread>
-
+#include <omp.h>
 
 //glm
 namespace boogah {

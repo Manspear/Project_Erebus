@@ -49,6 +49,14 @@ public:
 	void sendDamagePacket(const DamagePacket& packet);
 	bool fetchDamagePacket(DamagePacket& packet);
 
+	void sendChangeSpellsPacket(const ChangeSpellsPacket& packet);
+	bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
+
+	void sendPlayerEventPacket(const EventPacket& packet);
+	bool fetchPlayerEventPacket(EventPacket& packet);
+
+	void sendAIHealthPacket(const AIHealthPacket& packet);
+	bool fetchAIHealthPacket(AIHealthPacket& packet);
 
 
 private:

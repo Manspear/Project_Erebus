@@ -9,8 +9,7 @@ RenderQueue::RenderQueue()
 		allShaders[i] = nullptr;
 		uniformLocations[i] = nullptr;
 	}
-	int maximumNumberOfInstancesPerModel = 105;
-	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
+	tempMatrices = new glm::mat4[MAX_INSTANCE_COUNT];
 
 	LARGE_INTEGER i;
 	QueryPerformanceFrequency( &i );

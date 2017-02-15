@@ -121,11 +121,11 @@ void OBBCollider::setZAxis(glm::vec3 zAxis)
 {
 	this->zAxis = glm::normalize(zAxis);
 	if (zAxis != glm::vec3(0, 1, 0))
-		this->yAxis = glm::normalize(glm::cross(zAxis, glm::vec3(0, 1, 0)));
+		this->xAxis = glm::normalize(glm::cross(zAxis, glm::vec3(0, 1, 0)));
 	else
-		this->yAxis = glm::normalize(glm::cross(zAxis, glm::vec3(1, 0, 0)));
+		this->xAxis = glm::normalize(glm::cross(zAxis, glm::vec3(1, 0, 0)));
 
-	this->xAxis = glm::normalize(glm::cross(zAxis, yAxis));
+	this->yAxis = glm::normalize(glm::cross(zAxis, xAxis));
 }
 
 int OBBCollider::getID() const
