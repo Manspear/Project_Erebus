@@ -85,3 +85,35 @@ function createChargeParticles()
 
 	return charge
 end
+
+function createSparklyParticles()
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
+	local sparkles = {}
+	sparkles.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
+	
+	function sparkles:cast()
+		Particle.SetAlive(self.fly)
+	end
+
+	function sparkles:die(pos)
+		Particle.SetDead(self.fly)
+	end
+
+	function sparkles:update(pos)
+		Particle.SetPosition(self.fly, pos)
+	end
+	return sparkles
+end
+
+function createCloudParticles()
+	local cloud = {}
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
+	cloud.ID = Emitter.Bind(30, 0.8, 4, 0, 0, 0, 1, 1, 1)   
+	Emitter.SetDirection(cloud.ID, {x = 0, y = 1, z = 0})
+	Emitter.SetTexture(cloud.ID, CHARGE_PARTICLES_TEX)
+	function cloud:poof(pos)
+		Emitter.SetPosition(self.ID, pos)
+		Emitter.Explode(self.ID)	
+	end
+	return cloud
+end

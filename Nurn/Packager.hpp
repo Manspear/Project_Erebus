@@ -1,5 +1,7 @@
 #pragma once
 
+#include "NetworkDefines.hpp"
+
 #include "PacketEnums.hpp"
 #include "PacketQueue.hpp"
 #include "AIStatePacket.hpp"
@@ -11,13 +13,24 @@
 #include "QuickBlendPacket.hpp"
 #include "DamagePacket.hpp"
 #include "ChangeSpellsPacket.hpp"
+#include "EventPacket.hpp"
+#include "AIHealthPacket.hpp"
+
+#ifdef DEBUGGING_NETWORK
+#include "PingPacket.hpp"
+#include "DebugNetwork.hpp"
+#endif
 
 #define packetSize 1400
 
 class Packager
 {
 public:
+#ifdef DEBUGGING_NETWORK
+	Packager(DebugNetwork * debugNetwork_ptr);
+#else
 	Packager();
+#endif
 	virtual ~Packager();
 
 	unsigned char * getPacketPointer();
@@ -33,6 +46,8 @@ public:
 	void pushQuickBlendPacket(const QuickBlendPacket& packet);
 	void pushDamagePacket(const DamagePacket& packet);
 	void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
+	void pushPlayerEventPacket(const EventPacket& packet);
+	void pushAIHealthPacket(const AIHealthPacket& packet);
 
 private:
 	unsigned char * memory;
@@ -46,7 +61,13 @@ private:
 	PacketQueue<QuickBlendPacket> * quickBlendQueue;
 	PacketQueue<DamagePacket> * damageQueue;
 	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
+	PacketQueue<EventPacket> * playerEventQueue;
+	PacketQueue<AIHealthPacket> * aiHealthQueue;
 	uint16_t currentNetPacketSize;
+
+#ifdef DEBUGGING_NETWORK
+	DebugNetwork *debugNetwork_ptr;
+#endif
 
 	//void addPacketGroup(uint16_t packetType, void * packet, void * queue, uint16_t &netPacketSize);
 
@@ -59,6 +80,11 @@ private:
 	void addQuickBlendPackets(uint16_t& netPacketSize, bool& fullPackage);
 	void addDamagePackets(uint16_t& netPacketSize, bool& fullPackage);
 	void addChangeSpellsPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addPlayerEventPackets(uint16_t& netPacketSize, bool& fullPackage);
+	void addAIHealthPackets(uint16_t& netPacketSize, bool& fullPackage);
 	void addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes); // After a group of packets have been added the MetaData is added.
 
+#ifdef DEBUGGING_NETWORK
+	void addPingPacket(uint16_t& netPacketSize, bool& fullPackage); // Only added when debugging
+#endif
 };

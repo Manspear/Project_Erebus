@@ -111,6 +111,12 @@
     <ClInclude Include="PingPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
+    <ClInclude Include="EventPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="AIHealthPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Packages">

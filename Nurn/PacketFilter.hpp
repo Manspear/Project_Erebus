@@ -1,5 +1,7 @@
 #pragma once
 
+#include "NetworkDefines.hpp"
+
 #include "PacketQueue.hpp"
 #include "PacketEnums.hpp"
 #include "AIStatePacket.hpp"
@@ -11,11 +13,23 @@
 #include "QuickBlendPacket.hpp"
 #include "DamagePacket.hpp"
 #include "ChangeSpellsPacket.hpp"
+#include "EventPacket.hpp"
+#include "AIHealthPacket.hpp"
+
+#ifdef DEBUGGING_NETWORK
+#include "PingPacket.hpp"
+#include "DebugNetwork.hpp"
+#endif
 
 class PacketFilter
 {
 public:
+#ifdef DEBUGGING_NETWORK
+	PacketFilter(DebugNetwork *debugNetowrk_ptr);
+#else
 	PacketFilter();
+#endif
+
 	virtual ~PacketFilter();
 
 	void openNetPacket(const unsigned char * const memoryPointer);
@@ -28,6 +42,8 @@ public:
 	PacketQueue<QuickBlendPacket> * getQuickBlendQueue();
 	PacketQueue<DamagePacket> * getDamageQueue();
 	PacketQueue<ChangeSpellsPacket> * getChangeSpellsQueue();
+	PacketQueue<EventPacket> * getPlayerEventQueue();
+	PacketQueue<AIHealthPacket> * getAIHealthQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -39,4 +55,10 @@ private:
 	PacketQueue<QuickBlendPacket> * quickBlendQueue;
 	PacketQueue<DamagePacket> * damageQueue;
 	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
+	PacketQueue<EventPacket> * playerEventQueue;
+	PacketQueue<AIHealthPacket> * aiHealthQueue;
+
+#ifdef DEBUGGING_NETWORK
+	DebugNetwork * debugNetwork_ptr;
+#endif
 };

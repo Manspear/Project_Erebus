@@ -51,7 +51,7 @@ end
 
 function clientAIState.deadState.enter(enemy, player)
 	print("Client enemy died", enemy.transformID)
-	enemy.animationController:doNothing()
+	--enemy.animationController:doNothing()
 
 	enemy:Kill()
 end
@@ -69,7 +69,7 @@ function getAIStatePacket(enemy, player)
 	--Update state of the enemy
 	if netAIValue == true then
 		--print("Enemy", enemy.transformID)
-		--print("AI statepacket", transformID, aiState)
+		print("AI statepacket", transformID, aiState)
 		--print("Client AI ID", enemy.transformID)
 		if aiState == 0 then--IdleState
 			enemy.state = clientAIState.idleState

@@ -30,7 +30,7 @@ end
 
 function EnterSpellbook()
 	--Gear.QueueModels(false)
-		if SETTING_DEBUG then 
+	if SETTING_DEBUG then 
 		CollisionHandler.Enable()
 	else
 		CollisionHandler.Disable()

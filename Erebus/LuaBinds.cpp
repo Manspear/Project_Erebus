@@ -48,7 +48,7 @@ void LuaBinds::load( GearEngine* gearEngine,
 	LuaInputs::registerFunctions( lua, inputs );
 	LuaCamera::registerFunctions(lua, camera, transforms);
 	LuaParticles::registerFunctions(lua, ps, emitters, assets);
-	LuaAI::registerFunctions(lua, transforms, AI);
+	LuaAI::registerFunctions(lua, transforms, AI, assets);
 	LuaNetwork::registerFunctions(lua, network);
 	LuaSound::registerFunctions(lua, soundEngine);
 	LuaUI::registerFunctions(lua, gearEngine);

@@ -51,6 +51,8 @@ struct ThreadData
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
+Frustum f = Frustum();
+glm::vec3 POINT33(125, 35, 230);
 struct AnimationData
 {
 	Animation* animation;
@@ -86,7 +88,6 @@ DWORD WINAPI update( LPVOID args )
 	collisionHandler.setTransforms( transforms );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
-
 
 	ai.addDebug(Debugger::getInstance());
 
