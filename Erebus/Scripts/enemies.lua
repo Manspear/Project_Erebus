@@ -285,6 +285,16 @@ function UpdateEnemies(dt)
 			if newAIHealthVal == true and enemies[i].transformID == aiHealth_transformID then
 				--print("Do i reach here?", aiHealth_health)
 				enemies[i].health = aiHealth_health
+
+				if enemies[i].currentHealth > enemies[i].health then
+					enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
+					if enemies[i].currentHealth < 0 then
+						enemies[i].currentHealth = 0;
+					end
+				end
+
+				a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
+				UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 			end
 
 			if enemies[i].health > 0 then
