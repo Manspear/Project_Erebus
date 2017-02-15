@@ -240,10 +240,10 @@ void LevelActionHandler::setAction( int a )
 	else 
 		TwDefine("Brush visible=false");
 
-
-	if (action == ACTION_COLLIDER_GEN) {
-		LevelColliderGenerator::getInstance()->generateQuadTree();
-	}
+	if (action == ACTION_COLLIDER_GEN)
+		TwDefine("ColiderGen visible=true");
+	else
+		TwDefine("ColiderGen visible=false");
 }
 
 int LevelActionHandler::getAction()

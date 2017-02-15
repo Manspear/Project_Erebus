@@ -5,6 +5,7 @@ LevelColliderGenerator* LevelColliderGenerator::g_instance = nullptr;
 
 LevelColliderGenerator::LevelColliderGenerator() {
 	generatedThisRun = false;
+	this->numChilds = 3;
 }
 LevelColliderGenerator::~LevelColliderGenerator() {
 
@@ -38,7 +39,7 @@ void LevelColliderGenerator::generateQuadTree(){
 
 		this->sortAbbList(this->tempCols);
 
-		AABBCollider* topParent = addChildren(2, this->tempCols);
+		AABBCollider* topParent = addChildren(this->numChilds, this->tempCols);
 
 		replaceAbbsWithObbs(topParent);
 
@@ -301,3 +302,18 @@ void LevelColliderGenerator::update() {
 	//	this->debugRef->drawAABB(minPos, maxPos, { 128,0,128 });
 	//}
 }
+void TW_CALL LevelColliderGenerator::getOnGenEventCB(void* cliendData) {
+
+	if (MessageBoxA(NULL, "Are you sure you wanna create parent coliders", "Brah", MB_YESNO) == IDYES) {
+		LevelColliderGenerator::getInstance()->generateQuadTree();
+	}
+}
+
+
+void LevelColliderGenerator::setTweakBar(TweakBar* bar) {
+	barRef = bar;
+
+	TwAddVarRW(barRef->getBar(), "childLayer", TW_TYPE_INT16, &this->numChilds, "label='Max Childs:'");
+	TwAddButton(barRef->getBar(), "quadGenBtn", getOnGenEventCB, NULL, " label='Gen Parents' ");
+}
+

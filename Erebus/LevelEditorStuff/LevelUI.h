@@ -97,7 +97,7 @@ public:
 class LevelUI
 {
 private:
-	TweakBar* bars[5];
+	TweakBar* bars[6];
 	void initBars();
 	
 public:
@@ -125,6 +125,7 @@ public:
 	static const char* assetContextBarName;
 	static const char* actionBarName;
 	static const char* brushBarName;
+	static const char* coliderBarName;
 	static TwType vector3Tw;
 	//static TwType componentTw;
 	static std::string vec2ToString(glm::vec2& val, std::string type = "");

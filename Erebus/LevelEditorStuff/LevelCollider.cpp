@@ -574,12 +574,12 @@ void LevelCollider::update(float deltaTime)
 			{
 
 			case COLLIDER_SPHERE:
-				s_debugger->drawSphere(this->sphereColider->getPos(), this->sphereColider->getRadius(), { .5f, .5f, .5f });
+				s_debugger->drawSphere(this->sphereColider->getPos(), this->sphereColider->getRadius(), { .5f, .5f, .5f }, true);
 				break;
-			case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), { .5f, .5f, .5f }); break;
+			case COLLIDER_AABB: s_debugger->drawAABB(this->abbColider->getMinPos(), this->abbColider->getMaxPos(), { .5f, .5f, .5f }, true); break;
 			case COLLIDER_OBB: s_debugger->drawOBB(this->obbColider->getPos(), this->obbColider->getXAxis(), this->obbColider->getYAxis(),
-				this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), { .5f, .5f, .5f }); break;
-			case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, { .5f, .5f, .5f }); break;
+				this->obbColider->getZAxis(), this->obbColider->getHalfLengths(), { .5f, .5f, .5f }, true); break;
+			case COLLIDER_RAY: s_debugger->drawRay(this->rayColider->getPosition(), this->rayColider->getDirection(), 10000.f, { .5f, .5f, .5f }, true); break;
 			default:
 				std::cout << "WARNING: Colider doesnt have type!" << std::endl;
 				break;

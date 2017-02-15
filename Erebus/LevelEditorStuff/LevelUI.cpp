@@ -18,6 +18,7 @@ const char* LevelUI::assetBarName = "Assets";
 const char* LevelUI::assetContextBarName = "AssetsContext";
 const char* LevelUI::actionBarName = "Actions";
 const char* LevelUI::brushBarName = "Brush";
+const char* LevelUI::coliderBarName = "ColiderGen";
 const char * LevelUI::componentLinker[] = { "Choose", LevelTransform::name, LevelPointLightComponent::name, LevelHeightmap::name, LevelCollider::name, LevelSound::name, LevelEnemy::name, LevelParticleSystem::name, LevelSettings::name };
 
 void TW_CALL setEditorState(void * clientData)
@@ -52,7 +53,7 @@ std::string LevelUI::vec3ToString(glm::vec3& val, std::string type) {
 
 LevelUI::~LevelUI()
 {
-	for (size_t i = 0; i < 6; i++)
+	for (size_t i = 0; i < 7; i++)
 	{
 		delete bars[i];
 	}
@@ -96,11 +97,14 @@ void LevelUI::initBars()
 	bars[4] = new TweakBar(glm::vec2(bar2Position.x - 148, 0), glm::vec2(148, 178), glm::vec4(128, 32, 32, 200), 1, actionBarName);
 
 	bars[5] = new TweakBar(glm::vec2(bar2Position.x - 148, 178), glm::vec2(148, 240), glm::vec4(128, 32, 32, 200), 55, brushBarName);
+	bars[6] = new TweakBar(glm::vec2(bar2Position.x - 148, 178), glm::vec2(148, 180), glm::vec4(128, 32, 32, 200), 55, coliderBarName);
+	TwDefine("ColiderGen visible=false");
 	
 	LevelActorHandler::getInstance()->setTweakBars(bars[1], bars[0]);
 	LevelAssetHandler::getInstance()->setTweakBars(bars[2], bars[3]);
 	LevelActionHandler::getInstance()->setTweakBar(bars[4]);
 	LevelBrushHandler::getInstance()->setTweakBar(bars[5]);
+	LevelColliderGenerator::getInstance()->setTweakBar(bars[6]);
 
 	//std::string derp = " visible=false ";
 	//std::string derp1 = " visible=true ";

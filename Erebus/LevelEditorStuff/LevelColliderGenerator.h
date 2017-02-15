@@ -20,6 +20,8 @@ private:
 	const float y_high = 1000.f, y_low = -1000.f;
 	Debug* debugRef;
 	std::vector<AABBCollider*> tempCols;
+	TweakBar* barRef;
+	int numChilds;
 
 	std::map<AABBCollider*, LevelCollider*> mapedList;
 	void sortAbbList(std::vector<AABBCollider*> &colliders);
@@ -30,6 +32,8 @@ private:
 	void replaceAbbsWithObbs(AABBCollider* parent);
 	void replaceActorHiercy(LevelCollider* parent);
 	bool generatedThisRun;
+
+	static void TW_CALL getOnGenEventCB(void* cliendData);
 public:
 	LevelColliderGenerator();
 	~LevelColliderGenerator();
@@ -42,6 +46,7 @@ public:
 	bool hasObbCollider(LevelActor* actor);
 	AABBCollider* convertFromObbToAbb(OBBCollider* colider);
 
+	void setTweakBar(TweakBar* bar);
 	void addDebug(Debug* debug);
 	void update();
 };
