@@ -58,11 +58,11 @@ namespace Gear
 				newEmitterPos[0] = v1 * emitterPos.x;
 				newEmitterPos[1] = emitterPos.y * v2;
 				newEmitterPos[2] = emitterPos.z * v3;
-				dir += glm::vec3(0, 1, 0);
+				//dir += glm::vec3(0, 1, 0);
 				emitterPos = systemPos + newEmitterPos[0] + newEmitterPos[1] + newEmitterPos[2];
 
 				particleEmitters[i].setEmitterPos(emitterPos);
-				particleEmitters[i].setDirection(dir);
+				//particleEmitters[i].setDirection(dir);
 
 				nrActive -= particleEmitters[i].update(dt);
 				
@@ -109,6 +109,12 @@ namespace Gear
 	GEAR_API void ParticleSystem::setDirection(glm::vec3 direction)
 	{
 		dir = direction;
+
+		for (int i = 0; i < nrOfEmitters; i++)
+		{
+			particleEmitters[i].setDirection(dir);
+		}
+		
 	}
 
 	GEAR_API int ParticleSystem::getNrOfActive()
