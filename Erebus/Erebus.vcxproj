@@ -203,9 +203,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\level01.lua" />
-    <None Include="Scripts\polymorph.lua" />
-    <None Include="Scripts\polymorphEffect.lua" />
+    <None Include="Scripts\lifeStealEffect.lua" />
+    <None Include="Scripts\siphon.lua" />
     <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
@@ -252,7 +251,6 @@
     <None Include="Scripts\sunRay.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
-    <None Include="Scripts\tumbleThorns.lua" />
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />
