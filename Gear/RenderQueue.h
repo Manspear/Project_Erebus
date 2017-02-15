@@ -11,6 +11,8 @@
 #include "Light.h"
 #include "WorkQueue.h"
 
+#define MAX_INSTANCE_COUNT 200
+
 struct UniformValues {
 	std::string location;
 	glm::vec2 values;
@@ -113,6 +115,7 @@ private:
 	glm::mat4* worldMatrices;
 	glm::mat4* tempMatrices;
 	glm::mat4* jointMatrices;
+	bool* oneMoreUpdate;
 	int nrOfWorlds;
 	WorkQueue* work;	
 

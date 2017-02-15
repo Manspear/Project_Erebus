@@ -52,7 +52,7 @@ function CreateIceGrenade(entity)
 	end
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then
-			ZoomInCamera()
+			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
 			local pos = Transform.GetPosition(entity.transformID)
 			local dir = Transform.GetLookAt(entity.transformID)
@@ -88,7 +88,6 @@ function CreateIceGrenade(entity)
 		if self.isActiveSpell then	
 			self.timeSinceLastPoop = self.timeSinceLastPoop - dt
 			if self.timeSinceLastPoop < 0 then
-				ZoomOutCamera()
 				self.timeSinceLastPoop = 1000
 			end
 		end
@@ -135,6 +134,7 @@ function CreateIceGrenade(entity)
 		self.combo = 100
 		self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
 		self.chargedTime = 0
+		ZoomOutCamera()
 	end
 
 	function spell:Kill(index)
@@ -194,7 +194,6 @@ function CreateIceGrenade(entity)
 	function spell:Change()
 		self.isActiveSpell = not self.isActiveSpell
 		Transform.ActiveControl(self.owner.aim.transformID, self.isActiveSpell)
-		print( self.isActiveSpell )
 	end
 
 	function spell:Combine(effect,damage)

@@ -48,8 +48,6 @@ public:
 	float SquaredDistancePointToAabb(AABBCollider* aabb, SphereCollider* sphere);
 	glm::vec3 closestPointOnOBB(OBBCollider* collider, const glm::vec3& point) const;
 	glm::vec3 closestPointOnAABB(AABBCollider* collider, const glm::vec3& point) const;
-	template<typename T>
-	inline void swap(T& first, T& second);
 
 	void resetCounters();
 
@@ -64,12 +62,15 @@ public:
 	int getRayToObbCollisionCounter();
 	int getRayToSphereCollisionCunter();
 	int getCollisionCounter();
+
+private:
+	template<typename T>
+	inline void CollisionChecker::swap(T& first, T& second)
+	{
+		T temp = first;
+		first = second;
+		second = temp;
+	}
 };
 
-template<typename T>
-inline void CollisionChecker::swap(T& first, T& second)
-{
-	T temp = first;
-	first = second;
-	second = temp;
-}
+

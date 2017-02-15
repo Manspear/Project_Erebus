@@ -9,8 +9,7 @@ RenderQueue::RenderQueue()
 		allShaders[i] = nullptr;
 		uniformLocations[i] = nullptr;
 	}
-	int maximumNumberOfInstancesPerModel = 105;
-	tempMatrices = new glm::mat4[maximumNumberOfInstancesPerModel];
+	tempMatrices = new glm::mat4[MAX_INSTANCE_COUNT];
 
 	LARGE_INTEGER i;
 	QueryPerformanceFrequency( &i );
@@ -31,7 +30,7 @@ RenderQueue::~RenderQueue()
 		if (uniformLocations[i] != nullptr)
 			delete[] uniformLocations[i];
 	}
-		
+	delete[] oneMoreUpdate;
 	delete[] tempMatrices;
 }
 
@@ -101,6 +100,7 @@ void RenderQueue::allocateWorlds(int n)
 
 	worldMatrices = new glm::mat4[n];
 	jointMatrices = new glm::mat4[n*MAXJOINTCOUNT];
+	oneMoreUpdate = new bool[n];
 }
 
 void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
@@ -115,7 +115,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	glm::vec3 axis;
 	for (int i = 0; i < ntransforms; i++)
 	{
-		if (theTrans[i].active == true) 
+		if (oneMoreUpdate[i])
 		{
 			//THIS WHOLE FUNCTION CAN DEFINETELY BE OPTIMIZED (do something along the lines of mat4 = {coscoscosos, coscsocsosins, coscoscoscos, x,
 			//																							sinsinssin, sinsinsinsn, ccoscosocosco, y,
@@ -145,6 +145,7 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 			tempMatrix[3][2] = theTrans[i].pos.z;
 			worldMatrices[i] = tempMatrix;
 		}
+		oneMoreUpdate[i] = theTrans[i].active;
 	}
 
 	for( int i=0; i<nanimations; i++ )
@@ -190,6 +191,7 @@ int RenderQueue::generateWorldMatrix()
 
 void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues)
 {
+	glDisable(GL_CULL_FACE);
 	allShaders[FORWARD]->use();
 	ModelAsset* modelAsset;
 	int meshes;
@@ -265,6 +267,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 	}
 	glBindVertexArray(0);
 	allShaders[FORWARD]->unUse();
+	//glEnable(GL_CULL_FACE);
 }
 
 bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters)
@@ -316,13 +319,15 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels)
 {
 	allShaders[GEOMETRY]->use();
-
+	ModelAsset* modelAsset;
+	GLsizei size;
+	glm::mat4 tempMatrix;
+	int meshes, numInstance;
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		ModelAsset* modelAsset = dynamicModels->at(i).asset;
-		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
-
+		modelAsset = dynamicModels->at(i).asset;
+		meshes = modelAsset->getHeader()->numMeshes;
+		numInstance = 0;
 		// TEMP: Shouldn't have any models without material
 		if (modelAsset->getMaterial())
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
@@ -334,7 +339,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				tempMatrices[numInstance++] = worldMatrices[indices[j]];
 		}
 		//allShaders[GEOMETRY]->setUniform4fv(tempMatrices, "worldMatrices", numInstance);
-		GLsizei size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+		size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 
 		//world matrix buffer
 		{
@@ -370,55 +375,55 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	currentShader = ANIM;
 	allShaders[currentShader]->use();
 
-	//GLuint jointMatrixLocation = glGetUniformLocation(this->allShaders[currentShader]->getProgramID(), "jointMatrices");
-	//worldMatricesLocation = glGetUniformLocation(allShaders[currentShader]->getProgramID(), "worldMatrices");
-
-	size_t size = sizeof(Importer::sSkeletonVertex);
+	size = sizeof(Importer::sSkeletonVertex);
 
 	for (int i = 0; i<animatedModels->size(); i++)
 	{
-		ModelAsset* modelAsset = animatedModels->at(i).asset;
-		int meshes = modelAsset->getHeader()->numMeshes;
-		int numInstance = 0;
+		modelAsset = animatedModels->at(i).asset;
+		meshes = modelAsset->getHeader()->numMeshes;
+		numInstance = 0;
 
 		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
 		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		{
-			int index = animatedModels->at(i).worldIndices.at(j);
-			//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
-			glm::mat4 tempMatrix = worldMatrices[index];
-
-			allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
-
-			//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
-			allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);
-
-			for (int k = 0; k<modelAsset->getHeader()->numMeshes; k++)
+			if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
 			{
-				//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(k));
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
-				glEnableVertexAttribArray(1);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
-				glEnableVertexAttribArray(2);
-				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
-				glEnableVertexAttribArray(3);
-				glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
-				glEnableVertexAttribArray(4);
-				glVertexAttribIPointer(4, 4, GL_INT, size, (void*)(sizeof(float) * 11));
-				glEnableVertexAttribArray(5);
-				glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 11 + sizeof(int) * 4));
+				int index = animatedModels->at(i).worldIndices.at(j);
+				//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
+				tempMatrix = worldMatrices[index];
 
-				glVertexAttribDivisor(4, 0);
-				glVertexAttribDivisor(5, 0);
+				allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
 
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(k));
-				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(k), GL_UNSIGNED_INT, 0, 1);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
+				allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);
+
+				for (int k = 0; k < modelAsset->getHeader()->numMeshes; k++)
+				{
+					//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+					glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(k));
+					glEnableVertexAttribArray(0);
+					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+					glEnableVertexAttribArray(1);
+					glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+					glEnableVertexAttribArray(2);
+					glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+					glEnableVertexAttribArray(3);
+					glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
+					glEnableVertexAttribArray(4);
+					glVertexAttribIPointer(4, 4, GL_INT, size, (void*)(sizeof(float) * 11));
+					glEnableVertexAttribArray(5);
+					glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 11 + sizeof(int) * 4));
+
+					glVertexAttribDivisor(4, 0);
+					glVertexAttribDivisor(5, 0);
+
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(k));
+					glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(k), GL_UNSIGNED_INT, 0, 1);
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+				}
 			}
 		}
 	}

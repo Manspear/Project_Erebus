@@ -511,6 +511,7 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 	size_t sphereColliderSize = this->sphereColliders.size();
 	size_t aabbColliderSize = this->aabbColliders.size();
 	size_t obbColliderSize = this->obbColliders.size();
+	size_t rayColliderSize = this->rayColliders.size();
 	size_t allColliderSize = this->allColliders.size();
 	bool deleted = false;
 
@@ -554,6 +555,23 @@ bool CollisionHandler::deleteHitbox(unsigned int ID)
 
 		}
 	}
+
+	if (!deleted)
+	{
+		for (size_t i = 0; i < rayColliderSize; i++)
+		{
+			if (rayColliders[i]->getID() == ID)
+			{
+				this->collisionLayers->deleteHitbox(ID);
+				rayColliders[i]->clearCollisionIDs();
+				rayColliders.erase(rayColliders.begin() + i);
+				deleted = true;
+				i = rayColliderSize;
+			}
+
+		}
+	}
+
 	if (deleted) // if we found the hitbox and removed it, it means it is in the "allColliders" vector also, we delete it
 	{
 		for (size_t i = 0; i < allColliderSize; i++)

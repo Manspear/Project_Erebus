@@ -66,13 +66,14 @@ function CreateHellPillar(entity)
 			self.maxScale = 1
 			Transform.SetScale(spell.transformID, 0.2)
 			SphereCollider.SetRadius(self.sphereCollider, 0.8)
-			ZoomInCamera()
+			--ZoomInCamera()
 			self:GeneralCast()	
 		end
 	end
 
 	function spell:ChargeCast(entity)
-		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then		
+		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then	
+			ZoomOutCamera()	
 			self.cooldown = COOLDOWN_PILLAR	
 			self.startUpTime = 1.5		self.finishingTime = 2.0	self.startUpScale = 6
 			self.maxScale = 6
@@ -109,7 +110,6 @@ function CreateHellPillar(entity)
 			self:Aim()
 			self.timeSinceLastPoop = self.timeSinceLastPoop - dt
 			if self.timeSinceLastPoop < 0 then
-				ZoomOutCamera()
 				self.timeSinceLastPoop = 1000
 			end
 		end
@@ -120,7 +120,7 @@ function CreateHellPillar(entity)
 	function spell:StartingUp(dt)
 		self.startUpTime = self.startUpTime - dt
 		self.startUpScale = self.startUpScale - dt * 3
-		Transform.SetScale(self.firstModel,  self.startUpScale )
+		
 		self.someRotation.y = self.someRotation.y + 8 * dt 
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
 		--self.lightRadius = self.lightRadius - 5*dt
@@ -171,7 +171,7 @@ function CreateHellPillar(entity)
 			--self.someRotation.y = self.someRotation.y + 15 * dt 	
 			--Transform.SetRotation(self.transformID, self.someRotation)
 			self.blendValue1.x = self.blendValue1.x + 0.2 * dt
-			self.blendValue1.y = self.blendValue1.y + 0.3 * dt
+			self.blendValue1.y = self.blendValue1.y - 0.6 * dt
 
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 1.0 * dt
@@ -184,9 +184,10 @@ function CreateHellPillar(entity)
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt
 				if self.startUpScale > self.maxScale  then self.startUpScale = self.maxScale  end
-				Transform.SetScale(self.firstModel, self.startUpScale )
+			
 			else
 				Transform.ActiveControl(self.firstModel, false)
+				Transform.SetPosition(self.firstModel, {x=0,y=0,z=0})
 				self.growAgain = false
 			end
 		end	
