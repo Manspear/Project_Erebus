@@ -128,37 +128,6 @@ namespace Collisions
 			}
 			return hit;
 		}
-		template <typename T, typename U>
-		bool checkAnyCollisionBoolNoSave2(T collider, std::vector<U*>* colliders, std::vector<glm::vec3>& hitNormals) // this check dont save any collision but simpy return a bool
-		{
-			// Antingen har barnen inga fler barn, då kollar vi kollision. Annars kollar vi kollision mot dens barn
-			bool hit = false;
-			U* tempCollider = nullptr;
-			for (size_t i = 0; i < colliders->size(); i++)
-			{
-				tempCollider = colliders->operator[](i);
-				if (tempCollider->children == nullptr) // if hitbox dont have children
-				{
-					bool tempHit = false;
-					tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals, true); // only save normals if u are the leaf child
-					if (tempHit) // if we hit something hit is true, and keep checking
-					{
-						hit = true;
-					}
-
-				}
-				else // the hitbox have children
-				{
-					bool tempHit = false;
-					tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals, false); // dont save normals if u have children
-					if (tempHit) // if you collide with parent check collision with children
-						if (checkAnyCollisionBoolNoSave(collider, tempCollider->children, hitNormals))
-							hit = true;
-				}
-			}
-			return hit;
-		}
-
 		//////////////////////////////////////////////////// HERE STARTS TEMPLATE FUNCTIONS FOR COLLISIONS ////////////////////////////////////////////////////////////////
 		template<typename T, typename U>
 		void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2) // array vs array
