@@ -64,7 +64,7 @@ struct AnimationData
 void updateAnimation( void* args )
 {
 	AnimationData* data = (AnimationData*)args;
-	//data->animation->update( data->dt );
+	data->animation->update( data->dt );
 }
 
 DWORD WINAPI update( LPVOID args )
@@ -110,8 +110,6 @@ DWORD WINAPI update( LPVOID args )
 		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
-	for( int i=0; i<MAX_ANIMATIONS; i++ )
-		animationData[i].animation = &data->allAnimations[i];
 
 	while( data->running )
 	{
@@ -144,6 +142,7 @@ DWORD WINAPI update( LPVOID args )
 			for( int i=0; i<boundAnimations; i++ )
 			{
 				animationData[i].dt = (float)deltaTime;
+				animationData[i].animation = &data->allAnimations[i];
 				//data->allAnimations[i].update(deltaTime);
 				data->workQueue->add( updateAnimation, &animationData[i] );
 			}

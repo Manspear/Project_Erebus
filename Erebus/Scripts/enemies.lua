@@ -35,8 +35,6 @@ function CreateEnemy(type, position)
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
 
-	enemies[i].animationController = CreateEnemyController(enemies[i])
-
 	enemies[i].visionRange = 100
 	enemies[i].subPathtarget = nil
 	enemies[i].pathTarget = nil

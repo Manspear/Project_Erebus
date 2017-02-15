@@ -99,4 +99,3 @@ CreateEnemy(ENEMY_MELEE, {x=118, y=42, z=230})
 CreateEnemy(ENEMY_MELEE, {x=112, y=32, z=240})
 CreateEnemy(ENEMY_MELEE, {x=107, y=32, z=240})
 CreateEnemy(ENEMY_MELEE, {x=118, y=42, z=240})
-

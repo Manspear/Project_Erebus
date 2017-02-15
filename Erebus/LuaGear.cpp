@@ -174,6 +174,9 @@ namespace LuaGear
 		lua_getfield( lua, 2, "__self" );
 		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
 
+		assert( asset );
+		assert( animation );
+
 		int result = g_transformHandler->bindAnimatedInstance( asset, animation );
 		lua_pushinteger( lua, result );
 
