@@ -13,6 +13,8 @@ QuadTree::QuadTree()
 
 QuadTree::~QuadTree()
 {
+	if (this->baseNode != nullptr)
+		delete this->baseNode;
 }
 
 bool QuadTree::addModel()

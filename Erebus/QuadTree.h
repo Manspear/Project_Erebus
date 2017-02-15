@@ -42,8 +42,22 @@ private:
 				children[i] = nullptr;
 			}
 		}
+		~Node()
+		{
+			if (this->collider != nullptr)
+				delete this->collider;
+
+			if (this->children[0] != nullptr)
+			{
+				for (int i = 0; i < NODE_AMOUNT; i++)
+				{
+					delete this->children[i];
+				}
+			}
+		}
 
 	};
+
 	Node* baseNode = nullptr;
 	glm::vec3 position;
 	float width;
