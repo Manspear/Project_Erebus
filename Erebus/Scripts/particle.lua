@@ -89,7 +89,7 @@ end
 function createSparklyParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
 	local sparkles = {}
-	sparkles.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
+	sparkles.fly = Particle.Bind("ParticleFiles/polymorphStars.Particle")  
 	
 	function sparkles:cast()
 		Particle.SetAlive(self.fly)
