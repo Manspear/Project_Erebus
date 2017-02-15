@@ -22,6 +22,7 @@
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
 #include "QuadTree.h"
+#include "DebugDraw.h"
 
 #define MAX_TRANSFORMS 300
 #define MAX_ANIMATIONS 300
@@ -110,6 +111,7 @@ DWORD WINAPI update( LPVOID args )
 	for( int i=0; i<MAX_ANIMATIONS; i++ )
 		animationData[i].animation = &data->allAnimations[i];
 
+	DebugDraw debugDraw = DebugDraw(Debugger::getInstance());
 	while( data->running )
 	{
 		glm::vec3 cameraPosition = data->camera->getPosition();
@@ -131,6 +133,7 @@ DWORD WINAPI update( LPVOID args )
 				data->particleEmitters->at(i)->update((float)deltaTime);
 
 			collisionHandler.checkCollisions();
+			debugDraw.draw(&collisionHandler);
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 

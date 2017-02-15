@@ -71,6 +71,7 @@
     <ClCompile Include="LuaLight.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="DebugDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -142,6 +143,7 @@
     <ClInclude Include="LuaLight.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="DebugDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AI\BasicEnemyAI.lua">
