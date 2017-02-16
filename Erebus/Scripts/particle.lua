@@ -111,7 +111,7 @@ function  createTumbleParticles()
 
 	function tumbleParticles:cast(x, y, z)
 		Particle.SetAlive(self.fly)
-		Particle.SetDirection(Particle.fly, x, y, z);
+		Particle.SetDirection(self.fly, x, y, z);
 
 	end
 
@@ -125,7 +125,6 @@ function  createTumbleParticles()
 	return tumbleParticles
 end
 
-
 function createCloudParticles()
 	local cloud = {}
 	cloud.ID = Particle.Bind("ParticleFiles/smokeParticles.Particle")
@@ -133,4 +132,22 @@ function createCloudParticles()
 		Particle.Explode(self.ID, pos)
 	end
 	return cloud
+end
+
+function createTimeslowParticles()
+	local timeslowParticles = {}
+	timeslowParticles.ID = Particle.Bind("ParticleFiles/nature.Particle");
+
+	function timeslowParticles:cast()
+		Particle.SetAlive(self.ID)
+	end
+
+	function timeslowParticles:die(pos)
+		Particle.SetDead(self.ID)
+	end
+
+	function timeslowParticles:update(pos)
+		Particle.SetPosition(self.ID, pos)
+	end
+	return timeslowParticles
 end

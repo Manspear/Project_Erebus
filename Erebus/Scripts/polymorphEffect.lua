@@ -25,6 +25,7 @@ function CreatePolyEffect(duration)
 		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
 		entity.SetState(entity,"FollowState")
+		effect.particles:poof(pos)
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
@@ -54,7 +55,6 @@ end
 function GetNextFreeMorph()
 	if currentFree >= POLYMORPH_POOL_SIZE then currentFree = 0 end
 	currentFree = currentFree + 1	
-	print(currentFree)
 	return polymorphPool[currentFree], polymorphParticles[currentFree]
 end
 

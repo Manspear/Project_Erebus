@@ -503,6 +503,9 @@
     <None Include="Scripts\level01.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\natureEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

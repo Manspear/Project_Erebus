@@ -71,7 +71,6 @@ function CreateTumblethorns(entity)
 			Transform.ActiveControl(self.transformID, true)
 			self.rotation = Transform.GetRotation(self.caster)
 			Transform.SetRotation(self.transformID, self.rotation)
-
 		end
 		if self.canRollBack then
 			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
