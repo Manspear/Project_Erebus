@@ -24,7 +24,7 @@ function CreateFireball(entity)
 	end
 	--General variables
 	local spell = {}
-	spell.element = "fire"
+	spell.element = FIRE
 	spell.damage = FIREBALL_BASE_DMG
 	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 	spell.isActiveSpell = false		spell.aSmallIsActive = 0

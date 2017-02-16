@@ -7,7 +7,7 @@ POLYMORPH_MIN_CHARGETIME = 1
 function CreatePolymorph(entity)
 	--General variables
 	local spell = {}
-	spell.element = "nature"
+	spell.element = NATURE
 	spell.isActiveSpell = false	
 	spell.cooldown = 0		spell.maxcooldown = POLYMORPH_COOLDOWN
 	spell.chargedTime = 0		spell.maxChargeTime = 3

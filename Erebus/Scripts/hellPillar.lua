@@ -13,7 +13,7 @@ function CreateHellPillar(entity)
 	
 	--Generalla saker	
 	local spell = {}
-	spell.element = "fire"
+	spell.element = FIRE
 	spell.caster = entity.transformID	
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)

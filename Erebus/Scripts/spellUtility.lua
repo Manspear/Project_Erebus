@@ -50,11 +50,11 @@ function CreateChargeThing(entity)
 		Transform.ActiveControl(chargeThing.transformID3, false)
 
 		elementalTransformID = chargeThing.transformID
-		if spellElement == "fire" then
+		if spellElement == FIRE then
 			Transform.ActiveControl(chargeThing.transformID2, true)
 			elementalTransformID = chargeThing.transformID2
 
-		elseif spellElement == "nature" then
+		elseif spellElement == NATURE then
 			Transform.ActiveControl(chargeThing.transformID3, true) 
 			elementalTransformID = chargeThing.transformID3
 		
@@ -78,11 +78,11 @@ function CreateChargeThing(entity)
 	function chargeThing:Charging(position, dt, chargePower,spellElement)
 		
 		elementalTransformID = chargeThing.transformID
-		if spellElement == "fire" then
+		if spellElement == FIRE then
 			Transform.ActiveControl(chargeThing.transformID2, true)
 			elementalTransformID = chargeThing.transformID2
 
-		elseif spellElement == "nature" then
+		elseif spellElement == NATURE then
 			Transform.ActiveControl(chargeThing.transformID3, true) 
 			elementalTransformID = chargeThing.transformID3
 		

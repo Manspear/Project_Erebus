@@ -6,6 +6,11 @@ POLYMORPH_EFFECT_INDEX = 5
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
+ICE=0 --Used for spellCharging
+FIRE=1
+NATURE=2
+
+
 player = {}
 player2 = {}
 
