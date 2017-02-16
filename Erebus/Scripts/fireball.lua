@@ -5,7 +5,7 @@ FIRESPAM_SPEED = 120
 FIREBALL_SPEED = 1
 MIN_CHARGETIME_FIREBALL = 0.5
 FIREBALL_BASE_DMG = 20
-FIREBALL_CAST_SFX = ""
+FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
 FIREBALL_SMALL_HIT_SFX = "Effects/explosion.wav"
 FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
 
@@ -35,6 +35,8 @@ function CreateFireball(entity)
 	spell.spamCooldown = FIRESPAM_COOLDOWN
 	spell.position = {x = 0, y = 0, z = 0}
 	--Small spamming fireballs
+	spell.smallFBSoundID = {}
+	spell.bigFBSoundID = -1
 	spell.smallFB = {}		spell.currentFB = 1
 	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
 	
@@ -92,6 +94,7 @@ function CreateFireball(entity)
 			self.smallFB[self.currentFB].particles.cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
+			Sound.Play(FIREBALL_CAST_SFX, 3, self.smallFB.position)
 			if self.currentFB < 4 then		
 				self.currentFB = self.currentFB + 1
 			else	self.currentFB = 1
@@ -117,6 +120,7 @@ function CreateFireball(entity)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
 			self.light = Light.addLight(124, 32, 220, 1, 0, 0, 20, 3, true)
 			self.ballParticles:cast()
+			Sound.Play(FIREBALL_CAST_SFX, 7, self.position)
 		end
 		self.chargedTime = 0
 	end
