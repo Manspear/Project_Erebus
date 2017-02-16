@@ -1,7 +1,7 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
-
+MAX_DAMAGE_PILLAR = 8
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_BIG_PILLAR = 5
 COOLDOWN_SMALL_PILLAR = 2.0
@@ -12,7 +12,7 @@ HELLPILLAR_HIT_SFX = "Effects/burn_ice_001.wav"
 function CreateHellPillar(entity)
 	--Generalla saker	
 	local spell = {}
-	spell.damage = 0
+	spell.element = FIRE
 	spell.caster = entity.transformID	
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)

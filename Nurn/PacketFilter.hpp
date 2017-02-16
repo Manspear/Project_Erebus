@@ -15,6 +15,7 @@
 #include "ChangeSpellsPacket.hpp"
 #include "EventPacket.hpp"
 #include "AIHealthPacket.hpp"
+#include "DashPacket.hpp"
 
 #ifdef DEBUGGING_NETWORK
 #include "PingPacket.hpp"
@@ -44,6 +45,7 @@ public:
 	PacketQueue<ChangeSpellsPacket> * getChangeSpellsQueue();
 	PacketQueue<EventPacket> * getPlayerEventQueue();
 	PacketQueue<AIHealthPacket> * getAIHealthQueue();
+	PacketQueue<DashPacket> * getDashQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -57,6 +59,7 @@ private:
 	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
 	PacketQueue<EventPacket> * playerEventQueue;
 	PacketQueue<AIHealthPacket> * aiHealthQueue;
+	PacketQueue<DashPacket> * dashQueue;
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;

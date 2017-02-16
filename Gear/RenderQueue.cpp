@@ -594,7 +594,7 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 		}
 	}
 
-	delete[]idColors;
+	delete[] idColors;
 	allShaders[GEOMETRY_PICKING]->unUse();
 }
 

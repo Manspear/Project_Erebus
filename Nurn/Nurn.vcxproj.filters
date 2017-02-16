@@ -117,6 +117,9 @@
     <ClInclude Include="AIHealthPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
+    <ClInclude Include="DashPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Packages">

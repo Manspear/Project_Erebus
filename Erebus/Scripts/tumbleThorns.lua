@@ -5,6 +5,7 @@ TUMBLETHORNS_COOLDOWN = 4
 TUMBLETHORNS_ROLLBACKTIME = 1
 function CreateTumblethorns(entity)
 	local spell = {}
+	spell.element = NATURE
 	spell.cooldown = 0.0		spell.maxcooldown = 4
 	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
