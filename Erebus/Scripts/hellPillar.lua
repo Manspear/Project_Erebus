@@ -9,9 +9,9 @@ PILLAR_SFX = "Effects/explosion.wav"
 HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateHellPillar(entity)
-	
 	--Generalla saker	
 	local spell = {}
+	spell.damage = 0
 	spell.caster = entity.transformID	
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
@@ -62,7 +62,7 @@ function CreateHellPillar(entity)
 			self.startUp = true
 			self.maxScale = 0.5			self.scale = 0.4
 			Transform.SetScale(self.transformID, self.maxScale)
-			SphereCollider.SetRadius(self.sphereCollider, self.scale )
+			SphereCollider.SetRadius(self.sphereCollider, self.scale + 0.2)
 			self.damage = 5
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()		

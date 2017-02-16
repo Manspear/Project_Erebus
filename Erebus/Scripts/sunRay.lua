@@ -66,14 +66,14 @@ function CreateSunRay(entity)
 				Sound.SetVolume(self.soundID[index], 0.8)
 			end
 			self.tickInterval = 1.3
-			self.startUpScale.x = self.startUpScale.x * 0.55	self.startUpScale.y = self.startUpScale.y * 0.55	self.startUpScale.z = self.startUpScale.z / 2
+			self.startUpScale.x = self.startUpScale.x * 0.5	self.startUpScale.y = self.startUpScale.y * 0.5	self.startUpScale.z = self.startUpScale.z / 2
 			self:GeneralCast()
-			--ZoomInCamera()
+			ZoomInCamera()
 		end
 	end
 
 	function sunRay:ChargeCast(entity)
-		if (self.cooldown < 0.0) then
+		if self.cooldown < 0.0 then
 			self.spam = false	self.alive = true	self.startUp = true
 			self.chargedTime = math.min(self.chargedTime, self.maxChargeTime)
 			self.scale = (self.chargedTime / self.maxChargeTime)/2 + 0.5
@@ -86,7 +86,6 @@ function CreateSunRay(entity)
 			self:GeneralCast()
 			self.chargedTime = 0.0
 			self.soundID[1] = Sound.Play(self.castSFX[1], 3, self.type.position)
-			ZoomOutCamera()
 		end
 	end
 
@@ -101,16 +100,6 @@ function CreateSunRay(entity)
 		self.UVpushed = 0.0
 		self.alive = true	self.effectFlag = true
 		self.owner.moveSpeed = self.owner.moveSpeed * self.moveImpairment 	
-	end
-
-	function sunRay:Kill()
-		self.alive = false
-		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
-		Sound.Stop(self.hitID)
-		Erebus.CameraSensitivity(1 / self.cameraSlow)
-		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
-		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
-		self.type:Kill()
 	end
 
 	function sunRay:GetEffect()
@@ -171,7 +160,6 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:Aim()
-
 	end
 
 	function sunRay:Change()
@@ -180,17 +168,24 @@ function CreateSunRay(entity)
 
 	function sunRay:MoveWithPlayer(dt)
 		Gear.SetUniformValue(self.modelIndex, self.UVpushed, 0)
-		direction = Transform.GetLookAt(self.caster)
-		pos = Transform.GetPosition(self.caster)
+		local direction = Transform.GetLookAt(self.caster)
+		local pos = Transform.GetPosition(self.caster)
 		pos.x = pos.x + direction.x * self.length 
 		pos.y = pos.y + direction.y * self.length 
 		pos.z = pos.z + direction.z * self.length 
 		hits = self.type:Update(pos, direction)
-		local theRotation =  Transform.GetRotation(self.caster) 
-		self.angle = self.angle + self.spin * dt
-		theRotation.x =  theRotation.x + self.angle
-		Transform.SetRotation(self.type.transformID, theRotation)
-		Transform.SetLookAt(self.type.transformID, direction)
+		Transform.RotateToVector(self.type.transformID, direction)
+	end
+
+	function sunRay:Kill()
+		self.alive = false
+		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
+		Sound.Stop(self.hitID)
+		Erebus.CameraSensitivity(1 / self.cameraSlow)
+		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
+		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
+		self.type:Kill()
+		ZoomOutCamera()
 	end
 	return sunRay
 end

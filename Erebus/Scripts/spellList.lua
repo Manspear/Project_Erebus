@@ -16,6 +16,12 @@ SpellList = {}
 SpellListPlayer2 = {}
 
 function LoadSpellbook()
+	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
+					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
+					spell = CreatePolymorph(player)
+	}
+
+	table.insert(SpellList, polymorph)
 	local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
 						info = wrap("'Just as a candle cannot burn without fire, men cannot live without a spiritual life.' - Buddha", 30, "",""),
 						spell = CreateHellPillar(player)}
@@ -55,13 +61,6 @@ function LoadSpellbook()
 					spell = CreateSiphon(player)
 	}
 	table.insert(SpellList, siphon)
-	
-	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
-					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
-					spell = CreatePolymorph(player)
-	}
-
-	table.insert(SpellList, polymorph)
 	
 	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.png"),
 					info = wrap("'Akta alla sma taggar va?!'", 30, "",""),
