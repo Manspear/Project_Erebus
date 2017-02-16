@@ -60,7 +60,7 @@ function CreateSunRay(entity)
 		self.cooldown = self.cooldown - dt;
 	end
 	
-	function sunRay:Cast(entity, chargetime, effects)
+	function sunRay:Cast(entity)
 		if (self.cooldown < 0.0) then
 			self.length = SUNRAY_HALF_LENGTH / 2										
 			self.lifeTime = SUNRAY_DURATION / 2
@@ -71,7 +71,9 @@ function CreateSunRay(entity)
 				Sound.SetVolume(self.soundID[index], 0.8)
 			end
 			self.tickInterval = 1.3
-			self.startUpScale.x = self.startUpScale.x * 0.5	self.startUpScale.y = self.startUpScale.y * 0.5	self.startUpScale.z = self.startUpScale.z / 2
+			self.startUpScale.x = self.startUpScale.x * 0.5	
+			self.startUpScale.y = self.startUpScale.y * 0.5	
+			self.startUpScale.z = self.startUpScale.z / 2
 			self:GeneralCast()
 			ZoomInCamera()
 		end
@@ -187,8 +189,6 @@ function CreateSunRay(entity)
 			table.insert(self.effects, effect)
 		end
 	end
-
-	sunRay.ChargeCast = BaseChargeCast	
 	sunRay.Charge = BaseCharge
 	sunRay.Change = BaseChange
 	sunRay.GetEffect = BaseGetEffect

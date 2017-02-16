@@ -382,15 +382,15 @@ function Controls(dt)
 		if not player.spamCasting then
 			if Inputs.ButtonDown(Buttons.Right) then
 				player.spells[player.currentSpell]:Charge(dt)
-			sElement = player.spells[player.currentSpell].element
+				sElement = player.spells[player.currentSpell].element
 			
 			
-			if player.isCombined == true then
-				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-				player.Charging = true
-			else
-				player.charger:ChargeMePlease(player.position,dt,sElement)
-			end
+				if player.isCombined == true then
+					player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+					player.Charging = true
+				else
+					player.charger:ChargeMePlease(player.position,dt,sElement)
+				end
 			
 			end
 
