@@ -18,7 +18,7 @@ namespace Collisions
 			delete this->baseNode;
 	}
 
-	bool QuadTree::addModel()
+	bool QuadTree::addStaticModel()
 	{
 		return false;
 	}
@@ -73,6 +73,11 @@ namespace Collisions
 			this->createChildren(parent->children[BOTTOM_LEFT_NODE], bottomLeftPosition, childrenWidth, childrenDepth);
 			this->createChildren(parent->children[BOTTOM_RIGHT_NODE], bottomRightPosition, childrenWidth, childrenDepth);
 		}
+	}
+
+	void QuadTree::addHitbox(Node * parent, AABBCollider * childCollider)
+	{
+		this->collisionChecker.collisionCheck(parent->collider, childCollider);
 	}
 
 	//void QuadTree::reqursiveDraw(Node * node, Debug * debugger)

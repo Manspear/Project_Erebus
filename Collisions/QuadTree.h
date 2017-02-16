@@ -10,7 +10,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS QuadTree();
 		COLLISIONS_EXPORTS ~QuadTree();
 
-		COLLISIONS_EXPORTS bool addModel();
+		COLLISIONS_EXPORTS bool addStaticModel();
 		COLLISIONS_EXPORTS void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
 		static const int QUADTREE_NODE_AMOUNT = 4;
 
@@ -67,11 +67,13 @@ namespace Collisions
 		float width;
 		unsigned int depth;
 		const int COLLIDER_HEIGHT = 500;
+		CollisionChecker collisionChecker;
 
 
 		//Helper functions
 		void createChildren(Node* parent, glm::vec3 center, float width, unsigned int depth);
 		//void reqursiveDraw(Node* node, Debug* debugger);
+		void addHitbox(Node* parent, AABBCollider* childCollider);
 	};
 
 
