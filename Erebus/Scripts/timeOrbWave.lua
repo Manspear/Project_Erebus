@@ -3,7 +3,7 @@ TIMEORBWAVEDURATION = 20
 
 function CreateTimeOrbWave(entity)
 	local spell = {}
-	spell.element = "nature"
+	spell.element = NATURE
 	spell.type = CreateOrbWaveType()
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
