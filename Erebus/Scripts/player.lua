@@ -31,7 +31,7 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 10
-	player.isCombined = true; --change here
+	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -369,12 +369,11 @@ function Controls(dt)
 		if Inputs.ButtonDown(Buttons.Right) then
 			player.spells[player.currentSpell]:Charge(dt)
 			sElement = player.spells[player.currentSpell].element
-			print(a)
-			player.charger:ChargeMePlease(player.position,sElement)
+			player.charger:ChargeMePlease(player.position,dt,sElement)
 
 			if player.isCombined == true then
 				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-				player.Charging=true
+				player.Charging = true
 				end
 			
 			

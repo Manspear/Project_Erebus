@@ -42,12 +42,14 @@ function CreateChargeThing(entity)
 	chargeThing.scaleLarge = {x = 1.4, y = 1.1, z = 1.4}
 
 	chargeThing.pos = {x = 0, y = 0, z = 0}
-	chargeThing.UVpushed = 0	
 
-	function chargeThing:ChargeMePlease(position,spellElement,spellElement)
+	function chargeThing:ChargeMePlease(position,dt,spellElement)
+
+		Transform.ActiveControl(chargeThing.transformID, false)
+		Transform.ActiveControl(chargeThing.transformID2, false)
+		Transform.ActiveControl(chargeThing.transformID3, false)
 
 		elementalTransformID = chargeThing.transformID
-
 		if spellElement == "fire" then
 			Transform.ActiveControl(chargeThing.transformID2, true)
 			elementalTransformID = chargeThing.transformID2
@@ -60,12 +62,16 @@ function CreateChargeThing(entity)
 			Transform.ActiveControl(chargeThing.transformID, true)
 		end
 	 
-		--chargeThing.pos = Transform.GetPosition(chargeThing.caster)
-		--Transform.SetPosition(elementalTransformID, chargeThing.pos)
+		Transform.SetPosition(elementalTransformID, chargeThing.pos)
 
 		Transform.SetScaleNonUniform(elementalTransformID, 1,1,1) --det här gäller bara den första
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
 		chargeThing.pos.y = chargeThing.pos.y - 1
+
+		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (2) * dt
+		Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
+		
+	
 		end
 
 
@@ -102,11 +108,11 @@ function CreateChargeThing(entity)
 			chargeThing.scaleSmall.y = chargeThing.scaleSmall.y + (0.075*dt)
 		end
 
-		Transform.SetScaleNonUniform(elementalTransformID, chargeThing.scaleSmall.x,chargeThing.scaleSmall.y,chargeThing.scaleSmall.z) --changed 
-		Transform.SetPosition(elementalTransformID, chargeThing.pos) --changed
+		Transform.SetScaleNonUniform(elementalTransformID, chargeThing.scaleSmall.x,chargeThing.scaleSmall.y,chargeThing.scaleSmall.z) 
+		Transform.SetPosition(elementalTransformID, chargeThing.pos) 
 		daPower = math.min(chargePower, MAX_CHARGE)
-		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (2) * dt
-		Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
+		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (3) * dt
+		Transform.SetRotation(elementalTransformID, self.rotSmall)
 
 		if(chargeThing.timer > 0.75) then
 		
@@ -120,10 +126,8 @@ function CreateChargeThing(entity)
 			Transform.SetPosition(elementalTransformID, chargeThing.pos)
 			chargeThing.particles.update(chargeThing.pos) 
 			local daPower = math.min(chargePower, MAX_CHARGE)
-			chargeThing.rotLarge.y = chargeThing.rotLarge.y - (chargePower * 2) * dt
+			chargeThing.rotLarge.y = chargeThing.rotLarge.y + 5 * dt
 			Transform.SetRotation(elementalTransformID, self.rotLarge)
-			self.UVpushed = self.UVpushed + chargePower * dt 
-			Gear.SetUniformValue(self.modelIndex, 0, self.UVpushed)
 		end
 	end
 
@@ -133,8 +137,9 @@ function CreateChargeThing(entity)
 		Transform.ActiveControl(chargeThing.transformID, false)
 		Transform.ActiveControl(chargeThing.transformID2, false)  
 		Transform.ActiveControl(chargeThing.transformID3, false)  
-		--Transform.SetPosition(chargeThing.transformID,  {x = 0, y = 0, z = 0})
-		--Transform.SetPosition(chargeThing.transformID2, {x = 0, y = 0, z = 0})  
+		Transform.SetPosition(chargeThing.transformID,  {x = 0, y = 0, z = 0})
+		Transform.SetPosition(chargeThing.transformID2, {x = 0, y = 0, z = 0})  
+		Transform.SetPosition(chargeThing.transformID3, {x = 0, y = 0, z = 0})  
 		chargeThing.particles.die()
 	end
 	function chargeThing:StartCharge(position) 
