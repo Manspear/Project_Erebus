@@ -1,7 +1,8 @@
 SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/siphon.png");
-SIPHON_DAMAGE = 0
+SIPHON_DAMAGE = 3
 SIPHON_CHAIN_DURATION = 5
-SIPHON_COOLDOWN = 3
+SIPHON_COOLDOWN = 15
+SIPHON_SPAM_COOLDOWN = 3
 SIPHON_SPAM_DURATION = 3
 SIPHON_DAMAGE_INTERVAL = 1
 SIPHON_HITBOX_LENGTH = 20
@@ -34,24 +35,36 @@ function CreateSiphon(entity)
 	spell.shooting = false
 	spell.hitchecker = false
 	spell.cooldown = 0
+	spell.spamcooldown = 0
 	spell.maxcooldown = 10
 	spell.spamduration = SIPHON_SPAM_DURATION
 	spell.spamming = false
 	spell.interval = 0
-
+	spell.chargedTime = 0
+	spell.maxChargeTime = 0
+	spell.chained = nil
 
 	function spell:Cast()
-		if self.cooldown < 0 then
-			spell.spamming = true
-			spell.spamduration = SIPHON_SPAM_DURATION
+		if self.spamcooldown < 0 then
+			self.spamming = true
+			self.spamduration = SIPHON_SPAM_DURATION
+			self.spamcooldown = SIPHON_SPAM_COOLDOWN
 		end
 		self:rotatetoowner()
 		--Transform.ActiveControl(self.transformID, true)
 		self.alive = true
 	end
 	spell.Charge = BaseCharge
-	spell.ChargeCast = BaseChargeCast
-	function spell:getcollisions()
+	function spell:ChargeCast()
+		if self.cooldown then 
+			self.chained = self:getcollisions()
+			self.alive = true
+			self.cooldown = SIPHON_COOLDOWN
+			Transform.ActiveControl(self.transformID, true)
+			self.spamming = false
+		end
+	end
+	function spell:getcollisions() --may change to return the closest enemy and not just the first it finds ( needs som bantering luls)
 		local hit = nil
 		local collisionIDs = self.collider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
@@ -66,7 +79,7 @@ function CreateSiphon(entity)
 		return hit
 	end
 	function spell:rotatetoowner()
-		direction = Transform.GetLookAt(self.owner.transformID)
+		local direction = Transform.GetLookAt(self.owner.transformID)
 		local pos = Transform.GetPosition(self.owner.transformID)
 		pos.x = pos.x + direction.x * self.length/2 
 		pos.y = pos.y + direction.y * self.length/2
@@ -84,15 +97,38 @@ function CreateSiphon(entity)
 		Transform.SetLookAt(self.transformID, direction)]]
 		Transform.RotateToVector(self.transformID, direction)
 	end
+	function spell:rotatetotarget()
+		if self.chained then
+			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), Transform.GetPosition(self.chained.transformID))
+			self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.chained.transformID)
+			local pos = Transform.GetPosition(self.owner.transformID)
+			pos.x = pos.x + direction.x * self.length/2 
+			pos.y = pos.y + direction.y * self.length/2
+			pos.z = pos.z + direction.z * self.length/2
+			Transform.SetPosition(self.transformID, pos)
+			Transform.RotateToVector(self.transformID, direction)
+			local oobpos = {x=0,y=0,z=0}
+			oobpos.x = direction.x * (self.length/2)
+			oobpos.y = direction.y * (self.length/2)
+			oobpos.z =  direction.z * (self.length/2)
+			OBBCollider.SetSize(self.collider, self.length, 1, 1)
+			OBBCollider.SetXAxis(self.collider, direction.x, direction.y, direction.z)
+			OBBCollider.SetOffset(self.collider, oobpos.x, oobpos.y, oobpos.z)
+			Transform.SetScaleNonUniform(self.transformID, 1, 1, self.length/(SUNRAY_HALF_LENGTH*2))
+		end
+	end
 	function spell:Update(dt)
-		self:rotatetoowner()
 		self.cooldown = self.cooldown - dt
+		self.spamcooldown = self.spamcooldown - dt
 		if self.spamming then
+		
+			print("dicks")
 			self.spamduration = self.spamduration - dt
 			self.interval = self.interval - dt
 			hit = self:getcollisions()
 			if hit then
 				if self.interval < 0 then
+					print("i hit some biatch yo")
 					hit:Hurt(self.damage, player)
 					self.owner.health = self.owner.health + self.damage
 					Transform.ActiveControl(self.transformID, true)
@@ -109,6 +145,12 @@ function CreateSiphon(entity)
 				self.spamming = false
 				Transform.ActiveControl(self.transformID, false)
 			end
+		end
+		if self.chained then
+			self:rotatetotarget()
+		else
+			print("eyyy")
+			self:rotatetoowner()
 		end
 	end
 	function spell:Kill()
