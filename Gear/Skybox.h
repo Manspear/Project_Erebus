@@ -9,6 +9,8 @@ namespace Gear
 {
 	class Skybox {
 	public:
+		glm::vec3 FOG_COLOR = glm::vec3(0.50f, 0.50f, 0.50f);
+
 		GEAR_API Skybox();
 		GEAR_API ~Skybox();
 		GEAR_API void init();

@@ -373,9 +373,9 @@ namespace AGI
 			float w = ((float)x) / (resolution);
 			float h = ((float)y) / (resolution);
 
-			int stupid = 1;
+			int stupid = 0;
 
-			for (int n = 1; n < 3; n++)
+			for (int n = 0; n < 2; n++)
 			{
 
 				if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -390,7 +390,7 @@ namespace AGI
 
 						w = ((float)x - doJump) / (resolution);
 						h = ((float)y + doJump) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -409,7 +409,7 @@ namespace AGI
 
 						w = ((float)x) / (resolution);
 						h = ((float)y + doJump) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -428,7 +428,7 @@ namespace AGI
 
 						w = ((float)x + doJump) / (resolution);
 						h = ((float)y + doJump) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -446,7 +446,7 @@ namespace AGI
 			#pragma region x-1,y
 						w = ((float)x - doJump) / (resolution);
 						h = ((float)y) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -463,7 +463,7 @@ namespace AGI
 			#pragma region x+1,y
 						w = ((float)x + doJump) / (resolution);
 						h = ((float)y) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -481,7 +481,7 @@ namespace AGI
 			#pragma region x-1,y-1  MAYBE
 						w = ((float)x - doJump) / (resolution);
 						h = ((float)y - doJump) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -498,7 +498,7 @@ namespace AGI
 			#pragma region x,y-1
 						w = ((float)x) / (resolution);
 						h = ((float)y - doJump) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
@@ -515,7 +515,7 @@ namespace AGI
 			#pragma region x+1,y-1  MAYBE
 						w = ((float)x + doJump) / (resolution);
 						h = ((float)y - doJump) / (resolution);
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 2; n++)
 						{
 
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))

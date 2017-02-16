@@ -23,9 +23,6 @@ void Gear::Skybox::init()
 	glBindVertexArray(0);
 
 	skyboxShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "skybox");
-	skyboxShader->addUniform("skybox");
-	skyboxShader->addUniform("view");
-	skyboxShader->addUniform("projection");
 }
 
 GLuint Gear::Skybox::loadTexture(GLchar * path, GLboolean alpha)
@@ -97,6 +94,7 @@ void Gear::Skybox::update(Camera* camera)
 
 	skyboxShader->setUniform(view, "view");
 	skyboxShader->setUniform(camera->getProjectionMatrix(), "projection");
+	skyboxShader->setUniform(FOG_COLOR, "fogColour");
 
 	skyboxShader->unUse();
 }
