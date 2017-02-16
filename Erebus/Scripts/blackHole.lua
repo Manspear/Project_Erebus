@@ -9,11 +9,13 @@ BLACK_HOLE_WHOBLE_INTERVAL = 0.5
 BLACK_HOLE_COOLDOWN = 6
 BLACK_HOLE_PULL_SPEED = 1
 BLACK_HOLE_SPIN_SPEED = 3.14/1
+BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.wav", "Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
 
 function CreateBlackHole(entity)
 	local spell = {}
 	spell.element = "nature"
 	spell.type = CreateStaticAoEType()
+	spell.innerTransformID = Transform.Bind()
 	spell.owner = entity
 	spell.effects = {}
 	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
@@ -25,8 +27,7 @@ function CreateBlackHole(entity)
 	spell.hits = {}
 	spell.alive = false
 	spell.cooldown = 0
-	spell.castSFX = {"Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
-	spell.soundID = {}
+	spell.soundID = {-1, -1, -1}
 	spell.Change = GenericChange
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
@@ -34,6 +35,7 @@ function CreateBlackHole(entity)
 	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	Gear.AddStaticInstance(model, spell.type.transformID)
+	Gear.AddStaticInstance(model, spell.innerTransformID)
 
 	function spell:Cast(entity, chargetime) end
 	function spell:Charge(dt) ZoomInCamera() end
@@ -47,6 +49,8 @@ function CreateBlackHole(entity)
 			pos.y = pos.y  + 5*dir.y
 			pos.z = pos.z  + 5*dir.z
 			self.type:Cast(1, BLACK_HOLE_RADIUS, pos)
+			Transform.SetPosition(self.innerTransformID, pos)
+			Transform.ActiveControl(self.innerTransformID, true)
 			self.damage = BLACK_HOLE_DAMAGE
 			self.lastTick = 0
 			self.duration = 0
@@ -54,8 +58,11 @@ function CreateBlackHole(entity)
 			--entity.moveSpeed = entity.moveSpeed * BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 			self.alive = true
 			self.cooldown = BLACK_HOLE_COOLDOWN
-			for i = 1, #self.castSFX do
-				self.soundID[i] = Sound.Play(self.castSFX[i], 7, pos)
+			for i = 1, #BLACK_HOLE_CAST_SFX do
+				if self.soundID[i] ~= -1 then
+					Sound.Fade(self.soundID[i], 1)
+				end
+				self.soundID[i] = Sound.Play(BLACK_HOLE_CAST_SFX[i], 7, pos)
 				--Sound.SetVolume(self.soundID[i], 0.1)
 			end
 		end
@@ -69,7 +76,7 @@ function CreateBlackHole(entity)
 			hits = self.type:Update(dt)
 			local scale = Transform.GetScale(self.type.transformID)
 			scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos(((BLACK_HOLE_COOLDOWN -self.cooldown)/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
-			Transform.SetScale(self.type.transformID, scale) 
+			Transform.SetScaleNonUniform(self.type.transformID, scale, 0.01, scale) 
 			for index = 1, #hits do
 				local position = Transform.GetPosition(hits[index].transformID)--kanske borde flyttas ut till c
 				local pos = self.type.position
@@ -101,13 +108,15 @@ function CreateBlackHole(entity)
 	end
 
 	function spell:Kill()
-		for i = 1, #self.soundID do
-			Sound.Fade(self.soundID[i], 3)
+		for i = 1, #BLACK_HOLE_CAST_SFX do
+			Sound.Fade(self.soundID[i], 1)
+			self.soundID[i] = -1
 		end
 		self.type:Kill()
 		self.hits = {}
 		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 		self.alive = false
+		Transform.ActiveControl(self.innerTransformID, false)
 	
 	end
 	

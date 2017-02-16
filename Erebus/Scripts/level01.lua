@@ -70,6 +70,10 @@ CollisionHandler.SetLayerCollision(2,4,false);
 CollisionHandler.SetLayerCollision(3,4,false);
 CollisionHandler.SetLayerCollision(4,4,false);
 
+sid = Sound.Play("Music/Area1.ogg", 48)
+Sound.SetVolume(sid, 0.06)
+Sound.Resume(sid)
+
 --TEMP: This should probably not be hardcoded into every level?
 AI.CreateHM(#heightmaps)
 for i=1, #heightmaps do
@@ -82,3 +86,15 @@ AI.CreateIM(heightmaps,widthTest,heightTest)--,#heightmaps,widthTest,heightTest)
 
 Transform.SetPosition(player.transformID, {x=124, y=32, z=220})
 CreateEnemy(ENEMY_MELEE, {x=122, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=120, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=110, y=42, z=230})
+
+CreateEnemy(ENEMY_MELEE, {x=112, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=107, y=32, z=230})
+CreateEnemy(ENEMY_MELEE, {x=118, y=42, z=230})
+
+
+CreateEnemy(ENEMY_MELEE, {x=112, y=32, z=240})
+CreateEnemy(ENEMY_MELEE, {x=107, y=32, z=240})
+CreateEnemy(ENEMY_MELEE, {x=118, y=42, z=240})
+

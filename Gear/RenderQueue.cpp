@@ -55,6 +55,13 @@ void RenderQueue::init()
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.direction");
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.color");
 
+	for (int i = 0; i < 10; i++)
+	{
+		allShaders[ShaderType::LIGHT_PASS]->addUniform("dynamicLights[" + std::to_string(i) + "].pos");
+		allShaders[ShaderType::LIGHT_PASS]->addUniform("dynamicLights[" + std::to_string(i) + "].color");
+		allShaders[ShaderType::LIGHT_PASS]->addUniform("dynamicLights[" + std::to_string(i) + "].radius");
+	}
+
 	allShaders[ShaderType::BLUR] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
 
 	glGenBuffers(1, &particleBuffer);
@@ -117,10 +124,6 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 	{
 		if (oneMoreUpdate[i])
 		{
-			//THIS WHOLE FUNCTION CAN DEFINETELY BE OPTIMIZED (do something along the lines of mat4 = {coscoscosos, coscsocsosins, coscoscoscos, x,
-			//																							sinsinssin, sinsinsinsn, ccoscosocosco, y,
-			//																							x,x,x,x,				
-			//																							yt.t.t..y,y,y,}
 			//reset the world matrix
 			tempMatrix = glm::mat4();
 			tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));

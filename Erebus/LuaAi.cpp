@@ -9,6 +9,7 @@ namespace LuaAI
 	static Assets* g_assets = nullptr;
 
 	static HeightMap ** heightMaps = nullptr;
+	//static int nrOfHM;
 
 	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI, Assets* assets)
 	{
@@ -35,6 +36,7 @@ namespace LuaAI
 			{ "Blur",blurIM },
 			{ "AStarSearch",aStarSearch },
 			{ "ClearAStar",clearAStarSearch },
+			{ "Unload",unload },
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(L, regs, 0);
@@ -178,6 +180,7 @@ namespace LuaAI
 		if (lua_gettop(lua) >= 3)
 		{
 			AI->createInfluenceMap(heightMaps,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			
 		}
 		return 0;
 	}
@@ -188,6 +191,7 @@ namespace LuaAI
 		{
 			std::cout << lua_tointeger(lua, 1);
 			heightMaps = new HeightMap*[lua_tointeger(lua, 1)];
+			//nrOfHM = lua_tointeger(lua, 1);
 		}
 		return 0;
 	}
@@ -352,7 +356,12 @@ namespace LuaAI
 
 		return 0;
 	}
+	int unload(lua_State * lua)
+	{
+		//delete []heightMaps;
 
+		return 0;
+	}
 	int draw(lua_State * lua)
 	{
 

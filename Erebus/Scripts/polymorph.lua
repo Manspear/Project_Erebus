@@ -1,4 +1,4 @@
-POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/polymorph.png");
+POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/polymorph.dds");
 POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
@@ -26,8 +26,6 @@ function CreatePolymorph(entity)
 	spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
-	local model = Assets.LoadModel( "Models/grenade.model" )
-	Gear.AddForwardInstance(model, spell.transformID)
 
 	spell.Charge = BaseCharge
 	function spell:Update(dt)

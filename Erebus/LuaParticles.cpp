@@ -99,10 +99,19 @@ namespace LuaParticles
 	}
 	int explode(lua_State * lua)
 	{
-		assert( lua_gettop( lua ) == 1 );
+		assert( lua_gettop( lua ) == 2 );
+		
+		glm::vec3 position;
+		lua_getfield(lua, 2, "x");
+		position.x = (float)lua_tonumber(lua, -1);
 
-		int index = (int)lua_tointeger(lua, 1);
-		g_systems->at(index)->explode();
+		lua_getfield(lua, 2, "y");
+		position.y = (float)lua_tonumber(lua, -1);
+
+		lua_getfield(lua, 2, "z");
+		position.z = (float)lua_tonumber(lua, -1);
+
+		g_systems->at((int)lua_tointeger(lua, 1))->explode(position);
 
 		return 0;
 	}

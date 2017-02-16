@@ -4,6 +4,9 @@ SUNRAY_DAMAGE = 1
 SUNRAY_COOLDOWN = 4.7
 SUNRAY_HALF_LENGTH = 23
 SUNRAY_TICK_INTERVAL = 0.5
+SUNRAY_CHARGE_SFX = ""
+SUNRAY_CAST_SFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav"}
+SUNRAY_HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateSunRay(entity)
 	local sunRay = {}
@@ -30,6 +33,7 @@ function CreateSunRay(entity)
 	sunRay.castSFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav" }
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
+	sunRay.chargeID = -1
 	sunRay.hitID = -1
 	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
@@ -62,8 +66,8 @@ function CreateSunRay(entity)
 			self.lifeTime = SUNRAY_DURATION / 2
 			self.spam = true		
 			self.cooldown = SUNRAY_COOLDOWN / 2
-			for index = 1, #self.castSFX do
-				self.soundID[index] = Sound.Play(self.castSFX[index], 13, self.type.position)
+			for index = 1, #SUNRAY_CAST_SFX do
+				self.soundID[index] = Sound.Play(SUNRAY_CAST_SFX[index], 13, self.type.position)
 				Sound.SetVolume(self.soundID[index], 0.8)
 			end
 			self.tickInterval = 1.3
@@ -86,7 +90,6 @@ function CreateSunRay(entity)
 			self.startUpScale.y = 0.2 * self.scale
 			self:GeneralCast()
 			self.chargedTime = 0.0
-			self.soundID[1] = Sound.Play(self.castSFX[1], 3, self.type.position)
 			ZoomOutCamera()
 		end
 	end
@@ -192,6 +195,12 @@ function CreateSunRay(entity)
 		theRotation.x =  theRotation.x + self.angle
 		Transform.SetRotation(self.type.transformID, theRotation)
 		Transform.SetLookAt(self.type.transformID, direction)
+	end
+	function sunRay:Combine(effect, damage)
+		if #self.effects < 2 then
+			self.damage = self.damage + 2 * damage
+			table.insert(self.effects, effect)
+		end
 	end
 	return sunRay
 end

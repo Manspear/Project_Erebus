@@ -15,19 +15,20 @@
 
 #include"HeightMap.h"
 
-
+const int MAXSIZEPATH = 100;
 
 namespace AGI
 {
 	struct Enemy
 	{
 		int id;
-		std::vector<InfluenceNode> targetPath;
-
+		InfluenceNode targetPath[MAXSIZEPATH];
+		int nrOfNodesInPath = 0;
 		Enemy()
 		{
 			this->id = -1;
-			targetPath.clear();
+			nrOfNodesInPath = 0;
+			//targetPath.clear();
 		};
 
 		Enemy(int inID)
@@ -41,10 +42,11 @@ namespace AGI
 
 		void clearPath()
 		{
+			nrOfNodesInPath = 0;
 		//	for (int i = 0; i < targetPath.size(); i++)
 		//		delete targetPath[i];
 
-			targetPath.clear();
+			//targetPath.clear();
 		}
 
 		bool matchId(int checkId)
@@ -56,7 +58,7 @@ namespace AGI
 
 		bool hasTarget()
 		{
-			if (targetPath.size() > 0)
+			if (nrOfNodesInPath > 0)
 				return true;
 
 			return false;
@@ -76,10 +78,14 @@ namespace AGI
 					clearPath();
 				}
 		}
+		void addInfluenceNode(InfluenceNode nodeIN)
+		{
+			targetPath[nrOfNodesInPath++] = nodeIN;
+		}
 
 		float getStrengthAt(int x, int y)
 		{
-			for (int n = 0; n < targetPath.size(); n++)
+			for (int n = 0; n < nrOfNodesInPath; n++)
 			{
 				glm::vec2 tempPos = targetPath[n].getPos();
 
@@ -279,7 +285,6 @@ namespace AGI
 
 					float w = (float)x / (resolution);
 					float h = (float)y / (resolution);
-
 
 					if (checkSurroundingHeightMap(heightmaps, x, y))
 					{
@@ -704,9 +709,11 @@ namespace AGI
 			else
 			{
 
-				std::vector<InfluenceNode*> openList;
+				InfluenceNode *openList[200];
+				int sizeOfOpenList = 0;
 
-				std::vector<InfluenceNode*> closedListList;
+				InfluenceNode *closedList[MAXSIZEPATH];
+				int sizeOfClosedList = 0;
 
 				InfluenceNode* starterNode = dynamicInfluenceMap[xFrom][yFrom];
 				InfluenceNode* finishNode = nullptr;
@@ -715,11 +722,11 @@ namespace AGI
 				{
 					starterNode->setParent(nullptr);
 
-					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList, closedListList);
+					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList,sizeOfOpenList, closedList, sizeOfClosedList);
 
-					while (finishNode == nullptr && closedListList.size() < 60)
+					while (finishNode == nullptr && sizeOfClosedList < MAXSIZEPATH)
 					{
-						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, closedListList);
+						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, sizeOfOpenList, closedList, sizeOfClosedList);
 					}
 
 					float countDown =66;
@@ -732,7 +739,7 @@ namespace AGI
 						int tempX = round(((inPos.x / mapWidth)*imWidth));
 						int tempY = round(((inPos.y / mapHeight)*imHeight));
 
-						enemies.at(enemyPos).targetPath.push_back(InfluenceNode(glm::vec2(tempX,tempY), countDown));
+						enemies.at(enemyPos).addInfluenceNode(InfluenceNode(glm::vec2(tempX,tempY), countDown));
 
 						countDown = countDown * 0.8f;
 						finishNode = finishNode->getParent();
@@ -762,7 +769,7 @@ namespace AGI
 
 		AGI_API void addInfluenceAroundPath(int enemyPos)
 		{
-			for (int n = 0; n < enemies.at(enemyPos).targetPath.size(); n++)
+			for (int n = 0; n < enemies.at(enemyPos).nrOfNodesInPath; n++)
 			{
 				InfluenceNode tempNode = enemies.at(enemyPos).targetPath[n];
 
@@ -770,101 +777,110 @@ namespace AGI
 			}
 		}
 
-		AGI_API void addToClosedList(InfluenceNode * inNode, int xTarget, int yTarget, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*> &closedList)
+		AGI_API void addToClosedList(InfluenceNode * inNode, int xTarget, int yTarget, InfluenceNode *openList[MAXSIZEPATH],int & openSize, InfluenceNode *closedList[MAXSIZEPATH],int &closedSize)
 		{
 			int xFrom = round(((inNode->getPos().x / mapWidth)*imWidth));
 			int yFrom = round(((inNode->getPos().y / mapHeight)*imHeight));
 
 			int n = 0;
-			for (; n < openList.size(); n++)
+			for (; n < openSize; n++)
 			{
 				if (openList[n] == dynamicInfluenceMap[xFrom][yFrom])
 				{
-					openList.erase(openList.begin() + n);
+					swapListPos(openList, n, openSize);
+					//openList.erase(openList.begin() + n);
 				}
 			}
 
-			closedList.push_back(dynamicInfluenceMap[xFrom][yFrom]);
+			closedList[closedSize++] = dynamicInfluenceMap[xFrom][yFrom];
 
 			//TOP
-			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom - 1, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom - 1, openList,openSize, closedList,closedSize))
 			{
 				dynamicInfluenceMap[xFrom - 1][yFrom - 1]->setParent(inNode);
 				dynamicInfluenceMap[xFrom - 1][yFrom - 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom - 1][yFrom - 1]->setHCost(calculateH(xFrom - 1, yFrom - 1, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom - 1]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom - 1][yFrom - 1];
+				//openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom - 1]);
 			}
 
-			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom - 1, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom - 1, openList, openSize, closedList, closedSize))
 			{
 				dynamicInfluenceMap[xFrom][yFrom - 1]->setParent(inNode);
 				dynamicInfluenceMap[xFrom][yFrom - 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom][yFrom - 1]->setHCost(calculateH(xFrom, yFrom - 1, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom][yFrom - 1]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom][yFrom - 1];
 			}
 
-			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom - 1, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom - 1, openList, openSize, closedList, closedSize))
 			{
 				dynamicInfluenceMap[xFrom + 1][yFrom - 1]->setParent(inNode);
 				dynamicInfluenceMap[xFrom + 1][yFrom - 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom + 1][yFrom - 1]->setHCost(calculateH(xFrom + 1, yFrom - 1, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom - 1]);
+				//openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom - 1]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom + 1][yFrom - 1];
+
 			}
 
 			//MID
-			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom, openList, openSize, closedList, closedSize))
 			{
 				dynamicInfluenceMap[xFrom - 1][yFrom]->setParent(inNode);
 				dynamicInfluenceMap[xFrom - 1][yFrom]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom - 1][yFrom]->setHCost(calculateH(xFrom - 1, yFrom, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom]);
+				//openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom - 1][yFrom ];
 			}
 
-			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom, openList, openSize, closedList, closedSize))
 			{
 				dynamicInfluenceMap[xFrom + 1][yFrom]->setParent(inNode);
 				dynamicInfluenceMap[xFrom + 1][yFrom]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom + 1][yFrom]->setHCost(calculateH(xFrom + 1, yFrom, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom]);
+				//openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom + 1][yFrom];
 			}
 
 
 			//BOT
-			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom + 1, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom - 1, yFrom + 1, openList, openSize, closedList, closedSize))
 			{
 				dynamicInfluenceMap[xFrom - 1][yFrom + 1]->setParent(inNode);
 				dynamicInfluenceMap[xFrom - 1][yFrom + 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom - 1][yFrom + 1]->setHCost(calculateH(xFrom - 1, yFrom + 1, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom + 1]);
+				//openList.push_back(dynamicInfluenceMap[xFrom - 1][yFrom + 1]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom - 1][yFrom + 1];
 			}
 
-			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom + 1, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom, yFrom + 1, openList, openSize, closedList, closedSize))
 			{
 				dynamicInfluenceMap[xFrom][yFrom + 1]->setParent(inNode);
 				dynamicInfluenceMap[xFrom][yFrom + 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom][yFrom + 1]->setHCost(calculateH(xFrom, yFrom + 1, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom][yFrom + 1]);
+				//openList.push_back(dynamicInfluenceMap[xFrom][yFrom + 1]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom][yFrom + 1];
 			}
 
-			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom + 1, openList, closedList))
+			if (checkIfNodeIsAlreadyChecked(xFrom + 1, yFrom + 1, openList, openSize, closedList, closedSize))
 			{
 				dynamicInfluenceMap[xFrom + 1][yFrom + 1]->setParent(inNode);
 				dynamicInfluenceMap[xFrom + 1][yFrom + 1]->setGCost(inNode->getGCost() + 14);
 				dynamicInfluenceMap[xFrom + 1][yFrom + 1]->setHCost(calculateH(xFrom + 1, yFrom + 1, xTarget, yTarget));
 
-				openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom + 1]);
+				//openList.push_back(dynamicInfluenceMap[xFrom + 1][yFrom + 1]);
+				openList[openSize++] = dynamicInfluenceMap[xFrom + 1][yFrom + 1];
 			}
 
 		}
 
-		AGI_API bool checkIfNodeIsAlreadyChecked(int xFrom, int yFrom, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*>& closedList)
+		AGI_API bool checkIfNodeIsAlreadyChecked(int xFrom, int yFrom, InfluenceNode *openList[], int & openSize, InfluenceNode *closedList[], int &closedSize)
 		{
 			if (dynamicInfluenceMap[xFrom][yFrom] == nullptr)
 				return false;
@@ -876,13 +892,13 @@ namespace AGI
 			//	return false;
 
 
-			for (int n = 0; n < openList.size(); n++)
+			for (int n = 0; n <openSize; n++)
 			{
 				if (openList[n] == dynamicInfluenceMap[xFrom][yFrom])
 					return false;
 			}
 
-			for (int n = 0; n < closedList.size(); n++)
+			for (int n = 0; n < closedSize; n++)
 			{
 				if (closedList[n] == dynamicInfluenceMap[xFrom][yFrom])
 					return false;
@@ -893,7 +909,7 @@ namespace AGI
 			{
 				for (int i = 0; i <4 ; i++)
 				{
-					if (enemies[n].targetPath.size() > 0 && enemies[n].targetPath.size() > i)
+					if (enemies[n].nrOfNodesInPath > 0 && enemies[n].nrOfNodesInPath > i)
 					{
 						glm::vec2 tempVec2 = enemies[n].targetPath[i].getPos();
 
@@ -906,12 +922,12 @@ namespace AGI
 			return returnerBool;
 		}
 
-		AGI_API InfluenceNode * checkOpenList(int xTarget, int yTarget, std::vector<InfluenceNode*>& openList, std::vector<InfluenceNode*>& closedList)
+		AGI_API InfluenceNode * checkOpenList(int xTarget, int yTarget, InfluenceNode **openList, int & openSize, InfluenceNode **closedList, int &closedSize)
 		{
 			int lowestValue = 9999999;
 			int lowestPos = -1;
 
-			for (int n = 0; n < openList.size(); n++)
+			for (int n = 0; n < openSize; n++)
 			{
 				if (dynamicInfluenceMap[xTarget][yTarget] == openList[n])
 					return openList[n];
@@ -927,7 +943,7 @@ namespace AGI
 			if (lowestPos == -1)
 				return dynamicInfluenceMap[xTarget][yTarget];
 
-			addToClosedList(openList[lowestPos], xTarget, yTarget, openList, closedList);
+			addToClosedList(openList[lowestPos], xTarget, yTarget, openList, openSize, closedList,closedSize);
 
 			return nullptr;
 
@@ -936,6 +952,12 @@ namespace AGI
 		AGI_API int calculateH(int fromX, int fromY, int targetX, int targetY)
 		{
 			return (glm::abs(fromX - targetX) * 10) + (glm::abs(fromY - targetY) * 10);
+		}
+
+		AGI_API void swapListPos(InfluenceNode *list[],int n, int &size)
+		{
+			list[n] = list[size-1];
+			size--;
 		}
 
 		#pragma endregion
