@@ -4,7 +4,7 @@ SUNRAY_DAMAGE = 1
 SUNRAY_COOLDOWN = 4.7
 SUNRAY_HALF_LENGTH = 23
 SUNRAY_TICK_INTERVAL = 0.5
-SUNRAY_CHARGE_SFX = ""
+SUNRAY_CHARGE_SFX = "Effects/energy-blast.wav"
 SUNRAY_CAST_SFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav"}
 SUNRAY_HIT_SFX = "Effects/burn_ice_001.wav"
 
@@ -90,6 +90,10 @@ function CreateSunRay(entity)
 			self.startUpScale.y = 0.2 * self.scale
 			self:GeneralCast()
 			self.chargedTime = 0.0
+			for index = 1, #SUNRAY_CAST_SFX do
+				self.soundID[index] = Sound.Play(SUNRAY_CAST_SFX[index], 13, self.type.position)
+				Sound.SetVolume(self.soundID[index], 0.8)
+			end
 			ZoomOutCamera()
 		end
 	end
@@ -139,7 +143,7 @@ function CreateSunRay(entity)
 					end
 					hits[index]:Hurt(self.damage, self.owner)
 					self.timeSinceTick = self.tickInterval
-					local id = Sound.Play(self.hitSFX, 1, hits[index].position)
+					local id = Sound.Play(SUNRAY_HIT_SFX, 1, hits[index].position)
 					if id ~= -1 then self.hitID = id end
 				end
 			end
@@ -161,10 +165,7 @@ function CreateSunRay(entity)
 			Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x * self.scale, self.startUpScale.y * self.scale, self.startUpScale.z)
 			self.shakeIt = self.shakeIt * -1
 		else
-			for index = 1, #self.castSFX do
-				self.soundID[index] = Sound.Play(self.castSFX[index], 3, self.type.position)
-				Sound.SetVolume(self.soundID[index], 0.8)
-			end
+			Sound.Play(SUNRAY_CHARGE_SFX, 3, self.type.position)
 			Transform.SetScaleNonUniform(self.type.transformID, 1, 1, 1)
 			self.startUpTime = 0.4
 			self.startUpTimeLVL2 = 0.7
