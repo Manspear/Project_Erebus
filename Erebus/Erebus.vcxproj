@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionUpdater.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="CollisionsDraw.cpp" />
     <ClCompile Include="LuaAi.cpp" />
@@ -300,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionsDraw.h" />
+    <ClInclude Include="CollisionUpdater.h" />
     <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />

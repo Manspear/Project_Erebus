@@ -74,6 +74,9 @@
     <ClCompile Include="CollisionsDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -146,6 +149,9 @@
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="CollisionsDraw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
