@@ -36,6 +36,7 @@ uniform int drawMode;
 uniform mat4 shadowVPM;
 uniform mat4 invView;
 uniform mat4 invProj;
+uniform int num_dynamic_lights;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular);
@@ -74,7 +75,7 @@ void main() {
 		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir, Specular);
 
 	vec3 dynamicPoint = vec3(0,0,0);
-	for(int i = 0; i < NR_DYNAMIC_POINT_LIGHTS; i++) //calculate dynamic point lights
+	for(int i = 0; i < num_dynamic_lights; i++) //calculate dynamic point lights
 	dynamicPoint += CalcPointLight(dynamicLights[i], norm, FragPos, viewDir, Specular);
 
 	vec3 outputColor = (ambient + directional + point + dynamicPoint);
