@@ -136,8 +136,7 @@ function LoadPlayer2()
 	player2.heightmapIndex = 1
 	player2.spamCasting = false
 	player2.charging = false
-	player2.position = {}
-
+	player2.position = {x=0, y=0, z=0}
 	
 	player2.nrOfInnerCircleEnemies = 0
 	player2.nrOfOuterCircleEnemies = 0
@@ -338,6 +337,7 @@ function Controls(dt)
 			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
 			Sound.Play("Effects/ping.wav", 1, player.position)
 			player.ping = player.pingDuration
+			showTutorialImage(1, 124, 32, 220)
 		end
 		if Inputs.KeyDown("T") then
 			local dir = Camera.GetDirection()
@@ -439,6 +439,7 @@ function UpdatePlayer2(dt)
 	local newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
 	if newtransformvalue == true then
+		player2.position = {x=pos_x_2, y=pos_y_2, z=pos_z_2}
 		Transform.SetPosition(id_2, {x=pos_x_2, y=pos_y_2, z=pos_z_2})
 		Transform.SetLookAt(id_2, {x=lookAt_x_2, y=lookAt_y_2, z=lookAt_z_2})
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})

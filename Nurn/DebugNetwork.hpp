@@ -20,6 +20,8 @@ public:
 	PingPacket& getPingPacket();
 	void setSendPingPacket(bool sendPingPacket);
 	bool getSendPingPacket() const;
+
+	void setPing();
 	float getPing();
 
 
@@ -34,10 +36,10 @@ public:
 
 	void writePacketInfoToFile();
 
-	std::chrono::time_point<std::chrono::system_clock> start_time;
-	std::chrono::time_point<std::chrono::system_clock> end_time;
+	std::chrono::time_point<std::chrono::system_clock> ping_start_time;
 
 private:
 	PingPacket pingPacket;
+	float ping;
 	std::atomic<bool> sendPingPacket;
 };
