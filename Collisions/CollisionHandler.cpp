@@ -477,9 +477,14 @@ namespace Collisions
 		return collisionLayers;
 	}
 
-	std::vector<HitBox*> CollisionHandler::getAllHitboxes() const
+	std::vector<HitBox*>* CollisionHandler::getAllHitboxes()
 	{
-		return this->allColliders;
+		return &allColliders;
+	}
+
+	std::vector<RayCollider*>* CollisionHandler::getRayColliders()
+	{
+		return &this->rayColliders;
 	}
 
 	void CollisionHandler::setLayerCollisionMatrix(bool ** layerMatrix, unsigned int layerMatrixSize)

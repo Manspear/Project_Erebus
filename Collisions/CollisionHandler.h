@@ -57,7 +57,8 @@ namespace Collisions
 		//getters
 		COLLISIONS_EXPORTS std::string getCollisionText();
 		COLLISIONS_EXPORTS CollisionLayers* getCollisionLayers() const;
-		COLLISIONS_EXPORTS std::vector<HitBox*> getAllHitboxes() const;
+		COLLISIONS_EXPORTS std::vector<HitBox*>* getAllHitboxes();
+		COLLISIONS_EXPORTS std::vector<RayCollider*>* getRayColliders();
 
 		//CollisionLayerPassThrough functions
 		COLLISIONS_EXPORTS void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
