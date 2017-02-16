@@ -1,12 +1,12 @@
 #pragma once
 #include "CollisionHandler.h"
 #include "Debug.h"
-class DebugDraw
+class CollisionsDraw
 {
 public:
-	DebugDraw();
-	DebugDraw(Debug* debugger);
-	~DebugDraw();
+	CollisionsDraw();
+	CollisionsDraw(Debug* debugger);
+	~CollisionsDraw();
 
 	//setters
 	void setDebugger(Debug* debugger);

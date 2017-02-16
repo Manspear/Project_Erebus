@@ -22,7 +22,7 @@
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
 #include "QuadTree.h"
-#include "DebugDraw.h"
+#include "CollisionsDraw.h"
 
 #define MAX_TRANSFORMS 300
 #define MAX_ANIMATIONS 300
@@ -111,7 +111,7 @@ DWORD WINAPI update( LPVOID args )
 	for( int i=0; i<MAX_ANIMATIONS; i++ )
 		animationData[i].animation = &data->allAnimations[i];
 
-	DebugDraw debugDraw = DebugDraw(Debugger::getInstance());
+	CollisionsDraw debugDraw = CollisionsDraw(Debugger::getInstance());
 	while( data->running )
 	{
 		glm::vec3 cameraPosition = data->camera->getPosition();

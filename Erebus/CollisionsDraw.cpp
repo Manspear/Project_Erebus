@@ -1,36 +1,36 @@
-#include "DebugDraw.h"
+#include "CollisionsDraw.h"
 
 
 
-DebugDraw::DebugDraw()
+CollisionsDraw::CollisionsDraw()
 {
 	this->debugger = nullptr;
 	this->initializeColors();
 }
 
-DebugDraw::DebugDraw(Debug * debugger)
+CollisionsDraw::CollisionsDraw(Debug * debugger)
 {
 	this->debugger = debugger;
 	this->initializeColors();
 }
 
 
-void DebugDraw::setDebugger(Debug * debugger)
+void CollisionsDraw::setDebugger(Debug * debugger)
 {
 	this->debugger = debugger;
 }
 
-void DebugDraw::setDefaultColor(const glm::vec3 & color)
+void CollisionsDraw::setDefaultColor(const glm::vec3 & color)
 {
 	this->defaultColor = color;
 }
 
-void DebugDraw::setDeactivatedColor(const glm::vec3 & color)
+void CollisionsDraw::setDeactivatedColor(const glm::vec3 & color)
 {
 	this->deactivatedColor = color;
 }
 
-void DebugDraw::draw(Collisions::CollisionHandler * collisionHandler)
+void CollisionsDraw::draw(Collisions::CollisionHandler * collisionHandler)
 {
 	using namespace Collisions;
 
@@ -83,27 +83,27 @@ void DebugDraw::draw(Collisions::CollisionHandler * collisionHandler)
 	}
 }
 
-void DebugDraw::draw(Collisions::AABBCollider * aabb)
+void CollisionsDraw::draw(Collisions::AABBCollider * aabb)
 {
 	this->recursiveDraw(aabb,this->defaultColor);
 }
 
-void DebugDraw::draw(Collisions::SphereCollider * sphere)
+void CollisionsDraw::draw(Collisions::SphereCollider * sphere)
 {
 	this->recursiveDraw(sphere, this->defaultColor);
 }
 
-void DebugDraw::draw(Collisions::OBBCollider * obb)
+void CollisionsDraw::draw(Collisions::OBBCollider * obb)
 {
 	this->recursiveDraw(obb, this->defaultColor);
 }
 
-void DebugDraw::draw(Collisions::RayCollider * ray)
+void CollisionsDraw::draw(Collisions::RayCollider * ray)
 {
 	this->recursiveDraw(ray, this->defaultColor);
 }
 
-void DebugDraw::recursiveDraw(Collisions::HitBox * hitbox, glm::vec3 color)
+void CollisionsDraw::recursiveDraw(Collisions::HitBox * hitbox, glm::vec3 color)
 {
 	using namespace Collisions;
 
@@ -143,7 +143,7 @@ void DebugDraw::recursiveDraw(Collisions::HitBox * hitbox, glm::vec3 color)
 
 }
 
-void DebugDraw::initializeColors()
+void CollisionsDraw::initializeColors()
 {
 	this->defaultColor = glm::vec3(1, 0, 0);
 	this->deactivatedColor = glm::vec3(0, 0, 0);
@@ -177,6 +177,6 @@ void DebugDraw::initializeColors()
 	}
 }
 
-DebugDraw::~DebugDraw()
+CollisionsDraw::~CollisionsDraw()
 {
 }
