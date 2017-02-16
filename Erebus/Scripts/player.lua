@@ -377,13 +377,14 @@ function Controls(dt)
 			if Inputs.ButtonDown(Buttons.Right) then
 				player.spells[player.currentSpell]:Charge(dt)
 			sElement = player.spells[player.currentSpell].element
-			player.charger:ChargeMePlease(player.position,dt,sElement)
-
+			
+			player.Charging = true
 			if player.isCombined == true then
 				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-				player.Charging = true
-				end
-			
+				
+			else
+				player.charger:ChargeMePlease(player.position,dt,sElement)
+			end
 			
 			end
 
