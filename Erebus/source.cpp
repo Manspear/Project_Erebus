@@ -75,6 +75,8 @@ DWORD WINAPI update( LPVOID args )
 	CollisionHandler collisionHandler = CollisionHandler(10); // Collision stuff init
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler); 
 	CollisionUpdater collisionUpdater(&collisionHandler, transforms);
+	QuadTree quadtree;
+	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
 	
 	int boundTransforms = 0;
 	int boundAnimations = 0;
@@ -139,6 +141,7 @@ DWORD WINAPI update( LPVOID args )
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
+			collisionsDraw.draw(&quadtree);
 			
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 

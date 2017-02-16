@@ -44,6 +44,11 @@ namespace Collisions
 	//	this->reqursiveDraw(this->baseNode, debugger);
 	//}
 
+	QuadTree::Node * QuadTree::getBaseNode()
+	{
+		return this->baseNode;
+	}
+
 	void QuadTree::createChildren(Node * parent, glm::vec3 center, float width, unsigned int depth)
 	{
 		if (depth > 0)

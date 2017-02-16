@@ -1,6 +1,7 @@
 #pragma once
 #include "CollisionHandler.h"
 #include "Debug.h"
+#include "QuadTree.h"
 class CollisionsDraw
 {
 public:
@@ -23,10 +24,12 @@ public:
 	void draw(Collisions::SphereCollider* sphere);
 	void draw(Collisions::OBBCollider* obb);
 	void draw(Collisions::RayCollider* ray);
+	void draw(Collisions::QuadTree* quadtree);
 
 	
 
 private:
+	typedef Collisions::QuadTree::Node quadtreeNode;
 	Debug* debugger;
 	glm::vec3 colors[64]; // 64 colors to use on hitbox layers
 	glm::vec3 defaultColor;
@@ -37,5 +40,6 @@ private:
 	//helper functions
 	void recursiveDraw(Collisions::HitBox * hitbox, glm::vec3 color);
 	void initializeColors();
+	void recursiveQuadtreeDraw(quadtreeNode* node);
 };
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "AABBCollider.h"
 #include "CollisionChecker.h"
-#include "Frustum.h"
 
 namespace Collisions
 {
@@ -13,6 +12,7 @@ namespace Collisions
 
 		COLLISIONS_EXPORTS bool addModel();
 		COLLISIONS_EXPORTS void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
+		static const int QUADTREE_NODE_AMOUNT = 4;
 
 		//void draw(Debug* debugger);
 
@@ -27,7 +27,8 @@ namespace Collisions
 			NODE_AMOUNT
 
 		};
-		class Node
+	public:
+		COLLISIONS_EXPORTS class Node
 		{
 			// COllider, transform, model, children
 		public:
@@ -56,6 +57,10 @@ namespace Collisions
 			}
 
 		};
+
+		//getters
+		COLLISIONS_EXPORTS Node* getBaseNode();
+	private:
 
 		Node* baseNode = nullptr;
 		glm::vec3 position;

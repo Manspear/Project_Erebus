@@ -182,6 +182,11 @@ void CollisionsDraw::draw(Collisions::RayCollider * ray)
 	this->recursiveDraw(ray, this->defaultColor);
 }
 
+void CollisionsDraw::draw(Collisions::QuadTree* quadtree)
+{
+	this->recursiveQuadtreeDraw(quadtree->getBaseNode());
+}
+
 void CollisionsDraw::recursiveDraw(Collisions::HitBox * hitbox, glm::vec3 color)
 {
 	using namespace Collisions;
@@ -254,6 +259,18 @@ void CollisionsDraw::initializeColors()
 	{
 		this->colors[i] = hardCodedColors[i];
 	}
+}
+
+void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
+{
+	if (node->children[0] != nullptr) // static quadtree, if it have one children it is sure to have all 4
+	{
+		for (int i = 0; i < Collisions::QuadTree::QUADTREE_NODE_AMOUNT; i++)
+		{
+			recursiveQuadtreeDraw(node->children[i]);
+		}
+	}
+	debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), glm::vec3(1, 0, 0));
 }
 
 CollisionsDraw::~CollisionsDraw()

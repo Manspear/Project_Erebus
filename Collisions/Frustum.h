@@ -7,13 +7,11 @@
 */
 #pragma once
 #include "PlaneFrustum.h"
-#include "glm\ext.hpp"
 #include "AABBCollider.h"
-#include "Collisions.h"
 
 namespace Collisions
 {
-	COLLISIONS_EXPORTS class Frustum
+	class Frustum
 	{
 	public:
 		COLLISIONS_EXPORTS Frustum();
