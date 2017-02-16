@@ -168,6 +168,116 @@ void LevelHeightmap::update( float deltaTime )
 	}
 }
 
+void TW_CALL LevelHeightmap::getColiderHM(void* cliendData) {
+	LevelHeightmap* heightMapData =  static_cast<LevelHeightmap *>(cliendData);
+	
+	heightMapData->geniHeightMapColiders();
+
+
+}
+
+void LevelHeightmap::geniHeightMapColiders()
+{
+	usedCorners = std::vector<glm::vec2>();
+	if (heightmap)
+	{
+		for (int x = 0; x < heightmap->getMapWidth(); x++)
+		{
+			for (int z = 0; z < heightmap->getMapHeight(); z++)
+			{
+				bool isStartNode = isNodeGoodStartPoint(x, z);
+
+				if (isStartNode) {
+					glm::vec2 direction = getDirectionOfCorner(x, z);
+					float lengthOfDirectioN = getLengthOfDirection(x, z, direction);
+					std::cout << "One direction is of length---- "<<lengthOfDirectioN << std::endl;
+				}
+			}
+		}
+	}
+}
+
+float LevelHeightmap::getLengthOfDirection(int x, int z, glm::vec2 dir)
+{
+	glm::vec2 tempPoint = glm::vec2(x + dir.x, z + dir.y);
+	if (getDirectionOfCorner(x + dir.x, z + dir.y) == dir &&
+		(x >= 0 && x < heightmap->getMapWidth() && (z >= 0 && z < heightmap->getMapHeight()))&&
+		!(std::find(usedCorners.begin(), usedCorners.end(), tempPoint) != usedCorners.end())) {
+		//FOllows same direction :)
+		usedCorners.push_back(tempPoint);
+		return getLengthOfDirection(x + dir.x, z + dir.y, dir) + 1;
+	}
+	else
+		return 0;
+}
+
+bool LevelHeightmap::isNodeGoodStartPoint(int x, int z) {
+	bool isGoodNode = false;
+	if (isNode(x, z)) {
+		glm::vec2 tempPoint = glm::vec2(x, z);
+		bool usedThisNode = std::find(usedCorners.begin(), usedCorners.end(), tempPoint) != usedCorners.end();
+		if (!usedThisNode) {
+			if (isCorner(x, z)) {
+				isGoodNode = true;
+				usedCorners.push_back(tempPoint);
+			}
+		}
+	}
+	return isGoodNode;
+}
+
+glm::vec2 LevelHeightmap::getDirectionOfCorner(int x, int z) {
+	glm::vec2 direction = glm::vec2(0);
+	glm::vec2 sides[SideNames::NUM_SIDES];
+
+	sides[BOT] = glm::vec2(x, z - 1);
+	sides[TOP] = glm::vec2(x, z + 1);
+	sides[LEFT] = glm::vec2(x - 1, z);
+	sides[RIGHT] = glm::vec2(x + 1, z);
+	for (size_t i = 0; i < NUM_SIDES; i++)
+	{
+		bool usedThisNode = std::find(usedCorners.begin(), usedCorners.end(), glm::vec2(sides[i].x, sides[i].y)) != usedCorners.end();
+		if (!usedThisNode) {
+			if (isCorner(sides[i].x, sides[i].y)) {
+				if(direction != glm::vec2(0))
+					std::cout << "Got 2 directions?" << std::endl;
+				direction = sides[i] - glm::vec2(x,z);
+			}
+		}
+	}
+
+	return direction;
+}
+
+bool LevelHeightmap::isNode(int x, int z) {
+	if ((x >= 0 && x < heightmap->getMapWidth() && (z >= 0 && z < heightmap->getMapHeight()))) {
+		return (heightmap->getHeightData(x, z) > .5f);
+	}
+	
+	return false;
+}
+
+bool LevelHeightmap::isCorner(int x, int z) {
+	bool thisNodeIsCorner = false;
+
+	glm::vec2 sides[SideNames::NUM_SIDES];
+
+	sides[BOT] = glm::vec2(x, z - 1);
+	sides[TOP] = glm::vec2(x, z + 1);
+	sides[LEFT] = glm::vec2(x - 1, z);
+	sides[RIGHT] = glm::vec2(x + 1, z);
+
+	for (size_t i = 0; i < NUM_SIDES; i++)
+	{
+		if (!isNode(sides[i].x, sides[i].y)) {
+			thisNodeIsCorner = true;
+			i = NUM_SIDES;
+		}
+	}
+
+	return thisNodeIsCorner;
+}
+
 void LevelHeightmap::setTwStruct( TwBar* bar )
 {
 	std::stringstream ss;
@@ -189,6 +299,8 @@ void LevelHeightmap::setTwStruct( TwBar* bar )
 		std::string lbl = "label='#" + std::to_string(i+1) + "'";
 		TwAddVarRW( bar, name.c_str(), TW_TYPE_INT32, &surrounding[i], lbl.c_str() );
 	}
+
+	TwAddButton(bar, "GenColHeightmap", getColiderHM, this, "label='gen coliders'");
 }
 
 void LevelHeightmap::setDraw( bool d )

@@ -1,16 +1,16 @@
-<LevelActor type="Fence" displayName="Wooden Fence" tileID="1" exportType="1">
+<LevelActor type="Fence" displayName="WoodenFence" tileID="1" exportType="1">
     <LevelCollider type="2">
-        <Offset x="0" y="0.69999999" z="1.3"/>
+        <Offset x="0" y="0" z="0"/>
         <Color x="0" y="1" z="0"/>
-        <IDs ID="21" parentID="0"/>
+        <IDs ID="143" parentID="0"/>
         <Rotation x="0" y="0" z="0"/>
-        <HalfLengths x="0.5" y="1" z="2.7"/>
+        <HalfLengths x="0.5" y="1" z="3"/>
     </LevelCollider>
     <LevelModel>
         <ModelName>Wooden_Fence</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="24.75" y="8.1732187" z="156.875"/>
+        <Position x="79" y="21" z="212"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>

@@ -89,6 +89,17 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		LevelBrushHandler::getInstance()->update(engine,camera,deltaTime,inputs,debug);
 	}
 
+	if (inputs->keyReleasedThisFrame(GLFW_KEY_F8)) {
+		LevelActor* tempSelectedActor = LevelActorHandler::getInstance()->getSelected();
+		if (tempSelectedActor != nullptr) {
+			LevelTransform* tempTransform = tempSelectedActor->getComponent<LevelTransform>();
+			Transform* test = tempTransform->getTransformRef();
+			test->setPos({ 0,0,0 });
+			test->setRotation({ 0,0,0 });
+			test->setScale({ 1,1,1 });
+		}
+	}
+
 	if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_3)) {
 		if (!holdingGizmo)
 		{

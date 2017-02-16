@@ -8,6 +8,14 @@
 
 class LevelHeightmap : public LevelActorComponent
 {
+	enum SideNames {
+		BOT,
+		TOP,
+		LEFT,
+		RIGHT,
+		NUM_SIDES
+	};
+
 public:
 	LevelHeightmap();
 	~LevelHeightmap();
@@ -42,7 +50,17 @@ public:
 	void removeComponent() override;
 	static void setCurrentID(int id);
 	static int getCurrentID();
+	static void TW_CALL getColiderHM(void* cliendData);
+	void geniHeightMapColiders();
+	bool isCorner(int x, int z);
+	bool isNode(int x, int z);
+	glm::vec2 getDirectionOfCorner(int x, int z);
+
+	bool isNodeGoodStartPoint(int x, int z);
+
+	float getLengthOfDirection(int x, int z, glm::vec2 dir);
 private:
+	std::vector<glm::vec2> usedCorners;
 	static Debug* s_debugger;
 
 	bool draw;

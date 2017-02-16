@@ -1,21 +1,10 @@
 <Level>
-    <LevelActor type="TileStuff" displayName="Tile Assets" tileID="1" exportType="1">
-        <LevelModel>
-            <ModelName>tile1_Assets</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="0" y="0" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
     <LevelActor type="TileStuff" displayName="Tile Placeholder" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile_assets_placeholders</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="0" y="500" z="0"/>
+            <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -30,9 +19,6 @@
             <ID heightmapID="1" surrounding0="2" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
             <TextureName>tile1_128</TextureName>
         </LevelHeightmap>
-        <LevelModel>
-            <ModelName>tile1</ModelName>
-        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
@@ -61,9 +47,6 @@
             <ID heightmapID="2" surrounding0="1" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
             <TextureName>tile2_heights</TextureName>
         </LevelHeightmap>
-        <LevelModel>
-            <ModelName>tile2</ModelName>
-        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
@@ -536,7 +519,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="5.1875" y="7.3125" z="201.625"/>
+            <Position x="6.7289705" y="7.3125" z="201.98105"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="6.7188358" y="9.4806395" z="1"/>
             <Export e="true"/>
@@ -551,7 +534,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="2.3847656" y="6.9570313" z="198.375"/>
+            <Position x="4.0401077" y="6.9570313" z="198.60641"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="8.5479565" y="11.219877" z="1"/>
             <Export e="true"/>
@@ -566,7 +549,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="0.62358713" y="6.1953125" z="191.70212"/>
+            <Position x="2.6807802" y="6.1953125" z="192.40794"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="9.7465029" y="12.274277" z="1"/>
             <Export e="true"/>
@@ -581,7 +564,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="0.61075068" y="7.921875" z="184.86287"/>
+            <Position x="2.281018" y="7.921875" z="184.93381"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="12.667379" y="10.044514" z="1"/>
             <Export e="true"/>
@@ -596,7 +579,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="3.3757229" y="7.921875" z="178.55128"/>
+            <Position x="5.4722738" y="7.921875" z="178.46681"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="10.050556" y="12.809709" z="1"/>
             <Export e="true"/>
@@ -611,7 +594,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="7.7476363" y="10.109375" z="174.37302"/>
+            <Position x="9.2399979" y="10.109375" z="174.56403"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="2.7186737" y="9.2832737" z="1"/>
             <Export e="true"/>
@@ -626,7 +609,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="8.1131716" y="9.328125" z="172.22318"/>
+            <Position x="9.4285069" y="9.328125" z="172.0097"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="3.4360809" y="7.865633" z="1"/>
             <Export e="true"/>
@@ -641,7 +624,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="5.5651608" y="9.4850292" z="168.72009"/>
+            <Position x="7.0894437" y="9.4850292" z="168.49074"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="5.8761463" y="10.075093" z="1"/>
             <Export e="true"/>
@@ -656,7 +639,7 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="2.5951817" y="10.09375" z="164.51965"/>
+            <Position x="3.8711548" y="10.09375" z="163.59482"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="8.0949078" y="9.5044746" z="1"/>
             <Export e="true"/>
@@ -671,24 +654,9 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="2.7833657" y="10.704916" z="156.6976"/>
+            <Position x="3.6794651" y="10.704916" z="156.85498"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="14.401758" y="9.8827543" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="ObbWall" displayName="Obb (38)" tileID="1" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="101" parentID="0"/>
-            <Rotation x="0.68494141" y="0" z="-0.72859824"/>
-            <HalfLengths x="0.5" y="0.5" z="0.5"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="3.6259584" y="11.133711" z="148.58289"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="2.8583927" y="9.8154869" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
@@ -805,24 +773,9 @@
             <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="108.00191" y="33.3125" z="192.66953"/>
+            <Position x="108.46448" y="40.321896" z="192.85347"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="28.574562" y="34.300125" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="ObbWall" displayName="Obb (46)" tileID="1" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="116" parentID="0"/>
-            <Rotation x="-0.94534165" y="0" z="0.32608151"/>
-            <HalfLengths x="0.5" y="0.5" z="0.5"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="120.9792" y="41.375" z="202.83813"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="13.179001" y="19.656616" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
@@ -973,6 +926,748 @@
             <Position x="90.520401" y="26.462685" z="206.34703"/>
             <Rotation x="0" y="0.41914064" z="0"/>
             <Scale x="7.2639923" y="16.002621" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m1" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m2" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m3" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m4" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m5" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m5</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m6" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m6</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m7" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m7</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m8" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_m8</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s1" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_s1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s2" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_s2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s3" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_s3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s4" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_s4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s5" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_s5</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s6" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_s6</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s7" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>tile1_s7</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s1" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s2" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s3" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s4" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s5" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s5</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s6" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s6</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s7" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s7</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s8" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s8</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s9" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s9</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s10" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s10</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s11a" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s11a</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s12" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s12</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s13" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s13</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s14" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>tile2_s14</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="141" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="4.8254871" y="11" z="148.9133"/>
+            <Rotation x="0" y="0.27873608" z="0"/>
+            <Scale x="1" y="8" z="2.5"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (1)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="142" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="117.91149" y="37.17086" z="200.39374"/>
+            <Rotation x="0" y="0.41908994" z="0"/>
+            <Scale x="1" y="18.724075" z="21.808136"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Fence" displayName="WoodenFence" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="143" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="1" z="3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wooden_Fence</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="23.662506" y="5.2980227" z="199.32571"/>
+            <Rotation x="0.19411203" y="-1.1949569" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Fence" displayName="WoodenFence (1)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="146" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="1" z="3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wooden_Fence</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="18.669195" y="4.7942653" z="200.97717"/>
+            <Rotation x="0" y="-1.3445673" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Fence" displayName="WoodenFence (2)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="147" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="1" z="3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wooden_Fence</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="13.639264" y="4.8361197" z="201.99466"/>
+            <Rotation x="0" y="-1.4073409" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Fence" displayName="WoodenFence (3)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="149" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="1" z="3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wooden_Fence</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="8.4915094" y="4.7276945" z="202.45926"/>
+            <Rotation x="0" y="-1.5707964" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Fence" displayName="WoodenFence (4)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="150" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="1" z="3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wooden_Fence</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="22.497589" y="6.8488951" z="188.5666"/>
+            <Rotation x="-0.2530382" y="0.53278577" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Fence" displayName="WoodenFence (5)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="151" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="1" z="3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wooden_Fence</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="25.357037" y="8.17453" z="192.90202"/>
+            <Rotation x="-0.32292059" y="0.65504813" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (2)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="152" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="126.3378" y="35.185173" z="228.82983"/>
+            <Rotation x="0" y="-0.042338967" z="0"/>
+            <Scale x="1" y="4.6735535" z="8.6922913"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (3)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="153" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="133.49005" y="37.64444" z="224.24562"/>
+            <Rotation x="0" y="0.09337423" z="0"/>
+            <Scale x="15.347443" y="9.4527931" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (4)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="154" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="137.67316" y="36.525486" z="222.98759"/>
+            <Rotation x="0" y="0.354433" z="0"/>
+            <Scale x="14.679825" y="11.192406" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (5)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="156" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="125.17526" y="37.585712" z="210.97235"/>
+            <Rotation x="0" y="0.068315148" z="0"/>
+            <Scale x="4.7413177" y="9.7832031" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (6)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="157" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="132.93958" y="37.830105" z="207.68947"/>
+            <Rotation x="0" y="0.51218688" z="0"/>
+            <Scale x="12.93618" y="9.7849045" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (7)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="158" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="140.44289" y="45.966789" z="197.47563"/>
+            <Rotation x="0" y="-0.27959594" z="0"/>
+            <Scale x="1" y="26.278259" z="15.241302"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (8)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="159" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="139.02127" y="56.109516" z="172.06384"/>
+            <Rotation x="0" y="0.20304795" z="0"/>
+            <Scale x="1" y="42.694939" z="37.354782"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (9)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="160" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="140.10175" y="64.477173" z="146.35683"/>
+            <Rotation x="0" y="-0.57778543" z="0"/>
+            <Scale x="1" y="27.75668" z="16.894592"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (10)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="161" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="154.79561" y="64.281937" z="144.17415"/>
+            <Rotation x="0" y="-0.40746883" z="0"/>
+            <Scale x="26.245193" y="28.041279" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (11)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="162" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="174.69872" y="63.10067" z="147.49855"/>
+            <Rotation x="0" y="0.2260723" z="0"/>
+            <Scale x="16.843185" y="18.797207" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (12)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="163" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="183.05862" y="61.343414" z="144.17801"/>
+            <Rotation x="0" y="-0.29089126" z="0"/>
+            <Scale x="1" y="10.846161" z="3.7982178"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (13)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="164" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="183.54147" y="61.599655" z="136.59433"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="11.338882" z="11.692276"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (14)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="165" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="179.48003" y="62" z="118.10429"/>
+            <Rotation x="0" y="0.30328444" z="0"/>
+            <Scale x="1" y="16.5" z="26.776764"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (15)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="166" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="175.43217" y="62.596756" z="82.288788"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="10.865097" z="45.551064"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (16)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="167" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="180.36165" y="62.440235" z="51.148529"/>
+            <Rotation x="0" y="-0.45931897" z="0"/>
+            <Scale x="1" y="14.647987" z="26.14801"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (17)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="168" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="195.77264" y="58.095383" z="34.339386"/>
+            <Rotation x="0" y="-0.73482472" z="0"/>
+            <Scale x="1" y="25.80201" z="54.444347"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (18)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="169" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="213.36578" y="58.468353" z="28.974199"/>
+            <Rotation x="0" y="1.6497475" z="0"/>
+            <Scale x="1" y="36.215405" z="43.748756"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (19)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="170" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="262.05447" y="52.6605" z="45.269005"/>
+            <Rotation x="0" y="-0.4429127" z="0"/>
+            <Scale x="89.163116" y="34.578922" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="ObbWalRot" displayName="ObbRot (20)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="171" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="310.33325" y="57.297997" z="86.715393"/>
+            <Rotation x="0" y="-0.83343661" z="0"/>
+            <Scale x="98.279816" y="33.101372" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>

@@ -181,6 +181,7 @@ void LevelActorHandler::updateTweakBars()
 		updateWorldBar();
 	if( actorBar )
 		updateActorBar();
+
 }
 
 void LevelActorHandler::updateWorldBar()
@@ -302,9 +303,13 @@ void LevelActorHandler::exportToLua()
 
 
 			fprintf( file, "--TEMP: This should probably not be hardcoded into every level?\n" );
-			fprintf( file, "local widthTest = heightmaps[1].asset:GetMapWidth()\n" );
-			fprintf( file, "local heightTest = heightmaps[1].asset:GetMapHeight()\n" );
-			fprintf( file, "AI.SetNav(widthTest,heightTest)\n" );
+			fprintf( file, "AI.CreateHM(#heightmaps)\n" );
+			fprintf( file, "for i=1, #heightmaps do\n" );
+			fprintf( file, "AI.AddHeightMap(heightmaps[i].asset,i)\n" );
+			fprintf(file, "end\n");
+			fprintf(file, "local widthTest = heightmaps[1].asset:GetMapWidth()\n");
+			fprintf(file, "local heightTest = heightmaps[1].asset:GetMapHeight()\n");
+			fprintf(file, "AI.CreateIM(heightmaps,widthTest,heightTest)--,#heightmaps,widthTest,heightTest)\n");
 
 			fclose( file );
 		}

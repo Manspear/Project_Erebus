@@ -94,6 +94,7 @@ private:
 	glm::vec3 imaginaryScale;
 	bool isColider;
 	void checkIfActorIsColider(LevelActor* selectedActor);
+	glm::vec3 tempZAxis, tempXAxis, tempYAxis;
 
 	//void updateGizmoFromOrientation(GizmoLocation location, GizmoMode mode);
 public:

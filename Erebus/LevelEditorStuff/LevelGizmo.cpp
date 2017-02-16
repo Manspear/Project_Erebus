@@ -1,7 +1,9 @@
 #include "LevelGizmo.h"
 #include "glm/gtx/string_cast.hpp"
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
-LevelGizmo::LevelGizmo()  {
+LevelGizmo::LevelGizmo() {
 
 	this->checker = new CollisionChecker();
 
@@ -12,7 +14,7 @@ LevelGizmo::LevelGizmo()  {
 	setPlanes();
 	this->actorHandlerRef = LevelActorHandler::getInstance();
 	this->selectedGizmo = NUM_LOC;
-	
+
 	this->cameraOldPos = glm::vec3(0);
 	this->selectedMode = GizmoMode::ROTATION;
 	this->oldIntersectionPoint = glm::vec3(0);
@@ -73,7 +75,7 @@ bool LevelGizmo::checkRay() {
 
 
 void LevelGizmo::setColors() {
-	this->colorLinkerBase[X] = glm::vec3(1,0,0);
+	this->colorLinkerBase[X] = glm::vec3(1, 0, 0);
 	this->colorLinkerBase[Y] = glm::vec3(0, 1, 0);
 	this->colorLinkerBase[Z] = glm::vec3(0, 0, 1);
 
@@ -100,7 +102,13 @@ void LevelGizmo::drawGizmo() {
 			this->debugRef->drawOBB(this->obbGizmos[i].getPos(), this->obbGizmos[i].getXAxis(), this->obbGizmos[i].getYAxis(),
 				this->obbGizmos[i].getZAxis(), this->obbGizmos[i].getHalfLengths(), colorLinker[i], true);
 		}
+		Transform* selectedTransform = LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef();
+		this->debugRef->drawRay(selectedTransform->getPos(), tempZAxis, 100000, { 0,0,1 });
+		this->debugRef->drawRay(selectedTransform->getPos(), tempXAxis, 100000, { 1,0,0 });
+		this->debugRef->drawRay(selectedTransform->getPos(), tempYAxis, 100000, { 1,1,0 });
 	}
+
+
 
 }
 
@@ -154,7 +162,7 @@ void LevelGizmo::update()
 }
 
 bool LevelGizmo::rayPlaneIntersection(glm::vec3& intersectionPoint) {
-	
+
 	float denom = glm::dot(this->gizmoPlanes[selectedGizmo].direction, this->rayGizmos[selectedGizmo].getDirection());
 	float distance = 0;
 	if (std::fabs(denom) > this->gizmoEpsilon) {
@@ -179,57 +187,57 @@ void LevelGizmo::updateGizmoPlanes() {
 void LevelGizmo::updateFromCameraPos(LevelActor* selectedActor)
 {
 	if (selectedActor) {
-			Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
-			this->cameraOldPos = this->cameraRef->getPosition();
-			float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
-			float percentageFromBase = distanceBetween / this->baseCamDistance;
+		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+		this->cameraOldPos = this->cameraRef->getPosition();
+		float distanceBetween = std::abs(glm::length(this->cameraOldPos - selectedTransform->getPos()));
+		float percentageFromBase = distanceBetween / this->baseCamDistance;
 
-			this->obbGizmos[X].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[X] * this->baseDiffDistace)));
-			this->obbGizmos[Y].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Y] * this->baseDiffDistace)));
-			this->obbGizmos[Z].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Z] * this->baseDiffDistace)));
+		this->obbGizmos[X].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[X] * this->baseDiffDistace)));
+		this->obbGizmos[Y].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Y] * this->baseDiffDistace)));
+		this->obbGizmos[Z].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[Z] * this->baseDiffDistace)));
 
-			this->obbGizmos[XZ].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[XZ] * this->baseDiffDistace)));
-			this->obbGizmos[XY].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[XY] * this->baseDiffDistace)));
-			this->obbGizmos[ZY].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[ZY] * this->baseDiffDistace)));
+		this->obbGizmos[XZ].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[XZ] * this->baseDiffDistace)));
+		this->obbGizmos[XY].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[XY] * this->baseDiffDistace)));
+		this->obbGizmos[ZY].setPos(selectedTransform->getPos() + (percentageFromBase * (directions[ZY] * this->baseDiffDistace)));
 
 
-			for (size_t i = 0; i < NUM_LOC; i++) {
-				float xMulti = 1, yMulti = 1, zMulti = 1;
-				switch (i) {
-				case GizmoLocation::X:
-					xMulti = basePercGrow;
-					break;
-				case GizmoLocation::Y:
-					yMulti = basePercGrow;
-					break;
-				case GizmoLocation::Z:
-					zMulti = basePercGrow;
-					break;
-				case GizmoLocation::XZ:
-					xMulti = basePercGrow*2;
-					zMulti = basePercGrow*2;
-					yMulti /= 2;
-					break;
-				case GizmoLocation::XY:
-					xMulti = basePercGrow*2;
-					yMulti = basePercGrow*2;
-					zMulti /= 2;
-					break;
-				case GizmoLocation::ZY:
-					yMulti = basePercGrow*2;
-					zMulti = basePercGrow*2;
-					xMulti /= 2;
-					break;
-				default:
-					break;
-				}
-
-				this->obbGizmos[i].setXHalfLength(percentageFromBase * this->baseSize*xMulti);
-				this->obbGizmos[i].setYHalfLength(percentageFromBase * this->baseSize*yMulti);
-				this->obbGizmos[i].setZHalfLength(percentageFromBase * this->baseSize*zMulti);
-				
-
+		for (size_t i = 0; i < NUM_LOC; i++) {
+			float xMulti = 1, yMulti = 1, zMulti = 1;
+			switch (i) {
+			case GizmoLocation::X:
+				xMulti = basePercGrow;
+				break;
+			case GizmoLocation::Y:
+				yMulti = basePercGrow;
+				break;
+			case GizmoLocation::Z:
+				zMulti = basePercGrow;
+				break;
+			case GizmoLocation::XZ:
+				xMulti = basePercGrow * 2;
+				zMulti = basePercGrow * 2;
+				yMulti /= 2;
+				break;
+			case GizmoLocation::XY:
+				xMulti = basePercGrow * 2;
+				yMulti = basePercGrow * 2;
+				zMulti /= 2;
+				break;
+			case GizmoLocation::ZY:
+				yMulti = basePercGrow * 2;
+				zMulti = basePercGrow * 2;
+				xMulti /= 2;
+				break;
+			default:
+				break;
 			}
+
+			this->obbGizmos[i].setXHalfLength(percentageFromBase * this->baseSize*xMulti);
+			this->obbGizmos[i].setYHalfLength(percentageFromBase * this->baseSize*yMulti);
+			this->obbGizmos[i].setZHalfLength(percentageFromBase * this->baseSize*zMulti);
+
+
+		}
 	}
 
 }
@@ -290,14 +298,29 @@ float LevelGizmo::translationUpdate(const glm::vec3&intersection, GizmoLocation 
 	return returnVal;
 }
 
+void convertToRotMat(float in[3], glm::mat4* result)
+{
+	*result =
+		glm::mat4(
+			cosf(in[1]) * cosf(in[2]), cosf(in[1]) * sinf(in[2]), -sinf(in[1]), 0.f,
+			cosf(in[0]) * (-sinf(in[2])) + sinf(in[0]) * sinf(in[1]) * cosf(in[2]), cosf(in[0]) * cosf(in[2]) + sinf(in[0]) * sinf(in[1]) * sinf(in[2]), sinf(in[0]) * cosf(in[1]), 0.f,
+			-sinf(in[0]) * (-sinf(in[2])) + cosf(in[0]) * sinf(in[1]) * cosf(in[2]), (-sinf(in[0])) * cosf(in[2]) + cosf(in[0]) * sinf(in[1]) * sinf(in[2]), cosf(in[0]) * cosf(in[1]), 0.f,
+			0.f, 0.f, 0.f, 1.f
+		);
+}
+
 void LevelGizmo::updateGizmoRotation(LevelActor* selectedActor) {
-	
+
+	Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+
+
 	glm::vec3 intersection;
 	if (rayPlaneIntersection(intersection)) {
 		//std::cout << glm::to_string(intersection) << std::endl;
 
-		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
+		//Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
 		glm::vec3 oldRot = selectedTransform->getRotation();
+
 
 		const float rotMulti = .05f;
 		float xDiff = 0, yDiff = 0, zDiff = 0;
@@ -314,7 +337,7 @@ void LevelGizmo::updateGizmoRotation(LevelActor* selectedActor) {
 		case GizmoLocation::X:
 			oldRot[GizmoLocation::X] = rotationUpdate(xDiff, GizmoLocation::X, oldRot);
 			//oldRot[GizmoLocation::X] = oldRot[GizmoLocation::X] - xDiff;
-			
+
 			break;
 		case GizmoLocation::Y:
 			//oldRot[GizmoLocation::Y] = oldRot[GizmoLocation::Y] - yDiff;
@@ -338,16 +361,15 @@ void LevelGizmo::updateGizmoRotation(LevelActor* selectedActor) {
 		default:
 			break;
 		}
-		//newPos[selectedGizmo] = intersection[selectedGizmo] - (percentageFromBase * (directions[selectedGizmo] * this->baseDiffDistace)[selectedGizmo]);
-		selectedTransform->setRotation(oldRot);
-		//selectedTransform->setPos(selectedTransform->getPos() * )
 
+
+		selectedTransform->setRotation(oldRot);
 	}
 }
 
 float LevelGizmo::rotationUpdate(const float& diff, GizmoLocation location, const glm::vec3& rot) {
 	float returnVal = rot[location];
-	
+
 	if (!shouldSnap) {
 		returnVal = rot[location] - diff;
 	}
@@ -375,7 +397,7 @@ void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
 
 		Transform* selectedTransform = selectedActor->getComponent<LevelTransform>()->getTransformRef();
 		glm::vec3 newScale = selectedTransform->getScale();
-		
+
 
 		float xDiff = 0, yDiff = 0, zDiff = 0;
 		intersectionPointChangedThisFrame = true;
@@ -383,10 +405,10 @@ void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
 			xDiff = oldIntersectionPoint.x - intersection.x;
 			yDiff = oldIntersectionPoint.y - intersection.y;
 			zDiff = oldIntersectionPoint.z - intersection.z;
-			
+
 		}
 		oldIntersectionPoint = intersection;
-		
+
 		switch (selectedGizmo) {
 		case GizmoLocation::X:
 			//newScale[GizmoLocation::X] = newScale[GizmoLocation::X] - xDiff;
@@ -416,7 +438,7 @@ void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
 
 
 
-		if(!isColider)
+		if (!isColider)
 
 			selectedTransform->setScale(newScale);
 		else {
@@ -429,60 +451,60 @@ void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
 				glm::vec3 diffrence = (oldScale - newScale);
 				glm::vec3 newLocation = selectedTransform->getPos();
 				glm::vec3 xDir, yDir, zDir;
-				
+
 				switch (selectedGizmo) {
 				case GizmoLocation::X:
-					if(xDiff>0)
-						xDir = tempCol->getObbCollider()->getXAxis() * glm::length(diffrence/2);
+					if (xDiff > 0)
+						xDir = tempCol->getObbCollider()->getXAxis() * glm::length(diffrence / 2);
 					else
-						xDir = tempCol->getObbCollider()->getXAxis() * -glm::length(diffrence/2);
+						xDir = tempCol->getObbCollider()->getXAxis() * -glm::length(diffrence / 2);
 					newLocation += xDir;
 					break;
 				case GizmoLocation::Y:
-					if (yDiff>0)
+					if (yDiff > 0)
 						yDir = tempCol->getObbCollider()->getYAxis() * glm::length(diffrence / 2);
 					else
 						yDir = tempCol->getObbCollider()->getYAxis() * -glm::length(diffrence / 2);
 					newLocation += yDir;
 					break;
 				case GizmoLocation::Z:
-					if (zDiff>0)
+					if (zDiff > 0)
 						zDir = tempCol->getObbCollider()->getZAxis() * glm::length(diffrence / 2);
 					else
 						zDir = tempCol->getObbCollider()->getZAxis() * -glm::length(diffrence / 2);
 					newLocation += zDir;
 					break;
 				case GizmoLocation::XZ:
-					if (xDiff>0)
+					if (xDiff > 0)
 						xDir = tempCol->getObbCollider()->getXAxis() * glm::length(diffrence / 2);
 					else
 						xDir = tempCol->getObbCollider()->getXAxis() * -glm::length(diffrence / 2);
 					newLocation += xDir;
-					if (zDiff>0)
+					if (zDiff > 0)
 						zDir = tempCol->getObbCollider()->getZAxis() * glm::length(diffrence / 2);
 					else
 						zDir = tempCol->getObbCollider()->getZAxis() * -glm::length(diffrence / 2);
 					newLocation += zDir;
 					break;
 				case GizmoLocation::XY:
-					if (xDiff>0)
+					if (xDiff > 0)
 						xDir = tempCol->getObbCollider()->getXAxis() * glm::length(diffrence / 2);
 					else
 						xDir = tempCol->getObbCollider()->getXAxis() * -glm::length(diffrence / 2);
 					newLocation += xDir;
-					if (yDiff>0)
+					if (yDiff > 0)
 						yDir = tempCol->getObbCollider()->getYAxis() * glm::length(diffrence / 2);
 					else
 						yDir = tempCol->getObbCollider()->getYAxis() * -glm::length(diffrence / 2);
 					newLocation += yDir;
 					break;
 				case GizmoLocation::ZY:
-					if (zDiff>0)
+					if (zDiff > 0)
 						zDir = tempCol->getObbCollider()->getZAxis() * glm::length(diffrence / 2);
 					else
 						zDir = tempCol->getObbCollider()->getZAxis() * -glm::length(diffrence / 2);
 					newLocation += zDir;
-					if (yDiff>0)
+					if (yDiff > 0)
 						yDir = tempCol->getObbCollider()->getYAxis() * glm::length(diffrence / 2);
 					else
 						yDir = tempCol->getObbCollider()->getYAxis() * -glm::length(diffrence / 2);
@@ -494,16 +516,16 @@ void LevelGizmo::updateGizmoScale(LevelActor* selectedActor) {
 				if (!inputRef->keyPressed(GLFW_KEY_LEFT_ALT)) {
 					selectedTransform->setScale(oldScale + glm::abs(diffrence));
 				}
-					
+
 				else {
 					selectedTransform->setScale(oldScale - glm::abs(diffrence));
 				}
-					
+
 				selectedTransform->setPos(newLocation);
 			}
-			
 
-			
+
+
 
 
 		}
@@ -546,6 +568,52 @@ void LevelGizmo::setSelectedGizmo(GizmoLocation location)
 		deSelectGizmo();
 		this->selectedGizmo = location;
 		this->colorLinker[this->selectedGizmo] = colorSelected;
+
+		/*
+		
+			this->yAxis = glm::normalize(yAxis);
+	if (yAxis != glm::vec3(0, 1, 0))
+		this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(0, 1, 0)));
+	else
+		this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(1, 0, 0)));
+
+	this->xAxis = glm::normalize(glm::cross(yAxis, zAxis));
+		*/
+		std::cout << "UPDATE BIATCH" << std::endl;
+
+		glm::vec3 rotation = LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getRotation();
+		tempYAxis = glm::vec3(0, 1, 0);
+		tempXAxis = glm::vec3(1, 0, 0);
+		tempZAxis = glm::vec3(0, 0, 1);
+
+		tempYAxis = glm::rotateX(tempYAxis, rotation.x);
+		tempYAxis = glm::rotateY(tempYAxis, rotation.y);
+		tempYAxis = glm::rotateZ(tempYAxis, rotation.z);
+		tempYAxis = glm::normalize(tempYAxis);
+
+		tempXAxis = glm::rotateX(tempXAxis, rotation.x);
+		tempXAxis = glm::rotateY(tempXAxis, rotation.y);
+		tempXAxis = glm::rotateZ(tempXAxis, rotation.z);
+		tempXAxis = glm::normalize(tempXAxis);
+
+		tempZAxis = glm::rotateX(tempZAxis, rotation.x);
+		tempZAxis = glm::rotateY(tempZAxis, rotation.y);
+		tempZAxis = glm::rotateZ(tempZAxis, rotation.z);
+		tempZAxis = glm::normalize(tempZAxis);
+			
+
+		//if (tempYAxis != glm::vec3(0, 1, 0)) {
+		//	tempZAxis = glm::normalize(glm::cross(tempYAxis, glm::vec3(0, 1, 0)));
+		//	//this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(0, 1, 0)));
+		//}
+		//else {
+		//	tempZAxis = glm::normalize(glm::cross(tempYAxis, glm::vec3(1, 0, 0)));
+		//	//this->zAxis = glm::normalize(glm::cross(yAxis, glm::vec3(1, 0, 0)));
+		//}
+
+		//tempXAxis = glm::normalize(glm::cross(tempYAxis, tempZAxis));
+
+		//this->xAxis = glm::normalize(glm::cross(yAxis, zAxis));
 	}
 }
 
@@ -565,13 +633,13 @@ void LevelGizmo::addVariables(Debug * debug, Camera * camera, Inputs * input)
 }
 
 void LevelGizmo::createNewRays()
-{ 
+{
 	glm::vec3 ray_ndc, ray_world;
 	glm::vec4 ray_clip, ray_eye;
 	ray_ndc = glm::vec3((2.f*inputRef->getMousePos().x / WINDOW_WIDTH - 1.f),
 		1.f - (2.f*inputRef->getMousePos().y) / WINDOW_HEIGHT,
 		1.f);
-	
+
 	ray_clip = glm::vec4(ray_ndc.x, ray_ndc.y, -1.f, 1.f);
 	ray_eye = glm::inverse(this->cameraRef->getProjectionMatrix()) * ray_clip;
 	ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.f, 0.f);
@@ -601,7 +669,7 @@ void LevelGizmo::onSnapChange() {
 		if (shouldSnap) {
 			Transform* transformRef = actor->getComponent<LevelTransform>()->getTransformRef();
 			glm::vec3 tempPos = transformRef->getPos();
-			glm::vec3 newPos = glm::vec3((int)tempPos.x , (int)tempPos.y , (int)tempPos.z);
+			glm::vec3 newPos = glm::vec3((int)tempPos.x, (int)tempPos.y, (int)tempPos.z);
 			transformRef->setPos(newPos);
 
 			glm::vec3 tempRot = transformRef->getRotation();

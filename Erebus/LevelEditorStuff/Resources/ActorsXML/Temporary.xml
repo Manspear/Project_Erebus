@@ -1,12 +1,12 @@
-<LevelActor type="Empty" displayName="New" tileID="1" exportType="1">
+<LevelActor type="Empty" displayName="New (2)" tileID="2" exportType="1">
     <LevelPointLight>
         <Position x="0" y="0" z="0"/>
-        <Color x="0.8705883" y="0.627451" z="0"/>
-        <Radius r="100"/>
-        <Intensity i="1"/>
+        <Color x="0" y="0.91372555" z="1"/>
+        <Radius r="199"/>
+        <Intensity i="10"/>
     </LevelPointLight>
     <LevelTransform>
-        <Position x="96" y="40" z="222"/>
+        <Position x="500" y="102" z="198"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>
