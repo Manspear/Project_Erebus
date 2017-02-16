@@ -8,13 +8,11 @@ function CreateTumblethorns(entity)
 	spell.cooldown = 0.0		spell.maxcooldown = 4
 	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.lifeTime = SUNRAY_DURATION
 	spell.damage = 1
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 	spell.chargedTime = 0
 	spell.maxChargeTime = 3
 	spell.spin = 10.0		spell.rotation = {x = 0, y = 0, z = 0}
-	spell.originalPos = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
 		
@@ -41,7 +39,6 @@ function CreateTumblethorns(entity)
 				self.position.y = self.position.y + TUMBLETHORN_RADIUS
 			end
 			Transform.SetPosition(self.transformID, self.position)
-			self.lifeTime = self.lifeTime - dt
 			self.rotation.z = self.rotation.z - self.spin * dt
 			Transform.SetRotation(self.transformID, self.rotation)
 
@@ -82,7 +79,7 @@ function CreateTumblethorns(entity)
 		end
 	end
 
-	function spell:ChargeCast(entity)
+	function spell:ChargeCast()
 		if self.cooldown < 0.0 then
 		
 		end
@@ -101,14 +98,6 @@ function CreateTumblethorns(entity)
 
 	function spell:GetEffect()
 		return self.effects[1]
-	end
-
-	function spell:Aim()
-		
-	end
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
 	end
 
 	function spell:CheckColissions()
@@ -130,5 +119,6 @@ function CreateTumblethorns(entity)
 	end
 
 	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
+	spell.Change = BaseChange
 	return spell
 end

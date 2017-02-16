@@ -148,12 +148,6 @@ function CreateFireball(entity)
 		end
 	end
 
-	spell.Charge = BaseCharge
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
-	end
-
 	function spell:GetEffect()
 		return self.effects[1]
 	end
@@ -184,5 +178,7 @@ function CreateFireball(entity)
 		self.smallFB[index].alive = false 
 		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
+	spell.Charge = BaseCharge
+	spell.Change = BaseChange
 	return spell
 end

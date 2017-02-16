@@ -84,16 +84,6 @@ function CreatePolymorph(entity)
 		end
 	end
 
-	spell.Charge = BaseCharge
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
-	end
-
-	function spell:GetEffect()
-		return self.effects[1]
-	end
-
 	function spell:Combine(effect,damage)
 		if #self.effects < 2 then
 			table.insert(self.effects, effect)
@@ -110,5 +100,9 @@ function CreatePolymorph(entity)
 		self.chargedTime = 0
 		self.particles:die(self.position)
 	end
+	spell.Charge = BaseCharge
+	spell.Change = BaseChange
+	spell.GetEffect = BaseGetEffect
+
 	return spell
 end

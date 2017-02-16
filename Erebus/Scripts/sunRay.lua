@@ -18,7 +18,7 @@ function CreateSunRay(entity)
 	sunRay.spam = false
 	sunRay.alive = false
 	sunRay.isActiveSpell = false
-	sunRay.chargedTime = 0	sunRay.Charge = BaseCharge	sunRay.ChargeCast = BaseChargeCast	
+	sunRay.chargedTime = 0
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.75	sunRay.cameraSlow = 2.0
 	sunRay.maxChargeTime = 3
@@ -105,10 +105,6 @@ function CreateSunRay(entity)
 		self.owner.moveSpeed = self.owner.moveSpeed * self.moveImpairment 	
 	end
 
-	function sunRay:GetEffect()
-		return self.effects[1]
-	end
-
 	function sunRay:Blasting(dt)
 		self.startUpScale.x = self.startUpScale.x + self.shakeIt * dt
 		self.startUpScale.y = self.startUpScale.y + self.shakeIt * dt
@@ -162,13 +158,6 @@ function CreateSunRay(entity)
 		end
 	end
 
-	function sunRay:Aim()
-	end
-
-	function sunRay:Change()
-		self.isActiveSpell = not self.isActiveSpell
-	end
-
 	function sunRay:MoveWithPlayer(dt)
 		Gear.SetUniformValue(self.modelIndex, self.UVpushed, 0)
 		local direction = Transform.GetLookAt(self.caster)
@@ -196,5 +185,10 @@ function CreateSunRay(entity)
 			table.insert(self.effects, effect)
 		end
 	end
+
+	sunRay.ChargeCast = BaseChargeCast	
+	sunRay.Charge = BaseCharge
+	sunRay.Change = BaseChange
+	sunRay.GetEffect = BaseGetEffect
 	return sunRay
 end
