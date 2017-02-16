@@ -6,6 +6,11 @@ POLYMORPH_EFFECT_INDEX = 5
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
+ICE=0 --Used for spellCharging
+FIRE=1
+NATURE=2
+
+
 player = {}
 player2 = {}
 
@@ -31,6 +36,7 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 10
+	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -309,6 +315,7 @@ function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		player.isCombined = true
 		print("i got the D please senapi")
 	end
 end
@@ -327,6 +334,7 @@ function Controls(dt)
 			player.left = -player.moveSpeed
 		end
 		if Inputs.KeyDown("Q") then
+			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
 			Sound.Play("Effects/ping.wav", 1, player.position)
 			player.ping = player.pingDuration
 		end
@@ -368,13 +376,21 @@ function Controls(dt)
 		if not player.spamCasting then
 			if Inputs.ButtonDown(Buttons.Right) then
 				player.spells[player.currentSpell]:Charge(dt)
-				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
-				player.charging = true
+			sElement = player.spells[player.currentSpell].element
+			player.charger:ChargeMePlease(player.position,dt,sElement)
+
+			if player.isCombined == true then
+				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+				player.Charging = true
+				end
+			
+			
 			end
 
 			if Inputs.ButtonPressed(Buttons.Right) then 
 				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 				player.charger:StartCharge(player.position) 
+			
 			end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then
@@ -382,6 +398,7 @@ function Controls(dt)
 				player.spells[player.currentSpell]:ChargeCast(player)
 				player.charger:EndCharge()
 				player.charging = false
+				player.isCombined = false
 			end
 		end
 

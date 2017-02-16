@@ -27,10 +27,11 @@ GLuint createShader(GLuint shaderType, std::string fileContent, GLuint programID
 	{
 		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
-		std::vector<char> errorLog(maxLength);
+		char* errorLog = new char[maxLength];
 		glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 		glDeleteShader(shaderID);
 		std::printf("%s\n", &(errorLog[0]));
+		delete[] errorLog;
 	}
 
 	if (shaderType == GL_VERTEX_SHADER)

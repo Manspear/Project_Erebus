@@ -10,6 +10,7 @@ SUNRAY_HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateSunRay(entity)
 	local sunRay = {}
+	sunRay.element=FIRE
 	sunRay.type = CreateRayType()
 	sunRay.effects = {} 
 	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)
@@ -194,6 +195,12 @@ function CreateSunRay(entity)
 		theRotation.x =  theRotation.x + self.angle
 		Transform.SetRotation(self.type.transformID, theRotation)
 		Transform.SetLookAt(self.type.transformID, direction)
+	end
+	function sunRay:Combine(effect, damage)
+		if #self.effects < 2 then
+			self.damage = self.damage + 2 * damage
+			table.insert(self.effects, effect)
+		end
 	end
 	return sunRay
 end
