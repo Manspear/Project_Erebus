@@ -7,7 +7,7 @@ struct TransformHandle
 	int instanceIndex;
 	int modelIndex;
 	int transformIndex;
-	bool active;
+	bool active, vacant;
 
 	int prev, next;
 };
@@ -29,6 +29,7 @@ public:
 	int bindAnimatedInstance( ModelAsset* asset, Animation* animation );
 	int bindForwardInstance( ModelAsset* asset );
 	int bindBlendingInstance( ModelAsset* asset );
+	void unbindInstance( int index );
 
 	void activateTransform( int index );
 	void deactivateTransform( int index );
@@ -37,6 +38,7 @@ public:
 	TransformStruct* getTransform( int index );
 
 private:
+	int findVacantIndex();
 	int findModelIndex( int instanceIndex, ModelAsset* asset );
 
 	Gear::GearEngine* gearEngine;

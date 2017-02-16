@@ -35,6 +35,7 @@ namespace LuaGear
 	int bindAnimatedInstance( lua_State* lua );
 	int bindForwardInstance( lua_State* lua );
 	int bindBlendingInstance( lua_State* lua );
+	int unbindInstance( lua_State* lua );
 
 	int setQueueModels(lua_State* lua);
 	int setCursorVisible(lua_State* lua);

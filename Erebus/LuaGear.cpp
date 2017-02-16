@@ -47,6 +47,7 @@ namespace LuaGear
 			{ "BindAnimatedInstance", bindAnimatedInstance },
 			{ "BindForwardInstance", bindForwardInstance },
 			{ "BindBlendingInstance", bindBlendingInstance },
+			{ "UnbindInstance", unbindInstance },
 			{ "Print", print },
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
@@ -240,6 +241,17 @@ namespace LuaGear
 		lua_pushinteger(lua, result );
 
 		return 1;
+	}
+
+	int unbindInstance( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		int index = (int)lua_tointeger( lua, 1 );
+
+		g_transformHandler->unbindInstance( index );
+
+		return 0;
 	}
 
 	int print(lua_State* lua)

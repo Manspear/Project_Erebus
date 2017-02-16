@@ -59,13 +59,21 @@ ID5name.surrounding = { 1 }
 heightmaps[2] = ID5name
 ID5name = nil
 
+derpington = {}
+derpington.model = Assets.LoadModel( "Models/Goblin.model" )
+derpington.transformID = Gear.BindStaticInstance(derpington.model)
+print("We got ID: " .. derpington.transformID)
+hasTID = true
+Transform.SetPosition(derpington.transformID, {x=122, y=32, z=230})
+
 local ID6name = {}
 --ID6name.transformID = Transform.Bind()
 ID6name.collider = SphereCollider.Create(-1)
 ID6name.collider:SetRadius(2)
 ID6name.collider:SetPos(120,32,220)
 CollisionHandler.AddSphere(ID6name.collider, 4)
-ID6name.OnTrigger = function() Gear.Print(os.date(), 400, 400) end
+ID6name.OnEnter = function() if hasTID then Gear.UnbindInstance(derpington.transformID) hasTID = false else derpington.transformID = Gear.BindStaticInstance(derpington.model) hasTID = true print(derpington.transformID) end end
+ID6name.OnTrigger = function() end
 ID6name.triggered = false
 table.insert(triggers,ID6name)
 ID6name = nil

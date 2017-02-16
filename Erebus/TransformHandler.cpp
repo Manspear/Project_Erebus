@@ -38,8 +38,6 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 	if( modelIndex < 0 )
 	{
 		ModelInstance instance;
-		//instance.asset = asset;
-		//instance.activeTransforms = 0;
 		instance.setAsset(asset);
 
 		modelIndex = models->size();
@@ -48,12 +46,6 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 		lastIndices[INSTANCE_DYNAMIC].push_back( -1 );
 	}
 
-	//int transformIndex = models->at(modelIndex).transforms.size();
-	
-	//models->at(modelIndex).transforms.push_back( DEFAULT_TRANSFORM );
-	//models->at(modelIndex).worldMatrices.push_back( glm::mat4() );
-	//models->at(modelIndex).activeTransforms++;
-
 	int transformIndex = models->at(modelIndex).addStaticInstance(DEFAULT_TRANSFORM, glm::mat4());
 
 	TransformHandle handle =
@@ -61,19 +53,18 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 		INSTANCE_DYNAMIC,
 		modelIndex,
 		transformIndex,
-		//true
+		false,
 		false
 	};
 
-	int result = handles.size();
-	/*int lastIndex = lastIndices[INSTANCE_DYNAMIC].at(modelIndex);
-	handle.prev = lastIndex;
-	handle.next = -1;
-	if( lastIndex >= 0 )
-		handles.at(lastIndex).next = result;
-	lastIndices[INSTANCE_DYNAMIC].at(modelIndex) = result;*/
+	int result = findVacantIndex();
 
-	handles.push_back( handle );
+	if( result < 0 )
+	{
+		result = handles.size();
+		handles.push_back( handle );
+	}
+
 	activateTransform( result );
 
 	return result;
@@ -87,8 +78,6 @@ int TransformHandler::bindAnimatedInstance( ModelAsset* asset, Animation* animat
 	if( modelIndex < 0 )
 	{
 		ModelInstance instance;
-		//instance.asset = asset;
-		//instance.activeTransforms = 0;
 		instance.setAsset(asset);
 
 		modelIndex = models->size();
@@ -99,13 +88,6 @@ int TransformHandler::bindAnimatedInstance( ModelAsset* asset, Animation* animat
 
 	animation->setAsset( asset );
 
-	//int transformIndex = models->at(modelIndex).transforms.size();
-
-	//models->at(modelIndex).transforms.push_back( DEFAULT_TRANSFORM );
-	//models->at(modelIndex).worldMatrices.push_back( glm::mat4() );
-	//models->at(modelIndex).animations.push_back( animation );
-	//models->at(modelIndex).activeTransforms++;
-
 	int transformIndex = models->at(modelIndex).addAnimatedInstance(DEFAULT_TRANSFORM, glm::mat4(), animation);
 
 	TransformHandle handle =
@@ -113,19 +95,17 @@ int TransformHandler::bindAnimatedInstance( ModelAsset* asset, Animation* animat
 		INSTANCE_ANIMATED,
 		modelIndex,
 		transformIndex,
-		//true
+		false,
 		false
 	};
 
-	int result = handles.size();
-	/*int lastIndex = lastIndices[INSTANCE_ANIMATED].at(modelIndex);
-	handle.prev = lastIndex;
-	handle.next = -1;
-	if( lastIndex >= 0 )
-		handles.at(lastIndex).next = result;
-	lastIndices[INSTANCE_ANIMATED].at(modelIndex) = result;*/
+	int result = findVacantIndex();
+	if( result < 0 )
+	{
+		result = handles.size();
+		handles.push_back( handle );
+	}
 
-	handles.push_back( handle );
 	activateTransform( result );
 
 	return result;
@@ -139,8 +119,6 @@ int TransformHandler::bindForwardInstance( ModelAsset* asset )
 	if( modelIndex < 0 )
 	{
 		ModelInstance instance;
-		//instance.asset = asset;
-		//instance.activeTransforms = 0;
 		instance.setAsset(asset);
 	
 		modelIndex = models->size();
@@ -150,12 +128,6 @@ int TransformHandler::bindForwardInstance( ModelAsset* asset )
 		lastIndices[INSTANCE_FORWARD].push_back( -1 );
 	}
 
-	//int transformIndex = models->at(modelIndex).transforms.size();
-	
-	//models->at(modelIndex).transforms.push_back( DEFAULT_TRANSFORM );
-	//models->at(modelIndex).worldMatrices.push_back( glm::mat4() );
-	//models->at(modelIndex).activeTransforms++;
-
 	int transformIndex = models->at(modelIndex).addStaticInstance(DEFAULT_TRANSFORM, glm::mat4());
 	
 	TransformHandle handle =
@@ -163,19 +135,17 @@ int TransformHandler::bindForwardInstance( ModelAsset* asset )
 		INSTANCE_FORWARD,
 		modelIndex,
 		transformIndex,
-		//true
+		false,
 		false
 	};
 
-	int result = handles.size();
-	/*int lastIndex = lastIndices[INSTANCE_FORWARD].at(modelIndex);
-	handle.prev = lastIndex;
-	handle.next = -1;
-	if( lastIndex >= 0 )
-		handles.at(lastIndex).next = result;
-	lastIndices[INSTANCE_FORWARD].at(modelIndex) = result;*/
+	int result = findVacantIndex();
+	if( result < 0 )
+	{
+		result = handles.size();
+		handles.push_back( handle );
+	}
 
-	handles.push_back( handle );
 	activateTransform( result );
 
 	return result;
@@ -189,8 +159,6 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 	if( modelIndex < 0 )
 	{
 		ModelInstance instance;
-		//instance.asset = asset;
-		//instance.activeTransforms = 0;
 		instance.setAsset(asset);
 
 		modelIndex = models->size();
@@ -202,11 +170,6 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 		lastIndices[INSTANCE_BLENDING].push_back( -1 );
 	}
 
-	//int transformIndex = models->at(modelIndex).transforms.size();
-	//
-	//models->at(modelIndex).transforms.push_back( DEFAULT_TRANSFORM );
-	//models->at(modelIndex).worldMatrices.push_back( glm::mat4() );
-	//models->at(modelIndex).activeTransforms++;
 	gearEngine->textureBlend.at(modelIndex).modelIndex = modelIndex;
 	int transformIndex = models->at(modelIndex).addStaticInstance(DEFAULT_TRANSFORM, glm::mat4());
 
@@ -215,27 +178,33 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 		INSTANCE_BLENDING,
 		modelIndex,
 		transformIndex,
-		//true
+		false,
 		false
 	};
 
-	int result = handles.size();
-	/*int lastIndex = lastIndices[INSTANCE_BLENDING].at(modelIndex);
-	handle.prev = lastIndex;
-	handle.next = -1;
-	if( lastIndex >= 0 )
-		handles.at(lastIndex).next = result;
-	lastIndices[INSTANCE_BLENDING].at(modelIndex) = result;*/
+	int result = findVacantIndex();
+	if( result < 0 )
+	{
+		result = handles.size();
+		handles.push_back( handle );
+	}
 
-	handles.push_back( handle );
 	activateTransform( result );
 
 	return result;
 }
 
+void TransformHandler::unbindInstance( int index )
+{
+	assert( index >= 0 && index < handles.size() );
+
+	deactivateTransform( index );
+	handles[index].vacant = true;
+}
+
 void TransformHandler::activateTransform( int index )
 {
-	//assert( index >= 0 && index < handles.size() );
+	assert( index >= 0 && index < handles.size() );
 
 	TransformHandle& handle = handles.at(index);
 	std::vector<ModelInstance>* models = instances[handle.instanceIndex];
@@ -258,8 +227,6 @@ void TransformHandler::activateTransform( int index )
 
 		ahandle->transformIndex = models->at(handle.modelIndex).getActiveTransforms();
 		models->at(handle.modelIndex).incrActiveTransforms();
-
-		//assert( models->at(handle.modelIndex).activeTransforms <= models->at(handle.modelIndex).worldMatrices.size() );
 
 		handle.active = true;
 	}
@@ -298,9 +265,6 @@ void TransformHandler::deactivateTransform( int index )
 			if( bhandle )
 				bmatrix = instances[bhandle->instanceIndex]->at(bhandle->modelIndex).getWorldMatrix(bhandle->transformIndex);
 
-			//if( bhandle && bhandle->prev >= 0 )
-				//handles.at(bhandle->prev).next = a;
-
 			if( bhandle && bhandle->prev >= 0 )
 				handles.at(bhandle->prev).next = -1;
 
@@ -325,8 +289,6 @@ void TransformHandler::deactivateTransform( int index )
 		
 		handle.active = false;
 		instances[handle.instanceIndex]->at(handle.modelIndex).decrActiveTransforms();
-
-		//assert( instances[handle.instanceIndex]->at(handle.modelIndex).activeTransforms < instances[handle.instanceIndex]->at(handle.modelIndex).worldMatrices.size() );
 	}
 }
 
@@ -338,14 +300,21 @@ TransformHandle TransformHandler::getHandle( int index )
 
 TransformStruct* TransformHandler::getTransform( int index )
 {
-	//assert( index >= 0 && index < handles.size() );
+	assert( index >= 0 && index < handles.size() );
 	TransformHandle& handle = handles.at(index);
 
 	assert( handle.instanceIndex >= INSTANCE_DYNAMIC && handle.instanceIndex < MAX_INSTANCE_TYPES );
-	//assert( handle.modelIndex < instances[handle.instanceIndex]->size() );
-	//assert( handle.transformIndex < instances[handle.instanceIndex]->at(handle.modelIndex).transforms.size() );
 
 	return instances[handle.instanceIndex]->at(handle.modelIndex).getTransform(handle.transformIndex);
+}
+
+int TransformHandler::findVacantIndex()
+{
+	int result = -1;
+	for( int i=0; i<handles.size() && result < 0; i++ )
+		if( handles[i].vacant )
+			result = i;
+	return result;
 }
 
 int TransformHandler::findModelIndex( int instanceIndex, ModelAsset* asset )
