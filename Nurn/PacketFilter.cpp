@@ -134,22 +134,30 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 
 #ifdef DEBUGGING_NETWORK
 				case PING_PACKET:
+					this->debugNetwork_ptr->end_time = std::chrono::system_clock::now();
+
 					// Copy the PingPacket data to the PingPacket in DebugNetwork
 					memcpy(&this->debugNetwork_ptr->getPingPacket(), memoryPointer + bytesRead, sizeof(PingPacket));
 
 					if (this->debugNetwork_ptr->getPingPacket().data.loopNumber == 1)
 					{
 						// On Client
+						//printf("Ping on client: %f", this->debugNetwork_ptr->getPing());
+
 						this->debugNetwork_ptr->getPingPacket().data.loopNumber--;
 					}
 					else
 					{
 						// On Host
+						//printf("Ping on host: %f", this->debugNetwork_ptr->getPing());
+
 						this->debugNetwork_ptr->getPingPacket().data.loopNumber++;
 					}
 
 					// Send PingPacket back to the other player
-					this->debugNetwork_ptr->setTimeToSendPingPacket(true);
+					//printf("      loopNumber: %d\n", this->debugNetwork_ptr->getPingPacket().data.loopNumber);
+					this->debugNetwork_ptr->setSendPingPacket(true);
+
 
 					break;
 #endif

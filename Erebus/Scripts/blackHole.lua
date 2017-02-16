@@ -13,6 +13,7 @@ BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.wav", "Effects/Bluezone-BC0212-ambie
 
 function CreateBlackHole(entity)
 	local spell = {}
+	spell.element = NATURE
 	spell.type = CreateStaticAoEType()
 	spell.innerTransformID = Transform.Bind()
 	spell.owner = entity
