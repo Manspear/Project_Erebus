@@ -70,9 +70,12 @@ void updateAnimation( void* args )
 DWORD WINAPI update( LPVOID args )
 {
 	ThreadData* data = (ThreadData*)args;
-
-	CollisionHandler collisionHandler = CollisionHandler(10);
 	Transform* transforms = new Transform[MAX_TRANSFORMS];
+
+	CollisionHandler collisionHandler = CollisionHandler(10); // Collision stuff init
+	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler); 
+	CollisionUpdater collisionUpdater(&collisionHandler, transforms);
+	
 	int boundTransforms = 0;
 	int boundAnimations = 0;
 	AGI::AGIEngine ai;
@@ -104,7 +107,7 @@ DWORD WINAPI update( LPVOID args )
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
+	luaBinds.load( data->engine, data->assets, &collisionHandler, &collisionsDraw, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
 		data->models, data->animatedModels, data->forwardModels, data->blendingModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
 		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
@@ -112,8 +115,7 @@ DWORD WINAPI update( LPVOID args )
 	for( int i=0; i<MAX_ANIMATIONS; i++ )
 		animationData[i].animation = &data->allAnimations[i];
 
-	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance()); // TESTING
-	CollisionUpdater updater(&collisionHandler, transforms);
+
 	while( data->running )
 	{
 		glm::vec3 cameraPosition = data->camera->getPosition();
@@ -134,9 +136,9 @@ DWORD WINAPI update( LPVOID args )
 			for (int i = 0; i<data->particleEmitters->size(); i++)
 				data->particleEmitters->at(i)->update((float)deltaTime);
 
-			updater.update();
+			collisionUpdater.update();
 			collisionHandler.checkCollisions();
-			collisionsDraw.draw(&collisionHandler); // TESTING
+			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
 			
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 

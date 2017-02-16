@@ -6,12 +6,16 @@ CollisionsDraw::CollisionsDraw()
 {
 	this->debugger = nullptr;
 	this->initializeColors();
+	this->drawThisFrameBool = false;
+	this->collisionHandler = nullptr;
 }
 
-CollisionsDraw::CollisionsDraw(Debug * debugger)
+CollisionsDraw::CollisionsDraw(Debug * debugger, Collisions::CollisionHandler* collisionHandler)
 {
 	this->debugger = debugger;
 	this->initializeColors();
+	this->drawThisFrameBool = false;
+	this->collisionHandler = collisionHandler;
 }
 
 
@@ -28,6 +32,11 @@ void CollisionsDraw::setDefaultColor(const glm::vec3 & color)
 void CollisionsDraw::setDeactivatedColor(const glm::vec3 & color)
 {
 	this->deactivatedColor = color;
+}
+
+void CollisionsDraw::drawThisFrame()
+{
+	this->drawThisFrameBool = true;
 }
 
 void CollisionsDraw::draw(Collisions::CollisionHandler * collisionHandler)
@@ -64,7 +73,7 @@ void CollisionsDraw::draw(Collisions::CollisionHandler * collisionHandler)
 			if (temp->isActive())
 				recursiveDraw(temp, this->colors[i]);
 			else
-			
+
 				recursiveDraw(temp, deactivatedColor);
 		}
 		for (size_t j = 0; j < tempObbColliders->size(); j++)
@@ -85,11 +94,77 @@ void CollisionsDraw::draw(Collisions::CollisionHandler * collisionHandler)
 				debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
 		}
 	}
+	this->drawThisFrameBool = false;
+
+}
+
+void CollisionsDraw::draw()
+{
+	using namespace Collisions;
+	if (this->collisionHandler != nullptr)
+	{
+		if (this->drawThisFrameBool)
+		{
+			CollisionLayers* collisionLayers = this->collisionHandler->getCollisionLayers();
+
+			std::vector<SphereCollider*>* tempSphereColliders;
+			std::vector<AABBCollider*>* tempAabbColliders;
+			std::vector<OBBCollider*>* tempObbColliders;
+			std::vector<RayCollider*>* tempRayColliders;
+			SphereCollider* tempSphere = nullptr;
+			const glm::vec3 deactivatedColor(0, 0, 0);
+			for (unsigned int i = 0; i < collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
+			{
+				tempSphereColliders = collisionLayers->getSphereColliders(i);
+				tempAabbColliders = collisionLayers->getAABBColliders(i);
+				tempObbColliders = collisionLayers->getOBBColliders(i);
+				tempRayColliders = collisionLayers->getRayColliders(i);
+
+				for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
+				{
+					SphereCollider* temp = tempSphereColliders->operator[](j);
+					if (temp->isActive())
+						recursiveDraw(temp, this->colors[i]);
+					else
+						recursiveDraw(temp, deactivatedColor);
+				}
+
+				for (size_t j = 0; j < tempAabbColliders->size(); j++)
+				{
+					AABBCollider* temp = tempAabbColliders->operator[](j);
+					if (temp->isActive())
+						recursiveDraw(temp, this->colors[i]);
+					else
+
+						recursiveDraw(temp, deactivatedColor);
+				}
+				for (size_t j = 0; j < tempObbColliders->size(); j++)
+				{
+					OBBCollider* temp = tempObbColliders->operator[](j);
+					if (temp->isActive())
+						recursiveDraw(temp, this->colors[i]);
+					else
+						recursiveDraw(temp, deactivatedColor);
+				}
+
+				for (size_t j = 0; j < tempRayColliders->size(); j++)
+				{
+					RayCollider* temp = tempRayColliders->operator[](j);
+					if (temp->isActive())
+						debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
+					else
+						debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
+				}
+			}
+			this->drawThisFrameBool = false;
+		}
+
+	}
 }
 
 void CollisionsDraw::draw(Collisions::AABBCollider * aabb)
 {
-	this->recursiveDraw(aabb,this->defaultColor);
+	this->recursiveDraw(aabb, this->defaultColor);
 }
 
 void CollisionsDraw::draw(Collisions::SphereCollider * sphere)
