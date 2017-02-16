@@ -6,6 +6,11 @@ POLYMORPH_EFFECT_INDEX = 5
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
+ICE=0 --Used for spellCharging
+FIRE=1
+NATURE=2
+
+
 player = {}
 player2 = {}
 
@@ -31,6 +36,7 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 10
+	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
 	player.left = 0
@@ -267,6 +273,7 @@ function UpdatePlayer(dt)
 		if player.dashtime < 0 then
 			player.invulnerable = false
 			Transform.SetScale(player.transformID, 1)
+			Network.SendDashPacket(1, false)
 		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
@@ -309,6 +316,7 @@ function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		player.isCombined = true
 		print("i got the D please senapi")
 	end
 end
@@ -351,10 +359,12 @@ function Controls(dt)
 
 		if not player.charging then
 			if Inputs.ButtonDown(Buttons.Left) then
+				player.charger:EndCharge()
 				player.spamCasting = true
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
 				player.spells[player.currentSpell]:Cast(player, 0.5, false)
+				
 			end
 
 			if Inputs.ButtonReleased(Buttons.Left) then
@@ -369,13 +379,22 @@ function Controls(dt)
 		if not player.spamCasting then
 			if Inputs.ButtonDown(Buttons.Right) then
 				player.spells[player.currentSpell]:Charge(dt)
-				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime)
-				player.charging = true
+			sElement = player.spells[player.currentSpell].element
+			
+			
+			if player.isCombined == true then
+				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+				player.Charging = true
+			else
+				player.charger:ChargeMePlease(player.position,dt,sElement)
+			end
+			
 			end
 
 			if Inputs.ButtonPressed(Buttons.Right) then 
 				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 				player.charger:StartCharge(player.position) 
+			
 			end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then
@@ -383,6 +402,7 @@ function Controls(dt)
 				player.spells[player.currentSpell]:ChargeCast(player)
 				player.charger:EndCharge()
 				player.charging = false
+				player.isCombined = false
 			end
 		end
 
@@ -393,6 +413,7 @@ function Controls(dt)
 			player.dashdir.z = player.left * 3.5
 			player.dashtime = DASH_DURATION
 			player.invulnerable = true
+			Network.SendDashPacket(0, true)
 		end
 end
 
@@ -468,6 +489,12 @@ function UpdatePlayer2(dt)
 	local newQuickBlendValue, quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment = Network.GetQuickBlendPacket()
 	if newQuickBlendValue == true then
 		player2.animationController:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+	end
+
+	local newDashValue, setScaleVal, invulnerableVal = Network.GetDashPacket()
+	if newDashValue == true then
+		Transform.SetScale(player2.transformID, setScaleVal)
+		player.invulnerable = invulnerableVal
 	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()

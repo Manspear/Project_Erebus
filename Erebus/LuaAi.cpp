@@ -9,7 +9,7 @@ namespace LuaAI
 	static Assets* g_assets = nullptr;
 
 	static HeightMap ** heightMaps = nullptr;
-	//static int nrOfHM;
+	static int nrOfHM = 0;
 
 	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI, Assets* assets)
 	{
@@ -44,6 +44,34 @@ namespace LuaAI
 		lua_setfield(L, -2, "__index");
 		//int n = lua_gettop(L);
 		lua_setglobal(L, "AI");
+	}
+
+	void printStack(lua_State* lua) {
+		int i;
+		int top = lua_gettop(lua);
+
+		printf("total in stack %d\n", top);
+
+		for (i = 1; i <= top; i++)
+		{  /* repeat for each level */
+			int t = lua_type(lua, i);
+			switch (t) {
+			case LUA_TSTRING:  /* strings */
+				printf("%d. string: '%s'\n", i, lua_tostring(lua, i));
+				break;
+			case LUA_TBOOLEAN:  /* booleans */
+				printf("%d. boolean %s\n", i, lua_toboolean(lua, i) ? "true" : "false");
+				break;
+			case LUA_TNUMBER:  /* numbers */
+				printf("%d. number: %g\n", i, lua_tonumber(lua, i));
+				break;
+			default:  /* other values */
+				printf("%d. %s\n", i, lua_typename(lua, t));
+				break;
+			}
+			printf("  ");  /* put a separator */
+		}
+		printf("\n");  /* end the listing */
 	}
 
 	int followPlayer(lua_State * lua)
@@ -189,8 +217,11 @@ namespace LuaAI
 	{
 		if (lua_gettop(lua) >= 1)
 		{
-			std::cout << lua_tointeger(lua, 1);
-			heightMaps = new HeightMap*[lua_tointeger(lua, 1)];
+			int num = lua_tointeger(lua, 1);
+			//std::cout << lua_tointeger(lua, 1);
+			//printf("Num heightmaps: %d", num);
+			//heightMaps = new HeightMap*[lua_tointeger(lua, 1)];
+			heightMaps = new HeightMap*[num];
 			//nrOfHM = lua_tointeger(lua, 1);
 		}
 		return 0;
@@ -201,10 +232,10 @@ namespace LuaAI
 		if (lua_gettop(lua) >= 2)
 		{
 			//heightMaps[0] = g_assets->load<HeightMap>(lua_tostring(lua, 1));
-			
+			//printStack(lua);
 			lua_getfield(lua, 1, "__self");
-			std::cout << lua_tointeger(lua, 2);
-			heightMaps[lua_tointeger(lua,2)] = (HeightMap*)lua_touserdata(lua, -1);
+			int num = lua_tointeger(lua, 2);
+			heightMaps[num-1] = (HeightMap*)lua_touserdata(lua, -1);
 			//	AI->createInfluenceMap(heightmaps,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 		}
 		return 0;
@@ -358,8 +389,8 @@ namespace LuaAI
 	}
 	int unload(lua_State * lua)
 	{
-		//delete []heightMaps;
 
+		delete[]heightMaps;
 		return 0;
 	}
 	int draw(lua_State * lua)
