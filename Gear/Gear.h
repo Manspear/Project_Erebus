@@ -60,7 +60,7 @@ namespace Gear
 		GEAR_API void queueRemoveLights(Lights::PointLight* lights);
 		GEAR_API void queueTextureBlendings(std::vector<ModelInstance>* blendingModels);
 		GEAR_API void draw(Camera* camera);
-		GEAR_API void update();
+		GEAR_API void update(float dt);
 
 		GEAR_API void addLight();
 		GEAR_API void updateLight();

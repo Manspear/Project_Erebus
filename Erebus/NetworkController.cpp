@@ -250,6 +250,16 @@ bool NetworkController::fetchAIHealthPacket(AIHealthPacket& packet)
 	return network.fetchAIHealthPacket(packet);
 }
 
+void NetworkController::sendDashPacket(const DashPacket& packet)
+{
+	network.pushDashPacket(packet);
+}
+
+bool NetworkController::fetchDashPacket(DashPacket& packet)
+{
+	return network.fetchDashPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

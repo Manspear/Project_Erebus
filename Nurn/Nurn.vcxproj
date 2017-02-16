@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DashPacket.hpp" />
     <ClInclude Include="AIHealthPacket.hpp" />
     <ClInclude Include="DebugNetwork.hpp" />
     <ClInclude Include="EventPacket.hpp" />

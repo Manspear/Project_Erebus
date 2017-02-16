@@ -294,7 +294,7 @@ int main()
 				fullscreen = threadData.fullscreen;
 			}
 
-			engine.update();
+			engine.update(deltaTime);
 			soundEngine.update(deltaTime);
 			camera.updateBuffer();
 
