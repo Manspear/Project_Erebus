@@ -84,15 +84,18 @@ function CreateSiphon(entity)
 	function spell:rotatetoowner()
 		local direction = Transform.GetLookAt(self.owner.transformID)
 		local pos = Transform.GetPosition(self.owner.transformID)
-		pos.x = pos.x + direction.x * self.length/2 
-		pos.y = pos.y + direction.y * self.length/2
-		pos.z = pos.z + direction.z * self.length/2
+		--pos.x = pos.x + direction.x * self.length/2 
+		--pos.y = pos.y + direction.y * self.length/2
+		--pos.z = pos.z + direction.z * self.length/2
 		Transform.SetPosition(self.transformID, pos)
 		
 		local oobpos = {x=0,y=0,z=0}
-		oobpos.x = direction.x * (SIPHON_HITBOX_LENGTH - self.length/2)
-		oobpos.y = direction.y * (SIPHON_HITBOX_LENGTH - self.length/2)
-		oobpos.z =  direction.z * (SIPHON_HITBOX_LENGTH - self.length/2)
+		oobpos.x = direction.x * (SIPHON_HITBOX_LENGTH )
+		oobpos.y = direction.y * (SIPHON_HITBOX_LENGTH )
+		oobpos.z =  direction.z * (SIPHON_HITBOX_LENGTH )
+		--local xoffset = self.length/2 * direction.x
+		--local yoffset = self.length/2 * direction.y
+		--local zoffset = self.length/2 * direction.z
 		OBBCollider.SetXAxis(self.collider, direction.x, direction.y, direction.z)
 		OBBCollider.SetOffset(self.collider, oobpos.x, oobpos.y, oobpos.z)
 		--[[local theRotation = Transform.GetRotation(self.owner.transformID) 
@@ -105,16 +108,18 @@ function CreateSiphon(entity)
 			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), Transform.GetPosition(self.chained.transformID))
 			self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.chained.transformID)
 			local pos = Transform.GetPosition(self.owner.transformID)
-			pos.x = pos.x + direction.x * self.length/2 
-			pos.y = pos.y + direction.y * self.length/2
-			pos.z = pos.z + direction.z * self.length/2
-
-			OBBCollider.SetOffset(self.collider, 0, 0, 0)
+			--pos.x = pos.x + direction.x * self.length/2 
+			--pos.y = pos.y + direction.y * self.length/2
+			--pos.z = pos.z + direction.z * self.length/2
+			local xoffset = self.length/2 * direction.x
+			local yoffset = self.length/2 * direction.y
+			local zoffset = self.length/2 * direction.z
+			OBBCollider.SetOffset(self.collider, xoffset, yoffset, zoffset)
 
 			Transform.SetPosition(self.transformID, pos)
 			Transform.RotateToVector(self.transformID, direction)
 			OBBCollider.SetXAxis(self.collider, direction.x, direction.y, direction.z)
-			Transform.SetScaleNonUniform(self.transformID, 1, 1, self.length/(SUNRAY_HALF_LENGTH*2))
+			Transform.SetScaleNonUniform(self.transformID,  2, 2, self.length/1.6)
 		end
 	end
 	function spell:Update(dt)
@@ -132,7 +137,7 @@ function CreateSiphon(entity)
 					self.interval = SIPHON_DAMAGE_INTERVAL
 				end
 				self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, hit.transformID)
-				Transform.SetScaleNonUniform(self.transformID, 1, 1, self.length/(SUNRAY_HALF_LENGTH*2))
+				Transform.SetScaleNonUniform(self.transformID, 2, 2, self.length/1.6)
 			else
 				Transform.ActiveControl(self.transformID, false)
 			end
@@ -143,7 +148,7 @@ function CreateSiphon(entity)
 		end
 		if self.chained then
 			self:rotatetotarget()
-			OBBCollider.SetSize(self.collider, self.length/2, 1, 1)
+			OBBCollider.SetSize(self.collider, self.length/2, 1, 1)	
 			self.duration = self.duration - dt
 			self.chaininterval = self.chaininterval - dt
 			if self.chaininterval < 0 then
@@ -151,7 +156,6 @@ function CreateSiphon(entity)
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
 						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-							print("I just hurt enemy: " .. enemies[curEnemy].transformID)
 							enemies[curEnemy]:Hurt(self.damage, self.owner)
 							for i = 1, #self.effects do
 								local effect = effectTable[self.effects[i]](self.owner, 3)
