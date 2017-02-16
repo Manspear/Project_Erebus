@@ -57,13 +57,16 @@ function CreateEnemy(type, position)
 		local pos = Transform.GetPosition(self.transformID)
 
 		if source ~= player2 then
-			if Network.GetNetworkHost() == true then
+			if Network.GetNetworkHost() == true and self.alive == true then
 				self.health = self.health - damage
-				--print("HP before damage:", self.health+damage, "Taking damage:", damage)
+				if(self.health < 0) then
+					self.health = 0
+				end
+				--print("ID:", self.transformID, "Sending new health:", self.health)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
-				if self.health <= 0 then
+				if self.health == 0 then
 					--print("Dead for host", enemies[i].transformID)
 					self:Kill()
 				end
@@ -80,7 +83,7 @@ function CreateEnemy(type, position)
 		local pos = Transform.GetPosition(self.transformID)
 
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
-		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 3, pos) end
+		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 		
 		self.health = 0
 		self.alive = false
@@ -280,19 +283,40 @@ function UpdateEnemies(dt)
 		end
 
 	else
-		-- Run client_AI script
+
+		-- Update Client_AI health
+		local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
+
+		while newAIHealthVal == true do
+			for i=1, #enemies do
+				if newAIHealthVal == true and enemies[i].transformID == aiHealth_transformID then
+					--print("ID:", enemies[i].transformID, "Received new health:", aiHealth_health)
+					enemies[i].health = aiHealth_health
+					break
+				end
+			end
+			newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
+		end
+
+		-- Upate Client_AI state
+		local newAIStateValue, aiState_transformID, aiState = Network.GetAIStatePacket()
+	
+		while newAIStateValue == true do
+			for i=1, #enemies do
+				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
+					clientAIScript.getAIStatePacket(enemies[i], player, aiState_transformID, aiState)
+					break
+				end
+			end
+			newAIStateValue, aiState_transformID, aiState = Network.GetAIStatePacket()
+		end			
+
+
+
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
 			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 			tempdt = dt * enemies[i].timeScalar
-
-			local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
-
-			-- Update Client_AI health
-			if newAIHealthVal == true and enemies[i].transformID == aiHealth_transformID then
-				--print("HP before damage:", enemies[i].health, "Taking damage:", enemies[i].health - aiHealth_health)
-				enemies[i].health = aiHealth_health
-			end
 
 			if enemies[i].currentHealth > enemies[i].health then
 				enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
@@ -310,7 +334,6 @@ function UpdateEnemies(dt)
 	
 				-- Retrieve packets from host
 				clientAIScript.getAITransformPacket()
-				clientAIScript.getAIStatePacket(enemies[i], player)
 	
 				enemies[i].state.update(enemies[i], player, dt)
 				

@@ -55,6 +55,13 @@ void RenderQueue::init()
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.direction");
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.color");
 
+	for (int i = 0; i < 10; i++)
+	{
+		allShaders[ShaderType::LIGHT_PASS]->addUniform("dynamicLights[" + std::to_string(i) + "].pos");
+		allShaders[ShaderType::LIGHT_PASS]->addUniform("dynamicLights[" + std::to_string(i) + "].color");
+		allShaders[ShaderType::LIGHT_PASS]->addUniform("dynamicLights[" + std::to_string(i) + "].radius");
+	}
+
 	allShaders[ShaderType::BLUR] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
 
 	glGenBuffers(1, &particleBuffer);
