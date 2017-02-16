@@ -317,7 +317,6 @@ function GetCombined()
 	local combine, effectIndex, damage = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
-		print("fuckYes")
 		player.isCombined = true
 	end
 end
@@ -390,7 +389,7 @@ function Controls(dt)
 			player.spells[player.currentSpell]:ChargeCast(player)
 			player.charger:EndCharge()
 			player.charging = false
-			player.isCombined = true --change here
+			player.isCombined = false
 		end
 		--[[if Inputs.KeyPressed("N") then
 			ZoomInCamera()
