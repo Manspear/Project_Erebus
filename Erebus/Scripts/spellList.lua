@@ -68,6 +68,12 @@ function LoadSpellbook()
 	}
 	table.insert(SpellList, tumblethorns)
 
+	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
+					info = wrap("'Jag har aldrig slutat tro, att efter varje natt vantar gryningen. Fast jag inte kan forsta, sa finns det hopp anda, nar vi borjar om igen! Kanner doften av en stilla ocean. Plotsligt star jag i en levande orkan!!!'", 30, "",""),
+					spell = CreateWindknockback(player)
+	}
+	table.insert(SpellList, windknockback)
+
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
 end

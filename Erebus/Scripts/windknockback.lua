@@ -1,10 +1,9 @@
-WINDKNOCKBACL_TEXTURE = Assets.LoadTexture("Textures/tumblethorns.png")
-TUMBLETHORNS_COOLDOWN = 4
-
-function CreateTumblethorns(entity)
+WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/windknockback.png")
+WINDKNOCKBACK_COOLDOWN = 2
+function CreateWindknockback(entity)
 	local spell = {}
 	spell.cooldown = 0.0		spell.maxcooldown = 4
-	spell.hudtexture = WINDKNOCKBACL_TEXTURE
+	spell.hudtexture = WINDKNOCKBACK_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 1
 	spell.alive = false
@@ -20,23 +19,43 @@ function CreateTumblethorns(entity)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
 	spell.effects = {} 
-	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
+	table.insert(spell.effects, KNOCKBACK_EFFECT_INDEX)
 
 	function spell:Update(dt)
 		if self.alive then
-			
+			self:CheckCollisions()	
 		end
+		self.cooldown = self.cooldown - dt
 	end
 	
 	function spell:Cast()
 		if self.cooldown < 0.0 then
-			
+			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
+			self.alive = true
+			Transform.SetPosFromTransformID(self.transformID, self.caster)
+			local direction = Transform.GetLookAt(self.caster)
+			SphereCollider.SetActive(spell.sphereCollider, true)
 		end
 	end
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 then
 		
+		end
+	end
+
+	function spell:CheckCollisions()
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()
+		for curID = 1, #collisionIDs do
+			for curEnemy=1, #enemies do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					enemies[curEnemy]:Hurt(self.damage, self.owner)
+					for stuff = 1, #self.effects do
+						local effect = effectTable[self.effects[stuff]](3)
+						enemies[curEnemy]:Apply(effect)
+					end
+				end
+			end
 		end
 	end
 
@@ -57,4 +76,6 @@ function CreateTumblethorns(entity)
 	end
 
 	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
-return spell
+	spell.Change = BaseChange
+	return spell
+end

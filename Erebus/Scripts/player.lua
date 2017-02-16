@@ -3,6 +3,7 @@ TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
 LIFE_STEAL_EFFECT_INDEX = 4
 POLYMORPH_EFFECT_INDEX = 5
+KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
@@ -21,6 +22,7 @@ function LoadPlayer()
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	effectTable[LIFE_STEAL_EFFECT_INDEX] = CreateLifeStealEffect
 	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
+	effectTable[KNOCKBACK_EFFECT_INDEX] = CreateKnockbackEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()

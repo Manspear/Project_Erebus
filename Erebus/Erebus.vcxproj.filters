@@ -503,11 +503,14 @@
     <None Include="Scripts\level01.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\natureEffect.lua">
-      <Filter>Scripts\effects</Filter>
-    </None>
     <None Include="Scripts\windknockback.lua">
       <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\knockbackEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\lifeStealEffect.lua">
+      <Filter>Scripts\effects</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

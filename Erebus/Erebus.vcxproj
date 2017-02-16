@@ -204,7 +204,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\level01.lua" />
-    <None Include="Scripts\natureEffect.lua" />
+    <None Include="Scripts\knockbackEffect.lua" />
+    <None Include="Scripts\lifeStealEffect.lua" />
     <None Include="Scripts\polymorph.lua" />
     <None Include="Scripts\polymorphEffect.lua" />
     <None Include="Scripts\spellUtility.lua" />
