@@ -9,6 +9,7 @@ BLACK_HOLE_WHOBLE_INTERVAL = 0.5
 BLACK_HOLE_COOLDOWN = 6
 BLACK_HOLE_PULL_SPEED = 1
 BLACK_HOLE_SPIN_SPEED = 3.14/1
+BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.wav", "Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
 
 function CreateBlackHole(entity)
 	local spell = {}
@@ -27,8 +28,7 @@ function CreateBlackHole(entity)
 	spell.hits = {}
 	spell.alive = false
 	spell.cooldown = 0
-	spell.castSFX = {"Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
-	spell.soundID = {}
+	spell.soundID = {-1, -1, -1}
 	spell.Change = GenericChange
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
@@ -59,8 +59,11 @@ function CreateBlackHole(entity)
 			--entity.moveSpeed = entity.moveSpeed * BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 			self.alive = true
 			self.cooldown = BLACK_HOLE_COOLDOWN
-			for i = 1, #self.castSFX do
-				self.soundID[i] = Sound.Play(self.castSFX[i], 7, pos)
+			for i = 1, #BLACK_HOLE_CAST_SFX do
+				if self.soundID[i] ~= -1 then
+					Sound.Fade(self.soundID[i], 1)
+				end
+				self.soundID[i] = Sound.Play(BLACK_HOLE_CAST_SFX[i], 7, pos)
 				--Sound.SetVolume(self.soundID[i], 0.1)
 			end
 		end
@@ -106,8 +109,9 @@ function CreateBlackHole(entity)
 	end
 
 	function spell:Kill()
-		for i = 1, #self.soundID do
-			Sound.Fade(self.soundID[i], 3)
+		for i = 1, #BLACK_HOLE_CAST_SFX do
+			Sound.Fade(self.soundID[i], 1)
+			self.soundID[i] = -1
 		end
 		self.type:Kill()
 		self.hits = {}

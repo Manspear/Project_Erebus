@@ -9,6 +9,8 @@ MIN_FALLOFF_ICENADE = 1
 MAX_FALLOFF_ICENADE = 2 - MIN_FALLOFF_ICENADE
 SPAM_CD_ICENADE = 0.3
 SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
+ICEGRENADE_CAST_SFX = "Effects/burn_ice_001.wav"
+ICEGRENADE_HIT_SFX = "Effects/Ice_impact_lite_02.wav"
 
 function CreateIceGrenade(entity)
 	
@@ -41,8 +43,6 @@ function CreateIceGrenade(entity)
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.damage = MAX_DAMAGE_ICENADE
-	spell.castSFX = "Effects/burn_ice_001.wav"
-	spell.hitSFX = "Effects/Ice_impact_lite_02.wav"
 	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.timeSinceLastPoop = 0
@@ -76,7 +76,7 @@ function CreateIceGrenade(entity)
 					self.nades[i].alive = true
 					self.nades[i].particles.cast()
 					self.cooldown = self.spamcd
-					self.nades[i].soundID = Sound.Play(self.castSFX, 3, pos)
+					self.nades[i].soundID = Sound.Play(ICEGRENADE_CAST_SFX, 3, pos)
 					break
 				end
 			end
@@ -99,7 +99,7 @@ function CreateIceGrenade(entity)
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 
 						Transform.ActiveControl(self.nades[i].type.transformID, false)
-						Sound.Play(self.hitSFX, 3, self.nades[i].type.position) 
+						Sound.Play(ICEGRENADE_HIT_SFX, 3, self.nades[i].type.position) 
 						Sound.Stop(self.nades[i].soundID)
 					end
 				else

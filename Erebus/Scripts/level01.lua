@@ -76,6 +76,10 @@ CollisionHandler.SetLayerCollision(2,4,false);
 CollisionHandler.SetLayerCollision(3,4,false);
 CollisionHandler.SetLayerCollision(4,4,false);
 
+sid = Sound.Play("Music/Area1.ogg", 48)
+Sound.SetVolume(sid, 0.06)
+Sound.Resume(sid)
+
 --TEMP: This should probably not be hardcoded into every level?
 AI.CreateHM(#heightmaps)
 for i=1, #heightmaps do
