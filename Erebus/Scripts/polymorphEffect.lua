@@ -22,10 +22,8 @@ function CreatePolyEffect(duration)
 	end
 
 	function effect:Deapply(entity)
-		Transform.SetScale(entity.transformID, 1)
-		Transform.SetPosition(self.polymorphTransform, {x = 0, y = 0, z = 0})		
+		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
-
 		entity.SetState(entity,"FollowState")
 	end
 

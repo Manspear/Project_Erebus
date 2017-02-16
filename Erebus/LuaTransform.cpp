@@ -148,6 +148,8 @@ namespace LuaTransform
 		bool active = lua_toboolean(lua, 2) != 0;
 
 		g_transforms[index].setActive( active);
+		if (!active)
+			g_transforms[index].setPos({ 0, 0, 0 });
 
 		return 0;
 	}

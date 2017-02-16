@@ -103,7 +103,6 @@ function CreatePolymorph(entity)
 
 	function spell:Kill()
 		Transform.ActiveControl(self.transformID, false)
-		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 		SphereCollider.SetActive(self.sphereCollider, false)
 		self.cooldown = POLYMORPH_COOLDOWN
 		self.lifeTime = POLYMORPH_LIFETIME

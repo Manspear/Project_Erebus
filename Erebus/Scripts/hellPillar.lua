@@ -4,7 +4,7 @@ BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_BIG_PILLAR = 5
-COOLDOWN_SMALL_PILLAR = 3
+COOLDOWN_SMALL_PILLAR = 2.0
 PILLAR_SFX = "Effects/explosion.wav"
 HIT_SFX = "Effects/burn_ice_001.wav"
 
@@ -157,7 +157,6 @@ function CreateHellPillar(entity)
 		if self.finishingTime < 0 then
 			self.aliveCharged = false 
 			Transform.ActiveControl(self.transformID, false)
-			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
 			self.blendValue1.x, self.blendValue1.y = 0, 0
 			self.blendValue2.x, self.blendValue2.y = 0, 0
 			self.riseFactor = 0.1
@@ -182,7 +181,6 @@ function CreateHellPillar(entity)
 			
 			else
 				Transform.ActiveControl(self.firstModel, false)
-				Transform.SetPosition(self.firstModel, {x=0,y=0,z=0})
 				self.growAgain = false
 			end
 		end	
