@@ -58,6 +58,9 @@ public:
 	void sendAIHealthPacket(const AIHealthPacket& packet);
 	bool fetchAIHealthPacket(AIHealthPacket& packet);
 
+	void sendDashPacket(const DashPacket& packet);
+	bool fetchDashPacket(DashPacket& packet);
+
 
 private:
 	void startNetworkSending();

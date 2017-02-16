@@ -15,6 +15,7 @@
 #include "ChangeSpellsPacket.hpp"
 #include "EventPacket.hpp"
 #include "AIHealthPacket.hpp"
+#include "DashPacket.hpp"
 
 #ifdef DEBUGGING_NETWORK
 #include "PingPacket.hpp"
@@ -48,6 +49,7 @@ public:
 	void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
 	void pushPlayerEventPacket(const EventPacket& packet);
 	void pushAIHealthPacket(const AIHealthPacket& packet);
+	void pushDashPacket(const DashPacket& packet);
 
 private:
 	unsigned char * memory;
@@ -63,6 +65,7 @@ private:
 	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
 	PacketQueue<EventPacket> * playerEventQueue;
 	PacketQueue<AIHealthPacket> * aiHealthQueue;
+	PacketQueue<DashPacket> * dashQueue;
 	uint16_t currentNetPacketSize;
 
 #ifdef DEBUGGING_NETWORK
