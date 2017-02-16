@@ -10,6 +10,7 @@ SUNRAY_HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateSunRay(entity)
 	local sunRay = {}
+	sunRay.element="fire"
 	sunRay.type = CreateRayType()
 	sunRay.effects = {} 
 	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)

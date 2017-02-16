@@ -7,6 +7,7 @@ CHRONOBALL_DAMAGE = 30
 
 function CreateChronoBall(entity)
 	local spell = {}
+	spell.element = "nature"
 	spell.type = CreateProjectileType()
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
