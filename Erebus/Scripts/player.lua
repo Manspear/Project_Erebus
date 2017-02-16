@@ -193,12 +193,84 @@ end
 function FindHeightmap(position)
 	local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
+		local prev = player.currentHeightmap
+		local newIndex = -1
+
 		for k,hmIndex in pairs(hm.surrounding) do
-			if heightmaps[hmIndex].asset:Inside(position) then
-				player.currentHeightmap = heightmaps[hmIndex]
+			hm = heightmaps[hmIndex]
+			if hm.asset:Inside(position) then
+				newIndex = hmIndex
+				player.currentHeightmap = hm
 				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				break
 			end
+		end
+
+		if hm then
+			print("Changed heightmaps")
+
+			local allTiles = {}
+			for _,v in pairs(hm.surrounding) do
+				table.insert(allTiles,v)
+			end
+			table.insert(allTiles,newIndex)
+
+			local newTiles = {}
+			for _,v in pairs(allTiles) do
+				if not loadedLevels[v] then
+					table.insert(newTiles,v)
+				end
+			end
+
+			local oldTiles = {}
+			for k,v in pairs(loadedLevels) do
+				local found = false
+				for _,b in pairs(allTiles) do
+					if k == b then
+						found = true
+						break
+					end
+				end
+
+				if not found then
+					table.insert(oldTiles,k)
+				end
+			end
+
+			--unload previous tiles
+			for _,v in pairs(oldTiles) do
+				print("Unloading tile: " .. v)
+				levels[v].unload()
+				loadedLevels[v] = false
+			end
+
+			--load new tiles
+			for _,v in pairs(newTiles) do
+				print("Loading tile: " .. v)
+				levels[v].load()
+				--table.insert(loadedLevels,v)
+				loadedLevels[v] = true
+			end
+
+			--[[for _,hmIndex in pairs(hm.surrounding) do
+				print( "Surr: " .. hmIndex )
+
+				local found = false
+				for i=1, #loadedLevels do
+					print("Comparing: " .. i .. " with " .. hmIndex)
+					if hmIndex == i then
+						print("found")
+						found = true
+						break
+					end
+				end
+
+				if not found then
+					print("Loading tiles " .. hmIndex)
+					levels[hmIndex].load()
+					table.insert(loadedLevels,hmIndex)
+				end
+			end--]]
 		end
 	end
 end

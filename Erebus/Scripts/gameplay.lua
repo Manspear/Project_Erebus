@@ -35,6 +35,8 @@ local scriptFiles =
 	"Scripts/tumbleThorns.lua"
 }
 
+loadedLevels = {}
+
 local gameStarted = false
 local loadedGameplay = false
 
@@ -81,7 +83,15 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level01.lua" )
+		dofile( "Scripts/level02.lua" )
+		levels[1].load()
+		loadedLevels[1] = true
+
+		for _,v in pairs(player.currentHeightmap.surrounding) do
+			levels[v].load()
+			loadedLevels[v] = true
+		end
+
 		loadedGameplay = true
 	end
 
