@@ -48,11 +48,15 @@ void Controls::update( Inputs* input )
 	{
 		rotation.y -= 2 * 3.14f;
 	}
-	if( rotation.z > 3.14f / 2 )
+	else if( rotation.y < - 2 * 3.14f )
+	{
+		rotation.y += 2 * 3.14f;
+	}
+	if( xrot > 3.14f / 2 )
 	{
 		xrot = 3.14f / 2;
 	}
-	if (rotation.z < -3.14f / 2) 
+	if (xrot < -3.14f / 2) 
 	{
 		xrot = -3.14f / 2;
 	}
