@@ -92,9 +92,16 @@ void Gear::Skybox::update(Camera* camera)
 
 	glm::mat4 view = glm::mat4(glm::mat3(camera->getViewMatrix()));
 
+	view = glm::rotate(view,(float) glm::radians(rotation), glm::vec3(0, 1, 0));
+
 	skyboxShader->setUniform(view, "view");
 	skyboxShader->setUniform(camera->getProjectionMatrix(), "projection");
 	skyboxShader->setUniform(FOG_COLOR, "fogColour");
 
 	skyboxShader->unUse();
+}
+
+GEAR_API void Gear::Skybox::updateRotation(float dt)
+{
+	rotation += ROTATE_SPEED * dt;
 }

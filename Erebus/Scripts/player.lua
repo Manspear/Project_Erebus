@@ -273,6 +273,7 @@ function UpdatePlayer(dt)
 		if player.dashtime < 0 then
 			player.invulnerable = false
 			Transform.SetScale(player.transformID, 1)
+			Network.SendDashPacket(1, false)
 		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
@@ -412,6 +413,7 @@ function Controls(dt)
 			player.dashdir.z = player.left * 3.5
 			player.dashtime = DASH_DURATION
 			player.invulnerable = true
+			Network.SendDashPacket(0, true)
 		end
 end
 
@@ -487,6 +489,12 @@ function UpdatePlayer2(dt)
 	local newQuickBlendValue, quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment = Network.GetQuickBlendPacket()
 	if newQuickBlendValue == true then
 		player2.animationController:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+	end
+
+	local newDashValue, setScaleVal, invulnerableVal = Network.GetDashPacket()
+	if newDashValue == true then
+		Transform.SetScale(player2.transformID, setScaleVal)
+		player.invulnerable = invulnerableVal
 	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()

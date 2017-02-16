@@ -19,6 +19,7 @@ PacketFilter::PacketFilter()
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+	this->dashQueue = new PacketQueue<DashPacket>(10);
 }
 
 PacketFilter::~PacketFilter()
@@ -78,6 +79,11 @@ PacketFilter::~PacketFilter()
 		delete this->aiHealthQueue;
 		this->aiHealthQueue = 0;
 	}
+	if (this->dashQueue)
+	{
+		delete this->dashQueue;
+		this->dashQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -130,6 +136,9 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 				case AI_HEALTH_PACKET:
 					this->aiHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiHealthPacket data to the correct queue
+					break;
+				case DASH_PACKET:
+					this->dashQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of dashPacket data to the correct queue
 					break;
 
 #ifdef DEBUGGING_NETWORK
@@ -222,4 +231,9 @@ PacketQueue<EventPacket> * PacketFilter::getPlayerEventQueue()
 PacketQueue<AIHealthPacket> * PacketFilter::getAIHealthQueue()
 {
 	return this->aiHealthQueue;
+}
+
+PacketQueue<DashPacket> * PacketFilter::getDashQueue()
+{
+	return this->dashQueue;
 }
