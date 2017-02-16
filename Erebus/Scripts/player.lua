@@ -393,7 +393,7 @@ function Controls(dt)
 				player.spells[player.currentSpell]:ChargeCast(player)
 				player.charger:EndCharge()
 				player.charging = false
-			player.isCombined = false
+				player.isCombined = false
 			end
 		end
 
