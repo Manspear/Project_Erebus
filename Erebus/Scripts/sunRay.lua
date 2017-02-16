@@ -192,5 +192,11 @@ function CreateSunRay(entity)
 		Transform.SetRotation(self.type.transformID, theRotation)
 		Transform.SetLookAt(self.type.transformID, direction)
 	end
+	function sunRay:Combine(effect, damage)
+		if #self.effects < 2 then
+			self.damage = self.damage + 2 * damage
+			table.insert(self.effects, effect)
+		end
+	end
 	return sunRay
 end

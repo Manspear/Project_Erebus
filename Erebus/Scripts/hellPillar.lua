@@ -26,6 +26,7 @@ function CreateHellPillar(entity)
 	spell.maxcooldown = COOLDOWN_BIG_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.maxChargeTime = 3
+	spell.damage = 0
 	--Set up collider, model and transform for the pillar
 	spell.riseFactor = 0.1
 	spell.transformID = Transform.Bind()
