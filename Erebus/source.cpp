@@ -134,9 +134,10 @@ DWORD WINAPI update( LPVOID args )
 			for (int i = 0; i<data->particleEmitters->size(); i++)
 				data->particleEmitters->at(i)->update((float)deltaTime);
 
+			updater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(&collisionHandler); // TESTING
-			updater.update();
+			
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
