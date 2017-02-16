@@ -20,7 +20,11 @@ namespace Gear
 		GEAR_API void addUniform(std::string uniform);
 		GEAR_API void draw();
 		GEAR_API void update(Camera* camera);
+		GEAR_API void updateRotation(float dt);
 	private:
+		const float ROTATE_SPEED = 1.0f;
+		float rotation = 0.0f;
+
 		GLuint skyboxVAO;
 		GLuint skyboxVBO;
 		GLuint textureID;

@@ -367,7 +367,7 @@ namespace Gear
 		text.draw();
 	}
 
-	void GearEngine::update()
+	void GearEngine::update(float dt)
 	{
 		queue.update(*transformCount, *allTrans, *animationCount, *allAnims);
 		debugHandler->update();
@@ -381,6 +381,7 @@ namespace Gear
 		addDynamicLight();
 		updateDynamicLight();
 		removeDynamicLight();
+		skybox.updateRotation(dt);
 	}
 
 	GEAR_API void GearEngine::addLight()
