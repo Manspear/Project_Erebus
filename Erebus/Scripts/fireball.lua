@@ -114,6 +114,7 @@ function CreateFireball(entity)
 			Transform.SetPosition(self.bigBallID, self.position)
 			Transform.SetScale(self.bigBallID, self.scale)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
+			self.light = Light.addlight(0,0,0,1,0,0,2,10)
 			self.ballParticles:cast()
 		end
 		self.chargedTime = 0
@@ -169,6 +170,7 @@ function CreateFireball(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
+		Light.removeLight(self.light)
 	end
 
 	function spell:SpamFireball(index)
