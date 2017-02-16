@@ -378,6 +378,9 @@ namespace Gear
 		addLight();
 		updateLight();
 		removeLight();
+		addDynamicLight();
+		updateDynamicLight();
+		removeDynamicLight();
 	}
 
 	GEAR_API void GearEngine::addLight()
@@ -456,6 +459,59 @@ namespace Gear
 		}
 	}
 
+	GEAR_API void GearEngine::queueAddDynamicLights(Lights::PointLight * lights)
+	{
+		addDynamicLightQueue.push_back(lights);
+	}
+
+	GEAR_API void GearEngine::queueUpdateDynamicLights(Lights::PointLight * lights)
+	{
+		updateDynamicLightQueue.push_back(lights);
+	}
+
+	GEAR_API void GearEngine::queueRemoveDynamicLights(Lights::PointLight * lights)
+	{
+		removeDynamicLightQueue.push_back(lights);
+	}
+
+	GEAR_API void GearEngine::addDynamicLight()
+	{
+		if (addDynamicLightQueue.size() > 0 && dynamicPointlights.size() < NUM_DYNAMIC_LIGHTS)
+		{
+			for (int j = 0; j < addDynamicLightQueue.size(); j++)
+			{
+				addDynamicLightQueue[j]->radius.a = j;
+				dynamicPointlights.push_back(addDynamicLightQueue[j]);
+			}
+
+			addDynamicLightQueue.clear();
+		}
+	}
+
+	GEAR_API void GearEngine::updateDynamicLight()
+	{
+		if (updateDynamicLightQueue.size() > 0)
+		{
+			for (int j = 0; j < updateDynamicLightQueue.size(); j++)
+			{
+				dynamicPointlights[updateDynamicLightQueue[j]->radius.a] = updateDynamicLightQueue[j];
+			}
+			updateDynamicLightQueue.clear();
+		}
+	}
+
+	GEAR_API void GearEngine::removeDynamicLight()
+	{
+		if (removeDynamicLightQueue.size() > 0)
+		{
+			for (int j = 0; j < removeDynamicLightQueue.size(); j++)
+			{
+				dynamicPointlights.erase(dynamicPointlights.begin() + removeDynamicLightQueue[j]->radius.a);
+			}
+			removeDynamicLightQueue.clear();
+		}
+	}
+
 	GEAR_API void GearEngine::resetLightbuffer()
 	{
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
@@ -528,6 +584,13 @@ namespace Gear
 		{
 			shader->setUniform(dirLights[i].direction, "dirLights.direction");
 			shader->setUniform(dirLights[i].color, "dirLights.color");
+		}
+
+		for (int i = 0; i < dynamicPointlights.size(); i++)
+		{
+			shader->setUniform(dynamicPointlights[i]->pos, "dynamicLights[" + std::to_string(i) + "].pos");
+			shader->setUniform(dynamicPointlights[i]->color, "dynamicLights[" + std::to_string(i) + "].color");
+			shader->setUniform(dynamicPointlights[i]->radius, "dynamicLights[" + std::to_string(i) + "].radius");
 		}
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, lightBuffer); //binds the light buffer to the shader
