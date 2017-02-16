@@ -136,10 +136,11 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					this->damageQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
 					break;
 				case CHANGESPELLS_PACKET:
-					this->changeSpellsQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
+					this->changeSpellsQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ChangeSpellsPacket data to the correct queue
 					break;
 				case PLAYER_EVENT_PACKET:
-					this->playerEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
+					this->playerEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of EventPacket data to the correct queue
+					break;
 				case AI_HEALTH_PACKET:
 					this->aiHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiHealthPacket data to the correct queue
 					break;
