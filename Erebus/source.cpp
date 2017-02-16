@@ -54,8 +54,6 @@ struct ThreadData
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
-Frustum f = Frustum();
-glm::vec3 POINT33(125, 35, 230);
 struct AnimationData
 {
 	Animation* animation;
