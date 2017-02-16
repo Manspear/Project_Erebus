@@ -585,7 +585,8 @@ namespace Gear
 			shader->setUniform(dirLights[i].direction, "dirLights.direction");
 			shader->setUniform(dirLights[i].color, "dirLights.color");
 		}
-
+		int num_lights = dynamicPointlights.size();
+		shader->setUniform(num_lights, "num_dynamic_lights");
 		for (int i = 0; i < dynamicPointlights.size(); i++)
 		{
 			shader->setUniform(dynamicPointlights[i]->pos, "dynamicLights[" + std::to_string(i) + "].pos");
