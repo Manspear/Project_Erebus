@@ -114,7 +114,6 @@ function CreateSiphon(entity)
 
 			Transform.SetPosition(self.transformID, pos)
 			Transform.RotateToVector(self.transformID, direction)
-			OBBCollider.SetSize(self.collider, self.length/2, 1, 1)
 			OBBCollider.SetXAxis(self.collider, direction.x, direction.y, direction.z)
 			Transform.SetScaleNonUniform(self.transformID, 1, 1, self.length/(SUNRAY_HALF_LENGTH*2))
 		end
@@ -146,6 +145,7 @@ function CreateSiphon(entity)
 		end
 		if self.chained then
 			self:rotatetotarget()
+			OBBCollider.SetSize(self.collider, self.length/2, 1, 1)
 			self.duration = self.duration - dt
 			self.chaininterval = self.chaininterval - dt
 			if self.chaininterval < 0 then
