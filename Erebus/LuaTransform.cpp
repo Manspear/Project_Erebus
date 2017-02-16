@@ -93,7 +93,13 @@ namespace LuaTransform
 		glm::vec3 direction( lua_tonumber( lua, 2 ), lua_tonumber( lua, 3 ), lua_tonumber( lua, 4 ) );
 		float dt = (float)lua_tonumber( lua, 5 );
 
-		g_transforms[index].move( direction, dt );
+		//g_transforms[index].move( direction, dt );
+
+		TransformStruct* t = g_transformHandler->getTransform(index);
+		glm::vec3 tempForward = glm::normalize( glm::vec3(t->lookAt.x, 0, t->lookAt.z) );
+		t->pos += tempForward * direction.x * dt;
+		t->pos.y += direction.y * dt;
+		t->pos += glm::cross( {0,1,0}, tempForward) * direction.z * dt;
 
 		return 0;
 	}
@@ -112,7 +118,16 @@ namespace LuaTransform
 		float speed = (float)lua_tonumber( lua, 3 );
 		float dt = (float)lua_tonumber( lua, 4 );
 
-		g_transforms[myIndex].follow( g_transforms[followIndex].getPos(), speed, dt );
+		//g_transforms[myIndex].follow( g_transforms[followIndex].getPos(), speed, dt );
+		TransformStruct* followTrans = g_transformHandler->getTransform(followIndex);
+		TransformStruct* myTrans = g_transformHandler->getTransform(myIndex);
+
+		glm::vec3 followPos = followTrans->pos;
+		glm::vec3 myPos = myTrans->pos;
+
+		if( glm::length( followPos - myPos ) > 0.01f )
+			myTrans->lookAt = glm::normalize( followPos - myPos );
+		myTrans->pos += myTrans->lookAt * speed * dt;
 
 		return 0;
 	}
@@ -125,7 +140,15 @@ namespace LuaTransform
 		int speed = (int)lua_tointeger( lua, 2 );
 		float dt = (float)lua_tonumber( lua, 3 );
 
-		g_transforms[index].move( glm::vec3( speed, g_transforms[index].getLookAt().y*(float)speed, 0 ), dt );
+		//g_transforms[index].move( glm::vec3( speed, g_transforms[index].getLookAt().y*(float)speed, 0 ), dt );
+
+		TransformStruct* t = g_transformHandler->getTransform(index);
+		glm::vec3 dir( speed, t->lookAt.y*(float)speed, 0 );
+
+		glm::vec3 tempForward = glm::normalize( glm::vec3( t->lookAt.x, 0, t->lookAt.z ) );
+		t->pos += tempForward * dir.x * dt;
+		t->pos.y += dir.y * dt;
+		t->pos += glm::cross( {0,1,0}, tempForward) * dir.z * dt;
 
 		return 0;
 	}
@@ -137,8 +160,14 @@ namespace LuaTransform
 		int a = (int)lua_tointeger( lua, 1 );
 		int b = (int)lua_tointeger( lua, 2 );
 
-		g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
-		g_transforms[a].setPos(g_transforms[b].getPos());
+		//g_transforms[a].setLookDir( g_transforms[b].getLookAt() );
+		//g_transforms[a].setPos(g_transforms[b].getPos());
+
+		TransformStruct* atrans = g_transformHandler->getTransform(a);
+		TransformStruct* btrans = g_transformHandler->getTransform(b);
+
+		atrans->lookAt = btrans->lookAt;
+		atrans->pos = btrans->pos;
 
 		return 0;
 	}
