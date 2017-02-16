@@ -236,7 +236,7 @@ void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, 
 #ifdef DEBUGGING_NETWORK
 void Packager::addPingPacket(uint16_t& netPacketSize, bool& fullPackage)
 {
-	this->debugNetwork_ptr->start_time = std::chrono::system_clock::now();
+	this->debugNetwork_ptr->ping_start_time = std::chrono::system_clock::now();
 
 	uint16_t sizeOfPingPackets = sizeof(PingPacket);
 	memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket), &PingPacket(this->debugNetwork_ptr->getPingPacket().data.loopNumber), sizeof(PingPacket));

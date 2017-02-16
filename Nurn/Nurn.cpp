@@ -299,4 +299,12 @@ namespace Nurn
 
 		return result;
 	}
+
+#ifdef DEBUGGING_NETWORK
+	float NurnEngine::getPing()
+	{
+		return this->debugNetwork.getPing();
+	}
+#endif
+
 }

@@ -143,7 +143,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 
 #ifdef DEBUGGING_NETWORK
 				case PING_PACKET:
-					this->debugNetwork_ptr->end_time = std::chrono::system_clock::now();
+					this->debugNetwork_ptr->setPing();
 
 					// Copy the PingPacket data to the PingPacket in DebugNetwork
 					memcpy(&this->debugNetwork_ptr->getPingPacket(), memoryPointer + bytesRead, sizeof(PingPacket));
