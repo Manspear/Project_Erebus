@@ -1,4 +1,4 @@
-POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/polymorph.png");
+POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/polymorph.dds");
 POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
@@ -7,6 +7,7 @@ POLYMORPH_MIN_CHARGETIME = 1
 function CreatePolymorph(entity)
 	--General variables
 	local spell = {}
+	spell.element = "nature"
 	spell.isActiveSpell = false	
 	spell.cooldown = 0		spell.maxcooldown = POLYMORPH_COOLDOWN
 	spell.chargedTime = 0		spell.maxChargeTime = 3
