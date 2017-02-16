@@ -3,23 +3,11 @@
 #ifdef DEBUGGING_NETWORK
 PacketFilter::PacketFilter(DebugNetwork * debugNetwork_ptr)
 {
-	this->transformQueue = new PacketQueue<TransformPacket>(20);
-	this->animationQueue = new PacketQueue<AnimationPacket>(40);
-	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
-	this->spellQueue = new PacketQueue<SpellPacket>(10);
-	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
-	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
-	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
-	this->damageQueue = new PacketQueue<DamagePacket>(20);
-	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
-	this->playerEventQueue = new PacketQueue<EventPacket>(10);
-	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
-
 	this->debugNetwork_ptr = debugNetwork_ptr;
-}
 #else
 PacketFilter::PacketFilter()
 {
+#endif
 	this->transformQueue = new PacketQueue<TransformPacket>(10);
 	this->animationQueue = new PacketQueue<AnimationPacket>(10);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
@@ -32,7 +20,6 @@ PacketFilter::PacketFilter()
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
 }
-#endif
 
 PacketFilter::~PacketFilter()
 {
@@ -136,10 +123,11 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					this->damageQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
 					break;
 				case CHANGESPELLS_PACKET:
-					this->changeSpellsQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
+					this->changeSpellsQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ChangeSpellsPacket data to the correct queue
 					break;
 				case PLAYER_EVENT_PACKET:
-					this->playerEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of DamagePacket data to the correct queue
+					this->playerEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of EventPacket data to the correct queue
+					break;
 				case AI_HEALTH_PACKET:
 					this->aiHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiHealthPacket data to the correct queue
 					break;
