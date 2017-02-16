@@ -26,7 +26,7 @@ function CreateSiphon(entity)
 	spell.length = SIPHON_HITBOX_LENGTH
 
 	spell.collider.SetSize(spell.collider, SIPHON_HITBOX_LENGTH, 1, 1)
-	local model = Assets.LoadModel( "Models/SunRayInner.model" )
+	local model = Assets.LoadModel( "Models/Siphon.model" )
 	spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
 	spell.isActiveSpell = false
 	spell.hits = {}
@@ -59,7 +59,6 @@ function CreateSiphon(entity)
 		if self.cooldown < 0 then 
 			self.chained = self:getcollisions()
 			if self.chained then
-				print("ey i just chained"..self.chained.transformID)
 				self.alive = true
 				self.cooldown = SIPHON_COOLDOWN
 				Transform.ActiveControl(self.transformID, true)
@@ -133,7 +132,6 @@ function CreateSiphon(entity)
 					self.interval = SIPHON_DAMAGE_INTERVAL
 				end
 				self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, hit.transformID)
-				print(self.length)
 				Transform.SetScaleNonUniform(self.transformID, 1, 1, self.length/(SUNRAY_HALF_LENGTH*2))
 			else
 				Transform.ActiveControl(self.transformID, false)
