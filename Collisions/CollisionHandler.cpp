@@ -454,7 +454,7 @@ namespace Collisions
 		this->enabled = enabled;
 	}
 
-	std::string CollisionHandler::getCollisionText()
+	std::string CollisionHandler::getCollisionText() const
 	{
 		std::stringstream text;
 		int total = collisionChecker.getCollisionCounter();
@@ -472,9 +472,14 @@ namespace Collisions
 		return text.str();
 	}
 
-	CollisionLayers* CollisionHandler::getCollisionLayers()
+	CollisionLayers* CollisionHandler::getCollisionLayers() const
 	{
 		return collisionLayers;
+	}
+
+	std::vector<HitBox*> CollisionHandler::getAllHitboxes() const
+	{
+		return this->allColliders;
 	}
 
 	void CollisionHandler::setLayerCollisionMatrix(bool ** layerMatrix, unsigned int layerMatrixSize)
