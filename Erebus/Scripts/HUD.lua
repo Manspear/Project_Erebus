@@ -36,15 +36,15 @@ end
 
 function UpdateHUD(dt)
 
-	if playerHealthCurrent > player.health then
-	
-		playerHealthCurrent  = playerHealthCurrent - (50 * dt);
+	--if playerHealthCurrent > player.health then
+		playerHealthCurrent = player.health + (50 * dt)*(playerHealthCurrent-player.health)
+		--playerHealthCurrent  = playerHealthCurrent - (50 * dt);
 
-		if playerHealthCurrent < 0 then
+		--if playerHealthCurrent < 0 then
 		
-			playerHealthCurrent = 0;
-		end
-	end
+			--playerHealthCurrent = 0;
+		--end
+	--end
 
 	a = (playerHealthCurrent * healthBarLength) / 100.0;
 	UI.resize(screenImages["healthBar"], a, 20)
