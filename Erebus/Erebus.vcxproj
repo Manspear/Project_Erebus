@@ -152,7 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Controls.cpp" />
-    <ClCompile Include="DebugDraw.cpp" />
+    <ClCompile Include="CollisionsDraw.cpp" />
     <ClCompile Include="LuaAi.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
@@ -299,7 +299,7 @@
     <None Include="Shaders\textureBlending.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DebugDraw.h" />
+    <ClInclude Include="CollisionsDraw.h" />
     <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />

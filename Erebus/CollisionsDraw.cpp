@@ -48,6 +48,7 @@ void CollisionsDraw::draw(Collisions::CollisionHandler * collisionHandler)
 		tempAabbColliders = collisionLayers->getAABBColliders(i);
 		tempObbColliders = collisionLayers->getOBBColliders(i);
 		tempRayColliders = collisionLayers->getRayColliders(i);
+
 		for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
 		{
 			SphereCollider* temp = tempSphereColliders->operator[](j);
@@ -56,12 +57,14 @@ void CollisionsDraw::draw(Collisions::CollisionHandler * collisionHandler)
 			else
 				recursiveDraw(temp, deactivatedColor);
 		}
+
 		for (size_t j = 0; j < tempAabbColliders->size(); j++)
 		{
 			AABBCollider* temp = tempAabbColliders->operator[](j);
 			if (temp->isActive())
 				recursiveDraw(temp, this->colors[i]);
 			else
+			
 				recursiveDraw(temp, deactivatedColor);
 		}
 		for (size_t j = 0; j < tempObbColliders->size(); j++)
@@ -72,6 +75,7 @@ void CollisionsDraw::draw(Collisions::CollisionHandler * collisionHandler)
 			else
 				recursiveDraw(temp, deactivatedColor);
 		}
+
 		for (size_t j = 0; j < tempRayColliders->size(); j++)
 		{
 			RayCollider* temp = tempRayColliders->operator[](j);

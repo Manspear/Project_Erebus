@@ -111,7 +111,7 @@ DWORD WINAPI update( LPVOID args )
 	for( int i=0; i<MAX_ANIMATIONS; i++ )
 		animationData[i].animation = &data->allAnimations[i];
 
-	CollisionsDraw debugDraw = CollisionsDraw(Debugger::getInstance());
+	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance());
 	while( data->running )
 	{
 		glm::vec3 cameraPosition = data->camera->getPosition();
@@ -133,7 +133,7 @@ DWORD WINAPI update( LPVOID args )
 				data->particleEmitters->at(i)->update((float)deltaTime);
 
 			collisionHandler.checkCollisions();
-			debugDraw.draw(&collisionHandler);
+			collisionsDraw.draw(&collisionHandler);
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
