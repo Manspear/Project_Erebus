@@ -62,7 +62,6 @@ function LoadPlayer()
 
 	player.outerCirclerange = 4
 	player.innerCirclerange = 8
-	player.light = Light.addLight(124, 32, 220, 1,0,0, 20, 3, true)
 
 	-- set spells for player
 	player.spells = {}
@@ -221,8 +220,6 @@ function UpdatePlayer(dt)
 		player.position = Transform.GetPosition(player.transformID)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
-
-		Light.updatePos(player.light, player.position.x, player.position.y, player.position.z, true)
 
 		if not console.visible then
 			Controls(dt)

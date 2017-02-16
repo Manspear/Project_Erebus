@@ -206,7 +206,7 @@ namespace LuaLight {
 			lua_getfield(lua, 1, "__self");
 			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
 
-			g_gearEngine->queueUpdateDynamicLights(light);
+			g_gearEngine->queueRemoveDynamicLights(light);
 		}
 		else if (lua_gettop(lua) >= 1)
 		{

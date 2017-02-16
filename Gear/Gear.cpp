@@ -480,7 +480,7 @@ namespace Gear
 		{
 			for (int j = 0; j < addDynamicLightQueue.size(); j++)
 			{
-				addDynamicLightQueue[j]->radius.a = j;
+				addDynamicLightQueue[j]->radius.a = dynamicPointlights.size();
 				dynamicPointlights.push_back(addDynamicLightQueue[j]);
 			}
 
