@@ -190,5 +190,11 @@ function CreateSunRay(entity)
 		self.type:Kill()
 		ZoomOutCamera()
 	end
+	function sunRay:Combine(effect, damage)
+		if #self.effects < 2 then
+			self.damage = self.damage + 2 * damage
+			table.insert(self.effects, effect)
+		end
+	end
 	return sunRay
 end
