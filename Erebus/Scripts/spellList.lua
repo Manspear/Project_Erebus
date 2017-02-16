@@ -16,6 +16,12 @@ SpellList = {}
 SpellListPlayer2 = {}
 
 function LoadSpellbook()
+	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
+					info = wrap("'Jag har aldrig slutat tro, att efter varje natt vantar gryningen. Fast jag inte kan forsta, sa finns det hopp anda, nar vi borjar om igen! Kanner doften av en stilla ocean. Plotsligt star jag i en levande orkan!!!'", 30, "",""),
+					spell = CreateWindknockback(player)
+	}
+	table.insert(SpellList, windknockback)
+
 	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
 					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
 					spell = CreatePolymorph(player)
@@ -67,12 +73,6 @@ function LoadSpellbook()
 					spell = CreateTumblethorns(player)
 	}
 	table.insert(SpellList, tumblethorns)
-
-	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
-					info = wrap("'Jag har aldrig slutat tro, att efter varje natt vantar gryningen. Fast jag inte kan forsta, sa finns det hopp anda, nar vi borjar om igen! Kanner doften av en stilla ocean. Plotsligt star jag i en levande orkan!!!'", 30, "",""),
-					spell = CreateWindknockback(player)
-	}
-	table.insert(SpellList, windknockback)
 
 	LoadSpells(player)
 	LoadSpellbookPlayer2()

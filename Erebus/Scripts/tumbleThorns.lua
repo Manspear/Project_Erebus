@@ -58,7 +58,6 @@ function CreateTumblethorns(entity)
 			self.position = Transform.GetPosition(self.caster)
 			self.direction = Transform.GetLookAt(self.caster)
 			Transform.SetLookAt(self.transformID, self.direction)
-
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
 			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)
 			self.direction = Transform.GetLookAt(self.caster)

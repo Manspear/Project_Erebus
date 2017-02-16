@@ -5,7 +5,7 @@ function CreateWindknockback(entity)
 	spell.cooldown = 0.0		spell.maxcooldown = 4
 	spell.hudtexture = WINDKNOCKBACK_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.damage = 1
+	spell.damage = 0
 	spell.alive = false
 	spell.chargedTime = 0
 	spell.maxChargeTime = 3
@@ -32,8 +32,12 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
 			self.alive = true
-			Transform.SetPosFromTransformID(self.transformID, self.caster)
+			local pos = Transform.GetPosition(self.caster)
 			local direction = Transform.GetLookAt(self.caster)
+			pos.x = pos.x + direction.x * 2
+			pos.y = pos.y + direction.y * 2
+			pos.z = pos.z + direction.z * 2
+			Transform.SetPosition(self.transformID, pos)
 			SphereCollider.SetActive(spell.sphereCollider, true)
 		end
 	end
@@ -51,16 +55,19 @@ function CreateWindknockback(entity)
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 					enemies[curEnemy]:Hurt(self.damage, self.owner)
 					for stuff = 1, #self.effects do
-						local effect = effectTable[self.effects[stuff]](3)
+						local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
 						enemies[curEnemy]:Apply(effect)
 					end
 				end
 			end
+			self:Kill()
 		end
 	end
 
 	function spell:Kill()
-		
+		self.alive = false
+		Transform.ActiveControl(self.transformID, false)
+		SphereCollider.SetActive(spell.sphereCollider, false)
 	end
 
 	function spell:GetEffect()
