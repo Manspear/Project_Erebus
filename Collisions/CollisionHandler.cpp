@@ -454,7 +454,7 @@ namespace Collisions
 		this->enabled = enabled;
 	}
 
-	std::string CollisionHandler::getCollisionText() const
+	std::string CollisionHandler::getCollisionText()
 	{
 		std::stringstream text;
 		int total = collisionChecker.getCollisionCounter();

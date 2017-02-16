@@ -55,7 +55,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS void setEnabled(bool enabled);
 
 		//getters
-		COLLISIONS_EXPORTS std::string getCollisionText() const;
+		COLLISIONS_EXPORTS std::string getCollisionText();
 		COLLISIONS_EXPORTS CollisionLayers* getCollisionLayers() const;
 		COLLISIONS_EXPORTS std::vector<HitBox*> getAllHitboxes() const;
 
