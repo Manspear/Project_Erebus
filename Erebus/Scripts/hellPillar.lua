@@ -1,7 +1,7 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarAnimBurn2.dds");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarAnimFlame.dds");
-
+MAX_DAMAGE_PILLAR = 8
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_PILLAR = 4
 PILLAR_SFX = "Effects/explosion.wav"
