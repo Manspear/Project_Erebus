@@ -34,6 +34,7 @@ namespace LuaTransform
 			{ "SetPosition",		setPosition },
 			{ "SetRotation",		setRotation },
 			{ "SetLookAt",			setLookAt },
+			{ "SetFacing",			setFacing },
 			{ "SetScale",			setScale },
 			{ "SetScaleNonUniform", setScaleNonUniform },
 			{ "SetPosFromTransformID", setPosFromTransID },
@@ -227,7 +228,32 @@ namespace LuaTransform
 		lookAt.z = (float)lua_tonumber( lua, -1 );
 
 		//g_transforms[index].setLookAt( lookAt );
-		g_transformHandler->getTransform( index )->lookAt = lookAt;
+		//g_transformHandler->getTransform( index )->lookAt = lookAt;
+		TransformStruct* t = g_transformHandler->getTransform( index );
+		t->lookAt = lookAt;
+
+		return 0;
+	}
+
+	int setFacing( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 2 );
+
+		int from = lua_tointeger( lua, 1 );
+		int to = lua_tointeger( lua, 2 );
+
+		glm::vec3 fromPos = g_transformHandler->getTransform(from)->pos;
+		glm::vec3 toPos = g_transformHandler->getTransform(to)->pos;
+
+		toPos.y = 0;
+		fromPos.y = 0;
+		glm::vec3 dir = glm::normalize(toPos - fromPos);
+
+		float yrot = acosf( dir.z );
+		if( dir.x < 0.0f )
+			yrot *= -1.0f;
+
+		g_transformHandler->getTransform(from)->rot.y = yrot;
 
 		return 0;
 	}

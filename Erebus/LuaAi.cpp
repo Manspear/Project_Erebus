@@ -69,8 +69,8 @@ namespace LuaAI
 		{
 			int index = lua_tointeger(lua, 1);
 
-			glm::vec3 pos = AI->calculateIMPath(index,transforms[index].getPos());
-
+			//glm::vec3 pos = AI->calculateIMPath(index,transforms[index].getPos());
+			glm::vec3 pos = AI->calculateIMPath(index, g_transformHandler->getTransform(index)->pos);
 
 			lua_newtable(lua);
 			lua_pushnumber(lua, pos.x);
@@ -160,7 +160,8 @@ namespace LuaAI
 
 			position.y = 0;
 
-			glm::vec3 tempPos = transforms[index].getPos();
+			//glm::vec3 tempPos = transforms[index].getPos();
+			glm::vec3 tempPos = g_transformHandler->getTransform(index)->pos;
 			tempPos.y = 0;
 
 			glm::vec3 normalizedDir = -glm::normalize(tempPos - position);
@@ -254,7 +255,8 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			AI->addInfluencePoint(transforms[lua_tointeger(lua, 1)].getPos(), lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			//AI->addInfluencePoint(transforms[lua_tointeger(lua, 1)].getPos(), lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			AI->addInfluencePoint(g_transformHandler->getTransform(lua_tointeger(lua, 1))->pos, lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 			result = 0;
 		}
 		return result;
@@ -274,7 +276,8 @@ namespace LuaAI
 			//glm::vec3 pos  = AI->SetTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), transforms[lua_tointeger(lua, 2)].getPos(),lua_tonumber(lua,3));
 			
 			// NEw Function
-			glm::vec3 pos = AI->setTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
+			//glm::vec3 pos = AI->setTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
+			glm::vec3 pos = AI->setTargetRangeFromPlayer(g_transformHandler->getTransform(lua_tointeger(lua, 1))->pos, lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
 
 			lua_newtable(lua);
 			lua_pushnumber(lua, pos.x);

@@ -71,7 +71,8 @@ namespace Gear
 	{
 		for (int i = 0; i < transforms.size(); i++)
 		{
-			TransformStruct t = transforms[i];
+			TransformStruct& t = transforms[i];
+
 			glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
 			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
