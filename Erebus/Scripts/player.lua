@@ -330,6 +330,7 @@ function Controls(dt)
 			player.left = -player.moveSpeed
 		end
 		if Inputs.KeyDown("Q") then
+			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
 			Sound.Play("Effects/ping.wav", 1, player.position)
 			player.ping = player.pingDuration
 		end

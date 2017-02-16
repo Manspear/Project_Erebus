@@ -2,7 +2,7 @@ FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.png");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 8
 FIRESPAM_SPEED = 120
-FIREBALL_SPEED = 50
+FIREBALL_SPEED = 1
 MIN_CHARGETIME_FIREBALL = 0.5
 FIREBALL_BASE_DMG = 20
 FIREBALL_CAST_SFX = ""
@@ -117,6 +117,7 @@ function CreateFireball(entity)
 			Transform.SetPosition(self.bigBallID, self.position)
 			Transform.SetScale(self.bigBallID, self.scale)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
+			self.light = Light.addLight(124, 32, 220, 1, 0, 0, 20, 3, true)
 			self.ballParticles:cast()
 		end
 		self.chargedTime = 0
@@ -137,6 +138,8 @@ function CreateFireball(entity)
 		if self.position.x > 1000 and self.position.x < -1000 and self.position.y > 1000 and self.position.z < -1000 and self.position.z > 1000 then
 			self:Kill()
 		end
+
+		Light.updatePos(self.light, self.position.x, self.position.y, self.position.z, true)
 
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
@@ -172,6 +175,7 @@ function CreateFireball(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
+		Light.removeLight(self.light, true)
 	end
 
 	function spell:SpamFireball(index)
