@@ -2,17 +2,18 @@
 
 DebugNetwork::DebugNetwork()
 {
-	this->timeToSendPingPacket = false;
+	this->sendPingPacket = false;
 	this->pingPacket.data.loopNumber = 0;
+	this->ping = 0.0f;
 }
 
 DebugNetwork::~DebugNetwork()
 {
 }
 
-void DebugNetwork::initializeDebugNetwork(uint8_t loopNumber, bool timeToSendPingPacket)
+void DebugNetwork::initializeDebugNetwork(uint8_t loopNumber, bool sendPingPacket)
 {
-	this->timeToSendPingPacket = timeToSendPingPacket;
+	this->sendPingPacket = sendPingPacket;
 
 	this->pingPacket.data.loopNumber = loopNumber;
 }
@@ -22,15 +23,26 @@ PingPacket& DebugNetwork::getPingPacket()
 	return this->pingPacket;
 }
 
-void DebugNetwork::setTimeToSendPingPacket(bool timeToSendPingPacket)
+void DebugNetwork::setSendPingPacket(bool sendPingPacket)
 {
-	this->timeToSendPingPacket = timeToSendPingPacket;
+	this->sendPingPacket = sendPingPacket;
 }
 
-bool DebugNetwork::getTimeToSendPingPacket() const
+bool DebugNetwork::getSendPingPacket() const
 {
-	return this->timeToSendPingPacket;
+	return this->sendPingPacket;
 }
+
+void DebugNetwork::setPing()
+{
+	this->ping = ((std::chrono::duration<float>) (std::chrono::system_clock::now() - this->ping_start_time)).count();
+}
+
+float DebugNetwork::getPing()
+{
+	return this->ping;
+}
+
 
 
 

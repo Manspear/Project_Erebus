@@ -66,6 +66,8 @@ public:
 	void addUniform(glm::vec2 &vec2, std::string position, int count = 1);
 	void setUniform(glm::mat4 &matrix4x4, std::string position, int count = 1);
 	void setUniform(glm::vec3 &vec3, std::string position, int count = 1);
+	void setUniform(glm::vec4 &vec4, std::string position, int count = 1);
+	void setUniform4cv(const GLfloat *vec4, std::string position, int count = 1);
 	void setUniform4fv(glm::mat4 *matrix4x4, std::string position, int count = 1);
 	void setUniform4cfv(const GLfloat *matrix4x4, std::string position, int count = 1);
 	void setUniform1fv(float &vec1, std::string position, int count = 1);

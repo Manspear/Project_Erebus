@@ -398,7 +398,7 @@ function state.leapState.exit(enemy,player)
 end
 
 function state.deadState.enter(enemy,player)
-	
+	--print("Host AI died", enemy.transformID)
 end
 
 function state.deadState.update(enemy,player)

@@ -1,5 +1,5 @@
 POLYMORPH_EFFECT_DURATION = 2
-POLYMORPH_POOL_SIZE = 5
+POLYMORPH_POOL_SIZE = 4
 POLYMORPH_POOFTIME = 0.3
 polymorphPool = {}
 polymorphParticles = {}
@@ -41,7 +41,7 @@ function CreatePolyEffect(duration)
 end
 
 function InitPolymorphs()
-	local someModels = {"Models/Stone3.model", "Models/Robot.model", "Models/Stone4.model", "Models/pineTree1.model", "Models/Stone2.model"}
+	local someModels = {"Models/Stone3.model", "Models/Stone4.model", "Models/pineTree1.model", "Models/Stone2.model"}
 	for i = 1, POLYMORPH_POOL_SIZE do
 		currentFree = i
 		polymorphPool[currentFree] = Transform.Bind()

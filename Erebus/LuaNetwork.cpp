@@ -33,6 +33,8 @@ namespace LuaNetwork
 			{ "GetPlayerEventPacket", getPlayerEventPacket },
 			{ "SendAIHealthPacket", sendAIHealthPacket },
 			{ "GetAIHealthPacket", getAIHealthPacket },
+			{ "SendDashPacket", sendDashPacket },
+			{ "GetDashPacket", getDashPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -416,7 +418,7 @@ namespace LuaNetwork
 
 	int sendPlayerEventPacket(lua_State* lua)
 	{
-		uint8_t eventId = lua_tointeger(lua, 1);
+		uint8_t eventId = (uint8_t)lua_tointeger(lua, 1);
 
 		g_networkController->sendPlayerEventPacket(EventPacket(eventId));
 		
@@ -459,6 +461,36 @@ namespace LuaNetwork
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, aiHealthPacket.data.transformID);
 			lua_pushnumber(lua, aiHealthPacket.data.health);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 3;
+	}
+
+	int sendDashPacket(lua_State* lua)
+	{
+		uint8_t setScaleValue = (uint8_t)lua_tointeger(lua, 1);
+		bool invulnerable = (bool)lua_toboolean(lua, 2);
+
+		g_networkController->sendDashPacket(DashPacket(setScaleValue, invulnerable));
+
+		return 0;
+	}
+	
+	int getDashPacket(lua_State* lua)
+	{
+		DashPacket dashPacket;
+
+		if (g_networkController->fetchDashPacket(dashPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, dashPacket.data.setScaleValue);
+			lua_pushnumber(lua, dashPacket.data.invulnerable);
 		}
 		else
 		{

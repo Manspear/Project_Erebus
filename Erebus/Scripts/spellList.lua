@@ -54,19 +54,21 @@ function LoadSpellbook()
 					info = wrap("i steal life yo", 30, "",""),
 					spell = CreateSiphon(player)
 	}
+	siphon.spell.spellListId = 6
 	table.insert(SpellList, siphon)
 	
 	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
 					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
 					spell = CreatePolymorph(player)
 	}
-
+	polymorph.spell.spellListId = 7
 	table.insert(SpellList, polymorph)
 	
 	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.png"),
 					info = wrap("'Akta alla sma taggar va?!'", 30, "",""),
 					spell = CreateTumblethorns(player)
 	}
+	tumblethorns.spell.spellListId = 8
 	table.insert(SpellList, tumblethorns)
 
 	LoadSpells(player)
@@ -86,9 +88,18 @@ function LoadSpellbookPlayer2()
 
 	local IceGrenade = {spell = CreateIceGrenade(player2)}
 	table.insert(SpellListPlayer2, IceGrenade)
-
+	
 	local SunRay = {spell = CreateSunRay(player2)}
 	table.insert(SpellListPlayer2, SunRay)
+	
+	local siphon = {spell = CreateSiphon(player2)}
+	table.insert(SpellListPlayer2, siphon)
+	
+	local polymorph = {spell = CreatePolymorph(player2)}
+	table.insert(SpellListPlayer2, polymorph)
+
+	local tumblethorns = {spell = CreateTumblethorns(player2)}
+	table.insert(SpellListPlayer2, tumblethorns)
 
 	LoadSpellsPlayer2()
 end
