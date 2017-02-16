@@ -416,7 +416,7 @@ namespace LuaNetwork
 
 	int sendPlayerEventPacket(lua_State* lua)
 	{
-		uint8_t eventId = lua_tointeger(lua, 1);
+		uint8_t eventId = (uint8_t)lua_tointeger(lua, 1);
 
 		g_networkController->sendPlayerEventPacket(EventPacket(eventId));
 		
