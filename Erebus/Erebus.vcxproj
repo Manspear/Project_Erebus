@@ -203,6 +203,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\level01.lua" />
     <None Include="Scripts\lifeStealEffect.lua" />
     <None Include="Scripts\polymorph.lua" />
     <None Include="Scripts\polymorphEffect.lua" />
