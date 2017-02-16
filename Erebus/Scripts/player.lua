@@ -358,10 +358,12 @@ function Controls(dt)
 
 		if not player.charging then
 			if Inputs.ButtonDown(Buttons.Left) then
+				player.charger:EndCharge()
 				player.spamCasting = true
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
 				player.spells[player.currentSpell]:Cast(player, 0.5, false)
+				
 			end
 
 			if Inputs.ButtonReleased(Buttons.Left) then
@@ -378,10 +380,10 @@ function Controls(dt)
 				player.spells[player.currentSpell]:Charge(dt)
 			sElement = player.spells[player.currentSpell].element
 			
-			player.Charging = true
+			
 			if player.isCombined == true then
 				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-				
+				player.Charging = true
 			else
 				player.charger:ChargeMePlease(player.position,dt,sElement)
 			end
