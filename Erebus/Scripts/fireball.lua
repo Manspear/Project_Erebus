@@ -90,7 +90,7 @@ function CreateFireball(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
 			self.aSmallIsActive = self.aSmallIsActive + 1
-			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles.cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
