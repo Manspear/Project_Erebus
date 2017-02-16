@@ -3,26 +3,11 @@
 #ifdef DEBUGGING_NETWORK
 Packager::Packager(DebugNetwork * debugNetwork_ptr)
 {
-	this->transformQueue = new PacketQueue<TransformPacket>(20);
-	this->animationQueue = new PacketQueue<AnimationPacket>(40);
-	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
-	this->spellQueue = new PacketQueue<SpellPacket>(10);
-	this->aiTransformQueue = new PacketQueue<TransformPacket>(40);
-	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
-	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
-	this->damageQueue = new PacketQueue<DamagePacket>(20);
-	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
-	this->playerEventQueue = new PacketQueue<EventPacket>(10);
-	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
-
-	this->memory = new unsigned char[packetSize];
-	this->currentNetPacketSize = 0;
-
 	this->debugNetwork_ptr = debugNetwork_ptr;
-}
 #else
 Packager::Packager()
 {
+#endif
 	this->transformQueue = new PacketQueue<TransformPacket>(10);
 	this->animationQueue = new PacketQueue<AnimationPacket>(10);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
@@ -38,7 +23,6 @@ Packager::Packager()
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
-#endif
 
 Packager::~Packager()
 {
