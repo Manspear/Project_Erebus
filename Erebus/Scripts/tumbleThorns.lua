@@ -92,6 +92,9 @@ function CreateTumblethorns(entity)
 		SphereCollider.SetActive(spell.sphereCollider, false)
 		Transform.ActiveControl(self.transformID, false)
 		self.enemiesHit = {}
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 
 	function spell:CheckColissions()
@@ -102,7 +105,7 @@ function CreateTumblethorns(entity)
 					if not self.enemiesHit[enemies[curEnemy].transformID] then
 						enemies[curEnemy]:Hurt(self.damage, self.owner)				
 						for stuff = 1, #self.effects do
-							local effect = effectTable[self.effects[stuff]]()
+							local effect = effectTable[self.effects[stuff]](self.owner)
 							enemies[curEnemy]:Apply(effect)
 						end
 					end				
