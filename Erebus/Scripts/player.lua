@@ -338,7 +338,7 @@ function Controls(dt)
 			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
 			Sound.Play("Effects/ping.wav", 1, player.position)
 			player.ping = player.pingDuration
-			showTutorialImage(1, 124, 32, 220)
+			showTutorialImage(2, 124, 36, 220)
 		end
 		if Inputs.KeyDown("T") then
 			local dir = Camera.GetDirection()
