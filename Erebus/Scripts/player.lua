@@ -58,7 +58,7 @@ function LoadPlayer()
 	player.invulnerable = false
 	player.position = Transform.GetPosition(player.transformID)
 	player.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
-	player.pingTexture = Assets.LoadTexture("Textures/ping.png")
+	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
 
