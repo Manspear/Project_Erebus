@@ -459,6 +459,7 @@ function UpdatePlayer2(dt)
 		player2.spells[player2.currentSpell]:Change()
 
 		if isCharging == false then
+			player2.attackTimer = 1
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
