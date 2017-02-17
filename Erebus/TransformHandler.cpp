@@ -272,7 +272,10 @@ void TransformHandler::deactivateTransform( int index )
 
 			if( bhandle )
 			{
-				lastIndices[handle.instanceIndex].at(handle.modelIndex) = bhandle->prev;
+				if( bhandle->prev == index )
+					lastIndices[handle.instanceIndex].at(handle.modelIndex) = -1;
+				else
+					lastIndices[handle.instanceIndex].at(handle.modelIndex) = bhandle->prev;
 
 				bhandle->prev = ahandle->prev;
 				bhandle->next = ahandle->next;
