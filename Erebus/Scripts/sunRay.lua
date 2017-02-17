@@ -185,6 +185,9 @@ function CreateSunRay(entity)
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
 		self.type:Kill()
 		ZoomOutCamera()
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 	function sunRay:Combine(effect, damage)
 		if #self.effects < 2 then
