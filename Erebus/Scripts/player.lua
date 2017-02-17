@@ -140,6 +140,11 @@ function LoadPlayer2()
 	player2.spamCasting = false
 	player2.charging = false
 	player2.position = {x=0, y=0, z=0}
+
+	player2.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
+	player2.pingDuration = 1
+	player2.ping = 0
 	
 	player2.nrOfInnerCircleEnemies = 0
 	player2.nrOfOuterCircleEnemies = 0
@@ -342,10 +347,8 @@ function Controls(dt)
 			player.left = -player.moveSpeed
 		end
 		if Inputs.KeyDown("Q") then
-			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
-			Sound.Play("Effects/ping.wav", 1, player.position)
-			player.ping = player.pingDuration
-			
+			pingPressed(player)
+			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(Keys.Shift) then
 			local dir = Camera.GetDirection()
@@ -423,6 +426,11 @@ function Controls(dt)
 		end
 end
 
+function pingPressed(player)
+	Sound.Play("Effects/ping.wav", 1, player.position)	
+	player.ping = player.pingDuration
+end
+
 function PrintInfo() 
 	if player.printInfo then
 		local scale = 0.8
@@ -442,6 +450,18 @@ end
 
 local isPlayer2Charging = false
 function UpdatePlayer2(dt)
+	if player2.ping > 0 then
+		player2.ping = player2.ping - dt;
+	end
+
+	local newEventVal, eventID = Network.GetPlayerEventPacket()
+
+	if newEventVal == true then
+		if eventID == 0 then
+			pingPressed(player2)
+		end
+	end
+
 	local newtransformvalue, id_2, pos_x_2, pos_y_2, pos_z_2, lookAt_x_2, lookAt_y_2, lookAt_z_2, rotation_x_2, rotation_y_2, rotation_z_2 = Network.GetTransformPacket()
 
 	if newtransformvalue == true then
@@ -519,6 +539,9 @@ function UpdatePlayer2(dt)
 		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
 		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
 	end
+
+	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
