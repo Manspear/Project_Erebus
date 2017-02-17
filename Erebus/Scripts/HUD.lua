@@ -137,6 +137,9 @@ function DrawHUD()
 	if player.ping > 0 then
 		UI.drawWorldImage(player.pingImage, player.pingTexture);
 	end
+	if player2.ping > 0 then
+		UI.drawWorldImage(player2.pingImage, player2.pingTexture);
+	end
 	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 	if showHealthbar then 
 		for i=1, #enemies do
