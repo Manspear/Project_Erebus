@@ -228,6 +228,8 @@ void TransformHandler::activateTransform( int index )
 		ahandle->transformIndex = models->at(handle.modelIndex).getActiveTransforms();
 		models->at(handle.modelIndex).incrActiveTransforms();
 
+		lastIndices[handle.instanceIndex].at(handle.modelIndex) = index;
+
 		handle.active = true;
 	}
 }
