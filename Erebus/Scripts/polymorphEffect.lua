@@ -4,9 +4,8 @@ POLYMORPH_POOFTIME = 0.3
 polymorphPool = {}
 polymorphParticles = {}
 currentFree = 1
-function CreatePolyEffect(duration)
+function CreatePolyEffect(owner, duration)
 	local effect = {}
-	effect.owner = effectowner
 	effect.duration = duration or POLYMORPH_EFFECT_DURATION
 	effect.poofTime = POLYMORPH_POOFTIME
 	effect.polymorphTransform, effect.particles = GetNextFreeMorph()
@@ -15,9 +14,7 @@ function CreatePolyEffect(duration)
 		Transform.SetScale(entity.transformID, 0)
 		local pos = Transform.GetPosition(entity.transformID)
 		Transform.SetPosition(self.polymorphTransform, pos)
-
 		entity.SetState(entity,"DeadState")
-
 		effect.particles:poof(pos)
 	end
 
