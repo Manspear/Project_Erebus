@@ -283,15 +283,16 @@ function UpdatePlayer(dt)
 		local fwd = player.dashdir.x * factor
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
-		if player.dashtime <= 0 then
-			player.invulnerable = false
-			Transform.SetScale(player.transformID, 1)
-			Network.SendDashPacket(false)
-		end
+		
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
 
+	if player.dashtime <= 0 then
+			player.invulnerable = false
+			Transform.SetScale(player.transformID, 1)
+			Network.SendDashPacket(false)
+	end
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
@@ -544,10 +545,10 @@ function UpdatePlayer2(dt)
 
 	if player2.dashtime > 0 then
 		player2.dashtime = player2.dashtime - dt
-		if player2.dashtime <= 0 then
-			player2.invulnerable = false
-			Transform.SetScale(player2.transformID, 1)
-		end
+	end
+	if player2.dashtime <= 0 then
+		player2.invulnerable = false
+		Transform.SetScale(player2.transformID, 1)
 	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
