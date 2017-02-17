@@ -40,10 +40,6 @@ function CreateProjectileType()
 
 	function projectile:Kill()
 		Transform.ActiveControl(self.transformID, false)
-		self.position.x = 0
-		self.position.y = 0
-		self.position.z = 0
-		Transform.SetPosition(self.transformID, self.position)
 		SphereCollider.SetActive(self.sphereCollider, false);
 	end
 

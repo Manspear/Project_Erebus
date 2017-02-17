@@ -35,7 +35,8 @@ namespace LuaTransform
 			{ "SetScale",			setScale },
 			{ "SetScaleNonUniform", setScaleNonUniform },
 			{ "SetPosFromTransformID", setPosFromTransID },
-
+			{ "SetLookAtFromTransformID", setLookAtFromTransID },
+			{ "SetRotationFromTransformID", setRotationFromTransID },
 
 			{ "GetPosition",		getPosition },
 			{ "GetRotation",		getRotation },
@@ -148,6 +149,8 @@ namespace LuaTransform
 		bool active = lua_toboolean(lua, 2) != 0;
 
 		g_transforms[index].setActive( active);
+		if (!active)
+			g_transforms[index].setPos({ 0, 0, 0 });
 
 		return 0;
 	}
@@ -199,16 +202,10 @@ namespace LuaTransform
 		assert( lua_gettop( lua ) == 2 );
 
 		int index = (int)lua_tointeger( lua, 1 );
-
 		glm::vec3 lookAt;
-		lua_getfield( lua, 2, "x" );
-		lookAt.x = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "y" );
-		lookAt.y = (float)lua_tonumber( lua, -1 );
-
-		lua_getfield( lua, 2, "z" );
-		lookAt.z = (float)lua_tonumber( lua, -1 );
+		lua_getfield( lua, 2, "x" );	lookAt.x = (float)lua_tonumber( lua, -1 );
+		lua_getfield( lua, 2, "y" );	lookAt.y = (float)lua_tonumber( lua, -1 );
+		lua_getfield( lua, 2, "z" );	lookAt.z = (float)lua_tonumber( lua, -1 );
 
 		g_transforms[index].setLookAt( lookAt );
 
@@ -250,6 +247,30 @@ namespace LuaTransform
 		int indexTo = (int)lua_tointeger(lua, 1);
 
 		g_transforms[indexTo].setPos(g_transforms[indexFrom].getPos());
+
+		return 0;
+	}
+
+	int setLookAtFromTransID(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		int indexFrom = (int)lua_tointeger(lua, 2);
+		int indexTo = (int)lua_tointeger(lua, 1);
+
+		g_transforms[indexTo].setLookAt(g_transforms[indexFrom].getLookAt());
+
+		return 0;
+	}
+
+	int setRotationFromTransID(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		int indexFrom = (int)lua_tointeger(lua, 2);
+		int indexTo = (int)lua_tointeger(lua, 1);
+
+		g_transforms[indexTo].setRotation(g_transforms[indexFrom].getRotation());
 
 		return 0;
 	}

@@ -505,10 +505,11 @@
     <None Include="Shaders\include.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\siphon.lua">
+    <None Include="Scripts\lifeStealEffect.lua" />
+    <None Include="Scripts\windknockback.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\lifeStealEffect.lua">
+    <None Include="Scripts\knockbackEffect.lua">
       <Filter>Scripts\effects</Filter>
     </None>
     <None Include="Scripts\level01.lua">
