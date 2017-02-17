@@ -1,6 +1,6 @@
 LIFE_STEAL_DURATION = 2
 LIFE_STEAL_INTERVAL = 1
-LIFE_STEAL_DAMAGE = 2
+LIFE_STEAL_DAMAGE = 1
 function CreateLifeStealEffect(entity, duration)
 	local effect = {}
 	effect.duration = duration or LIFE_STEAL_DURATION

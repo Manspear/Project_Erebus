@@ -1,5 +1,5 @@
 SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/siphon.png");
-SIPHON_DAMAGE = 3
+SIPHON_DAMAGE = 2
 SIPHON_CHAIN_DURATION = 5
 SIPHON_COOLDOWN = 15
 SIPHON_SPAM_COOLDOWN = 3
@@ -35,7 +35,7 @@ function CreateSiphon(entity)
 	spell.hitchecker = false
 	spell.cooldown = 0
 	spell.spamcooldown = 0
-	spell.maxcooldown = 10
+	spell.maxcooldown = SIPHON_COOLDOWN
 	spell.spamduration = SIPHON_SPAM_DURATION
 	spell.spamming = false
 	spell.interval = 0
