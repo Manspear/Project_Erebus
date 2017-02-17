@@ -1,12 +1,11 @@
 POLYMORPH_EFFECT_DURATION = 2
-POLYMORPH_POOL_SIZE = 5
+POLYMORPH_POOL_SIZE = 4
 POLYMORPH_POOFTIME = 0.3
 polymorphPool = {}
 polymorphParticles = {}
 currentFree = 1
-function CreatePolyEffect(duration)
+function CreatePolyEffect(owner, duration)
 	local effect = {}
-	effect.owner = effectowner
 	effect.duration = duration or POLYMORPH_EFFECT_DURATION
 	effect.poofTime = POLYMORPH_POOFTIME
 	effect.polymorphTransform, effect.particles = GetNextFreeMorph()
@@ -15,18 +14,15 @@ function CreatePolyEffect(duration)
 		Transform.SetScale(entity.transformID, 0)
 		local pos = Transform.GetPosition(entity.transformID)
 		Transform.SetPosition(self.polymorphTransform, pos)
-
 		entity.SetState(entity,"DeadState")
-
 		effect.particles:poof(pos)
 	end
 
 	function effect:Deapply(entity)
-		Transform.SetScale(entity.transformID, 1)
-		Transform.SetPosition(self.polymorphTransform, {x = 0, y = 0, z = 0})		
+		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
-
 		entity.SetState(entity,"FollowState")
+		effect.particles:poof(pos)
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
@@ -41,7 +37,7 @@ function CreatePolyEffect(duration)
 end
 
 function InitPolymorphs()
-	local someModels = {"Models/Stone3.model", "Models/Goblin.model", "Models/Stone4.model", "Models/pineTree1.model", "Models/Stone2.model"}
+	local someModels = {"Models/Stone3.model", "Models/Stone4.model", "Models/pineTree1.model", "Models/Stone2.model"}
 	for i = 1, POLYMORPH_POOL_SIZE do
 		currentFree = i
 		--polymorphPool[currentFree] = Transform.Bind()
@@ -58,7 +54,6 @@ end
 function GetNextFreeMorph()
 	if currentFree >= POLYMORPH_POOL_SIZE then currentFree = 0 end
 	currentFree = currentFree + 1	
-	print(currentFree)
 	return polymorphPool[currentFree], polymorphParticles[currentFree]
 end
 

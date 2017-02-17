@@ -7,6 +7,7 @@ CHRONOBALL_DAMAGE = 30
 
 function CreateChronoBall(entity)
 	local spell = {}
+	spell.element = NATURE
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	spell.type = CreateProjectileType(model)
 	spell.owner = entity

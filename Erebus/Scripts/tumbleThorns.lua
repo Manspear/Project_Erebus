@@ -1,27 +1,25 @@
 TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/tumblethorns.png")
-TUMBLETHORN_SPEED = 30
-TUMBLETHORN_RADIUS = 1
+TUMBLETHORN_SPEED = 20
+TUMBLETHORN_RADIUS = 0.5
 TUMBLETHORNS_COOLDOWN = 4
 TUMBLETHORNS_ROLLBACKTIME = 1
 function CreateTumblethorns(entity)
 	local spell = {}
+	spell.element = NATURE
 	spell.cooldown = 0.0		spell.maxcooldown = 4
 	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.lifeTime = SUNRAY_DURATION
 	spell.damage = 1
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
-	spell.chargedTime = 0
-	spell.maxChargeTime = 3
-	spell.spin = 10.0		spell.rotation = {x = 0, y = 0, z = 0}
-	spell.originalPos = {x = 0, y = 0, z = 0}
+	spell.chargedTime = 0		spell.maxChargeTime = 2
+	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
+	spell.direction = {x = 0, y = 0, z = 0}		spell.position = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
 		
 	--spell.transformID = Transform.Bind()
-	--local model = Assets.LoadModel( "Models/Stone4.model" )
+	local model = Assets.LoadModel( "Models/tumbleweed.model" )
 	--Gear.AddForwardInstance(model, spell.transformID )
-	local model = Assets.LoadModel( "Models/Stone4.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
@@ -35,28 +33,25 @@ function CreateTumblethorns(entity)
 		if self.alive then
 			self.position.x = self.position.x + self.direction.x * TUMBLETHORN_SPEED * dt
 			self.position.z = self.position.z + self.direction.z * TUMBLETHORN_SPEED * dt
-			local hm = GetHeightmap(self.position)
-			
+			local hm = GetHeightmap(self.position)		
 			if hm then
 				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)
 				self.particles:update(self.position)
 				self.position.y = self.position.y + TUMBLETHORN_RADIUS
 			end
 			Transform.SetPosition(self.transformID, self.position)
-			self.lifeTime = self.lifeTime - dt
+			self.rotation = Transform.GetRotation(self.transformID)
 			self.rotation.z = self.rotation.z - self.spin * dt
 			Transform.SetRotation(self.transformID, self.rotation)
-
 			self:CheckColissions()
-
 			self.rollBackTime = self.rollBackTime - dt
-			self.canRollBack = 0 > self.rollBackTime and true or false
-			
+			self.canRollBack = 0 > self.rollBackTime and true or false			
 		else
 			self.cooldown = self.cooldown - dt;
 		end
 	end
 	
+	spell.particleDirection = {x = 0, y = 0, z = 0}
 	function spell:Cast()
 		if self.cooldown < 0.0 then
 			self.alive = true
@@ -65,27 +60,25 @@ function CreateTumblethorns(entity)
 			self.position = Transform.GetPosition(self.caster)
 			self.direction = Transform.GetLookAt(self.caster)
 			Transform.SetLookAt(self.transformID, self.direction)
-
-			self.direction.z = self.direction.z - 1
-			self.particles:cast(self.direction.x, self.direction.y, self.direction.z)
+			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
+			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)
 			self.direction = Transform.GetLookAt(self.caster)
-
 			Transform.ActiveControl(self.transformID, true)
-			self.rotation = Transform.GetRotation(self.caster)
-			Transform.SetRotation(self.transformID, self.rotation)
-
+			Transform.RotateToVector(self.transformID, self.direction)
 		end
 		if self.canRollBack then
 			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
 			self.canRollBack = false
 			local newLookAt = vec3sub(self.owner.position, self.position)
-			Transform.SetLookAt(self.transformID, newLookAt)
+			Transform.RotateToVector(self.transformID, newLookAt)
 			self.direction = Transform.GetLookAt(self.transformID)
+			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
+			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)
 			self.enemiesHit = {}
 		end
 	end
 
-	function spell:ChargeCast(entity)
+	function spell:ChargeCast()
 		if self.cooldown < 0.0 then
 		
 		end
@@ -100,18 +93,9 @@ function CreateTumblethorns(entity)
 		SphereCollider.SetActive(spell.sphereCollider, false)
 		Transform.ActiveControl(self.transformID, false)
 		self.enemiesHit = {}
-	end
-
-	function spell:GetEffect()
-		return self.effects[1]
-	end
-
-	function spell:Aim()
-		
-	end
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 
 	function spell:CheckColissions()
@@ -122,7 +106,7 @@ function CreateTumblethorns(entity)
 					if not self.enemiesHit[enemies[curEnemy].transformID] then
 						enemies[curEnemy]:Hurt(self.damage, self.owner)				
 						for stuff = 1, #self.effects do
-							local effect = effectTable[self.effects[stuff]]()
+							local effect = effectTable[self.effects[stuff]](self.owner)
 							enemies[curEnemy]:Apply(effect)
 						end
 					end				
@@ -133,5 +117,6 @@ function CreateTumblethorns(entity)
 	end
 
 	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
+	spell.Change = BaseChange	spell.GetEffect = BaseGetEffect
 	return spell
 end

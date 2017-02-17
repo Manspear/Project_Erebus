@@ -8,17 +8,18 @@ Packager::Packager(DebugNetwork * debugNetwork_ptr)
 Packager::Packager()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(10);
-	this->animationQueue = new PacketQueue<AnimationPacket>(10);
+	this->transformQueue = new PacketQueue<TransformPacket>(5);
+	this->animationQueue = new PacketQueue<AnimationPacket>(5);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
-	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(20);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
-	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
-	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
-	this->damageQueue = new PacketQueue<DamagePacket>(20);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(20);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(20);
+	this->damageQueue = new PacketQueue<DamagePacket>(40);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+	this->dashQueue = new PacketQueue<DashPacket>(5);
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -81,6 +82,11 @@ Packager::~Packager()
 		delete this->aiHealthQueue;
 		this->aiHealthQueue = 0;
 	}
+	if (this->dashQueue)
+	{
+		delete this->dashQueue;
+		this->dashQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -113,20 +119,19 @@ void Packager::buildNetPacket()
 	}
 #endif
 
-	this->addTransformPackets(this->currentNetPacketSize, fullPackage);
-	this->addAnimationPackets(this->currentNetPacketSize, fullPackage);
-	this->addAIPackets(this->currentNetPacketSize, fullPackage);
-	this->addSpellPackets(this->currentNetPacketSize, fullPackage);
-	this->addAITransformPackets(this->currentNetPacketSize, fullPackage);
-	this->addChargingPackets(this->currentNetPacketSize, fullPackage);
-	this->addQuickBlendPackets(this->currentNetPacketSize, fullPackage);
-	this->addDamagePackets(this->currentNetPacketSize, fullPackage);
-	this->addChangeSpellsPackets(this->currentNetPacketSize, fullPackage);
-	this->addPlayerEventPackets(this->currentNetPacketSize, fullPackage);
-	this->addAIHealthPackets(this->currentNetPacketSize, fullPackage);
-
-	//this->addPacketGroup(TRANSFORM_PACKET, (void*)TransformPacket pack, this->transformQueue, this->currentNetPacketSize);
-
+	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->transformQueue, TRANSFORM_PACKET);
+	this->addNewPackets<AnimationPacket>(this->currentNetPacketSize, fullPackage, this->animationQueue, ANIMATION_PACKET);
+	this->addNewPackets<AIStatePacket>(this->currentNetPacketSize, fullPackage, this->aiStateQueue, AI_STATE_PACKET);
+	this->addNewPackets<SpellPacket>(this->currentNetPacketSize, fullPackage, this->spellQueue, SPELL_PACKET);
+	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->aiTransformQueue, AI_TRANSFORM_PACKET);
+	this->addNewPackets<ChargingPacket>(this->currentNetPacketSize, fullPackage, this->chargingQueue, CHARGING_PACKET);
+	this->addNewPackets<QuickBlendPacket>(this->currentNetPacketSize, fullPackage, this->quickBlendQueue, QUICKBLEND_PACKET);
+	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->damageQueue, DAMAGE_PACKET);
+	this->addNewPackets<ChangeSpellsPacket>(this->currentNetPacketSize, fullPackage, this->changeSpellsQueue, CHANGESPELLS_PACKET);
+	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->playerEventQueue, PLAYER_EVENT_PACKET);
+	this->addNewPackets<AIHealthPacket>(this->currentNetPacketSize, fullPackage, this->aiHealthQueue, AI_HEALTH_PACKET);
+	this->addNewPackets<DashPacket>(this->currentNetPacketSize, fullPackage, this->dashQueue, DASH_PACKET);
+	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
 }
@@ -186,47 +191,26 @@ void Packager::pushAIHealthPacket(const AIHealthPacket& packet)
 	this->aiHealthQueue->push(packet);
 }
 
-void Packager::addTransformPackets(uint16_t &netPacketSize, bool& fullPackage)
+void Packager::pushDashPacket(const DashPacket& packet)
 {
-	TransformPacket transformPacket;
-	uint16_t sizeOfTransformPackets = 0;
-
-	while (this->transformQueue->pop(transformPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another TransformPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfTransformPackets)) > sizeof(TransformPacket))
-		{
-			// Add TransformPacket to the memory ( ...[MetaData][Transform][Transform]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfTransformPackets, &transformPacket, sizeof(TransformPacket));
-			sizeOfTransformPackets += sizeof(TransformPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfTransformPackets > 0)
-	{
-		this->addMetaDataPacket(TRANSFORM_PACKET, netPacketSize, sizeOfTransformPackets);
-
-		netPacketSize += sizeOfTransformPackets; // Should now point at the location of the next MetaDataPacket
-	}
+	this->dashQueue->push(packet);
 }
 
-void Packager::addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage)
+template<class packetType>
+void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, PacketQueue<packetType> * const packetQueue, const uint8_t& packetEnum)
 {
-	AnimationPacket animationPacket;
-	uint16_t sizeOfAnimationPackets = 0;
+	packetType newPacket;
+	std::size_t sizeOfPacketType = sizeof(packetType);
+	uint16_t sizeOfnewPackets = 0;
 
-	while (this->animationQueue->pop(animationPacket) && fullPackage == false)
+	while (packetQueue->pop(newPacket) && fullPackage == false)
 	{
-		// Only add a packet if there's enough space for another AnimationPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAnimationPackets)) > sizeof(AnimationPacket))
+		// Only add a packet if there's enough space in the buffer
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets)) > sizeOfPacketType)
 		{
-			// Add AnimationPacket to the memory ( ...[MetaData][Animation][Animation]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfAnimationPackets, &animationPacket, sizeof(AnimationPacket));
-			sizeOfAnimationPackets += sizeof(AnimationPacket);
+			// Add Packet to the memory ( ...[MetaData][packet][packet]... )
+			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets, &newPacket, sizeOfPacketType);
+			sizeOfnewPackets += sizeOfPacketType;
 		}
 		else
 		{
@@ -234,263 +218,11 @@ void Packager::addAnimationPackets(uint16_t& netPacketSize, bool& fullPackage)
 		}
 	}
 
-	if (sizeOfAnimationPackets > 0)
+	if (sizeOfnewPackets > 0)
 	{
-		this->addMetaDataPacket(ANIMATION_PACKET, netPacketSize, sizeOfAnimationPackets);
+		this->addMetaDataPacket(packetEnum, netPacketSize, sizeOfnewPackets);
 
-		netPacketSize += sizeOfAnimationPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addAIPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	AIStatePacket aiPacket;
-	uint16_t sizeOfAIPackets = 0;
-
-	while (this->aiStateQueue->pop(aiPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another AIPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAIPackets)) > sizeof(AIStatePacket))
-		{
-			// Add AIPacket to the memory ( ...[MetaData][AI][AI]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfAIPackets, &aiPacket, sizeof(AIStatePacket));
-			sizeOfAIPackets += sizeof(AIStatePacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfAIPackets > 0)
-	{
-		this->addMetaDataPacket(AI_STATE_PACKET, netPacketSize, sizeOfAIPackets);
-
-		netPacketSize += sizeOfAIPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addSpellPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	SpellPacket spellPacket;
-	uint16_t sizeOfSpellPackets = 0;
-
-	while (this->spellQueue->pop(spellPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another AIPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfSpellPackets)) > sizeof(SpellPacket))
-		{
-			// Add AIPacket to the memory ( ...[MetaData][Spell][Spell]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfSpellPackets, &spellPacket, sizeof(SpellPacket));
-			sizeOfSpellPackets += sizeof(SpellPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfSpellPackets > 0)
-	{
-		this->addMetaDataPacket(SPELL_PACKET, netPacketSize, sizeOfSpellPackets);
-
-		netPacketSize += sizeOfSpellPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addAITransformPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	TransformPacket aiTransformPacket;
-	uint16_t sizeOfAITransformPackets = 0;
-
-	while (this->aiTransformQueue->pop(aiTransformPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another TransformPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAITransformPackets)) > sizeof(TransformPacket))
-		{
-			// Add TransformPacket to the memory ( ...[MetaData][AI_Transform][AI_Transform]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfAITransformPackets, &aiTransformPacket, sizeof(TransformPacket));
-			sizeOfAITransformPackets += sizeof(TransformPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfAITransformPackets > 0)
-	{
-		this->addMetaDataPacket(AI_TRANSFORM_PACKET, netPacketSize, sizeOfAITransformPackets);
-
-		netPacketSize += sizeOfAITransformPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addChargingPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	ChargingPacket chargingPacket;
-	uint16_t sizeOfChargingPackets = 0;
-
-	while (this->chargingQueue->pop(chargingPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another ChargingPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfChargingPackets)) > sizeof(ChargingPacket))
-		{
-			// Add ChargingPacket to the memory ( ...[MetaData][Charging][Charging]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfChargingPackets, &chargingPacket, sizeof(ChargingPacket));
-			sizeOfChargingPackets += sizeof(ChargingPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfChargingPackets > 0)
-	{
-		this->addMetaDataPacket(CHARGING_PACKET, netPacketSize, sizeOfChargingPackets);
-
-		netPacketSize += sizeOfChargingPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addQuickBlendPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	QuickBlendPacket quickBlendPacket;
-	uint16_t sizeOfQuickBlendPackets = 0;
-
-	while (this->quickBlendQueue->pop(quickBlendPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another QuickBlendPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfQuickBlendPackets)) > sizeof(QuickBlendPacket))
-		{
-			// Add QuickBlendPacket to the memory ( ...[MetaData][QuickBlend][QuickBlend]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfQuickBlendPackets, &quickBlendPacket, sizeof(QuickBlendPacket));
-			sizeOfQuickBlendPackets += sizeof(QuickBlendPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfQuickBlendPackets > 0)
-	{
-		this->addMetaDataPacket(QUICKBLEND_PACKET, netPacketSize, sizeOfQuickBlendPackets);
-
-		netPacketSize += sizeOfQuickBlendPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addDamagePackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	DamagePacket damagePacket;
-	uint16_t sizeOfDamagePackets = 0;
-
-	while (this->damageQueue->pop(damagePacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another QuickBlendPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfDamagePackets)) > sizeof(DamagePacket))
-		{
-			// Add DamagePacket to the memory ( ...[MetaData][Damage][Damage]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfDamagePackets, &damagePacket, sizeof(DamagePacket));
-			sizeOfDamagePackets += sizeof(DamagePacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfDamagePackets > 0)
-	{
-		this->addMetaDataPacket(DAMAGE_PACKET, netPacketSize, sizeOfDamagePackets);
-
-		netPacketSize += sizeOfDamagePackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addChangeSpellsPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	ChangeSpellsPacket changeSpellsPacket;
-	uint16_t sizeOfChangeSpellsPackets = 0;
-
-	while (this->changeSpellsQueue->pop(changeSpellsPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another ChangeSpellsPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfChangeSpellsPackets)) > sizeof(ChangeSpellsPacket))
-		{
-			// Add ChangeSpellsPacket to the memory ( ...[MetaData][ChangeSpells][ChangeSpells]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfChangeSpellsPackets, &changeSpellsPacket, sizeof(ChangeSpellsPacket));
-			sizeOfChangeSpellsPackets += sizeof(ChangeSpellsPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfChangeSpellsPackets > 0)
-	{
-		this->addMetaDataPacket(CHANGESPELLS_PACKET, netPacketSize, sizeOfChangeSpellsPackets);
-
-		netPacketSize += sizeOfChangeSpellsPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addPlayerEventPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	EventPacket eventPacketPacket;
-	uint16_t sizeOfEventPacketPackets = 0;
-
-	while (this->playerEventQueue->pop(eventPacketPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another EventPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfEventPacketPackets)) > sizeof(EventPacket))
-		{
-			// Add EventPacket to the memory ( ...[MetaData][Event][Event]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfEventPacketPackets, &eventPacketPacket, sizeof(EventPacket));
-			sizeOfEventPacketPackets += sizeof(EventPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfEventPacketPackets > 0)
-	{
-		this->addMetaDataPacket(PLAYER_EVENT_PACKET, netPacketSize, sizeOfEventPacketPackets);
-
-		netPacketSize += sizeOfEventPacketPackets; // Should now point at the location of the next MetaDataPacket
-	}
-}
-
-void Packager::addAIHealthPackets(uint16_t& netPacketSize, bool& fullPackage)
-{
-	AIHealthPacket aiHealthPacket;
-	uint16_t sizeOfAIHealthPackets = 0;
-
-	while (this->aiHealthQueue->pop(aiHealthPacket) && fullPackage == false)
-	{
-		// Only add a packet if there's enough space for another ChangeSpellsPacket in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfAIHealthPackets)) > sizeof(AIHealthPacket))
-		{
-			// Add ChangeSpellsPacket to the memory ( ...[MetaData][AIHealth][AIHealth]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfAIHealthPackets, &aiHealthPacket, sizeof(AIHealthPacket));
-			sizeOfAIHealthPackets += sizeof(AIHealthPacket);
-		}
-		else
-		{
-			fullPackage = true;
-		}
-	}
-
-	if (sizeOfAIHealthPackets > 0)
-	{
-		this->addMetaDataPacket(AI_HEALTH_PACKET, netPacketSize, sizeOfAIHealthPackets);
-
-		netPacketSize += sizeOfAIHealthPackets; // Should now point at the location of the next MetaDataPacket
+		netPacketSize += sizeOfnewPackets; // Should now point at the location of the next MetaDataPacket
 	}
 }
 
@@ -504,7 +236,7 @@ void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, 
 #ifdef DEBUGGING_NETWORK
 void Packager::addPingPacket(uint16_t& netPacketSize, bool& fullPackage)
 {
-	this->debugNetwork_ptr->start_time = std::chrono::system_clock::now();
+	this->debugNetwork_ptr->ping_start_time = std::chrono::system_clock::now();
 
 	uint16_t sizeOfPingPackets = sizeof(PingPacket);
 	memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket), &PingPacket(this->debugNetwork_ptr->getPingPacket().data.loopNumber), sizeof(PingPacket));

@@ -136,6 +136,9 @@ DWORD WINAPI update( LPVOID args )
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+#ifdef DEBUGGING_NETWORK
+			fps += "\nPing: " + std::to_string(network.getPing()*100) + " ms";
+#endif
 			data->engine->print(fps, 0.0f, 0.0f);
 			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
 
@@ -327,8 +330,8 @@ int main()
 
 			if( threadData.queueModels )
 				engine.queueDynamicModels( &models );
+			engine.update(deltaTime);
 
-			engine.update();
 			soundEngine.update(deltaTime);
 			camera.updateBuffer();
 

@@ -93,7 +93,6 @@ function CreateGrenadeType(model)
 
 	function type:Kill()
 		Transform.SetScale(self.transformID, 1)
-		Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
 		SphereCollider.SetRadius(self.sphereCollider, 1)
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)

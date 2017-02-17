@@ -74,10 +74,6 @@ function CreateOrbWaveType(model)
 	function type:Kill()
 		self.hits = {}
 		for i =1 , ORBWAVEORBS do
-			self.positions[i].x = 0
-			self.positions[i].y = 0
-			self.positions[i].z = 0
-			Transform.SetPosition(self.transformIDs[i], self.positions[i])
 			Transform.ActiveControl(self.transformIDs[i], false)
 			SphereCollider.SetActive(self.sphereColliders[i], false);
 		end		

@@ -3,6 +3,7 @@ TIMEORBWAVEDURATION = 20
 
 function CreateTimeOrbWave(entity)
 	local spell = {}
+	spell.element = NATURE
 	local model = Assets.LoadModel( "Models/grenade.model" )
 	spell.type = CreateOrbWaveType(model)
 	spell.owner = entity

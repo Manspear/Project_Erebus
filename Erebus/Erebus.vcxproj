@@ -205,6 +205,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\level01.lua" />
+    <None Include="Scripts\knockbackEffect.lua" />
+    <None Include="Scripts\lifeStealEffect.lua" />
     <None Include="Scripts\polymorph.lua" />
     <None Include="Scripts\polymorphEffect.lua" />
     <None Include="Scripts\spellUtility.lua" />
@@ -254,6 +256,7 @@
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Scripts\tumbleThorns.lua" />
+    <None Include="Scripts\windknockback.lua" />
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />

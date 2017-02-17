@@ -2,10 +2,13 @@ FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.png");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 8
 FIRESPAM_SPEED = 120
-FIREBALL_SPEED = 1
+FIREBALL_SPEED = 18
+FIREBALL_LIFETIME = 10
+FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
 FIREBALL_BASE_DMG = 20
-FIREBALL_CAST_SFX = ""
+FIREBALL_LIGHTRADIUS = 5
+FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
 FIREBALL_SMALL_HIT_SFX = "Effects/explosion.wav"
 FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
 
@@ -25,6 +28,7 @@ function CreateFireball(entity)
 	end
 	--General variables
 	local spell = {}
+	spell.element = FIRE
 	spell.damage = FIREBALL_BASE_DMG
 	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 	spell.isActiveSpell = false		spell.aSmallIsActive = 0
@@ -35,6 +39,8 @@ function CreateFireball(entity)
 	spell.spamCooldown = FIRESPAM_COOLDOWN
 	spell.position = {x = 0, y = 0, z = 0}
 	--Small spamming fireballs
+	spell.smallFBSoundID = {}
+	spell.bigFBSoundID = -1
 	spell.smallFB = {}		spell.currentFB = 1
 	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
 	
@@ -50,9 +56,13 @@ function CreateFireball(entity)
 	Transform.ActiveControl(spell.bigBallID, false)
 	--local model = Assets.LoadModel("Models/projectile1.model")
 	--Gear.AddStaticInstance(model, spell.bigBallID)
+	spell.lifeTime = FIREBALL_LIFETIME
+	spell.explodeTime = 0.5
+	spell.enemiesHit = {}
 	
 	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
-
+	spell.light = {}
+	spell.lightRadius = 0
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
 		if self.aSmallIsActive > 0 then
@@ -90,10 +100,11 @@ function CreateFireball(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
 			self.aSmallIsActive = self.aSmallIsActive + 1
-			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles.cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
+			Sound.Play(FIREBALL_CAST_SFX, 3, self.smallFB.position)
 			if self.currentFB < 4 then		
 				self.currentFB = self.currentFB + 1
 			else	self.currentFB = 1
@@ -103,27 +114,36 @@ function CreateFireball(entity)
 
 	function spell:ChargeCast(entity)
 		if self.bigBallActive then
-			self:Kill()
+			self:EngageExplode()
 		end
 		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then	
-			ZoomOutCamera()		
-			self.scale = self.chargedTime	
+			ZoomOutCamera()	
+			self.lifeTime = FIREBALL_LIFETIME
+			self.explodeTime = FIREBALL_EXPLODETIME	
 			self.cooldown = FIREBALL_COOLDOWN
 			self.bigBallActive = true
 			self.position = entity.position
-			SphereCollider.SetRadius(self.sphereCollider, self.scale)
 			SphereCollider.SetActive(self.sphereCollider, true)
 			Transform.ActiveControl(self.bigBallID, true)
 			Transform.SetPosition(self.bigBallID, self.position)
-			Transform.SetScale(self.bigBallID, self.scale)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
-			self.light = Light.addLight(124, 32, 220, 1, 0, 0, 20, 3, true)
+			self.light = Light.addLight(124, 32, 220, 1, 0, 0, FIREBALL_LIGHTRADIUS, 3, true)
 			self.ballParticles:cast()
+			Sound.Play(FIREBALL_CAST_SFX, 7, self.position)
 		end
 		self.chargedTime = 0
 	end
 
 	function spell:BigBallUpdate(dt)
+		if self.lifeTime < 0 then 
+			self:Exploding(dt) 
+		else
+			self.lifeTime = self.lifeTime - dt
+			self:BigBallFlying(dt)	
+		end
+	end
+
+	function spell:BigBallFlying(dt)
 		local direction = Transform.GetLookAt(self.caster)
 		self.position.x = self.position.x + direction.x * FIREBALL_SPEED * dt
 		self.position.y = self.position.y + direction.y * FIREBALL_SPEED * dt
@@ -133,28 +153,52 @@ function CreateFireball(entity)
 		self.ballParticles:update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
-			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:Kill() end
-		end
-		if self.position.x > 1000 and self.position.x < -1000 and self.position.y > 1000 and self.position.z < -1000 and self.position.z > 1000 then
-			self:Kill()
-		end
-
+			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:EngageExplode() end
+		end	
 		Light.updatePos(self.light, self.position.x, self.position.y, self.position.z, true)
 
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage, self.owner)
+					self:EngageExplode()
+					return
 				end
 			end
-		end
+		end		
 	end
 
-	spell.Charge = BaseCharge
+	function spell:EngageExplode()
+		SphereCollider.SetRadius(self.sphereCollider, 3)
+		Transform.SetScale(self.bigBallID, 3)
+		self.lifeTime = -1
+		self.lightRadius = FIREBALL_LIGHTRADIUS * 5
+		Light.updateRadius(self.light, self.lightRadius , true)
+	end
 
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
+	function spell:Exploding(dt)
+		self.explodeTime = self.explodeTime - dt
+		if self.explodeTime < 0 then 
+			self:Kill() 
+			return
+		end
+		self.lightRadius = self.lightRadius - 10 * dt
+		Light.updateRadius(self.light, self.lightRadius, true)
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()
+		for curID = 1, #collisionIDs do
+			for curEnemy=1, #enemies do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					if not self.enemiesHit[enemies[curEnemy].transformID] then
+						enemies[curEnemy]:Hurt(self.damage, self.owner)
+						for stuff = 1, #self.effects do
+							local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
+							enemies[curEnemy]:Apply(effect)
+						end
+					end
+					self.enemiesHit[enemies[curEnemy].transformID] = true
+				end
+			end
+		end			
 	end
 
 	function spell:GetEffect()
@@ -170,12 +214,15 @@ function CreateFireball(entity)
 
 	function spell:Kill()
 		Sound.Play(FIREBALL_BIG_HIT_SFX, 7, self.position)
+		self.enemiesHit = {}
 		self.bigBallActive = false
 		self.ballParticles:die()
+		SphereCollider.SetRadius(self.sphereCollider, 1)
+		Transform.SetScale(self.bigBallID, 1)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
-		Light.removeLight(self.light, true)
+		if self.light then		Light.removeLight(self.light, true)		end
 	end
 
 	function spell:SpamFireball(index)
@@ -187,5 +234,7 @@ function CreateFireball(entity)
 		self.smallFB[index].alive = false 
 		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
+	spell.Charge = BaseCharge
+	spell.Change = BaseChange
 	return spell
 end
