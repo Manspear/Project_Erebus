@@ -291,12 +291,12 @@ function UpdatePlayer(dt)
 				if v.OnEnter then
 					v.OnEnter()
 				else
-					v.OnTrigger()
+					v.OnTrigger(dt)
 				end
 
 				v.triggered = true
 			else
-				v.OnTrigger()
+				v.OnTrigger(dt)
 			end
 		else
 			if v.triggered then
@@ -325,8 +325,8 @@ function GetCombined()
 end
 
 function Controls(dt)
-	showTutorialImage(130, 44, 220,dt)
-	showTutorialImage2(130, 36, 220,dt)
+	--showTutorialImage(130, 44, 220,dt)
+	--showTutorialImage2(130, 36, 220,dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 		end
