@@ -13,7 +13,7 @@ function CreateStaticAoEType()
 
 	function type:Cast(duration, radius, position)
 		self.position = position
-		Transform.ActiveControl(type.transformID, true)
+		Transform.ActiveControl(self.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		Transform.SetPosition(self.transformID, self.position)
 		self.maxradius = radius
@@ -45,7 +45,6 @@ function CreateStaticAoEType()
 	function type:Kill()
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)
-		Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
 	end
 
 	return type

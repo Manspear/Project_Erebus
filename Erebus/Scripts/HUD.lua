@@ -1,5 +1,8 @@
+SHOW_TUTORIAL_IMAGE = -1
 local screenImages = {}
 local imageTextures = {}
+local tutorialImages = {}
+local tutorialTexture = {}
 
 local playerHealthCurrent = 100;
 local healthBarLength = 470;
@@ -28,6 +31,12 @@ function LoadHUD()
 	screenImages[1] = UI.load(375, 638, 40, 40);
 	screenImages[2] = UI.load(420, 638, 40, 40);
 	screenImages[3] = UI.load(465, 638, 40, 40);
+
+	tutorialImages[1] = UI.load(124, 32, 220, 0.75, 0.75)
+	tutorialTexture[1] = Assets.LoadTexture("Textures/PressLeftToFire.png")
+
+	tutorialImages[2] = UI.load(124, 32, 220, 0.75, 0.75)
+	tutorialTexture[2] = Assets.LoadTexture("Textures/TUTORIALChangeSpell.png")
 end
 
 function UnloadHUD()
@@ -37,12 +46,14 @@ end
 function UpdateHUD(dt)
 
 	if playerHealthCurrent > player.health then
-	
-		playerHealthCurrent  = playerHealthCurrent - (50 * dt);
-
-		if playerHealthCurrent < 0 then
-		
-			playerHealthCurrent = 0;
+		playerHealthCurrent = playerHealthCurrent - (50 * dt)
+		if  playerHealthCurrent < player.health then
+			playerHealthCurrent = player.health
+		end
+	elseif playerHealthCurrent < player.health then
+		playerHealthCurrent = playerHealthCurrent + (50 * dt)
+		if  playerHealthCurrent > player.health then
+			playerHealthCurrent = player.health
 		end
 	end
 
@@ -105,6 +116,10 @@ function DrawHUD()
 	UI.drawImage(screenImages[2], imageTextures["number2"]);
 	UI.drawImage(screenImages[3], imageTextures["number3"]);
 
+	if SHOW_TUTORIAL_IMAGE ~= -1 then
+		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE], tutorialTexture[SHOW_TUTORIAL_IMAGE])
+	end
+
 	if player.ping > 0 then
 		UI.drawWorldImage(player.pingImage, player.pingTexture);
 	end
@@ -114,6 +129,12 @@ function DrawHUD()
 			UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
 		end
 	end
+end
+
+function showTutorialImage(index,x,y,z)
+	--tutorialImages[1] = UI.load(x, y, z, 0.75, 0.75)
+	tutorialImages[index] = UI.load(x, y, z, 4, 4)
+	SHOW_TUTORIAL_IMAGE = index
 end
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }

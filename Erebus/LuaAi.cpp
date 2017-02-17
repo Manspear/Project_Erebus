@@ -219,7 +219,7 @@ namespace LuaAI
 		{
 			int num = lua_tointeger(lua, 1);
 			//std::cout << lua_tointeger(lua, 1);
-			printf("Num heightmaps: %d", num);
+			//printf("Num heightmaps: %d", num);
 			//heightMaps = new HeightMap*[lua_tointeger(lua, 1)];
 			heightMaps = new HeightMap*[num];
 			//nrOfHM = lua_tointeger(lua, 1);
@@ -232,7 +232,7 @@ namespace LuaAI
 		if (lua_gettop(lua) >= 2)
 		{
 			//heightMaps[0] = g_assets->load<HeightMap>(lua_tostring(lua, 1));
-			printStack(lua);
+			//printStack(lua);
 			lua_getfield(lua, 1, "__self");
 			int num = lua_tointeger(lua, 2);
 			heightMaps[num-1] = (HeightMap*)lua_touserdata(lua, -1);

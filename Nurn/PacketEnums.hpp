@@ -13,6 +13,7 @@
 #define CHANGESPELLS_PACKET 8
 #define PLAYER_EVENT_PACKET 9
 #define AI_HEALTH_PACKET 10
+#define DASH_PACKET 11
 
-// Define only when neccessary :)
+// Only used when DEBUGGING_NETWORK in NetworkDefines == 1
 #define PING_PACKET 20

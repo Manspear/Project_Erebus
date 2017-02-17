@@ -88,7 +88,14 @@ namespace Nurn
 
 		NURN_API void pushAIHealthPacket(const AIHealthPacket& packet);
 		NURN_API bool fetchAIHealthPacket(AIHealthPacket& packet);
+
+		NURN_API void pushDashPacket(const DashPacket& packet);
+		NURN_API bool fetchDashPacket(DashPacket& packet);
 		
+#ifdef DEBUGGING_NETWORK
+		NURN_API float getPing();
+#endif
+
 	private:
 		Address address;
 		Packager * packager = nullptr;

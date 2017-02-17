@@ -58,6 +58,13 @@ public:
 	void sendAIHealthPacket(const AIHealthPacket& packet);
 	bool fetchAIHealthPacket(AIHealthPacket& packet);
 
+	void sendDashPacket(const DashPacket& packet);
+	bool fetchDashPacket(DashPacket& packet);
+
+#ifdef DEBUGGING_NETWORK
+	float getPing();
+#endif
+
 
 private:
 	void startNetworkSending();

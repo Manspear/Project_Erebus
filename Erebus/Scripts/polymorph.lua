@@ -85,16 +85,6 @@ function CreatePolymorph(entity)
 		end
 	end
 
-	spell.Charge = BaseCharge
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
-	end
-
-	function spell:GetEffect()
-		return self.effects[1]
-	end
-
 	function spell:Combine(effect,damage)
 		if #self.effects < 2 then
 			table.insert(self.effects, effect)
@@ -104,13 +94,19 @@ function CreatePolymorph(entity)
 
 	function spell:Kill()
 		Transform.ActiveControl(self.transformID, false)
-		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 		SphereCollider.SetActive(self.sphereCollider, false)
 		self.cooldown = POLYMORPH_COOLDOWN
 		self.lifeTime = POLYMORPH_LIFETIME
 		self.alive = false
 		self.chargedTime = 0
 		self.particles:die(self.position)
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
+	spell.Charge = BaseCharge
+	spell.Change = BaseChange
+	spell.GetEffect = BaseGetEffect
+
 	return spell
 end
