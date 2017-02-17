@@ -220,6 +220,9 @@ function CreateHellPillar(entity)
 	end
 	function spell:Kill() 
 		Transform.ActiveControl(self.owner.aim.transformID, false) 
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 	return spell
 end

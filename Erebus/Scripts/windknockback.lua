@@ -82,6 +82,9 @@ function CreateWindknockback(entity)
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(spell.sphereCollider, false)
 		self.enemiesHit = {}
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 
 	function spell:GetEffect()

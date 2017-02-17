@@ -21,7 +21,7 @@ function CreateSunRay(entity)
 	sunRay.isActiveSpell = false
 	sunRay.chargedTime = 0
 	sunRay.owner = entity	sunRay.caster = entity.transformID
-	sunRay.moveImpairment = 0.75	sunRay.cameraSlow = 2.0
+	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
 	sunRay.maxChargeTime = 3
 	sunRay.cooldown = 0.0
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
@@ -178,10 +178,14 @@ function CreateSunRay(entity)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		Sound.Stop(self.hitID)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
-		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
+		
+		self.owner.moveSpeed = self.owner.moveSpeed / self.moveImpairment
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
 		self.type:Kill()
 		ZoomOutCamera()
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 	function sunRay:Combine(effect, damage)
 		if #self.effects < 2 then
