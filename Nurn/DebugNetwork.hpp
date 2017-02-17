@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <atomic>
+#include <chrono>
 
 #include "PingPacket.hpp"
 
@@ -14,11 +15,14 @@ public:
 	DebugNetwork();
 	virtual ~DebugNetwork();
 
-	void initializeDebugNetwork(uint8_t loopNumber, bool timeToSendPingPacket);
+	void initializeDebugNetwork(uint8_t loopNumber, bool sendPingPacket);
 
 	PingPacket& getPingPacket();
-	void setTimeToSendPingPacket(bool timeToSendPingPacket);
-	bool getTimeToSendPingPacket() const;
+	void setSendPingPacket(bool sendPingPacket);
+	bool getSendPingPacket() const;
+
+	void setPing();
+	float getPing();
 
 
 	void getMaxSizeOfQueue();
@@ -32,7 +36,10 @@ public:
 
 	void writePacketInfoToFile();
 
+	std::chrono::time_point<std::chrono::system_clock> ping_start_time;
+
 private:
 	PingPacket pingPacket;
-	std::atomic<bool> timeToSendPingPacket;
+	float ping;
+	std::atomic<bool> sendPingPacket;
 };

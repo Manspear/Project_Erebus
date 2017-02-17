@@ -250,13 +250,16 @@ void ShaderProgram::addUniform(glm::vec2 &vec2, GLuint location, int count)
 	glUniform2fv(location, count, glm::value_ptr(vec2));
 }
 
-void ShaderProgram::addUniform(glm::vec2 &vec2, std::string position, int count)
-{
-	glUniform3fv(uniforms.at(position), count, glm::value_ptr(vec2));
-}
 void ShaderProgram::setUniform(glm::vec3 &vec3, std::string position, int count)
 {
 	glUniform3fv(uniforms.at(position), count, glm::value_ptr(vec3));
+}
+void ShaderProgram::setUniform(glm::vec4 & vec4, std::string position, int count)
+{
+	glUniform4fv(uniforms.at(position), count, glm::value_ptr(vec4));
+}
+void ShaderProgram::setUniform4cv(const GLfloat * vec4, std::string position, int count)
+{
 }
 void ShaderProgram::setUniform4fv(glm::mat4 *matrix4x4, std::string position, int count)
 {

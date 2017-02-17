@@ -285,4 +285,26 @@ namespace Nurn
 
 		return result;
 	}
+
+	void NurnEngine::pushDashPacket(const DashPacket& packet)
+	{
+		this->packager->pushDashPacket(packet);
+	}
+
+	bool NurnEngine::fetchDashPacket(DashPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getDashQueue()->pop(packet);
+
+		return result;
+	}
+
+#ifdef DEBUGGING_NETWORK
+	float NurnEngine::getPing()
+	{
+		return this->debugNetwork.getPing();
+	}
+#endif
+
 }

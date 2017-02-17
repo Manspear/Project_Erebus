@@ -9,6 +9,8 @@ namespace Gear
 {
 	class Skybox {
 	public:
+		glm::vec3 FOG_COLOR = glm::vec3(0.50f, 0.50f, 0.50f);
+
 		GEAR_API Skybox();
 		GEAR_API ~Skybox();
 		GEAR_API void init();
@@ -18,7 +20,11 @@ namespace Gear
 		GEAR_API void addUniform(std::string uniform);
 		GEAR_API void draw();
 		GEAR_API void update(Camera* camera);
+		GEAR_API void updateRotation(float dt);
 	private:
+		const float ROTATE_SPEED = 1.0f;
+		float rotation = 0.0f;
+
 		GLuint skyboxVAO;
 		GLuint skyboxVBO;
 		GLuint textureID;

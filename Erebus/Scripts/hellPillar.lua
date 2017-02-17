@@ -1,18 +1,18 @@
 HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
 BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
-
+MAX_DAMAGE_PILLAR = 8
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_BIG_PILLAR = 5
-COOLDOWN_SMALL_PILLAR = 3
+COOLDOWN_SMALL_PILLAR = 2.0
 HELLPILLAR_CHARGE_SFX = "Effects/flames-2.wav"
 HELLPILLAR_PILLAR_SFX = "Effects/explosion.wav"
 HELLPILLAR_HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateHellPillar(entity)
-	
 	--Generalla saker	
 	local spell = {}
+	spell.element = FIRE
 	spell.caster = entity.transformID	
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
@@ -27,6 +27,7 @@ function CreateHellPillar(entity)
 	spell.maxcooldown = COOLDOWN_BIG_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.maxChargeTime = 3
+	spell.damage = 0
 	--Set up collider, model and transform for the pillar
 	spell.riseFactor = 0.1
 	spell.chargeID = -1
@@ -64,7 +65,7 @@ function CreateHellPillar(entity)
 			self.startUp = true
 			self.maxScale = 0.5			self.scale = 0.4
 			Transform.SetScale(self.transformID, self.maxScale)
-			SphereCollider.SetRadius(self.sphereCollider, self.scale )
+			SphereCollider.SetRadius(self.sphereCollider, self.scale + 0.2)
 			self.damage = 5
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()		
@@ -162,7 +163,6 @@ function CreateHellPillar(entity)
 		if self.finishingTime < 0 then
 			self.aliveCharged = false 
 			Transform.ActiveControl(self.transformID, false)
-			Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
 			self.blendValue1.x, self.blendValue1.y = 0, 0
 			self.blendValue2.x, self.blendValue2.y = 0, 0
 			self.riseFactor = 0.1
@@ -187,7 +187,6 @@ function CreateHellPillar(entity)
 			
 			else
 				Transform.ActiveControl(self.firstModel, false)
-				Transform.SetPosition(self.firstModel, {x=0,y=0,z=0})
 				self.growAgain = false
 			end
 		end	
@@ -221,6 +220,9 @@ function CreateHellPillar(entity)
 	end
 	function spell:Kill() 
 		Transform.ActiveControl(self.owner.aim.transformID, false) 
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 	return spell
 end

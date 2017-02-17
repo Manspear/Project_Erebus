@@ -462,7 +462,6 @@
     <None Include="Shaders\debugOBB.frag" />
     <None Include="Shaders\debugOBB.geom" />
     <None Include="Shaders\debugOBB.vert" />
-    <None Include="Shaders\include.glsl" />
     <None Include="Scripts\spellUtility.lua">
       <Filter>Scripts\spells</Filter>
     </None>
@@ -491,16 +490,26 @@
     <None Include="Scripts\ipconnectUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>
-    <None Include="Scripts\siphon.lua">
-      <Filter>Scripts\spells</Filter>
-    </None>
-    <None Include="Scripts\lifeStealEffect.lua">
-      <Filter>Scripts\effects</Filter>
-    </None>
     <None Include="Scripts\polymorph.lua">
       <Filter>Scripts\spells</Filter>
     </None>
     <None Include="Scripts\polymorphEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\tumbleThorns.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Shaders\include.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\lifeStealEffect.lua" />
+    <None Include="Scripts\windknockback.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\knockbackEffect.lua">
       <Filter>Scripts\effects</Filter>
     </None>
   </ItemGroup>
