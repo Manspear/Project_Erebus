@@ -159,8 +159,6 @@ function showTutorialImage(x,y,z,dt)
 		index = 1
 	end
 
-
-
 	tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	SHOW_TUTORIAL_IMAGE = index
 end
@@ -186,5 +184,18 @@ function showTutorialImage2(x,y,z,dt)
 	tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
+
+
+function HideTutorialImage()
+	SHOW_TUTORIAL_IMAGE = -1
+end
+
+
+
+function HideTutorialImage2()
+	SHOW_TUTORIAL_IMAGE2 = -1
+end
+
+
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }
