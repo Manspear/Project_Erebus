@@ -1,5 +1,6 @@
 #include "LevelActionHandler.h"
 #include "LevelBrushHandler.h"
+
 LevelActionHandler* LevelActionHandler::g_instance = nullptr;
 const char* ACTION_NAMES[MAX_ACTIONS] =
 {
@@ -122,10 +123,72 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	if (action == ACTION_COLLIDER_GEN) {
 		LevelColliderGenerator::getInstance()->update();
 	}
+	bool coughtHitbox = false;
+
+	if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) && !holdingGizmo) {
+
+		static CollisionChecker* checker = new CollisionChecker();
+
+		if (LevelActorHandler::getInstance()->getShowHitBoxType() != LevelActorHandler::DisplayHitBoxes::NONE ||
+			LevelActorHandler::getInstance()->getShowHitBoxType() != LevelActorHandler::DisplayHitBoxes::NUM_DISPLAY_HB) {
+			LevelActor* closest = nullptr;
+			// CHECK COLLISION IF COLLISOON CHANGE COUGHT HITBOX
+
+			glm::vec3 ray_ndc, ray_world;
+			glm::vec4 ray_clip, ray_eye;
+			ray_ndc = glm::vec3((2.f*inputRef->getMousePos().x / WINDOW_WIDTH - 1.f),
+				1.f - (2.f*inputRef->getMousePos().y) / WINDOW_HEIGHT,
+				1.f);
+
+			ray_clip = glm::vec4(ray_ndc.x, ray_ndc.y, -1.f, 1.f);
+			ray_eye = glm::inverse(camera->getProjectionMatrix()) * ray_clip;
+			ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.f, 0.f);
+			ray_world = glm::vec3(glm::inverse(camera->getViewMatrix())* ray_eye);
+			ray_world = glm::normalize(ray_world);
+
+			glm::vec3 dir = ray_world;
+			glm::vec3 pos = camera->getPosition();
+
+			RayCollider rayStuff = RayCollider(pos, dir);
+
+			for (auto it : LevelActorHandler::getInstance()->getActors()) {
+				LevelCollider* tempCol = it.second->getComponent<LevelCollider>();
+				if (tempCol != nullptr) {
+					if (tempCol->getType() == ColiderType::COLLIDER_OBB) {
+
+						float closestDistance = 10000.f;
+						glm::vec3 intersectionPoint;
+						glm::vec3 closestHitPointOffset;
+
+							if (checker->collisionCheck(&rayStuff, tempCol->getObbCollider())) {
+								if (std::abs(rayStuff.hitdistance()) < closestDistance) {
+									closestDistance = std::abs(rayStuff.hitdistance());
+
+									closest = it.second;
+								}
+							}
+						}
+
+					}
+
+
+
+				}
+
+			if(closest != nullptr){
+				coughtHitbox = true;
+				LevelActorHandler::getInstance()->setSelected(closest);
+			}
+		}
+	}
+	
+
+
+
 
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 	{
-		if( !holdingGizmo )
+		if( !holdingGizmo && !coughtHitbox)
 		{
 			int actorID = 0;
 			int noneSelect = 0;
@@ -184,7 +247,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 						if( tileID != TILE_ID_INVALID )
 							newActor->setTileID( tileID );
 						else
-						{
+					{	
 							MessageBoxA( NULL, "Actor was placed outside of a tile and will not get a TileID.", "Level Editor - No TileID", MB_OK );
 						}
 					}
