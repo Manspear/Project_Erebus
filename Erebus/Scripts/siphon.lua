@@ -1,4 +1,4 @@
-SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/siphon.png");
+SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/siphon.dds");
 SIPHON_DAMAGE = 2
 SIPHON_CHAIN_DURATION = 5
 SIPHON_COOLDOWN = 15

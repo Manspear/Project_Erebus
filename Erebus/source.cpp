@@ -204,11 +204,11 @@ int main()
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
-	assets.load<TextureAsset>("Textures/buttonOptions.png");
-	assets.load<TextureAsset>("Textures/buttonExit.png");
-	assets.load<TextureAsset>("Textures/buttonReturn.png");
-	assets.load<TextureAsset>("Textures/buttonFullscreenOn.png");
-	assets.load<TextureAsset>("Textures/buttonFullscreenOff.png");
+	assets.load<TextureAsset>("Textures/buttonOptions.dds");
+	assets.load<TextureAsset>("Textures/buttonExit.dds");
+	assets.load<TextureAsset>("Textures/buttonReturn.dds");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOn.dds");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOff.dds");
 	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
 	glEnable(GL_DEPTH_TEST);
