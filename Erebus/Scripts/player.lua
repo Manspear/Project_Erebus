@@ -176,6 +176,8 @@ function LoadPlayer2()
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeThing(player2)
+
+	Transform.SetScale(player2.aim.transformID, 0)
 end
 
 function UnloadPlayer()
