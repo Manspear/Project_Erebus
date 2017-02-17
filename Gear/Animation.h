@@ -14,6 +14,7 @@ Which means that interpolation needs to be implemented individually for both ani
 and then interpolation needs to be done between those two animation states.
 */
 #define MAXJOINTCOUNT 64
+#define EMPTYELEMENT -1337
 using namespace Importer;
 class Animation
 {
@@ -125,6 +126,9 @@ protected:
 
 	bool quickBlendBeginEnd = true;
 
+	int backIdx = 1;
+	int frontIdx = 0;
+	int animationStackszor[5][2];
 	std::vector<std::vector<int>> animationStacks;
 	glm::mat4x4 identityMatrixList[MAXJOINTCOUNT];
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];

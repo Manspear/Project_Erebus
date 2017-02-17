@@ -178,17 +178,59 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 
 GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 {
+	////Do not append if the animation already exists 
+	//if (animationStacks[animationSegment].back() == state)
+	//{
+	//	if (animationStacks[animationSegment].size() == 1)
+	//	{
+	//		updateAnimation(dt, state, animationSegment);
+	//	}
+	//	else if (animationStacks[animationSegment].size() > 1)
+	//	{
+	//		int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
+	//		int to = animationStacks[animationSegment].back();
+	//
+	//		if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
+	//		{
+	//			transitionTimers[animationSegment] = transitionTimeArray[to + numStates * from];
+	//			transitionMaxTimes[animationSegment] = transitionTimers[animationSegment];
+	//			oldTos[animationSegment] = to;
+	//			oldFroms[animationSegment] = from;
+	//			toAnimationTimer = 0;
+	//		}
+	//		blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
+	//		if (isTransitionCompletes[animationSegment])
+	//		{
+	//			animationStacks[animationSegment].clear();
+	//			animationStacks[animationSegment].push_back(to);
+	//			isTransitionCompletes[animationSegment] = false;
+	//		}
+	//	}
+	//}
+	////Append if the animation doesn't exist
+	//else
+	//{
+	//	//If the blending got interrupted
+	//	if (animationStacks[animationSegment].size() > 1)
+	//	{
+	//		int back = animationStacks[animationSegment].back();
+	//		animationStacks[animationSegment].clear();
+	//		animationStacks[animationSegment].push_back(back);
+	//	}
+	//	animationStacks[animationSegment].push_back(state);
+	//}
+
 	//Do not append if the animation already exists 
-	if (animationStacks[animationSegment].back() == state)
+	if (animationStackszor[animationSegment][backIdx] == state)
 	{
-		if (animationStacks[animationSegment].size() == 1)
+		if (animationStackszor[animationSegment][frontIdx] == EMPTYELEMENT)
 		{
 			updateAnimation(dt, state, animationSegment);
 		}
-		else if (animationStacks[animationSegment].size() > 1)
+		else if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
-			int to = animationStacks[animationSegment].back();
+			int from = animationStackszor[animationSegment][frontIdx];
+			int to = animationStackszor[animationSegment][backIdx];
 
 			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
@@ -201,8 +243,7 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
 			if (isTransitionCompletes[animationSegment])
 			{
-				animationStacks[animationSegment].clear();
-				animationStacks[animationSegment].push_back(to);
+				animationStackszor[animationSegment][frontIdx] = EMPTYELEMENT;
 				isTransitionCompletes[animationSegment] = false;
 			}
 		}
@@ -211,13 +252,12 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 	else
 	{
 		//If the blending got interrupted
-		if (animationStacks[animationSegment].size() > 1)
+		if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int back = animationStacks[animationSegment].back();
-			animationStacks[animationSegment].clear();
-			animationStacks[animationSegment].push_back(back);
+			int back = animationStackszor[animationSegment][backIdx];
+			animationStackszor[animationSegment][frontIdx] = back;
 		}
-		animationStacks[animationSegment].push_back(state);
+		animationStackszor[animationSegment][backIdx] = state;
 	}
 
 	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
@@ -239,16 +279,58 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 
 void Animation::updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime)
 {
-	if (animationStacks[animationSegment].back() == state)
+	//if (animationStacks[animationSegment].back() == state)
+	//{
+	//	if (animationStacks[animationSegment].size() == 1)
+	//	{
+	//		updateAnimation(dt, state, animationSegment);
+	//	}
+	//	else if (animationStacks[animationSegment].size() > 1)
+	//	{
+	//		int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
+	//		int to = animationStacks[animationSegment].back();
+	//
+	//		if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
+	//		{
+	//			transitionTimers[animationSegment] = transitionTime;
+	//			transitionMaxTimes[animationSegment] = transitionTimers[animationSegment];
+	//			oldTos[animationSegment] = to;
+	//			oldFroms[animationSegment] = from;
+	//			toAnimationTimer = 0;
+	//		}
+	//
+	//		blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
+	//		if (isTransitionCompletes[animationSegment])
+	//		{
+	//			animationStacks[animationSegment].clear();
+	//			animationStacks[animationSegment].push_back(to);
+	//			isTransitionCompletes[animationSegment] = false;
+	//		}
+	//	}
+	//}
+	////Append if the animation doesn't exist
+	//else
+	//{
+	//	//If the blending got interrupted
+	//	if (animationStacks[animationSegment].size() > 1)
+	//	{
+	//		int back = animationStacks[animationSegment].back();
+	//		animationStacks[animationSegment].clear();
+	//		animationStacks[animationSegment].push_back(back);
+	//	}
+	//	animationStacks[animationSegment].push_back(state);
+	//}
+
+	if (animationStackszor[animationSegment][backIdx] == state)
 	{
-		if (animationStacks[animationSegment].size() == 1)
+		if (animationStackszor[animationSegment][frontIdx] == EMPTYELEMENT)
 		{
 			updateAnimation(dt, state, animationSegment);
 		}
-		else if (animationStacks[animationSegment].size() > 1)
+		else if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
-			int to = animationStacks[animationSegment].back();
+			int from = animationStackszor[animationSegment][frontIdx];
+			int to = animationStackszor[animationSegment][backIdx];
 
 			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
@@ -258,12 +340,10 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 				oldFroms[animationSegment] = from;
 				toAnimationTimer = 0;
 			}
-
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
 			if (isTransitionCompletes[animationSegment])
 			{
-				animationStacks[animationSegment].clear();
-				animationStacks[animationSegment].push_back(to);
+				animationStackszor[animationSegment][frontIdx] = EMPTYELEMENT;
 				isTransitionCompletes[animationSegment] = false;
 			}
 		}
@@ -272,13 +352,12 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 	else
 	{
 		//If the blending got interrupted
-		if (animationStacks[animationSegment].size() > 1)
+		if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int back = animationStacks[animationSegment].back();
-			animationStacks[animationSegment].clear();
-			animationStacks[animationSegment].push_back(back);
+			int back = animationStackszor[animationSegment][backIdx];
+			animationStackszor[animationSegment][frontIdx] = back;
 		}
-		animationStacks[animationSegment].push_back(state);
+		animationStackszor[animationSegment][backIdx] = state;
 	}
 }
 
@@ -336,6 +415,9 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		transitionTimers.push_back(0);
 		animationTimers.push_back(0);
 		animationStacks.push_back(animStack);
+		
+		animationStackszor[i][0] = -1;
+		animationStackszor[i][1] = 0;
 
 		quickBlendStates.push_back(false);
 
