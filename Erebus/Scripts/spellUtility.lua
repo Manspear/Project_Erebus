@@ -33,7 +33,7 @@ function CreateChargeThing(entity)
 
 	--chargeThing.transformID3 = Transform.Bind()
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	chargeThing.transformID = Gear.BindForwardInstance(natureModel)
+	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
 	chargeThing.modelIndex3 = chargeThing.transformID3
 	
 	chargeThing.particles = createChargeParticles()
