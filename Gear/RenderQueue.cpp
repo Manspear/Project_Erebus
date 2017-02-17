@@ -224,9 +224,9 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			meshes = modelAsset->getHeader()->numMeshes;
 
 			//allShaders[FORWARD]->setUniform(*tempMatrices, "worldMatrices", numInstance);
-			if (uniValues->at(i).location != "NULL")
-				allShaders[FORWARD]->addUniform(uniValues->at(i).values, uniValues->at(i).location);
-
+			if (uniValues->at(i).location != "NULL") {
+				allShaders[FORWARD]->setUniform(uniValues->at(i).values, uniValues->at(i).location);
+			}
 			//world matrix buffer
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, instanceTest);
@@ -265,12 +265,11 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 			}
 			
 			if (uniValues->at(i).location != "NULL")
-				allShaders[FORWARD]->addUniform(resetValue, uniValues->at(i).location);
+				allShaders[FORWARD]->setUniform(resetValue, uniValues->at(i).location);
 		}
 	}
 	glBindVertexArray(0);
 	allShaders[FORWARD]->unUse();
-	//glEnable(GL_CULL_FACE);
 }
 
 bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters)
@@ -309,7 +308,6 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 			pos = emitters->at(i)->getPositions();
 			emitters->at(i)->getTexture()->bind(GL_TEXTURE0);
 			particleCount = emitters->at(i)->getNrOfActiveParticles();
-			//std::cout << particleCount << std::endl;
 			glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);
 			glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);
 		}

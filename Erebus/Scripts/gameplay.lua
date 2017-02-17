@@ -32,7 +32,9 @@ local scriptFiles =
 	"Scripts/siphon.lua",
 	"Scripts/polymorphEffect.lua",
 	"Scripts/polymorph.lua",
-	"Scripts/tumbleThorns.lua"
+	"Scripts/tumbleThorns.lua",
+	"Scripts/windknockback.lua",
+	"Scripts/knockbackEffect.lua"
 }
 
 local gameStarted = false

@@ -3,6 +3,7 @@ TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
 LIFE_STEAL_EFFECT_INDEX = 4
 POLYMORPH_EFFECT_INDEX = 5
+KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
@@ -26,6 +27,7 @@ function LoadPlayer()
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	effectTable[LIFE_STEAL_EFFECT_INDEX] = CreateLifeStealEffect
 	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
+	effectTable[KNOCKBACK_EFFECT_INDEX] = CreateKnockbackEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()
@@ -128,6 +130,7 @@ end
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
+	player2.isCombined = false;
 	player2.health = 100
 	player2.forward = 0
 	player2.left = 0
@@ -308,6 +311,7 @@ end
 
 function SendCombine(spell)
 	--TOBEDEFINED
+	player2.isCombined = true
 	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
 
@@ -321,6 +325,8 @@ function GetCombined()
 end
 
 function Controls(dt)
+	showTutorialImage(130, 44, 220,dt)
+	showTutorialImage2(130, 36, 220,dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 		end
@@ -337,15 +343,15 @@ function Controls(dt)
 			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
 			Sound.Play("Effects/ping.wav", 1, player.position)
 			player.ping = player.pingDuration
-			showTutorialImage(1, 124, 32, 220)
+			
 		end
-		if Inputs.KeyDown("T") then
+		if Inputs.KeyDown(Keys.Shift) then
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
 			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
 		end
-		if Inputs.KeyReleased("T") then
+		if Inputs.KeyReleased(Keys.Shift) then
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
@@ -363,8 +369,7 @@ function Controls(dt)
 				player.spamCasting = true
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
-				player.spells[player.currentSpell]:Cast(player, 0.5, false)
-				
+				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
 			end
 
 			if Inputs.ButtonReleased(Buttons.Left) then
@@ -379,22 +384,21 @@ function Controls(dt)
 		if not player.spamCasting then
 			if Inputs.ButtonDown(Buttons.Right) then
 				player.spells[player.currentSpell]:Charge(dt)
-			sElement = player.spells[player.currentSpell].element
+				sElement = player.spells[player.currentSpell].element
 			
 			
-			if player.isCombined == true then
-				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-				player.Charging = true
-			else
-				player.charger:ChargeMePlease(player.position,dt,sElement)
-			end
+				if player.isCombined == true then
+					player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+				else
+					player.charger:ChargeMePlease(player.position,dt,sElement)
+				end
 			
 			end
 
 			if Inputs.ButtonPressed(Buttons.Right) then 
 				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 				player.charger:StartCharge(player.position) 
-			
+				player.charging = true			
 			end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then
@@ -462,13 +466,21 @@ function UpdatePlayer2(dt)
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
 				player2.charger:EndCharge()
 				isPlayer2Charging = false
+				player2.isCombined = false
 			end
 		end
 	end
 	
 	if isPlayer2Charging == true then
 		player2.spells[player2.currentSpell]:Charge(dt)
-		player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime)
+
+		local spellElement = player2.spells[player2.currentSpell].element
+					
+		if player2.isCombined == true then
+			player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime, spellElement)
+		else
+			player2.charger:ChargeMePlease(player2.position, dt, spellElement)
+		end
 	end
 	
 	player2.spells[1]:Update(dt)

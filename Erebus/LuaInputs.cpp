@@ -48,6 +48,7 @@ namespace LuaInputs
 		setKey( lua, "Down", GLFW_KEY_DOWN );
 		setKey( lua, "Up", GLFW_KEY_UP );
 		setKey( lua, "Console", GLFW_KEY_GRAVE_ACCENT );
+		setKey(lua, "Shift", GLFW_KEY_LEFT_SHIFT);
 		lua_setglobal( lua, "Keys" );
 
 		lua_newtable( lua );
