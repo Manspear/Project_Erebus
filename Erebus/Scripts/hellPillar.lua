@@ -59,7 +59,10 @@ function CreateHellPillar(entity)
 	Gear.AddForwardInstance(model, spell.firstModel)
 
 	function spell:Cast()
-		if self.cooldown < 0 then	
+		if self.cooldown < 0 then		
+			if self.isActiveSpell then
+				self:Aim()
+			end
 			self.cooldown, self.maxcooldown = COOLDOWN_SMALL_PILLAR, COOLDOWN_SMALL_PILLAR	
 			self.startUpTime = 0.5		self.finishingTime = 1.0	self.startUpScale = 3
 			self.startUp = true
