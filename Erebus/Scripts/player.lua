@@ -58,7 +58,7 @@ function LoadPlayer()
 	player.invulnerable = false
 	player.position = Transform.GetPosition(player.transformID)
 	player.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
-	player.pingTexture = Assets.LoadTexture("Textures/ping.png")
+	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
 
@@ -293,12 +293,12 @@ function UpdatePlayer(dt)
 				if v.OnEnter then
 					v.OnEnter()
 				else
-					v.OnTrigger()
+					v.OnTrigger(dt)
 				end
 
 				v.triggered = true
 			else
-				v.OnTrigger()
+				v.OnTrigger(dt)
 			end
 		else
 			if v.triggered then
@@ -327,8 +327,8 @@ function GetCombined()
 end
 
 function Controls(dt)
-	showTutorialImage(130, 44, 220,dt)
-	showTutorialImage2(130, 36, 220,dt)
+	--showTutorialImage(130, 44, 220,dt)
+	--showTutorialImage2(130, 36, 220,dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 		end
@@ -459,6 +459,7 @@ function UpdatePlayer2(dt)
 		player2.spells[player2.currentSpell]:Change()
 
 		if isCharging == false then
+			player2.attackTimer = 1
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then

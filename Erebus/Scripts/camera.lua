@@ -18,9 +18,9 @@ function interpolate(a, b, factor)
 end
 
 function cross(a, b)
-	return {x = a.y*b.z - a.z*b.y, 
-			y = a.z*b.x - a.x*b.z, 
-			z = a.x*b.y - a.y*b.z}
+	return {x = a.y*b.z - a.z*b.y,
+			y = a.z*b.x - a.x*b.z,
+			z = a.x*b.y - a.y*b.x}
 end
 
 function scalarvec3mult(a, b)

@@ -6,8 +6,8 @@ local selectedPlayerSpell = -1
 local selectedBookSpell = -1
 
 function LoadSpellbookUI()
-	imageTextures["background"] = Assets.LoadTexture("Textures/spellBook.png");
-	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.png");
+	imageTextures["background"] = Assets.LoadTexture("Textures/spellBook.dds");
+	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.dds");
 	imageTextures["select"] = Assets.LoadTexture("Textures/select.dds")
 
 
