@@ -4,7 +4,7 @@ POLYMORPH_POOFTIME = 0.3
 polymorphPool = {}
 polymorphParticles = {}
 currentFree = 1
-function CreatePolyEffect(duration)
+function CreatePolyEffect(owner, duration)
 	local effect = {}
 	effect.owner = effectowner
 	effect.duration = duration or POLYMORPH_EFFECT_DURATION

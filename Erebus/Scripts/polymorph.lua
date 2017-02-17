@@ -111,6 +111,9 @@ function CreatePolymorph(entity)
 		self.alive = false
 		self.chargedTime = 0
 		self.particles:die(self.position)
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 	return spell
 end

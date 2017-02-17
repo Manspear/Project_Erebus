@@ -119,6 +119,9 @@ function CreateSunRay(entity)
 		self.owner.moveSpeed = self.owner.moveSpeed * (1 / self.moveImpairment) 
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
 		self.type:Kill()
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 	end
 
 	function sunRay:GetEffect()

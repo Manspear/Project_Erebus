@@ -41,8 +41,18 @@ function UnloadHUD()
 end
 
 function UpdateHUD(dt)
- 
-	playerHealthCurrent = player.health + (50 * dt)*(playerHealthCurrent-player.health)
+
+	if playerHealthCurrent > player.health then
+		playerHealthCurrent = playerHealthCurrent - (50 * dt)
+		if  playerHealthCurrent < player.health then
+			playerHealthCurrent = player.health
+		end
+	elseif playerHealthCurrent < player.health then
+		playerHealthCurrent = playerHealthCurrent + (50 * dt)
+		if  playerHealthCurrent > player.health then
+			playerHealthCurrent = player.health
+		end
+	end
 
 	a = (playerHealthCurrent * healthBarLength) / 100.0;
 	UI.resize(screenImages["healthBar"], a, 20)
