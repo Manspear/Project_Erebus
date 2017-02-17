@@ -1,4 +1,5 @@
 SHOW_TUTORIAL_IMAGE = -1
+SHOW_TUTORIAL_IMAGE2 = -1
 local screenImages = {}
 local imageTextures = {}
 local tutorialImages = {}
@@ -7,6 +8,8 @@ local tutorialTexture = {}
 local playerHealthCurrent = 100;
 local healthBarLength = 470;
 local spellHeight = 40;
+local TutorialCounter = 0;
+local TutorialCounter2 = 0;
 local showHealthbar = true;
 
 function LoadHUD()
@@ -32,11 +35,18 @@ function LoadHUD()
 	screenImages[2] = UI.load(420, 638, 40, 40);
 	screenImages[3] = UI.load(465, 638, 40, 40);
 
-	tutorialImages[1] = UI.load(124, 32, 220, 0.75, 0.75)
-	tutorialTexture[1] = Assets.LoadTexture("Textures/PressLeftToFire.png")
+	
+	tutorialTexture[1] = Assets.LoadTexture("Textures/TUTORIAL_PressLeftToFire.dds")
+	tutorialTexture[2] = Assets.LoadTexture("Textures/TUTORIALChangeSpell.dds")
+	tutorialTexture[3] = Assets.LoadTexture("Textures/TUTORIAL_DASH.dds")
 
-	tutorialImages[2] = UI.load(124, 32, 220, 0.75, 0.75)
-	tutorialTexture[2] = Assets.LoadTexture("Textures/TUTORIALChangeSpell.png")
+	tutorialTexture[4] = Assets.LoadTexture("Textures/TUTORIALCharge1.dds")
+	tutorialTexture[5] = Assets.LoadTexture("Textures/TUTORIALCharge2.dds")
+	tutorialTexture[6] = Assets.LoadTexture("Textures/TUTORIALChargeFriend1.dds")
+	tutorialTexture[7] = Assets.LoadTexture("Textures/TUTORIALChargeFriend2.dds")
+	
+	
+
 end
 
 function UnloadHUD()
@@ -110,6 +120,10 @@ function DrawHUD()
 		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE], tutorialTexture[SHOW_TUTORIAL_IMAGE])
 	end
 
+	if SHOW_TUTORIAL_IMAGE2 ~= -1 then
+		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE2], tutorialTexture[SHOW_TUTORIAL_IMAGE2])
+	end
+
 	if player.ping > 0 then
 		UI.drawWorldImage(player.pingImage, player.pingTexture);
 	end
@@ -121,10 +135,46 @@ function DrawHUD()
 	end
 end
 
-function showTutorialImage(index,x,y,z)
-	--tutorialImages[1] = UI.load(x, y, z, 0.75, 0.75)
-	tutorialImages[index] = UI.load(x, y, z, 4, 4)
+function showTutorialImage(x,y,z,dt)
+	TutorialCounter = TutorialCounter + dt
+	
+	if TutorialCounter < 2.5  then
+		index = 1
+	elseif TutorialCounter < 5 then
+		index = 2
+	elseif TutorialCounter < 7.5 then
+		index = 3
+	else
+		TutorialCounter = 0
+		index = 1
+	end
+
+
+
+	tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	SHOW_TUTORIAL_IMAGE = index
+end
+
+function showTutorialImage2(x,y,z,dt)
+	TutorialCounter2 = TutorialCounter2 + dt
+	
+	if TutorialCounter2 < 2.5  then
+		index = 4
+	elseif TutorialCounter2 < 5 then
+		index = 5
+	elseif TutorialCounter2 < 7.5 then
+		index = 6
+	elseif TutorialCounter2 < 10 then
+		index = 7
+	else
+		TutorialCounter2 = 0
+		index = 1
+	end
+
+
+
+	tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	SHOW_TUTORIAL_IMAGE2 = index
 end
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }
