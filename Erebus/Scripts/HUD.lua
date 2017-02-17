@@ -13,14 +13,14 @@ local TutorialCounter2 = 0;
 local showHealthbar = true;
 
 function LoadHUD()
-	imageTextures["healthBackground"] = Assets.LoadTexture("Textures/HealthBackground.png");
-	imageTextures["healthBar"] = Assets.LoadTexture("Textures/HealthBar.png");
-	imageTextures["cooldown"] = Assets.LoadTexture("Textures/cooldown.png");
-	imageTextures["number1"] = Assets.LoadTexture("Textures/spell1.png");
-	imageTextures["number2"] = Assets.LoadTexture("Textures/spell2.png");
-	imageTextures["number3"] = Assets.LoadTexture("Textures/spell3.png")
+	imageTextures["healthBackground"] = Assets.LoadTexture("Textures/HealthBackground.dds");
+	imageTextures["healthBar"] = Assets.LoadTexture("Textures/HealthBar.dds");
+	imageTextures["cooldown"] = Assets.LoadTexture("Textures/cooldown.dds");
+	imageTextures["number1"] = Assets.LoadTexture("Textures/spell1.dds");
+	imageTextures["number2"] = Assets.LoadTexture("Textures/spell2.dds");
+	imageTextures["number3"] = Assets.LoadTexture("Textures/spell3.dds")
 	imageTextures["select"] = Assets.LoadTexture("Textures/select.dds")
-	imageTextures["crosshair"] = Assets.LoadTexture("Textures/crosshair.png")
+	imageTextures["crosshair"] = Assets.LoadTexture("Textures/crosshair.dds")
 
 	--screenImages["crosshair"] = UI.load(620, 340, 40, 40);
 

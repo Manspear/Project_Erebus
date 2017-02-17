@@ -37,7 +37,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 10
+	player.moveSpeed = 7
 	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
@@ -176,6 +176,8 @@ function LoadPlayer2()
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeThing(player2)
+
+	Transform.SetScale(player2.aim.transformID, 0)
 end
 
 function UnloadPlayer()
@@ -457,6 +459,7 @@ function UpdatePlayer2(dt)
 		player2.spells[player2.currentSpell]:Change()
 
 		if isCharging == false then
+			player2.attackTimer = 1
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
