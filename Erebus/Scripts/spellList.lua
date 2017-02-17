@@ -54,20 +54,29 @@ function LoadSpellbook()
 					info = wrap("i steal life yo", 30, "",""),
 					spell = CreateSiphon(player)
 	}
+	siphon.spell.spellListId = 6
 	table.insert(SpellList, siphon)
 	
 	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
 					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
 					spell = CreatePolymorph(player)
 	}
-
 	table.insert(SpellList, polymorph)
+	polymorph.spell.spellListId = 7
 	
 	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.png"),
 					info = wrap("'Akta alla sma taggar va?!'", 30, "",""),
 					spell = CreateTumblethorns(player)
 	}
+	tumblethorns.spell.spellListId = 8
 	table.insert(SpellList, tumblethorns)
+
+	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
+					info = wrap("'Jag har aldrig slutat tro, att efter varje natt vantar gryningen. Fast jag inte kan forsta, sa finns det hopp anda, nar vi borjar om igen! Kanner doften av en stilla ocean. Plotsligt star jag i en levande orkan!!!'", 30, "",""),
+					spell = CreateWindknockback(player)
+	}
+	table.insert(SpellList, windknockback)
+	windknockback.spell.spellListID = 9
 
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
@@ -86,9 +95,18 @@ function LoadSpellbookPlayer2()
 
 	local IceGrenade = {spell = CreateIceGrenade(player2)}
 	table.insert(SpellListPlayer2, IceGrenade)
-
+	
 	local SunRay = {spell = CreateSunRay(player2)}
 	table.insert(SpellListPlayer2, SunRay)
+	
+	local siphon = {spell = CreateSiphon(player2)}
+	table.insert(SpellListPlayer2, siphon)
+	
+	local polymorph = {spell = CreatePolymorph(player2)}
+	table.insert(SpellListPlayer2, polymorph)
+
+	local tumblethorns = {spell = CreateTumblethorns(player2)}
+	table.insert(SpellListPlayer2, tumblethorns)
 
 	LoadSpellsPlayer2()
 end

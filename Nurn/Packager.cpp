@@ -8,18 +8,18 @@ Packager::Packager(DebugNetwork * debugNetwork_ptr)
 Packager::Packager()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(10);
-	this->animationQueue = new PacketQueue<AnimationPacket>(10);
+	this->transformQueue = new PacketQueue<TransformPacket>(5);
+	this->animationQueue = new PacketQueue<AnimationPacket>(5);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
-	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(20);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
-	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
-	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
-	this->damageQueue = new PacketQueue<DamagePacket>(20);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(20);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(20);
+	this->damageQueue = new PacketQueue<DamagePacket>(40);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
-	this->dashQueue = new PacketQueue<DashPacket>(10);
+	this->dashQueue = new PacketQueue<DashPacket>(5);
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -236,7 +236,7 @@ void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, 
 #ifdef DEBUGGING_NETWORK
 void Packager::addPingPacket(uint16_t& netPacketSize, bool& fullPackage)
 {
-	this->debugNetwork_ptr->start_time = std::chrono::system_clock::now();
+	this->debugNetwork_ptr->ping_start_time = std::chrono::system_clock::now();
 
 	uint16_t sizeOfPingPackets = sizeof(PingPacket);
 	memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket), &PingPacket(this->debugNetwork_ptr->getPingPacket().data.loopNumber), sizeof(PingPacket));

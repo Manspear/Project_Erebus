@@ -4,6 +4,7 @@ DebugNetwork::DebugNetwork()
 {
 	this->sendPingPacket = false;
 	this->pingPacket.data.loopNumber = 0;
+	this->ping = 0.0f;
 }
 
 DebugNetwork::~DebugNetwork()
@@ -32,9 +33,14 @@ bool DebugNetwork::getSendPingPacket() const
 	return this->sendPingPacket;
 }
 
+void DebugNetwork::setPing()
+{
+	this->ping = ((std::chrono::duration<float>) (std::chrono::system_clock::now() - this->ping_start_time)).count();
+}
+
 float DebugNetwork::getPing()
 {
-	return ((std::chrono::duration<float>) (this->end_time - this->start_time)).count();
+	return this->ping;
 }
 
 

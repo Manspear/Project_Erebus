@@ -90,7 +90,7 @@ function CreateFireball(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
 			self.aSmallIsActive = self.aSmallIsActive + 1
-			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles.cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
@@ -153,12 +153,6 @@ function CreateFireball(entity)
 		end
 	end
 
-	spell.Charge = BaseCharge
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
-	end
-
 	function spell:GetEffect()
 		return self.effects[1]
 	end
@@ -177,7 +171,7 @@ function CreateFireball(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
-		Light.removeLight(self.light, true)
+		if self.light then		Light.removeLight(self.light, true)		end
 	end
 
 	function spell:SpamFireball(index)
@@ -189,5 +183,7 @@ function CreateFireball(entity)
 		self.smallFB[index].alive = false 
 		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
+	spell.Charge = BaseCharge
+	spell.Change = BaseChange
 	return spell
 end

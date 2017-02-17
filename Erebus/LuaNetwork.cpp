@@ -475,7 +475,7 @@ namespace LuaNetwork
 	int sendDashPacket(lua_State* lua)
 	{
 		uint8_t setScaleValue = (uint8_t)lua_tointeger(lua, 1);
-		bool invulnerable = (bool)lua_tointeger(lua, 2);
+		bool invulnerable = (bool)lua_toboolean(lua, 2);
 
 		g_networkController->sendDashPacket(DashPacket(setScaleValue, invulnerable));
 

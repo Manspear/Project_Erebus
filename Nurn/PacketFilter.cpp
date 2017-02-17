@@ -8,18 +8,18 @@ PacketFilter::PacketFilter(DebugNetwork * debugNetwork_ptr)
 PacketFilter::PacketFilter()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(10);
-	this->animationQueue = new PacketQueue<AnimationPacket>(10);
+	this->transformQueue = new PacketQueue<TransformPacket>(5);
+	this->animationQueue = new PacketQueue<AnimationPacket>(5);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
-	this->spellQueue = new PacketQueue<SpellPacket>(10);
+	this->spellQueue = new PacketQueue<SpellPacket>(20);
 	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
-	this->chargingQueue = new PacketQueue<ChargingPacket>(10);
-	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(40);
-	this->damageQueue = new PacketQueue<DamagePacket>(20);
+	this->chargingQueue = new PacketQueue<ChargingPacket>(20);
+	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(20);
+	this->damageQueue = new PacketQueue<DamagePacket>(40);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
-	this->dashQueue = new PacketQueue<DashPacket>(10);
+	this->dashQueue = new PacketQueue<DashPacket>(5);
 }
 
 PacketFilter::~PacketFilter()
@@ -143,7 +143,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 
 #ifdef DEBUGGING_NETWORK
 				case PING_PACKET:
-					this->debugNetwork_ptr->end_time = std::chrono::system_clock::now();
+					this->debugNetwork_ptr->setPing();
 
 					// Copy the PingPacket data to the PingPacket in DebugNetwork
 					memcpy(&this->debugNetwork_ptr->getPingPacket(), memoryPointer + bytesRead, sizeof(PingPacket));

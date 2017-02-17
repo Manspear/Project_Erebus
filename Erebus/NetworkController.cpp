@@ -274,3 +274,10 @@ double NetworkController::timeSinceLastAITransformPacket()
 {
 	return (counter.getCurrentTime() - aiTransformpackTime);
 }
+
+#ifdef DEBUGGING_NETWORK
+float NetworkController::getPing()
+{
+	return network.getPing();
+}
+#endif
