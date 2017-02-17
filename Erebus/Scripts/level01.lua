@@ -786,317 +786,547 @@ CollisionHandler.AddOBB(ObbRot80ID.collider, 3)
 table.insert(props,ObbRot80ID)
 ObbRot80ID = nil
 
-ObbRot288ID = {}
-ObbRot288ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot288ID.transformID, {x=126.338, y=33.4473, z=228.83})
-Transform.SetScaleNonUniform(ObbRot288ID.transformID, 1, 8.14921, 8.69229)
-Transform.SetRotation(ObbRot288ID.transformID, {x=0, y=-0.042339, z=0})
-ObbRot288ID.collider = OBBCollider.Create(ObbRot288ID.transformID)
-ObbRot288ID.collider:SetOffset(0,0,0)
-ObbRot288ID.collider:SetZAxis(-0.0423263,0,0.999104)
-ObbRot288ID.collider:SetHalfLengths(0.5,4.07461,4.34615)
-CollisionHandler.AddOBB(ObbRot288ID.collider, 3)
-table.insert(props,ObbRot288ID)
-ObbRot288ID = nil
+ObbRot282ID = {}
+ObbRot282ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot282ID.transformID, {x=126.338, y=33.4473, z=228.83})
+Transform.SetScaleNonUniform(ObbRot282ID.transformID, 1, 8.14921, 8.69229)
+Transform.SetRotation(ObbRot282ID.transformID, {x=0, y=-0.042339, z=0})
+ObbRot282ID.collider = OBBCollider.Create(ObbRot282ID.transformID)
+ObbRot282ID.collider:SetOffset(0,0,0)
+ObbRot282ID.collider:SetZAxis(-0.0423263,0,0.999104)
+ObbRot282ID.collider:SetHalfLengths(0.5,4.07461,4.34615)
+CollisionHandler.AddOBB(ObbRot282ID.collider, 3)
+table.insert(props,ObbRot282ID)
+ObbRot282ID = nil
 
-ObbRot389ID = {}
-ObbRot389ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot389ID.transformID, {x=133.49, y=36.6591, z=224.246})
-Transform.SetScaleNonUniform(ObbRot389ID.transformID, 15.3474, 11.4235, 1)
-Transform.SetRotation(ObbRot389ID.transformID, {x=0, y=0.0933742, z=0})
-ObbRot389ID.collider = OBBCollider.Create(ObbRot389ID.transformID)
-ObbRot389ID.collider:SetOffset(0,0,0)
-ObbRot389ID.collider:SetZAxis(0.0932386,0,0.995644)
-ObbRot389ID.collider:SetHalfLengths(7.67372,5.71174,0.5)
-CollisionHandler.AddOBB(ObbRot389ID.collider, 3)
-table.insert(props,ObbRot389ID)
-ObbRot389ID = nil
+ObbRot383ID = {}
+ObbRot383ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot383ID.transformID, {x=133.49, y=36.6591, z=224.246})
+Transform.SetScaleNonUniform(ObbRot383ID.transformID, 15.3474, 11.4235, 1)
+Transform.SetRotation(ObbRot383ID.transformID, {x=0, y=0.0933742, z=0})
+ObbRot383ID.collider = OBBCollider.Create(ObbRot383ID.transformID)
+ObbRot383ID.collider:SetOffset(0,0,0)
+ObbRot383ID.collider:SetZAxis(0.0932386,0,0.995644)
+ObbRot383ID.collider:SetHalfLengths(7.67372,5.71174,0.5)
+CollisionHandler.AddOBB(ObbRot383ID.collider, 3)
+table.insert(props,ObbRot383ID)
+ObbRot383ID = nil
 
-ObbRot490ID = {}
-ObbRot490ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot490ID.transformID, {x=137.673, y=36.5255, z=222.988})
-Transform.SetScaleNonUniform(ObbRot490ID.transformID, 14.6798, 11.1924, 1)
-Transform.SetRotation(ObbRot490ID.transformID, {x=0, y=0.354433, z=0})
-ObbRot490ID.collider = OBBCollider.Create(ObbRot490ID.transformID)
-ObbRot490ID.collider:SetOffset(0,0,0)
-ObbRot490ID.collider:SetZAxis(0.347059,0,0.937843)
-ObbRot490ID.collider:SetHalfLengths(7.33991,5.5962,0.5)
-CollisionHandler.AddOBB(ObbRot490ID.collider, 3)
-table.insert(props,ObbRot490ID)
-ObbRot490ID = nil
+ObbRot484ID = {}
+ObbRot484ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot484ID.transformID, {x=137.673, y=36.5255, z=222.988})
+Transform.SetScaleNonUniform(ObbRot484ID.transformID, 14.6798, 11.1924, 1)
+Transform.SetRotation(ObbRot484ID.transformID, {x=0, y=0.354433, z=0})
+ObbRot484ID.collider = OBBCollider.Create(ObbRot484ID.transformID)
+ObbRot484ID.collider:SetOffset(0,0,0)
+ObbRot484ID.collider:SetZAxis(0.347059,0,0.937843)
+ObbRot484ID.collider:SetHalfLengths(7.33991,5.5962,0.5)
+CollisionHandler.AddOBB(ObbRot484ID.collider, 3)
+table.insert(props,ObbRot484ID)
+ObbRot484ID = nil
 
-Obb38107ID = {}
-Obb38107ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb38107ID.transformID, {x=-1.07374e+08, y=-1.07374e+08, z=-1.07374e+08})
-Transform.SetScaleNonUniform(Obb38107ID.transformID, 1, 1, 1)
-Transform.SetRotation(Obb38107ID.transformID, {x=0, y=0, z=0})
-Obb38107ID.collider = OBBCollider.Create(Obb38107ID.transformID)
-Obb38107ID.collider:SetOffset(0,0,0)
-Obb38107ID.collider:SetZAxis(-0.582718,0,0.812674)
-Obb38107ID.collider:SetHalfLengths(0.5,0.5,0.5)
-CollisionHandler.AddOBB(Obb38107ID.collider, 3)
-table.insert(colliders,Obb38107ID)
-Obb38107ID = nil
+Obb38100ID = {}
+Obb38100ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb38100ID.transformID, {x=-1.07374e+08, y=-1.07374e+08, z=-1.07374e+08})
+Transform.SetScaleNonUniform(Obb38100ID.transformID, 1, 1, 1)
+Transform.SetRotation(Obb38100ID.transformID, {x=0, y=0, z=0})
+Obb38100ID.collider = OBBCollider.Create(Obb38100ID.transformID)
+Obb38100ID.collider:SetOffset(0,0,0)
+Obb38100ID.collider:SetZAxis(-0.582718,0,0.812674)
+Obb38100ID.collider:SetHalfLengths(0.5,0.5,0.5)
+CollisionHandler.AddOBB(Obb38100ID.collider, 3)
+table.insert(colliders,Obb38100ID)
+Obb38100ID = nil
 
-Obb46108ID = {}
-Obb46108ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb46108ID.transformID, {x=27.0532, y=10.4212, z=133.303})
-Transform.SetScaleNonUniform(Obb46108ID.transformID, 1.27297, 5.5868, 13.9593)
-Transform.SetRotation(Obb46108ID.transformID, {x=0, y=0, z=0})
-Obb46108ID.collider = OBBCollider.Create(Obb46108ID.transformID)
-Obb46108ID.collider:SetOffset(0,0,0)
-Obb46108ID.collider:SetZAxis(-0.582718,0,0.812674)
-Obb46108ID.collider:SetHalfLengths(0.636485,2.7934,6.97963)
-CollisionHandler.AddOBB(Obb46108ID.collider, 3)
-table.insert(colliders,Obb46108ID)
-Obb46108ID = nil
+Obb46101ID = {}
+Obb46101ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb46101ID.transformID, {x=27.0532, y=10.4212, z=133.303})
+Transform.SetScaleNonUniform(Obb46101ID.transformID, 1.27297, 5.5868, 13.9593)
+Transform.SetRotation(Obb46101ID.transformID, {x=0, y=0, z=0})
+Obb46101ID.collider = OBBCollider.Create(Obb46101ID.transformID)
+Obb46101ID.collider:SetOffset(0,0,0)
+Obb46101ID.collider:SetZAxis(-0.582718,0,0.812674)
+Obb46101ID.collider:SetHalfLengths(0.636485,2.7934,6.97963)
+CollisionHandler.AddOBB(Obb46101ID.collider, 3)
+table.insert(colliders,Obb46101ID)
+Obb46101ID = nil
 
-Obb461109ID = {}
-Obb461109ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb461109ID.transformID, {x=33.2583, y=10.5917, z=127.573})
-Transform.SetScaleNonUniform(Obb461109ID.transformID, 6.95827, 5.75073, 1)
-Transform.SetRotation(Obb461109ID.transformID, {x=0, y=0, z=0})
-Obb461109ID.collider = OBBCollider.Create(Obb461109ID.transformID)
-Obb461109ID.collider:SetOffset(0,0,0)
-Obb461109ID.collider:SetZAxis(0.165133,0,0.986271)
-Obb461109ID.collider:SetHalfLengths(3.47914,2.87537,0.5)
-CollisionHandler.AddOBB(Obb461109ID.collider, 3)
-table.insert(colliders,Obb461109ID)
-Obb461109ID = nil
+Obb461102ID = {}
+Obb461102ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb461102ID.transformID, {x=33.2583, y=10.5917, z=127.573})
+Transform.SetScaleNonUniform(Obb461102ID.transformID, 6.95827, 5.75073, 1)
+Transform.SetRotation(Obb461102ID.transformID, {x=0, y=0, z=0})
+Obb461102ID.collider = OBBCollider.Create(Obb461102ID.transformID)
+Obb461102ID.collider:SetOffset(0,0,0)
+Obb461102ID.collider:SetZAxis(0.165133,0,0.986271)
+Obb461102ID.collider:SetHalfLengths(3.47914,2.87537,0.5)
+CollisionHandler.AddOBB(Obb461102ID.collider, 3)
+table.insert(colliders,Obb461102ID)
+Obb461102ID = nil
 
-Obb462110ID = {}
-Obb462110ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb462110ID.transformID, {x=4.88027, y=9.57633, z=141.999})
-Transform.SetScaleNonUniform(Obb462110ID.transformID, 1, 6.03523, 11.042)
-Transform.SetRotation(Obb462110ID.transformID, {x=0, y=0, z=0})
-Obb462110ID.collider = OBBCollider.Create(Obb462110ID.transformID)
-Obb462110ID.collider:SetOffset(0,0,0)
-Obb462110ID.collider:SetZAxis(0.226461,0,-0.97402)
-Obb462110ID.collider:SetHalfLengths(0.5,3.01761,5.52102)
-CollisionHandler.AddOBB(Obb462110ID.collider, 3)
-table.insert(colliders,Obb462110ID)
-Obb462110ID = nil
+Obb462103ID = {}
+Obb462103ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb462103ID.transformID, {x=4.88027, y=9.57633, z=141.999})
+Transform.SetScaleNonUniform(Obb462103ID.transformID, 1, 6.03523, 11.042)
+Transform.SetRotation(Obb462103ID.transformID, {x=0, y=0, z=0})
+Obb462103ID.collider = OBBCollider.Create(Obb462103ID.transformID)
+Obb462103ID.collider:SetOffset(0,0,0)
+Obb462103ID.collider:SetZAxis(0.226461,0,-0.97402)
+Obb462103ID.collider:SetHalfLengths(0.5,3.01761,5.52102)
+CollisionHandler.AddOBB(Obb462103ID.collider, 3)
+table.insert(colliders,Obb462103ID)
+Obb462103ID = nil
 
-Obb463111ID = {}
-Obb463111ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb463111ID.transformID, {x=32.5441, y=8.30676, z=171.11})
-Transform.SetScaleNonUniform(Obb463111ID.transformID, 6.74602, 7.71894, 0.80043)
-Transform.SetRotation(Obb463111ID.transformID, {x=0, y=0, z=0})
-Obb463111ID.collider = OBBCollider.Create(Obb463111ID.transformID)
-Obb463111ID.collider:SetOffset(0,0,0)
-Obb463111ID.collider:SetZAxis(0.853695,0,-0.520774)
-Obb463111ID.collider:SetHalfLengths(3.37301,3.85947,0.400215)
-CollisionHandler.AddOBB(Obb463111ID.collider, 3)
-table.insert(colliders,Obb463111ID)
-Obb463111ID = nil
+Obb463104ID = {}
+Obb463104ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb463104ID.transformID, {x=32.5441, y=8.30676, z=171.11})
+Transform.SetScaleNonUniform(Obb463104ID.transformID, 6.74602, 7.71894, 0.80043)
+Transform.SetRotation(Obb463104ID.transformID, {x=0, y=0, z=0})
+Obb463104ID.collider = OBBCollider.Create(Obb463104ID.transformID)
+Obb463104ID.collider:SetOffset(0,0,0)
+Obb463104ID.collider:SetZAxis(0.853695,0,-0.520774)
+Obb463104ID.collider:SetHalfLengths(3.37301,3.85947,0.400215)
+CollisionHandler.AddOBB(Obb463104ID.collider, 3)
+table.insert(colliders,Obb463104ID)
+Obb463104ID = nil
 
-Obb464112ID = {}
-Obb464112ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb464112ID.transformID, {x=23.756, y=7.84791, z=172.315})
-Transform.SetScaleNonUniform(Obb464112ID.transformID, 4.31209, 6.35992, 1.41016)
-Transform.SetRotation(Obb464112ID.transformID, {x=0, y=0, z=0})
-Obb464112ID.collider = OBBCollider.Create(Obb464112ID.transformID)
-Obb464112ID.collider:SetOffset(0,0,0)
-Obb464112ID.collider:SetZAxis(-0.656941,0,-0.753942)
-Obb464112ID.collider:SetHalfLengths(2.15604,3.17996,0.705078)
-CollisionHandler.AddOBB(Obb464112ID.collider, 3)
-table.insert(colliders,Obb464112ID)
-Obb464112ID = nil
+Obb464105ID = {}
+Obb464105ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb464105ID.transformID, {x=23.756, y=7.84791, z=172.315})
+Transform.SetScaleNonUniform(Obb464105ID.transformID, 4.31209, 6.35992, 1.41016)
+Transform.SetRotation(Obb464105ID.transformID, {x=0, y=0, z=0})
+Obb464105ID.collider = OBBCollider.Create(Obb464105ID.transformID)
+Obb464105ID.collider:SetOffset(0,0,0)
+Obb464105ID.collider:SetZAxis(-0.656941,0,-0.753942)
+Obb464105ID.collider:SetHalfLengths(2.15604,3.17996,0.705078)
+CollisionHandler.AddOBB(Obb464105ID.collider, 3)
+table.insert(colliders,Obb464105ID)
+Obb464105ID = nil
 
-Obb465113ID = {}
-Obb465113ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb465113ID.transformID, {x=90.287, y=24.9402, z=213.474})
-Transform.SetScaleNonUniform(Obb465113ID.transformID, 9.93155, 7.44146, 1.21475)
-Transform.SetRotation(Obb465113ID.transformID, {x=0, y=0, z=0})
-Obb465113ID.collider = OBBCollider.Create(Obb465113ID.transformID)
-Obb465113ID.collider:SetOffset(0,0,0)
-Obb465113ID.collider:SetZAxis(-0.908103,0,0.418747)
-Obb465113ID.collider:SetHalfLengths(4.96577,3.72073,0.607376)
-CollisionHandler.AddOBB(Obb465113ID.collider, 3)
-table.insert(colliders,Obb465113ID)
-Obb465113ID = nil
+Obb465106ID = {}
+Obb465106ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb465106ID.transformID, {x=90.287, y=24.9402, z=213.474})
+Transform.SetScaleNonUniform(Obb465106ID.transformID, 9.93155, 7.44146, 1.21475)
+Transform.SetRotation(Obb465106ID.transformID, {x=0, y=0, z=0})
+Obb465106ID.collider = OBBCollider.Create(Obb465106ID.transformID)
+Obb465106ID.collider:SetOffset(0,0,0)
+Obb465106ID.collider:SetZAxis(-0.908103,0,0.418747)
+Obb465106ID.collider:SetHalfLengths(4.96577,3.72073,0.607376)
+CollisionHandler.AddOBB(Obb465106ID.collider, 3)
+table.insert(colliders,Obb465106ID)
+Obb465106ID = nil
 
-Obb466114ID = {}
-Obb466114ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb466114ID.transformID, {x=100.212, y=28.1139, z=220.179})
-Transform.SetScaleNonUniform(Obb466114ID.transformID, 17.0373, 10.9946, 1)
-Transform.SetRotation(Obb466114ID.transformID, {x=0, y=0, z=0})
-Obb466114ID.collider = OBBCollider.Create(Obb466114ID.transformID)
-Obb466114ID.collider:SetOffset(0,0,0)
-Obb466114ID.collider:SetZAxis(-0.313659,0,0.949536)
-Obb466114ID.collider:SetHalfLengths(8.51867,5.49728,0.5)
-CollisionHandler.AddOBB(Obb466114ID.collider, 3)
-table.insert(colliders,Obb466114ID)
-Obb466114ID = nil
+Obb466107ID = {}
+Obb466107ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb466107ID.transformID, {x=100.212, y=28.1139, z=220.179})
+Transform.SetScaleNonUniform(Obb466107ID.transformID, 17.0373, 10.9946, 1)
+Transform.SetRotation(Obb466107ID.transformID, {x=0, y=0, z=0})
+Obb466107ID.collider = OBBCollider.Create(Obb466107ID.transformID)
+Obb466107ID.collider:SetOffset(0,0,0)
+Obb466107ID.collider:SetZAxis(-0.313659,0,0.949536)
+Obb466107ID.collider:SetHalfLengths(8.51867,5.49728,0.5)
+CollisionHandler.AddOBB(Obb466107ID.collider, 3)
+table.insert(colliders,Obb466107ID)
+Obb466107ID = nil
 
-Obb467115ID = {}
-Obb467115ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb467115ID.transformID, {x=110.86, y=31.5587, z=222.132})
-Transform.SetScaleNonUniform(Obb467115ID.transformID, 6.99899, 8.05659, 1)
-Transform.SetRotation(Obb467115ID.transformID, {x=0, y=0, z=0})
-Obb467115ID.collider = OBBCollider.Create(Obb467115ID.transformID)
-Obb467115ID.collider:SetOffset(0,0,0)
-Obb467115ID.collider:SetZAxis(0.363101,0,0.93175)
-Obb467115ID.collider:SetHalfLengths(3.49949,4.02829,0.5)
-CollisionHandler.AddOBB(Obb467115ID.collider, 3)
-table.insert(colliders,Obb467115ID)
-Obb467115ID = nil
+Obb467108ID = {}
+Obb467108ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb467108ID.transformID, {x=110.86, y=31.5587, z=222.132})
+Transform.SetScaleNonUniform(Obb467108ID.transformID, 6.99899, 8.05659, 1)
+Transform.SetRotation(Obb467108ID.transformID, {x=0, y=0, z=0})
+Obb467108ID.collider = OBBCollider.Create(Obb467108ID.transformID)
+Obb467108ID.collider:SetOffset(0,0,0)
+Obb467108ID.collider:SetZAxis(0.363101,0,0.93175)
+Obb467108ID.collider:SetHalfLengths(3.49949,4.02829,0.5)
+CollisionHandler.AddOBB(Obb467108ID.collider, 3)
+table.insert(colliders,Obb467108ID)
+Obb467108ID = nil
 
-Obb468116ID = {}
-Obb468116ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb468116ID.transformID, {x=114.768, y=36.7858, z=217.938})
-Transform.SetScaleNonUniform(Obb468116ID.transformID, 6.71252, 12.7726, 1)
-Transform.SetRotation(Obb468116ID.transformID, {x=0, y=0, z=0})
-Obb468116ID.collider = OBBCollider.Create(Obb468116ID.transformID)
-Obb468116ID.collider:SetOffset(0,0,0)
-Obb468116ID.collider:SetZAxis(0.919051,0,0.394139)
-Obb468116ID.collider:SetHalfLengths(3.35626,6.38632,0.5)
-CollisionHandler.AddOBB(Obb468116ID.collider, 3)
-table.insert(colliders,Obb468116ID)
-Obb468116ID = nil
+Obb468109ID = {}
+Obb468109ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb468109ID.transformID, {x=114.768, y=36.7858, z=217.938})
+Transform.SetScaleNonUniform(Obb468109ID.transformID, 6.71252, 12.7726, 1)
+Transform.SetRotation(Obb468109ID.transformID, {x=0, y=0, z=0})
+Obb468109ID.collider = OBBCollider.Create(Obb468109ID.transformID)
+Obb468109ID.collider:SetOffset(0,0,0)
+Obb468109ID.collider:SetZAxis(0.919051,0,0.394139)
+Obb468109ID.collider:SetHalfLengths(3.35626,6.38632,0.5)
+CollisionHandler.AddOBB(Obb468109ID.collider, 3)
+table.insert(colliders,Obb468109ID)
+Obb468109ID = nil
 
-Obb469117ID = {}
-Obb469117ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb469117ID.transformID, {x=113.785, y=38.8959, z=210.773})
-Transform.SetScaleNonUniform(Obb469117ID.transformID, 9.87627, 10.5123, 1)
-Transform.SetRotation(Obb469117ID.transformID, {x=0, y=0, z=0})
-Obb469117ID.collider = OBBCollider.Create(Obb469117ID.transformID)
-Obb469117ID.collider:SetOffset(0,0,0)
-Obb469117ID.collider:SetZAxis(0.909768,0,-0.415118)
-Obb469117ID.collider:SetHalfLengths(4.93813,5.25616,0.5)
-CollisionHandler.AddOBB(Obb469117ID.collider, 3)
-table.insert(colliders,Obb469117ID)
-Obb469117ID = nil
+Obb469110ID = {}
+Obb469110ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb469110ID.transformID, {x=113.785, y=38.8959, z=210.773})
+Transform.SetScaleNonUniform(Obb469110ID.transformID, 9.87627, 10.5123, 1)
+Transform.SetRotation(Obb469110ID.transformID, {x=0, y=0, z=0})
+Obb469110ID.collider = OBBCollider.Create(Obb469110ID.transformID)
+Obb469110ID.collider:SetOffset(0,0,0)
+Obb469110ID.collider:SetZAxis(0.909768,0,-0.415118)
+Obb469110ID.collider:SetHalfLengths(4.93813,5.25616,0.5)
+CollisionHandler.AddOBB(Obb469110ID.collider, 3)
+table.insert(colliders,Obb469110ID)
+Obb469110ID = nil
 
-ObbRot21118ID = {}
-ObbRot21118ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot21118ID.transformID, {x=106.309, y=32.7244, z=203.047})
-Transform.SetScaleNonUniform(ObbRot21118ID.transformID, 1, 11.8559, 14.346)
-Transform.SetRotation(ObbRot21118ID.transformID, {x=0, y=0.922624, z=0})
-ObbRot21118ID.collider = OBBCollider.Create(ObbRot21118ID.transformID)
-ObbRot21118ID.collider:SetOffset(0,0,0)
-ObbRot21118ID.collider:SetZAxis(0.797189,0,0.60373)
-ObbRot21118ID.collider:SetHalfLengths(0.5,5.92793,7.17301)
-CollisionHandler.AddOBB(ObbRot21118ID.collider, 3)
-table.insert(props,ObbRot21118ID)
-ObbRot21118ID = nil
+ObbRot21111ID = {}
+ObbRot21111ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot21111ID.transformID, {x=106.309, y=32.7244, z=203.047})
+Transform.SetScaleNonUniform(ObbRot21111ID.transformID, 1, 11.8559, 14.346)
+Transform.SetRotation(ObbRot21111ID.transformID, {x=0, y=0.922624, z=0})
+ObbRot21111ID.collider = OBBCollider.Create(ObbRot21111ID.transformID)
+ObbRot21111ID.collider:SetOffset(0,0,0)
+ObbRot21111ID.collider:SetZAxis(0.797189,0,0.60373)
+ObbRot21111ID.collider:SetHalfLengths(0.5,5.92793,7.17301)
+CollisionHandler.AddOBB(ObbRot21111ID.collider, 3)
+table.insert(props,ObbRot21111ID)
+ObbRot21111ID = nil
 
-ObbRot22119ID = {}
-ObbRot22119ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot22119ID.transformID, {x=97.0691, y=30.794, z=200.862})
-Transform.SetScaleNonUniform(ObbRot22119ID.transformID, 1.18787, 14.0917, 9.15988)
-Transform.SetRotation(ObbRot22119ID.transformID, {x=0, y=-1.10728, z=0})
-ObbRot22119ID.collider = OBBCollider.Create(ObbRot22119ID.transformID)
-ObbRot22119ID.collider:SetOffset(0,0,0)
-ObbRot22119ID.collider:SetZAxis(-0.894485,0,0.447098)
-ObbRot22119ID.collider:SetHalfLengths(0.593933,7.04586,4.57994)
-CollisionHandler.AddOBB(ObbRot22119ID.collider, 3)
-table.insert(props,ObbRot22119ID)
-ObbRot22119ID = nil
+ObbRot22112ID = {}
+ObbRot22112ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot22112ID.transformID, {x=97.0691, y=30.794, z=200.862})
+Transform.SetScaleNonUniform(ObbRot22112ID.transformID, 1.18787, 14.0917, 9.15988)
+Transform.SetRotation(ObbRot22112ID.transformID, {x=0, y=-1.10728, z=0})
+ObbRot22112ID.collider = OBBCollider.Create(ObbRot22112ID.transformID)
+ObbRot22112ID.collider:SetOffset(0,0,0)
+ObbRot22112ID.collider:SetZAxis(-0.894485,0,0.447098)
+ObbRot22112ID.collider:SetHalfLengths(0.593933,7.04586,4.57994)
+CollisionHandler.AddOBB(ObbRot22112ID.collider, 3)
+table.insert(props,ObbRot22112ID)
+ObbRot22112ID = nil
 
-Obb4610120ID = {}
-Obb4610120ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4610120ID.transformID, {x=90.5686, y=26.7281, z=205.889})
-Transform.SetScaleNonUniform(Obb4610120ID.transformID, 1, 12.2942, 8.5386)
-Transform.SetRotation(Obb4610120ID.transformID, {x=0, y=0, z=0})
-Obb4610120ID.collider = OBBCollider.Create(Obb4610120ID.transformID)
-Obb4610120ID.collider:SetOffset(0,0,0)
-Obb4610120ID.collider:SetZAxis(-0.582718,0,0.812674)
-Obb4610120ID.collider:SetHalfLengths(0.5,6.14712,4.2693)
-CollisionHandler.AddOBB(Obb4610120ID.collider, 3)
-table.insert(colliders,Obb4610120ID)
-Obb4610120ID = nil
+Obb4610113ID = {}
+Obb4610113ID.transformID = Transform.Bind()
+Transform.SetPosition(Obb4610113ID.transformID, {x=90.5686, y=26.7281, z=205.889})
+Transform.SetScaleNonUniform(Obb4610113ID.transformID, 1, 12.2942, 8.5386)
+Transform.SetRotation(Obb4610113ID.transformID, {x=0, y=0, z=0})
+Obb4610113ID.collider = OBBCollider.Create(Obb4610113ID.transformID)
+Obb4610113ID.collider:SetOffset(0,0,0)
+Obb4610113ID.collider:SetZAxis(-0.582718,0,0.812674)
+Obb4610113ID.collider:SetHalfLengths(0.5,6.14712,4.2693)
+CollisionHandler.AddOBB(Obb4610113ID.collider, 3)
+table.insert(colliders,Obb4610113ID)
+Obb4610113ID = nil
 
-ObbRot23127ID = {}
-ObbRot23127ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot23127ID.transformID, {x=24.1105, y=7.51023, z=191.988})
-Transform.SetScaleNonUniform(ObbRot23127ID.transformID, 1, 9.67671, 16.8171)
-Transform.SetRotation(ObbRot23127ID.transformID, {x=0, y=0.568292, z=0})
-ObbRot23127ID.collider = OBBCollider.Create(ObbRot23127ID.transformID)
-ObbRot23127ID.collider:SetOffset(0,0,0)
-ObbRot23127ID.collider:SetZAxis(0.538193,0,0.842822)
-ObbRot23127ID.collider:SetHalfLengths(0.5,4.83835,8.40855)
-CollisionHandler.AddOBB(ObbRot23127ID.collider, 3)
-table.insert(props,ObbRot23127ID)
-ObbRot23127ID = nil
+ObbRot23114ID = {}
+ObbRot23114ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot23114ID.transformID, {x=24.1105, y=7.51023, z=191.988})
+Transform.SetScaleNonUniform(ObbRot23114ID.transformID, 1, 9.67671, 16.8171)
+Transform.SetRotation(ObbRot23114ID.transformID, {x=0, y=0.568292, z=0})
+ObbRot23114ID.collider = OBBCollider.Create(ObbRot23114ID.transformID)
+ObbRot23114ID.collider:SetOffset(0,0,0)
+ObbRot23114ID.collider:SetZAxis(0.538193,0,0.842822)
+ObbRot23114ID.collider:SetHalfLengths(0.5,4.83835,8.40855)
+CollisionHandler.AddOBB(ObbRot23114ID.collider, 3)
+table.insert(props,ObbRot23114ID)
+ObbRot23114ID = nil
 
-ObbRot24128ID = {}
-ObbRot24128ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot24128ID.transformID, {x=32.6054, y=9.09375, z=205.458})
-Transform.SetScaleNonUniform(ObbRot24128ID.transformID, 1, 8, 8.13965)
-Transform.SetRotation(ObbRot24128ID.transformID, {x=0, y=0.512233, z=0})
-ObbRot24128ID.collider = OBBCollider.Create(ObbRot24128ID.transformID)
-ObbRot24128ID.collider:SetOffset(0,0,0)
-ObbRot24128ID.collider:SetZAxis(0.490125,0,0.871652)
-ObbRot24128ID.collider:SetHalfLengths(0.5,4,4.06982)
-CollisionHandler.AddOBB(ObbRot24128ID.collider, 3)
-table.insert(props,ObbRot24128ID)
-ObbRot24128ID = nil
+ObbRot24115ID = {}
+ObbRot24115ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot24115ID.transformID, {x=32.6054, y=9.09375, z=205.458})
+Transform.SetScaleNonUniform(ObbRot24115ID.transformID, 1, 8, 8.13965)
+Transform.SetRotation(ObbRot24115ID.transformID, {x=0, y=0.512233, z=0})
+ObbRot24115ID.collider = OBBCollider.Create(ObbRot24115ID.transformID)
+ObbRot24115ID.collider:SetOffset(0,0,0)
+ObbRot24115ID.collider:SetZAxis(0.490125,0,0.871652)
+ObbRot24115ID.collider:SetHalfLengths(0.5,4,4.06982)
+CollisionHandler.AddOBB(ObbRot24115ID.collider, 3)
+table.insert(props,ObbRot24115ID)
+ObbRot24115ID = nil
 
-ObbRot25129ID = {}
-ObbRot25129ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot25129ID.transformID, {x=43.4584, y=10.573, z=212.737})
-Transform.SetScaleNonUniform(ObbRot25129ID.transformID, 1, 9.48976, 19.1709)
-Transform.SetRotation(ObbRot25129ID.transformID, {x=0, y=1.17312, z=0})
-ObbRot25129ID.collider = OBBCollider.Create(ObbRot25129ID.transformID)
-ObbRot25129ID.collider:SetOffset(0,0,0)
-ObbRot25129ID.collider:SetZAxis(0.921964,0,0.387277)
-ObbRot25129ID.collider:SetHalfLengths(0.5,4.74488,9.58544)
-CollisionHandler.AddOBB(ObbRot25129ID.collider, 3)
-table.insert(props,ObbRot25129ID)
-ObbRot25129ID = nil
+ObbRot25116ID = {}
+ObbRot25116ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot25116ID.transformID, {x=43.4584, y=10.573, z=212.737})
+Transform.SetScaleNonUniform(ObbRot25116ID.transformID, 1, 9.48976, 19.1709)
+Transform.SetRotation(ObbRot25116ID.transformID, {x=0, y=1.17312, z=0})
+ObbRot25116ID.collider = OBBCollider.Create(ObbRot25116ID.transformID)
+ObbRot25116ID.collider:SetOffset(0,0,0)
+ObbRot25116ID.collider:SetZAxis(0.921964,0,0.387277)
+ObbRot25116ID.collider:SetHalfLengths(0.5,4.74488,9.58544)
+CollisionHandler.AddOBB(ObbRot25116ID.collider, 3)
+table.insert(props,ObbRot25116ID)
+ObbRot25116ID = nil
 
-ObbRot26130ID = {}
-ObbRot26130ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot26130ID.transformID, {x=60.2626, y=12.9969, z=216.789})
-Transform.SetScaleNonUniform(ObbRot26130ID.transformID, 1.34885, 11.3449, 15.8494)
-Transform.SetRotation(ObbRot26130ID.transformID, {x=0, y=-1.58265, z=0})
-ObbRot26130ID.collider = OBBCollider.Create(ObbRot26130ID.transformID)
-ObbRot26130ID.collider:SetOffset(0,0,0)
-ObbRot26130ID.collider:SetZAxis(-0.99993,0,-0.0118487)
-ObbRot26130ID.collider:SetHalfLengths(0.674427,5.67245,7.92471)
-CollisionHandler.AddOBB(ObbRot26130ID.collider, 3)
-table.insert(props,ObbRot26130ID)
-ObbRot26130ID = nil
+ObbRot26117ID = {}
+ObbRot26117ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot26117ID.transformID, {x=60.2626, y=12.9969, z=216.789})
+Transform.SetScaleNonUniform(ObbRot26117ID.transformID, 1.34885, 11.3449, 15.8494)
+Transform.SetRotation(ObbRot26117ID.transformID, {x=0, y=-1.58265, z=0})
+ObbRot26117ID.collider = OBBCollider.Create(ObbRot26117ID.transformID)
+ObbRot26117ID.collider:SetOffset(0,0,0)
+ObbRot26117ID.collider:SetZAxis(-0.99993,0,-0.0118487)
+ObbRot26117ID.collider:SetHalfLengths(0.674427,5.67245,7.92471)
+CollisionHandler.AddOBB(ObbRot26117ID.collider, 3)
+table.insert(props,ObbRot26117ID)
+ObbRot26117ID = nil
 
-ObbRot27131ID = {}
-ObbRot27131ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot27131ID.transformID, {x=83.6042, y=25.556, z=224.591})
-Transform.SetScaleNonUniform(ObbRot27131ID.transformID, 1, 29.2246, 35.6535)
-Transform.SetRotation(ObbRot27131ID.transformID, {x=-0.0113167, y=1.11617, z=0.0421356})
-ObbRot27131ID.collider = OBBCollider.Create(ObbRot27131ID.transformID)
-ObbRot27131ID.collider:SetOffset(0,0,0)
-ObbRot27131ID.collider:SetZAxis(0.897094,0.0491485,0.439098)
-ObbRot27131ID.collider:SetHalfLengths(0.5,14.6123,17.8267)
-CollisionHandler.AddOBB(ObbRot27131ID.collider, 3)
-table.insert(props,ObbRot27131ID)
-ObbRot27131ID = nil
+ObbRot27118ID = {}
+ObbRot27118ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot27118ID.transformID, {x=83.6042, y=25.556, z=224.591})
+Transform.SetScaleNonUniform(ObbRot27118ID.transformID, 1, 29.2246, 35.6535)
+Transform.SetRotation(ObbRot27118ID.transformID, {x=-0.0113167, y=1.11617, z=0.0421356})
+ObbRot27118ID.collider = OBBCollider.Create(ObbRot27118ID.transformID)
+ObbRot27118ID.collider:SetOffset(0,0,0)
+ObbRot27118ID.collider:SetZAxis(0.897094,0.0491485,0.439098)
+ObbRot27118ID.collider:SetHalfLengths(0.5,14.6123,17.8267)
+CollisionHandler.AddOBB(ObbRot27118ID.collider, 3)
+table.insert(props,ObbRot27118ID)
+ObbRot27118ID = nil
 
-ObbRot28132ID = {}
-ObbRot28132ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot28132ID.transformID, {x=112.962, y=31.1871, z=232.315})
-Transform.SetScaleNonUniform(ObbRot28132ID.transformID, 1, 22.7609, 28.455)
-Transform.SetRotation(ObbRot28132ID.transformID, {x=0, y=-1.56484, z=0})
-ObbRot28132ID.collider = OBBCollider.Create(ObbRot28132ID.transformID)
-ObbRot28132ID.collider:SetOffset(0,0,0)
-ObbRot28132ID.collider:SetZAxis(-0.999982,0,0.00595741)
-ObbRot28132ID.collider:SetHalfLengths(0.5,11.3804,14.2275)
-CollisionHandler.AddOBB(ObbRot28132ID.collider, 3)
-table.insert(props,ObbRot28132ID)
-ObbRot28132ID = nil
+ObbRot28119ID = {}
+ObbRot28119ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot28119ID.transformID, {x=112.962, y=31.1871, z=232.315})
+Transform.SetScaleNonUniform(ObbRot28119ID.transformID, 1, 22.7609, 28.455)
+Transform.SetRotation(ObbRot28119ID.transformID, {x=0, y=-1.56484, z=0})
+ObbRot28119ID.collider = OBBCollider.Create(ObbRot28119ID.transformID)
+ObbRot28119ID.collider:SetOffset(0,0,0)
+ObbRot28119ID.collider:SetZAxis(-0.999982,0,0.00595741)
+ObbRot28119ID.collider:SetHalfLengths(0.5,11.3804,14.2275)
+CollisionHandler.AddOBB(ObbRot28119ID.collider, 3)
+table.insert(props,ObbRot28119ID)
+ObbRot28119ID = nil
 
-ObbRot29133ID = {}
-ObbRot29133ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot29133ID.transformID, {x=17.5275, y=6.24736, z=200.669})
-Transform.SetScaleNonUniform(ObbRot29133ID.transformID, 1, 12.4009, 21.0568)
-Transform.SetRotation(ObbRot29133ID.transformID, {x=0, y=1.81414, z=0})
-ObbRot29133ID.collider = OBBCollider.Create(ObbRot29133ID.transformID)
-ObbRot29133ID.collider:SetOffset(0,0,0)
-ObbRot29133ID.collider:SetZAxis(0.970537,0,-0.240954)
-ObbRot29133ID.collider:SetHalfLengths(0.5,6.20047,10.5284)
-CollisionHandler.AddOBB(ObbRot29133ID.collider, 3)
-table.insert(props,ObbRot29133ID)
-ObbRot29133ID = nil
+ObbRot29120ID = {}
+ObbRot29120ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot29120ID.transformID, {x=17.5275, y=6.24736, z=200.669})
+Transform.SetScaleNonUniform(ObbRot29120ID.transformID, 1, 12.4009, 21.0568)
+Transform.SetRotation(ObbRot29120ID.transformID, {x=0, y=1.81414, z=0})
+ObbRot29120ID.collider = OBBCollider.Create(ObbRot29120ID.transformID)
+ObbRot29120ID.collider:SetOffset(0,0,0)
+ObbRot29120ID.collider:SetZAxis(0.970537,0,-0.240954)
+ObbRot29120ID.collider:SetHalfLengths(0.5,6.20047,10.5284)
+CollisionHandler.AddOBB(ObbRot29120ID.collider, 3)
+table.insert(props,ObbRot29120ID)
+ObbRot29120ID = nil
+
+OakTree2121ID = {}
+OakTree2121ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree2121ID.transformID, {x=38.2345, y=7.625, z=182.426})
+Transform.SetScaleNonUniform(OakTree2121ID.transformID, 1, 1.28247, 1)
+Transform.SetRotation(OakTree2121ID.transformID, {x=0, y=1.53295, z=0})
+OakTree2121ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree2121ID.model, OakTree2121ID.transformID)
+table.insert(props,OakTree2121ID)
+OakTree2121ID = nil
+
+OakTree3122ID = {}
+OakTree3122ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree3122ID.transformID, {x=5.85726, y=4.08203, z=182.811})
+Transform.SetScaleNonUniform(OakTree3122ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree3122ID.transformID, {x=0, y=0.0549624, z=0})
+OakTree3122ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree3122ID.model, OakTree3122ID.transformID)
+table.insert(props,OakTree3122ID)
+OakTree3122ID = nil
+
+OakTree4123ID = {}
+OakTree4123ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree4123ID.transformID, {x=14.3672, y=3.31691, z=237.75})
+Transform.SetScaleNonUniform(OakTree4123ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree4123ID.transformID, {x=0, y=-2.41298, z=0})
+OakTree4123ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree4123ID.model, OakTree4123ID.transformID)
+table.insert(props,OakTree4123ID)
+OakTree4123ID = nil
+
+OakTree5124ID = {}
+OakTree5124ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree5124ID.transformID, {x=77.25, y=-0.0905709, z=262.5})
+Transform.SetScaleNonUniform(OakTree5124ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree5124ID.transformID, {x=0, y=-3.40315, z=0})
+OakTree5124ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree5124ID.model, OakTree5124ID.transformID)
+table.insert(props,OakTree5124ID)
+OakTree5124ID = nil
+
+OakTree6125ID = {}
+OakTree6125ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree6125ID.transformID, {x=68.6875, y=-4.23212, z=315.25})
+Transform.SetScaleNonUniform(OakTree6125ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree6125ID.transformID, {x=0, y=-4.4111, z=0})
+OakTree6125ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree6125ID.model, OakTree6125ID.transformID)
+table.insert(props,OakTree6125ID)
+OakTree6125ID = nil
+
+OakTree7126ID = {}
+OakTree7126ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree7126ID.transformID, {x=113.375, y=28.1496, z=240.5})
+Transform.SetScaleNonUniform(OakTree7126ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree7126ID.transformID, {x=0, y=0.131111, z=0})
+OakTree7126ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree7126ID.model, OakTree7126ID.transformID)
+table.insert(props,OakTree7126ID)
+OakTree7126ID = nil
+
+OakTree8127ID = {}
+OakTree8127ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree8127ID.transformID, {x=167.375, y=33.9164, z=262.75})
+Transform.SetScaleNonUniform(OakTree8127ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree8127ID.transformID, {x=0, y=0.131111, z=0})
+OakTree8127ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree8127ID.model, OakTree8127ID.transformID)
+table.insert(props,OakTree8127ID)
+OakTree8127ID = nil
+
+OakTree9128ID = {}
+OakTree9128ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree9128ID.transformID, {x=171, y=27.9898, z=315})
+Transform.SetScaleNonUniform(OakTree9128ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree9128ID.transformID, {x=0, y=0.131111, z=0})
+OakTree9128ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree9128ID.model, OakTree9128ID.transformID)
+table.insert(props,OakTree9128ID)
+OakTree9128ID = nil
+
+PineTree1129ID = {}
+PineTree1129ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree1129ID.transformID, {x=124.375, y=29.1802, z=260.75})
+Transform.SetScaleNonUniform(PineTree1129ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree1129ID.transformID, {x=0, y=0, z=0})
+PineTree1129ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree1129ID.model, PineTree1129ID.transformID)
+PineTree1129ID.collider = OBBCollider.Create(PineTree1129ID.transformID)
+PineTree1129ID.collider:SetOffset(0,3.7,0)
+PineTree1129ID.collider:SetZAxis(0,0,1)
+PineTree1129ID.collider:SetHalfLengths(2.8,3.7,2.8)
+CollisionHandler.AddOBB(PineTree1129ID.collider, 3)
+table.insert(props,PineTree1129ID)
+PineTree1129ID = nil
+
+PineTree11130ID = {}
+PineTree11130ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree11130ID.transformID, {x=105.75, y=23.2717, z=262.75})
+Transform.SetScaleNonUniform(PineTree11130ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree11130ID.transformID, {x=0, y=0, z=0})
+PineTree11130ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree11130ID.model, PineTree11130ID.transformID)
+PineTree11130ID.collider = OBBCollider.Create(PineTree11130ID.transformID)
+PineTree11130ID.collider:SetOffset(0,3.7,0)
+PineTree11130ID.collider:SetZAxis(0,0,1)
+PineTree11130ID.collider:SetHalfLengths(2.8,3.7,2.8)
+CollisionHandler.AddOBB(PineTree11130ID.collider, 3)
+table.insert(props,PineTree11130ID)
+PineTree11130ID = nil
+
+PineTree2131ID = {}
+PineTree2131ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree2131ID.transformID, {x=74.1133, y=15.4383, z=219.791})
+Transform.SetScaleNonUniform(PineTree2131ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree2131ID.transformID, {x=0.20851, y=0, z=0.297569})
+PineTree2131ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree2131ID.model, PineTree2131ID.transformID)
+PineTree2131ID.collider = OBBCollider.Create(PineTree2131ID.transformID)
+PineTree2131ID.collider:SetOffset(0,5.5,0)
+PineTree2131ID.collider:SetZAxis(0.0606925,-0.197905,0.97834)
+PineTree2131ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree2131ID.collider, 3)
+table.insert(props,PineTree2131ID)
+PineTree2131ID = nil
+
+PineTree21132ID = {}
+PineTree21132ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree21132ID.transformID, {x=66.6875, y=-2.70712, z=237.75})
+Transform.SetScaleNonUniform(PineTree21132ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree21132ID.transformID, {x=0, y=3.31824, z=0})
+PineTree21132ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree21132ID.model, PineTree21132ID.transformID)
+PineTree21132ID.collider = OBBCollider.Create(PineTree21132ID.transformID)
+PineTree21132ID.collider:SetOffset(0,5.5,0)
+PineTree21132ID.collider:SetZAxis(-0.175729,0,-0.984439)
+PineTree21132ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree21132ID.collider, 3)
+table.insert(props,PineTree21132ID)
+PineTree21132ID = nil
+
+PineTree22133ID = {}
+PineTree22133ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree22133ID.transformID, {x=198.875, y=31.2639, z=310.25})
+Transform.SetScaleNonUniform(PineTree22133ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree22133ID.transformID, {x=0, y=0, z=0})
+PineTree22133ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree22133ID.model, PineTree22133ID.transformID)
+PineTree22133ID.collider = OBBCollider.Create(PineTree22133ID.transformID)
+PineTree22133ID.collider:SetOffset(0,5.5,0)
+PineTree22133ID.collider:SetZAxis(0,0,1)
+PineTree22133ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree22133ID.collider, 3)
+table.insert(props,PineTree22133ID)
+PineTree22133ID = nil
+
+PineTree23134ID = {}
+PineTree23134ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree23134ID.transformID, {x=193.75, y=68.5784, z=258.25})
+Transform.SetScaleNonUniform(PineTree23134ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree23134ID.transformID, {x=0, y=0, z=0})
+PineTree23134ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree23134ID.model, PineTree23134ID.transformID)
+PineTree23134ID.collider = OBBCollider.Create(PineTree23134ID.transformID)
+PineTree23134ID.collider:SetOffset(0,5.5,0)
+PineTree23134ID.collider:SetZAxis(0,0,1)
+PineTree23134ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree23134ID.collider, 3)
+table.insert(props,PineTree23134ID)
+PineTree23134ID = nil
+
+PineTree24135ID = {}
+PineTree24135ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree24135ID.transformID, {x=152.125, y=36.3657, z=239.5})
+Transform.SetScaleNonUniform(PineTree24135ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree24135ID.transformID, {x=0, y=0, z=0})
+PineTree24135ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree24135ID.model, PineTree24135ID.transformID)
+PineTree24135ID.collider = OBBCollider.Create(PineTree24135ID.transformID)
+PineTree24135ID.collider:SetOffset(0,5.5,0)
+PineTree24135ID.collider:SetZAxis(0,0,1)
+PineTree24135ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree24135ID.collider, 3)
+table.insert(props,PineTree24135ID)
+PineTree24135ID = nil
+
+PineTree25136ID = {}
+PineTree25136ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree25136ID.transformID, {x=182.75, y=58.6135, z=254.816})
+Transform.SetScaleNonUniform(PineTree25136ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree25136ID.transformID, {x=0, y=0, z=0})
+PineTree25136ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree25136ID.model, PineTree25136ID.transformID)
+PineTree25136ID.collider = OBBCollider.Create(PineTree25136ID.transformID)
+PineTree25136ID.collider:SetOffset(0,5.5,0)
+PineTree25136ID.collider:SetZAxis(0,0,1)
+PineTree25136ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree25136ID.collider, 3)
+table.insert(props,PineTree25136ID)
+PineTree25136ID = nil
+
+PineTree26137ID = {}
+PineTree26137ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree26137ID.transformID, {x=96.8125, y=21.2002, z=238.125})
+Transform.SetScaleNonUniform(PineTree26137ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree26137ID.transformID, {x=0, y=0, z=0})
+PineTree26137ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree26137ID.model, PineTree26137ID.transformID)
+PineTree26137ID.collider = OBBCollider.Create(PineTree26137ID.transformID)
+PineTree26137ID.collider:SetOffset(0,5.5,0)
+PineTree26137ID.collider:SetZAxis(0,0,1)
+PineTree26137ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree26137ID.collider, 3)
+table.insert(props,PineTree26137ID)
+PineTree26137ID = nil
+
+PineTree27138ID = {}
+PineTree27138ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree27138ID.transformID, {x=-7.45313, y=2.45274, z=223.25})
+Transform.SetScaleNonUniform(PineTree27138ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree27138ID.transformID, {x=0, y=-2.21471, z=0})
+PineTree27138ID.model = Assets.LoadModel('Models/PineTree2.model')
+Gear.AddStaticInstance(PineTree27138ID.model, PineTree27138ID.transformID)
+PineTree27138ID.collider = OBBCollider.Create(PineTree27138ID.transformID)
+PineTree27138ID.collider:SetOffset(0,5.5,0)
+PineTree27138ID.collider:SetZAxis(-0.799752,0,-0.60033)
+PineTree27138ID.collider:SetHalfLengths(2,5,2)
+CollisionHandler.AddOBB(PineTree27138ID.collider, 3)
+table.insert(props,PineTree27138ID)
+PineTree27138ID = nil
 
 table.insert(level01, props)
 table.insert(level01, colliders)
@@ -1138,7 +1368,7 @@ Obb4550ID = nil
 
 t2s166ID = {}
 t2s166ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s166ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s166ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s166ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s166ID.transformID, {x=0, y=0, z=0})
 t2s166ID.model = Assets.LoadModel('Models/tile2_s1.model')
@@ -1150,7 +1380,7 @@ t2s267ID = {}
 t2s267ID.transformID = Transform.Bind()
 Transform.SetPosition(t2s267ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s267ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s267ID.transformID, {x=0, y=255, z=0})
+Transform.SetRotation(t2s267ID.transformID, {x=0, y=0, z=0})
 t2s267ID.model = Assets.LoadModel('Models/tile2_s2.model')
 Gear.AddStaticInstance(t2s267ID.model, t2s267ID.transformID)
 table.insert(props,t2s267ID)
@@ -1158,7 +1388,7 @@ t2s267ID = nil
 
 t2s368ID = {}
 t2s368ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s368ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s368ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s368ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s368ID.transformID, {x=0, y=0, z=0})
 t2s368ID.model = Assets.LoadModel('Models/tile2_s3.model')
@@ -1168,7 +1398,7 @@ t2s368ID = nil
 
 t2s469ID = {}
 t2s469ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s469ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s469ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s469ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s469ID.transformID, {x=0, y=0, z=0})
 t2s469ID.model = Assets.LoadModel('Models/tile2_s4.model')
@@ -1178,7 +1408,7 @@ t2s469ID = nil
 
 t2s570ID = {}
 t2s570ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s570ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s570ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s570ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s570ID.transformID, {x=0, y=0, z=0})
 t2s570ID.model = Assets.LoadModel('Models/tile2_s5.model')
@@ -1188,7 +1418,7 @@ t2s570ID = nil
 
 t2s671ID = {}
 t2s671ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s671ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s671ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s671ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s671ID.transformID, {x=0, y=0, z=0})
 t2s671ID.model = Assets.LoadModel('Models/tile2_s6.model')
@@ -1198,7 +1428,7 @@ t2s671ID = nil
 
 t2s772ID = {}
 t2s772ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s772ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s772ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s772ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s772ID.transformID, {x=0, y=0, z=0})
 t2s772ID.model = Assets.LoadModel('Models/tile2_s7.model')
@@ -1208,7 +1438,7 @@ t2s772ID = nil
 
 t2s873ID = {}
 t2s873ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s873ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s873ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s873ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s873ID.transformID, {x=0, y=0, z=0})
 t2s873ID.model = Assets.LoadModel('Models/tile2_s8.model')
@@ -1218,7 +1448,7 @@ t2s873ID = nil
 
 t2s974ID = {}
 t2s974ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s974ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s974ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s974ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s974ID.transformID, {x=0, y=0, z=0})
 t2s974ID.model = Assets.LoadModel('Models/tile2_s9.model')
@@ -1228,7 +1458,7 @@ t2s974ID = nil
 
 t2s1075ID = {}
 t2s1075ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1075ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s1075ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s1075ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s1075ID.transformID, {x=0, y=0, z=0})
 t2s1075ID.model = Assets.LoadModel('Models/tile2_s10.model')
@@ -1238,7 +1468,7 @@ t2s1075ID = nil
 
 t2s11a76ID = {}
 t2s11a76ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s11a76ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s11a76ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s11a76ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s11a76ID.transformID, {x=0, y=0, z=0})
 t2s11a76ID.model = Assets.LoadModel('Models/tile2_s11a.model')
@@ -1248,7 +1478,7 @@ t2s11a76ID = nil
 
 t2s1277ID = {}
 t2s1277ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1277ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s1277ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s1277ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s1277ID.transformID, {x=0, y=0, z=0})
 t2s1277ID.model = Assets.LoadModel('Models/tile2_s12.model')
@@ -1258,7 +1488,7 @@ t2s1277ID = nil
 
 t2s1378ID = {}
 t2s1378ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1378ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s1378ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s1378ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s1378ID.transformID, {x=0, y=0, z=0})
 t2s1378ID.model = Assets.LoadModel('Models/tile2_s13.model')
@@ -1268,7 +1498,7 @@ t2s1378ID = nil
 
 t2s1479ID = {}
 t2s1479ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1479ID.transformID, {x=0, y=255, z=0})
+Transform.SetPosition(t2s1479ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(t2s1479ID.transformID, 1, 1, 1)
 Transform.SetRotation(t2s1479ID.transformID, {x=0, y=0, z=0})
 t2s1479ID.model = Assets.LoadModel('Models/tile2_s14.model')
@@ -1289,213 +1519,445 @@ CollisionHandler.AddOBB(ObbRot181ID.collider, 3)
 table.insert(props,ObbRot181ID)
 ObbRot181ID = nil
 
-ObbRot591ID = {}
-ObbRot591ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot591ID.transformID, {x=125.175, y=37.5857, z=210.972})
-Transform.SetScaleNonUniform(ObbRot591ID.transformID, 4.74132, 9.7832, 1)
-Transform.SetRotation(ObbRot591ID.transformID, {x=0, y=0.0683151, z=0})
-ObbRot591ID.collider = OBBCollider.Create(ObbRot591ID.transformID)
-ObbRot591ID.collider:SetOffset(0,0,0)
-ObbRot591ID.collider:SetZAxis(0.068262,0,0.997667)
-ObbRot591ID.collider:SetHalfLengths(2.37066,4.8916,0.5)
-CollisionHandler.AddOBB(ObbRot591ID.collider, 3)
-table.insert(props,ObbRot591ID)
-ObbRot591ID = nil
+ObbRot585ID = {}
+ObbRot585ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot585ID.transformID, {x=125.175, y=37.5857, z=210.972})
+Transform.SetScaleNonUniform(ObbRot585ID.transformID, 4.74132, 9.7832, 1)
+Transform.SetRotation(ObbRot585ID.transformID, {x=0, y=0.0683151, z=0})
+ObbRot585ID.collider = OBBCollider.Create(ObbRot585ID.transformID)
+ObbRot585ID.collider:SetOffset(0,0,0)
+ObbRot585ID.collider:SetZAxis(0.068262,0,0.997667)
+ObbRot585ID.collider:SetHalfLengths(2.37066,4.8916,0.5)
+CollisionHandler.AddOBB(ObbRot585ID.collider, 3)
+table.insert(props,ObbRot585ID)
+ObbRot585ID = nil
 
-ObbRot692ID = {}
-ObbRot692ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot692ID.transformID, {x=132.94, y=37.8301, z=207.689})
-Transform.SetScaleNonUniform(ObbRot692ID.transformID, 12.9362, 9.7849, 1)
-Transform.SetRotation(ObbRot692ID.transformID, {x=0, y=0.512187, z=0})
-ObbRot692ID.collider = OBBCollider.Create(ObbRot692ID.transformID)
-ObbRot692ID.collider:SetOffset(0,0,0)
-ObbRot692ID.collider:SetZAxis(0.490085,0,0.871675)
-ObbRot692ID.collider:SetHalfLengths(6.46809,4.89245,0.5)
-CollisionHandler.AddOBB(ObbRot692ID.collider, 3)
-table.insert(props,ObbRot692ID)
-ObbRot692ID = nil
+ObbRot686ID = {}
+ObbRot686ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot686ID.transformID, {x=133.03, y=37.8301, z=207.796})
+Transform.SetScaleNonUniform(ObbRot686ID.transformID, 12.9362, 9.7849, 1)
+Transform.SetRotation(ObbRot686ID.transformID, {x=0, y=0.512187, z=0})
+ObbRot686ID.collider = OBBCollider.Create(ObbRot686ID.transformID)
+ObbRot686ID.collider:SetOffset(0,0,0)
+ObbRot686ID.collider:SetZAxis(0.490085,0,0.871675)
+ObbRot686ID.collider:SetHalfLengths(6.46809,4.89245,0.5)
+CollisionHandler.AddOBB(ObbRot686ID.collider, 3)
+table.insert(props,ObbRot686ID)
+ObbRot686ID = nil
 
-ObbRot793ID = {}
-ObbRot793ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot793ID.transformID, {x=140.443, y=45.9668, z=197.476})
-Transform.SetScaleNonUniform(ObbRot793ID.transformID, 1, 26.2783, 15.2413)
-Transform.SetRotation(ObbRot793ID.transformID, {x=0, y=-0.279596, z=0})
-ObbRot793ID.collider = OBBCollider.Create(ObbRot793ID.transformID)
-ObbRot793ID.collider:SetOffset(0,0,0)
-ObbRot793ID.collider:SetZAxis(-0.275967,0,0.961167)
-ObbRot793ID.collider:SetHalfLengths(0.5,13.1391,7.62065)
-CollisionHandler.AddOBB(ObbRot793ID.collider, 3)
-table.insert(props,ObbRot793ID)
-ObbRot793ID = nil
+ObbRot887ID = {}
+ObbRot887ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot887ID.transformID, {x=140.493, y=56.1095, z=171.921})
+Transform.SetScaleNonUniform(ObbRot887ID.transformID, 1, 42.6949, 37.3548)
+Transform.SetRotation(ObbRot887ID.transformID, {x=0, y=0.203048, z=0})
+ObbRot887ID.collider = OBBCollider.Create(ObbRot887ID.transformID)
+ObbRot887ID.collider:SetOffset(0,0,0)
+ObbRot887ID.collider:SetZAxis(0.201656,0,0.979456)
+ObbRot887ID.collider:SetHalfLengths(0.5,21.3475,18.6774)
+CollisionHandler.AddOBB(ObbRot887ID.collider, 3)
+table.insert(props,ObbRot887ID)
+ObbRot887ID = nil
 
-ObbRot894ID = {}
-ObbRot894ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot894ID.transformID, {x=139.021, y=56.1095, z=172.064})
-Transform.SetScaleNonUniform(ObbRot894ID.transformID, 1, 42.6949, 37.3548)
-Transform.SetRotation(ObbRot894ID.transformID, {x=0, y=0.203048, z=0})
-ObbRot894ID.collider = OBBCollider.Create(ObbRot894ID.transformID)
-ObbRot894ID.collider:SetOffset(0,0,0)
-ObbRot894ID.collider:SetZAxis(0.201656,0,0.979456)
-ObbRot894ID.collider:SetHalfLengths(0.5,21.3475,18.6774)
-CollisionHandler.AddOBB(ObbRot894ID.collider, 3)
-table.insert(props,ObbRot894ID)
-ObbRot894ID = nil
+ObbRot988ID = {}
+ObbRot988ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot988ID.transformID, {x=140.102, y=64.4772, z=146.357})
+Transform.SetScaleNonUniform(ObbRot988ID.transformID, 1, 27.7567, 16.8946)
+Transform.SetRotation(ObbRot988ID.transformID, {x=0, y=-0.577785, z=0})
+ObbRot988ID.collider = OBBCollider.Create(ObbRot988ID.transformID)
+ObbRot988ID.collider:SetOffset(0,0,0)
+ObbRot988ID.collider:SetZAxis(-0.54617,0,0.837674)
+ObbRot988ID.collider:SetHalfLengths(0.5,13.8783,8.4473)
+CollisionHandler.AddOBB(ObbRot988ID.collider, 3)
+table.insert(props,ObbRot988ID)
+ObbRot988ID = nil
 
-ObbRot995ID = {}
-ObbRot995ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot995ID.transformID, {x=140.102, y=64.4772, z=146.357})
-Transform.SetScaleNonUniform(ObbRot995ID.transformID, 1, 27.7567, 16.8946)
-Transform.SetRotation(ObbRot995ID.transformID, {x=0, y=-0.577785, z=0})
-ObbRot995ID.collider = OBBCollider.Create(ObbRot995ID.transformID)
-ObbRot995ID.collider:SetOffset(0,0,0)
-ObbRot995ID.collider:SetZAxis(-0.54617,0,0.837674)
-ObbRot995ID.collider:SetHalfLengths(0.5,13.8783,8.4473)
-CollisionHandler.AddOBB(ObbRot995ID.collider, 3)
-table.insert(props,ObbRot995ID)
-ObbRot995ID = nil
+ObbRot1089ID = {}
+ObbRot1089ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1089ID.transformID, {x=154.796, y=64.2819, z=144.174})
+Transform.SetScaleNonUniform(ObbRot1089ID.transformID, 26.2452, 28.0413, 1)
+Transform.SetRotation(ObbRot1089ID.transformID, {x=0, y=-0.407469, z=0})
+ObbRot1089ID.collider = OBBCollider.Create(ObbRot1089ID.transformID)
+ObbRot1089ID.collider:SetOffset(0,0,0)
+ObbRot1089ID.collider:SetZAxis(-0.396287,0,0.918127)
+ObbRot1089ID.collider:SetHalfLengths(13.1226,14.0206,0.5)
+CollisionHandler.AddOBB(ObbRot1089ID.collider, 3)
+table.insert(props,ObbRot1089ID)
+ObbRot1089ID = nil
 
-ObbRot1096ID = {}
-ObbRot1096ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1096ID.transformID, {x=154.796, y=64.2819, z=144.174})
-Transform.SetScaleNonUniform(ObbRot1096ID.transformID, 26.2452, 28.0413, 1)
-Transform.SetRotation(ObbRot1096ID.transformID, {x=0, y=-0.407469, z=0})
-ObbRot1096ID.collider = OBBCollider.Create(ObbRot1096ID.transformID)
-ObbRot1096ID.collider:SetOffset(0,0,0)
-ObbRot1096ID.collider:SetZAxis(-0.396287,0,0.918127)
-ObbRot1096ID.collider:SetHalfLengths(13.1226,14.0206,0.5)
-CollisionHandler.AddOBB(ObbRot1096ID.collider, 3)
-table.insert(props,ObbRot1096ID)
-ObbRot1096ID = nil
+ObbRot1190ID = {}
+ObbRot1190ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1190ID.transformID, {x=174.699, y=63.1007, z=147.499})
+Transform.SetScaleNonUniform(ObbRot1190ID.transformID, 16.8432, 18.7972, 1)
+Transform.SetRotation(ObbRot1190ID.transformID, {x=0, y=0.226072, z=0})
+ObbRot1190ID.collider = OBBCollider.Create(ObbRot1190ID.transformID)
+ObbRot1190ID.collider:SetOffset(0,0,0)
+ObbRot1190ID.collider:SetZAxis(0.224152,0,0.974554)
+ObbRot1190ID.collider:SetHalfLengths(8.42159,9.3986,0.5)
+CollisionHandler.AddOBB(ObbRot1190ID.collider, 3)
+table.insert(props,ObbRot1190ID)
+ObbRot1190ID = nil
 
-ObbRot1197ID = {}
-ObbRot1197ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1197ID.transformID, {x=174.699, y=63.1007, z=147.499})
-Transform.SetScaleNonUniform(ObbRot1197ID.transformID, 16.8432, 18.7972, 1)
-Transform.SetRotation(ObbRot1197ID.transformID, {x=0, y=0.226072, z=0})
-ObbRot1197ID.collider = OBBCollider.Create(ObbRot1197ID.transformID)
-ObbRot1197ID.collider:SetOffset(0,0,0)
-ObbRot1197ID.collider:SetZAxis(0.224152,0,0.974554)
-ObbRot1197ID.collider:SetHalfLengths(8.42159,9.3986,0.5)
-CollisionHandler.AddOBB(ObbRot1197ID.collider, 3)
-table.insert(props,ObbRot1197ID)
-ObbRot1197ID = nil
+ObbRot1291ID = {}
+ObbRot1291ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1291ID.transformID, {x=183.059, y=61.3434, z=144.178})
+Transform.SetScaleNonUniform(ObbRot1291ID.transformID, 1, 10.8462, 3.79822)
+Transform.SetRotation(ObbRot1291ID.transformID, {x=0, y=-0.290891, z=0})
+ObbRot1291ID.collider = OBBCollider.Create(ObbRot1291ID.transformID)
+ObbRot1291ID.collider:SetOffset(0,0,0)
+ObbRot1291ID.collider:SetZAxis(-0.286806,0,0.957989)
+ObbRot1291ID.collider:SetHalfLengths(0.5,5.42308,1.89911)
+CollisionHandler.AddOBB(ObbRot1291ID.collider, 3)
+table.insert(props,ObbRot1291ID)
+ObbRot1291ID = nil
 
-ObbRot1298ID = {}
-ObbRot1298ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1298ID.transformID, {x=183.059, y=61.3434, z=144.178})
-Transform.SetScaleNonUniform(ObbRot1298ID.transformID, 1, 10.8462, 3.79822)
-Transform.SetRotation(ObbRot1298ID.transformID, {x=0, y=-0.290891, z=0})
-ObbRot1298ID.collider = OBBCollider.Create(ObbRot1298ID.transformID)
-ObbRot1298ID.collider:SetOffset(0,0,0)
-ObbRot1298ID.collider:SetZAxis(-0.286806,0,0.957989)
-ObbRot1298ID.collider:SetHalfLengths(0.5,5.42308,1.89911)
-CollisionHandler.AddOBB(ObbRot1298ID.collider, 3)
-table.insert(props,ObbRot1298ID)
-ObbRot1298ID = nil
+ObbRot1392ID = {}
+ObbRot1392ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1392ID.transformID, {x=183.541, y=61.5997, z=136.594})
+Transform.SetScaleNonUniform(ObbRot1392ID.transformID, 1, 11.3389, 11.6923)
+Transform.SetRotation(ObbRot1392ID.transformID, {x=0, y=0, z=0})
+ObbRot1392ID.collider = OBBCollider.Create(ObbRot1392ID.transformID)
+ObbRot1392ID.collider:SetOffset(0,0,0)
+ObbRot1392ID.collider:SetZAxis(0,0,1)
+ObbRot1392ID.collider:SetHalfLengths(0.5,5.66944,5.84614)
+CollisionHandler.AddOBB(ObbRot1392ID.collider, 3)
+table.insert(props,ObbRot1392ID)
+ObbRot1392ID = nil
 
-ObbRot1399ID = {}
-ObbRot1399ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1399ID.transformID, {x=183.541, y=61.5997, z=136.594})
-Transform.SetScaleNonUniform(ObbRot1399ID.transformID, 1, 11.3389, 11.6923)
-Transform.SetRotation(ObbRot1399ID.transformID, {x=0, y=0, z=0})
-ObbRot1399ID.collider = OBBCollider.Create(ObbRot1399ID.transformID)
-ObbRot1399ID.collider:SetOffset(0,0,0)
-ObbRot1399ID.collider:SetZAxis(0,0,1)
-ObbRot1399ID.collider:SetHalfLengths(0.5,5.66944,5.84614)
-CollisionHandler.AddOBB(ObbRot1399ID.collider, 3)
-table.insert(props,ObbRot1399ID)
-ObbRot1399ID = nil
+ObbRot1493ID = {}
+ObbRot1493ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1493ID.transformID, {x=179.48, y=62, z=118.104})
+Transform.SetScaleNonUniform(ObbRot1493ID.transformID, 1, 16.5, 26.7768)
+Transform.SetRotation(ObbRot1493ID.transformID, {x=0, y=0.303284, z=0})
+ObbRot1493ID.collider = OBBCollider.Create(ObbRot1493ID.transformID)
+ObbRot1493ID.collider:SetOffset(0,0,0)
+ObbRot1493ID.collider:SetZAxis(0.298656,0,0.954361)
+ObbRot1493ID.collider:SetHalfLengths(0.5,8.25,13.3884)
+CollisionHandler.AddOBB(ObbRot1493ID.collider, 3)
+table.insert(props,ObbRot1493ID)
+ObbRot1493ID = nil
 
-ObbRot14100ID = {}
-ObbRot14100ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot14100ID.transformID, {x=179.48, y=62, z=118.104})
-Transform.SetScaleNonUniform(ObbRot14100ID.transformID, 1, 16.5, 26.7768)
-Transform.SetRotation(ObbRot14100ID.transformID, {x=0, y=0.303284, z=0})
-ObbRot14100ID.collider = OBBCollider.Create(ObbRot14100ID.transformID)
-ObbRot14100ID.collider:SetOffset(0,0,0)
-ObbRot14100ID.collider:SetZAxis(0.298656,0,0.954361)
-ObbRot14100ID.collider:SetHalfLengths(0.5,8.25,13.3884)
-CollisionHandler.AddOBB(ObbRot14100ID.collider, 3)
-table.insert(props,ObbRot14100ID)
-ObbRot14100ID = nil
+ObbRot1594ID = {}
+ObbRot1594ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1594ID.transformID, {x=175.432, y=62.5968, z=82.2888})
+Transform.SetScaleNonUniform(ObbRot1594ID.transformID, 1, 10.8651, 45.5511)
+Transform.SetRotation(ObbRot1594ID.transformID, {x=0, y=0, z=0})
+ObbRot1594ID.collider = OBBCollider.Create(ObbRot1594ID.transformID)
+ObbRot1594ID.collider:SetOffset(0,0,0)
+ObbRot1594ID.collider:SetZAxis(0,0,1)
+ObbRot1594ID.collider:SetHalfLengths(0.5,5.43255,22.7755)
+CollisionHandler.AddOBB(ObbRot1594ID.collider, 3)
+table.insert(props,ObbRot1594ID)
+ObbRot1594ID = nil
 
-ObbRot15101ID = {}
-ObbRot15101ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot15101ID.transformID, {x=175.432, y=62.5968, z=82.2888})
-Transform.SetScaleNonUniform(ObbRot15101ID.transformID, 1, 10.8651, 45.5511)
-Transform.SetRotation(ObbRot15101ID.transformID, {x=0, y=0, z=0})
-ObbRot15101ID.collider = OBBCollider.Create(ObbRot15101ID.transformID)
-ObbRot15101ID.collider:SetOffset(0,0,0)
-ObbRot15101ID.collider:SetZAxis(0,0,1)
-ObbRot15101ID.collider:SetHalfLengths(0.5,5.43255,22.7755)
-CollisionHandler.AddOBB(ObbRot15101ID.collider, 3)
-table.insert(props,ObbRot15101ID)
-ObbRot15101ID = nil
+ObbRot1695ID = {}
+ObbRot1695ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1695ID.transformID, {x=180.362, y=62.4402, z=51.1485})
+Transform.SetScaleNonUniform(ObbRot1695ID.transformID, 1, 14.648, 26.148)
+Transform.SetRotation(ObbRot1695ID.transformID, {x=0, y=-0.459319, z=0})
+ObbRot1695ID.collider = OBBCollider.Create(ObbRot1695ID.transformID)
+ObbRot1695ID.collider:SetOffset(0,0,0)
+ObbRot1695ID.collider:SetZAxis(-0.443338,0,0.896355)
+ObbRot1695ID.collider:SetHalfLengths(0.5,7.32399,13.074)
+CollisionHandler.AddOBB(ObbRot1695ID.collider, 3)
+table.insert(props,ObbRot1695ID)
+ObbRot1695ID = nil
 
-ObbRot16102ID = {}
-ObbRot16102ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot16102ID.transformID, {x=180.362, y=62.4402, z=51.1485})
-Transform.SetScaleNonUniform(ObbRot16102ID.transformID, 1, 14.648, 26.148)
-Transform.SetRotation(ObbRot16102ID.transformID, {x=0, y=-0.459319, z=0})
-ObbRot16102ID.collider = OBBCollider.Create(ObbRot16102ID.transformID)
-ObbRot16102ID.collider:SetOffset(0,0,0)
-ObbRot16102ID.collider:SetZAxis(-0.443338,0,0.896355)
-ObbRot16102ID.collider:SetHalfLengths(0.5,7.32399,13.074)
-CollisionHandler.AddOBB(ObbRot16102ID.collider, 3)
-table.insert(props,ObbRot16102ID)
-ObbRot16102ID = nil
+ObbRot1796ID = {}
+ObbRot1796ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1796ID.transformID, {x=195.773, y=58.0954, z=34.3394})
+Transform.SetScaleNonUniform(ObbRot1796ID.transformID, 1, 25.802, 54.4443)
+Transform.SetRotation(ObbRot1796ID.transformID, {x=0, y=-0.734825, z=0})
+ObbRot1796ID.collider = OBBCollider.Create(ObbRot1796ID.transformID)
+ObbRot1796ID.collider:SetOffset(0,0,0)
+ObbRot1796ID.collider:SetZAxis(-0.670457,0,0.741948)
+ObbRot1796ID.collider:SetHalfLengths(0.5,12.901,27.2222)
+CollisionHandler.AddOBB(ObbRot1796ID.collider, 3)
+table.insert(props,ObbRot1796ID)
+ObbRot1796ID = nil
 
-ObbRot17103ID = {}
-ObbRot17103ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot17103ID.transformID, {x=195.773, y=58.0954, z=34.3394})
-Transform.SetScaleNonUniform(ObbRot17103ID.transformID, 1, 25.802, 54.4443)
-Transform.SetRotation(ObbRot17103ID.transformID, {x=0, y=-0.734825, z=0})
-ObbRot17103ID.collider = OBBCollider.Create(ObbRot17103ID.transformID)
-ObbRot17103ID.collider:SetOffset(0,0,0)
-ObbRot17103ID.collider:SetZAxis(-0.670457,0,0.741948)
-ObbRot17103ID.collider:SetHalfLengths(0.5,12.901,27.2222)
-CollisionHandler.AddOBB(ObbRot17103ID.collider, 3)
-table.insert(props,ObbRot17103ID)
-ObbRot17103ID = nil
+ObbRot1897ID = {}
+ObbRot1897ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1897ID.transformID, {x=213.366, y=58.4684, z=28.9742})
+Transform.SetScaleNonUniform(ObbRot1897ID.transformID, 1, 36.2154, 43.7488)
+Transform.SetRotation(ObbRot1897ID.transformID, {x=0, y=1.64975, z=0})
+ObbRot1897ID.collider = OBBCollider.Create(ObbRot1897ID.transformID)
+ObbRot1897ID.collider:SetOffset(0,0,0)
+ObbRot1897ID.collider:SetZAxis(0.996885,0,-0.0788692)
+ObbRot1897ID.collider:SetHalfLengths(0.5,18.1077,21.8744)
+CollisionHandler.AddOBB(ObbRot1897ID.collider, 3)
+table.insert(props,ObbRot1897ID)
+ObbRot1897ID = nil
 
-ObbRot18104ID = {}
-ObbRot18104ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot18104ID.transformID, {x=213.366, y=58.4684, z=28.9742})
-Transform.SetScaleNonUniform(ObbRot18104ID.transformID, 1, 36.2154, 43.7488)
-Transform.SetRotation(ObbRot18104ID.transformID, {x=0, y=1.64975, z=0})
-ObbRot18104ID.collider = OBBCollider.Create(ObbRot18104ID.transformID)
-ObbRot18104ID.collider:SetOffset(0,0,0)
-ObbRot18104ID.collider:SetZAxis(0.996885,0,-0.0788692)
-ObbRot18104ID.collider:SetHalfLengths(0.5,18.1077,21.8744)
-CollisionHandler.AddOBB(ObbRot18104ID.collider, 3)
-table.insert(props,ObbRot18104ID)
-ObbRot18104ID = nil
+ObbRot1998ID = {}
+ObbRot1998ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot1998ID.transformID, {x=262.054, y=52.6605, z=45.269})
+Transform.SetScaleNonUniform(ObbRot1998ID.transformID, 89.1631, 34.5789, 1)
+Transform.SetRotation(ObbRot1998ID.transformID, {x=0, y=-0.442913, z=0})
+ObbRot1998ID.collider = OBBCollider.Create(ObbRot1998ID.transformID)
+ObbRot1998ID.collider:SetOffset(0,0,0)
+ObbRot1998ID.collider:SetZAxis(-0.428573,0,0.903507)
+ObbRot1998ID.collider:SetHalfLengths(44.5816,17.2895,0.5)
+CollisionHandler.AddOBB(ObbRot1998ID.collider, 3)
+table.insert(props,ObbRot1998ID)
+ObbRot1998ID = nil
 
-ObbRot19105ID = {}
-ObbRot19105ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot19105ID.transformID, {x=262.054, y=52.6605, z=45.269})
-Transform.SetScaleNonUniform(ObbRot19105ID.transformID, 89.1631, 34.5789, 1)
-Transform.SetRotation(ObbRot19105ID.transformID, {x=0, y=-0.442913, z=0})
-ObbRot19105ID.collider = OBBCollider.Create(ObbRot19105ID.transformID)
-ObbRot19105ID.collider:SetOffset(0,0,0)
-ObbRot19105ID.collider:SetZAxis(-0.428573,0,0.903507)
-ObbRot19105ID.collider:SetHalfLengths(44.5816,17.2895,0.5)
-CollisionHandler.AddOBB(ObbRot19105ID.collider, 3)
-table.insert(props,ObbRot19105ID)
-ObbRot19105ID = nil
+ObbRot2099ID = {}
+ObbRot2099ID.transformID = Transform.Bind()
+Transform.SetPosition(ObbRot2099ID.transformID, {x=310.333, y=57.298, z=86.7154})
+Transform.SetScaleNonUniform(ObbRot2099ID.transformID, 98.2798, 33.1014, 1)
+Transform.SetRotation(ObbRot2099ID.transformID, {x=0, y=-0.833437, z=0})
+ObbRot2099ID.collider = OBBCollider.Create(ObbRot2099ID.transformID)
+ObbRot2099ID.collider:SetOffset(0,0,0)
+ObbRot2099ID.collider:SetZAxis(-0.740246,0,0.672336)
+ObbRot2099ID.collider:SetHalfLengths(49.1399,16.5507,0.5)
+CollisionHandler.AddOBB(ObbRot2099ID.collider, 3)
+table.insert(props,ObbRot2099ID)
+ObbRot2099ID = nil
 
-ObbRot20106ID = {}
-ObbRot20106ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot20106ID.transformID, {x=310.333, y=57.298, z=86.7154})
-Transform.SetScaleNonUniform(ObbRot20106ID.transformID, 98.2798, 33.1014, 1)
-Transform.SetRotation(ObbRot20106ID.transformID, {x=0, y=-0.833437, z=0})
-ObbRot20106ID.collider = OBBCollider.Create(ObbRot20106ID.transformID)
-ObbRot20106ID.collider:SetOffset(0,0,0)
-ObbRot20106ID.collider:SetZAxis(-0.740246,0,0.672336)
-ObbRot20106ID.collider:SetHalfLengths(49.1399,16.5507,0.5)
-CollisionHandler.AddOBB(ObbRot20106ID.collider, 3)
-table.insert(props,ObbRot20106ID)
-ObbRot20106ID = nil
+local New21120ID = CreateEnemy(ENEMY_MELEE, {x=192.25, y=53.6875, z=55.6563})
+New21120ID.moveSpeed = 9
+New21120ID.health = 50
+New21120ID.visionRange = 30
+
+local New22121ID = CreateEnemy(ENEMY_MELEE, {x=191.125, y=54.0313, z=59.0625})
+New22121ID.moveSpeed = 9
+New22121ID.health = 50
+New22121ID.visionRange = 30
+
+local New23122ID = CreateEnemy(ENEMY_MELEE, {x=187.375, y=54.25, z=58.8125})
+New23122ID.moveSpeed = 9
+New23122ID.health = 50
+New23122ID.visionRange = 30
+
+local New24123ID = CreateEnemy(ENEMY_MELEE, {x=194.125, y=53.2813, z=51.2188})
+New24123ID.moveSpeed = 9
+New24123ID.health = 50
+New24123ID.visionRange = 30
+
+local New25124ID = CreateEnemy(ENEMY_MELEE, {x=188.875, y=53.4375, z=50.9375})
+New25124ID.moveSpeed = 9
+New25124ID.health = 50
+New25124ID.visionRange = 30
+
+local New26125ID = CreateEnemy(ENEMY_MELEE, {x=186.75, y=53.8438, z=55.125})
+New26125ID.moveSpeed = 9
+New26125ID.health = 50
+New26125ID.visionRange = 30
+
+local New27126ID = CreateEnemy(ENEMY_MELEE, {x=182.375, y=54.5313, z=59.9063})
+New27126ID.moveSpeed = 9
+New27126ID.health = 50
+New27126ID.visionRange = 30
+
+local New28127ID = CreateEnemy(ENEMY_MELEE, {x=183.625, y=55.0938, z=65.125})
+New28127ID.moveSpeed = 9
+New28127ID.health = 50
+New28127ID.visionRange = 30
+
+local New29128ID = CreateEnemy(ENEMY_MELEE, {x=195.75, y=54.9063, z=62.9688})
+New29128ID.moveSpeed = 9
+New29128ID.health = 50
+New29128ID.visionRange = 30
+
+local New210129ID = CreateEnemy(ENEMY_MELEE, {x=199.5, y=53.6875, z=54.8438})
+New210129ID.moveSpeed = 9
+New210129ID.health = 50
+New210129ID.visionRange = 30
+
+local New211130ID = CreateEnemy(ENEMY_MELEE, {x=195.625, y=53.4688, z=54.5})
+New211130ID.moveSpeed = 9
+New211130ID.health = 50
+New211130ID.visionRange = 30
+
+local New212131ID = CreateEnemy(ENEMY_MELEE, {x=201.125, y=52.625, z=46.0938})
+New212131ID.moveSpeed = 9
+New212131ID.health = 50
+New212131ID.visionRange = 30
+
+local New213132ID = CreateEnemy(ENEMY_MELEE, {x=205.5, y=52.1563, z=45.4063})
+New213132ID.moveSpeed = 9
+New213132ID.health = 50
+New213132ID.visionRange = 30
+
+local New214133ID = CreateEnemy(ENEMY_MELEE, {x=245.625, y=37.875, z=130.5})
+New214133ID.moveSpeed = 9
+New214133ID.health = 50
+New214133ID.visionRange = 30
+
+local New215134ID = CreateEnemy(ENEMY_MELEE, {x=248.75, y=37.1875, z=130})
+New215134ID.moveSpeed = 9
+New215134ID.health = 50
+New215134ID.visionRange = 30
+
+local New216135ID = CreateEnemy(ENEMY_MELEE, {x=253.375, y=35.5625, z=131.125})
+New216135ID.moveSpeed = 9
+New216135ID.health = 50
+New216135ID.visionRange = 30
+
+local New217136ID = CreateEnemy(ENEMY_MELEE, {x=251, y=35.75, z=136.25})
+New217136ID.moveSpeed = 9
+New217136ID.health = 50
+New217136ID.visionRange = 30
+
+local New218137ID = CreateEnemy(ENEMY_MELEE, {x=246.375, y=37.0938, z=133.5})
+New218137ID.moveSpeed = 9
+New218137ID.health = 50
+New218137ID.visionRange = 30
+
+local New219138ID = CreateEnemy(ENEMY_MELEE, {x=242, y=36.4063, z=141.375})
+New219138ID.moveSpeed = 9
+New219138ID.health = 50
+New219138ID.visionRange = 30
+
+local New220139ID = CreateEnemy(ENEMY_MELEE, {x=246.5, y=35.8125, z=140.625})
+New220139ID.moveSpeed = 9
+New220139ID.health = 50
+New220139ID.visionRange = 30
+
+local New221140ID = CreateEnemy(ENEMY_MELEE, {x=248.25, y=36.25, z=146.5})
+New221140ID.moveSpeed = 9
+New221140ID.health = 50
+New221140ID.visionRange = 30
+
+local New222141ID = CreateEnemy(ENEMY_MELEE, {x=252, y=36.4688, z=143.625})
+New222141ID.moveSpeed = 9
+New222141ID.health = 50
+New222141ID.visionRange = 30
+
+local New223142ID = CreateEnemy(ENEMY_MELEE, {x=258.5, y=36.9063, z=137.25})
+New223142ID.moveSpeed = 9
+New223142ID.health = 50
+New223142ID.visionRange = 30
+
+local New224143ID = CreateEnemy(ENEMY_MELEE, {x=258.25, y=36.1875, z=130.125})
+New224143ID.moveSpeed = 9
+New224143ID.health = 50
+New224143ID.visionRange = 30
+
+local New225144ID = CreateEnemy(ENEMY_MELEE, {x=260.5, y=36.1875, z=122.313})
+New225144ID.moveSpeed = 9
+New225144ID.health = 50
+New225144ID.visionRange = 30
+
+local New226145ID = CreateEnemy(ENEMY_MELEE, {x=243, y=59.4375, z=244.25})
+New226145ID.moveSpeed = 9
+New226145ID.health = 50
+New226145ID.visionRange = 30
+
+local New227146ID = CreateEnemy(ENEMY_MELEE, {x=239.125, y=59.5938, z=248.875})
+New227146ID.moveSpeed = 9
+New227146ID.health = 50
+New227146ID.visionRange = 30
+
+local New228147ID = CreateEnemy(ENEMY_MELEE, {x=251, y=59.1875, z=244.625})
+New228147ID.moveSpeed = 9
+New228147ID.health = 50
+New228147ID.visionRange = 30
+
+local New229148ID = CreateEnemy(ENEMY_MELEE, {x=254.125, y=59.4688, z=241.25})
+New229148ID.moveSpeed = 9
+New229148ID.health = 50
+New229148ID.visionRange = 30
+
+local New230149ID = CreateEnemy(ENEMY_MELEE, {x=248.625, y=59.7188, z=237.125})
+New230149ID.moveSpeed = 9
+New230149ID.health = 50
+New230149ID.visionRange = 30
+
+local New231150ID = CreateEnemy(ENEMY_MELEE, {x=235.875, y=59.5938, z=244.625})
+New231150ID.moveSpeed = 9
+New231150ID.health = 50
+New231150ID.visionRange = 30
+
+local New232151ID = CreateEnemy(ENEMY_MELEE, {x=229.125, y=59.0938, z=242.75})
+New232151ID.moveSpeed = 9
+New232151ID.health = 50
+New232151ID.visionRange = 30
+
+local New233152ID = CreateEnemy(ENEMY_MELEE, {x=227.25, y=59.0313, z=248.5})
+New233152ID.moveSpeed = 9
+New233152ID.health = 50
+New233152ID.visionRange = 30
+
+local New234153ID = CreateEnemy(ENEMY_MELEE, {x=225.125, y=58.9375, z=242.75})
+New234153ID.moveSpeed = 9
+New234153ID.health = 50
+New234153ID.visionRange = 30
+
+local New235154ID = CreateEnemy(ENEMY_MELEE, {x=215.125, y=57.4688, z=242.625})
+New235154ID.moveSpeed = 9
+New235154ID.health = 50
+New235154ID.visionRange = 30
+
+local New236155ID = CreateEnemy(ENEMY_MELEE, {x=224.625, y=58.7188, z=238.5})
+New236155ID.moveSpeed = 9
+New236155ID.health = 50
+New236155ID.visionRange = 30
+
+local New237156ID = CreateEnemy(ENEMY_MELEE, {x=355.5, y=36.7188, z=155.375})
+New237156ID.moveSpeed = 9
+New237156ID.health = 50
+New237156ID.visionRange = 30
+
+local New238157ID = CreateEnemy(ENEMY_MELEE, {x=351, y=36.5938, z=160.875})
+New238157ID.moveSpeed = 9
+New238157ID.health = 50
+New238157ID.visionRange = 30
+
+local New239158ID = CreateEnemy(ENEMY_MELEE, {x=353, y=36.75, z=164.75})
+New239158ID.moveSpeed = 9
+New239158ID.health = 50
+New239158ID.visionRange = 30
+
+local New240159ID = CreateEnemy(ENEMY_MELEE, {x=359.25, y=36.4688, z=165})
+New240159ID.moveSpeed = 9
+New240159ID.health = 50
+New240159ID.visionRange = 30
+
+local New241160ID = CreateEnemy(ENEMY_MELEE, {x=363.75, y=36.5, z=168})
+New241160ID.moveSpeed = 9
+New241160ID.health = 50
+New241160ID.visionRange = 30
+
+local New242161ID = CreateEnemy(ENEMY_MELEE, {x=367, y=35.75, z=161.75})
+New242161ID.moveSpeed = 9
+New242161ID.health = 50
+New242161ID.visionRange = 30
+
+local New243162ID = CreateEnemy(ENEMY_MELEE, {x=365, y=35.6875, z=155.375})
+New243162ID.moveSpeed = 9
+New243162ID.health = 50
+New243162ID.visionRange = 30
+
+local New244163ID = CreateEnemy(ENEMY_MELEE, {x=359.5, y=36.2813, z=153.375})
+New244163ID.moveSpeed = 9
+New244163ID.health = 50
+New244163ID.visionRange = 30
+
+local New245164ID = CreateEnemy(ENEMY_MELEE, {x=353, y=36.875, z=152})
+New245164ID.moveSpeed = 9
+New245164ID.health = 50
+New245164ID.visionRange = 30
+
+local New246165ID = CreateEnemy(ENEMY_MELEE, {x=351.5, y=36.8125, z=155.75})
+New246165ID.moveSpeed = 9
+New246165ID.health = 50
+New246165ID.visionRange = 30
+
+local New247166ID = CreateEnemy(ENEMY_MELEE, {x=363, y=36.25, z=164})
+New247166ID.moveSpeed = 9
+New247166ID.health = 50
+New247166ID.visionRange = 30
+
+local New248167ID = CreateEnemy(ENEMY_MELEE, {x=361.5, y=37.1875, z=174.875})
+New248167ID.moveSpeed = 9
+New248167ID.health = 50
+New248167ID.visionRange = 30
+
+local New249168ID = CreateEnemy(ENEMY_MELEE, {x=357.25, y=37.7188, z=180.25})
+New249168ID.moveSpeed = 9
+New249168ID.health = 50
+New249168ID.visionRange = 30
 
 table.insert(level02, props)
 table.insert(level02, colliders)
