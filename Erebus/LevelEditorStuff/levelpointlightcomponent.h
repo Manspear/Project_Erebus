@@ -17,7 +17,8 @@ public:
 
 	std::string getName() override;
 	tinyxml2::XMLElement* toXml(tinyxml2::XMLDocument* doc) override;
-	std::string toLua(std::string name) override;
+	std::string toLuaLoad(std::string name) override;
+	std::string toLuaUnload(std::string name) override;
 	void postInitialize() override;
 	float getRadius();
 	glm::vec3 getPos();

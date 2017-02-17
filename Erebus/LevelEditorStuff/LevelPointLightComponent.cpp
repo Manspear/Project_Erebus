@@ -96,7 +96,7 @@ void LevelPointLightComponent::setWorldPos(LevelTransform* transform) {
 	light->pos = glm::vec4(transform->getChangeTransformRef()->getPos() + this->pos,1);
 }
 
-std::string LevelPointLightComponent::toLua(std::string name)
+std::string LevelPointLightComponent::toLuaLoad(std::string name)
 {
 	
 	using namespace std;
@@ -110,6 +110,11 @@ std::string LevelPointLightComponent::toLua(std::string name)
 	*/
 	return ss.str();
 	
+}
+
+std::string LevelPointLightComponent::toLuaUnload(std::string name)
+{
+	return "";
 }
 
 float LevelPointLightComponent::getRadius()

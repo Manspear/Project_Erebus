@@ -28,13 +28,18 @@ tinyxml2::XMLElement* LevelAnimation::toXml(tinyxml2::XMLDocument* doc)
 	return nullptr;
 }
 
-std::string LevelAnimation::toLua(std::string name)
+std::string LevelAnimation::toLuaLoad(std::string name)
 {
 	std::stringstream ss;
 
 	ss << name << ".animation = Animation.Create()" << std::endl;
 
 	return ss.str();
+}
+
+std::string LevelAnimation::toLuaUnload(std::string name)
+{
+	return "";
 }
 
 void LevelAnimation::postInitialize()

@@ -27,7 +27,8 @@ public:
 	void postInitialize();
 	std::string getName();
 	tinyxml2::XMLElement* toXml( tinyxml2::XMLDocument* doc );
-	std::string toLua( std::string name );
+	std::string toLuaLoad(std::string name) override;
+	std::string toLuaUnload(std::string name) override;
 
 	void setTwStruct(TwBar* bar);
 	void update( float deltaTime ) override;

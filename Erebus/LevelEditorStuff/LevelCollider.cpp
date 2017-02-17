@@ -413,7 +413,7 @@ std::string LevelCollider::printChildren(std::string name, std::string depth, in
 }
 
 //TO IMPLEMENT:::: TRIGGER LUA EVENT ;) ;) ;) ;) ;)
-std::string LevelCollider::toLua(std::string name)
+std::string LevelCollider::toLuaLoad(std::string name)
 {
 	if (this->parentColiderID != 0)
 		return "";
@@ -486,6 +486,11 @@ std::string LevelCollider::toLua(std::string name)
 	}
 
 	return ss.str();
+}
+
+std::string LevelCollider::toLuaUnload(std::string name)
+{
+	return "";
 }
 
 void LevelCollider::update(float deltaTime)

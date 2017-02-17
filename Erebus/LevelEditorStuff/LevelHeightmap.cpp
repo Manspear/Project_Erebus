@@ -108,7 +108,7 @@ tinyxml2::XMLElement* LevelHeightmap::toXml( tinyxml2::XMLDocument* doc )
 	return element;
 }
 
-std::string LevelHeightmap::toLua(std::string name)
+std::string LevelHeightmap::toLuaLoad(std::string name)
 {
 	using namespace std;
 	stringstream ss;
@@ -122,7 +122,7 @@ std::string LevelHeightmap::toLua(std::string name)
 	ss << name << ".asset:SetPosition({x=" << position.x+offset.x << ", y=" << position.y+offset.y+heightMin << ", z=" << position.z+offset.z << "})" << endl;
 	//ss << name << ".heightMultiplier = " << (heightMax - heightMin)/255.0f << endl;
 	ss << name << ".asset:SetHeightMultiplier(" << (heightMax-heightMin)/255.0f << ")" << endl;
-	ss << name << ".surrounding = { ";
+	/*ss << name << ".surrounding = { ";
 
 	bool needComma = false;
 	for( int i=0; i<HEIGHTMAP_MAX_SURROUNDING; i++ )
@@ -139,9 +139,14 @@ std::string LevelHeightmap::toLua(std::string name)
 			needComma = true;
 		}
 	}
-	ss << " }" << endl;
+	ss << " }" << endl;*/
 
 	return ss.str();
+}
+
+std::string LevelHeightmap::toLuaUnload(std::string name)
+{
+	return "";
 }
 
 void LevelHeightmap::update( float deltaTime )
@@ -367,6 +372,11 @@ glm::vec3 LevelHeightmap::getMinPos() const
 glm::vec3 LevelHeightmap::getMaxPos() const
 {
 	return position + offset + glm::vec3( heightmap->getMapWidth(), 100.0f, heightmap->getMapHeight() );
+}
+
+int* LevelHeightmap::getSurrounding() const
+{
+	return (int*)surrounding;
 }
 
 void LevelHeightmap::setDebugger( Debug* debugger )
