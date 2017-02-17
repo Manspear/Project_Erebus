@@ -46,6 +46,7 @@ function CreateSiphon(entity)
 	spell.duration = SIPHON_CHAIN_DURATION
 	function spell:Cast()
 		if self.spamcooldown < 0 then
+			ZoomInCamera()
 			self.spamming = true
 			self.spamduration = SIPHON_SPAM_DURATION
 			self.spamcooldown = SIPHON_SPAM_COOLDOWN
@@ -64,6 +65,7 @@ function CreateSiphon(entity)
 				Transform.ActiveControl(self.transformID, true)
 				self.spamming = false
 				self.duration = SIPHON_CHAIN_DURATION
+				ZoomInCamera()
 			end
 		end
 	end
@@ -144,6 +146,9 @@ function CreateSiphon(entity)
 			if self.spamduration < 0 then
 				self.spamming = false
 				Transform.ActiveControl(self.transformID, false)
+				if self.isActiveSpell then
+					ZoomOutCamera()
+				end
 			end
 		end
 		if self.chained then
@@ -167,10 +172,14 @@ function CreateSiphon(entity)
 				self.chaininterval = SIPHON_CHAIN_INTERVAL
 			end
 			if self.duration < 0 then
+				ZoomOutCamera()
 				self.chained = nil
 				Transform.ActiveControl(self.transformID, false)
 				self.length = SIPHON_HITBOX_LENGTH
 				OBBCollider.SetSize(self.collider, self.length, 1, 1)
+				if #self.effects > 1 then
+					table.remove(self.effects)
+				end
 			end
 		else
 			self:rotatetoowner()
