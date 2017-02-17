@@ -140,6 +140,10 @@ function LoadPlayer2()
 	player2.spamCasting = false
 	player2.charging = false
 	player2.position = {x=0, y=0, z=0}
+	
+	player2.dashtime = 0
+	player2.dashcd = 0
+	player2.invulnerable = false
 
 	player2.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
@@ -279,10 +283,10 @@ function UpdatePlayer(dt)
 		local fwd = player.dashdir.x * factor
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
-		if player.dashtime < 0 then
+		if player.dashtime <= 0 then
 			player.invulnerable = false
 			Transform.SetScale(player.transformID, 1)
-			Network.SendDashPacket(1, false)
+			Network.SendDashPacket(false)
 		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
@@ -422,7 +426,7 @@ function Controls(dt)
 			player.dashdir.z = player.left * 3.5
 			player.dashtime = DASH_DURATION
 			player.invulnerable = true
-			Network.SendDashPacket(0, true)
+			Network.SendDashPacket(true)
 		end
 end
 
@@ -527,10 +531,23 @@ function UpdatePlayer2(dt)
 		player2.animationController:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
 	end
 
-	local newDashValue, setScaleVal, invulnerableVal = Network.GetDashPacket()
+	local newDashValue, isDashing = Network.GetDashPacket()
 	if newDashValue == true then
-		Transform.SetScale(player2.transformID, setScaleVal)
-		player.invulnerable = invulnerableVal
+		if isDashing == true then
+			Transform.SetScale(player2.transformID, 0)
+			player2.dashtime = DASH_DURATION * 1.2
+			player2.invulnerable = true
+		else
+			player2.dashtime = 0
+		end
+	end
+
+	if player2.dashtime > 0 then
+		player2.dashtime = player2.dashtime - dt
+		if player2.dashtime <= 0 then
+			player2.invulnerable = false
+			Transform.SetScale(player2.transformID, 1)
+		end
 	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
