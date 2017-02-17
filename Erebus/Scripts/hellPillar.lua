@@ -38,7 +38,7 @@ function CreateHellPillar(entity)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
 	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
-	Gear.AddBlendingInstance(model, spell.transformID)
+	spell.modelIndex = Gear.AddBlendingInstance(model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
 
 	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
