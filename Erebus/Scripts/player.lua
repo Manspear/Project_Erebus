@@ -387,7 +387,6 @@ function Controls(dt)
 			
 				if player.isCombined == true then
 					player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-					player.Charging = true
 				else
 					player.charger:ChargeMePlease(player.position,dt,sElement)
 				end
@@ -397,7 +396,7 @@ function Controls(dt)
 			if Inputs.ButtonPressed(Buttons.Right) then 
 				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 				player.charger:StartCharge(player.position) 
-			
+				player.charging = true			
 			end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then

@@ -112,7 +112,6 @@ function  createTumbleParticles()
 	function tumbleParticles:cast(x, y, z)
 		Particle.SetAlive(self.fly)
 		Particle.SetDirection(self.fly, x, y, z);
-
 	end
 
 	function tumbleParticles:die(pos)

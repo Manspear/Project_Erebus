@@ -13,7 +13,7 @@ function CreateKnockbackEffect(entity, power, direction)
 	function effect:Apply(entity)
 		self.position = Transform.GetPosition(entity.transformID)
 		self.direction = vec3sub(self.position, self.owner.position)
-		self.direction.y = 1
+		self.direction.y =  1
 		self.fallSpeed = 2
 		self.damage = 1
 		entity.SetState(entity,"DeadState")

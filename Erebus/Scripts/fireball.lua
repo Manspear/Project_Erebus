@@ -171,7 +171,7 @@ function CreateFireball(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
-		Light.removeLight(self.light, true)
+		if self.light then		Light.removeLight(self.light, true)		end
 	end
 
 	function spell:SpamFireball(index)
