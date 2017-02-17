@@ -9,6 +9,7 @@ namespace Collisions
 		this->position = glm::vec3(0, 0, 0);
 		this->depth = 0;
 		this->baseNode = nullptr;
+		this->frustum = nullptr;
 	}
 
 
@@ -18,9 +19,15 @@ namespace Collisions
 			delete this->baseNode;
 	}
 
-	bool QuadTree::addStaticModel()
+	bool QuadTree::addStaticModel(AABBCollider * childCollider)
 	{
-		return false;
+		bool quadtreeCollision = this->collisionChecker.collisionCheck(this->baseNode->collider, childCollider); // if collider collides with quadtree at all
+
+		if (quadtreeCollision)
+		{
+			this->addHitboxToQuadtree(this->baseNode, childCollider);
+		}
+		return quadtreeCollision;
 	}
 
 	void QuadTree::generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width)
@@ -37,6 +44,11 @@ namespace Collisions
 
 		float halWidth = width / 2.0f;
 		createChildren(this->baseNode, this->position, halWidth, this->depth);
+	}
+
+	void QuadTree::setFrustum(Frustum * frustum)
+	{
+		this->frustum = frustum;
 	}
 
 	//void QuadTree::draw(Debug * debugger)
@@ -75,20 +87,34 @@ namespace Collisions
 		}
 	}
 
-	void QuadTree::addHitbox(Node * parent, AABBCollider * childCollider)
+	void QuadTree::addHitboxToQuadtree(Node * parent, AABBCollider * childCollider)
 	{
-		this->collisionChecker.collisionCheck(parent->collider, childCollider);
-	}
+		if (parent->children[0] != nullptr) // if we have children
+		{
+			Node* topLeftChild = parent->children[TOP_LEFT_NODE];
+			Node* topRightChild = parent->children[TOP_RIGHT_NODE];
+			Node* bottomLeftChild = parent->children[BOTTOM_LEFT_NODE];
+			Node* bottomRightChild = parent->children[BOTTOM_RIGHT_NODE];
 
-	//void QuadTree::reqursiveDraw(Node * node, Debug * debugger)
-	//{
-	//	if (node->children[0] != nullptr) // static quadtree, if it have one children it is sure to have all 4
-	//	{
-	//		for (int i = 0; i < NODE_AMOUNT; i++)
-	//		{
-	//			reqursiveDraw(node->children[i], debugger);
-	//		}
-	//	}
-	//	debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), glm::vec3(1, 0, 0));
-	//}
+			bool topLeftCollision = this->collisionChecker.collisionCheck(topLeftChild->collider, childCollider);
+			bool topRightCollision = this->collisionChecker.collisionCheck(topRightChild->collider, childCollider);
+			bool bottomLeftCollision = this->collisionChecker.collisionCheck(bottomLeftChild->collider, childCollider);
+			bool bottomRightCollision = this->collisionChecker.collisionCheck(bottomRightChild->collider, childCollider);
+
+			if (topLeftCollision)
+				this->addHitboxToQuadtree(topLeftChild, childCollider);
+			if (topRightCollision)
+				this->addHitboxToQuadtree(topRightChild, childCollider);
+			if (bottomLeftCollision)
+				this->addHitboxToQuadtree(bottomLeftChild, childCollider);
+			if (bottomRightCollision)
+				this->addHitboxToQuadtree(bottomRightChild, childCollider);
+		}
+
+		else // if we dont have children, we are a leafnode and we insert hitbox into ourself
+		{
+			parent->allChildColliders->push_back(childCollider);
+		}
+		
+	}
 }

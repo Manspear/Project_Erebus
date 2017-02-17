@@ -74,7 +74,9 @@ DWORD WINAPI update( LPVOID args )
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler); 
 	CollisionUpdater collisionUpdater(&collisionHandler, transforms);
 	QuadTree quadtree;
-	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
+	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 100.0f);
+	AABBCollider temp(glm::vec3(-10,-10,-10),glm::vec3(10,10,10),glm::vec3(17,17,17));
+	quadtree.addStaticModel(&temp);
 	
 	int boundTransforms = 0;
 	int boundAnimations = 0;

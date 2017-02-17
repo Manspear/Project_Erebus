@@ -259,6 +259,10 @@ void CollisionsDraw::initializeColors()
 	{
 		this->colors[i] = hardCodedColors[i];
 	}
+	// node colors below
+	this->emptyNodeColor = glm::vec3(1,0,0);
+	this->occupiedNodeColor = glm::vec3(0,1,0);
+	this->childHitboxColor = glm::vec3(1,1,1);
 }
 
 void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
@@ -270,8 +274,22 @@ void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
 			recursiveQuadtreeDraw(node->children[i]);
 		}
 	}
-	debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), glm::vec3(1, 0, 0));
-}
+	if (node->children[0] == nullptr) // if we are leafnode
+	{
+		if (node->allChildColliders->size() == 0)
+			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->emptyNodeColor);
+		else
+		{
+			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->occupiedNodeColor);
+			for (size_t i = 0; i < node->allChildColliders->size(); i++)
+			{
+				debugger->drawAABB(node->allChildColliders->operator[](i)->getMinPos(), node->allChildColliders->operator[](i)->getMaxPos(), this->childHitboxColor);
+
+			}
+		}
+	}
+	}
+
 
 CollisionsDraw::~CollisionsDraw()
 {

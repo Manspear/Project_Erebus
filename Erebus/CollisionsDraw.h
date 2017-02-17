@@ -32,8 +32,7 @@ private:
 	typedef Collisions::QuadTree::Node quadtreeNode;
 	Debug* debugger;
 	glm::vec3 colors[64]; // 64 colors to use on hitbox layers
-	glm::vec3 defaultColor;
-	glm::vec3 deactivatedColor;
+	glm::vec3 defaultColor, deactivatedColor, emptyNodeColor, occupiedNodeColor, childHitboxColor;
 	bool drawThisFrameBool;
 	Collisions::CollisionHandler* collisionHandler;
 
