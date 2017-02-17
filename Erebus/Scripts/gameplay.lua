@@ -82,6 +82,7 @@ function EnterGameplay()
 		end
 
 		dofile( "Scripts/level01.lua" )
+		levels[1].load()
 		loadedGameplay = true
 	end
 
