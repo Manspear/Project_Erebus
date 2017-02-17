@@ -310,6 +310,7 @@ end
 
 function SendCombine(spell)
 	--TOBEDEFINED
+	player2.isCombined = true
 	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
 
@@ -468,6 +469,15 @@ function UpdatePlayer2(dt)
 	
 	if isPlayer2Charging == true then
 		player2.spells[player2.currentSpell]:Charge(dt)
+
+		local spellElement = player2.spells[player2.currentSpell].element
+					
+		if player2.isCombined == true then
+			player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime, spellElement)
+		else
+			player2.charger:ChargeMePlease(player2.position, dt, spellElement)
+		end
+
 		player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime)
 	end
 	
