@@ -148,11 +148,11 @@ end
 function showTutorialImage(x,y,z,dt)
 	TutorialCounter = TutorialCounter + dt
 	
-	if TutorialCounter < 2.5  then
+	if TutorialCounter < 2  then
 		index = 1
-	elseif TutorialCounter < 5 then
+	elseif TutorialCounter < 4 then
 		index = 2
-	elseif TutorialCounter < 7.5 then
+	elseif TutorialCounter < 6 then
 		index = 3
 	else
 		TutorialCounter = 0
@@ -166,13 +166,13 @@ end
 function showTutorialImage2(x,y,z,dt)
 	TutorialCounter2 = TutorialCounter2 + dt
 	
-	if TutorialCounter2 < 2.5  then
+	if TutorialCounter2 < 2  then
 		index = 4
-	elseif TutorialCounter2 < 5 then
+	elseif TutorialCounter2 < 4 then
 		index = 5
-	elseif TutorialCounter2 < 7.5 then
+	elseif TutorialCounter2 < 6 then
 		index = 6
-	elseif TutorialCounter2 < 10 then
+	elseif TutorialCounter2 < 8 then
 		index = 7
 	else
 		TutorialCounter2 = 0
@@ -186,13 +186,13 @@ function showTutorialImage2(x,y,z,dt)
 end
 
 
-function HideTutorialImage()
+function hideTutorialImage()
 	SHOW_TUTORIAL_IMAGE = -1
 end
 
 
 
-function HideTutorialImage2()
+function hideTutorialImage2()
 	SHOW_TUTORIAL_IMAGE2 = -1
 end
 
