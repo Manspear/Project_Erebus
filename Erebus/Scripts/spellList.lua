@@ -16,18 +16,6 @@ SpellList = {}
 SpellListPlayer2 = {}
 
 function LoadSpellbook()
-	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
-					info = wrap("'Jag har aldrig slutat tro, att efter varje natt vantar gryningen. Fast jag inte kan forsta, sa finns det hopp anda, nar vi borjar om igen! Kanner doften av en stilla ocean. Plotsligt star jag i en levande orkan!!!'", 30, "",""),
-					spell = CreateWindknockback(player)
-	}
-	table.insert(SpellList, windknockback)
-
-	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
-					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
-					spell = CreatePolymorph(player)
-	}
-
-	table.insert(SpellList, polymorph)
 	local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
 						info = wrap("'Just as a candle cannot burn without fire, men cannot live without a spiritual life.' - Buddha", 30, "",""),
 						spell = CreateHellPillar(player)}
@@ -69,13 +57,26 @@ function LoadSpellbook()
 	siphon.spell.spellListId = 6
 	table.insert(SpellList, siphon)
 	
+	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
+					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
+					spell = CreatePolymorph(player)
+	}
+	table.insert(SpellList, polymorph)
 	polymorph.spell.spellListId = 7
+	
 	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.png"),
 					info = wrap("'Akta alla sma taggar va?!'", 30, "",""),
 					spell = CreateTumblethorns(player)
 	}
 	tumblethorns.spell.spellListId = 8
 	table.insert(SpellList, tumblethorns)
+
+	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
+					info = wrap("'Jag har aldrig slutat tro, att efter varje natt vantar gryningen. Fast jag inte kan forsta, sa finns det hopp anda, nar vi borjar om igen! Kanner doften av en stilla ocean. Plotsligt star jag i en levande orkan!!!'", 30, "",""),
+					spell = CreateWindknockback(player)
+	}
+	table.insert(SpellList, windknockback)
+	windknockback.spell.spellListID = 9
 
 	LoadSpells(player)
 	LoadSpellbookPlayer2()

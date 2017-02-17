@@ -365,8 +365,7 @@ function Controls(dt)
 				player.spamCasting = true
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
-				player.spells[player.currentSpell]:Cast(player, 0.5, false)
-				
+				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
 			end
 
 			if Inputs.ButtonReleased(Buttons.Left) then
