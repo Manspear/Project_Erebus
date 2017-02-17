@@ -58,7 +58,7 @@ function CreateFireball(entity)
 	spell.enemiesHit = {}
 	
 	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
-	spell.light = {}
+	spell.light = nil
 	spell.lightRadius = 0
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
@@ -219,7 +219,7 @@ function CreateFireball(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
-		if self.light then		Light.removeLight(self.light, true)		end
+		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
 	function spell:SpamFireball(index)
