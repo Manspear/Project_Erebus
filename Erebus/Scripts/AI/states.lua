@@ -238,7 +238,11 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 
 	if length < enemy.range then
 		if enemy.actionCountDown <0 then
-			player:Hurt(12)
+			if player.transformID == player2.transformID then
+				Network.SendDamagePacket(enemy.transformID, 12)
+			else
+				player:Hurt(12, enemy)
+			end
 			enemyManager.actionEnemy = enemyManager.actionEnemy -1
 			inState = "PositioningInnerState" 
 			changeToState(enemy,player,inState)

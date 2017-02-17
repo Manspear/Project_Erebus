@@ -38,11 +38,16 @@ function clientAIState.attackState.enter(enemy, player)
 	enemy.animationController:doAttack()
 
 	enemy.animationState = 3
-	enemy.attackCountdown = 1
+	enemy.actionCountDown = 1.2
 end
 
 function clientAIState.attackState.update(enemy, player, dt)
-
+	-- Empty DamagePacket queue and apply the values to player2
+	local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+	while newDamageVal == true do 
+		player:Hurt(dmg_damage, dmg_transformID)
+		newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+	end
 end
 
 function clientAIState.attackState.exit(enemy, player)
