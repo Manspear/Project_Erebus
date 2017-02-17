@@ -343,13 +343,13 @@ function Controls(dt)
 			player.ping = player.pingDuration
 			showTutorialImage(2, 124, 36, 220)
 		end
-		if Inputs.KeyDown("T") then
+		if Inputs.KeyDown(Keys.Shift) then
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
 			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
 		end
-		if Inputs.KeyReleased("T") then
+		if Inputs.KeyReleased(Keys.Shift) then
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
