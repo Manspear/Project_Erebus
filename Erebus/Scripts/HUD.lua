@@ -33,7 +33,10 @@ function LoadHUD()
 	screenImages[3] = UI.load(465, 638, 40, 40);
 
 	tutorialImages[1] = UI.load(124, 32, 220, 0.75, 0.75)
-	tutorialTexture[1] = Assets.LoadTexture("Textures/crosshair.png")
+	tutorialTexture[1] = Assets.LoadTexture("Textures/PressLeftToFire.png")
+
+	tutorialImages[2] = UI.load(124, 32, 220, 0.75, 0.75)
+	tutorialTexture[2] = Assets.LoadTexture("Textures/TUTORIALChangeSpell.png")
 end
 
 function UnloadHUD()
@@ -129,7 +132,8 @@ function DrawHUD()
 end
 
 function showTutorialImage(index,x,y,z)
-	tutorialImages[1] = UI.load(x, y, z, 0.75, 0.75)
+	--tutorialImages[1] = UI.load(x, y, z, 0.75, 0.75)
+	tutorialImages[index] = UI.load(x, y, z, 4, 4)
 	SHOW_TUTORIAL_IMAGE = index
 end
 

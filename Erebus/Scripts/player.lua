@@ -130,6 +130,7 @@ end
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
+	player2.isCombined = false;
 	player2.health = 100
 	player2.forward = 0
 	player2.left = 0
@@ -310,6 +311,7 @@ end
 
 function SendCombine(spell)
 	--TOBEDEFINED
+	player2.isCombined = true
 	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
 end
 
@@ -339,15 +341,15 @@ function Controls(dt)
 			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
 			Sound.Play("Effects/ping.wav", 1, player.position)
 			player.ping = player.pingDuration
-			showTutorialImage(1, 124, 32, 220)
+			showTutorialImage(2, 124, 36, 220)
 		end
-		if Inputs.KeyDown("T") then
+		if Inputs.KeyDown(Keys.Shift) then
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
 			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
 		end
-		if Inputs.KeyReleased("T") then
+		if Inputs.KeyReleased(Keys.Shift) then
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
@@ -462,13 +464,21 @@ function UpdatePlayer2(dt)
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
 				player2.charger:EndCharge()
 				isPlayer2Charging = false
+				player2.isCombined = false
 			end
 		end
 	end
 	
 	if isPlayer2Charging == true then
 		player2.spells[player2.currentSpell]:Charge(dt)
-		player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime)
+
+		local spellElement = player2.spells[player2.currentSpell].element
+					
+		if player2.isCombined == true then
+			player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime, spellElement)
+		else
+			player2.charger:ChargeMePlease(player2.position, dt, spellElement)
+		end
 	end
 	
 	player2.spells[1]:Update(dt)
