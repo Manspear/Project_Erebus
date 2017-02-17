@@ -6,16 +6,18 @@ namespace LuaAI
 {
 	static AGI::AGIEngine * AI = nullptr;
 	static Transform* transforms = nullptr;
+	static TransformHandler* g_transformHandler = nullptr;
 	static Assets* g_assets = nullptr;
 
 	static HeightMap ** heightMaps = nullptr;
 	static int nrOfHM = 0;
 
-	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI, Assets* assets)
+	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI, Assets* assets, TransformHandler* transformHandler)
 	{
 		AI = inAI;
 		transforms = inTransforms;
 		g_assets = assets;
+		g_transformHandler = transformHandler;
 
 		luaL_newmetatable(L, "aiTable");
 		luaL_Reg regs[] =
@@ -95,8 +97,8 @@ namespace LuaAI
 		{
 			int index = lua_tointeger(lua, 1);
 
-			glm::vec3 pos = AI->calculateIMPath(index,transforms[index].getPos());
-
+			//glm::vec3 pos = AI->calculateIMPath(index,transforms[index].getPos());
+			glm::vec3 pos = AI->calculateIMPath(index, g_transformHandler->getTransform(index)->pos);
 
 			lua_newtable(lua);
 			lua_pushnumber(lua, pos.x);
@@ -123,7 +125,8 @@ namespace LuaAI
 			int playerIndex = lua_tointeger(lua, 2);
 			int enemyIndex = lua_tointeger(lua, 1);
 
-			float distance = glm::distance(transforms[playerIndex].getPos(), transforms[enemyIndex].getPos());
+			//float distance = glm::distance(transforms[playerIndex].getPos(), transforms[enemyIndex].getPos());
+			float distance = glm::distance( g_transformHandler->getTransform(playerIndex)->pos, g_transformHandler->getTransform(enemyIndex)->pos );
 
 			//lua_newtable(lua);
 			lua_pushnumber(lua, distance);
@@ -152,7 +155,10 @@ namespace LuaAI
 
 			//AI->drawDebug(position);
 
-			float distance = glm::distance(glm::vec3(transforms[enemyIndex].getPos().x,0, transforms[enemyIndex].getPos().z), position);
+			//float distance = glm::distance(glm::vec3(transforms[enemyIndex].getPos().x,0, transforms[enemyIndex].getPos().z), position);
+			glm::vec3 pos = g_transformHandler->getTransform(enemyIndex)->pos;
+			pos.y = 0.0f;
+			float distance = glm::distance(pos, position);
 
 			//lua_newtable(lua);
 			lua_pushnumber(lua, distance);
@@ -182,7 +188,8 @@ namespace LuaAI
 
 			position.y = 0;
 
-			glm::vec3 tempPos = transforms[index].getPos();
+			//glm::vec3 tempPos = transforms[index].getPos();
+			glm::vec3 tempPos = g_transformHandler->getTransform(index)->pos;
 			tempPos.y = 0;
 
 			glm::vec3 normalizedDir = -glm::normalize(tempPos - position);
@@ -279,7 +286,8 @@ namespace LuaAI
 		int result = 0;
 		if (lua_gettop(lua) >= 1)
 		{
-			AI->addInfluencePoint(transforms[lua_tointeger(lua, 1)].getPos(), lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			//AI->addInfluencePoint(transforms[lua_tointeger(lua, 1)].getPos(), lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			AI->addInfluencePoint(g_transformHandler->getTransform(lua_tointeger(lua, 1))->pos, lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 			result = 0;
 		}
 		return result;
@@ -299,7 +307,8 @@ namespace LuaAI
 			//glm::vec3 pos  = AI->SetTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), transforms[lua_tointeger(lua, 2)].getPos(),lua_tonumber(lua,3));
 			
 			// NEw Function
-			glm::vec3 pos = AI->setTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
+			//glm::vec3 pos = AI->setTargetRangeFromPlayer(transforms[lua_tointeger(lua, 1)].getPos(), lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
+			glm::vec3 pos = AI->setTargetRangeFromPlayer(g_transformHandler->getTransform(lua_tointeger(lua, 1))->pos, lua_tonumber(lua, 2),lua_tointeger(lua,3), lua_tointeger(lua, 4));
 
 			lua_newtable(lua);
 			lua_pushnumber(lua, pos.x);

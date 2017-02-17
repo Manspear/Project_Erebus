@@ -67,40 +67,75 @@ namespace Importer
 			bufferSizes = (int*)ptr;
 			ptr += sizeof(int)*header.numMeshes;
 
-			/*ptr = (char*)bufferptr;
-			sVertex* vertices = (sVertex*)ptr;
-			ptr += sizeof(sVertex)*header.numVertices;
+			// calculate max and min positions
+			glm::vec3 curMin( std::numeric_limits<float>().max() );
+			glm::vec3 curMax( std::numeric_limits<float>().min() );
 
-			sSkeletonVertex* skeletonVertices = (sSkeletonVertex*)ptr;
-			ptr += sizeof(sSkeletonVertex)*header.numSkeletonVertices;
-
-			GLuint* indices = (GLuint*)ptr;
-			ptr += sizeof(GLuint)*header.numIndices;
-
-			for (int curMesh = 0; curMesh < header.numMeshes; curMesh++)
+			if( header.TYPE == STATIC )
 			{
-				glGenBuffers(1, &vertexBuffers[curMesh]);
-				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[curMesh]);
-				if (meshes[curMesh].numVertices > 0)
+				sVertex* vertices = (sVertex*)bufferptr;
+				for( int curMesh = 0; curMesh < header.numMeshes; curMesh++ )
 				{
-					glBufferData(GL_ARRAY_BUFFER, sizeof(sVertex)*meshes[curMesh].numVertices, vertices + offsets[curMesh].vertex, GL_STATIC_DRAW);
-					//bufferSizes[curMesh] = meshes[curMesh].vertexCount;
-				}
-				else
-				{
-					glBufferData(GL_ARRAY_BUFFER, sizeof(sSkeletonVertex)*meshes[curMesh].numAnimVertices, skeletonVertices + offsets[curMesh].skeletonVertex, GL_STATIC_DRAW);
-					//bufferSizes[curMesh] = meshes[curMesh].skeletonVertexCount;
-				}
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
+					for( int curVertex = 0; curVertex < meshes[curMesh].numVertices; curVertex++ )
+					{
+						glm::vec3 vertexPos = *(glm::vec3*)vertices[curVertex].position;
 
-				glGenBuffers(1, &indexBuffers[curMesh]);
-				glBindBuffer(GL_ARRAY_BUFFER, indexBuffers[curMesh]);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint)*meshes[0].numIndices, indices, GL_STATIC_DRAW);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				bufferSizes[curMesh] = meshes[curMesh].numIndices;
+						if( vertexPos.x < curMin.x )
+							curMin.x = vertexPos.x;
+						if( vertexPos.y < curMin.y )
+							curMin.y = vertexPos.y;
+						if( vertexPos.z < curMin.z )
+							curMin.z = vertexPos.z;
+
+						if( vertexPos.x > curMax.x )
+							curMax.x = vertexPos.x;
+						if( vertexPos.y > curMax.y )
+							curMax.y = vertexPos.y;
+						if( vertexPos.z > curMax.z )
+							curMax.z = vertexPos.z;
+					}
+				}
+			}
+			else
+			{
+				sSkeletonVertex* vertices = (sSkeletonVertex*)bufferptr;
+				for( int curMesh = 0; curMesh < header.numMeshes; curMesh++ )
+				{
+					for( int curVertex = 0; curVertex < meshes[curMesh].numAnimVertices; curVertex++ )
+					{
+						glm::vec3 vertexPos = *(glm::vec3*)vertices[curVertex].position;
+
+						if( vertexPos.x < curMin.x )
+							curMin.x = vertexPos.x;
+						if( vertexPos.y < curMin.y )
+							curMin.y = vertexPos.y;
+						if( vertexPos.z < curMin.z )
+							curMin.z = vertexPos.z;
+
+						if( vertexPos.x > curMax.x )
+							curMax.x = vertexPos.x;
+						if( vertexPos.y > curMax.y )
+							curMax.y = vertexPos.y;
+						if( vertexPos.z > curMax.z )
+							curMax.z = vertexPos.z;
+					}
+				}
 			}
 
-			free(bufferptr);*/
+			float smallestComponent = curMin.x;
+			if( curMin.y < smallestComponent )
+				smallestComponent = curMin.y;
+			if( curMin.z < smallestComponent )
+				smallestComponent = curMin.z;
+			
+			float biggestComponent = curMax.x;
+			if( curMax.y > biggestComponent )
+				biggestComponent = curMax.y;
+			if( curMax.z > biggestComponent )
+				biggestComponent = curMax.z;
+
+			minPosition = glm::vec3( smallestComponent );
+			maxPosition = glm::vec3( biggestComponent );
 
 			material = assets->load<MaterialAsset>( "Materials/" + std::string(header.materialName) );
 
@@ -233,5 +268,15 @@ namespace Importer
 	MaterialAsset* ModelAsset::getMaterial () const
 	{
 		return material;
+	}
+
+	const glm::vec3& ModelAsset::getMinPosition() const
+	{
+		return minPosition;
+	}
+
+	const glm::vec3& ModelAsset::getMaxPosition() const
+	{
+		return maxPosition;
 	}
 };

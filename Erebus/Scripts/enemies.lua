@@ -24,7 +24,7 @@ function CreateEnemy(type, position)
 	local i = #enemies+1
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
-	enemies[i].transformID = Transform.Bind()
+	--enemies[i].transformID = Transform.Bind()
 	enemies[i].movementSpeed = 12--math.random(5,20)
 	enemies[i].maxHealth = 20
 	enemies[i].health = enemies[i].maxHealth
@@ -34,8 +34,6 @@ function CreateEnemy(type, position)
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
-
-	enemies[i].animationController = CreateEnemyController(enemies[i])
 
 	enemies[i].visionRange = 100
 	enemies[i].subPathtarget = nil
@@ -52,6 +50,20 @@ function CreateEnemy(type, position)
 	enemies[i].animationState = 1
 	enemies[i].range = 4
 	enemies[i].target = nil
+
+	local modelName = ""
+	if type == ENEMY_MELEE then
+		modelName = "Models/Goblin.model"
+	else
+		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
+	end
+
+	local model = Assets.LoadModel(modelName)
+
+	assert( model, "Failed to load model Models/Goblin.model" )
+
+	enemies[i].animationController = CreateEnemyController(enemies[i])
+	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
 
 	enemies[i].Hurt = function(self, damage, source)
 		local pos = Transform.GetPosition(self.transformID)
@@ -130,7 +142,6 @@ function CreateEnemy(type, position)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 	
-
 	if Network.GetNetworkHost() == true then
 		enemies[i].state = stateScript.state.idleState
 	else
@@ -140,9 +151,8 @@ function CreateEnemy(type, position)
 	enemies[i].range = 4
 	enemies[i].target = nil
 
+	--[[local modelName = ""
 
-
-	local modelName = ""
 	if type == ENEMY_MELEE then
 		modelName = "Models/Goblin.model"
 	else
@@ -153,7 +163,7 @@ function CreateEnemy(type, position)
 
 	assert( model, "Failed to load model Models/Goblin.model" )
 
-	Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)
+	Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)--]]
 
 	--NOTE: Not sure if we need this?
 	return enemies[i]

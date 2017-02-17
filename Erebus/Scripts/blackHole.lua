@@ -14,8 +14,10 @@ BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.wav", "Effects/Bluezone-BC0212-ambie
 function CreateBlackHole(entity)
 	local spell = {}
 	spell.element = NATURE
-	spell.type = CreateStaticAoEType()
-	spell.innerTransformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/projectile1.model" )
+	spell.type = CreateStaticAoEType(model)
+	--spell.innerTransformID = Transform.Bind()
+	spell.innerTransformID = Gear.BindStaticInstance(model)
 	spell.owner = entity
 	spell.effects = {}
 	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
@@ -33,9 +35,9 @@ function CreateBlackHole(entity)
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
 	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	
-	local model = Assets.LoadModel( "Models/projectile1.model" )
-	Gear.AddStaticInstance(model, spell.type.transformID)
-	Gear.AddStaticInstance(model, spell.innerTransformID)
+	--local model = Assets.LoadModel( "Models/projectile1.model" )
+	--Gear.AddStaticInstance(model, spell.type.transformID)
+	--Gear.AddStaticInstance(model, spell.innerTransformID)
 
 	function spell:Cast(entity, chargetime) end
 	function spell:Charge(dt) ZoomInCamera() end

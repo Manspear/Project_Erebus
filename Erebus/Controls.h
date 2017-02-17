@@ -3,7 +3,7 @@
 #include "Inputs.h"
 #include "Transform.h"
 #include <lua\lua.hpp>
-
+#include "TransformHandler.h"
 
 #define CONTROLS_MAX_KEYS 12
 
@@ -14,11 +14,14 @@ public:
 	~Controls();
 	void update( Inputs* input );
 	bool* getKeys();
-	Transform* getControl();
-	void setControl(Transform* trans);
+	//Transform* getControl();
+	//void setControl(Transform* trans);
+	void setControl( TransformHandler* handler, int id );
 	void sensitivityFactor(float factor);
 private:
-	Transform* controlled;
+	//Transform* controlled;
+	TransformHandler* transformHandler;
+	int transformID;
 	float sensitivity;
 	bool keys[CONTROLS_MAX_KEYS*3];
 	float xrot;

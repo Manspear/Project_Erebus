@@ -6,12 +6,14 @@ CollisionUpdater::CollisionUpdater()
 {
 	this->collisionHandler = nullptr;
 	this->transforms = nullptr;
+	this->transformHandler = nullptr;
 }
 
-CollisionUpdater::CollisionUpdater(Collisions::CollisionHandler * collisionHandler, Transform * transforms)
+CollisionUpdater::CollisionUpdater(Collisions::CollisionHandler * collisionHandler, Transform * transforms, TransformHandler* transformHandler)
 {
 	this->collisionHandler = collisionHandler;
 	this->transforms = transforms;
+	this->transformHandler = transformHandler;
 }
 
 
@@ -42,13 +44,15 @@ void CollisionUpdater::update()
 	{
 		int idTransform = allColliders->operator[](i)->getIDTransform();
 		if (idTransform >= 0)
-			allColliders->operator[](i)->setPos(transforms[idTransform].getPos());
+			//allColliders->operator[](i)->setPos(transforms[idTransform].getPos());
+			allColliders->operator[](i)->setPos(transformHandler->getTransform(idTransform)->pos);
 	}
 
 	for (size_t i = 0; i < rayColliderSize; i++) // update rays also
 	{
 		int idTransform = rayColliders->operator[](i)->getIDTransform();
 		if (idTransform >= 0)
-			rayColliders->operator[](i)->setPosition(transforms[idTransform].getPos());
+			//rayColliders->operator[](i)->setPosition(transforms[idTransform].getPos());
+			rayColliders->operator[](i)->setPosition(transformHandler->getTransform(idTransform)->pos);
 	}
 }

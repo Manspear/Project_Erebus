@@ -29,8 +29,13 @@ function LoadPlayer()
 	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
 	effectTable[KNOCKBACK_EFFECT_INDEX] = CreateKnockbackEffect
 	-- Init unique ids
-	player.transformID = Transform.Bind()
-	player2.transformID = Transform.Bind()
+	--player.transformID = Transform.Bind()
+	--player2.transformID = Transform.Bind()
+	player.animationController = CreatePlayerController(player)
+	player2.animationController = CreatePlayerController(player2)
+	local model = Assets.LoadModel("Models/player1.model")
+	player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+	player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
 
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
@@ -51,7 +56,6 @@ function LoadPlayer()
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, true)
-	player.animationController = CreatePlayerController(player)
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
@@ -96,8 +100,9 @@ function LoadPlayer()
 		Transform.ActiveControl(self.transformID,false)
 	end
 	
-	player.ChangeHeightmap = function(self, heightmap)
-		player.currentHeightmap = heightmap
+	player.ChangeHeightmap = function(self, levelIndex)
+		player.levelIndex = levelIndex
+		player.currentHeightmap = heightmaps[levelIndex]
 		player.controller:SetHeightmap(player.currentHeightmap.asset)
 	end
 
@@ -116,8 +121,8 @@ function LoadPlayer()
 	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/player1.model")
-	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
+	--local model = Assets.LoadModel("Models/player1.model")
+	--Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
 	LoadPlayer2()
@@ -147,14 +152,13 @@ function LoadPlayer2()
 	player2.outerCirclerange = 4
 	player2.innerCirclerange = 8
 
-	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
 	player2.currentSpell = 1
 
-	local model = Assets.LoadModel("Models/player1.model")
+	--local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
 
 	player2.Hurt = function(self,damage, source)
@@ -172,7 +176,7 @@ function LoadPlayer2()
 		end
 	end
 
-	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
+	--Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeThing(player2)
@@ -196,13 +200,116 @@ function LoadSpellsPlayer2()
 end
 
 function FindHeightmap(position)
-	local hm = player.currentHeightmap
+	--[[local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
+		local prev = player.currentHeightmap
+		local newIndex = -1
+
 		for k,hmIndex in pairs(hm.surrounding) do
-			if heightmaps[hmIndex].asset:Inside(position) then
-				player.currentHeightmap = heightmaps[hmIndex]
+			hm = heightmaps[hmIndex]
+			if hm.asset:Inside(position) then
+				newIndex = hmIndex
+				player.currentHeightmap = hm
 				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				break
+			end
+		end
+
+		if hm then
+			local allTiles = {}
+			for _,v in pairs(hm.surrounding) do
+				table.insert(allTiles,v)
+			end
+			table.insert(allTiles,newIndex)
+
+			local newTiles = {}
+			for _,v in pairs(allTiles) do
+				if not loadedLevels[v] then
+					table.insert(newTiles,v)
+				end
+			end
+
+			local oldTiles = {}
+			for k,v in pairs(loadedLevels) do
+				local found = false
+				for _,b in pairs(allTiles) do
+					if k == b then
+						found = true
+						break
+					end
+				end
+
+				if not found then
+					table.insert(oldTiles,k)
+				end
+			end
+
+			--unload previous tiles
+			for _,v in pairs(oldTiles) do
+				levels[v].unload()
+				loadedLevels[v] = false
+			end
+
+			--load new tiles
+			for _,v in pairs(newTiles) do
+				levels[v].load()
+				loadedLevels[v] = true
+			end
+		end
+	end--]]
+
+	local hm = player.currentHeightmap
+	if not hm.asset:Inside(position) then
+		for k,index in pairs(levels[player.levelIndex].surrounding) do
+			hm = heightmaps[index]
+			if hm.asset:Inside(position) then
+				print(index)
+				player:ChangeHeightmap(index)
+				break
+			end
+		end
+
+		if hm then
+			local allTiles = {}
+			for _,v in pairs(levels[player.levelIndex].surrounding) do
+				table.insert(allTiles,v)
+			end
+			table.insert(allTiles,player.levelIndex)
+
+			local newTiles = {}
+			for _,v in pairs(allTiles) do
+				if not loadedLevels[v] then
+					table.insert(newTiles,v)
+				end
+			end
+
+			local oldTiles = {}
+			for k,v in pairs(loadedLevels) do
+				local found = false
+				for _,b in pairs(allTiles) do
+					if k == b then
+						found = true
+						break
+					end
+				end
+
+				if not found then
+					table.insert(oldTiles,k)
+				end
+			end
+
+			--unload previous tiles
+			for _,v in pairs(oldTiles) do
+				print("Unloading tile: " .. v)
+				levels[v].unload()
+				loadedLevels[v] = false
+			end
+
+			--load new tiles
+			for _,v in pairs(newTiles) do
+				print("Loading tile: " .. v)
+				levels[v].load()
+				loadedLevels[v] = true
 			end
 		end
 	end
@@ -285,7 +392,7 @@ function UpdatePlayer(dt)
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
 	-- check collision against triggers and call their designated function
-	for _,v in pairs(triggers) do
+	for _,v in pairs(levels[player.levelIndex].triggers) do
 		if v.collider:CheckCollision() then
 			if not v.triggered then
 				if v.OnEnter then

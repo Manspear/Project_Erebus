@@ -71,7 +71,9 @@ function state.followState.update(enemy,player,dt)
 			local pos = Transform.GetPosition(enemy.transformID)
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
-			Transform.SetLookAt(enemy.transformID,direction)
+			--Transform.SetLookAt(enemy.transformID,direction)
+			--vec3print(direction)
+			Transform.SetFacing(enemy.transformID, player.transformID)
 			
 			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
@@ -112,7 +114,8 @@ function state.positioningInnerState.enter(enemy,player)
 
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
- 	Transform.SetLookAt(enemy.transformID,direction)
+ 	--Transform.SetLookAt(enemy.transformID,direction)
+	Transform.SetFacing(enemy.transformID,player.transformID)
 
 	enemy.insideInnerCircleRange = true
 end
@@ -123,7 +126,8 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
-		Transform.SetLookAt(enemy.transformID,direction)
+		--Transform.SetLookAt(enemy.transformID,direction)
+		Transform.SetFacing(enemy.transformID,player.transformID)
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -134,7 +138,8 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		if rangeTest < 0.8 then
 			enemy.subPathtarget = nil
 			local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
-			Transform.SetLookAt(enemy.transformID,direction)
+			--Transform.SetLookAt(enemy.transformID,direction)
+			Transform.SetFacing(enemy.transformID,player.transformID)
 		end
 	else
 		local dir = AI.NavigateMesh(enemy.transformID)
@@ -178,8 +183,8 @@ function state.positioningOuterState.enter(enemy,player)
 	player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies +1
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
-	Transform.SetLookAt(enemy.transformID,direction)
-	
+	--Transform.SetLookAt(enemy.transformID,direction)
+	Transform.SetFacing(enemy.transformID,player.transformID)
 end
 
 function state.positioningOuterState.update(enemy,player,dt)
@@ -190,7 +195,8 @@ function state.positioningOuterState.update(enemy,player,dt)
 			local pos = Transform.GetPosition(enemy.transformID)
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
-				Transform.SetLookAt(enemy.transformID,direction)
+				--Transform.SetLookAt(enemy.transformID,direction)
+				Transform.SetFacing(enemy.transformID,player.transformID)
 			
 				pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 				pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -201,7 +207,8 @@ function state.positioningOuterState.update(enemy,player,dt)
 				if rangeTest < 0.9 then
 					enemy.subPathtarget = nil
 					local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
-					Transform.SetLookAt(enemy.transformID,direction)
+					--Transform.SetLookAt(enemy.transformID,direction)
+					Transform.SetFacing(enemy.transformID,player.transformID)
 				end
 		else
 		local dir = AI.NavigateMesh(enemy.transformID)
@@ -231,7 +238,8 @@ function state.attackState.enter(enemy,player)
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
 
-	Transform.SetLookAt(enemy.transformID,direction)
+	--Transform.SetLookAt(enemy.transformID,direction)
+	Transform.SetFacing(enemy.transformID,player.transformID)
 
 	enemy.actionCountDown = 1.2
 end
@@ -255,7 +263,8 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID, Transform.GetPosition(player.transformID))
 		
-		Transform.SetLookAt(enemy.transformID,direction)
+		--Transform.SetLookAt(enemy.transformID,direction)
+		Transform.SetFacing(enemy.transformID,player.transformID)
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 		pos.z = pos.z + direction.z * enemy.movementSpeed * dt

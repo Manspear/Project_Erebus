@@ -1,7 +1,8 @@
 #include "MovementController.h"
 
 MovementController::MovementController() 
-	: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
+	//: transform(nullptr), collisionLayer(nullptr), heightmap(nullptr)
+	: transformHandler( nullptr ), collisionLayer( nullptr ), heightmap( nullptr )
 {
 	this->myCollisionHandler = new CollisionHandler();
 }
@@ -18,13 +19,16 @@ void MovementController::move( glm::vec3 distance )
 
 void MovementController::update()
 {
-	assert( transform && heightmap && collisionLayer && layerID >= 0 );
+	//assert( transform && heightmap && collisionLayer && layerID >= 0 );
+	assert( transformHandler && heightmap && collisionLayer && layerID >= 0 );
 
-	glm::vec3 lookDirection = glm::normalize(glm::vec3(transform->getLookAt().x,0, transform->getLookAt().z));
+	TransformStruct* transform = transformHandler->getTransform( transformID );
+
+	glm::vec3 lookDirection = glm::normalize(glm::vec3(transform->lookAt.x,0, transform->lookAt.z));
 	glm::vec3 moveFinal = lookDirection * movement.z;
 	moveFinal += glm::cross({ 0, 1, 0 }, lookDirection) * movement.x; // get right axis and move
 
-	glm::vec3 pos = transform->getPos();
+	glm::vec3 pos = transform->pos;
 	glm::vec3 newPos = pos + moveFinal;
 
 	//float height = heightmap->getPos( newPos.x, newPos.z );
@@ -75,7 +79,7 @@ void MovementController::update()
 	else
 		finalPos = newPos;
 
-	transform->setPos(finalPos);
+	transform->pos = finalPos;
 	this->movement = glm::vec3();
 	this->hitNormals.clear();
 }
@@ -85,9 +89,15 @@ void MovementController::setHitbox( HitBox* hb )
 	hitbox = hb;
 }
 
-void MovementController::setTransform( Transform* t )
+/*void MovementController::setTransform( Transform* t )
 {
 	transform = t;
+}*/
+
+void MovementController::setTransforms( TransformHandler* handler, int id )
+{
+	transformHandler = handler;
+	transformID = id;
 }
 
 void MovementController::setCollisionLayer( CollisionLayers* layer, unsigned int id )

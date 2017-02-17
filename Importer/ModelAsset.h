@@ -31,6 +31,9 @@ namespace Importer
 		IMPORTER_API int getBufferSize(int mesh) const;
 		IMPORTER_API MaterialAsset* getMaterial() const;
 
+		IMPORTER_API const glm::vec3& getMinPosition() const;
+		IMPORTER_API const glm::vec3& getMaxPosition() const;
+
 	private:
 		hModel header;
 		sOffset* offsets;
@@ -41,6 +44,8 @@ namespace Importer
 		hAnimationState* animationStates;
 		sKeyFrame* keyFrames;
 		MaterialAsset* material;
+
+		glm::vec3 minPosition, maxPosition;
 
 		GLuint* vertexBuffers;
 		GLuint* indexBuffers;

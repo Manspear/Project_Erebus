@@ -22,6 +22,7 @@
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
 #include "QuadTree.h"
+#include "TransformHandler.h"
 #include "CollisionsDraw.h"
 #include "CollisionUpdater.h"
 
@@ -42,10 +43,12 @@ struct ThreadData
 	WorkQueue* workQueue;
 	std::vector<ModelInstance>* models;
 	std::vector<ModelInstance>* forwardModels;
-	std::vector<AnimatedInstance>* animatedModels;
+	//std::vector<AnimatedInstance>* animatedModels;
+	std::vector<ModelInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
 	std::vector<Gear::ParticleEmitter*>* particleEmitters;
 	std::vector<ModelInstance>* blendingModels;
+	TransformHandler* transformHandler;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -72,14 +75,14 @@ DWORD WINAPI update( LPVOID args )
 
 	CollisionHandler collisionHandler = CollisionHandler(10); // Collision stuff init
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler); 
-	CollisionUpdater collisionUpdater(&collisionHandler, transforms);
-	QuadTree quadtree;
-	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
+	CollisionUpdater collisionUpdater(&collisionHandler, transforms, data->transformHandler);
+	//QuadTree quadtree;
+	//quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
 	AABBCollider temp(glm::vec3(-10,-10,-10),glm::vec3(10,10,10),glm::vec3(17,17,17));
-	quadtree.addModel(&temp);
+	//quadtree.addModel(&temp);
 	Frustum f;
 	f.setCameraParameters(data->camera->getFov(),data->camera->getAspectRatio(),data->camera->getNearPlaneDistance(),data->camera->getFarPlaneDistance());
-	quadtree.setFrustum(&f);
+	//quadtree.setFrustum(&f);
 	
 	int boundTransforms = 0;
 	int boundAnimations = 0;
@@ -98,6 +101,7 @@ DWORD WINAPI update( LPVOID args )
 
 	//collisionHandler.setTransforms( transforms );
 	//collisionHandler.setDebugger(Debugger::getInstance());
+	//collisionHandler.setTransforms( data->transformHandler );
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
 
 	ai.addDebug(Debugger::getInstance());
@@ -113,19 +117,17 @@ DWORD WINAPI update( LPVOID args )
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, &collisionsDraw, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
-		data->models, data->animatedModels, data->forwardModels, data->blendingModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
+		data->models, data->animatedModels, data->forwardModels, data->blendingModels, data->transformHandler, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
 		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
-	for( int i=0; i<MAX_ANIMATIONS; i++ )
-		animationData[i].animation = &data->allAnimations[i];
 
 
 	while( data->running )
 	{
 		f.updateFrustum(data->camera->getPosition(),data->camera->getDirection(),data->camera->getUp());
-		quadtree.frustumCollision();
-		data->engine->print(std::to_string(quadtree.getNodeCollisionAmount()),100,100);
+		//quadtree.frustumCollision();
+		//data->engine->print(std::to_string(quadtree.getNodeCollisionAmount()),100,100);
 
 		glm::vec3 cameraPosition = data->camera->getPosition();
 		glm::vec3 cameraLookDirection = data->camera->getDirection();
@@ -148,7 +150,7 @@ DWORD WINAPI update( LPVOID args )
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
-			collisionsDraw.draw(&quadtree);
+			//collisionsDraw.draw(&quadtree);
 			
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
@@ -163,10 +165,37 @@ DWORD WINAPI update( LPVOID args )
 			for( int i=0; i<boundAnimations; i++ )
 			{
 				animationData[i].dt = (float)deltaTime;
+				animationData[i].animation = &data->allAnimations[i];
 				//data->allAnimations[i].update(deltaTime);
 				data->workQueue->add( updateAnimation, &animationData[i] );
 			}
 			data->workQueue->execute();
+
+			for( int curModel = 0; curModel < data->models->size(); curModel++ )
+			{
+				ModelInstance& instance = data->models->at(curModel);
+				for( int curInstance = 0; curInstance < instance.getActiveTransforms(); curInstance++ )
+				{
+					TransformStruct* t = instance.getTransform(curInstance);
+					glm::vec3 minPos = instance.getAsset()->getMinPosition()*t->scale + t->pos;
+					glm::vec3 maxPos = instance.getAsset()->getMaxPosition()*t->scale + t->pos;
+
+					Debugger::getInstance()->drawAABB( minPos, maxPos, glm::vec3( 1.0f, 0.0f, 1.0f ) );
+				}
+			}
+
+			for( int curModel = 0; curModel < data->animatedModels->size(); curModel++ )
+			{
+				ModelInstance& instance = data->animatedModels->at(curModel);
+				for( int curInstance = 0; curInstance < instance.getActiveTransforms(); curInstance++ )
+				{
+					TransformStruct* t = instance.getTransform(curInstance);
+					glm::vec3 minPos = instance.getAsset()->getMinPosition()*t->scale + t->pos;
+					glm::vec3 maxPos = instance.getAsset()->getMaxPosition()*t->scale + t->pos;
+
+					Debugger::getInstance()->drawAABB( minPos, maxPos, glm::vec3( 1.0f, 0.0f, 1.0f ) );
+				}
+			}
 
 			ReleaseSemaphore( data->consume, 1, NULL );
 		}
@@ -224,10 +253,12 @@ int main()
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
-	std::vector<AnimatedInstance> animModels;
+	//std::vector<AnimatedInstance> animModels;
+	std::vector<ModelInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	std::vector<ModelInstance> blendingModels;
+	TransformHandler transformHandler( &engine, &models, &animModels, &forwardModels, &blendingModels );
 
 	ThreadData threadData =
 	{
@@ -244,6 +275,7 @@ int main()
 		&particleSystems,
 		&particleEmitters,
 		&blendingModels,
+		&transformHandler,
 		false,
 		true,
 		false,
@@ -259,7 +291,6 @@ int main()
 	double saveDeltaTime = 0.0f;
 
 	bool fullscreen = threadData.fullscreen;
-	
 
 	bool prevMouseVisible = threadData.mouseVisible;
 	while (threadData.running && window.isWindowOpen())
@@ -318,7 +349,10 @@ int main()
 				fullscreen = threadData.fullscreen;
 			}
 
+			if( threadData.queueModels )
+				engine.queueDynamicModels( &models );
 			engine.update(deltaTime);
+
 			soundEngine.update(deltaTime);
 			camera.updateBuffer();
 
@@ -326,9 +360,6 @@ int main()
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
-
-			if( threadData.queueModels )
-				engine.queueDynamicModels( &models );
 
 			window.update();
 			engine.draw(&camera);

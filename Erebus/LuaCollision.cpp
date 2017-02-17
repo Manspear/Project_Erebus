@@ -5,12 +5,14 @@ namespace LuaCollision
 	static CollisionHandler* g_collisionHandler = nullptr;
 	static Transform* g_transforms = nullptr;
 	static CollisionsDraw* g_collisionsDraw = nullptr;
+	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms, CollisionsDraw* collisionsDraw)
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms, CollisionsDraw* collisionsDraw, TransformHandler* transformHandler)
 	{
 		g_collisionHandler = handler;
 		g_transforms = transforms;
 		g_collisionsDraw = collisionsDraw;
+		g_transformHandler = transformHandler;
 
 		//CollisionHandler
 		luaL_newmetatable( lua, "collisionHandlerMeta" );
@@ -624,7 +626,8 @@ namespace LuaCollision
 		MovementController* movementController = getMovementController(lua, 1);
 		int transformIndex = (int)lua_tointeger(lua, 2);
 
-		movementController->setTransform(&g_transforms[transformIndex]);
+		//movementController->setTransform(&g_transforms[transformIndex]);
+		movementController->setTransforms( g_transformHandler, transformIndex );
 
 		return 0;
 	}

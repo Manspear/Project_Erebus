@@ -176,6 +176,7 @@
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="TransformHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AGI\AGI.vcxproj">
@@ -325,6 +326,7 @@
     <ClInclude Include="MovementController.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="TransformHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundEngine.h" />

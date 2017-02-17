@@ -15,13 +15,14 @@ FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
 function CreateFireball(entity)
 	function initSmallFireball()
 		local tiny = {}
-		tiny.type = CreateProjectileType()
+		local model = Assets.LoadModel( "Models/grenade.model" )
+		tiny.type = CreateProjectileType(model)
 		tiny.damage = 1
 		tiny.alive = false
 		tiny.lifeTime = 1.8
 		tiny.hits = {}
-		local model = Assets.LoadModel( "Models/grenade.model" )
-		Gear.AddForwardInstance(model, tiny.type.transformID)
+		--local model = Assets.LoadModel( "Models/grenade.model" )
+		--Gear.AddForwardInstance(model, tiny.type.transformID)
 		tiny.particles = createIceGrenadeParticles()
 		return tiny
 	end
@@ -45,14 +46,16 @@ function CreateFireball(entity)
 	
 	--Big fireball
 	spell.bigBallActive = false
-	spell.bigBallID = Transform.Bind()	
+	--spell.bigBallID = Transform.Bind()	
+	local model = Assets.LoadModel( "Models/projectile1.model" )
+	spell.bigBallID = Gear.BindStaticInstance(model)
 	spell.ballParticles = createChargeParticles()
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.bigBallID, false)
-	local model = Assets.LoadModel("Models/projectile1.model")
-	Gear.AddStaticInstance(model, spell.bigBallID)
+	--local model = Assets.LoadModel("Models/projectile1.model")
+	--Gear.AddStaticInstance(model, spell.bigBallID)
 	spell.lifeTime = FIREBALL_LIFETIME
 	spell.explodeTime = 0.5
 	spell.enemiesHit = {}

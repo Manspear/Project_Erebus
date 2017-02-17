@@ -1,11 +1,13 @@
 #pragma once
 #include "CollisionHandler.h"
 #include "Transform.h"
+#include "TransformHandler.h"
+
 class CollisionUpdater
 {
 public:
 	CollisionUpdater();
-	CollisionUpdater(Collisions::CollisionHandler* collisionHandler, Transform* transforms);
+	CollisionUpdater(Collisions::CollisionHandler* collisionHandler, Transform* transforms, TransformHandler* transformHandler);
 	~CollisionUpdater();
 
 	//setters
@@ -17,5 +19,6 @@ public:
 private:
 	Collisions::CollisionHandler* collisionHandler;
 	Transform* transforms;
+	TransformHandler* transformHandler;
 };
 

@@ -1,8 +1,10 @@
 function CreateAim(entity)
 	local aim = {}
-	aim.transformID = Transform.Bind()
+	--aim.transformID = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/aim.model" )
+	--Gear.AddForwardInstance(model, aim.transformID)
 	local model = Assets.LoadModel( "Models/aim.model" )
-	Gear.AddForwardInstance(model, aim.transformID)
+	aim.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(aim.transformID, true)
 	aim.caster = entity.transformID
 	function aim:SetPos(position)
@@ -16,19 +18,23 @@ function CreateChargeThing(entity)
 	local chargeThing = {}
 	chargeThing.timer = 0
 
-	chargeThing.transformID = Transform.Bind()
+	--chargeThing.transformID = Transform.Bind()
 	local iceModel = Assets.LoadModel("Models/SpellChargingICEMesh.model")
-	chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
+	--chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
+	chargeThing.transformID = Gear.BindForwardInstance(iceModel)
+	-- TEMP(Niclas): Figure this out
+	chargeThing.modelIndex = chargeThing.transformID
 	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
-	chargeThing.transformID2 = Transform.Bind()
+	--chargeThing.transformID2 = Transform.Bind()
 	local fireModel = Assets.LoadModel("Models/SpellChargingFireMesh.model")
-	chargeThing.modelIndex2 = Gear.AddForwardInstance(fireModel, chargeThing.transformID2)
+	chargeThing.transformID2 = Gear.BindForwardInstance(fireModel)
+	chargeThing.modelIndex2 = chargeThing.transformID2
 
-	chargeThing.transformID3 = Transform.Bind()
+	--chargeThing.transformID3 = Transform.Bind()
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	chargeThing.modelIndex3 = Gear.AddForwardInstance(natureModel, chargeThing.transformID3)
-	
+	chargeThing.transformID = Gear.BindForwardInstance(natureModel)
+	chargeThing.modelIndex3 = chargeThing.transformID3
 	
 	chargeThing.particles = createChargeParticles()
 	chargeThing.particles:extrovert(false)

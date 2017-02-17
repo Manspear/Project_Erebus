@@ -31,17 +31,18 @@ function CreateHellPillar(entity)
 	--Set up collider, model and transform for the pillar
 	spell.riseFactor = 0.1
 	spell.chargeID = -1
-	spell.transformID = Transform.Bind()
+	--spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
+	spell.transformID = Gear.BindBlendingInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
-	Gear.AddBlendingInstance(model, spell.transformID)
-	--Gear.AddForwardInstance(model, spell.transformID)
+	--local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
+	--Gear.AddBlendingInstance(model, spell.transformID)
 
-	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
+	Gear.SetBlendTextures(spell.transformID, 2, spell.texture1, spell.texture2)
 
 	spell.aliveCharged = false
 	spell.attack = false
@@ -54,9 +55,11 @@ function CreateHellPillar(entity)
 	spell.isActiveSpell = false
 	--spell.lightRadius = 0	spell.light = 0
 	--Set up the first model
-	spell.firstModel = Transform.Bind()
+	--spell.firstModel = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
+	--Gear.AddForwardInstance(model, spell.firstModel)
 	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
-	Gear.AddForwardInstance(model, spell.firstModel)
+	spell.firstModel = Gear.BindForwardInstance(model)
 
 	function spell:Cast()
 		if self.cooldown < 0 then	
@@ -176,7 +179,7 @@ function CreateHellPillar(entity)
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 1.0 * dt
 
-			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
+			Gear.SetBlendUniformValue(self.transformID, 2, self.blendValue1, self.blendValue2)
 			if self.riseFactor < self.scale then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end
 			
 			Transform.SetScaleNonUniform(self.transformID, self.scale, self.riseFactor, self.scale)
