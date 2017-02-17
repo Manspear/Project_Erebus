@@ -130,6 +130,7 @@ end
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
+	player2.isCombined = false;
 	player2.health = 100
 	player2.forward = 0
 	player2.left = 0
@@ -463,6 +464,7 @@ function UpdatePlayer2(dt)
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
 				player2.charger:EndCharge()
 				isPlayer2Charging = false
+				player2.isCombined = false
 			end
 		end
 	end
@@ -477,8 +479,6 @@ function UpdatePlayer2(dt)
 		else
 			player2.charger:ChargeMePlease(player2.position, dt, spellElement)
 		end
-
-		player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime)
 	end
 	
 	player2.spells[1]:Update(dt)
