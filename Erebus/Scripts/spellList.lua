@@ -108,6 +108,9 @@ function LoadSpellbookPlayer2()
 	local tumblethorns = {spell = CreateTumblethorns(player2)}
 	table.insert(SpellListPlayer2, tumblethorns)
 
+	local windknockback = {spell = CreateWindknockback(player2)}
+	table.insert(SpellListPlayer2, windknockback)
+
 	LoadSpellsPlayer2()
 end
 

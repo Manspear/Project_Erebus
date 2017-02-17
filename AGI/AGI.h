@@ -35,6 +35,7 @@ namespace AGI
 		{
 			this->id = inID;
 		};
+
 		~Enemy()
 		{
 			clearPath();
@@ -740,6 +741,8 @@ namespace AGI
 						int tempY = round(((inPos.y / mapHeight)*imHeight));
 
 						enemies.at(enemyPos).addInfluenceNode(InfluenceNode(glm::vec2(tempX,tempY), countDown));
+
+						addInfluencePoint(inPos,countDown,2);
 
 						countDown = countDown * 0.8f;
 						finishNode = finishNode->getParent();

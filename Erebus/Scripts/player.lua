@@ -37,7 +37,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 10
+	player.moveSpeed = 7
 	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
@@ -176,6 +176,8 @@ function LoadPlayer2()
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeThing(player2)
+
+	Transform.SetScale(player2.aim.transformID, 0)
 end
 
 function UnloadPlayer()
@@ -325,6 +327,8 @@ function GetCombined()
 end
 
 function Controls(dt)
+	showTutorialImage(130, 44, 220,dt)
+	showTutorialImage2(130, 36, 220,dt)
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 		end
@@ -341,7 +345,7 @@ function Controls(dt)
 			player.light = Light.addLight(player.lastPos.x, player.lastPos.y, player.lastPos.z, 1,0,0, 20, 3)
 			Sound.Play("Effects/ping.wav", 1, player.position)
 			player.ping = player.pingDuration
-			showTutorialImage(2, 124, 36, 220)
+			
 		end
 		if Inputs.KeyDown(Keys.Shift) then
 			local dir = Camera.GetDirection()
@@ -455,6 +459,7 @@ function UpdatePlayer2(dt)
 		player2.spells[player2.currentSpell]:Change()
 
 		if isCharging == false then
+			player2.attackTimer = 1
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
