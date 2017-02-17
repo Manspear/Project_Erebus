@@ -1,0 +1,15 @@
+<LevelActor type="derp" displayName="derp" tileID="1" exportType="1">
+    <LevelCollider type="1">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="1" parentID="0"/>
+        <MinPos x="-1" y="-1" z="-1"/>
+        <MaxPos x="1" y="1" z="1"/>
+    </LevelCollider>
+    <LevelTransform>
+        <Position x="122.29054" y="91.934013" z="139.99171"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
