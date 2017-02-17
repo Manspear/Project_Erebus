@@ -83,7 +83,6 @@ end
 
 function UpdateCamera(dt)	
 	if camera.state == STATE_ZOOMING_OUT then
-		print("zooming out now")
 		ZoomedOut.timeSpent = ZoomedOut.timeSpent + dt
 
 		--i vilket läge övergången är i
@@ -98,7 +97,6 @@ function UpdateCamera(dt)
 		camera.fov = interpolate(		StartState.fov,			ZoomedOut.fov,		factor	) 
 
 	elseif camera.state == STATE_ZOOMING_IN then
-		print("zooming in now")
 		ZoomedIn.timeSpent =  ZoomedIn.timeSpent + dt 
 		
 		--i vilket läge övergången är i
