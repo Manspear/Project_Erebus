@@ -83,11 +83,11 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level02.lua" )
+		dofile( "Scripts/level03.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 
-		for _,v in pairs(player.currentHeightmap.surrounding) do
+		for _,v in pairs(levels[1].surrounding) do
 			levels[v].load()
 			loadedLevels[v] = true
 		end

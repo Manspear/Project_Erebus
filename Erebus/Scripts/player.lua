@@ -92,8 +92,9 @@ function LoadPlayer()
 		Transform.ActiveControl(self.transformID,false)
 	end
 	
-	player.ChangeHeightmap = function(self, heightmap)
-		player.currentHeightmap = heightmap
+	player.ChangeHeightmap = function(self, levelIndex)
+		player.levelIndex = levelIndex
+		player.currentHeightmap = heightmaps[levelIndex]
 		player.controller:SetHeightmap(player.currentHeightmap.asset)
 	end
 
@@ -191,7 +192,7 @@ function LoadSpellsPlayer2()
 end
 
 function FindHeightmap(position)
-	local hm = player.currentHeightmap
+	--[[local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
 		local prev = player.currentHeightmap
 		local newIndex = -1
@@ -207,13 +208,65 @@ function FindHeightmap(position)
 		end
 
 		if hm then
-			print("Changed heightmaps")
-
 			local allTiles = {}
 			for _,v in pairs(hm.surrounding) do
 				table.insert(allTiles,v)
 			end
 			table.insert(allTiles,newIndex)
+
+			local newTiles = {}
+			for _,v in pairs(allTiles) do
+				if not loadedLevels[v] then
+					table.insert(newTiles,v)
+				end
+			end
+
+			local oldTiles = {}
+			for k,v in pairs(loadedLevels) do
+				local found = false
+				for _,b in pairs(allTiles) do
+					if k == b then
+						found = true
+						break
+					end
+				end
+
+				if not found then
+					table.insert(oldTiles,k)
+				end
+			end
+
+			--unload previous tiles
+			for _,v in pairs(oldTiles) do
+				levels[v].unload()
+				loadedLevels[v] = false
+			end
+
+			--load new tiles
+			for _,v in pairs(newTiles) do
+				levels[v].load()
+				loadedLevels[v] = true
+			end
+		end
+	end--]]
+
+	local hm = player.currentHeightmap
+	if not hm.asset:Inside(position) then
+		for k,index in pairs(levels[player.levelIndex].surrounding) do
+			hm = heightmaps[index]
+			if hm.asset:Inside(position) then
+				print(index)
+				player:ChangeHeightmap(index)
+				break
+			end
+		end
+
+		if hm then
+			local allTiles = {}
+			for _,v in pairs(levels[player.levelIndex].surrounding) do
+				table.insert(allTiles,v)
+			end
+			table.insert(allTiles,player.levelIndex)
 
 			local newTiles = {}
 			for _,v in pairs(allTiles) do
@@ -248,29 +301,8 @@ function FindHeightmap(position)
 			for _,v in pairs(newTiles) do
 				print("Loading tile: " .. v)
 				levels[v].load()
-				--table.insert(loadedLevels,v)
 				loadedLevels[v] = true
 			end
-
-			--[[for _,hmIndex in pairs(hm.surrounding) do
-				print( "Surr: " .. hmIndex )
-
-				local found = false
-				for i=1, #loadedLevels do
-					print("Comparing: " .. i .. " with " .. hmIndex)
-					if hmIndex == i then
-						print("found")
-						found = true
-						break
-					end
-				end
-
-				if not found then
-					print("Loading tiles " .. hmIndex)
-					levels[hmIndex].load()
-					table.insert(loadedLevels,hmIndex)
-				end
-			end--]]
 		end
 	end
 end
@@ -351,7 +383,7 @@ function UpdatePlayer(dt)
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
 	-- check collision against triggers and call their designated function
-	for _,v in pairs(triggers) do
+	for _,v in pairs(levels[player.levelIndex].triggers) do
 		if v.collider:CheckCollision() then
 			if not v.triggered then
 				if v.OnEnter then
