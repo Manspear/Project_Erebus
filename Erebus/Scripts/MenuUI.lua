@@ -3,11 +3,11 @@ local imageTextures = {}
 local tempLight
 
 function LoadMenuUI()
-	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
-	imageTextures["play"] = Assets.LoadTexture("Textures/button.png");
-	imageTextures["network"] = Assets.LoadTexture("Textures/buttonNetwork.png");
-	imageTextures["options"] = Assets.LoadTexture("Textures/buttonOptions.png");
-	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.png");
+	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
+	imageTextures["play"] = Assets.LoadTexture("Textures/button.dds");
+	imageTextures["network"] = Assets.LoadTexture("Textures/buttonNetwork.dds");
+	imageTextures["options"] = Assets.LoadTexture("Textures/buttonOptions.dds");
+	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.dds");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["play"] = UI.load(465, 240, 350, 60);

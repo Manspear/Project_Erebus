@@ -2,10 +2,10 @@ local screenImages = {}
 local imageTextures = {}
 
 function LoadPauseMenuUI()
-	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
-	imageTextures["return"] = Assets.LoadTexture("Textures/buttonReturn.png");
-	imageTextures["options"] = Assets.LoadTexture("Textures/buttonOptions.png");
-	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.png");
+	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
+	imageTextures["return"] = Assets.LoadTexture("Textures/buttonReturn.dds");
+	imageTextures["options"] = Assets.LoadTexture("Textures/buttonOptions.dds");
+	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.dds");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["return"] = UI.load(465, 240, 350, 60);

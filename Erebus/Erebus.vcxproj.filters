@@ -512,6 +512,9 @@
     <None Include="Scripts\knockbackEffect.lua">
       <Filter>Scripts\effects</Filter>
     </None>
+    <None Include="Scripts\siphon.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

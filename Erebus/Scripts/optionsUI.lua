@@ -3,13 +3,13 @@ local screenImages = {}
 local imageTextures = {}
 
 function LoadOptionsUI()
-	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
-	imageTextures["FullscreenOff"] = Assets.LoadTexture("Textures/buttonFullscreenOff.png");
-	imageTextures["FullscreenOn"] = Assets.LoadTexture("Textures/buttonFullscreenOn.png");
+	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
+	imageTextures["FullscreenOff"] = Assets.LoadTexture("Textures/buttonFullscreenOff.dds");
+	imageTextures["FullscreenOn"] = Assets.LoadTexture("Textures/buttonFullscreenOn.dds");
 
-	imageTextures["debugOff"] = Assets.LoadTexture("Textures/buttonDebugOff.png");
-	imageTextures["debugOn"] = Assets.LoadTexture("Textures/buttonDebugOn.png");
-	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.png");
+	imageTextures["debugOff"] = Assets.LoadTexture("Textures/buttonDebugOff.dds");
+	imageTextures["debugOn"] = Assets.LoadTexture("Textures/buttonDebugOn.dds");
+	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.dds");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["fullscreen"] = UI.load(465, 240, 350, 60);

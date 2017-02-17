@@ -12,12 +12,12 @@ local textCounter = 1
 local timeoutCounter = 0;
 
 function LoadipconnectUI()
-	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
-	imageTextures["Input"] = Assets.LoadTexture("Textures/HealthBackground.png");
-	imageTextures["host"] = Assets.LoadTexture("Textures/buttonHost.png");
-	imageTextures["connect"] = Assets.LoadTexture("Textures/buttonConnect.png");
-	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.png");
-	imageTextures["cancel"] = Assets.LoadTexture("Textures/buttonCancel.png");
+	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
+	imageTextures["Input"] = Assets.LoadTexture("Textures/HealthBackground.dds");
+	imageTextures["host"] = Assets.LoadTexture("Textures/buttonHost.dds");
+	imageTextures["connect"] = Assets.LoadTexture("Textures/buttonConnect.dds");
+	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.dds");
+	imageTextures["cancel"] = Assets.LoadTexture("Textures/buttonCancel.dds");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["Input"] = UI.load(340, 370, 600, 45);
