@@ -181,12 +181,13 @@ function CreateIceGrenade(entity)
 			while again do	
 				self.simulation.direction.y = self.simulation.direction.y - self.simulation.falloff * dt
 				self.simulation.position.x = self.simulation.position.x + self.simulation.direction.x * SPEED_ICENADE * dt
-				self.simulation.position.y = self.simulation.position.y + self.simulation.direction.y * SPEED_ICENADE * dt										   
+				self.simulation.position.y = self.simulation.position.y + self.simulation.direction.y * SPEED_ICENADE * dt								   
 				self.simulation.position.z = self.simulation.position.z + self.simulation.direction.z * SPEED_ICENADE * dt		
 				if not hm or hm.asset:GetHeight(self.simulation.position.x, self.simulation.position.z) > self.simulation.position.y then
 					again = false
 				end
 			end	
+			self.simulation.position.y = self.simulation.position.y + 0.5
 			player.aim:SetPos(self.simulation.position)	
 		end
 		

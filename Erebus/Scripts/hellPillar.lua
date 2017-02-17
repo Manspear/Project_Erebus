@@ -17,7 +17,6 @@ function CreateHellPillar(entity)
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
 	spell.chargedTime = 0	
-	spell.Charge = BaseCharge
 	spell.cooldown = 0
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
@@ -201,7 +200,7 @@ function CreateHellPillar(entity)
 		self.aimPos = {x = aPos.x + lookAt.x *10, y = 0, z = aPos.z + lookAt.z *10 }
 		local hm = GetHeightmap(self.aimPos)
 		if hm then
-			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z)
+			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z) + 0.5
 			self.owner.aim:SetPos(self.aimPos)
 		end
 	end
@@ -215,17 +214,13 @@ function CreateHellPillar(entity)
 		return self.effects[1]
 	end
 
-	function spell:Combine(effect,damage)
-		if #self.effects < 2 then
-			table.insert(self.effects, effect)
-			self.damage = self.damage + damage
-		end
-	end
 	function spell:Kill() 
 		Transform.ActiveControl(self.owner.aim.transformID, false) 
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
 	end
+	spell.Combine = BaseCombine		spell.Charge = BaseCharge
+	spell.GettEffect = BaseGetEffect
 	return spell
 end
