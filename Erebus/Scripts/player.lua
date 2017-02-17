@@ -3,6 +3,7 @@ TIME_SLOW_EFFECT_INDEX = 2
 FIRE_EFFECT_INDEX = 3
 LIFE_STEAL_EFFECT_INDEX = 4
 POLYMORPH_EFFECT_INDEX = 5
+KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 
@@ -26,6 +27,7 @@ function LoadPlayer()
 	effectTable[TIME_SLOW_EFFECT_INDEX] = CreateTimeSlowEffect
 	effectTable[LIFE_STEAL_EFFECT_INDEX] = CreateLifeStealEffect
 	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
+	effectTable[KNOCKBACK_EFFECT_INDEX] = CreateKnockbackEffect
 	-- Init unique ids
 	player.transformID = Transform.Bind()
 	player2.transformID = Transform.Bind()
@@ -363,8 +365,7 @@ function Controls(dt)
 				player.spamCasting = true
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
-				player.spells[player.currentSpell]:Cast(player, 0.5, false)
-				
+				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
 			end
 
 			if Inputs.ButtonReleased(Buttons.Left) then
@@ -379,22 +380,21 @@ function Controls(dt)
 		if not player.spamCasting then
 			if Inputs.ButtonDown(Buttons.Right) then
 				player.spells[player.currentSpell]:Charge(dt)
-			sElement = player.spells[player.currentSpell].element
+				sElement = player.spells[player.currentSpell].element
 			
 			
-			if player.isCombined == true then
-				player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-				player.Charging = true
-			else
-				player.charger:ChargeMePlease(player.position,dt,sElement)
-			end
+				if player.isCombined == true then
+					player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+				else
+					player.charger:ChargeMePlease(player.position,dt,sElement)
+				end
 			
 			end
 
 			if Inputs.ButtonPressed(Buttons.Right) then 
 				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
 				player.charger:StartCharge(player.position) 
-			
+				player.charging = true			
 			end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then
@@ -498,12 +498,12 @@ function UpdatePlayer2(dt)
 		player.invulnerable = invulnerableVal
 	end
 	
-	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
-	if newChangeSpellsValue == true then
-		player2.spells[1] = SpellListPlayer2[changeSpell1].spell
-		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
-		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
-	end
+	--local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
+	--if newChangeSpellsValue == true then
+	--	player2.spells[1] = SpellListPlayer2[changeSpell1].spell
+	--	player2.spells[2] = SpellListPlayer2[changeSpell2].spell
+	--	player2.spells[3] = SpellListPlayer2[changeSpell3].spell
+	--end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

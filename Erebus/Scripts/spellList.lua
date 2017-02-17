@@ -61,8 +61,8 @@ function LoadSpellbook()
 					info = wrap("'Sma grodorna, sma grodorna'", 30, "",""),
 					spell = CreatePolymorph(player)
 	}
-	polymorph.spell.spellListId = 7
 	table.insert(SpellList, polymorph)
+	polymorph.spell.spellListId = 7
 	
 	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.png"),
 					info = wrap("'Akta alla sma taggar va?!'", 30, "",""),
@@ -70,6 +70,13 @@ function LoadSpellbook()
 	}
 	tumblethorns.spell.spellListId = 8
 	table.insert(SpellList, tumblethorns)
+
+	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
+					info = wrap("'Jag har aldrig slutat tro, att efter varje natt vantar gryningen. Fast jag inte kan forsta, sa finns det hopp anda, nar vi borjar om igen! Kanner doften av en stilla ocean. Plotsligt star jag i en levande orkan!!!'", 30, "",""),
+					spell = CreateWindknockback(player)
+	}
+	table.insert(SpellList, windknockback)
+	windknockback.spell.spellListID = 9
 
 	LoadSpells(player)
 	LoadSpellbookPlayer2()

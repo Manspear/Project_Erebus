@@ -12,6 +12,14 @@ function BaseChargeCast(self, entity)
 	self:Cast(entity, self.chargedTime)
 end
 
+function BaseChange(self)
+	self.isActiveSpell = not self.isActiveSpell
+end
+
+function BaseGetEffect(self)
+	return self.effects[1]
+end
+
 function GetHeightmap(position)
 	local result = nil
 	for _,v in pairs(heightmaps) do

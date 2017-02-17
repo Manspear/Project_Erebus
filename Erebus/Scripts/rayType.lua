@@ -37,7 +37,7 @@ function CreateRayType()
 
 	function ray:Kill()
 		Transform.ActiveControl(self.transformID, false)
-		OBBCollider.SetActive(self.oobCollider, false);
+		OBBCollider.SetActive(self.oobCollider, false)
 	end
 
 	return ray
