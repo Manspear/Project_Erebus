@@ -74,9 +74,12 @@ DWORD WINAPI update( LPVOID args )
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler); 
 	CollisionUpdater collisionUpdater(&collisionHandler, transforms);
 	QuadTree quadtree;
-	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 100.0f);
+	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
 	AABBCollider temp(glm::vec3(-10,-10,-10),glm::vec3(10,10,10),glm::vec3(17,17,17));
-	quadtree.addStaticModel(&temp);
+	quadtree.addModel(&temp);
+	Frustum f;
+	f.setCameraParameters(data->camera->getFov(),data->camera->getAspectRatio(),data->camera->getNearPlaneDistance(),data->camera->getFarPlaneDistance());
+	quadtree.setFrustum(&f);
 	
 	int boundTransforms = 0;
 	int boundAnimations = 0;
@@ -120,6 +123,10 @@ DWORD WINAPI update( LPVOID args )
 
 	while( data->running )
 	{
+		f.updateFrustum(data->camera->getPosition(),data->camera->getDirection(),data->camera->getUp());
+		quadtree.frustumCollision();
+		data->engine->print(std::to_string(quadtree.getNodeCollisionAmount()),100,100);
+
 		glm::vec3 cameraPosition = data->camera->getPosition();
 		glm::vec3 cameraLookDirection = data->camera->getDirection();
 		glm::vec3 cameraUp = data->camera->getUp();
@@ -218,11 +225,6 @@ int main()
 	std::vector<Gear::ParticleSystem*> particleSystems;
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	std::vector<ModelInstance> blendingModels;
-
-	//				QUADTREE TESTING
-	QuadTree quadTree = QuadTree();
-	quadTree.generateQuadtree(3,glm::vec3(200,0,200), 750.0f);
-	//				END QUADTREE TESTING
 
 	ThreadData threadData =
 	{

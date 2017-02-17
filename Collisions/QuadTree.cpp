@@ -10,6 +10,9 @@ namespace Collisions
 		this->depth = 0;
 		this->baseNode = nullptr;
 		this->frustum = nullptr;
+		this->hitNodeSave = nullptr;
+		this->leafNodes = 0;
+		this->frustumNodeHitAmount = 0;
 	}
 
 
@@ -17,9 +20,11 @@ namespace Collisions
 	{
 		if (this->baseNode != nullptr)
 			delete this->baseNode;
+		if (this->hitNodeSave != nullptr)
+			delete[] this->hitNodeSave;
 	}
 
-	bool QuadTree::addStaticModel(AABBCollider * childCollider)
+	bool QuadTree::addModel(AABBCollider * childCollider, bool dynamic)
 	{
 		bool quadtreeCollision = this->collisionChecker.collisionCheck(this->baseNode->collider, childCollider); // if collider collides with quadtree at all
 
@@ -44,6 +49,21 @@ namespace Collisions
 
 		float halWidth = width / 2.0f;
 		createChildren(this->baseNode, this->position, halWidth, this->depth);
+
+		int nodes = NODE_AMOUNT;
+		this->leafNodes = pow(nodes, this->depth);
+		this->hitNodeSave = new Node*[leafNodes];
+	}
+
+	void QuadTree::frustumCollision()
+	{
+		if (this->frustum != nullptr)
+		{
+			this->resethitNodeSave();
+			this->frustumNodeHitAmount = 0;
+			this->recursiveFrustumCollision(this->baseNode);
+			//std::cout << this->frustumNodeHitAmount << std::endl;
+		}
 	}
 
 	void QuadTree::setFrustum(Frustum * frustum)
@@ -59,6 +79,16 @@ namespace Collisions
 	QuadTree::Node * QuadTree::getBaseNode()
 	{
 		return this->baseNode;
+	}
+
+	int QuadTree::getNodeCollisionAmount()
+	{
+		return this->frustumNodeHitAmount;
+	}
+
+	int QuadTree::getLeafNodeAmount()
+	{
+		return this->leafNodes;
 	}
 
 	void QuadTree::createChildren(Node * parent, glm::vec3 center, float width, unsigned int depth)
@@ -116,5 +146,33 @@ namespace Collisions
 			parent->allChildColliders->push_back(childCollider);
 		}
 		
+	}
+	void QuadTree::recursiveFrustumCollision(Node * parent)
+	{
+		bool collision = this->frustum->aabbCollisionOptimized(parent->collider);
+		if (collision) // colliding with node
+		{
+			if (parent->children[0] != nullptr) 
+			{
+				this->recursiveFrustumCollision(parent->children[TOP_LEFT_NODE]);
+				this->recursiveFrustumCollision(parent->children[TOP_RIGHT_NODE]);
+				this->recursiveFrustumCollision(parent->children[BOTTOM_LEFT_NODE]);
+				this->recursiveFrustumCollision(parent->children[BOTTOM_RIGHT_NODE]);
+			}
+
+			else // we are leaf node this means we have a hit
+			{
+				this->hitNodeSave[this->frustumNodeHitAmount] = parent;
+				this->frustumNodeHitAmount++;
+			}
+		}
+	}
+
+	inline void QuadTree::resethitNodeSave()
+	{
+		for (size_t i = 0; i < this->frustumNodeHitAmount; i++)
+		{
+			this->hitNodeSave[i] = nullptr;
+		}
 	}
 }

@@ -10,12 +10,14 @@ namespace Collisions
 		COLLISIONS_EXPORTS QuadTree();
 		COLLISIONS_EXPORTS ~QuadTree();
 
-		COLLISIONS_EXPORTS bool addStaticModel(AABBCollider * childCollider);
+		COLLISIONS_EXPORTS bool addModel(AABBCollider * childCollider, bool dynamic = false);
 		COLLISIONS_EXPORTS void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
+		COLLISIONS_EXPORTS void frustumCollision();
 		static const int QUADTREE_NODE_AMOUNT = 4;
 
 		//setters
 		COLLISIONS_EXPORTS void setFrustum(Frustum* frustum);
+		
 
 
 	private:
@@ -65,6 +67,10 @@ namespace Collisions
 
 		//getters
 		COLLISIONS_EXPORTS Node* getBaseNode();
+		//Returns the amount of nodes that we have frustum collisions with
+		COLLISIONS_EXPORTS int getNodeCollisionAmount();
+		//Returns how many leaf nodes are in the quadtree
+		COLLISIONS_EXPORTS int getLeafNodeAmount();
 	private:
 
 		Node* baseNode = nullptr;
@@ -72,13 +78,17 @@ namespace Collisions
 		float width;
 		unsigned int depth;
 		const int COLLIDER_HEIGHT = 300;
+		int leafNodes, frustumNodeHitAmount;
 		CollisionChecker collisionChecker;
 		Frustum* frustum;
+		Node** hitNodeSave;
 
 
 		//Helper functions
 		void createChildren(Node* parent, glm::vec3 center, float width, unsigned int depth);
 		void addHitboxToQuadtree(Node* parent, AABBCollider* childCollider);
+		void recursiveFrustumCollision(Node* parent);
+		inline void resethitNodeSave();
 	};
 
 
