@@ -27,10 +27,12 @@ function LoadBoss()
 	Gear.AddStaticInstance(model, boss.transformID)
 	Transform.ActiveControl(boss.transformID, true)
 	
-	boss.sphereCollider = SphereCollider.Create(boss.transformID)
-	CollisionHandler.AddSphere(boss.sphereCollider, 0)
-	SphereCollider.SetActive(boss.sphereCollider, true);
+	boss.collider = AABBCollider.Create(boss.transformID)
+	CollisionHandler.AddAABB(boss.collider, 0)
+	AABBCollider.SetActive(boss.collider, true);
 
+	AABBCollider.SetMinPos(boss.collider, -1, -5, -1)
+	AABBCollider.SetMaxPos(boss.collider, 1, 3, 1)
 	function boss:Hurt(damage)
 		boss.health = boss.health - damage
 	end

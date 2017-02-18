@@ -34,6 +34,8 @@ namespace LuaNetwork
 	int getAIHealthPacket(lua_State* lua);
 	int sendDashPacket(lua_State* lua);
 	int getDashPacket(lua_State* lua);
+	int sendEndEventPacket(lua_State* lua);
+	int getEndEventPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);

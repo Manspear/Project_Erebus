@@ -45,6 +45,7 @@ function UpdateDeathUI(dt)
 			Sound.Play("Effects/button.wav", 2)
 			Erebus.Running(false)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+			Erebus.ShutdownNetwork()
 		end
 
 		if UI.mousePick(screenImages["exit"], x,y) then

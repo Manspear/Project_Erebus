@@ -10,8 +10,7 @@ function CreateTumblethorns(entity)
 	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 1
-	spell.alive = false			spell.canRollBack = false		spell.rollin = false
-	spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
+	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 	spell.chargedTime = 0		spell.maxChargeTime = 2
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
 	spell.direction = {x = 0, y = 0, z = 0}		spell.position = {x = 0, y = 0, z = 0}
@@ -60,7 +59,8 @@ function CreateTumblethorns(entity)
 			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
 			SphereCollider.SetActive(spell.sphereCollider, true)
 			self.position = Transform.GetPosition(self.caster)
-			self.direction = Transform.GetLookAt(self.caster)
+			--self.direction = Transform.GetLookAt(self.caster)
+			self.direction = Camera.GetDirection()
 			Transform.ActiveControl(self.transformID, true)
 			Transform.RotateToVector(self.transformID, self.direction)
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
@@ -100,6 +100,15 @@ function CreateTumblethorns(entity)
 		end
 	end
 
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+		if self.isActiveSpell then
+			ShowCrosshair()
+		else
+			HideCrosshair()
+		end
+	end
+
 	function spell:CheckColissions()
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()	
 		local walls = CollisionHandler.GetIDsFromLayer(3)
@@ -121,17 +130,28 @@ function CreateTumblethorns(entity)
 					self.enemiesHit[enemies[curEnemy].transformID] = true		
 				end
 			end	
-		
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)				
+					for stuff = 1, #self.effects do
+						local effect = effectTable[self.effects[stuff]](self.owner)
+						boss:Apply(effect)
+					end	
+					self.enemiesHit[boss.transformID] = true		
+				end
+			end
 			for curWall = 1, #realWalls do
 				if collisionIDs[curID] == realWalls[curWall] then
 					self:Kill()
 				end
 			end
+				
 		end		
 	end
 
-	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
-	spell.Change = BaseChange	spell.GetEffect = BaseGetEffect
+	spell.Charge = BaseCharge
+	spell.ChargeCast = BaseChargeCast
+	spell.GetEffect = BaseGetEffect
 	spell.Combine = BaseCombine
 	return spell
 end
