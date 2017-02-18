@@ -93,6 +93,7 @@ function EnterGameplay()
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
+	Erebus.EnableControls(true)
 	gameplayStarted = true
 end
 

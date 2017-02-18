@@ -37,6 +37,7 @@ function EnterSpellbook()
 		CollisionHandler.Disable()
 	end
 	Gear.CursorVisible(true)
+	Erebus.EnableControls(false)
 end
 
 function ExitSpellbook()
