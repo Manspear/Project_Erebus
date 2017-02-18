@@ -123,7 +123,7 @@ function LoadPlayer()
 	LoadPlayer2()
 
 	player.aim = CreateAim(player)
-	player.charger = CreateChargeThing(player)
+	player.charger = CreateChargeEggs(player)
 	InitFireEffectParticles()
 end
 
@@ -184,7 +184,7 @@ function LoadPlayer2()
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
-	player2.charger = CreateChargeThing(player2)
+	player2.charger = CreateChargeEggs(player2)
 
 	Transform.SetScale(player2.aim.transformID, 0)
 end
@@ -399,7 +399,7 @@ function Controls(dt)
 			
 			
 				if player.isCombined == true then
-					player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+					player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
 				else
 					player.charger:ChargeMePlease(player.position,dt,sElement)
 				end
@@ -506,7 +506,7 @@ function UpdatePlayer2(dt)
 		local spellElement = player2.spells[player2.currentSpell].element
 					
 		if player2.isCombined == true then
-			player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime, spellElement)
+			player2.charger:CombinedAndCharged(player2.position, dt, player2.spells[player2.currentSpell].chargedTime, spellElement)
 		else
 			player2.charger:ChargeMePlease(player2.position, dt, spellElement)
 		end
