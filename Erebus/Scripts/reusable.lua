@@ -7,14 +7,23 @@ function BaseCombine(self, effect,damage)
 end
 
 function BaseCharge(self, dt)
+	if self == nil then
+		return
+	end
 	if self.chargedTime < self.maxChargeTime then 
 		self.chargedTime = self.chargedTime + dt
 	end
-	ZoomInCamera()
+	print(self.owner)
+	print(player)
+	if self.owner == player then
+		ZoomInCamera()
+	end
 end
 
 function BaseChargeCast(self, entity)
-	ZoomOutCamera()
+	if self.owner == player then
+		ZoomOutCamera()
+	end
 	self:Cast(entity, self.chargedTime)
 end
 

@@ -135,7 +135,9 @@ function CreateIceGrenade(entity)
 		self.combo = 100
 		self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
 		self.chargedTime = 0
-		ZoomOutCamera()
+		if self.owner == player then
+			ZoomOutCamera()
+		end
 	end
 
 	function spell:Kill(index)

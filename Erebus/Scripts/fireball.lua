@@ -113,8 +113,10 @@ function CreateFireball(entity)
 		if self.bigBallActive then
 			self:EngageExplode()
 		end
-		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then	
-			ZoomOutCamera()	
+		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then
+			if self.owner == player then	
+				ZoomOutCamera()	
+			end
 			self.lifeTime = FIREBALL_LIFETIME
 			self.explodeTime = FIREBALL_EXPLODETIME	
 			self.cooldown = FIREBALL_COOLDOWN
