@@ -101,7 +101,13 @@ function CreateTumblethorns(entity)
 	end
 
 	function spell:CheckColissions()
-		local collisionIDs = self.sphereCollider:GetCollisionIDs()		
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()	
+		local walls = CollisionHandler.GetIDsFromLayer(3)
+		local realWalls = {}	
+		for i, v in pairs(walls) do
+			realWalls[i] = v
+		end
+		
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then			
@@ -114,13 +120,14 @@ function CreateTumblethorns(entity)
 					end				
 					self.enemiesHit[enemies[curEnemy].transformID] = true		
 				end
-			end		
-			for curCollision = 1, #colliders do
-				if collisionIDs[curID] > 102 and collisionIDs[curID] < 240 then
+			end	
+		
+			for curWall = 1, #realWalls do
+				if collisionIDs[curID] == realWalls[curWall] then
 					self:Kill()
 				end
 			end
-		end
+		end		
 	end
 
 	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
