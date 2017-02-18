@@ -2,7 +2,7 @@ ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/icegrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 50
+SPEED_ICENADE = 65
 EXPLOSION_RADIUS_ICENADE = 10
 
 MIN_FALLOFF_ICENADE = 1
@@ -60,7 +60,7 @@ function CreateIceGrenade(entity)
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = chargetime / self.maxChargeTime				
-					dir.y = dir.y + 0.1
+					dir.y = dir.y + 0.2
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 

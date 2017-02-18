@@ -76,7 +76,7 @@ function LoadSpellbook()
 					spell = CreateWindknockback(player)
 	}
 	table.insert(SpellList, windknockback)
-	windknockback.spell.spellListID = 9
+	windknockback.spell.spellListId = 9
 
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
