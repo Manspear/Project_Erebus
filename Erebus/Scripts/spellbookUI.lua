@@ -55,6 +55,7 @@ function UpdateSpellbookUI(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["back"], x,y) then
+				print(player.spells[1].spellListId .. "  ".. player.spells[2].spellListId .. "  "..  player.spells[3].spellListId)
 				Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
 				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
@@ -77,6 +78,7 @@ function UpdateSpellbookUI(dt)
 			for i=1, #player.spells do
 				if player.spells[i] ==  SpellList[selectedBookSpell].spell then
 					player.spells[i] = player.spells[selectedPlayerSpell]
+					print("changed spell: "..i.." to spell: "..selectedPlayerSpell .. " Bookspell: " .. selectedBookSpell)
 					break
 				end
 			end
