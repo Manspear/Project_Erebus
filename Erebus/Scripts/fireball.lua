@@ -84,6 +84,10 @@ function CreateFireball(entity)
 							self:SpamFireball(i)
 						end
 					end
+					if collisionIDs[curID] == boss.collider:GetID() then
+						boss:Hurt(self.smallFB[i].damage, self.owner)
+						self:SpamFireball(i)
+					end
 				end
 				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
 				if(self.smallFB[i].lifeTime < 0) then 
@@ -97,7 +101,8 @@ function CreateFireball(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
 			self.aSmallIsActive = self.aSmallIsActive + 1
-			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
+			--self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles.cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
@@ -164,6 +169,10 @@ function CreateFireball(entity)
 					return
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				self:EngageExplode()
+				return
+			end
 		end		
 	end
 
@@ -197,6 +206,16 @@ function CreateFireball(entity)
 					self.enemiesHit[enemies[curEnemy].transformID] = true
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)
+					for stuff = 1, #self.effects do
+						local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
+						boss:Apply(effect)
+					end
+					self.enemiesHit[boss.transformID] = true
+				end
+			end
 		end			
 	end
 
@@ -224,6 +243,15 @@ function CreateFireball(entity)
 		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+		if self.isActiveSpell then
+			ShowCrosshair()
+		else
+			HideCrosshair()
+		end
+	end
+
 	function spell:SpamFireball(index)
 		local id = Sound.Play(FIREBALL_SMALL_HIT_SFX, 39, self.smallFB[index].type.position)
 		Sound.SetVolume(id, 0.5)
@@ -234,6 +262,6 @@ function CreateFireball(entity)
 		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
 	spell.Charge = BaseCharge
-	spell.Change = BaseChange
+	--spell.Change = BaseChange
 	return spell
 end

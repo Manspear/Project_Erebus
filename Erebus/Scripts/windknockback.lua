@@ -83,6 +83,17 @@ function CreateWindknockback(entity)
 					self.enemiesHit[enemies[curEnemy].transformID] = true
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)
+					for stuff = 1, #self.effects do
+						print(self.chargedTime)
+						local effect = effectTable[self.effects[stuff]](self.owner, self.chargedTime)
+						boss:Apply(effect)
+					end
+					self.enemiesHit[boss.transformID] = true
+				end
+			end
 		end
 	end
 

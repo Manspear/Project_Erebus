@@ -11,8 +11,68 @@ function CreateAim(entity)
 	return aim
 end
 
+function CreateCombineRay(entity)
+	local ray = {}
+
+	ray.transformID = Transform.Bind()
+	local rayIce = Assets.LoadModel("Models/SpellChargingICEMesh.model")
+	ray.modelIndex = Gear.AddForwardInstance(rayIce, ray.transformID)
+	Gear.SetUniformLocation(ray.modelIndex, "aValue");
+
+	ray.transformID2 = Transform.Bind()
+	local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
+	ray.modelIndex2 = Gear.AddForwardInstance(rayFire, ray.transformID2)
+
+	ray.transformID3 = Transform.Bind()
+	local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
+	ray.modelIndex = Gear.AddForwardInstance(rayNature, ray.transformID3)
+
+	ray.caster = entity.transformID
+
+	function ray:FireChargeBeam(dt,dir,spellElement)
+		
+		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.transformID2, false)
+		Transform.ActiveControl(self.transformID3, false)
+
+		local elementalTransformID = self.transformID
+		if spellElement == FIRE then
+			Transform.ActiveControl(self.transformID2, true)
+			elementalTransformID = self.transformID2
+
+		elseif spellElement == NATURE then
+			Transform.ActiveControl(self.transformID3, true) 
+			elementalTransformID = self.transformID3
+		
+		else 
+			Transform.ActiveControl(ray.transformID, true)
+		end
+		Transform.ActiveControl(self.transformID, true)
+		
+
+
+		local pos = Transform.GetPosition(self.caster)
+		local direction = Transform.GetLookAt(self.caster)
+		pos.x = pos.x + dir.x * 11
+		pos.y = pos.y + dir.y * 11
+		pos.z = pos.z + dir.z * 11
+
+		Transform.SetPosition(elementalTransformID, pos)
+		Transform.SetScaleNonUniform(elementalTransformID, 0.2,0.2,10) 
+		ray.pos = Transform.GetPosition(self.caster)
+		Transform.RotateToVector(elementalTransformID, dir)
+		
+	end
+	function ray:EndChargeBeam()
+		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.transformID2, false)
+		Transform.ActiveControl(self.transformID3, false)
+	end
+	return ray
+end
+
 MAX_CHARGE = 1
-function CreateChargeEggs(entity)
+function CreateChargeThing(entity)
 	local chargeThing = {}
 	chargeThing.timer = 0
 
@@ -72,11 +132,11 @@ function CreateChargeEggs(entity)
 		Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
 		
 	
-		end
+	end
 
 
-	function chargeThing:CombinedAndCharged(position, dt, chargePower,spellElement)
-		chargeThing.particles:cast() 
+	function chargeThing:Charging(position, dt, chargePower,spellElement)
+		
 		elementalTransformID = chargeThing.transformID
 		if spellElement == FIRE then
 			Transform.ActiveControl(chargeThing.transformID2, true)
@@ -146,6 +206,7 @@ function CreateChargeEggs(entity)
 		
 		chargeThing.timer = 0   
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		chargeThing.particles:cast() 
 	end
 
 
