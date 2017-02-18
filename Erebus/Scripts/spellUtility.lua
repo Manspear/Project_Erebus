@@ -13,35 +13,57 @@ end
 
 function CreateCombineRay(entity)
 	local ray = {}
-	ray.transformID = Transform.Bind()
-	local rayModel = Assets.LoadModel("Models/SpellChargingICEMesh.model")
-	ray.modelIndex = Gear.AddForwardInstance(rayModel, ray.transformID)
-	Gear.SetUniformLocation(ray.modelIndex, "aValue");
-	ray.caster = entity.transformID
 
-	ray.rot = {x = 0, y = 0, z = 0}
-	ray.scale = {x = 1, y = 1, z = 1}
-	ray.pos = {x = 0, y = 0, z = 0}
+	ray.transformID = Transform.Bind()
+	local rayIce = Assets.LoadModel("Models/SpellChargingICEMesh.model")
+	ray.modelIndex = Gear.AddForwardInstance(rayIce, ray.transformID)
+	Gear.SetUniformLocation(ray.modelIndex, "aValue");
+
+	ray.transformID2 = Transform.Bind()
+	local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
+	ray.modelIndex2 = Gear.AddForwardInstance(rayFire, ray.transformID2)
+
+	ray.transformID3 = Transform.Bind()
+	local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
+	ray.modelIndex = Gear.AddForwardInstance(rayNature, ray.transformID3)
+
+	ray.caster = entity.transformID
 
 	function ray:FireChargeBeam(dt,dir,spellElement)
 		
+		local elementalTransformID = ray.transformID
+		if spellElement == FIRE then
+			print("FIRE!")
+			Transform.ActiveControl(ray.transformID2, true)
+			elementalTransformID = ray.transformID2
+
+		elseif spellElement == NATURE then
+			Transform.ActiveControl(ray.transformID3, true) 
+			elementalTransformID = ray.transformID3
+		
+		else 
+			Transform.ActiveControl(ray.transformID, true)
+		end
 		Transform.ActiveControl(self.transformID, true)
-		--local asd = Transform.GetPosition(self.caster)
-		--Kan jag flytta fram Beam? JA. Eller swå gör jag en ny modell.
+		
+
+
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
 		pos.x = pos.x + dir.x * 11
 		pos.y = pos.y + dir.y * 11
 		pos.z = pos.z + dir.z * 11
 
-		Transform.SetPosition(self.transformID, pos)
-		Transform.SetScaleNonUniform(self.transformID, 0.2,0.2,10) 
+		Transform.SetPosition(elementalTransformID, pos)
+		Transform.SetScaleNonUniform(elementalTransformID, 0.2,0.2,10) 
 		ray.pos = Transform.GetPosition(self.caster)
-		Transform.RotateToVector(self.transformID, dir)
+		Transform.RotateToVector(elementalTransformID, dir)
 		
 	end
 	function ray:EndChargeBeam()
 		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.transformID2, false)
+		Transform.ActiveControl(self.transformID3, false)
 	end
 	return ray
 end
