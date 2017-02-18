@@ -127,7 +127,7 @@ function CreateSunRay(entity)
 				if hits[index].Hurt then	
 					if self.effectFlag then
 						for e =1, #self.effects do
-							local effect = effectTable[self.effects[e]]()
+							local effect = effectTable[self.effects[e]](self.owner)
 							hits[index]:Apply(effect)				
 						end
 					end
