@@ -25,6 +25,9 @@ function CreateCombineRay(entity)
 	ray.scale = {x = 1, y = 1, z = 1}
 	ray.pos = {x = 0, y = 0, z = 0}
 
+	function ray:FireChargeBeam(position,dt,spellElement)
+		print("fuckYes")
+	end
 end
 
 MAX_CHARGE = 1
