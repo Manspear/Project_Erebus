@@ -61,6 +61,7 @@ function LoadPlayer()
 	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
+	player.controlsEnabled = true
 
 	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
@@ -337,8 +338,7 @@ function GetCombined()
 end
 
 function Controls(dt)
-	--showTutorialImage(130, 44, 220,dt)
-	--showTutorialImage2(130, 36, 220,dt)
+	if player.controlsEnabled then
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 		end
@@ -436,6 +436,7 @@ function Controls(dt)
 			player.invulnerable = true
 			Network.SendDashPacket(true)
 		end
+	end
 end
 
 function pingPressed(player)

@@ -20,6 +20,7 @@ namespace LuaErebus
 		luaL_Reg regs[] =
 		{
 			{ "SetControls", setControls },
+			{ "EnableControls", enableControls },
 			{ "CameraSensitivity", cameraSensitivity },
 			{ "InitNetworkHost", initNetworkHost },
 			{ "StartNetworkHost", startNetworkHost },
@@ -41,6 +42,16 @@ namespace LuaErebus
 
 		int transformID = (int)lua_tointeger( lua, 1 );
 		g_controls->setControl( &g_transforms[transformID] );
+
+		return 0;
+	}
+
+	int enableControls( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		bool enabled = (bool)lua_toboolean( lua, 1 );
+		g_controls->setEnabled( enabled );
 
 		return 0;
 	}
