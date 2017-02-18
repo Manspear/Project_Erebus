@@ -144,7 +144,7 @@ void LevelEditor::start() {
 	engine->queueForwardModels(&forwardInstances);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
 
-	LevelActorFactory::getInstance()->loadWorld("level1");
+	LevelActorFactory::getInstance()->loadWorld("Level1");
 
 	float currentUpdateTime = 0;
 

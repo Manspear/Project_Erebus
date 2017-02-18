@@ -1,38 +1,24 @@
 <Level>
-    <LevelActor type="TileStuff" displayName="Tile Assets" tileID="1">
-        <LevelModel>
-            <ModelName>tile_assets</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="0" y="0" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="TileStuff" displayName="Tile Placeholder" tileID="1">
+    <LevelActor type="TileStuff" displayName="Tile Placeholder" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile_assets_placeholders</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="0" y="0" z="0"/>
+            <Position x="0" y="500" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="TileStuff" displayName="tile1" tileID="1">
+    <LevelActor type="TileStuff" displayName="tile1" tileID="1" exportType="3">
         <LevelHeightmap>
             <Draw d="true"/>
             <LineLength l="0.5"/>
-            <Heights max="36.5" min="3"/>
+            <Heights max="36.882172" min="-0.67693001"/>
             <Offset x="0" y="0" z="0"/>
             <ID heightmapID="1" surrounding0="2" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
-            <TextureName>tile1_128</TextureName>
+            <TextureName>tile1_height</TextureName>
         </LevelHeightmap>
-        <LevelModel>
-            <ModelName>tile1</ModelName>
-        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
@@ -40,7 +26,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="settings" displayName="Tile Settings" tileID="1">
+    <LevelActor type="settings" displayName="Tile Settings" tileID="1" exportType="1">
         <LevelSettings>
             <PlayerStart x="32.90625" y="7.4882813" z="145.625"/>
             <HeightmapStart index="1"/>
@@ -52,18 +38,15 @@
             <Export e="false"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="TileStuff" displayName="tile2" tileID="2">
+    <LevelActor type="TileStuff" displayName="tile2" tileID="2" exportType="3">
         <LevelHeightmap>
             <Draw d="true"/>
             <LineLength l="0.5"/>
-            <Heights max="60" min="30"/>
+            <Heights max="60.594601" min="32.186459"/>
             <Offset x="128" y="0" z="-128"/>
             <ID heightmapID="2" surrounding0="1" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
-            <TextureName>tile2_heights</TextureName>
+            <TextureName>tile2_height</TextureName>
         </LevelHeightmap>
-        <LevelModel>
-            <ModelName>tile2</ModelName>
-        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="128"/>
             <Rotation x="0" y="0" z="0"/>
@@ -71,1647 +54,521 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tree" displayName="OakTree" tileID="1">
+    <LevelActor type="Tree" displayName="OakTree" tileID="1" exportType="1">
         <LevelCollider type="2">
-            <Offset x="0" y="7" z="1.5"/>
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="1" parentID="5"/>
+            <IDs ID="23" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="7" z="3"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="14.875" y="6.4257813" z="156.875"/>
-            <Rotation x="0" y="0" z="0"/>
+            <Position x="24.296875" y="7.515625" z="139.5"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Empty" displayName="New" tileID="1">
+    <LevelActor type="Tree" displayName="OakTree (1)" tileID="1" exportType="1">
         <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="3" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="2" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="119.07797" y="37.886684" z="210.72469"/>
-            <Rotation x="0" y="0.19114979" z="0"/>
-            <Scale x="1" y="4.8467674" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Empty" displayName="New (1)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="4" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="2" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="133.5" y="34.34375" z="216.5"/>
-            <Rotation x="0" y="0.19114979" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Empty" displayName="New (2)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="5" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="2" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="16.40625" y="18.65625" z="153.125"/>
-            <Rotation x="0" y="0.19114979" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (3) (1)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="6" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="2" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="47.21875" y="8.78125" z="148.5"/>
-            <Rotation x="-0.056152344" y="0.99707031" z="-0.047790527"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (3) (2)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="7" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="2" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="43.65625" y="8.6171875" z="148.375"/>
-            <Rotation x="-0.059204102" y="0.99609375" z="-0.055236816"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (3) (3)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="8" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="2" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="38.21875" y="8.1640625" z="148.125"/>
-            <Rotation x="-0.075073242" y="0.99462891" z="-0.05770874"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="New (3) (4)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="9" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="3" y="2" z="1"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="34.25" y="7.6914063" z="149.25"/>
-            <Rotation x="-0.085876465" y="0.99462891" z="-0.044372559"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (1)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="10" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="29.78125" y="7.0546875" z="149.5"/>
-            <Rotation x="-0.10150146" y="0.99023438" z="0.061218262"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (2)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="11" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="23.90625" y="6.1796875" z="151.25"/>
-            <Rotation x="-0.042449951" y="0.99462891" z="0.083190918"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (3)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="12" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="38.84375" y="21.765625" z="151.5"/>
-            <Rotation x="-0.2064209" y="0.79052734" z="-0.52978516"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (4)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="13" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="40.0625" y="22.84375" z="156.125"/>
-            <Rotation x="-0.0390625" y="0.84863281" z="0.38793945"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (5)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="14" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="29.71875" y="17.03125" z="177.875"/>
-            <Rotation x="-0.19799805" y="0.97705078" z="-0.077026367"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (6)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="15" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="25.515625" y="11.125" z="176.625"/>
-            <Rotation x="-0.1262207" y="0.98681641" z="0.080871582"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (7)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="16" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="24.421875" y="11.03125" z="173.5"/>
-            <Rotation x="-0.13818359" y="0.97851563" z="-0.1262207"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (8)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="17" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="22.375" y="6.0039063" z="177.375"/>
-            <Rotation x="-0.32983398" y="0.92724609" z="0.17468262"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (9)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="18" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="29.765625" y="4.4257813" z="215.375"/>
-            <Rotation x="0.017456055" y="0.99853516" z="0.0418396"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (10)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="19" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="23.15625" y="4.4570313" z="214.5"/>
-            <Rotation x="-0.028091431" y="0.99853516" z="-0.040130615"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (11)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="20" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="19.703125" y="4.1328125" z="209.625"/>
-            <Rotation x="-0.041320801" y="0.99804688" z="-0.04095459"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (12)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="21" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="21.15625" y="4.0195313" z="206"/>
-            <Rotation x="-0.03024292" y="0.99902344" z="-0.031402588"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (13)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="22" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="15.328125" y="3.84375" z="207"/>
-            <Rotation x="-0.041320801" y="0.99804688" z="-0.04095459"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (14)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="23" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="54.59375" y="10.664063" z="207.875"/>
-            <Rotation x="-0.16796875" y="0.98144531" z="-0.029785156"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (15)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
             <IDs ID="24" parentID="0"/>
-            <Radius r="2"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="68.0625" y="14.679688" z="213.375"/>
-            <Rotation x="-0.28149414" y="0.95654297" z="0.068969727"/>
+            <Position x="38.165016" y="9.1640625" z="155.14267"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (16)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="25" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="74.625" y="16.65625" z="214.125"/>
-            <Rotation x="-0.28833008" y="0.95263672" z="0.088012695"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (17)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="26" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="103.6875" y="24.90625" z="226.5"/>
-            <Rotation x="-0.43603516" y="0.89111328" z="0.1204834"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (18)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="27" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="110" y="28" z="227.875"/>
-            <Rotation x="-0.1940918" y="0.97802734" z="0.06652832"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (19)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="28" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="101.6875" y="38.6875" z="215.75"/>
-            <Rotation x="-0.46582031" y="0.80957031" z="0.35668945"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (20)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="29" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="96.5" y="35.875" z="215.125"/>
-            <Rotation x="-0.48950195" y="0.80566406" z="0.33081055"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (21)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="30" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="93.1875" y="34.0625" z="214.5"/>
-            <Rotation x="-0.54003906" y="0.75830078" z="0.35864258"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (22)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="31" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="130.625" y="53.09375" z="207.625"/>
-            <Rotation x="-0.23632813" y="0.79052734" z="0.56054688"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (23)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="32" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="135.5" y="55.53125" z="205.375"/>
-            <Rotation x="0.1829834" y="0.84130859" z="0.50439453"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (24)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="33" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="138.875" y="57.25" z="200.75"/>
-            <Rotation x="0.3371582" y="0.80078125" z="0.48901367"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (25)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="34" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="141.5" y="58.8125" z="195.75"/>
-            <Rotation x="0.43725586" y="0.75439453" z="0.47998047"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (26)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="35" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="141.375" y="61.15625" z="188.875"/>
-            <Rotation x="0.52099609" y="0.85058594" z="0.058654785"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (27)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="36" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="140.625" y="61.96875" z="185.125"/>
-            <Rotation x="0.53076172" y="0.84472656" z="0.041015625"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (28)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="37" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="139.625" y="63.09375" z="180.125"/>
-            <Rotation x="0.54492188" y="0.83642578" z="0.0068778992"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (29)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="38" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="142.625" y="39.6875" z="181.875"/>
-            <Rotation x="0.048492432" y="0.95800781" z="0.2512207"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (30)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="39" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="144.75" y="40.25" z="177.125"/>
-            <Rotation x="-0.050323486" y="0.94824219" z="0.29882813"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (31)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="40" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="147.125" y="41.78125" z="173.875"/>
-            <Rotation x="-0.15258789" y="0.92041016" z="0.33837891"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (32)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="41" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="152.625" y="49.6875" z="162.875"/>
-            <Rotation x="-0.35742188" y="0.890625" z="0.22607422"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (33)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="42" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="151.875" y="51.0625" z="142.125"/>
-            <Rotation x="-0.18371582" y="0.82470703" z="0.46899414"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (34)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="43" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="137.5" y="50.21875" z="148.25"/>
-            <Rotation x="0.097106934" y="0.96484375" z="0.23413086"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (35)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="44" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="140.75" y="48.125" z="155"/>
-            <Rotation x="-0.0090713501" y="0.96435547" z="0.24865723"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (36)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="45" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="139" y="67.75" z="144.125"/>
-            <Rotation x="0.34204102" y="0.81884766" z="0.45922852"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (37)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="46" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="151.875" y="66.4375" z="138.875"/>
-            <Rotation x="0.2722168" y="0.78027344" z="0.55859375"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (38)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="47" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="159.375" y="59.15625" z="142.75"/>
-            <Rotation x="-0.38720703" y="0.75585938" z="0.51074219"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (39)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="48" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="170" y="69.3125" z="145.5"/>
-            <Rotation x="-0.36499023" y="0.78662109" z="-0.48510742"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (40)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="49" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="179.375" y="61.8125" z="143.5"/>
-            <Rotation x="0.14050293" y="0.91259766" z="0.23913574"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (41)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="50" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="148.75" y="67.625" z="138.625"/>
-            <Rotation x="0.27270508" y="0.81152344" z="0.51464844"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (42)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="51" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="133.625" y="67.1875" z="150.25"/>
-            <Rotation x="0.52392578" y="0.79150391" z="0.20935059"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (43)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="52" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="137.375" y="64.6875" z="173"/>
-            <Rotation x="0.56640625" y="0.82226563" z="-0.028869629"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (44)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="53" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="139.625" y="63.3125" z="176.75"/>
-            <Rotation x="0.55224609" y="0.83300781" z="-0.0012998581"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (45)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="54" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="136.125" y="64.6875" z="166"/>
-            <Rotation x="0.58789063" y="0.80664063" z="0.015213013"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (46)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="55" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="134.25" y="65.5625" z="162.375"/>
-            <Rotation x="0.60058594" y="0.79638672" z="0.016326904"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (47)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="56" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="132.25" y="66.0625" z="155.5"/>
-            <Rotation x="0.62402344" y="0.77929688" z="0.041168213"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (48)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="57" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="141.75" y="68.75" z="140.875"/>
-            <Rotation x="0.31884766" y="0.81884766" z="0.47436523"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (49)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="58" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="143.625" y="49.46875" z="147.75"/>
-            <Rotation x="0.020339966" y="0.98242188" z="0.17602539"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (50)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="59" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="147.375" y="49.4375" z="152.25"/>
-            <Rotation x="-0.051483154" y="0.98730469" z="0.069641113"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (51)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="60" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="149.875" y="49.53125" z="157"/>
-            <Rotation x="-0.22009277" y="0.95996094" z="0.15100098"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (52)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="61" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
+    <LevelActor type="Empty" displayName="New" tileID="1" exportType="1">
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="0.8705883" y="0.627451" z="0"/>
+            <Radius r="100"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
-            <Position x="145.875" y="47.53125" z="162"/>
-            <Rotation x="-0.19018555" y="0.91113281" z="0.32617188"/>
+            <Position x="118.25438" y="53.178276" z="226.97983"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (53)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="62" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m1" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="144.375" y="45.6875" z="165.25"/>
-            <Rotation x="-0.14343262" y="0.91601563" z="0.34936523"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (54)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="63" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m2" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m2</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="143.875" y="43.5" z="168.875"/>
-            <Rotation x="-0.090270996" y="0.93798828" z="0.32568359"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (55)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="64" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m3" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m3</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="142.25" y="41.875" z="172.75"/>
-            <Rotation x="-0.027587891" y="0.94921875" z="0.3046875"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (56)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="65" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m4" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m4</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="138.125" y="47.03125" z="160.375"/>
-            <Rotation x="-0.0086212158" y="0.94726563" z="0.31201172"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (57)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="66" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m5" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m5</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="137.375" y="48.28125" z="156.375"/>
-            <Rotation x="0.016387939" y="0.95605469" z="0.27929688"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (58)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="67" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m6" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m6</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="145.125" y="48.375" z="157.75"/>
-            <Rotation x="-0.12310791" y="0.95605469" z="0.22546387"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (59)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="68" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m7" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m7</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="161.25" y="60.1875" z="170.125"/>
-            <Rotation x="-0.33959961" y="0.78369141" z="0.46508789"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (60)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="69" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="m8" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_m8</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="162.625" y="50.65625" z="149.75"/>
-            <Rotation x="-0.10614014" y="0.99121094" z="-0.065368652"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (61)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="70" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="s1" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_s1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="181.875" y="55.0625" z="147"/>
-            <Rotation x="0.31103516" y="0.85107422" z="0.40820313"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (62)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="71" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="s2" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_s2</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="189.25" y="53.625" z="148.125"/>
-            <Rotation x="0.01512146" y="0.99804688" z="0.028076172"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (63)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="72" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="s3" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_s3</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="198.5" y="54.0625" z="145.375"/>
-            <Rotation x="-0.061187744" y="0.99755859" z="0.032684326"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (64)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="73" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="s4" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_s4</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="203.5" y="54.5" z="144.625"/>
-            <Rotation x="-0.31958008" y="0.93505859" z="0.054199219"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (65)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="74" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="s5" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_s5</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="179" y="62.6875" z="128.75"/>
-            <Rotation x="-0.025360107" y="0.99511719" z="0.068054199"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (66)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="75" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="s6" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_s6</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="177.25" y="62.0625" z="118.9375"/>
-            <Rotation x="0.44702148" y="0.87060547" z="-0.16809082"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (67)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="76" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile1" displayName="s7" tileID="1" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile1_s7</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="174.25" y="62.0625" z="111.4375"/>
-            <Rotation x="0.41430664" y="0.90429688" z="-0.095581055"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (68)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="77" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s1" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="168.625" y="63.28125" z="99.0625"/>
-            <Rotation x="0.38061523" y="0.92285156" z="-0.051422119"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (69)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="78" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s2" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s2</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="174.625" y="70" z="114.9375"/>
-            <Rotation x="0.70068359" y="0.71191406" z="-0.031494141"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (70)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="79" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s3" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s3</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="169.375" y="78.0625" z="113"/>
-            <Rotation x="0.76464844" y="0.60400391" z="-0.22387695"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (71)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="80" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s4" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s4</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="169.875" y="78.375" z="120.5"/>
-            <Rotation x="0.76855469" y="0.63720703" z="-0.045715332"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (72)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="81" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s5" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s5</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="169.875" y="78.4375" z="125"/>
-            <Rotation x="0.76171875" y="0.64257813" z="0.079528809"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (73)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="82" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s6" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s6</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="170.125" y="77.375" z="130.5"/>
-            <Rotation x="0.76123047" y="0.64257813" z="0.081359863"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (74)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="83" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s7" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s7</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="164.875" y="84.375" z="120.4375"/>
-            <Rotation x="0.76220703" y="0.64257813" z="-0.066345215"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (75)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="84" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s8" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s8</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="164.875" y="81.25" z="106.875"/>
-            <Rotation x="0.76416016" y="0.60253906" z="-0.22717285"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (76)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="85" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s9" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s9</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="165.75" y="82.5" z="112.3125"/>
-            <Rotation x="0.76416016" y="0.609375" z="-0.20922852"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (77)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="86" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s10" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s10</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="166.125" y="83" z="123.8125"/>
-            <Rotation x="0.76171875" y="0.64355469" z="0.070983887"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (78)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="87" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s11a" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s11a</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="165.875" y="82.5" z="130.25"/>
-            <Rotation x="0.76171875" y="0.64306641" z="0.075439453"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (79)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="88" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s12" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s12</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="159.75" y="86.875" z="104.5"/>
-            <Rotation x="0.76367188" y="0.60742188" z="-0.21289063"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (80)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="89" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s13" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s13</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="160.375" y="87.6875" z="108.25"/>
-            <Rotation x="0.76367188" y="0.61181641" z="-0.20117188"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (81)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="90" parentID="0"/>
-            <Radius r="2"/>
-        </LevelCollider>
+    <LevelActor type="tile2" displayName="t2s14" tileID="2" exportType="1">
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>tile2_s14</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="157.125" y="92.0625" z="108.625"/>
-            <Rotation x="0.76367188" y="0.61816406" z="-0.18469238"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (82)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="ObbWall" displayName="Obb (38)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="91" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="179" parentID="0"/>
+            <Rotation x="-0.58271831" y="0" z="0.81267434"/>
+            <HalfLengths x="0.5" y="0.5" z="0.5"/>
         </LevelCollider>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
         <LevelTransform>
-            <Position x="152.625" y="87.3125" z="105.875"/>
-            <Rotation x="-0.20214844" y="0.6484375" z="-0.73242188"/>
+            <Position x="-1.0737418e+08" y="-1.0737418e+08" z="-1.0737418e+08"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (83)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="Tree" displayName="OakTree (3)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="92" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="225" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="91.4375" y="35.96875" z="103.9375"/>
-            <Rotation x="0.10369873" y="0.96386719" z="0.24035645"/>
+            <Position x="5.8572612" y="4.0820313" z="182.81056"/>
+            <Rotation x="0" y="0.054962352" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (84)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="Tree" displayName="OakTree (4)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="93" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="226" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="155.75" y="79.9375" z="98.5"/>
-            <Rotation x="-0.14758301" y="0.64550781" z="-0.74853516"/>
+            <Position x="14.367188" y="3.3169107" z="237.75"/>
+            <Rotation x="0" y="-2.4129782" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (85)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="Tree" displayName="OakTree (5)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="94" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="227" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="160.75" y="80.8125" z="98.4375"/>
-            <Rotation x="-0.13208008" y="0.64404297" z="-0.75195313"/>
+            <Position x="77.25" y="-0.090570927" z="262.5"/>
+            <Rotation x="0" y="-3.4031496" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (86)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="Tree" displayName="OakTree (6)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="95" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="228" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="163.625" y="80.625" z="101.625"/>
-            <Rotation x="0.76416016" y="0.59667969" z="-0.2421875"/>
+            <Position x="68.6875" y="-4.2321153" z="315.25"/>
+            <Rotation x="0" y="-4.4111028" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (87)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="Tree" displayName="OakTree (7)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="96" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="229" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="160.75" y="88.3125" z="113.875"/>
-            <Rotation x="0.75878906" y="0.63183594" z="-0.13696289"/>
+            <Position x="113.375" y="28.149567" z="240.5"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (88)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="Tree" displayName="OakTree (8)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="97" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="230" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="162.125" y="87.375" z="126.9375"/>
-            <Rotation x="0.76171875" y="0.64355469" z="0.069519043"/>
+            <Position x="167.375" y="33.916374" z="262.75"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="Stone1 (89)" tileID="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0.5" z="0.60000002"/>
+    <LevelActor type="Tree" displayName="OakTree (9)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="98" parentID="0"/>
-            <Radius r="2"/>
+            <IDs ID="231" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Stone2</ModelName>
+            <ModelName>OakTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="160.5" y="89.75" z="122.625"/>
-            <Rotation x="0.76171875" y="0.64501953" z="0.057525635"/>
+            <Position x="171" y="27.989796" z="315"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (1)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="99" parentID="0"/>
+            <IDs ID="232" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1719,17 +576,17 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="171.625" y="62.375" z="102.6875"/>
-            <Rotation x="0.38769531" y="0.91894531" z="-0.061767578"/>
+            <Position x="124.375" y="29.180216" z="260.75"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (2)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1 (1)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="100" parentID="0"/>
+            <IDs ID="233" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1737,17 +594,46 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="171.75" y="61.96875" z="97.8125"/>
-            <Rotation x="0.38500977" y="0.92089844" z="-0.048431396"/>
+            <Position x="105.75" y="23.271654" z="262.75"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (3)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree2 (2)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="5.5" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="237" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="5" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>PineTree2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="198.875" y="31.263853" z="310.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile1_StaticModels" displayName="Bridge" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>bridge</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="PineTree1 (3)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="101" parentID="0"/>
+            <IDs ID="258" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1755,17 +641,17 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="173.5" y="56.6875" z="91.75"/>
-            <Rotation x="0.35131836" y="0.93212891" z="-0.031311035"/>
-            <Scale x="1" y="1" z="1"/>
+            <Position x="182.33926" y="59.886177" z="256.35004"/>
+            <Rotation x="-0.23092042" y="0" z="0.42574763"/>
+            <Scale x="0.95741272" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (4)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1 (4)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="102" parentID="0"/>
+            <IDs ID="259" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1773,17 +659,17 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="183.5" y="55.40625" z="99.75"/>
-            <Rotation x="-0.0028915405" y="0.99853516" z="0.014305115"/>
+            <Position x="152.875" y="36.25" z="243.375"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (5)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1 (6)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="103" parentID="0"/>
+            <IDs ID="261" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1791,17 +677,35 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="188.375" y="54.59375" z="110.625"/>
-            <Rotation x="-0.029586792" y="0.99707031" z="0.064025879"/>
+            <Position x="66.668983" y="-1.2753906" z="239.06007"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (6)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1 (7)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="104" parentID="0"/>
+            <IDs ID="262" parentID="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2.8" y="3.6999998" z="2.8"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="73.820274" y="14.227149" z="220.37854"/>
+            <Rotation x="0.26540294" y="-0.17830695" z="0.1482895"/>
+            <Scale x="1" y="1.3076191" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="PineTree1 (8)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3.7" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="263" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1809,17 +713,17 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="191.5" y="54.34375" z="120.75"/>
-            <Rotation x="-0.032226563" y="0.99902344" z="0.0081481934"/>
+            <Position x="-7.0743465" y="3.2910156" z="223.48141"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (7)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1 (9)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="105" parentID="0"/>
+            <IDs ID="264" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1827,17 +731,17 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="194.625" y="54.40625" z="125.4375"/>
-            <Rotation x="-0.033721924" y="0.99902344" z="0.0071754456"/>
+            <Position x="195.5" y="31.578125" z="308.25"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (8)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1 (5)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="106" parentID="0"/>
+            <IDs ID="265" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1845,17 +749,17 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="192.125" y="54.28125" z="129.625"/>
-            <Rotation x="-0.034240723" y="0.99902344" z="0.0068397522"/>
+            <Position x="98.875" y="22.796875" z="238.625"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (9)" tileID="1">
+    <LevelActor type="Tree" displayName="PineTree1 (2)" tileID="1" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="3.7" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="107" parentID="0"/>
+            <IDs ID="266" parentID="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.8" y="3.7" z="2.8"/>
         </LevelCollider>
@@ -1863,476 +767,530 @@
             <ModelName>pineTree1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="187.5" y="54.5625" z="129"/>
-            <Rotation x="0.089050293" y="0.99511719" z="-0.029037476"/>
+            <Position x="193.5" y="68.25" z="255.125"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (10)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="108" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile3" displayName="t3s1" tileID="3" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile3_s1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="177.25" y="55.96875" z="111.125"/>
-            <Rotation x="0.34204102" y="0.93798828" z="-0.039367676"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (11)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="109" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
+    <LevelActor type="TileStuff" displayName="tile3" tileID="3" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="75.287842" min="34.878201"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="3" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile3_height</TextureName>
+        </LevelHeightmap>
         <LevelTransform>
-            <Position x="162.625" y="86.625" z="117.125"/>
-            <Rotation x="0.75341797" y="0.64892578" z="-0.092407227"/>
+            <Position x="384" y="0" z="128"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (12)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="110" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
+    <LevelActor type="TileStuff" displayName="tile4" tileID="4" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="67.490227" min="34.669922"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="4" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile4_height</TextureName>
+        </LevelHeightmap>
         <LevelTransform>
-            <Position x="167" y="81.625" z="116.3125"/>
-            <Rotation x="0.76416016" y="0.64111328" z="-0.060028076"/>
+            <Position x="384" y="0" z="256"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (13)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="111" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
+    <LevelActor type="TileStuff" displayName="tile5" tileID="5" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="105.0018" min="38.556149"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="5" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile5_height</TextureName>
+        </LevelHeightmap>
         <LevelTransform>
-            <Position x="170" y="53.09375" z="161.5"/>
-            <Rotation x="-0.040405273" y="0.96142578" z="-0.26342773"/>
+            <Position x="384" y="0" z="384"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (14)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="112" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
+    <LevelActor type="TileStuff" displayName="tile6" tileID="6" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="106.8301" min="85.084778"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="6" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile6_height</TextureName>
+        </LevelHeightmap>
         <LevelTransform>
-            <Position x="207.625" y="61.625" z="109.1875"/>
-            <Rotation x="-0.671875" y="0.61425781" z="-0.41137695"/>
+            <Position x="384" y="0" z="640"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (15)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="113" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
+    <LevelActor type="TileStuff" displayName="tile7" tileID="7" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="142.89619" min="81.256348"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="7" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile7_height</TextureName>
+        </LevelHeightmap>
         <LevelTransform>
-            <Position x="167.875" y="75.25" z="104.1875"/>
-            <Rotation x="0.85449219" y="0.47338867" z="-0.17578125"/>
+            <Position x="128" y="0" z="512"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (16)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="114" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
+    <LevelActor type="TileStuff" displayName="tile8" tileID="8" exportType="3">
+        <LevelHeightmap>
+            <Draw d="true"/>
+            <LineLength l="0.5"/>
+            <Heights max="142.2115" min="100"/>
+            <Offset x="0" y="0" z="0"/>
+            <ID heightmapID="8" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+            <TextureName>tile8_height</TextureName>
+        </LevelHeightmap>
         <LevelTransform>
-            <Position x="167.5" y="63.53125" z="95.4375"/>
-            <Rotation x="0.37670898" y="0.92529297" z="-0.041503906"/>
+            <Position x="256" y="0" z="384"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (17)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="115" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile3" displayName="t3s2" tileID="3" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile3_s2</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="166.125" y="73.4375" z="89.8125"/>
-            <Rotation x="0.88525391" y="0.45507813" z="-0.046844482"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (18)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="116" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile3" displayName="t3s3" tileID="3" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile3_s3</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="164.5" y="77" z="86.25"/>
-            <Rotation x="0.89160156" y="0.44189453" z="-0.023452759"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (19)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="117" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile3" displayName="t3s4" tileID="3" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile3_s4</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="124.9375" y="48" z="108.875"/>
-            <Rotation x="-0.2142334" y="0.85986328" z="-0.46069336"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (20)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="118" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile4" displayName="t4s1" tileID="4" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile4_s1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="166" y="76.0625" z="55.03125"/>
-            <Rotation x="0.89746094" y="0.41894531" z="0.13208008"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (21)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="119" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile4" displayName="t4s2" tileID="4" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile4_s2</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="170.75" y="73.75" z="46.65625"/>
-            <Rotation x="0.78515625" y="0.42041016" z="0.37670898"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (22)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="120" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile4" displayName="t4s3" tileID="4" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile4_s3</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="181.5" y="73.5" z="33.53125"/>
-            <Rotation x="0.65380859" y="0.41772461" z="0.62744141"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (23)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="121" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile4" displayName="t4s4" tileID="4" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile4_s4</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="190.625" y="72.3125" z="26.546875"/>
-            <Rotation x="0.61474609" y="0.42504883" z="0.66113281"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (24)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="122" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile5" displayName="t5s1" tileID="5" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile5_s1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="171.625" y="61.53125" z="50.53125"/>
-            <Rotation x="0.35205078" y="0.92919922" z="0.07989502"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (25)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="123" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile5" displayName="t5s2" tileID="5" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile5_s2</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="174.25" y="61.21875" z="44.9375"/>
-            <Rotation x="0.3347168" y="0.9296875" z="0.13500977"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (26)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="124" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile5" displayName="t5s3" tileID="5" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile5_s3</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="177.625" y="59.84375" z="46.4375"/>
-            <Rotation x="0.33422852" y="0.92578125" z="0.14685059"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (27)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="125" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile5" displayName="t5s4" tileID="5" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile5_s4</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="180.875" y="59.40625" z="40.96875"/>
-            <Rotation x="0.3112793" y="0.92431641" z="0.21728516"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (28)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="126" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile5" displayName="t5s5" tileID="5" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile5_s5</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="169" y="61.96875" z="59"/>
-            <Rotation x="0.36816406" y="0.92871094" z="0.025299072"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (29)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="127" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="tile5" displayName="t5s6" tileID="5" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile5_s6</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="172.125" y="60.65625" z="59.59375"/>
-            <Rotation x="0.37402344" y="0.92675781" z="0.017456055"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (30)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="128" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="Tile6" displayName="t6s1" tileID="6" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile6_s1</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="175.75" y="59.625" z="54.5625"/>
-            <Rotation x="0.36206055" y="0.92529297" z="0.063354492"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (31)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="129" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="Tile6" displayName="t6s2" tileID="6" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile6_s2</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="184.875" y="53.875" z="40.34375"/>
-            <Rotation x="0.3046875" y="0.91992188" z="0.22192383"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (32)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="130" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="Tile6" displayName="t6s3" tileID="6" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile6_s3</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="189.25" y="58.1875" z="36.0625"/>
-            <Rotation x="0.28125" y="0.91748047" z="0.27197266"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (33)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="131" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="Tile6" displayName="t6s4" tileID="5" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile6_s4</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="193.625" y="58.1875" z="31.546875"/>
-            <Rotation x="0.26171875" y="0.91503906" z="0.29956055"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (34)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="132" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="Tile6" displayName="t6s5" tileID="6" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile6_s5</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="193.25" y="63.34375" z="34.875"/>
-            <Rotation x="0.11871338" y="0.74902344" z="0.63232422"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Brush" displayName="PineTree1 (35)" tileID="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="3.7" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="133" parentID="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.8" y="3.7" z="2.8"/>
-        </LevelCollider>
+    <LevelActor type="Tile6" displayName="t6s6" tileID="6" exportType="1">
         <LevelModel>
-            <ModelName>pineTree1</ModelName>
+            <ModelName>tile6_s6</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="183.375" y="59.96875" z="36.6875"/>
-            <Rotation x="0.29711914" y="0.92333984" z="0.23083496"/>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s7" tileID="6" exportType="1">
+        <LevelModel>
+            <ModelName>tile6_s7</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s8" tileID="6" exportType="1">
+        <LevelModel>
+            <ModelName>tile6_s8</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t6s9" tileID="6" exportType="1">
+        <LevelModel>
+            <ModelName>tile6_s9</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s10" tileID="6" exportType="1">
+        <LevelModel>
+            <ModelName>tile6_s10</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s1" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s2" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s3" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s4" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s5" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s5</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s6" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s6</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s7" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s7</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s8" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s8</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s9" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>tile7_s9</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s1" tileID="8" exportType="1">
+        <LevelModel>
+            <ModelName>tile8_s1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s2" tileID="8" exportType="1">
+        <LevelModel>
+            <ModelName>tile8_s2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s3" tileID="8" exportType="1">
+        <LevelModel>
+            <ModelName>tile8_s3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="BestWall" displayName="OpWall" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="267" parentID="0"/>
+            <Rotation x="0" y="0" z="1"/>
+            <HalfLengths x="1" y="5" z="3"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="55" y="9.1915388" z="145"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="BestWall" displayName="OpWall (1)" tileID="1" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="268" parentID="0"/>
+            <Rotation x="-0.60000002" y="0" z="0.80000001"/>
+            <HalfLengths x="1" y="5.2945814" z="5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="52" y="9.1915388" z="152"/>
+            <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>

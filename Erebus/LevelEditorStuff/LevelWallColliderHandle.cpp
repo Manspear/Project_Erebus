@@ -11,7 +11,7 @@ LevelWallColliderHandle::LevelWallColliderHandle()
 	this->currentCreatedColider = nullptr;
 	this->selectedHeightMap = nullptr;
 
-	col_width = 1;
+	col_width = .3f;
 	col_height = 5;
 	col_offset = 2;
 	this->resetColor = { 75,0,130 };
@@ -209,8 +209,8 @@ void LevelWallColliderHandle::createActorWithCollider(OBBCollider * collider)
 	colider = (LevelCollider*)LevelActorFactory::getInstance()->getNewComponent(LevelCollider::name);
 
 	tempActor->setTileID(tileID);
-	tempActor->setActorDisplayName("OpWall");
-	tempActor->setActorType("BestWall");
+	tempActor->setActorDisplayName("Tile" + std::to_string(tileID) + "_wallNr");
+	tempActor->setActorType("Tile" + std::to_string(tileID) + "_GenWall");
 	tempActor->setExportType(EXPORT_COLLIDER);
 	tempActor->addComponent(colider);
 	colider->adjustObbCollider(collider);
