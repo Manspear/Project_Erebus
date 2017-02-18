@@ -23,7 +23,8 @@ function UpdateSpellbook(dt)
 	for key,value in pairs(scriptsMenu) do
 		value.Update(dt)
 	end
-	if gamestate.states[GAMESTATE_GAMEPLAY].gameStarted then
+
+	if gameplayStarted then
 		gamestate.states[GAMESTATE_GAMEPLAY].Update(dt)
 	end
 end
