@@ -95,15 +95,15 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level01.lua" )
+		dofile( "Scripts/level01Optima.lua" )
 		levels[1].load()
 		levels[2].load()
 		levels[3].load()
-		levels[4].load()
-		levels[5].load()
-		levels[6].load()
-		levels[7].load()
-		levels[8].load()
+		--levels[4].load()
+		--levels[5].load()
+		--levels[6].load()
+		--levels[7].load()
+		--levels[8].load()
 		loadedGameplay = true
 	end
 
