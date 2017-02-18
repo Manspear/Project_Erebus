@@ -8262,6 +8262,272 @@ Gear.AddStaticInstance(OakTree_NoCollider135439ID.model, OakTree_NoCollider13543
 table.insert(props,OakTree_NoCollider135439ID)
 OakTree_NoCollider135439ID = nil
 
+
+local New221247ID = CreateEnemy(ENEMY_MELEE, {x=189.875, y=54.5, z=62.3125})
+New221247ID.moveSpeed = 9
+New221247ID.health = 50
+New221247ID.visionRange = 30
+
+local New222248ID = CreateEnemy(ENEMY_MELEE, {x=188.125, y=54.0938, z=57.9688})
+New222248ID.moveSpeed = 9
+New222248ID.health = 50
+New222248ID.visionRange = 30
+
+local New223249ID = CreateEnemy(ENEMY_MELEE, {x=184.75, y=54.875, z=62.5625})
+New223249ID.moveSpeed = 9
+New223249ID.health = 50
+New223249ID.visionRange = 30
+
+local New224250ID = CreateEnemy(ENEMY_MELEE, {x=179.375, y=55.5938, z=70.625})
+New224250ID.moveSpeed = 9
+New224250ID.health = 50
+New224250ID.visionRange = 30
+
+local New225251ID = CreateEnemy(ENEMY_MELEE, {x=183.375, y=55.5313, z=73.875})
+New225251ID.moveSpeed = 9
+New225251ID.health = 50
+New225251ID.visionRange = 30
+
+local New226252ID = CreateEnemy(ENEMY_MELEE, {x=189.125, y=55.0625, z=67.75})
+New226252ID.moveSpeed = 9
+New226252ID.health = 50
+New226252ID.visionRange = 30
+
+local New227253ID = CreateEnemy(ENEMY_MELEE, {x=182.875, y=55.2813, z=67.875})
+New227253ID.moveSpeed = 9
+New227253ID.health = 50
+New227253ID.visionRange = 30
+
+local New228254ID = CreateEnemy(ENEMY_MELEE, {x=189.25, y=55.7188, z=81.9375})
+New228254ID.moveSpeed = 9
+New228254ID.health = 50
+New228254ID.visionRange = 30
+
+local New229255ID = CreateEnemy(ENEMY_MELEE, {x=184.25, y=55.8125, z=83.3125})
+New229255ID.moveSpeed = 9
+New229255ID.health = 50
+New229255ID.visionRange = 30
+
+local New2210256ID = CreateEnemy(ENEMY_MELEE, {x=176.75, y=56.0625, z=76.9375})
+New2210256ID.moveSpeed = 9
+New2210256ID.health = 50
+New2210256ID.visionRange = 30
+
+local New2211257ID = CreateEnemy(ENEMY_MELEE, {x=180.375, y=55.9063, z=79.4375})
+New2211257ID.moveSpeed = 9
+New2211257ID.health = 50
+New2211257ID.visionRange = 30
+
+local New2212258ID = CreateEnemy(ENEMY_MELEE, {x=193.5, y=55.4375, z=72.6875})
+New2212258ID.moveSpeed = 9
+New2212258ID.health = 50
+New2212258ID.visionRange = 30
+
+local New2213259ID = CreateEnemy(ENEMY_MELEE, {x=181.375, y=45.6563, z=231})
+New2213259ID.moveSpeed = 9
+New2213259ID.health = 50
+New2213259ID.visionRange = 30
+
+local New2214260ID = CreateEnemy(ENEMY_MELEE, {x=177.125, y=42.5, z=224.375})
+New2214260ID.moveSpeed = 9
+New2214260ID.health = 50
+New2214260ID.visionRange = 30
+
+local New2215261ID = CreateEnemy(ENEMY_MELEE, {x=175.75, y=43.875, z=233.625})
+New2215261ID.moveSpeed = 9
+New2215261ID.health = 50
+New2215261ID.visionRange = 30
+
+local New2216262ID = CreateEnemy(ENEMY_MELEE, {x=181.625, y=46.9063, z=236.25})
+New2216262ID.moveSpeed = 9
+New2216262ID.health = 50
+New2216262ID.visionRange = 30
+
+local New2217263ID = CreateEnemy(ENEMY_MELEE, {x=178.375, y=43.8125, z=228.625})
+New2217263ID.moveSpeed = 9
+New2217263ID.health = 50
+New2217263ID.visionRange = 30
+
+local New2218264ID = CreateEnemy(ENEMY_MELEE, {x=171, y=42.7188, z=238.75})
+New2218264ID.moveSpeed = 9
+New2218264ID.health = 50
+New2218264ID.visionRange = 30
+
+local New2219265ID = CreateEnemy(ENEMY_MELEE, {x=174.125, y=43.9063, z=238.375})
+New2219265ID.moveSpeed = 9
+New2219265ID.health = 50
+New2219265ID.visionRange = 30
+
+local New2220266ID = CreateEnemy(ENEMY_MELEE, {x=179.25, y=46.125, z=240.5})
+New2220266ID.moveSpeed = 9
+New2220266ID.health = 50
+New2220266ID.visionRange = 30
+
+local New2221267ID = CreateEnemy(ENEMY_MELEE, {x=169.5, y=41.3125, z=232})
+New2221267ID.moveSpeed = 9
+New2221267ID.health = 50
+New2221267ID.visionRange = 30
+
+local New2222268ID = CreateEnemy(ENEMY_MELEE, {x=164.25, y=39.0625, z=229.875})
+New2222268ID.moveSpeed = 9
+New2222268ID.health = 50
+New2222268ID.visionRange = 30
+
+local New2223269ID = CreateEnemy(ENEMY_MELEE, {x=165.875, y=41, z=237.25})
+New2223269ID.moveSpeed = 9
+New2223269ID.health = 50
+New2223269ID.visionRange = 30
+
+local New2224270ID = CreateEnemy(ENEMY_MELEE, {x=227.125, y=35.7813, z=155.625})
+New2224270ID.moveSpeed = 9
+New2224270ID.health = 50
+New2224270ID.visionRange = 30
+
+local New2225271ID = CreateEnemy(ENEMY_MELEE, {x=221.125, y=35.8125, z=161.625})
+New2225271ID.moveSpeed = 9
+New2225271ID.health = 50
+New2225271ID.visionRange = 30
+
+local New2226272ID = CreateEnemy(ENEMY_MELEE, {x=228, y=36.125, z=163.25})
+New2226272ID.moveSpeed = 9
+New2226272ID.health = 50
+New2226272ID.visionRange = 30
+
+local New2227273ID = CreateEnemy(ENEMY_MELEE, {x=231.375, y=35.7188, z=154.375})
+New2227273ID.moveSpeed = 9
+New2227273ID.health = 50
+New2227273ID.visionRange = 30
+
+local New2228274ID = CreateEnemy(ENEMY_MELEE, {x=238.125, y=35.5938, z=152.75})
+New2228274ID.moveSpeed = 9
+New2228274ID.health = 50
+New2228274ID.visionRange = 30
+
+local New2229275ID = CreateEnemy(ENEMY_MELEE, {x=242.875, y=35.875, z=150.875})
+New2229275ID.moveSpeed = 9
+New2229275ID.health = 50
+New2229275ID.visionRange = 30
+
+local New2230276ID = CreateEnemy(ENEMY_MELEE, {x=241.625, y=36.1875, z=144.5})
+New2230276ID.moveSpeed = 9
+New2230276ID.health = 50
+New2230276ID.visionRange = 30
+
+local New2231277ID = CreateEnemy(ENEMY_MELEE, {x=226, y=35.9688, z=166.25})
+New2231277ID.moveSpeed = 9
+New2231277ID.health = 50
+New2231277ID.visionRange = 30
+
+local New2232278ID = CreateEnemy(ENEMY_MELEE, {x=284.75, y=58.8438, z=244.25})
+New2232278ID.moveSpeed = 9
+New2232278ID.health = 50
+New2232278ID.visionRange = 30
+
+local New2233279ID = CreateEnemy(ENEMY_MELEE, {x=279.25, y=59.1563, z=245.625})
+New2233279ID.moveSpeed = 9
+New2233279ID.health = 50
+New2233279ID.visionRange = 30
+
+local New2234280ID = CreateEnemy(ENEMY_MELEE, {x=275, y=59.2188, z=241})
+New2234280ID.moveSpeed = 9
+New2234280ID.health = 50
+New2234280ID.visionRange = 30
+
+local New2235281ID = CreateEnemy(ENEMY_MELEE, {x=269.5, y=58.9063, z=245.375})
+New2235281ID.moveSpeed = 9
+New2235281ID.health = 50
+New2235281ID.visionRange = 30
+
+local New2236282ID = CreateEnemy(ENEMY_MELEE, {x=266.5, y=59.0313, z=239.625})
+New2236282ID.moveSpeed = 9
+New2236282ID.health = 50
+New2236282ID.visionRange = 30
+
+local New2237283ID = CreateEnemy(ENEMY_MELEE, {x=270.5, y=58.9688, z=239})
+New2237283ID.moveSpeed = 9
+New2237283ID.health = 50
+New2237283ID.visionRange = 30
+
+local New2238284ID = CreateEnemy(ENEMY_MELEE, {x=280.5, y=58.9688, z=240.625})
+New2238284ID.moveSpeed = 9
+New2238284ID.health = 50
+New2238284ID.visionRange = 30
+
+local New2239285ID = CreateEnemy(ENEMY_MELEE, {x=284, y=58.5938, z=238.75})
+New2239285ID.moveSpeed = 9
+New2239285ID.health = 50
+New2239285ID.visionRange = 30
+
+local New2240286ID = CreateEnemy(ENEMY_MELEE, {x=350, y=36.9375, z=151.5})
+New2240286ID.moveSpeed = 9
+New2240286ID.health = 50
+New2240286ID.visionRange = 30
+
+local New2241287ID = CreateEnemy(ENEMY_MELEE, {x=349.25, y=36.5313, z=158.625})
+New2241287ID.moveSpeed = 9
+New2241287ID.health = 50
+New2241287ID.visionRange = 30
+
+local New2242288ID = CreateEnemy(ENEMY_MELEE, {x=357.75, y=36.5, z=164.875})
+New2242288ID.moveSpeed = 9
+New2242288ID.health = 50
+New2242288ID.visionRange = 30
+
+local New2243289ID = CreateEnemy(ENEMY_MELEE, {x=361.25, y=36.1875, z=157.875})
+New2243289ID.moveSpeed = 9
+New2243289ID.health = 50
+New2243289ID.visionRange = 30
+
+local New2244290ID = CreateEnemy(ENEMY_MELEE, {x=364.25, y=36.25, z=150.625})
+New2244290ID.moveSpeed = 9
+New2244290ID.health = 50
+New2244290ID.visionRange = 30
+
+local New2245291ID = CreateEnemy(ENEMY_MELEE, {x=356.75, y=36.5625, z=153.75})
+New2245291ID.moveSpeed = 9
+New2245291ID.health = 50
+New2245291ID.visionRange = 30
+
+local New2246292ID = CreateEnemy(ENEMY_MELEE, {x=353.5, y=36.9063, z=151.75})
+New2246292ID.moveSpeed = 9
+New2246292ID.health = 50
+New2246292ID.visionRange = 30
+
+local New2247293ID = CreateEnemy(ENEMY_MELEE, {x=363.5, y=36.3125, z=165.625})
+New2247293ID.moveSpeed = 9
+New2247293ID.health = 50
+New2247293ID.visionRange = 30
+
+local New2248294ID = CreateEnemy(ENEMY_MELEE, {x=366, y=35.7813, z=159.75})
+New2248294ID.moveSpeed = 9
+New2248294ID.health = 50
+New2248294ID.visionRange = 30
+
+local New2249295ID = CreateEnemy(ENEMY_MELEE, {x=361, y=37.0625, z=172.5})
+New2249295ID.moveSpeed = 9
+New2249295ID.health = 50
+New2249295ID.visionRange = 30
+
+local New2250296ID = CreateEnemy(ENEMY_MELEE, {x=355, y=37.125, z=171.75})
+New2250296ID.moveSpeed = 9
+New2250296ID.health = 50
+New2250296ID.visionRange = 30
+
+local New2251297ID = CreateEnemy(ENEMY_MELEE, {x=357.25, y=36.5313, z=161.375})
+New2251297ID.moveSpeed = 9
+New2251297ID.health = 50
+New2251297ID.visionRange = 30
+
+local New2252298ID = CreateEnemy(ENEMY_MELEE, {x=347.5, y=36.8438, z=145.625})
+New2252298ID.moveSpeed = 9
+New2252298ID.health = 50
+New2252298ID.visionRange = 30
+
+local New2253299ID = CreateEnemy(ENEMY_MELEE, {x=346.75, y=36.4375, z=139.875})
+New2253299ID.moveSpeed = 9
+New2253299ID.health = 50
+New2253299ID.visionRange = 30
+
 table.insert(level02, props)
 table.insert(level02, colliders)
 table.insert(level02, triggers)
