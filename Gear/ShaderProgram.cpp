@@ -267,7 +267,7 @@ void ShaderProgram::setUniform(float &floatValue, std::string position)
 {
 	glUniform1f(uniforms.at(position), floatValue);
 }
-void ShaderProgram::setUniform(int &intValue, std::string position)
+void ShaderProgram::setUniform(int intValue, std::string position)
 {
 	glUniform1i(uniforms.at(position), intValue);
 }

@@ -388,6 +388,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light)
 {
 	allShaders[GEOMETRYSHADOW]->use();
+
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
@@ -395,10 +396,6 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		int numInstance = 0;
 
 		//dynamicModels->at(i).material.bindTextures(allShaders[GEOMETRY]->getProgramID());
-
-		// TEMP: Shouldn't have any models without material
-		if (modelAsset->getMaterial())
-			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRYSHADOW]->getProgramID());
 
 		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
 		{
@@ -442,9 +439,6 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		ModelAsset* modelAsset = animatedModels->at(i).asset;
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
-
-		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
-		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		{

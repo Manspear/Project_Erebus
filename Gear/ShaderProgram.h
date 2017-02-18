@@ -68,7 +68,7 @@ public:
 	void setUniform4cfv(const GLfloat *matrix4x4, std::string position, int count = 1);
 	void setUniform1fv(float &vec1, std::string position, int count = 1);
 	void setUniform(float &floatValue, std::string position);
-	void setUniform(int &intValue, std::string position);
+	void setUniform(int intValue, std::string position);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }

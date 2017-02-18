@@ -31,11 +31,13 @@ void CascadedShadowMap::bind(int cascadeIndex)
 	assert(cascadeIndex < NUM_CASCADEDS);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebufferID);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureIDs[cascadeIndex], 0);
+	glViewport(0, 0, height, height);
 
 }
 
 void CascadedShadowMap::unBind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
 void CascadedShadowMap::bindTexture(ShaderProgram * shader, const char * name, GLuint textureLoc, GLuint textureid)
@@ -56,8 +58,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		sinCount += 0.0005f;
 
 		this->nearPlane = 0.5; //mainCam->getNearPlaneDistance();
-		this->farPlane = 20;//mainCam->getFarPlaneDistance();
-		pos = glm::vec3(15, 10, 148);
+		this->farPlane = 15;//mainCam->getFarPlaneDistance();
+		pos = glm::vec3(15, 7.5, 148);
 		//pos.x = 5 * sinf(sinCount) + 15;
 		//pos = mainCam->getPosition();
 		glm::vec3 direction = glm::vec3(0, 0, 1);//mainCam->getDirection();
@@ -83,7 +85,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 		if (true)
 		{
-			glm::mat4 lightM = glm::lookAt(glm::vec3(0, 0, 0), glm::vec3(0.5, -0.5, 0), glm::vec3(0, 1, 0));
+			glm::mat4 lightM;
 
 			for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
 			{
@@ -117,6 +119,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 				glm::vec3 minExtents(std::numeric_limits<float>::max());
 				glm::vec3 maxExtents(std::numeric_limits<float>::lowest());
 
+				glm::vec3 center;
+
 				for (int j = 0; j < 8; j++) {
 
 					glm::vec3 vW = glm::vec3(camInv * frustumCorners[j]);
@@ -137,16 +141,32 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 					minExtents.z = std::fmin(minExtents.z, vW.z);
 					maxExtents.z = std::fmax(maxExtents.z, vW.z);
 
+					center += vW;
 
+	
+				}
+
+				center = center / 8.0f;
+
+				glm::vec3 lightCenter = center;
+				glm::vec3 lightPos = center - light.direction;
+				glm::vec3 lightUp = glm::vec3(0, 1, 0);
+
+				lightM = glm::lookAt(lightPos, lightCenter, lightUp);
+
+				for (int j = 0; j < 8; j++) {
+
+					glm::vec3 vW = glm::vec3(camInv * frustumCorners[j]);
 					glm::vec4 frustumCorner = lightM * glm::vec4(vW, 1);
 
-					frustumMin.x = std::fmin(frustumMin.x, vW.x);
-					frustumMax.x = std::fmax(frustumMax.x, vW.x);
-					frustumMin.y = std::fmin(frustumMin.y, vW.y);
-					frustumMax.y = std::fmax(frustumMax.y, vW.y);
-					frustumMin.z = std::fmin(frustumMin.z, vW.z);
-					frustumMax.z = std::fmax(frustumMax.z, vW.z);
+					frustumMin.x = std::fmin(frustumMin.x, frustumCorner.x);
+					frustumMax.x = std::fmax(frustumMax.x, frustumCorner.x);
+					frustumMin.y = std::fmin(frustumMin.y, frustumCorner.y);
+					frustumMax.y = std::fmax(frustumMax.y, frustumCorner.y);
+					frustumMin.z = std::fmin(frustumMin.z, frustumCorner.z);
+					frustumMax.z = std::fmax(frustumMax.z, frustumCorner.z);
 				}
+
 
 				minAABB[CascadeID] = minExtents;
 				maxAABB[CascadeID] = maxExtents;
