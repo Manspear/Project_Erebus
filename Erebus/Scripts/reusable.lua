@@ -7,6 +7,9 @@ function BaseCombine(self, effect,damage)
 end
 
 function BaseCharge(self, dt)
+	if self == nil then
+		return
+	end
 	if self.chargedTime < self.maxChargeTime then 
 		self.chargedTime = self.chargedTime + dt
 	end
