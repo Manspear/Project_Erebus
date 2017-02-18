@@ -255,6 +255,7 @@ int main()
 			if( threadData.queueModels )
 				controls.update( &inputs );
 
+#if _DEBUG
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
@@ -269,6 +270,7 @@ int main()
 				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
 				engine.setDrawMode(5);
+#endif
 			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 			{
 				if (lockMouse)
