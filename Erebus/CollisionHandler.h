@@ -58,7 +58,7 @@ public:
 	//getters
 	std::string getCollisionText();
 	CollisionLayers* getCollisionLayers();
-	const std::vector<int>& getIDFromLayer(int layer);
+	const std::vector<int>& getAllIDsFromLayer(int layer);
 
 	//CollisionLayerPassThrough functions
 	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);

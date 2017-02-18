@@ -636,7 +636,7 @@ CollisionLayers* CollisionHandler::getCollisionLayers()
 	return collisionLayers;
 }
 
-const std::vector<int>& CollisionHandler::getIDFromLayer(int layer)
+const std::vector<int>& CollisionHandler::getAllIDsFromLayer(int layer)
 {
 	return this->hitboxIDSaver->operator[](layer);
 }
