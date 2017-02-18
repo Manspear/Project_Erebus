@@ -50,7 +50,7 @@ function LoadPlayer()
 	player.rayCollider = RayCollider.Create(player.transformID)
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
-	RayCollider.SetActive(player.rayCollider, true)
+	RayCollider.SetActive(player.rayCollider, false)
 	player.animationController = CreatePlayerController(player)
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
@@ -360,11 +360,19 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown(Keys.Shift) then
 			local dir = Camera.GetDirection()
-			local pos = Transform.GetPosition(player.transformID)
+			--local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
 			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+			ShowCrosshair()
+			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+			for curID = 1, #collisionIDs do
+				if collisionIDs[curID] == player2.sphereCollider:GetID() then
+					Gear.Print("Charge ready", 600, 400)
+				end
+			end
 		end
 		if Inputs.KeyReleased(Keys.Shift) then
+			HideCrosshair()
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
@@ -453,6 +461,17 @@ function PrintInfo()
 		local direction = Transform.GetLookAt(player.transformID)
 		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
 		Gear.Print(info, 120, 600, scale, color)
+
+		info = "Camera"
+		Gear.Print(info, 60, 400, scale, color)
+
+		position = Camera.GetPos()
+		info = "Position\nx:"..Round(player.position.x, 1).."\ny:"..Round(player.position.y, 1).."\nz:"..Round(player.position.z, 1)
+		Gear.Print(info, 0, 430, scale, color)
+
+		direction = Camera.GetDirection()
+		info = "Direction\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
+		Gear.Print(info, 120, 430, scale, color)
 	end
 end
 
