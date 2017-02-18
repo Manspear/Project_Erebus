@@ -15,9 +15,7 @@ function CreateCombineRay(entity)
 	local ray = {}
 	ray.transformID = Transform.Bind()
 	local rayModel = Assets.LoadModel("Models/SpellChargingICEMesh.model")
-	ray.modelIndex = Gear.AddForwardInstance(rayModel, chargeThing.transformID)
-
-	chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
+	ray.modelIndex = Gear.AddForwardInstance(rayModel, ray.transformID)
 	Gear.SetUniformLocation(ray.modelIndex, "aValue");
 	ray.caster = entity.transformID
 
@@ -25,9 +23,11 @@ function CreateCombineRay(entity)
 	ray.scale = {x = 1, y = 1, z = 1}
 	ray.pos = {x = 0, y = 0, z = 0}
 
-	function ray:FireChargeBeam(position,dt,spellElement)
+	function ray:FireChargeBeam(dt,spellElement)
 		print("fuckYes")
 	end
+
+	return ray
 end
 
 MAX_CHARGE = 1

@@ -125,6 +125,7 @@ function LoadPlayer()
 
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeEggs(player)
+	player.friendCharger = CreateCombineRay(player)
 	InitFireEffectParticles()
 end
 
@@ -356,6 +357,9 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(Keys.Shift) then
+			sElement = player.spells[player.currentSpell].element
+			player.friendCharger.FireChargeBeam(dt,sElement)
+			--player.charger:EndCharge()
 			player.isCombined = true
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
