@@ -76,7 +76,7 @@ function CreateChargeThing(entity)
 
 
 	function chargeThing:Charging(position, dt, chargePower,spellElement)
-		
+		chargeThing.particles:cast() 
 		elementalTransformID = chargeThing.transformID
 		if spellElement == FIRE then
 			Transform.ActiveControl(chargeThing.transformID2, true)
@@ -146,7 +146,6 @@ function CreateChargeThing(entity)
 		
 		chargeThing.timer = 0   
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
-		chargeThing.particles:cast() 
 	end
 
 
