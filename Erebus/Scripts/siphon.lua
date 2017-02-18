@@ -46,7 +46,9 @@ function CreateSiphon(entity)
 	spell.duration = SIPHON_CHAIN_DURATION
 	function spell:Cast()
 		if self.spamcooldown < 0 then
-			ZoomInCamera()
+			if self.owner == player then
+				ZoomInCamera()
+			end
 			self.spamming = true
 			self.spamduration = SIPHON_SPAM_DURATION
 			self.spamcooldown = SIPHON_SPAM_COOLDOWN
@@ -65,7 +67,9 @@ function CreateSiphon(entity)
 				Transform.ActiveControl(self.transformID, true)
 				self.spamming = false
 				self.duration = SIPHON_CHAIN_DURATION
-				ZoomInCamera()
+				if self.owner == player then
+					ZoomInCamera()
+				end
 			end
 		end
 	end
@@ -146,7 +150,7 @@ function CreateSiphon(entity)
 			if self.spamduration < 0 then
 				self.spamming = false
 				Transform.ActiveControl(self.transformID, false)
-				if self.isActiveSpell then
+				if self.isActiveSpell and self.owner == player then
 					ZoomOutCamera()
 				end
 			end
@@ -172,7 +176,9 @@ function CreateSiphon(entity)
 				self.chaininterval = SIPHON_CHAIN_INTERVAL
 			end
 			if self.duration < 0 then
-				ZoomOutCamera()
+				if self.owner == player then
+					ZoomOutCamera()
+				end
 				self.chained = nil
 				Transform.ActiveControl(self.transformID, false)
 				self.length = SIPHON_HITBOX_LENGTH

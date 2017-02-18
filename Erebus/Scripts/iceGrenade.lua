@@ -2,7 +2,7 @@ ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/icegrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 50
+SPEED_ICENADE = 65
 EXPLOSION_RADIUS_ICENADE = 10
 
 MIN_FALLOFF_ICENADE = 1
@@ -60,7 +60,7 @@ function CreateIceGrenade(entity)
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = chargetime / self.maxChargeTime				
-					dir.y = dir.y + 0.1
+					dir.y = dir.y + 0.2
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 
@@ -135,12 +135,15 @@ function CreateIceGrenade(entity)
 		self.combo = 100
 		self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
 		self.chargedTime = 0
-		ZoomOutCamera()
+		if self.owner == player then
+			ZoomOutCamera()
+		end
 	end
 
 	function spell:Kill(index)
 
 		if index then 
+			self.nades[index].particles:die()
 			self.nades[index].hits = {}
 			self.nades[index].type:Kill()
 			self.nades[index].alive = false
@@ -150,6 +153,7 @@ function CreateIceGrenade(entity)
 			end
 		else
 			for i = 1, #self.nades do
+				self.nades[i].particles:die()
 				self.nades[i].hits = {}
 				self.nades[i].type:Kill()
 				self.nades[i].alive = false

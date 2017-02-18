@@ -37,8 +37,8 @@ local scriptFiles =
 	"Scripts/knockbackEffect.lua"
 }
 
-local gameStarted = false
-local loadedGameplay = false
+gameplayStarted = false
+loadedGameplay = false
 
 function LoadGameplay()
 	-- run scripts
@@ -59,6 +59,7 @@ function UpdateGameplay(dt)
 	if Inputs.KeyReleased(Keys.Escape) then
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
+
 	if Inputs.KeyReleased("B") then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
@@ -86,16 +87,21 @@ function EnterGameplay()
 		dofile( "Scripts/level01.lua" )
 		levels[1].load()
 		levels[2].load()
+		levels[3].load()
+		levels[4].load()
 		loadedGameplay = true
 	end
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
-	gameStarted = true
+	Erebus.EnableControls(true)
+	player.controlsEnabled = true
+	gameplayStarted = true
 end
 
 function ExitGameplay()
+	player.controlsEnabled = false
 end
 
 return { Load = LoadGameplay, Unload = UnloadGameplay, Update = UpdateGameplay, Enter = EnterGameplay, Exit = ExitGameplay }
