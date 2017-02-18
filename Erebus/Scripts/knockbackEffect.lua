@@ -15,11 +15,15 @@ function CreateKnockbackEffect(entity, power)
 		self.direction.y =  1
 		self.fallSpeed = 3
 		self.damage = 1
-		entity.SetState(entity,"DeadState")
+		if entity.SetState then
+			entity.SetState(entity,"DeadState")
+		end
 	end
 
 	function effect:Deapply(entity)	
-		entity.SetState(entity,"FollowState")
+		if entity.SetState then
+			entity.SetState(entity,"FollowState")
+		end
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list

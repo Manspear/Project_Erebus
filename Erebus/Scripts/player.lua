@@ -333,7 +333,6 @@ function GetCombined()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
 		player.isCombined = true
-		print("i got the D please senapi")
 	end
 end
 

@@ -1,4 +1,4 @@
-GRENADE_EXPLODE_TIME = 0.05
+GRENADE_EXPLODE_TIME =0.1
 
 function CreateGrenadeType()
 	local type = {}
@@ -64,6 +64,9 @@ function CreateGrenadeType()
 						result = true
 					end
 				end
+				if collisionIDs[curID] == boss.collider:GetID() then
+					result = true
+				end
 			end
 		end
 
@@ -74,8 +77,8 @@ function CreateGrenadeType()
 		result = {} 
 		self.explodetime = self.explodetime + dt
 		local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* self.radius + 1
-		Transform.SetScale(self.transformID, scale)
-		SphereCollider.SetRadius(self.sphereCollider, scale)
+		--Transform.SetScale(self.transformID, scale)
+		--SphereCollider.SetRadius(self.sphereCollider, scale)
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
@@ -83,7 +86,7 @@ function CreateGrenadeType()
 					table.insert(result, enemies[curEnemy])
 				end
 			end
-			if collisionIDs[curID] == boss.sphereCollider:GetID() then
+			if collisionIDs[curID] == boss.collider:GetID() then
 				table.insert(result, boss)
 			end
 		end

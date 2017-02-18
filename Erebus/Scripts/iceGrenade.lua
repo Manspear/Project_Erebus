@@ -59,7 +59,7 @@ function CreateIceGrenade(entity)
 			local dir = Transform.GetLookAt(entity.transformID)
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
-					local factor = chargetime / self.maxChargeTime				
+					local factor = 0.5 / self.maxChargeTime				
 					dir.y = dir.y + 0.2
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
@@ -98,7 +98,7 @@ function CreateIceGrenade(entity)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 
-						Transform.ActiveControl(self.nades[i].type.transformID, false)
+						--Transform.ActiveControl(self.nades[i].type.transformID, false)
 						Sound.Play(ICEGRENADE_HIT_SFX, 3, self.nades[i].type.position) 
 						Sound.Stop(self.nades[i].soundID)
 					end
@@ -119,7 +119,7 @@ function CreateIceGrenade(entity)
 						end
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME-0.01 then
-						Transform.SetPosition(self.nades[i].type.transformID, {x=0,y=0,z=0})
+						--Transform.SetPosition(self.nades[i].type.transformID, {x=0,y=0,z=0})
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME then
 						self:Kill(i)
