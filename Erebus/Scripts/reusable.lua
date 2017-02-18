@@ -13,8 +13,6 @@ function BaseCharge(self, dt)
 	if self.chargedTime < self.maxChargeTime then 
 		self.chargedTime = self.chargedTime + dt
 	end
-	print(self.owner)
-	print(player)
 	if self.owner == player then
 		ZoomInCamera()
 	end
