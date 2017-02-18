@@ -22,7 +22,7 @@ function CreateFireball(entity)
 		tiny.hits = {}
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		Gear.AddForwardInstance(model, tiny.type.transformID)
-		tiny.particles = createIceGrenadeParticles()
+		tiny.particles = createFireballParticles()
 		return tiny
 	end
 	--General variables
