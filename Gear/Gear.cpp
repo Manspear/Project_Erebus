@@ -329,6 +329,11 @@ namespace Gear
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
 		//shadow.unBind();
 
+		for (int i = 0; i < shadow.getNumCascades(); i++)
+		{
+			Debugger::getInstance()->drawAABB(shadow.minAABB[i], shadow.maxAABB[i], glm::vec3(1, 0, 0));
+		}
+
 		Debugger::getInstance()->drawAABB(shadow.minAABB[0], shadow.maxAABB[0], glm::vec3(1, 0, 0));
 	/*	Debugger::getInstance()->drawAABB(shadow.minAABB[1], shadow.maxAABB[1], glm::vec3(0, 1, 0));
 		Debugger::getInstance()->drawAABB(shadow.minAABB[2], shadow.maxAABB[2], glm::vec3(0, 0, 1));*/
@@ -336,6 +341,21 @@ namespace Gear
 		Debugger::getInstance()->drawSphere(shadow.minAABB[3], 2);
 		//Debugger::getInstance()->drawSphere(shadow.minAABB[4], 2);
 		//Debugger::getInstance()->drawSphere(shadow.minAABB[5], 2);
+
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[0], shadow.frustumCornersWorld[1]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[1], shadow.frustumCornersWorld[3]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[3], shadow.frustumCornersWorld[2]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[2], shadow.frustumCornersWorld[0]);
+
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[0], shadow.frustumCornersWorld[4]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[1], shadow.frustumCornersWorld[5]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[3], shadow.frustumCornersWorld[7]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[2], shadow.frustumCornersWorld[6]);
+
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[4], shadow.frustumCornersWorld[5]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[5], shadow.frustumCornersWorld[7]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[7], shadow.frustumCornersWorld[6]);
+		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[6], shadow.frustumCornersWorld[4]);
 
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

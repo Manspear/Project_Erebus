@@ -10,7 +10,7 @@
 class CascadedShadowMap
 {
 private:
-	const static int NUM_CASCADEDS = 1;
+	const static int NUM_CASCADEDS = 3;
 	GLuint textureIDs[NUM_CASCADEDS];
 	GLuint framebufferID;
 	GLuint renderBuffer;
@@ -51,6 +51,8 @@ public:
 
 	glm::vec3 aminAABB[NUM_CASCADEDS + NUM_CASCADEDS];
 	glm::vec3 amaxAABB[NUM_CASCADEDS];
+
+	glm::vec3 frustumCornersWorld[8];
 
 	float farbound[NUM_CASCADEDS];
 

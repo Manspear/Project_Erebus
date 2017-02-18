@@ -51,20 +51,22 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 	if (true)
 	{
 
-		//pos.z = 100 * sinf(sinCount) + 50;
+		
 
-		//sinCount += 0.003f;
+		sinCount += 0.0005f;
 
-		this->nearPlane = 1; //mainCam->getNearPlaneDistance();
-		this->farPlane = 10;//mainCam->getFarPlaneDistance();
-		pos = glm::vec3(25, 10, 148);
+		this->nearPlane = 0.5; //mainCam->getNearPlaneDistance();
+		this->farPlane = 20;//mainCam->getFarPlaneDistance();
+		pos = glm::vec3(15, 10, 148);
+		//pos.x = 5 * sinf(sinCount) + 15;
 		//pos = mainCam->getPosition();
-		glm::vec3 direction = glm::vec3(1, 0, 0);//mainCam->getDirection();
+		glm::vec3 direction = glm::vec3(0, 0, 1);//mainCam->getDirection();
+		direction.x = sinf(sinCount);
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::vec3 up = glm::normalize(glm::cross(right, glm::normalize(direction)));
-		float fov = 25;//mainCam->getFov()
+		float fov = 45;//mainCam->getFov()
 
-		glm::vec3 lookat((pos + direction));
+		glm::vec3 lookat((pos - direction));
 		glm::mat4 camView = glm::lookAt(pos, lookat, up);
 		glm::mat4 view = mainCam->getViewMatrix();
 		glm::mat4 camInv = glm::inverse(camView);
@@ -86,9 +88,9 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 			for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
 			{
 				float nearHeight = tanf(glm::radians(fov / 2)) * splitPlanes[CascadeID].x;
-				float nearWidth = nearHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+				float nearWidth = nearHeight * (float)WINDOW_HEIGHT / (float)WINDOW_WIDTH;
 				float farHeight = tanf(glm::radians(fov / 2)) * splitPlanes[CascadeID].y;
-				float farWidth = farHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+				float farWidth = farHeight * (float)WINDOW_HEIGHT / (float)WINDOW_WIDTH;
 
 				float xn = nearHeight;
 				float xf = farHeight;
@@ -119,6 +121,15 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 					glm::vec3 vW = glm::vec3(camInv * frustumCorners[j]);
 
+					if (CascadeID == 0 && j < 4)
+					{
+						frustumCornersWorld[j] = vW;
+					}
+					else if (CascadeID == NUM_CASCADEDS - 1 && j >= 4)
+					{
+						frustumCornersWorld[j] = vW;
+					}
+
 					minExtents.x = std::fmin(minExtents.x, vW.x);
 					maxExtents.x = std::fmax(maxExtents.x, vW.x);
 					minExtents.y = std::fmin(minExtents.y, vW.y);
@@ -137,8 +148,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 					frustumMax.z = std::fmax(frustumMax.z, vW.z);
 				}
 
-				aminAABB[CascadeID] = minExtents;
-				amaxAABB[CascadeID] = maxExtents;
+				minAABB[CascadeID] = minExtents;
+				maxAABB[CascadeID] = maxExtents;
 
 				projectionMatrices[CascadeID] = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z, frustumMax.z);// glm::ortho<float>(-50, 50, -50, 50, -50, 50);// t_projection;
 				viewMatrices[CascadeID] = lightM;
