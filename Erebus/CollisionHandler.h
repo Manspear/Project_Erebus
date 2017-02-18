@@ -58,6 +58,7 @@ public:
 	//getters
 	std::string getCollisionText();
 	CollisionLayers* getCollisionLayers();
+	const std::vector<int>& getAllIDsFromLayer(int layer);
 
 	//CollisionLayerPassThrough functions
 	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
@@ -81,6 +82,7 @@ private:
 	std::vector<OBBCollider*> obbColliders;
 	std::vector<HitBox*> allColliders;
 	std::vector<RayCollider*> rayColliders;
+	std::vector<std::vector<int>>* hitboxIDSaver;
 	CollisionLayers* collisionLayers;
 	CollisionChecker collisionChecker;
 
@@ -93,8 +95,10 @@ private:
 	static void incrementHitboxID();
 	void initializeColors();
 	bool enabled = true;
+	const int DEFAULT_LAYER_AMOUNT = 5;
+	const int DEFAULT_LAYER = 0;
 
-	void recursiveSetID(HitBox* hitbox);
+	void recursiveSetID(HitBox* hitbox, int layer);
 
 
 

@@ -76,7 +76,9 @@ function CreateHellPillar(entity)
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then	
-			ZoomOutCamera()	
+			if self.owner == player then
+				ZoomOutCamera()	
+			end
 			self.scale = 1
 			self.cooldown, self.maxcooldown = COOLDOWN_BIG_PILLAR, COOLDOWN_BIG_PILLAR	
 			self.startUpTime = 1.5		self.finishingTime = 1.8	self.startUpScale = 6
