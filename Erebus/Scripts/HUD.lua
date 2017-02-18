@@ -11,6 +11,7 @@ local spellHeight = 40;
 local TutorialCounter = 0;
 local TutorialCounter2 = 0;
 local showHealthbar = true;
+local crosshairIsVisible = false
 
 function LoadHUD()
 	imageTextures["healthBackground"] = Assets.LoadTexture("Textures/HealthBackground.dds");
@@ -22,7 +23,7 @@ function LoadHUD()
 	imageTextures["select"] = Assets.LoadTexture("Textures/select.dds")
 	imageTextures["crosshair"] = Assets.LoadTexture("Textures/crosshair.dds")
 
-	--screenImages["crosshair"] = UI.load(620, 340, 40, 40);
+	screenImages["crosshair"] = UI.load(620, 355, 40, 40);
 
 	screenImages["healthBackground"] = UI.load(371, 680, 538, 32);
 	screenImages["healthBar"] = UI.load(405, 686, 470, 2);
@@ -126,6 +127,10 @@ function DrawHUD()
 	UI.drawImage(screenImages[2], imageTextures["number2"]);
 	UI.drawImage(screenImages[3], imageTextures["number3"]);
 
+	if crosshairIsVisible then 
+		UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"])
+	end
+
 	if SHOW_TUTORIAL_IMAGE ~= -1 then
 		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE], tutorialTexture[SHOW_TUTORIAL_IMAGE])
 	end
@@ -202,6 +207,12 @@ function hideTutorialImage2()
 	SHOW_TUTORIAL_IMAGE2 = -1
 end
 
+function ShowCrosshair()
+	crosshairIsVisible = true
+end
 
+function HideCrosshair()
+	crosshairIsVisible = false
+end
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }

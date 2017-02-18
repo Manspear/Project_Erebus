@@ -57,7 +57,8 @@ function CreateTumblethorns(entity)
 			self.cooldown = TUMBLETHORNS_COOLDOWN
 			SphereCollider.SetActive(spell.sphereCollider, true)
 			self.position = Transform.GetPosition(self.caster)
-			self.direction = Transform.GetLookAt(self.caster)
+			--self.direction = Transform.GetLookAt(self.caster)
+			self.direction = Camera.GetDirection()
 			Transform.SetLookAt(self.transformID, self.direction)
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
 			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)
@@ -97,6 +98,15 @@ function CreateTumblethorns(entity)
 		end
 	end
 
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+		if self.isActiveSpell then
+			ShowCrosshair()
+		else
+			HideCrosshair()
+		end
+	end
+
 	function spell:CheckColissions()
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()		
 		for curID = 1, #collisionIDs do
@@ -115,8 +125,9 @@ function CreateTumblethorns(entity)
 		end
 	end
 
-	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
-	spell.Change = BaseChange	spell.GetEffect = BaseGetEffect
+	spell.Charge = BaseCharge
+	spell.ChargeCast = BaseChargeCast
+	spell.GetEffect = BaseGetEffect
 	spell.Combine = BaseCombine
 	return spell
 end
