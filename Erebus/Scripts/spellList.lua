@@ -29,7 +29,7 @@ function LoadSpellbook()
 	BlackHole.spell.spellListId = 2
 	table.insert(SpellList, BlackHole)
 
-	local FireBall = {texture =  Assets.LoadTexture("Textures/fireball.png"),
+	local FireBall = {texture =  Assets.LoadTexture("Textures/fireball.dds"),
 					info = wrap("Shoot balls of fire, or charge up for a big controlable fireball.", 30, "",""),
 					spell = CreateFireball(player)
 	}
@@ -50,7 +50,7 @@ function LoadSpellbook()
 	SunRay.spell.spellListId = 5
 	table.insert(SpellList, SunRay)
 
-	local siphon = {texture =  Assets.LoadTexture("Textures/siphon.png"),
+	local siphon = {texture =  Assets.LoadTexture("Textures/siphon.dds"),
 					info = wrap("Drain life from others. Or charge up to create a chain between you and the target, that drains the targets life and hurts anybody who crosses the link", 30, "",""),
 					spell = CreateSiphon(player)
 	}
@@ -64,19 +64,19 @@ function LoadSpellbook()
 	table.insert(SpellList, polymorph)
 	polymorph.spell.spellListId = 7
 	
-	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.png"),
+	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.dds"),
 					info = wrap("Send out a rolling thornbush to hurt foes. If you miss your plant you can call it back to your position.", 30, "",""),
 					spell = CreateTumblethorns(player)
 	}
 	tumblethorns.spell.spellListId = 8
 	table.insert(SpellList, tumblethorns)
 
-	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.png"),
+	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.dds"),
 					info = wrap("Blow away anybody that bugs you!", 30, "",""),
 					spell = CreateWindknockback(player)
 	}
 	table.insert(SpellList, windknockback)
-	windknockback.spell.spellListID = 9
+	windknockback.spell.spellListId = 9
 
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
@@ -107,6 +107,9 @@ function LoadSpellbookPlayer2()
 
 	local tumblethorns = {spell = CreateTumblethorns(player2)}
 	table.insert(SpellListPlayer2, tumblethorns)
+
+	local windknockback = {spell = CreateWindknockback(player2)}
+	table.insert(SpellListPlayer2, windknockback)
 
 	LoadSpellsPlayer2()
 end

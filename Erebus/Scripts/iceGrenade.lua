@@ -2,7 +2,7 @@ ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/icegrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 50
+SPEED_ICENADE = 65
 EXPLOSION_RADIUS_ICENADE = 10
 
 MIN_FALLOFF_ICENADE = 1
@@ -56,11 +56,11 @@ function CreateIceGrenade(entity)
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
 			local pos = Transform.GetPosition(entity.transformID)
-			local dir = Transform.GetLookAt(entity.transformID)
+			local dir = Camera.GetDirection()
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
-					local factor = chargetime / self.maxChargeTime				
-					dir.y = dir.y + 0.1
+					local factor = 0.5 / self.maxChargeTime				
+					dir.y = dir.y + 0.2
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 
@@ -98,7 +98,7 @@ function CreateIceGrenade(entity)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 
-						Transform.ActiveControl(self.nades[i].type.transformID, false)
+						--Transform.ActiveControl(self.nades[i].type.transformID, false)
 						Sound.Play(ICEGRENADE_HIT_SFX, 3, self.nades[i].type.position) 
 						Sound.Stop(self.nades[i].soundID)
 					end
@@ -119,7 +119,7 @@ function CreateIceGrenade(entity)
 						end
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME-0.01 then
-						Transform.SetPosition(self.nades[i].type.transformID, {x=0,y=0,z=0})
+						--Transform.SetPosition(self.nades[i].type.transformID, {x=0,y=0,z=0})
 					end
 					if self.nades[i].type.explodetime > GRENADE_EXPLODE_TIME then
 						self:Kill(i)
@@ -135,12 +135,15 @@ function CreateIceGrenade(entity)
 		self.combo = 100
 		self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
 		self.chargedTime = 0
-		ZoomOutCamera()
+		if self.owner == player then
+			ZoomOutCamera()
+		end
 	end
 
 	function spell:Kill(index)
 
 		if index then 
+			self.nades[index].particles:die()
 			self.nades[index].hits = {}
 			self.nades[index].type:Kill()
 			self.nades[index].alive = false
@@ -150,6 +153,7 @@ function CreateIceGrenade(entity)
 			end
 		else
 			for i = 1, #self.nades do
+				self.nades[i].particles:die()
 				self.nades[i].hits = {}
 				self.nades[i].type:Kill()
 				self.nades[i].alive = false
@@ -181,12 +185,13 @@ function CreateIceGrenade(entity)
 			while again do	
 				self.simulation.direction.y = self.simulation.direction.y - self.simulation.falloff * dt
 				self.simulation.position.x = self.simulation.position.x + self.simulation.direction.x * SPEED_ICENADE * dt
-				self.simulation.position.y = self.simulation.position.y + self.simulation.direction.y * SPEED_ICENADE * dt										   
+				self.simulation.position.y = self.simulation.position.y + self.simulation.direction.y * SPEED_ICENADE * dt								   
 				self.simulation.position.z = self.simulation.position.z + self.simulation.direction.z * SPEED_ICENADE * dt		
 				if not hm or hm.asset:GetHeight(self.simulation.position.x, self.simulation.position.z) > self.simulation.position.y then
 					again = false
 				end
 			end	
+			self.simulation.position.y = self.simulation.position.y + 0.5
 			player.aim:SetPos(self.simulation.position)	
 		end
 		

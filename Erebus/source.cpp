@@ -175,11 +175,11 @@ int main()
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
-	assets.load<TextureAsset>("Textures/buttonOptions.png");
-	assets.load<TextureAsset>("Textures/buttonExit.png");
-	assets.load<TextureAsset>("Textures/buttonReturn.png");
-	assets.load<TextureAsset>("Textures/buttonFullscreenOn.png");
-	assets.load<TextureAsset>("Textures/buttonFullscreenOff.png");
+	assets.load<TextureAsset>("Textures/buttonOptions.dds");
+	assets.load<TextureAsset>("Textures/buttonExit.dds");
+	assets.load<TextureAsset>("Textures/buttonReturn.dds");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOn.dds");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOff.dds");
 	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
 	glEnable(GL_DEPTH_TEST);
@@ -255,6 +255,7 @@ int main()
 			if( threadData.queueModels )
 				controls.update( &inputs );
 
+#if _DEBUG
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
@@ -269,6 +270,7 @@ int main()
 				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
 				engine.setDrawMode(5);
+#endif
 			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 			{
 				if (lockMouse)

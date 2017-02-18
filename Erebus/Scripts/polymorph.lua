@@ -3,6 +3,7 @@ POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
 POLYMORPH_MIN_CHARGETIME = 1
+POLYMORPH_BASE_DURATION = 2
 
 function CreatePolymorph(entity)
 	--General variables
@@ -37,7 +38,7 @@ function CreatePolymorph(entity)
 
 	function spell:Cast()
 		if self.cooldown < 0 and not self.alive then		
-			self.chargedTime = POLYMORPH_DURATION
+			self.chargedTime = POLYMORPH_BASE_DURATION
 			self:GeneralCast()			
 		end
 	end
@@ -78,6 +79,15 @@ function CreatePolymorph(entity)
 					self:Kill()
 					break
 				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then -- boss collison
+				boss:Hurt(self.damage, self.owner)
+				for stuff = 1, #self.effects do
+					local effect = effectTable[self.effects[stuff]](self.chargedTime)
+					boss:Apply(effect)
+				end
+				self:Kill()
+				break
 			end
 		end					
 		if(self.lifeTime < 0) then 

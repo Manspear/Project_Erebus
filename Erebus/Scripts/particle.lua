@@ -10,14 +10,11 @@ function createFireballParticles()
 
 	function fireball.die(pos)
 		Particle.SetDead(fireball.fly)
-		Particle.SetPosition(fireball.exploda, pos)
-		Particle.SetDirection(fireball.exploda, 0, 0, 0)
-		Particle.Explode(fireball.exploda)	
+		Particle.Explode(fireball.exploda, pos)	
 	end
 
-	function fireball.update(x, y, z, mx, my, mz)
-		Particle.SetPosition(fireball.fly, x, y, z)
-		Particle.SetDirection(fireball.fly, 0, 0, 0)
+	function fireball.update(pos)
+		Particle.SetPosition(fireball.fly, pos)
 	end
 
 	return fireball
@@ -84,7 +81,8 @@ function createChargeParticles()
 
 	return charge
 end
-STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
+--STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
+STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
 function createSparklyParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
@@ -114,7 +112,7 @@ function  createTumbleParticles()
 		Particle.SetDirection(self.fly, x, y, z);
 	end
 
-	function tumbleParticles:die(pos)
+	function tumbleParticles:die()
 		Particle.SetDead(self.fly)
 	end
 

@@ -300,6 +300,16 @@ namespace Nurn
 		return result;
 	}
 
+	void NurnEngine::pushEndEventPacket(const EventPacket& packet)
+	{
+		this->packager->pushEndEventPacket(packet);
+	}
+
+	bool NurnEngine::fetchEndEventPacket(EventPacket& packet)
+	{
+		return this->packetFilter->getEndEventQueue()->pop(packet);
+	}
+
 #ifdef DEBUGGING_NETWORK
 	float NurnEngine::getPing()
 	{

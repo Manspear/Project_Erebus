@@ -24,6 +24,7 @@ namespace LuaCollision
 			{ "DrawHitboxes",		drawHitboxes },
 			{ "DeactivateAllHitboxes", deactivateAllHitboxes},
 			{ "ActivateAllHitboxes", activateAllHitboxes},
+			{ "GetIDsFromLayer", getIDsFromLayer },
 			{"Enable", enableCollisionHandler},
 			{"Disable", disableCollisionHandler},
 			{ NULL, NULL }
@@ -74,6 +75,7 @@ namespace LuaCollision
 			{ "SetMinPos",			setAABBMinPos },
 			{ "SetMaxPos",			setAABBMaxPos },
 			{ "SetPos",				setPos },
+			{ "GetID",				getID },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -321,6 +323,24 @@ namespace LuaCollision
 		{
 			lua_pushnumber( lua, ids->at(i) );
 			lua_rawseti( lua, -2, i+1 );
+		}
+
+		return 1;
+	}
+
+	int getIDsFromLayer(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 1);
+
+		int layer = (int)lua_tonumber(lua, 1);
+
+		const std::vector<int>& IDs = g_collisionHandler->getAllIDsFromLayer(layer);
+
+		lua_newtable(lua);
+		for (int i = 0; i < IDs.size(); i++)
+		{
+			lua_pushnumber(lua, IDs[i]);
+			lua_rawseti(lua, -2, i+1);
 		}
 
 		return 1;

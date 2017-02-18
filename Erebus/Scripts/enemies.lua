@@ -25,12 +25,12 @@ function CreateEnemy(type, position)
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	enemies[i].transformID = Transform.Bind()
-	enemies[i].movementSpeed = 12--math.random(5,20)
+	enemies[i].movementSpeed = 8--math.random(5,20)
 	enemies[i].maxHealth = 20
 	enemies[i].health = enemies[i].maxHealth
 	enemies[i].alive = true
 	enemies[i].effects = {}
-	enemies[i].attackCountdown = 1
+	enemies[i].attackCountdown = 0
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
@@ -47,11 +47,18 @@ function CreateEnemy(type, position)
 	enemies[i].maxActionCountDown = 3
 	enemies[i].actionCountDown = 3
 
+	enemies[i].animationState = 1
+	enemies[i].range = 4
+	enemies[i].target = nil
+
 	enemies[i].playerTarget = nil
 
 	enemies[i].animationState = 1
 	enemies[i].range = 4
-	enemies[i].target = nil
+
+	enemies[i].whatEver = 0
+
+	enemies[i].tempVariable = 0
 
 	enemies[i].Hurt = function(self, damage, source)
 		local pos = Transform.GetPosition(self.transformID)
@@ -84,11 +91,16 @@ function CreateEnemy(type, position)
 
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
+
+		if self.stateName == "LeapState" or self.stateName == "AttackState" then
+			enemyManager.actionEnemy = enemyManager.actionEnemy -1
+		end
 		
 		self.health = 0
 		self.alive = false
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)
+		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
 			inState = "DeadState" 
@@ -136,9 +148,7 @@ function CreateEnemy(type, position)
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
-	enemies[i].animationState = 1
-	enemies[i].range = 4
-	enemies[i].target = nil
+
 
 
 
@@ -183,20 +193,16 @@ function UpdateEnemies(dt)
 
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0 then
-		--print ("Clear")
-		
 		COUNTDOWN = 0.4
-		--print("INNER: ",player.nrOfInnerCircleEnemies)
-		--print("OUTER: ",player.nrOfOuterCircleEnemies)
-
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			
-			AI.ClearMap(enemies[i].lastPos,0)
-			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
-			AI.AddIP(enemies[i].transformID,-1,0)
-			calculatePlayerTarget(enemies[i])
+			if enemies[i].health >0 then
+				AI.ClearMap(enemies[i].lastPos,0)
+				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
+				AI.AddIP(enemies[i].transformID,-1,0)
+				calculatePlayerTarget(enemies[i])
+			end
 		end
 		AI.ClearMap(player.lastPos,0)
 		player.lastPos = Transform.GetPosition(player.transformID)

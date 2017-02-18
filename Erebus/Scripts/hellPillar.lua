@@ -17,7 +17,6 @@ function CreateHellPillar(entity)
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
 	spell.chargedTime = 0	
-	spell.Charge = BaseCharge
 	spell.cooldown = 0
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
@@ -38,7 +37,7 @@ function CreateHellPillar(entity)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
 	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
-	Gear.AddBlendingInstance(model, spell.transformID)
+	spell.modelIndex = Gear.AddBlendingInstance(model, spell.transformID)
 	--Gear.AddForwardInstance(model, spell.transformID)
 
 	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
@@ -59,7 +58,10 @@ function CreateHellPillar(entity)
 	Gear.AddForwardInstance(model, spell.firstModel)
 
 	function spell:Cast()
-		if self.cooldown < 0 then	
+		if self.cooldown < 0 then		
+			if self.isActiveSpell then
+				self:Aim()
+			end
 			self.cooldown, self.maxcooldown = COOLDOWN_SMALL_PILLAR, COOLDOWN_SMALL_PILLAR	
 			self.startUpTime = 0.5		self.finishingTime = 1.0	self.startUpScale = 3
 			self.startUp = true
@@ -74,7 +76,9 @@ function CreateHellPillar(entity)
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then	
-			ZoomOutCamera()	
+			if self.owner == player then
+				ZoomOutCamera()	
+			end
 			self.scale = 1
 			self.cooldown, self.maxcooldown = COOLDOWN_BIG_PILLAR, COOLDOWN_BIG_PILLAR	
 			self.startUpTime = 1.5		self.finishingTime = 1.8	self.startUpScale = 6
@@ -149,8 +153,16 @@ function CreateHellPillar(entity)
 						local effect = effectTable[self.effects[i]](self.owner)
 						enemies[curEnemy]:Apply(effect)
 					end	
-				end
 					Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
+				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then --boss collision
+				boss:Hurt(self.damage, owner)
+				for i = 1, #self.effects do
+					local effect = effectTable[self.effects[i]](self.owner)
+					boss:Apply(effect)
+				end	
+				Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
 			end
 		end		
 		self.startUp = false
@@ -198,7 +210,7 @@ function CreateHellPillar(entity)
 		self.aimPos = {x = aPos.x + lookAt.x *10, y = 0, z = aPos.z + lookAt.z *10 }
 		local hm = GetHeightmap(self.aimPos)
 		if hm then
-			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z)
+			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z) + 0.5
 			self.owner.aim:SetPos(self.aimPos)
 		end
 	end
@@ -212,17 +224,13 @@ function CreateHellPillar(entity)
 		return self.effects[1]
 	end
 
-	function spell:Combine(effect,damage)
-		if #self.effects < 2 then
-			table.insert(self.effects, effect)
-			self.damage = self.damage + damage
-		end
-	end
 	function spell:Kill() 
 		Transform.ActiveControl(self.owner.aim.transformID, false) 
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
 	end
+	spell.Combine = BaseCombine		spell.Charge = BaseCharge
+	spell.GettEffect = BaseGetEffect
 	return spell
 end

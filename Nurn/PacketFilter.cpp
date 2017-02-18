@@ -20,6 +20,7 @@ PacketFilter::PacketFilter()
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
 	this->dashQueue = new PacketQueue<DashPacket>(5);
+	this->endEventQueue = new PacketQueue<EventPacket>(10);
 }
 
 PacketFilter::~PacketFilter()
@@ -84,6 +85,11 @@ PacketFilter::~PacketFilter()
 		delete this->dashQueue;
 		this->dashQueue = 0;
 	}
+	if (this->endEventQueue)
+	{
+		delete this->endEventQueue;
+		this->endEventQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -140,6 +146,9 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				case DASH_PACKET:
 					this->dashQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of dashPacket data to the correct queue
 					break;
+				case END_EVENT_PACKET:
+					this->endEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of dashPacket data to the correct queue
+					break;
 
 #ifdef DEBUGGING_NETWORK
 				case PING_PACKET:
@@ -171,7 +180,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 #endif
 				default:
-					printf("KERNEL PANIC!!\n");
+					std::cout << "Network subpacket not recognized" << std::endl; // RIP kernel panic
 			}
 			bytesRead += metaDataPacket.metaData.sizeInBytes;
 		}
@@ -236,4 +245,9 @@ PacketQueue<AIHealthPacket> * PacketFilter::getAIHealthQueue()
 PacketQueue<DashPacket> * PacketFilter::getDashQueue()
 {
 	return this->dashQueue;
+}
+
+PacketQueue<EventPacket> * PacketFilter::getEndEventQueue()
+{
+	return this->endEventQueue;
 }

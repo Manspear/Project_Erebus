@@ -91,6 +91,9 @@ namespace Nurn
 
 		NURN_API void pushDashPacket(const DashPacket& packet);
 		NURN_API bool fetchDashPacket(DashPacket& packet);
+
+		NURN_API void pushEndEventPacket(const EventPacket& packet);
+		NURN_API bool fetchEndEventPacket(EventPacket& packet);
 		
 #ifdef DEBUGGING_NETWORK
 		NURN_API float getPing();

@@ -37,8 +37,8 @@ local scriptFiles =
 	"Scripts/knockbackEffect.lua"
 }
 
-local gameStarted = false
-local loadedGameplay = false
+gameplayStarted = false
+loadedGameplay = false
 
 function LoadGameplay()
 	-- run scripts
@@ -59,7 +59,8 @@ function UpdateGameplay(dt)
 	if Inputs.KeyReleased(Keys.Escape) then
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
-	if Inputs.KeyReleased("B") then
+
+	if Inputs.KeyReleased("B") and not player.charging then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 
@@ -74,6 +75,17 @@ function UpdateGameplay(dt)
 	if SETTING_DEBUG then 
 		CollisionHandler.DrawHitboxes()
 	end
+	
+	
+	local newEndEventValue, endEventId = Network.GetEndEventPacket()
+	if newEndEventValue == true then
+		if endEventId == 0 then -- other player died
+			gamestate.ChangeState(GAMESTATE_DEATH)
+		elseif endEventId == 1 then -- other player quit to main menu
+			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
+			Erebus.ShutdownNetwork()
+		end
+	end
 end
 
 function EnterGameplay()
@@ -84,16 +96,23 @@ function EnterGameplay()
 		end
 
 		dofile( "Scripts/level01.lua" )
+		levels[1].load()
+		levels[2].load()
+		levels[3].load()
+		levels[4].load()
 		loadedGameplay = true
 	end
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
-	gameStarted = true
+	Erebus.EnableControls(true)
+	player.controlsEnabled = true
+	gameplayStarted = true
 end
 
 function ExitGameplay()
+	player.controlsEnabled = false
 end
 
 return { Load = LoadGameplay, Unload = UnloadGameplay, Update = UpdateGameplay, Enter = EnterGameplay, Exit = ExitGameplay }

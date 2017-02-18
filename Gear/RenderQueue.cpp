@@ -327,6 +327,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
 		modelAsset = dynamicModels->at(i).asset;
+		if (modelAsset == nullptr)continue;
 		meshes = modelAsset->getHeader()->numMeshes;
 		numInstance = 0;
 		// TEMP: Shouldn't have any models without material
