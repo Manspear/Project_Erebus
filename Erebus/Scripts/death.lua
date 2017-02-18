@@ -30,6 +30,7 @@ end
 
 function EnterDeath()
 	--Gear.QueueModels(false)
+	Network.SendEndEventPacket(0) -- 0 is death event
 	if SETTING_DEBUG then 
 		CollisionHandler.Enable()
 	else
