@@ -299,17 +299,17 @@ function UpdatePlayer(dt)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
-		if v.collider:CheckCollision() then
+		if v:CheckCollision() then
 			if not v.triggered then
 				if v.OnEnter then
 					v.OnEnter()
 				else
-					v.OnTrigger(dt)
+					v.OnTriggering(dt)
 				end
 
 				v.triggered = true
 			else
-				v.OnTrigger(dt)
+				v.OnTriggering(dt)
 			end
 		else
 			if v.triggered then
