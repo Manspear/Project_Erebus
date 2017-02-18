@@ -171,7 +171,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 #endif
 				default:
-					printf("KERNEL PANIC!!\n");
+					std::cout << "Network subpacket not recognized" << std::endl; // RIP kernel panic
 			}
 			bytesRead += metaDataPacket.metaData.sizeInBytes;
 		}

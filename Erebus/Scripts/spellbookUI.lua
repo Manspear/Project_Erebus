@@ -52,10 +52,15 @@ end
 function UpdateSpellbookUI(dt)
 
 	DrawSpellbookUI()
+	if Inputs.KeyReleased("B") then -- Close the book with B
+		Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
+		gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+	end
+
+
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
-		if UI.mousePick(screenImages["back"], x,y) then
-				print(player.spells[1].spellListId .. "  ".. player.spells[2].spellListId .. "  "..  player.spells[3].spellListId)
+		if UI.mousePick(screenImages["back"], x,y) then -- Close the book with mouse
 				Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
 				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
