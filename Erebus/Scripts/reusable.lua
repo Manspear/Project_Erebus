@@ -1,5 +1,5 @@
 MAX_FIRE_EFFECT_PARTICLES = 50
-function BaseCombine(effect,damage)
+function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
 		self.damage = self.damage + damage

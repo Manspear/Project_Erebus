@@ -69,10 +69,8 @@ function CreateChargeThing(entity)
 		chargeThing.pos.y = chargeThing.pos.y - 1
 
 		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (2) * dt
-		Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
-		
-	
-		end
+		Transform.SetRotation(elementalTransformID, self.rotSmall) --changed	
+	end
 
 
 	function chargeThing:Charging(position, dt, chargePower,spellElement)
@@ -123,6 +121,7 @@ function CreateChargeThing(entity)
 
 			Transform.SetScaleNonUniform(elementalTransformID, chargeThing.scaleLarge.x,chargeThing.scaleLarge.y,chargeThing.scaleLarge.z)
 			Transform.SetPosition(elementalTransformID, chargeThing.pos)
+			print("Tja")
 			chargeThing.particles:update(chargeThing.pos) 
 			local daPower = math.min(chargePower, MAX_CHARGE)
 			chargeThing.rotLarge.y = chargeThing.rotLarge.y + 5 * dt
@@ -142,8 +141,7 @@ function CreateChargeThing(entity)
 	end
 
 
-	function chargeThing:StartCharge(position) 
-		
+	function chargeThing:StartCharge(position) 	
 		chargeThing.timer = 0   
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
 		chargeThing.particles:cast() 
