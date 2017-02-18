@@ -69,7 +69,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		LevelActorHandler::getInstance()->changeDisplayHitbox();
 	}
 
-	if (inputs->keyPressedThisFrame(GLFW_KEY_W)) {
+	if (inputs->keyPressedThisFrame(GLFW_KEY_Q)) {
 		gizmo.setGizmoMode(GizmoMode::POSITION);
 	}
 	if (inputs->keyPressedThisFrame(GLFW_KEY_E)) {

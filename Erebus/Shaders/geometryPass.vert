@@ -23,8 +23,7 @@ void main(){
 	FragPos = (worldMatrix * vec4(position,1.0)).xyz;
 	TexCoords = texCoords * vec2(1,-1);
 
-	mat3 normalMatrix = transpose(inverse(mat3(worldMatrix)));
-    Normal = normalMatrix * normal;
+    Normal = (mat3(worldMatrix) * normal).xyz;
 
 	vec3 T = normalize(vec3(worldMatrix * vec4(tangent, 0.0))); //calculate TBN matrix
 

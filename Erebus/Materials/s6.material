@@ -2,6 +2,6 @@ Ambient color: 0.000000 0.000000 0.000000
 Diffuse color: 1.000000 1.000000 1.000000
 Specular color: 0.500000 0.500000 0.500000
 Shiny factor: 300.000000
-Diffuse texture: s6_color.png
+Diffuse texture: s6_color.dds
 Specular texture: NOTEXTURE
-Normal texture: s6_normals.png
+Normal texture: s6_normals.dds
