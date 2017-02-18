@@ -323,8 +323,11 @@ end
 
 function SendCombine(spell)
 	--TOBEDEFINED
-	player2.isCombined = true
-	Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+	if player2.charging == true then
+		player2.isCombined = true
+		player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
+		Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+	end
 end
 
 function GetCombined()
@@ -332,7 +335,6 @@ function GetCombined()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
 		player.isCombined = true
-		print("i got the D please senapi")
 	end
 end
 
@@ -367,7 +369,6 @@ function Controls(dt)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
 					SendCombine(player.spells[player.currentSpell])
-					print("combine!!")
 					break
 				end
 			end
@@ -455,7 +456,6 @@ function PrintInfo()
 	end
 end
 
-local isPlayer2Charging = false
 function UpdatePlayer2(dt)
 	if player2.ping > 0 then
 		player2.ping = player2.ping - dt;
@@ -491,17 +491,17 @@ function UpdatePlayer2(dt)
 		else
 			if shouldCast == false then
 				player2.charger:StartCharge(player2.position)
-				isPlayer2Charging = true
+				player2.charging = true
 			else
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
 				player2.charger:EndCharge()
-				isPlayer2Charging = false
+				player2.charging = false
 				player2.isCombined = false
 			end
 		end
 	end
 	
-	if isPlayer2Charging == true then
+	if player2.charging == true then
 		player2.spells[player2.currentSpell]:Charge(dt)
 
 		local spellElement = player2.spells[player2.currentSpell].element
