@@ -25,6 +25,17 @@ function CreateCombineRay(entity)
 
 	function ray:FireChargeBeam(dt,spellElement)
 		print("fuckYes")
+		Transform.ActiveControl(ray.transformID, true)
+		ray.pos = Transform.GetPosition(ray.caster)
+
+		Transform.SetPosition(ray.transformID, ray.pos)
+
+		Transform.SetScaleNonUniform(ray.transformID, 1,1,1) --det här gäller bara den första
+		ray.pos = Transform.GetPosition(ray.caster)
+		--ray.pos.y = ray.pos.y - 1
+
+		
+		--Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
 	end
 
 	return ray
