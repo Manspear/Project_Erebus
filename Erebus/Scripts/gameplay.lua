@@ -60,9 +60,9 @@ function UpdateGameplay(dt)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
-	if Inputs.KeyReleased("B") and not player.charging then
-		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
-	end
+	--if Inputs.KeyReleased("B") and not player.charging then
+		--gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+	--end
 
 	if player.health <= 0 then
 		gamestate.ChangeState(GAMESTATE_DEATH)

@@ -77,6 +77,31 @@ Transform.SetRotation(tile13ID.transformID, {x=0, y=0, z=0})
 table.insert(props,tile13ID)
 tile13ID = nil
 
+spellbook = {}
+spellbook.transformID = Transform.Bind()
+spellbook.model = Assets.LoadModel("Models/SignPost.model")
+Gear.AddStaticInstance(spellbook.model, spellbook.transformID)
+Transform.SetPosition(spellbook.transformID, {x=50,y=9,z=150})
+Transform.SetRotation(spellbook.transformID, {x=0,y=4,z=0})
+Transform.SetScale(spellbook.transformID, 4)
+spellbook.collider = SphereCollider.Create(spellbook.transformID)
+spellbook.collider:SetRadius(4)
+spellbook.collider:SetOffset(-1,0,-1)
+
+spellbook.collider.OnTriggering = function(dt)
+	if player.controlsEnabled then
+		Gear.Print("Press B to open the spellbook", 402, 360)
+		
+		if Inputs.KeyReleased("B") then
+			gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		end
+	end
+end
+
+spellbook.collider.triggered = false
+table.insert(triggers, spellbook.collider)
+CollisionHandler.AddSphere(spellbook.collider, 4)
+
 TileSettings4ID = {}
 Transform.SetPosition(player.transformID, {x=32.9063, y=7.48828, z=145.625})
 player:ChangeHeightmap(heightmaps[1])
