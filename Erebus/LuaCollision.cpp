@@ -75,6 +75,7 @@ namespace LuaCollision
 			{ "SetMinPos",			setAABBMinPos },
 			{ "SetMaxPos",			setAABBMaxPos },
 			{ "SetPos",				setPos },
+			{ "GetID",				getID },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};

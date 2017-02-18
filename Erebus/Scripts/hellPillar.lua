@@ -153,8 +153,16 @@ function CreateHellPillar(entity)
 						local effect = effectTable[self.effects[i]](self.owner)
 						enemies[curEnemy]:Apply(effect)
 					end	
-				end
 					Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
+				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then --boss collision
+				boss:Hurt(self.damage, owner)
+				for i = 1, #self.effects do
+					local effect = effectTable[self.effects[i]](self.owner)
+					boss:Apply(effect)
+				end	
+				Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
 			end
 		end		
 		self.startUp = false

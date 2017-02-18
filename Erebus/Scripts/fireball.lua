@@ -84,6 +84,10 @@ function CreateFireball(entity)
 							self:SpamFireball(i)
 						end
 					end
+					if collisionIDs[curID] == boss.collider:GetID() then
+						boss:Hurt(self.smallFB[i].damage, self.owner)
+						self:SpamFireball(i)
+					end
 				end
 				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
 				if(self.smallFB[i].lifeTime < 0) then 
@@ -165,6 +169,10 @@ function CreateFireball(entity)
 					return
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				self:EngageExplode()
+				return
+			end
 		end		
 	end
 
@@ -196,6 +204,16 @@ function CreateFireball(entity)
 						end
 					end
 					self.enemiesHit[enemies[curEnemy].transformID] = true
+				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)
+					for stuff = 1, #self.effects do
+						local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
+						boss:Apply(effect)
+					end
+					self.enemiesHit[boss.transformID] = true
 				end
 			end
 		end			

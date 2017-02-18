@@ -83,6 +83,9 @@ function CreateSiphon(entity)
 					break
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				hit = boss
+			end
 		end
 
 		return hit
@@ -170,6 +173,13 @@ function CreateSiphon(entity)
 								local effect = effectTable[self.effects[i]](self.owner, 3)
 								enemies[curEnemy]:Apply(effect)
 							end
+						end
+					end
+					if collisionIDs[curID] == boss.collider:GetID() then
+						boss:Hurt(self.damage, self.owner)
+						for i = 1, #self.effects do
+							local effect = effectTable[self.effects[i]](self.owner, 3)
+							boss:Apply(effect)
 						end
 					end
 				end

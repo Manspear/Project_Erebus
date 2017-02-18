@@ -130,12 +130,22 @@ function CreateTumblethorns(entity)
 					self.enemiesHit[enemies[curEnemy].transformID] = true		
 				end
 			end	
-		
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)				
+					for stuff = 1, #self.effects do
+						local effect = effectTable[self.effects[stuff]](self.owner)
+						boss:Apply(effect)
+					end	
+					self.enemiesHit[boss.transformID] = true		
+				end
+			end
 			for curWall = 1, #realWalls do
 				if collisionIDs[curID] == realWalls[curWall] then
 					self:Kill()
 				end
 			end
+				
 		end		
 	end
 
