@@ -358,13 +358,13 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown(Keys.Shift) then
 			sElement = player.spells[player.currentSpell].element
-			player.friendCharger.FireChargeBeam(dt,sElement)
-			--player.charger:EndCharge()
-			player.isCombined = true
+			
+			--player.isCombined = true
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
 			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+			player.friendCharger:FireChargeBeam(dt,dir,sElement)
 		end
 		if Inputs.KeyReleased(Keys.Shift) then
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)

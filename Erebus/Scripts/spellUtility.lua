@@ -23,19 +23,22 @@ function CreateCombineRay(entity)
 	ray.scale = {x = 1, y = 1, z = 1}
 	ray.pos = {x = 0, y = 0, z = 0}
 
-	function ray:FireChargeBeam(dt,spellElement)
-		print("fuckYes")
-		Transform.ActiveControl(ray.transformID, true)
-		ray.pos = Transform.GetPosition(ray.caster)
-
-		Transform.SetPosition(ray.transformID, ray.pos)
-
-		Transform.SetScaleNonUniform(ray.transformID, 1,1,1) --det här gäller bara den första
-		ray.pos = Transform.GetPosition(ray.caster)
-		--ray.pos.y = ray.pos.y - 1
-
+	function ray:FireChargeBeam(dt,dir,spellElement)
 		
-		--Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
+		Transform.ActiveControl(self.transformID, true)
+		--local asd = Transform.GetPosition(self.caster)
+		--Kan jag flytta fram Beam? JA. Eller swå gör jag en ny modell.
+		local pos = Transform.GetPosition(self.caster)
+		local direction = Transform.GetLookAt(self.caster)
+		pos.x = pos.x + dir.x * 11
+		pos.y = pos.y + dir.y * 11
+		pos.z = pos.z + dir.z * 11
+
+		Transform.SetPosition(self.transformID, pos)
+		Transform.SetScaleNonUniform(self.transformID, 0.2,0.2,10) 
+		ray.pos = Transform.GetPosition(self.caster)
+		Transform.RotateToVector(self.transformID, dir)
+		
 	end
 
 	return ray
