@@ -114,8 +114,7 @@ function CreateTumblethorns(entity)
 					end				
 					self.enemiesHit[enemies[curEnemy].transformID] = true		
 				end
-			end
-			
+			end		
 			for curCollision = 1, #colliders do
 				if collisionIDs[curID] > 102 and collisionIDs[curID] < 240 then
 					self:Kill()
