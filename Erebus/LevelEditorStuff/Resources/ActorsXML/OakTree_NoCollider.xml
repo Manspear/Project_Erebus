@@ -1,0 +1,11 @@
+<LevelActor type="Trees" displayName="OakTree_NoCollider (1)" tileID="1" exportType="1">
+    <LevelModel>
+        <ModelName>OakTree1</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="20.375" y="5.0429688" z="211.625"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

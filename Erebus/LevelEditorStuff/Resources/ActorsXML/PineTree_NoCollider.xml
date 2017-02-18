@@ -1,0 +1,11 @@
+<LevelActor type="Trees" displayName="PineTree_NoCollider" tileID="1" exportType="1">
+    <LevelModel>
+        <ModelName>pineTree1</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="13.265625" y="3.5546875" z="195.25"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
