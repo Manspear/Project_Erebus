@@ -100,6 +100,10 @@ function EnterGameplay()
 		levels[2].load()
 		levels[3].load()
 		levels[4].load()
+		levels[5].load()
+		levels[6].load()
+		levels[7].load()
+		levels[8].load()
 		loadedGameplay = true
 	end
 

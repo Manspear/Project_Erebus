@@ -47,9 +47,9 @@ end
 function UpdateBoss(dt)
 	if boss.health > 0 then
 		dt = dt * boss.timeScalar
-		local hm = GetHeightmap({x=15,y=0,z=150})
+		local hm = GetHeightmap({x=460,y=0,z=156})
 		if hm then
-			Transform.SetPosition(boss.transformID, { x=14, y= hm.asset:GetHeight(14, 150)+5, z=150 })
+			Transform.SetPosition(boss.transformID, { x=460, y= hm.asset:GetHeight(460, 156)+5, z=156 })
 		end
 		pos = Transform.GetPosition(boss.transformID)
 		UI.reposWorld(boss.healthbar, pos.x, pos.y+7, pos.z)
@@ -75,7 +75,7 @@ function UpdateBoss(dt)
 			if boss.spellcooldowns[i] < 0 then
 				--print("shot")
 				boss.spellcooldowns[i] = BOSS_SPELLCD[i]
-				--boss.spells[i]:Cast(boss)
+				boss.spells[i]:Cast(boss)
 			end
 		end
 	elseif not BOSS_DEAD then
