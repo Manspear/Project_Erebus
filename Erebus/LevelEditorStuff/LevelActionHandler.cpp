@@ -8,7 +8,8 @@ const char* ACTION_NAMES[MAX_ACTIONS] =
 	"New Actor",
 	"Place Prefab",
 	"Use Brush",
-	"Gen Parent Col"
+	"Gen Parent Col",
+	"Wall Handler"
 };
 
 LevelActionHandler::LevelActionHandler()
@@ -186,8 +187,17 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 
 
 
+
+	if (action == ACTION_WALL_HANDLE)
+		LevelWallColliderHandle::getInstance()->update(inputs, debug);
+
 	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
 	{
+
+		if (action == ACTION_WALL_HANDLE) {
+			LevelWallColliderHandle::getInstance()->clicked(camera, inputs);
+		}
+		else
 		if( !holdingGizmo && !coughtHitbox)
 		{
 			int actorID = 0;
@@ -271,7 +281,6 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 						}
 							
 						this->resetAction(inputs);
-
 						
 					}
 				} 

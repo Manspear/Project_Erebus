@@ -3,8 +3,10 @@
 #include "LevelActorComponent.h"
 #include "HeightMap.h"
 #include "LevelAssetHandler.h"
+#include "..\AABBCollider.h"
 
 #define HEIGHTMAP_MAX_SURROUNDING 5
+
 
 class LevelHeightmap : public LevelActorComponent
 {
@@ -16,7 +18,46 @@ class LevelHeightmap : public LevelActorComponent
 		NUM_SIDES
 	};
 
+	enum SideDiagNames {
+		BOT_LEFT,
+		BOT_RIGHT,
+		TOP_LEFT,
+		TOP_RIGHT,
+		NUM_SIDES_DIAG
+	};
+
+	enum HeightmapBoxType {
+		BOXES_CORNERS,
+		BOXES_ALL
+	};
+
+	
+
 public:
+	class CornerObjects {
+	private:
+
+	public:
+		glm::vec2 positionInHeightmap;
+		AABBCollider* colider = nullptr;
+		glm::vec3 drawColor;
+		CornerObjects(int x, int y, LevelHeightmap* thisHeightmap) {
+			drawColor = glm::vec3(75,0,130);
+			positionInHeightmap = glm::vec2(x, y);
+
+			float height = thisHeightmap->heightmap->getHeightData(x, y) * (thisHeightmap->heightMax - thisHeightmap->heightMin) / 255.0f + thisHeightmap->heightMin;
+			glm::vec3 finalPos = glm::vec3(x, height, y) + thisHeightmap->offset + thisHeightmap->position;
+			glm::vec3 minPos = finalPos - glm::vec3(.5f);
+			glm::vec3 maxPos = finalPos + glm::vec3(.5f);
+
+			this->colider = new AABBCollider(minPos, maxPos, { 0,0,0 });
+		}
+		~CornerObjects() {
+			if (colider != nullptr)
+				delete this->colider;
+		}
+	};
+
 	LevelHeightmap();
 	~LevelHeightmap();
 
@@ -59,8 +100,15 @@ public:
 	bool isNodeGoodStartPoint(int x, int z);
 
 	float getLengthOfDirection(int x, int z, glm::vec2 dir);
+	bool isInBound(int x, int z);
+
+	std::vector<CornerObjects*> getCornerColliders();
+	void changeBoxType();
 private:
+	HeightmapBoxType boxType;
 	std::vector<glm::vec2> usedCorners;
+	std::vector<CornerObjects*> cornerColiders;
+	std::vector<CornerObjects*> allColiders;
 	static Debug* s_debugger;
 
 	bool draw;
@@ -72,4 +120,7 @@ private:
 	static int currentID;
 	int heightmapID;
 	int surrounding[HEIGHTMAP_MAX_SURROUNDING];
+
+	int maxOffsetFromDir;
 };
+

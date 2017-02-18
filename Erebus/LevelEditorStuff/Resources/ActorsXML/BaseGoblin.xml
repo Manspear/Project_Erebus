@@ -1,0 +1,16 @@
+<LevelActor type="Empty" displayName="New (2)" tileID="2" exportType="2">
+    <LevelEnemy>
+        <MoveSpeed amount="9"/>
+        <Health amount="50"/>
+        <VisionRange amount="30"/>
+    </LevelEnemy>
+    <LevelModel>
+        <ModelName>Goblin</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="224.125" y="59.90625" z="240.625"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

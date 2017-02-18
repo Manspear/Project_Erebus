@@ -232,7 +232,7 @@ bool LevelColliderGenerator::hasObbCollider(LevelActor* actor) {
 	bool hasObb = false;
 	LevelCollider* tempCol = actor->getComponent<LevelCollider>();
 	if (tempCol != nullptr) {
-		if (tempCol->getType() == ColiderType::COLLIDER_OBB)
+		if (tempCol->getType() == ColiderType::COLLIDER_OBB && tempCol->getBehave() != ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
 			hasObb = true;
 	}
 	return hasObb;

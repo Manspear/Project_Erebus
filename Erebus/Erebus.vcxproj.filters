@@ -165,6 +165,9 @@
     <ClCompile Include="LevelEditorStuff\LevelColliderGenerator.cpp">
       <Filter>LevelEditor\SourceLevel</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditorStuff\LevelWallColliderHandle.cpp">
+      <Filter>LevelEditor\SourceLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h">
@@ -326,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="RNG.h" />
     <ClInclude Include="LevelEditorStuff\LevelColliderGenerator.h">
+      <Filter>LevelEditor\HeaderLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditorStuff\LevelWallColliderHandle.h">
       <Filter>LevelEditor\HeaderLevel</Filter>
     </ClInclude>
   </ItemGroup>
