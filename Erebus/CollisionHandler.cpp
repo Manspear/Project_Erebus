@@ -432,6 +432,10 @@ void CollisionHandler::recursiveSetID(HitBox * hitbox)
 			this->recursiveSetID(hitbox->children->operator[](i));
 		}
 	}
+	else // we have no children, we are leaf collider. Save ID
+	{
+
+	}
 }
 
 void CollisionHandler::updateAllHitboxPos()
