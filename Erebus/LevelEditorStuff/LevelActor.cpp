@@ -153,11 +153,12 @@ std::string LevelActor::toXml()
 
 std::string LevelActor::toLua()
 {
-	//LevelCollider* testCol = getComponent<LevelCollider>();
-	//if (testCol != nullptr) {
-	//	if (testCol->getParentColider() != nullptr)
-	//		return "";
-	//}
+	
+	LevelCollider* testCol = getComponent<LevelCollider>();
+	if (testCol != nullptr) {
+		if (testCol->getParentColider() != nullptr)
+			return "";
+	}
 	using namespace std;
 	stringstream ss;
 
