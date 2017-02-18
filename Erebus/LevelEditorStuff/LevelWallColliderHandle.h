@@ -31,6 +31,8 @@ private:
 	void tweakOBBToLastCreated();
 	void createActorWithCollider(OBBCollider* collider);
 
+	std::vector<LevelActor*> recentCreatedWalls;
+
 public:
 	glm::vec3 resetColor;
 	LevelWallColliderHandle();

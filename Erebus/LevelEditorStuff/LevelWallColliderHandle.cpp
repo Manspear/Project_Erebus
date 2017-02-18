@@ -199,41 +199,6 @@ void LevelWallColliderHandle::resetSelection()
 	this->currentSelectedCorner = nullptr;
 }
 
-void LevelWallColliderHandle::update(Inputs* inputs, Debug* debug) {
-	if (inputs->keyPressedThisFrame(GLFW_KEY_R)) {
-		resetSelection();
-	}
-
-	if (inputs->keyPressedThisFrame(GLFW_KEY_B)) {
-
-		LevelActor* selectedActor = LevelActorHandler::getInstance()->getSelected();
-
-		if (selectedActor != nullptr) {
-			LevelHeightmap* heightMapComponent = selectedActor->getComponent<LevelHeightmap>();
-
-			if (heightMapComponent != nullptr) {
-				this->selectedHeightMap = heightMapComponent;
-				this->selectedHeightMap->changeBoxType();
-			}
-		}
-
-
-	}
-
-	if (currentCreatedColider != nullptr) {
-		debug->drawOBB(currentCreatedColider->getPos(),
-			currentCreatedColider->getXAxis(), currentCreatedColider->getYAxis(),
-			currentCreatedColider->getZAxis(), currentCreatedColider->getHalfLengths());
-	}
-
-	//if(this->currentSelectedCorner != nullptr && this->lastSelectedCorner != nullptr && this->currentSelectedCorner != this->lastSelectedCorner) {
-
-	   // 
-	//}
-	//if (selectedHeightMap != nullptr)
-	   // selectedHeightMap->update(1.f);
-}
-
 void LevelWallColliderHandle::createActorWithCollider(OBBCollider * collider)
 {
 	int tileID = selectedHeightMap->getHeightmapID();
@@ -255,8 +220,44 @@ void LevelWallColliderHandle::createActorWithCollider(OBBCollider * collider)
 	Transform* transformRef = tempActor->getComponent<LevelTransform>()->getTransformRef();
 	transformRef->setPos(collider->getPos());
 
-
+	this->recentCreatedWalls.push_back(tempActor);
 	LevelActorHandler::getInstance()->addActor(tempActor);
 
 
+}
+
+
+void LevelWallColliderHandle::update(Inputs* inputs, Debug* debug) {
+	if (inputs->keyPressedThisFrame(GLFW_KEY_R)) {
+		resetSelection();
+	}
+
+	if (inputs->keyPressedThisFrame(GLFW_KEY_Z)) {
+		if (this->recentCreatedWalls.size() > 0) {
+			LevelActorHandler::getInstance()->removeActor(this->recentCreatedWalls.back());
+			this->recentCreatedWalls.pop_back();
+			resetSelection();
+		}
+
+	}
+
+	if (inputs->keyPressedThisFrame(GLFW_KEY_B)) {
+
+		LevelActor* selectedActor = LevelActorHandler::getInstance()->getSelected();
+
+		if (selectedActor != nullptr) {
+			LevelHeightmap* heightMapComponent = selectedActor->getComponent<LevelHeightmap>();
+
+			if (heightMapComponent != nullptr) {
+				this->selectedHeightMap = heightMapComponent;
+				this->selectedHeightMap->changeBoxType();
+			}
+		}
+	}
+
+	if (currentCreatedColider != nullptr) {
+		debug->drawOBB(currentCreatedColider->getPos(),
+			currentCreatedColider->getXAxis(), currentCreatedColider->getYAxis(),
+			currentCreatedColider->getZAxis(), currentCreatedColider->getHalfLengths());
+	}
 }
