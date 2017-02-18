@@ -62,6 +62,8 @@ void MovementController::update()
 		{
 			normalFinal += hitNormals[i];
 		}
+		if (normalFinal != glm::vec3(0, 0, 0)) // Do not divide by zero
+			normalFinal = glm::normalize(normalFinal);
 
 		glm::vec3 proj = glm::dot( dif, normalFinal) * normalFinal;
 		glm::vec3 finalDif = dif - proj;
