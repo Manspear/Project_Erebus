@@ -31,15 +31,18 @@ function CreateCombineRay(entity)
 
 	function ray:FireChargeBeam(dt,dir,spellElement)
 		
-		local elementalTransformID = ray.transformID
+		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.transformID2, false)
+		Transform.ActiveControl(self.transformID3, false)
+
+		local elementalTransformID = self.transformID
 		if spellElement == FIRE then
-			print("FIRE!")
-			Transform.ActiveControl(ray.transformID2, true)
-			elementalTransformID = ray.transformID2
+			Transform.ActiveControl(self.transformID2, true)
+			elementalTransformID = self.transformID2
 
 		elseif spellElement == NATURE then
-			Transform.ActiveControl(ray.transformID3, true) 
-			elementalTransformID = ray.transformID3
+			Transform.ActiveControl(self.transformID3, true) 
+			elementalTransformID = self.transformID3
 		
 		else 
 			Transform.ActiveControl(ray.transformID, true)
