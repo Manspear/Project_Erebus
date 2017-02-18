@@ -75,6 +75,17 @@ function UpdateGameplay(dt)
 	if SETTING_DEBUG then 
 		CollisionHandler.DrawHitboxes()
 	end
+	
+	
+	local newEndEventValue, endEventId = Network.GetEndEventPacket()
+	if newEndEventValue == true then
+		if endEventId == 0 then -- other player died
+			gamestate.ChangeState(GAMESTATE_DEATH)
+		elseif endEventId == 1 then -- other player quit to main menu
+			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
+			Erebus.ShutdownNetwork()
+		end
+	end
 end
 
 function EnterGameplay()
