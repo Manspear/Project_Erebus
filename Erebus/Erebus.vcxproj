@@ -307,6 +307,8 @@
     <None Include="Shaders\text.vert" />
     <None Include="Shaders\textureBlending.frag" />
     <None Include="Shaders\textureBlending.vert" />
+    <None Include="Shaders\worldImage.frag" />
+    <None Include="Shaders\worldImage.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
