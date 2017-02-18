@@ -66,7 +66,7 @@ function LoadPlayer()
 	player.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
-	Particle.SetExtro(player.dashEndParticles, false)
+	Particle.SetExtro(player.dashEndParticles, true)
 
 	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
