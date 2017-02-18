@@ -35,6 +35,7 @@ function UpdatePauseMenuUI(dt)
 		end
 
 		if UI.mousePick(screenImages["exit"], x,y) then
+			Network.SendEndEventPacket(1) -- quit to menu event
 			Sound.Play("Effects/button.wav", 2)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 			Erebus.ShutdownNetwork()

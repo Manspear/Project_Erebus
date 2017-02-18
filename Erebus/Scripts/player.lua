@@ -62,6 +62,12 @@ function LoadPlayer()
 	player.pingDuration = 1
 	player.ping = 0
 
+	player.dashStartParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+	player.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+
+	Particle.SetExtro(player.dashStartParticles, false)
+	Particle.SetExtro(player.dashEndParticles, true)
+
 	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
 
@@ -124,6 +130,7 @@ function LoadPlayer()
 
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeThing(player)
+	player.friendCharger = CreateCombineRay(player)
 	InitFireEffectParticles()
 end
 
@@ -284,15 +291,17 @@ function UpdatePlayer(dt)
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
 		
+		if player.dashtime <= 0 then
+			player.invulnerable = false
+			Transform.SetScale(player.transformID, 1)
+			Network.SendDashPacket(false)
+			Particle.Explode(player.dashEndParticles,player.position)
+		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
 
-	if player.dashtime <= 0 then
-			player.invulnerable = false
-			Transform.SetScale(player.transformID, 1)
-			Network.SendDashPacket(false)
-	end
+	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
@@ -359,11 +368,15 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(Keys.Shift) then
+			sElement = player.spells[player.currentSpell].element
+			
+			--player.isCombined = true
 			local dir = Camera.GetDirection()
 			--local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
 			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
 			ShowCrosshair()
+			player.friendCharger:FireChargeBeam(dt,dir,sElement)
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
@@ -373,6 +386,7 @@ function Controls(dt)
 		end
 		if Inputs.KeyReleased(Keys.Shift) then
 			HideCrosshair()
+			player.friendCharger:EndChargeBeam()
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
@@ -403,34 +417,41 @@ function Controls(dt)
 
 		if not player.spamCasting then
 			if Inputs.ButtonDown(Buttons.Right) then
-				player.spells[player.currentSpell]:Charge(dt)
-				sElement = player.spells[player.currentSpell].element
+				if player.charging == true then
+					player.spells[player.currentSpell]:Charge(dt)
+					sElement = player.spells[player.currentSpell].element
 			
-			
-				if player.isCombined == true then
-					player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+					if player.isCombined == true then
+						player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+					else
+						player.charger:ChargeMePlease(player.position,dt,sElement)
+					end
 				else
-					player.charger:ChargeMePlease(player.position,dt,sElement)
+					if player.spells[player.currentSpell].cooldown<0 then
+						Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
+						player.charger:StartCharge(player.position) 
+						player.charging = true	
+					end		
 				end
-			
 			end
 
-			if Inputs.ButtonPressed(Buttons.Right) then 
-				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-				player.charger:StartCharge(player.position) 
-				player.charging = true			
-			end
+			--if Inputs.ButtonPressed(Buttons.Right) then 
+				
+			--end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then
-				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
-				player.spells[player.currentSpell]:ChargeCast(player)
-				player.charger:EndCharge()
-				player.charging = false
-				player.isCombined = false
+				if player.charging == true then
+					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
+					player.spells[player.currentSpell]:ChargeCast(player)
+					player.charger:EndCharge()
+					player.charging = false
+					player.isCombined = false
+				end
 			end
 		end
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
+			Particle.Explode(player.dashStartParticles, player.position)
 			Transform.SetScale(player.transformID, 0)
 			player.dashcd = DASH_COOLDOWN
 			player.dashdir.x = player.forward * 3.5

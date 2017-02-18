@@ -61,6 +61,9 @@ public:
 	void sendDashPacket(const DashPacket& packet);
 	bool fetchDashPacket(DashPacket& packet);
 
+	void sendEndEventPacket(const EventPacket& packet);
+	bool fetchEndEventPacket(EventPacket& packet);
+
 #ifdef DEBUGGING_NETWORK
 	float getPing();
 #endif
