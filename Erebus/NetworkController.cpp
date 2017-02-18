@@ -260,6 +260,16 @@ bool NetworkController::fetchDashPacket(DashPacket& packet)
 	return network.fetchDashPacket(packet);
 }
 
+void NetworkController::sendEndEventPacket(const EventPacket& packet)
+{
+	network.pushEndEventPacket(packet);
+}
+
+bool NetworkController::fetchEndEventPacket(EventPacket& packet)
+{
+	return network.fetchEndEventPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

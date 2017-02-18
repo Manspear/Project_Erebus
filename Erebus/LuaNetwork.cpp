@@ -35,6 +35,8 @@ namespace LuaNetwork
 			{ "GetAIHealthPacket", getAIHealthPacket },
 			{ "SendDashPacket", sendDashPacket },
 			{ "GetDashPacket", getDashPacket },
+			{ "SendEndEventPacket", sendEndEventPacket },
+			{ "GetEndEventPacket", getEndEventPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -480,7 +482,7 @@ namespace LuaNetwork
 
 		return 0;
 	}
-	
+
 	int getDashPacket(lua_State* lua)
 	{
 		DashPacket dashPacket;
@@ -496,6 +498,32 @@ namespace LuaNetwork
 			lua_pushboolean(lua, false);
 		}
 
+		return 2;
+	}
+
+	int sendEndEventPacket(lua_State* lua)
+	{
+		uint8_t eventId = (uint8_t)lua_tointeger(lua, 1);
+
+		g_networkController->sendEndEventPacket(EventPacket(eventId));
+
+		return 0;
+	}
+
+	int getEndEventPacket(lua_State* lua)
+	{
+		EventPacket endEventPacket;
+
+		if (g_networkController->fetchEndEventPacket(endEventPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, endEventPacket.data.eventID);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+		}
 		return 2;
 	}
 
