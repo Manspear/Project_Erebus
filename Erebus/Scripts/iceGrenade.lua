@@ -2,7 +2,7 @@ ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/icegrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 50
+SPEED_ICENADE = 65
 EXPLOSION_RADIUS_ICENADE = 10
 
 MIN_FALLOFF_ICENADE = 1
@@ -60,7 +60,7 @@ function CreateIceGrenade(entity)
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = chargetime / self.maxChargeTime				
-					dir.y = dir.y + 0.1
+					dir.y = dir.y + 0.2
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 
@@ -181,12 +181,13 @@ function CreateIceGrenade(entity)
 			while again do	
 				self.simulation.direction.y = self.simulation.direction.y - self.simulation.falloff * dt
 				self.simulation.position.x = self.simulation.position.x + self.simulation.direction.x * SPEED_ICENADE * dt
-				self.simulation.position.y = self.simulation.position.y + self.simulation.direction.y * SPEED_ICENADE * dt										   
+				self.simulation.position.y = self.simulation.position.y + self.simulation.direction.y * SPEED_ICENADE * dt								   
 				self.simulation.position.z = self.simulation.position.z + self.simulation.direction.z * SPEED_ICENADE * dt		
 				if not hm or hm.asset:GetHeight(self.simulation.position.x, self.simulation.position.z) > self.simulation.position.y then
 					again = false
 				end
 			end	
+			self.simulation.position.y = self.simulation.position.y + 0.5
 			player.aim:SetPos(self.simulation.position)	
 		end
 		

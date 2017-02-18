@@ -387,7 +387,7 @@ namespace LuaNetwork
 	{
 		uint8_t spellSlot1 = (uint8_t)lua_tointeger(lua, 1);
 		uint8_t spellSlot2 = (uint8_t)lua_tointeger(lua, 2);
-		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 2);
+		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 3);
 
 		g_networkController->sendChangeSpellsPacket(ChangeSpellsPacket(spellSlot1, spellSlot2, spellSlot3));
 
@@ -474,10 +474,9 @@ namespace LuaNetwork
 
 	int sendDashPacket(lua_State* lua)
 	{
-		uint8_t setScaleValue = (uint8_t)lua_tointeger(lua, 1);
-		bool invulnerable = (bool)lua_toboolean(lua, 2);
+		bool isDashing = (bool)lua_toboolean(lua, 1);
 
-		g_networkController->sendDashPacket(DashPacket(setScaleValue, invulnerable));
+		g_networkController->sendDashPacket(DashPacket(isDashing));
 
 		return 0;
 	}
@@ -489,17 +488,15 @@ namespace LuaNetwork
 		if (g_networkController->fetchDashPacket(dashPacket))
 		{
 			lua_pushboolean(lua, true);
-			lua_pushnumber(lua, dashPacket.data.setScaleValue);
-			lua_pushnumber(lua, dashPacket.data.invulnerable);
+			lua_pushboolean(lua, dashPacket.data.isDashing);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
-			lua_pushnumber(lua, 0);
-			lua_pushnumber(lua, 0);
+			lua_pushboolean(lua, false);
 		}
 
-		return 3;
+		return 2;
 	}
 
 	int getNetworkHost(lua_State* lua)

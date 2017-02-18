@@ -62,7 +62,7 @@ function CreateWindknockback(entity)
 		pos.y = pos.y + direction.y * 2
 		pos.z = pos.z + direction.z * 2
 		Transform.SetPosition(self.transformID, pos)
-		SphereCollider.SetActive(spell.sphereCollider, true)
+		SphereCollider.SetActive(self.sphereCollider, true)
 		Particle.SetDirection(self.particles.ID, direction.x, direction.y, direction.z);
 		self.particles:poof(pos)
 	end
@@ -94,21 +94,10 @@ function CreateWindknockback(entity)
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
+		self.chargedTime = 0
 	end
 
-	function spell:GetEffect()
-		return self.effects[1]
-	end
-
-	function spell:Aim()
-		
-	end
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
-	end
-
-	spell.Charge = BaseCharge
+	spell.Charge = BaseCharge		spell.GetEffect = BaseGetEffect
 	spell.Change = BaseChange
 	return spell
 end

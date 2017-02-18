@@ -1,4 +1,10 @@
 MAX_FIRE_EFFECT_PARTICLES = 50
+function BaseCombine(self, effect,damage)
+	if #self.effects < 2 then
+		table.insert(self.effects, effect)
+		self.damage = self.damage + damage
+	end
+end
 
 function BaseCharge(self, dt)
 	if self.chargedTime < self.maxChargeTime then 

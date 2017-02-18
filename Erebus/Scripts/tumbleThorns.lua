@@ -117,5 +117,6 @@ function CreateTumblethorns(entity)
 
 	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
 	spell.Change = BaseChange	spell.GetEffect = BaseGetEffect
+	spell.Combine = BaseCombine
 	return spell
 end

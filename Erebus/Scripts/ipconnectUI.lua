@@ -36,9 +36,13 @@ end
 function UpdateipconnectUI(dt)
 	DrawipconnectUI()
 	timeoutCounter = timeoutCounter + dt
-	if Inputs.ButtonReleased(Buttons.Left) then
+
+	local enterPressed = Inputs.KeyPressed(Keys.Enter)
+
+	if Inputs.ButtonReleased(Buttons.Left) or enterPressed then
 		x,y = Inputs.GetMousePos()
-		if UI.mousePick(screenImages["connect"], x,y) and hosting == false then
+
+		if ( UI.mousePick(screenImages["connect"], x,y ) or enterPressed ) and hosting == false then
 			if ipString == "" then
 				ipString = Network.GetIP()
 			end
