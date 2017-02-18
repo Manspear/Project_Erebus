@@ -94,10 +94,12 @@ function EnterGameplay()
 	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
 	Erebus.EnableControls(true)
+	player.controlsEnabled = true
 	gameplayStarted = true
 end
 
 function ExitGameplay()
+	player.controlsEnabled = false
 end
 
 return { Load = LoadGameplay, Unload = UnloadGameplay, Update = UpdateGameplay, Enter = EnterGameplay, Exit = ExitGameplay }
