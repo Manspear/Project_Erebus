@@ -63,6 +63,12 @@ function LoadPlayer()
 	player.ping = 0
 	player.controlsEnabled = true
 
+	player.dashStartParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+	player.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+
+	Particle.SetExtro(player.dashStartParticles, false)
+	Particle.SetExtro(player.dashEndParticles, false)
+
 	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
 
@@ -285,15 +291,17 @@ function UpdatePlayer(dt)
 		player.controller:Move(left*dt, 0, fwd*dt)
 		player.dashtime = player.dashtime - dt
 		
+		if player.dashtime <= 0 then
+			player.invulnerable = false
+			Transform.SetScale(player.transformID, 1)
+			Network.SendDashPacket(false)
+			Particle.Explode(player.dashEndParticles,player.position)
+		end
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
 
-	if player.dashtime <= 0 then
-			player.invulnerable = false
-			Transform.SetScale(player.transformID, 1)
-			Network.SendDashPacket(false)
-	end
+	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
@@ -421,6 +429,7 @@ function Controls(dt)
 		end
 
 		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
+			Particle.Explode(player.dashStartParticles, player.position)
 			Transform.SetScale(player.transformID, 0)
 			player.dashcd = DASH_COOLDOWN
 			player.dashdir.x = player.forward * 3.5
