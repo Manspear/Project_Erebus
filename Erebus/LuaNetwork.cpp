@@ -387,7 +387,7 @@ namespace LuaNetwork
 	{
 		uint8_t spellSlot1 = (uint8_t)lua_tointeger(lua, 1);
 		uint8_t spellSlot2 = (uint8_t)lua_tointeger(lua, 2);
-		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 2);
+		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 3);
 
 		g_networkController->sendChangeSpellsPacket(ChangeSpellsPacket(spellSlot1, spellSlot2, spellSlot3));
 
