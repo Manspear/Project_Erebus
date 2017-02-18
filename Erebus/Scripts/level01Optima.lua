@@ -8262,16 +8262,6 @@ Gear.AddStaticInstance(OakTree_NoCollider135439ID.model, OakTree_NoCollider13543
 table.insert(props,OakTree_NoCollider135439ID)
 OakTree_NoCollider135439ID = nil
 
-TempBridge181ID = {}
-TempBridge181ID.transformID = Transform.Bind()
-Transform.SetPosition(TempBridge181ID.transformID, {x=325.101, y=50.034, z=235.039})
-Transform.SetScaleNonUniform(TempBridge181ID.transformID, 8.39444, 2.93464, 9.8287)
-Transform.SetRotation(TempBridge181ID.transformID, {x=-0.150699, y=-0.0959616, z=-3.18155})
-TempBridge181ID.model = Assets.LoadModel('Models/Stone3.model')
-Gear.AddStaticInstance(TempBridge181ID.model, TempBridge181ID.transformID)
-table.insert(props,TempBridge181ID)
-TempBridge181ID = nil
-
 Lake182ID = {}
 Lake182ID.transformID = Transform.Bind()
 Transform.SetPosition(Lake182ID.transformID, {x=0, y=0, z=0})
@@ -8282,6 +8272,15 @@ Gear.AddStaticInstance(Lake182ID.model, Lake182ID.transformID)
 table.insert(props,Lake182ID)
 Lake182ID = nil
 
+Bridge_tile2100ID = {}
+Bridge_tile2100ID.transformID = Transform.Bind()
+Transform.SetPosition(Bridge_tile2100ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(Bridge_tile2100ID.transformID, 1, 1, 1)
+Transform.SetRotation(Bridge_tile2100ID.transformID, {x=0, y=0, z=0})
+Bridge_tile2100ID.model = Assets.LoadModel('Models/Bridge1.model')
+Gear.AddStaticInstance(Bridge_tile2100ID.model, Bridge_tile2100ID.transformID)
+table.insert(props,Bridge_tile2100ID)
+Bridge_tile2100ID = nil
 
 local New221247ID = CreateEnemy(ENEMY_MELEE, {x=189.875, y=54.5, z=62.3125})
 New221247ID.moveSpeed = 9
