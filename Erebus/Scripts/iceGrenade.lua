@@ -135,12 +135,15 @@ function CreateIceGrenade(entity)
 		self.combo = 100
 		self:Cast(entity, math.min(self.chargedTime, self.maxChargeTime))
 		self.chargedTime = 0
-		ZoomOutCamera()
+		if self.owner == player then
+			ZoomOutCamera()
+		end
 	end
 
 	function spell:Kill(index)
 
 		if index then 
+			self.nades[index].particles:die()
 			self.nades[index].hits = {}
 			self.nades[index].type:Kill()
 			self.nades[index].alive = false
@@ -150,6 +153,7 @@ function CreateIceGrenade(entity)
 			end
 		else
 			for i = 1, #self.nades do
+				self.nades[i].particles:die()
 				self.nades[i].hits = {}
 				self.nades[i].type:Kill()
 				self.nades[i].alive = false

@@ -145,6 +145,9 @@ function DrawHUD()
 		for i=1, #enemies do
 			UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
 		end
+		if boss then 
+			UI.drawWorldImage(boss.healthbar,  imageTextures["healthBar"])
+		end
 	end
 end
 

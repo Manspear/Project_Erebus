@@ -22,7 +22,7 @@ function CreateFireball(entity)
 		tiny.hits = {}
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		Gear.AddForwardInstance(model, tiny.type.transformID)
-		tiny.particles = createIceGrenadeParticles()
+		tiny.particles = createFireballParticles()
 		return tiny
 	end
 	--General variables
@@ -113,8 +113,10 @@ function CreateFireball(entity)
 		if self.bigBallActive then
 			self:EngageExplode()
 		end
-		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then	
-			ZoomOutCamera()	
+		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then
+			if self.owner == player then	
+				ZoomOutCamera()	
+			end
 			self.lifeTime = FIREBALL_LIFETIME
 			self.explodeTime = FIREBALL_EXPLODETIME	
 			self.cooldown = FIREBALL_COOLDOWN

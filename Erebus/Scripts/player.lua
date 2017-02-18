@@ -299,17 +299,17 @@ function UpdatePlayer(dt)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
-		if v.collider:CheckCollision() then
+		if v:CheckCollision() then
 			if not v.triggered then
 				if v.OnEnter then
 					v.OnEnter()
 				else
-					v.OnTrigger(dt)
+					v.OnTriggering(dt)
 				end
 
 				v.triggered = true
 			else
-				v.OnTrigger(dt)
+				v.OnTriggering(dt)
 			end
 		else
 			if v.triggered then
@@ -356,7 +356,6 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(Keys.Shift) then
-			player.isCombined = true
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
@@ -555,10 +554,14 @@ function UpdatePlayer2(dt)
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
-		print("spell1: ".. changeSpell1  .. " spell2: "..changeSpell2 .." spell3: "..changeSpell3 )
+		player2.spells[1]:Kill()
+		player2.spells[2]:Kill()
+		player2.spells[3]:Kill()
+		player2.spells[player2.currentSpell]:Change()
 		player2.spells[1] = SpellListPlayer2[changeSpell1].spell
 		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
 		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
+		player2.spells[player2.currentSpell]:Change()
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
