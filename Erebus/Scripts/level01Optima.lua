@@ -1137,15 +1137,7 @@ CollisionHandler.AddSphere(Stone3443ID.collider, 3)
 table.insert(props,Stone3443ID)
 Stone3443ID = nil
 
-WoodenFence444ID = {}
-WoodenFence444ID.transformID = Transform.Bind()
-Transform.SetPosition(WoodenFence444ID.transformID, {x=21.0573, y=6.23257, z=185.192})
-Transform.SetScaleNonUniform(WoodenFence444ID.transformID, 1, 1, 1)
-Transform.SetRotation(WoodenFence444ID.transformID, {x=-0.241361, y=0.436751, z=0})
-WoodenFence444ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
-Gear.AddStaticInstance(WoodenFence444ID.model, WoodenFence444ID.transformID)
-table.insert(props,WoodenFence444ID)
-WoodenFence444ID = nil
+
 
 Stone21445ID = {}
 Stone21445ID.transformID = Transform.Bind()
@@ -1167,15 +1159,7 @@ Gear.AddStaticInstance(Stone22446ID.model, Stone22446ID.transformID)
 table.insert(props,Stone22446ID)
 Stone22446ID = nil
 
-WoodenFence1447ID = {}
-WoodenFence1447ID.transformID = Transform.Bind()
-Transform.SetPosition(WoodenFence1447ID.transformID, {x=23.4996, y=7.19781, z=189.477})
-Transform.SetScaleNonUniform(WoodenFence1447ID.transformID, 1, 1, 1)
-Transform.SetRotation(WoodenFence1447ID.transformID, {x=-0.222826, y=-2.59994, z=-0.165259})
-WoodenFence1447ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
-Gear.AddStaticInstance(WoodenFence1447ID.model, WoodenFence1447ID.transformID)
-table.insert(props,WoodenFence1447ID)
-WoodenFence1447ID = nil
+
 
 New2448ID = {}
 New2448ID.transformID = Transform.Bind()
@@ -1187,7 +1171,7 @@ New2448ID = nil
 
 WoodenFence2449ID = {}
 WoodenFence2449ID.transformID = Transform.Bind()
-Transform.SetPosition(WoodenFence2449ID.transformID, {x=10.5605, y=4.37981, z=203.137})
+Transform.SetPosition(WoodenFence2449ID.transformID, {x=10.5605, y=3.37981, z=203.137})
 Transform.SetScaleNonUniform(WoodenFence2449ID.transformID, 1, 1, 1)
 Transform.SetRotation(WoodenFence2449ID.transformID, {x=0, y=1.8, z=0})
 WoodenFence2449ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
@@ -1197,7 +1181,7 @@ WoodenFence2449ID = nil
 
 WoodenFence3450ID = {}
 WoodenFence3450ID.transformID = Transform.Bind()
-Transform.SetPosition(WoodenFence3450ID.transformID, {x=15.6596, y=4.4214, z=201.972})
+Transform.SetPosition(WoodenFence3450ID.transformID, {x=15.6596, y=3.4214, z=201.972})
 Transform.SetScaleNonUniform(WoodenFence3450ID.transformID, 1, 1, 1)
 Transform.SetRotation(WoodenFence3450ID.transformID, {x=0, y=1.8, z=0})
 WoodenFence3450ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
@@ -1207,7 +1191,7 @@ WoodenFence3450ID = nil
 
 WoodenFence4451ID = {}
 WoodenFence4451ID.transformID = Transform.Bind()
-Transform.SetPosition(WoodenFence4451ID.transformID, {x=20.7617, y=4.72358, z=200.509})
+Transform.SetPosition(WoodenFence4451ID.transformID, {x=20.7617, y=3.72358, z=200.509})
 Transform.SetScaleNonUniform(WoodenFence4451ID.transformID, 1, 1, 1)
 Transform.SetRotation(WoodenFence4451ID.transformID, {x=0, y=1.9, z=0})
 WoodenFence4451ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
@@ -1217,7 +1201,7 @@ WoodenFence4451ID = nil
 
 WoodenFence5452ID = {}
 WoodenFence5452ID.transformID = Transform.Bind()
-Transform.SetPosition(WoodenFence5452ID.transformID, {x=25.4186, y=4.67454, z=198.239})
+Transform.SetPosition(WoodenFence5452ID.transformID, {x=25.4186, y=3.67454, z=198.239})
 Transform.SetScaleNonUniform(WoodenFence5452ID.transformID, 1, 1, 1)
 Transform.SetRotation(WoodenFence5452ID.transformID, {x=0, y=2.1, z=0})
 WoodenFence5452ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
@@ -1225,15 +1209,7 @@ Gear.AddStaticInstance(WoodenFence5452ID.model, WoodenFence5452ID.transformID)
 table.insert(props,WoodenFence5452ID)
 WoodenFence5452ID = nil
 
-WoodenFence6453ID = {}
-WoodenFence6453ID.transformID = Transform.Bind()
-Transform.SetPosition(WoodenFence6453ID.transformID, {x=26.3931, y=8.26587, z=193.64})
-Transform.SetScaleNonUniform(WoodenFence6453ID.transformID, 1, 1, 1)
-Transform.SetRotation(WoodenFence6453ID.transformID, {x=-0.37539, y=-2.51042, z=-0.240567})
-WoodenFence6453ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
-Gear.AddStaticInstance(WoodenFence6453ID.model, WoodenFence6453ID.transformID)
-table.insert(props,WoodenFence6453ID)
-WoodenFence6453ID = nil
+
 
 New3454ID = {}
 New3454ID.transformID = Transform.Bind()
@@ -1243,6 +1219,7 @@ Transform.SetRotation(New3454ID.transformID, {x=0, y=0, z=0})
 Light.addLight(37.5571, 6.02005, 197.771, 0.152941, 0.396078, 1, 9,5)
 table.insert(props,New3454ID)
 New3454ID = nil
+
 TutorialPost1229ID = {}
 TutorialPost1229ID.transformID = Transform.Bind()
 Transform.SetPosition(TutorialPost1229ID.transformID, {x=30.1035, y=6.6213, z=156.506})
