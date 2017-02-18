@@ -110,5 +110,6 @@ function CreateWindknockback(entity)
 
 	spell.Charge = BaseCharge		spell.GetEffect = BaseGetEffect
 	spell.Change = BaseChange
+	spell.Combine = BaseCombine
 	return spell
 end

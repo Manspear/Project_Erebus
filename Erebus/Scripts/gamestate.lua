@@ -53,6 +53,8 @@ function gamestate.ChangeState(newState)
 		gamestate.states[gamestate.currentState].Exit()
 	end
 
-	gamestate.currentState = newState
-	gamestate.states[gamestate.currentState].Enter()
+	if gamestate.currentState ~= newState then
+		gamestate.currentState = newState
+		gamestate.states[gamestate.currentState].Enter()
+	end
 end

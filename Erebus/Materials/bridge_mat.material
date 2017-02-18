@@ -2,6 +2,6 @@ Ambient color: 0.000000 0.000000 0.000000
 Diffuse color: 1.000000 1.000000 1.000000
 Specular color: 0.500000 0.500000 0.500000
 Shiny factor: 6.311791
-Diffuse texture: bridge_diffuse.png
+Diffuse texture: bridge_diffuse.dds
 Specular texture: bridge_spec.png
-Normal texture: bridge_normals.png
+Normal texture: bridge_normals.dds

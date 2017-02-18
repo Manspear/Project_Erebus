@@ -52,14 +52,19 @@ end
 function UpdateSpellbookUI(dt)
 
 	DrawSpellbookUI()
+	if Inputs.KeyReleased("B") then -- Close the book with B
+		Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
+		gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+	end
+
+
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
-		if UI.mousePick(screenImages["back"], x,y) then
-				print(player.spells[1].spellListId .. "  ".. player.spells[2].spellListId .. "  "..  player.spells[3].spellListId)
+		if UI.mousePick(screenImages["back"], x,y) then -- Close the book with mouse
 				Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
 				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
-
+		
 		for i=1, #screenImages do
 			if UI.mousePick(screenImages[i], x,y) then
 				selectedPlayerSpell = i
@@ -74,20 +79,27 @@ function UpdateSpellbookUI(dt)
 			end
 		end
 
+
+
 		if selectedPlayerSpell ~= -1 and selectedBookSpell ~= -1 then
-			for i=1, #player.spells do
-				if player.spells[i] ==  SpellList[selectedBookSpell].spell then
-					player.spells[i] = player.spells[selectedPlayerSpell]
-					print("changed spell: "..i.." to spell: "..selectedPlayerSpell .. " Bookspell: " .. selectedBookSpell)
-					break
+			if player.spells[selectedPlayerSpell].cooldown < 0 and SpellList[selectedPlayerSpell].spell.cooldown < 0 then
+				for i=1, #player.spells do
+					if player.spells[i] ==  SpellList[selectedBookSpell].spell and player.spells[selectedPlayerSpell].cooldown < 0 then
+						player.spells[i] = player.spells[selectedPlayerSpell]
+						print("changed spell: "..i.." to spell: "..selectedPlayerSpell .. " Bookspell: " .. selectedBookSpell)
+						break
+					end
 				end
+				player.spells[selectedPlayerSpell]:Kill()
+				player.spells[player.currentSpell]:Change()
+				player.spells[selectedPlayerSpell] = SpellList[selectedBookSpell].spell
+				player.spells[player.currentSpell]:Change()
+				selectedPlayerSpell = -1
+				selectedBookSpell = -1
+			else 
+				selectedPlayerSpell = -1
+				selectedBookSpell = -1
 			end
-			player.spells[selectedPlayerSpell]:Kill()
-			player.spells[player.currentSpell]:Change()
-			player.spells[selectedPlayerSpell] = SpellList[selectedBookSpell].spell
-			player.spells[player.currentSpell]:Change()
-			selectedPlayerSpell = -1
-			selectedBookSpell = -1
 		end
 
 	elseif Inputs.ButtonReleased(Buttons.Right) then

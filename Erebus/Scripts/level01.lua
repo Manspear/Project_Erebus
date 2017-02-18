@@ -20,14 +20,14 @@ Heightmap2 = nil
 Heightmap3 = {}
 Heightmap3.asset = Assets.LoadHeightmap("Textures/tile3_height.png")
 Heightmap3.asset:SetPosition({x=384, y=34.8782, z=128})
-Heightmap3.asset:SetHeightMultiplier(0.158469)
+Heightmap3.asset:SetHeightMultiplier(0.0707237)
 Heightmap3.surrounding = { 2, 4 }
 heightmaps[3] = Heightmap3
 Heightmap3 = nil
 Heightmap4 = {}
 Heightmap4.asset = Assets.LoadHeightmap("Textures/tile4_height.png")
 Heightmap4.asset:SetPosition({x=384, y=34.6699, z=256})
-Heightmap4.asset:SetHeightMultiplier(0.128707)
+Heightmap4.asset:SetHeightMultiplier(0.113531)
 Heightmap4.surrounding = { 3, 5 }
 heightmaps[4] = Heightmap4
 Heightmap4 = nil
@@ -69,16 +69,6 @@ level01.load = function()
 props = {}
 colliders = {}
 triggers = {}
-TilePlaceholder2ID = {}
-TilePlaceholder2ID.transformID = Transform.Bind()
-Transform.SetPosition(TilePlaceholder2ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(TilePlaceholder2ID.transformID, 1, 1, 1)
-Transform.SetRotation(TilePlaceholder2ID.transformID, {x=0, y=0, z=0})
-TilePlaceholder2ID.model = Assets.LoadModel('Models/tile_assets_placeholders.model')
-Gear.AddStaticInstance(TilePlaceholder2ID.model, TilePlaceholder2ID.transformID)
-table.insert(props,TilePlaceholder2ID)
-TilePlaceholder2ID = nil
-
 tile13ID = {}
 tile13ID.transformID = Transform.Bind()
 Transform.SetPosition(tile13ID.transformID, {x=0, y=0, z=128})
@@ -93,2013 +83,3088 @@ player:ChangeHeightmap(heightmaps[1])
 table.insert(props,TileSettings4ID)
 TileSettings4ID = nil
 
-Obb6ID = {}
-Obb6ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb6ID.transformID, {x=39.0404, y=11, z=126.919})
-Transform.SetScaleNonUniform(Obb6ID.transformID, 5, 5.5, 1.08661)
-Transform.SetRotation(Obb6ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb6ID)
-Obb6ID = nil
-
-Obb17ID = {}
-Obb17ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb17ID.transformID, {x=44.9522, y=12, z=129.392})
-Transform.SetScaleNonUniform(Obb17ID.transformID, 8.39434, 7, 0.871048)
-Transform.SetRotation(Obb17ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb17ID)
-Obb17ID = nil
-
-Obb28ID = {}
-Obb28ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb28ID.transformID, {x=51.9199, y=14, z=137.106})
-Transform.SetScaleNonUniform(Obb28ID.transformID, 13, 11, 1)
-Transform.SetRotation(Obb28ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb28ID)
-Obb28ID = nil
-
-Obb39ID = {}
-Obb39ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb39ID.transformID, {x=55.7141, y=15, z=145.031})
-Transform.SetScaleNonUniform(Obb39ID.transformID, 5.5, 12.5, 1)
-Transform.SetRotation(Obb39ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb39ID)
-Obb39ID = nil
-
-Obb410ID = {}
-Obb410ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb410ID.transformID, {x=52.078, y=13, z=152.094})
-Transform.SetScaleNonUniform(Obb410ID.transformID, 12, 9, 1)
-Transform.SetRotation(Obb410ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb410ID)
-Obb410ID = nil
-
-Obb511ID = {}
-Obb511ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb511ID.transformID, {x=43.7358, y=13, z=156.709})
-Transform.SetScaleNonUniform(Obb511ID.transformID, 9.5, 9, 1)
-Transform.SetRotation(Obb511ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb511ID)
-Obb511ID = nil
-
-OakTree12ID = {}
-OakTree12ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree12ID.transformID, {x=24.2969, y=7.51563, z=139.5})
-Transform.SetScaleNonUniform(OakTree12ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree12ID.transformID, {x=0, y=0.131111, z=0})
-OakTree12ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree12ID.model, OakTree12ID.transformID)
-table.insert(props,OakTree12ID)
-OakTree12ID = nil
-
-OakTree113ID = {}
-OakTree113ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree113ID.transformID, {x=38.165, y=9.16406, z=155.143})
-Transform.SetScaleNonUniform(OakTree113ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree113ID.transformID, {x=0, y=0.131111, z=0})
-OakTree113ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree113ID.model, OakTree113ID.transformID)
-table.insert(props,OakTree113ID)
-OakTree113ID = nil
-
-Obb614ID = {}
-Obb614ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb614ID.transformID, {x=36.7883, y=9, z=158.058})
-Transform.SetScaleNonUniform(Obb614ID.transformID, 10.3218, 5.5, 1.08522)
-Transform.SetRotation(Obb614ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb614ID)
-Obb614ID = nil
-
-Obb715ID = {}
-Obb715ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb715ID.transformID, {x=42.1897, y=10, z=164.405})
-Transform.SetScaleNonUniform(Obb715ID.transformID, 8.69166, 6, 1)
-Transform.SetRotation(Obb715ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb715ID)
-Obb715ID = nil
-
-Obb816ID = {}
-Obb816ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb816ID.transformID, {x=49.0721, y=10, z=165.871})
-Transform.SetScaleNonUniform(Obb816ID.transformID, 6.5, 7, 1)
-Transform.SetRotation(Obb816ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb816ID)
-Obb816ID = nil
-
-Obb917ID = {}
-Obb917ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb917ID.transformID, {x=55.1278, y=11, z=169.08})
-Transform.SetScaleNonUniform(Obb917ID.transformID, 10.5, 9.5, 1)
-Transform.SetRotation(Obb917ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb917ID)
-Obb917ID = nil
-
-Obb1018ID = {}
-Obb1018ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb1018ID.transformID, {x=57.658, y=12, z=175.255})
-Transform.SetScaleNonUniform(Obb1018ID.transformID, 10.5, 9.5, 1)
-Transform.SetRotation(Obb1018ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb1018ID)
-Obb1018ID = nil
-
-Obb1119ID = {}
-Obb1119ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb1119ID.transformID, {x=55.0522, y=12, z=182.172})
-Transform.SetScaleNonUniform(Obb1119ID.transformID, 10, 9, 1)
-Transform.SetRotation(Obb1119ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb1119ID)
-Obb1119ID = nil
-
-Obb1220ID = {}
-Obb1220ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb1220ID.transformID, {x=47.8056, y=12, z=186.651})
-Transform.SetScaleNonUniform(Obb1220ID.transformID, 13.5, 11.5, 1)
-Transform.SetRotation(Obb1220ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb1220ID)
-Obb1220ID = nil
-
-Obb1321ID = {}
-Obb1321ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb1321ID.transformID, {x=39.6651, y=13, z=185.369})
-Transform.SetScaleNonUniform(Obb1321ID.transformID, 11, 13.5, 1)
-Transform.SetRotation(Obb1321ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb1321ID)
-Obb1321ID = nil
-
-Obb1422ID = {}
-Obb1422ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb1422ID.transformID, {x=35.5826, y=13, z=179.492})
-Transform.SetScaleNonUniform(Obb1422ID.transformID, 12.5, 12, 1)
-Transform.SetRotation(Obb1422ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb1422ID)
-Obb1422ID = nil
-
-Obb1723ID = {}
-Obb1723ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb1723ID.transformID, {x=26.6681, y=8, z=169.626})
-Transform.SetScaleNonUniform(Obb1723ID.transformID, 4.5, 6, 1)
-Transform.SetRotation(Obb1723ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb1723ID)
-Obb1723ID = nil
-
-Obb2024ID = {}
-Obb2024ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2024ID.transformID, {x=22.3577, y=8, z=175.096})
-Transform.SetScaleNonUniform(Obb2024ID.transformID, 4, 9, 1)
-Transform.SetRotation(Obb2024ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2024ID)
-Obb2024ID = nil
-
-Obb2125ID = {}
-Obb2125ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2125ID.transformID, {x=23.4884, y=8, z=178.927})
-Transform.SetScaleNonUniform(Obb2125ID.transformID, 4.5111, 9, 1.13998)
-Transform.SetRotation(Obb2125ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2125ID)
-Obb2125ID = nil
-
-Obb2226ID = {}
-Obb2226ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2226ID.transformID, {x=28.5969, y=8, z=185.441})
-Transform.SetScaleNonUniform(Obb2226ID.transformID, 12.5, 11.5, 1)
-Transform.SetRotation(Obb2226ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2226ID)
-Obb2226ID = nil
-
-Obb2327ID = {}
-Obb2327ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2327ID.transformID, {x=34.4504, y=9, z=191.759})
-Transform.SetScaleNonUniform(Obb2327ID.transformID, 5.22974, 11.5, 0.968994)
-Transform.SetRotation(Obb2327ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2327ID)
-Obb2327ID = nil
-
-Obb1628ID = {}
-Obb1628ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb1628ID.transformID, {x=29.6417, y=8, z=168.466})
-Transform.SetScaleNonUniform(Obb1628ID.transformID, 2.8098, 10, 1)
-Transform.SetRotation(Obb1628ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb1628ID)
-Obb1628ID = nil
-
-Obb2429ID = {}
-Obb2429ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2429ID.transformID, {x=20.0467, y=10, z=140.246})
-Transform.SetScaleNonUniform(Obb2429ID.transformID, 7.14175, 6.5, 1)
-Transform.SetRotation(Obb2429ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2429ID)
-Obb2429ID = nil
-
-Obb2530ID = {}
-Obb2530ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2530ID.transformID, {x=14.8325, y=11, z=141.399})
-Transform.SetScaleNonUniform(Obb2530ID.transformID, 4, 10, 1)
-Transform.SetRotation(Obb2530ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2530ID)
-Obb2530ID = nil
-
-Obb2631ID = {}
-Obb2631ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2631ID.transformID, {x=11.2464, y=10, z=140.542})
-Transform.SetScaleNonUniform(Obb2631ID.transformID, 4, 8, 1)
-Transform.SetRotation(Obb2631ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2631ID)
-Obb2631ID = nil
-
-Obb2732ID = {}
-Obb2732ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2732ID.transformID, {x=7.59128, y=8, z=138.891})
-Transform.SetScaleNonUniform(Obb2732ID.transformID, 4.5, 7.5, 1)
-Transform.SetRotation(Obb2732ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2732ID)
-Obb2732ID = nil
-
-Obb2833ID = {}
-Obb2833ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2833ID.transformID, {x=6.45969, y=7, z=200.601})
-Transform.SetScaleNonUniform(Obb2833ID.transformID, 6.5, 9, 1)
-Transform.SetRotation(Obb2833ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2833ID)
-Obb2833ID = nil
-
-Obb2934ID = {}
-Obb2934ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb2934ID.transformID, {x=4.30202, y=6, z=197.811})
-Transform.SetScaleNonUniform(Obb2934ID.transformID, 8.5, 11, 1)
-Transform.SetRotation(Obb2934ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb2934ID)
-Obb2934ID = nil
-
-Obb3035ID = {}
-Obb3035ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3035ID.transformID, {x=2.80227, y=6, z=191.704})
-Transform.SetScaleNonUniform(Obb3035ID.transformID, 9.5, 12, 1)
-Transform.SetRotation(Obb3035ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3035ID)
-Obb3035ID = nil
-
-Obb3136ID = {}
-Obb3136ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3136ID.transformID, {x=2.65523, y=7, z=183.261})
-Transform.SetScaleNonUniform(Obb3136ID.transformID, 12.5, 10, 1)
-Transform.SetRotation(Obb3136ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3136ID)
-Obb3136ID = nil
-
-Obb3237ID = {}
-Obb3237ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3237ID.transformID, {x=5.44154, y=7, z=178.748})
-Transform.SetScaleNonUniform(Obb3237ID.transformID, 10, 12.5, 1)
-Transform.SetRotation(Obb3237ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3237ID)
-Obb3237ID = nil
-
-Obb3338ID = {}
-Obb3338ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3338ID.transformID, {x=9.41838, y=10, z=174.488})
-Transform.SetScaleNonUniform(Obb3338ID.transformID, 2.5, 9, 1)
-Transform.SetRotation(Obb3338ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3338ID)
-Obb3338ID = nil
-
-Obb3439ID = {}
-Obb3439ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3439ID.transformID, {x=9.58863, y=9, z=172.07})
-Transform.SetScaleNonUniform(Obb3439ID.transformID, 3, 7.5, 1)
-Transform.SetRotation(Obb3439ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3439ID)
-Obb3439ID = nil
-
-Obb3540ID = {}
-Obb3540ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3540ID.transformID, {x=7.46277, y=9, z=168.952})
-Transform.SetScaleNonUniform(Obb3540ID.transformID, 5.5, 10, 1)
-Transform.SetRotation(Obb3540ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3540ID)
-Obb3540ID = nil
-
-Obb3641ID = {}
-Obb3641ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3641ID.transformID, {x=3.96612, y=10, z=163.15})
-Transform.SetScaleNonUniform(Obb3641ID.transformID, 8, 9.5, 1)
-Transform.SetRotation(Obb3641ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3641ID)
-Obb3641ID = nil
-
-Obb3742ID = {}
-Obb3742ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3742ID.transformID, {x=3.57684, y=10, z=155.965})
-Transform.SetScaleNonUniform(Obb3742ID.transformID, 14, 9.5, 1)
-Transform.SetRotation(Obb3742ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3742ID)
-Obb3742ID = nil
-
-Obb3943ID = {}
-Obb3943ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3943ID.transformID, {x=49.4084, y=12, z=201.832})
-Transform.SetScaleNonUniform(Obb3943ID.transformID, 10.5, 9.5, 1)
-Transform.SetRotation(Obb3943ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3943ID)
-Obb3943ID = nil
-
-Obb4044ID = {}
-Obb4044ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4044ID.transformID, {x=54.7569, y=13, z=206.949})
-Transform.SetScaleNonUniform(Obb4044ID.transformID, 5, 13, 1)
-Transform.SetRotation(Obb4044ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4044ID)
-Obb4044ID = nil
-
-Obb4145ID = {}
-Obb4145ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4145ID.transformID, {x=61.1504, y=16, z=208.037})
-Transform.SetScaleNonUniform(Obb4145ID.transformID, 9, 18.5, 1)
-Transform.SetRotation(Obb4145ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4145ID)
-Obb4145ID = nil
-
-Obb4246ID = {}
-Obb4246ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4246ID.transformID, {x=72.5637, y=20, z=204.506})
-Transform.SetScaleNonUniform(Obb4246ID.transformID, 16, 24.5, 1)
-Transform.SetRotation(Obb4246ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4246ID)
-Obb4246ID = nil
-
-Obb4347ID = {}
-Obb4347ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4347ID.transformID, {x=84.2015, y=26.8573, z=198.428})
-Transform.SetScaleNonUniform(Obb4347ID.transformID, 11, 14, 1)
-Transform.SetRotation(Obb4347ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4347ID)
-Obb4347ID = nil
-
-New48ID = {}
-New48ID.transformID = Transform.Bind()
-Transform.SetPosition(New48ID.transformID, {x=118.254, y=53.1783, z=226.98})
-Transform.SetScaleNonUniform(New48ID.transformID, 1, 1, 1)
-Transform.SetRotation(New48ID.transformID, {x=0, y=0, z=0})
-Light.addLight(118.254, 53.1783, 226.98, 0.870588, 0.627451, 0, 100,2)
-table.insert(props,New48ID)
-New48ID = nil
-
-Obb4449ID = {}
-Obb4449ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4449ID.transformID, {x=94.7039, y=28, z=192.132})
-Transform.SetScaleNonUniform(Obb4449ID.transformID, 15, 14.5, 1)
-Transform.SetRotation(Obb4449ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4449ID)
-Obb4449ID = nil
-
-m151ID = {}
-m151ID.transformID = Transform.Bind()
-Transform.SetPosition(m151ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m151ID.transformID, 1, 1, 1)
-Transform.SetRotation(m151ID.transformID, {x=0, y=0, z=0})
-m151ID.model = Assets.LoadModel('Models/tile1_m1.model')
-Gear.AddStaticInstance(m151ID.model, m151ID.transformID)
-table.insert(props,m151ID)
-m151ID = nil
-
-m252ID = {}
-m252ID.transformID = Transform.Bind()
-Transform.SetPosition(m252ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m252ID.transformID, 1, 1, 1)
-Transform.SetRotation(m252ID.transformID, {x=0, y=0, z=0})
-m252ID.model = Assets.LoadModel('Models/tile1_m2.model')
-Gear.AddStaticInstance(m252ID.model, m252ID.transformID)
-table.insert(props,m252ID)
-m252ID = nil
-
-m353ID = {}
-m353ID.transformID = Transform.Bind()
-Transform.SetPosition(m353ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m353ID.transformID, 1, 1, 1)
-Transform.SetRotation(m353ID.transformID, {x=0, y=0, z=0})
-m353ID.model = Assets.LoadModel('Models/tile1_m3.model')
-Gear.AddStaticInstance(m353ID.model, m353ID.transformID)
-table.insert(props,m353ID)
-m353ID = nil
-
-m454ID = {}
-m454ID.transformID = Transform.Bind()
-Transform.SetPosition(m454ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m454ID.transformID, 1, 1, 1)
-Transform.SetRotation(m454ID.transformID, {x=0, y=0, z=0})
-m454ID.model = Assets.LoadModel('Models/tile1_m4.model')
-Gear.AddStaticInstance(m454ID.model, m454ID.transformID)
-table.insert(props,m454ID)
-m454ID = nil
-
-m555ID = {}
-m555ID.transformID = Transform.Bind()
-Transform.SetPosition(m555ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m555ID.transformID, 1, 1, 1)
-Transform.SetRotation(m555ID.transformID, {x=0, y=0, z=0})
-m555ID.model = Assets.LoadModel('Models/tile1_m5.model')
-Gear.AddStaticInstance(m555ID.model, m555ID.transformID)
-table.insert(props,m555ID)
-m555ID = nil
-
-m656ID = {}
-m656ID.transformID = Transform.Bind()
-Transform.SetPosition(m656ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m656ID.transformID, 1, 1, 1)
-Transform.SetRotation(m656ID.transformID, {x=0, y=0, z=0})
-m656ID.model = Assets.LoadModel('Models/tile1_m6.model')
-Gear.AddStaticInstance(m656ID.model, m656ID.transformID)
-table.insert(props,m656ID)
-m656ID = nil
-
-m757ID = {}
-m757ID.transformID = Transform.Bind()
-Transform.SetPosition(m757ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m757ID.transformID, 1, 1, 1)
-Transform.SetRotation(m757ID.transformID, {x=0, y=0, z=0})
-m757ID.model = Assets.LoadModel('Models/tile1_m7.model')
-Gear.AddStaticInstance(m757ID.model, m757ID.transformID)
-table.insert(props,m757ID)
-m757ID = nil
-
-m858ID = {}
-m858ID.transformID = Transform.Bind()
-Transform.SetPosition(m858ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(m858ID.transformID, 1, 1, 1)
-Transform.SetRotation(m858ID.transformID, {x=0, y=0, z=0})
-m858ID.model = Assets.LoadModel('Models/tile1_m8.model')
-Gear.AddStaticInstance(m858ID.model, m858ID.transformID)
-table.insert(props,m858ID)
-m858ID = nil
-
-s159ID = {}
-s159ID.transformID = Transform.Bind()
-Transform.SetPosition(s159ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(s159ID.transformID, 1, 1, 1)
-Transform.SetRotation(s159ID.transformID, {x=0, y=0, z=0})
-s159ID.model = Assets.LoadModel('Models/tile1_s1.model')
-Gear.AddStaticInstance(s159ID.model, s159ID.transformID)
-table.insert(props,s159ID)
-s159ID = nil
-
-s260ID = {}
-s260ID.transformID = Transform.Bind()
-Transform.SetPosition(s260ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(s260ID.transformID, 1, 1, 1)
-Transform.SetRotation(s260ID.transformID, {x=0, y=0, z=0})
-s260ID.model = Assets.LoadModel('Models/tile1_s2.model')
-Gear.AddStaticInstance(s260ID.model, s260ID.transformID)
-table.insert(props,s260ID)
-s260ID = nil
-
-s361ID = {}
-s361ID.transformID = Transform.Bind()
-Transform.SetPosition(s361ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(s361ID.transformID, 1, 1, 1)
-Transform.SetRotation(s361ID.transformID, {x=0, y=0, z=0})
-s361ID.model = Assets.LoadModel('Models/tile1_s3.model')
-Gear.AddStaticInstance(s361ID.model, s361ID.transformID)
-table.insert(props,s361ID)
-s361ID = nil
-
-s462ID = {}
-s462ID.transformID = Transform.Bind()
-Transform.SetPosition(s462ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(s462ID.transformID, 1, 1, 1)
-Transform.SetRotation(s462ID.transformID, {x=0, y=0, z=0})
-s462ID.model = Assets.LoadModel('Models/tile1_s4.model')
-Gear.AddStaticInstance(s462ID.model, s462ID.transformID)
-table.insert(props,s462ID)
-s462ID = nil
-
-s563ID = {}
-s563ID.transformID = Transform.Bind()
-Transform.SetPosition(s563ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(s563ID.transformID, 1, 1, 1)
-Transform.SetRotation(s563ID.transformID, {x=0, y=0, z=0})
-s563ID.model = Assets.LoadModel('Models/tile1_s5.model')
-Gear.AddStaticInstance(s563ID.model, s563ID.transformID)
-table.insert(props,s563ID)
-s563ID = nil
-
-s664ID = {}
-s664ID.transformID = Transform.Bind()
-Transform.SetPosition(s664ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(s664ID.transformID, 1, 1, 1)
-Transform.SetRotation(s664ID.transformID, {x=0, y=0, z=0})
-s664ID.model = Assets.LoadModel('Models/tile1_s6.model')
-Gear.AddStaticInstance(s664ID.model, s664ID.transformID)
-table.insert(props,s664ID)
-s664ID = nil
-
-s765ID = {}
-s765ID.transformID = Transform.Bind()
-Transform.SetPosition(s765ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(s765ID.transformID, 1, 1, 1)
-Transform.SetRotation(s765ID.transformID, {x=0, y=0, z=0})
-s765ID.model = Assets.LoadModel('Models/tile1_s7.model')
-Gear.AddStaticInstance(s765ID.model, s765ID.transformID)
-table.insert(props,s765ID)
-s765ID = nil
-
-ObbRot80ID = {}
-ObbRot80ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot80ID.transformID, {x=4.63655, y=11, z=148.253})
-Transform.SetScaleNonUniform(ObbRot80ID.transformID, 1, 8, 5.17633)
-Transform.SetRotation(ObbRot80ID.transformID, {x=0, y=0.278736, z=0})
-table.insert(props,ObbRot80ID)
-ObbRot80ID = nil
-
-ObbRot282ID = {}
-ObbRot282ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot282ID.transformID, {x=126.338, y=33.4473, z=228.83})
-Transform.SetScaleNonUniform(ObbRot282ID.transformID, 1, 8.14921, 8.69229)
-Transform.SetRotation(ObbRot282ID.transformID, {x=0, y=-0.042339, z=0})
-table.insert(props,ObbRot282ID)
-ObbRot282ID = nil
-
-ObbRot383ID = {}
-ObbRot383ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot383ID.transformID, {x=133.49, y=36.6591, z=224.246})
-Transform.SetScaleNonUniform(ObbRot383ID.transformID, 15.3474, 11.4235, 1)
-Transform.SetRotation(ObbRot383ID.transformID, {x=0, y=0.0933742, z=0})
-table.insert(props,ObbRot383ID)
-ObbRot383ID = nil
-
-ObbRot484ID = {}
-ObbRot484ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot484ID.transformID, {x=137.673, y=36.5255, z=222.988})
-Transform.SetScaleNonUniform(ObbRot484ID.transformID, 14.6798, 11.1924, 1)
-Transform.SetRotation(ObbRot484ID.transformID, {x=0, y=0.354433, z=0})
-table.insert(props,ObbRot484ID)
-ObbRot484ID = nil
-
-Obb3897ID = {}
-Obb3897ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb3897ID.transformID, {x=-1.07374e+08, y=-1.07374e+08, z=-1.07374e+08})
-Transform.SetScaleNonUniform(Obb3897ID.transformID, 1, 1, 1)
-Transform.SetRotation(Obb3897ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb3897ID)
-Obb3897ID = nil
-
-Obb4698ID = {}
-Obb4698ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4698ID.transformID, {x=27.0532, y=10.4212, z=133.303})
-Transform.SetScaleNonUniform(Obb4698ID.transformID, 1.27297, 5.5868, 13.9593)
-Transform.SetRotation(Obb4698ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4698ID)
-Obb4698ID = nil
-
-Obb46199ID = {}
-Obb46199ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb46199ID.transformID, {x=33.2583, y=10.5917, z=127.573})
-Transform.SetScaleNonUniform(Obb46199ID.transformID, 6.95827, 5.75073, 1)
-Transform.SetRotation(Obb46199ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb46199ID)
-Obb46199ID = nil
-
-Obb462100ID = {}
-Obb462100ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb462100ID.transformID, {x=4.88027, y=9.57633, z=141.999})
-Transform.SetScaleNonUniform(Obb462100ID.transformID, 1, 6.03523, 11.042)
-Transform.SetRotation(Obb462100ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb462100ID)
-Obb462100ID = nil
-
-Obb463101ID = {}
-Obb463101ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb463101ID.transformID, {x=32.5441, y=8.30676, z=171.11})
-Transform.SetScaleNonUniform(Obb463101ID.transformID, 6.74602, 7.71894, 0.80043)
-Transform.SetRotation(Obb463101ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb463101ID)
-Obb463101ID = nil
-
-Obb464102ID = {}
-Obb464102ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb464102ID.transformID, {x=23.756, y=7.84791, z=172.315})
-Transform.SetScaleNonUniform(Obb464102ID.transformID, 4.31209, 6.35992, 1.41016)
-Transform.SetRotation(Obb464102ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb464102ID)
-Obb464102ID = nil
-
-Obb465103ID = {}
-Obb465103ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb465103ID.transformID, {x=90.287, y=24.9402, z=213.474})
-Transform.SetScaleNonUniform(Obb465103ID.transformID, 9.93155, 7.44146, 1.21475)
-Transform.SetRotation(Obb465103ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb465103ID)
-Obb465103ID = nil
-
-Obb466104ID = {}
-Obb466104ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb466104ID.transformID, {x=100.212, y=28.1139, z=220.179})
-Transform.SetScaleNonUniform(Obb466104ID.transformID, 17.0373, 10.9946, 1)
-Transform.SetRotation(Obb466104ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb466104ID)
-Obb466104ID = nil
-
-Obb467105ID = {}
-Obb467105ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb467105ID.transformID, {x=110.86, y=31.5587, z=222.132})
-Transform.SetScaleNonUniform(Obb467105ID.transformID, 6.99899, 8.05659, 1)
-Transform.SetRotation(Obb467105ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb467105ID)
-Obb467105ID = nil
-
-Obb468106ID = {}
-Obb468106ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb468106ID.transformID, {x=114.768, y=36.7858, z=217.938})
-Transform.SetScaleNonUniform(Obb468106ID.transformID, 6.71252, 12.7726, 1)
-Transform.SetRotation(Obb468106ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb468106ID)
-Obb468106ID = nil
-
-Obb469107ID = {}
-Obb469107ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb469107ID.transformID, {x=113.785, y=38.8959, z=210.773})
-Transform.SetScaleNonUniform(Obb469107ID.transformID, 9.87627, 10.5123, 1)
-Transform.SetRotation(Obb469107ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb469107ID)
-Obb469107ID = nil
-
-ObbRot21108ID = {}
-ObbRot21108ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot21108ID.transformID, {x=106.309, y=32.7244, z=203.047})
-Transform.SetScaleNonUniform(ObbRot21108ID.transformID, 1, 11.8559, 14.346)
-Transform.SetRotation(ObbRot21108ID.transformID, {x=0, y=0.922624, z=0})
-table.insert(props,ObbRot21108ID)
-ObbRot21108ID = nil
-
-ObbRot22109ID = {}
-ObbRot22109ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot22109ID.transformID, {x=97.0691, y=30.794, z=200.862})
-Transform.SetScaleNonUniform(ObbRot22109ID.transformID, 1.18787, 14.0917, 9.15988)
-Transform.SetRotation(ObbRot22109ID.transformID, {x=0, y=-1.10728, z=0})
-table.insert(props,ObbRot22109ID)
-ObbRot22109ID = nil
-
-Obb4610110ID = {}
-Obb4610110ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4610110ID.transformID, {x=90.5686, y=26.7281, z=205.889})
-Transform.SetScaleNonUniform(Obb4610110ID.transformID, 1, 12.2942, 8.5386)
-Transform.SetRotation(Obb4610110ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4610110ID)
-Obb4610110ID = nil
-
-ObbRot23111ID = {}
-ObbRot23111ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot23111ID.transformID, {x=24.1105, y=7.51023, z=191.988})
-Transform.SetScaleNonUniform(ObbRot23111ID.transformID, 1, 9.67671, 16.8171)
-Transform.SetRotation(ObbRot23111ID.transformID, {x=0, y=0.568292, z=0})
-table.insert(props,ObbRot23111ID)
-ObbRot23111ID = nil
-
-ObbRot24112ID = {}
-ObbRot24112ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot24112ID.transformID, {x=32.6054, y=9.09375, z=205.458})
-Transform.SetScaleNonUniform(ObbRot24112ID.transformID, 1, 8, 8.13965)
-Transform.SetRotation(ObbRot24112ID.transformID, {x=0, y=0.512233, z=0})
-table.insert(props,ObbRot24112ID)
-ObbRot24112ID = nil
-
-ObbRot25113ID = {}
-ObbRot25113ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot25113ID.transformID, {x=43.4584, y=10.573, z=212.737})
-Transform.SetScaleNonUniform(ObbRot25113ID.transformID, 1, 9.48976, 19.1709)
-Transform.SetRotation(ObbRot25113ID.transformID, {x=0, y=1.17312, z=0})
-table.insert(props,ObbRot25113ID)
-ObbRot25113ID = nil
-
-ObbRot26114ID = {}
-ObbRot26114ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot26114ID.transformID, {x=60.2626, y=12.9969, z=216.789})
-Transform.SetScaleNonUniform(ObbRot26114ID.transformID, 1.34885, 11.3449, 15.8494)
-Transform.SetRotation(ObbRot26114ID.transformID, {x=0, y=-1.58265, z=0})
-table.insert(props,ObbRot26114ID)
-ObbRot26114ID = nil
-
-ObbRot27115ID = {}
-ObbRot27115ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot27115ID.transformID, {x=83.6042, y=25.556, z=224.591})
-Transform.SetScaleNonUniform(ObbRot27115ID.transformID, 1, 29.2246, 35.6535)
-Transform.SetRotation(ObbRot27115ID.transformID, {x=-0.0113167, y=1.11617, z=0.0421356})
-table.insert(props,ObbRot27115ID)
-ObbRot27115ID = nil
-
-ObbRot28116ID = {}
-ObbRot28116ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot28116ID.transformID, {x=112.962, y=31.1871, z=232.315})
-Transform.SetScaleNonUniform(ObbRot28116ID.transformID, 1, 22.7609, 28.455)
-Transform.SetRotation(ObbRot28116ID.transformID, {x=0, y=-1.56484, z=0})
-table.insert(props,ObbRot28116ID)
-ObbRot28116ID = nil
-
-ObbRot29117ID = {}
-ObbRot29117ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot29117ID.transformID, {x=17.5275, y=6.24736, z=200.669})
-Transform.SetScaleNonUniform(ObbRot29117ID.transformID, 1, 12.4009, 21.0568)
-Transform.SetRotation(ObbRot29117ID.transformID, {x=0, y=1.81414, z=0})
-table.insert(props,ObbRot29117ID)
-ObbRot29117ID = nil
-
-OakTree2118ID = {}
-OakTree2118ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree2118ID.transformID, {x=38.2345, y=7.625, z=182.426})
-Transform.SetScaleNonUniform(OakTree2118ID.transformID, 1, 1.28247, 1)
-Transform.SetRotation(OakTree2118ID.transformID, {x=0, y=1.53295, z=0})
-OakTree2118ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree2118ID.model, OakTree2118ID.transformID)
-table.insert(props,OakTree2118ID)
-OakTree2118ID = nil
-
-OakTree3119ID = {}
-OakTree3119ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree3119ID.transformID, {x=5.85726, y=4.08203, z=182.811})
-Transform.SetScaleNonUniform(OakTree3119ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree3119ID.transformID, {x=0, y=0.0549624, z=0})
-OakTree3119ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree3119ID.model, OakTree3119ID.transformID)
-table.insert(props,OakTree3119ID)
-OakTree3119ID = nil
-
-OakTree4120ID = {}
-OakTree4120ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree4120ID.transformID, {x=14.3672, y=3.31691, z=237.75})
-Transform.SetScaleNonUniform(OakTree4120ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree4120ID.transformID, {x=0, y=-2.41298, z=0})
-OakTree4120ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree4120ID.model, OakTree4120ID.transformID)
-table.insert(props,OakTree4120ID)
-OakTree4120ID = nil
-
-OakTree5121ID = {}
-OakTree5121ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree5121ID.transformID, {x=77.25, y=-0.0905709, z=262.5})
-Transform.SetScaleNonUniform(OakTree5121ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree5121ID.transformID, {x=0, y=-3.40315, z=0})
-OakTree5121ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree5121ID.model, OakTree5121ID.transformID)
-table.insert(props,OakTree5121ID)
-OakTree5121ID = nil
-
-OakTree6122ID = {}
-OakTree6122ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree6122ID.transformID, {x=68.6875, y=-4.23212, z=315.25})
-Transform.SetScaleNonUniform(OakTree6122ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree6122ID.transformID, {x=0, y=-4.4111, z=0})
-OakTree6122ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree6122ID.model, OakTree6122ID.transformID)
-table.insert(props,OakTree6122ID)
-OakTree6122ID = nil
-
-OakTree7123ID = {}
-OakTree7123ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree7123ID.transformID, {x=113.375, y=28.1496, z=240.5})
-Transform.SetScaleNonUniform(OakTree7123ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree7123ID.transformID, {x=0, y=0.131111, z=0})
-OakTree7123ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree7123ID.model, OakTree7123ID.transformID)
-table.insert(props,OakTree7123ID)
-OakTree7123ID = nil
-
-OakTree8124ID = {}
-OakTree8124ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree8124ID.transformID, {x=167.375, y=33.9164, z=262.75})
-Transform.SetScaleNonUniform(OakTree8124ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree8124ID.transformID, {x=0, y=0.131111, z=0})
-OakTree8124ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree8124ID.model, OakTree8124ID.transformID)
-table.insert(props,OakTree8124ID)
-OakTree8124ID = nil
-
-OakTree9125ID = {}
-OakTree9125ID.transformID = Transform.Bind()
-Transform.SetPosition(OakTree9125ID.transformID, {x=171, y=27.9898, z=315})
-Transform.SetScaleNonUniform(OakTree9125ID.transformID, 1, 1, 1)
-Transform.SetRotation(OakTree9125ID.transformID, {x=0, y=0.131111, z=0})
-OakTree9125ID.model = Assets.LoadModel('Models/OakTree1.model')
-Gear.AddStaticInstance(OakTree9125ID.model, OakTree9125ID.transformID)
-table.insert(props,OakTree9125ID)
-OakTree9125ID = nil
-
-PineTree1126ID = {}
-PineTree1126ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree1126ID.transformID, {x=124.375, y=29.1802, z=260.75})
-Transform.SetScaleNonUniform(PineTree1126ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree1126ID.transformID, {x=0, y=0, z=0})
-PineTree1126ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree1126ID.model, PineTree1126ID.transformID)
-table.insert(props,PineTree1126ID)
-PineTree1126ID = nil
-
-PineTree11127ID = {}
-PineTree11127ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree11127ID.transformID, {x=105.75, y=23.2717, z=262.75})
-Transform.SetScaleNonUniform(PineTree11127ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree11127ID.transformID, {x=0, y=0, z=0})
-PineTree11127ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree11127ID.model, PineTree11127ID.transformID)
-table.insert(props,PineTree11127ID)
-PineTree11127ID = nil
-
-PineTree22128ID = {}
-PineTree22128ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree22128ID.transformID, {x=198.875, y=31.2639, z=310.25})
-Transform.SetScaleNonUniform(PineTree22128ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree22128ID.transformID, {x=0, y=0, z=0})
-PineTree22128ID.model = Assets.LoadModel('Models/PineTree2.model')
-Gear.AddStaticInstance(PineTree22128ID.model, PineTree22128ID.transformID)
-table.insert(props,PineTree22128ID)
-PineTree22128ID = nil
-
-Bridge129ID = {}
-Bridge129ID.transformID = Transform.Bind()
-Transform.SetPosition(Bridge129ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(Bridge129ID.transformID, 1, 1, 1)
-Transform.SetRotation(Bridge129ID.transformID, {x=0, y=0, z=0})
-Bridge129ID.model = Assets.LoadModel('Models/bridge.model')
-Gear.AddStaticInstance(Bridge129ID.model, Bridge129ID.transformID)
-table.insert(props,Bridge129ID)
-Bridge129ID = nil
-
-Obb46101130ID = {}
-Obb46101130ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb46101130ID.transformID, {x=28.5373, y=9.88143, z=197.783})
-Transform.SetScaleNonUniform(Obb46101130ID.transformID, 4.46827, 8.05776, 0.709167)
-Transform.SetRotation(Obb46101130ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb46101130ID)
-Obb46101130ID = nil
-
-Obb46102131ID = {}
-Obb46102131ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb46102131ID.transformID, {x=35.5543, y=10.7953, z=194.367})
-Transform.SetScaleNonUniform(Obb46102131ID.transformID, 2.89206, 7.78691, 1)
-Transform.SetRotation(Obb46102131ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb46102131ID)
-Obb46102131ID = nil
-
-ObbRot7132ID = {}
-ObbRot7132ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot7132ID.transformID, {x=43.1355, y=11.2446, z=199.977})
-Transform.SetScaleNonUniform(ObbRot7132ID.transformID, 1, 11.958, 12.5991)
-Transform.SetRotation(ObbRot7132ID.transformID, {x=0, y=89.7662, z=0})
-table.insert(props,ObbRot7132ID)
-ObbRot7132ID = nil
-
-ObbRot30133ID = {}
-ObbRot30133ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot30133ID.transformID, {x=31.1048, y=8.78906, z=200.213})
-Transform.SetScaleNonUniform(ObbRot30133ID.transformID, 1.65999, 8, 7.45378)
-Transform.SetRotation(ObbRot30133ID.transformID, {x=0, y=0.410471, z=0})
-table.insert(props,ObbRot30133ID)
-ObbRot30133ID = nil
-
-ObbRot31134ID = {}
-ObbRot31134ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot31134ID.transformID, {x=36.1122, y=8.98438, z=198.162})
-Transform.SetScaleNonUniform(ObbRot31134ID.transformID, 1, 8, 7.31935)
-Transform.SetRotation(ObbRot31134ID.transformID, {x=0, y=0.380392, z=0})
-table.insert(props,ObbRot31134ID)
-ObbRot31134ID = nil
-
-PineTree13138ID = {}
-PineTree13138ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree13138ID.transformID, {x=182.339, y=59.8862, z=256.35})
-Transform.SetScaleNonUniform(PineTree13138ID.transformID, 0.957413, 1, 1)
-Transform.SetRotation(PineTree13138ID.transformID, {x=-0.23092, y=0, z=0.425748})
-PineTree13138ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree13138ID.model, PineTree13138ID.transformID)
-table.insert(props,PineTree13138ID)
-PineTree13138ID = nil
-
-PineTree14139ID = {}
-PineTree14139ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree14139ID.transformID, {x=152.875, y=36.25, z=243.375})
-Transform.SetScaleNonUniform(PineTree14139ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree14139ID.transformID, {x=0, y=0, z=0})
-PineTree14139ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree14139ID.model, PineTree14139ID.transformID)
-table.insert(props,PineTree14139ID)
-PineTree14139ID = nil
-
-PineTree16140ID = {}
-PineTree16140ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree16140ID.transformID, {x=66.669, y=-1.27539, z=239.06})
-Transform.SetScaleNonUniform(PineTree16140ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree16140ID.transformID, {x=0, y=0, z=0})
-PineTree16140ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree16140ID.model, PineTree16140ID.transformID)
-table.insert(props,PineTree16140ID)
-PineTree16140ID = nil
-
-PineTree17141ID = {}
-PineTree17141ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree17141ID.transformID, {x=73.8203, y=14.2271, z=220.379})
-Transform.SetScaleNonUniform(PineTree17141ID.transformID, 1, 1.30762, 1)
-Transform.SetRotation(PineTree17141ID.transformID, {x=0.265403, y=-0.178307, z=0.14829})
-PineTree17141ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree17141ID.model, PineTree17141ID.transformID)
-table.insert(props,PineTree17141ID)
-PineTree17141ID = nil
-
-PineTree18142ID = {}
-PineTree18142ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree18142ID.transformID, {x=-7.07435, y=3.29102, z=223.481})
-Transform.SetScaleNonUniform(PineTree18142ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree18142ID.transformID, {x=0, y=0, z=0})
-PineTree18142ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree18142ID.model, PineTree18142ID.transformID)
-table.insert(props,PineTree18142ID)
-PineTree18142ID = nil
-
-PineTree19143ID = {}
-PineTree19143ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree19143ID.transformID, {x=195.5, y=31.5781, z=308.25})
-Transform.SetScaleNonUniform(PineTree19143ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree19143ID.transformID, {x=0, y=0, z=0})
-PineTree19143ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree19143ID.model, PineTree19143ID.transformID)
-table.insert(props,PineTree19143ID)
-PineTree19143ID = nil
-
-PineTree15144ID = {}
-PineTree15144ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree15144ID.transformID, {x=98.875, y=22.7969, z=238.625})
-Transform.SetScaleNonUniform(PineTree15144ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree15144ID.transformID, {x=0, y=0, z=0})
-PineTree15144ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree15144ID.model, PineTree15144ID.transformID)
-table.insert(props,PineTree15144ID)
-PineTree15144ID = nil
-
-PineTree12145ID = {}
-PineTree12145ID.transformID = Transform.Bind()
-Transform.SetPosition(PineTree12145ID.transformID, {x=193.5, y=68.25, z=255.125})
-Transform.SetScaleNonUniform(PineTree12145ID.transformID, 1, 1, 1)
-Transform.SetRotation(PineTree12145ID.transformID, {x=0, y=0, z=0})
-PineTree12145ID.model = Assets.LoadModel('Models/pineTree1.model')
-Gear.AddStaticInstance(PineTree12145ID.model, PineTree12145ID.transformID)
-table.insert(props,PineTree12145ID)
-PineTree12145ID = nil
-
-AutoGenParent1213ID = {}
-AutoGenParent1213ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent1213ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent1213ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent1213ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent1213ID)
-AutoGenParent1213ID = nil
-
-AutoGenParent2214ID = {}
-AutoGenParent2214ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent2214ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent2214ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent2214ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent2214ID)
-AutoGenParent2214ID = nil
-
-AutoGenParent3215ID = {}
-AutoGenParent3215ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent3215ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent3215ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent3215ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent3215ID)
-AutoGenParent3215ID = nil
-
-AutoGenParent4216ID = {}
-AutoGenParent4216ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent4216ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent4216ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent4216ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent4216ID)
-AutoGenParent4216ID = nil
-
-AutoGenParent5217ID = {}
-AutoGenParent5217ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent5217ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent5217ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent5217ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent5217ID)
-AutoGenParent5217ID = nil
-
-AutoGenParent6218ID = {}
-AutoGenParent6218ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent6218ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent6218ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent6218ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent6218ID)
-AutoGenParent6218ID = nil
-
-AutoGenParent7219ID = {}
-AutoGenParent7219ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent7219ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent7219ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent7219ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent7219ID)
-AutoGenParent7219ID = nil
-
-AutoGenParent8220ID = {}
-AutoGenParent8220ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent8220ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent8220ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent8220ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent8220ID)
-AutoGenParent8220ID = nil
-
-AutoGenParent9221ID = {}
-AutoGenParent9221ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent9221ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent9221ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent9221ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent9221ID)
-AutoGenParent9221ID = nil
-
-AutoGenParent10222ID = {}
-AutoGenParent10222ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent10222ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent10222ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent10222ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent10222ID)
-AutoGenParent10222ID = nil
-
-AutoGenParent11223ID = {}
-AutoGenParent11223ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent11223ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent11223ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent11223ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent11223ID)
-AutoGenParent11223ID = nil
-
-AutoGenParent12224ID = {}
-AutoGenParent12224ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent12224ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent12224ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent12224ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent12224ID)
-AutoGenParent12224ID = nil
-
-AutoGenParent13225ID = {}
-AutoGenParent13225ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent13225ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent13225ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent13225ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent13225ID)
-AutoGenParent13225ID = nil
-
-AutoGenParent14226ID = {}
-AutoGenParent14226ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent14226ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent14226ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent14226ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,AutoGenParent14226ID)
-AutoGenParent14226ID = nil
-
-AutoGenParent227ID = {}
-AutoGenParent227ID.transformID = Transform.Bind()
-Transform.SetPosition(AutoGenParent227ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(AutoGenParent227ID.transformID, 1, 1, 1)
-Transform.SetRotation(AutoGenParent227ID.transformID, {x=0, y=0, z=0})
-AutoGenParent227ID.collider = AABBCollider.Create(AutoGenParent227ID.transformID)
-AutoGenParent227ID.collider:SetOffset(0,0,0)
-AutoGenParent227ID.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-AutoGenParent227ID.collider:SetMaxPos(341.082,78.3555,317.878)
-AutoGenParent227ID1 = {}
-AutoGenParent227ID1.collider = AABBCollider.Create(-1)
-AutoGenParent227ID1.collider:SetOffset(0,0,0)
-AutoGenParent227ID1.collider:SetMinPos(-9.87435,-1.27539,19.2979)
-AutoGenParent227ID1.collider:SetMaxPos(341.082,78.3555,265.55)
-AutoGenParent227ID.collider:AddChild(AutoGenParent227ID1.collider)
-table.insert(colliders,AutoGenParent227ID1)
-AutoGenParent227ID2 = {}
-AutoGenParent227ID2.collider = AABBCollider.Create(-1)
-AutoGenParent227ID2.collider:SetOffset(0,0,0)
-AutoGenParent227ID2.collider:SetMinPos(3.14297,4.25,126.288)
-AutoGenParent227ID2.collider:SetMaxPos(56.0224,21.5156,147.49)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID2.collider)
-table.insert(colliders,AutoGenParent227ID2)
-AutoGenParent227ID3 = {}
-AutoGenParent227ID3.collider = OBBCollider.Create(-1)
-AutoGenParent227ID3.collider:SetOffset(39.0404,11,126.919)
-AutoGenParent227ID3.collider:SetZAxis(0.0350067,0,0.999387)
-AutoGenParent227ID3.collider:SetHalfLengths(2.5,2.75,0.543304)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID3.collider)
-table.insert(colliders,AutoGenParent227ID3)
-AutoGenParent227ID4 = {}
-AutoGenParent227ID4.collider = OBBCollider.Create(-1)
-AutoGenParent227ID4.collider:SetOffset(44.9522,12,129.392)
-AutoGenParent227ID4.collider:SetZAxis(-0.583273,0,0.812276)
-AutoGenParent227ID4.collider:SetHalfLengths(4.19717,3.5,0.435524)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID4.collider)
-table.insert(colliders,AutoGenParent227ID4)
-AutoGenParent227ID5 = {}
-AutoGenParent227ID5.collider = OBBCollider.Create(-1)
-AutoGenParent227ID5.collider:SetOffset(51.9199,14,137.106)
-AutoGenParent227ID5.collider:SetZAxis(-0.823142,0,0.567836)
-AutoGenParent227ID5.collider:SetHalfLengths(6.5,5.5,0.5)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID5.collider)
-table.insert(colliders,AutoGenParent227ID5)
-AutoGenParent227ID6 = {}
-AutoGenParent227ID6.collider = OBBCollider.Create(-1)
-AutoGenParent227ID6.collider:SetOffset(24.2969,14.5156,140)
-AutoGenParent227ID6.collider:SetZAxis(0.130736,0,0.991417)
-AutoGenParent227ID6.collider:SetHalfLengths(1.7,7,1.7)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID6.collider)
-table.insert(colliders,AutoGenParent227ID6)
-AutoGenParent227ID7 = {}
-AutoGenParent227ID7.collider = OBBCollider.Create(-1)
-AutoGenParent227ID7.collider:SetOffset(20.0467,10,140.246)
-AutoGenParent227ID7.collider:SetZAxis(0.350855,0,0.93643)
-AutoGenParent227ID7.collider:SetHalfLengths(3.57088,3.25,0.5)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID7.collider)
-table.insert(colliders,AutoGenParent227ID7)
-AutoGenParent227ID8 = {}
-AutoGenParent227ID8.collider = OBBCollider.Create(-1)
-AutoGenParent227ID8.collider:SetOffset(11.2464,10,140.542)
-AutoGenParent227ID8.collider:SetZAxis(-0.482651,0,0.875813)
-AutoGenParent227ID8.collider:SetHalfLengths(2,4,0.5)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID8.collider)
-table.insert(colliders,AutoGenParent227ID8)
-AutoGenParent227ID9 = {}
-AutoGenParent227ID9.collider = OBBCollider.Create(-1)
-AutoGenParent227ID9.collider:SetOffset(7.59128,8,138.891)
-AutoGenParent227ID9.collider:SetZAxis(-0.329544,0,0.94414)
-AutoGenParent227ID9.collider:SetHalfLengths(2.25,3.75,0.5)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID9.collider)
-table.insert(colliders,AutoGenParent227ID9)
-AutoGenParent227ID10 = {}
-AutoGenParent227ID10.collider = OBBCollider.Create(-1)
-AutoGenParent227ID10.collider:SetOffset(27.0532,10.4212,133.303)
-AutoGenParent227ID10.collider:SetZAxis(-0.582718,0,0.812674)
-AutoGenParent227ID10.collider:SetHalfLengths(0.636485,2.7934,6.97963)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID10.collider)
-table.insert(colliders,AutoGenParent227ID10)
-AutoGenParent227ID11 = {}
-AutoGenParent227ID11.collider = OBBCollider.Create(-1)
-AutoGenParent227ID11.collider:SetOffset(33.2583,10.5917,127.573)
-AutoGenParent227ID11.collider:SetZAxis(0.165133,0,0.986271)
-AutoGenParent227ID11.collider:SetHalfLengths(3.47914,2.87537,0.5)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID11.collider)
-table.insert(colliders,AutoGenParent227ID11)
-AutoGenParent227ID12 = {}
-AutoGenParent227ID12.collider = OBBCollider.Create(-1)
-AutoGenParent227ID12.collider:SetOffset(4.88027,9.57633,141.999)
-AutoGenParent227ID12.collider:SetZAxis(0.226461,0,-0.97402)
-AutoGenParent227ID12.collider:SetHalfLengths(0.5,3.01761,5.52102)
-AutoGenParent227ID2.collider:AddChild(AutoGenParent227ID12.collider)
-table.insert(colliders,AutoGenParent227ID12)
-AutoGenParent227ID13 = {}
-AutoGenParent227ID13.collider = AABBCollider.Create(-1)
-AutoGenParent227ID13.collider:SetOffset(0,0,0)
-AutoGenParent227ID13.collider:SetMinPos(1.66528,5.25,140.899)
-AutoGenParent227ID13.collider:SetMaxPos(56.5285,23.1641,167.057)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID13.collider)
-table.insert(colliders,AutoGenParent227ID13)
-AutoGenParent227ID14 = {}
-AutoGenParent227ID14.collider = OBBCollider.Create(-1)
-AutoGenParent227ID14.collider:SetOffset(55.7141,15,145.031)
-AutoGenParent227ID14.collider:SetZAxis(-0.996929,0,0.0783057)
-AutoGenParent227ID14.collider:SetHalfLengths(2.75,6.25,0.5)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID14.collider)
-table.insert(colliders,AutoGenParent227ID14)
-AutoGenParent227ID15 = {}
-AutoGenParent227ID15.collider = OBBCollider.Create(-1)
-AutoGenParent227ID15.collider:SetOffset(52.078,13,152.094)
-AutoGenParent227ID15.collider:SetZAxis(-0.732567,0,-0.680695)
-AutoGenParent227ID15.collider:SetHalfLengths(6,4.5,0.5)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID15.collider)
-table.insert(colliders,AutoGenParent227ID15)
-AutoGenParent227ID16 = {}
-AutoGenParent227ID16.collider = OBBCollider.Create(-1)
-AutoGenParent227ID16.collider:SetOffset(43.7358,13,156.709)
-AutoGenParent227ID16.collider:SetZAxis(-0.117519,0,-0.993071)
-AutoGenParent227ID16.collider:SetHalfLengths(4.75,4.5,0.5)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID16.collider)
-table.insert(colliders,AutoGenParent227ID16)
-AutoGenParent227ID17 = {}
-AutoGenParent227ID17.collider = OBBCollider.Create(-1)
-AutoGenParent227ID17.collider:SetOffset(38.165,16.1641,155.643)
-AutoGenParent227ID17.collider:SetZAxis(0.130736,0,0.991417)
-AutoGenParent227ID17.collider:SetHalfLengths(1.7,7,1.7)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID17.collider)
-table.insert(colliders,AutoGenParent227ID17)
-AutoGenParent227ID18 = {}
-AutoGenParent227ID18.collider = OBBCollider.Create(-1)
-AutoGenParent227ID18.collider:SetOffset(36.7883,9,158.058)
-AutoGenParent227ID18.collider:SetZAxis(-0.942602,0,0.33392)
-AutoGenParent227ID18.collider:SetHalfLengths(5.1609,2.75,0.54261)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID18.collider)
-table.insert(colliders,AutoGenParent227ID18)
-AutoGenParent227ID19 = {}
-AutoGenParent227ID19.collider = OBBCollider.Create(-1)
-AutoGenParent227ID19.collider:SetOffset(42.1897,10,164.405)
-AutoGenParent227ID19.collider:SetZAxis(-0.406524,0,0.91364)
-AutoGenParent227ID19.collider:SetHalfLengths(4.34583,3,0.5)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID19.collider)
-table.insert(colliders,AutoGenParent227ID19)
-AutoGenParent227ID20 = {}
-AutoGenParent227ID20.collider = OBBCollider.Create(-1)
-AutoGenParent227ID20.collider:SetOffset(14.8325,11,141.399)
-AutoGenParent227ID20.collider:SetZAxis(-7.5809e-06,0,1)
-AutoGenParent227ID20.collider:SetHalfLengths(2,5,0.5)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID20.collider)
-table.insert(colliders,AutoGenParent227ID20)
-AutoGenParent227ID21 = {}
-AutoGenParent227ID21.collider = OBBCollider.Create(-1)
-AutoGenParent227ID21.collider:SetOffset(3.96612,10,163.15)
-AutoGenParent227ID21.collider:SetZAxis(0.93109,0,-0.364789)
-AutoGenParent227ID21.collider:SetHalfLengths(4,4.75,0.5)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID21.collider)
-table.insert(colliders,AutoGenParent227ID21)
-AutoGenParent227ID22 = {}
-AutoGenParent227ID22.collider = OBBCollider.Create(-1)
-AutoGenParent227ID22.collider:SetOffset(3.57684,10,155.965)
-AutoGenParent227ID22.collider:SetZAxis(0.97915,0,0.20314)
-AutoGenParent227ID22.collider:SetHalfLengths(7,4.75,0.5)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID22.collider)
-table.insert(colliders,AutoGenParent227ID22)
-AutoGenParent227ID23 = {}
-AutoGenParent227ID23.collider = OBBCollider.Create(-1)
-AutoGenParent227ID23.collider:SetOffset(4.63655,11,148.253)
-AutoGenParent227ID23.collider:SetZAxis(0.275141,0,0.961404)
-AutoGenParent227ID23.collider:SetHalfLengths(0.5,4,2.58817)
-AutoGenParent227ID13.collider:AddChild(AutoGenParent227ID23.collider)
-table.insert(colliders,AutoGenParent227ID23)
-AutoGenParent227ID24 = {}
-AutoGenParent227ID24.collider = AABBCollider.Create(-1)
-AutoGenParent227ID24.collider:SetOffset(0,0,0)
-AutoGenParent227ID24.collider:SetMinPos(5.14364,3,165.157)
-AutoGenParent227ID24.collider:SetMaxPos(59.3513,15.75,177.128)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID24.collider)
-table.insert(colliders,AutoGenParent227ID24)
-AutoGenParent227ID25 = {}
-AutoGenParent227ID25.collider = OBBCollider.Create(-1)
-AutoGenParent227ID25.collider:SetOffset(49.0721,10,165.871)
-AutoGenParent227ID25.collider:SetZAxis(0.0659963,0,0.99782)
-AutoGenParent227ID25.collider:SetHalfLengths(3.25,3.5,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID25.collider)
-table.insert(colliders,AutoGenParent227ID25)
-AutoGenParent227ID26 = {}
-AutoGenParent227ID26.collider = OBBCollider.Create(-1)
-AutoGenParent227ID26.collider:SetOffset(55.1278,11,169.08)
-AutoGenParent227ID26.collider:SetZAxis(-0.672089,0,0.74047)
-AutoGenParent227ID26.collider:SetHalfLengths(5.25,4.75,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID26.collider)
-table.insert(colliders,AutoGenParent227ID26)
-AutoGenParent227ID27 = {}
-AutoGenParent227ID27.collider = OBBCollider.Create(-1)
-AutoGenParent227ID27.collider:SetOffset(26.6681,8,169.626)
-AutoGenParent227ID27.collider:SetZAxis(-0.595609,0,-0.803275)
-AutoGenParent227ID27.collider:SetHalfLengths(2.25,3,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID27.collider)
-table.insert(colliders,AutoGenParent227ID27)
-AutoGenParent227ID28 = {}
-AutoGenParent227ID28.collider = OBBCollider.Create(-1)
-AutoGenParent227ID28.collider:SetOffset(22.3577,8,175.096)
-AutoGenParent227ID28.collider:SetZAxis(-0.997205,0,0.0747166)
-AutoGenParent227ID28.collider:SetHalfLengths(2,4.5,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID28.collider)
-table.insert(colliders,AutoGenParent227ID28)
-AutoGenParent227ID29 = {}
-AutoGenParent227ID29.collider = OBBCollider.Create(-1)
-AutoGenParent227ID29.collider:SetOffset(29.6417,8,168.466)
-AutoGenParent227ID29.collider:SetZAxis(-0.0377485,0,-0.999287)
-AutoGenParent227ID29.collider:SetHalfLengths(1.4049,5,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID29.collider)
-table.insert(colliders,AutoGenParent227ID29)
-AutoGenParent227ID30 = {}
-AutoGenParent227ID30.collider = OBBCollider.Create(-1)
-AutoGenParent227ID30.collider:SetOffset(9.41838,10,174.488)
-AutoGenParent227ID30.collider:SetZAxis(0.897614,0,0.440783)
-AutoGenParent227ID30.collider:SetHalfLengths(1.25,4.5,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID30.collider)
-table.insert(colliders,AutoGenParent227ID30)
-AutoGenParent227ID31 = {}
-AutoGenParent227ID31.collider = OBBCollider.Create(-1)
-AutoGenParent227ID31.collider:SetOffset(9.58863,9,172.07)
-AutoGenParent227ID31.collider:SetZAxis(0.973328,0,-0.22942)
-AutoGenParent227ID31.collider:SetHalfLengths(1.5,3.75,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID31.collider)
-table.insert(colliders,AutoGenParent227ID31)
-AutoGenParent227ID32 = {}
-AutoGenParent227ID32.collider = OBBCollider.Create(-1)
-AutoGenParent227ID32.collider:SetOffset(7.46277,9,168.952)
-AutoGenParent227ID32.collider:SetZAxis(0.697603,0,-0.716485)
-AutoGenParent227ID32.collider:SetHalfLengths(2.75,5,0.5)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID32.collider)
-table.insert(colliders,AutoGenParent227ID32)
-AutoGenParent227ID33 = {}
-AutoGenParent227ID33.collider = OBBCollider.Create(-1)
-AutoGenParent227ID33.collider:SetOffset(32.5441,8.30676,171.11)
-AutoGenParent227ID33.collider:SetZAxis(0.853695,0,-0.520774)
-AutoGenParent227ID33.collider:SetHalfLengths(3.37301,3.85947,0.400215)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID33.collider)
-table.insert(colliders,AutoGenParent227ID33)
-AutoGenParent227ID34 = {}
-AutoGenParent227ID34.collider = OBBCollider.Create(-1)
-AutoGenParent227ID34.collider:SetOffset(23.756,7.84791,172.315)
-AutoGenParent227ID34.collider:SetZAxis(-0.656941,0,-0.753942)
-AutoGenParent227ID34.collider:SetHalfLengths(2.15604,3.17996,0.705078)
-AutoGenParent227ID24.collider:AddChild(AutoGenParent227ID34.collider)
-table.insert(colliders,AutoGenParent227ID34)
-AutoGenParent227ID35 = {}
-AutoGenParent227ID35.collider = AABBCollider.Create(-1)
-AutoGenParent227ID35.collider:SetOffset(0,0,0)
-AutoGenParent227ID35.collider:SetMinPos(1.19996,0.75,19.2979)
-AutoGenParent227ID35.collider:SetMaxPos(212.991,70.9964,190.34)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID35.collider)
-table.insert(colliders,AutoGenParent227ID35)
-AutoGenParent227ID36 = {}
-AutoGenParent227ID36.collider = OBBCollider.Create(-1)
-AutoGenParent227ID36.collider:SetOffset(57.658,12,175.255)
-AutoGenParent227ID36.collider:SetZAxis(-0.997282,0,-0.073685)
-AutoGenParent227ID36.collider:SetHalfLengths(5.25,4.75,0.5)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID36.collider)
-table.insert(colliders,AutoGenParent227ID36)
-AutoGenParent227ID37 = {}
-AutoGenParent227ID37.collider = OBBCollider.Create(-1)
-AutoGenParent227ID37.collider:SetOffset(39.6651,13,185.369)
-AutoGenParent227ID37.collider:SetZAxis(0.622728,0,-0.782439)
-AutoGenParent227ID37.collider:SetHalfLengths(5.5,6.75,0.5)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID37.collider)
-table.insert(colliders,AutoGenParent227ID37)
-AutoGenParent227ID38 = {}
-AutoGenParent227ID38.collider = OBBCollider.Create(-1)
-AutoGenParent227ID38.collider:SetOffset(35.5826,13,179.492)
-AutoGenParent227ID38.collider:SetZAxis(0.971509,0,-0.237004)
-AutoGenParent227ID38.collider:SetHalfLengths(6.25,6,0.5)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID38.collider)
-table.insert(colliders,AutoGenParent227ID38)
-AutoGenParent227ID39 = {}
-AutoGenParent227ID39.collider = OBBCollider.Create(-1)
-AutoGenParent227ID39.collider:SetOffset(23.4884,8,178.927)
-AutoGenParent227ID39.collider:SetZAxis(-0.905241,0,0.424899)
-AutoGenParent227ID39.collider:SetHalfLengths(2.25555,4.5,0.569992)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID39.collider)
-table.insert(colliders,AutoGenParent227ID39)
-AutoGenParent227ID40 = {}
-AutoGenParent227ID40.collider = OBBCollider.Create(-1)
-AutoGenParent227ID40.collider:SetOffset(28.5969,8,185.441)
-AutoGenParent227ID40.collider:SetZAxis(-0.729108,0,0.684399)
-AutoGenParent227ID40.collider:SetHalfLengths(6.25,5.75,0.5)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID40.collider)
-table.insert(colliders,AutoGenParent227ID40)
-AutoGenParent227ID41 = {}
-AutoGenParent227ID41.collider = OBBCollider.Create(-1)
-AutoGenParent227ID41.collider:SetOffset(2.65523,7,183.261)
-AutoGenParent227ID41.collider:SetZAxis(0.999723,0,0.0235538)
-AutoGenParent227ID41.collider:SetHalfLengths(6.25,5,0.5)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID41.collider)
-table.insert(colliders,AutoGenParent227ID41)
-AutoGenParent227ID42 = {}
-AutoGenParent227ID42.collider = OBBCollider.Create(-1)
-AutoGenParent227ID42.collider:SetOffset(5.44154,7,178.748)
-AutoGenParent227ID42.collider:SetZAxis(0.617509,0,0.786564)
-AutoGenParent227ID42.collider:SetHalfLengths(5,6.25,0.5)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID42.collider)
-table.insert(colliders,AutoGenParent227ID42)
-AutoGenParent227ID43 = {}
-AutoGenParent227ID43.collider = OBBCollider.Create(-1)
-AutoGenParent227ID43.collider:SetOffset(194.369,58.0954,39.8305)
-AutoGenParent227ID43.collider:SetZAxis(-0.670457,0,0.741948)
-AutoGenParent227ID43.collider:SetHalfLengths(0.5,12.901,27.2222)
-AutoGenParent227ID35.collider:AddChild(AutoGenParent227ID43.collider)
-table.insert(colliders,AutoGenParent227ID43)
-AutoGenParent227ID44 = {}
-AutoGenParent227ID44.collider = AABBCollider.Create(-1)
-AutoGenParent227ID44.collider:SetOffset(0,0,0)
-AutoGenParent227ID44.collider:SetMinPos(1.87186,0,59.8285)
-AutoGenParent227ID44.collider:SetMaxPos(177.101,70.5033,203.691)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID44.collider)
-table.insert(colliders,AutoGenParent227ID44)
-AutoGenParent227ID45 = {}
-AutoGenParent227ID45.collider = OBBCollider.Create(-1)
-AutoGenParent227ID45.collider:SetOffset(55.0522,12,182.172)
-AutoGenParent227ID45.collider:SetZAxis(-0.779628,0,-0.626243)
-AutoGenParent227ID45.collider:SetHalfLengths(5,4.5,0.5)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID45.collider)
-table.insert(colliders,AutoGenParent227ID45)
-AutoGenParent227ID46 = {}
-AutoGenParent227ID46.collider = OBBCollider.Create(-1)
-AutoGenParent227ID46.collider:SetOffset(47.8056,12,186.651)
-AutoGenParent227ID46.collider:SetZAxis(-0.227771,0,-0.973715)
-AutoGenParent227ID46.collider:SetHalfLengths(6.75,5.75,0.5)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID46.collider)
-table.insert(colliders,AutoGenParent227ID46)
-AutoGenParent227ID47 = {}
-AutoGenParent227ID47.collider = OBBCollider.Create(-1)
-AutoGenParent227ID47.collider:SetOffset(34.4504,9,191.759)
-AutoGenParent227ID47.collider:SetZAxis(-0.765715,0,0.643181)
-AutoGenParent227ID47.collider:SetHalfLengths(2.61487,5.75,0.484497)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID47.collider)
-table.insert(colliders,AutoGenParent227ID47)
-AutoGenParent227ID48 = {}
-AutoGenParent227ID48.collider = OBBCollider.Create(-1)
-AutoGenParent227ID48.collider:SetOffset(4.30202,6,197.811)
-AutoGenParent227ID48.collider:SetZAxis(0.900336,0,-0.435197)
-AutoGenParent227ID48.collider:SetHalfLengths(4.25,5.5,0.5)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID48.collider)
-table.insert(colliders,AutoGenParent227ID48)
-AutoGenParent227ID49 = {}
-AutoGenParent227ID49.collider = OBBCollider.Create(-1)
-AutoGenParent227ID49.collider:SetOffset(2.80227,6,191.704)
-AutoGenParent227ID49.collider:SetZAxis(0.995846,0,-0.0910506)
-AutoGenParent227ID49.collider:SetHalfLengths(4.75,6,0.5)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID49.collider)
-table.insert(colliders,AutoGenParent227ID49)
-AutoGenParent227ID50 = {}
-AutoGenParent227ID50.collider = OBBCollider.Create(-1)
-AutoGenParent227ID50.collider:SetOffset(176.601,61.4354,82.604)
-AutoGenParent227ID50.collider:SetZAxis(0,0,1)
-AutoGenParent227ID50.collider:SetHalfLengths(0.5,9.06792,22.7755)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID50.collider)
-table.insert(colliders,AutoGenParent227ID50)
-AutoGenParent227ID51 = {}
-AutoGenParent227ID51.collider = OBBCollider.Create(-1)
-AutoGenParent227ID51.collider:SetOffset(24.1105,7.51023,191.988)
-AutoGenParent227ID51.collider:SetZAxis(0.538193,0,0.842822)
-AutoGenParent227ID51.collider:SetHalfLengths(0.5,4.83835,8.40855)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID51.collider)
-table.insert(colliders,AutoGenParent227ID51)
-AutoGenParent227ID52 = {}
-AutoGenParent227ID52.collider = OBBCollider.Create(-1)
-AutoGenParent227ID52.collider:SetOffset(17.5275,6.24736,200.669)
-AutoGenParent227ID52.collider:SetZAxis(0.970537,0,-0.240954)
-AutoGenParent227ID52.collider:SetHalfLengths(0.5,6.20047,10.5284)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID52.collider)
-table.insert(colliders,AutoGenParent227ID52)
-AutoGenParent227ID53 = {}
-AutoGenParent227ID53.collider = OBBCollider.Create(-1)
-AutoGenParent227ID53.collider:SetOffset(35.5543,10.7953,194.367)
-AutoGenParent227ID53.collider:SetZAxis(-0.707107,0,-0.707107)
-AutoGenParent227ID53.collider:SetHalfLengths(1.44603,3.89346,0.5)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID53.collider)
-table.insert(colliders,AutoGenParent227ID53)
-AutoGenParent227ID54 = {}
-AutoGenParent227ID54.collider = OBBCollider.Create(-1)
-AutoGenParent227ID54.collider:SetOffset(36.1122,8.98438,198.162)
-AutoGenParent227ID54.collider:SetZAxis(0.371285,0,0.928519)
-AutoGenParent227ID54.collider:SetHalfLengths(0.5,4,3.65968)
-AutoGenParent227ID44.collider:AddChild(AutoGenParent227ID54.collider)
-table.insert(colliders,AutoGenParent227ID54)
-AutoGenParent227ID55 = {}
-AutoGenParent227ID55.collider = AABBCollider.Create(-1)
-AutoGenParent227ID55.collider:SetOffset(0,0,0)
-AutoGenParent227ID55.collider:SetMinPos(3.63884,2.5,28.9949)
-AutoGenParent227ID55.collider:SetMaxPos(235.735,78.3555,209.251)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID55.collider)
-table.insert(colliders,AutoGenParent227ID55)
-AutoGenParent227ID56 = {}
-AutoGenParent227ID56.collider = OBBCollider.Create(-1)
-AutoGenParent227ID56.collider:SetOffset(6.45969,7,200.601)
-AutoGenParent227ID56.collider:SetZAxis(0.63835,0,-0.769746)
-AutoGenParent227ID56.collider:SetHalfLengths(3.25,4.5,0.5)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID56.collider)
-table.insert(colliders,AutoGenParent227ID56)
-AutoGenParent227ID57 = {}
-AutoGenParent227ID57.collider = OBBCollider.Create(-1)
-AutoGenParent227ID57.collider:SetOffset(49.4084,12,201.832)
-AutoGenParent227ID57.collider:SetZAxis(-0.753698,0,0.657221)
-AutoGenParent227ID57.collider:SetHalfLengths(5.25,4.75,0.5)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID57.collider)
-table.insert(colliders,AutoGenParent227ID57)
-AutoGenParent227ID58 = {}
-AutoGenParent227ID58.collider = OBBCollider.Create(-1)
-AutoGenParent227ID58.collider:SetOffset(94.7039,28,192.132)
-AutoGenParent227ID58.collider:SetZAxis(0.474159,0,0.880439)
-AutoGenParent227ID58.collider:SetHalfLengths(7.5,7.25,0.5)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID58.collider)
-table.insert(colliders,AutoGenParent227ID58)
-AutoGenParent227ID59 = {}
-AutoGenParent227ID59.collider = OBBCollider.Create(-1)
-AutoGenParent227ID59.collider:SetOffset(141.56,62.9363,147.26)
-AutoGenParent227ID59.collider:SetZAxis(-0.54617,0,0.837674)
-AutoGenParent227ID59.collider:SetHalfLengths(0.5,15.4193,8.4473)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID59.collider)
-table.insert(colliders,AutoGenParent227ID59)
-AutoGenParent227ID60 = {}
-AutoGenParent227ID60.collider = OBBCollider.Create(-1)
-AutoGenParent227ID60.collider:SetOffset(154.796,64.2819,144.174)
-AutoGenParent227ID60.collider:SetZAxis(-0.396287,0,0.918127)
-AutoGenParent227ID60.collider:SetHalfLengths(13.1226,14.0206,0.5)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID60.collider)
-table.insert(colliders,AutoGenParent227ID60)
-AutoGenParent227ID61 = {}
-AutoGenParent227ID61.collider = OBBCollider.Create(-1)
-AutoGenParent227ID61.collider:SetOffset(213.89,58.4684,31.2186)
-AutoGenParent227ID61.collider:SetZAxis(0.996885,0,-0.0788692)
-AutoGenParent227ID61.collider:SetHalfLengths(0.5,18.1077,21.8744)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID61.collider)
-table.insert(colliders,AutoGenParent227ID61)
-AutoGenParent227ID62 = {}
-AutoGenParent227ID62.collider = OBBCollider.Create(-1)
-AutoGenParent227ID62.collider:SetOffset(32.6054,9.09375,205.458)
-AutoGenParent227ID62.collider:SetZAxis(0.490125,0,0.871652)
-AutoGenParent227ID62.collider:SetHalfLengths(0.5,4,4.06982)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID62.collider)
-table.insert(colliders,AutoGenParent227ID62)
-AutoGenParent227ID63 = {}
-AutoGenParent227ID63.collider = OBBCollider.Create(-1)
-AutoGenParent227ID63.collider:SetOffset(28.5373,9.88143,197.783)
-AutoGenParent227ID63.collider:SetZAxis(0.364207,0,0.931318)
-AutoGenParent227ID63.collider:SetHalfLengths(2.23414,4.02888,0.354584)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID63.collider)
-table.insert(colliders,AutoGenParent227ID63)
-AutoGenParent227ID64 = {}
-AutoGenParent227ID64.collider = OBBCollider.Create(-1)
-AutoGenParent227ID64.collider:SetOffset(43.1355,11.2446,199.977)
-AutoGenParent227ID64.collider:SetZAxis(0.973475,0,-0.228792)
-AutoGenParent227ID64.collider:SetHalfLengths(0.5,5.97899,6.29956)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID64.collider)
-table.insert(colliders,AutoGenParent227ID64)
-AutoGenParent227ID65 = {}
-AutoGenParent227ID65.collider = OBBCollider.Create(-1)
-AutoGenParent227ID65.collider:SetOffset(31.1048,8.78906,200.213)
-AutoGenParent227ID65.collider:SetZAxis(0.399041,0,0.916933)
-AutoGenParent227ID65.collider:SetHalfLengths(0.829996,4,3.72689)
-AutoGenParent227ID55.collider:AddChild(AutoGenParent227ID65.collider)
-table.insert(colliders,AutoGenParent227ID65)
-AutoGenParent227ID66 = {}
-AutoGenParent227ID66.collider = AABBCollider.Create(-1)
-AutoGenParent227ID66.collider:SetOffset(0,0,0)
-AutoGenParent227ID66.collider:SetMinPos(-9.87435,3.29102,105.185)
-AutoGenParent227ID66.collider:SetMaxPos(185.173,77.457,226.281)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID66.collider)
-table.insert(colliders,AutoGenParent227ID66)
-AutoGenParent227ID67 = {}
-AutoGenParent227ID67.collider = OBBCollider.Create(-1)
-AutoGenParent227ID67.collider:SetOffset(54.7569,13,206.949)
-AutoGenParent227ID67.collider:SetZAxis(-0.529293,0,0.848439)
-AutoGenParent227ID67.collider:SetHalfLengths(2.5,6.5,0.5)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID67.collider)
-table.insert(colliders,AutoGenParent227ID67)
-AutoGenParent227ID68 = {}
-AutoGenParent227ID68.collider = OBBCollider.Create(-1)
-AutoGenParent227ID68.collider:SetOffset(61.1504,16,208.037)
-AutoGenParent227ID68.collider:SetZAxis(0.0403177,0,0.999187)
-AutoGenParent227ID68.collider:SetHalfLengths(4.5,9.25,0.5)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID68.collider)
-table.insert(colliders,AutoGenParent227ID68)
-AutoGenParent227ID69 = {}
-AutoGenParent227ID69.collider = OBBCollider.Create(-1)
-AutoGenParent227ID69.collider:SetOffset(72.5637,20,204.506)
-AutoGenParent227ID69.collider:SetZAxis(0.424874,0,0.905252)
-AutoGenParent227ID69.collider:SetHalfLengths(8,12.25,0.5)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID69.collider)
-table.insert(colliders,AutoGenParent227ID69)
-AutoGenParent227ID70 = {}
-AutoGenParent227ID70.collider = OBBCollider.Create(-1)
-AutoGenParent227ID70.collider:SetOffset(84.2015,26.8573,198.428)
-AutoGenParent227ID70.collider:SetZAxis(0.623735,0,0.781636)
-AutoGenParent227ID70.collider:SetHalfLengths(5.5,7,0.5)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID70.collider)
-table.insert(colliders,AutoGenParent227ID70)
-AutoGenParent227ID71 = {}
-AutoGenParent227ID71.collider = OBBCollider.Create(-1)
-AutoGenParent227ID71.collider:SetOffset(108,40,192)
-AutoGenParent227ID71.collider:SetZAxis(-0.345483,0,0.938425)
-AutoGenParent227ID71.collider:SetHalfLengths(14.25,17,0.5)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID71.collider)
-table.insert(colliders,AutoGenParent227ID71)
-AutoGenParent227ID72 = {}
-AutoGenParent227ID72.collider = OBBCollider.Create(-1)
-AutoGenParent227ID72.collider:SetOffset(141.038,56.1095,172.394)
-AutoGenParent227ID72.collider:SetZAxis(0.201656,0,0.979456)
-AutoGenParent227ID72.collider:SetHalfLengths(0.5,21.3475,18.6774)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID72.collider)
-table.insert(colliders,AutoGenParent227ID72)
-AutoGenParent227ID73 = {}
-AutoGenParent227ID73.collider = OBBCollider.Create(-1)
-AutoGenParent227ID73.collider:SetOffset(180.698,62,118.111)
-AutoGenParent227ID73.collider:SetZAxis(0.298656,0,0.954361)
-AutoGenParent227ID73.collider:SetHalfLengths(0.5,8.25,13.3884)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID73.collider)
-table.insert(colliders,AutoGenParent227ID73)
-AutoGenParent227ID74 = {}
-AutoGenParent227ID74.collider = OBBCollider.Create(-1)
-AutoGenParent227ID74.collider:SetOffset(97.0691,30.794,200.862)
-AutoGenParent227ID74.collider:SetZAxis(-0.894485,0,0.447098)
-AutoGenParent227ID74.collider:SetHalfLengths(0.593933,7.04586,4.57994)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID74.collider)
-table.insert(colliders,AutoGenParent227ID74)
-AutoGenParent227ID75 = {}
-AutoGenParent227ID75.collider = OBBCollider.Create(-1)
-AutoGenParent227ID75.collider:SetOffset(43.4584,10.573,212.737)
-AutoGenParent227ID75.collider:SetZAxis(0.921964,0,0.387277)
-AutoGenParent227ID75.collider:SetHalfLengths(0.5,4.74488,9.58544)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID75.collider)
-table.insert(colliders,AutoGenParent227ID75)
-AutoGenParent227ID76 = {}
-AutoGenParent227ID76.collider = OBBCollider.Create(-1)
-AutoGenParent227ID76.collider:SetOffset(-7.07435,6.99102,223.481)
-AutoGenParent227ID76.collider:SetZAxis(0,0,1)
-AutoGenParent227ID76.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID66.collider:AddChild(AutoGenParent227ID76.collider)
-table.insert(colliders,AutoGenParent227ID76)
-AutoGenParent227ID77 = {}
-AutoGenParent227ID77.collider = AABBCollider.Create(-1)
-AutoGenParent227ID77.collider:SetOffset(0,0,0)
-AutoGenParent227ID77.collider:SetMinPos(52.3304,7.32448,29.1988)
-AutoGenParent227ID77.collider:SetMaxPos(300.606,69.95,232.941)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID77.collider)
-table.insert(colliders,AutoGenParent227ID77)
-AutoGenParent227ID78 = {}
-AutoGenParent227ID78.collider = OBBCollider.Create(-1)
-AutoGenParent227ID78.collider:SetOffset(117.911,37.1709,200.394)
-AutoGenParent227ID78.collider:SetZAxis(0.406929,0,0.91346)
-AutoGenParent227ID78.collider:SetHalfLengths(0.5,9.36204,10.9041)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID78.collider)
-table.insert(colliders,AutoGenParent227ID78)
-AutoGenParent227ID79 = {}
-AutoGenParent227ID79.collider = OBBCollider.Create(-1)
-AutoGenParent227ID79.collider:SetOffset(184.806,61.5997,136.889)
-AutoGenParent227ID79.collider:SetZAxis(0,0,1)
-AutoGenParent227ID79.collider:SetHalfLengths(0.5,5.66944,5.84614)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID79.collider)
-table.insert(colliders,AutoGenParent227ID79)
-AutoGenParent227ID80 = {}
-AutoGenParent227ID80.collider = OBBCollider.Create(-1)
-AutoGenParent227ID80.collider:SetOffset(260.112,52.6605,48.757)
-AutoGenParent227ID80.collider:SetZAxis(-0.428573,0,0.903507)
-AutoGenParent227ID80.collider:SetHalfLengths(44.5816,17.2895,0.5)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID80.collider)
-table.insert(colliders,AutoGenParent227ID80)
-AutoGenParent227ID81 = {}
-AutoGenParent227ID81.collider = OBBCollider.Create(-1)
-AutoGenParent227ID81.collider:SetOffset(90.287,24.9402,213.474)
-AutoGenParent227ID81.collider:SetZAxis(-0.908103,0,0.418747)
-AutoGenParent227ID81.collider:SetHalfLengths(4.96577,3.72073,0.607376)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID81.collider)
-table.insert(colliders,AutoGenParent227ID81)
-AutoGenParent227ID82 = {}
-AutoGenParent227ID82.collider = OBBCollider.Create(-1)
-AutoGenParent227ID82.collider:SetOffset(106.309,32.7244,203.047)
-AutoGenParent227ID82.collider:SetZAxis(0.797189,0,0.60373)
-AutoGenParent227ID82.collider:SetHalfLengths(0.5,5.92793,7.17301)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID82.collider)
-table.insert(colliders,AutoGenParent227ID82)
-AutoGenParent227ID83 = {}
-AutoGenParent227ID83.collider = OBBCollider.Create(-1)
-AutoGenParent227ID83.collider:SetOffset(90.5686,26.7281,205.889)
-AutoGenParent227ID83.collider:SetZAxis(-0.582718,0,0.812674)
-AutoGenParent227ID83.collider:SetHalfLengths(0.5,6.14712,4.2693)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID83.collider)
-table.insert(colliders,AutoGenParent227ID83)
-AutoGenParent227ID84 = {}
-AutoGenParent227ID84.collider = OBBCollider.Create(-1)
-AutoGenParent227ID84.collider:SetOffset(60.2626,12.9969,216.789)
-AutoGenParent227ID84.collider:SetZAxis(-0.99993,0,-0.0118487)
-AutoGenParent227ID84.collider:SetHalfLengths(0.674427,5.67245,7.92471)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID84.collider)
-table.insert(colliders,AutoGenParent227ID84)
-AutoGenParent227ID85 = {}
-AutoGenParent227ID85.collider = OBBCollider.Create(-1)
-AutoGenParent227ID85.collider:SetOffset(83.6042,25.556,224.591)
-AutoGenParent227ID85.collider:SetZAxis(0.897094,0.0491485,0.439098)
-AutoGenParent227ID85.collider:SetHalfLengths(0.5,14.6123,17.8267)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID85.collider)
-table.insert(colliders,AutoGenParent227ID85)
-AutoGenParent227ID86 = {}
-AutoGenParent227ID86.collider = OBBCollider.Create(-1)
-AutoGenParent227ID86.collider:SetOffset(173.363,56.2095,150.617)
-AutoGenParent227ID86.collider:SetZAxis(-0.12898,0,0.991647)
-AutoGenParent227ID86.collider:SetHalfLengths(6.86769,5.01493,0.5)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID86.collider)
-table.insert(colliders,AutoGenParent227ID86)
-AutoGenParent227ID87 = {}
-AutoGenParent227ID87.collider = OBBCollider.Create(-1)
-AutoGenParent227ID87.collider:SetOffset(73.8203,17.9271,220.379)
-AutoGenParent227ID87.collider:SetZAxis(-0.130522,-0.284707,0.949687)
-AutoGenParent227ID87.collider:SetHalfLengths(2.8,4.83819,2.8)
-AutoGenParent227ID77.collider:AddChild(AutoGenParent227ID87.collider)
-table.insert(colliders,AutoGenParent227ID87)
-AutoGenParent227ID88 = {}
-AutoGenParent227ID88.collider = AABBCollider.Create(-1)
-AutoGenParent227ID88.collider:SetOffset(0,0,0)
-AutoGenParent227ID88.collider:SetMinPos(11.9669,-1.27539,142.388)
-AutoGenParent227ID88.collider:SetMaxPos(185.889,64.8781,241.86)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID88.collider)
-table.insert(colliders,AutoGenParent227ID88)
-AutoGenParent227ID89 = {}
-AutoGenParent227ID89.collider = OBBCollider.Create(-1)
-AutoGenParent227ID89.collider:SetOffset(125.175,37.5857,210.972)
-AutoGenParent227ID89.collider:SetZAxis(0.068262,0,0.997667)
-AutoGenParent227ID89.collider:SetHalfLengths(2.37066,4.8916,0.5)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID89.collider)
-table.insert(colliders,AutoGenParent227ID89)
-AutoGenParent227ID90 = {}
-AutoGenParent227ID90.collider = OBBCollider.Create(-1)
-AutoGenParent227ID90.collider:SetOffset(133.336,37.8301,207.834)
-AutoGenParent227ID90.collider:SetZAxis(0.490085,0,0.871675)
-AutoGenParent227ID90.collider:SetHalfLengths(6.46809,4.89245,0.5)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID90.collider)
-table.insert(colliders,AutoGenParent227ID90)
-AutoGenParent227ID91 = {}
-AutoGenParent227ID91.collider = OBBCollider.Create(-1)
-AutoGenParent227ID91.collider:SetOffset(100.212,28.1139,220.179)
-AutoGenParent227ID91.collider:SetZAxis(-0.313659,0,0.949536)
-AutoGenParent227ID91.collider:SetHalfLengths(8.51867,5.49728,0.5)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID91.collider)
-table.insert(colliders,AutoGenParent227ID91)
-AutoGenParent227ID92 = {}
-AutoGenParent227ID92.collider = OBBCollider.Create(-1)
-AutoGenParent227ID92.collider:SetOffset(110.86,31.5587,222.132)
-AutoGenParent227ID92.collider:SetZAxis(0.363101,0,0.93175)
-AutoGenParent227ID92.collider:SetHalfLengths(3.49949,4.02829,0.5)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID92.collider)
-table.insert(colliders,AutoGenParent227ID92)
-AutoGenParent227ID93 = {}
-AutoGenParent227ID93.collider = OBBCollider.Create(-1)
-AutoGenParent227ID93.collider:SetOffset(114.768,36.7858,217.938)
-AutoGenParent227ID93.collider:SetZAxis(0.919051,0,0.394139)
-AutoGenParent227ID93.collider:SetHalfLengths(3.35626,6.38632,0.5)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID93.collider)
-table.insert(colliders,AutoGenParent227ID93)
-AutoGenParent227ID94 = {}
-AutoGenParent227ID94.collider = OBBCollider.Create(-1)
-AutoGenParent227ID94.collider:SetOffset(113.785,38.8959,210.773)
-AutoGenParent227ID94.collider:SetZAxis(0.909768,0,-0.415118)
-AutoGenParent227ID94.collider:SetHalfLengths(4.93813,5.25616,0.5)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID94.collider)
-table.insert(colliders,AutoGenParent227ID94)
-AutoGenParent227ID95 = {}
-AutoGenParent227ID95.collider = OBBCollider.Create(-1)
-AutoGenParent227ID95.collider:SetOffset(141.993,43.2297,198.398)
-AutoGenParent227ID95.collider:SetZAxis(-0.338253,0.000578738,0.941055)
-AutoGenParent227ID95.collider:SetHalfLengths(0.5,11.9185,8.44772)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID95.collider)
-table.insert(colliders,AutoGenParent227ID95)
-AutoGenParent227ID96 = {}
-AutoGenParent227ID96.collider = OBBCollider.Create(-1)
-AutoGenParent227ID96.collider:SetOffset(182.429,58.9652,147.346)
-AutoGenParent227ID96.collider:SetZAxis(0.867123,-0.0527169,0.495297)
-AutoGenParent227ID96.collider:SetHalfLengths(5.40083,5.71534,0.5)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID96.collider)
-table.insert(colliders,AutoGenParent227ID96)
-AutoGenParent227ID97 = {}
-AutoGenParent227ID97.collider = OBBCollider.Create(-1)
-AutoGenParent227ID97.collider:SetOffset(66.669,2.42461,239.06)
-AutoGenParent227ID97.collider:SetZAxis(0,0,1)
-AutoGenParent227ID97.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID88.collider:AddChild(AutoGenParent227ID97.collider)
-table.insert(colliders,AutoGenParent227ID97)
-AutoGenParent227ID98 = {}
-AutoGenParent227ID98.collider = AABBCollider.Create(-1)
-AutoGenParent227ID98.collider:SetOffset(0,0,0)
-AutoGenParent227ID98.collider:SetMinPos(75.1682,-0.0905709,52.2018)
-AutoGenParent227ID98.collider:SetMaxPos(341.082,73.8487,265.55)
-AutoGenParent227ID1.collider:AddChild(AutoGenParent227ID98.collider)
-table.insert(colliders,AutoGenParent227ID98)
-AutoGenParent227ID99 = {}
-AutoGenParent227ID99.collider = OBBCollider.Create(-1)
-AutoGenParent227ID99.collider:SetOffset(126.338,33.4473,228.83)
-AutoGenParent227ID99.collider:SetZAxis(-0.0423263,0,0.999104)
-AutoGenParent227ID99.collider:SetHalfLengths(0.5,4.07461,4.34615)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID99.collider)
-table.insert(colliders,AutoGenParent227ID99)
-AutoGenParent227ID100 = {}
-AutoGenParent227ID100.collider = OBBCollider.Create(-1)
-AutoGenParent227ID100.collider:SetOffset(133.49,36.6591,224.246)
-AutoGenParent227ID100.collider:SetZAxis(0.0932386,0,0.995644)
-AutoGenParent227ID100.collider:SetHalfLengths(7.67372,5.71174,0.5)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID100.collider)
-table.insert(colliders,AutoGenParent227ID100)
-AutoGenParent227ID101 = {}
-AutoGenParent227ID101.collider = OBBCollider.Create(-1)
-AutoGenParent227ID101.collider:SetOffset(137.673,36.5255,222.988)
-AutoGenParent227ID101.collider:SetZAxis(0.347059,0,0.937843)
-AutoGenParent227ID101.collider:SetHalfLengths(7.33991,5.5962,0.5)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID101.collider)
-table.insert(colliders,AutoGenParent227ID101)
-AutoGenParent227ID102 = {}
-AutoGenParent227ID102.collider = OBBCollider.Create(-1)
-AutoGenParent227ID102.collider:SetOffset(307.673,49.0794,88.9136)
-AutoGenParent227ID102.collider:SetZAxis(-0.740246,0,0.672336)
-AutoGenParent227ID102.collider:SetHalfLengths(49.1399,24.7693,0.5)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID102.collider)
-table.insert(colliders,AutoGenParent227ID102)
-AutoGenParent227ID103 = {}
-AutoGenParent227ID103.collider = OBBCollider.Create(-1)
-AutoGenParent227ID103.collider:SetOffset(112.962,31.1871,232.315)
-AutoGenParent227ID103.collider:SetZAxis(-0.999982,0,0.00595741)
-AutoGenParent227ID103.collider:SetHalfLengths(0.5,11.3804,14.2275)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID103.collider)
-table.insert(colliders,AutoGenParent227ID103)
-AutoGenParent227ID104 = {}
-AutoGenParent227ID104.collider = OBBCollider.Create(-1)
-AutoGenParent227ID104.collider:SetOffset(105.75,26.9717,262.75)
-AutoGenParent227ID104.collider:SetZAxis(0,0,1)
-AutoGenParent227ID104.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID104.collider)
-table.insert(colliders,AutoGenParent227ID104)
-AutoGenParent227ID105 = {}
-AutoGenParent227ID105.collider = OBBCollider.Create(-1)
-AutoGenParent227ID105.collider:SetOffset(98.875,26.4969,238.625)
-AutoGenParent227ID105.collider:SetZAxis(0,0,1)
-AutoGenParent227ID105.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID105.collider)
-table.insert(colliders,AutoGenParent227ID105)
-AutoGenParent227ID106 = {}
-AutoGenParent227ID106.collider = OBBCollider.Create(-1)
-AutoGenParent227ID106.collider:SetOffset(147.612,37.8097,231.742)
-AutoGenParent227ID106.collider:SetZAxis(0.967628,0,-0.252382)
-AutoGenParent227ID106.collider:SetHalfLengths(12.0475,7.16809,1.02982)
-AutoGenParent227ID98.collider:AddChild(AutoGenParent227ID106.collider)
-table.insert(colliders,AutoGenParent227ID106)
-AutoGenParent227ID107 = {}
-AutoGenParent227ID107.collider = AABBCollider.Create(-1)
-AutoGenParent227ID107.collider:SetOffset(0,0,0)
-AutoGenParent227ID107.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-AutoGenParent227ID107.collider:SetMaxPos(200.875,75.65,317.878)
-AutoGenParent227ID.collider:AddChild(AutoGenParent227ID107.collider)
-table.insert(colliders,AutoGenParent227ID107)
-AutoGenParent227ID108 = {}
-AutoGenParent227ID108.collider = AABBCollider.Create(-1)
-AutoGenParent227ID108.collider:SetOffset(0,0,0)
-AutoGenParent227ID108.collider:SetMinPos(66.5596,-4.23212,238.346)
-AutoGenParent227ID108.collider:SetMaxPos(200.875,75.65,317.878)
-AutoGenParent227ID107.collider:AddChild(AutoGenParent227ID108.collider)
-table.insert(colliders,AutoGenParent227ID108)
-AutoGenParent227ID109 = {}
-AutoGenParent227ID109.collider = OBBCollider.Create(-1)
-AutoGenParent227ID109.collider:SetOffset(124.375,32.8802,260.75)
-AutoGenParent227ID109.collider:SetZAxis(0,0,1)
-AutoGenParent227ID109.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID108.collider:AddChild(AutoGenParent227ID109.collider)
-table.insert(colliders,AutoGenParent227ID109)
-AutoGenParent227ID110 = {}
-AutoGenParent227ID110.collider = OBBCollider.Create(-1)
-AutoGenParent227ID110.collider:SetOffset(198.875,36.7639,310.25)
-AutoGenParent227ID110.collider:SetZAxis(0,0,1)
-AutoGenParent227ID110.collider:SetHalfLengths(2,5,2)
-AutoGenParent227ID108.collider:AddChild(AutoGenParent227ID110.collider)
-table.insert(colliders,AutoGenParent227ID110)
-AutoGenParent227ID111 = {}
-AutoGenParent227ID111.collider = OBBCollider.Create(-1)
-AutoGenParent227ID111.collider:SetOffset(182.339,63.5862,256.35)
-AutoGenParent227ID111.collider:SetZAxis(-0.0945252,0.208442,0.973456)
-AutoGenParent227ID111.collider:SetHalfLengths(2.68076,3.7,2.8)
-AutoGenParent227ID108.collider:AddChild(AutoGenParent227ID111.collider)
-table.insert(colliders,AutoGenParent227ID111)
-AutoGenParent227ID112 = {}
-AutoGenParent227ID112.collider = OBBCollider.Create(-1)
-AutoGenParent227ID112.collider:SetOffset(152.875,39.95,243.375)
-AutoGenParent227ID112.collider:SetZAxis(0,0,1)
-AutoGenParent227ID112.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID108.collider:AddChild(AutoGenParent227ID112.collider)
-table.insert(colliders,AutoGenParent227ID112)
-AutoGenParent227ID113 = {}
-AutoGenParent227ID113.collider = OBBCollider.Create(-1)
-AutoGenParent227ID113.collider:SetOffset(195.5,35.2781,308.25)
-AutoGenParent227ID113.collider:SetZAxis(0,0,1)
-AutoGenParent227ID113.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID108.collider:AddChild(AutoGenParent227ID113.collider)
-table.insert(colliders,AutoGenParent227ID113)
-AutoGenParent227ID114 = {}
-AutoGenParent227ID114.collider = OBBCollider.Create(-1)
-AutoGenParent227ID114.collider:SetOffset(193.5,71.95,255.125)
-AutoGenParent227ID114.collider:SetZAxis(0,0,1)
-AutoGenParent227ID114.collider:SetHalfLengths(2.8,3.7,2.8)
-AutoGenParent227ID108.collider:AddChild(AutoGenParent227ID114.collider)
-table.insert(colliders,AutoGenParent227ID114)
-AutoGenParent227ID115 = {}
-AutoGenParent227ID115.collider = OBBCollider.Create(-1)
-AutoGenParent227ID115.collider:SetOffset(165.742,45.3755,245.272)
-AutoGenParent227ID115.collider:SetZAxis(-0.371106,0,0.928591)
-AutoGenParent227ID115.collider:SetHalfLengths(17.4133,8.80402,0.5)
-AutoGenParent227ID108.collider:AddChild(AutoGenParent227ID115.collider)
-table.insert(colliders,AutoGenParent227ID115)
-AutoGenParent227ID116 = {}
-AutoGenParent227ID116.collider = AABBCollider.Create(-1)
-AutoGenParent227ID116.collider:SetOffset(0,0,0)
-AutoGenParent227ID116.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-AutoGenParent227ID116.collider:SetMaxPos(1.17549e-38,1.17549e-38,1.17549e-38)
-AutoGenParent227ID107.collider:AddChild(AutoGenParent227ID116.collider)
-table.insert(colliders,AutoGenParent227ID116)
-AutoGenParent227ID117 = {}
-AutoGenParent227ID117.collider = OBBCollider.Create(-1)
-AutoGenParent227ID117.collider:SetOffset(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-AutoGenParent227ID117.collider:SetZAxis(-0.582718,0,0.812674)
-AutoGenParent227ID117.collider:SetHalfLengths(0.5,0.5,0.5)
-AutoGenParent227ID116.collider:AddChild(AutoGenParent227ID117.collider)
-table.insert(colliders,AutoGenParent227ID117)
-CollisionHandler.AddAABB(AutoGenParent227ID.collider, 3)
-AutoGenParent227ID1 = nil
-AutoGenParent227ID2 = nil
-AutoGenParent227ID3 = nil
-AutoGenParent227ID4 = nil
-AutoGenParent227ID5 = nil
-AutoGenParent227ID6 = nil
-AutoGenParent227ID7 = nil
-AutoGenParent227ID8 = nil
-AutoGenParent227ID9 = nil
-AutoGenParent227ID10 = nil
-AutoGenParent227ID11 = nil
-AutoGenParent227ID12 = nil
-AutoGenParent227ID13 = nil
-AutoGenParent227ID14 = nil
-AutoGenParent227ID15 = nil
-AutoGenParent227ID16 = nil
-AutoGenParent227ID17 = nil
-AutoGenParent227ID18 = nil
-AutoGenParent227ID19 = nil
-AutoGenParent227ID20 = nil
-AutoGenParent227ID21 = nil
-AutoGenParent227ID22 = nil
-AutoGenParent227ID23 = nil
-AutoGenParent227ID24 = nil
-AutoGenParent227ID25 = nil
-AutoGenParent227ID26 = nil
-AutoGenParent227ID27 = nil
-AutoGenParent227ID28 = nil
-AutoGenParent227ID29 = nil
-AutoGenParent227ID30 = nil
-AutoGenParent227ID31 = nil
-AutoGenParent227ID32 = nil
-AutoGenParent227ID33 = nil
-AutoGenParent227ID34 = nil
-AutoGenParent227ID35 = nil
-AutoGenParent227ID36 = nil
-AutoGenParent227ID37 = nil
-AutoGenParent227ID38 = nil
-AutoGenParent227ID39 = nil
-AutoGenParent227ID40 = nil
-AutoGenParent227ID41 = nil
-AutoGenParent227ID42 = nil
-AutoGenParent227ID43 = nil
-AutoGenParent227ID44 = nil
-AutoGenParent227ID45 = nil
-AutoGenParent227ID46 = nil
-AutoGenParent227ID47 = nil
-AutoGenParent227ID48 = nil
-AutoGenParent227ID49 = nil
-AutoGenParent227ID50 = nil
-AutoGenParent227ID51 = nil
-AutoGenParent227ID52 = nil
-AutoGenParent227ID53 = nil
-AutoGenParent227ID54 = nil
-AutoGenParent227ID55 = nil
-AutoGenParent227ID56 = nil
-AutoGenParent227ID57 = nil
-AutoGenParent227ID58 = nil
-AutoGenParent227ID59 = nil
-AutoGenParent227ID60 = nil
-AutoGenParent227ID61 = nil
-AutoGenParent227ID62 = nil
-AutoGenParent227ID63 = nil
-AutoGenParent227ID64 = nil
-AutoGenParent227ID65 = nil
-AutoGenParent227ID66 = nil
-AutoGenParent227ID67 = nil
-AutoGenParent227ID68 = nil
-AutoGenParent227ID69 = nil
-AutoGenParent227ID70 = nil
-AutoGenParent227ID71 = nil
-AutoGenParent227ID72 = nil
-AutoGenParent227ID73 = nil
-AutoGenParent227ID74 = nil
-AutoGenParent227ID75 = nil
-AutoGenParent227ID76 = nil
-AutoGenParent227ID77 = nil
-AutoGenParent227ID78 = nil
-AutoGenParent227ID79 = nil
-AutoGenParent227ID80 = nil
-AutoGenParent227ID81 = nil
-AutoGenParent227ID82 = nil
-AutoGenParent227ID83 = nil
-AutoGenParent227ID84 = nil
-AutoGenParent227ID85 = nil
-AutoGenParent227ID86 = nil
-AutoGenParent227ID87 = nil
-AutoGenParent227ID88 = nil
-AutoGenParent227ID89 = nil
-AutoGenParent227ID90 = nil
-AutoGenParent227ID91 = nil
-AutoGenParent227ID92 = nil
-AutoGenParent227ID93 = nil
-AutoGenParent227ID94 = nil
-AutoGenParent227ID95 = nil
-AutoGenParent227ID96 = nil
-AutoGenParent227ID97 = nil
-AutoGenParent227ID98 = nil
-AutoGenParent227ID99 = nil
-AutoGenParent227ID100 = nil
-AutoGenParent227ID101 = nil
-AutoGenParent227ID102 = nil
-AutoGenParent227ID103 = nil
-AutoGenParent227ID104 = nil
-AutoGenParent227ID105 = nil
-AutoGenParent227ID106 = nil
-AutoGenParent227ID107 = nil
-AutoGenParent227ID108 = nil
-AutoGenParent227ID109 = nil
-AutoGenParent227ID110 = nil
-AutoGenParent227ID111 = nil
-AutoGenParent227ID112 = nil
-AutoGenParent227ID113 = nil
-AutoGenParent227ID114 = nil
-AutoGenParent227ID115 = nil
-AutoGenParent227ID116 = nil
-AutoGenParent227ID117 = nil
-table.insert(colliders,AutoGenParent227ID)
-AutoGenParent227ID = nil
+m16ID = {}
+m16ID.transformID = Transform.Bind()
+Transform.SetPosition(m16ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m16ID.transformID, 1, 1, 1)
+Transform.SetRotation(m16ID.transformID, {x=0, y=0, z=0})
+m16ID.model = Assets.LoadModel('Models/tile1_m1.model')
+Gear.AddStaticInstance(m16ID.model, m16ID.transformID)
+table.insert(props,m16ID)
+m16ID = nil
+
+m27ID = {}
+m27ID.transformID = Transform.Bind()
+Transform.SetPosition(m27ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m27ID.transformID, 1, 1, 1)
+Transform.SetRotation(m27ID.transformID, {x=0, y=0, z=0})
+m27ID.model = Assets.LoadModel('Models/tile1_m2.model')
+Gear.AddStaticInstance(m27ID.model, m27ID.transformID)
+table.insert(props,m27ID)
+m27ID = nil
+
+m38ID = {}
+m38ID.transformID = Transform.Bind()
+Transform.SetPosition(m38ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m38ID.transformID, 1, 1, 1)
+Transform.SetRotation(m38ID.transformID, {x=0, y=0, z=0})
+m38ID.model = Assets.LoadModel('Models/tile1_m3.model')
+Gear.AddStaticInstance(m38ID.model, m38ID.transformID)
+table.insert(props,m38ID)
+m38ID = nil
+
+m49ID = {}
+m49ID.transformID = Transform.Bind()
+Transform.SetPosition(m49ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m49ID.transformID, 1, 1, 1)
+Transform.SetRotation(m49ID.transformID, {x=0, y=0, z=0})
+m49ID.model = Assets.LoadModel('Models/tile1_m4.model')
+Gear.AddStaticInstance(m49ID.model, m49ID.transformID)
+table.insert(props,m49ID)
+m49ID = nil
+
+m510ID = {}
+m510ID.transformID = Transform.Bind()
+Transform.SetPosition(m510ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m510ID.transformID, 1, 1, 1)
+Transform.SetRotation(m510ID.transformID, {x=0, y=0, z=0})
+m510ID.model = Assets.LoadModel('Models/tile1_m5.model')
+Gear.AddStaticInstance(m510ID.model, m510ID.transformID)
+table.insert(props,m510ID)
+m510ID = nil
+
+m611ID = {}
+m611ID.transformID = Transform.Bind()
+Transform.SetPosition(m611ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m611ID.transformID, 1, 1, 1)
+Transform.SetRotation(m611ID.transformID, {x=0, y=0, z=0})
+m611ID.model = Assets.LoadModel('Models/tile1_m6.model')
+Gear.AddStaticInstance(m611ID.model, m611ID.transformID)
+table.insert(props,m611ID)
+m611ID = nil
+
+m712ID = {}
+m712ID.transformID = Transform.Bind()
+Transform.SetPosition(m712ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m712ID.transformID, 1, 1, 1)
+Transform.SetRotation(m712ID.transformID, {x=0, y=0, z=0})
+m712ID.model = Assets.LoadModel('Models/tile1_m7.model')
+Gear.AddStaticInstance(m712ID.model, m712ID.transformID)
+table.insert(props,m712ID)
+m712ID = nil
+
+m813ID = {}
+m813ID.transformID = Transform.Bind()
+Transform.SetPosition(m813ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(m813ID.transformID, 1, 1, 1)
+Transform.SetRotation(m813ID.transformID, {x=0, y=0, z=0})
+m813ID.model = Assets.LoadModel('Models/tile1_m8.model')
+Gear.AddStaticInstance(m813ID.model, m813ID.transformID)
+table.insert(props,m813ID)
+m813ID = nil
+
+s114ID = {}
+s114ID.transformID = Transform.Bind()
+Transform.SetPosition(s114ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(s114ID.transformID, 1, 1, 1)
+Transform.SetRotation(s114ID.transformID, {x=0, y=0, z=0})
+s114ID.model = Assets.LoadModel('Models/tile1_s1.model')
+Gear.AddStaticInstance(s114ID.model, s114ID.transformID)
+table.insert(props,s114ID)
+s114ID = nil
+
+s215ID = {}
+s215ID.transformID = Transform.Bind()
+Transform.SetPosition(s215ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(s215ID.transformID, 1, 1, 1)
+Transform.SetRotation(s215ID.transformID, {x=0, y=0, z=0})
+s215ID.model = Assets.LoadModel('Models/tile1_s2.model')
+Gear.AddStaticInstance(s215ID.model, s215ID.transformID)
+table.insert(props,s215ID)
+s215ID = nil
+
+s316ID = {}
+s316ID.transformID = Transform.Bind()
+Transform.SetPosition(s316ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(s316ID.transformID, 1, 1, 1)
+Transform.SetRotation(s316ID.transformID, {x=0, y=0, z=0})
+s316ID.model = Assets.LoadModel('Models/tile1_s3.model')
+Gear.AddStaticInstance(s316ID.model, s316ID.transformID)
+table.insert(props,s316ID)
+s316ID = nil
+
+s417ID = {}
+s417ID.transformID = Transform.Bind()
+Transform.SetPosition(s417ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(s417ID.transformID, 1, 1, 1)
+Transform.SetRotation(s417ID.transformID, {x=0, y=0, z=0})
+s417ID.model = Assets.LoadModel('Models/tile1_s4.model')
+Gear.AddStaticInstance(s417ID.model, s417ID.transformID)
+table.insert(props,s417ID)
+s417ID = nil
+
+s518ID = {}
+s518ID.transformID = Transform.Bind()
+Transform.SetPosition(s518ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(s518ID.transformID, 1, 1, 1)
+Transform.SetRotation(s518ID.transformID, {x=0, y=0, z=0})
+s518ID.model = Assets.LoadModel('Models/tile1_s5.model')
+Gear.AddStaticInstance(s518ID.model, s518ID.transformID)
+table.insert(props,s518ID)
+s518ID = nil
+
+s619ID = {}
+s619ID.transformID = Transform.Bind()
+Transform.SetPosition(s619ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(s619ID.transformID, 1, 1, 1)
+Transform.SetRotation(s619ID.transformID, {x=0, y=0, z=0})
+s619ID.model = Assets.LoadModel('Models/tile1_s6.model')
+Gear.AddStaticInstance(s619ID.model, s619ID.transformID)
+table.insert(props,s619ID)
+s619ID = nil
+
+s720ID = {}
+s720ID.transformID = Transform.Bind()
+Transform.SetPosition(s720ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(s720ID.transformID, 1, 1, 1)
+Transform.SetRotation(s720ID.transformID, {x=0, y=0, z=0})
+s720ID.model = Assets.LoadModel('Models/tile1_s7.model')
+Gear.AddStaticInstance(s720ID.model, s720ID.transformID)
+table.insert(props,s720ID)
+s720ID = nil
+
+Bridge373ID = {}
+Bridge373ID.transformID = Transform.Bind()
+Transform.SetPosition(Bridge373ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(Bridge373ID.transformID, 1, 1, 1)
+Transform.SetRotation(Bridge373ID.transformID, {x=0, y=0, z=0})
+Bridge373ID.model = Assets.LoadModel('Models/bridge.model')
+Gear.AddStaticInstance(Bridge373ID.model, Bridge373ID.transformID)
+table.insert(props,Bridge373ID)
+Bridge373ID = nil
+
+OakTree_NoCollider11374ID = {}
+OakTree_NoCollider11374ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider11374ID.transformID, {x=19.4717, y=3.32006, z=233.278})
+Transform.SetScaleNonUniform(OakTree_NoCollider11374ID.transformID, 1.69749, 2.11547, 1.80074)
+Transform.SetRotation(OakTree_NoCollider11374ID.transformID, {x=0, y=2.76508, z=0})
+OakTree_NoCollider11374ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider11374ID.model, OakTree_NoCollider11374ID.transformID)
+table.insert(props,OakTree_NoCollider11374ID)
+OakTree_NoCollider11374ID = nil
+
+OakTree_NoCollider12375ID = {}
+OakTree_NoCollider12375ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider12375ID.transformID, {x=66.9529, y=-1.96511, z=238.091})
+Transform.SetScaleNonUniform(OakTree_NoCollider12375ID.transformID, 1.94691, 2.04659, 2.23553)
+Transform.SetRotation(OakTree_NoCollider12375ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider12375ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider12375ID.model, OakTree_NoCollider12375ID.transformID)
+table.insert(props,OakTree_NoCollider12375ID)
+OakTree_NoCollider12375ID = nil
+
+OakTree_NoCollider13376ID = {}
+OakTree_NoCollider13376ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider13376ID.transformID, {x=105.938, y=22.9754, z=262.5})
+Transform.SetScaleNonUniform(OakTree_NoCollider13376ID.transformID, 1.54442, 1.53096, 1.59192)
+Transform.SetRotation(OakTree_NoCollider13376ID.transformID, {x=0, y=2.16382, z=0})
+OakTree_NoCollider13376ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider13376ID.model, OakTree_NoCollider13376ID.transformID)
+table.insert(props,OakTree_NoCollider13376ID)
+OakTree_NoCollider13376ID = nil
+
+OakTree_NoCollider14377ID = {}
+OakTree_NoCollider14377ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider14377ID.transformID, {x=153.5, y=36.9871, z=240.875})
+Transform.SetScaleNonUniform(OakTree_NoCollider14377ID.transformID, 1.50217, 1.33957, 1.49088)
+Transform.SetRotation(OakTree_NoCollider14377ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider14377ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider14377ID.model, OakTree_NoCollider14377ID.transformID)
+table.insert(props,OakTree_NoCollider14377ID)
+OakTree_NoCollider14377ID = nil
+
+OakTree_NoCollider151378ID = {}
+OakTree_NoCollider151378ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider151378ID.transformID, {x=162.625, y=33.9723, z=261})
+Transform.SetScaleNonUniform(OakTree_NoCollider151378ID.transformID, 1.39186, 1.77847, 1.62592)
+Transform.SetRotation(OakTree_NoCollider151378ID.transformID, {x=0, y=1.62265, z=0})
+OakTree_NoCollider151378ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider151378ID.model, OakTree_NoCollider151378ID.transformID)
+table.insert(props,OakTree_NoCollider151378ID)
+OakTree_NoCollider151378ID = nil
+
+OakTree_NoCollider16379ID = {}
+OakTree_NoCollider16379ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider16379ID.transformID, {x=197.875, y=31.5625, z=310.5})
+Transform.SetScaleNonUniform(OakTree_NoCollider16379ID.transformID, 1.99399, 3.34325, 2.19531)
+Transform.SetRotation(OakTree_NoCollider16379ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider16379ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider16379ID.model, OakTree_NoCollider16379ID.transformID)
+table.insert(props,OakTree_NoCollider16379ID)
+OakTree_NoCollider16379ID = nil
+
+OakTree_NoCollider17380ID = {}
+OakTree_NoCollider17380ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider17380ID.transformID, {x=71.0482, y=-4.11021, z=312.494})
+Transform.SetScaleNonUniform(OakTree_NoCollider17380ID.transformID, 1.71014, 2.07889, 2.00366)
+Transform.SetRotation(OakTree_NoCollider17380ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider17380ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider17380ID.model, OakTree_NoCollider17380ID.transformID)
+table.insert(props,OakTree_NoCollider17380ID)
+OakTree_NoCollider17380ID = nil
+
+OakTree_NoCollider18381ID = {}
+OakTree_NoCollider18381ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider18381ID.transformID, {x=114.125, y=28.1863, z=243.75})
+Transform.SetScaleNonUniform(OakTree_NoCollider18381ID.transformID, 1.34497, 1.46833, 1.33821)
+Transform.SetRotation(OakTree_NoCollider18381ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider18381ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider18381ID.model, OakTree_NoCollider18381ID.transformID)
+table.insert(props,OakTree_NoCollider18381ID)
+OakTree_NoCollider18381ID = nil
+
+OakTree_NoCollider19382ID = {}
+OakTree_NoCollider19382ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider19382ID.transformID, {x=-6.67376, y=2.61227, z=223.274})
+Transform.SetScaleNonUniform(OakTree_NoCollider19382ID.transformID, 1.51035, 1.40144, 1.09424)
+Transform.SetRotation(OakTree_NoCollider19382ID.transformID, {x=-0.045381, y=3.70048, z=0.0362335})
+OakTree_NoCollider19382ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider19382ID.model, OakTree_NoCollider19382ID.transformID)
+table.insert(props,OakTree_NoCollider19382ID)
+OakTree_NoCollider19382ID = nil
+
+OakTree_NoCollider110383ID = {}
+OakTree_NoCollider110383ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider110383ID.transformID, {x=-1.07374e+08, y=-1.07374e+08, z=-1.07374e+08})
+Transform.SetScaleNonUniform(OakTree_NoCollider110383ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree_NoCollider110383ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider110383ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider110383ID.model, OakTree_NoCollider110383ID.transformID)
+table.insert(props,OakTree_NoCollider110383ID)
+OakTree_NoCollider110383ID = nil
+
+PineTree_NoCollider388ID = {}
+PineTree_NoCollider388ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider388ID.transformID, {x=73.3881, y=13.5986, z=220.52})
+Transform.SetScaleNonUniform(PineTree_NoCollider388ID.transformID, 1.16469, 1.23132, 1.13573)
+Transform.SetRotation(PineTree_NoCollider388ID.transformID, {x=0.536822, y=0.137189, z=0.401651})
+PineTree_NoCollider388ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider388ID.model, PineTree_NoCollider388ID.transformID)
+table.insert(props,PineTree_NoCollider388ID)
+PineTree_NoCollider388ID = nil
+
+PineTree_NoCollider2426ID = {}
+PineTree_NoCollider2426ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider2426ID.transformID, {x=125.188, y=30.0469, z=259.25})
+Transform.SetScaleNonUniform(PineTree_NoCollider2426ID.transformID, 1.65057, 1.71418, 1.57791)
+Transform.SetRotation(PineTree_NoCollider2426ID.transformID, {x=0, y=2.5061, z=0})
+PineTree_NoCollider2426ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider2426ID.model, PineTree_NoCollider2426ID.transformID)
+table.insert(props,PineTree_NoCollider2426ID)
+PineTree_NoCollider2426ID = nil
+
+PineTree_NoCollider3427ID = {}
+PineTree_NoCollider3427ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider3427ID.transformID, {x=94.125, y=20.3559, z=236.5})
+Transform.SetScaleNonUniform(PineTree_NoCollider3427ID.transformID, 1.28418, 1.33163, 1.0746)
+Transform.SetRotation(PineTree_NoCollider3427ID.transformID, {x=0, y=1.9694, z=0})
+PineTree_NoCollider3427ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider3427ID.model, PineTree_NoCollider3427ID.transformID)
+table.insert(props,PineTree_NoCollider3427ID)
+PineTree_NoCollider3427ID = nil
+
+PineTree_NoCollider4428ID = {}
+PineTree_NoCollider4428ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider4428ID.transformID, {x=76.4375, y=0.187378, z=261.5})
+Transform.SetScaleNonUniform(PineTree_NoCollider4428ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree_NoCollider4428ID.transformID, {x=0, y=0, z=0})
+PineTree_NoCollider4428ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider4428ID.model, PineTree_NoCollider4428ID.transformID)
+table.insert(props,PineTree_NoCollider4428ID)
+PineTree_NoCollider4428ID = nil
+
+PineTree_NoCollider5429ID = {}
+PineTree_NoCollider5429ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider5429ID.transformID, {x=172.375, y=28.9531, z=314.25})
+Transform.SetScaleNonUniform(PineTree_NoCollider5429ID.transformID, 1.33038, 1.51695, 1.4158)
+Transform.SetRotation(PineTree_NoCollider5429ID.transformID, {x=0, y=2.83677, z=0})
+PineTree_NoCollider5429ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider5429ID.model, PineTree_NoCollider5429ID.transformID)
+table.insert(props,PineTree_NoCollider5429ID)
+PineTree_NoCollider5429ID = nil
+
+AutoGenParent475ID = {}
+AutoGenParent475ID.transformID = Transform.Bind()
+Transform.SetPosition(AutoGenParent475ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(AutoGenParent475ID.transformID, 1, 1, 1)
+Transform.SetRotation(AutoGenParent475ID.transformID, {x=0, y=0, z=0})
+AutoGenParent475ID.collider = AABBCollider.Create(AutoGenParent475ID.transformID)
+AutoGenParent475ID.collider:SetOffset(0,0,0)
+AutoGenParent475ID.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+AutoGenParent475ID.collider:SetMaxPos(512.3,78.3839,383.3)
+AutoGenParent475ID1 = {}
+AutoGenParent475ID1.collider = AABBCollider.Create(-1)
+AutoGenParent475ID1.collider:SetOffset(0,0,0)
+AutoGenParent475ID1.collider:SetMinPos(1.74275,-3.32028,33.7004)
+AutoGenParent475ID1.collider:SetMaxPos(276.131,62.9209,234.296)
+AutoGenParent475ID.collider:AddChild(AutoGenParent475ID1.collider)
+table.insert(colliders,AutoGenParent475ID1)
+AutoGenParent475ID2 = {}
+AutoGenParent475ID2.collider = AABBCollider.Create(-1)
+AutoGenParent475ID2.collider:SetOffset(0,0,0)
+AutoGenParent475ID2.collider:SetMinPos(3.70232,1.54031,127.732)
+AutoGenParent475ID2.collider:SetMaxPos(56.2942,16.3583,163.037)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID2.collider)
+table.insert(colliders,AutoGenParent475ID2)
+AutoGenParent475ID3 = {}
+AutoGenParent475ID3.collider = OBBCollider.Create(-1)
+AutoGenParent475ID3.collider:SetOffset(6,6.83489,143)
+AutoGenParent475ID3.collider:SetZAxis(0.447214,0,-0.894427)
+AutoGenParent475ID3.collider:SetHalfLengths(0.3,5.29458,4.47214)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID3.collider)
+table.insert(colliders,AutoGenParent475ID3)
+AutoGenParent475ID4 = {}
+AutoGenParent475ID4.collider = OBBCollider.Create(-1)
+AutoGenParent475ID4.collider:SetOffset(10.5,7.12947,140)
+AutoGenParent475ID4.collider:SetZAxis(0.928477,0,0.371391)
+AutoGenParent475ID4.collider:SetHalfLengths(0.3,5.14729,2.69258)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID4.collider)
+table.insert(colliders,AutoGenParent475ID4)
+AutoGenParent475ID5 = {}
+AutoGenParent475ID5.collider = OBBCollider.Create(-1)
+AutoGenParent475ID5.collider:SetOffset(17,6.98218,141)
+AutoGenParent475ID5.collider:SetZAxis(1,0,0)
+AutoGenParent475ID5.collider:SetHalfLengths(0.3,5,4)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID5.collider)
+table.insert(colliders,AutoGenParent475ID5)
+AutoGenParent475ID6 = {}
+AutoGenParent475ID6.collider = OBBCollider.Create(-1)
+AutoGenParent475ID6.collider:SetOffset(45,8.60238,129.5)
+AutoGenParent475ID6.collider:SetZAxis(-0.894427,0,-0.447214)
+AutoGenParent475ID6.collider:SetHalfLengths(0.3,5.29458,3.3541)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID6.collider)
+table.insert(colliders,AutoGenParent475ID6)
+AutoGenParent475ID7 = {}
+AutoGenParent475ID7.collider = OBBCollider.Create(-1)
+AutoGenParent475ID7.collider:SetOffset(51.5,8.60238,137)
+AutoGenParent475ID7.collider:SetZAxis(0.503871,0,0.863779)
+AutoGenParent475ID7.collider:SetHalfLengths(0.3,5.73645,6.94622)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID7.collider)
+table.insert(colliders,AutoGenParent475ID7)
+AutoGenParent475ID8 = {}
+AutoGenParent475ID8.collider = OBBCollider.Create(-1)
+AutoGenParent475ID8.collider:SetOffset(55.5,9.33883,145.5)
+AutoGenParent475ID8.collider:SetZAxis(0.196116,0,0.980581)
+AutoGenParent475ID8.collider:SetHalfLengths(0.3,5,2.54951)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID8.collider)
+table.insert(colliders,AutoGenParent475ID8)
+AutoGenParent475ID9 = {}
+AutoGenParent475ID9.collider = OBBCollider.Create(-1)
+AutoGenParent475ID9.collider:SetOffset(4.5,6.83489,147.5)
+AutoGenParent475ID9.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID9.collider:SetHalfLengths(0.3,5.14729,0.707107)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID9.collider)
+table.insert(colliders,AutoGenParent475ID9)
+AutoGenParent475ID10 = {}
+AutoGenParent475ID10.collider = OBBCollider.Create(-1)
+AutoGenParent475ID10.collider:SetOffset(5,6.98218,151.5)
+AutoGenParent475ID10.collider:SetZAxis(0,0,1)
+AutoGenParent475ID10.collider:SetHalfLengths(0.3,5.44187,3.5)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID10.collider)
+table.insert(colliders,AutoGenParent475ID10)
+AutoGenParent475ID11 = {}
+AutoGenParent475ID11.collider = OBBCollider.Create(-1)
+AutoGenParent475ID11.collider:SetOffset(4.5,7.42405,159)
+AutoGenParent475ID11.collider:SetZAxis(-0.124035,0,0.992278)
+AutoGenParent475ID11.collider:SetHalfLengths(0.3,5.88374,4.03113)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID11.collider)
+table.insert(colliders,AutoGenParent475ID11)
+AutoGenParent475ID12 = {}
+AutoGenParent475ID12.collider = OBBCollider.Create(-1)
+AutoGenParent475ID12.collider:SetOffset(24,10.8555,139)
+AutoGenParent475ID12.collider:SetZAxis(0.367737,0,0.92993)
+AutoGenParent475ID12.collider:SetHalfLengths(2.32777,5.5028,2.15084)
+AutoGenParent475ID2.collider:AddChild(AutoGenParent475ID12.collider)
+table.insert(colliders,AutoGenParent475ID12)
+AutoGenParent475ID13 = {}
+AutoGenParent475ID13.collider = AABBCollider.Create(-1)
+AutoGenParent475ID13.collider:SetOffset(0,0,0)
+AutoGenParent475ID13.collider:SetMinPos(1.74275,-3.32028,37.7542)
+AutoGenParent475ID13.collider:SetMaxPos(199.172,62.9209,202.166)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID13.collider)
+table.insert(colliders,AutoGenParent475ID13)
+AutoGenParent475ID14 = {}
+AutoGenParent475ID14.collider = OBBCollider.Create(-1)
+AutoGenParent475ID14.collider:SetOffset(35.5,8.16051,198)
+AutoGenParent475ID14.collider:SetZAxis(0.447214,0,0.894427)
+AutoGenParent475ID14.collider:SetHalfLengths(0.3,5.14729,3.3541)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID14.collider)
+table.insert(colliders,AutoGenParent475ID14)
+AutoGenParent475ID15 = {}
+AutoGenParent475ID15.collider = OBBCollider.Create(-1)
+AutoGenParent475ID15.collider:SetOffset(3.5,4.03637,196.5)
+AutoGenParent475ID15.collider:SetZAxis(0.514496,0,0.857493)
+AutoGenParent475ID15.collider:SetHalfLengths(0.3,5.58916,2.91548)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID15.collider)
+table.insert(colliders,AutoGenParent475ID15)
+AutoGenParent475ID16 = {}
+AutoGenParent475ID16.collider = OBBCollider.Create(-1)
+AutoGenParent475ID16.collider:SetOffset(6,3.44721,200.5)
+AutoGenParent475ID16.collider:SetZAxis(0.5547,0,0.83205)
+AutoGenParent475ID16.collider:SetHalfLengths(0.3,5,1.80278)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID16.collider)
+table.insert(colliders,AutoGenParent475ID16)
+AutoGenParent475ID17 = {}
+AutoGenParent475ID17.collider = OBBCollider.Create(-1)
+AutoGenParent475ID17.collider:SetOffset(24.5,3.15263,199.5)
+AutoGenParent475ID17.collider:SetZAxis(0.857493,0,-0.514496)
+AutoGenParent475ID17.collider:SetHalfLengths(0.3,6.47291,2.91548)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID17.collider)
+table.insert(colliders,AutoGenParent475ID17)
+AutoGenParent475ID18 = {}
+AutoGenParent475ID18.collider = OBBCollider.Create(-1)
+AutoGenParent475ID18.collider:SetOffset(27,5.36198,196.5)
+AutoGenParent475ID18.collider:SetZAxis(0.894427,0,0.447214)
+AutoGenParent475ID18.collider:SetHalfLengths(0.3,7.35665,1.11803)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID18.collider)
+table.insert(colliders,AutoGenParent475ID18)
+AutoGenParent475ID19 = {}
+AutoGenParent475ID19.collider = OBBCollider.Create(-1)
+AutoGenParent475ID19.collider:SetOffset(29,7.71863,197)
+AutoGenParent475ID19.collider:SetZAxis(1,0,0)
+AutoGenParent475ID19.collider:SetHalfLengths(0.3,5.44187,1)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID19.collider)
+table.insert(colliders,AutoGenParent475ID19)
+AutoGenParent475ID20 = {}
+AutoGenParent475ID20.collider = OBBCollider.Create(-1)
+AutoGenParent475ID20.collider:SetOffset(176.5,56.584,78.5)
+AutoGenParent475ID20.collider:SetZAxis(0.058722,0,-0.998274)
+AutoGenParent475ID20.collider:SetHalfLengths(0.3,5.33421,8.51469)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID20.collider)
+table.insert(colliders,AutoGenParent475ID20)
+AutoGenParent475ID21 = {}
+AutoGenParent475ID21.collider = OBBCollider.Create(-1)
+AutoGenParent475ID21.collider:SetOffset(179,56.2498,63.5)
+AutoGenParent475ID21.collider:SetZAxis(0.294086,0,-0.955779)
+AutoGenParent475ID21.collider:SetHalfLengths(0.3,6.67107,6.80074)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID21.collider)
+table.insert(colliders,AutoGenParent475ID21)
+AutoGenParent475ID22 = {}
+AutoGenParent475ID22.collider = OBBCollider.Create(-1)
+AutoGenParent475ID22.collider:SetOffset(185,54.5788,51)
+AutoGenParent475ID22.collider:SetZAxis(0.5547,0,-0.83205)
+AutoGenParent475ID22.collider:SetHalfLengths(0.3,6.00264,7.2111)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID22.collider)
+table.insert(colliders,AutoGenParent475ID22)
+AutoGenParent475ID23 = {}
+AutoGenParent475ID23.collider = OBBCollider.Create(-1)
+AutoGenParent475ID23.collider:SetOffset(194,53.5761,41.5)
+AutoGenParent475ID23.collider:SetZAxis(0.819232,0,-0.573462)
+AutoGenParent475ID23.collider:SetHalfLengths(0.3,5.66843,6.10328)
+AutoGenParent475ID13.collider:AddChild(AutoGenParent475ID23.collider)
+table.insert(colliders,AutoGenParent475ID23)
+AutoGenParent475ID24 = {}
+AutoGenParent475ID24.collider = AABBCollider.Create(-1)
+AutoGenParent475ID24.collider:SetOffset(0,0,0)
+AutoGenParent475ID24.collider:SetMinPos(6.73167,-1.84737,54.8336)
+AutoGenParent475ID24.collider:SetMaxPos(200.25,62.0297,211.174)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID24.collider)
+table.insert(colliders,AutoGenParent475ID24)
+AutoGenParent475ID25 = {}
+AutoGenParent475ID25.collider = OBBCollider.Create(-1)
+AutoGenParent475ID25.collider:SetOffset(37.5,8.16051,196.5)
+AutoGenParent475ID25.collider:SetZAxis(-0.948683,0,0.316228)
+AutoGenParent475ID25.collider:SetHalfLengths(0.3,5.14729,1.58114)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID25.collider)
+table.insert(colliders,AutoGenParent475ID25)
+AutoGenParent475ID26 = {}
+AutoGenParent475ID26.collider = OBBCollider.Create(-1)
+AutoGenParent475ID26.collider:SetOffset(42.5,8.3078,200)
+AutoGenParent475ID26.collider:SetZAxis(0.98387,0,-0.178885)
+AutoGenParent475ID26.collider:SetHalfLengths(0.3,6.32561,5.59017)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID26.collider)
+table.insert(colliders,AutoGenParent475ID26)
+AutoGenParent475ID27 = {}
+AutoGenParent475ID27.collider = OBBCollider.Create(-1)
+AutoGenParent475ID27.collider:SetOffset(50.5,9.63341,202.5)
+AutoGenParent475ID27.collider:SetZAxis(0.581238,0,0.813733)
+AutoGenParent475ID27.collider:SetHalfLengths(0.3,5.73645,4.30116)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID27.collider)
+table.insert(colliders,AutoGenParent475ID27)
+AutoGenParent475ID28 = {}
+AutoGenParent475ID28.collider = OBBCollider.Create(-1)
+AutoGenParent475ID28.collider:SetOffset(7.5,3.44721,203)
+AutoGenParent475ID28.collider:SetZAxis(0.447214,0,0.894427)
+AutoGenParent475ID28.collider:SetHalfLengths(0.3,5.14729,1.11803)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID28.collider)
+table.insert(colliders,AutoGenParent475ID28)
+AutoGenParent475ID29 = {}
+AutoGenParent475ID29.collider = OBBCollider.Create(-1)
+AutoGenParent475ID29.collider:SetOffset(15,3.29992,202.5)
+AutoGenParent475ID29.collider:SetZAxis(0.977802,0,-0.209529)
+AutoGenParent475ID29.collider:SetHalfLengths(0.3,5.14729,7.15891)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID29.collider)
+table.insert(colliders,AutoGenParent475ID29)
+AutoGenParent475ID30 = {}
+AutoGenParent475ID30.collider = OBBCollider.Create(-1)
+AutoGenParent475ID30.collider:SetOffset(31.5,8.16051,200)
+AutoGenParent475ID30.collider:SetZAxis(0.447214,0,0.894427)
+AutoGenParent475ID30.collider:SetHalfLengths(0.3,5.73645,3.3541)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID30.collider)
+table.insert(colliders,AutoGenParent475ID30)
+AutoGenParent475ID31 = {}
+AutoGenParent475ID31.collider = OBBCollider.Create(-1)
+AutoGenParent475ID31.collider:SetOffset(32.5,8.89696,203.5)
+AutoGenParent475ID31.collider:SetZAxis(-0.707107,0,0.707107)
+AutoGenParent475ID31.collider:SetHalfLengths(0.3,5.44187,0.707107)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID31.collider)
+table.insert(colliders,AutoGenParent475ID31)
+AutoGenParent475ID32 = {}
+AutoGenParent475ID32.collider = OBBCollider.Create(-1)
+AutoGenParent475ID32.collider:SetOffset(34.5,8.45509,207.5)
+AutoGenParent475ID32.collider:SetZAxis(0.581238,0,0.813733)
+AutoGenParent475ID32.collider:SetHalfLengths(0.3,5.14729,4.30116)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID32.collider)
+table.insert(colliders,AutoGenParent475ID32)
+AutoGenParent475ID33 = {}
+AutoGenParent475ID33.collider = OBBCollider.Create(-1)
+AutoGenParent475ID33.collider:SetOffset(176.5,56.8068,92)
+AutoGenParent475ID33.collider:SetZAxis(-0.0995037,0,-0.995037)
+AutoGenParent475ID33.collider:SetHalfLengths(0.3,5.22281,5.02494)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID33.collider)
+table.insert(colliders,AutoGenParent475ID33)
+AutoGenParent475ID34 = {}
+AutoGenParent475ID34.collider = OBBCollider.Create(-1)
+AutoGenParent475ID34.collider:SetOffset(197,53.6875,59.5)
+AutoGenParent475ID34.collider:SetZAxis(-0.5547,0,0.83205)
+AutoGenParent475ID34.collider:SetHalfLengths(0.3,5.89124,5.40833)
+AutoGenParent475ID24.collider:AddChild(AutoGenParent475ID34.collider)
+table.insert(colliders,AutoGenParent475ID34)
+AutoGenParent475ID35 = {}
+AutoGenParent475ID35.collider = AABBCollider.Create(-1)
+AutoGenParent475ID35.collider:SetOffset(0,0,0)
+AutoGenParent475ID35.collider:SetMinPos(52.82,4.33883,33.7395)
+AutoGenParent475ID35.collider:SetMaxPos(209.166,61.8068,209.24)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID35.collider)
+table.insert(colliders,AutoGenParent475ID35)
+AutoGenParent475ID36 = {}
+AutoGenParent475ID36.collider = OBBCollider.Create(-1)
+AutoGenParent475ID36.collider:SetOffset(55,10.3699,207.5)
+AutoGenParent475ID36.collider:SetZAxis(0.8,0,0.6)
+AutoGenParent475ID36.collider:SetHalfLengths(0.3,6.03103,2.5)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID36.collider)
+table.insert(colliders,AutoGenParent475ID36)
+AutoGenParent475ID37 = {}
+AutoGenParent475ID37.collider = OBBCollider.Create(-1)
+AutoGenParent475ID37.collider:SetOffset(85.5,20.091,198)
+AutoGenParent475ID37.collider:SetZAxis(0.759257,0,-0.650791)
+AutoGenParent475ID37.collider:SetHalfLengths(0.3,8.0931,4.60977)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID37.collider)
+table.insert(colliders,AutoGenParent475ID37)
+AutoGenParent475ID38 = {}
+AutoGenParent475ID38.collider = OBBCollider.Create(-1)
+AutoGenParent475ID38.collider:SetOffset(95,23.1841,192.5)
+AutoGenParent475ID38.collider:SetZAxis(0.923077,0,-0.384615)
+AutoGenParent475ID38.collider:SetHalfLengths(0.3,8.82956,6.5)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID38.collider)
+table.insert(colliders,AutoGenParent475ID38)
+AutoGenParent475ID39 = {}
+AutoGenParent475ID39.collider = OBBCollider.Create(-1)
+AutoGenParent475ID39.collider:SetOffset(139,44.2181,162.5)
+AutoGenParent475ID39.collider:SetZAxis(-0.178885,0,-0.98387)
+AutoGenParent475ID39.collider:SetHalfLengths(0.3,9.56758,5.59017)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID39.collider)
+table.insert(colliders,AutoGenParent475ID39)
+AutoGenParent475ID40 = {}
+AutoGenParent475ID40.collider = OBBCollider.Create(-1)
+AutoGenParent475ID40.collider:SetOffset(139.5,48.7857,153)
+AutoGenParent475ID40.collider:SetZAxis(0.351123,0,-0.936329)
+AutoGenParent475ID40.collider:SetHalfLengths(0.3,6.44826,4.272)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID40.collider)
+table.insert(colliders,AutoGenParent475ID40)
+AutoGenParent475ID41 = {}
+AutoGenParent475ID41.collider = OBBCollider.Create(-1)
+AutoGenParent475ID41.collider:SetOffset(144.5,50.234,147.5)
+AutoGenParent475ID41.collider:SetZAxis(0.919145,0,-0.393919)
+AutoGenParent475ID41.collider:SetHalfLengths(0.3,5.22281,3.80789)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID41.collider)
+table.insert(colliders,AutoGenParent475ID41)
+AutoGenParent475ID42 = {}
+AutoGenParent475ID42.collider = OBBCollider.Create(-1)
+AutoGenParent475ID42.collider:SetOffset(181.5,55.2472,112)
+AutoGenParent475ID42.collider:SetZAxis(-0.287348,0,-0.957826)
+AutoGenParent475ID42.collider:SetHalfLengths(0.3,6.55966,15.6605)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID42.collider)
+table.insert(colliders,AutoGenParent475ID42)
+AutoGenParent475ID43 = {}
+AutoGenParent475ID43.collider = OBBCollider.Create(-1)
+AutoGenParent475ID43.collider:SetOffset(202.5,52.9077,36)
+AutoGenParent475ID43.collider:SetZAxis(0.868243,0,-0.496139)
+AutoGenParent475ID43.collider:SetHalfLengths(0.3,5.89124,4.03113)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID43.collider)
+table.insert(colliders,AutoGenParent475ID43)
+AutoGenParent475ID44 = {}
+AutoGenParent475ID44.collider = OBBCollider.Create(-1)
+AutoGenParent475ID44.collider:SetOffset(204.5,52.2393,52)
+AutoGenParent475ID44.collider:SetZAxis(-0.83205,0,0.5547)
+AutoGenParent475ID44.collider:SetHalfLengths(0.3,6.44826,5.40833)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID44.collider)
+table.insert(colliders,AutoGenParent475ID44)
+AutoGenParent475ID45 = {}
+AutoGenParent475ID45.collider = OBBCollider.Create(-1)
+AutoGenParent475ID45.collider:SetOffset(193.5,54.5788,70.5)
+AutoGenParent475ID45.collider:SetZAxis(-0.0766965,0,0.997055)
+AutoGenParent475ID45.collider:SetHalfLengths(0.3,6.00264,6.5192)
+AutoGenParent475ID35.collider:AddChild(AutoGenParent475ID45.collider)
+table.insert(colliders,AutoGenParent475ID45)
+AutoGenParent475ID46 = {}
+AutoGenParent475ID46.collider = AABBCollider.Create(-1)
+AutoGenParent475ID46.collider:SetOffset(0,0,0)
+AutoGenParent475ID46.collider:SetMinPos(36.8512,2.71863,33.7004)
+AutoGenParent475ID46.collider:SetMaxPos(225.016,61.584,215.26)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID46.collider)
+table.insert(colliders,AutoGenParent475ID46)
+AutoGenParent475ID47 = {}
+AutoGenParent475ID47.collider = OBBCollider.Create(-1)
+AutoGenParent475ID47.collider:SetOffset(62,11.4009,208)
+AutoGenParent475ID47.collider:SetZAxis(0.980581,0,-0.196116)
+AutoGenParent475ID47.collider:SetHalfLengths(0.3,8.68226,5.09902)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID47.collider)
+table.insert(colliders,AutoGenParent475ID47)
+AutoGenParent475ID48 = {}
+AutoGenParent475ID48.collider = OBBCollider.Create(-1)
+AutoGenParent475ID48.collider:SetOffset(71.5,15.0832,205.5)
+AutoGenParent475ID48.collider:SetZAxis(0.948683,0,-0.316228)
+AutoGenParent475ID48.collider:SetHalfLengths(0.3,8.24039,4.74342)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID48.collider)
+table.insert(colliders,AutoGenParent475ID48)
+AutoGenParent475ID49 = {}
+AutoGenParent475ID49.collider = OBBCollider.Create(-1)
+AutoGenParent475ID49.collider:SetOffset(79,18.3236,202.5)
+AutoGenParent475ID49.collider:SetZAxis(0.894427,0,-0.447214)
+AutoGenParent475ID49.collider:SetHalfLengths(0.3,6.76749,3.3541)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID49.collider)
+table.insert(colliders,AutoGenParent475ID49)
+AutoGenParent475ID50 = {}
+AutoGenParent475ID50.collider = OBBCollider.Create(-1)
+AutoGenParent475ID50.collider:SetOffset(105,27.0137,192.5)
+AutoGenParent475ID50.collider:SetZAxis(0.847998,0,0.529999)
+AutoGenParent475ID50.collider:SetHalfLengths(0.3,8.68227,4.71699)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID50.collider)
+table.insert(colliders,AutoGenParent475ID50)
+AutoGenParent475ID51 = {}
+AutoGenParent475ID51.collider = OBBCollider.Create(-1)
+AutoGenParent475ID51.collider:SetOffset(40.5,8.60238,213)
+AutoGenParent475ID51.collider:SetZAxis(0.868243,0,0.496139)
+AutoGenParent475ID51.collider:SetHalfLengths(0.3,5.73645,4.03113)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID51.collider)
+table.insert(colliders,AutoGenParent475ID51)
+AutoGenParent475ID52 = {}
+AutoGenParent475ID52.collider = OBBCollider.Create(-1)
+AutoGenParent475ID52.collider:SetOffset(152,50.4568,146.5)
+AutoGenParent475ID52.collider:SetZAxis(0.992278,0,0.124035)
+AutoGenParent475ID52.collider:SetHalfLengths(0.3,5.22281,4.03113)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID52.collider)
+table.insert(colliders,AutoGenParent475ID52)
+AutoGenParent475ID53 = {}
+AutoGenParent475ID53.collider = OBBCollider.Create(-1)
+AutoGenParent475ID53.collider:SetOffset(161.5,50.234,149)
+AutoGenParent475ID53.collider:SetZAxis(0.939793,0,0.341743)
+AutoGenParent475ID53.collider:SetHalfLengths(0.3,6.89388,5.85235)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID53.collider)
+table.insert(colliders,AutoGenParent475ID53)
+AutoGenParent475ID54 = {}
+AutoGenParent475ID54.collider = OBBCollider.Create(-1)
+AutoGenParent475ID54.collider:SetOffset(215.5,52.0165,34.5)
+AutoGenParent475ID54.collider:SetZAxis(0.998618,0,0.0525588)
+AutoGenParent475ID54.collider:SetHalfLengths(0.3,9.01056,9.51315)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID54.collider)
+table.insert(colliders,AutoGenParent475ID54)
+AutoGenParent475ID55 = {}
+AutoGenParent475ID55.collider = OBBCollider.Create(-1)
+AutoGenParent475ID55.collider:SetOffset(213,50.4568,48.5)
+AutoGenParent475ID55.collider:SetZAxis(-0.992278,0,0.124035)
+AutoGenParent475ID55.collider:SetHalfLengths(0.3,6.78247,4.03113)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID55.collider)
+table.insert(colliders,AutoGenParent475ID55)
+AutoGenParent475ID56 = {}
+AutoGenParent475ID56.collider = OBBCollider.Create(-1)
+AutoGenParent475ID56.collider:SetOffset(194,55.5814,84)
+AutoGenParent475ID56.collider:SetZAxis(0.141421,0,0.98995)
+AutoGenParent475ID56.collider:SetHalfLengths(0.3,6.00264,7.07107)
+AutoGenParent475ID46.collider:AddChild(AutoGenParent475ID56.collider)
+table.insert(colliders,AutoGenParent475ID56)
+AutoGenParent475ID57 = {}
+AutoGenParent475ID57.collider = AABBCollider.Create(-1)
+AutoGenParent475ID57.collider:SetOffset(0,0,0)
+AutoGenParent475ID57.collider:SetMinPos(43.9576,-1.70009,90.9051)
+AutoGenParent475ID57.collider:SetMaxPos(200.285,62.1411,217.3)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID57.collider)
+table.insert(colliders,AutoGenParent475ID57)
+AutoGenParent475ID58 = {}
+AutoGenParent475ID58.collider = OBBCollider.Create(-1)
+AutoGenParent475ID58.collider:SetOffset(111,30.696,195.5)
+AutoGenParent475ID58.collider:SetZAxis(0.970143,0,0.242536)
+AutoGenParent475ID58.collider:SetHalfLengths(0.3,6.17832,2.06155)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID58.collider)
+table.insert(colliders,AutoGenParent475ID58)
+AutoGenParent475ID59 = {}
+AutoGenParent475ID59.collider = OBBCollider.Create(-1)
+AutoGenParent475ID59.collider:SetOffset(107,34.6728,203)
+AutoGenParent475ID59.collider:SetZAxis(-0.780869,0,-0.624695)
+AutoGenParent475ID59.collider:SetHalfLengths(0.3,11.0389,6.40312)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID59.collider)
+table.insert(colliders,AutoGenParent475ID59)
+AutoGenParent475ID60 = {}
+AutoGenParent475ID60.collider = OBBCollider.Create(-1)
+AutoGenParent475ID60.collider:SetOffset(101,28.6339,199)
+AutoGenParent475ID60.collider:SetZAxis(-1,0,0)
+AutoGenParent475ID60.collider:SetHalfLengths(0.3,6.32562,1)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID60.collider)
+table.insert(colliders,AutoGenParent475ID60)
+AutoGenParent475ID61 = {}
+AutoGenParent475ID61.collider = OBBCollider.Create(-1)
+AutoGenParent475ID61.collider:SetOffset(95,27.3083,202.5)
+AutoGenParent475ID61.collider:SetZAxis(-0.819232,0,0.573462)
+AutoGenParent475ID61.collider:SetHalfLengths(0.3,9.7133,6.10328)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID61.collider)
+table.insert(colliders,AutoGenParent475ID61)
+AutoGenParent475ID62 = {}
+AutoGenParent475ID62.collider = OBBCollider.Create(-1)
+AutoGenParent475ID62.collider:SetOffset(89,22.595,207.5)
+AutoGenParent475ID62.collider:SetZAxis(-0.5547,0,0.83205)
+AutoGenParent475ID62.collider:SetHalfLengths(0.3,6.03103,1.80278)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID62.collider)
+table.insert(colliders,AutoGenParent475ID62)
+AutoGenParent475ID63 = {}
+AutoGenParent475ID63.collider = OBBCollider.Create(-1)
+AutoGenParent475ID63.collider:SetOffset(51,9.33883,216)
+AutoGenParent475ID63.collider:SetZAxis(0.98995,0,0.141421)
+AutoGenParent475ID63.collider:SetHalfLengths(0.3,5.58916,7.07107)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID63.collider)
+table.insert(colliders,AutoGenParent475ID63)
+AutoGenParent475ID64 = {}
+AutoGenParent475ID64.collider = OBBCollider.Create(-1)
+AutoGenParent475ID64.collider:SetOffset(63,8.74967,217)
+AutoGenParent475ID64.collider:SetZAxis(1,0,0)
+AutoGenParent475ID64.collider:SetHalfLengths(0.3,10.4498,5)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID64.collider)
+table.insert(colliders,AutoGenParent475ID64)
+AutoGenParent475ID65 = {}
+AutoGenParent475ID65.collider = OBBCollider.Create(-1)
+AutoGenParent475ID65.collider:SetOffset(141,40.5418,173)
+AutoGenParent475ID65.collider:SetZAxis(-0.196116,0,-0.980581)
+AutoGenParent475ID65.collider:SetHalfLengths(0.3,8.67635,5.09902)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID65.collider)
+table.insert(colliders,AutoGenParent475ID65)
+AutoGenParent475ID66 = {}
+AutoGenParent475ID66.collider = OBBCollider.Create(-1)
+AutoGenParent475ID66.collider:SetOffset(197.5,56.584,98.5)
+AutoGenParent475ID66.collider:SetZAxis(0.316228,0,0.948683)
+AutoGenParent475ID66.collider:SetHalfLengths(0.3,5.55702,7.90569)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID66.collider)
+table.insert(colliders,AutoGenParent475ID66)
+AutoGenParent475ID67 = {}
+AutoGenParent475ID67.collider = OBBCollider.Create(-1)
+AutoGenParent475ID67.collider:SetOffset(153.5,50.5682,161.5)
+AutoGenParent475ID67.collider:SetZAxis(-0.393919,0,0.919145)
+AutoGenParent475ID67.collider:SetHalfLengths(0.3,6.67107,3.80789)
+AutoGenParent475ID57.collider:AddChild(AutoGenParent475ID67.collider)
+table.insert(colliders,AutoGenParent475ID67)
+AutoGenParent475ID68 = {}
+AutoGenParent475ID68.collider = AABBCollider.Create(-1)
+AutoGenParent475ID68.collider:SetOffset(0,0,0)
+AutoGenParent475ID68.collider:SetMinPos(67.8529,7.72652,34.7033)
+AutoGenParent475ID68.collider:SetMaxPos(245.044,62.6981,226.261)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID68.collider)
+table.insert(colliders,AutoGenParent475ID68)
+AutoGenParent475ID69 = {}
+AutoGenParent475ID69.collider = OBBCollider.Create(-1)
+AutoGenParent475ID69.collider:SetOffset(115.5,31.8743,198)
+AutoGenParent475ID69.collider:SetZAxis(0.780869,0,0.624695)
+AutoGenParent475ID69.collider:SetHalfLengths(0.3,7.79852,3.20156)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID69.collider)
+table.insert(colliders,AutoGenParent475ID69)
+AutoGenParent475ID70 = {}
+AutoGenParent475ID70.collider = OBBCollider.Create(-1)
+AutoGenParent475ID70.collider:SetOffset(90,21.5639,213.5)
+AutoGenParent475ID70.collider:SetZAxis(0.406139,0,0.913812)
+AutoGenParent475ID70.collider:SetHalfLengths(0.3,5.88374,4.92443)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID70.collider)
+table.insert(colliders,AutoGenParent475ID70)
+AutoGenParent475ID71 = {}
+AutoGenParent475ID71.collider = OBBCollider.Create(-1)
+AutoGenParent475ID71.collider:SetOffset(76,14.1994,221.5)
+AutoGenParent475ID71.collider:SetZAxis(0.871576,0,0.490261)
+AutoGenParent475ID71.collider:SetHalfLengths(0.3,6.4729,9.17878)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID71.collider)
+table.insert(colliders,AutoGenParent475ID71)
+AutoGenParent475ID72 = {}
+AutoGenParent475ID72.collider = OBBCollider.Create(-1)
+AutoGenParent475ID72.collider:SetOffset(143,38.8707,185)
+AutoGenParent475ID72.collider:SetZAxis(-0.141421,0,-0.98995)
+AutoGenParent475ID72.collider:SetHalfLengths(0.3,6.67107,7.07107)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID72.collider)
+table.insert(colliders,AutoGenParent475ID72)
+AutoGenParent475ID73 = {}
+AutoGenParent475ID73.collider = OBBCollider.Create(-1)
+AutoGenParent475ID73.collider:SetOffset(170,52.1279,152)
+AutoGenParent475ID73.collider:SetZAxis(0.948683,0,0.316228)
+AutoGenParent475ID73.collider:SetHalfLengths(0.3,5.66843,3.16228)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID73.collider)
+table.insert(colliders,AutoGenParent475ID73)
+AutoGenParent475ID74 = {}
+AutoGenParent475ID74.collider = OBBCollider.Create(-1)
+AutoGenParent475ID74.collider:SetOffset(186.5,55.3586,129)
+AutoGenParent475ID74.collider:SetZAxis(-0.242536,0,-0.970143)
+AutoGenParent475ID74.collider:SetHalfLengths(0.3,5.1114,2.06155)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID74.collider)
+table.insert(colliders,AutoGenParent475ID74)
+AutoGenParent475ID75 = {}
+AutoGenParent475ID75.collider = OBBCollider.Create(-1)
+AutoGenParent475ID75.collider:SetOffset(235,48.0059,36.5)
+AutoGenParent475ID75.collider:SetZAxis(0.988936,0,0.14834)
+AutoGenParent475ID75.collider:SetHalfLengths(0.3,7.78511,10.1119)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID75.collider)
+table.insert(colliders,AutoGenParent475ID75)
+AutoGenParent475ID76 = {}
+AutoGenParent475ID76.collider = OBBCollider.Create(-1)
+AutoGenParent475ID76.collider:SetOffset(221.5,48.4515,48.5)
+AutoGenParent475ID76.collider:SetZAxis(-0.993884,0,-0.110432)
+AutoGenParent475ID76.collider:SetHalfLengths(0.3,7.00528,4.52769)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID76.collider)
+table.insert(colliders,AutoGenParent475ID76)
+AutoGenParent475ID77 = {}
+AutoGenParent475ID77.collider = OBBCollider.Create(-1)
+AutoGenParent475ID77.collider:SetOffset(160.5,54.1331,160.5)
+AutoGenParent475ID77.collider:SetZAxis(-0.910366,0,-0.413803)
+AutoGenParent475ID77.collider:SetHalfLengths(0.3,8.56494,6.04152)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID77.collider)
+table.insert(colliders,AutoGenParent475ID77)
+AutoGenParent475ID78 = {}
+AutoGenParent475ID78.collider = OBBCollider.Create(-1)
+AutoGenParent475ID78.collider:SetOffset(155.5,48.8971,169)
+AutoGenParent475ID78.collider:SetZAxis(0.658505,0,0.752577)
+AutoGenParent475ID78.collider:SetHalfLengths(0.3,5.44561,5.31507)
+AutoGenParent475ID68.collider:AddChild(AutoGenParent475ID78.collider)
+table.insert(colliders,AutoGenParent475ID78)
+AutoGenParent475ID79 = {}
+AutoGenParent475ID79.collider = AABBCollider.Create(-1)
+AutoGenParent475ID79.collider:SetOffset(0,0,0)
+AutoGenParent475ID79.collider:SetMinPos(91.9272,13.029,48.7154)
+AutoGenParent475ID79.collider:SetMaxPos(241.095,62.0297,221.291)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID79.collider)
+table.insert(colliders,AutoGenParent475ID79)
+AutoGenParent475ID80 = {}
+AutoGenParent475ID80.collider = OBBCollider.Create(-1)
+AutoGenParent475ID80.collider:SetOffset(121,34.6728,206)
+AutoGenParent475ID80.collider:SetZAxis(0.447214,0,0.894427)
+AutoGenParent475ID80.collider:SetHalfLengths(0.3,6.76749,6.7082)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID80.collider)
+table.insert(colliders,AutoGenParent475ID80)
+AutoGenParent475ID81 = {}
+AutoGenParent475ID81.collider = OBBCollider.Create(-1)
+AutoGenParent475ID81.collider:SetOffset(98,22.4477,219.5)
+AutoGenParent475ID81.collider:SetZAxis(0.970142,0,0.242536)
+AutoGenParent475ID81.collider:SetHalfLengths(0.3,9.41872,6.18466)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID81.collider)
+table.insert(colliders,AutoGenParent475ID81)
+AutoGenParent475ID82 = {}
+AutoGenParent475ID82.collider = OBBCollider.Create(-1)
+AutoGenParent475ID82.collider:SetOffset(114,36.1457,210.5)
+AutoGenParent475ID82.collider:SetZAxis(-0.496139,0,-0.868243)
+AutoGenParent475ID82.collider:SetHalfLengths(0.3,6.4729,4.03113)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID82.collider)
+table.insert(colliders,AutoGenParent475ID82)
+AutoGenParent475ID83 = {}
+AutoGenParent475ID83.collider = OBBCollider.Create(-1)
+AutoGenParent475ID83.collider:SetOffset(176.5,52.7963,152.5)
+AutoGenParent475ID83.collider:SetZAxis(0.98995,0,-0.141421)
+AutoGenParent475ID83.collider:SetHalfLengths(0.3,6.33685,3.53553)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID83.collider)
+table.insert(colliders,AutoGenParent475ID83)
+AutoGenParent475ID84 = {}
+AutoGenParent475ID84.collider = OBBCollider.Create(-1)
+AutoGenParent475ID84.collider:SetOffset(186,55.5814,143.5)
+AutoGenParent475ID84.collider:SetZAxis(0.371391,0,-0.928477)
+AutoGenParent475ID84.collider:SetHalfLengths(0.3,5.33421,2.69258)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID84.collider)
+table.insert(colliders,AutoGenParent475ID84)
+AutoGenParent475ID85 = {}
+AutoGenParent475ID85.collider = OBBCollider.Create(-1)
+AutoGenParent475ID85.collider:SetOffset(187.5,55.2472,138)
+AutoGenParent475ID85.collider:SetZAxis(0.164399,0,-0.986394)
+AutoGenParent475ID85.collider:SetHalfLengths(0.3,5,3.04138)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID85.collider)
+table.insert(colliders,AutoGenParent475ID85)
+AutoGenParent475ID86 = {}
+AutoGenParent475ID86.collider = OBBCollider.Create(-1)
+AutoGenParent475ID86.collider:SetOffset(187.5,55.2472,133)
+AutoGenParent475ID86.collider:SetZAxis(-0.242536,0,-0.970143)
+AutoGenParent475ID86.collider:SetHalfLengths(0.3,5.1114,2.06155)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID86.collider)
+table.insert(colliders,AutoGenParent475ID86)
+AutoGenParent475ID87 = {}
+AutoGenParent475ID87.collider = OBBCollider.Create(-1)
+AutoGenParent475ID87.collider:SetOffset(233.5,44.998,51.5)
+AutoGenParent475ID87.collider:SetZAxis(-0.948683,0,-0.316228)
+AutoGenParent475ID87.collider:SetHalfLengths(0.3,8.45354,7.90569)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID87.collider)
+table.insert(colliders,AutoGenParent475ID87)
+AutoGenParent475ID88 = {}
+AutoGenParent475ID88.collider = OBBCollider.Create(-1)
+AutoGenParent475ID88.collider:SetOffset(202.5,56.027,116.5)
+AutoGenParent475ID88.collider:SetZAxis(0.231621,0,0.972806)
+AutoGenParent475ID88.collider:SetHalfLengths(0.3,5.89124,10.7935)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID88.collider)
+table.insert(colliders,AutoGenParent475ID88)
+AutoGenParent475ID89 = {}
+AutoGenParent475ID89.collider = OBBCollider.Create(-1)
+AutoGenParent475ID89.collider:SetOffset(170.5,55.5814,165.5)
+AutoGenParent475ID89.collider:SetZAxis(-0.874157,0,-0.485643)
+AutoGenParent475ID89.collider:SetHalfLengths(0.3,6.44826,5.14782)
+AutoGenParent475ID79.collider:AddChild(AutoGenParent475ID89.collider)
+table.insert(colliders,AutoGenParent475ID89)
+AutoGenParent475ID90 = {}
+AutoGenParent475ID90.collider = AABBCollider.Create(-1)
+AutoGenParent475ID90.collider:SetOffset(0,0,0)
+AutoGenParent475ID90.collider:SetMinPos(123.927,27.0216,37.73)
+AutoGenParent475ID90.collider:SetMaxPos(276.131,61.4726,212.291)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID90.collider)
+table.insert(colliders,AutoGenParent475ID90)
+AutoGenParent475ID91 = {}
+AutoGenParent475ID91.collider = OBBCollider.Create(-1)
+AutoGenParent475ID91.collider:SetOffset(126,32.9053,211.5)
+AutoGenParent475ID91.collider:SetZAxis(0.970143,0,-0.242536)
+AutoGenParent475ID91.collider:SetHalfLengths(0.3,5.88375,2.06155)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID91.collider)
+table.insert(colliders,AutoGenParent475ID91)
+AutoGenParent475ID92 = {}
+AutoGenParent475ID92.collider = OBBCollider.Create(-1)
+AutoGenParent475ID92.collider:SetOffset(260.5,45.2208,45.5)
+AutoGenParent475ID92.collider:SetZAxis(0.900159,0,0.435561)
+AutoGenParent475ID92.collider:SetHalfLengths(0.3,9.23337,17.2192)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID92.collider)
+table.insert(colliders,AutoGenParent475ID92)
+AutoGenParent475ID93 = {}
+AutoGenParent475ID93.collider = OBBCollider.Create(-1)
+AutoGenParent475ID93.collider:SetOffset(248,40.9874,57)
+AutoGenParent475ID93.collider:SetZAxis(-0.919145,0,-0.393919)
+AutoGenParent475ID93.collider:SetHalfLengths(0.3,9.01056,7.61577)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID93.collider)
+table.insert(colliders,AutoGenParent475ID93)
+AutoGenParent475ID94 = {}
+AutoGenParent475ID94.collider = OBBCollider.Create(-1)
+AutoGenParent475ID94.collider:SetOffset(205.5,55.1358,132.5)
+AutoGenParent475ID94.collider:SetZAxis(0.0905358,0,0.995893)
+AutoGenParent475ID94.collider:SetHalfLengths(0.3,5.33421,5.52268)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID94.collider)
+table.insert(colliders,AutoGenParent475ID94)
+AutoGenParent475ID95 = {}
+AutoGenParent475ID95.collider = OBBCollider.Create(-1)
+AutoGenParent475ID95.collider:SetOffset(206.5,55.47,143.5)
+AutoGenParent475ID95.collider:SetZAxis(0.0905358,0,0.995893)
+AutoGenParent475ID95.collider:SetHalfLengths(0.3,5.22281,5.52268)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID95.collider)
+table.insert(colliders,AutoGenParent475ID95)
+AutoGenParent475ID96 = {}
+AutoGenParent475ID96.collider = OBBCollider.Create(-1)
+AutoGenParent475ID96.collider:SetOffset(180,56.027,169)
+AutoGenParent475ID96.collider:SetZAxis(-0.980581,0,-0.196116)
+AutoGenParent475ID96.collider:SetHalfLengths(0.3,5.44562,5.09902)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID96.collider)
+table.insert(colliders,AutoGenParent475ID96)
+AutoGenParent475ID97 = {}
+AutoGenParent475ID97.collider = OBBCollider.Create(-1)
+AutoGenParent475ID97.collider:SetOffset(163,43.6611,194.5)
+AutoGenParent475ID97.collider:SetZAxis(0,0,1)
+AutoGenParent475ID97.collider:SetHalfLengths(0.3,8.34213,9.5)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID97.collider)
+table.insert(colliders,AutoGenParent475ID97)
+AutoGenParent475ID98 = {}
+AutoGenParent475ID98.collider = OBBCollider.Create(-1)
+AutoGenParent475ID98.collider:SetOffset(218.5,38.9821,136)
+AutoGenParent475ID98.collider:SetZAxis(-0.209529,0,-0.977802)
+AutoGenParent475ID98.collider:SetHalfLengths(0.3,7.33949,7.15891)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID98.collider)
+table.insert(colliders,AutoGenParent475ID98)
+AutoGenParent475ID99 = {}
+AutoGenParent475ID99.collider = OBBCollider.Create(-1)
+AutoGenParent475ID99.collider:SetOffset(221.5,41.3216,126)
+AutoGenParent475ID99.collider:SetZAxis(0.83205,0,-0.5547)
+AutoGenParent475ID99.collider:SetHalfLengths(0.3,5.89124,5.40833)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID99.collider)
+table.insert(colliders,AutoGenParent475ID99)
+AutoGenParent475ID100 = {}
+AutoGenParent475ID100.collider = OBBCollider.Create(-1)
+AutoGenParent475ID100.collider:SetOffset(165.372,45.0938,192.965)
+AutoGenParent475ID100.collider:SetZAxis(0,0,1)
+AutoGenParent475ID100.collider:SetHalfLengths(3.18928,5.74361,3.11039)
+AutoGenParent475ID90.collider:AddChild(AutoGenParent475ID100.collider)
+table.insert(colliders,AutoGenParent475ID100)
+AutoGenParent475ID101 = {}
+AutoGenParent475ID101.collider = AABBCollider.Create(-1)
+AutoGenParent475ID101.collider:SetOffset(0,0,0)
+AutoGenParent475ID101.collider:SetMinPos(118.951,23.6339,59.7622)
+AutoGenParent475ID101.collider:SetMaxPos(268.183,49.998,234.296)
+AutoGenParent475ID1.collider:AddChild(AutoGenParent475ID101.collider)
+table.insert(colliders,AutoGenParent475ID101)
+AutoGenParent475ID102 = {}
+AutoGenParent475ID102.collider = OBBCollider.Create(-1)
+AutoGenParent475ID102.collider:SetOffset(122,30.4014,233.5)
+AutoGenParent475ID102.collider:SetZAxis(0.986394,0,0.164399)
+AutoGenParent475ID102.collider:SetHalfLengths(0.3,6.76749,3.04138)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID102.collider)
+table.insert(colliders,AutoGenParent475ID102)
+AutoGenParent475ID103 = {}
+AutoGenParent475ID103.collider = OBBCollider.Create(-1)
+AutoGenParent475ID103.collider:SetOffset(138.5,35.5286,222)
+AutoGenParent475ID103.collider:SetZAxis(0.928477,0,-0.371391)
+AutoGenParent475ID103.collider:SetHalfLengths(0.3,5.33422,2.69258)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID103.collider)
+table.insert(colliders,AutoGenParent475ID103)
+AutoGenParent475ID104 = {}
+AutoGenParent475ID104.collider = OBBCollider.Create(-1)
+AutoGenParent475ID104.collider:SetOffset(143,35.1944,220.5)
+AutoGenParent475ID104.collider:SetZAxis(0.970143,0,-0.242536)
+AutoGenParent475ID104.collider:SetHalfLengths(0.3,5,2.06155)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID104.collider)
+table.insert(colliders,AutoGenParent475ID104)
+AutoGenParent475ID105 = {}
+AutoGenParent475ID105.collider = OBBCollider.Create(-1)
+AutoGenParent475ID105.collider:SetOffset(146.5,35.1944,221.5)
+AutoGenParent475ID105.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID105.collider:SetHalfLengths(0.3,5.89124,2.12132)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID105.collider)
+table.insert(colliders,AutoGenParent475ID105)
+AutoGenParent475ID106 = {}
+AutoGenParent475ID106.collider = OBBCollider.Create(-1)
+AutoGenParent475ID106.collider:SetOffset(261.5,38.7593,65)
+AutoGenParent475ID106.collider:SetZAxis(-0.792624,0,-0.609711)
+AutoGenParent475ID106.collider:SetHalfLengths(0.3,7.22809,8.20061)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID106.collider)
+table.insert(colliders,AutoGenParent475ID106)
+AutoGenParent475ID107 = {}
+AutoGenParent475ID107.collider = OBBCollider.Create(-1)
+AutoGenParent475ID107.collider:SetOffset(184,42.8813,193)
+AutoGenParent475ID107.collider:SetZAxis(0.919145,0,-0.393919)
+AutoGenParent475ID107.collider:SetHalfLengths(0.3,5.22281,7.61577)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID107.collider)
+table.insert(colliders,AutoGenParent475ID107)
+AutoGenParent475ID108 = {}
+AutoGenParent475ID108.collider = OBBCollider.Create(-1)
+AutoGenParent475ID108.collider:SetOffset(192.5,42.6585,185.5)
+AutoGenParent475ID108.collider:SetZAxis(0.316228,0,-0.948683)
+AutoGenParent475ID108.collider:SetHalfLengths(0.3,7.33949,4.74342)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID108.collider)
+table.insert(colliders,AutoGenParent475ID108)
+AutoGenParent475ID109 = {}
+AutoGenParent475ID109.collider = OBBCollider.Create(-1)
+AutoGenParent475ID109.collider:SetOffset(201,40.319,176.5)
+AutoGenParent475ID109.collider:SetZAxis(0.841179,0,-0.540758)
+AutoGenParent475ID109.collider:SetHalfLengths(0.3,6.00264,8.32166)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID109.collider)
+table.insert(colliders,AutoGenParent475ID109)
+AutoGenParent475ID110 = {}
+AutoGenParent475ID110.collider = OBBCollider.Create(-1)
+AutoGenParent475ID110.collider:SetOffset(213,39.3163,166.5)
+AutoGenParent475ID110.collider:SetZAxis(0.672673,0,-0.73994)
+AutoGenParent475ID110.collider:SetHalfLengths(0.3,7.89651,7.43303)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID110.collider)
+table.insert(colliders,AutoGenParent475ID110)
+AutoGenParent475ID111 = {}
+AutoGenParent475ID111.collider = OBBCollider.Create(-1)
+AutoGenParent475ID111.collider:SetOffset(221,36.6426,148)
+AutoGenParent475ID111.collider:SetZAxis(-0.196116,0,-0.980581)
+AutoGenParent475ID111.collider:SetHalfLengths(0.3,7.33949,5.09902)
+AutoGenParent475ID101.collider:AddChild(AutoGenParent475ID111.collider)
+table.insert(colliders,AutoGenParent475ID111)
+AutoGenParent475ID112 = {}
+AutoGenParent475ID112.collider = AABBCollider.Create(-1)
+AutoGenParent475ID112.collider:SetOffset(0,0,0)
+AutoGenParent475ID112.collider:SetMinPos(1.70104,-2.14196,52.7879)
+AutoGenParent475ID112.collider:SetMaxPos(309.235,61.027,252.296)
+AutoGenParent475ID.collider:AddChild(AutoGenParent475ID112.collider)
+table.insert(colliders,AutoGenParent475ID112)
+AutoGenParent475ID113 = {}
+AutoGenParent475ID113.collider = AABBCollider.Create(-1)
+AutoGenParent475ID113.collider:SetOffset(0,0,0)
+AutoGenParent475ID113.collider:SetMinPos(3.76,0.803856,147.802)
+AutoGenParent475ID113.collider:SetMaxPos(56.2258,18.8731,173.23)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID113.collider)
+table.insert(colliders,AutoGenParent475ID113)
+AutoGenParent475ID114 = {}
+AutoGenParent475ID114.collider = OBBCollider.Create(-1)
+AutoGenParent475ID114.collider:SetOffset(52.5,9.33883,152)
+AutoGenParent475ID114.collider:SetZAxis(-0.658505,0,0.752577)
+AutoGenParent475ID114.collider:SetHalfLengths(0.3,5.14729,5.31507)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID114.collider)
+table.insert(colliders,AutoGenParent475ID114)
+AutoGenParent475ID115 = {}
+AutoGenParent475ID115.collider = OBBCollider.Create(-1)
+AutoGenParent475ID115.collider:SetOffset(44,9.48612,157)
+AutoGenParent475ID115.collider:SetZAxis(-0.980581,0,0.196116)
+AutoGenParent475ID115.collider:SetHalfLengths(0.3,5.14729,5.09902)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID115.collider)
+table.insert(colliders,AutoGenParent475ID115)
+AutoGenParent475ID116 = {}
+AutoGenParent475ID116.collider = OBBCollider.Create(-1)
+AutoGenParent475ID116.collider:SetOffset(35,7.12947,155)
+AutoGenParent475ID116.collider:SetZAxis(0.316228,0,0.948683)
+AutoGenParent475ID116.collider:SetHalfLengths(0.3,5.14729,3.16228)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID116.collider)
+table.insert(colliders,AutoGenParent475ID116)
+AutoGenParent475ID117 = {}
+AutoGenParent475ID117.collider = OBBCollider.Create(-1)
+AutoGenParent475ID117.collider:SetOffset(37,7.27676,160)
+AutoGenParent475ID117.collider:SetZAxis(0.447214,0,0.894427)
+AutoGenParent475ID117.collider:SetHalfLengths(0.3,5.29458,2.23607)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID117.collider)
+table.insert(colliders,AutoGenParent475ID117)
+AutoGenParent475ID118 = {}
+AutoGenParent475ID118.collider = OBBCollider.Create(-1)
+AutoGenParent475ID118.collider:SetOffset(39.5,6.98218,163)
+AutoGenParent475ID118.collider:SetZAxis(0.83205,0,0.5547)
+AutoGenParent475ID118.collider:SetHalfLengths(0.3,5.14729,1.80278)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID118.collider)
+table.insert(colliders,AutoGenParent475ID118)
+AutoGenParent475ID119 = {}
+AutoGenParent475ID119.collider = OBBCollider.Create(-1)
+AutoGenParent475ID119.collider:SetOffset(43.5,7.12947,165)
+AutoGenParent475ID119.collider:SetZAxis(0.928477,0,0.371391)
+AutoGenParent475ID119.collider:SetHalfLengths(0.3,5.44187,2.69258)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID119.collider)
+table.insert(colliders,AutoGenParent475ID119)
+AutoGenParent475ID120 = {}
+AutoGenParent475ID120.collider = OBBCollider.Create(-1)
+AutoGenParent475ID120.collider:SetOffset(29.5,6.54031,168)
+AutoGenParent475ID120.collider:SetZAxis(-1,0,0)
+AutoGenParent475ID120.collider:SetHalfLengths(0.3,5.44187,1.5)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID120.collider)
+table.insert(colliders,AutoGenParent475ID120)
+AutoGenParent475ID121 = {}
+AutoGenParent475ID121.collider = OBBCollider.Create(-1)
+AutoGenParent475ID121.collider:SetOffset(25,6.09844,170.5)
+AutoGenParent475ID121.collider:SetZAxis(-0.768221,0,0.640184)
+AutoGenParent475ID121.collider:SetHalfLengths(0.3,5.29458,3.90512)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID121.collider)
+table.insert(colliders,AutoGenParent475ID121)
+AutoGenParent475ID122 = {}
+AutoGenParent475ID122.collider = OBBCollider.Create(-1)
+AutoGenParent475ID122.collider:SetOffset(7,6.54031,167)
+AutoGenParent475ID122.collider:SetZAxis(0.6,0,0.8)
+AutoGenParent475ID122.collider:SetHalfLengths(0.3,5.29458,5)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID122.collider)
+table.insert(colliders,AutoGenParent475ID122)
+AutoGenParent475ID123 = {}
+AutoGenParent475ID123.collider = OBBCollider.Create(-1)
+AutoGenParent475ID123.collider:SetOffset(39.8641,12.8281,155.087)
+AutoGenParent475ID123.collider:SetZAxis(0.985344,-0.00610736,-0.170469)
+AutoGenParent475ID123.collider:SetHalfLengths(2.11687,6.02749,2.51378)
+AutoGenParent475ID113.collider:AddChild(AutoGenParent475ID123.collider)
+table.insert(colliders,AutoGenParent475ID123)
+AutoGenParent475ID124 = {}
+AutoGenParent475ID124.collider = AABBCollider.Create(-1)
+AutoGenParent475ID124.collider:SetOffset(0,0,0)
+AutoGenParent475ID124.collider:SetMinPos(2.80476,0.361984,165.7)
+AutoGenParent475ID124.collider:SetMaxPos(58.2683,14.4158,183.858)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID124.collider)
+table.insert(colliders,AutoGenParent475ID124)
+AutoGenParent475ID125 = {}
+AutoGenParent475ID125.collider = OBBCollider.Create(-1)
+AutoGenParent475ID125.collider:SetOffset(48.5,7.57134,166)
+AutoGenParent475ID125.collider:SetZAxis(1,0,0)
+AutoGenParent475ID125.collider:SetHalfLengths(0.3,5.44187,2.5)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID125.collider)
+table.insert(colliders,AutoGenParent475ID125)
+AutoGenParent475ID126 = {}
+AutoGenParent475ID126.collider = OBBCollider.Create(-1)
+AutoGenParent475ID126.collider:SetOffset(54,8.01322,168)
+AutoGenParent475ID126.collider:SetZAxis(0.83205,0,0.5547)
+AutoGenParent475ID126.collider:SetHalfLengths(0.3,5,3.60555)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID126.collider)
+table.insert(colliders,AutoGenParent475ID126)
+AutoGenParent475ID127 = {}
+AutoGenParent475ID127.collider = OBBCollider.Create(-1)
+AutoGenParent475ID127.collider:SetOffset(57.5,8.01322,171)
+AutoGenParent475ID127.collider:SetZAxis(0.447214,0,0.894427)
+AutoGenParent475ID127.collider:SetHalfLengths(0.3,5,1.11803)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID127.collider)
+table.insert(colliders,AutoGenParent475ID127)
+AutoGenParent475ID128 = {}
+AutoGenParent475ID128.collider = OBBCollider.Create(-1)
+AutoGenParent475ID128.collider:SetOffset(35,7.12947,176.5)
+AutoGenParent475ID128.collider:SetZAxis(-0.274721,0,-0.961524)
+AutoGenParent475ID128.collider:SetHalfLengths(0.3,5.58916,3.64005)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID128.collider)
+table.insert(colliders,AutoGenParent475ID128)
+AutoGenParent475ID129 = {}
+AutoGenParent475ID129.collider = OBBCollider.Create(-1)
+AutoGenParent475ID129.collider:SetOffset(32.5,6.54031,170.5)
+AutoGenParent475ID129.collider:SetZAxis(-0.514496,0,-0.857493)
+AutoGenParent475ID129.collider:SetHalfLengths(0.3,5,2.91548)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID129.collider)
+table.insert(colliders,AutoGenParent475ID129)
+AutoGenParent475ID130 = {}
+AutoGenParent475ID130.collider = OBBCollider.Create(-1)
+AutoGenParent475ID130.collider:SetOffset(22,5.80386,174.5)
+AutoGenParent475ID130.collider:SetZAxis(0,0,1)
+AutoGenParent475ID130.collider:SetHalfLengths(0.3,5,1.5)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID130.collider)
+table.insert(colliders,AutoGenParent475ID130)
+AutoGenParent475ID131 = {}
+AutoGenParent475ID131.collider = OBBCollider.Create(-1)
+AutoGenParent475ID131.collider:SetOffset(23.5,5.80386,179.5)
+AutoGenParent475ID131.collider:SetZAxis(0.393919,0,0.919145)
+AutoGenParent475ID131.collider:SetHalfLengths(0.3,5.29458,3.80789)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID131.collider)
+table.insert(colliders,AutoGenParent475ID131)
+AutoGenParent475ID132 = {}
+AutoGenParent475ID132.collider = OBBCollider.Create(-1)
+AutoGenParent475ID132.collider:SetOffset(10,6.24573,173.5)
+AutoGenParent475ID132.collider:SetZAxis(0,0,1)
+AutoGenParent475ID132.collider:SetHalfLengths(0.3,5.58916,2.5)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID132.collider)
+table.insert(colliders,AutoGenParent475ID132)
+AutoGenParent475ID133 = {}
+AutoGenParent475ID133.collider = OBBCollider.Create(-1)
+AutoGenParent475ID133.collider:SetOffset(6.5,5.65657,179)
+AutoGenParent475ID133.collider:SetZAxis(-0.759257,0,0.650791)
+AutoGenParent475ID133.collider:SetHalfLengths(0.3,5.29458,4.60977)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID133.collider)
+table.insert(colliders,AutoGenParent475ID133)
+AutoGenParent475ID134 = {}
+AutoGenParent475ID134.collider = OBBCollider.Create(-1)
+AutoGenParent475ID134.collider:SetOffset(6.18867,8.53125,180.735)
+AutoGenParent475ID134.collider:SetZAxis(-0.891114,0,-0.453779)
+AutoGenParent475ID134.collider:SetHalfLengths(2.5078,5.88453,1.95815)
+AutoGenParent475ID124.collider:AddChild(AutoGenParent475ID134.collider)
+table.insert(colliders,AutoGenParent475ID134)
+AutoGenParent475ID135 = {}
+AutoGenParent475ID135.collider = AABBCollider.Create(-1)
+AutoGenParent475ID135.collider:SetOffset(0,0,0)
+AutoGenParent475ID135.collider:SetMinPos(1.70104,-2.14196,171.963)
+AutoGenParent475ID135.collider:SetMaxPos(58.2977,21.9153,196.22)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID135.collider)
+table.insert(colliders,AutoGenParent475ID135)
+AutoGenParent475ID136 = {}
+AutoGenParent475ID136.collider = OBBCollider.Create(-1)
+AutoGenParent475ID136.collider:SetOffset(57.5,8.01322,176)
+AutoGenParent475ID136.collider:SetZAxis(-0.124035,0,0.992278)
+AutoGenParent475ID136.collider:SetHalfLengths(0.3,5,4.03113)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID136.collider)
+table.insert(colliders,AutoGenParent475ID136)
+AutoGenParent475ID137 = {}
+AutoGenParent475ID137.collider = OBBCollider.Create(-1)
+AutoGenParent475ID137.collider:SetOffset(54.5,8.01322,183)
+AutoGenParent475ID137.collider:SetZAxis(-0.640184,0,0.768221)
+AutoGenParent475ID137.collider:SetHalfLengths(0.3,5,3.90512)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID137.collider)
+table.insert(colliders,AutoGenParent475ID137)
+AutoGenParent475ID138 = {}
+AutoGenParent475ID138.collider = OBBCollider.Create(-1)
+AutoGenParent475ID138.collider:SetOffset(49,8.01322,186.5)
+AutoGenParent475ID138.collider:SetZAxis(-0.986394,0,0.164399)
+AutoGenParent475ID138.collider:SetHalfLengths(0.3,5,3.04138)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID138.collider)
+table.insert(colliders,AutoGenParent475ID138)
+AutoGenParent475ID139 = {}
+AutoGenParent475ID139.collider = OBBCollider.Create(-1)
+AutoGenParent475ID139.collider:SetOffset(44,8.01322,187)
+AutoGenParent475ID139.collider:SetZAxis(-1,0,0)
+AutoGenParent475ID139.collider:SetHalfLengths(0.3,5,2)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID139.collider)
+table.insert(colliders,AutoGenParent475ID139)
+AutoGenParent475ID140 = {}
+AutoGenParent475ID140.collider = OBBCollider.Create(-1)
+AutoGenParent475ID140.collider:SetOffset(40,8.01322,185.5)
+AutoGenParent475ID140.collider:SetZAxis(-0.8,0,-0.6)
+AutoGenParent475ID140.collider:SetHalfLengths(0.3,5.29458,2.5)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID140.collider)
+table.insert(colliders,AutoGenParent475ID140)
+AutoGenParent475ID141 = {}
+AutoGenParent475ID141.collider = OBBCollider.Create(-1)
+AutoGenParent475ID141.collider:SetOffset(37,7.71863,182)
+AutoGenParent475ID141.collider:SetZAxis(-0.447214,0,-0.894427)
+AutoGenParent475ID141.collider:SetHalfLengths(0.3,5.58916,2.23607)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID141.collider)
+table.insert(colliders,AutoGenParent475ID141)
+AutoGenParent475ID142 = {}
+AutoGenParent475ID142.collider = OBBCollider.Create(-1)
+AutoGenParent475ID142.collider:SetOffset(32,5.50927,189.5)
+AutoGenParent475ID142.collider:SetZAxis(0.732794,0,0.680451)
+AutoGenParent475ID142.collider:SetHalfLengths(0.3,7.65123,9.55249)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID142.collider)
+table.insert(colliders,AutoGenParent475ID142)
+AutoGenParent475ID143 = {}
+AutoGenParent475ID143.collider = OBBCollider.Create(-1)
+AutoGenParent475ID143.collider:SetOffset(2.5,5.36198,188)
+AutoGenParent475ID143.collider:SetZAxis(-0.0830455,0,0.996546)
+AutoGenParent475ID143.collider:SetHalfLengths(0.3,6.32562,6.0208)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID143.collider)
+table.insert(colliders,AutoGenParent475ID143)
+AutoGenParent475ID144 = {}
+AutoGenParent475ID144.collider = OBBCollider.Create(-1)
+AutoGenParent475ID144.collider:SetOffset(23,4.33095,190.5)
+AutoGenParent475ID144.collider:SetZAxis(0.478852,0,0.877896)
+AutoGenParent475ID144.collider:SetHalfLengths(0.3,6.03103,6.26498)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID144.collider)
+table.insert(colliders,AutoGenParent475ID144)
+AutoGenParent475ID145 = {}
+AutoGenParent475ID145.collider = OBBCollider.Create(-1)
+AutoGenParent475ID145.collider:SetOffset(37.7154,11.4688,182.582)
+AutoGenParent475ID145.collider:SetZAxis(-0.988898,0,0.148599)
+AutoGenParent475ID145.collider:SetHalfLengths(3.65554,10.4465,3.23962)
+AutoGenParent475ID135.collider:AddChild(AutoGenParent475ID145.collider)
+table.insert(colliders,AutoGenParent475ID145)
+AutoGenParent475ID146 = {}
+AutoGenParent475ID146.collider = AABBCollider.Create(-1)
+AutoGenParent475ID146.collider:SetOffset(0,0,0)
+AutoGenParent475ID146.collider:SetMinPos(83.8378,3.74966,145.905)
+AutoGenParent475ID146.collider:SetMaxPos(185.285,60.5814,235.252)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID146.collider)
+table.insert(colliders,AutoGenParent475ID146)
+AutoGenParent475ID147 = {}
+AutoGenParent475ID147.collider = OBBCollider.Create(-1)
+AutoGenParent475ID147.collider:SetOffset(105.5,26.8664,222.5)
+AutoGenParent475ID147.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID147.collider:SetHalfLengths(0.3,6.47291,2.12132)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID147.collider)
+table.insert(colliders,AutoGenParent475ID147)
+AutoGenParent475ID148 = {}
+AutoGenParent475ID148.collider = OBBCollider.Create(-1)
+AutoGenParent475ID148.collider:SetOffset(111.5,28.3393,222)
+AutoGenParent475ID148.collider:SetZAxis(0.913812,0,-0.406139)
+AutoGenParent475ID148.collider:SetHalfLengths(0.3,7.65123,4.92443)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID148.collider)
+table.insert(colliders,AutoGenParent475ID148)
+AutoGenParent475ID149 = {}
+AutoGenParent475ID149.collider = OBBCollider.Create(-1)
+AutoGenParent475ID149.collider:SetOffset(116,30.9905,217)
+AutoGenParent475ID149.collider:SetZAxis(0,0,-1)
+AutoGenParent475ID149.collider:SetHalfLengths(0.3,10.1552,3)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID149.collider)
+table.insert(colliders,AutoGenParent475ID149)
+AutoGenParent475ID150 = {}
+AutoGenParent475ID150.collider = OBBCollider.Create(-1)
+AutoGenParent475ID150.collider:SetOffset(91,15.6723,230.5)
+AutoGenParent475ID150.collider:SetZAxis(0.841179,0,0.540758)
+AutoGenParent475ID150.collider:SetHalfLengths(0.3,11.9227,8.32166)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID150.collider)
+table.insert(colliders,AutoGenParent475ID150)
+AutoGenParent475ID151 = {}
+AutoGenParent475ID151.collider = OBBCollider.Create(-1)
+AutoGenParent475ID151.collider:SetOffset(132.5,34.0803,208.5)
+AutoGenParent475ID151.collider:SetZAxis(0.874157,0,-0.485643)
+AutoGenParent475ID151.collider:SetHalfLengths(0.3,5.66843,5.14782)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID151.collider)
+table.insert(colliders,AutoGenParent475ID151)
+AutoGenParent475ID152 = {}
+AutoGenParent475ID152.collider = OBBCollider.Create(-1)
+AutoGenParent475ID152.collider:SetOffset(139.5,34.7488,202.5)
+AutoGenParent475ID152.collider:SetZAxis(0.581238,0,-0.813733)
+AutoGenParent475ID152.collider:SetHalfLengths(0.3,7.22809,4.30116)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID152.collider)
+table.insert(colliders,AutoGenParent475ID152)
+AutoGenParent475ID153 = {}
+AutoGenParent475ID153.collider = OBBCollider.Create(-1)
+AutoGenParent475ID153.collider:SetOffset(143,36.9769,195.5)
+AutoGenParent475ID153.collider:SetZAxis(0.274721,0,-0.961524)
+AutoGenParent475ID153.collider:SetHalfLengths(0.3,6.89388,3.64005)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID153.collider)
+table.insert(colliders,AutoGenParent475ID153)
+AutoGenParent475ID154 = {}
+AutoGenParent475ID154.collider = OBBCollider.Create(-1)
+AutoGenParent475ID154.collider:SetOffset(182,54.1331,150.5)
+AutoGenParent475ID154.collider:SetZAxis(0.8,0,-0.6)
+AutoGenParent475ID154.collider:SetHalfLengths(0.3,5.66843,2.5)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID154.collider)
+table.insert(colliders,AutoGenParent475ID154)
+AutoGenParent475ID155 = {}
+AutoGenParent475ID155.collider = OBBCollider.Create(-1)
+AutoGenParent475ID155.collider:SetOffset(184.5,54.8016,147.5)
+AutoGenParent475ID155.collider:SetZAxis(0.316228,0,-0.948683)
+AutoGenParent475ID155.collider:SetHalfLengths(0.3,5.77983,1.58114)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID155.collider)
+table.insert(colliders,AutoGenParent475ID155)
+AutoGenParent475ID156 = {}
+AutoGenParent475ID156.collider = OBBCollider.Create(-1)
+AutoGenParent475ID156.collider:SetOffset(161,48.4515,179)
+AutoGenParent475ID156.collider:SetZAxis(0.316228,0,0.948683)
+AutoGenParent475ID156.collider:SetHalfLengths(0.3,9.7904,6.32456)
+AutoGenParent475ID146.collider:AddChild(AutoGenParent475ID156.collider)
+table.insert(colliders,AutoGenParent475ID156)
+AutoGenParent475ID157 = {}
+AutoGenParent475ID157.collider = AABBCollider.Create(-1)
+AutoGenParent475ID157.collider:SetOffset(0,0,0)
+AutoGenParent475ID157.collider:SetMinPos(97.9544,11.7034,120.706)
+AutoGenParent475ID157.collider:SetMaxPos(236.059,61.027,237.297)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID157.collider)
+table.insert(colliders,AutoGenParent475ID157)
+AutoGenParent475ID158 = {}
+AutoGenParent475ID158.collider = OBBCollider.Create(-1)
+AutoGenParent475ID158.collider:SetOffset(104.5,22.595,236)
+AutoGenParent475ID158.collider:SetZAxis(0.988372,0,0.152057)
+AutoGenParent475ID158.collider:SetHalfLengths(0.3,10.8916,6.57647)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID158.collider)
+table.insert(colliders,AutoGenParent475ID158)
+AutoGenParent475ID159 = {}
+AutoGenParent475ID159.collider = OBBCollider.Create(-1)
+AutoGenParent475ID159.collider:SetOffset(115,28.4866,235)
+AutoGenParent475ID159.collider:SetZAxis(0.894427,0,-0.447214)
+AutoGenParent475ID159.collider:SetHalfLengths(0.3,6.91478,4.47214)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID159.collider)
+table.insert(colliders,AutoGenParent475ID159)
+AutoGenParent475ID160 = {}
+AutoGenParent475ID160.collider = OBBCollider.Create(-1)
+AutoGenParent475ID160.collider:SetOffset(125.5,32.1689,229)
+AutoGenParent475ID160.collider:SetZAxis(0.0995037,0,-0.995037)
+AutoGenParent475ID160.collider:SetHalfLengths(0.3,5.58916,5.02494)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID160.collider)
+table.insert(colliders,AutoGenParent475ID160)
+AutoGenParent475ID161 = {}
+AutoGenParent475ID161.collider = OBBCollider.Create(-1)
+AutoGenParent475ID161.collider:SetOffset(127,32.758,224)
+AutoGenParent475ID161.collider:SetZAxis(1,0,0)
+AutoGenParent475ID161.collider:SetHalfLengths(0.3,5.14729,1)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID161.collider)
+table.insert(colliders,AutoGenParent475ID161)
+AutoGenParent475ID162 = {}
+AutoGenParent475ID162.collider = OBBCollider.Create(-1)
+AutoGenParent475ID162.collider:SetOffset(132,33.8575,223.5)
+AutoGenParent475ID162.collider:SetZAxis(0.992278,0,-0.124035)
+AutoGenParent475ID162.collider:SetHalfLengths(0.3,6.67107,4.03113)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID162.collider)
+table.insert(colliders,AutoGenParent475ID162)
+AutoGenParent475ID163 = {}
+AutoGenParent475ID163.collider = OBBCollider.Create(-1)
+AutoGenParent475ID163.collider:SetOffset(205,55.2472,154)
+AutoGenParent475ID163.collider:SetZAxis(-0.371391,0,0.928477)
+AutoGenParent475ID163.collider:SetHalfLengths(0.3,5.22281,5.38516)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID163.collider)
+table.insert(colliders,AutoGenParent475ID163)
+AutoGenParent475ID164 = {}
+AutoGenParent475ID164.collider = OBBCollider.Create(-1)
+AutoGenParent475ID164.collider:SetOffset(198.5,55.0244,163.5)
+AutoGenParent475ID164.collider:SetZAxis(-0.707107,0,0.707107)
+AutoGenParent475ID164.collider:SetHalfLengths(0.3,5.77983,6.36396)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID164.collider)
+table.insert(colliders,AutoGenParent475ID164)
+AutoGenParent475ID165 = {}
+AutoGenParent475ID165.collider = OBBCollider.Create(-1)
+AutoGenParent475ID165.collider:SetOffset(189.5,55.8042,169)
+AutoGenParent475ID165.collider:SetZAxis(-0.976187,0,0.21693)
+AutoGenParent475ID165.collider:SetHalfLengths(0.3,5.22281,4.60977)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID165.collider)
+table.insert(colliders,AutoGenParent475ID165)
+AutoGenParent475ID166 = {}
+AutoGenParent475ID166.collider = OBBCollider.Create(-1)
+AutoGenParent475ID166.collider:SetOffset(170,40.319,200)
+AutoGenParent475ID166.collider:SetZAxis(0.868243,0,-0.496139)
+AutoGenParent475ID166.collider:SetHalfLengths(0.3,7.5623,8.06226)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID166.collider)
+table.insert(colliders,AutoGenParent475ID166)
+AutoGenParent475ID167 = {}
+AutoGenParent475ID167.collider = OBBCollider.Create(-1)
+AutoGenParent475ID167.collider:SetOffset(231,42.2129,122)
+AutoGenParent475ID167.collider:SetZAxis(0.980581,0,-0.196116)
+AutoGenParent475ID167.collider:SetHalfLengths(0.3,7.11668,5.09902)
+AutoGenParent475ID157.collider:AddChild(AutoGenParent475ID167.collider)
+table.insert(colliders,AutoGenParent475ID167)
+AutoGenParent475ID168 = {}
+AutoGenParent475ID168.collider = AABBCollider.Create(-1)
+AutoGenParent475ID168.collider:SetOffset(0,0,0)
+AutoGenParent475ID168.collider:SetMinPos(147.701,30.083,120.741)
+AutoGenParent475ID168.collider:SetMaxPos(248.151,51.2525,233.03)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID168.collider)
+table.insert(colliders,AutoGenParent475ID168)
+AutoGenParent475ID169 = {}
+AutoGenParent475ID169.collider = OBBCollider.Create(-1)
+AutoGenParent475ID169.collider:SetOffset(148.5,36.0856,228)
+AutoGenParent475ID169.collider:SetZAxis(0.0995037,0,0.995037)
+AutoGenParent475ID169.collider:SetHalfLengths(0.3,6.00264,5.02494)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID169.collider)
+table.insert(colliders,AutoGenParent475ID169)
+AutoGenParent475ID170 = {}
+AutoGenParent475ID170.collider = OBBCollider.Create(-1)
+AutoGenParent475ID170.collider:SetOffset(180.5,41.6558,208.5)
+AutoGenParent475ID170.collider:SetZAxis(0.857493,0,-0.514496)
+AutoGenParent475ID170.collider:SetHalfLengths(0.3,5.22281,2.91548)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID170.collider)
+table.insert(colliders,AutoGenParent475ID170)
+AutoGenParent475ID171 = {}
+AutoGenParent475ID171.collider = OBBCollider.Create(-1)
+AutoGenParent475ID171.collider:SetOffset(219,36.4198,158)
+AutoGenParent475ID171.collider:SetZAxis(0.316228,0,-0.948683)
+AutoGenParent475ID171.collider:SetHalfLengths(0.3,5.1114,3.16228)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID171.collider)
+table.insert(colliders,AutoGenParent475ID171)
+AutoGenParent475ID172 = {}
+AutoGenParent475ID172.collider = OBBCollider.Create(-1)
+AutoGenParent475ID172.collider:SetOffset(222,36.5312,153.5)
+AutoGenParent475ID172.collider:SetZAxis(0.8,0,-0.6)
+AutoGenParent475ID172.collider:SetHalfLengths(0.3,5.1114,2.5)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID172.collider)
+table.insert(colliders,AutoGenParent475ID172)
+AutoGenParent475ID173 = {}
+AutoGenParent475ID173.collider = OBBCollider.Create(-1)
+AutoGenParent475ID173.collider:SetOffset(228.5,36.6426,150.5)
+AutoGenParent475ID173.collider:SetZAxis(0.948683,0,-0.316228)
+AutoGenParent475ID173.collider:SetHalfLengths(0.3,5.1114,4.74342)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID173.collider)
+table.insert(colliders,AutoGenParent475ID173)
+AutoGenParent475ID174 = {}
+AutoGenParent475ID174.collider = OBBCollider.Create(-1)
+AutoGenParent475ID174.collider:SetOffset(236.5,36.5312,145)
+AutoGenParent475ID174.collider:SetZAxis(0.658505,0,-0.752577)
+AutoGenParent475ID174.collider:SetHalfLengths(0.3,5.22281,5.31507)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID174.collider)
+table.insert(colliders,AutoGenParent475ID174)
+AutoGenParent475ID175 = {}
+AutoGenParent475ID175.collider = OBBCollider.Create(-1)
+AutoGenParent475ID175.collider:SetOffset(238,37.3111,135)
+AutoGenParent475ID175.collider:SetZAxis(-0.707107,0,-0.707107)
+AutoGenParent475ID175.collider:SetHalfLengths(0.3,6.00264,2.82843)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID175.collider)
+table.insert(colliders,AutoGenParent475ID175)
+AutoGenParent475ID176 = {}
+AutoGenParent475ID176.collider = OBBCollider.Create(-1)
+AutoGenParent475ID176.collider:SetOffset(242,40.0962,124.5)
+AutoGenParent475ID176.collider:SetZAxis(0.863779,0,0.503871)
+AutoGenParent475ID176.collider:SetHalfLengths(0.3,7.11668,6.94622)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID176.collider)
+table.insert(colliders,AutoGenParent475ID176)
+AutoGenParent475ID177 = {}
+AutoGenParent475ID177.collider = OBBCollider.Create(-1)
+AutoGenParent475ID177.collider:SetOffset(176.796,45.2188,214.625)
+AutoGenParent475ID177.collider:SetZAxis(-0.497678,-0.0166511,0.867202)
+AutoGenParent475ID177.collider:SetHalfLengths(2.66392,5.98314,3.08762)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID177.collider)
+table.insert(colliders,AutoGenParent475ID177)
+AutoGenParent475ID178 = {}
+AutoGenParent475ID178.collider = OBBCollider.Create(-1)
+AutoGenParent475ID178.collider:SetOffset(235,42.375,133.125)
+AutoGenParent475ID178.collider:SetZAxis(-0.485958,0,-0.873982)
+AutoGenParent475ID178.collider:SetHalfLengths(1.82423,5.38972,2.04467)
+AutoGenParent475ID168.collider:AddChild(AutoGenParent475ID178.collider)
+table.insert(colliders,AutoGenParent475ID178)
+AutoGenParent475ID179 = {}
+AutoGenParent475ID179.collider = AABBCollider.Create(-1)
+AutoGenParent475ID179.collider:SetOffset(0,0,0)
+AutoGenParent475ID179.collider:SetMinPos(148.703,30.1944,69.8112)
+AutoGenParent475ID179.collider:SetMaxPos(285.233,47.5471,240.042)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID179.collider)
+table.insert(colliders,AutoGenParent475ID179)
+AutoGenParent475ID180 = {}
+AutoGenParent475ID180.collider = OBBCollider.Create(-1)
+AutoGenParent475ID180.collider:SetOffset(149.5,37.0883,236.5)
+AutoGenParent475ID180.collider:SetZAxis(0.141421,0,0.98995)
+AutoGenParent475ID180.collider:SetHalfLengths(0.3,5.1114,3.53553)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID180.collider)
+table.insert(colliders,AutoGenParent475ID180)
+AutoGenParent475ID181 = {}
+AutoGenParent475ID181.collider = OBBCollider.Create(-1)
+AutoGenParent475ID181.collider:SetOffset(176.5,41.9901,216.5)
+AutoGenParent475ID181.collider:SetZAxis(-0.196116,0,-0.980581)
+AutoGenParent475ID181.collider:SetHalfLengths(0.3,5.55702,2.54951)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID181.collider)
+table.insert(colliders,AutoGenParent475ID181)
+AutoGenParent475ID182 = {}
+AutoGenParent475ID182.collider = OBBCollider.Create(-1)
+AutoGenParent475ID182.collider:SetOffset(177,41.433,212)
+AutoGenParent475ID182.collider:SetZAxis(0.447214,0,-0.894427)
+AutoGenParent475ID182.collider:SetHalfLengths(0.3,5.22281,2.23607)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID182.collider)
+table.insert(colliders,AutoGenParent475ID182)
+AutoGenParent475ID183 = {}
+AutoGenParent475ID183.collider = OBBCollider.Create(-1)
+AutoGenParent475ID183.collider:SetOffset(185.5,41.8786,206.5)
+AutoGenParent475ID183.collider:SetZAxis(0.980581,0,-0.196116)
+AutoGenParent475ID183.collider:SetHalfLengths(0.3,5.55702,2.54951)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID183.collider)
+table.insert(colliders,AutoGenParent475ID183)
+AutoGenParent475ID184 = {}
+AutoGenParent475ID184.collider = OBBCollider.Create(-1)
+AutoGenParent475ID184.collider:SetOffset(207.5,38.9821,191)
+AutoGenParent475ID184.collider:SetZAxis(0.287348,0,-0.957826)
+AutoGenParent475ID184.collider:SetHalfLengths(0.3,6.22545,5.22015)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID184.collider)
+table.insert(colliders,AutoGenParent475ID184)
+AutoGenParent475ID185 = {}
+AutoGenParent475ID185.collider = OBBCollider.Create(-1)
+AutoGenParent475ID185.collider:SetOffset(220.5,36.0856,175)
+AutoGenParent475ID185.collider:SetZAxis(0.573462,0,-0.819232)
+AutoGenParent475ID185.collider:SetHalfLengths(0.3,5.44562,6.10328)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID185.collider)
+table.insert(colliders,AutoGenParent475ID185)
+AutoGenParent475ID186 = {}
+AutoGenParent475ID186.collider = OBBCollider.Create(-1)
+AutoGenParent475ID186.collider:SetOffset(237.5,35.64,159.5)
+AutoGenParent475ID186.collider:SetZAxis(0.763386,0,-0.645942)
+AutoGenParent475ID186.collider:SetHalfLengths(0.3,5.44562,8.51469)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID186.collider)
+table.insert(colliders,AutoGenParent475ID186)
+AutoGenParent475ID187 = {}
+AutoGenParent475ID187.collider = OBBCollider.Create(-1)
+AutoGenParent475ID187.collider:SetOffset(276.5,39.5392,80.5)
+AutoGenParent475ID187.collider:SetZAxis(-0.629198,0,-0.777245)
+AutoGenParent475ID187.collider:SetHalfLengths(0.3,5.77983,13.5093)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID187.collider)
+table.insert(colliders,AutoGenParent475ID187)
+AutoGenParent475ID188 = {}
+AutoGenParent475ID188.collider = OBBCollider.Create(-1)
+AutoGenParent475ID188.collider:SetOffset(240,36.754,139)
+AutoGenParent475ID188.collider:SetZAxis(0,0,-1)
+AutoGenParent475ID188.collider:SetHalfLengths(0.3,5.55702,2)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID188.collider)
+table.insert(colliders,AutoGenParent475ID188)
+AutoGenParent475ID189 = {}
+AutoGenParent475ID189.collider = OBBCollider.Create(-1)
+AutoGenParent475ID189.collider:SetOffset(253,37.9795,123)
+AutoGenParent475ID189.collider:SetZAxis(0.707107,0,-0.707107)
+AutoGenParent475ID189.collider:SetHalfLengths(0.3,5.55702,7.07107)
+AutoGenParent475ID179.collider:AddChild(AutoGenParent475ID189.collider)
+table.insert(colliders,AutoGenParent475ID189)
+AutoGenParent475ID190 = {}
+AutoGenParent475ID190.collider = AABBCollider.Create(-1)
+AutoGenParent475ID190.collider:SetOffset(0,0,0)
+AutoGenParent475ID190.collider:SetMinPos(176.721,30.3058,52.7879)
+AutoGenParent475ID190.collider:SetMaxPos(290.212,48.5497,224.111)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID190.collider)
+table.insert(colliders,AutoGenParent475ID190)
+AutoGenParent475ID191 = {}
+AutoGenParent475ID191.collider = OBBCollider.Create(-1)
+AutoGenParent475ID191.collider:SetOffset(283,40.9874,60)
+AutoGenParent475ID191.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID191.collider:SetHalfLengths(0.3,5.33421,9.8995)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID191.collider)
+table.insert(colliders,AutoGenParent475ID191)
+AutoGenParent475ID192 = {}
+AutoGenParent475ID192.collider = OBBCollider.Create(-1)
+AutoGenParent475ID192.collider:SetOffset(178,42.7699,221.5)
+AutoGenParent475ID192.collider:SetZAxis(-0.371391,0,-0.928477)
+AutoGenParent475ID192.collider:SetHalfLengths(0.3,5.77983,2.69258)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID192.collider)
+table.insert(colliders,AutoGenParent475ID192)
+AutoGenParent475ID193 = {}
+AutoGenParent475ID193.collider = OBBCollider.Create(-1)
+AutoGenParent475ID193.collider:SetOffset(190.5,41.3216,205.5)
+AutoGenParent475ID193.collider:SetZAxis(0.980581,0,-0.196116)
+AutoGenParent475ID193.collider:SetHalfLengths(0.3,5.66843,2.54951)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID193.collider)
+table.insert(colliders,AutoGenParent475ID193)
+AutoGenParent475ID194 = {}
+AutoGenParent475ID194.collider = OBBCollider.Create(-1)
+AutoGenParent475ID194.collider:SetOffset(198,40.6532,203)
+AutoGenParent475ID194.collider:SetZAxis(0.928477,0,-0.371391)
+AutoGenParent475ID194.collider:SetHalfLengths(0.3,6.00264,5.38516)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID194.collider)
+table.insert(colliders,AutoGenParent475ID194)
+AutoGenParent475ID195 = {}
+AutoGenParent475ID195.collider = OBBCollider.Create(-1)
+AutoGenParent475ID195.collider:SetOffset(204.5,39.6506,198.5)
+AutoGenParent475ID195.collider:SetZAxis(0.514496,0,-0.857493)
+AutoGenParent475ID195.collider:SetHalfLengths(0.3,5.66843,2.91548)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID195.collider)
+table.insert(colliders,AutoGenParent475ID195)
+AutoGenParent475ID196 = {}
+AutoGenParent475ID196.collider = OBBCollider.Create(-1)
+AutoGenParent475ID196.collider:SetOffset(211,37.7567,184.5)
+AutoGenParent475ID196.collider:SetZAxis(0.8,0,-0.6)
+AutoGenParent475ID196.collider:SetHalfLengths(0.3,5.77983,2.5)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID196.collider)
+table.insert(colliders,AutoGenParent475ID196)
+AutoGenParent475ID197 = {}
+AutoGenParent475ID197.collider = OBBCollider.Create(-1)
+AutoGenParent475ID197.collider:SetOffset(215,36.9769,181.5)
+AutoGenParent475ID197.collider:SetZAxis(0.8,0,-0.6)
+AutoGenParent475ID197.collider:SetHalfLengths(0.3,5.89124,2.5)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID197.collider)
+table.insert(colliders,AutoGenParent475ID197)
+AutoGenParent475ID198 = {}
+AutoGenParent475ID198.collider = OBBCollider.Create(-1)
+AutoGenParent475ID198.collider:SetOffset(227.5,35.64,167.5)
+AutoGenParent475ID198.collider:SetZAxis(0.813733,0,-0.581238)
+AutoGenParent475ID198.collider:SetHalfLengths(0.3,5,4.30116)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID198.collider)
+table.insert(colliders,AutoGenParent475ID198)
+AutoGenParent475ID199 = {}
+AutoGenParent475ID199.collider = OBBCollider.Create(-1)
+AutoGenParent475ID199.collider:SetOffset(249.5,36.0856,148.5)
+AutoGenParent475ID199.collider:SetZAxis(0.707107,0,-0.707107)
+AutoGenParent475ID199.collider:SetHalfLengths(0.3,5.77983,7.77817)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID199.collider)
+table.insert(colliders,AutoGenParent475ID199)
+AutoGenParent475ID200 = {}
+AutoGenParent475ID200.collider = OBBCollider.Create(-1)
+AutoGenParent475ID200.collider:SetOffset(263.5,37.4225,113.5)
+AutoGenParent475ID200.collider:SetZAxis(0.773957,0,-0.633238)
+AutoGenParent475ID200.collider:SetHalfLengths(0.3,5.44562,7.10634)
+AutoGenParent475ID190.collider:AddChild(AutoGenParent475ID200.collider)
+table.insert(colliders,AutoGenParent475ID200)
+AutoGenParent475ID201 = {}
+AutoGenParent475ID201.collider = AABBCollider.Create(-1)
+AutoGenParent475ID201.collider:SetOffset(0,0,0)
+AutoGenParent475ID201.collider:SetMinPos(149.7,26.2952,66.8138)
+AutoGenParent475ID201.collider:SetMaxPos(309.235,56.0138,250.277)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID201.collider)
+table.insert(colliders,AutoGenParent475ID201)
+AutoGenParent475ID202 = {}
+AutoGenParent475ID202.collider = OBBCollider.Create(-1)
+AutoGenParent475ID202.collider:SetOffset(299.5,41.3216,79)
+AutoGenParent475ID202.collider:SetZAxis(0.620703,0,0.784046)
+AutoGenParent475ID202.collider:SetHalfLengths(0.3,6.33685,15.3052)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID202.collider)
+table.insert(colliders,AutoGenParent475ID202)
+AutoGenParent475ID203 = {}
+AutoGenParent475ID203.collider = OBBCollider.Create(-1)
+AutoGenParent475ID203.collider:SetOffset(150,37.1997,241.5)
+AutoGenParent475ID203.collider:SetZAxis(0,0,1)
+AutoGenParent475ID203.collider:SetHalfLengths(0.3,5,1.5)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID203.collider)
+table.insert(colliders,AutoGenParent475ID203)
+AutoGenParent475ID204 = {}
+AutoGenParent475ID204.collider = OBBCollider.Create(-1)
+AutoGenParent475ID204.collider:SetOffset(158.5,37.1997,246.5)
+AutoGenParent475ID204.collider:SetZAxis(0.924678,0,0.38075)
+AutoGenParent475ID204.collider:SetHalfLengths(0.3,10.9044,9.19239)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID204.collider)
+table.insert(colliders,AutoGenParent475ID204)
+AutoGenParent475ID205 = {}
+AutoGenParent475ID205.collider = OBBCollider.Create(-1)
+AutoGenParent475ID205.collider:SetOffset(191.5,48.3401,228)
+AutoGenParent475ID205.collider:SetZAxis(-1,0,0)
+AutoGenParent475ID205.collider:SetHalfLengths(0.3,6.44826,3.5)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID205.collider)
+table.insert(colliders,AutoGenParent475ID205)
+AutoGenParent475ID206 = {}
+AutoGenParent475ID206.collider = OBBCollider.Create(-1)
+AutoGenParent475ID206.collider:SetOffset(183.5,46.8918,226)
+AutoGenParent475ID206.collider:SetZAxis(-0.913812,0,-0.406139)
+AutoGenParent475ID206.collider:SetHalfLengths(0.3,9.12197,4.92443)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID206.collider)
+table.insert(colliders,AutoGenParent475ID206)
+AutoGenParent475ID207 = {}
+AutoGenParent475ID207.collider = OBBCollider.Create(-1)
+AutoGenParent475ID207.collider:SetOffset(258,36.8654,140)
+AutoGenParent475ID207.collider:SetZAxis(0.707107,0,-0.707107)
+AutoGenParent475ID207.collider:SetHalfLengths(0.3,5.44562,4.24264)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID207.collider)
+table.insert(colliders,AutoGenParent475ID207)
+AutoGenParent475ID208 = {}
+AutoGenParent475ID208.collider = OBBCollider.Create(-1)
+AutoGenParent475ID208.collider:SetOffset(264,37.3111,134.5)
+AutoGenParent475ID208.collider:SetZAxis(0.768221,0,-0.640184)
+AutoGenParent475ID208.collider:SetHalfLengths(0.3,5.1114,3.90512)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID208.collider)
+table.insert(colliders,AutoGenParent475ID208)
+AutoGenParent475ID209 = {}
+AutoGenParent475ID209.collider = OBBCollider.Create(-1)
+AutoGenParent475ID209.collider:SetOffset(269,37.4225,131)
+AutoGenParent475ID209.collider:SetZAxis(0.894427,0,-0.447214)
+AutoGenParent475ID209.collider:SetHalfLengths(0.3,5.1114,2.23607)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID209.collider)
+table.insert(colliders,AutoGenParent475ID209)
+AutoGenParent475ID210 = {}
+AutoGenParent475ID210.collider = OBBCollider.Create(-1)
+AutoGenParent475ID210.collider:SetOffset(291.5,38.2023,98.5)
+AutoGenParent475ID210.collider:SetZAxis(-0.654931,0,-0.755689)
+AutoGenParent475ID210.collider:SetHalfLengths(0.3,6.33685,9.92472)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID210.collider)
+table.insert(colliders,AutoGenParent475ID210)
+AutoGenParent475ID211 = {}
+AutoGenParent475ID211.collider = OBBCollider.Create(-1)
+AutoGenParent475ID211.collider:SetOffset(283.5,36.9769,107.5)
+AutoGenParent475ID211.collider:SetZAxis(0.994692,0,-0.102899)
+AutoGenParent475ID211.collider:SetHalfLengths(0.3,6.22545,14.5774)
+AutoGenParent475ID201.collider:AddChild(AutoGenParent475ID211.collider)
+table.insert(colliders,AutoGenParent475ID211)
+AutoGenParent475ID212 = {}
+AutoGenParent475ID212.collider = AABBCollider.Create(-1)
+AutoGenParent475ID212.collider:SetOffset(0,0,0)
+AutoGenParent475ID212.collider:SetMinPos(166.951,32.0883,127.701)
+AutoGenParent475ID212.collider:SetMaxPos(287.027,58.2419,252.296)
+AutoGenParent475ID112.collider:AddChild(AutoGenParent475ID212.collider)
+table.insert(colliders,AutoGenParent475ID212)
+AutoGenParent475ID213 = {}
+AutoGenParent475ID213.collider = OBBCollider.Create(-1)
+AutoGenParent475ID213.collider:SetOffset(173,43.1041,251)
+AutoGenParent475ID213.collider:SetZAxis(0.986394,0,0.164399)
+AutoGenParent475ID213.collider:SetHalfLengths(0.3,9.01056,6.08276)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID213.collider)
+table.insert(colliders,AutoGenParent475ID213)
+AutoGenParent475ID214 = {}
+AutoGenParent475ID214.collider = OBBCollider.Create(-1)
+AutoGenParent475ID214.collider:SetOffset(182.5,47.1147,250.5)
+AutoGenParent475ID214.collider:SetZAxis(0.919145,0,-0.393919)
+AutoGenParent475ID214.collider:SetHalfLengths(0.3,8.45354,3.80789)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID214.collider)
+table.insert(colliders,AutoGenParent475ID214)
+AutoGenParent475ID215 = {}
+AutoGenParent475ID215.collider = OBBCollider.Create(-1)
+AutoGenParent475ID215.collider:SetOffset(189,50.5682,246.5)
+AutoGenParent475ID215.collider:SetZAxis(0.768221,0,-0.640184)
+AutoGenParent475ID215.collider:SetHalfLengths(0.3,5.89124,3.90512)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID215.collider)
+table.insert(colliders,AutoGenParent475ID215)
+AutoGenParent475ID216 = {}
+AutoGenParent475ID216.collider = OBBCollider.Create(-1)
+AutoGenParent475ID216.collider:SetOffset(194.5,51.4594,244)
+AutoGenParent475ID216.collider:SetZAxis(1,0,0)
+AutoGenParent475ID216.collider:SetHalfLengths(0.3,6.78247,2.5)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID216.collider)
+table.insert(colliders,AutoGenParent475ID216)
+AutoGenParent475ID217 = {}
+AutoGenParent475ID217.collider = OBBCollider.Create(-1)
+AutoGenParent475ID217.collider:SetOffset(212.5,51.5708,223.5)
+AutoGenParent475ID217.collider:SetZAxis(-0.948683,0,0.316228)
+AutoGenParent475ID217.collider:SetHalfLengths(0.3,5.89124,4.74342)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID217.collider)
+table.insert(colliders,AutoGenParent475ID217)
+AutoGenParent475ID218 = {}
+AutoGenParent475ID218.collider = OBBCollider.Create(-1)
+AutoGenParent475ID218.collider:SetOffset(205,50.6796,226)
+AutoGenParent475ID218.collider:SetZAxis(-0.948683,0,0.316228)
+AutoGenParent475ID218.collider:SetHalfLengths(0.3,6.11405,3.16228)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID218.collider)
+table.insert(colliders,AutoGenParent475ID218)
+AutoGenParent475ID219 = {}
+AutoGenParent475ID219.collider = OBBCollider.Create(-1)
+AutoGenParent475ID219.collider:SetOffset(198.5,49.5656,227.5)
+AutoGenParent475ID219.collider:SetZAxis(-0.98995,0,0.141421)
+AutoGenParent475ID219.collider:SetHalfLengths(0.3,6.22544,3.53553)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID219.collider)
+table.insert(colliders,AutoGenParent475ID219)
+AutoGenParent475ID220 = {}
+AutoGenParent475ID220.collider = OBBCollider.Create(-1)
+AutoGenParent475ID220.collider:SetOffset(273.5,37.3111,129.5)
+AutoGenParent475ID220.collider:SetZAxis(0.980581,0,-0.196116)
+AutoGenParent475ID220.collider:SetHalfLengths(0.3,5.22281,2.54951)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID220.collider)
+table.insert(colliders,AutoGenParent475ID220)
+AutoGenParent475ID221 = {}
+AutoGenParent475ID221.collider = OBBCollider.Create(-1)
+AutoGenParent475ID221.collider:SetOffset(281.5,37.5339,128.5)
+AutoGenParent475ID221.collider:SetZAxis(0.995893,0,-0.0905358)
+AutoGenParent475ID221.collider:SetHalfLengths(0.3,5.33421,5.52268)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID221.collider)
+table.insert(colliders,AutoGenParent475ID221)
+AutoGenParent475ID222 = {}
+AutoGenParent475ID222.collider = OBBCollider.Create(-1)
+AutoGenParent475ID222.collider:SetOffset(184.371,51.8438,244.736)
+AutoGenParent475ID222.collider:SetZAxis(0,0,1)
+AutoGenParent475ID222.collider:SetHalfLengths(2.5,4,2.5)
+AutoGenParent475ID212.collider:AddChild(AutoGenParent475ID222.collider)
+table.insert(colliders,AutoGenParent475ID222)
+AutoGenParent475ID223 = {}
+AutoGenParent475ID223.collider = AABBCollider.Create(-1)
+AutoGenParent475ID223.collider:SetOffset(0,0,0)
+AutoGenParent475ID223.collider:SetMinPos(196.958,23.9934,90.7879)
+AutoGenParent475ID223.collider:SetMaxPos(512.3,68.8781,363.023)
+AutoGenParent475ID.collider:AddChild(AutoGenParent475ID223.collider)
+table.insert(colliders,AutoGenParent475ID223)
+AutoGenParent475ID224 = {}
+AutoGenParent475ID224.collider = AABBCollider.Create(-1)
+AutoGenParent475ID224.collider:SetOffset(0,0,0)
+AutoGenParent475ID224.collider:SetMinPos(196.958,30.3058,90.7879)
+AutoGenParent475ID224.collider:SetMaxPos(322.234,66.1516,251.257)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID224.collider)
+table.insert(colliders,AutoGenParent475ID224)
+AutoGenParent475ID225 = {}
+AutoGenParent475ID225.collider = OBBCollider.Create(-1)
+AutoGenParent475ID225.collider:SetOffset(312,42.6585,94)
+AutoGenParent475ID225.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID225.collider:SetHalfLengths(0.3,6.33685,4.24264)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID225.collider)
+table.insert(colliders,AutoGenParent475ID225)
+AutoGenParent475ID226 = {}
+AutoGenParent475ID226.collider = OBBCollider.Create(-1)
+AutoGenParent475ID226.collider:SetOffset(318,42.1015,102)
+AutoGenParent475ID226.collider:SetZAxis(0.624695,0,0.780869)
+AutoGenParent475ID226.collider:SetHalfLengths(0.3,9.67899,6.40312)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID226.collider)
+table.insert(colliders,AutoGenParent475ID226)
+AutoGenParent475ID227 = {}
+AutoGenParent475ID227.collider = OBBCollider.Create(-1)
+AutoGenParent475ID227.collider:SetOffset(200.5,53.2419,244.5)
+AutoGenParent475ID227.collider:SetZAxis(0.98995,0,0.141421)
+AutoGenParent475ID227.collider:SetHalfLengths(0.3,7.00528,3.53553)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID227.collider)
+table.insert(colliders,AutoGenParent475ID227)
+AutoGenParent475ID228 = {}
+AutoGenParent475ID228.collider = OBBCollider.Create(-1)
+AutoGenParent475ID228.collider:SetOffset(207,55.2472,245.5)
+AutoGenParent475ID228.collider:SetZAxis(0.986394,0,0.164399)
+AutoGenParent475ID228.collider:SetHalfLengths(0.3,6.44826,3.04138)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID228.collider)
+table.insert(colliders,AutoGenParent475ID228)
+AutoGenParent475ID229 = {}
+AutoGenParent475ID229.collider = OBBCollider.Create(-1)
+AutoGenParent475ID229.collider:SetOffset(212.5,56.6954,247)
+AutoGenParent475ID229.collider:SetZAxis(0.928477,0,0.371391)
+AutoGenParent475ID229.collider:SetHalfLengths(0.3,7.22809,2.69258)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID229.collider)
+table.insert(colliders,AutoGenParent475ID229)
+AutoGenParent475ID230 = {}
+AutoGenParent475ID230.collider = OBBCollider.Create(-1)
+AutoGenParent475ID230.collider:SetOffset(217.5,58.9235,249.5)
+AutoGenParent475ID230.collider:SetZAxis(0.857493,0,0.514496)
+AutoGenParent475ID230.collider:SetHalfLengths(0.3,5.77983,2.91548)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID230.collider)
+table.insert(colliders,AutoGenParent475ID230)
+AutoGenParent475ID231 = {}
+AutoGenParent475ID231.collider = OBBCollider.Create(-1)
+AutoGenParent475ID231.collider:SetOffset(220.5,56.3612,226)
+AutoGenParent475ID231.collider:SetZAxis(-0.658505,0,-0.752577)
+AutoGenParent475ID231.collider:SetHalfLengths(0.3,9.79039,5.31507)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID231.collider)
+table.insert(colliders,AutoGenParent475ID231)
+AutoGenParent475ID232 = {}
+AutoGenParent475ID232.collider = OBBCollider.Create(-1)
+AutoGenParent475ID232.collider:SetOffset(293,37.1997,129)
+AutoGenParent475ID232.collider:SetZAxis(0.986394,0,0.164399)
+AutoGenParent475ID232.collider:SetHalfLengths(0.3,5.89124,6.08276)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID232.collider)
+table.insert(colliders,AutoGenParent475ID232)
+AutoGenParent475ID233 = {}
+AutoGenParent475ID233.collider = OBBCollider.Create(-1)
+AutoGenParent475ID233.collider:SetOffset(306,36.3084,132)
+AutoGenParent475ID233.collider:SetZAxis(0.961524,0,0.274721)
+AutoGenParent475ID233.collider:SetHalfLengths(0.3,6.00264,7.28011)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID233.collider)
+table.insert(colliders,AutoGenParent475ID233)
+AutoGenParent475ID234 = {}
+AutoGenParent475ID234.collider = OBBCollider.Create(-1)
+AutoGenParent475ID234.collider:SetOffset(227.5,56.3612,232)
+AutoGenParent475ID234.collider:SetZAxis(0.868243,0,0.496139)
+AutoGenParent475ID234.collider:SetHalfLengths(0.3,5.77983,4.03113)
+AutoGenParent475ID224.collider:AddChild(AutoGenParent475ID234.collider)
+table.insert(colliders,AutoGenParent475ID234)
+AutoGenParent475ID235 = {}
+AutoGenParent475ID235.collider = AABBCollider.Create(-1)
+AutoGenParent475ID235.collider:SetOffset(0,0,0)
+AutoGenParent475ID235.collider:SetMinPos(219.788,29.1917,106.78)
+AutoGenParent475ID235.collider:SetMaxPos(336.204,65.3718,254.298)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID235.collider)
+table.insert(colliders,AutoGenParent475ID235)
+AutoGenParent475ID236 = {}
+AutoGenParent475ID236.collider = OBBCollider.Create(-1)
+AutoGenParent475ID236.collider:SetOffset(329,37.4225,113.5)
+AutoGenParent475ID236.collider:SetZAxis(0.732794,0,0.680451)
+AutoGenParent475ID236.collider:SetHalfLengths(0.3,5.33421,9.55249)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID236.collider)
+table.insert(colliders,AutoGenParent475ID236)
+AutoGenParent475ID237 = {}
+AutoGenParent475ID237.collider = OBBCollider.Create(-1)
+AutoGenParent475ID237.collider:SetOffset(221.5,59.7034,252.5)
+AutoGenParent475ID237.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID237.collider:SetHalfLengths(0.3,5.55702,2.12132)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID237.collider)
+table.insert(colliders,AutoGenParent475ID237)
+AutoGenParent475ID238 = {}
+AutoGenParent475ID238.collider = OBBCollider.Create(-1)
+AutoGenParent475ID238.collider:SetOffset(227.5,60.2604,253.5)
+AutoGenParent475ID238.collider:SetZAxis(0.993884,0,-0.110432)
+AutoGenParent475ID238.collider:SetHalfLengths(0.3,5.1114,4.52769)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID238.collider)
+table.insert(colliders,AutoGenParent475ID238)
+AutoGenParent475ID239 = {}
+AutoGenParent475ID239.collider = OBBCollider.Create(-1)
+AutoGenParent475ID239.collider:SetOffset(236.5,60.149,252)
+AutoGenParent475ID239.collider:SetZAxis(0.976187,0,-0.21693)
+AutoGenParent475ID239.collider:SetHalfLengths(0.3,5.22281,4.60977)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID239.collider)
+table.insert(colliders,AutoGenParent475ID239)
+AutoGenParent475ID240 = {}
+AutoGenParent475ID240.collider = OBBCollider.Create(-1)
+AutoGenParent475ID240.collider:SetOffset(234.5,57.1411,234.5)
+AutoGenParent475ID240.collider:SetZAxis(0.98995,0,0.141421)
+AutoGenParent475ID240.collider:SetHalfLengths(0.3,5.66843,3.53553)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID240.collider)
+table.insert(colliders,AutoGenParent475ID240)
+AutoGenParent475ID241 = {}
+AutoGenParent475ID241.collider = OBBCollider.Create(-1)
+AutoGenParent475ID241.collider:SetOffset(241,57.8095,233.5)
+AutoGenParent475ID241.collider:SetZAxis(0.894427,0,-0.447214)
+AutoGenParent475ID241.collider:SetHalfLengths(0.3,5.22281,3.3541)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID241.collider)
+table.insert(colliders,AutoGenParent475ID241)
+AutoGenParent475ID242 = {}
+AutoGenParent475ID242.collider = OBBCollider.Create(-1)
+AutoGenParent475ID242.collider:SetOffset(247.5,57.5867,231.5)
+AutoGenParent475ID242.collider:SetZAxis(0.98995,0,-0.141421)
+AutoGenParent475ID242.collider:SetHalfLengths(0.3,5.22281,3.53553)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID242.collider)
+table.insert(colliders,AutoGenParent475ID242)
+AutoGenParent475ID243 = {}
+AutoGenParent475ID243.collider = OBBCollider.Create(-1)
+AutoGenParent475ID243.collider:SetOffset(259,57.8095,232)
+AutoGenParent475ID243.collider:SetZAxis(0.992278,0,0.124035)
+AutoGenParent475ID243.collider:SetHalfLengths(0.3,6.00264,8.06226)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID243.collider)
+table.insert(colliders,AutoGenParent475ID243)
+AutoGenParent475ID244 = {}
+AutoGenParent475ID244.collider = OBBCollider.Create(-1)
+AutoGenParent475ID244.collider:SetOffset(319.5,34.7488,138.5)
+AutoGenParent475ID244.collider:SetZAxis(-0.822192,0,-0.56921)
+AutoGenParent475ID244.collider:SetHalfLengths(0.3,5.55702,7.90569)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID244.collider)
+table.insert(colliders,AutoGenParent475ID244)
+AutoGenParent475ID245 = {}
+AutoGenParent475ID245.collider = OBBCollider.Create(-1)
+AutoGenParent475ID245.collider:SetOffset(328.75,41.0313,113.313)
+AutoGenParent475ID245.collider:SetZAxis(0,0,1)
+AutoGenParent475ID245.collider:SetHalfLengths(1.91668,5.26999,2.05246)
+AutoGenParent475ID235.collider:AddChild(AutoGenParent475ID245.collider)
+table.insert(colliders,AutoGenParent475ID245)
+AutoGenParent475ID246 = {}
+AutoGenParent475ID246.collider = AABBCollider.Create(-1)
+AutoGenParent475ID246.collider:SetOffset(0,0,0)
+AutoGenParent475ID246.collider:SetMinPos(240.946,29.7488,119.828)
+AutoGenParent475ID246.collider:SetMaxPos(358.159,67.2657,252.297)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID246.collider)
+table.insert(colliders,AutoGenParent475ID246)
+AutoGenParent475ID247 = {}
+AutoGenParent475ID247.collider = OBBCollider.Create(-1)
+AutoGenParent475ID247.collider:SetOffset(343,37.0883,130)
+AutoGenParent475ID247.collider:SetZAxis(0.573462,0,0.819232)
+AutoGenParent475ID247.collider:SetHalfLengths(0.3,6.78247,12.2066)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID247.collider)
+table.insert(colliders,AutoGenParent475ID247)
+AutoGenParent475ID248 = {}
+AutoGenParent475ID248.collider = OBBCollider.Create(-1)
+AutoGenParent475ID248.collider:SetOffset(354,38.8707,142.5)
+AutoGenParent475ID248.collider:SetZAxis(0.847998,0,0.529999)
+AutoGenParent475ID248.collider:SetHalfLengths(0.3,5.22281,4.71699)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID248.collider)
+table.insert(colliders,AutoGenParent475ID248)
+AutoGenParent475ID249 = {}
+AutoGenParent475ID249.collider = OBBCollider.Create(-1)
+AutoGenParent475ID249.collider:SetOffset(246.5,60.3718,250)
+AutoGenParent475ID249.collider:SetZAxis(0.98387,0,-0.178885)
+AutoGenParent475ID249.collider:SetHalfLengths(0.3,5.44562,5.59017)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID249.collider)
+table.insert(colliders,AutoGenParent475ID249)
+AutoGenParent475ID250 = {}
+AutoGenParent475ID250.collider = OBBCollider.Create(-1)
+AutoGenParent475ID250.collider:SetOffset(259.5,59.9262,249.5)
+AutoGenParent475ID250.collider:SetZAxis(0.997785,0,0.066519)
+AutoGenParent475ID250.collider:SetHalfLengths(0.3,5.1114,7.51665)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID250.collider)
+table.insert(colliders,AutoGenParent475ID250)
+AutoGenParent475ID251 = {}
+AutoGenParent475ID251.collider = OBBCollider.Create(-1)
+AutoGenParent475ID251.collider:SetOffset(274,60.0376,251)
+AutoGenParent475ID251.collider:SetZAxis(0.98995,0,0.141421)
+AutoGenParent475ID251.collider:SetHalfLengths(0.3,5.33421,7.07107)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID251.collider)
+table.insert(colliders,AutoGenParent475ID251)
+AutoGenParent475ID252 = {}
+AutoGenParent475ID252.collider = OBBCollider.Create(-1)
+AutoGenParent475ID252.collider:SetOffset(277,56.8068,233.5)
+AutoGenParent475ID252.collider:SetZAxis(0.998752,0,0.0499376)
+AutoGenParent475ID252.collider:SetHalfLengths(0.3,5.77983,10.0125)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID252.collider)
+table.insert(colliders,AutoGenParent475ID252)
+AutoGenParent475ID253 = {}
+AutoGenParent475ID253.collider = OBBCollider.Create(-1)
+AutoGenParent475ID253.collider:SetOffset(295,56.027,232)
+AutoGenParent475ID253.collider:SetZAxis(0.970143,0,-0.242536)
+AutoGenParent475ID253.collider:SetHalfLengths(0.3,11.2386,8.24621)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID253.collider)
+table.insert(colliders,AutoGenParent475ID253)
+AutoGenParent475ID254 = {}
+AutoGenParent475ID254.collider = OBBCollider.Create(-1)
+AutoGenParent475ID254.collider:SetOffset(340.5,36.197,162)
+AutoGenParent475ID254.collider:SetZAxis(-0.734803,0,-0.67828)
+AutoGenParent475ID254.collider:SetHalfLengths(0.3,5.55702,8.8459)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID254.collider)
+table.insert(colliders,AutoGenParent475ID254)
+AutoGenParent475ID255 = {}
+AutoGenParent475ID255.collider = OBBCollider.Create(-1)
+AutoGenParent475ID255.collider:SetOffset(330,35.64,149.5)
+AutoGenParent475ID255.collider:SetZAxis(-0.524097,0,-0.851658)
+AutoGenParent475ID255.collider:SetHalfLengths(0.3,5.89124,7.63217)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID255.collider)
+table.insert(colliders,AutoGenParent475ID255)
+AutoGenParent475ID256 = {}
+AutoGenParent475ID256.collider = OBBCollider.Create(-1)
+AutoGenParent475ID256.collider:SetOffset(339.5,40.3125,156.5)
+AutoGenParent475ID256.collider:SetZAxis(0,0,1)
+AutoGenParent475ID256.collider:SetHalfLengths(2.03198,5.81552,1.96803)
+AutoGenParent475ID246.collider:AddChild(AutoGenParent475ID256.collider)
+table.insert(colliders,AutoGenParent475ID256)
+AutoGenParent475ID257 = {}
+AutoGenParent475ID257.collider = AABBCollider.Create(-1)
+AutoGenParent475ID257.collider:SetOffset(0,0,0)
+AutoGenParent475ID257.collider:SetMinPos(281,31.197,144.706)
+AutoGenParent475ID257.collider:SetMaxPos(368.059,67.0429,255.3)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID257.collider)
+table.insert(colliders,AutoGenParent475ID257)
+AutoGenParent475ID258 = {}
+AutoGenParent475ID258.collider = OBBCollider.Create(-1)
+AutoGenParent475ID258.collider:SetOffset(363,38.6479,146)
+AutoGenParent475ID258.collider:SetZAxis(0.980581,0,0.196116)
+AutoGenParent475ID258.collider:SetHalfLengths(0.3,5.33421,5.09902)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID258.collider)
+table.insert(colliders,AutoGenParent475ID258)
+AutoGenParent475ID259 = {}
+AutoGenParent475ID259.collider = OBBCollider.Create(-1)
+AutoGenParent475ID259.collider:SetOffset(287.5,59.7034,252)
+AutoGenParent475ID259.collider:SetZAxis(1,0,0)
+AutoGenParent475ID259.collider:SetHalfLengths(0.3,6.11405,6.5)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID259.collider)
+table.insert(colliders,AutoGenParent475ID259)
+AutoGenParent475ID260 = {}
+AutoGenParent475ID260.collider = OBBCollider.Create(-1)
+AutoGenParent475ID260.collider:SetOffset(296,58.5893,252.5)
+AutoGenParent475ID260.collider:SetZAxis(0.970143,0,0.242536)
+AutoGenParent475ID260.collider:SetHalfLengths(0.3,8.45354,2.06155)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID260.collider)
+table.insert(colliders,AutoGenParent475ID260)
+AutoGenParent475ID261 = {}
+AutoGenParent475ID261.collider = OBBCollider.Create(-1)
+AutoGenParent475ID261.collider:SetOffset(299,55.1358,254)
+AutoGenParent475ID261.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID261.collider:SetHalfLengths(0.3,5.1114,1.41421)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID261.collider)
+table.insert(colliders,AutoGenParent475ID261)
+AutoGenParent475ID262 = {}
+AutoGenParent475ID262.collider = OBBCollider.Create(-1)
+AutoGenParent475ID262.collider:SetOffset(307,55.2472,255)
+AutoGenParent475ID262.collider:SetZAxis(1,0,0)
+AutoGenParent475ID262.collider:SetHalfLengths(0.3,9.01056,7)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID262.collider)
+table.insert(colliders,AutoGenParent475ID262)
+AutoGenParent475ID263 = {}
+AutoGenParent475ID263.collider = OBBCollider.Create(-1)
+AutoGenParent475ID263.collider:SetOffset(306,49.7884,231.5)
+AutoGenParent475ID263.collider:SetZAxis(0.894427,0,0.447214)
+AutoGenParent475ID263.collider:SetHalfLengths(0.3,6.11404,3.3541)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID263.collider)
+table.insert(colliders,AutoGenParent475ID263)
+AutoGenParent475ID264 = {}
+AutoGenParent475ID264.collider = OBBCollider.Create(-1)
+AutoGenParent475ID264.collider:SetOffset(339,48.1173,215.5)
+AutoGenParent475ID264.collider:SetZAxis(0.682318,0,-0.731055)
+AutoGenParent475ID264.collider:SetHalfLengths(0.3,12.0185,10.2591)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID264.collider)
+table.insert(colliders,AutoGenParent475ID264)
+AutoGenParent475ID265 = {}
+AutoGenParent475ID265.collider = OBBCollider.Create(-1)
+AutoGenParent475ID265.collider:SetOffset(351.5,38.3137,183.5)
+AutoGenParent475ID265.collider:SetZAxis(0.263117,0,-0.964764)
+AutoGenParent475ID265.collider:SetHalfLengths(0.3,6.22545,5.70088)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID265.collider)
+table.insert(colliders,AutoGenParent475ID265)
+AutoGenParent475ID266 = {}
+AutoGenParent475ID266.collider = OBBCollider.Create(-1)
+AutoGenParent475ID266.collider:SetOffset(350,37.0883,173)
+AutoGenParent475ID266.collider:SetZAxis(-0.514496,0,-0.857493)
+AutoGenParent475ID266.collider:SetHalfLengths(0.3,5.89124,5.83095)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID266.collider)
+table.insert(colliders,AutoGenParent475ID266)
+AutoGenParent475ID267 = {}
+AutoGenParent475ID267.collider = OBBCollider.Create(-1)
+AutoGenParent475ID267.collider:SetOffset(320.5,48.1173,228)
+AutoGenParent475ID267.collider:SetZAxis(-0.91707,0,0.398726)
+AutoGenParent475ID267.collider:SetHalfLengths(0.3,5.55703,12.5399)
+AutoGenParent475ID257.collider:AddChild(AutoGenParent475ID267.collider)
+table.insert(colliders,AutoGenParent475ID267)
+AutoGenParent475ID268 = {}
+AutoGenParent475ID268.collider = AABBCollider.Create(-1)
+AutoGenParent475ID268.collider:SetOffset(0,0,0)
+AutoGenParent475ID268.collider:SetMinPos(312.709,30.1951,145)
+AutoGenParent475ID268.collider:SetMaxPos(384.3,56.9051,255)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID268.collider)
+table.insert(colliders,AutoGenParent475ID268)
+AutoGenParent475ID269 = {}
+AutoGenParent475ID269.collider = OBBCollider.Create(-1)
+AutoGenParent475ID269.collider:SetOffset(372,38.3137,147)
+AutoGenParent475ID269.collider:SetZAxis(1,0,0)
+AutoGenParent475ID269.collider:SetHalfLengths(0.3,6.11404,4)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID269.collider)
+table.insert(colliders,AutoGenParent475ID269)
+AutoGenParent475ID270 = {}
+AutoGenParent475ID270.collider = OBBCollider.Create(-1)
+AutoGenParent475ID270.collider:SetOffset(380,37.1997,147)
+AutoGenParent475ID270.collider:SetZAxis(1,0,0)
+AutoGenParent475ID270.collider:SetHalfLengths(0.3,6.11404,4)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID270.collider)
+table.insert(colliders,AutoGenParent475ID270)
+AutoGenParent475ID271 = {}
+AutoGenParent475ID271.collider = OBBCollider.Create(-1)
+AutoGenParent475ID271.collider:SetOffset(314,51.2366,252.5)
+AutoGenParent475ID271.collider:SetZAxis(0,0,-1)
+AutoGenParent475ID271.collider:SetHalfLengths(0.3,5.66843,2.5)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID271.collider)
+table.insert(colliders,AutoGenParent475ID271)
+AutoGenParent475ID272 = {}
+AutoGenParent475ID272.collider = OBBCollider.Create(-1)
+AutoGenParent475ID272.collider:SetOffset(313.5,50.5682,248)
+AutoGenParent475ID272.collider:SetZAxis(-0.242536,0,-0.970143)
+AutoGenParent475ID272.collider:SetHalfLengths(0.3,5.44562,2.06155)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID272.collider)
+table.insert(colliders,AutoGenParent475ID272)
+AutoGenParent475ID273 = {}
+AutoGenParent475ID273.collider = OBBCollider.Create(-1)
+AutoGenParent475ID273.collider:SetOffset(374,39.4277,170.5)
+AutoGenParent475ID273.collider:SetZAxis(0.274721,0,-0.961524)
+AutoGenParent475ID273.collider:SetHalfLengths(0.3,5.55702,3.64005)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID273.collider)
+table.insert(colliders,AutoGenParent475ID273)
+AutoGenParent475ID274 = {}
+AutoGenParent475ID274.collider = OBBCollider.Create(-1)
+AutoGenParent475ID274.collider:SetOffset(377.5,39.9848,162.5)
+AutoGenParent475ID274.collider:SetZAxis(0.485643,0,-0.874157)
+AutoGenParent475ID274.collider:SetHalfLengths(0.3,7.89651,5.14782)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID274.collider)
+table.insert(colliders,AutoGenParent475ID274)
+AutoGenParent475ID275 = {}
+AutoGenParent475ID275.collider = OBBCollider.Create(-1)
+AutoGenParent475ID275.collider:SetOffset(348,41.0988,203.5)
+AutoGenParent475ID275.collider:SetZAxis(0.406139,0,-0.913812)
+AutoGenParent475ID275.collider:SetHalfLengths(0.3,6.67107,4.92443)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID275.collider)
+table.insert(colliders,AutoGenParent475ID275)
+AutoGenParent475ID276 = {}
+AutoGenParent475ID276.collider = OBBCollider.Create(-1)
+AutoGenParent475ID276.collider:SetOffset(350,39.4277,194)
+AutoGenParent475ID276.collider:SetZAxis(0,0,-1)
+AutoGenParent475ID276.collider:SetHalfLengths(0.3,6.11404,5)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID276.collider)
+table.insert(colliders,AutoGenParent475ID276)
+AutoGenParent475ID277 = {}
+AutoGenParent475ID277.collider = OBBCollider.Create(-1)
+AutoGenParent475ID277.collider:SetOffset(324.5,50.1226,244)
+AutoGenParent475ID277.collider:SetZAxis(0.985212,0,-0.171341)
+AutoGenParent475ID277.collider:SetHalfLengths(0.3,6.22545,11.6726)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID277.collider)
+table.insert(colliders,AutoGenParent475ID277)
+AutoGenParent475ID278 = {}
+AutoGenParent475ID278.collider = OBBCollider.Create(-1)
+AutoGenParent475ID278.collider:SetOffset(384,35.1951,146)
+AutoGenParent475ID278.collider:SetZAxis(0,0,1)
+AutoGenParent475ID278.collider:SetHalfLengths(0.3,5,1)
+AutoGenParent475ID268.collider:AddChild(AutoGenParent475ID278.collider)
+table.insert(colliders,AutoGenParent475ID278)
+AutoGenParent475ID279 = {}
+AutoGenParent475ID279.collider = AABBCollider.Create(-1)
+AutoGenParent475ID279.collider:SetOffset(0,0,0)
+AutoGenParent475ID279.collider:SetMinPos(335.753,30.1951,144.7)
+AutoGenParent475ID279.collider:SetMaxPos(400,65.4832,255.171)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID279.collider)
+table.insert(colliders,AutoGenParent475ID279)
+AutoGenParent475ID280 = {}
+AutoGenParent475ID280.collider = OBBCollider.Create(-1)
+AutoGenParent475ID280.collider:SetOffset(340.5,55.47,248.5)
+AutoGenParent475ID280.collider:SetZAxis(-0.56921,0,-0.822192)
+AutoGenParent475ID280.collider:SetHalfLengths(0.3,9.12196,7.90569)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID280.collider)
+table.insert(colliders,AutoGenParent475ID280)
+AutoGenParent475ID281 = {}
+AutoGenParent475ID281.collider = OBBCollider.Create(-1)
+AutoGenParent475ID281.collider:SetOffset(353,57.0297,240.5)
+AutoGenParent475ID281.collider:SetZAxis(0.672673,0,-0.73994)
+AutoGenParent475ID281.collider:SetHalfLengths(0.3,8.45354,7.43303)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID281.collider)
+table.insert(colliders,AutoGenParent475ID281)
+AutoGenParent475ID282 = {}
+AutoGenParent475ID282.collider = OBBCollider.Create(-1)
+AutoGenParent475ID282.collider:SetOffset(363,53.5761,226.5)
+AutoGenParent475ID282.collider:SetZAxis(0.50702,0,-0.861934)
+AutoGenParent475ID282.collider:SetHalfLengths(0.3,9.67899,9.86154)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID282.collider)
+table.insert(colliders,AutoGenParent475ID282)
+AutoGenParent475ID283 = {}
+AutoGenParent475ID283.collider = OBBCollider.Create(-1)
+AutoGenParent475ID283.collider:SetOffset(371,48.8971,211)
+AutoGenParent475ID283.collider:SetZAxis(0.393919,0,-0.919145)
+AutoGenParent475ID283.collider:SetHalfLengths(0.3,7.4509,7.61577)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID283.collider)
+table.insert(colliders,AutoGenParent475ID283)
+AutoGenParent475ID284 = {}
+AutoGenParent475ID284.collider = OBBCollider.Create(-1)
+AutoGenParent475ID284.collider:SetOffset(373.5,46.4462,189)
+AutoGenParent475ID284.collider:SetZAxis(-0.0333148,0,-0.999445)
+AutoGenParent475ID284.collider:SetHalfLengths(0.3,12.0185,15.0083)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID284.collider)
+table.insert(colliders,AutoGenParent475ID284)
+AutoGenParent475ID285 = {}
+AutoGenParent475ID285.collider = OBBCollider.Create(-1)
+AutoGenParent475ID285.collider:SetOffset(382,37.0883,157.5)
+AutoGenParent475ID285.collider:SetZAxis(0.970143,0,-0.242536)
+AutoGenParent475ID285.collider:SetHalfLengths(0.3,5.1114,2.06155)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID285.collider)
+table.insert(colliders,AutoGenParent475ID285)
+AutoGenParent475ID286 = {}
+AutoGenParent475ID286.collider = OBBCollider.Create(-1)
+AutoGenParent475ID286.collider:SetOffset(388.5,36.4629,157)
+AutoGenParent475ID286.collider:SetZAxis(1,0,0)
+AutoGenParent475ID286.collider:SetHalfLengths(0.3,5.15847,4.5)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID286.collider)
+table.insert(colliders,AutoGenParent475ID286)
+AutoGenParent475ID287 = {}
+AutoGenParent475ID287.collider = OBBCollider.Create(-1)
+AutoGenParent475ID287.collider:SetOffset(392,35.3536,145)
+AutoGenParent475ID287.collider:SetZAxis(-1,0,0)
+AutoGenParent475ID287.collider:SetHalfLengths(0.3,5.15847,8)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID287.collider)
+table.insert(colliders,AutoGenParent475ID287)
+AutoGenParent475ID288 = {}
+AutoGenParent475ID288.collider = OBBCollider.Create(-1)
+AutoGenParent475ID288.collider:SetOffset(370.079,42.4331,185.415)
+AutoGenParent475ID288.collider:SetZAxis(0,0,1)
+AutoGenParent475ID288.collider:SetHalfLengths(1.88068,4.83337,1.99714)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID288.collider)
+table.insert(colliders,AutoGenParent475ID288)
+AutoGenParent475ID289 = {}
+AutoGenParent475ID289.collider = OBBCollider.Create(-1)
+AutoGenParent475ID289.collider:SetOffset(354.858,50.9688,226.742)
+AutoGenParent475ID289.collider:SetZAxis(0,0,1)
+AutoGenParent475ID289.collider:SetHalfLengths(1.75,4,1.75)
+AutoGenParent475ID279.collider:AddChild(AutoGenParent475ID289.collider)
+table.insert(colliders,AutoGenParent475ID289)
+AutoGenParent475ID290 = {}
+AutoGenParent475ID290.collider = AABBCollider.Create(-1)
+AutoGenParent475ID290.collider:SetOffset(0,0,0)
+AutoGenParent475ID290.collider:SetMinPos(344.715,30.3536,127.741)
+AutoGenParent475ID290.collider:SetMaxPos(434.151,62.0297,255.095)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID290.collider)
+table.insert(colliders,AutoGenParent475ID290)
+AutoGenParent475ID291 = {}
+AutoGenParent475ID291.collider = OBBCollider.Create(-1)
+AutoGenParent475ID291.collider:SetOffset(346.5,55.47,250.5)
+AutoGenParent475ID291.collider:SetZAxis(0.316228,0,-0.948683)
+AutoGenParent475ID291.collider:SetHalfLengths(0.3,6.55966,4.74342)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID291.collider)
+table.insert(colliders,AutoGenParent475ID291)
+AutoGenParent475ID292 = {}
+AutoGenParent475ID292.collider = OBBCollider.Create(-1)
+AutoGenParent475ID292.collider:SetOffset(398,36.3044,158)
+AutoGenParent475ID292.collider:SetZAxis(0.980581,0,0.196116)
+AutoGenParent475ID292.collider:SetHalfLengths(0.3,5.15847,5.09902)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID292.collider)
+table.insert(colliders,AutoGenParent475ID292)
+AutoGenParent475ID293 = {}
+AutoGenParent475ID293.collider = OBBCollider.Create(-1)
+AutoGenParent475ID293.collider:SetOffset(404,36.146,160)
+AutoGenParent475ID293.collider:SetZAxis(0.707107,0,0.707107)
+AutoGenParent475ID293.collider:SetHalfLengths(0.3,5.15847,1.41421)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID293.collider)
+table.insert(colliders,AutoGenParent475ID293)
+AutoGenParent475ID294 = {}
+AutoGenParent475ID294.collider = OBBCollider.Create(-1)
+AutoGenParent475ID294.collider:SetOffset(406,36.3044,162.5)
+AutoGenParent475ID294.collider:SetZAxis(0.5547,0,0.83205)
+AutoGenParent475ID294.collider:SetHalfLengths(0.3,5.15847,1.80278)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID294.collider)
+table.insert(colliders,AutoGenParent475ID294)
+AutoGenParent475ID295 = {}
+AutoGenParent475ID295.collider = OBBCollider.Create(-1)
+AutoGenParent475ID295.collider:SetOffset(409,36.4629,168)
+AutoGenParent475ID295.collider:SetZAxis(0.447214,0,0.894427)
+AutoGenParent475ID295.collider:SetHalfLengths(0.3,5.31694,4.47214)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID295.collider)
+table.insert(colliders,AutoGenParent475ID295)
+AutoGenParent475ID296 = {}
+AutoGenParent475ID296.collider = OBBCollider.Create(-1)
+AutoGenParent475ID296.collider:SetOffset(428,35.829,131.5)
+AutoGenParent475ID296.collider:SetZAxis(-0.863779,0,0.503871)
+AutoGenParent475ID296.collider:SetHalfLengths(0.3,5.31694,6.94622)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID296.collider)
+table.insert(colliders,AutoGenParent475ID296)
+AutoGenParent475ID297 = {}
+AutoGenParent475ID297.collider = OBBCollider.Create(-1)
+AutoGenParent475ID297.collider:SetOffset(412.5,35.5121,139.5)
+AutoGenParent475ID297.collider:SetZAxis(-0.903738,0,0.428086)
+AutoGenParent475ID297.collider:SetHalfLengths(0.3,5.15847,10.5119)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID297.collider)
+table.insert(colliders,AutoGenParent475ID297)
+AutoGenParent475ID298 = {}
+AutoGenParent475ID298.collider = OBBCollider.Create(-1)
+AutoGenParent475ID298.collider:SetOffset(401.5,35.3536,144.5)
+AutoGenParent475ID298.collider:SetZAxis(-0.948683,0,0.316228)
+AutoGenParent475ID298.collider:SetHalfLengths(0.3,5,1.58114)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID298.collider)
+table.insert(colliders,AutoGenParent475ID298)
+AutoGenParent475ID299 = {}
+AutoGenParent475ID299.collider = OBBCollider.Create(-1)
+AutoGenParent475ID299.collider:SetOffset(365.671,47.676,214.229)
+AutoGenParent475ID299.collider:SetZAxis(0,0,1)
+AutoGenParent475ID299.collider:SetHalfLengths(1.85948,4.92038,1.9785)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID299.collider)
+table.insert(colliders,AutoGenParent475ID299)
+AutoGenParent475ID300 = {}
+AutoGenParent475ID300.collider = OBBCollider.Create(-1)
+AutoGenParent475ID300.collider:SetOffset(347.526,56,240.375)
+AutoGenParent475ID300.collider:SetZAxis(0,0,1)
+AutoGenParent475ID300.collider:SetHalfLengths(2.14269,5.42911,1.96576)
+AutoGenParent475ID290.collider:AddChild(AutoGenParent475ID300.collider)
+table.insert(colliders,AutoGenParent475ID300)
+AutoGenParent475ID301 = {}
+AutoGenParent475ID301.collider = AABBCollider.Create(-1)
+AutoGenParent475ID301.collider:SetOffset(0,0,0)
+AutoGenParent475ID301.collider:SetMinPos(410.719,30.829,127.711)
+AutoGenParent475ID301.collider:SetMaxPos(475.148,57.3098,255.172)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID301.collider)
+table.insert(colliders,AutoGenParent475ID301)
+AutoGenParent475ID302 = {}
+AutoGenParent475ID302.collider = OBBCollider.Create(-1)
+AutoGenParent475ID302.collider:SetOffset(412.5,36.7798,176)
+AutoGenParent475ID302.collider:SetZAxis(0.351123,0,0.936329)
+AutoGenParent475ID302.collider:SetHalfLengths(0.3,5.79235,4.272)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID302.collider)
+table.insert(colliders,AutoGenParent475ID302)
+AutoGenParent475ID303 = {}
+AutoGenParent475ID303.collider = OBBCollider.Create(-1)
+AutoGenParent475ID303.collider:SetOffset(415.5,37.5722,185)
+AutoGenParent475ID303.collider:SetZAxis(0.287348,0,0.957826)
+AutoGenParent475ID303.collider:SetHalfLengths(0.3,5.63388,5.22015)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID303.collider)
+table.insert(colliders,AutoGenParent475ID303)
+AutoGenParent475ID304 = {}
+AutoGenParent475ID304.collider = OBBCollider.Create(-1)
+AutoGenParent475ID304.collider:SetOffset(418,38.2061,195.5)
+AutoGenParent475ID304.collider:SetZAxis(0.178885,0,0.98387)
+AutoGenParent475ID304.collider:SetHalfLengths(0.3,7.0601,5.59017)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID304.collider)
+table.insert(colliders,AutoGenParent475ID304)
+AutoGenParent475ID305 = {}
+AutoGenParent475ID305.collider = OBBCollider.Create(-1)
+AutoGenParent475ID305.collider:SetOffset(419.5,40.2662,208.5)
+AutoGenParent475ID305.collider:SetZAxis(0.066519,0,0.997785)
+AutoGenParent475ID305.collider:SetHalfLengths(0.3,9.27867,7.51665)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID305.collider)
+table.insert(colliders,AutoGenParent475ID305)
+AutoGenParent475ID306 = {}
+AutoGenParent475ID306.collider = OBBCollider.Create(-1)
+AutoGenParent475ID306.collider:SetOffset(418.5,44.5448,223.5)
+AutoGenParent475ID306.collider:SetZAxis(-0.196116,0,0.980581)
+AutoGenParent475ID306.collider:SetHalfLengths(0.3,8.80326,7.64853)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID306.collider)
+table.insert(colliders,AutoGenParent475ID306)
+AutoGenParent475ID307 = {}
+AutoGenParent475ID307.collider = OBBCollider.Create(-1)
+AutoGenParent475ID307.collider:SetOffset(416,48.3481,235)
+AutoGenParent475ID307.collider:SetZAxis(-0.242536,0,0.970143)
+AutoGenParent475ID307.collider:SetHalfLengths(0.3,7.37704,4.12311)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID307.collider)
+table.insert(colliders,AutoGenParent475ID307)
+AutoGenParent475ID308 = {}
+AutoGenParent475ID308.collider = OBBCollider.Create(-1)
+AutoGenParent475ID308.collider:SetOffset(422,50.7251,242)
+AutoGenParent475ID308.collider:SetZAxis(0.919145,0,0.393919)
+AutoGenParent475ID308.collider:SetHalfLengths(0.3,5.79234,7.61577)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID308.collider)
+table.insert(colliders,AutoGenParent475ID308)
+AutoGenParent475ID309 = {}
+AutoGenParent475ID309.collider = OBBCollider.Create(-1)
+AutoGenParent475ID309.collider:SetOffset(432.5,51.5175,250)
+AutoGenParent475ID309.collider:SetZAxis(0.573462,0,0.819232)
+AutoGenParent475ID309.collider:SetHalfLengths(0.3,5.79235,6.10328)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID309.collider)
+table.insert(colliders,AutoGenParent475ID309)
+AutoGenParent475ID310 = {}
+AutoGenParent475ID310.collider = OBBCollider.Create(-1)
+AutoGenParent475ID310.collider:SetOffset(463.5,38.2061,139.5)
+AutoGenParent475ID310.collider:SetZAxis(-0.870563,0,-0.492057)
+AutoGenParent475ID310.collider:SetHalfLengths(0.3,6.42622,13.2098)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID310.collider)
+table.insert(colliders,AutoGenParent475ID310)
+AutoGenParent475ID311 = {}
+AutoGenParent475ID311.collider = OBBCollider.Create(-1)
+AutoGenParent475ID311.collider:SetOffset(443,36.7798,130.5)
+AutoGenParent475ID311.collider:SetZAxis(-0.963518,0,-0.267644)
+AutoGenParent475ID311.collider:SetHalfLengths(0.3,5.95082,9.34077)
+AutoGenParent475ID301.collider:AddChild(AutoGenParent475ID311.collider)
+table.insert(colliders,AutoGenParent475ID311)
+AutoGenParent475ID312 = {}
+AutoGenParent475ID312.collider = AABBCollider.Create(-1)
+AutoGenParent475ID312.collider:SetOffset(0,0,0)
+AutoGenParent475ID312.collider:SetMinPos(434.7,23.9934,145.827)
+AutoGenParent475ID312.collider:SetMaxPos(509.285,68.8781,322.047)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID312.collider)
+table.insert(colliders,AutoGenParent475ID312)
+AutoGenParent475ID313 = {}
+AutoGenParent475ID313.collider = OBBCollider.Create(-1)
+AutoGenParent475ID313.collider:SetOffset(453.5,52.3098,255)
+AutoGenParent475ID313.collider:SetZAxis(1,0,0)
+AutoGenParent475ID313.collider:SetHalfLengths(0.3,16.5682,17.5)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID313.collider)
+table.insert(colliders,AutoGenParent475ID313)
+AutoGenParent475ID314 = {}
+AutoGenParent475ID314.collider = OBBCollider.Create(-1)
+AutoGenParent475ID314.collider:SetOffset(506.5,42.1678,206.5)
+AutoGenParent475ID314.collider:SetZAxis(-0.316228,0,-0.948683)
+AutoGenParent475ID314.collider:SetHalfLengths(0.3,5.31694,7.90569)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID314.collider)
+table.insert(colliders,AutoGenParent475ID314)
+AutoGenParent475ID315 = {}
+AutoGenParent475ID315.collider = OBBCollider.Create(-1)
+AutoGenParent475ID315.collider:SetOffset(500.5,41.8508,190)
+AutoGenParent475ID315.collider:SetZAxis(-0.362446,0,-0.932005)
+AutoGenParent475ID315.collider:SetHalfLengths(0.3,5.63388,9.6566)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID315.collider)
+table.insert(colliders,AutoGenParent475ID315)
+AutoGenParent475ID316 = {}
+AutoGenParent475ID316.collider = OBBCollider.Create(-1)
+AutoGenParent475ID316.collider:SetOffset(492,41.217,172)
+AutoGenParent475ID316.collider:SetZAxis(-0.485643,0,-0.874157)
+AutoGenParent475ID316.collider:SetHalfLengths(0.3,6.42622,10.2956)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID316.collider)
+table.insert(colliders,AutoGenParent475ID316)
+AutoGenParent475ID317 = {}
+AutoGenParent475ID317.collider = OBBCollider.Create(-1)
+AutoGenParent475ID317.collider:SetOffset(481,39.7907,154.5)
+AutoGenParent475ID317.collider:SetZAxis(-0.576683,0,-0.816968)
+AutoGenParent475ID317.collider:SetHalfLengths(0.3,6.58469,10.4043)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID317.collider)
+table.insert(colliders,AutoGenParent475ID317)
+AutoGenParent475ID318 = {}
+AutoGenParent475ID318.collider = OBBCollider.Create(-1)
+AutoGenParent475ID318.collider:SetOffset(467.5,40.2329,291.5)
+AutoGenParent475ID318.collider:SetZAxis(-0.613941,0,0.789352)
+AutoGenParent475ID318.collider:SetHalfLengths(0.3,15.3313,5.70088)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID318.collider)
+table.insert(colliders,AutoGenParent475ID318)
+AutoGenParent475ID319 = {}
+AutoGenParent475ID319.collider = OBBCollider.Create(-1)
+AutoGenParent475ID319.collider:SetOffset(453,40.9141,256)
+AutoGenParent475ID319.collider:SetZAxis(-1,0,0)
+AutoGenParent475ID319.collider:SetHalfLengths(0.3,16.9207,18)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID319.collider)
+table.insert(colliders,AutoGenParent475ID319)
+AutoGenParent475ID320 = {}
+AutoGenParent475ID320.collider = OBBCollider.Create(-1)
+AutoGenParent475ID320.collider:SetOffset(435,52.8348,263)
+AutoGenParent475ID320.collider:SetZAxis(0,0,1)
+AutoGenParent475ID320.collider:SetHalfLengths(0.3,6.1353,7)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID320.collider)
+table.insert(colliders,AutoGenParent475ID320)
+AutoGenParent475ID321 = {}
+AutoGenParent475ID321.collider = OBBCollider.Create(-1)
+AutoGenParent475ID321.collider:SetOffset(436,53.9701,283.5)
+AutoGenParent475ID321.collider:SetZAxis(0.0738717,0,0.997268)
+AutoGenParent475ID321.collider:SetHalfLengths(0.3,6.81649,13.537)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID321.collider)
+table.insert(colliders,AutoGenParent475ID321)
+AutoGenParent475ID322 = {}
+AutoGenParent475ID322.collider = OBBCollider.Create(-1)
+AutoGenParent475ID322.collider:SetOffset(439,55.7866,309.5)
+AutoGenParent475ID322.collider:SetZAxis(0.157991,0,0.987441)
+AutoGenParent475ID322.collider:SetHalfLengths(0.3,5.3406,12.659)
+AutoGenParent475ID312.collider:AddChild(AutoGenParent475ID322.collider)
+table.insert(colliders,AutoGenParent475ID322)
+AutoGenParent475ID323 = {}
+AutoGenParent475ID323.collider = AABBCollider.Create(-1)
+AutoGenParent475ID323.collider:SetOffset(0,0,0)
+AutoGenParent475ID323.collider:SetMinPos(440.708,29.7835,213.958)
+AutoGenParent475ID323.collider:SetMaxPos(512.3,66.1226,363.023)
+AutoGenParent475ID223.collider:AddChild(AutoGenParent475ID323.collider)
+table.insert(colliders,AutoGenParent475ID323)
+AutoGenParent475ID324 = {}
+AutoGenParent475ID324.collider = OBBCollider.Create(-1)
+AutoGenParent475ID324.collider:SetOffset(511.5,41.5339,241.5)
+AutoGenParent475ID324.collider:SetZAxis(-0.0370117,0,-0.999315)
+AutoGenParent475ID324.collider:SetHalfLengths(0.3,5.31694,13.5093)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID324.collider)
+table.insert(colliders,AutoGenParent475ID324)
+AutoGenParent475ID325 = {}
+AutoGenParent475ID325.collider = OBBCollider.Create(-1)
+AutoGenParent475ID325.collider:SetOffset(510,41.8508,221)
+AutoGenParent475ID325.collider:SetZAxis(-0.141421,0,-0.98995)
+AutoGenParent475ID325.collider:SetHalfLengths(0.3,5.31694,7.07107)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID325.collider)
+table.insert(colliders,AutoGenParent475ID325)
+AutoGenParent475ID326 = {}
+AutoGenParent475ID326.collider = OBBCollider.Create(-1)
+AutoGenParent475ID326.collider:SetOffset(512,41.5953,300.5)
+AutoGenParent475ID326.collider:SetZAxis(0,0,1)
+AutoGenParent475ID326.collider:SetHalfLengths(0.3,11.8118,44.5)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID326.collider)
+table.insert(colliders,AutoGenParent475ID326)
+AutoGenParent475ID327 = {}
+AutoGenParent475ID327.collider = OBBCollider.Create(-1)
+AutoGenParent475ID327.collider:SetOffset(474,40.2329,303.5)
+AutoGenParent475ID327.collider:SetZAxis(0.178885,0,0.98387)
+AutoGenParent475ID327.collider:SetHalfLengths(0.3,7.15708,16.7705)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID327.collider)
+table.insert(colliders,AutoGenParent475ID327)
+AutoGenParent475ID328 = {}
+AutoGenParent475ID328.collider = OBBCollider.Create(-1)
+AutoGenParent475ID328.collider:SetOffset(475.5,42.39,334)
+AutoGenParent475ID328.collider:SetZAxis(-0.106533,0,0.994309)
+AutoGenParent475ID328.collider:SetHalfLengths(0.3,6.58943,14.0801)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID328.collider)
+table.insert(colliders,AutoGenParent475ID328)
+AutoGenParent475ID329 = {}
+AutoGenParent475ID329.collider = OBBCollider.Create(-1)
+AutoGenParent475ID329.collider:SetOffset(466,50.5642,306)
+AutoGenParent475ID329.collider:SetZAxis(0.196116,0,0.980581)
+AutoGenParent475ID329.collider:SetHalfLengths(0.3,5.68119,10.198)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID329.collider)
+table.insert(colliders,AutoGenParent475ID329)
+AutoGenParent475ID330 = {}
+AutoGenParent475ID330.collider = OBBCollider.Create(-1)
+AutoGenParent475ID330.collider:SetOffset(468.5,51.2454,325.5)
+AutoGenParent475ID330.collider:SetZAxis(0.0525588,0,0.998618)
+AutoGenParent475ID330.collider:SetHalfLengths(0.3,8.29239,9.51315)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID330.collider)
+table.insert(colliders,AutoGenParent475ID330)
+AutoGenParent475ID331 = {}
+AutoGenParent475ID331.collider = OBBCollider.Create(-1)
+AutoGenParent475ID331.collider:SetOffset(442.5,56.1272,328.5)
+AutoGenParent475ID331.collider:SetZAxis(0.22486,0,0.974391)
+AutoGenParent475ID331.collider:SetHalfLengths(0.3,6.13531,6.67083)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID331.collider)
+table.insert(colliders,AutoGenParent475ID331)
+AutoGenParent475ID332 = {}
+AutoGenParent475ID332.collider = OBBCollider.Create(-1)
+AutoGenParent475ID332.collider:SetOffset(447,57.2625,342.5)
+AutoGenParent475ID332.collider:SetZAxis(0.371391,0,0.928477)
+AutoGenParent475ID332.collider:SetHalfLengths(0.3,7.95179,8.07775)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID332.collider)
+table.insert(colliders,AutoGenParent475ID332)
+AutoGenParent475ID333 = {}
+AutoGenParent475ID333.collider = OBBCollider.Create(-1)
+AutoGenParent475ID333.collider:SetOffset(450.5,60.2143,356.5)
+AutoGenParent475ID333.collider:SetZAxis(0.0766965,0,0.997055)
+AutoGenParent475ID333.collider:SetHalfLengths(0.3,5.90825,6.5192)
+AutoGenParent475ID323.collider:AddChild(AutoGenParent475ID333.collider)
+table.insert(colliders,AutoGenParent475ID333)
+AutoGenParent475ID334 = {}
+AutoGenParent475ID334.collider = AABBCollider.Create(-1)
+AutoGenParent475ID334.collider:SetOffset(0,0,0)
+AutoGenParent475ID334.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+AutoGenParent475ID334.collider:SetMaxPos(512.265,78.3839,383.3)
+AutoGenParent475ID.collider:AddChild(AutoGenParent475ID334.collider)
+table.insert(colliders,AutoGenParent475ID334)
+AutoGenParent475ID335 = {}
+AutoGenParent475ID335.collider = AABBCollider.Create(-1)
+AutoGenParent475ID335.collider:SetOffset(0,0,0)
+AutoGenParent475ID335.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+AutoGenParent475ID335.collider:SetMaxPos(512.265,78.3839,383.3)
+AutoGenParent475ID334.collider:AddChild(AutoGenParent475ID335.collider)
+table.insert(colliders,AutoGenParent475ID335)
+AutoGenParent475ID336 = {}
+AutoGenParent475ID336.collider = OBBCollider.Create(-1)
+AutoGenParent475ID336.collider:SetOffset(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+AutoGenParent475ID336.collider:SetZAxis(-0.582718,0,0.812674)
+AutoGenParent475ID336.collider:SetHalfLengths(0.5,0.5,0.5)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID336.collider)
+table.insert(colliders,AutoGenParent475ID336)
+AutoGenParent475ID337 = {}
+AutoGenParent475ID337.collider = OBBCollider.Create(-1)
+AutoGenParent475ID337.collider:SetOffset(508,34.7835,352.5)
+AutoGenParent475ID337.collider:SetZAxis(-0.470588,0,0.882353)
+AutoGenParent475ID337.collider:SetHalfLengths(0.3,6.02178,8.5)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID337.collider)
+table.insert(colliders,AutoGenParent475ID337)
+AutoGenParent475ID338 = {}
+AutoGenParent475ID338.collider = OBBCollider.Create(-1)
+AutoGenParent475ID338.collider:SetOffset(502.5,35.8052,364.5)
+AutoGenParent475ID338.collider:SetZAxis(-0.316228,0,0.948683)
+AutoGenParent475ID338.collider:SetHalfLengths(0.3,6.24884,4.74342)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID338.collider)
+table.insert(colliders,AutoGenParent475ID338)
+AutoGenParent475ID339 = {}
+AutoGenParent475ID339.collider = OBBCollider.Create(-1)
+AutoGenParent475ID339.collider:SetOffset(502.5,37.0541,372.5)
+AutoGenParent475ID339.collider:SetZAxis(0.393919,0,0.919145)
+AutoGenParent475ID339.collider:SetHalfLengths(0.3,5.68118,3.80789)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID339.collider)
+table.insert(colliders,AutoGenParent475ID339)
+AutoGenParent475ID340 = {}
+AutoGenParent475ID340.collider = OBBCollider.Create(-1)
+AutoGenParent475ID340.collider:SetOffset(506,37.7352,379.5)
+AutoGenParent475ID340.collider:SetZAxis(0.496139,0,0.868243)
+AutoGenParent475ID340.collider:SetHalfLengths(0.3,5.90825,4.03113)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID340.collider)
+table.insert(colliders,AutoGenParent475ID340)
+AutoGenParent475ID341 = {}
+AutoGenParent475ID341.collider = OBBCollider.Create(-1)
+AutoGenParent475ID341.collider:SetOffset(475.5,43.9794,365.5)
+AutoGenParent475ID341.collider:SetZAxis(0.0854011,0,0.996347)
+AutoGenParent475ID341.collider:SetHalfLengths(0.3,5.34059,17.5642)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID341.collider)
+table.insert(colliders,AutoGenParent475ID341)
+AutoGenParent475ID342 = {}
+AutoGenParent475ID342.collider = OBBCollider.Create(-1)
+AutoGenParent475ID342.collider:SetOffset(469.5,54.5378,347.5)
+AutoGenParent475ID342.collider:SetZAxis(0.039968,0,0.999201)
+AutoGenParent475ID342.collider:SetHalfLengths(0.3,6.81649,12.51)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID342.collider)
+table.insert(colliders,AutoGenParent475ID342)
+AutoGenParent475ID343 = {}
+AutoGenParent475ID343.collider = OBBCollider.Create(-1)
+AutoGenParent475ID343.collider:SetOffset(470,56.3543,371.5)
+AutoGenParent475ID343.collider:SetZAxis(0,0,1)
+AutoGenParent475ID343.collider:SetHalfLengths(0.3,7.49767,11.5)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID343.collider)
+table.insert(colliders,AutoGenParent475ID343)
+AutoGenParent475ID344 = {}
+AutoGenParent475ID344.collider = OBBCollider.Create(-1)
+AutoGenParent475ID344.collider:SetOffset(452,61.1226,373)
+AutoGenParent475ID344.collider:SetZAxis(0.0995037,0,0.995037)
+AutoGenParent475ID344.collider:SetHalfLengths(0.3,7.38414,10.0499)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID344.collider)
+table.insert(colliders,AutoGenParent475ID344)
+AutoGenParent475ID345 = {}
+AutoGenParent475ID345.collider = OBBCollider.Create(-1)
+AutoGenParent475ID345.collider:SetOffset(473.5,58.852,383)
+AutoGenParent475ID345.collider:SetZAxis(1,0,0)
+AutoGenParent475ID345.collider:SetHalfLengths(0.3,19.5319,3.5)
+AutoGenParent475ID335.collider:AddChild(AutoGenParent475ID345.collider)
+table.insert(colliders,AutoGenParent475ID345)
+CollisionHandler.AddAABB(AutoGenParent475ID.collider, 3)
+AutoGenParent475ID1 = nil
+AutoGenParent475ID2 = nil
+AutoGenParent475ID3 = nil
+AutoGenParent475ID4 = nil
+AutoGenParent475ID5 = nil
+AutoGenParent475ID6 = nil
+AutoGenParent475ID7 = nil
+AutoGenParent475ID8 = nil
+AutoGenParent475ID9 = nil
+AutoGenParent475ID10 = nil
+AutoGenParent475ID11 = nil
+AutoGenParent475ID12 = nil
+AutoGenParent475ID13 = nil
+AutoGenParent475ID14 = nil
+AutoGenParent475ID15 = nil
+AutoGenParent475ID16 = nil
+AutoGenParent475ID17 = nil
+AutoGenParent475ID18 = nil
+AutoGenParent475ID19 = nil
+AutoGenParent475ID20 = nil
+AutoGenParent475ID21 = nil
+AutoGenParent475ID22 = nil
+AutoGenParent475ID23 = nil
+AutoGenParent475ID24 = nil
+AutoGenParent475ID25 = nil
+AutoGenParent475ID26 = nil
+AutoGenParent475ID27 = nil
+AutoGenParent475ID28 = nil
+AutoGenParent475ID29 = nil
+AutoGenParent475ID30 = nil
+AutoGenParent475ID31 = nil
+AutoGenParent475ID32 = nil
+AutoGenParent475ID33 = nil
+AutoGenParent475ID34 = nil
+AutoGenParent475ID35 = nil
+AutoGenParent475ID36 = nil
+AutoGenParent475ID37 = nil
+AutoGenParent475ID38 = nil
+AutoGenParent475ID39 = nil
+AutoGenParent475ID40 = nil
+AutoGenParent475ID41 = nil
+AutoGenParent475ID42 = nil
+AutoGenParent475ID43 = nil
+AutoGenParent475ID44 = nil
+AutoGenParent475ID45 = nil
+AutoGenParent475ID46 = nil
+AutoGenParent475ID47 = nil
+AutoGenParent475ID48 = nil
+AutoGenParent475ID49 = nil
+AutoGenParent475ID50 = nil
+AutoGenParent475ID51 = nil
+AutoGenParent475ID52 = nil
+AutoGenParent475ID53 = nil
+AutoGenParent475ID54 = nil
+AutoGenParent475ID55 = nil
+AutoGenParent475ID56 = nil
+AutoGenParent475ID57 = nil
+AutoGenParent475ID58 = nil
+AutoGenParent475ID59 = nil
+AutoGenParent475ID60 = nil
+AutoGenParent475ID61 = nil
+AutoGenParent475ID62 = nil
+AutoGenParent475ID63 = nil
+AutoGenParent475ID64 = nil
+AutoGenParent475ID65 = nil
+AutoGenParent475ID66 = nil
+AutoGenParent475ID67 = nil
+AutoGenParent475ID68 = nil
+AutoGenParent475ID69 = nil
+AutoGenParent475ID70 = nil
+AutoGenParent475ID71 = nil
+AutoGenParent475ID72 = nil
+AutoGenParent475ID73 = nil
+AutoGenParent475ID74 = nil
+AutoGenParent475ID75 = nil
+AutoGenParent475ID76 = nil
+AutoGenParent475ID77 = nil
+AutoGenParent475ID78 = nil
+AutoGenParent475ID79 = nil
+AutoGenParent475ID80 = nil
+AutoGenParent475ID81 = nil
+AutoGenParent475ID82 = nil
+AutoGenParent475ID83 = nil
+AutoGenParent475ID84 = nil
+AutoGenParent475ID85 = nil
+AutoGenParent475ID86 = nil
+AutoGenParent475ID87 = nil
+AutoGenParent475ID88 = nil
+AutoGenParent475ID89 = nil
+AutoGenParent475ID90 = nil
+AutoGenParent475ID91 = nil
+AutoGenParent475ID92 = nil
+AutoGenParent475ID93 = nil
+AutoGenParent475ID94 = nil
+AutoGenParent475ID95 = nil
+AutoGenParent475ID96 = nil
+AutoGenParent475ID97 = nil
+AutoGenParent475ID98 = nil
+AutoGenParent475ID99 = nil
+AutoGenParent475ID100 = nil
+AutoGenParent475ID101 = nil
+AutoGenParent475ID102 = nil
+AutoGenParent475ID103 = nil
+AutoGenParent475ID104 = nil
+AutoGenParent475ID105 = nil
+AutoGenParent475ID106 = nil
+AutoGenParent475ID107 = nil
+AutoGenParent475ID108 = nil
+AutoGenParent475ID109 = nil
+AutoGenParent475ID110 = nil
+AutoGenParent475ID111 = nil
+AutoGenParent475ID112 = nil
+AutoGenParent475ID113 = nil
+AutoGenParent475ID114 = nil
+AutoGenParent475ID115 = nil
+AutoGenParent475ID116 = nil
+AutoGenParent475ID117 = nil
+AutoGenParent475ID118 = nil
+AutoGenParent475ID119 = nil
+AutoGenParent475ID120 = nil
+AutoGenParent475ID121 = nil
+AutoGenParent475ID122 = nil
+AutoGenParent475ID123 = nil
+AutoGenParent475ID124 = nil
+AutoGenParent475ID125 = nil
+AutoGenParent475ID126 = nil
+AutoGenParent475ID127 = nil
+AutoGenParent475ID128 = nil
+AutoGenParent475ID129 = nil
+AutoGenParent475ID130 = nil
+AutoGenParent475ID131 = nil
+AutoGenParent475ID132 = nil
+AutoGenParent475ID133 = nil
+AutoGenParent475ID134 = nil
+AutoGenParent475ID135 = nil
+AutoGenParent475ID136 = nil
+AutoGenParent475ID137 = nil
+AutoGenParent475ID138 = nil
+AutoGenParent475ID139 = nil
+AutoGenParent475ID140 = nil
+AutoGenParent475ID141 = nil
+AutoGenParent475ID142 = nil
+AutoGenParent475ID143 = nil
+AutoGenParent475ID144 = nil
+AutoGenParent475ID145 = nil
+AutoGenParent475ID146 = nil
+AutoGenParent475ID147 = nil
+AutoGenParent475ID148 = nil
+AutoGenParent475ID149 = nil
+AutoGenParent475ID150 = nil
+AutoGenParent475ID151 = nil
+AutoGenParent475ID152 = nil
+AutoGenParent475ID153 = nil
+AutoGenParent475ID154 = nil
+AutoGenParent475ID155 = nil
+AutoGenParent475ID156 = nil
+AutoGenParent475ID157 = nil
+AutoGenParent475ID158 = nil
+AutoGenParent475ID159 = nil
+AutoGenParent475ID160 = nil
+AutoGenParent475ID161 = nil
+AutoGenParent475ID162 = nil
+AutoGenParent475ID163 = nil
+AutoGenParent475ID164 = nil
+AutoGenParent475ID165 = nil
+AutoGenParent475ID166 = nil
+AutoGenParent475ID167 = nil
+AutoGenParent475ID168 = nil
+AutoGenParent475ID169 = nil
+AutoGenParent475ID170 = nil
+AutoGenParent475ID171 = nil
+AutoGenParent475ID172 = nil
+AutoGenParent475ID173 = nil
+AutoGenParent475ID174 = nil
+AutoGenParent475ID175 = nil
+AutoGenParent475ID176 = nil
+AutoGenParent475ID177 = nil
+AutoGenParent475ID178 = nil
+AutoGenParent475ID179 = nil
+AutoGenParent475ID180 = nil
+AutoGenParent475ID181 = nil
+AutoGenParent475ID182 = nil
+AutoGenParent475ID183 = nil
+AutoGenParent475ID184 = nil
+AutoGenParent475ID185 = nil
+AutoGenParent475ID186 = nil
+AutoGenParent475ID187 = nil
+AutoGenParent475ID188 = nil
+AutoGenParent475ID189 = nil
+AutoGenParent475ID190 = nil
+AutoGenParent475ID191 = nil
+AutoGenParent475ID192 = nil
+AutoGenParent475ID193 = nil
+AutoGenParent475ID194 = nil
+AutoGenParent475ID195 = nil
+AutoGenParent475ID196 = nil
+AutoGenParent475ID197 = nil
+AutoGenParent475ID198 = nil
+AutoGenParent475ID199 = nil
+AutoGenParent475ID200 = nil
+AutoGenParent475ID201 = nil
+AutoGenParent475ID202 = nil
+AutoGenParent475ID203 = nil
+AutoGenParent475ID204 = nil
+AutoGenParent475ID205 = nil
+AutoGenParent475ID206 = nil
+AutoGenParent475ID207 = nil
+AutoGenParent475ID208 = nil
+AutoGenParent475ID209 = nil
+AutoGenParent475ID210 = nil
+AutoGenParent475ID211 = nil
+AutoGenParent475ID212 = nil
+AutoGenParent475ID213 = nil
+AutoGenParent475ID214 = nil
+AutoGenParent475ID215 = nil
+AutoGenParent475ID216 = nil
+AutoGenParent475ID217 = nil
+AutoGenParent475ID218 = nil
+AutoGenParent475ID219 = nil
+AutoGenParent475ID220 = nil
+AutoGenParent475ID221 = nil
+AutoGenParent475ID222 = nil
+AutoGenParent475ID223 = nil
+AutoGenParent475ID224 = nil
+AutoGenParent475ID225 = nil
+AutoGenParent475ID226 = nil
+AutoGenParent475ID227 = nil
+AutoGenParent475ID228 = nil
+AutoGenParent475ID229 = nil
+AutoGenParent475ID230 = nil
+AutoGenParent475ID231 = nil
+AutoGenParent475ID232 = nil
+AutoGenParent475ID233 = nil
+AutoGenParent475ID234 = nil
+AutoGenParent475ID235 = nil
+AutoGenParent475ID236 = nil
+AutoGenParent475ID237 = nil
+AutoGenParent475ID238 = nil
+AutoGenParent475ID239 = nil
+AutoGenParent475ID240 = nil
+AutoGenParent475ID241 = nil
+AutoGenParent475ID242 = nil
+AutoGenParent475ID243 = nil
+AutoGenParent475ID244 = nil
+AutoGenParent475ID245 = nil
+AutoGenParent475ID246 = nil
+AutoGenParent475ID247 = nil
+AutoGenParent475ID248 = nil
+AutoGenParent475ID249 = nil
+AutoGenParent475ID250 = nil
+AutoGenParent475ID251 = nil
+AutoGenParent475ID252 = nil
+AutoGenParent475ID253 = nil
+AutoGenParent475ID254 = nil
+AutoGenParent475ID255 = nil
+AutoGenParent475ID256 = nil
+AutoGenParent475ID257 = nil
+AutoGenParent475ID258 = nil
+AutoGenParent475ID259 = nil
+AutoGenParent475ID260 = nil
+AutoGenParent475ID261 = nil
+AutoGenParent475ID262 = nil
+AutoGenParent475ID263 = nil
+AutoGenParent475ID264 = nil
+AutoGenParent475ID265 = nil
+AutoGenParent475ID266 = nil
+AutoGenParent475ID267 = nil
+AutoGenParent475ID268 = nil
+AutoGenParent475ID269 = nil
+AutoGenParent475ID270 = nil
+AutoGenParent475ID271 = nil
+AutoGenParent475ID272 = nil
+AutoGenParent475ID273 = nil
+AutoGenParent475ID274 = nil
+AutoGenParent475ID275 = nil
+AutoGenParent475ID276 = nil
+AutoGenParent475ID277 = nil
+AutoGenParent475ID278 = nil
+AutoGenParent475ID279 = nil
+AutoGenParent475ID280 = nil
+AutoGenParent475ID281 = nil
+AutoGenParent475ID282 = nil
+AutoGenParent475ID283 = nil
+AutoGenParent475ID284 = nil
+AutoGenParent475ID285 = nil
+AutoGenParent475ID286 = nil
+AutoGenParent475ID287 = nil
+AutoGenParent475ID288 = nil
+AutoGenParent475ID289 = nil
+AutoGenParent475ID290 = nil
+AutoGenParent475ID291 = nil
+AutoGenParent475ID292 = nil
+AutoGenParent475ID293 = nil
+AutoGenParent475ID294 = nil
+AutoGenParent475ID295 = nil
+AutoGenParent475ID296 = nil
+AutoGenParent475ID297 = nil
+AutoGenParent475ID298 = nil
+AutoGenParent475ID299 = nil
+AutoGenParent475ID300 = nil
+AutoGenParent475ID301 = nil
+AutoGenParent475ID302 = nil
+AutoGenParent475ID303 = nil
+AutoGenParent475ID304 = nil
+AutoGenParent475ID305 = nil
+AutoGenParent475ID306 = nil
+AutoGenParent475ID307 = nil
+AutoGenParent475ID308 = nil
+AutoGenParent475ID309 = nil
+AutoGenParent475ID310 = nil
+AutoGenParent475ID311 = nil
+AutoGenParent475ID312 = nil
+AutoGenParent475ID313 = nil
+AutoGenParent475ID314 = nil
+AutoGenParent475ID315 = nil
+AutoGenParent475ID316 = nil
+AutoGenParent475ID317 = nil
+AutoGenParent475ID318 = nil
+AutoGenParent475ID319 = nil
+AutoGenParent475ID320 = nil
+AutoGenParent475ID321 = nil
+AutoGenParent475ID322 = nil
+AutoGenParent475ID323 = nil
+AutoGenParent475ID324 = nil
+AutoGenParent475ID325 = nil
+AutoGenParent475ID326 = nil
+AutoGenParent475ID327 = nil
+AutoGenParent475ID328 = nil
+AutoGenParent475ID329 = nil
+AutoGenParent475ID330 = nil
+AutoGenParent475ID331 = nil
+AutoGenParent475ID332 = nil
+AutoGenParent475ID333 = nil
+AutoGenParent475ID334 = nil
+AutoGenParent475ID335 = nil
+AutoGenParent475ID336 = nil
+AutoGenParent475ID337 = nil
+AutoGenParent475ID338 = nil
+AutoGenParent475ID339 = nil
+AutoGenParent475ID340 = nil
+AutoGenParent475ID341 = nil
+AutoGenParent475ID342 = nil
+AutoGenParent475ID343 = nil
+AutoGenParent475ID344 = nil
+AutoGenParent475ID345 = nil
+table.insert(colliders,AutoGenParent475ID)
+AutoGenParent475ID = nil
 
 table.insert(level01, props)
 table.insert(level01, colliders)
@@ -2126,297 +3191,515 @@ Transform.SetRotation(tile25ID.transformID, {x=0, y=0, z=0})
 table.insert(props,tile25ID)
 tile25ID = nil
 
-Obb4550ID = {}
-Obb4550ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4550ID.transformID, {x=108, y=40, z=192})
-Transform.SetScaleNonUniform(Obb4550ID.transformID, 28.5, 34, 1)
-Transform.SetRotation(Obb4550ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4550ID)
-Obb4550ID = nil
+t2s121ID = {}
+t2s121ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s121ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s121ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s121ID.transformID, {x=0, y=0, z=0})
+t2s121ID.model = Assets.LoadModel('Models/tile2_s1.model')
+Gear.AddStaticInstance(t2s121ID.model, t2s121ID.transformID)
+table.insert(props,t2s121ID)
+t2s121ID = nil
 
-t2s166ID = {}
-t2s166ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s166ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s166ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s166ID.transformID, {x=0, y=0, z=0})
-t2s166ID.model = Assets.LoadModel('Models/tile2_s1.model')
-Gear.AddStaticInstance(t2s166ID.model, t2s166ID.transformID)
-table.insert(props,t2s166ID)
-t2s166ID = nil
+t2s222ID = {}
+t2s222ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s222ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s222ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s222ID.transformID, {x=0, y=0, z=0})
+t2s222ID.model = Assets.LoadModel('Models/tile2_s2.model')
+Gear.AddStaticInstance(t2s222ID.model, t2s222ID.transformID)
+table.insert(props,t2s222ID)
+t2s222ID = nil
 
-t2s267ID = {}
-t2s267ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s267ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s267ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s267ID.transformID, {x=0, y=0, z=0})
-t2s267ID.model = Assets.LoadModel('Models/tile2_s2.model')
-Gear.AddStaticInstance(t2s267ID.model, t2s267ID.transformID)
-table.insert(props,t2s267ID)
-t2s267ID = nil
+t2s323ID = {}
+t2s323ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s323ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s323ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s323ID.transformID, {x=0, y=0, z=0})
+t2s323ID.model = Assets.LoadModel('Models/tile2_s3.model')
+Gear.AddStaticInstance(t2s323ID.model, t2s323ID.transformID)
+table.insert(props,t2s323ID)
+t2s323ID = nil
 
-t2s368ID = {}
-t2s368ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s368ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s368ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s368ID.transformID, {x=0, y=0, z=0})
-t2s368ID.model = Assets.LoadModel('Models/tile2_s3.model')
-Gear.AddStaticInstance(t2s368ID.model, t2s368ID.transformID)
-table.insert(props,t2s368ID)
-t2s368ID = nil
+t2s424ID = {}
+t2s424ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s424ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s424ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s424ID.transformID, {x=0, y=0, z=0})
+t2s424ID.model = Assets.LoadModel('Models/tile2_s4.model')
+Gear.AddStaticInstance(t2s424ID.model, t2s424ID.transformID)
+table.insert(props,t2s424ID)
+t2s424ID = nil
 
-t2s469ID = {}
-t2s469ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s469ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s469ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s469ID.transformID, {x=0, y=0, z=0})
-t2s469ID.model = Assets.LoadModel('Models/tile2_s4.model')
-Gear.AddStaticInstance(t2s469ID.model, t2s469ID.transformID)
-table.insert(props,t2s469ID)
-t2s469ID = nil
+t2s525ID = {}
+t2s525ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s525ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s525ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s525ID.transformID, {x=0, y=0, z=0})
+t2s525ID.model = Assets.LoadModel('Models/tile2_s5.model')
+Gear.AddStaticInstance(t2s525ID.model, t2s525ID.transformID)
+table.insert(props,t2s525ID)
+t2s525ID = nil
 
-t2s570ID = {}
-t2s570ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s570ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s570ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s570ID.transformID, {x=0, y=0, z=0})
-t2s570ID.model = Assets.LoadModel('Models/tile2_s5.model')
-Gear.AddStaticInstance(t2s570ID.model, t2s570ID.transformID)
-table.insert(props,t2s570ID)
-t2s570ID = nil
+t2s626ID = {}
+t2s626ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s626ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s626ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s626ID.transformID, {x=0, y=0, z=0})
+t2s626ID.model = Assets.LoadModel('Models/tile2_s6.model')
+Gear.AddStaticInstance(t2s626ID.model, t2s626ID.transformID)
+table.insert(props,t2s626ID)
+t2s626ID = nil
 
-t2s671ID = {}
-t2s671ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s671ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s671ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s671ID.transformID, {x=0, y=0, z=0})
-t2s671ID.model = Assets.LoadModel('Models/tile2_s6.model')
-Gear.AddStaticInstance(t2s671ID.model, t2s671ID.transformID)
-table.insert(props,t2s671ID)
-t2s671ID = nil
+t2s727ID = {}
+t2s727ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s727ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s727ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s727ID.transformID, {x=0, y=0, z=0})
+t2s727ID.model = Assets.LoadModel('Models/tile2_s7.model')
+Gear.AddStaticInstance(t2s727ID.model, t2s727ID.transformID)
+table.insert(props,t2s727ID)
+t2s727ID = nil
 
-t2s772ID = {}
-t2s772ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s772ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s772ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s772ID.transformID, {x=0, y=0, z=0})
-t2s772ID.model = Assets.LoadModel('Models/tile2_s7.model')
-Gear.AddStaticInstance(t2s772ID.model, t2s772ID.transformID)
-table.insert(props,t2s772ID)
-t2s772ID = nil
+t2s828ID = {}
+t2s828ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s828ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s828ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s828ID.transformID, {x=0, y=0, z=0})
+t2s828ID.model = Assets.LoadModel('Models/tile2_s8.model')
+Gear.AddStaticInstance(t2s828ID.model, t2s828ID.transformID)
+table.insert(props,t2s828ID)
+t2s828ID = nil
 
-t2s873ID = {}
-t2s873ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s873ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s873ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s873ID.transformID, {x=0, y=0, z=0})
-t2s873ID.model = Assets.LoadModel('Models/tile2_s8.model')
-Gear.AddStaticInstance(t2s873ID.model, t2s873ID.transformID)
-table.insert(props,t2s873ID)
-t2s873ID = nil
+t2s929ID = {}
+t2s929ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s929ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s929ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s929ID.transformID, {x=0, y=0, z=0})
+t2s929ID.model = Assets.LoadModel('Models/tile2_s9.model')
+Gear.AddStaticInstance(t2s929ID.model, t2s929ID.transformID)
+table.insert(props,t2s929ID)
+t2s929ID = nil
 
-t2s974ID = {}
-t2s974ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s974ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s974ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s974ID.transformID, {x=0, y=0, z=0})
-t2s974ID.model = Assets.LoadModel('Models/tile2_s9.model')
-Gear.AddStaticInstance(t2s974ID.model, t2s974ID.transformID)
-table.insert(props,t2s974ID)
-t2s974ID = nil
+t2s1030ID = {}
+t2s1030ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s1030ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s1030ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s1030ID.transformID, {x=0, y=0, z=0})
+t2s1030ID.model = Assets.LoadModel('Models/tile2_s10.model')
+Gear.AddStaticInstance(t2s1030ID.model, t2s1030ID.transformID)
+table.insert(props,t2s1030ID)
+t2s1030ID = nil
 
-t2s1075ID = {}
-t2s1075ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1075ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s1075ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s1075ID.transformID, {x=0, y=0, z=0})
-t2s1075ID.model = Assets.LoadModel('Models/tile2_s10.model')
-Gear.AddStaticInstance(t2s1075ID.model, t2s1075ID.transformID)
-table.insert(props,t2s1075ID)
-t2s1075ID = nil
+t2s11a31ID = {}
+t2s11a31ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s11a31ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s11a31ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s11a31ID.transformID, {x=0, y=0, z=0})
+t2s11a31ID.model = Assets.LoadModel('Models/tile2_s11a.model')
+Gear.AddStaticInstance(t2s11a31ID.model, t2s11a31ID.transformID)
+table.insert(props,t2s11a31ID)
+t2s11a31ID = nil
 
-t2s11a76ID = {}
-t2s11a76ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s11a76ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s11a76ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s11a76ID.transformID, {x=0, y=0, z=0})
-t2s11a76ID.model = Assets.LoadModel('Models/tile2_s11a.model')
-Gear.AddStaticInstance(t2s11a76ID.model, t2s11a76ID.transformID)
-table.insert(props,t2s11a76ID)
-t2s11a76ID = nil
+t2s1232ID = {}
+t2s1232ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s1232ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s1232ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s1232ID.transformID, {x=0, y=0, z=0})
+t2s1232ID.model = Assets.LoadModel('Models/tile2_s12.model')
+Gear.AddStaticInstance(t2s1232ID.model, t2s1232ID.transformID)
+table.insert(props,t2s1232ID)
+t2s1232ID = nil
 
-t2s1277ID = {}
-t2s1277ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1277ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s1277ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s1277ID.transformID, {x=0, y=0, z=0})
-t2s1277ID.model = Assets.LoadModel('Models/tile2_s12.model')
-Gear.AddStaticInstance(t2s1277ID.model, t2s1277ID.transformID)
-table.insert(props,t2s1277ID)
-t2s1277ID = nil
+t2s1333ID = {}
+t2s1333ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s1333ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s1333ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s1333ID.transformID, {x=0, y=0, z=0})
+t2s1333ID.model = Assets.LoadModel('Models/tile2_s13.model')
+Gear.AddStaticInstance(t2s1333ID.model, t2s1333ID.transformID)
+table.insert(props,t2s1333ID)
+t2s1333ID = nil
 
-t2s1378ID = {}
-t2s1378ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1378ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s1378ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s1378ID.transformID, {x=0, y=0, z=0})
-t2s1378ID.model = Assets.LoadModel('Models/tile2_s13.model')
-Gear.AddStaticInstance(t2s1378ID.model, t2s1378ID.transformID)
-table.insert(props,t2s1378ID)
-t2s1378ID = nil
+t2s1434ID = {}
+t2s1434ID.transformID = Transform.Bind()
+Transform.SetPosition(t2s1434ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t2s1434ID.transformID, 1, 1, 1)
+Transform.SetRotation(t2s1434ID.transformID, {x=0, y=0, z=0})
+t2s1434ID.model = Assets.LoadModel('Models/tile2_s14.model')
+Gear.AddStaticInstance(t2s1434ID.model, t2s1434ID.transformID)
+table.insert(props,t2s1434ID)
+t2s1434ID = nil
 
-t2s1479ID = {}
-t2s1479ID.transformID = Transform.Bind()
-Transform.SetPosition(t2s1479ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t2s1479ID.transformID, 1, 1, 1)
-Transform.SetRotation(t2s1479ID.transformID, {x=0, y=0, z=0})
-t2s1479ID.model = Assets.LoadModel('Models/tile2_s14.model')
-Gear.AddStaticInstance(t2s1479ID.model, t2s1479ID.transformID)
-table.insert(props,t2s1479ID)
-t2s1479ID = nil
+PineTree_NoCollider1392ID = {}
+PineTree_NoCollider1392ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider1392ID.transformID, {x=210.125, y=53.875, z=105.063})
+Transform.SetScaleNonUniform(PineTree_NoCollider1392ID.transformID, 1.40384, 1.37969, 1.24097)
+Transform.SetRotation(PineTree_NoCollider1392ID.transformID, {x=0, y=2.74772, z=0})
+PineTree_NoCollider1392ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider1392ID.model, PineTree_NoCollider1392ID.transformID)
+table.insert(props,PineTree_NoCollider1392ID)
+PineTree_NoCollider1392ID = nil
 
-ObbRot181ID = {}
-ObbRot181ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot181ID.transformID, {x=117.911, y=37.1709, z=200.394})
-Transform.SetScaleNonUniform(ObbRot181ID.transformID, 1, 18.7241, 21.8081)
-Transform.SetRotation(ObbRot181ID.transformID, {x=0, y=0.41909, z=0})
-table.insert(props,ObbRot181ID)
-ObbRot181ID = nil
+PineTree_NoCollider11393ID = {}
+PineTree_NoCollider11393ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider11393ID.transformID, {x=172.75, y=62.0625, z=144})
+Transform.SetScaleNonUniform(PineTree_NoCollider11393ID.transformID, 1.37643, 1.88725, 1.38272)
+Transform.SetRotation(PineTree_NoCollider11393ID.transformID, {x=0, y=0, z=0})
+PineTree_NoCollider11393ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider11393ID.model, PineTree_NoCollider11393ID.transformID)
+table.insert(props,PineTree_NoCollider11393ID)
+PineTree_NoCollider11393ID = nil
 
-ObbRot585ID = {}
-ObbRot585ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot585ID.transformID, {x=125.175, y=37.5857, z=210.972})
-Transform.SetScaleNonUniform(ObbRot585ID.transformID, 4.74132, 9.7832, 1)
-Transform.SetRotation(ObbRot585ID.transformID, {x=0, y=0.0683151, z=0})
-table.insert(props,ObbRot585ID)
-ObbRot585ID = nil
+PineTree_NoCollider12394ID = {}
+PineTree_NoCollider12394ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider12394ID.transformID, {x=177.125, y=62.4375, z=140.375})
+Transform.SetScaleNonUniform(PineTree_NoCollider12394ID.transformID, 1.46611, 1.52534, 1.29654)
+Transform.SetRotation(PineTree_NoCollider12394ID.transformID, {x=0, y=0, z=0})
+PineTree_NoCollider12394ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider12394ID.model, PineTree_NoCollider12394ID.transformID)
+table.insert(props,PineTree_NoCollider12394ID)
+PineTree_NoCollider12394ID = nil
 
-ObbRot686ID = {}
-ObbRot686ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot686ID.transformID, {x=133.336, y=37.8301, z=207.834})
-Transform.SetScaleNonUniform(ObbRot686ID.transformID, 12.9362, 9.7849, 1)
-Transform.SetRotation(ObbRot686ID.transformID, {x=0, y=0.512187, z=0})
-table.insert(props,ObbRot686ID)
-ObbRot686ID = nil
+PineTree_NoCollider13395ID = {}
+PineTree_NoCollider13395ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider13395ID.transformID, {x=259, y=32.625, z=186.625})
+Transform.SetScaleNonUniform(PineTree_NoCollider13395ID.transformID, 1, 1, 1)
+Transform.SetRotation(PineTree_NoCollider13395ID.transformID, {x=0, y=0.550171, z=0})
+PineTree_NoCollider13395ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider13395ID.model, PineTree_NoCollider13395ID.transformID)
+table.insert(props,PineTree_NoCollider13395ID)
+PineTree_NoCollider13395ID = nil
 
-ObbRot887ID = {}
-ObbRot887ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot887ID.transformID, {x=141.038, y=56.1095, z=172.394})
-Transform.SetScaleNonUniform(ObbRot887ID.transformID, 1, 42.6949, 37.3548)
-Transform.SetRotation(ObbRot887ID.transformID, {x=0, y=0.203048, z=0})
-table.insert(props,ObbRot887ID)
-ObbRot887ID = nil
+PineTree_NoCollider14396ID = {}
+PineTree_NoCollider14396ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider14396ID.transformID, {x=254.25, y=32.7188, z=193.625})
+Transform.SetScaleNonUniform(PineTree_NoCollider14396ID.transformID, 1.21896, 1.6208, 1.11479)
+Transform.SetRotation(PineTree_NoCollider14396ID.transformID, {x=0, y=2.98311, z=0})
+PineTree_NoCollider14396ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider14396ID.model, PineTree_NoCollider14396ID.transformID)
+table.insert(props,PineTree_NoCollider14396ID)
+PineTree_NoCollider14396ID = nil
 
-ObbRot988ID = {}
-ObbRot988ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot988ID.transformID, {x=141.56, y=62.9363, z=147.26})
-Transform.SetScaleNonUniform(ObbRot988ID.transformID, 1, 30.8385, 16.8946)
-Transform.SetRotation(ObbRot988ID.transformID, {x=0, y=-0.577785, z=0})
-table.insert(props,ObbRot988ID)
-ObbRot988ID = nil
+PineTree_NoCollider15397ID = {}
+PineTree_NoCollider15397ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider15397ID.transformID, {x=179.337, y=54.8438, z=183.251})
+Transform.SetScaleNonUniform(PineTree_NoCollider15397ID.transformID, 1.25204, 1.68388, 1.58725)
+Transform.SetRotation(PineTree_NoCollider15397ID.transformID, {x=0, y=-7.32886, z=0})
+PineTree_NoCollider15397ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider15397ID.model, PineTree_NoCollider15397ID.transformID)
+table.insert(props,PineTree_NoCollider15397ID)
+PineTree_NoCollider15397ID = nil
 
-ObbRot1089ID = {}
-ObbRot1089ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1089ID.transformID, {x=154.796, y=64.2819, z=144.174})
-Transform.SetScaleNonUniform(ObbRot1089ID.transformID, 26.2452, 28.0413, 1)
-Transform.SetRotation(ObbRot1089ID.transformID, {x=0, y=-0.407469, z=0})
-table.insert(props,ObbRot1089ID)
-ObbRot1089ID = nil
+PineTree_NoCollider16398ID = {}
+PineTree_NoCollider16398ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider16398ID.transformID, {x=186.25, y=53.9375, z=181.375})
+Transform.SetScaleNonUniform(PineTree_NoCollider16398ID.transformID, 1.40944, 1.90481, 1.50754)
+Transform.SetRotation(PineTree_NoCollider16398ID.transformID, {x=0, y=-2.98524, z=0})
+PineTree_NoCollider16398ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider16398ID.model, PineTree_NoCollider16398ID.transformID)
+table.insert(props,PineTree_NoCollider16398ID)
+PineTree_NoCollider16398ID = nil
 
-ObbRot1390ID = {}
-ObbRot1390ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1390ID.transformID, {x=184.806, y=61.5997, z=136.889})
-Transform.SetScaleNonUniform(ObbRot1390ID.transformID, 1, 11.3389, 11.6923)
-Transform.SetRotation(ObbRot1390ID.transformID, {x=0, y=0, z=0})
-table.insert(props,ObbRot1390ID)
-ObbRot1390ID = nil
+PineTree_NoCollider17399ID = {}
+PineTree_NoCollider17399ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider17399ID.transformID, {x=160.275, y=52.25, z=165.948})
+Transform.SetScaleNonUniform(PineTree_NoCollider17399ID.transformID, 1.31662, 1.83877, 0.937286)
+Transform.SetRotation(PineTree_NoCollider17399ID.transformID, {x=0, y=-2.76387, z=0})
+PineTree_NoCollider17399ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider17399ID.model, PineTree_NoCollider17399ID.transformID)
+table.insert(props,PineTree_NoCollider17399ID)
+PineTree_NoCollider17399ID = nil
 
-ObbRot1491ID = {}
-ObbRot1491ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1491ID.transformID, {x=180.698, y=62, z=118.111})
-Transform.SetScaleNonUniform(ObbRot1491ID.transformID, 1, 16.5, 26.7768)
-Transform.SetRotation(ObbRot1491ID.transformID, {x=0, y=0.303284, z=0})
-table.insert(props,ObbRot1491ID)
-ObbRot1491ID = nil
+PineTree_NoCollider18400ID = {}
+PineTree_NoCollider18400ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider18400ID.transformID, {x=162.244, y=48.5313, z=173.72})
+Transform.SetScaleNonUniform(PineTree_NoCollider18400ID.transformID, 1.22432, 1.54544, 1.38167)
+Transform.SetRotation(PineTree_NoCollider18400ID.transformID, {x=0.0163132, y=1.82048, z=0.0226151})
+PineTree_NoCollider18400ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider18400ID.model, PineTree_NoCollider18400ID.transformID)
+table.insert(props,PineTree_NoCollider18400ID)
+PineTree_NoCollider18400ID = nil
 
-ObbRot1592ID = {}
-ObbRot1592ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1592ID.transformID, {x=176.601, y=61.4354, z=82.604})
-Transform.SetScaleNonUniform(ObbRot1592ID.transformID, 1, 18.1358, 45.5511)
-Transform.SetRotation(ObbRot1592ID.transformID, {x=0, y=0, z=0})
-table.insert(props,ObbRot1592ID)
-ObbRot1592ID = nil
+PineTree_NoCollider19401ID = {}
+PineTree_NoCollider19401ID.transformID = Transform.Bind()
+Transform.SetPosition(PineTree_NoCollider19401ID.transformID, {x=206.009, y=55.0625, z=165.773})
+Transform.SetScaleNonUniform(PineTree_NoCollider19401ID.transformID, 1.72057, 1.53506, 1.27762)
+Transform.SetRotation(PineTree_NoCollider19401ID.transformID, {x=0, y=-2.19759, z=0})
+PineTree_NoCollider19401ID.model = Assets.LoadModel('Models/pineTree1.model')
+Gear.AddStaticInstance(PineTree_NoCollider19401ID.model, PineTree_NoCollider19401ID.transformID)
+table.insert(props,PineTree_NoCollider19401ID)
+PineTree_NoCollider19401ID = nil
 
-ObbRot1793ID = {}
-ObbRot1793ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1793ID.transformID, {x=194.369, y=58.0954, z=39.8305})
-Transform.SetScaleNonUniform(ObbRot1793ID.transformID, 1, 25.802, 54.4443)
-Transform.SetRotation(ObbRot1793ID.transformID, {x=0, y=-0.734825, z=0})
-table.insert(props,ObbRot1793ID)
-ObbRot1793ID = nil
+OakTree_NoCollider1409ID = {}
+OakTree_NoCollider1409ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider1409ID.transformID, {x=280.5, y=67.0411, z=276.25})
+Transform.SetScaleNonUniform(OakTree_NoCollider1409ID.transformID, 1.16754, 1.20329, 1.0632)
+Transform.SetRotation(OakTree_NoCollider1409ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider1409ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider1409ID.model, OakTree_NoCollider1409ID.transformID)
+table.insert(props,OakTree_NoCollider1409ID)
+OakTree_NoCollider1409ID = nil
 
-ObbRot1894ID = {}
-ObbRot1894ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1894ID.transformID, {x=213.89, y=58.4684, z=31.2186})
-Transform.SetScaleNonUniform(ObbRot1894ID.transformID, 1, 36.2154, 43.7488)
-Transform.SetRotation(ObbRot1894ID.transformID, {x=0, y=1.64975, z=0})
-table.insert(props,ObbRot1894ID)
-ObbRot1894ID = nil
+OakTree_NoCollider15410ID = {}
+OakTree_NoCollider15410ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider15410ID.transformID, {x=243.5, y=72.399, z=275.5})
+Transform.SetScaleNonUniform(OakTree_NoCollider15410ID.transformID, 1.51549, 1.56721, 1.50595)
+Transform.SetRotation(OakTree_NoCollider15410ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider15410ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider15410ID.model, OakTree_NoCollider15410ID.transformID)
+table.insert(props,OakTree_NoCollider15410ID)
+OakTree_NoCollider15410ID = nil
 
-ObbRot1995ID = {}
-ObbRot1995ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot1995ID.transformID, {x=260.112, y=52.6605, z=48.757})
-Transform.SetScaleNonUniform(ObbRot1995ID.transformID, 89.1631, 34.5789, 1)
-Transform.SetRotation(ObbRot1995ID.transformID, {x=0, y=-0.442913, z=0})
-table.insert(props,ObbRot1995ID)
-ObbRot1995ID = nil
+OakTree_NoCollider111411ID = {}
+OakTree_NoCollider111411ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider111411ID.transformID, {x=234.125, y=67.8749, z=263.75})
+Transform.SetScaleNonUniform(OakTree_NoCollider111411ID.transformID, 1.33871, 1.11507, 1.42514)
+Transform.SetRotation(OakTree_NoCollider111411ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider111411ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider111411ID.model, OakTree_NoCollider111411ID.transformID)
+table.insert(props,OakTree_NoCollider111411ID)
+OakTree_NoCollider111411ID = nil
 
-ObbRot2096ID = {}
-ObbRot2096ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot2096ID.transformID, {x=307.673, y=49.0794, z=88.9136})
-Transform.SetScaleNonUniform(ObbRot2096ID.transformID, 98.2798, 49.5385, 1)
-Transform.SetRotation(ObbRot2096ID.transformID, {x=0, y=-0.833437, z=0})
-table.insert(props,ObbRot2096ID)
-ObbRot2096ID = nil
+OakTree_NoCollider112412ID = {}
+OakTree_NoCollider112412ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider112412ID.transformID, {x=195.875, y=68.02, z=255.625})
+Transform.SetScaleNonUniform(OakTree_NoCollider112412ID.transformID, 1, 1, 1)
+Transform.SetRotation(OakTree_NoCollider112412ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider112412ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider112412ID.model, OakTree_NoCollider112412ID.transformID)
+table.insert(props,OakTree_NoCollider112412ID)
+OakTree_NoCollider112412ID = nil
 
-ObbRot71135ID = {}
-ObbRot71135ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot71135ID.transformID, {x=141.993, y=43.2297, z=198.398})
-Transform.SetScaleNonUniform(ObbRot71135ID.transformID, 1, 23.8371, 16.8954)
-Transform.SetRotation(ObbRot71135ID.transformID, {x=-0.000514221, y=-0.34506, z=-0.000190735})
-table.insert(props,ObbRot71135ID)
-ObbRot71135ID = nil
+OakTree_NoCollider113413ID = {}
+OakTree_NoCollider113413ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider113413ID.transformID, {x=246.224, y=32.4063, z=209.059})
+Transform.SetScaleNonUniform(OakTree_NoCollider113413ID.transformID, 1.19151, 1.56866, 1.54706)
+Transform.SetRotation(OakTree_NoCollider113413ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider113413ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider113413ID.model, OakTree_NoCollider113413ID.transformID)
+table.insert(props,OakTree_NoCollider113413ID)
+OakTree_NoCollider113413ID = nil
 
-ObbRot72136ID = {}
-ObbRot72136ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot72136ID.transformID, {x=173.363, y=56.2095, z=150.617})
-Transform.SetScaleNonUniform(ObbRot72136ID.transformID, 13.7354, 10.0299, 1)
-Transform.SetRotation(ObbRot72136ID.transformID, {x=0, y=-0.129341, z=0})
-table.insert(props,ObbRot72136ID)
-ObbRot72136ID = nil
+OakTree_NoCollider114414ID = {}
+OakTree_NoCollider114414ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider114414ID.transformID, {x=230.125, y=43.0313, z=109.25})
+Transform.SetScaleNonUniform(OakTree_NoCollider114414ID.transformID, 1.48489, 1.67566, 1.32408)
+Transform.SetRotation(OakTree_NoCollider114414ID.transformID, {x=0, y=-5.86132, z=0})
+OakTree_NoCollider114414ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider114414ID.model, OakTree_NoCollider114414ID.transformID)
+table.insert(props,OakTree_NoCollider114414ID)
+OakTree_NoCollider114414ID = nil
 
-ObbRot73137ID = {}
-ObbRot73137ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot73137ID.transformID, {x=182.429, y=58.9652, z=147.346})
-Transform.SetScaleNonUniform(ObbRot73137ID.transformID, 10.8017, 11.4307, 1)
-Transform.SetRotation(ObbRot73137ID.transformID, {x=-0.0065155, y=1.05261, z=-0.0682205})
-table.insert(props,ObbRot73137ID)
-ObbRot73137ID = nil
+OakTree_NoCollider115415ID = {}
+OakTree_NoCollider115415ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider115415ID.transformID, {x=243.375, y=39.5938, z=106.313})
+Transform.SetScaleNonUniform(OakTree_NoCollider115415ID.transformID, 1.77344, 1.33132, 1.58633)
+Transform.SetRotation(OakTree_NoCollider115415ID.transformID, {x=0, y=1.59683, z=0})
+OakTree_NoCollider115415ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider115415ID.model, OakTree_NoCollider115415ID.transformID)
+table.insert(props,OakTree_NoCollider115415ID)
+OakTree_NoCollider115415ID = nil
 
-Obb4611146ID = {}
-Obb4611146ID.transformID = Transform.Bind()
-Transform.SetPosition(Obb4611146ID.transformID, {x=147.612, y=37.8097, z=231.742})
-Transform.SetScaleNonUniform(Obb4611146ID.transformID, 24.0951, 14.3362, 2.05965)
-Transform.SetRotation(Obb4611146ID.transformID, {x=0, y=0, z=0})
-table.insert(colliders,Obb4611146ID)
-Obb4611146ID = nil
+OakTree_NoCollider116416ID = {}
+OakTree_NoCollider116416ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider116416ID.transformID, {x=258, y=37.6875, z=109.938})
+Transform.SetScaleNonUniform(OakTree_NoCollider116416ID.transformID, 1.14816, 1.20008, 1.36028)
+Transform.SetRotation(OakTree_NoCollider116416ID.transformID, {x=0, y=-1.86515, z=0})
+OakTree_NoCollider116416ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider116416ID.model, OakTree_NoCollider116416ID.transformID)
+table.insert(props,OakTree_NoCollider116416ID)
+OakTree_NoCollider116416ID = nil
 
-ObbRot74147ID = {}
-ObbRot74147ID.transformID = Transform.Bind()
-Transform.SetPosition(ObbRot74147ID.transformID, {x=165.742, y=45.3755, z=245.272})
-Transform.SetScaleNonUniform(ObbRot74147ID.transformID, 34.8267, 17.608, 1)
-Transform.SetRotation(ObbRot74147ID.transformID, {x=0, y=-0.3802, z=0})
-table.insert(props,ObbRot74147ID)
-ObbRot74147ID = nil
+OakTree_NoCollider117417ID = {}
+OakTree_NoCollider117417ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider117417ID.transformID, {x=250.25, y=39.0313, z=88.75})
+Transform.SetScaleNonUniform(OakTree_NoCollider117417ID.transformID, 1.28885, 1.41743, 1.34232)
+Transform.SetRotation(OakTree_NoCollider117417ID.transformID, {x=0, y=-1.52942, z=0})
+OakTree_NoCollider117417ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider117417ID.model, OakTree_NoCollider117417ID.transformID)
+table.insert(props,OakTree_NoCollider117417ID)
+OakTree_NoCollider117417ID = nil
+
+OakTree_NoCollider118418ID = {}
+OakTree_NoCollider118418ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider118418ID.transformID, {x=270.25, y=37.8438, z=97.3125})
+Transform.SetScaleNonUniform(OakTree_NoCollider118418ID.transformID, 1.21521, 1.22249, 1.27261)
+Transform.SetRotation(OakTree_NoCollider118418ID.transformID, {x=0, y=3.43332, z=0})
+OakTree_NoCollider118418ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider118418ID.model, OakTree_NoCollider118418ID.transformID)
+table.insert(props,OakTree_NoCollider118418ID)
+OakTree_NoCollider118418ID = nil
+
+OakTree_NoCollider119419ID = {}
+OakTree_NoCollider119419ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider119419ID.transformID, {x=255.875, y=39.4375, z=70.375})
+Transform.SetScaleNonUniform(OakTree_NoCollider119419ID.transformID, 1.48181, 1.14198, 1.3867)
+Transform.SetRotation(OakTree_NoCollider119419ID.transformID, {x=0, y=1.121, z=0})
+OakTree_NoCollider119419ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider119419ID.model, OakTree_NoCollider119419ID.transformID)
+table.insert(props,OakTree_NoCollider119419ID)
+OakTree_NoCollider119419ID = nil
+
+OakTree_NoCollider120420ID = {}
+OakTree_NoCollider120420ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider120420ID.transformID, {x=235.25, y=46.1563, z=62.5625})
+Transform.SetScaleNonUniform(OakTree_NoCollider120420ID.transformID, 2.11572, 1.32425, 1.16064)
+Transform.SetRotation(OakTree_NoCollider120420ID.transformID, {x=0, y=1.69246, z=0})
+OakTree_NoCollider120420ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider120420ID.model, OakTree_NoCollider120420ID.transformID)
+table.insert(props,OakTree_NoCollider120420ID)
+OakTree_NoCollider120420ID = nil
+
+OakTree_NoCollider121421ID = {}
+OakTree_NoCollider121421ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider121421ID.transformID, {x=226.25, y=47.0938, z=79})
+Transform.SetScaleNonUniform(OakTree_NoCollider121421ID.transformID, 1.61328, 1.39358, 1.31099)
+Transform.SetRotation(OakTree_NoCollider121421ID.transformID, {x=0, y=1.70454, z=0})
+OakTree_NoCollider121421ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider121421ID.model, OakTree_NoCollider121421ID.transformID)
+table.insert(props,OakTree_NoCollider121421ID)
+OakTree_NoCollider121421ID = nil
+
+OakTree_NoCollider122422ID = {}
+OakTree_NoCollider122422ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider122422ID.transformID, {x=216.5, y=51.25, z=60.4688})
+Transform.SetScaleNonUniform(OakTree_NoCollider122422ID.transformID, 1.56078, 1.67261, 1.34562)
+Transform.SetRotation(OakTree_NoCollider122422ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider122422ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider122422ID.model, OakTree_NoCollider122422ID.transformID)
+table.insert(props,OakTree_NoCollider122422ID)
+OakTree_NoCollider122422ID = nil
+
+OakTree_NoCollider123423ID = {}
+OakTree_NoCollider123423ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider123423ID.transformID, {x=204.75, y=55.2188, z=90.9375})
+Transform.SetScaleNonUniform(OakTree_NoCollider123423ID.transformID, 1.27769, 1.55132, 1.20924)
+Transform.SetRotation(OakTree_NoCollider123423ID.transformID, {x=0, y=2.28254, z=0})
+OakTree_NoCollider123423ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider123423ID.model, OakTree_NoCollider123423ID.transformID)
+table.insert(props,OakTree_NoCollider123423ID)
+OakTree_NoCollider123423ID = nil
+
+OakTree_NoCollider124424ID = {}
+OakTree_NoCollider124424ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider124424ID.transformID, {x=201.375, y=54.8125, z=74.25})
+Transform.SetScaleNonUniform(OakTree_NoCollider124424ID.transformID, 1.14632, 1.375, 1.30396)
+Transform.SetRotation(OakTree_NoCollider124424ID.transformID, {x=0, y=-7.63234, z=0})
+OakTree_NoCollider124424ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider124424ID.model, OakTree_NoCollider124424ID.transformID)
+table.insert(props,OakTree_NoCollider124424ID)
+OakTree_NoCollider124424ID = nil
+
+OakTree_NoCollider125425ID = {}
+OakTree_NoCollider125425ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider125425ID.transformID, {x=259.5, y=46.375, z=226.625})
+Transform.SetScaleNonUniform(OakTree_NoCollider125425ID.transformID, 1.46332, 1.19353, 1.18271)
+Transform.SetRotation(OakTree_NoCollider125425ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider125425ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider125425ID.model, OakTree_NoCollider125425ID.transformID)
+table.insert(props,OakTree_NoCollider125425ID)
+OakTree_NoCollider125425ID = nil
+
+OakTree_NoCollider126430ID = {}
+OakTree_NoCollider126430ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider126430ID.transformID, {x=266.518, y=38.7813, z=140.234})
+Transform.SetScaleNonUniform(OakTree_NoCollider126430ID.transformID, 1.24643, 1.43214, 1.01866)
+Transform.SetRotation(OakTree_NoCollider126430ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider126430ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider126430ID.model, OakTree_NoCollider126430ID.transformID)
+table.insert(props,OakTree_NoCollider126430ID)
+OakTree_NoCollider126430ID = nil
+
+OakTree_NoCollider127431ID = {}
+OakTree_NoCollider127431ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider127431ID.transformID, {x=279.25, y=38.8438, z=133.375})
+Transform.SetScaleNonUniform(OakTree_NoCollider127431ID.transformID, 1.18579, 1.32684, 1.17773)
+Transform.SetRotation(OakTree_NoCollider127431ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider127431ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider127431ID.model, OakTree_NoCollider127431ID.transformID)
+table.insert(props,OakTree_NoCollider127431ID)
+OakTree_NoCollider127431ID = nil
+
+OakTree_NoCollider128432ID = {}
+OakTree_NoCollider128432ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider128432ID.transformID, {x=278.666, y=39.1569, z=144.872})
+Transform.SetScaleNonUniform(OakTree_NoCollider128432ID.transformID, 1.09952, 1.82356, 1.29491)
+Transform.SetRotation(OakTree_NoCollider128432ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider128432ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider128432ID.model, OakTree_NoCollider128432ID.transformID)
+table.insert(props,OakTree_NoCollider128432ID)
+OakTree_NoCollider128432ID = nil
+
+OakTree_NoCollider129433ID = {}
+OakTree_NoCollider129433ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider129433ID.transformID, {x=290.63, y=36.8102, z=143.588})
+Transform.SetScaleNonUniform(OakTree_NoCollider129433ID.transformID, 1.41107, 1.28853, 0.965256)
+Transform.SetRotation(OakTree_NoCollider129433ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider129433ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider129433ID.model, OakTree_NoCollider129433ID.transformID)
+table.insert(props,OakTree_NoCollider129433ID)
+OakTree_NoCollider129433ID = nil
+
+OakTree_NoCollider130434ID = {}
+OakTree_NoCollider130434ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider130434ID.transformID, {x=305.171, y=36, z=136.885})
+Transform.SetScaleNonUniform(OakTree_NoCollider130434ID.transformID, 1.28088, 1.44492, 1.03773)
+Transform.SetRotation(OakTree_NoCollider130434ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider130434ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider130434ID.model, OakTree_NoCollider130434ID.transformID)
+table.insert(props,OakTree_NoCollider130434ID)
+OakTree_NoCollider130434ID = nil
+
+OakTree_NoCollider131435ID = {}
+OakTree_NoCollider131435ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider131435ID.transformID, {x=314.162, y=34.8125, z=152.127})
+Transform.SetScaleNonUniform(OakTree_NoCollider131435ID.transformID, 1.24725, 1.41257, 0.965744)
+Transform.SetRotation(OakTree_NoCollider131435ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider131435ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider131435ID.model, OakTree_NoCollider131435ID.transformID)
+table.insert(props,OakTree_NoCollider131435ID)
+OakTree_NoCollider131435ID = nil
+
+OakTree_NoCollider132436ID = {}
+OakTree_NoCollider132436ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider132436ID.transformID, {x=328, y=34.8438, z=159.25})
+Transform.SetScaleNonUniform(OakTree_NoCollider132436ID.transformID, 1.44867, 1.09689, 1.24699)
+Transform.SetRotation(OakTree_NoCollider132436ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider132436ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider132436ID.model, OakTree_NoCollider132436ID.transformID)
+table.insert(props,OakTree_NoCollider132436ID)
+OakTree_NoCollider132436ID = nil
+
+OakTree_NoCollider133437ID = {}
+OakTree_NoCollider133437ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider133437ID.transformID, {x=325.581, y=34.7813, z=145.115})
+Transform.SetScaleNonUniform(OakTree_NoCollider133437ID.transformID, 1.25986, 1.59791, 1.12097)
+Transform.SetRotation(OakTree_NoCollider133437ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider133437ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider133437ID.model, OakTree_NoCollider133437ID.transformID)
+table.insert(props,OakTree_NoCollider133437ID)
+OakTree_NoCollider133437ID = nil
+
+OakTree_NoCollider134438ID = {}
+OakTree_NoCollider134438ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider134438ID.transformID, {x=222, y=48.3438, z=95.375})
+Transform.SetScaleNonUniform(OakTree_NoCollider134438ID.transformID, 1.29352, 1.57442, 1.32052)
+Transform.SetRotation(OakTree_NoCollider134438ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider134438ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider134438ID.model, OakTree_NoCollider134438ID.transformID)
+table.insert(props,OakTree_NoCollider134438ID)
+OakTree_NoCollider134438ID = nil
+
+OakTree_NoCollider135439ID = {}
+OakTree_NoCollider135439ID.transformID = Transform.Bind()
+Transform.SetPosition(OakTree_NoCollider135439ID.transformID, {x=238.094, y=41.1563, z=93.8647})
+Transform.SetScaleNonUniform(OakTree_NoCollider135439ID.transformID, 1.12421, 1.34698, 1.26532)
+Transform.SetRotation(OakTree_NoCollider135439ID.transformID, {x=0, y=0, z=0})
+OakTree_NoCollider135439ID.model = Assets.LoadModel('Models/OakTree1.model')
+Gear.AddStaticInstance(OakTree_NoCollider135439ID.model, OakTree_NoCollider135439ID.transformID)
+table.insert(props,OakTree_NoCollider135439ID)
+OakTree_NoCollider135439ID = nil
 
 table.insert(level02, props)
 table.insert(level02, colliders)
@@ -2435,53 +3718,53 @@ level03.load = function()
 props = {}
 colliders = {}
 triggers = {}
-t3s1170ID = {}
-t3s1170ID.transformID = Transform.Bind()
-Transform.SetPosition(t3s1170ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t3s1170ID.transformID, 1, 1, 1)
-Transform.SetRotation(t3s1170ID.transformID, {x=0, y=0, z=0})
-t3s1170ID.model = Assets.LoadModel('Models/tile3_s1.model')
-Gear.AddStaticInstance(t3s1170ID.model, t3s1170ID.transformID)
-table.insert(props,t3s1170ID)
-t3s1170ID = nil
+t3s136ID = {}
+t3s136ID.transformID = Transform.Bind()
+Transform.SetPosition(t3s136ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t3s136ID.transformID, 1, 1, 1)
+Transform.SetRotation(t3s136ID.transformID, {x=0, y=0, z=0})
+t3s136ID.model = Assets.LoadModel('Models/tile3_s1.model')
+Gear.AddStaticInstance(t3s136ID.model, t3s136ID.transformID)
+table.insert(props,t3s136ID)
+t3s136ID = nil
 
-tile3171ID = {}
-tile3171ID.transformID = Transform.Bind()
-Transform.SetPosition(tile3171ID.transformID, {x=384, y=0, z=128})
-Transform.SetScaleNonUniform(tile3171ID.transformID, 1, 1, 1)
-Transform.SetRotation(tile3171ID.transformID, {x=0, y=0, z=0})
-table.insert(props,tile3171ID)
-tile3171ID = nil
+tile337ID = {}
+tile337ID.transformID = Transform.Bind()
+Transform.SetPosition(tile337ID.transformID, {x=384, y=0, z=128})
+Transform.SetScaleNonUniform(tile337ID.transformID, 1, 1, 1)
+Transform.SetRotation(tile337ID.transformID, {x=0, y=0, z=0})
+table.insert(props,tile337ID)
+tile337ID = nil
 
-t3s2177ID = {}
-t3s2177ID.transformID = Transform.Bind()
-Transform.SetPosition(t3s2177ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t3s2177ID.transformID, 1, 1, 1)
-Transform.SetRotation(t3s2177ID.transformID, {x=0, y=0, z=0})
-t3s2177ID.model = Assets.LoadModel('Models/tile3_s2.model')
-Gear.AddStaticInstance(t3s2177ID.model, t3s2177ID.transformID)
-table.insert(props,t3s2177ID)
-t3s2177ID = nil
+t3s243ID = {}
+t3s243ID.transformID = Transform.Bind()
+Transform.SetPosition(t3s243ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t3s243ID.transformID, 1, 1, 1)
+Transform.SetRotation(t3s243ID.transformID, {x=0, y=0, z=0})
+t3s243ID.model = Assets.LoadModel('Models/tile3_s2.model')
+Gear.AddStaticInstance(t3s243ID.model, t3s243ID.transformID)
+table.insert(props,t3s243ID)
+t3s243ID = nil
 
-t3s3178ID = {}
-t3s3178ID.transformID = Transform.Bind()
-Transform.SetPosition(t3s3178ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t3s3178ID.transformID, 1, 1, 1)
-Transform.SetRotation(t3s3178ID.transformID, {x=0, y=0, z=0})
-t3s3178ID.model = Assets.LoadModel('Models/tile3_s3.model')
-Gear.AddStaticInstance(t3s3178ID.model, t3s3178ID.transformID)
-table.insert(props,t3s3178ID)
-t3s3178ID = nil
+t3s344ID = {}
+t3s344ID.transformID = Transform.Bind()
+Transform.SetPosition(t3s344ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t3s344ID.transformID, 1, 1, 1)
+Transform.SetRotation(t3s344ID.transformID, {x=0, y=0, z=0})
+t3s344ID.model = Assets.LoadModel('Models/tile3_s3.model')
+Gear.AddStaticInstance(t3s344ID.model, t3s344ID.transformID)
+table.insert(props,t3s344ID)
+t3s344ID = nil
 
-t3s4179ID = {}
-t3s4179ID.transformID = Transform.Bind()
-Transform.SetPosition(t3s4179ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t3s4179ID.transformID, 1, 1, 1)
-Transform.SetRotation(t3s4179ID.transformID, {x=0, y=0, z=0})
-t3s4179ID.model = Assets.LoadModel('Models/tile3_s4.model')
-Gear.AddStaticInstance(t3s4179ID.model, t3s4179ID.transformID)
-table.insert(props,t3s4179ID)
-t3s4179ID = nil
+t3s445ID = {}
+t3s445ID.transformID = Transform.Bind()
+Transform.SetPosition(t3s445ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t3s445ID.transformID, 1, 1, 1)
+Transform.SetRotation(t3s445ID.transformID, {x=0, y=0, z=0})
+t3s445ID.model = Assets.LoadModel('Models/tile3_s4.model')
+Gear.AddStaticInstance(t3s445ID.model, t3s445ID.transformID)
+table.insert(props,t3s445ID)
+t3s445ID = nil
 
 table.insert(level03, props)
 table.insert(level03, colliders)
@@ -2500,53 +3783,53 @@ level04.load = function()
 props = {}
 colliders = {}
 triggers = {}
-tile4172ID = {}
-tile4172ID.transformID = Transform.Bind()
-Transform.SetPosition(tile4172ID.transformID, {x=384, y=0, z=256})
-Transform.SetScaleNonUniform(tile4172ID.transformID, 1, 1, 1)
-Transform.SetRotation(tile4172ID.transformID, {x=0, y=0, z=0})
-table.insert(props,tile4172ID)
-tile4172ID = nil
+tile438ID = {}
+tile438ID.transformID = Transform.Bind()
+Transform.SetPosition(tile438ID.transformID, {x=384, y=0, z=256})
+Transform.SetScaleNonUniform(tile438ID.transformID, 1, 1, 1)
+Transform.SetRotation(tile438ID.transformID, {x=0, y=0, z=0})
+table.insert(props,tile438ID)
+tile438ID = nil
 
-t4s1180ID = {}
-t4s1180ID.transformID = Transform.Bind()
-Transform.SetPosition(t4s1180ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t4s1180ID.transformID, 1, 1, 1)
-Transform.SetRotation(t4s1180ID.transformID, {x=0, y=0, z=0})
-t4s1180ID.model = Assets.LoadModel('Models/tile4_s1.model')
-Gear.AddStaticInstance(t4s1180ID.model, t4s1180ID.transformID)
-table.insert(props,t4s1180ID)
-t4s1180ID = nil
+t4s146ID = {}
+t4s146ID.transformID = Transform.Bind()
+Transform.SetPosition(t4s146ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t4s146ID.transformID, 1, 1, 1)
+Transform.SetRotation(t4s146ID.transformID, {x=0, y=0, z=0})
+t4s146ID.model = Assets.LoadModel('Models/tile4_s1.model')
+Gear.AddStaticInstance(t4s146ID.model, t4s146ID.transformID)
+table.insert(props,t4s146ID)
+t4s146ID = nil
 
-t4s2181ID = {}
-t4s2181ID.transformID = Transform.Bind()
-Transform.SetPosition(t4s2181ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t4s2181ID.transformID, 1, 1, 1)
-Transform.SetRotation(t4s2181ID.transformID, {x=0, y=0, z=0})
-t4s2181ID.model = Assets.LoadModel('Models/tile4_s2.model')
-Gear.AddStaticInstance(t4s2181ID.model, t4s2181ID.transformID)
-table.insert(props,t4s2181ID)
-t4s2181ID = nil
+t4s247ID = {}
+t4s247ID.transformID = Transform.Bind()
+Transform.SetPosition(t4s247ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t4s247ID.transformID, 1, 1, 1)
+Transform.SetRotation(t4s247ID.transformID, {x=0, y=0, z=0})
+t4s247ID.model = Assets.LoadModel('Models/tile4_s2.model')
+Gear.AddStaticInstance(t4s247ID.model, t4s247ID.transformID)
+table.insert(props,t4s247ID)
+t4s247ID = nil
 
-t4s3182ID = {}
-t4s3182ID.transformID = Transform.Bind()
-Transform.SetPosition(t4s3182ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t4s3182ID.transformID, 1, 1, 1)
-Transform.SetRotation(t4s3182ID.transformID, {x=0, y=0, z=0})
-t4s3182ID.model = Assets.LoadModel('Models/tile4_s3.model')
-Gear.AddStaticInstance(t4s3182ID.model, t4s3182ID.transformID)
-table.insert(props,t4s3182ID)
-t4s3182ID = nil
+t4s348ID = {}
+t4s348ID.transformID = Transform.Bind()
+Transform.SetPosition(t4s348ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t4s348ID.transformID, 1, 1, 1)
+Transform.SetRotation(t4s348ID.transformID, {x=0, y=0, z=0})
+t4s348ID.model = Assets.LoadModel('Models/tile4_s3.model')
+Gear.AddStaticInstance(t4s348ID.model, t4s348ID.transformID)
+table.insert(props,t4s348ID)
+t4s348ID = nil
 
-t4s4183ID = {}
-t4s4183ID.transformID = Transform.Bind()
-Transform.SetPosition(t4s4183ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t4s4183ID.transformID, 1, 1, 1)
-Transform.SetRotation(t4s4183ID.transformID, {x=0, y=0, z=0})
-t4s4183ID.model = Assets.LoadModel('Models/tile4_s4.model')
-Gear.AddStaticInstance(t4s4183ID.model, t4s4183ID.transformID)
-table.insert(props,t4s4183ID)
-t4s4183ID = nil
+t4s449ID = {}
+t4s449ID.transformID = Transform.Bind()
+Transform.SetPosition(t4s449ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t4s449ID.transformID, 1, 1, 1)
+Transform.SetRotation(t4s449ID.transformID, {x=0, y=0, z=0})
+t4s449ID.model = Assets.LoadModel('Models/tile4_s4.model')
+Gear.AddStaticInstance(t4s449ID.model, t4s449ID.transformID)
+table.insert(props,t4s449ID)
+t4s449ID = nil
 
 table.insert(level04, props)
 table.insert(level04, colliders)
@@ -2565,83 +3848,83 @@ level05.load = function()
 props = {}
 colliders = {}
 triggers = {}
-tile5173ID = {}
-tile5173ID.transformID = Transform.Bind()
-Transform.SetPosition(tile5173ID.transformID, {x=384, y=0, z=384})
-Transform.SetScaleNonUniform(tile5173ID.transformID, 1, 1, 1)
-Transform.SetRotation(tile5173ID.transformID, {x=0, y=0, z=0})
-table.insert(props,tile5173ID)
-tile5173ID = nil
+tile539ID = {}
+tile539ID.transformID = Transform.Bind()
+Transform.SetPosition(tile539ID.transformID, {x=384, y=0, z=384})
+Transform.SetScaleNonUniform(tile539ID.transformID, 1, 1, 1)
+Transform.SetRotation(tile539ID.transformID, {x=0, y=0, z=0})
+table.insert(props,tile539ID)
+tile539ID = nil
 
-t5s1184ID = {}
-t5s1184ID.transformID = Transform.Bind()
-Transform.SetPosition(t5s1184ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t5s1184ID.transformID, 1, 1, 1)
-Transform.SetRotation(t5s1184ID.transformID, {x=0, y=0, z=0})
-t5s1184ID.model = Assets.LoadModel('Models/tile5_s1.model')
-Gear.AddStaticInstance(t5s1184ID.model, t5s1184ID.transformID)
-table.insert(props,t5s1184ID)
-t5s1184ID = nil
+t5s150ID = {}
+t5s150ID.transformID = Transform.Bind()
+Transform.SetPosition(t5s150ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t5s150ID.transformID, 1, 1, 1)
+Transform.SetRotation(t5s150ID.transformID, {x=0, y=0, z=0})
+t5s150ID.model = Assets.LoadModel('Models/tile5_s1.model')
+Gear.AddStaticInstance(t5s150ID.model, t5s150ID.transformID)
+table.insert(props,t5s150ID)
+t5s150ID = nil
 
-t5s2185ID = {}
-t5s2185ID.transformID = Transform.Bind()
-Transform.SetPosition(t5s2185ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t5s2185ID.transformID, 1, 1, 1)
-Transform.SetRotation(t5s2185ID.transformID, {x=0, y=0, z=0})
-t5s2185ID.model = Assets.LoadModel('Models/tile5_s2.model')
-Gear.AddStaticInstance(t5s2185ID.model, t5s2185ID.transformID)
-table.insert(props,t5s2185ID)
-t5s2185ID = nil
+t5s251ID = {}
+t5s251ID.transformID = Transform.Bind()
+Transform.SetPosition(t5s251ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t5s251ID.transformID, 1, 1, 1)
+Transform.SetRotation(t5s251ID.transformID, {x=0, y=0, z=0})
+t5s251ID.model = Assets.LoadModel('Models/tile5_s2.model')
+Gear.AddStaticInstance(t5s251ID.model, t5s251ID.transformID)
+table.insert(props,t5s251ID)
+t5s251ID = nil
 
-t5s3186ID = {}
-t5s3186ID.transformID = Transform.Bind()
-Transform.SetPosition(t5s3186ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t5s3186ID.transformID, 1, 1, 1)
-Transform.SetRotation(t5s3186ID.transformID, {x=0, y=0, z=0})
-t5s3186ID.model = Assets.LoadModel('Models/tile5_s3.model')
-Gear.AddStaticInstance(t5s3186ID.model, t5s3186ID.transformID)
-table.insert(props,t5s3186ID)
-t5s3186ID = nil
+t5s352ID = {}
+t5s352ID.transformID = Transform.Bind()
+Transform.SetPosition(t5s352ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t5s352ID.transformID, 1, 1, 1)
+Transform.SetRotation(t5s352ID.transformID, {x=0, y=0, z=0})
+t5s352ID.model = Assets.LoadModel('Models/tile5_s3.model')
+Gear.AddStaticInstance(t5s352ID.model, t5s352ID.transformID)
+table.insert(props,t5s352ID)
+t5s352ID = nil
 
-t5s4187ID = {}
-t5s4187ID.transformID = Transform.Bind()
-Transform.SetPosition(t5s4187ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t5s4187ID.transformID, 1, 1, 1)
-Transform.SetRotation(t5s4187ID.transformID, {x=0, y=0, z=0})
-t5s4187ID.model = Assets.LoadModel('Models/tile5_s4.model')
-Gear.AddStaticInstance(t5s4187ID.model, t5s4187ID.transformID)
-table.insert(props,t5s4187ID)
-t5s4187ID = nil
+t5s453ID = {}
+t5s453ID.transformID = Transform.Bind()
+Transform.SetPosition(t5s453ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t5s453ID.transformID, 1, 1, 1)
+Transform.SetRotation(t5s453ID.transformID, {x=0, y=0, z=0})
+t5s453ID.model = Assets.LoadModel('Models/tile5_s4.model')
+Gear.AddStaticInstance(t5s453ID.model, t5s453ID.transformID)
+table.insert(props,t5s453ID)
+t5s453ID = nil
 
-t5s5188ID = {}
-t5s5188ID.transformID = Transform.Bind()
-Transform.SetPosition(t5s5188ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t5s5188ID.transformID, 1, 1, 1)
-Transform.SetRotation(t5s5188ID.transformID, {x=0, y=0, z=0})
-t5s5188ID.model = Assets.LoadModel('Models/tile5_s5.model')
-Gear.AddStaticInstance(t5s5188ID.model, t5s5188ID.transformID)
-table.insert(props,t5s5188ID)
-t5s5188ID = nil
+t5s554ID = {}
+t5s554ID.transformID = Transform.Bind()
+Transform.SetPosition(t5s554ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t5s554ID.transformID, 1, 1, 1)
+Transform.SetRotation(t5s554ID.transformID, {x=0, y=0, z=0})
+t5s554ID.model = Assets.LoadModel('Models/tile5_s5.model')
+Gear.AddStaticInstance(t5s554ID.model, t5s554ID.transformID)
+table.insert(props,t5s554ID)
+t5s554ID = nil
 
-t5s6189ID = {}
-t5s6189ID.transformID = Transform.Bind()
-Transform.SetPosition(t5s6189ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t5s6189ID.transformID, 1, 1, 1)
-Transform.SetRotation(t5s6189ID.transformID, {x=0, y=0, z=0})
-t5s6189ID.model = Assets.LoadModel('Models/tile5_s6.model')
-Gear.AddStaticInstance(t5s6189ID.model, t5s6189ID.transformID)
-table.insert(props,t5s6189ID)
-t5s6189ID = nil
+t5s655ID = {}
+t5s655ID.transformID = Transform.Bind()
+Transform.SetPosition(t5s655ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t5s655ID.transformID, 1, 1, 1)
+Transform.SetRotation(t5s655ID.transformID, {x=0, y=0, z=0})
+t5s655ID.model = Assets.LoadModel('Models/tile5_s6.model')
+Gear.AddStaticInstance(t5s655ID.model, t5s655ID.transformID)
+table.insert(props,t5s655ID)
+t5s655ID = nil
 
-t6s4193ID = {}
-t6s4193ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s4193ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s4193ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s4193ID.transformID, {x=0, y=0, z=0})
-t6s4193ID.model = Assets.LoadModel('Models/tile6_s4.model')
-Gear.AddStaticInstance(t6s4193ID.model, t6s4193ID.transformID)
-table.insert(props,t6s4193ID)
-t6s4193ID = nil
+t6s459ID = {}
+t6s459ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s459ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s459ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s459ID.transformID, {x=0, y=0, z=0})
+t6s459ID.model = Assets.LoadModel('Models/tile6_s4.model')
+Gear.AddStaticInstance(t6s459ID.model, t6s459ID.transformID)
+table.insert(props,t6s459ID)
+t6s459ID = nil
 
 table.insert(level05, props)
 table.insert(level05, colliders)
@@ -2660,103 +3943,103 @@ level06.load = function()
 props = {}
 colliders = {}
 triggers = {}
-tile6174ID = {}
-tile6174ID.transformID = Transform.Bind()
-Transform.SetPosition(tile6174ID.transformID, {x=384, y=0, z=640})
-Transform.SetScaleNonUniform(tile6174ID.transformID, 1, 1, 1)
-Transform.SetRotation(tile6174ID.transformID, {x=0, y=0, z=0})
-table.insert(props,tile6174ID)
-tile6174ID = nil
+tile640ID = {}
+tile640ID.transformID = Transform.Bind()
+Transform.SetPosition(tile640ID.transformID, {x=384, y=0, z=640})
+Transform.SetScaleNonUniform(tile640ID.transformID, 1, 1, 1)
+Transform.SetRotation(tile640ID.transformID, {x=0, y=0, z=0})
+table.insert(props,tile640ID)
+tile640ID = nil
 
-t6s1190ID = {}
-t6s1190ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s1190ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s1190ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s1190ID.transformID, {x=0, y=0, z=0})
-t6s1190ID.model = Assets.LoadModel('Models/tile6_s1.model')
-Gear.AddStaticInstance(t6s1190ID.model, t6s1190ID.transformID)
-table.insert(props,t6s1190ID)
-t6s1190ID = nil
+t6s156ID = {}
+t6s156ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s156ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s156ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s156ID.transformID, {x=0, y=0, z=0})
+t6s156ID.model = Assets.LoadModel('Models/tile6_s1.model')
+Gear.AddStaticInstance(t6s156ID.model, t6s156ID.transformID)
+table.insert(props,t6s156ID)
+t6s156ID = nil
 
-t6s2191ID = {}
-t6s2191ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s2191ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s2191ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s2191ID.transformID, {x=0, y=0, z=0})
-t6s2191ID.model = Assets.LoadModel('Models/tile6_s2.model')
-Gear.AddStaticInstance(t6s2191ID.model, t6s2191ID.transformID)
-table.insert(props,t6s2191ID)
-t6s2191ID = nil
+t6s257ID = {}
+t6s257ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s257ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s257ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s257ID.transformID, {x=0, y=0, z=0})
+t6s257ID.model = Assets.LoadModel('Models/tile6_s2.model')
+Gear.AddStaticInstance(t6s257ID.model, t6s257ID.transformID)
+table.insert(props,t6s257ID)
+t6s257ID = nil
 
-t6s3192ID = {}
-t6s3192ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s3192ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s3192ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s3192ID.transformID, {x=0, y=0, z=0})
-t6s3192ID.model = Assets.LoadModel('Models/tile6_s3.model')
-Gear.AddStaticInstance(t6s3192ID.model, t6s3192ID.transformID)
-table.insert(props,t6s3192ID)
-t6s3192ID = nil
+t6s358ID = {}
+t6s358ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s358ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s358ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s358ID.transformID, {x=0, y=0, z=0})
+t6s358ID.model = Assets.LoadModel('Models/tile6_s3.model')
+Gear.AddStaticInstance(t6s358ID.model, t6s358ID.transformID)
+table.insert(props,t6s358ID)
+t6s358ID = nil
 
-t6s5194ID = {}
-t6s5194ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s5194ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s5194ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s5194ID.transformID, {x=0, y=0, z=0})
-t6s5194ID.model = Assets.LoadModel('Models/tile6_s5.model')
-Gear.AddStaticInstance(t6s5194ID.model, t6s5194ID.transformID)
-table.insert(props,t6s5194ID)
-t6s5194ID = nil
+t6s560ID = {}
+t6s560ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s560ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s560ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s560ID.transformID, {x=0, y=0, z=0})
+t6s560ID.model = Assets.LoadModel('Models/tile6_s5.model')
+Gear.AddStaticInstance(t6s560ID.model, t6s560ID.transformID)
+table.insert(props,t6s560ID)
+t6s560ID = nil
 
-t6s6195ID = {}
-t6s6195ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s6195ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s6195ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s6195ID.transformID, {x=0, y=0, z=0})
-t6s6195ID.model = Assets.LoadModel('Models/tile6_s6.model')
-Gear.AddStaticInstance(t6s6195ID.model, t6s6195ID.transformID)
-table.insert(props,t6s6195ID)
-t6s6195ID = nil
+t6s661ID = {}
+t6s661ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s661ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s661ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s661ID.transformID, {x=0, y=0, z=0})
+t6s661ID.model = Assets.LoadModel('Models/tile6_s6.model')
+Gear.AddStaticInstance(t6s661ID.model, t6s661ID.transformID)
+table.insert(props,t6s661ID)
+t6s661ID = nil
 
-t6s7196ID = {}
-t6s7196ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s7196ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s7196ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s7196ID.transformID, {x=0, y=0, z=0})
-t6s7196ID.model = Assets.LoadModel('Models/tile6_s7.model')
-Gear.AddStaticInstance(t6s7196ID.model, t6s7196ID.transformID)
-table.insert(props,t6s7196ID)
-t6s7196ID = nil
+t6s762ID = {}
+t6s762ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s762ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s762ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s762ID.transformID, {x=0, y=0, z=0})
+t6s762ID.model = Assets.LoadModel('Models/tile6_s7.model')
+Gear.AddStaticInstance(t6s762ID.model, t6s762ID.transformID)
+table.insert(props,t6s762ID)
+t6s762ID = nil
 
-t6s8197ID = {}
-t6s8197ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s8197ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s8197ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s8197ID.transformID, {x=0, y=0, z=0})
-t6s8197ID.model = Assets.LoadModel('Models/tile6_s8.model')
-Gear.AddStaticInstance(t6s8197ID.model, t6s8197ID.transformID)
-table.insert(props,t6s8197ID)
-t6s8197ID = nil
+t6s863ID = {}
+t6s863ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s863ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s863ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s863ID.transformID, {x=0, y=0, z=0})
+t6s863ID.model = Assets.LoadModel('Models/tile6_s8.model')
+Gear.AddStaticInstance(t6s863ID.model, t6s863ID.transformID)
+table.insert(props,t6s863ID)
+t6s863ID = nil
 
-t6s9198ID = {}
-t6s9198ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s9198ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s9198ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s9198ID.transformID, {x=0, y=0, z=0})
-t6s9198ID.model = Assets.LoadModel('Models/tile6_s9.model')
-Gear.AddStaticInstance(t6s9198ID.model, t6s9198ID.transformID)
-table.insert(props,t6s9198ID)
-t6s9198ID = nil
+t6s964ID = {}
+t6s964ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s964ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s964ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s964ID.transformID, {x=0, y=0, z=0})
+t6s964ID.model = Assets.LoadModel('Models/tile6_s9.model')
+Gear.AddStaticInstance(t6s964ID.model, t6s964ID.transformID)
+table.insert(props,t6s964ID)
+t6s964ID = nil
 
-t6s10199ID = {}
-t6s10199ID.transformID = Transform.Bind()
-Transform.SetPosition(t6s10199ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t6s10199ID.transformID, 1, 1, 1)
-Transform.SetRotation(t6s10199ID.transformID, {x=0, y=0, z=0})
-t6s10199ID.model = Assets.LoadModel('Models/tile6_s10.model')
-Gear.AddStaticInstance(t6s10199ID.model, t6s10199ID.transformID)
-table.insert(props,t6s10199ID)
-t6s10199ID = nil
+t6s1065ID = {}
+t6s1065ID.transformID = Transform.Bind()
+Transform.SetPosition(t6s1065ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t6s1065ID.transformID, 1, 1, 1)
+Transform.SetRotation(t6s1065ID.transformID, {x=0, y=0, z=0})
+t6s1065ID.model = Assets.LoadModel('Models/tile6_s10.model')
+Gear.AddStaticInstance(t6s1065ID.model, t6s1065ID.transformID)
+table.insert(props,t6s1065ID)
+t6s1065ID = nil
 
 table.insert(level06, props)
 table.insert(level06, colliders)
@@ -2775,103 +4058,103 @@ level07.load = function()
 props = {}
 colliders = {}
 triggers = {}
-tile7175ID = {}
-tile7175ID.transformID = Transform.Bind()
-Transform.SetPosition(tile7175ID.transformID, {x=128, y=0, z=512})
-Transform.SetScaleNonUniform(tile7175ID.transformID, 1, 1, 1)
-Transform.SetRotation(tile7175ID.transformID, {x=0, y=0, z=0})
-table.insert(props,tile7175ID)
-tile7175ID = nil
+tile741ID = {}
+tile741ID.transformID = Transform.Bind()
+Transform.SetPosition(tile741ID.transformID, {x=128, y=0, z=512})
+Transform.SetScaleNonUniform(tile741ID.transformID, 1, 1, 1)
+Transform.SetRotation(tile741ID.transformID, {x=0, y=0, z=0})
+table.insert(props,tile741ID)
+tile741ID = nil
 
-t7s1200ID = {}
-t7s1200ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s1200ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s1200ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s1200ID.transformID, {x=0, y=0, z=0})
-t7s1200ID.model = Assets.LoadModel('Models/tile7_s1.model')
-Gear.AddStaticInstance(t7s1200ID.model, t7s1200ID.transformID)
-table.insert(props,t7s1200ID)
-t7s1200ID = nil
+t7s166ID = {}
+t7s166ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s166ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s166ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s166ID.transformID, {x=0, y=0, z=0})
+t7s166ID.model = Assets.LoadModel('Models/tile7_s1.model')
+Gear.AddStaticInstance(t7s166ID.model, t7s166ID.transformID)
+table.insert(props,t7s166ID)
+t7s166ID = nil
 
-t7s2201ID = {}
-t7s2201ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s2201ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s2201ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s2201ID.transformID, {x=0, y=0, z=0})
-t7s2201ID.model = Assets.LoadModel('Models/tile7_s2.model')
-Gear.AddStaticInstance(t7s2201ID.model, t7s2201ID.transformID)
-table.insert(props,t7s2201ID)
-t7s2201ID = nil
+t7s267ID = {}
+t7s267ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s267ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s267ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s267ID.transformID, {x=0, y=0, z=0})
+t7s267ID.model = Assets.LoadModel('Models/tile7_s2.model')
+Gear.AddStaticInstance(t7s267ID.model, t7s267ID.transformID)
+table.insert(props,t7s267ID)
+t7s267ID = nil
 
-t7s3202ID = {}
-t7s3202ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s3202ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s3202ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s3202ID.transformID, {x=0, y=0, z=0})
-t7s3202ID.model = Assets.LoadModel('Models/tile7_s3.model')
-Gear.AddStaticInstance(t7s3202ID.model, t7s3202ID.transformID)
-table.insert(props,t7s3202ID)
-t7s3202ID = nil
+t7s368ID = {}
+t7s368ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s368ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s368ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s368ID.transformID, {x=0, y=0, z=0})
+t7s368ID.model = Assets.LoadModel('Models/tile7_s3.model')
+Gear.AddStaticInstance(t7s368ID.model, t7s368ID.transformID)
+table.insert(props,t7s368ID)
+t7s368ID = nil
 
-t7s4203ID = {}
-t7s4203ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s4203ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s4203ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s4203ID.transformID, {x=0, y=0, z=0})
-t7s4203ID.model = Assets.LoadModel('Models/tile7_s4.model')
-Gear.AddStaticInstance(t7s4203ID.model, t7s4203ID.transformID)
-table.insert(props,t7s4203ID)
-t7s4203ID = nil
+t7s469ID = {}
+t7s469ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s469ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s469ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s469ID.transformID, {x=0, y=0, z=0})
+t7s469ID.model = Assets.LoadModel('Models/tile7_s4.model')
+Gear.AddStaticInstance(t7s469ID.model, t7s469ID.transformID)
+table.insert(props,t7s469ID)
+t7s469ID = nil
 
-t7s5204ID = {}
-t7s5204ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s5204ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s5204ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s5204ID.transformID, {x=0, y=0, z=0})
-t7s5204ID.model = Assets.LoadModel('Models/tile7_s5.model')
-Gear.AddStaticInstance(t7s5204ID.model, t7s5204ID.transformID)
-table.insert(props,t7s5204ID)
-t7s5204ID = nil
+t7s570ID = {}
+t7s570ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s570ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s570ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s570ID.transformID, {x=0, y=0, z=0})
+t7s570ID.model = Assets.LoadModel('Models/tile7_s5.model')
+Gear.AddStaticInstance(t7s570ID.model, t7s570ID.transformID)
+table.insert(props,t7s570ID)
+t7s570ID = nil
 
-t7s6205ID = {}
-t7s6205ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s6205ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s6205ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s6205ID.transformID, {x=0, y=0, z=0})
-t7s6205ID.model = Assets.LoadModel('Models/tile7_s6.model')
-Gear.AddStaticInstance(t7s6205ID.model, t7s6205ID.transformID)
-table.insert(props,t7s6205ID)
-t7s6205ID = nil
+t7s671ID = {}
+t7s671ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s671ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s671ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s671ID.transformID, {x=0, y=0, z=0})
+t7s671ID.model = Assets.LoadModel('Models/tile7_s6.model')
+Gear.AddStaticInstance(t7s671ID.model, t7s671ID.transformID)
+table.insert(props,t7s671ID)
+t7s671ID = nil
 
-t7s7206ID = {}
-t7s7206ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s7206ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s7206ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s7206ID.transformID, {x=0, y=0, z=0})
-t7s7206ID.model = Assets.LoadModel('Models/tile7_s7.model')
-Gear.AddStaticInstance(t7s7206ID.model, t7s7206ID.transformID)
-table.insert(props,t7s7206ID)
-t7s7206ID = nil
+t7s772ID = {}
+t7s772ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s772ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s772ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s772ID.transformID, {x=0, y=0, z=0})
+t7s772ID.model = Assets.LoadModel('Models/tile7_s7.model')
+Gear.AddStaticInstance(t7s772ID.model, t7s772ID.transformID)
+table.insert(props,t7s772ID)
+t7s772ID = nil
 
-t7s8207ID = {}
-t7s8207ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s8207ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s8207ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s8207ID.transformID, {x=0, y=0, z=0})
-t7s8207ID.model = Assets.LoadModel('Models/tile7_s8.model')
-Gear.AddStaticInstance(t7s8207ID.model, t7s8207ID.transformID)
-table.insert(props,t7s8207ID)
-t7s8207ID = nil
+t7s873ID = {}
+t7s873ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s873ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s873ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s873ID.transformID, {x=0, y=0, z=0})
+t7s873ID.model = Assets.LoadModel('Models/tile7_s8.model')
+Gear.AddStaticInstance(t7s873ID.model, t7s873ID.transformID)
+table.insert(props,t7s873ID)
+t7s873ID = nil
 
-t7s9208ID = {}
-t7s9208ID.transformID = Transform.Bind()
-Transform.SetPosition(t7s9208ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t7s9208ID.transformID, 1, 1, 1)
-Transform.SetRotation(t7s9208ID.transformID, {x=0, y=0, z=0})
-t7s9208ID.model = Assets.LoadModel('Models/tile7_s9.model')
-Gear.AddStaticInstance(t7s9208ID.model, t7s9208ID.transformID)
-table.insert(props,t7s9208ID)
-t7s9208ID = nil
+t7s974ID = {}
+t7s974ID.transformID = Transform.Bind()
+Transform.SetPosition(t7s974ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t7s974ID.transformID, 1, 1, 1)
+Transform.SetRotation(t7s974ID.transformID, {x=0, y=0, z=0})
+t7s974ID.model = Assets.LoadModel('Models/tile7_s9.model')
+Gear.AddStaticInstance(t7s974ID.model, t7s974ID.transformID)
+table.insert(props,t7s974ID)
+t7s974ID = nil
 
 table.insert(level07, props)
 table.insert(level07, colliders)
@@ -2890,43 +4173,43 @@ level08.load = function()
 props = {}
 colliders = {}
 triggers = {}
-tile8176ID = {}
-tile8176ID.transformID = Transform.Bind()
-Transform.SetPosition(tile8176ID.transformID, {x=256, y=0, z=384})
-Transform.SetScaleNonUniform(tile8176ID.transformID, 1, 1, 1)
-Transform.SetRotation(tile8176ID.transformID, {x=0, y=0, z=0})
-table.insert(props,tile8176ID)
-tile8176ID = nil
+tile842ID = {}
+tile842ID.transformID = Transform.Bind()
+Transform.SetPosition(tile842ID.transformID, {x=256, y=0, z=384})
+Transform.SetScaleNonUniform(tile842ID.transformID, 1, 1, 1)
+Transform.SetRotation(tile842ID.transformID, {x=0, y=0, z=0})
+table.insert(props,tile842ID)
+tile842ID = nil
 
-t8s1209ID = {}
-t8s1209ID.transformID = Transform.Bind()
-Transform.SetPosition(t8s1209ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t8s1209ID.transformID, 1, 1, 1)
-Transform.SetRotation(t8s1209ID.transformID, {x=0, y=0, z=0})
-t8s1209ID.model = Assets.LoadModel('Models/tile8_s1.model')
-Gear.AddStaticInstance(t8s1209ID.model, t8s1209ID.transformID)
-table.insert(props,t8s1209ID)
-t8s1209ID = nil
+t8s175ID = {}
+t8s175ID.transformID = Transform.Bind()
+Transform.SetPosition(t8s175ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t8s175ID.transformID, 1, 1, 1)
+Transform.SetRotation(t8s175ID.transformID, {x=0, y=0, z=0})
+t8s175ID.model = Assets.LoadModel('Models/tile8_s1.model')
+Gear.AddStaticInstance(t8s175ID.model, t8s175ID.transformID)
+table.insert(props,t8s175ID)
+t8s175ID = nil
 
-t8s2210ID = {}
-t8s2210ID.transformID = Transform.Bind()
-Transform.SetPosition(t8s2210ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t8s2210ID.transformID, 1, 1, 1)
-Transform.SetRotation(t8s2210ID.transformID, {x=0, y=0, z=0})
-t8s2210ID.model = Assets.LoadModel('Models/tile8_s2.model')
-Gear.AddStaticInstance(t8s2210ID.model, t8s2210ID.transformID)
-table.insert(props,t8s2210ID)
-t8s2210ID = nil
+t8s276ID = {}
+t8s276ID.transformID = Transform.Bind()
+Transform.SetPosition(t8s276ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t8s276ID.transformID, 1, 1, 1)
+Transform.SetRotation(t8s276ID.transformID, {x=0, y=0, z=0})
+t8s276ID.model = Assets.LoadModel('Models/tile8_s2.model')
+Gear.AddStaticInstance(t8s276ID.model, t8s276ID.transformID)
+table.insert(props,t8s276ID)
+t8s276ID = nil
 
-t8s3211ID = {}
-t8s3211ID.transformID = Transform.Bind()
-Transform.SetPosition(t8s3211ID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(t8s3211ID.transformID, 1, 1, 1)
-Transform.SetRotation(t8s3211ID.transformID, {x=0, y=0, z=0})
-t8s3211ID.model = Assets.LoadModel('Models/tile8_s3.model')
-Gear.AddStaticInstance(t8s3211ID.model, t8s3211ID.transformID)
-table.insert(props,t8s3211ID)
-t8s3211ID = nil
+t8s377ID = {}
+t8s377ID.transformID = Transform.Bind()
+Transform.SetPosition(t8s377ID.transformID, {x=0, y=0, z=0})
+Transform.SetScaleNonUniform(t8s377ID.transformID, 1, 1, 1)
+Transform.SetRotation(t8s377ID.transformID, {x=0, y=0, z=0})
+t8s377ID.model = Assets.LoadModel('Models/tile8_s3.model')
+Gear.AddStaticInstance(t8s377ID.model, t8s377ID.transformID)
+table.insert(props,t8s377ID)
+t8s377ID = nil
 
 table.insert(level08, props)
 table.insert(level08, colliders)

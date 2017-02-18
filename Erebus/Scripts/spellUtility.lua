@@ -12,7 +12,7 @@ function CreateAim(entity)
 end
 
 MAX_CHARGE = 1
-function CreateChargeEggs(entity)
+function CreateChargeThing(entity)
 	local chargeThing = {}
 	chargeThing.timer = 0
 
@@ -72,11 +72,11 @@ function CreateChargeEggs(entity)
 		Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
 		
 	
-		end
+	end
 
 
-	function chargeThing:CombinedAndCharged(position, dt, chargePower,spellElement)
-		chargeThing.particles:cast() 
+	function chargeThing:Charging(position, dt, chargePower,spellElement)
+		
 		elementalTransformID = chargeThing.transformID
 		if spellElement == FIRE then
 			Transform.ActiveControl(chargeThing.transformID2, true)
@@ -146,6 +146,7 @@ function CreateChargeEggs(entity)
 		
 		chargeThing.timer = 0   
 		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		chargeThing.particles:cast() 
 	end
 
 

@@ -3,6 +3,7 @@ POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
 POLYMORPH_MIN_CHARGETIME = 1
+POLYMORPH_BASE_DURATION = 2
 
 function CreatePolymorph(entity)
 	--General variables
@@ -37,7 +38,7 @@ function CreatePolymorph(entity)
 
 	function spell:Cast()
 		if self.cooldown < 0 and not self.alive then		
-			self.chargedTime = POLYMORPH_DURATION
+			self.chargedTime = POLYMORPH_BASE_DURATION
 			self:GeneralCast()			
 		end
 	end
