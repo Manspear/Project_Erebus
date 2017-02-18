@@ -5,8 +5,10 @@ boss = {}
 boss.spells = {}
 boss.spellcooldowns = {}
 
-ENEMY_HEALTHBAR_WIDTH = 8
-ENEMY_HEALTHBAR_HEIGHT = 0.45
+BOSS_HEALTHBAR_WIDTH = 8
+BOSS_HEALTHBAR_HEIGHT = 0.45
+
+BOSS_DEAD = false
 
 function LoadBoss()
 	boss.spells[1] = CreateTimeOrbWave()
@@ -15,11 +17,11 @@ function LoadBoss()
 	boss.spellcooldowns[2] = 0
 	boss.transformID = Transform.Bind()
 	boss.maxHealth = 500
-	boss.health = 500
+	boss.health = boss.maxHealth
 	boss.effects = {}
 	boss.timeScalar = 1
 	boss.movementSpeed = 1
-	boss.healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
+	boss.healthbar = UI.load(0, 0, 0, BOSS_HEALTHBAR_WIDTH, BOSS_HEALTHBAR_HEIGHT);
 	boss.currentHealth = boss.health
 	local model = Assets.LoadModel("Models/The_Timelord.model")
 	Gear.AddStaticInstance(model, boss.transformID)
@@ -56,8 +58,8 @@ function UpdateBoss(dt)
 			end
 		end
 
-		a = (boss.currentHealth * ENEMY_HEALTHBAR_WIDTH) / boss.maxHealth;
-		UI.resizeWorld(boss.healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
+		a = (boss.currentHealth * BOSS_HEALTHBAR_WIDTH) / boss.maxHealth;
+		UI.resizeWorld(boss.healthbar, a, BOSS_HEALTHBAR_HEIGHT)
 
 		for i = #boss.effects, 1, -1 do
 			if not boss.effects[i]:Update(boss, dt) then
@@ -74,6 +76,8 @@ function UpdateBoss(dt)
 				--boss.spells[i]:Cast(boss)
 			end
 		end
+	elseif not BOSS_DEAD then
+		BOSS_DEAD = true
 	end
 end
 

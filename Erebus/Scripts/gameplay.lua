@@ -64,7 +64,7 @@ function UpdateGameplay(dt)
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 
-	if player.health <= 0 then
+	if player.health <= 0 or BOSS_DEAD then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
 
