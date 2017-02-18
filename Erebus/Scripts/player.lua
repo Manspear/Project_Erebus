@@ -554,12 +554,14 @@ function UpdatePlayer2(dt)
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
-		player2.spells[1].Kill()
-		player2.spells[2].Kill()
-		player2.spells[3].Kill()
+		player2.spells[1]:Kill()
+		player2.spells[2]:Kill()
+		player2.spells[3]:Kill()
+		player2.spells[player2.currentSpell]:Change()
 		player2.spells[1] = SpellListPlayer2[changeSpell1].spell
 		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
 		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
+		player2.spells[player2.currentSpell]:Change()
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
