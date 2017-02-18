@@ -48,11 +48,17 @@ function CreateBlackHole(entity)
 	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
 
 	function spell:Cast(entity, chargetime) end
-	function spell:Charge(dt) ZoomInCamera() end
+	function spell:Charge(dt)
+		if self.owner == player then 
+			ZoomInCamera()
+		end
+	end
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0 then
-			ZoomOutCamera()
+			if self.owner == player then
+				ZoomOutCamera()
+			end
 			local pos = Transform.GetPosition(entity.transformID)
 			local dir = Transform.GetLookAt(entity.transformID)
 			pos.x = pos.x  + 5*dir.x
