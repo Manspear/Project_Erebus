@@ -40,7 +40,9 @@ function CreateCombineRay(entity)
 		Transform.RotateToVector(self.transformID, dir)
 		
 	end
-
+	function ray:EndChargeBeam()
+		Transform.ActiveControl(self.transformID, false)
+	end
 	return ray
 end
 

@@ -367,6 +367,7 @@ function Controls(dt)
 			player.friendCharger:FireChargeBeam(dt,dir,sElement)
 		end
 		if Inputs.KeyReleased(Keys.Shift) then
+			player.friendCharger:EndChargeBeam()
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
