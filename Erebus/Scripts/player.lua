@@ -394,30 +394,36 @@ function Controls(dt)
 
 		if not player.spamCasting then
 			if Inputs.ButtonDown(Buttons.Right) then
-				player.spells[player.currentSpell]:Charge(dt)
-				sElement = player.spells[player.currentSpell].element
+				if player.charging == true then
+					player.spells[player.currentSpell]:Charge(dt)
+					sElement = player.spells[player.currentSpell].element
 			
-			
-				if player.isCombined == true then
-					player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+					if player.isCombined == true then
+						player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+					else
+						player.charger:ChargeMePlease(player.position,dt,sElement)
+					end
 				else
-					player.charger:ChargeMePlease(player.position,dt,sElement)
+					if player.spells[player.currentSpell].cooldown<0 then
+						Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
+						player.charger:StartCharge(player.position) 
+						player.charging = true	
+					end		
 				end
-			
 			end
 
-			if Inputs.ButtonPressed(Buttons.Right) then 
-				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-				player.charger:StartCharge(player.position) 
-				player.charging = true			
-			end
+			--if Inputs.ButtonPressed(Buttons.Right) then 
+				
+			--end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then
-				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
-				player.spells[player.currentSpell]:ChargeCast(player)
-				player.charger:EndCharge()
-				player.charging = false
-				player.isCombined = false
+				if player.charging == true then
+					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
+					player.spells[player.currentSpell]:ChargeCast(player)
+					player.charger:EndCharge()
+					player.charging = false
+					player.isCombined = false
+				end
 			end
 		end
 
