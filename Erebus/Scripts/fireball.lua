@@ -22,7 +22,7 @@ function CreateFireball(entity)
 		tiny.hits = {}
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		Gear.AddForwardInstance(model, tiny.type.transformID)
-		tiny.particles = createIceGrenadeParticles()
+		tiny.particles = createFireballParticles()
 		return tiny
 	end
 	--General variables
@@ -97,7 +97,8 @@ function CreateFireball(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
 			self.aSmallIsActive = self.aSmallIsActive + 1
-			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
+			--self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles.cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
@@ -224,6 +225,15 @@ function CreateFireball(entity)
 		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+		if self.isActiveSpell then
+			ShowCrosshair()
+		else
+			HideCrosshair()
+		end
+	end
+
 	function spell:SpamFireball(index)
 		local id = Sound.Play(FIREBALL_SMALL_HIT_SFX, 39, self.smallFB[index].type.position)
 		Sound.SetVolume(id, 0.5)
@@ -234,6 +244,6 @@ function CreateFireball(entity)
 		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
 	spell.Charge = BaseCharge
-	spell.Change = BaseChange
+	--spell.Change = BaseChange
 	return spell
 end

@@ -753,7 +753,7 @@ void CollisionHandler::recursiveDraw(HitBox * hitbox, glm::vec3 color)
 		}
 	}
 
-	if (hitbox->isAabbCollider()) // draw the hitbox
+	else if (hitbox->isAabbCollider()) // draw the hitbox only if we are a child
 	{
 		AABBCollider* temp = static_cast<AABBCollider*>(hitbox);
 		if (temp->isActive())
