@@ -356,6 +356,7 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(Keys.Shift) then
+			player.isCombined = true
 			local dir = Camera.GetDirection()
 			local pos = Transform.GetPosition(player.transformID)
 			RayCollider.SetActive(player.rayCollider, true)
@@ -553,6 +554,7 @@ function UpdatePlayer2(dt)
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
+		print("spell1: ".. changeSpell1  .. " spell2: "..changeSpell2 .." spell3: "..changeSpell3 )
 		player2.spells[1] = SpellListPlayer2[changeSpell1].spell
 		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
 		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
