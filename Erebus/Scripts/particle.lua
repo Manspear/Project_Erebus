@@ -84,7 +84,8 @@ function createChargeParticles()
 
 	return charge
 end
-STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
+--STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
+STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
 function createSparklyParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
