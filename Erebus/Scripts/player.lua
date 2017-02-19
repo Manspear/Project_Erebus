@@ -334,6 +334,7 @@ function UpdatePlayer(dt)
 			end
 		end
 	end
+	UpdateCamera(dt)
 end
 
 function SendCombine(spell)
