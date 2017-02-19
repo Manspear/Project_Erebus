@@ -219,6 +219,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 				case ACTION_SELECT:
 				{
 					LevelActorHandler::getInstance()->setSelected(actorID);
+					std::cout << "Selected ID: " << actorID << std::endl;
 				} break;
 
 				case ACTION_NEW_ACTOR:
@@ -270,7 +271,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 				case ACTION_PLACE_PREFAB:
 				{
 					LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-
+					std::cout << "Created new ID: " << newActor->id << std::endl;
 					if (newActor)
 					{
 						LevelActorHandler::getInstance()->addActor(newActor);
