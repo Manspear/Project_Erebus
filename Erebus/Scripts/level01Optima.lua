@@ -8321,7 +8321,7 @@ local New228254ID = CreateEnemy(ENEMY_MELEE, {x=189.25, y=55.7188, z=81.9375})
 New228254ID.moveSpeed = 9
 New228254ID.health = 50
 New228254ID.visionRange = 30
-
+--[[
 local New229255ID = CreateEnemy(ENEMY_MELEE, {x=184.25, y=55.8125, z=83.3125})
 New229255ID.moveSpeed = 9
 New229255ID.health = 50
@@ -8331,7 +8331,7 @@ local New2210256ID = CreateEnemy(ENEMY_MELEE, {x=176.75, y=56.0625, z=76.9375})
 New2210256ID.moveSpeed = 9
 New2210256ID.health = 50
 New2210256ID.visionRange = 30
---[[
+
 local New2211257ID = CreateEnemy(ENEMY_MELEE, {x=180.375, y=55.9063, z=79.4375})
 New2211257ID.moveSpeed = 9
 New2211257ID.health = 50
