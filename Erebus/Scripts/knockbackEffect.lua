@@ -27,6 +27,7 @@ function CreateKnockbackEffect(entity, power)
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
+		self.position = Transform.GetPosition(entity.transformID)
 		self.position.x = self.position.x + self.direction.x * dt * self.power
 		self.position.y = self.position.y + self.direction.y * dt * self.power
 		self.position.z = self.position.z + self.direction.z * dt * self.power
