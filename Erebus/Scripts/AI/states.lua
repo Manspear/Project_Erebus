@@ -447,7 +447,7 @@ function changeToState(enemy,player,changeState)
 
 	if changeState == "DeadState" then
 		enemy.state = state.deadState
-		--print("Sending DeadState", enemy.transformID, 3)
+		print("Sending DeadState", enemy.transformID, 3)
 		Network.SendAIStatePacket(enemy.transformID,3)
 	end 
 
