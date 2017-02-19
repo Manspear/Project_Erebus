@@ -62,8 +62,8 @@ function LoadPlayer()
 	player.pingDuration = 1
 	player.ping = 0
 
-	player.dashStartParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
-	player.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
 	Particle.SetExtro(player.dashEndParticles, true)
