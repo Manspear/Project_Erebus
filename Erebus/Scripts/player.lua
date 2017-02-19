@@ -62,8 +62,8 @@ function LoadPlayer()
 	player.pingDuration = 1
 	player.ping = 0
 
-	player.dashStartParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
-	player.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
 	Particle.SetExtro(player.dashEndParticles, true)
@@ -152,8 +152,8 @@ function LoadPlayer2()
 	player2.dashcd = 0
 	player2.invulnerable = false
 
-	player2.dashStartParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
-	player2.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+	player2.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player2.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
 
 	Particle.SetExtro(player2.dashStartParticles, false)
 	Particle.SetExtro(player2.dashEndParticles, true)
