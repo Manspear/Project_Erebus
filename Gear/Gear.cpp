@@ -507,8 +507,10 @@ namespace Gear
 				colorAgentID[1] * 256 * 256 +
 				colorAgentID[2] * 256 * 256 * 256;
 
-			if(pickedID>256)
-				pickedID-=1;
+
+
+			int amountRemove = (int)(pickedID / 256);
+			pickedID -= amountRemove;
 
 
 			actorID = pickedID;
