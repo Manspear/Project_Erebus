@@ -46,6 +46,7 @@ public:
 	PacketQueue<EventPacket> * getPlayerEventQueue();
 	PacketQueue<AIHealthPacket> * getAIHealthQueue();
 	PacketQueue<DashPacket> * getDashQueue();
+	PacketQueue<EventPacket> * getEndEventQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -60,6 +61,7 @@ private:
 	PacketQueue<EventPacket> * playerEventQueue;
 	PacketQueue<AIHealthPacket> * aiHealthQueue;
 	PacketQueue<DashPacket> * dashQueue;
+	PacketQueue<EventPacket> * endEventQueue;
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;

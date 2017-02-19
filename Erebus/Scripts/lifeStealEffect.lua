@@ -14,8 +14,9 @@ function CreateLifeStealEffect(entity, duration)
 		self.interval = self.interval - dt
 		self.duration = self.duration - dt
 		if self.interval < 0 then
-			print("owner health is now:" .. self.owner.health)
-			self.owner.health = self.owner.health + self.damage
+			if(self.owner.health < 100) then
+					self.owner.health = self.owner.health + self.damage
+			end
 			entity:Hurt(self.damage, self.owner)
 			self.interval = LIFE_STEAL_INTERVAL
 		end

@@ -45,6 +45,7 @@ function UpdateDeathUI(dt)
 			Sound.Play("Effects/button.wav", 2)
 			Erebus.Running(false)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+			Erebus.ShutdownNetwork()
 		end
 
 		if UI.mousePick(screenImages["exit"], x,y) then
@@ -55,7 +56,11 @@ function UpdateDeathUI(dt)
 end
 
 function DrawDeathUI()
-	UI.drawImage(screenImages["deathMsg"], imageTextures["deathMsg"]);
+	if(not BOSS_DEAD) then
+		UI.drawImage(screenImages["deathMsg"], imageTextures["deathMsg"]);
+	else
+		Gear.Print("YOU WIN!", 465, 100)
+	end
 
 	if(timer >= DEATH_MESSAGE_TIME) then
 		UI.drawImage(screenImages["continue"], imageTextures["continue"]);

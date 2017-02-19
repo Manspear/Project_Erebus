@@ -20,6 +20,7 @@ Packager::Packager()
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
 	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
 	this->dashQueue = new PacketQueue<DashPacket>(5);
+	this->endEventQueue = new PacketQueue<EventPacket>(10);
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -87,6 +88,11 @@ Packager::~Packager()
 		delete this->dashQueue;
 		this->dashQueue = 0;
 	}
+	if (this->endEventQueue)
+	{
+		delete this->endEventQueue;
+		this->endEventQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -131,6 +137,7 @@ void Packager::buildNetPacket()
 	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->playerEventQueue, PLAYER_EVENT_PACKET);
 	this->addNewPackets<AIHealthPacket>(this->currentNetPacketSize, fullPackage, this->aiHealthQueue, AI_HEALTH_PACKET);
 	this->addNewPackets<DashPacket>(this->currentNetPacketSize, fullPackage, this->dashQueue, DASH_PACKET);
+	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->endEventQueue, END_EVENT_PACKET);
 	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
@@ -194,6 +201,11 @@ void Packager::pushAIHealthPacket(const AIHealthPacket& packet)
 void Packager::pushDashPacket(const DashPacket& packet)
 {
 	this->dashQueue->push(packet);
+}
+
+void Packager::pushEndEventPacket(const EventPacket& packet)
+{
+	this->endEventQueue->push(packet);
 }
 
 template<class packetType>
