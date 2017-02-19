@@ -22,7 +22,7 @@ function CreateFireball(entity)
 		tiny.hits = {}
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		Gear.AddForwardInstance(model, tiny.type.transformID)
-		tiny.particles = createFireballParticles()
+		tiny.particles = CreateFireEffectParticles()
 		return tiny
 	end
 	--General variables
@@ -46,7 +46,7 @@ function CreateFireball(entity)
 	--Big fireball
 	spell.bigBallActive = false
 	spell.bigBallID = Transform.Bind()	
-	spell.ballParticles = createChargeParticles()
+	spell.ballParticles = CreateFireEffectParticles()
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
@@ -73,7 +73,7 @@ function CreateFireball(entity)
 	function spell:UpdateSmallFBs(dt)
 		for i = 1, 4 do 
 			if self.smallFB[i].alive then 
-				self.smallFB[i].particles.update(self.smallFB[i].type.position)
+				self.smallFB[i].particles:Update(self.smallFB[i].type.position)
 				self.smallFB[i].type:Update(dt)
 
 				local collisionIDs = self.smallFB[i].type.sphereCollider:GetCollisionIDs()
@@ -103,7 +103,7 @@ function CreateFireball(entity)
 			self.aSmallIsActive = self.aSmallIsActive + 1
 			--self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
-			self.smallFB[self.currentFB].particles.cast()
+			self.smallFB[self.currentFB].particles:Cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
 			Sound.Play(FIREBALL_CAST_SFX, 3, self.smallFB.position)
@@ -132,7 +132,7 @@ function CreateFireball(entity)
 			Transform.SetPosition(self.bigBallID, self.position)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
 			self.light = Light.addLight(124, 32, 220, 1, 0, 0, FIREBALL_LIGHTRADIUS, 3, true)
-			self.ballParticles:cast()
+			self.ballParticles:Cast()
 			Sound.Play(FIREBALL_CAST_SFX, 7, self.position)
 		end
 		self.chargedTime = 0
@@ -154,7 +154,7 @@ function CreateFireball(entity)
 		self.position.z = self.position.z + direction.z * FIREBALL_SPEED * dt
 		Transform.SetPosition(self.bigBallID, self.position)
 		self.damage = self.damage + 3 * dt
-		self.ballParticles:update(self.position)
+		self.ballParticles:Update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
 			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:EngageExplode() end
@@ -234,7 +234,7 @@ function CreateFireball(entity)
 		Sound.Play(FIREBALL_BIG_HIT_SFX, 7, self.position)
 		self.enemiesHit = {}
 		self.bigBallActive = false
-		self.ballParticles:die()
+		self.ballParticles:Die(self.position)
 		SphereCollider.SetRadius(self.sphereCollider, 1)
 		Transform.SetScale(self.bigBallID, 1)
 		SphereCollider.SetActive(self.sphereCollider, false)
@@ -256,7 +256,7 @@ function CreateFireball(entity)
 		local id = Sound.Play(FIREBALL_SMALL_HIT_SFX, 39, self.smallFB[index].type.position)
 		Sound.SetVolume(id, 0.5)
 		Sound.Resume(id)
-		self.smallFB[index].particles.die(self.smallFB[index].type.position)
+		self.smallFB[index].particles:Die(self.smallFB[index].type.position)
 		self.smallFB[index].type:Kill() 
 		self.smallFB[index].alive = false 
 		self.aSmallIsActive = self.aSmallIsActive - 1
