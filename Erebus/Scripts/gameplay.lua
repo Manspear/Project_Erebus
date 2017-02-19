@@ -64,7 +64,7 @@ function UpdateGameplay(dt)
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 
-	if player.health <= 0 then
+	if player.health <= 0 or BOSS_DEAD then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
 
@@ -100,6 +100,10 @@ function EnterGameplay()
 		levels[2].load()
 		levels[3].load()
 		levels[4].load()
+		levels[5].load()
+		levels[6].load()
+		levels[7].load()
+		levels[8].load()
 		loadedGameplay = true
 	end
 
