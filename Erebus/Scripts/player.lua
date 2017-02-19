@@ -152,6 +152,12 @@ function LoadPlayer2()
 	player2.dashcd = 0
 	player2.invulnerable = false
 
+	player2.dashStartParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+	player2.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+
+	Particle.SetExtro(player2.dashStartParticles, false)
+	Particle.SetExtro(player2.dashEndParticles, true)
+
 	player2.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player2.pingDuration = 1
@@ -577,10 +583,12 @@ function UpdatePlayer2(dt)
 	local newDashValue, isDashing = Network.GetDashPacket()
 	if newDashValue == true then
 		if isDashing == true then
+			Particle.Explode(player2.dashStartParticles, player2.position)
 			Transform.SetScale(player2.transformID, 0)
 			player2.dashtime = DASH_DURATION * 1.2
 			player2.invulnerable = true
 		else
+			Particle.Explode(player2.dashEndParticles, player2.position)
 			player2.dashtime = 0
 		end
 	end
