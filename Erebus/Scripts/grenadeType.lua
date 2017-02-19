@@ -1,4 +1,4 @@
-GRENADE_EXPLODE_TIME =0.1
+GRENADE_EXPLODE_TIME =0.9
 
 function CreateGrenadeType()
 	local type = {}

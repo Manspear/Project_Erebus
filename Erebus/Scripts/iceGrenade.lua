@@ -26,9 +26,13 @@ function CreateIceGrenade(entity)
 		nade.exploding = false
 		nade.hits = {}
 		nade.soundID = -1
+		nade.transform2ID = Transform.Bind()
 
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		Gear.AddStaticInstance(model, nade.type.transformID)
+
+		local model2 = Assets.LoadModel("Models/isTappar1.model");
+		Gear.AddStaticInstance(model2, nade.transform2ID)
 		return nade
 	end
 	
@@ -98,11 +102,20 @@ function CreateIceGrenade(entity)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
 					if self.nades[i].exploding then 
+						Transform.ActiveControl(self.nades[i].transform2ID, true)
+						local pos = Transform.GetPosition(self.nades[i].type.transformID)
+						local hm = GetHeightmap(pos)
+						if hm then
+							pos.y = hm.asset:GetHeight(pos.x, pos.z) +0.4
+						end
+						Transform.SetPosition(self.nades[i].transform2ID, pos)
+						Transform.SetScale(self.nades[i].transform2ID, 0)
 						--Transform.ActiveControl(self.nades[i].type.transformID, false)
 						Sound.Play(ICEGRENADE_HIT_SFX, 3, self.nades[i].type.position) 
 						Sound.Stop(self.nades[i].soundID)
 					end
 				else
+					Transform.SetScale(self.nades[i].transform2ID, 3* self.nades[i].type.explodetime/GRENADE_EXPLODE_TIME)
 					self.nades[i].particles.die(self.nades[i].type.position)
 					hits = self.nades[i].type:Update(dt)
 					--self.nades[i].particles.die(self.nades[i].type.position)
@@ -142,7 +155,9 @@ function CreateIceGrenade(entity)
 
 	function spell:Kill(index)
 
-		if index then 
+		if index then
+			Transform.SetScale(self.nades[index].transform2ID, 1)
+			Transform.ActiveControl(self.nades[index].transform2ID, false) 
 			self.nades[index].particles:die()
 			self.nades[index].hits = {}
 			self.nades[index].type:Kill()
@@ -153,6 +168,8 @@ function CreateIceGrenade(entity)
 			end
 		else
 			for i = 1, #self.nades do
+				Transform.SetScale(self.nades[i].transform2ID, 1)
+				Transform.ActiveControl(self.nades[i].transform2ID, false) 
 				self.nades[i].particles:die()
 				self.nades[i].hits = {}
 				self.nades[i].type:Kill()
