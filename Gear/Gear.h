@@ -64,7 +64,7 @@ namespace Gear
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
-		GEAR_API void drawAABBSHADOW() { shadow.drawAABB(); }
+		GEAR_API void drawAABBSHADOW() { debugCam = true; }
 		std::vector<UniformValues> uniValues;
 		//----------------------
 
@@ -78,6 +78,7 @@ namespace Gear
 		std::vector<Lights::PointLight*> removeLightQueue;
 
 		CascadedShadowMap shadow;
+		bool debugCam = false;
 		Lights::PointLight *l = new Lights::PointLight(glm::vec4(5, 5, 5, 0), glm::vec4(1, 0, 0, 0), glm::vec4(20, 2, 0, 0));
 
 		GLuint lightBuffer = 0; //StorageBuffer for point lights

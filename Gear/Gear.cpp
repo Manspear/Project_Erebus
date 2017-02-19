@@ -53,7 +53,7 @@ namespace Gear
 		resetLightbuffer();
 
 		Lights::DirLight dirLight; //add one dir light
-		dirLight.direction = glm::normalize(glm::vec3(0.0f, -0.5f, -0.75f));
+		dirLight.direction = glm::normalize(glm::vec3(0.0f, -0.5f, -0.5f));
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
@@ -298,6 +298,22 @@ namespace Gear
 			shadow.unBind();
 		}
 		
+		//shadow.bind(2);
+		//ShaderProgram *shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+		//shader->use();
+		//shader->setUniform(shadow.viewMatrices[3], "viewMatrix");
+		//shader->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+		//shader->unUse();
+
+		//shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
+		//shader->use();
+		//shader->setUniform(shadow.viewMatrices[3], "viewMatrix");
+		//shader->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
+		//shader->unUse();
+
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+		//shadow.unBind();
 
 		//shadow.bind(1);
 		//shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
@@ -333,18 +349,20 @@ namespace Gear
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
 		//shadow.unBind();
 
+		float centerSize = 0.1f;
+
 		for (int i = 0; i < shadow.getNumCascades(); i++)
 		{
 			Debugger::getInstance()->drawAABB(shadow.minAABB[i], shadow.maxAABB[i], glm::vec3(1, 0, 0));
+
+			Debugger::getInstance()->drawAABB(
+				glm::vec3(shadow.minAABB[shadow.getNumCascades() + i].x - centerSize, shadow.minAABB[shadow.getNumCascades() + i].y - centerSize, shadow.minAABB[shadow.getNumCascades() + i].z - centerSize),
+				glm::vec3(shadow.minAABB[shadow.getNumCascades() + i].x + centerSize, shadow.minAABB[shadow.getNumCascades() + i].y + centerSize, shadow.minAABB[shadow.getNumCascades() + i].z + centerSize));
+
+			Debugger::getInstance()->drawLine(shadow.minAABB[shadow.getNumCascades() + i], shadow.minAABB[shadow.getNumCascades() * 2 + i]);
 		}
 
-		Debugger::getInstance()->drawAABB(shadow.minAABB[0], shadow.maxAABB[0], glm::vec3(1, 0, 0));
-	/*	Debugger::getInstance()->drawAABB(shadow.minAABB[1], shadow.maxAABB[1], glm::vec3(0, 1, 0));
-		Debugger::getInstance()->drawAABB(shadow.minAABB[2], shadow.maxAABB[2], glm::vec3(0, 0, 1));*/
-
-		Debugger::getInstance()->drawSphere(shadow.minAABB[3], 2);
-		//Debugger::getInstance()->drawSphere(shadow.minAABB[4], 2);
-		//Debugger::getInstance()->drawSphere(shadow.minAABB[5], 2);
+		
 
 		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[0], shadow.frustumCornersWorld[1]);
 		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[1], shadow.frustumCornersWorld[3]);
@@ -380,6 +398,12 @@ namespace Gear
 		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		glDisable(GL_CULL_FACE);
+
+		if (debugCam)
+		{
+			camera->setView(shadow.viewMatrices[shadow.getNumCascades()]);
+			debugCam = false;
+		}
 		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		
@@ -393,6 +417,9 @@ namespace Gear
 		
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
+
+		image.draw();
+		text.draw();
 
 		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
 		for (int i = 0; i < shadow.getNumCascades(); i++)
@@ -418,8 +445,7 @@ namespace Gear
 		//shader->unUse();
 
 		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		image.draw();
-		text.draw();
+
 	}
 
 	void GearEngine::update()

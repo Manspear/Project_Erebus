@@ -57,18 +57,18 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 		sinCount += 0.0005f;
 
-		this->nearPlane = 0.5; //mainCam->getNearPlaneDistance();
-		this->farPlane = 15;//mainCam->getFarPlaneDistance();
+		this->nearPlane = mainCam->getNearPlaneDistance();//0.5; //mainCam->getNearPlaneDistance();
+		this->farPlane = mainCam->getFarPlaneDistance();//15;//mainCam->getFarPlaneDistance();
 		pos = glm::vec3(15, 7.5, 148);
-		//pos.x = 5 * sinf(sinCount) + 15;
+		pos.x = 5 * sinf(sinCount) + 15;
 		//pos = mainCam->getPosition();
 		glm::vec3 direction = glm::vec3(0, 0, 1);//mainCam->getDirection();
-		direction.x = sinf(sinCount);
+		//direction.x = sinf(sinCount);
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::vec3 up = glm::normalize(glm::cross(right, glm::normalize(direction)));
 		float fov = 45;//mainCam->getFov()
 
-		glm::vec3 lookat((pos - direction));
+		glm::vec3 lookat((pos + direction));
 		glm::mat4 camView = glm::lookAt(pos, lookat, up);
 		glm::mat4 view = mainCam->getViewMatrix();
 		glm::mat4 camInv = glm::inverse(camView);
@@ -101,16 +101,16 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 				glm::vec4 frustumCorners[8] = {
 					// near face
-					glm::vec4(xn, yn, splitPlanes[CascadeID].x, 1.0),
-					glm::vec4(-xn, yn, splitPlanes[CascadeID].x, 1.0),
-					glm::vec4(xn, -yn, splitPlanes[CascadeID].x, 1.0),
-					glm::vec4(-xn, -yn, splitPlanes[CascadeID].x, 1.0),
+					glm::vec4(xn, yn, -splitPlanes[CascadeID].x, 1.0),
+					glm::vec4(-xn, yn, -splitPlanes[CascadeID].x, 1.0),
+					glm::vec4(xn, -yn, -splitPlanes[CascadeID].x, 1.0),
+					glm::vec4(-xn, -yn, -splitPlanes[CascadeID].x, 1.0),
 
 					// far face
-					glm::vec4(xf, yf, splitPlanes[CascadeID].y, 1.0),
-					glm::vec4(-xf, yf, splitPlanes[CascadeID].y, 1.0),
-					glm::vec4(xf, -yf, splitPlanes[CascadeID].y, 1.0),
-					glm::vec4(-xf, -yf, splitPlanes[CascadeID].y, 1.0)
+					glm::vec4(xf, yf, -splitPlanes[CascadeID].y, 1.0),
+					glm::vec4(-xf, yf, -splitPlanes[CascadeID].y, 1.0),
+					glm::vec4(xf, -yf, -splitPlanes[CascadeID].y, 1.0),
+					glm::vec4(-xf, -yf, -splitPlanes[CascadeID].y, 1.0)
 				};
 
 				glm::vec4 frustumMin(std::numeric_limits<float>::max());
@@ -148,9 +148,13 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 				center = center / 8.0f;
 
+				minAABB[NUM_CASCADEDS + CascadeID] = center;
+
 				glm::vec3 lightCenter = center;
 				glm::vec3 lightPos = center - light.direction;
-				glm::vec3 lightUp = glm::vec3(0, 1, 0);
+				glm::vec3 lightUp = glm::vec3(0, 1.0f, 0);
+
+				minAABB[NUM_CASCADEDS * 2 + CascadeID] = lightPos;
 
 				lightM = glm::lookAt(lightPos, lightCenter, lightUp);
 
