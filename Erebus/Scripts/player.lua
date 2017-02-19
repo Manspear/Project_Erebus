@@ -428,7 +428,7 @@ function Controls(dt)
 					sElement = player.spells[player.currentSpell].element
 			
 					if player.isCombined == true then
-						player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+						player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
 					else
 						player.charger:ChargeMePlease(player.position,dt,sElement)
 					end
