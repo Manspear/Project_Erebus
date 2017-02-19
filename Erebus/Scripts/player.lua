@@ -37,7 +37,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 7
+	player.moveSpeed = 25
 	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
@@ -334,6 +334,7 @@ function UpdatePlayer(dt)
 			end
 		end
 	end
+	UpdateCamera(dt)
 end
 
 function SendCombine(spell)
@@ -428,7 +429,7 @@ function Controls(dt)
 					sElement = player.spells[player.currentSpell].element
 			
 					if player.isCombined == true then
-						player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
+						player.charger:Charging(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
 					else
 						player.charger:ChargeMePlease(player.position,dt,sElement)
 					end
