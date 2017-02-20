@@ -310,7 +310,7 @@ function UpdateEnemies(dt)
 		while newAIStateValue == true do
 			for i=1, #enemies do
 				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
-					clientAIScript.setAIState(enemies[i], player, aiState_transformID, aiState)
+					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState_transformID, aiState)
 					break
 				end
 			end
@@ -352,7 +352,7 @@ function UpdateEnemies(dt)
 
 			if enemies[i].health > 0 then
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-				enemies[i].state.update(enemies[i], player, dt)
+				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
 				
 			end				
 			for j = #enemies[i].effects, 1, -1 do 
