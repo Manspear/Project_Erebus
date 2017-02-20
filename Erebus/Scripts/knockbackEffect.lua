@@ -20,13 +20,13 @@ function CreateKnockbackEffect(owner, power)
 		self.damage = 1
 		self.collisionID = entity.sphereCollider:GetID()
 		if entity.SetState then
-			entity.SetState(entity,"DeadState")
+			entity.SetState(entity,"DoNothingState")
 		end
 	end
 
 	function effect:Deapply(entity)	
 		if entity.SetState then
-			entity.SetState(entity,"FollowState")
+			entity.SetState(entity,"IdleState")
 		end
 	end
 
