@@ -68,7 +68,7 @@ function clientAIState.deadState.exit(enemy, player)
 
 end 
 
-function getAIStatePacket(enemy, player, transformID, aiState)
+function setAIState(enemy, player, transformID, aiState)
 	--print("Enemy", enemy.transformID)
 	--print("Client AI ID", enemy.transformID)
 	if aiState == 0 then--IdleState
@@ -93,19 +93,7 @@ function getAIStatePacket(enemy, player, transformID, aiState)
 	enemy.state.enter(enemy, player)
 end
 
-function getAITransformPacket()	
-	--Update the transform of the enemy
-	newtransformvalue, id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
-
-	if newtransformvalue == true then
-		Transform.SetPosition(id, {x=pos_x, y=pos_y, z=pos_z})
-		Transform.SetLookAt(id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
-		Transform.SetRotation(id, {x=rotation_x, y=rotation_y, z=rotation_z})
-	end
-end
-
-baseReturn.getAIStatePacket = getAIStatePacket
-baseReturn.getAITransformPacket = getAITransformPacket
+baseReturn.setAIState = setAIState
 baseReturn.clientAIState = clientAIState
 
 return baseReturn

@@ -310,12 +310,27 @@ function UpdateEnemies(dt)
 		while newAIStateValue == true do
 			for i=1, #enemies do
 				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
-					clientAIScript.getAIStatePacket(enemies[i], player, aiState_transformID, aiState)
+					clientAIScript.setAIState(enemies[i], player, aiState_transformID, aiState)
 					break
 				end
 			end
 			newAIStateValue, aiState_transformID, aiState = Network.GetAIStatePacket()
 		end			
+
+		--Update Client_AI transform
+		local newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
+
+		while newtransformvalue == true do
+			for i=1, #enemies do
+				if enemies[i].transformID == aiTransform_id then
+					Transform.SetPosition(aiTransform_id, {x=pos_x, y=pos_y, z=pos_z})
+					Transform.SetLookAt(aiTransform_id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
+					Transform.SetRotation(aiTransform_id, {x=rotation_x, y=rotation_y, z=rotation_z})
+					break
+				end
+			end
+			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
+		end
 
 
 
@@ -335,12 +350,8 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 
-			if enemies[i].health >= 0 then
-				enemies[i].animationController:AnimationUpdate(dt)
-	
-				-- Retrieve packets from host
-				clientAIScript.getAITransformPacket()
-	
+			if enemies[i].health > 0 then
+				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 				enemies[i].state.update(enemies[i], player, dt)
 				
 			end				
