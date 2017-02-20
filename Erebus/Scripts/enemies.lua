@@ -350,9 +350,8 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 
-			if enemies[i].health >= 0 then
-				enemies[i].animationController:AnimationUpdate(dt)
-		
+			if enemies[i].health > 0 then
+				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 				enemies[i].state.update(enemies[i], player, dt)
 				
 			end				
