@@ -28,9 +28,12 @@ function LoadipconnectUI()
 	screenImages["back"] = UI.load(465, 500, 350, 60);
 
 	ourIpString = Network.GetIP()
+
+	ipString = NETWORK_LATESTIP
 end
 
 function UnloadipconnectUI()
+
 end
 
 function UpdateipconnectUI(dt)
@@ -167,6 +170,19 @@ end
 function stringToIp(string)
 	local a2, b2, c2, d2 = string:match"(%d%d?%d?).(%d%d?%d?).(%d%d?%d?).(%d%d?%d?)"
 	return {a = a2, b = b2, c = c2, d = d2}
+end
+
+function file_check(file_name)
+	
+  local file_found=io.open(file_name, "r")      
+  
+  if file_found==nil then
+    file_found=false
+  else
+	file_found:close()
+    file_found=true
+  end
+  return file_found
 end
 
 return { Load = LoadipconnectUI, Unload = UnloadipconnectUI, Update = UpdateipconnectUI }
