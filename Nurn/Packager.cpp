@@ -10,15 +10,15 @@ Packager::Packager()
 #endif
 	this->transformQueue = new PacketQueue<TransformPacket>(5);
 	this->animationQueue = new PacketQueue<AnimationPacket>(5);
-	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(100);
 	this->spellQueue = new PacketQueue<SpellPacket>(20);
-	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(100);
 	this->chargingQueue = new PacketQueue<ChargingPacket>(20);
 	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(20);
 	this->damageQueue = new PacketQueue<DamagePacket>(40);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
-	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(100);
 	this->dashQueue = new PacketQueue<DashPacket>(5);
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 
