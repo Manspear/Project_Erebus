@@ -131,9 +131,15 @@ function CreateEnemy(type, position)
 		self.position.z = position.z
 		Transform.ActiveControl(self.transformID,true)
 	end
-
-	enemies[i].SetState = function(self,inState)
-		stateScript.changeToState(self, player, inState)
+	
+	if Network.GetNetworkHost() == true then
+		enemies[i].SetState = function(self,inState)
+			stateScript.changeToState(self, player, inState)
+		end
+	else
+		enemies[i].SetState = function(self,inState)
+			clientAIScript.setAIState(self, player, inState)
+		end
 	end
 
 	Transform.SetPosition(enemies[i].transformID, position)
@@ -211,12 +217,10 @@ function UpdateEnemies(dt)
 		
 	end
 	
-	aiScript.updateEnemyManager(enemies)
-
-
 	local tempdt
 
 	if Network.GetNetworkHost() == true then
+		aiScript.updateEnemyManager(enemies)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
@@ -310,7 +314,7 @@ function UpdateEnemies(dt)
 		while newAIStateValue == true do
 			for i=1, #enemies do
 				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
-					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState_transformID, aiState)
+					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end
 			end

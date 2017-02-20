@@ -1,6 +1,6 @@
 local baseReturn = {}
 
-clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, State = {}}
+clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, State = {}}
 
 
 function clientAIState.idleState.enter(enemy, playerTarget)
@@ -68,26 +68,43 @@ function clientAIState.deadState.exit(enemy, playerTarget)
 
 end 
 
-function setAIState(enemy, playerTarget, transformID, aiState)
+function clientAIState.doNothingState.enter(enemy,playerTarget)
+
+end
+
+function clientAIState.doNothingState.update(enemy,playerTarget)
+
+end
+
+function clientAIState.doNothingState.exit(enemy,playerTarget)
+
+end 
+
+function setAIState(enemy, playerTarget, aiState)
 	--print("Enemy", enemy.transformID)
 	--print("Client AI ID", enemy.transformID)
-	if aiState == 0 then--IdleState
-		--print("Received IdleState", transformID, aiState)
+	if aiState == 0 or aiState == "IdleState" then--IdleState
+		--print("Received IdleState", enemy.transformID, aiState)
 		enemy.state = clientAIState.idleState
 	end
-	if aiState == 1 then--FollowState
-		--print("Received FollowState", transformID, aiState)
+	if aiState == 1 or aiState == "FollowState" then--FollowState
+		--print("Received FollowState", enemy.transformID, aiState)
 		enemy.state = clientAIState.followState
 	end
 		
-	if aiState == 2 then--AttackState
-		--print("Received AttackState", transformID, aiState)
+	if aiState == 2 or aiState == "AttackState" then--AttackState
+		--print("Received AttackState", enemy.transformID, aiState)
 		enemy.state = clientAIState.attackState
 	end
 			
-	if aiState == 3 then--DeadState
-		--print("Received DeadState", transformID, aiState)
+	if aiState == 3 or aiState == "DeadState" then--DeadState
+		--print("Received DeadState", enemy.transformID, aiState)
 		enemy.state = clientAIState.deadState
+	end	
+
+	if aiState == 4 or aiState == "DoNothingState" then--DoNothingState
+		--print("Received DoNothingState", enemy.transformID, aiState)
+		enemy.state = clientAIState.doNothingState
 	end
 
 	enemy.state.enter(enemy, playerTarget)
