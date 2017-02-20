@@ -37,7 +37,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 25
+	player.moveSpeed = 7
 	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
