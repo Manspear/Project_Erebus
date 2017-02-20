@@ -29,7 +29,9 @@ function LoadipconnectUI()
 
 	ourIpString = Network.GetIP()
 
-	ipString = NETWORK_LATESTIP
+	if NETWORK_LATESTIP ~= nil then
+		ipString = NETWORK_LATESTIP
+	end
 end
 
 function UnloadipconnectUI()
