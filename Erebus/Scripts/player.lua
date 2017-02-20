@@ -526,7 +526,8 @@ function UpdatePlayer2(dt)
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
-				player2.charger:StartCharge(player2.position)
+				local spellElement = player2.spells[player2.currentSpell].element
+				player2.charger:StartCharge(player2.position, spellElement)
 				player2.charging = true
 			else
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
@@ -539,14 +540,7 @@ function UpdatePlayer2(dt)
 	
 	if player2.charging == true then
 		player2.spells[player2.currentSpell]:Charge(dt)
-
-		local spellElement = player2.spells[player2.currentSpell].element
-					
-		if player2.isCombined == true then
-			player2.charger:CombinedAndCharged(player2.position, dt, player2.spells[player2.currentSpell].chargedTime, spellElement)
-		else
-			player2.charger:ChargeMePlease(player2.position, dt, spellElement)
-		end
+		player2.charger:Update(dt, player2.spells[player2.currentSpell].chargedTime)
 	end
 	
 	player2.spells[1]:Update(dt)
