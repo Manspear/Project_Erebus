@@ -424,25 +424,16 @@ function Controls(dt)
 			if Inputs.ButtonDown(Buttons.Right) then
 				if player.charging == true then
 					player.spells[player.currentSpell]:Charge(dt)
-					sElement = player.spells[player.currentSpell].element
-			
-					if player.isCombined == true then
-						player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-					else
-						player.charger:ChargeMePlease(player.position,dt,sElement)
-					end
+					player.charger:Update(dt, player.spells[player.currentSpell].chargedTime)				
 				else
 					if player.spells[player.currentSpell].cooldown<0 then
 						Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-						player.charger:StartCharge(player.position) 
+						sElement = player.spells[player.currentSpell].element	
+						player.charger:StartCharge(player.position, sElement) 
 						player.charging = true	
 					end		
 				end
 			end
-
-			--if Inputs.ButtonPressed(Buttons.Right) then 
-				
-			--end
 		
 			if Inputs.ButtonReleased(Buttons.Right) then
 				if player.charging == true then
