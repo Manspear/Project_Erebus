@@ -517,12 +517,6 @@ namespace Gear
 						i++;
 				}
 			}
-
-			for (int j = 0; j < removeDynamicLightQueue.size(); j++)
-			{
-
-				dynamicPointlights.erase(dynamicPointlights.begin() + removeDynamicLightQueue[j]->radius.a);
-			}
 			removeDynamicLightQueue.clear();
 		}
 	}
