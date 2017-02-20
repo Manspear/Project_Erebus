@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {stateName = " ",idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},State = {}}
+state = {stateName = " ",idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
 
 
 function state.idleState.enter(enemy,player)
@@ -413,6 +413,18 @@ function state.deadState.exit(enemy,player)
 
 end 
 
+function state.doNothingState.enter(enemy,player)
+
+end
+
+function state.doNothingState.update(enemy,player)
+
+end
+
+function state.doNothingState.exit(enemy,player)
+
+end 
+
 function changeToState(enemy,player,changeState)
 
 	--print("CHANGE STATE")
@@ -449,6 +461,12 @@ function changeToState(enemy,player,changeState)
 		enemy.state = state.deadState
 		--print("Sending DeadState", enemy.transformID, 3)
 		Network.SendAIStatePacket(enemy.transformID,3)
+	end 
+	
+	if changeState == "DoNothingState" then
+		enemy.state = state.doNothingState
+		--print("Sending DoNothingState", enemy.transformID, 4)
+		Network.SendAIStatePacket(enemy.transformID,4)
 	end 
 
 	enemy.state.enter(enemy,player)
