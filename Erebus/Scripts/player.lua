@@ -339,10 +339,12 @@ end
 
 function SendCombine(spell)
 	--TOBEDEFINED
-	if player2.charging == true then
-		player2.isCombined = true
-		player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
-		Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+	if player2.isCombined == false then
+		if player2.charging == true then
+			player2.isCombined = true
+			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
+			Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+		end
 	end
 end
 
@@ -387,20 +389,16 @@ function Controls(dt)
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
-					Gear.Print("Charge ready", 600, 400)
-				end
-			end
-		end
-		if Inputs.KeyReleased(Keys.Shift) then
-			HideCrosshair()
-			player.friendCharger:EndChargeBeam()
-			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
-			for curID = 1, #collisionIDs do
-				if collisionIDs[curID] == player2.sphereCollider:GetID() then
 					SendCombine(player.spells[player.currentSpell])
 					break
 				end
 			end
+		end
+
+		if Inputs.KeyReleased(Keys.Shift) then
+			HideCrosshair()
+			player.friendCharger:EndChargeBeam()
+			
 			RayCollider.SetActive(player.rayCollider, false)
 		end
 
