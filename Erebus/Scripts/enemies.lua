@@ -196,7 +196,6 @@ function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do
 	--AI.DrawDebug()
 	--end
-
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0 then
 		COUNTDOWN = 0.4
@@ -336,8 +335,6 @@ function UpdateEnemies(dt)
 			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 		end
 
-
-
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
 			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
@@ -378,7 +375,6 @@ function calculatePlayerTarget(enemy)
 	else
 		enemy.playerTarget = player2
 	end
-
 
 	if player2 == nil then
 		enemy.playerTarget = player

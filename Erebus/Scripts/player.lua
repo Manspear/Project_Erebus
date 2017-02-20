@@ -78,10 +78,8 @@ function LoadPlayer()
 	player.innerCirclerange = 8
 
 	-- set spells for player
-	player.spells = {}
-	
+	player.spells = {}	
 	player.currentSpell = 1
-
 	player.Hurt = function(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
@@ -338,7 +336,6 @@ function UpdatePlayer(dt)
 end
 
 function SendCombine(spell)
-	--TOBEDEFINED
 	if player2.isCombined == false then
 		if player2.charging == true then
 			player2.isCombined = true
@@ -357,8 +354,6 @@ function GetCombined()
 end
 
 function Controls(dt)
-	--showTutorialImage(130, 44, 220,dt)
-	--showTutorialImage2(130, 36, 220,dt)
 	if gamestate.currentState ~= GAMESTATE_SPELLBOOK then
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
@@ -462,34 +457,6 @@ end
 function pingPressed(player)
 	Sound.Play("Effects/ping.wav", 1, player.position)	
 	player.ping = player.pingDuration
-end
-
-function PrintInfo() 
-	if player.printInfo then
-		local scale = 0.8
-		local color = {0.4, 1, 0.4, 1}
-		local info = "Player"
-		Gear.Print(info, 60, 570, scale, color)
-
-		local position = Transform.GetPosition(player.transformID)
-		info = "Position\nx:"..Round(player.position.x, 1).."\ny:"..Round(player.position.y, 1).."\nz:"..Round(player.position.z, 1)
-		Gear.Print(info, 0, 600, scale, color)
-
-		local direction = Transform.GetLookAt(player.transformID)
-		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
-		Gear.Print(info, 120, 600, scale, color)
-
-		info = "Camera"
-		Gear.Print(info, 60, 400, scale, color)
-
-		position = Camera.GetPos()
-		info = "Position\nx:"..Round(player.position.x, 1).."\ny:"..Round(player.position.y, 1).."\nz:"..Round(player.position.z, 1)
-		Gear.Print(info, 0, 430, scale, color)
-
-		direction = Camera.GetDirection()
-		info = "Direction\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
-		Gear.Print(info, 120, 430, scale, color)
-	end
 end
 
 function UpdatePlayer2(dt)
