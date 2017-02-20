@@ -153,12 +153,15 @@ std::string LevelActor::toXml()
 
 std::string LevelActor::toLua()
 {
-	
-	LevelCollider* testCol = getComponent<LevelCollider>();
-	if (testCol != nullptr) {
-		if (testCol->getParentColider() != nullptr)
-			return "";
+	//If the object is a wall :)
+	if (this->actorComponents.size() == 2) {
+		if (this->getComponent<LevelTransform>() != nullptr && this->getComponent<LevelCollider>() != nullptr) {
+			if(this->getComponent<LevelCollider>()->getParentColider() != nullptr)
+				return "";
+		}
 	}
+
+
 	using namespace std;
 	stringstream ss;
 
@@ -202,6 +205,14 @@ std::string LevelActor::toLua()
 		{
 			if( it->first != LevelModel::name && it->first != LevelTransform::name )
 			{
+				if (it->second->getName() == LevelCollider::name) {
+					LevelCollider* testCol = (LevelCollider*)it->second;
+					if (testCol != nullptr) {
+						if (testCol->getParentColider() != nullptr)
+							continue;
+					}
+				}
+
 				if(it->second->getName() != LevelHeightmap::name)
 					ss << it->second->toLua(fullName);
 			}
