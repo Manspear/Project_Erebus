@@ -5,6 +5,7 @@ local imageTextures = {}
 local num_keys = 14
 local enter_key_text = "Press Key to bind"
 local selected_key = -1
+local Keychanges = {}
 
 function LoadKeybindingUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
@@ -50,7 +51,7 @@ function UpdateKeybindingUI(dt)
 	if(selected_key ~= -1) then
 		local newText = Inputs.GetTextInput()
 		if #newText > 0 then
-			print(selected_key .. ":" .. newText)
+			Keychanges[selected_key] = string.upper(newText)
 			selected_key = -1
 		end
 	end
@@ -88,26 +89,60 @@ function DrawKeybindingUI()
 		Gear.Print("Ping Player:", 383, 600)
 
 
-		Gear.Print(SETTING_KEYBIND_FORWARD, 658, 80)
-		Gear.Print(SETTING_KEYBIND_LEFT, 658, 120)
-		Gear.Print(SETTING_KEYBIND_BACK, 658, 160)
-		Gear.Print(SETTING_KEYBIND_RIGHT, 658, 200)
+		Gear.Print(Keychanges[1], 658, 80)
+		Gear.Print(Keychanges[2], 658, 120)
+		Gear.Print(Keychanges[3], 658, 160)
+		Gear.Print(Keychanges[4], 658, 200)
 
-		Gear.Print(SETTING_KEYBIND_DASH, 658, 240)
+		Gear.Print(Keychanges[5], 658, 240)
 
-		Gear.Print(SETTING_KEYBIND_NORMAL_ATTACK, 658, 280)
-		Gear.Print(SETTING_KEYBIND_CHARGED_ATTACK, 658, 320)
+		Gear.Print(Keychanges[6], 658, 280)
+		Gear.Print(Keychanges[7], 658, 320)
 
-		Gear.Print(SETTING_KEYBIND_SPELL_ONE, 658, 360)
-		Gear.Print(SETTING_KEYBIND_SPELL_TWO, 658, 400)
-		Gear.Print(SETTING_KEYBIND_SPELL_THREE, 658, 440)
+		Gear.Print(Keychanges[8], 658, 360)
+		Gear.Print(Keychanges[9], 658, 400)
+		Gear.Print(Keychanges[10], 658, 440)
 
-		Gear.Print(SETTING_KEYBIND_SPELLBOOK, 658, 480)
-		Gear.Print(SETTING_KEYBIND_MENU, 658, 520)
-		Gear.Print(SETTING_KEYBIND_COMBINE, 658, 560)
-		Gear.Print(SETTING_KEYBIND_PING, 658, 600)
+		Gear.Print(Keychanges[11], 658, 480)
+		Gear.Print(Keychanges[12], 658, 520)
+		Gear.Print(Keychanges[13], 658, 560)
+		Gear.Print(Keychanges[14], 658, 600)
 
 	UI.drawImage(screenImages["back"], imageTextures["back"]);
+end
+
+function loadKeySettings()
+	Keychanges[1] = SETTING_KEYBIND_FORWARD
+	Keychanges[2] = SETTING_KEYBIND_LEFT
+	Keychanges[3] = SETTING_KEYBIND_BACK
+	Keychanges[4] = SETTING_KEYBIND_RIGHT
+	Keychanges[5] = SETTING_KEYBIND_DASH
+	Keychanges[6] = SETTING_KEYBIND_NORMAL_ATTACK
+	Keychanges[7] = SETTING_KEYBIND_CHARGED_ATTACK
+	Keychanges[8] = SETTING_KEYBIND_SPELL_ONE
+	Keychanges[9] = SETTING_KEYBIND_SPELL_TWO
+	Keychanges[10] = SETTING_KEYBIND_SPELL_THREE
+	Keychanges[11] = SETTING_KEYBIND_SPELLBOOK
+	Keychanges[12] = SETTING_KEYBIND_MENU
+	Keychanges[13] = SETTING_KEYBIND_COMBINE
+	Keychanges[14] = SETTING_KEYBIND_PING
+end
+
+function saveKeySettings()
+	 SETTING_KEYBIND_FORWARD = Keychanges[1]
+	 SETTING_KEYBIND_LEFT = Keychanges[2]
+	 SETTING_KEYBIND_BACK = Keychanges[3]
+	 SETTING_KEYBIND_RIGHT = Keychanges[4]
+	 SETTING_KEYBIND_DASH = Keychanges[5]
+	 SETTING_KEYBIND_NORMAL_ATTACK = Keychanges[6]
+	 SETTING_KEYBIND_CHARGED_ATTACK = Keychanges[7]
+	 SETTING_KEYBIND_SPELL_ONE = Keychanges[8]
+	 SETTING_KEYBIND_SPELL_TWO = Keychanges[9]
+	 SETTING_KEYBIND_SPELL_THREE = Keychanges[10]
+	 SETTING_KEYBIND_SPELLBOOK = Keychanges[11]
+	 SETTING_KEYBIND_MENU = Keychanges[12]
+	 SETTING_KEYBIND_COMBINE = Keychanges[13]
+	 SETTING_KEYBIND_PING = Keychanges[14]
 end
 
 return { Load = LoadKeybindingUI, Unload = UnloadKeybindingUI, Update = UpdateKeybindingUI }

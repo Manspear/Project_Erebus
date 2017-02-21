@@ -21,7 +21,7 @@ end
 
 function UnloadOptionsMenu()
 
-	if file_check("settings.lua") and false then
+	if file_check("settings.lua") then
 		file = io.open("settings.lua", "w")
 		file:write("SETTING_FULLSCREEN = " .. boolToString(SETTING_FULLSCREEN) .. "\n")
 		file:write("SETTING_DEBUG = " .. boolToString(SETTING_DEBUG) .. "\n")

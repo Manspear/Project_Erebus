@@ -99,6 +99,9 @@ function LoadPlayer()
 	function player.Kill(self)
 		self.health = 0
 		--Transform.ActiveControl(self.transformID,false)
+		for i=1, #enemies do
+			enemies[i].ChangeToState(enemies[i], "IdleState" )
+		end
 	end
 
 	function player.ImDead(self, dt)

@@ -33,13 +33,14 @@ function UpdateKeybindingMenu(dt)
 end
 
 function EnterKeybindingMenu()
+	loadKeySettings()
 	Gear.QueueModels(false)
 	CollisionHandler.Disable()
 	Gear.CursorVisible(true)
 end
 
 function ExitKeybindingMenu()
-	
+	saveKeySettings()
 end
 
 return { Load = LoadKeybindingMenu, Unload = UnloadKeybindingMenu, Update = UpdateKeybindingMenu, Enter = EnterKeybindingMenu, Exit = ExitKeybindingMenu }
