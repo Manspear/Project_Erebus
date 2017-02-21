@@ -2,6 +2,8 @@ local aiScript = require("Scripts.AI.BasicEnemyAI")
 local stateScript = require("Scripts.AI.states") 
 local clientAIScript = require("Scripts.AI.client_AI")
 
+INTERPOLATING_AI_TRANSFORM = false
+
 MAX_ENEMIES = 10
 ENEMY_MELEE = 1
 ENEMY_RANGED = 2
@@ -34,6 +36,8 @@ function CreateEnemy(type, position)
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
+
+	enemies[i].interpolate_transforms = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 
@@ -85,7 +89,7 @@ function CreateEnemy(type, position)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
-	enemies[i].ChangeToState = function(self,inState)
+	enemies[i].ChangeToState = function(self,inState) 
 		stateScript.changeToState(self, player, inState)
 	end
 
@@ -300,7 +304,6 @@ function UpdateEnemies(dt)
 		end
 
 	else
-
 		-- Update Client_AI health
 		local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
 
@@ -331,17 +334,31 @@ function UpdateEnemies(dt)
 		--Update Client_AI transform
 		local newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 
+		--Empty Client_AI trasnform queue
 		while newtransformvalue == true do
 			for i=1, #enemies do
 				if enemies[i].transformID == aiTransform_id then
+					enemies[i].interpolate_transforms.pos = {x=pos_x, y=pos_y, z=pos_z}
+					enemies[i].interpolate_transforms.lookAt = {x=lookAt_x, y=lookAt_y, z=lookAt_z}
+					enemies[i].interpolate_transforms.rotation = {x=rotation_x, y=rotation_y, z=rotation_z}
+
+					--vec3print(enemies[i].interpolate_transforms.pos)
+
 					Transform.SetPosition(aiTransform_id, {x=pos_x, y=pos_y, z=pos_z})
 					Transform.SetLookAt(aiTransform_id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
 					Transform.SetRotation(aiTransform_id, {x=rotation_x, y=rotation_y, z=rotation_z})
 					break
 				end
 			end
+			INTERPOLATING_AI_TRANSFORM = true
 			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 		end
+
+		--if INTERPOLATING_AI_TRANSFORM == true then
+			
+			
+		--end
+
 
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
@@ -377,7 +394,6 @@ end
 function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
-
 
 	if lengthToP1 < lengthToP2 then
 		if player.health > 0 then

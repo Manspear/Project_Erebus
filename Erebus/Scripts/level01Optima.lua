@@ -1237,6 +1237,24 @@ table.insert(triggers, TutorialPost1229ID.collider)
 CollisionHandler.AddSphere(TutorialPost1229ID.collider, 4)
 TutorialPost1229ID = nil
 
+TutorialPost1230ID = {}
+TutorialPost1230ID.transformID = Transform.Bind()
+Transform.SetPosition(TutorialPost1230ID.transformID, {x=40.1035, y=8.6213, z=170.506})
+Transform.SetScaleNonUniform(TutorialPost1230ID.transformID, 3, 3, 3)
+Transform.SetRotation(TutorialPost1230ID.transformID, {x=0, y=-2.89847, z=0})
+TutorialPost1230ID.model = Assets.LoadModel('Models/SignPost.model')
+Gear.AddStaticInstance(TutorialPost1230ID.model, TutorialPost1230ID.transformID)
+TutorialPost1230ID.collider = SphereCollider.Create(TutorialPost1230ID.transformID)
+TutorialPost1230ID.collider:SetOffset(0,1,-1)
+TutorialPost1230ID.collider:SetRadius(2.6)
+TutorialPost1230ID.collider.OnExit = function() hideTutorialImage() print("DD") end 
+TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier(TutorialPost1230ID) end 
+TutorialPost1230ID.collider.triggered = false
+table.insert(triggers, TutorialPost1230ID.collider)
+CollisionHandler.AddSphere(TutorialPost1230ID.collider, 4)
+--TutorialPost1230ID= nil
+
+
 TutorialPost228ID = {}
 TutorialPost228ID.transformID = Transform.Bind()
 Transform.SetPosition(TutorialPost228ID.transformID, {x=20.7969, y=6.44531, z=147.75})
@@ -8281,6 +8299,16 @@ Bridge_tile2100ID.model = Assets.LoadModel('Models/Bridge1.model')
 Gear.AddStaticInstance(Bridge_tile2100ID.model, Bridge_tile2100ID.transformID)
 table.insert(props,Bridge_tile2100ID)
 Bridge_tile2100ID = nil
+
+local New221247ID = CreateEnemy(ENEMY_MELEE, {x=20.7969, y=6.44531, z=147.75})
+
+New221247ID.moveSpeed = 9
+New221247ID.health = 50
+New221247ID.visionRange = 30
+
+New221247ID.ChangeToState(New221247ID,"DoNothingState")
+
+
 
 local New221247ID = CreateEnemy(ENEMY_MELEE, {x=189.875, y=54.5, z=62.3125})
 New221247ID.moveSpeed = 9
