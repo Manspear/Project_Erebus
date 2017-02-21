@@ -389,7 +389,7 @@ namespace LuaGear
 
 		int from = (int)lua_tointeger(lua, 2);
 		int to = (int)lua_tointeger(lua, 3);
-		float blendTime = (float)lua_tointeger(lua, 4);
+		float blendTime = (float)lua_tonumber(lua, 4);
 		int segment = (int)lua_tointeger(lua, 5);
 
 		animation->setQuickBlend(from, to, blendTime, segment);

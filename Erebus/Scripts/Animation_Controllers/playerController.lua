@@ -38,7 +38,7 @@ function CreatePlayerController(player)
 
 	controller.isDamagedTimerStart = false
 	controller.damagedTimer = 0
-	controller.damagedMaxTime = 2
+	controller.damagedMaxTime = 0.5
 
 	controller.quickBlendFrom = 0
 	controller.quickBlendTo = 4

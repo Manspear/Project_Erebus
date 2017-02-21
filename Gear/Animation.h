@@ -15,6 +15,8 @@ and then interpolation needs to be done between those two animation states.
 */
 #define MAXJOINTCOUNT 64
 #define EMPTYELEMENT -1337
+#define MAXNUMSEGMENTS 5
+
 using namespace Importer;
 class Animation
 {
@@ -75,7 +77,6 @@ protected:
 	*/
 	void updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime);
 	//std::vector<sKeyFrame> updateAnimationForQuickBlend(float dt, int layer, float& animTimer, float scaleTimer);
-
 	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, int animationSegment, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey, float& animTimer);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment);
@@ -128,8 +129,7 @@ protected:
 
 	int backIdx = 1;
 	int frontIdx = 0;
-	int animationStackszor[5][2];
-	std::vector<std::vector<int>> animationStacks;
+	int animationStackszor[MAXNUMSEGMENTS][2];
 	glm::mat4x4 identityMatrixList[MAXJOINTCOUNT];
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
