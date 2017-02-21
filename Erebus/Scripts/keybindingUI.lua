@@ -3,6 +3,8 @@ local screenImages = {}
 local topImages = {}
 local imageTextures = {}
 local num_keys = 14
+local enter_key_text = "Press Key to bind"
+local selected_key = -1
 
 function LoadKeybindingUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
@@ -13,9 +15,9 @@ function LoadKeybindingUI()
 	topImages[1] = UI.load(653, 40, 250, 35);
 
 	for i=1, num_keys do
-		screenImages[i] = UI.load(383, 40 + i * 40, 250, 35);
+		screenImages[num_keys + i] = UI.load(383, 40 + i * 40, 250, 35);
 
-		screenImages[num_keys + i] = UI.load(653, 40 + i * 40, 250, 35);
+		screenImages[i] = UI.load(653, 40 + i * 40, 250, 35);
 	end
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
@@ -30,11 +32,26 @@ function UpdateKeybindingUI(dt)
 
 	DrawKeybindingUI()
 	x,y = Inputs.GetMousePos()
-
-	if UI.mousePick(screenImages["back"], x,y) then
-		if Inputs.ButtonReleased(Buttons.Left) then
+	if Inputs.ButtonReleased(Buttons.Left) then
+		if UI.mousePick(screenImages["back"], x,y) then
 			Sound.Play("Effects/button.wav", 2)
 			gamestate.ChangeState(GAMESTATE_OPTIONS)
+		end
+	end
+
+	for i=1, num_keys do
+		if Inputs.ButtonReleased(Buttons.Left) then
+			if UI.mousePick(screenImages[i], x,y) then
+				selected_key = i
+			end
+		end
+	end
+
+	if(selected_key ~= -1) then
+		local newText = Inputs.GetTextInput()
+		if #newText > 0 then
+			print(selected_key .. ":" .. newText)
+			selected_key = -1
 		end
 	end
 end
