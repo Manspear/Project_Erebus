@@ -5,7 +5,7 @@ LevelColliderGenerator* LevelColliderGenerator::g_instance = nullptr;
 
 LevelColliderGenerator::LevelColliderGenerator() {
 	generatedThisRun = false;
-	this->numChilds = 3;
+	this->numChilds = 10;
 }
 LevelColliderGenerator::~LevelColliderGenerator() {
 
@@ -23,23 +23,28 @@ LevelColliderGenerator* LevelColliderGenerator::getInstance() {
 	return g_instance;
 }
 
-void LevelColliderGenerator::generateQuadTree(){
+void LevelColliderGenerator::generateQuadTree(int tileID){
 	if (!generatedThisRun) {
+		tempCols.clear();
 		std::map<unsigned int, LevelActor*> refMap = LevelActorHandler::getInstance()->getActors();
 		std::vector<AABBCollider*> sortedVector;
 
 		for (auto it : refMap) {
+			
 			if (hasObbCollider(it.second)) {
-				//The actor has an OBB colider, let's do stuff
-				AABBCollider* convertedCollider = convertFromObbToAbb(it.second->getComponent<LevelCollider>()->getObbCollider());
-				tempCols.push_back(convertedCollider);
-				mapedList[convertedCollider] = it.second->getComponent<LevelCollider>();
+				if (it.second->getTileID() == tileID) {
+					//The actor has an OBB colider, let's do stuff
+					AABBCollider* convertedCollider = convertFromObbToAbb(it.second->getComponent<LevelCollider>()->getObbCollider());
+					tempCols.push_back(convertedCollider);
+					mapedList[convertedCollider] = it.second->getComponent<LevelCollider>();
+				}
+
 			}
 		}
 
 		this->sortAbbList(this->tempCols);
 
-		AABBCollider* topParent = addChildren(this->numChilds, this->tempCols);
+		AABBCollider* topParent = addChildren(this->numChilds, this->tempCols, tileID);
 
 		replaceAbbsWithObbs(topParent);
 
@@ -49,7 +54,7 @@ void LevelColliderGenerator::generateQuadTree(){
 
 		int k = 0;
 
-		generatedThisRun = true;
+		
 	}
 
 	//Converted all obbs to abb inside tempCols
@@ -100,7 +105,7 @@ void LevelColliderGenerator::replaceAbbsWithObbs(AABBCollider* parent) {
 
 }
 
-AABBCollider* LevelColliderGenerator::addChildren(int childrenCount, std::vector<AABBCollider*> colliders) {
+AABBCollider* LevelColliderGenerator::addChildren(int childrenCount, std::vector<AABBCollider*> colliders, int tileID) {
 	AABBCollider* topParent = nullptr;
 	std::vector<AABBCollider*> parents;
 	for (size_t i = 0; i < colliders.size(); i+=childrenCount)
@@ -115,9 +120,12 @@ AABBCollider* LevelColliderGenerator::addChildren(int childrenCount, std::vector
 
 
 		AABBCollider* parent = createAbbColiderInBounds(tempList);
+		tempList.clear();
 
 
 		LevelActor* parentActor = LevelActorFactory::getInstance()->loadActor("ParentCollider");
+		parentActor->setTileID(tileID);
+		parentActor->setActorDisplayName("C_Parent_Tile_" + std::to_string(tileID));
 		LevelCollider* coliderRef = parentActor->getComponent<LevelCollider>();
 		if (coliderRef == nullptr)
 			std::cout << "ERROR::::::::CREATING PARENT!!!" << std::endl;
@@ -137,7 +145,7 @@ AABBCollider* LevelColliderGenerator::addChildren(int childrenCount, std::vector
 
 	if (parents.size() > childrenCount) {
 		sortAbbList(parents);
-		topParent = addChildren(childrenCount, parents);
+		topParent = addChildren(childrenCount, parents, tileID);
 	}
 
 	else
@@ -145,6 +153,8 @@ AABBCollider* LevelColliderGenerator::addChildren(int childrenCount, std::vector
 		topParent = createAbbColiderInBounds(parents);
 
 		LevelActor* parentActor = LevelActorFactory::getInstance()->loadActor("ParentCollider");
+		parentActor->setTileID(tileID);
+		parentActor->setActorDisplayName("C_Parent_Tile_" + std::to_string(tileID));
 		LevelCollider* coliderRef = parentActor->getComponent<LevelCollider>();
 		if (coliderRef == nullptr)
 			std::cout << "ERROR::::::::CREATING PARENT!!!" << std::endl;
@@ -305,7 +315,11 @@ void LevelColliderGenerator::update() {
 void TW_CALL LevelColliderGenerator::getOnGenEventCB(void* cliendData) {
 
 	if (MessageBoxA(NULL, "Are you sure you wanna create parent coliders", "Brah", MB_YESNO) == IDYES) {
-		LevelColliderGenerator::getInstance()->generateQuadTree();
+		for (size_t i = 1; i < LevelHeightmap::getCurrentID(); i++)
+		{
+			LevelColliderGenerator::getInstance()->generateQuadTree(i);
+		}
+		LevelColliderGenerator::getInstance()->generatedThisRun = true;
 	}
 }
 
