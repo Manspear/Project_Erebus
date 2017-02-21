@@ -10,11 +10,13 @@ function LoadOptionsUI()
 	imageTextures["debugOff"] = Assets.LoadTexture("Textures/buttonDebugOff.dds");
 	imageTextures["debugOn"] = Assets.LoadTexture("Textures/buttonDebugOn.dds");
 	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.dds");
+	imageTextures["keybinding"] = Assets.LoadTexture("Textures/buttonKeybinding.dds");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["fullscreen"] = UI.load(465, 240, 350, 60);
 	screenImages["debug"] = UI.load(465, 310, 350, 60);
-	screenImages["back"] = UI.load(465, 380, 350, 60);
+	screenImages["keybinding"] = UI.load(465, 380, 350, 60);
+	screenImages["back"] = UI.load(465, 450, 350, 60);
 end
 
 function UnloadOptionsUI()
@@ -49,9 +51,16 @@ function UpdateOptionsUI(dt)
 	end
 
 	if UI.mousePick(screenImages["back"], x,y) then
-		Sound.Play("Effects/button.wav", 2)
 		if Inputs.ButtonReleased(Buttons.Left) then
+			Sound.Play("Effects/button.wav", 2)
 			gamestate.ChangeState(OPTIONS_RETURN_STATE)
+		end
+	end
+
+	if UI.mousePick(screenImages["keybinding"], x,y) then
+		if Inputs.ButtonReleased(Buttons.Left) then
+			Sound.Play("Effects/button.wav", 2)
+			gamestate.ChangeState(GAMESTATE_KEYBINDING)
 		end
 	end
 end
@@ -69,7 +78,7 @@ function DrawOptionsUI()
 	else
 		UI.drawImage(screenImages["debug"], imageTextures["debugOff"]);
 	end
-
+	UI.drawImage(screenImages["keybinding"], imageTextures["keybinding"]);
 	UI.drawImage(screenImages["back"], imageTextures["back"]);
 end
 

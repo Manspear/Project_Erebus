@@ -143,9 +143,15 @@ function CreateEnemy(type, position)
 		self.position.z = position.z
 		Transform.ActiveControl(self.transformID,true)
 	end
-
-	enemies[i].SetState = function(self,inState)
-		stateScript.changeToState(self, player, inState)
+	
+	if Network.GetNetworkHost() == true then
+		enemies[i].SetState = function(self,inState)
+			stateScript.changeToState(self, player, inState)
+		end
+	else
+		enemies[i].SetState = function(self,inState)
+			clientAIScript.setAIState(self, player, inState)
+		end
 	end
 
 	Transform.SetPosition(enemies[i].transformID, position)
@@ -200,7 +206,6 @@ function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do
 	--AI.DrawDebug()
 	--end
-
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0 then
 		COUNTDOWN = 0.4
@@ -221,12 +226,10 @@ function UpdateEnemies(dt)
 		
 	end
 	
-	aiScript.updateEnemyManager(enemies)
-
-
 	local tempdt
 
 	if Network.GetNetworkHost() == true then
+		aiScript.updateEnemyManager(enemies)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
@@ -320,7 +323,7 @@ function UpdateEnemies(dt)
 		while newAIStateValue == true do
 			for i=1, #enemies do
 				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
-					clientAIScript.setAIState(enemies[i], player, aiState_transformID, aiState)
+					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end
 			end
@@ -342,8 +345,6 @@ function UpdateEnemies(dt)
 			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 		end
 
-
-
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
 			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
@@ -362,7 +363,7 @@ function UpdateEnemies(dt)
 
 			if enemies[i].health > 0 then
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-				enemies[i].state.update(enemies[i], player, dt)
+				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
 				
 			end				
 			for j = #enemies[i].effects, 1, -1 do 
@@ -384,7 +385,6 @@ function calculatePlayerTarget(enemy)
 	else
 		enemy.playerTarget = player2
 	end
-
 
 	if player2 == nil then
 		enemy.playerTarget = player

@@ -101,10 +101,12 @@ function CreateChargeEggs(entity)
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
 	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
 	chargeThing.modelIndex3 = chargeThing.transformID3
-	
+	chargeThing.firstCombine = false
+	chargeThing.elementalTransformID = 0
 	chargeThing.particles = createChargeParticles()
 	chargeThing.particles:extrovert(false)
 	chargeThing.caster = entity.transformID
+	chargeThing.owner = entity
 	chargeThing.rot = {x = 0, y = 0, z = 0}
 
 	chargeThing.rotSmall = {x = 0, y = 0, z = 0}
@@ -114,110 +116,99 @@ function CreateChargeEggs(entity)
 	chargeThing.scaleLarge = {x = 1.4, y = 1.1, z = 1.4}
 
 	chargeThing.pos = {x = 0, y = 0, z = 0}
+	chargeThing.light = nil
+	chargeThing.color = {r = 0, g = 0, b = 0}
 	
-	function chargeThing:ChargeMePlease(position,dt,spellElement)
+	function chargeThing:ChargeMePlease(dt)
+		self.pos = Transform.GetPosition(self.caster)	
+		self.pos.y = self.pos.y - 1	 
+		Transform.SetPosition(self.elementalTransformID, self.pos)
+		Transform.SetScaleNonUniform(self.elementalTransformID, 1,1,1) --det här gäller bara den första		
+		self.pos.y = self.pos.y - 1 * dt
+		self.rotSmall.y = self.rotSmall.y + (2) * dt
+		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
+	end
 
-		Transform.ActiveControl(chargeThing.transformID, false)
-		Transform.ActiveControl(chargeThing.transformID2, false)
-		Transform.ActiveControl(chargeThing.transformID3, false)
-
-		elementalTransformID = chargeThing.transformID
-		if spellElement == FIRE then
-			Transform.ActiveControl(chargeThing.transformID2, true)
-			elementalTransformID = chargeThing.transformID2
-
-		elseif spellElement == NATURE then
-			Transform.ActiveControl(chargeThing.transformID3, true) 
-			elementalTransformID = chargeThing.transformID3
-		
+	function chargeThing:Update(dt, chargePower)
+		if not self.owner.isCombined then
+			self:ChargeMePlease(dt)
 		else 
-			Transform.ActiveControl(chargeThing.transformID, true)
+			self:CombinedAndCharged(dt, chargePower)
 		end
-	 
-		Transform.SetPosition(elementalTransformID, chargeThing.pos)
+	end
 
-		Transform.SetScaleNonUniform(elementalTransformID, 1,1,1) --det här gäller bara den första
-		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
-		chargeThing.pos.y = chargeThing.pos.y - 1
-
-		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (2) * dt
-		Transform.SetRotation(elementalTransformID, self.rotSmall) --changed
+	function chargeThing:CombinedAndCharged(dt, chargePower)
+		self.pos = Transform.GetPosition(self.caster)
+		if self.firstCombine then
+			self.particles:cast() 
+			self.firstCombine = false
+			self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
+		else
+			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			self.particles:update(self.pos)
+		end			
+		self.timer = self.timer + dt		
+		self.pos.y = self.pos.y - 1
 		
-	
-		end
-
-
-	function chargeThing:CombinedAndCharged(position, dt, chargePower,spellElement)
-		chargeThing.particles:cast() 
-		elementalTransformID = chargeThing.transformID
-		if spellElement == FIRE then
-			Transform.ActiveControl(chargeThing.transformID2, true)
-			elementalTransformID = chargeThing.transformID2
-
-		elseif spellElement == NATURE then
-			Transform.ActiveControl(chargeThing.transformID3, true) 
-			elementalTransformID = chargeThing.transformID3
-		
-		else 
-			Transform.ActiveControl(chargeThing.transformID, true)
-		end
-		
-		
-		chargeThing.timer = chargeThing.timer + dt
-		Transform.SetScaleNonUniform(elementalTransformID, 1,1,1) --det här gäller bara den första
-		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
-		chargeThing.pos.y = chargeThing.pos.y - 1
-
 		--Cyl
-
-		if(chargeThing.scaleSmall.x < 1.1) then
-			chargeThing.scaleSmall.x = chargeThing.scaleSmall.x + (chargePower * chargePower * 75) * dt
-			chargeThing.scaleSmall.z = chargeThing.scaleSmall.z + (chargePower * chargePower * 75) * dt
+		if self.scaleSmall.x < 1.1  then
+			self.scaleSmall.x = self.scaleSmall.x + (chargePower * chargePower * 75) * dt
+			self.scaleSmall.z = self.scaleSmall.z + (chargePower * chargePower * 75) * dt
 		end
 
-		if(chargeThing.scaleSmall.y < 1.1) then
-			chargeThing.scaleSmall.y = chargeThing.scaleSmall.y + (0.075*dt)
+		if self.scaleSmall.y < 1.1 then
+			self.scaleSmall.y = self.scaleSmall.y + (0.075*dt)
 		end
 
-		Transform.SetScaleNonUniform(elementalTransformID, chargeThing.scaleSmall.x,chargeThing.scaleSmall.y,chargeThing.scaleSmall.z) 
-		Transform.SetPosition(elementalTransformID, chargeThing.pos) 
-		daPower = math.min(chargePower, MAX_CHARGE)
-		chargeThing.rotSmall.y = chargeThing.rotSmall.y + (3) * dt
-		Transform.SetRotation(elementalTransformID, self.rotSmall)
+		Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleSmall.x, self.scaleSmall.y, self.scaleSmall.z) 
+		Transform.SetPosition(self.elementalTransformID, self.pos) 
+		self.rotSmall.y = self.rotSmall.y + 3 * dt
+		Transform.SetRotation(self.elementalTransformID, self.rotSmall)
 
-		if(chargeThing.timer > 0.75) then
-		
-			if(chargeThing.scaleLarge.x < 1.1) then
-				chargeThing.scaleLarge.x = chargeThing.scaleLarge.x + (chargePower * chargePower * 30) * dt
-				chargeThing.scaleLarge.Y = chargeThing.scaleLarge.y + (chargePower * chargePower * 30) * dt
-				chargeThing.scaleLarge.z = chargeThing.scaleLarge.z + (chargePower * chargePower * 30) * dt
+		if self.timer > 0.75 then	
+			if self.scaleLarge.x < 1.1 then
+				self.scaleLarge.x = self.scaleLarge.x + (chargePower * chargePower * 30) * dt
+				self.scaleLarge.Y = self.scaleLarge.y + (chargePower * chargePower * 30) * dt
+				self.scaleLarge.z = self.scaleLarge.z + (chargePower * chargePower * 30) * dt
 			end
-
-			Transform.SetScaleNonUniform(elementalTransformID, chargeThing.scaleLarge.x,chargeThing.scaleLarge.y,chargeThing.scaleLarge.z)
-			Transform.SetPosition(elementalTransformID, chargeThing.pos)
-			chargeThing.particles:update(chargeThing.pos) 
-			local daPower = math.min(chargePower, MAX_CHARGE)
-			chargeThing.rotLarge.y = chargeThing.rotLarge.y + 5 * dt
-			Transform.SetRotation(elementalTransformID, self.rotLarge)
+			Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleLarge.x, self.scaleLarge.y, self.scaleLarge.z)
+			Transform.SetPosition(self.elementalTransformID, self.pos)
+			self.particles:update(self.pos) 
+			self.rotLarge.y = self.rotLarge.y + 5 * dt
+			Transform.SetRotation(self.elementalTransformID, self.rotLarge)
 		end
 	end
 
 
 	function chargeThing:EndCharge() 
-		chargeThing.scaleSmall = {x = 1, y = 1, z = 1}
-		chargeThing.scaleLarge = {x = 1.4, y = 1.1, z = 1.4}
-		Transform.ActiveControl(chargeThing.transformID, false)
-		Transform.ActiveControl(chargeThing.transformID2, false)  
-		Transform.ActiveControl(chargeThing.transformID3, false)  
-		Transform.SetPosition(chargeThing.transformID3, {x = 0, y = 0, z = 0})  
-		chargeThing.particles:die()
+		self.scaleSmall = {x = 1, y = 1, z = 1}
+		self.color = {r = 0, g = 0, b = 0}
+		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.transformID2, false)  
+		Transform.ActiveControl(self.transformID3, false)  
+		Transform.SetPosition(self.transformID3, {x = 0, y = 0, z = 0})  
+		self.particles:die()
+		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
+	function chargeThing:StartCharge(position, spellElement) 		
+		self.timer = 0   
+		self.pos = Transform.GetPosition(chargeThing.caster)	
+		self.firstCombine = true		
+		if spellElement == FIRE then
+			Transform.ActiveControl(self.transformID2, true)
+			self.color.r = 1
+			self.elementalTransformID = self.transformID2
 
-	function chargeThing:StartCharge(position) 
-		
-		chargeThing.timer = 0   
-		chargeThing.pos = Transform.GetPosition(chargeThing.caster)
+		elseif spellElement == NATURE then
+			self.color.g = 1
+			Transform.ActiveControl(self.transformID3, true) 
+			self.elementalTransformID = self.transformID3	
+		else 
+			self.color.b = 1
+			self.elementalTransformID = self.transformID
+			Transform.ActiveControl(self.transformID, true)			
+		end
 	end
 
 

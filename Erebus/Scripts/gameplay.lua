@@ -58,11 +58,12 @@ function UnloadGameplay()
 end
 
 function UpdateGameplay(dt)
-	if Inputs.KeyReleased(Keys.Escape) then
+	if Inputs.KeyReleased(SETTING_KEYBIND_MENU) then
+		print(SETTING_KEYBIND_MENU)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
-	if Inputs.KeyReleased("B") and not player.charging then
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 
@@ -86,6 +87,10 @@ function UpdateGameplay(dt)
 		elseif endEventId == 1 then -- other player quit to main menu
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
 			Erebus.ShutdownNetwork()
+		elseif endEventId == 2 then -- player win!
+			boss.health = 0
+			BOSS_DEAD = true
+			gamestate.ChangeState(GAMESTATE_DEATH)
 		end
 	end
 end

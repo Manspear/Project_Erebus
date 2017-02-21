@@ -148,3 +148,7 @@ function createTimeslowParticles()
 	end
 	return timeslowParticles
 end
+
+function createDashParticles()
+	
+end

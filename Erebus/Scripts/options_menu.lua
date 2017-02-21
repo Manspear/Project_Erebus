@@ -15,27 +15,40 @@ function LoadOptionsMenu()
 		if value.Load then value.Load() end
 	end
 
-	local file
-	if file_check("settings.lua") == false then
-		file = io.open("settings.lua", "w")
-		file:write("SETTING_FULLSCREEN = false\n")
-		file:write("SETTING_DEBUG = true\n")
-		file:close()
-	end
-	scriptsMenu[(#scriptFilesMenu+1)] = dofile("settings.lua")
-
 	Gear.Fullscreen(SETTING_FULLSCREEN);
 
 end
 
 function UnloadOptionsMenu()
-file = io.open("settings.lua", "w")
-	if file then
-		
+
+	if file_check("settings.lua") and false then
+		file = io.open("settings.lua", "w")
 		file:write("SETTING_FULLSCREEN = " .. boolToString(SETTING_FULLSCREEN) .. "\n")
 		file:write("SETTING_DEBUG = " .. boolToString(SETTING_DEBUG) .. "\n")
+
+		file:write("SETTING_KEYBIND_FORWARD = \"" .. SETTING_KEYBIND_FORWARD .. "\"\n")
+		file:write("SETTING_KEYBIND_LEFT = \"" .. SETTING_KEYBIND_LEFT .."\"\n")
+		file:write("SETTING_KEYBIND_BACK = \"".. SETTING_KEYBIND_BACK .."\"\n")
+		file:write("SETTING_KEYBIND_RIGHT = \"".. SETTING_KEYBIND_RIGHT.."\"\n")
+
+		file:write("SETTING_KEYBIND_DASH = ".. SETTING_KEYBIND_DASH .."\n")
+
+		file:write("SETTING_KEYBIND_NORMAL_ATTACK = ".. SETTING_KEYBIND_NORMAL_ATTACK .."\n")
+		file:write("SETTING_KEYBIND_CHARGED_ATTACK = ".. SETTING_KEYBIND_CHARGED_ATTACK .."\n")
+
+		file:write("SETTING_KEYBIND_SPELL_ONE = \"".. SETTING_KEYBIND_SPELL_ONE .."\"\n")
+		file:write("SETTING_KEYBIND_SPELL_TWO = \"".. SETTING_KEYBIND_SPELL_TWO .."\"\n")
+		file:write("SETTING_KEYBIND_SPELL_THREE = \"".. SETTING_KEYBIND_SPELL_THREE .."\"\n")
+
+		file:write("SETTING_KEYBIND_SPELLBOOK = \"".. SETTING_KEYBIND_SPELLBOOK .."\"\n")
+
+		file:write("SETTING_KEYBIND_MENU = ".. SETTING_KEYBIND_MENU .."\n")
+		file:write("SETTING_KEYBIND_COMBINE = ".. SETTING_KEYBIND_COMBINE .."\n")
+
+		file:write("SETTING_KEYBIND_PING = \"".. SETTING_KEYBIND_PING .."\"\n")
+		file:close()
 	end
-file:close()
+
 end
 
 function UpdateOptionsMenu(dt)
@@ -55,29 +68,6 @@ end
 
 function ExitOptionsMenu()
 	
-end
-
-function file_check(file_name)
-	
-  local file_found=io.open(file_name, "r")      
-  
-  if file_found==nil then
-    file_found=false
-  else
-	file_found:close()
-    file_found=true
-  end
-  return file_found
-end
-
-function boolToString(boolean)
-	local output
-	if boolean then
-		output = "true"
-	else
-		output = "false"
-	end
-	return output
 end
 
 return { Load = LoadOptionsMenu, Unload = UnloadOptionsMenu, Update = UpdateOptionsMenu, Enter = EnterOptionsMenu, Exit = ExitOptionsMenu }
