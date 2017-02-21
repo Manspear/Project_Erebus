@@ -38,11 +38,17 @@ function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
 	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-		if length >enemy.visionRange then
-			inState = "IdleState" 
-			changeToState(enemy,player,inState)
-			print("hehe idle")
-		end
+
+		------ CANT GO BACK INTO IDLE
+
+		--if length >enemy.visionRange then
+		--	inState = "IdleState" 
+		--	changeToState(enemy,player,inState)
+		--	print("hehe idle")
+		--end
+
+		----------------
+
 		if player.nrOfInnerCircleEnemies < 1000 then 
 			if length < player.innerCirclerange then
 	
