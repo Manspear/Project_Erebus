@@ -133,7 +133,6 @@ protected:
 	glm::mat4x4 identityMatrixList[MAXJOINTCOUNT];
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
-	std::vector<glm::mat4> animMatrix;
 	std::vector<sKeyFrame> finalList;
 	std::vector<sKeyFrame> blendedList;
 
