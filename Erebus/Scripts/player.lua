@@ -37,7 +37,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 30
+	player.moveSpeed = 90
 	player.deadTimer = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -596,7 +596,11 @@ function UpdatePlayer2(dt)
 	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
 	if newPlayerHealthValue == true then
 		player2.health = currentHealthValue
-		print(currentHealthValue)
+		if player2.health == 0 then
+			player2.isAlive = false
+		else
+			player2.isAlive = true
+		end
 	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
