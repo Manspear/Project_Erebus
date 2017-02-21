@@ -14,6 +14,7 @@ function CreateRevive(entity)
 			if self.reviveTime < 0 then 
 				self.target.health = 100
 				self.target.isAlive = true
+				print("Nu borde jag börja leve egentligen")
 				self.reviving = false
 			end
 		end
