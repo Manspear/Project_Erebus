@@ -405,6 +405,7 @@ function calculatePlayerTarget(enemy)
 			enemy.playerTarget = player
 		end
 	end
+end
 
 function dropOrbs()
 	
