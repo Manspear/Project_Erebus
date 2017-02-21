@@ -418,24 +418,24 @@ function UpdatePlayer(dt)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(levels[player.levelIndex].triggers) do
-		if v:CheckCollision() then
-			if not v.triggered then
-				if v.OnEnter then
-					v.OnEnter()
+		if v.collider:CheckCollision() then
+			if not v.collider.triggered then
+				if v.collider.OnEnter then
+					v.collider.OnEnter()
 				else
-					v.OnTriggering(dt)
+					v.collider.OnTriggering(dt)
 				end
 
-				v.triggered = true
+				v.collider.triggered = true
 			else
-				v.OnTriggering(dt)
+				v.collider.OnTriggering(dt)
 			end
 		else
-			if v.triggered then
-				if v.OnExit then
-					v.OnExit()
+			if v.collider.triggered then
+				if v.collider.OnExit then
+					v.collider.OnExit()
 				end
-				v.triggered = false
+				v.collider.triggered = false
 			end
 		end
 	end
