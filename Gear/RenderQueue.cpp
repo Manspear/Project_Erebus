@@ -82,6 +82,8 @@ void RenderQueue::init()
 	glBindBufferRange(GL_UNIFORM_BUFFER, 0, vpBuffer, 0, sizeof(glm::mat4) * 2);
 
 	glGenBuffers(1, &instanceTest);
+
+	
 }
 
 void RenderQueue::updateUniforms(Camera* camera)
@@ -397,6 +399,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				tempMatrix = worldMatrices[index];
 
 				allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
+				allShaders[ANIM]->setUniform(tint_test, "tint", 1);
 
 				//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
 				allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);

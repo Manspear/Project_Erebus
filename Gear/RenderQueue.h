@@ -122,6 +122,8 @@ private:
 	GLuint vpBuffer;
 	GLuint instanceTest;
 
+	glm::vec4 tint_test = glm::vec4(0.6, 0.0, 0.0, 0.5);
+
 	double freq;
 
 	struct AsyncTransformData

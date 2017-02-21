@@ -17,6 +17,8 @@ uniform int hasDiffuse;
 uniform int hasSpecular;
 uniform int hasNormal;
 
+uniform vec4 tint;
+
 void main (){
 	gDepth = gl_FragCoord.z;
 	//Store the fragment position vector in the first gbuffer texture
@@ -38,9 +40,13 @@ void main (){
 		gAlbedoSpec.rgb = texture2D(diffuseTexture, TexCoords).rgb;
 	else
 		gAlbedoSpec.rgb = vec3(1,0,0.8);
-
+	
 	if(hasSpecular == 1) //if has Specular texture it else use error value
 		gAlbedoSpec.a = texture(specularTexture, TexCoords).r;
 	else
 		gAlbedoSpec.a = 0.0f;
+	
+	gAlbedoSpec.r += (tint.r - gAlbedoSpec.r) * tint.a;
+	gAlbedoSpec.g += (tint.g - gAlbedoSpec.g) * tint.a;
+	gAlbedoSpec.b += (tint.b - gAlbedoSpec.b) * tint.a;
 }

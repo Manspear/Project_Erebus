@@ -34,6 +34,7 @@ function CreateEnemy(type, position)
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
+	enemies[i].hurtCountdown = 0
 
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 
@@ -72,6 +73,8 @@ function CreateEnemy(type, position)
 				--print("ID:", self.transformID, "Sending new health:", self.health)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
+
+				self.hurtCountdown = 1.0
 
 				if self.health == 0 then
 					--print("Dead for host", enemies[i].transformID)
@@ -196,6 +199,16 @@ function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do
 	--AI.DrawDebug()
 	--end
+
+	for i = 1, #enemies do
+		if enemies[i].hurtCountdown > 0 then
+			enemies[i].hurtCountdown = enemies[i].hurtCountdown - dt
+			Gear.Print("hit", 650, 0, 1.3, {0.7, 0.1, 0.1, enemies[i].hurtCountdown})
+		else
+			enemies[i].hurtCountdown = 0
+		end
+	end
+
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0 then
 		COUNTDOWN = 0.4
