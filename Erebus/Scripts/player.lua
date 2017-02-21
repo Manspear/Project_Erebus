@@ -98,6 +98,9 @@ function LoadPlayer()
 	player.Kill = function(self)
 		self.health = 0
 		Transform.ActiveControl(self.transformID,false)
+		for i=1, #enemies do
+			enemies[i].ChangeToState(enemies[i], "IdleState" )
+		end
 	end
 	
 	player.ChangeHeightmap = function(self, heightmap)

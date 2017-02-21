@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {stateName = " ",idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
+state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
 
 
 function state.idleState.enter(enemy,player)
@@ -38,11 +38,17 @@ function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
 	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-		if length >enemy.visionRange then
-			inState = "IdleState" 
-			changeToState(enemy,player,inState)
-			print("hehe idle")
-		end
+
+		------ CANT GO BACK INTO IDLE
+
+		--if length >enemy.visionRange then
+		--	inState = "IdleState" 
+		--	changeToState(enemy,player,inState)
+		--	print("hehe idle")
+		--end
+
+		----------------
+
 		if player.nrOfInnerCircleEnemies < 1000 then 
 			if length < player.innerCirclerange then
 	
@@ -470,7 +476,7 @@ function changeToState(enemy,player,changeState)
 	end 
 
 	enemy.state.enter(enemy,player)
-	enemy.state.stateName = changeState
+	enemy.stateName = changeState
 
 end
 
