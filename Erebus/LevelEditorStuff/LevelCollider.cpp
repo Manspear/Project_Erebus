@@ -431,8 +431,8 @@ std::string LevelCollider::printChildren(std::string name, std::string depth, in
 		ss << parentFullName << ":AddChild(" << fullName << ")" << endl;
 		if (this->childColliders[i]->childColliders.size() == 0 && this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
 			ss << this->childColliders[i]->getLuaTriggerString(fullName);
-		if (this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_COLLISION)
-			ss << "table.insert(colliders," << tableName << ")" << endl;
+		//if (this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_COLLISION)
+			//ss << "table.insert(colliders," << tableName << ")" << endl;
 
 		luaText += ss.str() + this->childColliders[i]->printChildren(name, std::to_string(globalDepth), globalDepth, myIndex);
 	}
@@ -460,9 +460,11 @@ std::string LevelCollider::toLuaLoad(std::string name)
 	switch (colliderType)
 	{
 	case COLLIDER_SPHERE:
-		ss << "SphereCollider.Create(" << name << ".transformID)" << endl;
+		//ss << "SphereCollider.Create(" << name << ".transformID)" << endl;
+		ss << "SphereCollider.Create(-1)" << endl;
 		ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
 		ss << fullName << ":SetRadius(" << this->sphereColider->getRadius() / scale.x << ")" << endl;
+		ss << fullName << ":SetPos(" << position.x << "," << position.y << "," << position.z << ")" << endl;
 		coliderType = "AddSphere(";
 		break;
 
@@ -471,17 +473,21 @@ std::string LevelCollider::toLuaLoad(std::string name)
 			this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
 		realMax = this->abbColider->getMaxPos() -
 			this->parent->getComponent<LevelTransform>()->getTransformRef()->getPos();
-		ss << "AABBCollider.Create(" << name << ".transformID)" << endl;
+		//ss << "AABBCollider.Create(" << name << ".transformID)" << endl;
+		ss << "AABBCollider.Create(-1)" << endl;
 		ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
 		ss << fullName << ":SetMinPos(" << realMin.x / scale.x << "," <<
 			realMin.y / scale.y << "," << realMin.z / scale.z << ")" << endl;
 		ss << fullName << ":SetMaxPos(" << realMax.x / scale.x << "," <<
 			realMax.y / scale.y << "," << realMax.z / scale.z << ")" << endl;
+		ss << fullName << ":SetPos(" << position.x << "," << position.y << "," << position.z << ")" << endl;
 		coliderType = "AddAABB(";
 		break;
 
 	case COLLIDER_OBB:
-		ss << "OBBCollider.Create(" << name << ".transformID)" << endl;
+		//ss << "OBBCollider.Create(" << name << ".transformID)" << endl;
+
+		ss << "OBBCollider.Create(-1)" << endl;
 
 		ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
 
@@ -491,14 +497,18 @@ std::string LevelCollider::toLuaLoad(std::string name)
 		ss << fullName << ":SetHalfLengths(" << this->obbColider->getHalfLengths().x << ","
 			<< this->obbColider->getHalfLengths().y << "," << this->obbColider->getHalfLengths().z << ")" << endl;
 
+		ss << fullName << ":SetPos(" << position.x << "," << position.y << "," << position.z << ")" << endl;
+
 		coliderType = "AddOBB(";
 		break;
 
 	case COLLIDER_RAY:
-		ss << "RayCollider.Create(" << name << ".transformID)" << endl;
+		//ss << "RayCollider.Create(" << name << ".transformID)" << endl;
+		ss << "RayCollider.Create(-1)" << endl;
 		ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
 		ss << fullName << ":SetDirection(" << this->rayColider->getDirection().x << "," <<
 			this->rayColider->getDirection().y << "," << this->rayColider->getDirection().z << ")" << endl;
+		ss << fullName << ":SetPos(" << position.x << "," << position.y << "," << position.z << ")" << endl;
 		coliderType = "AddRay(";
 		break;
 	}
@@ -944,7 +954,7 @@ std::string LevelCollider::getLuaTriggerString(std::string colName) {
 
 	if (ss.str() != "") {
 		ss << colName << ".triggered = false" << endl;
-		ss << "table.insert(triggers, " << colName << ")" << endl;
+		//ss << "table.insert(triggers, " << colName << ")" << endl;
 	}
 
 	return ss.str().c_str();

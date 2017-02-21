@@ -207,6 +207,10 @@ std::string LevelActor::toLuaLoad(std::string levelName)
 				tableName = "colliders";
 				break;
 
+			case EXPORT_TRIGGER:
+				tableName = "triggers";
+				break;
+
 			case EXPORT_PARTICLE:
 				tableName = "particles";
 				break;
@@ -272,6 +276,10 @@ std::string LevelActor::toLuaUnload(std::string levelName)
 
 		case EXPORT_COLLIDER:
 			tableName = "colliders";
+			break;
+
+		case EXPORT_TRIGGER:
+			tableName = "triggers";
 			break;
 
 		case EXPORT_PARTICLE:
