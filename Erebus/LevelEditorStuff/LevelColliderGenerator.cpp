@@ -42,17 +42,21 @@ void LevelColliderGenerator::generateQuadTree(int tileID){
 			}
 		}
 
-		this->sortAbbList(this->tempCols);
 
-		AABBCollider* topParent = addChildren(this->numChilds, this->tempCols, tileID);
+		if (this->tempCols.size() > 0) {
+			this->sortAbbList(this->tempCols);
 
-		replaceAbbsWithObbs(topParent);
+			AABBCollider* topParent = addChildren(this->numChilds, this->tempCols, tileID);
 
-		replaceActorHiercy(mostTopParent);
+			replaceAbbsWithObbs(topParent);
 
-		LevelActorHandler::getInstance()->updateTweakBars();
+			replaceActorHiercy(mostTopParent);
 
-		int k = 0;
+			LevelActorHandler::getInstance()->updateTweakBars();
+
+			int k = 0;
+		}
+
 
 		
 	}
