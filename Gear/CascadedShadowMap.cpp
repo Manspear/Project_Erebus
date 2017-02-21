@@ -151,12 +151,12 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 				minAABB[NUM_CASCADEDS + CascadeID] = center;
 
 				glm::vec3 lightCenter = center;
-				glm::vec3 lightPos = center - light.direction;
+				glm::vec3 lightPos = center + light.direction;
 				glm::vec3 lightUp = glm::vec3(0, 1.0f, 0);
 
 				minAABB[NUM_CASCADEDS * 2 + CascadeID] = lightPos;
 
-				lightM = glm::lookAt(lightPos, lightCenter, lightUp);
+				lightM = glm::lookAt(lightCenter, lightPos, lightUp);
 
 				for (int j = 0; j < 8; j++) {
 
@@ -304,6 +304,11 @@ void CascadedShadowMap::initFramebuffer(int windowWidth, int windowHeight)
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureIDs[0], 0);
+
+	glGenRenderbuffers(1, &framebufferID);
+	glBindRenderbuffer(GL_RENDERBUFFER, framebufferID);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, windowHeight, windowHeight);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, framebufferID);
 
 	//glDrawBuffer(GL_NONE);
 	//glReadBuffer(GL_NONE);
