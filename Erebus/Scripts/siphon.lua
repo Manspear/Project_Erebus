@@ -143,6 +143,8 @@ function CreateSiphon(entity)
 					hit:Hurt(self.damage, self.owner)
 					if(self.owner.health < 100) then
 						self.owner.health = self.owner.health + self.damage
+					elseif (self.owner.health > 100) then
+						self.owner.health = 100
 					end
 					Transform.ActiveControl(self.transformID, true)
 					self.interval = SIPHON_DAMAGE_INTERVAL

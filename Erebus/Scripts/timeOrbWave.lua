@@ -13,7 +13,7 @@ function CreateTimeOrbWave(entity)
 	spell.hudtexture = TIMEORB_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
-	local model = Assets.LoadModel( "Models/grenade.model" )
+	local model = Assets.LoadModel( "Models/projectile1.model" )
 	for i = 1, ORBWAVEORBS do
 		Gear.AddStaticInstance(model, spell.type.transformIDs[i])
 	end
