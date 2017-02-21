@@ -373,13 +373,13 @@ function SendCombine(spell)
 		if player2.charging == true then
 			player2.isCombined = true
 			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
-			Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+			Network.SendChargingPacket(spell:GetEffect(), spell.damage, 1)
 		end
 	end
 end
 
 function GetCombined()
-	local combine, effectIndex, damage = Network.GetChargingPacket()
+	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
 		player.isCombined = true
