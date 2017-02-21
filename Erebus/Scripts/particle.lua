@@ -133,7 +133,7 @@ end
 
 function createTimeslowParticles()
 	local timeslowParticles = {}
-	timeslowParticles.ID = Particle.Bind("ParticleFiles/nature.Particle");
+	timeslowParticles.ID = Particle.Bind("ParticleFiles/timeClocks.Particle");
 
 	function timeslowParticles:cast()
 		Particle.SetAlive(self.ID)

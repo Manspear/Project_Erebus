@@ -67,6 +67,7 @@ function LoadPlayer()
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combinedSpell = -1
+	player.combinedSpellIDs = {}
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
@@ -89,6 +90,7 @@ function LoadPlayer()
 	function player.Hurt(self,damage, source)
 		if not player.invulnerable and self.isAlive then
 			self.health = self.health - damage
+			Network.SendPlayerHealthPacket(self.transformID, self.health)
 			if self.health <= 0 then
 				self.health = 0
 				self:Kill()
@@ -105,6 +107,7 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.isAlive = false
+		Network.SendPlayerHealthPacket(self.transformID, self.health)
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
 		end
@@ -383,7 +386,8 @@ function GetCombined()
 	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
-		player.spells[player.currentSpell]:GetCollider()
+		player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
+		--print(player.combinedSpellIDs[0])
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
 	end
@@ -391,6 +395,8 @@ end
 
 function Controls(dt)
 	if player.isControlable then
+		--player.combinedSpellIDs[0] = player.spells[player.currentSpell]:GetCollider()
+		--print(player.combinedSpellIDs[0])
 		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end
@@ -586,6 +592,12 @@ function UpdatePlayer2(dt)
 		player2.invulnerable = false
 		Transform.SetScale(player2.transformID, 1)
 	end
+
+	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
+	if newPlayerHealthValue == true then
+		player2.health = currentHealthValue
+		print(currentHealthValue)
+	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
@@ -603,6 +615,20 @@ function UpdatePlayer2(dt)
 	right = Camera.GetRight()
 	UI.reposWorld(player2.chargeImage, player2.position.x - right.x * 0.30, player2.position.y+1.75, player2.position.z - right.z * 0.30)
 	UI.reposWorld(player2.combineImage, player2.position.x + right.x * 0.30, player2.position.y+1.75, player2.position.z + right.z * 0.30)
+
+end
+
+function TutorialBarrier(id)
+
+	local colID = id.collider:GetID()
+	local collisionIDs = id.collider:GetCollisionIDs()
+	for i = 1, #collisionIDs do 
+		for o = 1, #player.combinedSpellIDs do
+			if collisionIDs[i] == player.combinedSpellIDs[o] then
+				print("Nu har du en kombineardd spell i mig")
+			end
+		end
+	end
 
 end
 

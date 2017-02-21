@@ -15,6 +15,7 @@
 #define AI_HEALTH_PACKET 10
 #define DASH_PACKET 11
 #define END_EVENT_PACKET 12
+#define PLAYER_HEALTH_PACKET 13
 
 // Only used when DEBUGGING_NETWORK in NetworkDefines == 1
 #define PING_PACKET 20

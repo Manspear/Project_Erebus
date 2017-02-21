@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DashPacket.hpp" />
-    <ClInclude Include="AIHealthPacket.hpp" />
+    <ClInclude Include="HealthPacket.hpp" />
     <ClInclude Include="DebugNetwork.hpp" />
     <ClInclude Include="EventPacket.hpp" />
     <ClInclude Include="PingPacket.hpp" />
