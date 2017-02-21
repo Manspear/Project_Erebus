@@ -355,23 +355,23 @@ end
 
 function Controls(dt)
 	if gamestate.currentState ~= GAMESTATE_SPELLBOOK then
-		if Inputs.KeyDown("W") then
+		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end
-		if Inputs.KeyDown("S") then
+		if Inputs.KeyDown(SETTING_KEYBIND_BACK) then
 			player.forward = -player.moveSpeed
 		end
-		if Inputs.KeyDown("A") then
+		if Inputs.KeyDown(SETTING_KEYBIND_LEFT) then
 			player.left = player.moveSpeed
 		end
-		if Inputs.KeyDown("D") then
+		if Inputs.KeyDown(SETTING_KEYBIND_RIGHT) then
 			player.left = -player.moveSpeed
 		end
-		if Inputs.KeyDown("Q") then
+		if Inputs.KeyDown(SETTING_KEYBIND_PING) then
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
-		if Inputs.KeyDown(Keys.Shift) then
+		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			sElement = player.spells[player.currentSpell].element
 			
 			--player.isCombined = true
@@ -389,8 +389,7 @@ function Controls(dt)
 				end
 			end
 		end
-
-		if Inputs.KeyReleased(Keys.Shift) then
+		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
 			HideCrosshair()
 			player.friendCharger:EndChargeBeam()
 			
@@ -398,7 +397,7 @@ function Controls(dt)
 		end
 
 		if not player.charging then
-			if Inputs.ButtonDown(Buttons.Left) then
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.charger:EndCharge()
 				player.spamCasting = true
 				player.attackTimer = 1
@@ -406,17 +405,17 @@ function Controls(dt)
 				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
 			end
 
-			if Inputs.ButtonReleased(Buttons.Left) then
+			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.spamCasting = false
 			end
 
-			if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 		end
 
 		if not player.spamCasting then
-			if Inputs.ButtonDown(Buttons.Right) then
+			if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
 				if player.charging == true then
 					player.spells[player.currentSpell]:Charge(dt)
 					player.charger:Update(dt, player.spells[player.currentSpell].chargedTime)				
@@ -430,7 +429,7 @@ function Controls(dt)
 				end
 			end
 		
-			if Inputs.ButtonReleased(Buttons.Right) then
+			if Inputs.ButtonReleased(SETTING_KEYBIND_CHARGED_ATTACK) then
 				if player.charging == true then
 					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 					player.spells[player.currentSpell]:ChargeCast(player)
@@ -441,7 +440,7 @@ function Controls(dt)
 			end
 		end
 
-		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
+		if Inputs.KeyPressed(SETTING_KEYBIND_DASH) and player.dashcd < 0 then
 			Particle.Explode(player.dashStartParticles, player.position)
 			Transform.SetScale(player.transformID, 0)
 			player.dashcd = DASH_COOLDOWN
