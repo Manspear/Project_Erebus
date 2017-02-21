@@ -35,9 +35,9 @@ function CreateTumblethorns(entity)
 			self.position.z = self.position.z + self.direction.z * TUMBLETHORN_SPEED * dt
 			local hm = GetHeightmap(self.position)		
 			if hm then
-				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)
-				self.particles:update(self.position)
+				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)	
 				self.position.y = self.position.y + TUMBLETHORN_RADIUS
+				self.particles:update(self.position)
 			end
 			Transform.SetPosition(self.transformID, self.position)
 			self.rotation = Transform.GetRotation(self.transformID)

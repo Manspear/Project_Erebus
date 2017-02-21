@@ -1186,7 +1186,7 @@ WoodenFence2449ID = nil
 WoodenFence3450ID = {}
 WoodenFence3450ID.transformID = Transform.Bind()
 Transform.SetPosition(WoodenFence3450ID.transformID, {x=15.6596, y=3.4214, z=201.972})
-Transform.SetScaleNonUniform(WoodenFence3450ID.transformID, 1, 1, 1)
+Transform.SetScaleNonUniform(WoodenFence3450ID.transformID, 1.2, 1.2, 1.2)
 Transform.SetRotation(WoodenFence3450ID.transformID, {x=0, y=1.8, z=0})
 WoodenFence3450ID.model = Assets.LoadModel('Models/Wooden_Fence.model')
 Gear.AddStaticInstance(WoodenFence3450ID.model, WoodenFence3450ID.transformID)
@@ -1227,7 +1227,7 @@ New3454ID = nil
 TutorialPost1229ID = {}
 TutorialPost1229ID.transformID = Transform.Bind()
 Transform.SetPosition(TutorialPost1229ID.transformID, {x=30.1035, y=6.6213, z=156.506})
-Transform.SetScaleNonUniform(TutorialPost1229ID.transformID, 1, 1, 1)
+Transform.SetScaleNonUniform(TutorialPost1229ID.transformID, 1.3, 1.3, 1.3)
 Transform.SetRotation(TutorialPost1229ID.transformID, {x=0, y=-2.89847, z=0})
 TutorialPost1229ID.model = Assets.LoadModel('Models/SignPost.model')
 Gear.AddStaticInstance(TutorialPost1229ID.model, TutorialPost1229ID.transformID)
@@ -1244,7 +1244,7 @@ TutorialPost1229ID = nil
 TutorialPost228ID = {}
 TutorialPost228ID.transformID = Transform.Bind()
 Transform.SetPosition(TutorialPost228ID.transformID, {x=20.7969, y=6.44531, z=147.75})
-Transform.SetScaleNonUniform(TutorialPost228ID.transformID, 1, 1, 1)
+Transform.SetScaleNonUniform(TutorialPost228ID.transformID, 1.3, 1.3, 1.3)
 Transform.SetRotation(TutorialPost228ID.transformID, {x=0, y=2, z=0})
 TutorialPost228ID.model = Assets.LoadModel('Models/SignPost.model')
 Gear.AddStaticInstance(TutorialPost228ID.model, TutorialPost228ID.transformID)

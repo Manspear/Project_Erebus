@@ -2,7 +2,7 @@ local stateScript = require("Scripts.AI.states")
 
 local baseReturn = {}
 
-local enemyManager = {nrOfOuterCircleEnemies = 0,nrOfInnerCircleEnemies = 0,actionEnemy = 0, maxAttackingEnemies = 3}
+enemyManager = {actionEnemy = 0, maxAttackingEnemies = 3}
 
 
 local function updateEnemyManager(enemies)

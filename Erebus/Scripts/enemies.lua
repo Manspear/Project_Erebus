@@ -97,6 +97,9 @@ function CreateEnemy(type, position)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
+	enemies[i].ChangeToState = function(self,inState)
+		stateScript.changeToState(self, player, inState)
+	end
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
@@ -104,8 +107,12 @@ function CreateEnemy(type, position)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 
-		if self.stateName == "LeapState" or self.stateName == "AttackState" then
-			enemyManager.actionEnemy = enemyManager.actionEnemy -1
+		print (self.stateName )
+		if self.stateName == "LeapState" or self.stateName == "AttackState"  or self.stateName == "PositioningInnerState"  or self.stateName == "PositioningOuterState" then
+			aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
+			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
+			self.insideInnerCircleRange = false
+			print("DO I GET IN HERE ",enemyManager.actionEnemy )
 		end
 		
 		self.health = 0
@@ -380,13 +387,13 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 then
+	if lengthToP1 < lengthToP2 or player.health > 0 then
 		enemy.playerTarget = player
-	else
+	elseif player2.health > 0 then
 		enemy.playerTarget = player2
 	end
 
-	if player2 == nil then
+	if player2 == nil and  player.health > 0 then
 		enemy.playerTarget = player
 	end
 end

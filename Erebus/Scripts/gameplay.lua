@@ -1,7 +1,6 @@
 local scripts = {}
 local scriptFiles =
 {
-	"Scripts/reusable.lua",
 	"Scripts/console.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
@@ -34,7 +33,9 @@ local scriptFiles =
 	"Scripts/polymorph.lua",
 	"Scripts/tumbleThorns.lua",
 	"Scripts/windknockback.lua",
-	"Scripts/knockbackEffect.lua"
+	"Scripts/knockbackEffect.lua",
+	"Scripts/revive.lua",
+	"Scripts/reusable.lua"
 }
 
 loadedLevels = {}
@@ -65,9 +66,10 @@ function UpdateGameplay(dt)
 
 	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
 	end
 
-	if player.health <= 0 or BOSS_DEAD then
+	if not player.isAlive and not player2.isAlive then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
 
