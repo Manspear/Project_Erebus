@@ -355,6 +355,7 @@ end
 
 function Controls(dt)
 	if gamestate.currentState ~= GAMESTATE_SPELLBOOK then
+	
 		if Inputs.KeyDown("W") then
 			player.forward = player.moveSpeed
 		end

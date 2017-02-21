@@ -4,7 +4,7 @@ local screenImages = {}
 local imageTextures = {}
 local tutorialImages = {}
 local tutorialTexture = {}
-
+local pingImages = {}
 local playerHealthCurrent = 100;
 local healthBarLength = 470;
 local spellHeight = 40;
@@ -37,6 +37,8 @@ function LoadHUD()
 	screenImages[3] = UI.load(465, 638, 40, 40);
 
 	
+
+	
 	tutorialTexture[1] = Assets.LoadTexture("Textures/TUTORIAL_PressLeftToFire.dds")
 	tutorialTexture[2] = Assets.LoadTexture("Textures/TUTORIALChangeSpell.dds")
 	tutorialTexture[3] = Assets.LoadTexture("Textures/TUTORIAL_DASH.dds")
@@ -45,6 +47,9 @@ function LoadHUD()
 	tutorialTexture[5] = Assets.LoadTexture("Textures/TUTORIALCharge2.dds")
 	tutorialTexture[6] = Assets.LoadTexture("Textures/TUTORIALChargeFriend1.dds")
 	tutorialTexture[7] = Assets.LoadTexture("Textures/TUTORIALChargeFriend2.dds")
+	pingImages[0] = UI.load(30.1, 9.1, 156.5, 0.7, 0.7) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(20.8, 8.8, 147.75, 0.7, 0.7) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	
 	
 	
 
@@ -131,6 +136,7 @@ function DrawHUD()
 		UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"])
 	end
 
+
 	if SHOW_TUTORIAL_IMAGE ~= -1 then
 		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE], tutorialTexture[SHOW_TUTORIAL_IMAGE])
 	end
@@ -145,6 +151,9 @@ function DrawHUD()
 	if player2.ping > 0 then
 		UI.drawWorldImage(player2.pingImage, player2.pingTexture);
 	end
+	UI.drawWorldImage(pingImages[0], player.pingTexture);
+	UI.drawWorldImage(pingImages[1], player.pingTexture);
+
 	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 	if showHealthbar then 
 		for i=1, #enemies do
@@ -156,6 +165,7 @@ function DrawHUD()
 	end
 end
 
+ 
 function showTutorialImage(x,y,z,dt)
 	TutorialCounter = TutorialCounter + dt
 	
