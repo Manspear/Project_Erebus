@@ -37,7 +37,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 30
+	player.moveSpeed = 10
 	player.deadTimer = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -87,9 +87,10 @@ function LoadPlayer()
 	player.spells = {}	
 	player.currentSpell = 1
 	function player.Hurt(self,damage, source)
-		if not player.invulnerable then
+		if not player.invulnerable and self.isAlive then
 			self.health = self.health - damage
-			if self.health <= 0 and self.isAlive then
+			if self.health <= 0 then
+				self.health = 0
 				self:Kill()
 			end
 		end
@@ -103,7 +104,6 @@ function LoadPlayer()
 	end
 
 	function player.Kill(self)
-		self.health = 0
 		self.isAlive = false
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
