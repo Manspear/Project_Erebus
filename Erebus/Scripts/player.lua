@@ -101,7 +101,7 @@ function LoadPlayer()
 		self.health = 0
 		--Transform.ActiveControl(self.transformID,false)
 		for i=1, #enemies do
-			enemies[i].ChangeToState(enemies[i], "IdleState" )
+			enemies[i].SetState(enemies[i], "IdleState" )
 		end
 	end
 
