@@ -73,4 +73,5 @@ private:
 	TweakBar* worldBar, *actorBar;
 	LevelFileDialog fileDialog;
 	std::string getHeightData();
+	std::string getSettingData();
 };

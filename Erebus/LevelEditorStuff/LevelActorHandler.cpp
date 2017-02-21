@@ -267,6 +267,7 @@ void LevelActorHandler::exportToLua()
 		{
 			fprintf(file, "levels = {}\nheightmaps = {}\n");
 			fprintf(file, getHeightData().c_str());
+			fprintf(file, getSettingData().c_str());
 			//fprintf(file, "function loadLevel(index)\n");
 			//fprintf(file, "end");
 			for (size_t i = 1; i < LevelHeightmap::getCurrentID(); i++)
@@ -281,6 +282,7 @@ void LevelActorHandler::exportToLua()
 				surroundingSS << levelName << ".surrounding = { ";
 				for( ActorIT it = actors.begin(); it != actors.end(); it++ )
 				{
+					
 					LevelHeightmap* heightmap = it->second->getComponent<LevelHeightmap>();
 					if( heightmap && heightmap->getHeightmapID() == i )
 					{
@@ -306,8 +308,10 @@ void LevelActorHandler::exportToLua()
 				fprintf(file, "%s.props = {}\n%s.colliders = {}\n%s.triggers = {}\n", levelName.c_str(), levelName.c_str(), levelName.c_str());
 				for (ActorIT it = actors.begin(); it != actors.end(); it++)
 				{
+
 					//If the current acotr is on the current tile, PRINT IT! AW YIZ
 					if (it->second->getTileID() == i) {
+						if (it->second->getComponent<LevelSettings>() != nullptr) continue; //Continue the loop if's the settings
 						fprintf(file, "%s", it->second->toLuaLoad(levelName).c_str());
 					}
 					
@@ -444,4 +448,20 @@ void LevelActorHandler::postInitAllActors() {
 	{
 		it->second->postInitializeAllComponents();
 	}
+}
+
+std::string LevelActorHandler::getSettingData()
+{
+	std::string returnString = "\n---------------------------------Settings-----------------------------\n\n";
+	for (ActorIT it = actors.begin(); it != actors.end(); it++)
+	{
+
+		if (it->second->getComponent<LevelSettings>() != nullptr) {
+			returnString += it->second->toLuaLoad("Setting").c_str();
+			break;
+		}
+	}
+
+	returnString += "\n---------------------------------Settings-----------------------------\n\n";
+	return returnString;
 }
