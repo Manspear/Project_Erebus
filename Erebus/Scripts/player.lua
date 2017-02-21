@@ -38,6 +38,7 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 30
+	player.deadTimer = 1
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -273,11 +274,12 @@ function UpdatePlayer(dt)
 			Network.SendTransformPacket(player.transformID, player.position, direction, rotation)
 		end
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		player.animationController:AnimationUpdate(dt, Network)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
 	end
+
+	player.animationController:AnimationUpdate(dt, Network)
 
 	if not player.isAlive then
 		if Inputs.KeyPressed("T") then 
