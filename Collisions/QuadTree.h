@@ -39,12 +39,12 @@ namespace Collisions
 		public:
 			AABBCollider* collider;
 			Node* children[NODE_AMOUNT];
-			std::vector<AABBCollider*>* allChildColliders;
 			std::vector<AABBCollider*>* staticChildColliders;
 			std::vector<AABBCollider*>* dynamicChildColliders;
 			Node(AABBCollider* collider)
 			{
-				this->allChildColliders = new std::vector<AABBCollider*>();
+				this->staticChildColliders = new std::vector<AABBCollider*>();
+				this->dynamicChildColliders = new std::vector<AABBCollider*>();
 				this->collider = collider;
 				for (int i = 0; i < NODE_AMOUNT; i++)
 				{
@@ -55,8 +55,9 @@ namespace Collisions
 			{
 				if (this->collider != nullptr)
 					delete this->collider;
-				if (this->allChildColliders != nullptr)
-					delete allChildColliders;
+
+				delete this->staticChildColliders;
+				delete this->dynamicChildColliders;
 
 				if (this->children[0] != nullptr)
 				{
@@ -65,6 +66,11 @@ namespace Collisions
 						delete this->children[i];
 					}
 				}
+			}
+
+			void resetDynamicColliders()
+			{
+				this->dynamicChildColliders->clear(); // The quadtree deletes dynamic colider pointers
 			}
 
 		};
@@ -87,11 +93,13 @@ namespace Collisions
 		Frustum* frustum;
 		Node** hitNodeSave;
 		Node** leafNodes;
+		std::vector<AABBCollider*>* tempDynamicHitboxes;
 
 
 		//Helper functions
 		void createChildren(Node* parent, glm::vec3 center, float width, unsigned int depth);
 		void addHitboxToQuadtree(Node* parent, AABBCollider* childCollider);
+		void addDynamicHitboxToQuadtree(Node* parent, AABBCollider* childCollider);
 		void recursiveFrustumCollision(Node* parent);
 		inline void resethitNodeSave();
 	};

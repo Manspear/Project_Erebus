@@ -122,17 +122,17 @@ DWORD WINAPI update( LPVOID args )
 
 	AnimationData animationData[MAX_ANIMATIONS];
 
-	quadtree.addDynamicModels(data->models);
+	
 	while( data->running )
 	{
 		f.updateFrustum(data->camera->getPosition(),data->camera->getDirection(),data->camera->getUp());
+
+		if (data->inputs->keyPressed(GLFW_KEY_T))
+				quadtree.addDynamicModels(data->models);
+			
 		
 		quadtree.frustumCollision();
 		data->engine->print(std::to_string(quadtree.getNodeCollisionAmount()),100,100);
-		for (size_t i = 0; i < 1; i++)
-		{
-			quadtree.addModel(&temp);
-		}
 		
 
 		glm::vec3 cameraPosition = data->camera->getPosition();
@@ -156,7 +156,7 @@ DWORD WINAPI update( LPVOID args )
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
-			collisionsDraw.draw(&quadtree);
+			//collisionsDraw.draw(&quadtree);
 			
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 

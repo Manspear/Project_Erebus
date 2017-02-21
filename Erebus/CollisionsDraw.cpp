@@ -276,19 +276,31 @@ void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
 	}
 	if (node->children[0] == nullptr) // if we are leafnode
 	{
-		if (node->allChildColliders->size() == 0)
+		if (node->staticChildColliders->size() == 0) // static in quadtree
 			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->emptyNodeColor);
 		else
 		{
 			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->occupiedNodeColor);
-			for (size_t i = 0; i < node->allChildColliders->size(); i++)
+			for (size_t i = 0; i < node->staticChildColliders->size(); i++)
 			{
-				debugger->drawAABB(node->allChildColliders->operator[](i)->getMinPos(), node->allChildColliders->operator[](i)->getMaxPos(), this->childHitboxColor);
+				debugger->drawAABB(node->staticChildColliders->operator[](i)->getMinPos(), node->staticChildColliders->operator[](i)->getMaxPos(), this->childHitboxColor);
+
+			}
+		}
+
+		if (node->dynamicChildColliders->size() == 0) // dynamic colliders in quadtree
+			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->emptyNodeColor);
+		else
+		{
+			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->occupiedNodeColor);
+			for (size_t i = 0; i < node->dynamicChildColliders->size(); i++)
+			{
+				debugger->drawAABB(node->dynamicChildColliders->operator[](i)->getMinPos(), node->dynamicChildColliders->operator[](i)->getMaxPos(), this->childHitboxColor);
 
 			}
 		}
 	}
-	}
+}
 
 
 CollisionsDraw::~CollisionsDraw()
