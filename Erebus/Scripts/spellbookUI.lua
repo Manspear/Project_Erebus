@@ -55,6 +55,7 @@ function UpdateSpellbookUI(dt)
 	if Inputs.KeyReleased("B") then -- Close the book with B
 		Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
 		gamestate.ChangeState(GAMESTATE_GAMEPLAY)
+		player.isControlable = true
 	end
 
 
