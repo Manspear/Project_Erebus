@@ -521,11 +521,8 @@
     <None Include="Shaders\worldImage.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\keybinding.lua">
-      <Filter>Scripts\gamestates</Filter>
-    </None>
-    <None Include="Scripts\keybindingUI.lua">
-      <Filter>Scripts\UI</Filter>
+    <None Include="Scripts\revive.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

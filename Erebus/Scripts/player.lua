@@ -38,6 +38,8 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = 7
+	player.isAlive = true
+	player.isControlable = true
 	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
@@ -84,27 +86,35 @@ function LoadPlayer()
 	-- set spells for player
 	player.spells = {}	
 	player.currentSpell = 1
-	player.Hurt = function(self,damage, source)
+	function player.Hurt(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
-			if self.health <= 0 then
-				self:Kill()
-			end
+			--if self.health <= 0 then
+			--	self:Kill()
+			--end
 		end
 	end
-	player.Apply = function(self, effect)
+	function player.Apply(self, effect)
 		if not self.invulnerable then
 			table.insert(self.effects, effect)
 			effect:Apply(self)
 		end
 	end
 
-	player.Kill = function(self)
+	function player.Kill(self)
 		self.health = 0
-		Transform.ActiveControl(self.transformID,false)
+		--Transform.ActiveControl(self.transformID,false)
+		for i=1, #enemies do
+			enemies[i].ChangeToState(enemies[i], "IdleState" )
+		end
+	end
+
+	function player.ImDead(self, dt)
+		self.isAlive = false
+		self:Kill()
 	end
 	
-	player.ChangeHeightmap = function(self, heightmap)
+	function player.ChangeHeightmap(self, heightmap)
 		player.currentHeightmap = heightmap
 		player.controller:SetHeightmap(player.currentHeightmap.asset)
 	end
@@ -133,12 +143,13 @@ function LoadPlayer()
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeEggs(player)
 	player.friendCharger = CreateCombineRay(player)
-	InitFireEffectParticles()
+	player.revive = CreateRevive(player)
 end
 
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
+	player2.isAlive = true
 	player2.isCombined = false;
 	player2.health = 100
 	player2.forward = 0
@@ -181,15 +192,15 @@ function LoadPlayer2()
 	local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
 
-	player2.Hurt = function(self,damage, source)
+	function player2.Hurt(self,damage, source)
 
 	end
 
-	player2.Kill = function(self)
+	function player2.Kill(self)
 
 	end
 
-	player2.Apply = function(self, effect)
+	function player2.Apply(self, effect)
 		if not self.invulnerable then
 			table.insert(self.effects, effect)
 			effect:Apply(self)
@@ -200,7 +211,7 @@ function LoadPlayer2()
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeEggs(player2)
-
+	player2.revive = CreateRevive(player2)
 	Transform.SetScale(player2.aim.transformID, 0)
 end
 
@@ -236,7 +247,7 @@ end
 
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
-	if player.health > 0 then
+	if player.isAlive then
 		local scale = 0.8
 		local color = {0.6, 0.3, 0.1, 0.8}
 		local info = ""..player.timeScalar
@@ -270,6 +281,22 @@ function UpdatePlayer(dt)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
+	end
+
+	if not player2.isAlive then
+		if Inputs.KeyPressed("T") then 
+			player.revive:Cast(player2)
+		end
+		if Inputs.KeyDown("T") then 
+			player.revive:Update(dt)
+		end
+		if Inputs.KeyReleased("T") then 
+			player.revive:Kill()
+		end
+	end
+
+	if player.health <= 0 then
+		player:ImDead()
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
@@ -360,7 +387,7 @@ function GetCombined()
 end
 
 function Controls(dt)
-	if gamestate.currentState ~= GAMESTATE_SPELLBOOK then
+	if player.isControlable then
 		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end

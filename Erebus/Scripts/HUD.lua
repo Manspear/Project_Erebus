@@ -165,8 +165,6 @@ function DrawHUD()
 		end
 	end
 
-	
-	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 	if showHealthbar then 
 		for i=1, #enemies do
 			UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
@@ -192,7 +190,7 @@ function showTutorialImage(x,y,z,dt)
 		index = 1
 	end
 
-	tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	tutorialImages[index] = UI.load(x, y, z, 7, 7)
 	SHOW_TUTORIAL_IMAGE = index
 end
 
@@ -214,7 +212,7 @@ function showTutorialImage2(x,y,z,dt)
 
 
 
-	tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	tutorialImages[index] = UI.load(x, y, z, 7, 7)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 
