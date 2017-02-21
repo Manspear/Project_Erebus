@@ -81,7 +81,7 @@ protected:
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey, float& animTimer);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment);
 
-	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
+	//void updateJointMatrices(std::vector<sKeyFrame>& keyList);
 	void calculateAndSaveJointMatrices(sKeyFrame* keyList, int animationSegment);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
 	
