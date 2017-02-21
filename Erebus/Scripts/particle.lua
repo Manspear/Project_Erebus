@@ -105,7 +105,7 @@ end
 
 function  createTumbleParticles()
 	local tumbleParticles = {}
-	tumbleParticles.fly = Particle.Bind("ParticleFiles/nature.Particle");
+	tumbleParticles.fly = Particle.Bind("ParticleFiles/leafParticles.Particle");
 
 	function tumbleParticles:cast(x, y, z)
 		Particle.SetAlive(self.fly)
