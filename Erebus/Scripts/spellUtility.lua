@@ -201,4 +201,9 @@ function CreateChargeEggs(entity)
 
 
 	return chargeThing
+
+end
+
+function TutorialBarrier()
+	print("DESTROY BOUNDRIES BREAK THE SKY!")
 end
