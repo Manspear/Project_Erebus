@@ -313,27 +313,24 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 {
 	this->animationSegments = numberOfSegments;
-	currentSegmentStates.resize(numberOfSegments);
-	timeMultiplier.resize(numberOfSegments);
-	animationPlayTime.resize(numberOfSegments);
 
 	for (int i = 0; i < animationSegments; i++)
 	{
 		timeMultiplier[i] = 1;
 		animationPlayTime[i] = -1;
 
-		isTransitionCompletes.push_back(true);
-		oldTos.push_back(-1337);
-		oldFroms.push_back(-1337);
+		isTransitionCompletes[i] = true;
+		oldTos[i] = EMPTYELEMENT;
+		oldFroms[i] = EMPTYELEMENT;
 
-		transitionMaxTimes.push_back(0);
-		transitionTimers.push_back(0);
-		animationTimers.push_back(0);
+		transitionMaxTimes[i] = 0;
+		transitionTimers[i] = 0;
+		animationTimers[i] = 0;
 		
 		animationStack[i][0] = EMPTYELEMENT;
 		animationStack[i][1] = 0;
 
-		quickBlendStates.push_back(false);
+		quickBlendStates[i] = false;
 
 		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
 		animationMatrixLists.push_back(allahu);
@@ -376,7 +373,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 {
 	if (animationSegments > 1)
 	{
-		//animationMatrixLists is a 64 long mat4 list, where each 
+		//animationMatrixLists is a MAXJOINTCOUNT long mat4 list, where each matrix is a finalized joint transform
 		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4x4));
 
 		for (int i = 1; i < animationSegments; i++)

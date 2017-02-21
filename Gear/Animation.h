@@ -92,9 +92,9 @@ protected:
 	float animTimer;
 
 	//One timeMultiplier-element per segment
-	std::vector<float> timeMultiplier;
+	float timeMultiplier[MAXNUMSEGMENTS];
 	//Saves the time that the animation is allowed to play for. Used mainly to time attack-animations with spells.
-	std::vector<float> animationPlayTime;
+	float animationPlayTime[MAXNUMSEGMENTS];
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
 
@@ -105,18 +105,18 @@ protected:
 	std::vector<sKeyFrame> blendToKeys;
 
 	//Animation blending variables, one per animationPart;
-	std::vector<int> oldTos;
-	std::vector<int> oldFroms;
-	std::vector<bool> isTransitionCompletes;
+	int oldTos[MAXNUMSEGMENTS];
+	int oldFroms[MAXNUMSEGMENTS];
+	bool isTransitionCompletes[MAXNUMSEGMENTS];
 
-	std::vector<float> fromAnimationTimers;
-	std::vector<float> toAnimationTimers;
-	std::vector<float> transitionMaxTimes;
-	std::vector<float> transitionTimers;
+	float fromAnimationTimers[MAXNUMSEGMENTS];
+	float toAnimationTimers[MAXNUMSEGMENTS];
+	float transitionMaxTimes[MAXNUMSEGMENTS];
+	float transitionTimers[MAXNUMSEGMENTS];
 	//Animationtimer 
-	std::vector<float> animationTimers;
+	float animationTimers[MAXNUMSEGMENTS];
 
-	std::vector<bool> quickBlendStates;
+	bool quickBlendStates[MAXNUMSEGMENTS];
 
 	//List holding "final" jointmatrices (one per animationSegment) before they're added together
 	//used like: animationMatrixLists[animationSegment][jointIdx]
@@ -137,7 +137,7 @@ protected:
 	std::vector<sKeyFrame> blendedList;
 
 	int matrixIndex;
-	std::vector<int> currentSegmentStates;
+	int currentSegmentStates[MAXNUMSEGMENTS];
 	int quickBlendFrom, quickBlendTo, quickBlendSegment;
 	float quickBlendTime;
 	bool quickBlendingDone;
