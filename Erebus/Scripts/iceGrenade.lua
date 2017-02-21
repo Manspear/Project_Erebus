@@ -55,6 +55,7 @@ function CreateIceGrenade(entity)
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
 	end
+
 	function spell:Cast(entity, chargetime)
 		if self.cooldown < 0 then
 			--ZoomInCamera()
@@ -87,7 +88,12 @@ function CreateIceGrenade(entity)
 			self.damage = MAX_DAMAGE_ICENADE
 		end
 	end
-	
+
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.type.sphereCollider:GetID())
+		return result
+	end
 	function spell:Update(dt)
 		self.cooldown = self.cooldown - dt
 		if self.isActiveSpell then	

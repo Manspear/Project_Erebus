@@ -85,7 +85,7 @@ function CreateEnemy(type, position)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
-	enemies[i].ChangeToState = function(self,inState)
+	enemies[i].ChangeToState = function(self,inState) 
 		stateScript.changeToState(self, player, inState)
 	end
 

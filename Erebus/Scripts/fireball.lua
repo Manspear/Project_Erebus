@@ -60,6 +60,13 @@ function CreateFireball(entity)
 	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.light = nil
 	spell.lightRadius = 0
+
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
+	end
+
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
 		if self.aSmallIsActive > 0 then
