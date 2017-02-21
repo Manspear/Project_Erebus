@@ -267,6 +267,13 @@ void TransformHandler::deactivateTransform( int index )
 			if( bhandle )
 				bmatrix = instances[bhandle->instanceIndex]->at(bhandle->modelIndex).getWorldMatrix(bhandle->transformIndex);
 
+			Animation* aanimation, *banimation;
+			if( handle.instanceIndex == INSTANCE_ANIMATED )
+			{
+				aanimation = instances[INSTANCE_ANIMATED]->at(ahandle->modelIndex).getAnimation(ahandle->transformIndex);
+				banimation = instances[INSTANCE_ANIMATED]->at(bhandle->modelIndex).getAnimation(bhandle->transformIndex);
+			}
+
 			if( bhandle && bhandle->prev >= 0 )
 				handles.at(bhandle->prev).next = -1;
 
@@ -287,6 +294,11 @@ void TransformHandler::deactivateTransform( int index )
 				instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setTransform(bhandle->transformIndex, *btransform);
 
 				instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setWorldMatrix(bhandle->transformIndex, bmatrix);
+
+				if( handle.instanceIndex == INSTANCE_ANIMATED )
+				{
+					instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setAnimation(bhandle->transformIndex, banimation );
+				}
 			}
 
 			ahandle->prev = ahandle->next = -1;
