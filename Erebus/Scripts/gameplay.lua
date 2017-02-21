@@ -1,7 +1,6 @@
 local scripts = {}
 local scriptFiles =
 {
-	"Scripts/reusable.lua",
 	"Scripts/console.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
@@ -35,7 +34,8 @@ local scriptFiles =
 	"Scripts/tumbleThorns.lua",
 	"Scripts/windknockback.lua",
 	"Scripts/knockbackEffect.lua",
-	"Scripts/revive.lua"
+	"Scripts/revive.lua",
+	"Scripts/reusable.lua"
 }
 
 gameplayStarted = false
@@ -66,7 +66,7 @@ function UpdateGameplay(dt)
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 
-	if player.health <= 0 or BOSS_DEAD then
+	if not player.isAlive and not player2.isAlive then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
 
