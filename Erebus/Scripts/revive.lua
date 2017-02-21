@@ -44,7 +44,7 @@ function CreateRevive(entity)
 			Transform.ActiveControl(spell.transformID, true)
 			vec3gief(self.position, self.target.position)
 			self.position.y = self.position.y + 3.0
-			self.light = Light.addLight(self.position.x , self.position.y , self.position.z, 0.9, 0.9, 0.5, 3, 20, true)
+			self.light = Light.addLight(self.position.x , self.position.y , self.position.z, 0.9, 0.9, 0.5, 5, 20, true)
 			Transform.SetPosition(self.transformID, self.position )		
 		end
 	end
