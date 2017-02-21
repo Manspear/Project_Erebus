@@ -37,7 +37,8 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 7
+	player.moveSpeed = 30
+	player.deadTimer = 1
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -65,8 +66,8 @@ function LoadPlayer()
 	player.ping = 0
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
-	player.combined = false
 	player.combinedSpell = -1
+	player.combinedSpellIDs = {}
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
@@ -89,11 +90,13 @@ function LoadPlayer()
 	function player.Hurt(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
-			--if self.health <= 0 then
-			--	self:Kill()
-			--end
+			Network.SendPlayerHealthPacket(self.transformID, self.health)
+			if self.health <= 0 and self.isAlive then
+				self:Kill()
+			end
 		end
 	end
+
 	function player.Apply(self, effect)
 		if not self.invulnerable then
 			table.insert(self.effects, effect)
@@ -103,15 +106,11 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.health = 0
-		--Transform.ActiveControl(self.transformID,false)
+		self.isAlive = false
+		Network.SendPlayerHealthPacket(self.transformID, self.health)
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
 		end
-	end
-
-	function player.ImDead(self, dt)
-		self.isAlive = false
-		self:Kill()
 	end
 	
 	function player.ChangeHeightmap(self, heightmap)
@@ -160,6 +159,9 @@ function LoadPlayer2()
 	player2.spamCasting = false
 	player2.charging = false
 	player2.position = {x=0, y=0, z=0}
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combinedSpell = -1
 	
 	player2.dashtime = 0
 	player2.dashcd = 0
@@ -277,15 +279,16 @@ function UpdatePlayer(dt)
 			Network.SendTransformPacket(player.transformID, player.position, direction, rotation)
 		end
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		player.animationController:AnimationUpdate(dt, Network)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
 	end
 
-	if not player2.isAlive then
+	player.animationController:AnimationUpdate(dt, Network)
+
+	if not player.isAlive then
 		if Inputs.KeyPressed("T") then 
-			player.revive:Cast(player2)
+			player.revive:Cast(player)
 		end
 		if Inputs.KeyDown("T") then 
 			player.revive:Update(dt)
@@ -295,9 +298,6 @@ function UpdatePlayer(dt)
 		end
 	end
 
-	if player.health <= 0 then
-		player:ImDead()
-	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
@@ -339,8 +339,11 @@ function UpdatePlayer(dt)
 	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.combineImage, player.position.x, player.position.y+2.1, player.position.z)
+
+	right = Camera.GetRight()
+
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.75, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.75, player.position.z + right.z * 0.30)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
@@ -372,6 +375,7 @@ function SendCombine(spell)
 	if player2.isCombined == false then
 		if player2.charging == true then
 			player2.isCombined = true
+			player2.combinedSpell = spell.spellListId
 			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
 			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
 		end
@@ -382,6 +386,8 @@ function GetCombined()
 	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
+		--print(player.combinedSpellIDs[0])
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
 	end
@@ -389,6 +395,8 @@ end
 
 function Controls(dt)
 	if player.isControlable then
+		--player.combinedSpellIDs[0] = player.spells[player.currentSpell]:GetCollider()
+		--print(player.combinedSpellIDs[0])
 		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end
@@ -584,6 +592,12 @@ function UpdatePlayer2(dt)
 		player2.invulnerable = false
 		Transform.SetScale(player2.transformID, 1)
 	end
+
+	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
+	if newPlayerHealthValue == true then
+		player2.health = currentHealthValue
+		print(currentHealthValue)
+	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
@@ -598,6 +612,23 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	right = Camera.GetRight()
+	UI.reposWorld(player2.chargeImage, player2.position.x - right.x * 0.30, player2.position.y+1.75, player2.position.z - right.z * 0.30)
+	UI.reposWorld(player2.combineImage, player2.position.x + right.x * 0.30, player2.position.y+1.75, player2.position.z + right.z * 0.30)
+
+end
+
+function TutorialBarrier(id)
+
+	local colID = id.collider:GetID()
+	local collisionIDs = id.collider:GetCollisionIDs()
+	for i = 1, #collisionIDs do 
+		for o = 1, #player.combinedSpellIDs do
+			if collisionIDs[i] == player.combinedSpellIDs[o] then
+				print("Nu har du en kombineardd spell i mig")
+			end
+		end
+	end
 
 end
 
