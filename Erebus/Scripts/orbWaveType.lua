@@ -44,8 +44,15 @@ function CreateOrbWaveType(model)
 		for i = 1, ORBWAVEORBS do
 			local collisionIDs = self.sphereColliders[i]:GetCollisionIDs()
 			self.positions[i].x = self.origo.x + self.directions[i].x * distance
-			self.positions[i].y = self.origo.y + self.directions[i].y * distance
 			self.positions[i].z = self.origo.z + self.directions[i].z * distance
+			self.positions[i].y = self.origo.y + self.directions[i].y * distance
+			local hm = GetHeightmap(self.positions[i])
+			if hm then
+				local height = hm.asset:GetHeight(self.positions[i].x, self.positions[i].z)+0.5
+				if height > self.positions[i].y then
+					self.positions[i].y = height
+				end
+			end
 			Transform.SetPosition(self.transformIDs[i], self.positions[i])
 			Transform.SetScale(self.transformIDs[i], scale)
 			SphereCollider.SetRadius(self.sphereColliders[i], scale)

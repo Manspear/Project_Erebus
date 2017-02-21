@@ -17,7 +17,6 @@ function CreateHellPillar(entity)
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
 	spell.chargedTime = 0	
-	spell.Charge = BaseCharge
 	spell.cooldown = 0
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
@@ -61,6 +60,8 @@ function CreateHellPillar(entity)
 	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
 	spell.firstModel = Gear.BindForwardInstance(model)
 
+	spell.light = nil
+
 	function spell:Cast()
 		if self.cooldown < 0 then		
 			if self.isActiveSpell then
@@ -72,6 +73,7 @@ function CreateHellPillar(entity)
 			self.maxScale = 0.5			self.scale = 0.4
 			Transform.SetScale(self.transformID, self.maxScale)
 			SphereCollider.SetRadius(self.sphereCollider, self.scale + 0.2)
+
 			self.damage = 5
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()		
@@ -80,7 +82,9 @@ function CreateHellPillar(entity)
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then	
-			ZoomOutCamera()	
+			if self.owner == player then
+				ZoomOutCamera()	
+			end
 			self.scale = 1
 			self.cooldown, self.maxcooldown = COOLDOWN_BIG_PILLAR, COOLDOWN_BIG_PILLAR	
 			self.startUpTime = 1.5		self.finishingTime = 1.8	self.startUpScale = 6
@@ -100,8 +104,8 @@ function CreateHellPillar(entity)
 		self.pos = self.aimPos
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
-		--self.lightRadius = 10
-		--self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10)
+		self.lightRadius = 10
+		self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10, true)
 	end
 	
 	function spell:Update(dt)
@@ -125,13 +129,15 @@ function CreateHellPillar(entity)
 	function spell:StartingUp(dt)
 		self.startUpTime = self.startUpTime - dt
 		self.startUpScale = self.startUpScale - dt * 3
-		
 		self.someRotation.y = self.someRotation.y + 8 * dt 
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
 		Transform.SetScale(self.firstModel, self.startUpScale)
-		--self.lightRadius = self.lightRadius - 5*dt
-		--Light.updateRadius(self.light, self.lightRadius)
+
+		self.lightRadius = self.lightRadius - 5*dt
+		Light.updateRadius(self.light, self.lightRadius, true)
+
 		if self.startUpTime < 0 then
+			self.lightRadius = 10
 			self.startUp = false
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
@@ -141,7 +147,7 @@ function CreateHellPillar(entity)
 			--Sound.Play(HELLPILLAR_CHARGE_SFX, 7, self.pos)				
 			Transform.ActiveControl(self.transformID, true)
 			self.startUpTime = 0.2
-			--Light.updateRadius(self.light, 10)
+			Light.updateRadius(self.light, self.lightRadius, true)
 		end
 	end
 
@@ -155,8 +161,16 @@ function CreateHellPillar(entity)
 						local effect = effectTable[self.effects[i]](self.owner)
 						enemies[curEnemy]:Apply(effect)
 					end	
-				end
 					Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
+				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then --boss collision
+				boss:Hurt(self.damage, owner)
+				for i = 1, #self.effects do
+					local effect = effectTable[self.effects[i]](self.owner)
+					boss:Apply(effect)
+				end	
+				Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
 			end
 		end		
 		self.startUp = false
@@ -169,13 +183,11 @@ function CreateHellPillar(entity)
 		if self.finishingTime < 0 then
 			self.aliveCharged = false 
 			Transform.ActiveControl(self.transformID, false)
+			if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 			self.blendValue1.x, self.blendValue1.y = 0, 0
 			self.blendValue2.x, self.blendValue2.y = 0, 0
 			self.riseFactor = 0.1
-			--Light.removeLight(self.light)
 		else
-			--self.someRotation.y = self.someRotation.y + 15 * dt 	
-			--Transform.SetRotation(self.transformID, self.someRotation)
 			self.blendValue1.x = self.blendValue1.x + 0.2 * dt
 			self.blendValue1.y = self.blendValue1.y - 0.6 * dt
 
@@ -185,12 +197,15 @@ function CreateHellPillar(entity)
 			Gear.SetBlendUniformValue(self.transformID, 2, self.blendValue1, self.blendValue2)
 			if self.riseFactor < self.scale then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end
 			
+			local radius = self.lightRadius + 1.5*math.abs(math.cos(self.finishingTime*10))
+			Light.updateRadius(self.light, radius, true)
+
 			Transform.SetScaleNonUniform(self.transformID, self.scale, self.riseFactor, self.scale)
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt
 				if self.startUpScale > self.maxScale  then self.startUpScale = self.maxScale  end
-			
+				Transform.SetScale(self.firstModel, self.startUpScale )
 			else
 				Transform.ActiveControl(self.firstModel, false)
 				self.growAgain = false
@@ -204,7 +219,7 @@ function CreateHellPillar(entity)
 		self.aimPos = {x = aPos.x + lookAt.x *10, y = 0, z = aPos.z + lookAt.z *10 }
 		local hm = GetHeightmap(self.aimPos)
 		if hm then
-			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z)
+			self.aimPos.y = hm.asset:GetHeight(self.aimPos.x, self.aimPos.z) + 0.5
 			self.owner.aim:SetPos(self.aimPos)
 		end
 	end
@@ -218,17 +233,14 @@ function CreateHellPillar(entity)
 		return self.effects[1]
 	end
 
-	function spell:Combine(effect,damage)
-		if #self.effects < 2 then
-			table.insert(self.effects, effect)
-			self.damage = self.damage + damage
-		end
-	end
 	function spell:Kill() 
 		Transform.ActiveControl(self.owner.aim.transformID, false) 
+		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
 	end
+	spell.Combine = BaseCombine		spell.Charge = BaseCharge
+	spell.GettEffect = BaseGetEffect
 	return spell
 end

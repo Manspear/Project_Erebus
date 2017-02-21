@@ -23,7 +23,7 @@ function CreateFireball(entity)
 		tiny.hits = {}
 		--local model = Assets.LoadModel( "Models/grenade.model" )
 		--Gear.AddForwardInstance(model, tiny.type.transformID)
-		tiny.particles = createIceGrenadeParticles()
+		tiny.particles = CreateFireEffectParticles()
 		return tiny
 	end
 	--General variables
@@ -48,8 +48,8 @@ function CreateFireball(entity)
 	spell.bigBallActive = false
 	--spell.bigBallID = Transform.Bind()	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
+	spell.ballParticles = CreateFireEffectParticles()
 	spell.bigBallID = Gear.BindStaticInstance(model)
-	spell.ballParticles = createChargeParticles()
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
@@ -61,7 +61,7 @@ function CreateFireball(entity)
 	spell.enemiesHit = {}
 	
 	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
-	spell.light = {}
+	spell.light = nil
 	spell.lightRadius = 0
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
@@ -76,7 +76,7 @@ function CreateFireball(entity)
 	function spell:UpdateSmallFBs(dt)
 		for i = 1, 4 do 
 			if self.smallFB[i].alive then 
-				self.smallFB[i].particles.update(self.smallFB[i].type.position)
+				self.smallFB[i].particles:Update(self.smallFB[i].type.position)
 				self.smallFB[i].type:Update(dt)
 
 				local collisionIDs = self.smallFB[i].type.sphereCollider:GetCollisionIDs()
@@ -86,6 +86,10 @@ function CreateFireball(entity)
 							enemies[curEnemy]:Hurt(self.smallFB[i].damage, self.owner)
 							self:SpamFireball(i)
 						end
+					end
+					if collisionIDs[curID] == boss.collider:GetID() then
+						boss:Hurt(self.smallFB[i].damage, self.owner)
+						self:SpamFireball(i)
 					end
 				end
 				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
@@ -100,8 +104,9 @@ function CreateFireball(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
 			self.aSmallIsActive = self.aSmallIsActive + 1
-			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
-			self.smallFB[self.currentFB].particles.cast()
+			--self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].particles:Cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
 			Sound.Play(FIREBALL_CAST_SFX, 3, self.smallFB.position)
@@ -116,8 +121,10 @@ function CreateFireball(entity)
 		if self.bigBallActive then
 			self:EngageExplode()
 		end
-		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then	
-			ZoomOutCamera()	
+		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then
+			if self.owner == player then	
+				ZoomOutCamera()	
+			end
 			self.lifeTime = FIREBALL_LIFETIME
 			self.explodeTime = FIREBALL_EXPLODETIME	
 			self.cooldown = FIREBALL_COOLDOWN
@@ -128,7 +135,7 @@ function CreateFireball(entity)
 			Transform.SetPosition(self.bigBallID, self.position)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
 			self.light = Light.addLight(124, 32, 220, 1, 0, 0, FIREBALL_LIGHTRADIUS, 3, true)
-			self.ballParticles:cast()
+			self.ballParticles:Cast()
 			Sound.Play(FIREBALL_CAST_SFX, 7, self.position)
 		end
 		self.chargedTime = 0
@@ -150,7 +157,7 @@ function CreateFireball(entity)
 		self.position.z = self.position.z + direction.z * FIREBALL_SPEED * dt
 		Transform.SetPosition(self.bigBallID, self.position)
 		self.damage = self.damage + 3 * dt
-		self.ballParticles:update(self.position)
+		self.ballParticles:Update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
 			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:EngageExplode() end
@@ -164,6 +171,10 @@ function CreateFireball(entity)
 					self:EngageExplode()
 					return
 				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				self:EngageExplode()
+				return
 			end
 		end		
 	end
@@ -198,6 +209,16 @@ function CreateFireball(entity)
 					self.enemiesHit[enemies[curEnemy].transformID] = true
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)
+					for stuff = 1, #self.effects do
+						local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
+						boss:Apply(effect)
+					end
+					self.enemiesHit[boss.transformID] = true
+				end
+			end
 		end			
 	end
 
@@ -216,25 +237,34 @@ function CreateFireball(entity)
 		Sound.Play(FIREBALL_BIG_HIT_SFX, 7, self.position)
 		self.enemiesHit = {}
 		self.bigBallActive = false
-		self.ballParticles:die()
+		self.ballParticles:Die(self.position)
 		SphereCollider.SetRadius(self.sphereCollider, 1)
 		Transform.SetScale(self.bigBallID, 1)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
-		if self.light then		Light.removeLight(self.light, true)		end
+		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
+	end
+
+	function spell:Change()
+		self.isActiveSpell = not self.isActiveSpell
+		if self.isActiveSpell then
+			ShowCrosshair()
+		else
+			HideCrosshair()
+		end
 	end
 
 	function spell:SpamFireball(index)
 		local id = Sound.Play(FIREBALL_SMALL_HIT_SFX, 39, self.smallFB[index].type.position)
 		Sound.SetVolume(id, 0.5)
 		Sound.Resume(id)
-		self.smallFB[index].particles.die(self.smallFB[index].type.position)
+		self.smallFB[index].particles:Die(self.smallFB[index].type.position)
 		self.smallFB[index].type:Kill() 
 		self.smallFB[index].alive = false 
 		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
 	spell.Charge = BaseCharge
-	spell.Change = BaseChange
+	--spell.Change = BaseChange
 	return spell
 end

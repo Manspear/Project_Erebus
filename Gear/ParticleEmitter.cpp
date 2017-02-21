@@ -169,15 +169,29 @@ namespace Gear
 		this->position = position;
 		glm::vec3 tempVec = this->position + direction * focus;
 		glm::vec3 temp2;
+		if (this->extrovert)
+		{
+			for (int i = 0; i < maxParticles; i++)
+			{
+				particlePos[i].pos = this->position;
+				temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
+				allParticles[i].direction = glm::normalize(temp2 - this->position);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < maxParticles; i++)
+			{
+				particlePos[i].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + this->position;
+				allParticles[i].direction = glm::normalize(this->position - particlePos[i].pos);
+			}
+		}
 		for (int i = 0; i < maxParticles; i++)
 		{
-			particlePos[i].pos = this->position;
-			particlePos[i].size = this->particleSize;
 			allParticles[i].lifeSpan = this->lifeTime;
-			temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
-			allParticles[i].direction = glm::normalize(temp2 - this->position);
-			allParticles[i].direction *= rand() % (int)partSpeed;
 			nrOfActiveParticles = i;
+			particlePos[i].size = this->particleSize;
+			allParticles[i].direction *= rand() % (int)partSpeed;
 		}
 		isActive = true;
 		alive = false;

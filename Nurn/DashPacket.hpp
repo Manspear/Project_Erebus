@@ -6,18 +6,16 @@ union DashPacket
 {
 	struct DashPacketStruct
 	{
-		uint8_t setScaleValue;
-		bool invulnerable;
+		bool isDashing;
 	}data;
 
 	DashPacket()
 	{
 	}
 
-	DashPacket(const uint8_t& setScaleValue, const bool& invulnerable)
+	DashPacket(const bool& isDashing)
 	{
-		data.setScaleValue = setScaleValue;
-		data.invulnerable = invulnerable;
+		data.isDashing = isDashing;
 	}
 
 	unsigned char bytes[sizeof(DashPacketStruct)];

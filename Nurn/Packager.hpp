@@ -50,6 +50,7 @@ public:
 	void pushPlayerEventPacket(const EventPacket& packet);
 	void pushAIHealthPacket(const AIHealthPacket& packet);
 	void pushDashPacket(const DashPacket& packet);
+	void pushEndEventPacket(const EventPacket& packet);
 
 private:
 	unsigned char * memory;
@@ -66,6 +67,7 @@ private:
 	PacketQueue<EventPacket> * playerEventQueue;
 	PacketQueue<AIHealthPacket> * aiHealthQueue;
 	PacketQueue<DashPacket> * dashQueue;
+	PacketQueue<EventPacket> * endEventQueue;
 	uint16_t currentNetPacketSize;
 
 #ifdef DEBUGGING_NETWORK

@@ -43,7 +43,7 @@ function state.followState.update(enemy,player,dt)
 			changeToState(enemy,player,inState)
 			print("hehe idle")
 		end
-		if player.nrOfInnerCircleEnemies <3 then 
+		if player.nrOfInnerCircleEnemies < 1000 then 
 			if length < player.innerCirclerange then
 	
 				inState = "PositioningInnerState" 
@@ -182,7 +182,7 @@ end
 
 function state.positioningOuterState.update(enemy,player,dt)
 
-	if (player.nrOfInnerCircleEnemies >= 3) then
+	if (player.nrOfInnerCircleEnemies >= 1000) then
 		if enemy.subPathtarget ~= nil then
 
 			local pos = Transform.GetPosition(enemy.transformID)
@@ -246,7 +246,11 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 
 	if length < enemy.range then
 		if enemy.actionCountDown <0 then
-			player:Hurt(12)
+			if player.transformID == player2.transformID then
+				Network.SendDamagePacket(enemy.transformID, 12)
+			else
+				player:Hurt(12, enemy)
+			end
 			enemyManager.actionEnemy = enemyManager.actionEnemy -1
 			inState = "PositioningInnerState" 
 			changeToState(enemy,player,inState)

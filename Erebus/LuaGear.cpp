@@ -160,6 +160,8 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+
+		assert( asset );
 		
 		int result = g_transformHandler->bindStaticInstance( asset );
 		lua_pushinteger( lua, result );
@@ -237,6 +239,9 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+
+		assert( asset );
+
 		int result = g_transformHandler->bindForwardInstance( asset );
 		lua_pushinteger(lua, result );
 
@@ -603,6 +608,9 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+
+		assert( asset );
+
 		int result = g_transformHandler->bindBlendingInstance( asset );
 
 		lua_pushinteger(lua, result );

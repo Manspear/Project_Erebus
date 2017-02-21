@@ -333,6 +333,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
 		modelAsset = dynamicModels->at(i).getAsset();
+		if (modelAsset == nullptr)continue;
 		meshes = modelAsset->getHeader()->numMeshes;
 		//numInstance = 0;
 		//numInstance = dynamicModels->at(i).worldMatrices.size();

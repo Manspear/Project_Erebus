@@ -11,6 +11,7 @@ local spellHeight = 40;
 local TutorialCounter = 0;
 local TutorialCounter2 = 0;
 local showHealthbar = true;
+local crosshairIsVisible = false
 
 function LoadHUD()
 	imageTextures["healthBackground"] = Assets.LoadTexture("Textures/HealthBackground.dds");
@@ -22,7 +23,7 @@ function LoadHUD()
 	imageTextures["select"] = Assets.LoadTexture("Textures/select.dds")
 	imageTextures["crosshair"] = Assets.LoadTexture("Textures/crosshair.dds")
 
-	--screenImages["crosshair"] = UI.load(620, 340, 40, 40);
+	screenImages["crosshair"] = UI.load(620, 355, 40, 40);
 
 	screenImages["healthBackground"] = UI.load(371, 680, 538, 32);
 	screenImages["healthBar"] = UI.load(405, 686, 470, 2);
@@ -126,6 +127,10 @@ function DrawHUD()
 	UI.drawImage(screenImages[2], imageTextures["number2"]);
 	UI.drawImage(screenImages[3], imageTextures["number3"]);
 
+	if crosshairIsVisible then 
+		UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"])
+	end
+
 	if SHOW_TUTORIAL_IMAGE ~= -1 then
 		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE], tutorialTexture[SHOW_TUTORIAL_IMAGE])
 	end
@@ -137,10 +142,16 @@ function DrawHUD()
 	if player.ping > 0 then
 		UI.drawWorldImage(player.pingImage, player.pingTexture);
 	end
+	if player2.ping > 0 then
+		UI.drawWorldImage(player2.pingImage, player2.pingTexture);
+	end
 	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 	if showHealthbar then 
 		for i=1, #enemies do
 			UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
+		end
+		if boss then 
+			UI.drawWorldImage(boss.healthbar,  imageTextures["healthBar"])
 		end
 	end
 end
@@ -148,11 +159,11 @@ end
 function showTutorialImage(x,y,z,dt)
 	TutorialCounter = TutorialCounter + dt
 	
-	if TutorialCounter < 2.5  then
+	if TutorialCounter < 2  then
 		index = 1
-	elseif TutorialCounter < 5 then
+	elseif TutorialCounter < 4 then
 		index = 2
-	elseif TutorialCounter < 7.5 then
+	elseif TutorialCounter < 6 then
 		index = 3
 	else
 		TutorialCounter = 0
@@ -166,13 +177,13 @@ end
 function showTutorialImage2(x,y,z,dt)
 	TutorialCounter2 = TutorialCounter2 + dt
 	
-	if TutorialCounter2 < 2.5  then
+	if TutorialCounter2 < 2  then
 		index = 4
-	elseif TutorialCounter2 < 5 then
+	elseif TutorialCounter2 < 4 then
 		index = 5
-	elseif TutorialCounter2 < 7.5 then
+	elseif TutorialCounter2 < 6 then
 		index = 6
-	elseif TutorialCounter2 < 10 then
+	elseif TutorialCounter2 < 8 then
 		index = 7
 	else
 		TutorialCounter2 = 0
@@ -186,16 +197,22 @@ function showTutorialImage2(x,y,z,dt)
 end
 
 
-function HideTutorialImage()
+function hideTutorialImage()
 	SHOW_TUTORIAL_IMAGE = -1
 end
 
 
 
-function HideTutorialImage2()
+function hideTutorialImage2()
 	SHOW_TUTORIAL_IMAGE2 = -1
 end
 
+function ShowCrosshair()
+	crosshairIsVisible = true
+end
 
+function HideCrosshair()
+	crosshairIsVisible = false
+end
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }

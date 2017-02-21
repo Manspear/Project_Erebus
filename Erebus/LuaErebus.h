@@ -10,6 +10,7 @@ namespace LuaErebus
 	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running, TransformHandler* transformHandler );
 
 	int setControls( lua_State* lua );
+	int enableControls( lua_State* lua );
 	int cameraSensitivity(lua_State* lua);
 	int initNetworkHost(lua_State* lua);
 	int startNetworkHost(lua_State* lua);

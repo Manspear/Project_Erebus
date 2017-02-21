@@ -1,5 +1,6 @@
 WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/windknockback.dds")
 WINDKNOCKBACK_COOLDOWN = 2
+WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
 	spell.cooldown = 0.0		spell.maxcooldown = 4
@@ -8,7 +9,7 @@ function CreateWindknockback(entity)
 	spell.damage = 0
 	spell.alive = false
 	spell.chargedTime = 0
-	spell.maxChargeTime = 3
+	spell.maxChargeTime = 2
 	spell.isActiveSpell = false
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
@@ -40,24 +41,31 @@ function CreateWindknockback(entity)
 	
 	function spell:Cast()
 		if self.cooldown < 0.0 then
+			self:GeneralCast()
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
-			self.alive = true		self.stage1time = 0.5
-			local pos = Transform.GetPosition(self.caster)
-			local direction = Transform.GetLookAt(self.caster)
-			pos.x = pos.x + direction.x * 2
-			pos.y = pos.y + direction.y * 2
-			pos.z = pos.z + direction.z * 2
-			Transform.SetPosition(self.transformID, pos)
-			SphereCollider.SetActive(spell.sphereCollider, true)
-			Particle.SetDirection(self.particles.ID, direction.x, direction.y, direction.z);
-			self.particles:poof(pos)
+			self.chargedTime = WINDKNOCKBACK_POWER
 		end
 	end
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 then
-		
+			self:GeneralCast()
+			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
+			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
 		end
+	end
+
+	function spell:GeneralCast()
+		self.alive = true		self.stage1time = 0.5
+		local pos = Transform.GetPosition(self.caster)
+		local direction = Transform.GetLookAt(self.caster)
+		pos.x = pos.x + direction.x * 2
+		pos.y = pos.y + direction.y * 2
+		pos.z = pos.z + direction.z * 2
+		Transform.SetPosition(self.transformID, pos)
+		SphereCollider.SetActive(self.sphereCollider, true)
+		Particle.SetDirection(self.particles.ID, direction.x, direction.y, direction.z);
+		self.particles:poof(pos)
 	end
 
 	function spell:CheckCollisions()
@@ -68,11 +76,23 @@ function CreateWindknockback(entity)
 					if not self.enemiesHit[enemies[curEnemy].transformID] then
 						enemies[curEnemy]:Hurt(self.damage, self.owner)
 						for stuff = 1, #self.effects do
-							local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
+							print(self.chargedTime)
+							local effect = effectTable[self.effects[stuff]](self.owner, self.chargedTime)
 							enemies[curEnemy]:Apply(effect)
 						end
 					end
 					self.enemiesHit[enemies[curEnemy].transformID] = true
+				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)
+					for stuff = 1, #self.effects do
+						print(self.chargedTime)
+						local effect = effectTable[self.effects[stuff]](self.owner, self.chargedTime)
+						boss:Apply(effect)
+					end
+					self.enemiesHit[boss.transformID] = true
 				end
 			end
 		end
@@ -86,21 +106,11 @@ function CreateWindknockback(entity)
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
+		self.chargedTime = 0
 	end
 
-	function spell:GetEffect()
-		return self.effects[1]
-	end
-
-	function spell:Aim()
-		
-	end
-
-	function spell:Change()
-		self.isActiveSpell = not self.isActiveSpell
-	end
-
-	spell.Charge = BaseCharge	spell.ChargeCast = BaseChargeCast	
+	spell.Charge = BaseCharge		spell.GetEffect = BaseGetEffect
 	spell.Change = BaseChange
+	spell.Combine = BaseCombine
 	return spell
 end
