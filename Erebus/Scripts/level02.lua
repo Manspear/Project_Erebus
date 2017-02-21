@@ -72,6 +72,7 @@ Transform.SetPosition(level01.props.TilePlaceholder2ID.transformID, {x=0, y=0, z
 Transform.SetScaleNonUniform(level01.props.TilePlaceholder2ID.transformID, 1, 1, 1)
 Transform.SetRotation(level01.props.TilePlaceholder2ID.transformID, {x=0, y=0, z=0})
 level01.props.tile13ID = {}
+level01.props.TileSettings4ID = {}
 level01.props.m16ID = {}
 level01.props.m16ID.model = Assets.LoadModel('Models/tile1_m1.model')
 level01.props.m16ID.transformID = Gear.BindStaticInstance(level01.props.m16ID.model)
@@ -282,2465 +283,2457 @@ level01.props.PineTree_NoCollider5429ID.transformID = Gear.BindStaticInstance(le
 Transform.SetPosition(level01.props.PineTree_NoCollider5429ID.transformID, {x=172.375, y=28.9531, z=314.25})
 Transform.SetScaleNonUniform(level01.props.PineTree_NoCollider5429ID.transformID, 1.33038, 1.51695, 1.4158)
 Transform.SetRotation(level01.props.PineTree_NoCollider5429ID.transformID, {x=0, y=2.83677, z=0})
---[[
-level01.triggers.New443ID = {}
-level01.triggers.New443ID.collider = SphereCollider.Create(-1)
-level01.triggers.New443ID.collider:SetOffset(0,0,0)
-level01.triggers.New443ID.collider:SetRadius(1)
-level01.triggers.New443ID.collider:SetPos(20.0156,6.19141,157.875)
-level01.triggers.New443ID.collider.OnTriggering = function() print("Derp") end
-level01.triggers.New443ID.collider.triggered = false
-CollisionHandler.AddSphere(level01.triggers.New443ID.collider, 4)--]]
-level01.colliders.AutoGenParent480ID = {}
-level01.colliders.AutoGenParent480ID.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-level01.colliders.AutoGenParent480ID.collider:SetMaxPos(512.3,78.3839,383.3)
-level01.colliders.AutoGenParent480ID.collider:SetPos(0,0,0)
-level01.colliders.AutoGenParent480ID1 = {}
-level01.colliders.AutoGenParent480ID1.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID1.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID1.collider:SetMinPos(1.74275,-3.32028,33.7004)
-level01.colliders.AutoGenParent480ID1.collider:SetMaxPos(276.131,62.9209,237.268)
-level01.colliders.AutoGenParent480ID.collider:AddChild(level01.colliders.AutoGenParent480ID1.collider)
-level01.colliders.AutoGenParent480ID2 = {}
-level01.colliders.AutoGenParent480ID2.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID2.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID2.collider:SetMinPos(3.73167,1.54031,127.7)
-level01.colliders.AutoGenParent480ID2.collider:SetMaxPos(55.2591,16.3583,148.212)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID2.collider)
-level01.colliders.AutoGenParent480ID3 = {}
-level01.colliders.AutoGenParent480ID3.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID3.collider:SetOffset(6,6.83489,143)
-level01.colliders.AutoGenParent480ID3.collider:SetZAxis(0.447214,0,-0.894427)
-level01.colliders.AutoGenParent480ID3.collider:SetHalfLengths(0.3,5.29458,4.47214)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID3.collider)
-level01.colliders.AutoGenParent480ID4 = {}
-level01.colliders.AutoGenParent480ID4.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID4.collider:SetOffset(10.5,7.12947,140)
-level01.colliders.AutoGenParent480ID4.collider:SetZAxis(0.928477,0,0.371391)
-level01.colliders.AutoGenParent480ID4.collider:SetHalfLengths(0.3,5.14729,2.69258)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID4.collider)
-level01.colliders.AutoGenParent480ID5 = {}
-level01.colliders.AutoGenParent480ID5.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID5.collider:SetOffset(17,6.98218,141)
-level01.colliders.AutoGenParent480ID5.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID5.collider:SetHalfLengths(0.3,5,4)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID5.collider)
-level01.colliders.AutoGenParent480ID6 = {}
-level01.colliders.AutoGenParent480ID6.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID6.collider:SetOffset(45,8.60238,129.5)
-level01.colliders.AutoGenParent480ID6.collider:SetZAxis(-0.894427,0,-0.447214)
-level01.colliders.AutoGenParent480ID6.collider:SetHalfLengths(0.3,5.29458,3.3541)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID6.collider)
-level01.colliders.AutoGenParent480ID7 = {}
-level01.colliders.AutoGenParent480ID7.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID7.collider:SetOffset(51.5,8.60238,137)
-level01.colliders.AutoGenParent480ID7.collider:SetZAxis(0.503871,0,0.863779)
-level01.colliders.AutoGenParent480ID7.collider:SetHalfLengths(0.3,5.73645,6.94622)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID7.collider)
-level01.colliders.AutoGenParent480ID8 = {}
-level01.colliders.AutoGenParent480ID8.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID8.collider:SetOffset(4.5,6.83489,147.5)
-level01.colliders.AutoGenParent480ID8.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID8.collider:SetHalfLengths(0.3,5.14729,0.707107)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID8.collider)
-level01.colliders.AutoGenParent480ID9 = {}
-level01.colliders.AutoGenParent480ID9.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID9.collider:SetOffset(24,10.8555,139)
-level01.colliders.AutoGenParent480ID9.collider:SetZAxis(0.367737,0,0.92993)
-level01.colliders.AutoGenParent480ID9.collider:SetHalfLengths(2.32777,5.5028,2.15084)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID9.collider)
-level01.colliders.AutoGenParent480ID10 = {}
-level01.colliders.AutoGenParent480ID10.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID10.collider:SetOffset(36.5,8.3078,128)
-level01.colliders.AutoGenParent480ID10.collider:SetZAxis(-1,0,0)
-level01.colliders.AutoGenParent480ID10.collider:SetHalfLengths(0.3,5.44187,5.5)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID10.collider)
-level01.colliders.AutoGenParent480ID11 = {}
-level01.colliders.AutoGenParent480ID11.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID11.collider:SetOffset(28,7.86593,132)
-level01.colliders.AutoGenParent480ID11.collider:SetZAxis(-0.6,0,0.8)
-level01.colliders.AutoGenParent480ID11.collider:SetHalfLengths(0.3,5.14729,5)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID11.collider)
-level01.colliders.AutoGenParent480ID12 = {}
-level01.colliders.AutoGenParent480ID12.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID12.collider:SetOffset(23,7.71863,138.5)
-level01.colliders.AutoGenParent480ID12.collider:SetZAxis(-0.624695,0,0.780869)
-level01.colliders.AutoGenParent480ID12.collider:SetHalfLengths(0.3,5.73645,3.20156)
-level01.colliders.AutoGenParent480ID2.collider:AddChild(level01.colliders.AutoGenParent480ID12.collider)
-level01.colliders.AutoGenParent480ID13 = {}
-level01.colliders.AutoGenParent480ID13.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID13.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID13.collider:SetMinPos(1.74275,-1.99466,37.7542)
-level01.colliders.AutoGenParent480ID13.collider:SetMaxPos(199.172,62.9209,201.134)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID13.collider)
-level01.colliders.AutoGenParent480ID14 = {}
-level01.colliders.AutoGenParent480ID14.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID14.collider:SetOffset(49,8.01322,186.5)
-level01.colliders.AutoGenParent480ID14.collider:SetZAxis(-0.986394,0,0.164399)
-level01.colliders.AutoGenParent480ID14.collider:SetHalfLengths(0.3,5,3.04138)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID14.collider)
-level01.colliders.AutoGenParent480ID15 = {}
-level01.colliders.AutoGenParent480ID15.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID15.collider:SetOffset(44,8.01322,187)
-level01.colliders.AutoGenParent480ID15.collider:SetZAxis(-1,0,0)
-level01.colliders.AutoGenParent480ID15.collider:SetHalfLengths(0.3,5,2)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID15.collider)
-level01.colliders.AutoGenParent480ID16 = {}
-level01.colliders.AutoGenParent480ID16.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID16.collider:SetOffset(40,8.01322,185.5)
-level01.colliders.AutoGenParent480ID16.collider:SetZAxis(-0.8,0,-0.6)
-level01.colliders.AutoGenParent480ID16.collider:SetHalfLengths(0.3,5.29458,2.5)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID16.collider)
-level01.colliders.AutoGenParent480ID17 = {}
-level01.colliders.AutoGenParent480ID17.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID17.collider:SetOffset(35.5,8.16051,198)
-level01.colliders.AutoGenParent480ID17.collider:SetZAxis(0.447214,0,0.894427)
-level01.colliders.AutoGenParent480ID17.collider:SetHalfLengths(0.3,5.14729,3.3541)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID17.collider)
-level01.colliders.AutoGenParent480ID18 = {}
-level01.colliders.AutoGenParent480ID18.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID18.collider:SetOffset(3.5,4.03637,196.5)
-level01.colliders.AutoGenParent480ID18.collider:SetZAxis(0.514496,0,0.857493)
-level01.colliders.AutoGenParent480ID18.collider:SetHalfLengths(0.3,5.58916,2.91548)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID18.collider)
-level01.colliders.AutoGenParent480ID19 = {}
-level01.colliders.AutoGenParent480ID19.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID19.collider:SetOffset(27,5.36198,196.5)
-level01.colliders.AutoGenParent480ID19.collider:SetZAxis(0.894427,0,0.447214)
-level01.colliders.AutoGenParent480ID19.collider:SetHalfLengths(0.3,7.35665,1.11803)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID19.collider)
-level01.colliders.AutoGenParent480ID20 = {}
-level01.colliders.AutoGenParent480ID20.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID20.collider:SetOffset(176.5,56.584,78.5)
-level01.colliders.AutoGenParent480ID20.collider:SetZAxis(0.058722,0,-0.998274)
-level01.colliders.AutoGenParent480ID20.collider:SetHalfLengths(0.3,5.33421,8.51469)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID20.collider)
-level01.colliders.AutoGenParent480ID21 = {}
-level01.colliders.AutoGenParent480ID21.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID21.collider:SetOffset(179,56.2498,63.5)
-level01.colliders.AutoGenParent480ID21.collider:SetZAxis(0.294086,0,-0.955779)
-level01.colliders.AutoGenParent480ID21.collider:SetHalfLengths(0.3,6.67107,6.80074)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID21.collider)
-level01.colliders.AutoGenParent480ID22 = {}
-level01.colliders.AutoGenParent480ID22.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID22.collider:SetOffset(185,54.5788,51)
-level01.colliders.AutoGenParent480ID22.collider:SetZAxis(0.5547,0,-0.83205)
-level01.colliders.AutoGenParent480ID22.collider:SetHalfLengths(0.3,6.00264,7.2111)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID22.collider)
-level01.colliders.AutoGenParent480ID23 = {}
-level01.colliders.AutoGenParent480ID23.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID23.collider:SetOffset(194,53.5761,41.5)
-level01.colliders.AutoGenParent480ID23.collider:SetZAxis(0.819232,0,-0.573462)
-level01.colliders.AutoGenParent480ID23.collider:SetHalfLengths(0.3,5.66843,6.10328)
-level01.colliders.AutoGenParent480ID13.collider:AddChild(level01.colliders.AutoGenParent480ID23.collider)
-level01.colliders.AutoGenParent480ID24 = {}
-level01.colliders.AutoGenParent480ID24.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID24.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID24.collider:SetMinPos(4.75038,-3.32028,86.9701)
-level01.colliders.AutoGenParent480ID24.collider:SetMaxPos(177.299,62.0297,206.174)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID24.collider)
-level01.colliders.AutoGenParent480ID25 = {}
-level01.colliders.AutoGenParent480ID25.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID25.collider:SetOffset(37.5,8.16051,196.5)
-level01.colliders.AutoGenParent480ID25.collider:SetZAxis(-0.948683,0,0.316228)
-level01.colliders.AutoGenParent480ID25.collider:SetHalfLengths(0.3,5.14729,1.58114)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID25.collider)
-level01.colliders.AutoGenParent480ID26 = {}
-level01.colliders.AutoGenParent480ID26.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID26.collider:SetOffset(42.5,8.3078,200)
-level01.colliders.AutoGenParent480ID26.collider:SetZAxis(0.98387,0,-0.178885)
-level01.colliders.AutoGenParent480ID26.collider:SetHalfLengths(0.3,6.32561,5.59017)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID26.collider)
-level01.colliders.AutoGenParent480ID27 = {}
-level01.colliders.AutoGenParent480ID27.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID27.collider:SetOffset(50.5,9.63341,202.5)
-level01.colliders.AutoGenParent480ID27.collider:SetZAxis(0.581238,0,0.813733)
-level01.colliders.AutoGenParent480ID27.collider:SetHalfLengths(0.3,5.73645,4.30116)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID27.collider)
-level01.colliders.AutoGenParent480ID28 = {}
-level01.colliders.AutoGenParent480ID28.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID28.collider:SetOffset(6,3.44721,200.5)
-level01.colliders.AutoGenParent480ID28.collider:SetZAxis(0.5547,0,0.83205)
-level01.colliders.AutoGenParent480ID28.collider:SetHalfLengths(0.3,5,1.80278)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID28.collider)
-level01.colliders.AutoGenParent480ID29 = {}
-level01.colliders.AutoGenParent480ID29.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID29.collider:SetOffset(7.5,3.44721,203)
-level01.colliders.AutoGenParent480ID29.collider:SetZAxis(0.447214,0,0.894427)
-level01.colliders.AutoGenParent480ID29.collider:SetHalfLengths(0.3,5.14729,1.11803)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID29.collider)
-level01.colliders.AutoGenParent480ID30 = {}
-level01.colliders.AutoGenParent480ID30.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID30.collider:SetOffset(15,3.29992,202.5)
-level01.colliders.AutoGenParent480ID30.collider:SetZAxis(0.977802,0,-0.209529)
-level01.colliders.AutoGenParent480ID30.collider:SetHalfLengths(0.3,5.14729,7.15891)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID30.collider)
-level01.colliders.AutoGenParent480ID31 = {}
-level01.colliders.AutoGenParent480ID31.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID31.collider:SetOffset(24.5,3.15263,199.5)
-level01.colliders.AutoGenParent480ID31.collider:SetZAxis(0.857493,0,-0.514496)
-level01.colliders.AutoGenParent480ID31.collider:SetHalfLengths(0.3,6.47291,2.91548)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID31.collider)
-level01.colliders.AutoGenParent480ID32 = {}
-level01.colliders.AutoGenParent480ID32.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID32.collider:SetOffset(29,7.71863,197)
-level01.colliders.AutoGenParent480ID32.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID32.collider:SetHalfLengths(0.3,5.44187,1)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID32.collider)
-level01.colliders.AutoGenParent480ID33 = {}
-level01.colliders.AutoGenParent480ID33.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID33.collider:SetOffset(31.5,8.16051,200)
-level01.colliders.AutoGenParent480ID33.collider:SetZAxis(0.447214,0,0.894427)
-level01.colliders.AutoGenParent480ID33.collider:SetHalfLengths(0.3,5.73645,3.3541)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID33.collider)
-level01.colliders.AutoGenParent480ID34 = {}
-level01.colliders.AutoGenParent480ID34.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID34.collider:SetOffset(176.5,56.8068,92)
-level01.colliders.AutoGenParent480ID34.collider:SetZAxis(-0.0995037,0,-0.995037)
-level01.colliders.AutoGenParent480ID34.collider:SetHalfLengths(0.3,5.22281,5.02494)
-level01.colliders.AutoGenParent480ID24.collider:AddChild(level01.colliders.AutoGenParent480ID34.collider)
-level01.colliders.AutoGenParent480ID35 = {}
-level01.colliders.AutoGenParent480ID35.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID35.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID35.collider:SetMinPos(31.7559,3.3078,33.7395)
-level01.colliders.AutoGenParent480ID35.collider:SetMaxPos(209.166,61.8068,211.174)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID35.collider)
-level01.colliders.AutoGenParent480ID36 = {}
-level01.colliders.AutoGenParent480ID36.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID36.collider:SetOffset(95,23.1841,192.5)
-level01.colliders.AutoGenParent480ID36.collider:SetZAxis(0.923077,0,-0.384615)
-level01.colliders.AutoGenParent480ID36.collider:SetHalfLengths(0.3,8.82956,6.5)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID36.collider)
-level01.colliders.AutoGenParent480ID37 = {}
-level01.colliders.AutoGenParent480ID37.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID37.collider:SetOffset(32.5,8.89696,203.5)
-level01.colliders.AutoGenParent480ID37.collider:SetZAxis(-0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID37.collider:SetHalfLengths(0.3,5.44187,0.707107)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID37.collider)
-level01.colliders.AutoGenParent480ID38 = {}
-level01.colliders.AutoGenParent480ID38.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID38.collider:SetOffset(34.5,8.45509,207.5)
-level01.colliders.AutoGenParent480ID38.collider:SetZAxis(0.581238,0,0.813733)
-level01.colliders.AutoGenParent480ID38.collider:SetHalfLengths(0.3,5.14729,4.30116)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID38.collider)
-level01.colliders.AutoGenParent480ID39 = {}
-level01.colliders.AutoGenParent480ID39.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID39.collider:SetOffset(139.5,48.7857,153)
-level01.colliders.AutoGenParent480ID39.collider:SetZAxis(0.351123,0,-0.936329)
-level01.colliders.AutoGenParent480ID39.collider:SetHalfLengths(0.3,6.44826,4.272)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID39.collider)
-level01.colliders.AutoGenParent480ID40 = {}
-level01.colliders.AutoGenParent480ID40.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID40.collider:SetOffset(144.5,50.234,147.5)
-level01.colliders.AutoGenParent480ID40.collider:SetZAxis(0.919145,0,-0.393919)
-level01.colliders.AutoGenParent480ID40.collider:SetHalfLengths(0.3,5.22281,3.80789)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID40.collider)
-level01.colliders.AutoGenParent480ID41 = {}
-level01.colliders.AutoGenParent480ID41.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID41.collider:SetOffset(181.5,55.2472,112)
-level01.colliders.AutoGenParent480ID41.collider:SetZAxis(-0.287348,0,-0.957826)
-level01.colliders.AutoGenParent480ID41.collider:SetHalfLengths(0.3,6.55966,15.6605)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID41.collider)
-level01.colliders.AutoGenParent480ID42 = {}
-level01.colliders.AutoGenParent480ID42.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID42.collider:SetOffset(202.5,52.9077,36)
-level01.colliders.AutoGenParent480ID42.collider:SetZAxis(0.868243,0,-0.496139)
-level01.colliders.AutoGenParent480ID42.collider:SetHalfLengths(0.3,5.89124,4.03113)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID42.collider)
-level01.colliders.AutoGenParent480ID43 = {}
-level01.colliders.AutoGenParent480ID43.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID43.collider:SetOffset(204.5,52.2393,52)
-level01.colliders.AutoGenParent480ID43.collider:SetZAxis(-0.83205,0,0.5547)
-level01.colliders.AutoGenParent480ID43.collider:SetHalfLengths(0.3,6.44826,5.40833)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID43.collider)
-level01.colliders.AutoGenParent480ID44 = {}
-level01.colliders.AutoGenParent480ID44.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID44.collider:SetOffset(197,53.6875,59.5)
-level01.colliders.AutoGenParent480ID44.collider:SetZAxis(-0.5547,0,0.83205)
-level01.colliders.AutoGenParent480ID44.collider:SetHalfLengths(0.3,5.89124,5.40833)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID44.collider)
-level01.colliders.AutoGenParent480ID45 = {}
-level01.colliders.AutoGenParent480ID45.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID45.collider:SetOffset(193.5,54.5788,70.5)
-level01.colliders.AutoGenParent480ID45.collider:SetZAxis(-0.0766965,0,0.997055)
-level01.colliders.AutoGenParent480ID45.collider:SetHalfLengths(0.3,6.00264,6.5192)
-level01.colliders.AutoGenParent480ID35.collider:AddChild(level01.colliders.AutoGenParent480ID45.collider)
-level01.colliders.AutoGenParent480ID46 = {}
-level01.colliders.AutoGenParent480ID46.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID46.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID46.collider:SetMinPos(36.8512,2.71863,33.7004)
-level01.colliders.AutoGenParent480ID46.collider:SetMaxPos(225.016,61.584,215.26)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID46.collider)
-level01.colliders.AutoGenParent480ID47 = {}
-level01.colliders.AutoGenParent480ID47.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID47.collider:SetOffset(55,10.3699,207.5)
-level01.colliders.AutoGenParent480ID47.collider:SetZAxis(0.8,0,0.6)
-level01.colliders.AutoGenParent480ID47.collider:SetHalfLengths(0.3,6.03103,2.5)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID47.collider)
-level01.colliders.AutoGenParent480ID48 = {}
-level01.colliders.AutoGenParent480ID48.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID48.collider:SetOffset(62,11.4009,208)
-level01.colliders.AutoGenParent480ID48.collider:SetZAxis(0.980581,0,-0.196116)
-level01.colliders.AutoGenParent480ID48.collider:SetHalfLengths(0.3,8.68226,5.09902)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID48.collider)
-level01.colliders.AutoGenParent480ID49 = {}
-level01.colliders.AutoGenParent480ID49.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID49.collider:SetOffset(71.5,15.0832,205.5)
-level01.colliders.AutoGenParent480ID49.collider:SetZAxis(0.948683,0,-0.316228)
-level01.colliders.AutoGenParent480ID49.collider:SetHalfLengths(0.3,8.24039,4.74342)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID49.collider)
-level01.colliders.AutoGenParent480ID50 = {}
-level01.colliders.AutoGenParent480ID50.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID50.collider:SetOffset(79,18.3236,202.5)
-level01.colliders.AutoGenParent480ID50.collider:SetZAxis(0.894427,0,-0.447214)
-level01.colliders.AutoGenParent480ID50.collider:SetHalfLengths(0.3,6.76749,3.3541)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID50.collider)
-level01.colliders.AutoGenParent480ID51 = {}
-level01.colliders.AutoGenParent480ID51.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID51.collider:SetOffset(85.5,20.091,198)
-level01.colliders.AutoGenParent480ID51.collider:SetZAxis(0.759257,0,-0.650791)
-level01.colliders.AutoGenParent480ID51.collider:SetHalfLengths(0.3,8.0931,4.60977)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID51.collider)
-level01.colliders.AutoGenParent480ID52 = {}
-level01.colliders.AutoGenParent480ID52.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID52.collider:SetOffset(40.5,8.60238,213)
-level01.colliders.AutoGenParent480ID52.collider:SetZAxis(0.868243,0,0.496139)
-level01.colliders.AutoGenParent480ID52.collider:SetHalfLengths(0.3,5.73645,4.03113)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID52.collider)
-level01.colliders.AutoGenParent480ID53 = {}
-level01.colliders.AutoGenParent480ID53.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID53.collider:SetOffset(139,44.2181,162.5)
-level01.colliders.AutoGenParent480ID53.collider:SetZAxis(-0.178885,0,-0.98387)
-level01.colliders.AutoGenParent480ID53.collider:SetHalfLengths(0.3,9.56758,5.59017)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID53.collider)
-level01.colliders.AutoGenParent480ID54 = {}
-level01.colliders.AutoGenParent480ID54.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID54.collider:SetOffset(152,50.4568,146.5)
-level01.colliders.AutoGenParent480ID54.collider:SetZAxis(0.992278,0,0.124035)
-level01.colliders.AutoGenParent480ID54.collider:SetHalfLengths(0.3,5.22281,4.03113)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID54.collider)
-level01.colliders.AutoGenParent480ID55 = {}
-level01.colliders.AutoGenParent480ID55.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID55.collider:SetOffset(215.5,52.0165,34.5)
-level01.colliders.AutoGenParent480ID55.collider:SetZAxis(0.998618,0,0.0525588)
-level01.colliders.AutoGenParent480ID55.collider:SetHalfLengths(0.3,9.01056,9.51315)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID55.collider)
-level01.colliders.AutoGenParent480ID56 = {}
-level01.colliders.AutoGenParent480ID56.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID56.collider:SetOffset(194,55.5814,84)
-level01.colliders.AutoGenParent480ID56.collider:SetZAxis(0.141421,0,0.98995)
-level01.colliders.AutoGenParent480ID56.collider:SetHalfLengths(0.3,6.00264,7.07107)
-level01.colliders.AutoGenParent480ID46.collider:AddChild(level01.colliders.AutoGenParent480ID56.collider)
-level01.colliders.AutoGenParent480ID57 = {}
-level01.colliders.AutoGenParent480ID57.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID57.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID57.collider:SetMinPos(43.9576,-1.70009,47.7023)
-level01.colliders.AutoGenParent480ID57.collider:SetMaxPos(217.037,62.1411,217.3)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID57.collider)
-level01.colliders.AutoGenParent480ID58 = {}
-level01.colliders.AutoGenParent480ID58.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID58.collider:SetOffset(105,27.0137,192.5)
-level01.colliders.AutoGenParent480ID58.collider:SetZAxis(0.847998,0,0.529999)
-level01.colliders.AutoGenParent480ID58.collider:SetHalfLengths(0.3,8.68227,4.71699)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID58.collider)
-level01.colliders.AutoGenParent480ID59 = {}
-level01.colliders.AutoGenParent480ID59.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID59.collider:SetOffset(101,28.6339,199)
-level01.colliders.AutoGenParent480ID59.collider:SetZAxis(-1,0,0)
-level01.colliders.AutoGenParent480ID59.collider:SetHalfLengths(0.3,6.32562,1)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID59.collider)
-level01.colliders.AutoGenParent480ID60 = {}
-level01.colliders.AutoGenParent480ID60.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID60.collider:SetOffset(95,27.3083,202.5)
-level01.colliders.AutoGenParent480ID60.collider:SetZAxis(-0.819232,0,0.573462)
-level01.colliders.AutoGenParent480ID60.collider:SetHalfLengths(0.3,9.7133,6.10328)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID60.collider)
-level01.colliders.AutoGenParent480ID61 = {}
-level01.colliders.AutoGenParent480ID61.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID61.collider:SetOffset(51,9.33883,216)
-level01.colliders.AutoGenParent480ID61.collider:SetZAxis(0.98995,0,0.141421)
-level01.colliders.AutoGenParent480ID61.collider:SetHalfLengths(0.3,5.58916,7.07107)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID61.collider)
-level01.colliders.AutoGenParent480ID62 = {}
-level01.colliders.AutoGenParent480ID62.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID62.collider:SetOffset(63,8.74967,217)
-level01.colliders.AutoGenParent480ID62.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID62.collider:SetHalfLengths(0.3,10.4498,5)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID62.collider)
-level01.colliders.AutoGenParent480ID63 = {}
-level01.colliders.AutoGenParent480ID63.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID63.collider:SetOffset(141,40.5418,173)
-level01.colliders.AutoGenParent480ID63.collider:SetZAxis(-0.196116,0,-0.980581)
-level01.colliders.AutoGenParent480ID63.collider:SetHalfLengths(0.3,8.67635,5.09902)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID63.collider)
-level01.colliders.AutoGenParent480ID64 = {}
-level01.colliders.AutoGenParent480ID64.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID64.collider:SetOffset(161.5,50.234,149)
-level01.colliders.AutoGenParent480ID64.collider:SetZAxis(0.939793,0,0.341743)
-level01.colliders.AutoGenParent480ID64.collider:SetHalfLengths(0.3,6.89388,5.85235)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID64.collider)
-level01.colliders.AutoGenParent480ID65 = {}
-level01.colliders.AutoGenParent480ID65.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID65.collider:SetOffset(213,50.4568,48.5)
-level01.colliders.AutoGenParent480ID65.collider:SetZAxis(-0.992278,0,0.124035)
-level01.colliders.AutoGenParent480ID65.collider:SetHalfLengths(0.3,6.78247,4.03113)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID65.collider)
-level01.colliders.AutoGenParent480ID66 = {}
-level01.colliders.AutoGenParent480ID66.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID66.collider:SetOffset(197.5,56.584,98.5)
-level01.colliders.AutoGenParent480ID66.collider:SetZAxis(0.316228,0,0.948683)
-level01.colliders.AutoGenParent480ID66.collider:SetHalfLengths(0.3,5.55702,7.90569)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID66.collider)
-level01.colliders.AutoGenParent480ID67 = {}
-level01.colliders.AutoGenParent480ID67.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID67.collider:SetOffset(153.5,50.5682,161.5)
-level01.colliders.AutoGenParent480ID67.collider:SetZAxis(-0.393919,0,0.919145)
-level01.colliders.AutoGenParent480ID67.collider:SetHalfLengths(0.3,6.67107,3.80789)
-level01.colliders.AutoGenParent480ID57.collider:AddChild(level01.colliders.AutoGenParent480ID67.collider)
-level01.colliders.AutoGenParent480ID68 = {}
-level01.colliders.AutoGenParent480ID68.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID68.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID68.collider:SetMinPos(67.8529,7.72652,47.7018)
-level01.colliders.AutoGenParent480ID68.collider:SetMaxPos(226.033,62.6981,226.261)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID68.collider)
-level01.colliders.AutoGenParent480ID69 = {}
-level01.colliders.AutoGenParent480ID69.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID69.collider:SetOffset(111,30.696,195.5)
-level01.colliders.AutoGenParent480ID69.collider:SetZAxis(0.970143,0,0.242536)
-level01.colliders.AutoGenParent480ID69.collider:SetHalfLengths(0.3,6.17832,2.06155)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID69.collider)
-level01.colliders.AutoGenParent480ID70 = {}
-level01.colliders.AutoGenParent480ID70.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID70.collider:SetOffset(115.5,31.8743,198)
-level01.colliders.AutoGenParent480ID70.collider:SetZAxis(0.780869,0,0.624695)
-level01.colliders.AutoGenParent480ID70.collider:SetHalfLengths(0.3,7.79852,3.20156)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID70.collider)
-level01.colliders.AutoGenParent480ID71 = {}
-level01.colliders.AutoGenParent480ID71.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID71.collider:SetOffset(90,21.5639,213.5)
-level01.colliders.AutoGenParent480ID71.collider:SetZAxis(0.406139,0,0.913812)
-level01.colliders.AutoGenParent480ID71.collider:SetHalfLengths(0.3,5.88374,4.92443)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID71.collider)
-level01.colliders.AutoGenParent480ID72 = {}
-level01.colliders.AutoGenParent480ID72.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID72.collider:SetOffset(107,34.6728,203)
-level01.colliders.AutoGenParent480ID72.collider:SetZAxis(-0.780869,0,-0.624695)
-level01.colliders.AutoGenParent480ID72.collider:SetHalfLengths(0.3,11.0389,6.40312)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID72.collider)
-level01.colliders.AutoGenParent480ID73 = {}
-level01.colliders.AutoGenParent480ID73.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID73.collider:SetOffset(89,22.595,207.5)
-level01.colliders.AutoGenParent480ID73.collider:SetZAxis(-0.5547,0,0.83205)
-level01.colliders.AutoGenParent480ID73.collider:SetHalfLengths(0.3,6.03103,1.80278)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID73.collider)
-level01.colliders.AutoGenParent480ID74 = {}
-level01.colliders.AutoGenParent480ID74.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID74.collider:SetOffset(76,14.1994,221.5)
-level01.colliders.AutoGenParent480ID74.collider:SetZAxis(0.871576,0,0.490261)
-level01.colliders.AutoGenParent480ID74.collider:SetHalfLengths(0.3,6.4729,9.17878)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID74.collider)
-level01.colliders.AutoGenParent480ID75 = {}
-level01.colliders.AutoGenParent480ID75.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID75.collider:SetOffset(170,52.1279,152)
-level01.colliders.AutoGenParent480ID75.collider:SetZAxis(0.948683,0,0.316228)
-level01.colliders.AutoGenParent480ID75.collider:SetHalfLengths(0.3,5.66843,3.16228)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID75.collider)
-level01.colliders.AutoGenParent480ID76 = {}
-level01.colliders.AutoGenParent480ID76.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID76.collider:SetOffset(221.5,48.4515,48.5)
-level01.colliders.AutoGenParent480ID76.collider:SetZAxis(-0.993884,0,-0.110432)
-level01.colliders.AutoGenParent480ID76.collider:SetHalfLengths(0.3,7.00528,4.52769)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID76.collider)
-level01.colliders.AutoGenParent480ID77 = {}
-level01.colliders.AutoGenParent480ID77.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID77.collider:SetOffset(160.5,54.1331,160.5)
-level01.colliders.AutoGenParent480ID77.collider:SetZAxis(-0.910366,0,-0.413803)
-level01.colliders.AutoGenParent480ID77.collider:SetHalfLengths(0.3,8.56494,6.04152)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID77.collider)
-level01.colliders.AutoGenParent480ID78 = {}
-level01.colliders.AutoGenParent480ID78.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID78.collider:SetOffset(155.5,48.8971,169)
-level01.colliders.AutoGenParent480ID78.collider:SetZAxis(0.658505,0,0.752577)
-level01.colliders.AutoGenParent480ID78.collider:SetHalfLengths(0.3,5.44561,5.31507)
-level01.colliders.AutoGenParent480ID68.collider:AddChild(level01.colliders.AutoGenParent480ID78.collider)
-level01.colliders.AutoGenParent480ID79 = {}
-level01.colliders.AutoGenParent480ID79.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID79.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID79.collider:SetMinPos(91.9272,13.029,34.7033)
-level01.colliders.AutoGenParent480ID79.collider:SetMaxPos(245.044,61.9183,221.291)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID79.collider)
-level01.colliders.AutoGenParent480ID80 = {}
-level01.colliders.AutoGenParent480ID80.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID80.collider:SetOffset(121,34.6728,206)
-level01.colliders.AutoGenParent480ID80.collider:SetZAxis(0.447214,0,0.894427)
-level01.colliders.AutoGenParent480ID80.collider:SetHalfLengths(0.3,6.76749,6.7082)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID80.collider)
-level01.colliders.AutoGenParent480ID81 = {}
-level01.colliders.AutoGenParent480ID81.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID81.collider:SetOffset(98,22.4477,219.5)
-level01.colliders.AutoGenParent480ID81.collider:SetZAxis(0.970142,0,0.242536)
-level01.colliders.AutoGenParent480ID81.collider:SetHalfLengths(0.3,9.41872,6.18466)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID81.collider)
-level01.colliders.AutoGenParent480ID82 = {}
-level01.colliders.AutoGenParent480ID82.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID82.collider:SetOffset(143,38.8707,185)
-level01.colliders.AutoGenParent480ID82.collider:SetZAxis(-0.141421,0,-0.98995)
-level01.colliders.AutoGenParent480ID82.collider:SetHalfLengths(0.3,6.67107,7.07107)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID82.collider)
-level01.colliders.AutoGenParent480ID83 = {}
-level01.colliders.AutoGenParent480ID83.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID83.collider:SetOffset(176.5,52.7963,152.5)
-level01.colliders.AutoGenParent480ID83.collider:SetZAxis(0.98995,0,-0.141421)
-level01.colliders.AutoGenParent480ID83.collider:SetHalfLengths(0.3,6.33685,3.53553)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID83.collider)
-level01.colliders.AutoGenParent480ID84 = {}
-level01.colliders.AutoGenParent480ID84.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID84.collider:SetOffset(187.5,55.2472,138)
-level01.colliders.AutoGenParent480ID84.collider:SetZAxis(0.164399,0,-0.986394)
-level01.colliders.AutoGenParent480ID84.collider:SetHalfLengths(0.3,5,3.04138)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID84.collider)
-level01.colliders.AutoGenParent480ID85 = {}
-level01.colliders.AutoGenParent480ID85.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID85.collider:SetOffset(187.5,55.2472,133)
-level01.colliders.AutoGenParent480ID85.collider:SetZAxis(-0.242536,0,-0.970143)
-level01.colliders.AutoGenParent480ID85.collider:SetHalfLengths(0.3,5.1114,2.06155)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID85.collider)
-level01.colliders.AutoGenParent480ID86 = {}
-level01.colliders.AutoGenParent480ID86.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID86.collider:SetOffset(186.5,55.3586,129)
-level01.colliders.AutoGenParent480ID86.collider:SetZAxis(-0.242536,0,-0.970143)
-level01.colliders.AutoGenParent480ID86.collider:SetHalfLengths(0.3,5.1114,2.06155)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID86.collider)
-level01.colliders.AutoGenParent480ID87 = {}
-level01.colliders.AutoGenParent480ID87.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID87.collider:SetOffset(235,48.0059,36.5)
-level01.colliders.AutoGenParent480ID87.collider:SetZAxis(0.988936,0,0.14834)
-level01.colliders.AutoGenParent480ID87.collider:SetHalfLengths(0.3,7.78511,10.1119)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID87.collider)
-level01.colliders.AutoGenParent480ID88 = {}
-level01.colliders.AutoGenParent480ID88.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID88.collider:SetOffset(233.5,44.998,51.5)
-level01.colliders.AutoGenParent480ID88.collider:SetZAxis(-0.948683,0,-0.316228)
-level01.colliders.AutoGenParent480ID88.collider:SetHalfLengths(0.3,8.45354,7.90569)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID88.collider)
-level01.colliders.AutoGenParent480ID89 = {}
-level01.colliders.AutoGenParent480ID89.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID89.collider:SetOffset(202.5,56.027,116.5)
-level01.colliders.AutoGenParent480ID89.collider:SetZAxis(0.231621,0,0.972806)
-level01.colliders.AutoGenParent480ID89.collider:SetHalfLengths(0.3,5.89124,10.7935)
-level01.colliders.AutoGenParent480ID79.collider:AddChild(level01.colliders.AutoGenParent480ID89.collider)
-level01.colliders.AutoGenParent480ID90 = {}
-level01.colliders.AutoGenParent480ID90.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID90.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID90.collider:SetMinPos(103.788,20.3935,37.73)
-level01.colliders.AutoGenParent480ID90.collider:SetMaxPos(276.131,61.4726,224.274)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID90.collider)
-level01.colliders.AutoGenParent480ID91 = {}
-level01.colliders.AutoGenParent480ID91.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID91.collider:SetOffset(126,32.9053,211.5)
-level01.colliders.AutoGenParent480ID91.collider:SetZAxis(0.970143,0,-0.242536)
-level01.colliders.AutoGenParent480ID91.collider:SetHalfLengths(0.3,5.88375,2.06155)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID91.collider)
-level01.colliders.AutoGenParent480ID92 = {}
-level01.colliders.AutoGenParent480ID92.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID92.collider:SetOffset(105.5,26.8664,222.5)
-level01.colliders.AutoGenParent480ID92.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID92.collider:SetHalfLengths(0.3,6.47291,2.12132)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID92.collider)
-level01.colliders.AutoGenParent480ID93 = {}
-level01.colliders.AutoGenParent480ID93.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID93.collider:SetOffset(111.5,28.3393,222)
-level01.colliders.AutoGenParent480ID93.collider:SetZAxis(0.913812,0,-0.406139)
-level01.colliders.AutoGenParent480ID93.collider:SetHalfLengths(0.3,7.65123,4.92443)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID93.collider)
-level01.colliders.AutoGenParent480ID94 = {}
-level01.colliders.AutoGenParent480ID94.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID94.collider:SetOffset(116,30.9905,217)
-level01.colliders.AutoGenParent480ID94.collider:SetZAxis(0,0,-1)
-level01.colliders.AutoGenParent480ID94.collider:SetHalfLengths(0.3,10.1552,3)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID94.collider)
-level01.colliders.AutoGenParent480ID95 = {}
-level01.colliders.AutoGenParent480ID95.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID95.collider:SetOffset(260.5,45.2208,45.5)
-level01.colliders.AutoGenParent480ID95.collider:SetZAxis(0.900159,0,0.435561)
-level01.colliders.AutoGenParent480ID95.collider:SetHalfLengths(0.3,9.23337,17.2192)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID95.collider)
-level01.colliders.AutoGenParent480ID96 = {}
-level01.colliders.AutoGenParent480ID96.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID96.collider:SetOffset(248,40.9874,57)
-level01.colliders.AutoGenParent480ID96.collider:SetZAxis(-0.919145,0,-0.393919)
-level01.colliders.AutoGenParent480ID96.collider:SetHalfLengths(0.3,9.01056,7.61577)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID96.collider)
-level01.colliders.AutoGenParent480ID97 = {}
-level01.colliders.AutoGenParent480ID97.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID97.collider:SetOffset(205.5,55.1358,132.5)
-level01.colliders.AutoGenParent480ID97.collider:SetZAxis(0.0905358,0,0.995893)
-level01.colliders.AutoGenParent480ID97.collider:SetHalfLengths(0.3,5.33421,5.52268)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID97.collider)
-level01.colliders.AutoGenParent480ID98 = {}
-level01.colliders.AutoGenParent480ID98.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID98.collider:SetOffset(180,56.027,169)
-level01.colliders.AutoGenParent480ID98.collider:SetZAxis(-0.980581,0,-0.196116)
-level01.colliders.AutoGenParent480ID98.collider:SetHalfLengths(0.3,5.44562,5.09902)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID98.collider)
-level01.colliders.AutoGenParent480ID99 = {}
-level01.colliders.AutoGenParent480ID99.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID99.collider:SetOffset(163,43.6611,194.5)
-level01.colliders.AutoGenParent480ID99.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID99.collider:SetHalfLengths(0.3,8.34213,9.5)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID99.collider)
-level01.colliders.AutoGenParent480ID100 = {}
-level01.colliders.AutoGenParent480ID100.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID100.collider:SetOffset(221.5,41.3216,126)
-level01.colliders.AutoGenParent480ID100.collider:SetZAxis(0.83205,0,-0.5547)
-level01.colliders.AutoGenParent480ID100.collider:SetHalfLengths(0.3,5.89124,5.40833)
-level01.colliders.AutoGenParent480ID90.collider:AddChild(level01.colliders.AutoGenParent480ID100.collider)
-level01.colliders.AutoGenParent480ID101 = {}
-level01.colliders.AutoGenParent480ID101.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID101.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID101.collider:SetMinPos(110.866,21.5718,59.7622)
-level01.colliders.AutoGenParent480ID101.collider:SetMaxPos(268.183,49.3295,237.268)
-level01.colliders.AutoGenParent480ID1.collider:AddChild(level01.colliders.AutoGenParent480ID101.collider)
-level01.colliders.AutoGenParent480ID102 = {}
-level01.colliders.AutoGenParent480ID102.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID102.collider:SetOffset(115,28.4866,235)
-level01.colliders.AutoGenParent480ID102.collider:SetZAxis(0.894427,0,-0.447214)
-level01.colliders.AutoGenParent480ID102.collider:SetHalfLengths(0.3,6.91478,4.47214)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID102.collider)
-level01.colliders.AutoGenParent480ID103 = {}
-level01.colliders.AutoGenParent480ID103.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID103.collider:SetOffset(122,30.4014,233.5)
-level01.colliders.AutoGenParent480ID103.collider:SetZAxis(0.986394,0,0.164399)
-level01.colliders.AutoGenParent480ID103.collider:SetHalfLengths(0.3,6.76749,3.04138)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID103.collider)
-level01.colliders.AutoGenParent480ID104 = {}
-level01.colliders.AutoGenParent480ID104.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID104.collider:SetOffset(132,33.8575,223.5)
-level01.colliders.AutoGenParent480ID104.collider:SetZAxis(0.992278,0,-0.124035)
-level01.colliders.AutoGenParent480ID104.collider:SetHalfLengths(0.3,6.67107,4.03113)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID104.collider)
-level01.colliders.AutoGenParent480ID105 = {}
-level01.colliders.AutoGenParent480ID105.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID105.collider:SetOffset(138.5,35.5286,222)
-level01.colliders.AutoGenParent480ID105.collider:SetZAxis(0.928477,0,-0.371391)
-level01.colliders.AutoGenParent480ID105.collider:SetHalfLengths(0.3,5.33422,2.69258)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID105.collider)
-level01.colliders.AutoGenParent480ID106 = {}
-level01.colliders.AutoGenParent480ID106.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID106.collider:SetOffset(143,35.1944,220.5)
-level01.colliders.AutoGenParent480ID106.collider:SetZAxis(0.970143,0,-0.242536)
-level01.colliders.AutoGenParent480ID106.collider:SetHalfLengths(0.3,5,2.06155)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID106.collider)
-level01.colliders.AutoGenParent480ID107 = {}
-level01.colliders.AutoGenParent480ID107.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID107.collider:SetOffset(261.5,38.7593,65)
-level01.colliders.AutoGenParent480ID107.collider:SetZAxis(-0.792624,0,-0.609711)
-level01.colliders.AutoGenParent480ID107.collider:SetHalfLengths(0.3,7.22809,8.20061)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID107.collider)
-level01.colliders.AutoGenParent480ID108 = {}
-level01.colliders.AutoGenParent480ID108.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID108.collider:SetOffset(184,42.8813,193)
-level01.colliders.AutoGenParent480ID108.collider:SetZAxis(0.919145,0,-0.393919)
-level01.colliders.AutoGenParent480ID108.collider:SetHalfLengths(0.3,5.22281,7.61577)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID108.collider)
-level01.colliders.AutoGenParent480ID109 = {}
-level01.colliders.AutoGenParent480ID109.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID109.collider:SetOffset(201,40.319,176.5)
-level01.colliders.AutoGenParent480ID109.collider:SetZAxis(0.841179,0,-0.540758)
-level01.colliders.AutoGenParent480ID109.collider:SetHalfLengths(0.3,6.00264,8.32166)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID109.collider)
-level01.colliders.AutoGenParent480ID110 = {}
-level01.colliders.AutoGenParent480ID110.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID110.collider:SetOffset(221,36.6426,148)
-level01.colliders.AutoGenParent480ID110.collider:SetZAxis(-0.196116,0,-0.980581)
-level01.colliders.AutoGenParent480ID110.collider:SetHalfLengths(0.3,7.33949,5.09902)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID110.collider)
-level01.colliders.AutoGenParent480ID111 = {}
-level01.colliders.AutoGenParent480ID111.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID111.collider:SetOffset(231,42.2129,122)
-level01.colliders.AutoGenParent480ID111.collider:SetZAxis(0.980581,0,-0.196116)
-level01.colliders.AutoGenParent480ID111.collider:SetHalfLengths(0.3,7.11668,5.09902)
-level01.colliders.AutoGenParent480ID101.collider:AddChild(level01.colliders.AutoGenParent480ID111.collider)
-level01.colliders.AutoGenParent480ID112 = {}
-level01.colliders.AutoGenParent480ID112.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID112.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID112.collider:SetMinPos(1.70104,-2.14196,52.7879)
-level01.colliders.AutoGenParent480ID112.collider:SetMaxPos(309.235,62.0297,252.296)
-level01.colliders.AutoGenParent480ID.collider:AddChild(level01.colliders.AutoGenParent480ID112.collider)
-level01.colliders.AutoGenParent480ID113 = {}
-level01.colliders.AutoGenParent480ID113.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID113.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID113.collider:SetMinPos(3.70232,1.24573,142.941)
-level01.colliders.AutoGenParent480ID113.collider:SetMaxPos(56.2942,18.8731,171.18)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID113.collider)
-level01.colliders.AutoGenParent480ID114 = {}
-level01.colliders.AutoGenParent480ID114.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID114.collider:SetOffset(55.5,9.33883,145.5)
-level01.colliders.AutoGenParent480ID114.collider:SetZAxis(0.196116,0,0.980581)
-level01.colliders.AutoGenParent480ID114.collider:SetHalfLengths(0.3,5,2.54951)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID114.collider)
-level01.colliders.AutoGenParent480ID115 = {}
-level01.colliders.AutoGenParent480ID115.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID115.collider:SetOffset(52.5,9.33883,152)
-level01.colliders.AutoGenParent480ID115.collider:SetZAxis(-0.658505,0,0.752577)
-level01.colliders.AutoGenParent480ID115.collider:SetHalfLengths(0.3,5.14729,5.31507)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID115.collider)
-level01.colliders.AutoGenParent480ID116 = {}
-level01.colliders.AutoGenParent480ID116.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID116.collider:SetOffset(44,9.48612,157)
-level01.colliders.AutoGenParent480ID116.collider:SetZAxis(-0.980581,0,0.196116)
-level01.colliders.AutoGenParent480ID116.collider:SetHalfLengths(0.3,5.14729,5.09902)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID116.collider)
-level01.colliders.AutoGenParent480ID117 = {}
-level01.colliders.AutoGenParent480ID117.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID117.collider:SetOffset(35,7.12947,155)
-level01.colliders.AutoGenParent480ID117.collider:SetZAxis(0.316228,0,0.948683)
-level01.colliders.AutoGenParent480ID117.collider:SetHalfLengths(0.3,5.14729,3.16228)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID117.collider)
-level01.colliders.AutoGenParent480ID118 = {}
-level01.colliders.AutoGenParent480ID118.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID118.collider:SetOffset(37,7.27676,160)
-level01.colliders.AutoGenParent480ID118.collider:SetZAxis(0.447214,0,0.894427)
-level01.colliders.AutoGenParent480ID118.collider:SetHalfLengths(0.3,5.29458,2.23607)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID118.collider)
-level01.colliders.AutoGenParent480ID119 = {}
-level01.colliders.AutoGenParent480ID119.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID119.collider:SetOffset(39.5,6.98218,163)
-level01.colliders.AutoGenParent480ID119.collider:SetZAxis(0.83205,0,0.5547)
-level01.colliders.AutoGenParent480ID119.collider:SetHalfLengths(0.3,5.14729,1.80278)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID119.collider)
-level01.colliders.AutoGenParent480ID120 = {}
-level01.colliders.AutoGenParent480ID120.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID120.collider:SetOffset(5,6.98218,151.5)
-level01.colliders.AutoGenParent480ID120.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID120.collider:SetHalfLengths(0.3,5.44187,3.5)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID120.collider)
-level01.colliders.AutoGenParent480ID121 = {}
-level01.colliders.AutoGenParent480ID121.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID121.collider:SetOffset(4.5,7.42405,159)
-level01.colliders.AutoGenParent480ID121.collider:SetZAxis(-0.124035,0,0.992278)
-level01.colliders.AutoGenParent480ID121.collider:SetHalfLengths(0.3,5.88374,4.03113)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID121.collider)
-level01.colliders.AutoGenParent480ID122 = {}
-level01.colliders.AutoGenParent480ID122.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID122.collider:SetOffset(7,6.54031,167)
-level01.colliders.AutoGenParent480ID122.collider:SetZAxis(0.6,0,0.8)
-level01.colliders.AutoGenParent480ID122.collider:SetHalfLengths(0.3,5.29458,5)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID122.collider)
-level01.colliders.AutoGenParent480ID123 = {}
-level01.colliders.AutoGenParent480ID123.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID123.collider:SetOffset(39.8641,12.8281,155.087)
-level01.colliders.AutoGenParent480ID123.collider:SetZAxis(0.985344,-0.00610736,-0.170469)
-level01.colliders.AutoGenParent480ID123.collider:SetHalfLengths(2.11687,6.02749,2.51378)
-level01.colliders.AutoGenParent480ID113.collider:AddChild(level01.colliders.AutoGenParent480ID123.collider)
-level01.colliders.AutoGenParent480ID124 = {}
-level01.colliders.AutoGenParent480ID124.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID124.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID124.collider:SetMinPos(2.80476,0.361984,163.721)
-level01.colliders.AutoGenParent480ID124.collider:SetMaxPos(57.1664,13.0132,182.228)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID124.collider)
-level01.colliders.AutoGenParent480ID125 = {}
-level01.colliders.AutoGenParent480ID125.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID125.collider:SetOffset(43.5,7.12947,165)
-level01.colliders.AutoGenParent480ID125.collider:SetZAxis(0.928477,0,0.371391)
-level01.colliders.AutoGenParent480ID125.collider:SetHalfLengths(0.3,5.44187,2.69258)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID125.collider)
-level01.colliders.AutoGenParent480ID126 = {}
-level01.colliders.AutoGenParent480ID126.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID126.collider:SetOffset(48.5,7.57134,166)
-level01.colliders.AutoGenParent480ID126.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID126.collider:SetHalfLengths(0.3,5.44187,2.5)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID126.collider)
-level01.colliders.AutoGenParent480ID127 = {}
-level01.colliders.AutoGenParent480ID127.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID127.collider:SetOffset(54,8.01322,168)
-level01.colliders.AutoGenParent480ID127.collider:SetZAxis(0.83205,0,0.5547)
-level01.colliders.AutoGenParent480ID127.collider:SetHalfLengths(0.3,5,3.60555)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID127.collider)
-level01.colliders.AutoGenParent480ID128 = {}
-level01.colliders.AutoGenParent480ID128.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID128.collider:SetOffset(35,7.12947,176.5)
-level01.colliders.AutoGenParent480ID128.collider:SetZAxis(-0.274721,0,-0.961524)
-level01.colliders.AutoGenParent480ID128.collider:SetHalfLengths(0.3,5.58916,3.64005)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID128.collider)
-level01.colliders.AutoGenParent480ID129 = {}
-level01.colliders.AutoGenParent480ID129.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID129.collider:SetOffset(32.5,6.54031,170.5)
-level01.colliders.AutoGenParent480ID129.collider:SetZAxis(-0.514496,0,-0.857493)
-level01.colliders.AutoGenParent480ID129.collider:SetHalfLengths(0.3,5,2.91548)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID129.collider)
-level01.colliders.AutoGenParent480ID130 = {}
-level01.colliders.AutoGenParent480ID130.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID130.collider:SetOffset(29.5,6.54031,168)
-level01.colliders.AutoGenParent480ID130.collider:SetZAxis(-1,0,0)
-level01.colliders.AutoGenParent480ID130.collider:SetHalfLengths(0.3,5.44187,1.5)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID130.collider)
-level01.colliders.AutoGenParent480ID131 = {}
-level01.colliders.AutoGenParent480ID131.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID131.collider:SetOffset(25,6.09844,170.5)
-level01.colliders.AutoGenParent480ID131.collider:SetZAxis(-0.768221,0,0.640184)
-level01.colliders.AutoGenParent480ID131.collider:SetHalfLengths(0.3,5.29458,3.90512)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID131.collider)
-level01.colliders.AutoGenParent480ID132 = {}
-level01.colliders.AutoGenParent480ID132.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID132.collider:SetOffset(22,5.80386,174.5)
-level01.colliders.AutoGenParent480ID132.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID132.collider:SetHalfLengths(0.3,5,1.5)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID132.collider)
-level01.colliders.AutoGenParent480ID133 = {}
-level01.colliders.AutoGenParent480ID133.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID133.collider:SetOffset(10,6.24573,173.5)
-level01.colliders.AutoGenParent480ID133.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID133.collider:SetHalfLengths(0.3,5.58916,2.5)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID133.collider)
-level01.colliders.AutoGenParent480ID134 = {}
-level01.colliders.AutoGenParent480ID134.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID134.collider:SetOffset(6.5,5.65657,179)
-level01.colliders.AutoGenParent480ID134.collider:SetZAxis(-0.759257,0,0.650791)
-level01.colliders.AutoGenParent480ID134.collider:SetHalfLengths(0.3,5.29458,4.60977)
-level01.colliders.AutoGenParent480ID124.collider:AddChild(level01.colliders.AutoGenParent480ID134.collider)
-level01.colliders.AutoGenParent480ID135 = {}
-level01.colliders.AutoGenParent480ID135.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID135.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID135.collider:SetMinPos(1.70104,-2.14196,169.866)
-level01.colliders.AutoGenParent480ID135.collider:SetMaxPos(58.2977,21.9153,196.22)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID135.collider)
-level01.colliders.AutoGenParent480ID136 = {}
-level01.colliders.AutoGenParent480ID136.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID136.collider:SetOffset(57.5,8.01322,171)
-level01.colliders.AutoGenParent480ID136.collider:SetZAxis(0.447214,0,0.894427)
-level01.colliders.AutoGenParent480ID136.collider:SetHalfLengths(0.3,5,1.11803)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID136.collider)
-level01.colliders.AutoGenParent480ID137 = {}
-level01.colliders.AutoGenParent480ID137.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID137.collider:SetOffset(57.5,8.01322,176)
-level01.colliders.AutoGenParent480ID137.collider:SetZAxis(-0.124035,0,0.992278)
-level01.colliders.AutoGenParent480ID137.collider:SetHalfLengths(0.3,5,4.03113)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID137.collider)
-level01.colliders.AutoGenParent480ID138 = {}
-level01.colliders.AutoGenParent480ID138.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID138.collider:SetOffset(54.5,8.01322,183)
-level01.colliders.AutoGenParent480ID138.collider:SetZAxis(-0.640184,0,0.768221)
-level01.colliders.AutoGenParent480ID138.collider:SetHalfLengths(0.3,5,3.90512)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID138.collider)
-level01.colliders.AutoGenParent480ID139 = {}
-level01.colliders.AutoGenParent480ID139.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID139.collider:SetOffset(37,7.71863,182)
-level01.colliders.AutoGenParent480ID139.collider:SetZAxis(-0.447214,0,-0.894427)
-level01.colliders.AutoGenParent480ID139.collider:SetHalfLengths(0.3,5.58916,2.23607)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID139.collider)
-level01.colliders.AutoGenParent480ID140 = {}
-level01.colliders.AutoGenParent480ID140.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID140.collider:SetOffset(23.5,5.80386,179.5)
-level01.colliders.AutoGenParent480ID140.collider:SetZAxis(0.393919,0,0.919145)
-level01.colliders.AutoGenParent480ID140.collider:SetHalfLengths(0.3,5.29458,3.80789)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID140.collider)
-level01.colliders.AutoGenParent480ID141 = {}
-level01.colliders.AutoGenParent480ID141.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID141.collider:SetOffset(32,5.50927,189.5)
-level01.colliders.AutoGenParent480ID141.collider:SetZAxis(0.732794,0,0.680451)
-level01.colliders.AutoGenParent480ID141.collider:SetHalfLengths(0.3,7.65123,9.55249)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID141.collider)
-level01.colliders.AutoGenParent480ID142 = {}
-level01.colliders.AutoGenParent480ID142.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID142.collider:SetOffset(2.5,5.36198,188)
-level01.colliders.AutoGenParent480ID142.collider:SetZAxis(-0.0830455,0,0.996546)
-level01.colliders.AutoGenParent480ID142.collider:SetHalfLengths(0.3,6.32562,6.0208)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID142.collider)
-level01.colliders.AutoGenParent480ID143 = {}
-level01.colliders.AutoGenParent480ID143.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID143.collider:SetOffset(23,4.33095,190.5)
-level01.colliders.AutoGenParent480ID143.collider:SetZAxis(0.478852,0,0.877896)
-level01.colliders.AutoGenParent480ID143.collider:SetHalfLengths(0.3,6.03103,6.26498)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID143.collider)
-level01.colliders.AutoGenParent480ID144 = {}
-level01.colliders.AutoGenParent480ID144.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID144.collider:SetOffset(6.18867,8.53125,180.735)
-level01.colliders.AutoGenParent480ID144.collider:SetZAxis(-0.891114,0,-0.453779)
-level01.colliders.AutoGenParent480ID144.collider:SetHalfLengths(2.5078,5.88453,1.95815)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID144.collider)
-level01.colliders.AutoGenParent480ID145 = {}
-level01.colliders.AutoGenParent480ID145.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID145.collider:SetOffset(37.7154,11.4688,182.582)
-level01.colliders.AutoGenParent480ID145.collider:SetZAxis(-0.988898,0,0.148599)
-level01.colliders.AutoGenParent480ID145.collider:SetHalfLengths(3.65554,10.4465,3.23962)
-level01.colliders.AutoGenParent480ID135.collider:AddChild(level01.colliders.AutoGenParent480ID145.collider)
-level01.colliders.AutoGenParent480ID146 = {}
-level01.colliders.AutoGenParent480ID146.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID146.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID146.collider:SetMinPos(83.8378,3.74966,140.889)
-level01.colliders.AutoGenParent480ID146.collider:SetMaxPos(187.279,62.0297,235.252)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID146.collider)
-level01.colliders.AutoGenParent480ID147 = {}
-level01.colliders.AutoGenParent480ID147.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID147.collider:SetOffset(114,36.1457,210.5)
-level01.colliders.AutoGenParent480ID147.collider:SetZAxis(-0.496139,0,-0.868243)
-level01.colliders.AutoGenParent480ID147.collider:SetHalfLengths(0.3,6.4729,4.03113)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID147.collider)
-level01.colliders.AutoGenParent480ID148 = {}
-level01.colliders.AutoGenParent480ID148.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID148.collider:SetOffset(91,15.6723,230.5)
-level01.colliders.AutoGenParent480ID148.collider:SetZAxis(0.841179,0,0.540758)
-level01.colliders.AutoGenParent480ID148.collider:SetHalfLengths(0.3,11.9227,8.32166)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID148.collider)
-level01.colliders.AutoGenParent480ID149 = {}
-level01.colliders.AutoGenParent480ID149.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID149.collider:SetOffset(132.5,34.0803,208.5)
-level01.colliders.AutoGenParent480ID149.collider:SetZAxis(0.874157,0,-0.485643)
-level01.colliders.AutoGenParent480ID149.collider:SetHalfLengths(0.3,5.66843,5.14782)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID149.collider)
-level01.colliders.AutoGenParent480ID150 = {}
-level01.colliders.AutoGenParent480ID150.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID150.collider:SetOffset(139.5,34.7488,202.5)
-level01.colliders.AutoGenParent480ID150.collider:SetZAxis(0.581238,0,-0.813733)
-level01.colliders.AutoGenParent480ID150.collider:SetHalfLengths(0.3,7.22809,4.30116)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID150.collider)
-level01.colliders.AutoGenParent480ID151 = {}
-level01.colliders.AutoGenParent480ID151.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID151.collider:SetOffset(143,36.9769,195.5)
-level01.colliders.AutoGenParent480ID151.collider:SetZAxis(0.274721,0,-0.961524)
-level01.colliders.AutoGenParent480ID151.collider:SetHalfLengths(0.3,6.89388,3.64005)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID151.collider)
-level01.colliders.AutoGenParent480ID152 = {}
-level01.colliders.AutoGenParent480ID152.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID152.collider:SetOffset(182,54.1331,150.5)
-level01.colliders.AutoGenParent480ID152.collider:SetZAxis(0.8,0,-0.6)
-level01.colliders.AutoGenParent480ID152.collider:SetHalfLengths(0.3,5.66843,2.5)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID152.collider)
-level01.colliders.AutoGenParent480ID153 = {}
-level01.colliders.AutoGenParent480ID153.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID153.collider:SetOffset(184.5,54.8016,147.5)
-level01.colliders.AutoGenParent480ID153.collider:SetZAxis(0.316228,0,-0.948683)
-level01.colliders.AutoGenParent480ID153.collider:SetHalfLengths(0.3,5.77983,1.58114)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID153.collider)
-level01.colliders.AutoGenParent480ID154 = {}
-level01.colliders.AutoGenParent480ID154.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID154.collider:SetOffset(186,55.5814,143.5)
-level01.colliders.AutoGenParent480ID154.collider:SetZAxis(0.371391,0,-0.928477)
-level01.colliders.AutoGenParent480ID154.collider:SetHalfLengths(0.3,5.33421,2.69258)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID154.collider)
-level01.colliders.AutoGenParent480ID155 = {}
-level01.colliders.AutoGenParent480ID155.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID155.collider:SetOffset(170.5,55.5814,165.5)
-level01.colliders.AutoGenParent480ID155.collider:SetZAxis(-0.874157,0,-0.485643)
-level01.colliders.AutoGenParent480ID155.collider:SetHalfLengths(0.3,6.44826,5.14782)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID155.collider)
-level01.colliders.AutoGenParent480ID156 = {}
-level01.colliders.AutoGenParent480ID156.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID156.collider:SetOffset(161,48.4515,179)
-level01.colliders.AutoGenParent480ID156.collider:SetZAxis(0.316228,0,0.948683)
-level01.colliders.AutoGenParent480ID156.collider:SetHalfLengths(0.3,9.7904,6.32456)
-level01.colliders.AutoGenParent480ID146.collider:AddChild(level01.colliders.AutoGenParent480ID156.collider)
-level01.colliders.AutoGenParent480ID157 = {}
-level01.colliders.AutoGenParent480ID157.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID157.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID157.collider:SetMinPos(97.9544,11.7034,128.937)
-level01.colliders.AutoGenParent480ID157.collider:SetMaxPos(220.293,61.027,237.297)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID157.collider)
-level01.colliders.AutoGenParent480ID158 = {}
-level01.colliders.AutoGenParent480ID158.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID158.collider:SetOffset(104.5,22.595,236)
-level01.colliders.AutoGenParent480ID158.collider:SetZAxis(0.988372,0,0.152057)
-level01.colliders.AutoGenParent480ID158.collider:SetHalfLengths(0.3,10.8916,6.57647)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID158.collider)
-level01.colliders.AutoGenParent480ID159 = {}
-level01.colliders.AutoGenParent480ID159.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID159.collider:SetOffset(125.5,32.1689,229)
-level01.colliders.AutoGenParent480ID159.collider:SetZAxis(0.0995037,0,-0.995037)
-level01.colliders.AutoGenParent480ID159.collider:SetHalfLengths(0.3,5.58916,5.02494)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID159.collider)
-level01.colliders.AutoGenParent480ID160 = {}
-level01.colliders.AutoGenParent480ID160.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID160.collider:SetOffset(127,32.758,224)
-level01.colliders.AutoGenParent480ID160.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID160.collider:SetHalfLengths(0.3,5.14729,1)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID160.collider)
-level01.colliders.AutoGenParent480ID161 = {}
-level01.colliders.AutoGenParent480ID161.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID161.collider:SetOffset(206.5,55.47,143.5)
-level01.colliders.AutoGenParent480ID161.collider:SetZAxis(0.0905358,0,0.995893)
-level01.colliders.AutoGenParent480ID161.collider:SetHalfLengths(0.3,5.22281,5.52268)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID161.collider)
-level01.colliders.AutoGenParent480ID162 = {}
-level01.colliders.AutoGenParent480ID162.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID162.collider:SetOffset(205,55.2472,154)
-level01.colliders.AutoGenParent480ID162.collider:SetZAxis(-0.371391,0,0.928477)
-level01.colliders.AutoGenParent480ID162.collider:SetHalfLengths(0.3,5.22281,5.38516)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID162.collider)
-level01.colliders.AutoGenParent480ID163 = {}
-level01.colliders.AutoGenParent480ID163.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID163.collider:SetOffset(198.5,55.0244,163.5)
-level01.colliders.AutoGenParent480ID163.collider:SetZAxis(-0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID163.collider:SetHalfLengths(0.3,5.77983,6.36396)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID163.collider)
-level01.colliders.AutoGenParent480ID164 = {}
-level01.colliders.AutoGenParent480ID164.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID164.collider:SetOffset(189.5,55.8042,169)
-level01.colliders.AutoGenParent480ID164.collider:SetZAxis(-0.976187,0,0.21693)
-level01.colliders.AutoGenParent480ID164.collider:SetHalfLengths(0.3,5.22281,4.60977)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID164.collider)
-level01.colliders.AutoGenParent480ID165 = {}
-level01.colliders.AutoGenParent480ID165.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID165.collider:SetOffset(170,40.319,200)
-level01.colliders.AutoGenParent480ID165.collider:SetZAxis(0.868243,0,-0.496139)
-level01.colliders.AutoGenParent480ID165.collider:SetHalfLengths(0.3,7.5623,8.06226)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID165.collider)
-level01.colliders.AutoGenParent480ID166 = {}
-level01.colliders.AutoGenParent480ID166.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID166.collider:SetOffset(218.5,38.9821,136)
-level01.colliders.AutoGenParent480ID166.collider:SetZAxis(-0.209529,0,-0.977802)
-level01.colliders.AutoGenParent480ID166.collider:SetHalfLengths(0.3,7.33949,7.15891)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID166.collider)
-level01.colliders.AutoGenParent480ID167 = {}
-level01.colliders.AutoGenParent480ID167.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID167.collider:SetOffset(163.885,45.0938,193.24)
-level01.colliders.AutoGenParent480ID167.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID167.collider:SetHalfLengths(3.18928,5.74361,3.11039)
-level01.colliders.AutoGenParent480ID157.collider:AddChild(level01.colliders.AutoGenParent480ID167.collider)
-level01.colliders.AutoGenParent480ID168 = {}
-level01.colliders.AutoGenParent480ID168.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID168.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID168.collider:SetMinPos(144.788,29.3031,120.741)
-level01.colliders.AutoGenParent480ID168.collider:SetMaxPos(248.151,49.998,233.03)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID168.collider)
-level01.colliders.AutoGenParent480ID169 = {}
-level01.colliders.AutoGenParent480ID169.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID169.collider:SetOffset(146.5,35.1944,221.5)
-level01.colliders.AutoGenParent480ID169.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID169.collider:SetHalfLengths(0.3,5.89124,2.12132)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID169.collider)
-level01.colliders.AutoGenParent480ID170 = {}
-level01.colliders.AutoGenParent480ID170.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID170.collider:SetOffset(148.5,36.0856,228)
-level01.colliders.AutoGenParent480ID170.collider:SetZAxis(0.0995037,0,0.995037)
-level01.colliders.AutoGenParent480ID170.collider:SetHalfLengths(0.3,6.00264,5.02494)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID170.collider)
-level01.colliders.AutoGenParent480ID171 = {}
-level01.colliders.AutoGenParent480ID171.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID171.collider:SetOffset(192.5,42.6585,185.5)
-level01.colliders.AutoGenParent480ID171.collider:SetZAxis(0.316228,0,-0.948683)
-level01.colliders.AutoGenParent480ID171.collider:SetHalfLengths(0.3,7.33949,4.74342)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID171.collider)
-level01.colliders.AutoGenParent480ID172 = {}
-level01.colliders.AutoGenParent480ID172.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID172.collider:SetOffset(213,39.3163,166.5)
-level01.colliders.AutoGenParent480ID172.collider:SetZAxis(0.672673,0,-0.73994)
-level01.colliders.AutoGenParent480ID172.collider:SetHalfLengths(0.3,7.89651,7.43303)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID172.collider)
-level01.colliders.AutoGenParent480ID173 = {}
-level01.colliders.AutoGenParent480ID173.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID173.collider:SetOffset(219,36.4198,158)
-level01.colliders.AutoGenParent480ID173.collider:SetZAxis(0.316228,0,-0.948683)
-level01.colliders.AutoGenParent480ID173.collider:SetHalfLengths(0.3,5.1114,3.16228)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID173.collider)
-level01.colliders.AutoGenParent480ID174 = {}
-level01.colliders.AutoGenParent480ID174.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID174.collider:SetOffset(222,36.5312,153.5)
-level01.colliders.AutoGenParent480ID174.collider:SetZAxis(0.8,0,-0.6)
-level01.colliders.AutoGenParent480ID174.collider:SetHalfLengths(0.3,5.1114,2.5)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID174.collider)
-level01.colliders.AutoGenParent480ID175 = {}
-level01.colliders.AutoGenParent480ID175.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID175.collider:SetOffset(228.5,36.6426,150.5)
-level01.colliders.AutoGenParent480ID175.collider:SetZAxis(0.948683,0,-0.316228)
-level01.colliders.AutoGenParent480ID175.collider:SetHalfLengths(0.3,5.1114,4.74342)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID175.collider)
-level01.colliders.AutoGenParent480ID176 = {}
-level01.colliders.AutoGenParent480ID176.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID176.collider:SetOffset(238,37.3111,135)
-level01.colliders.AutoGenParent480ID176.collider:SetZAxis(-0.707107,0,-0.707107)
-level01.colliders.AutoGenParent480ID176.collider:SetHalfLengths(0.3,6.00264,2.82843)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID176.collider)
-level01.colliders.AutoGenParent480ID177 = {}
-level01.colliders.AutoGenParent480ID177.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID177.collider:SetOffset(242,40.0962,124.5)
-level01.colliders.AutoGenParent480ID177.collider:SetZAxis(0.863779,0,0.503871)
-level01.colliders.AutoGenParent480ID177.collider:SetHalfLengths(0.3,7.11668,6.94622)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID177.collider)
-level01.colliders.AutoGenParent480ID178 = {}
-level01.colliders.AutoGenParent480ID178.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID178.collider:SetOffset(235,42.375,133.125)
-level01.colliders.AutoGenParent480ID178.collider:SetZAxis(-0.485958,0,-0.873982)
-level01.colliders.AutoGenParent480ID178.collider:SetHalfLengths(1.82423,5.38972,2.04467)
-level01.colliders.AutoGenParent480ID168.collider:AddChild(level01.colliders.AutoGenParent480ID178.collider)
-level01.colliders.AutoGenParent480ID179 = {}
-level01.colliders.AutoGenParent480ID179.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID179.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID179.collider:SetMinPos(148.703,30.64,69.8112)
-level01.colliders.AutoGenParent480ID179.collider:SetMaxPos(285.233,51.2525,240.042)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID179.collider)
-level01.colliders.AutoGenParent480ID180 = {}
-level01.colliders.AutoGenParent480ID180.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID180.collider:SetOffset(149.5,37.0883,236.5)
-level01.colliders.AutoGenParent480ID180.collider:SetZAxis(0.141421,0,0.98995)
-level01.colliders.AutoGenParent480ID180.collider:SetHalfLengths(0.3,5.1114,3.53553)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID180.collider)
-level01.colliders.AutoGenParent480ID181 = {}
-level01.colliders.AutoGenParent480ID181.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID181.collider:SetOffset(177,41.433,212)
-level01.colliders.AutoGenParent480ID181.collider:SetZAxis(0.447214,0,-0.894427)
-level01.colliders.AutoGenParent480ID181.collider:SetHalfLengths(0.3,5.22281,2.23607)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID181.collider)
-level01.colliders.AutoGenParent480ID182 = {}
-level01.colliders.AutoGenParent480ID182.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID182.collider:SetOffset(180.5,41.6558,208.5)
-level01.colliders.AutoGenParent480ID182.collider:SetZAxis(0.857493,0,-0.514496)
-level01.colliders.AutoGenParent480ID182.collider:SetHalfLengths(0.3,5.22281,2.91548)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID182.collider)
-level01.colliders.AutoGenParent480ID183 = {}
-level01.colliders.AutoGenParent480ID183.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID183.collider:SetOffset(185.5,41.8786,206.5)
-level01.colliders.AutoGenParent480ID183.collider:SetZAxis(0.980581,0,-0.196116)
-level01.colliders.AutoGenParent480ID183.collider:SetHalfLengths(0.3,5.55702,2.54951)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID183.collider)
-level01.colliders.AutoGenParent480ID184 = {}
-level01.colliders.AutoGenParent480ID184.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID184.collider:SetOffset(220.5,36.0856,175)
-level01.colliders.AutoGenParent480ID184.collider:SetZAxis(0.573462,0,-0.819232)
-level01.colliders.AutoGenParent480ID184.collider:SetHalfLengths(0.3,5.44562,6.10328)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID184.collider)
-level01.colliders.AutoGenParent480ID185 = {}
-level01.colliders.AutoGenParent480ID185.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID185.collider:SetOffset(276.5,39.5392,80.5)
-level01.colliders.AutoGenParent480ID185.collider:SetZAxis(-0.629198,0,-0.777245)
-level01.colliders.AutoGenParent480ID185.collider:SetHalfLengths(0.3,5.77983,13.5093)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID185.collider)
-level01.colliders.AutoGenParent480ID186 = {}
-level01.colliders.AutoGenParent480ID186.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID186.collider:SetOffset(236.5,36.5312,145)
-level01.colliders.AutoGenParent480ID186.collider:SetZAxis(0.658505,0,-0.752577)
-level01.colliders.AutoGenParent480ID186.collider:SetHalfLengths(0.3,5.22281,5.31507)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID186.collider)
-level01.colliders.AutoGenParent480ID187 = {}
-level01.colliders.AutoGenParent480ID187.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID187.collider:SetOffset(240,36.754,139)
-level01.colliders.AutoGenParent480ID187.collider:SetZAxis(0,0,-1)
-level01.colliders.AutoGenParent480ID187.collider:SetHalfLengths(0.3,5.55702,2)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID187.collider)
-level01.colliders.AutoGenParent480ID188 = {}
-level01.colliders.AutoGenParent480ID188.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID188.collider:SetOffset(253,37.9795,123)
-level01.colliders.AutoGenParent480ID188.collider:SetZAxis(0.707107,0,-0.707107)
-level01.colliders.AutoGenParent480ID188.collider:SetHalfLengths(0.3,5.55702,7.07107)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID188.collider)
-level01.colliders.AutoGenParent480ID189 = {}
-level01.colliders.AutoGenParent480ID189.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID189.collider:SetOffset(176.796,45.2188,214.625)
-level01.colliders.AutoGenParent480ID189.collider:SetZAxis(-0.497678,-0.0166511,0.867202)
-level01.colliders.AutoGenParent480ID189.collider:SetHalfLengths(2.66392,5.98314,3.08762)
-level01.colliders.AutoGenParent480ID179.collider:AddChild(level01.colliders.AutoGenParent480ID189.collider)
-level01.colliders.AutoGenParent480ID190 = {}
-level01.colliders.AutoGenParent480ID190.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID190.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID190.collider:SetMinPos(175.706,30.1944,52.7879)
-level01.colliders.AutoGenParent480ID190.collider:SetMaxPos(290.212,47.5471,219.059)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID190.collider)
-level01.colliders.AutoGenParent480ID191 = {}
-level01.colliders.AutoGenParent480ID191.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID191.collider:SetOffset(283,40.9874,60)
-level01.colliders.AutoGenParent480ID191.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID191.collider:SetHalfLengths(0.3,5.33421,9.8995)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID191.collider)
-level01.colliders.AutoGenParent480ID192 = {}
-level01.colliders.AutoGenParent480ID192.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID192.collider:SetOffset(176.5,41.9901,216.5)
-level01.colliders.AutoGenParent480ID192.collider:SetZAxis(-0.196116,0,-0.980581)
-level01.colliders.AutoGenParent480ID192.collider:SetHalfLengths(0.3,5.55702,2.54951)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID192.collider)
-level01.colliders.AutoGenParent480ID193 = {}
-level01.colliders.AutoGenParent480ID193.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID193.collider:SetOffset(190.5,41.3216,205.5)
-level01.colliders.AutoGenParent480ID193.collider:SetZAxis(0.980581,0,-0.196116)
-level01.colliders.AutoGenParent480ID193.collider:SetHalfLengths(0.3,5.66843,2.54951)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID193.collider)
-level01.colliders.AutoGenParent480ID194 = {}
-level01.colliders.AutoGenParent480ID194.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID194.collider:SetOffset(198,40.6532,203)
-level01.colliders.AutoGenParent480ID194.collider:SetZAxis(0.928477,0,-0.371391)
-level01.colliders.AutoGenParent480ID194.collider:SetHalfLengths(0.3,6.00264,5.38516)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID194.collider)
-level01.colliders.AutoGenParent480ID195 = {}
-level01.colliders.AutoGenParent480ID195.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID195.collider:SetOffset(207.5,38.9821,191)
-level01.colliders.AutoGenParent480ID195.collider:SetZAxis(0.287348,0,-0.957826)
-level01.colliders.AutoGenParent480ID195.collider:SetHalfLengths(0.3,6.22545,5.22015)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID195.collider)
-level01.colliders.AutoGenParent480ID196 = {}
-level01.colliders.AutoGenParent480ID196.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID196.collider:SetOffset(211,37.7567,184.5)
-level01.colliders.AutoGenParent480ID196.collider:SetZAxis(0.8,0,-0.6)
-level01.colliders.AutoGenParent480ID196.collider:SetHalfLengths(0.3,5.77983,2.5)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID196.collider)
-level01.colliders.AutoGenParent480ID197 = {}
-level01.colliders.AutoGenParent480ID197.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID197.collider:SetOffset(215,36.9769,181.5)
-level01.colliders.AutoGenParent480ID197.collider:SetZAxis(0.8,0,-0.6)
-level01.colliders.AutoGenParent480ID197.collider:SetHalfLengths(0.3,5.89124,2.5)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID197.collider)
-level01.colliders.AutoGenParent480ID198 = {}
-level01.colliders.AutoGenParent480ID198.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID198.collider:SetOffset(227.5,35.64,167.5)
-level01.colliders.AutoGenParent480ID198.collider:SetZAxis(0.813733,0,-0.581238)
-level01.colliders.AutoGenParent480ID198.collider:SetHalfLengths(0.3,5,4.30116)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID198.collider)
-level01.colliders.AutoGenParent480ID199 = {}
-level01.colliders.AutoGenParent480ID199.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID199.collider:SetOffset(237.5,35.64,159.5)
-level01.colliders.AutoGenParent480ID199.collider:SetZAxis(0.763386,0,-0.645942)
-level01.colliders.AutoGenParent480ID199.collider:SetHalfLengths(0.3,5.44562,8.51469)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID199.collider)
-level01.colliders.AutoGenParent480ID200 = {}
-level01.colliders.AutoGenParent480ID200.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID200.collider:SetOffset(263.5,37.4225,113.5)
-level01.colliders.AutoGenParent480ID200.collider:SetZAxis(0.773957,0,-0.633238)
-level01.colliders.AutoGenParent480ID200.collider:SetHalfLengths(0.3,5.44562,7.10634)
-level01.colliders.AutoGenParent480ID190.collider:AddChild(level01.colliders.AutoGenParent480ID200.collider)
-level01.colliders.AutoGenParent480ID201 = {}
-level01.colliders.AutoGenParent480ID201.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID201.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID201.collider:SetMinPos(149.7,26.2952,105.702)
-level01.colliders.AutoGenParent480ID201.collider:SetMaxPos(298.031,56.0138,250.277)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID201.collider)
-level01.colliders.AutoGenParent480ID202 = {}
-level01.colliders.AutoGenParent480ID202.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID202.collider:SetOffset(150,37.1997,241.5)
-level01.colliders.AutoGenParent480ID202.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID202.collider:SetHalfLengths(0.3,5,1.5)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID202.collider)
-level01.colliders.AutoGenParent480ID203 = {}
-level01.colliders.AutoGenParent480ID203.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID203.collider:SetOffset(158.5,37.1997,246.5)
-level01.colliders.AutoGenParent480ID203.collider:SetZAxis(0.924678,0,0.38075)
-level01.colliders.AutoGenParent480ID203.collider:SetHalfLengths(0.3,10.9044,9.19239)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID203.collider)
-level01.colliders.AutoGenParent480ID204 = {}
-level01.colliders.AutoGenParent480ID204.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID204.collider:SetOffset(191.5,48.3401,228)
-level01.colliders.AutoGenParent480ID204.collider:SetZAxis(-1,0,0)
-level01.colliders.AutoGenParent480ID204.collider:SetHalfLengths(0.3,6.44826,3.5)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID204.collider)
-level01.colliders.AutoGenParent480ID205 = {}
-level01.colliders.AutoGenParent480ID205.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID205.collider:SetOffset(183.5,46.8918,226)
-level01.colliders.AutoGenParent480ID205.collider:SetZAxis(-0.913812,0,-0.406139)
-level01.colliders.AutoGenParent480ID205.collider:SetHalfLengths(0.3,9.12197,4.92443)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID205.collider)
-level01.colliders.AutoGenParent480ID206 = {}
-level01.colliders.AutoGenParent480ID206.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID206.collider:SetOffset(178,42.7699,221.5)
-level01.colliders.AutoGenParent480ID206.collider:SetZAxis(-0.371391,0,-0.928477)
-level01.colliders.AutoGenParent480ID206.collider:SetHalfLengths(0.3,5.77983,2.69258)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID206.collider)
-level01.colliders.AutoGenParent480ID207 = {}
-level01.colliders.AutoGenParent480ID207.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID207.collider:SetOffset(204.5,39.6506,198.5)
-level01.colliders.AutoGenParent480ID207.collider:SetZAxis(0.514496,0,-0.857493)
-level01.colliders.AutoGenParent480ID207.collider:SetHalfLengths(0.3,5.66843,2.91548)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID207.collider)
-level01.colliders.AutoGenParent480ID208 = {}
-level01.colliders.AutoGenParent480ID208.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID208.collider:SetOffset(249.5,36.0856,148.5)
-level01.colliders.AutoGenParent480ID208.collider:SetZAxis(0.707107,0,-0.707107)
-level01.colliders.AutoGenParent480ID208.collider:SetHalfLengths(0.3,5.77983,7.77817)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID208.collider)
-level01.colliders.AutoGenParent480ID209 = {}
-level01.colliders.AutoGenParent480ID209.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID209.collider:SetOffset(258,36.8654,140)
-level01.colliders.AutoGenParent480ID209.collider:SetZAxis(0.707107,0,-0.707107)
-level01.colliders.AutoGenParent480ID209.collider:SetHalfLengths(0.3,5.44562,4.24264)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID209.collider)
-level01.colliders.AutoGenParent480ID210 = {}
-level01.colliders.AutoGenParent480ID210.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID210.collider:SetOffset(264,37.3111,134.5)
-level01.colliders.AutoGenParent480ID210.collider:SetZAxis(0.768221,0,-0.640184)
-level01.colliders.AutoGenParent480ID210.collider:SetHalfLengths(0.3,5.1114,3.90512)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID210.collider)
-level01.colliders.AutoGenParent480ID211 = {}
-level01.colliders.AutoGenParent480ID211.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID211.collider:SetOffset(283.5,36.9769,107.5)
-level01.colliders.AutoGenParent480ID211.collider:SetZAxis(0.994692,0,-0.102899)
-level01.colliders.AutoGenParent480ID211.collider:SetHalfLengths(0.3,6.22545,14.5774)
-level01.colliders.AutoGenParent480ID201.collider:AddChild(level01.colliders.AutoGenParent480ID211.collider)
-level01.colliders.AutoGenParent480ID212 = {}
-level01.colliders.AutoGenParent480ID212.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID212.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID212.collider:SetMinPos(166.951,31.8654,66.8138)
-level01.colliders.AutoGenParent480ID212.collider:SetMaxPos(309.235,57.4621,252.296)
-level01.colliders.AutoGenParent480ID112.collider:AddChild(level01.colliders.AutoGenParent480ID212.collider)
-level01.colliders.AutoGenParent480ID213 = {}
-level01.colliders.AutoGenParent480ID213.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID213.collider:SetOffset(299.5,41.3216,79)
-level01.colliders.AutoGenParent480ID213.collider:SetZAxis(0.620703,0,0.784046)
-level01.colliders.AutoGenParent480ID213.collider:SetHalfLengths(0.3,6.33685,15.3052)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID213.collider)
-level01.colliders.AutoGenParent480ID214 = {}
-level01.colliders.AutoGenParent480ID214.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID214.collider:SetOffset(173,43.1041,251)
-level01.colliders.AutoGenParent480ID214.collider:SetZAxis(0.986394,0,0.164399)
-level01.colliders.AutoGenParent480ID214.collider:SetHalfLengths(0.3,9.01056,6.08276)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID214.collider)
-level01.colliders.AutoGenParent480ID215 = {}
-level01.colliders.AutoGenParent480ID215.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID215.collider:SetOffset(212.5,51.5708,223.5)
-level01.colliders.AutoGenParent480ID215.collider:SetZAxis(-0.948683,0,0.316228)
-level01.colliders.AutoGenParent480ID215.collider:SetHalfLengths(0.3,5.89124,4.74342)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID215.collider)
-level01.colliders.AutoGenParent480ID216 = {}
-level01.colliders.AutoGenParent480ID216.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID216.collider:SetOffset(205,50.6796,226)
-level01.colliders.AutoGenParent480ID216.collider:SetZAxis(-0.948683,0,0.316228)
-level01.colliders.AutoGenParent480ID216.collider:SetHalfLengths(0.3,6.11405,3.16228)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID216.collider)
-level01.colliders.AutoGenParent480ID217 = {}
-level01.colliders.AutoGenParent480ID217.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID217.collider:SetOffset(198.5,49.5656,227.5)
-level01.colliders.AutoGenParent480ID217.collider:SetZAxis(-0.98995,0,0.141421)
-level01.colliders.AutoGenParent480ID217.collider:SetHalfLengths(0.3,6.22544,3.53553)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID217.collider)
-level01.colliders.AutoGenParent480ID218 = {}
-level01.colliders.AutoGenParent480ID218.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID218.collider:SetOffset(269,37.4225,131)
-level01.colliders.AutoGenParent480ID218.collider:SetZAxis(0.894427,0,-0.447214)
-level01.colliders.AutoGenParent480ID218.collider:SetHalfLengths(0.3,5.1114,2.23607)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID218.collider)
-level01.colliders.AutoGenParent480ID219 = {}
-level01.colliders.AutoGenParent480ID219.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID219.collider:SetOffset(273.5,37.3111,129.5)
-level01.colliders.AutoGenParent480ID219.collider:SetZAxis(0.980581,0,-0.196116)
-level01.colliders.AutoGenParent480ID219.collider:SetHalfLengths(0.3,5.22281,2.54951)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID219.collider)
-level01.colliders.AutoGenParent480ID220 = {}
-level01.colliders.AutoGenParent480ID220.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID220.collider:SetOffset(281.5,37.5339,128.5)
-level01.colliders.AutoGenParent480ID220.collider:SetZAxis(0.995893,0,-0.0905358)
-level01.colliders.AutoGenParent480ID220.collider:SetHalfLengths(0.3,5.33421,5.52268)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID220.collider)
-level01.colliders.AutoGenParent480ID221 = {}
-level01.colliders.AutoGenParent480ID221.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID221.collider:SetOffset(291.5,38.2023,98.5)
-level01.colliders.AutoGenParent480ID221.collider:SetZAxis(-0.654931,0,-0.755689)
-level01.colliders.AutoGenParent480ID221.collider:SetHalfLengths(0.3,6.33685,9.92472)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID221.collider)
-level01.colliders.AutoGenParent480ID222 = {}
-level01.colliders.AutoGenParent480ID222.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID222.collider:SetOffset(183.5,51.8438,240)
-level01.colliders.AutoGenParent480ID222.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID222.collider:SetHalfLengths(2.5,4,2.5)
-level01.colliders.AutoGenParent480ID212.collider:AddChild(level01.colliders.AutoGenParent480ID222.collider)
-level01.colliders.AutoGenParent480ID223 = {}
-level01.colliders.AutoGenParent480ID223.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID223.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID223.collider:SetMinPos(178.882,23.9934,90.7879)
-level01.colliders.AutoGenParent480ID223.collider:SetMaxPos(512.3,68.8781,350.111)
-level01.colliders.AutoGenParent480ID.collider:AddChild(level01.colliders.AutoGenParent480ID223.collider)
-level01.colliders.AutoGenParent480ID224 = {}
-level01.colliders.AutoGenParent480ID224.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID224.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID224.collider:SetMinPos(178.882,31.3084,90.7879)
-level01.colliders.AutoGenParent480ID224.collider:SetMaxPos(315.212,66.1516,252.276)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID224.collider)
-level01.colliders.AutoGenParent480ID225 = {}
-level01.colliders.AutoGenParent480ID225.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID225.collider:SetOffset(312,42.6585,94)
-level01.colliders.AutoGenParent480ID225.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID225.collider:SetHalfLengths(0.3,6.33685,4.24264)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID225.collider)
-level01.colliders.AutoGenParent480ID226 = {}
-level01.colliders.AutoGenParent480ID226.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID226.collider:SetOffset(182.5,47.1147,250.5)
-level01.colliders.AutoGenParent480ID226.collider:SetZAxis(0.919145,0,-0.393919)
-level01.colliders.AutoGenParent480ID226.collider:SetHalfLengths(0.3,8.45354,3.80789)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID226.collider)
-level01.colliders.AutoGenParent480ID227 = {}
-level01.colliders.AutoGenParent480ID227.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID227.collider:SetOffset(189,50.5682,246.5)
-level01.colliders.AutoGenParent480ID227.collider:SetZAxis(0.768221,0,-0.640184)
-level01.colliders.AutoGenParent480ID227.collider:SetHalfLengths(0.3,5.89124,3.90512)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID227.collider)
-level01.colliders.AutoGenParent480ID228 = {}
-level01.colliders.AutoGenParent480ID228.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID228.collider:SetOffset(194.5,51.4594,244)
-level01.colliders.AutoGenParent480ID228.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID228.collider:SetHalfLengths(0.3,6.78247,2.5)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID228.collider)
-level01.colliders.AutoGenParent480ID229 = {}
-level01.colliders.AutoGenParent480ID229.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID229.collider:SetOffset(200.5,53.2419,244.5)
-level01.colliders.AutoGenParent480ID229.collider:SetZAxis(0.98995,0,0.141421)
-level01.colliders.AutoGenParent480ID229.collider:SetHalfLengths(0.3,7.00528,3.53553)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID229.collider)
-level01.colliders.AutoGenParent480ID230 = {}
-level01.colliders.AutoGenParent480ID230.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID230.collider:SetOffset(207,55.2472,245.5)
-level01.colliders.AutoGenParent480ID230.collider:SetZAxis(0.986394,0,0.164399)
-level01.colliders.AutoGenParent480ID230.collider:SetHalfLengths(0.3,6.44826,3.04138)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID230.collider)
-level01.colliders.AutoGenParent480ID231 = {}
-level01.colliders.AutoGenParent480ID231.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID231.collider:SetOffset(212.5,56.6954,247)
-level01.colliders.AutoGenParent480ID231.collider:SetZAxis(0.928477,0,0.371391)
-level01.colliders.AutoGenParent480ID231.collider:SetHalfLengths(0.3,7.22809,2.69258)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID231.collider)
-level01.colliders.AutoGenParent480ID232 = {}
-level01.colliders.AutoGenParent480ID232.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID232.collider:SetOffset(220.5,56.3612,226)
-level01.colliders.AutoGenParent480ID232.collider:SetZAxis(-0.658505,0,-0.752577)
-level01.colliders.AutoGenParent480ID232.collider:SetHalfLengths(0.3,9.79039,5.31507)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID232.collider)
-level01.colliders.AutoGenParent480ID233 = {}
-level01.colliders.AutoGenParent480ID233.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID233.collider:SetOffset(293,37.1997,129)
-level01.colliders.AutoGenParent480ID233.collider:SetZAxis(0.986394,0,0.164399)
-level01.colliders.AutoGenParent480ID233.collider:SetHalfLengths(0.3,5.89124,6.08276)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID233.collider)
-level01.colliders.AutoGenParent480ID234 = {}
-level01.colliders.AutoGenParent480ID234.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID234.collider:SetOffset(227.5,56.3612,232)
-level01.colliders.AutoGenParent480ID234.collider:SetZAxis(0.868243,0,0.496139)
-level01.colliders.AutoGenParent480ID234.collider:SetHalfLengths(0.3,5.77983,4.03113)
-level01.colliders.AutoGenParent480ID224.collider:AddChild(level01.colliders.AutoGenParent480ID234.collider)
-level01.colliders.AutoGenParent480ID235 = {}
-level01.colliders.AutoGenParent480ID235.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID235.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID235.collider:SetMinPos(214.846,29.1917,96.8126)
-level01.colliders.AutoGenParent480ID235.collider:SetMaxPos(336.204,65.3718,254.298)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID235.collider)
-level01.colliders.AutoGenParent480ID236 = {}
-level01.colliders.AutoGenParent480ID236.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID236.collider:SetOffset(318,42.1015,102)
-level01.colliders.AutoGenParent480ID236.collider:SetZAxis(0.624695,0,0.780869)
-level01.colliders.AutoGenParent480ID236.collider:SetHalfLengths(0.3,9.67899,6.40312)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID236.collider)
-level01.colliders.AutoGenParent480ID237 = {}
-level01.colliders.AutoGenParent480ID237.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID237.collider:SetOffset(329,37.4225,113.5)
-level01.colliders.AutoGenParent480ID237.collider:SetZAxis(0.732794,0,0.680451)
-level01.colliders.AutoGenParent480ID237.collider:SetHalfLengths(0.3,5.33421,9.55249)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID237.collider)
-level01.colliders.AutoGenParent480ID238 = {}
-level01.colliders.AutoGenParent480ID238.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID238.collider:SetOffset(217.5,58.9235,249.5)
-level01.colliders.AutoGenParent480ID238.collider:SetZAxis(0.857493,0,0.514496)
-level01.colliders.AutoGenParent480ID238.collider:SetHalfLengths(0.3,5.77983,2.91548)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID238.collider)
-level01.colliders.AutoGenParent480ID239 = {}
-level01.colliders.AutoGenParent480ID239.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID239.collider:SetOffset(221.5,59.7034,252.5)
-level01.colliders.AutoGenParent480ID239.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID239.collider:SetHalfLengths(0.3,5.55702,2.12132)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID239.collider)
-level01.colliders.AutoGenParent480ID240 = {}
-level01.colliders.AutoGenParent480ID240.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID240.collider:SetOffset(227.5,60.2604,253.5)
-level01.colliders.AutoGenParent480ID240.collider:SetZAxis(0.993884,0,-0.110432)
-level01.colliders.AutoGenParent480ID240.collider:SetHalfLengths(0.3,5.1114,4.52769)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID240.collider)
-level01.colliders.AutoGenParent480ID241 = {}
-level01.colliders.AutoGenParent480ID241.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID241.collider:SetOffset(234.5,57.1411,234.5)
-level01.colliders.AutoGenParent480ID241.collider:SetZAxis(0.98995,0,0.141421)
-level01.colliders.AutoGenParent480ID241.collider:SetHalfLengths(0.3,5.66843,3.53553)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID241.collider)
-level01.colliders.AutoGenParent480ID242 = {}
-level01.colliders.AutoGenParent480ID242.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID242.collider:SetOffset(241,57.8095,233.5)
-level01.colliders.AutoGenParent480ID242.collider:SetZAxis(0.894427,0,-0.447214)
-level01.colliders.AutoGenParent480ID242.collider:SetHalfLengths(0.3,5.22281,3.3541)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID242.collider)
-level01.colliders.AutoGenParent480ID243 = {}
-level01.colliders.AutoGenParent480ID243.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID243.collider:SetOffset(247.5,57.5867,231.5)
-level01.colliders.AutoGenParent480ID243.collider:SetZAxis(0.98995,0,-0.141421)
-level01.colliders.AutoGenParent480ID243.collider:SetHalfLengths(0.3,5.22281,3.53553)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID243.collider)
-level01.colliders.AutoGenParent480ID244 = {}
-level01.colliders.AutoGenParent480ID244.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID244.collider:SetOffset(306,36.3084,132)
-level01.colliders.AutoGenParent480ID244.collider:SetZAxis(0.961524,0,0.274721)
-level01.colliders.AutoGenParent480ID244.collider:SetHalfLengths(0.3,6.00264,7.28011)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID244.collider)
-level01.colliders.AutoGenParent480ID245 = {}
-level01.colliders.AutoGenParent480ID245.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID245.collider:SetOffset(319.5,34.7488,138.5)
-level01.colliders.AutoGenParent480ID245.collider:SetZAxis(-0.822192,0,-0.56921)
-level01.colliders.AutoGenParent480ID245.collider:SetHalfLengths(0.3,5.55702,7.90569)
-level01.colliders.AutoGenParent480ID235.collider:AddChild(level01.colliders.AutoGenParent480ID245.collider)
-level01.colliders.AutoGenParent480ID246 = {}
-level01.colliders.AutoGenParent480ID246.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID246.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID246.collider:SetMinPos(231.935,29.7488,111.26)
-level01.colliders.AutoGenParent480ID246.collider:SetMaxPos(350.246,65.8174,253.293)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID246.collider)
-level01.colliders.AutoGenParent480ID247 = {}
-level01.colliders.AutoGenParent480ID247.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID247.collider:SetOffset(343,37.0883,130)
-level01.colliders.AutoGenParent480ID247.collider:SetZAxis(0.573462,0,0.819232)
-level01.colliders.AutoGenParent480ID247.collider:SetHalfLengths(0.3,6.78247,12.2066)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID247.collider)
-level01.colliders.AutoGenParent480ID248 = {}
-level01.colliders.AutoGenParent480ID248.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID248.collider:SetOffset(236.5,60.149,252)
-level01.colliders.AutoGenParent480ID248.collider:SetZAxis(0.976187,0,-0.21693)
-level01.colliders.AutoGenParent480ID248.collider:SetHalfLengths(0.3,5.22281,4.60977)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID248.collider)
-level01.colliders.AutoGenParent480ID249 = {}
-level01.colliders.AutoGenParent480ID249.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID249.collider:SetOffset(246.5,60.3718,250)
-level01.colliders.AutoGenParent480ID249.collider:SetZAxis(0.98387,0,-0.178885)
-level01.colliders.AutoGenParent480ID249.collider:SetHalfLengths(0.3,5.44562,5.59017)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID249.collider)
-level01.colliders.AutoGenParent480ID250 = {}
-level01.colliders.AutoGenParent480ID250.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID250.collider:SetOffset(259.5,59.9262,249.5)
-level01.colliders.AutoGenParent480ID250.collider:SetZAxis(0.997785,0,0.066519)
-level01.colliders.AutoGenParent480ID250.collider:SetHalfLengths(0.3,5.1114,7.51665)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID250.collider)
-level01.colliders.AutoGenParent480ID251 = {}
-level01.colliders.AutoGenParent480ID251.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID251.collider:SetOffset(274,60.0376,251)
-level01.colliders.AutoGenParent480ID251.collider:SetZAxis(0.98995,0,0.141421)
-level01.colliders.AutoGenParent480ID251.collider:SetHalfLengths(0.3,5.33421,7.07107)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID251.collider)
-level01.colliders.AutoGenParent480ID252 = {}
-level01.colliders.AutoGenParent480ID252.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID252.collider:SetOffset(259,57.8095,232)
-level01.colliders.AutoGenParent480ID252.collider:SetZAxis(0.992278,0,0.124035)
-level01.colliders.AutoGenParent480ID252.collider:SetHalfLengths(0.3,6.00264,8.06226)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID252.collider)
-level01.colliders.AutoGenParent480ID253 = {}
-level01.colliders.AutoGenParent480ID253.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID253.collider:SetOffset(277,56.8068,233.5)
-level01.colliders.AutoGenParent480ID253.collider:SetZAxis(0.998752,0,0.0499376)
-level01.colliders.AutoGenParent480ID253.collider:SetHalfLengths(0.3,5.77983,10.0125)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID253.collider)
-level01.colliders.AutoGenParent480ID254 = {}
-level01.colliders.AutoGenParent480ID254.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID254.collider:SetOffset(340.5,36.197,162)
-level01.colliders.AutoGenParent480ID254.collider:SetZAxis(-0.734803,0,-0.67828)
-level01.colliders.AutoGenParent480ID254.collider:SetHalfLengths(0.3,5.55702,8.8459)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID254.collider)
-level01.colliders.AutoGenParent480ID255 = {}
-level01.colliders.AutoGenParent480ID255.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID255.collider:SetOffset(330,35.64,149.5)
-level01.colliders.AutoGenParent480ID255.collider:SetZAxis(-0.524097,0,-0.851658)
-level01.colliders.AutoGenParent480ID255.collider:SetHalfLengths(0.3,5.89124,7.63217)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID255.collider)
-level01.colliders.AutoGenParent480ID256 = {}
-level01.colliders.AutoGenParent480ID256.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID256.collider:SetOffset(328.75,41.0313,113.313)
-level01.colliders.AutoGenParent480ID256.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID256.collider:SetHalfLengths(1.91668,5.26999,2.05246)
-level01.colliders.AutoGenParent480ID246.collider:AddChild(level01.colliders.AutoGenParent480ID256.collider)
-level01.colliders.AutoGenParent480ID257 = {}
-level01.colliders.AutoGenParent480ID257.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID257.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID257.collider:SetMinPos(281,31.197,139.746)
-level01.colliders.AutoGenParent480ID257.collider:SetMaxPos(368.059,67.2657,253.291)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID257.collider)
-level01.colliders.AutoGenParent480ID258 = {}
-level01.colliders.AutoGenParent480ID258.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID258.collider:SetOffset(354,38.8707,142.5)
-level01.colliders.AutoGenParent480ID258.collider:SetZAxis(0.847998,0,0.529999)
-level01.colliders.AutoGenParent480ID258.collider:SetHalfLengths(0.3,5.22281,4.71699)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID258.collider)
-level01.colliders.AutoGenParent480ID259 = {}
-level01.colliders.AutoGenParent480ID259.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID259.collider:SetOffset(363,38.6479,146)
-level01.colliders.AutoGenParent480ID259.collider:SetZAxis(0.980581,0,0.196116)
-level01.colliders.AutoGenParent480ID259.collider:SetHalfLengths(0.3,5.33421,5.09902)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID259.collider)
-level01.colliders.AutoGenParent480ID260 = {}
-level01.colliders.AutoGenParent480ID260.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID260.collider:SetOffset(287.5,59.7034,252)
-level01.colliders.AutoGenParent480ID260.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID260.collider:SetHalfLengths(0.3,6.11405,6.5)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID260.collider)
-level01.colliders.AutoGenParent480ID261 = {}
-level01.colliders.AutoGenParent480ID261.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID261.collider:SetOffset(296,58.5893,252.5)
-level01.colliders.AutoGenParent480ID261.collider:SetZAxis(0.970143,0,0.242536)
-level01.colliders.AutoGenParent480ID261.collider:SetHalfLengths(0.3,8.45354,2.06155)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID261.collider)
-level01.colliders.AutoGenParent480ID262 = {}
-level01.colliders.AutoGenParent480ID262.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID262.collider:SetOffset(295,56.027,232)
-level01.colliders.AutoGenParent480ID262.collider:SetZAxis(0.970143,0,-0.242536)
-level01.colliders.AutoGenParent480ID262.collider:SetHalfLengths(0.3,11.2386,8.24621)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID262.collider)
-level01.colliders.AutoGenParent480ID263 = {}
-level01.colliders.AutoGenParent480ID263.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID263.collider:SetOffset(306,49.7884,231.5)
-level01.colliders.AutoGenParent480ID263.collider:SetZAxis(0.894427,0,0.447214)
-level01.colliders.AutoGenParent480ID263.collider:SetHalfLengths(0.3,6.11404,3.3541)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID263.collider)
-level01.colliders.AutoGenParent480ID264 = {}
-level01.colliders.AutoGenParent480ID264.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID264.collider:SetOffset(339,48.1173,215.5)
-level01.colliders.AutoGenParent480ID264.collider:SetZAxis(0.682318,0,-0.731055)
-level01.colliders.AutoGenParent480ID264.collider:SetHalfLengths(0.3,12.0185,10.2591)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID264.collider)
-level01.colliders.AutoGenParent480ID265 = {}
-level01.colliders.AutoGenParent480ID265.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID265.collider:SetOffset(350,37.0883,173)
-level01.colliders.AutoGenParent480ID265.collider:SetZAxis(-0.514496,0,-0.857493)
-level01.colliders.AutoGenParent480ID265.collider:SetHalfLengths(0.3,5.89124,5.83095)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID265.collider)
-level01.colliders.AutoGenParent480ID266 = {}
-level01.colliders.AutoGenParent480ID266.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID266.collider:SetOffset(320.5,48.1173,228)
-level01.colliders.AutoGenParent480ID266.collider:SetZAxis(-0.91707,0,0.398726)
-level01.colliders.AutoGenParent480ID266.collider:SetHalfLengths(0.3,5.55703,12.5399)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID266.collider)
-level01.colliders.AutoGenParent480ID267 = {}
-level01.colliders.AutoGenParent480ID267.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID267.collider:SetOffset(339.5,40.3125,156.5)
-level01.colliders.AutoGenParent480ID267.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID267.collider:SetHalfLengths(2.03198,5.81552,1.96803)
-level01.colliders.AutoGenParent480ID257.collider:AddChild(level01.colliders.AutoGenParent480ID267.collider)
-level01.colliders.AutoGenParent480ID268 = {}
-level01.colliders.AutoGenParent480ID268.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID268.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID268.collider:SetMinPos(297.788,31.0856,146.7)
-level01.colliders.AutoGenParent480ID268.collider:SetMaxPos(384,64.2577,255.3)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID268.collider)
-level01.colliders.AutoGenParent480ID269 = {}
-level01.colliders.AutoGenParent480ID269.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID269.collider:SetOffset(372,38.3137,147)
-level01.colliders.AutoGenParent480ID269.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID269.collider:SetHalfLengths(0.3,6.11404,4)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID269.collider)
-level01.colliders.AutoGenParent480ID270 = {}
-level01.colliders.AutoGenParent480ID270.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID270.collider:SetOffset(380,37.1997,147)
-level01.colliders.AutoGenParent480ID270.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID270.collider:SetHalfLengths(0.3,6.11404,4)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID270.collider)
-level01.colliders.AutoGenParent480ID271 = {}
-level01.colliders.AutoGenParent480ID271.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID271.collider:SetOffset(299,55.1358,254)
-level01.colliders.AutoGenParent480ID271.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID271.collider:SetHalfLengths(0.3,5.1114,1.41421)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID271.collider)
-level01.colliders.AutoGenParent480ID272 = {}
-level01.colliders.AutoGenParent480ID272.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID272.collider:SetOffset(307,55.2472,255)
-level01.colliders.AutoGenParent480ID272.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID272.collider:SetHalfLengths(0.3,9.01056,7)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID272.collider)
-level01.colliders.AutoGenParent480ID273 = {}
-level01.colliders.AutoGenParent480ID273.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID273.collider:SetOffset(314,51.2366,252.5)
-level01.colliders.AutoGenParent480ID273.collider:SetZAxis(0,0,-1)
-level01.colliders.AutoGenParent480ID273.collider:SetHalfLengths(0.3,5.66843,2.5)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID273.collider)
-level01.colliders.AutoGenParent480ID274 = {}
-level01.colliders.AutoGenParent480ID274.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID274.collider:SetOffset(313.5,50.5682,248)
-level01.colliders.AutoGenParent480ID274.collider:SetZAxis(-0.242536,0,-0.970143)
-level01.colliders.AutoGenParent480ID274.collider:SetHalfLengths(0.3,5.44562,2.06155)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID274.collider)
-level01.colliders.AutoGenParent480ID275 = {}
-level01.colliders.AutoGenParent480ID275.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID275.collider:SetOffset(348,41.0988,203.5)
-level01.colliders.AutoGenParent480ID275.collider:SetZAxis(0.406139,0,-0.913812)
-level01.colliders.AutoGenParent480ID275.collider:SetHalfLengths(0.3,6.67107,4.92443)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID275.collider)
-level01.colliders.AutoGenParent480ID276 = {}
-level01.colliders.AutoGenParent480ID276.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID276.collider:SetOffset(350,39.4277,194)
-level01.colliders.AutoGenParent480ID276.collider:SetZAxis(0,0,-1)
-level01.colliders.AutoGenParent480ID276.collider:SetHalfLengths(0.3,6.11404,5)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID276.collider)
-level01.colliders.AutoGenParent480ID277 = {}
-level01.colliders.AutoGenParent480ID277.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID277.collider:SetOffset(351.5,38.3137,183.5)
-level01.colliders.AutoGenParent480ID277.collider:SetZAxis(0.263117,0,-0.964764)
-level01.colliders.AutoGenParent480ID277.collider:SetHalfLengths(0.3,6.22545,5.70088)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID277.collider)
-level01.colliders.AutoGenParent480ID278 = {}
-level01.colliders.AutoGenParent480ID278.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID278.collider:SetOffset(324.5,50.1226,244)
-level01.colliders.AutoGenParent480ID278.collider:SetZAxis(0.985212,0,-0.171341)
-level01.colliders.AutoGenParent480ID278.collider:SetHalfLengths(0.3,6.22545,11.6726)
-level01.colliders.AutoGenParent480ID268.collider:AddChild(level01.colliders.AutoGenParent480ID278.collider)
-level01.colliders.AutoGenParent480ID279 = {}
-level01.colliders.AutoGenParent480ID279.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID279.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID279.collider:SetMinPos(335.753,30.1951,144.7)
-level01.colliders.AutoGenParent480ID279.collider:SetMaxPos(400,64.592,255.171)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID279.collider)
-level01.colliders.AutoGenParent480ID280 = {}
-level01.colliders.AutoGenParent480ID280.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID280.collider:SetOffset(340.5,55.47,248.5)
-level01.colliders.AutoGenParent480ID280.collider:SetZAxis(-0.56921,0,-0.822192)
-level01.colliders.AutoGenParent480ID280.collider:SetHalfLengths(0.3,9.12196,7.90569)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID280.collider)
-level01.colliders.AutoGenParent480ID281 = {}
-level01.colliders.AutoGenParent480ID281.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID281.collider:SetOffset(363,53.5761,226.5)
-level01.colliders.AutoGenParent480ID281.collider:SetZAxis(0.50702,0,-0.861934)
-level01.colliders.AutoGenParent480ID281.collider:SetHalfLengths(0.3,9.67899,9.86154)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID281.collider)
-level01.colliders.AutoGenParent480ID282 = {}
-level01.colliders.AutoGenParent480ID282.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID282.collider:SetOffset(373.5,46.4462,189)
-level01.colliders.AutoGenParent480ID282.collider:SetZAxis(-0.0333148,0,-0.999445)
-level01.colliders.AutoGenParent480ID282.collider:SetHalfLengths(0.3,12.0185,15.0083)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID282.collider)
-level01.colliders.AutoGenParent480ID283 = {}
-level01.colliders.AutoGenParent480ID283.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID283.collider:SetOffset(374,39.4277,170.5)
-level01.colliders.AutoGenParent480ID283.collider:SetZAxis(0.274721,0,-0.961524)
-level01.colliders.AutoGenParent480ID283.collider:SetHalfLengths(0.3,5.55702,3.64005)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID283.collider)
-level01.colliders.AutoGenParent480ID284 = {}
-level01.colliders.AutoGenParent480ID284.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID284.collider:SetOffset(377.5,39.9848,162.5)
-level01.colliders.AutoGenParent480ID284.collider:SetZAxis(0.485643,0,-0.874157)
-level01.colliders.AutoGenParent480ID284.collider:SetHalfLengths(0.3,7.89651,5.14782)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID284.collider)
-level01.colliders.AutoGenParent480ID285 = {}
-level01.colliders.AutoGenParent480ID285.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID285.collider:SetOffset(382,37.0883,157.5)
-level01.colliders.AutoGenParent480ID285.collider:SetZAxis(0.970143,0,-0.242536)
-level01.colliders.AutoGenParent480ID285.collider:SetHalfLengths(0.3,5.1114,2.06155)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID285.collider)
-level01.colliders.AutoGenParent480ID286 = {}
-level01.colliders.AutoGenParent480ID286.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID286.collider:SetOffset(388.5,36.4629,157)
-level01.colliders.AutoGenParent480ID286.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID286.collider:SetHalfLengths(0.3,5.15847,4.5)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID286.collider)
-level01.colliders.AutoGenParent480ID287 = {}
-level01.colliders.AutoGenParent480ID287.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID287.collider:SetOffset(392,35.3536,145)
-level01.colliders.AutoGenParent480ID287.collider:SetZAxis(-1,0,0)
-level01.colliders.AutoGenParent480ID287.collider:SetHalfLengths(0.3,5.15847,8)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID287.collider)
-level01.colliders.AutoGenParent480ID288 = {}
-level01.colliders.AutoGenParent480ID288.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID288.collider:SetOffset(384,35.1951,146)
-level01.colliders.AutoGenParent480ID288.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID288.collider:SetHalfLengths(0.3,5,1)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID288.collider)
-level01.colliders.AutoGenParent480ID289 = {}
-level01.colliders.AutoGenParent480ID289.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID289.collider:SetOffset(370.079,42.4331,185.415)
-level01.colliders.AutoGenParent480ID289.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID289.collider:SetHalfLengths(1.88068,4.83337,1.99714)
-level01.colliders.AutoGenParent480ID279.collider:AddChild(level01.colliders.AutoGenParent480ID289.collider)
-level01.colliders.AutoGenParent480ID290 = {}
-level01.colliders.AutoGenParent480ID290.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID290.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID290.collider:SetMinPos(344.715,30.3536,134.729)
-level01.colliders.AutoGenParent480ID290.collider:SetMaxPos(422.128,65.4832,255.095)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID290.collider)
-level01.colliders.AutoGenParent480ID291 = {}
-level01.colliders.AutoGenParent480ID291.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID291.collider:SetOffset(346.5,55.47,250.5)
-level01.colliders.AutoGenParent480ID291.collider:SetZAxis(0.316228,0,-0.948683)
-level01.colliders.AutoGenParent480ID291.collider:SetHalfLengths(0.3,6.55966,4.74342)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID291.collider)
-level01.colliders.AutoGenParent480ID292 = {}
-level01.colliders.AutoGenParent480ID292.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID292.collider:SetOffset(353,57.0297,240.5)
-level01.colliders.AutoGenParent480ID292.collider:SetZAxis(0.672673,0,-0.73994)
-level01.colliders.AutoGenParent480ID292.collider:SetHalfLengths(0.3,8.45354,7.43303)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID292.collider)
-level01.colliders.AutoGenParent480ID293 = {}
-level01.colliders.AutoGenParent480ID293.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID293.collider:SetOffset(371,48.8971,211)
-level01.colliders.AutoGenParent480ID293.collider:SetZAxis(0.393919,0,-0.919145)
-level01.colliders.AutoGenParent480ID293.collider:SetHalfLengths(0.3,7.4509,7.61577)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID293.collider)
-level01.colliders.AutoGenParent480ID294 = {}
-level01.colliders.AutoGenParent480ID294.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID294.collider:SetOffset(398,36.3044,158)
-level01.colliders.AutoGenParent480ID294.collider:SetZAxis(0.980581,0,0.196116)
-level01.colliders.AutoGenParent480ID294.collider:SetHalfLengths(0.3,5.15847,5.09902)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID294.collider)
-level01.colliders.AutoGenParent480ID295 = {}
-level01.colliders.AutoGenParent480ID295.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID295.collider:SetOffset(404,36.146,160)
-level01.colliders.AutoGenParent480ID295.collider:SetZAxis(0.707107,0,0.707107)
-level01.colliders.AutoGenParent480ID295.collider:SetHalfLengths(0.3,5.15847,1.41421)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID295.collider)
-level01.colliders.AutoGenParent480ID296 = {}
-level01.colliders.AutoGenParent480ID296.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID296.collider:SetOffset(412.5,35.5121,139.5)
-level01.colliders.AutoGenParent480ID296.collider:SetZAxis(-0.903738,0,0.428086)
-level01.colliders.AutoGenParent480ID296.collider:SetHalfLengths(0.3,5.15847,10.5119)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID296.collider)
-level01.colliders.AutoGenParent480ID297 = {}
-level01.colliders.AutoGenParent480ID297.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID297.collider:SetOffset(401.5,35.3536,144.5)
-level01.colliders.AutoGenParent480ID297.collider:SetZAxis(-0.948683,0,0.316228)
-level01.colliders.AutoGenParent480ID297.collider:SetHalfLengths(0.3,5,1.58114)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID297.collider)
-level01.colliders.AutoGenParent480ID298 = {}
-level01.colliders.AutoGenParent480ID298.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID298.collider:SetOffset(365.671,47.676,214.229)
-level01.colliders.AutoGenParent480ID298.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID298.collider:SetHalfLengths(1.85948,4.92038,1.9785)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID298.collider)
-level01.colliders.AutoGenParent480ID299 = {}
-level01.colliders.AutoGenParent480ID299.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID299.collider:SetOffset(354.858,50.9688,226.742)
-level01.colliders.AutoGenParent480ID299.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID299.collider:SetHalfLengths(1.75,4,1.75)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID299.collider)
-level01.colliders.AutoGenParent480ID300 = {}
-level01.colliders.AutoGenParent480ID300.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID300.collider:SetOffset(347.526,56,240.375)
-level01.colliders.AutoGenParent480ID300.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID300.collider:SetHalfLengths(2.14269,5.42911,1.96576)
-level01.colliders.AutoGenParent480ID290.collider:AddChild(level01.colliders.AutoGenParent480ID300.collider)
-level01.colliders.AutoGenParent480ID301 = {}
-level01.colliders.AutoGenParent480ID301.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID301.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID301.collider:SetMinPos(404.75,30.5121,127.711)
-level01.colliders.AutoGenParent480ID301.collider:SetMaxPos(475.148,53.3481,231.059)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID301.collider)
-level01.colliders.AutoGenParent480ID302 = {}
-level01.colliders.AutoGenParent480ID302.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID302.collider:SetOffset(406,36.3044,162.5)
-level01.colliders.AutoGenParent480ID302.collider:SetZAxis(0.5547,0,0.83205)
-level01.colliders.AutoGenParent480ID302.collider:SetHalfLengths(0.3,5.15847,1.80278)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID302.collider)
-level01.colliders.AutoGenParent480ID303 = {}
-level01.colliders.AutoGenParent480ID303.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID303.collider:SetOffset(409,36.4629,168)
-level01.colliders.AutoGenParent480ID303.collider:SetZAxis(0.447214,0,0.894427)
-level01.colliders.AutoGenParent480ID303.collider:SetHalfLengths(0.3,5.31694,4.47214)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID303.collider)
-level01.colliders.AutoGenParent480ID304 = {}
-level01.colliders.AutoGenParent480ID304.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID304.collider:SetOffset(412.5,36.7798,176)
-level01.colliders.AutoGenParent480ID304.collider:SetZAxis(0.351123,0,0.936329)
-level01.colliders.AutoGenParent480ID304.collider:SetHalfLengths(0.3,5.79235,4.272)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID304.collider)
-level01.colliders.AutoGenParent480ID305 = {}
-level01.colliders.AutoGenParent480ID305.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID305.collider:SetOffset(415.5,37.5722,185)
-level01.colliders.AutoGenParent480ID305.collider:SetZAxis(0.287348,0,0.957826)
-level01.colliders.AutoGenParent480ID305.collider:SetHalfLengths(0.3,5.63388,5.22015)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID305.collider)
-level01.colliders.AutoGenParent480ID306 = {}
-level01.colliders.AutoGenParent480ID306.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID306.collider:SetOffset(418,38.2061,195.5)
-level01.colliders.AutoGenParent480ID306.collider:SetZAxis(0.178885,0,0.98387)
-level01.colliders.AutoGenParent480ID306.collider:SetHalfLengths(0.3,7.0601,5.59017)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID306.collider)
-level01.colliders.AutoGenParent480ID307 = {}
-level01.colliders.AutoGenParent480ID307.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID307.collider:SetOffset(419.5,40.2662,208.5)
-level01.colliders.AutoGenParent480ID307.collider:SetZAxis(0.066519,0,0.997785)
-level01.colliders.AutoGenParent480ID307.collider:SetHalfLengths(0.3,9.27867,7.51665)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID307.collider)
-level01.colliders.AutoGenParent480ID308 = {}
-level01.colliders.AutoGenParent480ID308.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID308.collider:SetOffset(418.5,44.5448,223.5)
-level01.colliders.AutoGenParent480ID308.collider:SetZAxis(-0.196116,0,0.980581)
-level01.colliders.AutoGenParent480ID308.collider:SetHalfLengths(0.3,8.80326,7.64853)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID308.collider)
-level01.colliders.AutoGenParent480ID309 = {}
-level01.colliders.AutoGenParent480ID309.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID309.collider:SetOffset(463.5,38.2061,139.5)
-level01.colliders.AutoGenParent480ID309.collider:SetZAxis(-0.870563,0,-0.492057)
-level01.colliders.AutoGenParent480ID309.collider:SetHalfLengths(0.3,6.42622,13.2098)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID309.collider)
-level01.colliders.AutoGenParent480ID310 = {}
-level01.colliders.AutoGenParent480ID310.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID310.collider:SetOffset(443,36.7798,130.5)
-level01.colliders.AutoGenParent480ID310.collider:SetZAxis(-0.963518,0,-0.267644)
-level01.colliders.AutoGenParent480ID310.collider:SetHalfLengths(0.3,5.95082,9.34077)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID310.collider)
-level01.colliders.AutoGenParent480ID311 = {}
-level01.colliders.AutoGenParent480ID311.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID311.collider:SetOffset(428,35.829,131.5)
-level01.colliders.AutoGenParent480ID311.collider:SetZAxis(-0.863779,0,0.503871)
-level01.colliders.AutoGenParent480ID311.collider:SetHalfLengths(0.3,5.31694,6.94622)
-level01.colliders.AutoGenParent480ID301.collider:AddChild(level01.colliders.AutoGenParent480ID311.collider)
-level01.colliders.AutoGenParent480ID312 = {}
-level01.colliders.AutoGenParent480ID312.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID312.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID312.collider:SetMinPos(414.709,23.9934,145.827)
-level01.colliders.AutoGenParent480ID312.collider:SetMaxPos(504.28,68.8781,297.022)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID312.collider)
-level01.colliders.AutoGenParent480ID313 = {}
-level01.colliders.AutoGenParent480ID313.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID313.collider:SetOffset(416,48.3481,235)
-level01.colliders.AutoGenParent480ID313.collider:SetZAxis(-0.242536,0,0.970143)
-level01.colliders.AutoGenParent480ID313.collider:SetHalfLengths(0.3,7.37704,4.12311)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID313.collider)
-level01.colliders.AutoGenParent480ID314 = {}
-level01.colliders.AutoGenParent480ID314.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID314.collider:SetOffset(422,50.7251,242)
-level01.colliders.AutoGenParent480ID314.collider:SetZAxis(0.919145,0,0.393919)
-level01.colliders.AutoGenParent480ID314.collider:SetHalfLengths(0.3,5.79234,7.61577)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID314.collider)
-level01.colliders.AutoGenParent480ID315 = {}
-level01.colliders.AutoGenParent480ID315.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID315.collider:SetOffset(432.5,51.5175,250)
-level01.colliders.AutoGenParent480ID315.collider:SetZAxis(0.573462,0,0.819232)
-level01.colliders.AutoGenParent480ID315.collider:SetHalfLengths(0.3,5.79235,6.10328)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID315.collider)
-level01.colliders.AutoGenParent480ID316 = {}
-level01.colliders.AutoGenParent480ID316.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID316.collider:SetOffset(453.5,52.3098,255)
-level01.colliders.AutoGenParent480ID316.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID316.collider:SetHalfLengths(0.3,16.5682,17.5)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID316.collider)
-level01.colliders.AutoGenParent480ID317 = {}
-level01.colliders.AutoGenParent480ID317.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID317.collider:SetOffset(500.5,41.8508,190)
-level01.colliders.AutoGenParent480ID317.collider:SetZAxis(-0.362446,0,-0.932005)
-level01.colliders.AutoGenParent480ID317.collider:SetHalfLengths(0.3,5.63388,9.6566)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID317.collider)
-level01.colliders.AutoGenParent480ID318 = {}
-level01.colliders.AutoGenParent480ID318.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID318.collider:SetOffset(492,41.217,172)
-level01.colliders.AutoGenParent480ID318.collider:SetZAxis(-0.485643,0,-0.874157)
-level01.colliders.AutoGenParent480ID318.collider:SetHalfLengths(0.3,6.42622,10.2956)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID318.collider)
-level01.colliders.AutoGenParent480ID319 = {}
-level01.colliders.AutoGenParent480ID319.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID319.collider:SetOffset(481,39.7907,154.5)
-level01.colliders.AutoGenParent480ID319.collider:SetZAxis(-0.576683,0,-0.816968)
-level01.colliders.AutoGenParent480ID319.collider:SetHalfLengths(0.3,6.58469,10.4043)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID319.collider)
-level01.colliders.AutoGenParent480ID320 = {}
-level01.colliders.AutoGenParent480ID320.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID320.collider:SetOffset(453,40.9141,256)
-level01.colliders.AutoGenParent480ID320.collider:SetZAxis(-1,0,0)
-level01.colliders.AutoGenParent480ID320.collider:SetHalfLengths(0.3,16.9207,18)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID320.collider)
-level01.colliders.AutoGenParent480ID321 = {}
-level01.colliders.AutoGenParent480ID321.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID321.collider:SetOffset(435,52.8348,263)
-level01.colliders.AutoGenParent480ID321.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID321.collider:SetHalfLengths(0.3,6.1353,7)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID321.collider)
-level01.colliders.AutoGenParent480ID322 = {}
-level01.colliders.AutoGenParent480ID322.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID322.collider:SetOffset(436,53.9701,283.5)
-level01.colliders.AutoGenParent480ID322.collider:SetZAxis(0.0738717,0,0.997268)
-level01.colliders.AutoGenParent480ID322.collider:SetHalfLengths(0.3,6.81649,13.537)
-level01.colliders.AutoGenParent480ID312.collider:AddChild(level01.colliders.AutoGenParent480ID322.collider)
-level01.colliders.AutoGenParent480ID323 = {}
-level01.colliders.AutoGenParent480ID323.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID323.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID323.collider:SetMinPos(436.704,24.9016,198.905)
-level01.colliders.AutoGenParent480ID323.collider:SetMaxPos(512.3,65.2143,350.111)
-level01.colliders.AutoGenParent480ID223.collider:AddChild(level01.colliders.AutoGenParent480ID323.collider)
-level01.colliders.AutoGenParent480ID324 = {}
-level01.colliders.AutoGenParent480ID324.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID324.collider:SetOffset(511.5,41.5339,241.5)
-level01.colliders.AutoGenParent480ID324.collider:SetZAxis(-0.0370117,0,-0.999315)
-level01.colliders.AutoGenParent480ID324.collider:SetHalfLengths(0.3,5.31694,13.5093)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID324.collider)
-level01.colliders.AutoGenParent480ID325 = {}
-level01.colliders.AutoGenParent480ID325.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID325.collider:SetOffset(510,41.8508,221)
-level01.colliders.AutoGenParent480ID325.collider:SetZAxis(-0.141421,0,-0.98995)
-level01.colliders.AutoGenParent480ID325.collider:SetHalfLengths(0.3,5.31694,7.07107)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID325.collider)
-level01.colliders.AutoGenParent480ID326 = {}
-level01.colliders.AutoGenParent480ID326.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID326.collider:SetOffset(506.5,42.1678,206.5)
-level01.colliders.AutoGenParent480ID326.collider:SetZAxis(-0.316228,0,-0.948683)
-level01.colliders.AutoGenParent480ID326.collider:SetHalfLengths(0.3,5.31694,7.90569)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID326.collider)
-level01.colliders.AutoGenParent480ID327 = {}
-level01.colliders.AutoGenParent480ID327.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID327.collider:SetOffset(474,40.2329,303.5)
-level01.colliders.AutoGenParent480ID327.collider:SetZAxis(0.178885,0,0.98387)
-level01.colliders.AutoGenParent480ID327.collider:SetHalfLengths(0.3,7.15708,16.7705)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID327.collider)
-level01.colliders.AutoGenParent480ID328 = {}
-level01.colliders.AutoGenParent480ID328.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID328.collider:SetOffset(467.5,40.2329,291.5)
-level01.colliders.AutoGenParent480ID328.collider:SetZAxis(-0.613941,0,0.789352)
-level01.colliders.AutoGenParent480ID328.collider:SetHalfLengths(0.3,15.3313,5.70088)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID328.collider)
-level01.colliders.AutoGenParent480ID329 = {}
-level01.colliders.AutoGenParent480ID329.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID329.collider:SetOffset(466,50.5642,306)
-level01.colliders.AutoGenParent480ID329.collider:SetZAxis(0.196116,0,0.980581)
-level01.colliders.AutoGenParent480ID329.collider:SetHalfLengths(0.3,5.68119,10.198)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID329.collider)
-level01.colliders.AutoGenParent480ID330 = {}
-level01.colliders.AutoGenParent480ID330.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID330.collider:SetOffset(468.5,51.2454,325.5)
-level01.colliders.AutoGenParent480ID330.collider:SetZAxis(0.0525588,0,0.998618)
-level01.colliders.AutoGenParent480ID330.collider:SetHalfLengths(0.3,8.29239,9.51315)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID330.collider)
-level01.colliders.AutoGenParent480ID331 = {}
-level01.colliders.AutoGenParent480ID331.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID331.collider:SetOffset(439,55.7866,309.5)
-level01.colliders.AutoGenParent480ID331.collider:SetZAxis(0.157991,0,0.987441)
-level01.colliders.AutoGenParent480ID331.collider:SetHalfLengths(0.3,5.3406,12.659)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID331.collider)
-level01.colliders.AutoGenParent480ID332 = {}
-level01.colliders.AutoGenParent480ID332.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID332.collider:SetOffset(442.5,56.1272,328.5)
-level01.colliders.AutoGenParent480ID332.collider:SetZAxis(0.22486,0,0.974391)
-level01.colliders.AutoGenParent480ID332.collider:SetHalfLengths(0.3,6.13531,6.67083)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID332.collider)
-level01.colliders.AutoGenParent480ID333 = {}
-level01.colliders.AutoGenParent480ID333.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID333.collider:SetOffset(447,57.2625,342.5)
-level01.colliders.AutoGenParent480ID333.collider:SetZAxis(0.371391,0,0.928477)
-level01.colliders.AutoGenParent480ID333.collider:SetHalfLengths(0.3,7.95179,8.07775)
-level01.colliders.AutoGenParent480ID323.collider:AddChild(level01.colliders.AutoGenParent480ID333.collider)
-level01.colliders.AutoGenParent480ID334 = {}
-level01.colliders.AutoGenParent480ID334.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID334.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID334.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-level01.colliders.AutoGenParent480ID334.collider:SetMaxPos(512.3,78.3839,383.3)
-level01.colliders.AutoGenParent480ID.collider:AddChild(level01.colliders.AutoGenParent480ID334.collider)
-level01.colliders.AutoGenParent480ID335 = {}
-level01.colliders.AutoGenParent480ID335.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID335.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID335.collider:SetMinPos(449.701,28.7617,256)
-level01.colliders.AutoGenParent480ID335.collider:SetMaxPos(512.3,78.3839,383.3)
-level01.colliders.AutoGenParent480ID334.collider:AddChild(level01.colliders.AutoGenParent480ID335.collider)
-level01.colliders.AutoGenParent480ID336 = {}
-level01.colliders.AutoGenParent480ID336.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID336.collider:SetOffset(512,41.5953,300.5)
-level01.colliders.AutoGenParent480ID336.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID336.collider:SetHalfLengths(0.3,11.8118,44.5)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID336.collider)
-level01.colliders.AutoGenParent480ID337 = {}
-level01.colliders.AutoGenParent480ID337.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID337.collider:SetOffset(508,34.7835,352.5)
-level01.colliders.AutoGenParent480ID337.collider:SetZAxis(-0.470588,0,0.882353)
-level01.colliders.AutoGenParent480ID337.collider:SetHalfLengths(0.3,6.02178,8.5)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID337.collider)
-level01.colliders.AutoGenParent480ID338 = {}
-level01.colliders.AutoGenParent480ID338.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID338.collider:SetOffset(502.5,35.8052,364.5)
-level01.colliders.AutoGenParent480ID338.collider:SetZAxis(-0.316228,0,0.948683)
-level01.colliders.AutoGenParent480ID338.collider:SetHalfLengths(0.3,6.24884,4.74342)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID338.collider)
-level01.colliders.AutoGenParent480ID339 = {}
-level01.colliders.AutoGenParent480ID339.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID339.collider:SetOffset(475.5,42.39,334)
-level01.colliders.AutoGenParent480ID339.collider:SetZAxis(-0.106533,0,0.994309)
-level01.colliders.AutoGenParent480ID339.collider:SetHalfLengths(0.3,6.58943,14.0801)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID339.collider)
-level01.colliders.AutoGenParent480ID340 = {}
-level01.colliders.AutoGenParent480ID340.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID340.collider:SetOffset(475.5,43.9794,365.5)
-level01.colliders.AutoGenParent480ID340.collider:SetZAxis(0.0854011,0,0.996347)
-level01.colliders.AutoGenParent480ID340.collider:SetHalfLengths(0.3,5.34059,17.5642)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID340.collider)
-level01.colliders.AutoGenParent480ID341 = {}
-level01.colliders.AutoGenParent480ID341.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID341.collider:SetOffset(469.5,54.5378,347.5)
-level01.colliders.AutoGenParent480ID341.collider:SetZAxis(0.039968,0,0.999201)
-level01.colliders.AutoGenParent480ID341.collider:SetHalfLengths(0.3,6.81649,12.51)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID341.collider)
-level01.colliders.AutoGenParent480ID342 = {}
-level01.colliders.AutoGenParent480ID342.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID342.collider:SetOffset(470,56.3543,371.5)
-level01.colliders.AutoGenParent480ID342.collider:SetZAxis(0,0,1)
-level01.colliders.AutoGenParent480ID342.collider:SetHalfLengths(0.3,7.49767,11.5)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID342.collider)
-level01.colliders.AutoGenParent480ID343 = {}
-level01.colliders.AutoGenParent480ID343.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID343.collider:SetOffset(450.5,60.2143,356.5)
-level01.colliders.AutoGenParent480ID343.collider:SetZAxis(0.0766965,0,0.997055)
-level01.colliders.AutoGenParent480ID343.collider:SetHalfLengths(0.3,5.90825,6.5192)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID343.collider)
-level01.colliders.AutoGenParent480ID344 = {}
-level01.colliders.AutoGenParent480ID344.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID344.collider:SetOffset(452,61.1226,373)
-level01.colliders.AutoGenParent480ID344.collider:SetZAxis(0.0995037,0,0.995037)
-level01.colliders.AutoGenParent480ID344.collider:SetHalfLengths(0.3,7.38414,10.0499)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID344.collider)
-level01.colliders.AutoGenParent480ID345 = {}
-level01.colliders.AutoGenParent480ID345.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID345.collider:SetOffset(473.5,58.852,383)
-level01.colliders.AutoGenParent480ID345.collider:SetZAxis(1,0,0)
-level01.colliders.AutoGenParent480ID345.collider:SetHalfLengths(0.3,19.5319,3.5)
-level01.colliders.AutoGenParent480ID335.collider:AddChild(level01.colliders.AutoGenParent480ID345.collider)
-level01.colliders.AutoGenParent480ID346 = {}
-level01.colliders.AutoGenParent480ID346.collider = AABBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID346.collider:SetOffset(0,0,0)
-level01.colliders.AutoGenParent480ID346.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-level01.colliders.AutoGenParent480ID346.collider:SetMaxPos(508.26,43.6435,383.149)
-level01.colliders.AutoGenParent480ID334.collider:AddChild(level01.colliders.AutoGenParent480ID346.collider)
-level01.colliders.AutoGenParent480ID347 = {}
-level01.colliders.AutoGenParent480ID347.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID347.collider:SetOffset(-1.07374e+08,-1.07374e+08,-1.07374e+08)
-level01.colliders.AutoGenParent480ID347.collider:SetZAxis(-0.582718,0,0.812674)
-level01.colliders.AutoGenParent480ID347.collider:SetHalfLengths(0.5,0.5,0.5)
-level01.colliders.AutoGenParent480ID346.collider:AddChild(level01.colliders.AutoGenParent480ID347.collider)
-level01.colliders.AutoGenParent480ID348 = {}
-level01.colliders.AutoGenParent480ID348.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID348.collider:SetOffset(502.5,37.0541,372.5)
-level01.colliders.AutoGenParent480ID348.collider:SetZAxis(0.393919,0,0.919145)
-level01.colliders.AutoGenParent480ID348.collider:SetHalfLengths(0.3,5.68118,3.80789)
-level01.colliders.AutoGenParent480ID346.collider:AddChild(level01.colliders.AutoGenParent480ID348.collider)
-level01.colliders.AutoGenParent480ID349 = {}
-level01.colliders.AutoGenParent480ID349.collider = OBBCollider.Create(-1)
-level01.colliders.AutoGenParent480ID349.collider:SetOffset(506,37.7352,379.5)
-level01.colliders.AutoGenParent480ID349.collider:SetZAxis(0.496139,0,0.868243)
-level01.colliders.AutoGenParent480ID349.collider:SetHalfLengths(0.3,5.90825,4.03113)
-level01.colliders.AutoGenParent480ID346.collider:AddChild(level01.colliders.AutoGenParent480ID349.collider)
-CollisionHandler.AddAABB(level01.colliders.AutoGenParent480ID.collider, 3)
-level01.colliders.AutoGenParent480ID1 = nil
-level01.colliders.AutoGenParent480ID2 = nil
-level01.colliders.AutoGenParent480ID3 = nil
-level01.colliders.AutoGenParent480ID4 = nil
-level01.colliders.AutoGenParent480ID5 = nil
-level01.colliders.AutoGenParent480ID6 = nil
-level01.colliders.AutoGenParent480ID7 = nil
-level01.colliders.AutoGenParent480ID8 = nil
-level01.colliders.AutoGenParent480ID9 = nil
-level01.colliders.AutoGenParent480ID10 = nil
-level01.colliders.AutoGenParent480ID11 = nil
-level01.colliders.AutoGenParent480ID12 = nil
-level01.colliders.AutoGenParent480ID13 = nil
-level01.colliders.AutoGenParent480ID14 = nil
-level01.colliders.AutoGenParent480ID15 = nil
-level01.colliders.AutoGenParent480ID16 = nil
-level01.colliders.AutoGenParent480ID17 = nil
-level01.colliders.AutoGenParent480ID18 = nil
-level01.colliders.AutoGenParent480ID19 = nil
-level01.colliders.AutoGenParent480ID20 = nil
-level01.colliders.AutoGenParent480ID21 = nil
-level01.colliders.AutoGenParent480ID22 = nil
-level01.colliders.AutoGenParent480ID23 = nil
-level01.colliders.AutoGenParent480ID24 = nil
-level01.colliders.AutoGenParent480ID25 = nil
-level01.colliders.AutoGenParent480ID26 = nil
-level01.colliders.AutoGenParent480ID27 = nil
-level01.colliders.AutoGenParent480ID28 = nil
-level01.colliders.AutoGenParent480ID29 = nil
-level01.colliders.AutoGenParent480ID30 = nil
-level01.colliders.AutoGenParent480ID31 = nil
-level01.colliders.AutoGenParent480ID32 = nil
-level01.colliders.AutoGenParent480ID33 = nil
-level01.colliders.AutoGenParent480ID34 = nil
-level01.colliders.AutoGenParent480ID35 = nil
-level01.colliders.AutoGenParent480ID36 = nil
-level01.colliders.AutoGenParent480ID37 = nil
-level01.colliders.AutoGenParent480ID38 = nil
-level01.colliders.AutoGenParent480ID39 = nil
-level01.colliders.AutoGenParent480ID40 = nil
-level01.colliders.AutoGenParent480ID41 = nil
-level01.colliders.AutoGenParent480ID42 = nil
-level01.colliders.AutoGenParent480ID43 = nil
-level01.colliders.AutoGenParent480ID44 = nil
-level01.colliders.AutoGenParent480ID45 = nil
-level01.colliders.AutoGenParent480ID46 = nil
-level01.colliders.AutoGenParent480ID47 = nil
-level01.colliders.AutoGenParent480ID48 = nil
-level01.colliders.AutoGenParent480ID49 = nil
-level01.colliders.AutoGenParent480ID50 = nil
-level01.colliders.AutoGenParent480ID51 = nil
-level01.colliders.AutoGenParent480ID52 = nil
-level01.colliders.AutoGenParent480ID53 = nil
-level01.colliders.AutoGenParent480ID54 = nil
-level01.colliders.AutoGenParent480ID55 = nil
-level01.colliders.AutoGenParent480ID56 = nil
-level01.colliders.AutoGenParent480ID57 = nil
-level01.colliders.AutoGenParent480ID58 = nil
-level01.colliders.AutoGenParent480ID59 = nil
-level01.colliders.AutoGenParent480ID60 = nil
-level01.colliders.AutoGenParent480ID61 = nil
-level01.colliders.AutoGenParent480ID62 = nil
-level01.colliders.AutoGenParent480ID63 = nil
-level01.colliders.AutoGenParent480ID64 = nil
-level01.colliders.AutoGenParent480ID65 = nil
-level01.colliders.AutoGenParent480ID66 = nil
-level01.colliders.AutoGenParent480ID67 = nil
-level01.colliders.AutoGenParent480ID68 = nil
-level01.colliders.AutoGenParent480ID69 = nil
-level01.colliders.AutoGenParent480ID70 = nil
-level01.colliders.AutoGenParent480ID71 = nil
-level01.colliders.AutoGenParent480ID72 = nil
-level01.colliders.AutoGenParent480ID73 = nil
-level01.colliders.AutoGenParent480ID74 = nil
-level01.colliders.AutoGenParent480ID75 = nil
-level01.colliders.AutoGenParent480ID76 = nil
-level01.colliders.AutoGenParent480ID77 = nil
-level01.colliders.AutoGenParent480ID78 = nil
-level01.colliders.AutoGenParent480ID79 = nil
-level01.colliders.AutoGenParent480ID80 = nil
-level01.colliders.AutoGenParent480ID81 = nil
-level01.colliders.AutoGenParent480ID82 = nil
-level01.colliders.AutoGenParent480ID83 = nil
-level01.colliders.AutoGenParent480ID84 = nil
-level01.colliders.AutoGenParent480ID85 = nil
-level01.colliders.AutoGenParent480ID86 = nil
-level01.colliders.AutoGenParent480ID87 = nil
-level01.colliders.AutoGenParent480ID88 = nil
-level01.colliders.AutoGenParent480ID89 = nil
-level01.colliders.AutoGenParent480ID90 = nil
-level01.colliders.AutoGenParent480ID91 = nil
-level01.colliders.AutoGenParent480ID92 = nil
-level01.colliders.AutoGenParent480ID93 = nil
-level01.colliders.AutoGenParent480ID94 = nil
-level01.colliders.AutoGenParent480ID95 = nil
-level01.colliders.AutoGenParent480ID96 = nil
-level01.colliders.AutoGenParent480ID97 = nil
-level01.colliders.AutoGenParent480ID98 = nil
-level01.colliders.AutoGenParent480ID99 = nil
-level01.colliders.AutoGenParent480ID100 = nil
-level01.colliders.AutoGenParent480ID101 = nil
-level01.colliders.AutoGenParent480ID102 = nil
-level01.colliders.AutoGenParent480ID103 = nil
-level01.colliders.AutoGenParent480ID104 = nil
-level01.colliders.AutoGenParent480ID105 = nil
-level01.colliders.AutoGenParent480ID106 = nil
-level01.colliders.AutoGenParent480ID107 = nil
-level01.colliders.AutoGenParent480ID108 = nil
-level01.colliders.AutoGenParent480ID109 = nil
-level01.colliders.AutoGenParent480ID110 = nil
-level01.colliders.AutoGenParent480ID111 = nil
-level01.colliders.AutoGenParent480ID112 = nil
-level01.colliders.AutoGenParent480ID113 = nil
-level01.colliders.AutoGenParent480ID114 = nil
-level01.colliders.AutoGenParent480ID115 = nil
-level01.colliders.AutoGenParent480ID116 = nil
-level01.colliders.AutoGenParent480ID117 = nil
-level01.colliders.AutoGenParent480ID118 = nil
-level01.colliders.AutoGenParent480ID119 = nil
-level01.colliders.AutoGenParent480ID120 = nil
-level01.colliders.AutoGenParent480ID121 = nil
-level01.colliders.AutoGenParent480ID122 = nil
-level01.colliders.AutoGenParent480ID123 = nil
-level01.colliders.AutoGenParent480ID124 = nil
-level01.colliders.AutoGenParent480ID125 = nil
-level01.colliders.AutoGenParent480ID126 = nil
-level01.colliders.AutoGenParent480ID127 = nil
-level01.colliders.AutoGenParent480ID128 = nil
-level01.colliders.AutoGenParent480ID129 = nil
-level01.colliders.AutoGenParent480ID130 = nil
-level01.colliders.AutoGenParent480ID131 = nil
-level01.colliders.AutoGenParent480ID132 = nil
-level01.colliders.AutoGenParent480ID133 = nil
-level01.colliders.AutoGenParent480ID134 = nil
-level01.colliders.AutoGenParent480ID135 = nil
-level01.colliders.AutoGenParent480ID136 = nil
-level01.colliders.AutoGenParent480ID137 = nil
-level01.colliders.AutoGenParent480ID138 = nil
-level01.colliders.AutoGenParent480ID139 = nil
-level01.colliders.AutoGenParent480ID140 = nil
-level01.colliders.AutoGenParent480ID141 = nil
-level01.colliders.AutoGenParent480ID142 = nil
-level01.colliders.AutoGenParent480ID143 = nil
-level01.colliders.AutoGenParent480ID144 = nil
-level01.colliders.AutoGenParent480ID145 = nil
-level01.colliders.AutoGenParent480ID146 = nil
-level01.colliders.AutoGenParent480ID147 = nil
-level01.colliders.AutoGenParent480ID148 = nil
-level01.colliders.AutoGenParent480ID149 = nil
-level01.colliders.AutoGenParent480ID150 = nil
-level01.colliders.AutoGenParent480ID151 = nil
-level01.colliders.AutoGenParent480ID152 = nil
-level01.colliders.AutoGenParent480ID153 = nil
-level01.colliders.AutoGenParent480ID154 = nil
-level01.colliders.AutoGenParent480ID155 = nil
-level01.colliders.AutoGenParent480ID156 = nil
-level01.colliders.AutoGenParent480ID157 = nil
-level01.colliders.AutoGenParent480ID158 = nil
-level01.colliders.AutoGenParent480ID159 = nil
-level01.colliders.AutoGenParent480ID160 = nil
-level01.colliders.AutoGenParent480ID161 = nil
-level01.colliders.AutoGenParent480ID162 = nil
-level01.colliders.AutoGenParent480ID163 = nil
-level01.colliders.AutoGenParent480ID164 = nil
-level01.colliders.AutoGenParent480ID165 = nil
-level01.colliders.AutoGenParent480ID166 = nil
-level01.colliders.AutoGenParent480ID167 = nil
-level01.colliders.AutoGenParent480ID168 = nil
-level01.colliders.AutoGenParent480ID169 = nil
-level01.colliders.AutoGenParent480ID170 = nil
-level01.colliders.AutoGenParent480ID171 = nil
-level01.colliders.AutoGenParent480ID172 = nil
-level01.colliders.AutoGenParent480ID173 = nil
-level01.colliders.AutoGenParent480ID174 = nil
-level01.colliders.AutoGenParent480ID175 = nil
-level01.colliders.AutoGenParent480ID176 = nil
-level01.colliders.AutoGenParent480ID177 = nil
-level01.colliders.AutoGenParent480ID178 = nil
-level01.colliders.AutoGenParent480ID179 = nil
-level01.colliders.AutoGenParent480ID180 = nil
-level01.colliders.AutoGenParent480ID181 = nil
-level01.colliders.AutoGenParent480ID182 = nil
-level01.colliders.AutoGenParent480ID183 = nil
-level01.colliders.AutoGenParent480ID184 = nil
-level01.colliders.AutoGenParent480ID185 = nil
-level01.colliders.AutoGenParent480ID186 = nil
-level01.colliders.AutoGenParent480ID187 = nil
-level01.colliders.AutoGenParent480ID188 = nil
-level01.colliders.AutoGenParent480ID189 = nil
-level01.colliders.AutoGenParent480ID190 = nil
-level01.colliders.AutoGenParent480ID191 = nil
-level01.colliders.AutoGenParent480ID192 = nil
-level01.colliders.AutoGenParent480ID193 = nil
-level01.colliders.AutoGenParent480ID194 = nil
-level01.colliders.AutoGenParent480ID195 = nil
-level01.colliders.AutoGenParent480ID196 = nil
-level01.colliders.AutoGenParent480ID197 = nil
-level01.colliders.AutoGenParent480ID198 = nil
-level01.colliders.AutoGenParent480ID199 = nil
-level01.colliders.AutoGenParent480ID200 = nil
-level01.colliders.AutoGenParent480ID201 = nil
-level01.colliders.AutoGenParent480ID202 = nil
-level01.colliders.AutoGenParent480ID203 = nil
-level01.colliders.AutoGenParent480ID204 = nil
-level01.colliders.AutoGenParent480ID205 = nil
-level01.colliders.AutoGenParent480ID206 = nil
-level01.colliders.AutoGenParent480ID207 = nil
-level01.colliders.AutoGenParent480ID208 = nil
-level01.colliders.AutoGenParent480ID209 = nil
-level01.colliders.AutoGenParent480ID210 = nil
-level01.colliders.AutoGenParent480ID211 = nil
-level01.colliders.AutoGenParent480ID212 = nil
-level01.colliders.AutoGenParent480ID213 = nil
-level01.colliders.AutoGenParent480ID214 = nil
-level01.colliders.AutoGenParent480ID215 = nil
-level01.colliders.AutoGenParent480ID216 = nil
-level01.colliders.AutoGenParent480ID217 = nil
-level01.colliders.AutoGenParent480ID218 = nil
-level01.colliders.AutoGenParent480ID219 = nil
-level01.colliders.AutoGenParent480ID220 = nil
-level01.colliders.AutoGenParent480ID221 = nil
-level01.colliders.AutoGenParent480ID222 = nil
-level01.colliders.AutoGenParent480ID223 = nil
-level01.colliders.AutoGenParent480ID224 = nil
-level01.colliders.AutoGenParent480ID225 = nil
-level01.colliders.AutoGenParent480ID226 = nil
-level01.colliders.AutoGenParent480ID227 = nil
-level01.colliders.AutoGenParent480ID228 = nil
-level01.colliders.AutoGenParent480ID229 = nil
-level01.colliders.AutoGenParent480ID230 = nil
-level01.colliders.AutoGenParent480ID231 = nil
-level01.colliders.AutoGenParent480ID232 = nil
-level01.colliders.AutoGenParent480ID233 = nil
-level01.colliders.AutoGenParent480ID234 = nil
-level01.colliders.AutoGenParent480ID235 = nil
-level01.colliders.AutoGenParent480ID236 = nil
-level01.colliders.AutoGenParent480ID237 = nil
-level01.colliders.AutoGenParent480ID238 = nil
-level01.colliders.AutoGenParent480ID239 = nil
-level01.colliders.AutoGenParent480ID240 = nil
-level01.colliders.AutoGenParent480ID241 = nil
-level01.colliders.AutoGenParent480ID242 = nil
-level01.colliders.AutoGenParent480ID243 = nil
-level01.colliders.AutoGenParent480ID244 = nil
-level01.colliders.AutoGenParent480ID245 = nil
-level01.colliders.AutoGenParent480ID246 = nil
-level01.colliders.AutoGenParent480ID247 = nil
-level01.colliders.AutoGenParent480ID248 = nil
-level01.colliders.AutoGenParent480ID249 = nil
-level01.colliders.AutoGenParent480ID250 = nil
-level01.colliders.AutoGenParent480ID251 = nil
-level01.colliders.AutoGenParent480ID252 = nil
-level01.colliders.AutoGenParent480ID253 = nil
-level01.colliders.AutoGenParent480ID254 = nil
-level01.colliders.AutoGenParent480ID255 = nil
-level01.colliders.AutoGenParent480ID256 = nil
-level01.colliders.AutoGenParent480ID257 = nil
-level01.colliders.AutoGenParent480ID258 = nil
-level01.colliders.AutoGenParent480ID259 = nil
-level01.colliders.AutoGenParent480ID260 = nil
-level01.colliders.AutoGenParent480ID261 = nil
-level01.colliders.AutoGenParent480ID262 = nil
-level01.colliders.AutoGenParent480ID263 = nil
-level01.colliders.AutoGenParent480ID264 = nil
-level01.colliders.AutoGenParent480ID265 = nil
-level01.colliders.AutoGenParent480ID266 = nil
-level01.colliders.AutoGenParent480ID267 = nil
-level01.colliders.AutoGenParent480ID268 = nil
-level01.colliders.AutoGenParent480ID269 = nil
-level01.colliders.AutoGenParent480ID270 = nil
-level01.colliders.AutoGenParent480ID271 = nil
-level01.colliders.AutoGenParent480ID272 = nil
-level01.colliders.AutoGenParent480ID273 = nil
-level01.colliders.AutoGenParent480ID274 = nil
-level01.colliders.AutoGenParent480ID275 = nil
-level01.colliders.AutoGenParent480ID276 = nil
-level01.colliders.AutoGenParent480ID277 = nil
-level01.colliders.AutoGenParent480ID278 = nil
-level01.colliders.AutoGenParent480ID279 = nil
-level01.colliders.AutoGenParent480ID280 = nil
-level01.colliders.AutoGenParent480ID281 = nil
-level01.colliders.AutoGenParent480ID282 = nil
-level01.colliders.AutoGenParent480ID283 = nil
-level01.colliders.AutoGenParent480ID284 = nil
-level01.colliders.AutoGenParent480ID285 = nil
-level01.colliders.AutoGenParent480ID286 = nil
-level01.colliders.AutoGenParent480ID287 = nil
-level01.colliders.AutoGenParent480ID288 = nil
-level01.colliders.AutoGenParent480ID289 = nil
-level01.colliders.AutoGenParent480ID290 = nil
-level01.colliders.AutoGenParent480ID291 = nil
-level01.colliders.AutoGenParent480ID292 = nil
-level01.colliders.AutoGenParent480ID293 = nil
-level01.colliders.AutoGenParent480ID294 = nil
-level01.colliders.AutoGenParent480ID295 = nil
-level01.colliders.AutoGenParent480ID296 = nil
-level01.colliders.AutoGenParent480ID297 = nil
-level01.colliders.AutoGenParent480ID298 = nil
-level01.colliders.AutoGenParent480ID299 = nil
-level01.colliders.AutoGenParent480ID300 = nil
-level01.colliders.AutoGenParent480ID301 = nil
-level01.colliders.AutoGenParent480ID302 = nil
-level01.colliders.AutoGenParent480ID303 = nil
-level01.colliders.AutoGenParent480ID304 = nil
-level01.colliders.AutoGenParent480ID305 = nil
-level01.colliders.AutoGenParent480ID306 = nil
-level01.colliders.AutoGenParent480ID307 = nil
-level01.colliders.AutoGenParent480ID308 = nil
-level01.colliders.AutoGenParent480ID309 = nil
-level01.colliders.AutoGenParent480ID310 = nil
-level01.colliders.AutoGenParent480ID311 = nil
-level01.colliders.AutoGenParent480ID312 = nil
-level01.colliders.AutoGenParent480ID313 = nil
-level01.colliders.AutoGenParent480ID314 = nil
-level01.colliders.AutoGenParent480ID315 = nil
-level01.colliders.AutoGenParent480ID316 = nil
-level01.colliders.AutoGenParent480ID317 = nil
-level01.colliders.AutoGenParent480ID318 = nil
-level01.colliders.AutoGenParent480ID319 = nil
-level01.colliders.AutoGenParent480ID320 = nil
-level01.colliders.AutoGenParent480ID321 = nil
-level01.colliders.AutoGenParent480ID322 = nil
-level01.colliders.AutoGenParent480ID323 = nil
-level01.colliders.AutoGenParent480ID324 = nil
-level01.colliders.AutoGenParent480ID325 = nil
-level01.colliders.AutoGenParent480ID326 = nil
-level01.colliders.AutoGenParent480ID327 = nil
-level01.colliders.AutoGenParent480ID328 = nil
-level01.colliders.AutoGenParent480ID329 = nil
-level01.colliders.AutoGenParent480ID330 = nil
-level01.colliders.AutoGenParent480ID331 = nil
-level01.colliders.AutoGenParent480ID332 = nil
-level01.colliders.AutoGenParent480ID333 = nil
-level01.colliders.AutoGenParent480ID334 = nil
-level01.colliders.AutoGenParent480ID335 = nil
-level01.colliders.AutoGenParent480ID336 = nil
-level01.colliders.AutoGenParent480ID337 = nil
-level01.colliders.AutoGenParent480ID338 = nil
-level01.colliders.AutoGenParent480ID339 = nil
-level01.colliders.AutoGenParent480ID340 = nil
-level01.colliders.AutoGenParent480ID341 = nil
-level01.colliders.AutoGenParent480ID342 = nil
-level01.colliders.AutoGenParent480ID343 = nil
-level01.colliders.AutoGenParent480ID344 = nil
-level01.colliders.AutoGenParent480ID345 = nil
-level01.colliders.AutoGenParent480ID346 = nil
-level01.colliders.AutoGenParent480ID347 = nil
-level01.colliders.AutoGenParent480ID348 = nil
-level01.colliders.AutoGenParent480ID349 = nil
+
+level01.colliders.AutoGenParent483ID = {}
+level01.colliders.AutoGenParent483ID.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+level01.colliders.AutoGenParent483ID.collider:SetMaxPos(512.3,78.3839,383.3)
+level01.colliders.AutoGenParent483ID.collider:SetPos(0,0,0)
+level01.colliders.AutoGenParent483ID1 = {}
+level01.colliders.AutoGenParent483ID1.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID1.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID1.collider:SetMinPos(1.74275,-3.32028,33.7004)
+level01.colliders.AutoGenParent483ID1.collider:SetMaxPos(276.131,62.9209,237.268)
+level01.colliders.AutoGenParent483ID.collider:AddChild(level01.colliders.AutoGenParent483ID1.collider)
+level01.colliders.AutoGenParent483ID2 = {}
+level01.colliders.AutoGenParent483ID2.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID2.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID2.collider:SetMinPos(3.73167,1.54031,127.7)
+level01.colliders.AutoGenParent483ID2.collider:SetMaxPos(55.2591,16.3583,148.212)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID2.collider)
+level01.colliders.AutoGenParent483ID3 = {}
+level01.colliders.AutoGenParent483ID3.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID3.collider:SetOffset(6,6.83489,143)
+level01.colliders.AutoGenParent483ID3.collider:SetZAxis(0.447214,0,-0.894427)
+level01.colliders.AutoGenParent483ID3.collider:SetHalfLengths(0.3,5.29458,4.47214)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID3.collider)
+level01.colliders.AutoGenParent483ID4 = {}
+level01.colliders.AutoGenParent483ID4.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID4.collider:SetOffset(10.5,7.12947,140)
+level01.colliders.AutoGenParent483ID4.collider:SetZAxis(0.928477,0,0.371391)
+level01.colliders.AutoGenParent483ID4.collider:SetHalfLengths(0.3,5.14729,2.69258)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID4.collider)
+level01.colliders.AutoGenParent483ID5 = {}
+level01.colliders.AutoGenParent483ID5.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID5.collider:SetOffset(17,6.98218,141)
+level01.colliders.AutoGenParent483ID5.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID5.collider:SetHalfLengths(0.3,5,4)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID5.collider)
+level01.colliders.AutoGenParent483ID6 = {}
+level01.colliders.AutoGenParent483ID6.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID6.collider:SetOffset(45,8.60238,129.5)
+level01.colliders.AutoGenParent483ID6.collider:SetZAxis(-0.894427,0,-0.447214)
+level01.colliders.AutoGenParent483ID6.collider:SetHalfLengths(0.3,5.29458,3.3541)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID6.collider)
+level01.colliders.AutoGenParent483ID7 = {}
+level01.colliders.AutoGenParent483ID7.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID7.collider:SetOffset(51.5,8.60238,137)
+level01.colliders.AutoGenParent483ID7.collider:SetZAxis(0.503871,0,0.863779)
+level01.colliders.AutoGenParent483ID7.collider:SetHalfLengths(0.3,5.73645,6.94622)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID7.collider)
+level01.colliders.AutoGenParent483ID8 = {}
+level01.colliders.AutoGenParent483ID8.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID8.collider:SetOffset(4.5,6.83489,147.5)
+level01.colliders.AutoGenParent483ID8.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID8.collider:SetHalfLengths(0.3,5.14729,0.707107)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID8.collider)
+level01.colliders.AutoGenParent483ID9 = {}
+level01.colliders.AutoGenParent483ID9.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID9.collider:SetOffset(24,10.8555,139)
+level01.colliders.AutoGenParent483ID9.collider:SetZAxis(0.367737,0,0.92993)
+level01.colliders.AutoGenParent483ID9.collider:SetHalfLengths(2.32777,5.5028,2.15084)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID9.collider)
+level01.colliders.AutoGenParent483ID10 = {}
+level01.colliders.AutoGenParent483ID10.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID10.collider:SetOffset(36.5,8.3078,128)
+level01.colliders.AutoGenParent483ID10.collider:SetZAxis(-1,0,0)
+level01.colliders.AutoGenParent483ID10.collider:SetHalfLengths(0.3,5.44187,5.5)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID10.collider)
+level01.colliders.AutoGenParent483ID11 = {}
+level01.colliders.AutoGenParent483ID11.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID11.collider:SetOffset(28,7.86593,132)
+level01.colliders.AutoGenParent483ID11.collider:SetZAxis(-0.6,0,0.8)
+level01.colliders.AutoGenParent483ID11.collider:SetHalfLengths(0.3,5.14729,5)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID11.collider)
+level01.colliders.AutoGenParent483ID12 = {}
+level01.colliders.AutoGenParent483ID12.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID12.collider:SetOffset(23,7.71863,138.5)
+level01.colliders.AutoGenParent483ID12.collider:SetZAxis(-0.624695,0,0.780869)
+level01.colliders.AutoGenParent483ID12.collider:SetHalfLengths(0.3,5.73645,3.20156)
+level01.colliders.AutoGenParent483ID2.collider:AddChild(level01.colliders.AutoGenParent483ID12.collider)
+level01.colliders.AutoGenParent483ID13 = {}
+level01.colliders.AutoGenParent483ID13.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID13.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID13.collider:SetMinPos(1.74275,-1.99466,37.7542)
+level01.colliders.AutoGenParent483ID13.collider:SetMaxPos(199.172,62.9209,201.134)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID13.collider)
+level01.colliders.AutoGenParent483ID14 = {}
+level01.colliders.AutoGenParent483ID14.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID14.collider:SetOffset(49,8.01322,186.5)
+level01.colliders.AutoGenParent483ID14.collider:SetZAxis(-0.986394,0,0.164399)
+level01.colliders.AutoGenParent483ID14.collider:SetHalfLengths(0.3,5,3.04138)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID14.collider)
+level01.colliders.AutoGenParent483ID15 = {}
+level01.colliders.AutoGenParent483ID15.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID15.collider:SetOffset(44,8.01322,187)
+level01.colliders.AutoGenParent483ID15.collider:SetZAxis(-1,0,0)
+level01.colliders.AutoGenParent483ID15.collider:SetHalfLengths(0.3,5,2)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID15.collider)
+level01.colliders.AutoGenParent483ID16 = {}
+level01.colliders.AutoGenParent483ID16.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID16.collider:SetOffset(40,8.01322,185.5)
+level01.colliders.AutoGenParent483ID16.collider:SetZAxis(-0.8,0,-0.6)
+level01.colliders.AutoGenParent483ID16.collider:SetHalfLengths(0.3,5.29458,2.5)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID16.collider)
+level01.colliders.AutoGenParent483ID17 = {}
+level01.colliders.AutoGenParent483ID17.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID17.collider:SetOffset(35.5,8.16051,198)
+level01.colliders.AutoGenParent483ID17.collider:SetZAxis(0.447214,0,0.894427)
+level01.colliders.AutoGenParent483ID17.collider:SetHalfLengths(0.3,5.14729,3.3541)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID17.collider)
+level01.colliders.AutoGenParent483ID18 = {}
+level01.colliders.AutoGenParent483ID18.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID18.collider:SetOffset(3.5,4.03637,196.5)
+level01.colliders.AutoGenParent483ID18.collider:SetZAxis(0.514496,0,0.857493)
+level01.colliders.AutoGenParent483ID18.collider:SetHalfLengths(0.3,5.58916,2.91548)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID18.collider)
+level01.colliders.AutoGenParent483ID19 = {}
+level01.colliders.AutoGenParent483ID19.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID19.collider:SetOffset(27,5.36198,196.5)
+level01.colliders.AutoGenParent483ID19.collider:SetZAxis(0.894427,0,0.447214)
+level01.colliders.AutoGenParent483ID19.collider:SetHalfLengths(0.3,7.35665,1.11803)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID19.collider)
+level01.colliders.AutoGenParent483ID20 = {}
+level01.colliders.AutoGenParent483ID20.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID20.collider:SetOffset(176.5,56.584,78.5)
+level01.colliders.AutoGenParent483ID20.collider:SetZAxis(0.058722,0,-0.998274)
+level01.colliders.AutoGenParent483ID20.collider:SetHalfLengths(0.3,5.33421,8.51469)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID20.collider)
+level01.colliders.AutoGenParent483ID21 = {}
+level01.colliders.AutoGenParent483ID21.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID21.collider:SetOffset(179,56.2498,63.5)
+level01.colliders.AutoGenParent483ID21.collider:SetZAxis(0.294086,0,-0.955779)
+level01.colliders.AutoGenParent483ID21.collider:SetHalfLengths(0.3,6.67107,6.80074)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID21.collider)
+level01.colliders.AutoGenParent483ID22 = {}
+level01.colliders.AutoGenParent483ID22.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID22.collider:SetOffset(185,54.5788,51)
+level01.colliders.AutoGenParent483ID22.collider:SetZAxis(0.5547,0,-0.83205)
+level01.colliders.AutoGenParent483ID22.collider:SetHalfLengths(0.3,6.00264,7.2111)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID22.collider)
+level01.colliders.AutoGenParent483ID23 = {}
+level01.colliders.AutoGenParent483ID23.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID23.collider:SetOffset(194,53.5761,41.5)
+level01.colliders.AutoGenParent483ID23.collider:SetZAxis(0.819232,0,-0.573462)
+level01.colliders.AutoGenParent483ID23.collider:SetHalfLengths(0.3,5.66843,6.10328)
+level01.colliders.AutoGenParent483ID13.collider:AddChild(level01.colliders.AutoGenParent483ID23.collider)
+level01.colliders.AutoGenParent483ID24 = {}
+level01.colliders.AutoGenParent483ID24.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID24.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID24.collider:SetMinPos(4.75038,-3.32028,86.9701)
+level01.colliders.AutoGenParent483ID24.collider:SetMaxPos(177.299,62.0297,206.174)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID24.collider)
+level01.colliders.AutoGenParent483ID25 = {}
+level01.colliders.AutoGenParent483ID25.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID25.collider:SetOffset(37.5,8.16051,196.5)
+level01.colliders.AutoGenParent483ID25.collider:SetZAxis(-0.948683,0,0.316228)
+level01.colliders.AutoGenParent483ID25.collider:SetHalfLengths(0.3,5.14729,1.58114)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID25.collider)
+level01.colliders.AutoGenParent483ID26 = {}
+level01.colliders.AutoGenParent483ID26.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID26.collider:SetOffset(42.5,8.3078,200)
+level01.colliders.AutoGenParent483ID26.collider:SetZAxis(0.98387,0,-0.178885)
+level01.colliders.AutoGenParent483ID26.collider:SetHalfLengths(0.3,6.32561,5.59017)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID26.collider)
+level01.colliders.AutoGenParent483ID27 = {}
+level01.colliders.AutoGenParent483ID27.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID27.collider:SetOffset(50.5,9.63341,202.5)
+level01.colliders.AutoGenParent483ID27.collider:SetZAxis(0.581238,0,0.813733)
+level01.colliders.AutoGenParent483ID27.collider:SetHalfLengths(0.3,5.73645,4.30116)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID27.collider)
+level01.colliders.AutoGenParent483ID28 = {}
+level01.colliders.AutoGenParent483ID28.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID28.collider:SetOffset(6,3.44721,200.5)
+level01.colliders.AutoGenParent483ID28.collider:SetZAxis(0.5547,0,0.83205)
+level01.colliders.AutoGenParent483ID28.collider:SetHalfLengths(0.3,5,1.80278)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID28.collider)
+level01.colliders.AutoGenParent483ID29 = {}
+level01.colliders.AutoGenParent483ID29.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID29.collider:SetOffset(7.5,3.44721,203)
+level01.colliders.AutoGenParent483ID29.collider:SetZAxis(0.447214,0,0.894427)
+level01.colliders.AutoGenParent483ID29.collider:SetHalfLengths(0.3,5.14729,1.11803)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID29.collider)
+level01.colliders.AutoGenParent483ID30 = {}
+level01.colliders.AutoGenParent483ID30.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID30.collider:SetOffset(15,3.29992,202.5)
+level01.colliders.AutoGenParent483ID30.collider:SetZAxis(0.977802,0,-0.209529)
+level01.colliders.AutoGenParent483ID30.collider:SetHalfLengths(0.3,5.14729,7.15891)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID30.collider)
+level01.colliders.AutoGenParent483ID31 = {}
+level01.colliders.AutoGenParent483ID31.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID31.collider:SetOffset(24.5,3.15263,199.5)
+level01.colliders.AutoGenParent483ID31.collider:SetZAxis(0.857493,0,-0.514496)
+level01.colliders.AutoGenParent483ID31.collider:SetHalfLengths(0.3,6.47291,2.91548)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID31.collider)
+level01.colliders.AutoGenParent483ID32 = {}
+level01.colliders.AutoGenParent483ID32.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID32.collider:SetOffset(29,7.71863,197)
+level01.colliders.AutoGenParent483ID32.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID32.collider:SetHalfLengths(0.3,5.44187,1)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID32.collider)
+level01.colliders.AutoGenParent483ID33 = {}
+level01.colliders.AutoGenParent483ID33.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID33.collider:SetOffset(31.5,8.16051,200)
+level01.colliders.AutoGenParent483ID33.collider:SetZAxis(0.447214,0,0.894427)
+level01.colliders.AutoGenParent483ID33.collider:SetHalfLengths(0.3,5.73645,3.3541)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID33.collider)
+level01.colliders.AutoGenParent483ID34 = {}
+level01.colliders.AutoGenParent483ID34.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID34.collider:SetOffset(176.5,56.8068,92)
+level01.colliders.AutoGenParent483ID34.collider:SetZAxis(-0.0995037,0,-0.995037)
+level01.colliders.AutoGenParent483ID34.collider:SetHalfLengths(0.3,5.22281,5.02494)
+level01.colliders.AutoGenParent483ID24.collider:AddChild(level01.colliders.AutoGenParent483ID34.collider)
+level01.colliders.AutoGenParent483ID35 = {}
+level01.colliders.AutoGenParent483ID35.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID35.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID35.collider:SetMinPos(31.7559,3.3078,33.7395)
+level01.colliders.AutoGenParent483ID35.collider:SetMaxPos(209.166,61.8068,211.174)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID35.collider)
+level01.colliders.AutoGenParent483ID36 = {}
+level01.colliders.AutoGenParent483ID36.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID36.collider:SetOffset(95,23.1841,192.5)
+level01.colliders.AutoGenParent483ID36.collider:SetZAxis(0.923077,0,-0.384615)
+level01.colliders.AutoGenParent483ID36.collider:SetHalfLengths(0.3,8.82956,6.5)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID36.collider)
+level01.colliders.AutoGenParent483ID37 = {}
+level01.colliders.AutoGenParent483ID37.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID37.collider:SetOffset(32.5,8.89696,203.5)
+level01.colliders.AutoGenParent483ID37.collider:SetZAxis(-0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID37.collider:SetHalfLengths(0.3,5.44187,0.707107)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID37.collider)
+level01.colliders.AutoGenParent483ID38 = {}
+level01.colliders.AutoGenParent483ID38.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID38.collider:SetOffset(34.5,8.45509,207.5)
+level01.colliders.AutoGenParent483ID38.collider:SetZAxis(0.581238,0,0.813733)
+level01.colliders.AutoGenParent483ID38.collider:SetHalfLengths(0.3,5.14729,4.30116)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID38.collider)
+level01.colliders.AutoGenParent483ID39 = {}
+level01.colliders.AutoGenParent483ID39.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID39.collider:SetOffset(139.5,48.7857,153)
+level01.colliders.AutoGenParent483ID39.collider:SetZAxis(0.351123,0,-0.936329)
+level01.colliders.AutoGenParent483ID39.collider:SetHalfLengths(0.3,6.44826,4.272)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID39.collider)
+level01.colliders.AutoGenParent483ID40 = {}
+level01.colliders.AutoGenParent483ID40.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID40.collider:SetOffset(144.5,50.234,147.5)
+level01.colliders.AutoGenParent483ID40.collider:SetZAxis(0.919145,0,-0.393919)
+level01.colliders.AutoGenParent483ID40.collider:SetHalfLengths(0.3,5.22281,3.80789)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID40.collider)
+level01.colliders.AutoGenParent483ID41 = {}
+level01.colliders.AutoGenParent483ID41.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID41.collider:SetOffset(181.5,55.2472,112)
+level01.colliders.AutoGenParent483ID41.collider:SetZAxis(-0.287348,0,-0.957826)
+level01.colliders.AutoGenParent483ID41.collider:SetHalfLengths(0.3,6.55966,15.6605)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID41.collider)
+level01.colliders.AutoGenParent483ID42 = {}
+level01.colliders.AutoGenParent483ID42.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID42.collider:SetOffset(202.5,52.9077,36)
+level01.colliders.AutoGenParent483ID42.collider:SetZAxis(0.868243,0,-0.496139)
+level01.colliders.AutoGenParent483ID42.collider:SetHalfLengths(0.3,5.89124,4.03113)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID42.collider)
+level01.colliders.AutoGenParent483ID43 = {}
+level01.colliders.AutoGenParent483ID43.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID43.collider:SetOffset(204.5,52.2393,52)
+level01.colliders.AutoGenParent483ID43.collider:SetZAxis(-0.83205,0,0.5547)
+level01.colliders.AutoGenParent483ID43.collider:SetHalfLengths(0.3,6.44826,5.40833)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID43.collider)
+level01.colliders.AutoGenParent483ID44 = {}
+level01.colliders.AutoGenParent483ID44.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID44.collider:SetOffset(197,53.6875,59.5)
+level01.colliders.AutoGenParent483ID44.collider:SetZAxis(-0.5547,0,0.83205)
+level01.colliders.AutoGenParent483ID44.collider:SetHalfLengths(0.3,5.89124,5.40833)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID44.collider)
+level01.colliders.AutoGenParent483ID45 = {}
+level01.colliders.AutoGenParent483ID45.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID45.collider:SetOffset(193.5,54.5788,70.5)
+level01.colliders.AutoGenParent483ID45.collider:SetZAxis(-0.0766965,0,0.997055)
+level01.colliders.AutoGenParent483ID45.collider:SetHalfLengths(0.3,6.00264,6.5192)
+level01.colliders.AutoGenParent483ID35.collider:AddChild(level01.colliders.AutoGenParent483ID45.collider)
+level01.colliders.AutoGenParent483ID46 = {}
+level01.colliders.AutoGenParent483ID46.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID46.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID46.collider:SetMinPos(36.8512,2.71863,33.7004)
+level01.colliders.AutoGenParent483ID46.collider:SetMaxPos(225.016,61.584,215.26)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID46.collider)
+level01.colliders.AutoGenParent483ID47 = {}
+level01.colliders.AutoGenParent483ID47.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID47.collider:SetOffset(55,10.3699,207.5)
+level01.colliders.AutoGenParent483ID47.collider:SetZAxis(0.8,0,0.6)
+level01.colliders.AutoGenParent483ID47.collider:SetHalfLengths(0.3,6.03103,2.5)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID47.collider)
+level01.colliders.AutoGenParent483ID48 = {}
+level01.colliders.AutoGenParent483ID48.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID48.collider:SetOffset(62,11.4009,208)
+level01.colliders.AutoGenParent483ID48.collider:SetZAxis(0.980581,0,-0.196116)
+level01.colliders.AutoGenParent483ID48.collider:SetHalfLengths(0.3,8.68226,5.09902)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID48.collider)
+level01.colliders.AutoGenParent483ID49 = {}
+level01.colliders.AutoGenParent483ID49.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID49.collider:SetOffset(71.5,15.0832,205.5)
+level01.colliders.AutoGenParent483ID49.collider:SetZAxis(0.948683,0,-0.316228)
+level01.colliders.AutoGenParent483ID49.collider:SetHalfLengths(0.3,8.24039,4.74342)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID49.collider)
+level01.colliders.AutoGenParent483ID50 = {}
+level01.colliders.AutoGenParent483ID50.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID50.collider:SetOffset(79,18.3236,202.5)
+level01.colliders.AutoGenParent483ID50.collider:SetZAxis(0.894427,0,-0.447214)
+level01.colliders.AutoGenParent483ID50.collider:SetHalfLengths(0.3,6.76749,3.3541)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID50.collider)
+level01.colliders.AutoGenParent483ID51 = {}
+level01.colliders.AutoGenParent483ID51.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID51.collider:SetOffset(85.5,20.091,198)
+level01.colliders.AutoGenParent483ID51.collider:SetZAxis(0.759257,0,-0.650791)
+level01.colliders.AutoGenParent483ID51.collider:SetHalfLengths(0.3,8.0931,4.60977)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID51.collider)
+level01.colliders.AutoGenParent483ID52 = {}
+level01.colliders.AutoGenParent483ID52.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID52.collider:SetOffset(40.5,8.60238,213)
+level01.colliders.AutoGenParent483ID52.collider:SetZAxis(0.868243,0,0.496139)
+level01.colliders.AutoGenParent483ID52.collider:SetHalfLengths(0.3,5.73645,4.03113)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID52.collider)
+level01.colliders.AutoGenParent483ID53 = {}
+level01.colliders.AutoGenParent483ID53.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID53.collider:SetOffset(139,44.2181,162.5)
+level01.colliders.AutoGenParent483ID53.collider:SetZAxis(-0.178885,0,-0.98387)
+level01.colliders.AutoGenParent483ID53.collider:SetHalfLengths(0.3,9.56758,5.59017)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID53.collider)
+level01.colliders.AutoGenParent483ID54 = {}
+level01.colliders.AutoGenParent483ID54.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID54.collider:SetOffset(152,50.4568,146.5)
+level01.colliders.AutoGenParent483ID54.collider:SetZAxis(0.992278,0,0.124035)
+level01.colliders.AutoGenParent483ID54.collider:SetHalfLengths(0.3,5.22281,4.03113)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID54.collider)
+level01.colliders.AutoGenParent483ID55 = {}
+level01.colliders.AutoGenParent483ID55.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID55.collider:SetOffset(215.5,52.0165,34.5)
+level01.colliders.AutoGenParent483ID55.collider:SetZAxis(0.998618,0,0.0525588)
+level01.colliders.AutoGenParent483ID55.collider:SetHalfLengths(0.3,9.01056,9.51315)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID55.collider)
+level01.colliders.AutoGenParent483ID56 = {}
+level01.colliders.AutoGenParent483ID56.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID56.collider:SetOffset(194,55.5814,84)
+level01.colliders.AutoGenParent483ID56.collider:SetZAxis(0.141421,0,0.98995)
+level01.colliders.AutoGenParent483ID56.collider:SetHalfLengths(0.3,6.00264,7.07107)
+level01.colliders.AutoGenParent483ID46.collider:AddChild(level01.colliders.AutoGenParent483ID56.collider)
+level01.colliders.AutoGenParent483ID57 = {}
+level01.colliders.AutoGenParent483ID57.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID57.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID57.collider:SetMinPos(43.9576,-1.70009,47.7023)
+level01.colliders.AutoGenParent483ID57.collider:SetMaxPos(217.037,62.1411,217.3)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID57.collider)
+level01.colliders.AutoGenParent483ID58 = {}
+level01.colliders.AutoGenParent483ID58.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID58.collider:SetOffset(105,27.0137,192.5)
+level01.colliders.AutoGenParent483ID58.collider:SetZAxis(0.847998,0,0.529999)
+level01.colliders.AutoGenParent483ID58.collider:SetHalfLengths(0.3,8.68227,4.71699)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID58.collider)
+level01.colliders.AutoGenParent483ID59 = {}
+level01.colliders.AutoGenParent483ID59.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID59.collider:SetOffset(101,28.6339,199)
+level01.colliders.AutoGenParent483ID59.collider:SetZAxis(-1,0,0)
+level01.colliders.AutoGenParent483ID59.collider:SetHalfLengths(0.3,6.32562,1)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID59.collider)
+level01.colliders.AutoGenParent483ID60 = {}
+level01.colliders.AutoGenParent483ID60.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID60.collider:SetOffset(95,27.3083,202.5)
+level01.colliders.AutoGenParent483ID60.collider:SetZAxis(-0.819232,0,0.573462)
+level01.colliders.AutoGenParent483ID60.collider:SetHalfLengths(0.3,9.7133,6.10328)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID60.collider)
+level01.colliders.AutoGenParent483ID61 = {}
+level01.colliders.AutoGenParent483ID61.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID61.collider:SetOffset(51,9.33883,216)
+level01.colliders.AutoGenParent483ID61.collider:SetZAxis(0.98995,0,0.141421)
+level01.colliders.AutoGenParent483ID61.collider:SetHalfLengths(0.3,5.58916,7.07107)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID61.collider)
+level01.colliders.AutoGenParent483ID62 = {}
+level01.colliders.AutoGenParent483ID62.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID62.collider:SetOffset(63,8.74967,217)
+level01.colliders.AutoGenParent483ID62.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID62.collider:SetHalfLengths(0.3,10.4498,5)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID62.collider)
+level01.colliders.AutoGenParent483ID63 = {}
+level01.colliders.AutoGenParent483ID63.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID63.collider:SetOffset(141,40.5418,173)
+level01.colliders.AutoGenParent483ID63.collider:SetZAxis(-0.196116,0,-0.980581)
+level01.colliders.AutoGenParent483ID63.collider:SetHalfLengths(0.3,8.67635,5.09902)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID63.collider)
+level01.colliders.AutoGenParent483ID64 = {}
+level01.colliders.AutoGenParent483ID64.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID64.collider:SetOffset(161.5,50.234,149)
+level01.colliders.AutoGenParent483ID64.collider:SetZAxis(0.939793,0,0.341743)
+level01.colliders.AutoGenParent483ID64.collider:SetHalfLengths(0.3,6.89388,5.85235)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID64.collider)
+level01.colliders.AutoGenParent483ID65 = {}
+level01.colliders.AutoGenParent483ID65.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID65.collider:SetOffset(213,50.4568,48.5)
+level01.colliders.AutoGenParent483ID65.collider:SetZAxis(-0.992278,0,0.124035)
+level01.colliders.AutoGenParent483ID65.collider:SetHalfLengths(0.3,6.78247,4.03113)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID65.collider)
+level01.colliders.AutoGenParent483ID66 = {}
+level01.colliders.AutoGenParent483ID66.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID66.collider:SetOffset(197.5,56.584,98.5)
+level01.colliders.AutoGenParent483ID66.collider:SetZAxis(0.316228,0,0.948683)
+level01.colliders.AutoGenParent483ID66.collider:SetHalfLengths(0.3,5.55702,7.90569)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID66.collider)
+level01.colliders.AutoGenParent483ID67 = {}
+level01.colliders.AutoGenParent483ID67.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID67.collider:SetOffset(153.5,50.5682,161.5)
+level01.colliders.AutoGenParent483ID67.collider:SetZAxis(-0.393919,0,0.919145)
+level01.colliders.AutoGenParent483ID67.collider:SetHalfLengths(0.3,6.67107,3.80789)
+level01.colliders.AutoGenParent483ID57.collider:AddChild(level01.colliders.AutoGenParent483ID67.collider)
+level01.colliders.AutoGenParent483ID68 = {}
+level01.colliders.AutoGenParent483ID68.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID68.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID68.collider:SetMinPos(67.8529,7.72652,47.7018)
+level01.colliders.AutoGenParent483ID68.collider:SetMaxPos(226.033,62.6981,226.261)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID68.collider)
+level01.colliders.AutoGenParent483ID69 = {}
+level01.colliders.AutoGenParent483ID69.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID69.collider:SetOffset(111,30.696,195.5)
+level01.colliders.AutoGenParent483ID69.collider:SetZAxis(0.970143,0,0.242536)
+level01.colliders.AutoGenParent483ID69.collider:SetHalfLengths(0.3,6.17832,2.06155)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID69.collider)
+level01.colliders.AutoGenParent483ID70 = {}
+level01.colliders.AutoGenParent483ID70.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID70.collider:SetOffset(115.5,31.8743,198)
+level01.colliders.AutoGenParent483ID70.collider:SetZAxis(0.780869,0,0.624695)
+level01.colliders.AutoGenParent483ID70.collider:SetHalfLengths(0.3,7.79852,3.20156)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID70.collider)
+level01.colliders.AutoGenParent483ID71 = {}
+level01.colliders.AutoGenParent483ID71.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID71.collider:SetOffset(90,21.5639,213.5)
+level01.colliders.AutoGenParent483ID71.collider:SetZAxis(0.406139,0,0.913812)
+level01.colliders.AutoGenParent483ID71.collider:SetHalfLengths(0.3,5.88374,4.92443)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID71.collider)
+level01.colliders.AutoGenParent483ID72 = {}
+level01.colliders.AutoGenParent483ID72.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID72.collider:SetOffset(107,34.6728,203)
+level01.colliders.AutoGenParent483ID72.collider:SetZAxis(-0.780869,0,-0.624695)
+level01.colliders.AutoGenParent483ID72.collider:SetHalfLengths(0.3,11.0389,6.40312)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID72.collider)
+level01.colliders.AutoGenParent483ID73 = {}
+level01.colliders.AutoGenParent483ID73.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID73.collider:SetOffset(89,22.595,207.5)
+level01.colliders.AutoGenParent483ID73.collider:SetZAxis(-0.5547,0,0.83205)
+level01.colliders.AutoGenParent483ID73.collider:SetHalfLengths(0.3,6.03103,1.80278)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID73.collider)
+level01.colliders.AutoGenParent483ID74 = {}
+level01.colliders.AutoGenParent483ID74.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID74.collider:SetOffset(76,14.1994,221.5)
+level01.colliders.AutoGenParent483ID74.collider:SetZAxis(0.871576,0,0.490261)
+level01.colliders.AutoGenParent483ID74.collider:SetHalfLengths(0.3,6.4729,9.17878)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID74.collider)
+level01.colliders.AutoGenParent483ID75 = {}
+level01.colliders.AutoGenParent483ID75.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID75.collider:SetOffset(170,52.1279,152)
+level01.colliders.AutoGenParent483ID75.collider:SetZAxis(0.948683,0,0.316228)
+level01.colliders.AutoGenParent483ID75.collider:SetHalfLengths(0.3,5.66843,3.16228)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID75.collider)
+level01.colliders.AutoGenParent483ID76 = {}
+level01.colliders.AutoGenParent483ID76.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID76.collider:SetOffset(221.5,48.4515,48.5)
+level01.colliders.AutoGenParent483ID76.collider:SetZAxis(-0.993884,0,-0.110432)
+level01.colliders.AutoGenParent483ID76.collider:SetHalfLengths(0.3,7.00528,4.52769)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID76.collider)
+level01.colliders.AutoGenParent483ID77 = {}
+level01.colliders.AutoGenParent483ID77.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID77.collider:SetOffset(160.5,54.1331,160.5)
+level01.colliders.AutoGenParent483ID77.collider:SetZAxis(-0.910366,0,-0.413803)
+level01.colliders.AutoGenParent483ID77.collider:SetHalfLengths(0.3,8.56494,6.04152)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID77.collider)
+level01.colliders.AutoGenParent483ID78 = {}
+level01.colliders.AutoGenParent483ID78.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID78.collider:SetOffset(155.5,48.8971,169)
+level01.colliders.AutoGenParent483ID78.collider:SetZAxis(0.658505,0,0.752577)
+level01.colliders.AutoGenParent483ID78.collider:SetHalfLengths(0.3,5.44561,5.31507)
+level01.colliders.AutoGenParent483ID68.collider:AddChild(level01.colliders.AutoGenParent483ID78.collider)
+level01.colliders.AutoGenParent483ID79 = {}
+level01.colliders.AutoGenParent483ID79.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID79.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID79.collider:SetMinPos(91.9272,13.029,34.7033)
+level01.colliders.AutoGenParent483ID79.collider:SetMaxPos(245.044,61.9183,221.291)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID79.collider)
+level01.colliders.AutoGenParent483ID80 = {}
+level01.colliders.AutoGenParent483ID80.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID80.collider:SetOffset(121,34.6728,206)
+level01.colliders.AutoGenParent483ID80.collider:SetZAxis(0.447214,0,0.894427)
+level01.colliders.AutoGenParent483ID80.collider:SetHalfLengths(0.3,6.76749,6.7082)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID80.collider)
+level01.colliders.AutoGenParent483ID81 = {}
+level01.colliders.AutoGenParent483ID81.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID81.collider:SetOffset(98,22.4477,219.5)
+level01.colliders.AutoGenParent483ID81.collider:SetZAxis(0.970142,0,0.242536)
+level01.colliders.AutoGenParent483ID81.collider:SetHalfLengths(0.3,9.41872,6.18466)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID81.collider)
+level01.colliders.AutoGenParent483ID82 = {}
+level01.colliders.AutoGenParent483ID82.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID82.collider:SetOffset(143,38.8707,185)
+level01.colliders.AutoGenParent483ID82.collider:SetZAxis(-0.141421,0,-0.98995)
+level01.colliders.AutoGenParent483ID82.collider:SetHalfLengths(0.3,6.67107,7.07107)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID82.collider)
+level01.colliders.AutoGenParent483ID83 = {}
+level01.colliders.AutoGenParent483ID83.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID83.collider:SetOffset(176.5,52.7963,152.5)
+level01.colliders.AutoGenParent483ID83.collider:SetZAxis(0.98995,0,-0.141421)
+level01.colliders.AutoGenParent483ID83.collider:SetHalfLengths(0.3,6.33685,3.53553)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID83.collider)
+level01.colliders.AutoGenParent483ID84 = {}
+level01.colliders.AutoGenParent483ID84.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID84.collider:SetOffset(187.5,55.2472,138)
+level01.colliders.AutoGenParent483ID84.collider:SetZAxis(0.164399,0,-0.986394)
+level01.colliders.AutoGenParent483ID84.collider:SetHalfLengths(0.3,5,3.04138)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID84.collider)
+level01.colliders.AutoGenParent483ID85 = {}
+level01.colliders.AutoGenParent483ID85.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID85.collider:SetOffset(187.5,55.2472,133)
+level01.colliders.AutoGenParent483ID85.collider:SetZAxis(-0.242536,0,-0.970143)
+level01.colliders.AutoGenParent483ID85.collider:SetHalfLengths(0.3,5.1114,2.06155)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID85.collider)
+level01.colliders.AutoGenParent483ID86 = {}
+level01.colliders.AutoGenParent483ID86.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID86.collider:SetOffset(186.5,55.3586,129)
+level01.colliders.AutoGenParent483ID86.collider:SetZAxis(-0.242536,0,-0.970143)
+level01.colliders.AutoGenParent483ID86.collider:SetHalfLengths(0.3,5.1114,2.06155)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID86.collider)
+level01.colliders.AutoGenParent483ID87 = {}
+level01.colliders.AutoGenParent483ID87.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID87.collider:SetOffset(235,48.0059,36.5)
+level01.colliders.AutoGenParent483ID87.collider:SetZAxis(0.988936,0,0.14834)
+level01.colliders.AutoGenParent483ID87.collider:SetHalfLengths(0.3,7.78511,10.1119)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID87.collider)
+level01.colliders.AutoGenParent483ID88 = {}
+level01.colliders.AutoGenParent483ID88.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID88.collider:SetOffset(233.5,44.998,51.5)
+level01.colliders.AutoGenParent483ID88.collider:SetZAxis(-0.948683,0,-0.316228)
+level01.colliders.AutoGenParent483ID88.collider:SetHalfLengths(0.3,8.45354,7.90569)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID88.collider)
+level01.colliders.AutoGenParent483ID89 = {}
+level01.colliders.AutoGenParent483ID89.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID89.collider:SetOffset(202.5,56.027,116.5)
+level01.colliders.AutoGenParent483ID89.collider:SetZAxis(0.231621,0,0.972806)
+level01.colliders.AutoGenParent483ID89.collider:SetHalfLengths(0.3,5.89124,10.7935)
+level01.colliders.AutoGenParent483ID79.collider:AddChild(level01.colliders.AutoGenParent483ID89.collider)
+level01.colliders.AutoGenParent483ID90 = {}
+level01.colliders.AutoGenParent483ID90.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID90.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID90.collider:SetMinPos(103.788,20.3935,37.73)
+level01.colliders.AutoGenParent483ID90.collider:SetMaxPos(276.131,61.4726,224.274)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID90.collider)
+level01.colliders.AutoGenParent483ID91 = {}
+level01.colliders.AutoGenParent483ID91.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID91.collider:SetOffset(126,32.9053,211.5)
+level01.colliders.AutoGenParent483ID91.collider:SetZAxis(0.970143,0,-0.242536)
+level01.colliders.AutoGenParent483ID91.collider:SetHalfLengths(0.3,5.88375,2.06155)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID91.collider)
+level01.colliders.AutoGenParent483ID92 = {}
+level01.colliders.AutoGenParent483ID92.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID92.collider:SetOffset(105.5,26.8664,222.5)
+level01.colliders.AutoGenParent483ID92.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID92.collider:SetHalfLengths(0.3,6.47291,2.12132)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID92.collider)
+level01.colliders.AutoGenParent483ID93 = {}
+level01.colliders.AutoGenParent483ID93.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID93.collider:SetOffset(111.5,28.3393,222)
+level01.colliders.AutoGenParent483ID93.collider:SetZAxis(0.913812,0,-0.406139)
+level01.colliders.AutoGenParent483ID93.collider:SetHalfLengths(0.3,7.65123,4.92443)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID93.collider)
+level01.colliders.AutoGenParent483ID94 = {}
+level01.colliders.AutoGenParent483ID94.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID94.collider:SetOffset(116,30.9905,217)
+level01.colliders.AutoGenParent483ID94.collider:SetZAxis(0,0,-1)
+level01.colliders.AutoGenParent483ID94.collider:SetHalfLengths(0.3,10.1552,3)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID94.collider)
+level01.colliders.AutoGenParent483ID95 = {}
+level01.colliders.AutoGenParent483ID95.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID95.collider:SetOffset(260.5,45.2208,45.5)
+level01.colliders.AutoGenParent483ID95.collider:SetZAxis(0.900159,0,0.435561)
+level01.colliders.AutoGenParent483ID95.collider:SetHalfLengths(0.3,9.23337,17.2192)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID95.collider)
+level01.colliders.AutoGenParent483ID96 = {}
+level01.colliders.AutoGenParent483ID96.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID96.collider:SetOffset(248,40.9874,57)
+level01.colliders.AutoGenParent483ID96.collider:SetZAxis(-0.919145,0,-0.393919)
+level01.colliders.AutoGenParent483ID96.collider:SetHalfLengths(0.3,9.01056,7.61577)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID96.collider)
+level01.colliders.AutoGenParent483ID97 = {}
+level01.colliders.AutoGenParent483ID97.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID97.collider:SetOffset(205.5,55.1358,132.5)
+level01.colliders.AutoGenParent483ID97.collider:SetZAxis(0.0905358,0,0.995893)
+level01.colliders.AutoGenParent483ID97.collider:SetHalfLengths(0.3,5.33421,5.52268)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID97.collider)
+level01.colliders.AutoGenParent483ID98 = {}
+level01.colliders.AutoGenParent483ID98.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID98.collider:SetOffset(180,56.027,169)
+level01.colliders.AutoGenParent483ID98.collider:SetZAxis(-0.980581,0,-0.196116)
+level01.colliders.AutoGenParent483ID98.collider:SetHalfLengths(0.3,5.44562,5.09902)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID98.collider)
+level01.colliders.AutoGenParent483ID99 = {}
+level01.colliders.AutoGenParent483ID99.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID99.collider:SetOffset(163,43.6611,194.5)
+level01.colliders.AutoGenParent483ID99.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID99.collider:SetHalfLengths(0.3,8.34213,9.5)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID99.collider)
+level01.colliders.AutoGenParent483ID100 = {}
+level01.colliders.AutoGenParent483ID100.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID100.collider:SetOffset(221.5,41.3216,126)
+level01.colliders.AutoGenParent483ID100.collider:SetZAxis(0.83205,0,-0.5547)
+level01.colliders.AutoGenParent483ID100.collider:SetHalfLengths(0.3,5.89124,5.40833)
+level01.colliders.AutoGenParent483ID90.collider:AddChild(level01.colliders.AutoGenParent483ID100.collider)
+level01.colliders.AutoGenParent483ID101 = {}
+level01.colliders.AutoGenParent483ID101.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID101.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID101.collider:SetMinPos(110.866,21.5718,59.7622)
+level01.colliders.AutoGenParent483ID101.collider:SetMaxPos(268.183,49.3295,237.268)
+level01.colliders.AutoGenParent483ID1.collider:AddChild(level01.colliders.AutoGenParent483ID101.collider)
+level01.colliders.AutoGenParent483ID102 = {}
+level01.colliders.AutoGenParent483ID102.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID102.collider:SetOffset(115,28.4866,235)
+level01.colliders.AutoGenParent483ID102.collider:SetZAxis(0.894427,0,-0.447214)
+level01.colliders.AutoGenParent483ID102.collider:SetHalfLengths(0.3,6.91478,4.47214)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID102.collider)
+level01.colliders.AutoGenParent483ID103 = {}
+level01.colliders.AutoGenParent483ID103.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID103.collider:SetOffset(122,30.4014,233.5)
+level01.colliders.AutoGenParent483ID103.collider:SetZAxis(0.986394,0,0.164399)
+level01.colliders.AutoGenParent483ID103.collider:SetHalfLengths(0.3,6.76749,3.04138)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID103.collider)
+level01.colliders.AutoGenParent483ID104 = {}
+level01.colliders.AutoGenParent483ID104.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID104.collider:SetOffset(132,33.8575,223.5)
+level01.colliders.AutoGenParent483ID104.collider:SetZAxis(0.992278,0,-0.124035)
+level01.colliders.AutoGenParent483ID104.collider:SetHalfLengths(0.3,6.67107,4.03113)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID104.collider)
+level01.colliders.AutoGenParent483ID105 = {}
+level01.colliders.AutoGenParent483ID105.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID105.collider:SetOffset(138.5,35.5286,222)
+level01.colliders.AutoGenParent483ID105.collider:SetZAxis(0.928477,0,-0.371391)
+level01.colliders.AutoGenParent483ID105.collider:SetHalfLengths(0.3,5.33422,2.69258)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID105.collider)
+level01.colliders.AutoGenParent483ID106 = {}
+level01.colliders.AutoGenParent483ID106.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID106.collider:SetOffset(143,35.1944,220.5)
+level01.colliders.AutoGenParent483ID106.collider:SetZAxis(0.970143,0,-0.242536)
+level01.colliders.AutoGenParent483ID106.collider:SetHalfLengths(0.3,5,2.06155)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID106.collider)
+level01.colliders.AutoGenParent483ID107 = {}
+level01.colliders.AutoGenParent483ID107.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID107.collider:SetOffset(261.5,38.7593,65)
+level01.colliders.AutoGenParent483ID107.collider:SetZAxis(-0.792624,0,-0.609711)
+level01.colliders.AutoGenParent483ID107.collider:SetHalfLengths(0.3,7.22809,8.20061)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID107.collider)
+level01.colliders.AutoGenParent483ID108 = {}
+level01.colliders.AutoGenParent483ID108.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID108.collider:SetOffset(184,42.8813,193)
+level01.colliders.AutoGenParent483ID108.collider:SetZAxis(0.919145,0,-0.393919)
+level01.colliders.AutoGenParent483ID108.collider:SetHalfLengths(0.3,5.22281,7.61577)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID108.collider)
+level01.colliders.AutoGenParent483ID109 = {}
+level01.colliders.AutoGenParent483ID109.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID109.collider:SetOffset(201,40.319,176.5)
+level01.colliders.AutoGenParent483ID109.collider:SetZAxis(0.841179,0,-0.540758)
+level01.colliders.AutoGenParent483ID109.collider:SetHalfLengths(0.3,6.00264,8.32166)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID109.collider)
+level01.colliders.AutoGenParent483ID110 = {}
+level01.colliders.AutoGenParent483ID110.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID110.collider:SetOffset(221,36.6426,148)
+level01.colliders.AutoGenParent483ID110.collider:SetZAxis(-0.196116,0,-0.980581)
+level01.colliders.AutoGenParent483ID110.collider:SetHalfLengths(0.3,7.33949,5.09902)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID110.collider)
+level01.colliders.AutoGenParent483ID111 = {}
+level01.colliders.AutoGenParent483ID111.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID111.collider:SetOffset(231,42.2129,122)
+level01.colliders.AutoGenParent483ID111.collider:SetZAxis(0.980581,0,-0.196116)
+level01.colliders.AutoGenParent483ID111.collider:SetHalfLengths(0.3,7.11668,5.09902)
+level01.colliders.AutoGenParent483ID101.collider:AddChild(level01.colliders.AutoGenParent483ID111.collider)
+level01.colliders.AutoGenParent483ID112 = {}
+level01.colliders.AutoGenParent483ID112.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID112.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID112.collider:SetMinPos(1.70104,-2.14196,52.7879)
+level01.colliders.AutoGenParent483ID112.collider:SetMaxPos(309.235,62.0297,252.296)
+level01.colliders.AutoGenParent483ID.collider:AddChild(level01.colliders.AutoGenParent483ID112.collider)
+level01.colliders.AutoGenParent483ID113 = {}
+level01.colliders.AutoGenParent483ID113.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID113.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID113.collider:SetMinPos(3.70232,1.24573,142.941)
+level01.colliders.AutoGenParent483ID113.collider:SetMaxPos(56.2942,18.8731,171.18)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID113.collider)
+level01.colliders.AutoGenParent483ID114 = {}
+level01.colliders.AutoGenParent483ID114.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID114.collider:SetOffset(55.5,9.33883,145.5)
+level01.colliders.AutoGenParent483ID114.collider:SetZAxis(0.196116,0,0.980581)
+level01.colliders.AutoGenParent483ID114.collider:SetHalfLengths(0.3,5,2.54951)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID114.collider)
+level01.colliders.AutoGenParent483ID115 = {}
+level01.colliders.AutoGenParent483ID115.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID115.collider:SetOffset(52.5,9.33883,152)
+level01.colliders.AutoGenParent483ID115.collider:SetZAxis(-0.658505,0,0.752577)
+level01.colliders.AutoGenParent483ID115.collider:SetHalfLengths(0.3,5.14729,5.31507)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID115.collider)
+level01.colliders.AutoGenParent483ID116 = {}
+level01.colliders.AutoGenParent483ID116.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID116.collider:SetOffset(44,9.48612,157)
+level01.colliders.AutoGenParent483ID116.collider:SetZAxis(-0.980581,0,0.196116)
+level01.colliders.AutoGenParent483ID116.collider:SetHalfLengths(0.3,5.14729,5.09902)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID116.collider)
+level01.colliders.AutoGenParent483ID117 = {}
+level01.colliders.AutoGenParent483ID117.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID117.collider:SetOffset(35,7.12947,155)
+level01.colliders.AutoGenParent483ID117.collider:SetZAxis(0.316228,0,0.948683)
+level01.colliders.AutoGenParent483ID117.collider:SetHalfLengths(0.3,5.14729,3.16228)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID117.collider)
+level01.colliders.AutoGenParent483ID118 = {}
+level01.colliders.AutoGenParent483ID118.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID118.collider:SetOffset(37,7.27676,160)
+level01.colliders.AutoGenParent483ID118.collider:SetZAxis(0.447214,0,0.894427)
+level01.colliders.AutoGenParent483ID118.collider:SetHalfLengths(0.3,5.29458,2.23607)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID118.collider)
+level01.colliders.AutoGenParent483ID119 = {}
+level01.colliders.AutoGenParent483ID119.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID119.collider:SetOffset(39.5,6.98218,163)
+level01.colliders.AutoGenParent483ID119.collider:SetZAxis(0.83205,0,0.5547)
+level01.colliders.AutoGenParent483ID119.collider:SetHalfLengths(0.3,5.14729,1.80278)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID119.collider)
+level01.colliders.AutoGenParent483ID120 = {}
+level01.colliders.AutoGenParent483ID120.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID120.collider:SetOffset(5,6.98218,151.5)
+level01.colliders.AutoGenParent483ID120.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID120.collider:SetHalfLengths(0.3,5.44187,3.5)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID120.collider)
+level01.colliders.AutoGenParent483ID121 = {}
+level01.colliders.AutoGenParent483ID121.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID121.collider:SetOffset(4.5,7.42405,159)
+level01.colliders.AutoGenParent483ID121.collider:SetZAxis(-0.124035,0,0.992278)
+level01.colliders.AutoGenParent483ID121.collider:SetHalfLengths(0.3,5.88374,4.03113)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID121.collider)
+level01.colliders.AutoGenParent483ID122 = {}
+level01.colliders.AutoGenParent483ID122.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID122.collider:SetOffset(7,6.54031,167)
+level01.colliders.AutoGenParent483ID122.collider:SetZAxis(0.6,0,0.8)
+level01.colliders.AutoGenParent483ID122.collider:SetHalfLengths(0.3,5.29458,5)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID122.collider)
+level01.colliders.AutoGenParent483ID123 = {}
+level01.colliders.AutoGenParent483ID123.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID123.collider:SetOffset(39.8641,12.8281,155.087)
+level01.colliders.AutoGenParent483ID123.collider:SetZAxis(0.985344,-0.00610736,-0.170469)
+level01.colliders.AutoGenParent483ID123.collider:SetHalfLengths(2.11687,6.02749,2.51378)
+level01.colliders.AutoGenParent483ID113.collider:AddChild(level01.colliders.AutoGenParent483ID123.collider)
+level01.colliders.AutoGenParent483ID124 = {}
+level01.colliders.AutoGenParent483ID124.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID124.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID124.collider:SetMinPos(2.80476,0.361984,163.721)
+level01.colliders.AutoGenParent483ID124.collider:SetMaxPos(57.1664,13.0132,182.228)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID124.collider)
+level01.colliders.AutoGenParent483ID125 = {}
+level01.colliders.AutoGenParent483ID125.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID125.collider:SetOffset(43.5,7.12947,165)
+level01.colliders.AutoGenParent483ID125.collider:SetZAxis(0.928477,0,0.371391)
+level01.colliders.AutoGenParent483ID125.collider:SetHalfLengths(0.3,5.44187,2.69258)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID125.collider)
+level01.colliders.AutoGenParent483ID126 = {}
+level01.colliders.AutoGenParent483ID126.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID126.collider:SetOffset(48.5,7.57134,166)
+level01.colliders.AutoGenParent483ID126.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID126.collider:SetHalfLengths(0.3,5.44187,2.5)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID126.collider)
+level01.colliders.AutoGenParent483ID127 = {}
+level01.colliders.AutoGenParent483ID127.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID127.collider:SetOffset(54,8.01322,168)
+level01.colliders.AutoGenParent483ID127.collider:SetZAxis(0.83205,0,0.5547)
+level01.colliders.AutoGenParent483ID127.collider:SetHalfLengths(0.3,5,3.60555)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID127.collider)
+level01.colliders.AutoGenParent483ID128 = {}
+level01.colliders.AutoGenParent483ID128.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID128.collider:SetOffset(35,7.12947,176.5)
+level01.colliders.AutoGenParent483ID128.collider:SetZAxis(-0.274721,0,-0.961524)
+level01.colliders.AutoGenParent483ID128.collider:SetHalfLengths(0.3,5.58916,3.64005)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID128.collider)
+level01.colliders.AutoGenParent483ID129 = {}
+level01.colliders.AutoGenParent483ID129.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID129.collider:SetOffset(32.5,6.54031,170.5)
+level01.colliders.AutoGenParent483ID129.collider:SetZAxis(-0.514496,0,-0.857493)
+level01.colliders.AutoGenParent483ID129.collider:SetHalfLengths(0.3,5,2.91548)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID129.collider)
+level01.colliders.AutoGenParent483ID130 = {}
+level01.colliders.AutoGenParent483ID130.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID130.collider:SetOffset(29.5,6.54031,168)
+level01.colliders.AutoGenParent483ID130.collider:SetZAxis(-1,0,0)
+level01.colliders.AutoGenParent483ID130.collider:SetHalfLengths(0.3,5.44187,1.5)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID130.collider)
+level01.colliders.AutoGenParent483ID131 = {}
+level01.colliders.AutoGenParent483ID131.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID131.collider:SetOffset(25,6.09844,170.5)
+level01.colliders.AutoGenParent483ID131.collider:SetZAxis(-0.768221,0,0.640184)
+level01.colliders.AutoGenParent483ID131.collider:SetHalfLengths(0.3,5.29458,3.90512)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID131.collider)
+level01.colliders.AutoGenParent483ID132 = {}
+level01.colliders.AutoGenParent483ID132.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID132.collider:SetOffset(22,5.80386,174.5)
+level01.colliders.AutoGenParent483ID132.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID132.collider:SetHalfLengths(0.3,5,1.5)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID132.collider)
+level01.colliders.AutoGenParent483ID133 = {}
+level01.colliders.AutoGenParent483ID133.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID133.collider:SetOffset(10,6.24573,173.5)
+level01.colliders.AutoGenParent483ID133.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID133.collider:SetHalfLengths(0.3,5.58916,2.5)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID133.collider)
+level01.colliders.AutoGenParent483ID134 = {}
+level01.colliders.AutoGenParent483ID134.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID134.collider:SetOffset(6.5,5.65657,179)
+level01.colliders.AutoGenParent483ID134.collider:SetZAxis(-0.759257,0,0.650791)
+level01.colliders.AutoGenParent483ID134.collider:SetHalfLengths(0.3,5.29458,4.60977)
+level01.colliders.AutoGenParent483ID124.collider:AddChild(level01.colliders.AutoGenParent483ID134.collider)
+level01.colliders.AutoGenParent483ID135 = {}
+level01.colliders.AutoGenParent483ID135.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID135.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID135.collider:SetMinPos(1.70104,-2.14196,169.866)
+level01.colliders.AutoGenParent483ID135.collider:SetMaxPos(58.2977,21.9153,196.22)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID135.collider)
+level01.colliders.AutoGenParent483ID136 = {}
+level01.colliders.AutoGenParent483ID136.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID136.collider:SetOffset(57.5,8.01322,171)
+level01.colliders.AutoGenParent483ID136.collider:SetZAxis(0.447214,0,0.894427)
+level01.colliders.AutoGenParent483ID136.collider:SetHalfLengths(0.3,5,1.11803)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID136.collider)
+level01.colliders.AutoGenParent483ID137 = {}
+level01.colliders.AutoGenParent483ID137.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID137.collider:SetOffset(57.5,8.01322,176)
+level01.colliders.AutoGenParent483ID137.collider:SetZAxis(-0.124035,0,0.992278)
+level01.colliders.AutoGenParent483ID137.collider:SetHalfLengths(0.3,5,4.03113)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID137.collider)
+level01.colliders.AutoGenParent483ID138 = {}
+level01.colliders.AutoGenParent483ID138.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID138.collider:SetOffset(54.5,8.01322,183)
+level01.colliders.AutoGenParent483ID138.collider:SetZAxis(-0.640184,0,0.768221)
+level01.colliders.AutoGenParent483ID138.collider:SetHalfLengths(0.3,5,3.90512)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID138.collider)
+level01.colliders.AutoGenParent483ID139 = {}
+level01.colliders.AutoGenParent483ID139.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID139.collider:SetOffset(37,7.71863,182)
+level01.colliders.AutoGenParent483ID139.collider:SetZAxis(-0.447214,0,-0.894427)
+level01.colliders.AutoGenParent483ID139.collider:SetHalfLengths(0.3,5.58916,2.23607)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID139.collider)
+level01.colliders.AutoGenParent483ID140 = {}
+level01.colliders.AutoGenParent483ID140.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID140.collider:SetOffset(23.5,5.80386,179.5)
+level01.colliders.AutoGenParent483ID140.collider:SetZAxis(0.393919,0,0.919145)
+level01.colliders.AutoGenParent483ID140.collider:SetHalfLengths(0.3,5.29458,3.80789)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID140.collider)
+level01.colliders.AutoGenParent483ID141 = {}
+level01.colliders.AutoGenParent483ID141.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID141.collider:SetOffset(32,5.50927,189.5)
+level01.colliders.AutoGenParent483ID141.collider:SetZAxis(0.732794,0,0.680451)
+level01.colliders.AutoGenParent483ID141.collider:SetHalfLengths(0.3,7.65123,9.55249)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID141.collider)
+level01.colliders.AutoGenParent483ID142 = {}
+level01.colliders.AutoGenParent483ID142.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID142.collider:SetOffset(2.5,5.36198,188)
+level01.colliders.AutoGenParent483ID142.collider:SetZAxis(-0.0830455,0,0.996546)
+level01.colliders.AutoGenParent483ID142.collider:SetHalfLengths(0.3,6.32562,6.0208)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID142.collider)
+level01.colliders.AutoGenParent483ID143 = {}
+level01.colliders.AutoGenParent483ID143.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID143.collider:SetOffset(23,4.33095,190.5)
+level01.colliders.AutoGenParent483ID143.collider:SetZAxis(0.478852,0,0.877896)
+level01.colliders.AutoGenParent483ID143.collider:SetHalfLengths(0.3,6.03103,6.26498)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID143.collider)
+level01.colliders.AutoGenParent483ID144 = {}
+level01.colliders.AutoGenParent483ID144.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID144.collider:SetOffset(6.18867,8.53125,180.735)
+level01.colliders.AutoGenParent483ID144.collider:SetZAxis(-0.891114,0,-0.453779)
+level01.colliders.AutoGenParent483ID144.collider:SetHalfLengths(2.5078,5.88453,1.95815)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID144.collider)
+level01.colliders.AutoGenParent483ID145 = {}
+level01.colliders.AutoGenParent483ID145.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID145.collider:SetOffset(37.7154,11.4688,182.582)
+level01.colliders.AutoGenParent483ID145.collider:SetZAxis(-0.988898,0,0.148599)
+level01.colliders.AutoGenParent483ID145.collider:SetHalfLengths(3.65554,10.4465,3.23962)
+level01.colliders.AutoGenParent483ID135.collider:AddChild(level01.colliders.AutoGenParent483ID145.collider)
+level01.colliders.AutoGenParent483ID146 = {}
+level01.colliders.AutoGenParent483ID146.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID146.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID146.collider:SetMinPos(83.8378,3.74966,140.889)
+level01.colliders.AutoGenParent483ID146.collider:SetMaxPos(187.279,62.0297,235.252)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID146.collider)
+level01.colliders.AutoGenParent483ID147 = {}
+level01.colliders.AutoGenParent483ID147.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID147.collider:SetOffset(114,36.1457,210.5)
+level01.colliders.AutoGenParent483ID147.collider:SetZAxis(-0.496139,0,-0.868243)
+level01.colliders.AutoGenParent483ID147.collider:SetHalfLengths(0.3,6.4729,4.03113)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID147.collider)
+level01.colliders.AutoGenParent483ID148 = {}
+level01.colliders.AutoGenParent483ID148.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID148.collider:SetOffset(91,15.6723,230.5)
+level01.colliders.AutoGenParent483ID148.collider:SetZAxis(0.841179,0,0.540758)
+level01.colliders.AutoGenParent483ID148.collider:SetHalfLengths(0.3,11.9227,8.32166)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID148.collider)
+level01.colliders.AutoGenParent483ID149 = {}
+level01.colliders.AutoGenParent483ID149.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID149.collider:SetOffset(132.5,34.0803,208.5)
+level01.colliders.AutoGenParent483ID149.collider:SetZAxis(0.874157,0,-0.485643)
+level01.colliders.AutoGenParent483ID149.collider:SetHalfLengths(0.3,5.66843,5.14782)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID149.collider)
+level01.colliders.AutoGenParent483ID150 = {}
+level01.colliders.AutoGenParent483ID150.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID150.collider:SetOffset(139.5,34.7488,202.5)
+level01.colliders.AutoGenParent483ID150.collider:SetZAxis(0.581238,0,-0.813733)
+level01.colliders.AutoGenParent483ID150.collider:SetHalfLengths(0.3,7.22809,4.30116)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID150.collider)
+level01.colliders.AutoGenParent483ID151 = {}
+level01.colliders.AutoGenParent483ID151.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID151.collider:SetOffset(143,36.9769,195.5)
+level01.colliders.AutoGenParent483ID151.collider:SetZAxis(0.274721,0,-0.961524)
+level01.colliders.AutoGenParent483ID151.collider:SetHalfLengths(0.3,6.89388,3.64005)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID151.collider)
+level01.colliders.AutoGenParent483ID152 = {}
+level01.colliders.AutoGenParent483ID152.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID152.collider:SetOffset(182,54.1331,150.5)
+level01.colliders.AutoGenParent483ID152.collider:SetZAxis(0.8,0,-0.6)
+level01.colliders.AutoGenParent483ID152.collider:SetHalfLengths(0.3,5.66843,2.5)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID152.collider)
+level01.colliders.AutoGenParent483ID153 = {}
+level01.colliders.AutoGenParent483ID153.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID153.collider:SetOffset(184.5,54.8016,147.5)
+level01.colliders.AutoGenParent483ID153.collider:SetZAxis(0.316228,0,-0.948683)
+level01.colliders.AutoGenParent483ID153.collider:SetHalfLengths(0.3,5.77983,1.58114)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID153.collider)
+level01.colliders.AutoGenParent483ID154 = {}
+level01.colliders.AutoGenParent483ID154.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID154.collider:SetOffset(186,55.5814,143.5)
+level01.colliders.AutoGenParent483ID154.collider:SetZAxis(0.371391,0,-0.928477)
+level01.colliders.AutoGenParent483ID154.collider:SetHalfLengths(0.3,5.33421,2.69258)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID154.collider)
+level01.colliders.AutoGenParent483ID155 = {}
+level01.colliders.AutoGenParent483ID155.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID155.collider:SetOffset(170.5,55.5814,165.5)
+level01.colliders.AutoGenParent483ID155.collider:SetZAxis(-0.874157,0,-0.485643)
+level01.colliders.AutoGenParent483ID155.collider:SetHalfLengths(0.3,6.44826,5.14782)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID155.collider)
+level01.colliders.AutoGenParent483ID156 = {}
+level01.colliders.AutoGenParent483ID156.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID156.collider:SetOffset(161,48.4515,179)
+level01.colliders.AutoGenParent483ID156.collider:SetZAxis(0.316228,0,0.948683)
+level01.colliders.AutoGenParent483ID156.collider:SetHalfLengths(0.3,9.7904,6.32456)
+level01.colliders.AutoGenParent483ID146.collider:AddChild(level01.colliders.AutoGenParent483ID156.collider)
+level01.colliders.AutoGenParent483ID157 = {}
+level01.colliders.AutoGenParent483ID157.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID157.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID157.collider:SetMinPos(97.9544,11.7034,128.937)
+level01.colliders.AutoGenParent483ID157.collider:SetMaxPos(220.293,61.027,237.297)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID157.collider)
+level01.colliders.AutoGenParent483ID158 = {}
+level01.colliders.AutoGenParent483ID158.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID158.collider:SetOffset(104.5,22.595,236)
+level01.colliders.AutoGenParent483ID158.collider:SetZAxis(0.988372,0,0.152057)
+level01.colliders.AutoGenParent483ID158.collider:SetHalfLengths(0.3,10.8916,6.57647)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID158.collider)
+level01.colliders.AutoGenParent483ID159 = {}
+level01.colliders.AutoGenParent483ID159.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID159.collider:SetOffset(125.5,32.1689,229)
+level01.colliders.AutoGenParent483ID159.collider:SetZAxis(0.0995037,0,-0.995037)
+level01.colliders.AutoGenParent483ID159.collider:SetHalfLengths(0.3,5.58916,5.02494)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID159.collider)
+level01.colliders.AutoGenParent483ID160 = {}
+level01.colliders.AutoGenParent483ID160.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID160.collider:SetOffset(127,32.758,224)
+level01.colliders.AutoGenParent483ID160.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID160.collider:SetHalfLengths(0.3,5.14729,1)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID160.collider)
+level01.colliders.AutoGenParent483ID161 = {}
+level01.colliders.AutoGenParent483ID161.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID161.collider:SetOffset(206.5,55.47,143.5)
+level01.colliders.AutoGenParent483ID161.collider:SetZAxis(0.0905358,0,0.995893)
+level01.colliders.AutoGenParent483ID161.collider:SetHalfLengths(0.3,5.22281,5.52268)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID161.collider)
+level01.colliders.AutoGenParent483ID162 = {}
+level01.colliders.AutoGenParent483ID162.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID162.collider:SetOffset(205,55.2472,154)
+level01.colliders.AutoGenParent483ID162.collider:SetZAxis(-0.371391,0,0.928477)
+level01.colliders.AutoGenParent483ID162.collider:SetHalfLengths(0.3,5.22281,5.38516)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID162.collider)
+level01.colliders.AutoGenParent483ID163 = {}
+level01.colliders.AutoGenParent483ID163.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID163.collider:SetOffset(198.5,55.0244,163.5)
+level01.colliders.AutoGenParent483ID163.collider:SetZAxis(-0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID163.collider:SetHalfLengths(0.3,5.77983,6.36396)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID163.collider)
+level01.colliders.AutoGenParent483ID164 = {}
+level01.colliders.AutoGenParent483ID164.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID164.collider:SetOffset(189.5,55.8042,169)
+level01.colliders.AutoGenParent483ID164.collider:SetZAxis(-0.976187,0,0.21693)
+level01.colliders.AutoGenParent483ID164.collider:SetHalfLengths(0.3,5.22281,4.60977)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID164.collider)
+level01.colliders.AutoGenParent483ID165 = {}
+level01.colliders.AutoGenParent483ID165.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID165.collider:SetOffset(170,40.319,200)
+level01.colliders.AutoGenParent483ID165.collider:SetZAxis(0.868243,0,-0.496139)
+level01.colliders.AutoGenParent483ID165.collider:SetHalfLengths(0.3,7.5623,8.06226)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID165.collider)
+level01.colliders.AutoGenParent483ID166 = {}
+level01.colliders.AutoGenParent483ID166.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID166.collider:SetOffset(218.5,38.9821,136)
+level01.colliders.AutoGenParent483ID166.collider:SetZAxis(-0.209529,0,-0.977802)
+level01.colliders.AutoGenParent483ID166.collider:SetHalfLengths(0.3,7.33949,7.15891)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID166.collider)
+level01.colliders.AutoGenParent483ID167 = {}
+level01.colliders.AutoGenParent483ID167.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID167.collider:SetOffset(163.885,45.0938,193.24)
+level01.colliders.AutoGenParent483ID167.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID167.collider:SetHalfLengths(3.18928,5.74361,3.11039)
+level01.colliders.AutoGenParent483ID157.collider:AddChild(level01.colliders.AutoGenParent483ID167.collider)
+level01.colliders.AutoGenParent483ID168 = {}
+level01.colliders.AutoGenParent483ID168.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID168.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID168.collider:SetMinPos(144.788,29.3031,120.741)
+level01.colliders.AutoGenParent483ID168.collider:SetMaxPos(248.151,49.998,233.03)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID168.collider)
+level01.colliders.AutoGenParent483ID169 = {}
+level01.colliders.AutoGenParent483ID169.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID169.collider:SetOffset(146.5,35.1944,221.5)
+level01.colliders.AutoGenParent483ID169.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID169.collider:SetHalfLengths(0.3,5.89124,2.12132)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID169.collider)
+level01.colliders.AutoGenParent483ID170 = {}
+level01.colliders.AutoGenParent483ID170.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID170.collider:SetOffset(148.5,36.0856,228)
+level01.colliders.AutoGenParent483ID170.collider:SetZAxis(0.0995037,0,0.995037)
+level01.colliders.AutoGenParent483ID170.collider:SetHalfLengths(0.3,6.00264,5.02494)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID170.collider)
+level01.colliders.AutoGenParent483ID171 = {}
+level01.colliders.AutoGenParent483ID171.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID171.collider:SetOffset(192.5,42.6585,185.5)
+level01.colliders.AutoGenParent483ID171.collider:SetZAxis(0.316228,0,-0.948683)
+level01.colliders.AutoGenParent483ID171.collider:SetHalfLengths(0.3,7.33949,4.74342)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID171.collider)
+level01.colliders.AutoGenParent483ID172 = {}
+level01.colliders.AutoGenParent483ID172.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID172.collider:SetOffset(213,39.3163,166.5)
+level01.colliders.AutoGenParent483ID172.collider:SetZAxis(0.672673,0,-0.73994)
+level01.colliders.AutoGenParent483ID172.collider:SetHalfLengths(0.3,7.89651,7.43303)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID172.collider)
+level01.colliders.AutoGenParent483ID173 = {}
+level01.colliders.AutoGenParent483ID173.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID173.collider:SetOffset(219,36.4198,158)
+level01.colliders.AutoGenParent483ID173.collider:SetZAxis(0.316228,0,-0.948683)
+level01.colliders.AutoGenParent483ID173.collider:SetHalfLengths(0.3,5.1114,3.16228)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID173.collider)
+level01.colliders.AutoGenParent483ID174 = {}
+level01.colliders.AutoGenParent483ID174.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID174.collider:SetOffset(222,36.5312,153.5)
+level01.colliders.AutoGenParent483ID174.collider:SetZAxis(0.8,0,-0.6)
+level01.colliders.AutoGenParent483ID174.collider:SetHalfLengths(0.3,5.1114,2.5)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID174.collider)
+level01.colliders.AutoGenParent483ID175 = {}
+level01.colliders.AutoGenParent483ID175.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID175.collider:SetOffset(228.5,36.6426,150.5)
+level01.colliders.AutoGenParent483ID175.collider:SetZAxis(0.948683,0,-0.316228)
+level01.colliders.AutoGenParent483ID175.collider:SetHalfLengths(0.3,5.1114,4.74342)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID175.collider)
+level01.colliders.AutoGenParent483ID176 = {}
+level01.colliders.AutoGenParent483ID176.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID176.collider:SetOffset(238,37.3111,135)
+level01.colliders.AutoGenParent483ID176.collider:SetZAxis(-0.707107,0,-0.707107)
+level01.colliders.AutoGenParent483ID176.collider:SetHalfLengths(0.3,6.00264,2.82843)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID176.collider)
+level01.colliders.AutoGenParent483ID177 = {}
+level01.colliders.AutoGenParent483ID177.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID177.collider:SetOffset(242,40.0962,124.5)
+level01.colliders.AutoGenParent483ID177.collider:SetZAxis(0.863779,0,0.503871)
+level01.colliders.AutoGenParent483ID177.collider:SetHalfLengths(0.3,7.11668,6.94622)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID177.collider)
+level01.colliders.AutoGenParent483ID178 = {}
+level01.colliders.AutoGenParent483ID178.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID178.collider:SetOffset(235,42.375,133.125)
+level01.colliders.AutoGenParent483ID178.collider:SetZAxis(-0.485958,0,-0.873982)
+level01.colliders.AutoGenParent483ID178.collider:SetHalfLengths(1.82423,5.38972,2.04467)
+level01.colliders.AutoGenParent483ID168.collider:AddChild(level01.colliders.AutoGenParent483ID178.collider)
+level01.colliders.AutoGenParent483ID179 = {}
+level01.colliders.AutoGenParent483ID179.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID179.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID179.collider:SetMinPos(148.703,30.64,69.8112)
+level01.colliders.AutoGenParent483ID179.collider:SetMaxPos(285.233,51.2525,240.042)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID179.collider)
+level01.colliders.AutoGenParent483ID180 = {}
+level01.colliders.AutoGenParent483ID180.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID180.collider:SetOffset(149.5,37.0883,236.5)
+level01.colliders.AutoGenParent483ID180.collider:SetZAxis(0.141421,0,0.98995)
+level01.colliders.AutoGenParent483ID180.collider:SetHalfLengths(0.3,5.1114,3.53553)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID180.collider)
+level01.colliders.AutoGenParent483ID181 = {}
+level01.colliders.AutoGenParent483ID181.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID181.collider:SetOffset(177,41.433,212)
+level01.colliders.AutoGenParent483ID181.collider:SetZAxis(0.447214,0,-0.894427)
+level01.colliders.AutoGenParent483ID181.collider:SetHalfLengths(0.3,5.22281,2.23607)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID181.collider)
+level01.colliders.AutoGenParent483ID182 = {}
+level01.colliders.AutoGenParent483ID182.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID182.collider:SetOffset(180.5,41.6558,208.5)
+level01.colliders.AutoGenParent483ID182.collider:SetZAxis(0.857493,0,-0.514496)
+level01.colliders.AutoGenParent483ID182.collider:SetHalfLengths(0.3,5.22281,2.91548)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID182.collider)
+level01.colliders.AutoGenParent483ID183 = {}
+level01.colliders.AutoGenParent483ID183.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID183.collider:SetOffset(185.5,41.8786,206.5)
+level01.colliders.AutoGenParent483ID183.collider:SetZAxis(0.980581,0,-0.196116)
+level01.colliders.AutoGenParent483ID183.collider:SetHalfLengths(0.3,5.55702,2.54951)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID183.collider)
+level01.colliders.AutoGenParent483ID184 = {}
+level01.colliders.AutoGenParent483ID184.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID184.collider:SetOffset(220.5,36.0856,175)
+level01.colliders.AutoGenParent483ID184.collider:SetZAxis(0.573462,0,-0.819232)
+level01.colliders.AutoGenParent483ID184.collider:SetHalfLengths(0.3,5.44562,6.10328)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID184.collider)
+level01.colliders.AutoGenParent483ID185 = {}
+level01.colliders.AutoGenParent483ID185.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID185.collider:SetOffset(276.5,39.5392,80.5)
+level01.colliders.AutoGenParent483ID185.collider:SetZAxis(-0.629198,0,-0.777245)
+level01.colliders.AutoGenParent483ID185.collider:SetHalfLengths(0.3,5.77983,13.5093)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID185.collider)
+level01.colliders.AutoGenParent483ID186 = {}
+level01.colliders.AutoGenParent483ID186.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID186.collider:SetOffset(236.5,36.5312,145)
+level01.colliders.AutoGenParent483ID186.collider:SetZAxis(0.658505,0,-0.752577)
+level01.colliders.AutoGenParent483ID186.collider:SetHalfLengths(0.3,5.22281,5.31507)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID186.collider)
+level01.colliders.AutoGenParent483ID187 = {}
+level01.colliders.AutoGenParent483ID187.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID187.collider:SetOffset(240,36.754,139)
+level01.colliders.AutoGenParent483ID187.collider:SetZAxis(0,0,-1)
+level01.colliders.AutoGenParent483ID187.collider:SetHalfLengths(0.3,5.55702,2)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID187.collider)
+level01.colliders.AutoGenParent483ID188 = {}
+level01.colliders.AutoGenParent483ID188.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID188.collider:SetOffset(253,37.9795,123)
+level01.colliders.AutoGenParent483ID188.collider:SetZAxis(0.707107,0,-0.707107)
+level01.colliders.AutoGenParent483ID188.collider:SetHalfLengths(0.3,5.55702,7.07107)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID188.collider)
+level01.colliders.AutoGenParent483ID189 = {}
+level01.colliders.AutoGenParent483ID189.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID189.collider:SetOffset(176.796,45.2188,214.625)
+level01.colliders.AutoGenParent483ID189.collider:SetZAxis(-0.497678,-0.0166511,0.867202)
+level01.colliders.AutoGenParent483ID189.collider:SetHalfLengths(2.66392,5.98314,3.08762)
+level01.colliders.AutoGenParent483ID179.collider:AddChild(level01.colliders.AutoGenParent483ID189.collider)
+level01.colliders.AutoGenParent483ID190 = {}
+level01.colliders.AutoGenParent483ID190.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID190.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID190.collider:SetMinPos(175.706,30.1944,52.7879)
+level01.colliders.AutoGenParent483ID190.collider:SetMaxPos(290.212,47.5471,219.059)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID190.collider)
+level01.colliders.AutoGenParent483ID191 = {}
+level01.colliders.AutoGenParent483ID191.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID191.collider:SetOffset(283,40.9874,60)
+level01.colliders.AutoGenParent483ID191.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID191.collider:SetHalfLengths(0.3,5.33421,9.8995)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID191.collider)
+level01.colliders.AutoGenParent483ID192 = {}
+level01.colliders.AutoGenParent483ID192.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID192.collider:SetOffset(176.5,41.9901,216.5)
+level01.colliders.AutoGenParent483ID192.collider:SetZAxis(-0.196116,0,-0.980581)
+level01.colliders.AutoGenParent483ID192.collider:SetHalfLengths(0.3,5.55702,2.54951)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID192.collider)
+level01.colliders.AutoGenParent483ID193 = {}
+level01.colliders.AutoGenParent483ID193.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID193.collider:SetOffset(190.5,41.3216,205.5)
+level01.colliders.AutoGenParent483ID193.collider:SetZAxis(0.980581,0,-0.196116)
+level01.colliders.AutoGenParent483ID193.collider:SetHalfLengths(0.3,5.66843,2.54951)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID193.collider)
+level01.colliders.AutoGenParent483ID194 = {}
+level01.colliders.AutoGenParent483ID194.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID194.collider:SetOffset(198,40.6532,203)
+level01.colliders.AutoGenParent483ID194.collider:SetZAxis(0.928477,0,-0.371391)
+level01.colliders.AutoGenParent483ID194.collider:SetHalfLengths(0.3,6.00264,5.38516)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID194.collider)
+level01.colliders.AutoGenParent483ID195 = {}
+level01.colliders.AutoGenParent483ID195.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID195.collider:SetOffset(207.5,38.9821,191)
+level01.colliders.AutoGenParent483ID195.collider:SetZAxis(0.287348,0,-0.957826)
+level01.colliders.AutoGenParent483ID195.collider:SetHalfLengths(0.3,6.22545,5.22015)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID195.collider)
+level01.colliders.AutoGenParent483ID196 = {}
+level01.colliders.AutoGenParent483ID196.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID196.collider:SetOffset(211,37.7567,184.5)
+level01.colliders.AutoGenParent483ID196.collider:SetZAxis(0.8,0,-0.6)
+level01.colliders.AutoGenParent483ID196.collider:SetHalfLengths(0.3,5.77983,2.5)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID196.collider)
+level01.colliders.AutoGenParent483ID197 = {}
+level01.colliders.AutoGenParent483ID197.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID197.collider:SetOffset(215,36.9769,181.5)
+level01.colliders.AutoGenParent483ID197.collider:SetZAxis(0.8,0,-0.6)
+level01.colliders.AutoGenParent483ID197.collider:SetHalfLengths(0.3,5.89124,2.5)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID197.collider)
+level01.colliders.AutoGenParent483ID198 = {}
+level01.colliders.AutoGenParent483ID198.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID198.collider:SetOffset(227.5,35.64,167.5)
+level01.colliders.AutoGenParent483ID198.collider:SetZAxis(0.813733,0,-0.581238)
+level01.colliders.AutoGenParent483ID198.collider:SetHalfLengths(0.3,5,4.30116)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID198.collider)
+level01.colliders.AutoGenParent483ID199 = {}
+level01.colliders.AutoGenParent483ID199.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID199.collider:SetOffset(237.5,35.64,159.5)
+level01.colliders.AutoGenParent483ID199.collider:SetZAxis(0.763386,0,-0.645942)
+level01.colliders.AutoGenParent483ID199.collider:SetHalfLengths(0.3,5.44562,8.51469)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID199.collider)
+level01.colliders.AutoGenParent483ID200 = {}
+level01.colliders.AutoGenParent483ID200.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID200.collider:SetOffset(263.5,37.4225,113.5)
+level01.colliders.AutoGenParent483ID200.collider:SetZAxis(0.773957,0,-0.633238)
+level01.colliders.AutoGenParent483ID200.collider:SetHalfLengths(0.3,5.44562,7.10634)
+level01.colliders.AutoGenParent483ID190.collider:AddChild(level01.colliders.AutoGenParent483ID200.collider)
+level01.colliders.AutoGenParent483ID201 = {}
+level01.colliders.AutoGenParent483ID201.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID201.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID201.collider:SetMinPos(149.7,26.2952,105.702)
+level01.colliders.AutoGenParent483ID201.collider:SetMaxPos(298.031,56.0138,250.277)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID201.collider)
+level01.colliders.AutoGenParent483ID202 = {}
+level01.colliders.AutoGenParent483ID202.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID202.collider:SetOffset(150,37.1997,241.5)
+level01.colliders.AutoGenParent483ID202.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID202.collider:SetHalfLengths(0.3,5,1.5)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID202.collider)
+level01.colliders.AutoGenParent483ID203 = {}
+level01.colliders.AutoGenParent483ID203.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID203.collider:SetOffset(158.5,37.1997,246.5)
+level01.colliders.AutoGenParent483ID203.collider:SetZAxis(0.924678,0,0.38075)
+level01.colliders.AutoGenParent483ID203.collider:SetHalfLengths(0.3,10.9044,9.19239)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID203.collider)
+level01.colliders.AutoGenParent483ID204 = {}
+level01.colliders.AutoGenParent483ID204.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID204.collider:SetOffset(191.5,48.3401,228)
+level01.colliders.AutoGenParent483ID204.collider:SetZAxis(-1,0,0)
+level01.colliders.AutoGenParent483ID204.collider:SetHalfLengths(0.3,6.44826,3.5)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID204.collider)
+level01.colliders.AutoGenParent483ID205 = {}
+level01.colliders.AutoGenParent483ID205.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID205.collider:SetOffset(183.5,46.8918,226)
+level01.colliders.AutoGenParent483ID205.collider:SetZAxis(-0.913812,0,-0.406139)
+level01.colliders.AutoGenParent483ID205.collider:SetHalfLengths(0.3,9.12197,4.92443)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID205.collider)
+level01.colliders.AutoGenParent483ID206 = {}
+level01.colliders.AutoGenParent483ID206.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID206.collider:SetOffset(178,42.7699,221.5)
+level01.colliders.AutoGenParent483ID206.collider:SetZAxis(-0.371391,0,-0.928477)
+level01.colliders.AutoGenParent483ID206.collider:SetHalfLengths(0.3,5.77983,2.69258)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID206.collider)
+level01.colliders.AutoGenParent483ID207 = {}
+level01.colliders.AutoGenParent483ID207.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID207.collider:SetOffset(204.5,39.6506,198.5)
+level01.colliders.AutoGenParent483ID207.collider:SetZAxis(0.514496,0,-0.857493)
+level01.colliders.AutoGenParent483ID207.collider:SetHalfLengths(0.3,5.66843,2.91548)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID207.collider)
+level01.colliders.AutoGenParent483ID208 = {}
+level01.colliders.AutoGenParent483ID208.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID208.collider:SetOffset(249.5,36.0856,148.5)
+level01.colliders.AutoGenParent483ID208.collider:SetZAxis(0.707107,0,-0.707107)
+level01.colliders.AutoGenParent483ID208.collider:SetHalfLengths(0.3,5.77983,7.77817)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID208.collider)
+level01.colliders.AutoGenParent483ID209 = {}
+level01.colliders.AutoGenParent483ID209.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID209.collider:SetOffset(258,36.8654,140)
+level01.colliders.AutoGenParent483ID209.collider:SetZAxis(0.707107,0,-0.707107)
+level01.colliders.AutoGenParent483ID209.collider:SetHalfLengths(0.3,5.44562,4.24264)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID209.collider)
+level01.colliders.AutoGenParent483ID210 = {}
+level01.colliders.AutoGenParent483ID210.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID210.collider:SetOffset(264,37.3111,134.5)
+level01.colliders.AutoGenParent483ID210.collider:SetZAxis(0.768221,0,-0.640184)
+level01.colliders.AutoGenParent483ID210.collider:SetHalfLengths(0.3,5.1114,3.90512)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID210.collider)
+level01.colliders.AutoGenParent483ID211 = {}
+level01.colliders.AutoGenParent483ID211.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID211.collider:SetOffset(283.5,36.9769,107.5)
+level01.colliders.AutoGenParent483ID211.collider:SetZAxis(0.994692,0,-0.102899)
+level01.colliders.AutoGenParent483ID211.collider:SetHalfLengths(0.3,6.22545,14.5774)
+level01.colliders.AutoGenParent483ID201.collider:AddChild(level01.colliders.AutoGenParent483ID211.collider)
+level01.colliders.AutoGenParent483ID212 = {}
+level01.colliders.AutoGenParent483ID212.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID212.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID212.collider:SetMinPos(166.951,31.8654,66.8138)
+level01.colliders.AutoGenParent483ID212.collider:SetMaxPos(309.235,57.4621,252.296)
+level01.colliders.AutoGenParent483ID112.collider:AddChild(level01.colliders.AutoGenParent483ID212.collider)
+level01.colliders.AutoGenParent483ID213 = {}
+level01.colliders.AutoGenParent483ID213.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID213.collider:SetOffset(299.5,41.3216,79)
+level01.colliders.AutoGenParent483ID213.collider:SetZAxis(0.620703,0,0.784046)
+level01.colliders.AutoGenParent483ID213.collider:SetHalfLengths(0.3,6.33685,15.3052)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID213.collider)
+level01.colliders.AutoGenParent483ID214 = {}
+level01.colliders.AutoGenParent483ID214.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID214.collider:SetOffset(173,43.1041,251)
+level01.colliders.AutoGenParent483ID214.collider:SetZAxis(0.986394,0,0.164399)
+level01.colliders.AutoGenParent483ID214.collider:SetHalfLengths(0.3,9.01056,6.08276)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID214.collider)
+level01.colliders.AutoGenParent483ID215 = {}
+level01.colliders.AutoGenParent483ID215.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID215.collider:SetOffset(212.5,51.5708,223.5)
+level01.colliders.AutoGenParent483ID215.collider:SetZAxis(-0.948683,0,0.316228)
+level01.colliders.AutoGenParent483ID215.collider:SetHalfLengths(0.3,5.89124,4.74342)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID215.collider)
+level01.colliders.AutoGenParent483ID216 = {}
+level01.colliders.AutoGenParent483ID216.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID216.collider:SetOffset(205,50.6796,226)
+level01.colliders.AutoGenParent483ID216.collider:SetZAxis(-0.948683,0,0.316228)
+level01.colliders.AutoGenParent483ID216.collider:SetHalfLengths(0.3,6.11405,3.16228)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID216.collider)
+level01.colliders.AutoGenParent483ID217 = {}
+level01.colliders.AutoGenParent483ID217.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID217.collider:SetOffset(198.5,49.5656,227.5)
+level01.colliders.AutoGenParent483ID217.collider:SetZAxis(-0.98995,0,0.141421)
+level01.colliders.AutoGenParent483ID217.collider:SetHalfLengths(0.3,6.22544,3.53553)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID217.collider)
+level01.colliders.AutoGenParent483ID218 = {}
+level01.colliders.AutoGenParent483ID218.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID218.collider:SetOffset(269,37.4225,131)
+level01.colliders.AutoGenParent483ID218.collider:SetZAxis(0.894427,0,-0.447214)
+level01.colliders.AutoGenParent483ID218.collider:SetHalfLengths(0.3,5.1114,2.23607)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID218.collider)
+level01.colliders.AutoGenParent483ID219 = {}
+level01.colliders.AutoGenParent483ID219.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID219.collider:SetOffset(273.5,37.3111,129.5)
+level01.colliders.AutoGenParent483ID219.collider:SetZAxis(0.980581,0,-0.196116)
+level01.colliders.AutoGenParent483ID219.collider:SetHalfLengths(0.3,5.22281,2.54951)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID219.collider)
+level01.colliders.AutoGenParent483ID220 = {}
+level01.colliders.AutoGenParent483ID220.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID220.collider:SetOffset(281.5,37.5339,128.5)
+level01.colliders.AutoGenParent483ID220.collider:SetZAxis(0.995893,0,-0.0905358)
+level01.colliders.AutoGenParent483ID220.collider:SetHalfLengths(0.3,5.33421,5.52268)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID220.collider)
+level01.colliders.AutoGenParent483ID221 = {}
+level01.colliders.AutoGenParent483ID221.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID221.collider:SetOffset(291.5,38.2023,98.5)
+level01.colliders.AutoGenParent483ID221.collider:SetZAxis(-0.654931,0,-0.755689)
+level01.colliders.AutoGenParent483ID221.collider:SetHalfLengths(0.3,6.33685,9.92472)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID221.collider)
+level01.colliders.AutoGenParent483ID222 = {}
+level01.colliders.AutoGenParent483ID222.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID222.collider:SetOffset(183.5,51.8438,240)
+level01.colliders.AutoGenParent483ID222.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID222.collider:SetHalfLengths(2.5,4,2.5)
+level01.colliders.AutoGenParent483ID212.collider:AddChild(level01.colliders.AutoGenParent483ID222.collider)
+level01.colliders.AutoGenParent483ID223 = {}
+level01.colliders.AutoGenParent483ID223.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID223.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID223.collider:SetMinPos(178.882,23.9934,90.7879)
+level01.colliders.AutoGenParent483ID223.collider:SetMaxPos(512.3,68.8781,350.111)
+level01.colliders.AutoGenParent483ID.collider:AddChild(level01.colliders.AutoGenParent483ID223.collider)
+level01.colliders.AutoGenParent483ID224 = {}
+level01.colliders.AutoGenParent483ID224.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID224.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID224.collider:SetMinPos(178.882,31.3084,90.7879)
+level01.colliders.AutoGenParent483ID224.collider:SetMaxPos(315.212,66.1516,252.276)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID224.collider)
+level01.colliders.AutoGenParent483ID225 = {}
+level01.colliders.AutoGenParent483ID225.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID225.collider:SetOffset(312,42.6585,94)
+level01.colliders.AutoGenParent483ID225.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID225.collider:SetHalfLengths(0.3,6.33685,4.24264)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID225.collider)
+level01.colliders.AutoGenParent483ID226 = {}
+level01.colliders.AutoGenParent483ID226.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID226.collider:SetOffset(182.5,47.1147,250.5)
+level01.colliders.AutoGenParent483ID226.collider:SetZAxis(0.919145,0,-0.393919)
+level01.colliders.AutoGenParent483ID226.collider:SetHalfLengths(0.3,8.45354,3.80789)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID226.collider)
+level01.colliders.AutoGenParent483ID227 = {}
+level01.colliders.AutoGenParent483ID227.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID227.collider:SetOffset(189,50.5682,246.5)
+level01.colliders.AutoGenParent483ID227.collider:SetZAxis(0.768221,0,-0.640184)
+level01.colliders.AutoGenParent483ID227.collider:SetHalfLengths(0.3,5.89124,3.90512)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID227.collider)
+level01.colliders.AutoGenParent483ID228 = {}
+level01.colliders.AutoGenParent483ID228.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID228.collider:SetOffset(194.5,51.4594,244)
+level01.colliders.AutoGenParent483ID228.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID228.collider:SetHalfLengths(0.3,6.78247,2.5)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID228.collider)
+level01.colliders.AutoGenParent483ID229 = {}
+level01.colliders.AutoGenParent483ID229.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID229.collider:SetOffset(200.5,53.2419,244.5)
+level01.colliders.AutoGenParent483ID229.collider:SetZAxis(0.98995,0,0.141421)
+level01.colliders.AutoGenParent483ID229.collider:SetHalfLengths(0.3,7.00528,3.53553)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID229.collider)
+level01.colliders.AutoGenParent483ID230 = {}
+level01.colliders.AutoGenParent483ID230.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID230.collider:SetOffset(207,55.2472,245.5)
+level01.colliders.AutoGenParent483ID230.collider:SetZAxis(0.986394,0,0.164399)
+level01.colliders.AutoGenParent483ID230.collider:SetHalfLengths(0.3,6.44826,3.04138)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID230.collider)
+level01.colliders.AutoGenParent483ID231 = {}
+level01.colliders.AutoGenParent483ID231.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID231.collider:SetOffset(212.5,56.6954,247)
+level01.colliders.AutoGenParent483ID231.collider:SetZAxis(0.928477,0,0.371391)
+level01.colliders.AutoGenParent483ID231.collider:SetHalfLengths(0.3,7.22809,2.69258)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID231.collider)
+level01.colliders.AutoGenParent483ID232 = {}
+level01.colliders.AutoGenParent483ID232.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID232.collider:SetOffset(220.5,56.3612,226)
+level01.colliders.AutoGenParent483ID232.collider:SetZAxis(-0.658505,0,-0.752577)
+level01.colliders.AutoGenParent483ID232.collider:SetHalfLengths(0.3,9.79039,5.31507)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID232.collider)
+level01.colliders.AutoGenParent483ID233 = {}
+level01.colliders.AutoGenParent483ID233.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID233.collider:SetOffset(293,37.1997,129)
+level01.colliders.AutoGenParent483ID233.collider:SetZAxis(0.986394,0,0.164399)
+level01.colliders.AutoGenParent483ID233.collider:SetHalfLengths(0.3,5.89124,6.08276)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID233.collider)
+level01.colliders.AutoGenParent483ID234 = {}
+level01.colliders.AutoGenParent483ID234.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID234.collider:SetOffset(227.5,56.3612,232)
+level01.colliders.AutoGenParent483ID234.collider:SetZAxis(0.868243,0,0.496139)
+level01.colliders.AutoGenParent483ID234.collider:SetHalfLengths(0.3,5.77983,4.03113)
+level01.colliders.AutoGenParent483ID224.collider:AddChild(level01.colliders.AutoGenParent483ID234.collider)
+level01.colliders.AutoGenParent483ID235 = {}
+level01.colliders.AutoGenParent483ID235.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID235.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID235.collider:SetMinPos(214.846,29.1917,96.8126)
+level01.colliders.AutoGenParent483ID235.collider:SetMaxPos(336.204,65.3718,254.298)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID235.collider)
+level01.colliders.AutoGenParent483ID236 = {}
+level01.colliders.AutoGenParent483ID236.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID236.collider:SetOffset(318,42.1015,102)
+level01.colliders.AutoGenParent483ID236.collider:SetZAxis(0.624695,0,0.780869)
+level01.colliders.AutoGenParent483ID236.collider:SetHalfLengths(0.3,9.67899,6.40312)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID236.collider)
+level01.colliders.AutoGenParent483ID237 = {}
+level01.colliders.AutoGenParent483ID237.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID237.collider:SetOffset(329,37.4225,113.5)
+level01.colliders.AutoGenParent483ID237.collider:SetZAxis(0.732794,0,0.680451)
+level01.colliders.AutoGenParent483ID237.collider:SetHalfLengths(0.3,5.33421,9.55249)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID237.collider)
+level01.colliders.AutoGenParent483ID238 = {}
+level01.colliders.AutoGenParent483ID238.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID238.collider:SetOffset(217.5,58.9235,249.5)
+level01.colliders.AutoGenParent483ID238.collider:SetZAxis(0.857493,0,0.514496)
+level01.colliders.AutoGenParent483ID238.collider:SetHalfLengths(0.3,5.77983,2.91548)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID238.collider)
+level01.colliders.AutoGenParent483ID239 = {}
+level01.colliders.AutoGenParent483ID239.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID239.collider:SetOffset(221.5,59.7034,252.5)
+level01.colliders.AutoGenParent483ID239.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID239.collider:SetHalfLengths(0.3,5.55702,2.12132)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID239.collider)
+level01.colliders.AutoGenParent483ID240 = {}
+level01.colliders.AutoGenParent483ID240.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID240.collider:SetOffset(227.5,60.2604,253.5)
+level01.colliders.AutoGenParent483ID240.collider:SetZAxis(0.993884,0,-0.110432)
+level01.colliders.AutoGenParent483ID240.collider:SetHalfLengths(0.3,5.1114,4.52769)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID240.collider)
+level01.colliders.AutoGenParent483ID241 = {}
+level01.colliders.AutoGenParent483ID241.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID241.collider:SetOffset(234.5,57.1411,234.5)
+level01.colliders.AutoGenParent483ID241.collider:SetZAxis(0.98995,0,0.141421)
+level01.colliders.AutoGenParent483ID241.collider:SetHalfLengths(0.3,5.66843,3.53553)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID241.collider)
+level01.colliders.AutoGenParent483ID242 = {}
+level01.colliders.AutoGenParent483ID242.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID242.collider:SetOffset(241,57.8095,233.5)
+level01.colliders.AutoGenParent483ID242.collider:SetZAxis(0.894427,0,-0.447214)
+level01.colliders.AutoGenParent483ID242.collider:SetHalfLengths(0.3,5.22281,3.3541)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID242.collider)
+level01.colliders.AutoGenParent483ID243 = {}
+level01.colliders.AutoGenParent483ID243.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID243.collider:SetOffset(247.5,57.5867,231.5)
+level01.colliders.AutoGenParent483ID243.collider:SetZAxis(0.98995,0,-0.141421)
+level01.colliders.AutoGenParent483ID243.collider:SetHalfLengths(0.3,5.22281,3.53553)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID243.collider)
+level01.colliders.AutoGenParent483ID244 = {}
+level01.colliders.AutoGenParent483ID244.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID244.collider:SetOffset(306,36.3084,132)
+level01.colliders.AutoGenParent483ID244.collider:SetZAxis(0.961524,0,0.274721)
+level01.colliders.AutoGenParent483ID244.collider:SetHalfLengths(0.3,6.00264,7.28011)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID244.collider)
+level01.colliders.AutoGenParent483ID245 = {}
+level01.colliders.AutoGenParent483ID245.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID245.collider:SetOffset(319.5,34.7488,138.5)
+level01.colliders.AutoGenParent483ID245.collider:SetZAxis(-0.822192,0,-0.56921)
+level01.colliders.AutoGenParent483ID245.collider:SetHalfLengths(0.3,5.55702,7.90569)
+level01.colliders.AutoGenParent483ID235.collider:AddChild(level01.colliders.AutoGenParent483ID245.collider)
+level01.colliders.AutoGenParent483ID246 = {}
+level01.colliders.AutoGenParent483ID246.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID246.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID246.collider:SetMinPos(231.935,29.7488,111.26)
+level01.colliders.AutoGenParent483ID246.collider:SetMaxPos(350.246,65.8174,253.293)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID246.collider)
+level01.colliders.AutoGenParent483ID247 = {}
+level01.colliders.AutoGenParent483ID247.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID247.collider:SetOffset(343,37.0883,130)
+level01.colliders.AutoGenParent483ID247.collider:SetZAxis(0.573462,0,0.819232)
+level01.colliders.AutoGenParent483ID247.collider:SetHalfLengths(0.3,6.78247,12.2066)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID247.collider)
+level01.colliders.AutoGenParent483ID248 = {}
+level01.colliders.AutoGenParent483ID248.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID248.collider:SetOffset(236.5,60.149,252)
+level01.colliders.AutoGenParent483ID248.collider:SetZAxis(0.976187,0,-0.21693)
+level01.colliders.AutoGenParent483ID248.collider:SetHalfLengths(0.3,5.22281,4.60977)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID248.collider)
+level01.colliders.AutoGenParent483ID249 = {}
+level01.colliders.AutoGenParent483ID249.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID249.collider:SetOffset(246.5,60.3718,250)
+level01.colliders.AutoGenParent483ID249.collider:SetZAxis(0.98387,0,-0.178885)
+level01.colliders.AutoGenParent483ID249.collider:SetHalfLengths(0.3,5.44562,5.59017)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID249.collider)
+level01.colliders.AutoGenParent483ID250 = {}
+level01.colliders.AutoGenParent483ID250.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID250.collider:SetOffset(259.5,59.9262,249.5)
+level01.colliders.AutoGenParent483ID250.collider:SetZAxis(0.997785,0,0.066519)
+level01.colliders.AutoGenParent483ID250.collider:SetHalfLengths(0.3,5.1114,7.51665)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID250.collider)
+level01.colliders.AutoGenParent483ID251 = {}
+level01.colliders.AutoGenParent483ID251.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID251.collider:SetOffset(274,60.0376,251)
+level01.colliders.AutoGenParent483ID251.collider:SetZAxis(0.98995,0,0.141421)
+level01.colliders.AutoGenParent483ID251.collider:SetHalfLengths(0.3,5.33421,7.07107)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID251.collider)
+level01.colliders.AutoGenParent483ID252 = {}
+level01.colliders.AutoGenParent483ID252.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID252.collider:SetOffset(259,57.8095,232)
+level01.colliders.AutoGenParent483ID252.collider:SetZAxis(0.992278,0,0.124035)
+level01.colliders.AutoGenParent483ID252.collider:SetHalfLengths(0.3,6.00264,8.06226)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID252.collider)
+level01.colliders.AutoGenParent483ID253 = {}
+level01.colliders.AutoGenParent483ID253.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID253.collider:SetOffset(277,56.8068,233.5)
+level01.colliders.AutoGenParent483ID253.collider:SetZAxis(0.998752,0,0.0499376)
+level01.colliders.AutoGenParent483ID253.collider:SetHalfLengths(0.3,5.77983,10.0125)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID253.collider)
+level01.colliders.AutoGenParent483ID254 = {}
+level01.colliders.AutoGenParent483ID254.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID254.collider:SetOffset(340.5,36.197,162)
+level01.colliders.AutoGenParent483ID254.collider:SetZAxis(-0.734803,0,-0.67828)
+level01.colliders.AutoGenParent483ID254.collider:SetHalfLengths(0.3,5.55702,8.8459)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID254.collider)
+level01.colliders.AutoGenParent483ID255 = {}
+level01.colliders.AutoGenParent483ID255.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID255.collider:SetOffset(330,35.64,149.5)
+level01.colliders.AutoGenParent483ID255.collider:SetZAxis(-0.524097,0,-0.851658)
+level01.colliders.AutoGenParent483ID255.collider:SetHalfLengths(0.3,5.89124,7.63217)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID255.collider)
+level01.colliders.AutoGenParent483ID256 = {}
+level01.colliders.AutoGenParent483ID256.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID256.collider:SetOffset(328.75,41.0313,113.313)
+level01.colliders.AutoGenParent483ID256.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID256.collider:SetHalfLengths(1.91668,5.26999,2.05246)
+level01.colliders.AutoGenParent483ID246.collider:AddChild(level01.colliders.AutoGenParent483ID256.collider)
+level01.colliders.AutoGenParent483ID257 = {}
+level01.colliders.AutoGenParent483ID257.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID257.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID257.collider:SetMinPos(281,31.197,139.746)
+level01.colliders.AutoGenParent483ID257.collider:SetMaxPos(368.059,67.2657,253.291)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID257.collider)
+level01.colliders.AutoGenParent483ID258 = {}
+level01.colliders.AutoGenParent483ID258.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID258.collider:SetOffset(354,38.8707,142.5)
+level01.colliders.AutoGenParent483ID258.collider:SetZAxis(0.847998,0,0.529999)
+level01.colliders.AutoGenParent483ID258.collider:SetHalfLengths(0.3,5.22281,4.71699)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID258.collider)
+level01.colliders.AutoGenParent483ID259 = {}
+level01.colliders.AutoGenParent483ID259.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID259.collider:SetOffset(363,38.6479,146)
+level01.colliders.AutoGenParent483ID259.collider:SetZAxis(0.980581,0,0.196116)
+level01.colliders.AutoGenParent483ID259.collider:SetHalfLengths(0.3,5.33421,5.09902)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID259.collider)
+level01.colliders.AutoGenParent483ID260 = {}
+level01.colliders.AutoGenParent483ID260.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID260.collider:SetOffset(287.5,59.7034,252)
+level01.colliders.AutoGenParent483ID260.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID260.collider:SetHalfLengths(0.3,6.11405,6.5)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID260.collider)
+level01.colliders.AutoGenParent483ID261 = {}
+level01.colliders.AutoGenParent483ID261.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID261.collider:SetOffset(296,58.5893,252.5)
+level01.colliders.AutoGenParent483ID261.collider:SetZAxis(0.970143,0,0.242536)
+level01.colliders.AutoGenParent483ID261.collider:SetHalfLengths(0.3,8.45354,2.06155)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID261.collider)
+level01.colliders.AutoGenParent483ID262 = {}
+level01.colliders.AutoGenParent483ID262.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID262.collider:SetOffset(295,56.027,232)
+level01.colliders.AutoGenParent483ID262.collider:SetZAxis(0.970143,0,-0.242536)
+level01.colliders.AutoGenParent483ID262.collider:SetHalfLengths(0.3,11.2386,8.24621)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID262.collider)
+level01.colliders.AutoGenParent483ID263 = {}
+level01.colliders.AutoGenParent483ID263.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID263.collider:SetOffset(306,49.7884,231.5)
+level01.colliders.AutoGenParent483ID263.collider:SetZAxis(0.894427,0,0.447214)
+level01.colliders.AutoGenParent483ID263.collider:SetHalfLengths(0.3,6.11404,3.3541)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID263.collider)
+level01.colliders.AutoGenParent483ID264 = {}
+level01.colliders.AutoGenParent483ID264.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID264.collider:SetOffset(339,48.1173,215.5)
+level01.colliders.AutoGenParent483ID264.collider:SetZAxis(0.682318,0,-0.731055)
+level01.colliders.AutoGenParent483ID264.collider:SetHalfLengths(0.3,12.0185,10.2591)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID264.collider)
+level01.colliders.AutoGenParent483ID265 = {}
+level01.colliders.AutoGenParent483ID265.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID265.collider:SetOffset(350,37.0883,173)
+level01.colliders.AutoGenParent483ID265.collider:SetZAxis(-0.514496,0,-0.857493)
+level01.colliders.AutoGenParent483ID265.collider:SetHalfLengths(0.3,5.89124,5.83095)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID265.collider)
+level01.colliders.AutoGenParent483ID266 = {}
+level01.colliders.AutoGenParent483ID266.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID266.collider:SetOffset(320.5,48.1173,228)
+level01.colliders.AutoGenParent483ID266.collider:SetZAxis(-0.91707,0,0.398726)
+level01.colliders.AutoGenParent483ID266.collider:SetHalfLengths(0.3,5.55703,12.5399)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID266.collider)
+level01.colliders.AutoGenParent483ID267 = {}
+level01.colliders.AutoGenParent483ID267.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID267.collider:SetOffset(339.5,40.3125,156.5)
+level01.colliders.AutoGenParent483ID267.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID267.collider:SetHalfLengths(2.03198,5.81552,1.96803)
+level01.colliders.AutoGenParent483ID257.collider:AddChild(level01.colliders.AutoGenParent483ID267.collider)
+level01.colliders.AutoGenParent483ID268 = {}
+level01.colliders.AutoGenParent483ID268.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID268.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID268.collider:SetMinPos(297.788,31.0856,146.7)
+level01.colliders.AutoGenParent483ID268.collider:SetMaxPos(384,64.2577,255.3)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID268.collider)
+level01.colliders.AutoGenParent483ID269 = {}
+level01.colliders.AutoGenParent483ID269.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID269.collider:SetOffset(372,38.3137,147)
+level01.colliders.AutoGenParent483ID269.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID269.collider:SetHalfLengths(0.3,6.11404,4)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID269.collider)
+level01.colliders.AutoGenParent483ID270 = {}
+level01.colliders.AutoGenParent483ID270.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID270.collider:SetOffset(380,37.1997,147)
+level01.colliders.AutoGenParent483ID270.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID270.collider:SetHalfLengths(0.3,6.11404,4)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID270.collider)
+level01.colliders.AutoGenParent483ID271 = {}
+level01.colliders.AutoGenParent483ID271.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID271.collider:SetOffset(299,55.1358,254)
+level01.colliders.AutoGenParent483ID271.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID271.collider:SetHalfLengths(0.3,5.1114,1.41421)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID271.collider)
+level01.colliders.AutoGenParent483ID272 = {}
+level01.colliders.AutoGenParent483ID272.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID272.collider:SetOffset(307,55.2472,255)
+level01.colliders.AutoGenParent483ID272.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID272.collider:SetHalfLengths(0.3,9.01056,7)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID272.collider)
+level01.colliders.AutoGenParent483ID273 = {}
+level01.colliders.AutoGenParent483ID273.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID273.collider:SetOffset(314,51.2366,252.5)
+level01.colliders.AutoGenParent483ID273.collider:SetZAxis(0,0,-1)
+level01.colliders.AutoGenParent483ID273.collider:SetHalfLengths(0.3,5.66843,2.5)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID273.collider)
+level01.colliders.AutoGenParent483ID274 = {}
+level01.colliders.AutoGenParent483ID274.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID274.collider:SetOffset(313.5,50.5682,248)
+level01.colliders.AutoGenParent483ID274.collider:SetZAxis(-0.242536,0,-0.970143)
+level01.colliders.AutoGenParent483ID274.collider:SetHalfLengths(0.3,5.44562,2.06155)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID274.collider)
+level01.colliders.AutoGenParent483ID275 = {}
+level01.colliders.AutoGenParent483ID275.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID275.collider:SetOffset(348,41.0988,203.5)
+level01.colliders.AutoGenParent483ID275.collider:SetZAxis(0.406139,0,-0.913812)
+level01.colliders.AutoGenParent483ID275.collider:SetHalfLengths(0.3,6.67107,4.92443)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID275.collider)
+level01.colliders.AutoGenParent483ID276 = {}
+level01.colliders.AutoGenParent483ID276.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID276.collider:SetOffset(350,39.4277,194)
+level01.colliders.AutoGenParent483ID276.collider:SetZAxis(0,0,-1)
+level01.colliders.AutoGenParent483ID276.collider:SetHalfLengths(0.3,6.11404,5)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID276.collider)
+level01.colliders.AutoGenParent483ID277 = {}
+level01.colliders.AutoGenParent483ID277.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID277.collider:SetOffset(351.5,38.3137,183.5)
+level01.colliders.AutoGenParent483ID277.collider:SetZAxis(0.263117,0,-0.964764)
+level01.colliders.AutoGenParent483ID277.collider:SetHalfLengths(0.3,6.22545,5.70088)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID277.collider)
+level01.colliders.AutoGenParent483ID278 = {}
+level01.colliders.AutoGenParent483ID278.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID278.collider:SetOffset(324.5,50.1226,244)
+level01.colliders.AutoGenParent483ID278.collider:SetZAxis(0.985212,0,-0.171341)
+level01.colliders.AutoGenParent483ID278.collider:SetHalfLengths(0.3,6.22545,11.6726)
+level01.colliders.AutoGenParent483ID268.collider:AddChild(level01.colliders.AutoGenParent483ID278.collider)
+level01.colliders.AutoGenParent483ID279 = {}
+level01.colliders.AutoGenParent483ID279.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID279.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID279.collider:SetMinPos(335.753,30.1951,144.7)
+level01.colliders.AutoGenParent483ID279.collider:SetMaxPos(400,64.592,255.171)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID279.collider)
+level01.colliders.AutoGenParent483ID280 = {}
+level01.colliders.AutoGenParent483ID280.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID280.collider:SetOffset(340.5,55.47,248.5)
+level01.colliders.AutoGenParent483ID280.collider:SetZAxis(-0.56921,0,-0.822192)
+level01.colliders.AutoGenParent483ID280.collider:SetHalfLengths(0.3,9.12196,7.90569)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID280.collider)
+level01.colliders.AutoGenParent483ID281 = {}
+level01.colliders.AutoGenParent483ID281.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID281.collider:SetOffset(363,53.5761,226.5)
+level01.colliders.AutoGenParent483ID281.collider:SetZAxis(0.50702,0,-0.861934)
+level01.colliders.AutoGenParent483ID281.collider:SetHalfLengths(0.3,9.67899,9.86154)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID281.collider)
+level01.colliders.AutoGenParent483ID282 = {}
+level01.colliders.AutoGenParent483ID282.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID282.collider:SetOffset(373.5,46.4462,189)
+level01.colliders.AutoGenParent483ID282.collider:SetZAxis(-0.0333148,0,-0.999445)
+level01.colliders.AutoGenParent483ID282.collider:SetHalfLengths(0.3,12.0185,15.0083)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID282.collider)
+level01.colliders.AutoGenParent483ID283 = {}
+level01.colliders.AutoGenParent483ID283.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID283.collider:SetOffset(374,39.4277,170.5)
+level01.colliders.AutoGenParent483ID283.collider:SetZAxis(0.274721,0,-0.961524)
+level01.colliders.AutoGenParent483ID283.collider:SetHalfLengths(0.3,5.55702,3.64005)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID283.collider)
+level01.colliders.AutoGenParent483ID284 = {}
+level01.colliders.AutoGenParent483ID284.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID284.collider:SetOffset(377.5,39.9848,162.5)
+level01.colliders.AutoGenParent483ID284.collider:SetZAxis(0.485643,0,-0.874157)
+level01.colliders.AutoGenParent483ID284.collider:SetHalfLengths(0.3,7.89651,5.14782)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID284.collider)
+level01.colliders.AutoGenParent483ID285 = {}
+level01.colliders.AutoGenParent483ID285.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID285.collider:SetOffset(382,37.0883,157.5)
+level01.colliders.AutoGenParent483ID285.collider:SetZAxis(0.970143,0,-0.242536)
+level01.colliders.AutoGenParent483ID285.collider:SetHalfLengths(0.3,5.1114,2.06155)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID285.collider)
+level01.colliders.AutoGenParent483ID286 = {}
+level01.colliders.AutoGenParent483ID286.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID286.collider:SetOffset(388.5,36.4629,157)
+level01.colliders.AutoGenParent483ID286.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID286.collider:SetHalfLengths(0.3,5.15847,4.5)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID286.collider)
+level01.colliders.AutoGenParent483ID287 = {}
+level01.colliders.AutoGenParent483ID287.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID287.collider:SetOffset(392,35.3536,145)
+level01.colliders.AutoGenParent483ID287.collider:SetZAxis(-1,0,0)
+level01.colliders.AutoGenParent483ID287.collider:SetHalfLengths(0.3,5.15847,8)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID287.collider)
+level01.colliders.AutoGenParent483ID288 = {}
+level01.colliders.AutoGenParent483ID288.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID288.collider:SetOffset(384,35.1951,146)
+level01.colliders.AutoGenParent483ID288.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID288.collider:SetHalfLengths(0.3,5,1)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID288.collider)
+level01.colliders.AutoGenParent483ID289 = {}
+level01.colliders.AutoGenParent483ID289.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID289.collider:SetOffset(370.079,42.4331,185.415)
+level01.colliders.AutoGenParent483ID289.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID289.collider:SetHalfLengths(1.88068,4.83337,1.99714)
+level01.colliders.AutoGenParent483ID279.collider:AddChild(level01.colliders.AutoGenParent483ID289.collider)
+level01.colliders.AutoGenParent483ID290 = {}
+level01.colliders.AutoGenParent483ID290.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID290.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID290.collider:SetMinPos(344.715,30.3536,134.729)
+level01.colliders.AutoGenParent483ID290.collider:SetMaxPos(422.128,65.4832,255.095)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID290.collider)
+level01.colliders.AutoGenParent483ID291 = {}
+level01.colliders.AutoGenParent483ID291.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID291.collider:SetOffset(346.5,55.47,250.5)
+level01.colliders.AutoGenParent483ID291.collider:SetZAxis(0.316228,0,-0.948683)
+level01.colliders.AutoGenParent483ID291.collider:SetHalfLengths(0.3,6.55966,4.74342)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID291.collider)
+level01.colliders.AutoGenParent483ID292 = {}
+level01.colliders.AutoGenParent483ID292.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID292.collider:SetOffset(353,57.0297,240.5)
+level01.colliders.AutoGenParent483ID292.collider:SetZAxis(0.672673,0,-0.73994)
+level01.colliders.AutoGenParent483ID292.collider:SetHalfLengths(0.3,8.45354,7.43303)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID292.collider)
+level01.colliders.AutoGenParent483ID293 = {}
+level01.colliders.AutoGenParent483ID293.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID293.collider:SetOffset(371,48.8971,211)
+level01.colliders.AutoGenParent483ID293.collider:SetZAxis(0.393919,0,-0.919145)
+level01.colliders.AutoGenParent483ID293.collider:SetHalfLengths(0.3,7.4509,7.61577)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID293.collider)
+level01.colliders.AutoGenParent483ID294 = {}
+level01.colliders.AutoGenParent483ID294.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID294.collider:SetOffset(398,36.3044,158)
+level01.colliders.AutoGenParent483ID294.collider:SetZAxis(0.980581,0,0.196116)
+level01.colliders.AutoGenParent483ID294.collider:SetHalfLengths(0.3,5.15847,5.09902)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID294.collider)
+level01.colliders.AutoGenParent483ID295 = {}
+level01.colliders.AutoGenParent483ID295.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID295.collider:SetOffset(404,36.146,160)
+level01.colliders.AutoGenParent483ID295.collider:SetZAxis(0.707107,0,0.707107)
+level01.colliders.AutoGenParent483ID295.collider:SetHalfLengths(0.3,5.15847,1.41421)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID295.collider)
+level01.colliders.AutoGenParent483ID296 = {}
+level01.colliders.AutoGenParent483ID296.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID296.collider:SetOffset(412.5,35.5121,139.5)
+level01.colliders.AutoGenParent483ID296.collider:SetZAxis(-0.903738,0,0.428086)
+level01.colliders.AutoGenParent483ID296.collider:SetHalfLengths(0.3,5.15847,10.5119)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID296.collider)
+level01.colliders.AutoGenParent483ID297 = {}
+level01.colliders.AutoGenParent483ID297.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID297.collider:SetOffset(401.5,35.3536,144.5)
+level01.colliders.AutoGenParent483ID297.collider:SetZAxis(-0.948683,0,0.316228)
+level01.colliders.AutoGenParent483ID297.collider:SetHalfLengths(0.3,5,1.58114)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID297.collider)
+level01.colliders.AutoGenParent483ID298 = {}
+level01.colliders.AutoGenParent483ID298.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID298.collider:SetOffset(365.671,47.676,214.229)
+level01.colliders.AutoGenParent483ID298.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID298.collider:SetHalfLengths(1.85948,4.92038,1.9785)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID298.collider)
+level01.colliders.AutoGenParent483ID299 = {}
+level01.colliders.AutoGenParent483ID299.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID299.collider:SetOffset(354.858,50.9688,226.742)
+level01.colliders.AutoGenParent483ID299.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID299.collider:SetHalfLengths(1.75,4,1.75)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID299.collider)
+level01.colliders.AutoGenParent483ID300 = {}
+level01.colliders.AutoGenParent483ID300.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID300.collider:SetOffset(347.526,56,240.375)
+level01.colliders.AutoGenParent483ID300.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID300.collider:SetHalfLengths(2.14269,5.42911,1.96576)
+level01.colliders.AutoGenParent483ID290.collider:AddChild(level01.colliders.AutoGenParent483ID300.collider)
+level01.colliders.AutoGenParent483ID301 = {}
+level01.colliders.AutoGenParent483ID301.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID301.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID301.collider:SetMinPos(404.75,30.5121,127.711)
+level01.colliders.AutoGenParent483ID301.collider:SetMaxPos(475.148,53.3481,231.059)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID301.collider)
+level01.colliders.AutoGenParent483ID302 = {}
+level01.colliders.AutoGenParent483ID302.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID302.collider:SetOffset(406,36.3044,162.5)
+level01.colliders.AutoGenParent483ID302.collider:SetZAxis(0.5547,0,0.83205)
+level01.colliders.AutoGenParent483ID302.collider:SetHalfLengths(0.3,5.15847,1.80278)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID302.collider)
+level01.colliders.AutoGenParent483ID303 = {}
+level01.colliders.AutoGenParent483ID303.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID303.collider:SetOffset(409,36.4629,168)
+level01.colliders.AutoGenParent483ID303.collider:SetZAxis(0.447214,0,0.894427)
+level01.colliders.AutoGenParent483ID303.collider:SetHalfLengths(0.3,5.31694,4.47214)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID303.collider)
+level01.colliders.AutoGenParent483ID304 = {}
+level01.colliders.AutoGenParent483ID304.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID304.collider:SetOffset(412.5,36.7798,176)
+level01.colliders.AutoGenParent483ID304.collider:SetZAxis(0.351123,0,0.936329)
+level01.colliders.AutoGenParent483ID304.collider:SetHalfLengths(0.3,5.79235,4.272)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID304.collider)
+level01.colliders.AutoGenParent483ID305 = {}
+level01.colliders.AutoGenParent483ID305.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID305.collider:SetOffset(415.5,37.5722,185)
+level01.colliders.AutoGenParent483ID305.collider:SetZAxis(0.287348,0,0.957826)
+level01.colliders.AutoGenParent483ID305.collider:SetHalfLengths(0.3,5.63388,5.22015)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID305.collider)
+level01.colliders.AutoGenParent483ID306 = {}
+level01.colliders.AutoGenParent483ID306.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID306.collider:SetOffset(418,38.2061,195.5)
+level01.colliders.AutoGenParent483ID306.collider:SetZAxis(0.178885,0,0.98387)
+level01.colliders.AutoGenParent483ID306.collider:SetHalfLengths(0.3,7.0601,5.59017)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID306.collider)
+level01.colliders.AutoGenParent483ID307 = {}
+level01.colliders.AutoGenParent483ID307.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID307.collider:SetOffset(419.5,40.2662,208.5)
+level01.colliders.AutoGenParent483ID307.collider:SetZAxis(0.066519,0,0.997785)
+level01.colliders.AutoGenParent483ID307.collider:SetHalfLengths(0.3,9.27867,7.51665)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID307.collider)
+level01.colliders.AutoGenParent483ID308 = {}
+level01.colliders.AutoGenParent483ID308.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID308.collider:SetOffset(418.5,44.5448,223.5)
+level01.colliders.AutoGenParent483ID308.collider:SetZAxis(-0.196116,0,0.980581)
+level01.colliders.AutoGenParent483ID308.collider:SetHalfLengths(0.3,8.80326,7.64853)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID308.collider)
+level01.colliders.AutoGenParent483ID309 = {}
+level01.colliders.AutoGenParent483ID309.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID309.collider:SetOffset(463.5,38.2061,139.5)
+level01.colliders.AutoGenParent483ID309.collider:SetZAxis(-0.870563,0,-0.492057)
+level01.colliders.AutoGenParent483ID309.collider:SetHalfLengths(0.3,6.42622,13.2098)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID309.collider)
+level01.colliders.AutoGenParent483ID310 = {}
+level01.colliders.AutoGenParent483ID310.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID310.collider:SetOffset(443,36.7798,130.5)
+level01.colliders.AutoGenParent483ID310.collider:SetZAxis(-0.963518,0,-0.267644)
+level01.colliders.AutoGenParent483ID310.collider:SetHalfLengths(0.3,5.95082,9.34077)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID310.collider)
+level01.colliders.AutoGenParent483ID311 = {}
+level01.colliders.AutoGenParent483ID311.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID311.collider:SetOffset(428,35.829,131.5)
+level01.colliders.AutoGenParent483ID311.collider:SetZAxis(-0.863779,0,0.503871)
+level01.colliders.AutoGenParent483ID311.collider:SetHalfLengths(0.3,5.31694,6.94622)
+level01.colliders.AutoGenParent483ID301.collider:AddChild(level01.colliders.AutoGenParent483ID311.collider)
+level01.colliders.AutoGenParent483ID312 = {}
+level01.colliders.AutoGenParent483ID312.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID312.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID312.collider:SetMinPos(414.709,23.9934,145.827)
+level01.colliders.AutoGenParent483ID312.collider:SetMaxPos(504.28,68.8781,297.022)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID312.collider)
+level01.colliders.AutoGenParent483ID313 = {}
+level01.colliders.AutoGenParent483ID313.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID313.collider:SetOffset(416,48.3481,235)
+level01.colliders.AutoGenParent483ID313.collider:SetZAxis(-0.242536,0,0.970143)
+level01.colliders.AutoGenParent483ID313.collider:SetHalfLengths(0.3,7.37704,4.12311)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID313.collider)
+level01.colliders.AutoGenParent483ID314 = {}
+level01.colliders.AutoGenParent483ID314.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID314.collider:SetOffset(422,50.7251,242)
+level01.colliders.AutoGenParent483ID314.collider:SetZAxis(0.919145,0,0.393919)
+level01.colliders.AutoGenParent483ID314.collider:SetHalfLengths(0.3,5.79234,7.61577)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID314.collider)
+level01.colliders.AutoGenParent483ID315 = {}
+level01.colliders.AutoGenParent483ID315.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID315.collider:SetOffset(432.5,51.5175,250)
+level01.colliders.AutoGenParent483ID315.collider:SetZAxis(0.573462,0,0.819232)
+level01.colliders.AutoGenParent483ID315.collider:SetHalfLengths(0.3,5.79235,6.10328)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID315.collider)
+level01.colliders.AutoGenParent483ID316 = {}
+level01.colliders.AutoGenParent483ID316.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID316.collider:SetOffset(453.5,52.3098,255)
+level01.colliders.AutoGenParent483ID316.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID316.collider:SetHalfLengths(0.3,16.5682,17.5)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID316.collider)
+level01.colliders.AutoGenParent483ID317 = {}
+level01.colliders.AutoGenParent483ID317.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID317.collider:SetOffset(500.5,41.8508,190)
+level01.colliders.AutoGenParent483ID317.collider:SetZAxis(-0.362446,0,-0.932005)
+level01.colliders.AutoGenParent483ID317.collider:SetHalfLengths(0.3,5.63388,9.6566)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID317.collider)
+level01.colliders.AutoGenParent483ID318 = {}
+level01.colliders.AutoGenParent483ID318.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID318.collider:SetOffset(492,41.217,172)
+level01.colliders.AutoGenParent483ID318.collider:SetZAxis(-0.485643,0,-0.874157)
+level01.colliders.AutoGenParent483ID318.collider:SetHalfLengths(0.3,6.42622,10.2956)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID318.collider)
+level01.colliders.AutoGenParent483ID319 = {}
+level01.colliders.AutoGenParent483ID319.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID319.collider:SetOffset(481,39.7907,154.5)
+level01.colliders.AutoGenParent483ID319.collider:SetZAxis(-0.576683,0,-0.816968)
+level01.colliders.AutoGenParent483ID319.collider:SetHalfLengths(0.3,6.58469,10.4043)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID319.collider)
+level01.colliders.AutoGenParent483ID320 = {}
+level01.colliders.AutoGenParent483ID320.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID320.collider:SetOffset(453,40.9141,256)
+level01.colliders.AutoGenParent483ID320.collider:SetZAxis(-1,0,0)
+level01.colliders.AutoGenParent483ID320.collider:SetHalfLengths(0.3,16.9207,18)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID320.collider)
+level01.colliders.AutoGenParent483ID321 = {}
+level01.colliders.AutoGenParent483ID321.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID321.collider:SetOffset(435,52.8348,263)
+level01.colliders.AutoGenParent483ID321.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID321.collider:SetHalfLengths(0.3,6.1353,7)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID321.collider)
+level01.colliders.AutoGenParent483ID322 = {}
+level01.colliders.AutoGenParent483ID322.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID322.collider:SetOffset(436,53.9701,283.5)
+level01.colliders.AutoGenParent483ID322.collider:SetZAxis(0.0738717,0,0.997268)
+level01.colliders.AutoGenParent483ID322.collider:SetHalfLengths(0.3,6.81649,13.537)
+level01.colliders.AutoGenParent483ID312.collider:AddChild(level01.colliders.AutoGenParent483ID322.collider)
+level01.colliders.AutoGenParent483ID323 = {}
+level01.colliders.AutoGenParent483ID323.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID323.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID323.collider:SetMinPos(436.704,24.9016,198.905)
+level01.colliders.AutoGenParent483ID323.collider:SetMaxPos(512.3,65.2143,350.111)
+level01.colliders.AutoGenParent483ID223.collider:AddChild(level01.colliders.AutoGenParent483ID323.collider)
+level01.colliders.AutoGenParent483ID324 = {}
+level01.colliders.AutoGenParent483ID324.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID324.collider:SetOffset(511.5,41.5339,241.5)
+level01.colliders.AutoGenParent483ID324.collider:SetZAxis(-0.0370117,0,-0.999315)
+level01.colliders.AutoGenParent483ID324.collider:SetHalfLengths(0.3,5.31694,13.5093)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID324.collider)
+level01.colliders.AutoGenParent483ID325 = {}
+level01.colliders.AutoGenParent483ID325.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID325.collider:SetOffset(510,41.8508,221)
+level01.colliders.AutoGenParent483ID325.collider:SetZAxis(-0.141421,0,-0.98995)
+level01.colliders.AutoGenParent483ID325.collider:SetHalfLengths(0.3,5.31694,7.07107)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID325.collider)
+level01.colliders.AutoGenParent483ID326 = {}
+level01.colliders.AutoGenParent483ID326.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID326.collider:SetOffset(506.5,42.1678,206.5)
+level01.colliders.AutoGenParent483ID326.collider:SetZAxis(-0.316228,0,-0.948683)
+level01.colliders.AutoGenParent483ID326.collider:SetHalfLengths(0.3,5.31694,7.90569)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID326.collider)
+level01.colliders.AutoGenParent483ID327 = {}
+level01.colliders.AutoGenParent483ID327.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID327.collider:SetOffset(474,40.2329,303.5)
+level01.colliders.AutoGenParent483ID327.collider:SetZAxis(0.178885,0,0.98387)
+level01.colliders.AutoGenParent483ID327.collider:SetHalfLengths(0.3,7.15708,16.7705)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID327.collider)
+level01.colliders.AutoGenParent483ID328 = {}
+level01.colliders.AutoGenParent483ID328.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID328.collider:SetOffset(467.5,40.2329,291.5)
+level01.colliders.AutoGenParent483ID328.collider:SetZAxis(-0.613941,0,0.789352)
+level01.colliders.AutoGenParent483ID328.collider:SetHalfLengths(0.3,15.3313,5.70088)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID328.collider)
+level01.colliders.AutoGenParent483ID329 = {}
+level01.colliders.AutoGenParent483ID329.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID329.collider:SetOffset(466,50.5642,306)
+level01.colliders.AutoGenParent483ID329.collider:SetZAxis(0.196116,0,0.980581)
+level01.colliders.AutoGenParent483ID329.collider:SetHalfLengths(0.3,5.68119,10.198)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID329.collider)
+level01.colliders.AutoGenParent483ID330 = {}
+level01.colliders.AutoGenParent483ID330.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID330.collider:SetOffset(468.5,51.2454,325.5)
+level01.colliders.AutoGenParent483ID330.collider:SetZAxis(0.0525588,0,0.998618)
+level01.colliders.AutoGenParent483ID330.collider:SetHalfLengths(0.3,8.29239,9.51315)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID330.collider)
+level01.colliders.AutoGenParent483ID331 = {}
+level01.colliders.AutoGenParent483ID331.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID331.collider:SetOffset(439,55.7866,309.5)
+level01.colliders.AutoGenParent483ID331.collider:SetZAxis(0.157991,0,0.987441)
+level01.colliders.AutoGenParent483ID331.collider:SetHalfLengths(0.3,5.3406,12.659)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID331.collider)
+level01.colliders.AutoGenParent483ID332 = {}
+level01.colliders.AutoGenParent483ID332.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID332.collider:SetOffset(442.5,56.1272,328.5)
+level01.colliders.AutoGenParent483ID332.collider:SetZAxis(0.22486,0,0.974391)
+level01.colliders.AutoGenParent483ID332.collider:SetHalfLengths(0.3,6.13531,6.67083)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID332.collider)
+level01.colliders.AutoGenParent483ID333 = {}
+level01.colliders.AutoGenParent483ID333.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID333.collider:SetOffset(447,57.2625,342.5)
+level01.colliders.AutoGenParent483ID333.collider:SetZAxis(0.371391,0,0.928477)
+level01.colliders.AutoGenParent483ID333.collider:SetHalfLengths(0.3,7.95179,8.07775)
+level01.colliders.AutoGenParent483ID323.collider:AddChild(level01.colliders.AutoGenParent483ID333.collider)
+level01.colliders.AutoGenParent483ID334 = {}
+level01.colliders.AutoGenParent483ID334.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID334.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID334.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+level01.colliders.AutoGenParent483ID334.collider:SetMaxPos(512.3,78.3839,383.3)
+level01.colliders.AutoGenParent483ID.collider:AddChild(level01.colliders.AutoGenParent483ID334.collider)
+level01.colliders.AutoGenParent483ID335 = {}
+level01.colliders.AutoGenParent483ID335.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID335.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID335.collider:SetMinPos(449.701,28.7617,256)
+level01.colliders.AutoGenParent483ID335.collider:SetMaxPos(512.3,78.3839,383.3)
+level01.colliders.AutoGenParent483ID334.collider:AddChild(level01.colliders.AutoGenParent483ID335.collider)
+level01.colliders.AutoGenParent483ID336 = {}
+level01.colliders.AutoGenParent483ID336.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID336.collider:SetOffset(512,41.5953,300.5)
+level01.colliders.AutoGenParent483ID336.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID336.collider:SetHalfLengths(0.3,11.8118,44.5)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID336.collider)
+level01.colliders.AutoGenParent483ID337 = {}
+level01.colliders.AutoGenParent483ID337.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID337.collider:SetOffset(508,34.7835,352.5)
+level01.colliders.AutoGenParent483ID337.collider:SetZAxis(-0.470588,0,0.882353)
+level01.colliders.AutoGenParent483ID337.collider:SetHalfLengths(0.3,6.02178,8.5)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID337.collider)
+level01.colliders.AutoGenParent483ID338 = {}
+level01.colliders.AutoGenParent483ID338.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID338.collider:SetOffset(502.5,35.8052,364.5)
+level01.colliders.AutoGenParent483ID338.collider:SetZAxis(-0.316228,0,0.948683)
+level01.colliders.AutoGenParent483ID338.collider:SetHalfLengths(0.3,6.24884,4.74342)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID338.collider)
+level01.colliders.AutoGenParent483ID339 = {}
+level01.colliders.AutoGenParent483ID339.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID339.collider:SetOffset(475.5,42.39,334)
+level01.colliders.AutoGenParent483ID339.collider:SetZAxis(-0.106533,0,0.994309)
+level01.colliders.AutoGenParent483ID339.collider:SetHalfLengths(0.3,6.58943,14.0801)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID339.collider)
+level01.colliders.AutoGenParent483ID340 = {}
+level01.colliders.AutoGenParent483ID340.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID340.collider:SetOffset(475.5,43.9794,365.5)
+level01.colliders.AutoGenParent483ID340.collider:SetZAxis(0.0854011,0,0.996347)
+level01.colliders.AutoGenParent483ID340.collider:SetHalfLengths(0.3,5.34059,17.5642)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID340.collider)
+level01.colliders.AutoGenParent483ID341 = {}
+level01.colliders.AutoGenParent483ID341.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID341.collider:SetOffset(469.5,54.5378,347.5)
+level01.colliders.AutoGenParent483ID341.collider:SetZAxis(0.039968,0,0.999201)
+level01.colliders.AutoGenParent483ID341.collider:SetHalfLengths(0.3,6.81649,12.51)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID341.collider)
+level01.colliders.AutoGenParent483ID342 = {}
+level01.colliders.AutoGenParent483ID342.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID342.collider:SetOffset(470,56.3543,371.5)
+level01.colliders.AutoGenParent483ID342.collider:SetZAxis(0,0,1)
+level01.colliders.AutoGenParent483ID342.collider:SetHalfLengths(0.3,7.49767,11.5)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID342.collider)
+level01.colliders.AutoGenParent483ID343 = {}
+level01.colliders.AutoGenParent483ID343.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID343.collider:SetOffset(450.5,60.2143,356.5)
+level01.colliders.AutoGenParent483ID343.collider:SetZAxis(0.0766965,0,0.997055)
+level01.colliders.AutoGenParent483ID343.collider:SetHalfLengths(0.3,5.90825,6.5192)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID343.collider)
+level01.colliders.AutoGenParent483ID344 = {}
+level01.colliders.AutoGenParent483ID344.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID344.collider:SetOffset(452,61.1226,373)
+level01.colliders.AutoGenParent483ID344.collider:SetZAxis(0.0995037,0,0.995037)
+level01.colliders.AutoGenParent483ID344.collider:SetHalfLengths(0.3,7.38414,10.0499)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID344.collider)
+level01.colliders.AutoGenParent483ID345 = {}
+level01.colliders.AutoGenParent483ID345.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID345.collider:SetOffset(473.5,58.852,383)
+level01.colliders.AutoGenParent483ID345.collider:SetZAxis(1,0,0)
+level01.colliders.AutoGenParent483ID345.collider:SetHalfLengths(0.3,19.5319,3.5)
+level01.colliders.AutoGenParent483ID335.collider:AddChild(level01.colliders.AutoGenParent483ID345.collider)
+level01.colliders.AutoGenParent483ID346 = {}
+level01.colliders.AutoGenParent483ID346.collider = AABBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID346.collider:SetOffset(0,0,0)
+level01.colliders.AutoGenParent483ID346.collider:SetMinPos(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+level01.colliders.AutoGenParent483ID346.collider:SetMaxPos(508.26,43.6435,383.149)
+level01.colliders.AutoGenParent483ID334.collider:AddChild(level01.colliders.AutoGenParent483ID346.collider)
+level01.colliders.AutoGenParent483ID347 = {}
+level01.colliders.AutoGenParent483ID347.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID347.collider:SetOffset(-1.07374e+08,-1.07374e+08,-1.07374e+08)
+level01.colliders.AutoGenParent483ID347.collider:SetZAxis(-0.582718,0,0.812674)
+level01.colliders.AutoGenParent483ID347.collider:SetHalfLengths(0.5,0.5,0.5)
+level01.colliders.AutoGenParent483ID346.collider:AddChild(level01.colliders.AutoGenParent483ID347.collider)
+level01.colliders.AutoGenParent483ID348 = {}
+level01.colliders.AutoGenParent483ID348.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID348.collider:SetOffset(502.5,37.0541,372.5)
+level01.colliders.AutoGenParent483ID348.collider:SetZAxis(0.393919,0,0.919145)
+level01.colliders.AutoGenParent483ID348.collider:SetHalfLengths(0.3,5.68118,3.80789)
+level01.colliders.AutoGenParent483ID346.collider:AddChild(level01.colliders.AutoGenParent483ID348.collider)
+level01.colliders.AutoGenParent483ID349 = {}
+level01.colliders.AutoGenParent483ID349.collider = OBBCollider.Create(-1)
+level01.colliders.AutoGenParent483ID349.collider:SetOffset(506,37.7352,379.5)
+level01.colliders.AutoGenParent483ID349.collider:SetZAxis(0.496139,0,0.868243)
+level01.colliders.AutoGenParent483ID349.collider:SetHalfLengths(0.3,5.90825,4.03113)
+level01.colliders.AutoGenParent483ID346.collider:AddChild(level01.colliders.AutoGenParent483ID349.collider)
+CollisionHandler.AddAABB(level01.colliders.AutoGenParent483ID.collider, 3)
+level01.colliders.AutoGenParent483ID1 = nil
+level01.colliders.AutoGenParent483ID2 = nil
+level01.colliders.AutoGenParent483ID3 = nil
+level01.colliders.AutoGenParent483ID4 = nil
+level01.colliders.AutoGenParent483ID5 = nil
+level01.colliders.AutoGenParent483ID6 = nil
+level01.colliders.AutoGenParent483ID7 = nil
+level01.colliders.AutoGenParent483ID8 = nil
+level01.colliders.AutoGenParent483ID9 = nil
+level01.colliders.AutoGenParent483ID10 = nil
+level01.colliders.AutoGenParent483ID11 = nil
+level01.colliders.AutoGenParent483ID12 = nil
+level01.colliders.AutoGenParent483ID13 = nil
+level01.colliders.AutoGenParent483ID14 = nil
+level01.colliders.AutoGenParent483ID15 = nil
+level01.colliders.AutoGenParent483ID16 = nil
+level01.colliders.AutoGenParent483ID17 = nil
+level01.colliders.AutoGenParent483ID18 = nil
+level01.colliders.AutoGenParent483ID19 = nil
+level01.colliders.AutoGenParent483ID20 = nil
+level01.colliders.AutoGenParent483ID21 = nil
+level01.colliders.AutoGenParent483ID22 = nil
+level01.colliders.AutoGenParent483ID23 = nil
+level01.colliders.AutoGenParent483ID24 = nil
+level01.colliders.AutoGenParent483ID25 = nil
+level01.colliders.AutoGenParent483ID26 = nil
+level01.colliders.AutoGenParent483ID27 = nil
+level01.colliders.AutoGenParent483ID28 = nil
+level01.colliders.AutoGenParent483ID29 = nil
+level01.colliders.AutoGenParent483ID30 = nil
+level01.colliders.AutoGenParent483ID31 = nil
+level01.colliders.AutoGenParent483ID32 = nil
+level01.colliders.AutoGenParent483ID33 = nil
+level01.colliders.AutoGenParent483ID34 = nil
+level01.colliders.AutoGenParent483ID35 = nil
+level01.colliders.AutoGenParent483ID36 = nil
+level01.colliders.AutoGenParent483ID37 = nil
+level01.colliders.AutoGenParent483ID38 = nil
+level01.colliders.AutoGenParent483ID39 = nil
+level01.colliders.AutoGenParent483ID40 = nil
+level01.colliders.AutoGenParent483ID41 = nil
+level01.colliders.AutoGenParent483ID42 = nil
+level01.colliders.AutoGenParent483ID43 = nil
+level01.colliders.AutoGenParent483ID44 = nil
+level01.colliders.AutoGenParent483ID45 = nil
+level01.colliders.AutoGenParent483ID46 = nil
+level01.colliders.AutoGenParent483ID47 = nil
+level01.colliders.AutoGenParent483ID48 = nil
+level01.colliders.AutoGenParent483ID49 = nil
+level01.colliders.AutoGenParent483ID50 = nil
+level01.colliders.AutoGenParent483ID51 = nil
+level01.colliders.AutoGenParent483ID52 = nil
+level01.colliders.AutoGenParent483ID53 = nil
+level01.colliders.AutoGenParent483ID54 = nil
+level01.colliders.AutoGenParent483ID55 = nil
+level01.colliders.AutoGenParent483ID56 = nil
+level01.colliders.AutoGenParent483ID57 = nil
+level01.colliders.AutoGenParent483ID58 = nil
+level01.colliders.AutoGenParent483ID59 = nil
+level01.colliders.AutoGenParent483ID60 = nil
+level01.colliders.AutoGenParent483ID61 = nil
+level01.colliders.AutoGenParent483ID62 = nil
+level01.colliders.AutoGenParent483ID63 = nil
+level01.colliders.AutoGenParent483ID64 = nil
+level01.colliders.AutoGenParent483ID65 = nil
+level01.colliders.AutoGenParent483ID66 = nil
+level01.colliders.AutoGenParent483ID67 = nil
+level01.colliders.AutoGenParent483ID68 = nil
+level01.colliders.AutoGenParent483ID69 = nil
+level01.colliders.AutoGenParent483ID70 = nil
+level01.colliders.AutoGenParent483ID71 = nil
+level01.colliders.AutoGenParent483ID72 = nil
+level01.colliders.AutoGenParent483ID73 = nil
+level01.colliders.AutoGenParent483ID74 = nil
+level01.colliders.AutoGenParent483ID75 = nil
+level01.colliders.AutoGenParent483ID76 = nil
+level01.colliders.AutoGenParent483ID77 = nil
+level01.colliders.AutoGenParent483ID78 = nil
+level01.colliders.AutoGenParent483ID79 = nil
+level01.colliders.AutoGenParent483ID80 = nil
+level01.colliders.AutoGenParent483ID81 = nil
+level01.colliders.AutoGenParent483ID82 = nil
+level01.colliders.AutoGenParent483ID83 = nil
+level01.colliders.AutoGenParent483ID84 = nil
+level01.colliders.AutoGenParent483ID85 = nil
+level01.colliders.AutoGenParent483ID86 = nil
+level01.colliders.AutoGenParent483ID87 = nil
+level01.colliders.AutoGenParent483ID88 = nil
+level01.colliders.AutoGenParent483ID89 = nil
+level01.colliders.AutoGenParent483ID90 = nil
+level01.colliders.AutoGenParent483ID91 = nil
+level01.colliders.AutoGenParent483ID92 = nil
+level01.colliders.AutoGenParent483ID93 = nil
+level01.colliders.AutoGenParent483ID94 = nil
+level01.colliders.AutoGenParent483ID95 = nil
+level01.colliders.AutoGenParent483ID96 = nil
+level01.colliders.AutoGenParent483ID97 = nil
+level01.colliders.AutoGenParent483ID98 = nil
+level01.colliders.AutoGenParent483ID99 = nil
+level01.colliders.AutoGenParent483ID100 = nil
+level01.colliders.AutoGenParent483ID101 = nil
+level01.colliders.AutoGenParent483ID102 = nil
+level01.colliders.AutoGenParent483ID103 = nil
+level01.colliders.AutoGenParent483ID104 = nil
+level01.colliders.AutoGenParent483ID105 = nil
+level01.colliders.AutoGenParent483ID106 = nil
+level01.colliders.AutoGenParent483ID107 = nil
+level01.colliders.AutoGenParent483ID108 = nil
+level01.colliders.AutoGenParent483ID109 = nil
+level01.colliders.AutoGenParent483ID110 = nil
+level01.colliders.AutoGenParent483ID111 = nil
+level01.colliders.AutoGenParent483ID112 = nil
+level01.colliders.AutoGenParent483ID113 = nil
+level01.colliders.AutoGenParent483ID114 = nil
+level01.colliders.AutoGenParent483ID115 = nil
+level01.colliders.AutoGenParent483ID116 = nil
+level01.colliders.AutoGenParent483ID117 = nil
+level01.colliders.AutoGenParent483ID118 = nil
+level01.colliders.AutoGenParent483ID119 = nil
+level01.colliders.AutoGenParent483ID120 = nil
+level01.colliders.AutoGenParent483ID121 = nil
+level01.colliders.AutoGenParent483ID122 = nil
+level01.colliders.AutoGenParent483ID123 = nil
+level01.colliders.AutoGenParent483ID124 = nil
+level01.colliders.AutoGenParent483ID125 = nil
+level01.colliders.AutoGenParent483ID126 = nil
+level01.colliders.AutoGenParent483ID127 = nil
+level01.colliders.AutoGenParent483ID128 = nil
+level01.colliders.AutoGenParent483ID129 = nil
+level01.colliders.AutoGenParent483ID130 = nil
+level01.colliders.AutoGenParent483ID131 = nil
+level01.colliders.AutoGenParent483ID132 = nil
+level01.colliders.AutoGenParent483ID133 = nil
+level01.colliders.AutoGenParent483ID134 = nil
+level01.colliders.AutoGenParent483ID135 = nil
+level01.colliders.AutoGenParent483ID136 = nil
+level01.colliders.AutoGenParent483ID137 = nil
+level01.colliders.AutoGenParent483ID138 = nil
+level01.colliders.AutoGenParent483ID139 = nil
+level01.colliders.AutoGenParent483ID140 = nil
+level01.colliders.AutoGenParent483ID141 = nil
+level01.colliders.AutoGenParent483ID142 = nil
+level01.colliders.AutoGenParent483ID143 = nil
+level01.colliders.AutoGenParent483ID144 = nil
+level01.colliders.AutoGenParent483ID145 = nil
+level01.colliders.AutoGenParent483ID146 = nil
+level01.colliders.AutoGenParent483ID147 = nil
+level01.colliders.AutoGenParent483ID148 = nil
+level01.colliders.AutoGenParent483ID149 = nil
+level01.colliders.AutoGenParent483ID150 = nil
+level01.colliders.AutoGenParent483ID151 = nil
+level01.colliders.AutoGenParent483ID152 = nil
+level01.colliders.AutoGenParent483ID153 = nil
+level01.colliders.AutoGenParent483ID154 = nil
+level01.colliders.AutoGenParent483ID155 = nil
+level01.colliders.AutoGenParent483ID156 = nil
+level01.colliders.AutoGenParent483ID157 = nil
+level01.colliders.AutoGenParent483ID158 = nil
+level01.colliders.AutoGenParent483ID159 = nil
+level01.colliders.AutoGenParent483ID160 = nil
+level01.colliders.AutoGenParent483ID161 = nil
+level01.colliders.AutoGenParent483ID162 = nil
+level01.colliders.AutoGenParent483ID163 = nil
+level01.colliders.AutoGenParent483ID164 = nil
+level01.colliders.AutoGenParent483ID165 = nil
+level01.colliders.AutoGenParent483ID166 = nil
+level01.colliders.AutoGenParent483ID167 = nil
+level01.colliders.AutoGenParent483ID168 = nil
+level01.colliders.AutoGenParent483ID169 = nil
+level01.colliders.AutoGenParent483ID170 = nil
+level01.colliders.AutoGenParent483ID171 = nil
+level01.colliders.AutoGenParent483ID172 = nil
+level01.colliders.AutoGenParent483ID173 = nil
+level01.colliders.AutoGenParent483ID174 = nil
+level01.colliders.AutoGenParent483ID175 = nil
+level01.colliders.AutoGenParent483ID176 = nil
+level01.colliders.AutoGenParent483ID177 = nil
+level01.colliders.AutoGenParent483ID178 = nil
+level01.colliders.AutoGenParent483ID179 = nil
+level01.colliders.AutoGenParent483ID180 = nil
+level01.colliders.AutoGenParent483ID181 = nil
+level01.colliders.AutoGenParent483ID182 = nil
+level01.colliders.AutoGenParent483ID183 = nil
+level01.colliders.AutoGenParent483ID184 = nil
+level01.colliders.AutoGenParent483ID185 = nil
+level01.colliders.AutoGenParent483ID186 = nil
+level01.colliders.AutoGenParent483ID187 = nil
+level01.colliders.AutoGenParent483ID188 = nil
+level01.colliders.AutoGenParent483ID189 = nil
+level01.colliders.AutoGenParent483ID190 = nil
+level01.colliders.AutoGenParent483ID191 = nil
+level01.colliders.AutoGenParent483ID192 = nil
+level01.colliders.AutoGenParent483ID193 = nil
+level01.colliders.AutoGenParent483ID194 = nil
+level01.colliders.AutoGenParent483ID195 = nil
+level01.colliders.AutoGenParent483ID196 = nil
+level01.colliders.AutoGenParent483ID197 = nil
+level01.colliders.AutoGenParent483ID198 = nil
+level01.colliders.AutoGenParent483ID199 = nil
+level01.colliders.AutoGenParent483ID200 = nil
+level01.colliders.AutoGenParent483ID201 = nil
+level01.colliders.AutoGenParent483ID202 = nil
+level01.colliders.AutoGenParent483ID203 = nil
+level01.colliders.AutoGenParent483ID204 = nil
+level01.colliders.AutoGenParent483ID205 = nil
+level01.colliders.AutoGenParent483ID206 = nil
+level01.colliders.AutoGenParent483ID207 = nil
+level01.colliders.AutoGenParent483ID208 = nil
+level01.colliders.AutoGenParent483ID209 = nil
+level01.colliders.AutoGenParent483ID210 = nil
+level01.colliders.AutoGenParent483ID211 = nil
+level01.colliders.AutoGenParent483ID212 = nil
+level01.colliders.AutoGenParent483ID213 = nil
+level01.colliders.AutoGenParent483ID214 = nil
+level01.colliders.AutoGenParent483ID215 = nil
+level01.colliders.AutoGenParent483ID216 = nil
+level01.colliders.AutoGenParent483ID217 = nil
+level01.colliders.AutoGenParent483ID218 = nil
+level01.colliders.AutoGenParent483ID219 = nil
+level01.colliders.AutoGenParent483ID220 = nil
+level01.colliders.AutoGenParent483ID221 = nil
+level01.colliders.AutoGenParent483ID222 = nil
+level01.colliders.AutoGenParent483ID223 = nil
+level01.colliders.AutoGenParent483ID224 = nil
+level01.colliders.AutoGenParent483ID225 = nil
+level01.colliders.AutoGenParent483ID226 = nil
+level01.colliders.AutoGenParent483ID227 = nil
+level01.colliders.AutoGenParent483ID228 = nil
+level01.colliders.AutoGenParent483ID229 = nil
+level01.colliders.AutoGenParent483ID230 = nil
+level01.colliders.AutoGenParent483ID231 = nil
+level01.colliders.AutoGenParent483ID232 = nil
+level01.colliders.AutoGenParent483ID233 = nil
+level01.colliders.AutoGenParent483ID234 = nil
+level01.colliders.AutoGenParent483ID235 = nil
+level01.colliders.AutoGenParent483ID236 = nil
+level01.colliders.AutoGenParent483ID237 = nil
+level01.colliders.AutoGenParent483ID238 = nil
+level01.colliders.AutoGenParent483ID239 = nil
+level01.colliders.AutoGenParent483ID240 = nil
+level01.colliders.AutoGenParent483ID241 = nil
+level01.colliders.AutoGenParent483ID242 = nil
+level01.colliders.AutoGenParent483ID243 = nil
+level01.colliders.AutoGenParent483ID244 = nil
+level01.colliders.AutoGenParent483ID245 = nil
+level01.colliders.AutoGenParent483ID246 = nil
+level01.colliders.AutoGenParent483ID247 = nil
+level01.colliders.AutoGenParent483ID248 = nil
+level01.colliders.AutoGenParent483ID249 = nil
+level01.colliders.AutoGenParent483ID250 = nil
+level01.colliders.AutoGenParent483ID251 = nil
+level01.colliders.AutoGenParent483ID252 = nil
+level01.colliders.AutoGenParent483ID253 = nil
+level01.colliders.AutoGenParent483ID254 = nil
+level01.colliders.AutoGenParent483ID255 = nil
+level01.colliders.AutoGenParent483ID256 = nil
+level01.colliders.AutoGenParent483ID257 = nil
+level01.colliders.AutoGenParent483ID258 = nil
+level01.colliders.AutoGenParent483ID259 = nil
+level01.colliders.AutoGenParent483ID260 = nil
+level01.colliders.AutoGenParent483ID261 = nil
+level01.colliders.AutoGenParent483ID262 = nil
+level01.colliders.AutoGenParent483ID263 = nil
+level01.colliders.AutoGenParent483ID264 = nil
+level01.colliders.AutoGenParent483ID265 = nil
+level01.colliders.AutoGenParent483ID266 = nil
+level01.colliders.AutoGenParent483ID267 = nil
+level01.colliders.AutoGenParent483ID268 = nil
+level01.colliders.AutoGenParent483ID269 = nil
+level01.colliders.AutoGenParent483ID270 = nil
+level01.colliders.AutoGenParent483ID271 = nil
+level01.colliders.AutoGenParent483ID272 = nil
+level01.colliders.AutoGenParent483ID273 = nil
+level01.colliders.AutoGenParent483ID274 = nil
+level01.colliders.AutoGenParent483ID275 = nil
+level01.colliders.AutoGenParent483ID276 = nil
+level01.colliders.AutoGenParent483ID277 = nil
+level01.colliders.AutoGenParent483ID278 = nil
+level01.colliders.AutoGenParent483ID279 = nil
+level01.colliders.AutoGenParent483ID280 = nil
+level01.colliders.AutoGenParent483ID281 = nil
+level01.colliders.AutoGenParent483ID282 = nil
+level01.colliders.AutoGenParent483ID283 = nil
+level01.colliders.AutoGenParent483ID284 = nil
+level01.colliders.AutoGenParent483ID285 = nil
+level01.colliders.AutoGenParent483ID286 = nil
+level01.colliders.AutoGenParent483ID287 = nil
+level01.colliders.AutoGenParent483ID288 = nil
+level01.colliders.AutoGenParent483ID289 = nil
+level01.colliders.AutoGenParent483ID290 = nil
+level01.colliders.AutoGenParent483ID291 = nil
+level01.colliders.AutoGenParent483ID292 = nil
+level01.colliders.AutoGenParent483ID293 = nil
+level01.colliders.AutoGenParent483ID294 = nil
+level01.colliders.AutoGenParent483ID295 = nil
+level01.colliders.AutoGenParent483ID296 = nil
+level01.colliders.AutoGenParent483ID297 = nil
+level01.colliders.AutoGenParent483ID298 = nil
+level01.colliders.AutoGenParent483ID299 = nil
+level01.colliders.AutoGenParent483ID300 = nil
+level01.colliders.AutoGenParent483ID301 = nil
+level01.colliders.AutoGenParent483ID302 = nil
+level01.colliders.AutoGenParent483ID303 = nil
+level01.colliders.AutoGenParent483ID304 = nil
+level01.colliders.AutoGenParent483ID305 = nil
+level01.colliders.AutoGenParent483ID306 = nil
+level01.colliders.AutoGenParent483ID307 = nil
+level01.colliders.AutoGenParent483ID308 = nil
+level01.colliders.AutoGenParent483ID309 = nil
+level01.colliders.AutoGenParent483ID310 = nil
+level01.colliders.AutoGenParent483ID311 = nil
+level01.colliders.AutoGenParent483ID312 = nil
+level01.colliders.AutoGenParent483ID313 = nil
+level01.colliders.AutoGenParent483ID314 = nil
+level01.colliders.AutoGenParent483ID315 = nil
+level01.colliders.AutoGenParent483ID316 = nil
+level01.colliders.AutoGenParent483ID317 = nil
+level01.colliders.AutoGenParent483ID318 = nil
+level01.colliders.AutoGenParent483ID319 = nil
+level01.colliders.AutoGenParent483ID320 = nil
+level01.colliders.AutoGenParent483ID321 = nil
+level01.colliders.AutoGenParent483ID322 = nil
+level01.colliders.AutoGenParent483ID323 = nil
+level01.colliders.AutoGenParent483ID324 = nil
+level01.colliders.AutoGenParent483ID325 = nil
+level01.colliders.AutoGenParent483ID326 = nil
+level01.colliders.AutoGenParent483ID327 = nil
+level01.colliders.AutoGenParent483ID328 = nil
+level01.colliders.AutoGenParent483ID329 = nil
+level01.colliders.AutoGenParent483ID330 = nil
+level01.colliders.AutoGenParent483ID331 = nil
+level01.colliders.AutoGenParent483ID332 = nil
+level01.colliders.AutoGenParent483ID333 = nil
+level01.colliders.AutoGenParent483ID334 = nil
+level01.colliders.AutoGenParent483ID335 = nil
+level01.colliders.AutoGenParent483ID336 = nil
+level01.colliders.AutoGenParent483ID337 = nil
+level01.colliders.AutoGenParent483ID338 = nil
+level01.colliders.AutoGenParent483ID339 = nil
+level01.colliders.AutoGenParent483ID340 = nil
+level01.colliders.AutoGenParent483ID341 = nil
+level01.colliders.AutoGenParent483ID342 = nil
+level01.colliders.AutoGenParent483ID343 = nil
+level01.colliders.AutoGenParent483ID344 = nil
+level01.colliders.AutoGenParent483ID345 = nil
+level01.colliders.AutoGenParent483ID346 = nil
+level01.colliders.AutoGenParent483ID347 = nil
+level01.colliders.AutoGenParent483ID348 = nil
+level01.colliders.AutoGenParent483ID349 = nil
 end
 level01.unload = function()
 Gear.UnbindInstance(level01.props.TilePlaceholder2ID.transformID)
@@ -2903,43 +2896,44 @@ level01.props.PineTree_NoCollider5429ID = nil
 --level01.colliders.Tile1_wallNr1441ID = nil
 --level01.colliders.Tile1_wallNr2442ID = nil
 level01.triggers.New443ID = nil
---[[level01.colliders.AutoGenParent1444ID = nil
-level01.colliders.AutoGenParent2445ID = nil
-level01.colliders.AutoGenParent3446ID = nil
-level01.colliders.AutoGenParent4447ID = nil
-level01.colliders.AutoGenParent5448ID = nil
-level01.colliders.AutoGenParent6449ID = nil
-level01.colliders.AutoGenParent7450ID = nil
-level01.colliders.AutoGenParent8451ID = nil
-level01.colliders.AutoGenParent9452ID = nil
-level01.colliders.AutoGenParent10453ID = nil
-level01.colliders.AutoGenParent11454ID = nil
-level01.colliders.AutoGenParent12455ID = nil
-level01.colliders.AutoGenParent13456ID = nil
-level01.colliders.AutoGenParent14457ID = nil
-level01.colliders.AutoGenParent15458ID = nil
-level01.colliders.AutoGenParent16459ID = nil
-level01.colliders.AutoGenParent17460ID = nil
-level01.colliders.AutoGenParent18461ID = nil
-level01.colliders.AutoGenParent19462ID = nil
-level01.colliders.AutoGenParent20463ID = nil
-level01.colliders.AutoGenParent21464ID = nil
-level01.colliders.AutoGenParent22465ID = nil
-level01.colliders.AutoGenParent23466ID = nil
-level01.colliders.AutoGenParent24467ID = nil
-level01.colliders.AutoGenParent25468ID = nil
-level01.colliders.AutoGenParent26469ID = nil
-level01.colliders.AutoGenParent27470ID = nil
-level01.colliders.AutoGenParent28471ID = nil
-level01.colliders.AutoGenParent29472ID = nil
-level01.colliders.AutoGenParent30473ID = nil
-level01.colliders.AutoGenParent31474ID = nil
-level01.colliders.AutoGenParent32475ID = nil
-level01.colliders.AutoGenParent33476ID = nil
-level01.colliders.AutoGenParent34477ID = nil
-level01.colliders.AutoGenParent35478ID = nil
-level01.colliders.AutoGenParent36479ID = nil
-level01.colliders.AutoGenParent480ID = nil--]]
+
+--[[level01.colliders.AutoGenParent1447ID = nil
+level01.colliders.AutoGenParent2448ID = nil
+level01.colliders.AutoGenParent3449ID = nil
+level01.colliders.AutoGenParent4450ID = nil
+level01.colliders.AutoGenParent5451ID = nil
+level01.colliders.AutoGenParent6452ID = nil
+level01.colliders.AutoGenParent7453ID = nil
+level01.colliders.AutoGenParent8454ID = nil
+level01.colliders.AutoGenParent9455ID = nil
+level01.colliders.AutoGenParent10456ID = nil
+level01.colliders.AutoGenParent11457ID = nil
+level01.colliders.AutoGenParent12458ID = nil
+level01.colliders.AutoGenParent13459ID = nil
+level01.colliders.AutoGenParent14460ID = nil
+level01.colliders.AutoGenParent15461ID = nil
+level01.colliders.AutoGenParent16462ID = nil
+level01.colliders.AutoGenParent17463ID = nil
+level01.colliders.AutoGenParent18464ID = nil
+level01.colliders.AutoGenParent19465ID = nil
+level01.colliders.AutoGenParent20466ID = nil
+level01.colliders.AutoGenParent21467ID = nil
+level01.colliders.AutoGenParent22468ID = nil
+level01.colliders.AutoGenParent23469ID = nil
+level01.colliders.AutoGenParent24470ID = nil
+level01.colliders.AutoGenParent25471ID = nil
+level01.colliders.AutoGenParent26472ID = nil
+level01.colliders.AutoGenParent27473ID = nil
+level01.colliders.AutoGenParent28474ID = nil
+level01.colliders.AutoGenParent29475ID = nil
+level01.colliders.AutoGenParent30476ID = nil
+level01.colliders.AutoGenParent31477ID = nil
+level01.colliders.AutoGenParent32478ID = nil
+level01.colliders.AutoGenParent33479ID = nil
+level01.colliders.AutoGenParent34480ID = nil
+level01.colliders.AutoGenParent35481ID = nil
+level01.colliders.AutoGenParent36482ID = nil
+level01.colliders.AutoGenParent483ID = nil--]]
 level01.props = nil
 level01.colliders = nil
 level01.triggers = nil
@@ -3323,6 +3317,7 @@ level02.props.OakTree_NoCollider135439ID.transformID = Gear.BindStaticInstance(l
 Transform.SetPosition(level02.props.OakTree_NoCollider135439ID.transformID, {x=238.094, y=41.1563, z=93.8647})
 Transform.SetScaleNonUniform(level02.props.OakTree_NoCollider135439ID.transformID, 1.12421, 1.34698, 1.26532)
 Transform.SetRotation(level02.props.OakTree_NoCollider135439ID.transformID, {x=0, y=0, z=0})
+
 end
 level02.unload = function()
 level02.props.tile25ID = nil
@@ -3613,6 +3608,7 @@ Gear.UnbindInstance(level02.props.OakTree_NoCollider134438ID.transformID)
 level02.props.OakTree_NoCollider134438ID = nil
 Gear.UnbindInstance(level02.props.OakTree_NoCollider135439ID.transformID)
 level02.props.OakTree_NoCollider135439ID = nil
+
 level02.props = nil
 level02.colliders = nil
 level02.triggers = nil
@@ -3654,6 +3650,7 @@ level03.props.t3s445ID.transformID = Gear.BindStaticInstance(level03.props.t3s44
 Transform.SetPosition(level03.props.t3s445ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(level03.props.t3s445ID.transformID, 1, 1, 1)
 Transform.SetRotation(level03.props.t3s445ID.transformID, {x=0, y=0, z=0})
+
 end
 level03.unload = function()
 Gear.UnbindInstance(level03.props.t3s136ID.transformID)
@@ -3692,6 +3689,7 @@ level03.colliders.Tile3_wallNr23347ID = nil
 level03.colliders.Tile3_wallNr24348ID = nil
 level03.colliders.Tile3_wallNr25349ID = nil
 level03.colliders.Tile3_wallNr26350ID = nil
+
 level03.props = nil
 level03.colliders = nil
 level03.triggers = nil
