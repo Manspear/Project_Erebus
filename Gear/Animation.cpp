@@ -179,16 +179,16 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 {
 	//Do not append if the animation already exists 
-	if (animationStackszor[animationSegment][backIdx] == state)
+	if (animationStack[animationSegment][backIdx] == state)
 	{
-		if (animationStackszor[animationSegment][frontIdx] == EMPTYELEMENT)
+		if (animationStack[animationSegment][frontIdx] == EMPTYELEMENT)
 		{
 			updateAnimation(dt, state, animationSegment);
 		}
-		else if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
+		else if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int from = animationStackszor[animationSegment][frontIdx];
-			int to = animationStackszor[animationSegment][backIdx];
+			int from = animationStack[animationSegment][frontIdx];
+			int to = animationStack[animationSegment][backIdx];
 
 			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
@@ -201,7 +201,7 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
 			if (isTransitionCompletes[animationSegment])
 			{
-				animationStackszor[animationSegment][frontIdx] = EMPTYELEMENT;
+				animationStack[animationSegment][frontIdx] = EMPTYELEMENT;
 				isTransitionCompletes[animationSegment] = false;
 			}
 		}
@@ -210,12 +210,12 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 	else
 	{
 		//If the blending got interrupted
-		if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
+		if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int back = animationStackszor[animationSegment][backIdx];
-			animationStackszor[animationSegment][frontIdx] = back;
+			int back = animationStack[animationSegment][backIdx];
+			animationStack[animationSegment][frontIdx] = back;
 		}
-		animationStackszor[animationSegment][backIdx] = state;
+		animationStack[animationSegment][backIdx] = state;
 	}
 
 	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
@@ -237,16 +237,16 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 
 void Animation::updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime)
 {
-	if (animationStackszor[animationSegment][backIdx] == state)
+	if (animationStack[animationSegment][backIdx] == state)
 	{
-		if (animationStackszor[animationSegment][frontIdx] == EMPTYELEMENT)
+		if (animationStack[animationSegment][frontIdx] == EMPTYELEMENT)
 		{
 			updateAnimation(dt, state, animationSegment);
 		}
-		else if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
+		else if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int from = animationStackszor[animationSegment][frontIdx];
-			int to = animationStackszor[animationSegment][backIdx];
+			int from = animationStack[animationSegment][frontIdx];
+			int to = animationStack[animationSegment][backIdx];
 	
 			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
@@ -259,8 +259,8 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
 			if (isTransitionCompletes[animationSegment])
 			{
-				animationStackszor[animationSegment][frontIdx] = EMPTYELEMENT;
-				animationStackszor[animationSegment][backIdx] = to;
+				animationStack[animationSegment][frontIdx] = EMPTYELEMENT;
+				animationStack[animationSegment][backIdx] = to;
 				isTransitionCompletes[animationSegment] = false;
 			}
 		}
@@ -269,12 +269,12 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 	else
 	{
 		//If the blending got interrupted
-		if (animationStackszor[animationSegment][frontIdx] != EMPTYELEMENT)
+		if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int back = animationStackszor[animationSegment][backIdx];
-			animationStackszor[animationSegment][frontIdx] = back;
+			int back = animationStack[animationSegment][backIdx];
+			animationStack[animationSegment][frontIdx] = back;
 		}
-		animationStackszor[animationSegment][backIdx] = state;
+		animationStack[animationSegment][backIdx] = state;
 	}
 }
 
@@ -292,9 +292,9 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 	if (animationTimers[animationSegment] >= blendTime && quickBlendStates[animationSegment] == true)
 	{
 		animationTimers[animationSegment] = 0;
-		int wolo = animationStackszor[animationSegment][backIdx];
-		animationStackszor[animationSegment][frontIdx] = animationStackszor[animationSegment][backIdx];
-		animationStackszor[animationSegment][backIdx] = EMPTYELEMENT;
+		int wolo = animationStack[animationSegment][backIdx];
+		animationStack[animationSegment][frontIdx] = animationStack[animationSegment][backIdx];
+		animationStack[animationSegment][backIdx] = EMPTYELEMENT;
 		quickBlendStates[animationSegment] = false;
 
 		updateAnimation(dt, wolo, animationSegment);
@@ -304,7 +304,7 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 
 	if (animationTimers[animationSegment] >= halfTime && quickBlendStates[animationSegment] == false)
 	{
-		int wolo = animationStackszor[animationSegment][backIdx];
+		int wolo = animationStack[animationSegment][backIdx];
 		quickBlendStates[animationSegment] = true;
 	}
 	return false;
@@ -330,8 +330,8 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		transitionTimers.push_back(0);
 		animationTimers.push_back(0);
 		
-		animationStackszor[i][0] = EMPTYELEMENT;
-		animationStackszor[i][1] = 0;
+		animationStack[i][0] = EMPTYELEMENT;
+		animationStack[i][1] = 0;
 
 		quickBlendStates.push_back(false);
 
@@ -689,8 +689,8 @@ void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 	quickBlendSegment = segment;
 	quickBlendingDone = false;
 
-	animationStackszor[quickBlendSegment][frontIdx] = quickBlendFrom;
-	animationStackszor[quickBlendSegment][backIdx] = quickBlendTo;
+	animationStack[quickBlendSegment][frontIdx] = quickBlendFrom;
+	animationStack[quickBlendSegment][backIdx] = quickBlendTo;
 }
 
 void Animation::update(float dt)

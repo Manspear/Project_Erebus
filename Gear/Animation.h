@@ -129,7 +129,7 @@ protected:
 
 	int backIdx = 1;
 	int frontIdx = 0;
-	int animationStackszor[MAXNUMSEGMENTS][2];
+	int animationStack[MAXNUMSEGMENTS][2];
 	glm::mat4x4 identityMatrixList[MAXJOINTCOUNT];
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
