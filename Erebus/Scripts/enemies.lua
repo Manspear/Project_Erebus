@@ -92,8 +92,12 @@ function CreateEnemy(type, position)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 
-		if self.stateName == "LeapState" or self.stateName == "AttackState" then
-			enemyManager.actionEnemy = enemyManager.actionEnemy -1
+		print (self.stateName )
+		if self.stateName == "LeapState" or self.stateName == "AttackState"  or self.stateName == "PositioningInnerState"  or self.stateName == "PositioningOuterState" then
+			aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
+			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
+			self.insideInnerCircleRange = false
+			print("DO I GET IN HERE ",enemyManager.actionEnemy )
 		end
 		
 		self.health = 0
