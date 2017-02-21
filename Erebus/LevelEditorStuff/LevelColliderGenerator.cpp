@@ -28,7 +28,7 @@ void LevelColliderGenerator::generateQuadTree(int tileID){
 		tempCols.clear();
 		std::map<unsigned int, LevelActor*> refMap = LevelActorHandler::getInstance()->getActors();
 		std::vector<AABBCollider*> sortedVector;
-
+		 
 		for (auto it : refMap) {
 			
 			if (hasObbCollider(it.second)) {
