@@ -63,6 +63,10 @@ function LoadPlayer()
 	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
+	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player.combined = false
+	player.combinedSpell = -1
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
@@ -328,6 +332,8 @@ function UpdatePlayer(dt)
 	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
+	UI.reposWorld(player.combineImage, player.position.x, player.position.y+2.1, player.position.z)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
@@ -360,13 +366,13 @@ function SendCombine(spell)
 		if player2.charging == true then
 			player2.isCombined = true
 			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
-			Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+			Network.SendChargingPacket(spell:GetEffect(), spell.damage, 1)
 		end
 	end
 end
 
 function GetCombined()
-	local combine, effectIndex, damage = Network.GetChargingPacket()
+	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
 		player.isCombined = true
