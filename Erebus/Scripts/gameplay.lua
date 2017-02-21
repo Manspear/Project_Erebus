@@ -56,11 +56,12 @@ function UnloadGameplay()
 end
 
 function UpdateGameplay(dt)
-	if Inputs.KeyReleased(Keys.Escape) then
+	if Inputs.KeyReleased(SETTING_KEYBIND_MENU) then
+		print(SETTING_KEYBIND_MENU)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
-	if Inputs.KeyReleased("B") and not player.charging then
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
 	end
 

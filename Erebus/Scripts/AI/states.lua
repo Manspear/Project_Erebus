@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {stateName = " ",idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
+state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
 
 
 function state.idleState.enter(enemy,player)
@@ -470,7 +470,7 @@ function changeToState(enemy,player,changeState)
 	end 
 
 	enemy.state.enter(enemy,player)
-	enemy.state.stateName = changeState
+	enemy.stateName = changeState
 
 end
 
