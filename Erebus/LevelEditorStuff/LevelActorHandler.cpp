@@ -230,7 +230,7 @@ void LevelActorHandler::updateActorBar()
 }
 
 std::string LevelActorHandler::getHeightData() {
-	std::string heightReturnString = "\n---------------------------------Hieghtmap-----------------------------\n\n";
+	std::string heightReturnString = "\n---------------------------------Heightmap-----------------------------\n\n";
 	for (size_t i = 1; i < LevelHeightmap::getCurrentID(); i++)
 	{
 		for (ActorIT it = actors.begin(); it != actors.end(); it++)
@@ -240,7 +240,7 @@ std::string LevelActorHandler::getHeightData() {
 				if (mapRef->getHeightmapID() == i) {
 					std::string hmapName = "Heightmap" + std::to_string(i);
 					heightReturnString += hmapName + " = {}\n";
-					heightReturnString += mapRef->toLua(hmapName);
+					heightReturnString += mapRef->toLuaLoad(hmapName);
 					heightReturnString += "heightmaps[" + std::to_string(i) + "] = " + hmapName + "\n";
 					heightReturnString += hmapName + " = nil\n";
 					break;
@@ -249,7 +249,7 @@ std::string LevelActorHandler::getHeightData() {
 		}
 	}
 
-	heightReturnString += "\n---------------------------------Hieghtmap-----------------------------\n\n";
+	heightReturnString += "\n---------------------------------Heightmap-----------------------------\n\n";
 
 	return heightReturnString;
 }
@@ -276,23 +276,57 @@ void LevelActorHandler::exportToLua()
 				
 				fprintf(file, "-------------------------------------%s-----------------------------------------------\n\n", levelName.c_str());
 				fprintf(file, "%s = {}\n", levelName.c_str());
+
+				std::stringstream surroundingSS;
+				surroundingSS << levelName << ".surrounding = { ";
+				for( ActorIT it = actors.begin(); it != actors.end(); it++ )
+				{
+					LevelHeightmap* heightmap = it->second->getComponent<LevelHeightmap>();
+					if( heightmap && heightmap->getHeightmapID() == i )
+					{
+						int* surrounding = heightmap->getSurrounding();
+						for( int i=0; i<HEIGHTMAP_MAX_SURROUNDING; i++ )
+						{
+							if( surrounding[i] > 0 )
+							{
+								surroundingSS << surrounding[i];
+								if( i < HEIGHTMAP_MAX_SURROUNDING-1 && surrounding[i+1] > 0 )
+								{
+									surroundingSS << ", ";
+								}
+							}
+						}
+					}
+				}
+				surroundingSS << " }" << std::endl;
+				fprintf(file, "%s", surroundingSS.str().c_str() );
+
 				fprintf(file, "%s.load = function()\n", levelName.c_str());
 				
-				fprintf(file, "props = {}\ncolliders = {}\ntriggers = {}\n");
+				fprintf(file, "%s.props = {}\n%s.colliders = {}\n%s.triggers = {}\n", levelName.c_str(), levelName.c_str(), levelName.c_str());
 				for (ActorIT it = actors.begin(); it != actors.end(); it++)
 				{
 					//If the current acotr is on the current tile, PRINT IT! AW YIZ
 					if (it->second->getTileID() == i) {
-						fprintf(file, "%s", it->second->toLua().c_str());
+						fprintf(file, "%s", it->second->toLuaLoad(levelName).c_str());
 					}
 					
 				}
-				fprintf(file, "table.insert(%s, props)\n", levelName.c_str());
+				//fprintf(file, "table.insert(%s, props)\n", levelName.c_str());
 				//fprintf(file, "table.insert(%s, heightmaps)\n", levelName.c_str());
-				fprintf(file, "table.insert(%s, colliders)\n", levelName.c_str());
-				fprintf(file, "table.insert(%s, triggers)\n", levelName.c_str());
+				//fprintf(file, "table.insert(%s, colliders)\n", levelName.c_str());
+				//fprintf(file, "table.insert(%s, triggers)\n", levelName.c_str());
 				fprintf(file, "end\n");
 				fprintf(file, "%s.unload = function()\n", levelName.c_str());
+				for(ActorIT it = actors.begin(); it != actors.end(); it++ )
+				{
+					if( it->second->getTileID() == i ) {
+						fprintf(file, "%s", it->second->toLuaUnload(levelName).c_str());
+					}
+				}
+				fprintf(file, "%s.props = nil\n", levelName.c_str());
+				fprintf(file, "%s.colliders = nil\n", levelName.c_str());
+				fprintf(file, "%s.triggers = nil\n", levelName.c_str());
 				fprintf(file, "end\n");
 				fprintf(file, "levels[%d] = %s\n",i, levelName.c_str());
 

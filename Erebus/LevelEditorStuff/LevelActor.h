@@ -38,7 +38,9 @@ public:
 	void insertXmlElement(tinyxml2::XMLElement* root, tinyxml2::XMLDocument* doc);
 	unsigned int id;
 	std::string toXml();
-	std::string toLua();
+	//std::string toLua();
+	std::string toLuaLoad(std::string levelName);
+	std::string toLuaUnload(std::string levelName);
 	void setExportType( int type );
 
 	int getExportType();

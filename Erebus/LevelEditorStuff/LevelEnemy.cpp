@@ -46,7 +46,7 @@ tinyxml2::XMLElement* LevelEnemy::toXml(tinyxml2::XMLDocument* doc) {
 
 	return element;
 }
-std::string LevelEnemy::toLua(std::string name){
+std::string LevelEnemy::toLuaLoad(std::string name){
 	using namespace std;
 	stringstream ss;
 
@@ -61,6 +61,12 @@ std::string LevelEnemy::toLua(std::string name){
 
 	return ss.str();
 }
+
+std::string LevelEnemy::toLuaUnload(std::string name)
+{
+	return "";
+}
+
 void LevelEnemy::postInitialize() {
 	parent->setExportType( EXPORT_ENEMY );
 }

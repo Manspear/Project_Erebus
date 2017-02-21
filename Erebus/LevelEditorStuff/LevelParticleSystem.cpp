@@ -77,7 +77,7 @@ tinyxml2::XMLElement* LevelParticleSystem::toXml(tinyxml2::XMLDocument* doc) {
 
 	return element;
 }
-std::string LevelParticleSystem::toLua(std::string name) {
+std::string LevelParticleSystem::toLuaLoad(std::string name) {
 	std::stringstream ss;
 	std::string fullName = name + ".particle";
 	ss<<fullName << " = Particle.Bind("<<'"' << particleFileLocation << '"'<<")" << std::endl;
@@ -88,6 +88,10 @@ std::string LevelParticleSystem::toLua(std::string name) {
 	return ss.str();
 }
 
+std::string LevelParticleSystem::toLuaUnload(std::string name)
+{
+	return "";
+}
 
 void TW_CALL setAliveCB(const void *value, void *s /*clientData*/)
 {

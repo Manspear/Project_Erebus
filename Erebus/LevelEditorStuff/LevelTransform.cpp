@@ -151,24 +151,29 @@ tinyxml2::XMLElement* LevelTransform::toXml(tinyxml2::XMLDocument* doc)
 	return element;
 }
 
-std::string LevelTransform::toLua(std::string name)
+std::string LevelTransform::toLuaLoad(std::string name)
 {
 	using namespace std;
 	stringstream ss;
 
-	if( exportTransform )
+	//if( exportTransform )
 	{
 		glm::vec3 pos = transformRef->getPos();
 		glm::vec3 scale = transformRef->getScale();
 		glm::vec3 rot = transformRef->getRotation();
 
-		ss << name << ".transformID = Transform.Bind()" << endl;
+		//ss << name << ".transformID = Transform.Bind()" << endl;
 		ss << "Transform.SetPosition(" << name << ".transformID, " <<  "{x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
 		ss << "Transform.SetScaleNonUniform(" << name << ".transformID, " << scale.x << ", " << scale.y << ", " << scale.z << ")" << endl;
 		ss << "Transform.SetRotation(" << name << ".transformID, "<<"{x="  << rot.x << ", y=" << rot.y << ", z=" << rot.z << "})" << endl;
 	}
 
 	return ss.str();
+}
+
+std::string LevelTransform::toLuaUnload( std::string name )
+{
+	return "";
 }
 
 Transform* LevelTransform::getTransformRef(){
