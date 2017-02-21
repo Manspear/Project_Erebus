@@ -41,8 +41,6 @@ function gamestate.Load()
 		file:write("SETTING_FULLSCREEN = false\n")
 		file:write("SETTING_DEBUG = true\n")
 
-		file:write("Settings_keys = {}\n")
-
 		file:write("SETTING_KEYBIND_FORWARD = \"W\"\n")
 		file:write("SETTING_KEYBIND_LEFT = \"A\"\n")
 		file:write("SETTING_KEYBIND_BACK = \"S\"\n")
