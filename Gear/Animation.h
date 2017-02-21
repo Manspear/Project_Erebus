@@ -69,7 +69,7 @@ public:
 	GEAR_API int getMatrixIndex();
 
 protected:
-	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
+	void updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr);
 
 	/*
 	The difference between this and the other UpdateState() is that
@@ -82,7 +82,7 @@ protected:
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment);
 
 	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
-	void calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment);
+	void calculateAndSaveJointMatrices(sKeyFrame* keyList, int animationSegment);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
 	
 	void makeTRSMatrix(float inTranslation[3], float inRotation[3], float inScale[3], glm::mat4x4* result);
@@ -98,11 +98,14 @@ protected:
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
 
+	//Muy importante.
+	int numJoints;
+
 	int numStates;
 
 	int animationSegments;
-	std::vector<sKeyFrame> blendFromKeys;
-	std::vector<sKeyFrame> blendToKeys;
+	sKeyFrame* blendFromKeys;
+	sKeyFrame* blendToKeys;
 
 	//Animation blending variables, one per animationPart;
 	int oldTos[MAXNUMSEGMENTS];
@@ -120,7 +123,7 @@ protected:
 
 	//List holding "final" jointmatrices (one per animationSegment) before they're added together
 	//used like: animationMatrixLists[animationSegment][jointIdx]
-	std::vector<glm::mat4x4*> animationMatrixLists;
+	glm::mat4x4* animationMatrixLists[MAXNUMSEGMENTS];
 
 	float fromAnimationTimer;
 	float toAnimationTimer;
@@ -133,8 +136,8 @@ protected:
 	glm::mat4x4 identityMatrixList[MAXJOINTCOUNT];
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
-	std::vector<sKeyFrame> finalList;
-	std::vector<sKeyFrame> blendedList;
+	sKeyFrame* finalList;
+	sKeyFrame* blendedList;
 
 	int matrixIndex;
 	int currentSegmentStates[MAXNUMSEGMENTS];

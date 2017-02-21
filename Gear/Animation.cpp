@@ -6,8 +6,8 @@ Animation::Animation()
 	fromAnimationTimer = 0;
 	toAnimationTimer = 0;
 	animationSegments = 0;
-	for (int i = 0; i < finalList.size(); i++)
-		shaderMatrices[i] = glm::mat4();
+	//for (int i = 0; i < finalList.size(); i++)
+	//	shaderMatrices[i] = glm::mat4();
 
 	transitionTimeArray = nullptr;
 
@@ -18,21 +18,34 @@ Animation::Animation()
 	quickBlendSegment = -1;
 	quickBlendTime = 0;
 	quickBlendingDone = true;
+	blendFromKeys = NULL;
+	blendToKeys = NULL;
+	finalList = NULL;
+	blendedList = NULL;
 }
 
 Animation::~Animation()
 {
+	delete[] blendFromKeys;
+	delete[] blendToKeys;
+	delete[] blendedList;
 	delete[] transitionTimeArray;
+	delete[] finalList;
 	for (int i = 0; i < animationSegments; i++)
 		delete[] animationMatrixLists[i];
+
 }
 
 void Animation::setAsset(Importer::ModelAsset * asset)
 {
 	this->asset = asset;
 	Importer::hModel* model = asset->getHeader();
-	finalList.resize(model->numJoints);
-	blendedList.resize(model->numJoints);
+	
+	numJoints = model->numJoints;
+	finalList = new sKeyFrame[numJoints];
+	blendFromKeys = new sKeyFrame[numJoints];
+	blendToKeys = new sKeyFrame[numJoints];
+	blendedList = new sKeyFrame[numJoints];
 }
 
 void Animation::updateAnimation(float dt, int layer, int animationSegment)
@@ -105,7 +118,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 	//updateJointMatrices(finalList);
 }
 
-std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
+void Animation::updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr)
 {
 	if (animTimer >= 0.0f)
 		animTimer += dt;
@@ -173,7 +186,7 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 		}
 		jointOffset += skeleton->jointCount;
 	}
-	return finalList;
+	memcpy(fillArr, finalList, numJoints * sizeof(Importer::sKeyFrame));
 }
 
 GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
@@ -333,7 +346,7 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		quickBlendStates[i] = false;
 
 		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
-		animationMatrixLists.push_back(allahu);
+		animationMatrixLists[i] = allahu;
 
 		currentSegmentStates[i] = 0;
 	}
@@ -419,10 +432,11 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	toAnimationTimer = animationTimers[animationSegment];
 	animationTimers[animationSegment] += dt;
 
-	blendFromKeys = updateAnimationForBlending(dt, blendFrom, fromAnimationTimer);
-	blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
+	//use memcpy on new memory area.
+	updateAnimationForBlending(dt, blendFrom, fromAnimationTimer, blendFromKeys);
+	updateAnimationForBlending(dt, blendTo, toAnimationTimer, blendToKeys);
 
-	for (int i = 0; i < blendToKeys.size(); i++)
+	for (int i = 0; i < numJoints; i++)
 	{
 		blendedList[i] = interpolateKeysForBlending(blendToKeys[i], blendFromKeys[i], animationSegment);
 	}
@@ -536,56 +550,56 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	return interpolatedKey;
 }
 
-void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
-{
-	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
+//void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
+//{
+//	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
+//
+//	glm::mat4 translateMat;
+//	glm::mat4 rotateMat;
+//	glm::mat4 scaleMat;
+//
+//	for (int i = 0; i < keyList.size(); i++)
+//	{
+//		convertToRotMat(keyList[i].keyRotate, &rotateMat);
+//		convertToTransMat(keyList[i].keyTranslate, &translateMat);
+//		convertToScaleMat(keyList[i].keyScale, &scaleMat);
+//
+//		tMatrices[i] = translateMat * scaleMat * rotateMat;
+//	}
+//
+//	int jointIdxOffset = 0;
+//	hSkeleton* skelPtr = asset->getSkeleton(0);
+//	hJoint* modelJointPtr = asset->getJointsStart();
+//	for (int i = 0; i < keyList.size(); i++)
+//	{
+//		if (modelJointPtr->parentJointID >= 0)
+//		{
+//			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
+//
+//			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
+//		}
+//
+//		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
+//
+//		shaderMatrices[i] = tMatrices[i] * invBPose;
+//
+//		modelJointPtr = (hJoint*)((char*)modelJointPtr + sizeof(hJoint));
+//		if (i == skelPtr->jointCount - 1)
+//		{
+//			skelPtr = (hSkeleton*)((char*)skelPtr + sizeof(hSkeleton));
+//			jointIdxOffset = skelPtr->jointOffset / sizeof(hJoint);
+//		}
+//	}
+//}
 
-	glm::mat4 translateMat;
-	glm::mat4 rotateMat;
-	glm::mat4 scaleMat;
-
-	for (int i = 0; i < keyList.size(); i++)
-	{
-		convertToRotMat(keyList[i].keyRotate, &rotateMat);
-		convertToTransMat(keyList[i].keyTranslate, &translateMat);
-		convertToScaleMat(keyList[i].keyScale, &scaleMat);
-
-		tMatrices[i] = translateMat * scaleMat * rotateMat;
-	}
-
-	int jointIdxOffset = 0;
-	hSkeleton* skelPtr = asset->getSkeleton(0);
-	hJoint* modelJointPtr = asset->getJointsStart();
-	for (int i = 0; i < keyList.size(); i++)
-	{
-		if (modelJointPtr->parentJointID >= 0)
-		{
-			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
-
-			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
-		}
-
-		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
-
-		shaderMatrices[i] = tMatrices[i] * invBPose;
-
-		modelJointPtr = (hJoint*)((char*)modelJointPtr + sizeof(hJoint));
-		if (i == skelPtr->jointCount - 1)
-		{
-			skelPtr = (hSkeleton*)((char*)skelPtr + sizeof(hSkeleton));
-			jointIdxOffset = skelPtr->jointOffset / sizeof(hJoint);
-		}
-	}
-}
-
-void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment)
+void Animation::calculateAndSaveJointMatrices(sKeyFrame* keyList, int animationSegment)
 {
 	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
 	glm::mat4 translateMat;
 	glm::mat4 scaleMat;
 	glm::mat4 rotateMat;
 	
-	for (int i = 0; i < keyList.size(); i++)
+	for (int i = 0; i < numJoints; i++)
 	{
 		//rotations are expressed in degrees / euler
 		//convertToRotMat(keyList[i].keyRotate, &rotateMat);
@@ -604,7 +618,7 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 	hJoint* modelJointPtr = asset->getJointsStart();
 	glm::mat4x4 invBPose;
 	int parentID;
-	for (int i = 0; i < keyList.size(); i++)
+	for (int i = 0; i < numJoints; i++)
 	{
 		if (modelJointPtr->parentJointID >= 0)
 		{
@@ -692,7 +706,7 @@ void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 
 void Animation::update(float dt)
 {
-	if (animationMatrixLists.size() <= 0)
+	if (numJoints <= 0)
 		return;
 
 	for (int i = 0; i< animationSegments; i++)
