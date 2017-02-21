@@ -16,6 +16,7 @@ namespace LuaCamera {
 			{ "GetPos",         getPos },
 			{ "SetHeight",      setHeight },
 			{ "GetDirection",   getDirection},
+			{ "GetRight",		getRight },
 			{ NULL, NULL }
 		};
 
@@ -96,6 +97,22 @@ namespace LuaCamera {
 	int getDirection(lua_State * lua)
 	{
 		glm::vec3 position = g_camera->getDirection();
+
+		lua_newtable(lua);
+		lua_pushnumber(lua, position.x);
+		lua_setfield(lua, -2, "x");
+
+		lua_pushnumber(lua, position.y);
+		lua_setfield(lua, -2, "y");
+
+		lua_pushnumber(lua, position.z);
+		lua_setfield(lua, -2, "z");
+
+		return 1;
+	}
+	int getRight(lua_State * lua)
+	{
+		glm::vec3 position = g_camera->getRight();
 
 		lua_newtable(lua);
 		lua_pushnumber(lua, position.x);
