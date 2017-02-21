@@ -15,6 +15,7 @@ namespace Collisions
 		this->frustumNodeHitAmount = 0;
 		this->leafNodeCounter = 0;
 		this->tempDynamicHitboxes = new std::vector<AABBCollider*>();
+		this->tempDynamicModelInstance = nullptr;
 	}
 
 
@@ -56,15 +57,18 @@ namespace Collisions
 
 	bool QuadTree::addDynamicModels(std::vector<Gear::ModelInstance>* models)
 	{
+		this->tempDynamicModelInstance = models;
+		int instanceIndex = -1, modelTransformIndex = -1;
 		for (size_t i = 0; i < models->size(); i++) // for every type of model
 		{
 			ModelAsset* tempModel = models->at(i).getAsset(); // get model asset
-
+			instanceIndex = i;
 			for (size_t j = 0; j < models->at(i).getActiveTransforms(); j++) // for every model that uses that asset
 			{
 				AABBCollider* modelCollider = new AABBCollider(tempModel->getMinPosition(), tempModel->getMaxPosition(), models->at(i).getTransform(j)->pos);
 				if (this->collisionChecker.collisionCheck(this->baseNode->collider, modelCollider)) // if the model is colliding with the quadtree
 				{
+					modelTransformIndex = j;
 					this->addHitboxToQuadtree(this->baseNode, modelCollider);
 					tempDynamicHitboxes->push_back(modelCollider);
 				}

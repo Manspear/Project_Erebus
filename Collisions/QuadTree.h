@@ -94,6 +94,7 @@ namespace Collisions
 		Node** hitNodeSave;
 		Node** leafNodes;
 		std::vector<AABBCollider*>* tempDynamicHitboxes;
+		std::vector<Gear::ModelInstance>* tempDynamicModelInstance;
 
 
 		//Helper functions
