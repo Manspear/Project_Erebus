@@ -90,6 +90,7 @@ function LoadPlayer()
 	function player.Hurt(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
+			Network.SendPlayerHealthPacket(self.transformID, self.health)
 			if self.health <= 0 and self.isAlive then
 				self:Kill()
 			end
@@ -106,6 +107,7 @@ function LoadPlayer()
 	function player.Kill(self)
 		self.health = 0
 		self.isAlive = false
+		Network.SendPlayerHealthPacket(self.transformID, self.health)
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
 		end
@@ -589,6 +591,16 @@ function UpdatePlayer2(dt)
 	if player2.dashtime <= 0 then
 		player2.invulnerable = false
 		Transform.SetScale(player2.transformID, 1)
+	end
+
+	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
+	if newPlayerHealthValue == true then
+		player2.health = currentHealthValue
+		if player2.health == 0 then
+			player2.isAlive = false
+		else
+			player2.isAlive = true
+		end
 	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()

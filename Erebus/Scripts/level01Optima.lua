@@ -8316,7 +8316,7 @@ New221247ID.moveSpeed = 9
 New221247ID.health = 50
 New221247ID.visionRange = 30
 
-New221247ID.ChangeToState(New221247ID,"DoNothingState")
+New221247ID.SetState(New221247ID,"DoNothingState")
 
 
 

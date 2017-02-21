@@ -11,7 +11,7 @@ function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	
-	if length < enemy.visionRange and player then
+	if length <enemy.visionRange and player.alive then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end

@@ -89,9 +89,6 @@ function CreateEnemy(type, position)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
-	enemies[i].ChangeToState = function(self,inState) 
-		stateScript.changeToState(self, player, inState)
-	end
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
@@ -408,7 +405,10 @@ function calculatePlayerTarget(enemy)
 			enemy.playerTarget = player
 		end
 	end
+end
 
+function dropOrbs()
+	
 end
 
 return { Unload = UnloadEnemies, Update = UpdateEnemies }
