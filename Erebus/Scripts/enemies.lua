@@ -100,13 +100,10 @@ function CreateEnemy(type, position)
 			aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
 			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
 			self.insideInnerCircleRange = false
-			print("DO I GET IN HERE ",enemyManager.actionEnemy )
 		end
 		
 		self.health = 0
-		self.alive = false
-		Transform.ActiveControl(self.transformID, false)
-		SphereCollider.SetActive(self.sphereCollider, false)
+
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
@@ -114,7 +111,7 @@ function CreateEnemy(type, position)
 			stateScript.changeToState(self, player, inState)
 		end
 
-		self.animationController:AnimationUpdate(0) -- play death animation
+		--self.animationController:AnimationUpdate(0) -- play death animation
 		
 		--[[for j = #self.effects, 1, -1 do
 			self.effects[j]:Deapply(self)
@@ -209,11 +206,11 @@ function UpdateEnemies(dt)
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			if enemies[i].health >0 then
+			if enemies[i].alive then
 				AI.ClearMap(enemies[i].lastPos,0)
 				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 				AI.AddIP(enemies[i].transformID,-1,0)
-				calculatePlayerTarget(enemies[i])
+				
 			end
 		end
 		AI.ClearMap(player.lastPos,0)
@@ -226,10 +223,12 @@ function UpdateEnemies(dt)
 	local tempdt
 
 	if Network.GetNetworkHost() == true then
+	
 		aiScript.updateEnemyManager(enemies)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
+			calculatePlayerTarget(enemies[i])
 			pos = Transform.GetPosition(enemies[i].transformID)
 			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 
@@ -244,7 +243,7 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 			tempdt = dt * enemies[i].timeScalar
-			if enemies[i].health > 0 then
+			if enemies[i].alive then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				--AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
@@ -260,10 +259,12 @@ function UpdateEnemies(dt)
 					end
 				end
 
-				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-				pos.y = pos.y - 10*dt
-				if pos.y < height then
-					pos.y = height
+				if  enemies[i].health >0 then
+					local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+					pos.y = pos.y - 10*dt
+					if pos.y < height then
+						pos.y = height
+					end
 				end
 				Transform.SetPosition(enemies[i].transformID, pos)
 
@@ -377,15 +378,21 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 or player.health > 0 then
-		enemy.playerTarget = player
-	elseif player2.health > 0 then
-		enemy.playerTarget = player2
+
+	if lengthToP1 < lengthToP2 then
+		if player.health > 0 then
+			enemy.playerTarget = player
+		else
+			enemy.playerTarget = player2
+		end
+	elseif lengthToP2 < lengthToP1 then 
+		if player2.health > 0  then
+			enemy.playerTarget = player2
+		else
+			enemy.playerTarget = player
+		end
 	end
 
-	if player2 == nil and  player.health > 0 then
-		enemy.playerTarget = player
-	end
 end
 
 return { Unload = UnloadEnemies, Update = UpdateEnemies }
