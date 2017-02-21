@@ -1248,11 +1248,11 @@ TutorialPost1230ID.collider = SphereCollider.Create(TutorialPost1230ID.transform
 TutorialPost1230ID.collider:SetOffset(0,1,-1)
 TutorialPost1230ID.collider:SetRadius(2.6)
 TutorialPost1230ID.collider.OnExit = function() hideTutorialImage() print("DD") end 
-TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier() end --Gear.Print("Triggered", 400, 400) end
+TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier(TutorialPost1230ID) end 
 TutorialPost1230ID.collider.triggered = false
 table.insert(triggers, TutorialPost1230ID.collider)
 CollisionHandler.AddSphere(TutorialPost1230ID.collider, 4)
-TutorialPost1230ID= nil
+--TutorialPost1230ID= nil
 
 
 TutorialPost228ID = {}
