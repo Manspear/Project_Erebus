@@ -47,8 +47,8 @@ function LoadHUD()
 	tutorialTexture[5] = Assets.LoadTexture("Textures/TUTORIALCharge2.dds")
 	tutorialTexture[6] = Assets.LoadTexture("Textures/TUTORIALChargeFriend1.dds")
 	tutorialTexture[7] = Assets.LoadTexture("Textures/TUTORIALChargeFriend2.dds")
-	pingImages[0] = UI.load(30.1, 9.1, 156.5, 0.7, 0.7) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[1] = UI.load(20.8, 8.8, 147.75, 0.7, 0.7) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[0] = UI.load(30.1, 9.1, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(20.8, 9, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	
 	
 	
@@ -145,15 +145,21 @@ function DrawHUD()
 		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE2], tutorialTexture[SHOW_TUTORIAL_IMAGE2])
 	end
 
+	if SHOW_TUTORIAL_IMAGE == -1 then
+		UI.drawWorldImage(pingImages[0], player.pingTexture);
+	end
+	if SHOW_TUTORIAL_IMAGE2 == -1 then
+		UI.drawWorldImage(pingImages[1], player.pingTexture);
+	end
+
 	if player.ping > 0 then
 		UI.drawWorldImage(player.pingImage, player.pingTexture);
 	end
 	if player2.ping > 0 then
 		UI.drawWorldImage(player2.pingImage, player2.pingTexture);
 	end
-	UI.drawWorldImage(pingImages[0], player.pingTexture);
-	UI.drawWorldImage(pingImages[1], player.pingTexture);
 
+	
 	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 	if showHealthbar then 
 		for i=1, #enemies do
