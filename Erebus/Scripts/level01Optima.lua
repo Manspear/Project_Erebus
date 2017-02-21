@@ -1220,6 +1220,16 @@ Light.addLight(37.5571, 6.02005, 197.771, 0.152941, 0.396078, 1, 9,5)
 table.insert(props,New3454ID)
 New3454ID = nil
 
+
+-- OSKAR TING
+oskar = {}
+oskar.obb = OBBCollider.Create(-1)
+oskar.obb:SetPos(15,6,165)
+CollisionHandler.AddOBB(oskar.obb,3)
+oskar.obb:SetActive(true)
+oskar.obb:SetXAxis(1,1,1)
+
+--END OSKAR TING
 TutorialPost1229ID = {}
 TutorialPost1229ID.transformID = Transform.Bind()
 Transform.SetPosition(TutorialPost1229ID.transformID, {x=30.1035, y=6.6213, z=156.506})
@@ -1248,7 +1258,7 @@ TutorialPost1230ID.collider = SphereCollider.Create(TutorialPost1230ID.transform
 TutorialPost1230ID.collider:SetOffset(0,1,-1)
 TutorialPost1230ID.collider:SetRadius(2.6)
 TutorialPost1230ID.collider.OnExit = function() hideTutorialImage() print("DD") end 
-TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier(TutorialPost1230ID) end 
+TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier(TutorialPost1230ID,oskar.obb) end 
 TutorialPost1230ID.collider.triggered = false
 table.insert(triggers, TutorialPost1230ID.collider)
 CollisionHandler.AddSphere(TutorialPost1230ID.collider, 4)
