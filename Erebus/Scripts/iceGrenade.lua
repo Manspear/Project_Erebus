@@ -101,7 +101,8 @@ function CreateIceGrenade(entity)
 				self.nades[i].particles.update(self.nades[i].type.position)
 				if not self.nades[i].exploding then
 					self.nades[i].exploding = self.nades[i].type:flyUpdate(dt)
-					if self.nades[i].exploding then 
+					if self.nades[i].exploding then
+						self.nades[i].particles.die(self.nades[i].type.position)
 						Transform.ActiveControl(self.nades[i].transform2ID, true)
 						local pos = Transform.GetPosition(self.nades[i].type.transformID)
 						local hm = GetHeightmap(pos)
@@ -116,7 +117,7 @@ function CreateIceGrenade(entity)
 					end
 				else
 					Transform.SetScale(self.nades[i].transform2ID, 3* self.nades[i].type.explodetime/GRENADE_EXPLODE_TIME)
-					self.nades[i].particles.die(self.nades[i].type.position)
+					
 					hits = self.nades[i].type:Update(dt)
 					--self.nades[i].particles.die(self.nades[i].type.position)
 					for index = 1, #hits do
