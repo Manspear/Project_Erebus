@@ -26,7 +26,7 @@ function CreateRevive(entity)
 		local vector = vec3sub(self.owner.position, self.target.position)
 		self.reviving = vec3length(vector) <= REVIVE_LENGTH and true or false
 		if self.reviving then
-
+			print("tja2")
 		end
 	end
 

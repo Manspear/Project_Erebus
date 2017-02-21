@@ -37,7 +37,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 7
+	player.moveSpeed = 30
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -85,11 +85,12 @@ function LoadPlayer()
 	function player.Hurt(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
-			--if self.health <= 0 then
-			--	self:Kill()
-			--end
+			if self.health <= 0 and self.isAlive then
+				self:Kill()
+			end
 		end
 	end
+
 	function player.Apply(self, effect)
 		if not self.invulnerable then
 			table.insert(self.effects, effect)
@@ -99,15 +100,10 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.health = 0
-		--Transform.ActiveControl(self.transformID,false)
-		for i=1, #enemies do
-			enemies[i].ChangeToState(enemies[i], "IdleState" )
-		end
-	end
-
-	function player.ImDead(self, dt)
 		self.isAlive = false
-		self:Kill()
+		for i=1, #enemies do
+			enemies[i].SetState(enemies[i], "IdleState" )
+		end
 	end
 	
 	function player.ChangeHeightmap(self, heightmap)
@@ -279,9 +275,9 @@ function UpdatePlayer(dt)
 		end
 	end
 
-	if not player2.isAlive then
+	if not player.isAlive then
 		if Inputs.KeyPressed("T") then 
-			player.revive:Cast(player2)
+			player.revive:Cast(player)
 		end
 		if Inputs.KeyDown("T") then 
 			player.revive:Update(dt)
@@ -291,9 +287,6 @@ function UpdatePlayer(dt)
 		end
 	end
 
-	if player.health <= 0 then
-		player:ImDead()
-	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
