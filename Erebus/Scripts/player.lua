@@ -624,7 +624,7 @@ function UpdatePlayer2(dt)
 
 end
 
-function TutorialBarrier(id)
+function TutorialBarrier(id,TutorialOBBID)
 
 	local colID = id.collider:GetID()
 	local collisionIDs = id.collider:GetCollisionIDs()
@@ -632,6 +632,9 @@ function TutorialBarrier(id)
 		for o = 1, #player.combinedSpellIDs do
 			if collisionIDs[i] == player.combinedSpellIDs[o] then
 				print("Nu har du en kombineardd spell i mig")
+				TutorialOBBID:SetActive(false)
+				player.combinedSpellIDs = nil
+
 			end
 		end
 	end
