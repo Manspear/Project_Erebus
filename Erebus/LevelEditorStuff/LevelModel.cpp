@@ -91,16 +91,28 @@ tinyxml2::XMLElement* LevelModel::toXml(tinyxml2::XMLDocument* doc)
 	return element;
 }
 
-std::string LevelModel::toLua(std::string name)
+std::string LevelModel::toLuaLoad(std::string name)
 {
-	std::stringstream ss;
+	using namespace std;
+	stringstream ss;
 
-	ss << name << ".model = Assets.LoadModel('Models/" << modelName << ".model')" << std::endl;
+	ss << name << ".model = Assets.LoadModel('Models/" << modelName << ".model')" << endl;
 
-	if( parent->getComponent<LevelAnimation>() )
-		ss << "Gear.AddAnimatedInstance(" << name << ".model, " << name << ".transformID, " << name << ".animation)" << std::endl;
-	else
-		ss << "Gear.AddStaticInstance(" << name << ".model, " << name << ".transformID)" << std::endl;
+	ss << name << ".transformID = Gear.BindStaticInstance(" << name << ".model)" << endl;
+
+	LevelTransform* transform = parent->getComponent<LevelTransform>();
+	if( transform )
+		ss << transform->toLuaLoad( name );
+
+	return ss.str();
+}
+
+std::string LevelModel::toLuaUnload(std::string name)
+{
+	using namespace std;
+	stringstream ss;
+
+	ss << "Gear.UnbindInstance(" << name << ".transformID)" << endl;
 
 	return ss.str();
 }

@@ -89,7 +89,7 @@ tinyxml2::XMLElement* LevelSound::toXml( tinyxml2::XMLDocument* doc )
 	return element;
 }
 
-std::string LevelSound::toLua( std::string name )
+std::string LevelSound::toLuaLoad( std::string name )
 {
 	using namespace std;
 	stringstream ss;
@@ -101,6 +101,11 @@ std::string LevelSound::toLua( std::string name )
 	ss << name << ".sound.flags = " << getCombinedFlags() << endl;
 
 	return ss.str();
+}
+
+std::string LevelSound::toLuaUnload( std::string name )
+{
+	return "";
 }
 
 void LevelSound::setTwStruct( TwBar* bar )

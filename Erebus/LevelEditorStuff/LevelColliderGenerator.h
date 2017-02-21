@@ -25,7 +25,7 @@ private:
 
 	std::map<AABBCollider*, LevelCollider*> mapedList;
 	void sortAbbList(std::vector<AABBCollider*> &colliders);
-	AABBCollider* addChildren(int childrenCount, std::vector<AABBCollider*> colliders);
+	AABBCollider* addChildren(int childrenCount, std::vector<AABBCollider*> colliders, int tileID);
 	AABBCollider* createAbbColiderInBounds(std::vector<AABBCollider*> colliders);
 
 	LevelCollider* mostTopParent;
@@ -42,7 +42,7 @@ public:
 	static LevelColliderGenerator* getInstance();
 
 
-	void generateQuadTree();
+	void generateQuadTree(int tileID);
 	bool hasObbCollider(LevelActor* actor);
 	AABBCollider* convertFromObbToAbb(OBBCollider* colider);
 

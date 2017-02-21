@@ -301,7 +301,7 @@ void LevelActorFactory::saveToLua(std::string fileName, std::vector<LevelActor*>
 	{
 		for( size_t i = 0; i<actors->size(); i++ )
 		{
-			stream << actors->at(i)->toLua();
+			stream << actors->at(i)->toLuaLoad("undefined");
 		}
 
 		stream.close();

@@ -1235,4 +1235,112 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="22" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="467.75" y="38.96875" z="181"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree (1)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="633" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="439" y="46.9375" z="220.875"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree (2)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="634" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="485" y="31.71875" z="122.5625"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree (3)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="635" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="527.5" y="26.3125" z="143.375"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree (4)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="636" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="563.5" y="15.203125" z="105.8125"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tree" displayName="OakTree (5)" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="7" z="0.5"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="637" parentID="12"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.7" y="7" z="1.7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="503.25" y="26.71875" z="163"/>
+            <Rotation x="0" y="0.13111129" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
 </Level>
