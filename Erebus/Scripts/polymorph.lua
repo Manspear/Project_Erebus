@@ -43,6 +43,12 @@ function CreatePolymorph(entity)
 		end
 	end
 
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
+	end
+
 	function spell:ChargeCast()	
 		if self.cooldown < 0 and not self.alive then	
 			self.chargedTime = POLYMORPH_MIN_CHARGETIME > self.chargedTime and POLYMORPH_MIN_CHARGETIME or self.chargedTime

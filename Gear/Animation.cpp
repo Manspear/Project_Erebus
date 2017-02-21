@@ -6,8 +6,8 @@ Animation::Animation()
 	fromAnimationTimer = 0;
 	toAnimationTimer = 0;
 	animationSegments = 0;
-	for (int i = 0; i < finalList.size(); i++)
-		shaderMatrices[i] = glm::mat4();
+	//for (int i = 0; i < finalList.size(); i++)
+	//	shaderMatrices[i] = glm::mat4();
 
 	transitionTimeArray = nullptr;
 
@@ -18,21 +18,34 @@ Animation::Animation()
 	quickBlendSegment = -1;
 	quickBlendTime = 0;
 	quickBlendingDone = true;
+	blendFromKeys = NULL;
+	blendToKeys = NULL;
+	finalList = NULL;
+	blendedList = NULL;
 }
 
 Animation::~Animation()
 {
+	delete[] blendFromKeys;
+	delete[] blendToKeys;
+	delete[] blendedList;
 	delete[] transitionTimeArray;
+	delete[] finalList;
 	for (int i = 0; i < animationSegments; i++)
 		delete[] animationMatrixLists[i];
+
 }
 
 void Animation::setAsset(Importer::ModelAsset * asset)
 {
 	this->asset = asset;
 	Importer::hModel* model = asset->getHeader();
-	finalList.resize(model->numJoints);
-	blendedList.resize(model->numJoints);
+
+	numJoints = model->numJoints;
+	finalList = new sKeyFrame[numJoints];
+	blendFromKeys = new sKeyFrame[numJoints];
+	blendToKeys = new sKeyFrame[numJoints];
+	blendedList = new sKeyFrame[numJoints];
 }
 
 void Animation::updateAnimation(float dt, int layer, int animationSegment)
@@ -63,7 +76,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 			//Get the maxtime for this layer
 			maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 
-			//resets itself wohahaha
+																												  //resets itself wohahaha
 			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
 			timeOverCompare = (float)INT_MAX;
@@ -105,7 +118,7 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 	//updateJointMatrices(finalList);
 }
 
-std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer, float& animTimer)
+void Animation::updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr)
 {
 	if (animTimer >= 0.0f)
 		animTimer += dt;
@@ -139,7 +152,7 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 
 			//Get the maxtime for this layer
 			maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
-																														//resets itself wohahaha
+																												  //resets itself wohahaha
 			animTimer = abs(std::fmod(animTimer, maxTime));
 
 			timeOverCompare = (float)INT_MAX;
@@ -173,22 +186,22 @@ std::vector<sKeyFrame> Animation::updateAnimationForBlending(float dt, int layer
 		}
 		jointOffset += skeleton->jointCount;
 	}
-	return finalList;
+	memcpy(fillArr, finalList, numJoints * sizeof(Importer::sKeyFrame));
 }
 
 GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 {
 	//Do not append if the animation already exists 
-	if (animationStacks[animationSegment].back() == state)
+	if (animationStack[animationSegment][backIdx] == state)
 	{
-		if (animationStacks[animationSegment].size() == 1)
+		if (animationStack[animationSegment][frontIdx] == EMPTYELEMENT)
 		{
 			updateAnimation(dt, state, animationSegment);
 		}
-		else if (animationStacks[animationSegment].size() > 1)
+		else if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
-			int to = animationStacks[animationSegment].back();
+			int from = animationStack[animationSegment][frontIdx];
+			int to = animationStack[animationSegment][backIdx];
 
 			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
@@ -201,8 +214,7 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
 			if (isTransitionCompletes[animationSegment])
 			{
-				animationStacks[animationSegment].clear();
-				animationStacks[animationSegment].push_back(to);
+				animationStack[animationSegment][frontIdx] = EMPTYELEMENT;
 				isTransitionCompletes[animationSegment] = false;
 			}
 		}
@@ -211,13 +223,12 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 	else
 	{
 		//If the blending got interrupted
-		if (animationStacks[animationSegment].size() > 1)
+		if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int back = animationStacks[animationSegment].back();
-			animationStacks[animationSegment].clear();
-			animationStacks[animationSegment].push_back(back);
+			int back = animationStack[animationSegment][backIdx];
+			animationStack[animationSegment][frontIdx] = back;
 		}
-		animationStacks[animationSegment].push_back(state);
+		animationStack[animationSegment][backIdx] = state;
 	}
 
 	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
@@ -239,16 +250,16 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 
 void Animation::updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime)
 {
-	if (animationStacks[animationSegment].back() == state)
+	if (animationStack[animationSegment][backIdx] == state)
 	{
-		if (animationStacks[animationSegment].size() == 1)
+		if (animationStack[animationSegment][frontIdx] == EMPTYELEMENT)
 		{
 			updateAnimation(dt, state, animationSegment);
 		}
-		else if (animationStacks[animationSegment].size() > 1)
+		else if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int from = animationStacks[animationSegment][animationStacks[animationSegment].size() - 2];
-			int to = animationStacks[animationSegment].back();
+			int from = animationStack[animationSegment][frontIdx];
+			int to = animationStack[animationSegment][backIdx];
 
 			if (oldTos[animationSegment] != to && oldFroms[animationSegment] != from)
 			{
@@ -258,12 +269,11 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 				oldFroms[animationSegment] = from;
 				toAnimationTimer = 0;
 			}
-
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
 			if (isTransitionCompletes[animationSegment])
 			{
-				animationStacks[animationSegment].clear();
-				animationStacks[animationSegment].push_back(to);
+				animationStack[animationSegment][frontIdx] = EMPTYELEMENT;
+				animationStack[animationSegment][backIdx] = to;
 				isTransitionCompletes[animationSegment] = false;
 			}
 		}
@@ -272,13 +282,12 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 	else
 	{
 		//If the blending got interrupted
-		if (animationStacks[animationSegment].size() > 1)
+		if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
 		{
-			int back = animationStacks[animationSegment].back();
-			animationStacks[animationSegment].clear();
-			animationStacks[animationSegment].push_back(back);
+			int back = animationStack[animationSegment][backIdx];
+			animationStack[animationSegment][frontIdx] = back;
 		}
-		animationStacks[animationSegment].push_back(state);
+		animationStack[animationSegment][backIdx] = state;
 	}
 }
 
@@ -296,9 +305,9 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 	if (animationTimers[animationSegment] >= blendTime && quickBlendStates[animationSegment] == true)
 	{
 		animationTimers[animationSegment] = 0;
-		int wolo = animationStacks[animationSegment].back();
-		animationStacks[animationSegment].clear();
-		animationStacks[animationSegment].push_back(wolo);
+		int wolo = animationStack[animationSegment][backIdx];
+		animationStack[animationSegment][frontIdx] = animationStack[animationSegment][backIdx];
+		animationStack[animationSegment][backIdx] = EMPTYELEMENT;
 		quickBlendStates[animationSegment] = false;
 
 		updateAnimation(dt, wolo, animationSegment);
@@ -308,8 +317,7 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 
 	if (animationTimers[animationSegment] >= halfTime && quickBlendStates[animationSegment] == false)
 	{
-		int wolo = animationStacks[animationSegment].back();
-
+		int wolo = animationStack[animationSegment][backIdx];
 		quickBlendStates[animationSegment] = true;
 	}
 	return false;
@@ -318,29 +326,27 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 {
 	this->animationSegments = numberOfSegments;
-	currentSegmentStates.resize(numberOfSegments);
-	timeMultiplier.resize(numberOfSegments);
-	animationPlayTime.resize(numberOfSegments);
-	std::vector<int> animStack;
-	animStack.push_back(0);
+
 	for (int i = 0; i < animationSegments; i++)
 	{
 		timeMultiplier[i] = 1;
 		animationPlayTime[i] = -1;
 
-		isTransitionCompletes.push_back(true);
-		oldTos.push_back(-1337);
-		oldFroms.push_back(-1337);
+		isTransitionCompletes[i] = true;
+		oldTos[i] = EMPTYELEMENT;
+		oldFroms[i] = EMPTYELEMENT;
 
-		transitionMaxTimes.push_back(0);
-		transitionTimers.push_back(0);
-		animationTimers.push_back(0);
-		animationStacks.push_back(animStack);
+		transitionMaxTimes[i] = 0;
+		transitionTimers[i] = 0;
+		animationTimers[i] = 0;
 
-		quickBlendStates.push_back(false);
+		animationStack[i][0] = EMPTYELEMENT;
+		animationStack[i][1] = 0;
+
+		quickBlendStates[i] = false;
 
 		glm::mat4x4* allahu = new glm::mat4x4[MAXJOINTCOUNT];
-		animationMatrixLists.push_back(allahu);
+		animationMatrixLists[i] = allahu;
 
 		currentSegmentStates[i] = 0;
 	}
@@ -380,7 +386,7 @@ GEAR_API void Animation::assembleAnimationsIntoShadermatrices()
 {
 	if (animationSegments > 1)
 	{
-		//animationMatrixLists is a 64 long mat4 list, where each 
+		//animationMatrixLists is a MAXJOINTCOUNT long mat4 list, where each matrix is a finalized joint transform
 		memcpy(shaderMatrices, animationMatrixLists[0], MAXJOINTCOUNT * sizeof(glm::mat4x4));
 
 		for (int i = 1; i < animationSegments; i++)
@@ -426,10 +432,11 @@ void Animation::blendAnimations(int blendTo, int blendFrom, float& transitionTim
 	toAnimationTimer = animationTimers[animationSegment];
 	animationTimers[animationSegment] += dt;
 
-	blendFromKeys = updateAnimationForBlending(dt, blendFrom, fromAnimationTimer);
-	blendToKeys = updateAnimationForBlending(dt, blendTo, toAnimationTimer);
+	//use memcpy on new memory area.
+	updateAnimationForBlending(dt, blendFrom, fromAnimationTimer, blendFromKeys);
+	updateAnimationForBlending(dt, blendTo, toAnimationTimer, blendToKeys);
 
-	for (int i = 0; i < blendToKeys.size(); i++)
+	for (int i = 0; i < numJoints; i++)
 	{
 		blendedList[i] = interpolateKeysForBlending(blendToKeys[i], blendFromKeys[i], animationSegment);
 	}
@@ -474,7 +481,7 @@ Importer::sKeyFrame Animation::interpolateKeys(Importer::sKeyFrame overKey, Impo
 	myLerp(underKey.keyTranslate, overKey.keyTranslate, interpolatedKey.keyTranslate, underAffect);
 
 	myLerp(underKey.keyScale, overKey.keyScale, interpolatedKey.keyScale, underAffect);
-	
+
 	//Lerping the quaternion
 	glm::quat resQ = glm::slerp(rotUnder, rotOver, underAffect);
 	glm::vec3 endRot = glm::eulerAngles(resQ);
@@ -543,56 +550,56 @@ Importer::sKeyFrame Animation::interpolateKeysForBlending(Importer::sKeyFrame to
 	return interpolatedKey;
 }
 
-void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
+//void Animation::updateJointMatrices(std::vector<sKeyFrame>& keyList)
+//{
+//	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
+//
+//	glm::mat4 translateMat;
+//	glm::mat4 rotateMat;
+//	glm::mat4 scaleMat;
+//
+//	for (int i = 0; i < keyList.size(); i++)
+//	{
+//		convertToRotMat(keyList[i].keyRotate, &rotateMat);
+//		convertToTransMat(keyList[i].keyTranslate, &translateMat);
+//		convertToScaleMat(keyList[i].keyScale, &scaleMat);
+//
+//		tMatrices[i] = translateMat * scaleMat * rotateMat;
+//	}
+//
+//	int jointIdxOffset = 0;
+//	hSkeleton* skelPtr = asset->getSkeleton(0);
+//	hJoint* modelJointPtr = asset->getJointsStart();
+//	for (int i = 0; i < keyList.size(); i++)
+//	{
+//		if (modelJointPtr->parentJointID >= 0)
+//		{
+//			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
+//
+//			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
+//		}
+//
+//		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
+//
+//		shaderMatrices[i] = tMatrices[i] * invBPose;
+//
+//		modelJointPtr = (hJoint*)((char*)modelJointPtr + sizeof(hJoint));
+//		if (i == skelPtr->jointCount - 1)
+//		{
+//			skelPtr = (hSkeleton*)((char*)skelPtr + sizeof(hSkeleton));
+//			jointIdxOffset = skelPtr->jointOffset / sizeof(hJoint);
+//		}
+//	}
+//}
+
+void Animation::calculateAndSaveJointMatrices(sKeyFrame* keyList, int animationSegment)
 {
 	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
-
-	glm::mat4 translateMat;
-	glm::mat4 rotateMat;
-	glm::mat4 scaleMat;
-
-	for (int i = 0; i < keyList.size(); i++)
-	{
-		convertToRotMat(keyList[i].keyRotate, &rotateMat);
-		convertToTransMat(keyList[i].keyTranslate, &translateMat);
-		convertToScaleMat(keyList[i].keyScale, &scaleMat);
-
-		tMatrices[i] = translateMat * scaleMat * rotateMat;
-	}
-
-	int jointIdxOffset = 0;
-	hSkeleton* skelPtr = asset->getSkeleton(0);
-	hJoint* modelJointPtr = asset->getJointsStart();
-	for (int i = 0; i < keyList.size(); i++)
-	{
-		if (modelJointPtr->parentJointID >= 0)
-		{
-			int parentID = modelJointPtr->parentJointID + jointIdxOffset;
-
-			tMatrices[i] = tMatrices[parentID] * tMatrices[i];
-		}
-
-		glm::mat4x4 invBPose = glm::make_mat4x4(modelJointPtr->globalBindposeInverse);
-
-		shaderMatrices[i] = tMatrices[i] * invBPose;
-
-		modelJointPtr = (hJoint*)((char*)modelJointPtr + sizeof(hJoint));
-		if (i == skelPtr->jointCount - 1)
-		{
-			skelPtr = (hSkeleton*)((char*)skelPtr + sizeof(hSkeleton));
-			jointIdxOffset = skelPtr->jointOffset / sizeof(hJoint);
-		}
-	}
-}
-
-void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment)
-{
-	glm::mat4x4 tMatrices[MAXJOINTCOUNT];
 	glm::mat4 translateMat;
 	glm::mat4 scaleMat;
 	glm::mat4 rotateMat;
-	
-	for (int i = 0; i < keyList.size(); i++)
+
+	for (int i = 0; i < numJoints; i++)
 	{
 		//rotations are expressed in degrees / euler
 		//convertToRotMat(keyList[i].keyRotate, &rotateMat);
@@ -601,7 +608,7 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 		//tMatrices[i] = translateMat * scaleMat * rotateMat;
 		makeTRSMatrix(keyList[i].keyTranslate, keyList[i].keyRotate, keyList[i].keyScale, &tMatrices[i]);
 	}
-	
+
 	/*
 	Make a special case where when the animation of segment is not calculated, use it's root and add it's rotation
 	to the other segment's rotation
@@ -611,7 +618,7 @@ void Animation::calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, i
 	hJoint* modelJointPtr = asset->getJointsStart();
 	glm::mat4x4 invBPose;
 	int parentID;
-	for (int i = 0; i < keyList.size(); i++)
+	for (int i = 0; i < numJoints; i++)
 	{
 		if (modelJointPtr->parentJointID >= 0)
 		{
@@ -660,7 +667,7 @@ void Animation::convertToRotMat(float in[3], glm::mat4* result)
 void Animation::makeTRSMatrix(float inTranslation[3], float inRotation[3], float inScale[3], glm::mat4x4* result)
 {
 	glm::mat4 translation = glm::translate(glm::vec3(inTranslation[0], inTranslation[1], inTranslation[2]));
-	
+
 	glm::mat4 rotation = glm::rotate(inRotation[2], glm::vec3(0, 0, 1))  * glm::rotate(inRotation[1], glm::vec3(0, 1, 0)) * glm::rotate(inRotation[0], glm::vec3(1, 0, 0));
 
 	glm::mat4 scale = glm::scale(glm::vec3(inScale[0], inScale[1], inScale[2]));
@@ -692,11 +699,14 @@ void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 	quickBlendTime = blendTime;
 	quickBlendSegment = segment;
 	quickBlendingDone = false;
+
+	animationStack[quickBlendSegment][frontIdx] = quickBlendFrom;
+	animationStack[quickBlendSegment][backIdx] = quickBlendTo;
 }
 
 void Animation::update(float dt)
 {
-	if (animationMatrixLists.size() <= 0)
+	if (numJoints <= 0)
 		return;
 
 	for (int i = 0; i< animationSegments; i++)

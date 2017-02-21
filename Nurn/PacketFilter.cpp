@@ -18,9 +18,10 @@ PacketFilter::PacketFilter()
 	this->damageQueue = new PacketQueue<DamagePacket>(40);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
-	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(100);
+	this->aiHealthQueue = new PacketQueue<HealthPacket>(100);
 	this->dashQueue = new PacketQueue<DashPacket>(5);
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
+	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
 }
 
 PacketFilter::~PacketFilter()
@@ -90,6 +91,11 @@ PacketFilter::~PacketFilter()
 		delete this->endEventQueue;
 		this->endEventQueue = 0;
 	}
+	if (this->playerHealthQueue)
+	{
+		delete this->playerHealthQueue;
+		this->playerHealthQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -147,7 +153,10 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					this->dashQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of dashPacket data to the correct queue
 					break;
 				case END_EVENT_PACKET:
-					this->endEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of dashPacket data to the correct queue
+					this->endEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of endEventPacket data to the correct queue
+					break;
+				case PLAYER_HEALTH_PACKET:
+					this->playerHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of playerHealthPacket data to the correct queue
 					break;
 
 #ifdef DEBUGGING_NETWORK
@@ -237,7 +246,7 @@ PacketQueue<EventPacket> * PacketFilter::getPlayerEventQueue()
 	return this->playerEventQueue;
 }
 
-PacketQueue<AIHealthPacket> * PacketFilter::getAIHealthQueue()
+PacketQueue<HealthPacket> * PacketFilter::getAIHealthQueue()
 {
 	return this->aiHealthQueue;
 }
@@ -250,4 +259,9 @@ PacketQueue<DashPacket> * PacketFilter::getDashQueue()
 PacketQueue<EventPacket> * PacketFilter::getEndEventQueue()
 {
 	return this->endEventQueue;
+}
+
+PacketQueue<HealthPacket> * PacketFilter::getPlayerHealthQueue()
+{
+	return this->playerHealthQueue;
 }

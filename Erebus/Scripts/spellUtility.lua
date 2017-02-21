@@ -201,4 +201,6 @@ function CreateChargeEggs(entity)
 
 
 	return chargeThing
+
 end
+

@@ -14,7 +14,7 @@
 #include "DamagePacket.hpp"
 #include "ChangeSpellsPacket.hpp"
 #include "EventPacket.hpp"
-#include "AIHealthPacket.hpp"
+#include "HealthPacket.hpp"
 #include "DashPacket.hpp"
 
 #ifdef DEBUGGING_NETWORK
@@ -48,9 +48,10 @@ public:
 	void pushDamagePacket(const DamagePacket& packet);
 	void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
 	void pushPlayerEventPacket(const EventPacket& packet);
-	void pushAIHealthPacket(const AIHealthPacket& packet);
+	void pushAIHealthPacket(const HealthPacket& packet);
 	void pushDashPacket(const DashPacket& packet);
 	void pushEndEventPacket(const EventPacket& packet);
+	void pushPlayerHealthPacket(const HealthPacket& packet);
 
 private:
 	unsigned char * memory;
@@ -65,9 +66,10 @@ private:
 	PacketQueue<DamagePacket> * damageQueue;
 	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
 	PacketQueue<EventPacket> * playerEventQueue;
-	PacketQueue<AIHealthPacket> * aiHealthQueue;
+	PacketQueue<HealthPacket> * aiHealthQueue;
 	PacketQueue<DashPacket> * dashQueue;
 	PacketQueue<EventPacket> * endEventQueue;
+	PacketQueue<HealthPacket> * playerHealthQueue;
 	uint16_t currentNetPacketSize;
 
 #ifdef DEBUGGING_NETWORK
