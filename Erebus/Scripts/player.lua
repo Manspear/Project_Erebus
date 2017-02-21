@@ -39,6 +39,7 @@ function LoadPlayer()
 	-- set basic variables for the player
 	player.moveSpeed = 7
 	player.isAlive = true
+	player.isControlable = true
 	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
@@ -138,12 +139,13 @@ function LoadPlayer()
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeEggs(player)
 	player.friendCharger = CreateCombineRay(player)
-	player.revive = CreateRevive()
+	player.revive = CreateRevive(player)
 end
 
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
+	player2.isAlive = true
 	player2.isCombined = false;
 	player2.health = 100
 	player2.forward = 0
@@ -205,7 +207,7 @@ function LoadPlayer2()
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeEggs(player2)
-
+	player2.revive = CreateRevive(player2)
 	Transform.SetScale(player2.aim.transformID, 0)
 end
 
@@ -275,12 +277,17 @@ function UpdatePlayer(dt)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
-	else
+	end
+
+	if not player2.isAlive then
 		if Inputs.KeyPressed("T") then 
-			player.revive:Cast(dt)
+			player.revive:Cast(player2)
 		end
 		if Inputs.KeyDown("T") then 
 			player.revive:Update(dt)
+		end
+		if Inputs.KeyReleased("T") then 
+			player.revive:Kill()
 		end
 	end
 
@@ -374,7 +381,7 @@ function GetCombined()
 end
 
 function Controls(dt)
-	if gamestate.currentState ~= GAMESTATE_SPELLBOOK then
+	if player.isControlable then
 		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end

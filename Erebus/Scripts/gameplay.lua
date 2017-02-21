@@ -64,6 +64,7 @@ function UpdateGameplay(dt)
 
 	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
 	end
 
 	if not player.isAlive and not player2.isAlive then
