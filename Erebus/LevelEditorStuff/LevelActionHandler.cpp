@@ -1,5 +1,6 @@
 #include "LevelActionHandler.h"
 #include "LevelBrushHandler.h"
+
 LevelActionHandler* LevelActionHandler::g_instance = nullptr;
 const char* ACTION_NAMES[MAX_ACTIONS] =
 {
@@ -7,7 +8,8 @@ const char* ACTION_NAMES[MAX_ACTIONS] =
 	"New Actor",
 	"Place Prefab",
 	"Use Brush",
-	"Gen Parent Col"
+	"Gen Parent Col",
+	"Wall Handler"
 };
 
 LevelActionHandler::LevelActionHandler()
@@ -68,7 +70,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		LevelActorHandler::getInstance()->changeDisplayHitbox();
 	}
 
-	if (inputs->keyPressedThisFrame(GLFW_KEY_W)) {
+	if (inputs->keyPressedThisFrame(GLFW_KEY_Q)) {
 		gizmo.setGizmoMode(GizmoMode::POSITION);
 	}
 	if (inputs->keyPressedThisFrame(GLFW_KEY_E)) {
@@ -119,29 +121,105 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 		}
 	}
 
+
+	if (action == ACTION_WALL_HANDLE) {
+		LevelWallColliderHandle::getInstance()->update(inputs, debug);
+		if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1))
+		{
+			LevelWallColliderHandle::getInstance()->clicked(camera, inputs);
+		}
+	}
+
 	if (action == ACTION_COLLIDER_GEN) {
 		LevelColliderGenerator::getInstance()->update();
 	}
+	bool coughtHitbox = false;
 
-	if( inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) )
-	{
-		if( !holdingGizmo )
+
+	if (action != ACTION_WALL_HANDLE) {
+		if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) && !holdingGizmo) {
+
+			static CollisionChecker* checker = new CollisionChecker();
+
+			if (LevelActorHandler::getInstance()->getShowHitBoxType() != LevelActorHandler::DisplayHitBoxes::NONE ||
+				LevelActorHandler::getInstance()->getShowHitBoxType() != LevelActorHandler::DisplayHitBoxes::NUM_DISPLAY_HB) {
+				LevelActor* closest = nullptr;
+				// CHECK COLLISION IF COLLISOON CHANGE COUGHT HITBOX
+
+				glm::vec3 ray_ndc, ray_world;
+				glm::vec4 ray_clip, ray_eye;
+				ray_ndc = glm::vec3((2.f*inputRef->getMousePos().x / WINDOW_WIDTH - 1.f),
+					1.f - (2.f*inputRef->getMousePos().y) / WINDOW_HEIGHT,
+					1.f);
+
+				ray_clip = glm::vec4(ray_ndc.x, ray_ndc.y, -1.f, 1.f);
+				ray_eye = glm::inverse(camera->getProjectionMatrix()) * ray_clip;
+				ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.f, 0.f);
+				ray_world = glm::vec3(glm::inverse(camera->getViewMatrix())* ray_eye);
+				ray_world = glm::normalize(ray_world);
+
+				glm::vec3 dir = ray_world;
+				glm::vec3 pos = camera->getPosition();
+
+				RayCollider rayStuff = RayCollider(pos, dir);
+
+				for (auto it : LevelActorHandler::getInstance()->getActors()) {
+					LevelCollider* tempCol = it.second->getComponent<LevelCollider>();
+					if (tempCol != nullptr) {
+						if (tempCol->getType() == ColiderType::COLLIDER_OBB) {
+
+							float closestDistance = 10000.f;
+							glm::vec3 intersectionPoint;
+							glm::vec3 closestHitPointOffset;
+
+							if (checker->collisionCheck(&rayStuff, tempCol->getObbCollider())) {
+								if (std::abs(rayStuff.hitdistance()) < closestDistance) {
+									closestDistance = std::abs(rayStuff.hitdistance());
+
+									closest = it.second;
+								}
+							}
+						}
+
+					}
+
+
+
+				}
+
+				if (closest != nullptr) {
+					coughtHitbox = true;
+					LevelActorHandler::getInstance()->setSelected(closest);
+				}
+			}
+		}
+
+	}
+
+
+		
+	if (action != ACTION_WALL_HANDLE) {
+		if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1))
 		{
-			int actorID = 0;
-			int noneSelect = 0;
-			glm::vec3 hitPoint( 0.0f );
-			glm::vec3 hitNorm(0.f);
-			
 
-			engine->pickActorFromWorld( LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
-			//std::cout << glm::to_string(hitPoint) << std::endl;
-			//std::cout << glm::to_string(hitNorm)<<std::endl;
-			
-			switch( action )
+			if (!holdingGizmo && !coughtHitbox)
 			{
+				int actorID = 0;
+				int noneSelect = 0;
+				glm::vec3 hitPoint(0.0f);
+				glm::vec3 hitNorm(0.f);
+
+
+				engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNorm);
+				//std::cout << glm::to_string(hitPoint) << std::endl;
+				//std::cout << glm::to_string(hitNorm)<<std::endl;
+
+				switch (action)
+				{
 				case ACTION_SELECT:
 				{
 					LevelActorHandler::getInstance()->setSelected(actorID);
+					std::cout << "Selected ID: " << actorID << std::endl;
 				} break;
 
 				case ACTION_NEW_ACTOR:
@@ -152,28 +230,28 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 					LevelActorHandler::getInstance()->setSelected(newActor);
 					this->resetAction(inputs);
 
-					LevelActor* pickedActor = LevelActorHandler::getInstance()->getActor( actorID );
-					if( pickedActor )
+					LevelActor* pickedActor = LevelActorHandler::getInstance()->getActor(actorID);
+					if (pickedActor)
 					{
-						newActor->setTileID( pickedActor->getTileID() );
+						newActor->setTileID(pickedActor->getTileID());
 					}
 					else
 					{
 						// check against heightmap aabb
 						int tileID = TILE_ID_INVALID;
 
-						for( std::map<unsigned int, LevelActor*>::iterator it = LevelActorHandler::getInstance()->getActors().begin(); it != LevelActorHandler::getInstance()->getActors().end() && tileID == TILE_ID_INVALID; it++ )
+						for (std::map<unsigned int, LevelActor*>::iterator it = LevelActorHandler::getInstance()->getActors().begin(); it != LevelActorHandler::getInstance()->getActors().end() && tileID == TILE_ID_INVALID; it++)
 						{
-							if( it->second )
+							if (it->second)
 							{
 								LevelHeightmap* heightmap = it->second->getComponent<LevelHeightmap>();
-								if( heightmap )
+								if (heightmap)
 								{
 									glm::vec3 minPos = heightmap->getMinPos();
 									glm::vec3 maxPos = heightmap->getMaxPos();
 
-									if( hitPoint.x >= minPos.x && hitPoint.z >= minPos.z &&
-										hitPoint.x <= maxPos.x && hitPoint.z <= maxPos.z )
+									if (hitPoint.x >= minPos.x && hitPoint.z >= minPos.z &&
+										hitPoint.x <= maxPos.x && hitPoint.z <= maxPos.z)
 									{
 										tileID = it->second->getTileID();
 									}
@@ -181,11 +259,11 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 							}
 						}
 
-						if( tileID != TILE_ID_INVALID )
-							newActor->setTileID( tileID );
+						if (tileID != TILE_ID_INVALID)
+							newActor->setTileID(tileID);
 						else
 						{
-							MessageBoxA( NULL, "Actor was placed outside of a tile and will not get a TileID.", "Level Editor - No TileID", MB_OK );
+							MessageBoxA(NULL, "Actor was placed outside of a tile and will not get a TileID.", "Level Editor - No TileID", MB_OK);
 						}
 					}
 				} break;
@@ -193,7 +271,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 				case ACTION_PLACE_PREFAB:
 				{
 					LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
-					
+					std::cout << "Created new ID: " << newActor->id << std::endl;
 					if (newActor)
 					{
 						LevelActorHandler::getInstance()->addActor(newActor);
@@ -206,20 +284,21 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 								transform->getTransformRef()->setLookAt(hitNorm);
 							}
 						}
-							
+
 						this->resetAction(inputs);
 
-						
 					}
-				} 
-			} // end of switch
+				}
+				} // end of switch
 
-			LevelAssetHandler::getInstance()->onMouseReleased();
+				LevelAssetHandler::getInstance()->onMouseReleased();
+			}
+
+			gizmo.onMouseUp();
+			holdingGizmo = false;
 		}
-
-		gizmo.onMouseUp();
-		holdingGizmo = false;
 	}
+
 }
 
 void LevelActionHandler::setTweakBar( TweakBar* bar )

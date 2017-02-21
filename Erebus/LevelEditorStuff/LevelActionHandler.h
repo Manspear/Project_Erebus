@@ -8,6 +8,7 @@
 #include "LevelAssetHandler.h"
 #include "LevelWorldHandler.h"
 #include "LevelColliderGenerator.h"
+#include "LevelWallColliderHandle.h"
 
 enum
 {
@@ -16,6 +17,7 @@ enum
 	ACTION_PLACE_PREFAB,
 	ACTION_USE_BRUSH,
 	ACTION_COLLIDER_GEN,
+	ACTION_WALL_HANDLE,
 	MAX_ACTIONS
 };
 

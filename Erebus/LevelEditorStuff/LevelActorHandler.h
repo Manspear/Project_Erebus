@@ -45,6 +45,9 @@ public:
 	const std::string tryActorName(std::string name);
 	void changeDisplayHitbox();
 	void postInitAllActors();
+	DisplayHitBoxes getShowHitBoxType() {
+		return this->selectedDisplayHitbox;
+	}
 
 private:
 	LevelUI::DiffComponents selectedComponent;

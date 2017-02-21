@@ -508,6 +508,11 @@ namespace Gear
 				colorAgentID[2] * 256 * 256 * 256;
 
 
+
+			int amountRemove = (int)(pickedID / 256);
+			pickedID -= amountRemove;
+
+
 			actorID = pickedID;
 			hitPos = colorPosition;
 			bool result = std::isnan(hitPos.x);

@@ -579,27 +579,6 @@ void LevelGizmo::setSelectedGizmo(GizmoLocation location)
 
 	this->xAxis = glm::normalize(glm::cross(yAxis, zAxis));
 		*/
-		std::cout << "UPDATE BIATCH" << std::endl;
-
-		glm::vec3 rotation = LevelActorHandler::getInstance()->getSelected()->getComponent<LevelTransform>()->getTransformRef()->getRotation();
-		tempYAxis = glm::vec3(0, 1, 0);
-		tempXAxis = glm::vec3(1, 0, 0);
-		tempZAxis = glm::vec3(0, 0, 1);
-
-		tempYAxis = glm::rotateX(tempYAxis, rotation.x);
-		tempYAxis = glm::rotateY(tempYAxis, rotation.y);
-		tempYAxis = glm::rotateZ(tempYAxis, rotation.z);
-		tempYAxis = glm::normalize(tempYAxis);
-
-		tempXAxis = glm::rotateX(tempXAxis, rotation.x);
-		tempXAxis = glm::rotateY(tempXAxis, rotation.y);
-		tempXAxis = glm::rotateZ(tempXAxis, rotation.z);
-		tempXAxis = glm::normalize(tempXAxis);
-
-		tempZAxis = glm::rotateX(tempZAxis, rotation.x);
-		tempZAxis = glm::rotateY(tempZAxis, rotation.y);
-		tempZAxis = glm::rotateZ(tempZAxis, rotation.z);
-		tempZAxis = glm::normalize(tempZAxis);
 			
 
 		//if (tempYAxis != glm::vec3(0, 1, 0)) {

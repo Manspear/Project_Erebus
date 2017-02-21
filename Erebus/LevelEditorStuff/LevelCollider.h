@@ -83,6 +83,9 @@ public:
 	AABBCollider* getAbbCollider();
 	unsigned int getMainColliderID();
 	std::vector<HitBox*>* getMainColliderChildren();
+
+	void adjustObbCollider(OBBCollider* colToCopy);
+	void setOffset(glm::vec3 offset);
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{
@@ -161,4 +164,6 @@ private:
 	RayCollider* rayColider;
 
 	static Debug* s_debugger;
+
+	
 };

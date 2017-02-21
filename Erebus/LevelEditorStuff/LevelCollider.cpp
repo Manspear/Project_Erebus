@@ -1014,3 +1014,22 @@ std::vector<HitBox*>* LevelCollider::getMainColliderChildren() {
 
 	return returnChildren;
 }
+
+void LevelCollider::adjustObbCollider(OBBCollider * colToCopy)
+{
+
+	this->xAxis = colToCopy->getXAxis();
+	this->yAxis = colToCopy->getYAxis();
+	this->zAxis = colToCopy->getZAxis();
+
+	this->halfLengths = colToCopy->getHalfLengths();
+	this->parent->getComponent<LevelTransform>()->getTransformRef()->setLookDir(zAxis);
+	obbColider->setZAxis(zAxis);
+
+
+}
+
+void LevelCollider::setOffset(glm::vec3 offset)
+{
+	this->offset = offset;
+}

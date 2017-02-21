@@ -34,6 +34,7 @@
 #include "LevelEnemy.h"
 #include "LevelParticleHandler.h"
 #include "LevelColliderGenerator.h"
+#include "LevelWallColliderHandle.h"
 
 #include <SDKDDKVer.h>
 

@@ -30,6 +30,7 @@ LevelEditor::~LevelEditor()
 	LevelColiderHandler::deleteInstance();
 	LevelParticleHandler::deleteInstance();
 	LevelColliderGenerator::deleteInstance();
+	LevelWallColliderHandle::deleteInstance();
 	delete this->assets;
 	delete this->engine;
 	delete this->ui;
@@ -143,7 +144,9 @@ void LevelEditor::start() {
 	engine->queueForwardModels(&forwardInstances);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
 
-	LevelActorFactory::getInstance()->loadWorld("TestWithoutParents");
+	LevelActorFactory::getInstance()->loadWorld("Level1_adam_18feb");
+
+	float currentUpdateTime = 0;
 
 	while (running && window.isWindowOpen())
 	{
@@ -151,7 +154,12 @@ void LevelEditor::start() {
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
 
-		
+		currentUpdateTime += deltaTime;
+
+		if (currentUpdateTime >= 1) {
+			currentUpdateTime = 0;
+			//LevelActorHandler::getInstance()->updateTweakBars();
+		}
 
 		camera->updateLevelEditorCamera(deltaTime);
 		//if (inputs->buttonPressedThisFrame(GLFW_MOUSE_BUTTON_1))

@@ -1,12 +1,14 @@
-<LevelActor type="Empty" displayName="New (2)" tileID="2" exportType="1">
-    <LevelPointLight>
-        <Position x="0" y="0" z="0"/>
-        <Color x="0" y="0.91372555" z="1"/>
-        <Radius r="199"/>
-        <Intensity i="10"/>
-    </LevelPointLight>
+<LevelActor type="TileStuff" displayName="tile3" tileID="3" exportType="3">
+    <LevelHeightmap>
+        <Draw d="true"/>
+        <LineLength l="0.5"/>
+        <Heights max="75.287842" min="34.878201"/>
+        <Offset x="0" y="0" z="0"/>
+        <ID heightmapID="3" surrounding0="0" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
+        <TextureName>tile3_height</TextureName>
+    </LevelHeightmap>
     <LevelTransform>
-        <Position x="500" y="102" z="198"/>
+        <Position x="384" y="0" z="128"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>
