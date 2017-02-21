@@ -101,6 +101,12 @@ function CreateSunRay(entity)
 		end
 	end
 
+	function sunRay:GetCollider()
+		local result = {}
+		table.insert(result, self.type.oobCollider:GetID())
+		return result
+	end
+
 	function sunRay:GeneralCast()
 		self.timeSinceTick = 0.0
 		self.type.oobCollider.SetSize(sunRay.type.oobCollider, self.length, 1, 1)

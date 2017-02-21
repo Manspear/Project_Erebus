@@ -389,6 +389,7 @@ function GetCombined()
 	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		player.spells[player.currentSpell]:GetCollider()
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
 	end

@@ -201,4 +201,13 @@ function CreateChargeEggs(entity)
 
 
 	return chargeThing
+
+end
+
+function TutorialBarrier(id,SpellID)
+	print(id)
+	--local colID = id.collider:GetID()
+	--local collisionIDs = self.sphereCollider:GetCollisionIDs()
+	--for curID = 1, #collisionIDs do
+		--for i=1,#player.spells do
 end
