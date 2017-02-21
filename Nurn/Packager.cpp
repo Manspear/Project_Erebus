@@ -217,7 +217,7 @@ void Packager::pushEndEventPacket(const EventPacket& packet)
 
 void Packager::pushPlayerHealthPacket(const HealthPacket& packet)
 {
-	this->aiHealthQueue->push(packet);
+	this->playerHealthQueue->push(packet);
 }
 
 template<class packetType>

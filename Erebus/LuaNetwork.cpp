@@ -546,7 +546,7 @@ namespace LuaNetwork
 	{
 		HealthPacket playerHealthPacket;
 
-		if (g_networkController->fetchAIHealthPacket(playerHealthPacket))
+		if (g_networkController->fetchPlayerHealthPacket(playerHealthPacket))
 		{
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, playerHealthPacket.data.transformID);
