@@ -194,7 +194,6 @@ function CreateHellPillar(entity)
 		self.damage = damage
 		if BaseCheckCollision(self) then	Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)		end
 		self.damage = dmg
-		print(self.damage)
 	end
 
 	function spell:Aim()

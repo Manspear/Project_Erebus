@@ -107,6 +107,8 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.isAlive = false
+		self.spells[self.currentSpell]:Kill()
+		self.charger:EndCharge()
 		Network.SendPlayerHealthPacket(self.transformID, self.health)
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
