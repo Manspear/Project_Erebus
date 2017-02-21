@@ -56,6 +56,8 @@ function GetNextFireEffectParticle()
 	return fireeffectparticles.particles[fireeffectparticles.nextIndex]
 end
 
+InitFireEffectParticles()
+
 function PrintInfo() 
 	if player.printInfo then
 		local scale = 0.8

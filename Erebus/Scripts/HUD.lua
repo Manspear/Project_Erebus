@@ -158,9 +158,13 @@ function DrawHUD()
 	if player2.ping > 0 then
 		UI.drawWorldImage(player2.pingImage, player2.pingTexture);
 	end
+	if player.charging then
+		UI.drawWorldImage(player.chargeImage, player.spells[player.currentSpell].hudtexture);
+		if (player.combined and player.combinedSpell ~= -1) then
+			UI.drawWorldImage(player.combineImage, SpellList[player.combinedSpell].texture);
+		end
+	end
 
-	
-	--UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"]);
 	if showHealthbar then 
 		for i=1, #enemies do
 			UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
@@ -186,7 +190,7 @@ function showTutorialImage(x,y,z,dt)
 		index = 1
 	end
 
-	tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	tutorialImages[index] = UI.load(x, y, z, 7, 7)
 	SHOW_TUTORIAL_IMAGE = index
 end
 
@@ -208,7 +212,7 @@ function showTutorialImage2(x,y,z,dt)
 
 
 
-	tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	tutorialImages[index] = UI.load(x, y, z, 7, 7)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 
