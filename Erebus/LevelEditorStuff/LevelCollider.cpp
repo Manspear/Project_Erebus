@@ -137,6 +137,19 @@ void LevelCollider::initialize(tinyxml2::XMLElement* element)
 	this->parentColiderID = child->IntAttribute("parentID");
 
 
+	child = element->FirstChildElement("Behavior");
+	if (child != nullptr) {
+		this->colliderBehavior = child->IntAttribute("Type");
+
+		if (colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER) {
+			this->onEnterEventString = child->Attribute("OnEnter");
+			this->onExitEventString = child->Attribute("OnExit");
+			this->onTriggeringEventString = child->Attribute("OnTriggering");
+		}
+	}
+
+
+
 	glm::vec3 tempRot;
 
 	this->position += this->offset;
@@ -255,10 +268,25 @@ tinyxml2::XMLElement* LevelCollider::toXml(tinyxml2::XMLDocument* doc)
 	idElement->SetAttribute("ID", this->coliderID);
 	idElement->SetAttribute("parentID", this->parentColiderID);
 
+	tinyxml2::XMLElement* behaveElement = doc->NewElement("Behavior");
+	behaveElement->SetAttribute("Type", colliderBehavior);
+	if (colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER) {
+		behaveElement->SetAttribute("OnEnter", onEnterEventString.c_str());
+		behaveElement->SetAttribute("OnExit", onExitEventString.c_str());
+		behaveElement->SetAttribute("OnTriggering", onTriggeringEventString.c_str());
+	}
+
+	
+
 	element->LinkEndChild(offsetElement);
 	element->LinkEndChild(colorElement);
 	element->LinkEndChild(idElement);
+	element->LinkEndChild(behaveElement);
 	scale = parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
+
+	//Behavior
+
+
 	switch (colliderType)
 	{
 	case COLLIDER_SPHERE:
