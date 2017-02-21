@@ -34,7 +34,8 @@ local scriptFiles =
 	"Scripts/polymorph.lua",
 	"Scripts/tumbleThorns.lua",
 	"Scripts/windknockback.lua",
-	"Scripts/knockbackEffect.lua"
+	"Scripts/knockbackEffect.lua",
+	"Scripts/TimeLaser.lua"
 }
 
 gameplayStarted = false
