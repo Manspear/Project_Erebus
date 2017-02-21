@@ -2,6 +2,7 @@
 #include "AABBCollider.h"
 #include "CollisionChecker.h"
 #include "Frustum.h"
+#include "Gear.h"
 namespace Collisions
 {
 	class QuadTree
@@ -11,13 +12,14 @@ namespace Collisions
 		COLLISIONS_EXPORTS ~QuadTree();
 
 		COLLISIONS_EXPORTS bool addModel(AABBCollider * childCollider, bool dynamic = false);
+		COLLISIONS_EXPORTS bool addStaticModels(std::vector<Gear::ModelInstance>* models);
+		COLLISIONS_EXPORTS bool addDynamicModels(std::vector<Gear::ModelInstance>* models);
 		COLLISIONS_EXPORTS void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
 		COLLISIONS_EXPORTS void frustumCollision();
 		static const int QUADTREE_NODE_AMOUNT = 4;
 
 		//setters
 		COLLISIONS_EXPORTS void setFrustum(Frustum* frustum);
-		
 
 
 	private:
@@ -53,6 +55,8 @@ namespace Collisions
 			{
 				if (this->collider != nullptr)
 					delete this->collider;
+				if (this->allChildColliders != nullptr)
+					delete allChildColliders;
 
 				if (this->children[0] != nullptr)
 				{
@@ -78,10 +82,11 @@ namespace Collisions
 		float width;
 		unsigned int depth;
 		const int COLLIDER_HEIGHT = 300;
-		int leafNodes, frustumNodeHitAmount;
+		int leafNodeAmount, frustumNodeHitAmount, leafNodeCounter;
 		CollisionChecker collisionChecker;
 		Frustum* frustum;
 		Node** hitNodeSave;
+		Node** leafNodes;
 
 
 		//Helper functions

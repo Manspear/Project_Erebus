@@ -11,8 +11,9 @@ namespace Collisions
 		this->baseNode = nullptr;
 		this->frustum = nullptr;
 		this->hitNodeSave = nullptr;
-		this->leafNodes = 0;
+		this->leafNodeAmount = 0;
 		this->frustumNodeHitAmount = 0;
+		this->leafNodeCounter = 0;
 	}
 
 
@@ -22,6 +23,8 @@ namespace Collisions
 			delete this->baseNode;
 		if (this->hitNodeSave != nullptr)
 			delete[] this->hitNodeSave;
+		if(this->leafNodes != nullptr)
+			delete[] this->leafNodes;
 	}
 
 	bool QuadTree::addModel(AABBCollider * childCollider, bool dynamic)
@@ -33,6 +36,28 @@ namespace Collisions
 			this->addHitboxToQuadtree(this->baseNode, childCollider);
 		}
 		return quadtreeCollision;
+	}
+
+	bool QuadTree::addStaticModels(std::vector<Gear::ModelInstance>* models)
+	{
+		models->size();
+		return true;
+	}
+
+	bool QuadTree::addDynamicModels(std::vector<Gear::ModelInstance>* models)
+	{
+		for (size_t i = 0; i < models->size(); i++) // for every type of model
+		{
+			ModelAsset* tempModel = models->at(i).getAsset(); // get model asset
+
+			for (size_t j = 0; j < models->at(i).getActiveTransforms(); j++) // for every model that uses that asset
+			{
+				AABBCollider* aabbTemp = new AABBCollider(tempModel->getMinPosition(), tempModel->getMaxPosition(), models->at(i).getTransform(j)->pos);
+			}
+			
+		}
+
+		return true;
 	}
 
 	void QuadTree::generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width)
@@ -48,22 +73,35 @@ namespace Collisions
 		this->baseNode = new Node(baseCollider);
 
 		float halWidth = width / 2.0f;
-		createChildren(this->baseNode, this->position, halWidth, this->depth);
 
 		int nodes = NODE_AMOUNT;
-		this->leafNodes = pow(nodes, this->depth);
-		this->hitNodeSave = new Node*[leafNodes];
+		this->leafNodeAmount = pow(nodes, this->depth);
+		this->hitNodeSave = new Node*[leafNodeAmount];
+		this->leafNodes = new Node*[leafNodeAmount];
+
+		createChildren(this->baseNode, this->position, halWidth, this->depth);
 	}
 
 	void QuadTree::frustumCollision()
 	{
+		int derpyy = 0;
 		if (this->frustum != nullptr)
 		{
 			this->resethitNodeSave();
 			this->frustumNodeHitAmount = 0;
 			this->recursiveFrustumCollision(this->baseNode);
 			//std::cout << this->frustumNodeHitAmount << std::endl;
+			
+			for (size_t i = 0; i < this->frustumNodeHitAmount; i++)
+			{
+				if (this->hitNodeSave[i]->allChildColliders->size())
+				{
+					derpyy++;
+				}
+					
+			}
 		}
+		std::cout << "You are getting: " << derpyy << " amount of nodes from quadtree\n";
 	}
 
 	void QuadTree::setFrustum(Frustum * frustum)
@@ -88,7 +126,7 @@ namespace Collisions
 
 	int QuadTree::getLeafNodeAmount()
 	{
-		return this->leafNodes;
+		return this->leafNodeAmount;
 	}
 
 	void QuadTree::createChildren(Node * parent, glm::vec3 center, float width, unsigned int depth)
@@ -114,6 +152,11 @@ namespace Collisions
 			this->createChildren(parent->children[TOP_RIGHT_NODE], topRightPosition, childrenWidth, childrenDepth);
 			this->createChildren(parent->children[BOTTOM_LEFT_NODE], bottomLeftPosition, childrenWidth, childrenDepth);
 			this->createChildren(parent->children[BOTTOM_RIGHT_NODE], bottomRightPosition, childrenWidth, childrenDepth);
+		}
+		else // we are leaf node
+		{
+			this->leafNodes[this->leafNodeCounter] = parent;
+			this->leafNodeCounter++;
 		}
 	}
 

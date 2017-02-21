@@ -76,13 +76,13 @@ DWORD WINAPI update( LPVOID args )
 	CollisionHandler collisionHandler = CollisionHandler(10); // Collision stuff init
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler); 
 	CollisionUpdater collisionUpdater(&collisionHandler, transforms, data->transformHandler);
-	//QuadTree quadtree;
-	//quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
+	QuadTree quadtree;
+	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
 	AABBCollider temp(glm::vec3(-10,-10,-10),glm::vec3(10,10,10),glm::vec3(17,17,17));
-	//quadtree.addModel(&temp);
+	quadtree.addModel(&temp);
 	Frustum f;
 	f.setCameraParameters(data->camera->getFov(),data->camera->getAspectRatio(),data->camera->getNearPlaneDistance(),data->camera->getFarPlaneDistance());
-	//quadtree.setFrustum(&f);
+	quadtree.setFrustum(&f);
 	
 	int boundTransforms = 0;
 	int boundAnimations = 0;
@@ -122,12 +122,18 @@ DWORD WINAPI update( LPVOID args )
 
 	AnimationData animationData[MAX_ANIMATIONS];
 
-
+	quadtree.addDynamicModels(data->models);
 	while( data->running )
 	{
 		f.updateFrustum(data->camera->getPosition(),data->camera->getDirection(),data->camera->getUp());
-		//quadtree.frustumCollision();
-		//data->engine->print(std::to_string(quadtree.getNodeCollisionAmount()),100,100);
+		
+		quadtree.frustumCollision();
+		data->engine->print(std::to_string(quadtree.getNodeCollisionAmount()),100,100);
+		for (size_t i = 0; i < 1; i++)
+		{
+			quadtree.addModel(&temp);
+		}
+		
 
 		glm::vec3 cameraPosition = data->camera->getPosition();
 		glm::vec3 cameraLookDirection = data->camera->getDirection();
@@ -150,7 +156,7 @@ DWORD WINAPI update( LPVOID args )
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
-			//collisionsDraw.draw(&quadtree);
+			collisionsDraw.draw(&quadtree);
 			
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
