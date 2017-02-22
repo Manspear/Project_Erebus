@@ -79,6 +79,12 @@ function CreateHellPillar(entity)
 			self:GeneralCast()		
 		end
 	end
+	
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
+	end
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 and MIN_CHARGE_TIME_PILLAR < self.chargedTime  then	

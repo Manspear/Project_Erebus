@@ -117,6 +117,12 @@ function CreateFireball(entity)
 		end
 	end
 
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
+	end
+
 	function spell:ChargeCast(entity)
 		if self.bigBallActive then
 			self:EngageExplode()
