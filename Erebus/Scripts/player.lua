@@ -346,13 +346,7 @@ function UpdatePlayer(dt)
 	end
 
 	
-	--Moves the ping icon
-	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
-	right = Camera.GetRight()
-
-	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.75, player.position.z - right.z * 0.30)
-	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.75, player.position.z + right.z * 0.30)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
@@ -378,6 +372,13 @@ function UpdatePlayer(dt)
 		end
 	end
 	UpdateCamera(dt)
+		--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+
+	right = Camera.GetRight()
+
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.75, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.75, player.position.z + right.z * 0.30)
 end
 
 function SendCombine(spell)
