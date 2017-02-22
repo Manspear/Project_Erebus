@@ -29,7 +29,6 @@ local function updateEnemyManager(enemies)
 					inPos = AI.SetSpecificTarget(enemies[i].playerTarget.transformID,player.innerCirclerange,player.nrOfInnerCircleEnemies,innerCounter)
 					length = AI.DistanceTransPos(enemies[i].transformID,inPos)
 
-					
 					if inPos.y ~= -1 and length >1 then
 						enemies[i].pathTarget = inPos
 						AI.AStarSearch(enemies[i].lastPos,inPos,enemies[i].transformID)

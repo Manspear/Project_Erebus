@@ -16,7 +16,8 @@ function CreateIceGrenade(entity)
 	
 	function initNade()
 		local nade = {}
-		nade.type = CreateGrenadeType()
+		local model = Assets.LoadModel( "Models/grenade.model" )
+		nade.type = CreateGrenadeType(model)
 		nade.effectflag = false
 		nade.effects = {}
 		table.insert(nade.effects, SLOW_EFFECT_INDEX)
@@ -26,13 +27,15 @@ function CreateIceGrenade(entity)
 		nade.exploding = false
 		nade.hits = {}
 		nade.soundID = -1
-		nade.transform2ID = Transform.Bind()
+		--nade.transform2ID = Transform.Bind()
 
-		local model = Assets.LoadModel( "Models/grenade.model" )
-		Gear.AddStaticInstance(model, nade.type.transformID)
+		--local model = Assets.LoadModel( "Models/grenade.model" )
+		--Gear.AddStaticInstance(model, nade.type.transformID)
 
-		local model2 = Assets.LoadModel("Models/isTappar1.model");
-		Gear.AddStaticInstance(model2, nade.transform2ID)
+		--local model2 = Assets.LoadModel("Models/isTappar1.model");
+		--Gear.AddStaticInstance(model2, nade.transform2ID)
+		local model2 = Assets.LoadModel("Models/isTappar1.model")
+		nade.transform2ID = Gear.BindStaticInstance(model2)
 		return nade
 	end
 	

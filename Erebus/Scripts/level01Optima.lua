@@ -79,27 +79,31 @@ tile13ID = nil
 
 TileSettings4ID = {}
 Transform.SetPosition(player.transformID, {x=32.9063, y=7.48828, z=145.625})
-player:ChangeHeightmap(heightmaps[1])
+player:ChangeHeightmap(1)
 table.insert(props,TileSettings4ID)
 TileSettings4ID = nil
 
 m16ID = {}
-m16ID.transformID = Transform.Bind()
+m16ID.model = Assets.LoadModel('Models/tiel1_m1.model')
+m16ID.transformID = Gear.BindStaticInstance(m16ID.model)
+--m16ID.transformID = Transform.Bind()
 Transform.SetPosition(m16ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(m16ID.transformID, 1, 1, 1)
 Transform.SetRotation(m16ID.transformID, {x=0, y=0, z=0})
-m16ID.model = Assets.LoadModel('Models/tile1_m1.model')
-Gear.AddStaticInstance(m16ID.model, m16ID.transformID)
+--m16ID.model = Assets.LoadModel('Models/tile1_m1.model')
+--Gear.AddStaticInstance(m16ID.model, m16ID.transformID)
 table.insert(props,m16ID)
 m16ID = nil
 
 m27ID = {}
-m27ID.transformID = Transform.Bind()
+--m27ID.transformID = Transform.Bind()
+m27ID.model = Assets.LoadModel('Models/tile1_m2.model')
+Gear.AddStaticInstance(m27ID.model, m27ID.transformID)
 Transform.SetPosition(m27ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(m27ID.transformID, 1, 1, 1)
 Transform.SetRotation(m27ID.transformID, {x=0, y=0, z=0})
-m27ID.model = Assets.LoadModel('Models/tile1_m2.model')
-Gear.AddStaticInstance(m27ID.model, m27ID.transformID)
+--m27ID.model = Assets.LoadModel('Models/tile1_m2.model')
+--Gear.AddStaticInstance(m27ID.model, m27ID.transformID)
 table.insert(props,m27ID)
 m27ID = nil
 

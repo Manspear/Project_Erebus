@@ -4,10 +4,14 @@
 namespace LuaCamera {
 	static Camera* g_camera = nullptr;
 	static Transform* g_transforms = nullptr;
-	void registerFunctions(lua_State * lua, Camera * camera, Transform* transform)
+	static TransformHandler* g_transformHandler = nullptr;
+
+	void registerFunctions(lua_State * lua, Camera * camera, Transform* transform, TransformHandler* transformHandler )
 	{
 		g_camera = camera;
 		g_transforms = transform;
+		g_transformHandler = transformHandler;
+
 		luaL_newmetatable(lua, "cameraMeta");
 		luaL_Reg regs[] =
 		{
@@ -41,8 +45,11 @@ namespace LuaCamera {
 		yoffset = (float)lua_tonumber(lua, -4);
 		transformIndex = (int)lua_tointeger(lua, -5);
 		fov = (float)lua_tonumber(lua, -6);
-		pos = g_transforms[transformIndex].getPos();
-		dir = g_transforms[transformIndex].getLookAt();
+		
+		//pos = g_transforms[transformIndex].getPos();
+		//dir = g_transforms[transformIndex].getLookAt();
+		pos = g_transformHandler->getTransform( transformIndex )->pos;
+		dir = g_transformHandler->getTransform( transformIndex )->lookAt;
 
 		g_camera->follow(pos, dir, distance, angle, xoffset, yoffset, fov);
 

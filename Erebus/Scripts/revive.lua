@@ -9,10 +9,12 @@ function CreateRevive(entity)
 	spell.reviving = false
 
 	spell.position = {x = 0, y = 0, z = 0}		spell.rotation = {x = 0, y = 0, z = 0}
-	spell.transformID = Transform.Bind()
-	Transform.ActiveControl(spell.transformID, false)
+	--spell.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/grenade.model" )
-	Gear.AddForwardInstance(model, spell.transformID)
+	spell.transformID = Gear.BindForwardInstance(model)
+	Transform.ActiveControl(spell.transformID, false)
+	--local model = Assets.LoadModel( "Models/grenade.model" )
+	--Gear.AddForwardInstance(model, spell.transformID)
 	
 	spell.light = nil
 

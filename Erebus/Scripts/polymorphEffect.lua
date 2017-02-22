@@ -44,9 +44,11 @@ function InitPolymorphs()
 	local someModels = {"Models/Stone3.model", "Models/Stone4.model", "Models/pineTree1.model", "Models/Stone2.model"}
 	for i = 1, POLYMORPH_POOL_SIZE do
 		currentFree = i
-		polymorphPool[currentFree] = Transform.Bind()
+		--polymorphPool[currentFree] = Transform.Bind()
+		--local model = Assets.LoadModel( someModels[i] )
+		--Gear.AddStaticInstance(model, polymorphPool[currentFree] )
 		local model = Assets.LoadModel( someModels[i] )
-		Gear.AddStaticInstance(model, polymorphPool[currentFree] )
+		polymorphPool[currentFree] = Gear.BindStaticInstance(model)
 		polymorphParticles[i] = createCloudParticles()
 		Transform.ActiveControl(polymorphPool[currentFree], false)
 	end

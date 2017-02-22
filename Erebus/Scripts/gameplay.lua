@@ -39,6 +39,8 @@ local scriptFiles =
 	"Scripts/reusable.lua"
 }
 
+loadedLevels = {}
+
 gameplayStarted = false
 loadedGameplay = false
 
@@ -103,10 +105,18 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level01Optima.lua" )
+		dofile( "Scripts/level02.lua" )
+
 		levels[1].load()
-		levels[2].load()
-		levels[3].load()
+		loadedLevels[1] = true
+		for _,v in pairs(levels[1].surrounding) do
+			levels[v].load()
+			loadedLevels[v] = true
+		end
+
+		--levels[1].load()
+		--levels[2].load()
+		--levels[3].load()
 		--levels[4].load()
 		--levels[5].load()
 		--levels[6].load()

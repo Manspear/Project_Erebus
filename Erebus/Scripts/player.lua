@@ -29,16 +29,28 @@ function LoadPlayer()
 	effectTable[POLYMORPH_EFFECT_INDEX] = CreatePolyEffect
 	effectTable[KNOCKBACK_EFFECT_INDEX] = CreateKnockbackEffect
 	-- Init unique ids
-	player.transformID = Transform.Bind()
-	player2.transformID = Transform.Bind()
+	--player.transformID = Transform.Bind()
+	--player2.transformID = Transform.Bind()
+	player.animationController = CreatePlayerController(player)
+	player2.animationController = CreatePlayerController(player2)
+	local model = Assets.LoadModel("Models/player1.model")
+	--[[player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+	player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
 
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
+	end--]]
+
+	if Network.GetNetworkHost() then
+		player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+		player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
+	else
+		player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
+		player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 30
-	player.deadTimer = 1
+	player.moveSpeed = 7
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -54,7 +66,6 @@ function LoadPlayer()
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
 	RayCollider.SetActive(player.rayCollider, false)
-	player.animationController = CreatePlayerController(player)
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
@@ -66,8 +77,8 @@ function LoadPlayer()
 	player.ping = 0
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player.combined = false
 	player.combinedSpell = -1
-	player.combinedSpellIDs = {}
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
@@ -88,19 +99,16 @@ function LoadPlayer()
 	player.spells = {}	
 	player.currentSpell = 1
 	function player.Hurt(self,damage, source)
-		if not player.invulnerable and self.isAlive then
+		if not player.invulnerable then
 			self.health = self.health - damage
-			--Network.SendPlayerHealthPacket(self.transformID, self.health)
-			if self.health < 1 then
-				self.health = 0
-				self:Kill()
-			end
+			--if self.health <= 0 then
+			--	self:Kill()
+			--end
 			print("New health", self.health)
 			Network.SendPlayerHealthPacket(self.transformID, self.health)
 
 		end
 	end
-
 	function player.Apply(self, effect)
 		if not self.invulnerable then
 			table.insert(self.effects, effect)
@@ -109,16 +117,20 @@ function LoadPlayer()
 	end
 
 	function player.Kill(self)
-		self.isAlive = false
-		self.charger:EndCharge()
-		Network.SendPlayerHealthPacket(self.transformID, self.health)
+		self.health = 0
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
 		end
 	end
-	
-	function player.ChangeHeightmap(self, heightmap)
-		player.currentHeightmap = heightmap
+
+	function player.ImDead(self, dt)
+		self.isAlive = false
+		self:Kill()
+	end
+
+	function player.ChangeHeightmap(self, levelIndex)
+		player.levelIndex = levelIndex
+		player.currentHeightmap = heightmaps[levelIndex]
 		player.controller:SetHeightmap(player.currentHeightmap.asset)
 	end
 
@@ -137,8 +149,8 @@ function LoadPlayer()
 	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
 
 	-- load and set a model for the player
-	local model = Assets.LoadModel("Models/player1.model")
-	Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
+	--local model = Assets.LoadModel("Models/player1.model")
+	--Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
 
 	Erebus.SetControls(player.transformID)
 	LoadPlayer2()
@@ -163,9 +175,6 @@ function LoadPlayer2()
 	player2.spamCasting = false
 	player2.charging = false
 	player2.position = {x=0, y=0, z=0}
-	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
-	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
-	player2.combinedSpell = -1
 	
 	player2.dashtime = 0
 	player2.dashcd = 0
@@ -188,14 +197,13 @@ function LoadPlayer2()
 	player2.outerCirclerange = 4
 	player2.innerCirclerange = 8
 
-	player2.animationController = CreatePlayerController(player2)
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	-- set spells for player
 	player2.spells = {}
 	player2.currentSpell = 1
 
-	local model = Assets.LoadModel("Models/player1.model")
+	--local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
 
 	function player2.Hurt(self,damage, source)
@@ -213,7 +221,7 @@ function LoadPlayer2()
 		end
 	end
 
-	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
+	--Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeEggs(player2)
@@ -239,13 +247,116 @@ function LoadSpellsPlayer2()
 end
 
 function FindHeightmap(position)
-	local hm = player.currentHeightmap
+	--[[local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
+		local prev = player.currentHeightmap
+		local newIndex = -1
+
 		for k,hmIndex in pairs(hm.surrounding) do
-			if heightmaps[hmIndex].asset:Inside(position) then
-				player.currentHeightmap = heightmaps[hmIndex]
+			hm = heightmaps[hmIndex]
+			if hm.asset:Inside(position) then
+				newIndex = hmIndex
+				player.currentHeightmap = hm
 				player.controller:SetHeightmap(player.currentHeightmap.asset)
 				break
+			end
+		end
+
+		if hm then
+			local allTiles = {}
+			for _,v in pairs(hm.surrounding) do
+				table.insert(allTiles,v)
+			end
+			table.insert(allTiles,newIndex)
+
+			local newTiles = {}
+			for _,v in pairs(allTiles) do
+				if not loadedLevels[v] then
+					table.insert(newTiles,v)
+				end
+			end
+
+			local oldTiles = {}
+			for k,v in pairs(loadedLevels) do
+				local found = false
+				for _,b in pairs(allTiles) do
+					if k == b then
+						found = true
+						break
+					end
+				end
+
+				if not found then
+					table.insert(oldTiles,k)
+				end
+			end
+
+			--unload previous tiles
+			for _,v in pairs(oldTiles) do
+				levels[v].unload()
+				loadedLevels[v] = false
+			end
+
+			--load new tiles
+			for _,v in pairs(newTiles) do
+				levels[v].load()
+				loadedLevels[v] = true
+			end
+		end
+	end--]]
+
+	local hm = player.currentHeightmap
+	if not hm.asset:Inside(position) then
+		for k,index in pairs(levels[player.levelIndex].surrounding) do
+			hm = heightmaps[index]
+			if hm.asset:Inside(position) then
+				print(index)
+				player:ChangeHeightmap(index)
+				break
+			end
+		end
+
+		if hm then
+			local allTiles = {}
+			for _,v in pairs(levels[player.levelIndex].surrounding) do
+				table.insert(allTiles,v)
+			end
+			table.insert(allTiles,player.levelIndex)
+
+			local newTiles = {}
+			for _,v in pairs(allTiles) do
+				if not loadedLevels[v] then
+					table.insert(newTiles,v)
+				end
+			end
+
+			local oldTiles = {}
+			for k,v in pairs(loadedLevels) do
+				local found = false
+				for _,b in pairs(allTiles) do
+					if k == b then
+						found = true
+						break
+					end
+				end
+
+				if not found then
+					table.insert(oldTiles,k)
+				end
+			end
+
+			--unload previous tiles
+			for _,v in pairs(oldTiles) do
+				print("Unloading tile: " .. v)
+				levels[v].unload()
+				loadedLevels[v] = false
+			end
+
+			--load new tiles
+			for _,v in pairs(newTiles) do
+				print("Loading tile: " .. v)
+				levels[v].load()
+				loadedLevels[v] = true
 			end
 		end
 	end
@@ -283,20 +394,11 @@ function UpdatePlayer(dt)
 			Network.SendTransformPacket(player.transformID, player.position, direction, rotation)
 		end
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		player.animationController:AnimationUpdate(dt, Network)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
-	else
-		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetRessurectionPacket()
-		if newPlayerHealthVal then
-			if playerHealth > 0 and playerHealthID == player.transformID then 
-				player.health = playerHealth	
-				player.isAlive = true
-			end
-		end
 	end
-
-	player.animationController:AnimationUpdate(dt, Network)
 
 	if not player2.isAlive then
 		if Inputs.KeyPressed("T") then 
@@ -308,6 +410,10 @@ function UpdatePlayer(dt)
 		if Inputs.KeyReleased("T") then 
 			player.revive:Kill()
 		end
+	end
+
+	if player.health <= 0 then
+		player:ImDead()
 	end
 	-- update the current player spell
 	player.spells[1]:Update(dt)
@@ -348,46 +454,41 @@ function UpdatePlayer(dt)
 	end
 
 	
-
+	--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
+	UI.reposWorld(player.combineImage, player.position.x, player.position.y+2.1, player.position.z)
 
 	-- check collision against triggers and call their designated function
-	for _,v in pairs(triggers) do
-		if v:CheckCollision() then
-			if not v.triggered then
-				if v.OnEnter then
-					v.OnEnter()
+	for _,v in pairs(levels[player.levelIndex].triggers) do
+		if v.collider:CheckCollision() then
+			if not v.collider.triggered then
+				if v.collider.OnEnter then
+					v.collider.OnEnter()
 				else
-					v.OnTriggering(dt)
+					v.collider.OnTriggering(dt)
 				end
 
-				v.triggered = true
+				v.collider.triggered = true
 			else
-				v.OnTriggering(dt)
+				v.collider.OnTriggering(dt)
 			end
 		else
-			if v.triggered then
-				if v.OnExit then
-					v.OnExit()
+			if v.collider.triggered then
+				if v.collider.OnExit then
+					v.collider.OnExit()
 				end
-				v.triggered = false
+				v.collider.triggered = false
 			end
 		end
 	end
 	UpdateCamera(dt)
-		--Moves the ping icon
-	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
-
-	right = Camera.GetRight()
-
-	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.75, player.position.z - right.z * 0.30)
-	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.75, player.position.z + right.z * 0.30)
 end
 
 function SendCombine(spell)
 	if player2.isCombined == false then
 		if player2.charging == true then
 			player2.isCombined = true
-			player2.combinedSpell = spell.spellListId
 			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
 			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
 		end
@@ -398,8 +499,6 @@ function GetCombined()
 	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
-		player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
-		--print(player.combinedSpellIDs[0])
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
 	end
@@ -407,8 +506,6 @@ end
 
 function Controls(dt)
 	if player.isControlable then
-		--player.combinedSpellIDs[0] = player.spells[player.currentSpell]:GetCollider()
-		--print(player.combinedSpellIDs[0])
 		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end
@@ -457,7 +554,6 @@ function Controls(dt)
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
 				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
-				player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
 			end
 
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
@@ -605,18 +701,7 @@ function UpdatePlayer2(dt)
 		player2.invulnerable = false
 		Transform.SetScale(player2.transformID, 1)
 	end
-
-	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
-	if newPlayerHealthValue == true then
-		player2.health = currentHealthValue
-		print(player2.health)
-		if player2.health < 1 then
-			player2.isAlive = false
-		else
-			player2.isAlive = true
-		end
-	end
-
+	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
 		player2.spells[1]:Kill()
@@ -630,30 +715,7 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
-	right = Camera.GetRight()
-	UI.reposWorld(player2.chargeImage, player2.position.x - right.x * 0.30, player2.position.y+1.75, player2.position.z - right.z * 0.30)
-	UI.reposWorld(player2.combineImage, player2.position.x + right.x * 0.30, player2.position.y+1.75, player2.position.z + right.z * 0.30)
 
-end
-
-function TutorialBarrier(id,TutorialOBBID,dt)
-
-	showTutorialImage(45,12,184,dt)
-	if player.combinedSpellIDs ~= nil then
-		local colID = id.collider:GetID()
-		local collisionIDs = id.collider:GetCollisionIDs()
-		for i = 1, #collisionIDs do 
-			for o = 1, #player.combinedSpellIDs do
-				if collisionIDs[i] == player.combinedSpellIDs[o] then
-					print("Nu har du en kombineardd spell i mig")
-					TutorialOBBID:SetActive(false)
-					player.combinedSpellIDs = nil
-					return --NOTHING AT ALL.TYESTA
-
-				end
-			end
-		end
-	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

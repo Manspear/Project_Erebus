@@ -109,6 +109,8 @@ protected:
 	sKeyFrame* blendFromKeys;
 	sKeyFrame* blendToKeys;
 
+	bool quickBlendJustEntered = true;
+
 	//Animation blending variables, one per animationPart;
 	int oldTos[MAXNUMSEGMENTS];
 	int oldFroms[MAXNUMSEGMENTS];
