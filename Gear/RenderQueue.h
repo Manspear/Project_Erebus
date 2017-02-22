@@ -10,6 +10,7 @@
 #include "Animation.h"
 #include "Light.h"
 #include "WorkQueue.h"
+#include "ModelInstance.h"
 
 #define MAX_INSTANCE_COUNT 200
 
@@ -32,11 +33,25 @@ struct TextureBlendings
 	glm::vec2 blendFactor[3];
 };
 
+enum
+{
+	INSTANCE_DYNAMIC = 0,
+	INSTANCE_ANIMATED,
+	INSTANCE_FORWARD,
+	INSTANCE_BLENDING,
+	MAX_INSTANCE_TYPES
+};
+
 using namespace Importer;
-struct ModelInstance
+using namespace Gear;
+/*struct ModelInstance
 {
 	Importer::ModelAsset* asset;
-	std::vector<int> worldIndices;
+	//std::vector<int> worldIndices;
+	std::vector<TransformStruct> transforms;
+	int activeTransforms;
+	std::vector<glm::mat4> worldMatrices;
+	std::vector<Animation*> animations; // only used for animated instances
 	GLuint instanceVBO = 0;
 	GLuint instanceVAO = 0;
 
@@ -50,7 +65,8 @@ struct ModelInstance
 		
 		glBindVertexArray(instanceVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldIndices.size(), NULL, GL_STREAM_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * worldMatrices.size(), NULL, GL_STREAM_DRAW);
 
 		glEnableVertexAttribArray(4);
 		glEnableVertexAttribArray(5);
@@ -70,13 +86,13 @@ struct ModelInstance
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-};
-struct AnimatedInstance
+};*/
+/*struct AnimatedInstance
 {
 	ModelAsset* asset;
 	std::vector<int> worldIndices;
 	std::vector<Animation*> animations;
-};
+};*/
 
 class RenderQueue
 {
@@ -96,8 +112,8 @@ public:
 
 	void forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues);
 	bool particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters);
-	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels );
-	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<AnimatedInstance>* animatedModels, Lights::DirLight light);
+	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<ModelInstance>* animatedModels );
+	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<ModelInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
 	void textureBlendingPass(std::vector<TextureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels);
 

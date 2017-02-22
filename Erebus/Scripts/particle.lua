@@ -105,7 +105,7 @@ end
 
 function  createTumbleParticles()
 	local tumbleParticles = {}
-	tumbleParticles.fly = Particle.Bind("ParticleFiles/nature.Particle");
+	tumbleParticles.fly = Particle.Bind("ParticleFiles/leafParticles.Particle");
 
 	function tumbleParticles:cast(x, y, z)
 		Particle.SetAlive(self.fly)
@@ -133,7 +133,7 @@ end
 
 function createTimeslowParticles()
 	local timeslowParticles = {}
-	timeslowParticles.ID = Particle.Bind("ParticleFiles/nature.Particle");
+	timeslowParticles.ID = Particle.Bind("ParticleFiles/timeClocks.Particle");
 
 	function timeslowParticles:cast()
 		Particle.SetAlive(self.ID)
@@ -147,8 +147,4 @@ function createTimeslowParticles()
 		Particle.SetPosition(self.ID, pos)
 	end
 	return timeslowParticles
-end
-
-function createDashParticles()
-	
 end

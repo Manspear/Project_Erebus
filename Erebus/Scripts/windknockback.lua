@@ -14,9 +14,10 @@ function CreateWindknockback(entity)
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
 		
-	spell.transformID = Transform.Bind()
+	--spell.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/Stone4.model" )
-	Gear.AddForwardInstance(model, spell.transformID )
+	spell.transformID = Gear.BindForwardInstance(model)
+	--Gear.AddForwardInstance(model, spell.transformID )
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
@@ -44,6 +45,12 @@ function CreateWindknockback(entity)
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
 			self.chargedTime = WINDKNOCKBACK_POWER
 		end
+	end
+	
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
 	end
 
 	function spell:ChargeCast(entity)

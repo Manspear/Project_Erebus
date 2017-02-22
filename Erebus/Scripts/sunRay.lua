@@ -11,7 +11,8 @@ SUNRAY_HIT_SFX = "Effects/burn_ice_001.wav"
 function CreateSunRay(entity)
 	local sunRay = {}
 	sunRay.element=FIRE
-	sunRay.type = CreateRayType()
+	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
+	sunRay.type = CreateRayType(model)
 	sunRay.effects = {} 
 	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)
 	sunRay.lifeTime = SUNRAY_DURATION
@@ -37,12 +38,15 @@ function CreateSunRay(entity)
 	sunRay.hitID = -1
 	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
-	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
+	--local model = Assets.LoadModel( "Models/SunRayOuter.model" )
+	--local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
+	--Gear.AddForwardInstance(model2, sunRay.type.transformID)
 	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
-	Gear.AddForwardInstance(model2, sunRay.type.transformID)
+	sunRay.transformID2 = Gear.BindForwardInstance(model2)
 
-	sunRay.modelIndex = Gear.AddForwardInstance(model, sunRay.type.transformID)
-	Gear.SetUniformLocation(sunRay.modelIndex, "aValue");
+	-- TODO(Niclas): Not supported yet
+	--sunRay.modelIndex = Gear.AddForwardInstance(model, sunRay.type.transformID)
+	--Gear.SetUniformLocation(sunRay.modelIndex, "aValue");
 
 	function sunRay:Update(dt)
 		if self.alive then
@@ -99,6 +103,12 @@ function CreateSunRay(entity)
 				Sound.SetVolume(self.soundID[index], 0.8)
 			end
 		end
+	end
+
+	function sunRay:GetCollider()
+		local result = {}
+		table.insert(result, self.type.oobCollider:GetID())
+		return result
 	end
 
 	function sunRay:GeneralCast()

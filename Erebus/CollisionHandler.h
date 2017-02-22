@@ -8,6 +8,7 @@
 #include "OBBCollider.h"
 #include "CollisionChecker.h"
 #include "Gear.h"
+#include "TransformHandler.h"
 
 //extern Transform* allTransforms;
 
@@ -51,7 +52,8 @@ public:
 	bool deleteHitbox(unsigned int ID);
 
 	//setters
-	void setTransforms( Transform* transforms );
+	//void setTransforms( Transform* transforms );
+	void setTransforms( TransformHandler* handler );
 	void setDebugger(Debug* debugger);
 	void setEnabled(bool enabled);
 
@@ -76,7 +78,8 @@ public:
 	
 
 private:
-	Transform* transforms;
+	//Transform* transforms;
+	TransformHandler* transformHandler;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
 	std::vector<OBBCollider*> obbColliders;

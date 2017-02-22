@@ -1,8 +1,10 @@
 function CreateAim(entity)
 	local aim = {}
-	aim.transformID = Transform.Bind()
+	--aim.transformID = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/aim.model" )
+	--Gear.AddForwardInstance(model, aim.transformID)
 	local model = Assets.LoadModel( "Models/aim.model" )
-	Gear.AddForwardInstance(model, aim.transformID)
+	aim.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(aim.transformID, true)
 	aim.caster = entity.transformID
 	function aim:SetPos(position)
@@ -14,18 +16,24 @@ end
 function CreateCombineRay(entity)
 	local ray = {}
 
-	ray.transformID = Transform.Bind()
-	local rayIce = Assets.LoadModel("Models/SpellChargingICEMesh.model")
-	ray.modelIndex = Gear.AddForwardInstance(rayIce, ray.transformID)
+	--ray.transformID = Transform.Bind()
+	--local rayIce = Assets.LoadModel("Models/SpellChargingICEMesh.model")
+	--ray.modelIndex = Gear.AddForwardInstance(rayIce, ray.transformID)
+	local rayIce = Assets.LoadModel( "Models/SpellChargingICEMesh.model" )
+	ray.transformID = Gear.BindForwardInstance(rayIce)
 	Gear.SetUniformLocation(ray.modelIndex, "aValue");
 
-	ray.transformID2 = Transform.Bind()
+	--ray.transformID2 = Transform.Bind()
+	--local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
+	--ray.modelIndex2 = Gear.AddForwardInstance(rayFire, ray.transformID2)
 	local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
-	ray.modelIndex2 = Gear.AddForwardInstance(rayFire, ray.transformID2)
+	ray.transformID2 = Gear.BindForwardInstance(rayFire)
 
-	ray.transformID3 = Transform.Bind()
+	--ray.transformID3 = Transform.Bind()
+	--local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
+	--ray.modelIndex = Gear.AddForwardInstance(rayNature, ray.transformID3)
 	local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	ray.modelIndex = Gear.AddForwardInstance(rayNature, ray.transformID3)
+	ray.transformID3 = Gear.BindForwardInstance(rayNature)
 
 	ray.caster = entity.transformID
 
@@ -76,19 +84,23 @@ function CreateChargeEggs(entity)
 	local chargeThing = {}
 	chargeThing.timer = 0
 
-	chargeThing.transformID = Transform.Bind()
+	--chargeThing.transformID = Transform.Bind()
 	local iceModel = Assets.LoadModel("Models/SpellChargingICEMesh.model")
-	chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
+	--chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
+	chargeThing.transformID = Gear.BindForwardInstance(iceModel)
+	-- TEMP(Niclas): Figure this out
+	chargeThing.modelIndex = chargeThing.transformID
 	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
-	chargeThing.transformID2 = Transform.Bind()
+	--chargeThing.transformID2 = Transform.Bind()
 	local fireModel = Assets.LoadModel("Models/SpellChargingFireMesh.model")
-	chargeThing.modelIndex2 = Gear.AddForwardInstance(fireModel, chargeThing.transformID2)
+	chargeThing.transformID2 = Gear.BindForwardInstance(fireModel)
+	chargeThing.modelIndex2 = chargeThing.transformID2
 
-	chargeThing.transformID3 = Transform.Bind()
+	--chargeThing.transformID3 = Transform.Bind()
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	chargeThing.modelIndex3 = Gear.AddForwardInstance(natureModel, chargeThing.transformID3)
-	
+	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
+	chargeThing.modelIndex3 = chargeThing.transformID3
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
 	chargeThing.particles = createChargeParticles()
@@ -198,7 +210,35 @@ function CreateChargeEggs(entity)
 			Transform.ActiveControl(self.transformID, true)			
 		end
 	end
-
-
 	return chargeThing
 end
+
+function BaseCheckCollision(spell)
+	local collisionIDs = spell.sphereCollider:GetCollisionIDs()
+	local playSound = false
+	for curID = 1, #collisionIDs do
+		for curEnemy=1, #enemies do
+			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if not spell.enemiesHit[enemies[curEnemy].transformID] then
+					enemies[curEnemy]:Hurt(spell.damage, spell.owner)				
+					for stuff = 1, #spell.effects do
+						local effect = effectTable[spell.effects[stuff]](spell.owner)
+						enemies[curEnemy]:Apply(effect)
+					end
+				end				
+				spell.enemiesHit[enemies[curEnemy].transformID] = true	
+				playSound = true
+			end
+		end
+		if collisionIDs[curID] == boss.collider:GetID() then --boss collision
+			boss:Hurt(spell.damage, spell.owner)
+			for i = 1, #spell.effects do
+				local effect = effectTable[spell.effects[i]](spell.owner)
+				boss:Apply(effect)
+			end	
+			playSound = true
+		end
+	end	
+	return playSound
+end
+

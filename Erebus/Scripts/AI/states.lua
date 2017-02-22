@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {stateName = " ",idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
+state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
 
 
 function state.idleState.enter(enemy,player)
@@ -11,7 +11,7 @@ function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	
-	if length <enemy.visionRange then
+	if length <enemy.visionRange and player.isAlive then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
@@ -38,11 +38,17 @@ function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
 	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
-		if length >enemy.visionRange then
-			inState = "IdleState" 
-			changeToState(enemy,player,inState)
-			print("hehe idle")
-		end
+
+		------ CANT GO BACK INTO IDLE
+
+		--if length >enemy.visionRange then
+		--	inState = "IdleState" 
+		--	changeToState(enemy,player,inState)
+		--	print("hehe idle")
+		--end
+
+		----------------
+
 		if player.nrOfInnerCircleEnemies < 1000 then 
 			if length < player.innerCirclerange then
 	
@@ -71,7 +77,9 @@ function state.followState.update(enemy,player,dt)
 			local pos = Transform.GetPosition(enemy.transformID)
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
-			Transform.SetLookAt(enemy.transformID,direction)
+			--Transform.SetLookAt(enemy.transformID,direction)
+			--vec3print(direction)
+			Transform.SetFacing(enemy.transformID, player.transformID)
 			
 			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
@@ -99,7 +107,8 @@ function state.positioningInnerState.enter(enemy,player)
 
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
- 	Transform.SetLookAt(enemy.transformID,direction)
+ 	--Transform.SetLookAt(enemy.transformID,direction)
+	Transform.SetFacing(enemy.transformID,player.transformID)
 
 	enemy.insideInnerCircleRange = true
 end
@@ -111,7 +120,8 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
-		Transform.SetLookAt(enemy.transformID,direction)
+		--Transform.SetLookAt(enemy.transformID,direction)
+		Transform.SetFacing(enemy.transformID,player.transformID)
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -122,7 +132,8 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		if rangeTest < 0.8 then
 			enemy.subPathtarget = nil
 			local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
-			Transform.SetLookAt(enemy.transformID,direction)
+			--Transform.SetLookAt(enemy.transformID,direction)
+			Transform.SetFacing(enemy.transformID,player.transformID)
 		end
 	else
 		local dir = AI.NavigateMesh(enemy.transformID)
@@ -171,8 +182,8 @@ function state.positioningOuterState.enter(enemy,player)
 	player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies +1
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
-	Transform.SetLookAt(enemy.transformID,direction)
-	
+	--Transform.SetLookAt(enemy.transformID,direction)
+	Transform.SetFacing(enemy.transformID,player.transformID)
 end
 
 function state.positioningOuterState.update(enemy,player,dt)
@@ -183,7 +194,8 @@ function state.positioningOuterState.update(enemy,player,dt)
 			local pos = Transform.GetPosition(enemy.transformID)
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
-				Transform.SetLookAt(enemy.transformID,direction)
+				--Transform.SetLookAt(enemy.transformID,direction)
+				Transform.SetFacing(enemy.transformID,player.transformID)
 			
 				pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 				pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -194,7 +206,8 @@ function state.positioningOuterState.update(enemy,player,dt)
 				if rangeTest < 0.9 then
 					enemy.subPathtarget = nil
 					local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
-					Transform.SetLookAt(enemy.transformID,direction)
+					--Transform.SetLookAt(enemy.transformID,direction)
+					Transform.SetFacing(enemy.transformID,player.transformID)
 				end
 		else
 		local dir = AI.NavigateMesh(enemy.transformID)
@@ -224,7 +237,8 @@ function state.attackState.enter(enemy,player)
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
 
-	Transform.SetLookAt(enemy.transformID,direction)
+	--Transform.SetLookAt(enemy.transformID,direction)
+	Transform.SetFacing(enemy.transformID,player.transformID)
 
 	enemy.actionCountDown = 1.2
 	enemy.subPathtarget = Transform.GetPosition(player.transformID)
@@ -252,7 +266,8 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		local pos = Transform.GetPosition(enemy.transformID)
 		local direction = AI.NormalizeDir(enemy.transformID, Transform.GetPosition(player.transformID))
 		
-		Transform.SetLookAt(enemy.transformID,direction)
+		--Transform.SetLookAt(enemy.transformID,direction)
+		Transform.SetFacing(enemy.transformID,player.transformID)
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -402,11 +417,28 @@ function state.leapState.exit(enemy,player)
 end
 
 function state.deadState.enter(enemy,player)
-	--print("Host AI died", enemy.transformID)
+	enemy.actionCountDown = 2
 end
 
-function state.deadState.update(enemy,player)
+function state.deadState.update(enemy,player,dt)
+	
+	if enemy.actionCountDown >0  then
 
+		enemy.actionCountDown= enemy.actionCountDown - dt
+			
+		local pos = Transform.GetPosition(enemy.transformID)
+		pos.x = pos.x + math.random(-3,3) * dt
+		pos.y = pos.y - 0.6 * dt
+		pos.z = pos.z + math.random(-3,3)  * dt
+
+		Transform.SetPosition(enemy.transformID,pos)
+
+	else
+		print("Time for final death")
+		enemy.alive = false
+		Transform.ActiveControl(enemy.transformID, false)
+		SphereCollider.SetActive(enemy.sphereCollider, false)
+	end
 end
 
 function state.deadState.exit(enemy,player)
@@ -470,7 +502,7 @@ function changeToState(enemy,player,changeState)
 	end 
 
 	enemy.state.enter(enemy,player)
-	enemy.state.stateName = changeState
+	enemy.stateName = changeState
 
 end
 
