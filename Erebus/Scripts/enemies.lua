@@ -64,8 +64,6 @@ function CreateEnemy(type, position)
 	enemies[i].animationState = 1
 	enemies[i].range = 4
 
-	enemies[i].whatEver = 0
-
 	enemies[i].tempVariable = 0
 
 	local modelName = ""
@@ -119,7 +117,6 @@ function CreateEnemy(type, position)
 			aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
 			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
 			self.insideInnerCircleRange = false
-			print("DO I GET IN HERE ",enemyManager.actionEnemy )
 		end
 
 		self.alive = false
@@ -133,11 +130,6 @@ function CreateEnemy(type, position)
 		end
 
 		self.animationController:AnimationUpdate(0) -- play death animation
-		
-		--[[for j = #self.effects, 1, -1 do
-			self.effects[j]:Deapply(self)
-			table.remove(self.effects, j)
-		end]]
 	end
 
 	enemies[i].Apply = function(self, effect)
@@ -171,7 +163,6 @@ function CreateEnemy(type, position)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 	enemies[i].sphereCollider:SetRadius(2)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
-
 	
 	if Network.GetNetworkHost() == true then
 		enemies[i].state = stateScript.state.idleState
@@ -179,36 +170,8 @@ function CreateEnemy(type, position)
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
 
-
-	--[[local modelName = ""
-
-	if type == ENEMY_MELEE then
-		modelName = "Models/Goblin.model"
-	else
-		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
-	end
-
-	local model = Assets.LoadModel(modelName)
-
-	assert( model, "Failed to load model Models/Goblin.model" )
-
-	Gear.AddAnimatedInstance(model, enemies[i].transformID, enemies[i].animationController.animation)--]]
-
-	--NOTE: Not sure if we need this?
 	return enemies[i]
-
-end
-
-	--		if enemies[i].state.stateName == "PositioningOuterState" then
-	--			player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies -1
-	--		end
-	--
-	--		if enemies[i].state.stateName == "PositioningInnerState" then
-	--			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies -1
-	--		end
-
-
-	
+end	
 
 function UnloadEnemies()
 	AI.Unload()
@@ -238,7 +201,6 @@ function UpdateEnemies(dt)
 		AI.AddIP(player.transformID,1,0)
 		
 	end
-	
 	local tempdt
 
 	if Network.GetNetworkHost() == true then
@@ -260,7 +222,7 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 			tempdt = dt * enemies[i].timeScalar
-			if enemies[i].health > 0 then
+			if enemies[i].alive then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				--AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
@@ -289,6 +251,8 @@ function UpdateEnemies(dt)
 				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
+			else
+				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 			end
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
@@ -374,10 +338,9 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 
-			if enemies[i].health > 0 then
+			if enemies[i].alive > 0 then
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
-				
+				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)		
 			end				
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then

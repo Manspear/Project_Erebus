@@ -2,61 +2,62 @@ HEALTH_EFFECT_DURATION = 2
 HEALTH_ORB_LIFE = 20
 ORB_POOL_SIZE = 5
 healthOrbPool = {}
-healthOrbParticles = {}
-currentFree = 1
-function CreateHealthOrb(owner)
+--healthOrbParticles = {}
+healthColliderPool = {}
+currentFreeOrb = 1
+function CreateHealthOrb()
 	local orb = {}
 	orb.duration = HEALTH_EFFECT_DURATION
-	orb.transformID, orb.particles = GetNextHealthOrb()
+	orb.transformID, orb.collider, success = GetFreeMorph()
+	if success then
+		orb.position = 0
+		orb.direction = 0
+		return orb
+	else
+		return nil
+	end	
+end
 
-
-
-	function effect:Apply(entity, duration)
-		Transform.SetScale(entity.transformID, 0)
-		local pos = Transform.GetPosition(entity.transformID)
-		Transform.SetPosition(self.polymorphTransform, pos)
-		if entity.SetState then
-			entity.SetState(entity, DO_NOTHING_STATE)
-		end
-		effect.particles:poof(pos)
+function SpawnHealthOrb(self, position)
+	if self then
+		print(self.transformID)
+		self.position = position
+		self.direction = {x = math.random(), y = 1, z = math.random()}
+		Transform.ActiveControl(self.transformID, true)
+		Transform.SetPosition(self.transformID, self.position)
+		SphereCollider.SetActive(self.collider, true)
+		vec3print(Transform.GetPosition(self.transformID))
 	end
+end
 
-	function effect:Deapply(entity)
-		Transform.SetScale(entity.transformID, 1)	
-		Transform.ActiveControl(self.polymorphTransform, false)
-		if entity.SetState then
-			entity.SetState(entity,IDLE_STATE)
-		end
-		effect.particles:poof(pos)
-	end
+function KillHealthOrb(self)
+		
+end
 
-	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
-		self.duration = self.duration - dt
-		self.poofTime = self.poofTime - dt
-		if self.poofTime < 0 then Transform.ActiveControl(self.polymorphTransform, true) end
-		Transform.SetPosition(self.polymorphTransform, Transform.GetPosition(entity.transformID))	
-		return self.duration > 0 
-	end
-
-	return effect
+function UpdateHealthOrb(self, dt) 
+	vec3print(Transform.GetPosition(self.transformID))
+	--Transform.SetPosition(self.transformID, self.position)
 end
 
 function InitLifeOrbs()
-	local model = {"Models/Stone3.model"}
+	local model = Assets.LoadModel( "Models/Stone4.model" )
 	for i = 1, ORB_POOL_SIZE do
-		currentFree = i
-		healthOrbPool[currentFree] = Transform.Bind()
-		Gear.AddStaticInstance(model, polymorphPool[currentFree] )
-		polymorphParticles[i] = createCloudParticles()
-		Transform.ActiveControl(polymorphPool[currentFree], false)
+		currentFreeOrb = i
+		healthOrbPool[currentFreeOrb] =  Gear.BindForwardInstance(model)
+		print(healthOrbPool[currentFreeOrb])
+		Transform.ActiveControl(healthOrbPool[currentFreeOrb], false)
+		healthColliderPool[currentFreeOrb] = SphereCollider.Create(healthOrbPool[currentFreeOrb])
+		CollisionHandler.AddSphere(healthColliderPool[currentFreeOrb], 1)
+		SphereCollider.SetActive(healthColliderPool[currentFreeOrb], false)
 	end
-	currentFree = 0
+	currentFreeOrb = 0
 end
 
-function GetNextFreeMorph()
-	if currentFree >= POLYMORPH_POOL_SIZE then currentFree = 0 end
-	currentFree = currentFree + 1	
-	return polymorphPool[currentFree], polymorphParticles[currentFree]
+function GetFreeMorph()
+	local success = true
+	if currentFreeOrb > ORB_POOL_SIZE then success = false  end
+	currentFreeOrb = currentFreeOrb + 1	
+	return healthOrbPool[currentFreeOrb], healthColliderPool[currentFreeOrb], success
 end
 
-InitPolymorphs()
+InitLifeOrbs()

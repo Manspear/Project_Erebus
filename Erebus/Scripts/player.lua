@@ -50,7 +50,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 7
+	player.moveSpeed = 30
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here

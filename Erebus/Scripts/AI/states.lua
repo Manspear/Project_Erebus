@@ -2,7 +2,6 @@ local baseReturn ={}
 
 state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
 
-
 function state.idleState.enter(enemy,player)
 	enemy.animationState = 1
 end
@@ -417,26 +416,30 @@ function state.leapState.exit(enemy,player)
 end
 
 function state.deadState.enter(enemy,player)
-	enemy.actionCountDown = 2
+	enemy.actionCountDown = 5
+	enemy.healthOrb = CreateHealthOrb()
+	SpawnHealthOrb(enemy.healthOrb, Transform.GetPosition(enemy.transformID))
+	vec3print(Transform.GetPosition(enemy.transformID))
 end
 
 function state.deadState.update(enemy,player,dt)
 	
-	if enemy.actionCountDown >0  then
-
-		enemy.actionCountDown= enemy.actionCountDown - dt
-			
+	enemy.actionCountDown= enemy.actionCountDown - dt	
+	if enemy.actionCountDown > 3 then			
 		local pos = Transform.GetPosition(enemy.transformID)
 		pos.x = pos.x + math.random(-3,3) * dt
 		pos.y = pos.y - 0.6 * dt
 		pos.z = pos.z + math.random(-3,3)  * dt
-
 		Transform.SetPosition(enemy.transformID,pos)
-
 	else
-		enemy.alive = false
 		Transform.ActiveControl(enemy.transformID, false)
 		SphereCollider.SetActive(enemy.sphereCollider, false)
+	end
+	if enemy.actionCountDown > 0 then
+		UpdateHealthOrb(enemy.healthOrb, dt)
+	else
+		enemy.alive = false
+		KillHealthOrb(enemy.healthOrb)
 	end
 end
 
@@ -490,7 +493,7 @@ function changeToState(enemy,player,changeState)
 
 	if changeState == DEAD_STATE then
 		enemy.state = state.deadState
-		--print("Sending DeadState", enemy.transformID, 3)
+		print("Sending DeadState", enemy.transformID, 3)
 		Network.SendAIStatePacket(enemy.transformID,3)
 	end 
 	
