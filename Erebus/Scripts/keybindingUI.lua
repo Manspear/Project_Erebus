@@ -3,7 +3,7 @@ local screenImages = {}
 local topImages = {}
 local imageTextures = {}
 local num_keys = 14
-local enter_key_text = "Press Key to bind"
+local enter_key_text = "Press Key:"
 local selected_key = -1
 local Keychanges = {}
 
@@ -88,25 +88,13 @@ function DrawKeybindingUI()
 		Gear.Print("Combine Spell:", 383, 560)
 		Gear.Print("Ping Player:", 383, 600)
 
-
-		Gear.Print(Keychanges[1], 658, 80)
-		Gear.Print(Keychanges[2], 658, 120)
-		Gear.Print(Keychanges[3], 658, 160)
-		Gear.Print(Keychanges[4], 658, 200)
-
-		Gear.Print(Keychanges[5], 658, 240)
-
-		Gear.Print(Keychanges[6], 658, 280)
-		Gear.Print(Keychanges[7], 658, 320)
-
-		Gear.Print(Keychanges[8], 658, 360)
-		Gear.Print(Keychanges[9], 658, 400)
-		Gear.Print(Keychanges[10], 658, 440)
-
-		Gear.Print(Keychanges[11], 658, 480)
-		Gear.Print(Keychanges[12], 658, 520)
-		Gear.Print(Keychanges[13], 658, 560)
-		Gear.Print(Keychanges[14], 658, 600)
+		for i=1, num_keys do
+			if(i == selected_key) then
+				Gear.Print(enter_key_text, 658, 40 + i * 40)
+			else
+				Gear.Print(Keychanges[i], 658, 40 + i * 40)
+			end
+		end
 
 	UI.drawImage(screenImages["back"], imageTextures["back"]);
 end

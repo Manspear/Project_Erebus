@@ -22,6 +22,7 @@ Packager::Packager()
 	this->dashQueue = new PacketQueue<DashPacket>(5);
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
+	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -99,12 +100,16 @@ Packager::~Packager()
 		delete this->playerHealthQueue;
 		this->playerHealthQueue = 0;
 	}
+	if (this->ressurectionQueue)
+	{
+		delete this->ressurectionQueue;
+		this->ressurectionQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
 		this->memory = 0;
 	}
-
 }
 
 unsigned char * Packager::getPacketPointer()
@@ -145,6 +150,7 @@ void Packager::buildNetPacket()
 	this->addNewPackets<DashPacket>(this->currentNetPacketSize, fullPackage, this->dashQueue, DASH_PACKET);
 	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->endEventQueue, END_EVENT_PACKET);
 	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->playerHealthQueue, PLAYER_HEALTH_PACKET);
+	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->ressurectionQueue, RESSURECTION_PACKET);
 	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
@@ -218,6 +224,11 @@ void Packager::pushEndEventPacket(const EventPacket& packet)
 void Packager::pushPlayerHealthPacket(const HealthPacket& packet)
 {
 	this->playerHealthQueue->push(packet);
+}
+
+void Packager::pushRessurectionPacket(const HealthPacket& packet)
+{
+	this->ressurectionQueue->push(packet);
 }
 
 template<class packetType>

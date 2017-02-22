@@ -295,6 +295,12 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 
 GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionState, float blendTime, int animationSegment)
 {
+	if (quickBlendJustEntered)
+	{
+		quickBlendJustEntered = false;
+		animationStack[quickBlendSegment][frontIdx] = quickBlendFrom;
+		animationStack[quickBlendSegment][backIdx] = quickBlendTo;
+	}
 	float halfTime = blendTime / 2.f;
 
 	if (quickBlendStates[animationSegment] == true)
@@ -304,6 +310,7 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 
 	updateStateForQuickBlend(dt, transitionState, animationSegment, halfTime);
 
+	//When it has switched back and forth, and the timer is at or beyond the blendTime.
 	if (animationTimers[animationSegment] >= blendTime && quickBlendStates[animationSegment] == true)
 	{
 		animationTimers[animationSegment] = 0;
@@ -313,6 +320,8 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 		quickBlendStates[animationSegment] = false;
 
 		updateAnimation(dt, wolo, animationSegment);
+		
+		quickBlendJustEntered = true;
 
 		return true;
 	}
@@ -706,9 +715,6 @@ void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 	quickBlendTime = blendTime;
 	quickBlendSegment = segment;
 	quickBlendingDone = false;
-
-	animationStack[quickBlendSegment][frontIdx] = quickBlendFrom;
-	animationStack[quickBlendSegment][backIdx] = quickBlendTo;
 }
 
 void Animation::update(float dt)
