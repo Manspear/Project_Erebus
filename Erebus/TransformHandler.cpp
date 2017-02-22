@@ -254,8 +254,6 @@ void TransformHandler::activateTransform( int index )
 {
 	assert( index >= 0 && index < handles.size() );
 
-	printf( "Trying to activate transform %d\n", index );
-
 	TransformHandle& handle = handles.at(index);
 	std::vector<ModelInstance>* models = instances[handle.instanceIndex];
 
@@ -373,8 +371,6 @@ void TransformHandler::activateTransform( int index )
 			ahandle->transformIndex = bhandle->transformIndex;
 			bhandle->transformIndex = tempTransformIndex;
 
-			printf( "Settings transforms: a = %d, b = %d\n", a, b );
-
 			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setTransform(bhandle->transformIndex, *btransform);
 			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setTransform(ahandle->transformIndex, *atransform);
 
@@ -401,8 +397,6 @@ void TransformHandler::activateTransform( int index )
 void TransformHandler::deactivateTransform( int index )
 {
 	assert( index >= 0 && index < handles.size() );
-
-	printf( "Trying to deactivate transform %d\n", index );
 
 	TransformHandle& handle = handles.at(index);
 	std::vector<ModelInstance>* models = instances[handle.instanceIndex];
@@ -496,8 +490,6 @@ void TransformHandler::deactivateTransform( int index )
 			int tempTransformIndex = ahandle->transformIndex;
 			ahandle->transformIndex = bhandle->transformIndex;
 			bhandle->transformIndex = tempTransformIndex;
-
-			printf( "Settings transforms: a = %d, b = %d\n", a, b );
 
 			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setTransform(bhandle->transformIndex, *btransform);
 			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setTransform(ahandle->transformIndex, *atransform);

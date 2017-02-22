@@ -34,11 +34,19 @@ function LoadPlayer()
 	player.animationController = CreatePlayerController(player)
 	player2.animationController = CreatePlayerController(player2)
 	local model = Assets.LoadModel("Models/player1.model")
-	player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+	--[[player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
 	player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
 
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
+	end--]]
+
+	if Network.GetNetworkHost() then
+		player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+		player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
+	else
+		player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
+		player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
 	end
 
 	-- set basic variables for the player

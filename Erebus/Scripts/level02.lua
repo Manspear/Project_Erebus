@@ -2935,7 +2935,7 @@ level01.colliders.AutoGenParent35481ID = nil
 level01.colliders.AutoGenParent36482ID = nil
 level01.colliders.AutoGenParent483ID = nil--]]
 level01.props = nil
-level01.colliders = nil
+--level01.colliders = nil
 level01.triggers = nil
 end
 levels[1] = level01
