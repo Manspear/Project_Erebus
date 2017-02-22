@@ -425,7 +425,6 @@ function state.deadState.update(enemy,player,dt)
 		Transform.SetPosition(enemy.transformID,pos)
 
 	else
-		print("Time for final death")
 		enemy.alive = false
 		Transform.ActiveControl(enemy.transformID, false)
 		SphereCollider.SetActive(enemy.sphereCollider, false)

@@ -90,11 +90,14 @@ function LoadPlayer()
 	function player.Hurt(self,damage, source)
 		if not player.invulnerable and self.isAlive then
 			self.health = self.health - damage
-			Network.SendPlayerHealthPacket(self.transformID, self.health)
-			if self.health <= 0 then
+			--Network.SendPlayerHealthPacket(self.transformID, self.health)
+			if self.health < 1 then
 				self.health = 0
 				self:Kill()
 			end
+			print("New health", self.health)
+			Network.SendPlayerHealthPacket(self.transformID, self.health)
+
 		end
 	end
 
@@ -286,11 +289,9 @@ function UpdatePlayer(dt)
 	else
 		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetRessurectionPacket()
 		if newPlayerHealthVal then
-			--print("Ressurection...")
 			if playerHealth > 0 and playerHealthID == player.transformID then 
 				player.health = playerHealth	
 				player.isAlive = true
-				--print("Wait, i got ressurected?!", player.health, player.isAlive)
 			end
 		end
 	end
@@ -609,7 +610,7 @@ function UpdatePlayer2(dt)
 	if newPlayerHealthValue == true then
 		player2.health = currentHealthValue
 		print(player2.health)
-		if player2.health == 0 then
+		if player2.health < 1 then
 			player2.isAlive = false
 		else
 			player2.isAlive = true
