@@ -64,45 +64,35 @@ void main() {
 	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
 	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
 	
-	int index = 3;
-
-	if(gl_FragCoord.z < farbounds[0]) {
-    index = 0;
-	} else if(gl_FragCoord.z < farbounds[1]) {
-    index = 1;
-	} else if(gl_FragCoord.z < farbounds[2]) {
-    index = 2;
-	}
-
-	vec4 shadow_coord = lightMatrixList[index] * vec4(FragPos,1);
-	float shadow_d = 0;
-	if( index == 0) {
-		shadow_d = texture2D(shadowmap1, shadow_coord.xy).x;
-	} else if(index == 1) {
-		shadow_d = texture2D(shadowmap2, shadow_coord.xy).x;
-	} else if(index == 2) {
-		shadow_d = texture2D(shadowmap3, shadow_coord.xy).x;
-	}else if(index == 3){
-		shadow_d = texture2D(shadowmap4, shadow_coord.xy).x;
-	}
-
-	float shadow_coaf = gl_FragCoord.z > shadow_d  ? 1.0 : 0.0;  
-	vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
 	vec3 ambient = Diffuse * 0.1;
 	
 	vec3 directional = vec3(0);
 	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
-		directional += CalcDirLight(dirLights, norm, viewDir, Specular);
+		directional += CalcDirLight(dirLights, Normal, viewDir, Specular);
 
 	vec3 point = vec3(0,0,0);
 	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
-		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir, Specular);
+		point += CalcPointLight(lightBuffer.data[i], Normal, FragPos, viewDir, Specular);
 
 	vec3 outputColor = (ambient + directional + point);
 
 	outputColor = mix(outputColor, vec3(0.50,0.50,0.50),getFogFactor(length(FragPos - viewPos)));
+
+	vec3 ProjCoords = shadowMapCoords.xyz / shadowMapCoords.w;
+
+	vec2 UVCoords;
+	UVCoords.x = 0.5 * ProjCoords.x + 0.5;
+	UVCoords.y = 0.5 * ProjCoords.y + 0.5;
+
+	float zDepth = 0.5 * ProjCoords.z + 0.5;
+	float DepthShadow = texture(gShadowMap, UVCoords).x;
+	float shadow = 1.0;
+	if (DepthShadow + 0.00001 < (zDepth))
+	{
+		shadow = 0.5;
+	}
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
         FragColor = vec4(outputColor, 1.0);
@@ -111,7 +101,7 @@ void main() {
 	else if(drawMode == 3)
 		FragColor = vec4(Normal, 1.0);
 	else if(drawMode == 4)
-        FragColor = vec4(Depth,Depth,Depth, 1);//vec4(FragPos, 1.0);
+        FragColor = vec4(ambient + (directional * shadow) + point, 1.0);
     else if(drawMode == 5)
         FragColor = vec4(Diffuse, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)

@@ -417,14 +417,14 @@ namespace Gear
 		
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
-
+		
 		image.draw();
 		text.draw();
 
 		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
 		for (int i = 0; i < shadow.getNumCascades(); i++)
 		{
-			glViewport(10 + 200 * i + 10 * i, 10, 200, 200);
+			glViewport(10 + 200 * i + 10 * i, WINDOW_HEIGHT - 210, 200, 200);
 			shader->use();
 			shadow.bindTexture(shader, "diffuse", 0, i);
 			drawQuad(); //draws quad
@@ -600,7 +600,7 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(shader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
-		//shadowMap.BindTexturesToProgram(lightPassShader, "gShadowMap", 3, 0);
+		shadow.bindTexture(shader, "gShadowMap", 3, 1);
 		
 		//lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		//lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
@@ -609,7 +609,7 @@ namespace Gear
 		//lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");
 
 		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
-		shader->setUniform(tempCam->getViewPers(), "shadowVPM"); //shadowVPM
+		shader->setUniform(shadow.projectionMatrices[1] * shadow.viewMatrices[1], "shadowVPM"); //shadowVPM
 		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
