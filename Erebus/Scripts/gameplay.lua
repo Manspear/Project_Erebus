@@ -35,6 +35,7 @@ local scriptFiles =
 	"Scripts/windknockback.lua",
 	"Scripts/knockbackEffect.lua",
 	"Scripts/revive.lua",
+	"Scripts/TimeLaser.lua",
 	"Scripts/reusable.lua"
 }
 
