@@ -366,10 +366,8 @@ void TransformHandler::activateTransform( int index )
 
 		if( a != b && bhandle )
 		{
-			TransformStruct* atransform = instances[ahandle->instanceIndex]->at(ahandle->modelIndex).getTransform(ahandle->transformIndex);
-			TransformStruct* btransform = nullptr;
-			if( bhandle )
-				btransform = instances[bhandle->instanceIndex]->at(bhandle->modelIndex).getTransform(bhandle->transformIndex);
+			TransformStruct atransform = *instances[ahandle->instanceIndex]->at(ahandle->modelIndex).getTransform(ahandle->transformIndex);
+			TransformStruct btransform = *instances[bhandle->instanceIndex]->at(bhandle->modelIndex).getTransform(bhandle->transformIndex);
 
 			glm::mat4 amatrix = instances[ahandle->instanceIndex]->at(ahandle->modelIndex).getWorldMatrix(ahandle->transformIndex);
 			glm::mat4 bmatrix;
@@ -387,8 +385,8 @@ void TransformHandler::activateTransform( int index )
 			ahandle->transformIndex = bhandle->transformIndex;
 			bhandle->transformIndex = tempTransformIndex;
 
-			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setTransform(bhandle->transformIndex, *btransform);
-			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setTransform(ahandle->transformIndex, *atransform);
+			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setTransform(bhandle->transformIndex, btransform);
+			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setTransform(ahandle->transformIndex, atransform);
 
 			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setWorldMatrix(bhandle->transformIndex, bmatrix);
 			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setWorldMatrix(ahandle->transformIndex, amatrix);
@@ -486,10 +484,8 @@ void TransformHandler::deactivateTransform( int index )
 
 		if( a != b && bhandle )
 		{
-			TransformStruct* atransform = instances[ahandle->instanceIndex]->at(ahandle->modelIndex).getTransform(ahandle->transformIndex);
-			TransformStruct* btransform = nullptr;
-			if( bhandle )
-				btransform = instances[bhandle->instanceIndex]->at(bhandle->modelIndex).getTransform(bhandle->transformIndex);
+			TransformStruct atransform = *instances[ahandle->instanceIndex]->at(ahandle->modelIndex).getTransform(ahandle->transformIndex);
+			TransformStruct btransform = *instances[bhandle->instanceIndex]->at(bhandle->modelIndex).getTransform(bhandle->transformIndex);
 
 			glm::mat4 amatrix = instances[ahandle->instanceIndex]->at(ahandle->modelIndex).getWorldMatrix(ahandle->transformIndex);
 			glm::mat4 bmatrix;
@@ -507,8 +503,8 @@ void TransformHandler::deactivateTransform( int index )
 			ahandle->transformIndex = bhandle->transformIndex;
 			bhandle->transformIndex = tempTransformIndex;
 
-			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setTransform(bhandle->transformIndex, *btransform);
-			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setTransform(ahandle->transformIndex, *atransform);
+			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setTransform(bhandle->transformIndex, btransform);
+			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setTransform(ahandle->transformIndex, atransform);
 
 			instances[bhandle->instanceIndex]->at(bhandle->modelIndex).setWorldMatrix(bhandle->transformIndex, bmatrix);
 			instances[ahandle->instanceIndex]->at(ahandle->modelIndex).setWorldMatrix(ahandle->transformIndex, amatrix);
