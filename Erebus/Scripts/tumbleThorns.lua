@@ -78,7 +78,7 @@ function CreateTumblethorns(entity)
 	end
 	function spell:GetCollider()
 		local result = {}
-		table.insert(result, self.SphereCollider:GetID())
+		table.insert(result, self.sphereCollider:GetID())
 		return result
 	end
 	function spell:ChargeCast()
