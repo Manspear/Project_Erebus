@@ -86,11 +86,21 @@ namespace Nurn
 		NURN_API void pushPlayerEventPacket(const EventPacket& packet);
 		NURN_API bool fetchPlayerEventPacket(EventPacket& packet);
 
-		NURN_API void pushAIHealthPacket(const AIHealthPacket& packet);
-		NURN_API bool fetchAIHealthPacket(AIHealthPacket& packet);
+		NURN_API void pushAIHealthPacket(const HealthPacket& packet);
+		NURN_API bool fetchAIHealthPacket(HealthPacket& packet);
 
 		NURN_API void pushDashPacket(const DashPacket& packet);
 		NURN_API bool fetchDashPacket(DashPacket& packet);
+
+		NURN_API void pushEndEventPacket(const EventPacket& packet);
+		NURN_API bool fetchEndEventPacket(EventPacket& packet);
+
+		NURN_API void pushPlayerHealthPacket(const HealthPacket& packet);
+		NURN_API bool fetchPlayerHealthPacket(HealthPacket& packet);
+
+		NURN_API void pushRessurectionPacket(const HealthPacket& packet);
+		NURN_API bool fetchRessurectionPacket(HealthPacket& packet);
+
 		
 #ifdef DEBUGGING_NETWORK
 		NURN_API float getPing();

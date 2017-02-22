@@ -1,30 +1,29 @@
 --DESCRIPTION OF THE USAGE OF AN ANIMATION controller
---[[
-	GENERAL:
-	The purpose of an animation controller is to divide the complexities of animation and game logic in 
-	the code, making it easier to read, and therefore easier to manage. 
-	You could say that an animation controller "watches and reacts" to gameplay variables.
-
-	IMPORTANT VARIABLES:
-	The "CreateXController" - function takes one reference to the creature-entity holding the gameplay 
-	variables. When the creature's behaviour gets changed by gameplay variables, this animation controller 
-	changes the played animations based on gameplay variables stored in the referenced entity. This 
-	animation controller stores the relevant gamestate - variables of the previous frame through the use of "oldWatch", and it has a 
-	reference to the current creature-entity through the "watch". 
-	The number of animationStates of the controller must be equal to the amount of animation segments
-	of the creature.
-
-	USAGE:
-	To utilize this animation controller you first have to make an instance of it in the creature-entity 
-	it belongs to's table. Then you have to call CreateXController(entity) with that instance.
-	After you've done that you update the animations once per frame by calling the controller's 
-	AnimationUpdate(dt)-function, preferably after the creature-entity's gameplay variables are 
-	calculated.
-
-	NOTES:
-	For each new creature with unique animations you create, you have to make a new Controller. 
-	That controller must also follow the same principles as described above. 
-]]
+--	GENERAL:
+--	The purpose of an animation controller is to divide the complexities of animation and game logic in 
+--	the code, making it easier to read, and therefore easier to manage. 
+--	You could say that an animation controller "watches and reacts" to gameplay variables.
+--
+--	IMPORTANT VARIABLES:
+--	The "CreateXController" - function takes one reference to the creature-entity holding the gameplay 
+--	variables. When the creature's behaviour gets changed by gameplay variables, this animation controller 
+--	changes the played animations based on gameplay variables stored in the referenced entity. This 
+--	animation controller stores the relevant gamestate - variables of the previous frame through the use of "oldWatch", and it has a 
+--	reference to the current creature-entity through the "watch". 
+--	The number of animationStates of the controller must be equal to the amount of animation segments
+--	of the creature.
+--
+--	USAGE:
+--	To utilize this animation controller you first have to make an instance of it in the creature-entity 
+--	it belongs to's table. Then you have to call CreateXController(entity) with that instance.
+--	After you've done that you update the animations once per frame by calling the controller's 
+--	AnimationUpdate(dt)-function, preferably after the creature-entity's gameplay variables are 
+--	calculated.
+--
+--	NOTES:
+--	For each new creature with unique animations you create, you have to make a new Controller. 
+--	That controller must also follow the same principles as described above. 
+--
 
 function CreatePlayerController(player)
 	local controller = {}
@@ -36,18 +35,18 @@ function CreatePlayerController(player)
 	controller.watch = player
 	controller.oldWatch = {}
 
-	controller.isDamagedTimerStart = false
-	controller.damagedTimer = 0
-	controller.damagedMaxTime = 2
+	controller.damagedMaxTime = 0.5
+
+	controller.dyingTimer = 1
 
 	controller.quickBlendFrom = 0
 	controller.quickBlendTo = 4
 	controller.quickBlendSegment = 2 --0, 1, 2
 
-	controller.jumpTimerStart = false
-	controller.jumpTimer = 0
-	controller.jumpTimerThreshhold = 0.3
-
+	--controller.jumpTimerStart = false
+	--controller.jumpTimer = 0
+	--controller.jumpTimerThreshhold = 4
+	
 	controller.attackTimerStarted = false
 	controller.attackTimer = 0
 	controller.attackTimerThreshhold = 1
@@ -91,8 +90,6 @@ function CreatePlayerController(player)
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
 		then
-			self:DamagedState(dt)
-			
 			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
@@ -129,7 +126,17 @@ function CreatePlayerController(player)
 			self.animationState1 = 9
 		end
 
-		
+		if self.watch.isAlive == false then
+			self.dyingTimer = self.dyingTimer - dt
+			if self.dyingTimer < 0 then
+				self.animationState1  = 5
+				self.animationState2  = 0
+			else
+				self.animationState1  = 3
+				self.animationState2  = 0
+			end
+		end
+
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
 
@@ -254,17 +261,17 @@ function CreatePlayerController(player)
 		self.animationState2 = 0
 	end
 
-	function controller:DamagedState(dt)
-		if self.isDamagedTimerStart == false then
-			self.isDamagedTimerStart = true
-		end
-		if self.isDamagedTimerStart == true then
-			res = self.animation:QuickBlend(dt, self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
-			if res == true then
-				self.isDamagedTimerStart = false
-			end
-		end
-	end
+	--function controller:DamagedState(dt)
+	--	if self.isDamagedTimerStart == false then
+	--		self.isDamagedTimerStart = true
+	--	end
+	--	if self.isDamagedTimerStart == true then
+	--		res = self.animation:QuickBlend(dt, self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
+	--		if res == true then
+	--			self.isDamagedTimerStart = false
+	--		end
+	--	end
+	--end
 
 	function controller:copyWatch()
 		self.oldWatch.health = self.watch.health

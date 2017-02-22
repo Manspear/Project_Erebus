@@ -35,6 +35,12 @@ namespace LuaNetwork
 			{ "GetAIHealthPacket", getAIHealthPacket },
 			{ "SendDashPacket", sendDashPacket },
 			{ "GetDashPacket", getDashPacket },
+			{ "SendEndEventPacket", sendEndEventPacket },
+			{ "GetEndEventPacket", getEndEventPacket },
+			{ "SendPlayerHealthPacket", sendPlayerHealthPacket },
+			{ "GetPlayerHealthPacket", getPlayerHealthPacket },
+			{ "SendRessurectionPacket", sendRessurectionPacket },
+			{ "GetRessurectionPacket", getRessurectionPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -289,10 +295,11 @@ namespace LuaNetwork
 
 	int sendChargingPacket(lua_State* lua)
 	{
-		int index = (int)lua_tointeger(lua, 1);
+		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
 		uint16_t damage = (uint16_t)lua_tonumber(lua, 2);
+		uint16_t spellListIndex = (uint16_t)lua_tonumber(lua, 3);
 
-		g_networkController->sendChargingPacket(ChargingPacket(index, damage));
+		g_networkController->sendChargingPacket(ChargingPacket(index, damage, spellListIndex));
 
 		return 0;
 	}
@@ -306,15 +313,17 @@ namespace LuaNetwork
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, chargingPacket.data.ID);
 			lua_pushnumber(lua, chargingPacket.data.damage);
+			lua_pushnumber(lua, chargingPacket.data.spellListIndex);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
 			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
 		}
 
-		return 3;
+		return 4;
 	}
 
 	int sendQuickBlendPacket(lua_State* lua)
@@ -387,7 +396,7 @@ namespace LuaNetwork
 	{
 		uint8_t spellSlot1 = (uint8_t)lua_tointeger(lua, 1);
 		uint8_t spellSlot2 = (uint8_t)lua_tointeger(lua, 2);
-		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 2);
+		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 3);
 
 		g_networkController->sendChangeSpellsPacket(ChangeSpellsPacket(spellSlot1, spellSlot2, spellSlot3));
 
@@ -447,14 +456,14 @@ namespace LuaNetwork
 		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
 		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
 
-		g_networkController->sendAIHealthPacket(AIHealthPacket(transformID, health));
+		g_networkController->sendAIHealthPacket(HealthPacket(transformID, health));
 
 		return 0;
 	}
 
 	int getAIHealthPacket(lua_State* lua)
 	{
-		AIHealthPacket aiHealthPacket;
+		HealthPacket aiHealthPacket;
 
 		if (g_networkController->fetchAIHealthPacket(aiHealthPacket))
 		{
@@ -474,14 +483,13 @@ namespace LuaNetwork
 
 	int sendDashPacket(lua_State* lua)
 	{
-		uint8_t setScaleValue = (uint8_t)lua_tointeger(lua, 1);
-		bool invulnerable = (bool)lua_toboolean(lua, 2);
+		bool isDashing = (bool)lua_toboolean(lua, 1);
 
-		g_networkController->sendDashPacket(DashPacket(setScaleValue, invulnerable));
+		g_networkController->sendDashPacket(DashPacket(isDashing));
 
 		return 0;
 	}
-	
+
 	int getDashPacket(lua_State* lua)
 	{
 		DashPacket dashPacket;
@@ -489,8 +497,92 @@ namespace LuaNetwork
 		if (g_networkController->fetchDashPacket(dashPacket))
 		{
 			lua_pushboolean(lua, true);
-			lua_pushnumber(lua, dashPacket.data.setScaleValue);
-			lua_pushnumber(lua, dashPacket.data.invulnerable);
+			lua_pushboolean(lua, dashPacket.data.isDashing);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushboolean(lua, false);
+		}
+
+		return 2;
+	}
+
+	int sendEndEventPacket(lua_State* lua)
+	{
+		uint8_t eventId = (uint8_t)lua_tointeger(lua, 1);
+
+		g_networkController->sendEndEventPacket(EventPacket(eventId));
+
+		return 0;
+	}
+
+	int getEndEventPacket(lua_State* lua)
+	{
+		EventPacket endEventPacket;
+
+		if (g_networkController->fetchEndEventPacket(endEventPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, endEventPacket.data.eventID);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+		}
+		return 2;
+	}
+
+	int sendPlayerHealthPacket(lua_State* lua)
+	{
+		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+
+		g_networkController->sendPlayerHealthPacket(HealthPacket(transformID, health));
+
+		return 0;
+	}
+
+	int getPlayerHealthPacket(lua_State* lua)
+	{
+		HealthPacket playerHealthPacket;
+
+		if (g_networkController->fetchPlayerHealthPacket(playerHealthPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, playerHealthPacket.data.transformID);
+			lua_pushnumber(lua, playerHealthPacket.data.health);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 3;
+	}
+
+	int sendRessurectionPacket(lua_State* lua)
+	{
+		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+
+		g_networkController->sendRessurectionPacket(HealthPacket(transformID, health));
+
+		return 0;
+	}
+
+	int getRessurectionPacket(lua_State* lua)
+	{
+		HealthPacket ressurectionPacket;
+
+		if (g_networkController->fetchRessurectionPacket(ressurectionPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, ressurectionPacket.data.transformID);
+			lua_pushnumber(lua, ressurectionPacket.data.health);
 		}
 		else
 		{
@@ -568,7 +660,7 @@ namespace LuaNetwork
 
 	int shouldSendNewAITransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastAITransformPacket() > 0.066)
+		if (g_networkController->timeSinceLastAITransformPacket() > 0.033)
 		{
 			lua_pushboolean(lua, true);
 		}

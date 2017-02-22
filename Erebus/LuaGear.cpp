@@ -83,7 +83,8 @@ namespace LuaGear
 			{ "QuickBlend", quickBlend },
 			{ "SetSegmentState", setSegmentState },
 			{ "SetQuickBlend", setQuickBlend },
-			{ "SetAnimationPlayTime", setAnimationPlayTime },
+			{ "SetSegmentPlayTime", setSegmentPlayTime },
+			{ "ResetSegmentPlayTime", resetSegmentPlayTime },
 			{ NULL, NULL }
 		};
 
@@ -160,6 +161,8 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
+
+		assert( asset );
 		
 		int result = g_transformHandler->bindStaticInstance( asset );
 		lua_pushinteger( lua, result );
@@ -237,6 +240,9 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+
+		assert( asset );
+
 		int result = g_transformHandler->bindForwardInstance( asset );
 		lua_pushinteger(lua, result );
 
@@ -409,7 +415,7 @@ namespace LuaGear
 		return 0;
 	}
 
-	int setAnimationPlayTime(lua_State * lua)
+	int setSegmentPlayTime(lua_State * lua)
 	{
 
 		assert(lua_gettop(lua) >= 3);
@@ -420,7 +426,21 @@ namespace LuaGear
 		float animTime = (float)lua_tonumber(lua, 2);
 		int segment = (int)lua_tointeger(lua, 3);
 
-		animation->setAnimationPlayTime(animTime, segment);
+		animation->setSegmentPlayTime(animTime, segment);
+
+		return 0;
+	}
+
+	int resetSegmentPlayTime(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 2);
+
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+		int segment = (int)lua_tointeger(lua, 2);
+
+		animation->resetSegmentPlayTime(segment);
 
 		return 0;
 	}
@@ -448,7 +468,7 @@ namespace LuaGear
 
 		int from = (int)lua_tointeger(lua, 2);
 		int to = (int)lua_tointeger(lua, 3);
-		float blendTime = (float)lua_tointeger(lua, 4);
+		float blendTime = (float)lua_tonumber(lua, 4);
 		int segment = (int)lua_tointeger(lua, 5);
 
 		animation->setQuickBlend(from, to, blendTime, segment);
@@ -603,6 +623,9 @@ namespace LuaGear
 		assert( lua_gettop( lua ) == 1 );
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+
+		assert( asset );
+
 		int result = g_transformHandler->bindBlendingInstance( asset );
 
 		lua_pushinteger(lua, result );

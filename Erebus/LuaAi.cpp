@@ -99,7 +99,6 @@ namespace LuaAI
 
 			//glm::vec3 pos = AI->calculateIMPath(index,transforms[index].getPos());
 			glm::vec3 pos = AI->calculateIMPath(index, g_transformHandler->getTransform(index)->pos);
-
 			lua_newtable(lua);
 			lua_pushnumber(lua, pos.x);
 			lua_setfield(lua, -2, "x");
@@ -147,8 +146,8 @@ namespace LuaAI
 			lua_getfield(lua, 2, "x");
 			position.x = lua_tonumber(lua, -1);
 
-			lua_getfield(lua, 2, "y");
-			position.y = lua_tonumber(lua, -1);
+			//lua_getfield(lua, 2, "y");
+			position.y = 0;
 
 			lua_getfield(lua, 2, "z");
 			position.z = lua_tonumber(lua, -1);

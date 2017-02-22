@@ -79,7 +79,9 @@ function CreateSunRay(entity)
 			self.startUpScale.y = self.startUpScale.y * 0.5	
 			self.startUpScale.z = self.startUpScale.z / 2
 			self:GeneralCast()
-			ZoomInCamera()
+			if self.owner == player then
+				ZoomInCamera()
+			end
 		end
 	end
 
@@ -103,12 +105,19 @@ function CreateSunRay(entity)
 		end
 	end
 
+	function sunRay:GetCollider()
+		local result = {}
+		table.insert(result, self.type.oobCollider:GetID())
+		return result
+	end
+
 	function sunRay:GeneralCast()
 		self.timeSinceTick = 0.0
 		self.type.oobCollider.SetSize(sunRay.type.oobCollider, self.length, 1, 1)
 		self.type:Cast(Transform.GetPosition(self.owner.transformID))
 		Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
-		Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
+		--Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
+		Transform.SetLookAt(self.type.transformID, Camera.GetDirection())
 		Erebus.CameraSensitivity(self.cameraSlow)
 		Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x , self.startUpScale.y , self.startUpScale.z)
 		self.UVpushed = 0.0
@@ -128,7 +137,7 @@ function CreateSunRay(entity)
 				if hits[index].Hurt then	
 					if self.effectFlag then
 						for e =1, #self.effects do
-							local effect = effectTable[self.effects[e]]()
+							local effect = effectTable[self.effects[e]](self.owner)
 							hits[index]:Apply(effect)				
 						end
 					end
@@ -186,7 +195,9 @@ function CreateSunRay(entity)
 		self.owner.moveSpeed = self.owner.moveSpeed / self.moveImpairment
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
 		self.type:Kill()
-		ZoomOutCamera()
+		if self.owner == player then
+			ZoomOutCamera()
+		end
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end

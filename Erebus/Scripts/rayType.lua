@@ -29,7 +29,7 @@ function CreateRayType(model)
 					table.insert(result, enemies[curEnemy])
 				end
 			end
-			if collisionIDs[curID] == boss.sphereCollider:GetID() then
+			if collisionIDs[curID] == boss.collider:GetID() then
 				table.insert(result, boss)
 			end
 		end

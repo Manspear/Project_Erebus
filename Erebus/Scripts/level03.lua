@@ -41,8 +41,6 @@ Transform.SetPosition(level01.props.FirstTile2ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(level01.props.FirstTile2ID.transformID, 1, 1, 1)
 Transform.SetRotation(level01.props.FirstTile2ID.transformID, {x=0, y=0, z=0})
 level01.props.PlayerSettings5ID = {}
-Transform.SetPosition(player.transformID, {x=41.3438, y=11.0827, z=14.5859})
-player:ChangeHeightmap(1)
 end
 level01.unload = function()
 print("01 unbinding " .. level01.props.FirstTile2ID.transformID)
@@ -120,3 +118,6 @@ end
 local widthTest = heightmaps[1].asset:GetMapWidth()
 local heightTest = heightmaps[1].asset:GetMapHeight()
 AI.CreateIM(heightmaps,widthTest,heightTest)--,#heightmaps,widthTest,heightTest)
+
+Transform.SetPosition(player.transformID, {x=41.3438, y=11.0827, z=14.5859})
+player:ChangeHeightmap(1)

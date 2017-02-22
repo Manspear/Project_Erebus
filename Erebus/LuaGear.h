@@ -50,7 +50,8 @@ namespace LuaGear
 	int setTransitionTimes(lua_State* lua);
 	int setAnimationSegments(lua_State * lua);
 	int assembleAnimationsIntoShadermatrices(lua_State * lua);
-	int setAnimationPlayTime(lua_State * lua);
+	int setSegmentPlayTime(lua_State * lua);
+	int resetSegmentPlayTime(lua_State * lua);
 	int setSegmentState(lua_State* lua);
 	int setQuickBlend(lua_State* lua);
 	int setUniformValue(lua_State* lua);

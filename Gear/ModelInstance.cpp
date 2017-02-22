@@ -135,6 +135,11 @@ namespace Gear
 	{
 		worldMatrices.at(index) = world;
 	}
+
+	void ModelInstance::setAnimation( int index, Animation* animation )
+	{
+		animations.at(index) = animation;
+	}
 #pragma endregion
 
 #pragma region Getters
@@ -176,6 +181,11 @@ namespace Gear
 	glm::mat4& ModelInstance::getWorldMatrix(int index)
 	{
 		return worldMatrices.at(index);
+	}
+
+	Animation* ModelInstance::getAnimation( int index )
+	{
+		return animations.at(index);
 	}
 #pragma endregion
 }

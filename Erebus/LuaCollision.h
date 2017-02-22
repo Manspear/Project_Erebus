@@ -26,6 +26,7 @@ namespace LuaCollision
 	int destroyRay(lua_State* lua);
 	int destroyMovementController(lua_State* lua);
 	int getCollisionIDs( lua_State* lua );
+	int getIDsFromLayer(lua_State* lua);
 	int getRayCollisionIDs(lua_State* lua);
 	int checkCollision( lua_State* lua );
 	int checkRayCollision(lua_State* lua);

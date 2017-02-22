@@ -27,8 +27,12 @@ function CreateStaticAoEType(model)
 		self.timer = self.timer + dt
 		local factor = math.min(self.timer / self.duration,1)
 		local scale = factor * self.maxradius
-		Transform.SetScale(self.transformID, scale)
 		SphereCollider.SetRadius(self.sphereCollider, scale)
+		scale = scale + 0.7*math.cos(self.timer*4)
+		Transform.SetScale(self.transformID, 2.1*scale)
+		local rot = Transform.GetRotation(self.transformID)
+		rot.y = rot.y + dt
+		Transform.SetRotation(self.transformID, rot)
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
@@ -36,7 +40,7 @@ function CreateStaticAoEType(model)
 					table.insert(result, enemies[curEnemy])
 				end
 			end
-			if collisionIDs[curID] == boss.sphereCollider:GetID() then
+			if collisionIDs[curID] == boss.collider:GetID() then
 				table.insert(result, boss)
 			end
 		end

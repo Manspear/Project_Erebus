@@ -1,4 +1,4 @@
-SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/siphon.png");
+SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/siphon.dds");
 SIPHON_DAMAGE = 2
 SIPHON_CHAIN_DURATION = 5
 SIPHON_COOLDOWN = 15
@@ -48,7 +48,9 @@ function CreateSiphon(entity)
 	spell.duration = SIPHON_CHAIN_DURATION
 	function spell:Cast()
 		if self.spamcooldown < 0 then
-			ZoomInCamera()
+			if self.owner == player then
+				ZoomInCamera()
+			end
 			self.spamming = true
 			self.spamduration = SIPHON_SPAM_DURATION
 			self.spamcooldown = SIPHON_SPAM_COOLDOWN
@@ -57,6 +59,13 @@ function CreateSiphon(entity)
 		--Transform.ActiveControl(self.transformID, true)
 		self.alive = true
 	end
+
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.collider:GetID())
+		return result
+	end
+
 	spell.Charge = BaseCharge
 	function spell:ChargeCast()
 		if self.cooldown < 0 then 
@@ -67,7 +76,9 @@ function CreateSiphon(entity)
 				Transform.ActiveControl(self.transformID, true)
 				self.spamming = false
 				self.duration = SIPHON_CHAIN_DURATION
-				ZoomInCamera()
+				if self.owner == player then
+					ZoomInCamera()
+				end
 			end
 		end
 	end
@@ -80,6 +91,9 @@ function CreateSiphon(entity)
 					hit = enemies[curEnemy]
 					break
 				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				hit = boss
 			end
 		end
 
@@ -136,7 +150,11 @@ function CreateSiphon(entity)
 			if hit then
 				if self.interval < 0 then
 					hit:Hurt(self.damage, self.owner)
-					self.owner.health = self.owner.health + self.damage
+					if(self.owner.health < 100) then
+						self.owner.health = self.owner.health + self.damage
+					elseif (self.owner.health > 100) then
+						self.owner.health = 100
+					end
 					Transform.ActiveControl(self.transformID, true)
 					self.interval = SIPHON_DAMAGE_INTERVAL
 				end
@@ -148,7 +166,7 @@ function CreateSiphon(entity)
 			if self.spamduration < 0 then
 				self.spamming = false
 				Transform.ActiveControl(self.transformID, false)
-				if self.isActiveSpell then
+				if self.isActiveSpell and self.owner == player then
 					ZoomOutCamera()
 				end
 			end
@@ -170,11 +188,20 @@ function CreateSiphon(entity)
 							end
 						end
 					end
+					if collisionIDs[curID] == boss.collider:GetID() then
+						boss:Hurt(self.damage, self.owner)
+						for i = 1, #self.effects do
+							local effect = effectTable[self.effects[i]](self.owner, 3)
+							boss:Apply(effect)
+						end
+					end
 				end
 				self.chaininterval = SIPHON_CHAIN_INTERVAL
 			end
 			if self.duration < 0 then
-				ZoomOutCamera()
+				if self.owner == player then
+					ZoomOutCamera()
+				end
 				self.chained = nil
 				Transform.ActiveControl(self.transformID, false)
 				self.length = SIPHON_HITBOX_LENGTH

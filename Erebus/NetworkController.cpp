@@ -240,12 +240,12 @@ bool NetworkController::fetchPlayerEventPacket(EventPacket& packet)
 	return network.fetchPlayerEventPacket(packet);
 }
 
-void NetworkController::sendAIHealthPacket(const AIHealthPacket& packet)
+void NetworkController::sendAIHealthPacket(const HealthPacket& packet)
 {
 	network.pushAIHealthPacket(packet);
 }
 
-bool NetworkController::fetchAIHealthPacket(AIHealthPacket& packet)
+bool NetworkController::fetchAIHealthPacket(HealthPacket& packet)
 {
 	return network.fetchAIHealthPacket(packet);
 }
@@ -258,6 +258,36 @@ void NetworkController::sendDashPacket(const DashPacket& packet)
 bool NetworkController::fetchDashPacket(DashPacket& packet)
 {
 	return network.fetchDashPacket(packet);
+}
+
+void NetworkController::sendEndEventPacket(const EventPacket& packet)
+{
+	network.pushEndEventPacket(packet);
+}
+
+bool NetworkController::fetchEndEventPacket(EventPacket& packet)
+{
+	return network.fetchEndEventPacket(packet);
+}
+
+void NetworkController::sendPlayerHealthPacket(const HealthPacket& packet)
+{
+	network.pushPlayerHealthPacket(packet);
+}
+
+bool NetworkController::fetchPlayerHealthPacket(HealthPacket& packet)
+{
+	return network.fetchPlayerHealthPacket(packet);
+}
+
+void NetworkController::sendRessurectionPacket(const HealthPacket& packet)
+{
+	network.pushRessurectionPacket(packet);
+}
+
+bool NetworkController::fetchRessurectionPacket(HealthPacket& packet)
+{
+	return network.fetchRessurectionPacket(packet);
 }
 
 double NetworkController::timeSinceLastTransformPacket()

@@ -25,12 +25,12 @@ function CreateEnemy(type, position)
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	--enemies[i].transformID = Transform.Bind()
-	enemies[i].movementSpeed = 12--math.random(5,20)
+	enemies[i].movementSpeed = 8--math.random(5,20)
 	enemies[i].maxHealth = 20
 	enemies[i].health = enemies[i].maxHealth
 	enemies[i].alive = true
 	enemies[i].effects = {}
-	enemies[i].attackCountdown = 1
+	enemies[i].attackCountdown = 0
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
@@ -45,11 +45,18 @@ function CreateEnemy(type, position)
 	enemies[i].maxActionCountDown = 3
 	enemies[i].actionCountDown = 3
 
+	enemies[i].animationState = 1
+	enemies[i].range = 4
+	enemies[i].target = nil
+
 	enemies[i].playerTarget = nil
 
 	enemies[i].animationState = 1
 	enemies[i].range = 4
-	enemies[i].target = nil
+
+	enemies[i].whatEver = 0
+
+	enemies[i].tempVariable = 0
 
 	local modelName = ""
 	if type == ENEMY_MELEE then
@@ -90,17 +97,29 @@ function CreateEnemy(type, position)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
+	enemies[i].ChangeToState = function(self,inState)
+		stateScript.changeToState(self, player, inState)
+	end
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
 
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
+
+		print (self.stateName )
+		if self.stateName == "LeapState" or self.stateName == "AttackState"  or self.stateName == "PositioningInnerState"  or self.stateName == "PositioningOuterState" then
+			aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
+			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
+			self.insideInnerCircleRange = false
+			print("DO I GET IN HERE ",enemyManager.actionEnemy )
+		end
 		
 		self.health = 0
 		self.alive = false
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)
+		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
 			inState = "DeadState" 
@@ -131,9 +150,15 @@ function CreateEnemy(type, position)
 		self.position.z = position.z
 		Transform.ActiveControl(self.transformID,true)
 	end
-
-	enemies[i].SetState = function(self,inState)
-		stateScript.changeToState(self, player, inState)
+	
+	if Network.GetNetworkHost() == true then
+		enemies[i].SetState = function(self,inState)
+			stateScript.changeToState(self, player, inState)
+		end
+	else
+		enemies[i].SetState = function(self,inState)
+			clientAIScript.setAIState(self, player, inState)
+		end
 	end
 
 	Transform.SetPosition(enemies[i].transformID, position)
@@ -147,9 +172,7 @@ function CreateEnemy(type, position)
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
-	enemies[i].animationState = 1
-	enemies[i].range = 4
-	enemies[i].target = nil
+
 
 	--[[local modelName = ""
 
@@ -190,23 +213,18 @@ function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do
 	--AI.DrawDebug()
 	--end
-
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0 then
-		--print ("Clear")
-		
 		COUNTDOWN = 0.4
-		--print("INNER: ",player.nrOfInnerCircleEnemies)
-		--print("OUTER: ",player.nrOfOuterCircleEnemies)
-
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			
-			AI.ClearMap(enemies[i].lastPos,0)
-			enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
-			AI.AddIP(enemies[i].transformID,-1,0)
-			calculatePlayerTarget(enemies[i])
+			if enemies[i].health >0 then
+				AI.ClearMap(enemies[i].lastPos,0)
+				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
+				AI.AddIP(enemies[i].transformID,-1,0)
+				calculatePlayerTarget(enemies[i])
+			end
 		end
 		AI.ClearMap(player.lastPos,0)
 		player.lastPos = Transform.GetPosition(player.transformID)
@@ -215,12 +233,10 @@ function UpdateEnemies(dt)
 		
 	end
 	
-	aiScript.updateEnemyManager(enemies)
-
-
 	local tempdt
 
 	if Network.GetNetworkHost() == true then
+		aiScript.updateEnemyManager(enemies)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
@@ -314,14 +330,27 @@ function UpdateEnemies(dt)
 		while newAIStateValue == true do
 			for i=1, #enemies do
 				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
-					clientAIScript.getAIStatePacket(enemies[i], player, aiState_transformID, aiState)
+					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end
 			end
 			newAIStateValue, aiState_transformID, aiState = Network.GetAIStatePacket()
 		end			
 
+		--Update Client_AI transform
+		local newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 
+		while newtransformvalue == true do
+			for i=1, #enemies do
+				if enemies[i].transformID == aiTransform_id then
+					Transform.SetPosition(aiTransform_id, {x=pos_x, y=pos_y, z=pos_z})
+					Transform.SetLookAt(aiTransform_id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
+					Transform.SetRotation(aiTransform_id, {x=rotation_x, y=rotation_y, z=rotation_z})
+					break
+				end
+			end
+			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
+		end
 
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
@@ -339,13 +368,9 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 
-			if enemies[i].health >= 0 then
-				enemies[i].animationController:AnimationUpdate(dt)
-	
-				-- Retrieve packets from host
-				clientAIScript.getAITransformPacket()
-	
-				enemies[i].state.update(enemies[i], player, dt)
+			if enemies[i].health > 0 then
+				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
+				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
 				
 			end				
 			for j = #enemies[i].effects, 1, -1 do 
@@ -362,14 +387,13 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 then
+	if lengthToP1 < lengthToP2 or player.health > 0 then
 		enemy.playerTarget = player
-	else
+	elseif player2.health > 0 then
 		enemy.playerTarget = player2
 	end
 
-
-	if player2 == nil then
+	if player2 == nil and  player.health > 0 then
 		enemy.playerTarget = player
 	end
 end

@@ -6,18 +6,18 @@ local hostText = "Waiting For Connection"
 local ourIpString = ""
 local incorrectIP = false
 local hosting = false
-local textFieldSelected = false
+local textFieldSelected = true
 local hostFailed = false
 local textCounter = 1
 local timeoutCounter = 0;
 
 function LoadipconnectUI()
-	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.png");
-	imageTextures["Input"] = Assets.LoadTexture("Textures/HealthBackground.png");
-	imageTextures["host"] = Assets.LoadTexture("Textures/buttonHost.png");
-	imageTextures["connect"] = Assets.LoadTexture("Textures/buttonConnect.png");
-	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.png");
-	imageTextures["cancel"] = Assets.LoadTexture("Textures/buttonCancel.png");
+	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
+	imageTextures["Input"] = Assets.LoadTexture("Textures/HealthBackground.dds");
+	imageTextures["host"] = Assets.LoadTexture("Textures/buttonHost.dds");
+	imageTextures["connect"] = Assets.LoadTexture("Textures/buttonConnect.dds");
+	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.dds");
+	imageTextures["cancel"] = Assets.LoadTexture("Textures/buttonCancel.dds");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["Input"] = UI.load(340, 370, 600, 45);
@@ -28,23 +28,33 @@ function LoadipconnectUI()
 	screenImages["back"] = UI.load(465, 500, 350, 60);
 
 	ourIpString = Network.GetIP()
+
+	if NETWORK_LATESTIP ~= nil then
+		ipString = NETWORK_LATESTIP
+	end
 end
 
 function UnloadipconnectUI()
+
 end
 
 function UpdateipconnectUI(dt)
 	DrawipconnectUI()
 	timeoutCounter = timeoutCounter + dt
-	if Inputs.ButtonReleased(Buttons.Left) then
+
+	local enterPressed = Inputs.KeyPressed(Keys.Enter)
+
+	if Inputs.ButtonReleased(Buttons.Left) or enterPressed then
 		x,y = Inputs.GetMousePos()
-		if UI.mousePick(screenImages["connect"], x,y) and hosting == false then
+
+		if ( UI.mousePick(screenImages["connect"], x,y ) or enterPressed ) and hosting == false then
 			if ipString == "" then
 				ipString = Network.GetIP()
 			end
 			if ipString:match"(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)" ~= nil then
 				local result = Erebus.StartNetworkClient(stringToIp(ipString))
 				if result == true then
+						NETWORK_LATESTIP = ipString
 						ipString = ""
 						gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 				else
@@ -163,6 +173,19 @@ end
 function stringToIp(string)
 	local a2, b2, c2, d2 = string:match"(%d%d?%d?).(%d%d?%d?).(%d%d?%d?).(%d%d?%d?)"
 	return {a = a2, b = b2, c = c2, d = d2}
+end
+
+function file_check(file_name)
+	
+  local file_found=io.open(file_name, "r")      
+  
+  if file_found==nil then
+    file_found=false
+  else
+	file_found:close()
+    file_found=true
+  end
+  return file_found
 end
 
 return { Load = LoadipconnectUI, Unload = UnloadipconnectUI, Update = UpdateipconnectUI }

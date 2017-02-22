@@ -114,10 +114,10 @@
     <ClInclude Include="EventPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
-    <ClInclude Include="AIHealthPacket.hpp">
+    <ClInclude Include="DashPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
-    <ClInclude Include="DashPacket.hpp">
+    <ClInclude Include="HealthPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
   </ItemGroup>

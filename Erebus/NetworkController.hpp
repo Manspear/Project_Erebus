@@ -55,11 +55,20 @@ public:
 	void sendPlayerEventPacket(const EventPacket& packet);
 	bool fetchPlayerEventPacket(EventPacket& packet);
 
-	void sendAIHealthPacket(const AIHealthPacket& packet);
-	bool fetchAIHealthPacket(AIHealthPacket& packet);
+	void sendAIHealthPacket(const HealthPacket& packet);
+	bool fetchAIHealthPacket(HealthPacket& packet);
 
 	void sendDashPacket(const DashPacket& packet);
 	bool fetchDashPacket(DashPacket& packet);
+
+	void sendEndEventPacket(const EventPacket& packet);
+	bool fetchEndEventPacket(EventPacket& packet);
+
+	void sendPlayerHealthPacket(const HealthPacket& packet);
+	bool fetchPlayerHealthPacket(HealthPacket& packet);
+
+	void sendRessurectionPacket(const HealthPacket& packet);
+	bool fetchRessurectionPacket(HealthPacket& packet);
 
 #ifdef DEBUGGING_NETWORK
 	float getPing();

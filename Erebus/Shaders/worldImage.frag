@@ -5,7 +5,9 @@ out vec4 FragColor;
 
 uniform sampler2D diffuse;
 
+out vec4 out_color;
+
 void main()
 {
-	FragColor = texture( diffuse, vec2(UV.x, 1-UV.y) );
+	out_color = texture( diffuse, vec2(UV.x, 1-UV.y) );
 }

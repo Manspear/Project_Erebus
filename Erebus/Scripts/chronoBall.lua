@@ -15,7 +15,7 @@ function CreateChronoBall(entity)
 	spell.lifeTime = CHRONOBALLLIFETIME
 	spell.alive = false
 	spell.hitflag = false
-	spell.speed = 50
+	spell.speed = 35
 	spell.rotatingAngle = 0
 	spell.particles = GetNextFireEffectParticle() --particles
 	spell.effectFlag = false

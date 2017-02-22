@@ -1,7 +1,6 @@
 local scripts = {}
 local scriptFiles =
 {
-	"Scripts/reusable.lua",
 	"Scripts/console.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
@@ -34,13 +33,15 @@ local scriptFiles =
 	"Scripts/polymorph.lua",
 	"Scripts/tumbleThorns.lua",
 	"Scripts/windknockback.lua",
-	"Scripts/knockbackEffect.lua"
+	"Scripts/knockbackEffect.lua",
+	"Scripts/revive.lua",
+	"Scripts/reusable.lua"
 }
 
 loadedLevels = {}
 
-local gameStarted = false
-local loadedGameplay = false
+gameplayStarted = false
+loadedGameplay = false
 
 function LoadGameplay()
 	-- run scripts
@@ -58,14 +59,17 @@ function UnloadGameplay()
 end
 
 function UpdateGameplay(dt)
-	if Inputs.KeyReleased(Keys.Escape) then
+	if Inputs.KeyReleased(SETTING_KEYBIND_MENU) then
+		print(SETTING_KEYBIND_MENU)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
-	if Inputs.KeyReleased("B") then
+
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
 	end
 
-	if player.health <= 0 then
+	if not player.isAlive and not player2.isAlive then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
 
@@ -76,6 +80,21 @@ function UpdateGameplay(dt)
 	if SETTING_DEBUG then 
 		CollisionHandler.DrawHitboxes()
 	end
+	
+	
+	local newEndEventValue, endEventId = Network.GetEndEventPacket()
+	if newEndEventValue == true then
+		if endEventId == 0 then -- other player died
+			gamestate.ChangeState(GAMESTATE_DEATH)
+		elseif endEventId == 1 then -- other player quit to main menu
+			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
+			Erebus.ShutdownNetwork()
+		elseif endEventId == 2 then -- player win!
+			boss.health = 0
+			BOSS_DEAD = true
+			gamestate.ChangeState(GAMESTATE_DEATH)
+		end
+	end
 end
 
 function EnterGameplay()
@@ -85,25 +104,36 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level03.lua" )
+		dofile( "Scripts/level02.lua" )
+
 		levels[1].load()
 		loadedLevels[1] = true
-
 		for _,v in pairs(levels[1].surrounding) do
 			levels[v].load()
 			loadedLevels[v] = true
 		end
 
+		--levels[1].load()
+		--levels[2].load()
+		--levels[3].load()
+		--levels[4].load()
+		--levels[5].load()
+		--levels[6].load()
+		--levels[7].load()
+		--levels[8].load()
 		loadedGameplay = true
 	end
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
 	Gear.CursorVisible(false)
-	gameStarted = true
+	Erebus.EnableControls(true)
+	player.controlsEnabled = true
+	gameplayStarted = true
 end
 
 function ExitGameplay()
+	player.controlsEnabled = false
 end
 
 return { Load = LoadGameplay, Unload = UnloadGameplay, Update = UpdateGameplay, Enter = EnterGameplay, Exit = ExitGameplay }

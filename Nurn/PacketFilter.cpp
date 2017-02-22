@@ -10,16 +10,19 @@ PacketFilter::PacketFilter()
 #endif
 	this->transformQueue = new PacketQueue<TransformPacket>(5);
 	this->animationQueue = new PacketQueue<AnimationPacket>(5);
-	this->aiStateQueue = new PacketQueue<AIStatePacket>(10);
+	this->aiStateQueue = new PacketQueue<AIStatePacket>(100);
 	this->spellQueue = new PacketQueue<SpellPacket>(20);
-	this->aiTransformQueue = new PacketQueue<TransformPacket>(20);
+	this->aiTransformQueue = new PacketQueue<TransformPacket>(100);
 	this->chargingQueue = new PacketQueue<ChargingPacket>(20);
 	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(20);
 	this->damageQueue = new PacketQueue<DamagePacket>(40);
 	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
 	this->playerEventQueue = new PacketQueue<EventPacket>(10);
-	this->aiHealthQueue = new PacketQueue<AIHealthPacket>(20);
+	this->aiHealthQueue = new PacketQueue<HealthPacket>(100);
 	this->dashQueue = new PacketQueue<DashPacket>(5);
+	this->endEventQueue = new PacketQueue<EventPacket>(10);
+	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
+	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
 }
 
 PacketFilter::~PacketFilter()
@@ -84,6 +87,21 @@ PacketFilter::~PacketFilter()
 		delete this->dashQueue;
 		this->dashQueue = 0;
 	}
+	if (this->endEventQueue)
+	{
+		delete this->endEventQueue;
+		this->endEventQueue = 0;
+	}
+	if (this->playerHealthQueue)
+	{
+		delete this->playerHealthQueue;
+		this->playerHealthQueue = 0;
+	}
+	if (this->ressurectionQueue)
+	{
+		delete this->ressurectionQueue;
+		this->ressurectionQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -140,6 +158,15 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				case DASH_PACKET:
 					this->dashQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of dashPacket data to the correct queue
 					break;
+				case END_EVENT_PACKET:
+					this->endEventQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of endEventPacket data to the correct queue
+					break;
+				case PLAYER_HEALTH_PACKET:
+					this->playerHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of playerHealthPacket data to the correct queue
+					break;
+				case RESSURECTION_PACKET:
+					this->ressurectionQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ressurectionPacket data to the correct queue
+					break;
 
 #ifdef DEBUGGING_NETWORK
 				case PING_PACKET:
@@ -171,7 +198,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 #endif
 				default:
-					printf("KERNEL PANIC!!\n");
+					std::cout << "Network subpacket not recognized" << std::endl; // RIP kernel panic
 			}
 			bytesRead += metaDataPacket.metaData.sizeInBytes;
 		}
@@ -228,7 +255,7 @@ PacketQueue<EventPacket> * PacketFilter::getPlayerEventQueue()
 	return this->playerEventQueue;
 }
 
-PacketQueue<AIHealthPacket> * PacketFilter::getAIHealthQueue()
+PacketQueue<HealthPacket> * PacketFilter::getAIHealthQueue()
 {
 	return this->aiHealthQueue;
 }
@@ -236,4 +263,19 @@ PacketQueue<AIHealthPacket> * PacketFilter::getAIHealthQueue()
 PacketQueue<DashPacket> * PacketFilter::getDashQueue()
 {
 	return this->dashQueue;
+}
+
+PacketQueue<EventPacket> * PacketFilter::getEndEventQueue()
+{
+	return this->endEventQueue;
+}
+
+PacketQueue<HealthPacket> * PacketFilter::getPlayerHealthQueue()
+{
+	return this->playerHealthQueue;
+}
+
+PacketQueue<HealthPacket> * PacketFilter::getRessurectionQueue()
+{
+	return this->ressurectionQueue;
 }

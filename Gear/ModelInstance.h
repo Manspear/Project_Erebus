@@ -30,6 +30,7 @@ namespace Gear
 		GEAR_API void setActiveTransforms(int n);
 		GEAR_API void setTransform(int index, TransformStruct trans);
 		GEAR_API void setWorldMatrix(int index, glm::mat4 world);
+		GEAR_API void setAnimation( int index, Animation* animation );
 		 
 		GEAR_API ModelAsset* getAsset() const;
 		GEAR_API int getWorldMatrixCount() const;
@@ -39,6 +40,7 @@ namespace Gear
 		GEAR_API GLuint getVAO() const;
 		GEAR_API TransformStruct* getTransform(int index);
 		GEAR_API glm::mat4& getWorldMatrix(int index);
+		GEAR_API Animation* getAnimation( int index );
 		
 	private:
 		ModelAsset* asset;
