@@ -64,11 +64,17 @@ public:
 
 	GEAR_API virtual void setStates(int numStates);
 
+	GEAR_API void setTint(const glm::vec4 & tint);
+
+	GEAR_API void removeTint();
+
 	GEAR_API virtual void assembleAnimationsIntoShadermatrices();
 
 	GEAR_API virtual glm::mat4x4* getShaderMatrices();
 
 	GEAR_API int getMatrixIndex();
+
+	GEAR_API glm::vec4 getTint();
 
 protected:
 	void updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr);
@@ -146,4 +152,6 @@ protected:
 	int quickBlendFrom, quickBlendTo, quickBlendSegment;
 	float quickBlendTime;
 	bool quickBlendingDone;
+
+	glm::vec4 modelTint = glm::vec4(0, 0, 0, 0);
 };
