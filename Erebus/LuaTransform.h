@@ -2,10 +2,11 @@
 
 #include "lua\lua.hpp"
 #include "Transform.h"
+#include "TransformHandler.h"
 
 namespace LuaTransform
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms);
+	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, TransformHandler* transformHandler );
 	int bind( lua_State* lua );
 	int destroy( lua_State* lua );
 	int move( lua_State* lua );
@@ -18,6 +19,7 @@ namespace LuaTransform
 	int setPosition( lua_State* lua );
 	int setRotation( lua_State* lua );
 	int setLookAt( lua_State* lua );
+	int setFacing( lua_State* lua );
 	int setScale( lua_State* lua );
 	int setScaleNonUniform( lua_State* lua);
 	int setPosFromTransID( lua_State* lua);
