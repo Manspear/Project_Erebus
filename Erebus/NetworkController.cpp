@@ -280,6 +280,16 @@ bool NetworkController::fetchPlayerHealthPacket(HealthPacket& packet)
 	return network.fetchPlayerHealthPacket(packet);
 }
 
+void NetworkController::sendRessurectionPacket(const HealthPacket& packet)
+{
+	network.pushRessurectionPacket(packet);
+}
+
+bool NetworkController::fetchRessurectionPacket(HealthPacket& packet)
+{
+	return network.fetchRessurectionPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

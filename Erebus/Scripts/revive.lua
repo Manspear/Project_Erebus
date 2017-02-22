@@ -30,6 +30,7 @@ function CreateRevive(entity)
 				self.target.health = 100
 				self.target.isAlive = true
 				self.reviving = false
+				Network.SendRessurectionPacket(self.target.transformID, self.target.health)
 				self:Kill()
 			end
 		end

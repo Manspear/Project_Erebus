@@ -97,6 +97,10 @@ namespace Nurn
 
 		NURN_API void pushPlayerHealthPacket(const HealthPacket& packet);
 		NURN_API bool fetchPlayerHealthPacket(HealthPacket& packet);
+
+		NURN_API void pushRessurectionPacket(const HealthPacket& packet);
+		NURN_API bool fetchRessurectionPacket(HealthPacket& packet);
+
 		
 #ifdef DEBUGGING_NETWORK
 		NURN_API float getPing();

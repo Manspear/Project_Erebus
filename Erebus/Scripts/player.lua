@@ -284,13 +284,13 @@ function UpdatePlayer(dt)
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
 	else
-		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetPlayerHealthPacket()
+		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetRessurectionPacket()
 		if newPlayerHealthVal then
-			print("nastan")
+			--print("Ressurection...")
 			if playerHealth > 0 and playerHealthID == player.transformID then 
 				player.health = playerHealth	
 				player.isAlive = true
-				print("Klar")
+				--print("Wait, i got ressurected?!", player.health, player.isAlive)
 			end
 		end
 	end
@@ -347,13 +347,7 @@ function UpdatePlayer(dt)
 	end
 
 	
-	--Moves the ping icon
-	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
-	right = Camera.GetRight()
-
-	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.75, player.position.z - right.z * 0.30)
-	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.75, player.position.z + right.z * 0.30)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
@@ -379,6 +373,13 @@ function UpdatePlayer(dt)
 		end
 	end
 	UpdateCamera(dt)
+		--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+
+	right = Camera.GetRight()
+
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.75, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.75, player.position.z + right.z * 0.30)
 end
 
 function SendCombine(spell)
@@ -455,6 +456,7 @@ function Controls(dt)
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
 				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
+				player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
 			end
 
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
@@ -606,13 +608,14 @@ function UpdatePlayer2(dt)
 	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
 	if newPlayerHealthValue == true then
 		player2.health = currentHealthValue
+		print(player2.health)
 		if player2.health == 0 then
 			player2.isAlive = false
 		else
 			player2.isAlive = true
 		end
 	end
-	
+
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
 		player2.spells[1]:Kill()
@@ -632,21 +635,24 @@ function UpdatePlayer2(dt)
 
 end
 
-function TutorialBarrier(id,TutorialOBBID)
+function TutorialBarrier(id,TutorialOBBID,dt)
 
-	local colID = id.collider:GetID()
-	local collisionIDs = id.collider:GetCollisionIDs()
-	for i = 1, #collisionIDs do 
-		for o = 1, #player.combinedSpellIDs do
-			if collisionIDs[i] == player.combinedSpellIDs[o] then
-				print("Nu har du en kombineardd spell i mig")
-				TutorialOBBID:SetActive(false)
-				player.combinedSpellIDs = nil
+	showTutorialImage(45,12,184,dt)
+	if player.combinedSpellIDs ~= nil then
+		local colID = id.collider:GetID()
+		local collisionIDs = id.collider:GetCollisionIDs()
+		for i = 1, #collisionIDs do 
+			for o = 1, #player.combinedSpellIDs do
+				if collisionIDs[i] == player.combinedSpellIDs[o] then
+					print("Nu har du en kombineardd spell i mig")
+					TutorialOBBID:SetActive(false)
+					player.combinedSpellIDs = nil
+					return --NOTHING AT ALL.TYESTA
 
+				end
 			end
 		end
 	end
-
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
