@@ -156,7 +156,7 @@ DWORD WINAPI update( LPVOID args )
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
-			//collisionsDraw.draw(&quadtree);
+			collisionsDraw.draw(&quadtree);
 			
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
