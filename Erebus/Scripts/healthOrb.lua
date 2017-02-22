@@ -1,10 +1,12 @@
 HEALTH_EFFECT_DURATION = 2
 HEALTH_ORB_LIFE = 20
-ORB_POOL_SIZE = 5
+ORB_POOL_SIZE = 8
 healthOrbPool = {}
 --healthOrbParticles = {}
 healthColliderPool = {}
-currentFreeOrb = 1
+currentFreeOrb = 0
+allHealthOrbs = {}
+
 function CreateHealthOrb()
 	local orb = {}
 	local model = Assets.LoadModel( "Models/Stone4.model" )
@@ -22,6 +24,8 @@ function CreateHealthOrb()
 	
 	return orb	
 end
+
+for i = 1, ORB_POOL_SIZE do allHealthOrbs[i] = CreateHealthOrb() end
 
 function SpawnHealthOrb(self, position)
 	self.position = position
@@ -78,9 +82,12 @@ function UpdateHealthOrb(self, dt)
 	return false
 end
 
-function InitLifeOrbs()
-	for i = 1, ORB_POOL_SIZE do
-		
-	end	
-	currentFreeOrb = 0
+function GetHealthOrb()
+	currentFreeOrb = currentFreeOrb + 1
+	print(currentFreeOrb, "\t", allHealthOrbs[currentFreeOrb])
+	return allHealthOrbs[currentFreeOrb]
+end
+
+function hejja()
+	for i = 1, #allHealthOrbs do print(allHealthOrbs[i]) end
 end

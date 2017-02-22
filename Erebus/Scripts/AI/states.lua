@@ -417,7 +417,7 @@ end
 
 function state.deadState.enter(enemy,player)
 	enemy.actionCountDown = 12
-	enemy.healthOrb = CreateHealthOrb()
+	enemy.healthOrb = GetHealthOrb()
 	SpawnHealthOrb(enemy.healthOrb, Transform.GetPosition(enemy.transformID))
 end
 
