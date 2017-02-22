@@ -3,10 +3,11 @@
 #include "Camera.h"
 #include "Transform.h"
 #include "lua\lua.hpp"
+#include "TransformHandler.h"
 
 namespace LuaCamera 
 {
-	void registerFunctions(lua_State* lua, Camera* camera, Transform* transform);
+	void registerFunctions(lua_State* lua, Camera* camera, Transform* transform, TransformHandler* transformHandler );
 	int follow(lua_State* lua);
 	int cameraUpdate(lua_State* lua);
 	int getPos(lua_State* lua);

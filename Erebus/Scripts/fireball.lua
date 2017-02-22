@@ -1,7 +1,7 @@
 FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.dds");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 8
-FIRESPAM_SPEED = 100
+FIRESPAM_SPEED = 120
 FIREBALL_SPEED = 18
 FIREBALL_LIFETIME = 10
 FIREBALL_EXPLODETIME = 0.5
@@ -15,13 +15,14 @@ FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
 function CreateFireball(entity)
 	function initSmallFireball()
 		local tiny = {}
-		tiny.type = CreateProjectileType()
-		tiny.damage = 3
+		local model = Assets.LoadModel( "Models/grenade.model" )
+		tiny.type = CreateProjectileType(model)
+		tiny.damage = 1
 		tiny.alive = false
 		tiny.lifeTime = 1.8
 		tiny.hits = {}
-		local model = Assets.LoadModel( "Models/grenade.model" )
-		Gear.AddForwardInstance(model, tiny.type.transformID)
+		--local model = Assets.LoadModel( "Models/grenade.model" )
+		--Gear.AddForwardInstance(model, tiny.type.transformID)
 		tiny.particles = CreateFireEffectParticles()
 		return tiny
 	end
@@ -45,14 +46,16 @@ function CreateFireball(entity)
 	
 	--Big fireball
 	spell.bigBallActive = false
-	spell.bigBallID = Transform.Bind()	
+	--spell.bigBallID = Transform.Bind()	
+	local model = Assets.LoadModel( "Models/projectile1.model" )
 	spell.ballParticles = CreateFireEffectParticles()
+	spell.bigBallID = Gear.BindStaticInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.bigBallID, false)
-	local model = Assets.LoadModel("Models/projectile1.model")
-	Gear.AddStaticInstance(model, spell.bigBallID)
+	--local model = Assets.LoadModel("Models/projectile1.model")
+	--Gear.AddStaticInstance(model, spell.bigBallID)
 	spell.lifeTime = FIREBALL_LIFETIME
 	spell.explodeTime = 0.5
 	spell.enemiesHit = {}
@@ -60,13 +63,6 @@ function CreateFireball(entity)
 	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.light = nil
 	spell.lightRadius = 0
-
-	function spell:GetCollider()
-		local result = {}
-		table.insert(result, self.sphereCollider:GetID())
-		return result
-	end
-
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
 		if self.aSmallIsActive > 0 then
@@ -82,6 +78,7 @@ function CreateFireball(entity)
 			if self.smallFB[i].alive then 
 				self.smallFB[i].particles:Update(self.smallFB[i].type.position)
 				self.smallFB[i].type:Update(dt)
+
 				local collisionIDs = self.smallFB[i].type.sphereCollider:GetCollisionIDs()
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
@@ -198,7 +195,31 @@ function CreateFireball(entity)
 		end
 		self.lightRadius = self.lightRadius - 10 * dt
 		Light.updateRadius(self.light, self.lightRadius, true)
-		BaseCheckCollision(self)	
+		local collisionIDs = self.sphereCollider:GetCollisionIDs()
+		for curID = 1, #collisionIDs do
+			for curEnemy=1, #enemies do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					if not self.enemiesHit[enemies[curEnemy].transformID] then
+						enemies[curEnemy]:Hurt(self.damage, self.owner)
+						for stuff = 1, #self.effects do
+							local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
+							enemies[curEnemy]:Apply(effect)
+						end
+					end
+					self.enemiesHit[enemies[curEnemy].transformID] = true
+				end
+			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				if not self.enemiesHit[boss.transformID] then
+					boss:Hurt(self.damage, self.owner)
+					for stuff = 1, #self.effects do
+						local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
+						boss:Apply(effect)
+					end
+					self.enemiesHit[boss.transformID] = true
+				end
+			end
+		end			
 	end
 
 	function spell:GetEffect()

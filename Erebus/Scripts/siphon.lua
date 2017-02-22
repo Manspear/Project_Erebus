@@ -17,7 +17,9 @@ function CreateSiphon(entity)
 	spell.hudtexture = SIPHON_SPELL_TEXTURE
 	spell.effects = {}
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
-	spell.transformID = Transform.Bind()
+	--spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/SunRayInner.model" )
+	spell.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
 
 	spell.collider = OBBCollider.Create(spell.transformID)
@@ -27,7 +29,7 @@ function CreateSiphon(entity)
 
 	spell.collider.SetSize(spell.collider, SIPHON_HITBOX_LENGTH, 1, 1)
 	local model = Assets.LoadModel( "Models/Siphon.model" )
-	spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
+	--spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
 	spell.isActiveSpell = false
 	spell.hits = {}
 	spell.alive = false

@@ -87,6 +87,7 @@ namespace Importer
 				}
 				else
 				{
+					printf( "Failed to load asset \"%s\"\n", path.c_str() );
 					delete result;
 					result = nullptr;
 				}
