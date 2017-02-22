@@ -170,4 +170,4 @@ function UpdateCamera(dt)
 	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 end
 
-return { Update = UpdateCamera }
+--return { Update = UpdateCamera }

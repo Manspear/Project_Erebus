@@ -203,11 +203,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\keybinding.lua" />
+    <None Include="Scripts\keybindingUI.lua" />
     <None Include="Scripts\level01.lua" />
     <None Include="Scripts\knockbackEffect.lua" />
     <None Include="Scripts\lifeStealEffect.lua" />
     <None Include="Scripts\polymorph.lua" />
     <None Include="Scripts\polymorphEffect.lua" />
+    <None Include="Scripts\revive.lua" />
     <None Include="Scripts\siphon.lua" />
     <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
@@ -307,6 +310,8 @@
     <None Include="Shaders\text.vert" />
     <None Include="Shaders\textureBlending.frag" />
     <None Include="Shaders\textureBlending.vert" />
+    <None Include="Shaders\worldImage.frag" />
+    <None Include="Shaders\worldImage.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />

@@ -46,6 +46,7 @@ function CreateHellPillar(entity)
 	spell.attack = false
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
+	spell.enemiesHit = {}
 	spell.aimPos = {}
 	
 	spell.startUp = true		spell.startUpTime = 0		spell.growAgain = true	
@@ -56,6 +57,8 @@ function CreateHellPillar(entity)
 	spell.firstModel = Transform.Bind()
 	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
 	Gear.AddForwardInstance(model, spell.firstModel)
+
+	spell.light = nil
 
 	function spell:Cast()
 		if self.cooldown < 0 then		
@@ -68,10 +71,17 @@ function CreateHellPillar(entity)
 			self.maxScale = 0.5			self.scale = 0.4
 			Transform.SetScale(self.transformID, self.maxScale)
 			SphereCollider.SetRadius(self.sphereCollider, self.scale + 0.2)
+
 			self.damage = 5
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()		
 		end
+	end
+
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
 	end
 
 	function spell:ChargeCast(entity)
@@ -98,8 +108,8 @@ function CreateHellPillar(entity)
 		self.pos = self.aimPos
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
-		--self.lightRadius = 10
-		--self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10)
+		self.lightRadius = 10
+		self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10, true)
 	end
 	
 	function spell:Update(dt)
@@ -123,13 +133,15 @@ function CreateHellPillar(entity)
 	function spell:StartingUp(dt)
 		self.startUpTime = self.startUpTime - dt
 		self.startUpScale = self.startUpScale - dt * 3
-		
 		self.someRotation.y = self.someRotation.y + 8 * dt 
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
 		Transform.SetScale(self.firstModel, self.startUpScale)
-		--self.lightRadius = self.lightRadius - 5*dt
-		--Light.updateRadius(self.light, self.lightRadius)
+
+		self.lightRadius = self.lightRadius - 5*dt
+		Light.updateRadius(self.light, self.lightRadius, true)
+
 		if self.startUpTime < 0 then
+			self.lightRadius = 10
 			self.startUp = false
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
@@ -139,69 +151,49 @@ function CreateHellPillar(entity)
 			--Sound.Play(HELLPILLAR_CHARGE_SFX, 7, self.pos)				
 			Transform.ActiveControl(self.transformID, true)
 			self.startUpTime = 0.2
-			--Light.updateRadius(self.light, 10)
+			Light.updateRadius(self.light, self.lightRadius, true)
 		end
 	end
 
-	function spell:PillarUpdate(dt)			
-		local collisionIDs = self.sphereCollider:GetCollisionIDs()
-		for curID = 1, #collisionIDs do
-			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage, self.owner)
-					for i = 1, #self.effects do
-						local effect = effectTable[self.effects[i]](self.owner)
-						enemies[curEnemy]:Apply(effect)
-					end	
-					Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
-				end
-			end
-			if collisionIDs[curID] == boss.collider:GetID() then --boss collision
-				boss:Hurt(self.damage, owner)
-				for i = 1, #self.effects do
-					local effect = effectTable[self.effects[i]](self.owner)
-					boss:Apply(effect)
-				end	
-				Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
-			end
-		end		
+	function spell:PillarUpdate(dt)				
 		self.startUp = false
 		self.attack = false
-		SphereCollider.SetActive(self.sphereCollider, false)
+		self:CheckCollisions(self.damage)
 	end
 
 	function spell:Finishing(dt)
 		self.finishingTime = self.finishingTime - dt
 		if self.finishingTime < 0 then
-			self.aliveCharged = false 
-			Transform.ActiveControl(self.transformID, false)
-			self.blendValue1.x, self.blendValue1.y = 0, 0
-			self.blendValue2.x, self.blendValue2.y = 0, 0
-			self.riseFactor = 0.1
-			--Light.removeLight(self.light)
+			self:Kill()
 		else
-			--self.someRotation.y = self.someRotation.y + 15 * dt 	
-			--Transform.SetRotation(self.transformID, self.someRotation)
+			self:CheckCollisions(5)
+			SphereCollider.SetActive(self.sphereCollider, false)
 			self.blendValue1.x = self.blendValue1.x + 0.2 * dt
 			self.blendValue1.y = self.blendValue1.y - 0.6 * dt
-
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 1.0 * dt
-
 			Gear.SetBlendUniformValue(self.modelIndex, 2, self.blendValue1, self.blendValue2)
-			if self.riseFactor < self.scale then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end
-			
+			if self.riseFactor < self.scale then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end			
+			local radius = self.lightRadius + 1.5*math.abs(math.cos(self.finishingTime*10))
+			Light.updateRadius(self.light, radius, true)
 			Transform.SetScaleNonUniform(self.transformID, self.scale, self.riseFactor, self.scale)
 			self.startUpTime = self.startUpTime - dt
 			if self.startUpTime > 0 then
 				self.startUpScale = self.startUpScale + 50 * dt
 				if self.startUpScale > self.maxScale  then self.startUpScale = self.maxScale  end
-			
+				Transform.SetScale(self.firstModel, self.startUpScale )
 			else
 				Transform.ActiveControl(self.firstModel, false)
 				self.growAgain = false
 			end
 		end	
+	end
+
+	function spell:CheckCollisions(damage)
+		local dmg = self.damage
+		self.damage = damage
+		if BaseCheckCollision(self) then	Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)		end
+		self.damage = dmg
 	end
 
 	function spell:Aim()
@@ -225,10 +217,17 @@ function CreateHellPillar(entity)
 	end
 
 	function spell:Kill() 
-		Transform.ActiveControl(self.owner.aim.transformID, false) 
+		self.blendValue1.x, self.blendValue1.y = 0, 0
+		self.blendValue2.x, self.blendValue2.y = 0, 0
+		self.riseFactor = 0.1
+		self.aliveCharged = false 
+		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.owner.aim.transformID, self.isActiveSpell) 
+		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
+		self.enemiesHit = {}
 	end
 	spell.Combine = BaseCombine		spell.Charge = BaseCharge
 	spell.GettEffect = BaseGetEffect

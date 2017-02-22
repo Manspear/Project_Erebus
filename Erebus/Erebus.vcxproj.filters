@@ -515,6 +515,15 @@
     <None Include="Scripts\siphon.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Shaders\worldImage.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\worldImage.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\revive.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

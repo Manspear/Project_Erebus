@@ -24,7 +24,7 @@ Heightmap3.asset:SetHeightMultiplier(0.0707237)
 Heightmap3.surrounding = { 2, 4 }
 heightmaps[3] = Heightmap3
 Heightmap3 = nil
-Heightmap4 = {}
+--[[Heightmap4 = {}
 Heightmap4.asset = Assets.LoadHeightmap("Textures/tile4_height.png")
 Heightmap4.asset:SetPosition({x=384, y=34.6699, z=256})
 Heightmap4.asset:SetHeightMultiplier(0.113531)
@@ -58,7 +58,7 @@ Heightmap8.asset:SetPosition({x=256, y=100, z=384})
 Heightmap8.asset:SetHeightMultiplier(0.165535)
 Heightmap8.surrounding = { 7 }
 heightmaps[8] = Heightmap8
-Heightmap8 = nil
+Heightmap8 = nil]]
 
 ---------------------------------Hieghtmap-----------------------------
 

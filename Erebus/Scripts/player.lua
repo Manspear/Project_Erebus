@@ -37,7 +37,10 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 7
+	player.moveSpeed = 30
+	player.deadTimer = 1
+	player.isAlive = true
+	player.isControlable = true
 	player.isCombined = false; --change here
 	player.health = 100.0
 	player.forward = 0
@@ -61,9 +64,13 @@ function LoadPlayer()
 	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
+	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player.combinedSpell = -1
+	player.combinedSpellIDs = {}
 
-	player.dashStartParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
-	player.dashEndParticles = Particle.Bind("ParticleFiles/smokeParticles.particle")
+	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
 	Particle.SetExtro(player.dashEndParticles, true)
@@ -78,31 +85,37 @@ function LoadPlayer()
 	player.innerCirclerange = 8
 
 	-- set spells for player
-	player.spells = {}
-	
+	player.spells = {}	
 	player.currentSpell = 1
-
-	player.Hurt = function(self,damage, source)
-		if not player.invulnerable then
+	function player.Hurt(self,damage, source)
+		if not player.invulnerable and self.isAlive then
 			self.health = self.health - damage
+			Network.SendPlayerHealthPacket(self.transformID, self.health)
 			if self.health <= 0 then
+				self.health = 0
 				self:Kill()
 			end
 		end
 	end
-	player.Apply = function(self, effect)
+
+	function player.Apply(self, effect)
 		if not self.invulnerable then
 			table.insert(self.effects, effect)
 			effect:Apply(self)
 		end
 	end
 
-	player.Kill = function(self)
-		self.health = 0
-		Transform.ActiveControl(self.transformID,false)
+	function player.Kill(self)
+		self.isAlive = false
+		self.spells[self.currentSpell]:Kill()
+		self.charger:EndCharge()
+		Network.SendPlayerHealthPacket(self.transformID, self.health)
+		for i=1, #enemies do
+			enemies[i].SetState(enemies[i], "IdleState" )
+		end
 	end
 	
-	player.ChangeHeightmap = function(self, heightmap)
+	function player.ChangeHeightmap(self, heightmap)
 		player.currentHeightmap = heightmap
 		player.controller:SetHeightmap(player.currentHeightmap.asset)
 	end
@@ -129,14 +142,15 @@ function LoadPlayer()
 	LoadPlayer2()
 
 	player.aim = CreateAim(player)
-	player.charger = CreateChargeThing(player)
+	player.charger = CreateChargeEggs(player)
 	player.friendCharger = CreateCombineRay(player)
-	InitFireEffectParticles()
+	player.revive = CreateRevive(player)
 end
 
 function LoadPlayer2()
 	-- set basic variables for the player2
 	player2.moveSpeed = 5.25
+	player2.isAlive = true
 	player2.isCombined = false;
 	player2.health = 100
 	player2.forward = 0
@@ -147,10 +161,19 @@ function LoadPlayer2()
 	player2.spamCasting = false
 	player2.charging = false
 	player2.position = {x=0, y=0, z=0}
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combinedSpell = -1
 	
 	player2.dashtime = 0
 	player2.dashcd = 0
 	player2.invulnerable = false
+
+	player2.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player2.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
+
+	Particle.SetExtro(player2.dashStartParticles, false)
+	Particle.SetExtro(player2.dashEndParticles, true)
 
 	player2.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
@@ -173,15 +196,15 @@ function LoadPlayer2()
 	local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
 
-	player2.Hurt = function(self,damage, source)
+	function player2.Hurt(self,damage, source)
 
 	end
 
-	player2.Kill = function(self)
+	function player2.Kill(self)
 
 	end
 
-	player2.Apply = function(self, effect)
+	function player2.Apply(self, effect)
 		if not self.invulnerable then
 			table.insert(self.effects, effect)
 			effect:Apply(self)
@@ -191,8 +214,8 @@ function LoadPlayer2()
 	Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
-	player2.charger = CreateChargeThing(player2)
-
+	player2.charger = CreateChargeEggs(player2)
+	player2.revive = CreateRevive(player2)
 	Transform.SetScale(player2.aim.transformID, 0)
 end
 
@@ -228,7 +251,7 @@ end
 
 function UpdatePlayer(dt)
 	UpdatePlayer2(dt)
-	if player.health > 0 then
+	if player.isAlive then
 		local scale = 0.8
 		local color = {0.6, 0.3, 0.1, 0.8}
 		local info = ""..player.timeScalar
@@ -258,9 +281,30 @@ function UpdatePlayer(dt)
 			Network.SendTransformPacket(player.transformID, player.position, direction, rotation)
 		end
 		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		player.animationController:AnimationUpdate(dt, Network)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+		end
+	else
+		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetPlayerHealthPacket()
+		if newPlayerHealthVal then
+			if playerHealth > 0 and playerHealthID == player.transformID then 
+				player.health = playerHealth	
+				player.isAlive = true
+			end
+		end
+	end
+
+	player.animationController:AnimationUpdate(dt, Network)
+
+	if not player2.isAlive then
+		if Inputs.KeyPressed("T") then 
+			player.revive:Cast(player2)
+		end
+		if Inputs.KeyDown("T") then 
+			player.revive:Update(dt)
+		end
+		if Inputs.KeyReleased("T") then 
+			player.revive:Kill()
 		end
 	end
 	-- update the current player spell
@@ -305,6 +349,11 @@ function UpdatePlayer(dt)
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 
+	right = Camera.GetRight()
+
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.75, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.75, player.position.z + right.z * 0.30)
+
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(triggers) do
 		if v:CheckCollision() then
@@ -328,46 +377,52 @@ function UpdatePlayer(dt)
 			end
 		end
 	end
+	UpdateCamera(dt)
 end
 
 function SendCombine(spell)
-	--TOBEDEFINED
-	if player2.charging == true then
-		player2.isCombined = true
-		player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
-		Network.SendChargingPacket(spell:GetEffect(), spell.damage)
+	if player2.isCombined == false then
+		if player2.charging == true then
+			player2.isCombined = true
+			player2.combinedSpell = spell.spellListId
+			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
+			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
+		end
 	end
 end
 
 function GetCombined()
-	local combine, effectIndex, damage = Network.GetChargingPacket()
+	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
+		--print(player.combinedSpellIDs[0])
 		player.isCombined = true
+		player.combinedSpell = spellListIndex
 	end
 end
 
 function Controls(dt)
-	--showTutorialImage(130, 44, 220,dt)
-	--showTutorialImage2(130, 36, 220,dt)
-	if gamestate.currentState ~= GAMESTATE_SPELLBOOK then
-		if Inputs.KeyDown("W") then
+	if player.isControlable then
+		--player.combinedSpellIDs[0] = player.spells[player.currentSpell]:GetCollider()
+		--print(player.combinedSpellIDs[0])
+		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end
-		if Inputs.KeyDown("S") then
+		if Inputs.KeyDown(SETTING_KEYBIND_BACK) then
 			player.forward = -player.moveSpeed
 		end
-		if Inputs.KeyDown("A") then
+		if Inputs.KeyDown(SETTING_KEYBIND_LEFT) then
 			player.left = player.moveSpeed
 		end
-		if Inputs.KeyDown("D") then
+		if Inputs.KeyDown(SETTING_KEYBIND_RIGHT) then
 			player.left = -player.moveSpeed
 		end
-		if Inputs.KeyDown("Q") then
+		if Inputs.KeyDown(SETTING_KEYBIND_PING) then
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
-		if Inputs.KeyDown(Keys.Shift) then
+		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			sElement = player.spells[player.currentSpell].element
 			
 			--player.isCombined = true
@@ -380,25 +435,20 @@ function Controls(dt)
 			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
 			for curID = 1, #collisionIDs do
 				if collisionIDs[curID] == player2.sphereCollider:GetID() then
-					Gear.Print("Charge ready", 600, 400)
-				end
-			end
-		end
-		if Inputs.KeyReleased(Keys.Shift) then
-			HideCrosshair()
-			player.friendCharger:EndChargeBeam()
-			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
-			for curID = 1, #collisionIDs do
-				if collisionIDs[curID] == player2.sphereCollider:GetID() then
 					SendCombine(player.spells[player.currentSpell])
 					break
 				end
 			end
+		end
+		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
+			HideCrosshair()
+			player.friendCharger:EndChargeBeam()
+			
 			RayCollider.SetActive(player.rayCollider, false)
 		end
 
 		if not player.charging then
-			if Inputs.ButtonDown(Buttons.Left) then
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.charger:EndCharge()
 				player.spamCasting = true
 				player.attackTimer = 1
@@ -406,40 +456,31 @@ function Controls(dt)
 				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
 			end
 
-			if Inputs.ButtonReleased(Buttons.Left) then
+			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.spamCasting = false
 			end
 
-			if Inputs.KeyPressed("1") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed("2") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed("3") then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
 		end
 
 		if not player.spamCasting then
-			if Inputs.ButtonDown(Buttons.Right) then
+			if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
 				if player.charging == true then
 					player.spells[player.currentSpell]:Charge(dt)
-					sElement = player.spells[player.currentSpell].element
-			
-					if player.isCombined == true then
-						player.charger:CombinedAndCharged(player.position, dt, player.spells[player.currentSpell].chargedTime,sElement)
-					else
-						player.charger:ChargeMePlease(player.position,dt,sElement)
-					end
+					player.charger:Update(dt, player.spells[player.currentSpell].chargedTime)				
 				else
 					if player.spells[player.currentSpell].cooldown<0 then
 						Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false)
-						player.charger:StartCharge(player.position) 
+						sElement = player.spells[player.currentSpell].element	
+						player.charger:StartCharge(player.position, sElement) 
 						player.charging = true	
 					end		
 				end
 			end
-
-			--if Inputs.ButtonPressed(Buttons.Right) then 
-				
-			--end
 		
-			if Inputs.ButtonReleased(Buttons.Right) then
+			if Inputs.ButtonReleased(SETTING_KEYBIND_CHARGED_ATTACK) then
 				if player.charging == true then
 					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true)
 					player.spells[player.currentSpell]:ChargeCast(player)
@@ -450,7 +491,7 @@ function Controls(dt)
 			end
 		end
 
-		if Inputs.KeyPressed(Keys.Space) and player.dashcd < 0 then
+		if Inputs.KeyPressed(SETTING_KEYBIND_DASH) and player.dashcd < 0 then
 			Particle.Explode(player.dashStartParticles, player.position)
 			Transform.SetScale(player.transformID, 0)
 			player.dashcd = DASH_COOLDOWN
@@ -466,34 +507,6 @@ end
 function pingPressed(player)
 	Sound.Play("Effects/ping.wav", 1, player.position)	
 	player.ping = player.pingDuration
-end
-
-function PrintInfo() 
-	if player.printInfo then
-		local scale = 0.8
-		local color = {0.4, 1, 0.4, 1}
-		local info = "Player"
-		Gear.Print(info, 60, 570, scale, color)
-
-		local position = Transform.GetPosition(player.transformID)
-		info = "Position\nx:"..Round(player.position.x, 1).."\ny:"..Round(player.position.y, 1).."\nz:"..Round(player.position.z, 1)
-		Gear.Print(info, 0, 600, scale, color)
-
-		local direction = Transform.GetLookAt(player.transformID)
-		info = "LookAt\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
-		Gear.Print(info, 120, 600, scale, color)
-
-		info = "Camera"
-		Gear.Print(info, 60, 400, scale, color)
-
-		position = Camera.GetPos()
-		info = "Position\nx:"..Round(player.position.x, 1).."\ny:"..Round(player.position.y, 1).."\nz:"..Round(player.position.z, 1)
-		Gear.Print(info, 0, 430, scale, color)
-
-		direction = Camera.GetDirection()
-		info = "Direction\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
-		Gear.Print(info, 120, 430, scale, color)
-	end
 end
 
 function UpdatePlayer2(dt)
@@ -530,7 +543,8 @@ function UpdatePlayer2(dt)
 			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 		else
 			if shouldCast == false then
-				player2.charger:StartCharge(player2.position)
+				local spellElement = player2.spells[player2.currentSpell].element
+				player2.charger:StartCharge(player2.position, spellElement)
 				player2.charging = true
 			else
 				player2.spells[player2.currentSpell]:ChargeCast(player2)
@@ -543,14 +557,7 @@ function UpdatePlayer2(dt)
 	
 	if player2.charging == true then
 		player2.spells[player2.currentSpell]:Charge(dt)
-
-		local spellElement = player2.spells[player2.currentSpell].element
-					
-		if player2.isCombined == true then
-			player2.charger:Charging(player2.position, dt, player2.spells[player2.currentSpell].chargedTime, spellElement)
-		else
-			player2.charger:ChargeMePlease(player2.position, dt, spellElement)
-		end
+		player2.charger:Update(dt, player2.spells[player2.currentSpell].chargedTime)
 	end
 	
 	player2.spells[1]:Update(dt)
@@ -577,10 +584,12 @@ function UpdatePlayer2(dt)
 	local newDashValue, isDashing = Network.GetDashPacket()
 	if newDashValue == true then
 		if isDashing == true then
+			Particle.Explode(player2.dashStartParticles, player2.position)
 			Transform.SetScale(player2.transformID, 0)
 			player2.dashtime = DASH_DURATION * 1.2
 			player2.invulnerable = true
 		else
+			Particle.Explode(player2.dashEndParticles, player2.position)
 			player2.dashtime = 0
 		end
 	end
@@ -591,6 +600,16 @@ function UpdatePlayer2(dt)
 	if player2.dashtime <= 0 then
 		player2.invulnerable = false
 		Transform.SetScale(player2.transformID, 1)
+	end
+
+	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
+	if newPlayerHealthValue == true then
+		player2.health = currentHealthValue
+		if player2.health == 0 then
+			player2.isAlive = false
+		else
+			player2.isAlive = true
+		end
 	end
 	
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
@@ -606,6 +625,26 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	right = Camera.GetRight()
+	UI.reposWorld(player2.chargeImage, player2.position.x - right.x * 0.30, player2.position.y+1.75, player2.position.z - right.z * 0.30)
+	UI.reposWorld(player2.combineImage, player2.position.x + right.x * 0.30, player2.position.y+1.75, player2.position.z + right.z * 0.30)
+
+end
+
+function TutorialBarrier(id,TutorialOBBID)
+
+	local colID = id.collider:GetID()
+	local collisionIDs = id.collider:GetCollisionIDs()
+	for i = 1, #collisionIDs do 
+		for o = 1, #player.combinedSpellIDs do
+			if collisionIDs[i] == player.combinedSpellIDs[o] then
+				print("Nu har du en kombineardd spell i mig")
+				TutorialOBBID:SetActive(false)
+				player.combinedSpellIDs = nil
+
+			end
+		end
+	end
 
 end
 

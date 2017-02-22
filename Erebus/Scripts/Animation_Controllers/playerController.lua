@@ -38,7 +38,9 @@ function CreatePlayerController(player)
 
 	controller.isDamagedTimerStart = false
 	controller.damagedTimer = 0
-	controller.damagedMaxTime = 2
+	controller.damagedMaxTime = 0.5
+
+	controller.dyingTimer = 1
 
 	controller.quickBlendFrom = 0
 	controller.quickBlendTo = 4
@@ -129,7 +131,17 @@ function CreatePlayerController(player)
 			self.animationState1 = 9
 		end
 
-		
+		if self.watch.isAlive == false then
+			self.dyingTimer = self.dyingTimer - dt
+			if self.dyingTimer < 0 then
+				self.animationState1  = 5
+				self.animationState2  = 0
+			else
+				self.animationState1  = 3
+				self.animationState2  = 0
+			end
+		end
+
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
 
