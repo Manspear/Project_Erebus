@@ -46,6 +46,7 @@ function CreateSiphon(entity)
 	spell.chained = nil
 	spell.chaininterval = 0
 	spell.duration = SIPHON_CHAIN_DURATION
+	spell.temppos = {x=0,y=0,z=0}
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then
@@ -123,8 +124,14 @@ function CreateSiphon(entity)
 	end
 	function spell:rotatetotarget()
 		if self.chained then
-			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), Transform.GetPosition(self.chained.transformID))
-			self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.chained.transformID)
+			if self.chained.health > 0 then
+				--print("tjoo")
+				self.temppos = Transform.GetPosition(self.chained.transformID)
+			end
+			print(self.temppos.x .. " y: " .. self.temppos.y .. " z: " .. self.temppos.z)
+			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), self.temppos)
+			--self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.temppos)
+			self.length = Transform.GetDistanceBetweenTransAndPos(self.owner.transformID, self.temppos)
 			local pos = Transform.GetPosition(self.owner.transformID)
 			--pos.x = pos.x + direction.x * self.length/2 
 			--pos.y = pos.y + direction.y * self.length/2

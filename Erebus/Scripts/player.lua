@@ -6,7 +6,7 @@ POLYMORPH_EFFECT_INDEX = 5
 KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
-
+TUTORIAL_DONE = false
 ICE=0 --Used for spellCharging
 FIRE=1
 NATURE=2
@@ -101,9 +101,12 @@ function LoadPlayer()
 	function player.Hurt(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
-			--if self.health <= 0 then
-			--	self:Kill()
-			--end
+			if self.health < 1 then
+				self.health = 0
+				self:Kill()
+			end
+			--print("Sending new health", self.health)
+			Network.SendPlayerHealthPacket(self.transformID, self.health)
 		end
 	end
 	function player.Apply(self, effect)
@@ -330,16 +333,18 @@ function FindHeightmap(position)
 
 			local oldTiles = {}
 			for k,v in pairs(loadedLevels) do
-				local found = false
-				for _,b in pairs(allTiles) do
-					if k == b then
-						found = true
-						break
+				if v then
+					local found = false
+					for _,b in pairs(allTiles) do
+						if k == b then
+							found = true
+							break
+						end
 					end
-				end
 
-				if not found then
-					table.insert(oldTiles,k)
+					if not found then
+						table.insert(oldTiles,k)
+					end
 				end
 			end
 
@@ -395,6 +400,16 @@ function UpdatePlayer(dt)
 		player.animationController:AnimationUpdate(dt, Network)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+		end
+	else
+		local newRessurectionVal, ressurectionID, ressurectionPlayerHealth = Network.GetRessurectionPacket()
+		if newRessurectionVal then
+			--print("Ressurection...")
+			if ressurectionPlayerHealth > 0 and ressurectionID == player.transformID then 
+				player.health = ressurectionPlayerHealth	
+				player.isAlive = true
+				--print("Wait, i got ressurected?!", player.health, player.isAlive)
+			end
 		end
 	end
 
@@ -585,6 +600,7 @@ function Controls(dt)
 					player.charger:EndCharge()
 					player.charging = false
 					player.isCombined = false
+					player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
 				end
 			end
 		end
@@ -699,7 +715,18 @@ function UpdatePlayer2(dt)
 		player2.invulnerable = false
 		Transform.SetScale(player2.transformID, 1)
 	end
-	
+
+	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
+	if newPlayerHealthValue == true then
+		player2.health = currentHealthValue
+		--print("Received health:", player2.health)
+		if player2.health < 1 then
+			player2.isAlive = false
+		else
+			player2.isAlive = true
+		end
+	end
+
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
 		player2.spells[1]:Kill()
@@ -714,6 +741,28 @@ function UpdatePlayer2(dt)
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
 
+end
+
+function TutorialBarrier(id,TutorialOBBID,dt)
+
+	if TUTORIAL_DONE == false then 
+		pos = Transform.GetPosition(id.transformID)
+		showTutorialImage(pos.x+2,pos.y+7,pos.z+15,dt)
+		if player.combinedSpellIDs ~= nil then
+			local colID = id.collider:GetID()
+			local collisionIDs = id.collider:GetCollisionIDs()
+			for i = 1, #collisionIDs do 
+				for o = 1, #player.combinedSpellIDs do
+					if collisionIDs[i] == player.combinedSpellIDs[o] then
+						TutorialOBBID:SetActive(false)
+						TUTORIAL_DONE = true
+						player.combinedSpellIDs = nil
+						return
+					end
+				end
+			end
+		end
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
