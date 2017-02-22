@@ -7,10 +7,10 @@ function CreateTimeLaser()
 	spell.colliders = {}
 	local model = Assets.LoadModel( "Models/Siphon.model" )
 	for i = 1, TIMELASER_NR_OF_LASERS do
-		spell.transformIDs[i] = Transform.Bind()
+		spell.transformIDs[i] = Gear.BindForwardInstance(model)
 		spell.angles[i] = (i-1)*2*3.1415/TIMELASER_NR_OF_LASERS
 		spell.colliders[i] = OBBCollider.Create(spell.transformIDs[i])
-		spell.modelIndex = Gear.AddForwardInstance(model, spell.transformIDs[i])
+		--spell.modelIndex = Gear.AddForwardInstance(model, spell.transformIDs[i])
 		spell.colliders[i].SetSize(spell.colliders[i], 30, 1, 1)
 		CollisionHandler.AddOBB(spell.colliders[i], 1)
 	end
