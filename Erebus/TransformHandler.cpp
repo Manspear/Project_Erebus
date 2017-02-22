@@ -259,8 +259,6 @@ void TransformHandler::activateTransform( int index )
 
 	if( !handle.active )
 	{
-		if( index == 49 )
-			int f = 0;
 		/*int a = index;
 		int b = lastIndices[handle.instanceIndex].at(handle.modelIndex);
 
@@ -421,9 +419,6 @@ void TransformHandler::deactivateTransform( int index )
 
 	if( handle.active )
 	{
-		if( index == 49 )
-			int f = 0;
-
 		int a = index;
 		int b = lastIndices[handle.instanceIndex].at(handle.modelIndex);
 
