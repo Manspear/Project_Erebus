@@ -107,7 +107,6 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.isAlive = false
-		self.spells[self.currentSpell]:Kill()
 		self.charger:EndCharge()
 		Network.SendPlayerHealthPacket(self.transformID, self.health)
 		for i=1, #enemies do
@@ -287,9 +286,11 @@ function UpdatePlayer(dt)
 	else
 		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetPlayerHealthPacket()
 		if newPlayerHealthVal then
+			print("nastan")
 			if playerHealth > 0 and playerHealthID == player.transformID then 
 				player.health = playerHealth	
 				player.isAlive = true
+				print("Klar")
 			end
 		end
 	end

@@ -203,6 +203,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\healthOrb.lua" />
     <None Include="Scripts\keybinding.lua" />
     <None Include="Scripts\keybindingUI.lua" />
     <None Include="Scripts\level01.lua" />

@@ -25,7 +25,7 @@ local function updateEnemyManager(enemies)
 			--end
 
 			if enemies[i].insideInnerCircleRange == true then
-				if enemies[i].state.stateName == "PositioningInnerState" then
+				if enemies[i].state.stateName == POSITIONING_INNER_STATE then
 					inPos = AI.SetSpecificTarget(enemies[i].playerTarget.transformID,player.innerCirclerange,player.nrOfInnerCircleEnemies,innerCounter)
 					length = AI.DistanceTransPos(enemies[i].transformID,inPos)
 
