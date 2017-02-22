@@ -416,16 +416,14 @@ function state.leapState.exit(enemy,player)
 end
 
 function state.deadState.enter(enemy,player)
-	enemy.actionCountDown = 5
+	enemy.actionCountDown = 12
 	enemy.healthOrb = CreateHealthOrb()
 	SpawnHealthOrb(enemy.healthOrb, Transform.GetPosition(enemy.transformID))
-	vec3print(Transform.GetPosition(enemy.transformID))
 end
 
-function state.deadState.update(enemy,player,dt)
-	
+function state.deadState.update(enemy,player,dt)	
 	enemy.actionCountDown= enemy.actionCountDown - dt	
-	if enemy.actionCountDown > 3 then			
+	if enemy.actionCountDown > 10 then			
 		local pos = Transform.GetPosition(enemy.transformID)
 		pos.x = pos.x + math.random(-3,3) * dt
 		pos.y = pos.y - 0.6 * dt
@@ -436,10 +434,11 @@ function state.deadState.update(enemy,player,dt)
 		SphereCollider.SetActive(enemy.sphereCollider, false)
 	end
 	if enemy.actionCountDown > 0 then
-		UpdateHealthOrb(enemy.healthOrb, dt)
+		if(UpdateHealthOrb(enemy.healthOrb, dt)) then	enemy.actionCountDown = -1	 end	
 	else
 		enemy.alive = false
 		KillHealthOrb(enemy.healthOrb)
+		enemy.healthOrb = nil
 	end
 end
 

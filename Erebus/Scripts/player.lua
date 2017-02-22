@@ -65,7 +65,7 @@ function LoadPlayer()
 	player.rayCollider = RayCollider.Create(player.transformID)
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
-	RayCollider.SetActive(player.rayCollider, false)
+	RayCollider.SetActive(player.rayCollider, false)	
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
@@ -137,8 +137,8 @@ function LoadPlayer()
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
-	player.sphereCollider:GetCollisionIDs()
-
+	--player.sphereCollider:GetCollisionIDs()
+	player.collisionID = player.sphereCollider:GetID()
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- Setting controller for player
@@ -247,64 +247,6 @@ function LoadSpellsPlayer2()
 end
 
 function FindHeightmap(position)
-	--[[local hm = player.currentHeightmap
-	if not hm.asset:Inside(position) then
-		local prev = player.currentHeightmap
-		local newIndex = -1
-
-		for k,hmIndex in pairs(hm.surrounding) do
-			hm = heightmaps[hmIndex]
-			if hm.asset:Inside(position) then
-				newIndex = hmIndex
-				player.currentHeightmap = hm
-				player.controller:SetHeightmap(player.currentHeightmap.asset)
-				break
-			end
-		end
-
-		if hm then
-			local allTiles = {}
-			for _,v in pairs(hm.surrounding) do
-				table.insert(allTiles,v)
-			end
-			table.insert(allTiles,newIndex)
-
-			local newTiles = {}
-			for _,v in pairs(allTiles) do
-				if not loadedLevels[v] then
-					table.insert(newTiles,v)
-				end
-			end
-
-			local oldTiles = {}
-			for k,v in pairs(loadedLevels) do
-				local found = false
-				for _,b in pairs(allTiles) do
-					if k == b then
-						found = true
-						break
-					end
-				end
-
-				if not found then
-					table.insert(oldTiles,k)
-				end
-			end
-
-			--unload previous tiles
-			for _,v in pairs(oldTiles) do
-				levels[v].unload()
-				loadedLevels[v] = false
-			end
-
-			--load new tiles
-			for _,v in pairs(newTiles) do
-				levels[v].load()
-				loadedLevels[v] = true
-			end
-		end
-	end--]]
-
 	local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
 		for k,index in pairs(levels[player.levelIndex].surrounding) do

@@ -195,7 +195,7 @@ function UpdateEnemies(dt)
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			if enemies[i].health >0 then
+			if enemies[i].alive then
 				AI.ClearMap(enemies[i].lastPos,0)
 				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 				AI.AddIP(enemies[i].transformID,-1,0)
@@ -389,7 +389,7 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 
-			if enemies[i].alive > 0 then
+			if enemies[i].alive then
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)		
 			end				

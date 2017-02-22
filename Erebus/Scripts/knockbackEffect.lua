@@ -51,14 +51,13 @@ function CreateKnockbackEffect(owner, power)
 			local collisionIDs = entity.sphereCollider:GetCollisionIDs()	
 			local walls = CollisionHandler.GetIDsFromLayer(3)
 			local realWalls = {}
-			for	curID = 1, #collisionIDs do
-				for i, v in pairs(walls) do
-					realWalls[i] = v
-				end		
+			for i, v in pairs(walls) do
+				realWalls[i] = v
+			end	
+			for	curID = 1, #collisionIDs do					
 				for curWall = 1, #realWalls do
 					if collisionIDs[curID] == realWalls[curWall] then
 						self.wallHit = true
-						print("Tjena")
 					end
 				end
 			end
