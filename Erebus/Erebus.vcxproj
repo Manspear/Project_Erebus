@@ -252,6 +252,7 @@
     <None Include="Scripts\spellList.lua" />
     <None Include="Scripts\staticAoEType.lua" />
     <None Include="Scripts\sunRay.lua" />
+    <None Include="Scripts\TimeLaser.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Scripts\tumbleThorns.lua" />
