@@ -101,9 +101,12 @@ function LoadPlayer()
 	function player.Hurt(self,damage, source)
 		if not player.invulnerable then
 			self.health = self.health - damage
-			--if self.health <= 0 then
-			--	self:Kill()
-			--end
+			if self.health < 1 then
+				self.health = 0
+				self:Kill()
+			end
+			--print("Sending new health", self.health)
+			Network.SendPlayerHealthPacket(self.transformID, self.health)
 		end
 	end
 	function player.Apply(self, effect)
@@ -395,6 +398,16 @@ function UpdatePlayer(dt)
 		player.animationController:AnimationUpdate(dt, Network)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+		end
+	else
+		local newRessurectionVal, ressurectionID, ressurectionPlayerHealth = Network.GetRessurectionPacket()
+		if newRessurectionVal then
+			--print("Ressurection...")
+			if ressurectionPlayerHealth > 0 and ressurectionID == player.transformID then 
+				player.health = ressurectionPlayerHealth	
+				player.isAlive = true
+				--print("Wait, i got ressurected?!", player.health, player.isAlive)
+			end
 		end
 	end
 
@@ -699,7 +712,18 @@ function UpdatePlayer2(dt)
 		player2.invulnerable = false
 		Transform.SetScale(player2.transformID, 1)
 	end
-	
+
+	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
+	if newPlayerHealthValue == true then
+		player2.health = currentHealthValue
+		--print("Received health:", player2.health)
+		if player2.health < 1 then
+			player2.isAlive = false
+		else
+			player2.isAlive = true
+		end
+	end
+
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
 		player2.spells[1]:Kill()
