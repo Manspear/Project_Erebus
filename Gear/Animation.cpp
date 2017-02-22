@@ -231,6 +231,8 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		animationStack[animationSegment][backIdx] = state;
 	}
 
+
+
 	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
 	//make sure to reset the timeMultiplier after the attack is done. It is crucial. Or else the animation will get faster and faster.
 	if (animationPlayTime[animationSegment] > 0)
@@ -239,7 +241,7 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		Importer::sKeyFrame* keys = asset->getKeyFrames(0, 5, state);
 		float animMaxTime = ((sKeyFrame*)((char*)keys + (stater->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime;
 		timeMultiplier[animationSegment] = animMaxTime / animationPlayTime[animationSegment];
-
+		pAnimMaxTime[animationSegment] = animMaxTime;
 		//std::cout << "animMax: " << animMaxTime << " " << "animPlayTime: " << animationPlayTime[animationSegment] << std::endl;
 	}
 	else
@@ -372,9 +374,14 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 	setStates(numStates);
 }
 
-GEAR_API void Animation::setAnimationPlayTime(float animTime, int segment)
+GEAR_API void Animation::setSegmentPlayTime(float animTime, int segment)
 {
 	animationPlayTime[segment] = animTime;
+}
+
+GEAR_API void Animation::resetSegmentPlayTime(int segment)
+{
+	animationPlayTime[segment] = pAnimMaxTime[segment];
 }
 
 GEAR_API void Animation::setStates(int numStates)

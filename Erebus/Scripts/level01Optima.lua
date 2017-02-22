@@ -1220,6 +1220,17 @@ Light.addLight(37.5571, 6.02005, 197.771, 0.152941, 0.396078, 1, 9,5)
 table.insert(props,New3454ID)
 New3454ID = nil
 
+
+-- OSKAR TING
+CollisionHandler.SetLayerCollision(3, 4, false)
+oskar = {}
+oskar.obb = OBBCollider.Create(-1)
+oskar.obb:SetPos(40,9,170)
+CollisionHandler.AddOBB(oskar.obb,3)
+oskar.obb:SetActive(true)
+--oskar.obb:SetXAxis(0,0.2,0)
+
+--END OSKAR TING
 TutorialPost1229ID = {}
 TutorialPost1229ID.transformID = Transform.Bind()
 Transform.SetPosition(TutorialPost1229ID.transformID, {x=30.1035, y=6.6213, z=156.506})
@@ -1239,7 +1250,7 @@ TutorialPost1229ID = nil
 
 TutorialPost1230ID = {}
 TutorialPost1230ID.transformID = Transform.Bind()
-Transform.SetPosition(TutorialPost1230ID.transformID, {x=40.1035, y=8.6213, z=170.506})
+Transform.SetPosition(TutorialPost1230ID.transformID, {x=40.1035, y=6.6213, z=170.506})
 Transform.SetScaleNonUniform(TutorialPost1230ID.transformID, 3, 3, 3)
 Transform.SetRotation(TutorialPost1230ID.transformID, {x=0, y=-2.89847, z=0})
 TutorialPost1230ID.model = Assets.LoadModel('Models/SignPost.model')
@@ -1248,7 +1259,7 @@ TutorialPost1230ID.collider = SphereCollider.Create(TutorialPost1230ID.transform
 TutorialPost1230ID.collider:SetOffset(0,1,-1)
 TutorialPost1230ID.collider:SetRadius(2.6)
 TutorialPost1230ID.collider.OnExit = function() hideTutorialImage() print("DD") end 
-TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier(TutorialPost1230ID) end 
+TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier(TutorialPost1230ID,oskar.obb,dt) end 
 TutorialPost1230ID.collider.triggered = false
 table.insert(triggers, TutorialPost1230ID.collider)
 CollisionHandler.AddSphere(TutorialPost1230ID.collider, 4)
@@ -8306,7 +8317,7 @@ New221247ID.moveSpeed = 9
 New221247ID.health = 50
 New221247ID.visionRange = 30
 
-New221247ID.ChangeToState(New221247ID,"DoNothingState")
+New221247ID.SetState(New221247ID,"DoNothingState")
 
 
 

@@ -75,7 +75,8 @@ namespace LuaGear
 			{ "QuickBlend", quickBlend },
 			{ "SetSegmentState", setSegmentState },
 			{ "SetQuickBlend", setQuickBlend },
-			{ "SetAnimationPlayTime", setAnimationPlayTime },
+			{ "SetSegmentPlayTime", setSegmentPlayTime },
+			{ "ResetSegmentPlayTime", resetSegmentPlayTime },
 			{ NULL, NULL }
 		};
 
@@ -350,7 +351,7 @@ namespace LuaGear
 		return 0;
 	}
 
-	int setAnimationPlayTime(lua_State * lua)
+	int setSegmentPlayTime(lua_State * lua)
 	{
 
 		assert(lua_gettop(lua) >= 3);
@@ -361,7 +362,21 @@ namespace LuaGear
 		float animTime = (float)lua_tonumber(lua, 2);
 		int segment = (int)lua_tointeger(lua, 3);
 
-		animation->setAnimationPlayTime(animTime, segment);
+		animation->setSegmentPlayTime(animTime, segment);
+
+		return 0;
+	}
+
+	int resetSegmentPlayTime(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 2);
+
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+		int segment = (int)lua_tointeger(lua, 2);
+
+		animation->resetSegmentPlayTime(segment);
 
 		return 0;
 	}

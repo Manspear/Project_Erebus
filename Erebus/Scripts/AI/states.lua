@@ -11,7 +11,7 @@ function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	
-	if length <enemy.visionRange then
+	if length <enemy.visionRange and player.isAlive then
 		inState = "FollowState" 
 		changeToState(enemy,player,inState)
 	end
@@ -408,11 +408,28 @@ function state.leapState.exit(enemy,player)
 end
 
 function state.deadState.enter(enemy,player)
-	--print("Host AI died", enemy.transformID)
+	enemy.actionCountDown = 2
 end
 
-function state.deadState.update(enemy,player)
+function state.deadState.update(enemy,player,dt)
+	
+	if enemy.actionCountDown >0  then
 
+		enemy.actionCountDown= enemy.actionCountDown - dt
+			
+		local pos = Transform.GetPosition(enemy.transformID)
+		pos.x = pos.x + math.random(-3,3) * dt
+		pos.y = pos.y - 0.6 * dt
+		pos.z = pos.z + math.random(-3,3)  * dt
+
+		Transform.SetPosition(enemy.transformID,pos)
+
+	else
+		print("Time for final death")
+		enemy.alive = false
+		Transform.ActiveControl(enemy.transformID, false)
+		SphereCollider.SetActive(enemy.sphereCollider, false)
+	end
 end
 
 function state.deadState.exit(enemy,player)

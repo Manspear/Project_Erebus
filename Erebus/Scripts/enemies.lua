@@ -2,6 +2,9 @@ local aiScript = require("Scripts.AI.BasicEnemyAI")
 local stateScript = require("Scripts.AI.states") 
 local clientAIScript = require("Scripts.AI.client_AI")
 
+INTERPOLATING_AI_TRANSFORM = false
+INTERPOLATION_ITERATIONS = 2
+
 MAX_ENEMIES = 10
 ENEMY_MELEE = 1
 ENEMY_RANGED = 2
@@ -34,6 +37,10 @@ function CreateEnemy(type, position)
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
+
+	enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+	enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+	enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 
@@ -85,9 +92,6 @@ function CreateEnemy(type, position)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 	end
-	enemies[i].ChangeToState = function(self,inState) 
-		stateScript.changeToState(self, player, inState)
-	end
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
@@ -100,13 +104,10 @@ function CreateEnemy(type, position)
 			aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
 			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
 			self.insideInnerCircleRange = false
-			print("DO I GET IN HERE ",enemyManager.actionEnemy )
 		end
 		
 		self.health = 0
-		self.alive = false
-		Transform.ActiveControl(self.transformID, false)
-		SphereCollider.SetActive(self.sphereCollider, false)
+
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
@@ -114,7 +115,7 @@ function CreateEnemy(type, position)
 			stateScript.changeToState(self, player, inState)
 		end
 
-		self.animationController:AnimationUpdate(0) -- play death animation
+		--self.animationController:AnimationUpdate(0) -- play death animation
 		
 		--[[for j = #self.effects, 1, -1 do
 			self.effects[j]:Deapply(self)
@@ -209,11 +210,11 @@ function UpdateEnemies(dt)
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			if enemies[i].health >0 then
+			if enemies[i].alive then
 				AI.ClearMap(enemies[i].lastPos,0)
 				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 				AI.AddIP(enemies[i].transformID,-1,0)
-				calculatePlayerTarget(enemies[i])
+				
 			end
 		end
 		AI.ClearMap(player.lastPos,0)
@@ -226,10 +227,12 @@ function UpdateEnemies(dt)
 	local tempdt
 
 	if Network.GetNetworkHost() == true then
+	
 		aiScript.updateEnemyManager(enemies)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
+			calculatePlayerTarget(enemies[i])
 			pos = Transform.GetPosition(enemies[i].transformID)
 			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 
@@ -244,7 +247,7 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 			tempdt = dt * enemies[i].timeScalar
-			if enemies[i].health > 0 then
+			if enemies[i].alive then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				--AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
@@ -260,10 +263,12 @@ function UpdateEnemies(dt)
 					end
 				end
 
-				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-				pos.y = pos.y - 10*dt
-				if pos.y < height then
-					pos.y = height
+				if  enemies[i].health >0 then
+					local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+					pos.y = pos.y - 10*dt
+					if pos.y < height then
+						pos.y = height
+					end
 				end
 				Transform.SetPosition(enemies[i].transformID, pos)
 
@@ -299,7 +304,6 @@ function UpdateEnemies(dt)
 		end
 
 	else
-
 		-- Update Client_AI health
 		local newAIHealthVal, aiHealth_transformID, aiHealth_health = Network.GetAIHealthPacket()
 
@@ -330,17 +334,60 @@ function UpdateEnemies(dt)
 		--Update Client_AI transform
 		local newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 
+		--Empty Client_AI trasnform queue
 		while newtransformvalue == true do
 			for i=1, #enemies do
 				if enemies[i].transformID == aiTransform_id then
+					--[[enemies[i].new_transform_interpolate.pos = {x=pos_x, y=pos_y, z=pos_z}
+					enemies[i].new_transform_interpolate.lookAt = {x=lookAt_x, y=lookAt_y, z=lookAt_z}
+					enemies[i].new_transform_interpolate.rotation = {x=rotation_x, y=rotation_y, z=rotation_z}
+
+					enemies[i].start_transform_interpolate.pos = {x=Transform.GetPosition(enemies[i].transformID).x, y=Transform.GetPosition(enemies[i].transformID).y, z=Transform.GetPosition(enemies[i].transformID).z}
+					enemies[i].start_transform_interpolate.lookAt = {x=Transform.GetLookAt(enemies[i].transformID).x, y=Transform.GetLookAt(enemies[i].transformID).y, z=Transform.GetLookAt(enemies[i].transformID).z}
+					enemies[i].start_transform_interpolate.rotation = {x=Transform.GetRotation(enemies[i].transformID).x, y=Transform.GetRotation(enemies[i].transformID).y, z=Transform.GetRotation(enemies[i].transformID).z}
+					]]
 					Transform.SetPosition(aiTransform_id, {x=pos_x, y=pos_y, z=pos_z})
 					Transform.SetLookAt(aiTransform_id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
 					Transform.SetRotation(aiTransform_id, {x=rotation_x, y=rotation_y, z=rotation_z})
 					break
 				end
 			end
+			--[[if INTERPOLATING_AI_TRANSFORM == false then
+				INTERPOLATING_AI_TRANSFORM = true
+				INTERPOLATION_ITERATIONS = 2
+
+				for i=1, #enemies do
+					enemies[i].goal_transform_interpolate = enemies[i].new_transform_interpolate
+				end
+			end]]
+
 			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 		end
+
+		-- Interpolate AI transforms
+		--[[if INTERPOLATING_AI_TRANSFORM == true then
+			for i=1, #enemies do
+				Transform.SetPosition(enemies[i].transformID, { x = (enemies[i].start_transform_interpolate.position.x - enemies[i].goal_transform_interpolate.position.x)*0.5,
+																y = (enemies[i].start_transform_interpolate.position.y - enemies[i].goal_transform_interpolate.position.y)*0.5,
+																z = (enemies[i].start_transform_interpolate.position.z - enemies[i].goal_transform_interpolate.position.z)*0.5 })
+
+				Transform.SetLookAt(enemies[i].transformID,	{ x = (enemies[i].start_transform_interpolate.lookAt.x - enemies[i].goal_transform_interpolate.lookAt.x)*0.5,
+															  y = (enemies[i].start_transform_interpolate.lookAt.y - enemies[i].goal_transform_interpolate.lookAt.y)*0.5,
+															  z = (enemies[i].start_transform_interpolate.lookAt.z - enemies[i].goal_transform_interpolate.lookAt.z)*0.5 })
+
+
+				Transform.SetRotation(enemies[i].transformID, { x = (enemies[i].start_transform_interpolate.rotation.x - enemies[i].goal_transform_interpolate.rotation.x)*0.5,
+																y = (enemies[i].start_transform_interpolate.rotation.y - enemies[i].goal_transform_interpolate.rotation.y)*0.5,
+																z = (enemies[i].start_transform_interpolate.rotation.z - enemies[i].goal_transform_interpolate.rotation.z)*0.5 })
+			end
+
+			INTERPOLATION_ITERATIONS = INTERPOLATION_ITERATIONS - 1
+			
+			if INTERPOLATION_ITERATIONS ~= 0 then
+				INTERPOLATING_AI_TRANSFORM = false
+			end
+		end]]
+
 
 		for i=1, #enemies do
 			pos = Transform.GetPosition(enemies[i].transformID)
@@ -377,15 +424,23 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 or player.health > 0 then
-		enemy.playerTarget = player
-	elseif player2.health > 0 then
-		enemy.playerTarget = player2
+	if lengthToP1 < lengthToP2 then
+		if player.health > 0 then
+			enemy.playerTarget = player
+		else
+			enemy.playerTarget = player2
+		end
+	elseif lengthToP2 < lengthToP1 then 
+		if player2.health > 0  then
+			enemy.playerTarget = player2
+		else
+			enemy.playerTarget = player
+		end
 	end
+end
 
-	if player2 == nil and  player.health > 0 then
-		enemy.playerTarget = player
-	end
+function dropOrbs()
+	
 end
 
 return { Unload = UnloadEnemies, Update = UpdateEnemies }
