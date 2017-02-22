@@ -47,4 +47,5 @@ private:
 	std::vector<TransformHandle> handles;
 	//int lastIndices[MAX_INSTANCE_TYPES];
 	std::vector<int> lastIndices[MAX_INSTANCE_TYPES];
+	std::vector<int> firstIndices[MAX_INSTANCE_TYPES];
 };
