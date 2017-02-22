@@ -438,7 +438,6 @@ function state.deadState.update(enemy,player,dt)
 	else
 		enemy.alive = false
 		KillHealthOrb(enemy.healthOrb)
-		enemy.healthOrb = nil
 	end
 end
 
