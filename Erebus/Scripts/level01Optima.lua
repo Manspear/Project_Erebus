@@ -64,6 +64,7 @@ Heightmap8 = nil
 
 -------------------------------------level01-----------------------------------------------
 
+
 level01 = {}
 level01.load = function()
 props = props or {}
@@ -300,6 +301,38 @@ Transform.SetScaleNonUniform(OpWall684ID.transformID, 1, 1, 1)
 Transform.SetRotation(OpWall684ID.transformID, {x=0, y=0, z=0})
 table.insert(colliders,OpWall684ID)
 OpWall684ID = nil
+
+-- OSKAR TING
+CollisionHandler.SetLayerCollision(3, 4, false)
+oskar = {}
+oskar.obb = OBBCollider.Create(-1)
+oskar.obb:SetXAxis(5,0,5)
+
+oskar.obb:SetPos(27.4,7.4,189)
+oskar.obb:SetHalfLengths(0.3,5.58916,2.91548)
+CollisionHandler.AddOBB(oskar.obb,3)
+oskar.obb:SetActive(true)
+
+
+TutorialPost1230ID = {}
+TutorialPost1230ID.transformID = Transform.Bind()
+Transform.SetPosition(TutorialPost1230ID.transformID, {x=27.4, y=7.4, z=189})
+Transform.SetScaleNonUniform(TutorialPost1230ID.transformID, 3, 3, 3)
+Transform.SetRotation(TutorialPost1230ID.transformID, {x=0, y=-2.3, z=0})
+TutorialPost1230ID.model = Assets.LoadModel('Models/SignPost.model')
+Gear.AddStaticInstance(TutorialPost1230ID.model, TutorialPost1230ID.transformID)
+TutorialPost1230ID.collider = SphereCollider.Create(TutorialPost1230ID.transformID)
+TutorialPost1230ID.collider:SetOffset(0,1,-1)
+TutorialPost1230ID.collider:SetRadius(4.5)
+TutorialPost1230ID.collider.OnExit = function() hideTutorialImage()end 
+TutorialPost1230ID.collider.OnTriggering =  function(dt) TutorialBarrier(TutorialPost1230ID,oskar.obb,dt) end 
+TutorialPost1230ID.collider.triggered = false
+table.insert(triggers, TutorialPost1230ID.collider)
+CollisionHandler.AddSphere(TutorialPost1230ID.collider, 4)
+--TutorialPost1230ID = nil
+
+--END OSKAR TING
+
 
 OpWall785ID = {}
 OpWall785ID.transformID = Transform.Bind()

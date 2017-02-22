@@ -738,6 +738,10 @@ function UpdatePlayer2(dt)
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
 
+end
+
+function TutorialBarrier(id,TutorialOBBID,dt)
+
 	if TUTORIAL_DONE == false then 
 		pos = Transform.GetPosition(id.transformID)
 		showTutorialImage(pos.x+2,pos.y+7,pos.z+15,dt)
@@ -752,6 +756,10 @@ function UpdatePlayer2(dt)
 						player.combinedSpellIDs = nil
 						return
 					end
+				end
+			end
+		end
+	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }
