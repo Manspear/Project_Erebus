@@ -60,13 +60,13 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		this->nearPlane = mainCam->getNearPlaneDistance();//0.5; //mainCam->getNearPlaneDistance();
 		this->farPlane = mainCam->getFarPlaneDistance();//15;//mainCam->getFarPlaneDistance();
 		pos = glm::vec3(15, 7.5, 148);
-		pos.x = 5 * sinf(sinCount) + 15;
+		//pos.x = 5 * sinf(sinCount) + 15;
 		//pos = mainCam->getPosition();
 		glm::vec3 direction = glm::vec3(0, 0, 1);//mainCam->getDirection();
-		//direction.x = sinf(sinCount);
+		direction.x = sinf(sinCount);
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::vec3 up = glm::normalize(glm::cross(right, glm::normalize(direction)));
-		float fov = 45;//mainCam->getFov()
+		float fov = 55;//mainCam->getFov();
 
 		glm::vec3 lookat((pos + direction));
 		glm::mat4 camView = glm::lookAt(pos, lookat, up);
@@ -90,15 +90,31 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 			for (int CascadeID = 0; CascadeID < NUM_CASCADEDS; CascadeID++)
 			{
-				float nearHeight = tanf(glm::radians(fov / 2)) * splitPlanes[CascadeID].x;
-				float nearWidth = nearHeight * (float)WINDOW_HEIGHT / (float)WINDOW_WIDTH;
-				float farHeight = tanf(glm::radians(fov / 2)) * splitPlanes[CascadeID].y;
-				float farWidth = farHeight * (float)WINDOW_HEIGHT / (float)WINDOW_WIDTH;
+				//float nearHeight = tanf(glm::radians(fov)) * splitPlanes[CascadeID].x;
+				//float nearWidth = nearHeight * (float)WINDOW_HEIGHT / (float)WINDOW_WIDTH;
+				//float farHeight = tanf(glm::radians(fov)) * splitPlanes[CascadeID].y;
+				//float farWidth = farHeight * (float)WINDOW_HEIGHT / (float)WINDOW_WIDTH;
+				const float ONE_DEGREE_RADIAN = 3.14159265358979323846f / 180;
+				float tang = (float)tan(fov*ONE_DEGREE_RADIAN * 0.5);
 
-				float xn = nearHeight;
-				float xf = farHeight;
-				float yn = nearWidth;
-				float yf = farWidth;
+				float nearHeight = splitPlanes[CascadeID].x * tang;
+				float nearWidth = nearHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+				float farHeight = splitPlanes[CascadeID].y * tang;
+				float farWidth = farHeight * (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+
+				//float ar = (float)WINDOW_HEIGHT / (float)WINDOW_WIDTH;
+				//float tanHalfHFOV = tanf(glm::radians(fov));
+				//float tanHalfVFOV = tanf(glm::radians((fov * ar)));
+
+				//float nearHeight = tanHalfVFOV * splitPlanes[CascadeID].x;
+				//float nearWidth = tanHalfHFOV * splitPlanes[CascadeID].x;
+				//float farHeight = tanHalfVFOV * splitPlanes[CascadeID].y;
+				//float farWidth = tanHalfHFOV * splitPlanes[CascadeID].y;
+
+				float xn = nearWidth;
+				float xf = farWidth;
+				float yn = nearHeight;
+				float yf = farHeight;
 
 				glm::vec4 frustumCorners[8] = {
 					// near face

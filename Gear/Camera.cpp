@@ -132,6 +132,7 @@ GEAR_API void Camera::follow(glm::vec3 point, glm::vec3 direction, float distanc
 
 	this->viewMat = glm::lookAt(camPosition, point + offset, camUp);
 	this->projectionMat = glm::perspective(FoV, aspectRatio, nearPlane, farPlane);
+	this->fov = FoV;
 }
 
 GEAR_API void Camera::setCamera(glm::vec3 campos, glm::vec3 lookPos)
