@@ -6,7 +6,7 @@ POLYMORPH_EFFECT_INDEX = 5
 KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
-
+TUTORIAL_DONE = false
 ICE=0 --Used for spellCharging
 FIRE=1
 NATURE=2
@@ -488,6 +488,7 @@ function Controls(dt)
 					player.charger:EndCharge()
 					player.charging = false
 					player.isCombined = false
+					player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
 				end
 			end
 		end
@@ -634,18 +635,20 @@ end
 
 function TutorialBarrier(id,TutorialOBBID,dt)
 
-	showTutorialImage(45,12,184,dt)
-	if player.combinedSpellIDs ~= nil then
-		local colID = id.collider:GetID()
-		local collisionIDs = id.collider:GetCollisionIDs()
-		for i = 1, #collisionIDs do 
-			for o = 1, #player.combinedSpellIDs do
-				if collisionIDs[i] == player.combinedSpellIDs[o] then
-					print("Nu har du en kombineardd spell i mig")
-					TutorialOBBID:SetActive(false)
-					player.combinedSpellIDs = nil
-					return --NOTHING AT ALL.TYESTA
-
+	if TUTORIAL_DONE == false then 
+		pos = Transform.GetPosition(id.transformID)
+		showTutorialImage(pos.x+2,pos.y+7,pos.z+15,dt)
+		if player.combinedSpellIDs ~= nil then
+			local colID = id.collider:GetID()
+			local collisionIDs = id.collider:GetCollisionIDs()
+			for i = 1, #collisionIDs do 
+				for o = 1, #player.combinedSpellIDs do
+					if collisionIDs[i] == player.combinedSpellIDs[o] then
+						TutorialOBBID:SetActive(false)
+						TUTORIAL_DONE = true
+						player.combinedSpellIDs = nil
+						return
+					end
 				end
 			end
 		end
