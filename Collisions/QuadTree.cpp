@@ -132,10 +132,13 @@ namespace Collisions
 
 				for (size_t j = 0; j < currentNode->dynamicModels->size(); j++)
 				{
-					this->addModelToModelInstances(currentNode->dynamicModels->at(j), modelInstances);
+					this->addModelToModelInstances(currentNode->dynamicModels->at(j), modelInstances); // save models that are within the nodes we hit
 				}
 			}
+			delete modelInstances;
+
 		}
+
 		//std::cout << "You are getting: " << derpyy + derpyy2 << " amount of nodes from quadtree\n";
 		//std::cout << "Nodes with dynamic models: " << derpy3 << std::endl;
 	}

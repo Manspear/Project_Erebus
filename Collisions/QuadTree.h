@@ -44,6 +44,10 @@ namespace Collisions
 				this->asset = asset;
 				this->transform = transform;
 			}
+			~ModelHitboxCombiner()
+			{
+				delete this->collider; // this is the only component the combiner have responsibility to delete
+			}
 		};
 	public:
 		COLLISIONS_EXPORTS class Node
