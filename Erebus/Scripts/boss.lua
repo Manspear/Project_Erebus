@@ -1,6 +1,7 @@
 BOSS_SPELLCD = {}
 BOSS_SPELLCD[1] = 25
 BOSS_SPELLCD[2] = 1
+BOSS_SPELLCD[3] = 1000
 boss = {}
 boss.spells = {}
 boss.spellcooldowns = {}
@@ -14,9 +15,11 @@ function LoadBoss()
 	boss.spells[1] = CreateTimeOrbWave()
 	boss.spellcooldowns[1] = 0
 	boss.spells[2] = CreateChronoBall(boss)
-	boss.spellcooldowns[2] = 0
+	boss.spellcooldowns[2] = 0	
 	--boss.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/THe_Timelord.model" )
+	boss.spells[3] = CreateTimeLaser(boss)
+	boss.spellcooldowns[3] = 0
 	boss.transformID = Gear.BindStaticInstance(model)
 	boss.maxHealth = 500
 	boss.health = boss.maxHealth
