@@ -291,8 +291,11 @@ namespace LuaCollision
 	int destroy( lua_State* lua )
 	{
 		HitBox* hitbox = getHitBox( lua, 1 );
-		if(hitbox->parent == nullptr)
+		if (hitbox->parent == nullptr)
+		{
+			g_collisionHandler->deleteHitbox(hitbox->getID());
 			delete hitbox;
+		}
 
 		return 0;
 	}
