@@ -11,7 +11,10 @@ namespace Collisions
 		this->sphereColliders.reserve(reserveAmount);
 		this->aabbColliders.reserve(reserveAmount);
 
-		this->collisionLayers = new CollisionLayers(5);
+		this->collisionLayers = new CollisionLayers(DEFAULT_LAYER_AMOUNT);
+
+		this->leafHitboxIDSaver = new std::vector<std::vector<int>>();
+		this->leafHitboxIDSaver->resize(DEFAULT_LAYER_AMOUNT);
 
 		//int size = 10;
 		//bool** layerMatrix = new bool*[size];
@@ -40,6 +43,9 @@ namespace Collisions
 		this->collisionLayers = new CollisionLayers(layers);
 		//this->debugger = nullptr;
 		this->initializeColors();
+
+		this->leafHitboxIDSaver = new std::vector<std::vector<int>>();
+		this->leafHitboxIDSaver->resize(layers);
 	}
 
 
@@ -47,13 +53,14 @@ namespace Collisions
 	CollisionHandler::~CollisionHandler()
 	{
 		delete this->collisionLayers;
+		delete this->leafHitboxIDSaver;
 	}
 
 	void CollisionHandler::addHitbox(SphereCollider * sphere)
 	{
 		this->allColliders.push_back(sphere);
 		this->sphereColliders.push_back(sphere);
-		this->recursiveSetID(sphere);
+		this->recursiveSetID(sphere, DEFAULT_LAYER);
 
 		this->collisionLayers->addHitbox(sphere);
 
@@ -63,7 +70,7 @@ namespace Collisions
 	{
 		this->allColliders.push_back(aabb);
 		this->aabbColliders.push_back(aabb);
-		this->recursiveSetID(aabb);
+		this->recursiveSetID(aabb, DEFAULT_LAYER);
 
 		this->collisionLayers->addHitbox(aabb);
 	}
@@ -72,7 +79,7 @@ namespace Collisions
 	{
 		this->allColliders.push_back(sphere);
 		this->sphereColliders.push_back(sphere);
-		this->recursiveSetID(sphere);
+		this->recursiveSetID(sphere, layer);
 
 		this->collisionLayers->addHitbox(sphere, layer);
 	}
@@ -81,7 +88,7 @@ namespace Collisions
 	{
 		this->allColliders.push_back(aabb);
 		this->aabbColliders.push_back(aabb);
-		this->recursiveSetID(aabb);
+		this->recursiveSetID(aabb, layer);
 
 
 		this->collisionLayers->addHitbox(aabb, layer);
@@ -91,7 +98,7 @@ namespace Collisions
 	{
 		this->allColliders.push_back(obb);
 		this->obbColliders.push_back(obb);
-		this->recursiveSetID(obb);
+		this->recursiveSetID(obb, DEFAULT_LAYER);
 
 		this->collisionLayers->addHitbox(obb);
 	}
@@ -100,7 +107,7 @@ namespace Collisions
 	{
 		this->allColliders.push_back(obb);
 		this->obbColliders.push_back(obb);
-		this->recursiveSetID(obb);
+		this->recursiveSetID(obb, layer);
 
 		this->collisionLayers->addHitbox(obb, layer);
 	}
@@ -121,7 +128,7 @@ namespace Collisions
 	{
 		this->rayColliders.push_back(ray);
 
-		this->recursiveSetID(ray);
+		this->recursiveSetID(ray, DEFAULT_LAYER);
 
 		this->collisionLayers->addRay(ray);
 	}
@@ -130,7 +137,7 @@ namespace Collisions
 	{
 		this->rayColliders.push_back(ray);
 
-		this->recursiveSetID(ray);
+		this->recursiveSetID(ray, layer);
 
 		this->collisionLayers->addRay(ray, layer);
 	}
@@ -271,7 +278,7 @@ namespace Collisions
 		}
 	}
 
-	void CollisionHandler::recursiveSetID(HitBox * hitbox)
+	void CollisionHandler::recursiveSetID(HitBox * hitbox, int layer)
 	{
 		hitbox->setID(CollisionHandler::hitboxID);
 		CollisionHandler::incrementHitboxID();
@@ -279,8 +286,12 @@ namespace Collisions
 		{
 			for (size_t i = 0; i < hitbox->children->size(); i++)
 			{
-				this->recursiveSetID(hitbox->children->operator[](i));
+				this->recursiveSetID(hitbox->children->operator[](i), layer);
 			}
+		}
+		else // we have no children, we are leaf collider. Save ID
+		{
+			this->leafHitboxIDSaver->operator[](layer).push_back(hitbox->getID()); // first vector is layer, second vector contains all ID
 		}
 	}
 
@@ -485,6 +496,11 @@ namespace Collisions
 	std::vector<RayCollider*>* CollisionHandler::getRayColliders()
 	{
 		return &this->rayColliders;
+	}
+
+	const std::vector<int>& CollisionHandler::getAllIDsFromLayer(int layer)
+	{
+		return this->leafHitboxIDSaver->operator[](layer); // Every index in vector contains that layers hitbox ids - index 0 has all ids on layer 0
 	}
 
 	void CollisionHandler::setLayerCollisionMatrix(bool ** layerMatrix, unsigned int layerMatrixSize)

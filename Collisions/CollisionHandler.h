@@ -59,6 +59,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS CollisionLayers* getCollisionLayers() const;
 		COLLISIONS_EXPORTS std::vector<HitBox*>* getAllHitboxes();
 		COLLISIONS_EXPORTS std::vector<RayCollider*>* getRayColliders();
+		COLLISIONS_EXPORTS const std::vector<int>& getAllIDsFromLayer(int layer);
 
 		//CollisionLayerPassThrough functions
 		COLLISIONS_EXPORTS void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
@@ -84,6 +85,7 @@ namespace Collisions
 		std::vector<RayCollider*> rayColliders;
 		CollisionLayers* collisionLayers;
 		CollisionChecker collisionChecker;
+		std::vector<std::vector<int>>* leafHitboxIDSaver;
 
 		//Debug* debugger;
 		glm::vec3 colors[64]; // 64 colors to use on hitbox layers
@@ -94,8 +96,10 @@ namespace Collisions
 		static void incrementHitboxID();
 		void initializeColors();
 		bool enabled = true;
+		const int DEFAULT_LAYER_AMOUNT = 5;
+		const int DEFAULT_LAYER = 0;
 
-		void recursiveSetID(HitBox* hitbox);
+		void recursiveSetID(HitBox* hitbox, int layer);
 
 
 
