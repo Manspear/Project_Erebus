@@ -53,6 +53,11 @@ function CreateBlackHole(entity)
 	spell.modelIndex = Gear.BindBlendingInstance(model2)
 	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
 
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.type.sphereCollider:GetID())
+		return result
+	end
 	function spell:Cast(entity, chargetime) end
 	function spell:Charge(dt)
 		if self.owner == player then 

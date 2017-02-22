@@ -210,7 +210,35 @@ function CreateChargeEggs(entity)
 			Transform.ActiveControl(self.transformID, true)			
 		end
 	end
-
-
 	return chargeThing
 end
+
+function BaseCheckCollision(spell)
+	local collisionIDs = spell.sphereCollider:GetCollisionIDs()
+	local playSound = false
+	for curID = 1, #collisionIDs do
+		for curEnemy=1, #enemies do
+			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if not spell.enemiesHit[enemies[curEnemy].transformID] then
+					enemies[curEnemy]:Hurt(spell.damage, spell.owner)				
+					for stuff = 1, #spell.effects do
+						local effect = effectTable[spell.effects[stuff]](spell.owner)
+						enemies[curEnemy]:Apply(effect)
+					end
+				end				
+				spell.enemiesHit[enemies[curEnemy].transformID] = true	
+				playSound = true
+			end
+		end
+		if collisionIDs[curID] == boss.collider:GetID() then --boss collision
+			boss:Hurt(spell.damage, spell.owner)
+			for i = 1, #spell.effects do
+				local effect = effectTable[spell.effects[i]](spell.owner)
+				boss:Apply(effect)
+			end	
+			playSound = true
+		end
+	end	
+	return playSound
+end
+

@@ -77,7 +77,11 @@ function CreateTumblethorns(entity)
 			self.enemiesHit = {}
 		end
 	end
-
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
+	end
 	function spell:ChargeCast()
 		if self.cooldown < 0.0 then
 		

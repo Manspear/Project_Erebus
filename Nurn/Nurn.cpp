@@ -272,12 +272,12 @@ namespace Nurn
 		return result;
 	}
 
-	void NurnEngine::pushAIHealthPacket(const AIHealthPacket& packet)
+	void NurnEngine::pushAIHealthPacket(const HealthPacket& packet)
 	{
 		this->packager->pushAIHealthPacket(packet);
 	}
 
-	bool NurnEngine::fetchAIHealthPacket(AIHealthPacket& packet)
+	bool NurnEngine::fetchAIHealthPacket(HealthPacket& packet)
 	{
 		bool result = false;
 
@@ -309,6 +309,27 @@ namespace Nurn
 	{
 		return this->packetFilter->getEndEventQueue()->pop(packet);
 	}
+
+	void NurnEngine::pushPlayerHealthPacket(const HealthPacket& packet)
+	{
+		this->packager->pushPlayerHealthPacket(packet);
+	}
+
+	bool NurnEngine::fetchPlayerHealthPacket(HealthPacket& packet)
+	{
+		return this->packetFilter->getPlayerHealthQueue()->pop(packet);
+	}
+
+	void NurnEngine::pushRessurectionPacket(const HealthPacket& packet)
+	{
+		this->packager->pushRessurectionPacket(packet);
+	}
+	
+	bool NurnEngine::fetchRessurectionPacket(HealthPacket& packet)
+	{
+		return this->packetFilter->getRessurectionQueue()->pop(packet);
+	}
+
 
 #ifdef DEBUGGING_NETWORK
 	float NurnEngine::getPing()

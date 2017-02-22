@@ -27,12 +27,11 @@ function Loadipconnect()
 end
 
 function Unloadipconnect()
-file = io.open("latestIp.lua", "w")
+	file = io.open("latestIp.lua", "w")
 	if file then
-		local tmp = Network.GetIP()
-		file:write("NETWORK_LATESTIP = \"" .. tmp .. "\"\n")
+		file:write("NETWORK_LATESTIP = \"" .. NETWORK_LATESTIP .. "\"\n")
 	end
-file:close()
+	file:close()
 end
 
 function Updateipconnect(dt)
@@ -48,6 +47,7 @@ function Enteripconnect()
 end
 
 function Exitipconnect()
+
 end
 
 return { Load = Loadipconnect, Unload = Unloadipconnect, Update = Updateipconnect, Enter = Enteripconnect, Exit = Exitipconnect }

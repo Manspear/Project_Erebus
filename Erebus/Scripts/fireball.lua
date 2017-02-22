@@ -1,7 +1,7 @@
 FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.dds");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 8
-FIRESPAM_SPEED = 120
+FIRESPAM_SPEED = 100
 FIREBALL_SPEED = 18
 FIREBALL_LIFETIME = 10
 FIREBALL_EXPLODETIME = 0.5
@@ -17,7 +17,7 @@ function CreateFireball(entity)
 		local tiny = {}
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		tiny.type = CreateProjectileType(model)
-		tiny.damage = 1
+		tiny.damage = 3
 		tiny.alive = false
 		tiny.lifeTime = 1.8
 		tiny.hits = {}
@@ -63,6 +63,13 @@ function CreateFireball(entity)
 	spell.effects = {}		table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.light = nil
 	spell.lightRadius = 0
+
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
+	end
+
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
 		if self.aSmallIsActive > 0 then
@@ -78,7 +85,6 @@ function CreateFireball(entity)
 			if self.smallFB[i].alive then 
 				self.smallFB[i].particles:Update(self.smallFB[i].type.position)
 				self.smallFB[i].type:Update(dt)
-
 				local collisionIDs = self.smallFB[i].type.sphereCollider:GetCollisionIDs()
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
@@ -195,31 +201,7 @@ function CreateFireball(entity)
 		end
 		self.lightRadius = self.lightRadius - 10 * dt
 		Light.updateRadius(self.light, self.lightRadius, true)
-		local collisionIDs = self.sphereCollider:GetCollisionIDs()
-		for curID = 1, #collisionIDs do
-			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					if not self.enemiesHit[enemies[curEnemy].transformID] then
-						enemies[curEnemy]:Hurt(self.damage, self.owner)
-						for stuff = 1, #self.effects do
-							local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
-							enemies[curEnemy]:Apply(effect)
-						end
-					end
-					self.enemiesHit[enemies[curEnemy].transformID] = true
-				end
-			end
-			if collisionIDs[curID] == boss.collider:GetID() then
-				if not self.enemiesHit[boss.transformID] then
-					boss:Hurt(self.damage, self.owner)
-					for stuff = 1, #self.effects do
-						local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
-						boss:Apply(effect)
-					end
-					self.enemiesHit[boss.transformID] = true
-				end
-			end
-		end			
+		BaseCheckCollision(self)	
 	end
 
 	function spell:GetEffect()

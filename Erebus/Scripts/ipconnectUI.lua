@@ -54,6 +54,7 @@ function UpdateipconnectUI(dt)
 			if ipString:match"(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)%p(%d%d?%d?)" ~= nil then
 				local result = Erebus.StartNetworkClient(stringToIp(ipString))
 				if result == true then
+						NETWORK_LATESTIP = ipString
 						ipString = ""
 						gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 				else

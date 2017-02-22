@@ -14,6 +14,9 @@ Which means that interpolation needs to be implemented individually for both ani
 and then interpolation needs to be done between those two animation states.
 */
 #define MAXJOINTCOUNT 64
+#define EMPTYELEMENT -1337
+#define MAXNUMSEGMENTS 5
+
 using namespace Importer;
 class Animation
 {
@@ -55,7 +58,9 @@ public:
 	*/
 	GEAR_API void setTransitionTimes(float* transitionTimeArray, int numStates);
 
-	GEAR_API void setAnimationPlayTime(float animTime, int segment);
+	GEAR_API void setSegmentPlayTime(float animTime, int segment);
+
+	GEAR_API void resetSegmentPlayTime(int segment);
 
 	GEAR_API virtual void setStates(int numStates);
 
@@ -66,7 +71,7 @@ public:
 	GEAR_API int getMatrixIndex();
 
 protected:
-	std::vector<sKeyFrame> updateAnimationForBlending(float dt, int layer, float& animTimer);
+	void updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr);
 
 	/*
 	The difference between this and the other UpdateState() is that
@@ -74,67 +79,70 @@ protected:
 	*/
 	void updateStateForQuickBlend(float dt, int state, int animationSegment, float transitionTime);
 	//std::vector<sKeyFrame> updateAnimationForQuickBlend(float dt, int layer, float& animTimer, float scaleTimer);
-
 	void blendAnimations(int blendTo, int blendFrom, float& transitionTimer, int animationSegment, float dt);
 	Importer::sKeyFrame interpolateKeys(Importer::sKeyFrame overKey, Importer::sKeyFrame underKey, float& animTimer);
 	Importer::sKeyFrame interpolateKeysForBlending(Importer::sKeyFrame to, Importer::sKeyFrame from, int animationSegment);
 
-	void updateJointMatrices(std::vector<sKeyFrame>& keyList);
-	void calculateAndSaveJointMatrices(std::vector<sKeyFrame>& keyList, int animationSegment);
+	//void updateJointMatrices(std::vector<sKeyFrame>& keyList);
+	void calculateAndSaveJointMatrices(sKeyFrame* keyList, int animationSegment);
 	void myLerp(float arr1[3], float arr2[3], float fillArr[3], float iVal);
-	
+
 	void makeTRSMatrix(float inTranslation[3], float inRotation[3], float inScale[3], glm::mat4x4* result);
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
 	float animTimer;
-
+	float pAnimMaxTime[MAXNUMSEGMENTS];
 	//One timeMultiplier-element per segment
-	std::vector<float> timeMultiplier;
+	float timeMultiplier[MAXNUMSEGMENTS];
 	//Saves the time that the animation is allowed to play for. Used mainly to time attack-animations with spells.
-	std::vector<float> animationPlayTime;
+	float animationPlayTime[MAXNUMSEGMENTS];
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
+
+	//Muy importante.
+	int numJoints;
 
 	int numStates;
 
 	int animationSegments;
-	std::vector<sKeyFrame> blendFromKeys;
-	std::vector<sKeyFrame> blendToKeys;
+	sKeyFrame* blendFromKeys;
+	sKeyFrame* blendToKeys;
 
 	//Animation blending variables, one per animationPart;
-	std::vector<int> oldTos;
-	std::vector<int> oldFroms;
-	std::vector<bool> isTransitionCompletes;
+	int oldTos[MAXNUMSEGMENTS];
+	int oldFroms[MAXNUMSEGMENTS];
+	bool isTransitionCompletes[MAXNUMSEGMENTS];
 
-	std::vector<float> fromAnimationTimers;
-	std::vector<float> toAnimationTimers;
-	std::vector<float> transitionMaxTimes;
-	std::vector<float> transitionTimers;
+	float fromAnimationTimers[MAXNUMSEGMENTS];
+	float toAnimationTimers[MAXNUMSEGMENTS];
+	float transitionMaxTimes[MAXNUMSEGMENTS];
+	float transitionTimers[MAXNUMSEGMENTS];
 	//Animationtimer 
-	std::vector<float> animationTimers;
+	float animationTimers[MAXNUMSEGMENTS];
 
-	std::vector<bool> quickBlendStates;
+	bool quickBlendStates[MAXNUMSEGMENTS];
 
 	//List holding "final" jointmatrices (one per animationSegment) before they're added together
 	//used like: animationMatrixLists[animationSegment][jointIdx]
-	std::vector<glm::mat4x4*> animationMatrixLists;
+	glm::mat4x4* animationMatrixLists[MAXNUMSEGMENTS];
 
 	float fromAnimationTimer;
 	float toAnimationTimer;
 
 	bool quickBlendBeginEnd = true;
 
-	std::vector<std::vector<int>> animationStacks;
+	int backIdx = 1;
+	int frontIdx = 0;
+	int animationStack[MAXNUMSEGMENTS][2];
 	glm::mat4x4 identityMatrixList[MAXJOINTCOUNT];
 	glm::mat4x4 shaderMatrices[MAXJOINTCOUNT];
 	Importer::ModelAsset* asset;
-	std::vector<glm::mat4> animMatrix;
-	std::vector<sKeyFrame> finalList;
-	std::vector<sKeyFrame> blendedList;
+	sKeyFrame* finalList;
+	sKeyFrame* blendedList;
 
 	int matrixIndex;
-	std::vector<int> currentSegmentStates;
+	int currentSegmentStates[MAXNUMSEGMENTS];
 	int quickBlendFrom, quickBlendTo, quickBlendSegment;
 	float quickBlendTime;
 	bool quickBlendingDone;
