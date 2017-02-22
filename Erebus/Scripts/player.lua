@@ -333,16 +333,18 @@ function FindHeightmap(position)
 
 			local oldTiles = {}
 			for k,v in pairs(loadedLevels) do
-				local found = false
-				for _,b in pairs(allTiles) do
-					if k == b then
-						found = true
-						break
+				if v then
+					local found = false
+					for _,b in pairs(allTiles) do
+						if k == b then
+							found = true
+							break
+						end
 					end
-				end
 
-				if not found then
-					table.insert(oldTiles,k)
+					if not found then
+						table.insert(oldTiles,k)
+					end
 				end
 			end
 
