@@ -2,7 +2,7 @@ local stateScript = require("Scripts.AI.states")
 
 local baseReturn = {}
 
-local enemyManager = {nrOfOuterCircleEnemies = 0,nrOfInnerCircleEnemies = 0,actionEnemy = 0, maxAttackingEnemies = 3}
+enemyManager = {actionEnemy = 0, maxAttackingEnemies = 3}
 
 
 local function updateEnemyManager(enemies)
@@ -29,7 +29,6 @@ local function updateEnemyManager(enemies)
 					inPos = AI.SetSpecificTarget(enemies[i].playerTarget.transformID,player.innerCirclerange,player.nrOfInnerCircleEnemies,innerCounter)
 					length = AI.DistanceTransPos(enemies[i].transformID,inPos)
 
-					
 					if inPos.y ~= -1 and length >1 then
 						enemies[i].pathTarget = inPos
 						AI.AStarSearch(enemies[i].lastPos,inPos,enemies[i].transformID)

@@ -15,7 +15,7 @@ function CreatePolyEffect(owner, duration)
 		local pos = Transform.GetPosition(entity.transformID)
 		Transform.SetPosition(self.polymorphTransform, pos)
 		if entity.SetState then
-			entity.SetState(entity,"DeadState")
+			entity.SetState(entity,"DoNothingState")
 		end
 		effect.particles:poof(pos)
 	end
@@ -24,7 +24,7 @@ function CreatePolyEffect(owner, duration)
 		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
 		if entity.SetState then
-			entity.SetState(entity,"FollowState")
+			entity.SetState(entity,"IdleState")
 		end
 		effect.particles:poof(pos)
 	end
@@ -44,9 +44,11 @@ function InitPolymorphs()
 	local someModels = {"Models/Stone3.model", "Models/Stone4.model", "Models/pineTree1.model", "Models/Stone2.model"}
 	for i = 1, POLYMORPH_POOL_SIZE do
 		currentFree = i
-		polymorphPool[currentFree] = Transform.Bind()
+		--polymorphPool[currentFree] = Transform.Bind()
+		--local model = Assets.LoadModel( someModels[i] )
+		--Gear.AddStaticInstance(model, polymorphPool[currentFree] )
 		local model = Assets.LoadModel( someModels[i] )
-		Gear.AddStaticInstance(model, polymorphPool[currentFree] )
+		polymorphPool[currentFree] = Gear.BindStaticInstance(model)
 		polymorphParticles[i] = createCloudParticles()
 		Transform.ActiveControl(polymorphPool[currentFree], false)
 	end

@@ -3,7 +3,7 @@ ORBWAVEMINRADIUS = 1
 ORBWAVEMAXRADIUS = 70 - ORBWAVEMINRADIUS --the number is how long out the wave will travel
 ORBWAVELAPTIME = 3
 
-function CreateOrbWaveType() 
+function CreateOrbWaveType(model) 
 	local type = {}
 	type.transformIDs = {}
 	type.positions = {}
@@ -12,7 +12,8 @@ function CreateOrbWaveType()
 	
 	local angle = 0
 	for i = 1, ORBWAVEORBS do
-		table.insert(type.transformIDs, Transform.Bind())
+		--table.insert(type.transformIDs, Transform.Bind())
+		table.insert(type.transformIDs, Gear.BindStaticInstance(model))
 		table.insert(type.positions, {x=0,y=0,z=0})
 		table.insert(type.directions, {x = math.cos(angle), y = 0, z= math.sin(angle)})
 		
@@ -43,8 +44,15 @@ function CreateOrbWaveType()
 		for i = 1, ORBWAVEORBS do
 			local collisionIDs = self.sphereColliders[i]:GetCollisionIDs()
 			self.positions[i].x = self.origo.x + self.directions[i].x * distance
-			self.positions[i].y = self.origo.y + self.directions[i].y * distance
 			self.positions[i].z = self.origo.z + self.directions[i].z * distance
+			self.positions[i].y = self.origo.y + self.directions[i].y * distance
+			local hm = GetHeightmap(self.positions[i])
+			if hm then
+				local height = hm.asset:GetHeight(self.positions[i].x, self.positions[i].z)+0.5
+				if height > self.positions[i].y then
+					self.positions[i].y = height
+				end
+			end
 			Transform.SetPosition(self.transformIDs[i], self.positions[i])
 			Transform.SetScale(self.transformIDs[i], scale)
 			SphereCollider.SetRadius(self.sphereColliders[i], scale)

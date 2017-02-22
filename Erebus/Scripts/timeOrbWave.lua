@@ -4,7 +4,8 @@ TIMEORBWAVEDURATION = 20
 function CreateTimeOrbWave(entity)
 	local spell = {}
 	spell.element = NATURE
-	spell.type = CreateOrbWaveType()
+	local model = Assets.LoadModel( "Models/grenade.model" )
+	spell.type = CreateOrbWaveType(model)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifetime = TIMEORBWAVEDURATION
@@ -13,10 +14,10 @@ function CreateTimeOrbWave(entity)
 	spell.hudtexture = TIMEORB_SPELL_TEXTURE
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
-	local model = Assets.LoadModel( "Models/grenade.model" )
+	--[[local model = Assets.LoadModel( "Models/grenade.model" )
 	for i = 1, ORBWAVEORBS do
 		Gear.AddStaticInstance(model, spell.type.transformIDs[i])
-	end
+	end--]]
 
 	function spell:Update(dt)
 		local hits = self.type:Update(dt)
@@ -25,7 +26,7 @@ function CreateTimeOrbWave(entity)
 			if hits[i].Hurt then
 				local effect = effectTable[self.effect]()
 				hits[i]:Apply(effect)
-				hits[i]:Hurt(self.damage, self.owner)
+				--hits[i]:Hurt(self.damage, self.owner)
 			end
 		end
 		if self.lifetime < 0 then

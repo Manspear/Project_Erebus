@@ -1,7 +1,6 @@
 local scripts = {}
 local scriptFiles =
 {
-	"Scripts/reusable.lua",
 	"Scripts/console.lua",
 	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
@@ -34,8 +33,12 @@ local scriptFiles =
 	"Scripts/polymorph.lua",
 	"Scripts/tumbleThorns.lua",
 	"Scripts/windknockback.lua",
-	"Scripts/knockbackEffect.lua"
+	"Scripts/knockbackEffect.lua",
+	"Scripts/revive.lua",
+	"Scripts/reusable.lua"
 }
+
+loadedLevels = {}
 
 gameplayStarted = false
 loadedGameplay = false
@@ -56,15 +59,17 @@ function UnloadGameplay()
 end
 
 function UpdateGameplay(dt)
-	if Inputs.KeyReleased(Keys.Escape) then
+	if Inputs.KeyReleased(SETTING_KEYBIND_MENU) then
+		print(SETTING_KEYBIND_MENU)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
-	if Inputs.KeyReleased("B") and not player.charging then
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
 		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
 	end
 
-	if player.health <= 0 or BOSS_DEAD then
+	if not player.isAlive and not player2.isAlive then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
 
@@ -84,6 +89,10 @@ function UpdateGameplay(dt)
 		elseif endEventId == 1 then -- other player quit to main menu
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
 			Erebus.ShutdownNetwork()
+		elseif endEventId == 2 then -- player win!
+			boss.health = 0
+			BOSS_DEAD = true
+			gamestate.ChangeState(GAMESTATE_DEATH)
 		end
 	end
 end
@@ -95,15 +104,23 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level01.lua" )
+		dofile( "Scripts/level02.lua" )
+
 		levels[1].load()
-		levels[2].load()
-		levels[3].load()
-		levels[4].load()
-		levels[5].load()
-		levels[6].load()
-		levels[7].load()
-		levels[8].load()
+		loadedLevels[1] = true
+		for _,v in pairs(levels[1].surrounding) do
+			levels[v].load()
+			loadedLevels[v] = true
+		end
+
+		--levels[1].load()
+		--levels[2].load()
+		--levels[3].load()
+		--levels[4].load()
+		--levels[5].load()
+		--levels[6].load()
+		--levels[7].load()
+		--levels[8].load()
 		loadedGameplay = true
 	end
 

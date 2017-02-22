@@ -16,7 +16,10 @@ BLACK_HOLE_TEX2 = Assets.LoadTexture("Textures/blackHole_AnimTex.dds");
 function CreateBlackHole(entity)
 	local spell = {}
 	spell.element = NATURE
-	spell.type = CreateStaticAoEType()
+	local model = Assets.LoadModel( "Models/projectile1.model" )
+	spell.type = CreateStaticAoEType(model)
+	--spell.innerTransformID = Transform.Bind()
+	spell.innerTransformID = Gear.BindStaticInstance(model)
 	spell.owner = entity
 	spell.effects = {}
 	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
@@ -35,6 +38,9 @@ function CreateBlackHole(entity)
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
 	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	--Transform.SetScale(spell.innerTransformID, 2)
+	--local model = Assets.LoadModel( "Models/projectile1.model" )
+	--Gear.AddStaticInstance(model, spell.type.transformID)
+	--Gear.AddStaticInstance(model, spell.innerTransformID)
 	spell.texture1 = BLACK_HOLE_TEX1
 	spell.texture2 = BLACK_HOLE_TEX2
 	spell.uvPush = {x=0, y=0}
@@ -43,10 +49,15 @@ function CreateBlackHole(entity)
 	local model2 = Assets.LoadModel( "Models/blackHole_Rings.model" )
 	--spell.modelIndex = Gear.AddForwardInstance(model, spell.type.transformID)
 	--Gear.SetUniformLocation(spell.modelIndex, "aValue");
-	Gear.AddStaticInstance(model, spell.innerTransformID)
-	spell.modelIndex = Gear.AddBlendingInstance(model2, spell.type.transformID)
+	--spell.modelIndex = Gear.AddBlendingInstance(model2, spell.type.transformID)
+	spell.modelIndex = Gear.BindBlendingInstance(model2)
 	Gear.SetBlendTextures(spell.modelIndex, 2, spell.texture1, spell.texture2)
 
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.type.sphereCollider:GetID())
+		return result
+	end
 	function spell:Cast(entity, chargetime) end
 	function spell:Charge(dt)
 		if self.owner == player then 

@@ -2,7 +2,7 @@ TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/tumblethorns.dds")
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 0.5
 TUMBLETHORNS_COOLDOWN = 4
-TUMBLETHORNS_ROLLBACKTIME = 1
+TUMBLETHORNS_ROLLBACKTIME = 0.75
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
@@ -17,9 +17,10 @@ function CreateTumblethorns(entity)
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
 		
-	spell.transformID = Transform.Bind()
+	--spell.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
-	Gear.AddForwardInstance(model, spell.transformID )
+	--Gear.AddForwardInstance(model, spell.transformID )
+	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
@@ -34,9 +35,9 @@ function CreateTumblethorns(entity)
 			self.position.z = self.position.z + self.direction.z * TUMBLETHORN_SPEED * dt
 			local hm = GetHeightmap(self.position)		
 			if hm then
-				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)
-				self.particles:update(self.position)
+				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)	
 				self.position.y = self.position.y + TUMBLETHORN_RADIUS
+				self.particles:update(self.position)
 			end
 			Transform.SetPosition(self.transformID, self.position)
 			self.rotation = Transform.GetRotation(self.transformID)
@@ -76,7 +77,11 @@ function CreateTumblethorns(entity)
 			self.enemiesHit = {}
 		end
 	end
-
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
+	end
 	function spell:ChargeCast()
 		if self.cooldown < 0.0 then
 		

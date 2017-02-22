@@ -15,16 +15,18 @@ function LoadBoss()
 	boss.spellcooldowns[1] = 0
 	boss.spells[2] = CreateChronoBall(boss)
 	boss.spellcooldowns[2] = 0
-	boss.transformID = Transform.Bind()
+	--boss.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/THe_Timelord.model" )
+	boss.transformID = Gear.BindStaticInstance(model)
 	boss.maxHealth = 500
 	boss.health = boss.maxHealth
 	boss.effects = {}
 	boss.timeScalar = 1
 	boss.movementSpeed = 1
+	--local model = Assets.LoadModel("Models/The_Timelord.model")
+	--Gear.AddStaticInstance(model, boss.transformID)
 	boss.healthbar = UI.load(0, 0, 0, BOSS_HEALTHBAR_WIDTH, BOSS_HEALTHBAR_HEIGHT);
 	boss.currentHealth = boss.health
-	local model = Assets.LoadModel("Models/The_Timelord.model")
-	Gear.AddStaticInstance(model, boss.transformID)
 	Transform.ActiveControl(boss.transformID, true)
 	
 	boss.collider = AABBCollider.Create(boss.transformID)

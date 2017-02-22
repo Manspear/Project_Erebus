@@ -1,8 +1,8 @@
 function createFireballParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
 	local fireball = {}
-	fireball.fly = Particle.Bind("ParticleFiles/fireballPart.Particle")  
-	fireball.exploda = Particle.Bind("ParticleFiles/fireballPart.Particle")
+	fireball.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
+	fireball.exploda = Particle.Bind("ParticleFiles/grenadeParticles.Particle")
 	
 	function fireball.cast()
 		Particle.SetAlive(fireball.fly)
@@ -45,7 +45,7 @@ function CreateFireEffectParticles()
 	local particle = {}
 	particle.burn = Particle.Bind("ParticleFiles/yoooo.particle")
 	function particle:Cast()
-		Particle.SetAlive(particle.burn)
+		Particle.SetAlive(self.burn)
 	end
 	function particle:Die()
 		Particle.SetDead(self.burn)
@@ -105,7 +105,7 @@ end
 
 function  createTumbleParticles()
 	local tumbleParticles = {}
-	tumbleParticles.fly = Particle.Bind("ParticleFiles/nature.Particle");
+	tumbleParticles.fly = Particle.Bind("ParticleFiles/leafParticles.Particle");
 
 	function tumbleParticles:cast(x, y, z)
 		Particle.SetAlive(self.fly)
@@ -133,7 +133,7 @@ end
 
 function createTimeslowParticles()
 	local timeslowParticles = {}
-	timeslowParticles.ID = Particle.Bind("ParticleFiles/nature.Particle");
+	timeslowParticles.ID = Particle.Bind("ParticleFiles/timeClocks.Particle");
 
 	function timeslowParticles:cast()
 		Particle.SetAlive(self.ID)

@@ -14,7 +14,7 @@
 #include "DamagePacket.hpp"
 #include "ChangeSpellsPacket.hpp"
 #include "EventPacket.hpp"
-#include "AIHealthPacket.hpp"
+#include "HealthPacket.hpp"
 #include "DashPacket.hpp"
 
 #ifdef DEBUGGING_NETWORK
@@ -44,9 +44,11 @@ public:
 	PacketQueue<DamagePacket> * getDamageQueue();
 	PacketQueue<ChangeSpellsPacket> * getChangeSpellsQueue();
 	PacketQueue<EventPacket> * getPlayerEventQueue();
-	PacketQueue<AIHealthPacket> * getAIHealthQueue();
+	PacketQueue<HealthPacket> * getAIHealthQueue();
 	PacketQueue<DashPacket> * getDashQueue();
 	PacketQueue<EventPacket> * getEndEventQueue();
+	PacketQueue<HealthPacket> * getPlayerHealthQueue();
+	PacketQueue<HealthPacket> * getRessurectionQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -59,9 +61,12 @@ private:
 	PacketQueue<DamagePacket> * damageQueue;
 	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
 	PacketQueue<EventPacket> * playerEventQueue;
-	PacketQueue<AIHealthPacket> * aiHealthQueue;
+	PacketQueue<HealthPacket> * aiHealthQueue;
 	PacketQueue<DashPacket> * dashQueue;
 	PacketQueue<EventPacket> * endEventQueue;
+	PacketQueue<HealthPacket> * playerHealthQueue;
+	PacketQueue<HealthPacket> * ressurectionQueue;
+
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;

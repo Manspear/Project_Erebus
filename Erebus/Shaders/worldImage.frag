@@ -1,10 +1,13 @@
 #version 420 core
 
 in vec2 UV;
+out vec4 FragColor;
 
-uniform sampler2D texture;
+uniform sampler2D diffuse;
+
+out vec4 out_color;
 
 void main()
 {
-	gl_FragColor = texture( texture, vec2(UV.x, 1-UV.y) );
+	out_color = texture( diffuse, vec2(UV.x, 1-UV.y) );
 }
