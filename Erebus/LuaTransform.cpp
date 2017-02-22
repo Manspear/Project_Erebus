@@ -51,6 +51,7 @@ namespace LuaTransform
 			{ "RotateToVector",		rotateToVector},
 
 			{ "GetDistanceBetweenTrans", getDistance }, 
+			{"GetDistanceBetweenTransAndPos", getDistanceTransPos},
 
 			{ NULL, NULL }
 		};
@@ -497,6 +498,16 @@ namespace LuaTransform
 		int id1 = lua_tointeger(lua, 1);
 		int id2 = lua_tointeger(lua, 2);
 		lua_pushnumber(lua, glm::length(g_transforms[id1].getPos() - g_transforms[id2].getPos()));
+		return 1;
+	}
+	int getDistanceTransPos(lua_State* lua) {
+		assert(lua_gettop(lua) == 2);
+		int id1 = lua_tointeger(lua, 1);
+		glm::vec3 pos;
+		lua_getfield(lua, 2, "x");		pos.x = (float)lua_tonumber(lua, -1);
+		lua_getfield(lua, 2, "y");		pos.y = (float)lua_tonumber(lua, -1);
+		lua_getfield(lua, 2, "z");		pos.z = (float)lua_tonumber(lua, -1);
+		lua_pushnumber(lua, glm::length(g_transforms[id1].getPos() - pos));
 		return 1;
 	}
 }

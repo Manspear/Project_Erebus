@@ -530,6 +530,9 @@
     <None Include="Scripts\revive.lua">
       <Filter>Scripts\spells</Filter>
     </None>
+    <None Include="Scripts\TimeLaser.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

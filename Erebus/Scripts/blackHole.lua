@@ -75,6 +75,14 @@ function CreateBlackHole(entity)
 			pos.x = pos.x  + 5*dir.x
 			pos.y = pos.y  + 5*dir.y
 			pos.z = pos.z  + 5*dir.z
+			local hm = GetHeightmap(pos)
+			if hm then
+				local height = hm.asset:GetHeight(pos.x, pos.z)+0.5
+				if height > pos.y then
+					pos.y = height
+				end
+			end
+
 			self.type:Cast(1, BLACK_HOLE_RADIUS, pos)
 			Transform.SetPosition(self.type.transformID, pos)
 			Transform.SetPosition(self.innerTransformID, pos)
