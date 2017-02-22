@@ -311,41 +311,57 @@ void TransformHandler::activateTransform( int index )
 			lastIndices[handle.instanceIndex].at(handle.modelIndex) = -1;
 		}
 
-		if( ahandle->prev >= 0 )
-			handles.at(ahandle->prev).next = b;
-		if( ahandle->next >= 0 )
+		if( ahandle->prev == b )
 		{
-			if( ahandle->next != b )
-				handles.at(ahandle->next).prev = b;
-		}
-		if( bhandle )
-		{
-			if( bhandle->prev >= 0 )
-				handles.at(bhandle->prev).next = a;
-			if( bhandle->next >= 0 )
-				handles.at(bhandle->next).prev = a;
-		}
+			handles.at(bhandle->prev).next = a;
+			handles.at(ahandle->next).prev = b;
 
-		if( bhandle )
-		{
-			int tempPrev = ahandle->prev;
 			int tempNext = ahandle->next;
 
-			if( bhandle->prev == a )
-				ahandle->prev = b;
-			else
-				ahandle->prev = bhandle->prev;
-			ahandle->next = bhandle->next;
+			ahandle->next = b;
+			ahandle->prev = bhandle->prev;
 
-			bhandle->prev = tempPrev;
-			if( bhandle->prev == a )
-				bhandle->next = a;
-			else
-				bhandle->next = tempNext;
+			bhandle->next = tempNext;
+			bhandle->prev = a;
 		}
 		else
 		{
-			ahandle->prev = ahandle->next = -1;
+			if( ahandle->prev >= 0 )
+				handles.at(ahandle->prev).next = b;
+			if( ahandle->next >= 0 )
+			{
+				if( ahandle->next != b )
+					handles.at(ahandle->next).prev = b;
+			}
+			if( bhandle )
+			{
+				if( bhandle->prev >= 0 )
+					handles.at(bhandle->prev).next = a;
+				if( bhandle->next >= 0 )
+					handles.at(bhandle->next).prev = a;
+			}
+
+			if( bhandle )
+			{
+				int tempPrev = ahandle->prev;
+				int tempNext = ahandle->next;
+
+				if( bhandle->prev == a )
+					ahandle->prev = b;
+				else
+					ahandle->prev = bhandle->prev;
+				ahandle->next = bhandle->next;
+
+				bhandle->prev = tempPrev;
+				if( bhandle->prev == a )
+					bhandle->next = a;
+				else
+					bhandle->next = tempNext;
+			}
+			else
+			{
+				ahandle->prev = ahandle->next = -1;
+			}
 		}
 
 		if( a != b && bhandle )
