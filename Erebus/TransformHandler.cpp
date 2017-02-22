@@ -279,16 +279,16 @@ void TransformHandler::activateTransform( int index )
 		int b = -1;
 
 		int last = lastIndices[handle.instanceIndex].at(handle.modelIndex);
-		if( last >= 0 )
+		if( last >= 0 && handles.at(last).next >= 0 )
 		{
-			if( handles.at(last).next >= 0 )
-				b = handles.at(last).next;
+			b = handles.at(last).next;
 		}
 		else
 		{
 			b = firstIndices[handle.instanceIndex].at(handle.modelIndex);
-			assert( b >= 0 );
 		}
+
+		assert( b >= 0 );
 
 		// swap a and b
 		TransformHandle* ahandle = &handles.at(a);
