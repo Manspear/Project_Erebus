@@ -54,6 +54,14 @@ void RenderQueue::init()
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.direction");
 	allShaders[ShaderType::LIGHT_PASS]->addUniform("dirLights.color");
 
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("lightMatrixList[0]");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("lightMatrixList[1]");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("lightMatrixList[2]");
+
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("farbounds[0]");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("farbounds[1]");
+	allShaders[ShaderType::LIGHT_PASS]->addUniform("farbounds[2]");
+
 	allShaders[ShaderType::BLUR] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
 
 	glGenBuffers(1, &particleBuffer);

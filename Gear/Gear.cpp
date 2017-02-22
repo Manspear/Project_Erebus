@@ -600,7 +600,17 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(shader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
-		shadow.bindTexture(shader, "gShadowMap", 3, 1);
+		//shadow.bindTexture(shader, "gShadowMap", 3, 1);
+
+		shadow.bindTexture(shader, "shadowmap1", 3, 0);
+		shadow.bindTexture(shader, "shadowmap2", 4, 1);
+		shadow.bindTexture(shader, "shadowmap3", 5, 2);
+
+		for (GLuint i = 0; i < shadow.getNumCascades(); i++)
+		{
+			shader->setUniform((shadow.projectionMatrices[i] * shadow.viewMatrices[i]), ("lightMatrixList[" + std::to_string(i) + "]").c_str());
+			//shader->setUniform((shadow.farbound[i]), ("farbounds[" + std::to_string(i) + "]").c_str());
+		}
 		
 		//lightPassShader->addUniform(camera->getPosition(), "viewPos");
 		//lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
@@ -609,7 +619,7 @@ namespace Gear
 		//lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");
 
 		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
-		shader->setUniform(shadow.projectionMatrices[1] * shadow.viewMatrices[1], "shadowVPM"); //shadowVPM
+		//shader->setUniform(shadow.projectionMatrices[1] * shadow.viewMatrices[1], "shadowVPM"); //shadowVPM
 		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj

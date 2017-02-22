@@ -79,6 +79,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 			float splitFar = i < NUM_CASCADEDS - 1 ? glm::mix(nearPlane + (static_cast<float>(i + 1) / (float)NUM_CASCADEDS) * (farPlane - nearPlane), nearPlane * pow(farPlane / nearPlane, static_cast<float>(i + 1) / (float)NUM_CASCADEDS), splitLambda) : farPlane;
 
 			splitPlanes[i] = glm::vec2(splitNear, splitFar);
+			farbound[i] = splitFar;
 		}
 
 		viewMatrices[NUM_CASCADEDS] = camView;

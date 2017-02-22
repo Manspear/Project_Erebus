@@ -61,7 +61,7 @@ void main() {
 	vec3 Diffuse  = vec4(texture2D(gAlbedoSpec, TexCoords)).rgb;
 	float Specular = vec4(texture2D(gAlbedoSpec, TexCoords)).a;
 
-	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
+	vec4 shadowMapCoords = lightMatrixList[0] * vec4(FragPos,1.0);
 	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
 	
     vec3 viewDir = normalize(viewPos - FragPos);
@@ -87,7 +87,7 @@ void main() {
 	UVCoords.y = 0.5 * ProjCoords.y + 0.5;
 
 	float zDepth = 0.5 * ProjCoords.z + 0.5;
-	float DepthShadow = texture(gShadowMap, UVCoords).x;
+	float DepthShadow = texture(shadowmap1, UVCoords).x;
 	float shadow = 1.0;
 	if (DepthShadow + 0.00001 < (zDepth))
 	{
