@@ -38,7 +38,7 @@ function CreatePlayerController(player)
 
 	controller.isDamagedTimerStart = false
 	controller.damagedTimer = 0
-	controller.damagedMaxTime = 2
+	controller.damagedMaxTime = 0.5
 
 	controller.dyingTimer = 1
 
@@ -141,6 +141,7 @@ function CreatePlayerController(player)
 				self.animationState2  = 0
 			end
 		end
+
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
 

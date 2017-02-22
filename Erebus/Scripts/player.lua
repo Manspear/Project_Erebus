@@ -88,10 +88,11 @@ function LoadPlayer()
 	player.spells = {}	
 	player.currentSpell = 1
 	function player.Hurt(self,damage, source)
-		if not player.invulnerable then
+		if not player.invulnerable and self.isAlive then
 			self.health = self.health - damage
 			Network.SendPlayerHealthPacket(self.transformID, self.health)
-			if self.health <= 0 and self.isAlive then
+			if self.health <= 0 then
+				self.health = 0
 				self:Kill()
 			end
 		end
@@ -105,8 +106,9 @@ function LoadPlayer()
 	end
 
 	function player.Kill(self)
-		self.health = 0
 		self.isAlive = false
+		self.spells[self.currentSpell]:Kill()
+		self.charger:EndCharge()
 		Network.SendPlayerHealthPacket(self.transformID, self.health)
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
@@ -282,13 +284,21 @@ function UpdatePlayer(dt)
 		if Network.ShouldSendNewAnimation() == true then
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
+	else
+		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetPlayerHealthPacket()
+		if newPlayerHealthVal then
+			if playerHealth > 0 and playerHealthID == player.transformID then 
+				player.health = playerHealth	
+				player.isAlive = true
+			end
+		end
 	end
 
 	player.animationController:AnimationUpdate(dt, Network)
 
-	if not player.isAlive then
+	if not player2.isAlive then
 		if Inputs.KeyPressed("T") then 
-			player.revive:Cast(player)
+			player.revive:Cast(player2)
 		end
 		if Inputs.KeyDown("T") then 
 			player.revive:Update(dt)
@@ -297,7 +307,6 @@ function UpdatePlayer(dt)
 			player.revive:Kill()
 		end
 	end
-
 	-- update the current player spell
 	player.spells[1]:Update(dt)
 	player.spells[2]:Update(dt)
