@@ -454,6 +454,7 @@ function Controls(dt)
 				player.attackTimer = 1
 				Network.SendSpellPacket(player.transformID, player.currentSpell)
 				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
+				player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
 			end
 
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
@@ -631,21 +632,24 @@ function UpdatePlayer2(dt)
 
 end
 
-function TutorialBarrier(id,TutorialOBBID)
+function TutorialBarrier(id,TutorialOBBID,dt)
 
-	local colID = id.collider:GetID()
-	local collisionIDs = id.collider:GetCollisionIDs()
-	for i = 1, #collisionIDs do 
-		for o = 1, #player.combinedSpellIDs do
-			if collisionIDs[i] == player.combinedSpellIDs[o] then
-				print("Nu har du en kombineardd spell i mig")
-				TutorialOBBID:SetActive(false)
-				player.combinedSpellIDs = nil
+	showTutorialImage(45,12,184,dt)
+	if player.combinedSpellIDs ~= nil then
+		local colID = id.collider:GetID()
+		local collisionIDs = id.collider:GetCollisionIDs()
+		for i = 1, #collisionIDs do 
+			for o = 1, #player.combinedSpellIDs do
+				if collisionIDs[i] == player.combinedSpellIDs[o] then
+					print("Nu har du en kombineardd spell i mig")
+					TutorialOBBID:SetActive(false)
+					player.combinedSpellIDs = nil
+					return --NOTHING AT ALL.TYESTA
 
+				end
 			end
 		end
 	end
-
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

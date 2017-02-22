@@ -91,7 +91,9 @@ function CreateIceGrenade(entity)
 
 	function spell:GetCollider()
 		local result = {}
-		table.insert(result, self.type.sphereCollider:GetID())
+		for i=1, #self.nades do
+			table.insert(result, self.nades[i].type.sphereCollider:GetID())
+		end
 		return result
 	end
 	function spell:Update(dt)

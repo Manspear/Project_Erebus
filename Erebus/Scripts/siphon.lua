@@ -57,6 +57,13 @@ function CreateSiphon(entity)
 		--Transform.ActiveControl(self.transformID, true)
 		self.alive = true
 	end
+
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.collider:GetID())
+		return result
+	end
+
 	spell.Charge = BaseCharge
 	function spell:ChargeCast()
 		if self.cooldown < 0 then 

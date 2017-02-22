@@ -48,7 +48,7 @@ function CreateWindknockback(entity)
 	
 	function spell:GetCollider()
 		local result = {}
-		table.insert(result, self.SphereCollider:GetID())
+		table.insert(result, self.sphereCollider:GetID())
 		return result
 	end
 
