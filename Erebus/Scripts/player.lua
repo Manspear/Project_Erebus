@@ -285,11 +285,13 @@ function UpdatePlayer(dt)
 			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 		end
 	else
-		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetPlayerHealthPacket()
+		local newPlayerHealthVal, playerHealthID, playerHealth = Network.GetRessurectionPacket()
 		if newPlayerHealthVal then
+			--print("Ressurection...")
 			if playerHealth > 0 and playerHealthID == player.transformID then 
 				player.health = playerHealth	
 				player.isAlive = true
+				--print("Wait, i got ressurected?!", player.health, player.isAlive)
 			end
 		end
 	end
@@ -607,13 +609,14 @@ function UpdatePlayer2(dt)
 	local newPlayerHealthValue, transformIdValue, currentHealthValue = Network.GetPlayerHealthPacket()
 	if newPlayerHealthValue == true then
 		player2.health = currentHealthValue
+		print(player2.health)
 		if player2.health == 0 then
 			player2.isAlive = false
 		else
 			player2.isAlive = true
 		end
 	end
-	
+
 	local newChangeSpellsValue, changeSpell1, changeSpell2, changeSpell3 = Network.GetChangeSpellsPacket()
 	if newChangeSpellsValue == true then
 		player2.spells[1]:Kill()
