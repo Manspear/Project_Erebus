@@ -727,6 +727,9 @@ namespace AGI
 
 					while (finishNode == nullptr && sizeOfClosedList < MAXSIZEPATH)
 					{
+						if (sizeOfOpenList > 200) {
+							printf("FUCK ME BAD STUFF HAPPENNG");
+						}
 						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, sizeOfOpenList, closedList, sizeOfClosedList);
 					}
 
