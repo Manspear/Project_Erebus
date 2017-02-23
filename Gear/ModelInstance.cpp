@@ -59,7 +59,7 @@ namespace Gear
 			static glm::mat4 temp[100];
 			for( int i=0; i<transforms.size(); i++ )
 			{
-				if( transforms.at(i).active )
+				if( transforms.at(i).active && !culled[i] )
 				{
 					memcpy( temp+i, &worldMatrices[i], sizeof(glm::mat4) );
 				}
@@ -91,7 +91,7 @@ namespace Gear
 			static glm::mat4 temp[100];
 			for( int i=0; i<transforms.size(); i++ )
 			{
-				if( transforms.at(i).active && !culled.at(i))
+				if( transforms.at(i).active && !culled[i] )
 				{
 					memcpy( temp+i, &worldMatrices[i], sizeof(glm::mat4) );
 				}
@@ -111,7 +111,7 @@ namespace Gear
 		for (int i = 0; i < transforms.size(); i++)
 		{
 			TransformStruct& t = transforms[i];
-			if( t.active && !culled.at(i) )
+			if( t.active && !culled[i] )
 				activeTransforms++;
 
 			glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
