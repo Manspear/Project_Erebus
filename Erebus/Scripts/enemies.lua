@@ -11,6 +11,7 @@ DEAD_STATE = 6
 DO_NOTHING_STATE = 7
 DUMMY_STATE = 8
 
+TRANSFORM_UPDATED = false
 INTERPOLATING_AI_TRANSFORM = false
 INTERPOLATION_ITERATIONS = 2
 
@@ -333,57 +334,58 @@ function UpdateEnemies(dt)
 		while newtransformvalue == true do
 			for i=1, #enemies do
 				if enemies[i].transformID == aiTransform_id then
-					--[[
-					enemies[i].new_transform_interpolate.pos = {x=pos_x, y=pos_y, z=pos_z}
+					enemies[i].new_transform_interpolate.position = {x=pos_x, y=pos_y, z=pos_z}
 					enemies[i].new_transform_interpolate.lookAt = {x=lookAt_x, y=lookAt_y, z=lookAt_z}
 					enemies[i].new_transform_interpolate.rotation = {x=rotation_x, y=rotation_y, z=rotation_z}
 
-					enemies[i].start_transform_interpolate.pos = {x=Transform.GetPosition(enemies[i].transformID).x, y=Transform.GetPosition(enemies[i].transformID).y, z=Transform.GetPosition(enemies[i].transformID).z}
-					enemies[i].start_transform_interpolate.lookAt = {x=Transform.GetLookAt(enemies[i].transformID).x, y=Transform.GetLookAt(enemies[i].transformID).y, z=Transform.GetLookAt(enemies[i].transformID).z}
-					enemies[i].start_transform_interpolate.rotation = {x=Transform.GetRotation(enemies[i].transformID).x, y=Transform.GetRotation(enemies[i].transformID).y, z=Transform.GetRotation(enemies[i].transformID).z}
-					]]
- 					Transform.SetPosition(aiTransform_id, {x=pos_x, y=pos_y, z=pos_z})
- 					Transform.SetLookAt(aiTransform_id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
- 					Transform.SetRotation(aiTransform_id, {x=rotation_x, y=rotation_y, z=rotation_z})
+					if INTERPOLATING_AI_TRANSFORM == false then
+						enemies[i].start_transform_interpolate.position = Transform.GetPosition(enemies[i].transformID)
+						enemies[i].start_transform_interpolate.lookAt = Transform.GetLookAt(enemies[i].transformID)
+						enemies[i].start_transform_interpolate.rotation = Transform.GetRotation(enemies[i].transformID)
+					
+						enemies[i].goal_transform_interpolate = enemies[i].new_transform_interpolate
+						TRANSFORM_UPDATED = true
+					end
+					
+ 					--Transform.SetPosition(aiTransform_id, {x=pos_x, y=pos_y, z=pos_z})
+ 					--Transform.SetLookAt(aiTransform_id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
+ 					--Transform.SetRotation(aiTransform_id, {x=rotation_x, y=rotation_y, z=rotation_z})
 
 					break
 				end
 			end
-			--[[if INTERPOLATING_AI_TRANSFORM == false then
-				INTERPOLATING_AI_TRANSFORM = true
-				INTERPOLATION_ITERATIONS = 2
 
-				for i=1, #enemies do
-					enemies[i].goal_transform_interpolate = enemies[i].new_transform_interpolate
-				end
-			end]]
 
 			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 		end
-
+		
 		-- Interpolate AI transforms
-		--[[if INTERPOLATING_AI_TRANSFORM == true then
+		if INTERPOLATING_AI_TRANSFORM == false and TRANSFORM_UPDATED == true then
+				INTERPOLATING_AI_TRANSFORM = true
+				INTERPOLATION_ITERATIONS = 2
+				TRANSFORM_UPDATED = false
+		elseif INTERPOLATING_AI_TRANSFORM == true then
 			for i=1, #enemies do
-				Transform.SetPosition(enemies[i].transformID, { x = (enemies[i].start_transform_interpolate.position.x - enemies[i].goal_transform_interpolate.position.x)*0.5,
-																y = (enemies[i].start_transform_interpolate.position.y - enemies[i].goal_transform_interpolate.position.y)*0.5,
-																z = (enemies[i].start_transform_interpolate.position.z - enemies[i].goal_transform_interpolate.position.z)*0.5 })
+				Transform.SetPosition(enemies[i].transformID, { x = enemies[i].start_transform_interpolate.position.x + ((enemies[i].goal_transform_interpolate.position.x - enemies[i].start_transform_interpolate.position.x)/INTERPOLATION_ITERATIONS),
+																y = enemies[i].start_transform_interpolate.position.y + ((enemies[i].goal_transform_interpolate.position.y - enemies[i].start_transform_interpolate.position.y)/INTERPOLATION_ITERATIONS),
+																z = enemies[i].start_transform_interpolate.position.z + ((enemies[i].goal_transform_interpolate.position.z - enemies[i].start_transform_interpolate.position.z)/INTERPOLATION_ITERATIONS) })
+				
+				Transform.SetLookAt(enemies[i].transformID,	{ x = enemies[i].start_transform_interpolate.lookAt.x + ((enemies[i].goal_transform_interpolate.lookAt.x - enemies[i].start_transform_interpolate.lookAt.x)/INTERPOLATION_ITERATIONS),
+															  y = enemies[i].start_transform_interpolate.lookAt.y + ((enemies[i].goal_transform_interpolate.lookAt.y - enemies[i].start_transform_interpolate.lookAt.y)/INTERPOLATION_ITERATIONS),
+															  z = enemies[i].start_transform_interpolate.lookAt.z + ((enemies[i].goal_transform_interpolate.lookAt.z - enemies[i].start_transform_interpolate.lookAt.z)/INTERPOLATION_ITERATIONS)})
 
-				Transform.SetLookAt(enemies[i].transformID,	{ x = (enemies[i].start_transform_interpolate.lookAt.x - enemies[i].goal_transform_interpolate.lookAt.x)*0.5,
-															  y = (enemies[i].start_transform_interpolate.lookAt.y - enemies[i].goal_transform_interpolate.lookAt.y)*0.5,
-															  z = (enemies[i].start_transform_interpolate.lookAt.z - enemies[i].goal_transform_interpolate.lookAt.z)*0.5 })
 
-
-				Transform.SetRotation(enemies[i].transformID, { x = (enemies[i].start_transform_interpolate.rotation.x - enemies[i].goal_transform_interpolate.rotation.x)*0.5,
-																y = (enemies[i].start_transform_interpolate.rotation.y - enemies[i].goal_transform_interpolate.rotation.y)*0.5,
-																z = (enemies[i].start_transform_interpolate.rotation.z - enemies[i].goal_transform_interpolate.rotation.z)*0.5 })
+				Transform.SetRotation(enemies[i].transformID, { x = enemies[i].start_transform_interpolate.rotation.x + ((enemies[i].goal_transform_interpolate.rotation.x - enemies[i].start_transform_interpolate.rotation.x)/INTERPOLATION_ITERATIONS),
+																y = enemies[i].start_transform_interpolate.rotation.y + ((enemies[i].goal_transform_interpolate.rotation.y - enemies[i].start_transform_interpolate.rotation.y)/INTERPOLATION_ITERATIONS),
+																z = enemies[i].start_transform_interpolate.rotation.z + ((enemies[i].goal_transform_interpolate.rotation.z - enemies[i].start_transform_interpolate.rotation.z)/INTERPOLATION_ITERATIONS)})
 			end
 
 			INTERPOLATION_ITERATIONS = INTERPOLATION_ITERATIONS - 1
 			
-			if INTERPOLATION_ITERATIONS ~= 0 then
+			if INTERPOLATION_ITERATIONS == 0 then
 				INTERPOLATING_AI_TRANSFORM = false
 			end
-		end]]
+		end
 
 
 		for i=1, #enemies do
