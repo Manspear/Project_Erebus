@@ -55,7 +55,7 @@ namespace Gear
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::normalize(glm::vec3(-0.0f, -0.5f, 0.5f));
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
-		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
+		//dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
 		dirLights.push_back(dirLight); //save it to buffer
 
@@ -323,7 +323,6 @@ namespace Gear
 		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
 
 		tempCamera.setView(view);
-		tempCamera.setprojection(dirLights[0].projection);
 
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -336,6 +335,8 @@ namespace Gear
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
 		//shadowMap.unUse();
 		//shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
+
+		Debugger::getInstance()->drawLine(glm::vec3(24, 8, 155), glm::vec3(24, 8, 155) + skybox->getDirLight().direction);
 
 		queue.updateUniforms(camera);
 
@@ -392,8 +393,7 @@ namespace Gear
 		addDynamicLight();
 		updateDynamicLight();
 		removeDynamicLight();
-		skybox->updateRotation(dt);
-		skybox->updateFog(dt);
+		skybox->update(dt);
 		updateTransforms( dynamicModels );
 		updateTransforms( animatedModels );
 		updateTransforms( forwardModels );
@@ -630,11 +630,10 @@ namespace Gear
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
 		shader->setUniform(skybox->getFogColor(), "fogColor");
 
-		for (GLuint i = 0; i < dirLights.size(); i++)
-		{
-			shader->setUniform(dirLights[i].direction, "dirLights.direction");
-			shader->setUniform(dirLights[i].color, "dirLights.color");
-		}
+
+		shader->setUniform(skybox->getDirLight().direction, "dirLights.direction");
+		shader->setUniform(skybox->getDirLight().color, "dirLights.color");
+
 		int num_lights = dynamicPointlights.size();
 		shader->setUniform(num_lights, "num_dynamic_lights");
 		for (int i = 0; i < dynamicPointlights.size(); i++)
