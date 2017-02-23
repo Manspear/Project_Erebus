@@ -47,7 +47,12 @@ function UpdateHealthOrb(self, dt)
 	local collisionIDs = self.collider:GetCollisionIDs()
 	for	curID = 1, #collisionIDs do	
 		if collisionIDs[curID] == player.collisionID then
-			player.health = player.health + math.random(1, 2000)
+			local newHealth = player.health + math.random(1, 2000)
+			if newHealth > 100 then 
+				player.health = 100
+			else
+				player.health = newHealth
+			end
 			Network.SendPlayerHealthPacket(player.transformID, player.health)
 			KillHealthOrb(self)
 			return true
