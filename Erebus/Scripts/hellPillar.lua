@@ -1,4 +1,4 @@
-HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
 BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 MAX_DAMAGE_PILLAR = 8
@@ -78,6 +78,12 @@ function CreateHellPillar(entity)
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()		
 		end
+	end
+	
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.sphereCollider:GetID())
+		return result
 	end
 
 	function spell:ChargeCast(entity)

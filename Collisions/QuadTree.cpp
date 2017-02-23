@@ -289,7 +289,7 @@ namespace Collisions
 				if (tempModelInstance.getAsset() == model->asset) // are they pointing at the same asset?
 				{
 					tempModelInstance.incrActiveTransforms();
-					tempModelInstance.addStaticInstance(*model->transform, matrix);
+					//tempModelInstance.addStaticInstance(*model->transform, matrix);
 					
 					done = true;
 				}
@@ -298,7 +298,7 @@ namespace Collisions
 			{
 				ModelInstance tempModelInstance;
 				tempModelInstance.setAsset(model->asset);
-				tempModelInstance.addStaticInstance(*model->transform, matrix);
+				//tempModelInstance.addStaticInstance(*model->transform, matrix);
 				modelInstances->push_back(tempModelInstance);
 			}
 		}

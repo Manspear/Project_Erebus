@@ -17,6 +17,7 @@ namespace Gear
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		worldImage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		skybox = new Skybox();
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -28,6 +29,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
+		
 
 	}
 
@@ -35,6 +37,7 @@ namespace Gear
 	{
 		glfwTerminate();
 		delete debugHandler;
+		delete skybox;
 	}
 #pragma region init functions
 	void GearEngine::lightInit()
@@ -50,7 +53,7 @@ namespace Gear
 		resetLightbuffer();
 
 		Lights::DirLight dirLight; //add one dir light
-		dirLight.direction = glm::vec3(-0.0f, -0.5f, 0.5f);
+		dirLight.direction = glm::normalize(glm::vec3(-0.0f, -0.5f, 0.5f));
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
@@ -107,7 +110,7 @@ namespace Gear
 
 	void GearEngine::skyboxInit()
 	{
-		skybox.init();
+		skybox->init();
 
 		std::vector<const GLchar*> faces;
 		faces.push_back("skybox/right.dds");
@@ -116,7 +119,7 @@ namespace Gear
 		faces.push_back("skybox/bottom.dds");
 		faces.push_back("skybox/front.dds");
 		faces.push_back("skybox/back.dds");
-		skybox.loadCubemap(faces);
+		skybox->loadCubemap(faces);
 	}
 #pragma endregion
 #pragma region bluh
@@ -174,6 +177,11 @@ namespace Gear
 	{
 		work = workQueue;
 		queue.setWorkQueue( workQueue );
+	}
+
+	GEAR_API Skybox * GearEngine::getSkybox()
+	{
+		return this->skybox;
 	}
 
 	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color)
@@ -350,8 +358,8 @@ namespace Gear
 
 		debugHandler->draw( camera, &queue );
 
-		skybox.update(camera);
-		skybox.draw();
+		skybox->update(camera);
+		skybox->draw();
 
 		queue.particlePass(particleSystem, particleEmitters);
 		
@@ -384,7 +392,8 @@ namespace Gear
 		addDynamicLight();
 		updateDynamicLight();
 		removeDynamicLight();
-		skybox.updateRotation(dt);
+		skybox->updateRotation(dt);
+		skybox->updateFog(dt);
 		updateTransforms( dynamicModels );
 		updateTransforms( animatedModels );
 		updateTransforms( forwardModels );
@@ -619,6 +628,7 @@ namespace Gear
 		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
+		shader->setUniform(skybox->getFogColor(), "fogColor");
 
 		for (GLuint i = 0; i < dirLights.size(); i++)
 		{

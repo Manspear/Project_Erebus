@@ -162,13 +162,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\AI\BasicEnemyAI.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\camera.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\enemies.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\level.lua">
@@ -181,9 +175,6 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\particle.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\AI\states.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\anim.frag">
@@ -408,9 +399,6 @@
     <None Include="Scripts\spellList.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\boss.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />
     <None Include="Shaders\animShadow.frag" />
@@ -482,8 +470,22 @@
     <None Include="Scripts\revive.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\TimeLaser.lua">
-      <Filter>Scripts\spells</Filter>
+    <None Include="Scripts\keybinding.lua" />
+    <None Include="Scripts\keybindingUI.lua" />
+    <None Include="Scripts\boss.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\AI\BasicEnemyAI.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\enemies.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\AI\states.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\healthOrb.lua">
+      <Filter>Scripts\evils</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -528,6 +530,9 @@
     </Filter>
     <Filter Include="Scripts\UI">
       <UniqueIdentifier>{8c25589e-b3cf-4cef-b42a-c67b5dc0f631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\evils">
+      <UniqueIdentifier>{ef958cfd-9be6-4013-a206-2936b05415b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

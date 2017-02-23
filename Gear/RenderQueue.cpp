@@ -335,51 +335,36 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		modelAsset = dynamicModels->at(i).getAsset();
 		if (modelAsset == nullptr)continue;
 		meshes = modelAsset->getHeader()->numMeshes;
-		//numInstance = 0;
-		//numInstance = dynamicModels->at(i).worldMatrices.size();
+
 		numInstance = dynamicModels->at(i).getActiveTransforms();
-		// TEMP: Shouldn't have any models without material
-		if (modelAsset->getMaterial())
+		if( numInstance > 0 )
+		{
+			assert( modelAsset->getMaterial() );
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
 
-		/*for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
-		{
-			indices[j] = dynamicModels->at(i).worldIndices[j];
-			if (allTransforms[indices[j]].active)
-				tempMatrices[numInstance++] = worldMatrices[indices[j]];
-		}*/
-		//allShaders[GEOMETRY]->setUniform4fv(tempMatrices, "worldMatrices", numInstance);
-		size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
-
-		//world matrix buffer
-		{
-			//glBindVertexArray(dynamicModels->at(i).getVAO());
-			//glBindBuffer(GL_ARRAY_BUFFER, dynamicModels->at(i).getVBO());
-			//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, &tempMatrices[0][0][0]);
-			//glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(glm::mat4)*numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]) );
-		} 
-
-		dynamicModels->at(i).bindBuffers();
-		
-		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
-		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+			size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
 			
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
-			glEnableVertexAttribArray(3);
-			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
+			dynamicModels->at(i).bindBuffers();
+		
+			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+			{
+				//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+			
+				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
+				glEnableVertexAttribArray(1);
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
+				glEnableVertexAttribArray(2);
+				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
+				glEnableVertexAttribArray(3);
+				glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 8));
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			//glDrawElementsInstanced(GL_LINES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
 		}
 	}
 	glBindVertexArray(0);
@@ -606,17 +591,20 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 		allShaders[GEOMETRY]->setUniform(*idColors, "instanceColors", numInstance);
 		//glUniform3fv(colorIdLocation, numInstance, &idColors[0][0]);//glm::value_ptr(idColors[0]));
 
-		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+		if( numInstance > 0 )
 		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+			{
+				//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+				size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
 		}
 	}
 

@@ -1,4 +1,4 @@
-SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/siphon.dds");
+SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSiphon.dds");
 SIPHON_DAMAGE = 2
 SIPHON_CHAIN_DURATION = 5
 SIPHON_COOLDOWN = 15
@@ -18,7 +18,7 @@ function CreateSiphon(entity)
 	spell.effects = {}
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	--spell.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/SunRayInner.model" )
+	local model = Assets.LoadModel( "Models/Siphon.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
 
@@ -28,7 +28,7 @@ function CreateSiphon(entity)
 	spell.length = SIPHON_HITBOX_LENGTH
 
 	spell.collider.SetSize(spell.collider, SIPHON_HITBOX_LENGTH, 1, 1)
-	local model = Assets.LoadModel( "Models/Siphon.model" )
+	--local model = Assets.LoadModel( "Models/Siphon.model" )
 	--spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
 	spell.isActiveSpell = false
 	spell.hits = {}
@@ -128,7 +128,7 @@ function CreateSiphon(entity)
 				--print("tjoo")
 				self.temppos = Transform.GetPosition(self.chained.transformID)
 			end
-			print(self.temppos.x .. " y: " .. self.temppos.y .. " z: " .. self.temppos.z)
+			--print(self.temppos.x .. " y: " .. self.temppos.y .. " z: " .. self.temppos.z)
 			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), self.temppos)
 			--self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.temppos)
 			self.length = Transform.GetDistanceBetweenTransAndPos(self.owner.transformID, self.temppos)
@@ -144,7 +144,7 @@ function CreateSiphon(entity)
 			Transform.SetPosition(self.transformID, pos)
 			Transform.RotateToVector(self.transformID, direction)
 			OBBCollider.SetXAxis(self.collider, direction.x, direction.y, direction.z)
-			Transform.SetScaleNonUniform(self.transformID,  2, 2, self.length/1.6)
+			--Transform.SetScaleNonUniform(self.transformID,  2, 2, self.length/1.6)
 		end
 	end
 	function spell:Update(dt)

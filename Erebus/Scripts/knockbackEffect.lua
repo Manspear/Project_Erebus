@@ -20,13 +20,18 @@ function CreateKnockbackEffect(owner, power)
 		self.damage = 1
 		self.collisionID = entity.sphereCollider:GetID()
 		if entity.SetState then
-			entity.SetState(entity,"DoNothingState")
+			if entity.type ~= ENEMY_DUMMY then
+				entity.SetState(entity, DO_NOTHING_STATE)
+			end
+
 		end
 	end
 
 	function effect:Deapply(entity)	
 		if entity.SetState then
-			entity.SetState(entity,"IdleState")
+			if entity.type ~= ENEMY_DUMMY then
+				entity.SetState(entity,IDLE_STATE)
+			end
 		end
 	end
 
@@ -51,14 +56,13 @@ function CreateKnockbackEffect(owner, power)
 			local collisionIDs = entity.sphereCollider:GetCollisionIDs()	
 			local walls = CollisionHandler.GetIDsFromLayer(3)
 			local realWalls = {}
-			for	curID = 1, #collisionIDs do
-				for i, v in pairs(walls) do
-					realWalls[i] = v
-				end		
+			for i, v in pairs(walls) do
+				realWalls[i] = v
+			end	
+			for	curID = 1, #collisionIDs do					
 				for curWall = 1, #realWalls do
 					if collisionIDs[curID] == realWalls[curWall] then
 						self.wallHit = true
-						print("Tjena")
 					end
 				end
 			end
