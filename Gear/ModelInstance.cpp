@@ -80,15 +80,16 @@ namespace Gear
 			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
 			glm::mat4 matrix = glm::translate(glm::mat4(), t.pos);
-			matrix = glm::scale(matrix, t.scale);
 			matrix = glm::rotate(matrix, t.rot.z, axis);
+			matrix = glm::rotate(matrix, t.rot.x, t.lookAt );
 			matrix = glm::rotate(matrix, t.rot.y, { 0, 1, 0 });
+			matrix = glm::scale(matrix, t.scale);
 
 			worldMatrices[i] = matrix;
 		}
 	}
 
-	int ModelInstance::addStaticInstance(TransformStruct trans, glm::mat4 world)
+	/*int ModelInstance::addStaticInstance(TransformStruct trans, glm::mat4 world)
 	{
 		int index = transforms.size();
 		transforms.push_back(trans);
@@ -103,6 +104,46 @@ namespace Gear
 		worldMatrices.push_back(world);
 		animations.push_back(anim);
 		return index;
+	}*/
+
+	int ModelInstance::pushStaticInstance( const TransformStruct& trans, const glm::mat4& world )
+	{
+		int index = transforms.size();
+		transforms.push_back(trans);
+		worldMatrices.push_back(world);
+		return index;
+	}
+
+	int ModelInstance::pushAnimatedInstance( const TransformStruct& trans, const glm::mat4& world, Animation* anim )
+	{
+		int index = transforms.size();
+		transforms.push_back(trans);
+		worldMatrices.push_back(world);
+		animations.push_back(anim);
+		return index;
+	}
+
+	/*void ModelInstance::popStaticInstance()
+	{
+		transforms.pop_back();
+		worldMatrices.pop_back();
+	}
+
+	void ModelInstance::popAnimatedInstance()
+	{
+		transforms.pop_back();
+		worldMatrices.pop_back();
+		animations.pop_back();
+	}*/
+
+	void ModelInstance::popInstance()
+	{
+		assert( transforms.size() > 0 );
+
+		transforms.pop_back();
+		worldMatrices.pop_back();
+		if( animations.size() > 0 )
+			animations.pop_back();
 	}
 
 	void ModelInstance::incrActiveTransforms()
