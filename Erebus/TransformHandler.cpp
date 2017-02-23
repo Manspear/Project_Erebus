@@ -47,21 +47,21 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 		firstIndices[INSTANCE_DYNAMIC].push_back( -1 );
 	}
 
-	int transformIndex = models->at(modelIndex).addStaticInstance(DEFAULT_TRANSFORM, glm::mat4());
-
-	TransformHandle handle =
-	{
-		INSTANCE_DYNAMIC,
-		modelIndex,
-		transformIndex,
-		false,
-		false
-	};
-
 	int result = findVacantIndex();
 
 	if( result < 0 )
 	{
+		int transformIndex = models->at(modelIndex).addStaticInstance(DEFAULT_TRANSFORM, glm::mat4());
+
+		TransformHandle handle =
+		{
+			INSTANCE_DYNAMIC,
+			modelIndex,
+			transformIndex,
+			false,
+			false
+		};
+
 		result = handles.size();
 		handles.push_back( handle );
 	}

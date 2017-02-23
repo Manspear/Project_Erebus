@@ -49,11 +49,14 @@ namespace Gear
 		if ((instanceVBO | instanceVAO) == 0)
 			init();
 
-		//glBindVertexArray(instanceVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		//glBindVertexArray(0);
+		if( activeTransforms > 0 )
+		{
+			//glBindVertexArray(instanceVAO);
+			glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			//glBindVertexArray(0);
+		}
 	}
 
 	void ModelInstance::bindBuffers()
