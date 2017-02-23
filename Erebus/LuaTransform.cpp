@@ -334,7 +334,8 @@ namespace LuaTransform
 		int indexFrom = (int)lua_tointeger(lua, 2);
 		int indexTo = (int)lua_tointeger(lua, 1);
 
-		g_transforms[indexTo].setLookAt(g_transforms[indexFrom].getLookAt());
+		//g_transforms[indexTo].setLookAt(g_transforms[indexFrom].getLookAt());
+		g_transformHandler->getTransform(indexTo)->lookAt = g_transformHandler->getTransform(indexFrom)->lookAt;
 
 		return 0;
 	}
@@ -346,7 +347,7 @@ namespace LuaTransform
 		int indexFrom = (int)lua_tointeger(lua, 2);
 		int indexTo = (int)lua_tointeger(lua, 1);
 
-		g_transforms[indexTo].setRotation(g_transforms[indexFrom].getRotation());
+		g_transformHandler->getTransform(indexTo)->rot = g_transformHandler->getTransform(indexFrom)->rot;
 
 		return 0;
 	}
@@ -466,7 +467,8 @@ namespace LuaTransform
 		lua_getfield(lua, 2, "z");		vector.z = (float)lua_tonumber(lua, -1);
 
 		vector = glm::normalize(vector);
-		g_transforms[transID].setLookAt(vector);
+		g_transformHandler->getTransform(transID)->lookAt = vector;
+		//g_transforms[transID].setLookAt(vector);
 
 		glm::vec3 rotationxz = glm::normalize(glm::vec3(vector.x,0,vector.z));
 		float pitch = acosf(rotationxz.z);
@@ -474,7 +476,8 @@ namespace LuaTransform
 
 		if (vector.x < 0)
 			pitch *= -1;
-		g_transforms[transID].setRotation({0, pitch,yaw});
+		g_transformHandler->getTransform(transID)->rot = {0,pitch, yaw};
+		//g_transforms[transID].setRotation({0, pitch,yaw});
 		return 0;
 	}
 	int updateRotationFromLookVector(lua_State * lua)
@@ -487,7 +490,8 @@ namespace LuaTransform
 		tempLookdir.y = 0;
 		tempLookdir = glm::normalize(tempLookdir);
 		float rotY = ((tempLookdir.x > 0) * 2 - 1) * acos(glm::dot(tempLookdir, {0,0,1}));
-		g_transforms[transID].setRotation({ 0, rotY, 0 });
+		g_transformHandler->getTransform(transID)->rot = {0, rotY, 0};
+		//g_transforms[transID].setRotation({ 0, rotY, 0 });
 
 		return 0;
 	}
@@ -497,7 +501,7 @@ namespace LuaTransform
 		assert(lua_gettop(lua) == 2);
 		int id1 = lua_tointeger(lua, 1);
 		int id2 = lua_tointeger(lua, 2);
-		lua_pushnumber(lua, glm::length(g_transforms[id1].getPos() - g_transforms[id2].getPos()));
+		lua_pushnumber(lua, glm::length(g_transformHandler->getTransform(id1)->pos - g_transformHandler->getTransform(id2)->pos));
 		return 1;
 	}
 	int getDistanceTransPos(lua_State* lua) {
@@ -507,7 +511,7 @@ namespace LuaTransform
 		lua_getfield(lua, 2, "x");		pos.x = (float)lua_tonumber(lua, -1);
 		lua_getfield(lua, 2, "y");		pos.y = (float)lua_tonumber(lua, -1);
 		lua_getfield(lua, 2, "z");		pos.z = (float)lua_tonumber(lua, -1);
-		lua_pushnumber(lua, glm::length(g_transforms[id1].getPos() - pos));
+		lua_pushnumber(lua, glm::length(g_transformHandler->getTransform(id1)->pos - pos));
 		return 1;
 	}
 }

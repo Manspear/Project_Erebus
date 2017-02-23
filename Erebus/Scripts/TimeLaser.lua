@@ -27,7 +27,7 @@ function CreateTimeLaser()
 			spell.angles[i] = (i-1)* 2*3.1415/TIMELASER_NR_OF_LASERS
 			dir.x = math.sin(spell.angles[i])
 			dir.z = math.cos(spell.angles[i])
-			Transform.RotateToVector(spell.transformIDs[i], dir)
+			--Transform.RotateToVector(spell.transformIDs[i], dir)
 			OBBCollider.SetActive(self.colliders[i], true)
 			OBBCollider.SetXAxis(self.colliders[i], dir.x, dir.y, dir.z)
 		end
@@ -41,7 +41,7 @@ function CreateTimeLaser()
 			self.angles[i] = self.angles[i] + increment
 			dir.x = math.sin(spell.angles[i])
 			dir.z = math.cos(spell.angles[i])
-			Transform.RotateToVector(spell.transformIDs[i], dir)
+			--Transform.RotateToVector(spell.transformIDs[i], dir)
 			OBBCollider.SetXAxis(self.colliders[i], dir.x, dir.y, dir.z)
 			oobpos.x = dir.x * (30 )
 			oobpos.y = dir.y * (30 )
