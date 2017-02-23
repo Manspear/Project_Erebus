@@ -60,7 +60,7 @@ void main() {
 	vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-	vec3 ambient = Diffuse * 0.1;
+	vec3 ambient = Diffuse * 0.01;
 	
 	vec3 directional = vec3(0);
 	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
