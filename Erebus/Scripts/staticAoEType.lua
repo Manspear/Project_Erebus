@@ -1,7 +1,7 @@
 function CreateStaticAoEType(model)
 	local type = {}
 	--type.transformID = Transform.Bind()
-	--type.transformID = Gear.BindStaticInstance(model)
+	type.transformID = Gear.BindBlendingInstance(model)
 	type.transformID = Gear.BindForwardInstance(model)
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)

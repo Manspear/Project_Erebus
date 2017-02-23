@@ -58,10 +58,33 @@ function clientAIState.deadState.enter(enemy, playerTarget)
 	--print("Client enemy died", enemy.transformID)
 	--enemy.animationController:doNothing()
 
+	enemy.actionCountDown = 12
+	enemy.healthOrb = GetHealthOrb()
+	SpawnHealthOrb(enemy.healthOrb, Transform.GetPosition(enemy.transformID))
+
+
 	enemy:Kill()
 end
 
-function clientAIState.deadState.update(enemy, playerTarget)
+function clientAIState.deadState.update(enemy, playerTarget, dt)
+	enemy.actionCountDown= enemy.actionCountDown - dt	
+	if enemy.actionCountDown > 10 then			
+		local pos = Transform.GetPosition(enemy.transformID)
+		pos.x = pos.x + math.random(-3,3) * dt
+		pos.y = pos.y - 0.6 * dt
+		pos.z = pos.z + math.random(-3,3)  * dt
+		Transform.SetPosition(enemy.transformID,pos)
+	else
+		Transform.ActiveControl(enemy.transformID, false)
+		SphereCollider.SetActive(enemy.sphereCollider, false)
+	end
+
+	if enemy.actionCountDown > 0 then
+		if(UpdateHealthOrb(enemy.healthOrb, dt)) then	enemy.actionCountDown = -1	 end	
+	else
+		enemy.alive = false
+		KillHealthOrb(enemy.healthOrb)
+	end
 end
 
 function clientAIState.deadState.exit(enemy, playerTarget)
@@ -83,26 +106,26 @@ end
 function setAIState(enemy, playerTarget, aiState)
 	--print("Enemy", enemy.transformID)
 	--print("Client AI ID", enemy.transformID)
-	if aiState == 0 or aiState == "IdleState" then--IdleState
+	if aiState == 0 or aiState == IDLE_STATE then--IdleState
 		--print("Received IdleState", enemy.transformID, aiState)
 		enemy.state = clientAIState.idleState
 	end
-	if aiState == 1 or aiState == "FollowState" then--FollowState
+	if aiState == 1 or aiState == FOLLOW_STATE then--FollowState
 		--print("Received FollowState", enemy.transformID, aiState)
 		enemy.state = clientAIState.followState
 	end
 		
-	if aiState == 2 or aiState == "AttackState" then--AttackState
+	if aiState == 2 or aiState == ATTACK_STATE then--AttackState
 		--print("Received AttackState", enemy.transformID, aiState)
 		enemy.state = clientAIState.attackState
 	end
 			
-	if aiState == 3 or aiState == "DeadState" then--DeadState
+	if aiState == 3 or aiState == DEAD_STATE then--DeadState
 		--print("Received DeadState", enemy.transformID, aiState)
 		enemy.state = clientAIState.deadState
 	end	
 
-	if aiState == 4 or aiState == "DoNothingState" then--DoNothingState
+	if aiState == 4 or aiState == DO_NOTHING_STATE then--DoNothingState
 		--print("Received DoNothingState", enemy.transformID, aiState)
 		enemy.state = clientAIState.doNothingState
 	end

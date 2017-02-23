@@ -36,4 +36,5 @@ namespace LuaTransform
 	int updateRotationFromLookVector(lua_State* lua);
 
 	int getDistance(lua_State* lua);
+	int getDistanceTransPos(lua_State* lua);
 }
