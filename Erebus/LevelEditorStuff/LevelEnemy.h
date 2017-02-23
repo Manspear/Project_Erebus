@@ -10,6 +10,7 @@ enum
 {
 	ENEMY_MELEE = 0,
 	ENEMY_RANGED,
+	ENEMY_DUMMY,
 	MAX_ENEMY_TYPES
 };
 
@@ -28,7 +29,8 @@ private:
 		static TwEnumVal vals[MAX_ENEMY_TYPES] =
 		{
 			{ ENEMY_MELEE, ENEMY_TYPE_NAMES[ENEMY_MELEE] },
-			{ ENEMY_RANGED, ENEMY_TYPE_NAMES[ENEMY_RANGED] }
+			{ ENEMY_RANGED, ENEMY_TYPE_NAMES[ENEMY_RANGED] },
+			{ ENEMY_DUMMY, ENEMY_TYPE_NAMES[ENEMY_DUMMY] }
 		};
 
 		static TwType result = TwDefineEnum( "enemyTypeEnum", vals, MAX_ENEMY_TYPES );
