@@ -1,4 +1,4 @@
-HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
 BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 MAX_DAMAGE_PILLAR = 8
