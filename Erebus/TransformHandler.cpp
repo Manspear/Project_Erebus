@@ -178,7 +178,7 @@ void TransformHandler::unbindInstance( int index )
 	TransformHandle& handle = handles.at(index);
 	if( !handle.vacant )
 	{
-		instances[handle.instanceIndex]->at(handle.modelIndex).popInstance( index );
+		instances[handle.instanceIndex]->at(handle.modelIndex).popInstance( handle.transformIndex );
 		handle.vacant = true;
 	}
 }
