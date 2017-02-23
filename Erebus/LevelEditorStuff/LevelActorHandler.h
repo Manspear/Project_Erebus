@@ -22,6 +22,7 @@ public:
 	static void deleteInstance();
 	static void resetInstance();
 
+	void addActorNoUpdate(LevelActor* actor);
 	void addActor( LevelActor* actor );
 	void removeActor( LevelActor* actor );
 	void removeActor( unsigned int id );

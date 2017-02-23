@@ -65,6 +65,12 @@ void LevelActorHandler::addActor( LevelActor* actor )
 	updateTweakBars();
 }
 
+void LevelActorHandler::addActorNoUpdate(LevelActor * actor)
+{
+	actor->setActorDisplayName(this->tryActorName(actor->getActorDisplayName()));
+	actors.insert(std::pair<unsigned int, LevelActor*>(actor->id, actor));
+}
+
 void LevelActorHandler::removeActor( LevelActor* actor )
 {
 	removeActor( actor->id );
