@@ -428,7 +428,7 @@ function state.deadState.update(enemy,player,dt)
 	enemy.actionCountDown= enemy.actionCountDown - dt	
 	local pos = Transform.GetPosition(enemy.transformID)
 
-	if pos.y > 3 then
+	if enemy.actionCountDown > 0 then
 		
 		pos.x = pos.x + math.random(-3,3) * dt
 		pos.y = pos.y - 0.6 * dt

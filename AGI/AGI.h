@@ -884,6 +884,8 @@ namespace AGI
 
 		AGI_API bool checkIfNodeIsAlreadyChecked(int xFrom, int yFrom, InfluenceNode *openList[], int & openSize, InfluenceNode *closedList[], int &closedSize)
 		{
+			if (xFrom < 0 || yFrom < 0)
+				return false;
 			if (dynamicInfluenceMap[xFrom][yFrom] == nullptr)
 				return false;
 
