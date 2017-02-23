@@ -57,7 +57,7 @@ namespace Collisions
 	bool QuadTree::addStaticModels(std::vector<Gear::ModelInstance>* models)
 	{
 		models->size();
-		return true;
+		return false;
 	}
 
 	bool QuadTree::addDynamicModels(std::vector<Gear::ModelInstance>* models)
