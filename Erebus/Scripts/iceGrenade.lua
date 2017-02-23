@@ -166,7 +166,6 @@ function CreateIceGrenade(entity)
 	end
 
 	function spell:Kill(index)
-
 		if index then
 			Transform.SetScale(self.nades[index].transform2ID, 1)
 			Transform.ActiveControl(self.nades[index].transform2ID, false) 
