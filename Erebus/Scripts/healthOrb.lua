@@ -83,6 +83,11 @@ function UpdateOrb(daOrb, dt)
 	for	curID = 1, #collisionIDs do	
 		if collisionIDs[curID] == player.collisionID then
 			if player.health < 80 then player.health = player.health + 20 else player.health = 100 end
+			if newHealth > 100 then 
+				player.health = 100
+			else
+				player.health = newHealth
+			end
 			Network.SendPlayerHealthPacket(player.transformID, player.health)
 			KillHealthOrb(daOrb)
 			return 

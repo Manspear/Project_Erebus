@@ -9,6 +9,7 @@ POSITIONING_OUTER_STATE = 4
 FOLLOW_STATE = 5
 DEAD_STATE = 6
 DO_NOTHING_STATE = 7
+DUMMY_STATE = 8
 
 INTERPOLATING_AI_TRANSFORM = false
 INTERPOLATION_ITERATIONS = 2
@@ -31,7 +32,7 @@ ENEMY_HEALTHBAR_HEIGHT = 0.15
 
 
 
-function CreateEnemy(type, position)
+function CreateEnemy(type, position, startState)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
 
 	local i = #enemies+1
@@ -97,10 +98,13 @@ function CreateEnemy(type, position)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
-				if self.health < 0 then
+				if self.health < 1 and self.stateName ~= DUMMY_STATE then
 					--print("Dead for host", enemies[i].transformID)
 					self.health = 0
 					self:Kill()
+				elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+					self.health = self.maxHealth
+					self.currentHealth = self.maxHealth
 				end
 			else
 				--print("Sending damage", self.transformID, damage)
@@ -126,9 +130,7 @@ function CreateEnemy(type, position)
 			self.insideInnerCircleRange = false
 		end
 
-		self.alive = false
-		Transform.ActiveControl(self.transformID, false)
-		SphereCollider.SetActive(self.sphereCollider, false)
+	
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
@@ -172,7 +174,10 @@ function CreateEnemy(type, position)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	
 	if Network.GetNetworkHost() == true then
-		enemies[i].state = stateScript.state.idleState
+		enemies[i].state =  stateScript.state.idleState
+		if startState then
+			stateScript.changeToState(enemies[i], player, startState)
+		end
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
@@ -195,7 +200,7 @@ function UpdateEnemies(dt)
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			if enemies[i].alive then
+			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				AI.ClearMap(enemies[i].lastPos,0)
 				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 				AI.AddIP(enemies[i].transformID,-1,0)
@@ -229,7 +234,7 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 			tempdt = dt * enemies[i].timeScalar
-			if enemies[i].alive then
+			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				--AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
@@ -245,10 +250,12 @@ function UpdateEnemies(dt)
 					end
 				end
 
-				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-				pos.y = pos.y - 10*dt
-				if pos.y < height then
-					pos.y = height
+				if  enemies[i].stateName ~= DEAD_STATE then
+					local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+					pos.y = pos.y - 10*dt
+					if pos.y < height then
+						pos.y = height
+					end
 				end
 				Transform.SetPosition(enemies[i].transformID, pos)
 
@@ -388,11 +395,9 @@ function UpdateEnemies(dt)
 			a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
+			enemies[i].animationController:AnimationUpdate(dt,enemies[i])
+			enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
 
-			if enemies[i].alive then
-				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)		
-			end				
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
 					enemies[i].effects[j]:Deapply(enemies[i])

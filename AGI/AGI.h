@@ -195,7 +195,7 @@ namespace AGI
 
 						int stupid = 1;
 
-						for (int n = 1; n < 3; n++)
+						for (int n = 0; n < 3; n++)
 						{
 
 							if (HP[n]->inside(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, 0, dynamicInfluenceMap[w][h]->getPos().y)))
@@ -204,7 +204,7 @@ namespace AGI
 							}
 						}
 
-							int tempStrength = getCombinedStrength(w, h, 30);
+							int tempStrength = getCombinedStrength(w, h, 193);
 
 							if (dynamicInfluenceMap[w][h]->checkIfOccupied())
 								debugRef->drawSphere(glm::vec3(dynamicInfluenceMap[w][h]->getPos().x, HP[stupid]->getPos(dynamicInfluenceMap[w][h]->getPos().x, dynamicInfluenceMap[w][h]->getPos().y), dynamicInfluenceMap[w][h]->getPos().y), 1, glm::vec3(42, 0, 42));
@@ -518,7 +518,6 @@ namespace AGI
 						h = ((float)y - doJump) / (resolution);
 						for (int n = 0; n < 2; n++)
 						{
-
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
 							{
 								stupid = n;
@@ -531,7 +530,7 @@ namespace AGI
 			#pragma endregion
 
 
-			if (glm::abs(centerHeight - maxHeight) >2.4f || centerHeight <= 3)
+			if (glm::abs(centerHeight - maxHeight) >1.9f || centerHeight <= 3)
 				return false;
 
 			return true;
@@ -725,11 +724,8 @@ namespace AGI
 
 					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList,sizeOfOpenList, closedList, sizeOfClosedList);
 
-					while (finishNode == nullptr && sizeOfClosedList < MAXSIZEPATH)
+					while (finishNode == nullptr && sizeOfClosedList < MAXSIZEPATH && sizeOfOpenList < 190)
 					{
-						if (sizeOfOpenList > 200) {
-							printf("FUCK ME BAD STUFF HAPPENNG");
-						}
 						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, sizeOfOpenList, closedList, sizeOfClosedList);
 					}
 
@@ -1082,7 +1078,7 @@ namespace AGI
 
 				if (enemyPos != -1)
 				{
-					return enemies[enemyPos].getStrengthAt(x,y)+ dynamicInfluenceMap[x][y]->getStrength();
+					return enemies[enemyPos].getStrengthAt(x, y);// +dynamicInfluenceMap[x][y]->getStrength();
 				}
 			}
 

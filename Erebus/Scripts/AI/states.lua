@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},State = {}}
+state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},dummyState = {}}
 
 function state.idleState.enter(enemy,player)
 	enemy.animationState = 1
@@ -422,7 +422,7 @@ end
 
 function state.deadState.update(enemy,player,dt)	
 	enemy.actionCountDown= enemy.actionCountDown - dt	
-	if enemy.actionCountDown > 0 then			
+	if enemy.actionCountDown > 0 then
 		local pos = Transform.GetPosition(enemy.transformID)
 		pos.x = pos.x + math.random(-3,3) * dt
 		pos.y = pos.y - 0.6 * dt
@@ -431,7 +431,12 @@ function state.deadState.update(enemy,player,dt)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
 		SphereCollider.SetActive(enemy.sphereCollider, false)
-	end
+	--if enemy.actionCountDown > 0 then
+	--	if(UpdateHealthOrb(enemy.healthOrb, dt)) then	enemy.actionCountDown = -1	 end	
+	--else
+		
+		--KillHealthOrb(enemy.healthOrb)
+	--end
 end
 
 function state.deadState.exit(enemy,player)
@@ -449,6 +454,19 @@ end
 function state.doNothingState.exit(enemy,player)
 
 end 
+
+function state.dummyState.enter(enemy,player)
+
+end
+
+function state.dummyState.update(enemy,player)
+
+end
+
+function state.dummyState.exit(enemy,player)
+
+end 
+
 
 function changeToState(enemy,player,changeState)
 
@@ -493,6 +511,10 @@ function changeToState(enemy,player,changeState)
 		--print("Sending DoNothingState", enemy.transformID, 4)
 		Network.SendAIStatePacket(enemy.transformID,4)
 	end 
+
+	if changeState == DUMMY_STATE then
+		enemy.state = state.dummyState
+	end
 
 	enemy.state.enter(enemy,player)
 	enemy.stateName = changeState
