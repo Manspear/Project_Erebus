@@ -1,0 +1,16 @@
+<LevelActor type="Tutorial" displayName="CombinationBarrierTrigger" tileID="1" exportType="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="918" parentID="0"/>
+        <Behavior Type="0"/>
+        <Rotation x="0" y="2" z="0"/>
+        <HalfLengths x="2" y="3" z="3"/>
+    </LevelCollider>
+    <LevelTransform>
+        <Position x="30.909357" y="8.7290297" z="194.61299"/>
+        <Rotation x="0" y="0.092510931" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
