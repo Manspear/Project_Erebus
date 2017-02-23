@@ -227,6 +227,7 @@ function LoadPlayer2()
 	player2.charger = CreateChargeEggs(player2)
 	player2.revive = CreateRevive(player2)
 	Transform.SetScale(player2.aim.transformID, 0)
+	player2.castingRevive = false
 end
 
 function UnloadPlayer()
@@ -355,13 +356,15 @@ function UpdatePlayer(dt)
 	end
 
 	if not player2.isAlive then
-		if Inputs.KeyPressed("T") then 
+		if Inputs.KeyPressed("T") then
+			Network.SendChargeSpellPacket(player.transformID, 0, true)
 			player.revive:Cast(player2)
 		end
 		if Inputs.KeyDown("T") then 
 			player.revive:Update(dt)
 		end
 		if Inputs.KeyReleased("T") then 
+			Network.SendChargeSpellPacket(player.transformID, 0, false)
 			player.revive:Kill()
 		end
 	end
@@ -589,23 +592,33 @@ function UpdatePlayer2(dt)
 	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast = Network.GetSpellPacket()
 	
 	if newspellpacket == true then
-		player2.spells[player2.currentSpell]:Change()
-		player2.currentSpell = player2CurrentSpell
-		player2.spells[player2.currentSpell]:Change()
-
-		if isCharging == false then
-			player2.attackTimer = 1
-			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
-		else
-			if shouldCast == false then
-				local spellElement = player2.spells[player2.currentSpell].element
-				player2.charger:StartCharge(player2.position, spellElement)
-				player2.charging = true
+		if player2CurrentSpell == 0 then		
+			if shouldCast == true then		
+				player2.revive:Cast(player)
+				player2.castingRevive = true
 			else
-				player2.spells[player2.currentSpell]:ChargeCast(player2)
-				player2.charger:EndCharge()
-				player2.charging = false
-				player2.isCombined = false
+				player2.revive:Kill()
+				player2.castingRevive = false
+			end
+		else
+			player2.spells[player2.currentSpell]:Change()
+			player2.currentSpell = player2CurrentSpell
+			player2.spells[player2.currentSpell]:Change()
+
+			if isCharging == false then
+				player2.attackTimer = 1
+				player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
+			else
+				if shouldCast == false then
+					local spellElement = player2.spells[player2.currentSpell].element
+					player2.charger:StartCharge(player2.position, spellElement)
+					player2.charging = true
+				else
+					player2.spells[player2.currentSpell]:ChargeCast(player2)
+					player2.charger:EndCharge()
+					player2.charging = false
+					player2.isCombined = false
+				end
 			end
 		end
 	end
@@ -618,6 +631,10 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
+	
+	if player2.castingRevive == true then
+		player2.revive:Update(dt)
+	end
 
 	for j = #player2.effects, 1, -1 do 
 		if not player2.effects[j]:Update(player2, dt) then
