@@ -39,6 +39,7 @@ namespace Gear
 		GEAR_API void setWorldMatrix(int index, glm::mat4 world);
 		GEAR_API void setAnimation( int index, Animation* animation );
 		GEAR_API void setActive( int index, bool active );
+		GEAR_API void setCulled( int index, bool culled );
 		 
 		GEAR_API ModelAsset* getAsset() const;
 		GEAR_API int getWorldMatrixCount() const;
@@ -50,11 +51,13 @@ namespace Gear
 		GEAR_API glm::mat4& getWorldMatrix(int index);
 		GEAR_API Animation* getAnimation( int index );
 		GEAR_API bool getActive( int index );
+		GEAR_API bool getCulled( int index );
 		
 	private:
 		ModelAsset* asset;
 		//std::vector<int> worldIndices;
 		std::vector<bool> vacant;
+		std::vector<bool> culled;
 		std::vector<TransformStruct> transforms;
 		int activeTransforms;
 		std::vector<glm::mat4> worldMatrices;
