@@ -312,6 +312,13 @@ function FindHeightmap(position)
 			hm = heightmaps[index]
 			if hm.asset:Inside(position) then
 				print(index)
+				if index == 1 then
+					Gear.FogColor(1.0,0.0,0.0)
+				elseif index == 2 then
+					Gear.FogColor(0.0,1.0,0.0)
+				elseif index == 3 then
+					Gear.FogColor(0.0,0.0,1.0)
+				end
 				player:ChangeHeightmap(index)
 				break
 			end
