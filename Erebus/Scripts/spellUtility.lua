@@ -123,8 +123,8 @@ function CreateChargeEggs(entity)
 		self.pos = Transform.GetPosition(self.caster)	
 		self.pos.y = self.pos.y - 1	 
 		Transform.SetPosition(self.elementalTransformID, self.pos)
-		Transform.SetScaleNonUniform(self.elementalTransformID, 1,1,1) --det här gäller bara den första		
-		self.pos.y = self.pos.y - 1 * dt
+		--Transform.SetScaleNonUniform(self.elementalTransformID, 1,1,1) --det här gäller bara den första		
+		--self.pos.y = self.pos.y - 1 * dt
 		self.rotSmall.y = self.rotSmall.y + (2) * dt
 		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
 	end

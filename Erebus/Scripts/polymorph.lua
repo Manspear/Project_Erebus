@@ -24,7 +24,10 @@ function CreatePolymorph(entity)
 	table.insert(spell.effects, POLYMORPH_EFFECT_INDEX)
 	spell.particles = createSparklyParticles()
 
-	spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/nothing.model" )
+	spell.transformID = Gear.BindForwardInstance(model)
+
+	--spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
 
