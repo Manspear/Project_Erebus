@@ -1,4 +1,4 @@
-POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/polymorph.dds");
+POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
 POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0

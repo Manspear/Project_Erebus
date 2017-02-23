@@ -84,7 +84,6 @@ oskar.obb:SetActive(true)
 TutorialPost1230ID = {}
 TutorialPost1230ID.model = Assets.LoadModel('Models/SignPost.model')
 TutorialPost1230ID.transformID = Gear.BindStaticInstance(TutorialPost1230ID.model)
-print("Yolo" .. TutorialPost1230ID.transformID)
 
 Transform.SetPosition(TutorialPost1230ID.transformID, {x=27.4, y=7.4, z=189})
 Transform.SetScaleNonUniform(TutorialPost1230ID.transformID, 3, 3, 3)
@@ -98,6 +97,43 @@ TutorialPost1230ID.collider.triggered = false
 table.insert(level01.triggers, TutorialPost1230ID)
 CollisionHandler.AddSphere(TutorialPost1230ID.collider, 4)
 --TutorialPost1230ID = nil
+
+
+
+
+
+TutorialPost1229ID = {}
+TutorialPost1229ID.model = Assets.LoadModel('Models/SignPost.model')
+TutorialPost1229ID.transformID = Gear.BindStaticInstance(TutorialPost1229ID.model)
+Transform.SetPosition(TutorialPost1229ID.transformID, {x=30.1035, y=6.6213, z=156.506})Transform.SetScaleNonUniform(TutorialPost1229ID.transformID, 1.7, 1.7, 1.7)
+Transform.SetRotation(TutorialPost1229ID.transformID, {x=0, y=-3.5, z=0})
+TutorialPost1229ID.collider = SphereCollider.Create(TutorialPost1229ID.transformID)
+TutorialPost1229ID.collider:SetOffset(0,1,-1)
+TutorialPost1229ID.collider:SetRadius(4.5)
+TutorialPost1229ID.collider.OnExit = function() hideTutorialImage2()end 
+TutorialPost1229ID.collider.OnTriggering =  function(dt) showTutorialImage2(30,12,166,dt) end 
+TutorialPost1229ID.collider.triggered = false
+table.insert(level01.triggers, TutorialPost1229ID)
+CollisionHandler.AddSphere(TutorialPost1229ID.collider, 4)
+--TutorialPost1229ID= nil
+
+
+TutorialPost1228ID = {}
+TutorialPost1228ID.model = Assets.LoadModel('Models/SignPost.model')
+TutorialPost1228ID.transformID = Gear.BindStaticInstance(TutorialPost1228ID.model)
+Transform.SetPosition(TutorialPost1228ID.transformID, {x=20.7969, y=6.44531, z=147.75})Transform.SetScaleNonUniform(TutorialPost1228ID.transformID, 1.7, 1.7, 1.7)
+Transform.SetRotation(TutorialPost1228ID.transformID, {x=0, y=-4.2, z=0})
+TutorialPost1228ID.collider = SphereCollider.Create(TutorialPost1228ID.transformID)
+TutorialPost1228ID.collider:SetOffset(0,1,-1)
+TutorialPost1228ID.collider:SetRadius(4.5)
+TutorialPost1228ID.collider.OnExit = function() hideTutorialImage()end 
+TutorialPost1228ID.collider.OnTriggering =  function(dt) showTutorialImage(10,12,155,dt) end 
+TutorialPost1228ID.collider.triggered = false
+table.insert(level01.triggers, TutorialPost1228ID)
+CollisionHandler.AddSphere(TutorialPost1228ID.collider, 4)
+--TutorialPost1229ID= nil
+
+
 
 --END OSKAR TING
 
@@ -2770,13 +2806,12 @@ level01.colliders.AutoGenParent483ID347 = nil
 level01.colliders.AutoGenParent483ID348 = nil
 level01.colliders.AutoGenParent483ID349 = nil
 
-local New221247ID = CreateEnemy(ENEMY_MELEE, {x=20.7969, y=6.44531, z=147.75})
+local New221247ID = CreateEnemy(ENEMY_MELEE, {x=20.7969, y=6.44531, z=147.75},8)
 
 New221247ID.moveSpeed = 9
 New221247ID.health = 50
 New221247ID.visionRange = 30
 
-New221247ID.SetState(New221247ID,"DoNothingState")
 
 
 
@@ -2804,6 +2839,7 @@ local New225251ID = CreateEnemy(ENEMY_MELEE, {x=183.375, y=55.5313, z=73.875})
 New225251ID.moveSpeed = 9
 New225251ID.health = 50
 New225251ID.visionRange = 30
+
 
 end
 level01.unload = function()

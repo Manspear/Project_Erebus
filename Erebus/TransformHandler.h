@@ -38,7 +38,7 @@ public:
 	TransformStruct* getTransform( int index );
 
 private:
-	int findVacantIndex();
+	int findVacantIndex( int modelIndex );
 	int findModelIndex( int instanceIndex, ModelAsset* asset );
 
 	Gear::GearEngine* gearEngine;
