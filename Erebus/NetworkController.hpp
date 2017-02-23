@@ -67,6 +67,9 @@ public:
 	void sendPlayerHealthPacket(const HealthPacket& packet);
 	bool fetchPlayerHealthPacket(HealthPacket& packet);
 
+	void sendRessurectionPacket(const HealthPacket& packet);
+	bool fetchRessurectionPacket(HealthPacket& packet);
+
 #ifdef DEBUGGING_NETWORK
 	float getPing();
 #endif

@@ -58,7 +58,9 @@ public:
 	*/
 	GEAR_API void setTransitionTimes(float* transitionTimeArray, int numStates);
 
-	GEAR_API void setAnimationPlayTime(float animTime, int segment);
+	GEAR_API void setSegmentPlayTime(float animTime, int segment);
+
+	GEAR_API void resetSegmentPlayTime(int segment);
 
 	GEAR_API virtual void setStates(int numStates);
 
@@ -90,7 +92,7 @@ protected:
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
 	float animTimer;
-
+	float pAnimMaxTime[MAXNUMSEGMENTS];
 	//One timeMultiplier-element per segment
 	float timeMultiplier[MAXNUMSEGMENTS];
 	//Saves the time that the animation is allowed to play for. Used mainly to time attack-animations with spells.
@@ -106,6 +108,8 @@ protected:
 	int animationSegments;
 	sKeyFrame* blendFromKeys;
 	sKeyFrame* blendToKeys;
+
+	bool quickBlendJustEntered = true;
 
 	//Animation blending variables, one per animationPart;
 	int oldTos[MAXNUMSEGMENTS];

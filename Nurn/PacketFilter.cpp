@@ -22,6 +22,7 @@ PacketFilter::PacketFilter()
 	this->dashQueue = new PacketQueue<DashPacket>(5);
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
+	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
 }
 
 PacketFilter::~PacketFilter()
@@ -96,6 +97,11 @@ PacketFilter::~PacketFilter()
 		delete this->playerHealthQueue;
 		this->playerHealthQueue = 0;
 	}
+	if (this->ressurectionQueue)
+	{
+		delete this->ressurectionQueue;
+		this->ressurectionQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -157,6 +163,9 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 				case PLAYER_HEALTH_PACKET:
 					this->playerHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of playerHealthPacket data to the correct queue
+					break;
+				case RESSURECTION_PACKET:
+					this->ressurectionQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ressurectionPacket data to the correct queue
 					break;
 
 #ifdef DEBUGGING_NETWORK
@@ -264,4 +273,9 @@ PacketQueue<EventPacket> * PacketFilter::getEndEventQueue()
 PacketQueue<HealthPacket> * PacketFilter::getPlayerHealthQueue()
 {
 	return this->playerHealthQueue;
+}
+
+PacketQueue<HealthPacket> * PacketFilter::getRessurectionQueue()
+{
+	return this->ressurectionQueue;
 }

@@ -320,6 +320,17 @@ namespace Nurn
 		return this->packetFilter->getPlayerHealthQueue()->pop(packet);
 	}
 
+	void NurnEngine::pushRessurectionPacket(const HealthPacket& packet)
+	{
+		this->packager->pushRessurectionPacket(packet);
+	}
+	
+	bool NurnEngine::fetchRessurectionPacket(HealthPacket& packet)
+	{
+		return this->packetFilter->getRessurectionQueue()->pop(packet);
+	}
+
+
 #ifdef DEBUGGING_NETWORK
 	float NurnEngine::getPing()
 	{

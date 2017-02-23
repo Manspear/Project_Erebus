@@ -184,6 +184,7 @@
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="TransformHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AGI\AGI.vcxproj">
@@ -256,6 +257,7 @@
     <None Include="Scripts\spellList.lua" />
     <None Include="Scripts\staticAoEType.lua" />
     <None Include="Scripts\sunRay.lua" />
+    <None Include="Scripts\TimeLaser.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Scripts\tumbleThorns.lua" />
@@ -341,6 +343,7 @@
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="TransformHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlaneFrustum.h" />

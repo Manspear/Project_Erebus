@@ -6,10 +6,12 @@
 #include "Assets.h"
 #include"HeightMap.h"
 #include"Debug.h"
+#include "TransformHandler.h"
+
 namespace LuaAI
 {
 	
-	void registerFunctions(lua_State* lua, Transform *, AGI::AGIEngine*,Importer::Assets* assets);
+	void registerFunctions(lua_State* lua, Transform *, AGI::AGIEngine*,Importer::Assets* assets, TransformHandler* transformHandler);
 	int followPlayer(lua_State * lua);
 	int navigateMesh(lua_State * lua);
 	int distanceTransTrans(lua_State * lua);

@@ -17,7 +17,9 @@ function CreateSiphon(entity)
 	spell.hudtexture = SIPHON_SPELL_TEXTURE
 	spell.effects = {}
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
-	spell.transformID = Transform.Bind()
+	--spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/SunRayInner.model" )
+	spell.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
 
 	spell.collider = OBBCollider.Create(spell.transformID)
@@ -27,7 +29,7 @@ function CreateSiphon(entity)
 
 	spell.collider.SetSize(spell.collider, SIPHON_HITBOX_LENGTH, 1, 1)
 	local model = Assets.LoadModel( "Models/Siphon.model" )
-	spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
+	--spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
 	spell.isActiveSpell = false
 	spell.hits = {}
 	spell.alive = false
@@ -44,6 +46,7 @@ function CreateSiphon(entity)
 	spell.chained = nil
 	spell.chaininterval = 0
 	spell.duration = SIPHON_CHAIN_DURATION
+	spell.temppos = {x=0,y=0,z=0}
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then
@@ -57,6 +60,13 @@ function CreateSiphon(entity)
 		--Transform.ActiveControl(self.transformID, true)
 		self.alive = true
 	end
+
+	function spell:GetCollider()
+		local result = {}
+		table.insert(result, self.collider:GetID())
+		return result
+	end
+
 	spell.Charge = BaseCharge
 	function spell:ChargeCast()
 		if self.cooldown < 0 then 
@@ -114,8 +124,14 @@ function CreateSiphon(entity)
 	end
 	function spell:rotatetotarget()
 		if self.chained then
-			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), Transform.GetPosition(self.chained.transformID))
-			self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.chained.transformID)
+			if self.chained.health > 0 then
+				--print("tjoo")
+				self.temppos = Transform.GetPosition(self.chained.transformID)
+			end
+			print(self.temppos.x .. " y: " .. self.temppos.y .. " z: " .. self.temppos.z)
+			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), self.temppos)
+			--self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.temppos)
+			self.length = Transform.GetDistanceBetweenTransAndPos(self.owner.transformID, self.temppos)
 			local pos = Transform.GetPosition(self.owner.transformID)
 			--pos.x = pos.x + direction.x * self.length/2 
 			--pos.y = pos.y + direction.y * self.length/2

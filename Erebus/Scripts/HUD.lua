@@ -47,8 +47,9 @@ function LoadHUD()
 	tutorialTexture[5] = Assets.LoadTexture("Textures/TUTORIALCharge2.dds")
 	tutorialTexture[6] = Assets.LoadTexture("Textures/TUTORIALChargeFriend1.dds")
 	tutorialTexture[7] = Assets.LoadTexture("Textures/TUTORIALChargeFriend2.dds")
-	pingImages[0] = UI.load(30.1, 9.1, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[1] = UI.load(20.8, 9, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+
+	pingImages[0] = UI.load(20.8, 9.6, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(30.1, 9.7, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	
 	
 	
@@ -165,10 +166,11 @@ function DrawHUD()
 		end
 	end
 
+	--TODO: For Emill to figure out
 	if player2.charging then
-		UI.drawWorldImage(player2.chargeImage, player2.spells[player2.currentSpell].hudtexture);
+		--UI.drawWorldImage(player2.chargeImage, player2.spells[player2.currentSpell].hudtexture);
 		if (player2.isCombined and player2.combinedSpell ~= -1) then
-			UI.drawWorldImage(player2.combineImage, SpellList[player2.combinedSpell].texture);
+			--UI.drawWorldImage(player2.combineImage, SpellList[player2.combinedSpell].texture);
 		end
 	end
 

@@ -39,6 +39,8 @@ namespace LuaNetwork
 			{ "GetEndEventPacket", getEndEventPacket },
 			{ "SendPlayerHealthPacket", sendPlayerHealthPacket },
 			{ "GetPlayerHealthPacket", getPlayerHealthPacket },
+			{ "SendRessurectionPacket", sendRessurectionPacket },
+			{ "GetRessurectionPacket", getRessurectionPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
 			{ "ShouldSendNewAnimation", shouldSendNewAnimation },
@@ -546,11 +548,41 @@ namespace LuaNetwork
 	{
 		HealthPacket playerHealthPacket;
 
-		if (g_networkController->fetchAIHealthPacket(playerHealthPacket))
+		if (g_networkController->fetchPlayerHealthPacket(playerHealthPacket))
 		{
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, playerHealthPacket.data.transformID);
 			lua_pushnumber(lua, playerHealthPacket.data.health);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 3;
+	}
+
+	int sendRessurectionPacket(lua_State* lua)
+	{
+		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+
+		g_networkController->sendRessurectionPacket(HealthPacket(transformID, health));
+
+		return 0;
+	}
+
+	int getRessurectionPacket(lua_State* lua)
+	{
+		HealthPacket ressurectionPacket;
+
+		if (g_networkController->fetchRessurectionPacket(ressurectionPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, ressurectionPacket.data.transformID);
+			lua_pushnumber(lua, ressurectionPacket.data.health);
 		}
 		else
 		{

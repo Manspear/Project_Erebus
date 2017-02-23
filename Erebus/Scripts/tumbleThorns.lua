@@ -17,9 +17,10 @@ function CreateTumblethorns(entity)
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
 		
-	spell.transformID = Transform.Bind()
+	--spell.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
-	Gear.AddForwardInstance(model, spell.transformID )
+	--Gear.AddForwardInstance(model, spell.transformID )
+	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
@@ -78,7 +79,7 @@ function CreateTumblethorns(entity)
 	end
 	function spell:GetCollider()
 		local result = {}
-		table.insert(result, self.SphereCollider:GetID())
+		table.insert(result, self.sphereCollider:GetID())
 		return result
 	end
 	function spell:ChargeCast()

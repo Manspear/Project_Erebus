@@ -1,6 +1,7 @@
-function CreateStaticAoEType()
+function CreateStaticAoEType(model)
 	local type = {}
-	type.transformID = Transform.Bind()
+	--type.transformID = Transform.Bind()
+	type.transformID = Gear.BindBlendingInstance(model)
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
 	CollisionHandler.AddSphere(type.sphereCollider, 1)
