@@ -2806,13 +2806,12 @@ level01.colliders.AutoGenParent483ID347 = nil
 level01.colliders.AutoGenParent483ID348 = nil
 level01.colliders.AutoGenParent483ID349 = nil
 
-local New221247ID = CreateEnemy(ENEMY_MELEE, {x=20.7969, y=6.44531, z=147.75})
+local New221247ID = CreateEnemy(ENEMY_MELEE, {x=20.7969, y=6.44531, z=147.75},8)
 
 New221247ID.moveSpeed = 9
 New221247ID.health = 50
 New221247ID.visionRange = 30
 
-New221247ID.SetState(New221247ID,"DoNothingState")
 
 
 
@@ -2840,6 +2839,7 @@ local New225251ID = CreateEnemy(ENEMY_MELEE, {x=183.375, y=55.5313, z=73.875})
 New225251ID.moveSpeed = 9
 New225251ID.health = 50
 New225251ID.visionRange = 30
+
 
 end
 level01.unload = function()

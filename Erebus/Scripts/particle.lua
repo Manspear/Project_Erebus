@@ -103,6 +103,26 @@ function createSparklyParticles()
 	return sparkles
 end
 
+function createSparklyParticles2()
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
+	local sparkles = {}
+	sparkles.ID = Emitter.Bind(50, 1.0, 2, 25, 2, 8, 0, 1, -1)   
+	Emitter.SetTexture(sparkles.ID, STAR_PARTICLES_TEX)
+
+	function sparkles:cast()
+		Emitter.SetAlive(self.ID)
+	end
+
+	function sparkles:die()
+		Emitter.SetDead(self.ID)
+	end
+
+	function sparkles:update(pos)
+		Emitter.SetPosition(self.ID, pos)
+	end
+	return sparkles
+end
+
 function  createTumbleParticles()
 	local tumbleParticles = {}
 	tumbleParticles.fly = Particle.Bind("ParticleFiles/leafParticles.Particle");

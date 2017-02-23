@@ -1,4 +1,4 @@
-WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/windknockback.dds")
+WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 WINDKNOCKBACK_COOLDOWN = 2
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
