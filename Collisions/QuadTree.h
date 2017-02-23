@@ -15,8 +15,8 @@ namespace Collisions
 		COLLISIONS_EXPORTS bool addStaticModels(std::vector<Gear::ModelInstance>* models);
 		COLLISIONS_EXPORTS bool addDynamicModels(std::vector<Gear::ModelInstance>* models);
 		COLLISIONS_EXPORTS void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
-		COLLISIONS_EXPORTS std::vector<ModelInstance>* frustumCollision();
 		COLLISIONS_EXPORTS void clearDynamicModels();
+		COLLISIONS_EXPORTS std::vector<ModelInstance>* frustumCollision();
 
 		//setters
 		COLLISIONS_EXPORTS void setFrustum(Frustum* frustum);
@@ -107,7 +107,10 @@ namespace Collisions
 		std::vector<AABBCollider*>* tempDynamicHitboxes;
 		std::vector<Gear::ModelInstance>* tempDynamicModelInstance;
 		std::vector<ModelHitboxCombiner*>* allDynamicModels;
+		std::vector<ModelHitboxCombiner*>* uniqueDynamicModelHitboxCombiners;
+		public:
 		std::vector<ModelInstance>* modelInstancesInFrustum;
+		private:
 
 
 		//Helper functions
@@ -118,6 +121,7 @@ namespace Collisions
 		void resetAllTemporaryData();
 		inline void resethitNodeSave();
 		inline void resetDynamicModelsInNodes();
+		bool uniqueModelHitboxCombiner(ModelHitboxCombiner* model);
 	};
 
 

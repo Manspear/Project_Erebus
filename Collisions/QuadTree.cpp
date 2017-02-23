@@ -18,6 +18,7 @@ namespace Collisions
 		this->tempDynamicModelInstance = nullptr;
 		this->allDynamicModels = new std::vector<ModelHitboxCombiner*>();
 		this->modelInstancesInFrustum = new std::vector<ModelInstance>();
+		this->uniqueDynamicModelHitboxCombiners = new std::vector<ModelHitboxCombiner*>();
 	}
 
 
@@ -48,6 +49,8 @@ namespace Collisions
 
 		if (this->modelInstancesInFrustum != nullptr)
 			delete this->modelInstancesInFrustum;
+		if (this->uniqueDynamicModelHitboxCombiners != nullptr)
+			delete this->uniqueDynamicModelHitboxCombiners;
 
 	}
 
@@ -65,6 +68,7 @@ namespace Collisions
 
 		for (size_t i = 0; i < models->size(); i++) // for every type of model
 		{
+//			models->at(i).setActiveTransforms(0);
 			ModelAsset* tempModelAsset = models->at(i).getAsset(); // get model asset
 
 			for (size_t j = 0; j < models->at(i).getActiveTransforms(); j++) // for every model that uses that asset
@@ -120,6 +124,7 @@ namespace Collisions
 			this->resethitNodeSave();
 			this->frustumNodeHitAmount = 0;
 			this->modelInstancesInFrustum->clear();
+			this->uniqueDynamicModelHitboxCombiners->clear();
 
 			this->recursiveFrustumCollision(this->baseNode);
 			
@@ -269,28 +274,35 @@ namespace Collisions
 
 	void QuadTree::addModelToModelInstances(ModelHitboxCombiner* model, std::vector<ModelInstance>* modelInstances)
 	{
+		// Check if unique
 		// Check if any modelInstance have the same asset as you
 		// If the same asset exist, insert your transform there
 		// if it does not exists, create new modelInstance with that asset and add transform
+		bool unique = this->uniqueModelHitboxCombiner(model);
 		bool done = false;
 		glm::mat4 matrix;
-		for (size_t i = 0; i < modelInstances->size() && !done; i++)
+		if (unique)
 		{
-			ModelInstance& tempModelInstance = modelInstances->operator[](i);
-			if (tempModelInstance.getAsset() == model->asset) // are they pointing at the same asset?
+			for (size_t i = 0; i < modelInstances->size() && !done; i++)
 			{
+				ModelInstance& tempModelInstance = modelInstances->operator[](i);
+				if (tempModelInstance.getAsset() == model->asset) // are they pointing at the same asset?
+				{
+					tempModelInstance.incrActiveTransforms();
+					tempModelInstance.addStaticInstance(*model->transform, matrix);
+					
+					done = true;
+				}
+			}
+			if (!done) // if we didnt find a modelInstance with correct modelAsset, create a new one
+			{
+				ModelInstance tempModelInstance;
+				tempModelInstance.setAsset(model->asset);
 				tempModelInstance.addStaticInstance(*model->transform, matrix);
-				tempModelInstance.incrActiveTransforms();
-				done = true;
+				modelInstances->push_back(tempModelInstance);
 			}
 		}
-		if (!done) // if we didnt find a modelInstance with correct modelAsset, create a new one
-		{
-			ModelInstance tempModelInstance;
-			tempModelInstance.setAsset(model->asset);
-			tempModelInstance.addStaticInstance(*model->transform,matrix);
-			modelInstances->push_back(tempModelInstance);
-		}
+
 	}
 
 	void QuadTree::resetAllTemporaryData()
@@ -318,5 +330,18 @@ namespace Collisions
 		{	
 			this->leafNodes[i]->resetDynamic();
 		}
+	}
+	bool QuadTree::uniqueModelHitboxCombiner(ModelHitboxCombiner * model)
+	{
+		bool unique = true;
+		for (size_t i = 0; i < this->uniqueDynamicModelHitboxCombiners->size(); i++)
+		{
+			if (model == uniqueDynamicModelHitboxCombiners->operator[](i))
+				unique = false;
+		}
+		if (unique)
+			this->uniqueDynamicModelHitboxCombiners->push_back(model);
+
+		return unique;
 	}
 }

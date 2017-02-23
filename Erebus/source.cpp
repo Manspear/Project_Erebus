@@ -49,6 +49,7 @@ struct ThreadData
 	std::vector<Gear::ParticleEmitter*>* particleEmitters;
 	std::vector<ModelInstance>* blendingModels;
 	TransformHandler* transformHandler;
+	QuadTree* quadtree;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -76,13 +77,13 @@ DWORD WINAPI update(LPVOID args)
 	CollisionHandler collisionHandler = CollisionHandler(10); // Collision stuff init
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler);
 	CollisionUpdater collisionUpdater(&collisionHandler, transforms, data->transformHandler);
-	QuadTree quadtree;
-	quadtree.generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
+	
+	data->quadtree->generateQuadtree(5, glm::vec3(0, 0, 0), 1000.0f);
 	AABBCollider temp(glm::vec3(-10, -10, -10), glm::vec3(10, 10, 10), glm::vec3(17, 17, 17));
 
 	Frustum f;
 	f.setCameraParameters(data->camera->getFov(), data->camera->getAspectRatio(), data->camera->getNearPlaneDistance(), data->camera->getFarPlaneDistance());
-	quadtree.setFrustum(&f);
+	data->quadtree->setFrustum(&f);
 
 	int boundTransforms = 0;
 	int boundAnimations = 0;
@@ -130,14 +131,14 @@ DWORD WINAPI update(LPVOID args)
 		if (data->inputs->keyPressed(GLFW_KEY_T))
 		{
 
-			quadtree.addDynamicModels(data->models);
-			hello = quadtree.frustumCollision();
+			data->quadtree->addDynamicModels(data->models);
+			hello = data->quadtree->frustumCollision();
 
 
 		}
 
 
-		data->engine->print(std::to_string(quadtree.getNodeCollisionAmount()), 100, 100);
+		data->engine->print(std::to_string(data->quadtree->getNodeCollisionAmount()), 100, 100);
 
 
 		glm::vec3 cameraPosition = data->camera->getPosition();
@@ -287,6 +288,8 @@ int main()
 	std::vector<ModelInstance> blendingModels;
 	TransformHandler transformHandler(&engine, &models, &animModels, &forwardModels, &blendingModels);
 
+	QuadTree quadtree;
+
 	ThreadData threadData =
 	{
 		&engine,
@@ -303,6 +306,7 @@ int main()
 		&particleEmitters,
 		&blendingModels,
 		&transformHandler,
+		&quadtree,
 		false,
 		true,
 		false,
@@ -380,6 +384,8 @@ int main()
 
 			if (threadData.queueModels)
 				engine.queueDynamicModels(&models);
+			//if (threadData.queueModels)
+			//	engine.queueDynamicModels(quadtree.modelInstancesInFrustum);
 			engine.update(deltaTime);
 
 			soundEngine.update(deltaTime);
