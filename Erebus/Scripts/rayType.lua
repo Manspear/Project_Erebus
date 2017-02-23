@@ -13,7 +13,7 @@ function CreateRayType(model)
 	function ray:Cast(position)
 		Transform.ActiveControl(self.transformID, true)
 		Transform.SetPosition(self.transformID, position)
-		OBBCollider.SetActive(self.oobCollider, true);
+		OBBCollider.SetActive(self.oobCollider, true)
 		self.position = position
 	end
 
