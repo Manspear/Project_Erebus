@@ -58,8 +58,10 @@ std::string LevelEnemy::toLuaLoad(std::string name){
 
 	LevelTransform* transform = parent->getComponent<LevelTransform>();
 	glm::vec3 pos = transform->getTransformRef()->getPos();
-
-	ss << "local " << name << " = CreateEnemy(" << ( type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED" ) << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+	if(type==ENEMY_DUMMY)
+		ss << "local " << name << " = CreateEnemy(" << "ENEMY_DUMMY" << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+	else
+		ss << "local " << name << " = CreateEnemy(" << ( type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED" ) << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
 
 	ss << name << ".moveSpeed = " << moveSpeed << endl;
 	ss << name << ".health = " << health << endl;
