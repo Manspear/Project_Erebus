@@ -17,6 +17,7 @@ namespace Gear
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		worldImage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		floatingDamage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		skybox = new Skybox();
 
 		staticModels = &defaultModelList;
@@ -171,6 +172,11 @@ namespace Gear
 	void GearEngine::setFont(FontAsset* font)
 	{
 		text.setFont(font);
+		
+	}
+	void GearEngine::setDamageFont(FontAsset* font)
+	{
+		floatingDamage.setFont(font);
 	}
 
 	void GearEngine::setWorkQueue( WorkQueue* workQueue )

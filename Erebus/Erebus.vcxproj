@@ -282,6 +282,9 @@
     <None Include="Shaders\debugSphere.frag" />
     <None Include="Shaders\debugSphere.geom" />
     <None Include="Shaders\debugSphere.vert" />
+    <None Include="Shaders\floatDamage.frag" />
+    <None Include="Shaders\floatDamage.geom" />
+    <None Include="Shaders\floatDamage.vert" />
     <None Include="Shaders\forward.frag" />
     <None Include="Shaders\forward.geom" />
     <None Include="Shaders\forward.vert" />
