@@ -111,15 +111,6 @@ namespace Gear
 	void GearEngine::skyboxInit()
 	{
 		skybox->init();
-
-		std::vector<const GLchar*> faces;
-		faces.push_back("skybox/right.dds");
-		faces.push_back("skybox/left.dds");
-		faces.push_back("skybox/top.dds");
-		faces.push_back("skybox/bottom.dds");
-		faces.push_back("skybox/front.dds");
-		faces.push_back("skybox/back.dds");
-		skybox->loadCubemap(faces);
 	}
 #pragma endregion
 #pragma region bluh

@@ -59,7 +59,6 @@ namespace LuaGear
 			{ "QueueModels", setQueueModels },
 			{ "CursorVisible", setCursorVisible },
 			{ "Fullscreen", setFullscreen },
-			{ "FogColor", setFogColor },
 			{ NULL, NULL }
 		};
 
@@ -95,6 +94,24 @@ namespace LuaGear
 		lua_pushvalue(lua, -1);
 		lua_setfield(lua, -2, "__index");
 		lua_setglobal(lua, "Animation");
+
+		//Skybox and directional light
+		luaL_newmetatable(lua, "skyboxMeta");
+		luaL_Reg skyboxRegs[] =
+		{
+			{ "FogColor", setFogColor },
+			{ "SetPhase", setPhase},
+			{ "SetTime", setTime },
+			{ "Override", setOverride },
+			{ "GetHours", getHours },
+			{ "GetMinutes", getMinutes },
+			{ NULL, NULL }
+		};
+
+		luaL_setfuncs(lua, skyboxRegs, 0);
+		lua_pushvalue(lua, -1);
+		lua_setfield(lua, -2, "__index");
+		lua_setglobal(lua, "Sky");
 	}
 
 	/*int addStaticInstance( lua_State* lua )
@@ -604,6 +621,63 @@ namespace LuaGear
 		g_skybox->setFogColor(glm::vec3(r, g, b));
 
 		return 0;
+	}
+
+	int setPhase(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+
+		if (lua_isinteger)
+		{
+			switch ((int)lua_tonumber(lua,1))
+			{
+			case 1:
+				g_skybox->setPhase(DayPhase::Dawn);
+				break;
+			case 2:
+				g_skybox->setPhase(DayPhase::Day);
+				break;
+			case 3:
+				g_skybox->setPhase(DayPhase::Dusk);
+				break;
+			case 4:
+				g_skybox->setPhase(DayPhase::Night);
+				break;
+			default:
+				break;
+			}
+		}
+
+		return 0;
+	}
+
+	int setOverride(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		g_skybox->overrideLua(lua_toboolean(lua, 1));
+		return 0;
+	}
+
+	int setTime(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		int hours = (int)lua_tonumber(lua, 1);
+
+		g_skybox->setTime(hours);
+
+		return 0;
+	}
+
+	int getHours(lua_State * lua)
+	{
+		lua_pushnumber(lua, g_skybox->getHours());
+		return 1;
+	}
+
+	int getMinutes(lua_State * lua)
+	{
+		lua_pushnumber(lua, g_skybox->getMinutes());
+		return 1;
 	}
 
 	/*int addBlendingInstance(lua_State * lua)

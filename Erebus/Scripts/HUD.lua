@@ -182,6 +182,8 @@ function DrawHUD()
 			UI.drawWorldImage(boss.healthbar,  imageTextures["healthBar"])
 		end
 	end
+
+	Gear.Print(tostring(math.floor(Sky.GetHours())) .. ":" .. tostring(math.floor(Sky.GetMinutes())), 630, 10)
 end
 
  
