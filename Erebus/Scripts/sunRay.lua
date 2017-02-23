@@ -1,4 +1,4 @@
-SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/sunbeam.dds");
+SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSunRay.dds");
 SUNRAY_DURATION = 3
 SUNRAY_DAMAGE = 1
 SUNRAY_COOLDOWN = 4.7

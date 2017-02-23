@@ -1,4 +1,4 @@
-FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.dds");
+FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 8
 FIRESPAM_SPEED = 120

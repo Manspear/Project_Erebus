@@ -37,6 +37,7 @@ uniform mat4 shadowVPM;
 uniform mat4 invView;
 uniform mat4 invProj;
 uniform int num_dynamic_lights;
+uniform vec3 fogColor;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular);
@@ -80,7 +81,7 @@ void main() {
 
 	vec3 outputColor = (ambient + directional + point + dynamicPoint);
 
-	outputColor = mix(outputColor, vec3(0.50,0.50,0.50),getFogFactor(length(FragPos - viewPos)));
+	outputColor = mix(outputColor, fogColor,getFogFactor(length(FragPos - viewPos)));
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
         FragColor = vec4(outputColor, 1.0);
