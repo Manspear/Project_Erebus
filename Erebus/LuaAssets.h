@@ -27,6 +27,9 @@ namespace LuaAssets
 	int getHeightmapPosition( lua_State* lua );
 	int getHeightmapMultiplier( lua_State* lua );
 
+	//DEBUG FUNCTION
+	int compareModels(lua_State* lua);
+
 	// helper functions
 	Importer::HeightMap* getHeightmap( lua_State* lua, int index );
 	void setVec3( lua_State* lua, const glm::vec3& v );

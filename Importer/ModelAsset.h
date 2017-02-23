@@ -34,6 +34,8 @@ namespace Importer
 		IMPORTER_API const glm::vec3& getMinPosition() const;
 		IMPORTER_API const glm::vec3& getMaxPosition() const;
 
+		std::vector<sVertex> vertBuff;
+		std::vector<int> indBuff;
 	private:
 		hModel header;
 		sOffset* offsets;

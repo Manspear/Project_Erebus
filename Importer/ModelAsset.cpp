@@ -59,11 +59,13 @@ namespace Importer
 			ptr += sizeof(sKeyFrame)*header.numKeyframes;
 
 			vertexBuffers = (GLuint*)ptr;
+
 			ptr += sizeof(GLuint)*header.numMeshes;
 
 			indexBuffers = (GLuint*)ptr;
 			ptr += sizeof(GLuint)*header.numMeshes;
 
+			
 			bufferSizes = (int*)ptr;
 			ptr += sizeof(int)*header.numMeshes;
 
@@ -71,6 +73,21 @@ namespace Importer
 			glm::vec3 curMin( std::numeric_limits<float>().max() );
 			glm::vec3 curMax( std::numeric_limits<float>().min() );
 
+			//Saving debug variables...
+			//-------------------------------------------------------
+			if (meshes[0].numVertices > 0)
+			{
+				sVertex* vertPtr = (sVertex*)bufferptr;
+				vertBuff.resize(meshes[0].numVertices);
+				memcpy((char*)&vertBuff[0], (char*)vertPtr, meshes[0].numVertices * sizeof(sVertex));
+				indBuff.resize(meshes[0].numIndices);
+				memcpy(&indBuff[0], (char*)vertPtr + meshes[0].numVertices * sizeof(sVertex), meshes[0].numIndices * sizeof(int));
+				//location of the indexes
+				(char*)vertPtr + meshes[0].numVertices * sizeof(sVertex);
+				//location of the vertices
+				(sVertex*)bufferptr;
+			}
+			//--------------------------------------------------------
 			if( header.TYPE == STATIC )
 			{
 				sVertex* vertices = (sVertex*)bufferptr;

@@ -16,6 +16,7 @@ namespace LuaAssets
 			{ "LoadModel", loadModel },
 			{ "LoadTexture", loadTexture },
 			{ "LoadHeightmap", loadHeightmap },
+			{ "CompareModels", compareModels},
 			{ NULL, NULL }
 		};
 
@@ -239,6 +240,102 @@ namespace LuaAssets
 		HeightMap* heightmap = getHeightmap( lua, 1 );
 		lua_pushnumber( lua, heightmap->getHeightMultiplier() );
 		return 1;
+	}
+
+	int compareModels(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		int result = 0;
+		//model1 & 2 are NULL...
+		ModelAsset* model1 = g_assets->load<ModelAsset>(lua_tostring(lua, 1));
+		ModelAsset* model2 = g_assets->load<ModelAsset>(lua_tostring(lua, 2));
+		int resso = -1337;
+		model1->vertBuff;
+		model2->vertBuff;
+		
+		hModel* head1 = model1->getHeader();
+		hModel* head2 = model2->getHeader();
+		int headRes = memcmp(head1, head2, sizeof(hModel));
+
+		if (headRes == 0)
+			printf("Headers same!\n");
+		else
+			printf("Headers NOT same!\n");
+
+		int bufSiz1 = model1->getBufferSize(0);
+		int bufSiz2 = model2->getBufferSize(0);
+
+		if (bufSiz1 == bufSiz2)
+			printf("Buffer-Sizes same!\n");
+		else
+			printf("Buffer-Sizes NOT same!\n");
+
+		if(model2->vertBuff.size() == model1->vertBuff.size())
+			resso = memcmp(model1->vertBuff.data(), model2->vertBuff.data(), model2->vertBuff.size());
+		int resso2 = -1337;
+		if(model2->indBuff.size() == model2->indBuff.size())
+			resso2 = memcmp(model1->indBuff.data(), model2->indBuff.data(), model2->indBuff.size());
+
+		int matDiff = -1337;
+		MaterialAsset* mat1 = model1->getMaterial();
+		MaterialAsset* mat2 = model2->getMaterial();
+		matDiff = memcmp(mat1, mat2, sizeof(MaterialAsset));
+
+		int resDiff = -1337;
+		TextureAsset* diff1 = mat1->getDiffuseTexture();
+		TextureAsset* diff2 = mat2->getDiffuseTexture();
+		if(diff1 != NULL && diff2 != NULL)
+			resDiff = memcmp(diff1, diff2, sizeof(TextureAsset));
+
+
+		int resSpec = -1337;
+		TextureAsset* spec1 = mat1->getSpecularTexture();
+		TextureAsset* spec2 = mat2->getSpecularTexture();
+		if(spec1 != NULL && spec2 != NULL)
+			resSpec = memcmp(spec1, spec2, sizeof(TextureAsset));
+
+
+		int resNorm = -1337;
+		TextureAsset* norm1 = mat1->getNormalTexture();
+		TextureAsset* norm2 = mat2->getNormalTexture();
+		if(norm1 != NULL && norm2 != NULL)
+			resNorm = memcmp(norm1, norm2, sizeof(TextureAsset));
+
+		if (resso == 0)
+			printf("Vertices same!\n");
+		else
+		{
+			printf("Vertices NOT same!\n");
+		}
+		if (resso2 == 0)
+			printf("Indices same!\n");
+		else
+		{
+			printf("Indices NOT same!\n");
+		}
+		if (resDiff == 0)
+			printf("Diffuse textures same!\n");
+		else if (resDiff != -1337)
+			printf("Diffuse textures NOT same!\n");
+		else
+			printf("NO diffuse texture!\n");
+
+		if (resSpec == 0)
+			printf("Specular textures same!\n");
+		else if (resSpec != -1337)
+			printf("Specular textures NOT same!\n");
+		else
+			printf("NO Specular texture!\n");
+
+		if (resNorm == 0)
+			printf("Normal textures same!\n");
+		else if (resNorm != -1337)
+			printf("Normal textures NOT same!\n");
+		else
+			printf("NO Normal texture!\n");
+
+		return result;
 	}
 
 	/*int getHeightmapModel( lua_State* lua )
