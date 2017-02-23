@@ -9,6 +9,7 @@ POSITIONING_OUTER_STATE = 4
 FOLLOW_STATE = 5
 DEAD_STATE = 6
 DO_NOTHING_STATE = 7
+DUMMY_STATE = 8
 
 INTERPOLATING_AI_TRANSFORM = false
 INTERPOLATION_ITERATIONS = 2
@@ -16,6 +17,7 @@ INTERPOLATION_ITERATIONS = 2
 MAX_ENEMIES = 10
 ENEMY_MELEE = 1
 ENEMY_RANGED = 2
+ENEMY_DUMMY = 3
 enemies = {}
 
 COUNTDOWN = -1
@@ -32,7 +34,7 @@ ENEMY_HEALTHBAR_HEIGHT = 0.15
 
 
 function CreateEnemy(type, position)
-	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
+	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or ENEMY_DUMMY, "Invalid enemy type." )
 
 	local i = #enemies+1
 	enemies[i] = {}
@@ -66,7 +68,7 @@ function CreateEnemy(type, position)
 	enemies[i].range = 4
 	enemies[i].target = nil
 
-	enemies[i].playerTarget = nil
+	enemies[i].playerTarget = player
 
 	enemies[i].animationState = 1
 	enemies[i].range = 4
@@ -97,10 +99,13 @@ function CreateEnemy(type, position)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
-				if self.health < 0 then
+				if self.health < 1 and self.stateName ~= DUMMY_STATE then
 					--print("Dead for host", enemies[i].transformID)
 					self.health = 0
 					self:Kill()
+				elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+					self.health = self.maxHealth
+					self.currentHealth = self.maxHealth
 				end
 			else
 				--print("Sending damage", self.transformID, damage)
@@ -126,9 +131,7 @@ function CreateEnemy(type, position)
 			self.insideInnerCircleRange = false
 		end
 
-		self.alive = false
-		Transform.ActiveControl(self.transformID, false)
-		SphereCollider.SetActive(self.sphereCollider, false)
+	
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
@@ -172,7 +175,10 @@ function CreateEnemy(type, position)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 	
 	if Network.GetNetworkHost() == true then
-		enemies[i].state = stateScript.state.idleState
+		enemies[i].state =  stateScript.state.idleState
+		if type == ENEMY_DUMMY then
+			stateScript.changeToState(enemies[i], player, DUMMY_STATE)
+		end
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
 	end
@@ -184,6 +190,11 @@ function UnloadEnemies()
 	AI.Unload()
 end
 
+function DestroyEnemy(enemy)
+	Transform.ActiveControl(enemy.transformID, false)
+	SphereCollider.SetActive(enemy.sphereCollider, false)
+	enemy.alive = false
+end
 function UpdateEnemies(dt)
 
 	--for i = 1, #heightmaps do
@@ -195,7 +206,7 @@ function UpdateEnemies(dt)
 
 		for i=1, #enemies do
 			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
-			if enemies[i].alive then
+			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				AI.ClearMap(enemies[i].lastPos,0)
 				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
 				AI.AddIP(enemies[i].transformID,-1,0)
@@ -229,7 +240,7 @@ function UpdateEnemies(dt)
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
 			tempdt = dt * enemies[i].timeScalar
-			if enemies[i].alive then
+			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				--AI.AddIP(enemies[i].transformID,-1)
 				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
@@ -245,10 +256,12 @@ function UpdateEnemies(dt)
 					end
 				end
 
-				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-				pos.y = pos.y - 10*dt
-				if pos.y < height then
-					pos.y = height
+				if  enemies[i].stateName ~= DEAD_STATE then
+					local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+					pos.y = pos.y - 10*dt
+					if pos.y < height then
+						pos.y = height
+					end
 				end
 				Transform.SetPosition(enemies[i].transformID, pos)
 
@@ -405,9 +418,9 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 or player.health > 0 then
+	if lengthToP1 < lengthToP2 and player.health > 0 then
 		enemy.playerTarget = player
-	elseif player2.health > 0 then
+	elseif player2.health > 0  and lengthToP1 > lengthToP2 then
 		enemy.playerTarget = player2
 	end
 

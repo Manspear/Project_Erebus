@@ -1,6 +1,6 @@
 local baseReturn = {}
 
-clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, State = {}}
+clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, leapState = {}, State = {}}
 
 
 function clientAIState.idleState.enter(enemy, playerTarget)
@@ -54,21 +54,61 @@ function clientAIState.attackState.exit(enemy, playerTarget)
 
 end 
 
+function clientAIState.leapState.enter(enemy,playerTarget)
+	enemy.animationController:doStartLeap()
+	enemy.subPathtarget = Transform.GetPosition(player.transformID)
+	enemy.actionCountDown = 1.0
+end
+
+function clientAIState.leapState.update(enemy,playerTarget, dt)
+	length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
+
+	if enemy.actionCountDown >0 and length >1 then
+
+		enemy.actionCountDown= enemy.actionCountDown - dt
+	
+		if enemy.actionCountDown <0 then
+			enemy.animationController:doLeap()
+			enemy.subPathtarget = Transform.GetPosition(player.transformID)
+			length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
+			enemy.tempVariable = length
+		end
+	
+	---------------------------------------- Mid Flight
+	elseif length >1 then
+		local checker =  length/enemy.tempVariable
+
+		if checker <= 0.5 then
+
+		else
+			enemy.animationController:doEndLeap()
+		end
+	end
+
+	local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+	while newDamageVal == true do 
+		player:Hurt(dmg_damage, dmg_transformID)
+		newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+	end
+end
+
+function clientAIState.leapState.exit(enemy,playerTarget)
+	enemy.animationController:doWalk()
+	enemy.subPathtarget = nil
+	enemy.actionCountDown = 1.5
+end 
+
 function clientAIState.deadState.enter(enemy, playerTarget)
 	--print("Client enemy died", enemy.transformID)
 	--enemy.animationController:doNothing()
-
-	enemy.actionCountDown = 12
-	enemy.healthOrb = GetHealthOrb()
-	SpawnHealthOrb(enemy.healthOrb, Transform.GetPosition(enemy.transformID))
-
-
+	enemy.actionCountDown = 3
+	SpawnNewHealthOrb(Transform.GetPosition(enemy.transformID))
 	enemy:Kill()
 end
 
 function clientAIState.deadState.update(enemy, playerTarget, dt)
 	enemy.actionCountDown= enemy.actionCountDown - dt	
-	if enemy.actionCountDown > 10 then			
+	if enemy.actionCountDown > 0 then			
 		local pos = Transform.GetPosition(enemy.transformID)
 		pos.x = pos.x + math.random(-3,3) * dt
 		pos.y = pos.y - 0.6 * dt
@@ -77,13 +117,6 @@ function clientAIState.deadState.update(enemy, playerTarget, dt)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
 		SphereCollider.SetActive(enemy.sphereCollider, false)
-	end
-
-	if enemy.actionCountDown > 0 then
-		if(UpdateHealthOrb(enemy.healthOrb, dt)) then	enemy.actionCountDown = -1	 end	
-	else
-		enemy.alive = false
-		KillHealthOrb(enemy.healthOrb)
 	end
 end
 
@@ -95,7 +128,7 @@ function clientAIState.doNothingState.enter(enemy,playerTarget)
 
 end
 
-function clientAIState.doNothingState.update(enemy,playerTarget)
+function clientAIState.doNothingState.update(enemy,playerTarget, dt)
 
 end
 
@@ -119,13 +152,18 @@ function setAIState(enemy, playerTarget, aiState)
 		--print("Received AttackState", enemy.transformID, aiState)
 		enemy.state = clientAIState.attackState
 	end
+
+	if aiState == 3 or aiState == LEAP_STATE then--leapState
+		--print("Received leapState", enemy.transformID, aiState)
+		enemy.state = clientAIState.leapState
+	end
 			
-	if aiState == 3 or aiState == DEAD_STATE then--DeadState
+	if aiState == 4 or aiState == DEAD_STATE then--DeadState
 		--print("Received DeadState", enemy.transformID, aiState)
 		enemy.state = clientAIState.deadState
 	end	
 
-	if aiState == 4 or aiState == DO_NOTHING_STATE then--DoNothingState
+	if aiState == 5 or aiState == DO_NOTHING_STATE then--DoNothingState
 		--print("Received DoNothingState", enemy.transformID, aiState)
 		enemy.state = clientAIState.doNothingState
 	end

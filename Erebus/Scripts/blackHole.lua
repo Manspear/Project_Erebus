@@ -1,4 +1,4 @@
-BLACK_HOLE_SPELL_TEXTURE = Assets.LoadTexture("Textures/blackhole.dds");
+BLACK_HOLE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconBlackHole.dds");
 BLACK_HOLE_DURATION = 7
 BLACK_HOLE_RADIUS = 5
 BLACK_HOLE_DAMAGE = 1
