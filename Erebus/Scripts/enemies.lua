@@ -124,8 +124,15 @@ function CreateEnemy(type, position)
 			end
 		end		
 	end
-	enemies[i].ChangeToState = function(self,inState)
-		stateScript.changeToState(self, player, inState)
+
+	if Network.GetNetworkHost() == true then
+		enemies[i].ChangeToState = function(self,inState)
+			stateScript.changeToState(self, player, inState)
+		end
+	else
+		enemies[i].ChangeToState = function(self,inState)
+			clientAIScript.setAIState(self, player, inState)
+		end
 	end
 
 	enemies[i].Kill = function(self)
@@ -190,6 +197,9 @@ function CreateEnemy(type, position)
 		end
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
+		if type == ENEMY_DUMMY then
+			clientAIScript.setAIState(enemies[i], player, DUMMY_STATE)
+		end
 	end
 
 	return enemies[i]
@@ -356,7 +366,7 @@ function UpdateEnemies(dt)
 	
 		while newAIStateValue == true do
 			for i=1, #enemies do
-				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
+				if enemies[i].transformID == aiState_transformID then
 					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end
