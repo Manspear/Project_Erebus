@@ -15,7 +15,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS bool addStaticModels(std::vector<Gear::ModelInstance>* models);
 		COLLISIONS_EXPORTS bool addDynamicModels(std::vector<Gear::ModelInstance>* models);
 		COLLISIONS_EXPORTS void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
-		COLLISIONS_EXPORTS void frustumCollision();
+		COLLISIONS_EXPORTS std::vector<ModelInstance>* frustumCollision();
 		COLLISIONS_EXPORTS void clearDynamicModels();
 
 		//setters

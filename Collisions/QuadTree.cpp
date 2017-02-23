@@ -59,6 +59,7 @@ namespace Collisions
 
 	bool QuadTree::addDynamicModels(std::vector<Gear::ModelInstance>* models)
 	{
+		this->resetDynamicModelsInNodes();
 		this->tempDynamicModelInstance = models; // save modelInstances
 		this->resetAllTemporaryData();
 
@@ -111,14 +112,14 @@ namespace Collisions
 		createChildren(this->baseNode, this->position, halWidth, this->depth);
 	}
 
-	void QuadTree::frustumCollision()
+	std::vector<ModelInstance>* QuadTree::frustumCollision()
 	{
 		int derpyy = 0, derpyy2 = 0, derpy3 = 0;
 		if (this->frustum != nullptr)
 		{
-			this->resetDynamicModelsInNodes();
 			this->resethitNodeSave();
 			this->frustumNodeHitAmount = 0;
+			this->modelInstancesInFrustum->clear();
 
 			this->recursiveFrustumCollision(this->baseNode);
 			
@@ -141,6 +142,8 @@ namespace Collisions
 
 		//std::cout << "You are getting: " << derpyy + derpyy2 << " amount of nodes from quadtree\n";
 		//std::cout << "Nodes with dynamic models: " << derpy3 << std::endl;
+
+		return this->modelInstancesInFrustum;
 	}
 
 	void QuadTree::clearDynamicModels()

@@ -122,7 +122,7 @@ DWORD WINAPI update(LPVOID args)
 
 	AnimationData animationData[MAX_ANIMATIONS];
 
-
+	std::vector<ModelInstance>* hello = nullptr;
 	while (data->running)
 	{
 		f.updateFrustum(data->camera->getPosition(), data->camera->getDirection(), data->camera->getUp());
@@ -131,7 +131,7 @@ DWORD WINAPI update(LPVOID args)
 		{
 
 			quadtree.addDynamicModels(data->models);
-			quadtree.frustumCollision();
+			hello = quadtree.frustumCollision();
 
 
 		}
@@ -182,31 +182,47 @@ DWORD WINAPI update(LPVOID args)
 			}
 			data->workQueue->execute();
 
-			for (int curModel = 0; curModel < data->models->size(); curModel++)
-			{
-				ModelInstance& instance = data->models->at(curModel);
-				for (int curInstance = 0; curInstance < instance.getActiveTransforms(); curInstance++)
-				{
-					TransformStruct* t = instance.getTransform(curInstance);
-					glm::vec3 minPos = instance.getAsset()->getMinPosition()*t->scale + t->pos;
-					glm::vec3 maxPos = instance.getAsset()->getMaxPosition()*t->scale + t->pos;
+			//for (int curModel = 0; curModel < data->models->size(); curModel++)
+			//{
+			//	ModelInstance& instance = data->models->at(curModel);
+			//	for (int curInstance = 0; curInstance < instance.getActiveTransforms(); curInstance++)
+			//	{
+			//		TransformStruct* t = instance.getTransform(curInstance);
+			//		glm::vec3 minPos = instance.getAsset()->getMinPosition()*t->scale + t->pos;
+			//		glm::vec3 maxPos = instance.getAsset()->getMaxPosition()*t->scale + t->pos;
 
-					Debugger::getInstance()->drawAABB(minPos, maxPos, glm::vec3(1.0f, 0.0f, 1.0f));
+			//		Debugger::getInstance()->drawAABB(minPos, maxPos, glm::vec3(1.0f, 0.0f, 1.0f));
+			//	}
+			//}
+			if (hello != nullptr)
+			{
+				for (int curModel = 0; curModel < hello->size(); curModel++)
+				{
+					ModelInstance& instance = hello->at(curModel);
+					for (int curInstance = 0; curInstance < instance.getActiveTransforms(); curInstance++)
+					{
+						TransformStruct* t = instance.getTransform(curInstance);
+						glm::vec3 minPos = instance.getAsset()->getMinPosition()*t->scale + t->pos;
+						glm::vec3 maxPos = instance.getAsset()->getMaxPosition()*t->scale + t->pos;
+
+						Debugger::getInstance()->drawAABB(minPos, maxPos, glm::vec3(1.0f, 1.0f, 1.0f));
+					}
 				}
 			}
 
-			for (int curModel = 0; curModel < data->animatedModels->size(); curModel++)
-			{
-				ModelInstance& instance = data->animatedModels->at(curModel);
-				for (int curInstance = 0; curInstance < instance.getActiveTransforms(); curInstance++)
-				{
-					TransformStruct* t = instance.getTransform(curInstance);
-					glm::vec3 minPos = instance.getAsset()->getMinPosition()*t->scale + t->pos;
-					glm::vec3 maxPos = instance.getAsset()->getMaxPosition()*t->scale + t->pos;
 
-					Debugger::getInstance()->drawAABB(minPos, maxPos, glm::vec3(1.0f, 0.0f, 1.0f));
-				}
-			}
+			//for (int curModel = 0; curModel < data->animatedModels->size(); curModel++)
+			//{
+			//	ModelInstance& instance = data->animatedModels->at(curModel);
+			//	for (int curInstance = 0; curInstance < instance.getActiveTransforms(); curInstance++)
+			//	{
+			//		TransformStruct* t = instance.getTransform(curInstance);
+			//		glm::vec3 minPos = instance.getAsset()->getMinPosition()*t->scale + t->pos;
+			//		glm::vec3 maxPos = instance.getAsset()->getMaxPosition()*t->scale + t->pos;
+
+			//		Debugger::getInstance()->drawAABB(minPos, maxPos, glm::vec3(1.0f, 0.0f, 1.0f));
+			//	}
+			//}
 
 			ReleaseSemaphore(data->consume, 1, NULL);
 		}
