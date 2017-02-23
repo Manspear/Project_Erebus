@@ -1,6 +1,6 @@
 local baseReturn = {}
 
-clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, leapState = {}, State = {}}
+clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, leapState = {}, dummyState = {}, State = {}}
 
 
 function clientAIState.idleState.enter(enemy, playerTarget)
@@ -136,6 +136,18 @@ function clientAIState.doNothingState.exit(enemy,playerTarget)
 
 end 
 
+function state.dummyState.enter(enemy,playerTarget)
+
+end
+
+function state.dummyState.update(enemy,playerTarget)
+
+end
+
+function state.dummyState.exit(enemy,playerTarget)
+
+end 
+
 function setAIState(enemy, playerTarget, aiState)
 	--print("Enemy", enemy.transformID)
 	--print("Client AI ID", enemy.transformID)
@@ -169,6 +181,7 @@ function setAIState(enemy, playerTarget, aiState)
 	end
 
 	enemy.state.enter(enemy, playerTarget)
+	enemy.stateName = aiState
 end
 
 baseReturn.setAIState = setAIState
