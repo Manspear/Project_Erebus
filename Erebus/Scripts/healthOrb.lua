@@ -1,4 +1,4 @@
-HEALTH_EFFECT_DURATION = 100000
+HEALTH_EFFECT_DURATION = 15
 HEALTH_ORB_LIFE = 20
 ORB_POOL_SIZE = 3
 
@@ -82,12 +82,7 @@ function UpdateOrb(daOrb, dt)
 	local collisionIDs = daOrb.collider:GetCollisionIDs()
 	for	curID = 1, #collisionIDs do	
 		if collisionIDs[curID] == player.collisionID then
-			if player.health < 80 then player.health = player.health + 20 else player.health = 100 end
-			if newHealth > 100 then 
-				player.health = 100
-			else
-				player.health = newHealth
-			end
+			if player.health < 80 then player.health = player.health + HEALTH_ORB_LIFE else player.health = 100 end
 			Network.SendPlayerHealthPacket(player.transformID, player.health)
 			KillHealthOrb(daOrb)
 			return 
