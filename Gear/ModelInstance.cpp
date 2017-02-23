@@ -88,7 +88,7 @@ namespace Gear
 
 		if( activeTransforms > 0 )
 		{
-			static glm::mat4 temp[100];
+			glm::mat4 temp[100];
 			for( int i=0; i<transforms.size(); i++ )
 			{
 				if( transforms.at(i).active && !culled[i] )
