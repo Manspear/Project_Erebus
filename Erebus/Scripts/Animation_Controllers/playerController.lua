@@ -38,7 +38,7 @@ function CreatePlayerController(player)
 	controller.damagedMaxTime = 0.5
 
 	controller.damagedTint = { r = 1, g = 1, b = 1, a = 0 }
-	controller.damagedTintThreshold = 0.3
+	controller.damagedTintThreshold = 1
 
 	controller.dyingTimer = 1
 
@@ -85,6 +85,8 @@ function CreatePlayerController(player)
 		if self.damagedTint.a > 0 then
 			self.damagedTint.a = self.damagedTint.a - ( dt / self.damagedTintThreshold )
 			self.animation:SetTint(self.damagedTint)
+		else
+			self.damagedTint.a = 1
 		end
 
 		--if you don't move AND HAVENT ATTACKED you're Idle
