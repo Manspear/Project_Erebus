@@ -47,10 +47,9 @@ function CreateFireball(entity)
 	
 	--Big fireball
 	spell.bigBallActive = false
-	--spell.bigBallID = Transform.Bind()	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	spell.ballParticles = CreateFireEffectParticles()
-	spell.bigBallID = Gear.BindStaticInstance(model)
+	spell.bigBallID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)

@@ -15,13 +15,6 @@ function state.idleState.update(enemy,player,dt,enemyManager)
 		changeToState(enemy,player,inState)
 	end
 
-	--if player2 ~= nil then
-	--	lengthP2 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
-	--	if lengthP2 <enemy.visionRange and lengthP2 > player.outerCirclerange then
-	--		inState = "FollowState" 
-	--		changeToState(enemy,player,inState)
-	--	end
-	--end
 end
 
 function state.idleState.exit(enemy,player)
@@ -78,7 +71,7 @@ function state.followState.update(enemy,player,dt)
 
 			--Transform.SetLookAt(enemy.transformID,direction)
 			--vec3print(direction)
-			Transform.SetFacing(enemy.transformID, player.transformID)
+			Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
 			
 			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
@@ -396,7 +389,11 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 		
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
 		if length < enemy.range then
-				player:Hurt(12)
+			if player.transformID == player2.transformID then
+				Network.SendDamagePacket(enemy.transformID, 12)
+			else
+				player:Hurt(12, enemy)
+			end
 		end	
 
 		enemyManager.actionEnemy = enemyManager.actionEnemy -1
@@ -424,8 +421,7 @@ function state.deadState.update(enemy,player,dt)
 	enemy.actionCountDown= enemy.actionCountDown - dt	
 	local pos = Transform.GetPosition(enemy.transformID)
 
-	if pos.y > 3 then
-		
+	if enemy.actionCountDown > 0 then		
 		pos.x = pos.x + math.random(-3,3) * dt
 		pos.y = pos.y - 0.6 * dt
 		pos.z = pos.z + math.random(-3,3)  * dt
@@ -433,6 +429,7 @@ function state.deadState.update(enemy,player,dt)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
 		SphereCollider.SetActive(enemy.sphereCollider, false)
+		enemy.alive = false
 	end
 end
 
@@ -488,6 +485,8 @@ function changeToState(enemy,player,changeState)
 	end
 	if changeState == LEAP_STATE then
 		enemy.state = state.leapState
+		--print("Sending DeadState", enemy.transformID, 3)
+		Network.SendAIStatePacket(enemy.transformID,3)
 	end
 	if changeState == POSITIONING_INNER_STATE then
 		enemy.state = state.positioningInnerState
@@ -499,14 +498,14 @@ function changeToState(enemy,player,changeState)
 
 	if changeState == DEAD_STATE then
 		enemy.state = state.deadState
-		--print("Sending DeadState", enemy.transformID, 3)
-		Network.SendAIStatePacket(enemy.transformID,3)
+		--print("Sending DeadState", enemy.transformID, 4)
+		Network.SendAIStatePacket(enemy.transformID,4)
 	end 
 	
 	if changeState == DO_NOTHING_STATE then
 		enemy.state = state.doNothingState
-		--print("Sending DoNothingState", enemy.transformID, 4)
-		Network.SendAIStatePacket(enemy.transformID,4)
+		--print("Sending DoNothingState", enemy.transformID, 5)
+		Network.SendAIStatePacket(enemy.transformID,5)
 	end 
 
 	if changeState == DUMMY_STATE then

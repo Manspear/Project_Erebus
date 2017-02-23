@@ -197,6 +197,7 @@ int RenderQueue::generateWorldMatrix()
 void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues)
 {
 	glDisable(GL_CULL_FACE);
+	glDepthMask(GL_FALSE);
 	allShaders[FORWARD]->use();
 	ModelAsset* modelAsset;
 	int meshes;
@@ -276,6 +277,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 				allShaders[FORWARD]->setUniform(resetValue, uniValues->at(i).location);
 		}
 	}
+	glDepthMask(GL_TRUE);
 	glBindVertexArray(0);
 	allShaders[FORWARD]->unUse();
 }
@@ -594,17 +596,20 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 		allShaders[GEOMETRY]->setUniform(*idColors, "instanceColors", numInstance);
 		//glUniform3fv(colorIdLocation, numInstance, &idColors[0][0]);//glm::value_ptr(idColors[0]));
 
-		for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+		if( numInstance > 0 )
 		{
-			//0 == STATIC 1 == DYNAMIC/ANIMATEDS
-			size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
-			glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
-			glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			for (int j = 0; j < modelAsset->getHeader()->numMeshes; j++)
+			{
+				//0 == STATIC 1 == DYNAMIC/ANIMATEDS
+				size_t size = modelAsset->getHeader()->TYPE == 0 ? sizeof(Importer::sVertex) : sizeof(Importer::sSkeletonVertex);
+				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(j));
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLsizei)size, 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(j));
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(j), GL_UNSIGNED_INT, 0, numInstance);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
 		}
 	}
 

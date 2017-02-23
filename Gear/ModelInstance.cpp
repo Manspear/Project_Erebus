@@ -49,14 +49,31 @@ namespace Gear
 		if ((instanceVBO | instanceVAO) == 0)
 			init();
 
+		
+		//glBindVertexArray(instanceVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW);
+
 		if( activeTransforms > 0 )
 		{
-			//glBindVertexArray(instanceVAO);
-			glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			//glBindVertexArray(0);
+			static glm::mat4 temp[100];
+			for( int i=0; i<transforms.size(); i++ )
+			{
+				if( transforms.at(i).active && !culled[i] )
+				{
+					memcpy( temp+i, &worldMatrices[i], sizeof(glm::mat4) );
+				}
+			}
+
+			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4)*activeTransforms, glm::value_ptr(temp[0]), GL_STREAM_DRAW );
 		}
+		else
+		{
+			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4), NULL, GL_STREAM_DRAW );
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glBindVertexArray(0);
 	}
 
 	void ModelInstance::bindBuffers()
@@ -67,14 +84,35 @@ namespace Gear
 
 	void ModelInstance::bufferData()
 	{
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW);
+
+		if( activeTransforms > 0 )
+		{
+			glm::mat4 temp[100];
+			for( int i=0; i<transforms.size(); i++ )
+			{
+				if( transforms.at(i).active && !culled[i] )
+				{
+					memcpy( temp+i, &worldMatrices[i], sizeof(glm::mat4) );
+				}
+			}
+
+			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4)*activeTransforms, glm::value_ptr(temp[0]), GL_STREAM_DRAW );
+		}
+		else
+		{
+			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4), NULL, GL_STREAM_DRAW );
+		}
 	}
 
 	void ModelInstance::updateWorldMatrices()
 	{
+		activeTransforms = 0;
 		for (int i = 0; i < transforms.size(); i++)
 		{
 			TransformStruct& t = transforms[i];
+			if( t.active && !culled[i] )
+				activeTransforms++;
 
 			glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
 			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
@@ -108,18 +146,67 @@ namespace Gear
 
 	int ModelInstance::pushStaticInstance( const TransformStruct& trans, const glm::mat4& world )
 	{
-		int index = transforms.size();
+		/*int index = transforms.size();
 		transforms.push_back(trans);
 		worldMatrices.push_back(world);
+		return index;*/
+
+		int index = -1;
+		for( int i=0; i<transforms.size() && index < 0; i++ )
+			if( vacant[i] )
+				index = i;
+
+		if( index < 0 )
+		{
+			index = transforms.size();
+			transforms.push_back(trans);
+			worldMatrices.push_back(world);
+			vacant.push_back(false);
+			culled.push_back(false);
+		}
+		else
+		{
+			transforms.at(index) = trans;
+			worldMatrices.at(index) = world;
+			vacant.at(index) = false;
+			culled.at(index) = false;
+		}
+
 		return index;
 	}
 
 	int ModelInstance::pushAnimatedInstance( const TransformStruct& trans, const glm::mat4& world, Animation* anim )
 	{
-		int index = transforms.size();
+		/*int index = transforms.size();
 		transforms.push_back(trans);
 		worldMatrices.push_back(world);
 		animations.push_back(anim);
+		vacant.push_back(false);
+		return index;*/
+
+		int index = -1;
+		for( int i=0; i<transforms.size() && index < 0; i++ )
+			if( vacant[i] )
+				index = i;
+
+		if( index < 0 )
+		{
+			index = transforms.size();
+			transforms.push_back(trans);
+			worldMatrices.push_back(world);
+			animations.push_back(anim);
+			vacant.push_back(false);
+			culled.push_back(false);
+		}
+		else
+		{
+			transforms.at(index) = trans;
+			worldMatrices.at(index) = world;
+			animations.at(index) = anim;
+			vacant.at(index) = false;
+			culled.at(index) = false;
+		}
+
 		return index;
 	}
 
@@ -136,7 +223,7 @@ namespace Gear
 		animations.pop_back();
 	}*/
 
-	void ModelInstance::popInstance()
+	/*void ModelInstance::popInstance()
 	{
 		assert( transforms.size() > 0 );
 
@@ -144,6 +231,12 @@ namespace Gear
 		worldMatrices.pop_back();
 		if( animations.size() > 0 )
 			animations.pop_back();
+	}*/
+
+	void ModelInstance::popInstance( int index )
+	{
+		vacant.at(index) = true;
+		culled.at(index) = true;
 	}
 
 	void ModelInstance::incrActiveTransforms()
@@ -183,6 +276,16 @@ namespace Gear
 	void ModelInstance::setAnimation( int index, Animation* animation )
 	{
 		animations.at(index) = animation;
+	}
+
+	void ModelInstance::setActive( int index, bool active )
+	{
+		transforms.at(index).active = active;
+	}
+
+	void ModelInstance::setCulled( int index, bool c )
+	{
+		culled.at(index) = c;
 	}
 #pragma endregion
 
@@ -230,6 +333,16 @@ namespace Gear
 	Animation* ModelInstance::getAnimation( int index )
 	{
 		return animations.at(index);
+	}
+
+	bool ModelInstance::getActive( int index )
+	{
+		return transforms.at(index).active;
+	}
+
+	bool ModelInstance::getCulled( int index )
+	{
+		return culled.at(index);
 	}
 #pragma endregion
 }

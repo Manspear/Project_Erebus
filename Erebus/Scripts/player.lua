@@ -317,8 +317,6 @@ function UpdatePlayer(dt)
 		dt = dt * player.timeScalar
 
 		player.dashcd = player.dashcd - dt
-		player.forward = 0
-		player.left = 0
 
 		if player.ping > 0 then
 			player.ping = player.ping - dt;
@@ -328,9 +326,6 @@ function UpdatePlayer(dt)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
 
-		if not console.visible then
-			Controls(dt)
-		end
 		GetCombined()
 		FindHeightmap(player.position)
 
@@ -409,7 +404,9 @@ function UpdatePlayer(dt)
 	else
 		player.controller:Move(player.left * dt, 0, player.forward * dt)
 	end
-
+	if not console.visible then
+		Controls(dt)
+	end
 	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
@@ -462,7 +459,9 @@ function GetCombined()
 end
 
 function Controls(dt)
-	if player.isControlable then
+	player.forward = 0
+	player.left = 0
+	if player.isControlable then		
 		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end
