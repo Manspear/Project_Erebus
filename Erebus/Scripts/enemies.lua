@@ -34,7 +34,7 @@ ENEMY_HEALTHBAR_HEIGHT = 0.15
 
 
 function CreateEnemy(type, position)
-	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or ENEMY_DUMMY, "Invalid enemy type." )
+	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or type == ENEMY_DUMMY, "Invalid enemy type." )
 
 	local i = #enemies+1
 	enemies[i] = {}
