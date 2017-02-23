@@ -195,6 +195,7 @@ int RenderQueue::generateWorldMatrix()
 void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues)
 {
 	glDisable(GL_CULL_FACE);
+	glDepthMask(GL_FALSE);
 	allShaders[FORWARD]->use();
 	ModelAsset* modelAsset;
 	int meshes;
@@ -274,6 +275,7 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 				allShaders[FORWARD]->setUniform(resetValue, uniValues->at(i).location);
 		}
 	}
+	glDepthMask(GL_TRUE);
 	glBindVertexArray(0);
 	allShaders[FORWARD]->unUse();
 }
