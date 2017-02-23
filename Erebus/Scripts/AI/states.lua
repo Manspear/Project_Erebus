@@ -396,7 +396,11 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 		
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
 		if length < enemy.range then
-				player:Hurt(12)
+			if player.transformID == player2.transformID then
+				Network.SendDamagePacket(enemy.transformID, 12)
+			else
+				player:Hurt(12, enemy)
+			end
 		end	
 
 		enemyManager.actionEnemy = enemyManager.actionEnemy -1
@@ -488,6 +492,8 @@ function changeToState(enemy,player,changeState)
 	end
 	if changeState == LEAP_STATE then
 		enemy.state = state.leapState
+		--print("Sending DeadState", enemy.transformID, 3)
+		Network.SendAIStatePacket(enemy.transformID,3)
 	end
 	if changeState == POSITIONING_INNER_STATE then
 		enemy.state = state.positioningInnerState
@@ -499,14 +505,14 @@ function changeToState(enemy,player,changeState)
 
 	if changeState == DEAD_STATE then
 		enemy.state = state.deadState
-		--print("Sending DeadState", enemy.transformID, 3)
-		Network.SendAIStatePacket(enemy.transformID,3)
+		--print("Sending DeadState", enemy.transformID, 4)
+		Network.SendAIStatePacket(enemy.transformID,4)
 	end 
 	
 	if changeState == DO_NOTHING_STATE then
 		enemy.state = state.doNothingState
-		--print("Sending DoNothingState", enemy.transformID, 4)
-		Network.SendAIStatePacket(enemy.transformID,4)
+		--print("Sending DoNothingState", enemy.transformID, 5)
+		Network.SendAIStatePacket(enemy.transformID,5)
 	end 
 
 	if changeState == DUMMY_STATE then
