@@ -6,7 +6,6 @@ function CreateAim(entity)
 	local model = Assets.LoadModel( "Models/aim.model" )
 	aim.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(aim.transformID, true)
-	aim.caster = entity.transformID
 	function aim:SetPos(position)
 		Transform.SetPosition(aim.transformID, position)
 	end
@@ -16,29 +15,20 @@ end
 function CreateCombineRay(entity)
 	local ray = {}
 
-	--ray.transformID = Transform.Bind()
-	--local rayIce = Assets.LoadModel("Models/SpellChargingICEMesh.model")
-	--ray.modelIndex = Gear.AddForwardInstance(rayIce, ray.transformID)
+	
 	local rayIce = Assets.LoadModel( "Models/SpellChargingICEMesh.model" )
 	ray.transformID = Gear.BindForwardInstance(rayIce)
 	Gear.SetUniformLocation(ray.modelIndex, "aValue");
 
-	--ray.transformID2 = Transform.Bind()
-	--local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
-	--ray.modelIndex2 = Gear.AddForwardInstance(rayFire, ray.transformID2)
 	local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
 	ray.transformID2 = Gear.BindForwardInstance(rayFire)
 
-	--ray.transformID3 = Transform.Bind()
-	--local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	--ray.modelIndex = Gear.AddForwardInstance(rayNature, ray.transformID3)
 	local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
 	ray.transformID3 = Gear.BindForwardInstance(rayNature)
 
 	ray.caster = entity.transformID
 
-	function ray:FireChargeBeam(dt,dir,spellElement)
-		
+	function ray:FireChargeBeam(dt,dir,spellElement)		
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
@@ -47,17 +37,13 @@ function CreateCombineRay(entity)
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			elementalTransformID = self.transformID2
-
 		elseif spellElement == NATURE then
 			Transform.ActiveControl(self.transformID3, true) 
-			elementalTransformID = self.transformID3
-		
+			elementalTransformID = self.transformID3	
 		else 
 			Transform.ActiveControl(ray.transformID, true)
 		end
 		Transform.ActiveControl(self.transformID, true)
-		
-
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
@@ -88,19 +74,23 @@ function CreateChargeEggs(entity)
 	local iceModel = Assets.LoadModel("Models/SpellChargingICEMesh.model")
 	--chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
 	chargeThing.transformID = Gear.BindForwardInstance(iceModel)
+	Transform.ActiveControl(chargeThing.transformID, false)
 	-- TEMP(Niclas): Figure this out
-	chargeThing.modelIndex = chargeThing.transformID
-	Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
+	--chargeThing.modelIndex = chargeThing.transformID
+	--Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
 	--chargeThing.transformID2 = Transform.Bind()
 	local fireModel = Assets.LoadModel("Models/SpellChargingFireMesh.model")
 	chargeThing.transformID2 = Gear.BindForwardInstance(fireModel)
-	chargeThing.modelIndex2 = chargeThing.transformID2
+	Transform.ActiveControl(chargeThing.transformID2, false)
+	--chargeThing.modelIndex2 = chargeThing.transformID2
 
 	--chargeThing.transformID3 = Transform.Bind()
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
 	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
-	chargeThing.modelIndex3 = chargeThing.transformID3
+	Transform.ActiveControl(chargeThing.transformID3, false)
+	--chargeThing.modelIndex3 = chargeThing.transformID3
+	
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
 	chargeThing.particles = createChargeParticles()
@@ -122,9 +112,7 @@ function CreateChargeEggs(entity)
 	function chargeThing:ChargeMePlease(dt)
 		self.pos = Transform.GetPosition(self.caster)	
 		self.pos.y = self.pos.y - 1	 
-		Transform.SetPosition(self.elementalTransformID, self.pos)
-		Transform.SetScaleNonUniform(self.elementalTransformID, 1,1,1) --det här gäller bara den första		
-		self.pos.y = self.pos.y - 1 * dt
+		Transform.SetPosition(self.elementalTransformID, self.pos)		
 		self.rotSmall.y = self.rotSmall.y + (2) * dt
 		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
 	end
@@ -183,10 +171,9 @@ function CreateChargeEggs(entity)
 	function chargeThing:EndCharge() 
 		self.scaleSmall = {x = 1, y = 1, z = 1}
 		self.color = {r = 0, g = 0, b = 0}
-		Transform.ActiveControl(self.transformID, false)
-		Transform.ActiveControl(self.transformID2, false)  
-		Transform.ActiveControl(self.transformID3, false)  
-		Transform.SetPosition(self.transformID3, {x = 0, y = 0, z = 0})  
+		Transform.ActiveControl(self.elementalTransformID, false)
+		Transform.SetPosition(self.elementalTransformID, {x = 0, y = 0, z = 0})
+		self.elementalTransformID = 0 
 		self.particles:die()
 		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 	end
@@ -199,15 +186,14 @@ function CreateChargeEggs(entity)
 			Transform.ActiveControl(self.transformID2, true)
 			self.color.r = 1
 			self.elementalTransformID = self.transformID2
-
 		elseif spellElement == NATURE then
 			self.color.g = 1
 			Transform.ActiveControl(self.transformID3, true) 
 			self.elementalTransformID = self.transformID3	
-		else 
+		elseif spellElement == ICE then 
 			self.color.b = 1
 			self.elementalTransformID = self.transformID
-			Transform.ActiveControl(self.transformID, true)			
+			Transform.ActiveControl(self.transformID, true)		
 		end
 	end
 	return chargeThing

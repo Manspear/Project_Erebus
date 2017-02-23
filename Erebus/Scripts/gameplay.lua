@@ -36,6 +36,7 @@ local scriptFiles =
 	"Scripts/knockbackEffect.lua",
 	"Scripts/revive.lua",
 	"Scripts/TimeLaser.lua",
+	"Scripts/healthOrb.lua",
 	"Scripts/reusable.lua"
 }
 
@@ -105,7 +106,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level02.lua" )
+		dofile( "Scripts/Level01_Oskar.lua" )
 
 		levels[1].load()
 		loadedLevels[1] = true

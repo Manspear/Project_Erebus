@@ -81,6 +81,7 @@ namespace Gear
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
+		GEAR_API Skybox* getSkybox();
 		std::vector<UniformValues> uniValues;
 		std::vector<TextureBlendings> textureBlend;
 		//----------------------
@@ -148,7 +149,7 @@ namespace Gear
 		WorkQueue* work;
 
 		//Skybox object
-		Skybox skybox;
+		Skybox *skybox;
 
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);

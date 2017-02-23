@@ -15,7 +15,9 @@ function CreatePolyEffect(owner, duration)
 		local pos = Transform.GetPosition(entity.transformID)
 		Transform.SetPosition(self.polymorphTransform, pos)
 		if entity.SetState then
-			entity.SetState(entity,"DoNothingState")
+			if entity.type ~= ENEMY_DUMMY then
+				entity.SetState(entity, DO_NOTHING_STATE)
+			end
 		end
 		effect.particles:poof(pos)
 	end
@@ -24,15 +26,18 @@ function CreatePolyEffect(owner, duration)
 		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
 		if entity.SetState then
-			entity.SetState(entity,"IdleState")
+			if entity.type ~= ENEMY_DUMMY then
+				entity.SetState(entity,IDLE_STATE)
+			end
 		end
-		effect.particles:poof(pos)
+		self.particles:poof(pos)
+		self = nil
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
 		self.duration = self.duration - dt
 		self.poofTime = self.poofTime - dt
-		if self.poofTime < 0 then Transform.ActiveControl(self.polymorphTransform, true) end
+		if self.poofTime < 0 then Transform.ActiveControl(self.polymorphTransform, true)  self.poofTime = 1000 end
 		Transform.SetPosition(self.polymorphTransform, Transform.GetPosition(entity.transformID))	
 		return self.duration > 0 
 	end
@@ -41,16 +46,15 @@ function CreatePolyEffect(owner, duration)
 end
 
 function InitPolymorphs()
-	local someModels = {"Models/Stone3.model", "Models/Stone4.model", "Models/pineTree1.model", "Models/Stone2.model"}
+	local someModels = {"Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model"}
+	local models = {}
+	for i = 1, POLYMORPH_POOL_SIZE do 
+		models[i] = Assets.LoadModel(someModels[i])
+	end
 	for i = 1, POLYMORPH_POOL_SIZE do
 		currentFree = i
-		--polymorphPool[currentFree] = Transform.Bind()
-		--local model = Assets.LoadModel( someModels[i] )
-		--Gear.AddStaticInstance(model, polymorphPool[currentFree] )
-		local model = Assets.LoadModel( someModels[i] )
-		polymorphPool[currentFree] = Gear.BindStaticInstance(model)
+		polymorphPool[currentFree] = Gear.BindStaticInstance(models[i])
 		polymorphParticles[i] = createCloudParticles()
-		Transform.ActiveControl(polymorphPool[currentFree], false)
 	end
 	currentFree = 0
 end

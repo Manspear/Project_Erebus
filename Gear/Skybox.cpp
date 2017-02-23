@@ -2,8 +2,8 @@
 
 Gear::Skybox::Skybox()
 {
-
-	
+	fogColor = glm::vec3(0.5f, 0.5f, 0.5f);
+	targetFogColor = glm::vec3(0.5f, 0.5f, 0.5f);
 }
 
 Gear::Skybox::~Skybox()
@@ -96,7 +96,7 @@ void Gear::Skybox::update(Camera* camera)
 
 	skyboxShader->setUniform(view, "view");
 	skyboxShader->setUniform(camera->getProjectionMatrix(), "projection");
-	skyboxShader->setUniform(FOG_COLOR, "fogColour");
+	skyboxShader->setUniform(fogColor, "fogColour");
 
 	skyboxShader->unUse();
 }
@@ -104,4 +104,30 @@ void Gear::Skybox::update(Camera* camera)
 GEAR_API void Gear::Skybox::updateRotation(float dt)
 {
 	rotation += ROTATE_SPEED * dt;
+}
+
+GEAR_API void Gear::Skybox::updateFog(float dt)
+{
+	if (fogColorChanged)
+	{
+		if (fogColor != targetFogColor)
+		{
+			fogColor = glm::slerp(fogColor, targetFogColor, dt);
+		}
+		else {
+			fogColorChanged = false;
+		}
+	}
+	
+}
+
+GEAR_API void Gear::Skybox::setFogColor(glm::vec3 color)
+{
+	this->targetFogColor = color;
+	fogColorChanged = true;
+}
+
+GEAR_API glm::vec3 Gear::Skybox::getFogColor()
+{
+	return this->fogColor;
 }

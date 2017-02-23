@@ -50,7 +50,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 7
+	player.moveSpeed = 30
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -65,7 +65,7 @@ function LoadPlayer()
 	player.rayCollider = RayCollider.Create(player.transformID)
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
-	RayCollider.SetActive(player.rayCollider, false)
+	RayCollider.SetActive(player.rayCollider, false)	
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
@@ -99,6 +99,7 @@ function LoadPlayer()
 	player.spells = {}	
 	player.currentSpell = 1
 	function player.Hurt(self,damage, source)
+		self.animationController.damagedTint.a = 1
 		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health < 1 then
@@ -118,7 +119,6 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.health = 0
-		--Transform.ActiveControl(self.transformID,false)
 		for i=1, #enemies do
 			enemies[i].SetState(enemies[i], "IdleState" )
 		end
@@ -138,8 +138,8 @@ function LoadPlayer()
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
 	CollisionHandler.AddSphere(player.sphereCollider)
-	player.sphereCollider:GetCollisionIDs()
-
+	--player.sphereCollider:GetCollisionIDs()
+	player.collisionID = player.sphereCollider:GetID()
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- Setting controller for player
@@ -228,6 +228,7 @@ function LoadPlayer2()
 	player2.charger = CreateChargeEggs(player2)
 	player2.revive = CreateRevive(player2)
 	Transform.SetScale(player2.aim.transformID, 0)
+	player2.castingRevive = false
 end
 
 function UnloadPlayer()
@@ -248,64 +249,6 @@ function LoadSpellsPlayer2()
 end
 
 function FindHeightmap(position)
-	--[[local hm = player.currentHeightmap
-	if not hm.asset:Inside(position) then
-		local prev = player.currentHeightmap
-		local newIndex = -1
-
-		for k,hmIndex in pairs(hm.surrounding) do
-			hm = heightmaps[hmIndex]
-			if hm.asset:Inside(position) then
-				newIndex = hmIndex
-				player.currentHeightmap = hm
-				player.controller:SetHeightmap(player.currentHeightmap.asset)
-				break
-			end
-		end
-
-		if hm then
-			local allTiles = {}
-			for _,v in pairs(hm.surrounding) do
-				table.insert(allTiles,v)
-			end
-			table.insert(allTiles,newIndex)
-
-			local newTiles = {}
-			for _,v in pairs(allTiles) do
-				if not loadedLevels[v] then
-					table.insert(newTiles,v)
-				end
-			end
-
-			local oldTiles = {}
-			for k,v in pairs(loadedLevels) do
-				local found = false
-				for _,b in pairs(allTiles) do
-					if k == b then
-						found = true
-						break
-					end
-				end
-
-				if not found then
-					table.insert(oldTiles,k)
-				end
-			end
-
-			--unload previous tiles
-			for _,v in pairs(oldTiles) do
-				levels[v].unload()
-				loadedLevels[v] = false
-			end
-
-			--load new tiles
-			for _,v in pairs(newTiles) do
-				levels[v].load()
-				loadedLevels[v] = true
-			end
-		end
-	end--]]
-
 	local hm = player.currentHeightmap
 	if not hm.asset:Inside(position) then
 		for k,index in pairs(levels[player.levelIndex].surrounding) do
@@ -375,8 +318,6 @@ function UpdatePlayer(dt)
 		dt = dt * player.timeScalar
 
 		player.dashcd = player.dashcd - dt
-		player.forward = 0
-		player.left = 0
 
 		if player.ping > 0 then
 			player.ping = player.ping - dt;
@@ -386,9 +327,6 @@ function UpdatePlayer(dt)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
 
-		if not console.visible then
-			Controls(dt)
-		end
 		GetCombined()
 		FindHeightmap(player.position)
 
@@ -414,13 +352,15 @@ function UpdatePlayer(dt)
 	end
 
 	if not player2.isAlive then
-		if Inputs.KeyPressed("T") then 
+		if Inputs.KeyPressed("T") then
+			Network.SendChargeSpellPacket(player.transformID, 0, true)
 			player.revive:Cast(player2)
 		end
 		if Inputs.KeyDown("T") then 
 			player.revive:Update(dt)
 		end
 		if Inputs.KeyReleased("T") then 
+			Network.SendChargeSpellPacket(player.transformID, 0, false)
 			player.revive:Kill()
 		end
 	end
@@ -448,25 +388,28 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	-- update player controller -- this moves the player
-	player.controller:Update()
-	if player.dashtime > 0 then
-		local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
-		local left = player.dashdir.z * factor
-		local fwd = player.dashdir.x * factor
-		player.controller:Move(left*dt, 0, fwd*dt)
-		player.dashtime = player.dashtime - dt
+	if player.isAlive then
+		player.controller:Update()
+		if player.dashtime > 0 then
+			local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
+			local left = player.dashdir.z * factor
+			local fwd = player.dashdir.x * factor
+			player.controller:Move(left*dt, 0, fwd*dt)
+			player.dashtime = player.dashtime - dt
 		
-		if player.dashtime <= 0 then
-			player.invulnerable = false
-			Transform.SetScale(player.transformID, 1)
-			Network.SendDashPacket(false)
-			Particle.Explode(player.dashEndParticles,player.position)
+			if player.dashtime <= 0 then
+				player.invulnerable = false
+				Transform.SetScale(player.transformID, 1)
+				Network.SendDashPacket(false)
+				Particle.Explode(player.dashEndParticles,player.position)
+			end
+		else
+			player.controller:Move(player.left * dt, 0, player.forward * dt)
 		end
-	else
-		player.controller:Move(player.left * dt, 0, player.forward * dt)
+		if not console.visible then
+			Controls(dt)
+		end
 	end
-
-	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
@@ -518,7 +461,9 @@ function GetCombined()
 end
 
 function Controls(dt)
-	if player.isControlable then
+	player.forward = 0
+	player.left = 0
+	if player.isControlable then		
 		if Inputs.KeyDown(SETTING_KEYBIND_FORWARD) then
 			player.forward = player.moveSpeed
 		end
@@ -648,23 +593,33 @@ function UpdatePlayer2(dt)
 	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast = Network.GetSpellPacket()
 	
 	if newspellpacket == true then
-		player2.spells[player2.currentSpell]:Change()
-		player2.currentSpell = player2CurrentSpell
-		player2.spells[player2.currentSpell]:Change()
-
-		if isCharging == false then
-			player2.attackTimer = 1
-			player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
-		else
-			if shouldCast == false then
-				local spellElement = player2.spells[player2.currentSpell].element
-				player2.charger:StartCharge(player2.position, spellElement)
-				player2.charging = true
+		if player2CurrentSpell == 0 then		
+			if shouldCast == true then		
+				player2.revive:Cast(player)
+				player2.castingRevive = true
 			else
-				player2.spells[player2.currentSpell]:ChargeCast(player2)
-				player2.charger:EndCharge()
-				player2.charging = false
-				player2.isCombined = false
+				player2.revive:Kill()
+				player2.castingRevive = false
+			end
+		else
+			player2.spells[player2.currentSpell]:Change()
+			player2.currentSpell = player2CurrentSpell
+			player2.spells[player2.currentSpell]:Change()
+
+			if isCharging == false then
+				player2.attackTimer = 1
+				player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
+			else
+				if shouldCast == false then
+					local spellElement = player2.spells[player2.currentSpell].element
+					player2.charger:StartCharge(player2.position, spellElement)
+					player2.charging = true
+				else
+					player2.spells[player2.currentSpell]:ChargeCast(player2)
+					player2.charger:EndCharge()
+					player2.charging = false
+					player2.isCombined = false
+				end
 			end
 		end
 	end
@@ -677,6 +632,10 @@ function UpdatePlayer2(dt)
 	player2.spells[1]:Update(dt)
 	player2.spells[2]:Update(dt)
 	player2.spells[3]:Update(dt)
+	
+	if player2.castingRevive == true then
+		player2.revive:Update(dt)
+	end
 
 	for j = #player2.effects, 1, -1 do 
 		if not player2.effects[j]:Update(player2, dt) then

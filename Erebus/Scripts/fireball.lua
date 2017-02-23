@@ -1,11 +1,12 @@
-FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/fireball.dds");
+FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
 FIRESPAM_COOLDOWN = 0.6
-FIREBALL_COOLDOWN = 8
-FIRESPAM_SPEED = 120
+FIREBALL_COOLDOWN = 6
+FIRESPAM_SPEED = 100
 FIREBALL_SPEED = 18
 FIREBALL_LIFETIME = 10
 FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
+FIRESPAM_DAMAGE = 50
 FIREBALL_BASE_DMG = 20
 FIREBALL_LIGHTRADIUS = 5
 FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
@@ -17,7 +18,7 @@ function CreateFireball(entity)
 		local tiny = {}
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		tiny.type = CreateProjectileType(model)
-		tiny.damage = 1
+		tiny.damage = FIRESPAM_DAMAGE
 		tiny.alive = false
 		tiny.lifeTime = 1.8
 		tiny.hits = {}
@@ -46,10 +47,9 @@ function CreateFireball(entity)
 	
 	--Big fireball
 	spell.bigBallActive = false
-	--spell.bigBallID = Transform.Bind()	
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	spell.ballParticles = CreateFireEffectParticles()
-	spell.bigBallID = Gear.BindStaticInstance(model)
+	spell.bigBallID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)

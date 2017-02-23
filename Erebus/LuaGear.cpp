@@ -18,6 +18,7 @@ namespace LuaGear
 	static bool* g_mouseVisible = nullptr;
 	static bool* g_fullscreen = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
+	static Skybox* g_skybox = nullptr;
 
 	void registerFunctions(lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work)
 	{
@@ -34,6 +35,7 @@ namespace LuaGear
 		g_mouseVisible = mouseVisible;
 		g_fullscreen = fullscreen;
 		g_transformHandler = transformHandler;
+		g_skybox = g_gearEngine->getSkybox();
 
 		// Gear
 		luaL_newmetatable(lua, "gearMeta");
@@ -57,6 +59,7 @@ namespace LuaGear
 			{ "QueueModels", setQueueModels },
 			{ "CursorVisible", setCursorVisible },
 			{ "Fullscreen", setFullscreen },
+			{ "FogColor", setFogColor },
 			{ NULL, NULL }
 		};
 
@@ -85,6 +88,7 @@ namespace LuaGear
 			{ "SetQuickBlend", setQuickBlend },
 			{ "SetSegmentPlayTime", setSegmentPlayTime },
 			{ "ResetSegmentPlayTime", resetSegmentPlayTime },
+			{ "SetTint", setTint},
 			{ NULL, NULL }
 		};
 
@@ -415,6 +419,39 @@ namespace LuaGear
 		return 0;
 	}
 
+	int setTint(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+		int type = lua_type(lua, 2);
+		glm::vec4 tint(1.f);
+
+		if (type == LUA_TTABLE)
+		{
+			lua_getfield(lua, 2, "r");
+			tint.r = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "g");
+			tint.g = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "b");
+			tint.b = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "a");
+			tint.a = (float)lua_tonumber(lua, -1);
+		}
+		else
+		{
+			tint = glm::vec4(1, 1, 0, 1);
+		}
+
+		animation->setTint(tint);
+
+		return 0;
+	}
+
 	int setSegmentPlayTime(lua_State * lua)
 	{
 
@@ -586,6 +623,19 @@ namespace LuaGear
 			g_gearEngine->textureBlend.at( handle.modelIndex ).textureVector.push_back( texture );
 			g_gearEngine->textureBlend.at( handle.modelIndex ).numTextures = size;
 		}
+
+		return 0;
+	}
+
+	int setFogColor(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 3);
+
+		float r = (float)lua_tonumber(lua, 1);
+		float g = (float)lua_tonumber(lua, 2);
+		float b = (float)lua_tonumber(lua, 3);
+
+		g_skybox->setFogColor(glm::vec3(r, g, b));
 
 		return 0;
 	}

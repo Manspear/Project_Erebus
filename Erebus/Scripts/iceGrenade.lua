@@ -1,4 +1,4 @@
-ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/icegrenade.dds");
+ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
@@ -166,7 +166,6 @@ function CreateIceGrenade(entity)
 	end
 
 	function spell:Kill(index)
-
 		if index then
 			Transform.SetScale(self.nades[index].transform2ID, 1)
 			Transform.ActiveControl(self.nades[index].transform2ID, false) 

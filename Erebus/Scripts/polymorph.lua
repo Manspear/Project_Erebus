@@ -1,4 +1,4 @@
-POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/polymorph.dds");
+POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
 POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
@@ -24,7 +24,10 @@ function CreatePolymorph(entity)
 	table.insert(spell.effects, POLYMORPH_EFFECT_INDEX)
 	spell.particles = createSparklyParticles()
 
-	spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/nothing.model" )
+	spell.transformID = Gear.BindForwardInstance(model)
+
+	--spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
 
@@ -110,6 +113,7 @@ function CreatePolymorph(entity)
 
 	function spell:Kill()
 		Transform.ActiveControl(self.transformID, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 		SphereCollider.SetActive(self.sphereCollider, false)
 		self.cooldown = POLYMORPH_COOLDOWN
 		self.lifeTime = POLYMORPH_LIFETIME
