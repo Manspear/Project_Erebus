@@ -225,6 +225,25 @@ namespace Collisions {
 			}
 		}
 
+		if (deleted) // if we deleted it, it is in the allcolliders array
+		{
+			bool allCollidersDeleted = false;
+			for (size_t i = 0; i < this->allColliders.size() && !allCollidersDeleted; i++) // for every layer
+			{
+				for (size_t j = 0; j < this->allColliders[i].size() && !allCollidersDeleted; j++) // for every hitbox on that layer
+				{
+					if (this->allColliders[i][j]->getID() == ID)
+					{
+						this->allColliders[i].erase(this->allColliders[i].begin() + j);
+						allCollidersDeleted = true;
+					}
+
+				}
+
+			}
+			assert(allCollidersDeleted);
+		}
+
 		return deleted;
 	}
 

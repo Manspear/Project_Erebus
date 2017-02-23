@@ -307,7 +307,12 @@ return 0;
 	int destroyRay(lua_State * lua)
 	{
 		RayCollider* ray = getRayCollider(lua, 1);
-		delete ray;
+		if (ray->parent == nullptr)
+		{
+			g_collisionHandler->deleteHitbox(ray->getID());
+			delete ray;
+		}
+		
 
 		return 0;
 	}
