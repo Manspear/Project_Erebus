@@ -16,62 +16,62 @@ SpellList = {}
 SpellListPlayer2 = {}
 
 function LoadSpellbook()
-	local Hellpillar = {texture =  Assets.LoadTexture("Textures/firepillar.dds"),
+	local Hellpillar = {texture =  Assets.LoadTexture("Textures/IconHellPiller.dds"),
 						info = wrap("Creates a pillar of fire. \n Can be charged for a bigger and more powerful pillar.", 30, "",""),
 						spell = CreateHellPillar(player)}
 	Hellpillar.spell.spellListId = 1
 	table.insert(SpellList, Hellpillar)
 
-	local BlackHole = {	texture =  Assets.LoadTexture("Textures/blackhole.dds"),
+	local BlackHole = {	texture =  Assets.LoadTexture("Textures/IconBlackHole.dds"),
 						info = wrap("No such thing as a weak black hole, therefore a black hole can only be charged", 30, "",""),
 						spell = CreateBlackHole(player)
 	}
 	BlackHole.spell.spellListId = 2
 	table.insert(SpellList, BlackHole)
 
-	local FireBall = {texture =  Assets.LoadTexture("Textures/fireball.dds"),
+	local FireBall = {texture =  Assets.LoadTexture("Textures/IconFireball.dds"),
 					info = wrap("Shoot balls of fire, or charge up for a big controlable fireball.", 30, "",""),
 					spell = CreateFireball(player)
 	}
 	FireBall.spell.spellListId = 3
 	table.insert(SpellList, FireBall)
 
-	local IceGrenade = {texture =  Assets.LoadTexture("Textures/icegrenade.dds"),
+	local IceGrenade = {texture =  Assets.LoadTexture("Textures/IconIceGrenade.dds"),
 						info = wrap("Lob a grenade of ice at your enemies, or charge it up to deal more damage and slow your foes", 30, "",""),
 						spell = CreateIceGrenade(player)
 	}
 	IceGrenade.spell.spellListId = 4
 	table.insert(SpellList, IceGrenade)
 
-	local SunRay = {texture =  Assets.LoadTexture("Textures/sunbeam.dds"),
+	local SunRay = {texture =  Assets.LoadTexture("Textures/IconSunRay.dds"),
 					info = wrap("Powerful ray of light that burns through enemies. Need power? Just charge!", 30, "",""),
 					spell = CreateSunRay(player)
 	}
 	SunRay.spell.spellListId = 5
 	table.insert(SpellList, SunRay)
 
-	local siphon = {texture =  Assets.LoadTexture("Textures/siphon.dds"),
+	local siphon = {texture =  Assets.LoadTexture("Textures/IconSiphon.dds"),
 					info = wrap("Drain life from others. Or charge up to create a chain between you and the target, that drains the targets life and hurts anybody who crosses the link", 30, "",""),
 					spell = CreateSiphon(player)
 	}
 	siphon.spell.spellListId = 6
 	table.insert(SpellList, siphon)
 	
-	local polymorph = {texture =  Assets.LoadTexture("Textures/polymorph.dds"),
+	local polymorph = {texture =  Assets.LoadTexture("Textures/IconPolymorph.dds"),
 					info = wrap("Are goblins too ugly? Turn them into something else. Charge if you want them to stay something else for a longer time", 30, "",""),
 					spell = CreatePolymorph(player)
 	}
 	table.insert(SpellList, polymorph)
 	polymorph.spell.spellListId = 7
 	
-	local tumblethorns = {texture =  Assets.LoadTexture("Textures/tumblethorns.dds"),
+	local tumblethorns = {texture =  Assets.LoadTexture("Textures/IconTumblethorne.dds"),
 					info = wrap("Send out a rolling thornbush to hurt foes. If you miss your plant you can call it back to your position.", 30, "",""),
 					spell = CreateTumblethorns(player)
 	}
 	tumblethorns.spell.spellListId = 8
 	table.insert(SpellList, tumblethorns)
 
-	local windknockback = {texture =  Assets.LoadTexture("Textures/windknockback.dds"),
+	local windknockback = {texture =  Assets.LoadTexture("Textures/IconWindKnockback.dds"),
 					info = wrap("Blow away anybody that bugs you!", 30, "",""),
 					spell = CreateWindknockback(player)
 	}
