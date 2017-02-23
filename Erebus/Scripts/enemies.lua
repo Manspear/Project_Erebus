@@ -105,6 +105,8 @@ function CreateEnemy(type, position)
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
 				self.damagedTint.a = 1
+				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+
 				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
 
 					--print("Dead for host", enemies[i].transformID)
@@ -118,9 +120,7 @@ function CreateEnemy(type, position)
 				--print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
-		end
-		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
-		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+		end		
 	end
 	enemies[i].ChangeToState = function(self,inState)
 		stateScript.changeToState(self, player, inState)

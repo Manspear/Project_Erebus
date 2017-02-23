@@ -99,6 +99,7 @@ function LoadPlayer()
 	player.spells = {}	
 	player.currentSpell = 1
 	function player.Hurt(self,damage, source)
+		self.animationController.damagedTint.a = 1
 		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health < 1 then

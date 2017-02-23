@@ -37,8 +37,8 @@ function CreatePlayerController(player)
 
 	controller.damagedMaxTime = 0.5
 
-	controller.damagedTint = { r = 1, g = 1, b = 1, a = 0 }
-	controller.damagedTintThreshold = 1
+	controller.damagedTint = {r=1, g=1, b=1, a=0}
+	controller.damagedTintDuration = 0.3
 
 	controller.dyingTimer = 1
 
@@ -78,16 +78,10 @@ function CreatePlayerController(player)
 		--The higher the priority of the action, the longer down in this update function it should be
 		--since the prioritized actions override the unprioritized ones
 
-		local t = self.damagedTint
-		dbgtxt = "r:"..t.r.." g:"..t.g.." b:"..t.b.." a:"..t.a
-		Gear.Print(dbgtxt, 900, 0)
-
-		if self.damagedTint.a > 0 then
-			self.damagedTint.a = self.damagedTint.a - ( dt / self.damagedTintThreshold )
-			self.animation:SetTint(self.damagedTint)
-		else
-			self.damagedTint.a = 1
-		end
+		--if self.damagedTint.a > 0 then
+		--	self.damagedTint.a = self.damagedTint.a - ( dt / self.damagedTintDuration )
+		--	self.animation:SetTint(self.damagedTint)
+		--end
 
 		--if you don't move AND HAVENT ATTACKED you're Idle
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
@@ -104,7 +98,6 @@ function CreatePlayerController(player)
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
 		then
-			self.damagedTint.a = 1
 			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
