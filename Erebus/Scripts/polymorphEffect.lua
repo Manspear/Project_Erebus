@@ -16,7 +16,9 @@ function CreatePolyEffect(owner, duration)
 		Transform.SetPosition(self.polymorphTransform, pos)
 		print(self.transformID)
 		if entity.SetState then
-			entity.SetState(entity, DO_NOTHING_STATE)
+			if entity.type ~= ENEMY_DUMMY then
+				entity.SetState(entity, DO_NOTHING_STATE)
+			end
 		end
 		effect.particles:poof(pos)
 	end
@@ -25,7 +27,9 @@ function CreatePolyEffect(owner, duration)
 		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
 		if entity.SetState then
-			entity.SetState(entity,IDLE_STATE)
+			if entity.type ~= ENEMY_DUMMY then
+				entity.SetState(entity,IDLE_STATE)
+			end
 		end
 		effect.particles:poof(pos)
 	end

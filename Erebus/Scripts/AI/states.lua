@@ -100,7 +100,8 @@ function state.positioningInnerState.enter(enemy,player)
 	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
  	--Transform.SetLookAt(enemy.transformID,direction)
-	Transform.SetFacing(enemy.transformID,player.transformID)
+	Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 
 	enemy.insideInnerCircleRange = true
 end
@@ -113,7 +114,8 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 		--Transform.SetLookAt(enemy.transformID,direction)
-		Transform.SetFacing(enemy.transformID,player.transformID)
+		Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -123,9 +125,10 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 		rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 		if rangeTest < 0.8 then
 			enemy.subPathtarget = nil
-			local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
+			--local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 			--Transform.SetLookAt(enemy.transformID,direction)
-			Transform.SetFacing(enemy.transformID,player.transformID)
+			Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 		end
 	else
 		local dir = AI.NavigateMesh(enemy.transformID)
@@ -172,10 +175,11 @@ end
 function state.positioningOuterState.enter(enemy,player)
 
 	player.nrOfOuterCircleEnemies = player.nrOfOuterCircleEnemies +1
-	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
+	--local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
 	--Transform.SetLookAt(enemy.transformID,direction)
-	Transform.SetFacing(enemy.transformID,player.transformID)
+	Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 end
 
 function state.positioningOuterState.update(enemy,player,dt)
@@ -187,7 +191,8 @@ function state.positioningOuterState.update(enemy,player,dt)
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 				--Transform.SetLookAt(enemy.transformID,direction)
-				Transform.SetFacing(enemy.transformID,player.transformID)
+				Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 			
 				pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 				pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -197,9 +202,10 @@ function state.positioningOuterState.update(enemy,player,dt)
 				rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 				if rangeTest < 0.9 then
 					enemy.subPathtarget = nil
-					local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
+					--local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 					--Transform.SetLookAt(enemy.transformID,direction)
-					Transform.SetFacing(enemy.transformID,player.transformID)
+					Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 				end
 		else
 		local dir = AI.NavigateMesh(enemy.transformID)
@@ -226,11 +232,12 @@ function state.attackState.enter(enemy,player)
 	enemy.animationController:doAttack()
 	--enemy.attackCountdown = 1
 
-	local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
+	--local direction = AI.NormalizeDir(enemy.transformID,Transform.GetPosition(player.transformID))
 
 
 	--Transform.SetLookAt(enemy.transformID,direction)
-	Transform.SetFacing(enemy.transformID,player.transformID)
+	Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 
 	enemy.actionCountDown = 1.2
 	enemy.subPathtarget = Transform.GetPosition(player.transformID)
@@ -259,7 +266,9 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		local direction = AI.NormalizeDir(enemy.transformID, Transform.GetPosition(player.transformID))
 		
 		--Transform.SetLookAt(enemy.transformID,direction)
-		Transform.SetFacing(enemy.transformID,player.transformID)
+		--Transform.SetFacing(enemy.transformID,player.transformID)
+		Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
 		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
@@ -358,7 +367,8 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 				local pos = Transform.GetPosition(enemy.transformID)
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 		
-				Transform.SetLookAt(enemy.transformID,direction)
+				Transform.RotateToVector(enemy.transformID, vec3sub(Transform.GetPosition(player.transformID), Transform.GetPosition(enemy.transformID)) )
+			
 		
 				pos.x = pos.x + direction.x * (enemy.movementSpeed+4) * dt
 				pos.z = pos.z + direction.z * (enemy.movementSpeed+4) * dt

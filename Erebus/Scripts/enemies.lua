@@ -39,6 +39,7 @@ function CreateEnemy(type, position)
 	local i = #enemies+1
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
+	enemies[i].type = type
 	--enemies[i].transformID = Transform.Bind()
 	enemies[i].movementSpeed = 8--math.random(5,20)
 	enemies[i].maxHealth = 20
@@ -271,8 +272,28 @@ function UpdateEnemies(dt)
 				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
-			else
-				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
+			elseif enemies[i].stateName == DUMMY_STATE then
+					if  enemies[i].stateName ~= DEAD_STATE then
+						local pos = Transform.GetPosition(enemies[i].transformID)
+
+					local heightmapIndex = 1
+
+					for i = 1, #heightmaps do
+						if heightmaps[i].asset:Inside(pos) then
+							heightmapIndex = i
+						end
+					end
+
+					if  enemies[i].stateName ~= DEAD_STATE then
+						local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+						pos.y = pos.y - 10*dt
+						if pos.y < height then
+							pos.y = height
+						end
+					end
+					Transform.SetPosition(enemies[i].transformID, pos)
+				end
+				--aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 			end
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then

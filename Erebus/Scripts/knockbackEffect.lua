@@ -29,6 +29,7 @@ function CreateKnockbackEffect(owner, power)
 	function effect:Deapply(entity)	
 		if entity.SetState then
 			if entity.type ~= ENEMY_DUMMY then
+				print(entity.type)
 				entity.SetState(entity,IDLE_STATE)
 			end
 		end
