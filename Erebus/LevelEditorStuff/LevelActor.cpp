@@ -12,7 +12,8 @@ const char* LevelActor::EXPORT_TYPE_NAMES[MAX_EXPORT_TYPES] =
 	"Player",
 	"Health Orb",
 	"Particle",
-	"Trigger"
+	"Trigger",
+	"Settings"
 };
 
 void TW_CALL setDisplayCB(const void *value, void *s /*clientData*/)
@@ -184,6 +185,14 @@ std::string LevelActor::toLuaLoad(std::string levelName)
 
 		LevelEnemy* enemy = getComponent<LevelEnemy>();
 		ss << enemy->toLuaLoad( fullName ) << endl;
+	}
+	else if( exportType == EXPORT_SETTINGS )
+	{
+		LevelSettings* settings = getComponent<LevelSettings>();
+		if( settings )
+		{
+			ss << settings->toLuaLoad(fullName) << endl;
+		}
 	}
 	else
 	{
