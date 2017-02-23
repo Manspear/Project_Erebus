@@ -130,9 +130,7 @@ function CreateEnemy(type, position, startState)
 			self.insideInnerCircleRange = false
 		end
 
-		self.alive = false
-		Transform.ActiveControl(self.transformID, false)
-		SphereCollider.SetActive(self.sphereCollider, false)
+	
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
@@ -252,10 +250,12 @@ function UpdateEnemies(dt)
 					end
 				end
 
-				local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-				pos.y = pos.y - 10*dt
-				if pos.y < height then
-					pos.y = height
+				if  enemies[i].stateName ~= DEAD_STATE then
+					local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+					pos.y = pos.y - 10*dt
+					if pos.y < height then
+						pos.y = height
+					end
 				end
 				Transform.SetPosition(enemies[i].transformID, pos)
 

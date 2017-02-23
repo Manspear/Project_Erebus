@@ -518,7 +518,6 @@ namespace AGI
 						h = ((float)y - doJump) / (resolution);
 						for (int n = 0; n < 2; n++)
 						{
-
 							if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
 							{
 								stupid = n;

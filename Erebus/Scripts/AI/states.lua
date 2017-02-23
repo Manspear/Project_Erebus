@@ -432,13 +432,14 @@ function state.deadState.update(enemy,player,dt)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
 		SphereCollider.SetActive(enemy.sphereCollider, false)
+		enemy.alive = false
 	end
-	if enemy.actionCountDown > 0 then
+	--if enemy.actionCountDown > 0 then
 	--	if(UpdateHealthOrb(enemy.healthOrb, dt)) then	enemy.actionCountDown = -1	 end	
 	--else
-		enemy.alive = false
+		
 		--KillHealthOrb(enemy.healthOrb)
-	end
+	--end
 end
 
 function state.deadState.exit(enemy,player)
