@@ -91,7 +91,7 @@ namespace Gear
 			static glm::mat4 temp[100];
 			for( int i=0; i<transforms.size(); i++ )
 			{
-				if( transforms.at(i).active )
+				if( transforms.at(i).active && !culled.at(i))
 				{
 					memcpy( temp+i, &worldMatrices[i], sizeof(glm::mat4) );
 				}
@@ -111,7 +111,7 @@ namespace Gear
 		for (int i = 0; i < transforms.size(); i++)
 		{
 			TransformStruct& t = transforms[i];
-			if( t.active )
+			if( t.active && !culled.at(i) )
 				activeTransforms++;
 
 			glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
@@ -162,12 +162,14 @@ namespace Gear
 			transforms.push_back(trans);
 			worldMatrices.push_back(world);
 			vacant.push_back(false);
+			culled.push_back(false);
 		}
 		else
 		{
 			transforms.at(index) = trans;
 			worldMatrices.at(index) = world;
 			vacant.at(index) = false;
+			culled.at(index) = false;
 		}
 
 		return index;
@@ -194,6 +196,7 @@ namespace Gear
 			worldMatrices.push_back(world);
 			animations.push_back(anim);
 			vacant.push_back(false);
+			culled.push_back(false);
 		}
 		else
 		{
@@ -201,6 +204,7 @@ namespace Gear
 			worldMatrices.at(index) = world;
 			animations.at(index) = anim;
 			vacant.at(index) = false;
+			culled.at(index) = false;
 		}
 
 		return index;
@@ -232,6 +236,7 @@ namespace Gear
 	void ModelInstance::popInstance( int index )
 	{
 		vacant.at(index) = true;
+		culled.at(index) = true;
 	}
 
 	void ModelInstance::incrActiveTransforms()
@@ -276,6 +281,11 @@ namespace Gear
 	void ModelInstance::setActive( int index, bool active )
 	{
 		transforms.at(index).active = active;
+	}
+
+	void ModelInstance::setCulled( int index, bool c )
+	{
+		culled.at(index) = c;
 	}
 #pragma endregion
 
@@ -328,6 +338,11 @@ namespace Gear
 	bool ModelInstance::getActive( int index )
 	{
 		return transforms.at(index).active;
+	}
+
+	bool ModelInstance::getCulled( int index )
+	{
+		return culled.at(index);
 	}
 #pragma endregion
 }
