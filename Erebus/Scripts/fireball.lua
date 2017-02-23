@@ -6,6 +6,7 @@ FIREBALL_SPEED = 18
 FIREBALL_LIFETIME = 10
 FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
+FIRESPAM_DAMAGE = 20
 FIREBALL_BASE_DMG = 20
 FIREBALL_LIGHTRADIUS = 5
 FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
@@ -17,7 +18,7 @@ function CreateFireball(entity)
 		local tiny = {}
 		local model = Assets.LoadModel( "Models/grenade.model" )
 		tiny.type = CreateProjectileType(model)
-		tiny.damage = 1
+		tiny.damage = FIRESPAM_DAMAGE
 		tiny.alive = false
 		tiny.lifeTime = 1.8
 		tiny.hits = {}
