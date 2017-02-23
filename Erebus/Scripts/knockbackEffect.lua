@@ -23,7 +23,6 @@ function CreateKnockbackEffect(owner, power)
 			if entity.type ~= ENEMY_DUMMY then
 				entity.SetState(entity, DO_NOTHING_STATE)
 			end
-
 		end
 	end
 
