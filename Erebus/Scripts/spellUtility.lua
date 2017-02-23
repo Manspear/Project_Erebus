@@ -6,7 +6,6 @@ function CreateAim(entity)
 	local model = Assets.LoadModel( "Models/aim.model" )
 	aim.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(aim.transformID, true)
-	aim.caster = entity.transformID
 	function aim:SetPos(position)
 		Transform.SetPosition(aim.transformID, position)
 	end
@@ -16,29 +15,20 @@ end
 function CreateCombineRay(entity)
 	local ray = {}
 
-	--ray.transformID = Transform.Bind()
-	--local rayIce = Assets.LoadModel("Models/SpellChargingICEMesh.model")
-	--ray.modelIndex = Gear.AddForwardInstance(rayIce, ray.transformID)
+	
 	local rayIce = Assets.LoadModel( "Models/SpellChargingICEMesh.model" )
 	ray.transformID = Gear.BindForwardInstance(rayIce)
 	Gear.SetUniformLocation(ray.modelIndex, "aValue");
 
-	--ray.transformID2 = Transform.Bind()
-	--local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
-	--ray.modelIndex2 = Gear.AddForwardInstance(rayFire, ray.transformID2)
 	local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
 	ray.transformID2 = Gear.BindForwardInstance(rayFire)
 
-	--ray.transformID3 = Transform.Bind()
-	--local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	--ray.modelIndex = Gear.AddForwardInstance(rayNature, ray.transformID3)
 	local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
 	ray.transformID3 = Gear.BindForwardInstance(rayNature)
 
 	ray.caster = entity.transformID
 
-	function ray:FireChargeBeam(dt,dir,spellElement)
-		
+	function ray:FireChargeBeam(dt,dir,spellElement)		
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
@@ -47,17 +37,13 @@ function CreateCombineRay(entity)
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			elementalTransformID = self.transformID2
-
 		elseif spellElement == NATURE then
 			Transform.ActiveControl(self.transformID3, true) 
-			elementalTransformID = self.transformID3
-		
+			elementalTransformID = self.transformID3	
 		else 
 			Transform.ActiveControl(ray.transformID, true)
 		end
 		Transform.ActiveControl(self.transformID, true)
-		
-
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
@@ -101,6 +87,7 @@ function CreateChargeEggs(entity)
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
 	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
 	chargeThing.modelIndex3 = chargeThing.transformID3
+	
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
 	chargeThing.particles = createChargeParticles()

@@ -702,6 +702,9 @@ namespace AGI
 			int xPlayerPos = round(((target.x / mapWidth)*imWidth));
 			int yPlayerPos = round(((target.z / mapHeight)*imHeight));
 
+			if (xFrom < 0 || xPlayerPos < 0 || yFrom < 0 || yPlayerPos < 0)
+				return;
+
 			if (enemies.at(enemyPos).hasTarget())
 			{
 				enemies.at(enemyPos).hasReachedTarget(xFrom, yFrom, xPlayerPos, yPlayerPos);

@@ -14,6 +14,7 @@ function CreatePolyEffect(owner, duration)
 		Transform.SetScale(entity.transformID, 0)
 		local pos = Transform.GetPosition(entity.transformID)
 		Transform.SetPosition(self.polymorphTransform, pos)
+		print(self.transformID)
 		if entity.SetState then
 			entity.SetState(entity, DO_NOTHING_STATE)
 		end

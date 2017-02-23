@@ -99,7 +99,7 @@ function CreateEnemy(type, position)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
-				if self.health < 1 and self.stateName ~= DUMMY_STATE then
+				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
 					--print("Dead for host", enemies[i].transformID)
 					self.health = 0
 					self:Kill()
