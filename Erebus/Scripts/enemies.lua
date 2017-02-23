@@ -32,8 +32,8 @@ ENEMY_HEALTHBAR_HEIGHT = 0.15
 
 
 
-function CreateEnemy(type, position, startState)
-	assert( type == ENEMY_MELEE or type == ENEMY_RANGED, "Invalid enemy type." )
+function CreateEnemy(type, position)
+	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or ENEMY_DUMMY, "Invalid enemy type." )
 
 	local i = #enemies+1
 	enemies[i] = {}
@@ -67,7 +67,7 @@ function CreateEnemy(type, position, startState)
 	enemies[i].range = 4
 	enemies[i].target = nil
 
-	enemies[i].playerTarget = nil
+	enemies[i].playerTarget = player
 
 	enemies[i].animationState = 1
 	enemies[i].range = 4
@@ -175,8 +175,8 @@ function CreateEnemy(type, position, startState)
 	
 	if Network.GetNetworkHost() == true then
 		enemies[i].state =  stateScript.state.idleState
-		if startState then
-			stateScript.changeToState(enemies[i], player, startState)
+		if type == ENEMY_DUMMY then
+			stateScript.changeToState(enemies[i], player, DUMMY_STATE)
 		end
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
@@ -189,6 +189,11 @@ function UnloadEnemies()
 	AI.Unload()
 end
 
+function DestroyEnemy(enemy)
+	Transform.ActiveControl(enemy.transformID, false)
+	SphereCollider.SetActive(enemy.sphereCollider, false)
+	enemy.alive = false
+end
 function UpdateEnemies(dt)
 
 	--for i = 1, #heightmaps do
@@ -412,9 +417,9 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 or player.health > 0 then
+	if lengthToP1 < lengthToP2 and player.health > 0 then
 		enemy.playerTarget = player
-	elseif player2.health > 0 then
+	elseif player2.health > 0  and lengthToP1 > lengthToP2 then
 		enemy.playerTarget = player2
 	end
 
