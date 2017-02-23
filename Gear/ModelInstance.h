@@ -28,7 +28,7 @@ namespace Gear
 
 		//GEAR_API void popStaticInstance();
 		//GEAR_API void popAnimatedInstance();
-		GEAR_API void popInstance();
+		GEAR_API void popInstance( int index );
 		 
 		GEAR_API void incrActiveTransforms();
 		GEAR_API void decrActiveTransforms();
@@ -38,6 +38,7 @@ namespace Gear
 		GEAR_API void setTransform(int index, TransformStruct trans);
 		GEAR_API void setWorldMatrix(int index, glm::mat4 world);
 		GEAR_API void setAnimation( int index, Animation* animation );
+		GEAR_API void setActive( int index, bool active );
 		 
 		GEAR_API ModelAsset* getAsset() const;
 		GEAR_API int getWorldMatrixCount() const;
@@ -48,10 +49,12 @@ namespace Gear
 		GEAR_API TransformStruct* getTransform(int index);
 		GEAR_API glm::mat4& getWorldMatrix(int index);
 		GEAR_API Animation* getAnimation( int index );
+		GEAR_API bool getActive( int index );
 		
 	private:
 		ModelAsset* asset;
 		//std::vector<int> worldIndices;
+		std::vector<bool> vacant;
 		std::vector<TransformStruct> transforms;
 		int activeTransforms;
 		std::vector<glm::mat4> worldMatrices;
