@@ -388,27 +388,28 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	-- update player controller -- this moves the player
-	player.controller:Update()
-	if player.dashtime > 0 then
-		local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
-		local left = player.dashdir.z * factor
-		local fwd = player.dashdir.x * factor
-		player.controller:Move(left*dt, 0, fwd*dt)
-		player.dashtime = player.dashtime - dt
+	if player.isAlive then
+		player.controller:Update()
+		if player.dashtime > 0 then
+			local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
+			local left = player.dashdir.z * factor
+			local fwd = player.dashdir.x * factor
+			player.controller:Move(left*dt, 0, fwd*dt)
+			player.dashtime = player.dashtime - dt
 		
-		if player.dashtime <= 0 then
-			player.invulnerable = false
-			Transform.SetScale(player.transformID, 1)
-			Network.SendDashPacket(false)
-			Particle.Explode(player.dashEndParticles,player.position)
+			if player.dashtime <= 0 then
+				player.invulnerable = false
+				Transform.SetScale(player.transformID, 1)
+				Network.SendDashPacket(false)
+				Particle.Explode(player.dashEndParticles,player.position)
+			end
+		else
+			player.controller:Move(player.left * dt, 0, player.forward * dt)
 		end
-	else
-		player.controller:Move(player.left * dt, 0, player.forward * dt)
+		if not console.visible then
+			Controls(dt)
+		end
 	end
-	if not console.visible then
-		Controls(dt)
-	end
-	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
 	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
