@@ -58,10 +58,33 @@ function clientAIState.deadState.enter(enemy, playerTarget)
 	--print("Client enemy died", enemy.transformID)
 	--enemy.animationController:doNothing()
 
+	enemy.actionCountDown = 12
+	enemy.healthOrb = GetHealthOrb()
+	SpawnHealthOrb(enemy.healthOrb, Transform.GetPosition(enemy.transformID))
+
+
 	enemy:Kill()
 end
 
-function clientAIState.deadState.update(enemy, playerTarget)
+function clientAIState.deadState.update(enemy, playerTarget, dt)
+	enemy.actionCountDown= enemy.actionCountDown - dt	
+	if enemy.actionCountDown > 10 then			
+		local pos = Transform.GetPosition(enemy.transformID)
+		pos.x = pos.x + math.random(-3,3) * dt
+		pos.y = pos.y - 0.6 * dt
+		pos.z = pos.z + math.random(-3,3)  * dt
+		Transform.SetPosition(enemy.transformID,pos)
+	else
+		Transform.ActiveControl(enemy.transformID, false)
+		SphereCollider.SetActive(enemy.sphereCollider, false)
+	end
+
+	if enemy.actionCountDown > 0 then
+		if(UpdateHealthOrb(enemy.healthOrb, dt)) then	enemy.actionCountDown = -1	 end	
+	else
+		enemy.alive = false
+		KillHealthOrb(enemy.healthOrb)
+	end
 end
 
 function clientAIState.deadState.exit(enemy, playerTarget)
