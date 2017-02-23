@@ -91,7 +91,6 @@ function CreateChargeEggs(entity)
 	Transform.ActiveControl(chargeThing.transformID3, false)
 	--chargeThing.modelIndex3 = chargeThing.transformID3
 	
-	print(chargeThing.transformID, "\t", chargeThing.transformID2, "\t", chargeThing.transformID3)
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
 	chargeThing.particles = createChargeParticles()
