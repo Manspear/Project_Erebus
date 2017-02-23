@@ -39,6 +39,9 @@ function CreateEnemy(type, position)
 	enemies[i].currentHealth = enemies[i].health
 	enemies[i].hurtCountdown = 0
 
+	enemies[i].damagedTint = {r=1, g=0, b=0, a=0}
+	enemies[i].damagedTintDuration = 0.3
+
 	enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 	enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 	enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
@@ -93,7 +96,7 @@ function CreateEnemy(type, position)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
-				self.hurtCountdown = 1.0
+				self.damagedTint.a = 1
 
 				if self.health == 0 then
 					--print("Dead for host", enemies[i].transformID)
@@ -225,11 +228,9 @@ function UpdateEnemies(dt)
 	--end
 
 	for i = 1, #enemies do
-		if enemies[i].hurtCountdown > 0 then
-			enemies[i].hurtCountdown = enemies[i].hurtCountdown - dt
-			Gear.Print("hit", 650, 0, 1.3, {0.7, 0.1, 0.1, enemies[i].hurtCountdown})
-		else
-			enemies[i].hurtCountdown = 0
+		if enemies[i].damagedTint.a > 0 then
+			enemies[i].damagedTint.a = enemies[i].damagedTint.a - (dt / enemies[i].damagedTintDuration)
+			enemies[i].animationController.animation:SetTint(enemies[i].damagedTint)
 		end
 	end
 
