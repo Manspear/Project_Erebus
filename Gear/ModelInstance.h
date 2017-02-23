@@ -20,8 +20,15 @@ namespace Gear
 		 
 		GEAR_API void updateWorldMatrices();
 		 
-		GEAR_API int addStaticInstance(TransformStruct trans, glm::mat4 world);
-		GEAR_API int addAnimatedInstance(TransformStruct trans, glm::mat4 world, Animation* anim);
+		//GEAR_API int addStaticInstance(TransformStruct trans, glm::mat4 world);
+		//GEAR_API int addAnimatedInstance(TransformStruct trans, glm::mat4 world, Animation* anim);
+
+		GEAR_API int pushStaticInstance( const TransformStruct& trans, const glm::mat4& world );
+		GEAR_API int pushAnimatedInstance( const TransformStruct& trans, const glm::mat4& world, Animation* anim );
+
+		//GEAR_API void popStaticInstance();
+		//GEAR_API void popAnimatedInstance();
+		GEAR_API void popInstance();
 		 
 		GEAR_API void incrActiveTransforms();
 		GEAR_API void decrActiveTransforms();
