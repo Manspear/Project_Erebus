@@ -15,7 +15,7 @@ function CreatePolyEffect(owner, duration)
 		local pos = Transform.GetPosition(entity.transformID)
 		Transform.SetPosition(self.polymorphTransform, pos)
 		if entity.SetState then
-			entity.SetState(entity,"DoNothingState")
+			entity.SetState(entity, DO_NOTHING_STATE)
 		end
 		effect.particles:poof(pos)
 	end
@@ -24,7 +24,7 @@ function CreatePolyEffect(owner, duration)
 		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
 		if entity.SetState then
-			entity.SetState(entity,"IdleState")
+			entity.SetState(entity,IDLE_STATE)
 		end
 		effect.particles:poof(pos)
 	end
