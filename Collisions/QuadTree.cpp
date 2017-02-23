@@ -66,9 +66,13 @@ namespace Collisions
 		this->tempDynamicModelInstance = models; // save modelInstances
 		this->resetAllTemporaryData();
 
+		// GÅ IGENOM ALLA TRANSFORMS, SE OM DOM ÄR AKTIVA
+		// Spara index i noderna
+		// Set culling till false på alla som du collidar med
+		// och true på dom som ska cullas
 		for (size_t i = 0; i < models->size(); i++) // for every type of model
 		{
-//			models->at(i).setActiveTransforms(0);
+
 			ModelAsset* tempModelAsset = models->at(i).getAsset(); // get model asset
 
 			for (size_t j = 0; j < models->at(i).getActiveTransforms(); j++) // for every model that uses that asset
