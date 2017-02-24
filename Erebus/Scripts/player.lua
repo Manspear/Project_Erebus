@@ -75,6 +75,10 @@ function LoadPlayer()
 	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
+
+	player.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
+
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combined = false
@@ -187,10 +191,14 @@ function LoadPlayer2()
 	Particle.SetExtro(player2.dashStartParticles, false)
 	Particle.SetExtro(player2.dashEndParticles, true)
 
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player2.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player2.pingDuration = 1
 	player2.ping = 0
+	player2.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player2.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
 	
 	player2.nrOfInnerCircleEnemies = 0
 	player2.nrOfOuterCircleEnemies = 0
@@ -412,8 +420,12 @@ function UpdatePlayer(dt)
 	end
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.combineImage, player.position.x, player.position.y+2.1, player.position.z)
+	UI.reposWorld(player.deathImage, player.position.x, player.position.y+2.1, player.position.z)
+
+	right = Camera.GetRight()
+
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.5, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.5, player.position.z + right.z * 0.30)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(levels[player.levelIndex].triggers) do
@@ -699,6 +711,10 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	right = Camera.GetRight()
+	UI.reposWorld(player2.chargeImage, player2.position.x - right.x * 0.30, player2.position.y+1.5, player2.position.z - right.z * 0.30)
+	UI.reposWorld(player2.combineImage, player2.position.x + right.x * 0.30, player2.position.y+1.5, player2.position.z + right.z * 0.30)
+	UI.reposWorld(player2.deathImage, player2.position.x, player2.position.y+2.1, player2.position.z)
 
 end
 
