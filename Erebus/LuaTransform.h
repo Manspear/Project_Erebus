@@ -6,9 +6,9 @@
 
 namespace LuaTransform
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, TransformHandler* transformHandler );
-	int bind( lua_State* lua );
-	int destroy( lua_State* lua );
+	void registerFunctions( lua_State* lua, TransformHandler* transformHandler );
+	//int bind( lua_State* lua );
+	//int destroy( lua_State* lua );
 	int move( lua_State* lua );
 	int switchTransform( lua_State* lua );
 	int follow( lua_State* lua );

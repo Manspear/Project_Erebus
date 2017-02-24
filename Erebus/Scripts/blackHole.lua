@@ -22,7 +22,7 @@ function CreateBlackHole(entity)
 	spell.owner = entity
 	spell.effects = {}
 	table.insert(spell.effects, TIME_SLOW_EFFECT_INDEX)
-	spell.innerTransformID = Transform.Bind()
+	--spell.innerTransformID = Transform.Bind()
 	spell.maxChargeTime = 0
 	spell.chargedTime = 0
 	spell.damage = 0
