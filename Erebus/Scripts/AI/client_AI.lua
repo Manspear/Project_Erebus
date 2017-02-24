@@ -18,7 +18,6 @@ end
 function clientAIState.followState.enter(enemy, playerTarget)
 	--print("Client AI Walking")
 	enemy.animationController:doWalk()
-	enemy.animationState = 2
 	--AI.FollowPlayer(player.transformID)
 end
 
@@ -37,7 +36,6 @@ function clientAIState.attackState.enter(enemy, playerTarget)
 
 	enemy.animationController:doAttack()
 
-	enemy.animationState = 3
 	enemy.actionCountDown = 1.2
 end
 
@@ -51,7 +49,7 @@ function clientAIState.attackState.update(enemy, playerTarget, dt)
 end
 
 function clientAIState.attackState.exit(enemy, playerTarget)
-
+	enemy.animationController:doWalk()
 end 
 
 function clientAIState.leapState.enter(enemy,playerTarget)
@@ -151,33 +149,37 @@ end
 function setAIState(enemy, playerTarget, aiState)
 	--print("Enemy", enemy.transformID)
 	--print("Client AI ID", enemy.transformID)
-	if aiState == 0 or aiState == IDLE_STATE then--IdleState
+	if aiState == IDLE_STATE then--IdleState
 		--print("Received IdleState", enemy.transformID, aiState)
 		enemy.state = clientAIState.idleState
 	end
-	if aiState == 1 or aiState == FOLLOW_STATE then--FollowState
-		--print("Received FollowState", enemy.transformID, aiState)
+	if aiState == FOLLOW_STATE then--FollowState
+		print("Received FollowState", enemy.transformID, aiState)
 		enemy.state = clientAIState.followState
 	end
 		
-	if aiState == 2 or aiState == ATTACK_STATE then--AttackState
+	if aiState == ATTACK_STATE then--AttackState
 		--print("Received AttackState", enemy.transformID, aiState)
 		enemy.state = clientAIState.attackState
 	end
 
-	if aiState == 3 or aiState == LEAP_STATE then--leapState
+	if aiState == LEAP_STATE then--leapState
 		--print("Received leapState", enemy.transformID, aiState)
 		enemy.state = clientAIState.leapState
 	end
 			
-	if aiState == 4 or aiState == DEAD_STATE then--DeadState
+	if aiState == DEAD_STATE then--DeadState
 		--print("Received DeadState", enemy.transformID, aiState)
 		enemy.state = clientAIState.deadState
 	end	
 
-	if aiState == 5 or aiState == DO_NOTHING_STATE then--DoNothingState
+	if aiState == DO_NOTHING_STATE then--DoNothingState
 		--print("Received DoNothingState", enemy.transformID, aiState)
 		enemy.state = clientAIState.doNothingState
+	end
+	
+	if aiState == DUMMY_STATE then
+		enemy.state = state.dummyState
 	end
 
 	enemy.state.enter(enemy, playerTarget)
