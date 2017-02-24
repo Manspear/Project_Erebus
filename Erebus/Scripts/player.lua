@@ -504,8 +504,10 @@ function Controls(dt)
 			ChargeDir.y = pos2.y - player.position.y 
 			ChargeDir.z =  pos2.z -  player.position.z 
 
+
 			--normalize and length
-			len = vec3length(player.position, pos2)
+			len = vec3length(vec3sub(player.position, pos2))
+			
 			a = math.sqrt( (ChargeDir.x * ChargeDir.x) + (ChargeDir.y * ChargeDir.y) + (ChargeDir.z * ChargeDir.z) )
 
 			ChargeDir.x = (ChargeDir.x /a)
