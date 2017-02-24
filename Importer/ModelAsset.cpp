@@ -36,6 +36,8 @@ namespace Importer
 
 			fclose(file);
 
+			int ressoar = path.compare(std::string("Models/castleClockBROKEN.model"));
+
 			char* ptr = (char*)dataptr;
 			offsets = (sOffset*)ptr;
 			ptr += sizeof(sOffset)*header.numMeshes;

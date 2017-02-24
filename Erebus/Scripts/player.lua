@@ -15,6 +15,8 @@ NATURE=2
 player = {}
 player2 = {}
 
+clock = {}
+
 effectTable = {}
 
 function Round(num, idp)
@@ -40,6 +42,11 @@ function LoadPlayer()
 	if Network.GetNetworkHost() == false then
 		player.transformID, player2.transformID = player2.transformID, player.transformID
 	end--]]
+
+	local model2 = Assets.LoadModel("Models/castleClockBROKEN.model")
+	clock.transformID = Gear.BindStaticInstance(model2)
+	Transform.ActiveControl(clock.transformID, true)
+	Transform.SetPosition(clock.transformID, {x=23.4, y=6.9,z=158.9})
 
 	if Network.GetNetworkHost() then
 		player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
