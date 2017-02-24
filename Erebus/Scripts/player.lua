@@ -49,7 +49,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 30
+	player.moveSpeed = 60
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -515,8 +515,13 @@ function Controls(dt)
 			--local dir = Camera.GetDirection()
 			
 			
-			player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement,len)
-			SendCombine(player.spells[player.currentSpell])
+			
+			if len<35 then
+				player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement,len)
+				SendCombine(player.spells[player.currentSpell])
+			else 
+				player.friendCharger:EndChargeBeam()
+			end
 			--end
 			--local pos = Transform.GetPosition(player.transformID)
 			--local pos2 = Transform.GetPosition(player2.transformID)
