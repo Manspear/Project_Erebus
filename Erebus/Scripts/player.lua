@@ -462,6 +462,7 @@ function SendCombine(spell)
 			player2.isCombined = true
 			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
 			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
+			player2.combinedSpell = spell.spellListId
 		end
 	end
 end
@@ -506,13 +507,13 @@ function Controls(dt)
 			--ChargeDir.z = pos.z - pos2.z 
 
 			print(vec3length(player.position, pos2))
-			if vec3length(player.position, pos2) < 1000 then
+			--if vec3length(player.position, pos2) < 1000 then
 			--local dir = Camera.GetDirection()
 			--print(ChargeDir.x)
 			
-			player.friendCharger:FireChargeBeam(dt,dir,sElement)
+			--player.friendCharger:FireChargeBeam(dt,dir,sElement)
 			SendCombine(player.spells[player.currentSpell])
-			end
+			--end
 			--local pos = Transform.GetPosition(player.transformID)
 			--local pos2 = Transform.GetPosition(player2.transformID)
 			
