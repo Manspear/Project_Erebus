@@ -76,7 +76,7 @@ DWORD WINAPI update(LPVOID args)
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler);
 	CollisionUpdater collisionUpdater(&collisionHandler, data->transformHandler);
 
-	data->quadtree->generateQuadtree(4, glm::vec3(0, 0, 0), 1000.0f);
+	data->quadtree->generateQuadtree(5, glm::vec3(0, 0, 0), 1800.0f);
 	AABBCollider temp(glm::vec3(-10, -10, -10), glm::vec3(10, 10, 10), glm::vec3(17, 17, 17));
 
 	//Frustum f;
