@@ -63,6 +63,7 @@ namespace LuaGear
 	int setPhase(lua_State* lua);
 	int setOverride(lua_State* lua);
 	int setTime(lua_State* lua);
+	int setBlend(lua_State* lua);
 	int getHours(lua_State* lua);
 	int getMinutes(lua_State* lua);
 

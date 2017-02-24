@@ -102,6 +102,7 @@ namespace LuaGear
 			{ "FogColor", setFogColor },
 			{ "SetPhase", setPhase},
 			{ "SetTime", setTime },
+			{ "SetBlend", setBlend},
 			{ "Override", setOverride },
 			{ "GetHours", getHours },
 			{ "GetMinutes", getMinutes },
@@ -663,8 +664,17 @@ namespace LuaGear
 		assert(lua_gettop(lua) >= 1);
 		int hours = (int)lua_tonumber(lua, 1);
 
-		g_skybox->setTime(hours);
+		g_skybox->setTime(hours, false);
 
+		return 0;
+	}
+
+	int setBlend(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+		float blend = (int)lua_tonumber(lua, 1);
+
+		g_skybox->setBlend(blend);
 		return 0;
 	}
 

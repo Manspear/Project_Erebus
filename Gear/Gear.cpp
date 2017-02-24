@@ -327,8 +327,6 @@ namespace Gear
 		//shadowMap.unUse();
 		//shadowMapBlur(&shadowMapTemp, &shadowMap, 0.9f);
 
-		Debugger::getInstance()->drawLine(glm::vec3(24, 8, 155), glm::vec3(24, 8, 155) + skybox->getDirLight().direction);
-
 		queue.updateUniforms(camera);
 
 		gBuffer.use();

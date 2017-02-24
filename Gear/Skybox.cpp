@@ -23,7 +23,7 @@ void Gear::Skybox::init()
 
 	skyboxShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "skybox");
 
-	dayCycleLength = 120.0f;
+	//dayCycleLength = 120.0f;
 	hoursPerDay = 24.0f;
 	dawnTimeOffset = 3.0f;
 	quarterDay = dayCycleLength * 0.25f;
@@ -33,7 +33,10 @@ void Gear::Skybox::init()
 	duskTime = dayTime + quarterDay + halfquarterDay;
 	nightTime = duskTime + halfquarterDay;
 	timePerHour = dayCycleLength / hoursPerDay;
-	currentPhase = DayPhase::Night;
+	currentPhase = DayPhase::Dawn;
+	currentCycleTime = 0;
+	UpdateWorldTime();
+
 
 	fullLight = glm::vec3(253.0f / 255.0f, 248.0f / 255.0f, 223.0f / 255.0f);
 	fullDark = glm::vec3(32.0f / 255.0f, 28.0f / 255.0f, 46.0f / 255.0f);
@@ -46,6 +49,17 @@ void Gear::Skybox::init()
 
 	currentSun.color = glm::vec3(0.75, 0.75, 0.94);
 	currentSun.direction = glm::vec3(0, 0, 1);
+	//Set the values to the correct one as the beginning
+	float relativeTime = currentCycleTime - dawnTime;
+	currentSun.color = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
+
+	relativeTime = currentCycleTime - dawnTime;
+	fogColor = glm::mix(dawnDuskFog, dayFog, relativeTime / (halfquarterDay));
+
+	relativeTime = currentCycleTime - dawnTime;
+	skyboxBlendFactor = 1 - (relativeTime / halfquarterDay);
+
+	setTime(8, true);
 
 	std::vector<const GLchar*> faces;
 	faces.push_back("skybox/right.dds");
@@ -162,21 +176,26 @@ GEAR_API void Gear::Skybox::update(float dt)
 		SetDawn();
 	}
 
-
-
-	UpdateWorldTime();
-	UpdateFog();
-	UpdateLight();
-	UpdateBlendFactor();
-
 	float deltaTime = 0.0f;
-	if (luaOverride && (currentCycleTime > targetTime + 0.35 || currentCycleTime < targetTime - 0.35))
+	if (luaOverride)
 	{
-		deltaTime = dt * 25;
-		currentCycleTime += dt * 25;
-		currentCycleTime = fmod(currentCycleTime, dayCycleLength);
+		if ((currentCycleTime > targetTime + 1 || currentCycleTime < targetTime - 1))
+		{
+			deltaTime = dt * 25;
+			currentCycleTime += dt * 25;
+			currentCycleTime = fmod(currentCycleTime, dayCycleLength);
+			UpdateWorldTime();
+			UpdateFog();
+			UpdateLight();
+			UpdateBlendFactor();
+		}
 	}
 	else if (!luaOverride) {
+		UpdateWorldTime();
+		UpdateFog();
+		UpdateLight();
+		UpdateBlendFactor();
+
 		deltaTime = dt;
 		currentCycleTime += dt;
 		currentCycleTime = fmod(currentCycleTime, dayCycleLength);
@@ -186,7 +205,7 @@ GEAR_API void Gear::Skybox::update(float dt)
 
 GEAR_API void Gear::Skybox::setFogColor(glm::vec3 color)
 {
-	this->targetFog = color;
+	this->fogColor = color;
 }
 
 GEAR_API void Gear::Skybox::setPhase(DayPhase phase)
@@ -212,12 +231,7 @@ GEAR_API void Gear::Skybox::setPhase(DayPhase phase)
 
 GEAR_API void Gear::Skybox::setBlend(float blend)
 {
-	targetBlend = blend;
-}
-
-GEAR_API void Gear::Skybox::setSkybox(int skybox)
-{
-	targetBlend = skybox;
+	this->skyboxBlendFactor = blend;
 }
 
 GEAR_API void Gear::Skybox::setColor(glm::vec3 color)
@@ -250,7 +264,7 @@ GEAR_API Lights::DirLight& Gear::Skybox::getDirLight()
 	return this->currentSun;
 }
 
-GEAR_API void Gear::Skybox::setTime(int hours)
+GEAR_API void Gear::Skybox::setTime(int hours, bool force)
 {
 	float hourToCycleTime = (dayCycleLength / hoursPerDay);
 
@@ -260,6 +274,14 @@ GEAR_API void Gear::Skybox::setTime(int hours)
 	}
 
 	targetTime = fmod(((hours * hourToCycleTime) - (dawnTimeOffset + 2) * hourToCycleTime), dayCycleLength);
+	if (force)
+	{
+		currentCycleTime = targetTime;
+		UpdateWorldTime();
+		UpdateFog();
+		UpdateLight();
+		UpdateBlendFactor();
+	}
 }
 
 GEAR_API void Gear::Skybox::overrideLua(bool luaOverride)

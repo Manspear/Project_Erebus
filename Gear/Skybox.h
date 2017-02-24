@@ -30,12 +30,11 @@ namespace Gear
 		GEAR_API glm::vec3 getFogColor();
 		GEAR_API Lights::DirLight& getDirLight();
 
-		GEAR_API void setTime(int hours);
+		GEAR_API void setTime(int hours, bool force);
 		GEAR_API void overrideLua(bool luaOverride);
 		GEAR_API void setFogColor(glm::vec3 color);
 		GEAR_API void setPhase(DayPhase phase);
 		GEAR_API void setBlend(float blend);
-		GEAR_API void setSkybox(int skybox);
 		GEAR_API void setColor(glm::vec3 color);
 		GEAR_API void setDirection(glm::vec3 direction);
 
@@ -45,7 +44,7 @@ namespace Gear
 	private:
 
 		//Lua target values
-		bool luaOverride = false;
+		bool luaOverride = true;
 		float targetTime = 0.0f;
 		glm::vec3 targetFog = glm::vec3(0,0,0);
 		float targetBlend = 0.0f;
