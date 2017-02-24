@@ -8,7 +8,9 @@ function CreatePolyEffect(owner, duration)
 	local effect = {}
 	effect.duration = duration or POLYMORPH_EFFECT_DURATION
 	effect.poofTime = POLYMORPH_POOFTIME
-	effect.polymorphTransform, effect.particles = GetNextFreeMorph()
+	local model = Assets.LoadModel("Models/Polymorph.model")
+	effect.polymorphTransform = Gear.BindStaticInstance(model)
+	effect.particles = createCloudParticles()
 
 	function effect:Apply(entity, duration)
 		Transform.SetScale(entity.transformID, 0)
@@ -31,6 +33,7 @@ function CreatePolyEffect(owner, duration)
 			end
 		end
 		self.particles:poof(pos)
+		Gear.UnbindInstance(self.polymorphTransform)
 		self = nil
 	end
 
@@ -41,28 +44,16 @@ function CreatePolyEffect(owner, duration)
 		Transform.SetPosition(self.polymorphTransform, Transform.GetPosition(entity.transformID))	
 		return self.duration > 0 
 	end
-
 	return effect
 end
 
 function InitPolymorphs()
-	local someModels = {"Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model"}
-	local models = {}
-	for i = 1, POLYMORPH_POOL_SIZE do 
-		models[i] = Assets.LoadModel(someModels[i])
-	end
-	for i = 1, POLYMORPH_POOL_SIZE do
-		currentFree = i
-		polymorphPool[currentFree] = Gear.BindStaticInstance(models[i])
-		polymorphParticles[i] = createCloudParticles()
-	end
-	currentFree = 0
+	--local someModels = {"Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model"}
 end
 
 function GetNextFreeMorph()
-	if currentFree >= POLYMORPH_POOL_SIZE then currentFree = 0 end
-	currentFree = currentFree + 1	
-	return polymorphPool[currentFree], polymorphParticles[currentFree]
+	--if currentFree >= POLYMORPH_POOL_SIZE then currentFree = 0 end
+	--currentFree = currentFree + 1	
+	--return polymorphPool[currentFree], polymorphParticles[currentFree]
 end
 
-InitPolymorphs()
