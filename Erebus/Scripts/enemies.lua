@@ -232,7 +232,6 @@ function UpdateEnemies(dt)
 		COUNTDOWN = 0.4
 
 		for i=1, #enemies do
-			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				AI.ClearMap(enemies[i].lastPos,0)
 				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
