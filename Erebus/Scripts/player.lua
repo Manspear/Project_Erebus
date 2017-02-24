@@ -49,7 +49,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 30
+	player.moveSpeed = 60
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -504,6 +504,7 @@ function Controls(dt)
 			ChargeDir.y = pos2.y - player.position.y 
 			ChargeDir.z =  pos2.z -  player.position.z 
 
+			--normalize and length
 			len = vec3length(player.position, pos2)
 			a = math.sqrt( (ChargeDir.x * ChargeDir.x) + (ChargeDir.y * ChargeDir.y) + (ChargeDir.z * ChargeDir.z) )
 
@@ -511,12 +512,24 @@ function Controls(dt)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
 			
-			--if vec3length(player.position, pos2) < 1000 then
-			--local dir = Camera.GetDirection()
+			local dir = Camera.GetDirection()
 			
 			
-			player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement,len)
-			SendCombine(player.spells[player.currentSpell])
+			
+			if len<35 then
+
+				dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
+				if dot >0.25 then
+
+					player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement,len)
+					SendCombine(player.spells[player.currentSpell])
+				else 
+					player.friendCharger:EndChargeBeam()
+				end
+
+			else 
+				player.friendCharger:EndChargeBeam()
+			end
 			--end
 			--local pos = Transform.GetPosition(player.transformID)
 			--local pos2 = Transform.GetPosition(player2.transformID)
