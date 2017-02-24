@@ -47,7 +47,7 @@ function CreateBlackHole(entity)
 	local model2 = Assets.LoadModel( "Models/blackHole_Sphere.model" )
 	spell.innerTransformID = Gear.BindStaticInstance(model2)
 	--spell.modelIndex = Gear.AddForwardInstance(model, spell.type.transformID)
-	Gear.SetUniformLocation(spell.modelIndex, "aValue");
+	Gear.SetUniformLocation(spell.type.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
 	--spell.modelIndex = Gear.BindBlendingInstance(model)
 	Gear.SetBlendTextures(spell.type.transformID, 2, spell.texture1, spell.texture2)
@@ -115,7 +115,7 @@ function CreateBlackHole(entity)
 			rotation.y = rotation.y + 2*dt
 			Transform.SetRotation(self.innerTransformID, rotation)
 			self.uvPush.y = self.uvPush.y + 2*dt
-			Gear.SetBlendUniformValue(self.modelIndex, 2, {x=0,y=0}, self.uvPush)
+			Gear.SetBlendUniformValue(self.type.transformID, 2, {x=0,y=0}, self.uvPush)
 			--local scale = Transform.GetScale(self.type.transformID)
 			--scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos(((BLACK_HOLE_COOLDOWN -self.cooldown)/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
 			--Transform.SetScaleNonUniform(self.type.transformID, scale, 0.01, scale) 
