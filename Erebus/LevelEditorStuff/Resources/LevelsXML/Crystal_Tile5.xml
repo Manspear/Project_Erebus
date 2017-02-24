@@ -1,0 +1,17 @@
+<LevelActor type="Tile5_Static" displayName="Crystal" tileID="5" exportType="1">
+    <LevelModel>
+        <ModelName>ice_crystal</ModelName>
+    </LevelModel>
+    <LevelPointLight>
+        <Position x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="1"/>
+        <Radius r="30"/>
+        <Intensity i="4"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="553.5" y="57.1138" z="439.25"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
