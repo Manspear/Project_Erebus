@@ -299,8 +299,8 @@ function UpdateEnemies(dt)
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
 			elseif enemies[i].stateName == DUMMY_STATE then
-					if  enemies[i].stateName ~= DEAD_STATE then
-						local pos = Transform.GetPosition(enemies[i].transformID)
+				if  enemies[i].stateName ~= DEAD_STATE then
+					local pos = Transform.GetPosition(enemies[i].transformID)
 
 					local heightmapIndex = 1
 
@@ -317,8 +317,15 @@ function UpdateEnemies(dt)
 							pos.y = height
 						end
 					end
-					Transform.SetPosition(enemies[i].transformID, pos)
+					Transform.SetPosition(enemies[i].transformID, pos)		
+					
+					local direction = Transform.GetLookAt(enemies[i].transformID)
+					local rotation = Transform.GetRotation(enemies[i].transformID)		
+					if shouldSendNewTransform == true then
+						Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
+					end
 				end
+
 				--aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 			end
 			for j = #enemies[i].effects, 1, -1 do 

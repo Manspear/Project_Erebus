@@ -191,7 +191,10 @@ function LoadPlayer2()
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player2.pingDuration = 1
 	player2.ping = 0
-	
+
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+
 	player2.nrOfInnerCircleEnemies = 0
 	player2.nrOfOuterCircleEnemies = 0
 
@@ -482,21 +485,38 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			sElement = player.spells[player.currentSpell].element
+
+			pos2 = Transform.GetPosition(player2.transformID)
 			
-			--player.isCombined = true
-			local dir = Camera.GetDirection()
-			--local pos = Transform.GetPosition(player.transformID)
-			RayCollider.SetActive(player.rayCollider, true)
-			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
-			ShowCrosshair()
+			local ChargeDir = {}
+			--ChargeDir.x = pos.x - pos2.x 
+			--ChargeDir.y = pos.y - pos2.y 
+			--ChargeDir.z = pos.z - pos2.z 
+
+			print(vec3length(player.position, pos2))
+			if vec3length(player.position, pos2) < 1000 then
+			--local dir = Camera.GetDirection()
+			--print(ChargeDir.x)
+			
 			player.friendCharger:FireChargeBeam(dt,dir,sElement)
-			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
-			for curID = 1, #collisionIDs do
-				if collisionIDs[curID] == player2.sphereCollider:GetID() then
-					SendCombine(player.spells[player.currentSpell])
-					break
-				end
+			SendCombine(player.spells[player.currentSpell])
 			end
+			--local pos = Transform.GetPosition(player.transformID)
+			--local pos2 = Transform.GetPosition(player2.transformID)
+			
+			
+			--RayCollider.SetActive(player.rayCollider, true)
+			
+			--RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+			--ShowCrosshair()
+			
+			--local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+			--for curID = 1, #collisionIDs do
+				--if collisionIDs[curID] == player2.sphereCollider:GetID() then
+					
+					--break
+				--end
+			--end
 		end
 		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
 			HideCrosshair()
@@ -699,6 +719,8 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	UI.reposWorld(player2.chargeImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	UI.reposWorld(player2.combineImage, player2.position.x, player2.position.y+2.1, player2.position.z)
 
 end
 
