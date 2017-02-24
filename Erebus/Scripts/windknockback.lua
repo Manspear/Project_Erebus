@@ -3,6 +3,7 @@ WINDKNOCKBACK_COOLDOWN = 2
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
+	spell.element = ICE
 	spell.cooldown = 0.0		spell.maxcooldown = 4
 	spell.hudtexture = WINDKNOCKBACK_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
@@ -22,7 +23,7 @@ function CreateWindknockback(entity)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
-	spell.particles = createCloudParticles()
+	spell.particles = createWindParticles()
 
 	spell.effects = {} 
 	table.insert(spell.effects, KNOCKBACK_EFFECT_INDEX)
