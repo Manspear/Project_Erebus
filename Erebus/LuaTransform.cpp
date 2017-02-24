@@ -189,16 +189,10 @@ namespace LuaTransform
 
 		if( active )
 		{
-			if( index >= 0 && index < 4 )
-				int f = 0;
 			g_transformHandler->activateTransform( index );
 		}
 		else
 		{
-			if( index >= 0 && index < 4 )
-			{
-				printf( "Deactivating index: %d\n", index );
-			}
 			g_transformHandler->deactivateTransform( index );
 		}
 
@@ -223,9 +217,6 @@ namespace LuaTransform
 
 		//g_transforms[index].setPos( position );
 		g_transformHandler->getTransform( index )->pos = position;
-
-		if( index >= 0 && index < 4 )
-			printf( "Index %d at %f,%f,%f\n", index, position.x, position.y, position.z );
 
 		return 0;
 	}
