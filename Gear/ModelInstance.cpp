@@ -344,5 +344,10 @@ namespace Gear
 	{
 		return culled.at(index);
 	}
+
+	const std::vector<TransformStruct>* ModelInstance::getTransforms()
+	{
+		return &this->transforms;
+	}
 #pragma endregion
 }
