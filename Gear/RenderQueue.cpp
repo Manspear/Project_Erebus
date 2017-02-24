@@ -2,7 +2,7 @@
 
 
 RenderQueue::RenderQueue()
-	: nrOfWorlds(0),  worldMatrices(nullptr), jointMatrices( nullptr )
+	: nrOfWorlds(0), jointMatrices( nullptr )
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
@@ -18,8 +18,6 @@ RenderQueue::RenderQueue()
 
 RenderQueue::~RenderQueue()
 {
-	if (worldMatrices)
-		delete[] worldMatrices;
 	if( jointMatrices )
 		delete[] jointMatrices;
 
@@ -100,63 +98,14 @@ void RenderQueue::updateUniforms(Camera * camera, ShaderType shader)
 	allShaders[shader]->unUse();
 }
 
-void RenderQueue::allocateWorlds(int n)
+void RenderQueue::update(int nanimations, Animation* animations)
 {
-	if (worldMatrices)
-		delete[] worldMatrices;
-	if(jointMatrices)
-		delete[] jointMatrices;
-
-	worldMatrices = new glm::mat4[n];
-	jointMatrices = new glm::mat4[n*MAXJOINTCOUNT];
-	oneMoreUpdate = new bool[n];
-}
-
-void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations)
-{
-	allTransforms = theTrans;
 #if 1
-	glm::mat4 tempMatrix = glm::mat4();
-	glm::mat4 rotationZ = glm::mat4();
-	glm::mat4 rotationY = glm::mat4();
-	glm::mat4 rotationX = glm::mat4();
-	glm::vec3 tempLook;
-	glm::vec3 axis;
-	for (int i = 0; i < ntransforms; i++)
-	{
-		if (oneMoreUpdate[i])
-		{
-			//reset the world matrix
-			tempMatrix = glm::mat4();
-			tempLook = glm::normalize(glm::vec3(theTrans[i].lookAt.x, 0, theTrans[i].lookAt.z));
-			axis = glm::cross(tempLook, { 0, 1, 0 });
 
-			//rotate around the axis orthogonal to both the {0,1,0} vector and the lookDir vector. (makes the model roll forwards/backwards)
-			rotationZ = glm::rotate(tempMatrix, theTrans[i].rot.z, axis);
-			rotationX = glm::rotate(tempMatrix, theTrans[i].rot.x, theTrans[i].lookAt); //remove if too much trouble xd
-			//rotatea around Y axis, pretty simple. (makes the model look left/right)
-			rotationY = glm::rotate(tempMatrix, theTrans[i].rot.y, { 0, 1, 0 });
-			//set the scale of the models
-			tempMatrix[0][0] = theTrans[i].scale.x;
-			tempMatrix[1][1] = theTrans[i].scale.y;
-			tempMatrix[2][2] = theTrans[i].scale.z;
-
-			//rotates a scaled identity matrix
-			tempMatrix = rotationX *  rotationZ * rotationY *  tempMatrix;
-
-			//sets the translation of objects, final world matrix
-			tempMatrix[3][0] = theTrans[i].pos.x;
-			tempMatrix[3][1] = theTrans[i].pos.y;
-			tempMatrix[3][2] = theTrans[i].pos.z;
-			worldMatrices[i] = tempMatrix;
-		}
-		oneMoreUpdate[i] = theTrans[i].active;
-	}
-
-	for( int i=0; i<nanimations; i++ )
+	/*for( int i=0; i<nanimations; i++ )
 	{
 		memcpy( jointMatrices+i*MAXJOINTCOUNT, animations[i].getShaderMatrices(), sizeof(glm::mat4)*MAXJOINTCOUNT );
-	}
+	}*/
 #else
 	int chunk = n / MAX_THREADS;
 
@@ -185,13 +134,6 @@ void RenderQueue::update(int ntransforms, TransformStruct* theTrans, int nanimat
 
 ShaderProgram* RenderQueue::getShaderProgram(ShaderType type) {
 	return this->allShaders[type];
-}
-
-int RenderQueue::generateWorldMatrix()
-{
-	int result = nrOfWorlds++;
-	worldMatrices[result];
-	return result;
 }
 
 void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues)
@@ -403,7 +345,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 				allShaders[ANIM]->setUniform(animatedModels->at(i).getAnimation(j)->getTint(), "tint", 1);
 
 				//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
-				allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).getAnimationMatrixIndex(j)*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);
+				//allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).getAnimationMatrixIndex(j)*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);
+				allShaders[ANIM]->setUniform4cfv(glm::value_ptr(animatedModels->at(i).getAnimation(j)->getShaderMatrices()[0]), "jointMatrices", MAXJOINTCOUNT );
 
 				for (int k = 0; k < modelAsset->getHeader()->numMeshes; k++)
 				{

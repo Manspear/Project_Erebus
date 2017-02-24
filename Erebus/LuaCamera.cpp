@@ -3,13 +3,11 @@
 
 namespace LuaCamera {
 	static Camera* g_camera = nullptr;
-	static Transform* g_transforms = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions(lua_State * lua, Camera * camera, Transform* transform, TransformHandler* transformHandler )
+	void registerFunctions(lua_State * lua, Camera * camera, TransformHandler* transformHandler )
 	{
 		g_camera = camera;
-		g_transforms = transform;
 		g_transformHandler = transformHandler;
 
 		luaL_newmetatable(lua, "cameraMeta");

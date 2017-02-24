@@ -5,17 +5,15 @@ using namespace Importer;
 namespace LuaAI
 {
 	static AGI::AGIEngine * AI = nullptr;
-	static Transform* transforms = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 	static Assets* g_assets = nullptr;
 
 	static HeightMap ** heightMaps = nullptr;
 	static int nrOfHM = 0;
 
-	void registerFunctions(lua_State * L, Transform* inTransforms,AGI::AGIEngine * inAI, Assets* assets, TransformHandler* transformHandler)
+	void registerFunctions(lua_State * L,AGI::AGIEngine * inAI, Assets* assets, TransformHandler* transformHandler)
 	{
 		AI = inAI;
-		transforms = inTransforms;
 		g_assets = assets;
 		g_transformHandler = transformHandler;
 

@@ -162,7 +162,10 @@ namespace LuaGear
 
 	int bindStaticInstance( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) == 1 );
+		//assert( lua_gettop( lua ) == 1 );
+
+		if( lua_gettop( lua ) == 2 )
+			int f = 0;
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
 

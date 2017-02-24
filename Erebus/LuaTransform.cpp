@@ -8,22 +8,17 @@ namespace LuaTransform
 	// NOTE: Put global in Lua instead?
 	// Putting static in front means we can only reach the
 	// variable from this compilation unit.
-	static Transform* g_transforms = nullptr;
-	static int* g_boundTransforms = nullptr;
-	static bool* g_activeTransforms = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, TransformHandler* transformHandler )
+	void registerFunctions( lua_State* lua, TransformHandler* transformHandler )
 	{
-		g_transforms = transforms;
-		g_boundTransforms = boundTransforms;
 		g_transformHandler = transformHandler;
 
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
 		{
-			{ "Bind",				bind },
-			{ "Destroy",			destroy },
+			//{ "Bind",				bind },
+			//{ "Destroy",			destroy },
 			{ "Move",				move },
 			{ "Switch",				switchTransform },
 			{ "Follow",				follow },
@@ -63,7 +58,7 @@ namespace LuaTransform
 		lua_setglobal( lua, "Transform" );
 	}
 
-	int bind( lua_State* lua )
+	/*int bind( lua_State* lua )
 	{
 		int n = lua_gettop( lua );
 		for( int i=1; i<=n; i++ )
@@ -72,12 +67,12 @@ namespace LuaTransform
 		*g_boundTransforms += 1;
 
 		return 1;
-	}
+	}*/
 
 	// NOTE: Copied from the old LuaBinds.h
 	// What is this function supposed to do?
 	//Det var på tiden vi skapade new Transform() fårn lua istället för att ge ett index
-	int destroy( lua_State* lua )
+	/*int destroy( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 1 );
 		
@@ -85,7 +80,7 @@ namespace LuaTransform
 		delete transform;
 
 		return 0;
-	}
+	}*/
 
 	int move( lua_State* lua )
 	{
@@ -193,9 +188,19 @@ namespace LuaTransform
 		bool active = (bool)lua_toboolean( lua, 2 );
 
 		if( active )
+		{
+			if( index >= 0 && index < 4 )
+				int f = 0;
 			g_transformHandler->activateTransform( index );
+		}
 		else
+		{
+			if( index >= 0 && index < 4 )
+			{
+				printf( "Deactivating index: %d\n", index );
+			}
 			g_transformHandler->deactivateTransform( index );
+		}
 
 		return 0;
 	}
@@ -218,6 +223,9 @@ namespace LuaTransform
 
 		//g_transforms[index].setPos( position );
 		g_transformHandler->getTransform( index )->pos = position;
+
+		if( index >= 0 && index < 4 )
+			printf( "Index %d at %f,%f,%f\n", index, position.x, position.y, position.z );
 
 		return 0;
 	}
