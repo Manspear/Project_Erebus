@@ -95,7 +95,7 @@ namespace Importer
 
 			return result;
 		}
-		void unload();
+		IMPORTER_API void unload();
 		IMPORTER_API void upload();
 
 		IMPORTER_API void checkHotload( float dt );

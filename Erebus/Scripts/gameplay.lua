@@ -46,6 +46,7 @@ gameplayStarted = false
 loadedGameplay = false
 
 function LoadGameplay()
+	print("LOADING GAMEPLAY")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
@@ -53,7 +54,14 @@ function LoadGameplay()
 end
 
 function UnloadGameplay()
-	print("UNLOADING GAMEPLAY")
+	-- unload all the loaded levels
+	for levelIndex,level in pairs(levels) do
+		if loadedLevels[levelIndex] then
+			level.unload()
+		end
+	end
+
+	-- unload all the scripts
 	for key,value in pairs(scripts) do
 		if value.Unload then
 			value.Unload()
@@ -63,6 +71,8 @@ function UnloadGameplay()
 	loadedGameplay = false
 	gameplayStarted = false
 	loadedLevels = {}
+
+	collectgarbage()
 end
 
 function UpdateGameplay(dt)

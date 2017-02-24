@@ -12,6 +12,10 @@ function CreateAim(entity)
 	return aim
 end
 
+function DestroyAim(aim)
+	Gear.UnbindInstance(aim.transformID)
+end
+
 function CreateCombineRay(entity)
 	local ray = {}
 
@@ -63,6 +67,12 @@ function CreateCombineRay(entity)
 		Transform.ActiveControl(self.transformID3, false)
 	end
 	return ray
+end
+
+function DestroyCombineRay(ray)
+	Gear.UnbindInstance(ray.transformID)
+	Gear.UnbindInstance(ray.transformID2)
+	Gear.UnbindInstance(ray.transformID3)
 end
 
 MAX_CHARGE = 1
@@ -197,6 +207,12 @@ function CreateChargeEggs(entity)
 		end
 	end
 	return chargeThing
+end
+
+function DestroyChargeEggs(egg)
+	Gear.UnbindInstance(egg.transformID)
+	Gear.UnbindInstance(egg.transformID2)
+	Gear.UnbindInstance(egg.transformID3)
 end
 
 function BaseCheckCollision(spell)

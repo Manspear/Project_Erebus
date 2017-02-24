@@ -12,7 +12,7 @@ namespace Gear
 	public:
 		GEAR_API ModelInstance();
 		GEAR_API ~ModelInstance();
-		 
+
 		GEAR_API void init();
 		GEAR_API void allocateBuffer();
 		GEAR_API void bindBuffers();

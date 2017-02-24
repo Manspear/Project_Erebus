@@ -13,6 +13,7 @@ namespace LuaAssets
 		luaL_newmetatable( lua, "assetsMeta" );
 		luaL_Reg assetsRegs[] =
 		{
+			{ "Unload", unload },
 			{ "LoadModel", loadModel },
 			{ "LoadTexture", loadTexture },
 			{ "LoadHeightmap", loadHeightmap },
@@ -57,6 +58,12 @@ namespace LuaAssets
 		lua_pushvalue( lua, -1 );
 		lua_setfield( lua, -2, "__index" );
 		lua_pop(lua, 2);
+	}
+
+	int unload( lua_State* lua )
+	{
+		g_assets->unload();
+		return 0;
 	}
 
 	int loadModel( lua_State* lua )

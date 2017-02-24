@@ -24,3 +24,7 @@ function CreateLifeStealEffect(entity, duration)
 	end
 	return effect
 end
+
+function DestroyLifeStealEffect(effect)
+	effect = nil
+end

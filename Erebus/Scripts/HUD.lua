@@ -57,7 +57,26 @@ function LoadHUD()
 end
 
 function UnloadHUD()
+	for _,v in pairs(imageTextures) do
+		v = nil
+	end
 
+	for _,v in pairs(screenImages) do
+		v = nil
+	end
+
+	for _,v in pairs(tutorialTexture) do
+		v = nil
+	end
+
+	for _,v in pairs(pingImages) do
+		v = nil
+	end
+
+	imageTextures = {}
+	screenImages = {}
+	tutorialImages = {}
+	pingImages = {}
 end
 
 function UpdateHUD(dt)

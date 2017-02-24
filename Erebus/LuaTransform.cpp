@@ -48,6 +48,8 @@ namespace LuaTransform
 			{ "GetDistanceBetweenTrans", getDistance }, 
 			{"GetDistanceBetweenTransAndPos", getDistanceTransPos},
 
+			{ "Reset", reset },
+
 			{ NULL, NULL }
 		};
 
@@ -512,5 +514,11 @@ namespace LuaTransform
 		lua_getfield(lua, 2, "z");		pos.z = (float)lua_tonumber(lua, -1);
 		lua_pushnumber(lua, glm::length(g_transformHandler->getTransform(id1)->pos - pos));
 		return 1;
+	}
+
+	int reset( lua_State* lua )
+	{
+		g_transformHandler->reset();
+		return 0;
 	}
 }

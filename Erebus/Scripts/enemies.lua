@@ -207,6 +207,12 @@ end
 
 function UnloadEnemies()
 	AI.Unload()
+
+	for i=1, #enemies do
+		DestroyEnemyController(enemies[i].animationController)
+		Gear.UnbindInstance(enemies[i].transformID)
+	end
+	enemies = {}
 end
 
 function DestroyEnemy(enemy)
