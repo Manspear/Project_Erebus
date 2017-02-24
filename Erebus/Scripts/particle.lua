@@ -150,6 +150,7 @@ function createCloudParticles()
 	end
 	return cloud
 end
+
 WIND_PARTICLES_TEX = Assets.LoadTexture("Textures/windknockBack_test1.dds");
 function createWindParticles()
 	local wind = {}

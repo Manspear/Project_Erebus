@@ -1,3 +1,4 @@
+levelScripts = {}
 local scripts = {}
 local scriptFiles =
 {
@@ -81,6 +82,10 @@ function UpdateGameplay(dt)
 	end
 
 	for key,value in pairs(scripts) do
+		value.Update(dt)
+	end
+
+	for key,value in pairs(levelScripts) do
 		value.Update(dt)
 	end
 
