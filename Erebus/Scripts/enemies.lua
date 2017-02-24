@@ -124,8 +124,15 @@ function CreateEnemy(type, position)
 			end
 		end		
 	end
-	enemies[i].ChangeToState = function(self,inState)
-		stateScript.changeToState(self, player, inState)
+
+	if Network.GetNetworkHost() == true then
+		enemies[i].ChangeToState = function(self,inState)
+			stateScript.changeToState(self, player, inState)
+		end
+	else
+		enemies[i].ChangeToState = function(self,inState)
+			clientAIScript.setAIState(self, player, inState)
+		end
 	end
 
 	enemies[i].Kill = function(self)
@@ -190,6 +197,9 @@ function CreateEnemy(type, position)
 		end
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
+		if type == ENEMY_DUMMY then
+			clientAIScript.setAIState(enemies[i], player, DUMMY_STATE)
+		end
 	end
 
 	return enemies[i]
@@ -289,8 +299,8 @@ function UpdateEnemies(dt)
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
 			elseif enemies[i].stateName == DUMMY_STATE then
-					if  enemies[i].stateName ~= DEAD_STATE then
-						local pos = Transform.GetPosition(enemies[i].transformID)
+				if  enemies[i].stateName ~= DEAD_STATE then
+					local pos = Transform.GetPosition(enemies[i].transformID)
 
 					local heightmapIndex = 1
 
@@ -307,8 +317,15 @@ function UpdateEnemies(dt)
 							pos.y = height
 						end
 					end
-					Transform.SetPosition(enemies[i].transformID, pos)
+					Transform.SetPosition(enemies[i].transformID, pos)		
+					
+					local direction = Transform.GetLookAt(enemies[i].transformID)
+					local rotation = Transform.GetRotation(enemies[i].transformID)		
+					if shouldSendNewTransform == true then
+						Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
+					end
 				end
+
 				--aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 			end
 			for j = #enemies[i].effects, 1, -1 do 
@@ -356,7 +373,7 @@ function UpdateEnemies(dt)
 	
 		while newAIStateValue == true do
 			for i=1, #enemies do
-				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
+				if enemies[i].transformID == aiState_transformID then
 					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end

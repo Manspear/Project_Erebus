@@ -191,7 +191,10 @@ function LoadPlayer2()
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player2.pingDuration = 1
 	player2.ping = 0
-	
+
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+
 	player2.nrOfInnerCircleEnemies = 0
 	player2.nrOfOuterCircleEnemies = 0
 
@@ -699,6 +702,8 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	UI.reposWorld(player2.chargeImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	UI.reposWorld(player2.combineImage, player2.position.x, player2.position.y+2.1, player2.position.z)
 
 end
 

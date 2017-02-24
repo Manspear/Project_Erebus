@@ -168,9 +168,9 @@ function DrawHUD()
 
 	--TODO: For Emill to figure out
 	if player2.charging then
-		--UI.drawWorldImage(player2.chargeImage, player2.spells[player2.currentSpell].hudtexture);
+		UI.drawWorldImage(player2.chargeImage, player2.spells[player2.currentSpell].hudtexture);
 		if (player2.isCombined and player2.combinedSpell ~= -1) then
-			--UI.drawWorldImage(player2.combineImage, SpellList[player2.combinedSpell].texture);
+			UI.drawWorldImage(player2.combineImage, SpellList[player2.combinedSpell].texture);
 		end
 	end
 
