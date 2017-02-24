@@ -498,20 +498,25 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			sElement = player.spells[player.currentSpell].element
-
 			pos2 = Transform.GetPosition(player2.transformID)
 			
 			local ChargeDir = {}
-			--ChargeDir.x = pos.x - pos2.x 
-			--ChargeDir.y = pos.y - pos2.y 
-			--ChargeDir.z = pos.z - pos2.z 
+			ChargeDir.x =  pos2.x - player.position.x 
+			ChargeDir.y = pos2.y - player.position.y 
+			ChargeDir.z =  pos2.z -  player.position.z 
 
-			print(vec3length(player.position, pos2))
+			len = vec3length(player.position, pos2)
+			a = math.sqrt( (ChargeDir.x * ChargeDir.x) + (ChargeDir.y * ChargeDir.y) + (ChargeDir.z * ChargeDir.z) )
+
+			ChargeDir.x = (ChargeDir.x /a)
+			ChargeDir.y = (ChargeDir.y /a)
+			ChargeDir.z = (ChargeDir.z /a)
+			print(ChargeDir.x)
 			--if vec3length(player.position, pos2) < 1000 then
 			--local dir = Camera.GetDirection()
-			--print(ChargeDir.x)
 			
-			--player.friendCharger:FireChargeBeam(dt,dir,sElement)
+			
+			player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement)
 			SendCombine(player.spells[player.currentSpell])
 			--end
 			--local pos = Transform.GetPosition(player.transformID)

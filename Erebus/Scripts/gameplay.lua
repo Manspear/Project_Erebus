@@ -106,7 +106,7 @@ end
 
 function EnterGameplay()
 	if loadedGameplay == false then 
-		-- call their load function
+		
 		for key,value in pairs(scripts) do
 			if value.Load then value.Load() end
 		end
