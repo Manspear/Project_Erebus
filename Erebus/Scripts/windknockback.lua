@@ -15,7 +15,7 @@ function CreateWindknockback(entity)
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
 		
-	local model = Assets.LoadModel( "Models/Stone4.model" )
+	local model = Assets.LoadModel( "Models/nothing.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
@@ -61,7 +61,6 @@ function CreateWindknockback(entity)
 	end
 
 	function spell:GeneralCast()
-		print(self.chargedTime)
 		self.alive = true		self.stage1time = 0.5
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
@@ -71,8 +70,7 @@ function CreateWindknockback(entity)
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
-		Particle.SetDirection(self.particles.ID, direction.x, direction.y, direction.z);
-		self.particles:poof(pos)
+		self.particles:poof(pos, direction, self.chargedTime / 2)
 	end
 
 	function spell:CheckCollisions()

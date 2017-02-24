@@ -51,6 +51,7 @@ namespace Gear
 		GEAR_API Importer::TextureAsset* getTexture();
 		GEAR_API void resetEmitter();
 		GEAR_API void setExtrovert(bool yesNo);
+		GEAR_API void setFocus(float focusPower);
 		GEAR_API void activate();
 		GEAR_API void deActivate();
 		GEAR_API void setTexture(Importer::TextureAsset* texture);
