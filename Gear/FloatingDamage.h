@@ -2,20 +2,22 @@
 #include "BaseIncludes.h"
 #include "FontAsset.h"
 #include "ShaderProgram.h"
+#include "Camera.h"
 #define RANDOM_NUMBER_TOTAL 100
 #define FLOATING_MAX_NUMBER 10
 
 struct DamageValue {
 	glm::vec3 position;
+	float damage;
 	float size;
 	float alphaVal;
-	int fontType;
+	int damageType;
 	//float charHeight;
 };
 struct fDamageVertex
 {
 	glm::vec3 pos;
-	glm::vec2 attributes; //X = Size, Y=Alpha
+	glm::vec3 attributes; //X = Size, Y=Alpha, Z = OffsetX
 	glm::vec4 UV;
 	int width;
 };
@@ -63,8 +65,9 @@ public:
 	void setFont(Importer::FontAsset* font);
 
 	void updateBuffer();
-	void print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color);
+	void print(const std::string &s, const float &scale, const glm::vec4 &color, glm::vec3 worldPos);
+	void addDamage(float damage);
 
-	void draw();
+	void draw(Camera* camera);
 };
 

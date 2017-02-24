@@ -1,13 +1,15 @@
 #version 420 core
 
-in vec2 vertex_UV;
+in vec2 geom_UV;
+
+uniform sampler2D font;
+uniform vec4 color;
 
 out vec4 out_color;
 
-uniform sampler2D tex;
-void main (){
-	vec4 color = texture(tex, vertex_UV);
-	if(color.w < 0.5)
-		discard;
-	out_color = color; 
+void main()
+{
+	vec4 texCol = texture( font, geom_UV );
+	//gl_FragColor = texture( font, geom_UV );
+	out_color = texCol * color;
 }

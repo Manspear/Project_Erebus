@@ -1,33 +1,49 @@
 #version 420 core
 
-const vec2 quadCorners[4] = { vec2(-0.5, -0.5), vec2(-0.5, 0.5), 
-				vec2(0.5, -0.5), vec2(0.5, 0.5) };
-
-const vec2 uvCorners[4] = { vec2(0.0, 1.0), vec2(0.0, 0.0), 
-				vec2(1.0, 1.0), vec2(1.0, 0.0) };
-
-layout(points) in ;
+layout(points) in;
 layout(triangle_strip, max_vertices = 4) out;
 
-in float size[];
+in vec4 vert_UV[];
+in float vert_width[];
+
+out vec2 geom_UV;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
+uniform float height;
 
-out vec2 vertex_UV;
+void main()
+{
+	vec4 pos;
 
- void main()
- {	
-	float sizeZ = size[0];
-	if (sizeZ < 0)
-		sizeZ = 0.0;
-	for(int i = 0; i < 4; i++)
-	{		
-		vec4 p = viewMatrix * gl_in[0].gl_Position;
-		p.xy += quadCorners[i] * sizeZ;
-		gl_Position = projectionMatrix * p;
-		vertex_UV = uvCorners[i];
-		EmitVertex();
-	}
+	vec4 temp = gl_in[0].gl_Position * viewMatrix;
+	//Bottom left
+	pos = gl_in[0].gl_Position;
+	gl_Position = projectionMatrix * pos;
+	geom_UV = vec2(vert_UV[0].x, vert_UV[0].y);
+	EmitVertex();
+
+	//Bottom right
+	pos = gl_in[0].gl_Position;
+	pos.x += vert_width[0];
+	gl_Position = projectionMatrix * pos;
+	geom_UV = vec2(vert_UV[0].z, vert_UV[0].y);
+	EmitVertex();
+
+	//Top left
+	pos = gl_in[0].gl_Position;
+	pos.y += height;
+	gl_Position = projectionMatrix * pos;
+	geom_UV = vec2(vert_UV[0].x, vert_UV[0].w);
+	EmitVertex();
+
+	//Top right
+	pos = gl_in[0].gl_Position;
+	pos.x += vert_width[0];
+	pos.y += height;
+	gl_Position = projectionMatrix * pos;
+	geom_UV = vec2(vert_UV[0].z, vert_UV[0].w);
+	EmitVertex();
+
 	EndPrimitive();
- }
+}

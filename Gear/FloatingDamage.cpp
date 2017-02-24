@@ -62,57 +62,45 @@ void FloatingDamage::init(int screenWidth, int screenHeight)
 	shader->unUse();
 }
 
-void FloatingDamage::draw()
+void FloatingDamage::draw(Camera* camera)
 {
-	bool results = false;
-	this->shader->use();
+	//updateBuffer();
+	shader->use();
+
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	fDamageVertex* floatingData;
-	size_t particleCount;
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(0, 10, GL_FLOAT, GL_FALSE, sizeof(floatingData), (GLvoid*)0);
 
+	font->getTexture()->bind(GL_TEXTURE0);
 
-
-	for (size_t i = 0; i < eDamageTypes::NUM_DAMAGE_TYPES; i++)
-	{
-
-	}
-
-
-	for (size_t i = 0; i < ps->size(); i++)
-	{
-		if (ps->at(i)->isActive)
-		{
-			results = true;
-			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
-			{
-				if (ps->at(i)->particleEmitters->isActive)
-				{
-					pos = ps->at(i)->particleEmitters[j].getPositions();
-					ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
-					particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
-					glBufferData(GL_ARRAY_BUFFER, (sizeof(floatingData)) * particleCount, &pos[0], GL_STATIC_DRAW);
-					glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);
-				}
-			}
-		}
-	}
-
-	for (size_t i = 0; i < emitters->size(); i++)
-	{
-		if (emitters->at(i)->isActive)
-		{
-			pos = emitters->at(i)->getPositions();
-			emitters->at(i)->getTexture()->bind(GL_TEXTURE0);
-			particleCount = emitters->at(i)->getNrOfActiveParticles();
-			glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);
-			glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);
-		}
-	}
 	glEnableVertexAttribArray(0);
-	this->shader->unUse();
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
+
+	shader->setUniform4fv(&camera->getProjectionMatrix(), "projectionMatrix");
+	shader->setUniform4fv(&camera->getViewMatrix(), "viewMatrix");
+
+	//for (auto l : lines)
+	for (auto l : bufferedLines)
+	{
+		glUniform1f(heightLoc, font->getInfo()->size * l.scale);
+		glUniform4f(colorLoc, l.color.r, l.color.g, l.color.b, l.color.a);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(fDamageLine), &l);
+		glDrawArrays(GL_POINTS, 0, (GLsizei)l.numberOfCharacters);
+	}
+	//lines.clear();
+	bufferedLines.clear();
+
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+
+	glBindVertexArray(0);
+
+	shader->unUse();
 }
 
 void FloatingDamage::updateBuffer()
@@ -123,45 +111,41 @@ void FloatingDamage::updateBuffer()
 	lines.clear();
 }
 
-void FloatingDamage::print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color)
+void FloatingDamage::addDamage(float damage)
+{
+	print(std::to_string((int)damage), 1, { 1,0,0,0 }, glm::vec3(20, 8, 165));
+	updateBuffer();
+}
+
+void FloatingDamage::print(const std::string &s, const float &scale, const glm::vec4 &color, glm::vec3 worldPos)
 {
 	fDamageLine line;
 	line.numberOfCharacters = 0;
 	line.scale = scale;
 	line.color = color;
 
-	float x = baseX;
-	float y = baseY;
 
 	for (auto c : s)
 	{
-		if (c == '\n') // Handle newline character
+		if (line.numberOfCharacters >= FLOATING_MAX_NUMBER) // Create new line if current line is filled
 		{
 			lines.push_back(line);
 			line.numberOfCharacters = 0;
-
-			x = baseX;
-			y += font->getInfo()->size * scale;
 		}
-		else
-		{
-			if (line.numberOfCharacters >= FLOATING_MAX_NUMBER) // Create new line if current line is filled
-			{
-				lines.push_back(line);
-				line.numberOfCharacters = 0;
-			}
 
-			fDamageVertex vert;
+		fDamageVertex vert;
 
-			vert.pos = glm::vec2(x, y);
-			vert.UV = font->getUV(c);
-			vert.width = (int)(font->getWidth(c) * line.scale);
+		vert.pos = worldPos;
+		vert.UV = font->getUV(c);
+		vert.width = (int)(font->getWidth(c) * line.scale);
+		vert.attributes.z += vert.width;
+		vert.attributes.x = 1;
+		vert.attributes.y = 1;
 
-			x += vert.width; // Update position for next vertex
+		//worldPos.x += vert.width; // Update position for next vertex
 
-			line.characters[line.numberOfCharacters] = vert;
-			line.numberOfCharacters++;
-		}
+		line.characters[line.numberOfCharacters] = vert;
+		line.numberOfCharacters++;
 	}
 	lines.push_back(line);
 }
