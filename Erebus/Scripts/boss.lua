@@ -1,7 +1,7 @@
 BOSS_SPELLCD = {}
 BOSS_SPELLCD[1] = 25
 BOSS_SPELLCD[2] = 1
-BOSS_SPELLCD[3] = 1000
+BOSS_SPELLCD[3] = 10
 boss = {}
 boss.spells = {}
 boss.spellcooldowns = {}
