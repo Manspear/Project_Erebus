@@ -604,7 +604,7 @@ namespace LuaNetwork
 
 	int shouldSendNewTransform(lua_State* lua)
 	{
-		if (g_networkController->timeSinceLastTransformPacket() > 0.033)
+		if (g_networkController->timeSinceLastTransformPacket() > 0.0167)
 		{
 			lua_pushboolean(lua, true);
 		}

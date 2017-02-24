@@ -106,12 +106,12 @@ end
 
 function EnterGameplay()
 	if loadedGameplay == false then 
-		-- call their load function
+		
 		for key,value in pairs(scripts) do
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Level01_Oskar.lua" )
+		dofile( "Scripts/Level01.lua" )
 
 		levels[1].load()
 		loadedLevels[1] = true
