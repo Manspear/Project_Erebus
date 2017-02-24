@@ -53,6 +53,8 @@ private:
 	std::vector<fDamageLine> bufferedLines;
 	std::vector<DamageValue> dataToSend[NUM_DAMAGE_TYPES];
 
+	DamageValue*dataToSend2[NUM_DAMAGE_TYPES];
+
 public:
 	FloatingDamage();
 	~FloatingDamage();

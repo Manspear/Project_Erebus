@@ -17,6 +17,14 @@ FloatingDamage::FloatingDamage()
 	shader = nullptr;
 	VAO = 0;
 	VBO = 0;
+	for (size_t i = 0; i < NUM_DAMAGE_TYPES; i++)
+	{
+		this->dataToSend2[i] = new DamageValue[100];
+	}
+
+
+	DamageValue temp;
+	this->dataToSend2[0][0] = DamageValue();
 }
 
 
@@ -65,15 +73,11 @@ void FloatingDamage::draw()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glVertexAttribPointer(0, 10, GL_FLOAT, GL_FALSE, sizeof(floatingData), (GLvoid*)0);
 
+
+
 	for (size_t i = 0; i < eDamageTypes::NUM_DAMAGE_TYPES; i++)
 	{
-		if (this->dataToSend[i].size() > 0) {
-			floatingData = dataToSend->at(i);
-			ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
-			particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
-			glBufferData(GL_ARRAY_BUFFER, (sizeof(floatingData)) * particleCount, &pos[0], GL_STATIC_DRAW);
-			glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);
-		}
+
 	}
 
 
