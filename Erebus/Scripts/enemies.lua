@@ -11,10 +11,10 @@ DEAD_STATE = 6
 DO_NOTHING_STATE = 7
 DUMMY_STATE = 8
 
-TRANSFORM_UPDATED = false
+AI_TRANSFORM_UPDATED = false
 INTERPOLATING_AI_TRANSFORM = false
-INTERPOLATION_ITERATIONS = 0
-INTERPOLATION_NR_OF_STEPS = 2
+INTERPOLATION_AI_ITERATIONS = 0
+INTERPOLATION_AI_NR_OF_STEPS = 2
 
 MAX_ENEMIES = 10
 ENEMY_MELEE = 1
@@ -232,7 +232,6 @@ function UpdateEnemies(dt)
 		COUNTDOWN = 0.4
 
 		for i=1, #enemies do
-			--print ("Last Pos: " .. enemies[i].lastPos.x.."  "..enemies[i].lastPos.z)
 			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				AI.ClearMap(enemies[i].lastPos,0)
 				enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
@@ -397,7 +396,7 @@ function UpdateEnemies(dt)
 						enemies[i].start_transform_interpolate.rotation = Transform.GetRotation(enemies[i].transformID)
 					
 						enemies[i].goal_transform_interpolate = enemies[i].new_transform_interpolate
-						TRANSFORM_UPDATED = true
+						AI_TRANSFORM_UPDATED = true
 					end
 
 					break
@@ -409,14 +408,14 @@ function UpdateEnemies(dt)
 		end
 		
 		-- Interpolate AI transforms
-		if INTERPOLATING_AI_TRANSFORM == false and TRANSFORM_UPDATED == true then
+		if INTERPOLATING_AI_TRANSFORM == false and AI_TRANSFORM_UPDATED == true then
 				INTERPOLATING_AI_TRANSFORM = true
-				INTERPOLATION_ITERATIONS = 0
-				TRANSFORM_UPDATED = false
+				INTERPOLATION_AI_ITERATIONS = 0
+				AI_TRANSFORM_UPDATED = false
 		elseif INTERPOLATING_AI_TRANSFORM == true then
 			for i=1, #enemies do
 				
-				local stepDivider = INTERPOLATION_NR_OF_STEPS - INTERPOLATION_ITERATIONS
+				local stepDivider = INTERPOLATION_AI_NR_OF_STEPS - INTERPOLATION_AI_ITERATIONS
 
 				Transform.SetPosition(enemies[i].transformID, { x = enemies[i].start_transform_interpolate.position.x + ((enemies[i].goal_transform_interpolate.position.x - enemies[i].start_transform_interpolate.position.x)/stepDivider),
 																y = enemies[i].start_transform_interpolate.position.y + ((enemies[i].goal_transform_interpolate.position.y - enemies[i].start_transform_interpolate.position.y)/stepDivider),
@@ -432,9 +431,9 @@ function UpdateEnemies(dt)
 																z = enemies[i].start_transform_interpolate.rotation.z + ((enemies[i].goal_transform_interpolate.rotation.z - enemies[i].start_transform_interpolate.rotation.z)/stepDivider)})
 			end
 
-			INTERPOLATION_ITERATIONS = INTERPOLATION_ITERATIONS + 1
+			INTERPOLATION_AI_ITERATIONS = INTERPOLATION_AI_ITERATIONS + 1
 
-			if INTERPOLATION_ITERATIONS == INTERPOLATION_NR_OF_STEPS then
+			if INTERPOLATION_AI_ITERATIONS == INTERPOLATION_AI_NR_OF_STEPS then
 				INTERPOLATING_AI_TRANSFORM = false
 			end
 		end

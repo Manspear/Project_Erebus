@@ -43,7 +43,7 @@ end
 
 function CreateFireEffectParticles()
 	local particle = {}
-	particle.burn = Particle.Bind("ParticleFiles/yoooo.particle")
+	particle.burn = Particle.Bind("ParticleFiles/firetest4.particle")
 	function particle:Cast()
 		Particle.SetAlive(self.burn)
 	end
@@ -57,7 +57,7 @@ function CreateFireEffectParticles()
 	return particle
 end
 
-CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fire1.png");
+CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpell.dds");
 function createChargeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
@@ -145,6 +145,15 @@ end
 function createCloudParticles()
 	local cloud = {}
 	cloud.ID = Particle.Bind("ParticleFiles/smokeParticles.Particle")
+	function cloud:poof(pos)
+		Particle.Explode(self.ID, pos)
+	end
+	return cloud
+end
+
+function createWindParticles()
+	local cloud = {}
+	cloud.ID = Particle.Bind("ParticleFiles/wind.Particle")
 	function cloud:poof(pos)
 		Particle.Explode(self.ID, pos)
 	end

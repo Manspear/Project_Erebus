@@ -55,9 +55,9 @@ end
 function UpdateBoss(dt)
 	if boss.health > 0 then
 		dt = dt * boss.timeScalar
-		local hm = GetHeightmap({x=460,y=0,z=156})
+		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
 		if hm then
-			Transform.SetPosition(boss.transformID, { x=460, y= hm.asset:GetHeight(460, 156)+5, z=156 })
+			Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)+5, z=435.7 })
 		end
 		pos = Transform.GetPosition(boss.transformID)
 		UI.reposWorld(boss.healthbar, pos.x, pos.y+7, pos.z)
