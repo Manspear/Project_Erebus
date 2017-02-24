@@ -3,7 +3,8 @@
 const char* LevelEnemy::ENEMY_TYPE_NAMES[MAX_ENEMY_TYPES] =
 {
 	 "Melee",
-	 "Ranged"
+	 "Ranged",
+	 "Dummy"
 };
 
 const char* LevelEnemy::name = "LevelEnemy";
@@ -21,6 +22,7 @@ void LevelEnemy::initialize(tinyxml2::XMLElement* element) {
 	this->moveSpeed = std::stof(element->FirstChildElement("MoveSpeed")->Attribute("amount"));
 	this->health = std::stof(element->FirstChildElement("Health")->Attribute("amount"));
 	this->visionRange = std::stof(element->FirstChildElement("VisionRange")->Attribute("amount"));
+	this->type = std::stof(element->FirstChildElement("Type")->Attribute("amount"));
 }
 void LevelEnemy::update(float deltaTime) {
 	
@@ -40,9 +42,13 @@ tinyxml2::XMLElement* LevelEnemy::toXml(tinyxml2::XMLDocument* doc) {
 	tinyxml2::XMLElement* visionRangeElement = doc->NewElement("VisionRange");
 	visionRangeElement->SetAttribute("amount", this->visionRange);
 
+	tinyxml2::XMLElement* enemyTypeElement = doc->NewElement("Type");
+	enemyTypeElement->SetAttribute("amount", this->type);
+
 	element->LinkEndChild(moveSpeedElement);
 	element->LinkEndChild(healthElement);
 	element->LinkEndChild(visionRangeElement);
+	element->LinkEndChild(enemyTypeElement);
 
 	return element;
 }
@@ -52,8 +58,10 @@ std::string LevelEnemy::toLuaLoad(std::string name){
 
 	LevelTransform* transform = parent->getComponent<LevelTransform>();
 	glm::vec3 pos = transform->getTransformRef()->getPos();
-
-	ss << "local " << name << " = CreateEnemy(" << ( type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED" ) << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+	if(type==ENEMY_DUMMY)
+		ss << "local " << name << " = CreateEnemy(" << "ENEMY_DUMMY" << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+	else
+		ss << "local " << name << " = CreateEnemy(" << ( type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED" ) << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
 
 	ss << name << ".moveSpeed = " << moveSpeed << endl;
 	ss << name << ".health = " << health << endl;

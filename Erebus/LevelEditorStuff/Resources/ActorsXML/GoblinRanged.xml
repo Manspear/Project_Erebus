@@ -3,13 +3,13 @@
         <MoveSpeed amount="9"/>
         <Health amount="50"/>
         <VisionRange amount="30"/>
-        <Type amount="0"/>
+        <Type amount="1"/>
     </LevelEnemy>
     <LevelModel>
         <ModelName>Goblin</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="35.5" y="7.796875" z="141.125"/>
+        <Position x="27.3125" y="6.59375" z="151"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>

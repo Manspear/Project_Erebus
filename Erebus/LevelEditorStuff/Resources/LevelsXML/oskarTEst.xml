@@ -1131,7 +1131,7 @@
             <HalfLengths x="0.30000001" y="5" z="3.9051249"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="54.5" y="8.0132151" z="183"/>
+            <Position x="54.5" y="8.0679636" z="183"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -1995,7 +1995,7 @@
             <HalfLengths x="0.30000001" y="5.1472902" z="4.3011627"/>
         </LevelCollider>
         <LevelTransform>
-            <Position x="34.5" y="8.4550867" z="207.5"/>
+            <Position x="34.5" y="8.6837273" z="207.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -11263,37 +11263,155 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tutorial" displayName="CombinationBarrier" tileID="1" exportType="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="917" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0" y="3.5" z="0"/>
-            <HalfLengths x="3" y="5" z="1"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (2) (1)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
         <LevelModel>
-            <ModelName>Stone3</ModelName>
+            <ModelName>Goblin</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="30.390625" y="8.390625" z="194.75"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="2" y="2" z="2"/>
+            <Position x="52.279427" y="8.3638477" z="178.59235"/>
+            <Rotation x="-0.051879883" y="4.0938015" z="0.013206482"/>
+            <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tutorial" displayName="CombinationBarrierTrigger" tileID="1" exportType="8">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="918" parentID="0"/>
-            <Behavior Type="1" OnEnter="" OnExit="function() hideTutorialImage()end" OnTriggering="function(dt) TutorialBarrier(CombinationBarrier,918,dt) end "/>
-            <Rotation x="0" y="2" z="0"/>
-            <HalfLengths x="2" y="3" z="3"/>
-        </LevelCollider>
+    <LevelActor type="Brush" displayName="New (2) (2)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
         <LevelTransform>
-            <Position x="29.864191" y="8.2657795" z="194.99506"/>
-            <Rotation x="0" y="0" z="0"/>
+            <Position x="43.65625" y="8.3908558" z="183.625"/>
+            <Rotation x="-0.011123657" y="8.7752981" z="-0.11431885"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (2) (3)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="52.3125" y="8.4922943" z="182.125"/>
+            <Rotation x="-0.11572266" y="4.4244947" z="-0.15063477"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (2) (4)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="48.5625" y="8.3106937" z="181.25"/>
+            <Rotation x="-0.030502319" y="3.769119" z="-0.036560059"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (2) (5)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="15.414063" y="4.2055588" z="197.875"/>
+            <Rotation x="-0.08203125" y="3.8364744" z="-0.038269043"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (2) (6)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="26.828125" y="5.1612253" z="205.375"/>
+            <Rotation x="-0.070129395" y="3.5957775" z="-0.21496582"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (2) (7)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="15.179688" y="5.3734412" z="211.75"/>
+            <Rotation x="-0.078186035" y="3.0456207" z="-0.069763184"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (2) (8)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="27.203125" y="5.9493499" z="219.75"/>
+            <Rotation x="0.052703857" y="-2.8927779" z="0.033050537"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="New (2) (9)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="129.75" y="33.9375" z="214.75"/>
+            <Rotation x="-0.31494141" y="5.9733257" z="0.16125488"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
