@@ -267,7 +267,7 @@ namespace AGI
 
 		AGI_API void createInfluenceMap(Importer::HeightMap** heightmaps, int width, int height)
 		{
-			width = 1000;
+			width = 4000;
 			height = 2000;
 			this->mapWidth = width;
 			this->mapHeight = height;
