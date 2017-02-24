@@ -28,7 +28,7 @@ function CreateCombineRay(entity)
 
 	ray.caster = entity.transformID
 
-	function ray:FireChargeBeam(dt,dir,spellElement)		
+	function ray:FireChargeBeam(dt,dir,spellElement,length)		
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
@@ -47,12 +47,12 @@ function CreateCombineRay(entity)
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
-		pos.x = pos.x + dir.x * 11
-		pos.y = pos.y + dir.y * 11
-		pos.z = pos.z + dir.z * 11
+		pos.x = pos.x + dir.x * (len+1)
+		pos.y = pos.y + dir.y * (len+1)
+		pos.z = pos.z + dir.z * (len+1)
 
 		Transform.SetPosition(elementalTransformID, pos)
-		Transform.SetScaleNonUniform(elementalTransformID, 0.2,0.2,10) 
+		Transform.SetScaleNonUniform(elementalTransformID, 0.2,0.2,length) 
 		ray.pos = Transform.GetPosition(self.caster)
 		Transform.RotateToVector(elementalTransformID, dir)
 		

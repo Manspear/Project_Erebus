@@ -515,7 +515,7 @@ function Controls(dt)
 			--local dir = Camera.GetDirection()
 			
 			
-			player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement)
+			player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement,len)
 			SendCombine(player.spells[player.currentSpell])
 			--end
 			--local pos = Transform.GetPosition(player.transformID)
