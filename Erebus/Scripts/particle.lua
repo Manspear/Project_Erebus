@@ -150,7 +150,7 @@ function createCloudParticles()
 	end
 	return cloud
 end
-WIND_PARTICLES_TEX = Assets.LoadTexture("Textures/smoke2.dds");
+WIND_PARTICLES_TEX = Assets.LoadTexture("Textures/windknockBack_test1.dds");
 function createWindParticles()
 	local wind = {}
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
@@ -158,7 +158,7 @@ function createWindParticles()
 	Emitter.SetTexture(wind.ID, WIND_PARTICLES_TEX)
 	function wind:poof(pos, direction, power)	
 		Emitter.SetPosition(self.ID, pos)
-		Emitter.SetFocus(self.ID, power - 0.9)
+		Emitter.SetFocus(self.ID, power)
 		print(power)
 		Emitter.SetDirection(self.ID, direction)
 		Emitter.Explode(self.ID)
