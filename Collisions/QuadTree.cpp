@@ -159,6 +159,7 @@ namespace Collisions
 			int totalNotCulled = 0;
 			int modelInstanceAmount = 0;
 			int amountOfModelsInNodes = 0;
+			std::vector<int> indexSaves;
 			for (size_t i = 0; i < this->frustumNodeHitAmount; i++) // for all the nodes that hit the frustum
 			{
 				Node* currentNode = this->hitNodeSave[i];
@@ -174,12 +175,19 @@ namespace Collisions
 							//std::cout << "We found my modelAsset: " << currentNode->dynamicModels->operator[](j)->asset->getFileInfo()->getPath() << "Index: " << currentNode->dynamicModels->operator[](j)->index << std::endl;
 							totalNotCulled++;
 							this->tempDynamicModelInstance->operator[](k).setCulled(currentNode->dynamicModels->operator[](j)->index, false);
+							indexSaves.push_back(j);
 							
 						}
 					}
 				}
 			}
-			std::cout << "amount drawn: " << totalNotCulled << "\nAmount modelInstances: " << modelInstanceAmount << "\nAmount of models in nodes: " << amountOfModelsInNodes << std::endl;
+			//std::cout << "amount drawn: " << totalNotCulled << "\nAmount modelInstances: " << modelInstanceAmount << "\nAmount of models in nodes: " << amountOfModelsInNodes << std::endl;
+			//std::cout << "These are the indexes we saved: ";
+			//for (size_t i = 0; i < indexSaves.size(); i++)
+			//{
+			//	std::cout << ", " << indexSaves.at(i);
+			//}
+			//std::cout << "\n\n\n";
 		}
 
 		if (this->modelInstancesInFrustum->size() > 0)
@@ -398,6 +406,6 @@ namespace Collisions
 				}
 			}
 		}
-
 	}
+
 }

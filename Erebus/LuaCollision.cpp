@@ -3,14 +3,12 @@
 namespace LuaCollision
 {
 	static CollisionHandler* g_collisionHandler = nullptr;
-	static Transform* g_transforms = nullptr;
 	static CollisionsDraw* g_collisionsDraw = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms, CollisionsDraw* collisionsDraw, TransformHandler* transformHandler)
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, CollisionsDraw* collisionsDraw, TransformHandler* transformHandler)
 	{
 		g_collisionHandler = handler;
-		g_transforms = transforms;
 		g_collisionsDraw = collisionsDraw;
 		g_transformHandler = transformHandler;
 

@@ -32,8 +32,6 @@ public:
 				CollisionsDraw* collisionsDraw,
 				Controls* controls,
 				Inputs* inputs,
-				Transform* transforms,
-				int* boundTransforms,
 				Animation* animations,
 				int* boundAnimations,
 				std::vector<ModelInstance>* models,

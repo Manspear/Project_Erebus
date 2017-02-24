@@ -88,6 +88,7 @@ namespace LuaGear
 			{ "SetQuickBlend", setQuickBlend },
 			{ "SetSegmentPlayTime", setSegmentPlayTime },
 			{ "ResetSegmentPlayTime", resetSegmentPlayTime },
+			{ "SetTint", setTint},
 			{ NULL, NULL }
 		};
 
@@ -161,7 +162,10 @@ namespace LuaGear
 
 	int bindStaticInstance( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) == 1 );
+		//assert( lua_gettop( lua ) == 1 );
+
+		if( lua_gettop( lua ) == 2 )
+			int f = 0;
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
 
@@ -414,6 +418,39 @@ namespace LuaGear
 		lua_getfield(lua, 1, "__self");
 		Animation* animation = (Animation*)lua_touserdata(lua, -1);
 		animation->assembleAnimationsIntoShadermatrices();
+
+		return 0;
+	}
+
+	int setTint(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+		int type = lua_type(lua, 2);
+		glm::vec4 tint(1.f);
+
+		if (type == LUA_TTABLE)
+		{
+			lua_getfield(lua, 2, "r");
+			tint.r = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "g");
+			tint.g = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "b");
+			tint.b = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "a");
+			tint.a = (float)lua_tonumber(lua, -1);
+		}
+		else
+		{
+			tint = glm::vec4(1, 1, 0, 1);
+		}
+
+		animation->setTint(tint);
 
 		return 0;
 	}

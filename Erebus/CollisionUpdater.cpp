@@ -5,14 +5,12 @@
 CollisionUpdater::CollisionUpdater()
 {
 	this->collisionHandler = nullptr;
-	this->transforms = nullptr;
 	this->transformHandler = nullptr;
 }
 
-CollisionUpdater::CollisionUpdater(Collisions::CollisionHandler * collisionHandler, Transform * transforms, TransformHandler* transformHandler)
+CollisionUpdater::CollisionUpdater(Collisions::CollisionHandler * collisionHandler, TransformHandler* transformHandler)
 {
 	this->collisionHandler = collisionHandler;
-	this->transforms = transforms;
 	this->transformHandler = transformHandler;
 }
 
@@ -25,11 +23,6 @@ CollisionUpdater::~CollisionUpdater()
 void CollisionUpdater::setCollisionHandler(Collisions::CollisionHandler * collisionHandler)
 {
 	this->collisionHandler = collisionHandler;
-}
-
-void CollisionUpdater::setTransforms(Transform * transforms)
-{
-	this->transforms = transforms;
 }
 
 void CollisionUpdater::update()

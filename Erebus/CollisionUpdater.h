@@ -7,18 +7,16 @@ class CollisionUpdater
 {
 public:
 	CollisionUpdater();
-	CollisionUpdater(Collisions::CollisionHandler* collisionHandler, Transform* transforms, TransformHandler* transformHandler);
+	CollisionUpdater(Collisions::CollisionHandler* collisionHandler, TransformHandler* transformHandler);
 	~CollisionUpdater();
 
 	//setters
 	void setCollisionHandler(Collisions::CollisionHandler* collisionHandler);
-	void setTransforms(Transform* transforms);
 
 	void update();
 
 private:
 	Collisions::CollisionHandler* collisionHandler;
-	Transform* transforms;
 	TransformHandler* transformHandler;
 };
 

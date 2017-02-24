@@ -75,6 +75,10 @@ function LoadPlayer()
 	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
+
+	player.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
+
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combined = false
@@ -99,6 +103,7 @@ function LoadPlayer()
 	player.spells = {}	
 	player.currentSpell = 1
 	function player.Hurt(self,damage, source)
+		self.animationController.damagedTint.a = 1
 		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health < 1 then
@@ -186,11 +191,18 @@ function LoadPlayer2()
 	Particle.SetExtro(player2.dashStartParticles, false)
 	Particle.SetExtro(player2.dashEndParticles, true)
 
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player2.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player2.pingDuration = 1
 	player2.ping = 0
-	
+	player2.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player2.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
+
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
+
 	player2.nrOfInnerCircleEnemies = 0
 	player2.nrOfOuterCircleEnemies = 0
 
@@ -387,31 +399,36 @@ function UpdatePlayer(dt)
 	if player.printInfo then PrintInfo() end
 
 	-- update player controller -- this moves the player
-	player.controller:Update()
-	if player.dashtime > 0 then
-		local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
-		local left = player.dashdir.z * factor
-		local fwd = player.dashdir.x * factor
-		player.controller:Move(left*dt, 0, fwd*dt)
-		player.dashtime = player.dashtime - dt
+	if player.isAlive then
+		player.controller:Update()
+		if player.dashtime > 0 then
+			local factor = math.sqrt(player.dashtime/DASH_DURATION)--math.min(1+player.dashtime/(2*DASH_COOLDOWN),1)
+			local left = player.dashdir.z * factor
+			local fwd = player.dashdir.x * factor
+			player.controller:Move(left*dt, 0, fwd*dt)
+			player.dashtime = player.dashtime - dt
 		
-		if player.dashtime <= 0 then
-			player.invulnerable = false
-			Transform.SetScale(player.transformID, 1)
-			Network.SendDashPacket(false)
-			Particle.Explode(player.dashEndParticles,player.position)
+			if player.dashtime <= 0 then
+				player.invulnerable = false
+				Transform.SetScale(player.transformID, 1)
+				Network.SendDashPacket(false)
+				Particle.Explode(player.dashEndParticles,player.position)
+			end
+		else
+			player.controller:Move(player.left * dt, 0, player.forward * dt)
 		end
-	else
-		player.controller:Move(player.left * dt, 0, player.forward * dt)
+		if not console.visible then
+			Controls(dt)
+		end
 	end
-	if not console.visible then
-		Controls(dt)
-	end
-	
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.combineImage, player.position.x, player.position.y+2.1, player.position.z)
+	UI.reposWorld(player.deathImage, player.position.x, player.position.y+2.1, player.position.z)
+
+	right = Camera.GetRight()
+
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.5, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.5, player.position.z + right.z * 0.30)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(levels[player.levelIndex].triggers) do
@@ -445,6 +462,7 @@ function SendCombine(spell)
 			player2.isCombined = true
 			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
 			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
+			player2.combinedSpell = spell.spellListId
 		end
 	end
 end
@@ -480,21 +498,38 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			sElement = player.spells[player.currentSpell].element
+
+			pos2 = Transform.GetPosition(player2.transformID)
 			
-			--player.isCombined = true
-			local dir = Camera.GetDirection()
+			local ChargeDir = {}
+			--ChargeDir.x = pos.x - pos2.x 
+			--ChargeDir.y = pos.y - pos2.y 
+			--ChargeDir.z = pos.z - pos2.z 
+
+			print(vec3length(player.position, pos2))
+			--if vec3length(player.position, pos2) < 1000 then
+			--local dir = Camera.GetDirection()
+			--print(ChargeDir.x)
+			
+			--player.friendCharger:FireChargeBeam(dt,dir,sElement)
+			SendCombine(player.spells[player.currentSpell])
+			--end
 			--local pos = Transform.GetPosition(player.transformID)
-			RayCollider.SetActive(player.rayCollider, true)
-			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
-			ShowCrosshair()
-			player.friendCharger:FireChargeBeam(dt,dir,sElement)
-			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
-			for curID = 1, #collisionIDs do
-				if collisionIDs[curID] == player2.sphereCollider:GetID() then
-					SendCombine(player.spells[player.currentSpell])
-					break
-				end
-			end
+			--local pos2 = Transform.GetPosition(player2.transformID)
+			
+			
+			--RayCollider.SetActive(player.rayCollider, true)
+			
+			--RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+			--ShowCrosshair()
+			
+			--local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+			--for curID = 1, #collisionIDs do
+				--if collisionIDs[curID] == player2.sphereCollider:GetID() then
+					
+					--break
+				--end
+			--end
 		end
 		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
 			HideCrosshair()
@@ -697,6 +732,10 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
+	right = Camera.GetRight()
+	UI.reposWorld(player2.chargeImage, player2.position.x - right.x * 0.30, player2.position.y+1.5, player2.position.z - right.z * 0.30)
+	UI.reposWorld(player2.combineImage, player2.position.x + right.x * 0.30, player2.position.y+1.5, player2.position.z + right.z * 0.30)
+	UI.reposWorld(player2.deathImage, player2.position.x, player2.position.y+2.1, player2.position.z)
 
 end
 

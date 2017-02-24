@@ -56,7 +56,7 @@ namespace Gear
 
 		if( activeTransforms > 0 )
 		{
-			static glm::mat4 temp[100];
+			glm::mat4 temp[100];
 			int offset = 0;
 			for( int i=0; i<transforms.size(); i++ )
 			{
@@ -116,18 +116,20 @@ namespace Gear
 		{
 			TransformStruct& t = transforms[i];
 			if( t.active && !culled[i] )
+			{
 				activeTransforms++;
 
-			glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
-			glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+				glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
+				glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
 
-			glm::mat4 matrix = glm::translate(glm::mat4(), t.pos);
-			matrix = glm::rotate(matrix, t.rot.z, axis);
-			matrix = glm::rotate(matrix, t.rot.x, t.lookAt );
-			matrix = glm::rotate(matrix, t.rot.y, { 0, 1, 0 });
-			matrix = glm::scale(matrix, t.scale);
+				glm::mat4 matrix = glm::translate(glm::mat4(), t.pos);
+				matrix = glm::rotate(matrix, t.rot.z, axis);
+				matrix = glm::rotate(matrix, t.rot.x, t.lookAt );
+				matrix = glm::rotate(matrix, t.rot.y, { 0, 1, 0 });
+				matrix = glm::scale(matrix, t.scale);
 
-			worldMatrices[i] = matrix;
+				worldMatrices[i] = matrix;
+			}
 		}
 	}
 

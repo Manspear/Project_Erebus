@@ -11,7 +11,7 @@
 namespace LuaAI
 {
 	
-	void registerFunctions(lua_State* lua, Transform *, AGI::AGIEngine*,Importer::Assets* assets, TransformHandler* transformHandler);
+	void registerFunctions(lua_State* lua, AGI::AGIEngine*,Importer::Assets* assets, TransformHandler* transformHandler);
 	int followPlayer(lua_State * lua);
 	int navigateMesh(lua_State * lua);
 	int distanceTransTrans(lua_State * lua);

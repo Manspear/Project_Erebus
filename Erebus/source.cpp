@@ -54,7 +54,6 @@ struct ThreadData
 	bool mouseVisible;
 	bool fullscreen;
 	bool running;
-	TransformStruct* allTransforms;
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
@@ -72,18 +71,17 @@ void updateAnimation(void* args)
 DWORD WINAPI update(LPVOID args)
 {
 	ThreadData* data = (ThreadData*)args;
-	Transform* transforms = new Transform[MAX_TRANSFORMS];
 
 	CollisionHandler collisionHandler = CollisionHandler(10); // Collision stuff init
 	CollisionsDraw collisionsDraw = CollisionsDraw(Debugger::getInstance(), &collisionHandler);
-	CollisionUpdater collisionUpdater(&collisionHandler, transforms, data->transformHandler);
+	CollisionUpdater collisionUpdater(&collisionHandler, data->transformHandler);
 
 	data->quadtree->generateQuadtree(4, glm::vec3(0, 0, 0), 1000.0f);
 	AABBCollider temp(glm::vec3(-10, -10, -10), glm::vec3(10, 10, 10), glm::vec3(17, 17, 17));
 
-	Frustum f;
-	f.setCameraParameters(data->camera->getFov(), data->camera->getAspectRatio(), data->camera->getNearPlaneDistance(), data->camera->getFarPlaneDistance());
-	data->quadtree->setFrustum(&f);
+	//Frustum f;
+	//f.setCameraParameters(data->camera->getFov(), data->camera->getAspectRatio(), data->camera->getNearPlaneDistance(), data->camera->getFarPlaneDistance());
+	//data->quadtree->setFrustum(&f);
 
 	int boundTransforms = 0;
 	int boundAnimations = 0;
@@ -92,12 +90,6 @@ DWORD WINAPI update(LPVOID args)
 
 	data->engine->addDebugger(Debugger::getInstance());
 
-	for (int i = 0; i < MAX_TRANSFORMS; i++)
-		transforms[i].setThePtr(&data->allTransforms[i]);
-
-	data->engine->allocateWorlds(MAX_TRANSFORMS);
-
-	data->engine->bindTransforms(&data->allTransforms, &boundTransforms);
 	data->engine->bindAnimations(&data->allAnimations, &boundAnimations);
 
 	//collisionHandler.setTransforms( transforms );
@@ -117,16 +109,16 @@ DWORD WINAPI update(LPVOID args)
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
-	luaBinds.load(data->engine, data->assets, &collisionHandler, &collisionsDraw, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations,
+	luaBinds.load(data->engine, data->assets, &collisionHandler, &collisionsDraw, data->controls, data->inputs, data->allAnimations, &boundAnimations,
 		data->models, data->animatedModels, data->forwardModels, data->blendingModels, data->transformHandler, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
 		data->particleEmitters, &ai, &network, data->workQueue, data->soundEngine, &counter);
 
 	AnimationData animationData[MAX_ANIMATIONS];
 
-	std::vector<ModelInstance>* hello = nullptr;
+	//std::vector<ModelInstance>* hello = nullptr;
 	while (data->running)
 	{
-		f.updateFrustum(data->camera->getPosition(), data->camera->getDirection(), data->camera->getUp());
+		/*f.updateFrustum(data->camera->getPosition(), data->camera->getDirection(), data->camera->getUp());
 
 		if (data->inputs->keyPressed(GLFW_KEY_T))
 		{
@@ -135,7 +127,7 @@ DWORD WINAPI update(LPVOID args)
 			hello = data->quadtree->frustumCollision();
 
 
-		}
+		}*/
 
 
 		data->engine->print(std::to_string(data->quadtree->getNodeCollisionAmount()), 100, 100);
@@ -189,8 +181,6 @@ DWORD WINAPI update(LPVOID args)
 	}
 	network.shutdown();
 	luaBinds.unload();
-
-	delete[] transforms;
 
 	return 0;
 }
@@ -270,7 +260,6 @@ int main()
 		false,
 		true
 	};
-	threadData.allTransforms = new TransformStruct[MAX_TRANSFORMS];
 	threadData.allAnimations = new Animation[MAX_ANIMATIONS];
 	threadData.produce = CreateSemaphore(NULL, 1, 1, NULL);
 	threadData.consume = CreateSemaphore(NULL, 0, 1, NULL);
@@ -280,6 +269,10 @@ int main()
 	double saveDeltaTime = 0.0f;
 
 	bool fullscreen = threadData.fullscreen;
+
+	Frustum f;
+	f.setCameraParameters(camera.getFov(), camera.getAspectRatio(), camera.getNearPlaneDistance(), camera.getFarPlaneDistance());
+	quadtree.setFrustum(&f);
 
 	bool prevMouseVisible = threadData.mouseVisible;
 	while (threadData.running && window.isWindowOpen())
@@ -340,6 +333,15 @@ int main()
 				fullscreen = threadData.fullscreen;
 			}
 
+			f.updateFrustum(camera.getPosition(), camera.getDirection(), camera.getUp());
+
+			if (inputs.keyPressed(GLFW_KEY_T))
+			{
+
+				quadtree.addDynamicModels(&models);
+				quadtree.frustumCollision();
+			}
+			
 			if (threadData.queueModels)
 				engine.queueDynamicModels(&models);
 
@@ -369,7 +371,6 @@ int main()
 
 	work.stop();
 
-	delete[] threadData.allTransforms;
 	delete[] threadData.allAnimations;
 
 	for (int i = 0; i < particleSystems.size(); i++)
