@@ -2,16 +2,14 @@
 
 namespace LuaErebus
 {
-	static Transform* g_transforms = nullptr;
 	static Controls* g_controls = nullptr;
 	static NetworkController* g_network = nullptr;
 	static PerformanceCounter* g_counter = nullptr;
 	static bool* g_running = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running, TransformHandler* transformHandler )
+	void registerFunctions( lua_State* lua, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running, TransformHandler* transformHandler )
 	{
-		g_transforms = transforms;
 		g_controls = controls;
 		g_network = network;
 		g_counter = counter;
