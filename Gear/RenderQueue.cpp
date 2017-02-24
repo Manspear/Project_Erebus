@@ -2,14 +2,12 @@
 
 
 RenderQueue::RenderQueue()
-	: nrOfWorlds(0), jointMatrices( nullptr )
 {
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
 		allShaders[i] = nullptr;
 		uniformLocations[i] = nullptr;
 	}
-	tempMatrices = new glm::mat4[MAX_INSTANCE_COUNT];
 
 	LARGE_INTEGER i;
 	QueryPerformanceFrequency( &i );
@@ -18,9 +16,6 @@ RenderQueue::RenderQueue()
 
 RenderQueue::~RenderQueue()
 {
-	if( jointMatrices )
-		delete[] jointMatrices;
-
 	for (size_t i = 0; i < ShaderType::NUM_SHADER_TYPES; i++)
 	{
 		if (allShaders[i] != nullptr)
@@ -28,8 +23,6 @@ RenderQueue::~RenderQueue()
 		if (uniformLocations[i] != nullptr)
 			delete[] uniformLocations[i];
 	}
-	delete[] oneMoreUpdate;
-	delete[] tempMatrices;
 }
 
 void RenderQueue::init()
@@ -478,7 +471,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			//glUniformMatrix4fv(worldMatricesLocation, 1, GL_FALSE, &tempMatrix[0][0]);
 			glUniformMatrix4fv( worldMatricesLocation, 1, GL_FALSE, glm::value_ptr(animatedModels->at(i).getWorldMatrix(j)) );
 			//glUniformMatrix4fv(jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &animatedModels->at(i).animations[j]->getShaderMatrices()[0][0][0]);
-			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, &jointMatrices[i*MAXJOINTCOUNT][0][0] );
+			glUniformMatrix4fv( jointMatrixLocation, MAXJOINTCOUNT, GL_FALSE, glm::value_ptr(animatedModels->at(i).getAnimation(j)->getShaderMatrices()[0]) );
 
 			for (int j = 0; j<modelAsset->getHeader()->numMeshes; j++)
 			{

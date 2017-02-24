@@ -395,8 +395,9 @@ namespace LuaAI
 	}
 	int unload(lua_State * lua)
 	{
-
 		delete[]heightMaps;
+		heightMaps = nullptr;
+
 		return 0;
 	}
 	int draw(lua_State * lua)
