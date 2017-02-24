@@ -57,11 +57,13 @@ namespace Gear
 		if( activeTransforms > 0 )
 		{
 			static glm::mat4 temp[100];
+			int offset = 0;
 			for( int i=0; i<transforms.size(); i++ )
 			{
 				if( transforms.at(i).active && !culled[i] )
 				{
-					memcpy( temp+i, &worldMatrices[i], sizeof(glm::mat4) );
+					memcpy( temp+offset, &worldMatrices[i], sizeof(glm::mat4) );
+					offset++;
 				}
 			}
 
@@ -89,11 +91,13 @@ namespace Gear
 		if( activeTransforms > 0 )
 		{
 			glm::mat4 temp[100];
-			for( int i=0; i<transforms.size(); i++ )
+			int offset = 0;
+			for( int i=0; i<transforms.size(); i++)
 			{
 				if( transforms.at(i).active && !culled[i] )
 				{
-					memcpy( temp+i, &worldMatrices[i], sizeof(glm::mat4) );
+					memcpy( temp+offset, &worldMatrices[i], sizeof(glm::mat4) );
+					offset++;
 				}
 			}
 
