@@ -42,9 +42,9 @@ function CreateWindknockback(entity)
 	
 	function spell:Cast()
 		if self.cooldown < 0.0 then
-			self:GeneralCast()
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
 			self.chargedTime = WINDKNOCKBACK_POWER
+			self:GeneralCast()
 		end
 	end
 	
@@ -56,13 +56,14 @@ function CreateWindknockback(entity)
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 then
-			self:GeneralCast()
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
+			self:GeneralCast()
 		end
 	end
 
 	function spell:GeneralCast()
+		print(self.chargedTime)
 		self.alive = true		self.stage1time = 0.5
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
@@ -71,6 +72,7 @@ function CreateWindknockback(entity)
 		pos.z = pos.z + direction.z * 2
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
+		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
 		Particle.SetDirection(self.particles.ID, direction.x, direction.y, direction.z);
 		self.particles:poof(pos)
 	end
@@ -106,7 +108,7 @@ function CreateWindknockback(entity)
 	function spell:Kill()
 		self.alive = false
 		Transform.ActiveControl(self.transformID, false)
-		SphereCollider.SetActive(spell.sphereCollider, false)
+		SphereCollider.SetActive(self.sphereCollider, false)
 		self.enemiesHit = {}
 		if #self.effects > 1 then
 			table.remove(self.effects)
