@@ -442,476 +442,6 @@ BaseGoblin2983ID.moveSpeed = 9
 BaseGoblin2983ID.health = 50
 BaseGoblin2983ID.visionRange = 30
 
-local BaseGoblin3984ID = CreateEnemy(ENEMY_MELEE, {x=194.875, y=54.7813, z=113.688})
-BaseGoblin3984ID.moveSpeed = 9
-BaseGoblin3984ID.health = 50
-BaseGoblin3984ID.visionRange = 30
-
-local BaseGoblin4985ID = CreateEnemy(ENEMY_MELEE, {x=191.125, y=55.5, z=104.25})
-BaseGoblin4985ID.moveSpeed = 9
-BaseGoblin4985ID.health = 50
-BaseGoblin4985ID.visionRange = 30
-
-local BaseGoblin5986ID = CreateEnemy(ENEMY_MELEE, {x=190.5, y=54.7188, z=113.688})
-BaseGoblin5986ID.moveSpeed = 9
-BaseGoblin5986ID.health = 50
-BaseGoblin5986ID.visionRange = 30
-
-local BaseGoblin6987ID = CreateEnemy(ENEMY_MELEE, {x=186.375, y=55.1875, z=107.75})
-BaseGoblin6987ID.moveSpeed = 9
-BaseGoblin6987ID.health = 50
-BaseGoblin6987ID.visionRange = 30
-
-local BaseGoblin7988ID = CreateEnemy(ENEMY_MELEE, {x=191.875, y=55.125, z=109.438})
-BaseGoblin7988ID.moveSpeed = 9
-BaseGoblin7988ID.health = 50
-BaseGoblin7988ID.visionRange = 30
-
-local BaseGoblin8989ID = CreateEnemy(ENEMY_MELEE, {x=235.375, y=45.25, z=40.8438})
-BaseGoblin8989ID.moveSpeed = 9
-BaseGoblin8989ID.health = 50
-BaseGoblin8989ID.visionRange = 30
-
-local BaseGoblin9990ID = CreateEnemy(ENEMY_MELEE, {x=232.875, y=46.0625, z=45.0625})
-BaseGoblin9990ID.moveSpeed = 9
-BaseGoblin9990ID.health = 50
-BaseGoblin9990ID.visionRange = 30
-
-local BaseGoblin10991ID = CreateEnemy(ENEMY_MELEE, {x=227.5, y=47.1875, z=39.5625})
-BaseGoblin10991ID.moveSpeed = 9
-BaseGoblin10991ID.health = 50
-BaseGoblin10991ID.visionRange = 30
-
-local BaseGoblin11992ID = CreateEnemy(ENEMY_MELEE, {x=224.5, y=48.1875, z=43.4063})
-BaseGoblin11992ID.moveSpeed = 9
-BaseGoblin11992ID.health = 50
-BaseGoblin11992ID.visionRange = 30
-
-local BaseGoblin12993ID = CreateEnemy(ENEMY_MELEE, {x=229.625, y=46.75, z=43.1875})
-BaseGoblin12993ID.moveSpeed = 9
-BaseGoblin12993ID.health = 50
-BaseGoblin12993ID.visionRange = 30
-
-local BaseGoblin13994ID = CreateEnemy(ENEMY_MELEE, {x=209.125, y=37.3125, z=180.75})
-BaseGoblin13994ID.moveSpeed = 9
-BaseGoblin13994ID.health = 50
-BaseGoblin13994ID.visionRange = 30
-
-local BaseGoblin14995ID = CreateEnemy(ENEMY_MELEE, {x=205, y=37.9063, z=179.375})
-BaseGoblin14995ID.moveSpeed = 9
-BaseGoblin14995ID.health = 50
-BaseGoblin14995ID.visionRange = 30
-
-local BaseGoblin15996ID = CreateEnemy(ENEMY_MELEE, {x=213.5, y=37, z=174.625})
-BaseGoblin15996ID.moveSpeed = 9
-BaseGoblin15996ID.health = 50
-BaseGoblin15996ID.visionRange = 30
-
-local BaseGoblin16997ID = CreateEnemy(ENEMY_MELEE, {x=218.375, y=36.25, z=172.375})
-BaseGoblin16997ID.moveSpeed = 9
-BaseGoblin16997ID.health = 50
-BaseGoblin16997ID.visionRange = 30
-
-local BaseGoblin17998ID = CreateEnemy(ENEMY_MELEE, {x=213.125, y=37, z=178.375})
-BaseGoblin17998ID.moveSpeed = 9
-BaseGoblin17998ID.health = 50
-BaseGoblin17998ID.visionRange = 30
-
-local BaseGoblin18999ID = CreateEnemy(ENEMY_MELEE, {x=260, y=36.0938, z=126.875})
-BaseGoblin18999ID.moveSpeed = 9
-BaseGoblin18999ID.health = 50
-BaseGoblin18999ID.visionRange = 30
-
-local BaseGoblin191000ID = CreateEnemy(ENEMY_MELEE, {x=260.75, y=36.6563, z=131.625})
-BaseGoblin191000ID.moveSpeed = 9
-BaseGoblin191000ID.health = 50
-BaseGoblin191000ID.visionRange = 30
-
-local BaseGoblin201001ID = CreateEnemy(ENEMY_MELEE, {x=252.75, y=35.6875, z=134.125})
-BaseGoblin201001ID.moveSpeed = 9
-BaseGoblin201001ID.health = 50
-BaseGoblin201001ID.visionRange = 30
-
-local BaseGoblin211002ID = CreateEnemy(ENEMY_MELEE, {x=256, y=35.625, z=128.75})
-BaseGoblin211002ID.moveSpeed = 9
-BaseGoblin211002ID.health = 50
-BaseGoblin211002ID.visionRange = 30
-
-local BaseGoblin221003ID = CreateEnemy(ENEMY_MELEE, {x=256.75, y=36.5, z=136.625})
-BaseGoblin221003ID.moveSpeed = 9
-BaseGoblin221003ID.health = 50
-BaseGoblin221003ID.visionRange = 30
-
-local BaseGoblin231004ID = CreateEnemy(ENEMY_MELEE, {x=368.75, y=35.5625, z=161.625})
-BaseGoblin231004ID.moveSpeed = 9
-BaseGoblin231004ID.health = 50
-BaseGoblin231004ID.visionRange = 30
-
-local BaseGoblin241005ID = CreateEnemy(ENEMY_MELEE, {x=365.5, y=35.6563, z=155.875})
-BaseGoblin241005ID.moveSpeed = 9
-BaseGoblin241005ID.health = 50
-BaseGoblin241005ID.visionRange = 30
-
-local BaseGoblin251006ID = CreateEnemy(ENEMY_MELEE, {x=359.25, y=36.4375, z=157.25})
-BaseGoblin251006ID.moveSpeed = 9
-BaseGoblin251006ID.health = 50
-BaseGoblin251006ID.visionRange = 30
-
-local BaseGoblin261007ID = CreateEnemy(ENEMY_MELEE, {x=362, y=36.4063, z=165.5})
-BaseGoblin261007ID.moveSpeed = 9
-BaseGoblin261007ID.health = 50
-BaseGoblin261007ID.visionRange = 30
-
-local BaseGoblin271008ID = CreateEnemy(ENEMY_MELEE, {x=361.75, y=36.25, z=160.5})
-BaseGoblin271008ID.moveSpeed = 9
-BaseGoblin271008ID.health = 50
-BaseGoblin271008ID.visionRange = 30
-
-local BaseGoblin281009ID = CreateEnemy(ENEMY_MELEE, {x=338.75, y=48.5938, z=228.75})
-BaseGoblin281009ID.moveSpeed = 9
-BaseGoblin281009ID.health = 50
-BaseGoblin281009ID.visionRange = 30
-
-local BaseGoblin291010ID = CreateEnemy(ENEMY_MELEE, {x=341.25, y=49.8438, z=233.25})
-BaseGoblin291010ID.moveSpeed = 9
-BaseGoblin291010ID.health = 50
-BaseGoblin291010ID.visionRange = 30
-
-local BaseGoblin301011ID = CreateEnemy(ENEMY_MELEE, {x=341.75, y=47.5938, z=225.375})
-BaseGoblin301011ID.moveSpeed = 9
-BaseGoblin301011ID.health = 50
-BaseGoblin301011ID.visionRange = 30
-
-local BaseGoblin311012ID = CreateEnemy(ENEMY_MELEE, {x=344.75, y=48.75, z=230.375})
-BaseGoblin311012ID.moveSpeed = 9
-BaseGoblin311012ID.health = 50
-BaseGoblin311012ID.visionRange = 30
-
-local BaseGoblin321013ID = CreateEnemy(ENEMY_MELEE, {x=346.25, y=46.5938, z=223.875})
-BaseGoblin321013ID.moveSpeed = 9
-BaseGoblin321013ID.health = 50
-BaseGoblin321013ID.visionRange = 30
-
-local BaseGoblin331014ID = CreateEnemy(ENEMY_MELEE, {x=254, y=59, z=244.75})
-BaseGoblin331014ID.moveSpeed = 9
-BaseGoblin331014ID.health = 50
-BaseGoblin331014ID.visionRange = 30
-
-local BaseGoblin341015ID = CreateEnemy(ENEMY_MELEE, {x=254.75, y=59.5938, z=240.625})
-BaseGoblin341015ID.moveSpeed = 9
-BaseGoblin341015ID.health = 50
-BaseGoblin341015ID.visionRange = 30
-
-local BaseGoblin351016ID = CreateEnemy(ENEMY_MELEE, {x=259.25, y=59.3438, z=240.75})
-BaseGoblin351016ID.moveSpeed = 9
-BaseGoblin351016ID.health = 50
-BaseGoblin351016ID.visionRange = 30
-
-local BaseGoblin361017ID = CreateEnemy(ENEMY_MELEE, {x=260.5, y=58.9375, z=244.125})
-BaseGoblin361017ID.moveSpeed = 9
-BaseGoblin361017ID.health = 50
-BaseGoblin361017ID.visionRange = 30
-
-local BaseGoblin371018ID = CreateEnemy(ENEMY_MELEE, {x=264.75, y=59.1563, z=240.5})
-BaseGoblin371018ID.moveSpeed = 9
-BaseGoblin371018ID.health = 50
-BaseGoblin371018ID.visionRange = 30
-
-local BaseGoblin381019ID = CreateEnemy(ENEMY_MELEE, {x=467.25, y=60.4688, z=498.75})
-BaseGoblin381019ID.moveSpeed = 9
-BaseGoblin381019ID.health = 50
-BaseGoblin381019ID.visionRange = 30
-
-local BaseGoblin391020ID = CreateEnemy(ENEMY_MELEE, {x=463, y=61.0938, z=504})
-BaseGoblin391020ID.moveSpeed = 9
-BaseGoblin391020ID.health = 50
-BaseGoblin391020ID.visionRange = 30
-
-local BaseGoblin401021ID = CreateEnemy(ENEMY_MELEE, {x=471, y=60.7188, z=508.5})
-BaseGoblin401021ID.moveSpeed = 9
-BaseGoblin401021ID.health = 50
-BaseGoblin401021ID.visionRange = 30
-
-local BaseGoblin411022ID = CreateEnemy(ENEMY_MELEE, {x=472.5, y=60.3125, z=503.25})
-BaseGoblin411022ID.moveSpeed = 9
-BaseGoblin411022ID.health = 50
-BaseGoblin411022ID.visionRange = 30
-
-local BaseGoblin421023ID = CreateEnemy(ENEMY_MELEE, {x=469.25, y=60.4688, z=503})
-BaseGoblin421023ID.moveSpeed = 9
-BaseGoblin421023ID.health = 50
-BaseGoblin421023ID.visionRange = 30
-
-local BaseGoblin431024ID = CreateEnemy(ENEMY_MELEE, {x=517, y=78.5, z=569.5})
-BaseGoblin431024ID.moveSpeed = 9
-BaseGoblin431024ID.health = 50
-BaseGoblin431024ID.visionRange = 30
-
-local BaseGoblin441025ID = CreateEnemy(ENEMY_MELEE, {x=507.75, y=78, z=565})
-BaseGoblin441025ID.moveSpeed = 9
-BaseGoblin441025ID.health = 50
-BaseGoblin441025ID.visionRange = 30
-
-local BaseGoblin451026ID = CreateEnemy(ENEMY_MELEE, {x=514.5, y=77.125, z=561.5})
-BaseGoblin451026ID.moveSpeed = 9
-BaseGoblin451026ID.health = 50
-BaseGoblin451026ID.visionRange = 30
-
-local BaseGoblin461027ID = CreateEnemy(ENEMY_MELEE, {x=518, y=76.25, z=558.5})
-BaseGoblin461027ID.moveSpeed = 9
-BaseGoblin461027ID.health = 50
-BaseGoblin461027ID.visionRange = 30
-
-local BaseGoblin471028ID = CreateEnemy(ENEMY_MELEE, {x=510.25, y=75.5625, z=556.5})
-BaseGoblin471028ID.moveSpeed = 9
-BaseGoblin471028ID.health = 50
-BaseGoblin471028ID.visionRange = 30
-
-local BaseGoblin481029ID = CreateEnemy(ENEMY_MELEE, {x=414.75, y=84, z=541})
-BaseGoblin481029ID.moveSpeed = 9
-BaseGoblin481029ID.health = 50
-BaseGoblin481029ID.visionRange = 30
-
-local BaseGoblin491030ID = CreateEnemy(ENEMY_MELEE, {x=421.25, y=83.875, z=546})
-BaseGoblin491030ID.moveSpeed = 9
-BaseGoblin491030ID.health = 50
-BaseGoblin491030ID.visionRange = 30
-
-local BaseGoblin501031ID = CreateEnemy(ENEMY_MELEE, {x=419.75, y=83.9375, z=540})
-BaseGoblin501031ID.moveSpeed = 9
-BaseGoblin501031ID.health = 50
-BaseGoblin501031ID.visionRange = 30
-
-local BaseGoblin511032ID = CreateEnemy(ENEMY_MELEE, {x=423.25, y=83.4375, z=535})
-BaseGoblin511032ID.moveSpeed = 9
-BaseGoblin511032ID.health = 50
-BaseGoblin511032ID.visionRange = 30
-
-local BaseGoblin521033ID = CreateEnemy(ENEMY_MELEE, {x=427.25, y=83.25, z=540.5})
-BaseGoblin521033ID.moveSpeed = 9
-BaseGoblin521033ID.health = 50
-BaseGoblin521033ID.visionRange = 30
-
-local BaseGoblin531034ID = CreateEnemy(ENEMY_MELEE, {x=450, y=84.5, z=583})
-BaseGoblin531034ID.moveSpeed = 9
-BaseGoblin531034ID.health = 50
-BaseGoblin531034ID.visionRange = 30
-
-local BaseGoblin541035ID = CreateEnemy(ENEMY_MELEE, {x=452.25, y=84.5, z=587.5})
-BaseGoblin541035ID.moveSpeed = 9
-BaseGoblin541035ID.health = 50
-BaseGoblin541035ID.visionRange = 30
-
-local BaseGoblin551036ID = CreateEnemy(ENEMY_MELEE, {x=453, y=84, z=580})
-BaseGoblin551036ID.moveSpeed = 9
-BaseGoblin551036ID.health = 50
-BaseGoblin551036ID.visionRange = 30
-
-local BaseGoblin561037ID = CreateEnemy(ENEMY_MELEE, {x=459, y=84.5, z=584.5})
-BaseGoblin561037ID.moveSpeed = 9
-BaseGoblin561037ID.health = 50
-BaseGoblin561037ID.visionRange = 30
-
-local BaseGoblin571038ID = CreateEnemy(ENEMY_MELEE, {x=456.5, y=84.75, z=589.5})
-BaseGoblin571038ID.moveSpeed = 9
-BaseGoblin571038ID.health = 50
-BaseGoblin571038ID.visionRange = 30
-
-local BaseGoblin581039ID = CreateEnemy(ENEMY_MELEE, {x=580.5, y=55.9063, z=460.75})
-BaseGoblin581039ID.moveSpeed = 9
-BaseGoblin581039ID.health = 50
-BaseGoblin581039ID.visionRange = 30
-
-local BaseGoblin591040ID = CreateEnemy(ENEMY_MELEE, {x=575, y=55.25, z=462.25})
-BaseGoblin591040ID.moveSpeed = 9
-BaseGoblin591040ID.health = 50
-BaseGoblin591040ID.visionRange = 30
-
-local BaseGoblin601041ID = CreateEnemy(ENEMY_MELEE, {x=575, y=53.9688, z=455.75})
-BaseGoblin601041ID.moveSpeed = 9
-BaseGoblin601041ID.health = 50
-BaseGoblin601041ID.visionRange = 30
-
-local BaseGoblin611042ID = CreateEnemy(ENEMY_MELEE, {x=567.5, y=53.4375, z=457.5})
-BaseGoblin611042ID.moveSpeed = 9
-BaseGoblin611042ID.health = 50
-BaseGoblin611042ID.visionRange = 30
-
-local BaseGoblin621043ID = CreateEnemy(ENEMY_MELEE, {x=568.5, y=52.75, z=454})
-BaseGoblin621043ID.moveSpeed = 9
-BaseGoblin621043ID.health = 50
-BaseGoblin621043ID.visionRange = 30
-
-local BaseGoblin631044ID = CreateEnemy(ENEMY_MELEE, {x=603.5, y=75.4375, z=541})
-BaseGoblin631044ID.moveSpeed = 9
-BaseGoblin631044ID.health = 50
-BaseGoblin631044ID.visionRange = 30
-
-local BaseGoblin641045ID = CreateEnemy(ENEMY_MELEE, {x=594, y=74.625, z=541.5})
-BaseGoblin641045ID.moveSpeed = 9
-BaseGoblin641045ID.health = 50
-BaseGoblin641045ID.visionRange = 30
-
-local BaseGoblin651046ID = CreateEnemy(ENEMY_MELEE, {x=600, y=73.4375, z=533.5})
-BaseGoblin651046ID.moveSpeed = 9
-BaseGoblin651046ID.health = 50
-BaseGoblin651046ID.visionRange = 30
-
-local BaseGoblin661047ID = CreateEnemy(ENEMY_MELEE, {x=597, y=73.375, z=534.5})
-BaseGoblin661047ID.moveSpeed = 9
-BaseGoblin661047ID.health = 50
-BaseGoblin661047ID.visionRange = 30
-
-local BaseGoblin671048ID = CreateEnemy(ENEMY_MELEE, {x=599, y=74.625, z=540})
-BaseGoblin671048ID.moveSpeed = 9
-BaseGoblin671048ID.health = 50
-BaseGoblin671048ID.visionRange = 30
-
-local BaseGoblin681049ID = CreateEnemy(ENEMY_MELEE, {x=342.25, y=102.688, z=733.5})
-BaseGoblin681049ID.moveSpeed = 9
-BaseGoblin681049ID.health = 50
-BaseGoblin681049ID.visionRange = 30
-
-local BaseGoblin691050ID = CreateEnemy(ENEMY_MELEE, {x=342.5, y=103.063, z=726})
-BaseGoblin691050ID.moveSpeed = 9
-BaseGoblin691050ID.health = 50
-BaseGoblin691050ID.visionRange = 30
-
-local BaseGoblin701051ID = CreateEnemy(ENEMY_MELEE, {x=349.25, y=102.813, z=734})
-BaseGoblin701051ID.moveSpeed = 9
-BaseGoblin701051ID.health = 50
-BaseGoblin701051ID.visionRange = 30
-
-local BaseGoblin711052ID = CreateEnemy(ENEMY_MELEE, {x=351, y=103.313, z=725})
-BaseGoblin711052ID.moveSpeed = 9
-BaseGoblin711052ID.health = 50
-BaseGoblin711052ID.visionRange = 30
-
-local BaseGoblin721053ID = CreateEnemy(ENEMY_MELEE, {x=345.25, y=103, z=730})
-BaseGoblin721053ID.moveSpeed = 9
-BaseGoblin721053ID.health = 50
-BaseGoblin721053ID.visionRange = 30
-
-local BaseGoblin731054ID = CreateEnemy(ENEMY_MELEE, {x=242.125, y=99.6875, z=647.5})
-BaseGoblin731054ID.moveSpeed = 9
-BaseGoblin731054ID.health = 50
-BaseGoblin731054ID.visionRange = 30
-
-local BaseGoblin741055ID = CreateEnemy(ENEMY_MELEE, {x=247.875, y=99.8125, z=643})
-BaseGoblin741055ID.moveSpeed = 9
-BaseGoblin741055ID.health = 50
-BaseGoblin741055ID.visionRange = 30
-
-local BaseGoblin751056ID = CreateEnemy(ENEMY_MELEE, {x=253.875, y=98.0625, z=648.5})
-BaseGoblin751056ID.moveSpeed = 9
-BaseGoblin751056ID.health = 50
-BaseGoblin751056ID.visionRange = 30
-
-local BaseGoblin761057ID = CreateEnemy(ENEMY_MELEE, {x=246, y=97.625, z=655})
-BaseGoblin761057ID.moveSpeed = 9
-BaseGoblin761057ID.health = 50
-BaseGoblin761057ID.visionRange = 30
-
-local BaseGoblin771058ID = CreateEnemy(ENEMY_MELEE, {x=248.75, y=98.625, z=648.5})
-BaseGoblin771058ID.moveSpeed = 9
-BaseGoblin771058ID.health = 50
-BaseGoblin771058ID.visionRange = 30
-
-local BaseGoblin781059ID = CreateEnemy(ENEMY_MELEE, {x=178.25, y=127.25, z=552.5})
-BaseGoblin781059ID.moveSpeed = 9
-BaseGoblin781059ID.health = 50
-BaseGoblin781059ID.visionRange = 30
-
-local BaseGoblin791060ID = CreateEnemy(ENEMY_MELEE, {x=189.125, y=126.875, z=551.5})
-BaseGoblin791060ID.moveSpeed = 9
-BaseGoblin791060ID.health = 50
-BaseGoblin791060ID.visionRange = 30
-
-local BaseGoblin801061ID = CreateEnemy(ENEMY_MELEE, {x=183.25, y=126.625, z=567.5})
-BaseGoblin801061ID.moveSpeed = 9
-BaseGoblin801061ID.health = 50
-BaseGoblin801061ID.visionRange = 30
-
-local BaseGoblin811062ID = CreateEnemy(ENEMY_MELEE, {x=194.875, y=126.125, z=563})
-BaseGoblin811062ID.moveSpeed = 9
-BaseGoblin811062ID.health = 50
-BaseGoblin811062ID.visionRange = 30
-
-local BaseGoblin821063ID = CreateEnemy(ENEMY_MELEE, {x=185.125, y=126.813, z=559})
-BaseGoblin821063ID.moveSpeed = 9
-BaseGoblin821063ID.health = 50
-BaseGoblin821063ID.visionRange = 30
-
-local BaseGoblin831064ID = CreateEnemy(ENEMY_MELEE, {x=163.875, y=93.8125, z=739.5})
-BaseGoblin831064ID.moveSpeed = 9
-BaseGoblin831064ID.health = 50
-BaseGoblin831064ID.visionRange = 30
-
-local BaseGoblin841065ID = CreateEnemy(ENEMY_MELEE, {x=167.125, y=89.625, z=727})
-BaseGoblin841065ID.moveSpeed = 9
-BaseGoblin841065ID.health = 50
-BaseGoblin841065ID.visionRange = 30
-
-local BaseGoblin851066ID = CreateEnemy(ENEMY_MELEE, {x=174, y=92.5, z=737})
-BaseGoblin851066ID.moveSpeed = 9
-BaseGoblin851066ID.health = 50
-BaseGoblin851066ID.visionRange = 30
-
-local BaseGoblin861067ID = CreateEnemy(ENEMY_MELEE, {x=179.125, y=89.875, z=729.5})
-BaseGoblin861067ID.moveSpeed = 9
-BaseGoblin861067ID.health = 50
-BaseGoblin861067ID.visionRange = 30
-
-local BaseGoblin871068ID = CreateEnemy(ENEMY_MELEE, {x=169.25, y=91.4375, z=733})
-BaseGoblin871068ID.moveSpeed = 9
-BaseGoblin871068ID.health = 50
-BaseGoblin871068ID.visionRange = 30
-
-local BaseGoblin881069ID = CreateEnemy(ENEMY_MELEE, {x=368.25, y=129, z=628})
-BaseGoblin881069ID.moveSpeed = 9
-BaseGoblin881069ID.health = 50
-BaseGoblin881069ID.visionRange = 30
-
-local BaseGoblin891070ID = CreateEnemy(ENEMY_MELEE, {x=360, y=128.875, z=625})
-BaseGoblin891070ID.moveSpeed = 9
-BaseGoblin891070ID.health = 50
-BaseGoblin891070ID.visionRange = 30
-
-local BaseGoblin901071ID = CreateEnemy(ENEMY_MELEE, {x=365, y=126.938, z=638})
-BaseGoblin901071ID.moveSpeed = 9
-BaseGoblin901071ID.health = 50
-BaseGoblin901071ID.visionRange = 30
-
-local BaseGoblin911072ID = CreateEnemy(ENEMY_MELEE, {x=360.25, y=126.938, z=635.5})
-BaseGoblin911072ID.moveSpeed = 9
-BaseGoblin911072ID.health = 50
-BaseGoblin911072ID.visionRange = 30
-
-local BaseGoblin921073ID = CreateEnemy(ENEMY_MELEE, {x=370, y=128.375, z=633})
-BaseGoblin921073ID.moveSpeed = 9
-BaseGoblin921073ID.health = 50
-BaseGoblin921073ID.visionRange = 30
-
-local BaseGoblin931074ID = CreateEnemy(ENEMY_MELEE, {x=331.75, y=142.125, z=522.5})
-BaseGoblin931074ID.moveSpeed = 9
-BaseGoblin931074ID.health = 50
-BaseGoblin931074ID.visionRange = 30
-
-local BaseGoblin941075ID = CreateEnemy(ENEMY_MELEE, {x=345, y=142.125, z=523.5})
-BaseGoblin941075ID.moveSpeed = 9
-BaseGoblin941075ID.health = 50
-BaseGoblin941075ID.visionRange = 30
-
-local BaseGoblin951076ID = CreateEnemy(ENEMY_MELEE, {x=297.75, y=142.125, z=522.5})
-BaseGoblin951076ID.moveSpeed = 9
-BaseGoblin951076ID.health = 50
-BaseGoblin951076ID.visionRange = 30
-
-local BaseGoblin961077ID = CreateEnemy(ENEMY_MELEE, {x=304.75, y=142.125, z=523})
-BaseGoblin961077ID.moveSpeed = 9
-BaseGoblin961077ID.health = 50
-BaseGoblin961077ID.visionRange = 30
-
 level01.colliders.C_Parent_Tile_11088ID = {}
 level01.colliders.C_Parent_Tile_11088ID.collider = AABBCollider.Create(-1)
 level01.colliders.C_Parent_Tile_11088ID.collider:SetOffset(0,0,0)
@@ -1413,7 +943,7 @@ level01.colliders.C_Parent_Tile_11088ID78.collider:AddChild(level01.colliders.C_
 level01.colliders.C_Parent_Tile_11088ID83 = {}
 level01.colliders.C_Parent_Tile_11088ID83.collider = OBBCollider.Create(-1)
 level01.colliders.C_Parent_Tile_11088ID83.collider:SetOffset(98,22.4477,219.5)
-level01.colliders.C_Parent_Tile_11088ID83.collider:SetZAxis(0.970143,0,0.242536)
+level01.colliders.C_Parent_Tile_11088ID83.collider:SetZAxis(0.970142,0,0.242536)
 level01.colliders.C_Parent_Tile_11088ID83.collider:SetHalfLengths(0.3,9.41872,6.18466)
 level01.colliders.C_Parent_Tile_11088ID78.collider:AddChild(level01.colliders.C_Parent_Tile_11088ID83.collider)
 level01.colliders.C_Parent_Tile_11088ID84 = {}
@@ -1816,100 +1346,6 @@ Gear.UnbindInstance(level01.props.Lantern5700ID.transformID)
 level01.props.Lantern5700ID = nil
 Gear.UnbindInstance(level01.props.Lantern6701ID.transformID)
 level01.props.Lantern6701ID = nil
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 level01.colliders.C_Parent_Tile_111078ID = nil
@@ -2366,6 +1802,181 @@ level02.props.OakTree_Collider47709ID.transformID = Gear.BindStaticInstance(leve
 Transform.SetPosition(level02.props.OakTree_Collider47709ID.transformID, {x=346.368, y=37.1634, z=203.707})
 Transform.SetScaleNonUniform(level02.props.OakTree_Collider47709ID.transformID, 1.41434, 1.77458, 1.43405)
 Transform.SetRotation(level02.props.OakTree_Collider47709ID.transformID, {x=0, y=3.24973, z=0})
+local BaseGoblin3984ID = CreateEnemy(ENEMY_MELEE, {x=194.875, y=54.7813, z=113.688})
+BaseGoblin3984ID.moveSpeed = 9
+BaseGoblin3984ID.health = 50
+BaseGoblin3984ID.visionRange = 30
+
+local BaseGoblin4985ID = CreateEnemy(ENEMY_MELEE, {x=191.125, y=55.5, z=104.25})
+BaseGoblin4985ID.moveSpeed = 9
+BaseGoblin4985ID.health = 50
+BaseGoblin4985ID.visionRange = 30
+
+local BaseGoblin5986ID = CreateEnemy(ENEMY_MELEE, {x=190.5, y=54.7188, z=113.688})
+BaseGoblin5986ID.moveSpeed = 9
+BaseGoblin5986ID.health = 50
+BaseGoblin5986ID.visionRange = 30
+
+local BaseGoblin6987ID = CreateEnemy(ENEMY_MELEE, {x=186.375, y=55.1875, z=107.75})
+BaseGoblin6987ID.moveSpeed = 9
+BaseGoblin6987ID.health = 50
+BaseGoblin6987ID.visionRange = 30
+
+local BaseGoblin7988ID = CreateEnemy(ENEMY_MELEE, {x=191.875, y=55.125, z=109.438})
+BaseGoblin7988ID.moveSpeed = 9
+BaseGoblin7988ID.health = 50
+BaseGoblin7988ID.visionRange = 30
+
+local BaseGoblin8989ID = CreateEnemy(ENEMY_MELEE, {x=235.375, y=45.25, z=40.8438})
+BaseGoblin8989ID.moveSpeed = 9
+BaseGoblin8989ID.health = 50
+BaseGoblin8989ID.visionRange = 30
+
+local BaseGoblin9990ID = CreateEnemy(ENEMY_MELEE, {x=232.875, y=46.0625, z=45.0625})
+BaseGoblin9990ID.moveSpeed = 9
+BaseGoblin9990ID.health = 50
+BaseGoblin9990ID.visionRange = 30
+
+local BaseGoblin10991ID = CreateEnemy(ENEMY_MELEE, {x=227.5, y=47.1875, z=39.5625})
+BaseGoblin10991ID.moveSpeed = 9
+BaseGoblin10991ID.health = 50
+BaseGoblin10991ID.visionRange = 30
+
+local BaseGoblin11992ID = CreateEnemy(ENEMY_MELEE, {x=224.5, y=48.1875, z=43.4063})
+BaseGoblin11992ID.moveSpeed = 9
+BaseGoblin11992ID.health = 50
+BaseGoblin11992ID.visionRange = 30
+
+local BaseGoblin12993ID = CreateEnemy(ENEMY_MELEE, {x=229.625, y=46.75, z=43.1875})
+BaseGoblin12993ID.moveSpeed = 9
+BaseGoblin12993ID.health = 50
+BaseGoblin12993ID.visionRange = 30
+
+local BaseGoblin13994ID = CreateEnemy(ENEMY_MELEE, {x=209.125, y=37.3125, z=180.75})
+BaseGoblin13994ID.moveSpeed = 9
+BaseGoblin13994ID.health = 50
+BaseGoblin13994ID.visionRange = 30
+
+local BaseGoblin14995ID = CreateEnemy(ENEMY_MELEE, {x=205, y=37.9063, z=179.375})
+BaseGoblin14995ID.moveSpeed = 9
+BaseGoblin14995ID.health = 50
+BaseGoblin14995ID.visionRange = 30
+
+local BaseGoblin15996ID = CreateEnemy(ENEMY_MELEE, {x=213.5, y=37, z=174.625})
+BaseGoblin15996ID.moveSpeed = 9
+BaseGoblin15996ID.health = 50
+BaseGoblin15996ID.visionRange = 30
+
+local BaseGoblin16997ID = CreateEnemy(ENEMY_MELEE, {x=218.375, y=36.25, z=172.375})
+BaseGoblin16997ID.moveSpeed = 9
+BaseGoblin16997ID.health = 50
+BaseGoblin16997ID.visionRange = 30
+
+local BaseGoblin17998ID = CreateEnemy(ENEMY_MELEE, {x=213.125, y=37, z=178.375})
+BaseGoblin17998ID.moveSpeed = 9
+BaseGoblin17998ID.health = 50
+BaseGoblin17998ID.visionRange = 30
+
+local BaseGoblin18999ID = CreateEnemy(ENEMY_MELEE, {x=260, y=36.0938, z=126.875})
+BaseGoblin18999ID.moveSpeed = 9
+BaseGoblin18999ID.health = 50
+BaseGoblin18999ID.visionRange = 30
+
+local BaseGoblin191000ID = CreateEnemy(ENEMY_MELEE, {x=260.75, y=36.6563, z=131.625})
+BaseGoblin191000ID.moveSpeed = 9
+BaseGoblin191000ID.health = 50
+BaseGoblin191000ID.visionRange = 30
+
+local BaseGoblin201001ID = CreateEnemy(ENEMY_MELEE, {x=252.75, y=35.6875, z=134.125})
+BaseGoblin201001ID.moveSpeed = 9
+BaseGoblin201001ID.health = 50
+BaseGoblin201001ID.visionRange = 30
+
+local BaseGoblin211002ID = CreateEnemy(ENEMY_MELEE, {x=256, y=35.625, z=128.75})
+BaseGoblin211002ID.moveSpeed = 9
+BaseGoblin211002ID.health = 50
+BaseGoblin211002ID.visionRange = 30
+
+local BaseGoblin221003ID = CreateEnemy(ENEMY_MELEE, {x=256.75, y=36.5, z=136.625})
+BaseGoblin221003ID.moveSpeed = 9
+BaseGoblin221003ID.health = 50
+BaseGoblin221003ID.visionRange = 30
+
+local BaseGoblin231004ID = CreateEnemy(ENEMY_MELEE, {x=368.75, y=35.5625, z=161.625})
+BaseGoblin231004ID.moveSpeed = 9
+BaseGoblin231004ID.health = 50
+BaseGoblin231004ID.visionRange = 30
+
+local BaseGoblin241005ID = CreateEnemy(ENEMY_MELEE, {x=365.5, y=35.6563, z=155.875})
+BaseGoblin241005ID.moveSpeed = 9
+BaseGoblin241005ID.health = 50
+BaseGoblin241005ID.visionRange = 30
+
+local BaseGoblin251006ID = CreateEnemy(ENEMY_MELEE, {x=359.25, y=36.4375, z=157.25})
+BaseGoblin251006ID.moveSpeed = 9
+BaseGoblin251006ID.health = 50
+BaseGoblin251006ID.visionRange = 30
+
+local BaseGoblin261007ID = CreateEnemy(ENEMY_MELEE, {x=362, y=36.4063, z=165.5})
+BaseGoblin261007ID.moveSpeed = 9
+BaseGoblin261007ID.health = 50
+BaseGoblin261007ID.visionRange = 30
+
+local BaseGoblin271008ID = CreateEnemy(ENEMY_MELEE, {x=361.75, y=36.25, z=160.5})
+BaseGoblin271008ID.moveSpeed = 9
+BaseGoblin271008ID.health = 50
+BaseGoblin271008ID.visionRange = 30
+
+local BaseGoblin281009ID = CreateEnemy(ENEMY_MELEE, {x=338.75, y=48.5938, z=228.75})
+BaseGoblin281009ID.moveSpeed = 9
+BaseGoblin281009ID.health = 50
+BaseGoblin281009ID.visionRange = 30
+
+local BaseGoblin291010ID = CreateEnemy(ENEMY_MELEE, {x=341.25, y=49.8438, z=233.25})
+BaseGoblin291010ID.moveSpeed = 9
+BaseGoblin291010ID.health = 50
+BaseGoblin291010ID.visionRange = 30
+
+local BaseGoblin301011ID = CreateEnemy(ENEMY_MELEE, {x=341.75, y=47.5938, z=225.375})
+BaseGoblin301011ID.moveSpeed = 9
+BaseGoblin301011ID.health = 50
+BaseGoblin301011ID.visionRange = 30
+
+local BaseGoblin311012ID = CreateEnemy(ENEMY_MELEE, {x=344.75, y=48.75, z=230.375})
+BaseGoblin311012ID.moveSpeed = 9
+BaseGoblin311012ID.health = 50
+BaseGoblin311012ID.visionRange = 30
+
+local BaseGoblin321013ID = CreateEnemy(ENEMY_MELEE, {x=346.25, y=46.5938, z=223.875})
+BaseGoblin321013ID.moveSpeed = 9
+BaseGoblin321013ID.health = 50
+BaseGoblin321013ID.visionRange = 30
+
+local BaseGoblin331014ID = CreateEnemy(ENEMY_MELEE, {x=254, y=59, z=244.75})
+BaseGoblin331014ID.moveSpeed = 9
+BaseGoblin331014ID.health = 50
+BaseGoblin331014ID.visionRange = 30
+
+local BaseGoblin341015ID = CreateEnemy(ENEMY_MELEE, {x=254.75, y=59.5938, z=240.625})
+BaseGoblin341015ID.moveSpeed = 9
+BaseGoblin341015ID.health = 50
+BaseGoblin341015ID.visionRange = 30
+
+local BaseGoblin351016ID = CreateEnemy(ENEMY_MELEE, {x=259.25, y=59.3438, z=240.75})
+BaseGoblin351016ID.moveSpeed = 9
+BaseGoblin351016ID.health = 50
+BaseGoblin351016ID.visionRange = 30
+
+local BaseGoblin361017ID = CreateEnemy(ENEMY_MELEE, {x=260.5, y=58.9375, z=244.125})
+BaseGoblin361017ID.moveSpeed = 9
+BaseGoblin361017ID.health = 50
+BaseGoblin361017ID.visionRange = 30
+
+local BaseGoblin371018ID = CreateEnemy(ENEMY_MELEE, {x=264.75, y=59.1563, z=240.5})
+BaseGoblin371018ID.moveSpeed = 9
+BaseGoblin371018ID.health = 50
+BaseGoblin371018ID.visionRange = 30
+
 level02.colliders.C_Parent_Tile_21109ID = {}
 level02.colliders.C_Parent_Tile_21109ID.collider = AABBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_21109ID.collider:SetOffset(0,0,0)
@@ -2669,13 +2280,13 @@ level02.colliders.C_Parent_Tile_21109ID46.collider:AddChild(level02.colliders.C_
 level02.colliders.C_Parent_Tile_21109ID50 = {}
 level02.colliders.C_Parent_Tile_21109ID50.collider = OBBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_21109ID50.collider:SetOffset(205.5,55.1358,132.5)
-level02.colliders.C_Parent_Tile_21109ID50.collider:SetZAxis(0.0905357,0,0.995893)
+level02.colliders.C_Parent_Tile_21109ID50.collider:SetZAxis(0.0905358,0,0.995893)
 level02.colliders.C_Parent_Tile_21109ID50.collider:SetHalfLengths(0.3,5.33421,5.52268)
 level02.colliders.C_Parent_Tile_21109ID46.collider:AddChild(level02.colliders.C_Parent_Tile_21109ID50.collider)
 level02.colliders.C_Parent_Tile_21109ID51 = {}
 level02.colliders.C_Parent_Tile_21109ID51.collider = OBBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_21109ID51.collider:SetOffset(206.5,55.47,143.5)
-level02.colliders.C_Parent_Tile_21109ID51.collider:SetZAxis(0.0905357,0,0.995893)
+level02.colliders.C_Parent_Tile_21109ID51.collider:SetZAxis(0.0905358,0,0.995893)
 level02.colliders.C_Parent_Tile_21109ID51.collider:SetHalfLengths(0.3,5.22281,5.52268)
 level02.colliders.C_Parent_Tile_21109ID46.collider:AddChild(level02.colliders.C_Parent_Tile_21109ID51.collider)
 level02.colliders.C_Parent_Tile_21109ID52 = {}
@@ -3167,7 +2778,7 @@ level02.colliders.C_Parent_Tile_21109ID124.collider:AddChild(level02.colliders.C
 level02.colliders.C_Parent_Tile_21109ID133 = {}
 level02.colliders.C_Parent_Tile_21109ID133.collider = OBBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_21109ID133.collider:SetOffset(281.5,37.5339,128.5)
-level02.colliders.C_Parent_Tile_21109ID133.collider:SetZAxis(0.995893,0,-0.0905357)
+level02.colliders.C_Parent_Tile_21109ID133.collider:SetZAxis(0.995893,0,-0.0905358)
 level02.colliders.C_Parent_Tile_21109ID133.collider:SetHalfLengths(0.3,5.33421,5.52268)
 level02.colliders.C_Parent_Tile_21109ID124.collider:AddChild(level02.colliders.C_Parent_Tile_21109ID133.collider)
 level02.colliders.C_Parent_Tile_21109ID134 = {}
@@ -4083,6 +3694,41 @@ Gear.UnbindInstance(level02.props.PineTree_Collider3708ID.transformID)
 level02.props.PineTree_Collider3708ID = nil
 Gear.UnbindInstance(level02.props.OakTree_Collider47709ID.transformID)
 level02.props.OakTree_Collider47709ID = nil
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 level02.colliders.C_Parent_Tile_211089ID = nil
 level02.colliders.C_Parent_Tile_221090ID = nil
 level02.colliders.C_Parent_Tile_231091ID = nil
@@ -4457,23 +4103,11 @@ level03.props.House2979ID.transformID = Gear.BindStaticInstance(level03.props.Ho
 Transform.SetPosition(level03.props.House2979ID.transformID, {x=465.768, y=41.3288, z=228.867})
 Transform.SetScaleNonUniform(level03.props.House2979ID.transformID, 1.58646, 1.51055, 1.33957)
 Transform.SetRotation(level03.props.House2979ID.transformID, {x=0, y=-3.34904, z=0})
-level03.props.House211980ID = {}
-level03.props.House211980ID.model = Assets.LoadModel('Models/House1.model')
-level03.props.House211980ID.transformID = Gear.BindStaticInstance(level03.props.House211980ID.model)
-Transform.SetPosition(level03.props.House211980ID.transformID, {x=512.398, y=40.0313, z=276.597})
-Transform.SetScaleNonUniform(level03.props.House211980ID.transformID, 1.32776, 1.40189, 1.29013)
-Transform.SetRotation(level03.props.House211980ID.transformID, {x=0.0336609, y=2.94687, z=0.0218048})
-level03.props.House213981ID = {}
-level03.props.House213981ID.model = Assets.LoadModel('Models/House1.model')
-level03.props.House213981ID.transformID = Gear.BindStaticInstance(level03.props.House213981ID.model)
-Transform.SetPosition(level03.props.House213981ID.transformID, {x=511.646, y=40.5646, z=304.248})
-Transform.SetScaleNonUniform(level03.props.House213981ID.transformID, 1.22949, 1.29484, 1.16287)
-Transform.SetRotation(level03.props.House213981ID.transformID, {x=0.0253967, y=-0.404086, z=-0.0168518})
 level03.colliders.C_Parent_Tile_31113ID = {}
 level03.colliders.C_Parent_Tile_31113ID.collider = AABBCollider.Create(-1)
 level03.colliders.C_Parent_Tile_31113ID.collider:SetOffset(0,0,0)
 level03.colliders.C_Parent_Tile_31113ID.collider:SetMinPos(383.7,30.1951,127.711)
-level03.colliders.C_Parent_Tile_31113ID.collider:SetMaxPos(518.923,57.3098,311.617)
+level03.colliders.C_Parent_Tile_31113ID.collider:SetMaxPos(512.3,57.3098,255.172)
 level03.colliders.C_Parent_Tile_31113ID.collider:SetPos(0,0,0)
 level03.colliders.C_Parent_Tile_31113ID1 = {}
 level03.colliders.C_Parent_Tile_31113ID1.collider = AABBCollider.Create(-1)
@@ -4611,7 +4245,7 @@ level03.colliders.C_Parent_Tile_31113ID23 = {}
 level03.colliders.C_Parent_Tile_31113ID23.collider = AABBCollider.Create(-1)
 level03.colliders.C_Parent_Tile_31113ID23.collider:SetOffset(0,0,0)
 level03.colliders.C_Parent_Tile_31113ID23.collider:SetMinPos(458.178,33.2061,145.827)
-level03.colliders.C_Parent_Tile_31113ID23.collider:SetMaxPos(518.923,47.8604,311.617)
+level03.colliders.C_Parent_Tile_31113ID23.collider:SetMaxPos(512.3,47.8604,255.011)
 level03.colliders.C_Parent_Tile_31113ID.collider:AddChild(level03.colliders.C_Parent_Tile_31113ID23.collider)
 level03.colliders.C_Parent_Tile_31113ID24 = {}
 level03.colliders.C_Parent_Tile_31113ID24.collider = OBBCollider.Create(-1)
@@ -4655,18 +4289,6 @@ level03.colliders.C_Parent_Tile_31113ID30.collider:SetOffset(465.768,43.3288,228
 level03.colliders.C_Parent_Tile_31113ID30.collider:SetZAxis(0.205962,0,-0.97856)
 level03.colliders.C_Parent_Tile_31113ID30.collider:SetHalfLengths(6.34583,4.53165,6.69785)
 level03.colliders.C_Parent_Tile_31113ID23.collider:AddChild(level03.colliders.C_Parent_Tile_31113ID30.collider)
-level03.colliders.C_Parent_Tile_31113ID31 = {}
-level03.colliders.C_Parent_Tile_31113ID31.collider = OBBCollider.Create(-1)
-level03.colliders.C_Parent_Tile_31113ID31.collider:SetOffset(512.398,42.0313,276.597)
-level03.colliders.C_Parent_Tile_31113ID31.collider:SetZAxis(0.194075,-0.0294301,-0.980545)
-level03.colliders.C_Parent_Tile_31113ID31.collider:SetHalfLengths(5.31104,4.20568,6.45065)
-level03.colliders.C_Parent_Tile_31113ID23.collider:AddChild(level03.colliders.C_Parent_Tile_31113ID31.collider)
-level03.colliders.C_Parent_Tile_31113ID32 = {}
-level03.colliders.C_Parent_Tile_31113ID32.collider = OBBCollider.Create(-1)
-level03.colliders.C_Parent_Tile_31113ID32.collider:SetOffset(511.646,42.5646,304.248)
-level03.colliders.C_Parent_Tile_31113ID32.collider:SetZAxis(-0.393424,-0.0187671,0.919166)
-level03.colliders.C_Parent_Tile_31113ID32.collider:SetHalfLengths(4.91797,3.88453,5.81436)
-level03.colliders.C_Parent_Tile_31113ID23.collider:AddChild(level03.colliders.C_Parent_Tile_31113ID32.collider)
 CollisionHandler.AddAABB(level03.colliders.C_Parent_Tile_31113ID.collider, 3)
 level03.colliders.C_Parent_Tile_31113ID1 = nil
 level03.colliders.C_Parent_Tile_31113ID2 = nil
@@ -4698,8 +4320,6 @@ level03.colliders.C_Parent_Tile_31113ID27 = nil
 level03.colliders.C_Parent_Tile_31113ID28 = nil
 level03.colliders.C_Parent_Tile_31113ID29 = nil
 level03.colliders.C_Parent_Tile_31113ID30 = nil
-level03.colliders.C_Parent_Tile_31113ID31 = nil
-level03.colliders.C_Parent_Tile_31113ID32 = nil
 end
 level03.unload = function()
 Gear.UnbindInstance(level03.props.t2s1029ID.transformID)
@@ -4841,10 +4461,6 @@ Gear.UnbindInstance(level03.props.PineTree_NoCollider11049960ID.transformID)
 level03.props.PineTree_NoCollider11049960ID = nil
 Gear.UnbindInstance(level03.props.House2979ID.transformID)
 level03.props.House2979ID = nil
-Gear.UnbindInstance(level03.props.House211980ID.transformID)
-level03.props.House211980ID = nil
-Gear.UnbindInstance(level03.props.House213981ID.transformID)
-level03.props.House213981ID = nil
 level03.colliders.C_Parent_Tile_311110ID = nil
 level03.colliders.C_Parent_Tile_321111ID = nil
 level03.colliders.C_Parent_Tile_331112ID = nil
@@ -4938,11 +4554,23 @@ level04.props.PineTree_NoCollider11058969ID.transformID = Gear.BindStaticInstanc
 Transform.SetPosition(level04.props.PineTree_NoCollider11058969ID.transformID, {x=177.75, y=65.125, z=631.5})
 Transform.SetScaleNonUniform(level04.props.PineTree_NoCollider11058969ID.transformID, 2.35009, 2.35009, 2.35009)
 Transform.SetRotation(level04.props.PineTree_NoCollider11058969ID.transformID, {x=-0.107361, y=0.973145, z=-0.194214})
+level04.props.House211980ID = {}
+level04.props.House211980ID.model = Assets.LoadModel('Models/House1.model')
+level04.props.House211980ID.transformID = Gear.BindStaticInstance(level04.props.House211980ID.model)
+Transform.SetPosition(level04.props.House211980ID.transformID, {x=512.398, y=40.0313, z=276.597})
+Transform.SetScaleNonUniform(level04.props.House211980ID.transformID, 1.32776, 1.40189, 1.29013)
+Transform.SetRotation(level04.props.House211980ID.transformID, {x=0.0336609, y=2.94687, z=0.0218048})
+level04.props.House213981ID = {}
+level04.props.House213981ID.model = Assets.LoadModel('Models/House1.model')
+level04.props.House213981ID.transformID = Gear.BindStaticInstance(level04.props.House213981ID.model)
+Transform.SetPosition(level04.props.House213981ID.transformID, {x=511.646, y=40.5646, z=304.248})
+Transform.SetScaleNonUniform(level04.props.House213981ID.transformID, 1.22949, 1.29484, 1.16287)
+Transform.SetRotation(level04.props.House213981ID.transformID, {x=0.0253967, y=-0.404086, z=-0.0168518})
 level04.colliders.C_Parent_Tile_41117ID = {}
 level04.colliders.C_Parent_Tile_41117ID.collider = AABBCollider.Create(-1)
 level04.colliders.C_Parent_Tile_41117ID.collider:SetOffset(0,0,0)
 level04.colliders.C_Parent_Tile_41117ID.collider:SetMinPos(434.7,24.9016,256)
-level04.colliders.C_Parent_Tile_41117ID.collider:SetMaxPos(512.3,78.3839,383.3)
+level04.colliders.C_Parent_Tile_41117ID.collider:SetMaxPos(518.923,78.3839,383.3)
 level04.colliders.C_Parent_Tile_41117ID.collider:SetPos(0,0,0)
 level04.colliders.C_Parent_Tile_41117ID1 = {}
 level04.colliders.C_Parent_Tile_41117ID1.collider = AABBCollider.Create(-1)
@@ -5014,7 +4642,7 @@ level04.colliders.C_Parent_Tile_41117ID12 = {}
 level04.colliders.C_Parent_Tile_41117ID12.collider = AABBCollider.Create(-1)
 level04.colliders.C_Parent_Tile_41117ID12.collider:SetOffset(0,0,0)
 level04.colliders.C_Parent_Tile_41117ID12.collider:SetMinPos(450.701,28.7617,256)
-level04.colliders.C_Parent_Tile_41117ID12.collider:SetMaxPos(512.3,78.3839,383.3)
+level04.colliders.C_Parent_Tile_41117ID12.collider:SetMaxPos(518.923,78.3839,383.3)
 level04.colliders.C_Parent_Tile_41117ID.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID12.collider)
 level04.colliders.C_Parent_Tile_41117ID13 = {}
 level04.colliders.C_Parent_Tile_41117ID13.collider = OBBCollider.Create(-1)
@@ -5030,64 +4658,76 @@ level04.colliders.C_Parent_Tile_41117ID14.collider:SetHalfLengths(0.3,6.02178,8.
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID14.collider)
 level04.colliders.C_Parent_Tile_41117ID15 = {}
 level04.colliders.C_Parent_Tile_41117ID15.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID15.collider:SetOffset(502.5,35.8052,364.5)
-level04.colliders.C_Parent_Tile_41117ID15.collider:SetZAxis(-0.316228,0,0.948683)
-level04.colliders.C_Parent_Tile_41117ID15.collider:SetHalfLengths(0.3,6.24884,4.74342)
+level04.colliders.C_Parent_Tile_41117ID15.collider:SetOffset(475.5,42.39,334)
+level04.colliders.C_Parent_Tile_41117ID15.collider:SetZAxis(-0.106533,0,0.994309)
+level04.colliders.C_Parent_Tile_41117ID15.collider:SetHalfLengths(0.3,6.58943,14.0801)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID15.collider)
 level04.colliders.C_Parent_Tile_41117ID16 = {}
 level04.colliders.C_Parent_Tile_41117ID16.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID16.collider:SetOffset(502.5,37.0541,372.5)
-level04.colliders.C_Parent_Tile_41117ID16.collider:SetZAxis(0.393919,0,0.919145)
-level04.colliders.C_Parent_Tile_41117ID16.collider:SetHalfLengths(0.3,5.68118,3.80789)
+level04.colliders.C_Parent_Tile_41117ID16.collider:SetOffset(475.5,43.9794,365.5)
+level04.colliders.C_Parent_Tile_41117ID16.collider:SetZAxis(0.0854011,0,0.996347)
+level04.colliders.C_Parent_Tile_41117ID16.collider:SetHalfLengths(0.3,5.34059,17.5642)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID16.collider)
 level04.colliders.C_Parent_Tile_41117ID17 = {}
 level04.colliders.C_Parent_Tile_41117ID17.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID17.collider:SetOffset(475.5,42.39,334)
-level04.colliders.C_Parent_Tile_41117ID17.collider:SetZAxis(-0.106533,0,0.994309)
-level04.colliders.C_Parent_Tile_41117ID17.collider:SetHalfLengths(0.3,6.58943,14.0801)
+level04.colliders.C_Parent_Tile_41117ID17.collider:SetOffset(469.5,54.5378,347.5)
+level04.colliders.C_Parent_Tile_41117ID17.collider:SetZAxis(0.039968,0,0.999201)
+level04.colliders.C_Parent_Tile_41117ID17.collider:SetHalfLengths(0.3,6.81649,12.51)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID17.collider)
 level04.colliders.C_Parent_Tile_41117ID18 = {}
 level04.colliders.C_Parent_Tile_41117ID18.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID18.collider:SetOffset(475.5,43.9794,365.5)
-level04.colliders.C_Parent_Tile_41117ID18.collider:SetZAxis(0.0854011,0,0.996347)
-level04.colliders.C_Parent_Tile_41117ID18.collider:SetHalfLengths(0.3,5.34059,17.5642)
+level04.colliders.C_Parent_Tile_41117ID18.collider:SetOffset(470,56.3543,371.5)
+level04.colliders.C_Parent_Tile_41117ID18.collider:SetZAxis(0,0,1)
+level04.colliders.C_Parent_Tile_41117ID18.collider:SetHalfLengths(0.3,7.49767,11.5)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID18.collider)
 level04.colliders.C_Parent_Tile_41117ID19 = {}
 level04.colliders.C_Parent_Tile_41117ID19.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID19.collider:SetOffset(469.5,54.5378,347.5)
-level04.colliders.C_Parent_Tile_41117ID19.collider:SetZAxis(0.039968,0,0.999201)
-level04.colliders.C_Parent_Tile_41117ID19.collider:SetHalfLengths(0.3,6.81649,12.51)
+level04.colliders.C_Parent_Tile_41117ID19.collider:SetOffset(452,61.1226,373)
+level04.colliders.C_Parent_Tile_41117ID19.collider:SetZAxis(0.0995037,0,0.995037)
+level04.colliders.C_Parent_Tile_41117ID19.collider:SetHalfLengths(0.3,7.38414,10.0499)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID19.collider)
 level04.colliders.C_Parent_Tile_41117ID20 = {}
 level04.colliders.C_Parent_Tile_41117ID20.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID20.collider:SetOffset(470,56.3543,371.5)
-level04.colliders.C_Parent_Tile_41117ID20.collider:SetZAxis(0,0,1)
-level04.colliders.C_Parent_Tile_41117ID20.collider:SetHalfLengths(0.3,7.49767,11.5)
+level04.colliders.C_Parent_Tile_41117ID20.collider:SetOffset(473.5,58.852,383)
+level04.colliders.C_Parent_Tile_41117ID20.collider:SetZAxis(1,0,0)
+level04.colliders.C_Parent_Tile_41117ID20.collider:SetHalfLengths(0.3,19.5319,3.5)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID20.collider)
 level04.colliders.C_Parent_Tile_41117ID21 = {}
 level04.colliders.C_Parent_Tile_41117ID21.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID21.collider:SetOffset(452,61.1226,373)
-level04.colliders.C_Parent_Tile_41117ID21.collider:SetZAxis(0.0995037,0,0.995037)
-level04.colliders.C_Parent_Tile_41117ID21.collider:SetHalfLengths(0.3,7.38414,10.0499)
+level04.colliders.C_Parent_Tile_41117ID21.collider:SetOffset(512.398,42.0313,276.597)
+level04.colliders.C_Parent_Tile_41117ID21.collider:SetZAxis(0.194075,-0.0294301,-0.980545)
+level04.colliders.C_Parent_Tile_41117ID21.collider:SetHalfLengths(5.31104,4.20568,6.45065)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID21.collider)
 level04.colliders.C_Parent_Tile_41117ID22 = {}
 level04.colliders.C_Parent_Tile_41117ID22.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID22.collider:SetOffset(473.5,58.852,383)
-level04.colliders.C_Parent_Tile_41117ID22.collider:SetZAxis(1,0,0)
-level04.colliders.C_Parent_Tile_41117ID22.collider:SetHalfLengths(0.3,19.5319,3.5)
+level04.colliders.C_Parent_Tile_41117ID22.collider:SetOffset(511.646,42.5646,304.248)
+level04.colliders.C_Parent_Tile_41117ID22.collider:SetZAxis(-0.393424,-0.0187671,0.919166)
+level04.colliders.C_Parent_Tile_41117ID22.collider:SetHalfLengths(4.91797,3.88453,5.81436)
 level04.colliders.C_Parent_Tile_41117ID12.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID22.collider)
 level04.colliders.C_Parent_Tile_41117ID23 = {}
 level04.colliders.C_Parent_Tile_41117ID23.collider = AABBCollider.Create(-1)
 level04.colliders.C_Parent_Tile_41117ID23.collider:SetOffset(0,0,0)
-level04.colliders.C_Parent_Tile_41117ID23.collider:SetMinPos(503.74,31.827,375.851)
+level04.colliders.C_Parent_Tile_41117ID23.collider:SetMinPos(500.715,29.5564,359.905)
 level04.colliders.C_Parent_Tile_41117ID23.collider:SetMaxPos(508.26,43.6435,383.149)
 level04.colliders.C_Parent_Tile_41117ID.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID23.collider)
 level04.colliders.C_Parent_Tile_41117ID24 = {}
 level04.colliders.C_Parent_Tile_41117ID24.collider = OBBCollider.Create(-1)
-level04.colliders.C_Parent_Tile_41117ID24.collider:SetOffset(506,37.7352,379.5)
-level04.colliders.C_Parent_Tile_41117ID24.collider:SetZAxis(0.496139,0,0.868243)
-level04.colliders.C_Parent_Tile_41117ID24.collider:SetHalfLengths(0.3,5.90825,4.03113)
+level04.colliders.C_Parent_Tile_41117ID24.collider:SetOffset(502.5,35.8052,364.5)
+level04.colliders.C_Parent_Tile_41117ID24.collider:SetZAxis(-0.316228,0,0.948683)
+level04.colliders.C_Parent_Tile_41117ID24.collider:SetHalfLengths(0.3,6.24884,4.74342)
 level04.colliders.C_Parent_Tile_41117ID23.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID24.collider)
+level04.colliders.C_Parent_Tile_41117ID25 = {}
+level04.colliders.C_Parent_Tile_41117ID25.collider = OBBCollider.Create(-1)
+level04.colliders.C_Parent_Tile_41117ID25.collider:SetOffset(502.5,37.0541,372.5)
+level04.colliders.C_Parent_Tile_41117ID25.collider:SetZAxis(0.393919,0,0.919145)
+level04.colliders.C_Parent_Tile_41117ID25.collider:SetHalfLengths(0.3,5.68118,3.80789)
+level04.colliders.C_Parent_Tile_41117ID23.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID25.collider)
+level04.colliders.C_Parent_Tile_41117ID26 = {}
+level04.colliders.C_Parent_Tile_41117ID26.collider = OBBCollider.Create(-1)
+level04.colliders.C_Parent_Tile_41117ID26.collider:SetOffset(506,37.7352,379.5)
+level04.colliders.C_Parent_Tile_41117ID26.collider:SetZAxis(0.496139,0,0.868243)
+level04.colliders.C_Parent_Tile_41117ID26.collider:SetHalfLengths(0.3,5.90825,4.03113)
+level04.colliders.C_Parent_Tile_41117ID23.collider:AddChild(level04.colliders.C_Parent_Tile_41117ID26.collider)
 CollisionHandler.AddAABB(level04.colliders.C_Parent_Tile_41117ID.collider, 3)
 level04.colliders.C_Parent_Tile_41117ID1 = nil
 level04.colliders.C_Parent_Tile_41117ID2 = nil
@@ -5113,6 +4753,8 @@ level04.colliders.C_Parent_Tile_41117ID21 = nil
 level04.colliders.C_Parent_Tile_41117ID22 = nil
 level04.colliders.C_Parent_Tile_41117ID23 = nil
 level04.colliders.C_Parent_Tile_41117ID24 = nil
+level04.colliders.C_Parent_Tile_41117ID25 = nil
+level04.colliders.C_Parent_Tile_41117ID26 = nil
 end
 level04.unload = function()
 level04.props.tile436ID = nil
@@ -5161,6 +4803,10 @@ Gear.UnbindInstance(level04.props.PineTree_NoCollider11056967ID.transformID)
 level04.props.PineTree_NoCollider11056967ID = nil
 Gear.UnbindInstance(level04.props.PineTree_NoCollider11058969ID.transformID)
 level04.props.PineTree_NoCollider11058969ID = nil
+Gear.UnbindInstance(level04.props.House211980ID.transformID)
+level04.props.House211980ID = nil
+Gear.UnbindInstance(level04.props.House213981ID.transformID)
+level04.props.House213981ID = nil
 level04.colliders.C_Parent_Tile_411114ID = nil
 level04.colliders.C_Parent_Tile_421115ID = nil
 level04.colliders.C_Parent_Tile_431116ID = nil
@@ -5357,6 +5003,301 @@ Transform.SetPosition(level05.props.Crystal136976ID.transformID, {x=482.561, y=9
 Transform.SetScaleNonUniform(level05.props.Crystal136976ID.transformID, 2.8076, 2.8076, 2.8076)
 Transform.SetRotation(level05.props.Crystal136976ID.transformID, {x=-1.48201, y=0.611816, z=-0.234375})
 Light.addLight(482.561, 99.5138, 540.706, 0, 1, 1, 30,4)
+local BaseGoblin381019ID = CreateEnemy(ENEMY_MELEE, {x=467.25, y=60.4688, z=498.75})
+BaseGoblin381019ID.moveSpeed = 9
+BaseGoblin381019ID.health = 50
+BaseGoblin381019ID.visionRange = 30
+
+local BaseGoblin391020ID = CreateEnemy(ENEMY_MELEE, {x=463, y=61.0938, z=504})
+BaseGoblin391020ID.moveSpeed = 9
+BaseGoblin391020ID.health = 50
+BaseGoblin391020ID.visionRange = 30
+
+local BaseGoblin401021ID = CreateEnemy(ENEMY_MELEE, {x=471, y=60.7188, z=508.5})
+BaseGoblin401021ID.moveSpeed = 9
+BaseGoblin401021ID.health = 50
+BaseGoblin401021ID.visionRange = 30
+
+local BaseGoblin411022ID = CreateEnemy(ENEMY_MELEE, {x=472.5, y=60.3125, z=503.25})
+BaseGoblin411022ID.moveSpeed = 9
+BaseGoblin411022ID.health = 50
+BaseGoblin411022ID.visionRange = 30
+
+local BaseGoblin421023ID = CreateEnemy(ENEMY_MELEE, {x=469.25, y=60.4688, z=503})
+BaseGoblin421023ID.moveSpeed = 9
+BaseGoblin421023ID.health = 50
+BaseGoblin421023ID.visionRange = 30
+
+local BaseGoblin431024ID = CreateEnemy(ENEMY_MELEE, {x=517, y=78.5, z=569.5})
+BaseGoblin431024ID.moveSpeed = 9
+BaseGoblin431024ID.health = 50
+BaseGoblin431024ID.visionRange = 30
+
+local BaseGoblin441025ID = CreateEnemy(ENEMY_MELEE, {x=507.75, y=78, z=565})
+BaseGoblin441025ID.moveSpeed = 9
+BaseGoblin441025ID.health = 50
+BaseGoblin441025ID.visionRange = 30
+
+local BaseGoblin451026ID = CreateEnemy(ENEMY_MELEE, {x=514.5, y=77.125, z=561.5})
+BaseGoblin451026ID.moveSpeed = 9
+BaseGoblin451026ID.health = 50
+BaseGoblin451026ID.visionRange = 30
+
+local BaseGoblin461027ID = CreateEnemy(ENEMY_MELEE, {x=518, y=76.25, z=558.5})
+BaseGoblin461027ID.moveSpeed = 9
+BaseGoblin461027ID.health = 50
+BaseGoblin461027ID.visionRange = 30
+
+local BaseGoblin471028ID = CreateEnemy(ENEMY_MELEE, {x=510.25, y=75.5625, z=556.5})
+BaseGoblin471028ID.moveSpeed = 9
+BaseGoblin471028ID.health = 50
+BaseGoblin471028ID.visionRange = 30
+
+local BaseGoblin481029ID = CreateEnemy(ENEMY_MELEE, {x=414.75, y=84, z=541})
+BaseGoblin481029ID.moveSpeed = 9
+BaseGoblin481029ID.health = 50
+BaseGoblin481029ID.visionRange = 30
+
+local BaseGoblin491030ID = CreateEnemy(ENEMY_MELEE, {x=421.25, y=83.875, z=546})
+BaseGoblin491030ID.moveSpeed = 9
+BaseGoblin491030ID.health = 50
+BaseGoblin491030ID.visionRange = 30
+
+local BaseGoblin501031ID = CreateEnemy(ENEMY_MELEE, {x=419.75, y=83.9375, z=540})
+BaseGoblin501031ID.moveSpeed = 9
+BaseGoblin501031ID.health = 50
+BaseGoblin501031ID.visionRange = 30
+
+local BaseGoblin511032ID = CreateEnemy(ENEMY_MELEE, {x=423.25, y=83.4375, z=535})
+BaseGoblin511032ID.moveSpeed = 9
+BaseGoblin511032ID.health = 50
+BaseGoblin511032ID.visionRange = 30
+
+local BaseGoblin521033ID = CreateEnemy(ENEMY_MELEE, {x=427.25, y=83.25, z=540.5})
+BaseGoblin521033ID.moveSpeed = 9
+BaseGoblin521033ID.health = 50
+BaseGoblin521033ID.visionRange = 30
+
+local BaseGoblin531034ID = CreateEnemy(ENEMY_MELEE, {x=450, y=84.5, z=583})
+BaseGoblin531034ID.moveSpeed = 9
+BaseGoblin531034ID.health = 50
+BaseGoblin531034ID.visionRange = 30
+
+local BaseGoblin541035ID = CreateEnemy(ENEMY_MELEE, {x=452.25, y=84.5, z=587.5})
+BaseGoblin541035ID.moveSpeed = 9
+BaseGoblin541035ID.health = 50
+BaseGoblin541035ID.visionRange = 30
+
+local BaseGoblin551036ID = CreateEnemy(ENEMY_MELEE, {x=453, y=84, z=580})
+BaseGoblin551036ID.moveSpeed = 9
+BaseGoblin551036ID.health = 50
+BaseGoblin551036ID.visionRange = 30
+
+local BaseGoblin561037ID = CreateEnemy(ENEMY_MELEE, {x=459, y=84.5, z=584.5})
+BaseGoblin561037ID.moveSpeed = 9
+BaseGoblin561037ID.health = 50
+BaseGoblin561037ID.visionRange = 30
+
+local BaseGoblin571038ID = CreateEnemy(ENEMY_MELEE, {x=456.5, y=84.75, z=589.5})
+BaseGoblin571038ID.moveSpeed = 9
+BaseGoblin571038ID.health = 50
+BaseGoblin571038ID.visionRange = 30
+
+local BaseGoblin581039ID = CreateEnemy(ENEMY_MELEE, {x=580.5, y=55.9063, z=460.75})
+BaseGoblin581039ID.moveSpeed = 9
+BaseGoblin581039ID.health = 50
+BaseGoblin581039ID.visionRange = 30
+
+local BaseGoblin591040ID = CreateEnemy(ENEMY_MELEE, {x=575, y=55.25, z=462.25})
+BaseGoblin591040ID.moveSpeed = 9
+BaseGoblin591040ID.health = 50
+BaseGoblin591040ID.visionRange = 30
+
+local BaseGoblin601041ID = CreateEnemy(ENEMY_MELEE, {x=575, y=53.9688, z=455.75})
+BaseGoblin601041ID.moveSpeed = 9
+BaseGoblin601041ID.health = 50
+BaseGoblin601041ID.visionRange = 30
+
+local BaseGoblin611042ID = CreateEnemy(ENEMY_MELEE, {x=567.5, y=53.4375, z=457.5})
+BaseGoblin611042ID.moveSpeed = 9
+BaseGoblin611042ID.health = 50
+BaseGoblin611042ID.visionRange = 30
+
+local BaseGoblin621043ID = CreateEnemy(ENEMY_MELEE, {x=568.5, y=52.75, z=454})
+BaseGoblin621043ID.moveSpeed = 9
+BaseGoblin621043ID.health = 50
+BaseGoblin621043ID.visionRange = 30
+
+local BaseGoblin631044ID = CreateEnemy(ENEMY_MELEE, {x=603.5, y=75.4375, z=541})
+BaseGoblin631044ID.moveSpeed = 9
+BaseGoblin631044ID.health = 50
+BaseGoblin631044ID.visionRange = 30
+
+local BaseGoblin641045ID = CreateEnemy(ENEMY_MELEE, {x=594, y=74.625, z=541.5})
+BaseGoblin641045ID.moveSpeed = 9
+BaseGoblin641045ID.health = 50
+BaseGoblin641045ID.visionRange = 30
+
+local BaseGoblin651046ID = CreateEnemy(ENEMY_MELEE, {x=600, y=73.4375, z=533.5})
+BaseGoblin651046ID.moveSpeed = 9
+BaseGoblin651046ID.health = 50
+BaseGoblin651046ID.visionRange = 30
+
+local BaseGoblin661047ID = CreateEnemy(ENEMY_MELEE, {x=597, y=73.375, z=534.5})
+BaseGoblin661047ID.moveSpeed = 9
+BaseGoblin661047ID.health = 50
+BaseGoblin661047ID.visionRange = 30
+
+local BaseGoblin671048ID = CreateEnemy(ENEMY_MELEE, {x=599, y=74.625, z=540})
+BaseGoblin671048ID.moveSpeed = 9
+BaseGoblin671048ID.health = 50
+BaseGoblin671048ID.visionRange = 30
+
+local BaseGoblin681049ID = CreateEnemy(ENEMY_MELEE, {x=342.25, y=102.688, z=733.5})
+BaseGoblin681049ID.moveSpeed = 9
+BaseGoblin681049ID.health = 50
+BaseGoblin681049ID.visionRange = 30
+
+local BaseGoblin691050ID = CreateEnemy(ENEMY_MELEE, {x=342.5, y=103.063, z=726})
+BaseGoblin691050ID.moveSpeed = 9
+BaseGoblin691050ID.health = 50
+BaseGoblin691050ID.visionRange = 30
+
+local BaseGoblin701051ID = CreateEnemy(ENEMY_MELEE, {x=349.25, y=102.813, z=734})
+BaseGoblin701051ID.moveSpeed = 9
+BaseGoblin701051ID.health = 50
+BaseGoblin701051ID.visionRange = 30
+
+local BaseGoblin711052ID = CreateEnemy(ENEMY_MELEE, {x=351, y=103.313, z=725})
+BaseGoblin711052ID.moveSpeed = 9
+BaseGoblin711052ID.health = 50
+BaseGoblin711052ID.visionRange = 30
+
+local BaseGoblin721053ID = CreateEnemy(ENEMY_MELEE, {x=345.25, y=103, z=730})
+BaseGoblin721053ID.moveSpeed = 9
+BaseGoblin721053ID.health = 50
+BaseGoblin721053ID.visionRange = 30
+
+local BaseGoblin731054ID = CreateEnemy(ENEMY_MELEE, {x=242.125, y=99.6875, z=647.5})
+BaseGoblin731054ID.moveSpeed = 9
+BaseGoblin731054ID.health = 50
+BaseGoblin731054ID.visionRange = 30
+
+local BaseGoblin741055ID = CreateEnemy(ENEMY_MELEE, {x=247.875, y=99.8125, z=643})
+BaseGoblin741055ID.moveSpeed = 9
+BaseGoblin741055ID.health = 50
+BaseGoblin741055ID.visionRange = 30
+
+local BaseGoblin751056ID = CreateEnemy(ENEMY_MELEE, {x=253.875, y=98.0625, z=648.5})
+BaseGoblin751056ID.moveSpeed = 9
+BaseGoblin751056ID.health = 50
+BaseGoblin751056ID.visionRange = 30
+
+local BaseGoblin761057ID = CreateEnemy(ENEMY_MELEE, {x=246, y=97.625, z=655})
+BaseGoblin761057ID.moveSpeed = 9
+BaseGoblin761057ID.health = 50
+BaseGoblin761057ID.visionRange = 30
+
+local BaseGoblin771058ID = CreateEnemy(ENEMY_MELEE, {x=248.75, y=98.625, z=648.5})
+BaseGoblin771058ID.moveSpeed = 9
+BaseGoblin771058ID.health = 50
+BaseGoblin771058ID.visionRange = 30
+
+local BaseGoblin781059ID = CreateEnemy(ENEMY_MELEE, {x=178.25, y=127.25, z=552.5})
+BaseGoblin781059ID.moveSpeed = 9
+BaseGoblin781059ID.health = 50
+BaseGoblin781059ID.visionRange = 30
+
+local BaseGoblin791060ID = CreateEnemy(ENEMY_MELEE, {x=189.125, y=126.875, z=551.5})
+BaseGoblin791060ID.moveSpeed = 9
+BaseGoblin791060ID.health = 50
+BaseGoblin791060ID.visionRange = 30
+
+local BaseGoblin801061ID = CreateEnemy(ENEMY_MELEE, {x=183.25, y=126.625, z=567.5})
+BaseGoblin801061ID.moveSpeed = 9
+BaseGoblin801061ID.health = 50
+BaseGoblin801061ID.visionRange = 30
+
+local BaseGoblin811062ID = CreateEnemy(ENEMY_MELEE, {x=194.875, y=126.125, z=563})
+BaseGoblin811062ID.moveSpeed = 9
+BaseGoblin811062ID.health = 50
+BaseGoblin811062ID.visionRange = 30
+
+local BaseGoblin821063ID = CreateEnemy(ENEMY_MELEE, {x=185.125, y=126.813, z=559})
+BaseGoblin821063ID.moveSpeed = 9
+BaseGoblin821063ID.health = 50
+BaseGoblin821063ID.visionRange = 30
+
+local BaseGoblin831064ID = CreateEnemy(ENEMY_MELEE, {x=163.875, y=93.8125, z=739.5})
+BaseGoblin831064ID.moveSpeed = 9
+BaseGoblin831064ID.health = 50
+BaseGoblin831064ID.visionRange = 30
+
+local BaseGoblin841065ID = CreateEnemy(ENEMY_MELEE, {x=167.125, y=89.625, z=727})
+BaseGoblin841065ID.moveSpeed = 9
+BaseGoblin841065ID.health = 50
+BaseGoblin841065ID.visionRange = 30
+
+local BaseGoblin851066ID = CreateEnemy(ENEMY_MELEE, {x=174, y=92.5, z=737})
+BaseGoblin851066ID.moveSpeed = 9
+BaseGoblin851066ID.health = 50
+BaseGoblin851066ID.visionRange = 30
+
+local BaseGoblin861067ID = CreateEnemy(ENEMY_MELEE, {x=179.125, y=89.875, z=729.5})
+BaseGoblin861067ID.moveSpeed = 9
+BaseGoblin861067ID.health = 50
+BaseGoblin861067ID.visionRange = 30
+
+local BaseGoblin871068ID = CreateEnemy(ENEMY_MELEE, {x=169.25, y=91.4375, z=733})
+BaseGoblin871068ID.moveSpeed = 9
+BaseGoblin871068ID.health = 50
+BaseGoblin871068ID.visionRange = 30
+
+local BaseGoblin881069ID = CreateEnemy(ENEMY_MELEE, {x=368.25, y=129, z=628})
+BaseGoblin881069ID.moveSpeed = 9
+BaseGoblin881069ID.health = 50
+BaseGoblin881069ID.visionRange = 30
+
+local BaseGoblin891070ID = CreateEnemy(ENEMY_MELEE, {x=360, y=128.875, z=625})
+BaseGoblin891070ID.moveSpeed = 9
+BaseGoblin891070ID.health = 50
+BaseGoblin891070ID.visionRange = 30
+
+local BaseGoblin901071ID = CreateEnemy(ENEMY_MELEE, {x=365, y=126.938, z=638})
+BaseGoblin901071ID.moveSpeed = 9
+BaseGoblin901071ID.health = 50
+BaseGoblin901071ID.visionRange = 30
+
+local BaseGoblin911072ID = CreateEnemy(ENEMY_MELEE, {x=360.25, y=126.938, z=635.5})
+BaseGoblin911072ID.moveSpeed = 9
+BaseGoblin911072ID.health = 50
+BaseGoblin911072ID.visionRange = 30
+
+local BaseGoblin921073ID = CreateEnemy(ENEMY_MELEE, {x=370, y=128.375, z=633})
+BaseGoblin921073ID.moveSpeed = 9
+BaseGoblin921073ID.health = 50
+BaseGoblin921073ID.visionRange = 30
+
+local BaseGoblin931074ID = CreateEnemy(ENEMY_MELEE, {x=331.75, y=142.125, z=522.5})
+BaseGoblin931074ID.moveSpeed = 9
+BaseGoblin931074ID.health = 50
+BaseGoblin931074ID.visionRange = 30
+
+local BaseGoblin941075ID = CreateEnemy(ENEMY_MELEE, {x=345, y=142.125, z=523.5})
+BaseGoblin941075ID.moveSpeed = 9
+BaseGoblin941075ID.health = 50
+BaseGoblin941075ID.visionRange = 30
+
+local BaseGoblin951076ID = CreateEnemy(ENEMY_MELEE, {x=297.75, y=142.125, z=522.5})
+BaseGoblin951076ID.moveSpeed = 9
+BaseGoblin951076ID.health = 50
+BaseGoblin951076ID.visionRange = 30
+
+local BaseGoblin961077ID = CreateEnemy(ENEMY_MELEE, {x=304.75, y=142.125, z=523})
+BaseGoblin961077ID.moveSpeed = 9
+BaseGoblin961077ID.health = 50
+BaseGoblin961077ID.visionRange = 30
+
 level05.colliders.C_Parent_Tile_51136ID = {}
 level05.colliders.C_Parent_Tile_51136ID.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_51136ID.collider:SetOffset(0,0,0)
@@ -6809,6 +6750,65 @@ Gear.UnbindInstance(level05.props.Crystal135975ID.transformID)
 level05.props.Crystal135975ID = nil
 Gear.UnbindInstance(level05.props.Crystal136976ID.transformID)
 level05.props.Crystal136976ID = nil
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 level05.colliders.C_Parent_Tile_511118ID = nil
 level05.colliders.C_Parent_Tile_521119ID = nil
 level05.colliders.C_Parent_Tile_531120ID = nil
@@ -7100,7 +7100,7 @@ level06.colliders.C_Parent_Tile_61142ID34.collider:AddChild(level06.colliders.C_
 level06.colliders.C_Parent_Tile_61142ID36 = {}
 level06.colliders.C_Parent_Tile_61142ID36.collider = OBBCollider.Create(-1)
 level06.colliders.C_Parent_Tile_61142ID36.collider:SetOffset(462,86.2786,736.5)
-level06.colliders.C_Parent_Tile_61142ID36.collider:SetZAxis(-0.970143,0,0.242536)
+level06.colliders.C_Parent_Tile_61142ID36.collider:SetZAxis(-0.970142,0,0.242536)
 level06.colliders.C_Parent_Tile_61142ID36.collider:SetHalfLengths(0.3,5.3411,6.18466)
 level06.colliders.C_Parent_Tile_61142ID34.collider:AddChild(level06.colliders.C_Parent_Tile_61142ID36.collider)
 level06.colliders.C_Parent_Tile_61142ID37 = {}
@@ -7547,7 +7547,7 @@ level07.colliders.C_Parent_Tile_71158ID2.collider:AddChild(level07.colliders.C_P
 level07.colliders.C_Parent_Tile_71158ID9 = {}
 level07.colliders.C_Parent_Tile_71158ID9.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_71158ID9.collider:SetOffset(135.5,130.085,552)
-level07.colliders.C_Parent_Tile_71158ID9.collider:SetZAxis(0.242536,0,0.970143)
+level07.colliders.C_Parent_Tile_71158ID9.collider:SetZAxis(0.242536,0,0.970142)
 level07.colliders.C_Parent_Tile_71158ID9.collider:SetHalfLengths(0.3,5.9669,6.18466)
 level07.colliders.C_Parent_Tile_71158ID2.collider:AddChild(level07.colliders.C_Parent_Tile_71158ID9.collider)
 level07.colliders.C_Parent_Tile_71158ID10 = {}
@@ -7745,7 +7745,7 @@ level07.colliders.C_Parent_Tile_71158ID35.collider:AddChild(level07.colliders.C_
 level07.colliders.C_Parent_Tile_71158ID42 = {}
 level07.colliders.C_Parent_Tile_71158ID42.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_71158ID42.collider:SetOffset(212.5,107.846,624)
-level07.colliders.C_Parent_Tile_71158ID42.collider:SetZAxis(-0.242536,0,0.970143)
+level07.colliders.C_Parent_Tile_71158ID42.collider:SetZAxis(-0.242536,0,0.970142)
 level07.colliders.C_Parent_Tile_71158ID42.collider:SetHalfLengths(0.3,7.41725,6.18466)
 level07.colliders.C_Parent_Tile_71158ID35.collider:AddChild(level07.colliders.C_Parent_Tile_71158ID42.collider)
 level07.colliders.C_Parent_Tile_71158ID43 = {}
@@ -7865,7 +7865,7 @@ level07.colliders.C_Parent_Tile_71158ID57.collider:AddChild(level07.colliders.C_
 level07.colliders.C_Parent_Tile_71158ID62 = {}
 level07.colliders.C_Parent_Tile_71158ID62.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_71158ID62.collider:SetOffset(328.5,128.393,619.5)
-level07.colliders.C_Parent_Tile_71158ID62.collider:SetZAxis(-0.0905357,0,0.995893)
+level07.colliders.C_Parent_Tile_71158ID62.collider:SetZAxis(-0.0905358,0,0.995893)
 level07.colliders.C_Parent_Tile_71158ID62.collider:SetHalfLengths(0.3,8.14243,5.52268)
 level07.colliders.C_Parent_Tile_71158ID57.collider:AddChild(level07.colliders.C_Parent_Tile_71158ID62.collider)
 level07.colliders.C_Parent_Tile_71158ID63 = {}
@@ -7949,7 +7949,7 @@ level07.colliders.C_Parent_Tile_71158ID68.collider:AddChild(level07.colliders.C_
 level07.colliders.C_Parent_Tile_71158ID76 = {}
 level07.colliders.C_Parent_Tile_71158ID76.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_71158ID76.collider:SetOffset(286.5,88.7498,665.5)
-level07.colliders.C_Parent_Tile_71158ID76.collider:SetZAxis(0.0905357,0,-0.995893)
+level07.colliders.C_Parent_Tile_71158ID76.collider:SetZAxis(0.0905358,0,-0.995893)
 level07.colliders.C_Parent_Tile_71158ID76.collider:SetHalfLengths(0.3,6.45035,5.52268)
 level07.colliders.C_Parent_Tile_71158ID68.collider:AddChild(level07.colliders.C_Parent_Tile_71158ID76.collider)
 level07.colliders.C_Parent_Tile_71158ID77 = {}
@@ -9098,7 +9098,7 @@ level08.colliders.C_Parent_Tile_81169ID56.collider:AddChild(level08.colliders.C_
 level08.colliders.C_Parent_Tile_81169ID66 = {}
 level08.colliders.C_Parent_Tile_81169ID66.collider = OBBCollider.Create(-1)
 level08.colliders.C_Parent_Tile_81169ID66.collider:SetOffset(360.5,127.479,440.5)
-level08.colliders.C_Parent_Tile_81169ID66.collider:SetZAxis(-0.0905358,0,0.995893)
+level08.colliders.C_Parent_Tile_81169ID66.collider:SetZAxis(-0.0905357,0,0.995893)
 level08.colliders.C_Parent_Tile_81169ID66.collider:SetHalfLengths(0.3,5.16553,5.52268)
 level08.colliders.C_Parent_Tile_81169ID56.collider:AddChild(level08.colliders.C_Parent_Tile_81169ID66.collider)
 level08.colliders.C_Parent_Tile_81169ID67 = {}
