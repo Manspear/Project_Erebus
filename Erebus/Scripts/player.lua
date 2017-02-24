@@ -510,7 +510,7 @@ function Controls(dt)
 			ChargeDir.x = (ChargeDir.x /a)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
-			print(ChargeDir.x)
+			
 			--if vec3length(player.position, pos2) < 1000 then
 			--local dir = Camera.GetDirection()
 			
