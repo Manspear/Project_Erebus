@@ -11,7 +11,6 @@ ICE=0 --Used for spellCharging
 FIRE=1
 NATURE=2
 
-
 player = {}
 player2 = {}
 
