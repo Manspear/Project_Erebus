@@ -48,8 +48,8 @@ function CreateCombineRay(entity)
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
 		
-		bump = len/8
-		print(bump)
+		
+		
 		factor = (len/2)
 		pos.x = pos.x + dir.x * factor
 		pos.y = pos.y + dir.y * factor
