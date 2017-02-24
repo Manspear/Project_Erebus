@@ -53,11 +53,16 @@ function LoadGameplay()
 end
 
 function UnloadGameplay()
+	print("UNLOADING GAMEPLAY")
 	for key,value in pairs(scripts) do
 		if value.Unload then
 			value.Unload()
 		end
 	end
+
+	loadedGameplay = false
+	gameplayStarted = false
+	loadedLevels = {}
 end
 
 function UpdateGameplay(dt)
