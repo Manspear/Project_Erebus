@@ -36,12 +36,12 @@ namespace Collisions
 		{
 			AABBCollider* collider;
 			ModelAsset* asset;
-			TransformStruct* transform;
-			ModelHitboxCombiner(AABBCollider* collider, ModelAsset* asset, TransformStruct* transform)
+			int index;
+			ModelHitboxCombiner(AABBCollider* collider, ModelAsset* asset, int index)
 			{
 				this->collider = collider;
 				this->asset = asset;
-				this->transform = transform;
+				this->index = index;
 			}
 			~ModelHitboxCombiner()
 			{
@@ -122,6 +122,7 @@ namespace Collisions
 		inline void resethitNodeSave();
 		inline void resetDynamicModelsInNodes();
 		bool uniqueModelHitboxCombiner(ModelHitboxCombiner* model);
+		void setAllModelsToCulled();
 	};
 
 
