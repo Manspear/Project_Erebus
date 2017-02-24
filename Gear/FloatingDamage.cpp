@@ -56,39 +56,59 @@ void FloatingDamage::init(int screenWidth, int screenHeight)
 
 void FloatingDamage::draw()
 {
-	shader->use();
-
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	glDisable(GL_DEPTH_TEST);
+	bool results = false;
+	this->shader->use();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	fDamageVertex* floatingData;
+	size_t particleCount;
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glVertexAttribPointer(0, 10, GL_FLOAT, GL_FALSE, sizeof(floatingData), (GLvoid*)0);
 
-	font->getTexture()->bind(GL_TEXTURE0);
-
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-	glEnableVertexAttribArray(3);
-
-	//for (auto l : lines)
-	for (auto l : bufferedLines)
+	for (size_t i = 0; i < eDamageTypes::NUM_DAMAGE_TYPES; i++)
 	{
-		glUniform1f(heightLoc, font->getInfo()->size * l.scale);
-		glUniform4f(colorLoc, l.color.r, l.color.g, l.color.b, l.color.a);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(fDamageLine), &l);
-		glDrawArrays(GL_POINTS, 0, (GLsizei)l.numberOfCharacters);
+		if (this->dataToSend[i].size() > 0) {
+			floatingData = dataToSend->at(i);
+			ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
+			particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
+			glBufferData(GL_ARRAY_BUFFER, (sizeof(floatingData)) * particleCount, &pos[0], GL_STATIC_DRAW);
+			glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);
+		}
 	}
-	//lines.clear();
-	bufferedLines.clear();
 
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
 
-	glBindVertexArray(0);
+	for (size_t i = 0; i < ps->size(); i++)
+	{
+		if (ps->at(i)->isActive)
+		{
+			results = true;
+			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
+			{
+				if (ps->at(i)->particleEmitters->isActive)
+				{
+					pos = ps->at(i)->particleEmitters[j].getPositions();
+					ps->at(i)->particleEmitters[j].getTexture()->bind(GL_TEXTURE0);
+					particleCount = ps->at(i)->particleEmitters[j].getNrOfActiveParticles();
+					glBufferData(GL_ARRAY_BUFFER, (sizeof(floatingData)) * particleCount, &pos[0], GL_STATIC_DRAW);
+					glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);
+				}
+			}
+		}
+	}
 
-	shader->unUse();
+	for (size_t i = 0; i < emitters->size(); i++)
+	{
+		if (emitters->at(i)->isActive)
+		{
+			pos = emitters->at(i)->getPositions();
+			emitters->at(i)->getTexture()->bind(GL_TEXTURE0);
+			particleCount = emitters->at(i)->getNrOfActiveParticles();
+			glBufferData(GL_ARRAY_BUFFER, (sizeof(SendStruct)) * particleCount, &pos[0], GL_STATIC_DRAW);
+			glDrawArraysInstanced(GL_POINTS, 0, (GLsizei)particleCount, 1);
+		}
+	}
+	glEnableVertexAttribArray(0);
+	this->shader->unUse();
 }
 
 void FloatingDamage::updateBuffer()

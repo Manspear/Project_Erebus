@@ -28,6 +28,13 @@ struct fDamageLine
 	size_t numberOfCharacters;
 };
 
+enum eDamageTypes {
+	FIRE,
+	COLD,
+	GRASS,
+	NUM_DAMAGE_TYPES
+};
+
 
 class FloatingDamage
 {
@@ -44,6 +51,7 @@ private:
 
 	std::vector<fDamageLine> lines;
 	std::vector<fDamageLine> bufferedLines;
+	std::vector<DamageValue> dataToSend[NUM_DAMAGE_TYPES];
 
 public:
 	FloatingDamage();
