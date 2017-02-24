@@ -480,23 +480,23 @@ function changeToState(enemy,player,changeState)
 	if changeState == IDLE_STATE then
 		enemy.state = state.idleState
 		--print("Sending IdleState", enemy.transformID, 0)
-		Network.SendAIStatePacket(enemy.transformID,0)
+		Network.SendAIStatePacket(enemy.transformID, IDLE_STATE)
 	end
 	if changeState == FOLLOW_STATE then
 		--print(Network.TestFunction())
 		enemy.state = state.followState
 		--print("Sending FollowState", enemy.transformID, 1)
-		Network.SendAIStatePacket(enemy.transformID,1)
+		Network.SendAIStatePacket(enemy.transformID,FOLLOW_STATE)
 	end
 	if changeState == ATTACK_STATE then
 		enemy.state = state.attackState
 		--print("Sending AttackState", enemy.transformID, 2)
-		Network.SendAIStatePacket(enemy.transformID,2)
+		Network.SendAIStatePacket(enemy.transformID,ATTACK_STATE)
 	end
 	if changeState == LEAP_STATE then
 		enemy.state = state.leapState
 		--print("Sending DeadState", enemy.transformID, 3)
-		Network.SendAIStatePacket(enemy.transformID,3)
+		Network.SendAIStatePacket(enemy.transformID,LEAP_STATE)
 	end
 	if changeState == POSITIONING_INNER_STATE then
 		enemy.state = state.positioningInnerState
@@ -509,13 +509,13 @@ function changeToState(enemy,player,changeState)
 	if changeState == DEAD_STATE then
 		enemy.state = state.deadState
 		--print("Sending DeadState", enemy.transformID, 4)
-		Network.SendAIStatePacket(enemy.transformID,4)
+		Network.SendAIStatePacket(enemy.transformID,DEAD_STATE)
 	end 
 	
 	if changeState == DO_NOTHING_STATE then
 		enemy.state = state.doNothingState
 		--print("Sending DoNothingState", enemy.transformID, 5)
-		Network.SendAIStatePacket(enemy.transformID,5)
+		Network.SendAIStatePacket(enemy.transformID,DO_NOTHING_STATE)
 	end 
 
 	if changeState == DUMMY_STATE then
