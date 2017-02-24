@@ -12,7 +12,7 @@ end
 
 function TutorialBarrier()
 	if player.charging == true then 
-		print("Du klarade det")
+		print("4")
 	end
 end
 

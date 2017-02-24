@@ -1,9 +1,9 @@
 function LoadLogic()
 
 end
-print("haha")
+
 function UpdateLogic()
-	print("Hallooooooo")
+	
 end
 
 function UnloadLogic()
