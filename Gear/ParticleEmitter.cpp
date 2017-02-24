@@ -156,9 +156,9 @@ namespace Gear
 			allParticles[i].lifeSpan = this->lifeTime;	
 			temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
 			allParticles[i].direction = glm::normalize(temp2 - this->position);
-			allParticles[i].direction *= rand() % (int)partSpeed;
-			nrOfActiveParticles = i;
+			allParticles[i].direction *= rand() % (int)partSpeed;	
 		}
+		nrOfActiveParticles = maxParticles;
 		isActive = true;
 		alive = false;
 	}
@@ -211,6 +211,11 @@ namespace Gear
 	GEAR_API void ParticleEmitter::setExtrovert(bool yesNo)
 	{
 		this->extrovert = yesNo;
+	}
+
+	GEAR_API void ParticleEmitter::setFocus(float focusPower)
+	{
+		this->focus = focusPower;
 	}
 
 	GEAR_API void ParticleEmitter::activate()
