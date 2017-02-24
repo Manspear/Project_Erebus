@@ -118,28 +118,7 @@ namespace AGI
 		{
 			enemies.clear();
 
-			for (int n = 0; n < imWidth; n++)
-			{
-				for (int i = 0; i < imHeight; i++)
-				{
-					if (dynamicInfluenceMap[n][i])
-						delete dynamicInfluenceMap[n][i];
-				}
-				delete[] dynamicInfluenceMap[n];
-			}
-			delete[]dynamicInfluenceMap;
-
-
-			for (int n = 0; n < imWidth; n++)
-			{
-				for (int i = 0; i < imHeight; i++)
-				{
-					if (staticInfluenceMap[n][i])
-						delete staticInfluenceMap[n][i];
-				}
-				delete[] staticInfluenceMap[n];
-			}
-			delete[]staticInfluenceMap;
+			destroyInfluenceMap();
 
 			
 
@@ -267,6 +246,8 @@ namespace AGI
 
 		AGI_API void createInfluenceMap(Importer::HeightMap** heightmaps, int width, int height)
 		{
+			destroyInfluenceMap();
+
 			width = 642;
 			height = 780;
 			this->mapWidth = width;
@@ -338,7 +319,36 @@ namespace AGI
 			}
 
 			clearDynamic(imWidth, imHeight);
+		}
 
+		AGI_API void destroyInfluenceMap()
+		{
+			for (int n = 0; n < imWidth; n++)
+			{
+				for (int i = 0; i < imHeight; i++)
+				{
+					if (dynamicInfluenceMap[n][i])
+						delete dynamicInfluenceMap[n][i];
+				}
+				delete[] dynamicInfluenceMap[n];
+			}
+			delete[]dynamicInfluenceMap;
+
+
+			for (int n = 0; n < imWidth; n++)
+			{
+				for (int i = 0; i < imHeight; i++)
+				{
+					if (staticInfluenceMap[n][i])
+						delete staticInfluenceMap[n][i];
+				}
+				delete[] staticInfluenceMap[n];
+			}
+			delete[]staticInfluenceMap;
+
+			imWidth = imHeight = 0;
+			dynamicInfluenceMap = nullptr;
+			staticInfluenceMap = nullptr;
 		}
 
 		AGI_API void copyBuffer(int width, int height)

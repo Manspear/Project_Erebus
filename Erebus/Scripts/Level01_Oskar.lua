@@ -3006,7 +3006,7 @@ New28767ID.visionRange = 30
 local New29768ID = CreateEnemy(ENEMY_MELEE, {x=129.75, y=33.9375, z=214.75})
 New29768ID.moveSpeed = 9
 New29768ID.health = 50
-New29768ID.visionRange = 30
+New29768ID.visionRange = 30--]]
 
 end
 level02.unload = function()
@@ -3602,6 +3602,7 @@ level03.colliders.Tile3_wallNr26346ID = nil
 level03.props = nil
 level03.colliders = nil
 level03.triggers = nil
+collectgarbage()
 end
 levels[3] = level03
 -------------------------------------level03-----------------------------------------------
@@ -3610,7 +3611,7 @@ levels[3] = level03
 -------------------------------------level04-----------------------------------------------
 
 level04 = {}
-level04.surrounding = { 3, 5 }
+level04.surrounding = { 2, 3, 5 }
 level04.load = function()
 level04.props = {}
 level04.colliders = {}
