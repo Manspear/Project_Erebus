@@ -13,7 +13,8 @@ DUMMY_STATE = 8
 
 TRANSFORM_UPDATED = false
 INTERPOLATING_AI_TRANSFORM = false
-INTERPOLATION_ITERATIONS = 2
+INTERPOLATION_ITERATIONS = 0
+INTERPOLATION_NR_OF_STEPS = 2
 
 MAX_ENEMIES = 10
 ENEMY_MELEE = 1
@@ -40,6 +41,7 @@ function CreateEnemy(type, position)
 	local i = #enemies+1
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
+	enemies[i].type = type
 	--enemies[i].transformID = Transform.Bind()
 	enemies[i].movementSpeed = 8--math.random(5,20)
 	enemies[i].maxHealth = 20
@@ -50,6 +52,10 @@ function CreateEnemy(type, position)
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
+	enemies[i].hurtCountdown = 0
+
+	enemies[i].damagedTint = {r=1, g=0, b=0, a=0}
+	enemies[i].damagedTintDuration = 0.3
 
 	enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 	enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
@@ -100,7 +106,11 @@ function CreateEnemy(type, position)
 
 				Network.SendAIHealthPacket(self.transformID, self.health)
 
+				self.damagedTint.a = 1
+				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+
 				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
+
 					--print("Dead for host", enemies[i].transformID)
 					self.health = 0
 					self:Kill()
@@ -112,12 +122,17 @@ function CreateEnemy(type, position)
 				--print("Sending damage", self.transformID, damage)
 				Network.SendDamagePacket(self.transformID, damage)
 			end
-		end
-		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
-		self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+		end		
 	end
-	enemies[i].ChangeToState = function(self,inState)
-		stateScript.changeToState(self, player, inState)
+
+	if Network.GetNetworkHost() == true then
+		enemies[i].ChangeToState = function(self,inState)
+			stateScript.changeToState(self, player, inState)
+		end
+	else
+		enemies[i].ChangeToState = function(self,inState)
+			clientAIScript.setAIState(self, player, inState)
+		end
 	end
 
 	enemies[i].Kill = function(self)
@@ -182,6 +197,9 @@ function CreateEnemy(type, position)
 		end
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
+		if type == ENEMY_DUMMY then
+			clientAIScript.setAIState(enemies[i], player, DUMMY_STATE)
+		end
 	end
 
 	return enemies[i]
@@ -201,6 +219,14 @@ function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do
 	--AI.DrawDebug()
 	--end
+
+	for i = 1, #enemies do
+		if enemies[i].damagedTint.a > 0 then
+			enemies[i].damagedTint.a = enemies[i].damagedTint.a - (dt / enemies[i].damagedTintDuration)
+			enemies[i].animationController.animation:SetTint(enemies[i].damagedTint)
+		end
+	end
+
 	COUNTDOWN = COUNTDOWN-dt
 	if COUNTDOWN <0 then
 		COUNTDOWN = 0.4
@@ -272,8 +298,28 @@ function UpdateEnemies(dt)
 				if shouldSendNewTransform == true then
 					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
 				end
-			else
-				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
+			elseif enemies[i].stateName == DUMMY_STATE then
+					if  enemies[i].stateName ~= DEAD_STATE then
+						local pos = Transform.GetPosition(enemies[i].transformID)
+
+					local heightmapIndex = 1
+
+					for i = 1, #heightmaps do
+						if heightmaps[i].asset:Inside(pos) then
+							heightmapIndex = i
+						end
+					end
+
+					if  enemies[i].stateName ~= DEAD_STATE then
+						local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
+						pos.y = pos.y - 10*dt
+						if pos.y < height then
+							pos.y = height
+						end
+					end
+					Transform.SetPosition(enemies[i].transformID, pos)
+				end
+				--aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 			end
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
@@ -320,7 +366,7 @@ function UpdateEnemies(dt)
 	
 		while newAIStateValue == true do
 			for i=1, #enemies do
-				if newAIStateValue == true and enemies[i].transformID == aiState_transformID then
+				if enemies[i].transformID == aiState_transformID then
 					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end
@@ -346,10 +392,6 @@ function UpdateEnemies(dt)
 						enemies[i].goal_transform_interpolate = enemies[i].new_transform_interpolate
 						TRANSFORM_UPDATED = true
 					end
-					
- 					--Transform.SetPosition(aiTransform_id, {x=pos_x, y=pos_y, z=pos_z})
- 					--Transform.SetLookAt(aiTransform_id, {x=lookAt_x, y=lookAt_y, z=lookAt_z})
- 					--Transform.SetRotation(aiTransform_id, {x=rotation_x, y=rotation_y, z=rotation_z})
 
 					break
 				end
@@ -362,27 +404,30 @@ function UpdateEnemies(dt)
 		-- Interpolate AI transforms
 		if INTERPOLATING_AI_TRANSFORM == false and TRANSFORM_UPDATED == true then
 				INTERPOLATING_AI_TRANSFORM = true
-				INTERPOLATION_ITERATIONS = 2
+				INTERPOLATION_ITERATIONS = 0
 				TRANSFORM_UPDATED = false
 		elseif INTERPOLATING_AI_TRANSFORM == true then
 			for i=1, #enemies do
-				Transform.SetPosition(enemies[i].transformID, { x = enemies[i].start_transform_interpolate.position.x + ((enemies[i].goal_transform_interpolate.position.x - enemies[i].start_transform_interpolate.position.x)/INTERPOLATION_ITERATIONS),
-																y = enemies[i].start_transform_interpolate.position.y + ((enemies[i].goal_transform_interpolate.position.y - enemies[i].start_transform_interpolate.position.y)/INTERPOLATION_ITERATIONS),
-																z = enemies[i].start_transform_interpolate.position.z + ((enemies[i].goal_transform_interpolate.position.z - enemies[i].start_transform_interpolate.position.z)/INTERPOLATION_ITERATIONS) })
 				
-				Transform.SetLookAt(enemies[i].transformID,	{ x = enemies[i].start_transform_interpolate.lookAt.x + ((enemies[i].goal_transform_interpolate.lookAt.x - enemies[i].start_transform_interpolate.lookAt.x)/INTERPOLATION_ITERATIONS),
-															  y = enemies[i].start_transform_interpolate.lookAt.y + ((enemies[i].goal_transform_interpolate.lookAt.y - enemies[i].start_transform_interpolate.lookAt.y)/INTERPOLATION_ITERATIONS),
-															  z = enemies[i].start_transform_interpolate.lookAt.z + ((enemies[i].goal_transform_interpolate.lookAt.z - enemies[i].start_transform_interpolate.lookAt.z)/INTERPOLATION_ITERATIONS)})
+				local stepDivider = INTERPOLATION_NR_OF_STEPS - INTERPOLATION_ITERATIONS
+
+				Transform.SetPosition(enemies[i].transformID, { x = enemies[i].start_transform_interpolate.position.x + ((enemies[i].goal_transform_interpolate.position.x - enemies[i].start_transform_interpolate.position.x)/stepDivider),
+																y = enemies[i].start_transform_interpolate.position.y + ((enemies[i].goal_transform_interpolate.position.y - enemies[i].start_transform_interpolate.position.y)/stepDivider),
+																z = enemies[i].start_transform_interpolate.position.z + ((enemies[i].goal_transform_interpolate.position.z - enemies[i].start_transform_interpolate.position.z)/stepDivider) })
+				
+				Transform.SetLookAt(enemies[i].transformID,	{ x = enemies[i].start_transform_interpolate.lookAt.x + ((enemies[i].goal_transform_interpolate.lookAt.x - enemies[i].start_transform_interpolate.lookAt.x)/stepDivider),
+															  y = enemies[i].start_transform_interpolate.lookAt.y + ((enemies[i].goal_transform_interpolate.lookAt.y - enemies[i].start_transform_interpolate.lookAt.y)/stepDivider),
+															  z = enemies[i].start_transform_interpolate.lookAt.z + ((enemies[i].goal_transform_interpolate.lookAt.z - enemies[i].start_transform_interpolate.lookAt.z)/stepDivider)})
 
 
-				Transform.SetRotation(enemies[i].transformID, { x = enemies[i].start_transform_interpolate.rotation.x + ((enemies[i].goal_transform_interpolate.rotation.x - enemies[i].start_transform_interpolate.rotation.x)/INTERPOLATION_ITERATIONS),
-																y = enemies[i].start_transform_interpolate.rotation.y + ((enemies[i].goal_transform_interpolate.rotation.y - enemies[i].start_transform_interpolate.rotation.y)/INTERPOLATION_ITERATIONS),
-																z = enemies[i].start_transform_interpolate.rotation.z + ((enemies[i].goal_transform_interpolate.rotation.z - enemies[i].start_transform_interpolate.rotation.z)/INTERPOLATION_ITERATIONS)})
+				Transform.SetRotation(enemies[i].transformID, { x = enemies[i].start_transform_interpolate.rotation.x + ((enemies[i].goal_transform_interpolate.rotation.x - enemies[i].start_transform_interpolate.rotation.x)/stepDivider),
+																y = enemies[i].start_transform_interpolate.rotation.y + ((enemies[i].goal_transform_interpolate.rotation.y - enemies[i].start_transform_interpolate.rotation.y)/stepDivider),
+																z = enemies[i].start_transform_interpolate.rotation.z + ((enemies[i].goal_transform_interpolate.rotation.z - enemies[i].start_transform_interpolate.rotation.z)/stepDivider)})
 			end
 
-			INTERPOLATION_ITERATIONS = INTERPOLATION_ITERATIONS - 1
-			
-			if INTERPOLATION_ITERATIONS == 0 then
+			INTERPOLATION_ITERATIONS = INTERPOLATION_ITERATIONS + 1
+
+			if INTERPOLATION_ITERATIONS == INTERPOLATION_NR_OF_STEPS then
 				INTERPOLATING_AI_TRANSFORM = false
 			end
 		end
