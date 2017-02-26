@@ -5,14 +5,12 @@
 out vec4 FragColor;
 in vec2 TexCoords;
 
+const int NUM_CASCADES = 3;
+
 uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
-uniform sampler2D gShadowMap;
-uniform sampler2D shadowmap1;
-uniform sampler2D shadowmap2;
-uniform sampler2D shadowmap3;
-uniform sampler2D shadowmap4;
+uniform sampler2D gShadowMap[NUM_CASCADES];
 
 struct PointLight {
 		vec4 pos;
@@ -38,8 +36,8 @@ uniform mat4 shadowVPM;
 uniform mat4 invView;
 uniform mat4 invProj;
 
-uniform mat4 lightMatrixList[4];
-uniform float farbounds[4];
+uniform mat4 lightWVP[NUM_CASCADES];
+uniform float CascadeEndClipSpace[NUM_CASCADES];
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular);
@@ -47,6 +45,7 @@ float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords);
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 vec3 WorldPosFromDepth(float depth);
+float CascadedShadow(vec4 LightSpacePos, int CascadeIndex);
 
 void main() {
 
@@ -61,8 +60,55 @@ void main() {
 	vec3 Diffuse  = vec4(texture2D(gAlbedoSpec, TexCoords)).rgb;
 	float Specular = vec4(texture2D(gAlbedoSpec, TexCoords)).a;
 
-	vec4 shadowMapCoords = lightMatrixList[0] * vec4(FragPos,1.0);
-	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
+	vec4 shadowMapCoords = lightWVP[0] * vec4(FragPos,1.0);
+
+	vec4 LightSpacePos[NUM_CASCADES];
+
+	for(int i = 0; i < NUM_CASCADES ; i++)
+	{
+		LightSpacePos[i] = lightWVP[i] * vec4(FragPos,1.0);
+	}
+
+	float z = Depth * 2.0 - 1.0;
+
+	vec4 clipSpacePosition = vec4(TexCoords.xy * 2.0 - 1.0, z, 1.0);
+
+	float ClipSpacePosZ = clipSpacePosition.z;
+
+	vec4 viewSpacePosition = invProj * clipSpacePosition;
+
+	//Perspective division
+	viewSpacePosition /= viewSpacePosition.w;
+
+
+
+	float ShadowFactor = 0.0;
+	
+	for(int i = 0; i < NUM_CASCADES ; i++)
+	{
+		if(ClipSpacePosZ <= CascadeEndClipSpace[i])
+		{
+			ShadowFactor = CascadedShadow(LightSpacePos[i], i);
+			break;
+		}
+	}
+
+	vec3 shadowMapColorIndex;
+
+	if(z <= CascadeEndClipSpace[0])
+	{
+		shadowMapColorIndex = vec3(0.2,0.0,0.0);
+	} else if(z <= CascadeEndClipSpace[1])
+	{
+		shadowMapColorIndex = vec3(0.0,0.2,0.0);
+	} else if(z <= CascadeEndClipSpace[2])
+	{
+		shadowMapColorIndex = vec3(0.0,0.0,0.2);
+	}else{
+		shadowMapColorIndex = vec3(0.1,0.0,0.1);
+	}
+
+
 	
     vec3 viewDir = normalize(viewPos - FragPos);
 
@@ -80,35 +126,21 @@ void main() {
 
 	outputColor = mix(outputColor, vec3(0.50,0.50,0.50),getFogFactor(length(FragPos - viewPos)));
 
-	vec3 ProjCoords = shadowMapCoords.xyz / shadowMapCoords.w;
-
-	vec2 UVCoords;
-	UVCoords.x = 0.5 * ProjCoords.x + 0.5;
-	UVCoords.y = 0.5 * ProjCoords.y + 0.5;
-
-	float zDepth = 0.5 * ProjCoords.z + 0.5;
-	float DepthShadow = texture(shadowmap1, UVCoords).x;
-	float shadow = 1.0;
-	if (DepthShadow + 0.00001 < (zDepth))
-	{
-		shadow = 0.5;
-	}
-
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
-        FragColor = vec4(outputColor, 1.0);
+        FragColor = vec4(outputColor + shadowMapColorIndex, 1.0);
     else if(drawMode == 2)
 		FragColor = vec4(FragPos, 1.0);
 	else if(drawMode == 3)
 		FragColor = vec4(Normal, 1.0);
 	else if(drawMode == 4)
-        FragColor = vec4(ambient + (directional * shadow) + point, 1.0);
+		FragColor = vec4(ambient + (directional * ShadowFactor) + point, 1.0);
     else if(drawMode == 5)
         FragColor = vec4(Diffuse, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)
         FragColor = vec4(Specular,Specular,Specular, 1.0);
     else if(drawMode == 7)
 	{
-		FragColor = vec4(ambient + (directional * CalcShadowAmount(shadowmap1, shadowMapCoords)) + point, 1.0);
+		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap[0], shadowMapCoords)) + point, 1.0);
 	}
 	//	FragColor = vec4(ambient + (directional * shadow_coaf) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
@@ -206,4 +238,11 @@ vec3 WorldPosFromDepth(float depth){
 	vec4 worldSpacePosition = invView * viewSpacePosition;
 
 	return worldSpacePosition.xyz;
+}
+
+float CascadedShadow(vec4 LightSpacePos, int CascadeIndex){
+
+	
+
+	return CalcShadowAmount(gShadowMap[CascadeIndex], LightSpacePos);
 }

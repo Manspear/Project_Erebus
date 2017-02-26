@@ -59,11 +59,11 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 		this->nearPlane = mainCam->getNearPlaneDistance();//0.5; //mainCam->getNearPlaneDistance();
 		this->farPlane = mainCam->getFarPlaneDistance();//15;//mainCam->getFarPlaneDistance();
-		pos = glm::vec3(15, 7.5, 148);
+		pos = glm::vec3(15, 10, 148);
 		//pos.x = 5 * sinf(sinCount) + 15;
 		//pos = mainCam->getPosition();
-		glm::vec3 direction = glm::vec3(0, 0, 1);//mainCam->getDirection();
-		direction.x = sinf(sinCount);
+		glm::vec3 direction = glm::vec3(0, -0.5, 1);//mainCam->getDirection();
+		//direction.x = sinf(sinCount);
 		glm::vec3 right = glm::normalize(glm::cross(glm::normalize(direction), glm::vec3(0.0f, 1.0f, 0.0f)));
 		glm::vec3 up = glm::normalize(glm::cross(right, glm::normalize(direction)));
 		float fov = 55;//mainCam->getFov();
@@ -71,7 +71,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		glm::vec3 lookat((pos + direction));
 		glm::mat4 camView = glm::lookAt(pos, lookat, up);
 		glm::mat4 view = mainCam->getViewMatrix();
-		glm::mat4 camInv = glm::inverse(camView);
+		glm::mat4 camInv = glm::inverse(view);
 
 		for (int i = 0; i < NUM_CASCADEDS; i++)
 		{
@@ -192,7 +192,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 				minAABB[CascadeID] = minExtents;
 				maxAABB[CascadeID] = maxExtents;
 
-				projectionMatrices[CascadeID] = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z, frustumMax.z);// glm::ortho<float>(-50, 50, -50, 50, -50, 50);// t_projection;
+				projectionMatrices[CascadeID] = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z-50, frustumMax.z+50);// glm::ortho<float>(-50, 50, -50, 50, -50, 50);// t_projection;
 				viewMatrices[CascadeID] = lightM;
 			}
 		}

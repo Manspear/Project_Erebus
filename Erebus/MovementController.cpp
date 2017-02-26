@@ -29,7 +29,7 @@ void MovementController::update()
 
 	//float height = heightmap->getPos( newPos.x, newPos.z );
 	float height = heightmap->getPos( pos.x, pos.z );
-	//newPos.y = height;
+	newPos.y = height;
 
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( this->layerID );
@@ -38,7 +38,7 @@ void MovementController::update()
 	glm::vec3 newXPos = pos + glm::vec3( dif.x, 0.0f, 0.0f );
 	glm::vec3 newZPos = pos + glm::vec3( 0.0f, 0.0f, dif.z );
 	glm::vec3 finalPos = pos;
-	//finalPos.y = height;
+	finalPos.y = height;
 
 	/*this->hitbox->setPos(newXPos); // move hitbox on X
 	bool playerColliding = this->checkCollision(colliders); // Check collision against all the walls
