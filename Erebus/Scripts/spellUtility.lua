@@ -20,19 +20,19 @@ function CreateCombineRay(entity)
 	local ray = {}
 
 	
-	local rayIce = Assets.LoadModel( "Models/SpellChargingICEMesh.model" )
+	local rayIce = Assets.LoadModel( "Models/CombineBeamIce.model" )
 	ray.transformID = Gear.BindForwardInstance(rayIce)
 	Gear.SetUniformLocation(ray.modelIndex, "aValue");
 
-	local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
+	local rayFire = Assets.LoadModel("Models/CombineBeamFire.model")
 	ray.transformID2 = Gear.BindForwardInstance(rayFire)
 
-	local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
+	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
 	ray.transformID3 = Gear.BindForwardInstance(rayNature)
 
 	ray.caster = entity.transformID
 
-	function ray:FireChargeBeam(dt,dir,spellElement,length)		
+	function ray:FireChargeBeam(dt,dir,spellElement)		
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
@@ -51,12 +51,16 @@ function CreateCombineRay(entity)
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
-		pos.x = pos.x + dir.x * (len+1)
-		pos.y = pos.y + dir.y * (len+1)
-		pos.z = pos.z + dir.z * (len+1)
+		
+		
+		
+		factor = (len/2)
+		pos.x = pos.x + dir.x * factor
+		pos.y = pos.y + dir.y * factor
+		pos.z = pos.z + dir.z * factor
 
 		Transform.SetPosition(elementalTransformID, pos)
-		Transform.SetScaleNonUniform(elementalTransformID, 0.2,0.2,length) 
+		Transform.SetScaleNonUniform(elementalTransformID, 0.7,0.6,(len*0.51)) 
 		ray.pos = Transform.GetPosition(self.caster)
 		Transform.RotateToVector(elementalTransformID, dir)
 		

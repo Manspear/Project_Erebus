@@ -251,7 +251,7 @@ function CreatePlayerController(player)
 	function controller:AttackState(dt)
 		--the attack animation is different depending on what the legs do.
 		
-		self.animationState2 = 34
+		self.animationState2 = 30
 
 		self.attackTimerStarted = true
 	end
