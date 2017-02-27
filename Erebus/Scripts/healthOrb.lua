@@ -34,11 +34,14 @@ function LoadHealthOrbs()
 	end
 end
 
-function SpawnNewHealthOrb(position)	
-	for i = 1, ORB_POOL_SIZE do 
-		if not allHealthOrbs[i].alive then
-			SpawnOrb(allHealthOrbs[i], position)
-			break
+function SpawnNewHealthOrb(position)
+	local chance = math.random(1,4)
+	if chance == 1 then	
+		for i = 1, ORB_POOL_SIZE do 
+			if not allHealthOrbs[i].alive then
+				SpawnOrb(allHealthOrbs[i], position)
+				break
+			end
 		end
 	end	
 end

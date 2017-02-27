@@ -9,7 +9,8 @@ POSITIONING_OUTER_STATE = 4
 FOLLOW_STATE = 5
 DEAD_STATE = 6
 DO_NOTHING_STATE = 7
-DUMMY_STATE = 8
+RUN_AWAY_STATE = 8
+DUMMY_STATE = 9
 
 AI_TRANSFORM_UPDATED = false
 INTERPOLATING_AI_TRANSFORM = false
@@ -35,13 +36,14 @@ ENEMY_HEALTHBAR_HEIGHT = 0.15
 
 
 
-function CreateEnemy(type, position)
+function CreateEnemy(type, position, element)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or type == ENEMY_DUMMY, "Invalid enemy type." )
 
 	local i = #enemies+1
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	enemies[i].type = type
+	enemies[i].elementType = element or NEUTRAL
 	--enemies[i].transformID = Transform.Bind()
 	enemies[i].movementSpeed = 8--math.random(5,20)
 	enemies[i].maxHealth = 20
@@ -96,17 +98,16 @@ function CreateEnemy(type, position)
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
 
-	enemies[i].Hurt = function(self, damage, source)
+	enemies[i].Hurt = function(self, damage, source, element)
 		local pos = Transform.GetPosition(self.transformID)
 
 		if source ~= player2 then
 			if Network.GetNetworkHost() == true and self.alive == true then
+				damage = self.elementType ~= element and damage or damage * 0.5
 				self.health = self.health - damage
 				--print("ID:", self.transformID, "Sending new health:", self.health)
-
 				Network.SendAIHealthPacket(self.transformID, self.health)
-
-				self.damagedTint.a = 1
+				self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 
 				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then

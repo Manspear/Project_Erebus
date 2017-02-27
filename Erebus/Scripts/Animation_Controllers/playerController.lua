@@ -37,9 +37,6 @@ function CreatePlayerController(player)
 
 	controller.damagedMaxTime = 0.5
 
-	controller.damagedTint = {r=1, g=1, b=1, a=0}
-	controller.damagedTintDuration = 0.3
-
 	controller.dyingTimer = 1
 
 	controller.quickBlendFrom = 0
@@ -53,6 +50,10 @@ function CreatePlayerController(player)
 	controller.attackTimerStarted = false
 	controller.attackTimer = 0
 	controller.attackTimerThreshhold = 1
+
+	controller.deathTimerStarted = false
+	controller.deathTimer = 0
+	controller.deathTimerThreshhold = 0.5
 
 	controller.chargeTimerStart = false
 	controller.chargeTimer = 0
@@ -77,11 +78,6 @@ function CreatePlayerController(player)
 	function controller:AnimationUpdate(dt, Network)
 		--The higher the priority of the action, the longer down in this update function it should be
 		--since the prioritized actions override the unprioritized ones
-
-		--if self.damagedTint.a > 0 then
-		--	self.damagedTint.a = self.damagedTint.a - ( dt / self.damagedTintDuration )
-		--	self.animation:SetTint(self.damagedTint)
-		--end
 
 		--if you don't move AND HAVENT ATTACKED you're Idle
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
@@ -144,6 +140,10 @@ function CreatePlayerController(player)
 				self.animationState2  = 0
 			end
 		end
+		if self.watch.health <= 0 then 
+			
+			self:DeathState(dt)
+		end
 
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
@@ -167,6 +167,27 @@ function CreatePlayerController(player)
 
 	function controller:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
 		self.animation:SetQuickBlend(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+	end
+
+	--Handles everything that has to do with death. 
+	function controller:DeathState(dt)
+		print(self.deathTimerStarted)
+		if self.oldWatch.health > 0 then 
+			self.deathTimerStarted = true
+		end
+		if self.deathTimerStarted then 
+			self.animationState1 = 3
+			self.animationState2 = 0
+			self.deathTimer = self.deathTimer + dt
+			print(self.deathTimer)
+			if self.deathTimer >= self.deathTimerThreshhold then 
+				self.deathTimerStarted = false
+				self.deathTimer = 0
+			end
+		elseif self.deathTimerStarted == false then 
+			self.animationState1 = 31
+			self.animationState2 = 0
+		end
 	end
 
 	function controller:CombatRunningState(dt)

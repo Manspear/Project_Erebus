@@ -168,7 +168,7 @@ function CreateSiphon(entity)
 			hit = self:getcollisions()
 			if hit then
 				if self.interval < 0 then
-					hit:Hurt(self.damage, self.owner)
+					hit:Hurt(self.damage, self.owner, self.element)
 					if(self.owner.health < 100) then
 						self.owner.health = self.owner.health + self.damage
 					elseif (self.owner.health > 100) then
@@ -200,7 +200,7 @@ function CreateSiphon(entity)
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
 						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-							enemies[curEnemy]:Hurt(self.damage, self.owner)
+							enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 							for i = 1, #self.effects do
 								local effect = effectTable[self.effects[i]](self.owner, 3)
 								enemies[curEnemy]:Apply(effect)
