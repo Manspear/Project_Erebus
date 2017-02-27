@@ -1,5 +1,9 @@
 #version 430 core
-layout (location = 0) out vec2 gDepth;
+layout (location = 0) out vec2 gDepth1;
+layout (location = 0) out vec2 gDepth2;
+layout (location = 0) out vec2 gDepth3;
+
+const int NUM_CASCADES = 3;
 
 void main (){
 	float depth = gl_FragCoord.z;
@@ -8,5 +12,5 @@ void main (){
 	float dy = dFdy(depth);
 	float moment2 = depth * depth + 0.25 * (dx * dx + dy * dy);
 	
-	gDepth = vec2(depth,moment2);//vec4(depth, moment2, 0.0, 0.0);
+	gDepth1 = vec2(depth,moment2);
 }

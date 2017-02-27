@@ -143,7 +143,6 @@ namespace Gear
 		void shadowMapBlur(ShaderProgram * dest, ShaderProgram * source, float blurAmount); //ShadowMap bluring
 		void frameBufferInit(); //Init all framebuffers
 		void shaderInit();
-		void uniformLocationInit();
 		void lightInit();
 		void skyboxInit();
 	};
