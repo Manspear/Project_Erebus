@@ -107,7 +107,6 @@ function CreateEnemy(type, position, element)
 				self.health = self.health - damage
 				--print("ID:", self.transformID, "Sending new health:", self.health)
 				Network.SendAIHealthPacket(self.transformID, self.health)
-				print(damage)
 				self.damagedTint.a = 1
 				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 
