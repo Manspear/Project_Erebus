@@ -56,7 +56,7 @@ namespace Gear
 
 		if( activeTransforms > 0 )
 		{
-			glm::mat4 temp[100];
+			/*glm::mat4 temp[100];
 			int offset = 0;
 			for( int i=0; i<transforms.size(); i++ )
 			{
@@ -65,9 +65,9 @@ namespace Gear
 					memcpy( temp+offset, &worldMatrices[i], sizeof(glm::mat4) );
 					offset++;
 				}
-			}
+			}*/
 
-			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4)*activeTransforms, glm::value_ptr(temp[0]), GL_STREAM_DRAW );
+			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4)*activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW );
 		}
 		else
 		{
@@ -90,7 +90,7 @@ namespace Gear
 
 		if( activeTransforms > 0 )
 		{
-			glm::mat4 temp[100];
+			/*glm::mat4 temp[100];
 			int offset = 0;
 			for( int i=0; i<transforms.size(); i++)
 			{
@@ -99,9 +99,9 @@ namespace Gear
 					memcpy( temp+offset, &worldMatrices[i], sizeof(glm::mat4) );
 					offset++;
 				}
-			}
+			}*/
 
-			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4)*activeTransforms, glm::value_ptr(temp[0]), GL_STREAM_DRAW );
+			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4)*activeTransforms, glm::value_ptr(worldMatrices[0]), GL_STREAM_DRAW );
 		}
 		else
 		{
@@ -115,10 +115,11 @@ namespace Gear
 		glm::vec3 tempLook;
 		glm::vec3 axis;
 		glm::mat4 matrix;
+		int offset = 0;
 		for (int i = 0; i < transforms.size(); i++)
 		{
 			TransformStruct& t = transforms[i];
-			if( t.active && !culled[i] )
+			if (t.active && !culled[i])
 			{
 				activeTransforms++;
 
@@ -126,11 +127,13 @@ namespace Gear
 				axis = glm::cross(tempLook, { 0, 1, 0 });
 				matrix = glm::translate(glm::mat4(), t.pos);
 				matrix = glm::rotate(matrix, t.rot.z, axis);
-				matrix = glm::rotate(matrix, t.rot.x, t.lookAt );
+				matrix = glm::rotate(matrix, t.rot.x, t.lookAt);
 				matrix = glm::rotate(matrix, t.rot.y, { 0, 1, 0 });
 				matrix = glm::scale(matrix, t.scale);
 
-				worldMatrices[i] = matrix;
+				//worldMatrices[i] = matrix;
+				worldMatrices[offset] = matrix;
+				offset++;
 			}
 		}
 	}
