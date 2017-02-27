@@ -154,7 +154,7 @@ DWORD WINAPI update(LPVOID args)
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
-			//collisionsDraw.draw(data->quadtree);
+			collisionsDraw.draw(data->quadtree);
 
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS())
@@ -333,16 +333,15 @@ int main()
 				fullscreen = threadData.fullscreen;
 			}
 
+							// Frustum culling against quadtree
 			f.updateFrustum(camera.getPosition(), camera.getDirection(), camera.getUp());
 
-			if (inputs.keyPressed(GLFW_KEY_T)) // Frustum culling against quadtree
-			{
-				quadtree.clearQuadtree();
-				quadtree.addAnimatedModels(&animModels);
-				quadtree.addDynamicModels(&models);
-				quadtree.frustumCollision();
-			}
-			
+			quadtree.clearQuadtree();
+			quadtree.addAnimatedModels(&animModels);
+			quadtree.addDynamicModels(&models);
+			quadtree.frustumCollision();
+
+
 			if (threadData.queueModels)
 				engine.queueDynamicModels(&models);
 
