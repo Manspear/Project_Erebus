@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},dummyState = {}}
+state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},runAwayState = {},dummyState = {}}
 
 function state.idleState.enter(enemy,player)
 	enemy.animationState = 1
@@ -459,6 +459,18 @@ function state.doNothingState.exit(enemy,player)
 
 end 
 
+function state.runAwayState.enter(enemy, playerTarget)
+
+end
+
+function state.runAwayState.update(enemy, playerTarget, dt)
+
+end
+
+function state.runAwayState.exit(enemy, playerTarget)
+
+end 
+
 function state.dummyState.enter(enemy,player)
 
 end
@@ -517,6 +529,12 @@ function changeToState(enemy,player,changeState)
 		--print("Sending DoNothingState", enemy.transformID, 5)
 		Network.SendAIStatePacket(enemy.transformID,DO_NOTHING_STATE)
 	end 
+
+	if aiState == RUN_AWAY_STATE then
+		enemy.state = state.runAwayState
+		--print("Sending RunAwayState", enemy.transformID, 8)
+		Network.SendAIStatePacket(enemy.transformID,RUN_AWAY_STATE)
+	end
 
 	if changeState == DUMMY_STATE then
 		enemy.state = state.dummyState
