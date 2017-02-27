@@ -162,7 +162,7 @@ function CreateHellPillar(entity)
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage, self.owner)
+					enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 					for i = 1, #self.effects do
 						local effect = effectTable[self.effects[i]](self.owner)
 						enemies[curEnemy]:Apply(effect)

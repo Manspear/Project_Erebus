@@ -6,10 +6,10 @@ POLYMORPH_EFFECT_INDEX = 5
 KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
-TUTORIAL_DONE = false
 ICE=0 --Used for spellCharging
 FIRE=1
 NATURE=2
+NEUTRAL=3
 
 player = {}
 player2 = {}
@@ -155,8 +155,6 @@ function LoadPlayer()
 	player.friendCharger = CreateCombineRay(player)
 	player.revive = CreateRevive(player)
 end
-
-
 
 function UnloadPlayer()
 end
@@ -442,23 +440,6 @@ function Controls(dt)
 			else 
 				player.friendCharger:EndChargeBeam()
 			end
-			--end
-			--local pos = Transform.GetPosition(player.transformID)
-			--local pos2 = Transform.GetPosition(player2.transformID)
-			
-			
-			--RayCollider.SetActive(player.rayCollider, true)
-			
-			--RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
-			--ShowCrosshair()
-			
-			--local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
-			--for curID = 1, #collisionIDs do
-				--if collisionIDs[curID] == player2.sphereCollider:GetID() then
-					
-					--break
-				--end
-			--end
 		end
 		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
 			HideCrosshair()
@@ -528,28 +509,6 @@ end
 function pingPressed(player)
 	Sound.Play("Effects/ping.wav", 1, player.position)	
 	player.ping = player.pingDuration
-end
-
-function TutorialBarrier(id,TutorialOBBID,dt)
-
-	if TUTORIAL_DONE == false then 
-		pos = Transform.GetPosition(id.transformID)
-		showTutorialImage(pos.x+2,pos.y+7,pos.z+15,dt)
-		if player.combinedSpellIDs ~= nil then
-			local colID = id.collider:GetID()
-			local collisionIDs = id.collider:GetCollisionIDs()
-			for i = 1, #collisionIDs do 
-				for o = 1, #player.combinedSpellIDs do
-					if collisionIDs[i] == player.combinedSpellIDs[o] then
-						TutorialOBBID:SetActive(false)
-						TUTORIAL_DONE = true
-						player.combinedSpellIDs = nil
-						return
-					end
-				end
-			end
-		end
-	end
 end
 
 return { Load = LoadPlayer, Unload = UnloadPlayer, Update = UpdatePlayer }

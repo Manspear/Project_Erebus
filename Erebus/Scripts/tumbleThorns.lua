@@ -124,7 +124,7 @@ function CreateTumblethorns(entity)
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then			
 					if not self.enemiesHit[enemies[curEnemy].transformID] then
-						enemies[curEnemy]:Hurt(self.damage, self.owner)				
+						enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)				
 						for stuff = 1, #self.effects do
 							local effect = effectTable[self.effects[stuff]](self.owner)
 							enemies[curEnemy]:Apply(effect)

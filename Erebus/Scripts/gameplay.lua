@@ -3,7 +3,6 @@ local scripts = {}
 local scriptFiles =
 {
 	"Scripts/console.lua",
-	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
 	"Scripts/ProjectileType.lua",
@@ -24,6 +23,7 @@ local scriptFiles =
 	"Scripts/staticAoEType.lua",
 	"Scripts/player.lua",
 	"Scripts/player2.lua",
+	"Scripts/enemies.lua",
 	"Scripts/spellList.lua",
 	"Scripts/HUD.lua",
 	"Scripts/spellUtility.lua",
