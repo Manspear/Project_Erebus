@@ -7,10 +7,12 @@ SIPHON_SPAM_DURATION = 3
 SIPHON_DAMAGE_INTERVAL = 1
 SIPHON_HITBOX_LENGTH = 20
 SIPHON_CHAIN_INTERVAL = 1
---SIPHON_
+SIPHON_TEXTURE1 = Assets.LoadTexture("Textures/siphon_Tex.dds")
+SIPHON_TEXTURE2 = Assets.LoadTexture("Textures/siphon_AnimTex.dds")
 
 function CreateSiphon(entity)
 	local spell = {}
+	spell.element = NATURE
 	spell.damage = SIPHON_DAMAGE
 	spell.owner = entity
 	spell.steal = SIPHON_HEALTH_STEAL
@@ -19,7 +21,7 @@ function CreateSiphon(entity)
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	--spell.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/Siphon.model" )
-	spell.transformID = Gear.BindForwardInstance(model)
+	spell.transformID = Gear.BindBlendingInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
 
 	spell.collider = OBBCollider.Create(spell.transformID)
@@ -47,6 +49,11 @@ function CreateSiphon(entity)
 	spell.chaininterval = 0
 	spell.duration = SIPHON_CHAIN_DURATION
 	spell.temppos = {x=0,y=0,z=0}
+	spell.uvPush = {x = 0, y = 0}
+	Gear.SetUniformLocation(spell.transformID, "aValue");
+	--Gear.AddStaticInstance(model2, spell.type.transformID)
+	--spell.modelIndex = Gear.BindBlendingInstance(model)
+	Gear.SetBlendTextures(spell.transformID, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then
@@ -144,12 +151,17 @@ function CreateSiphon(entity)
 			Transform.SetPosition(self.transformID, pos)
 			Transform.RotateToVector(self.transformID, direction)
 			OBBCollider.SetXAxis(self.collider, direction.x, direction.y, direction.z)
-			--Transform.SetScaleNonUniform(self.transformID,  2, 2, self.length/1.6)
+			Transform.SetScaleNonUniform(self.transformID,  2, 2, self.length/1.6)
 		end
 	end
 	function spell:Update(dt)
 		self.cooldown = self.cooldown - dt
 		self.spamcooldown = self.spamcooldown - dt
+		self.uvPush.y = self.uvPush.y - dt
+		Gear.SetBlendUniformValue(self.transformID, 2, {x=0,y=0}, self.uvPush)
+		local rot = Transform.GetRotation(self.transformID)
+		rot.x = rot.x +dt/2
+		Transform.SetRotation(self.transformID, rot)
 		if self.spamming and not self.chained then
 			self.spamduration = self.spamduration - dt
 			self.interval = self.interval - dt

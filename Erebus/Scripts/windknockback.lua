@@ -3,6 +3,7 @@ WINDKNOCKBACK_COOLDOWN = 2
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
+	spell.element = ICE
 	spell.cooldown = 0.0		spell.maxcooldown = 4
 	spell.hudtexture = WINDKNOCKBACK_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
@@ -14,15 +15,13 @@ function CreateWindknockback(entity)
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
 		
-	--spell.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/Stone4.model" )
+	local model = Assets.LoadModel( "Models/nothing.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
-	--Gear.AddForwardInstance(model, spell.transformID )
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
-	spell.particles = createCloudParticles()
+	spell.particles = createWindParticles()
 
 	spell.effects = {} 
 	table.insert(spell.effects, KNOCKBACK_EFFECT_INDEX)
@@ -41,9 +40,9 @@ function CreateWindknockback(entity)
 	
 	function spell:Cast()
 		if self.cooldown < 0.0 then
-			self:GeneralCast()
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
 			self.chargedTime = WINDKNOCKBACK_POWER
+			self:GeneralCast()
 		end
 	end
 	
@@ -55,9 +54,9 @@ function CreateWindknockback(entity)
 
 	function spell:ChargeCast(entity)
 		if self.cooldown < 0.0 then
-			self:GeneralCast()
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
+			self:GeneralCast()
 		end
 	end
 
@@ -70,8 +69,8 @@ function CreateWindknockback(entity)
 		pos.z = pos.z + direction.z * 2
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
-		Particle.SetDirection(self.particles.ID, direction.x, direction.y, direction.z);
-		self.particles:poof(pos)
+		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
+		self.particles:poof(pos, direction, self.chargedTime / 2)
 	end
 
 	function spell:CheckCollisions()
@@ -105,7 +104,7 @@ function CreateWindknockback(entity)
 	function spell:Kill()
 		self.alive = false
 		Transform.ActiveControl(self.transformID, false)
-		SphereCollider.SetActive(spell.sphereCollider, false)
+		SphereCollider.SetActive(self.sphereCollider, false)
 		self.enemiesHit = {}
 		if #self.effects > 1 then
 			table.remove(self.effects)

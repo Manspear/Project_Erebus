@@ -11,7 +11,6 @@ ICE=0 --Used for spellCharging
 FIRE=1
 NATURE=2
 
-
 player = {}
 player2 = {}
 
@@ -75,6 +74,10 @@ function LoadPlayer()
 	player.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player.pingDuration = 1
 	player.ping = 0
+
+	player.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
+
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combined = false
@@ -187,10 +190,14 @@ function LoadPlayer2()
 	Particle.SetExtro(player2.dashStartParticles, false)
 	Particle.SetExtro(player2.dashEndParticles, true)
 
+	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
+	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player2.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
 	player2.pingTexture = Assets.LoadTexture("Textures/ping.dds")
 	player2.pingDuration = 1
 	player2.ping = 0
+	player2.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player2.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
 
 	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
@@ -415,8 +422,12 @@ function UpdatePlayer(dt)
 	end
 	--Moves the ping icon
 	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.chargeImage, player.position.x, player.position.y+1.5, player.position.z)
-	UI.reposWorld(player.combineImage, player.position.x, player.position.y+2.1, player.position.z)
+	UI.reposWorld(player.deathImage, player.position.x, player.position.y+2.1, player.position.z)
+
+	right = Camera.GetRight()
+
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.5, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.5, player.position.z + right.z * 0.30)
 
 	-- check collision against triggers and call their designated function
 	for _,v in pairs(levels[player.levelIndex].triggers) do
@@ -450,6 +461,7 @@ function SendCombine(spell)
 			player2.isCombined = true
 			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
 			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
+			player2.combinedSpell = spell.spellListId
 		end
 	end
 end
@@ -485,21 +497,43 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			sElement = player.spells[player.currentSpell].element
+			pos2 = Transform.GetPosition(player2.transformID)
 			
-			--player.isCombined = true
-			local dir = Camera.GetDirection()
+			local ChargeDir = {}
+			ChargeDir.x =  pos2.x - player.position.x 
+			ChargeDir.y = pos2.y - player.position.y 
+			ChargeDir.z =  pos2.z -  player.position.z 
+
+			len = vec3length(player.position, pos2)
+			a = math.sqrt( (ChargeDir.x * ChargeDir.x) + (ChargeDir.y * ChargeDir.y) + (ChargeDir.z * ChargeDir.z) )
+
+			ChargeDir.x = (ChargeDir.x /a)
+			ChargeDir.y = (ChargeDir.y /a)
+			ChargeDir.z = (ChargeDir.z /a)
+			
+			--if vec3length(player.position, pos2) < 1000 then
+			--local dir = Camera.GetDirection()
+			
+			
+			player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement,len)
+			SendCombine(player.spells[player.currentSpell])
+			--end
 			--local pos = Transform.GetPosition(player.transformID)
-			RayCollider.SetActive(player.rayCollider, true)
-			RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
-			ShowCrosshair()
-			player.friendCharger:FireChargeBeam(dt,dir,sElement)
-			local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
-			for curID = 1, #collisionIDs do
-				if collisionIDs[curID] == player2.sphereCollider:GetID() then
-					SendCombine(player.spells[player.currentSpell])
-					break
-				end
-			end
+			--local pos2 = Transform.GetPosition(player2.transformID)
+			
+			
+			--RayCollider.SetActive(player.rayCollider, true)
+			
+			--RayCollider.SetRayDirection(player.rayCollider, dir.x, dir.y, dir.z)
+			--ShowCrosshair()
+			
+			--local collisionIDs = RayCollider.GetCollisionIDs(player.rayCollider)
+			--for curID = 1, #collisionIDs do
+				--if collisionIDs[curID] == player2.sphereCollider:GetID() then
+					
+					--break
+				--end
+			--end
 		end
 		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
 			HideCrosshair()
@@ -702,8 +736,10 @@ function UpdatePlayer2(dt)
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
-	UI.reposWorld(player2.chargeImage, player2.position.x, player2.position.y+1.5, player2.position.z)
-	UI.reposWorld(player2.combineImage, player2.position.x, player2.position.y+2.1, player2.position.z)
+	right = Camera.GetRight()
+	UI.reposWorld(player2.chargeImage, player2.position.x - right.x * 0.30, player2.position.y+1.5, player2.position.z - right.z * 0.30)
+	UI.reposWorld(player2.combineImage, player2.position.x + right.x * 0.30, player2.position.y+1.5, player2.position.z + right.z * 0.30)
+	UI.reposWorld(player2.deathImage, player2.position.x, player2.position.y+2.1, player2.position.z)
 
 end
 

@@ -2,7 +2,7 @@ TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 0.5
 TUMBLETHORNS_COOLDOWN = 4
-TUMBLETHORNS_ROLLBACKTIME = 0.75
+TUMBLETHORNS_ROLLBACKTIME = 0.4
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE

@@ -25,7 +25,6 @@ namespace Gear
 		GEAR_API void addDebugger(Debug* debugger);
 
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 		GEAR_API void bindAnimations(Animation** theAnims, int* n);
 
 		GEAR_API glm::vec2 getTextDimensions( const char* text );
@@ -75,9 +74,6 @@ namespace Gear
 		GEAR_API void removeDynamicLight();
 
 		GEAR_API void resetLightbuffer();
-
-		GEAR_API void allocateWorlds(int n);
-		GEAR_API int generateWorldMatrix();
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
@@ -142,8 +138,6 @@ namespace Gear
 		std::vector<ModelInstance>* blendModels;
 
 		//Transform data
-		TransformStruct** allTrans;
-		int* transformCount;
 		int* animationCount;
 		Animation** allAnims;
 		WorkQueue* work;

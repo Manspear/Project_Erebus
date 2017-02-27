@@ -50,7 +50,6 @@ struct ThreadData
 	bool mouseVisible;
 	bool fullscreen;
 	bool running;
-	TransformStruct* allTransforms;
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
@@ -72,7 +71,6 @@ DWORD WINAPI update( LPVOID args )
 	ThreadData* data = (ThreadData*)args;
 
 	CollisionHandler collisionHandler = CollisionHandler(10);
-	Transform* transforms = new Transform[MAX_TRANSFORMS];
 	int boundTransforms = 0;
 	int boundAnimations = 0;
 	AGI::AGIEngine ai;
@@ -80,12 +78,6 @@ DWORD WINAPI update( LPVOID args )
 
 	data->engine->addDebugger( Debugger::getInstance() );
 
-	for( int i=0; i<MAX_TRANSFORMS; i++ )
-		transforms[i].setThePtr( &data->allTransforms[i] );
-
-	data->engine->allocateWorlds( MAX_TRANSFORMS );
-
-	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
 	//collisionHandler.setTransforms( transforms );
@@ -105,7 +97,7 @@ DWORD WINAPI update( LPVOID args )
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, data->allAnimations, &boundAnimations, 
 		data->models, data->animatedModels, data->forwardModels, data->blendingModels, data->transformHandler, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
 		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
@@ -157,8 +149,6 @@ DWORD WINAPI update( LPVOID args )
 
 	network.shutdown();
 	luaBinds.unload();
-
-	delete[] transforms;
 
 	return 0;
 }
@@ -235,7 +225,6 @@ int main()
 		false,
 		true
 	};
-	threadData.allTransforms = new TransformStruct[MAX_TRANSFORMS];
 	threadData.allAnimations = new Animation[MAX_ANIMATIONS];
 	threadData.produce = CreateSemaphore( NULL, 1, 1, NULL );
 	threadData.consume = CreateSemaphore( NULL, 0, 1, NULL );
@@ -332,7 +321,6 @@ int main()
 
 	work.stop();
 
-	delete[] threadData.allTransforms;
 	delete[] threadData.allAnimations;
 
 	for (int i = 0; i < particleSystems.size(); i++)

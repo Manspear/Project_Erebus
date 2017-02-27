@@ -1,5 +1,5 @@
 TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-TIMEORBWAVEDURATION = 20
+TIMEORBWAVEDURATION = 6
 
 function CreateTimeOrbWave(entity)
 	local spell = {}
@@ -20,17 +20,19 @@ function CreateTimeOrbWave(entity)
 	end--]]
 
 	function spell:Update(dt)
-		local hits = self.type:Update(dt)
-		self.lifetime = self.lifetime - dt
-		for i = 1, #hits do
-			if hits[i].Hurt then
-				local effect = effectTable[self.effect]()
-				hits[i]:Apply(effect)
-				--hits[i]:Hurt(self.damage, self.owner)
+		if self.alive then
+			local hits = self.type:Update(dt)
+			self.lifetime = self.lifetime - dt
+			for i = 1, #hits do
+				if hits[i].Hurt then
+					local effect = effectTable[self.effect]()
+					hits[i]:Apply(effect)
+					--hits[i]:Hurt(self.damage, self.owner)
+				end
 			end
-		end
-		if self.lifetime < 0 then
-			self:Kill()
+			if self.lifetime < 0 then
+				self:Kill()
+			end
 		end
 	end
 
