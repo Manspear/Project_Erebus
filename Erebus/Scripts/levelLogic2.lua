@@ -3,17 +3,11 @@ function LoadLogic()
 end
 
 function UpdateLogic()
-	TutorialBarrier()
+	print(2)
 end
 
-function LoadLogic()
+function UnloadLogic()
 
-end
-
-function TutorialBarrier()
-	if player.charging == true then 
-		print("3")
-	end
 end
 
 return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }

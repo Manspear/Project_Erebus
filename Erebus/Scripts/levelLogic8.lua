@@ -3,10 +3,10 @@ function LoadLogic()
 end
 
 function UpdateLogic()
-	
+	TutorialBarrier()
 end
 
-function UnloadLogic()
+function LoadLogic()
 
 end
 
