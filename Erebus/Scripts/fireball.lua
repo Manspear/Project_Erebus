@@ -32,7 +32,7 @@ function CreateFireball(entity)
 	spell.element = FIRE
 	spell.damage = FIREBALL_BASE_DMG
 	spell.hudtexture = FIREBALL_SPELL_TEXTURE
-	spell.isActiveSpell = false		spell.aSmallIsActive = 0
+	spell.isActiveSpell = false
 	spell.cooldown = 0		spell.maxcooldown = FIREBALL_COOLDOWN
 	spell.chargedTime = 0	spell.maxChargeTime = 3
 	spell.caster = entity.transformID
@@ -65,9 +65,7 @@ function CreateFireball(entity)
 	spell.lightRadius = 0
 	function spell:Update(dt)
 		self.spamCooldown = self.spamCooldown - dt
-		if self.aSmallIsActive > 0 then
-			self:UpdateSmallFBs(dt)
-		end
+		self:UpdateSmallFBs(dt)
 		if self.bigBallActive then
 			self:BigBallUpdate(dt)
 		else	self.cooldown = self.cooldown - dt end
@@ -103,7 +101,6 @@ function CreateFireball(entity)
 	function spell:Cast(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
-			self.aSmallIsActive = self.aSmallIsActive + 1
 			--self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles:Cast()
@@ -268,7 +265,6 @@ function CreateFireball(entity)
 		self.smallFB[index].particles:Die(self.smallFB[index].type.position)
 		self.smallFB[index].type:Kill() 
 		self.smallFB[index].alive = false 
-		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
 	spell.Charge = BaseCharge
 	spell.Change = BaseChange

@@ -121,7 +121,6 @@ namespace Gear
 
 				glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
 				glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
-
 				glm::mat4 matrix = glm::translate(glm::mat4(), t.pos);
 				matrix = glm::rotate(matrix, t.rot.z, axis);
 				matrix = glm::rotate(matrix, t.rot.x, t.lookAt );

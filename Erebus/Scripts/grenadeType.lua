@@ -3,7 +3,7 @@ GRENADE_EXPLODE_TIME =0.9
 function CreateGrenadeType(model)
 	local type = {}
 	--type.transformID = Transform.Bind()
-	type.transformID = Gear.BindStaticInstance(model)
+	type.transformID = Gear.BindForwardInstance(model)
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
 	CollisionHandler.AddSphere(type.sphereCollider, 1)
