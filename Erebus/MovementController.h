@@ -3,6 +3,10 @@
 #include "CollisionHandler.h"
 #include <iostream>
 #include "TransformHandler.h"
+#include "HeightMap.h"
+
+using namespace Collisions;
+using namespace Importer;
 
 class MovementController
 {

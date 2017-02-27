@@ -325,9 +325,10 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
-		for( int j=0; j<animatedModels->at(i).getActiveTransforms(); j++ )
+		for( int j=0; j<animatedModels->at(i).getTransforms()->size(); j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
+			if( animatedModels->at(i).getTransform(j)->active && !animatedModels->at(i).getCulled(j) )
 			{
 				//int index = animatedModels->at(i).worldIndices.at(j);
 				//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
@@ -677,7 +678,6 @@ void RenderQueue::asyncTransformUpdate( void* args )
 
 		glm::vec3 tempLook = glm::normalize(glm::vec3(data->transforms[i].lookAt.x, 0, data->transforms[i].lookAt.z));
 		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
-
 		glm::mat4 tempMatrix = glm::translate( ident, data->transforms[i].pos );
 		tempMatrix = glm::scale( tempMatrix, data->transforms[i].scale );
 		tempMatrix = glm::rotate( tempMatrix, data->transforms[i].rot.z, axis );

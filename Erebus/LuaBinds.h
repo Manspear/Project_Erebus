@@ -29,6 +29,7 @@ public:
 	void load( Gear::GearEngine* gearEngine,
 				Importer::Assets* assets,
 				CollisionHandler* collisionHandler,
+				CollisionsDraw* collisionsDraw,
 				Controls* controls,
 				Inputs* inputs,
 				Animation* animations,

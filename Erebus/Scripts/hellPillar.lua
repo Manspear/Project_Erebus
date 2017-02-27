@@ -189,6 +189,7 @@ function CreateHellPillar(entity)
 		if self.finishingTime < 0 then
 			self.aliveCharged = false 
 			Transform.ActiveControl(self.transformID, false)
+			Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 			if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 			self.blendValue1.x, self.blendValue1.y = 0, 0
 			self.blendValue2.x, self.blendValue2.y = 0, 0
@@ -214,6 +215,7 @@ function CreateHellPillar(entity)
 				Transform.SetScale(self.firstModel, self.startUpScale )
 			else
 				Transform.ActiveControl(self.firstModel, false)
+				Transform.SetPosition(self.firstModel, {x = 0, y = 0, z = 0})
 				self.growAgain = false
 			end
 		end	
