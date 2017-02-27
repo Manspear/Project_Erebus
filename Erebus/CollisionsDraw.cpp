@@ -263,6 +263,7 @@ void CollisionsDraw::initializeColors()
 	this->emptyNodeColor = glm::vec3(1,0,0);
 	this->occupiedNodeColor = glm::vec3(0,1,0);
 	this->childHitboxColor = glm::vec3(1,1,1);
+	this->animatedChildColor = glm::vec3(1, 0, 1);
 }
 
 void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
@@ -293,7 +294,7 @@ void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
 		{
 			for (size_t i = 0; i < node->animatedModels->size(); i++)
 			{
-				debugger->drawAABB(node->animatedModels->operator[](i)->collider->getMinPos(), node->animatedModels->operator[](i)->collider->getMaxPos(), this->childHitboxColor);
+				debugger->drawAABB(node->animatedModels->operator[](i)->collider->getMinPos(), node->animatedModels->operator[](i)->collider->getMaxPos(), this->animatedChildColor);
 			}
 
 		}
