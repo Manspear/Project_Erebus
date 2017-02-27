@@ -113,6 +113,7 @@ std::string LevelModel::toLuaUnload(std::string name)
 	stringstream ss;
 
 	ss << "Gear.UnbindInstance(" << name << ".transformID)" << endl;
+	ss << "Assets.UnloadModel('Models/" << modelName << ".model')" << endl;
 
 	return ss.str();
 }
