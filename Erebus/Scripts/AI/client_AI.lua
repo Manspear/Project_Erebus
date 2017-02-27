@@ -1,6 +1,6 @@
 local baseReturn = {}
 
-clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, leapState = {}, dummyState = {}, State = {}}
+clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, leapState = {}, runAwayState = {}, dummyState = {}, State = {}}
 
 
 function clientAIState.idleState.enter(enemy, playerTarget)

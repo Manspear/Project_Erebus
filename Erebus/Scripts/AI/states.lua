@@ -1,6 +1,6 @@
 local baseReturn ={}
 
-state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},dummyState = {}}
+state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},runAwayState = {},dummyState = {}}
 
 function state.idleState.enter(enemy,player)
 	enemy.animationState = 1
