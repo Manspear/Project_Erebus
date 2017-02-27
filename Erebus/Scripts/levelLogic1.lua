@@ -11,9 +11,7 @@ function LoadLogic()
 end
 
 function TutorialBarrier()
-	if player.charging == true then 
-		print("1")
-	end
+	print("1")
 end
 
 return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }

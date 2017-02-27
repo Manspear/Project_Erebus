@@ -3,7 +3,7 @@ function LoadLogic()
 end
 
 function UpdateLogic()
-	
+	print(2)
 end
 
 function UnloadLogic()

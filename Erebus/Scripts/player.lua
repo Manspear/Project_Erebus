@@ -49,7 +49,8 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 60
+	player.moveSpeed = 30
+	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
 	player.isCombined = false; --change here
@@ -58,7 +59,6 @@ function LoadPlayer()
 	player.left = 0
 	player.timeScalar = 1.0
 	player.printInfo = false
-	player.heightmapIndex = 1
 	player.spamCasting = false
 	player.charging = false
 	player.rayCollider = RayCollider.Create(player.transformID)

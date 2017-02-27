@@ -1,4 +1,4 @@
-levelScripts = {}
+local levelScripts = {}
 local scripts = {}
 local scriptFiles =
 {
@@ -51,6 +51,9 @@ function LoadGameplay()
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
 	end
+	for i = 1, 8 do
+		levelScripts[i] = dofile("Scripts/levelLogic"..i..".lua")
+	end
 end
 
 function UnloadGameplay()
@@ -85,9 +88,7 @@ function UpdateGameplay(dt)
 		value.Update(dt)
 	end
 
-	for key,value in pairs(levelScripts) do
-		value.Update(dt)
-	end
+	levelScripts[player.levelIndex].Update(dt)
 
 	if SETTING_DEBUG then 
 		CollisionHandler.DrawHitboxes()
