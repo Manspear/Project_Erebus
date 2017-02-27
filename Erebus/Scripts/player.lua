@@ -36,8 +36,8 @@ function LoadPlayer()
 		player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
 		player2.transformID = Gear.BindAnimatedInstance(model2, player2.animationController.animation)
 	else
-		player2.transformID = Gear.BindAnimatedInstance(model2, player2.animationController.animation)
-		player.transformID = Gear.BindAnimatedInstance(model, player.animationController.animation)
+		player2.transformID = Gear.BindAnimatedInstance(model, player2.animationController.animation)
+		player.transformID = Gear.BindAnimatedInstance(model2, player.animationController.animation)
 	end
 
 	-- set basic variables for the player

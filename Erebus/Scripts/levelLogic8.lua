@@ -3,7 +3,7 @@ function LoadLogic()
 end
 
 function UpdateLogic()
-	TutorialBarrier()
+
 end
 
 function LoadLogic()
