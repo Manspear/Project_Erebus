@@ -151,7 +151,7 @@ function createCloudParticles()
 	return cloud
 end
 
-WIND_PARTICLES_TEX = Assets.LoadTexture("Textures/windknockBack_test1.dds");
+WIND_PARTICLES_TEX = Assets.LoadTexture("Textures/windknockBack.dds");
 function createWindParticles()
 	local wind = {}
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
