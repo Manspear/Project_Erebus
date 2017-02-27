@@ -70,7 +70,7 @@ function CreateWindknockback(entity)
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
-		self.particles:poof(pos, direction, self.chargedTime / 2)
+		self.particles:poof(pos, direction)
 	end
 
 	function spell:CheckCollisions()

@@ -39,6 +39,7 @@ function CreateRayType(model)
 	function ray:Kill()
 		Transform.ActiveControl(self.transformID, false)
 		OBBCollider.SetActive(self.oobCollider, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 	end
 
 	return ray

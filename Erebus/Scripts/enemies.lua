@@ -15,7 +15,7 @@ DUMMY_STATE = 9
 AI_TRANSFORM_UPDATED = false
 INTERPOLATING_AI_TRANSFORM = false
 INTERPOLATION_AI_ITERATIONS = 0
-INTERPOLATION_AI_NR_OF_STEPS = 4
+INTERPOLATION_AI_NR_OF_STEPS = 2
 
 MAX_ENEMIES = 10
 ENEMY_MELEE = 1
@@ -107,8 +107,7 @@ function CreateEnemy(type, position, element)
 				self.health = self.health - damage
 				--print("ID:", self.transformID, "Sending new health:", self.health)
 				Network.SendAIHealthPacket(self.transformID, self.health)
-				print(damage)
-				self.damagedTint.a = 1
+				self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 
 				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then

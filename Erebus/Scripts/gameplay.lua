@@ -39,7 +39,8 @@ local scriptFiles =
 	"Scripts/revive.lua",
 	"Scripts/TimeLaser.lua",
 	"Scripts/healthOrb.lua",
-	"Scripts/reusable.lua"
+	"Scripts/reusable.lua",
+	"Scripts/sluice.lua"
 }
 
 loadedLevels = {}
@@ -103,6 +104,7 @@ function UpdateGameplay(dt)
 		elseif endEventId == 1 then -- other player quit to main menu
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
 			Erebus.ShutdownNetwork()
+			UnloadGameplay()
 		elseif endEventId == 2 then -- player win!
 			boss.health = 0
 			BOSS_DEAD = true
