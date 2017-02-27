@@ -37,9 +37,6 @@ function CreatePlayerController(player)
 
 	controller.damagedMaxTime = 0.5
 
-	controller.damagedTint = {r=1, g=1, b=1, a=0}
-	controller.damagedTintDuration = 0.3
-
 	controller.dyingTimer = 1
 
 	controller.quickBlendFrom = 0
@@ -81,11 +78,6 @@ function CreatePlayerController(player)
 	function controller:AnimationUpdate(dt, Network)
 		--The higher the priority of the action, the longer down in this update function it should be
 		--since the prioritized actions override the unprioritized ones
-
-		--if self.damagedTint.a > 0 then
-		--	self.damagedTint.a = self.damagedTint.a - ( dt / self.damagedTintDuration )
-		--	self.animation:SetTint(self.damagedTint)
-		--end
 
 		--if you don't move AND HAVENT ATTACKED you're Idle
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
