@@ -36,6 +36,7 @@ namespace LuaParticles
 			{ "SetPosition",	setPositionEm },
 			{ "SetAlive",		setAliveEm },
 			{ "SetDead",		setDeadEm },
+			{ "SetFocus",       setFocusEm},
 			{ "Explode",		explodeEm },
 			{ "SetDirection",	setDirectionEm },
 			{ "SetExtro",		setExtroEm },
@@ -181,6 +182,14 @@ namespace LuaParticles
 		assert(lua_gettop(lua) == 1);
 		int index = (int)lua_tointeger(lua, 1);
 		g_emitters->at(index)->deActivate();
+		return 0;
+	}
+	int setFocusEm(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+		int index = (int)lua_tointeger(lua, 1);
+		g_emitters->at(index)->setFocus((int)lua_tonumber(lua, 1));
+		return 0;
 		return 0;
 	}
 	int explodeEm(lua_State * lua)

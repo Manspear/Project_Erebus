@@ -12,8 +12,8 @@ namespace Nurn
 
 		bool SendPackage(const Address & destination, const void * data, int size) override;
 		// Returns 1 or 0 if a byte has been recieved or not
-		bool ReceivePackage(Address & sender, void * data, int size) override;
-
+		int ReceivePackage(Address & sender, void * data, int size) override;
+		int Peek(Address & sender, void * data, int size) override;
 
 	private:
 

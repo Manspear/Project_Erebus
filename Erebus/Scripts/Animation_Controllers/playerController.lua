@@ -51,6 +51,10 @@ function CreatePlayerController(player)
 	controller.attackTimer = 0
 	controller.attackTimerThreshhold = 1
 
+	controller.deathTimerStarted = false
+	controller.deathTimer = 0
+	controller.deathTimerThreshhold = 0.5
+
 	controller.chargeTimerStart = false
 	controller.chargeTimer = 0
 	controller.chargeMaxTime = 1.3 -- the length of the chargeRelease-animation
@@ -136,6 +140,10 @@ function CreatePlayerController(player)
 				self.animationState2  = 0
 			end
 		end
+		if self.watch.health <= 0 then 
+			
+			self:DeathState(dt)
+		end
 
 		self.animation:SetSegmentState( self.animationState1, 0 )
 		self.animation:SetSegmentState( self.animationState2, 1 )
@@ -159,6 +167,27 @@ function CreatePlayerController(player)
 
 	function controller:SetQuickBlendPlayer2(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
 		self.animation:SetQuickBlend(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment)
+	end
+
+	--Handles everything that has to do with death. 
+	function controller:DeathState(dt)
+		print(self.deathTimerStarted)
+		if self.oldWatch.health > 0 then 
+			self.deathTimerStarted = true
+		end
+		if self.deathTimerStarted then 
+			self.animationState1 = 3
+			self.animationState2 = 0
+			self.deathTimer = self.deathTimer + dt
+			print(self.deathTimer)
+			if self.deathTimer >= self.deathTimerThreshhold then 
+				self.deathTimerStarted = false
+				self.deathTimer = 0
+			end
+		elseif self.deathTimerStarted == false then 
+			self.animationState1 = 31
+			self.animationState2 = 0
+		end
 	end
 
 	function controller:CombatRunningState(dt)
@@ -243,7 +272,7 @@ function CreatePlayerController(player)
 	function controller:AttackState(dt)
 		--the attack animation is different depending on what the legs do.
 		
-		self.animationState2 = 34
+		self.animationState2 = 30
 
 		self.attackTimerStarted = true
 	end

@@ -41,6 +41,7 @@ function CreateProjectileType(model)
 
 	function projectile:Kill()
 		Transform.ActiveControl(self.transformID, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 		SphereCollider.SetActive(self.sphereCollider, false);
 	end
 

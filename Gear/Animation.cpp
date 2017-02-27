@@ -373,6 +373,21 @@ int Animation::getMatrixIndex()
 	return matrixIndex;
 }
 
+void Animation::setTint(const glm::vec4 & tint)
+{
+	modelTint = tint;
+}
+
+void Animation::removeTint()
+{
+	modelTint.a = 0;
+}
+
+glm::vec4 Animation::getTint()
+{
+	return modelTint;
+}
+
 GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int numStates)
 {
 	assert(this->transitionTimeArray == nullptr);

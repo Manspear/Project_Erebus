@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)AGI;$(SolutionDir)Threading</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Collisions;$(SolutionDir)include;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)AGI;$(SolutionDir)Threading</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)Importer;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)AGI;$(SolutionDir);$(SolutionDir)Threading</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Collisions;$(SolutionDir)include;$(SolutionDir)Nurn;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)AGI;$(SolutionDir)Threading</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -151,13 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AABBCollider.cpp" />
-    <ClCompile Include="CollisionChecker.cpp" />
-    <ClCompile Include="CollisionHandler.cpp" />
-    <ClCompile Include="CollisionLayers.cpp" />
-    <ClCompile Include="Frustum.cpp" />
-    <ClCompile Include="HitBox.cpp" />
+    <ClCompile Include="CollisionUpdater.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="CollisionsDraw.cpp" />
     <ClCompile Include="LuaAi.cpp" />
     <ClCompile Include="LuaAssets.cpp" />
     <ClCompile Include="LuaBinds.cpp" />
@@ -176,19 +172,18 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MovementController.cpp" />
     <ClCompile Include="NetworkController.cpp" />
-    <ClCompile Include="OBBCollider.cpp" />
     <ClCompile Include="PerformanceCounter.cpp" />
-    <ClCompile Include="PlaneFrustum.cpp" />
-    <ClCompile Include="RayCollider.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="source.cpp" />
-    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AGI\AGI.vcxproj">
       <Project>{0cb02d37-8167-4416-b889-d35d96cece4c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Collisions\Collisions.vcxproj">
+      <Project>{3bfda7b1-8a9d-43a7-ab0b-8cfed790145e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Gear\Gear.vcxproj">
       <Project>{7ae8f691-75c9-447c-ae7b-63364e8daa79}</Project>
@@ -210,6 +205,7 @@
     <None Include="Scripts\level01.lua" />
     <None Include="Scripts\knockbackEffect.lua" />
     <None Include="Scripts\lifeStealEffect.lua" />
+    <None Include="Scripts\player2.lua" />
     <None Include="Scripts\polymorph.lua" />
     <None Include="Scripts\polymorphEffect.lua" />
     <None Include="Scripts\revive.lua" />
@@ -320,12 +316,8 @@
     <None Include="Shaders\worldImage.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABBCollider.h" />
-    <ClInclude Include="CollisionChecker.h" />
-    <ClInclude Include="CollisionHandler.h" />
-    <ClInclude Include="CollisionLayers.h" />
-    <ClInclude Include="Frustum.h" />
-    <ClInclude Include="HitBox.h" />
+    <ClInclude Include="CollisionsDraw.h" />
+    <ClInclude Include="CollisionUpdater.h" />
     <ClInclude Include="LuaAi.h" />
     <ClInclude Include="LuaAssets.h" />
     <ClInclude Include="LuaCamera.h" />
@@ -344,16 +336,12 @@
     <ClInclude Include="LuaUI.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MovementController.h" />
-    <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
     <ClInclude Include="TransformHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlaneFrustum.h" />
-    <ClInclude Include="RayCollider.h" />
     <ClInclude Include="SoundEngine.h" />
-    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

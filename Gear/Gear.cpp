@@ -156,12 +156,6 @@ namespace Gear
 		glDepthMask(GL_TRUE);
 	}
 
-	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n)
-	{
-		transformCount = n;
-		allTrans = theTrans;
-	}
-
 	void GearEngine::bindAnimations(Animation** theAnims, int* n)
 	{
 		animationCount = n;
@@ -232,8 +226,8 @@ namespace Gear
 
 		//updateTransforms( dynamicModels );
 
-		for (auto &m : *dynamicModels)
-			m.allocateBuffer();
+		//for (auto &m : *dynamicModels)
+			//m.allocateBuffer();
 	}
 
 	void GearEngine::queueAnimModels(std::vector<ModelInstance>* models)
@@ -389,7 +383,7 @@ namespace Gear
 
 	void GearEngine::update(float dt)
 	{
-		queue.update(*transformCount, *allTrans, *animationCount, *allAnims);
+		queue.update(*animationCount, *allAnims);
 		debugHandler->update();
 		debugHandler->reset();
 		text.updateBuffer();
@@ -431,7 +425,10 @@ namespace Gear
 		//}
 
 		for (auto &m : *models)
+		{
 			m.updateWorldMatrices();
+			m.allocateBuffer();
+		}
 	}
 
 	GEAR_API void GearEngine::addLight()
@@ -611,16 +608,6 @@ namespace Gear
 		//else
 		//	std::cout << "Looking at something :): " << pickedID << std::endl;
 		gBuffer.unUse();
-	}
-
-	void GearEngine::allocateWorlds(int n)
-	{
-		queue.allocateWorlds(n);
-	}
-
-	int GearEngine::generateWorldMatrix()
-	{
-		return queue.generateWorldMatrix();
 	}
 #pragma endregion
 

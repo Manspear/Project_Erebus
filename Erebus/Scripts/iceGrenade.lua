@@ -122,7 +122,7 @@ function CreateIceGrenade(entity)
 						end
 						Transform.SetPosition(self.nades[i].transform2ID, pos)
 						Transform.SetScale(self.nades[i].transform2ID, 0)
-						--Transform.ActiveControl(self.nades[i].type.transformID, false)
+						Transform.ActiveControl(self.nades[i].type.transformID, false)
 						Sound.Play(ICEGRENADE_HIT_SFX, 3, self.nades[i].type.position) 
 						Sound.Stop(self.nades[i].soundID)
 					end
@@ -139,7 +139,7 @@ function CreateIceGrenade(entity)
 									hits[index]:Apply(effect)
 								end
 							end
-							hits[index]:Hurt(self.nades[i].damage, self.owner)
+							hits[index]:Hurt(self.nades[i].damage, self.owner, self.element)
 							self.nades[i].hits[hits[index].transformID] = true
 						end
 					end
@@ -166,7 +166,6 @@ function CreateIceGrenade(entity)
 	end
 
 	function spell:Kill(index)
-
 		if index then
 			Transform.SetScale(self.nades[index].transform2ID, 1)
 			Transform.ActiveControl(self.nades[index].transform2ID, false) 

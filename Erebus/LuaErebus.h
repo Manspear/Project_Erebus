@@ -7,7 +7,7 @@
 
 namespace LuaErebus
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running, TransformHandler* transformHandler );
+	void registerFunctions( lua_State* lua, Controls* controls, NetworkController* network, PerformanceCounter* counter, bool* running, TransformHandler* transformHandler );
 
 	int setControls( lua_State* lua );
 	int enableControls( lua_State* lua );

@@ -24,7 +24,10 @@ function CreatePolymorph(entity)
 	table.insert(spell.effects, POLYMORPH_EFFECT_INDEX)
 	spell.particles = createSparklyParticles()
 
-	spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/nothing.model" )
+	spell.transformID = Gear.BindForwardInstance(model)
+
+	--spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
 
@@ -77,7 +80,7 @@ function CreatePolymorph(entity)
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage, self.owner)
+					enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 					for stuff = 1, #self.effects do
 						local effect = effectTable[self.effects[stuff]](self.chargedTime)
 						enemies[curEnemy]:Apply(effect)
@@ -110,6 +113,7 @@ function CreatePolymorph(entity)
 
 	function spell:Kill()
 		Transform.ActiveControl(self.transformID, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 		SphereCollider.SetActive(self.sphereCollider, false)
 		self.cooldown = POLYMORPH_COOLDOWN
 		self.lifeTime = POLYMORPH_LIFETIME

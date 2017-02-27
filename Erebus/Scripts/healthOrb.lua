@@ -34,12 +34,14 @@ function LoadHealthOrbs()
 	end
 end
 
-function SpawnNewHealthOrb(position)	
-	for i = 1, ORB_POOL_SIZE do 
-		if not allHealthOrbs[i].alive then
-			SpawnOrb(allHealthOrbs[i], position)
-			vec3print(position)
-			break
+function SpawnNewHealthOrb(position)
+	local chance = math.random(1,4)
+	if chance == 1 then	
+		for i = 1, ORB_POOL_SIZE do 
+			if not allHealthOrbs[i].alive then
+				SpawnOrb(allHealthOrbs[i], position)
+				break
+			end
 		end
 	end	
 end
@@ -50,7 +52,6 @@ function SpawnOrb(daOrb, position)
 	daOrb.position.y = daOrb.position.y + 1 
 	daOrb.YValue = position.y
 	daOrb.direction = {x = math.random(-6, 6), y = 5, z = math.random(-6, 6)}
-	print(daOrb.transformID, " Nu spawnar jag")
 	Transform.ActiveControl(daOrb.transformID, true)		
 	Transform.SetPosition(daOrb.transformID, daOrb.position)
 	SphereCollider.SetActive(daOrb.collider, true)
@@ -60,7 +61,6 @@ end
 function KillHealthOrb(daOrb)
 	daOrb.alive = false
 	Transform.ActiveControl(daOrb.transformID, false)
-	print(daOrb.transformID, " Nu dor jag")
 	SphereCollider.SetActive(daOrb.collider, false)
 	daOrb.particles:die()
 end
