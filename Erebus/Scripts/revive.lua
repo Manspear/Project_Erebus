@@ -10,7 +10,7 @@ function CreateRevive(entity)
 
 	spell.position = {x = 0, y = 0, z = 0}		spell.rotation = {x = 0, y = 0, z = 0}
 	--spell.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/grenade.model" )
+	local model = Assets.LoadModel( "Models/Revive.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
 	--local model = Assets.LoadModel( "Models/grenade.model" )

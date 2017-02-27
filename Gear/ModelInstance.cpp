@@ -92,7 +92,7 @@ namespace Gear
 		{
 			glm::mat4 temp[100];
 			int offset = 0;
-			for( int i=0; i<transforms.size(); i++ )
+			for( int i=0; i<transforms.size(); i++)
 			{
 				if( transforms.at(i).active && !culled[i] )
 				{
@@ -351,6 +351,11 @@ namespace Gear
 	bool ModelInstance::getCulled( int index )
 	{
 		return culled.at(index);
+	}
+
+	const std::vector<TransformStruct>* ModelInstance::getTransforms()
+	{
+		return &this->transforms;
 	}
 #pragma endregion
 }

@@ -71,7 +71,6 @@ function UpdateipconnectUI(dt)
 			if hosting then
 				hosting = false
 			else
-				ipString = ""
 				hosting = Erebus.InitNetworkHost()
 				timeoutCounter = 0
 			end
