@@ -51,7 +51,7 @@ namespace Nurn
 		NURN_API bool Send();
 
 		// Returns 1 or 0 if a byte has been recieved or not. Then returns the data through the void *
-		NURN_API bool Receive(void * data, int size);
+		NURN_API int Receive(void * data, int size);
 		NURN_API bool Receive();
 
 		NURN_API void Shutdown();
