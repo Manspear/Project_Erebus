@@ -137,6 +137,9 @@ namespace Importer
 			minPosition = glm::vec3( smallestComponent );
 			maxPosition = glm::vec3( biggestComponent );
 
+			minPosition = curMin;
+			maxPosition = curMax;
+
 			material = assets->load<MaterialAsset>( "Materials/" + std::string(header.materialName) );
 
 			if( material ) 

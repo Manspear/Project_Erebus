@@ -3,11 +3,13 @@
 namespace LuaCollision
 {
 	static CollisionHandler* g_collisionHandler = nullptr;
+	static CollisionsDraw* g_collisionsDraw = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, TransformHandler* transformHandler )
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, CollisionsDraw* collisionsDraw, TransformHandler* transformHandler)
 	{
 		g_collisionHandler = handler;
+		g_collisionsDraw = collisionsDraw;
 		g_transformHandler = transformHandler;
 
 		//CollisionHandler
@@ -726,7 +728,7 @@ return 0;
 
 	int drawHitboxes( lua_State* lua )
 	{
-		g_collisionHandler->drawHitboxes();
+		g_collisionsDraw->drawThisFrame();
 		return 0;
 	}
 
