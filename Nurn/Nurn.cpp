@@ -99,7 +99,7 @@ namespace Nurn
 		return true;
 	}
 
-	bool NurnEngine::Receive(void * data, int size)
+	int NurnEngine::Receive(void * data, int size)
 	{
 		return netCommunication.ReceivePackage(address, data, size);
 	}
@@ -107,8 +107,8 @@ namespace Nurn
 	bool NurnEngine::Receive()
 	{
 		unsigned char buffer[packetSize];
-		bool bytes_read = this->Receive(buffer, packetSize);
-		if (bytes_read)
+		int bytes_read = this->Receive(buffer, packetSize);
+		if (bytes_read > 0)
 		{
 			this->packetFilter->openNetPacket(buffer);
 		}

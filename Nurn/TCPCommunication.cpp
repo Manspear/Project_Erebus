@@ -43,7 +43,7 @@ namespace Nurn
 		return true;
 	}
 
-	bool TCPCommunication::ReceivePackage(Address & sender, void * data, int size)
+	int TCPCommunication::ReceivePackage(Address & sender, void * data, int size)
 	{
 		assert(data);
 		assert(size > 0);
@@ -52,16 +52,11 @@ namespace Nurn
 
 		if (networkSocket == 0)
 		{
-			return false;
-		}
-
-		int received_bytes = recv(networkSocket, (char*)data, size, 0);
-
-		if (received_bytes <= 0)
-		{
 			return 0;
 		}
 
-		return true;
+		int received_bytes = recv(networkSocket, (char*)data, size, 0);
+		
+		return received_bytes;
 	}
 }

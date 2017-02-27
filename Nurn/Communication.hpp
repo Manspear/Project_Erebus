@@ -22,7 +22,7 @@ namespace Nurn
 		bool InitializeCommunicationClient(const uint16_t & port, const Address & destination);
 		bool AcceptCommunication(Address & connectionAddress);
 		virtual bool SendPackage(const Address & destination, const void * data, int size) = 0;
-		virtual bool ReceivePackage(Address & sender, void * data, int size) = 0;
+		virtual int ReceivePackage(Address & sender, void * data, int size) = 0;
 		virtual void Shutdown();
 		bool ConnectSocket(const Address & connectionAddress);
 		
