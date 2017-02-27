@@ -267,79 +267,82 @@ std::string LevelActor::toLuaUnload(std::string levelName)
 	using namespace std;
 	stringstream ss;
 
-	std::string tableName;
-	switch(exportType)
+	if( exportType != EXPORT_SETTINGS )
 	{
-		case EXPORT_STATIC:
-			tableName = "props";
-			break;
-
-		case EXPORT_HEIGHTMAP:
+		std::string tableName;
+		switch(exportType)
 		{
-			LevelHeightmap* heightmap = getComponent<LevelHeightmap>();
-			if( heightmap )
-			{
+			case EXPORT_STATIC:
 				tableName = "props";
-			}
-		} break;
+				break;
 
-		case EXPORT_COLLIDER:
-			tableName = "colliders";
-			break;
-
-		case EXPORT_TRIGGER:
-			tableName = "triggers";
-			break;
-
-		case EXPORT_PARTICLE:
-			tableName = "particles";
-			break;
-	}
-
-	std::string tempName = this->actorDisplayName;
-	tempName.erase(remove_if(tempName.begin(), tempName.end(), isspace), tempName.end());
-	char chars[] = "()";
-
-	for (unsigned int i = 0; i < strlen(chars); ++i)
-	{
-		// you need include <algorithm> to use general algorithms like std::remove()
-		tempName.erase(std::remove(tempName.begin(), tempName.end(), chars[i]), tempName.end());
-	}
-	std::string fullName = tempName + to_string(id) + "ID";
-
-	if( exportType == EXPORT_ENEMY )
-	{
-		LevelTransform* transform = getComponent<LevelTransform>();
-		glm::vec3 pos = transform->getTransformRef()->getPos();
-
-
-
-		LevelEnemy* enemy = getComponent<LevelEnemy>();
-		ss << enemy->toLuaUnload( fullName ) << endl;
-	}
-	else
-	{
-		fullName = levelName + "." + tableName + "." + fullName;
-
-		for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
-		{
-			if( it->first != LevelModel::name && it->first != LevelTransform::name )
+			case EXPORT_HEIGHTMAP:
 			{
-				if(it->second->getName() != LevelHeightmap::name)
-					ss << it->second->toLuaUnload(fullName);
-			}
+				LevelHeightmap* heightmap = getComponent<LevelHeightmap>();
+				if( heightmap )
+				{
+					tableName = "props";
+				}
+			} break;
+
+			case EXPORT_COLLIDER:
+				tableName = "colliders";
+				break;
+
+			case EXPORT_TRIGGER:
+				tableName = "triggers";
+				break;
+
+			case EXPORT_PARTICLE:
+				tableName = "particles";
+				break;
 		}
 
-		LevelModel* model = getComponent<LevelModel>();
+		std::string tempName = this->actorDisplayName;
+		tempName.erase(remove_if(tempName.begin(), tempName.end(), isspace), tempName.end());
+		char chars[] = "()";
 
-		//LevelTransform* transform = getComponent<LevelTransform>();
-		//ss << transform->toLuaUnload(fullName);
-		if( model )
+		for (unsigned int i = 0; i < strlen(chars); ++i)
 		{
-			ss << model->toLuaUnload(fullName);
+			// you need include <algorithm> to use general algorithms like std::remove()
+			tempName.erase(std::remove(tempName.begin(), tempName.end(), chars[i]), tempName.end());
 		}
+		std::string fullName = tempName + to_string(id) + "ID";
 
-		ss << fullName << " = nil" << endl;
+		if( exportType == EXPORT_ENEMY )
+		{
+			LevelTransform* transform = getComponent<LevelTransform>();
+			glm::vec3 pos = transform->getTransformRef()->getPos();
+
+
+
+			LevelEnemy* enemy = getComponent<LevelEnemy>();
+			ss << enemy->toLuaUnload( fullName ) << endl;
+		}
+		else
+		{
+			fullName = levelName + "." + tableName + "." + fullName;
+
+			for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
+			{
+				if( it->first != LevelModel::name && it->first != LevelTransform::name )
+				{
+					if(it->second->getName() != LevelHeightmap::name)
+						ss << it->second->toLuaUnload(fullName);
+				}
+			}
+
+			LevelModel* model = getComponent<LevelModel>();
+
+			//LevelTransform* transform = getComponent<LevelTransform>();
+			//ss << transform->toLuaUnload(fullName);
+			if( model )
+			{
+				ss << model->toLuaUnload(fullName);
+			}
+
+			ss << fullName << " = nil" << endl;
+		}
 	}
 
 	return ss.str();
