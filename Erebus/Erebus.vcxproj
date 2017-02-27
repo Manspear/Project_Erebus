@@ -184,6 +184,7 @@
     <ClCompile Include="source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="TransformHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AGI\AGI.vcxproj">
@@ -203,13 +204,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\aim.lua" />
+    <None Include="Scripts\healthOrb.lua" />
+    <None Include="Scripts\keybinding.lua" />
+    <None Include="Scripts\keybindingUI.lua" />
+    <None Include="Scripts\level01.lua" />
+    <None Include="Scripts\knockbackEffect.lua" />
+    <None Include="Scripts\lifeStealEffect.lua" />
+    <None Include="Scripts\polymorph.lua" />
+    <None Include="Scripts\polymorphEffect.lua" />
+    <None Include="Scripts\revive.lua" />
+    <None Include="Scripts\siphon.lua" />
+    <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />
     <None Include="Scripts\AI\states.lua" />
     <None Include="Scripts\Animation_Controllers\meleeGoblinController.lua" />
     <None Include="Scripts\Animation_Controllers\playerController.lua" />
     <None Include="Scripts\blackHole.lua" />
+    <None Include="Scripts\boss.lua" />
     <None Include="Scripts\camera.lua" />
     <None Include="Scripts\chronoBall.lua" />
     <None Include="Scripts\console.lua" />
@@ -224,6 +236,8 @@
     <None Include="Scripts\hellPillar.lua" />
     <None Include="Scripts\HUD.lua" />
     <None Include="Scripts\iceGrenade.lua" />
+    <None Include="Scripts\ipconnect.lua" />
+    <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Scripts\level.lua" />
     <None Include="Scripts\level01.lua" />
     <None Include="Scripts\main.lua" />
@@ -245,8 +259,11 @@
     <None Include="Scripts\spellList.lua" />
     <None Include="Scripts\staticAoEType.lua" />
     <None Include="Scripts\sunRay.lua" />
+    <None Include="Scripts\TimeLaser.lua" />
     <None Include="Scripts\timeOrbWave.lua" />
     <None Include="Scripts\timeSlowEffect.lua" />
+    <None Include="Scripts\tumbleThorns.lua" />
+    <None Include="Scripts\windknockback.lua" />
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />
@@ -295,6 +312,10 @@
     <None Include="Shaders\text.frag" />
     <None Include="Shaders\text.geom" />
     <None Include="Shaders\text.vert" />
+    <None Include="Shaders\textureBlending.frag" />
+    <None Include="Shaders\textureBlending.vert" />
+    <None Include="Shaders\worldImage.frag" />
+    <None Include="Shaders\worldImage.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
@@ -324,6 +345,7 @@
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="NetworkController.hpp" />
     <ClInclude Include="PerformanceCounter.h" />
+    <ClInclude Include="TransformHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlaneFrustum.h" />

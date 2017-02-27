@@ -1,0 +1,234 @@
+function CreateAim(entity)
+	local aim = {}
+	--aim.transformID = Transform.Bind()
+	--local model = Assets.LoadModel( "Models/aim.model" )
+	--Gear.AddForwardInstance(model, aim.transformID)
+	local model = Assets.LoadModel( "Models/aim.model" )
+	aim.transformID = Gear.BindForwardInstance(model)
+	Transform.ActiveControl(aim.transformID, true)
+	function aim:SetPos(position)
+		Transform.SetPosition(aim.transformID, position)
+	end
+	return aim
+end
+
+function CreateCombineRay(entity)
+	local ray = {}
+
+	
+	local rayIce = Assets.LoadModel( "Models/CombineBeamIce.model" )
+	ray.transformID = Gear.BindForwardInstance(rayIce)
+	Gear.SetUniformLocation(ray.modelIndex, "aValue");
+
+	local rayFire = Assets.LoadModel("Models/CombineBeamFire.model")
+	ray.transformID2 = Gear.BindForwardInstance(rayFire)
+
+	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
+	ray.transformID3 = Gear.BindForwardInstance(rayNature)
+
+	ray.caster = entity.transformID
+
+	function ray:FireChargeBeam(dt,dir,spellElement)		
+		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.transformID2, false)
+		Transform.ActiveControl(self.transformID3, false)
+
+		local elementalTransformID = self.transformID
+		if spellElement == FIRE then
+			Transform.ActiveControl(self.transformID2, true)
+			elementalTransformID = self.transformID2
+		elseif spellElement == NATURE then
+			Transform.ActiveControl(self.transformID3, true) 
+			elementalTransformID = self.transformID3	
+		else 
+			Transform.ActiveControl(ray.transformID, true)
+		end
+		Transform.ActiveControl(self.transformID, true)
+
+		local pos = Transform.GetPosition(self.caster)
+		local direction = Transform.GetLookAt(self.caster)
+		
+		
+		
+		factor = (len/2)
+		pos.x = pos.x + dir.x * factor
+		pos.y = pos.y + dir.y * factor
+		pos.z = pos.z + dir.z * factor
+
+		Transform.SetPosition(elementalTransformID, pos)
+		Transform.SetScaleNonUniform(elementalTransformID, 0.7,0.6,(len*0.51)) 
+		ray.pos = Transform.GetPosition(self.caster)
+		Transform.RotateToVector(elementalTransformID, dir)
+		
+	end
+	function ray:EndChargeBeam()
+		Transform.ActiveControl(self.transformID, false)
+		Transform.ActiveControl(self.transformID2, false)
+		Transform.ActiveControl(self.transformID3, false)
+	end
+	return ray
+end
+
+MAX_CHARGE = 1
+function CreateChargeEggs(entity)
+	local chargeThing = {}
+	chargeThing.timer = 0
+
+	--chargeThing.transformID = Transform.Bind()
+	local iceModel = Assets.LoadModel("Models/SpellChargingICEMesh.model")
+	--chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
+	chargeThing.transformID = Gear.BindForwardInstance(iceModel)
+	Transform.ActiveControl(chargeThing.transformID, false)
+	-- TEMP(Niclas): Figure this out
+	--chargeThing.modelIndex = chargeThing.transformID
+	--Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
+
+	--chargeThing.transformID2 = Transform.Bind()
+	local fireModel = Assets.LoadModel("Models/SpellChargingFireMesh.model")
+	chargeThing.transformID2 = Gear.BindForwardInstance(fireModel)
+	Transform.ActiveControl(chargeThing.transformID2, false)
+	--chargeThing.modelIndex2 = chargeThing.transformID2
+
+	--chargeThing.transformID3 = Transform.Bind()
+	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
+	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
+	Transform.ActiveControl(chargeThing.transformID3, false)
+	--chargeThing.modelIndex3 = chargeThing.transformID3
+	
+	chargeThing.firstCombine = false
+	chargeThing.elementalTransformID = 0
+	chargeThing.particles = createChargeParticles()
+	chargeThing.particles:extrovert(false)
+	chargeThing.caster = entity.transformID
+	chargeThing.owner = entity
+	chargeThing.rot = {x = 0, y = 0, z = 0}
+
+	chargeThing.rotSmall = {x = 0, y = 0, z = 0}
+	chargeThing.scaleSmall = {x = 1, y = 1, z = 1}
+
+	chargeThing.rotLarge = {x = 0, y = 0, z = 0}
+	chargeThing.scaleLarge = {x = 1.4, y = 1.1, z = 1.4}
+
+	chargeThing.pos = {x = 0, y = 0, z = 0}
+	chargeThing.light = nil
+	chargeThing.color = {r = 0, g = 0, b = 0}
+	
+	function chargeThing:ChargeMePlease(dt)
+		self.pos = Transform.GetPosition(self.caster)	
+		self.pos.y = self.pos.y - 1	 
+		Transform.SetPosition(self.elementalTransformID, self.pos)		
+		self.rotSmall.y = self.rotSmall.y + (2) * dt
+		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
+	end
+
+	function chargeThing:Update(dt, chargePower)
+		if not self.owner.isCombined then
+			self:ChargeMePlease(dt)
+		else 
+			self:CombinedAndCharged(dt, chargePower)
+		end
+	end
+
+	function chargeThing:CombinedAndCharged(dt, chargePower)
+		self.pos = Transform.GetPosition(self.caster)
+		if self.firstCombine then
+			self.particles:cast() 
+			self.firstCombine = false
+			self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
+		else
+			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			self.particles:update(self.pos)
+		end			
+		self.timer = self.timer + dt		
+		self.pos.y = self.pos.y - 1
+		
+		--Cyl
+		if self.scaleSmall.x < 1.1  then
+			self.scaleSmall.x = self.scaleSmall.x + (chargePower * chargePower * 75) * dt
+			self.scaleSmall.z = self.scaleSmall.z + (chargePower * chargePower * 75) * dt
+		end
+
+		if self.scaleSmall.y < 1.1 then
+			self.scaleSmall.y = self.scaleSmall.y + (0.075*dt)
+		end
+
+		Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleSmall.x, self.scaleSmall.y, self.scaleSmall.z) 
+		Transform.SetPosition(self.elementalTransformID, self.pos) 
+		self.rotSmall.y = self.rotSmall.y + 3 * dt
+		Transform.SetRotation(self.elementalTransformID, self.rotSmall)
+
+		if self.timer > 0.75 then	
+			if self.scaleLarge.x < 1.1 then
+				self.scaleLarge.x = self.scaleLarge.x + (chargePower * chargePower * 30) * dt
+				self.scaleLarge.Y = self.scaleLarge.y + (chargePower * chargePower * 30) * dt
+				self.scaleLarge.z = self.scaleLarge.z + (chargePower * chargePower * 30) * dt
+			end
+			Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleLarge.x, self.scaleLarge.y, self.scaleLarge.z)
+			Transform.SetPosition(self.elementalTransformID, self.pos)
+			self.particles:update(self.pos) 
+			self.rotLarge.y = self.rotLarge.y + 5 * dt
+			Transform.SetRotation(self.elementalTransformID, self.rotLarge)
+		end
+	end
+
+
+	function chargeThing:EndCharge() 
+		self.scaleSmall = {x = 1, y = 1, z = 1}
+		self.color = {r = 0, g = 0, b = 0}
+		Transform.ActiveControl(self.elementalTransformID, false)
+		Transform.SetPosition(self.elementalTransformID, {x = 0, y = 0, z = 0})
+		self.elementalTransformID = 0 
+		self.particles:die()
+		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
+	end
+
+	function chargeThing:StartCharge(position, spellElement) 		
+		self.timer = 0   
+		self.pos = Transform.GetPosition(chargeThing.caster)	
+		self.firstCombine = true		
+		if spellElement == FIRE then
+			Transform.ActiveControl(self.transformID2, true)
+			self.color.r = 1
+			self.elementalTransformID = self.transformID2
+		elseif spellElement == NATURE then
+			self.color.g = 1
+			Transform.ActiveControl(self.transformID3, true) 
+			self.elementalTransformID = self.transformID3	
+		elseif spellElement == ICE then 
+			self.color.b = 1
+			self.elementalTransformID = self.transformID
+			Transform.ActiveControl(self.transformID, true)		
+		end
+	end
+	return chargeThing
+end
+
+function BaseCheckCollision(spell)
+	local collisionIDs = spell.sphereCollider:GetCollisionIDs()
+	local playSound = false
+	for curID = 1, #collisionIDs do
+		for curEnemy=1, #enemies do
+			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if not spell.enemiesHit[enemies[curEnemy].transformID] then
+					enemies[curEnemy]:Hurt(spell.damage, spell.owner)				
+					for stuff = 1, #spell.effects do
+						local effect = effectTable[spell.effects[stuff]](spell.owner)
+						enemies[curEnemy]:Apply(effect)
+					end
+				end				
+				spell.enemiesHit[enemies[curEnemy].transformID] = true	
+				playSound = true
+			end
+		end
+		if collisionIDs[curID] == boss.collider:GetID() then --boss collision
+			boss:Hurt(spell.damage, spell.owner)
+			for i = 1, #spell.effects do
+				local effect = effectTable[spell.effects[i]](spell.owner)
+				boss:Apply(effect)
+			end	
+			playSound = true
+		end
+	end	
+	return playSound
+end
+

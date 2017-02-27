@@ -18,7 +18,17 @@ namespace Gear
 		GEAR_API void addUniform(std::string uniform);
 		GEAR_API void draw();
 		GEAR_API void update(Camera* camera);
+		GEAR_API void updateRotation(float dt);
+		GEAR_API void updateFog(float dt);
+		GEAR_API void setFogColor(glm::vec3 color);
+		GEAR_API glm::vec3 getFogColor();
 	private:
+		const float ROTATE_SPEED = 1.0f;
+		float rotation = 0.0f;
+		glm::vec3 fogColor;
+		glm::vec3 targetFogColor;
+		bool fogColorChanged = false;
+
 		GLuint skyboxVAO;
 		GLuint skyboxVBO;
 		GLuint textureID;

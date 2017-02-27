@@ -1,12 +1,5 @@
 #version 420 core
 
-//in vec3 pos ;
-//in vec3 normal ;
-//in vec2 UV ;
-//in vec3 tangent ;
-//in ivec4 influences ;
-//in vec4 weights ;
-
 layout (location = 0) in vec3 pos ;
 layout (location = 1) in vec3 normal ;
 layout (location = 2) in vec2 UV ;
@@ -19,8 +12,12 @@ out vec2 TexCoords;
 out vec3 Normal;
 out mat3 TBN;
 
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+layout (std140, binding = 0) uniform vpBuffer
+{
+	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
+
 uniform mat4 worldMatrices[105];
 uniform mat4 jointMatrices[64];
 
@@ -41,7 +38,7 @@ void main()
 	gl_Position = projectionMatrix * viewMatrix * worldMatrices[gl_InstanceID] * vPos;
 	FragPos = (worldMatrices[gl_InstanceID] * vPos).xyz;
 	//vert_viewPos = viewPos;
-	Normal = vNorm.xyz;
+	Normal = ( worldMatrices[gl_InstanceID] * vNorm).xyz;
 	//Flipping the Y-axis of the UV
 	TexCoords = UV*vec2(1,-1);
 	//49

@@ -9,8 +9,35 @@ namespace Gear
 
 	}
 
+	ParticleEmitter::ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, 
+									float gravity, float foccus, float size, float growFactor)
+	{
+		this->extrovert = true;
+		timer = 0;
+		isActive = false;
+		nrOfActiveParticles = 0;
+		this->maxParticles = maxPart;
+		this->allParticles = new Partikel[maxParticles];
+		this->particlePos = new SendStruct[maxParticles];
+		this->lifeTime = life;
+		this->partSpeed = speed;
+		this->particleRate = 1 / particleRate;
+		this->partPerRate = partPerSprut;
+		this->gravityFactor = gravity;
+		this->focus = foccus;
+		this->particleSize = size;
+		this->direction = { 0, 0, 0 };
+		this->textureAssetParticles = nullptr;
+		for (size_t i = 0; i <maxParticles; i++)
+		{
+			particlePos[i].size = this->particleSize;
+		}
+		this->shrinkage = growFactor;
+	}
+
 	void ParticleEmitter::emitterInit(Emitter emitter, Importer::Assets* assets)
 	{		
+		this->extrovert = true;
 		timer = 0;
 		isActive = false;
 		nrOfActiveParticles = 0;
@@ -53,8 +80,31 @@ namespace Gear
 				{
 					particlePos[nrOfActiveParticles].pos = this->position;
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+					particlePos[nrOfActiveParticles].size = this->particleSize;
 					temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
 					allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
+				}
+				timer = 0;
+			}
+		}
+	}
+
+
+	void ParticleEmitter::introvertSpawn(float dt)
+	{
+		if (alive)
+		{
+			timer += dt;
+			if (timer > particleRate)
+			{
+				int i = 0;
+				while (nrOfActiveParticles < maxParticles && partPerRate > i++)
+				{
+					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
+					particlePos[nrOfActiveParticles].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + this->position;
+					allParticles[nrOfActiveParticles].direction = glm::normalize(this->position - particlePos[nrOfActiveParticles].pos);
+					particlePos[nrOfActiveParticles].size = this->particleSize;
+					nrOfActiveParticles++;
 				}
 				timer = 0;
 			}
@@ -65,7 +115,10 @@ namespace Gear
 	{
 		if (isActive)
 		{
-			spawn(dt);
+			if (this->extrovert)
+				spawn(dt);
+			else
+				introvertSpawn(dt);
 
 			float randomSpeed;
 			for (int i = 0; i < nrOfActiveParticles; i++)
@@ -82,7 +135,7 @@ namespace Gear
 				{
 					particlePos[i] = particlePos[nrOfActiveParticles - 1];
 					allParticles[i] = allParticles[--nrOfActiveParticles];
-					particlePos[i].size = this->particleSize;
+					//particlePos[i].size = this->particleSize;
 					if (nrOfActiveParticles <= 0)
 						isActive = false;
 				}
@@ -94,14 +147,51 @@ namespace Gear
 	void ParticleEmitter::explode()
 	{
 		nrOfActiveParticles = 0;
+		glm::vec3 tempVec = this->position + direction * focus;
+		glm::vec3 temp2;
 		for (int i = 0; i < maxParticles; i++)
 		{
 			particlePos[i].pos = this->position;
 			particlePos[i].size = this->particleSize;
+			allParticles[i].lifeSpan = this->lifeTime;	
+			temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
+			allParticles[i].direction = glm::normalize(temp2 - this->position);
+			allParticles[i].direction *= rand() % (int)partSpeed;	
+		}
+		nrOfActiveParticles = maxParticles;
+		isActive = true;
+		alive = false;
+	}
+
+	GEAR_API void ParticleEmitter::explode2(glm::vec3 position)
+	{
+		nrOfActiveParticles = 0;
+		this->position = position;
+		glm::vec3 tempVec = this->position + direction * focus;
+		glm::vec3 temp2;
+		if (this->extrovert)
+		{
+			for (int i = 0; i < maxParticles; i++)
+			{
+				particlePos[i].pos = this->position;
+				temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
+				allParticles[i].direction = glm::normalize(temp2 - this->position);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < maxParticles; i++)
+			{
+				particlePos[i].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + this->position;
+				allParticles[i].direction = glm::normalize(this->position - particlePos[i].pos);
+			}
+		}
+		for (int i = 0; i < maxParticles; i++)
+		{
 			allParticles[i].lifeSpan = this->lifeTime;
-			allParticles[i].direction = glm::normalize(glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5));
-			allParticles[i].direction *= rand() % (int)partSpeed;
 			nrOfActiveParticles = i;
+			particlePos[i].size = this->particleSize;
+			allParticles[i].direction *= rand() % (int)partSpeed;
 		}
 		isActive = true;
 		alive = false;
@@ -116,6 +206,32 @@ namespace Gear
 			allParticles[i].direction = { 0, 0, 0 };
 		}
 		nrOfActiveParticles = 0;
+	}
+
+	GEAR_API void ParticleEmitter::setExtrovert(bool yesNo)
+	{
+		this->extrovert = yesNo;
+	}
+
+	GEAR_API void ParticleEmitter::setFocus(float focusPower)
+	{
+		this->focus = focusPower;
+	}
+
+	GEAR_API void ParticleEmitter::activate()
+	{
+		this->isActive = true;
+		this->alive = true;
+	}
+
+	GEAR_API void ParticleEmitter::deActivate()
+	{
+		this->alive = false;
+	}
+
+	GEAR_API void ParticleEmitter::setTexture(Importer::TextureAsset * texture)
+	{
+		this->textureAssetParticles = texture;
 	}
 
 	void ParticleEmitter::setEmitterPos(glm::vec3 pos)

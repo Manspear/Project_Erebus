@@ -53,12 +53,6 @@ void RayCollider::hit(glm::vec3 intersectionPoint, float hitDistance)
 	this->intersectionPoint = intersectionPoint;
 	this->hitDistance = hitDistance;
 }
-
-void RayCollider::clearCollisionIDs()
-{
-	this->IDCollisions.clear();
-}
-
 void RayCollider::clearHitData()
 {
 	this->hitDistance = -1;

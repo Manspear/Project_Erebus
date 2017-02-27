@@ -22,6 +22,10 @@
 #include "Packager.hpp"
 #include "PacketFilter.hpp"
 
+#ifdef DEBUGGING_NETWORK
+#include "DebugNetwork.hpp"
+#endif
+
 #ifdef USING_UDP
 #include "UDPCommunication.hpp"
 #elif USING_TCP
@@ -73,6 +77,34 @@ namespace Nurn
 		NURN_API void pushQuickBlendPacket(const QuickBlendPacket& packet);
 		NURN_API bool fetchQuickBlendPacket(QuickBlendPacket& packet);
 
+		NURN_API void pushDamagePacket(const DamagePacket& packet);
+		NURN_API bool fetchDamagePacket(DamagePacket& packet);
+
+		NURN_API void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
+		NURN_API bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
+
+		NURN_API void pushPlayerEventPacket(const EventPacket& packet);
+		NURN_API bool fetchPlayerEventPacket(EventPacket& packet);
+
+		NURN_API void pushAIHealthPacket(const HealthPacket& packet);
+		NURN_API bool fetchAIHealthPacket(HealthPacket& packet);
+
+		NURN_API void pushDashPacket(const DashPacket& packet);
+		NURN_API bool fetchDashPacket(DashPacket& packet);
+
+		NURN_API void pushEndEventPacket(const EventPacket& packet);
+		NURN_API bool fetchEndEventPacket(EventPacket& packet);
+
+		NURN_API void pushPlayerHealthPacket(const HealthPacket& packet);
+		NURN_API bool fetchPlayerHealthPacket(HealthPacket& packet);
+
+		NURN_API void pushRessurectionPacket(const HealthPacket& packet);
+		NURN_API bool fetchRessurectionPacket(HealthPacket& packet);
+
+		
+#ifdef DEBUGGING_NETWORK
+		NURN_API float getPing();
+#endif
 
 	private:
 		Address address;
@@ -83,6 +115,10 @@ namespace Nurn
 		UDPCommunication netCommunication;
 #elif USING_TCP
 		TCPCommunication netCommunication;
+#endif
+
+#ifdef DEBUGGING_NETWORK
+		DebugNetwork debugNetwork;
 #endif
 	};
 }

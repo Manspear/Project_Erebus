@@ -46,6 +46,34 @@ public:
 	void sendQuickBlendPacket(const QuickBlendPacket& packet);
 	bool fetchQuickBlendPacket(QuickBlendPacket& packet);
 
+	void sendDamagePacket(const DamagePacket& packet);
+	bool fetchDamagePacket(DamagePacket& packet);
+
+	void sendChangeSpellsPacket(const ChangeSpellsPacket& packet);
+	bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
+
+	void sendPlayerEventPacket(const EventPacket& packet);
+	bool fetchPlayerEventPacket(EventPacket& packet);
+
+	void sendAIHealthPacket(const HealthPacket& packet);
+	bool fetchAIHealthPacket(HealthPacket& packet);
+
+	void sendDashPacket(const DashPacket& packet);
+	bool fetchDashPacket(DashPacket& packet);
+
+	void sendEndEventPacket(const EventPacket& packet);
+	bool fetchEndEventPacket(EventPacket& packet);
+
+	void sendPlayerHealthPacket(const HealthPacket& packet);
+	bool fetchPlayerHealthPacket(HealthPacket& packet);
+
+	void sendRessurectionPacket(const HealthPacket& packet);
+	bool fetchRessurectionPacket(HealthPacket& packet);
+
+#ifdef DEBUGGING_NETWORK
+	float getPing();
+#endif
+
 
 private:
 	void startNetworkSending();

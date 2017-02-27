@@ -8,6 +8,7 @@
 #include "OBBCollider.h"
 #include "CollisionChecker.h"
 #include "Gear.h"
+#include "TransformHandler.h"
 
 //extern Transform* allTransforms;
 
@@ -51,13 +52,15 @@ public:
 	bool deleteHitbox(unsigned int ID);
 
 	//setters
-	void setTransforms( Transform* transforms );
+	//void setTransforms( Transform* transforms );
+	void setTransforms( TransformHandler* handler );
 	void setDebugger(Debug* debugger);
 	void setEnabled(bool enabled);
 
 	//getters
 	std::string getCollisionText();
 	CollisionLayers* getCollisionLayers();
+	const std::vector<int>& getAllIDsFromLayer(int layer);
 
 	//CollisionLayerPassThrough functions
 	void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
@@ -75,12 +78,14 @@ public:
 	
 
 private:
-	Transform* transforms;
+	//Transform* transforms;
+	TransformHandler* transformHandler;
 	std::vector<SphereCollider*> sphereColliders;
 	std::vector<AABBCollider*> aabbColliders;
 	std::vector<OBBCollider*> obbColliders;
 	std::vector<HitBox*> allColliders;
 	std::vector<RayCollider*> rayColliders;
+	std::vector<std::vector<int>>* hitboxIDSaver;
 	CollisionLayers* collisionLayers;
 	CollisionChecker collisionChecker;
 
@@ -93,8 +98,10 @@ private:
 	static void incrementHitboxID();
 	void initializeColors();
 	bool enabled = true;
+	const int DEFAULT_LAYER_AMOUNT = 5;
+	const int DEFAULT_LAYER = 0;
 
-	void recursiveSetID(HitBox* hitbox);
+	void recursiveSetID(HitBox* hitbox, int layer);
 
 
 
@@ -123,7 +130,8 @@ public: // This is used by movementController
 				bool tempHit = false;
 				tempHit = this->collisionChecker.collisionCheckNormal(collider, tempCollider, hitNormals,false); // dont save normals if u have children
 				if (tempHit) // if you collide with parent check collision with children
-					hit = checkAnyCollisionBoolNoSave(collider, tempCollider->children, hitNormals);
+					if (checkAnyCollisionBoolNoSave(collider, tempCollider->children, hitNormals))
+						hit = true;
 			}
 		}
 		return hit;

@@ -1,6 +1,7 @@
-function CreateRayType()
+function CreateRayType(model)
 	local ray = {}
-	ray.transformID = Transform.Bind()
+	--ray.transformID = Transform.Bind()
+	ray.transformID = Gear.BindForwardInstance(model)
 	ray.position = {x=0,y=0,z=0}
 	ray.direction = {x=0,y=0,z=0}
 
@@ -12,7 +13,7 @@ function CreateRayType()
 	function ray:Cast(position)
 		Transform.ActiveControl(self.transformID, true)
 		Transform.SetPosition(self.transformID, position)
-		OBBCollider.SetActive(self.oobCollider, true);
+		OBBCollider.SetActive(self.oobCollider, true)
 		self.position = position
 	end
 
@@ -28,13 +29,17 @@ function CreateRayType()
 					table.insert(result, enemies[curEnemy])
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				table.insert(result, boss)
+			end
 		end
 		return result
 	end
 
 	function ray:Kill()
 		Transform.ActiveControl(self.transformID, false)
-		OBBCollider.SetActive(self.oobCollider, false);
+		OBBCollider.SetActive(self.oobCollider, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 	end
 
 	return ray

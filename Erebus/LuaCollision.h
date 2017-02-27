@@ -4,10 +4,11 @@
 #include "CollisionHandler.h"
 #include "MovementController.h"
 #include "HeightMap.h"
+#include "TransformHandler.h"
 
 namespace LuaCollision
 {
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms );
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, TransformHandler* transformHandler );
 
 	int addSphere( lua_State* lua );
 	int addAABB( lua_State* lua );
@@ -23,6 +24,7 @@ namespace LuaCollision
 	int destroyRay(lua_State* lua);
 	int destroyMovementController(lua_State* lua);
 	int getCollisionIDs( lua_State* lua );
+	int getIDsFromLayer(lua_State* lua);
 	int getRayCollisionIDs(lua_State* lua);
 	int checkCollision( lua_State* lua );
 	int checkRayCollision(lua_State* lua);

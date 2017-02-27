@@ -25,16 +25,21 @@ struct DirLight {
 
 const int NR_POINT_LIGHTS  = 50;
 const int NR_DIR_LIGHTS  = 1;
+const int NR_DYNAMIC_POINT_LIGHTS = 10;
 layout(std430, binding = 0) readonly buffer LightBuffer {
 	PointLight data[];
 } lightBuffer;
 
 uniform DirLight dirLights;
+uniform PointLight dynamicLights[NR_DYNAMIC_POINT_LIGHTS];
+
 uniform vec3 viewPos;
 uniform int drawMode;
 uniform mat4 shadowVPM;
 uniform mat4 invView;
 uniform mat4 invProj;
+uniform int num_dynamic_lights;
+uniform vec3 fogColor;
 
 uniform mat4 lightWVP[NUM_CASCADES];
 uniform float CascadeEndClipSpace[NUM_CASCADES];
@@ -122,9 +127,13 @@ void main() {
 	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
 		point += CalcPointLight(lightBuffer.data[i], Normal, FragPos, viewDir, Specular);
 
-	vec3 outputColor = (ambient + directional + point);
+	vec3 dynamicPoint = vec3(0,0,0);
+	for(int i = 0; i < num_dynamic_lights; i++) //calculate dynamic point lights
+	dynamicPoint += CalcPointLight(dynamicLights[i], norm, FragPos, viewDir, Specular);
 
-	outputColor = mix(outputColor, vec3(0.50,0.50,0.50),getFogFactor(length(FragPos - viewPos)));
+	vec3 outputColor = (ambient + directional + point + dynamicPoint);
+
+	outputColor = mix(outputColor, fogColor,getFogFactor(length(FragPos - viewPos)));
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
         FragColor = vec4(outputColor + shadowMapColorIndex, 1.0);

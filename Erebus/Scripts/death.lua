@@ -30,7 +30,16 @@ end
 
 function EnterDeath()
 	--Gear.QueueModels(false)
-	CollisionHandler.Disable()
+	--if BOSS_DEAD == true then
+	--	Network.SendEndEventPacket(2) -- 2 is win event
+	--else
+	--	Network.SendEndEventPacket(0) -- 0 is death event
+	--end
+	if SETTING_DEBUG then 
+		CollisionHandler.Enable()
+	else
+		CollisionHandler.Disable()
+	end
 	Gear.CursorVisible(true)
 end
 

@@ -18,13 +18,17 @@ public:
 	const glm::vec3& getCenterPos() const;
 
 	//overrides
-	virtual int getID() const override; // copy elision makes returning values fast? RVO - NRVO
+	virtual int getID() const override;
 	virtual int getIDTransform() const override;
 	virtual std::vector<int>* getIDCollisionsRef() override;
 
 	virtual void setPos(glm::vec3 pos) override;
 	void setMinPos(glm::vec3 minPos);
 	void setMaxPos(glm::vec3 maxPos);
+
+	//Frustum culling helpers
+	glm::vec3 getPositiveVertex(const glm::vec3& normal);
+	glm::vec3 getNegativeVertex(const glm::vec3& normal);
 
 
 private:

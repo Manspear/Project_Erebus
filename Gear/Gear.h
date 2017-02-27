@@ -11,6 +11,7 @@
 #include "Skybox.h"
 #include "WorkQueue.h"
 #include "CascadedShadowMap.h"
+#include "WorldImageRenderer.h"
 
 namespace Gear
 {
@@ -25,7 +26,6 @@ namespace Gear
 		GEAR_API void addDebugger(Debug* debugger);
 
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 		GEAR_API void bindAnimations(Animation** theAnims, int* n);
 
 		GEAR_API glm::vec2 getTextDimensions( const char* text );
@@ -41,35 +41,53 @@ namespace Gear
 								const float &height, 
 								Importer::TextureAsset* texture);
 
+		GEAR_API void showWorldImage(const sWorldImage & quad, Importer::TextureAsset* texture);
+		GEAR_API void showWorldImage(const glm::vec3 &pos,
+			const float &width,
+			const float &height,
+			Importer::TextureAsset* texture);
+
 		GEAR_API void queueModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueDynamicModels(std::vector<ModelInstance>* models);
-		GEAR_API void queueAnimModels(std::vector<AnimatedInstance>* models);
+		GEAR_API void queueAnimModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueForwardModels(std::vector<ModelInstance>* models);
 		GEAR_API void queueParticles(std::vector<Gear::ParticleSystem*> &ps);
+		GEAR_API void queueEmitters(std::vector<Gear::ParticleEmitter*> &emitters);
 		GEAR_API void queueLights(std::vector<Lights::PointLight>* lights);
 		GEAR_API void queueLights(Lights::DirLight* lights);
 		GEAR_API void queueAddLights(Lights::PointLight* lights);
 		GEAR_API void queueUpdateLights(Lights::PointLight* lights);
 		GEAR_API void queueRemoveLights(Lights::PointLight* lights);
+		GEAR_API void queueTextureBlendings(std::vector<ModelInstance>* blendingModels);
 		GEAR_API void draw(Camera* camera);
-		GEAR_API void update();
+		GEAR_API void update(float dt);
 
 		GEAR_API void addLight();
 		GEAR_API void updateLight();
 		GEAR_API void removeLight();
-		GEAR_API void resetLightbuffer();
 
-		GEAR_API void allocateWorlds(int n);
-		GEAR_API int generateWorldMatrix();
+		GEAR_API void queueAddDynamicLights(Lights::PointLight* lights);
+		GEAR_API void queueUpdateDynamicLights(Lights::PointLight* lights);
+		GEAR_API void queueRemoveDynamicLights(Lights::PointLight* lights);
+
+		GEAR_API void addDynamicLight();
+		GEAR_API void updateDynamicLight();
+		GEAR_API void removeDynamicLight();
+
+		GEAR_API void resetLightbuffer();
 
 		GEAR_API void setFont(FontAsset* font);
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
-		GEAR_API void drawAABBSHADOW() { debugCam = true; }
+		GEAR_API Skybox* getSkybox();
 		std::vector<UniformValues> uniValues;
+		std::vector<TextureBlendings> textureBlend;
 		//----------------------
 
 	private:
+		void updateTransforms( std::vector<ModelInstance>* models );
+
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
+		const int NUM_DYNAMIC_LIGHTS = 10; //number of lights should be the same in lightPass.frag
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
 		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
 
@@ -92,6 +110,11 @@ namespace Gear
 		RenderQueue queue;
 
 		std::vector<Lights::DirLight> dirLights;
+		std::vector<Lights::PointLight*> dynamicPointlights;
+
+		std::vector<Lights::PointLight*> addDynamicLightQueue;
+		std::vector<Lights::PointLight*> updateDynamicLightQueue;
+		std::vector<Lights::PointLight*> removeDynamicLightQueue;
 
 		//Framebuffers
 		ShaderProgram shadowMap;
@@ -113,28 +136,28 @@ namespace Gear
 		//Models
 		std::vector<ModelInstance>* staticModels;
 		std::vector<ModelInstance>* dynamicModels;
-		std::vector<AnimatedInstance>* animatedModels;
+		std::vector<ModelInstance>* animatedModels;
 		std::vector<Gear::ParticleSystem*>* particleSystem;
+		std::vector<ParticleEmitter*>* particleEmitters;
 		std::vector<ModelInstance>* forwardModels;
+		std::vector<ModelInstance>* blendModels;
 
 		//Transform data
-		TransformStruct** allTrans;
-		int* transformCount;
 		int* animationCount;
 		Animation** allAnims;
 		WorkQueue* work;
 
 		//Skybox object
-		Skybox skybox;
+		Skybox *skybox;
 
 		//Default values, to avoid nullptrs
 		std::vector<ModelInstance> defaultModelList = std::vector<ModelInstance>(0);
 
 		//Debug Draw handler
 		DebugHandler* debugHandler;
-
 		TextRenderer text;
 		ImageRenderer image;
+		WorldImageRenderer worldImage;
 
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
 		void pickingPass();

@@ -163,7 +163,6 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 		}
 		if (deleted)
 			i = this->sphereColliders.size();
-
 	}
 
 	if (!deleted)
@@ -206,6 +205,45 @@ bool CollisionLayers::deleteHitbox(unsigned int ID)
 		}
 	}
 
+	if (!deleted)
+	{
+		for (size_t i = 0; i < this->rayColliders.size(); i++) //check if it is a AABB collider and delete
+		{
+			for (size_t j = 0; j < this->rayColliders[i].size(); j++)
+			{
+				if (this->rayColliders[i][j]->getID() == ID)
+				{
+					this->rayColliders[i].erase(this->rayColliders[i].begin() + j);
+					deleted = true;
+					j = this->rayColliders[i].size();
+				}
+
+			}
+			if (deleted)
+				i = this->rayColliders.size();
+
+		}
+	}
+
+	if (deleted) // if we deleted it, it is in the allcolliders array
+	{
+		bool allCollidersDeleted = false;
+		for (size_t i = 0; i < this->allColliders.size() && !allCollidersDeleted; i++) // for every layer
+		{
+			for (size_t j = 0; j < this->allColliders[i].size() && !allCollidersDeleted; j++) // for every hitbox on that layer
+			{
+				if (this->allColliders[i][j]->getID() == ID)
+				{
+					this->allColliders[i].erase(this->allColliders[i].begin() + j);
+					allCollidersDeleted = true;
+				}
+				
+			}
+			
+		}
+		assert(allCollidersDeleted);
+	}
+	
 	return deleted;
 }
 

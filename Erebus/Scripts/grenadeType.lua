@@ -1,8 +1,9 @@
-GRENADE_EXPLODE_TIME = 0.05
+GRENADE_EXPLODE_TIME =0.9
 
-function CreateGrenadeType()
+function CreateGrenadeType(model)
 	local type = {}
-	type.transformID = Transform.Bind()
+	--type.transformID = Transform.Bind()
+	type.transformID = Gear.BindStaticInstance(model)
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
 	CollisionHandler.AddSphere(type.sphereCollider, 1)
@@ -64,17 +65,21 @@ function CreateGrenadeType()
 						result = true
 					end
 				end
+				if collisionIDs[curID] == boss.collider:GetID() then
+					result = true
+				end
 			end
 		end
 
 		return result
 	end
+
 	function type:Update(dt)
 		result = {} 
 		self.explodetime = self.explodetime + dt
 		local scale = (self.explodetime / GRENADE_EXPLODE_TIME)* self.radius + 1
-		Transform.SetScale(self.transformID, scale)
-		SphereCollider.SetRadius(self.sphereCollider, scale)
+		--Transform.SetScale(self.transformID, scale)
+		--SphereCollider.SetRadius(self.sphereCollider, scale)
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
@@ -82,13 +87,15 @@ function CreateGrenadeType()
 					table.insert(result, enemies[curEnemy])
 				end
 			end
+			if collisionIDs[curID] == boss.collider:GetID() then
+				table.insert(result, boss)
+			end
 		end
 		return result
 	end
 
 	function type:Kill()
 		Transform.SetScale(self.transformID, 1)
-		Transform.SetPosition(self.transformID, {x=0,y=0,z=0})
 		SphereCollider.SetRadius(self.sphereCollider, 1)
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)

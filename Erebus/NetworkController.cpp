@@ -99,16 +99,12 @@ void NetworkController::startNetworkReceiving()
 
 bool NetworkController::acceptNetworkCommunication()
 {
-	int counter = 0;
-	while (initalized && counter < 20)
+
+	if (network.AcceptCommunication())
 	{
-		if (network.AcceptCommunication())
-		{
-			return true;
-		}
-		counter++;
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		return true;
 	}
+	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 	return false;
 }
@@ -149,7 +145,15 @@ void NetworkController::sendTransformPacket(const TransformPacket& packet)
 
 bool NetworkController::fetchTransformPacket(TransformPacket &packet)
 {
-	return network.fetchTransformPacket(packet);
+	TransformPacket tempPacket;
+	bool isQueueEmpty = network.fetchTransformPacket(tempPacket);
+	bool result = isQueueEmpty;
+	while (isQueueEmpty)
+	{
+		packet = tempPacket;
+		isQueueEmpty = network.fetchTransformPacket(tempPacket);
+	}
+	return result;
 }
 
 void NetworkController::sendAnimationPacket(const AnimationPacket& packet)
@@ -214,6 +218,86 @@ bool NetworkController::fetchQuickBlendPacket(QuickBlendPacket& packet)
 	return network.fetchQuickBlendPacket(packet);
 }
 
+void NetworkController::sendDamagePacket(const DamagePacket& packet)
+{
+	network.pushDamagePacket(packet);
+}
+
+bool NetworkController::fetchDamagePacket(DamagePacket& packet)
+{
+	return network.fetchDamagePacket(packet);
+}
+
+void NetworkController::sendChangeSpellsPacket(const ChangeSpellsPacket& packet)
+{
+	network.pushChangeSpellsPacket(packet);
+}
+
+bool NetworkController::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
+{
+	return network.fetchChangeSpellsPacket(packet);
+}
+
+void NetworkController::sendPlayerEventPacket(const EventPacket& packet)
+{
+	network.pushPlayerEventPacket(packet);
+}
+
+bool NetworkController::fetchPlayerEventPacket(EventPacket& packet)
+{
+	return network.fetchPlayerEventPacket(packet);
+}
+
+void NetworkController::sendAIHealthPacket(const HealthPacket& packet)
+{
+	network.pushAIHealthPacket(packet);
+}
+
+bool NetworkController::fetchAIHealthPacket(HealthPacket& packet)
+{
+	return network.fetchAIHealthPacket(packet);
+}
+
+void NetworkController::sendDashPacket(const DashPacket& packet)
+{
+	network.pushDashPacket(packet);
+}
+
+bool NetworkController::fetchDashPacket(DashPacket& packet)
+{
+	return network.fetchDashPacket(packet);
+}
+
+void NetworkController::sendEndEventPacket(const EventPacket& packet)
+{
+	network.pushEndEventPacket(packet);
+}
+
+bool NetworkController::fetchEndEventPacket(EventPacket& packet)
+{
+	return network.fetchEndEventPacket(packet);
+}
+
+void NetworkController::sendPlayerHealthPacket(const HealthPacket& packet)
+{
+	network.pushPlayerHealthPacket(packet);
+}
+
+bool NetworkController::fetchPlayerHealthPacket(HealthPacket& packet)
+{
+	return network.fetchPlayerHealthPacket(packet);
+}
+
+void NetworkController::sendRessurectionPacket(const HealthPacket& packet)
+{
+	network.pushRessurectionPacket(packet);
+}
+
+bool NetworkController::fetchRessurectionPacket(HealthPacket& packet)
+{
+	return network.fetchRessurectionPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);
@@ -228,3 +312,10 @@ double NetworkController::timeSinceLastAITransformPacket()
 {
 	return (counter.getCurrentTime() - aiTransformpackTime);
 }
+
+#ifdef DEBUGGING_NETWORK
+float NetworkController::getPing()
+{
+	return network.getPing();
+}
+#endif

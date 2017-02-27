@@ -2,6 +2,6 @@ Ambient color: 1 2 3
 Diffuse color: 4 5 6
 Specular color: 7 8 9
 Shiny factor: 0
-Diffuse texture: goblin_diffuse.png
-Specular texture: goblin_spec.png
-Normal texture: goblin_normal.png
+Diffuse texture: goblin_diffuse.dds
+Specular texture: goblin_spec.dds
+Normal texture: goblin_normal.dds

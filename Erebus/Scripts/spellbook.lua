@@ -20,18 +20,24 @@ function UnloadSpellbook()
 end
 
 function UpdateSpellbook(dt)
+	if gameplayStarted then
+		gamestate.states[GAMESTATE_GAMEPLAY].Update(dt)
+	end
+
 	for key,value in pairs(scriptsMenu) do
 		value.Update(dt)
-	end
-	if gamestate.states[GAMESTATE_GAMEPLAY].gameStarted then
-		gamestate.states[GAMESTATE_GAMEPLAY].Update(dt)
 	end
 end
 
 function EnterSpellbook()
 	--Gear.QueueModels(false)
-	CollisionHandler.Disable()
+	if SETTING_DEBUG then 
+		CollisionHandler.Enable()
+	else
+		CollisionHandler.Disable()
+	end
 	Gear.CursorVisible(true)
+	Erebus.EnableControls(false)
 end
 
 function ExitSpellbook()

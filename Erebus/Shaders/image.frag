@@ -4,7 +4,9 @@ in vec2 geom_UV;
 
 uniform sampler2D font;
 
+out vec4 out_color;
+
 void main()
 {
-	gl_FragColor = texture( font, geom_UV );
+	out_color = texture( font, geom_UV );
 }

@@ -21,9 +21,10 @@
 #include "AGI.h"
 #include "NetworkController.hpp"
 #include "LuaBinds.h"
+#include "TransformHandler.h"
 
-#define MAX_TRANSFORMS 100
-#define MAX_ANIMATIONS 100
+#define MAX_TRANSFORMS 800
+#define MAX_ANIMATIONS 300
 
 bool running = true;
 
@@ -39,16 +40,21 @@ struct ThreadData
 	WorkQueue* workQueue;
 	std::vector<ModelInstance>* models;
 	std::vector<ModelInstance>* forwardModels;
-	std::vector<AnimatedInstance>* animatedModels;
+	//std::vector<AnimatedInstance>* animatedModels;
+	std::vector<ModelInstance>* animatedModels;
 	std::vector<Gear::ParticleSystem*>* particleSystems;
+	std::vector<Gear::ParticleEmitter*>* particleEmitters;
+	std::vector<ModelInstance>* blendingModels;
+	TransformHandler* transformHandler;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
 	bool running;
-	TransformStruct* allTransforms;
 	Animation* allAnimations;
 	HANDLE produce, consume;
 };
+Frustum f = Frustum();
+glm::vec3 POINT33(125, 35, 230);
 struct AnimationData
 {
 	Animation* animation;
@@ -65,7 +71,6 @@ DWORD WINAPI update( LPVOID args )
 	ThreadData* data = (ThreadData*)args;
 
 	CollisionHandler collisionHandler = CollisionHandler(10);
-	Transform* transforms = new Transform[MAX_TRANSFORMS];
 	int boundTransforms = 0;
 	int boundAnimations = 0;
 	AGI::AGIEngine ai;
@@ -73,35 +78,30 @@ DWORD WINAPI update( LPVOID args )
 
 	data->engine->addDebugger( Debugger::getInstance() );
 
-	for( int i=0; i<MAX_TRANSFORMS; i++ )
-		transforms[i].setThePtr( &data->allTransforms[i] );
-
-	data->engine->allocateWorlds( MAX_TRANSFORMS );
-
-	data->engine->bindTransforms( &data->allTransforms, &boundTransforms );
 	data->engine->bindAnimations( &data->allAnimations, &boundAnimations );
 
-	collisionHandler.setTransforms( transforms );
+	//collisionHandler.setTransforms( transforms );
+	collisionHandler.setTransforms( data->transformHandler );
 	collisionHandler.setDebugger(Debugger::getInstance());
 	collisionHandler.setLayerCollisionMatrix(1,1,false);
-
 
 	ai.addDebug(Debugger::getInstance());
 
 	data->engine->queueDynamicModels( data->models );
 	data->engine->queueAnimModels( data->animatedModels );
 	data->engine->queueParticles( *data->particleSystems );
+	data->engine->queueEmitters(*data->particleEmitters);
 	data->engine->queueForwardModels(data->forwardModels);
+
+	data->engine->queueTextureBlendings(data->blendingModels);
 
 	PerformanceCounter counter;
 	LuaBinds luaBinds;
-	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
-		data->models, data->animatedModels, data->forwardModels, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems, 
-		&ai, &network, data->workQueue, data->soundEngine, &counter );
+	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, data->allAnimations, &boundAnimations, 
+		data->models, data->animatedModels, data->forwardModels, data->blendingModels, data->transformHandler, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
+		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
 
 	AnimationData animationData[MAX_ANIMATIONS];
-	for( int i=0; i<MAX_ANIMATIONS; i++ )
-		animationData[i].animation = &data->allAnimations[i];
 
 	while( data->running )
 	{
@@ -120,18 +120,24 @@ DWORD WINAPI update( LPVOID args )
 
 			for( int i=0; i<data->particleSystems->size(); i++ )
 				data->particleSystems->at(i)->update( (float)deltaTime );
+			for (int i = 0; i<data->particleEmitters->size(); i++)
+				data->particleEmitters->at(i)->update((float)deltaTime);
 
 			collisionHandler.checkCollisions();
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS()) 
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB" 
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+#ifdef DEBUGGING_NETWORK
+			fps += "\nPing: " + std::to_string(network.getPing()*100) + " ms";
+#endif
 			data->engine->print(fps, 0.0f, 0.0f);
 			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
 
 			for( int i=0; i<boundAnimations; i++ )
 			{
 				animationData[i].dt = (float)deltaTime;
+				animationData[i].animation = &data->allAnimations[i];
 				//data->allAnimations[i].update(deltaTime);
 				data->workQueue->add( updateAnimation, &animationData[i] );
 			}
@@ -143,8 +149,6 @@ DWORD WINAPI update( LPVOID args )
 
 	network.shutdown();
 	luaBinds.unload();
-
-	delete[] transforms;
 
 	return 0;
 }
@@ -158,18 +162,17 @@ int main()
 	WorkQueue work;
 
 	window.changeCursorStatus(false);
-	
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 
 	engine.setFont(font);
 	engine.setWorkQueue( &work );
 
-	assets.load<TextureAsset>("Textures/buttonOptions.png");
-	assets.load<TextureAsset>("Textures/buttonExit.png");
-	assets.load<TextureAsset>("Textures/buttonReturn.png");
-	assets.load<TextureAsset>("Textures/buttonFullscreenOn.png");
-	assets.load<TextureAsset>("Textures/buttonFullscreenOff.png");
+	assets.load<TextureAsset>("Textures/buttonOptions.dds");
+	assets.load<TextureAsset>("Textures/buttonExit.dds");
+	assets.load<TextureAsset>("Textures/buttonReturn.dds");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOn.dds");
+	assets.load<TextureAsset>("Textures/buttonFullscreenOff.dds");
 	Controls controls;	
 	engine.addDebugger(Debugger::getInstance());
 	glEnable(GL_DEPTH_TEST);
@@ -177,7 +180,7 @@ int main()
 	GLFWwindow* w = window.getGlfwWindow();
 	Inputs inputs(w);
 
-	Camera camera(45.f, 1280.f / 720.f, 0.1f, 300.f, &inputs);
+	Camera camera(45.f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 500.f, &inputs);
 	
 	PerformanceCounter counter;
 	double deltaTime;
@@ -194,8 +197,13 @@ int main()
 
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
-	std::vector<AnimatedInstance> animModels;
+	//std::vector<AnimatedInstance> animModels;
+	std::vector<ModelInstance> animModels;
 	std::vector<Gear::ParticleSystem*> particleSystems;
+	std::vector<Gear::ParticleEmitter*> particleEmitters;
+	std::vector<ModelInstance> blendingModels;
+	TransformHandler transformHandler( &engine, &models, &animModels, &forwardModels, &blendingModels );
+
 	ThreadData threadData =
 	{
 		&engine,
@@ -209,12 +217,14 @@ int main()
 		&forwardModels,
 		&animModels,
 		&particleSystems,
+		&particleEmitters,
+		&blendingModels,
+		&transformHandler,
 		false,
 		true,
 		false,
 		true
 	};
-	threadData.allTransforms = new TransformStruct[MAX_TRANSFORMS];
 	threadData.allAnimations = new Animation[MAX_ANIMATIONS];
 	threadData.produce = CreateSemaphore( NULL, 1, 1, NULL );
 	threadData.consume = CreateSemaphore( NULL, 0, 1, NULL );
@@ -224,7 +234,6 @@ int main()
 	double saveDeltaTime = 0.0f;
 
 	bool fullscreen = threadData.fullscreen;
-	
 
 	bool prevMouseVisible = threadData.mouseVisible;
 	while (threadData.running && window.isWindowOpen())
@@ -240,6 +249,7 @@ int main()
 			if( threadData.queueModels )
 				controls.update( &inputs );
 
+#if _DEBUG
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
@@ -251,9 +261,10 @@ int main()
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
 				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
-				engine.setDrawMode(6);
+				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
-				engine.setDrawMode(7);
+				engine.setDrawMode(5);
+#endif
 			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 			{
 				if (lockMouse)
@@ -281,11 +292,11 @@ int main()
 				window.createWindow(threadData.fullscreen);
 				fullscreen = threadData.fullscreen;
 			}
-			if (inputs.keyPressed(GLFW_KEY_H))
-			{
-				engine.drawAABBSHADOW();
-			}
-			engine.update();
+
+			if( threadData.queueModels )
+				engine.queueDynamicModels( &models );
+			engine.update(deltaTime);
+
 			soundEngine.update(deltaTime);
 			camera.updateBuffer();
 
@@ -293,9 +304,6 @@ int main()
 
 			ReleaseSemaphore( threadData.produce, 1, NULL );
 			// END OF CRITICAL SECTION
-
-			if( threadData.queueModels )
-				engine.queueDynamicModels( &models );
 
 			window.update();
 			engine.draw(&camera);
@@ -313,13 +321,14 @@ int main()
 
 	work.stop();
 
-	delete[] threadData.allTransforms;
 	delete[] threadData.allAnimations;
 
 	for (int i = 0; i < particleSystems.size(); i++)
 	{
 		delete particleSystems[i];
 	}
+	for (int i = 0; i < particleEmitters.size(); i++)
+		delete particleEmitters.at(i);
 
 	glfwTerminate();
 

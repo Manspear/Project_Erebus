@@ -12,9 +12,9 @@ local currentSizeY = 60
 
 
 function LoadDeathUI()
-	imageTextures["deathMsg"] = Assets.LoadTexture("Textures/dead.png");
-	imageTextures["continue"] = Assets.LoadTexture("Textures/buttonContinue.png");
-	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.png");
+	imageTextures["deathMsg"] = Assets.LoadTexture("Textures/dead.dds");
+	imageTextures["continue"] = Assets.LoadTexture("Textures/buttonContinue.dds");
+	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.dds");
 
 	screenImages["deathMsg"] = UI.load(465, 100, 350, 60);
 	screenImages["continue"] = UI.load(465, 240, 350, 60);
@@ -42,17 +42,25 @@ function UpdateDeathUI(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["continue"], x,y) then
+			Sound.Play("Effects/button.wav", 2)
+			Erebus.Running(false)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+			Erebus.ShutdownNetwork()
 		end
 
 		if UI.mousePick(screenImages["exit"], x,y) then
+			Sound.Play("Effects/button.wav", 2)
 			Erebus.Running(false)
 		end
 	end
 end
 
 function DrawDeathUI()
-	UI.drawImage(screenImages["deathMsg"], imageTextures["deathMsg"]);
+	if(not BOSS_DEAD) then
+		UI.drawImage(screenImages["deathMsg"], imageTextures["deathMsg"]);
+	else
+		Gear.Print("YOU WIN!", 465, 100)
+	end
 
 	if(timer >= DEATH_MESSAGE_TIME) then
 		UI.drawImage(screenImages["continue"], imageTextures["continue"]);

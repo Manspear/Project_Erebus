@@ -31,6 +31,9 @@
     <ClCompile Include="UDPSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DebugNetwork.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TransformPacket.hpp">
@@ -96,6 +99,27 @@
     <ClInclude Include="QuickBlendPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
+    <ClInclude Include="DamagePacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeSpellsPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugNetwork.hpp">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="PingPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="DashPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPacket.hpp">
+      <Filter>Packages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Packages">
@@ -106,6 +130,9 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{a625d880-be0e-4c8c-a97d-719864cd16b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{bcbc8231-362e-4b2d-904f-6849c6597dce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

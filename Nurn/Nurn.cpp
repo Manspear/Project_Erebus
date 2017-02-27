@@ -4,8 +4,14 @@ namespace Nurn
 {
 	NurnEngine::NurnEngine()
 	{
+#ifdef DEBUGGING_NETWORK
+		this->packager = new Packager(&this->debugNetwork);
+		this->packetFilter = new PacketFilter(&this->debugNetwork);
+#else
 		this->packager = new Packager();
 		this->packetFilter = new PacketFilter();
+#endif
+
 		return;
 	}
 
@@ -19,12 +25,24 @@ namespace Nurn
 	{
 		if (!packager)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packager = new Packager(&this->debugNetwork);
+#else
 			this->packager = new Packager();
+#endif
 		}
 		if (!packetFilter)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packetFilter = new PacketFilter(&this->debugNetwork);
+#else
 			this->packetFilter = new PacketFilter();
+#endif
 		}
+#ifdef DEBUGGING_NETWORK
+		this->debugNetwork.initializeDebugNetwork(0, true);
+#endif
+
 		return netCommunication.InitializeCommunicationHost(port);
 	}
 
@@ -32,13 +50,26 @@ namespace Nurn
 	{
 		if (!packager)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packager = new Packager(&this->debugNetwork);
+#else
 			this->packager = new Packager();
+#endif
 		}
 		if (!packetFilter)
 		{
+#ifdef DEBUGGING_NETWORK
+			this->packetFilter = new PacketFilter(&this->debugNetwork);
+#else
 			this->packetFilter = new PacketFilter();
+#endif
 		}
+#ifdef DEBUGGING_NETWORK
+		this->debugNetwork.initializeDebugNetwork(1, false);
+#endif
+
 		address = Address(ip1, ip2, ip3, ip4, destPort);
+
 		return netCommunication.InitializeCommunicationClient(origPort, address);
 	}
 
@@ -198,4 +229,113 @@ namespace Nurn
 
 		return result;
 	}
+
+	void NurnEngine::pushDamagePacket(const DamagePacket& packet)
+	{
+		this->packager->pushDamagePacket(packet);
+	}
+
+	bool NurnEngine::fetchDamagePacket(DamagePacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getDamageQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
+	{
+		this->packager->pushChangeSpellsPacket(packet);
+	}
+
+	bool NurnEngine::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getChangeSpellsQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::pushPlayerEventPacket(const EventPacket& packet)
+	{
+		this->packager->pushPlayerEventPacket(packet);
+	}
+
+	bool NurnEngine::fetchPlayerEventPacket(EventPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getPlayerEventQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::pushAIHealthPacket(const HealthPacket& packet)
+	{
+		this->packager->pushAIHealthPacket(packet);
+	}
+
+	bool NurnEngine::fetchAIHealthPacket(HealthPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getAIHealthQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::pushDashPacket(const DashPacket& packet)
+	{
+		this->packager->pushDashPacket(packet);
+	}
+
+	bool NurnEngine::fetchDashPacket(DashPacket& packet)
+	{
+		bool result = false;
+
+		result = this->packetFilter->getDashQueue()->pop(packet);
+
+		return result;
+	}
+
+	void NurnEngine::pushEndEventPacket(const EventPacket& packet)
+	{
+		this->packager->pushEndEventPacket(packet);
+	}
+
+	bool NurnEngine::fetchEndEventPacket(EventPacket& packet)
+	{
+		return this->packetFilter->getEndEventQueue()->pop(packet);
+	}
+
+	void NurnEngine::pushPlayerHealthPacket(const HealthPacket& packet)
+	{
+		this->packager->pushPlayerHealthPacket(packet);
+	}
+
+	bool NurnEngine::fetchPlayerHealthPacket(HealthPacket& packet)
+	{
+		return this->packetFilter->getPlayerHealthQueue()->pop(packet);
+	}
+
+	void NurnEngine::pushRessurectionPacket(const HealthPacket& packet)
+	{
+		this->packager->pushRessurectionPacket(packet);
+	}
+	
+	bool NurnEngine::fetchRessurectionPacket(HealthPacket& packet)
+	{
+		return this->packetFilter->getRessurectionQueue()->pop(packet);
+	}
+
+
+#ifdef DEBUGGING_NETWORK
+	float NurnEngine::getPing()
+	{
+		return this->debugNetwork.getPing();
+	}
+#endif
+
 }

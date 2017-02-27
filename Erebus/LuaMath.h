@@ -6,5 +6,5 @@ namespace LuaMath
 	void registerFunctions(lua_State* lua);
 
 	int normalize(lua_State* lua);
-
+	int getDirection(lua_State* lua);
 }

@@ -3,12 +3,12 @@
 namespace LuaCollision
 {
 	static CollisionHandler* g_collisionHandler = nullptr;
-	static Transform* g_transforms = nullptr;
+	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, Transform* transforms)
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, TransformHandler* transformHandler )
 	{
 		g_collisionHandler = handler;
-		g_transforms = transforms;
+		g_transformHandler = transformHandler;
 
 		//CollisionHandler
 		luaL_newmetatable( lua, "collisionHandlerMeta" );
@@ -24,6 +24,7 @@ namespace LuaCollision
 			{ "DrawHitboxes",		drawHitboxes },
 			{ "DeactivateAllHitboxes", deactivateAllHitboxes},
 			{ "ActivateAllHitboxes", activateAllHitboxes},
+			{ "GetIDsFromLayer", getIDsFromLayer },
 			{"Enable", enableCollisionHandler},
 			{"Disable", disableCollisionHandler},
 			{ NULL, NULL }
@@ -74,6 +75,7 @@ namespace LuaCollision
 			{ "SetMinPos",			setAABBMinPos },
 			{ "SetMaxPos",			setAABBMaxPos },
 			{ "SetPos",				setPos },
+			{ "GetID",				getID },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -188,23 +190,23 @@ namespace LuaCollision
 
 		RayCollider* collider = getRayCollider(lua, 1);
 		int layer = 0;
-		if (nargs == 2)
-			layer = (int)lua_tointeger(lua, 2);
-		g_collisionHandler->addRay(collider,layer);
+if (nargs == 2)
+layer = (int)lua_tointeger(lua, 2);
+g_collisionHandler->addRay(collider, layer);
 
-		return 0;
+return 0;
 	}
 
 	int addOBB(lua_State * lua)
 	{
 		int nargs = lua_gettop(lua);
-		assert( nargs == 1 || nargs == 2 );
+		assert(nargs == 1 || nargs == 2);
 
 		OBBCollider* collider = getOBBCollider(lua, 1);
 		int layer = 0;
 		if (nargs == 2)
 			layer = (int)lua_tointeger(lua, 2);
-		g_collisionHandler->addHitbox(collider,layer);
+		g_collisionHandler->addHitbox(collider, layer);
 
 		return 0;
 	}
@@ -223,43 +225,44 @@ namespace LuaCollision
 		return 0;
 	}
 
-	int createSphere( lua_State* lua )
+	int createSphere(lua_State* lua)
 	{
-		assert( lua_gettop( lua ) == 1 );
+		assert(lua_gettop(lua) == 1);
 
-		int transformID = (int)lua_tointeger( lua, 1 );
-
-		SphereCollider* collider = new SphereCollider( transformID );
-		lua_newtable( lua );
-		luaL_setmetatable( lua, "sphereColliderMeta" );
-		lua_pushlightuserdata( lua, collider );
-		lua_setfield( lua, -2, "__self" );
+		int transformID = (int)lua_tointeger(lua, 1);
+		if (transformID == 142)
+			int shdfhsdhf = 9;
+		SphereCollider* collider = new SphereCollider(transformID);
+		lua_newtable(lua);
+		luaL_setmetatable(lua, "sphereColliderMeta");
+		lua_pushlightuserdata(lua, collider);
+		lua_setfield(lua, -2, "__self");
 
 		return 1;
 	}
 
-	int createAABB( lua_State* lua )
+	int createAABB(lua_State* lua)
 	{
-		assert( lua_gettop( lua ) == 1 );
+		assert(lua_gettop(lua) == 1);
 
-		int transformID = (int)lua_tointeger( lua, 1 );
+		int transformID = (int)lua_tointeger(lua, 1);
 
-		AABBCollider* collider = new AABBCollider( transformID );
-		lua_newtable( lua );
-		luaL_setmetatable( lua, "aabbColliderMeta" );
-		lua_pushlightuserdata( lua, collider );
-		lua_setfield( lua, -2, "__self" );
+		AABBCollider* collider = new AABBCollider(transformID);
+		lua_newtable(lua);
+		luaL_setmetatable(lua, "aabbColliderMeta");
+		lua_pushlightuserdata(lua, collider);
+		lua_setfield(lua, -2, "__self");
 
 		return 1;
 	}
 
 	int createRay(lua_State * lua)
 	{
-		assert( lua_gettop( lua ) == 1 );
+		assert(lua_gettop(lua) == 1);
 
 		int transformID = (int)lua_tointeger(lua, 1);
 
-		RayCollider* ray = new RayCollider(transformID,glm::vec3(0,1,0));
+		RayCollider* ray = new RayCollider(transformID, glm::vec3(0, 1, 0));
 
 		lua_newtable(lua);
 		luaL_setmetatable(lua, "rayColliderMeta");
@@ -271,7 +274,7 @@ namespace LuaCollision
 
 	int createOBB(lua_State * lua)
 	{
-		assert( lua_gettop( lua ) == 1 );
+		assert(lua_gettop(lua) == 1);
 
 		int transformID = (int)lua_tointeger(lua, 1);
 
@@ -284,11 +287,15 @@ namespace LuaCollision
 		return 1;
 	}
 
-	int destroy( lua_State* lua )
+	int destroy(lua_State* lua)
 	{
-		HitBox* hitbox = getHitBox( lua, 1 );
+		HitBox* hitbox = getHitBox(lua, 1);
 		if(hitbox->parent == nullptr)
+		{
+			g_collisionHandler->deleteHitbox(hitbox->getID());
 			delete hitbox;
+		}
+			
 
 		return 0;
 	}
@@ -296,7 +303,12 @@ namespace LuaCollision
 	int destroyRay(lua_State * lua)
 	{
 		RayCollider* ray = getRayCollider(lua, 1);
-		delete ray;
+		if (ray->parent == nullptr)
+		{
+			g_collisionHandler->deleteHitbox(ray->getID());
+			delete ray;
+		}
+		
 
 		return 0;
 	}
@@ -321,6 +333,24 @@ namespace LuaCollision
 		{
 			lua_pushnumber( lua, ids->at(i) );
 			lua_rawseti( lua, -2, i+1 );
+		}
+
+		return 1;
+	}
+
+	int getIDsFromLayer(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 1);
+
+		int layer = (int)lua_tonumber(lua, 1);
+
+		const std::vector<int>& IDs = g_collisionHandler->getAllIDsFromLayer(layer);
+
+		lua_newtable(lua);
+		for (int i = 0; i < IDs.size(); i++)
+		{
+			lua_pushnumber(lua, IDs[i]);
+			lua_rawseti(lua, -2, i+1);
 		}
 
 		return 1;
@@ -622,7 +652,8 @@ namespace LuaCollision
 		MovementController* movementController = getMovementController(lua, 1);
 		int transformIndex = (int)lua_tointeger(lua, 2);
 
-		movementController->setTransform(&g_transforms[transformIndex]);
+		//movementController->setTransform(&g_transforms[transformIndex]);
+		movementController->setTransforms( g_transformHandler, transformIndex );
 
 		return 0;
 	}

@@ -2,7 +2,7 @@
 
 Camera::Camera()
 {	
-	glm::mat4 pers = glm::perspective(45.f, 1280.f / 720.f, 0.5f, 20.f);
+	glm::mat4 pers = glm::perspective(45.f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.5f, 20.f);
 	viewMat = pers * glm::lookAt(glm::vec3(0, 0, 10.0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	freeCam = true;
 }
@@ -199,6 +199,16 @@ glm::vec3 Camera::getDirection()
 glm::vec3 Camera::getUp()
 {
 	return this->camUp;
+}
+
+GEAR_API glm::vec3 Camera::getTrueUp()
+{
+	return glm::normalize(glm::cross(getRight(), this->camDirection));
+}
+
+GEAR_API glm::vec3 Camera::getRight()
+{
+	return glm::normalize(glm::cross(this->camDirection, glm::vec3(0,1,0)));
 }
 
 float Camera::getFov()

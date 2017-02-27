@@ -16,6 +16,8 @@ namespace Gear
 		queue.init();
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		worldImage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		skybox = new Skybox();
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
@@ -23,18 +25,19 @@ namespace Gear
 		frameBufferInit();
 		shaderInit();
 		lightInit();
-		//uniformLocationInit();
 		skyboxInit();
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
 		shadow.Init(WINDOW_HEIGHT, WINDOW_HEIGHT, dirLights[0]);
+
 	}
 
 	GearEngine::~GearEngine()
 	{
 		glfwTerminate();
 		delete debugHandler;
+		delete skybox;
 	}
 #pragma region init functions
 	void GearEngine::lightInit()
@@ -53,7 +56,7 @@ namespace Gear
 		resetLightbuffer();
 
 		Lights::DirLight dirLight; //add one dir light
-		dirLight.direction = glm::normalize(glm::vec3(0.0f, -0.5f, -0.5f));
+		dirLight.direction = glm::normalize(glm::vec3(-0.0f, -0.5f, 0.5f));
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
 		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
@@ -110,7 +113,7 @@ namespace Gear
 
 	void GearEngine::skyboxInit()
 	{
-		skybox.init();
+		skybox->init();
 
 		std::vector<const GLchar*> faces;
 		faces.push_back("skybox/right.dds");
@@ -119,7 +122,7 @@ namespace Gear
 		faces.push_back("skybox/bottom.dds");
 		faces.push_back("skybox/front.dds");
 		faces.push_back("skybox/back.dds");
-		skybox.loadCubemap(faces);
+		skybox->loadCubemap(faces);
 	}
 #pragma endregion
 #pragma region bluh
@@ -156,12 +159,6 @@ namespace Gear
 		glDepthMask(GL_TRUE);
 	}
 
-	void GearEngine::bindTransforms(TransformStruct** theTrans, int* n)
-	{
-		transformCount = n;
-		allTrans = theTrans;
-	}
-
 	void GearEngine::bindAnimations(Animation** theAnims, int* n)
 	{
 		animationCount = n;
@@ -177,6 +174,11 @@ namespace Gear
 	{
 		work = workQueue;
 		queue.setWorkQueue( workQueue );
+	}
+
+	GEAR_API Skybox * GearEngine::getSkybox()
+	{
+		return this->skybox;
 	}
 
 	void GearEngine::print(const std::string &s, const float &baseX, const float &baseY, const float &scale, const glm::vec4 &color)
@@ -195,6 +197,16 @@ namespace Gear
 		image.showImage(pos, width, height, texture);
 	}
 
+	GEAR_API void GearEngine::showWorldImage(const sWorldImage & quad, Importer::TextureAsset * texture)
+	{
+		worldImage.showImage(quad, texture);
+	}
+
+	GEAR_API void GearEngine::showWorldImage(const glm::vec3 & pos, const float & width, const float & height, Importer::TextureAsset * texture)
+	{
+		worldImage.showImage(pos, width, height, texture);
+	}
+
 	glm::vec2 GearEngine::getTextDimensions( const char* t )
 	{
 		return text.getTextDimensions( t );
@@ -208,9 +220,14 @@ namespace Gear
 	void GearEngine::queueDynamicModels(std::vector<ModelInstance>* models)
 	{
 		dynamicModels = models;
+
+		//updateTransforms( dynamicModels );
+
+		for (auto &m : *dynamicModels)
+			m.allocateBuffer();
 	}
 
-	void GearEngine::queueAnimModels(std::vector<AnimatedInstance>* models)
+	void GearEngine::queueAnimModels(std::vector<ModelInstance>* models)
 	{
 		animatedModels = models;
 	}
@@ -225,20 +242,25 @@ namespace Gear
 		particleSystem = &ps;
 	}
 
+	GEAR_API void GearEngine::queueEmitters(std::vector<Gear::ParticleEmitter*> &emitters)
+	{
+		particleEmitters = &emitters;
+	}
+
 	void GearEngine::queueLights(std::vector<Lights::PointLight>* lights)
 	{
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-
+		Lights::PointLight* light;
 		for (int i = 0; i < lights->size(); i++) {
 			if (i < NUM_LIGHTS)
 			{
-				Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
+				light = &pointLightsPtr[i]; //get light at pos i
 
-				light.pos = lights->at(i).pos;
-				light.color = lights->at(i).color;
-				light.radius = lights->at(i).radius;
-				light.radius.a = (float)i;
+				light->pos = lights->at(i).pos;
+				light->color = lights->at(i).color;
+				light->radius = lights->at(i).radius;
+				light->radius.a = (float)i;
 			}
 			else {
 				printf("ERROR: Too many lights : " + lights->size());
@@ -266,6 +288,12 @@ namespace Gear
 	{
 		this->removeLightQueue.push_back(lights);
 	}
+
+	GEAR_API void GearEngine::queueTextureBlendings(std::vector<ModelInstance>* blendingModels)
+	{
+		blendModels = blendingModels;
+	}
+
 #pragma endregion
 	
 	void GearEngine::draw(Camera* camera)
@@ -314,20 +342,31 @@ namespace Gear
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
+		
+
 		glDisable(GL_CULL_FACE);
-		
+
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
+
 		
+
 		debugHandler->draw( camera, &queue );
 
-		skybox.update(camera);
-		skybox.draw();
+		skybox->update(camera);
+		skybox->draw();
 
-		queue.particlePass(particleSystem);
-		queue.forwardPass(forwardModels, &uniValues);
+		queue.particlePass(particleSystem, particleEmitters);
 		
+		queue.textureBlendingPass(&textureBlend, blendModels);
+
+		queue.forwardPass(forwardModels, &uniValues);
+
+		worldImage.update(camera);
+		worldImage.draw();
+
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
+
 		
 		image.draw();
 		text.draw();
@@ -359,16 +398,50 @@ namespace Gear
 
 	}
 
-	void GearEngine::update()
+	void GearEngine::update(float dt)
 	{
-		queue.update(*transformCount, *allTrans, *animationCount, *allAnims);
+		queue.update(*animationCount, *allAnims);
 		debugHandler->update();
 		debugHandler->reset();
 		text.updateBuffer();
 		image.updateBuffer();
+		worldImage.updateBuffer();
 		addLight();
 		updateLight();
 		removeLight();
+		addDynamicLight();
+		updateDynamicLight();
+		removeDynamicLight();
+		skybox->updateRotation(dt);
+		skybox->updateFog(dt);
+		updateTransforms( dynamicModels );
+		updateTransforms( animatedModels );
+		updateTransforms( forwardModels );
+		updateTransforms( blendModels );
+	}
+
+	void GearEngine::updateTransforms( std::vector<ModelInstance>* models )
+	{
+		//for( int curModel=0; curModel<models->size(); curModel++ )
+		//{
+		//	glm::mat4 ident;
+		//	for( int curTrans=0; curTrans < models->at(curModel).transforms.size(); curTrans++ )
+		//	{
+		//		TransformStruct& t = models->at(curModel).transforms.at(curTrans);
+		//		glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
+		//		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
+		//
+		//		glm::mat4 tempMatrix = glm::translate( ident, t.pos );
+		//		tempMatrix = glm::scale( tempMatrix, t.scale );
+		//		tempMatrix = glm::rotate( tempMatrix, t.rot.z, axis );
+		//		tempMatrix = glm::rotate( tempMatrix, t.rot.y, { 0, 1, 0 } );
+		//
+		//		models->at(curModel).worldMatrices.at(curTrans) = tempMatrix;
+		//	}
+		//}
+
+		for (auto &m : *models)
+			m.updateWorldMatrices();
 	}
 
 	GEAR_API void GearEngine::addLight()
@@ -377,18 +450,17 @@ namespace Gear
 		{
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+			Lights::PointLight *light;
 			for (int j = 0; j < addLightQueue.size(); j++)
 			{
 				for (int i = 0; i < NUM_LIGHTS; i++) {
-					Lights::PointLight &light = pointLightsPtr[i]; //get light at pos i
-					if (light.radius.a == -1)
+					light = &pointLightsPtr[i]; //get light at pos i
+					if (light->radius.a == -1)
 					{
-
-
-						light.pos = addLightQueue[j]->pos;
-						light.color = addLightQueue[j]->color;
-						light.radius = addLightQueue[j]->radius;
-						light.radius.a = (float)i;
+						light->pos = addLightQueue[j]->pos;
+						light->color = addLightQueue[j]->color;
+						light->radius = addLightQueue[j]->radius;
+						light->radius.a = (float)i;
 						addLightQueue[j]->radius.a = (float)i;
 						i = NUM_LIGHTS;
 					}
@@ -396,7 +468,6 @@ namespace Gear
 			}
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
 			addLightQueue.clear();
 		}
 	}
@@ -412,7 +483,6 @@ namespace Gear
 		//		if ((int)updateLightQueue[j]->radius.a >= 0)
 		//		{
 		//			Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
-
 		//			light.pos = updateLightQueue[j]->pos;
 		//			light.color = updateLightQueue[j]->color;
 		//			light.radius = updateLightQueue[j]->radius;
@@ -447,6 +517,67 @@ namespace Gear
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 			removeLightQueue.clear();
+		}
+	}
+
+	GEAR_API void GearEngine::queueAddDynamicLights(Lights::PointLight * lights)
+	{
+		addDynamicLightQueue.push_back(lights);
+	}
+
+	GEAR_API void GearEngine::queueUpdateDynamicLights(Lights::PointLight * lights)
+	{
+		updateDynamicLightQueue.push_back(lights);
+	}
+
+	GEAR_API void GearEngine::queueRemoveDynamicLights(Lights::PointLight * lights)
+	{
+		removeDynamicLightQueue.push_back(lights);
+	}
+
+	GEAR_API void GearEngine::addDynamicLight()
+	{
+		if (addDynamicLightQueue.size() > 0 && dynamicPointlights.size() < NUM_DYNAMIC_LIGHTS)
+		{
+			for (int j = 0; j < addDynamicLightQueue.size(); j++)
+			{
+				addDynamicLightQueue[j]->radius.a = dynamicPointlights.size();
+				dynamicPointlights.push_back(addDynamicLightQueue[j]);
+			}
+
+			addDynamicLightQueue.clear();
+		}
+	}
+
+	GEAR_API void GearEngine::updateDynamicLight()
+	{
+		if (updateDynamicLightQueue.size() > 0)
+		{
+			for (int j = 0; j < updateDynamicLightQueue.size(); j++)
+			{
+				dynamicPointlights[updateDynamicLightQueue[j]->radius.a] = updateDynamicLightQueue[j];
+			}
+			updateDynamicLightQueue.clear();
+		}
+	}
+
+	GEAR_API void GearEngine::removeDynamicLight()
+	{
+		if (removeDynamicLightQueue.size() > 0)
+		{
+			for (size_t k = 0; k < removeDynamicLightQueue.size(); k++)
+			{
+				for (size_t i = 0; i < dynamicPointlights.size();)
+				{
+					if (dynamicPointlights.at(i) == removeDynamicLightQueue.at(k)) {
+
+						dynamicPointlights.erase(dynamicPointlights.begin() + i);
+					}
+					else
+						i++;
+				}
+			}
+			removeDynamicLightQueue.clear();
 		}
 	}
 
@@ -491,16 +622,6 @@ namespace Gear
 		//	std::cout << "Looking at something :): " << pickedID << std::endl;
 		gBuffer.unUse();
 	}
-
-	void GearEngine::allocateWorlds(int n)
-	{
-		queue.allocateWorlds(n);
-	}
-
-	int GearEngine::generateWorldMatrix()
-	{
-		return queue.generateWorldMatrix();
-	}
 #pragma endregion
 
 	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
@@ -511,7 +632,6 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(shader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
-		//shadow.bindTexture(shader, "gShadowMap", 3, 1);
 
 		for (GLuint i = 0; i < shadow.getNumCascades(); i++)
 		{
@@ -525,29 +645,26 @@ namespace Gear
 			shader->setUniform((shadow.getShadowMatrix()[i]), ("lightWVP[" + std::to_string(i) + "]").c_str());
 			shader->setUniform((Clip.z), ("CascadeEndClipSpace[" + std::to_string(i) + "]").c_str());
 		}
-		
-		//lightPassShader->addUniform(camera->getPosition(), "viewPos");
-		//lightPassShader->addUniform(tempCam->getViewPers(), "shadowVPM");
-		//lightPassShader->addUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
-		//lightPassShader->addUniform(glm::inverse(camera->getViewMatrix()), "invView");
-		//lightPassShader->addUniform(glm::inverse(camera->getProjectionMatrix()), "invProj");
 
 		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
 		//shader->setUniform(shadow.projectionMatrices[1] * shadow.viewMatrices[1], "shadowVPM"); //shadowVPM
 		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
-
-		//for (GLuint i = 0; i < dirLights.size(); i++) //adds dir light
-		//{
-		//	lightPassShader->addUniform(dirLights[i].direction, ("dirLights[" + std::to_string(i) + "].direction").c_str());
-		//	lightPassShader->addUniform(dirLights[i].color, ("dirLights[" + std::to_string(i) + "].color").c_str());
-		//}
+		shader->setUniform(skybox->getFogColor(), "fogColor");
 
 		for (GLuint i = 0; i < dirLights.size(); i++)
 		{
 			shader->setUniform(dirLights[i].direction, "dirLights.direction");
 			shader->setUniform(dirLights[i].color, "dirLights.color");
+		}
+		int num_lights = dynamicPointlights.size();
+		shader->setUniform(num_lights, "num_dynamic_lights");
+		for (int i = 0; i < dynamicPointlights.size(); i++)
+		{
+			shader->setUniform(dynamicPointlights[i]->pos, "dynamicLights[" + std::to_string(i) + "].pos");
+			shader->setUniform(dynamicPointlights[i]->color, "dynamicLights[" + std::to_string(i) + "].color");
+			shader->setUniform(dynamicPointlights[i]->radius, "dynamicLights[" + std::to_string(i) + "].radius");
 		}
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, lightBuffer); //binds the light buffer to the shader

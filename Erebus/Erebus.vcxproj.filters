@@ -101,6 +101,9 @@
     <ClCompile Include="LuaLight.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="TransformHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -202,15 +205,12 @@
     <ClInclude Include="LuaLight.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="TransformHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\AI\BasicEnemyAI.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\camera.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\enemies.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\level.lua">
@@ -223,9 +223,6 @@
       <Filter>Scripts</Filter>
     </None>
     <None Include="Scripts\particle.lua">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="Scripts\AI\states.lua">
       <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\anim.frag">
@@ -450,38 +447,93 @@
     <None Include="Scripts\spellList.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Shaders\anim.vert">
-      <Filter>Shaders</Filter>
+    <None Include="Shaders\anim.geom" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\animShadow.frag" />
+    <None Include="Shaders\animShadow.vert" />
+    <None Include="Shaders\blur.frag" />
+    <None Include="Shaders\blur.vert" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
+    <None Include="Scripts\spellUtility.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Shaders\anim.geom">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\spellUtility.lua" />
+    <None Include="Shaders\anim.geom" />
+    <None Include="Shaders\anim.vert" />
+    <None Include="Shaders\animShadow.frag" />
+    <None Include="Shaders\animShadow.vert" />
+    <None Include="Shaders\blur.frag" />
+    <None Include="Shaders\blur.vert" />
+    <None Include="Shaders\debugOBB.frag" />
+    <None Include="Shaders\debugOBB.geom" />
+    <None Include="Shaders\debugOBB.vert" />
+    <None Include="Shaders\include.glsl" />
+    <None Include="Scripts\ipconnect.lua">
+      <Filter>Scripts\gamestates</Filter>
     </None>
-    <None Include="Shaders\animShadow.frag">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\ipconnectUI.lua">
+      <Filter>Scripts\UI</Filter>
     </None>
-    <None Include="Shaders\animShadow.vert">
-      <Filter>Shaders</Filter>
+    <None Include="Shaders\textureBlending.frag" />
+    <None Include="Shaders\textureBlending.vert" />
+    <None Include="Scripts\ipconnect.lua">
+      <Filter>Scripts\gamestates</Filter>
     </None>
-    <None Include="Shaders\debugOBB.frag">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\ipconnectUI.lua">
+      <Filter>Scripts\UI</Filter>
     </None>
-    <None Include="Shaders\debugOBB.geom">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\polymorph.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Shaders\debugOBB.vert">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\polymorphEffect.lua">
+      <Filter>Scripts\effects</Filter>
     </None>
-    <None Include="Shaders\blur.frag">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\tumbleThorns.lua">
+      <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Shaders\blur.vert">
-      <Filter>Shaders</Filter>
+    <None Include="Scripts\level01.lua">
+      <Filter>Scripts</Filter>
     </None>
     <None Include="Shaders\include.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\aim.lua">
-      <Filter>Scripts\UI</Filter>
+    <None Include="Scripts\lifeStealEffect.lua" />
+    <None Include="Scripts\windknockback.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\knockbackEffect.lua">
+      <Filter>Scripts\effects</Filter>
+    </None>
+    <None Include="Scripts\siphon.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Shaders\worldImage.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\worldImage.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\revive.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\keybinding.lua" />
+    <None Include="Scripts\keybindingUI.lua" />
+    <None Include="Scripts\boss.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\AI\BasicEnemyAI.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\enemies.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\AI\states.lua">
+      <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\healthOrb.lua">
+      <Filter>Scripts\evils</Filter>
     </None>
     <None Include="Scripts\level01.lua">
       <Filter>Scripts</Filter>
@@ -535,6 +587,9 @@
     </Filter>
     <Filter Include="Scripts\UI">
       <UniqueIdentifier>{8c25589e-b3cf-4cef-b42a-c67b5dc0f631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\evils">
+      <UniqueIdentifier>{ef958cfd-9be6-4013-a206-2936b05415b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

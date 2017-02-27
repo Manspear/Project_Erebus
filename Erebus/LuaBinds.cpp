@@ -17,19 +17,21 @@ void LuaBinds::load( GearEngine* gearEngine,
 					CollisionHandler* collisionHandler,
 					Controls* controls,
 					Inputs* inputs,
-					Transform* transforms,
-					int* boundTransforms,
 					Animation* animations,
 					int* boundAnimations,
 					std::vector<ModelInstance>* models,
-					std::vector<AnimatedInstance>* animatedModels,
+					//std::vector<AnimatedInstance>* animatedModels,
+					std::vector<ModelInstance>* animatedModels,
 					std::vector<ModelInstance>* forwardModels,
+					std::vector<ModelInstance>* blendingModels,
+					TransformHandler* transformHandler,
 					bool* queueModels,
 					bool* mouseVisible,
 					bool* fullscreen,
 					bool* running,
 					Camera* camera,
 					std::vector<Gear::ParticleSystem*>* ps,
+					std::vector<Gear::ParticleEmitter*>* emitters,
 					AGI::AGIEngine* AI,
 					NetworkController* network,
 					WorkQueue* work,
@@ -38,19 +40,20 @@ void LuaBinds::load( GearEngine* gearEngine,
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
-	LuaErebus::registerFunctions( lua, transforms, controls, network, counter, running );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, queueModels, mouseVisible, fullscreen, assets, work );
+	LuaErebus::registerFunctions( lua, controls, network, counter, running, transformHandler );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, transformHandler, queueModels, mouseVisible, fullscreen, assets, work );
 	LuaAssets::registerFunctions( lua, assets );
-	LuaCollision::registerFunctions( lua, collisionHandler, transforms );
-	LuaTransform::registerFunctions( lua, transforms, boundTransforms);
+	LuaCollision::registerFunctions( lua, collisionHandler, transformHandler );
+	LuaTransform::registerFunctions( lua, transformHandler);
 	LuaInputs::registerFunctions( lua, inputs );
-	LuaCamera::registerFunctions(lua, camera, transforms);
-	LuaParticles::registerFunctions(lua, ps, assets);
-	LuaAI::registerFunctions(lua, transforms, AI);
+	LuaCamera::registerFunctions(lua, camera, transformHandler );
+	LuaParticles::registerFunctions(lua, ps, emitters, assets);
+	LuaAI::registerFunctions(lua, AI, assets, transformHandler);
 	LuaNetwork::registerFunctions(lua, network);
 	LuaSound::registerFunctions(lua, soundEngine);
 	LuaUI::registerFunctions(lua, gearEngine);
 	LuaLight::registerFunctions(lua, gearEngine);
+	LuaMath::registerFunctions(lua);
 
 	if( luaL_dofile( lua, "Scripts/main.lua" ) )
 		std::cout << lua_tostring( lua, -1 ) << std::endl;

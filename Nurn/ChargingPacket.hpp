@@ -7,7 +7,8 @@ union ChargingPacket
 	struct ChargingPacketStruct
 	{
 		uint16_t ID;
-		float damage;
+		uint16_t damage;
+		uint16_t spellListIndex;
 
 	}data;
 
@@ -15,10 +16,11 @@ union ChargingPacket
 	{
 	}
 
-	ChargingPacket(const uint16_t &ID, const uint16_t &damage)
+	ChargingPacket(const uint16_t &ID, const uint16_t &damage, const uint16_t &spellListIndex)
 	{
 		data.ID = ID;
 		data.damage = damage;
+		data.spellListIndex = spellListIndex;
 	}
 
 	unsigned char bytes[sizeof(ChargingPacketStruct)];
