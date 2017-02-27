@@ -289,6 +289,14 @@ void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
 
 			}
 		}
+		if (node->animatedModels->size() != 0) // animated models in quadtree
+		{
+			for (size_t i = 0; i < node->animatedModels->size(); i++)
+			{
+				debugger->drawAABB(node->animatedModels->operator[](i)->collider->getMinPos(), node->animatedModels->operator[](i)->collider->getMaxPos(), this->childHitboxColor);
+			}
+
+		}
 	}
 }
 
