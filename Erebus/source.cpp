@@ -46,6 +46,7 @@ struct ThreadData
 	std::vector<Gear::ParticleEmitter*>* particleEmitters;
 	std::vector<ModelInstance>* blendingModels;
 	TransformHandler* transformHandler;
+	FloatingDamage* floatingDamage;
 	bool queueModels;
 	bool mouseVisible;
 	bool fullscreen;
@@ -53,6 +54,7 @@ struct ThreadData
 	TransformStruct* allTransforms;
 	Animation* allAnimations;
 	HANDLE produce, consume;
+	
 };
 Frustum f = Frustum();
 glm::vec3 POINT33(125, 35, 230);
@@ -107,7 +109,7 @@ DWORD WINAPI update( LPVOID args )
 	LuaBinds luaBinds;
 	luaBinds.load( data->engine, data->assets, &collisionHandler, data->controls, data->inputs, transforms, &boundTransforms, data->allAnimations, &boundAnimations, 
 		data->models, data->animatedModels, data->forwardModels, data->blendingModels, data->transformHandler, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
-		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter );
+		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter, data->floatingDamage );
 
 	AnimationData animationData[MAX_ANIMATIONS];
 
@@ -196,14 +198,13 @@ int main()
 	Gear::GearEngine engine;
 	SoundEngine soundEngine;
 	WorkQueue work;
-	FloatingDamage floatingDamage;
+	
 
 	window.changeCursorStatus(false);
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
 	Importer::FontAsset* fontDmg = assets.load<FontAsset>("Fonts/FloatDamage");
-	floatingDamage.setFont(fontDmg);
-	engine.addFloatingDamageRef(floatingDamage);
+
 
 	
 
@@ -246,7 +247,9 @@ int main()
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	std::vector<ModelInstance> blendingModels;
 	TransformHandler transformHandler( &engine, &models, &animModels, &forwardModels, &blendingModels );
-
+	FloatingDamage floatingDamage;
+	floatingDamage.setFont(fontDmg);
+	engine.addFloatingDamageRef(floatingDamage);
 	ThreadData threadData =
 	{
 		&engine,
@@ -263,10 +266,12 @@ int main()
 		&particleEmitters,
 		&blendingModels,
 		&transformHandler,
+		&floatingDamage,
 		false,
 		true,
 		false,
 		true
+		
 	};
 	threadData.allTransforms = new TransformStruct[MAX_TRANSFORMS];
 	threadData.allAnimations = new Animation[MAX_ANIMATIONS];

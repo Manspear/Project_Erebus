@@ -19,8 +19,10 @@ namespace LuaGear
 	static bool* g_fullscreen = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 	static Skybox* g_skybox = nullptr;
+	static FloatingDamage* g_floatDamage = nullptr;
 
-	void registerFunctions(lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work)
+	void registerFunctions(lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work,
+		FloatingDamage* floatingDamage)
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
@@ -36,6 +38,7 @@ namespace LuaGear
 		g_fullscreen = fullscreen;
 		g_transformHandler = transformHandler;
 		g_skybox = g_gearEngine->getSkybox();
+		g_floatDamage = floatingDamage;
 
 		// Gear
 		luaL_newmetatable(lua, "gearMeta");
@@ -51,6 +54,7 @@ namespace LuaGear
 			{ "BindBlendingInstance", bindBlendingInstance },
 			{ "UnbindInstance", unbindInstance },
 			{ "Print", print },
+			{ "PrintDamage", printDamageNumer},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
 			{ "SetUniformLocation", setUniformLocation },
@@ -646,5 +650,21 @@ namespace LuaGear
 
 		lua_pushinteger(lua, result );
 		return 1;
+	}
+
+	int printDamageNumer(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 5);
+		float damage = lua_tonumber(lua, 1);
+
+		int damageType = (int)lua_tointeger(lua, 2);
+
+		glm::vec3 position;
+		position.x = lua_tonumber(lua, 3);
+		position.y = lua_tonumber(lua, 4);
+		position.z = lua_tonumber(lua, 5);
+
+		g_floatDamage->addDamage(damage, damageType, position);
+		return 0;
 	}
 }

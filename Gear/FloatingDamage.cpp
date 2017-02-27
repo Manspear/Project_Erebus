@@ -118,7 +118,7 @@ void FloatingDamage::updateBuffer()
 	lines.clear();
 }
 
-void FloatingDamage::addDamage(float damage, eDamageTypes damageType, glm::vec3 positionOverHead)
+void FloatingDamage::addDamage(float damage, int damageType, glm::vec3 positionOverHead)
 {
 	positionOverHead.x += xOffsetRandom[currentOffset];
 	positionOverHead.y += yOffsetRandom[currentOffset];

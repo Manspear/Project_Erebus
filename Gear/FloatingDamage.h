@@ -84,7 +84,7 @@ public:
 
 	GEAR_API void updateBuffer();
 	GEAR_API void print(const std::string &s, const float &scale, const glm::vec4 &color, glm::vec3 worldPos);
-	GEAR_API void addDamage(float damage, eDamageTypes damageType, glm::vec3 positionOverHead);
+	GEAR_API void addDamage(float damage, int damageType, glm::vec3 positionOverHead);
 
 	GEAR_API void draw(Camera* camera);
 };

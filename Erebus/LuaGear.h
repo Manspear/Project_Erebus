@@ -24,7 +24,8 @@ namespace LuaGear
 		bool* mouseVisible,
 		bool* fullscreen,
 		Assets* assets,
-		WorkQueue* work);
+		WorkQueue* work,
+		FloatingDamage* floatingDamage);
 
 	/*int addStaticInstance( lua_State* lua );
 	int addAnimatedInstance(lua_State* lua);
@@ -60,4 +61,5 @@ namespace LuaGear
 	int setBlendTextures(lua_State* lua);
 	int setFogColor(lua_State* lua);
 
+	int printDamageNumer(lua_State* lua);
 }
