@@ -2,14 +2,14 @@ TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 0.5
 TUMBLETHORNS_COOLDOWN = 4
-TUMBLETHORNS_ROLLBACKTIME = 0.75
+TUMBLETHORNS_ROLLBACKTIME = 0.4
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
 	spell.cooldown = 0.0		spell.maxcooldown = 4
 	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.damage = 1
+	spell.damage = 10
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 	spell.chargedTime = 0		spell.maxChargeTime = 2
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
@@ -17,16 +17,14 @@ function CreateTumblethorns(entity)
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
 		
-	--spell.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
-	--Gear.AddForwardInstance(model, spell.transformID )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
 	spell.effects = {} 
-	table.insert(spell.effects, FIRE_EFFECT_INDEX)
+	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	spell.particles = createTumbleParticles()
 
 	function spell:Update(dt)

@@ -2,30 +2,33 @@ BOSS_SPELLCD = {}
 BOSS_SPELLCD[1] = 25
 BOSS_SPELLCD[2] = 1
 BOSS_SPELLCD[3] = 10
+
 boss = {}
 boss.spells = {}
-boss.spellcooldowns = {}
+boss.spellinfo = {}
 
 BOSS_HEALTHBAR_WIDTH = 8
 BOSS_HEALTHBAR_HEIGHT = 0.45
+BOSS_ATTACK_INTERVAL = 1
 
 BOSS_DEAD = false
 
 function LoadBoss()
 	boss.spells[1] = CreateTimeOrbWave()
-	boss.spellcooldowns[1] = 0
+	boss.spellinfo[1] = {cd = 0, interval = {0,10}}
 	boss.spells[2] = CreateChronoBall(boss)
-	boss.spellcooldowns[2] = 0	
+	boss.spellinfo[2] = {cd = 0, interval = {10,60}}
+	boss.spells[3] = CreateTimeLaser(boss)
+	boss.spellinfo[3] = {cd = 0, interval = {60,80}}
 	--boss.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/THe_Timelord.model" )
-	boss.spells[3] = CreateTimeLaser(boss)
-	boss.spellcooldowns[3] = 0
 	boss.transformID = Gear.BindStaticInstance(model)
 	boss.maxHealth = 500
 	boss.health = boss.maxHealth
 	boss.effects = {}
 	boss.timeScalar = 1
 	boss.movementSpeed = 1
+	boss.pickInterval = 1
 	--local model = Assets.LoadModel("Models/The_Timelord.model")
 	--Gear.AddStaticInstance(model, boss.transformID)
 	boss.healthbar = UI.load(0, 0, 0, BOSS_HEALTHBAR_WIDTH, BOSS_HEALTHBAR_HEIGHT);
@@ -52,9 +55,9 @@ end
 function UpdateBoss(dt)
 	if boss.health > 0 then
 		dt = dt * boss.timeScalar
-		local hm = GetHeightmap({x=460,y=0,z=156})
+		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
 		if hm then
-			Transform.SetPosition(boss.transformID, { x=460, y= hm.asset:GetHeight(460, 156)+5, z=156 })
+			Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)+5, z=435.7 })
 		end
 		pos = Transform.GetPosition(boss.transformID)
 		UI.reposWorld(boss.healthbar, pos.x, pos.y+7, pos.z)
@@ -74,13 +77,23 @@ function UpdateBoss(dt)
 				table.remove(boss.effects, i)
 			end
 		end
+		boss.pickInterval = boss.pickInterval - dt
+
 		for i = 1, #boss.spells do
 			boss.spells[i]:Update(dt)
-			boss.spellcooldowns[i]  = boss.spellcooldowns[i] - dt
-			if boss.spellcooldowns[i] < 0 then
-				--print("shot")
-				boss.spellcooldowns[i] = BOSS_SPELLCD[i]
-				boss.spells[i]:Cast(boss)
+			boss.spellinfo[i].cd  = boss.spellinfo[i].cd - dt
+		end
+		if boss.pickInterval < 0 then
+			boss.pickInterval = BOSS_ATTACK_INTERVAL
+			local rngnum = math.random(0,99)
+			for i = 1, #boss.spells do
+				if rngnum >= boss.spellinfo[i].interval[1] and rngnum < boss.spellinfo[i].interval[2] then
+					if boss.spellinfo[i].cd < 0 then
+						boss.spellinfo[i].cd = BOSS_SPELLCD[i]
+						boss.spells[i]:Cast(boss)
+						break
+					end
+				end
 			end
 		end
 	elseif not BOSS_DEAD then

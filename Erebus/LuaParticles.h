@@ -18,6 +18,7 @@ namespace LuaParticles
 	int setPositionEm(lua_State* lua);
 	int setAliveEm(lua_State* lua);
 	int setDeadEm(lua_State* lua);
+	int setFocusEm(lua_State* lua);
 	int explodeEm(lua_State* lua);
 	int setDirectionEm(lua_State* lua);
 	int setExtroEm(lua_State* lua);

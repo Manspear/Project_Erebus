@@ -7,7 +7,7 @@ FIREBALL_LIFETIME = 10
 FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
 FIRESPAM_DAMAGE = 50
-FIREBALL_BASE_DMG = 20
+FIREBALL_BASE_DMG = 4
 FIREBALL_LIGHTRADIUS = 5
 FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
 FIREBALL_SMALL_HIT_SFX = "Effects/explosion.wav"
@@ -16,7 +16,7 @@ FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
 function CreateFireball(entity)
 	function initSmallFireball()
 		local tiny = {}
-		local model = Assets.LoadModel( "Models/grenade.model" )
+		local model = Assets.LoadModel( "Models/projectile1.model" )
 		tiny.type = CreateProjectileType(model)
 		tiny.damage = FIRESPAM_DAMAGE
 		tiny.alive = false
@@ -271,6 +271,6 @@ function CreateFireball(entity)
 		self.aSmallIsActive = self.aSmallIsActive - 1
 	end
 	spell.Charge = BaseCharge
-	--spell.Change = BaseChange
+	spell.Change = BaseChange
 	return spell
 end
