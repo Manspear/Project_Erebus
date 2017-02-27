@@ -148,10 +148,11 @@ namespace Importer
 
 	void ModelAsset::unload()
 	{
-		if( *vertexBuffers )
+		if( vertexBuffers && *vertexBuffers )
 		{
 			glDeleteBuffers( header.numMeshes*2, vertexBuffers );
 			*vertexBuffers = 0;
+			vertexBuffers = nullptr;
 		}
 
 		free(dataptr);
