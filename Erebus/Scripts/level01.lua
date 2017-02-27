@@ -286,9 +286,9 @@ level01.triggers.New435ID.collider:SetOffset(0,0,0)
 level01.triggers.New435ID.collider:SetRadius(1)
 level01.triggers.New435ID.collider:SetPos(20.0156,6.19141,157.875)
 sluice1 = CreateSluice(level01.triggers.New435ID.collider, slussen.transformID)
-level01.triggers.New435ID.collider:OnEnter= function(self) SluiceEnter(sluice1) end
-level01.triggers.New435ID.collider:OnTriggering = function(self,dt) SluiceUpdate(dt, sluice1) end
-level01.triggers.New435ID.collider:OnExit = function(self) SluiceExit(sluice1) end
+level01.triggers.New435ID.collider.OnEnter= function(self) SluiceEnter(sluice1) end
+level01.triggers.New435ID.collider.OnTriggering = function(self,dt) SluiceUpdate(dt, sluice1) end
+level01.triggers.New435ID.collider.OnExit = function(self) SluiceExit(sluice1) end
 level01.triggers.New435ID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.New435ID.collider, 4)
 level01.props.Stone2673ID = {}
