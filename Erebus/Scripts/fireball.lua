@@ -22,8 +22,6 @@ function CreateFireball(entity)
 		tiny.alive = false
 		tiny.lifeTime = 1.8
 		tiny.hits = {}
-		--local model = Assets.LoadModel( "Models/grenade.model" )
-		--Gear.AddForwardInstance(model, tiny.type.transformID)
 		tiny.particles = CreateFireEffectParticles()
 		return tiny
 	end

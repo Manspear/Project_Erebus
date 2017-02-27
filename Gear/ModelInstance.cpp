@@ -112,6 +112,9 @@ namespace Gear
 	void ModelInstance::updateWorldMatrices()
 	{
 		activeTransforms = 0;
+		glm::vec3 tempLook;
+		glm::vec3 axis;
+		glm::mat4 matrix;
 		for (int i = 0; i < transforms.size(); i++)
 		{
 			TransformStruct& t = transforms[i];
@@ -119,9 +122,9 @@ namespace Gear
 			{
 				activeTransforms++;
 
-				glm::vec3 tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
-				glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
-				glm::mat4 matrix = glm::translate(glm::mat4(), t.pos);
+				tempLook = glm::normalize(glm::vec3(t.lookAt.x, 0, t.lookAt.z));
+				axis = glm::cross(tempLook, { 0, 1, 0 });
+				matrix = glm::translate(glm::mat4(), t.pos);
 				matrix = glm::rotate(matrix, t.rot.z, axis);
 				matrix = glm::rotate(matrix, t.rot.x, t.lookAt );
 				matrix = glm::rotate(matrix, t.rot.y, { 0, 1, 0 });
