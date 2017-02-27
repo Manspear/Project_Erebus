@@ -59,13 +59,42 @@ namespace Importer
 		return result;
 	}
 
+	Asset::Asset()
+		: referenceCount( 0 )
+	{
+	}
+
 	Asset::~Asset()
 	{
+	}
+
+	void Asset::incrementReferenceCount()
+	{
+		referenceCount++;
+	}
+
+	void Asset::decrementReferenceCount()
+	{
+		// if this assertion fails, we're trying to unload the same assets too many times
+		//assert( referenceCount > 0 );
+
+		if( referenceCount > 0 )
+			referenceCount--;
+	}
+
+	void Asset::setAssets( Assets* a )
+	{
+		assets = a;
 	}
 
 	FileInfo* Asset::getFileInfo()
 	{
 		return &fileInfo;
+	}
+
+	int Asset::getReferenceCount()
+	{
+		return referenceCount;
 	}
 
 	AssetID::AssetID( std::string p, size_t h )
@@ -127,12 +156,6 @@ namespace Importer
 
 	Assets::~Assets()
 	{
-		unload();
-	}
-
-	void Assets::unload()
-	{
-		//for( std::map<std::string, Asset*>::iterator it = assets.begin(); it != assets.end(); it++ )
 		for( std::map<AssetID, Asset*>::iterator it = assets.begin(); it != assets.end(); it++ )
 		{
 			it->second->unload();
@@ -165,6 +188,29 @@ namespace Importer
 					it->second->load( it->second->getFileInfo()->getPath(), this );
 				}
 			}
+		}
+	}
+
+	void Assets::checkReferences()
+	{
+		std::map<AssetID, Asset*>::iterator removes[ASSETS_MAX_UNLOAD_PER_FRAME];
+		int nremoves = 0;
+
+		for( std::map<AssetID, Asset*>::iterator it = assets.begin(); it != assets.end() && nremoves < ASSETS_MAX_UNLOAD_PER_FRAME; it++ )
+		{
+			if( it->second->getReferenceCount() <= 0 )
+			{
+				removes[nremoves++] = it;
+			}
+		}
+
+		for( int i=0; i<nremoves; i++ )
+		{
+			printf( "Unloading asset %s\n", removes[i]->second->getFileInfo()->getPath().c_str() );
+
+			removes[i]->second->unload();
+			delete removes[i]->second;
+			assets.erase( removes[i] );
 		}
 	}
 }

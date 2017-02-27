@@ -38,7 +38,7 @@ local scriptFiles =
 	"Scripts/revive.lua",
 	"Scripts/TimeLaser.lua",
 	"Scripts/healthOrb.lua",
-	"Scripts/reusable.lua"
+	"Scripts/reusable.lua",
 }
 
 loadedLevels = {}
@@ -126,7 +126,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Level01.lua" )
+		dofile( "Scripts/Level03.lua" )
 
 		levels[1].load()
 		loadedLevels[1] = true

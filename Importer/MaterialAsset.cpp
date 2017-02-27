@@ -104,6 +104,12 @@ namespace Importer
 
 	void MaterialAsset::unload()
 	{
+		if( diffuseTexture )
+			diffuseTexture->decrementReferenceCount();
+		if( specularTexture )
+			specularTexture->decrementReferenceCount();
+		if( normalTexture )
+			normalTexture->decrementReferenceCount();
 	}
 
 	void MaterialAsset::upload()

@@ -13,10 +13,12 @@ namespace LuaAssets
 		luaL_newmetatable( lua, "assetsMeta" );
 		luaL_Reg assetsRegs[] =
 		{
-			{ "Unload", unload },
 			{ "LoadModel", loadModel },
+			{ "UnloadModel", unloadModel },
 			{ "LoadTexture", loadTexture },
+			{ "UnloadTexture", unloadTexture },
 			{ "LoadHeightmap", loadHeightmap },
+			{ "UnloadHeightmap", unloadHeightmap },
 			{ NULL, NULL }
 		};
 
@@ -60,12 +62,6 @@ namespace LuaAssets
 		lua_pop(lua, 2);
 	}
 
-	int unload( lua_State* lua )
-	{
-		g_assets->unload();
-		return 0;
-	}
-
 	int loadModel( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 1 );
@@ -81,6 +77,15 @@ namespace LuaAssets
 		}
 
 		return result;
+	}
+
+	int unloadModel( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		g_assets->unload<ModelAsset>( lua_tostring( lua, 1 ) );
+
+		return 0;
 	}
 
 	int loadTexture( lua_State* lua )
@@ -101,6 +106,15 @@ namespace LuaAssets
 		}
 
 		return result;
+	}
+
+	int unloadTexture( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		g_assets->unload<TextureAsset>( lua_tostring( lua, 1 ) );
+
+		return 0;
 	}
 
 	int bindTexture( lua_State* lua )
@@ -139,6 +153,15 @@ namespace LuaAssets
 		}
 
 		return result;
+	}
+
+	int unloadHeightmap( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		g_assets->unload<HeightMap>( lua_tostring( lua, 1 ) );
+
+		return 0;
 	}
 
 	int insideHeightmap( lua_State* lua )
