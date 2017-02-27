@@ -371,15 +371,15 @@ namespace Gear
 		image.draw();
 		text.draw();
 
-		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
-		for (int i = 0; i < shadow.getNumCascades(); i++)
-		{
-			glViewport(10 + 200 * i + 10 * i, WINDOW_HEIGHT - 210, 200, 200);
-			shader->use();
-			shadow.bindTexture(shader, "diffuse", 0, i);
-			drawQuad(); //draws quad
-			shader->unUse();
-		}
+		//ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
+		//for (int i = 0; i < shadow.getNumCascades(); i++)
+		//{
+		//	glViewport(10 + 200 * i + 10 * i, WINDOW_HEIGHT - 210, 200, 200);
+		//	shader->use();
+		//	shadow.bindTexture(shader, "diffuse", 0, i);
+		//	drawQuad(); //draws quad
+		//	shader->unUse();
+		//}
 
 
 		//glViewport(220, 10, 200, 200);
