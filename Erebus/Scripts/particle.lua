@@ -1,25 +1,3 @@
-function createFireballParticles()
-	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
-	local fireball = {}
-	fireball.fly = Particle.Bind("ParticleFiles/grenadeParticles.Particle")  
-	fireball.exploda = Particle.Bind("ParticleFiles/grenadeParticles.Particle")
-	
-	function fireball.cast()
-		Particle.SetAlive(fireball.fly)
-	end
-
-	function fireball.die(pos)
-		Particle.SetDead(fireball.fly)
-		Particle.Explode(fireball.exploda, pos)	
-	end
-
-	function fireball.update(pos)
-		Particle.SetPosition(fireball.fly, pos)
-	end
-
-	return fireball
-end
-
 function createIceGrenadeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, koncentration på spruuut
 	local ice = {}
@@ -40,8 +18,29 @@ function createIceGrenadeParticles()
 	end
 	return ice
 end
+FIREBALL_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpellRed.dds")
 
 function CreateFireEffectParticles()
+	local fire = {}
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
+	fire.ID = Emitter.Bind(25, 0.3, 4, 50, 2, 0, 0, 1, -2)  
+	Emitter.SetTexture(fire.ID, FIREBALL_PARTICLES_TEX)
+	function fire:Cast()
+		Emitter.SetAlive(self.ID)
+	end
+
+	function fire:Die()
+		Emitter.SetDead(self.ID)	
+	end
+
+	function fire:Update(pos)
+		Emitter.SetPosition(self.ID, pos)
+	end
+
+	return fire
+end
+
+function CreateFireballParticles()
 	local particle = {}
 	particle.burn = Particle.Bind("ParticleFiles/firetest4.particle")
 	function particle:Cast()
@@ -57,7 +56,7 @@ function CreateFireEffectParticles()
 	return particle
 end
 
-CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpell.dds");
+CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpell.dds")
 function createChargeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
