@@ -87,6 +87,12 @@ function LoadPlayer()
 	player.combined = false
 	player.combinedSpell = -1
 
+	--Used as a delay hindering rampant spellswitching
+	player.globalSpellSwitchingCooldownTimerThreshHold = 1
+	player.globalSpellSwitchingCooldownTimer = 0
+	player.globalSpellSwitchingCooldownTimerStarted = false
+
+	player.resetSpamAttack = false
 	player.attackDelayTimerStarted = false
 	player.attackDelayTimerThreshHold = 0
 	player.attackDelayTimer = 0
@@ -230,7 +236,7 @@ function LoadPlayer2()
 	end
 
 	function player2.Kill(self)
-
+		
 	end
 
 	function player2.Apply(self, effect)
@@ -327,6 +333,13 @@ function FindHeightmap(position)
 end
 
 function UpdatePlayer(dt)
+	
+	--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	player.animationController:AnimationUpdate(dt, Network)
+	if Network.ShouldSendNewAnimation() == true then
+		Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+	end
+
 	UpdatePlayer2(dt)
 	if player.isAlive then
 		local scale = 0.8
@@ -368,12 +381,6 @@ function UpdatePlayer(dt)
 				--print("Wait, i got ressurected?!", player.health, player.isAlive)
 			end
 		end
-	end
-
-	--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	player.animationController:AnimationUpdate(dt, Network)
-	if Network.ShouldSendNewAnimation() == true then
-		Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 	end
 
 	if not player2.isAlive then
@@ -612,9 +619,33 @@ function Controls(dt)
 				player.animationController.animation:ResetSegmentPlayTime(1)
 			end
 
-			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
+			if player.globalSpellSwitchingCooldownTimerStarted == true then 
+				player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
+
+				print(player.globalSpellSwitchingCooldownTimer)
+
+				if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
+					player.globalSpellSwitchingCooldownTimerStarted = false
+					player.globalSpellSwitchingCooldownTimer = 0
+				end
+			end
+
+			if player.globalSpellSwitchingCooldownTimerStarted == false then 
+				if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then
+					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change() end
+					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
+
+					player.spamCasting = false
+					player.firstAttack = true
+					player.attackDelayTimerStarted = false
+					player.resetSpamAttack = true
+					
+					player.globalSpellSwitchingCooldownTimerStarted = true
+					--player.animationController.animation:ResetSegmentPlayTime(1)
+				end
+			end
+
 		end
 
 		if not player.spamCasting then

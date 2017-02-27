@@ -46,7 +46,6 @@ function CreateIceGrenade(entity)
 	spell.owner = entity
 	spell.nades = {}
 	spell.spamcd = SPAM_CD_ICENADE
-	spell.cooldown = 0
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.damage = MAX_DAMAGE_ICENADE
@@ -55,6 +54,15 @@ function CreateIceGrenade(entity)
 	spell.timeSinceLastPoop = 0
 	spell.Change = GenericChange
 	spell.isActiveSpell = false
+
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	ICEGRENADE_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * ICEGRENADE_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * ICEGRENADE_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * ICEGRENADE_CASTSPEED_MULTIPLE
+
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
 	end

@@ -33,6 +33,10 @@ function CreateBlackHole(entity)
 	spell.cooldown = 0
 	spell.soundID = {-1, -1, -1}
 	spell.Change = GenericChange
+
+	--For animation timing 
+	spell.hasSpamAttack = false
+
 	--spell.spamcd = 5
 	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
 	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1

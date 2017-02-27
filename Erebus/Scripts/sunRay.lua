@@ -24,7 +24,6 @@ function CreateSunRay(entity)
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
 	sunRay.maxChargeTime = 3
-	sunRay.cooldown = 0.0
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
 	sunRay.length = 0
 	sunRay.angle = 2	sunRay.spin = 0.3
@@ -43,6 +42,14 @@ function CreateSunRay(entity)
 	--Gear.AddForwardInstance(model2, sunRay.type.transformID)
 	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
 	sunRay.transformID2 = Gear.BindForwardInstance(model2)
+
+	--For animation timing 
+	sunRay.hasSpamAttack = true
+	sunRay.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	SUNRAY_CASTSPEED_MULTIPLE = 2
+	sunRay.castTimeAttack = 0.5 * SUNRAY_CASTSPEED_MULTIPLE
+	sunRay.castAnimationPlayTime = 2 * SUNRAY_CASTSPEED_MULTIPLE --the true cast time of the animation
+	sunRay.castTimeFirstAttack = 0.1875 * SUNRAY_CASTSPEED_MULTIPLE
 
 	-- TODO(Niclas): Not supported yet
 	--sunRay.modelIndex = Gear.AddForwardInstance(model, sunRay.type.transformID)

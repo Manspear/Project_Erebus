@@ -37,7 +37,6 @@ function CreateSiphon(entity)
 	spell.alive = false
 	spell.shooting = false
 	spell.hitchecker = false
-	spell.cooldown = 0
 	spell.spamcooldown = 0
 	spell.maxcooldown = SIPHON_COOLDOWN
 	spell.spamduration = SIPHON_SPAM_DURATION
@@ -50,6 +49,15 @@ function CreateSiphon(entity)
 	spell.duration = SIPHON_CHAIN_DURATION
 	spell.temppos = {x=0,y=0,z=0}
 	spell.uvPush = {x = 0, y = 0}
+
+		--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	SIPHON_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * SIPHON_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * SIPHON_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * SIPHON_CASTSPEED_MULTIPLE
+
 	Gear.SetUniformLocation(spell.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
 	--spell.modelIndex = Gear.BindBlendingInstance(model)

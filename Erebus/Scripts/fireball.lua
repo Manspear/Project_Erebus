@@ -33,7 +33,7 @@ function CreateFireball(entity)
 	spell.damage = FIREBALL_BASE_DMG
 	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 	spell.isActiveSpell = false		spell.aSmallIsActive = 0
-	spell.cooldown = 0		spell.maxcooldown = FIREBALL_COOLDOWN
+	spell.maxcooldown = FIREBALL_COOLDOWN
 	spell.chargedTime = 0	spell.maxChargeTime = 3
 	spell.caster = entity.transformID
 	spell.owner = entity
@@ -45,6 +45,14 @@ function CreateFireball(entity)
 	spell.smallFB = {}		spell.currentFB = 1
 	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
 	
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	FIREBALL_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * FIREBALL_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * FIREBALL_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * FIREBALL_CASTSPEED_MULTIPLE
+
 	--Big fireball
 	spell.bigBallActive = false
 	local model = Assets.LoadModel( "Models/projectile1.model" )

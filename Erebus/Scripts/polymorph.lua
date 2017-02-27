@@ -21,6 +21,9 @@ function CreatePolymorph(entity)
 	spell.morphTime = 3
 	spell.effects = {}
 	
+	--For animation timing 
+	spell.hasSpamAttack = false
+
 	table.insert(spell.effects, POLYMORPH_EFFECT_INDEX)
 	spell.particles = createSparklyParticles()
 
