@@ -487,6 +487,9 @@
     <None Include="Scripts\healthOrb.lua">
       <Filter>Scripts\evils</Filter>
     </None>
+    <None Include="Scripts\player2.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
