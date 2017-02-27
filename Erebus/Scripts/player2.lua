@@ -74,6 +74,13 @@ function LoadPlayer2()
 	player2.castingRevive = false
 end
 
+function LoadSpellsPlayer2()
+	player2.spells[1] = SpellListPlayer2[1].spell
+	player2.spells[2] = SpellListPlayer2[2].spell
+	player2.spells[3] = SpellListPlayer2[3].spell
+	player2.spells[1].isActiveSpell = true
+end
+
 function UpdatePlayer2(dt)
 	if player2.ping > 0 then
 		player2.ping = player2.ping - dt;
