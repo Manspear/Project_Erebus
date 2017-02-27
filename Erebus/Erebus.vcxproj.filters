@@ -539,6 +539,16 @@
     <None Include="Scripts\player2.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\TimeLaser.lua" />
+    <None Include="Shaders\floatDamage.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\floatDamage.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\floatDamage.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
