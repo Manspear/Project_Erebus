@@ -48,7 +48,7 @@ namespace LuaTransform
 			{ "GetDistanceBetweenTrans", getDistance }, 
 			{"GetDistanceBetweenTransAndPos", getDistanceTransPos},
 
-			{ "Reset", reset },
+			{ "ResetTransforms", reset },
 
 			{ NULL, NULL }
 		};

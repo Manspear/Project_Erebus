@@ -45,6 +45,7 @@ namespace LuaGear
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "AddForwardInstance",	addForwardInstance },
 			{ "AddBlendingInstance", addBlendingInstance},*/
+			{ "ResetAnimations", resetAnimations },
 			{ "BindStaticInstance", bindStaticInstance },
 			{ "BindAnimatedInstance", bindAnimatedInstance },
 			{ "BindForwardInstance", bindForwardInstance },
@@ -159,6 +160,20 @@ namespace LuaGear
 
 		return 0;
 	}*/
+
+	int resetAnimations( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 0 );
+
+		int anims = *g_boundAnimations;
+		for( int i=0; i<anims; i++ )
+		{
+			g_animations[i].reset();
+		}
+		*g_boundAnimations = 0;
+
+		return 0;
+	}
 
 	int bindStaticInstance( lua_State* lua )
 	{

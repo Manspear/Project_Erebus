@@ -59,25 +59,30 @@ function LoadGameplay()
 end
 
 function UnloadGameplay()
-	-- unload all the loaded levels
-	for levelIndex,level in pairs(levels) do
-		if loadedLevels[levelIndex] then
-			level.unload()
+	if loadedGameplay then
+		-- unload all the loaded levels
+		for levelIndex,level in pairs(levels) do
+			if loadedLevels[levelIndex] then
+				level.unload()
+			end
 		end
-	end
 
-	-- unload all the scripts
-	for key,value in pairs(scripts) do
-		if value.Unload then
-			value.Unload()
+		-- unload all the scripts
+		for key,value in pairs(scripts) do
+			if value.Unload then
+				value.Unload()
+			end
 		end
+
+		loadedGameplay = false
+		gameplayStarted = false
+		loadedLevels = {}
+
+		Transform.ResetTransforms()
+		Gear.ResetAnimations()
+
+		collectgarbage()
 	end
-
-	loadedGameplay = false
-	gameplayStarted = false
-	loadedLevels = {}
-
-	collectgarbage()
 end
 
 function UpdateGameplay(dt)

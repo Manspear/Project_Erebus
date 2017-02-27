@@ -754,6 +754,11 @@ return 0;
 		return 0;
 	}
 
+	int reset( lua_State* lua )
+	{
+		
+	}
+
 	int getID( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 1 );

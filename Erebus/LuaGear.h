@@ -31,6 +31,8 @@ namespace LuaGear
 	int addForwardInstance(lua_State* lua);
 	int addBlendingInstance(lua_State* lua);*/
 
+	int resetAnimations( lua_State* lua );
+
 	int bindStaticInstance( lua_State* lua );
 	int bindAnimatedInstance( lua_State* lua );
 	int bindForwardInstance( lua_State* lua );
