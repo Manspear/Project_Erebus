@@ -11,7 +11,7 @@ using namespace Importer;
 class MovementController
 {
 public:
-	#define PLAYER_Y_OFFSET 1.2
+	#define PLAYER_Y_OFFSET 1.4;
 
 	MovementController();
 	~MovementController();

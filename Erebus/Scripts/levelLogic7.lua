@@ -3,10 +3,10 @@ function LoadLogic()
 end
 
 function UpdateLogic()
-	
+
 end
 
-function UnloadLogic()
+function LoadLogic()
 
 end
 
