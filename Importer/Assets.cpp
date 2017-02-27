@@ -156,10 +156,18 @@ namespace Importer
 
 	Assets::~Assets()
 	{
-		for( std::map<AssetID, Asset*>::iterator it = assets.begin(); it != assets.end(); it++ )
+		bool done = false;
+		while( !done )
 		{
-			it->second->unload();
-			delete it->second;
+			std::map<AssetID, Asset*>::iterator it = assets.begin();
+			if( it != assets.end() )
+			{
+				it->second->unload();
+				delete it->second;
+				assets.erase( it );
+			}
+			else
+				done = true;
 		}
 
 		assets.clear();
