@@ -223,8 +223,8 @@ namespace Gear
 
 		//updateTransforms( dynamicModels );
 
-		for (auto &m : *dynamicModels)
-			m.allocateBuffer();
+		//for (auto &m : *dynamicModels)
+			//m.allocateBuffer();
 	}
 
 	void GearEngine::queueAnimModels(std::vector<ModelInstance>* models)
@@ -441,7 +441,10 @@ namespace Gear
 		//}
 
 		for (auto &m : *models)
+		{
 			m.updateWorldMatrices();
+			m.allocateBuffer();
+		}
 	}
 
 	GEAR_API void GearEngine::addLight()
