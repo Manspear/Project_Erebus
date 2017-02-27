@@ -107,9 +107,11 @@ namespace Nurn
 	bool NurnEngine::Receive()
 	{
 		unsigned char buffer[packetSize];
-		int bytes_read = this->Receive(buffer, packetSize);
+		int bytes_read = netCommunication.Peek(address, buffer, 2);
 		if (bytes_read > 0)
 		{
+			uint16_t expectedSize = buffer[0] | buffer[1] << 8;
+			this->Receive(buffer, expectedSize);
 			this->packetFilter->openNetPacket(buffer);
 		}
 		return true;
