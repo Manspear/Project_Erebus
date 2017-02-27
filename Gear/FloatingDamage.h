@@ -38,8 +38,8 @@ struct fDamageLine
 
 enum eDamageTypes {
 	FIRE,
-	COLD,
 	GRASS,
+	COLD,
 	NUM_DAMAGE_TYPES
 };
 
