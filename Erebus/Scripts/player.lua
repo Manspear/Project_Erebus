@@ -61,6 +61,7 @@ function LoadPlayer()
 	player.heightmapIndex = 1
 	player.spamCasting = false
 	player.charging = false
+	player.firstAttack = true
 	player.rayCollider = RayCollider.Create(player.transformID)
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
@@ -85,6 +86,10 @@ function LoadPlayer()
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combined = false
 	player.combinedSpell = -1
+
+	player.attackDelayTimerStarted = false
+	player.attackDelayTimerThreshHold = 0
+	player.attackDelayTimer = 0
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
@@ -568,16 +573,43 @@ function Controls(dt)
 		end
 
 		if not player.charging then
-			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
-				player.charger:EndCharge()
-				player.spamCasting = true
-				player.attackTimer = 1
-				Network.SendSpellPacket(player.transformID, player.currentSpell)
-				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
-			end
+			--ATTACK DELAY TIMER
+			player.attackDelayTimer = player.attackDelayTimer + dt
 
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+				if player.spells[player.currentSpell].hasSpamAttack == true then 
+					player.charger:EndCharge()
+					player.spamCasting = true
+					
+					
+					if player.firstAttack == true then 		
+						if player.attackDelayTimerStarted == false then 
+							player.attackDelayTimerStarted = true
+							player.attackDelayTimer = 0
+							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeFirstAttack
+							player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
+							player.firstAttack = false	
+						end 
+					elseif player.firstAttack == false then 
+						if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
+							local overTime = player.attackDelayTimer - player.attackDelayTimerThreshHold
+							player.attackDelayTimer = overTime
+							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
+							
+							--Gets in here every time it should. But the cast function is not executed for some reason.
+
+							Network.SendSpellPacket(player.transformID, player.currentSpell)
+							player.spells[player.currentSpell]:Cast(player, 0.5, false)	
+						end 
+					end
+				end
+			end
+			
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.spamCasting = false
+				player.firstAttack = true
+				player.attackDelayTimerStarted = false
+				player.animationController.animation:ResetSegmentPlayTime(1)
 			end
 
 			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
@@ -669,7 +701,6 @@ function UpdatePlayer2(dt)
 			player2.spells[player2.currentSpell]:Change()
 
 			if isCharging == false then
-				player2.attackTimer = 1
 				player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 			else
 				if shouldCast == false then
