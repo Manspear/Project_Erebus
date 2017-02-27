@@ -27,8 +27,9 @@ namespace LuaCollision
 			{ "DeactivateAllHitboxes", deactivateAllHitboxes},
 			{ "ActivateAllHitboxes", activateAllHitboxes},
 			{ "GetIDsFromLayer", getIDsFromLayer },
-			{"Enable", enableCollisionHandler},
-			{"Disable", disableCollisionHandler},
+			{ "Enable", enableCollisionHandler },
+			{ "Disable", disableCollisionHandler },
+			{ "Reset", reset },
 			{ NULL, NULL }
 		};
 
@@ -758,7 +759,8 @@ return 0;
 
 	int reset( lua_State* lua )
 	{
-		
+		g_collisionHandler->reset();
+		return 0;
 	}
 
 	int getID( lua_State* lua )

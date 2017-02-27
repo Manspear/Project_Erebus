@@ -31,6 +31,8 @@ namespace Collisions
 		//this->collisionLayers->setLayerCollisionMatrix(layerMatrix,size);
 		//this->debugger = nullptr;
 		this->initializeColors();
+
+		this->layerAmount = DEFAULT_LAYER_AMOUNT;
 	}
 
 	CollisionHandler::CollisionHandler(int layers)
@@ -46,6 +48,8 @@ namespace Collisions
 
 		this->leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		this->leafHitboxIDSaver->resize(layers);
+
+		this->layerAmount = layers;
 	}
 
 
@@ -550,6 +554,20 @@ namespace Collisions
 			<< "\nRay to OBB Checks: " << collisionChecker.getRayToObbCollisionCounter()
 			<< "\nRay to Sphere Checks: " << collisionChecker.getRayToSphereCollisionCunter()
 			<< "\nTotal Checks: " << total << "\n\n";
+	}
+
+	void CollisionHandler::reset()
+	{
+		delete[] collisionLayers;
+		sphereColliders.clear();
+		aabbColliders.clear();
+		obbColliders.clear();
+		allColliders.clear();
+		rayColliders.clear();
+		delete leafHitboxIDSaver;
+
+		collisionLayers = new CollisionLayers(layerAmount);
+		leafHitboxIDSaver = new std::vector<std::vector<int>>();
 	}
 
 //	void CollisionHandler::drawHitboxes()

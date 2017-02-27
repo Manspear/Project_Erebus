@@ -80,6 +80,7 @@ function UnloadGameplay()
 
 		Transform.ResetTransforms()
 		Gear.ResetAnimations()
+		CollisionHandler.Reset()
 
 		collectgarbage()
 	end

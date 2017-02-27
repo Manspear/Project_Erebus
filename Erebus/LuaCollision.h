@@ -62,7 +62,7 @@ namespace LuaCollision
 	int enableCollisionHandler(lua_State* lua);
 	int disableCollisionHandler(lua_State* lua);
 
-	int reset();
+	int reset( lua_State* lua );
 
 	int getID( lua_State* lua );
 	int getRayID(lua_State* lua);
