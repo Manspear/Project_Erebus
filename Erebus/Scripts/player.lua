@@ -344,11 +344,7 @@ function UpdatePlayer(dt)
 		if Network.ShouldSendNewTransform() == true then
 			Network.SendTransformPacket(player.transformID, player.position, direction, rotation)
 		end
-		--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		player.animationController:AnimationUpdate(dt, Network)
-		if Network.ShouldSendNewAnimation() == true then
-			Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
-		end
+		
 	else
 		local newRessurectionVal, ressurectionID, ressurectionPlayerHealth = Network.GetRessurectionPacket()
 		if newRessurectionVal then
@@ -359,6 +355,12 @@ function UpdatePlayer(dt)
 				--print("Wait, i got ressurected?!", player.health, player.isAlive)
 			end
 		end
+	end
+
+	--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	player.animationController:AnimationUpdate(dt, Network)
+	if Network.ShouldSendNewAnimation() == true then
+		Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
 	end
 
 	if not player2.isAlive then
