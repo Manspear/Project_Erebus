@@ -515,8 +515,6 @@ function Controls(dt)
 			if player.globalSpellSwitchingCooldownTimerStarted == true then 
 				player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
 
-				print(player.globalSpellSwitchingCooldownTimer)
-
 				if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
 					player.globalSpellSwitchingCooldownTimerStarted = false
 					player.globalSpellSwitchingCooldownTimer = 0
