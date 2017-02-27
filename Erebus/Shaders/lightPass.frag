@@ -129,14 +129,14 @@ void main() {
 
 	vec3 dynamicPoint = vec3(0,0,0);
 	for(int i = 0; i < num_dynamic_lights; i++) //calculate dynamic point lights
-	dynamicPoint += CalcPointLight(dynamicLights[i], norm, FragPos, viewDir, Specular);
+	dynamicPoint += CalcPointLight(dynamicLights[i], Normal, FragPos, viewDir, Specular);
 
-	vec3 outputColor = (ambient + directional + point + dynamicPoint);
+	vec3 outputColor = (ambient + (directional * ShadowFactor) + point + dynamicPoint);
 
 	outputColor = mix(outputColor, fogColor,getFogFactor(length(FragPos - viewPos)));
 
 	if(drawMode == 1) //set diffrent draw modes to show textures and light calulations
-        FragColor = vec4(outputColor + shadowMapColorIndex, 1.0);
+        FragColor = vec4(outputColor, 1.0);
     else if(drawMode == 2)
 		FragColor = vec4(FragPos, 1.0);
 	else if(drawMode == 3)

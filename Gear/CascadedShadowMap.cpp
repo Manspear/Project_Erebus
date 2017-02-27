@@ -61,6 +61,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 			splitPlanes[i] = glm::vec2(splitNear, splitFar);
 			splitDistance[i] = splitFar;
+
+			splitIsInit = true;
 		}
 	}
 
