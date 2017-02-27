@@ -196,11 +196,16 @@ int main()
 	Gear::GearEngine engine;
 	SoundEngine soundEngine;
 	WorkQueue work;
+	FloatingDamage floatingDamage;
 
 	window.changeCursorStatus(false);
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>( "Fonts/System" );
-	Importer::FontAsset* fontDmg = assets.load<FontAsset>("Fonts/System");
+	Importer::FontAsset* fontDmg = assets.load<FontAsset>("Fonts/FloatDamage");
+	floatingDamage.setFont(fontDmg);
+	engine.addFloatingDamageRef(floatingDamage);
+
+	
 
 	engine.setFont(font);
 	
@@ -288,7 +293,7 @@ int main()
 			if( threadData.queueModels )
 				controls.update( &inputs );
 
-#if _DEBUG
+//#if _DEBUG
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
@@ -303,7 +308,13 @@ int main()
 				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
 				engine.setDrawMode(5);
-#endif
+			else if(inputs.keyPressedThisFrame(GLFW_KEY_F6))
+				floatingDamage.addDamage(23, eDamageTypes::FIRE, glm::vec3(20, 8, 165));
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_F7))
+				floatingDamage.addDamage(52, eDamageTypes::COLD, glm::vec3(20, 8, 165));
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_F8))
+				floatingDamage.addDamage(3, eDamageTypes::GRASS, glm::vec3(20, 8, 165));
+//#endif
 			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 			{
 				if (lockMouse)

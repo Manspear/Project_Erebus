@@ -17,7 +17,6 @@ namespace Gear
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		worldImage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
-		floatingDamage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		skybox = new Skybox();
 
 		staticModels = &defaultModelList;
@@ -176,8 +175,7 @@ namespace Gear
 	}
 	void GearEngine::setDamageFont(FontAsset* font)
 	{
-		floatingDamage.setFont(font);
-		floatingDamage.addDamage(10);
+
 
 	}
 
@@ -375,7 +373,7 @@ namespace Gear
 
 		queue.forwardPass(forwardModels, &uniValues);
 
-		floatingDamage.draw(camera);
+		floatingDamage->draw(camera);
 
 		worldImage.update(camera);
 		worldImage.draw();
@@ -409,6 +407,7 @@ namespace Gear
 		updateTransforms( animatedModels );
 		updateTransforms( forwardModels );
 		updateTransforms( blendModels );
+		this->floatingDamage->Update(dt);
 	}
 
 	void GearEngine::updateTransforms( std::vector<ModelInstance>* models )
@@ -704,5 +703,12 @@ namespace Gear
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
+	}
+
+	void Gear::GearEngine::addFloatingDamageRef(FloatingDamage & ref)
+	{
+		this->floatingDamage = &ref;
+		this->floatingDamage->init(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	}
 }

@@ -86,6 +86,7 @@ namespace Gear
 		
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		GEAR_API Skybox* getSkybox();
+		GEAR_API void addFloatingDamageRef(FloatingDamage &ref);
 		std::vector<UniformValues> uniValues;
 		std::vector<TextureBlendings> textureBlend;
 		//----------------------
@@ -163,7 +164,7 @@ namespace Gear
 		TextRenderer text;
 		ImageRenderer image;
 		WorldImageRenderer worldImage;
-		FloatingDamage floatingDamage;
+		FloatingDamage* floatingDamage;
 
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
 		void pickingPass();

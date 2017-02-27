@@ -1,5 +1,6 @@
 #include "FloatingDamage.h"
-
+#include "ImageAsset.h"
+#include "Assets.h"
 
 
 FloatingDamage::FloatingDamage()
@@ -7,8 +8,8 @@ FloatingDamage::FloatingDamage()
 	//randoms between -.5 / .5
 	for (size_t i = 0; i < RANDOM_NUMBER_TOTAL; i++)
 	{
-		xOffsetRandom[i] = ((rand() % 100) - 50) / 100;
-		yOffsetRandom[i] = ((rand() % 100) - 50) / 100;
+		xOffsetRandom[i] = (((float)((rand() % 100) - 50)) / 100.f) * 2.f;
+		yOffsetRandom[i] = (((float)((rand() % 100))) / 125.f);
 	}
 
 	currentOffset = 0;
@@ -25,6 +26,10 @@ FloatingDamage::FloatingDamage()
 
 	DamageValue temp;
 	this->dataToSend2[0][0] = DamageValue();
+
+	diffColors[eDamageTypes::FIRE] = glm::vec4(1, 0, 0, baseAlpha);
+	diffColors[eDamageTypes::GRASS] = glm::vec4(0, 1, 0, baseAlpha);
+	diffColors[eDamageTypes::COLD] = glm::vec4(0, 0, 1, baseAlpha);
 }
 
 
@@ -35,6 +40,8 @@ FloatingDamage::~FloatingDamage()
 void FloatingDamage::setFont(Importer::FontAsset * font)
 {
 	this->font = font;
+	this->font->getTexture()->setMinimizeFilter(GL_NEAREST);
+	this->font->getTexture()->setMagnifyFilter(GL_NEAREST);
 }
 
 void FloatingDamage::init(int screenWidth, int screenHeight)
@@ -43,28 +50,25 @@ void FloatingDamage::init(int screenWidth, int screenHeight)
 	shader->use();
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-
-	projectionLoc = glGetUniformLocation(shader->getProgramID(), "projectionMatrix");
-	viewLoc = glGetUniformLocation(shader->getProgramID(), "viewMatrix");
+	shader->addUniform("projectionMatrix");
+	shader->addUniform("viewMatrix");
 	//shader->setUniform(glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f), "projectionMatrix");
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 3));
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 5));
-	glVertexAttribPointer(3, 1, GL_INT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 9));
-	glBufferData(GL_ARRAY_BUFFER, sizeof(fDamageLine), NULL, GL_STREAM_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)0);						//Vec3 Pos
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 3));	//Vec4 UV
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 7));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 11));	//float width & index (attributes)
+	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	heightLoc = glGetUniformLocation(shader->getProgramID(), "height");
-	colorLoc = glGetUniformLocation(shader->getProgramID(), "color");
 	shader->unUse();
 }
 
 void FloatingDamage::draw(Camera* camera)
 {
-	//updateBuffer();
+	//addDamage(1523);
 	shader->use();
 
 	glBindVertexArray(VAO);
@@ -75,7 +79,6 @@ void FloatingDamage::draw(Camera* camera)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	font->getTexture()->bind(GL_TEXTURE0);
-
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
@@ -85,15 +88,19 @@ void FloatingDamage::draw(Camera* camera)
 	shader->setUniform4fv(&camera->getViewMatrix(), "viewMatrix");
 
 	//for (auto l : lines)
-	for (auto l : bufferedLines)
+	for (auto d : dataToSendYeah)
 	{
-		glUniform1f(heightLoc, font->getInfo()->size * l.scale);
-		glUniform4f(colorLoc, l.color.r, l.color.g, l.color.b, l.color.a);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(fDamageLine), &l);
-		glDrawArrays(GL_POINTS, 0, (GLsizei)l.numberOfCharacters);
+		//glUniform1f(heightLoc, font->getInfo()->size * l.scale);
+		//glUniform4f(colorLoc, l.color.r, l.color.g, l.color.b, l.color.a);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(fDamageVertex), &d.data, GL_STATIC_DRAW);
+		glDrawArrays(GL_POINTS, 0, 1);
+
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(fDamageLine), &l);
+		//glDrawArrays(GL_POINTS, 0, (GLsizei)l.numberOfCharacters);
 	}
 	//lines.clear();
 	bufferedLines.clear();
+	//dataToSendYeah.clear();
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
@@ -111,41 +118,77 @@ void FloatingDamage::updateBuffer()
 	lines.clear();
 }
 
-void FloatingDamage::addDamage(float damage)
+void FloatingDamage::addDamage(float damage, eDamageTypes damageType, glm::vec3 positionOverHead)
 {
-	print(std::to_string((int)damage), 1, { 1,0,0,0 }, glm::vec3(20, 8, 165));
-	updateBuffer();
+	positionOverHead.x += xOffsetRandom[currentOffset];
+	positionOverHead.y += yOffsetRandom[currentOffset];
+	positionOverHead.z += xOffsetRandom[currentOffset];
+	float scale = minScale + glm::min(pow(damage / baseDamage, 2), maxScale);
+	print(std::to_string((int)damage),
+		scale,
+		this->diffColors[damageType],
+		positionOverHead);
+
+	currentOffset++;
+	if (currentOffset >= RANDOM_NUMBER_TOTAL-1)
+		currentOffset = 0;
+
+}
+
+fDamageVertex FloatingDamage::printDamage(const std::string & s, const float & scale, const glm::vec4 & color, glm::vec3 worldPos)
+{
+	return fDamageVertex();
+}
+
+void FloatingDamage::Update(const float & dt)
+{
+	for (size_t i = 0; i < this->dataToSendYeah.size();)
+	{
+		dataToSendYeah[i].data.pos.y += (dt * this->upSpeed);
+		dataToSendYeah[i].lifetime -= dt;
+
+		if (dataToSendYeah[i].lifetime <= this->maxLifeTime / 2) {
+			float amount =  dataToSendYeah[i].lifetime / (this->maxLifeTime / 2);
+			dataToSendYeah[i].data.color.a = this->baseAlpha * amount;
+		}
+
+		if (dataToSendYeah[i].lifetime <= 0)
+			dataToSendYeah.erase(dataToSendYeah.begin() + i);
+		else
+			i++;
+	}
 }
 
 void FloatingDamage::print(const std::string &s, const float &scale, const glm::vec4 &color, glm::vec3 worldPos)
 {
-	fDamageLine line;
-	line.numberOfCharacters = 0;
-	line.scale = scale;
-	line.color = color;
 
-
+	int index = 0;
+	
 	for (auto c : s)
 	{
-		if (line.numberOfCharacters >= FLOATING_MAX_NUMBER) // Create new line if current line is filled
-		{
-			lines.push_back(line);
-			line.numberOfCharacters = 0;
-		}
-
+		fDamageSomeData floatingContainer;
+		
 		fDamageVertex vert;
 
 		vert.pos = worldPos;
 		vert.UV = font->getUV(c);
-		vert.width = (int)(font->getWidth(c) * line.scale);
-		vert.attributes.z += vert.width;
-		vert.attributes.x = 1;
-		vert.attributes.y = 1;
+		float ratioX = (float)font->getWidth(c) / (float)font->getInfo()->size;
+		float ratioY = (float)font->getInfo()->size / (float)font->getWidth(c);
+		vert.attributes.x = ratioX * scale;// (int)(font->getWidth(c) * scale);
+		vert.attributes.w = ratioY*scale;
+		vert.attributes.y = index;
+		vert.attributes.z = s.size();
+		vert.color = color;
+		
+		floatingContainer.data = vert;
+		floatingContainer.lifetime = maxLifeTime;
+
+		this->dataToSendYeah.push_back(floatingContainer);
+		//vert.attributes.z += vert.width;
+		//vert.attributes.x = 1;
+		//vert.attributes.y = 1;
 
 		//worldPos.x += vert.width; // Update position for next vertex
-
-		line.characters[line.numberOfCharacters] = vert;
-		line.numberOfCharacters++;
+		index++;
 	}
-	lines.push_back(line);
 }
