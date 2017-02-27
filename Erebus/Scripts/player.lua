@@ -354,19 +354,18 @@ function UpdatePlayer(dt)
 		if v.collider:CheckCollision() then
 			if not v.collider.triggered then
 				if v.collider.OnEnter then
-					v.collider.OnEnter()
+					v.collider:OnEnter()
 				else
-					v.collider.OnTriggering(dt)
+					v.collider:OnTriggering(dt)
 				end
-
 				v.collider.triggered = true
 			else
-				v.collider.OnTriggering(dt)
+				v.collider:OnTriggering(dt)
 			end
 		else
 			if v.collider.triggered then
 				if v.collider.OnExit then
-					v.collider.OnExit()
+					v.collider:OnExit()
 				end
 				v.collider.triggered = false
 			end
