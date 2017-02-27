@@ -4,7 +4,7 @@ function LoadLogic()
 end
 
 function UpdateLogic()
-	--TutorialBarrier()
+	--Sluice()
 end
 
 function LoadLogic()

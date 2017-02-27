@@ -202,7 +202,6 @@
     <None Include="Scripts\healthOrb.lua" />
     <None Include="Scripts\keybinding.lua" />
     <None Include="Scripts\keybindingUI.lua" />
-    <None Include="Scripts\level01.lua" />
     <None Include="Scripts\knockbackEffect.lua" />
     <None Include="Scripts\lifeStealEffect.lua" />
     <None Include="Scripts\player2.lua" />
@@ -210,6 +209,7 @@
     <None Include="Scripts\polymorphEffect.lua" />
     <None Include="Scripts\revive.lua" />
     <None Include="Scripts\siphon.lua" />
+    <None Include="Scripts\sluice.lua" />
     <None Include="Scripts\spellUtility.lua" />
     <None Include="Scripts\AI\client_AI.lua" />
     <None Include="Scripts\AI\BasicEnemyAI.lua" />

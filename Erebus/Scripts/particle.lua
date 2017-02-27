@@ -150,18 +150,15 @@ function createCloudParticles()
 	return cloud
 end
 
-WIND_PARTICLES_TEX = Assets.LoadTexture("Textures/windknockBack.dds");
 function createWindParticles()
 	local wind = {}
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
-	wind.ID = Emitter.Bind(50, 1.0, 10, 25, 2, 0, 3, 1, 0.1)   
-	Emitter.SetTexture(wind.ID, WIND_PARTICLES_TEX)
-	function wind:poof(pos, direction, power)	
-		Emitter.SetPosition(self.ID, pos)
-		Emitter.SetFocus(self.ID, power)
-		print(power)
-		Emitter.SetDirection(self.ID, direction)
-		Emitter.Explode(self.ID)
+	wind.ID = Particle.Bind("ParticleFiles/wind.Particle")   
+
+	function wind:poof(pos, direction)	
+		Particle.SetPosition(self.ID, pos)
+		Particle.SetDirection(self.ID, direction.x, direction.y, direction.z)		
+		Particle.Explode(self.ID, pos)
 	end
 	return wind
 end

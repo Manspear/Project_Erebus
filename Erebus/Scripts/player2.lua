@@ -8,7 +8,6 @@ function LoadPlayer2()
 	player2.left = 0
 	player2.timeScalar = 1.0
 	player2.printInfo = false
-	player2.heightmapIndex = 1
 	player2.spamCasting = false
 	player2.charging = false
 	player2.position = {x=0, y=0, z=0}
@@ -43,6 +42,7 @@ function LoadPlayer2()
 
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
+	player2.collisionID = player2.sphereCollider:GetID()
 	-- set spells for player
 	player2.spells = {}
 	player2.currentSpell = 1
@@ -64,8 +64,6 @@ function LoadPlayer2()
 			effect:Apply(self)
 		end
 	end
-
-	--Gear.AddAnimatedInstance(model, player2.transformID, player2.animationController.animation)
 
 	player2.aim = CreateAim(player2)
 	player2.charger = CreateChargeEggs(player2)
