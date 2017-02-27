@@ -197,8 +197,10 @@ int main()
 	window.changeCursorStatus(false);
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
+	Importer::FontAsset* fontDmg = assets.load<FontAsset>("Fonts/System");
 
 	engine.setFont(font);
+	
 	engine.setWorkQueue(&work);
 
 	assets.load<TextureAsset>("Textures/buttonOptions.dds");
@@ -227,7 +229,7 @@ int main()
 
 	soundEngine.setMasterVolume(10);
 
-
+	engine.setDamageFont(fontDmg);
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
 	//std::vector<AnimatedInstance> animModels;
