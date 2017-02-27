@@ -1,4 +1,4 @@
-GRENADE_EXPLODE_TIME =0.9
+GRENADE_EXPLODE_TIME =3
 
 function CreateGrenadeType(model)
 	local type = {}
