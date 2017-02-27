@@ -28,7 +28,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
-		shadow.Init(WINDOW_WIDTH, WINDOW_HEIGHT, dirLights[0]);
+		shadow.Init(WINDOW_HEIGHT, WINDOW_HEIGHT, dirLights[0]);
 	}
 
 	GearEngine::~GearEngine()
@@ -283,101 +283,18 @@ namespace Gear
 			shadow.bind(i);
 			ShaderProgram *shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
 			shader->use();
-			shader->setUniform(shadow.viewMatrices[i], "viewMatrix");
-			shader->setUniform(shadow.projectionMatrices[i], "projectionMatrix");
+			shader->setUniform(shadow.getShadowMatrix()[i], "ViewProjectionMatrix");
 			shader->unUse();
 
 			shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
 			shader->use();
-			shader->setUniform(shadow.viewMatrices[i], "viewMatrix");
-			shader->setUniform(shadow.projectionMatrices[i], "projectionMatrix");
+			shader->setUniform(shadow.getShadowMatrix()[i], "ViewProjectionMatrix");
 			shader->unUse();
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
 			shadow.unBind();
 		}
-		
-		//shadow.bind(2);
-		//ShaderProgram *shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
-		//shader->use();
-		//shader->setUniform(shadow.viewMatrices[3], "viewMatrix");
-		//shader->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		//shader->unUse();
-
-		//shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
-		//shader->use();
-		//shader->setUniform(shadow.viewMatrices[3], "viewMatrix");
-		//shader->setUniform(camera->getProjectionMatrix(), "projectionMatrix");
-		//shader->unUse();
-
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
-		//shadow.unBind();
-
-		//shadow.bind(1);
-		//shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
-		//shader->use();
-		//shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
-		//shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
-		//shader->unUse();
-
-		//shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
-		//shader->use();
-		//shader->setUniform(shadow.viewMatrices[1], "viewMatrix");
-		//shader->setUniform(shadow.projectionMatrices[1], "projectionMatrix");
-		//shader->unUse();
-
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
-		//shadow.unBind();
-
-		//shadow.bind(2);
-		//shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
-		//shader->use();
-		//shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
-		//shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
-		//shader->unUse();
-
-		//shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
-		//shader->use();
-		//shader->setUniform(shadow.viewMatrices[2], "viewMatrix");
-		//shader->setUniform(shadow.projectionMatrices[2], "projectionMatrix");
-		//shader->unUse();
-
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
-		//shadow.unBind();
-
-		float centerSize = 0.1f;
-
-		for (int i = 0; i < shadow.getNumCascades(); i++)
-		{
-			Debugger::getInstance()->drawAABB(shadow.minAABB[i], shadow.maxAABB[i], glm::vec3(1, 0, 0));
-
-			Debugger::getInstance()->drawAABB(
-				glm::vec3(shadow.minAABB[shadow.getNumCascades() + i].x - centerSize, shadow.minAABB[shadow.getNumCascades() + i].y - centerSize, shadow.minAABB[shadow.getNumCascades() + i].z - centerSize),
-				glm::vec3(shadow.minAABB[shadow.getNumCascades() + i].x + centerSize, shadow.minAABB[shadow.getNumCascades() + i].y + centerSize, shadow.minAABB[shadow.getNumCascades() + i].z + centerSize));
-
-			Debugger::getInstance()->drawLine(shadow.minAABB[shadow.getNumCascades() + i], shadow.minAABB[shadow.getNumCascades() * 2 + i]);
-		}
-
-		
-
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[0], shadow.frustumCornersWorld[1]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[1], shadow.frustumCornersWorld[3]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[3], shadow.frustumCornersWorld[2]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[2], shadow.frustumCornersWorld[0]);
-
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[0], shadow.frustumCornersWorld[4]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[1], shadow.frustumCornersWorld[5]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[3], shadow.frustumCornersWorld[7]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[2], shadow.frustumCornersWorld[6]);
-
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[4], shadow.frustumCornersWorld[5]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[5], shadow.frustumCornersWorld[7]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[7], shadow.frustumCornersWorld[6]);
-		Debugger::getInstance()->drawLine(shadow.frustumCornersWorld[6], shadow.frustumCornersWorld[4]);
 
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -398,12 +315,6 @@ namespace Gear
 		glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		glDisable(GL_CULL_FACE);
-
-		if (debugCam)
-		{
-			camera->setView(shadow.viewMatrices[shadow.getNumCascades()]);
-			debugCam = false;
-		}
 		
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 		
@@ -606,12 +517,12 @@ namespace Gear
 		{
 			shadow.bindTexture(shader, ("gShadowMap[" + std::to_string(i) + "]").c_str(), 3 + i, i);
 
-			glm::vec4 View = { 0.0f, 0.0f, -shadow.farbound[i], 1.0f };
+			glm::vec4 View = { 0.0f, 0.0f, -shadow.getSplitDistance()[i], 1.0f };
 			glm::vec4 Clip = camera->getProjectionMatrix() * View;
 
 			Clip.z /= Clip.w;
 
-			shader->setUniform((shadow.projectionMatrices[i] * shadow.viewMatrices[i]), ("lightWVP[" + std::to_string(i) + "]").c_str());
+			shader->setUniform((shadow.getShadowMatrix()[i]), ("lightWVP[" + std::to_string(i) + "]").c_str());
 			shader->setUniform((Clip.z), ("CascadeEndClipSpace[" + std::to_string(i) + "]").c_str());
 		}
 		
