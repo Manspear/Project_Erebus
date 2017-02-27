@@ -78,7 +78,7 @@ function CreateWindknockback(entity)
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
-		self.particles:poof(pos, direction, self.chargedTime / 2)
+		self.particles:poof(pos, direction)
 	end
 
 	function spell:CheckCollisions()
@@ -87,7 +87,7 @@ function CreateWindknockback(entity)
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
 					if not self.enemiesHit[enemies[curEnemy].transformID] then
-						enemies[curEnemy]:Hurt(self.damage, self.owner)
+						enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 						for stuff = 1, #self.effects do
 							local effect = effectTable[self.effects[stuff]](self.owner, self.chargedTime)
 							enemies[curEnemy]:Apply(effect)

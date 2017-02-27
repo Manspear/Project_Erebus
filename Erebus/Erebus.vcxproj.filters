@@ -493,9 +493,6 @@
     <None Include="Scripts\tumbleThorns.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\level01.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Shaders\include.glsl">
       <Filter>Shaders</Filter>
     </None>
@@ -534,6 +531,23 @@
     </None>
     <None Include="Scripts\healthOrb.lua">
       <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\TimeLaser.lua" />
+    <None Include="Scripts\sluice.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\player2.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\TimeLaser.lua" />
+    <None Include="Shaders\floatDamage.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\floatDamage.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\floatDamage.vert">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

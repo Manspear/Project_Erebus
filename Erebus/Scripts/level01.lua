@@ -68,8 +68,6 @@ player:ChangeHeightmap(1)
 level01 = {}
 level01.surrounding = { 2 }
 level01.load = function()
-local x = dofile("Scripts/level1logic.lua")
-table.insert(levelScripts, x)
 level01.props = {}
 level01.colliders = {}
 level01.triggers = {}
@@ -278,12 +276,19 @@ level01.props.PineTree_NoCollider5421ID.transformID = Gear.BindStaticInstance(le
 Transform.SetPosition(level01.props.PineTree_NoCollider5421ID.transformID, {x=172.375, y=28.9531, z=314.25})
 Transform.SetScaleNonUniform(level01.props.PineTree_NoCollider5421ID.transformID, 1.33038, 1.51695, 1.4158)
 Transform.SetRotation(level01.props.PineTree_NoCollider5421ID.transformID, {x=0, y=2.83677, z=0})
+slussen = {}
+slussen.model = Assets.LoadModel('Models/Branch_blocker.model')
+slussen.transformID = Gear.BindStaticInstance(slussen.model)
+Transform.SetPosition(slussen.transformID, {x =20.0156, y =6.19141, z = 157.875})
 level01.triggers.New435ID = {}
 level01.triggers.New435ID.collider = SphereCollider.Create(-1)
 level01.triggers.New435ID.collider:SetOffset(0,0,0)
 level01.triggers.New435ID.collider:SetRadius(1)
 level01.triggers.New435ID.collider:SetPos(20.0156,6.19141,157.875)
-level01.triggers.New435ID.collider.OnTriggering = function() print("Derp") end
+sluice1 = CreateSluice(level01.triggers.New435ID.collider, slussen.transformID)
+level01.triggers.New435ID.collider.OnEnter= function(self) SluiceEnter(sluice1) end
+level01.triggers.New435ID.collider.OnTriggering = function(self,dt) SluiceUpdate(dt, sluice1) end
+level01.triggers.New435ID.collider.OnExit = function(self) SluiceExit(sluice1) end
 level01.triggers.New435ID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.New435ID.collider, 4)
 level01.props.Stone2673ID = {}
@@ -1160,7 +1165,6 @@ level01.colliders.C_Parent_Tile_11088ID100 = nil
 level01.colliders.C_Parent_Tile_11088ID101 = nil
 end
 level01.unload = function()
-table.remove(levelScripts, 1)
 level01.props.tile12ID = nil
 Gear.UnbindInstance(level01.props.m15ID.transformID)
 level01.props.m15ID = nil
@@ -1375,8 +1379,6 @@ levels[1] = level01
 level02 = {}
 level02.surrounding = { 1, 3 }
 level02.load = function()
-local levelScript = dofile("Scripts/level2logic.lua")
-table.insert(levelScripts, levelScript)
 level02.props = {}
 level02.colliders = {}
 level02.triggers = {}
@@ -3391,7 +3393,6 @@ level02.colliders.C_Parent_Tile_21109ID199 = nil
 level02.colliders.C_Parent_Tile_21109ID200 = nil
 end
 level02.unload = function()
-table.remove(levelScripts, 1)
 level02.props.tile24ID = nil
 Gear.UnbindInstance(level02.props.t2s120ID.transformID)
 level02.props.t2s120ID = nil
@@ -4328,7 +4329,6 @@ level03.colliders.C_Parent_Tile_31113ID29 = nil
 level03.colliders.C_Parent_Tile_31113ID30 = nil
 end
 level03.unload = function()
-table.remove(levelScripts, 1)
 Gear.UnbindInstance(level03.props.t2s1029ID.transformID)
 level03.props.t2s1029ID = nil
 Gear.UnbindInstance(level03.props.t2s11a30ID.transformID)
@@ -4764,7 +4764,6 @@ level04.colliders.C_Parent_Tile_41117ID25 = nil
 level04.colliders.C_Parent_Tile_41117ID26 = nil
 end
 level04.unload = function()
-table.remove(levelScripts, 1)
 level04.props.tile436ID = nil
 Gear.UnbindInstance(level04.props.t4s144ID.transformID)
 level04.props.t4s144ID = nil
@@ -6547,7 +6546,6 @@ level05.colliders.C_Parent_Tile_51136ID175 = nil
 level05.colliders.C_Parent_Tile_51136ID176 = nil
 end
 level05.unload = function()
-table.remove(levelScripts, 1)
 level05.props.tile537ID = nil
 Gear.UnbindInstance(level05.props.t5s148ID.transformID)
 level05.props.t5s148ID = nil
@@ -7263,7 +7261,6 @@ level06.colliders.C_Parent_Tile_61142ID51 = nil
 level06.colliders.C_Parent_Tile_61142ID52 = nil
 end
 level06.unload = function()
-table.remove(levelScripts, 1)
 level06.props.tile638ID = nil
 Gear.UnbindInstance(level06.props.t6s154ID.transformID)
 level06.props.t6s154ID = nil
@@ -8461,7 +8458,6 @@ level07.colliders.C_Parent_Tile_71158ID135 = nil
 level07.colliders.C_Parent_Tile_71158ID136 = nil
 end
 level07.unload = function()
-table.remove(levelScripts, 1)
 level07.props.tile739ID = nil
 Gear.UnbindInstance(level07.props.t6s356ID.transformID)
 level07.props.t6s356ID = nil
@@ -9440,7 +9436,6 @@ level08.colliders.C_Parent_Tile_81169ID102 = nil
 level08.colliders.C_Parent_Tile_81169ID103 = nil
 end
 level08.unload = function()
-table.remove(levelScripts, 1)
 level08.props.tile840ID = nil
 Gear.UnbindInstance(level08.props.t8s173ID.transformID)
 level08.props.t8s173ID = nil

@@ -17,6 +17,7 @@ namespace Gear
 		text.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		image.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		worldImage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
+		floatingDamage.init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		skybox = new Skybox();
 
 		staticModels = &defaultModelList;
@@ -165,6 +166,13 @@ namespace Gear
 	void GearEngine::setFont(FontAsset* font)
 	{
 		text.setFont(font);
+		
+	}
+	void GearEngine::setDamageFont(FontAsset* font)
+	{
+		floatingDamage.setFont(font);
+		floatingDamage.addDamage(10);
+
 	}
 
 	void GearEngine::setWorkQueue( WorkQueue* workQueue )
@@ -220,8 +228,8 @@ namespace Gear
 
 		//updateTransforms( dynamicModels );
 
-		for (auto &m : *dynamicModels)
-			m.allocateBuffer();
+		//for (auto &m : *dynamicModels)
+			//m.allocateBuffer();
 	}
 
 	void GearEngine::queueAnimModels(std::vector<ModelInstance>* models)
@@ -361,12 +369,15 @@ namespace Gear
 
 		queue.forwardPass(forwardModels, &uniValues);
 
+		floatingDamage.draw(camera);
+
 		worldImage.update(camera);
 		worldImage.draw();
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 
+		Debugger::getInstance()->drawSphere(glm::vec3(20, 8, 165), 3);
 		
 		image.draw();
 		text.draw();
@@ -415,7 +426,10 @@ namespace Gear
 		//}
 
 		for (auto &m : *models)
+		{
 			m.updateWorldMatrices();
+			m.allocateBuffer();
+		}
 	}
 
 	GEAR_API void GearEngine::addLight()

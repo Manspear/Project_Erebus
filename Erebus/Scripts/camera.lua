@@ -17,7 +17,7 @@ function interpolate(a, b, factor)
 	return a + factor*(b-a)
 end
 
-function cross(a, b)
+function vec3cross(a, b)
 	return {x = a.y*b.z - a.z*b.y,
 			y = a.z*b.x - a.x*b.z,
 			z = a.x*b.y - a.y*b.x}
