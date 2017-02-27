@@ -75,6 +75,9 @@ function LoadPlayer()
 	player.pingDuration = 1
 	player.ping = 0
 
+	player.damagedTint = {r=1, g=0, b=0, a=0}
+	player.damagedTintDuration = 0.3
+
 	player.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
 	player.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
 
@@ -102,7 +105,7 @@ function LoadPlayer()
 	player.spells = {}	
 	player.currentSpell = 1
 	function player.Hurt(self,damage, source)
-		self.animationController.damagedTint.a = 1
+		self.damagedTint.a = 1
 		if not player.invulnerable then
 			self.health = self.health - damage
 			if self.health < 1 then
@@ -337,6 +340,11 @@ function UpdatePlayer(dt)
 		local direction = Transform.GetLookAt(player.transformID)
 		local rotation = Transform.GetRotation(player.transformID)
 
+		if player.damagedTint.a > 0 then
+			player.damagedTint.a = player.damagedTint.a - ( dt / player.damagedTintDuration )
+			player.animationController.animation:SetTint(player.damagedTint)
+		end
+
 		GetCombined()
 		FindHeightmap(player.position)
 
@@ -504,8 +512,10 @@ function Controls(dt)
 			ChargeDir.y = pos2.y - player.position.y 
 			ChargeDir.z =  pos2.z -  player.position.z 
 
+
 			--normalize and length
-			len = vec3length(player.position, pos2)
+			len = vec3length(vec3sub(player.position, pos2))
+			
 			a = math.sqrt( (ChargeDir.x * ChargeDir.x) + (ChargeDir.y * ChargeDir.y) + (ChargeDir.z * ChargeDir.z) )
 
 			ChargeDir.x = (ChargeDir.x /a)
