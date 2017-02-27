@@ -111,7 +111,7 @@ function LoadSpellbookPlayer2()
 	local windknockback = {spell = CreateWindknockback(player2)}
 	table.insert(SpellListPlayer2, windknockback)
 
-	LoadSpellsPlayer2()
+	LoadSpells(player2)
 end
 
 
