@@ -130,7 +130,7 @@ DWORD WINAPI update(LPVOID args)
 		}*/
 
 
-		data->engine->print(std::to_string(data->quadtree->getNodeCollisionAmount()), 100, 100);
+		
 
 
 		glm::vec3 cameraPosition = data->camera->getPosition();
@@ -154,7 +154,8 @@ DWORD WINAPI update(LPVOID args)
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
 			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
-			collisionsDraw.draw(data->quadtree);
+			//collisionsDraw.draw(data->quadtree);
+			//data->engine->print(std::to_string(data->quadtree->getNodeCollisionAmount()), 100, 100);
 
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS())

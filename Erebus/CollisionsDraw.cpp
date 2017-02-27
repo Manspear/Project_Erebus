@@ -200,7 +200,7 @@ void CollisionsDraw::recursiveDraw(Collisions::HitBox * hitbox, glm::vec3 color)
 		}
 	}
 
-	if (hitbox->isAabbCollider()) // draw the hitbox
+	else if (hitbox->isAabbCollider()) // draw the hitbox
 	{
 		AABBCollider* temp = static_cast<AABBCollider*>(hitbox);
 		if (temp->isActive())
