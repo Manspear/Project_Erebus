@@ -36,8 +36,8 @@ function CreateCombineRay(entity)
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
-
-		local elementalTransformID = self.transformID
+		
+		local elementalTransformID
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			elementalTransformID = self.transformID2
@@ -45,9 +45,9 @@ function CreateCombineRay(entity)
 			Transform.ActiveControl(self.transformID3, true) 
 			elementalTransformID = self.transformID3	
 		else 
-			Transform.ActiveControl(ray.transformID, true)
+			Transform.ActiveControl(self.transformID, true)
+			elementalTransformID = self.transformID
 		end
-		Transform.ActiveControl(self.transformID, true)
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)

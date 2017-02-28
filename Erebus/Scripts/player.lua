@@ -494,7 +494,7 @@ function Controls(dt)
 			HideCrosshair()
 			hideWaitingForPlayer2()
 			player.friendCharger:EndChargeBeam()
-			Network.SendChargingPacket(0, 0, 0, false) 
+			Network.SendChargingPacket(0, false) 
 		end
 
 		if not player.charging then
