@@ -78,7 +78,6 @@ namespace Gear
 		GEAR_API void resetLightbuffer();
 
 		GEAR_API void setFont(FontAsset* font);
-		GEAR_API void setDamageFont(FontAsset* font);
 		
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		GEAR_API Skybox* getSkybox();

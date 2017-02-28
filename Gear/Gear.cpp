@@ -167,11 +167,6 @@ namespace Gear
 		text.setFont(font);
 		
 	}
-	void GearEngine::setDamageFont(FontAsset* font)
-	{
-
-
-	}
 
 	void GearEngine::setWorkQueue( WorkQueue* workQueue )
 	{
