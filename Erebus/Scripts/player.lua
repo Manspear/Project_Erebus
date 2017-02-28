@@ -42,7 +42,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 30
+	player.moveSpeed = 10
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -90,8 +90,8 @@ function LoadPlayer()
 	player.attackDelayTimerThreshHold = 0
 	player.attackDelayTimer = 0
 
-	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
-	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player.dashStartParticles = Particle.Bind("ParticleFiles/dash3.particle")
+	player.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
 	Particle.SetExtro(player.dashEndParticles, true)
@@ -307,7 +307,6 @@ function UpdatePlayer(dt)
 			player.animationController.animation:SetTint(player.damagedTint)
 		end
 
-		GetCombined()
 		FindHeightmap(player.position)
 
 		Sound.SetPlayerTransform({player.position.x, player.position.y, player.position.z}, {direction.x, direction.y, direction.z})
@@ -421,26 +420,9 @@ function UpdatePlayer(dt)
 end
 
 function SendCombine(spell)
-	if player2.isCombined == false then
-		if player2.charging == true then
-			player2.isCombined = true
-			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
-			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
-			player2.combinedSpell = spell.spellListId
-		end
-	end
-end
-
-function GetCombined()
-	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
-	if combine and Inputs.ButtonDown(Buttons.Right) then
-		player.spells[player.currentSpell]:Combine(effectIndex, damage)
-		local element = SpellList[spellListIndex].spell.element
+	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
+	Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId, true)
 		player.charger:StartParticles(element)
-		player.isCombined = true
-		player.combinedSpell = spellListIndex
-
-	end
 end
 
 function Controls(dt)
@@ -463,6 +445,9 @@ function Controls(dt)
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
+		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
+			SendCombine(player.spells[player.currentSpell])
+		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			showWaitingForPlayer2(dt)
 			sElement = player.spells[player.currentSpell].element
@@ -476,13 +461,15 @@ function Controls(dt)
 
 
 			--normalize and length
-			len = vec3length(vec3sub(player.position, pos2))
+			local len = vec3length(vec3sub(player.position, pos2))
 			
 			a = math.sqrt( (ChargeDir.x * ChargeDir.x) + (ChargeDir.y * ChargeDir.y) + (ChargeDir.z * ChargeDir.z) )
 
 			ChargeDir.x = (ChargeDir.x /a)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
+			--print(ChargeDir.x)
+
 			local dir = Camera.GetDirection()
 			
 			
@@ -492,8 +479,11 @@ function Controls(dt)
 				dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
 				if dot >0.25 then
 
-					player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement,len)
-					SendCombine(player.spells[player.currentSpell])
+					player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
+					if player2.charging == true then
+						player2.isCombined = true
+						player2.combinedSpell = player.spells[player.currentSpell].spellListId
+					end
 				else 
 					player.friendCharger:EndChargeBeam()
 				end
@@ -505,7 +495,7 @@ function Controls(dt)
 		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
 			HideCrosshair()
 			player.friendCharger:EndChargeBeam()
-			
+			Network.SendChargingPacket(0, 0, 0, false) 
 			RayCollider.SetActive(player.rayCollider, false)
 		end
 
