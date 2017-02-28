@@ -149,9 +149,15 @@ DWORD WINAPI update(LPVOID args)
 			data->workQueue->execute();
 
 			for (int i = 0; i < data->particleSystems->size(); i++)
-				data->particleSystems->at(i)->update((float)deltaTime);
+			{
+				if( data->particleSystems->at(i) )
+					data->particleSystems->at(i)->update((float)deltaTime);
+			}
 			for (int i = 0; i < data->particleEmitters->size(); i++)
-				data->particleEmitters->at(i)->update((float)deltaTime);
+			{
+				if( data->particleEmitters->at(i) )
+					data->particleEmitters->at(i)->update((float)deltaTime);
+			}
 
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
@@ -400,7 +406,6 @@ int main()
 		delete particleEmitters.at(i);
 
 	glfwTerminate();
-
 
 	return 0;
 }

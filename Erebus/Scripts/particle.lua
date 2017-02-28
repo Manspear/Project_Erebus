@@ -19,8 +19,10 @@ function createIceGrenadeParticles()
 	return ice
 end
 
-function destroyIceGrenadeParticles()
-	--TODO(Niclas): Implement this function
+function destroyIceGrenadeParticles(p)
+	Particle.Unbind(p.fly)
+	Particle.Unbind(p.exploda)
+	p = nil
 end
 
 FIREBALL_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpellRed.dds")
@@ -45,6 +47,11 @@ function CreateFireEffectParticles()
 	return fire
 end
 
+function DestroyFireEffectParticles(p)
+	Emitter.Unbind(p.ID)
+	p = nil
+end
+
 function CreateFireballParticles()
 	local particle = {}
 	particle.burn = Particle.Bind("ParticleFiles/firetest4.particle")
@@ -59,6 +66,11 @@ function CreateFireballParticles()
 		Particle.SetPosition(self.burn, pos)
 	end
 	return particle
+end
+
+function DestroyFireballParticles(p)
+	Particle.Unbind(p.burn)
+	p = nil
 end
 
 CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpell.dds")
@@ -85,6 +97,12 @@ function createChargeParticles()
 
 	return charge
 end
+
+function destroyChargeParticles(p)
+	Emitter.Unbind(p.ID)
+	p = nil
+end
+
 --STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
 STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
 function createSparklyParticles()
@@ -107,6 +125,11 @@ function createSparklyParticles()
 	return sparkles
 end
 
+function destroySparklyParticles(p)
+	Emitter.Unbind(p.ID)
+	p = nil
+end
+
 function createSparklyParticles2()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
@@ -125,6 +148,10 @@ function createSparklyParticles2()
 		Emitter.SetPosition(self.ID, pos)
 	end
 	return sparkles
+end
+
+function destroySparklyParticles2(p)
+	Emitter.Unbind(p.ID)
 end
 
 function  createTumbleParticles()
@@ -146,6 +173,11 @@ function  createTumbleParticles()
 	return tumbleParticles
 end
 
+function destroyTumbleParticles(p)
+	Particle.Unbind(p.fly)
+	p = nil
+end
+
 function createCloudParticles()
 	local cloud = {}
 	cloud.ID = Particle.Bind("ParticleFiles/smokeParticles.Particle")
@@ -153,6 +185,11 @@ function createCloudParticles()
 		Particle.Explode(self.ID, pos)
 	end
 	return cloud
+end
+
+function destroyCloudParticles(p)
+	Particle.Unbind(p.ID)
+	p = nil
 end
 
 function createWindParticles()
@@ -166,6 +203,11 @@ function createWindParticles()
 		Particle.Explode(self.ID, pos)
 	end
 	return wind
+end
+
+function destroyWindParticles(p)
+	Particle.Unbind(p.ID)
+	p = nil
 end
 
 function createTimeslowParticles()
@@ -184,4 +226,9 @@ function createTimeslowParticles()
 		Particle.SetPosition(self.ID, pos)
 	end
 	return timeslowParticles
+end
+
+function destroyTimeslowParticles(p)
+	Particle.Unbind(p.ID)
+	p = nil
 end

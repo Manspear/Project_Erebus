@@ -58,7 +58,8 @@ function DrawMenuUI()
 	local assets = Assets.GetAssets()
 	local offset = 0
 	for name, refcount in pairs(assets) do
-		Gear.Print(name, 0, 128+offset, 0.5)
+		Gear.Print(tostring(refcount), 0, 128+offset, 0.5)
+		Gear.Print(name, 32, 128+offset, 0.5)
 		offset = offset + 16
 	end
 end

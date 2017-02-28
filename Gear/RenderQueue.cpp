@@ -229,7 +229,7 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
 	for (size_t i = 0; i < ps->size(); i++)
 	{
-		if (ps->at(i)->isActive)
+		if( ps->at(i) && ps->at(i)->isActive)
 		{
 			results = true;
 			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
@@ -248,7 +248,7 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 	
 	for (size_t i = 0; i < emitters->size(); i++)
 	{
-		if (emitters->at(i)->isActive)
+		if (emitters->at(i) && emitters->at(i)->isActive)
 		{
 			pos = emitters->at(i)->getPositions();
 			emitters->at(i)->getTexture()->bind(GL_TEXTURE0);

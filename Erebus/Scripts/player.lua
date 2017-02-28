@@ -184,17 +184,16 @@ function UnloadPlayer()
 	DestroyPlayerController(player.animationController)
 	Gear.UnbindInstance(player.transformID)
 
-	--[[Particle.Unbind(player.dashStartParticles)
+	Particle.Unbind(player.dashStartParticles)
 	Particle.Unbind(player.dashEndParticles)
 	Particle.Unbind(player2.dashStartParticles)
-	Particle.Unbind(player2.dashEndParticles)--]]
+	Particle.Unbind(player2.dashEndParticles)
 
 	DestroyAim(player.aim)
 	DestroyChargeEggs(player.charger)
 	DestroyCombineRay(player.friendCharger)
 	DestroyRevive(player.revive)
 	
-
 	player = {}
 	effectTable = {}
 

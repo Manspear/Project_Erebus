@@ -58,12 +58,17 @@ namespace Gear
 			particlePos[i].size = 1.0;
 		}
 		shrinkage = emitter.shrinkage;
+
+		this->assets = assets;
+		this->textureName = emitter.textureName;
 	}
 
 	ParticleEmitter::~ParticleEmitter()
 	{	
 		delete[] this->allParticles;
 		delete[] this->particlePos;
+
+		assets->unload<Importer::TextureAsset>( textureName );
 	}
 
 	void ParticleEmitter::spawn(float dt)
@@ -229,9 +234,15 @@ namespace Gear
 		this->alive = false;
 	}
 
-	GEAR_API void ParticleEmitter::setTexture(Importer::TextureAsset * texture)
+	/*GEAR_API void ParticleEmitter::setTexture(Importer::TextureAsset * texture)
 	{
 		this->textureAssetParticles = texture;
+	}*/
+
+	void ParticleEmitter::setTexture( Importer::TextureAsset* texture, Importer::Assets* assets )
+	{
+		this->textureAssetParticles = texture;
+		this->assets = assets;
 	}
 
 	void ParticleEmitter::setEmitterPos(glm::vec3 pos)
