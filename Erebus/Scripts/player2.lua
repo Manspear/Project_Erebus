@@ -86,7 +86,7 @@ function LoadSpellsPlayer2()
 end
 
 function GetCombined()
-	local combine, effectIndex, damage, chosenSpell, activateCombineRay = Network.GetChargingPacket()
+	local combine, chosenSpell, activateCombineRay = Network.GetChargingPacket()
 	if combine then
 		player2.combineRayActive = activateCombineRay
 		if activateCombineRay == true then
