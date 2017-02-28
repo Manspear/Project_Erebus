@@ -28,6 +28,7 @@ FloatingDamage::FloatingDamage()
 
 FloatingDamage::~FloatingDamage()
 {
+	delete shader;
 }
 
 void FloatingDamage::setFont(Importer::FontAsset * font)
@@ -61,35 +62,38 @@ void FloatingDamage::init(int screenWidth, int screenHeight)
 
 void FloatingDamage::draw(Camera* camera)
 {
+	if (dataToSendYeah.size() > 0)
+	{
+		shader->use();
 
-	shader->use();
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		font->getTexture()->bind(GL_TEXTURE0);
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
 
-	font->getTexture()->bind(GL_TEXTURE0);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-	glEnableVertexAttribArray(3);
+		shader->setUniform4fv(&camera->getProjectionMatrix(), "projectionMatrix");
+		shader->setUniform4fv(&camera->getViewMatrix(), "viewMatrix");
 
-	shader->setUniform4fv(&camera->getProjectionMatrix(), "projectionMatrix");
-	shader->setUniform4fv(&camera->getViewMatrix(), "viewMatrix");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(fDamageSomeData) * dataToSendYeah.size(), &dataToSendYeah[0], GL_STATIC_DRAW);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(fDamageSomeData) * dataToSendYeah.size(), &dataToSendYeah[0],  GL_STATIC_DRAW);
+		glDrawArrays(GL_POINTS, 0, dataToSendYeah.size());
 
-	glDrawArrays(GL_POINTS, 0, dataToSendYeah.size());
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
 
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+		glBindVertexArray(0);
 
-	glBindVertexArray(0);
-
-	shader->unUse();
+		shader->unUse();
+	}
+	
 }
 
 void FloatingDamage::updateBuffer()

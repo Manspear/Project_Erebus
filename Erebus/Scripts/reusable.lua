@@ -4,6 +4,7 @@ function BaseCombine(self, effect,damage)
 		table.insert(self.effects, effect)
 		self.damage = self.damage + damage
 	end
+	return self.element
 end
 
 function BaseCharge(self, dt)
