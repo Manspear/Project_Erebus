@@ -32,7 +32,7 @@ function CreateCombineRay(entity)
 
 	ray.caster = entity.transformID
 
-	function ray:FireChargeBeam(dt,dir,spellElement)		
+	function ray:FireChargeBeam(dt,dir,spellElement, len)		
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
