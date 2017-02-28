@@ -124,7 +124,7 @@ function CreateSunRay(entity)
 		self.type:Cast(Transform.GetPosition(self.owner.transformID))
 		Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
 		--Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
-		Transform.SetLookAt(self.type.transformID, Camera.GetDirection())
+		Transform.SetLookAt(self.type.transformID, self.owner.spellDirection)
 		Erebus.CameraSensitivity(self.cameraSlow)
 		Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x , self.startUpScale.y , self.startUpScale.z)
 		self.UVpushed = 0.0
