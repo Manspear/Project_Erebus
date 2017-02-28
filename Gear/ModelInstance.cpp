@@ -297,6 +297,8 @@ namespace Gear
 	void ModelInstance::setCulled( int index, bool c )
 	{
 		culled.at(index) = c;
+		if (animations.size() > 0)
+			animations[index]->setCulled(c);
 	}
 #pragma endregion
 

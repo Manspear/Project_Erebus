@@ -19,6 +19,8 @@ Animation::Animation()
 	blendToKeys = NULL;
 	finalList = NULL;
 	blendedList = NULL;
+
+	culled = false;
 }
 
 Animation::~Animation()
@@ -404,6 +406,16 @@ void Animation::reset()
 	blendToKeys = nullptr;
 	finalList = nullptr;
 	blendedList = nullptr;
+}
+
+void Animation::setCulled(bool c)
+{
+	this->culled = c;
+}
+
+bool Animation::getCulled()
+{
+	return this->culled;
 }
 
 GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int numStates)
