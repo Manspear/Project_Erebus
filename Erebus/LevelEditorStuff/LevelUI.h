@@ -112,6 +112,7 @@ public:
 		BASE_ENEMY,
 		PARTICLE_SYSTEM,
 		TILE_SETTINGS,
+		SLUICE_SYSTEM,
 		NUM_DIFF_COMPONENTS
 	} DiffComponents;
 
@@ -145,6 +146,7 @@ public:
 			{ DiffComponents::BASE_ENEMY, "Base Enemy" },
 			{DiffComponents::PARTICLE_SYSTEM, "Particle System"},
 			{ DiffComponents::TILE_SETTINGS, "Tile Settings" },
+			{ DiffComponents::SLUICE_SYSTEM, "Sluice System" },
 
 		};
 

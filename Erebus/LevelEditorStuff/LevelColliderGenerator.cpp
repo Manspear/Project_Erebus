@@ -34,9 +34,13 @@ void LevelColliderGenerator::generateQuadTree(int tileID){
 			if (hasObbCollider(it.second)) {
 				if (it.second->getTileID() == tileID) {
 					//The actor has an OBB colider, let's do stuff
-					AABBCollider* convertedCollider = convertFromObbToAbb(it.second->getComponent<LevelCollider>()->getObbCollider());
-					tempCols.push_back(convertedCollider);
-					mapedList[convertedCollider] = it.second->getComponent<LevelCollider>();
+					if (it.second->getComponent<LevelCollider>()->shouldGenerateParents()) {
+						AABBCollider* convertedCollider = convertFromObbToAbb(it.second->getComponent<LevelCollider>()->getObbCollider());
+
+						tempCols.push_back(convertedCollider);
+						mapedList[convertedCollider] = it.second->getComponent<LevelCollider>();
+					}
+
 				}
 
 			}

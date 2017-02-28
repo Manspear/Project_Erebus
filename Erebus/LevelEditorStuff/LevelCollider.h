@@ -86,6 +86,7 @@ public:
 
 	void adjustObbCollider(OBBCollider* colToCopy);
 	void setOffset(glm::vec3 offset);
+	bool shouldGenerateParents();
 private:
 	TwType TW_TYPE_COLLIDERS()
 	{
@@ -164,6 +165,6 @@ private:
 	RayCollider* rayColider;
 
 	static Debug* s_debugger;
-
+	bool genParent;
 	
 };

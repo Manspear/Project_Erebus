@@ -22,7 +22,7 @@ void TW_CALL setDisplayCB(const void *value, void *s /*clientData*/)
 	const std::string *srcPtr = static_cast<const std::string *>(value);
 	LevelActor* actor = (LevelActor*)s;
 	actor->setActorDisplayName(LevelActorHandler::getInstance()->tryActorName(*srcPtr));
-	LevelActorHandler::getInstance()->updateTweakBars();
+	//LevelActorHandler::getInstance()->updateTweakBars();
 	
 }
 
@@ -40,7 +40,7 @@ void TW_CALL setTypeCB(const void *value, void *s /*clientData*/)
 	const std::string *srcPtr = static_cast<const std::string *>(value);
 	LevelActor* actor = (LevelActor*)s;
 	actor->setActorType(*srcPtr);
-	LevelActorHandler::getInstance()->updateTweakBars();
+	//LevelActorHandler::getInstance()->updateTweakBars();
 
 }
 
@@ -167,16 +167,10 @@ std::string LevelActor::toLuaLoad(std::string levelName)
 	using namespace std;
 	stringstream ss;
 
-	std::string tempName = this->actorDisplayName;
-	tempName.erase(remove_if(tempName.begin(), tempName.end(), isspace), tempName.end());
-	char chars[] = "()";
+	if (exportType == EXPORT_SETTINGS)
+		int k = 0;
 
-	for (unsigned int i = 0; i < strlen(chars); ++i)
-	{
-		// you need include <algorithm> to use general algorithms like std::remove()
-		tempName.erase(std::remove(tempName.begin(), tempName.end(), chars[i]), tempName.end());
-	}
-	std::string fullName = tempName + to_string(id) + "ID";
+	std::string fullName = getExportName();
 
 	if( exportType == EXPORT_ENEMY )
 	{
@@ -250,7 +244,7 @@ std::string LevelActor::toLuaLoad(std::string levelName)
 					}
 				}
 
-				if(it->second->getName() != LevelHeightmap::name)
+				if(it->second->getName() != LevelHeightmap::name && it->second->getName() != LevelSluice::name)
 					ss << it->second->toLuaLoad(fullName);
 			}
 		}
@@ -262,8 +256,26 @@ std::string LevelActor::toLuaLoad(std::string levelName)
 	return ss.str();
 }
 
+std::string LevelActor::getExportName()
+{
+	std::string tempName = this->actorDisplayName;
+	tempName.erase(remove_if(tempName.begin(), tempName.end(), isspace), tempName.end());
+	char chars[] = "()";
+
+	std::stringstream ss;
+
+	for (unsigned int i = 0; i < strlen(chars); ++i)
+	{
+		// you need include <algorithm> to use general algorithms like std::remove()
+		tempName.erase(std::remove(tempName.begin(), tempName.end(), chars[i]), tempName.end());
+	}
+	ss << tempName.c_str() << "ID";
+	return (tempName + "ID");
+}
+
 std::string LevelActor::toLuaUnload(std::string levelName)
 {
+	
 	using namespace std;
 	stringstream ss;
 
@@ -298,16 +310,7 @@ std::string LevelActor::toLuaUnload(std::string levelName)
 				break;
 		}
 
-		std::string tempName = this->actorDisplayName;
-		tempName.erase(remove_if(tempName.begin(), tempName.end(), isspace), tempName.end());
-		char chars[] = "()";
-
-		for (unsigned int i = 0; i < strlen(chars); ++i)
-		{
-			// you need include <algorithm> to use general algorithms like std::remove()
-			tempName.erase(std::remove(tempName.begin(), tempName.end(), chars[i]), tempName.end());
-		}
-		std::string fullName = tempName + to_string(id) + "ID";
+		std::string fullName = getExportName();
 
 		if( exportType == EXPORT_ENEMY )
 		{

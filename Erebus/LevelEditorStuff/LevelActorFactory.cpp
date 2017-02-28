@@ -192,6 +192,10 @@ LevelActorComponent * LevelActorFactory::getNewComponent(std::string componentNa
 	{
 		returnComponent = new LevelSettings();
 	}
+	else if (componentName == LevelSluice::name)
+	{
+		returnComponent = new LevelSluice();
+	}
 	return returnComponent;
 }
 

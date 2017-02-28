@@ -58,6 +58,7 @@ public:
 	void setActorType(std::string type);
 	void setActorDisplayName(std::string name);
 	void setTileID( int id );
+	std::string getExportName();
 
 private:
 	typedef std::map<std::string, LevelActorComponent*>::iterator ComponentIT;

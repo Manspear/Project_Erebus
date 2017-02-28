@@ -319,6 +319,7 @@ void LevelActorHandler::exportToLua()
 					if (it->second->getTileID() == i) {
 						if (it->second->getComponent<LevelSettings>() != nullptr) continue; //Continue the loop if's the settings
 						fprintf(file, "%s", it->second->toLuaLoad(levelName).c_str());
+						
 					}
 					
 				}

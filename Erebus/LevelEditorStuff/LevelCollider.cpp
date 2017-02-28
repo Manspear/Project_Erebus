@@ -63,7 +63,7 @@ LevelCollider::LevelCollider()
 	this->onEnterEventString = "";
 	this->onExitEventString = "";
 	this->childColliders = std::vector<LevelCollider*>();
-
+	genParent = true;
 }
 
 LevelCollider::~LevelCollider()
@@ -153,6 +153,11 @@ void LevelCollider::initialize(tinyxml2::XMLElement* element)
 			this->onExitEventString = child->Attribute("OnExit");
 			this->onTriggeringEventString = child->Attribute("OnTriggering");
 		}
+	}
+
+	child = element->FirstChildElement("GenParent");
+	if (child != nullptr) {
+		this->genParent = child->BoolAttribute("value");
 	}
 
 
@@ -282,6 +287,9 @@ tinyxml2::XMLElement* LevelCollider::toXml(tinyxml2::XMLDocument* doc)
 		behaveElement->SetAttribute("OnExit", onExitEventString.c_str());
 		behaveElement->SetAttribute("OnTriggering", onTriggeringEventString.c_str());
 	}
+	tinyxml2::XMLElement* genParentElement = doc->NewElement("GenParent");
+	genParentElement->SetAttribute("value", genParent);
+
 
 	
 
@@ -289,6 +297,7 @@ tinyxml2::XMLElement* LevelCollider::toXml(tinyxml2::XMLDocument* doc)
 	element->LinkEndChild(colorElement);
 	element->LinkEndChild(idElement);
 	element->LinkEndChild(behaveElement);
+	element->LinkEndChild(genParentElement);
 	scale = parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
 
 	//Behavior
@@ -518,6 +527,12 @@ std::string LevelCollider::toLuaLoad(std::string name)
 		ss << fullName << ":SetPos(" << position.x << "," << position.y << "," << position.z << ")" << endl;
 		coliderType = "AddRay(";
 		break;
+	}
+
+
+	LevelSluice *sluiceRef = parent->getComponent<LevelSluice>();
+	if (sluiceRef != nullptr) {
+		ss << sluiceRef->toLuaLoad(fullName);
 	}
 	int gi = 0;
 	if (this->childColliders.size() == 0 && this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
@@ -751,6 +766,7 @@ void LevelCollider::setTwStruct(TwBar* bar)
 
 	//TwAddVarRW( bar, "colliderColor", LevelUI::TW_TYPE_VECTOR3F(), &color, "label='Color:'" );
 	TwAddVarRW(bar, "colliderColor", TW_TYPE_COLOR3F, &color, "label='Color:'");
+	TwAddVarRW(bar, "transformExport", TW_TYPE_BOOLCPP, &genParent, "label='Gen Parents:'");
 }
 
 void LevelCollider::setType(int type)
@@ -823,7 +839,7 @@ void TW_CALL LevelCollider::setOnTriggeringEventCB(const void *value, void *s /*
 	const std::string *srcPtr = static_cast<const std::string *>(value);
 	LevelCollider* colider = (LevelCollider*)s;
 	colider->setOnTriggeringString(*srcPtr);
-	LevelActorHandler::getInstance()->updateTweakBars();
+	//LevelActorHandler::getInstance()->updateTweakBars();
 
 }
 
@@ -840,7 +856,7 @@ void TW_CALL LevelCollider::setOnEnterEventCB(const void* value, void* s) {
 	const std::string *srcPtr = static_cast<const std::string *>(value);
 	LevelCollider* colider = (LevelCollider*)s;
 	colider->setOnEnterString(*srcPtr);
-	LevelActorHandler::getInstance()->updateTweakBars();
+	//LevelActorHandler::getInstance()->updateTweakBars();
 }
 void TW_CALL LevelCollider::getOnEnterEventCB(void* value, void* s) {
 	// Get: copy the value of s to AntTweakBar
@@ -854,7 +870,7 @@ void TW_CALL LevelCollider::setOnExitEventCB(const void* value, void* s) {
 	const std::string *srcPtr = static_cast<const std::string *>(value);
 	LevelCollider* colider = (LevelCollider*)s;
 	colider->setOnExitString(*srcPtr);
-	LevelActorHandler::getInstance()->updateTweakBars();
+	//LevelActorHandler::getInstance()->updateTweakBars();
 }
 void TW_CALL LevelCollider::getOnExitEventCB(void* value, void* s) {
 	// Get: copy the value of s to AntTweakBar
@@ -1077,4 +1093,8 @@ void LevelCollider::adjustObbCollider(OBBCollider * colToCopy)
 void LevelCollider::setOffset(glm::vec3 offset)
 {
 	this->offset = offset;
+}
+
+bool LevelCollider::shouldGenerateParents() {
+	return this->genParent;
 }

@@ -18,6 +18,7 @@
 #include "LevelEnemy.h"
 #include "LevelParticleSystem.h"
 #include "LevelSettings.h"
+#include "LevelSluice.h"
 
 class LevelActorFactory
 {
