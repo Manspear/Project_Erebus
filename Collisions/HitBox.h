@@ -14,7 +14,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS HitBox(unsigned int ID, int IDTransform);
 		COLLISIONS_EXPORTS HitBox(int IDTransform);
 		COLLISIONS_EXPORTS virtual ~HitBox();
-		COLLISIONS_EXPORTS virtual int getID() const = 0; // copy elision makes returning values fast? RVO - NRVO
+		COLLISIONS_EXPORTS virtual int getID() const = 0;
 		COLLISIONS_EXPORTS virtual int getIDTransform() const = 0;
 		COLLISIONS_EXPORTS virtual std::vector<int>* getIDCollisionsRef() = 0;
 		COLLISIONS_EXPORTS virtual void insertCollisionID(unsigned int collisionID);
