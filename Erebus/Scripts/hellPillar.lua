@@ -4,6 +4,7 @@ BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 MAX_DAMAGE_PILLAR = 8
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_BIG_PILLAR = 5
+HELLPILLAR_CASTSPEED_MULTIPLE = 3.2 + 0.1875
 
 --Divide COOLDOWN_SMALL_PILLAR by 2.5 to get castSpeed for first attack
 HELLPILLAR_CHARGE_SFX = "Effects/flames-2.wav"
@@ -32,7 +33,6 @@ function CreateHellPillar(entity)
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
-	HELLPILLAR_CASTSPEED_MULTIPLE = 2
 	spell.castTimeAttack = 0.5 * HELLPILLAR_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * HELLPILLAR_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * HELLPILLAR_CASTSPEED_MULTIPLE
@@ -77,7 +77,7 @@ function CreateHellPillar(entity)
 			if self.isActiveSpell then
 				self:Aim()
 			end
-			self.cooldown, self.maxcooldown = 0.1, self.castTimeAttack	
+			self.cooldown, self.maxcooldown = 1.6, 1.6	
 			self.startUpTime = 0.5		self.finishingTime = 1.0	self.startUpScale = 3
 			self.startUp = true
 			self.maxScale = 0.5			self.scale = 0.4
@@ -109,6 +109,7 @@ function CreateHellPillar(entity)
 			Transform.SetScale(self.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
 			self.damage = 50
+			self.hasSpamAttack = false
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()	
 			self.chargeID = Sound.Play(HELLPILLAR_CHARGE_SFX, 1, self.pos)
@@ -125,7 +126,8 @@ function CreateHellPillar(entity)
 	end
 	
 	function spell:Update(dt)
-		self.cooldown = self.cooldown - dt		
+		self.cooldown = self.cooldown - dt
+		if self.cooldown < 0 then self.hasSpamAttack = true end		
 		if self.aliveCharged then
 			if self.startUp then
 				self:StartingUp(dt)			
