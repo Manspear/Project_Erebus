@@ -18,18 +18,11 @@ FloatingDamage::FloatingDamage()
 	shader = nullptr;
 	VAO = 0;
 	VBO = 0;
-	for (size_t i = 0; i < NUM_DAMAGE_TYPES; i++)
-	{
-		this->dataToSend2[i] = new DamageValue[100];
-	}
-
-
-	DamageValue temp;
-	this->dataToSend2[0][0] = DamageValue();
 
 	diffColors[eDamageTypes::FIRE] = glm::vec4(1, 0, 0, baseAlpha);
 	diffColors[eDamageTypes::GRASS] = glm::vec4(0, 1, 0, baseAlpha);
 	diffColors[eDamageTypes::COLD] = glm::vec4(0, 0, 1, baseAlpha);
+	diffColors[eDamageTypes::NEUTRAL] = glm::vec4(1, 1, 1, baseAlpha);
 }
 
 
@@ -56,10 +49,10 @@ void FloatingDamage::init(int screenWidth, int screenHeight)
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)0);						//Vec3 Pos
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 3));	//Vec4 UV
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 7));
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageVertex), (GLvoid*)(sizeof(float) * 11));	//float width & index (attributes)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(fDamageSomeData), (GLvoid*)0);						//Vec3 Pos
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageSomeData), (GLvoid*)(sizeof(float) * 3));	//Vec4 UV
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageSomeData), (GLvoid*)(sizeof(float) * 7));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(fDamageSomeData), (GLvoid*)(sizeof(float) * 11));	//float width & index (attributes)
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -68,7 +61,7 @@ void FloatingDamage::init(int screenWidth, int screenHeight)
 
 void FloatingDamage::draw(Camera* camera)
 {
-	//addDamage(1523);
+
 	shader->use();
 
 	glBindVertexArray(VAO);
@@ -87,20 +80,9 @@ void FloatingDamage::draw(Camera* camera)
 	shader->setUniform4fv(&camera->getProjectionMatrix(), "projectionMatrix");
 	shader->setUniform4fv(&camera->getViewMatrix(), "viewMatrix");
 
-	//for (auto l : lines)
-	for (auto d : dataToSendYeah)
-	{
-		//glUniform1f(heightLoc, font->getInfo()->size * l.scale);
-		//glUniform4f(colorLoc, l.color.r, l.color.g, l.color.b, l.color.a);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(fDamageVertex), &d.data, GL_STATIC_DRAW);
-		glDrawArrays(GL_POINTS, 0, 1);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(fDamageSomeData) * dataToSendYeah.size(), &dataToSendYeah[0],  GL_STATIC_DRAW);
 
-		//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(fDamageLine), &l);
-		//glDrawArrays(GL_POINTS, 0, (GLsizei)l.numberOfCharacters);
-	}
-	//lines.clear();
-	bufferedLines.clear();
-	//dataToSendYeah.clear();
+	glDrawArrays(GL_POINTS, 0, dataToSendYeah.size());
 
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
@@ -184,11 +166,7 @@ void FloatingDamage::print(const std::string &s, const float &scale, const glm::
 		floatingContainer.lifetime = maxLifeTime;
 
 		this->dataToSendYeah.push_back(floatingContainer);
-		//vert.attributes.z += vert.width;
-		//vert.attributes.x = 1;
-		//vert.attributes.y = 1;
 
-		//worldPos.x += vert.width; // Update position for next vertex
 		index++;
 	}
 }
