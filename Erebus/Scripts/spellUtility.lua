@@ -148,8 +148,8 @@ function CreateChargeEggs(entity)
 			--nature particle alla typer 
 		self.firstCombine = false
 		
-		if self.Light ~=nil then
-			self.Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+		if self.light ~=nil then
+			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
 			self.particles:update(self.pos)	
 		end	
 		self.timer = self.timer + dt		
