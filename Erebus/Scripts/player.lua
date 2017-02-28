@@ -491,6 +491,7 @@ function Controls(dt)
 		end
 		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
 			HideCrosshair()
+			hideWaitingForPlayer2()
 			player.friendCharger:EndChargeBeam()
 			Network.SendChargingPacket(0, 0, 0, false) 
 		end
