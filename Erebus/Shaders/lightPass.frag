@@ -5,7 +5,7 @@
 out vec4 FragColor;
 in vec2 TexCoords;
 
-const int NUM_CASCADES = 3;
+const int NUM_CASCADES = 2;
 
 uniform sampler2D gDepth;
 uniform sampler2D gNormal;
@@ -97,23 +97,6 @@ void main() {
 			break;
 		}
 	}
-
-	vec3 shadowMapColorIndex;
-
-	if(z <= CascadeEndClipSpace[0])
-	{
-		shadowMapColorIndex = vec3(0.2,0.0,0.0);
-	} else if(z <= CascadeEndClipSpace[1])
-	{
-		shadowMapColorIndex = vec3(0.0,0.2,0.0);
-	} else if(z <= CascadeEndClipSpace[2])
-	{
-		shadowMapColorIndex = vec3(0.0,0.0,0.2);
-	}else{
-		shadowMapColorIndex = vec3(0.1,0.0,0.1);
-	}
-
-
 	
     vec3 viewDir = normalize(viewPos - FragPos);
 

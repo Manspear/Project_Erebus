@@ -123,7 +123,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 			frustumMax.z = std::fmax(frustumMax.z, frustumCorner.z);
 		}
 
-		glm::mat4 projection = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z - 50, frustumMax.z + 50);
+		glm::mat4 projection = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z * 6, frustumMax.z * 6);
 
 		shadowWVPMatrices[CascadeID] = projection * lightM;
 	}

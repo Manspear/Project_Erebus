@@ -11,7 +11,7 @@ class CascadedShadowMap
 {
 private:
 	const float ONE_DEGREE_RADIAN = 3.14159265358979323846f / 180;
-	const static int NUM_CASCADEDS = 3;
+	const static int NUM_CASCADEDS = 2;
 
 	bool splitIsInit = false;
 
