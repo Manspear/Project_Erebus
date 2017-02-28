@@ -480,7 +480,6 @@ function Controls(dt)
 			ChargeDir.x = (ChargeDir.x /a)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
-			print(ChargeDir.x)
 			local dir = Camera.GetDirection()
 			
 			
