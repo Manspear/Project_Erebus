@@ -40,6 +40,7 @@ enum eDamageTypes {
 	FIRE,
 	GRASS,
 	COLD,
+	NEUTRAL,
 	NUM_DAMAGE_TYPES
 };
 

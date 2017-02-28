@@ -435,8 +435,13 @@ function GetCombined()
 	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		local element = SpellList[spellListIndex].spell.element
+		print(element)
+		--print( player2.spells[player2.currentSpell].element) 
+		--player.charger.firstCombine(elementType)
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
+
 	end
 end
 
@@ -461,6 +466,7 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
+			showWaitingForPlayer2(dt)
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -468,6 +474,7 @@ function Controls(dt)
 			ChargeDir.x =  pos2.x - player.position.x 
 			ChargeDir.y = pos2.y - player.position.y 
 			ChargeDir.z =  pos2.z -  player.position.z 
+
 
 
 			--normalize and length
@@ -478,7 +485,6 @@ function Controls(dt)
 			ChargeDir.x = (ChargeDir.x /a)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
-			print(ChargeDir.x)
 			local dir = Camera.GetDirection()
 			
 			
@@ -509,7 +515,7 @@ function Controls(dt)
 			--ATTACK DELAY TIMER
 			player.attackDelayTimer = player.attackDelayTimer + dt
 
-			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+		if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				if player.spells[player.currentSpell].hasSpamAttack == true then 
 					player.charger:EndCharge()
 					player.spamCasting = true

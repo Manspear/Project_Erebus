@@ -64,16 +64,16 @@ function CreateTumblethorns(entity)
 			self.rollin = true
 			self.cooldown = TUMBLETHORNS_COOLDOWN
 			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
-			SphereCollider.SetActive(spell.sphereCollider, true)
 			self.position = Transform.GetPosition(self.caster)
-			--self.direction = Transform.GetLookAt(self.caster)
+			Transform.SetPosition(self.transformID, self.position)
+			SphereCollider.SetActive(spell.sphereCollider, true)
 			self.direction = Camera.GetDirection()
 			Transform.ActiveControl(self.transformID, true)
 			Transform.RotateToVector(self.transformID, self.direction)
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
 			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)	
 		elseif self.canRollBack and self.rollin then
-			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
+			self.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 			self.canRollBack = false
 			local newLookAt = vec3sub(self.owner.position, self.position)
 			Transform.RotateToVector(self.transformID, newLookAt)

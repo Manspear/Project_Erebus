@@ -86,7 +86,15 @@ function CreateEnemy(type, position, element)
 
 	local modelName = ""
 	if type == ENEMY_MELEE then
-		modelName = "Models/Goblin.model"
+		if enemies[i].elementType == NEUTRAL then
+			modelName = "Models/Goblin.model"
+		elseif enemies[i].elementType == FIRE then
+			modelName = "Models/Fire_Goblin.model"
+		elseif enemies[i].elementType == NATURE then
+			modelName = "Models/Grass_Goblin.model"
+		elseif enemies[i].elementType == ICE then
+			modelName = "Models/Ice_Goblin.model"
+		end
 	elseif type== ENEMY_DUMMY then
 		modelName = "Models/Dummy.model"
 	else
