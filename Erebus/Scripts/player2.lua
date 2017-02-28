@@ -99,7 +99,6 @@ function GetCombined()
 	end
 end
 
-
 function UpdatePlayer2(dt)
 	if player2.ping > 0 then
 		player2.ping = player2.ping - dt;

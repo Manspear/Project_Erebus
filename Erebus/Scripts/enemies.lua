@@ -203,7 +203,7 @@ function CreateEnemy(type, position, element)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 	enemies[i].sphereCollider:SetRadius(2)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
-	
+
 	if Network.GetNetworkHost() == true then
 		enemies[i].state =  stateScript.state.idleState
 		if type == ENEMY_DUMMY then
