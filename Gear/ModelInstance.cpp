@@ -118,7 +118,7 @@ namespace Gear
 		for (int i = 0; i < transforms.size(); i++)
 		{
 			TransformStruct& t = transforms[i];
-			if( t.active && !culled[i] )
+			if( !vacant[i] && t.active && !culled[i] )
 			{
 				activeTransforms++;
 

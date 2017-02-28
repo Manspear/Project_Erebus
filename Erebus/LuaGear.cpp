@@ -46,6 +46,7 @@ namespace LuaGear
 			{ "AddForwardInstance",	addForwardInstance },
 			{ "AddBlendingInstance", addBlendingInstance},*/
 			{ "ResetAnimations", resetAnimations },
+			{ "ResetModels", resetModels },
 			{ "BindStaticInstance", bindStaticInstance },
 			{ "BindAnimatedInstance", bindAnimatedInstance },
 			{ "BindForwardInstance", bindForwardInstance },
@@ -171,6 +172,18 @@ namespace LuaGear
 			g_animations[i].reset();
 		}
 		*g_boundAnimations = 0;
+
+		return 0;
+	}
+
+	int resetModels( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 0 );
+
+		g_models->clear();
+		g_animatedModels->clear();
+		g_ForwardModels->clear();
+		g_blendingModels->clear();
 
 		return 0;
 	}
