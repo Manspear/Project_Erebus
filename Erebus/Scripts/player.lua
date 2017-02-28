@@ -420,33 +420,8 @@ function UpdatePlayer(dt)
 end
 
 function SendCombine(spell)
-<<<<<<< 851921f2499bd26501ea7a5af57c621318914b98
-	if player2.isCombined == false then
-		if player2.charging == true then
-			player2.isCombined = true
-			player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
-			Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId)
-			player2.combinedSpell = spell.spellListId
-		end
-	end
-end
-
-function GetCombined()
-	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
-	if combine and Inputs.ButtonDown(Buttons.Right) then
-		player.spells[player.currentSpell]:Combine(effectIndex, damage)
-		local element = SpellList[spellListIndex].spell.element
-		print(element)
-		--print( player2.spells[player2.currentSpell].element) 
-		--player.charger.firstCombine(elementType)
-		player.isCombined = true
-		player.combinedSpell = spellListIndex
-
-	end
-=======
 	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
 	Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId, true)
->>>>>>> Charging ray from player 2 should be visible
 end
 
 function Controls(dt)
