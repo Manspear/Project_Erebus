@@ -420,7 +420,7 @@ end
 
 function SendCombine(spell)
 	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
-	Network.SendChargingPacket(spell:GetEffect(), spell.damage, spell.spellListId, true)
+	Network.SendChargingPacket(spell:GetEffect(), spell.damage, player.currentSpell, true)
 end
 
 function Controls(dt)
