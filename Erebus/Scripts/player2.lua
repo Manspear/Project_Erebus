@@ -254,6 +254,7 @@ function UpdatePlayer2(dt)
 			player.isCombined = true
 			player.combinedSpell = player2.spells[player2.currentSpell].spellListId
 			player.spells[player.currentSpell]:Combine(player2.spells[player2.currentSpell]:GetEffect(), player2.spells[player2.currentSpell].damage)
+			player.charger:StartParticles(player2.spells[player2.currentSpell].element)
 		end
 	end
 
