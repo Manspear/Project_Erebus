@@ -186,8 +186,11 @@ namespace LuaNetwork
 	{
 		int index = (int)lua_tointeger(lua, 1);
 		int currentSpell = (int)lua_tointeger(lua, 2);
+		float dirX = (float)lua_tonumber(lua, 3);
+		float dirY = (float)lua_tonumber(lua, 4);
+		float dirZ = (float)lua_tonumber(lua, 5);
 
-		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell, false, true));
+		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell, false, true, dirX, dirY, dirZ));
 
 		return 0;
 	}
@@ -197,8 +200,11 @@ namespace LuaNetwork
 		int index = (int)lua_tointeger(lua, 1);
 		int currentSpell = (int)lua_tointeger(lua, 2);
 		bool cast = lua_toboolean(lua, 3) != 0;
+		float dirX = (float)lua_tonumber(lua, 4);
+		float dirY = (float)lua_tonumber(lua, 5);
+		float dirZ = (float)lua_tonumber(lua, 6);
 
-		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell, true, cast));
+		g_networkController->sendSpellPacket(SpellPacket(index, currentSpell, true, cast, dirX, dirY, dirZ));
 
 		return 0;
 	}
@@ -214,6 +220,9 @@ namespace LuaNetwork
 			lua_pushnumber(lua, spellPacket.data.currentSpell);
 			lua_pushboolean(lua, spellPacket.data.chargeSpell);
 			lua_pushboolean(lua, spellPacket.data.cast);
+			lua_pushnumber(lua, spellPacket.data.dirX);
+			lua_pushnumber(lua, spellPacket.data.dirY);
+			lua_pushnumber(lua, spellPacket.data.dirZ);
 		}
 		else
 		{
@@ -222,9 +231,12 @@ namespace LuaNetwork
 			lua_pushnumber(lua, 0);
 			lua_pushboolean(lua, false);
 			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
 		}
 
-		return 5;
+		return 8;
 	}
 
 	int sendAITransformPacket(lua_State* lua)

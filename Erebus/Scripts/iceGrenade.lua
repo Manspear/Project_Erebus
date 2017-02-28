@@ -72,7 +72,7 @@ function CreateIceGrenade(entity)
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
 			local pos = Transform.GetPosition(entity.transformID)
-			local dir = Camera.GetDirection()
+			local dir = self.owner.spellDirection
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = 0.5 / self.maxChargeTime				
