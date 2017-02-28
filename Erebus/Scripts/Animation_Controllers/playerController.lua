@@ -85,11 +85,12 @@ function CreatePlayerController(player)
 		--else running noncombat
 		elseif (self.watch.forward ~= 0 or self.watch ~= left) and self.attackTimerStarted == false then
 			self:RunningState(dt)
-		elseif (self.watch.forward ~= 0 or self.watch ~= left) and self.attackTimerStarted == true then
+		elseif (self.watch.forward ~= 0 or self.watch.left ~= 0) and self.attackTimerStarted == true then
 			self:CombatRunningState(dt)
 		--else legs stand still
 		else
 			self.animationState1 = 9
+			self.animationState2 = 25
 		end
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
@@ -146,7 +147,6 @@ function CreatePlayerController(player)
 			end
 		end
 		if self.watch.health <= 0 then 
-			
 			self:DeathState(dt)
 		end
 
@@ -176,7 +176,6 @@ function CreatePlayerController(player)
 
 	--Handles everything that has to do with death. 
 	function controller:DeathState(dt)
-		print(self.deathTimerStarted)
 		if self.oldWatch.health > 0 then 
 			self.deathTimerStarted = true
 		end

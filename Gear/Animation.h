@@ -99,7 +99,6 @@ protected:
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
-	float animTimer;
 	float pAnimMaxTime[MAXNUMSEGMENTS];
 	//One timeMultiplier-element per segment
 	float timeMultiplier[MAXNUMSEGMENTS];
