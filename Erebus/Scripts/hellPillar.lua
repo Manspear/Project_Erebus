@@ -109,7 +109,6 @@ function CreateHellPillar(entity)
 			Transform.SetScale(self.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
 			self.damage = 50
-			self.hasSpamAttack = false
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()	
 			self.chargeID = Sound.Play(HELLPILLAR_CHARGE_SFX, 1, self.pos)
@@ -122,6 +121,7 @@ function CreateHellPillar(entity)
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
 		self.lightRadius = 10
+		self.hasSpamAttack = false
 		self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10, true)
 	end
 	
