@@ -148,7 +148,7 @@ function CreateChargeEggs(entity)
 			--nature particle alla typer 
 		self.firstCombine = false
 		
-		if self.light ~=nil then
+		if self.light then
 			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
 			self.particles:update(self.pos)	
 		end	
@@ -199,8 +199,8 @@ function CreateChargeEggs(entity)
 	function chargeThing:StartCharge(position, spellElement) 
 		--called when right mouse button is pressed	
 		self.timer = 0   
-		self.pos = Transform.GetPosition(chargeThing.caster)	
-		self.firstCombine = true		
+		self.pos = Transform.GetPosition(chargeThing.caster)		
+			
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			self.color.r = 1
@@ -216,7 +216,7 @@ function CreateChargeEggs(entity)
 		end
 	end
 
-	function chargeThing:StartParticles(spellElement) 
+	function chargeThing:StartParticles(spellElement)
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
 		self.particles:cast() 
 	end
