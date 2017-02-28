@@ -12,7 +12,7 @@ function CreateTumblethorns(entity)
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 10
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
-	spell.chargedTime = 0		spell.maxChargeTime = 2
+	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 0
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
 	spell.direction = {x = 0, y = 0, z = 0}		spell.position = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false

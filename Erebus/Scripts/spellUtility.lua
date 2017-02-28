@@ -131,6 +131,10 @@ function CreateChargeEggs(entity)
 		Transform.SetPosition(self.elementalTransformID, self.pos)		
 		self.rotSmall.y = self.rotSmall.y + (2) * dt
 		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
+		self.timer = self.timer - dt
+		if self.timer < 0 then
+			Transform.SetScale(self.elementalTransformID, 1)
+		end
 	end
 
 	function chargeThing:Update(dt, chargePower)
@@ -187,6 +191,7 @@ function CreateChargeEggs(entity)
 
 	function chargeThing:EndCharge() 
 		self.scaleSmall = {x = 1, y = 1, z = 1}
+		self.timer = 0
 		self.color = {r = 0, g = 0, b = 0}
 		Transform.ActiveControl(self.elementalTransformID, false)
 		Transform.SetPosition(self.elementalTransformID, {x = 0, y = 0, z = 0})
@@ -196,9 +201,9 @@ function CreateChargeEggs(entity)
 		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
-	function chargeThing:StartCharge(position, spellElement) 
+	function chargeThing:StartCharge(position, spellElement, minChargeTime) 
 		--called when right mouse button is pressed	
-		self.timer = 0   
+		self.timer = minChargeTime   
 		self.pos = Transform.GetPosition(chargeThing.caster)	
 		self.firstCombine = true		
 		if spellElement == FIRE then
@@ -214,10 +219,12 @@ function CreateChargeEggs(entity)
 			self.elementalTransformID = self.transformID
 			Transform.ActiveControl(self.transformID, true)		
 		end
+		Transform.SetScale(self.elementalTransformID, 0.5)
 	end
 
 	function chargeThing:StartParticles(spellElement) 
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
+		self.timer = 0
 		self.particles:cast() 
 	end
 

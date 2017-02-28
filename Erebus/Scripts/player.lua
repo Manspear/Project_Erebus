@@ -501,7 +501,7 @@ function Controls(dt)
 			--ATTACK DELAY TIMER
 			player.attackDelayTimer = player.attackDelayTimer + dt
 
-		if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				if player.spells[player.currentSpell].hasSpamAttack == true then 
 					player.charger:EndCharge()
 					player.spamCasting = true
@@ -573,7 +573,7 @@ function Controls(dt)
 					if player.spells[player.currentSpell].cooldown<0 then
 						Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false, 0, 0, 0)
 						sElement = player.spells[player.currentSpell].element	
-						player.charger:StartCharge(player.position, sElement) 
+						player.charger:StartCharge(player.position, sElement, player.spells[player.currentSpell].minChargeTime) 
 						player.charging = true	
 					end		
 				end
