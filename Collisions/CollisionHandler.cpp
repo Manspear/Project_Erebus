@@ -558,7 +558,7 @@ namespace Collisions
 
 	void CollisionHandler::reset()
 	{
-		delete[] collisionLayers;
+		delete collisionLayers;
 		sphereColliders.clear();
 		aabbColliders.clear();
 		obbColliders.clear();
@@ -568,6 +568,7 @@ namespace Collisions
 
 		collisionLayers = new CollisionLayers(layerAmount);
 		leafHitboxIDSaver = new std::vector<std::vector<int>>();
+		leafHitboxIDSaver->resize(layerAmount);
 	}
 
 //	void CollisionHandler::drawHitboxes()
