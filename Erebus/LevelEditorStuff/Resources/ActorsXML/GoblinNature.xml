@@ -1,16 +1,16 @@
-<LevelActor type="Enemy" displayName="GoblinNeutral" tileID="2" exportType="2">
+<LevelActor type="Enemy" displayName="GoblinNature" tileID="2" exportType="2">
     <LevelEnemy>
         <MoveSpeed amount="9"/>
         <Health amount="50"/>
         <VisionRange amount="30"/>
         <Type amount="0"/>
-        <Element amount="3"/>
+        <Element amount="1"/>
     </LevelEnemy>
     <LevelModel>
-        <ModelName>Goblin</ModelName>
+        <ModelName>Grass_Goblin</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="190.625" y="54.375" z="157.875"/>
+        <Position x="118.75" y="64.25" z="143.125"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>

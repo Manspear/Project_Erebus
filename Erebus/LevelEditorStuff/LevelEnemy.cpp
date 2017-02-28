@@ -7,11 +7,19 @@ const char* LevelEnemy::ENEMY_TYPE_NAMES[MAX_ENEMY_TYPES] =
 	 "Dummy"
 };
 
+const char* LevelEnemy::ENEMY_ELEMENT_NAMES[enemyElement::NUM_ELEMENTS] =
+{
+	"Fire",
+	"Nature",
+	"Ice",
+	"Neutral"
+};
+
 const char* LevelEnemy::name = "LevelEnemy";
 Debug* LevelEnemy::g_debugger = nullptr;
 
 LevelEnemy::LevelEnemy()
-	: moveSpeed( 5 ), health( 50 ), visionRange( 10 ), visionColor( 192, 192, 192), type( ENEMY_MELEE )
+	: moveSpeed(5), health(50), visionRange(10), visionColor(192, 192, 192), type(ENEMY_MELEE), element(enemyElement::NEUTRAL)
 {
 }
 LevelEnemy::~LevelEnemy() {
@@ -23,6 +31,9 @@ void LevelEnemy::initialize(tinyxml2::XMLElement* element) {
 	this->health = std::stof(element->FirstChildElement("Health")->Attribute("amount"));
 	this->visionRange = std::stof(element->FirstChildElement("VisionRange")->Attribute("amount"));
 	this->type = std::stof(element->FirstChildElement("Type")->Attribute("amount"));
+	if(element->FirstChildElement("Element") != nullptr){
+		this->element = std::stof(element->FirstChildElement("Element")->Attribute("amount"));
+	}
 }
 void LevelEnemy::update(float deltaTime) {
 	
@@ -45,10 +56,14 @@ tinyxml2::XMLElement* LevelEnemy::toXml(tinyxml2::XMLDocument* doc) {
 	tinyxml2::XMLElement* enemyTypeElement = doc->NewElement("Type");
 	enemyTypeElement->SetAttribute("amount", this->type);
 
+	tinyxml2::XMLElement* enemyElementElement = doc->NewElement("Element");
+	enemyElementElement->SetAttribute("amount", this->element);
+
 	element->LinkEndChild(moveSpeedElement);
 	element->LinkEndChild(healthElement);
 	element->LinkEndChild(visionRangeElement);
 	element->LinkEndChild(enemyTypeElement);
+	element->LinkEndChild(enemyElementElement);
 
 	return element;
 }
@@ -60,8 +75,11 @@ std::string LevelEnemy::toLuaLoad(std::string name){
 	glm::vec3 pos = transform->getTransformRef()->getPos();
 	if(type==ENEMY_DUMMY)
 		ss << "local " << name << " = CreateEnemy(" << "ENEMY_DUMMY" << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
-	else
-		ss << "local " << name << " = CreateEnemy(" << ( type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED" ) << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+	else {
+		int elementExportNr = this->element + 1;
+		ss << "local " << name << " = CreateEnemy(" << (type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED") << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "}, "<<elementExportNr<<")" << endl;
+	}
+		
 
 	ss << name << ".moveSpeed = " << moveSpeed << endl;
 	ss << name << ".health = " << health << endl;
@@ -84,6 +102,7 @@ void LevelEnemy::setTwStruct(TwBar * twBar) {
 	TwAddVarRW(twBar, "enemyHealth", TW_TYPE_FLOAT, &this->health, "label='Health:'");
 	TwAddVarRW(twBar, "enemyVisionRange", TW_TYPE_FLOAT, &this->visionRange, "label='Vision Range:'");
 	TwAddVarRW(twBar, "enemyType", TW_TYPE_ENEMY_ENUM(), &type, "label='Type:'" );
+	TwAddVarRW(twBar, "enemyElement", TW_ELEMENT_ENEMY_ENUM(), &element, "label='Element:'");
 }
 
 void LevelEnemy::setDebugger(Debug* debug) {

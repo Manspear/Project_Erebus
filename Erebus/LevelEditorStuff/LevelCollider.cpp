@@ -125,9 +125,16 @@ void LevelCollider::initialize(tinyxml2::XMLElement* element)
 	offset.z = child->FloatAttribute("z");
 
 	child = element->FirstChildElement("Color");
-	color.x = child->FloatAttribute("x");
-	color.y = child->FloatAttribute("y");
-	color.z = child->FloatAttribute("z");
+	if (child != nullptr) {
+		color.x = child->FloatAttribute("x");
+		color.y = child->FloatAttribute("y");
+		color.z = child->FloatAttribute("z");
+	}
+	else {
+		std::cout << "Could find color in collider" << std::endl;
+		
+	}
+
 
 	child = element->FirstChildElement("IDs");
 	int tempColID = child->IntAttribute("ID");

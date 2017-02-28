@@ -60,7 +60,7 @@ void LevelColliderGenerator::generateQuadTree(int tileID){
 
 		
 	}
-
+	
 	//Converted all obbs to abb inside tempCols
 
 }
@@ -141,8 +141,7 @@ AABBCollider* LevelColliderGenerator::addChildren(int childrenCount, std::vector
 		//coliderRef->setParentColider();
 		//coliderRef->setParentColiderID();
 		//parent->addChildColider();
-
-		LevelActorHandler::getInstance()->addActor(parentActor);
+		LevelActorHandler::getInstance()->addActorNoUpdate(parentActor);
 		parents.push_back(parent);
 		this->tempCols.push_back(parent);
 	}
@@ -324,6 +323,7 @@ void TW_CALL LevelColliderGenerator::getOnGenEventCB(void* cliendData) {
 			LevelColliderGenerator::getInstance()->generateQuadTree(i);
 		}
 		LevelColliderGenerator::getInstance()->generatedThisRun = true;
+		LevelActorHandler::getInstance()->updateTweakBars();
 	}
 }
 
