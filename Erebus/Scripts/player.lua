@@ -461,8 +461,7 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
-			showWaitingForPlayer2(dt)
-			--showTutorialImage2(player.position.x,player.position.y,player.position.z,dt )
+			--showWaitingForPlayer2(dt)
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
