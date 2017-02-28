@@ -23,6 +23,10 @@ function CreateTimeSlowEffect()
 	return effect
 end
 
+function DestroyTimeSlowEffect(effect)
+	effect = nil
+end
+
 function InitTimeSlows()
 	for i = 1, TIMESLOW_POOL_SIZE do
 		currentFree = i

@@ -65,3 +65,7 @@ function CreateRevive(entity)
 	end
 	return spell
 end
+
+function DestroyRevive(revive)
+	Gear.UnbindInstance(revive.transformID)
+end

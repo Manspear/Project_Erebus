@@ -366,6 +366,7 @@ int main()
 			camera.updateBuffer();
 
 			assets.upload();
+			assets.checkReferences();
 
 			ReleaseSemaphore(threadData.produce, 1, NULL);
 			// END OF CRITICAL SECTION

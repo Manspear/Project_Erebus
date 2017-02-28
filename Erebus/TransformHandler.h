@@ -23,6 +23,7 @@ public:
 	);
 	~TransformHandler();
 
+	void reset();
 	int bindStaticInstance( ModelAsset* asset );
 	int bindAnimatedInstance( ModelAsset* asset, Animation* animation );
 	int bindForwardInstance( ModelAsset* asset );
