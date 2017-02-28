@@ -208,14 +208,11 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		}
 	}
 	//Append if the animation doesn't exist
-	else
+	else //backIdx != state
 	{
-		//If the blending got interrupted
-		if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
-		{
-			int back = animationStack[animationSegment][backIdx];
-			animationStack[animationSegment][frontIdx] = back;
-		}
+		int back = animationStack[animationSegment][backIdx];
+		animationStack[animationSegment][frontIdx] = back;
+
 		animationStack[animationSegment][backIdx] = state;
 	}
 
@@ -223,7 +220,7 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 
 	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
 	//make sure to reset the timeMultiplier after the attack is done. It is crucial. Or else the animation will get faster and faster.
-	if (animationPlayTime[animationSegment] > 0)
+	if (animationPlayTime[animationSegment] > 0 && modifyAnimationLength[animationSegment] == true)
 	{
 		Importer::hAnimationState* stater = asset->getAnimationState(0, 5, state);
 		Importer::sKeyFrame* keys = asset->getKeyFrames(0, 5, state);
@@ -339,8 +336,8 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		transitionTimers[i] = 0;
 		animationTimers[i] = 0;
 
-		animationStack[i][0] = EMPTYELEMENT;
-		animationStack[i][1] = 0;
+		animationStack[i][frontIdx] = EMPTYELEMENT;
+		animationStack[i][backIdx] = EMPTYELEMENT;
 
 		quickBlendStates[i] = false;
 
@@ -348,6 +345,8 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		animationMatrixLists[i] = allahu;
 
 		currentSegmentStates[i] = 0;
+
+		modifyAnimationLength[i] = false;
 	}
 }
 
@@ -416,9 +415,10 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 	setStates(numStates);
 }
 
-GEAR_API void Animation::setSegmentPlayTime(float animTime, int segment)
+GEAR_API void Animation::setSegmentPlayTime(float animTime, int animationSegment)
 {
-	animationPlayTime[segment] = animTime;
+	modifyAnimationLength[animationSegment] = true;
+	animationPlayTime[animationSegment] = animTime;
 }
 
 GEAR_API void Animation::resetSegmentAnimationClock(int segment)
@@ -426,9 +426,10 @@ GEAR_API void Animation::resetSegmentAnimationClock(int segment)
 	animationTimers[segment] = 0;
 }
 
-GEAR_API void Animation::resetSegmentPlayTime(int segment)
+GEAR_API void Animation::resetSegmentPlayTime(int animationSegment)
 {
-	animationPlayTime[segment] = pAnimMaxTime[segment];
+	modifyAnimationLength[animationSegment] = false;
+	animationPlayTime[animationSegment] = pAnimMaxTime[animationSegment];
 }
 
 GEAR_API void Animation::setStates(int numStates)

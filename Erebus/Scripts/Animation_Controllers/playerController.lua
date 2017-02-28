@@ -60,10 +60,10 @@ function CreatePlayerController(player)
 	controller.chargeMaxTime = 1.33 -- the length of the chargeRelease-animation
 
 	local animationTransitionTimes = {}
-	for i = 1, 33 do
+	for i = 1, 40 do
 		animationTransitionTimes[i] = {}
-		for j = 1, 33 do
-			animationTransitionTimes[i][j] = 0.1
+		for j = 1, 40 do
+			animationTransitionTimes[i][j] = 0.3
 		end
 	end
 
@@ -113,6 +113,8 @@ function CreatePlayerController(player)
 
 		if self.watch.spamCasting == true and self.oldWatch.spamCasting == false then 
 			self.animation:ResetSegmentAnimationClock(1)
+		elseif self.watch.spamCasting == false and self.oldWatch.spamCasting == true then 
+			self.animation:ResetSegmentPlayTime(1)
 		end 
 
 		if self.watch.charging == true then 

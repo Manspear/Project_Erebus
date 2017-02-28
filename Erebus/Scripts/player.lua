@@ -507,7 +507,6 @@ function Controls(dt)
 					player.charger:EndCharge()
 					player.spamCasting = true
 					
-					
 					if player.firstAttack == true then 		
 						if player.attackDelayTimerStarted == false then 
 							player.attackDelayTimerStarted = true
@@ -522,20 +521,16 @@ function Controls(dt)
 							player.attackDelayTimer = overTime
 							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
 							
-							--Gets in here every time it should. But the cast function is not executed for some reason.
-
 							Network.SendSpellPacket(player.transformID, player.currentSpell)
-							player.spells[player.currentSpell]:Cast(player, 0.5, false)	
+							player.spells[player.currentSpell]:Cast(player)	
 						end 
 					end
 				end
 			end
-			
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.spamCasting = false
 				player.firstAttack = true
 				player.attackDelayTimerStarted = false
-				player.animationController.animation:ResetSegmentPlayTime(1)
 			end
 
 			if player.globalSpellSwitchingCooldownTimerStarted == true then 
@@ -559,7 +554,6 @@ function Controls(dt)
 					player.resetSpamAttack = true
 					
 					player.globalSpellSwitchingCooldownTimerStarted = true
-					--player.animationController.animation:ResetSegmentPlayTime(1)
 				end
 			end
 
