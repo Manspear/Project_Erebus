@@ -139,10 +139,13 @@ function CreateChargeEggs(entity)
 		end
 	end
 
+
+
 	function chargeThing:CombinedAndCharged(dt, chargePower)
 		self.pos = Transform.GetPosition(self.caster)
 		if self.firstCombine then
 			self.particles:cast() 
+			--nature particle alla typer 
 			self.firstCombine = false
 			self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
 		else

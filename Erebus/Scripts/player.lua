@@ -435,8 +435,13 @@ function GetCombined()
 	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		local element = SpellList[spellListIndex].spell.element
+		print(element)
+		--print( player2.spells[player2.currentSpell].element) 
+		--player.charger.firstCombine(elementType)
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
+
 	end
 end
 
@@ -461,7 +466,7 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
-			--showWaitingForPlayer2(dt)
+			showWaitingForPlayer2(dt)
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
