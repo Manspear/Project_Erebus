@@ -90,8 +90,8 @@ function LoadPlayer()
 	player.attackDelayTimerThreshHold = 0
 	player.attackDelayTimer = 0
 
-	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
-	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player.dashStartParticles = Particle.Bind("ParticleFiles/dash3.particle")
+	player.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
 	Particle.SetExtro(player.dashEndParticles, true)
