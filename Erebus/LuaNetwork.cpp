@@ -298,8 +298,9 @@ namespace LuaNetwork
 		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
 		uint16_t damage = (uint16_t)lua_tonumber(lua, 2);
 		uint16_t spellListIndex = (uint16_t)lua_tonumber(lua, 3);
+		bool activateCombineRay = (bool)lua_toboolean(lua, 4);
 
-		g_networkController->sendChargingPacket(ChargingPacket(index, damage, spellListIndex));
+		g_networkController->sendChargingPacket(ChargingPacket(index, damage, spellListIndex, activateCombineRay));
 
 		return 0;
 	}
@@ -314,6 +315,7 @@ namespace LuaNetwork
 			lua_pushnumber(lua, chargingPacket.data.ID);
 			lua_pushnumber(lua, chargingPacket.data.damage);
 			lua_pushnumber(lua, chargingPacket.data.spellListIndex);
+			lua_pushboolean(lua, chargingPacket.data.activateCombineRay);
 		}
 		else
 		{
@@ -321,9 +323,11 @@ namespace LuaNetwork
 			lua_pushnumber(lua, 0);
 			lua_pushnumber(lua, 0);
 			lua_pushnumber(lua, 0);
+			lua_pushboolean(lua, false);
+
 		}
 
-		return 4;
+		return 5;
 	}
 
 	int sendQuickBlendPacket(lua_State* lua)

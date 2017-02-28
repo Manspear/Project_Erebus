@@ -29,8 +29,6 @@ function clientAIState.followState.exit(enemy, playerTarget)
 
 end
 
-
-
 function clientAIState.attackState.enter(enemy, playerTarget)
 	--print("Client AI Attacking")
 

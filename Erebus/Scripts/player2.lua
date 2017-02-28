@@ -40,12 +40,17 @@ function LoadPlayer2()
 	player2.outerCirclerange = 4
 	player2.innerCirclerange = 8
 
+	player2.combineRayActive = false
+
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
 	CollisionHandler.AddSphere(player2.sphereCollider, 1)
 	player2.collisionID = player2.sphereCollider:GetID()
 	-- set spells for player
 	player2.spells = {}
 	player2.currentSpell = 1
+
+	player2.friendCharger = CreateCombineRay(player2)
+
 
 	--local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
@@ -78,6 +83,17 @@ function LoadSpellsPlayer2()
 	player2.spells[3] = SpellListPlayer2[3].spell
 	player2.spells[1].isActiveSpell = true
 end
+
+function GetCombined()
+	local combine, effectIndex, damage, spellListIndex, activateCombineRay = Network.GetChargingPacket()
+	if combine then
+		player2.combineRayActive = activateCombineRay
+		if activateCombineRay == false then
+			player2.friendCharger:EndChargeBeam()
+		end
+	end
+end
+
 
 function UpdatePlayer2(dt)
 	if player2.ping > 0 then
@@ -207,6 +223,32 @@ function UpdatePlayer2(dt)
 		player2.spells[2] = SpellListPlayer2[changeSpell2].spell
 		player2.spells[3] = SpellListPlayer2[changeSpell3].spell
 		player2.spells[player2.currentSpell]:Change()
+	end
+
+	GetCombined()
+	if player2.combineRayActive == true then
+		local ChargeDir = {}
+		local currentPlayer2Pos = Transform.GetPosition(player2.transformID)
+
+		ChargeDir.x = player.position.x - currentPlayer2Pos.x
+		ChargeDir.y = player.position.y - currentPlayer2Pos.y
+		ChargeDir.z = player.position.z - currentPlayer2Pos.z  
+
+		local len = vec3length(vec3sub(currentPlayer2Pos, player.position))
+
+		a = math.sqrt( (ChargeDir.x * ChargeDir.x) + (ChargeDir.y * ChargeDir.y) + (ChargeDir.z * ChargeDir.z) )
+
+		ChargeDir.x = (ChargeDir.x /a)
+		ChargeDir.y = (ChargeDir.y /a)
+		ChargeDir.z = (ChargeDir.z /a)
+
+		player2.friendCharger:FireChargeBeam(dt, ChargeDir, player2.spells[player2.currentSpell].element, len)
+
+		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
+			player.spells[player.currentSpell]:Combine(effectIndex, damage)
+			player.isCombined = true
+			player.combinedSpell = spellListIndex
+		end
 	end
 
 	UI.reposWorld(player2.pingImage, player2.position.x, player2.position.y+1.5, player2.position.z)
