@@ -87,6 +87,8 @@ function CreateEnemy(type, position, element)
 	local modelName = ""
 	if type == ENEMY_MELEE then
 		modelName = "Models/Goblin.model"
+	elseif type== ENEMY_DUMMY then
+		modelName = "Models/Dummy.model"
 	else
 		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
 	end

@@ -98,11 +98,16 @@ function CreatePlayerController(player)
 			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
 
-		if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
-		then
-			self:AttackState(dt)
-		elseif self.attackTimerStarted == true then
-			self:AttackReadyState(dt)
+		if self.watch.resetSpamAttack == true then
+			self.animation:ResetSegmentAnimationClock(1)
+			self.watch.resetSpamAttack = false
+		else
+			if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
+			then
+				self:AttackState(dt)
+			elseif self.attackTimerStarted == true then
+				self:AttackReadyState(dt)
+			end
 		end
 
 		if self.watch.charging == true then 

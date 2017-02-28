@@ -403,6 +403,11 @@ GEAR_API void Animation::setSegmentPlayTime(float animTime, int segment)
 	animationPlayTime[segment] = animTime;
 }
 
+GEAR_API void Animation::resetSegmentAnimationClock(int segment)
+{
+	animationTimers[segment] = 0;
+}
+
 GEAR_API void Animation::resetSegmentPlayTime(int segment)
 {
 	animationPlayTime[segment] = pAnimMaxTime[segment];

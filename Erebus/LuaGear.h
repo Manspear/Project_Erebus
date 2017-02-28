@@ -45,6 +45,7 @@ namespace LuaGear
 	int print(lua_State* lua);
 	int getTextDimensions(lua_State* lua);
 
+	int resetSegmentAnimationClock(lua_State* lua);
 	int bindAnimation(lua_State* lua);
 	int quickBlend(lua_State* lua);
 	int updateAnimationBlending(lua_State* lua);
