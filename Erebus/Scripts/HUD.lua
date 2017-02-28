@@ -290,8 +290,11 @@ function hideTutorialImage()
 end
 
 
-
 function hideTutorialImage2()
+	SHOW_TUTORIAL_IMAGE2 = -1
+end
+
+function hideWaitingForPlayer2()
 	SHOW_TUTORIAL_IMAGE2 = -1
 end
 
