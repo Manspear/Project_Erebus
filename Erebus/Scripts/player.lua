@@ -55,10 +55,7 @@ function LoadPlayer()
 	player.spamCasting = false
 	player.charging = false
 	player.firstAttack = true
-	player.rayCollider = RayCollider.Create(player.transformID)
-	player.move = {}
-	CollisionHandler.AddRay(player.rayCollider)
-	RayCollider.SetActive(player.rayCollider, false)	
+	player.move = {}	
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
@@ -90,7 +87,7 @@ function LoadPlayer()
 	player.attackDelayTimerThreshHold = 0
 	player.attackDelayTimer = 0
 
-	player.dashStartParticles = Particle.Bind("ParticleFiles/dash3.particle")
+	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
@@ -495,7 +492,6 @@ function Controls(dt)
 			HideCrosshair()
 			player.friendCharger:EndChargeBeam()
 			Network.SendChargingPacket(0, 0, 0, false) 
-			RayCollider.SetActive(player.rayCollider, false)
 		end
 
 		if not player.charging then

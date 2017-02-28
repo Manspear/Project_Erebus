@@ -16,8 +16,8 @@ function LoadPlayer2()
 	player2.dashcd = 0
 	player2.invulnerable = false
 
-	player2.dashStartParticles = Particle.Bind("ParticleFiles/dash3.particle")
-	player2.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
+	player2.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player2.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
 
 	Particle.SetExtro(player2.dashStartParticles, false)
 	Particle.SetExtro(player2.dashEndParticles, true)
