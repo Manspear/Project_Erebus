@@ -122,6 +122,8 @@ function CreateChargeEggs(entity)
 	chargeThing.pos = {x = 0, y = 0, z = 0}
 	chargeThing.light = nil
 	chargeThing.color = {r = 0, g = 0, b = 0}
+
+	chargeThing.P2SpellElement = 0
 	
 	function chargeThing:ChargeMePlease(dt)
 		self.pos = Transform.GetPosition(self.caster)	
@@ -143,15 +145,13 @@ function CreateChargeEggs(entity)
 
 	function chargeThing:CombinedAndCharged(dt, chargePower)
 		self.pos = Transform.GetPosition(self.caster)
-		if self.firstCombine then
-			self.particles:cast() 
 			--nature particle alla typer 
-			self.firstCombine = false
-			self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
-		else
-			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
-			self.particles:update(self.pos)
-		end			
+		self.firstCombine = false
+		
+		if self.Light ~=nil then
+			self.Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			self.particles:update(self.pos)	
+		end	
 		self.timer = self.timer + dt		
 		self.pos.y = self.pos.y - 1
 		
@@ -190,12 +190,14 @@ function CreateChargeEggs(entity)
 		self.color = {r = 0, g = 0, b = 0}
 		Transform.ActiveControl(self.elementalTransformID, false)
 		Transform.SetPosition(self.elementalTransformID, {x = 0, y = 0, z = 0})
+		Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleSmall.x, self.scaleSmall.y, self.scaleSmall.z)
 		self.elementalTransformID = 0 
 		self.particles:die()
 		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
-	function chargeThing:StartCharge(position, spellElement) 		
+	function chargeThing:StartCharge(position, spellElement) 
+		--called when right mouse button is pressed	
 		self.timer = 0   
 		self.pos = Transform.GetPosition(chargeThing.caster)	
 		self.firstCombine = true		
@@ -213,6 +215,12 @@ function CreateChargeEggs(entity)
 			Transform.ActiveControl(self.transformID, true)		
 		end
 	end
+
+	function chargeThing:StartParticles(spellElement) 
+		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
+		self.particles:cast() 
+	end
+
 	return chargeThing
 end
 

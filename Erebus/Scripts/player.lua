@@ -436,9 +436,7 @@ function GetCombined()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
 		local element = SpellList[spellListIndex].spell.element
-		print(element)
-		--print( player2.spells[player2.currentSpell].element) 
-		--player.charger.firstCombine(elementType)
+		player.charger:StartParticles(element)
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
 
