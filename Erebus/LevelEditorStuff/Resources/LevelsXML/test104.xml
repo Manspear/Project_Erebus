@@ -307,7 +307,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="tile2" displayName="t2s10" tileID="3" exportType="1">
+    <LevelActor type="tile2" displayName="t2s10" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s10</ModelName>
         </LevelModel>
@@ -318,7 +318,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="tile2" displayName="t2s11a" tileID="3" exportType="1">
+    <LevelActor type="tile2" displayName="t2s11a" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s11a</ModelName>
         </LevelModel>
@@ -407,9 +407,9 @@
     </LevelActor>
     <LevelActor type="TileStuff" displayName="tile5" tileID="5" exportType="3">
         <LevelHeightmap>
-            <Draw d="true"/>
+            <Draw d="false"/>
             <LineLength l="0.5"/>
-            <Heights max="95.178772" min="38.55621"/>
+            <Heights max="105.0018" min="38.556149"/>
             <Offset x="0" y="0" z="0"/>
             <ID heightmapID="5" surrounding0="4" surrounding1="6" surrounding2="0" surrounding3="0" surrounding4="0"/>
             <TextureName>tile5_height</TextureName>
@@ -425,7 +425,7 @@
         <LevelHeightmap>
             <Draw d="true"/>
             <LineLength l="0.5"/>
-            <Heights max="106.8006" min="82.318909"/>
+            <Heights max="106.8301" min="85.084778"/>
             <Offset x="0" y="0" z="0"/>
             <ID heightmapID="6" surrounding0="5" surrounding1="7" surrounding2="0" surrounding3="0" surrounding4="0"/>
             <TextureName>tile6_height</TextureName>
@@ -439,9 +439,9 @@
     </LevelActor>
     <LevelActor type="TileStuff" displayName="tile7" tileID="7" exportType="3">
         <LevelHeightmap>
-            <Draw d="true"/>
+            <Draw d="false"/>
             <LineLength l="0.5"/>
-            <Heights max="149.4326" min="81.022949"/>
+            <Heights max="142.89619" min="81.256348"/>
             <Offset x="0" y="0" z="0"/>
             <ID heightmapID="7" surrounding0="6" surrounding1="8" surrounding2="0" surrounding3="0" surrounding4="0"/>
             <TextureName>tile7_height</TextureName>
@@ -457,7 +457,7 @@
         <LevelHeightmap>
             <Draw d="true"/>
             <LineLength l="0.5"/>
-            <Heights max="128.16901" min="100"/>
+            <Heights max="142.2115" min="100"/>
             <Offset x="0" y="0" z="0"/>
             <ID heightmapID="8" surrounding0="7" surrounding1="0" surrounding2="0" surrounding3="0" surrounding4="0"/>
             <TextureName>tile8_height</TextureName>
@@ -634,7 +634,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s3" tileID="7" exportType="1">
+    <LevelActor type="Tile6" displayName="t6s3" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s3</ModelName>
         </LevelModel>
@@ -645,7 +645,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s4" tileID="7" exportType="1">
+    <LevelActor type="Tile6" displayName="t6s4" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>tile6_s4</ModelName>
         </LevelModel>
@@ -656,7 +656,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s5" tileID="7" exportType="1">
+    <LevelActor type="Tile6" displayName="t6s5" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s5</ModelName>
         </LevelModel>
@@ -667,7 +667,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s6" tileID="7" exportType="1">
+    <LevelActor type="Tile6" displayName="t6s6" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s6</ModelName>
         </LevelModel>
@@ -689,7 +689,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s8" tileID="7" exportType="1">
+    <LevelActor type="Tile6" displayName="t6s8" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s8</ModelName>
         </LevelModel>
@@ -700,7 +700,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile7" displayName="t6s9" tileID="7" exportType="1">
+    <LevelActor type="Tile7" displayName="t6s9" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s9</ModelName>
         </LevelModel>
@@ -860,7 +860,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="267" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2945809" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -908,7 +908,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="271" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="5.2945814" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1004,7 +1004,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="277" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2945814" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -1084,7 +1084,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="282" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -1100,7 +1100,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="283" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1180,7 +1180,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="288" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.5891619" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -1324,7 +1324,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="298" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.1472902" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1420,7 +1420,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="305" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="6.7674885" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1516,7 +1516,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="311" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="6.7674904" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -1564,7 +1564,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="314" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.97014248" y="0" z="0.24253562"/>
+            <Rotation x="0.9701426" y="0" z="0.24253565"/>
             <HalfLengths x="0.30000001" y="9.4187183" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -1628,7 +1628,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="318" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.49613893" y="0" z="-0.8682431"/>
+            <Rotation x="-0.49613899" y="0" z="-0.86824322"/>
             <HalfLengths x="0.30000001" y="6.4729042" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1740,7 +1740,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="325" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
             <HalfLengths x="0.30000001" y="5.8837433" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1852,7 +1852,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="332" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.1472902" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -1916,7 +1916,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="336" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="7.3566489" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -1948,7 +1948,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="338" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.7364531" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1996,7 +1996,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="341" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.8682431" y="0" z="0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="0.49613899"/>
             <HalfLengths x="0.30000001" y="5.7364531" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2092,7 +2092,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="347" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="6.9147758" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -2156,7 +2156,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="353" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="5.6684265" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -2284,7 +2284,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="373" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2540,7 +2540,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="389" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.8682431" y="0" z="-0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="-0.49613899"/>
             <HalfLengths x="0.30000001" y="5.8912354" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2764,7 +2764,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="408" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.99227786" y="0" z="-0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="-0.12403475"/>
             <HalfLengths x="0.30000001" y="6.6710701" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -3228,7 +3228,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="460" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="5.222805" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -3260,7 +3260,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="462" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="6.0026398" z="8.0622578"/>
         </LevelCollider>
         <LevelTransform>
@@ -3356,7 +3356,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="469" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.50702012" y="0" z="-0.86193419"/>
+            <Rotation x="0.50702018" y="0" z="-0.8619343"/>
             <HalfLengths x="0.30000001" y="9.6789894" z="9.8615417"/>
         </LevelCollider>
         <LevelTransform>
@@ -3420,7 +3420,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="473" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.48564291" y="0" z="-0.87415725"/>
+            <Rotation x="0.48564297" y="0" z="-0.87415737"/>
             <HalfLengths x="0.30000001" y="7.8965149" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -3580,7 +3580,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="489" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -3820,7 +3820,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="505" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="5.1114044" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -3852,7 +3852,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="509" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.9958933" y="0" z="-0.090535752"/>
+            <Rotation x="0.99589318" y="0" z="-0.090535745"/>
             <HalfLengths x="0.30000001" y="5.3342133" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4060,7 +4060,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="522" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.79262394" y="0" z="-0.60971075"/>
+            <Rotation x="-0.79262406" y="0" z="-0.60971081"/>
             <HalfLengths x="0.30000001" y="7.2280884" z="8.2006102"/>
         </LevelCollider>
         <LevelTransform>
@@ -4124,7 +4124,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="526" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="6.7824707" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -4236,7 +4236,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="533" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.090535752" y="0" z="0.9958933"/>
+            <Rotation x="0.090535745" y="0" z="0.99589318"/>
             <HalfLengths x="0.30000001" y="5.3342133" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4252,7 +4252,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="535" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.090535752" y="0" z="0.9958933"/>
+            <Rotation x="0.090535745" y="0" z="0.99589318"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4332,7 +4332,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="540" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="6.4482574" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -4428,7 +4428,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="547" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.8682431" y="0" z="-0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="-0.49613899"/>
             <HalfLengths x="0.30000001" y="7.5623016" z="8.0622578"/>
         </LevelCollider>
         <LevelTransform>
@@ -4732,7 +4732,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="570" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.86824322" y="0" z="0.49613899"/>
+            <Rotation x="0.8682431" y="0" z="0.49613893"/>
             <HalfLengths x="0.30000001" y="5.7798309" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -4812,7 +4812,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="575" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.3169403" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -4950,6 +4950,22 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
+    <LevelActor type="Tile3_GenWall" displayName="Tile3_wallNr (13)" tileID="3" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="585" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="1" y="0" z="0"/>
+            <HalfLengths x="0.30000001" y="16.568249" z="17.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="453.5" y="52.309811" z="255"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
     <LevelActor type="Tile3_GenWall" displayName="Tile3_wallNr (14)" tileID="3" exportType="4">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
@@ -5020,7 +5036,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="591" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.48564291" y="0" z="-0.87415725"/>
+            <Rotation x="-0.48564297" y="0" z="-0.87415737"/>
             <HalfLengths x="0.30000001" y="6.4262238" z="10.29563"/>
         </LevelCollider>
         <LevelTransform>
@@ -5036,7 +5052,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="592" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.57668316" y="0" z="-0.81696784"/>
+            <Rotation x="-0.57668322" y="0" z="-0.81696796"/>
             <HalfLengths x="0.30000001" y="6.5846901" z="10.404326"/>
         </LevelCollider>
         <LevelTransform>
@@ -5228,7 +5244,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="606" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.49613899" y="0" z="0.86824322"/>
+            <Rotation x="0.49613893" y="0" z="0.8682431"/>
             <HalfLengths x="0.30000001" y="5.9082451" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -5292,7 +5308,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="610" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.61394066" y="0" z="0.7893523"/>
+            <Rotation x="-0.6139406" y="0" z="0.78935218"/>
             <HalfLengths x="0.30000001" y="15.331287" z="5.7008772"/>
         </LevelCollider>
         <LevelTransform>
@@ -5361,6 +5377,22 @@
         </LevelCollider>
         <LevelTransform>
             <Position x="470" y="56.354279" z="371.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile4_GenWall" displayName="Tile4_wallNr (13)" tileID="4" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="615" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="-1" y="0" z="0"/>
+            <HalfLengths x="0.30000001" y="16.920719" z="18"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="453" y="40.914108" z="256"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -5608,7 +5640,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="291" parentID="0"/>
+            <IDs ID="293" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
@@ -5627,7 +5659,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="292" parentID="0"/>
+            <IDs ID="294" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
@@ -5919,7 +5951,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="301" parentID="0"/>
+            <IDs ID="303" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
@@ -5938,7 +5970,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="302" parentID="0"/>
+            <IDs ID="304" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
@@ -5957,7 +5989,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="303" parentID="0"/>
+            <IDs ID="305" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
@@ -5976,7 +6008,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="304" parentID="0"/>
+            <IDs ID="306" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
@@ -6682,7 +6714,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="646" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.7817154" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -6714,7 +6746,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="648" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="6.563427" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -6842,7 +6874,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="657" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.781723" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -6858,7 +6890,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="658" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.5211411" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -6986,7 +7018,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="666" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2605743" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -7034,7 +7066,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="669" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7130,7 +7162,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="683" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="7.084568" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7210,7 +7242,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="688" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="7.3451462" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -7338,7 +7370,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="696" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.60971075" y="0" z="-0.79262394"/>
+            <Rotation x="-0.60971081" y="0" z="-0.79262406"/>
             <HalfLengths x="0.30000001" y="12.817139" z="8.2006102"/>
         </LevelCollider>
         <LevelTransform>
@@ -7370,7 +7402,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="698" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="9.9508591" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -7418,7 +7450,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="701" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.99227786" y="0" z="-0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="-0.12403475"/>
             <HalfLengths x="0.30000001" y="6.0422897" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7434,7 +7466,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="702" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.99227786" y="0" z="-0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="-0.12403475"/>
             <HalfLengths x="0.30000001" y="6.0422821" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7498,7 +7530,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="714" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="6.3028526" z="10.29563"/>
         </LevelCollider>
         <LevelTransform>
@@ -7866,7 +7898,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="737" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.2544933" y="0" z="0.96707451"/>
+            <Rotation x="-0.25449333" y="0" z="0.96707463"/>
             <HalfLengths x="0.30000001" y="5" z="9.8234415"/>
         </LevelCollider>
         <LevelTransform>
@@ -7887,6 +7919,22 @@
         </LevelCollider>
         <LevelTransform>
             <Position x="403.5" y="78.162964" z="436.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (87)" tileID="5" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="740" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="0.034071114" y="0" z="0.99941939"/>
+            <HalfLengths x="0.30000001" y="9.9508438" z="44.025562"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="406.5" y="77.902397" z="481"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -7946,11 +7994,43 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="744" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
             <HalfLengths x="0.30000001" y="5.5211449" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
             <Position x="479.5" y="48.457851" z="408"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (92)" tileID="5" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="745" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="0.022466239" y="0" z="0.99974763"/>
+            <HalfLengths x="0.30000001" y="11.2537" z="44.511234"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="420" y="76.338974" z="480.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (93)" tileID="5" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="747" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="0.63059264" y="0" z="-0.77611411"/>
+            <HalfLengths x="0.30000001" y="25.845692" z="10.307764"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="427.5" y="82.592674" z="517"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -7978,7 +8058,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="749" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.029837456" y="0" z="-0.99955475"/>
+            <Rotation x="-0.029837459" y="0" z="-0.99955487"/>
             <HalfLengths x="0.30000001" y="5.2605667" z="33.514923"/>
         </LevelCollider>
         <LevelTransform>
@@ -8026,7 +8106,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="752" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.78935218" y="0" z="-0.6139406"/>
+            <Rotation x="0.7893523" y="0" z="-0.61394066"/>
             <HalfLengths x="0.30000001" y="8.1268539" z="5.7008772"/>
         </LevelCollider>
         <LevelTransform>
@@ -8074,7 +8154,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="757" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="10.732567" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -8106,11 +8186,43 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="759" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.87415725" y="0" z="0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="0.48564297"/>
             <HalfLengths x="0.30000001" y="7.6057053" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
             <Position x="432.5" y="73.993828" z="426.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (104)" tileID="5" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="760" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="-0.70710683" y="0" z="0.70710683"/>
+            <HalfLengths x="0.30000001" y="5.2605743" z="4.2426405"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="425" y="76.599533" z="432"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (105)" tileID="5" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="761" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="-0.94868338" y="0" z="0.31622779"/>
+            <HalfLengths x="0.30000001" y="5.5211334" z="1.5811388"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="420.5" y="76.860107" z="435.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -8186,7 +8298,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="766" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.5211411" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -8330,7 +8442,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="775" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2605743" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -8426,7 +8538,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="781" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="6.0422821" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -8634,7 +8746,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="795" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="6.3028564" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -8682,7 +8794,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="798" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2605667" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -8810,7 +8922,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="806" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="5.7817154" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -8906,7 +9018,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="812" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.7817116" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -8954,7 +9066,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="815" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="5.2417297" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -9194,7 +9306,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="835" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.24253562" y="0" z="0.97014248"/>
+            <Rotation x="0.24253565" y="0" z="0.9701426"/>
             <HalfLengths x="0.30000001" y="5.9669037" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -9290,7 +9402,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="842" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.63059258" y="0" z="0.77611399"/>
+            <Rotation x="0.63059264" y="0" z="0.77611411"/>
             <HalfLengths x="0.30000001" y="7.9006958" z="10.307764"/>
         </LevelCollider>
         <LevelTransform>
@@ -9562,7 +9674,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="864" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="6.2086182" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -9578,7 +9690,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="865" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.98233855" y="0" z="-0.18711211"/>
+            <Rotation x="-0.98233867" y="0" z="-0.18711212"/>
             <HalfLengths x="0.30000001" y="5.9669037" z="10.688779"/>
         </LevelCollider>
         <LevelTransform>
@@ -9594,7 +9706,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="866" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.2417221" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -9642,7 +9754,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="871" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.725174" z="7.8262382"/>
         </LevelCollider>
         <LevelTransform>
@@ -9722,7 +9834,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="878" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.24253562" y="0" z="0.97014248"/>
+            <Rotation x="-0.24253565" y="0" z="0.9701426"/>
             <HalfLengths x="0.30000001" y="7.4172516" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -9786,7 +9898,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="882" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.95667386" y="0" z="0.29116163"/>
+            <Rotation x="0.95667398" y="0" z="0.29116166"/>
             <HalfLengths x="0.30000001" y="6.4503479" z="12.020815"/>
         </LevelCollider>
         <LevelTransform>
@@ -9834,7 +9946,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="886" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2417297" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -9882,7 +9994,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="890" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.090535752" y="0" z="0.9958933"/>
+            <Rotation x="-0.090535745" y="0" z="0.99589318"/>
             <HalfLengths x="0.30000001" y="8.1424255" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -9994,7 +10106,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="901" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.090535752" y="0" z="-0.9958933"/>
+            <Rotation x="0.090535745" y="0" z="-0.99589318"/>
             <HalfLengths x="0.30000001" y="6.4503479" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -10026,7 +10138,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="903" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="8.6258774" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -10106,7 +10218,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="909" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.49301255" y="0" z="-0.87002218"/>
+            <Rotation x="-0.49301261" y="0" z="-0.8700223"/>
             <HalfLengths x="0.30000001" y="21.195572" z="17.24094"/>
         </LevelCollider>
         <LevelTransform>
@@ -10195,7 +10307,7 @@
         <LevelCollider type="2">
             <Offset x="0.30000001" y="0.60000002" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="549" parentID="0"/>
+            <IDs ID="571" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1" y="0.60000002" z="1"/>
@@ -10214,7 +10326,7 @@
         <LevelCollider type="0">
             <Offset x="0" y="0.2" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="550" parentID="0"/>
+            <IDs ID="572" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="1"/>
         </LevelCollider>
@@ -10232,7 +10344,7 @@
         <LevelCollider type="0">
             <Offset x="-0.5" y="0" z="-0.5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="551" parentID="0"/>
+            <IDs ID="573" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="2"/>
         </LevelCollider>
@@ -10250,7 +10362,7 @@
         <LevelCollider type="0">
             <Offset x="0" y="0.2" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="552" parentID="0"/>
+            <IDs ID="574" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="1"/>
         </LevelCollider>
@@ -10268,7 +10380,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="553" parentID="0"/>
+            <IDs ID="575" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="3.5" y="3" z="2"/>
@@ -10287,7 +10399,7 @@
         <LevelCollider type="0">
             <Offset x="0" y="0.5" z="0.60000002"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="556" parentID="0"/>
+            <IDs ID="576" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="2"/>
         </LevelCollider>
@@ -10305,7 +10417,7 @@
         <LevelCollider type="2">
             <Offset x="0.30000001" y="0.60000002" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="555" parentID="0"/>
+            <IDs ID="577" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1" y="0.60000002" z="1"/>
@@ -10324,7 +10436,7 @@
         <LevelCollider type="0">
             <Offset x="0" y="0.2" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="556" parentID="0"/>
+            <IDs ID="578" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="1"/>
         </LevelCollider>
@@ -10360,7 +10472,7 @@
         <LevelCollider type="0">
             <Offset x="0" y="0.2" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="558" parentID="0"/>
+            <IDs ID="580" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="1"/>
         </LevelCollider>
@@ -10396,7 +10508,7 @@
         <LevelCollider type="0">
             <Offset x="-1" y="5" z="5"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="560" parentID="0"/>
+            <IDs ID="582" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="2"/>
         </LevelCollider>
@@ -10414,7 +10526,7 @@
         <LevelCollider type="0">
             <Offset x="1" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="561" parentID="0"/>
+            <IDs ID="583" parentID="0"/>
             <Behavior Type="0"/>
             <Radius r="1.5"/>
         </LevelCollider>
@@ -10428,7 +10540,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s11" tileID="7" exportType="1">
+    <LevelActor type="Tile6" displayName="t6s11" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s11</ModelName>
         </LevelModel>
@@ -10461,7 +10573,7 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s14" tileID="7" exportType="1">
+    <LevelActor type="Tile6" displayName="t6s14" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s14</ModelName>
         </LevelModel>
@@ -10754,7 +10866,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="563" parentID="0"/>
+            <IDs ID="585" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.5" y="4" z="2.5"/>
@@ -10773,7 +10885,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="4" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="566" parentID="0"/>
+            <IDs ID="586" parentID="0"/>
             <Behavior Type="0"/>
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
@@ -10785,6 +10897,22 @@
             <Position x="346.3681" y="37.163395" z="203.70728"/>
             <Rotation x="0" y="3.2497306" z="0"/>
             <Scale x="1.4143372" y="1.7745819" z="1.4340515"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (2)" tileID="6" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="918" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="0" y="0" z="1"/>
+            <HalfLengths x="0.30000001" y="5" z="31.5"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="512" y="85.084778" z="671.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
@@ -11130,7 +11258,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="945" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.97014248" y="0" z="0.24253562"/>
+            <Rotation x="-0.9701426" y="0" z="0.24253565"/>
             <HalfLengths x="0.30000001" y="5.3411026" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -11252,6 +11380,22 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
+    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (156)" tileID="5" exportType="4">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="953" parentID="0"/>
+            <Behavior Type="0"/>
+            <Rotation x="1" y="0" z="0"/>
+            <HalfLengths x="0.30000001" y="5.2605743" z="33"/>
+        </LevelCollider>
+        <LevelTransform>
+            <Position x="545" y="85.198395" z="640"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
     <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (157)" tileID="5" exportType="4">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
@@ -11322,7 +11466,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="959" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="5.9668961" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -11354,7 +11498,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="961" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="21.437286" z="16.124516"/>
         </LevelCollider>
         <LevelTransform>
@@ -11562,7 +11706,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="980" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="5.4834442" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -11770,7 +11914,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="994" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="5.9668961" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -12010,7 +12154,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1012" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="7.9796295" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -12090,7 +12234,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1017" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -12154,7 +12298,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1021" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="5.165535" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -12202,7 +12346,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1024" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -12426,7 +12570,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1039" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -12442,7 +12586,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1040" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -12586,7 +12730,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1051" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="8.4762421" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -12762,7 +12906,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1062" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.165535" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -13066,7 +13210,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1083" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.090535745" y="0" z="0.99589318"/>
+            <Rotation x="-0.090535752" y="0" z="0.9958933"/>
             <HalfLengths x="0.30000001" y="5.165535" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -13082,7 +13226,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1085" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.165535" z="7.8262382"/>
         </LevelCollider>
         <LevelTransform>
@@ -13162,7 +13306,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1090" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.86824322" y="0" z="0.49613899"/>
+            <Rotation x="0.8682431" y="0" z="0.49613893"/>
             <HalfLengths x="0.30000001" y="6.6553497" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13226,7 +13370,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1095" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="6.1587448" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13242,7 +13386,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1096" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="5.9932098" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13386,7 +13530,7 @@
             <Color x="0" y="1" z="0"/>
             <IDs ID="1106" parentID="0"/>
             <Behavior Type="0"/>
-            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="5.6621475" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13423,385 +13567,6 @@
         </LevelCollider>
         <LevelTransform>
             <Position x="282" y="126.81672" z="440"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (2)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1109" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0" y="0" z="1"/>
-            <HalfLengths x="0.30000001" y="5" z="2"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="577" y="85.103104" z="642"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (31)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1110" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.37139067" y="0" z="0.92847669"/>
-            <HalfLengths x="0.30000001" y="5" z="2.6925824"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="578" y="85.103104" z="646.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (32)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1111" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.60000002" y="0" z="0.80000001"/>
-            <HalfLengths x="0.30000001" y="5" z="2.5"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="580.5" y="85.103104" z="651"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (33)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1112" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.80000001" y="0" z="0.60000002"/>
-            <HalfLengths x="0.30000001" y="5.0960007" z="2.5"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="584" y="85.103104" z="654.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (34)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1113" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.92847669" y="0" z="0.37139067"/>
-            <HalfLengths x="0.30000001" y="5.2880249" z="2.6925824"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="588.5" y="85.199104" z="657"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (35)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1114" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="1" y="0" z="0"/>
-            <HalfLengths x="0.30000001" y="5.192009" z="2.5"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="593.5" y="85.487129" z="658"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (36)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1115" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.98994952" y="0" z="-0.14142136"/>
-            <HalfLengths x="0.30000001" y="5.2880249" z="3.5355339"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="599.5" y="85.679138" z="657.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (37)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1118" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.62469506" y="0" z="0.78086883"/>
-            <HalfLengths x="0.30000001" y="5.8640594" z="3.2015622"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="605" y="85.967163" z="659.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (38)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1119" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.88047111" y="0" z="0.47409984"/>
-            <HalfLengths x="0.30000001" y="5" z="7.3824115"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="600.5" y="86.831223" z="665.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (39)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1120" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.87415737" y="0" z="0.48564297"/>
-            <HalfLengths x="0.30000001" y="5.0960007" z="5.1478152"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="589.5" y="86.831223" z="671.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (40)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1121" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.95782632" y="0" z="0.28734788"/>
-            <HalfLengths x="0.30000001" y="5.0960083" z="5.2201533"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="580" y="86.927223" z="675.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (41)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1122" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.98386997" y="0" z="0.17888544"/>
-            <HalfLengths x="0.30000001" y="5.0960083" z="5.5901699"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="569.5" y="87.023232" z="678"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (42)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1123" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.98386997" y="0" z="0.17888544"/>
-            <HalfLengths x="0.30000001" y="5.0960007" z="5.5901699"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="558.5" y="86.927223" z="680"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (43)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1124" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.98386997" y="0" z="0.17888544"/>
-            <HalfLengths x="0.30000001" y="5.0960083" z="5.5901699"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="547.5" y="86.831223" z="682"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (44)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1125" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.95782632" y="0" z="0.28734788"/>
-            <HalfLengths x="0.30000001" y="5.0960083" z="5.2201533"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="537" y="86.735214" z="684.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (45)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1126" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.92307699" y="0" z="0.38461539"/>
-            <HalfLengths x="0.30000001" y="5.192009" z="6.5"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="526" y="86.639206" z="688.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (46)" tileID="6" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1127" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
-            <HalfLengths x="0.30000001" y="7.2081528" z="4.472136"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="516" y="86.447197" z="693"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="tile4" displayName="t4s5" tileID="5" exportType="1">
-        <LevelModel>
-            <ModelName>tile4_s5</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="0" y="0" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (87)" tileID="5" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1128" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.97014254" y="0" z="0.24253564"/>
-            <HalfLengths x="0.30000001" y="6.9984436" z="4.1231055"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="424" y="75.860489" z="430"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (92)" tileID="5" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1129" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.044400617" y="0" z="0.9990139"/>
-            <HalfLengths x="0.30000001" y="12.549683" z="22.522211"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="419" y="77.858932" z="453.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (104)" tileID="5" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1130" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.019227214" y="0" z="0.99981511"/>
-            <HalfLengths x="0.30000001" y="17.87886" z="26.004807"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="418.5" y="70.30925" z="502"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (105)" tileID="5" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1131" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0" y="0" z="1"/>
-            <HalfLengths x="0.30000001" y="9.2189331" z="48.5"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="409" y="78.525078" z="479.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (156)" tileID="5" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1132" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="-0.31622779" y="0" z="-0.94868338"/>
-            <HalfLengths x="0.30000001" y="5.4440994" z="1.5811388"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="408.5" y="82.744011" z="526.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (158)" tileID="5" exportType="4">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1133" parentID="0"/>
-            <Behavior Type="0"/>
-            <Rotation x="0.5547002" y="0" z="-0.83205032"/>
-            <HalfLengths x="0.30000001" y="5.6661453" z="1.8027756"/>
-        </LevelCollider>
-        <LevelTransform>
-            <Position x="420" y="83.18811" z="526.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>

@@ -1,11 +1,17 @@
-<LevelActor type="Empty" displayName="New (2)" tileID="1" exportType="1">
+<LevelActor type="Empty" displayName="New (3) (26)" tileID="2" exportType="1">
     <LevelParticleSystem>
         <Offset x="0" y="0" z="0"/>
         <Alive IsAlive="1"/>
         <ParticleLocation Location="fire"/>
     </LevelParticleSystem>
+    <LevelPointLight>
+        <Position x="0" y="0.5" z="0"/>
+        <Color x="1" y="0.49803925" z="0"/>
+        <Radius r="4"/>
+        <Intensity i="2"/>
+    </LevelPointLight>
     <LevelTransform>
-        <Position x="48" y="10" z="208"/>
+        <Position x="327.5" y="34.59375" z="133.625"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
         <Export e="true"/>
