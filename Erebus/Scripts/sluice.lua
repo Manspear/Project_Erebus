@@ -58,7 +58,6 @@ end
 
 function SluiceExit(sluice)
 	Transform.SetPosition(sluice.transformIDopen, sluice.position)
-	print("tjabba")
 	Transform.SetPosition(sluice.transformIDclose, sluice.position2)
 	sluice.sluiceTime = SLUICE_OPEN_TIME
 end
