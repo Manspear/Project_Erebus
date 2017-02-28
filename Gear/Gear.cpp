@@ -165,6 +165,7 @@ namespace Gear
 	void GearEngine::setFont(FontAsset* font)
 	{
 		text.setFont(font);
+		
 	}
 
 	void GearEngine::setWorkQueue( WorkQueue* workQueue )
@@ -361,12 +362,15 @@ namespace Gear
 
 		queue.forwardPass(forwardModels, &uniValues);
 
+		floatingDamage->draw(camera);
+
 		worldImage.update(camera);
 		worldImage.draw();
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 
+		Debugger::getInstance()->drawSphere(glm::vec3(20, 8, 165), 3);
 		
 		image.draw();
 		text.draw();
@@ -392,6 +396,7 @@ namespace Gear
 		updateTransforms( animatedModels );
 		updateTransforms( forwardModels );
 		updateTransforms( blendModels );
+		this->floatingDamage->Update(dt);
 	}
 
 	void GearEngine::updateTransforms( std::vector<ModelInstance>* models )
@@ -680,5 +685,12 @@ namespace Gear
 
 	void GearEngine::addDebugger(Debug* debugger) {
 		debugHandler->addDebuger(debugger);
+	}
+
+	void Gear::GearEngine::addFloatingDamageRef(FloatingDamage & ref)
+	{
+		this->floatingDamage = &ref;
+		this->floatingDamage->init(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	}
 }

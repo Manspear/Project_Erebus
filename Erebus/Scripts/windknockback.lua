@@ -4,7 +4,7 @@ WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
 	spell.element = ICE
-	spell.cooldown = 0.0		spell.maxcooldown = 4
+	spell.maxcooldown = 4
 	spell.hudtexture = WINDKNOCKBACK_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 0
@@ -14,7 +14,15 @@ function CreateWindknockback(entity)
 	spell.isActiveSpell = false
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
-		
+	
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	WINDKNOCKBACK_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * WINDKNOCKBACK_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * WINDKNOCKBACK_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * WINDKNOCKBACK_CASTSPEED_MULTIPLE
+
 	local model = Assets.LoadModel( "Models/nothing.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
@@ -70,7 +78,7 @@ function CreateWindknockback(entity)
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
-		self.particles:poof(pos, direction, self.chargedTime / 2)
+		self.particles:poof(pos, direction)
 	end
 
 	function spell:CheckCollisions()

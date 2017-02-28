@@ -54,6 +54,7 @@ function LoadPlayer()
 	player.printInfo = false
 	player.spamCasting = false
 	player.charging = false
+	player.firstAttack = true
 	player.rayCollider = RayCollider.Create(player.transformID)
 	player.move = {}
 	CollisionHandler.AddRay(player.rayCollider)
@@ -78,6 +79,16 @@ function LoadPlayer()
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combined = false
 	player.combinedSpell = -1
+
+	--Used as a delay hindering rampant spellswitching
+	player.globalSpellSwitchingCooldownTimerThreshHold = 1
+	player.globalSpellSwitchingCooldownTimer = 0
+	player.globalSpellSwitchingCooldownTimerStarted = false
+
+	player.resetSpamAttack = false
+	player.attackDelayTimerStarted = false
+	player.attackDelayTimerThreshHold = 0
+	player.attackDelayTimer = 0
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
@@ -160,6 +171,7 @@ function LoadPlayer()
 	player.friendCharger = CreateCombineRay(player)
 	player.revive = CreateRevive(player)
 end
+
 
 function UnloadPlayer()
 	DestroyFireEffect(effectTable[FIRE_EFFECT_INDEX])
@@ -265,6 +277,13 @@ function FindHeightmap(position)
 end
 
 function UpdatePlayer(dt)
+	
+	--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	player.animationController:AnimationUpdate(dt, Network)
+	if Network.ShouldSendNewAnimation() == true then
+		Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
+	end
+
 	UpdatePlayer2(dt)
 	if player.isAlive then
 		local scale = 0.8
@@ -308,21 +327,15 @@ function UpdatePlayer(dt)
 		end
 	end
 
-	--ANIMATION UPDATING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	player.animationController:AnimationUpdate(dt, Network)
-	if Network.ShouldSendNewAnimation() == true then
-		Network.SendAnimationPacket(player.animationController.animationState1, player.animationController.animationState2)
-	end
-
 	if not player2.isAlive then
-		if Inputs.KeyPressed("T") then
+		if Inputs.KeyPressed("R") then
 			Network.SendChargeSpellPacket(player.transformID, 0, true)
 			player.revive:Cast(player2)
 		end
-		if Inputs.KeyDown("T") then 
+		if Inputs.KeyDown("R") then 
 			player.revive:Update(dt)
 		end
-		if Inputs.KeyReleased("T") then 
+		if Inputs.KeyReleased("R") then 
 			Network.SendChargeSpellPacket(player.transformID, 0, false)
 			player.revive:Kill()
 		end
@@ -387,19 +400,18 @@ function UpdatePlayer(dt)
 		if v.collider:CheckCollision() then
 			if not v.collider.triggered then
 				if v.collider.OnEnter then
-					v.collider.OnEnter()
+					v.collider:OnEnter()
 				else
-					v.collider.OnTriggering(dt)
+					v.collider:OnTriggering(dt)
 				end
-
 				v.collider.triggered = true
 			else
-				v.collider.OnTriggering(dt)
+				v.collider:OnTriggering(dt)
 			end
 		else
 			if v.collider.triggered then
 				if v.collider.OnExit then
-					v.collider.OnExit()
+					v.collider:OnExit()
 				end
 				v.collider.triggered = false
 			end
@@ -494,21 +506,70 @@ function Controls(dt)
 		end
 
 		if not player.charging then
-			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
-				player.charger:EndCharge()
-				player.spamCasting = true
-				player.attackTimer = 1
-				Network.SendSpellPacket(player.transformID, player.currentSpell)
-				player.spells[player.currentSpell]:Cast(player, 0.5, false)		
-			end
+			--ATTACK DELAY TIMER
+			player.attackDelayTimer = player.attackDelayTimer + dt
 
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+				if player.spells[player.currentSpell].hasSpamAttack == true then 
+					player.charger:EndCharge()
+					player.spamCasting = true
+					
+					
+					if player.firstAttack == true then 		
+						if player.attackDelayTimerStarted == false then 
+							player.attackDelayTimerStarted = true
+							player.attackDelayTimer = 0
+							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeFirstAttack
+							player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
+							player.firstAttack = false	
+						end 
+					elseif player.firstAttack == false then 
+						if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
+							local overTime = player.attackDelayTimer - player.attackDelayTimerThreshHold
+							player.attackDelayTimer = overTime
+							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
+							
+							--Gets in here every time it should. But the cast function is not executed for some reason.
+
+							Network.SendSpellPacket(player.transformID, player.currentSpell)
+							player.spells[player.currentSpell]:Cast(player, 0.5, false)	
+						end 
+					end
+				end
+			end
+			
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.spamCasting = false
+				player.firstAttack = true
+				player.attackDelayTimerStarted = false
+				player.animationController.animation:ResetSegmentPlayTime(1)
 			end
 
-			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
-			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
+			if player.globalSpellSwitchingCooldownTimerStarted == true then 
+				player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
+
+				if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
+					player.globalSpellSwitchingCooldownTimerStarted = false
+					player.globalSpellSwitchingCooldownTimer = 0
+				end
+			end
+
+			if player.globalSpellSwitchingCooldownTimerStarted == false then 
+				if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then
+					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change() end
+					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
+
+					player.spamCasting = false
+					player.firstAttack = true
+					player.attackDelayTimerStarted = false
+					player.resetSpamAttack = true
+					
+					player.globalSpellSwitchingCooldownTimerStarted = true
+					--player.animationController.animation:ResetSegmentPlayTime(1)
+				end
+			end
+
 		end
 
 		if not player.spamCasting then

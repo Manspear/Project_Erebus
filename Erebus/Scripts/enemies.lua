@@ -15,7 +15,7 @@ DUMMY_STATE = 9
 AI_TRANSFORM_UPDATED = false
 INTERPOLATING_AI_TRANSFORM = false
 INTERPOLATION_AI_ITERATIONS = 0
-INTERPOLATION_AI_NR_OF_STEPS = 4
+INTERPOLATION_AI_NR_OF_STEPS = 2
 
 MAX_ENEMIES = 10
 ENEMY_MELEE = 1
@@ -87,6 +87,8 @@ function CreateEnemy(type, position, element)
 	local modelName = ""
 	if type == ENEMY_MELEE then
 		modelName = "Models/Goblin.model"
+	elseif type== ENEMY_DUMMY then
+		modelName = "Models/Dummy.model"
 	else
 		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
 	end
@@ -109,6 +111,9 @@ function CreateEnemy(type, position, element)
 				Network.SendAIHealthPacket(self.transformID, self.health)
 				self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+				if element then
+					Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
+				end
 
 				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
 

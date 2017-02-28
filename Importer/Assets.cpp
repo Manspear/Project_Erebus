@@ -214,8 +214,6 @@ namespace Importer
 
 		for( int i=0; i<nremoves; i++ )
 		{
-			printf( "Unloading asset %s\n", removes[i]->second->getFileInfo()->getPath().c_str() );
-
 			removes[i]->second->unload();
 			delete removes[i]->second;
 			assets.erase( removes[i] );

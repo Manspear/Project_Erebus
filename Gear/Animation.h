@@ -60,6 +60,8 @@ public:
 
 	GEAR_API void setSegmentPlayTime(float animTime, int segment);
 
+	GEAR_API void resetSegmentAnimationClock(int segment);
+
 	GEAR_API void resetSegmentPlayTime(int segment);
 
 	GEAR_API virtual void setStates(int numStates);

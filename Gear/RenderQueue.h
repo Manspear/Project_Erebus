@@ -11,6 +11,7 @@
 #include "Light.h"
 #include "WorkQueue.h"
 #include "ModelInstance.h"
+#include "FloatingDamage.h"
 
 #define MAX_INSTANCE_COUNT 200
 
@@ -110,6 +111,7 @@ public:
 
 	void forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues);
 	bool particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters);
+	bool floatDamagePass();
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<ModelInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<ModelInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);

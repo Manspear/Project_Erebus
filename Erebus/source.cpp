@@ -49,6 +49,7 @@ struct ThreadData
 	std::vector<Gear::ParticleEmitter*>* particleEmitters;
 	std::vector<ModelInstance>* blendingModels;
 	TransformHandler* transformHandler;
+	FloatingDamage* floatingDamage;
 	QuadTree* quadtree;
 	bool queueModels;
 	bool mouseVisible;
@@ -56,6 +57,7 @@ struct ThreadData
 	bool running;
 	Animation* allAnimations;
 	HANDLE produce, consume;
+	
 };
 struct AnimationData
 {
@@ -111,7 +113,7 @@ DWORD WINAPI update(LPVOID args)
 	LuaBinds luaBinds;
 	luaBinds.load(data->engine, data->assets, &collisionHandler, &collisionsDraw, data->controls, data->inputs, data->allAnimations, &boundAnimations,
 		data->models, data->animatedModels, data->forwardModels, data->blendingModels, data->transformHandler, &data->queueModels, &data->mouseVisible, &data->fullscreen, &data->running, data->camera, data->particleSystems,
-		data->particleEmitters, &ai, &network, data->workQueue, data->soundEngine, &counter);
+		data->particleEmitters,	&ai, &network, data->workQueue, data->soundEngine, &counter, data->floatingDamage );
 
 	AnimationData animationData[MAX_ANIMATIONS];
 
@@ -193,13 +195,16 @@ int main()
 	Gear::GearEngine engine;
 	SoundEngine soundEngine;
 	WorkQueue work;
+	
 
 	window.changeCursorStatus(false);
 	Importer::Assets assets;
 	Importer::FontAsset* font = assets.load<FontAsset>("Fonts/System");
+	Importer::FontAsset* fontDmg = assets.load<FontAsset>("Fonts/FloatDamage");
 
 	engine.setFont(font);
 	engine.setWorkQueue(&work);
+	
 
 	assets.load<TextureAsset>("Textures/buttonOptions.dds");
 	assets.load<TextureAsset>("Textures/buttonExit.dds");
@@ -227,7 +232,6 @@ int main()
 
 	soundEngine.setMasterVolume(10);
 
-
 	std::vector<ModelInstance> models;
 	std::vector<ModelInstance> forwardModels;
 	//std::vector<AnimatedInstance> animModels;
@@ -236,7 +240,9 @@ int main()
 	std::vector<Gear::ParticleEmitter*> particleEmitters;
 	std::vector<ModelInstance> blendingModels;
 	TransformHandler transformHandler(&engine, &models, &animModels, &forwardModels, &blendingModels);
-
+	FloatingDamage floatingDamage;
+	floatingDamage.setFont(fontDmg);
+	engine.addFloatingDamageRef(floatingDamage);
 	QuadTree quadtree;
 
 	ThreadData threadData =
@@ -255,11 +261,13 @@ int main()
 		&particleEmitters,
 		&blendingModels,
 		&transformHandler,
+		&floatingDamage,
 		&quadtree,
 		false,
 		true,
 		false,
 		true
+		
 	};
 	threadData.allAnimations = new Animation[MAX_ANIMATIONS];
 	threadData.produce = CreateSemaphore(NULL, 1, 1, NULL);
@@ -290,7 +298,7 @@ int main()
 			if (threadData.queueModels)
 				controls.update(&inputs);
 
-#if _DEBUG
+//#if _DEBUG
 			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
 				engine.setDrawMode(1);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
@@ -305,7 +313,13 @@ int main()
 				engine.setDrawMode(5);
 			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
 				engine.setDrawMode(5);
-#endif
+			else if(inputs.keyPressedThisFrame(GLFW_KEY_F6))
+				floatingDamage.addDamage(23, eDamageTypes::FIRE, glm::vec3(20, 8, 165));
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_F7))
+				floatingDamage.addDamage(52, eDamageTypes::COLD, glm::vec3(20, 8, 165));
+			else if (inputs.keyPressedThisFrame(GLFW_KEY_F8))
+				floatingDamage.addDamage(3, eDamageTypes::GRASS, glm::vec3(20, 8, 165));
+//#endif
 			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
 			{
 				if (lockMouse)
