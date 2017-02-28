@@ -3,12 +3,13 @@
 #include "CollisionChecker.h"
 #include "Frustum.h"
 #include "Gear.h"
+
 namespace Collisions
 {
 	class QuadTree
 	{
 	public:
-		static const int QUADTREE_NODE_AMOUNT = 4;
+		static const int QUADTREE_CHILDREN_AMOUNT = 4;
 		COLLISIONS_EXPORTS QuadTree();
 		COLLISIONS_EXPORTS ~QuadTree();
 
@@ -16,7 +17,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS void addDynamicModels(std::vector<Gear::ModelInstance>* models);
 		COLLISIONS_EXPORTS void addAnimatedModels(std::vector<Gear::ModelInstance>* animatedModels);
 		COLLISIONS_EXPORTS void generateQuadtree(unsigned int depth, glm::vec3 centerPosition, float width);
-		COLLISIONS_EXPORTS void clearDynamicModels();
+		COLLISIONS_EXPORTS void clearModelHitboxCombiners();
 		COLLISIONS_EXPORTS std::vector<ModelInstance>* frustumCollision();
 		COLLISIONS_EXPORTS void clearQuadtree();
 
@@ -47,32 +48,33 @@ namespace Collisions
 			}
 			~ModelHitboxCombiner()
 			{
-
+				delete collider;
 			}
 		};
 	public:
-		COLLISIONS_EXPORTS class Node
+		COLLISIONS_EXPORTS class QuadTreeNode
 		{
-			// COllider, transform, model, children
 		public:
 			AABBCollider* collider;
-			Node* children[NODE_AMOUNT];
+			QuadTreeNode* children[NODE_AMOUNT];
 			std::vector<ModelHitboxCombiner*>* dynamicModels;
 			std::vector<ModelHitboxCombiner*>* animatedModels;
-			Node(AABBCollider* collider)
+			QuadTreeNode(AABBCollider* collider)
 			{
-				this->dynamicModels = new std::vector<ModelHitboxCombiner*>();
-				this->animatedModels = new std::vector<ModelHitboxCombiner*>();
+				this->dynamicModels = nullptr;
+				this->animatedModels = nullptr;
 				this->collider = collider;
 				for (int i = 0; i < NODE_AMOUNT; i++)
 				{
 					children[i] = nullptr;
 				}
 			}
-			~Node()
+			~QuadTreeNode()
 			{
-				delete this->dynamicModels;
-				delete this->animatedModels;
+				if(this->dynamicModels != nullptr)
+					delete this->dynamicModels;
+				if(this->animatedModels != nullptr)
+					delete this->animatedModels;
 
 				if (this->children[0] != nullptr)
 				{
@@ -84,26 +86,55 @@ namespace Collisions
 				delete this->collider;
 			}
 
+			void addDynamicModelCombiner(ModelHitboxCombiner* modelHitboxCombiner)
+			{
+				if(this->dynamicModels == nullptr)
+					this->dynamicModels = new std::vector<ModelHitboxCombiner*>();
+				this->dynamicModels->push_back(modelHitboxCombiner);
+			}
+
+			void addAnimatedModelCombiner(ModelHitboxCombiner* modelHitboxCombiner)
+			{
+				if(this->animatedModels == nullptr)
+					this->animatedModels = new std::vector<ModelHitboxCombiner*>();
+				this->animatedModels->push_back(modelHitboxCombiner);
+			}
+
 			void resetDynamicModels()
 			{
-				this->dynamicModels->clear(); // The quadtree deletes dynamic colider pointers
+				if(this->dynamicModels != nullptr)
+					this->dynamicModels->clear(); // The quadtree deletes pointers
 			}
 			void resetAnimatedModels()
 			{
-				this->animatedModels->clear();
+				if(this->animatedModels != nullptr)
+					this->animatedModels->clear();
 			}
 
-		};
+			int getDynamicModelAmount()
+			{
+				if (this->dynamicModels == nullptr)
+					return 0;
+				else
+					return this->dynamicModels->size();
+			}
 
+			int getAnimatedModelAmount()
+			{
+				if (this->animatedModels == nullptr)
+					return 0;
+				else
+					return this->animatedModels->size();
+			}
+		};
 		//getters
-		COLLISIONS_EXPORTS Node* getBaseNode();
+		COLLISIONS_EXPORTS QuadTreeNode* getBaseNode();
 		//Returns the amount of nodes that we have frustum collisions with
 		COLLISIONS_EXPORTS int getNodeCollisionAmount();
 		//Returns how many leaf nodes are in the quadtree
 		COLLISIONS_EXPORTS int getLeafNodeAmount();
 	private:
-
-		Node* baseNode = nullptr;
+		QuadTreeNode* baseNode = nullptr;
 		glm::vec3 position;
 		float width;
 		unsigned int depth;
@@ -111,28 +142,23 @@ namespace Collisions
 		int leafNodeAmount, frustumNodeHitAmount, leafNodeCounter;
 		CollisionChecker collisionChecker;
 		Frustum* frustum;
-		Node** hitNodeSave;
-		Node** leafNodes;
-		std::vector<AABBCollider*>* tempDynamicHitboxes;
+		QuadTreeNode** hitNodeSave;
+		QuadTreeNode** leafNodes;
 		std::vector<Gear::ModelInstance>* dynamicModelInstances;
 		std::vector<Gear::ModelInstance>* animatedModels;
 		std::vector<ModelHitboxCombiner*>* allCombiners;
 		std::vector<ModelHitboxCombiner*>* uniqueDynamicModelHitboxCombiners;
-	public:
 		std::vector<ModelInstance>* modelInstancesInFrustum;
-	private:
-
 
 		//Helper functions
-		void createChildren(Node* parent, glm::vec3 center, float width, unsigned int depth);
-		void addDynamicModelsToQuadtree(Node* parent, ModelHitboxCombiner* model);
-		void addAnimatedHitboxToQuadtree(Node* parent, ModelHitboxCombiner* model);
-		void recursiveFrustumCollision(Node* parent);
+		void createChildren(QuadTreeNode* parent, glm::vec3 center, float width, unsigned int depth);
+		void addDynamicModelsToQuadtree(QuadTreeNode* parent, ModelHitboxCombiner* model);
+		void addAnimatedHitboxToQuadtree(QuadTreeNode* parent, ModelHitboxCombiner* model);
+		void recursiveFrustumCollision(QuadTreeNode* parent);
 		void addModelToModelInstances(ModelHitboxCombiner* model, std::vector<ModelInstance>* modelInstances);
-		void resetAllTemporaryData();
 		inline void resethitNodeSave();
 		inline void resetDynamicAndAnimatedModelsInNodes();
-		bool uniqueModelHitboxCombiner(ModelHitboxCombiner* model);
+		bool isUniqueModelHitboxCombiner(ModelHitboxCombiner* model);
 		void setAllModelsToCulled();
 	};
 

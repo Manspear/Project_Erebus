@@ -270,7 +270,7 @@ void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
 {
 	if (node->children[0] != nullptr) // static quadtree, if it have one children it is sure to have all 4
 	{
-		for (int i = 0; i < Collisions::QuadTree::QUADTREE_NODE_AMOUNT; i++)
+		for (int i = 0; i < Collisions::QuadTree::QUADTREE_CHILDREN_AMOUNT; i++)
 		{
 			recursiveQuadtreeDraw(node->children[i]);
 		}
