@@ -1,5 +1,5 @@
 FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
-FIRESPAM_COOLDOWN = 0.6
+FIRESPAM_COOLDOWN = 0.2
 FIREBALL_COOLDOWN = 6
 FIRESPAM_SPEED = 100
 FIREBALL_SPEED = 18
@@ -9,6 +9,7 @@ MIN_CHARGETIME_FIREBALL = 0.5
 FIRESPAM_DAMAGE = 50
 FIREBALL_BASE_DMG = 4
 FIREBALL_LIGHTRADIUS = 5
+FIREBALL_CASTSPEED_MULTIPLE = 1
 FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
 FIREBALL_SMALL_HIT_SFX = "Effects/explosion.wav"
 FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
@@ -20,7 +21,7 @@ function CreateFireball(entity)
 		tiny.type = CreateProjectileType(model)
 		tiny.damage = FIRESPAM_DAMAGE
 		tiny.alive = false
-		tiny.lifeTime = 1.8
+		tiny.lifeTime = 1.2
 		tiny.hits = {}
 		tiny.particles = CreateFireEffectParticles()
 		return tiny
@@ -41,12 +42,11 @@ function CreateFireball(entity)
 	spell.smallFBSoundID = {}
 	spell.bigFBSoundID = -1
 	spell.smallFB = {}		spell.currentFB = 1
-	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
+	for i = 1, 6 do	table.insert(spell.smallFB, initSmallFireball())	end
 	
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
-	FIREBALL_CASTSPEED_MULTIPLE = 2
 	spell.castTimeAttack = 0.5 * FIREBALL_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * FIREBALL_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * FIREBALL_CASTSPEED_MULTIPLE
