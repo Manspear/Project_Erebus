@@ -194,8 +194,9 @@ function UnloadPlayer()
 
 	DestroyChargeEggs(player.charger)
 	DestroyChargeEggs(player2.charger)
-
+	
 	DestroyCombineRay(player.friendCharger)
+	DestroyCombineRay(player2.friendCharger)
 
 	DestroyRevive(player.revive)
 	DestroyRevive(player2.revive)
