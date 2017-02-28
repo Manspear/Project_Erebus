@@ -252,6 +252,9 @@ function CreateFireball(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
