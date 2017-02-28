@@ -56,7 +56,13 @@ function DrawMenuUI()
 	UI.drawImage(screenImages["exit"], imageTextures["exit"]);
 
 	local assets = Assets.GetAssets()
-	local offset = 0
+
+	local len = 0
+	for k,v in pairs(assets) do
+		len = len + 1
+	end
+	Gear.Print("Assets(" .. len .. "):", 0, 128, 0.5)
+	local offset = 16
 	for name, refcount in pairs(assets) do
 		Gear.Print(tostring(refcount), 0, 128+offset, 0.5)
 		Gear.Print(name, 32, 128+offset, 0.5)

@@ -56,7 +56,6 @@ function CreateStaticAoEType(model)
 end
 
 function DestroyStaticAoEType(aoeType)
-	assert(aoeType, "AoE type is nil")
 	Gear.UnbindInstance(aoeType.transformID)
 	aoeType = nil
 end

@@ -75,6 +75,10 @@ function UnloadGameplay()
 			end
 		end
 
+		UnInitPolymorphs()
+		UnInitTimeSlows()
+		UnInitFireEffectParticles()
+
 		loadedGameplay = false
 		gameplayStarted = false
 		loadedLevels = {}
@@ -132,7 +136,10 @@ end
 
 function EnterGameplay()
 	if loadedGameplay == false then 
-		
+		InitPolymorphs()
+		InitTimeSlows()
+		InitFireEffectParticles()
+
 		for key,value in pairs(scripts) do
 			if value.Load then value.Load() end
 		end

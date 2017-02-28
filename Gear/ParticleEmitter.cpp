@@ -60,7 +60,7 @@ namespace Gear
 		shrinkage = emitter.shrinkage;
 
 		this->assets = assets;
-		this->textureName = emitter.textureName;
+		this->textureName = "Textures/" + std::string(emitter.textureName);
 	}
 
 	ParticleEmitter::~ParticleEmitter()

@@ -178,7 +178,7 @@ function UnloadPlayer()
 	DestroySlowEffect(effectTable[SLOW_EFFECT_INDEX])
 	DestroyTimeSlowEffect(effectTable[TIME_SLOW_EFFECT_INDEX])
 	DestroyLifeStealEffect(effectTable[LIFE_STEAL_EFFECT_INDEX])
-	DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
+	--DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
 	DestroyKnockbackEffect(effectTable[KNOCKBACK_EFFECT_INDEX])
 
 	DestroyPlayerController(player.animationController)

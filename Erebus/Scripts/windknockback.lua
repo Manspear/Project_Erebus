@@ -127,6 +127,8 @@ function CreateWindknockback(entity)
 end
 
 function DestroyWindknockback(knockback)
+	destroyWindParticles(knockback.spell.particles)
+
 	Gear.UnbindInstance(knockback.transformID)
 
 	Assets.UnloadModel( "Models/nothing.model" )

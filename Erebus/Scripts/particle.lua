@@ -25,13 +25,13 @@ function destroyIceGrenadeParticles(p)
 	p = nil
 end
 
-FIREBALL_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpellRed.dds")
+--FIREBALL_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpellRed.dds")
 
 function CreateFireEffectParticles()
 	local fire = {}
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	fire.ID = Emitter.Bind(25, 0.3, 4, 50, 2, 0, 0, 1, -2)  
-	Emitter.SetTexture(fire.ID, FIREBALL_PARTICLES_TEX)
+	Emitter.SetTexture(fire.ID, Assets.LoadTexture("Textures/fireSpellRed.dds"))
 	function fire:Cast()
 		Emitter.SetAlive(self.ID)
 	end
@@ -50,6 +50,8 @@ end
 function DestroyFireEffectParticles(p)
 	Emitter.Unbind(p.ID)
 	p = nil
+
+	Assets.UnloadTexture( "Textures/fireSpellRed.dds" )
 end
 
 function CreateFireballParticles()
@@ -73,12 +75,12 @@ function DestroyFireballParticles(p)
 	p = nil
 end
 
-CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpell.dds")
+--CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpell.dds")
 function createChargeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
 	charge.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)  
-	Emitter.SetTexture(charge.ID, CHARGE_PARTICLES_TEX)
+	Emitter.SetTexture(charge.ID, Assets.LoadTexture("Textures/fireSpell.dds"))
 	function charge:cast()
 		Emitter.SetAlive(self.ID)
 	end
@@ -101,15 +103,17 @@ end
 function destroyChargeParticles(p)
 	Emitter.Unbind(p.ID)
 	p = nil
+
+	Assets.UnloadTexture( "Textures/fireSpell.dds" )
 end
 
 --STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
-STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
+--STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
 function createSparklyParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
 	sparkles.ID = Emitter.Bind(50, 1.0, 2, 25, 2, 0, 0, 1, -1)   
-	Emitter.SetTexture(sparkles.ID, STAR_PARTICLES_TEX)
+	Emitter.SetTexture(sparkles.ID, Assets.LoadTexture("Textures/stars.dds"))
 
 	function sparkles:cast()
 		Emitter.SetAlive(self.ID)
@@ -128,13 +132,15 @@ end
 function destroySparklyParticles(p)
 	Emitter.Unbind(p.ID)
 	p = nil
+
+	Assets.UnloadTexture("Textures/stars.dds");
 end
 
 function createSparklyParticles2()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
 	sparkles.ID = Emitter.Bind(50, 1.0, 2, 25, 2, 8, 0, 1, -1)   
-	Emitter.SetTexture(sparkles.ID, STAR_PARTICLES_TEX)
+	Emitter.SetTexture(sparkles.ID, Assets.LoadTexture("Textures/stars.dds"))
 
 	function sparkles:cast()
 		Emitter.SetAlive(self.ID)
@@ -152,6 +158,9 @@ end
 
 function destroySparklyParticles2(p)
 	Emitter.Unbind(p.ID)
+	p = nil
+
+	Assets.UnloadTexture("Textures/stars.dds")
 end
 
 function  createTumbleParticles()
