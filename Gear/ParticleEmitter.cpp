@@ -120,22 +120,19 @@ namespace Gear
 			else
 				introvertSpawn(dt);
 
-			float randomSpeed;
 			for (int i = 0; i < nrOfActiveParticles; i++)
 			{
 				allParticles[i].lifeSpan -= dt;
 				if (allParticles[i].lifeSpan > 0.0)
 				{
 					allParticles[i].direction.y += gravityFactor * dt;
-					randomSpeed = (float)(rand() % (int)partSpeed);
-					particlePos[i].pos += allParticles[i].direction * randomSpeed * dt;
+					particlePos[i].pos += allParticles[i].direction * partSpeed * dt;
 					particlePos[i].size += shrinkage * dt;
 				}
 				else
 				{
 					particlePos[i] = particlePos[nrOfActiveParticles - 1];
 					allParticles[i] = allParticles[--nrOfActiveParticles];
-					//particlePos[i].size = this->particleSize;
 					if (nrOfActiveParticles <= 0)
 						isActive = false;
 				}
@@ -169,30 +166,30 @@ namespace Gear
 		this->position = position;
 		glm::vec3 tempVec = this->position + direction * focus;
 		glm::vec3 temp2;
+		float length;
 		if (this->extrovert)
 		{
 			for (int i = 0; i < maxParticles; i++)
 			{
+				particlePos[i].size = this->particleSize;
 				particlePos[i].pos = this->position;
 				temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
 				allParticles[i].direction = glm::normalize(temp2 - this->position);
+				allParticles[i].lifeSpan = this->lifeTime;
 			}
 		}
 		else
 		{
 			for (int i = 0; i < maxParticles; i++)
 			{
+				particlePos[i].size = this->particleSize;
 				particlePos[i].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + this->position;
 				allParticles[i].direction = glm::normalize(this->position - particlePos[i].pos);
+				length = glm::length(this->position - particlePos[i].pos);
+				allParticles[i].lifeSpan = length / partSpeed;
 			}
 		}
-		for (int i = 0; i < maxParticles; i++)
-		{
-			allParticles[i].lifeSpan = this->lifeTime;
-			nrOfActiveParticles = i;
-			particlePos[i].size = this->particleSize;
-			allParticles[i].direction *= rand() % (int)partSpeed;
-		}
+		nrOfActiveParticles = maxParticles;
 		isActive = true;
 		alive = false;
 	}

@@ -282,7 +282,7 @@ function showWaitingForPlayer2(dt)
 
 
 	tutorialImages[index] = UI.load(player.position.x, player.position.y+1.4, player.position.z, 1.3, 1.3)
-	SHOW_TUTORIAL_IMAGE2 = index
+	SHOW_WAITING_FOR_PLAYER2 = index
 end
 
 function hideTutorialImage()
@@ -295,7 +295,7 @@ function hideTutorialImage2()
 end
 
 function hideWaitingForPlayer2()
-	SHOW_TUTORIAL_IMAGE2 = -1
+	SHOW_WAITING_FOR_PLAYER2 = -1
 end
 
 function ShowCrosshair()
