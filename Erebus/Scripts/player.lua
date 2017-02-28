@@ -174,6 +174,39 @@ end
 
 
 function UnloadPlayer()
+	DestroyFireEffect(effectTable[FIRE_EFFECT_INDEX])
+	DestroySlowEffect(effectTable[SLOW_EFFECT_INDEX])
+	DestroyTimeSlowEffect(effectTable[TIME_SLOW_EFFECT_INDEX])
+	DestroyLifeStealEffect(effectTable[LIFE_STEAL_EFFECT_INDEX])
+	DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
+	DestroyKnockbackEffect(effectTable[KNOCKBACK_EFFECT_INDEX])
+
+	DestroyPlayerController(player.animationController)
+	DestroyPlayerController(player2.animationController)
+
+	Gear.UnbindInstance(player.transformID)
+	Gear.UnbindInstance(player2.transformID)
+
+	--[[Particle.Unbind(player.dashStartParticles)
+	Particle.Unbind(player.dashEndParticles)
+	Particle.Unbind(player2.dashStartParticles)
+	Particle.Unbind(player2.dashEndParticles)--]]
+
+	DestroyAim(player.aim)
+	DestroyAim(player2.aim)
+
+	DestroyChargeEggs(player.charger)
+	DestroyChargeEggs(player2.charger)
+
+	DestroyCombineRay(player.friendCharger)
+
+	DestroyRevive(player.revive)
+	DestroyRevive(player2.revive)
+
+	player = {}
+	player2 = {}
+
+	effectTable = {}
 end
 
 function LoadSpells(player)
@@ -295,14 +328,14 @@ function UpdatePlayer(dt)
 	end
 
 	if not player2.isAlive then
-		if Inputs.KeyPressed("T") then
+		if Inputs.KeyPressed("R") then
 			Network.SendChargeSpellPacket(player.transformID, 0, true)
 			player.revive:Cast(player2)
 		end
-		if Inputs.KeyDown("T") then 
+		if Inputs.KeyDown("R") then 
 			player.revive:Update(dt)
 		end
-		if Inputs.KeyReleased("T") then 
+		if Inputs.KeyReleased("R") then 
 			Network.SendChargeSpellPacket(player.transformID, 0, false)
 			player.revive:Kill()
 		end
@@ -402,8 +435,13 @@ function GetCombined()
 	local combine, effectIndex, damage, spellListIndex = Network.GetChargingPacket()
 	if combine and Inputs.ButtonDown(Buttons.Right) then
 		player.spells[player.currentSpell]:Combine(effectIndex, damage)
+		local element = SpellList[spellListIndex].spell.element
+		print(element)
+		--print( player2.spells[player2.currentSpell].element) 
+		--player.charger.firstCombine(elementType)
 		player.isCombined = true
 		player.combinedSpell = spellListIndex
+
 	end
 end
 
@@ -428,6 +466,7 @@ function Controls(dt)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
+			showWaitingForPlayer2(dt)
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -435,6 +474,7 @@ function Controls(dt)
 			ChargeDir.x =  pos2.x - player.position.x 
 			ChargeDir.y = pos2.y - player.position.y 
 			ChargeDir.z =  pos2.z -  player.position.z 
+
 
 
 			--normalize and length
@@ -445,7 +485,6 @@ function Controls(dt)
 			ChargeDir.x = (ChargeDir.x /a)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
-			
 			local dir = Camera.GetDirection()
 			
 			
@@ -476,7 +515,7 @@ function Controls(dt)
 			--ATTACK DELAY TIMER
 			player.attackDelayTimer = player.attackDelayTimer + dt
 
-			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+		if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				if player.spells[player.currentSpell].hasSpamAttack == true then 
 					player.charger:EndCharge()
 					player.spamCasting = true

@@ -24,12 +24,16 @@ namespace LuaGear
 		bool* mouseVisible,
 		bool* fullscreen,
 		Assets* assets,
-		WorkQueue* work);
+		WorkQueue* work,
+		FloatingDamage* floatingDamage);
 
 	/*int addStaticInstance( lua_State* lua );
 	int addAnimatedInstance(lua_State* lua);
 	int addForwardInstance(lua_State* lua);
 	int addBlendingInstance(lua_State* lua);*/
+
+	int resetAnimations( lua_State* lua );
+	int resetModels( lua_State* lua );
 
 	int bindStaticInstance( lua_State* lua );
 	int bindAnimatedInstance( lua_State* lua );
@@ -62,4 +66,5 @@ namespace LuaGear
 	int setBlendTextures(lua_State* lua);
 	int setFogColor(lua_State* lua);
 
+	int printDamageNumer(lua_State* lua);
 }

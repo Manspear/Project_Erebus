@@ -100,3 +100,8 @@ function CreateEnemyController(enemy)
 
 	return controller
 end
+
+function DestroyEnemyController(controller)
+	--TODO(Niclas): Unbind animation
+	controller = nil
+end

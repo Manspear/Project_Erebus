@@ -75,6 +75,7 @@ namespace Collisions
 		//void drawHitboxes();
 		//void recursiveDraw(HitBox* hitbox, glm::vec3 color);
 
+		COLLISIONS_EXPORTS void reset();
 
 	private:
 		//Transform* transforms;
@@ -100,6 +101,7 @@ namespace Collisions
 		const int DEFAULT_LAYER = 0;
 
 		void recursiveSetID(HitBox* hitbox, int layer);
+		int layerAmount;
 
 
 

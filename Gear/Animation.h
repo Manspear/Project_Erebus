@@ -78,6 +78,8 @@ public:
 
 	GEAR_API glm::vec4 getTint();
 
+	GEAR_API void reset();
+
 protected:
 	void updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr);
 
