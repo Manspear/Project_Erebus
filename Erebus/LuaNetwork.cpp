@@ -333,7 +333,7 @@ namespace LuaNetwork
 
 		}
 
-		return 5;
+		return 3;
 	}
 
 	int sendQuickBlendPacket(lua_State* lua)

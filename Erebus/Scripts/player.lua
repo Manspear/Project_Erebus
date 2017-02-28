@@ -494,7 +494,7 @@ function Controls(dt)
 			HideCrosshair()
 			hideWaitingForPlayer2()
 			player.friendCharger:EndChargeBeam()
-			Network.SendChargingPacket(0, 0, 0, false) 
+			Network.SendChargingPacket(0, false) 
 		end
 
 		if not player.charging then
@@ -505,7 +505,6 @@ function Controls(dt)
 				if player.spells[player.currentSpell].hasSpamAttack == true then 
 					player.charger:EndCharge()
 					player.spamCasting = true
-					
 					
 					if player.firstAttack == true then 		
 						if player.attackDelayTimerStarted == false then 
@@ -521,20 +520,17 @@ function Controls(dt)
 							player.attackDelayTimer = overTime
 							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
 							
-							--Gets in here every time it should. But the cast function is not executed for some reason.
 							player.spellDirection = Camera.GetDirection()
 							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
-							player.spells[player.currentSpell]:Cast(player, 0.5, false)	
+							player.spells[player.currentSpell]:Cast(player)	
 						end 
 					end
 				end
 			end
-			
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.spamCasting = false
 				player.firstAttack = true
 				player.attackDelayTimerStarted = false
-				player.animationController.animation:ResetSegmentPlayTime(1)
 			end
 
 			if player.globalSpellSwitchingCooldownTimerStarted == true then 
@@ -558,7 +554,6 @@ function Controls(dt)
 					player.resetSpamAttack = true
 					
 					player.globalSpellSwitchingCooldownTimerStarted = true
-					--player.animationController.animation:ResetSegmentPlayTime(1)
 				end
 			end
 

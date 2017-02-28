@@ -45,9 +45,9 @@ function CreateCombineRay(entity)
 			Transform.ActiveControl(self.transformID3, true) 
 			elementalTransformID = self.transformID3	
 		else 
-			Transform.ActiveControl(ray.transformID, true)
+			Transform.ActiveControl(self.transformID, true)
+			elementalTransformID = self.transformID
 		end
-		Transform.ActiveControl(self.transformID, true)
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
@@ -152,7 +152,7 @@ function CreateChargeEggs(entity)
 			--nature particle alla typer 
 		self.firstCombine = false
 		
-		if self.light ~=nil then
+		if self.light then
 			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
 			self.particles:update(self.pos)	
 		end	
@@ -204,8 +204,8 @@ function CreateChargeEggs(entity)
 	function chargeThing:StartCharge(position, spellElement, minChargeTime) 
 		--called when right mouse button is pressed	
 		self.timer = minChargeTime   
-		self.pos = Transform.GetPosition(chargeThing.caster)	
-		self.firstCombine = true		
+		self.pos = Transform.GetPosition(chargeThing.caster)		
+			
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			self.color.r = 1
@@ -222,7 +222,7 @@ function CreateChargeEggs(entity)
 		Transform.SetScale(self.elementalTransformID, 0.5)
 	end
 
-	function chargeThing:StartParticles(spellElement) 
+	function chargeThing:StartParticles(spellElement)
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
 		self.timer = 0
 		self.particles:cast() 

@@ -14,7 +14,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS virtual ~SphereCollider();
 
 		//overrides
-		COLLISIONS_EXPORTS int getID() const override; // copy elision makes this fast? RVO - NRVO
+		COLLISIONS_EXPORTS int getID() const override;
 		COLLISIONS_EXPORTS int getIDTransform() const override;
 		COLLISIONS_EXPORTS std::vector<int>* getIDCollisionsRef() override;
 
