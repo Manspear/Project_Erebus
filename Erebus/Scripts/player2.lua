@@ -250,7 +250,7 @@ function UpdatePlayer2(dt)
 		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
 			player.spells[player.currentSpell]:Combine(player2.spells[player2.currentSpell]:GetEffect(), player2.spells[player2.currentSpell].damage)
 			player.isCombined = true
-			player.combinedSpell = spellListIndex
+			player.combinedSpell = player2.spells[player2.currentSpell].spellListId
 		end
 	end
 
