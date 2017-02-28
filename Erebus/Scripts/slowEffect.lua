@@ -21,3 +21,7 @@ function CreateSlowEffect()
 
 	return effect
 end
+
+function DestroySlowEffect(effect)
+	effect = nil
+end

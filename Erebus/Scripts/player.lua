@@ -174,6 +174,39 @@ end
 
 
 function UnloadPlayer()
+	DestroyFireEffect(effectTable[FIRE_EFFECT_INDEX])
+	DestroySlowEffect(effectTable[SLOW_EFFECT_INDEX])
+	DestroyTimeSlowEffect(effectTable[TIME_SLOW_EFFECT_INDEX])
+	DestroyLifeStealEffect(effectTable[LIFE_STEAL_EFFECT_INDEX])
+	DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
+	DestroyKnockbackEffect(effectTable[KNOCKBACK_EFFECT_INDEX])
+
+	DestroyPlayerController(player.animationController)
+	DestroyPlayerController(player2.animationController)
+
+	Gear.UnbindInstance(player.transformID)
+	Gear.UnbindInstance(player2.transformID)
+
+	--[[Particle.Unbind(player.dashStartParticles)
+	Particle.Unbind(player.dashEndParticles)
+	Particle.Unbind(player2.dashStartParticles)
+	Particle.Unbind(player2.dashEndParticles)--]]
+
+	DestroyAim(player.aim)
+	DestroyAim(player2.aim)
+
+	DestroyChargeEggs(player.charger)
+	DestroyChargeEggs(player2.charger)
+
+	DestroyCombineRay(player.friendCharger)
+
+	DestroyRevive(player.revive)
+	DestroyRevive(player2.revive)
+
+	player = {}
+	player2 = {}
+
+	effectTable = {}
 end
 
 function LoadSpells(player)
@@ -445,7 +478,7 @@ function Controls(dt)
 			ChargeDir.x = (ChargeDir.x /a)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
-			
+			print(ChargeDir.x)
 			local dir = Camera.GetDirection()
 			
 			

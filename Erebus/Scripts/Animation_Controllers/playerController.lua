@@ -322,3 +322,8 @@ function CreatePlayerController(player)
 
 	return controller
 end
+
+function DestroyPlayerController(controller)
+	--TODO(Niclas): Unbind animation
+	controller = nil
+end
