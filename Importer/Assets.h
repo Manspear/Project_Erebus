@@ -4,6 +4,7 @@
 #include "Importer.h"
 
 #define ASSETS_HOTLOAD_DELAY 0.5f
+#define ASSETS_MAX_UNLOAD_PER_FRAME 5
 
 namespace Importer
 {
@@ -29,16 +30,27 @@ namespace Importer
 	class Asset
 	{
 	public:
+		Asset();
 		virtual ~Asset();
 
 		virtual bool load( std::string path, Assets* assets ) = 0;
 		virtual void unload() = 0;
 		virtual void upload() = 0;
 
+		IMPORTER_API void incrementReferenceCount();
+		IMPORTER_API void decrementReferenceCount();
+
+		IMPORTER_API void setAssets( Assets* assets );
+
 		IMPORTER_API FileInfo* getFileInfo();
+		IMPORTER_API int getReferenceCount();
+
+	protected:
+		Assets* assets;
 
 	private:
 		FileInfo fileInfo;
+		int referenceCount;
 	};
 
 	class AssetID
@@ -93,12 +105,31 @@ namespace Importer
 				}
 			}
 
+			if( result )
+			{
+				result->setAssets( this );
+				result->incrementReferenceCount();
+			}
+
 			return result;
 		}
-		void unload();
+
+		template<typename T>
+		void unload( std::string path )
+		{
+			AssetID id( path, typeid(T).hash_code() );
+
+			std::map<AssetID, Asset*>::iterator it = assets.find( id );
+			if( it != assets.end() )
+			{
+				it->second->decrementReferenceCount();
+			}
+		}
+
 		IMPORTER_API void upload();
 
 		IMPORTER_API void checkHotload( float dt );
+		IMPORTER_API void checkReferences();
 
 	private:
 		float elapsedTime;

@@ -45,6 +45,10 @@ function CreatePolyEffect(owner, duration)
 	return effect
 end
 
+function DestroyPolyEffect(effect)
+	effect = nil
+end
+
 function InitPolymorphs()
 	local someModels = {"Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model"}
 	local models = {}

@@ -26,14 +26,7 @@ Animation::Animation()
 
 Animation::~Animation()
 {
-	delete[] blendFromKeys;
-	delete[] blendToKeys;
-	delete[] blendedList;
-	delete[] transitionTimeArray;
-	delete[] finalList;
-	for (int i = 0; i < animationSegments; i++)
-		delete[] animationMatrixLists[i];
-
+	reset();
 }
 
 void Animation::setAsset(Importer::ModelAsset * asset)
@@ -386,6 +379,36 @@ void Animation::removeTint()
 glm::vec4 Animation::getTint()
 {
 	return modelTint;
+}
+
+void Animation::reset()
+{
+	delete[] blendFromKeys;
+	delete[] blendToKeys;
+	delete[] blendedList;
+	delete[] transitionTimeArray;
+	delete[] finalList;
+	for (int i = 0; i < animationSegments; i++)
+		delete[] animationMatrixLists[i];
+	
+	animTimer = 0.0f;
+	fromAnimationTimer = 0;
+	toAnimationTimer = 0;
+	animationSegments = 0;
+
+	transitionTimeArray = nullptr;
+
+	transitionTimeArraySize = 9;
+
+	quickBlendFrom = 0;
+	quickBlendTo = 0;
+	quickBlendSegment = -1;
+	quickBlendTime = 0;
+	quickBlendingDone = true;
+	blendFromKeys = nullptr;
+	blendToKeys = nullptr;
+	finalList = nullptr;
+	blendedList = nullptr;
 }
 
 GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int numStates)
