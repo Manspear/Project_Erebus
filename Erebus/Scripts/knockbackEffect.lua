@@ -72,3 +72,7 @@ function CreateKnockbackEffect(owner, power)
 	end
 	return effect
 end
+
+function DestroyKnockbackEffect(effect)
+	effect = nil
+end

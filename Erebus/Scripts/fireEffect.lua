@@ -32,3 +32,7 @@ function CreateFireEffect(effectowner)
 
 	return effect
 end
+
+function DestroyFireEffect(effect)
+	effect = nil
+end

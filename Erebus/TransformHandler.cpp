@@ -30,6 +30,18 @@ TransformHandler::~TransformHandler()
 {
 }
 
+void TransformHandler::reset()
+{
+	instances[INSTANCE_DYNAMIC]->clear();
+	instances[INSTANCE_ANIMATED]->clear();
+
+	instances[INSTANCE_FORWARD]->clear();
+	gearEngine->uniValues.clear();
+
+	instances[INSTANCE_BLENDING]->clear();
+	gearEngine->textureBlend.clear();
+}
+
 int TransformHandler::bindStaticInstance( ModelAsset* asset )
 {
 	std::vector<ModelInstance>* models = instances[INSTANCE_DYNAMIC];
