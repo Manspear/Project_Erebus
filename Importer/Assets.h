@@ -131,6 +131,8 @@ namespace Importer
 		IMPORTER_API void checkHotload( float dt );
 		IMPORTER_API void checkReferences();
 
+		IMPORTER_API const std::map<AssetID, Asset*>& getAssets() const;
+
 	private:
 		float elapsedTime;
 		std::map<AssetID, Asset*> assets;

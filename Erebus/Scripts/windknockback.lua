@@ -1,11 +1,11 @@
-WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
+--WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 WINDKNOCKBACK_COOLDOWN = 2
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
 	spell.element = ICE
 	spell.maxcooldown = 4
-	spell.hudtexture = WINDKNOCKBACK_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 0
 	spell.alive = false
@@ -124,4 +124,13 @@ function CreateWindknockback(entity)
 	spell.Change = BaseChange
 	spell.Combine = BaseCombine
 	return spell
+end
+
+function DestroyWindknockback(knockback)
+	Gear.UnbindInstance(knockback.transformID)
+
+	Assets.UnloadModel( "Models/nothing.model" )
+	Assets.UnloadTexture("Textures/IconWindKnockback.dds")
+
+	knockback = nil
 end

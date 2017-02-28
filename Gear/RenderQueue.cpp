@@ -321,14 +321,15 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		numInstance = 0;
 
 		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
-		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
+		if( animatedModels->at(i).getActiveTransforms() > 0 )
+			modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
 		for( int j=0; j<animatedModels->at(i).getTransforms()->size(); j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
-			if( animatedModels->at(i).getTransform(j)->active && !animatedModels->at(i).getCulled(j) )
+			if( !animatedModels->at(i).getCulled(j) && animatedModels->at(i).getTransform(j)->active && !animatedModels->at(i).getCulled(j) )
 			{
 				//int index = animatedModels->at(i).worldIndices.at(j);
 				//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];

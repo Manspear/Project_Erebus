@@ -47,3 +47,7 @@ function CreateProjectileType(model)
 
 	return projectile
 end
+
+function DestroyProjectileType(projectile)
+	Gear.UnbindInstance(projectile.transformID)
+end

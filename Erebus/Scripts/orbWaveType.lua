@@ -88,3 +88,9 @@ function CreateOrbWaveType(model)
 
 	return type
 end
+
+function DestroyOrbWaveType(orbwavetype)
+	for _,v in pairs(orbwavetype.transformIDs) do
+		Gear.UnbindInstance(v)
+	end
+end

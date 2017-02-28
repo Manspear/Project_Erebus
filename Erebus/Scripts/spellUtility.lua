@@ -82,6 +82,7 @@ function DestroyCombineRay(ray)
 	Assets.UnloadModel( "Models/ComineBeamIce.model" )
 	Assets.UnloadModel( "Models/CombineBeamFire.model" )
 	Assets.UnloadModel( "Models/CombineBeamNature.model" )
+	ray = nil
 end
 
 MAX_CHARGE = 1
@@ -226,6 +227,7 @@ function DestroyChargeEggs(egg)
 	Assets.UnloadModel( "Models/SpellChargingICEMesh.model" )
 	Assets.UnloadModel( "Models/SpellChargingFireMesh.model" )
 	Assets.UnloadModel( "Models/SpellChargingNatureMesh.model" )
+	egg = nil
 end
 
 function BaseCheckCollision(spell)

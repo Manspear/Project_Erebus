@@ -1,6 +1,6 @@
-HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
-BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
-BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
+--HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
+--BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
+--BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 MAX_DAMAGE_PILLAR = 8
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_BIG_PILLAR = 5
@@ -21,9 +21,9 @@ function CreateHellPillar(entity)
 	
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
-	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
-	spell.texture1 = BLEND_TERXTURE1
-	spell.texture2 = BLEND_TERXTURE2
+	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds");
+	spell.texture1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
+	spell.texture2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 	spell.maxcooldown = COOLDOWN_BIG_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.maxChargeTime = 3
@@ -261,4 +261,17 @@ function CreateHellPillar(entity)
 	spell.Combine = BaseCombine		spell.Charge = BaseCharge
 	spell.GettEffect = BaseGetEffect
 	return spell
+end
+
+function DestroyHellPillar(pillar)
+	Gear.UnbindInstance(pillar.transformID)
+	Gear.UnbindInstance(pillar.firstModel)
+
+	Assets.UnloadTexture( "Textures/IconHellPillar.dds" )
+	Assets.UnloadTexture( "Textures/hellpillarNewTex.dds" )
+	Assets.UnloadTexture( "Textures/hellpillarNewTex2.dds" )
+	Assets.UnloadModel( "Models/hellpillarTest1.model" )
+	Assets.UnloadModel( "Models/hellpillarLoadOut2.model" )
+
+	pillar = nil
 end

@@ -1,4 +1,4 @@
-SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSiphon.dds");
+--SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSiphon.dds");
 SIPHON_DAMAGE = 2
 SIPHON_CHAIN_DURATION = 5
 SIPHON_COOLDOWN = 15
@@ -7,8 +7,8 @@ SIPHON_SPAM_DURATION = 3
 SIPHON_DAMAGE_INTERVAL = 1
 SIPHON_HITBOX_LENGTH = 20
 SIPHON_CHAIN_INTERVAL = 1
-SIPHON_TEXTURE1 = Assets.LoadTexture("Textures/siphon_Tex.dds")
-SIPHON_TEXTURE2 = Assets.LoadTexture("Textures/siphon_AnimTex.dds")
+--SIPHON_TEXTURE1 = Assets.LoadTexture("Textures/siphon_Tex.dds")
+--SIPHON_TEXTURE2 = Assets.LoadTexture("Textures/siphon_AnimTex.dds")
 
 function CreateSiphon(entity)
 	local spell = {}
@@ -16,7 +16,7 @@ function CreateSiphon(entity)
 	spell.damage = SIPHON_DAMAGE
 	spell.owner = entity
 	spell.steal = SIPHON_HEALTH_STEAL
-	spell.hudtexture = SIPHON_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconSiphon.dds");
 	spell.effects = {}
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	--spell.transformID = Transform.Bind()
@@ -61,7 +61,7 @@ function CreateSiphon(entity)
 	Gear.SetUniformLocation(spell.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
 	--spell.modelIndex = Gear.BindBlendingInstance(model)
-	Gear.SetBlendTextures(spell.transformID, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
+	Gear.SetBlendTextures(spell.transformID, 2, Assets.LoadTexture("Textures/siphon_Tex.dds"), Assets.LoadTexture("Textures/siphon_AnimTex.dds"))
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then
@@ -274,4 +274,15 @@ function CreateSiphon(entity)
 		end
 	end
 	return spell
+end
+
+function DestroySiphon(siphon)
+	Gear.UnbindInstance(siphon.transformID)
+
+	Assets.UnloadTexture( "Textures/IconSiphon.dds" )
+	Assets.UnloadTexture( "Textures/siphon_Tex.dds" )
+	Assets.UnloadTexture( "Textures/siphon_AnimTex.dds" )
+	Assets.UnloadModel( "Models/Siphon.model" )
+
+	siphon = nil
 end

@@ -1,4 +1,4 @@
-FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
+--FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 6
 FIRESPAM_SPEED = 100
@@ -29,7 +29,7 @@ function CreateFireball(entity)
 	local spell = {}
 	spell.element = FIRE
 	spell.damage = FIREBALL_BASE_DMG
-	spell.hudtexture = FIREBALL_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconFireball.dds");
 	spell.isActiveSpell = false
 	spell.maxcooldown = FIREBALL_COOLDOWN
 	spell.chargedTime = 0	spell.maxChargeTime = 3
@@ -275,4 +275,18 @@ function CreateFireball(entity)
 	spell.Charge = BaseCharge
 	spell.Change = BaseChange
 	return spell
+end
+
+function DestroyFireball(fireball)
+	for _,v in pairs(fireball.spell.smallFB) do
+		DestroyProjectileType(v.type)
+		Assets.UnloadModel( "Models/projectile1.model" )
+	end
+
+	Gear.UnbindInstance(fireball.bigBallID)
+
+	Assets.UnloadModel( "Models/projectile1.model" )
+	Assets.UnloadTexture( "Textures/IconFireball.dds" )
+
+	fireball = nil
 end

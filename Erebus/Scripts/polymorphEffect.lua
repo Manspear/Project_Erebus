@@ -46,6 +46,11 @@ function CreatePolyEffect(owner, duration)
 end
 
 function DestroyPolyEffect(effect)
+	for _,v in pairs(polymorphPool) do
+		Gear.UnbindInstance(v)
+		Assets.UnloadModel( "Models/Polymorph.model" )
+	end
+
 	effect = nil
 end
 

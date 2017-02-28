@@ -79,6 +79,17 @@ function LoadSpellsPlayer2()
 	player2.spells[1].isActiveSpell = true
 end
 
+function UnloadPlayer2()
+	DestroyPlayerController(player2.animationController)
+	Gear.UnbindInstance(player2.transformID)
+	DestroyAim(player2.aim)
+	DestroyChargeEggs(player2.charger)
+	DestroyRevive(player2.revive)
+	player2 = {}
+
+	Assets.UnloadModel( "Models/player2.model" )
+end
+
 function UpdatePlayer2(dt)
 	if player2.ping > 0 then
 		player2.ping = player2.ping - dt;

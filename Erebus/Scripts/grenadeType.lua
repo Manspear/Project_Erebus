@@ -103,3 +103,8 @@ function CreateGrenadeType(model)
 
 	return type
 end
+
+function DestroyGrenadeType(grenadeType)
+	Gear.UnbindInstance(grenadeType.transformID)
+	grenadeType = nil
+end

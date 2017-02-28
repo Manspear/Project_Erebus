@@ -54,6 +54,13 @@ function DrawMenuUI()
 	UI.drawImage(screenImages["network"], imageTextures["network"]);
 	UI.drawImage(screenImages["options"], imageTextures["options"]);
 	UI.drawImage(screenImages["exit"], imageTextures["exit"]);
+
+	local assets = Assets.GetAssets()
+	local offset = 0
+	for name, refcount in pairs(assets) do
+		Gear.Print(name, 0, 128+offset, 0.5)
+		offset = offset + 16
+	end
 end
 
 return { Load = LoadMenuUI, Unload = UnloadMenuUI, Update = UpdateMenuUI }

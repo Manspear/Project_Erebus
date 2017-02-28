@@ -80,6 +80,9 @@ public:
 
 	GEAR_API void reset();
 
+	GEAR_API void setActive( bool active );
+	GEAR_API bool getActive() const;
+
 protected:
 	void updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr);
 
@@ -158,6 +161,8 @@ protected:
 	int quickBlendFrom, quickBlendTo, quickBlendSegment;
 	float quickBlendTime;
 	bool quickBlendingDone;
+
+	bool active;
 
 	glm::vec4 modelTint = glm::vec4(0, 0, 0, 0);
 };

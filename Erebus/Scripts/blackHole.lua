@@ -190,3 +190,14 @@ function CreateBlackHole(entity)
 
 	return spell
 end
+
+function DestroyBlackHole(blackHole)
+	DestroyStaticAoEType(blackHole.spell.type)
+
+	Gear.UnbindInstance( blackHole.innerTransformID )
+
+	Assets.UnloadModel( "Models/blackHole_Rings.model" )
+	Assets.UnloadModel( "Models/blackHole_Sphere.model" )
+
+	blackHole = nil
+end

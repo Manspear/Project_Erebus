@@ -18,6 +18,11 @@ function createIceGrenadeParticles()
 	end
 	return ice
 end
+
+function destroyIceGrenadeParticles()
+	--TODO(Niclas): Implement this function
+end
+
 FIREBALL_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpellRed.dds")
 
 function CreateFireEffectParticles()

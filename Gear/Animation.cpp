@@ -22,6 +22,8 @@ Animation::Animation()
 	blendToKeys = NULL;
 	finalList = NULL;
 	blendedList = NULL;
+
+	active = true;
 }
 
 Animation::~Animation()
@@ -780,4 +782,14 @@ void Animation::update(float dt)
 	}
 
 	assembleAnimationsIntoShadermatrices();
+}
+
+void Animation::setActive( bool a )
+{
+	active = a;
+}
+
+bool Animation::getActive() const
+{
+	return active;
 }

@@ -85,6 +85,7 @@ namespace LuaGear
 		luaL_Reg animationRegs[] =
 		{
 			{ "Bind", bindAnimation },
+			{ "Unbind", unbindAnimation },
 			{ "Update",	updateAnimationBlending },
 			{ "UpdateShaderMatrices", assembleAnimationsIntoShadermatrices },
 			{ "SetTransitionTimes", setTransitionTimes },
@@ -368,10 +369,19 @@ namespace LuaGear
 
 	int bindAnimation(lua_State* lua)
 	{
-		int index = *g_boundAnimations;
+		int index = -1, maxIndex = *g_boundAnimations;
+		for( int i=0; i<maxIndex && index < 0; i++ )
+			if( !g_animations[i].getActive() )
+				index = i;
+
+		if( index < 0 )
+		{
+			index = *g_boundAnimations;
+			*g_boundAnimations = index + 1;
+		}
+
 		Animation* animation = &g_animations[index];
 		animation->setMatrixIndex(index);
-		*g_boundAnimations = index + 1;
 
 		lua_newtable(lua);
 		luaL_setmetatable(lua, "animationMeta");
@@ -379,6 +389,17 @@ namespace LuaGear
 		lua_setfield(lua, -2, "__self");
 
 		return 1;
+	}
+
+	int unbindAnimation(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+		animation->setActive( false );
+
+		return 0;
 	}
 
 	int quickBlend(lua_State * lua)

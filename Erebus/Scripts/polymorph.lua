@@ -1,4 +1,4 @@
-POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
+--POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
 POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
@@ -15,7 +15,7 @@ function CreatePolymorph(entity)
 	spell.lifeTime = POLYMORPH_LIFETIME
 	spell.caster = entity.transformID
 	spell.owner = entity
-	spell.hudtexture = POLYMORPH_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconPolymorph.dds");
 	spell.position = {x = 0, y = 0, z = 0}		spell.direction = {x = 0, y = 0, z = 0}	
 	spell.damage = 1
 	spell.morphTime = 3
@@ -132,4 +132,11 @@ function CreatePolymorph(entity)
 	spell.GetEffect = BaseGetEffect
 
 	return spell
+end
+
+function DestroyPolymorph(poly)
+	Gear.UnbindInstance(poly.transformID)
+
+	Assets.UnloadTexture("Textures/IconPolymorph.dds");
+	Assets.UnloadModel( "Models/nothing.model" )
 end

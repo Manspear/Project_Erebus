@@ -182,10 +182,7 @@ function UnloadPlayer()
 	DestroyKnockbackEffect(effectTable[KNOCKBACK_EFFECT_INDEX])
 
 	DestroyPlayerController(player.animationController)
-	DestroyPlayerController(player2.animationController)
-
 	Gear.UnbindInstance(player.transformID)
-	Gear.UnbindInstance(player2.transformID)
 
 	--[[Particle.Unbind(player.dashStartParticles)
 	Particle.Unbind(player.dashEndParticles)
@@ -193,23 +190,17 @@ function UnloadPlayer()
 	Particle.Unbind(player2.dashEndParticles)--]]
 
 	DestroyAim(player.aim)
-	DestroyAim(player2.aim)
-
 	DestroyChargeEggs(player.charger)
-	DestroyChargeEggs(player2.charger)
-
 	DestroyCombineRay(player.friendCharger)
-
 	DestroyRevive(player.revive)
-	DestroyRevive(player2.revive)
+	
 
 	player = {}
-	player2 = {}
-
 	effectTable = {}
 
 	Assets.UnloadModel( "Models/player1.model" )
-	Assets.UnloadModel( "Models/player1.model" )
+
+	UnloadPlayer2()
 end
 
 function LoadSpells(player)

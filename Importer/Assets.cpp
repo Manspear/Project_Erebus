@@ -219,4 +219,9 @@ namespace Importer
 			assets.erase( removes[i] );
 		}
 	}
+
+	const std::map<AssetID, Asset*>& Assets::getAssets() const
+	{
+		return assets;
+	}
 }
