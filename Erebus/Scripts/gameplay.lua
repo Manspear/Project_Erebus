@@ -139,7 +139,6 @@ function EnterGameplay()
 
 		dofile( "Scripts/LevelOskar2.lua" )
 
-		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
 			levels[v].load()

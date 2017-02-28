@@ -1,5 +1,6 @@
 SHOW_TUTORIAL_IMAGE = -1
 SHOW_TUTORIAL_IMAGE2 = -1
+SHOW_WAITING_FOR_PLAYER2 = -1
 local screenImages = {}
 local imageTextures = {}
 local tutorialImages = {}
@@ -10,6 +11,7 @@ local healthBarLength = 470;
 local spellHeight = 40;
 local TutorialCounter = 0;
 local TutorialCounter2 = 0;
+local WaitingForP2Counter = 0
 local showHealthbar = true;
 local crosshairIsVisible = false
 
@@ -47,6 +49,11 @@ function LoadHUD()
 	tutorialTexture[5] = Assets.LoadTexture("Textures/TUTORIALCharge2.dds")
 	tutorialTexture[6] = Assets.LoadTexture("Textures/TUTORIALChargeFriend1.dds")
 	tutorialTexture[7] = Assets.LoadTexture("Textures/TUTORIALChargeFriend2.dds")
+
+	tutorialTexture[8] = Assets.LoadTexture("Textures/WaitingForPlayer2_0.dds")
+	tutorialTexture[9] = Assets.LoadTexture("Textures/WaitingForPlayer2_1.dds")
+	tutorialTexture[10] = Assets.LoadTexture("Textures/WaitingForPlayer2_2.dds")
+	tutorialTexture[11] = Assets.LoadTexture("Textures/WaitingForPlayer2_3.dds")
 
 	pingImages[0] = UI.load(20.8, 9.6, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	pingImages[1] = UI.load(30.1, 9.7, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
@@ -172,6 +179,10 @@ function DrawHUD()
 		UI.drawWorldImage(pingImages[1], player.pingTexture);
 	end
 
+	if SHOW_WAITING_FOR_PLAYER2 ~= -1 then
+		UI.drawWorldImage(tutorialImages[SHOW_WAITING_FOR_PLAYER2], tutorialTexture[SHOW_WAITING_FOR_PLAYER2])
+	end
+
 	if player.ping > 0 then
 		UI.drawWorldImage(player.pingImage, player.pingTexture);
 	end
@@ -249,6 +260,30 @@ function showTutorialImage2(x,y,z,dt)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 
+function showWaitingForPlayer2(dt)
+	WaitingForP2Counter = WaitingForP2Counter + dt
+	
+	if WaitingForP2Counter < 0.7  then
+		index = 8
+	elseif WaitingForP2Counter < 1.4 then
+		index = 9
+	elseif WaitingForP2Counter < 2.1 then
+		index = 10
+	elseif WaitingForP2Counter < 2.8 then
+		index = 11
+	
+	elseif WaitingForP2Counter <3.8 then
+		index = -1
+	else
+		WaitingForP2Counter = 0
+		index = 8
+	end
+
+
+
+	tutorialImages[index] = UI.load(player.position.x, player.position.y+1.4, player.position.z, 1.3, 1.3)
+	SHOW_TUTORIAL_IMAGE2 = index
+end
 
 function hideTutorialImage()
 	SHOW_TUTORIAL_IMAGE = -1
