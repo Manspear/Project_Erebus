@@ -24,7 +24,8 @@ namespace LuaGear
 		bool* mouseVisible,
 		bool* fullscreen,
 		Assets* assets,
-		WorkQueue* work);
+		WorkQueue* work,
+		FloatingDamage* floatingDamage);
 
 	/*int addStaticInstance( lua_State* lua );
 	int addAnimatedInstance(lua_State* lua);
@@ -44,6 +45,7 @@ namespace LuaGear
 	int print(lua_State* lua);
 	int getTextDimensions(lua_State* lua);
 
+	int resetSegmentAnimationClock(lua_State* lua);
 	int bindAnimation(lua_State* lua);
 	int quickBlend(lua_State* lua);
 	int updateAnimationBlending(lua_State* lua);
@@ -61,4 +63,5 @@ namespace LuaGear
 	int setBlendTextures(lua_State* lua);
 	int setFogColor(lua_State* lua);
 
+	int printDamageNumer(lua_State* lua);
 }

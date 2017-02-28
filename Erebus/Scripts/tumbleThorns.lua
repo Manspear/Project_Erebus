@@ -6,7 +6,7 @@ TUMBLETHORNS_ROLLBACKTIME = 0.4
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
-	spell.cooldown = 0.0		spell.maxcooldown = 4
+	spell.maxcooldown = 4
 	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 10
@@ -16,7 +16,15 @@ function CreateTumblethorns(entity)
 	spell.direction = {x = 0, y = 0, z = 0}		spell.position = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
-		
+	
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	TUMBLETHORNS_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * TUMBLETHORNS_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)

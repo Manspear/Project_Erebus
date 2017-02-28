@@ -120,7 +120,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Level01.lua" )
+		dofile( "Scripts/LevelOskar2.lua" )
 
 		levels[1].load()
 		loadedLevels[1] = true
@@ -129,7 +129,8 @@ function EnterGameplay()
 			loadedLevels[v] = true
 		end
 
-		--levels[1].load()
+		--
+		levels[1].load()
 		--levels[2].load()
 		--levels[3].load()
 		--levels[4].load()
