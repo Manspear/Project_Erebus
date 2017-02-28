@@ -1058,13 +1058,26 @@ Light.addLight(18.9806, 8.60156, 181.844, 1, 0.576471, 0.160784, 10,2)
 slussen = {}
 slussen.model = Assets.LoadModel('Models/Branch_blocker.model')
 slussen.transformID = Gear.BindStaticInstance(slussen.model)
-Transform.SetPosition(slussen.transformID, {x =20.0156, y =6.19141, z = 157.875})
+Transform.SetPosition(slussen.transformID, {x =25.0156, y = 8, z = 157.875})
+
+slussen2 = {}
+slussen2.transformID = Gear.BindStaticInstance(slussen.model)
+Transform.SetPosition(slussen2.transformID, {x =15.0156, y = 3, z = 157.875})
+
+slussCollider1 = {}
+slussCollider1.collider = OBBCollider.Create(-1)
+slussCollider1.collider:SetOffset(0,0,0)
+slussCollider1.collider:SetZAxis(0.0,0,-1)
+slussCollider1.collider:SetHalfLengths(0.3,5.66843,5.14782)
+slussCollider1.collider:SetPos(25.0156,8,157.875)
+CollisionHandler.AddOBB(slussCollider1.collider, 3)
+
 level01.triggers.New435ID = {}
 level01.triggers.New435ID.collider = SphereCollider.Create(-1)
 level01.triggers.New435ID.collider:SetOffset(0,0,0)
 level01.triggers.New435ID.collider:SetRadius(1)
 level01.triggers.New435ID.collider:SetPos(20.0156,6.19141,157.875)
-sluice1 = CreateSluice(level01.triggers.New435ID.collider, slussen.transformID)
+sluice1 = CreateSluice(level01.triggers.New435ID.collider, slussen.transformID, slussCollider1, slussen2.transformID)
 level01.triggers.New435ID.collider.OnEnter= function(self) SluiceEnter(sluice1) end
 level01.triggers.New435ID.collider.OnTriggering = function(self,dt) SluiceUpdate(dt, sluice1) end
 level01.triggers.New435ID.collider.OnExit = function(self) SluiceExit(sluice1) end
