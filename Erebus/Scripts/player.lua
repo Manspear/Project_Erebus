@@ -207,6 +207,9 @@ function UnloadPlayer()
 	player2 = {}
 
 	effectTable = {}
+
+	Assets.UnloadModel( "Models/player1.model" )
+	Assets.UnloadModel( "Models/player1.model" )
 end
 
 function LoadSpells(player)

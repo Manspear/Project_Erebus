@@ -147,7 +147,7 @@ function EnterGameplay()
 		end
 
 		--
-		levels[1].load()
+		--levels[1].load()
 		--levels[2].load()
 		--levels[3].load()
 		--levels[4].load()
