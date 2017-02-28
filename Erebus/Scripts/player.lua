@@ -295,14 +295,14 @@ function UpdatePlayer(dt)
 	end
 
 	if not player2.isAlive then
-		if Inputs.KeyPressed("T") then
+		if Inputs.KeyPressed("R") then
 			Network.SendChargeSpellPacket(player.transformID, 0, true)
 			player.revive:Cast(player2)
 		end
-		if Inputs.KeyDown("T") then 
+		if Inputs.KeyDown("R") then 
 			player.revive:Update(dt)
 		end
-		if Inputs.KeyReleased("T") then 
+		if Inputs.KeyReleased("R") then 
 			Network.SendChargeSpellPacket(player.transformID, 0, false)
 			player.revive:Kill()
 		end
