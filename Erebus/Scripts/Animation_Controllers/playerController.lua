@@ -57,7 +57,7 @@ function CreatePlayerController(player)
 
 	controller.chargeTimerStart = false
 	controller.chargeTimer = 0
-	controller.chargeMaxTime = 1.3 -- the length of the chargeRelease-animation
+	controller.chargeMaxTime = 1.33 -- the length of the chargeRelease-animation
 
 	local animationTransitionTimes = {}
 	for i = 1, 33 do
@@ -80,7 +80,7 @@ function CreatePlayerController(player)
 		--since the prioritized actions override the unprioritized ones
 
 		--if you don't move AND HAVENT ATTACKED you're Idle
-		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
+		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false and self.chargeTimerStart == false then
 			self:IdleState(dt)
 		--else running noncombat
 		elseif (self.watch.forward ~= 0 or self.watch ~= left) and self.attackTimerStarted == false then
@@ -103,7 +103,7 @@ function CreatePlayerController(player)
 			self.animation:ResetSegmentAnimationClock(1)
 			self.watch.resetSpamAttack = false
 		else
-			if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
+			if self.oldWatch.spamCasting == true 
 			then
 				self:AttackState(dt)
 			elseif self.attackTimerStarted == true then
@@ -111,13 +111,21 @@ function CreatePlayerController(player)
 			end
 		end
 
+		if self.watch.spamCasting == true and self.oldWatch.spamCasting == false then 
+			self.animation:ResetSegmentAnimationClock(1)
+		end 
+
 		if self.watch.charging == true then 
 			self.animationState2 = 27
 			self.attackTimerStarted = true
+			self.attackTimer = 0
 		end
 
 		if self.watch.charging == false and self.oldWatch.charging == true then
+			self.animation:ResetSegmentAnimationClock(1)
 			self.chargeTimerStart = true
+			self.attackTimerStarted = true
+			self.attackTimer = 0
 		end
 
 		if self.chargeTimerStart == true then 
