@@ -85,30 +85,39 @@ end
 
 function LoadSpellbookPlayer2()
 	local Hellpillar = {spell = CreateHellPillar(player2)}
+	Hellpillar.spell.spellListId = 1
 	table.insert(SpellListPlayer2, Hellpillar)
 
 	local BlackHole = {spell = CreateBlackHole(player2)}
+	BlackHole.spell.spellListId = 2
 	table.insert(SpellListPlayer2, BlackHole)
 
 	local FireBall = {spell = CreateFireball(player2)}
+	FireBall.spell.spellListId = 3
 	table.insert(SpellListPlayer2, FireBall)
 
 	local IceGrenade = {spell = CreateIceGrenade(player2)}
+	IceGrenade.spell.spellListId = 4
 	table.insert(SpellListPlayer2, IceGrenade)
 	
 	local SunRay = {spell = CreateSunRay(player2)}
+	SunRay.spell.spellListId = 5
 	table.insert(SpellListPlayer2, SunRay)
 	
 	local siphon = {spell = CreateSiphon(player2)}
+	siphon.spell.spellListId = 6
 	table.insert(SpellListPlayer2, siphon)
 	
 	local polymorph = {spell = CreatePolymorph(player2)}
+	polymorph.spell.spellListId = 7
 	table.insert(SpellListPlayer2, polymorph)
 
 	local tumblethorns = {spell = CreateTumblethorns(player2)}
+	tumblethorns.spell.spellListId = 8
 	table.insert(SpellListPlayer2, tumblethorns)
 
 	local windknockback = {spell = CreateWindknockback(player2)}
+	windknockback.spell.spellListId = 9
 	table.insert(SpellListPlayer2, windknockback)
 
 	LoadSpellsPlayer2()

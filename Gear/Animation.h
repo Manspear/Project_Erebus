@@ -80,6 +80,9 @@ public:
 
 	GEAR_API void reset();
 
+	GEAR_API void setCulled(bool c);
+	GEAR_API bool getCulled();
+
 protected:
 	void updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr);
 
@@ -161,4 +164,6 @@ protected:
 	bool quickBlendingDone;
 
 	glm::vec4 modelTint = glm::vec4(0, 0, 0, 0);
+
+	bool culled;
 };

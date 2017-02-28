@@ -14,7 +14,6 @@ namespace Collisions
 		this->leafNodeAmount = 0;
 		this->frustumNodeHitAmount = 0;
 		this->leafNodeCounter = 0;
-		this->tempDynamicHitboxes = new std::vector<AABBCollider*>();
 		this->dynamicModelInstances = nullptr;
 		this->animatedModels = nullptr;
 		this->allCombiners = new std::vector<ModelHitboxCombiner*>();
@@ -39,14 +38,6 @@ namespace Collisions
 			}
 			delete this->allCombiners;
 		}
-		if (this->tempDynamicHitboxes != nullptr)
-		{
-			for (size_t i = 0; i < this->tempDynamicHitboxes->size(); i++)
-			{
-				delete this->tempDynamicHitboxes->operator[](i);
-			}
-			delete this->tempDynamicHitboxes;
-		}
 
 		if (this->modelInstancesInFrustum != nullptr)
 			delete this->modelInstancesInFrustum;
@@ -65,10 +56,6 @@ namespace Collisions
 	{
 		this->dynamicModelInstances = models; // save modelInstances
 
-		// GÅ IGENOM ALLA TRANSFORMS, SE OM DOM ÄR AKTIVA
-		// Spara index i noderna
-		// Set culling till false på alla som du collidar med
-		// och true på dom som ska cullas
 		for (size_t i = 0; i < models->size(); i++) // for every type of model
 		{
 
@@ -87,7 +74,6 @@ namespace Collisions
 					{
 						ModelHitboxCombiner* tempCombiner = new ModelHitboxCombiner(modelCollider, tempModelAsset, j);
 						this->allCombiners->push_back(tempCombiner); // save tempCombiner for deletion later
-						this->tempDynamicHitboxes->push_back(modelCollider); // save collider for deletion later
 						this->addDynamicModelsToQuadtree(this->baseNode, tempCombiner);
 						
 					}
@@ -121,7 +107,6 @@ namespace Collisions
 					{
 						ModelHitboxCombiner* tempCombiner = new ModelHitboxCombiner(modelCollider, tempModelAsset, j);
 						this->allCombiners->push_back(tempCombiner); // save tempCombiner for deletion later
-						this->tempDynamicHitboxes->push_back(modelCollider);// save collider for deletion later
 						this->addAnimatedHitboxToQuadtree(this->baseNode, tempCombiner);
 					}
 				}
@@ -141,14 +126,14 @@ namespace Collisions
 		this->depth = depth;
 		float halfWidth = width / 2.0f;
 		AABBCollider* baseCollider = new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), centerPosition);
-		this->baseNode = new Node(baseCollider);
+		this->baseNode = new QuadTreeNode(baseCollider);
 
 		float halWidth = width / 2.0f;
 
 		int nodes = NODE_AMOUNT;
 		this->leafNodeAmount = pow(nodes, this->depth);
-		this->hitNodeSave = new Node*[leafNodeAmount];
-		this->leafNodes = new Node*[leafNodeAmount];
+		this->hitNodeSave = new QuadTreeNode*[leafNodeAmount];
+		this->leafNodes = new QuadTreeNode*[leafNodeAmount];
 
 		createChildren(this->baseNode, this->position, halWidth, this->depth);
 	}
@@ -165,32 +150,26 @@ namespace Collisions
 			this->setAllModelsToCulled();
 
 			this->recursiveFrustumCollision(this->baseNode);
-			int totalNotCulled = 0;
-			int modelInstanceAmount = 0;
-			int amountOfModelsInNodes = 0;
+
 			std::vector<int> indexSaves;
 			for (size_t i = 0; i < this->frustumNodeHitAmount; i++) // for all the nodes that hit the frustum
 			{
-				Node* currentNode = this->hitNodeSave[i];
+				QuadTreeNode* currentNode = this->hitNodeSave[i];
 
-				for (size_t j = 0; j < currentNode->dynamicModels->size(); j++) // for all dynamic models in that node
+				for (size_t j = 0; j < currentNode->getDynamicModelAmount(); j++) // for all dynamic models in that node
 				{
-					amountOfModelsInNodes++;
 					for (size_t k = 0; k < this->dynamicModelInstances->size(); k++) // for every model instance
 					{
-						modelInstanceAmount++;
 						if (this->dynamicModelInstances->operator[](k).getAsset() == currentNode->dynamicModels->operator[](j)->asset) // we found asset in modelInstance list
 						{
-							//std::cout << "We found my modelAsset: " << currentNode->dynamicModels->operator[](j)->asset->getFileInfo()->getPath() << "Index: " << currentNode->dynamicModels->operator[](j)->index << std::endl;
-							totalNotCulled++;
+
 							this->dynamicModelInstances->operator[](k).setCulled(currentNode->dynamicModels->operator[](j)->index, false);
 							indexSaves.push_back(j);
-							
 						}
 					}
 				}
 
-				for (size_t j = 0; j <  currentNode->animatedModels->size(); j++) // for all animted models in that node
+				for (size_t j = 0; j <  currentNode->getAnimatedModelAmount(); j++) // for all animted models in that node
 				{
 					for (size_t k = 0; k < this->animatedModels->size(); k++) // for every animated model
 					{
@@ -203,22 +182,7 @@ namespace Collisions
 
 				}
 			}
-			//std::cout << "amount drawn: " << totalNotCulled << "\nAmount modelInstances: " << modelInstanceAmount << "\nAmount of models in nodes: " << amountOfModelsInNodes << std::endl;
-			//std::cout << "These are the indexes we saved: ";
-			//for (size_t i = 0; i < indexSaves.size(); i++)
-			//{
-			//	std::cout << ", " << indexSaves.at(i);
-			//}
-			//std::cout << "\n\n\n";
 		}
-
-		if (this->modelInstancesInFrustum->size() > 0)
-		{
-			int spdfpsdpfspdfp = 45;
-		}
-
-		//std::cout << "You are getting: " << derpyy + derpyy2 << " amount of nodes from quadtree\n";
-		//std::cout << "Nodes with dynamic models: " << derpy3 << std::endl;
 
 		return this->modelInstancesInFrustum;
 	}
@@ -226,10 +190,10 @@ namespace Collisions
 	void QuadTree::clearQuadtree()
 	{
 		this->resetDynamicAndAnimatedModelsInNodes();
-		this->resetAllTemporaryData();
+		this->clearModelHitboxCombiners();
 	}
 
-	void QuadTree::clearDynamicModels()
+	void QuadTree::clearModelHitboxCombiners()
 	{
 		if (this->allCombiners != nullptr)
 		{
@@ -251,7 +215,7 @@ namespace Collisions
 	//	this->reqursiveDraw(this->baseNode, debugger);
 	//}
 
-	QuadTree::Node * QuadTree::getBaseNode()
+	QuadTree::QuadTreeNode * QuadTree::getBaseNode()
 	{
 		return this->baseNode;
 	}
@@ -266,7 +230,7 @@ namespace Collisions
 		return this->leafNodeAmount;
 	}
 
-	void QuadTree::createChildren(Node * parent, glm::vec3 center, float width, unsigned int depth)
+	void QuadTree::createChildren(QuadTreeNode * parent, glm::vec3 center, float width, unsigned int depth)
 	{
 		if (depth > 0)
 		{
@@ -277,10 +241,10 @@ namespace Collisions
 			glm::vec3 bottomRightPosition = center + glm::vec3(halfWidth, 0, -halfWidth);
 
 
-			parent->children[TOP_LEFT_NODE] = new Node(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), topLeftPosition));
-			parent->children[TOP_RIGHT_NODE] = new Node(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), topRightPosition));
-			parent->children[BOTTOM_LEFT_NODE] = new Node(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), bottomLeftPosition));
-			parent->children[BOTTOM_RIGHT_NODE] = new Node(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), bottomRightPosition));
+			parent->children[TOP_LEFT_NODE] = new QuadTreeNode(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), topLeftPosition));
+			parent->children[TOP_RIGHT_NODE] = new QuadTreeNode(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), topRightPosition));
+			parent->children[BOTTOM_LEFT_NODE] = new QuadTreeNode(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), bottomLeftPosition));
+			parent->children[BOTTOM_RIGHT_NODE] = new QuadTreeNode(new AABBCollider(glm::vec3(-halfWidth, -COLLIDER_HEIGHT, -halfWidth), glm::vec3(halfWidth, COLLIDER_HEIGHT, halfWidth), bottomRightPosition));
 
 			float childrenWidth = halfWidth;
 			int childrenDepth = depth - 1;
@@ -297,15 +261,15 @@ namespace Collisions
 		}
 	}
 
-	void QuadTree::addDynamicModelsToQuadtree(Node * parent, ModelHitboxCombiner * model)
+	void QuadTree::addDynamicModelsToQuadtree(QuadTreeNode * parent, ModelHitboxCombiner * model)
 	{
 		AABBCollider* childCollider = model->collider;
 		if (parent->children[0] != nullptr) // if we have children
 		{
-			Node* topLeftChild = parent->children[TOP_LEFT_NODE];
-			Node* topRightChild = parent->children[TOP_RIGHT_NODE];
-			Node* bottomLeftChild = parent->children[BOTTOM_LEFT_NODE];
-			Node* bottomRightChild = parent->children[BOTTOM_RIGHT_NODE];
+			QuadTreeNode* topLeftChild = parent->children[TOP_LEFT_NODE];
+			QuadTreeNode* topRightChild = parent->children[TOP_RIGHT_NODE];
+			QuadTreeNode* bottomLeftChild = parent->children[BOTTOM_LEFT_NODE];
+			QuadTreeNode* bottomRightChild = parent->children[BOTTOM_RIGHT_NODE];
 
 
 			bool topLeftCollision = this->collisionChecker.collisionCheck(topLeftChild->collider, childCollider);
@@ -325,19 +289,19 @@ namespace Collisions
 
 		else // if we dont have children, we are a leafnode and we insert hitbox into ourself
 		{
-			parent->dynamicModels->push_back(model);
+			parent->addDynamicModelCombiner(model);
 		}
 	}
 
-	void QuadTree::addAnimatedHitboxToQuadtree(Node * parent, ModelHitboxCombiner * model)
+	void QuadTree::addAnimatedHitboxToQuadtree(QuadTreeNode * parent, ModelHitboxCombiner * model)
 	{
 				AABBCollider* childCollider = model->collider;
 		if (parent->children[0] != nullptr) // if we have children
 		{
-			Node* topLeftChild = parent->children[TOP_LEFT_NODE];
-			Node* topRightChild = parent->children[TOP_RIGHT_NODE];
-			Node* bottomLeftChild = parent->children[BOTTOM_LEFT_NODE];
-			Node* bottomRightChild = parent->children[BOTTOM_RIGHT_NODE];
+			QuadTreeNode* topLeftChild = parent->children[TOP_LEFT_NODE];
+			QuadTreeNode* topRightChild = parent->children[TOP_RIGHT_NODE];
+			QuadTreeNode* bottomLeftChild = parent->children[BOTTOM_LEFT_NODE];
+			QuadTreeNode* bottomRightChild = parent->children[BOTTOM_RIGHT_NODE];
 
 
 			bool topLeftCollision = this->collisionChecker.collisionCheck(topLeftChild->collider, childCollider);
@@ -357,11 +321,11 @@ namespace Collisions
 
 		else // if we dont have children, we are a leafnode and we insert hitbox into ourself
 		{
-			parent->animatedModels->push_back(model);
+			parent->addAnimatedModelCombiner(model);
 		}
 	}
 
-	void QuadTree::recursiveFrustumCollision(Node * parent)
+	void QuadTree::recursiveFrustumCollision(QuadTreeNode * parent)
 	{
 		bool collision = this->frustum->aabbCollisionOptimized(parent->collider);
 		if (collision) // colliding with node
@@ -388,7 +352,7 @@ namespace Collisions
 		// Check if any modelInstance have the same asset as you
 		// If the same asset exist, insert your transform there
 		// if it does not exists, create new modelInstance with that asset and add transform
-		bool unique = this->uniqueModelHitboxCombiner(model);
+		bool unique = this->isUniqueModelHitboxCombiner(model);
 		bool done = false;
 		glm::mat4 matrix;
 		if (unique)
@@ -415,17 +379,6 @@ namespace Collisions
 
 	}
 
-	void QuadTree::resetAllTemporaryData()
-	{
-		this->clearDynamicModels(); // resetting from last frame
-
-		for (size_t i = 0; i < this->tempDynamicHitboxes->size(); i++)
-		{
-			delete this->tempDynamicHitboxes->operator[](i);
-		}
-		this->tempDynamicHitboxes->clear();
-	}
-
 	inline void QuadTree::resethitNodeSave()
 	{
 		for (size_t i = 0; i < this->frustumNodeHitAmount; i++)
@@ -442,7 +395,7 @@ namespace Collisions
 			this->leafNodes[i]->resetAnimatedModels();
 		}
 	}
-	bool QuadTree::uniqueModelHitboxCombiner(ModelHitboxCombiner * model)
+	bool QuadTree::isUniqueModelHitboxCombiner(ModelHitboxCombiner * model)
 	{
 		bool unique = true;
 		for (size_t i = 0; i < this->uniqueDynamicModelHitboxCombiners->size(); i++)

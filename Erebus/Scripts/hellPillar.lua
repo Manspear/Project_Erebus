@@ -31,7 +31,7 @@ function CreateHellPillar(entity)
 	spell.damage = 0
 	
 	--For animation timing 
-	spell.hasSpamAttack = true
+	spell.hasSpamAttack = false
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
 	spell.castTimeAttack = 0.5 * HELLPILLAR_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * HELLPILLAR_CASTSPEED_MULTIPLE --the true cast time of the animation

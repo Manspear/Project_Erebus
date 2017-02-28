@@ -16,8 +16,8 @@ function LoadPlayer2()
 	player2.dashcd = 0
 	player2.invulnerable = false
 
-	player2.dashStartParticles = Particle.Bind("ParticleFiles/dash3.particle")
-	player2.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
+	player2.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player2.dashEndParticles = Particle.Bind("ParticleFiles/dash.particle")
 
 	Particle.SetExtro(player2.dashStartParticles, false)
 	Particle.SetExtro(player2.dashEndParticles, true)
@@ -50,6 +50,7 @@ function LoadPlayer2()
 	player2.currentSpell = 1
 
 	player2.friendCharger = CreateCombineRay(player2)
+	player2.spellDirection = { x = 0, y = 0, z = 0 }
 
 
 	--local model = Assets.LoadModel("Models/player1.model")
@@ -85,10 +86,14 @@ function LoadSpellsPlayer2()
 end
 
 function GetCombined()
-	local combine, effectIndex, damage, spellListIndex, activateCombineRay = Network.GetChargingPacket()
+	local combine, chosenSpell, activateCombineRay = Network.GetChargingPacket()
 	if combine then
 		player2.combineRayActive = activateCombineRay
-		if activateCombineRay == false then
+		if activateCombineRay == true then
+			player2.spells[player2.currentSpell]:Change()
+			player2.currentSpell = chosenSpell
+			player2.spells[player2.currentSpell]:Change()
+		elseif activateCombineRay == false then
 			player2.friendCharger:EndChargeBeam()
 		end
 	end
@@ -117,7 +122,7 @@ function UpdatePlayer2(dt)
 		Transform.SetRotation(id_2, {x=rotation_x_2, y=rotation_y_2, z=rotation_z_2})
 	end
 
-	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast = Network.GetSpellPacket()
+	local newspellpacket, id_2, player2CurrentSpell, isCharging, shouldCast, spellDirX, spellDirY, spellDirZ = Network.GetSpellPacket()
 	
 	if newspellpacket == true then
 		if player2CurrentSpell == 0 then		
@@ -132,9 +137,9 @@ function UpdatePlayer2(dt)
 			player2.spells[player2.currentSpell]:Change()
 			player2.currentSpell = player2CurrentSpell
 			player2.spells[player2.currentSpell]:Change()
-
 			if isCharging == false then
 				player2.attackTimer = 1
+				player2.spellDirection = { x = spellDirX, y = spellDirY, z = spellDirZ }
 				player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
 			else
 				if shouldCast == false then
@@ -142,6 +147,7 @@ function UpdatePlayer2(dt)
 					player2.charger:StartCharge(player2.position, spellElement)
 					player2.charging = true
 				else
+					player2.spellDirection = { x = spellDirX, y = spellDirY, z = spellDirZ }
 					player2.spells[player2.currentSpell]:ChargeCast(player2)
 					player2.charger:EndCharge()
 					player2.charging = false
@@ -245,9 +251,10 @@ function UpdatePlayer2(dt)
 		player2.friendCharger:FireChargeBeam(dt, ChargeDir, player2.spells[player2.currentSpell].element, len)
 
 		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
-			player.spells[player.currentSpell]:Combine(effectIndex, damage)
 			player.isCombined = true
-			player.combinedSpell = spellListIndex
+			player.combinedSpell = player2.spells[player2.currentSpell].spellListId
+			player.spells[player.currentSpell]:Combine(player2.spells[player2.currentSpell]:GetEffect(), player2.spells[player2.currentSpell].damage)
+			player.charger:StartParticles(player2.spells[player2.currentSpell].element)
 		end
 	end
 

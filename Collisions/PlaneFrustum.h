@@ -28,7 +28,6 @@ namespace Collisions
 		glm::vec3 normal, point;
 		float d;
 
-		//helpers
 	};
 
 

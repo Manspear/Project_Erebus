@@ -67,7 +67,7 @@ function CreateTumblethorns(entity)
 			self.position = Transform.GetPosition(self.caster)
 			Transform.SetPosition(self.transformID, self.position)
 			SphereCollider.SetActive(spell.sphereCollider, true)
-			self.direction = Camera.GetDirection()
+			self.direction = self.owner.spellDirection
 			Transform.ActiveControl(self.transformID, true)
 			Transform.RotateToVector(self.transformID, self.direction)
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1

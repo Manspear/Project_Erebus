@@ -168,13 +168,16 @@ DWORD WINAPI update(LPVOID args)
 #endif
 			data->engine->print(fps, 0.0f, 0.0f);
 			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
-
 			for (int i = 0; i < boundAnimations; i++)
 			{
-				animationData[i].dt = (float)deltaTime;
-				animationData[i].animation = &data->allAnimations[i];
-				//data->allAnimations[i].update(deltaTime);
-				data->workQueue->add(updateAnimation, &animationData[i]);
+				if (!data->allAnimations[i].getCulled()) // check if animation is culled before we calculate
+				{
+					animationData[i].dt = (float)deltaTime;
+					animationData[i].animation = &data->allAnimations[i];
+					//data->allAnimations[i].update(deltaTime);
+					data->workQueue->add(updateAnimation, &animationData[i]);
+				}
+
 			}
 			data->workQueue->execute();
 
