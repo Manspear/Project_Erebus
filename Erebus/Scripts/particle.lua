@@ -189,13 +189,13 @@ function createParticlesByElement()
 	chargePart.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)
 	
 	function chargePart:fireElement()
-		Emitter.SetTexture(charge.ID, CHARGE_FIRE_TEX)
+		Emitter.SetTexture(chargePart.ID, CHARGE_FIRE_TEX)
 	end	
 	function chargePart:natureElement()
-		Emitter.SetTexture(charge.ID, CHARGE_NATURE_TEX)
+		Emitter.SetTexture(chargePart.ID, CHARGE_NATURE_TEX)
 	end
 	function chargePart:iceElement()
-		Emitter.SetTexture(charge.ID, CHARGE_ICE_TEX)
+		Emitter.SetTexture(chargePart.ID, CHARGE_ICE_TEX)
 	end
 
 	function chargePart:cast()

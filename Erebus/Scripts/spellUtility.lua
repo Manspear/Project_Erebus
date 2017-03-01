@@ -228,17 +228,17 @@ function CreateChargeEggs(entity)
 	function chargeThing:StartParticles(spellElement)
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
 		self.timer = 0
-		if spellElement == 1 then
+		if spellElement == FIRE then
 			self.particles:fireElement()
 			self.particles:cast()
 		end
 
-		if spellElement == 2 then
+		if spellElement == NATURE then
 			self.particles:natureElement()
 			self.particles:cast()
 		end
 
-		if spellElement == 3 then
+		if spellElement == ICE then
 			self.particles:iceElement()
 			self.particles:cast()
 		end
