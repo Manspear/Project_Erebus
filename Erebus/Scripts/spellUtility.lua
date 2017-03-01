@@ -28,8 +28,11 @@ function CreateCombineRay(entity)
 	ray.transformID2 = Gear.BindForwardInstance(rayFire)
 
 	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
-	ray.transformID3 = Gear.BindForwardInstance(rayNature)
-
+	--ray.transformID3 = Gear.BindForwardInstance(rayNature)
+	ray.transformID3 = Gear.BindBlendingInstance(rayNature)
+	Gear.SetBlendTextures(ray.transformID3, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	ray.blendValue1 = {x = 0.0, y = 0.0}
+	ray.blendValue2 = {x = 0.0, y = 0.0}
 	ray.caster = entity.transformID
 
 	function ray:FireChargeBeam(dt,dir,spellElement, len)		
@@ -59,10 +62,24 @@ function CreateCombineRay(entity)
 		pos.y = pos.y + dir.y * factor
 		pos.z = pos.z + dir.z * factor
 
+		
+
 		Transform.SetPosition(elementalTransformID, pos)
-		Transform.SetScaleNonUniform(elementalTransformID, 0.7,0.6,(len*0.51)) 
+		Transform.SetScaleNonUniform(elementalTransformID, 1,1,(len*0.51)) 
 		ray.pos = Transform.GetPosition(self.caster)
 		Transform.RotateToVector(elementalTransformID, dir)
+
+		local speed = dt * -1.2
+		self.blendValue1.x = self.blendValue1.x - 1 * speed
+		self.blendValue1.y = self.blendValue1.y + 0.6 * speed
+		
+		self.blendValue2.x = self.blendValue2.x + 0.2 * speed
+		self.blendValue2.y = self.blendValue2.y + 1.0 * speed
+
+		Gear.SetBlendUniformValue(self.elementalTransformID, 2, self.blendValue1,self.blendValue2)
+		
+
+		
 		
 	end
 	function ray:EndChargeBeam()
