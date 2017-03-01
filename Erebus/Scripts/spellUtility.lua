@@ -14,82 +14,86 @@ end
 
 function DestroyAim(aim)
 	Gear.UnbindInstance(aim.transformID)
+	Assets.UnloadModel( "Models/aim.model" )
 end
 
 function CreateCombineRay(entity)
 	local ray = {}
 	
-	Gear.SetUniformLocation(ray.modelIndex, "aValue");
-	
-	local rayIce = Assets.LoadModel( "Models/CombineBeamIce.model" )
-	ray.transformID = Gear.BindBlendingInstance(rayIce)
-	--ray.transformID = Gear.BindForwardInstance(rayIce)
-	
+	local rayFire = Assets.LoadModel( "Models/CombineBeamFire.model" )
+	ray.transformID = Gear.BindBlendingInstance(rayFire)
+	ray.blendingIndex = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
 
-	local rayFire = Assets.LoadModel("Models/CombineBeamFire.model")
-	ray.transformID2 = Gear.BindBlendingInstance(rayFire)
-	--ray.transformID2 = Gear.BindForwardInstance(rayFire)
+	local rayNature = Assets.LoadModel( "Models/CombineBeamNature.model" )
+	ray.transformID2 = Gear.BindBlendingInstance(rayNature)
+	ray.blendingIndex2 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
 	
-	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
-	ray.transformID3 = Gear.BindBlendingInstance(rayNature)
-
-	Gear.SetBlendTextures(ray.transformID3, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	local rayIce = Assets.LoadModel("Models/CombineBeamIce.model")
+	ray.transformID3 = Gear.BindBlendingInstance(rayIce)
+	ray.blendingIndex3 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
 	
-	Gear.SetBlendTextures(ray.transformID, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
-	Gear.SetBlendTextures(ray.transformID2, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
-	
+	Transform.ActiveControl(ray.transformID, false)
+	Transform.ActiveControl(ray.transformID2, false)
+	Transform.ActiveControl(ray.transformID3, false)
 	ray.blendValue1 = {x = 0.0, y = 0.0}
 	ray.blendValue2 = {x = 0.0, y = 0.0}
 
 	ray.caster = entity.transformID
+	ray.counter = 0
 
-	function ray:FireChargeBeam(dt,dir,spellElement, len)		
-		Transform.ActiveControl(self.transformID, false)
-		Transform.ActiveControl(self.transformID2, false)
-		Transform.ActiveControl(self.transformID3, false)
+	function ray:FireChargeBeam(dt,dir,spellElement, len)				
+		self.counter = self.counter + dt	
+		if self.counter < 1.2 then
+			local elementalTransformID = self.transformID
+		
+			local blendIndex = self.blendingIndex
+			if spellElement == FIRE then
+				Transform.ActiveControl(self.transformID, true)
+				elementalTransformID = self.transformID
+			elseif spellElement == NATURE then
+				Transform.ActiveControl(self.transformID2, true)
+				elementalTransformID = self.transformID2
+				blendIndex = self.blendingIndex2	
+			elseif spellElement == ICE then
+				Transform.ActiveControl(self.transformID3, true) 
+				elementalTransformID = self.transformID3
+				blendIndex = self.blendingIndex3	
+			end
 
-		local elementalTransformID = self.transformID
-		if spellElement == FIRE then
-			Transform.ActiveControl(self.transformID2, true)
-			elementalTransformID = self.transformID2
-		elseif spellElement == NATURE then
-			Transform.ActiveControl(self.transformID3, true) 
-			elementalTransformID = self.transformID3	
+			local pos = Transform.GetPosition(self.caster)
+			local direction = Transform.GetLookAt(self.caster)
+				
+			factor = (len/2)
+			pos.x = pos.x + dir.x * factor
+			pos.y = pos.y + dir.y * factor
+			pos.z = pos.z + dir.z * factor
+				
+			Transform.SetPosition(elementalTransformID, pos)
+			Transform.SetScaleNonUniform(elementalTransformID, 1,1,(len*0.51)) 
+			pos = Transform.GetPosition(self.caster)
+			Transform.RotateToVector(elementalTransformID, dir)
+
+			local speed = dt * -1.2
+			self.blendValue1.x = self.blendValue1.x - 1 * speed
+			self.blendValue1.y = self.blendValue1.y + 0.6 * speed
+			self.blendValue2.x = self.blendValue2.x + 0.2 * speed
+			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
+
+			Gear.SetBlendUniformValue(blendIndex, 2, self.blendValue1,self.blendValue2)		
+			return true
 		else 
-			Transform.ActiveControl(self.transformID, true)
-			elementalTransformID = self.transformID
-		end
-
-		local pos = Transform.GetPosition(self.caster)
-		local direction = Transform.GetLookAt(self.caster)
-		
-		
-		
-		factor = (len/2)
-		pos.x = pos.x + dir.x * factor
-		pos.y = pos.y + dir.y * factor
-		pos.z = pos.z + dir.z * factor
-
-		
-
-		Transform.SetPosition(elementalTransformID, pos)
-		Transform.SetScaleNonUniform(elementalTransformID, 1,1,(len*0.51)) 
-		ray.pos = Transform.GetPosition(self.caster)
-		Transform.RotateToVector(elementalTransformID, dir)
-
-		local speed = dt * -1.2
-		self.blendValue1.x = self.blendValue1.x - 1 * speed
-		self.blendValue1.y = self.blendValue1.y + 0.6 * speed
-		
-		self.blendValue2.x = self.blendValue2.x + 0.2 * speed
-		self.blendValue2.y = self.blendValue2.y + 1.0 * speed
-
-		Gear.SetBlendUniformValue(self.elementalTransformID, 2, self.blendValue1,self.blendValue2)		
+			self:EndChargeBeam()
+			return false
+		end		
 	end
+
 	function ray:EndChargeBeam()
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
+	end
+	function ray:resetCooldown()
+		self.counter = 0
 	end
 	return ray
 end
@@ -98,6 +102,11 @@ function DestroyCombineRay(ray)
 	Gear.UnbindInstance(ray.transformID)
 	Gear.UnbindInstance(ray.transformID2)
 	Gear.UnbindInstance(ray.transformID3)
+
+	Assets.UnloadModel( "Models/CombineBeamIce.model" )
+	Assets.UnloadModel( "Models/CombineBeamFire.model" )
+	Assets.UnloadModel( "Models/CombineBeamNature.model" )
+	ray = nil
 end
 
 MAX_CHARGE = 1
@@ -269,9 +278,16 @@ function CreateChargeEggs(entity)
 end
 
 function DestroyChargeEggs(egg)
+	destroyParticlesByElement(egg.particles)
+
 	Gear.UnbindInstance(egg.transformID)
 	Gear.UnbindInstance(egg.transformID2)
 	Gear.UnbindInstance(egg.transformID3)
+
+	Assets.UnloadModel( "Models/SpellChargingICEMesh.model" )
+	Assets.UnloadModel( "Models/SpellChargingFireMesh.model" )
+	Assets.UnloadModel( "Models/SpellChargingNatureMesh.model" )
+	egg = nil
 end
 
 function BaseCheckCollision(spell)

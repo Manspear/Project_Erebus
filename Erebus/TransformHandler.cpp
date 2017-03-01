@@ -176,12 +176,11 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 
 		modelIndex = models->size();
 		models->push_back( instance );
-
-		TextureBlendings tBlend;
-		gearEngine->textureBlend.push_back( tBlend );
+	
 	}
-
-	gearEngine->textureBlend.at(modelIndex).modelIndex = modelIndex;
+	TextureBlendings tBlend;
+	gearEngine->textureBlend.push_back(tBlend);
+	gearEngine->textureBlend.at(gearEngine->textureBlend.size()-1).modelIndex = modelIndex;
 
 	int transformIndex = instances[INSTANCE_BLENDING]->at(modelIndex).pushStaticInstance( DEFAULT_TRANSFORM, glm::mat4() );
 

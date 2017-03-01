@@ -1,4 +1,4 @@
-BLACK_HOLE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconBlackHole.dds");
+--BLACK_HOLE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconBlackHole.dds");
 BLACK_HOLE_DURATION = 7
 BLACK_HOLE_RADIUS = 5
 BLACK_HOLE_DAMAGE = 1
@@ -10,8 +10,8 @@ BLACK_HOLE_COOLDOWN = 6
 BLACK_HOLE_PULL_SPEED = 1
 BLACK_HOLE_SPIN_SPEED = 3.14/1
 BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.wav", "Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
-BLACK_HOLE_TEX1 = Assets.LoadTexture("Textures/blackHoleTex.dds");
-BLACK_HOLE_TEX2 = Assets.LoadTexture("Textures/blackHole_AnimTex.dds");
+--BLACK_HOLE_TEX1 = Assets.LoadTexture("Textures/blackHoleTex.dds");
+--BLACK_HOLE_TEX2 = Assets.LoadTexture("Textures/blackHole_AnimTex.dds");
 
 function CreateBlackHole(entity)
 	local spell = {}
@@ -35,18 +35,19 @@ function CreateBlackHole(entity)
 	spell.soundID = {-1, -1, -1}
 	spell.Change = GenericChange
 
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = false
 
 	--spell.spamcd = 5
-	spell.hudtexture = BLACK_HOLE_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconBlackHole.dds");
 	spell.maxcooldown = BLACK_HOLE_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	--Transform.SetScale(spell.innerTransformID, 2)
 	--local model = Assets.LoadModel( "Models/projectile1.model" )
 	--Gear.AddStaticInstance(model, spell.type.transformID)
 	--Gear.AddStaticInstance(model, spell.innerTransformID)
-	spell.texture1 = BLACK_HOLE_TEX1
-	spell.texture2 = BLACK_HOLE_TEX2
+	spell.texture1 = Assets.LoadTexture("Textures/blackHoleTex.dds");
+	spell.texture2 = Assets.LoadTexture("Textures/blackHole_AnimTex.dds");
 	spell.uvPush = {x=0, y=0}
 	--local model = Assets.LoadModel( "Models/blackHole.model" )
 	local model2 = Assets.LoadModel( "Models/blackHole_Sphere.model" )
@@ -54,8 +55,7 @@ function CreateBlackHole(entity)
 	--spell.modelIndex = Gear.AddForwardInstance(model, spell.type.transformID)
 	Gear.SetUniformLocation(spell.type.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
-	--spell.modelIndex = Gear.BindBlendingInstance(model)
-	Gear.SetBlendTextures(spell.type.transformID, 2, spell.texture1, spell.texture2)
+	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
 
 	function spell:GetCollider()
 		local result = {}
@@ -120,7 +120,7 @@ function CreateBlackHole(entity)
 			rotation.y = rotation.y + 2*dt
 			Transform.SetRotation(self.innerTransformID, rotation)
 			self.uvPush.y = self.uvPush.y + 2*dt
-			Gear.SetBlendUniformValue(self.type.transformID, 2, {x=0,y=0}, self.uvPush)
+			Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
 			--local scale = Transform.GetScale(self.type.transformID)
 			--scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos(((BLACK_HOLE_COOLDOWN -self.cooldown)/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
 			--Transform.SetScaleNonUniform(self.type.transformID, scale, 0.01, scale) 
@@ -193,4 +193,18 @@ function CreateBlackHole(entity)
 	end
 
 	return spell
+end
+
+function DestroyBlackHole(blackHole)
+	DestroyStaticAoEType(blackHole.spell.type)
+
+	Gear.UnbindInstance( blackHole.innerTransformID )
+
+	Assets.UnloadModel("Models/blackHole_Rings.model")
+	Assets.UnloadModel("Models/blackHole_Sphere.model")
+	Assets.UnloadTexture("Textures/IconBlackHole.dds");
+	Assets.UnloadTexture("Textures/blackHoleTex.dds");
+	Assets.UnloadTexture("Textures/blackHole_AnimTex.dds");
+
+	blackHole = nil
 end

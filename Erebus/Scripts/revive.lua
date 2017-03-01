@@ -69,4 +69,7 @@ end
 
 function DestroyRevive(revive)
 	Gear.UnbindInstance(revive.transformID)
+	Assets.UnloadModel( "Models/Revive.model" )
+
+	revive = nil
 end

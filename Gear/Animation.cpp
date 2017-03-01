@@ -20,6 +20,7 @@ Animation::Animation()
 	finalList = NULL;
 	blendedList = NULL;
 
+	active = true;
 	culled = false;
 }
 
@@ -788,4 +789,14 @@ void Animation::update(float dt)
 	}
 
 	assembleAnimationsIntoShadermatrices();
+}
+
+void Animation::setActive( bool a )
+{
+	active = a;
+}
+
+bool Animation::getActive() const
+{
+	return active;
 }

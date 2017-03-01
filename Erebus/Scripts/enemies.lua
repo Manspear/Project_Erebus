@@ -84,24 +84,24 @@ function CreateEnemy(type, position, element)
 
 	enemies[i].tempVariable = 0
 
-	local modelName = ""
+	enemies[i].modelName = ""
 	if type == ENEMY_MELEE then
 		if enemies[i].elementType == NEUTRAL then
-			modelName = "Models/Goblin.model"
+			enemies[i].modelName = "Models/Goblin.model"
 		elseif enemies[i].elementType == FIRE then
-			modelName = "Models/Fire_Goblin.model"
+			enemies[i].modelName = "Models/Fire_Goblin.model"
 		elseif enemies[i].elementType == NATURE then
-			modelName = "Models/Grass_Goblin.model"
+			enemies[i].modelName = "Models/Grass_Goblin.model"
 		elseif enemies[i].elementType == ICE then
-			modelName = "Models/Ice_Goblin.model"
+			enemies[i].modelName = "Models/Ice_Goblin.model"
 		end
 	elseif type== ENEMY_DUMMY then
-		modelName = "Models/Dummy.model"
+		enemies[i].modelName = "Models/Dummy.model"
 	else
-		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
+		enemies[i].modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
 	end
 
-	local model = Assets.LoadModel(modelName)
+	local model = Assets.LoadModel(enemies[i].modelName)
 
 	assert( model, "Failed to load model Models/Goblin.model" )
 
@@ -224,6 +224,7 @@ function UnloadEnemies()
 	for i=1, #enemies do
 		DestroyEnemyController(enemies[i].animationController)
 		Gear.UnbindInstance(enemies[i].transformID)
+		Assets.UnloadModel( enemies[i].modelName )
 	end
 	enemies = {}
 end
@@ -260,8 +261,10 @@ function UpdateEnemies(dt)
 		end
 		AI.ClearMap(player.lastPos,0)
 		player.lastPos = Transform.GetPosition(player.transformID)
-		
 		AI.AddIP(player.transformID,1,0)
+		AI.ClearMap(player2,0)
+		player2.lastPos = Transform.GetPosition(player2.transformID)
+		AI.AddIP(player2.transformID,1,0)
 		
 	end
 	local tempdt
@@ -490,12 +493,14 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if player.isAlive and lengthToP1 < lengthToP2 then
-		enemy.playerTarget = player
+	if player.isAlive then
+		if player2.isAlive and lengthToP1 > lengthToP2 then
+			enemy.playerTarget = player2
+		else
+			enemy.playerTarget = player
+		end
 	elseif player2.isAlive then
 		enemy.playerTarget = player2
-	else
-		enemy.playerTarget = player
 	end
 
 	if player2 == nil and  player.isAlive then

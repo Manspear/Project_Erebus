@@ -15,6 +15,7 @@ namespace LuaParticles
 		luaL_Reg regs[] =
 		{
 			{ "Bind"	   ,	bind },
+			{ "Unbind",			unbind },
 			{ "SetPosition",	setPosition },
 			{ "SetAlive",		setAlive },
 			{ "SetDead",		setDead	 },
@@ -33,6 +34,7 @@ namespace LuaParticles
 		luaL_Reg regs2[] =
 		{
 			{ "Bind"	   ,	bindEm },
+			{ "Unbind",			unbindEm },
 			{ "SetPosition",	setPositionEm },
 			{ "SetAlive",		setAliveEm },
 			{ "SetDead",		setDeadEm },
@@ -53,10 +55,37 @@ namespace LuaParticles
 	{
 		assert( lua_gettop( lua ) == 1 );
 
-		lua_pushinteger(lua, g_systems->size());
-		g_systems->push_back(new Gear::ParticleSystem(lua_tostring(lua, 1), ass));
+		//lua_pushinteger(lua, g_systems->size());
+		//g_systems->push_back(new Gear::ParticleSystem(lua_tostring(lua, 1), ass));
+
+		int index = -1;
+		for( int i=0; i<g_systems->size(); i++ )
+			if( g_systems->at(i) == nullptr )
+				index = i;
+
+		if( index < 0 )
+		{
+			index = g_systems->size();
+			g_systems->push_back(nullptr);
+		}
+
+		lua_pushinteger( lua, index );
+		g_systems->at(index) = new Gear::ParticleSystem(lua_tostring(lua, 1), ass);
 
 		return 1;
+	}
+
+	int unbind(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 1 );
+		
+		int index = (int)lua_tointeger( lua, 1 );
+		assert( index >= 0 && index < g_systems->size() );
+
+		delete g_systems->at(index);
+		g_systems->at(index) = nullptr;
+
+		return 0;
 	}
 
 	int setPosition(lua_State* lua)
@@ -134,18 +163,43 @@ namespace LuaParticles
 		return 0;
 	}
 
-
-
-
 	int bindEm(lua_State* lua)
 	{
 		assert(lua_gettop(lua) == 9);
 		/*int maxPart, float life, float speed, float particleRate, int partPerSprut, float gravity, float foccus,
 		float size, glm::vec3 direction, Importer::TextureAsset* texture, float growFactor*/
-		lua_pushinteger(lua, g_emitters->size());
-		g_emitters->push_back(new Gear::ParticleEmitter((int)lua_tointeger(lua, 1), (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3), (float)lua_tonumber(lua, 4), (int)lua_tointeger(lua, 5),
-			(float)lua_tonumber(lua, 6), (float)lua_tonumber(lua, 7), (float)lua_tonumber(lua, 8), (float)lua_tonumber(lua, 9)));
+
+		//lua_pushinteger(lua, g_emitters->size());
+		//g_emitters->push_back(new Gear::ParticleEmitter((int)lua_tointeger(lua, 1), (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3), (float)lua_tonumber(lua, 4), (int)lua_tointeger(lua, 5), (float)lua_tonumber(lua, 6), (float)lua_tonumber(lua, 7), (float)lua_tonumber(lua, 8), (float)lua_tonumber(lua, 9)));
+
+		int index = -1;
+		for( int i=0; i<g_emitters->size(); i++ )
+			if( g_emitters->at(i) == nullptr )
+				index = i;
+
+		if( index < 0 )
+		{
+			index = g_emitters->size();
+			g_emitters->push_back( nullptr );
+		}
+
+		lua_pushinteger( lua, index );
+		g_emitters->at(index) = new Gear::ParticleEmitter((int)lua_tointeger(lua, 1), (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3), (float)lua_tonumber(lua, 4), (int)lua_tointeger(lua, 5), (float)lua_tonumber(lua, 6), (float)lua_tonumber(lua, 7), (float)lua_tonumber(lua, 8), (float)lua_tonumber(lua, 9));
+		
 		return 1;
+	}
+
+	int unbindEm(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		int index = (int)lua_tointeger( lua, 1 );
+		assert( index >= 0 && index < g_emitters->size() );
+
+		delete g_emitters->at(index);
+		g_emitters->at(index) = nullptr;
+
+		return 0;
 	}
 
 	int setPositionEm(lua_State* lua)
@@ -229,7 +283,7 @@ namespace LuaParticles
 		assert(lua_gettop(lua) == 2);
 		lua_getfield(lua, 2, "__self");
 		Importer::TextureAsset* texture = (Importer::TextureAsset*)lua_touserdata(lua, -1);
-		g_emitters->at((int)lua_tointeger(lua, 1))->setTexture(texture);
+		g_emitters->at((int)lua_tointeger(lua, 1))->setTexture(texture, ass);
 		return 0;
 	}
 }

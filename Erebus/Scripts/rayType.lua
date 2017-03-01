@@ -44,3 +44,8 @@ function CreateRayType(model)
 
 	return ray
 end
+
+function DestroyRayType(ray)
+	Gear.UnbindInstance(ray.transformID)
+	ray = nil
+end

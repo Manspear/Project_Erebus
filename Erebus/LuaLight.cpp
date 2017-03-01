@@ -16,7 +16,7 @@ namespace LuaLight {
 			{ "updateRadius", updateRadius },
 			{ "updateIntensity", updateIntensity },
 			{ "removeLight", removeLight },
-			{ "__gc", unloadLight },
+			//{"__gc", unloadLight },
 			{ NULL, NULL }
 		};
 
@@ -226,6 +226,4 @@ namespace LuaLight {
 		delete light;
 		return 0;
 	}
-
-
 }

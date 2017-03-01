@@ -1,4 +1,4 @@
-TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconTumblethorne.dds")
+--TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 0.5
 TUMBLETHORNS_COOLDOWN = 4
@@ -8,7 +8,7 @@ function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
 	spell.maxcooldown = 4
-	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 10
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
@@ -18,6 +18,7 @@ function CreateTumblethorns(entity)
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
 	
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -165,4 +166,15 @@ function CreateTumblethorns(entity)
 	spell.GetEffect = BaseGetEffect
 	spell.Combine = BaseCombine
 	return spell
+end
+
+function DestroyTumblethorns(tumble)
+	destroyTumbleParticles(tumble.spell.particles)
+
+	Gear.UnbindInstance(tumble.transformID)
+
+	Assets.UnloadTexture("Textures/IconTumblethorne.dds")
+	Assets.UnloadModel( "Models/tumbleweed.model" )
+
+	tumble = nil
 end

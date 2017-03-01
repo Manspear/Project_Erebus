@@ -94,3 +94,13 @@ function CreateTimeLaser( entity )
 
 	return spell
 end
+
+function DestroyTimeLaser(laser)
+	for _,v in pairs(laser.transformIDs) do
+		Gear.UnbindInstance(v)
+	end
+
+	Assets.UnloadModel( "Models/Siphon.model" )
+
+	laser = nil
+end

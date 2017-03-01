@@ -119,11 +119,13 @@ namespace Importer
 		{
 			AssetID id( path, typeid(T).hash_code() );
 
-			std::map<AssetID, Asset*>::iterator it = assets.find( id );
+			/*std::map<AssetID, Asset*>::iterator it = assets.find( id );
 			if( it != assets.end() )
 			{
 				it->second->decrementReferenceCount();
-			}
+			}*/
+
+			unloads.push_back( id );
 		}
 
 		IMPORTER_API void upload();
@@ -131,9 +133,12 @@ namespace Importer
 		IMPORTER_API void checkHotload( float dt );
 		IMPORTER_API void checkReferences();
 
+		IMPORTER_API const std::map<AssetID, Asset*>& getAssets() const;
+
 	private:
 		float elapsedTime;
 		std::map<AssetID, Asset*> assets;
 		std::vector<Asset*> pending;
+		std::vector<AssetID> unloads;
 	};
 }
