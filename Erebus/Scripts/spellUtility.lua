@@ -19,74 +19,95 @@ end
 
 function CreateCombineRay(entity)
 	local ray = {}
+	
+	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
+	ray.transformID3 = Gear.BindBlendingInstance(rayNature)
+	local rayIce = Assets.LoadModel( "Models/CombineBeamIce.model" )
+	ray.transformID = Gear.BindBlendingInstance(rayIce)
+	--ray.transformID = Gear.BindForwardInstance(rayIce)
+	
 
 	
-	local rayIce = Assets.LoadModel( "Models/CombineBeamIce.model" )
-	ray.transformID = Gear.BindForwardInstance(rayIce)
-	Gear.SetUniformLocation(ray.modelIndex, "aValue");
+	
 
 	local rayFire = Assets.LoadModel("Models/CombineBeamFire.model")
-	ray.transformID2 = Gear.BindForwardInstance(rayFire)
+	ray.transformID2 = Gear.BindBlendingInstance(rayFire)
+	--ray.transformID2 = Gear.BindForwardInstance(rayFire)
+	
 
-	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
-	--ray.transformID3 = Gear.BindForwardInstance(rayNature)
-	ray.transformID3 = Gear.BindBlendingInstance(rayNature)
+	--vad kan jag göra för att få ett energi system. Tyvärr uppdateras inte functionen varje sekund.
+
 	Gear.SetBlendTextures(ray.transformID3, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	
+	Gear.SetBlendTextures(ray.transformID, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
+	Gear.SetBlendTextures(ray.transformID2, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
+	
 	ray.blendValue1 = {x = 0.0, y = 0.0}
 	ray.blendValue2 = {x = 0.0, y = 0.0}
+
 	ray.caster = entity.transformID
+	ray.counter = 0
 
-	function ray:FireChargeBeam(dt,dir,spellElement, len)		
-		Transform.ActiveControl(self.transformID, false)
-		Transform.ActiveControl(self.transformID2, false)
-		Transform.ActiveControl(self.transformID3, false)
+	function ray:FireChargeBeam(dt,dir,spellElement, len)
+		
+		self.counter = self.counter + dt	
+		if self.counter < 2 then
+			Transform.ActiveControl(self.transformID, false)
+			Transform.ActiveControl(self.transformID2, false)
+			Transform.ActiveControl(self.transformID3, false)
 
-		local elementalTransformID = self.transformID
-		if spellElement == FIRE then
-			Transform.ActiveControl(self.transformID2, true)
-			elementalTransformID = self.transformID2
-		elseif spellElement == NATURE then
-			Transform.ActiveControl(self.transformID3, true) 
-			elementalTransformID = self.transformID3	
+			local elementalTransformID = self.transformID
+			if spellElement == FIRE then
+				Transform.ActiveControl(self.transformID2, true)
+				elementalTransformID = self.transformID2
+			elseif spellElement == NATURE then
+				Transform.ActiveControl(self.transformID3, true) 
+				elementalTransformID = self.transformID3	
+			else 
+				Transform.ActiveControl(self.transformID, true)
+				elementalTransformID = self.transformID
+			end
+
+			local pos = Transform.GetPosition(self.caster)
+			local direction = Transform.GetLookAt(self.caster)
+		
+		
+		
+			factor = (len/2)
+			pos.x = pos.x + dir.x * factor
+			pos.y = pos.y + dir.y * factor
+			pos.z = pos.z + dir.z * factor
+
+		
+
+			Transform.SetPosition(elementalTransformID, pos)
+			Transform.SetScaleNonUniform(elementalTransformID, 1,1,(len*0.51)) 
+			ray.pos = Transform.GetPosition(self.caster)
+			Transform.RotateToVector(elementalTransformID, dir)
+
+			local speed = dt * -1.2
+			self.blendValue1.x = self.blendValue1.x - 1 * speed
+			self.blendValue1.y = self.blendValue1.y + 0.6 * speed
+		
+			self.blendValue2.x = self.blendValue2.x + 0.2 * speed
+			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
+
+			Gear.SetBlendUniformValue(self.elementalTransformID, 2, self.blendValue1,self.blendValue2)
+			return true
 		else 
-			Transform.ActiveControl(self.transformID, true)
-			elementalTransformID = self.transformID
+			self:EndChargeBeam()
+			return false
 		end
-
-		local pos = Transform.GetPosition(self.caster)
-		local direction = Transform.GetLookAt(self.caster)
-		
-		
-		
-		factor = (len/2)
-		pos.x = pos.x + dir.x * factor
-		pos.y = pos.y + dir.y * factor
-		pos.z = pos.z + dir.z * factor
-
-		
-
-		Transform.SetPosition(elementalTransformID, pos)
-		Transform.SetScaleNonUniform(elementalTransformID, 1,1,(len*0.51)) 
-		ray.pos = Transform.GetPosition(self.caster)
-		Transform.RotateToVector(elementalTransformID, dir)
-
-		local speed = dt * -1.2
-		self.blendValue1.x = self.blendValue1.x - 1 * speed
-		self.blendValue1.y = self.blendValue1.y + 0.6 * speed
-		
-		self.blendValue2.x = self.blendValue2.x + 0.2 * speed
-		self.blendValue2.y = self.blendValue2.y + 1.0 * speed
-
-		Gear.SetBlendUniformValue(self.elementalTransformID, 2, self.blendValue1,self.blendValue2)
-		
-
-		
-		
+				
 	end
+
 	function ray:EndChargeBeam()
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
+	end
+	function ray:resetCooldown()
+		self.counter = 0
 	end
 	return ray
 end

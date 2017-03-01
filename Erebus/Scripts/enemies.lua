@@ -491,12 +491,14 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if player.isAlive and lengthToP1 < lengthToP2 then
-		enemy.playerTarget = player
+	if player.isAlive then
+		if player2.isAlive and lengthToP1 > lengthToP2 then
+			enemy.playerTarget = player2
+		else
+			enemy.playerTarget = player
+		end
 	elseif player2.isAlive then
 		enemy.playerTarget = player2
-	else
-		enemy.playerTarget = player
 	end
 
 	if player2 == nil and  player.isAlive then
