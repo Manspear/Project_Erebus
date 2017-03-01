@@ -17,6 +17,7 @@ function LoadSpellbook()
 end
 
 function UnloadSpellbook()
+	print("UNLOADING SPELLBOOK")
 	for i=1, #scriptsMenu do
 		scriptsMenu[i].Unload()
 	end

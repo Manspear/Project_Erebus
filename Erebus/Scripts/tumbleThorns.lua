@@ -168,6 +168,8 @@ function CreateTumblethorns(entity)
 end
 
 function DestroyTumblethorns(tumble)
+	destroyTumbleParticles(tumble.spell.particles)
+
 	Gear.UnbindInstance(tumble.transformID)
 
 	Assets.UnloadTexture("Textures/IconTumblethorne.dds")
