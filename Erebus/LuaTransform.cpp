@@ -49,6 +49,7 @@ namespace LuaTransform
 			{"GetDistanceBetweenTransAndPos", getDistanceTransPos},
 
 			{ "ResetTransforms", reset },
+			{ "CopyTransform", copyTransform },
 
 			{ NULL, NULL }
 		};
@@ -519,6 +520,19 @@ namespace LuaTransform
 	int reset( lua_State* lua )
 	{
 		g_transformHandler->reset();
+		return 0;
+	}
+
+	int copyTransform(lua_State* lua) {
+		assert(lua_gettop(lua) == 2);
+		int id1 = lua_tointeger(lua, 1);
+		int id2 = lua_tointeger(lua, 2);
+		TransformStruct* trans1 = g_transformHandler->getTransform(id1);
+		TransformStruct* trans2 = g_transformHandler->getTransform(id2);
+		trans2->lookAt = trans1->lookAt;
+		trans2->pos = trans1->pos;
+		trans2->rot = trans1->rot;
+		trans2->scale = trans1->rot;
 		return 0;
 	}
 }
