@@ -18,6 +18,7 @@ function CreateBlackHole(entity)
 	spell.element = NATURE
 	local model = Assets.LoadModel( "Models/blackHole_Rings.model" )
 	spell.type = CreateStaticAoEType(model)
+	spell.minChargeTime = 0
 	--spell.innerTransformID = Transform.Bind()
 	spell.owner = entity
 	spell.effects = {}

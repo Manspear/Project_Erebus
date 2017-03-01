@@ -139,11 +139,11 @@ function UpdatePlayer2(dt)
 			if isCharging == false then
 				player2.attackTimer = 1
 				player2.spellDirection = { x = spellDirX, y = spellDirY, z = spellDirZ }
-				player2.spells[player2.currentSpell]:Cast(player2, 0.5, false)
+				player2.spells[player2.currentSpell]:Cast(player2)
 			else
 				if shouldCast == false then
 					local spellElement = player2.spells[player2.currentSpell].element
-					player2.charger:StartCharge(player2.position, spellElement)
+					player2.charger:StartCharge(player2.position, spellElement, player2.spells[player2.currentSpell].minChargeTime)
 					player2.charging = true
 				else
 					player2.spellDirection = { x = spellDirX, y = spellDirY, z = spellDirZ }

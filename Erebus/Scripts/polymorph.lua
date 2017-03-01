@@ -11,7 +11,7 @@ function CreatePolymorph(entity)
 	spell.element = NATURE
 	spell.isActiveSpell = false	
 	spell.cooldown = 0		spell.maxcooldown = POLYMORPH_COOLDOWN
-	spell.chargedTime = 0		spell.maxChargeTime = 3
+	spell.chargedTime = 0		spell.maxChargeTime = 3		spell.minChargeTime = POLYMORPH_MIN_CHARGETIME
 	spell.lifeTime = POLYMORPH_LIFETIME
 	spell.caster = entity.transformID
 	spell.owner = entity
