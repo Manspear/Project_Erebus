@@ -536,7 +536,7 @@ function Controls(dt)
 						player.spells[player.currentSpell].cooldown = -1 --Makes the spell actually cast once. 
 						player.firstRayAttack = false
 					elseif player.firstRayAttack == false then 
-						player.spells[player.currentSpell].cooldown = 1
+						player.spells[player.currentSpell].cooldown = 0.2
 					end
 
 					if(player.spells[player.currentSpell].chargeAlive == false) then 
