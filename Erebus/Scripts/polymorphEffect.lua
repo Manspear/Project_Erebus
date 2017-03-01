@@ -45,10 +45,6 @@ function CreatePolyEffect(owner, duration)
 	return effect
 end
 
-function DestroyPolyEffect(effect)
-	effect = nil
-end
-
 function InitPolymorphs()
 	local someModels = {"Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model", "Models/Polymorph.model"}
 	local models = {}
@@ -63,10 +59,18 @@ function InitPolymorphs()
 	currentFree = 0
 end
 
+function UnInitPolymorphs()
+	for i=1, POLYMORPH_POOL_SIZE do
+		Assets.UnloadModel( "Models/Polymorph.model" )
+		Gear.UnbindInstance(polymorphPool[i])
+		destroyCloudParticles(polymorphParticles[i])
+	end
+end
+
 function GetNextFreeMorph()
 	if currentFree >= POLYMORPH_POOL_SIZE then currentFree = 0 end
 	currentFree = currentFree + 1	
 	return polymorphPool[currentFree], polymorphParticles[currentFree]
 end
 
-InitPolymorphs()
+--InitPolymorphs()

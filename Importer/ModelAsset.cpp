@@ -3,7 +3,7 @@
 namespace Importer
 {
 	ModelAsset::ModelAsset()
-		: dataptr(nullptr), material( nullptr )
+		: dataptr(nullptr), bufferptr( nullptr ), material( nullptr ), vertexBuffers( nullptr )
 	{
 		//header.meshCount = header.materialCount = 0;
 		header.numMeshes = header.numSkeletons = header.numBBoxes = 0;

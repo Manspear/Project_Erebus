@@ -1,4 +1,4 @@
-WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
+--WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 WINDKNOCKBACK_COOLDOWN = 1.5
 WINDKNOCKBACK_CASTSPEED_MULTIPLE = 4.5
 WINDKNOCKBACK_POWER = 2
@@ -6,7 +6,7 @@ function CreateWindknockback(entity)
 	local spell = {}
 	spell.element = ICE
 	spell.maxcooldown = 4
-	spell.hudtexture = WINDKNOCKBACK_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 0
 	spell.alive = false
@@ -16,6 +16,7 @@ function CreateWindknockback(entity)
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
 	
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -124,4 +125,15 @@ function CreateWindknockback(entity)
 	spell.Change = BaseChange
 	spell.Combine = BaseCombine
 	return spell
+end
+
+function DestroyWindknockback(knockback)
+	destroyWindParticles(knockback.spell.particles)
+
+	Gear.UnbindInstance(knockback.transformID)
+
+	Assets.UnloadModel( "Models/nothing.model" )
+	Assets.UnloadTexture("Textures/IconWindKnockback.dds")
+
+	knockback = nil
 end

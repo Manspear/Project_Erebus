@@ -149,9 +149,15 @@ DWORD WINAPI update(LPVOID args)
 			data->workQueue->execute();
 
 			for (int i = 0; i < data->particleSystems->size(); i++)
-				data->particleSystems->at(i)->update((float)deltaTime);
+			{
+				if( data->particleSystems->at(i) )
+					data->particleSystems->at(i)->update((float)deltaTime);
+			}
 			for (int i = 0; i < data->particleEmitters->size(); i++)
-				data->particleEmitters->at(i)->update((float)deltaTime);
+			{
+				if( data->particleEmitters->at(i) )
+					data->particleEmitters->at(i)->update((float)deltaTime);
+			}
 
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
@@ -170,14 +176,13 @@ DWORD WINAPI update(LPVOID args)
 			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
 			for (int i = 0; i < boundAnimations; i++)
 			{
-				if (!data->allAnimations[i].getCulled()) // check if animation is culled before we calculate
+				if( data->allAnimations[i].getActive() && !data->allAnimations[i].getCulled() )
 				{
 					animationData[i].dt = (float)deltaTime;
 					animationData[i].animation = &data->allAnimations[i];
 					//data->allAnimations[i].update(deltaTime);
 					data->workQueue->add(updateAnimation, &animationData[i]);
 				}
-
 			}
 			data->workQueue->execute();
 
@@ -400,7 +405,6 @@ int main()
 		delete particleEmitters.at(i);
 
 	glfwTerminate();
-
 
 	return 0;
 }

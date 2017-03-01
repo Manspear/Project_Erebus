@@ -42,6 +42,7 @@ function LoadConsole()
 end
 
 function UnloadConsole()
+	console = {}
 end
 
 function UpdateConsole(dt)

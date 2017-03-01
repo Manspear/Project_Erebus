@@ -1,4 +1,4 @@
-ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
+--ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
@@ -49,12 +49,13 @@ function CreateIceGrenade(entity)
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.damage = MAX_DAMAGE_ICENADE
-	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.timeSinceLastPoop = 0
 	spell.Change = GenericChange
 	spell.isActiveSpell = false
 
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -263,4 +264,19 @@ function CreateIceGrenade(entity)
 		return result
 	end
 	return spell
+end
+
+function DestroyIceGrenade(grenade)
+	for _,nade in pairs(grenade.spell.nades) do
+		Assets.UnloadModel( "Models/grenade.model" )
+		DestroyGrenadeType(nade.type)
+		destroyIceGrenadeParticles(nade.particles)
+
+		Assets.UnloadModel( "Models/isTappar1.model" )
+		Gear.UnbindInstance(nade.transform2ID)
+		nade = nil
+	end
+
+	Assets.UnloadTexture( "Textures/IconIceGrenade.dds" )
+	grenade = nil
 end
