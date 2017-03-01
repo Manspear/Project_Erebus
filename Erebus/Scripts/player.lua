@@ -447,7 +447,6 @@ function Controls(dt)
 			SendCombine(player.spells[player.currentSpell])
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
-			showWaitingForPlayer2(dt)
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			

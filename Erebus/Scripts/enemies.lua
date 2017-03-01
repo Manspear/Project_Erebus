@@ -151,7 +151,7 @@ function CreateEnemy(type, position, element)
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
-
+		SphereCollider.SetActive(self.sphereCollider, false)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 
@@ -161,7 +161,6 @@ function CreateEnemy(type, position, element)
 			self.insideInnerCircleRange = false
 		end
 
-	
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
