@@ -208,6 +208,11 @@ GEAR_API void Gear::Skybox::setFogColor(glm::vec3 color)
 	this->fogColor = color;
 }
 
+GEAR_API void Gear::Skybox::setAmbient(glm::vec3 color)
+{
+	this->ambient = color;
+}
+
 GEAR_API void Gear::Skybox::setPhase(DayPhase phase)
 {
 	switch (phase)
@@ -257,6 +262,11 @@ GEAR_API int Gear::Skybox::getMinutes()
 GEAR_API glm::vec3 Gear::Skybox::getFogColor()
 {
 	return this->fogColor;
+}
+
+GEAR_API glm::vec3 Gear::Skybox::getAmbient()
+{
+	return this->ambient;
 }
 
 GEAR_API Lights::DirLight& Gear::Skybox::getDirLight()
@@ -330,11 +340,13 @@ void Gear::Skybox::UpdateLight()
 	{
 		float relativeTime = currentCycleTime - dawnTime;
 		currentSun.color = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
+		ambient = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
 	}
 	else if (currentPhase == DayPhase::Dusk)
 	{
 		float relativeTime = currentCycleTime - duskTime;
 		currentSun.color = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
+		ambient = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
 	}
 }
 

@@ -618,6 +618,7 @@ namespace Gear
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
 		shader->setUniform(skybox->getFogColor(), "fogColor");
+		shader->setUniform(skybox->getAmbient(), "ambient");
 
 
 		shader->setUniform(skybox->getDirLight().direction, "dirLights.direction");

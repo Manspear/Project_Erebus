@@ -38,6 +38,7 @@ uniform mat4 invView;
 uniform mat4 invProj;
 uniform int num_dynamic_lights;
 uniform vec3 fogColor;
+uniform vec3 ambient;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular);
@@ -64,8 +65,6 @@ void main() {
 	
 	vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
-
-	vec3 ambient = Diffuse * 0.1;
 	
 	vec3 directional = vec3(0);
 	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
@@ -79,7 +78,7 @@ void main() {
 	for(int i = 0; i < num_dynamic_lights; i++) //calculate dynamic point lights
 	dynamicPoint += CalcPointLight(dynamicLights[i], norm, FragPos, viewDir, Specular);
 
-	vec3 outputColor = (ambient + directional + point + dynamicPoint);
+	vec3 outputColor = ((ambient * Diffuse) + directional + point + dynamicPoint);
 
 	outputColor = mix(outputColor, fogColor,getFogFactor(length(FragPos - viewPos)));
 

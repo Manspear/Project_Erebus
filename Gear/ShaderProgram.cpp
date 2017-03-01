@@ -280,7 +280,7 @@ void ShaderProgram::setUniform(glm::vec2 & vec2, std::string position, int count
 {
 	glUniform2fv(uniforms.at(position), count, glm::value_ptr(vec2));
 }
-void ShaderProgram::setUniform(float &floatValue, std::string position)
+void ShaderProgram::setUniform(float floatValue, std::string position)
 {
 	glUniform1f(uniforms.at(position), floatValue);
 }

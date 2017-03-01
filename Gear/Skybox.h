@@ -28,11 +28,13 @@ namespace Gear
 		GEAR_API void update(Camera* camera);
 		GEAR_API void update(float dt);
 		GEAR_API glm::vec3 getFogColor();
+		GEAR_API glm::vec3 getAmbient();
 		GEAR_API Lights::DirLight& getDirLight();
 
 		GEAR_API void setTime(int hours, bool force);
 		GEAR_API void overrideLua(bool luaOverride);
 		GEAR_API void setFogColor(glm::vec3 color);
+		GEAR_API void setAmbient(glm::vec3 color);
 		GEAR_API void setPhase(DayPhase phase);
 		GEAR_API void setBlend(float blend);
 		GEAR_API void setColor(glm::vec3 color);
@@ -99,10 +101,17 @@ namespace Gear
 		void UpdateBlendFactor();
 		void LoadTextures();
 
+		//The rotation on the skybox
 		const float ROTATE_SPEED = 1.0f;
 		float rotation = 0.0f;
+
 		glm::vec3 fogColor;
+
+		glm::vec3 ambient = fullDark;
+
+		//The basic sun
 		Lights::DirLight sun;
+		//The sun updated with rotation and color
 		Lights::DirLight currentSun;
 
 		GLuint skyboxVAO;
