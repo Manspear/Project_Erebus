@@ -41,11 +41,8 @@ function CreateSunRay(entity)
 	sunRay.hitID = -1
 	sunRay.hudtexture = Assets.LoadTexture("Textures/IconSunRay.dds");
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
-	--local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 	--local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
-	--Gear.AddForwardInstance(model2, sunRay.type.transformID)
-	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
-	sunRay.transformID2 = Gear.BindForwardInstance(model2)
+	--sunRay.transformID2 = Gear.BindForwardInstance(model2)
 	--For choosing the right set of animations
 	sunRay.isRay = true
 	--For animation timing 
