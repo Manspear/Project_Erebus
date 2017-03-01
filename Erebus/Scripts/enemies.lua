@@ -113,7 +113,7 @@ function CreateEnemy(type, position, element)
 
 		if source ~= player2 then
 			if Network.GetNetworkHost() == true then
-				if self.alive == true
+				if self.alive == true then
 					damage = self.elementType ~= element and damage or damage * 0.5
 					self.health = self.health - damage
 					--print("ID:", self.transformID, "Sending new health:", self.health)
