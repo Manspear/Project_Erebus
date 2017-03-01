@@ -119,14 +119,13 @@ namespace Importer
 		{
 			AssetID id( path, typeid(T).hash_code() );
 
-			if( path == "Textures/select.dds" )
-				int f = 0;
-
-			std::map<AssetID, Asset*>::iterator it = assets.find( id );
+			/*std::map<AssetID, Asset*>::iterator it = assets.find( id );
 			if( it != assets.end() )
 			{
 				it->second->decrementReferenceCount();
-			}
+			}*/
+
+			unloads.push_back( id );
 		}
 
 		IMPORTER_API void upload();
@@ -140,5 +139,6 @@ namespace Importer
 		float elapsedTime;
 		std::map<AssetID, Asset*> assets;
 		std::vector<Asset*> pending;
+		std::vector<AssetID> unloads;
 	};
 }

@@ -201,6 +201,15 @@ namespace Importer
 
 	void Assets::checkReferences()
 	{
+		for( int i=0; i<unloads.size(); i++ )
+		{
+			std::map<AssetID, Asset*>::iterator it = assets.find( unloads[i] );
+			if( it != assets.end() )
+				it->second->decrementReferenceCount();
+		}
+
+		unloads.clear();
+
 		std::map<AssetID, Asset*>::iterator removes[ASSETS_MAX_UNLOAD_PER_FRAME];
 		int nremoves = 0;
 
