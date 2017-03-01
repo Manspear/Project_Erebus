@@ -6,7 +6,7 @@ namespace Gear
 {
 	ParticleEmitter::ParticleEmitter() : particleSize(1.0)
 	{
-
+		this->assets = nullptr;
 	}
 
 	ParticleEmitter::ParticleEmitter(int maxPart, float life, float speed, float particleRate, int partPerSprut, 
@@ -33,6 +33,7 @@ namespace Gear
 			particlePos[i].size = this->particleSize;
 		}
 		this->shrinkage = growFactor;
+		this->assets = nullptr;
 	}
 
 	void ParticleEmitter::emitterInit(Emitter emitter, Importer::Assets* assets)
@@ -58,12 +59,20 @@ namespace Gear
 			particlePos[i].size = 1.0;
 		}
 		shrinkage = emitter.shrinkage;
+
+		this->assets = assets;
+		this->textureName = "Textures/" + std::string(emitter.textureName);
+
+		assert( assets );
 	}
 
 	ParticleEmitter::~ParticleEmitter()
 	{	
 		delete[] this->allParticles;
 		delete[] this->particlePos;
+
+		if( assets && !textureName.empty() )
+			assets->unload<Importer::TextureAsset>( textureName );
 	}
 
 	void ParticleEmitter::spawn(float dt)
@@ -226,9 +235,17 @@ namespace Gear
 		this->alive = false;
 	}
 
-	GEAR_API void ParticleEmitter::setTexture(Importer::TextureAsset * texture)
+	/*GEAR_API void ParticleEmitter::setTexture(Importer::TextureAsset * texture)
 	{
 		this->textureAssetParticles = texture;
+	}*/
+
+	void ParticleEmitter::setTexture( Importer::TextureAsset* texture, Importer::Assets* assets )
+	{
+		this->textureAssetParticles = texture;
+		this->assets = assets;
+
+		assert( assets );
 	}
 
 	void ParticleEmitter::setEmitterPos(glm::vec3 pos)

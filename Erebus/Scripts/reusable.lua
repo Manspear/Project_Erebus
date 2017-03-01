@@ -51,12 +51,18 @@ function InitFireEffectParticles()
 	end
 end
 
+function UnInitFireEffectParticles()
+	for i=1, MAX_FIRE_EFFECT_PARTICLES do
+		DestroyFireEffectParticles(fireeffectparticles.particles[i])
+	end
+end
+
 function GetNextFireEffectParticle()
 	fireeffectparticles.nextIndex = (fireeffectparticles.nextIndex%MAX_FIRE_EFFECT_PARTICLES)+1
 	return fireeffectparticles.particles[fireeffectparticles.nextIndex]
 end
 
-InitFireEffectParticles()
+--InitFireEffectParticles()
 
 function PrintInfo() 
 	if player.printInfo then

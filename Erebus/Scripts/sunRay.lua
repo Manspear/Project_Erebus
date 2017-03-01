@@ -1,4 +1,4 @@
-SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSunRay.dds");
+--SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSunRay.dds");
 SUNRAY_STARTUPTIME = 0.4
 SUNRAY_STARTUPTIMELVL2 = 0.7
 SUNRAY_DURATION = 4.7
@@ -39,7 +39,7 @@ function CreateSunRay(entity)
 	sunRay.soundID = {}
 	sunRay.chargeID = -1
 	sunRay.hitID = -1
-	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
+	sunRay.hudtexture = Assets.LoadTexture("Textures/IconSunRay.dds");
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	--local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 	--local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
@@ -226,4 +226,13 @@ function CreateSunRay(entity)
 	sunRay.Change = BaseChange
 	sunRay.GetEffect = BaseGetEffect
 	return sunRay
+end
+
+function DestroySunRay(ray)
+	Assets.UnloadModel( "Models/SunRayOuter.model" )
+	Assets.UnloadModel( "Models/SunRayInner.model" )
+	Assets.UnloadTexture( "Textures/IconSunRay.dds" )
+
+	DestroyRayType(ray.spell.type)
+	ray = nil
 end

@@ -54,3 +54,8 @@ function CreateStaticAoEType(model)
 
 	return type
 end
+
+function DestroyStaticAoEType(aoeType)
+	Gear.UnbindInstance(aoeType.transformID)
+	aoeType = nil
+end

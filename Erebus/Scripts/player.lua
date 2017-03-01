@@ -186,36 +186,30 @@ function UnloadPlayer()
 	DestroySlowEffect(effectTable[SLOW_EFFECT_INDEX])
 	DestroyTimeSlowEffect(effectTable[TIME_SLOW_EFFECT_INDEX])
 	DestroyLifeStealEffect(effectTable[LIFE_STEAL_EFFECT_INDEX])
-	DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
+	--DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
 	DestroyKnockbackEffect(effectTable[KNOCKBACK_EFFECT_INDEX])
 
 	DestroyPlayerController(player.animationController)
-	DestroyPlayerController(player2.animationController)
-
 	Gear.UnbindInstance(player.transformID)
-	Gear.UnbindInstance(player2.transformID)
 
-	--[[Particle.Unbind(player.dashStartParticles)
+	Particle.Unbind(player.dashStartParticles)
 	Particle.Unbind(player.dashEndParticles)
-	Particle.Unbind(player2.dashStartParticles)
-	Particle.Unbind(player2.dashEndParticles)--]]
 
 	DestroyAim(player.aim)
-	DestroyAim(player2.aim)
-
 	DestroyChargeEggs(player.charger)
-	DestroyChargeEggs(player2.charger)
 	
 	DestroyCombineRay(player.friendCharger)
 	DestroyCombineRay(player2.friendCharger)
-
 	DestroyRevive(player.revive)
-	DestroyRevive(player2.revive)
-
+	
 	player = {}
-	player2 = {}
-
 	effectTable = {}
+
+	Assets.UnloadModel( "Models/player1.model" )
+	Assets.UnloadTexture( "Textures/ping.dds" )
+	Assets.UnloadTexture( "Textures/playerDeath.dds" )
+
+	UnloadPlayer2()
 end
 
 function LoadSpells(player)
