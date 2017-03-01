@@ -49,7 +49,7 @@ function CreateTimeLaser( entity )
 
 	function spell:Update(dt)
 		if self.alive then
-			local increment = dt/4
+			local increment = dt/1.75 --this is where the speed of the spin is determined
 			self.lifeTime = self.lifeTime - dt
 			local dir = {x=0,y=0,z=0}
 			local oobpos = {x=0,y=0,z=0}

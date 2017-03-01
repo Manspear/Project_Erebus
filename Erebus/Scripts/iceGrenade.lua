@@ -2,11 +2,11 @@
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 65
+SPEED_ICENADE = 32
 EXPLOSION_RADIUS_ICENADE = 10
 
-MIN_FALLOFF_ICENADE = 1
-MAX_FALLOFF_ICENADE = 2 - MIN_FALLOFF_ICENADE
+MIN_FALLOFF_ICENADE = 0.5
+MAX_FALLOFF_ICENADE = 1 - MIN_FALLOFF_ICENADE
 SPAM_CD_ICENADE = 0.3
 SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
 ICEGRENADE_CAST_SFX = "Effects/burn_ice_001.wav"
@@ -67,6 +67,7 @@ function CreateIceGrenade(entity)
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
 			local pos = Transform.GetPosition(entity.transformID)
+			pos.y= pos.y+0.5
 			local dir = self.owner.spellDirection
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
