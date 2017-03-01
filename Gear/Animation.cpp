@@ -386,7 +386,7 @@ void Animation::reset()
 	delete[] finalList;
 	for (int i = 0; i < animationSegments; i++)
 		delete[] animationMatrixLists[i];
-	
+
 	//animTimer = 0.0f;
 	fromAnimationTimer = 0;
 	toAnimationTimer = 0;

@@ -107,7 +107,7 @@ function CreateChargeEggs(entity)
 	
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
-	chargeThing.particles = createChargeParticles()
+	chargeThing.particles = createParticlesByElement()
 	chargeThing.particles:extrovert(false)
 	chargeThing.caster = entity.transformID
 	chargeThing.owner = entity
@@ -224,8 +224,22 @@ function CreateChargeEggs(entity)
 
 	function chargeThing:StartParticles(spellElement)
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
-		self.timer = 0
-		self.particles:cast() 
+		sel.timer = 0
+		if spellElement == 1 then
+			self.particles:fireElement()
+			self.particles:cast()
+		end
+
+		if spellElement == 2 then
+			self.particles:natureElement()
+			self.particles:cast()
+		end
+
+		if spellElement == 3 then
+			self.particles:iceElement()
+			self.particles:cast()
+		end
+
 	end
 
 	return chargeThing

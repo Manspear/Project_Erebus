@@ -180,3 +180,36 @@ function createTimeslowParticles()
 	end
 	return timeslowParticles
 end
+
+CHARGE_FIRE_TEX = Assets.LoadTexture("Textures/fireSpell.dds") --element = 1
+CHARGE_NATURE_TEX = Assets.LoadTexture("Textures/greenDot.dds") --element = 2
+CHARGE_ICE_TEX = Assets.LoadTexture("Textures/brightParticle.dds") --element = 3
+function createParticlesByElement()
+	local chargePart = {}
+	chargePart.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)
+	
+	function chargePart:fireElement()
+		Emitter.SetTexture(charge.ID, CHARGE_FIRE_TEX)
+	end	
+	function chargePart:natureElement()
+		Emitter.SetTexture(charge.ID, CHARGE_NATURE_TEX)
+	end
+	function chargePart:iceElement()
+		Emitter.SetTexture(charge.ID, CHARGE_ICE_TEX)
+	end
+
+	function chargePart:cast()
+		Emitter.SetAlive(self.ID)
+	end
+	function chargePart:die()
+		Emitter.SetDead(self.ID)	
+	end
+	function chargePart:update(pos)
+		Emitter.SetPosition(self.ID, pos)
+	end
+	function chargePart:extrovert(yesNo)
+		Emitter.SetExtro(self.ID, yesNo)
+	end
+
+	return chargePart
+end
