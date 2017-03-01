@@ -561,7 +561,6 @@ function Controls(dt)
 					player.globalSpellSwitchingCooldownTimerStarted = true
 				end
 			end
-
 		end
 
 		if not player.spamCasting then
