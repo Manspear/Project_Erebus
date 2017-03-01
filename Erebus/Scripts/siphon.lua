@@ -43,7 +43,7 @@ function CreateSiphon(entity)
 	spell.spamming = false
 	spell.interval = 0
 	spell.chargedTime = 0
-	spell.maxChargeTime = 0
+	spell.maxChargeTime = 0			spell.minChargeTime = 0
 	spell.chained = nil
 	spell.chaininterval = 0
 	spell.duration = SIPHON_CHAIN_DURATION

@@ -79,7 +79,7 @@ function UpdateOrb(daOrb, dt)
 	end
 	local collisionIDs = daOrb.collider:GetCollisionIDs()
 	for	curID = 1, #collisionIDs do	
-		if collisionIDs[curID] == player.collisionID then
+		if collisionIDs[curID] == player.collisionID and player.isAlive then
 			if player.health < 80 then player.health = player.health + HEALTH_ORB_LIFE else player.health = 100 end
 			Network.SendPlayerHealthPacket(player.transformID, player.health)
 			KillHealthOrb(daOrb)

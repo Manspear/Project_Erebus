@@ -23,7 +23,7 @@ function CreateSunRay(entity)
 	sunRay.chargedTime = 0
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
-	sunRay.maxChargeTime = 3
+	sunRay.maxChargeTime = 3		sunRay.minChargeTime = 0
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
 	sunRay.length = 0
 	sunRay.angle = 2	sunRay.spin = 0.3
@@ -124,7 +124,7 @@ function CreateSunRay(entity)
 		self.type:Cast(Transform.GetPosition(self.owner.transformID))
 		Transform.SetRotation(self.type.transformID, Transform.GetRotation(self.owner.transformID))
 		--Transform.SetLookAt(self.type.transformID, Transform.GetLookAt(self.owner.transformID))
-		Transform.SetLookAt(self.type.transformID, Camera.GetDirection())
+		Transform.SetLookAt(self.type.transformID, self.owner.spellDirection)
 		Erebus.CameraSensitivity(self.cameraSlow)
 		Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x , self.startUpScale.y , self.startUpScale.z)
 		self.UVpushed = 0.0

@@ -6,9 +6,8 @@ union ChargingPacket
 {
 	struct ChargingPacketStruct
 	{
-		uint16_t ID;
-		uint16_t damage;
-		uint16_t spellListIndex;
+		uint16_t chosenSpell;
+		bool activateCombineRay;
 
 	}data;
 
@@ -16,11 +15,10 @@ union ChargingPacket
 	{
 	}
 
-	ChargingPacket(const uint16_t &ID, const uint16_t &damage, const uint16_t &spellListIndex)
+	ChargingPacket(const uint16_t &chosenSpell, const bool& activateCombineRay)
 	{
-		data.ID = ID;
-		data.damage = damage;
-		data.spellListIndex = spellListIndex;
+		data.chosenSpell = chosenSpell;
+		data.activateCombineRay = activateCombineRay;
 	}
 
 	unsigned char bytes[sizeof(ChargingPacketStruct)];

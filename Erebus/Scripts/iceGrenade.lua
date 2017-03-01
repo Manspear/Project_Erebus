@@ -42,7 +42,7 @@ function CreateIceGrenade(entity)
 	local spell = {}
 	spell.element = ICE
 	spell.simulation = {position = {x = 0, y = 0, z = 0}, direction = {x = 0, y = 0, z = 0}, falloff = 0}
-	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE
+	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE		spell.minChargeTime = 0
 	spell.owner = entity
 	spell.nades = {}
 	spell.spamcd = SPAM_CD_ICENADE
@@ -72,7 +72,7 @@ function CreateIceGrenade(entity)
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
 			local pos = Transform.GetPosition(entity.transformID)
-			local dir = Camera.GetDirection()
+			local dir = self.owner.spellDirection
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = 0.5 / self.maxChargeTime				
