@@ -7,7 +7,6 @@
 #include "CollisionChecker.h"
 #include <sstream>
 
-//extern Transform* allTransforms;
 namespace Collisions
 {
 	class CollisionHandler
@@ -27,31 +26,14 @@ namespace Collisions
 		COLLISIONS_EXPORTS void addRay(RayCollider* ray);
 		COLLISIONS_EXPORTS void addRay(RayCollider* ray, int layer);
 
-		// Collision checks
+		// Collision check
 		COLLISIONS_EXPORTS void checkCollisions();
-
-		//template <typename T, typename U>
-		//COLLISIONS_EXPORTS void checkAnyCollision(std::vector<T*>* colliders1, std::vector<U*>* colliders2); // 2 arrays collision against eachother
-
-		//template <typename T>
-		//COLLISIONS_EXPORTS void checkAnyCollision(std::vector<T*>* colliders); // one array against itself
-
-		//template <typename T, typename U>
-		//COLLISIONS_EXPORTS void checkAnyCollision(T collider, std::vector<U*>* colliders); // Single hitbox vs array of hitboxes // Hitbox vs children of other hitbox
-
-		//Update
-		//Update all hitboxes with corresponding positions in transform array
-		//void updateAllHitboxPos();
-		//void updateSpherePos();
-		//void updateAabbPos();
 
 		//delete
 		COLLISIONS_EXPORTS void deleteAllOldCollisions();
 		COLLISIONS_EXPORTS bool deleteHitbox(unsigned int ID);
 
 		//setters
-		//void setTransforms(Transform* transforms);
-		//void setDebugger(Debug* debugger);
 		COLLISIONS_EXPORTS void setEnabled(bool enabled);
 
 		//getters
@@ -66,19 +48,16 @@ namespace Collisions
 
 		//change if two layers can collide in the layerMatrix
 		COLLISIONS_EXPORTS void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
+		COLLISIONS_EXPORTS void setLayerCollisionMatrixAll(int layer1, bool canCollide);
 
 		COLLISIONS_EXPORTS void deactiveteAllHitboxes();
 		COLLISIONS_EXPORTS void activeteAllHitboxes();
 
 		COLLISIONS_EXPORTS void printCollisions();
 
-		//void drawHitboxes();
-		//void recursiveDraw(HitBox* hitbox, glm::vec3 color);
-
 		COLLISIONS_EXPORTS void reset();
 
 	private:
-		//Transform* transforms;
 		std::vector<SphereCollider*> sphereColliders;
 		std::vector<AABBCollider*> aabbColliders;
 		std::vector<OBBCollider*> obbColliders;
@@ -88,17 +67,12 @@ namespace Collisions
 		CollisionChecker collisionChecker;
 		std::vector<std::vector<int>>* leafHitboxIDSaver;
 
-		//Debug* debugger;
-		glm::vec3 colors[64]; // 64 colors to use on hitbox layers
-		glm::vec3 childColor = glm::vec3(1, 1, 1);
-		glm::vec3 deactivatedColor = glm::vec3(0, 0, 0);
-
 		static unsigned int hitboxID;
 		static void incrementHitboxID();
-		void initializeColors();
 		bool enabled = true;
 		const int DEFAULT_LAYER_AMOUNT = 5;
 		const int DEFAULT_LAYER = 0;
+		const int RESERVE_AMOUNT = 200;
 
 		void recursiveSetID(HitBox* hitbox, int layer);
 		int layerAmount;
@@ -256,7 +230,7 @@ namespace Collisions
 		template<typename T, typename U>
 		void checkAnyCollision(T collider, std::vector<U*>* colliders) // collider vs array
 		{
-			// Antingen har barnen inga fler barn, då kollar vi kollision. Annars kollar vi kollision mot dens barn
+			// Either the colliders dont have any more children, then we check collision, otherwise we check collision against their children.
 			bool hit = false;
 			U* tempCollider = nullptr;
 			for (size_t i = 0; i < colliders->size(); i++)
@@ -292,8 +266,6 @@ namespace Collisions
 
 
 	
-
-
 
 }
 

@@ -7,30 +7,13 @@ namespace Collisions
 	CollisionHandler::CollisionHandler()
 		//: transforms(nullptr)
 	{
-		int reserveAmount = 200;
-		this->sphereColliders.reserve(reserveAmount);
-		this->aabbColliders.reserve(reserveAmount);
+		this->sphereColliders.reserve(RESERVE_AMOUNT);
+		this->aabbColliders.reserve(RESERVE_AMOUNT);
 
 		this->collisionLayers = new CollisionLayers(DEFAULT_LAYER_AMOUNT);
 
 		this->leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		this->leafHitboxIDSaver->resize(DEFAULT_LAYER_AMOUNT);
-
-		//int size = 10;
-		//bool** layerMatrix = new bool*[size];
-		//for (unsigned int i = 0; i < size; i++)
-		//{
-		//	layerMatrix[i] = new bool[size];
-
-		//	for (unsigned int j = 0; j < size; j++)
-		//	{
-		//		layerMatrix[i][j] = true;
-		//	}
-		//}
-
-		//this->collisionLayers->setLayerCollisionMatrix(layerMatrix,size);
-		//this->debugger = nullptr;
-		this->initializeColors();
 
 		this->layerAmount = DEFAULT_LAYER_AMOUNT;
 	}
@@ -38,18 +21,16 @@ namespace Collisions
 	CollisionHandler::CollisionHandler(int layers)
 		//: transforms(nullptr)
 	{
-		int reserveAmount = 200;
-		this->sphereColliders.reserve(reserveAmount);
-		this->aabbColliders.reserve(reserveAmount);
+		this->sphereColliders.reserve(RESERVE_AMOUNT);
+		this->aabbColliders.reserve(RESERVE_AMOUNT);
 
-		this->collisionLayers = new CollisionLayers(layers);
-		//this->debugger = nullptr;
-		this->initializeColors();
 
 		this->leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		this->leafHitboxIDSaver->resize(layers);
 
 		this->layerAmount = layers;
+
+		this->collisionLayers = new CollisionLayers(layers);
 	}
 
 
@@ -178,13 +159,6 @@ namespace Collisions
 				firstLayer = i;
 				layerCollisionVector = this->collisionLayers->getUncheckedLayerCollisions(i); // get layers you should collide with but dont have
 
-																							  //std::cout << "Layer " << i << "collides with layers: ";
-																							  //for (size_t k = 0; k < layerCollisionVector.size(); k++)
-																							  //{
-																							  //	std::cout << " " << layerCollisionVector[k] << " ";
-																							  //}
-																							  //std::cout << std::endl;
-
 				firstTempSphereColliders = this->collisionLayers->getSphereColliders(i); // get hitboxes from layer
 				firstTempAABBColliders = this->collisionLayers->getAABBColliders(i);
 				firstTempOBBColliders = this->collisionLayers->getOBBColliders(i);
@@ -222,9 +196,9 @@ namespace Collisions
 
 					else // check collision against your own layer
 					{
-						//checkAnyCollision(firstTempSphereColliders);
-						//checkAnyCollision(firstTempAABBColliders);
-						//checkAnyCollision(firstTempOBBColliders);
+						checkAnyCollision(firstTempSphereColliders);
+						checkAnyCollision(firstTempAABBColliders);
+						checkAnyCollision(firstTempOBBColliders);
 						checkAnyCollision(firstTempSphereColliders, firstTempAABBColliders);
 						checkAnyCollision(firstTempOBBColliders, firstTempAABBColliders);
 						checkAnyCollision(firstTempOBBColliders, firstTempSphereColliders);
@@ -250,37 +224,6 @@ namespace Collisions
 		CollisionHandler::hitboxID++;
 	}
 
-	void CollisionHandler::initializeColors()
-	{
-		int secondRootOfSize = 4;
-		int counter = 0;
-		float R, G, B;
-		const int hardcoddedColorSize = 6;
-		glm::vec3 hardCodedColors[hardcoddedColorSize];
-		hardCodedColors[0] = glm::vec3(1, 0, 0);
-		hardCodedColors[1] = glm::vec3(0, 1, 0);
-		hardCodedColors[2] = glm::vec3(0, 0, 1);
-		hardCodedColors[3] = glm::vec3(1, 1, 0);
-		hardCodedColors[4] = glm::vec3(1, 0, 1);
-		hardCodedColors[5] = glm::vec3(0, 1, 1);
-		for (size_t i = 0; i < secondRootOfSize; i++)
-		{
-			R = (float)i / secondRootOfSize;
-			for (size_t j = 0; j < secondRootOfSize; j++)
-			{
-				G = (float)j / secondRootOfSize;
-				for (size_t k = 0; k < secondRootOfSize; k++)
-				{
-					B = (float)k / secondRootOfSize;
-					this->colors[counter++] = glm::vec3(R, G, B);
-				}
-			}
-		}
-		for (size_t i = 0; i < hardcoddedColorSize; i++)
-		{
-			this->colors[i] = hardCodedColors[i];
-		}
-	}
 
 	void CollisionHandler::recursiveSetID(HitBox * hitbox, int layer)
 	{
@@ -298,50 +241,6 @@ namespace Collisions
 			this->leafHitboxIDSaver->operator[](layer).push_back(hitbox->getID()); // first vector is layer, second vector contains all ID
 		}
 	}
-
-	//void CollisionHandler::updateAllHitboxPos()
-	//{
-	//	size_t allColliderSize = this->allColliders.size();
-	//	size_t rayColliderSize = this->rayColliders.size();
-
-	//	for (size_t i = 0; i < allColliderSize; i++)
-	//	{
-	//		int idTransform = this->allColliders[i]->getIDTransform();
-	//		if (idTransform >= 0)
-	//			this->allColliders[i]->setPos(transforms[idTransform].getPos());
-	//	}
-
-	//	for (size_t i = 0; i < rayColliderSize; i++) // update rays also
-	//	{
-	//		int idTransform = this->rayColliders[i]->getIDTransform();
-	//		if (idTransform >= 0)
-	//			this->rayColliders[i]->setPosition(transforms[idTransform].getPos());
-	//	}
-	//}
-
-	//void CollisionHandler::updateSpherePos()
-	//{
-	//	size_t sphereColliderSize = this->sphereColliders.size();
-
-	//	for (unsigned int i = 0; i < sphereColliderSize; i++)
-	//	{
-	//		int idTransform = sphereColliders[i]->getIDTransform();
-	//		if (idTransform >= 0)
-	//			sphereColliders[i]->setPos(transforms[idTransform].getPos());
-	//	}
-	//}
-
-	//void CollisionHandler::updateAabbPos()
-	//{
-	//	size_t aabbColliderSize = this->aabbColliders.size();
-
-	//	for (unsigned int i = 0; i < aabbColliderSize; i++)
-	//	{
-	//		int idTransform = aabbColliders[i]->getIDTransform();
-	//		if (idTransform >= 0)
-	//			aabbColliders[i]->setPos(transforms[idTransform].getPos());
-	//	}
-	//}
 
 	void CollisionHandler::deleteAllOldCollisions()
 	{
@@ -443,7 +342,6 @@ namespace Collisions
 			{
 				if (allColliders[i]->getID() == ID)
 				{
-					//this->collisionLayers->deleteHitbox(ID);
 					allColliders[i]->clearCollisionIDs();
 					allColliders.erase(allColliders.begin() + i);
 					i = allColliderSize;
@@ -453,16 +351,6 @@ namespace Collisions
 
 		return deleted;
 	}
-
-	//void CollisionHandler::setTransforms(Transform* t)
-	//{
-	//	transforms = t;
-	//}
-
-	//void CollisionHandler::setDebugger(Debug * debugger)
-	//{
-	//	this->debugger = debugger;
-	//}
 
 	void CollisionHandler::setEnabled(bool enabled)
 	{
@@ -570,94 +458,4 @@ namespace Collisions
 		leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		leafHitboxIDSaver->resize(layerAmount);
 	}
-
-//	void CollisionHandler::drawHitboxes()
-//	{
-//		if (this->enabled)
-//		{
-//			std::vector<SphereCollider*>* tempSphereColliders;
-//			std::vector<AABBCollider*>* tempAabbColliders;
-//			std::vector<OBBCollider*>* tempObbColliders;
-//			std::vector<RayCollider*>* tempRayColliders;
-//			SphereCollider* tempSphere = nullptr;
-//			const glm::vec3 deactivatedColor(0, 0, 0);
-//			for (unsigned int i = 0; i < this->collisionLayers->getLayerMatrixSize(); i++) //rows of layer matrix
-//			{
-//				tempSphereColliders = this->collisionLayers->getSphereColliders(i);
-//				tempAabbColliders = this->collisionLayers->getAABBColliders(i);
-//				tempObbColliders = this->collisionLayers->getOBBColliders(i);
-//				tempRayColliders = this->collisionLayers->getRayColliders(i);
-//				for (size_t j = 0; j < tempSphereColliders->size(); j++) // each element in row
-//				{
-//					SphereCollider* temp = tempSphereColliders->operator[](j);
-//					if (temp->isActive())
-//						recursiveDraw(temp, this->colors[i]);
-//					else
-//						recursiveDraw(temp, deactivatedColor);
-//				}
-//				for (size_t j = 0; j < tempAabbColliders->size(); j++)
-//				{
-//					AABBCollider* temp = tempAabbColliders->operator[](j);
-//					if (temp->isActive())
-//						recursiveDraw(temp, this->colors[i]);
-//					else
-//						recursiveDraw(temp, deactivatedColor);
-//				}
-//				for (size_t j = 0; j < tempObbColliders->size(); j++)
-//				{
-//					OBBCollider* temp = tempObbColliders->operator[](j);
-//					if (temp->isActive())
-//						recursiveDraw(temp, this->colors[i]);
-//					else
-//						recursiveDraw(temp, deactivatedColor);
-//				}
-//				for (size_t j = 0; j < tempRayColliders->size(); j++)
-//				{
-//					RayCollider* temp = tempRayColliders->operator[](j);
-//					if (temp->isActive())
-//						debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, this->colors[i]);
-//					else
-//						debugger->drawRay(temp->getPosition(), temp->getDirection(), 1000000.0f, deactivatedColor);
-//				}
-//			}
-//		}
-//	}
-//
-//	void CollisionHandler::recursiveDraw(HitBox * hitbox, glm::vec3 color)
-//	{
-//		std::vector<HitBox*>* children = hitbox->getChildren();
-//		if (children != nullptr) // if we have any children call recursive draw on them also
-//		{
-//			for (size_t i = 0; i < children->size(); i++)
-//			{
-//				this->recursiveDraw(children->operator[](i), color);
-//			}
-//		}
-//
-//		if (hitbox->isAabbCollider()) // draw the hitbox
-//		{
-//			AABBCollider* temp = static_cast<AABBCollider*>(hitbox);
-//			if (temp->isActive())
-//				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), color);
-//			else
-//				debugger->drawAABB(temp->getMinPos(), temp->getMaxPos(), deactivatedColor);
-//		}
-//		else if (hitbox->isSphereCollider())
-//		{
-//			SphereCollider* temp = static_cast<SphereCollider*>(hitbox);
-//			if (temp->isActive())
-//				debugger->drawSphere(temp->getPos(), temp->getRadius(), color);
-//			else
-//				debugger->drawSphere(temp->getPos(), temp->getRadius(), deactivatedColor);
-//		}
-//		else if (hitbox->isObbCollider())
-//		{
-//			OBBCollider* temp = static_cast<OBBCollider*>(hitbox);
-//			if (temp->isActive())
-//				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), color);
-//			else
-//				debugger->drawOBB(temp->getPos(), temp->getXAxis(), temp->getYAxis(), temp->getZAxis(), temp->getHalfLengths(), deactivatedColor);
-//		}
-//	}
-//
 }
