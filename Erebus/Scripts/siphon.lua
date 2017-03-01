@@ -7,8 +7,8 @@ SIPHON_SPAM_DURATION = 0.5
 SIPHON_DAMAGE_INTERVAL = 1
 SIPHON_HITBOX_LENGTH = 20
 SIPHON_CHAIN_INTERVAL = 1
---SIPHON_TEXTURE1 = Assets.LoadTexture("Textures/siphon_Tex.dds")
---SIPHON_TEXTURE2 = Assets.LoadTexture("Textures/siphon_AnimTex.dds")
+SIPHON_TEXTURE1 = Assets.LoadTexture("Textures/siphon_Tex.dds")
+SIPHON_TEXTURE2 = Assets.LoadTexture("Textures/siphon_AnimTex.dds")
 
 function CreateSiphon(entity)
 	local spell = {}
@@ -49,7 +49,6 @@ function CreateSiphon(entity)
 	spell.duration = SIPHON_CHAIN_DURATION
 	spell.temppos = {x=0,y=0,z=0}
 	spell.uvPush = {x = 0, y = 0}
-
 	spell.isRay = true
 	spell.chargeAlive = false
 	--For animation timing 
@@ -59,7 +58,6 @@ function CreateSiphon(entity)
 	spell.castTimeAttack = 0.5 * SIPHON_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * SIPHON_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * SIPHON_CASTSPEED_MULTIPLE
-
 	--Gear.SetUniformLocation(spell.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
 	spell.blendingIndex = Gear.SetBlendTextures(1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)

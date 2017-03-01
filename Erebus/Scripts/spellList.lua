@@ -65,7 +65,7 @@ function LoadSpellbook()
 	siphon.spell.spellListId = 6
 	table.insert(SpellList, siphon)
 	RemoveList.siphon = siphon
-	
+	print("Tjena")
 	local polymorph = {texture =  Assets.LoadTexture("Textures/IconPolymorph.dds"),
 					info = wrap("Are goblins too ugly? Turn them into something else. Charge if you want them to stay something else for a longer time", 30, "",""),
 					spell = CreatePolymorph(player)
@@ -73,7 +73,7 @@ function LoadSpellbook()
 	table.insert(SpellList, polymorph)
 	polymorph.spell.spellListId = 7
 	RemoveList.polymorph = polymorph
-	
+	print("Tjena")
 	local tumblethorns = {texture =  Assets.LoadTexture("Textures/IconTumblethorne.dds"),
 					info = wrap("Send out a rolling thornbush to hurt foes. If you miss your plant you can call it back to your position.", 30, "",""),
 					spell = CreateTumblethorns(player)
@@ -81,7 +81,7 @@ function LoadSpellbook()
 	tumblethorns.spell.spellListId = 8
 	table.insert(SpellList, tumblethorns)
 	RemoveList.tumblethorns = tumblethorns
-
+	print("Tjena")
 	local windknockback = {texture =  Assets.LoadTexture("Textures/IconWindKnockback.dds"),
 					info = wrap("Blow away anybody that bugs you!", 30, "",""),
 					spell = CreateWindknockback(player)
@@ -89,7 +89,7 @@ function LoadSpellbook()
 	table.insert(SpellList, windknockback)
 	windknockback.spell.spellListId = 9
 	RemoveList.windknockback = windknockback
-
+	print("Tjena")
 	LoadSpells(player)
 	LoadSpellbookPlayer2()
 end
