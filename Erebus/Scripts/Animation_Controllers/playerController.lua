@@ -58,6 +58,8 @@ function CreatePlayerController(player)
 	controller.chargeTimerStart = false
 	controller.chargeTimer = 0
 	controller.chargeMaxTime = SUNRAY_DURATION + SUNRAY_STARTUPTIME + SUNRAY_STARTUPTIMELVL2 + 0.1 -- the length of the chargeRelease-animation
+	controller.chargeMaxTimeRay = SUNRAY_DURATION + SUNRAY_STARTUPTIME + SUNRAY_STARTUPTIMELVL2 + 0.1
+	controller.chargeMaxTimeNormal = 1 --1 for the actual animation length
 
 	local animationTransitionTimes = {}
 	for i = 1, 40 do
@@ -134,6 +136,12 @@ function CreatePlayerController(player)
 		if self.chargeTimerStart == true then 
 			
 			self.chargeTimer = self.chargeTimer + dt
+			if self.watch.useRayAttack == true then 
+				 self.chargeMaxTime = self.chargeMaxTimeRay
+			else
+				self.chargeMaxTime = self.chargeMaxTimeNormal
+			end
+		
 			if self.chargeTimer <= self.chargeMaxTime then
 				self.animationState2 = 28
 			else

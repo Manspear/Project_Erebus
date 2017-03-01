@@ -23,7 +23,7 @@ function CreateSunRay(entity)
 	sunRay.alive = false
 	sunRay.chargeAlive = false
 	sunRay.isActiveSpell = false
-	sunRay.chargedTime = 0
+	sunRay.chargedTime = 0.0
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
 	sunRay.maxChargeTime = SUNRAY_DURATION
