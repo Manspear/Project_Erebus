@@ -126,17 +126,14 @@ function CreateChargeEggs(entity)
 	chargeThing.P2SpellElement = 0
 	
 	function chargeThing:ChargeMePlease(dt)
-		print(self.timer, "\t",player2.charger)
 		self.pos = Transform.GetPosition(self.caster)	
 		self.pos.y = self.pos.y - 1	 
 		Transform.SetPosition(self.elementalTransformID, self.pos)		
 		self.rotSmall.y = self.rotSmall.y + (2) * dt
 		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
-		if self.timer then
-			self.timer = self.timer - dt
-			if self.timer < 0 then
-				Transform.SetScale(self.elementalTransformID, 1)
-			end
+		self.timer = self.timer - dt
+		if self.timer < 0 then
+			Transform.SetScale(self.elementalTransformID, 1)
 		end
 	end
 
