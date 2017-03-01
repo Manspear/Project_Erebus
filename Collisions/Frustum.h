@@ -1,7 +1,7 @@
 // influenced by LightHouse3D frustum culling tutorial
 /*
 	This frustum is locked on Y-Axis
-	This is because on big AABB:s you get lots of false positives otherwise
+	This is because on big AABB:s vs frustum collision you get lots of false positives otherwise
 	To get rid of false positives you can either make the AABB:s small compared to the frustum or you can
 	do the separating axis theorem to calculate collision instead, but this is too slow.
 */
@@ -32,8 +32,6 @@ namespace Collisions
 
 		//Helper functions
 		COLLISIONS_EXPORTS bool pointAABBCollision(glm::vec3 point, AABBCollider* aabb); // https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection
-
-		//void draw(Debug* debugger, bool drawFrustum = true, bool drawNormals = false);
 
 
 	private:
