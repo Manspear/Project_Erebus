@@ -279,9 +279,12 @@ end
 
 function DestroyFireball(fireball)
 	for _,v in pairs(fireball.spell.smallFB) do
+		DestroyFireEffectParticles(v.particles)
 		DestroyProjectileType(v.type)
 		Assets.UnloadModel( "Models/projectile1.model" )
 	end
+
+	DestroyFireEffectParticles(fireball.spell.ballParticles)
 
 	Gear.UnbindInstance(fireball.bigBallID)
 

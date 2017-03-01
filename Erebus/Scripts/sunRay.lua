@@ -224,7 +224,7 @@ end
 function DestroySunRay(ray)
 	Assets.UnloadModel( "Models/SunRayOuter.model" )
 	Assets.UnloadModel( "Models/SunRayInner.model" )
-	Assets.UnloadTexture( "Models/IconSunRay.dds" )
+	Assets.UnloadTexture( "Textures/IconSunRay.dds" )
 
 	DestroyRayType(ray.spell.type)
 	ray = nil

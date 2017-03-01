@@ -135,6 +135,8 @@ function CreatePolymorph(entity)
 end
 
 function DestroyPolymorph(poly)
+	destroySparklyParticles(poly.spell.particles)
+
 	Gear.UnbindInstance(poly.transformID)
 
 	Assets.UnloadTexture("Textures/IconPolymorph.dds");

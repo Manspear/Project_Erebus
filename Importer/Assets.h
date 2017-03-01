@@ -119,6 +119,9 @@ namespace Importer
 		{
 			AssetID id( path, typeid(T).hash_code() );
 
+			if( path == "Textures/IconSunRay.dds" )
+				int f = 0;
+
 			std::map<AssetID, Asset*>::iterator it = assets.find( id );
 			if( it != assets.end() )
 			{

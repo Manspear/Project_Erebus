@@ -186,8 +186,6 @@ function UnloadPlayer()
 
 	Particle.Unbind(player.dashStartParticles)
 	Particle.Unbind(player.dashEndParticles)
-	Particle.Unbind(player2.dashStartParticles)
-	Particle.Unbind(player2.dashEndParticles)
 
 	DestroyAim(player.aim)
 	DestroyChargeEggs(player.charger)
@@ -198,6 +196,8 @@ function UnloadPlayer()
 	effectTable = {}
 
 	Assets.UnloadModel( "Models/player1.model" )
+	Assets.UnloadTexture( "Textures/ping.dds" )
+	Assets.UnloadTexture( "Textures/playerDeath.dds" )
 
 	UnloadPlayer2()
 end

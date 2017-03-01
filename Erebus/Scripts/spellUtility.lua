@@ -79,7 +79,7 @@ function DestroyCombineRay(ray)
 	Gear.UnbindInstance(ray.transformID2)
 	Gear.UnbindInstance(ray.transformID3)
 
-	Assets.UnloadModel( "Models/ComineBeamIce.model" )
+	Assets.UnloadModel( "Models/CombineBeamIce.model" )
 	Assets.UnloadModel( "Models/CombineBeamFire.model" )
 	Assets.UnloadModel( "Models/CombineBeamNature.model" )
 	ray = nil
@@ -220,6 +220,8 @@ function CreateChargeEggs(entity)
 end
 
 function DestroyChargeEggs(egg)
+	destroyChargeParticles(egg.particles)
+
 	Gear.UnbindInstance(egg.transformID)
 	Gear.UnbindInstance(egg.transformID2)
 	Gear.UnbindInstance(egg.transformID3)

@@ -172,11 +172,13 @@ namespace LuaGear
 	{
 		assert( lua_gettop( lua ) == 0 );
 
-		int anims = *g_boundAnimations;
+		/*int anims = *g_boundAnimations;
 		for( int i=0; i<anims; i++ )
 		{
 			g_animations[i].reset();
-		}
+		}*/
+		for( int i=0; i<MAX_ANIMATIONS; i++ )
+			g_animations[i].reset();
 		*g_boundAnimations = 0;
 
 		return 0;
@@ -382,6 +384,7 @@ namespace LuaGear
 
 		Animation* animation = &g_animations[index];
 		animation->setMatrixIndex(index);
+		animation->setActive( true );
 
 		lua_newtable(lua);
 		luaL_setmetatable(lua, "animationMeta");
@@ -398,6 +401,7 @@ namespace LuaGear
 		lua_getfield( lua, 1, "__self" );
 		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
 		animation->setActive( false );
+		animation->reset();
 
 		return 0;
 	}

@@ -85,9 +85,15 @@ function UnloadPlayer2()
 	DestroyAim(player2.aim)
 	DestroyChargeEggs(player2.charger)
 	DestroyRevive(player2.revive)
+
+	Particle.Unbind(player2.dashStartParticles)
+	Particle.Unbind(player2.dashEndParticles)
+
 	player2 = {}
 
 	Assets.UnloadModel( "Models/player2.model" )
+	Assets.UnloadTexture( "Textures/ping.dds" )
+	Assets.UnloadTexture( "Textures/playerDeath.dds" )
 end
 
 function UpdatePlayer2(dt)

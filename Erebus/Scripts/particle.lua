@@ -109,6 +109,7 @@ end
 
 --STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
 --STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
+SPARKLES = 0
 function createSparklyParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
@@ -126,6 +127,10 @@ function createSparklyParticles()
 	function sparkles:update(pos)
 		Emitter.SetPosition(self.ID, pos)
 	end
+
+	SPARKLES = SPARKLES + 1
+	print("SPARKLES", SPARKLES)
+
 	return sparkles
 end
 
@@ -134,6 +139,9 @@ function destroySparklyParticles(p)
 	p = nil
 
 	Assets.UnloadTexture("Textures/stars.dds");
+
+	SPARKLES = SPARKLES - 1
+	print("SPARKLES", SPARKLES)
 end
 
 function createSparklyParticles2()
@@ -153,6 +161,10 @@ function createSparklyParticles2()
 	function sparkles:update(pos)
 		Emitter.SetPosition(self.ID, pos)
 	end
+
+	SPARKLES = SPARKLES + 1
+	print("SPARKLES2", SPARKLES)
+
 	return sparkles
 end
 
@@ -161,6 +173,9 @@ function destroySparklyParticles2(p)
 	p = nil
 
 	Assets.UnloadTexture("Textures/stars.dds")
+
+	SPARKLES = SPARKLES - 1
+	print("SPARKLES2", SPARKLES)
 end
 
 function  createTumbleParticles()

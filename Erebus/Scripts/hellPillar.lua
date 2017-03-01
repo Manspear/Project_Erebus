@@ -267,7 +267,7 @@ function DestroyHellPillar(pillar)
 	Gear.UnbindInstance(pillar.transformID)
 	Gear.UnbindInstance(pillar.firstModel)
 
-	Assets.UnloadTexture( "Textures/IconHellPillar.dds" )
+	Assets.UnloadTexture( "Textures/IconHellPiller.dds" )
 	Assets.UnloadTexture( "Textures/hellpillarNewTex.dds" )
 	Assets.UnloadTexture( "Textures/hellpillarNewTex2.dds" )
 	Assets.UnloadModel( "Models/hellpillarTest1.model" )
