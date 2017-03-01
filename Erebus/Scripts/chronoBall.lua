@@ -1,4 +1,4 @@
---CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+--CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPillar.dds");
 CHRONOBALLLIFETIME = 10
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
@@ -21,7 +21,7 @@ function CreateChronoBall(entity)
 	spell.effectFlag = false
 	spell.maxChargeTime = CHRONOBALLMAXCHARGETIME
 	spell.chargedTime = 0
-	spell.hudtexture = Assets.LoadTexture("Textures/firepillar.dds");
+	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	--local model = Assets.LoadModel( "Models/projectile1.model" )
@@ -97,8 +97,10 @@ function CreateChronoBall(entity)
 end
 
 function DestroyChronoBall(ball)
+	DestroyProjectileType(ball.type)
+
 	Gear.UnbindInstance(ball.transformID)
 	Assets.UnloadModel("Models/projectile1.model")
-	Assets.UnloadTexture("Textures/firepillar.dds")
+	Assets.UnloadTexture("Textures/IconHellPiller.dds")
 	ball = nil
 end

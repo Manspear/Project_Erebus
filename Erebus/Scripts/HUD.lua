@@ -84,7 +84,6 @@ function UnloadHUD()
 	Assets.UnloadTexture( "Textures/spell1.dds" )
 	Assets.UnloadTexture( "Textures/spell2.dds" )
 	Assets.UnloadTexture( "Textures/spell3.dds" )
-	print("UNLOADING SEELCET")
 	Assets.UnloadTexture( "Textures/select.dds" )
 	Assets.UnloadTexture( "Textures/crosshair.dds" )
 

@@ -1,4 +1,4 @@
---TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+--TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
 TIMEORBWAVEDURATION = 6
 
 function CreateTimeOrbWave(entity)
@@ -11,7 +11,7 @@ function CreateTimeOrbWave(entity)
 	spell.lifetime = TIMEORBWAVEDURATION
 	spell.damage = 3
 	spell.alive = false
-	spell.hudtexture = Assets.LoadTexture("Textures/firepillar.dds");
+	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	--[[local model = Assets.LoadModel( "Models/grenade.model" )
@@ -55,5 +55,5 @@ function DestroyTimeOrbWave(orbwave)
 	DestroyOrbWaveType(orbwave.type)
 
 	Assets.UnloadModel( "Models/grenade.model" )
-	Assets.UnloadTexture("Textures/firepillar.dds");
+	Assets.UnloadTexture("Textures/IconHellPiller.dds");
 end
