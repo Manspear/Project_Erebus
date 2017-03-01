@@ -51,7 +51,12 @@ function LoadBoss()
 end
 
 function UnloadBoss()
+	DestroyTimeOrbWave(boss.spells[1])
+	DestroyChronoBall(boss.spells[2])
+	DestroyTimeLaser(boss.spells[3])
+
 	Gear.UnbindInstance(boss.transformID)
+	Assets.UnloadModel( "Models/THe_Timelord.model" )
 
 	boss = {}
 	boss.spells = {}

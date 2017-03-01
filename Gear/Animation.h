@@ -80,6 +80,8 @@ public:
 
 	GEAR_API void reset();
 
+	GEAR_API void setActive( bool active );
+	GEAR_API bool getActive() const;
 	GEAR_API void setCulled(bool c);
 	GEAR_API bool getCulled();
 
@@ -162,6 +164,8 @@ protected:
 	int quickBlendFrom, quickBlendTo, quickBlendSegment;
 	float quickBlendTime;
 	bool quickBlendingDone;
+
+	bool active;
 
 	glm::vec4 modelTint = glm::vec4(0, 0, 0, 0);
 

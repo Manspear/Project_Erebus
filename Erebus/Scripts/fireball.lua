@@ -1,4 +1,4 @@
-FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
+--FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
 FIRESPAM_COOLDOWN = 0.2
 FIREBALL_COOLDOWN = 6
 FIRESPAM_SPEED = 80
@@ -30,7 +30,7 @@ function CreateFireball(entity)
 	local spell = {}
 	spell.element = FIRE
 	spell.damage = FIREBALL_BASE_DMG
-	spell.hudtexture = FIREBALL_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconFireball.dds");
 	spell.isActiveSpell = false
 	spell.maxcooldown = FIREBALL_COOLDOWN		spell.minChargeTime = MIN_CHARGETIME_FIREBALL
 	spell.chargedTime = 0	spell.maxChargeTime = 3
@@ -44,9 +44,11 @@ function CreateFireball(entity)
 	spell.smallFB = {}		spell.currentFB = 1
 	for i = 1, 6 do	table.insert(spell.smallFB, initSmallFireball())	end
 	
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	FIREBALL_CASTSPEED_MULTIPLE = 1.1 + 0.1875
 	spell.castTimeAttack = 0.5 * FIREBALL_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * FIREBALL_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * FIREBALL_CASTSPEED_MULTIPLE
@@ -278,4 +280,21 @@ function CreateFireball(entity)
 	spell.Charge = BaseCharge
 	spell.Change = BaseChange
 	return spell
+end
+
+function DestroyFireball(fireball)
+	for _,v in pairs(fireball.spell.smallFB) do
+		DestroyFireEffectParticles(v.particles)
+		DestroyProjectileType(v.type)
+		Assets.UnloadModel( "Models/projectile1.model" )
+	end
+
+	DestroyFireEffectParticles(fireball.spell.ballParticles)
+
+	Gear.UnbindInstance(fireball.bigBallID)
+
+	Assets.UnloadModel( "Models/projectile1.model" )
+	Assets.UnloadTexture( "Textures/IconFireball.dds" )
+
+	fireball = nil
 end

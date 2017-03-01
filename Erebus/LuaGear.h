@@ -50,6 +50,7 @@ namespace LuaGear
 
 	int resetSegmentAnimationClock(lua_State* lua);
 	int bindAnimation(lua_State* lua);
+	int unbindAnimation(lua_State* lua);
 	int quickBlend(lua_State* lua);
 	int updateAnimationBlending(lua_State* lua);
 	int setTransitionTimes(lua_State* lua);

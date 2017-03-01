@@ -22,7 +22,12 @@ function LoadDeathUI()
 end
 
 function UnloadDeathUI()
+	Assets.UnloadTexture( "Textures/dead.dds" )
+	Assets.UnloadTexture( "Textures/buttonContinue.dds" )
+	Assets.UnloadTexture( "Textures/buttonExit.dds" )
 
+	screenImages = {}
+	imageTextures = {}
 end
 
 function UpdateDeathUI(dt)

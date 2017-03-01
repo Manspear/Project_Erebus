@@ -229,7 +229,7 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
 	for (size_t i = 0; i < ps->size(); i++)
 	{
-		if (ps->at(i)->isActive)
+		if( ps->at(i) && ps->at(i)->isActive)
 		{
 			results = true;
 			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
@@ -248,7 +248,7 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 	
 	for (size_t i = 0; i < emitters->size(); i++)
 	{
-		if (emitters->at(i)->isActive)
+		if (emitters->at(i) && emitters->at(i)->isActive)
 		{
 			pos = emitters->at(i)->getPositions();
 			emitters->at(i)->getTexture()->bind(GL_TEXTURE0);
@@ -321,7 +321,8 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		numInstance = 0;
 
 		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
-		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
+		if( animatedModels->at(i).getActiveTransforms() > 0 )
+			modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
@@ -329,7 +330,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		for( int j=0; j<animatedModels->at(i).getTransforms()->size(); j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
-			if( animatedModels->at(i).getTransform(j)->active && !animatedModels->at(i).getCulled(j) )
+			if( !animatedModels->at(i).getCulled(j) && animatedModels->at(i).getTransform(j)->active && !animatedModels->at(i).getCulled(j) )
 			{
 				//int index = animatedModels->at(i).worldIndices.at(j);
 				//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
