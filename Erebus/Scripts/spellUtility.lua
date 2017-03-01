@@ -126,14 +126,17 @@ function CreateChargeEggs(entity)
 	chargeThing.P2SpellElement = 0
 	
 	function chargeThing:ChargeMePlease(dt)
+		print(self.timer, "\t",player2.charger)
 		self.pos = Transform.GetPosition(self.caster)	
 		self.pos.y = self.pos.y - 1	 
 		Transform.SetPosition(self.elementalTransformID, self.pos)		
 		self.rotSmall.y = self.rotSmall.y + (2) * dt
 		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
-		self.timer = self.timer - dt
-		if self.timer < 0 then
-			Transform.SetScale(self.elementalTransformID, 1)
+		if self.timer then
+			self.timer = self.timer - dt
+			if self.timer < 0 then
+				Transform.SetScale(self.elementalTransformID, 1)
+			end
 		end
 	end
 
@@ -149,7 +152,7 @@ function CreateChargeEggs(entity)
 
 	function chargeThing:CombinedAndCharged(dt, chargePower)
 		self.pos = Transform.GetPosition(self.caster)
-			--nature particle alla typer 
+		--nature particle alla typer 
 		self.firstCombine = false
 		
 		if self.light then
@@ -224,7 +227,7 @@ function CreateChargeEggs(entity)
 
 	function chargeThing:StartParticles(spellElement)
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
-		sel.timer = 0
+		self.timer = 0
 		if spellElement == 1 then
 			self.particles:fireElement()
 			self.particles:cast()
