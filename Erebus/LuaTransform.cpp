@@ -409,7 +409,6 @@ namespace LuaTransform
 
 		int index = (int)lua_tointeger( lua, 1 );
 
-		//glm::vec3 rotation = g_transforms[index].getRotation();
 		glm::vec3 rotation = g_transformHandler->getTransform(index)->rot;
 
 		lua_newtable( lua );
