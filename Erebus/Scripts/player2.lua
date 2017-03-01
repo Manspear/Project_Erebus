@@ -1,14 +1,10 @@
 function LoadPlayer2()
 	-- set basic variables for the player2
-	player2.moveSpeed = 5.25
+	player2.moveSpeed = 40
 	player2.isAlive = true
-	player2.isCombined = false;
+	player2.isCombined = false
+	player2.firstCombine = true
 	player2.health = 100
-	player2.forward = 0
-	player2.left = 0
-	player2.timeScalar = 1.0
-	player2.printInfo = false
-	player2.spamCasting = false
 	player2.charging = false
 	player2.position = {x=0, y=0, z=0}
 	
@@ -34,12 +30,6 @@ function LoadPlayer2()
 	player2.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player2.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
 
-	player2.nrOfInnerCircleEnemies = 0
-	player2.nrOfOuterCircleEnemies = 0
-
-	player2.outerCirclerange = 4
-	player2.innerCirclerange = 8
-
 	player2.combineRayActive = false
 
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
@@ -55,6 +45,14 @@ function LoadPlayer2()
 
 	--local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
+
+	player2.lastPos = Transform.GetPosition(player.transformID)
+
+	player2.nrOfInnerCircleEnemies = 0
+	player2.nrOfOuterCircleEnemies = 0
+
+	player2.outerCirclerange = 4
+	player2.innerCirclerange = 8
 
 	function player2.Hurt(self,damage, source)
 
@@ -151,6 +149,7 @@ function UpdatePlayer2(dt)
 					player2.charger:EndCharge()
 					player2.charging = false
 					player2.isCombined = false
+					player2.firstCombine = true
 				end
 			end
 		end
@@ -159,6 +158,11 @@ function UpdatePlayer2(dt)
 	if player2.charging == true then
 		player2.spells[player2.currentSpell]:Charge(dt)
 		player2.charger:Update(dt, player2.spells[player2.currentSpell].chargedTime)
+	end
+
+	if player2.firstCombine and player2.isCombined then
+		player2.firstCombine = false
+		player2.charger:StartParticles(player.spells[player.currentSpell].element)
 	end
 	
 	player2.spells[1]:Update(dt)

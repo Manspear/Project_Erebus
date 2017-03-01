@@ -43,7 +43,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 10
+	player.moveSpeed = 50
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -466,6 +466,7 @@ function Controls(dt)
 			SendCombine(player.spells[player.currentSpell])
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
+			--player.useRayAttack
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -574,7 +575,6 @@ function Controls(dt)
 					player.globalSpellSwitchingCooldownTimerStarted = true
 				end
 			end
-
 		end
 
 		if not player.spamCasting then
