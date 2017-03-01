@@ -101,7 +101,7 @@ function DestroyChronoBall(ball)
 	DestroyProjectileType(ball.type)
 
 	Gear.UnbindInstance(ball.transformID)
-	Assets.UnloadModel("Models/projectile1.model")
+	Assets.UnloadModel("Models/ChronoBall.model")
 	Assets.UnloadTexture("Textures/ChargeTemp.dds")
 	ball = nil
 end

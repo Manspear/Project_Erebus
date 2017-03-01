@@ -120,9 +120,12 @@ namespace Importer
 		if( normalTexture )
 			normalTexture->decrementReferenceCount();*/
 
-		assets->unload<TextureAsset>( diffuseName );
-		assets->unload<TextureAsset>( specularName );
-		assets->unload<TextureAsset>( normalName );
+		if( !diffuseName.empty() )
+			assets->unload<TextureAsset>( diffuseName );
+		if( !specularName.empty() )
+			assets->unload<TextureAsset>( specularName );
+		if( !normalName.empty() )
+			assets->unload<TextureAsset>( normalName );
 	}
 
 	void MaterialAsset::upload()
