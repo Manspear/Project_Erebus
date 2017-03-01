@@ -1,4 +1,4 @@
-CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
 CHRONOBALLLIFETIME = 0.9
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
