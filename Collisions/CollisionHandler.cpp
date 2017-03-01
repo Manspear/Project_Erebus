@@ -458,4 +458,11 @@ namespace Collisions
 		leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		leafHitboxIDSaver->resize(layerAmount);
 	}
+	void CollisionHandler::setHardcodedSettings()
+	{
+		for (int i = 0; i < this->layerAmount; i++) // no layer collide with itself
+		{
+			this->setLayerCollisionMatrix(i, i, false);
+		}
+	}
 }

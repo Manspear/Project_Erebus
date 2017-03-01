@@ -55,6 +55,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS void printCollisions();
 
 		COLLISIONS_EXPORTS void reset();
+		COLLISIONS_EXPORTS void setHardcodedSettings();
 
 	private:
 		std::vector<SphereCollider*> sphereColliders;

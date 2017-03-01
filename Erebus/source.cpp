@@ -97,7 +97,7 @@ DWORD WINAPI update(LPVOID args)
 	//collisionHandler.setTransforms( transforms );
 	//collisionHandler.setDebugger(Debugger::getInstance());
 	//collisionHandler.setTransforms( data->transformHandler );
-	collisionHandler.setLayerCollisionMatrix(1, 1, false);
+	collisionHandler.setHardcodedSettings();
 
 	ai.addDebug(Debugger::getInstance());
 
