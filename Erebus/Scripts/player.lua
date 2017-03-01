@@ -565,9 +565,11 @@ function Controls(dt)
 				if player.spells[player.currentSpell].chargeAlive == false then 
 					player.spells[player.currentSpell].lifeTime = -1
 					player.firstRayAttack = true
+					player.useRayAttack = false
 				end
+			else
+				player.useRayAttack = false
 			end
-			player.useRayAttack = false
 		end
 	end
 	
