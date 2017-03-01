@@ -43,7 +43,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 10
+	player.moveSpeed = 100
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
