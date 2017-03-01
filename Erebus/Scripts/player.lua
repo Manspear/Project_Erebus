@@ -482,8 +482,8 @@ function Controls(dt)
 				dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
 				if dot >0.25 then
 
-					player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
-					if player2.charging == true then
+					local result = player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
+					if player2.charging == true and result == true then
 						player2.isCombined = true
 						player2.combinedSpell = player.spells[player.currentSpell].spellListId
 					end
