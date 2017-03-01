@@ -43,7 +43,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 100
+	player.moveSpeed = 10
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -111,10 +111,13 @@ function LoadPlayer()
 
 	player.outerCirclerange = 4
 	player.innerCirclerange = 8
-
+	camera.toFollow = player
 	-- set spells for player
 	player.spells = {}	
 	player.currentSpell = 1
+	model = Assets.LoadModel("Models/nothing.model")
+	player.dummyTrans = {transformID = nil}
+	player.dummyTrans.transformID = Gear.BindStaticInstance(model)
 	function player.Hurt(self,damage, source)
 		self.damagedTint.a = 1
 		if not player.invulnerable then
@@ -136,11 +139,15 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.health = 0
+		self.isAlive = false
+		camera.toFollow = player.dummyTrans
+		Erebus.SetControls(player.dummyTrans.transformID)
 	end
 
 	function player.ImDead(self, dt)
-		self.isAlive = false
-		self:Kill()
+		if self.isAlive then
+			self:Kill()
+		end
 	end
 
 	function player.ChangeHeightmap(self, levelIndex)
@@ -415,6 +422,12 @@ function UpdatePlayer(dt)
 			end
 		end
 	end
+	if player.isAlive then
+		Transform.CopyTransform(player.transformID, player.dummyTrans.transformID)
+	else
+		
+	end
+
 	UpdateCamera(dt)
 end
 
