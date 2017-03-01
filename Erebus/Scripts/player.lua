@@ -136,9 +136,6 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.health = 0
-		for i=1, #enemies do
-			enemies[i].SetState(enemies[i], IDLE_STATE )
-		end
 	end
 
 	function player.ImDead(self, dt)
