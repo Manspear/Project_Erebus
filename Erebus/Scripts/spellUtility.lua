@@ -51,7 +51,7 @@ function CreateCombineRay(entity)
 	function ray:FireChargeBeam(dt,dir,spellElement, len)
 		
 		self.counter = self.counter + dt	
-		if self.counter < 2 then
+		if self.counter < 1.2 then
 			Transform.ActiveControl(self.transformID, false)
 			Transform.ActiveControl(self.transformID2, false)
 			Transform.ActiveControl(self.transformID3, false)
