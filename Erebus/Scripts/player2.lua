@@ -46,6 +46,14 @@ function LoadPlayer2()
 	--local model = Assets.LoadModel("Models/player1.model")
 	player2.effects = {}
 
+	player2.lastPos = Transform.GetPosition(player.transformID)
+
+	player2.nrOfInnerCircleEnemies = 0
+	player2.nrOfOuterCircleEnemies = 0
+
+	player2.outerCirclerange = 4
+	player2.innerCirclerange = 8
+
 	function player2.Hurt(self,damage, source)
 
 	end
