@@ -17,6 +17,7 @@ function CreateTumblethorns(entity)
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
 	
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.

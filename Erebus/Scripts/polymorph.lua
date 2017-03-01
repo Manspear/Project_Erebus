@@ -21,6 +21,7 @@ function CreatePolymorph(entity)
 	spell.morphTime = 3
 	spell.effects = {}
 	
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = false
 

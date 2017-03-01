@@ -34,6 +34,7 @@ function CreateBlackHole(entity)
 	spell.soundID = {-1, -1, -1}
 	spell.Change = GenericChange
 
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = false
 

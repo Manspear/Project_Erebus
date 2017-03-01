@@ -15,6 +15,7 @@ function CreateWindknockback(entity)
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
 	
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
