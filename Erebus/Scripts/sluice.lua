@@ -42,7 +42,6 @@ function SluiceUpdate(dt, sluice)
 			Transform.SetPosition(sluice.transformIDopen, vec3add(shakeIt, sluice.position))
 			local shakeIt2 = {x = shakeShifter * (sluice.lookAt2.x * dt), y = -sluice.lowering, z = shakeShifter * (sluice.lookAt2.z * dt)}
 			Transform.SetPosition(sluice.transformIDclose, vec3add(shakeIt2, sluice.position2))
-			
 			if sluice.sluiceTime < 0 then
 				sluice.colliderClose.collider:SetPos(sluice.position2.x, sluice.position2.y + 4, sluice.position2.z)
 				local hitboxDir = vec3cross(sluice.lookAt2, {x = 0, y = 1, z = 0})
