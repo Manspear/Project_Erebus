@@ -1,14 +1,15 @@
 FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
-FIRESPAM_COOLDOWN = 0.6
+FIRESPAM_COOLDOWN = 0.2
 FIREBALL_COOLDOWN = 6
-FIRESPAM_SPEED = 100
+FIRESPAM_SPEED = 80
 FIREBALL_SPEED = 18
-FIREBALL_LIFETIME = 10
+FIREBALL_LIFETIME = 8
 FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
 FIRESPAM_DAMAGE = 50
 FIREBALL_BASE_DMG = 4
 FIREBALL_LIGHTRADIUS = 5
+FIREBALL_CASTSPEED_MULTIPLE = 1
 FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
 FIREBALL_SMALL_HIT_SFX = "Effects/explosion.wav"
 FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
@@ -20,7 +21,7 @@ function CreateFireball(entity)
 		tiny.type = CreateProjectileType(model)
 		tiny.damage = FIRESPAM_DAMAGE
 		tiny.alive = false
-		tiny.lifeTime = 1.8
+		tiny.lifeTime = 1
 		tiny.hits = {}
 		tiny.particles = CreateFireEffectParticles()
 		return tiny
@@ -31,7 +32,7 @@ function CreateFireball(entity)
 	spell.damage = FIREBALL_BASE_DMG
 	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 	spell.isActiveSpell = false
-	spell.maxcooldown = FIREBALL_COOLDOWN
+	spell.maxcooldown = FIREBALL_COOLDOWN		spell.minChargeTime = MIN_CHARGETIME_FIREBALL
 	spell.chargedTime = 0	spell.maxChargeTime = 3
 	spell.caster = entity.transformID
 	spell.owner = entity
@@ -41,7 +42,7 @@ function CreateFireball(entity)
 	spell.smallFBSoundID = {}
 	spell.bigFBSoundID = -1
 	spell.smallFB = {}		spell.currentFB = 1
-	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
+	for i = 1, 6 do	table.insert(spell.smallFB, initSmallFireball())	end
 	
 	spell.isRay = false
 	--For animation timing 

@@ -6,6 +6,7 @@ POLYMORPH_EFFECT_INDEX = 5
 KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
+DASH_SPEED_MULTIPLE = 3.2 + 0.1875
 --Used for spellCharging
 FIRE=1
 NATURE=2
@@ -42,7 +43,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 10
+	player.moveSpeed = 50
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -59,6 +60,9 @@ function LoadPlayer()
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
+	player.dashTimer = 0
+	player.Startdash = false
+
 	player.invulnerable = false
 	player.position = Transform.GetPosition(player.transformID)
 	player.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
@@ -96,6 +100,8 @@ function LoadPlayer()
 
 	Particle.SetExtro(player.dashStartParticles, false)
 	Particle.SetExtro(player.dashEndParticles, true)
+
+	player.dashTimer = player.dashTimer * DASH_SPEED_MULTIPLE 
 
 	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
@@ -451,7 +457,7 @@ function Controls(dt)
 			SendCombine(player.spells[player.currentSpell])
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
-			showWaitingForPlayer2(dt)
+			--player.useRayAttack
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -505,7 +511,7 @@ function Controls(dt)
 		--ATTACK DELAY TIMER
 		player.attackDelayTimer = player.attackDelayTimer + dt
 
-		if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 			if player.spells[player.currentSpell].hasSpamAttack == true then 
 				if player.spells[player.currentSpell].isRay == false then  
 					player.useRayAttack = false
@@ -588,7 +594,6 @@ function Controls(dt)
 			player.globalSpellSwitchingCooldownTimerStarted = true
 		end
 	end
-
 	if not player.spamCasting then
 		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
 			if player.charging == true then
@@ -598,7 +603,7 @@ function Controls(dt)
 				if player.spells[player.currentSpell].cooldown<0 then
 					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false, 0, 0, 0)
 					sElement = player.spells[player.currentSpell].element	
-					player.charger:StartCharge(player.position, sElement) 
+					player.charger:StartCharge(player.position, sElement, player.spells[player.currentSpell].minChargeTime) 
 					player.charging = true	
 				end		
 			end
@@ -625,7 +630,15 @@ function Controls(dt)
 
 	if Inputs.KeyPressed(SETTING_KEYBIND_DASH) and player.dashcd < 0 then
 		Particle.Explode(player.dashStartParticles, player.position)
+			--player.dashTimer = dt - player.dashtime * 0.3
+	
+			--if player.dashTimer == player.dashTimer * 2 then
 		Transform.SetScale(player.transformID, 0)
+			--print("start")
+			--end
+		
+			--player.dashTimer = player.dashTimer + DASH_DURATION - 0.3
+			print(player.dashTimer)
 		player.dashcd = DASH_COOLDOWN
 		player.dashdir.x = player.forward * 3.5
 		player.dashdir.z = player.left * 3.5

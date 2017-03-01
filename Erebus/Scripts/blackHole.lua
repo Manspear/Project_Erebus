@@ -18,6 +18,7 @@ function CreateBlackHole(entity)
 	spell.element = NATURE
 	local model = Assets.LoadModel( "Models/blackHole_Rings.model" )
 	spell.type = CreateStaticAoEType(model)
+	spell.minChargeTime = 0
 	--spell.innerTransformID = Transform.Bind()
 	spell.owner = entity
 	spell.effects = {}
@@ -163,6 +164,9 @@ function CreateBlackHole(entity)
 		self.hits = {}
 		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 		self.alive = false
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 		Transform.ActiveControl(self.innerTransformID, false)
 	
 	end

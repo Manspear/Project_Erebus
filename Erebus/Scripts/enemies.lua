@@ -151,7 +151,7 @@ function CreateEnemy(type, position, element)
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
-
+		SphereCollider.SetActive(self.sphereCollider, false)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 
@@ -161,7 +161,6 @@ function CreateEnemy(type, position, element)
 			self.insideInnerCircleRange = false
 		end
 
-	
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
@@ -203,7 +202,7 @@ function CreateEnemy(type, position, element)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 	enemies[i].sphereCollider:SetRadius(2)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
-	
+
 	if Network.GetNetworkHost() == true then
 		enemies[i].state =  stateScript.state.idleState
 		if type == ENEMY_DUMMY then
@@ -491,13 +490,15 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 and player.health > 0 then
+	if player.isAlive and lengthToP1 < lengthToP2 then
 		enemy.playerTarget = player
-	elseif player2.health > 0  and lengthToP1 > lengthToP2 then
+	elseif player2.isAlive then
 		enemy.playerTarget = player2
+	else
+		enemy.playerTarget = player
 	end
 
-	if player2 == nil and  player.health > 0 then
+	if player2 == nil and  player.isAlive then
 		enemy.playerTarget = player
 	end
 end

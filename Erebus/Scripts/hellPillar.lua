@@ -18,7 +18,7 @@ function CreateHellPillar(entity)
 	spell.caster = entity.transformID	
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
-	spell.chargedTime = 0	
+	spell.chargedTime = 0	spell.minChargeTime = MIN_CHARGE_TIME_PILLAR
 	
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)

@@ -1,5 +1,6 @@
 WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
-WINDKNOCKBACK_COOLDOWN = 2
+WINDKNOCKBACK_COOLDOWN = 1.5
+WINDKNOCKBACK_CASTSPEED_MULTIPLE = 4.5
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
@@ -10,7 +11,7 @@ function CreateWindknockback(entity)
 	spell.damage = 0
 	spell.alive = false
 	spell.chargedTime = 0
-	spell.maxChargeTime = 2
+	spell.maxChargeTime = 2		spell.minChargeTime = 0
 	spell.isActiveSpell = false
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
@@ -19,7 +20,6 @@ function CreateWindknockback(entity)
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
-	WINDKNOCKBACK_CASTSPEED_MULTIPLE = 2
 	spell.castTimeAttack = 0.5 * WINDKNOCKBACK_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * WINDKNOCKBACK_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * WINDKNOCKBACK_CASTSPEED_MULTIPLE
@@ -73,9 +73,9 @@ function CreateWindknockback(entity)
 		self.alive = true		self.stage1time = 0.5
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
-		pos.x = pos.x + direction.x * 2
-		pos.y = pos.y + direction.y * 2
-		pos.z = pos.z + direction.z * 2
+		pos.x = pos.x + direction.x * 3
+		pos.y = pos.y + direction.y * 3
+		pos.z = pos.z + direction.z * 3
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
