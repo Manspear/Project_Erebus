@@ -278,7 +278,7 @@ function CreateChargeEggs(entity)
 end
 
 function DestroyChargeEggs(egg)
-	destroyChargeParticles(egg.particles)
+	destroyParticlesByElement(egg.particles)
 
 	Gear.UnbindInstance(egg.transformID)
 	Gear.UnbindInstance(egg.transformID2)

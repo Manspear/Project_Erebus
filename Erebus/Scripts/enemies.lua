@@ -261,8 +261,10 @@ function UpdateEnemies(dt)
 		end
 		AI.ClearMap(player.lastPos,0)
 		player.lastPos = Transform.GetPosition(player.transformID)
-		
 		AI.AddIP(player.transformID,1,0)
+		AI.ClearMap(player2,0)
+		player2.lastPos = Transform.GetPosition(player2.transformID)
+		AI.AddIP(player2.transformID,1,0)
 		
 	end
 	local tempdt

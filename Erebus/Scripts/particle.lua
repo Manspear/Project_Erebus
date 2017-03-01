@@ -75,8 +75,7 @@ function DestroyFireballParticles(p)
 	p = nil
 end
 
---CHARGE_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpell.dds")
-function createChargeParticles()
+--[[function createChargeParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
 	local charge = {}
 	charge.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)  
@@ -105,7 +104,7 @@ function destroyChargeParticles(p)
 	p = nil
 
 	Assets.UnloadTexture( "Textures/fireSpell.dds" )
-end
+end--]]
 
 --STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
 --STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
@@ -244,12 +243,15 @@ function destroyTimeslowParticles(p)
 	p = nil
 end
 
-CHARGE_FIRE_TEX = Assets.LoadTexture("Textures/fireSpell.dds") --element = 1
-CHARGE_NATURE_TEX = Assets.LoadTexture("Textures/greenDot.dds") --element = 2
-CHARGE_ICE_TEX = Assets.LoadTexture("Textures/brightParticle.dds") --element = 3
+--CHARGE_FIRE_TEX = Assets.LoadTexture("Textures/fireSpell.dds") --element = 1
+--CHARGE_NATURE_TEX = Assets.LoadTexture("Textures/greenDot.dds") --element = 2
+--CHARGE_ICE_TEX = Assets.LoadTexture("Textures/brightParticle.dds") --element = 3
 function createParticlesByElement()
 	local chargePart = {}
 	chargePart.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)
+	chargePart.FIRE_TEX = Assets.LoadTexture("Textures/fireSpell.dds")
+	chargePart.NATURE_TEX = Assets.LoadTexture("Textures/greenDot.dds")
+	chargePart.ICE_TEX = Assets.LoadTexture("Textures/brightParticle.dds")
 	
 	function chargePart:fireElement()
 		Emitter.SetTexture(chargePart.ID, CHARGE_FIRE_TEX)
@@ -275,4 +277,14 @@ function createParticlesByElement()
 	end
 
 	return chargePart
+end
+
+function destroyParticlesByElement(part)
+	Emitter.Unbind(part)
+
+	Assets.UnloadTexture("Textures/fireSpell.dds")
+	Assets.UnloadTexture("Textures/greenDot.dds")
+	Assets.UnloadTexture("Textures/brightParticle.dds")
+
+	part = nil
 end
