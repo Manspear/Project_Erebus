@@ -52,9 +52,9 @@ function CreateBlackHole(entity)
 	--local model = Assets.LoadModel( "Models/blackHole.model" )
 	local model2 = Assets.LoadModel( "Models/blackHole_Sphere.model" )
 	spell.innerTransformID = Gear.BindStaticInstance(model2)
-	--spell.modelIndex = Gear.AddForwardInstance(model, spell.type.transformID)
+	Transform.ActiveControl(spell.innerTransformID, false)
+
 	Gear.SetUniformLocation(spell.type.transformID, "aValue");
-	--Gear.AddStaticInstance(model2, spell.type.transformID)
 	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
 
 	function spell:GetCollider()

@@ -62,8 +62,7 @@ function CreateFireball(entity)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.bigBallID, false)
-	--local model = Assets.LoadModel("Models/projectile1.model")
-	--Gear.AddStaticInstance(model, spell.bigBallID)
+
 	spell.lifeTime = FIREBALL_LIFETIME
 	spell.explodeTime = 0.5
 	spell.enemiesHit = {}

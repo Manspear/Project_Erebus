@@ -27,15 +27,9 @@ function CreateIceGrenade(entity)
 		nade.exploding = false
 		nade.hits = {}
 		nade.soundID = -1
-		--nade.transform2ID = Transform.Bind()
-
-		--local model = Assets.LoadModel( "Models/grenade.model" )
-		--Gear.AddStaticInstance(model, nade.type.transformID)
-
-		--local model2 = Assets.LoadModel("Models/isTappar1.model");
-		--Gear.AddStaticInstance(model2, nade.transform2ID)
 		local model2 = Assets.LoadModel("Models/isTappar1.model")
 		nade.transform2ID = Gear.BindStaticInstance(model2)
+		Transform.ActiveControl(nade.transform2ID, false)
 		return nade
 	end
 	

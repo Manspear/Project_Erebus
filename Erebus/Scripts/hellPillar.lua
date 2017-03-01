@@ -41,7 +41,7 @@ function CreateHellPillar(entity)
 	--Set up collider, model and transform for the pillar
 	spell.riseFactor = 0.1
 	spell.chargeID = -1
-	--spell.transformID = Transform.Bind()
+
 	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
 	spell.transformID = Gear.BindBlendingInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
@@ -49,8 +49,6 @@ function CreateHellPillar(entity)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	--local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
-	--Gear.AddBlendingInstance(model, spell.transformID)
 	
 	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
 	spell.aliveCharged = false
@@ -62,13 +60,10 @@ function CreateHellPillar(entity)
 	spell.startUp = true		spell.startUpTime = 0		spell.growAgain = true	
 	spell.finishingTime = 0		spell.maxScale = 0			spell.scale = 0
 	spell.isActiveSpell = false
-	--spell.lightRadius = 0	spell.light = 0
-	--Set up the first model
-	--spell.firstModel = Transform.Bind()
-	--local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
-	--Gear.AddForwardInstance(model, spell.firstModel)
+
 	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
 	spell.firstModel = Gear.BindForwardInstance(model)
+	Transform.ActiveControl(spell.firstModel, false)
 
 	spell.light = nil
 

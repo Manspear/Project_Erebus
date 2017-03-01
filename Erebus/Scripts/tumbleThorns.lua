@@ -1,4 +1,3 @@
---TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 0.5
 TUMBLETHORNS_COOLDOWN = 4
@@ -29,6 +28,7 @@ function CreateTumblethorns(entity)
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
+	Transform.ActiveControl(spell.transformID, false)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
