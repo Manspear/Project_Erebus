@@ -447,7 +447,6 @@ function Controls(dt)
 			SendCombine(player.spells[player.currentSpell])
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
-			--player.useRayAttack
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -484,10 +483,13 @@ function Controls(dt)
 					end
 				else 
 					player.friendCharger:EndChargeBeam()
+					player.friendCharger:resetCooldown()
+
 				end
 
 			else 
 				player.friendCharger:EndChargeBeam()
+				player.friendCharger:resetCooldown()
 			end
 		end
 		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
@@ -501,7 +503,6 @@ function Controls(dt)
 		if not player.charging then
 			--ATTACK DELAY TIMER
 			player.attackDelayTimer = player.attackDelayTimer + dt
-
 			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				if player.spells[player.currentSpell].hasSpamAttack == true then 
 					player.charger:EndCharge()
