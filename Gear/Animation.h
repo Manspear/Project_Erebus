@@ -112,6 +112,8 @@ protected:
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
 
+	bool modifyAnimationLength[MAXNUMSEGMENTS];
+
 	//Muy importante.
 	int numJoints;
 

@@ -6,6 +6,7 @@ POLYMORPH_EFFECT_INDEX = 5
 KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
+DASH_SPEED_MULTIPLE = 3.2 + 0.1875
 --Used for spellCharging
 FIRE=1
 NATURE=2
@@ -59,6 +60,9 @@ function LoadPlayer()
 	player.dashdir = {x= 0, z= 0}
 	player.dashtime = 0
 	player.dashcd = 0
+	player.dashTimer = 0
+	player.Startdash = false
+
 	player.invulnerable = false
 	player.position = Transform.GetPosition(player.transformID)
 	player.pingImage = UI.load(0, -3, 0, 0.75, 0.75)
@@ -92,6 +96,8 @@ function LoadPlayer()
 
 	Particle.SetExtro(player.dashStartParticles, false)
 	Particle.SetExtro(player.dashEndParticles, true)
+
+	player.dashTimer = player.dashTimer * DASH_SPEED_MULTIPLE 
 
 	player.lastPos = Transform.GetPosition(player.transformID)
 	player.effects = {}
@@ -448,7 +454,6 @@ function Controls(dt)
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			--player.useRayAttack
-			showWaitingForPlayer2(dt)
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -495,18 +500,17 @@ function Controls(dt)
 			HideCrosshair()
 			hideWaitingForPlayer2()
 			player.friendCharger:EndChargeBeam()
-			Network.SendChargingPacket(0, 0, 0, false) 
+			Network.SendChargingPacket(0, false) 
 		end
 
 		if not player.charging then
 			--ATTACK DELAY TIMER
 			player.attackDelayTimer = player.attackDelayTimer + dt
 
-		if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				if player.spells[player.currentSpell].hasSpamAttack == true then 
 					player.charger:EndCharge()
 					player.spamCasting = true
-					
 					
 					if player.firstAttack == true then 		
 						if player.attackDelayTimerStarted == false then 
@@ -522,20 +526,17 @@ function Controls(dt)
 							player.attackDelayTimer = overTime
 							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
 							
-							--Gets in here every time it should. But the cast function is not executed for some reason.
 							player.spellDirection = Camera.GetDirection()
 							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
-							player.spells[player.currentSpell]:Cast(player, 0.5, false)	
+							player.spells[player.currentSpell]:Cast(player)	
 						end 
 					end
 				end
 			end
-			
 			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.spamCasting = false
 				player.firstAttack = true
 				player.attackDelayTimerStarted = false
-				player.animationController.animation:ResetSegmentPlayTime(1)
 			end
 
 			if player.globalSpellSwitchingCooldownTimerStarted == true then 
@@ -559,10 +560,8 @@ function Controls(dt)
 					player.resetSpamAttack = true
 					
 					player.globalSpellSwitchingCooldownTimerStarted = true
-					--player.animationController.animation:ResetSegmentPlayTime(1)
 				end
 			end
-
 		end
 
 		if not player.spamCasting then
@@ -574,7 +573,7 @@ function Controls(dt)
 					if player.spells[player.currentSpell].cooldown<0 then
 						Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false, 0, 0, 0)
 						sElement = player.spells[player.currentSpell].element	
-						player.charger:StartCharge(player.position, sElement) 
+						player.charger:StartCharge(player.position, sElement, player.spells[player.currentSpell].minChargeTime) 
 						player.charging = true	
 					end		
 				end
@@ -595,13 +594,21 @@ function Controls(dt)
 
 		if Inputs.KeyPressed(SETTING_KEYBIND_DASH) and player.dashcd < 0 then
 			Particle.Explode(player.dashStartParticles, player.position)
+			--player.dashTimer = dt - player.dashtime * 0.3
+	
+			--if player.dashTimer == player.dashTimer * 2 then
 			Transform.SetScale(player.transformID, 0)
+			--print("start")
+			--end
+		
+			--player.dashTimer = player.dashTimer + DASH_DURATION - 0.3
+			print(player.dashTimer)
 			player.dashcd = DASH_COOLDOWN
 			player.dashdir.x = player.forward * 3.5
 			player.dashdir.z = player.left * 3.5
 			player.dashtime = DASH_DURATION
 			player.invulnerable = true
-			Network.SendDashPacket(true)
+			Network.SendDashPacket(true)	
 		end
 	end
 end

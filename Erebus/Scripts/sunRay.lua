@@ -23,7 +23,7 @@ function CreateSunRay(entity)
 	sunRay.chargedTime = 0
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
-	sunRay.maxChargeTime = 3
+	sunRay.maxChargeTime = 3		sunRay.minChargeTime = 0
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
 	sunRay.length = 0
 	sunRay.angle = 2	sunRay.spin = 0.3
