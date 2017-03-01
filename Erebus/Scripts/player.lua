@@ -500,6 +500,7 @@ function Controls(dt)
 			HideCrosshair()
 			hideWaitingForPlayer2()
 			player.friendCharger:EndChargeBeam()
+			player.friendCharger:resetCooldown()
 			Network.SendChargingPacket(0, false) 
 		end
 
