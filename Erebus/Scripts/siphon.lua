@@ -140,10 +140,8 @@ function CreateSiphon(entity)
 	function spell:rotatetotarget()
 		if self.chained then
 			if self.chained.health > 0 then
-				--print("tjoo")
 				self.temppos = Transform.GetPosition(self.chained.transformID)
 			end
-			--print(self.temppos.x .. " y: " .. self.temppos.y .. " z: " .. self.temppos.z)
 			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), self.temppos)
 			--self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.temppos)
 			self.length = Transform.GetDistanceBetweenTransAndPos(self.owner.transformID, self.temppos)

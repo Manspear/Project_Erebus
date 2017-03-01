@@ -53,7 +53,6 @@ function CreateHellPillar(entity)
 	--Gear.AddBlendingInstance(model, spell.transformID)
 	
 	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
-	print(spell.blendingIndex)
 	spell.aliveCharged = false
 	spell.attack = false
 	spell.effects = {}
