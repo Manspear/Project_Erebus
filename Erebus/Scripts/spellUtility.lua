@@ -18,21 +18,29 @@ end
 
 function CreateCombineRay(entity)
 	local ray = {}
-
+	
+	Gear.SetUniformLocation(ray.modelIndex, "aValue");
 	
 	local rayIce = Assets.LoadModel( "Models/CombineBeamIce.model" )
-	ray.transformID = Gear.BindForwardInstance(rayIce)
-	Gear.SetUniformLocation(ray.modelIndex, "aValue");
+	ray.transformID = Gear.BindBlendingInstance(rayIce)
+	--ray.transformID = Gear.BindForwardInstance(rayIce)
+	
 
 	local rayFire = Assets.LoadModel("Models/CombineBeamFire.model")
-	ray.transformID2 = Gear.BindForwardInstance(rayFire)
-
+	ray.transformID2 = Gear.BindBlendingInstance(rayFire)
+	--ray.transformID2 = Gear.BindForwardInstance(rayFire)
+	
 	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
-	--ray.transformID3 = Gear.BindForwardInstance(rayNature)
 	ray.transformID3 = Gear.BindBlendingInstance(rayNature)
+
 	Gear.SetBlendTextures(ray.transformID3, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	
+	Gear.SetBlendTextures(ray.transformID, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
+	Gear.SetBlendTextures(ray.transformID2, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
+	
 	ray.blendValue1 = {x = 0.0, y = 0.0}
 	ray.blendValue2 = {x = 0.0, y = 0.0}
+
 	ray.caster = entity.transformID
 
 	function ray:FireChargeBeam(dt,dir,spellElement, len)		
@@ -76,11 +84,7 @@ function CreateCombineRay(entity)
 		self.blendValue2.x = self.blendValue2.x + 0.2 * speed
 		self.blendValue2.y = self.blendValue2.y + 1.0 * speed
 
-		Gear.SetBlendUniformValue(self.elementalTransformID, 2, self.blendValue1,self.blendValue2)
-		
-
-		
-		
+		Gear.SetBlendUniformValue(self.elementalTransformID, 2, self.blendValue1,self.blendValue2)		
 	end
 	function ray:EndChargeBeam()
 		Transform.ActiveControl(self.transformID, false)
