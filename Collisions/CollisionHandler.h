@@ -48,7 +48,6 @@ namespace Collisions
 
 		//change if two layers can collide in the layerMatrix
 		COLLISIONS_EXPORTS void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
-		COLLISIONS_EXPORTS void setLayerCollisionMatrixAll(int layer1, bool canCollide);
 
 		COLLISIONS_EXPORTS void deactiveteAllHitboxes();
 		COLLISIONS_EXPORTS void activeteAllHitboxes();
