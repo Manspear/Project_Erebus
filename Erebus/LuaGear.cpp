@@ -604,7 +604,6 @@ namespace LuaGear
 
 		int index = (int)lua_tointeger(lua, 1);
 		int size = (int)lua_tointeger(lua, 2);
-		std::cout << index << std::endl;
 		glm::vec2 blend;
 		for (int i = 0; i < size; i++)
 		{

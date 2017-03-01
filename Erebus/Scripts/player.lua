@@ -43,7 +43,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 50
+	player.moveSpeed = 100
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -168,12 +168,11 @@ function LoadPlayer()
 	
 	player.spellDirection = { x = 0, y = 0, z = 0 }
 	Erebus.SetControls(player.transformID)
-	LoadPlayer2()
-
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeEggs(player)
 	player.friendCharger = CreateCombineRay(player)
 	player.revive = CreateRevive(player)
+	LoadPlayer2()	
 end
 
 

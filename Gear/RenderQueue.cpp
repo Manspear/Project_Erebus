@@ -589,8 +589,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 	{
 		modelIndex = textureBlends->at(i).modelIndex;
 		numInstance = blendingModels->at(modelIndex).getActiveTransforms();
-
-		//if (atLeastOne)
+	
 		if( numInstance > 0 )
 		{
 			modelAsset = blendingModels->at(modelIndex).getAsset();
