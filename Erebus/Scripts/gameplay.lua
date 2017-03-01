@@ -49,6 +49,7 @@ gameplayStarted = false
 loadedGameplay = false
 
 function LoadGameplay()
+	print("LOADING GAMEPLAY")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
@@ -59,16 +60,32 @@ function LoadGameplay()
 end
 
 function UnloadGameplay()
-	print("UNLOADING GAMEPLAY")
-	for key,value in pairs(scripts) do
-		if value.Unload then
-			value.Unload()
+	if loadedGameplay then
+		-- unload all the loaded levels
+		for levelIndex,level in pairs(levels) do
+			if loadedLevels[levelIndex] then
+				level.unload()
+			end
 		end
-	end
 
-	loadedGameplay = false
-	gameplayStarted = false
-	loadedLevels = {}
+		-- unload all the scripts
+		for key,value in pairs(scripts) do
+			if value.Unload then
+				value.Unload()
+			end
+		end
+
+		loadedGameplay = false
+		gameplayStarted = false
+		loadedLevels = {}
+
+		Transform.ResetTransforms()
+		Gear.ResetAnimations()
+		Gear.ResetModels()
+		CollisionHandler.Reset()
+
+		collectgarbage()
+	end
 end
 
 function UpdateGameplay(dt)
@@ -120,16 +137,16 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Level01.lua" )
+		dofile( "Scripts/LevelOskar2.lua" )
 
-		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
 			levels[v].load()
 			loadedLevels[v] = true
 		end
 
-		--levels[1].load()
+		--
+		levels[1].load()
 		--levels[2].load()
 		--levels[3].load()
 		--levels[4].load()

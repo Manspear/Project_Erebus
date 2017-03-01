@@ -17,10 +17,14 @@ function CreateLifeStealEffect(entity, duration)
 			if(self.owner.health < 100) then
 					self.owner.health = self.owner.health + self.damage
 			end
-			entity:Hurt(self.damage, self.owner)
+			entity:Hurt(self.damage, self.owner, NATURE)
 			self.interval = LIFE_STEAL_INTERVAL
 		end
 		return self.duration > 0
 	end
 	return effect
+end
+
+function DestroyLifeStealEffect(effect)
+	effect = nil
 end

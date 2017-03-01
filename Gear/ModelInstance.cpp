@@ -119,7 +119,7 @@ namespace Gear
 		for (int i = 0; i < transforms.size(); i++)
 		{
 			TransformStruct& t = transforms[i];
-			if (t.active && !culled[i])
+			if( !vacant[i] && t.active && !culled[i] )
 			{
 				activeTransforms++;
 
@@ -297,6 +297,8 @@ namespace Gear
 	void ModelInstance::setCulled( int index, bool c )
 	{
 		culled.at(index) = c;
+		if (animations.size() > 0)
+			animations[index]->setCulled(c);
 	}
 #pragma endregion
 

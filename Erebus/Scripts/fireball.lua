@@ -1,7 +1,7 @@
 FIREBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconFireball.dds");
 FIRESPAM_COOLDOWN = 0.6
 FIREBALL_COOLDOWN = 6
-FIRESPAM_SPEED = 40
+FIRESPAM_SPEED = 100
 FIREBALL_SPEED = 18
 FIREBALL_LIFETIME = 10
 FIREBALL_EXPLODETIME = 0.5
@@ -31,7 +31,7 @@ function CreateFireball(entity)
 	spell.damage = FIREBALL_BASE_DMG
 	spell.hudtexture = FIREBALL_SPELL_TEXTURE
 	spell.isActiveSpell = false
-	spell.cooldown = 0		spell.maxcooldown = FIREBALL_COOLDOWN
+	spell.maxcooldown = FIREBALL_COOLDOWN
 	spell.chargedTime = 0	spell.maxChargeTime = 3
 	spell.caster = entity.transformID
 	spell.owner = entity
@@ -43,6 +43,14 @@ function CreateFireball(entity)
 	spell.smallFB = {}		spell.currentFB = 1
 	for i = 1, 4 do	table.insert(spell.smallFB, initSmallFireball())	end
 	
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	FIREBALL_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * FIREBALL_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * FIREBALL_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * FIREBALL_CASTSPEED_MULTIPLE
+
 	--Big fireball
 	spell.bigBallActive = false
 	local model = Assets.LoadModel( "Models/projectile1.model" )
@@ -100,7 +108,7 @@ function CreateFireball(entity)
 		if self.spamCooldown < 0 and not self.bigBallActive then
 			self.spamCooldown = FIRESPAM_COOLDOWN
 			--self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
-			self.smallFB[self.currentFB].type:Shoot(self.owner.position, Camera.GetDirection(), FIRESPAM_SPEED)
+			self.smallFB[self.currentFB].type:Shoot(self.owner.position, self.owner.spellDirection, FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles:Cast()
 			self.smallFB[self.currentFB].lifeTime = 2.1	
 			self.smallFB[self.currentFB].alive = true
@@ -244,6 +252,9 @@ function CreateFireball(entity)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		Transform.ActiveControl(self.bigBallID, false)
 		self.damage = FIREBALL_BASE_DMG	
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 

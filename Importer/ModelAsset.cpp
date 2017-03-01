@@ -151,8 +151,17 @@ namespace Importer
 
 	void ModelAsset::unload()
 	{
+		if( vertexBuffers && *vertexBuffers )
+		{
+			glDeleteBuffers( header.numMeshes*2, vertexBuffers );
+			*vertexBuffers = 0;
+			vertexBuffers = nullptr;
+		}
+
 		free(dataptr);
 		dataptr = nullptr;
+
+		assets->unload<MaterialAsset>( "Materials/" + std::string(header.materialName) );
 	}
 
 	void ModelAsset::upload()
@@ -169,9 +178,12 @@ namespace Importer
 			GLuint* indices = (GLuint*)ptr;
 			ptr += sizeof(GLuint)*header.numIndices;
 
+			int numBuffers = header.numMeshes * 2;
+			glGenBuffers( numBuffers, vertexBuffers );
+
 			for (int curMesh = 0; curMesh < header.numMeshes; curMesh++)
 			{
-				glGenBuffers(1, &vertexBuffers[curMesh]);
+				//glGenBuffers(1, &vertexBuffers[curMesh]);
 				glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[curMesh]);
 				if (meshes[curMesh].numVertices > 0)
 				{
@@ -183,7 +195,7 @@ namespace Importer
 				}
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-				glGenBuffers(1, &indexBuffers[curMesh]);
+				//glGenBuffers(1, &indexBuffers[curMesh]);
 				glBindBuffer(GL_ARRAY_BUFFER, indexBuffers[curMesh]);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint)*meshes[0].numIndices, indices, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);

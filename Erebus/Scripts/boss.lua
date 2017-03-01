@@ -49,9 +49,15 @@ function LoadBoss()
 		effect:Apply(boss)
 	end
 end
-function UnloadBoss()
 
+function UnloadBoss()
+	Gear.UnbindInstance(boss.transformID)
+
+	boss = {}
+	boss.spells = {}
+	boss.spellinfo = {}
 end
+
 function UpdateBoss(dt)
 	if boss.health > 0 then
 		dt = dt * boss.timeScalar

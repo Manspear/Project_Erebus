@@ -86,7 +86,17 @@ function CreateEnemy(type, position, element)
 
 	local modelName = ""
 	if type == ENEMY_MELEE then
-		modelName = "Models/Goblin.model"
+		if enemies[i].elementType == NEUTRAL then
+			modelName = "Models/Goblin.model"
+		elseif enemies[i].elementType == FIRE then
+			modelName = "Models/Fire_Goblin.model"
+		elseif enemies[i].elementType == NATURE then
+			modelName = "Models/Grass_Goblin.model"
+		elseif enemies[i].elementType == ICE then
+			modelName = "Models/Ice_Goblin.model"
+		end
+	elseif type== ENEMY_DUMMY then
+		modelName = "Models/Dummy.model"
 	else
 		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
 	end
@@ -109,6 +119,9 @@ function CreateEnemy(type, position, element)
 				Network.SendAIHealthPacket(self.transformID, self.health)
 				self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+				if element then
+					Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
+				end
 
 				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
 
@@ -190,7 +203,7 @@ function CreateEnemy(type, position, element)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 	enemies[i].sphereCollider:SetRadius(2)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
-	
+
 	if Network.GetNetworkHost() == true then
 		enemies[i].state =  stateScript.state.idleState
 		if type == ENEMY_DUMMY then
@@ -208,6 +221,12 @@ end
 
 function UnloadEnemies()
 	AI.Unload()
+
+	for i=1, #enemies do
+		DestroyEnemyController(enemies[i].animationController)
+		Gear.UnbindInstance(enemies[i].transformID)
+	end
+	enemies = {}
 end
 
 function DestroyEnemy(enemy)

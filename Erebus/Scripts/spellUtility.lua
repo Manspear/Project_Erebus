@@ -12,6 +12,10 @@ function CreateAim(entity)
 	return aim
 end
 
+function DestroyAim(aim)
+	Gear.UnbindInstance(aim.transformID)
+end
+
 function CreateCombineRay(entity)
 	local ray = {}
 
@@ -28,12 +32,12 @@ function CreateCombineRay(entity)
 
 	ray.caster = entity.transformID
 
-	function ray:FireChargeBeam(dt,dir,spellElement)		
+	function ray:FireChargeBeam(dt,dir,spellElement, len)		
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
-
-		local elementalTransformID = self.transformID
+		
+		local elementalTransformID
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			elementalTransformID = self.transformID2
@@ -41,9 +45,9 @@ function CreateCombineRay(entity)
 			Transform.ActiveControl(self.transformID3, true) 
 			elementalTransformID = self.transformID3	
 		else 
-			Transform.ActiveControl(ray.transformID, true)
+			Transform.ActiveControl(self.transformID, true)
+			elementalTransformID = self.transformID
 		end
-		Transform.ActiveControl(self.transformID, true)
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
@@ -67,6 +71,12 @@ function CreateCombineRay(entity)
 		Transform.ActiveControl(self.transformID3, false)
 	end
 	return ray
+end
+
+function DestroyCombineRay(ray)
+	Gear.UnbindInstance(ray.transformID)
+	Gear.UnbindInstance(ray.transformID2)
+	Gear.UnbindInstance(ray.transformID3)
 end
 
 MAX_CHARGE = 1
@@ -112,6 +122,8 @@ function CreateChargeEggs(entity)
 	chargeThing.pos = {x = 0, y = 0, z = 0}
 	chargeThing.light = nil
 	chargeThing.color = {r = 0, g = 0, b = 0}
+
+	chargeThing.P2SpellElement = 0
 	
 	function chargeThing:ChargeMePlease(dt)
 		self.pos = Transform.GetPosition(self.caster)	
@@ -129,16 +141,17 @@ function CreateChargeEggs(entity)
 		end
 	end
 
+
+
 	function chargeThing:CombinedAndCharged(dt, chargePower)
 		self.pos = Transform.GetPosition(self.caster)
-		if self.firstCombine then
-			self.particles:cast() 
-			self.firstCombine = false
-			self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
-		else
-			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
-			self.particles:update(self.pos)
-		end			
+			--nature particle alla typer 
+		self.firstCombine = false
+		
+		if self.light then
+			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			self.particles:update(self.pos)	
+		end	
 		self.timer = self.timer + dt		
 		self.pos.y = self.pos.y - 1
 		
@@ -177,15 +190,17 @@ function CreateChargeEggs(entity)
 		self.color = {r = 0, g = 0, b = 0}
 		Transform.ActiveControl(self.elementalTransformID, false)
 		Transform.SetPosition(self.elementalTransformID, {x = 0, y = 0, z = 0})
+		Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleSmall.x, self.scaleSmall.y, self.scaleSmall.z)
 		self.elementalTransformID = 0 
 		self.particles:die()
 		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
-	function chargeThing:StartCharge(position, spellElement) 		
+	function chargeThing:StartCharge(position, spellElement) 
+		--called when right mouse button is pressed	
 		self.timer = 0   
-		self.pos = Transform.GetPosition(chargeThing.caster)	
-		self.firstCombine = true		
+		self.pos = Transform.GetPosition(chargeThing.caster)		
+			
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			self.color.r = 1
@@ -200,7 +215,19 @@ function CreateChargeEggs(entity)
 			Transform.ActiveControl(self.transformID, true)		
 		end
 	end
+
+	function chargeThing:StartParticles(spellElement)
+		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
+		self.particles:cast() 
+	end
+
 	return chargeThing
+end
+
+function DestroyChargeEggs(egg)
+	Gear.UnbindInstance(egg.transformID)
+	Gear.UnbindInstance(egg.transformID2)
+	Gear.UnbindInstance(egg.transformID3)
 end
 
 function BaseCheckCollision(spell)

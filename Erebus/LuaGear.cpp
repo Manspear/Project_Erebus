@@ -19,8 +19,10 @@ namespace LuaGear
 	static bool* g_fullscreen = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 	static Skybox* g_skybox = nullptr;
+	static FloatingDamage* g_floatDamage = nullptr;
 
-	void registerFunctions(lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work)
+	void registerFunctions(lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work,
+		FloatingDamage* floatingDamage)
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
@@ -36,6 +38,7 @@ namespace LuaGear
 		g_fullscreen = fullscreen;
 		g_transformHandler = transformHandler;
 		g_skybox = g_gearEngine->getSkybox();
+		g_floatDamage = floatingDamage;
 
 		// Gear
 		luaL_newmetatable(lua, "gearMeta");
@@ -45,12 +48,15 @@ namespace LuaGear
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "AddForwardInstance",	addForwardInstance },
 			{ "AddBlendingInstance", addBlendingInstance},*/
+			{ "ResetAnimations", resetAnimations },
+			{ "ResetModels", resetModels },
 			{ "BindStaticInstance", bindStaticInstance },
 			{ "BindAnimatedInstance", bindAnimatedInstance },
 			{ "BindForwardInstance", bindForwardInstance },
 			{ "BindBlendingInstance", bindBlendingInstance },
 			{ "UnbindInstance", unbindInstance },
 			{ "Print", print },
+			{ "PrintDamage", printDamageNumer},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
 			{ "SetUniformLocation", setUniformLocation },
@@ -88,6 +94,7 @@ namespace LuaGear
 			{ "SetQuickBlend", setQuickBlend },
 			{ "SetSegmentPlayTime", setSegmentPlayTime },
 			{ "ResetSegmentPlayTime", resetSegmentPlayTime },
+			{ "ResetSegmentAnimationClock", resetSegmentAnimationClock },
 			{ "SetTint", setTint},
 			{ NULL, NULL }
 		};
@@ -159,6 +166,32 @@ namespace LuaGear
 
 		return 0;
 	}*/
+
+	int resetAnimations( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 0 );
+
+		int anims = *g_boundAnimations;
+		for( int i=0; i<anims; i++ )
+		{
+			g_animations[i].reset();
+		}
+		*g_boundAnimations = 0;
+
+		return 0;
+	}
+
+	int resetModels( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 0 );
+
+		g_models->clear();
+		g_animatedModels->clear();
+		g_ForwardModels->clear();
+		g_blendingModels->clear();
+
+		return 0;
+	}
 
 	int bindStaticInstance( lua_State* lua )
 	{
@@ -317,6 +350,20 @@ namespace LuaGear
 		lua_pushnumber(lua, dim.x);
 		lua_pushnumber(lua, dim.y);
 		return 2;
+	}
+
+	int resetSegmentAnimationClock(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 2);
+
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+		int segment = (int)lua_tointeger(lua, 2);
+
+		animation->resetSegmentAnimationClock(segment);
+
+		return 0;
 	}
 
 	int bindAnimation(lua_State* lua)
@@ -683,5 +730,21 @@ namespace LuaGear
 
 		lua_pushinteger(lua, result );
 		return 1;
+	}
+
+	int printDamageNumer(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 5);
+		float damage = lua_tonumber(lua, 1);
+
+		int damageType = (int)lua_tointeger(lua, 2);
+
+		glm::vec3 position;
+		position.x = lua_tonumber(lua, 3);
+		position.y = lua_tonumber(lua, 4);
+		position.z = lua_tonumber(lua, 5);
+
+		g_floatDamage->addDamage(damage, damageType, position);
+		return 0;
 	}
 }

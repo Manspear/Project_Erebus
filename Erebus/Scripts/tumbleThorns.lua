@@ -6,7 +6,7 @@ TUMBLETHORNS_ROLLBACKTIME = 0.4
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
-	spell.cooldown = 0.0		spell.maxcooldown = 4
+	spell.maxcooldown = 4
 	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 10
@@ -16,7 +16,15 @@ function CreateTumblethorns(entity)
 	spell.direction = {x = 0, y = 0, z = 0}		spell.position = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
-		
+	
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	TUMBLETHORNS_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * TUMBLETHORNS_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
@@ -56,16 +64,16 @@ function CreateTumblethorns(entity)
 			self.rollin = true
 			self.cooldown = TUMBLETHORNS_COOLDOWN
 			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
-			SphereCollider.SetActive(spell.sphereCollider, true)
 			self.position = Transform.GetPosition(self.caster)
-			--self.direction = Transform.GetLookAt(self.caster)
-			self.direction = Camera.GetDirection()
+			Transform.SetPosition(self.transformID, self.position)
+			SphereCollider.SetActive(spell.sphereCollider, true)
+			self.direction = self.owner.spellDirection
 			Transform.ActiveControl(self.transformID, true)
 			Transform.RotateToVector(self.transformID, self.direction)
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
 			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)	
 		elseif self.canRollBack and self.rollin then
-			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
+			self.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 			self.canRollBack = false
 			local newLookAt = vec3sub(self.owner.position, self.position)
 			Transform.RotateToVector(self.transformID, newLookAt)
