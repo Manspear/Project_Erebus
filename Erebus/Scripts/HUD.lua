@@ -280,8 +280,9 @@ function showWaitingForPlayer2(dt)
 	end
 
 
-
-	tutorialImages[index] = UI.load(player.position.x, player.position.y+1.4, player.position.z, 1.3, 1.3)
+	local pos = Transform.GetPosition(player)
+	--tutorialImages[index] = UI.load(player.position.x, player.position.y+1.4, player.position.z, 1.3, 1.3)
+	tutorialImages[index] = UI.load(pos.x, pos.y+1.4, pos.z, 1.3, 1.3)
 	SHOW_WAITING_FOR_PLAYER2 = index
 end
 

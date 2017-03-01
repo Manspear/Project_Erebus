@@ -1,4 +1,4 @@
-TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
+TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
 TIMEORBWAVEDURATION = 6
 
 function CreateTimeOrbWave(entity)

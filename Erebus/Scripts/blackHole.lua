@@ -163,6 +163,9 @@ function CreateBlackHole(entity)
 		self.hits = {}
 		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 		self.alive = false
+		if #self.effects > 1 then
+			table.remove(self.effects)
+		end
 		Transform.ActiveControl(self.innerTransformID, false)
 	
 	end
