@@ -588,19 +588,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 	for (int i = 0; i < textureBlends->size(); i++)
 	{
 		modelIndex = textureBlends->at(i).modelIndex;
-
-		/*for (int j = 0; j < blendingModels->at(modelIndex).worldIndices.size(); j++)
-		{
-			indices[j] = blendingModels->at(modelIndex).worldIndices[j];
-			if (allTransforms[indices[j]].active)
-			{
-				tempMatrices[numInstance++] = worldMatrices[indices[j]];
-				atLeastOne = true;
-			}
-		}*/
-
-		//numInstance = blendingModels->at(modelIndex).worldMatrices.size();
-		numInstance = blendingModels->at(i).getActiveTransforms();
+		numInstance = blendingModels->at(modelIndex).getActiveTransforms();
 
 		//if (atLeastOne)
 		if( numInstance > 0 )
@@ -612,7 +600,6 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 			tA = textureBlends->at(i).textureVector;
 
 			//uniforms for how many textures to send to the frag shader
-			//allShaders[TEXTURE_BLENDING]->setUniform4cfv(&tempMatrices[0][0][0], "worldMatrices", numInstance);
 			allShaders[TEXTURE_BLENDING]->setUniform4cfv( glm::value_ptr( blendingModels->at(modelIndex).getWorldMatrix(0) ), "worldMatrices", numInstance );
 
 			for (int k = 0; k < numTextures; k++)
@@ -625,8 +612,6 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 			for (int l = 0; l < modelAsset->getHeader()->numMeshes; l++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(l));
-				/*modelAsset->getMaterial()->bindTextures(allShaders[TEXTURE_BLENDING]->getProgramID());*/
-
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));

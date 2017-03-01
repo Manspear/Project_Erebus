@@ -58,10 +58,9 @@ function CreateSiphon(entity)
 	spell.castAnimationPlayTime = 2 * SIPHON_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * SIPHON_CASTSPEED_MULTIPLE
 
-	Gear.SetUniformLocation(spell.transformID, "aValue");
+	--Gear.SetUniformLocation(spell.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
-	--spell.modelIndex = Gear.BindBlendingInstance(model)
-	Gear.SetBlendTextures(spell.transformID, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
+	spell.blendingIndex = Gear.SetBlendTextures(1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then
@@ -166,7 +165,7 @@ function CreateSiphon(entity)
 		self.cooldown = self.cooldown - dt
 		self.spamcooldown = self.spamcooldown - dt
 		self.uvPush.y = self.uvPush.y - dt
-		Gear.SetBlendUniformValue(self.transformID, 2, {x=0,y=0}, self.uvPush)
+		Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
 		local rot = Transform.GetRotation(self.transformID)
 		rot.x = rot.x +dt/2
 		Transform.SetRotation(self.transformID, rot)

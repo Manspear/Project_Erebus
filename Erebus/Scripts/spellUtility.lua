@@ -21,32 +21,32 @@ function CreateCombineRay(entity)
 
 	
 	local rayIce = Assets.LoadModel( "Models/CombineBeamIce.model" )
-	ray.transformID = Gear.BindForwardInstance(rayIce)
+	ray.transformID = Gear.BindBlendingInstance(rayIce)
 	Gear.SetUniformLocation(ray.modelIndex, "aValue");
 
-	local rayFire = Assets.LoadModel("Models/CombineBeamFire.model")
-	ray.transformID2 = Gear.BindForwardInstance(rayFire)
+	--local rayFire = Assets.LoadModel("Models/CombineBeamFire.model")
+	--ray.transformID2 = Gear.BindForwardInstance(rayFire)
+	--
+	--local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
+	----ray.transformID3 = Gear.BindForwardInstance(rayNature)
 
-	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
-	--ray.transformID3 = Gear.BindForwardInstance(rayNature)
-	ray.transformID3 = Gear.BindBlendingInstance(rayNature)
-	Gear.SetBlendTextures(ray.transformID3, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	ray.blendingIndex = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	--Transform.ActiveControl(ray.transformID, false)
 	ray.blendValue1 = {x = 0.0, y = 0.0}
 	ray.blendValue2 = {x = 0.0, y = 0.0}
 	ray.caster = entity.transformID
-
-	function ray:FireChargeBeam(dt,dir,spellElement, len)		
-		Transform.ActiveControl(self.transformID, false)
-		Transform.ActiveControl(self.transformID2, false)
-		Transform.ActiveControl(self.transformID3, false)
+	Transform.ActiveControl(ray.transformID, false)
+	function ray:FireChargeBeam(dt,dir,spellElement, len)				
+		--Transform.ActiveControl(self.transformID2, false)
+		--Transform.ActiveControl(self.transformID3, false)
 
 		local elementalTransformID = self.transformID
 		if spellElement == FIRE then
-			Transform.ActiveControl(self.transformID2, true)
-			elementalTransformID = self.transformID2
+			--Transform.ActiveControl(self.transformID2, true)
+			--elementalTransformID = self.transformID2
 		elseif spellElement == NATURE then
-			Transform.ActiveControl(self.transformID3, true) 
-			elementalTransformID = self.transformID3	
+			--Transform.ActiveControl(self.transformID3, true) 
+			--elementalTransformID = self.transformID3	
 		else 
 			Transform.ActiveControl(self.transformID, true)
 			elementalTransformID = self.transformID
@@ -54,33 +54,25 @@ function CreateCombineRay(entity)
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
-		
-		
-		
+				
 		factor = (len/2)
 		pos.x = pos.x + dir.x * factor
 		pos.y = pos.y + dir.y * factor
 		pos.z = pos.z + dir.z * factor
-
-		
-
+				
 		Transform.SetPosition(elementalTransformID, pos)
 		Transform.SetScaleNonUniform(elementalTransformID, 1,1,(len*0.51)) 
-		ray.pos = Transform.GetPosition(self.caster)
+		pos = Transform.GetPosition(self.caster)
 		Transform.RotateToVector(elementalTransformID, dir)
 
 		local speed = dt * -1.2
 		self.blendValue1.x = self.blendValue1.x - 1 * speed
 		self.blendValue1.y = self.blendValue1.y + 0.6 * speed
-		
+		print("lua ",self.blendingIndex)
 		self.blendValue2.x = self.blendValue2.x + 0.2 * speed
 		self.blendValue2.y = self.blendValue2.y + 1.0 * speed
-
-		Gear.SetBlendUniformValue(self.elementalTransformID, 2, self.blendValue1,self.blendValue2)
-		
-
-		
-		
+		--print(self.blendValue1.x , self.blendValue1.y)
+		Gear.SetBlendUniformValue(self.blendingIndex, 2, self.blendValue1,self.blendValue2)		
 	end
 	function ray:EndChargeBeam()
 		Transform.ActiveControl(self.transformID, false)

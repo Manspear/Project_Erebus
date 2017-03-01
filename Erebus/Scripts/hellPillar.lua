@@ -50,9 +50,9 @@ function CreateHellPillar(entity)
 	Transform.ActiveControl(spell.transformID, false)
 	--local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
 	--Gear.AddBlendingInstance(model, spell.transformID)
-
-	Gear.SetBlendTextures(spell.transformID, 2, spell.texture1, spell.texture2)
-
+	
+	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
+	print(spell.blendingIndex)
 	spell.aliveCharged = false
 	spell.attack = false
 	spell.effects = {}
@@ -213,7 +213,7 @@ function CreateHellPillar(entity)
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 1.0 * dt
 
-			Gear.SetBlendUniformValue(self.transformID, 2, self.blendValue1, self.blendValue2)
+			Gear.SetBlendUniformValue(self.blendingIndex, 2, self.blendValue1, self.blendValue2)
 			if self.riseFactor < self.scale then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end
 			
 			local radius = self.lightRadius + 1.5*math.abs(math.cos(self.finishingTime*10))

@@ -25,7 +25,7 @@ struct UniformBlendingValues
 	int location;
 	GLfloat value;
 };
-
+using namespace Gear;
 struct TextureBlendings
 {
 	int modelIndex;
@@ -44,7 +44,7 @@ enum
 };
 
 using namespace Importer;
-using namespace Gear;
+
 /*struct ModelInstance
 {
 	Importer::ModelAsset* asset;

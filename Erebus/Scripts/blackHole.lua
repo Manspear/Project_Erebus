@@ -54,8 +54,7 @@ function CreateBlackHole(entity)
 	--spell.modelIndex = Gear.AddForwardInstance(model, spell.type.transformID)
 	Gear.SetUniformLocation(spell.type.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
-	--spell.modelIndex = Gear.BindBlendingInstance(model)
-	Gear.SetBlendTextures(spell.type.transformID, 2, spell.texture1, spell.texture2)
+	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
 
 	function spell:GetCollider()
 		local result = {}
@@ -120,7 +119,7 @@ function CreateBlackHole(entity)
 			rotation.y = rotation.y + 2*dt
 			Transform.SetRotation(self.innerTransformID, rotation)
 			self.uvPush.y = self.uvPush.y + 2*dt
-			Gear.SetBlendUniformValue(self.type.transformID, 2, {x=0,y=0}, self.uvPush)
+			Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
 			--local scale = Transform.GetScale(self.type.transformID)
 			--scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos(((BLACK_HOLE_COOLDOWN -self.cooldown)/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
 			--Transform.SetScaleNonUniform(self.type.transformID, scale, 0.01, scale) 
