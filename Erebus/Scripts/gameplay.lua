@@ -146,7 +146,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/LevelOskar2.lua" )
+		dofile( "Scripts/OskarTutorialTest.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do

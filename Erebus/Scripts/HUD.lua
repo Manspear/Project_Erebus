@@ -325,4 +325,9 @@ function HideCrosshair()
 	crosshairIsVisible = false
 end
 
+function hideCombinationImage()
+	return
+end
+
+
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }
