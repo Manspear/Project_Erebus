@@ -241,7 +241,9 @@ function UnloadEnemies()
 	AI.Unload()
 
 	for i=1, #enemies do
-		DestroyEnemyController(enemies[i].animationController)
+		if enemies[i].type ~= ENEMY_DUMMY then
+			DestroyEnemyController(enemies[i].animationController)
+		end
 		Gear.UnbindInstance(enemies[i].transformID)
 		Assets.UnloadModel( enemies[i].modelName )
 	end
