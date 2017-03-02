@@ -1,0 +1,20 @@
+<LevelActor type="Blocker" displayName="BlockerClosedIce" tileID="2" exportType="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="1139" parentID="0"/>
+        <Behavior Type="0"/>
+        <GenParent value="false"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="0.5" y="9" z="7"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>Ice_Branch_blocker</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="282" y="59.125" z="248.625"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1.5"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

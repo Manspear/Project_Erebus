@@ -18,7 +18,8 @@ LevelPointLightComponent::LevelPointLightComponent()
 LevelPointLightComponent::~LevelPointLightComponent()
 {
 	if (this->parent != nullptr)
-		this->parent->getComponent<LevelTransform>()->deleteListener(this);
+		if(this->parent->getComponent<LevelTransform>() != nullptr)
+			this->parent->getComponent<LevelTransform>()->deleteListener(this);
 	if(light != nullptr)
 		LevelLightHandler::getInstance()->deletePointLight(light);
 }

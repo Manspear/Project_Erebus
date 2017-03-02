@@ -1,9 +1,9 @@
-<LevelActor type="Blocker" displayName="BranchBlockerOpen" tileID="2" exportType="1">
+<LevelActor type="Blocker" displayName="BlockerOpenNature" tileID="2" exportType="1">
     <LevelModel>
-        <ModelName>Branch_blocker</ModelName>
+        <ModelName>Grass_Branch_blocker</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="194" y="54" z="236"/>
+        <Position x="261" y="59.28125" z="241.125"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1.5"/>
         <Export e="true"/>

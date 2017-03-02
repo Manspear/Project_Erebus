@@ -167,8 +167,11 @@ std::string LevelActor::toLuaLoad(std::string levelName)
 	using namespace std;
 	stringstream ss;
 
+
 	if (exportType == EXPORT_SETTINGS)
 		int k = 0;
+
+	LevelSettings* derp = getComponent<LevelSettings>();
 
 	std::string fullName = getExportName();
 
@@ -178,6 +181,8 @@ std::string LevelActor::toLuaLoad(std::string levelName)
 		glm::vec3 pos = transform->getTransformRef()->getPos();
 
 		LevelEnemy* enemy = getComponent<LevelEnemy>();
+		std::string tableName = "enemies";
+		fullName = levelName + "." + tableName + "." + fullName;
 		ss << enemy->toLuaLoad( fullName ) << endl;
 	}
 	else if( exportType == EXPORT_SETTINGS )
@@ -318,8 +323,10 @@ std::string LevelActor::toLuaUnload(std::string levelName)
 			glm::vec3 pos = transform->getTransformRef()->getPos();
 
 
-
+			std::string tableName = "enemies";
+			fullName = levelName + "." + tableName + "." + fullName;
 			LevelEnemy* enemy = getComponent<LevelEnemy>();
+
 			ss << enemy->toLuaUnload( fullName ) << endl;
 		}
 		else
@@ -418,9 +425,10 @@ bool LevelActor::setAsSelectedActor(TwBar * bar)
 	for (auto it : this->actorComponents)
 	{
 		std::stringstream ss;
-		ss << " label='" << it.second->getName() << ": '";
+		std::string componentName = it.second->getName();
+		ss << "label='" << it.second->getName() << ": '";
 		std::string test = ss.str().c_str();
-		TwAddButton(bar, "Name"+amountOfComponents, NULL, NULL, ss.str().c_str());
+		TwAddButton(bar, ss.str().c_str(), NULL, NULL, ss.str().c_str());
 		//TwDefine(ss.str().c_str());
 		it.second->setTwStruct(bar);
 		

@@ -1,0 +1,20 @@
+<LevelActor type="Blocker" displayName="BlockerClosed" tileID="2" exportType="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="1137" parentID="0"/>
+        <Behavior Type="0"/>
+        <GenParent value="true"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="0.5" y="9" z="7"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>Branch_blocker</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="208" y="70.401848" z="235"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1.5"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

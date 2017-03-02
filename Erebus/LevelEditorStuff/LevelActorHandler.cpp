@@ -278,7 +278,10 @@ void LevelActorHandler::exportToLua()
 			//fprintf(file, "end");
 			for (size_t i = 1; i < LevelHeightmap::getCurrentID(); i++)
 			{
-				
+				//if (i == LevelHeightmap::getCurrentID()-1) {
+				//	//BOSS SPAWN CODE HERE
+				//	fprintf(file, "SpawnBossNow()\n");
+				//}
 				std::string levelName = ("level0" + std::to_string(i));
 				
 				fprintf(file, "-------------------------------------%s-----------------------------------------------\n\n", levelName.c_str());
@@ -311,17 +314,32 @@ void LevelActorHandler::exportToLua()
 
 				fprintf(file, "%s.load = function()\n", levelName.c_str());
 				
-				fprintf(file, "%s.props = {}\n%s.colliders = {}\n%s.triggers = {}\n", levelName.c_str(), levelName.c_str(), levelName.c_str());
+				fprintf(file, "%s.props = {}\n%s.colliders = {}\n%s.triggers = {}\n%s.enemies = {}\n", levelName.c_str(), levelName.c_str(), levelName.c_str(), levelName.c_str());
 				for (ActorIT it = actors.begin(); it != actors.end(); it++)
 				{
 
 					//If the current acotr is on the current tile, PRINT IT! AW YIZ
 					if (it->second->getTileID() == i) {
 						if (it->second->getComponent<LevelSettings>() != nullptr) continue; //Continue the loop if's the settings
+						if (it->second->getComponent<LevelCollider>() != nullptr) 
+							if (it->second->getComponent<LevelCollider>()->getBehave() == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER) continue;
 						fprintf(file, "%s", it->second->toLuaLoad(levelName).c_str());
 						
 					}
 					
+				}
+				//Late print for triggers
+				for (ActorIT it = actors.begin(); it != actors.end(); it++)
+				{
+
+					//If the current acotr is on the current tile, PRINT IT! AW YIZ
+					if (it->second->getTileID() == i) {
+						if (it->second->getComponent<LevelSettings>() != nullptr) continue; //Continue the loop if's the settings
+						if (it->second->getComponent<LevelCollider>() != nullptr)
+							if (it->second->getComponent<LevelCollider>()->getBehave() == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
+								fprintf(file, "%s", it->second->toLuaLoad(levelName).c_str());
+					}
+
 				}
 				//fprintf(file, "table.insert(%s, props)\n", levelName.c_str());
 				//fprintf(file, "table.insert(%s, heightmaps)\n", levelName.c_str());
@@ -338,6 +356,7 @@ void LevelActorHandler::exportToLua()
 				fprintf(file, "%s.props = nil\n", levelName.c_str());
 				fprintf(file, "%s.colliders = nil\n", levelName.c_str());
 				fprintf(file, "%s.triggers = nil\n", levelName.c_str());
+				fprintf(file, "%s.enemies = nil\n", levelName.c_str());
 				fprintf(file, "end\n");
 				fprintf(file, "levels[%d] = %s\n",i, levelName.c_str());
 
@@ -463,7 +482,7 @@ std::string LevelActorHandler::getSettingData()
 	for (ActorIT it = actors.begin(); it != actors.end(); it++)
 	{
 
-		if (it->second->getComponent<LevelSettings>() != nullptr) {
+		if (it->second->getExportType() == EXPORT_SETTINGS) {
 			returnString += it->second->toLuaLoad("Setting").c_str();
 			break;
 		}

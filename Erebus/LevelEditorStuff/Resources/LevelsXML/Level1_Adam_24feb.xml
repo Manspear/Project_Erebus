@@ -15,18 +15,6 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="settings" displayName="Tile Settings" tileID="1" exportType="9">
-        <LevelTransform>
-            <Position x="32.90625" y="7.4882813" z="145.625"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="false"/>
-        </LevelTransform>
-        <LevelSettings>
-            <PlayerStart x="32.90625" y="7.4882813" z="145.625"/>
-            <HeightmapStart index="1"/>
-        </LevelSettings>
-    </LevelActor>
     <LevelActor type="TileStuff" displayName="tile2" tileID="2" exportType="3">
         <LevelHeightmap>
             <Draw d="false"/>
@@ -44,334 +32,334 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="tile1" displayName="m1" tileID="1" exportType="1">
-        <LevelTransform>
-            <Position x="0" y="0" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
         <LevelModel>
             <ModelName>tile1_m1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="m2" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m2" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_m2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="m3" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m3" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_m3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="m4" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m4" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_m4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="m5" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m5" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_m5</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="m6" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m6" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_m6</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="m7" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m7" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_m7</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="m8" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="m8" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_m8</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="s1" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s1" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_s1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="s2" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s2" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="s3" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s3" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_s3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="s4" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s4" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="s5" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s5" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_s5</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="s6" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s6" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_s6</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile1" displayName="s7" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile1" displayName="s7" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>tile1_s7</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s1" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s1" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s2" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s2" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s3" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s3" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s4" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s4" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s5" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s5" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s5</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s6" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s6" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s6</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s7" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s7" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s7</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s8" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s8" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s8</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s9" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s9" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s9</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s10" tileID="3" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s10" tileID="3" exportType="1">
         <LevelModel>
             <ModelName>tile2_s10</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s11a" tileID="3" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s11a" tileID="3" exportType="1">
         <LevelModel>
             <ModelName>tile2_s11a</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s12" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s12" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s12</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s13" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s13" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s13</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile2" displayName="t2s14" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile2" displayName="t2s14" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>tile2_s14</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile3" displayName="t3s1" tileID="3" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile3" displayName="t3s1" tileID="3" exportType="1">
         <LevelModel>
             <ModelName>tile3_s1</ModelName>
         </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
     </LevelActor>
     <LevelActor type="TileStuff" displayName="tile3" tileID="3" exportType="3">
         <LevelHeightmap>
@@ -470,389 +458,389 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="tile3" displayName="t3s2" tileID="3" exportType="1">
-        <LevelTransform>
-            <Position x="0" y="0" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
         <LevelModel>
             <ModelName>tile3_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile3" displayName="t3s3" tileID="3" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile3" displayName="t3s3" tileID="3" exportType="1">
         <LevelModel>
             <ModelName>tile3_s3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile3" displayName="t3s4" tileID="3" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile3" displayName="t3s4" tileID="3" exportType="1">
         <LevelModel>
             <ModelName>tile3_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile4" displayName="t4s1" tileID="4" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile4" displayName="t4s1" tileID="4" exportType="1">
         <LevelModel>
             <ModelName>tile4_s1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile4" displayName="t4s2" tileID="4" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile4" displayName="t4s2" tileID="4" exportType="1">
         <LevelModel>
             <ModelName>tile4_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile4" displayName="t4s3" tileID="4" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile4" displayName="t4s3" tileID="4" exportType="1">
         <LevelModel>
             <ModelName>tile4_s3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile4" displayName="t4s4" tileID="4" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile4" displayName="t4s4" tileID="4" exportType="1">
         <LevelModel>
             <ModelName>tile4_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile5" displayName="t5s1" tileID="5" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile5" displayName="t5s1" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>tile5_s1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile5" displayName="t5s2" tileID="5" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile5" displayName="t5s2" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>tile5_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile5" displayName="t5s3" tileID="5" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile5" displayName="t5s3" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>tile5_s3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile5" displayName="t5s4" tileID="5" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile5" displayName="t5s4" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>tile5_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile5" displayName="t5s5" tileID="5" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile5" displayName="t5s5" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>tile5_s5</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="tile5" displayName="t5s6" tileID="5" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="tile5" displayName="t5s6" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>tile5_s6</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s1" tileID="6" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s1" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s2" tileID="6" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s2" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s3" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s3" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile6_s3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s4" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s4" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile6_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s5" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s5" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile6_s5</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s6" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s6" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile6_s6</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s7" tileID="6" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s7" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s7</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s8" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s8" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile6_s8</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t6s9" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t6s9" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile6_s9</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s10" tileID="6" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s10" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s10</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s1" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s1" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s2" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s2" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s3" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s3" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s3</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s4" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s4" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s5" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s5" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s5</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s6" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s6" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s6</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s7" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s7" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s7</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s8" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s8" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s8</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile7" displayName="t7s9" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile7" displayName="t7s9" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile7_s9</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile8" displayName="t8s1" tileID="8" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s1" tileID="8" exportType="1">
         <LevelModel>
             <ModelName>tile8_s1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile8" displayName="t8s2" tileID="8" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s2" tileID="8" exportType="1">
         <LevelModel>
             <ModelName>tile8_s2</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile8" displayName="t8s3" tileID="8" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s3" tileID="8" exportType="1">
         <LevelModel>
             <ModelName>tile8_s3</ModelName>
         </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
     </LevelActor>
     <LevelActor type="BestWall" displayName="OpWall" tileID="1" exportType="4">
         <LevelCollider type="2">
@@ -861,7 +849,7 @@
             <IDs ID="267" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.2945809" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -912,7 +900,7 @@
             <IDs ID="271" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="5.2945814" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1014,7 +1002,7 @@
             <IDs ID="277" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.2945814" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -1099,7 +1087,7 @@
             <IDs ID="282" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -1116,7 +1104,7 @@
             <IDs ID="283" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1201,7 +1189,7 @@
             <IDs ID="288" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.5891619" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -1354,7 +1342,7 @@
             <IDs ID="298" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.1472902" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1456,7 +1444,7 @@
             <IDs ID="305" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="6.7674885" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1558,7 +1546,7 @@
             <IDs ID="311" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="6.7674904" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -1609,7 +1597,7 @@
             <IDs ID="314" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.9701426" y="0" z="0.24253565"/>
+            <Rotation x="0.97014248" y="0" z="0.24253562"/>
             <HalfLengths x="0.30000001" y="9.4187183" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -1677,7 +1665,7 @@
             <IDs ID="318" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.49613899" y="0" z="-0.86824322"/>
+            <Rotation x="-0.49613893" y="0" z="-0.8682431"/>
             <HalfLengths x="0.30000001" y="6.4729042" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1796,7 +1784,7 @@
             <IDs ID="325" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
             <HalfLengths x="0.30000001" y="5.8837433" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1915,7 +1903,7 @@
             <IDs ID="332" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.1472902" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -1983,7 +1971,7 @@
             <IDs ID="336" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="7.3566489" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -2017,7 +2005,7 @@
             <IDs ID="338" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.7364531" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -2068,7 +2056,7 @@
             <IDs ID="341" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.86824322" y="0" z="0.49613899"/>
+            <Rotation x="0.8682431" y="0" z="0.49613893"/>
             <HalfLengths x="0.30000001" y="5.7364531" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2170,7 +2158,7 @@
             <IDs ID="347" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="6.9147758" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -2238,7 +2226,7 @@
             <IDs ID="353" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.87415737" y="0" z="-0.48564297"/>
+            <Rotation x="0.87415725" y="0" z="-0.48564291"/>
             <HalfLengths x="0.30000001" y="5.6684265" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -2374,7 +2362,7 @@
             <IDs ID="373" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227798" y="0" z="0.12403475"/>
+            <Rotation x="0.99227786" y="0" z="0.12403473"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2646,7 +2634,7 @@
             <IDs ID="389" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.86824322" y="0" z="-0.49613899"/>
+            <Rotation x="0.8682431" y="0" z="-0.49613893"/>
             <HalfLengths x="0.30000001" y="5.8912354" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2884,7 +2872,7 @@
             <IDs ID="408" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227798" y="0" z="-0.12403475"/>
+            <Rotation x="0.99227786" y="0" z="-0.12403473"/>
             <HalfLengths x="0.30000001" y="6.6710701" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -3377,7 +3365,7 @@
             <IDs ID="460" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="5.222805" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -3411,7 +3399,7 @@
             <IDs ID="462" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227798" y="0" z="0.12403475"/>
+            <Rotation x="0.99227786" y="0" z="0.12403473"/>
             <HalfLengths x="0.30000001" y="6.0026398" z="8.0622578"/>
         </LevelCollider>
         <LevelTransform>
@@ -3513,7 +3501,7 @@
             <IDs ID="469" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.50702018" y="0" z="-0.8619343"/>
+            <Rotation x="0.50702012" y="0" z="-0.86193419"/>
             <HalfLengths x="0.30000001" y="9.6789894" z="9.8615417"/>
         </LevelCollider>
         <LevelTransform>
@@ -3581,7 +3569,7 @@
             <IDs ID="473" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.48564297" y="0" z="-0.87415737"/>
+            <Rotation x="0.48564291" y="0" z="-0.87415725"/>
             <HalfLengths x="0.30000001" y="7.8965149" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -3751,7 +3739,7 @@
             <IDs ID="489" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -4006,7 +3994,7 @@
             <IDs ID="505" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="5.1114044" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -4040,7 +4028,7 @@
             <IDs ID="509" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99589318" y="0" z="-0.090535745"/>
+            <Rotation x="0.9958933" y="0" z="-0.090535752"/>
             <HalfLengths x="0.30000001" y="5.3342133" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4261,7 +4249,7 @@
             <IDs ID="522" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.79262406" y="0" z="-0.60971081"/>
+            <Rotation x="-0.79262394" y="0" z="-0.60971075"/>
             <HalfLengths x="0.30000001" y="7.2280884" z="8.2006102"/>
         </LevelCollider>
         <LevelTransform>
@@ -4329,7 +4317,7 @@
             <IDs ID="526" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
+            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
             <HalfLengths x="0.30000001" y="6.7824707" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -4448,7 +4436,7 @@
             <IDs ID="533" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.090535745" y="0" z="0.99589318"/>
+            <Rotation x="0.090535752" y="0" z="0.9958933"/>
             <HalfLengths x="0.30000001" y="5.3342133" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4465,7 +4453,7 @@
             <IDs ID="535" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.090535745" y="0" z="0.99589318"/>
+            <Rotation x="0.090535752" y="0" z="0.9958933"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4550,7 +4538,7 @@
             <IDs ID="540" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
+            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
             <HalfLengths x="0.30000001" y="6.4482574" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -4652,7 +4640,7 @@
             <IDs ID="547" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.86824322" y="0" z="-0.49613899"/>
+            <Rotation x="0.8682431" y="0" z="-0.49613893"/>
             <HalfLengths x="0.30000001" y="7.5623016" z="8.0622578"/>
         </LevelCollider>
         <LevelTransform>
@@ -4975,7 +4963,7 @@
             <IDs ID="570" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8682431" y="0" z="0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="0.49613899"/>
             <HalfLengths x="0.30000001" y="5.7798309" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -5060,7 +5048,7 @@
             <IDs ID="575" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.3169403" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -5281,7 +5269,7 @@
             <IDs ID="591" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.48564297" y="0" z="-0.87415737"/>
+            <Rotation x="-0.48564291" y="0" z="-0.87415725"/>
             <HalfLengths x="0.30000001" y="6.4262238" z="10.29563"/>
         </LevelCollider>
         <LevelTransform>
@@ -5298,7 +5286,7 @@
             <IDs ID="592" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.57668322" y="0" z="-0.81696796"/>
+            <Rotation x="-0.57668316" y="0" z="-0.81696784"/>
             <HalfLengths x="0.30000001" y="6.5846901" z="10.404326"/>
         </LevelCollider>
         <LevelTransform>
@@ -5502,7 +5490,7 @@
             <IDs ID="606" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.49613893" y="0" z="0.8682431"/>
+            <Rotation x="0.49613899" y="0" z="0.86824322"/>
             <HalfLengths x="0.30000001" y="5.9082451" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -5570,7 +5558,7 @@
             <IDs ID="610" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.6139406" y="0" z="0.78935218"/>
+            <Rotation x="-0.61394066" y="0" z="0.7893523"/>
             <HalfLengths x="0.30000001" y="15.331287" z="5.7008772"/>
         </LevelCollider>
         <LevelTransform>
@@ -5785,114 +5773,114 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Tile1StaticModel" displayName="Bridge" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>bridge</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>bridge</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (1)" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="19.471676" y="3.3200636" z="233.278"/>
             <Rotation x="0" y="2.7650783" z="0"/>
             <Scale x="1.6974907" y="2.1154709" z="1.8007355"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (2)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (2)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="66.952858" y="-1.9651117" z="238.09117"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.9469147" y="2.0465889" z="2.2355347"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (3)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (3)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="105.9375" y="22.975374" z="262.5"/>
             <Rotation x="0" y="2.1638215" z="0"/>
             <Scale x="1.5444183" y="1.5309639" z="1.5919189"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (4)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (4)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="153.5" y="36.987072" z="240.875"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.5021667" y="1.3395691" z="1.4908752"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (5) (1)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (5) (1)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="162.625" y="33.972343" z="261"/>
             <Rotation x="0" y="1.622647" z="0"/>
             <Scale x="1.391861" y="1.7784691" z="1.6259155"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (6)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (6)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="197.875" y="31.5625" z="310.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.993988" y="3.3432541" z="2.1953125"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (7)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (7)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="71.04821" y="-4.1102123" z="312.49356"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.7101364" y="2.0788879" z="2.0036621"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (8)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (8)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="114.125" y="28.186253" z="243.75"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.3449707" y="1.4683304" z="1.3382111"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (9)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (9)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="-6.6737561" y="2.6122704" z="223.27406"/>
             <Rotation x="-0.045380987" y="3.7004795" z="0.036233522"/>
             <Scale x="1.5103474" y="1.4014397" z="1.0942383"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider" tileID="1" exportType="1">
         <LevelCollider type="2">
@@ -5904,15 +5892,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="39.86409" y="8.828125" z="155.08725"/>
             <Rotation x="0" y="1.742102" z="-0.0061981203"/>
             <Scale x="1.2096405" y="1.5068722" z="1.4364471"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (1)" tileID="1" exportType="1">
         <LevelCollider type="2">
@@ -5924,15 +5912,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="24" y="6.8555045" z="139"/>
             <Rotation x="0" y="0.37657425" z="0"/>
             <Scale x="1.3301544" y="1.375699" z="1.2290497"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (2)" tileID="1" exportType="1">
         <LevelCollider type="2">
@@ -5944,15 +5932,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="6.1886683" y="4.53125" z="180.73453"/>
             <Rotation x="0" y="-2.0417984" z="0"/>
             <Scale x="1.4330273" y="1.4711323" z="1.1189423"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (3)" tileID="1" exportType="1">
         <LevelCollider type="2">
@@ -5964,26 +5952,26 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="37.715405" y="7.46875" z="182.58191"/>
             <Rotation x="0" y="-1.4216453" z="0"/>
             <Scale x="2.0888824" y="2.6116276" z="1.8512115"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="PineTree_NoCollider" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="73.3881" y="13.59858" z="220.51993"/>
             <Rotation x="0.53682232" y="0.13718911" z="0.401651"/>
             <Scale x="1.1646881" y="1.2313204" z="1.1357269"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="PineTree_Collider" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -5995,15 +5983,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.5" y="4" z="2.5"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="176.79591" y="41.21875" z="214.625"/>
             <Rotation x="0.01665191" y="-0.52099895" z="0"/>
             <Scale x="1.065567" y="1.4957848" z="1.2350464"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="PineTree_Collider (1)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6015,15 +6003,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.5" y="4" z="2.5"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="183.5" y="47.84375" z="240"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="PineTree_Collider (2)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6035,125 +6023,125 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.5" y="4" z="2.5"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="163.88483" y="41.09375" z="193.24031"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2757111" y="1.4359016" z="1.2441559"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="210.125" y="53.875" z="105.0625"/>
             <Rotation x="0" y="2.7477205" z="0"/>
             <Scale x="1.4038391" y="1.3796921" z="1.2409668"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (1)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (1)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="172.75" y="62.0625" z="144"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.3764343" y="1.8872528" z="1.3827209"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (2)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (2)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="177.125" y="62.4375" z="140.375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.4661102" y="1.5253448" z="1.2965393"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (3)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (3)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="259" y="32.625" z="186.625"/>
             <Rotation x="0" y="0.5501709" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (4)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (4)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="254.25" y="32.71875" z="193.625"/>
             <Rotation x="0" y="2.9831076" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (5)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (5)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="179.375" y="54.84375" z="184.25"/>
             <Rotation x="0" y="-7.3288584" z="0"/>
             <Scale x="1.2520447" y="1.6838799" z="1.5872498"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (6)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (6)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="186.25" y="53.9375" z="181.375"/>
             <Rotation x="0" y="-2.9852386" z="0"/>
             <Scale x="1.4094391" y="1.9048119" z="1.5075378"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (7)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (7)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="159.5" y="52.25" z="167.75"/>
             <Rotation x="0" y="-2.7638724" z="0"/>
             <Scale x="1.3166199" y="1.8387718" z="0.93728638"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (8)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (8)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="159.75" y="48.53125" z="173.75"/>
             <Rotation x="0" y="1.8204827" z="0"/>
             <Scale x="1.7820282" y="1.5454369" z="1.09758"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (9)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (1) (9)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="204.25" y="55.0625" z="164.875"/>
             <Rotation x="0" y="-2.1975873" z="0"/>
             <Scale x="1.6003418" y="1.5350647" z="1.2768097"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6165,15 +6153,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="235" y="38.375" z="133.125"/>
             <Rotation x="0" y="3.6490517" z="0"/>
             <Scale x="1.0424194" y="1.3474312" z="1.1683807"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4) (1)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6185,15 +6173,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="328.75" y="37.03125" z="113.3125"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.0952454" y="1.3174973" z="1.1728363"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4) (2)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6205,15 +6193,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="339.5" y="36.3125" z="156.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.1611328" y="1.4538803" z="1.124588"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4) (3)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6225,15 +6213,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="370.07919" y="38.433121" z="185.41541"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.0746765" y="1.2083435" z="1.1412201"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4) (4)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6245,15 +6233,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="365.67053" y="43.676048" z="214.22943"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.062561" y="1.2300949" z="1.1305695"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4) (5)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6265,15 +6253,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="354.85757" y="46.96875" z="226.7421"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4) (6)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -6285,356 +6273,356 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="347.52646" y="52" z="240.37534"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2243958" y="1.3572769" z="1.123291"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="280.5" y="67.041077" z="276.25"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.1675415" y="1.2032852" z="1.0632019"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (5)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (5)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="243.5" y="72.39904" z="275.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.5154877" y="1.5672073" z="1.5059509"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (11)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (11)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="234.125" y="67.874886" z="263.75"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.3387146" y="1.1150742" z="1.4251404"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (12)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (12)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="195.875" y="68.020012" z="255.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (13)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (13)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="246.22386" y="32.40625" z="209.05861"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.1915131" y="1.5686646" z="1.5470581"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (14)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (14)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="230.125" y="43.03125" z="109.25"/>
             <Rotation x="0" y="-5.8613186" z="0"/>
             <Scale x="1.4848938" y="1.6756592" z="1.3240814"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (15)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (15)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="243.375" y="39.59375" z="106.3125"/>
             <Rotation x="0" y="1.5968254" z="0"/>
             <Scale x="1.7734375" y="1.3313179" z="1.5863266"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (16)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (16)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="258" y="37.6875" z="109.9375"/>
             <Rotation x="0" y="-1.8651481" z="0"/>
             <Scale x="1.1481628" y="1.2000809" z="1.3602829"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (17)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (17)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="250.25" y="39.03125" z="88.75"/>
             <Rotation x="0" y="-1.5294198" z="0"/>
             <Scale x="1.2888489" y="1.4174347" z="1.3423157"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (18)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (18)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="270.25" y="37.84375" z="97.3125"/>
             <Rotation x="0" y="3.4333186" z="0"/>
             <Scale x="1.21521" y="1.2224884" z="1.2726059"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (19)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (19)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="255.875" y="39.4375" z="70.375"/>
             <Rotation x="0" y="1.1209999" z="0"/>
             <Scale x="1.4818115" y="1.141983" z="1.3866959"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (20)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (20)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="235.25" y="46.15625" z="62.5625"/>
             <Rotation x="0" y="1.6924578" z="0"/>
             <Scale x="2.1157227" y="1.3242493" z="1.1606445"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (21)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (21)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="226.25" y="47.09375" z="79"/>
             <Rotation x="0" y="1.7045385" z="0"/>
             <Scale x="1.6132813" y="1.3935814" z="1.3109894"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (22)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (22)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="216.5" y="51.25" z="60.46875"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.5607758" y="1.6726074" z="1.3456192"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (23)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (23)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="204.75" y="55.21875" z="90.9375"/>
             <Rotation x="0" y="2.2825427" z="0"/>
             <Scale x="1.2776947" y="1.5513229" z="1.2092438"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (24)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (24)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="201.375" y="54.8125" z="74.25"/>
             <Rotation x="0" y="-7.6323385" z="0"/>
             <Scale x="1.1463165" y="1.3749962" z="1.3039627"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (25)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (25)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="259.5" y="46.375" z="226.625"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.4633179" y="1.1935272" z="1.1827087"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="PineTree_NoCollider (2)" tileID="1" exportType="1">
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="125.1875" y="30.046875" z="259.25"/>
             <Rotation x="0" y="2.5060959" z="0"/>
             <Scale x="1.6505737" y="1.7141762" z="1.5779114"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (3)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (3)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="94.125" y="20.355923" z="236.5"/>
             <Rotation x="0" y="1.9694015" z="0"/>
             <Scale x="1.2841797" y="1.3316307" z="1.0746002"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (4)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (4)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="76.4375" y="0.18737793" z="261.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="PineTree_NoCollider (5)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>pineTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_NoCollider (5)" tileID="1" exportType="1">
         <LevelTransform>
             <Position x="172.375" y="28.953125" z="314.25"/>
             <Rotation x="0" y="2.8367672" z="0"/>
             <Scale x="1.3303833" y="1.5169525" z="1.415802"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (26)" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="266.51837" y="38.78125" z="140.23381"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2464294" y="1.4321442" z="1.0186615"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (27)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (27)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="279.25" y="38.84375" z="133.375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.185791" y="1.3268433" z="1.1777344"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (28)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (28)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="278.66589" y="39.156918" z="144.87181"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.0995178" y="1.8235626" z="1.2949066"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (29)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (29)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="290.62982" y="36.810211" z="143.58815"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.4110718" y="1.2885284" z="0.96525574"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (30)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (30)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="305.17117" y="36" z="136.88464"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2808838" y="1.4449234" z="1.037735"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (31)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (31)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="314.16241" y="34.8125" z="152.12738"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2472534" y="1.4125748" z="0.96574402"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (32)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (32)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="328" y="34.84375" z="159.25"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.4486694" y="1.0968857" z="1.246994"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (33)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (33)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="325.58102" y="34.78125" z="145.11456"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2598572" y="1.597908" z="1.1209717"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (34)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (34)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="222" y="48.34375" z="95.375"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2935181" y="1.5744247" z="1.3205185"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (35)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>OakTree1</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="OakTree_NoCollider (1) (35)" tileID="2" exportType="1">
         <LevelTransform>
             <Position x="238.0938" y="41.15625" z="93.864723"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.1242065" y="1.3469772" z="1.2653198"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile1_GenWall" displayName="Tile1_wallNr" tileID="1" exportType="4">
         <LevelCollider type="2">
@@ -6704,15 +6692,15 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Tile2_Static" displayName="Bridge (1)" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>Bridge1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Bridge1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile2_GenWall" displayName="Tile2_wallNr (162)" tileID="2" exportType="4">
         <LevelCollider type="2">
@@ -6834,18 +6822,18 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Empty" displayName="New (1)" tileID="4" exportType="1">
-        <LevelTransform>
-            <Position x="495.34283" y="43.5625" z="415.69669"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
         <LevelPointLight>
             <Position x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
             <Radius r="100"/>
             <Intensity i="3"/>
         </LevelPointLight>
+        <LevelTransform>
+            <Position x="495.34283" y="43.5625" z="415.69669"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
     </LevelActor>
     <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (2)" tileID="5" exportType="4">
         <LevelCollider type="2">
@@ -7007,7 +6995,7 @@
             <IDs ID="646" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.7817154" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -7041,7 +7029,7 @@
             <IDs ID="648" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="6.563427" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -7177,7 +7165,7 @@
             <IDs ID="657" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.781723" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -7194,7 +7182,7 @@
             <IDs ID="658" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="5.5211411" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -7330,7 +7318,7 @@
             <IDs ID="666" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.2605743" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -7381,7 +7369,7 @@
             <IDs ID="669" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
+            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7483,7 +7471,7 @@
             <IDs ID="683" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227798" y="0" z="0.12403475"/>
+            <Rotation x="0.99227786" y="0" z="0.12403473"/>
             <HalfLengths x="0.30000001" y="7.084568" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7568,7 +7556,7 @@
             <IDs ID="688" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="7.3451462" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -7704,7 +7692,7 @@
             <IDs ID="696" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.60971081" y="0" z="-0.79262406"/>
+            <Rotation x="-0.60971075" y="0" z="-0.79262394"/>
             <HalfLengths x="0.30000001" y="12.817139" z="8.2006102"/>
         </LevelCollider>
         <LevelTransform>
@@ -7738,7 +7726,7 @@
             <IDs ID="698" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="9.9508591" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -7789,7 +7777,7 @@
             <IDs ID="701" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227798" y="0" z="-0.12403475"/>
+            <Rotation x="-0.99227786" y="0" z="-0.12403473"/>
             <HalfLengths x="0.30000001" y="6.0422897" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7806,7 +7794,7 @@
             <IDs ID="702" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227798" y="0" z="-0.12403475"/>
+            <Rotation x="-0.99227786" y="0" z="-0.12403473"/>
             <HalfLengths x="0.30000001" y="6.0422821" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7874,7 +7862,7 @@
             <IDs ID="714" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
+            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
             <HalfLengths x="0.30000001" y="6.3028526" z="10.29563"/>
         </LevelCollider>
         <LevelTransform>
@@ -8265,7 +8253,7 @@
             <IDs ID="737" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.25449333" y="0" z="0.96707463"/>
+            <Rotation x="-0.2544933" y="0" z="0.96707451"/>
             <HalfLengths x="0.30000001" y="5" z="9.8234415"/>
         </LevelCollider>
         <LevelTransform>
@@ -8350,7 +8338,7 @@
             <IDs ID="744" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="5.5211449" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -8384,7 +8372,7 @@
             <IDs ID="749" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.029837459" y="0" z="-0.99955487"/>
+            <Rotation x="-0.029837456" y="0" z="-0.99955475"/>
             <HalfLengths x="0.30000001" y="5.2605667" z="33.514923"/>
         </LevelCollider>
         <LevelTransform>
@@ -8435,7 +8423,7 @@
             <IDs ID="752" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.7893523" y="0" z="-0.61394066"/>
+            <Rotation x="0.78935218" y="0" z="-0.6139406"/>
             <HalfLengths x="0.30000001" y="8.1268539" z="5.7008772"/>
         </LevelCollider>
         <LevelTransform>
@@ -8486,7 +8474,7 @@
             <IDs ID="757" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
+            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
             <HalfLengths x="0.30000001" y="10.732567" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -8520,7 +8508,7 @@
             <IDs ID="759" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415737" y="0" z="0.48564297"/>
+            <Rotation x="-0.87415725" y="0" z="0.48564291"/>
             <HalfLengths x="0.30000001" y="7.6057053" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -8605,7 +8593,7 @@
             <IDs ID="766" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.5211411" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -8758,7 +8746,7 @@
             <IDs ID="775" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.2605743" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -8860,7 +8848,7 @@
             <IDs ID="781" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="6.0422821" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -9081,7 +9069,7 @@
             <IDs ID="795" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="6.3028564" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -9132,7 +9120,7 @@
             <IDs ID="798" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.2605667" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -9268,7 +9256,7 @@
             <IDs ID="806" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
+            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
             <HalfLengths x="0.30000001" y="5.7817154" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -9370,7 +9358,7 @@
             <IDs ID="812" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.7817116" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -9421,7 +9409,7 @@
             <IDs ID="815" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
+            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
             <HalfLengths x="0.30000001" y="5.2417297" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -9676,7 +9664,7 @@
             <IDs ID="835" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.24253565" y="0" z="0.9701426"/>
+            <Rotation x="0.24253562" y="0" z="0.97014248"/>
             <HalfLengths x="0.30000001" y="5.9669037" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -9778,7 +9766,7 @@
             <IDs ID="842" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.63059264" y="0" z="0.77611411"/>
+            <Rotation x="0.63059258" y="0" z="0.77611399"/>
             <HalfLengths x="0.30000001" y="7.9006958" z="10.307764"/>
         </LevelCollider>
         <LevelTransform>
@@ -10067,7 +10055,7 @@
             <IDs ID="864" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="6.2086182" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -10084,7 +10072,7 @@
             <IDs ID="865" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.98233867" y="0" z="-0.18711212"/>
+            <Rotation x="-0.98233855" y="0" z="-0.18711211"/>
             <HalfLengths x="0.30000001" y="5.9669037" z="10.688779"/>
         </LevelCollider>
         <LevelTransform>
@@ -10101,7 +10089,7 @@
             <IDs ID="866" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="5.2417221" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -10152,7 +10140,7 @@
             <IDs ID="871" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="5.725174" z="7.8262382"/>
         </LevelCollider>
         <LevelTransform>
@@ -10237,7 +10225,7 @@
             <IDs ID="878" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.24253565" y="0" z="0.9701426"/>
+            <Rotation x="-0.24253562" y="0" z="0.97014248"/>
             <HalfLengths x="0.30000001" y="7.4172516" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -10305,7 +10293,7 @@
             <IDs ID="882" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.95667398" y="0" z="0.29116166"/>
+            <Rotation x="0.95667386" y="0" z="0.29116163"/>
             <HalfLengths x="0.30000001" y="6.4503479" z="12.020815"/>
         </LevelCollider>
         <LevelTransform>
@@ -10356,7 +10344,7 @@
             <IDs ID="886" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="0.89442718"/>
             <HalfLengths x="0.30000001" y="5.2417297" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -10407,7 +10395,7 @@
             <IDs ID="890" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.090535745" y="0" z="0.99589318"/>
+            <Rotation x="-0.090535752" y="0" z="0.9958933"/>
             <HalfLengths x="0.30000001" y="8.1424255" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -10526,7 +10514,7 @@
             <IDs ID="901" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.090535745" y="0" z="-0.99589318"/>
+            <Rotation x="0.090535752" y="0" z="-0.9958933"/>
             <HalfLengths x="0.30000001" y="6.4503479" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -10560,7 +10548,7 @@
             <IDs ID="903" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="8.6258774" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -10645,7 +10633,7 @@
             <IDs ID="909" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.49301261" y="0" z="-0.8700223"/>
+            <Rotation x="-0.49301255" y="0" z="-0.87002218"/>
             <HalfLengths x="0.30000001" y="21.195572" z="17.24094"/>
         </LevelCollider>
         <LevelTransform>
@@ -10724,15 +10712,15 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Tile2_Static" displayName="Water" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>lake</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>lake</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone2" tileID="1" exportType="1">
         <LevelCollider type="2">
@@ -10744,15 +10732,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1" y="0.60000002" z="1"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="4.3485351" y="7.0546875" z="139.30981"/>
             <Rotation x="-0.012045379" y="-1.1749178" z="-0.042201236"/>
             <Scale x="2.8752179" y="2.8632097" z="2.8175201"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone3</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone3" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10763,15 +10751,15 @@
             <GenParent value="true"/>
             <Radius r="1"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="6.4138093" y="6.84375" z="142.21663"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2852306" y="1.4347754" z="1.7653198"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone4</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone1" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10782,15 +10770,15 @@
             <GenParent value="true"/>
             <Radius r="2"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone2</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="3.7352481" y="6.7695313" z="145.07581"/>
             <Rotation x="0" y="-1.7811064" z="0"/>
             <Scale x="1.6773963" y="1.6855726" z="1.1634979"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone3 (1)" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10801,15 +10789,15 @@
             <GenParent value="true"/>
             <Radius r="1"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="4.7059174" y="6.84375" z="143.69437"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="2.4579344" z="1.841095"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone4</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile1_Static" displayName="House" tileID="1" exportType="1">
         <LevelCollider type="2">
@@ -10821,15 +10809,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="3.5" y="3" z="2"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>House1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="36.887039" y="7.9609375" z="130.83415"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.6220474" y="1.6072598" z="1.3719635"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>House1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone1 (1)" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10840,15 +10828,15 @@
             <GenParent value="true"/>
             <Radius r="2"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone2</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="3.5279212" y="3.7848282" z="188.42204"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.5121255" y="1.7903471" z="1.5905914"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone2 (1)" tileID="1" exportType="1">
         <LevelCollider type="2">
@@ -10860,15 +10848,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1" y="0.60000002" z="1"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="4.9519958" y="4.125" z="191.43246"/>
             <Rotation x="0.016469723" y="0" z="0"/>
             <Scale x="1.456398" y="1.6850758" z="1.5023499"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone3</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone3 (2)" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10879,15 +10867,15 @@
             <GenParent value="true"/>
             <Radius r="1"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="5.199851" y="3.9882813" z="188.71773"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.2545671" y="2.023098" z="1.3989716"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone4</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone3 (3)" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10898,15 +10886,15 @@
             <GenParent value="true"/>
             <Radius r="1"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="5.3293877" y="3.8808594" z="193.52591"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.4490604" y="1.6586227" z="1.3971863"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone4</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone3 (4)" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10917,15 +10905,15 @@
             <GenParent value="true"/>
             <Radius r="1"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="3.0389557" y="3.6992188" z="190.73711"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="2.2203989" y="5.1428146" z="2.416275"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone4</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Stone" displayName="Stone1 (2)" tileID="1" exportType="1">
         <LevelCollider type="0">
@@ -10936,15 +10924,15 @@
             <GenParent value="true"/>
             <Radius r="2"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone2</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="3.2186038" y="3.7050781" z="193.41388"/>
             <Rotation x="0.026172809" y="-3.5003817" z="0.0014907825"/>
             <Scale x="1.0149856" y="1.3482752" z="1.3712006"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile7_Static" displayName="Rock" tileID="7" exportType="1">
         <LevelCollider type="0">
@@ -10955,15 +10943,15 @@
             <GenParent value="true"/>
             <Radius r="2"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone2</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="390.6644" y="123.5139" z="630.81061"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="8.0056152" y="10.621292" z="14.933228"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone2</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile7_Static" displayName="Rock (1)" tileID="7" exportType="1">
         <LevelCollider type="0">
@@ -10974,103 +10962,103 @@
             <GenParent value="true"/>
             <Radius r="1.5"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="388.09003" y="124.25" z="662.01605"/>
             <Rotation x="0" y="1.7862381" z="0"/>
             <Scale x="8.4022827" y="16.537994" z="11.348511"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Stone3</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile6" displayName="t6s11" tileID="7" exportType="1">
-        <LevelTransform>
-            <Position x="0" y="0" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
         <LevelModel>
             <ModelName>tile6_s11</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s12" tileID="6" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s12" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s12</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s13" tileID="6" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s13" tileID="6" exportType="1">
         <LevelModel>
             <ModelName>tile6_s13</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile6" displayName="t6s14" tileID="7" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile6" displayName="t6s14" tileID="7" exportType="1">
         <LevelModel>
             <ModelName>tile6_s14</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile8" displayName="t8s4" tileID="8" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s4" tileID="8" exportType="1">
         <LevelModel>
             <ModelName>tile8_s4</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile8" displayName="t8s5" tileID="8" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s5" tileID="8" exportType="1">
         <LevelModel>
             <ModelName>tile8_s5</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile8" displayName="t8s6" tileID="8" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s6" tileID="8" exportType="1">
         <LevelModel>
             <ModelName>tile8_s6a</ModelName>
         </LevelModel>
-    </LevelActor>
-    <LevelActor type="Tile8" displayName="t8s7" tileID="8" exportType="1">
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile8" displayName="t8s7" tileID="8" exportType="1">
         <LevelModel>
             <ModelName>tile8_s7</ModelName>
         </LevelModel>
+        <LevelTransform>
+            <Position x="0" y="0" z="0"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
     </LevelActor>
     <LevelActor type="Tile2_Static" displayName="House (1)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -11082,23 +11070,17 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="5" y="4" z="4.5"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>House1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="225.85501" y="38.752483" z="139.25958"/>
             <Rotation x="0.054089326" y="4.8937306" z="-0.00097502524"/>
             <Scale x="1.5066376" y="1.6770439" z="1.6815948"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>House1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile1_Static" displayName="Lantern" tileID="1" exportType="1">
-        <LevelTransform>
-            <Position x="91.108498" y="19.658863" z="229.31624"/>
-            <Rotation x="0" y="4.0632358" z="0"/>
-            <Scale x="1.1070404" y="1.464529" z="1.2610626"/>
-            <Export e="true"/>
-        </LevelTransform>
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11108,14 +11090,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile1_Static" displayName="Lantern (1)" tileID="1" exportType="1">
         <LevelTransform>
-            <Position x="104.80693" y="24.28125" z="235.17671"/>
-            <Rotation x="0" y="-1.6035755" z="0"/>
-            <Scale x="1" y="1.3199692" z="1.1300049"/>
+            <Position x="91.108498" y="19.658863" z="229.31624"/>
+            <Rotation x="0" y="4.0632358" z="0"/>
+            <Scale x="1.1070404" y="1.464529" z="1.2610626"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile1_Static" displayName="Lantern (1)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11125,14 +11107,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile1_Static" displayName="Lantern (2)" tileID="1" exportType="1">
         <LevelTransform>
-            <Position x="120.76825" y="30.592506" z="229.32907"/>
-            <Rotation x="0" y="-1.0393895" z="0"/>
-            <Scale x="1.0590973" y="1.3008785" z="1.2646942"/>
+            <Position x="104.80693" y="24.28125" z="235.17671"/>
+            <Rotation x="0" y="-1.6035755" z="0"/>
+            <Scale x="1" y="1.3199692" z="1.1300049"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile1_Static" displayName="Lantern (2)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11142,14 +11124,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile1_Static" displayName="Lantern (3)" tileID="1" exportType="1">
         <LevelTransform>
-            <Position x="75.522873" y="16.070766" z="218.96992"/>
-            <Rotation x="0" y="-1.904025" z="0"/>
-            <Scale x="1.0553894" y="1.3131065" z="1.3454437"/>
+            <Position x="120.76825" y="30.592506" z="229.32907"/>
+            <Rotation x="0" y="-1.0393895" z="0"/>
+            <Scale x="1.0590973" y="1.3008785" z="1.2646942"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile1_Static" displayName="Lantern (3)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11159,14 +11141,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile2_Static" displayName="Lantern (4)" tileID="2" exportType="1">
         <LevelTransform>
-            <Position x="226" y="39" z="133"/>
-            <Rotation x="0" y="-1.0471976" z="0"/>
-            <Scale x="1" y="1" z="1"/>
+            <Position x="75.522873" y="16.070766" z="218.96992"/>
+            <Rotation x="0" y="-1.904025" z="0"/>
+            <Scale x="1.0553894" y="1.3131065" z="1.3454437"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile2_Static" displayName="Lantern (4)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11176,14 +11158,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile1_Static" displayName="Lantern (5)" tileID="1" exportType="1">
         <LevelTransform>
-            <Position x="31.48098" y="7.765625" z="137.76546"/>
-            <Rotation x="0" y="1.586605" z="0"/>
-            <Scale x="0.81702614" y="0.68330193" z="0.73390198"/>
+            <Position x="226" y="39" z="133"/>
+            <Rotation x="0" y="-1.0471976" z="0"/>
+            <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile1_Static" displayName="Lantern (5)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11193,14 +11175,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile1_Static" displayName="Lantern (6)" tileID="1" exportType="1">
         <LevelTransform>
-            <Position x="19.780582" y="4.8515625" z="183.64436"/>
-            <Rotation x="0" y="-1.1856015" z="0"/>
-            <Scale x="1" y="1" z="1"/>
+            <Position x="31.48098" y="7.765625" z="137.76546"/>
+            <Rotation x="0" y="1.586605" z="0"/>
+            <Scale x="0.81702614" y="0.68330193" z="0.73390198"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile1_Static" displayName="Lantern (6)" tileID="1" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11210,25 +11192,25 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
+        <LevelTransform>
+            <Position x="19.780582" y="4.8515625" z="183.64436"/>
+            <Rotation x="0" y="-1.1856015" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
     </LevelActor>
     <LevelActor type="Tile8" displayName="t8s8" tileID="8" exportType="1">
+        <LevelModel>
+            <ModelName>tile8_s8a</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>tile8_s8a</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile2_Static" displayName="Lantern (7)" tileID="2" exportType="1">
-        <LevelTransform>
-            <Position x="310.46399" y="52.5625" z="246.12486"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1.2212677" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11238,14 +11220,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile2_Static" displayName="Lantern (8)" tileID="2" exportType="1">
         <LevelTransform>
-            <Position x="336.83771" y="50.9375" z="237.22356"/>
-            <Rotation x="0" y="3.9191837" z="0"/>
-            <Scale x="1" y="1" z="1"/>
+            <Position x="310.46399" y="52.5625" z="246.12486"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1.2212677" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile2_Static" displayName="Lantern (8)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11255,14 +11237,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile2_Static" displayName="Lantern (9)" tileID="2" exportType="1">
         <LevelTransform>
-            <Position x="196.04373" y="40.244938" z="203.33041"/>
-            <Rotation x="0" y="-1.1818885" z="0"/>
-            <Scale x="1" y="1.0617218" z="1"/>
+            <Position x="336.83771" y="50.9375" z="237.22356"/>
+            <Rotation x="0" y="3.9191837" z="0"/>
+            <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile2_Static" displayName="Lantern (9)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11272,14 +11254,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile2_Static" displayName="Lantern (10)" tileID="2" exportType="1">
         <LevelTransform>
-            <Position x="216.28871" y="36.05838" z="179.58479"/>
-            <Rotation x="0" y="-0.6618191" z="0"/>
-            <Scale x="1" y="1.1920624" z="1"/>
+            <Position x="196.04373" y="40.244938" z="203.33041"/>
+            <Rotation x="0" y="-1.1818885" z="0"/>
+            <Scale x="1" y="1.0617218" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile2_Static" displayName="Lantern (10)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11289,14 +11271,14 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile2_Static" displayName="Lantern (11)" tileID="2" exportType="1">
         <LevelTransform>
-            <Position x="235.86189" y="35.521549" z="159.57718"/>
-            <Rotation x="0" y="-0.97794265" z="0"/>
-            <Scale x="1" y="1.0759048" z="1"/>
+            <Position x="216.28871" y="36.05838" z="179.58479"/>
+            <Rotation x="0" y="-0.6618191" z="0"/>
+            <Scale x="1" y="1.1920624" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile2_Static" displayName="Lantern (11)" tileID="2" exportType="1">
         <LevelModel>
             <ModelName>Lantern_Post</ModelName>
         </LevelModel>
@@ -11306,6 +11288,12 @@
             <Radius r="10"/>
             <Intensity i="2"/>
         </LevelPointLight>
+        <LevelTransform>
+            <Position x="235.86189" y="35.521549" z="159.57718"/>
+            <Rotation x="0" y="-0.97794265" z="0"/>
+            <Scale x="1" y="1.0759048" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
     </LevelActor>
     <LevelActor type="Trees" displayName="PineTree_Collider (3)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -11317,15 +11305,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2.5" y="4" z="2.5"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>pineTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="305.67181" y="53.546402" z="253.25446"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1.3264465" y="1.7270966" z="1.2229462"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Trees" displayName="OakTree_Collider (4) (7)" tileID="2" exportType="1">
         <LevelCollider type="2">
@@ -11337,15 +11325,15 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="1.75" y="4" z="1.75"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>OakTree1</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="346.3681" y="37.163395" z="203.70728"/>
             <Rotation x="0" y="3.2497306" z="0"/>
             <Scale x="1.4143372" y="1.7745819" z="1.4340515"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>OakTree1</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile6_GenWall" displayName="Tile6_wallNr (3)" tileID="6" exportType="4">
         <LevelCollider type="2">
@@ -11711,7 +11699,7 @@
             <IDs ID="945" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.9701426" y="0" z="0.24253565"/>
+            <Rotation x="-0.97014248" y="0" z="0.24253562"/>
             <HalfLengths x="0.30000001" y="5.3411026" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -11915,7 +11903,7 @@
             <IDs ID="959" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.9668961" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -11949,7 +11937,7 @@
             <IDs ID="961" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
+            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
             <HalfLengths x="0.30000001" y="21.437286" z="16.124516"/>
         </LevelCollider>
         <LevelTransform>
@@ -12170,7 +12158,7 @@
             <IDs ID="980" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.4834442" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -12391,7 +12379,7 @@
             <IDs ID="994" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="5.9668961" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -12646,7 +12634,7 @@
             <IDs ID="1012" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="7.9796295" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -12731,7 +12719,7 @@
             <IDs ID="1017" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -12799,7 +12787,7 @@
             <IDs ID="1021" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
             <HalfLengths x="0.30000001" y="5.165535" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -12850,7 +12838,7 @@
             <IDs ID="1024" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -13088,7 +13076,7 @@
             <IDs ID="1039" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13105,7 +13093,7 @@
             <IDs ID="1040" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13258,7 +13246,7 @@
             <IDs ID="1051" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="8.4762421" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -13445,7 +13433,7 @@
             <IDs ID="1062" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.165535" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -13768,7 +13756,7 @@
             <IDs ID="1083" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.090535752" y="0" z="0.9958933"/>
+            <Rotation x="-0.090535745" y="0" z="0.99589318"/>
             <HalfLengths x="0.30000001" y="5.165535" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -13785,7 +13773,7 @@
             <IDs ID="1085" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.165535" z="7.8262382"/>
         </LevelCollider>
         <LevelTransform>
@@ -13870,7 +13858,7 @@
             <IDs ID="1090" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8682431" y="0" z="0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="0.49613899"/>
             <HalfLengths x="0.30000001" y="6.6553497" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13938,7 +13926,7 @@
             <IDs ID="1095" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
+            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
             <HalfLengths x="0.30000001" y="6.1587448" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13955,7 +13943,7 @@
             <IDs ID="1096" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
+            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
             <HalfLengths x="0.30000001" y="5.9932098" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -14108,7 +14096,7 @@
             <IDs ID="1106" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
             <HalfLengths x="0.30000001" y="5.6621475" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -14312,7 +14300,7 @@
             <IDs ID="1120" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415725" y="0" z="0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="0.48564297"/>
             <HalfLengths x="0.30000001" y="5.0960007" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -14431,7 +14419,7 @@
             <IDs ID="1127" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="7.2081528" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -14442,15 +14430,15 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="tile4" displayName="t4s5" tileID="5" exportType="1">
+        <LevelModel>
+            <ModelName>tile4_s5</ModelName>
+        </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>tile4_s5</ModelName>
-        </LevelModel>
     </LevelActor>
     <LevelActor type="Tile5_GenWall" displayName="Tile5_wallNr (87)" tileID="5" exportType="4">
         <LevelCollider type="2">
@@ -14493,7 +14481,7 @@
             <IDs ID="1130" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.019227216" y="0" z="0.99981523"/>
+            <Rotation x="0.019227214" y="0" z="0.99981511"/>
             <HalfLengths x="0.30000001" y="17.87886" z="26.004807"/>
         </LevelCollider>
         <LevelTransform>
@@ -14555,12 +14543,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="Tile5_Static" displayName="Crystal" tileID="5" exportType="1">
-        <LevelTransform>
-            <Position x="559.25342" y="69.927971" z="424.46719"/>
-            <Rotation x="2.0297484" y="0" z="0.19523318"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14570,14 +14552,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (1)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="588" y="91.39753" z="457"/>
-            <Rotation x="0" y="0.9632858" z="2.7134702"/>
+            <Position x="559.25342" y="69.927971" z="424.46719"/>
+            <Rotation x="2.0297484" y="0" z="0.19523318"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (1)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14587,14 +14569,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (2)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="565.5" y="91.454483" z="480.75"/>
-            <Rotation x="0" y="-1.0823647" z="-2.4398379"/>
+            <Position x="588" y="91.39753" z="457"/>
+            <Rotation x="0" y="0.9632858" z="2.7134702"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (2)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14604,14 +14586,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (3)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="547.15186" y="76.941826" z="460.57904"/>
-            <Rotation x="-2.163208" y="0" z="-1.0092864"/>
+            <Position x="565.5" y="91.454483" z="480.75"/>
+            <Rotation x="0" y="-1.0823647" z="-2.4398379"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (3)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14621,14 +14603,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (4)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="583.5" y="103" z="512.5"/>
-            <Rotation x="0" y="0" z="-2.7151332"/>
+            <Position x="547.15186" y="76.941826" z="460.57904"/>
+            <Rotation x="-2.163208" y="0" z="-1.0092864"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (4)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14638,14 +14620,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (5)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="578" y="90.3125" z="538.5"/>
-            <Rotation x="0" y="0" z="-1.300501"/>
+            <Position x="583.5" y="103" z="512.5"/>
+            <Rotation x="0" y="0" z="-2.7151332"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (5)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14655,14 +14637,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (6)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="612.23938" y="100.25" z="532.578"/>
-            <Rotation x="0" y="0" z="2.2212343"/>
+            <Position x="578" y="90.3125" z="538.5"/>
+            <Rotation x="0" y="0" z="-1.300501"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (6)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14672,14 +14654,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (7)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="601" y="111.625" z="547.26959"/>
-            <Rotation x="0" y="0" z="-3.2123046"/>
+            <Position x="612.23938" y="100.25" z="532.578"/>
+            <Rotation x="0" y="0" z="2.2212343"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (7)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14689,14 +14671,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (8)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="613.5" y="104.625" z="575.5"/>
-            <Rotation x="0" y="0" z="2.1290526"/>
+            <Position x="601" y="111.625" z="547.26959"/>
+            <Rotation x="0" y="0" z="-3.2123046"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (8)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14706,14 +14688,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (9)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="606.05011" y="86.6875" z="481.46774"/>
-            <Rotation x="-0.33973387" y="-0.016641388" z="2.0950837"/>
+            <Position x="613.5" y="104.625" z="575.5"/>
+            <Rotation x="0" y="0" z="2.1290526"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (9)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14723,14 +14705,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (10)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="509.70557" y="60.78125" z="447.75955"/>
-            <Rotation x="-1.3451754" y="0" z="-0.052685548"/>
+            <Position x="606.05011" y="86.6875" z="481.46774"/>
+            <Rotation x="-0.33973387" y="-0.016641388" z="2.0950837"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (10)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14740,14 +14722,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (11)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="514.3208" y="75.75" z="405.86328"/>
-            <Rotation x="0.2596069" y="0.6957978" z="1.3078858"/>
+            <Position x="509.70557" y="60.78125" z="447.75955"/>
+            <Rotation x="-1.3451754" y="0" z="-0.052685548"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (11)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14757,14 +14739,14 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
-    </LevelActor>
-    <LevelActor type="Tile5_Static" displayName="Crystal (12)" tileID="5" exportType="1">
         <LevelTransform>
-            <Position x="519.11926" y="48.910702" z="404.74789"/>
-            <Rotation x="1.2884035" y="0" z="0.54078978"/>
+            <Position x="514.3208" y="75.75" z="405.86328"/>
+            <Rotation x="0.2596069" y="0.6957978" z="1.3078858"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tile5_Static" displayName="Crystal (12)" tileID="5" exportType="1">
         <LevelModel>
             <ModelName>ice_crystal</ModelName>
         </LevelModel>
@@ -14774,57 +14756,75 @@
             <Radius r="30"/>
             <Intensity i="4"/>
         </LevelPointLight>
+        <LevelTransform>
+            <Position x="519.11926" y="48.910702" z="404.74789"/>
+            <Rotation x="1.2884035" y="0" z="0.54078978"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
     </LevelActor>
-    <LevelActor type="Fence" displayName="WoodenFence" tileID="2" exportType="1">
+    <LevelActor type="TileSetting" displayName="Setinng" tileID="1" exportType="9">
+        <LevelSettings>
+            <PlayerStart x="33" y="7.5" z="145"/>
+            <HeightmapStart index="1"/>
+        </LevelSettings>
+        <LevelTransform>
+            <Position x="33" y="7.5" z="145"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Blocker" displayName="BlockerClosed" tileID="2" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="143" parentID="0"/>
+            <IDs ID="1137" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="false"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="0.5" y="1" z="3"/>
+            <HalfLengths x="0.5" y="9" z="7"/>
         </LevelCollider>
+        <LevelModel>
+            <ModelName>Branch_blocker</ModelName>
+        </LevelModel>
         <LevelTransform>
-            <Position x="198" y="50.5625" z="233"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
+            <Position x="153" y="41.531086" z="189"/>
+            <Rotation x="0" y="-1.3937885" z="0"/>
+            <Scale x="1" y="1" z="1.811554"/>
             <Export e="true"/>
         </LevelTransform>
-        <LevelModel>
-            <ModelName>Wooden_Fence</ModelName>
-        </LevelModel>
     </LevelActor>
-    <LevelActor type="Fence" displayName="WoodenFence (1)" tileID="2" exportType="1">
-        <LevelTransform>
-            <Position x="192" y="49.5" z="233.375"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-        <LevelModel>
-            <ModelName>Wooden_Fence</ModelName>
-        </LevelModel>
-    </LevelActor>
-    <LevelActor type="Trigger" displayName="slussTrigger" tileID="2" exportType="8">
+    <LevelActor type="BranchBlocker" displayName="BlockerTrigger" tileID="2" exportType="8">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
-            <Color x="0.49803925" y="0.49803925" z="1"/>
-            <IDs ID="1136" parentID="0"/>
-            <Behavior Type="1" OnEnter="function(self) SluiceEnter(sluice1) end" OnExit="function(self) SluiceExit(sluice1) end" OnTriggering="function(self, dt) SluiceUpdate(dt, sluice1) end"/>
+            <Color x="0" y="1" z="1"/>
+            <IDs ID="1138" parentID="0"/>
+            <Behavior Type="1" OnEnter="function(self) SluiceEnter(sluice2) end" OnExit="function(self) SluiceExit(sluice2) end" OnTriggering="function(self, dt) SluiceUpdate(dt, sluice2) end"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="0.5" y="0.5" z="0.5"/>
+            <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
         <LevelSluice>
-            <wallClosed name="WoodenFence"/>
-            <wallOpen name="WoodenFence1"/>
-            <sluiceID id="1"/>
+            <wallClosed name="BlockerClosed"/>
+            <wallOpen name="BlockerOpen"/>
+            <sluiceID id="2"/>
         </LevelSluice>
         <LevelTransform>
-            <Position x="195.02759" y="50.298183" z="233.3244"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="4.6017761" y="2.8934593" z="6.4473877"/>
+            <Position x="152.84116" y="38.46875" z="191.46774"/>
+            <Rotation x="-0.063957214" y="1.7473961" z="-0.053930659"/>
+            <Scale x="1.0600281" y="1" z="2.6619415"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Blocker" displayName="BlockerOpen" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>Branch_blocker</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="151.79724" y="32.427185" z="194.50745"/>
+            <Rotation x="0" y="1.748492" z="0"/>
+            <Scale x="1.029541" y="1.2945862" z="1.7966461"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>

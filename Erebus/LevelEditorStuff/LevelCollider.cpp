@@ -766,7 +766,7 @@ void LevelCollider::setTwStruct(TwBar* bar)
 
 	//TwAddVarRW( bar, "colliderColor", LevelUI::TW_TYPE_VECTOR3F(), &color, "label='Color:'" );
 	TwAddVarRW(bar, "colliderColor", TW_TYPE_COLOR3F, &color, "label='Color:'");
-	TwAddVarRW(bar, "transformExport", TW_TYPE_BOOLCPP, &genParent, "label='Gen Parents:'");
+	TwAddVarRW(bar, "colliderGenParent", TW_TYPE_BOOLCPP, &genParent, "label='Gen Parents:'");
 }
 
 void LevelCollider::setType(int type)

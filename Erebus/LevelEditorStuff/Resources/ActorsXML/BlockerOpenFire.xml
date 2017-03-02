@@ -1,9 +1,9 @@
-<LevelActor type="Blocker" displayName="BranchBlockerOpen" tileID="2" exportType="1">
+<LevelActor type="Blocker" displayName="BlockerOpenFire" tileID="2" exportType="1">
     <LevelModel>
-        <ModelName>Branch_blocker</ModelName>
+        <ModelName>Fire_Branch_blocker</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="194" y="54" z="236"/>
+        <Position x="17.65625" y="6.2773438" z="158.125"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1.5"/>
         <Export e="true"/>

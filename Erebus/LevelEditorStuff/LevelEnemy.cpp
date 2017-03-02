@@ -74,10 +74,10 @@ std::string LevelEnemy::toLuaLoad(std::string name){
 	LevelTransform* transform = parent->getComponent<LevelTransform>();
 	glm::vec3 pos = transform->getTransformRef()->getPos();
 	if(type==ENEMY_DUMMY)
-		ss << "local " << name << " = CreateEnemy(" << "ENEMY_DUMMY" << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
+		ss << name << " = CreateEnemy(" << "ENEMY_DUMMY" << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
 	else {
 		int elementExportNr = this->element + 1;
-		ss << "local " << name << " = CreateEnemy(" << (type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED") << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "}, "<<elementExportNr<<")" << endl;
+		ss  << name << " = CreateEnemy(" << (type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED") << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "}, "<<elementExportNr<<")" << endl;
 	}
 		
 
@@ -90,7 +90,7 @@ std::string LevelEnemy::toLuaLoad(std::string name){
 
 std::string LevelEnemy::toLuaUnload(std::string name)
 {
-	return "";
+	return ("DestroyEnemy(" + name + ")");
 }
 
 void LevelEnemy::postInitialize() {

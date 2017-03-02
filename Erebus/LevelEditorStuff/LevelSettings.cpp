@@ -42,7 +42,7 @@ void LevelSettings::postInitialize()
 
 std::string LevelSettings::getName()
 {
-	return name;
+	return LevelSettings::name;
 }
 
 tinyxml2::XMLElement* LevelSettings::toXml( tinyxml2::XMLDocument* doc )

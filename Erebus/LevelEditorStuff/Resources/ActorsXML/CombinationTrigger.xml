@@ -1,0 +1,22 @@
+<LevelActor type="CombineBlocker" displayName="BlockerCombiner" tileID="2" exportType="8">
+    <LevelCollider type="2">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="1"/>
+        <IDs ID="1139" parentID="0"/>
+        <Behavior Type="1" OnEnter="" OnExit="" OnTriggering=""/>
+        <GenParent value="true"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="2" y="3" z="4"/>
+    </LevelCollider>
+    <LevelSluice>
+        <sluiceType type="1"/>
+        <wallCombine name=""/>
+        <sluiceID id="2"/>
+    </LevelSluice>
+    <LevelTransform>
+        <Position x="115.0625" y="56.71875" z="122"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
