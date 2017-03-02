@@ -121,7 +121,7 @@ function CreateEnemy(type, position, element)
 					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 					if element then
 						Network.SendDamageTextPacket(self.transformID, damage, element)
-						Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
+						Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
 					end
 
 					if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
@@ -467,7 +467,7 @@ function UpdateEnemies(dt)
 			for i=1, #enemies do
 				if enemies[i].transformID == dmgText_transformID then
 					local enemyPosition = Transform.GetPosition(dmgText_transformID)
-					Gear.PrintDamage(dmgText_damage, dmgText_element-1, enemyPosition.x, enemyPosition.y+1, enemyPosition.z )
+					Gear.PrintDamage(dmgText_damage, dmgText_element, enemyPosition.x, enemyPosition.y+1, enemyPosition.z )
 					break
 				end
 			end
