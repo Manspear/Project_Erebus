@@ -1,14 +1,14 @@
-CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/firepillar.dds");
-CHRONOBALLLIFETIME = 10
+--CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
+CHRONOBALLLIFETIME = 0.9
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
 CHRONOBALLMAXCHARGETIME = 5
-CHRONOBALL_DAMAGE = 30
+CHRONOBALL_DAMAGE = 0
 
 function CreateChronoBall(entity)
 	local spell = {}
 	spell.element = NATURE
-	local model = Assets.LoadModel( "Models/projectile1.model" )
+	local model = Assets.LoadModel( "Models/ChronoBall.model" )
 	spell.type = CreateProjectileType(model)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
@@ -21,7 +21,7 @@ function CreateChronoBall(entity)
 	spell.effectFlag = false
 	spell.maxChargeTime = CHRONOBALLMAXCHARGETIME
 	spell.chargedTime = 0
-	spell.hudtexture = CHRONOBALL_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/ChronoBallTexture.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	--local model = Assets.LoadModel( "Models/projectile1.model" )
@@ -65,24 +65,25 @@ function CreateChronoBall(entity)
 	end
 	
 	function spell:Cast( entity )
-		--self.position = Transform.GetPosition(casterTransID)
-		--self.direction = dir	--Transform.GetLookAt(player.transformID
-		local pos = Transform.GetPosition(entity.transformID)
-		pos.y = pos.y - 3
-		local to = Transform.GetPosition(player.transformID)
-		to.y = to.y + 1
-		self.direction = Math.GetDir(pos, to);
-		self.type:Shoot(pos , self.direction, self.speed)
-		self.alive = true
-		self.lifeTime = CHRONOBALLLIFETIME 
-		self.chargedTime = chargetime
-		self.effectFlag = effect
-		self.hitflag = false
-		--print(type(self.particles))
-		--self.particles.Cast()
-		--Transform.SetPosition(self.transformID, self.position)
-		--self.particles.cast()
-		
+		if not self.alive then
+			--self.position = Transform.GetPosition(casterTransID)
+			--self.direction = dir	--Transform.GetLookAt(player.transformID
+			local pos = Transform.GetPosition(entity.transformID)
+			pos.y = pos.y - 3
+			local to = Transform.GetPosition(player.transformID)
+			to.y = to.y + 1
+			self.direction = Math.GetDir(pos, to);
+			self.type:Shoot(pos , self.direction, self.speed)
+			self.alive = true
+			self.lifeTime = CHRONOBALLLIFETIME 
+			self.chargedTime = chargetime
+			self.effectFlag = effect
+			self.hitflag = false
+			--print(type(self.particles))
+			--self.particles.Cast()
+			--Transform.SetPosition(self.transformID, self.position)
+			--self.particles.cast()
+		end
 	end
 
 	spell.Charge = BaseCharge
@@ -94,4 +95,13 @@ function CreateChronoBall(entity)
 		self.type:Kill()
 	end
 	return spell
+end
+
+function DestroyChronoBall(ball)
+	DestroyProjectileType(ball.type)
+
+	Gear.UnbindInstance(ball.transformID)
+	Assets.UnloadModel("Models/ChronoBall.model")
+	Assets.UnloadTexture("Textures/ChronoBallTexture.dds")
+	ball = nil
 end

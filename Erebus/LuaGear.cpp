@@ -19,8 +19,10 @@ namespace LuaGear
 	static bool* g_fullscreen = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 	static Skybox* g_skybox = nullptr;
+	static FloatingDamage* g_floatDamage = nullptr;
 
-	void registerFunctions(lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work)
+	void registerFunctions(lua_State* lua, GearEngine* gearEngine, std::vector<ModelInstance>* models, std::vector<ModelInstance>* animatedModels, Animation* animations, int* boundAnimations, std::vector<ModelInstance>* forwardModels, std::vector<ModelInstance>* blendingModels, TransformHandler* transformHandler, bool* queueModels, bool* mouseVisible, bool* fullscreen, Assets* assets, WorkQueue* work,
+		FloatingDamage* floatingDamage)
 	{
 		g_gearEngine = gearEngine;
 		g_ForwardModels = forwardModels;
@@ -36,6 +38,7 @@ namespace LuaGear
 		g_fullscreen = fullscreen;
 		g_transformHandler = transformHandler;
 		g_skybox = g_gearEngine->getSkybox();
+		g_floatDamage = floatingDamage;
 
 		// Gear
 		luaL_newmetatable(lua, "gearMeta");
@@ -45,12 +48,15 @@ namespace LuaGear
 			{ "AddAnimatedInstance", addAnimatedInstance },
 			{ "AddForwardInstance",	addForwardInstance },
 			{ "AddBlendingInstance", addBlendingInstance},*/
+			{ "ResetAnimations", resetAnimations },
+			{ "ResetModels", resetModels },
 			{ "BindStaticInstance", bindStaticInstance },
 			{ "BindAnimatedInstance", bindAnimatedInstance },
 			{ "BindForwardInstance", bindForwardInstance },
 			{ "BindBlendingInstance", bindBlendingInstance },
 			{ "UnbindInstance", unbindInstance },
 			{ "Print", print },
+			{ "PrintDamage", printDamageNumer},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
 			{ "SetUniformLocation", setUniformLocation },
@@ -78,6 +84,7 @@ namespace LuaGear
 		luaL_Reg animationRegs[] =
 		{
 			{ "Bind", bindAnimation },
+			{ "Unbind", unbindAnimation },
 			{ "Update",	updateAnimationBlending },
 			{ "UpdateShaderMatrices", assembleAnimationsIntoShadermatrices },
 			{ "SetTransitionTimes", setTransitionTimes },
@@ -87,6 +94,8 @@ namespace LuaGear
 			{ "SetQuickBlend", setQuickBlend },
 			{ "SetSegmentPlayTime", setSegmentPlayTime },
 			{ "ResetSegmentPlayTime", resetSegmentPlayTime },
+			{ "ResetSegmentAnimationClock", resetSegmentAnimationClock },
+			{ "SetTint", setTint},
 			{ NULL, NULL }
 		};
 
@@ -177,9 +186,40 @@ namespace LuaGear
 		return 0;
 	}*/
 
+	int resetAnimations( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 0 );
+
+		/*int anims = *g_boundAnimations;
+		for( int i=0; i<anims; i++ )
+		{
+			g_animations[i].reset();
+		}*/
+		for( int i=0; i<MAX_ANIMATIONS; i++ )
+			g_animations[i].reset();
+		*g_boundAnimations = 0;
+
+		return 0;
+	}
+
+	int resetModels( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 0 );
+
+		g_models->clear();
+		g_animatedModels->clear();
+		g_ForwardModels->clear();
+		g_blendingModels->clear();
+
+		return 0;
+	}
+
 	int bindStaticInstance( lua_State* lua )
 	{
-		assert( lua_gettop( lua ) == 1 );
+		//assert( lua_gettop( lua ) == 1 );
+
+		if( lua_gettop( lua ) == 2 )
+			int f = 0;
 
 		ModelAsset* asset = (ModelAsset*)lua_touserdata( lua, 1 );
 
@@ -266,8 +306,10 @@ namespace LuaGear
 
 		int result = g_transformHandler->bindForwardInstance( asset );
 		lua_pushinteger(lua, result );
+		
+		lua_pushinteger(lua, g_gearEngine->textureBlend.size() - 1);
 
-		return 1;
+		return 2;
 	}
 
 	int unbindInstance( lua_State* lua )
@@ -333,12 +375,36 @@ namespace LuaGear
 		return 2;
 	}
 
+	int resetSegmentAnimationClock(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 2);
+
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+		int segment = (int)lua_tointeger(lua, 2);
+
+		animation->resetSegmentAnimationClock(segment);
+
+		return 0;
+	}
+
 	int bindAnimation(lua_State* lua)
 	{
-		int index = *g_boundAnimations;
+		int index = -1, maxIndex = *g_boundAnimations;
+		for( int i=0; i<maxIndex && index < 0; i++ )
+			if( !g_animations[i].getActive() )
+				index = i;
+
+		if( index < 0 )
+		{
+			index = *g_boundAnimations;
+			*g_boundAnimations = index + 1;
+		}
+
 		Animation* animation = &g_animations[index];
 		animation->setMatrixIndex(index);
-		*g_boundAnimations = index + 1;
+		animation->setActive( true );
 
 		lua_newtable(lua);
 		luaL_setmetatable(lua, "animationMeta");
@@ -346,6 +412,18 @@ namespace LuaGear
 		lua_setfield(lua, -2, "__self");
 
 		return 1;
+	}
+
+	int unbindAnimation(lua_State* lua)
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		lua_getfield( lua, 1, "__self" );
+		Animation* animation = (Animation*)lua_touserdata( lua, -1 );
+		animation->setActive( false );
+		animation->reset();
+
+		return 0;
 	}
 
 	int quickBlend(lua_State * lua)
@@ -432,6 +510,39 @@ namespace LuaGear
 		lua_getfield(lua, 1, "__self");
 		Animation* animation = (Animation*)lua_touserdata(lua, -1);
 		animation->assembleAnimationsIntoShadermatrices();
+
+		return 0;
+	}
+
+	int setTint(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		lua_getfield(lua, 1, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+		int type = lua_type(lua, 2);
+		glm::vec4 tint(1.f);
+
+		if (type == LUA_TTABLE)
+		{
+			lua_getfield(lua, 2, "r");
+			tint.r = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "g");
+			tint.g = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "b");
+			tint.b = (float)lua_tonumber(lua, -1);
+
+			lua_getfield(lua, 2, "a");
+			tint.a = (float)lua_tonumber(lua, -1);
+		}
+		else
+		{
+			tint = glm::vec4(1, 1, 0, 1);
+		}
+
+		animation->setTint(tint);
 
 		return 0;
 	}
@@ -531,32 +642,11 @@ namespace LuaGear
 
 	int setBlendUniformValue(lua_State * lua)
 	{
-		/*if (lua_gettop(lua) >= 4)
-		{
-			int index = (int)lua_tointeger(lua, 1);
-			int size = (int)lua_tointeger(lua, 2);
-			glm::vec2 blend;
-			for (int i = 0; i < size; i++)
-			{
-				lua_getfield(lua, 3 + i, "x");
-				blend.x = (float)lua_tonumber(lua, -1);
-
-				lua_getfield(lua, 3 + i, "y");
-				blend.y = (float)lua_tonumber(lua, -1);
-
-				g_gearEngine->textureBlend.at(index).blendFactor[i] = blend;
-			}
-
-		}
-		return 0;*/
 
 		assert( lua_gettop( lua ) >= 4 );
 
 		int index = (int)lua_tointeger(lua, 1);
 		int size = (int)lua_tointeger(lua, 2);
-
-		TransformHandle handle = g_transformHandler->getHandle( index );
-		
 		glm::vec2 blend;
 		for (int i = 0; i < size; i++)
 		{
@@ -567,48 +657,46 @@ namespace LuaGear
 			blend.y = (float)lua_tonumber(lua, -1);
 
 			//g_gearEngine->textureBlend.at(index).blendFactor[i] = blend;
-			g_gearEngine->textureBlend.at(handle.modelIndex).blendFactor[i] = blend;
+			g_gearEngine->textureBlend.at(index).blendFactor[i] = blend;
 		}
 
 		return 0;
 	}
 
+	int bindBlendingInstance(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 1);
+
+		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+
+		assert(asset);
+
+		int result = g_transformHandler->bindBlendingInstance(asset);
+
+		lua_pushinteger(lua, result);
+		return 1;
+	}
+
 	int setBlendTextures(lua_State * lua)
 	{
-		/*if (lua_gettop(lua) >= 4)
-		{
-			int index = (int)lua_tointeger(lua, 1);
-			int size = (int)lua_tointeger(lua, 2);
-			TextureAsset* texture;
-			for (int i = 0; i < size; i++)
-			{
-				lua_getfield(lua, i + 3, "__self");
-				texture = (TextureAsset*)lua_touserdata(lua, -1);
-
-				g_gearEngine->textureBlend.at(index).textureVector.push_back(texture);
-				g_gearEngine->textureBlend.at(index).numTextures = size;
-			}
-		}
-		return 0;*/
-
 		assert( lua_gettop( lua ) >= 4 );
 
-		int index = (int)lua_tointeger( lua, 1 );
+		//int modelIndex = g_transformHandler->getHandle( index );;// (int)lua_tointeger(lua, 1);
+		int index = g_gearEngine->textureBlend.size() - 1;
 		int size = (int)lua_tointeger( lua, 2 );
 
-		TransformHandle handle = g_transformHandler->getHandle( index );
-
+		//TransformHandle handle = g_transformHandler->getHandle( index );
 		TextureAsset* texture;
+		//g_gearEngine->textureBlend.push_back(TextureBlendings());
 		for( int i=0; i<size; i++ )
 		{
 			lua_getfield( lua, i+3, "__self" );
 			texture = (TextureAsset*)lua_touserdata( lua, -1 );
-
-			g_gearEngine->textureBlend.at( handle.modelIndex ).textureVector.push_back( texture );
-			g_gearEngine->textureBlend.at( handle.modelIndex ).numTextures = size;
+			g_gearEngine->textureBlend.at(index).textureVector.push_back( texture );		
 		}
-
-		return 0;
+		g_gearEngine->textureBlend.at(index).numTextures = size;
+		lua_pushinteger(lua, index);
+		return 1;
 	}
 
 	int setFogColor(lua_State * lua)
@@ -690,45 +778,19 @@ namespace LuaGear
 		return 1;
 	}
 
-	/*int addBlendingInstance(lua_State * lua)
+	int printDamageNumer(lua_State * lua)
 	{
-		int ntop = lua_gettop(lua);
-		int index = -1;
-		if (ntop >= 2)
-		{
-			ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
-			int transformID = lua_tointeger(lua, 2);
-			int result = g_gearEngine->generateWorldMatrix();
-			for (int i = 0; i<g_blendingModels->size(); i++)
-				if (g_blendingModels->at(i).asset == asset)
-					index = i;
-			if (index < 0)
-			{
-				ModelInstance instance;
-				instance.asset = asset;
+		assert(lua_gettop(lua) == 5);
+		float damage = lua_tonumber(lua, 1);
 
-				TextureBlendings tBlend;
-				g_gearEngine->textureBlend.push_back(tBlend);
-				index = g_blendingModels->size();
-				g_blendingModels->push_back(instance);
-			}
-			g_blendingModels->at(index).worldIndices.push_back(transformID);
-			g_gearEngine->textureBlend.at(index).modelIndex = index;
-		}
-		lua_pushinteger(lua, index);
-		return 1;
-	}*/
-	int bindBlendingInstance(lua_State * lua)
-	{
-		assert( lua_gettop( lua ) == 1 );
+		int damageType = (int)lua_tointeger(lua, 2);
 
-		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
+		glm::vec3 position;
+		position.x = lua_tonumber(lua, 3);
+		position.y = lua_tonumber(lua, 4);
+		position.z = lua_tonumber(lua, 5);
 
-		assert( asset );
-
-		int result = g_transformHandler->bindBlendingInstance( asset );
-
-		lua_pushinteger(lua, result );
-		return 1;
+		g_floatDamage->addDamage(damage, damageType, position);
+		return 0;
 	}
 }

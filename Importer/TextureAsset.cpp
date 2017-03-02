@@ -3,7 +3,7 @@
 namespace Importer
 {
 	TextureAsset::TextureAsset()
-		: id( 0 ), width( 0 ), height( 0 ), hasImage( false )
+		: id( 0 ), width( 0 ), height( 0 ), hasImage( false ), minFilter( GL_LINEAR ), magFilter( GL_LINEAR )
 	{
 	}
 
@@ -56,8 +56,8 @@ namespace Importer
 		{
 			glGenTextures( 1, &id );
 			glBindTexture( GL_TEXTURE_2D, id );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter );
 			if( image.getFormat() == GL_RGBA )
 				glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, image.getFormat(), GL_UNSIGNED_BYTE, image.getPixels() );
 			else
@@ -76,6 +76,16 @@ namespace Importer
 	{
 		glActiveTexture( position );
 		glBindTexture( GL_TEXTURE_2D, id );
+	}
+
+	void TextureAsset::setMinimizeFilter(GLenum filter)
+	{
+		minFilter = filter;
+	}
+
+	void TextureAsset::setMagnifyFilter(GLenum filter)
+	{
+		magFilter = filter;
 	}
 
 	int TextureAsset::getWidth()

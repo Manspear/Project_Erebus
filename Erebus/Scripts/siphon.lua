@@ -1,25 +1,27 @@
-SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSiphon.dds");
+--SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSiphon.dds");
 SIPHON_DAMAGE = 2
 SIPHON_CHAIN_DURATION = 5
 SIPHON_COOLDOWN = 15
-SIPHON_SPAM_COOLDOWN = 3
-SIPHON_SPAM_DURATION = 3
+SIPHON_SPAM_COOLDOWN = 0
+SIPHON_SPAM_DURATION = 0.5
 SIPHON_DAMAGE_INTERVAL = 1
 SIPHON_HITBOX_LENGTH = 20
 SIPHON_CHAIN_INTERVAL = 1
---SIPHON_
+SIPHON_TEXTURE1 = Assets.LoadTexture("Textures/siphon_Tex.dds")
+SIPHON_TEXTURE2 = Assets.LoadTexture("Textures/siphon_AnimTex.dds")
 
 function CreateSiphon(entity)
 	local spell = {}
+	spell.element = NATURE
 	spell.damage = SIPHON_DAMAGE
 	spell.owner = entity
 	spell.steal = SIPHON_HEALTH_STEAL
-	spell.hudtexture = SIPHON_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconSiphon.dds");
 	spell.effects = {}
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	--spell.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/SunRayInner.model" )
-	spell.transformID = Gear.BindForwardInstance(model)
+	local model = Assets.LoadModel( "Models/Siphon.model" )
+	spell.transformID = Gear.BindBlendingInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
 
 	spell.collider = OBBCollider.Create(spell.transformID)
@@ -28,25 +30,37 @@ function CreateSiphon(entity)
 	spell.length = SIPHON_HITBOX_LENGTH
 
 	spell.collider.SetSize(spell.collider, SIPHON_HITBOX_LENGTH, 1, 1)
-	local model = Assets.LoadModel( "Models/Siphon.model" )
+	--local model = Assets.LoadModel( "Models/Siphon.model" )
 	--spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
 	spell.isActiveSpell = false
 	spell.hits = {}
 	spell.alive = false
 	spell.shooting = false
 	spell.hitchecker = false
-	spell.cooldown = 0
 	spell.spamcooldown = 0
 	spell.maxcooldown = SIPHON_COOLDOWN
 	spell.spamduration = SIPHON_SPAM_DURATION
 	spell.spamming = false
 	spell.interval = 0
 	spell.chargedTime = 0
-	spell.maxChargeTime = 0
+	spell.maxChargeTime = 0			spell.minChargeTime = 0
 	spell.chained = nil
 	spell.chaininterval = 0
 	spell.duration = SIPHON_CHAIN_DURATION
 	spell.temppos = {x=0,y=0,z=0}
+	spell.uvPush = {x = 0, y = 0}
+	spell.isRay = true
+	spell.chargeAlive = false
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	SIPHON_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * SIPHON_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * SIPHON_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * SIPHON_CASTSPEED_MULTIPLE
+	--Gear.SetUniformLocation(spell.transformID, "aValue");
+	--Gear.AddStaticInstance(model2, spell.type.transformID)
+	spell.blendingIndex = Gear.SetBlendTextures(1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then
@@ -70,6 +84,7 @@ function CreateSiphon(entity)
 	spell.Charge = BaseCharge
 	function spell:ChargeCast()
 		if self.cooldown < 0 then 
+			self.chargeAlive = true
 			self.chained = self:getcollisions()
 			if self.chained then
 				self.alive = true
@@ -125,10 +140,8 @@ function CreateSiphon(entity)
 	function spell:rotatetotarget()
 		if self.chained then
 			if self.chained.health > 0 then
-				--print("tjoo")
 				self.temppos = Transform.GetPosition(self.chained.transformID)
 			end
-			print(self.temppos.x .. " y: " .. self.temppos.y .. " z: " .. self.temppos.z)
 			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), self.temppos)
 			--self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.temppos)
 			self.length = Transform.GetDistanceBetweenTransAndPos(self.owner.transformID, self.temppos)
@@ -150,13 +163,18 @@ function CreateSiphon(entity)
 	function spell:Update(dt)
 		self.cooldown = self.cooldown - dt
 		self.spamcooldown = self.spamcooldown - dt
+		self.uvPush.y = self.uvPush.y - dt
+		Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
+		local rot = Transform.GetRotation(self.transformID)
+		rot.x = rot.x +dt/2
+		Transform.SetRotation(self.transformID, rot)
 		if self.spamming and not self.chained then
 			self.spamduration = self.spamduration - dt
 			self.interval = self.interval - dt
 			hit = self:getcollisions()
 			if hit then
 				if self.interval < 0 then
-					hit:Hurt(self.damage, self.owner)
+					hit:Hurt(self.damage, self.owner, self.element)
 					if(self.owner.health < 100) then
 						self.owner.health = self.owner.health + self.damage
 					elseif (self.owner.health > 100) then
@@ -188,7 +206,7 @@ function CreateSiphon(entity)
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
 						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-							enemies[curEnemy]:Hurt(self.damage, self.owner)
+							enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 							for i = 1, #self.effects do
 								local effect = effectTable[self.effects[i]](self.owner, 3)
 								enemies[curEnemy]:Apply(effect)
@@ -206,6 +224,7 @@ function CreateSiphon(entity)
 				self.chaininterval = SIPHON_CHAIN_INTERVAL
 			end
 			if self.duration < 0 then
+				self.chargeAlive = false
 				if self.owner == player then
 					ZoomOutCamera()
 				end
@@ -254,4 +273,15 @@ function CreateSiphon(entity)
 		end
 	end
 	return spell
+end
+
+function DestroySiphon(siphon)
+	Gear.UnbindInstance(siphon.transformID)
+
+	Assets.UnloadTexture( "Textures/IconSiphon.dds" )
+	Assets.UnloadTexture( "Textures/siphon_Tex.dds" )
+	Assets.UnloadTexture( "Textures/siphon_AnimTex.dds" )
+	Assets.UnloadModel( "Models/Siphon.model" )
+
+	siphon = nil
 end

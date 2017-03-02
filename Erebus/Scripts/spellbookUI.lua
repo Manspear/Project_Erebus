@@ -46,7 +46,13 @@ function LoadSpellbookUI()
 end
 
 function UnloadSpellbookUI()
+	Assets.UnloadTexture( "Textures/spellBook.dds" )
+	Assets.UnloadTexture( "Textures/buttonReturn.dds" )
+	Assets.UnloadTexture( "Textures/select.dds" )
 
+	screenImages = {}
+	screenImagesSpells = {}
+	imageTextures = {}
 end
 
 function UpdateSpellbookUI(dt)

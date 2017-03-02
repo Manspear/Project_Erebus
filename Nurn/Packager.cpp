@@ -237,17 +237,19 @@ void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, PacketQ
 	packetType newPacket;
 	std::size_t sizeOfPacketType = sizeof(packetType);
 	uint16_t sizeOfnewPackets = 0;
-
-	while (packetQueue->pop(newPacket) && fullPackage == false)
+	
+	if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets)) < sizeOfPacketType)
 	{
+		fullPackage = true;
+	}
+
+	while (fullPackage == false && packetQueue->pop(newPacket))
+	{
+		// Add Packet to the memory ( ...[MetaData][packet][packet]... )
+		memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets, &newPacket, sizeOfPacketType);
+		sizeOfnewPackets += sizeOfPacketType;
 		// Only add a packet if there's enough space in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets)) > sizeOfPacketType)
-		{
-			// Add Packet to the memory ( ...[MetaData][packet][packet]... )
-			memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets, &newPacket, sizeOfPacketType);
-			sizeOfnewPackets += sizeOfPacketType;
-		}
-		else
+		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets)) < sizeOfPacketType)
 		{
 			fullPackage = true;
 		}

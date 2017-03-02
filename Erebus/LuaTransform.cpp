@@ -8,22 +8,17 @@ namespace LuaTransform
 	// NOTE: Put global in Lua instead?
 	// Putting static in front means we can only reach the
 	// variable from this compilation unit.
-	static Transform* g_transforms = nullptr;
-	static int* g_boundTransforms = nullptr;
-	static bool* g_activeTransforms = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, TransformHandler* transformHandler )
+	void registerFunctions( lua_State* lua, TransformHandler* transformHandler )
 	{
-		g_transforms = transforms;
-		g_boundTransforms = boundTransforms;
 		g_transformHandler = transformHandler;
 
 		luaL_newmetatable( lua, "transformMeta" );
 		luaL_Reg regs[] =
 		{
-			{ "Bind",				bind },
-			{ "Destroy",			destroy },
+			//{ "Bind",				bind },
+			//{ "Destroy",			destroy },
 			{ "Move",				move },
 			{ "Switch",				switchTransform },
 			{ "Follow",				follow },
@@ -53,6 +48,9 @@ namespace LuaTransform
 			{ "GetDistanceBetweenTrans", getDistance }, 
 			{"GetDistanceBetweenTransAndPos", getDistanceTransPos},
 
+			{ "ResetTransforms", reset },
+			{ "CopyTransform", copyTransform },
+
 			{ NULL, NULL }
 		};
 
@@ -63,7 +61,7 @@ namespace LuaTransform
 		lua_setglobal( lua, "Transform" );
 	}
 
-	int bind( lua_State* lua )
+	/*int bind( lua_State* lua )
 	{
 		int n = lua_gettop( lua );
 		for( int i=1; i<=n; i++ )
@@ -72,12 +70,12 @@ namespace LuaTransform
 		*g_boundTransforms += 1;
 
 		return 1;
-	}
+	}*/
 
 	// NOTE: Copied from the old LuaBinds.h
 	// What is this function supposed to do?
 	//Det var på tiden vi skapade new Transform() fårn lua istället för att ge ett index
-	int destroy( lua_State* lua )
+	/*int destroy( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 1 );
 		
@@ -85,7 +83,7 @@ namespace LuaTransform
 		delete transform;
 
 		return 0;
-	}
+	}*/
 
 	int move( lua_State* lua )
 	{
@@ -193,9 +191,13 @@ namespace LuaTransform
 		bool active = (bool)lua_toboolean( lua, 2 );
 
 		if( active )
+		{
 			g_transformHandler->activateTransform( index );
+		}
 		else
+		{
 			g_transformHandler->deactivateTransform( index );
+		}
 
 		return 0;
 	}
@@ -334,7 +336,8 @@ namespace LuaTransform
 		int indexFrom = (int)lua_tointeger(lua, 2);
 		int indexTo = (int)lua_tointeger(lua, 1);
 
-		g_transforms[indexTo].setLookAt(g_transforms[indexFrom].getLookAt());
+		//g_transforms[indexTo].setLookAt(g_transforms[indexFrom].getLookAt());
+		g_transformHandler->getTransform(indexTo)->lookAt = g_transformHandler->getTransform(indexFrom)->lookAt;
 
 		return 0;
 	}
@@ -346,7 +349,7 @@ namespace LuaTransform
 		int indexFrom = (int)lua_tointeger(lua, 2);
 		int indexTo = (int)lua_tointeger(lua, 1);
 
-		g_transforms[indexTo].setRotation(g_transforms[indexFrom].getRotation());
+		g_transformHandler->getTransform(indexTo)->rot = g_transformHandler->getTransform(indexFrom)->rot;
 
 		return 0;
 	}
@@ -407,7 +410,6 @@ namespace LuaTransform
 
 		int index = (int)lua_tointeger( lua, 1 );
 
-		//glm::vec3 rotation = g_transforms[index].getRotation();
 		glm::vec3 rotation = g_transformHandler->getTransform(index)->rot;
 
 		lua_newtable( lua );
@@ -466,7 +468,8 @@ namespace LuaTransform
 		lua_getfield(lua, 2, "z");		vector.z = (float)lua_tonumber(lua, -1);
 
 		vector = glm::normalize(vector);
-		g_transforms[transID].setLookAt(vector);
+		g_transformHandler->getTransform(transID)->lookAt = vector;
+		//g_transforms[transID].setLookAt(vector);
 
 		glm::vec3 rotationxz = glm::normalize(glm::vec3(vector.x,0,vector.z));
 		float pitch = acosf(rotationxz.z);
@@ -474,7 +477,8 @@ namespace LuaTransform
 
 		if (vector.x < 0)
 			pitch *= -1;
-		g_transforms[transID].setRotation({0, pitch,yaw});
+		g_transformHandler->getTransform(transID)->rot = {0,pitch, yaw};
+		//g_transforms[transID].setRotation({0, pitch,yaw});
 		return 0;
 	}
 	int updateRotationFromLookVector(lua_State * lua)
@@ -487,7 +491,8 @@ namespace LuaTransform
 		tempLookdir.y = 0;
 		tempLookdir = glm::normalize(tempLookdir);
 		float rotY = ((tempLookdir.x > 0) * 2 - 1) * acos(glm::dot(tempLookdir, {0,0,1}));
-		g_transforms[transID].setRotation({ 0, rotY, 0 });
+		g_transformHandler->getTransform(transID)->rot = {0, rotY, 0};
+		//g_transforms[transID].setRotation({ 0, rotY, 0 });
 
 		return 0;
 	}
@@ -497,7 +502,7 @@ namespace LuaTransform
 		assert(lua_gettop(lua) == 2);
 		int id1 = lua_tointeger(lua, 1);
 		int id2 = lua_tointeger(lua, 2);
-		lua_pushnumber(lua, glm::length(g_transforms[id1].getPos() - g_transforms[id2].getPos()));
+		lua_pushnumber(lua, glm::length(g_transformHandler->getTransform(id1)->pos - g_transformHandler->getTransform(id2)->pos));
 		return 1;
 	}
 	int getDistanceTransPos(lua_State* lua) {
@@ -507,7 +512,26 @@ namespace LuaTransform
 		lua_getfield(lua, 2, "x");		pos.x = (float)lua_tonumber(lua, -1);
 		lua_getfield(lua, 2, "y");		pos.y = (float)lua_tonumber(lua, -1);
 		lua_getfield(lua, 2, "z");		pos.z = (float)lua_tonumber(lua, -1);
-		lua_pushnumber(lua, glm::length(g_transforms[id1].getPos() - pos));
+		lua_pushnumber(lua, glm::length(g_transformHandler->getTransform(id1)->pos - pos));
 		return 1;
+	}
+
+	int reset( lua_State* lua )
+	{
+		g_transformHandler->reset();
+		return 0;
+	}
+
+	int copyTransform(lua_State* lua) {
+		assert(lua_gettop(lua) == 2);
+		int id1 = lua_tointeger(lua, 1);
+		int id2 = lua_tointeger(lua, 2);
+		TransformStruct* trans1 = g_transformHandler->getTransform(id1);
+		TransformStruct* trans2 = g_transformHandler->getTransform(id2);
+		trans2->lookAt = trans1->lookAt;
+		trans2->pos = trans1->pos;
+		trans2->rot = trans1->rot;
+		trans2->scale = trans1->rot;
+		return 0;
 	}
 }

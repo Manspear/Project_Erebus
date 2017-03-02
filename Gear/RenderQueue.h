@@ -11,6 +11,7 @@
 #include "Light.h"
 #include "WorkQueue.h"
 #include "ModelInstance.h"
+#include "FloatingDamage.h"
 
 #define MAX_INSTANCE_COUNT 200
 
@@ -103,15 +104,14 @@ public:
 	void init();
 	void updateUniforms(Camera* camera);
 	void updateUniforms(Camera* camera, ShaderType shader);
-	void allocateWorlds(int n);
-	void update(int ntransforms, TransformStruct* theTrans, int nanimations, Animation* animations);
-	int generateWorldMatrix();
+	void update(int nanimations, Animation* animations);
 	ShaderProgram* getShaderProgram(ShaderType type);
 	// TEMP:
 	std::vector<Gear::ParticleSystem*> particleSystem;
 
 	void forwardPass(std::vector<ModelInstance>* dynamicModels, std::vector<UniformValues>* uniValues);
 	bool particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vector<Gear::ParticleEmitter*>* emitters);
+	bool floatDamagePass();
 	void geometryPass( std::vector<ModelInstance>* dynamicModels, std::vector<ModelInstance>* animatedModels );
 	void geometryPass(std::vector<ModelInstance>* dynamicModels, std::vector<ModelInstance>* animatedModels, Lights::DirLight light);
 	void pickingPass(std::vector<ModelInstance>* dynamicModels);
@@ -120,23 +120,18 @@ public:
 	void setWorkQueue( WorkQueue* workQueue );
 
 private:
-	TransformStruct* allTransforms;
-	int indices[105];
 	int currentShader = 0;
 	int currentTexture = 0;
 	int currentCallType = 0;
 	ShaderProgram* allShaders[ShaderType::NUM_SHADER_TYPES];
 	GLuint* uniformLocations[NUM_SHADER_TYPES];
 	GLuint particleBuffer;
-	glm::mat4* worldMatrices;
-	glm::mat4* tempMatrices;
-	glm::mat4* jointMatrices;
-	bool* oneMoreUpdate;
-	int nrOfWorlds;
 	WorkQueue* work;	
 
 	GLuint vpBuffer;
 	GLuint instanceTest;
+
+	//glm::vec4 tint_test = glm::vec4(0.6, 0.0, 0.0, 0.5);
 
 	double freq;
 

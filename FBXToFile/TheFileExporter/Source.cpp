@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 		start = std::chrono::system_clock::now();
 
 		fileIm.importFbx("C:/Git_Repos/Project_Erebus/FBXToFile/Models/player1Wizard.fbx", 24);
-		fileIm.writeToBinary("C:/Users/Taccoa/Documents/GitHub/Project_Erebus/FBXHelper/ModelAndMaterials");
+		fileIm.writeToBinary("C:/Git_Repos/Project_Erebus/FBXToFile/Models/");
 
 		end = std::chrono::system_clock::now();
 

@@ -11,6 +11,7 @@
 #include "Skybox.h"
 #include "WorkQueue.h"
 #include "WorldImageRenderer.h"
+#include "FloatingDamage.h"
 
 namespace Gear
 {
@@ -25,7 +26,6 @@ namespace Gear
 		GEAR_API void addDebugger(Debug* debugger);
 
 		//--TODO: Implement API--
-		GEAR_API void bindTransforms(TransformStruct** theTrans, int* n);
 		GEAR_API void bindAnimations(Animation** theAnims, int* n);
 
 		GEAR_API glm::vec2 getTextDimensions( const char* text );
@@ -59,6 +59,7 @@ namespace Gear
 		GEAR_API void queueUpdateLights(Lights::PointLight* lights);
 		GEAR_API void queueRemoveLights(Lights::PointLight* lights);
 		GEAR_API void queueTextureBlendings(std::vector<ModelInstance>* blendingModels);
+		//GEAR_API void queueFloatingDamage();
 		GEAR_API void draw(Camera* camera);
 		GEAR_API void update(float dt);
 
@@ -76,12 +77,11 @@ namespace Gear
 
 		GEAR_API void resetLightbuffer();
 
-		GEAR_API void allocateWorlds(int n);
-		GEAR_API int generateWorldMatrix();
-
 		GEAR_API void setFont(FontAsset* font);
+		
 		GEAR_API void setWorkQueue( WorkQueue* workQueue );
 		GEAR_API Skybox* getSkybox();
+		GEAR_API void addFloatingDamageRef(FloatingDamage &ref);
 		std::vector<UniformValues> uniValues;
 		std::vector<TextureBlendings> textureBlend;
 		//----------------------
@@ -142,8 +142,6 @@ namespace Gear
 		std::vector<ModelInstance>* blendModels;
 
 		//Transform data
-		TransformStruct** allTrans;
-		int* transformCount;
 		int* animationCount;
 		Animation** allAnims;
 		WorkQueue* work;
@@ -159,6 +157,7 @@ namespace Gear
 		TextRenderer text;
 		ImageRenderer image;
 		WorldImageRenderer worldImage;
+		FloatingDamage* floatingDamage;
 
 		void lightPass(Camera* camera, Camera* tempCam); //Final lighting pass
 		void pickingPass();

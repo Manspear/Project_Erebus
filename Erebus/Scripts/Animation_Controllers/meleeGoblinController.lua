@@ -100,3 +100,8 @@ function CreateEnemyController(enemy)
 
 	return controller
 end
+
+function DestroyEnemyController(controller)
+	Animation.Unbind(controller.animation)
+	controller = nil
+end

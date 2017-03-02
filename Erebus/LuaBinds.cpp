@@ -15,10 +15,9 @@ LuaBinds::~LuaBinds()
 void LuaBinds::load( GearEngine* gearEngine,
 					Assets* assets,
 					CollisionHandler* collisionHandler,
+					CollisionsDraw* collisionsDraw,
 					Controls* controls,
 					Inputs* inputs,
-					Transform* transforms,
-					int* boundTransforms,
 					Animation* animations,
 					int* boundAnimations,
 					std::vector<ModelInstance>* models,
@@ -38,19 +37,20 @@ void LuaBinds::load( GearEngine* gearEngine,
 					NetworkController* network,
 					WorkQueue* work,
 					SoundEngine* soundEngine,
-					PerformanceCounter* counter )
+					PerformanceCounter* counter,
+					FloatingDamage* floatingDamage)
 {
 	lua = luaL_newstate();
 	luaL_openlibs( lua );
-	LuaErebus::registerFunctions( lua, transforms, controls, network, counter, running, transformHandler );
-	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, transformHandler, queueModels, mouseVisible, fullscreen, assets, work );
+	LuaErebus::registerFunctions( lua, controls, network, counter, running, transformHandler );
+	LuaGear::registerFunctions( lua, gearEngine, models, animatedModels, animations, boundAnimations, forwardModels, blendingModels, transformHandler, queueModels, mouseVisible, fullscreen, assets, work, floatingDamage);
 	LuaAssets::registerFunctions( lua, assets );
-	LuaCollision::registerFunctions( lua, collisionHandler, transforms, transformHandler );
-	LuaTransform::registerFunctions( lua, transforms, boundTransforms, transformHandler);
+	LuaCollision::registerFunctions( lua, collisionHandler, collisionsDraw, transformHandler );
+	LuaTransform::registerFunctions( lua, transformHandler);
 	LuaInputs::registerFunctions( lua, inputs );
-	LuaCamera::registerFunctions(lua, camera, transforms, transformHandler );
+	LuaCamera::registerFunctions(lua, camera, transformHandler );
 	LuaParticles::registerFunctions(lua, ps, emitters, assets);
-	LuaAI::registerFunctions(lua, transforms, AI, assets, transformHandler);
+	LuaAI::registerFunctions(lua, AI, assets, transformHandler);
 	LuaNetwork::registerFunctions(lua, network);
 	LuaSound::registerFunctions(lua, soundEngine);
 	LuaUI::registerFunctions(lua, gearEngine);

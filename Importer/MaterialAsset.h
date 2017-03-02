@@ -34,6 +34,10 @@ namespace Importer
 		void getUniforms( GLuint program );
 		bool isWhitespace( char c );
 
+		std::string diffuseName;
+		std::string specularName;
+		std::string normalName;
+
 		glm::vec3 ambientColor;
 		glm::vec3 diffuseColor;
 		glm::vec3 specularColor;

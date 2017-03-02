@@ -145,7 +145,15 @@ void NetworkController::sendTransformPacket(const TransformPacket& packet)
 
 bool NetworkController::fetchTransformPacket(TransformPacket &packet)
 {
-	return network.fetchTransformPacket(packet);
+	TransformPacket tempPacket;
+	bool isQueueEmpty = network.fetchTransformPacket(tempPacket);
+	bool result = isQueueEmpty;
+	while (isQueueEmpty)
+	{
+		packet = tempPacket;
+		isQueueEmpty = network.fetchTransformPacket(tempPacket);
+	}
+	return result;
 }
 
 void NetworkController::sendAnimationPacket(const AnimationPacket& packet)

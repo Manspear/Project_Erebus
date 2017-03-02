@@ -1,4 +1,4 @@
-POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
+--POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
 POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
@@ -11,20 +11,27 @@ function CreatePolymorph(entity)
 	spell.element = NATURE
 	spell.isActiveSpell = false	
 	spell.cooldown = 0		spell.maxcooldown = POLYMORPH_COOLDOWN
-	spell.chargedTime = 0		spell.maxChargeTime = 3
+	spell.chargedTime = 0		spell.maxChargeTime = 3		spell.minChargeTime = POLYMORPH_MIN_CHARGETIME
 	spell.lifeTime = POLYMORPH_LIFETIME
 	spell.caster = entity.transformID
 	spell.owner = entity
-	spell.hudtexture = POLYMORPH_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconPolymorph.dds");
 	spell.position = {x = 0, y = 0, z = 0}		spell.direction = {x = 0, y = 0, z = 0}	
 	spell.damage = 1
 	spell.morphTime = 3
 	spell.effects = {}
 	
+	spell.isRay = false
+	--For animation timing 
+	spell.hasSpamAttack = false
+
 	table.insert(spell.effects, POLYMORPH_EFFECT_INDEX)
 	spell.particles = createSparklyParticles()
 
-	spell.transformID = Transform.Bind()
+	local model = Assets.LoadModel( "Models/nothing.model" )
+	spell.transformID = Gear.BindForwardInstance(model)
+
+	--spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
 
@@ -77,7 +84,7 @@ function CreatePolymorph(entity)
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-					enemies[curEnemy]:Hurt(self.damage, self.owner)
+					enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 					for stuff = 1, #self.effects do
 						local effect = effectTable[self.effects[stuff]](self.chargedTime)
 						enemies[curEnemy]:Apply(effect)
@@ -110,6 +117,7 @@ function CreatePolymorph(entity)
 
 	function spell:Kill()
 		Transform.ActiveControl(self.transformID, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 		SphereCollider.SetActive(self.sphereCollider, false)
 		self.cooldown = POLYMORPH_COOLDOWN
 		self.lifeTime = POLYMORPH_LIFETIME
@@ -125,4 +133,13 @@ function CreatePolymorph(entity)
 	spell.GetEffect = BaseGetEffect
 
 	return spell
+end
+
+function DestroyPolymorph(poly)
+	destroySparklyParticles(poly.spell.particles)
+
+	Gear.UnbindInstance(poly.transformID)
+
+	Assets.UnloadTexture("Textures/IconPolymorph.dds");
+	Assets.UnloadModel( "Models/nothing.model" )
 end

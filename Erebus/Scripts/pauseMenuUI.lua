@@ -39,6 +39,8 @@ function UpdatePauseMenuUI(dt)
 			Sound.Play("Effects/button.wav", 2)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 			Erebus.ShutdownNetwork()
+
+			UnloadGameplay()
 		end
 	end
 end

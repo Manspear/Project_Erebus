@@ -51,9 +51,11 @@ namespace Gear
 		GEAR_API Importer::TextureAsset* getTexture();
 		GEAR_API void resetEmitter();
 		GEAR_API void setExtrovert(bool yesNo);
+		GEAR_API void setFocus(float focusPower);
 		GEAR_API void activate();
 		GEAR_API void deActivate();
-		GEAR_API void setTexture(Importer::TextureAsset* texture);
+		//GEAR_API void setTexture(Importer::TextureAsset* texture);
+		GEAR_API void setTexture( Importer::TextureAsset* texture, Importer::Assets* assets );
 		
 		bool isActive;
 		glm::vec3 localPos;
@@ -80,6 +82,10 @@ namespace Gear
 
 		void spawn(float dt);
 		void introvertSpawn(float dt);
+
+		// TEMP(Niclas): Particles should probably inherit from Asset to avoid this:
+		Importer::Assets* assets;
+		std::string textureName;
 	};
 }
 

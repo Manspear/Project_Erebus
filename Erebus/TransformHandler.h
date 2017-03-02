@@ -8,8 +8,6 @@ struct TransformHandle
 	int modelIndex;
 	int transformIndex;
 	bool active, vacant;
-
-	int prev, next;
 };
 
 class TransformHandler
@@ -25,6 +23,7 @@ public:
 	);
 	~TransformHandler();
 
+	void reset();
 	int bindStaticInstance( ModelAsset* asset );
 	int bindAnimatedInstance( ModelAsset* asset, Animation* animation );
 	int bindForwardInstance( ModelAsset* asset );
@@ -38,14 +37,12 @@ public:
 	TransformStruct* getTransform( int index );
 
 private:
-	int findVacantIndex( int modelIndex );
+	//int findVacantIndex( int modelIndex );
+	int findVacantIndex();
 	int findModelIndex( int instanceIndex, ModelAsset* asset );
 
 	Gear::GearEngine* gearEngine;
 	std::vector<ModelInstance>* instances[MAX_INSTANCE_TYPES];
 
 	std::vector<TransformHandle> handles;
-	//int lastIndices[MAX_INSTANCE_TYPES];
-	std::vector<int> lastIndices[MAX_INSTANCE_TYPES];
-	std::vector<int> firstIndices[MAX_INSTANCE_TYPES];
 };

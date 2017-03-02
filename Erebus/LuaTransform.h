@@ -6,9 +6,9 @@
 
 namespace LuaTransform
 {
-	void registerFunctions( lua_State* lua, Transform* transforms, int* boundTransforms, TransformHandler* transformHandler );
-	int bind( lua_State* lua );
-	int destroy( lua_State* lua );
+	void registerFunctions( lua_State* lua, TransformHandler* transformHandler );
+	//int bind( lua_State* lua );
+	//int destroy( lua_State* lua );
 	int move( lua_State* lua );
 	int switchTransform( lua_State* lua );
 	int follow( lua_State* lua );
@@ -37,4 +37,7 @@ namespace LuaTransform
 
 	int getDistance(lua_State* lua);
 	int getDistanceTransPos(lua_State* lua);
+
+	int reset( lua_State* lua );
+	int copyTransform(lua_State* lua);
 }

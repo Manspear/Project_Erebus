@@ -13,7 +13,7 @@ function CreateRayType(model)
 	function ray:Cast(position)
 		Transform.ActiveControl(self.transformID, true)
 		Transform.SetPosition(self.transformID, position)
-		OBBCollider.SetActive(self.oobCollider, true);
+		OBBCollider.SetActive(self.oobCollider, true)
 		self.position = position
 	end
 
@@ -39,7 +39,13 @@ function CreateRayType(model)
 	function ray:Kill()
 		Transform.ActiveControl(self.transformID, false)
 		OBBCollider.SetActive(self.oobCollider, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
 	end
 
 	return ray
+end
+
+function DestroyRayType(ray)
+	Gear.UnbindInstance(ray.transformID)
+	ray = nil
 end

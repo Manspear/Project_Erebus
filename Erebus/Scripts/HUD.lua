@@ -1,5 +1,6 @@
 SHOW_TUTORIAL_IMAGE = -1
 SHOW_TUTORIAL_IMAGE2 = -1
+SHOW_WAITING_FOR_PLAYER2 = -1
 local screenImages = {}
 local imageTextures = {}
 local tutorialImages = {}
@@ -10,6 +11,7 @@ local healthBarLength = 470;
 local spellHeight = 40;
 local TutorialCounter = 0;
 local TutorialCounter2 = 0;
+local WaitingForP2Counter = 0
 local showHealthbar = true;
 local crosshairIsVisible = false
 
@@ -48,6 +50,11 @@ function LoadHUD()
 	tutorialTexture[6] = Assets.LoadTexture("Textures/TUTORIALChargeFriend1.dds")
 	tutorialTexture[7] = Assets.LoadTexture("Textures/TUTORIALChargeFriend2.dds")
 
+	tutorialTexture[8] = Assets.LoadTexture("Textures/WaitingForPlayer2_0.dds")
+	tutorialTexture[9] = Assets.LoadTexture("Textures/WaitingForPlayer2_1.dds")
+	tutorialTexture[10] = Assets.LoadTexture("Textures/WaitingForPlayer2_2.dds")
+	tutorialTexture[11] = Assets.LoadTexture("Textures/WaitingForPlayer2_3.dds")
+
 	pingImages[0] = UI.load(20.8, 9.6, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	pingImages[1] = UI.load(30.1, 9.7, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	
@@ -57,7 +64,44 @@ function LoadHUD()
 end
 
 function UnloadHUD()
+	for _,v in pairs(imageTextures) do
+		v = nil
+	end
 
+	for _,v in pairs(screenImages) do
+		v = nil
+	end
+
+	for _,v in pairs(tutorialTexture) do
+		v = nil
+	end
+
+	for _,v in pairs(pingImages) do
+		v = nil
+	end
+
+	imageTextures = {}
+	screenImages = {}
+	tutorialImages = {}
+	pingImages = {}
+
+	Assets.UnloadTexture( "Textures/HealthBackground.dds" )
+	Assets.UnloadTexture( "Textures/HealthBar.dds" )
+	Assets.UnloadTexture( "Textures/cooldown.dds" )
+	Assets.UnloadTexture( "Textures/spell1.dds" )
+	Assets.UnloadTexture( "Textures/spell2.dds" )
+	Assets.UnloadTexture( "Textures/spell3.dds" )
+	Assets.UnloadTexture( "Textures/select.dds" )
+	Assets.UnloadTexture( "Textures/crosshair.dds" )
+
+	Assets.UnloadTexture( "Textures/TUTORIAL_PressLeftToFire.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALChangeSpell.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIAL_DASH.dds" )
+
+	Assets.UnloadTexture( "Textures/TUTORIALCharge1.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALCharge2.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend1.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend2.dds" )
 end
 
 function UpdateHUD(dt)
@@ -153,6 +197,10 @@ function DrawHUD()
 		UI.drawWorldImage(pingImages[1], player.pingTexture);
 	end
 
+	if SHOW_WAITING_FOR_PLAYER2 ~= -1 then
+		UI.drawWorldImage(tutorialImages[SHOW_WAITING_FOR_PLAYER2], tutorialTexture[SHOW_WAITING_FOR_PLAYER2])
+	end
+
 	if player.ping > 0 then
 		UI.drawWorldImage(player.pingImage, player.pingTexture);
 	end
@@ -165,13 +213,18 @@ function DrawHUD()
 			UI.drawWorldImage(player.combineImage, SpellList[player.combinedSpell].texture);
 		end
 	end
-
-	--TODO: For Emill to figure out
 	if player2.charging then
-		--UI.drawWorldImage(player2.chargeImage, player2.spells[player2.currentSpell].hudtexture);
+		UI.drawWorldImage(player2.chargeImage, player2.spells[player2.currentSpell].hudtexture);
 		if (player2.isCombined and player2.combinedSpell ~= -1) then
-			--UI.drawWorldImage(player2.combineImage, SpellList[player2.combinedSpell].texture);
+			UI.drawWorldImage(player2.combineImage, SpellList[player2.combinedSpell].texture);
 		end
+	end
+	if(player.isAlive == false) then
+		UI.drawWorldImage(player.deathImage, player.deathTexture);
+	end
+
+	if(player2.isAlive == false) then
+		UI.drawWorldImage(player2.deathImage, player2.deathTexture);
 	end
 
 	if showHealthbar then 
@@ -225,15 +278,43 @@ function showTutorialImage2(x,y,z,dt)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 
+function showWaitingForPlayer2(dt)
+	WaitingForP2Counter = WaitingForP2Counter + dt
+	
+	if WaitingForP2Counter < 0.7  then
+		index = 8
+	elseif WaitingForP2Counter < 1.4 then
+		index = 9
+	elseif WaitingForP2Counter < 2.1 then
+		index = 10
+	elseif WaitingForP2Counter < 2.8 then
+		index = 11
+	
+	elseif WaitingForP2Counter <3.8 then
+		index = -1
+	else
+		WaitingForP2Counter = 0
+		index = 8
+	end
+
+
+	local pos = Transform.GetPosition(player)
+	--tutorialImages[index] = UI.load(player.position.x, player.position.y+1.4, player.position.z, 1.3, 1.3)
+	tutorialImages[index] = UI.load(pos.x, pos.y+1.4, pos.z, 1.3, 1.3)
+	SHOW_WAITING_FOR_PLAYER2 = index
+end
 
 function hideTutorialImage()
 	SHOW_TUTORIAL_IMAGE = -1
 end
 
 
-
 function hideTutorialImage2()
 	SHOW_TUTORIAL_IMAGE2 = -1
+end
+
+function hideWaitingForPlayer2()
+	SHOW_WAITING_FOR_PLAYER2 = -1
 end
 
 function ShowCrosshair()
