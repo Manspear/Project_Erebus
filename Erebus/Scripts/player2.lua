@@ -270,7 +270,7 @@ function UpdatePlayer2(dt)
 
 		player2.friendCharger:FireChargeBeam(dt, ChargeDir, player2.spells[player2.currentSpell].element, len)
 
-		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
+		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) and not player.isCombined then
 			player.isCombined = true
 			player.combinedSpell = player2.spells[player2.currentSpell].spellListId
 			player.spells[player.currentSpell]:Combine(player2.spells[player2.currentSpell]:GetEffect(), player2.spells[player2.currentSpell].damage)

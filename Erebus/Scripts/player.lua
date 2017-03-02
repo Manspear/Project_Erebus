@@ -43,7 +43,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 100
+	player.moveSpeed = 10
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -468,8 +468,6 @@ function Controls(dt)
 			ChargeDir.y = pos2.y - player.position.y 
 			ChargeDir.z =  pos2.z -  player.position.z 
 
-
-
 			--normalize and length
 			local len = vec3length(vec3sub(player.position, pos2))
 			
@@ -479,15 +477,10 @@ function Controls(dt)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
 		
-			local dir = Camera.GetDirection()
-			
-			
-			
+			local dir = Camera.GetDirection()			
 			if len<35 then
-
 				dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
 				if dot >0.25 then
-
 					local result = player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
 					if player2.charging == true and result == true then
 						player2.isCombined = true
@@ -496,19 +489,17 @@ function Controls(dt)
 				else 
 					player.friendCharger:EndChargeBeam()
 					player.friendCharger:resetCooldown()
-
 				end
-
 			else 
 				player.friendCharger:EndChargeBeam()
 				player.friendCharger:resetCooldown()
 			end
 		end
 	if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
-		HideCrosshair()
-		hideWaitingForPlayer2()
+		--HideCrosshair()
+		--hideWaitingForPlayer2()
 		player.friendCharger:EndChargeBeam()
-			player.friendCharger:resetCooldown()
+		player.friendCharger:resetCooldown()
 		Network.SendChargingPacket(0, false) 
 	end
 
