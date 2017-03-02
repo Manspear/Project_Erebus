@@ -209,7 +209,7 @@ function CreateEnemy(type, position, element)
 
 	Transform.SetPosition(enemies[i].transformID, position)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
-	enemies[i].sphereCollider:SetRadius(2)
+	enemies[i].sphereCollider:SetRadius(1)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 	if Network.GetNetworkHost() == true then
@@ -473,6 +473,7 @@ function UpdateEnemies(dt)
 		while newDamageTextValue == true do
 			for i=1, #enemies do
 				if enemies[i].transformID == dmgText_transformID then
+					enemies[i].damagedTint.a = 1 -- To make the damaged enemies blink red on the client
 					local enemyPosition = Transform.GetPosition(dmgText_transformID)
 					Gear.PrintDamage(dmgText_damage, dmgText_element, enemyPosition.x, enemyPosition.y+1, enemyPosition.z )
 					break

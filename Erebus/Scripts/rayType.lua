@@ -6,7 +6,7 @@ function CreateRayType(model)
 	ray.direction = {x=0,y=0,z=0}
 
 	ray.oobCollider = OBBCollider.Create(ray.transformID)
-	CollisionHandler.AddOBB(ray.oobCollider, 1)
+	CollisionHandler.AddOBB(ray.oobCollider, 2)
 	OBBCollider.SetActive(ray.oobCollider, false);
 	Transform.ActiveControl(ray.transformID, false)
 	
