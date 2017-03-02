@@ -46,6 +46,7 @@ function LoadPlayer()
 
 	-- set basic variables for the player
 	player.moveSpeed = PLAYER_MOVESPEED
+	player.lastPosition = {x= 0, y = 0, z = 0}
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -408,20 +409,22 @@ end
 
 function EnemyCollisionChecks()
 	local collisionIDs = player.sphereCollider:GetCollisionIDs()
-	local pushVector = 0
-	local enemyPos = 0
-	local pushLength = 0
+	local allMiss = true
 	for curID = 1, #collisionIDs do	
 		for curEnemy=1, #enemies do
 			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-				--enemyPos = Transform.GetPosition(enemies[curEnemy].transformID)
-				--pushVector = vec3normalize(vec3sub({x = player.position.x, y = 0, player.position.z}, {x = enemyPos.x, y = 0, z = enemyPos.z}))
-				--pushLength = vec3length(pushVector)
-				--Transform.SetPosition(player.transformID, (vec3add(player.position, scalarvec3mult(enemies[curEnemy].sphereCollider:GetRadius() - player.sphereCollider:GetRadius(), pushVector))))
-				--player.moveSpeed = 
+				allMiss = false
+				local enmyPos = Transform.GetPosition(enemies[curEnemy].transformID)
+				if vec3lengthFnG(vec3sub(enmyPos, player.position)) < vec3lengthFnG(vec3sub(enmyPos, player.lastPosition)) then
+					player.moveSpeed = vec3length(vec3sub(player.position, enmyPos)) - enemies[curEnemy].sphereCollider:GetRadius()-- - player.sphereCollider:GetRadius()
+				else
+					player.moveSpeed = PLAYER_MOVESPEED
+				end			
 			end
 		end
 	end	
+	player.lastPosition = player.position
+	if allMiss then player.moveSpeed = PLAYER_MOVESPEED  end
 end
 
 function Controls(dt)
@@ -467,7 +470,7 @@ function Controls(dt)
 		
 			local dir = Camera.GetDirection()			
 			if len<35 then
-				dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
+				local dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
 				if dot >0.25 then
 					local result = player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
 					if player2.charging == true and result == true then

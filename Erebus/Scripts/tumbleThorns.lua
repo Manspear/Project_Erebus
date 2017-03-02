@@ -119,12 +119,10 @@ function CreateTumblethorns(entity)
 
 	function spell:CheckColissions()
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()	
-
-		if CollisionHandler.IsHitBoxCollidingWithLayer(self.sphereCollider, 3) then 
+		if CollisionHandler.IsHitboxCollidingWithLayer(self.sphereCollider, 3) then 
 			self:Kill()
+			return
 		end
-	
-		
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then			
