@@ -364,6 +364,7 @@ int main()
 			quadtree.addDynamicModels(&models);
 			quadtree.frustumCollision();
 
+			transformHandler.checkReset();
 
 			if (threadData.queueModels)
 				engine.queueDynamicModels(&models);

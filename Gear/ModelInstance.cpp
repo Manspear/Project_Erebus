@@ -12,7 +12,7 @@ namespace Gear
 	ModelInstance::~ModelInstance()
 	{
 		if (instanceVAO != 0)
-			glDeleteBuffers(1, &instanceVAO);
+			glDeleteVertexArrays( 1, &instanceVAO );
 		if (instanceVBO != 0)
 			glDeleteBuffers(1, &instanceVBO);
 	}
@@ -46,7 +46,7 @@ namespace Gear
 
 	void ModelInstance::allocateBuffer()
 	{
-		if ((instanceVBO | instanceVAO) == 0)
+		if ((instanceVBO & instanceVAO) == 0)
 			init();
 
 		
