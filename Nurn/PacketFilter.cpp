@@ -8,7 +8,7 @@ PacketFilter::PacketFilter(DebugNetwork * debugNetwork_ptr)
 PacketFilter::PacketFilter()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(5);
+	this->transformQueue = new PacketQueue<TransformPacket>(3);
 	this->animationQueue = new PacketQueue<AnimationPacket>(5);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(100);
 	this->spellQueue = new PacketQueue<SpellPacket>(20);
@@ -23,6 +23,7 @@ PacketFilter::PacketFilter()
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
 	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
+	this->damageTextQueue = new PacketQueue<DamagePacket>(100);
 }
 
 PacketFilter::~PacketFilter()
@@ -102,6 +103,11 @@ PacketFilter::~PacketFilter()
 		delete this->ressurectionQueue;
 		this->ressurectionQueue = 0;
 	}
+	if (this->damageTextQueue)
+	{
+		delete this->damageTextQueue;
+		this->damageTextQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -166,6 +172,9 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 				case RESSURECTION_PACKET:
 					this->ressurectionQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ressurectionPacket data to the correct queue
+					break;
+				case DAMAGE_TEXT_PACKET:
+					this->damageTextQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of damageTextPacket data to the correct queue
 					break;
 
 #ifdef DEBUGGING_NETWORK
@@ -278,4 +287,9 @@ PacketQueue<HealthPacket> * PacketFilter::getPlayerHealthQueue()
 PacketQueue<HealthPacket> * PacketFilter::getRessurectionQueue()
 {
 	return this->ressurectionQueue;
+}
+
+PacketQueue<DamagePacket> * PacketFilter::getDamageTextQueue()
+{
+	return this->damageTextQueue;
 }
