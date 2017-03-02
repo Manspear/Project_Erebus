@@ -18,7 +18,7 @@ function CreateTimeLaser( entity )
 		spell.colliders[i] = OBBCollider.Create(spell.transformIDs[i])
 		spell.colliders[i].SetSize(spell.colliders[i], TIMELASER_LENGTH, 1, 1)
 		spell.hitTimers[i] = 0
-		CollisionHandler.AddOBB(spell.colliders[i], 1)
+		CollisionHandler.AddOBB(spell.colliders[i], 2)
 	end
 	spell.angle = 0
 	spell.owner = entity
