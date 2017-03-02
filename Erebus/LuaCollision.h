@@ -32,6 +32,7 @@ namespace LuaCollision
 	int checkRayCollision(lua_State* lua);
 	int setPos(lua_State* lua);
 	int setRadius( lua_State* lua );
+	int getRadius(lua_State* lua);
 	int setActive(lua_State* lua);
 	int setRayActive(lua_State* lua);
 	int setRayDirection(lua_State* lua);
@@ -61,6 +62,7 @@ namespace LuaCollision
 	int activateAllHitboxes(lua_State* lua);
 	int enableCollisionHandler(lua_State* lua);
 	int disableCollisionHandler(lua_State* lua);
+	int isHitboxCollidingWithLayer(lua_State * lua);
 
 	int reset( lua_State* lua );
 

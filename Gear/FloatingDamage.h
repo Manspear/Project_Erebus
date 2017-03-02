@@ -41,6 +41,7 @@ enum eDamageTypes {
 	GRASS,
 	COLD,
 	NEUTRAL,
+	HEAL,
 	NUM_DAMAGE_TYPES
 };
 

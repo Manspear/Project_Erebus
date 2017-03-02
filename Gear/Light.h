@@ -17,6 +17,5 @@ namespace Lights {
 	struct DirLight {
 		glm::vec3 direction;
 		glm::vec3 color;
-		glm::mat4 projection;
 	};
 }

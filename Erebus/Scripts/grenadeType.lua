@@ -6,7 +6,7 @@ function CreateGrenadeType(model)
 	type.transformID = Gear.BindStaticInstance(model)
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
-	CollisionHandler.AddSphere(type.sphereCollider, 1)
+	CollisionHandler.AddSphere(type.sphereCollider, 2)
 	SphereCollider.SetActive(type.sphereCollider, false)
 	type.sphereCollider:SetRadius(0.3)
 	Transform.ActiveControl(type.transformID, false)

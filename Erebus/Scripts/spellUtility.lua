@@ -74,7 +74,6 @@ function CreateCombineRay(entity)
 			if progress>0.3 then
 				local Lessen =  (dt/self.maxUseTime)
 				self.scale = self.scale - Lessen
-				print (self.scale)
 			end
 
 			Transform.SetPosition(elementalTransformID, pos)
@@ -263,15 +262,12 @@ function CreateChargeEggs(entity)
 	end
 
 	function chargeThing:StartParticles(spellElement)
-
-		print("Tjenmors")
+		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, FIRE == spellElement and 1, NATURE == spellElement and 1, ICE == spellElement and 1, 10, 100, true)
 		self.timer = 0
 		if spellElement == FIRE then
 			self.particles:fireElement()
-			print("Tjenmors")
 			self.particles:cast()
-			print("Tjenmors")
 		end
 
 		if spellElement == NATURE then
