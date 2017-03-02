@@ -369,8 +369,6 @@ namespace Gear
 
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
-
-		Debugger::getInstance()->drawSphere(glm::vec3(20, 8, 165), 3);
 		
 		image.draw();
 		text.draw();
