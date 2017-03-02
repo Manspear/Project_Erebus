@@ -25,6 +25,7 @@ function LoadBoss()
 	boss.transformID = Gear.BindStaticInstance(model)
 	boss.maxHealth = 500
 	boss.health = boss.maxHealth
+	boss.alive = true
 	boss.effects = {}
 	boss.timeScalar = 1
 	boss.movementSpeed = 1
@@ -43,6 +44,17 @@ function LoadBoss()
 	AABBCollider.SetMaxPos(boss.collider, 1, 3, 1)
 	function boss:Hurt(damage)
 		boss.health = boss.health - damage
+		if boss.health < 0 then
+			boss.Kill()
+		end	
+	end
+	function boss:Kill()
+		if boss.alive then
+			boss.alive = false
+			UnloadGameplay()
+			LEVEL_ROUND = LEVEL_ROUND + 1
+			EnterGameplay()
+		end
 	end
 	function boss:Apply(effect)
 		table.insert(boss.effects, effect)
@@ -64,7 +76,7 @@ function UnloadBoss()
 end
 
 function UpdateBoss(dt)
-	if boss.health > 0 then
+	if boss.alive then
 		dt = dt * boss.timeScalar
 		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
 		if hm then
@@ -111,5 +123,4 @@ function UpdateBoss(dt)
 		BOSS_DEAD = true
 	end
 end
-
 return { Load = LoadBoss, Unload = UnloadBoss, Update = UpdateBoss }
