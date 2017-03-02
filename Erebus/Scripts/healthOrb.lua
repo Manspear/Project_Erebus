@@ -14,7 +14,7 @@ function CreateHealthOrb(index)
 	orb.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(orb.transformID, false)
 	orb.collider = SphereCollider.Create(orb.transformID)
-	CollisionHandler.AddSphere(orb.collider, 1)
+	CollisionHandler.AddSphere(orb.collider, 2)
 	SphereCollider.SetActive(orb.collider, false)
 	orb.particles = createSparklyParticles2()
 	orb.YValue = 0
