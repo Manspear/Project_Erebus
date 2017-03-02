@@ -24,6 +24,8 @@ public:
 	~TransformHandler();
 
 	void reset();
+	void checkReset();
+
 	int bindStaticInstance( ModelAsset* asset );
 	int bindAnimatedInstance( ModelAsset* asset, Animation* animation );
 	int bindForwardInstance( ModelAsset* asset );
@@ -45,4 +47,5 @@ private:
 	std::vector<ModelInstance>* instances[MAX_INSTANCE_TYPES];
 
 	std::vector<TransformHandle> handles;
+	bool shouldReset;
 };
