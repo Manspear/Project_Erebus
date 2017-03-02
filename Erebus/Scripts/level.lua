@@ -94,7 +94,7 @@ Transform.SetPosition(enemies[4].transformID, {x=330, y=0, z=102})
 Transform.SetPosition(enemies[5].transformID, {x=352, y=0, z=70})--]]
 
 -- set player position
-Transform.SetPosition(player.transformID, {x=44, y=0, z=140})
+Transform.SetPosition(player.transformID, {x=28, y=0, z=153})
 
 -- set music
 sid = Sound.Play("Music/Area1.ogg", 48)

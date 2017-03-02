@@ -29,7 +29,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
-		
+//		shadow.Init(WINDOW_HEIGHT, WINDOW_HEIGHT, dirLights[0]);
 
 	}
 
@@ -42,6 +42,9 @@ namespace Gear
 #pragma region init functions
 	void GearEngine::lightInit()
 	{
+		
+		this->updateLightQueue.push_back(l);
+
 		//Generate buffers
 		glGenBuffers(1, &lightBuffer); //Generate buffer to light data
 
@@ -55,7 +58,7 @@ namespace Gear
 		Lights::DirLight dirLight; //add one dir light
 		dirLight.direction = glm::normalize(glm::vec3(-0.0f, -0.5f, 0.5f));
 		dirLight.color = glm::vec3(0.75, 0.75, 0.94);
-		dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
+		//dirLight.projection = glm::ortho(-80.0f, 80.0f, -80.0f, 80.0f, -100.0f, 100.0f);
 
 		dirLights.push_back(dirLight); //save it to buffer
 
@@ -106,20 +109,19 @@ namespace Gear
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, (GLsizei)WINDOW_WIDTH, (GLsizei)WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
 
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::LIGHT_PASS);
+		for (int i = 0; i < shadow.getNumCascades(); i++)
+		{
+			shader->addUniform(("lightWVP[" + std::to_string(i) + "]"));
+			shader->addUniform(("CascadeEndClipSpace[" + std::to_string(i) + "]"));
+			shader->addUniform(("gShadowMap[" + std::to_string(i) + "]"));
+		}
+
 	}
 
 	void GearEngine::skyboxInit()
 	{
 		skybox->init();
-
-		std::vector<const GLchar*> faces;
-		faces.push_back("skybox/right.dds");
-		faces.push_back("skybox/left.dds");
-		faces.push_back("skybox/top.dds");
-		faces.push_back("skybox/bottom.dds");
-		faces.push_back("skybox/front.dds");
-		faces.push_back("skybox/back.dds");
-		skybox->loadCubemap(faces);
 	}
 #pragma endregion
 #pragma region bluh
@@ -299,33 +301,23 @@ namespace Gear
 		//queue.update(*transformCount, *allTrans);
 		Camera tempCamera;
 
-		glm::vec3 offset;
-		offset.x = camera->getDirection().x * 20.0f;
-		offset.y = 0.0f;
-		offset.z = camera->getDirection().z * 20.0f;
-
-		glm::vec3 pos;
-		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
-		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
-		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
-			
-		glm::vec3 target;
-
-		target.x = camera->getPosition().x + offset.x;
-		target.y = 0.0f;
-		target.z = camera->getPosition().z + offset.z;
-
-		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
-
-		tempCamera.setView(view);
-		tempCamera.setprojection(dirLights[0].projection);
+		skybox->updateCascadeShadows(camera);
 
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
+		if (skybox->isShadowsEnabled())
+		{
+			ShaderProgram *shadowGeomeryShader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+			ShaderProgram *shadowAnimationshader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
 
-		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);		
-		
+			for (int i = 0; i < shadow.getNumCascades(); i++)
+			{
+				skybox->readyShadowForDraw(i, shadowGeomeryShader, shadowAnimationshader);
+
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+			}
+		}
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
@@ -335,6 +327,7 @@ namespace Gear
 		queue.updateUniforms(camera);
 
 		gBuffer.use();
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		gBuffer.unUse();
@@ -374,6 +367,32 @@ namespace Gear
 		
 		image.draw();
 		text.draw();
+
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
+		for (int i = 0; i < skybox->numCascades(); i++)
+		{
+			glViewport((WINDOW_WIDTH - (10 + 200 * skybox->numCascades() + 10 * skybox->numCascades())) + (10 + 200 * i + 10 * i), WINDOW_HEIGHT - 210, 200, 200);
+			shader->use();
+			skybox->getShadow()->bindTexture(shader, "diffuse", 0, i);
+			drawQuad(); //draws quad
+			shader->unUse();
+		}
+
+
+		//glViewport(220, 10, 200, 200);
+		//shader->use();
+		//shadow.bindTexture(shader, "texture", 0, 1);
+		//drawQuad(); //draws quad
+		//shader->unUse();
+
+		//glViewport(430, 10, 200, 200);
+		//shader->use();
+		//shadow.bindTexture(shader, "texture", 0, 2);
+		//drawQuad(); //draws quad
+		//shader->unUse();
+
+		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	}
 
 	void GearEngine::update(float dt)
@@ -390,8 +409,7 @@ namespace Gear
 		addDynamicLight();
 		updateDynamicLight();
 		removeDynamicLight();
-		skybox->updateRotation(dt);
-		skybox->updateFog(dt);
+		skybox->update(dt);
 		updateTransforms( dynamicModels );
 		updateTransforms( animatedModels );
 		updateTransforms( forwardModels );
@@ -456,24 +474,24 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLight()
 	{
-		if (updateLightQueue.size() > 0)
-		{
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
-			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-			for (int j = 0; j < updateLightQueue.size(); j++)
-			{
-				if ((int)updateLightQueue[j]->radius.a >= 0)
-				{
-					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
-					light.pos = updateLightQueue[j]->pos;
-					light.color = updateLightQueue[j]->color;
-					light.radius = updateLightQueue[j]->radius;
-				}
-			}
-			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-			updateLightQueue.clear();
-		}
+		//if (updateLightQueue.size() > 0)
+		//{
+		//	glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		//	Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY); //get pointer of the data in the buffer
+		//	/*for (int j = 0; j < updateLightQueue.size(); j++)
+		//	{
+		//		if ((int)updateLightQueue[j]->radius.a >= 0)
+		//		{
+		//			Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
+		//			light.pos = updateLightQueue[j]->pos;
+		//			light.color = updateLightQueue[j]->color;
+		//			light.radius = updateLightQueue[j]->radius;
+		//		}
+		//	}*/
+		//	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		//	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		//	//updateLightQueue.clear();
+		//}
 	}
 
 	GEAR_API void GearEngine::removeLight()
@@ -614,19 +632,30 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(shader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
+		if (skybox->isShadowsEnabled())
+		{
+			skybox->updateLightPass(shader);
+			shader->setUniform(1, "shadowEnabled");
+			shader->setUniform(skybox->numCascades(), "num_cascades");
+		}
+		else {
+			shader->setUniform(0, "shadowEnabled");
+		}
+			
+		
 
 		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
-		shader->setUniform(tempCam->getViewPers(), "shadowVPM"); //shadowVPM
+		//shader->setUniform(shadow.projectionMatrices[1] * shadow.viewMatrices[1], "shadowVPM"); //shadowVPM
 		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
 		shader->setUniform(skybox->getFogColor(), "fogColor");
+		shader->setUniform(skybox->getAmbient(), "ambient");
 
-		for (GLuint i = 0; i < dirLights.size(); i++)
-		{
-			shader->setUniform(dirLights[i].direction, "dirLights.direction");
-			shader->setUniform(dirLights[i].color, "dirLights.color");
-		}
+
+		shader->setUniform(skybox->getDirLight().direction, "dirLights.direction");
+		shader->setUniform(skybox->getDirLight().color, "dirLights.color");
+
 		int num_lights = dynamicPointlights.size();
 		shader->setUniform(num_lights, "num_dynamic_lights");
 		for (int i = 0; i < dynamicPointlights.size(); i++)
