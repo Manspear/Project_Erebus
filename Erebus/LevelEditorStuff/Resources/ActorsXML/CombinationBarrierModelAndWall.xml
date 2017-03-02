@@ -4,16 +4,17 @@
         <Color x="0" y="1" z="0"/>
         <IDs ID="917" parentID="0"/>
         <Behavior Type="0"/>
-        <Rotation x="0" y="3.5" z="0"/>
+        <GenParent value="false"/>
+        <Rotation x="0" y="1.6" z="0"/>
         <HalfLengths x="3" y="5" z="1"/>
     </LevelCollider>
     <LevelModel>
-        <ModelName>Stone3</ModelName>
+        <ModelName>Tut_Branch_blocker</ModelName>
     </LevelModel>
     <LevelTransform>
-        <Position x="32.125" y="8.46875" z="195"/>
-        <Rotation x="0" y="0" z="0"/>
-        <Scale x="2" y="2" z="2"/>
+        <Position x="31.059002" y="11.124874" z="194.98863"/>
+        <Rotation x="0" y="-1.0624733" z="0"/>
+        <Scale x="1" y="0.80000001" z="0.69999999"/>
         <Export e="true"/>
     </LevelTransform>
 </LevelActor>
