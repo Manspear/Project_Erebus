@@ -74,7 +74,6 @@ function CreateCombineRay(entity)
 			if progress>0.3 then
 				local Lessen =  (dt/self.maxUseTime)
 				self.scale = self.scale - Lessen
-				print (self.scale)
 			end
 
 			Transform.SetPosition(elementalTransformID, pos)
