@@ -12,57 +12,111 @@ function CreateAim(entity)
 	return aim
 end
 
+function DestroyAim(aim)
+	Gear.UnbindInstance(aim.transformID)
+	Assets.UnloadModel( "Models/aim.model" )
+end
+
 function CreateCombineRay(entity)
 	local ray = {}
-
 	
-	local rayIce = Assets.LoadModel( "Models/SpellChargingICEMesh.model" )
-	ray.transformID = Gear.BindForwardInstance(rayIce)
-	Gear.SetUniformLocation(ray.modelIndex, "aValue");
+	local rayFire = Assets.LoadModel( "Models/CombineBeamFire.model" )
+	ray.transformID = Gear.BindBlendingInstance(rayFire)
+	ray.blendingIndex = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
 
-	local rayFire = Assets.LoadModel("Models/SpellChargingFireMesh.model")
-	ray.transformID2 = Gear.BindForwardInstance(rayFire)
-
-	local rayNature = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
-	ray.transformID3 = Gear.BindForwardInstance(rayNature)
+	local rayNature = Assets.LoadModel( "Models/CombineBeamNature.model" )
+	ray.transformID2 = Gear.BindBlendingInstance(rayNature)
+	ray.blendingIndex2 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	
+	local rayIce = Assets.LoadModel("Models/CombineBeamIce.model")
+	ray.transformID3 = Gear.BindBlendingInstance(rayIce)
+	ray.blendingIndex3 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
+	
+	Transform.ActiveControl(ray.transformID, false)
+	Transform.ActiveControl(ray.transformID2, false)
+	Transform.ActiveControl(ray.transformID3, false)
+	ray.blendValue1 = {x = 0.0, y = 0.0}
+	ray.blendValue2 = {x = 0.0, y = 0.0}
 
 	ray.caster = entity.transformID
+	ray.counter = 0
+	ray.maxUseTime =1
+	ray.scale = 1
 
-	function ray:FireChargeBeam(dt,dir,spellElement,length)		
-		Transform.ActiveControl(self.transformID, false)
-		Transform.ActiveControl(self.transformID2, false)
-		Transform.ActiveControl(self.transformID3, false)
-
-		local elementalTransformID = self.transformID
-		if spellElement == FIRE then
-			Transform.ActiveControl(self.transformID2, true)
-			elementalTransformID = self.transformID2
-		elseif spellElement == NATURE then
-			Transform.ActiveControl(self.transformID3, true) 
-			elementalTransformID = self.transformID3	
-		else 
-			Transform.ActiveControl(ray.transformID, true)
-		end
-		Transform.ActiveControl(self.transformID, true)
-
-		local pos = Transform.GetPosition(self.caster)
-		local direction = Transform.GetLookAt(self.caster)
-		pos.x = pos.x + dir.x * (len+1)
-		pos.y = pos.y + dir.y * (len+1)
-		pos.z = pos.z + dir.z * (len+1)
-
-		Transform.SetPosition(elementalTransformID, pos)
-		Transform.SetScaleNonUniform(elementalTransformID, 0.2,0.2,length) 
-		ray.pos = Transform.GetPosition(self.caster)
-		Transform.RotateToVector(elementalTransformID, dir)
+	function ray:FireChargeBeam(dt,dir,spellElement, len)				
+		self.counter = self.counter + dt	
+		if self.counter < self.maxUseTime then
+			local elementalTransformID = self.transformID
 		
+			local blendIndex = self.blendingIndex
+			if spellElement == FIRE then
+				Transform.ActiveControl(self.transformID, true)
+				elementalTransformID = self.transformID
+			elseif spellElement == NATURE then
+				Transform.ActiveControl(self.transformID2, true)
+				elementalTransformID = self.transformID2
+				blendIndex = self.blendingIndex2	
+			elseif spellElement == ICE then
+				Transform.ActiveControl(self.transformID3, true) 
+				elementalTransformID = self.transformID3
+				blendIndex = self.blendingIndex3	
+			end
+
+			local pos = Transform.GetPosition(self.caster)
+			local direction = Transform.GetLookAt(self.caster)
+				
+			factor = (len/2)
+			pos.x = pos.x + dir.x * factor
+			pos.y = pos.y + dir.y * factor
+			pos.z = pos.z + dir.z * factor
+			
+			local progress =  (self.counter/self.maxUseTime)
+			if progress>0.3 then
+				local Lessen =  (dt/self.maxUseTime)
+				self.scale = self.scale - Lessen
+				print (self.scale)
+			end
+
+			Transform.SetPosition(elementalTransformID, pos)
+			Transform.SetScaleNonUniform(elementalTransformID,self.scale,self.scale,(len*0.51)) 
+			pos = Transform.GetPosition(self.caster)
+			Transform.RotateToVector(elementalTransformID, dir)
+
+			local speed = dt * -1.2
+			self.blendValue1.x = self.blendValue1.x - 1 * speed
+			self.blendValue1.y = self.blendValue1.y + 0.6 * speed
+			self.blendValue2.x = self.blendValue2.x + 0.2 * speed
+			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
+
+			Gear.SetBlendUniformValue(blendIndex, 2, self.blendValue1,self.blendValue2)		
+			return true
+		else 
+			self:EndChargeBeam()
+			return false
+		end		
 	end
+
 	function ray:EndChargeBeam()
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
+		self.scale = 1
+	end
+	function ray:resetCooldown()
+		self.counter = 0
 	end
 	return ray
+end
+
+function DestroyCombineRay(ray)
+	Gear.UnbindInstance(ray.transformID)
+	Gear.UnbindInstance(ray.transformID2)
+	Gear.UnbindInstance(ray.transformID3)
+
+	Assets.UnloadModel( "Models/CombineBeamIce.model" )
+	Assets.UnloadModel( "Models/CombineBeamFire.model" )
+	Assets.UnloadModel( "Models/CombineBeamNature.model" )
+	ray = nil
 end
 
 MAX_CHARGE = 1
@@ -93,7 +147,7 @@ function CreateChargeEggs(entity)
 	
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
-	chargeThing.particles = createChargeParticles()
+	chargeThing.particles = createParticlesByElement()
 	chargeThing.particles:extrovert(false)
 	chargeThing.caster = entity.transformID
 	chargeThing.owner = entity
@@ -108,6 +162,8 @@ function CreateChargeEggs(entity)
 	chargeThing.pos = {x = 0, y = 0, z = 0}
 	chargeThing.light = nil
 	chargeThing.color = {r = 0, g = 0, b = 0}
+
+	chargeThing.P2SpellElement = 0
 	
 	function chargeThing:ChargeMePlease(dt)
 		self.pos = Transform.GetPosition(self.caster)	
@@ -115,6 +171,10 @@ function CreateChargeEggs(entity)
 		Transform.SetPosition(self.elementalTransformID, self.pos)		
 		self.rotSmall.y = self.rotSmall.y + (2) * dt
 		Transform.SetRotation(self.elementalTransformID, self.rotSmall) --changed
+		self.timer = self.timer - dt
+		if self.timer < 0 then
+			Transform.SetScale(self.elementalTransformID, 1)
+		end
 	end
 
 	function chargeThing:Update(dt, chargePower)
@@ -125,16 +185,17 @@ function CreateChargeEggs(entity)
 		end
 	end
 
+
+
 	function chargeThing:CombinedAndCharged(dt, chargePower)
 		self.pos = Transform.GetPosition(self.caster)
-		if self.firstCombine then
-			self.particles:cast() 
-			self.firstCombine = false
-			self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, self.color.r, self.color.g, self.color.b, 10, 10, true)
-		else
-			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
-			self.particles:update(self.pos)
-		end			
+		--nature particle alla typer 
+		self.firstCombine = false
+		
+		if self.light then
+			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			self.particles:update(self.pos)	
+		end	
 		self.timer = self.timer + dt		
 		self.pos.y = self.pos.y - 1
 		
@@ -170,18 +231,21 @@ function CreateChargeEggs(entity)
 
 	function chargeThing:EndCharge() 
 		self.scaleSmall = {x = 1, y = 1, z = 1}
+		self.timer = 0
 		self.color = {r = 0, g = 0, b = 0}
 		Transform.ActiveControl(self.elementalTransformID, false)
 		Transform.SetPosition(self.elementalTransformID, {x = 0, y = 0, z = 0})
+		Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleSmall.x, self.scaleSmall.y, self.scaleSmall.z)
 		self.elementalTransformID = 0 
 		self.particles:die()
 		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 
-	function chargeThing:StartCharge(position, spellElement) 		
-		self.timer = 0   
-		self.pos = Transform.GetPosition(chargeThing.caster)	
-		self.firstCombine = true		
+	function chargeThing:StartCharge(position, spellElement, minChargeTime) 
+		--called when right mouse button is pressed	
+		self.timer = minChargeTime   
+		self.pos = Transform.GetPosition(chargeThing.caster)		
+			
 		if spellElement == FIRE then
 			Transform.ActiveControl(self.transformID2, true)
 			self.color.r = 1
@@ -195,8 +259,47 @@ function CreateChargeEggs(entity)
 			self.elementalTransformID = self.transformID
 			Transform.ActiveControl(self.transformID, true)		
 		end
+		Transform.SetScale(self.elementalTransformID, 0.5)
 	end
+
+	function chargeThing:StartParticles(spellElement)
+
+		print("Tjenmors")
+		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, FIRE == spellElement and 1, NATURE == spellElement and 1, ICE == spellElement and 1, 10, 100, true)
+		self.timer = 0
+		if spellElement == FIRE then
+			self.particles:fireElement()
+			print("Tjenmors")
+			self.particles:cast()
+			print("Tjenmors")
+		end
+
+		if spellElement == NATURE then
+			self.particles:natureElement()
+			self.particles:cast()
+		end
+
+		if spellElement == ICE then
+			self.particles:iceElement()
+			self.particles:cast()
+		end
+		print("Tjenmors")
+	end
+
 	return chargeThing
+end
+
+function DestroyChargeEggs(egg)
+	destroyParticlesByElement(egg.particles)
+
+	Gear.UnbindInstance(egg.transformID)
+	Gear.UnbindInstance(egg.transformID2)
+	Gear.UnbindInstance(egg.transformID3)
+
+	Assets.UnloadModel( "Models/SpellChargingICEMesh.model" )
+	Assets.UnloadModel( "Models/SpellChargingFireMesh.model" )
+	Assets.UnloadModel( "Models/SpellChargingNatureMesh.model" )
+	egg = nil
 end
 
 function BaseCheckCollision(spell)

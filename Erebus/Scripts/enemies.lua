@@ -9,7 +9,8 @@ POSITIONING_OUTER_STATE = 4
 FOLLOW_STATE = 5
 DEAD_STATE = 6
 DO_NOTHING_STATE = 7
-DUMMY_STATE = 8
+RUN_AWAY_STATE = 8
+DUMMY_STATE = 9
 
 AI_TRANSFORM_UPDATED = false
 INTERPOLATING_AI_TRANSFORM = false
@@ -35,13 +36,14 @@ ENEMY_HEALTHBAR_HEIGHT = 0.15
 
 
 
-function CreateEnemy(type, position)
+function CreateEnemy(type, position, element)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or type == ENEMY_DUMMY, "Invalid enemy type." )
 
 	local i = #enemies+1
 	enemies[i] = {}
 	enemies[i].timeScalar = 1.0
 	enemies[i].type = type
+	enemies[i].elementType = element or NEUTRAL
 	--enemies[i].transformID = Transform.Bind()
 	enemies[i].movementSpeed = 8--math.random(5,20)
 	enemies[i].maxHealth = 20
@@ -82,45 +84,59 @@ function CreateEnemy(type, position)
 
 	enemies[i].tempVariable = 0
 
-	local modelName = ""
+	enemies[i].modelName = ""
 	if type == ENEMY_MELEE then
-		modelName = "Models/Goblin.model"
+		if enemies[i].elementType == NEUTRAL then
+			enemies[i].modelName = "Models/Goblin.model"
+		elseif enemies[i].elementType == FIRE then
+			enemies[i].modelName = "Models/Fire_Goblin.model"
+		elseif enemies[i].elementType == NATURE then
+			enemies[i].modelName = "Models/Grass_Goblin.model"
+		elseif enemies[i].elementType == ICE then
+			enemies[i].modelName = "Models/Ice_Goblin.model"
+		end
+	elseif type== ENEMY_DUMMY then
+		enemies[i].modelName = "Models/Dummy.model"
 	else
-		modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
+		enemies[i].modelName = "Models/Goblin.model" --TODO: Change to the model for the ranged enemy
 	end
 
-	local model = Assets.LoadModel(modelName)
+	local model = Assets.LoadModel(enemies[i].modelName)
 
 	assert( model, "Failed to load model Models/Goblin.model" )
 
 	enemies[i].animationController = CreateEnemyController(enemies[i])
 	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
 
-	enemies[i].Hurt = function(self, damage, source)
+	enemies[i].Hurt = function(self, damage, source, element)
 		local pos = Transform.GetPosition(self.transformID)
 
 		if source ~= player2 then
-			if Network.GetNetworkHost() == true and self.alive == true then
-				self.health = self.health - damage
-				--print("ID:", self.transformID, "Sending new health:", self.health)
+			if Network.GetNetworkHost() == true then
+				if self.alive == true then
+					damage = self.elementType ~= element and damage or damage * 0.5
+					self.health = self.health - damage
+					--print("ID:", self.transformID, "Sending new health:", self.health)
+					Network.SendAIHealthPacket(self.transformID, self.health)
+					self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
+					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+					if element then
+						Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
+					end
 
-				Network.SendAIHealthPacket(self.transformID, self.health)
+					if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
 
-				self.damagedTint.a = 1
-				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
-
-				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
-
-					--print("Dead for host", enemies[i].transformID)
-					self.health = 0
-					self:Kill()
-				elseif self.health < 1 and self.stateName == DUMMY_STATE  then
-					self.health = self.maxHealth
-					self.currentHealth = self.maxHealth
+						--print("Dead for host", enemies[i].transformID)
+						self.health = 0
+						self:Kill()
+					elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+						self.health = self.maxHealth
+						self.currentHealth = self.maxHealth
+					end
 				end
 			else
 				--print("Sending damage", self.transformID, damage)
-				Network.SendDamagePacket(self.transformID, damage)
+				Network.SendDamagePacket(self.transformID, damage, element)
 			end
 		end		
 	end
@@ -137,7 +153,7 @@ function CreateEnemy(type, position)
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
-
+		SphereCollider.SetActive(self.sphereCollider, false)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 
@@ -147,7 +163,6 @@ function CreateEnemy(type, position)
 			self.insideInnerCircleRange = false
 		end
 
-	
 		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
@@ -189,7 +204,7 @@ function CreateEnemy(type, position)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
 	enemies[i].sphereCollider:SetRadius(2)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
-	
+
 	if Network.GetNetworkHost() == true then
 		enemies[i].state =  stateScript.state.idleState
 		if type == ENEMY_DUMMY then
@@ -207,6 +222,13 @@ end
 
 function UnloadEnemies()
 	AI.Unload()
+
+	for i=1, #enemies do
+		DestroyEnemyController(enemies[i].animationController)
+		Gear.UnbindInstance(enemies[i].transformID)
+		Assets.UnloadModel( enemies[i].modelName )
+	end
+	enemies = {}
 end
 
 function DestroyEnemy(enemy)
@@ -241,8 +263,10 @@ function UpdateEnemies(dt)
 		end
 		AI.ClearMap(player.lastPos,0)
 		player.lastPos = Transform.GetPosition(player.transformID)
-		
 		AI.AddIP(player.transformID,1,0)
+		AI.ClearMap(player2,0)
+		player2.lastPos = Transform.GetPosition(player2.transformID)
+		AI.AddIP(player2.transformID,1,0)
 		
 	end
 	local tempdt
@@ -338,17 +362,17 @@ function UpdateEnemies(dt)
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
 		-- Empty DamagePacket queue and apply the values to the host AI
-		local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+		local newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 		while newDamageVal == true do 
 			for i=1, #enemies do
 				--print("Receiving damage", enemies[i].transformID, dmg_transformID, dmg_damage)
 				if enemies[i].transformID == dmg_transformID then
-					enemies[i]:Hurt(dmg_damage, player)
+					enemies[i]:Hurt(dmg_damage, player, dmg_element)
 					break
 				end
 			end
 
-			newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+			newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 		end
 
 	else
@@ -471,13 +495,17 @@ function calculatePlayerTarget(enemy)
 	lengthToP1 = AI.DistanceTransTrans(enemy.transformID,player.transformID)
 	lengthToP2 = AI.DistanceTransTrans(enemy.transformID,player2.transformID)
 
-	if lengthToP1 < lengthToP2 and player.health > 0 then
-		enemy.playerTarget = player
-	elseif player2.health > 0  and lengthToP1 > lengthToP2 then
+	if player.isAlive then
+		if player2.isAlive and lengthToP1 > lengthToP2 then
+			enemy.playerTarget = player2
+		else
+			enemy.playerTarget = player
+		end
+	elseif player2.isAlive then
 		enemy.playerTarget = player2
 	end
 
-	if player2 == nil and  player.health > 0 then
+	if player2 == nil and  player.isAlive then
 		enemy.playerTarget = player
 	end
 end

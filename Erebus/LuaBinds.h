@@ -29,6 +29,7 @@ public:
 	void load( Gear::GearEngine* gearEngine,
 				Importer::Assets* assets,
 				CollisionHandler* collisionHandler,
+				CollisionsDraw* collisionsDraw,
 				Controls* controls,
 				Inputs* inputs,
 				Animation* animations,
@@ -50,7 +51,8 @@ public:
 				NetworkController* network,
 				WorkQueue* work,
 				SoundEngine* soundEngine,
-				PerformanceCounter* counter );
+				PerformanceCounter* counter,
+				FloatingDamage* floatingDamage);
 	void unload();
 	void update( Controls* controls, float deltaTime );
 	void printLuaTop() const;

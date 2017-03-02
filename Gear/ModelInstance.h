@@ -12,7 +12,7 @@ namespace Gear
 	public:
 		GEAR_API ModelInstance();
 		GEAR_API ~ModelInstance();
-		 
+
 		GEAR_API void init();
 		GEAR_API void allocateBuffer();
 		GEAR_API void bindBuffers();
@@ -52,6 +52,7 @@ namespace Gear
 		GEAR_API Animation* getAnimation( int index );
 		GEAR_API bool getActive( int index );
 		GEAR_API bool getCulled( int index );
+		GEAR_API const std::vector<TransformStruct>* getTransforms();
 		
 	private:
 		ModelAsset* asset;

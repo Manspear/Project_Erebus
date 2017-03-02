@@ -11,11 +11,14 @@ namespace LuaAssets
 	void registerFunctions( lua_State* lua, Importer::Assets* assets );
 
 	int loadModel( lua_State* lua );
+	int unloadModel( lua_State* lua );
 
 	int loadTexture( lua_State* lua );
+	int unloadTexture( lua_State* lua );
 	int bindTexture( lua_State* lua );
 
 	int loadHeightmap( lua_State* lua );
+	int unloadHeightmap( lua_State* lua );
 	int insideHeightmap( lua_State* lua );
 	int setHeightmapPosition( lua_State* lua );
 	int setHeightmapMultiplier( lua_State* lua );
@@ -26,6 +29,8 @@ namespace LuaAssets
 	int getMapHeight(lua_State * lua);
 	int getHeightmapPosition( lua_State* lua );
 	int getHeightmapMultiplier( lua_State* lua );
+
+	int getAssets( lua_State* lua );
 
 	// helper functions
 	Importer::HeightMap* getHeightmap( lua_State* lua, int index );

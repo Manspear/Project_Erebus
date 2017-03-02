@@ -29,7 +29,6 @@ function CreateKnockbackEffect(owner, power)
 	function effect:Deapply(entity)	
 		if entity.SetState then
 			if entity.type ~= ENEMY_DUMMY then
-				print(entity.type)
 				entity.SetState(entity,IDLE_STATE)
 			end
 		end
@@ -45,7 +44,7 @@ function CreateKnockbackEffect(owner, power)
 		if hm then
 			if self.position.y <= hm.asset:GetHeight(self.position.x, self.position.z) then
 				self.notDone = false
-				entity:Hurt(self.damage , self.owner)	
+				entity:Hurt(self.damage , self.owner, NATURE)	
 			end
 		end
 
@@ -71,4 +70,8 @@ function CreateKnockbackEffect(owner, power)
 		return self.notDone
 	end
 	return effect
+end
+
+function DestroyKnockbackEffect(effect)
+	effect = nil
 end

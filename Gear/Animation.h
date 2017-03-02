@@ -60,6 +60,8 @@ public:
 
 	GEAR_API void setSegmentPlayTime(float animTime, int segment);
 
+	GEAR_API void resetSegmentAnimationClock(int segment);
+
 	GEAR_API void resetSegmentPlayTime(int segment);
 
 	GEAR_API virtual void setStates(int numStates);
@@ -75,6 +77,13 @@ public:
 	GEAR_API int getMatrixIndex();
 
 	GEAR_API glm::vec4 getTint();
+
+	GEAR_API void reset();
+
+	GEAR_API void setActive( bool active );
+	GEAR_API bool getActive() const;
+	GEAR_API void setCulled(bool c);
+	GEAR_API bool getCulled();
 
 protected:
 	void updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr);
@@ -97,7 +106,6 @@ protected:
 	void convertToRotMat(float in[3], glm::mat4* result);
 	void convertToTransMat(float inputArr[3], glm::mat4* result);
 	void convertToScaleMat(float inputArr[3], glm::mat4* result);
-	float animTimer;
 	float pAnimMaxTime[MAXNUMSEGMENTS];
 	//One timeMultiplier-element per segment
 	float timeMultiplier[MAXNUMSEGMENTS];
@@ -105,6 +113,8 @@ protected:
 	float animationPlayTime[MAXNUMSEGMENTS];
 	float* transitionTimeArray;
 	int transitionTimeArraySize;
+
+	bool modifyAnimationLength[MAXNUMSEGMENTS];
 
 	//Muy importante.
 	int numJoints;
@@ -155,5 +165,9 @@ protected:
 	float quickBlendTime;
 	bool quickBlendingDone;
 
+	bool active;
+
 	glm::vec4 modelTint = glm::vec4(0, 0, 0, 0);
+
+	bool culled;
 };

@@ -1,12 +1,12 @@
-ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
+--ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 65
+SPEED_ICENADE = 32
 EXPLOSION_RADIUS_ICENADE = 10
 
-MIN_FALLOFF_ICENADE = 1
-MAX_FALLOFF_ICENADE = 2 - MIN_FALLOFF_ICENADE
+MIN_FALLOFF_ICENADE = 0.5
+MAX_FALLOFF_ICENADE = 1 - MIN_FALLOFF_ICENADE
 SPAM_CD_ICENADE = 0.3
 SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
 ICEGRENADE_CAST_SFX = "Effects/burn_ice_001.wav"
@@ -27,34 +27,37 @@ function CreateIceGrenade(entity)
 		nade.exploding = false
 		nade.hits = {}
 		nade.soundID = -1
-		--nade.transform2ID = Transform.Bind()
-
-		--local model = Assets.LoadModel( "Models/grenade.model" )
-		--Gear.AddStaticInstance(model, nade.type.transformID)
-
-		--local model2 = Assets.LoadModel("Models/isTappar1.model");
-		--Gear.AddStaticInstance(model2, nade.transform2ID)
 		local model2 = Assets.LoadModel("Models/isTappar1.model")
 		nade.transform2ID = Gear.BindStaticInstance(model2)
+		Transform.ActiveControl(nade.transform2ID, false)
 		return nade
 	end
 	
 	local spell = {}
 	spell.element = ICE
 	spell.simulation = {position = {x = 0, y = 0, z = 0}, direction = {x = 0, y = 0, z = 0}, falloff = 0}
-	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE
+	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE		spell.minChargeTime = 0
 	spell.owner = entity
 	spell.nades = {}
 	spell.spamcd = SPAM_CD_ICENADE
-	spell.cooldown = 0
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.damage = MAX_DAMAGE_ICENADE
-	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.timeSinceLastPoop = 0
 	spell.Change = GenericChange
 	spell.isActiveSpell = false
+
+	spell.isRay = false
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	ICEGRENADE_CASTSPEED_MULTIPLE = 2
+	spell.castTimeAttack = 0.5 * ICEGRENADE_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * ICEGRENADE_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * ICEGRENADE_CASTSPEED_MULTIPLE
+
 	for i = 1, 10 do
 		table.insert(spell.nades, initNade())
 	end
@@ -64,7 +67,8 @@ function CreateIceGrenade(entity)
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
 			local pos = Transform.GetPosition(entity.transformID)
-			local dir = Camera.GetDirection()
+			pos.y= pos.y+0.5
+			local dir = self.owner.spellDirection
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
 					local factor = 0.5 / self.maxChargeTime				
@@ -122,7 +126,7 @@ function CreateIceGrenade(entity)
 						end
 						Transform.SetPosition(self.nades[i].transform2ID, pos)
 						Transform.SetScale(self.nades[i].transform2ID, 0)
-						--Transform.ActiveControl(self.nades[i].type.transformID, false)
+						Transform.ActiveControl(self.nades[i].type.transformID, false)
 						Sound.Play(ICEGRENADE_HIT_SFX, 3, self.nades[i].type.position) 
 						Sound.Stop(self.nades[i].soundID)
 					end
@@ -139,7 +143,7 @@ function CreateIceGrenade(entity)
 									hits[index]:Apply(effect)
 								end
 							end
-							hits[index]:Hurt(self.nades[i].damage, self.owner)
+							hits[index]:Hurt(self.nades[i].damage, self.owner, self.element)
 							self.nades[i].hits[hits[index].transformID] = true
 						end
 					end
@@ -255,4 +259,19 @@ function CreateIceGrenade(entity)
 		return result
 	end
 	return spell
+end
+
+function DestroyIceGrenade(grenade)
+	for _,nade in pairs(grenade.spell.nades) do
+		Assets.UnloadModel( "Models/grenade.model" )
+		DestroyGrenadeType(nade.type)
+		destroyIceGrenadeParticles(nade.particles)
+
+		Assets.UnloadModel( "Models/isTappar1.model" )
+		Gear.UnbindInstance(nade.transform2ID)
+		nade = nil
+	end
+
+	Assets.UnloadTexture( "Textures/IconIceGrenade.dds" )
+	grenade = nil
 end

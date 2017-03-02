@@ -1,6 +1,6 @@
 local baseReturn = {}
 
-clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, leapState = {}, dummyState = {}, State = {}}
+clientAIState = {idleState = {}, followState = {}, attackState = {}, deadState = {}, doNothingState = {}, leapState = {}, runAwayState = {}, dummyState = {}, State = {}}
 
 
 function clientAIState.idleState.enter(enemy, playerTarget)
@@ -29,8 +29,6 @@ function clientAIState.followState.exit(enemy, playerTarget)
 
 end
 
-
-
 function clientAIState.attackState.enter(enemy, playerTarget)
 	--print("Client AI Attacking")
 
@@ -41,10 +39,10 @@ end
 
 function clientAIState.attackState.update(enemy, playerTarget, dt)
 	-- Empty DamagePacket queue and apply the values to player2
-	local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+	local newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 	while newDamageVal == true do 
-		player:Hurt(dmg_damage, dmg_transformID)
-		newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+		player:Hurt(dmg_damage, dmg_transformID, dmg_element)
+		newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 	end
 end
 
@@ -52,13 +50,13 @@ function clientAIState.attackState.exit(enemy, playerTarget)
 	enemy.animationController:doWalk()
 end 
 
-function clientAIState.leapState.enter(enemy,playerTarget)
+function clientAIState.leapState.enter(enemy, playerTarget)
 	enemy.animationController:doStartLeap()
 	enemy.subPathtarget = Transform.GetPosition(player.transformID)
 	enemy.actionCountDown = 1.0
 end
 
-function clientAIState.leapState.update(enemy,playerTarget, dt)
+function clientAIState.leapState.update(enemy, playerTarget, dt)
 	length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 
 	if enemy.actionCountDown >0 and length >1 then
@@ -90,7 +88,7 @@ function clientAIState.leapState.update(enemy,playerTarget, dt)
 	end
 end
 
-function clientAIState.leapState.exit(enemy,playerTarget)
+function clientAIState.leapState.exit(enemy, playerTarget)
 	enemy.animationController:doWalk()
 	enemy.subPathtarget = nil
 	enemy.actionCountDown = 1.5
@@ -122,27 +120,39 @@ function clientAIState.deadState.exit(enemy, playerTarget)
 
 end 
 
-function clientAIState.doNothingState.enter(enemy,playerTarget)
+function clientAIState.doNothingState.enter(enemy, playerTarget)
 
 end
 
-function clientAIState.doNothingState.update(enemy,playerTarget, dt)
+function clientAIState.doNothingState.update(enemy, playerTarget, dt)
 
 end
 
-function clientAIState.doNothingState.exit(enemy,playerTarget)
+function clientAIState.doNothingState.exit(enemy, playerTarget)
 
 end 
 
-function state.dummyState.enter(enemy,playerTarget)
+function clientAIState.runAwayState.enter(enemy, playerTarget)
 
 end
 
-function state.dummyState.update(enemy,playerTarget)
+function clientAIState.runAwayState.update(enemy, playerTarget, dt)
 
 end
 
-function state.dummyState.exit(enemy,playerTarget)
+function clientAIState.runAwayState.exit(enemy, playerTarget)
+
+end 
+
+function state.dummyState.enter(enemy, playerTarget)
+
+end
+
+function state.dummyState.update(enemy, playerTarget)
+
+end
+
+function state.dummyState.exit(enemy, playerTarget)
 
 end 
 
@@ -153,31 +163,36 @@ function setAIState(enemy, playerTarget, aiState)
 		--print("Received IdleState", enemy.transformID, aiState)
 		enemy.state = clientAIState.idleState
 	end
-	if aiState == FOLLOW_STATE then--FollowState
-		print("Received FollowState", enemy.transformID, aiState)
+	if aiState == FOLLOW_STATE then
+		--print("Received FollowState", enemy.transformID, aiState)
 		enemy.state = clientAIState.followState
 	end
 		
-	if aiState == ATTACK_STATE then--AttackState
+	if aiState == ATTACK_STATE then
 		--print("Received AttackState", enemy.transformID, aiState)
 		enemy.state = clientAIState.attackState
 	end
 
-	if aiState == LEAP_STATE then--leapState
+	if aiState == LEAP_STATE then
 		--print("Received leapState", enemy.transformID, aiState)
 		enemy.state = clientAIState.leapState
 	end
 			
-	if aiState == DEAD_STATE then--DeadState
+	if aiState == DEAD_STATE then
 		--print("Received DeadState", enemy.transformID, aiState)
 		enemy.state = clientAIState.deadState
 	end	
 
-	if aiState == DO_NOTHING_STATE then--DoNothingState
+	if aiState == DO_NOTHING_STATE then
 		--print("Received DoNothingState", enemy.transformID, aiState)
 		enemy.state = clientAIState.doNothingState
 	end
 	
+	if aiState == RUN_AWAY_STATE then
+		--print("Received RunAwayState", enemy.transformID, aiState)
+		enemy.state = clientAIState.runAwayState
+	end
+
 	if aiState == DUMMY_STATE then
 		enemy.state = state.dummyState
 	end

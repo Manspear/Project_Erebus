@@ -10,7 +10,7 @@ function CreateRevive(entity)
 
 	spell.position = {x = 0, y = 0, z = 0}		spell.rotation = {x = 0, y = 0, z = 0}
 	--spell.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/grenade.model" )
+	local model = Assets.LoadModel( "Models/Revive.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
 	--local model = Assets.LoadModel( "Models/grenade.model" )
@@ -25,16 +25,19 @@ function CreateRevive(entity)
 			self.reviveTime = self.reviveTime - dt
 			self.position.y = self.position.y - REVIVE_FALLSPEED * dt
 			Transform.SetPosition(self.transformID, self.position )
-			self.rotation.z = self.rotation.z + dt * 3
+			self.rotation.y = self.rotation.y + dt * 3
 			Transform.SetRotation(self.transformID, self.rotation )
 			Light.updatePos(self.light, self.position.x, self.position.y, self.position.z, true)
 			if self.reviveTime < 0 then 
 				if self.owner.transformID == player.transformID then
+					Erebus.SetControls(player.transformID)
 					self.target.health = 100
 					self.target.isAlive = true
 					Network.SendRessurectionPacket(self.target.transformID, self.target.health)
 				else
 					self.owner.castingRevive = false
+					camera.toFollow = player
+		            Erebus.SetControls(player.transformID)
 				end
 				self.reviving = false
 				self:Kill()
@@ -64,4 +67,11 @@ function CreateRevive(entity)
 		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 	end
 	return spell
+end
+
+function DestroyRevive(revive)
+	Gear.UnbindInstance(revive.transformID)
+	Assets.UnloadModel( "Models/Revive.model" )
+
+	revive = nil
 end

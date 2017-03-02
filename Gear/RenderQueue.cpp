@@ -229,7 +229,7 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(SendStruct), (GLvoid*)0);
 	for (size_t i = 0; i < ps->size(); i++)
 	{
-		if (ps->at(i)->isActive)
+		if( ps->at(i) && ps->at(i)->isActive)
 		{
 			results = true;
 			for (size_t j = 0; j < ps->at(i)->getNrOfEmitters(); j++)
@@ -248,7 +248,7 @@ bool RenderQueue::particlePass(std::vector<Gear::ParticleSystem*>* ps, std::vect
 	
 	for (size_t i = 0; i < emitters->size(); i++)
 	{
-		if (emitters->at(i)->isActive)
+		if (emitters->at(i) && emitters->at(i)->isActive)
 		{
 			pos = emitters->at(i)->getPositions();
 			emitters->at(i)->getTexture()->bind(GL_TEXTURE0);
@@ -321,20 +321,24 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		numInstance = 0;
 
 		//animatedModels->at(i).material.bindTextures(allShaders[currentShader]->getProgramID());
-		modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
+		if( animatedModels->at(i).getActiveTransforms() > 0 )
+			modelAsset->getMaterial()->bindTextures(allShaders[currentShader]->getProgramID());
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
-		for( int j=0; j<animatedModels->at(i).getActiveTransforms(); j++ )
+		int offset = 0;
+		for( int j=0; j<animatedModels->at(i).getTransforms()->size(); j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
+			if( !animatedModels->at(i).getCulled(j) && animatedModels->at(i).getTransform(j)->active && !animatedModels->at(i).getCulled(j) )
 			{
 				//int index = animatedModels->at(i).worldIndices.at(j);
 				//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
 				//tempMatrix = worldMatrices[index];
 
 				//allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
-				allShaders[ANIM]->setUniform4cfv(glm::value_ptr(animatedModels->at(i).getWorldMatrix(j)), "worldMatrices", 1);
+				allShaders[ANIM]->setUniform4cfv(glm::value_ptr(animatedModels->at(i).getWorldMatrix(offset)), "worldMatrices", 1);
+				offset++;
 				allShaders[ANIM]->setUniform(animatedModels->at(i).getAnimation(j)->getTint(), "tint", 1);
 
 				//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
@@ -585,21 +589,8 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 	for (int i = 0; i < textureBlends->size(); i++)
 	{
 		modelIndex = textureBlends->at(i).modelIndex;
-
-		/*for (int j = 0; j < blendingModels->at(modelIndex).worldIndices.size(); j++)
-		{
-			indices[j] = blendingModels->at(modelIndex).worldIndices[j];
-			if (allTransforms[indices[j]].active)
-			{
-				tempMatrices[numInstance++] = worldMatrices[indices[j]];
-				atLeastOne = true;
-			}
-		}*/
-
-		//numInstance = blendingModels->at(modelIndex).worldMatrices.size();
-		numInstance = blendingModels->at(i).getActiveTransforms();
-
-		//if (atLeastOne)
+		numInstance = blendingModels->at(modelIndex).getActiveTransforms();
+		
 		if( numInstance > 0 )
 		{
 			modelAsset = blendingModels->at(modelIndex).getAsset();
@@ -609,8 +600,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 			tA = textureBlends->at(i).textureVector;
 
 			//uniforms for how many textures to send to the frag shader
-			//allShaders[TEXTURE_BLENDING]->setUniform4cfv(&tempMatrices[0][0][0], "worldMatrices", numInstance);
-			allShaders[TEXTURE_BLENDING]->setUniform4cfv( glm::value_ptr( blendingModels->at(modelIndex).getWorldMatrix(0) ), "worldMatrices", numInstance );
+			allShaders[TEXTURE_BLENDING]->setUniform4cfv(glm::value_ptr(blendingModels->at(modelIndex).getWorldMatrix(0)), "worldMatrices", numInstance);
 
 			for (int k = 0; k < numTextures; k++)
 			{
@@ -622,8 +612,6 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 			for (int l = 0; l < modelAsset->getHeader()->numMeshes; l++)
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, modelAsset->getVertexBuffer(l));
-				/*modelAsset->getMaterial()->bindTextures(allShaders[TEXTURE_BLENDING]->getProgramID());*/
-
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, 0);
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
@@ -632,7 +620,6 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
-
 		}
 	}
 
@@ -677,7 +664,6 @@ void RenderQueue::asyncTransformUpdate( void* args )
 
 		glm::vec3 tempLook = glm::normalize(glm::vec3(data->transforms[i].lookAt.x, 0, data->transforms[i].lookAt.z));
 		glm::vec3 axis = glm::cross(tempLook, { 0, 1, 0 });
-
 		glm::mat4 tempMatrix = glm::translate( ident, data->transforms[i].pos );
 		tempMatrix = glm::scale( tempMatrix, data->transforms[i].scale );
 		tempMatrix = glm::rotate( tempMatrix, data->transforms[i].rot.z, axis );

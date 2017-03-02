@@ -1,8 +1,8 @@
+local levelScripts = {}
 local scripts = {}
 local scriptFiles =
 {
 	"Scripts/console.lua",
-	"Scripts/enemies.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
 	"Scripts/ProjectileType.lua",
@@ -22,6 +22,8 @@ local scriptFiles =
 	"Scripts/rayType.lua",
 	"Scripts/staticAoEType.lua",
 	"Scripts/player.lua",
+	"Scripts/player2.lua",
+	"Scripts/enemies.lua",
 	"Scripts/spellList.lua",
 	"Scripts/HUD.lua",
 	"Scripts/spellUtility.lua",
@@ -37,7 +39,8 @@ local scriptFiles =
 	"Scripts/revive.lua",
 	"Scripts/TimeLaser.lua",
 	"Scripts/healthOrb.lua",
-	"Scripts/reusable.lua"
+	"Scripts/reusable.lua",
+	"Scripts/sluice.lua"
 }
 
 loadedLevels = {}
@@ -46,23 +49,47 @@ gameplayStarted = false
 loadedGameplay = false
 
 function LoadGameplay()
+	print("LOADING GAMEPLAY")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
 	end
+	for i = 1, 8 do
+		levelScripts[i] = dofile("Scripts/levelLogic"..i..".lua")
+	end
 end
 
 function UnloadGameplay()
-	print("UNLOADING GAMEPLAY")
-	for key,value in pairs(scripts) do
-		if value.Unload then
-			value.Unload()
+	if loadedGameplay then
+		-- unload all the loaded levels
+		for levelIndex,level in pairs(levels) do
+			if loadedLevels[levelIndex] then
+				level.unload()
+			end
 		end
-	end
 
-	loadedGameplay = false
-	gameplayStarted = false
-	loadedLevels = {}
+		-- unload all the scripts
+		for key,value in pairs(scripts) do
+			if value.Unload then
+				value.Unload()
+			end
+		end
+
+		UnInitPolymorphs()
+		UnInitTimeSlows()
+		UnInitFireEffectParticles()
+
+		loadedGameplay = false
+		gameplayStarted = false
+		loadedLevels = {}
+
+		Transform.ResetTransforms()
+		Gear.ResetAnimations()
+		Gear.ResetModels()
+		CollisionHandler.Reset()
+
+		collectgarbage()
+	end
 end
 
 function UpdateGameplay(dt)
@@ -84,6 +111,8 @@ function UpdateGameplay(dt)
 		value.Update(dt)
 	end
 
+	levelScripts[player.levelIndex].Update(dt)
+
 	if SETTING_DEBUG then 
 		CollisionHandler.DrawHitboxes()
 	end
@@ -96,6 +125,7 @@ function UpdateGameplay(dt)
 		elseif endEventId == 1 then -- other player quit to main menu
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
 			Erebus.ShutdownNetwork()
+			UnloadGameplay()
 		elseif endEventId == 2 then -- player win!
 			boss.health = 0
 			BOSS_DEAD = true
@@ -106,28 +136,22 @@ end
 
 function EnterGameplay()
 	if loadedGameplay == false then 
-		
+		InitPolymorphs()
+		InitTimeSlows()
+		InitFireEffectParticles()
+
 		for key,value in pairs(scripts) do
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Level01.lua" )
-
+		dofile( "Scripts/LevelOskar2.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
 			levels[v].load()
 			loadedLevels[v] = true
 		end
-
 		--levels[1].load()
-		--levels[2].load()
-		--levels[3].load()
-		--levels[4].load()
-		--levels[5].load()
-		--levels[6].load()
-		--levels[7].load()
-		--levels[8].load()
 		loadedGameplay = true
 	end
 

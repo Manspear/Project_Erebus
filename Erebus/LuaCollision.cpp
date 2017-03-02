@@ -3,11 +3,13 @@
 namespace LuaCollision
 {
 	static CollisionHandler* g_collisionHandler = nullptr;
+	static CollisionsDraw* g_collisionsDraw = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 
-	void registerFunctions( lua_State* lua, CollisionHandler* handler, TransformHandler* transformHandler )
+	void registerFunctions( lua_State* lua, CollisionHandler* handler, CollisionsDraw* collisionsDraw, TransformHandler* transformHandler)
 	{
 		g_collisionHandler = handler;
+		g_collisionsDraw = collisionsDraw;
 		g_transformHandler = transformHandler;
 
 		//CollisionHandler
@@ -25,8 +27,9 @@ namespace LuaCollision
 			{ "DeactivateAllHitboxes", deactivateAllHitboxes},
 			{ "ActivateAllHitboxes", activateAllHitboxes},
 			{ "GetIDsFromLayer", getIDsFromLayer },
-			{"Enable", enableCollisionHandler},
-			{"Disable", disableCollisionHandler},
+			{ "Enable", enableCollisionHandler },
+			{ "Disable", disableCollisionHandler },
+			{ "Reset", reset },
 			{ NULL, NULL }
 		};
 
@@ -726,7 +729,7 @@ return 0;
 
 	int drawHitboxes( lua_State* lua )
 	{
-		g_collisionHandler->drawHitboxes();
+		g_collisionsDraw->drawThisFrame();
 		return 0;
 	}
 
@@ -751,6 +754,12 @@ return 0;
 	int disableCollisionHandler(lua_State * lua)
 	{
 		g_collisionHandler->setEnabled(false);
+		return 0;
+	}
+
+	int reset( lua_State* lua )
+	{
+		g_collisionHandler->reset();
 		return 0;
 	}
 

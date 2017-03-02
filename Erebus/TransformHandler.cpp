@@ -30,6 +30,18 @@ TransformHandler::~TransformHandler()
 {
 }
 
+void TransformHandler::reset()
+{
+	instances[INSTANCE_DYNAMIC]->clear();
+	instances[INSTANCE_ANIMATED]->clear();
+
+	instances[INSTANCE_FORWARD]->clear();
+	gearEngine->uniValues.clear();
+
+	instances[INSTANCE_BLENDING]->clear();
+	gearEngine->textureBlend.clear();
+}
+
 int TransformHandler::bindStaticInstance( ModelAsset* asset )
 {
 	std::vector<ModelInstance>* models = instances[INSTANCE_DYNAMIC];
@@ -164,12 +176,11 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 
 		modelIndex = models->size();
 		models->push_back( instance );
-
-		TextureBlendings tBlend;
-		gearEngine->textureBlend.push_back( tBlend );
+	
 	}
-
-	gearEngine->textureBlend.at(modelIndex).modelIndex = modelIndex;
+	TextureBlendings tBlend;
+	gearEngine->textureBlend.push_back(tBlend);
+	gearEngine->textureBlend.at(gearEngine->textureBlend.size()-1).modelIndex = modelIndex;
 
 	int transformIndex = instances[INSTANCE_BLENDING]->at(modelIndex).pushStaticInstance( DEFAULT_TRANSFORM, glm::mat4() );
 

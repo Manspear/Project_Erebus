@@ -23,6 +23,10 @@ function CreateTimeSlowEffect()
 	return effect
 end
 
+function DestroyTimeSlowEffect(effect)
+	effect = nil
+end
+
 function InitTimeSlows()
 	for i = 1, TIMESLOW_POOL_SIZE do
 		currentFree = i
@@ -31,10 +35,16 @@ function InitTimeSlows()
 	currentFree = 0
 end
 
+function UnInitTimeSlows()
+	for i=1, TIMESLOW_POOL_SIZE do
+		destroyTimeslowParticles(timeslowParticles[i])
+	end
+end
+
 function GetNextFreeTimeslow()
 	if currentFree >= TIMESLOW_POOL_SIZE then currentFree = 0 end
 	currentFree = currentFree + 1	
 	return timeslowParticles[currentFree]
 end
 
-InitTimeSlows()
+--InitTimeSlows()
