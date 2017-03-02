@@ -43,7 +43,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 50
+	player.moveSpeed = 10
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -81,6 +81,10 @@ function LoadPlayer()
 	player.combined = false
 	player.combinedSpell = -1
 
+	--Used for the playerController
+	player.useRayAttack = false
+	player.firstRayAttack = true
+
 	--Used as a delay hindering rampant spellswitching
 	player.globalSpellSwitchingCooldownTimerThreshHold = 1
 	player.globalSpellSwitchingCooldownTimer = 0
@@ -107,10 +111,13 @@ function LoadPlayer()
 
 	player.outerCirclerange = 4
 	player.innerCirclerange = 8
-
+	camera.toFollow = player
 	-- set spells for player
 	player.spells = {}	
 	player.currentSpell = 1
+	model = Assets.LoadModel("Models/nothing.model")
+	player.dummyTrans = {transformID = nil}
+	player.dummyTrans.transformID = Gear.BindStaticInstance(model)
 	function player.Hurt(self,damage, source)
 		self.damagedTint.a = 1
 		if not player.invulnerable then
@@ -132,14 +139,15 @@ function LoadPlayer()
 
 	function player.Kill(self)
 		self.health = 0
-		for i=1, #enemies do
-			enemies[i].SetState(enemies[i], IDLE_STATE )
-		end
+		self.isAlive = false
+		camera.toFollow = player.dummyTrans
+		Erebus.SetControls(player.dummyTrans.transformID)
 	end
 
 	function player.ImDead(self, dt)
-		self.isAlive = false
-		self:Kill()
+		if self.isAlive then
+			self:Kill()
+		end
 	end
 
 	function player.ChangeHeightmap(self, levelIndex)
@@ -156,7 +164,7 @@ function LoadPlayer()
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- Setting controller for player
-	player.controller = {};
+	player.controller = {}
 	player.controller = MovementController.Create()
 	player.controller:SetHitbox(player.sphereCollider)
 	player.controller:SetTransform(player.transformID)
@@ -168,12 +176,11 @@ function LoadPlayer()
 	
 	player.spellDirection = { x = 0, y = 0, z = 0 }
 	Erebus.SetControls(player.transformID)
-	LoadPlayer2()
-
 	player.aim = CreateAim(player)
 	player.charger = CreateChargeEggs(player)
 	player.friendCharger = CreateCombineRay(player)
 	player.revive = CreateRevive(player)
+	LoadPlayer2()	
 end
 
 
@@ -182,36 +189,30 @@ function UnloadPlayer()
 	DestroySlowEffect(effectTable[SLOW_EFFECT_INDEX])
 	DestroyTimeSlowEffect(effectTable[TIME_SLOW_EFFECT_INDEX])
 	DestroyLifeStealEffect(effectTable[LIFE_STEAL_EFFECT_INDEX])
-	DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
+	--DestroyPolyEffect(effectTable[POLYMORPH_EFFECT_INDEX])
 	DestroyKnockbackEffect(effectTable[KNOCKBACK_EFFECT_INDEX])
 
 	DestroyPlayerController(player.animationController)
-	DestroyPlayerController(player2.animationController)
-
 	Gear.UnbindInstance(player.transformID)
-	Gear.UnbindInstance(player2.transformID)
 
-	--[[Particle.Unbind(player.dashStartParticles)
+	Particle.Unbind(player.dashStartParticles)
 	Particle.Unbind(player.dashEndParticles)
-	Particle.Unbind(player2.dashStartParticles)
-	Particle.Unbind(player2.dashEndParticles)--]]
 
 	DestroyAim(player.aim)
-	DestroyAim(player2.aim)
-
 	DestroyChargeEggs(player.charger)
-	DestroyChargeEggs(player2.charger)
 	
 	DestroyCombineRay(player.friendCharger)
 	DestroyCombineRay(player2.friendCharger)
-
 	DestroyRevive(player.revive)
-	DestroyRevive(player2.revive)
-
+	
 	player = {}
-	player2 = {}
-
 	effectTable = {}
+
+	Assets.UnloadModel( "Models/player1.model" )
+	Assets.UnloadTexture( "Textures/ping.dds" )
+	Assets.UnloadTexture( "Textures/playerDeath.dds" )
+
+	UnloadPlayer2()
 end
 
 function LoadSpells(player)
@@ -421,6 +422,12 @@ function UpdatePlayer(dt)
 			end
 		end
 	end
+	if player.isAlive then
+		Transform.CopyTransform(player.transformID, player.dummyTrans.transformID)
+	else
+		
+	end
+
 	UpdateCamera(dt)
 end
 
@@ -453,7 +460,6 @@ function Controls(dt)
 			SendCombine(player.spells[player.currentSpell])
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
-			--player.useRayAttack
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -472,8 +478,7 @@ function Controls(dt)
 			ChargeDir.x = (ChargeDir.x /a)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
-			--print(ChargeDir.x)
-
+		
 			local dir = Camera.GetDirection()
 			
 			
@@ -483,35 +488,40 @@ function Controls(dt)
 				dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
 				if dot >0.25 then
 
-					player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
-					if player2.charging == true then
+					local result = player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
+					if player2.charging == true and result == true then
 						player2.isCombined = true
 						player2.combinedSpell = player.spells[player.currentSpell].spellListId
 					end
 				else 
 					player.friendCharger:EndChargeBeam()
+					player.friendCharger:resetCooldown()
+
 				end
 
 			else 
 				player.friendCharger:EndChargeBeam()
+				player.friendCharger:resetCooldown()
 			end
 		end
-		if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
-			HideCrosshair()
-			hideWaitingForPlayer2()
-			player.friendCharger:EndChargeBeam()
-			Network.SendChargingPacket(0, false) 
-		end
+	if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
+		HideCrosshair()
+		hideWaitingForPlayer2()
+		player.friendCharger:EndChargeBeam()
+			player.friendCharger:resetCooldown()
+		Network.SendChargingPacket(0, false) 
+	end
 
-		if not player.charging then
-			--ATTACK DELAY TIMER
-			player.attackDelayTimer = player.attackDelayTimer + dt
-
+	if not player.charging then
+		--ATTACK DELAY TIMER
+		player.attackDelayTimer = player.attackDelayTimer + dt
 			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
-				if player.spells[player.currentSpell].hasSpamAttack == true then 
+			if player.spells[player.currentSpell].hasSpamAttack == true then 
+				if player.spells[player.currentSpell].isRay == false then  
+					player.useRayAttack = false
 					player.charger:EndCharge()
 					player.spamCasting = true
-					
+				
 					if player.firstAttack == true then 		
 						if player.attackDelayTimerStarted == false then 
 							player.attackDelayTimerStarted = true
@@ -525,91 +535,123 @@ function Controls(dt)
 							local overTime = player.attackDelayTimer - player.attackDelayTimerThreshHold
 							player.attackDelayTimer = overTime
 							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
-							
+						
 							player.spellDirection = Camera.GetDirection()
 							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
 							player.spells[player.currentSpell]:Cast(player)	
 						end 
 					end
-				end
-			end
-			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
-				player.spamCasting = false
-				player.firstAttack = true
-				player.attackDelayTimerStarted = false
-			end
+				elseif player.spells[player.currentSpell].chargeAlive == false then   
+					if player.firstRayAttack == true and player.spells[player.currentSpell].cooldown < 0.0 then 
+						player.spells[player.currentSpell].cooldown = -1 --Makes the spell actually cast once. 
+						player.firstRayAttack = false
+					elseif player.firstRayAttack == false then 
+						player.spells[player.currentSpell].cooldown = 0.2
+					end
 
-			if player.globalSpellSwitchingCooldownTimerStarted == true then 
-				player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
-
-				if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
-					player.globalSpellSwitchingCooldownTimerStarted = false
-					player.globalSpellSwitchingCooldownTimer = 0
-				end
-			end
-
-			if player.globalSpellSwitchingCooldownTimerStarted == false then 
-				if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then
-					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change() end
-					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
-					if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
-
-					player.spamCasting = false
-					player.firstAttack = true
-					player.attackDelayTimerStarted = false
-					player.resetSpamAttack = true
+					if(player.spells[player.currentSpell].chargeAlive == false) then 
+						player.spells[player.currentSpell].lifeTime = 1
+					end
+					player.spamCasting = true
+					player.useRayAttack = true
 					
-					player.globalSpellSwitchingCooldownTimerStarted = true
+					player.spells[player.currentSpell]:Cast(player)	
 				end
 			end
 		end
-
-		if not player.spamCasting then
-			if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
-				if player.charging == true then
-					player.spells[player.currentSpell]:Charge(dt)
-					player.charger:Update(dt, player.spells[player.currentSpell].chargedTime)				
-				else
-					if player.spells[player.currentSpell].cooldown<0 then
-						Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false, 0, 0, 0)
-						sElement = player.spells[player.currentSpell].element	
-						player.charger:StartCharge(player.position, sElement, player.spells[player.currentSpell].minChargeTime) 
-						player.charging = true	
-					end		
+		--the spell is a ray spell.
+		if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
+			player.spamCasting = false
+			player.firstAttack = true
+			player.attackDelayTimerStarted = false
+			if player.useRayAttack == true then
+				if player.spells[player.currentSpell].chargeAlive == false then 
+					player.spells[player.currentSpell].lifeTime = -1
+					player.firstRayAttack = true
+					player.useRayAttack = false
 				end
-			end
-		
-			if Inputs.ButtonReleased(SETTING_KEYBIND_CHARGED_ATTACK) then
-				if player.charging == true then
-					player.spellDirection = Camera.GetDirection()
-					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
-					player.spells[player.currentSpell]:ChargeCast(player)
-					player.charger:EndCharge()
-					player.charging = false
-					player.isCombined = false
-					player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
-				end
+			else
+				player.useRayAttack = false
 			end
 		end
+	end
+	
 
-		if Inputs.KeyPressed(SETTING_KEYBIND_DASH) and player.dashcd < 0 then
-			Particle.Explode(player.dashStartParticles, player.position)
+	if player.globalSpellSwitchingCooldownTimerStarted == true then 
+		player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
+
+		if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
+			player.globalSpellSwitchingCooldownTimerStarted = false
+			player.globalSpellSwitchingCooldownTimer = 0
+		end
+	end
+
+	if player.globalSpellSwitchingCooldownTimerStarted == false then 
+		if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change() end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
+			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 3	player.spells[player.currentSpell]:Change()	end
+
+			player.spamCasting = false
+			player.firstAttack = true
+			player.attackDelayTimerStarted = false
+			player.resetSpamAttack = true
+			
+			player.globalSpellSwitchingCooldownTimerStarted = true
+		end
+	end
+	if not player.spamCasting then
+		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) then
+			if player.charging == true then
+				player.spells[player.currentSpell]:Charge(dt)
+				player.charger:Update(dt, player.spells[player.currentSpell].chargedTime)				
+			else
+				if player.spells[player.currentSpell].cooldown<0 then
+					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, false, 0, 0, 0)
+					sElement = player.spells[player.currentSpell].element	
+					player.charger:StartCharge(player.position, sElement, player.spells[player.currentSpell].minChargeTime) 
+					player.charging = true	
+				end		
+			end
+		end
+	
+		if Inputs.ButtonReleased(SETTING_KEYBIND_CHARGED_ATTACK) then
+			if(player.spells[player.currentSpell].isRay == false) then 
+				player.useRayAttack = false
+			else
+				player.useRayAttack = true
+			end
+
+			if player.charging == true then
+				player.spellDirection = Camera.GetDirection()
+				Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
+				player.spells[player.currentSpell]:ChargeCast(player)
+				player.charger:EndCharge()
+				player.charging = false
+				player.isCombined = false
+				player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
+			end
+		end
+	end
+
+	if Inputs.KeyPressed(SETTING_KEYBIND_DASH) and player.dashcd < 0 then
+		Particle.Explode(player.dashStartParticles, player.position)
 			--player.dashTimer = dt - player.dashtime * 0.3
 	
 			--if player.dashTimer == player.dashTimer * 2 then
-			Transform.SetScale(player.transformID, 0)
+		Transform.SetScale(player.transformID, 0)
 			--print("start")
 			--end
 		
 			--player.dashTimer = player.dashTimer + DASH_DURATION - 0.3
 			print(player.dashTimer)
-			player.dashcd = DASH_COOLDOWN
-			player.dashdir.x = player.forward * 3.5
-			player.dashdir.z = player.left * 3.5
-			player.dashtime = DASH_DURATION
-			player.invulnerable = true
-			Network.SendDashPacket(true)	
-		end
+		player.dashcd = DASH_COOLDOWN
+		player.dashdir.x = player.forward * 3.5
+		player.dashdir.z = player.left * 3.5
+		player.dashtime = DASH_DURATION
+		player.invulnerable = true
+		Network.SendDashPacket(true)
+	end
 	end
 end
 

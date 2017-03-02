@@ -30,11 +30,14 @@ function CreateRevive(entity)
 			Light.updatePos(self.light, self.position.x, self.position.y, self.position.z, true)
 			if self.reviveTime < 0 then 
 				if self.owner.transformID == player.transformID then
+					Erebus.SetControls(player.transformID)
 					self.target.health = 100
 					self.target.isAlive = true
 					Network.SendRessurectionPacket(self.target.transformID, self.target.health)
 				else
 					self.owner.castingRevive = false
+					camera.toFollow = player
+		            Erebus.SetControls(player.transformID)
 				end
 				self.reviving = false
 				self:Kill()
@@ -68,4 +71,7 @@ end
 
 function DestroyRevive(revive)
 	Gear.UnbindInstance(revive.transformID)
+	Assets.UnloadModel( "Models/Revive.model" )
+
+	revive = nil
 end

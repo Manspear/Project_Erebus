@@ -1,6 +1,6 @@
 ORBWAVEORBS = 50
 ORBWAVEMINRADIUS = 1
-ORBWAVEMAXRADIUS = 70 - ORBWAVEMINRADIUS --the number is how long out the wave will travel
+ORBWAVEMAXRADIUS = 40 - ORBWAVEMINRADIUS --the number is how long out the wave will travel
 ORBWAVELAPTIME = 3
 
 function CreateOrbWaveType(model) 
@@ -87,4 +87,10 @@ function CreateOrbWaveType(model)
 	end
 
 	return type
+end
+
+function DestroyOrbWaveType(orbwavetype)
+	for _,v in pairs(orbwavetype.transformIDs) do
+		Gear.UnbindInstance(v)
+	end
 end

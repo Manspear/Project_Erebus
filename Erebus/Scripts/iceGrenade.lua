@@ -1,12 +1,12 @@
-ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
+--ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
 MAX_DAMAGE_ICENADE = 10
-SPEED_ICENADE = 65
+SPEED_ICENADE = 32
 EXPLOSION_RADIUS_ICENADE = 10
 
-MIN_FALLOFF_ICENADE = 1
-MAX_FALLOFF_ICENADE = 2 - MIN_FALLOFF_ICENADE
+MIN_FALLOFF_ICENADE = 0.5
+MAX_FALLOFF_ICENADE = 1 - MIN_FALLOFF_ICENADE
 SPAM_CD_ICENADE = 0.3
 SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
 ICEGRENADE_CAST_SFX = "Effects/burn_ice_001.wav"
@@ -27,15 +27,9 @@ function CreateIceGrenade(entity)
 		nade.exploding = false
 		nade.hits = {}
 		nade.soundID = -1
-		--nade.transform2ID = Transform.Bind()
-
-		--local model = Assets.LoadModel( "Models/grenade.model" )
-		--Gear.AddStaticInstance(model, nade.type.transformID)
-
-		--local model2 = Assets.LoadModel("Models/isTappar1.model");
-		--Gear.AddStaticInstance(model2, nade.transform2ID)
 		local model2 = Assets.LoadModel("Models/isTappar1.model")
 		nade.transform2ID = Gear.BindStaticInstance(model2)
+		Transform.ActiveControl(nade.transform2ID, false)
 		return nade
 	end
 	
@@ -49,12 +43,13 @@ function CreateIceGrenade(entity)
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.damage = MAX_DAMAGE_ICENADE
-	spell.hudtexture = ICEGRENADE_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.timeSinceLastPoop = 0
 	spell.Change = GenericChange
 	spell.isActiveSpell = false
 
+	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -72,6 +67,7 @@ function CreateIceGrenade(entity)
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
 			local pos = Transform.GetPosition(entity.transformID)
+			pos.y= pos.y+0.5
 			local dir = self.owner.spellDirection
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
@@ -263,4 +259,19 @@ function CreateIceGrenade(entity)
 		return result
 	end
 	return spell
+end
+
+function DestroyIceGrenade(grenade)
+	for _,nade in pairs(grenade.spell.nades) do
+		Assets.UnloadModel( "Models/grenade.model" )
+		DestroyGrenadeType(nade.type)
+		destroyIceGrenadeParticles(nade.particles)
+
+		Assets.UnloadModel( "Models/isTappar1.model" )
+		Gear.UnbindInstance(nade.transform2ID)
+		nade = nil
+	end
+
+	Assets.UnloadTexture( "Textures/IconIceGrenade.dds" )
+	grenade = nil
 end

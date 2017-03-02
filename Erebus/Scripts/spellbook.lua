@@ -17,6 +17,9 @@ function LoadSpellbook()
 end
 
 function UnloadSpellbook()
+	for i=1, #scriptsMenu do
+		scriptsMenu[i].Unload()
+	end
 end
 
 function UpdateSpellbook(dt)

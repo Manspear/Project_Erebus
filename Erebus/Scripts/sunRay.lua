@@ -1,5 +1,7 @@
-SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSunRay.dds");
-SUNRAY_DURATION = 3
+--SUNRAY_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSunRay.dds");
+SUNRAY_STARTUPTIME = 0.4
+SUNRAY_STARTUPTIMELVL2 = 0.7
+SUNRAY_DURATION = 4.7
 SUNRAY_DAMAGE = 1
 SUNRAY_COOLDOWN = 4.7
 SUNRAY_HALF_LENGTH = 23
@@ -15,38 +17,38 @@ function CreateSunRay(entity)
 	sunRay.type = CreateRayType(model)
 	sunRay.effects = {} 
 	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)
-	sunRay.lifeTime = SUNRAY_DURATION
+	sunRay.lifeTime = SUNRAY_DURATION 
 	sunRay.damage = 0
 	sunRay.spam = false
 	sunRay.alive = false
+	sunRay.chargeAlive = false
 	sunRay.isActiveSpell = false
-	sunRay.chargedTime = 0
+	sunRay.chargedTime = 0.0
 	sunRay.owner = entity	sunRay.caster = entity.transformID
 	sunRay.moveImpairment = 0.5	sunRay.cameraSlow = 2.0
-	sunRay.maxChargeTime = 3		sunRay.minChargeTime = 0
+	sunRay.maxChargeTime = SUNRAY_DURATION
+	sunRay.minChargeTime = 1
 	sunRay.timeSinceTick = 0	sunRay.tickInterval = 0.5
 	sunRay.length = 0
 	sunRay.angle = 2	sunRay.spin = 0.3
 	sunRay.UVpushing = 2.0	sunRay.UVpushed = 0
-	sunRay.startUp = false	sunRay.startUpTime = 0.4	sunRay.startUpTimeLVL2 = 0.7
+	sunRay.startUp = false	sunRay.startUpTime = SUNRAY_STARTUPTIME	sunRay.startUpTimeLVL2 = SUNRAY_STARTUPTIMELVL2
 	sunRay.startUpScale = {x = 1, y = 1, z = 1}
 	sunRay.castSFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav" }
 	sunRay.hitSFX = "Effects/burn_ice_001.wav"
 	sunRay.soundID = {}
 	sunRay.chargeID = -1
 	sunRay.hitID = -1
-	sunRay.hudtexture = SUNRAY_SPELL_TEXTURE
+	sunRay.hudtexture = Assets.LoadTexture("Textures/IconSunRay.dds");
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
-	--local model = Assets.LoadModel( "Models/SunRayOuter.model" )
 	--local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
-	--Gear.AddForwardInstance(model2, sunRay.type.transformID)
-	local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
-	sunRay.transformID2 = Gear.BindForwardInstance(model2)
-
+	--sunRay.transformID2 = Gear.BindForwardInstance(model2)
+	--For choosing the right set of animations
+	sunRay.isRay = true
 	--For animation timing 
 	sunRay.hasSpamAttack = true
 	sunRay.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
-	SUNRAY_CASTSPEED_MULTIPLE = 2
+	SUNRAY_CASTSPEED_MULTIPLE = 1
 	sunRay.castTimeAttack = 0.5 * SUNRAY_CASTSPEED_MULTIPLE
 	sunRay.castAnimationPlayTime = 2 * SUNRAY_CASTSPEED_MULTIPLE --the true cast time of the animation
 	sunRay.castTimeFirstAttack = 0.1875 * SUNRAY_CASTSPEED_MULTIPLE
@@ -72,7 +74,7 @@ function CreateSunRay(entity)
 	end
 	
 	function sunRay:Cast(entity)
-		if (self.cooldown < 0.0) then
+		if (self.cooldown < 0.0 and not self.alive) then
 			self.length = SUNRAY_HALF_LENGTH / 2										
 			self.lifeTime = SUNRAY_DURATION / 2
 			self.spam = true		
@@ -93,8 +95,9 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:ChargeCast(entity)
-		if self.cooldown < 0.0 then
+		if self.cooldown < 0.0 and not self.alive then
 			self.spam = false	self.alive = true	self.startUp = true
+			self.chargeAlive = true
 			self.chargedTime = math.min(self.chargedTime, self.maxChargeTime)
 			self.scale = (self.chargedTime / self.maxChargeTime)/2 + 0.5
 			self.cooldown = SUNRAY_COOLDOWN
@@ -195,6 +198,7 @@ function CreateSunRay(entity)
 
 	function sunRay:Kill()
 		self.alive = false
+		self.chargeAlive = false
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		Sound.Stop(self.hitID)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
@@ -219,4 +223,13 @@ function CreateSunRay(entity)
 	sunRay.Change = BaseChange
 	sunRay.GetEffect = BaseGetEffect
 	return sunRay
+end
+
+function DestroySunRay(ray)
+	Assets.UnloadModel( "Models/SunRayOuter.model" )
+	Assets.UnloadModel( "Models/SunRayInner.model" )
+	Assets.UnloadTexture( "Textures/IconSunRay.dds" )
+
+	DestroyRayType(ray.spell.type)
+	ray = nil
 end

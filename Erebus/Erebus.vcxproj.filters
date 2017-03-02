@@ -10,7 +10,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source.cpp" />
     <ClCompile Include="LuaAi.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -80,6 +79,7 @@
     <ClCompile Include="CollisionUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -437,7 +437,6 @@
     <None Include="Shaders\include.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\lifeStealEffect.lua" />
     <None Include="Scripts\windknockback.lua">
       <Filter>Scripts\spells</Filter>
     </None>
@@ -473,7 +472,6 @@
     <None Include="Scripts\healthOrb.lua">
       <Filter>Scripts\evils</Filter>
     </None>
-    <None Include="Scripts\TimeLaser.lua" />
     <None Include="Scripts\sluice.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -522,6 +520,12 @@
     </None>
     <None Include="Shaders\textureBlending.vert">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\TimeLaser.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\lifeStealEffect.lua">
+      <Filter>Scripts\effects</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

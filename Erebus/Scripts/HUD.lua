@@ -84,6 +84,24 @@ function UnloadHUD()
 	screenImages = {}
 	tutorialImages = {}
 	pingImages = {}
+
+	Assets.UnloadTexture( "Textures/HealthBackground.dds" )
+	Assets.UnloadTexture( "Textures/HealthBar.dds" )
+	Assets.UnloadTexture( "Textures/cooldown.dds" )
+	Assets.UnloadTexture( "Textures/spell1.dds" )
+	Assets.UnloadTexture( "Textures/spell2.dds" )
+	Assets.UnloadTexture( "Textures/spell3.dds" )
+	Assets.UnloadTexture( "Textures/select.dds" )
+	Assets.UnloadTexture( "Textures/crosshair.dds" )
+
+	Assets.UnloadTexture( "Textures/TUTORIAL_PressLeftToFire.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALChangeSpell.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIAL_DASH.dds" )
+
+	Assets.UnloadTexture( "Textures/TUTORIALCharge1.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALCharge2.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend1.dds" )
+	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend2.dds" )
 end
 
 function UpdateHUD(dt)
