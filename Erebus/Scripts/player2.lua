@@ -33,7 +33,7 @@ function LoadPlayer2()
 	player2.combineRayActive = false
 
 	player2.sphereCollider = SphereCollider.Create(player2.transformID)
-	CollisionHandler.AddSphere(player2.sphereCollider, 1)
+	CollisionHandler.AddSphere(player2.sphereCollider, 0)
 	player2.collisionID = player2.sphereCollider:GetID()
 	-- set spells for player
 	player2.spells = {}
