@@ -164,7 +164,7 @@ function LoadPlayer()
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
 	-- Setting controller for player
-	player.controller = {};
+	player.controller = {}
 	player.controller = MovementController.Create()
 	player.controller:SetHitbox(player.sphereCollider)
 	player.controller:SetTransform(player.transformID)

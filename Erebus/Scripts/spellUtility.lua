@@ -254,12 +254,14 @@ function CreateChargeEggs(entity)
 
 	function chargeThing:StartParticles(spellElement)
 
-		
+		print("Tjenmors")
 		self.light = Light.addLight(self.pos.x, self.pos.y + 3, self.pos.z, FIRE == spellElement and 1, NATURE == spellElement and 1, ICE == spellElement and 1, 10, 100, true)
 		self.timer = 0
 		if spellElement == FIRE then
 			self.particles:fireElement()
+			print("Tjenmors")
 			self.particles:cast()
+			print("Tjenmors")
 		end
 
 		if spellElement == NATURE then
@@ -271,7 +273,7 @@ function CreateChargeEggs(entity)
 			self.particles:iceElement()
 			self.particles:cast()
 		end
-
+		print("Tjenmors")
 	end
 
 	return chargeThing

@@ -254,13 +254,13 @@ function createParticlesByElement()
 	chargePart.ICE_TEX = Assets.LoadTexture("Textures/brightParticle.dds")
 	
 	function chargePart:fireElement()
-		Emitter.SetTexture(chargePart.ID, CHARGE_FIRE_TEX)
+		Emitter.SetTexture(self.ID, self.FIRE_TEX)
 	end	
 	function chargePart:natureElement()
-		Emitter.SetTexture(chargePart.ID, CHARGE_NATURE_TEX)
+		Emitter.SetTexture(self.ID, self.NATURE_TEX)
 	end
 	function chargePart:iceElement()
-		Emitter.SetTexture(chargePart.ID, CHARGE_ICE_TEX)
+		Emitter.SetTexture(self.ID, self.ICE_TEX)
 	end
 
 	function chargePart:cast()
