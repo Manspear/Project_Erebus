@@ -49,8 +49,9 @@ function LoadBoss()
 		boss.health = boss.health - damage
 		boss.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 		if element then
-			--Network.SendDamageTextPacket(boss.transformID, damage, element)
+			Network.SendBossDamageTextPacket(boss.transformID, damage, element)
 			Gear.PrintDamage(damage, element, pos.x, pos.y+10, pos.z )
+			print("printed some dmg")
 		end
 		if boss.health < 0 then
 			boss.Kill()

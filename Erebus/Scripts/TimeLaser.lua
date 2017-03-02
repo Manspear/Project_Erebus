@@ -26,6 +26,7 @@ function CreateTimeLaser( entity )
 	spell.damage = TIMELASER_DAMAGE
 	spell.lifetime = 0
 	spell.alive = false
+	spell.element = FIRE
 
 	function spell:Cast( entity )
 		local dir = {x=0,y=0,z=0}
@@ -68,7 +69,7 @@ function CreateTimeLaser( entity )
 					local collisionIDs = self.colliders[i]:GetCollisionIDs()
 					for curID = 1, #collisionIDs do
 						if collisionIDs[curID] == player.sphereCollider:GetID() then
-							player:Hurt(self.damage, self.owner)
+							player:Hurt(self.damage, self.owner, self.element)
 							local effect = effectTable[self.effect](self.owner)
 							player:Apply(effect)
 							self.hitTimers[i] = TIMELASER_HIT_INTERVAL

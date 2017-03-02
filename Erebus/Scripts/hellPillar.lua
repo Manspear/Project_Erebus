@@ -178,7 +178,7 @@ function CreateHellPillar(entity)
 				end
 			end
 			if collisionIDs[curID] == boss.collider:GetID() then --boss collision
-				boss:Hurt(self.damage, owner)
+				boss:Hurt(self.damage, self.owner, self.element)
 				for i = 1, #self.effects do
 					local effect = effectTable[self.effects[i]](self.owner)
 					boss:Apply(effect)
