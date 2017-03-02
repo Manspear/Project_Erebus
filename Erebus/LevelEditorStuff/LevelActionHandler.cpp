@@ -136,7 +136,7 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 	bool coughtHitbox = false;
 
 
-	if (action != ACTION_WALL_HANDLE) {
+	if (action == ACTION_SELECT) {
 		if (inputs->buttonReleasedThisFrame(GLFW_MOUSE_BUTTON_1) && !holdingGizmo) {
 
 			static CollisionChecker* checker = new CollisionChecker();
@@ -274,6 +274,12 @@ void LevelActionHandler::update( Inputs* inputs, Gear::GearEngine* engine, Camer
 					std::cout << "Created new ID: " << newActor->id << std::endl;
 					if (newActor)
 					{
+
+						LevelActor* pickedActor = LevelActorHandler::getInstance()->getActor(actorID);
+						if (pickedActor)
+						{
+							newActor->setTileID(pickedActor->getTileID());
+						}
 						LevelActorHandler::getInstance()->addActor(newActor);
 						LevelActorHandler::getInstance()->setSelected(newActor);
 
