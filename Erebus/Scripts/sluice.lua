@@ -33,7 +33,7 @@ function SluiceUpdate(dt, sluice)
 	for i = 1, #colIDs do
 		if colIDs[i] == player.collisionID then playersInside.p1 = true end  
 		if colIDs[i] == player2.collisionID then playersInside.p2 = true end  
-		if playersInside.p1 and playersInside.p2 then
+		if playersInside.p1 or playersInside.p2 then
 			hideWaitingForPlayer2(dt)
 			sluice.sluiceTime = sluice.sluiceTime - dt
 			sluice.lowering = sluice.lowering - dt * 2
@@ -45,7 +45,7 @@ function SluiceUpdate(dt, sluice)
 			if sluice.sluiceTime < 0 then
 				sluice.colliderClose.collider:SetPos(sluice.position2.x, sluice.position2.y + 4, sluice.position2.z)
 				local hitboxDir = vec3cross(sluice.lookAt2, {x = 0, y = 1, z = 0})
-				OBBCollider.SetXAxis(sluice.colliderClose.collider, hitboxDir.x, hitboxDir.y, hitboxDir.z)	
+				--OBBCollider.SetXAxis(sluice.colliderClose.collider, hitboxDir.x, hitboxDir.y, hitboxDir.z)	
 				sluice.position2 = 	Transform.GetPosition(sluice.transformIDclose)	
 				Transform.ActiveControl(sluice.transformIDopen, false)
 				SphereCollider.SetActive(sluice.colliderIDopen, false)

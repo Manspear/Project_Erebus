@@ -332,16 +332,26 @@ namespace Nurn
 		return this->packetFilter->getRessurectionQueue()->pop(packet);
 	}
 
-	void NurnEngine::pushDamageTextPacket(const DamagePacket& packet)
+	void NurnEngine::pushAIDamageTextPacket(const DamagePacket& packet)
 	{
-		this->packager->pushDamageTextPacket(packet);
+		this->packager->pushAIDamageTextPacket(packet);
 	}
 	
-	bool NurnEngine::fetchDamageTextPacket(DamagePacket& packet)
+	bool NurnEngine::fetchAIDamageTextPacket(DamagePacket& packet)
 	{
-		return this->packetFilter->getDamageTextQueue()->pop(packet);
+		return this->packetFilter->getAIDamageTextQueue()->pop(packet);
 	}
 
+	void NurnEngine::pushBossDamageTextPacket(const DamagePacket& packet)
+	{
+		this->packager->pushBossDamageTextPacket(packet);
+	}
+
+	bool NurnEngine::fetchBossDamageTextPacket(DamagePacket& packet)
+	{
+		return this->packetFilter->getBossDamageTextQueue()->pop(packet);
+	}
+	
 #ifdef DEBUGGING_NETWORK
 	float NurnEngine::getPing()
 	{

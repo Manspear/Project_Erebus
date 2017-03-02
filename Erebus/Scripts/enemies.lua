@@ -120,7 +120,7 @@ function CreateEnemy(type, position, element)
 					self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 					if element then
-						Network.SendDamageTextPacket(self.transformID, damage, element)
+						Network.SendAIDamageTextPacket(self.transformID, damage, element)
 						Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
 					end
 
@@ -468,7 +468,7 @@ function UpdateEnemies(dt)
 		end
 
 		-- Print floating damage text for client
-		local newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetDamageTextPacket()
+		local newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetAIDamageTextPacket()
 	
 		while newDamageTextValue == true do
 			for i=1, #enemies do
@@ -478,7 +478,7 @@ function UpdateEnemies(dt)
 					break
 				end
 			end
-			newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetDamageTextPacket()
+			newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetAIDamageTextPacket()
 		end	
 
 

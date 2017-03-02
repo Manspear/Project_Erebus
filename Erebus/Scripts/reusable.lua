@@ -91,3 +91,27 @@ function PrintInfo()
 		Gear.Print(info, 120, 430, scale, color)
 	end
 end
+
+function TriggerChecks(dt)
+	for _,v in pairs(levels[player.levelIndex].triggers) do
+		if v.collider:CheckCollision() then
+			if not v.collider.triggered then
+				if v.collider.OnEnter then
+					v.collider:OnEnter()
+				else
+					v.collider:OnTriggering(dt)
+				end
+				v.collider.triggered = true
+			else
+				v.collider:OnTriggering(dt)
+			end
+		else
+			if v.collider.triggered then
+				if v.collider.OnExit then
+					v.collider:OnExit()
+				end
+				v.collider.triggered = false
+			end
+		end
+	end	
+end
