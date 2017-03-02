@@ -29,6 +29,7 @@ namespace LuaCollision
 			{ "GetIDsFromLayer", getIDsFromLayer },
 			{ "Enable", enableCollisionHandler },
 			{ "Disable", disableCollisionHandler },
+			{ "IsHitboxCollidingWithLayer", isHitboxCollidingWithLayer },
 			{ "Reset", reset },
 			{ NULL, NULL }
 		};
@@ -755,6 +756,21 @@ return 0;
 	{
 		g_collisionHandler->setEnabled(false);
 		return 0;
+	}
+
+	int isHitboxCollidingWithLayer(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		HitBox* hitbox = getHitBox(lua,1);
+		int layer = (int)lua_tointeger(lua, 2);
+
+		bool colliding = g_collisionHandler->isHitboxCollidingWithLayer(hitbox, layer);
+
+		lua_pushboolean(lua, colliding);
+
+		return 1;
+
 	}
 
 	int reset( lua_State* lua )
