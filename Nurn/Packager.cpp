@@ -8,7 +8,7 @@ Packager::Packager(DebugNetwork * debugNetwork_ptr)
 Packager::Packager()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(5);
+	this->transformQueue = new PacketQueue<TransformPacket>(3);
 	this->animationQueue = new PacketQueue<AnimationPacket>(5);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(100);
 	this->spellQueue = new PacketQueue<SpellPacket>(20);
