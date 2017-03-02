@@ -1,6 +1,6 @@
 function LoadPlayer2()
 	-- set basic variables for the player2
-	player2.moveSpeed = 40
+	player2.moveSpeed = 10
 	player2.isAlive = true
 	player2.isCombined = false
 	player2.firstCombine = true
