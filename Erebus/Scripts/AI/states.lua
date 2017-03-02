@@ -9,8 +9,8 @@ end
 function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,player.transformID)
-	
 	if length <enemy.visionRange and player.isAlive then
+		print("Idle ", length)
 		inState = FOLLOW_STATE
 		changeToState(enemy,player,inState)
 	end
@@ -28,16 +28,17 @@ end
 
 function state.followState.update(enemy,player,dt)
 	--Transform.Follow(player.transformID, enemy.transformID, enemy.movementSpeed , dt)
+
 	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
 
 		------ CANT GO BACK INTO IDLE
 
-		--if length >enemy.visionRange then
-		--	inState = "IdleState" 
-		--	changeToState(enemy,player,inState)
-		--	print("hehe idle")
-		--end
+		if length >enemy.visionRange then
+			inState = IDLE_STATE
+			changeToState(enemy,player,inState)
+			print("hehe idle")
+		end
 
 		----------------
 
