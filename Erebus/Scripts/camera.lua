@@ -57,6 +57,12 @@ function vec3gief(a, b)
 	a.x, a.y, a.z = b.x, b.y, b.z
 end
 
+function vec3normalize(a)
+	local length =  math.sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z))
+	a.x, a.y, a.z = a.x / length, a.y / length, a.z / length
+	return a
+end
+
 function ZoomInCamera()
 	if camera.state ~= STATE_ZOOMING_IN then
 		camera.state = STATE_ZOOMING_IN

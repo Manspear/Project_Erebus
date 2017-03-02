@@ -7,6 +7,7 @@ KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 DASH_SPEED_MULTIPLE = 3.2 + 0.1875
+PLAYER_MOVESPEED = 10
 --Used for spellCharging
 FIRE=0
 NATURE=1
@@ -44,7 +45,7 @@ function LoadPlayer()
 	end
 
 	-- set basic variables for the player
-	player.moveSpeed = 10
+	player.moveSpeed = PLAYER_MOVESPEED
 	player.levelIndex = 1
 	player.isAlive = true
 	player.isControlable = true
@@ -160,8 +161,7 @@ function LoadPlayer()
 
 	-- add a sphere collider to the player
 	player.sphereCollider = SphereCollider.Create(player.transformID)
-	CollisionHandler.AddSphere(player.sphereCollider)
-	--player.sphereCollider:GetCollisionIDs()
+	CollisionHandler.AddSphere(player.sphereCollider, 1)
 	player.collisionID = player.sphereCollider:GetID()
 	Transform.SetPosition(player.transformID, {x=0, y=0, z=0})
 
@@ -172,10 +172,6 @@ function LoadPlayer()
 	player.controller:SetTransform(player.transformID)
 	player.controller:SetCollisionLayer(3) -- the layer the walls is at THIS IS HARDCODED DAMN (Player checks collision against these hitboxes before moving)
 
-	-- load and set a model for the player
-	--local model = Assets.LoadModel("Models/player1.model")
-	--Gear.AddAnimatedInstance(model, player.transformID, player.animationController.animation)
-	
 	player.spellDirection = { x = 0, y = 0, z = 0 }
 	Erebus.SetControls(player.transformID)
 	player.aim = CreateAim(player)
@@ -396,38 +392,36 @@ function UpdatePlayer(dt)
 	UI.reposWorld(player.deathImage, player.position.x, player.position.y+2.1, player.position.z)
 
 	right = Camera.GetRight()
-
 	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.5, player.position.z - right.z * 0.30)
 	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.5, player.position.z + right.z * 0.30)
 
 	-- check collision against triggers and call their designated function
-	for _,v in pairs(levels[player.levelIndex].triggers) do
-		if v.collider:CheckCollision() then
-			if not v.collider.triggered then
-				if v.collider.OnEnter then
-					v.collider:OnEnter()
-				else
-					v.collider:OnTriggering(dt)
-				end
-				v.collider.triggered = true
-			else
-				v.collider:OnTriggering(dt)
-			end
-		else
-			if v.collider.triggered then
-				if v.collider.OnExit then
-					v.collider:OnExit()
-				end
-				v.collider.triggered = false
-			end
-		end
-	end		
+	TriggerChecks(dt)
+	EnemyCollisionChecks()		
 	UpdateCamera(dt)
 end
 
 function SendCombine(spell)
 	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
 	Network.SendChargingPacket(player.currentSpell, true)
+end
+
+function EnemyCollisionChecks()
+	local collisionIDs = player.sphereCollider:GetCollisionIDs()
+	local pushVector = 0
+	local enemyPos = 0
+	local pushLength = 0
+	for curID = 1, #collisionIDs do	
+		for curEnemy=1, #enemies do
+			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				--enemyPos = Transform.GetPosition(enemies[curEnemy].transformID)
+				--pushVector = vec3normalize(vec3sub({x = player.position.x, y = 0, player.position.z}, {x = enemyPos.x, y = 0, z = enemyPos.z}))
+				--pushLength = vec3length(pushVector)
+				--Transform.SetPosition(player.transformID, (vec3add(player.position, scalarvec3mult(enemies[curEnemy].sphereCollider:GetRadius() - player.sphereCollider:GetRadius(), pushVector))))
+				--player.moveSpeed = 
+			end
+		end
+	end	
 end
 
 function Controls(dt)

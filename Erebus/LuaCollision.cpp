@@ -51,6 +51,7 @@ namespace LuaCollision
 			{ "GetCollisionIDs",	getCollisionIDs },
 			{ "CheckCollision",		checkCollision },
 			{ "SetRadius",			setRadius },
+			{ "GetRadius",          getRadius },
 			{ "GetID",				getID },
 			{ "SetActive",			setActive },
 			{ "AddChild",			addChild },
@@ -421,6 +422,16 @@ return 0;
 		collider->setRadius( radius );
 
 		return 0;
+	}
+
+	int getRadius(lua_State* lua)
+	{
+		assert(lua_gettop(lua) == 1);
+
+		SphereCollider* collider = (SphereCollider*)getHitBox(lua, 1);
+		lua_pushnumber(lua, collider->getRadius());
+
+		return 1;
 	}
 
 	int setActive(lua_State * lua)

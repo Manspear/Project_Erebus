@@ -33,7 +33,7 @@ function SluiceUpdate(dt, sluice)
 	for i = 1, #colIDs do
 		if colIDs[i] == player.collisionID then playersInside.p1 = true end  
 		if colIDs[i] == player2.collisionID then playersInside.p2 = true end  
-		if playersInside.p1 and playersInside.p2 then
+		if playersInside.p1 or playersInside.p2 then
 			hideWaitingForPlayer2(dt)
 			sluice.sluiceTime = sluice.sluiceTime - dt
 			sluice.lowering = sluice.lowering - dt * 2
