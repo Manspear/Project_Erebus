@@ -479,8 +479,8 @@ namespace Collisions
 	}
 	void CollisionHandler::setHardcodedSettings()
 	{
-		const int PLAYER_LAYER = 0;
-		const int ENEMY_LAYER = 1;
+		const int ENEMY_LAYER = 0;
+		const int PLAYER_LAYER = 1;
 		const int SPELLS_LAYER = 2;
 		const int STATIC_LAYER = 3;
 		const int TRIGGER_LAYER = 4;
