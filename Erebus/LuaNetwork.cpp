@@ -375,9 +375,10 @@ namespace LuaNetwork
 	int sendDamagePacket(lua_State* lua)
 	{
 		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
-		float  damage = (float)lua_tonumber(lua, 2);
+		float damage = (float)lua_tonumber(lua, 2);
+		uint8_t element = (uint8_t)lua_tointeger(lua, 3);
 
-		g_networkController->sendDamagePacket(DamagePacket(index, damage));
+		g_networkController->sendDamagePacket(DamagePacket(index, damage, element));
 
 		return 0;
 	}
@@ -391,15 +392,17 @@ namespace LuaNetwork
 			lua_pushboolean(lua, true);
 			lua_pushnumber(lua, damagePacket.data.transformID);
 			lua_pushnumber(lua, damagePacket.data.damage);
+			lua_pushnumber(lua, damagePacket.data.element);
 		}
 		else
 		{
 			lua_pushboolean(lua, false);
 			lua_pushnumber(lua, 0);
 			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
 		}
 
-		return 3;
+		return 4;
 	}
 
 	int sendChangeSpellsPacket(lua_State* lua)

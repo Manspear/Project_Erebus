@@ -112,29 +112,31 @@ function CreateEnemy(type, position, element)
 		local pos = Transform.GetPosition(self.transformID)
 
 		if source ~= player2 then
-			if Network.GetNetworkHost() == true and self.alive == true then
-				damage = self.elementType ~= element and damage or damage * 0.5
-				self.health = self.health - damage
-				--print("ID:", self.transformID, "Sending new health:", self.health)
-				Network.SendAIHealthPacket(self.transformID, self.health)
-				self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
-				self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
-				if element then
-					Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
-				end
+			if Network.GetNetworkHost() == true then
+				if self.alive == true then
+					damage = self.elementType ~= element and damage or damage * 0.5
+					self.health = self.health - damage
+					--print("ID:", self.transformID, "Sending new health:", self.health)
+					Network.SendAIHealthPacket(self.transformID, self.health)
+					self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
+					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+					if element then
+						Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
+					end
 
-				if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
+					if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
 
-					--print("Dead for host", enemies[i].transformID)
-					self.health = 0
-					self:Kill()
-				elseif self.health < 1 and self.stateName == DUMMY_STATE  then
-					self.health = self.maxHealth
-					self.currentHealth = self.maxHealth
+						--print("Dead for host", enemies[i].transformID)
+						self.health = 0
+						self:Kill()
+					elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+						self.health = self.maxHealth
+						self.currentHealth = self.maxHealth
+					end
 				end
 			else
 				--print("Sending damage", self.transformID, damage)
-				Network.SendDamagePacket(self.transformID, damage)
+				Network.SendDamagePacket(self.transformID, damage, element)
 			end
 		end		
 	end
@@ -360,17 +362,17 @@ function UpdateEnemies(dt)
 			Transform.UpdateRotationFromLookVector(enemies[i].transformID);
 		end
 		-- Empty DamagePacket queue and apply the values to the host AI
-		local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+		local newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 		while newDamageVal == true do 
 			for i=1, #enemies do
 				--print("Receiving damage", enemies[i].transformID, dmg_transformID, dmg_damage)
 				if enemies[i].transformID == dmg_transformID then
-					enemies[i]:Hurt(dmg_damage, player)
+					enemies[i]:Hurt(dmg_damage, player, dmg_element)
 					break
 				end
 			end
 
-			newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+			newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 		end
 
 	else
