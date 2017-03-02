@@ -35,6 +35,9 @@ namespace Collisions
 
 		//setters
 		COLLISIONS_EXPORTS void setEnabled(bool enabled);
+		COLLISIONS_EXPORTS void setHardcodedSettings();
+		COLLISIONS_EXPORTS void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);//CollisionLayerPassThrough functions
+		COLLISIONS_EXPORTS void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);//change if two layers can collide in the layerMatrix
 
 		//getters
 		COLLISIONS_EXPORTS std::string getCollisionText();
@@ -43,19 +46,14 @@ namespace Collisions
 		COLLISIONS_EXPORTS std::vector<RayCollider*>* getRayColliders();
 		COLLISIONS_EXPORTS const std::vector<int>& getAllIDsFromLayer(int layer);
 
-		//CollisionLayerPassThrough functions
-		COLLISIONS_EXPORTS void setLayerCollisionMatrix(bool** layerMatrix, unsigned int layerMatrixSize);
-
-		//change if two layers can collide in the layerMatrix
-		COLLISIONS_EXPORTS void setLayerCollisionMatrix(int layer1, int layer2, bool canCollide);
-
 		COLLISIONS_EXPORTS void deactiveteAllHitboxes();
 		COLLISIONS_EXPORTS void activeteAllHitboxes();
 
 		COLLISIONS_EXPORTS void printCollisions();
 
 		COLLISIONS_EXPORTS void reset();
-		COLLISIONS_EXPORTS void setHardcodedSettings();
+
+		COLLISIONS_EXPORTS bool isHitboxCollidingWithLayer(HitBox* hitbox, int layer);
 
 	private:
 		std::vector<SphereCollider*> sphereColliders;

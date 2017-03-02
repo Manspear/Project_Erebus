@@ -458,6 +458,25 @@ namespace Collisions
 		leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		leafHitboxIDSaver->resize(layerAmount);
 	}
+	bool CollisionHandler::isHitboxCollidingWithLayer(HitBox* hitbox, int layer) 
+	{
+		std::vector<int>* hitboxCollisionIDs = hitbox->getIDCollisionsRef();
+		std::vector<int> layerIDs = this->getAllIDsFromLayer(layer);
+
+		bool collidingWithLayer = false;
+		for (size_t i = 0; i < hitboxCollisionIDs->size() && !collidingWithLayer; i++) // for every id the hitbox is colliding with
+		{
+			for (size_t j = 0; j < layerIDs.size() && !collidingWithLayer; j++) // for every id on specific layer
+			{
+				if (hitboxCollisionIDs->operator[](i) == layerIDs[j]) // if hitbox have a collision with a ID on that layer
+				{
+					collidingWithLayer = true;
+				}
+			}
+		}
+
+		return collidingWithLayer;
+	}
 	void CollisionHandler::setHardcodedSettings()
 	{
 		for (int i = 0; i < this->layerAmount; i++) // no layer collide with itself
