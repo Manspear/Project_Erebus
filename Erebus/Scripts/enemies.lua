@@ -209,7 +209,7 @@ function CreateEnemy(type, position, element)
 
 	Transform.SetPosition(enemies[i].transformID, position)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
-	enemies[i].sphereCollider:SetRadius(2)
+	enemies[i].sphereCollider:SetRadius(1)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 	if Network.GetNetworkHost() == true then
