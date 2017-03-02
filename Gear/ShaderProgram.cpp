@@ -67,9 +67,19 @@ ShaderProgram::~ShaderProgram()
 {
 	glDeleteProgram(programID);
 	if (textureIDs != nullptr)
+	{
+		for (int i = 0; i < nrOfTextures; i++)
+		{
+			glDeleteTextures(1, &textureIDs[i]);
+		}
 		delete textureIDs;
+	}
+		
 	if (shaderIDs != nullptr)
+	{
 		delete shaderIDs;
+	}
+		
 }
 
 void ShaderProgram::framebufferInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments)

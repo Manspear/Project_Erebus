@@ -29,7 +29,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
-		shadow.Init(WINDOW_HEIGHT, WINDOW_HEIGHT, dirLights[0]);
+//		shadow.Init(WINDOW_HEIGHT, WINDOW_HEIGHT, dirLights[0]);
 
 	}
 
@@ -301,29 +301,23 @@ namespace Gear
 		//queue.update(*transformCount, *allTrans);
 		Camera tempCamera;
 
-		shadow.calcOrthoProjs(camera);
+		skybox->updateCascadeShadows(camera);
 
 		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);	
-		
-		for (int i = 0; i < shadow.getNumCascades(); i++)
+		glCullFace(GL_BACK);
+		if (skybox->isShadowsEnabled())
 		{
-			shadow.bind(i);
-			ShaderProgram *shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
-			shader->use();
-			shader->setUniform(shadow.getShadowMatrix()[i], "ViewProjectionMatrix");
-			shader->unUse();
+			ShaderProgram *shadowGeomeryShader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+			ShaderProgram *shadowAnimationshader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
 
-			shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
-			shader->use();
-			shader->setUniform(shadow.getShadowMatrix()[i], "ViewProjectionMatrix");
-			shader->unUse();
+			for (int i = 0; i < shadow.getNumCascades(); i++)
+			{
+				skybox->readyShadowForDraw(i, shadowGeomeryShader, shadowAnimationshader);
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
-			shadow.unBind();
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+			}
 		}
-
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
@@ -375,11 +369,11 @@ namespace Gear
 		text.draw();
 
 		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
-		for (int i = 0; i < shadow.getNumCascades(); i++)
+		for (int i = 0; i < skybox->numCascades(); i++)
 		{
-			glViewport((WINDOW_WIDTH - (10 + 200 * shadow.getNumCascades() + 10 * shadow.getNumCascades())) + (10 + 200 * i + 10 * i), WINDOW_HEIGHT - 210, 200, 200);
+			glViewport((WINDOW_WIDTH - (10 + 200 * skybox->numCascades() + 10 * skybox->numCascades())) + (10 + 200 * i + 10 * i), WINDOW_HEIGHT - 210, 200, 200);
 			shader->use();
-			shadow.bindTexture(shader, "diffuse", 0, i);
+			skybox->getShadow()->bindTexture(shader, "diffuse", 0, i);
 			drawQuad(); //draws quad
 			shader->unUse();
 		}
@@ -638,19 +632,17 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(shader, "gAlbedoSpec", 0, 0); //binds textures
 		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
-
-		for (GLuint i = 0; i < shadow.getNumCascades(); i++)
+		if (skybox->isShadowsEnabled())
 		{
-			shadow.bindTexture(shader, ("gShadowMap[" + std::to_string(i) + "]").c_str(), 3 + i, i);
-
-			glm::vec4 View = { 0.0f, 0.0f, -shadow.getSplitDistance()[i], 1.0f };
-			glm::vec4 Clip = camera->getProjectionMatrix() * View;
-
-			Clip.z /= Clip.w;
-
-			shader->setUniform((shadow.getShadowMatrix()[i]), ("lightWVP[" + std::to_string(i) + "]").c_str());
-			shader->setUniform((Clip.z), ("CascadeEndClipSpace[" + std::to_string(i) + "]").c_str());
+			skybox->updateLightPass(shader);
+			shader->setUniform(1, "shadowEnabled");
+			shader->setUniform(skybox->numCascades(), "num_cascades");
 		}
+		else {
+			shader->setUniform(0, "shadowEnabled");
+		}
+			
+		
 
 		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
 		//shader->setUniform(shadow.projectionMatrices[1] * shadow.viewMatrices[1], "shadowVPM"); //shadowVPM

@@ -73,6 +73,7 @@ namespace LuaGear
 	int setBlend(lua_State* lua);
 	int getHours(lua_State* lua);
 	int getMinutes(lua_State* lua);
+	int setShadow(lua_State* lua);
 
 	int printDamageNumer(lua_State* lua);
 }

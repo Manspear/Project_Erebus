@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include <math.h>
 #include "Light.h"
+#include "CascadedShadowMap.h"
 
 namespace Gear 
 {
@@ -42,6 +43,16 @@ namespace Gear
 
 		GEAR_API int getHours();
 		GEAR_API int getMinutes();
+
+		GEAR_API void readyShadowForDraw(int cascadeIndex, ShaderProgram* geomerty, ShaderProgram* animation);
+		GEAR_API void unbindShadow();
+		GEAR_API void updateCascadeShadows(Camera* camera);
+		GEAR_API void updateLightPass(ShaderProgram* shader);
+		GEAR_API bool isShadowsEnabled();
+		GEAR_API void setShadowsEnabled(bool enabled);
+		GEAR_API int numCascades();
+
+		GEAR_API CascadedShadowMap* getShadow() { return &this->shadowMap; }
 
 	private:
 
@@ -113,6 +124,10 @@ namespace Gear
 		Lights::DirLight sun;
 		//The sun updated with rotation and color
 		Lights::DirLight currentSun;
+
+		const float CASCADE_TEXTURE_SIZE = 720.f;
+		CascadedShadowMap shadowMap;
+		bool shadowsEnabled = true;
 
 		GLuint skyboxVAO;
 		GLuint skyboxVBO;

@@ -23,7 +23,7 @@ void Gear::Skybox::init()
 
 	skyboxShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "skybox");
 
-	//dayCycleLength = 120.0f;
+	dayCycleLength = 120.0f;
 	hoursPerDay = 24.0f;
 	dawnTimeOffset = 3.0f;
 	quarterDay = dayCycleLength * 0.25f;
@@ -79,6 +79,8 @@ void Gear::Skybox::init()
 	faces.push_back("skybox/nightFront.dds");
 	faces.push_back("skybox/nightBack.dds");
 	nightTextureID = this->loadCubemap(faces);
+
+	shadowMap.Init(CASCADE_TEXTURE_SIZE, CASCADE_TEXTURE_SIZE, &currentSun);
 }
 
 GLuint Gear::Skybox::loadTexture(GLchar * path, GLboolean alpha)
@@ -257,6 +259,54 @@ GEAR_API int Gear::Skybox::getHours()
 GEAR_API int Gear::Skybox::getMinutes()
 {
 	return this->minutes;
+}
+
+GEAR_API void Gear::Skybox::unbindShadow()
+{
+	shadowMap.unBind();
+}
+
+GEAR_API void Gear::Skybox::updateCascadeShadows(Camera* camera)
+{
+	shadowMap.calcOrthoProjs(camera);
+}
+
+GEAR_API void Gear::Skybox::updateLightPass(ShaderProgram * shader)
+{
+	for (GLuint i = 0; i < shadowMap.getNumCascades(); i++)
+	{
+		shadowMap.bindTexture(shader, ("gShadowMap[" + std::to_string(i) + "]").c_str(), 3 + i, i);
+
+		shader->setUniform((shadowMap.getShadowMatrix()[i]), ("lightWVP[" + std::to_string(i) + "]").c_str());
+		shader->setUniform((shadowMap.getSplitDistance()[i]), ("CascadeEndClipSpace[" + std::to_string(i) + "]").c_str());
+	}
+}
+
+GEAR_API bool Gear::Skybox::isShadowsEnabled()
+{
+	return this->shadowsEnabled;
+}
+
+GEAR_API void Gear::Skybox::setShadowsEnabled(bool enabled)
+{
+	this->shadowsEnabled = enabled;
+}
+
+GEAR_API int Gear::Skybox::numCascades()
+{
+	return this->shadowMap.getNumCascades();
+}
+
+GEAR_API void Gear::Skybox::readyShadowForDraw(int cascadeIndex, ShaderProgram * geomerty, ShaderProgram * animation)
+{
+	geomerty->use();
+	geomerty->setUniform(shadowMap.getShadowMatrix()[cascadeIndex], "ViewProjectionMatrix");
+	geomerty->unUse();
+
+	animation->use();
+	animation->setUniform(shadowMap.getShadowMatrix()[cascadeIndex], "ViewProjectionMatrix");
+
+	shadowMap.bind(cascadeIndex);
 }
 
 GEAR_API glm::vec3 Gear::Skybox::getFogColor()

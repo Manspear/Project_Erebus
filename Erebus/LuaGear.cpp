@@ -115,6 +115,7 @@ namespace LuaGear
 			{ "Override", setOverride },
 			{ "GetHours", getHours },
 			{ "GetMinutes", getMinutes },
+			{ "Shadows", setShadow },
 			{ NULL, NULL }
 		};
 
@@ -776,6 +777,15 @@ namespace LuaGear
 	{
 		lua_pushnumber(lua, g_skybox->getMinutes());
 		return 1;
+	}
+
+	int setShadow(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 1);
+		bool shadowEnabled = lua_toboolean(lua, 1);
+
+		g_skybox->setShadowsEnabled(shadowEnabled);
+		return 0;
 	}
 
 	int printDamageNumer(lua_State * lua)
