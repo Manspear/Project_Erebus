@@ -479,9 +479,17 @@ namespace Collisions
 	}
 	void CollisionHandler::setHardcodedSettings()
 	{
+		const int PLAYER_LAYER = 0;
+		const int ENEMY_LAYER = 1;
+		const int SPELLS_LAYER = 2;
+		const int STATIC_LAYER = 3;
+		const int TRIGGER_LAYER = 4;
 		for (int i = 0; i < this->layerAmount; i++) // no layer collide with itself
 		{
 			this->setLayerCollisionMatrix(i, i, false);
 		}
+		this->setLayerCollisionMatrix(STATIC_LAYER, TRIGGER_LAYER, false);
+		this->setLayerCollisionMatrix(ENEMY_LAYER, TRIGGER_LAYER, false);
+		this->setLayerCollisionMatrix(SPELLS_LAYER, TRIGGER_LAYER, false);
 	}
 }
