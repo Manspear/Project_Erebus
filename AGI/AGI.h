@@ -15,7 +15,7 @@
 
 #include"HeightMap.h"
 
-const int MAXSIZEPATH = 100;
+const int MAXSIZEPATH = 200;
 
 namespace AGI
 {
@@ -707,13 +707,14 @@ namespace AGI
 					starterNode->setStrength(0);
 
 					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList,sizeOfOpenList, closedList, sizeOfClosedList);
-
-					while (finishNode == nullptr && sizeOfClosedList < MAXSIZEPATH && sizeOfOpenList < 190)
+					int superCounter = 0;
+					while (finishNode == nullptr && superCounter < MAXSIZEPATH)
 					{
 						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, sizeOfOpenList, closedList, sizeOfClosedList);
+						superCounter++;
 					}
 
-					if (sizeOfClosedList < MAXSIZEPATH && sizeOfOpenList < 190)
+					if (superCounter < MAXSIZEPATH)
 					{
 						float countDown = 66;
 						if (finishNode != nullptr)

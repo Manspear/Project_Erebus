@@ -32,15 +32,11 @@ function state.followState.update(enemy,player,dt)
 	if enemy.subPathtarget == nil then
 		length =  AI.DistanceTransTrans(enemy.transformID,enemy.playerTarget.transformID)
 
-		------ CANT GO BACK INTO IDLE
-
-		if length >enemy.visionRange then
+		if length >enemy.visionRange and enemy.aggro == false then
 			inState = IDLE_STATE
 			changeToState(enemy,player,inState)
 			print("hehe idle")
 		end
-
-		----------------
 
 		if enemy.playerTarget.nrOfInnerCircleEnemies < 1000 then 
 			if length < enemy.playerTarget.innerCirclerange then
@@ -91,6 +87,7 @@ end
 
 function state.followState.exit(enemy,player)
 	AI.ClearAStar(enemy.transformID)
+	enemy.aggro = false
 end
 
 
@@ -147,24 +144,33 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 			inState = FOLLOW_STATE
 			changeToState(enemy,enemy.playerTarget,inState)
 		else
-
+			print(enemyManager.actionEnemy, "TOO MANY")
 			if enemyManager.actionEnemy < enemyManager.maxAttackingEnemies  then
 				enemyManager.actionEnemy = enemyManager.actionEnemy +1
 				randomNum = math.random(0, 1)
 				if randomNum == 0 then
-				
+					print("NORMAL ATTACK  ",enemy.playerTarget.nrOfInnerCircleEnemies)
 					inState = ATTACK_STATE 
 					changeToState(enemy,enemy.playerTarget,inState)
 
 				end
 				if randomNum == 1 then
-				
+					print("LEAP ATTACK  ",enemy.playerTarget.nrOfInnerCircleEnemies)
 					inState = LEAP_STATE 
 					changeToState(enemy,enemy.playerTarget,inState)
 
 				end
 
 			end
+			
+			if enemy.health<8 then
+				randomNum = math.random(0, 2)
+				if randomNum == 2 then
+					inState = RUN_AWAY_STATE 
+					changeToState(enemy,enemy.playerTarget,inState)
+				end
+			end
+
 		end
 
 end
@@ -185,7 +191,8 @@ end
 
 function state.positioningOuterState.update(enemy,player,dt)
 
-	if (enemy.playerTarget.nrOfInnerCircleEnemies >= 1000) then
+
+	if (enemy.playerTarget.nrOfInnerCircleEnemies >= 3) then
 		if enemy.subPathtarget ~= nil then
 
 			local pos = Transform.GetPosition(enemy.transformID)
@@ -256,7 +263,6 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 			else
 				player:Hurt(12, enemy)
 			end
-			enemyManager.actionEnemy = enemyManager.actionEnemy -1
 			inState = POSITIONING_INNER_STATE
 			changeToState(enemy,enemy.playerTarget,inState)
 		end
@@ -276,54 +282,10 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		Transform.SetPosition(enemy.transformID,pos)
 	end
 	if length > 8 then
-		enemyManager.actionEnemy = enemyManager.actionEnemy -1
 		inState = FOLLOW_STATE
 		changeToState(enemy,enemy.playerTarget,inState)
 	end
 end
-
-------------NEWSTATE TEST WITH STOP------------------------
---function state.attackState.update(enemy,player,dt,enemyManager)
---	--print("X ",enemy.subPathtarget.x," Y ",enemy.subPathtarget.z)
---	--length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
---	length =  AI.DistanceTransTrans(enemy.transformID,player.transformID)
---
---	enemy.actionCountDown= enemy.actionCountDown - dt
---
---	print("length: " ,length)
---	if length < enemy.range then
---		if enemy.actionCountDown <0 then
---			player:Hurt(12)
-			--enemyManager.actionEnemy = -1
---			inState = "PositioningInnerState" 
---			changeToState(enemy,player,inState)
---		end
---	else
---		length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
---
---		if length > 1 then
---			local pos = Transform.GetPosition(enemy.transformID)
---			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
---		
---			Transform.SetLookAt(enemy.transformID,direction)
---		
---			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
---			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
---		
---			Transform.SetPosition(enemy.transformID,pos)
---		end
---
---		if enemy.actionCountDown <0 then
---			--player:Hurt(12)
-			--enemyManager.actionEnemy = -1
---			inState = "FollowState" 
---			changeToState(enemy,player,inState)
---		end
---		
---	end
---		
---
---end
 
 function state.attackState.exit(enemy,player)
 
@@ -331,6 +293,7 @@ function state.attackState.exit(enemy,player)
 	
 	enemy.playerTarget.nrOfInnerCircleEnemies = enemy.playerTarget.nrOfInnerCircleEnemies - 1
 	enemy.subPathtarget = nil
+	enemyManager.actionEnemy = enemyManager.actionEnemy -1
 end 
 
 
@@ -406,7 +369,6 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 			end
 		end	
 
-		enemyManager.actionEnemy = enemyManager.actionEnemy -1
 		inState = POSITIONING_INNER_STATE
 		changeToState(enemy,enemy.playerTarget,inState)
 	end
@@ -416,7 +378,7 @@ end
 
 function state.leapState.exit(enemy,player)
 	enemy.animationController:doWalk()
-	
+	enemyManager.actionEnemy = enemyManager.actionEnemy -1
 	enemy.playerTarget.nrOfInnerCircleEnemies = enemy.playerTarget.nrOfInnerCircleEnemies - 1
 	enemy.subPathtarget = nil
 	enemy.actionCountDown = 1.5
@@ -460,11 +422,106 @@ function state.doNothingState.exit(enemy,player)
 end 
 
 function state.runAwayState.enter(enemy, playerTarget)
+	------- Choose Random direction away from player
 
+	print("Lets Runaway together!!")
+	enemy.insideInnerCircleRange = false
+	-------
 end
 
 function state.runAwayState.update(enemy, playerTarget, dt)
+	---------
+	if enemy.health > enemy.maxHealth -4 then
+		inState = FOLLOW_STATE 
+		changeToState(enemy,enemy.playerTarget,inState)
+		do return end
+	end
 
+	enemy.actionCountDown= enemy.actionCountDown - dt	
+	length =  AI.DistanceTransTrans(enemy.transformID,enemy.playerTarget.transformID)
+	
+	if length > 8 and enemy.actionCountDown <0 then
+		-----------HEAL
+		enemy.currentHealth = enemy.currentHealth +2
+		enemy.health = enemy.health +2
+		enemy.actionCountDown = 3
+		print("pumped up!!")
+		------------------
+	--elseif length <4 then
+	---------------- Too close to player, run away
+	--	inState = RUN_AWAY_STATE 
+	--	changeToState(enemy,enemy.playerTarget,inState)
+
+	-----------
+	else
+		--- Keep on walking sunshine
+		if enemy.subPathtarget ~= nil then
+			local pos = Transform.GetPosition(enemy.transformID)
+			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
+
+			--Transform.SetLookAt(enemy.transformID,direction)
+			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+			
+		
+			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
+			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
+		
+			Transform.SetPosition(enemy.transformID,pos)
+
+			rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
+			if rangeTest < 0.8 then
+				enemy.subPathtarget = nil
+
+				--Transform.SetLookAt(enemy.transformID,direction)
+				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+			
+			end
+		else
+			if  enemy.pathTarget ~= nil then
+			
+				length =  AI.DistanceTransPos(enemy.playerTarget.transformID,enemy.pathTarget)
+
+				if length < 9 then
+					enemy.pathTarget = nil
+					do return end
+				end
+
+				local dir = AI.NavigateMesh(enemy.transformID)
+				if dir.y ~= -1 then
+					enemy.subPathtarget = dir
+				else
+					enemypathTarget = nil
+				end
+			else
+				littleRangecountDown = 24
+				local dirAngle = 0
+				while enemy.pathTarget == nil and littleRangecountDown ~= 0 do
+					
+					local testPos = Transform.GetPosition(enemy.playerTarget.transformID)
+					testPos.x = testPos.x + (littleRangecountDown * math.cos(dirAngle))
+					testPos.y = 0
+					testPos.z = testPos.z + (littleRangecountDown * math.sin(dirAngle))
+
+					
+					AI.AStarSearch(enemy.lastPos,testPos,enemy.transformID)
+					local dir = AI.NavigateMesh(enemy.transformID)
+
+					if dir.y ~= -1 then
+						enemy.pathTarget = testPos
+					else
+						dirAngle = dirAngle + 45
+						if dirAngle == 360 then
+							dirAngle = 0
+							littleRangecountDown = littleRangecountDown - 4
+						end
+					end
+				end
+			end
+		end
+		---
+	end
+
+	---------
 end
 
 function state.runAwayState.exit(enemy, playerTarget)
@@ -530,7 +587,7 @@ function changeToState(enemy,player,changeState)
 		Network.SendAIStatePacket(enemy.transformID,DO_NOTHING_STATE)
 	end 
 
-	if aiState == RUN_AWAY_STATE then
+	if changeState == RUN_AWAY_STATE then
 		enemy.state = state.runAwayState
 		--print("Sending RunAwayState", enemy.transformID, 8)
 		Network.SendAIStatePacket(enemy.transformID,RUN_AWAY_STATE)
