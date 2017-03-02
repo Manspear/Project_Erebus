@@ -21,7 +21,7 @@ function CreateChronoBall(entity)
 	spell.effectFlag = false
 	spell.maxChargeTime = CHRONOBALLMAXCHARGETIME
 	spell.chargedTime = 0
-	spell.hudtexture = Assets.LoadTexture("Textures/ChargeTemp.dds");
+	spell.hudtexture = Assets.LoadTexture("Textures/ChronoBallTexture.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	--local model = Assets.LoadModel( "Models/projectile1.model" )
@@ -102,6 +102,6 @@ function DestroyChronoBall(ball)
 
 	Gear.UnbindInstance(ball.transformID)
 	Assets.UnloadModel("Models/ChronoBall.model")
-	Assets.UnloadTexture("Textures/ChargeTemp.dds")
+	Assets.UnloadTexture("Textures/ChronoBallTexture.dds")
 	ball = nil
 end
