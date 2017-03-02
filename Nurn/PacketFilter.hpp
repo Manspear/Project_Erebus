@@ -49,7 +49,8 @@ public:
 	PacketQueue<EventPacket> * getEndEventQueue();
 	PacketQueue<HealthPacket> * getPlayerHealthQueue();
 	PacketQueue<HealthPacket> * getRessurectionQueue();
-	PacketQueue<DamagePacket> * getDamageTextQueue();
+	PacketQueue<DamagePacket> * getAIDamageTextQueue();
+	PacketQueue<DamagePacket> * getBossDamageTextQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -67,7 +68,9 @@ private:
 	PacketQueue<EventPacket> * endEventQueue;
 	PacketQueue<HealthPacket> * playerHealthQueue;
 	PacketQueue<HealthPacket> * ressurectionQueue;
-	PacketQueue<DamagePacket> * damageTextQueue;
+	PacketQueue<DamagePacket> * aiDamageTextQueue;
+	PacketQueue<DamagePacket> * bossDamageTextQueue;
+
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;
