@@ -121,7 +121,7 @@ function CreateEnemy(type, position, element)
 					self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 					if element then
-						Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
+						Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
 					end
 
 					if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then

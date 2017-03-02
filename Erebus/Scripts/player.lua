@@ -8,10 +8,11 @@ DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 DASH_SPEED_MULTIPLE = 3.2 + 0.1875
 --Used for spellCharging
-FIRE=1
-NATURE=2
-ICE=3
-NEUTRAL=4
+FIRE=0
+NATURE=1
+ICE=2
+NEUTRAL=3
+HEAL=4
 
 player = {}
 player2 = {}
