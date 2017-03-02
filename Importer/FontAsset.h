@@ -27,6 +27,8 @@ namespace Importer
 		IMPORTER_API void unload() override;
 		IMPORTER_API void upload() override;
 
+		IMPORTER_API void incrementReferenceCount() override;
+
 		IMPORTER_API int getWidth( char c );
 		IMPORTER_API glm::vec4 getUV( char c );
 		IMPORTER_API glm::vec2 getOffset( char c );
