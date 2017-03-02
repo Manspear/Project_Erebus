@@ -23,6 +23,7 @@ Packager::Packager()
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
 	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
+	this->damageTextQueue = new PacketQueue<DamagePacket>(100);
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -105,6 +106,11 @@ Packager::~Packager()
 		delete this->ressurectionQueue;
 		this->ressurectionQueue = 0;
 	}
+	if (this->damageTextQueue)
+	{
+		delete this->damageTextQueue;
+		this->damageTextQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -151,6 +157,7 @@ void Packager::buildNetPacket()
 	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->endEventQueue, END_EVENT_PACKET);
 	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->playerHealthQueue, PLAYER_HEALTH_PACKET);
 	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->ressurectionQueue, RESSURECTION_PACKET);
+	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->damageTextQueue, DAMAGE_TEXT_PACKET);
 	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
@@ -229,6 +236,11 @@ void Packager::pushPlayerHealthPacket(const HealthPacket& packet)
 void Packager::pushRessurectionPacket(const HealthPacket& packet)
 {
 	this->ressurectionQueue->push(packet);
+}
+
+void Packager::pushDamageTextPacket(const DamagePacket& packet)
+{
+	this->damageTextQueue->push(packet);
 }
 
 template<class packetType>

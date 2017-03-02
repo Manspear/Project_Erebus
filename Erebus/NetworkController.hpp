@@ -70,6 +70,9 @@ public:
 	void sendRessurectionPacket(const HealthPacket& packet);
 	bool fetchRessurectionPacket(HealthPacket& packet);
 
+	void sendDamageTextPacket(const DamagePacket& packet);
+	bool fetchDamageTextPacket(DamagePacket& packet);
+
 #ifdef DEBUGGING_NETWORK
 	float getPing();
 #endif

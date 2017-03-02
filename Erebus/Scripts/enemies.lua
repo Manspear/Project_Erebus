@@ -116,12 +116,12 @@ function CreateEnemy(type, position, element)
 				if self.alive == true then
 					damage = self.elementType ~= element and damage or damage * 0.5
 					self.health = self.health - damage
-					--print("ID:", self.transformID, "Sending new health:", self.health)
 					Network.SendAIHealthPacket(self.transformID, self.health)
 					self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 					if element then
-						Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
+						Network.SendDamageTextPacket(self.transformID, damage, element)
+						Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
 					end
 
 					if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
@@ -271,7 +271,7 @@ function UpdateEnemies(dt)
 	end
 	local tempdt
 
-	if Network.GetNetworkHost() == true then
+	if Network.GetNetworkHost() == true then 
 		aiScript.updateEnemyManager(enemies)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
@@ -426,8 +426,6 @@ function UpdateEnemies(dt)
 					break
 				end
 			end
-
-
 			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 		end
 		
@@ -461,6 +459,20 @@ function UpdateEnemies(dt)
 				INTERPOLATING_AI_TRANSFORM = false
 			end
 		end
+
+		-- Print floating damage text for client
+		local newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetDamageTextPacket()
+	
+		while newDamageTextValue == true do
+			for i=1, #enemies do
+				if enemies[i].transformID == dmgText_transformID then
+					local enemyPosition = Transform.GetPosition(dmgText_transformID)
+					Gear.PrintDamage(dmgText_damage, dmgText_element-1, enemyPosition.x, enemyPosition.y+1, enemyPosition.z )
+					break
+				end
+			end
+			newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetDamageTextPacket()
+		end	
 
 
 		for i=1, #enemies do
