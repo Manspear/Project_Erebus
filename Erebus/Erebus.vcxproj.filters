@@ -10,7 +10,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source.cpp" />
     <ClCompile Include="LuaAi.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -80,6 +79,7 @@
     <ClCompile Include="CollisionUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
