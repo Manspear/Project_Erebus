@@ -19,7 +19,6 @@ namespace Collisions {
 		}
 
 		this->resetLayerCollisionCheckedMatrix(); // all layer collisions are set to false
-
 		this->allColliders.resize(layerMatrixSize);
 		this->sphereColliders.resize(layerMatrixSize); // resize to fit the amount of layers we have, fake 2d array
 		this->aabbColliders.resize(layerMatrixSize);
@@ -101,7 +100,8 @@ namespace Collisions {
 	{
 		std::vector<AABBCollider*>* colliders = nullptr;
 
-		colliders = &this->aabbColliders[layer];
+		if (layer < this->layerMatrixSize) // if there is a layer
+			colliders = &this->aabbColliders[layer];
 
 		return colliders;
 	}
@@ -110,7 +110,8 @@ namespace Collisions {
 	{
 		std::vector<OBBCollider*>* colliders = nullptr;
 
-		colliders = &this->obbColliders[layer];
+		if (layer < this->layerMatrixSize) // if there is a layer
+			colliders = &this->obbColliders[layer];
 
 		return colliders;
 	}
@@ -119,7 +120,9 @@ namespace Collisions {
 	{
 		std::vector<RayCollider*>* rays = nullptr;
 
-		rays = &this->rayColliders[layer];
+		if (layer < this->layerMatrixSize) // if there is a layer
+			rays = &this->rayColliders[layer];
+
 		return rays;
 	}
 
@@ -162,7 +165,7 @@ namespace Collisions {
 				}
 			}
 			if (deleted)
-				i = this->sphereColliders.size();
+				i = this->sphereColliders.size(); // early exit
 		}
 
 		if (!deleted)
@@ -180,7 +183,7 @@ namespace Collisions {
 
 				}
 				if (deleted)
-					i = this->aabbColliders.size();
+					i = this->aabbColliders.size(); // early exit
 
 			}
 		}
@@ -200,7 +203,7 @@ namespace Collisions {
 
 				}
 				if (deleted)
-					i = this->obbColliders.size();
+					i = this->obbColliders.size(); // early exit
 
 			}
 		}
@@ -220,7 +223,7 @@ namespace Collisions {
 
 				}
 				if (deleted)
-					i = this->rayColliders.size();
+					i = this->rayColliders.size(); // early exit
 
 			}
 		}
@@ -241,7 +244,6 @@ namespace Collisions {
 				}
 
 			}
-			assert(allCollidersDeleted);
 		}
 
 		return deleted;

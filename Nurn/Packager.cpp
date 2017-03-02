@@ -8,7 +8,7 @@ Packager::Packager(DebugNetwork * debugNetwork_ptr)
 Packager::Packager()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(5);
+	this->transformQueue = new PacketQueue<TransformPacket>(3);
 	this->animationQueue = new PacketQueue<AnimationPacket>(5);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(100);
 	this->spellQueue = new PacketQueue<SpellPacket>(20);
@@ -23,6 +23,8 @@ Packager::Packager()
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
 	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
+	this->aiDamageTextQueue = new PacketQueue<DamagePacket>(100);
+	this->bossDamageTextQueue = new PacketQueue<DamagePacket>(10);
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -105,6 +107,16 @@ Packager::~Packager()
 		delete this->ressurectionQueue;
 		this->ressurectionQueue = 0;
 	}
+	if (this->aiDamageTextQueue)
+	{
+		delete this->aiDamageTextQueue;
+		this->aiDamageTextQueue = 0;
+	}
+	if (this->bossDamageTextQueue)
+	{
+		delete this->bossDamageTextQueue;
+		this->bossDamageTextQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -151,6 +163,8 @@ void Packager::buildNetPacket()
 	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->endEventQueue, END_EVENT_PACKET);
 	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->playerHealthQueue, PLAYER_HEALTH_PACKET);
 	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->ressurectionQueue, RESSURECTION_PACKET);
+	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->aiDamageTextQueue, AI_DAMAGE_TEXT_PACKET);
+	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->bossDamageTextQueue, BOSS_DAMAGE_TEXT_PACKET);
 	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
@@ -229,6 +243,16 @@ void Packager::pushPlayerHealthPacket(const HealthPacket& packet)
 void Packager::pushRessurectionPacket(const HealthPacket& packet)
 {
 	this->ressurectionQueue->push(packet);
+}
+
+void Packager::pushAIDamageTextPacket(const DamagePacket& packet)
+{
+	this->aiDamageTextQueue->push(packet);
+}
+
+void Packager::pushBossDamageTextPacket(const DamagePacket& packet)
+{
+	this->bossDamageTextQueue->push(packet);
 }
 
 template<class packetType>

@@ -29,6 +29,7 @@ namespace LuaCollision
 			{ "GetIDsFromLayer", getIDsFromLayer },
 			{ "Enable", enableCollisionHandler },
 			{ "Disable", disableCollisionHandler },
+			{ "IsHitboxCollidingWithLayer", isHitboxCollidingWithLayer },
 			{ "Reset", reset },
 			{ NULL, NULL }
 		};
@@ -51,6 +52,7 @@ namespace LuaCollision
 			{ "GetCollisionIDs",	getCollisionIDs },
 			{ "CheckCollision",		checkCollision },
 			{ "SetRadius",			setRadius },
+			{ "GetRadius",          getRadius },
 			{ "GetID",				getID },
 			{ "SetActive",			setActive },
 			{ "AddChild",			addChild },
@@ -423,6 +425,16 @@ return 0;
 		return 0;
 	}
 
+	int getRadius(lua_State* lua)
+	{
+		assert(lua_gettop(lua) == 1);
+
+		SphereCollider* collider = (SphereCollider*)getHitBox(lua, 1);
+		lua_pushnumber(lua, collider->getRadius());
+
+		return 1;
+	}
+
 	int setActive(lua_State * lua)
 	{
 		assert( lua_gettop( lua ) == 2 );
@@ -755,6 +767,21 @@ return 0;
 	{
 		g_collisionHandler->setEnabled(false);
 		return 0;
+	}
+
+	int isHitboxCollidingWithLayer(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		HitBox* hitbox = getHitBox(lua,1);
+		int layer = (int)lua_tointeger(lua, 2);
+
+		bool colliding = g_collisionHandler->isHitboxCollidingWithLayer(hitbox, layer);
+
+		lua_pushboolean(lua, colliding);
+
+		return 1;
+
 	}
 
 	int reset( lua_State* lua )

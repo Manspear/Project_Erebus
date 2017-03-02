@@ -20,9 +20,10 @@ FloatingDamage::FloatingDamage()
 	VBO = 0;
 
 	diffColors[eDamageTypes::FIRE] = glm::vec4(1, 0, 0, baseAlpha);
-	diffColors[eDamageTypes::GRASS] = glm::vec4(0, 1, 0, baseAlpha);
+	diffColors[eDamageTypes::GRASS] = glm::vec4(20/255.0, 109/255.0, 27/255.0, baseAlpha);
 	diffColors[eDamageTypes::COLD] = glm::vec4(0, 0, 1, baseAlpha);
 	diffColors[eDamageTypes::NEUTRAL] = glm::vec4(1, 1, 1, baseAlpha);
+	diffColors[eDamageTypes::HEAL] = glm::vec4(0, 1, 0, baseAlpha);
 }
 
 
