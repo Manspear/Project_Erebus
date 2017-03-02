@@ -23,7 +23,8 @@ PacketFilter::PacketFilter()
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
 	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
-	this->damageTextQueue = new PacketQueue<DamagePacket>(100);
+	this->aiDamageTextQueue = new PacketQueue<DamagePacket>(100);
+	this->bossDamageTextQueue = new PacketQueue<DamagePacket>(10);
 }
 
 PacketFilter::~PacketFilter()
@@ -103,10 +104,15 @@ PacketFilter::~PacketFilter()
 		delete this->ressurectionQueue;
 		this->ressurectionQueue = 0;
 	}
-	if (this->damageTextQueue)
+	if (this->aiDamageTextQueue)
 	{
-		delete this->damageTextQueue;
-		this->damageTextQueue = 0;
+		delete this->aiDamageTextQueue;
+		this->aiDamageTextQueue = 0;
+	}
+	if (this->bossDamageTextQueue)
+	{
+		delete this->bossDamageTextQueue;
+		this->bossDamageTextQueue = 0;
 	}
 }
 
@@ -173,8 +179,11 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				case RESSURECTION_PACKET:
 					this->ressurectionQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ressurectionPacket data to the correct queue
 					break;
-				case DAMAGE_TEXT_PACKET:
-					this->damageTextQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of damageTextPacket data to the correct queue
+				case AI_DAMAGE_TEXT_PACKET:
+					this->aiDamageTextQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiDamageTextPacket data to the correct queue
+					break;
+				case BOSS_DAMAGE_TEXT_PACKET:
+					this->bossDamageTextQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of bossDamageTextPacket data to the correct queue
 					break;
 
 #ifdef DEBUGGING_NETWORK
@@ -289,7 +298,12 @@ PacketQueue<HealthPacket> * PacketFilter::getRessurectionQueue()
 	return this->ressurectionQueue;
 }
 
-PacketQueue<DamagePacket> * PacketFilter::getDamageTextQueue()
+PacketQueue<DamagePacket> * PacketFilter::getAIDamageTextQueue()
 {
-	return this->damageTextQueue;
+	return this->aiDamageTextQueue;
+}
+
+PacketQueue<DamagePacket> * PacketFilter::getBossDamageTextQueue()
+{
+	return this->bossDamageTextQueue;
 }

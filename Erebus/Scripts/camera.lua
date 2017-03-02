@@ -45,6 +45,10 @@ function vec3length(a)
 	return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
 end
 
+function vec3lengthFnG(a)
+	return a.x * a.x + a.y * a.y + a.z * a.z
+end
+
 function vec3equal(a, b)
 	return a.x == b.x and a.y == b.y and a.z == b.z
 end
@@ -55,6 +59,16 @@ end
 
 function vec3gief(a, b)
 	a.x, a.y, a.z = b.x, b.y, b.z
+end
+
+function vec3normalize(a)
+	local length =  math.sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z))
+	a.x, a.y, a.z = a.x / length, a.y / length, a.z / length
+	return a
+end
+
+function vec3dot(a, b)
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z)	
 end
 
 function ZoomInCamera()

@@ -95,10 +95,6 @@ function CreateTumblethorns(entity)
 		end
 	end
 
-	function spell:GeneralCast()
-		
-	end
-
 	function spell:Kill()
 		self.alive = false
 		SphereCollider.SetActive(spell.sphereCollider, false)
@@ -123,12 +119,10 @@ function CreateTumblethorns(entity)
 
 	function spell:CheckColissions()
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()	
-		local walls = CollisionHandler.GetIDsFromLayer(3)
-		local realWalls = {}	
-		for i, v in pairs(walls) do
-			realWalls[i] = v
+		if CollisionHandler.IsHitboxCollidingWithLayer(self.sphereCollider, 3) then 
+			self:Kill()
+			return
 		end
-		
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then			
@@ -151,13 +145,7 @@ function CreateTumblethorns(entity)
 					end	
 					self.enemiesHit[boss.transformID] = true		
 				end
-			end
-			for curWall = 1, #realWalls do
-				if collisionIDs[curID] == realWalls[curWall] then
-					self:Kill()
-				end
-			end
-				
+			end				
 		end		
 	end
 

@@ -101,8 +101,11 @@ namespace Nurn
 		NURN_API void pushRessurectionPacket(const HealthPacket& packet);
 		NURN_API bool fetchRessurectionPacket(HealthPacket& packet);
 
-		NURN_API void pushDamageTextPacket(const DamagePacket& packet);
-		NURN_API bool fetchDamageTextPacket(DamagePacket& packet);
+		NURN_API void pushAIDamageTextPacket(const DamagePacket& packet);
+		NURN_API bool fetchAIDamageTextPacket(DamagePacket& packet);
+
+		NURN_API void pushBossDamageTextPacket(const DamagePacket& packet);
+		NURN_API bool fetchBossDamageTextPacket(DamagePacket& packet);
 
 		
 #ifdef DEBUGGING_NETWORK
