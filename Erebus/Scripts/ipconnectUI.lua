@@ -103,6 +103,7 @@ function UpdateipconnectUI(dt)
 		end
 		Gear.Print(text, 464, 320)
 		if Erebus.StartNetworkHost() then
+			hosting = false
 			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
 		textCounter = textCounter + (1 * dt)
