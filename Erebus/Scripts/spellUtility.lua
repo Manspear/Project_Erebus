@@ -192,7 +192,7 @@ function CreateChargeEggs(entity)
 		self.firstCombine = false
 		
 		if self.light then
-			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
 			self.particles:update(self.pos)	
 		end	
 		self.timer = self.timer + dt		
