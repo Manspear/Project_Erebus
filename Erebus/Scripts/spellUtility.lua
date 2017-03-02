@@ -40,10 +40,12 @@ function CreateCombineRay(entity)
 
 	ray.caster = entity.transformID
 	ray.counter = 0
+	ray.maxUseTime =1
+	ray.scale = 1
 
 	function ray:FireChargeBeam(dt,dir,spellElement, len)				
 		self.counter = self.counter + dt	
-		if self.counter < 1.7 then
+		if self.counter < self.maxUseTime then
 			local elementalTransformID = self.transformID
 		
 			local blendIndex = self.blendingIndex
@@ -67,9 +69,16 @@ function CreateCombineRay(entity)
 			pos.x = pos.x + dir.x * factor
 			pos.y = pos.y + dir.y * factor
 			pos.z = pos.z + dir.z * factor
-				
+			
+			local progress =  (self.counter/self.maxUseTime)
+			if progress>0.3 then
+				local Lessen =  (dt/self.maxUseTime)
+				self.scale = self.scale - Lessen
+				print (self.scale)
+			end
+
 			Transform.SetPosition(elementalTransformID, pos)
-			Transform.SetScaleNonUniform(elementalTransformID, 1,1,(len*0.51)) 
+			Transform.SetScaleNonUniform(elementalTransformID,self.scale,self.scale,(len*0.51)) 
 			pos = Transform.GetPosition(self.caster)
 			Transform.RotateToVector(elementalTransformID, dir)
 
@@ -91,6 +100,7 @@ function CreateCombineRay(entity)
 		Transform.ActiveControl(self.transformID, false)
 		Transform.ActiveControl(self.transformID2, false)
 		Transform.ActiveControl(self.transformID3, false)
+		self.scale = 1
 	end
 	function ray:resetCooldown()
 		self.counter = 0

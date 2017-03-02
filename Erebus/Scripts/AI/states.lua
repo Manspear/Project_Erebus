@@ -251,7 +251,7 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 	if length < enemy.range then
 		if enemy.actionCountDown <0 then
 			if enemy.playerTarget.transformID == player2.transformID then
-				Network.SendDamagePacket(enemy.transformID, 12)
+				Network.SendDamagePacket(enemy.transformID, 12, enemy.elementType)
 			else
 				player:Hurt(12, enemy)
 			end
@@ -399,7 +399,7 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 		length =  AI.DistanceTransTrans(enemy.transformID,enemy.playerTarget.transformID)
 		if length < enemy.range then
 			if enemy.playerTarget.transformID == player2.transformID then
-				Network.SendDamagePacket(enemy.transformID, 12)
+				Network.SendDamagePacket(enemy.transformID, 12, enemy.elementType)
 			else
 				player:Hurt(12, enemy)
 			end
