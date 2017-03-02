@@ -4,7 +4,7 @@ function CreateStaticAoEType(model)
 	type.transformID = Gear.BindBlendingInstance(model)
 	
 	type.sphereCollider = SphereCollider.Create(type.transformID)
-	CollisionHandler.AddSphere(type.sphereCollider, 1)
+	CollisionHandler.AddSphere(type.sphereCollider, 2)
 	SphereCollider.SetActive(type.sphereCollider, false)
 	Transform.ActiveControl(type.transformID, false)
 	type.position = {x=0,y=0,z=0}
@@ -53,4 +53,9 @@ function CreateStaticAoEType(model)
 	end
 
 	return type
+end
+
+function DestroyStaticAoEType(aoeType)
+	Gear.UnbindInstance(aoeType.transformID)
+	aoeType = nil
 end

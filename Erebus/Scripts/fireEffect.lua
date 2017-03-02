@@ -24,11 +24,15 @@ function CreateFireEffect(effectowner)
 		self.particles:Update(Transform.GetPosition(entity.transformID))
 		if self.interval < 0 then
 			self.interval = self.interval + FIREEFFECTINTERVAL
-			entity:Hurt(self.damage, self.owner)
+			entity:Hurt(self.damage, self.owner, FIRE)
 		end
 		
 		return self.duration > 0 
 	end
 
 	return effect
+end
+
+function DestroyFireEffect(effect)
+	effect = nil
 end

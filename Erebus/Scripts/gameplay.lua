@@ -1,5 +1,6 @@
 local levelScripts = {}
 local scripts = {}
+LEVEL_ROUND = 1
 local scriptFiles =
 {
 	"Scripts/console.lua",
@@ -39,7 +40,8 @@ local scriptFiles =
 	"Scripts/revive.lua",
 	"Scripts/TimeLaser.lua",
 	"Scripts/healthOrb.lua",
-	"Scripts/reusable.lua"
+	"Scripts/reusable.lua",
+	"Scripts/sluice.lua"
 }
 
 loadedLevels = {}
@@ -48,6 +50,7 @@ gameplayStarted = false
 loadedGameplay = false
 
 function LoadGameplay()
+	print("LOADING GAMEPLAY")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
@@ -58,16 +61,36 @@ function LoadGameplay()
 end
 
 function UnloadGameplay()
-	print("UNLOADING GAMEPLAY")
-	for key,value in pairs(scripts) do
-		if value.Unload then
-			value.Unload()
+	print("unloading gameplay")
+	if loadedGameplay then
+		-- unload all the loaded levels
+		for levelIndex,level in pairs(levels) do
+			if loadedLevels[levelIndex] then
+				level.unload()
+			end
 		end
-	end
 
-	loadedGameplay = false
-	gameplayStarted = false
-	loadedLevels = {}
+		-- unload all the scripts
+		for key,value in pairs(scripts) do
+			if value.Unload then
+				value.Unload()
+			end
+		end
+
+		UnInitPolymorphs()
+		UnInitTimeSlows()
+		UnInitFireEffectParticles()
+
+		loadedGameplay = false
+		gameplayStarted = false
+		loadedLevels = {}
+
+		Transform.ResetTransforms()
+		Gear.ResetAnimations()
+		CollisionHandler.Reset()
+
+		collectgarbage()
+	end
 end
 
 function UpdateGameplay(dt)
@@ -103,6 +126,7 @@ function UpdateGameplay(dt)
 		elseif endEventId == 1 then -- other player quit to main menu
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
 			Erebus.ShutdownNetwork()
+			UnloadGameplay()
 		elseif endEventId == 2 then -- player win!
 			boss.health = 0
 			BOSS_DEAD = true
@@ -112,29 +136,24 @@ function UpdateGameplay(dt)
 end
 
 function EnterGameplay()
+	print("entering gameplay")
 	if loadedGameplay == false then 
-		
+		InitPolymorphs()
+		InitTimeSlows()
+		InitFireEffectParticles()
+
 		for key,value in pairs(scripts) do
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Level01.lua" )
-
+		dofile( "Scripts/LevelOskar2.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
 			levels[v].load()
 			loadedLevels[v] = true
 		end
-
 		--levels[1].load()
-		--levels[2].load()
-		--levels[3].load()
-		--levels[4].load()
-		--levels[5].load()
-		--levels[6].load()
-		--levels[7].load()
-		--levels[8].load()
 		loadedGameplay = true
 	end
 

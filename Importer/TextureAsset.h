@@ -19,14 +19,19 @@ namespace Importer
 
 		IMPORTER_API void bind( GLenum position = GL_TEXTURE0 );
 
+		IMPORTER_API void setMinimizeFilter(GLenum filter);
+		IMPORTER_API void setMagnifyFilter(GLenum filter);
+
 		IMPORTER_API int getWidth();
 		IMPORTER_API int getHeight();
 
 	private:
 		ImageAsset image;
 		bool hasImage;
+		
 
 		GLuint id;
+		GLenum minFilter, magFilter;
 		int width, height;
 	};
 }

@@ -25,10 +25,13 @@ function LoadBoss()
 	boss.transformID = Gear.BindStaticInstance(model)
 	boss.maxHealth = 500
 	boss.health = boss.maxHealth
+	boss.alive = true
 	boss.effects = {}
 	boss.timeScalar = 1
 	boss.movementSpeed = 1
 	boss.pickInterval = 1
+	boss.damagedTint = {r=0,g=0,b=0,a=0}
+	boss.damagedTintDuration = 0
 	--local model = Assets.LoadModel("Models/The_Timelord.model")
 	--Gear.AddStaticInstance(model, boss.transformID)
 	boss.healthbar = UI.load(0, 0, 0, BOSS_HEALTHBAR_WIDTH, BOSS_HEALTHBAR_HEIGHT);
@@ -41,19 +44,47 @@ function LoadBoss()
 
 	AABBCollider.SetMinPos(boss.collider, -1, -5, -1)
 	AABBCollider.SetMaxPos(boss.collider, 1, 3, 1)
-	function boss:Hurt(damage)
+	function boss:Hurt(damage, source, element)
+		local pos = Transform.GetPosition(boss.transformID)
 		boss.health = boss.health - damage
+		boss.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
+		if element then
+			--Network.SendDamageTextPacket(boss.transformID, damage, element)
+			Gear.PrintDamage(damage, element, pos.x, pos.y+10, pos.z )
+		end
+		if boss.health < 0 then
+			boss.Kill()
+		end	
+	end
+	function boss:Kill()
+		if boss.alive then
+			boss.alive = false
+			UnloadGameplay()
+			LEVEL_ROUND = LEVEL_ROUND + 1
+			EnterGameplay()
+		end
 	end
 	function boss:Apply(effect)
 		table.insert(boss.effects, effect)
 		effect:Apply(boss)
 	end
 end
-function UnloadBoss()
 
+function UnloadBoss()
+	DestroyTimeOrbWave(boss.spells[1])
+	DestroyChronoBall(boss.spells[2])
+	DestroyTimeLaser(boss.spells[3])
+
+	Gear.UnbindInstance(boss.transformID)
+	Assets.UnloadModel( "Models/THe_Timelord.model" )
+
+	boss = {}
+	boss.spells = {}
+	boss.spellinfo = {}
 end
+
 function UpdateBoss(dt)
-	if boss.health > 0 then
+	if boss.alive then
 		dt = dt * boss.timeScalar
 		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
 		if hm then
@@ -100,5 +131,4 @@ function UpdateBoss(dt)
 		BOSS_DEAD = true
 	end
 end
-
 return { Load = LoadBoss, Unload = UnloadBoss, Update = UpdateBoss }

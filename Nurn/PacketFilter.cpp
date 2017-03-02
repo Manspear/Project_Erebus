@@ -8,7 +8,7 @@ PacketFilter::PacketFilter(DebugNetwork * debugNetwork_ptr)
 PacketFilter::PacketFilter()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(5);
+	this->transformQueue = new PacketQueue<TransformPacket>(3);
 	this->animationQueue = new PacketQueue<AnimationPacket>(5);
 	this->aiStateQueue = new PacketQueue<AIStatePacket>(100);
 	this->spellQueue = new PacketQueue<SpellPacket>(20);
@@ -23,6 +23,8 @@ PacketFilter::PacketFilter()
 	this->endEventQueue = new PacketQueue<EventPacket>(10);
 	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
 	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
+	this->aiDamageTextQueue = new PacketQueue<DamagePacket>(100);
+	this->bossDamageTextQueue = new PacketQueue<DamagePacket>(10);
 }
 
 PacketFilter::~PacketFilter()
@@ -102,6 +104,16 @@ PacketFilter::~PacketFilter()
 		delete this->ressurectionQueue;
 		this->ressurectionQueue = 0;
 	}
+	if (this->aiDamageTextQueue)
+	{
+		delete this->aiDamageTextQueue;
+		this->aiDamageTextQueue = 0;
+	}
+	if (this->bossDamageTextQueue)
+	{
+		delete this->bossDamageTextQueue;
+		this->bossDamageTextQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -166,6 +178,12 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 				case RESSURECTION_PACKET:
 					this->ressurectionQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of ressurectionPacket data to the correct queue
+					break;
+				case AI_DAMAGE_TEXT_PACKET:
+					this->aiDamageTextQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of aiDamageTextPacket data to the correct queue
+					break;
+				case BOSS_DAMAGE_TEXT_PACKET:
+					this->bossDamageTextQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of bossDamageTextPacket data to the correct queue
 					break;
 
 #ifdef DEBUGGING_NETWORK
@@ -278,4 +296,14 @@ PacketQueue<HealthPacket> * PacketFilter::getPlayerHealthQueue()
 PacketQueue<HealthPacket> * PacketFilter::getRessurectionQueue()
 {
 	return this->ressurectionQueue;
+}
+
+PacketQueue<DamagePacket> * PacketFilter::getAIDamageTextQueue()
+{
+	return this->aiDamageTextQueue;
+}
+
+PacketQueue<DamagePacket> * PacketFilter::getBossDamageTextQueue()
+{
+	return this->bossDamageTextQueue;
 }

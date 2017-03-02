@@ -1,10 +1,12 @@
-HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
-BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
-BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
+--HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
+--BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
+--BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 MAX_DAMAGE_PILLAR = 8
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_BIG_PILLAR = 5
-COOLDOWN_SMALL_PILLAR = 2.0
+HELLPILLAR_CASTSPEED_MULTIPLE = 3.2 + 0.1875
+
+--Divide COOLDOWN_SMALL_PILLAR by 2.5 to get castSpeed for first attack
 HELLPILLAR_CHARGE_SFX = "Effects/flames-2.wav"
 HELLPILLAR_PILLAR_SFX = "Effects/explosion.wav"
 HELLPILLAR_HIT_SFX = "Effects/burn_ice_001.wav"
@@ -16,33 +18,39 @@ function CreateHellPillar(entity)
 	spell.caster = entity.transformID	
 	spell.owner = entity
 	spell.pos = Transform.GetPosition(spell.caster)
-	spell.chargedTime = 0	
-	spell.cooldown = 0
+	spell.chargedTime = 0	spell.minChargeTime = MIN_CHARGE_TIME_PILLAR
+	
 	spell.effects = {}
 	table.insert(spell.effects, FIRE_EFFECT_INDEX)
-	spell.hudtexture = HELLPILLAR_SPELL_TEXTURE
-	spell.texture1 = BLEND_TERXTURE1
-	spell.texture2 = BLEND_TERXTURE2
+	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds");
+	spell.texture1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
+	spell.texture2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 	spell.maxcooldown = COOLDOWN_BIG_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.maxChargeTime = 3
 	spell.damage = 0
+	
+	spell.isRay = false
+	--For animation timing 
+	spell.hasSpamAttack = false
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	spell.castTimeAttack = 0.5 * HELLPILLAR_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * HELLPILLAR_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * HELLPILLAR_CASTSPEED_MULTIPLE
+
 	--Set up collider, model and transform for the pillar
 	spell.riseFactor = 0.1
 	spell.chargeID = -1
-	--spell.transformID = Transform.Bind()
+
 	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
 	spell.transformID = Gear.BindBlendingInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
-	--local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
-	--Gear.AddBlendingInstance(model, spell.transformID)
-
-	Gear.SetBlendTextures(spell.transformID, 2, spell.texture1, spell.texture2)
-
+	
+	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
 	spell.aliveCharged = false
 	spell.attack = false
 	spell.effects = {}
@@ -52,13 +60,10 @@ function CreateHellPillar(entity)
 	spell.startUp = true		spell.startUpTime = 0		spell.growAgain = true	
 	spell.finishingTime = 0		spell.maxScale = 0			spell.scale = 0
 	spell.isActiveSpell = false
-	--spell.lightRadius = 0	spell.light = 0
-	--Set up the first model
-	--spell.firstModel = Transform.Bind()
-	--local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
-	--Gear.AddForwardInstance(model, spell.firstModel)
+
 	local model = Assets.LoadModel( "Models/hellpillarLoadOut2.model" )
 	spell.firstModel = Gear.BindForwardInstance(model)
+	Transform.ActiveControl(spell.firstModel, false)
 
 	spell.light = nil
 
@@ -67,7 +72,7 @@ function CreateHellPillar(entity)
 			if self.isActiveSpell then
 				self:Aim()
 			end
-			self.cooldown, self.maxcooldown = COOLDOWN_SMALL_PILLAR, COOLDOWN_SMALL_PILLAR	
+			self.cooldown, self.maxcooldown = 1.6, 1.6	
 			self.startUpTime = 0.5		self.finishingTime = 1.0	self.startUpScale = 3
 			self.startUp = true
 			self.maxScale = 0.5			self.scale = 0.4
@@ -111,11 +116,13 @@ function CreateHellPillar(entity)
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
 		self.lightRadius = 10
+		self.hasSpamAttack = false
 		self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10, true)
 	end
 	
 	function spell:Update(dt)
-		self.cooldown = self.cooldown - dt		
+		self.cooldown = self.cooldown - dt
+		if self.cooldown < 0 then self.hasSpamAttack = true end		
 		if self.aliveCharged then
 			if self.startUp then
 				self:StartingUp(dt)			
@@ -201,7 +208,7 @@ function CreateHellPillar(entity)
 			self.blendValue2.x = self.blendValue2.x - 0.2 * dt
 			self.blendValue2.y = self.blendValue2.y - 1.0 * dt
 
-			Gear.SetBlendUniformValue(self.transformID, 2, self.blendValue1, self.blendValue2)
+			Gear.SetBlendUniformValue(self.blendingIndex, 2, self.blendValue1, self.blendValue2)
 			if self.riseFactor < self.scale then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end
 			
 			local radius = self.lightRadius + 1.5*math.abs(math.cos(self.finishingTime*10))
@@ -251,4 +258,17 @@ function CreateHellPillar(entity)
 	spell.Combine = BaseCombine		spell.Charge = BaseCharge
 	spell.GettEffect = BaseGetEffect
 	return spell
+end
+
+function DestroyHellPillar(pillar)
+	Gear.UnbindInstance(pillar.transformID)
+	Gear.UnbindInstance(pillar.firstModel)
+
+	Assets.UnloadTexture( "Textures/IconHellPiller.dds" )
+	Assets.UnloadTexture( "Textures/hellpillarNewTex.dds" )
+	Assets.UnloadTexture( "Textures/hellpillarNewTex2.dds" )
+	Assets.UnloadModel( "Models/hellpillarTest1.model" )
+	Assets.UnloadModel( "Models/hellpillarLoadOut2.model" )
+
+	pillar = nil
 end

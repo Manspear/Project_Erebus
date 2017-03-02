@@ -24,10 +24,43 @@ TransformHandler::TransformHandler
 	instances[INSTANCE_ANIMATED] = animatedModels;
 	instances[INSTANCE_FORWARD] = forwardModels;
 	instances[INSTANCE_BLENDING] = blendingModels;
+
+	shouldReset = false;
 }
 
 TransformHandler::~TransformHandler()
 {
+}
+
+void TransformHandler::reset()
+{
+	/*instances[INSTANCE_DYNAMIC]->clear();
+	instances[INSTANCE_ANIMATED]->clear();
+
+	instances[INSTANCE_FORWARD]->clear();
+	gearEngine->uniValues.clear();
+
+	instances[INSTANCE_BLENDING]->clear();
+	gearEngine->textureBlend.clear();*/
+
+	shouldReset = true;
+}
+
+void TransformHandler::checkReset()
+{
+	if( shouldReset )
+	{
+		instances[INSTANCE_DYNAMIC]->clear();
+		instances[INSTANCE_ANIMATED]->clear();
+
+		instances[INSTANCE_FORWARD]->clear();
+		gearEngine->uniValues.clear();
+
+		instances[INSTANCE_BLENDING]->clear();
+		gearEngine->textureBlend.clear();
+
+		shouldReset = false;
+	}
 }
 
 int TransformHandler::bindStaticInstance( ModelAsset* asset )
@@ -164,12 +197,10 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 
 		modelIndex = models->size();
 		models->push_back( instance );
-
-		TextureBlendings tBlend;
-		gearEngine->textureBlend.push_back( tBlend );
 	}
-
-	gearEngine->textureBlend.at(modelIndex).modelIndex = modelIndex;
+	TextureBlendings tBlend;
+	gearEngine->textureBlend.push_back(tBlend);
+	gearEngine->textureBlend.at(gearEngine->textureBlend.size()-1).modelIndex = modelIndex;
 
 	int transformIndex = instances[INSTANCE_BLENDING]->at(modelIndex).pushStaticInstance( DEFAULT_TRANSFORM, glm::mat4() );
 

@@ -10,31 +10,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source.cpp" />
-    <ClCompile Include="AABBCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionChecker.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionHandler.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionLayers.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="HitBox.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="OBBCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="RayCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="LuaAi.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
@@ -92,18 +67,19 @@
     <ClCompile Include="LuaUI.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="PlaneFrustum.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>Source Files\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="LuaLight.cpp">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
     <ClCompile Include="TransformHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionsDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controls.h">
@@ -114,30 +90,6 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBCollider.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionChecker.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionHandler.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionLayers.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="HitBox.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="OBBCollider.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="RayCollider.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Header Files\Collider</Filter>
     </ClInclude>
     <ClInclude Include="LuaAi.h">
       <Filter>Header Files\Lua</Filter>
@@ -196,16 +148,16 @@
     <ClInclude Include="LuaUI.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="PlaneFrustum.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>Header Files\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="LuaLight.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="TransformHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionsDraw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -447,15 +399,6 @@
     <None Include="Scripts\spellList.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Shaders\anim.geom" />
-    <None Include="Shaders\anim.vert" />
-    <None Include="Shaders\animShadow.frag" />
-    <None Include="Shaders\animShadow.vert" />
-    <None Include="Shaders\blur.frag" />
-    <None Include="Shaders\blur.vert" />
-    <None Include="Shaders\debugOBB.frag" />
-    <None Include="Shaders\debugOBB.geom" />
-    <None Include="Shaders\debugOBB.vert" />
     <None Include="Scripts\spellUtility.lua">
       <Filter>Scripts\spells</Filter>
     </None>
@@ -476,8 +419,6 @@
     <None Include="Scripts\ipconnectUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>
-    <None Include="Shaders\textureBlending.frag" />
-    <None Include="Shaders\textureBlending.vert" />
     <None Include="Scripts\ipconnect.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
@@ -493,13 +434,9 @@
     <None Include="Scripts\tumbleThorns.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\level01.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Shaders\include.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Scripts\lifeStealEffect.lua" />
     <None Include="Scripts\windknockback.lua">
       <Filter>Scripts\spells</Filter>
     </None>
@@ -534,6 +471,61 @@
     </None>
     <None Include="Scripts\healthOrb.lua">
       <Filter>Scripts\evils</Filter>
+    </None>
+    <None Include="Scripts\sluice.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\player2.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Scripts\TimeLaser.lua" />
+    <None Include="Shaders\floatDamage.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\floatDamage.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\floatDamage.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\anim.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\animShadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\animShadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\blur.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\blur.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\debugOBB.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\textureBlending.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\textureBlending.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Scripts\TimeLaser.lua">
+      <Filter>Scripts\spells</Filter>
+    </None>
+    <None Include="Scripts\lifeStealEffect.lua">
+      <Filter>Scripts\effects</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

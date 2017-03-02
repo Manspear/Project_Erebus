@@ -276,12 +276,19 @@ level01.props.PineTree_NoCollider5421ID.transformID = Gear.BindStaticInstance(le
 Transform.SetPosition(level01.props.PineTree_NoCollider5421ID.transformID, {x=172.375, y=28.9531, z=314.25})
 Transform.SetScaleNonUniform(level01.props.PineTree_NoCollider5421ID.transformID, 1.33038, 1.51695, 1.4158)
 Transform.SetRotation(level01.props.PineTree_NoCollider5421ID.transformID, {x=0, y=2.83677, z=0})
+slussen = {}
+slussen.model = Assets.LoadModel('Models/Branch_blocker.model')
+slussen.transformID = Gear.BindStaticInstance(slussen.model)
+Transform.SetPosition(slussen.transformID, {x =20.0156, y =6.19141, z = 157.875})
 level01.triggers.New435ID = {}
 level01.triggers.New435ID.collider = SphereCollider.Create(-1)
 level01.triggers.New435ID.collider:SetOffset(0,0,0)
 level01.triggers.New435ID.collider:SetRadius(1)
 level01.triggers.New435ID.collider:SetPos(20.0156,6.19141,157.875)
-level01.triggers.New435ID.collider.OnTriggering = function() print("Derp") end
+sluice1 = CreateSluice(level01.triggers.New435ID.collider, slussen.transformID)
+level01.triggers.New435ID.collider.OnEnter= function(self) SluiceEnter(sluice1) end
+level01.triggers.New435ID.collider.OnTriggering = function(self,dt) SluiceUpdate(dt, sluice1) end
+level01.triggers.New435ID.collider.OnExit = function(self) SluiceExit(sluice1) end
 level01.triggers.New435ID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.New435ID.collider, 4)
 level01.props.Stone2673ID = {}

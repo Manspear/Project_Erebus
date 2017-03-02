@@ -29,8 +29,6 @@ function clientAIState.followState.exit(enemy, playerTarget)
 
 end
 
-
-
 function clientAIState.attackState.enter(enemy, playerTarget)
 	--print("Client AI Attacking")
 
@@ -41,10 +39,10 @@ end
 
 function clientAIState.attackState.update(enemy, playerTarget, dt)
 	-- Empty DamagePacket queue and apply the values to player2
-	local newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+	local newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 	while newDamageVal == true do 
-		player:Hurt(dmg_damage, dmg_transformID)
-		newDamageVal, dmg_transformID, dmg_damage = Network.GetDamagePacket()
+		player:Hurt(dmg_damage, dmg_transformID, dmg_element)
+		newDamageVal, dmg_transformID, dmg_damage, dmg_element = Network.GetDamagePacket()
 	end
 end
 

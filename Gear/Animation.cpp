@@ -2,12 +2,9 @@
 
 Animation::Animation()
 {
-	animTimer = 0.0f;
 	fromAnimationTimer = 0;
 	toAnimationTimer = 0;
 	animationSegments = 0;
-	//for (int i = 0; i < finalList.size(); i++)
-	//	shaderMatrices[i] = glm::mat4();
 
 	transitionTimeArray = nullptr;
 
@@ -22,18 +19,14 @@ Animation::Animation()
 	blendToKeys = NULL;
 	finalList = NULL;
 	blendedList = NULL;
+
+	active = true;
+	culled = false;
 }
 
 Animation::~Animation()
 {
-	delete[] blendFromKeys;
-	delete[] blendToKeys;
-	delete[] blendedList;
-	delete[] transitionTimeArray;
-	delete[] finalList;
-	for (int i = 0; i < animationSegments; i++)
-		delete[] animationMatrixLists[i];
-
+	reset();
 }
 
 void Animation::setAsset(Importer::ModelAsset * asset)
@@ -51,14 +44,23 @@ void Animation::setAsset(Importer::ModelAsset * asset)
 void Animation::updateAnimation(float dt, int layer, int animationSegment)
 {
 	animationTimers[animationSegment] += dt;
+
 	Importer::hModel* model = asset->getHeader();
 	int jointOffset = 0;
-	float maxTime;
+	;
 	float diff;
 	Importer::sKeyFrame* currKey;
 
 	float timeOverCompare;
 	float timeUnderCompare;
+
+	//Get the maxtime for this layer
+	//get animation layer
+	Importer::hAnimationState* stateRoot = asset->getAnimationState(0, 0, layer);
+	//Importer::hJoint* joint;
+	Importer::sKeyFrame* keysRoot = asset->getKeyFrames(0, 0, layer);
+
+	float maxTime = ((sKeyFrame*)((char*)keysRoot + (stateRoot->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
 
 	for (int i = 0; i < model->numSkeletons; i++)
 	{
@@ -72,10 +74,6 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 
 			//Importer::hJoint* joint;
 			Importer::sKeyFrame* keys = asset->getKeyFrames(i, j, layer);
-
-			//Get the maxtime for this layer
-			maxTime = ((sKeyFrame*)((char*)keys + (state->keyCount - 1) * sizeof(Importer::sKeyFrame)))->keyTime; //-1 to make keys end at the start of the adress of the last keyFrame instead of where the last keyframe ends
-
 																												  //resets itself wohahaha
 			animationTimers[animationSegment] = abs(std::fmod(animationTimers[animationSegment], maxTime));
 
@@ -109,24 +107,17 @@ void Animation::updateAnimation(float dt, int layer, int animationSegment)
 					timeUnderCompare = diff;
 				}
 			}
-
 			finalList[j + jointOffset] = interpolateKeys(overKey, underKey, animationTimers[animationSegment]);
 		}
 		jointOffset += skeleton->jointCount;
 	}
 	calculateAndSaveJointMatrices(finalList, animationSegment);
-	//updateJointMatrices(finalList);
 }
 
 void Animation::updateAnimationForBlending(float dt, int layer, float& animTimer, Importer::sKeyFrame* fillArr)
 {
 	if (animTimer >= 0.0f)
 		animTimer += dt;
-	else
-	{
-		this->animTimer += dt;
-		animTimer = this->animTimer;
-	}
 	Importer::hModel* model = asset->getHeader();
 	Importer::sKeyFrame* keys;
 	Importer::hAnimationState* state;
@@ -220,14 +211,11 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 		}
 	}
 	//Append if the animation doesn't exist
-	else
+	else //backIdx != state
 	{
-		//If the blending got interrupted
-		if (animationStack[animationSegment][frontIdx] != EMPTYELEMENT)
-		{
-			int back = animationStack[animationSegment][backIdx];
-			animationStack[animationSegment][frontIdx] = back;
-		}
+		int back = animationStack[animationSegment][backIdx];
+		animationStack[animationSegment][frontIdx] = back;
+
 		animationStack[animationSegment][backIdx] = state;
 	}
 
@@ -235,7 +223,7 @@ GEAR_API void Animation::updateState(float dt, int state, int animationSegment)
 
 	//The last thing, calculate the timeMultiplier so that the player's attack animations are timed to the spells' "cooldown" or castTime
 	//make sure to reset the timeMultiplier after the attack is done. It is crucial. Or else the animation will get faster and faster.
-	if (animationPlayTime[animationSegment] > 0)
+	if (animationPlayTime[animationSegment] > 0 && modifyAnimationLength[animationSegment] == true)
 	{
 		Importer::hAnimationState* stater = asset->getAnimationState(0, 5, state);
 		Importer::sKeyFrame* keys = asset->getKeyFrames(0, 5, state);
@@ -272,6 +260,7 @@ void Animation::updateStateForQuickBlend(float dt, int state, int animationSegme
 				toAnimationTimer = 0;
 			}
 			blendAnimations(to, from, transitionTimers[animationSegment], animationSegment, dt);
+		
 			if (isTransitionCompletes[animationSegment])
 			{
 				animationStack[animationSegment][frontIdx] = EMPTYELEMENT;
@@ -307,9 +296,8 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 	{
 		transitionState = originState;
 	}
-
-	updateStateForQuickBlend(dt, transitionState, animationSegment, halfTime);
-
+ 	updateStateForQuickBlend(dt, transitionState, animationSegment, halfTime);
+	
 	//When it has switched back and forth, and the timer is at or beyond the blendTime.
 	if (animationTimers[animationSegment] >= blendTime && quickBlendStates[animationSegment] == true)
 	{
@@ -325,12 +313,12 @@ GEAR_API bool Animation::quickBlend(float dt, int originState, int transitionSta
 
 		return true;
 	}
-
+	
 	if (animationTimers[animationSegment] >= halfTime && quickBlendStates[animationSegment] == false)
 	{
-		int wolo = animationStack[animationSegment][backIdx];
 		quickBlendStates[animationSegment] = true;
 	}
+
 	return false;
 }
 
@@ -351,8 +339,8 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		transitionTimers[i] = 0;
 		animationTimers[i] = 0;
 
-		animationStack[i][0] = EMPTYELEMENT;
-		animationStack[i][1] = 0;
+		animationStack[i][frontIdx] = EMPTYELEMENT;
+		animationStack[i][backIdx] = EMPTYELEMENT;
 
 		quickBlendStates[i] = false;
 
@@ -360,6 +348,8 @@ GEAR_API void Animation::setAnimationSegments(int numberOfSegments)
 		animationMatrixLists[i] = allahu;
 
 		currentSegmentStates[i] = 0;
+
+		modifyAnimationLength[i] = false;
 	}
 }
 
@@ -388,6 +378,46 @@ glm::vec4 Animation::getTint()
 	return modelTint;
 }
 
+void Animation::reset()
+{
+	delete[] blendFromKeys;
+	delete[] blendToKeys;
+	delete[] blendedList;
+	delete[] transitionTimeArray;
+	delete[] finalList;
+	for (int i = 0; i < animationSegments; i++)
+		delete[] animationMatrixLists[i];
+
+	//animTimer = 0.0f;
+	fromAnimationTimer = 0;
+	toAnimationTimer = 0;
+	animationSegments = 0;
+
+	transitionTimeArray = nullptr;
+
+	transitionTimeArraySize = 9;
+
+	quickBlendFrom = 0;
+	quickBlendTo = 0;
+	quickBlendSegment = -1;
+	quickBlendTime = 0;
+	quickBlendingDone = true;
+	blendFromKeys = nullptr;
+	blendToKeys = nullptr;
+	finalList = nullptr;
+	blendedList = nullptr;
+}
+
+void Animation::setCulled(bool c)
+{
+	this->culled = c;
+}
+
+bool Animation::getCulled()
+{
+	return this->culled;
+}
+
 GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int numStates)
 {
 	assert(this->transitionTimeArray == nullptr);
@@ -398,14 +428,21 @@ GEAR_API void Animation::setTransitionTimes(float * transitionTimeArray, int num
 	setStates(numStates);
 }
 
-GEAR_API void Animation::setSegmentPlayTime(float animTime, int segment)
+GEAR_API void Animation::setSegmentPlayTime(float animTime, int animationSegment)
 {
-	animationPlayTime[segment] = animTime;
+	modifyAnimationLength[animationSegment] = true;
+	animationPlayTime[animationSegment] = animTime;
 }
 
-GEAR_API void Animation::resetSegmentPlayTime(int segment)
+GEAR_API void Animation::resetSegmentAnimationClock(int segment)
 {
-	animationPlayTime[segment] = pAnimMaxTime[segment];
+	animationTimers[segment] = 0;
+}
+
+GEAR_API void Animation::resetSegmentPlayTime(int animationSegment)
+{
+	modifyAnimationLength[animationSegment] = false;
+	animationPlayTime[animationSegment] = pAnimMaxTime[animationSegment];
 }
 
 GEAR_API void Animation::setStates(int numStates)
@@ -752,4 +789,14 @@ void Animation::update(float dt)
 	}
 
 	assembleAnimationsIntoShadermatrices();
+}
+
+void Animation::setActive( bool a )
+{
+	active = a;
+}
+
+bool Animation::getActive() const
+{
+	return active;
 }

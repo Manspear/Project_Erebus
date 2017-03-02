@@ -6,7 +6,7 @@ function CreateProjectileType(model)
 	projectile.position = {x=0,y=0,z=0}
 
 	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
-	CollisionHandler.AddSphere(projectile.sphereCollider, 1)
+	CollisionHandler.AddSphere(projectile.sphereCollider, 2)
 	SphereCollider.SetActive(projectile.sphereCollider, false)
 	Transform.ActiveControl(projectile.transformID, false)
 
@@ -46,4 +46,8 @@ function CreateProjectileType(model)
 	end
 
 	return projectile
+end
+
+function DestroyProjectileType(projectile)
+	Gear.UnbindInstance(projectile.transformID)
 end

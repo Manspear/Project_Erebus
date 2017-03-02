@@ -70,19 +70,28 @@ namespace Importer
 					{
 						parseString( &cur, buffer );
 						if( strcmp( buffer, "NOTEXTURE" ) != 0 )
-							diffuseTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+						{
+							diffuseName = "Textures/" + std::string(buffer);
+							diffuseTexture = assets->load<TextureAsset>( diffuseName );
+						}
 					}
 					else if( strncmp( start, "Specular texture", nameLen ) == 0 )
 					{
 						parseString( &cur, buffer );
 						if( strcmp( buffer, "NOTEXTURE" ) != 0 )
-							specularTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+						{
+							specularName = "Textures/" + std::string(buffer);
+							specularTexture = assets->load<TextureAsset>( specularName );
+						}
 					}
 					else if( strncmp( start, "Normal texture", nameLen ) == 0 )
 					{
 						parseString( &cur, buffer );
 						if( strcmp( buffer, "NOTEXTURE" ) != 0 )
-							normalTexture = assets->load<TextureAsset>( "Textures/" + std::string(buffer) );
+						{
+							normalName = "Textures/" + std::string(buffer);
+							normalTexture = assets->load<TextureAsset>( normalName );
+						}
 					}
 					else
 					{
@@ -104,6 +113,19 @@ namespace Importer
 
 	void MaterialAsset::unload()
 	{
+		/*if( diffuseTexture )
+			diffuseTexture->decrementReferenceCount();
+		if( specularTexture )
+			specularTexture->decrementReferenceCount();
+		if( normalTexture )
+			normalTexture->decrementReferenceCount();*/
+
+		if( !diffuseName.empty() )
+			assets->unload<TextureAsset>( diffuseName );
+		if( !specularName.empty() )
+			assets->unload<TextureAsset>( specularName );
+		if( !normalName.empty() )
+			assets->unload<TextureAsset>( normalName );
 	}
 
 	void MaterialAsset::upload()

@@ -1,4 +1,4 @@
-POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
+--POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
 POLYMORPH_COOLDOWN = 2
 POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
@@ -11,16 +11,20 @@ function CreatePolymorph(entity)
 	spell.element = NATURE
 	spell.isActiveSpell = false	
 	spell.cooldown = 0		spell.maxcooldown = POLYMORPH_COOLDOWN
-	spell.chargedTime = 0		spell.maxChargeTime = 3
+	spell.chargedTime = 0		spell.maxChargeTime = 3		spell.minChargeTime = POLYMORPH_MIN_CHARGETIME
 	spell.lifeTime = POLYMORPH_LIFETIME
 	spell.caster = entity.transformID
 	spell.owner = entity
-	spell.hudtexture = POLYMORPH_SPELL_TEXTURE
+	spell.hudtexture = Assets.LoadTexture("Textures/IconPolymorph.dds");
 	spell.position = {x = 0, y = 0, z = 0}		spell.direction = {x = 0, y = 0, z = 0}	
 	spell.damage = 1
 	spell.morphTime = 3
 	spell.effects = {}
 	
+	spell.isRay = false
+	--For animation timing 
+	spell.hasSpamAttack = false
+
 	table.insert(spell.effects, POLYMORPH_EFFECT_INDEX)
 	spell.particles = createSparklyParticles()
 
@@ -29,7 +33,7 @@ function CreatePolymorph(entity)
 
 	--spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)		
 
 	spell.Charge = BaseCharge
 	function spell:Update(dt)
@@ -129,4 +133,13 @@ function CreatePolymorph(entity)
 	spell.GetEffect = BaseGetEffect
 
 	return spell
+end
+
+function DestroyPolymorph(poly)
+	destroySparklyParticles(poly.spell.particles)
+
+	Gear.UnbindInstance(poly.transformID)
+
+	Assets.UnloadTexture("Textures/IconPolymorph.dds");
+	Assets.UnloadModel( "Models/nothing.model" )
 end

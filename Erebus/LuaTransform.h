@@ -37,4 +37,7 @@ namespace LuaTransform
 
 	int getDistance(lua_State* lua);
 	int getDistanceTransPos(lua_State* lua);
+
+	int reset( lua_State* lua );
+	int copyTransform(lua_State* lua);
 }

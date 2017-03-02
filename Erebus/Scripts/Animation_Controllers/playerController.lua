@@ -49,7 +49,7 @@ function CreatePlayerController(player)
 	
 	controller.attackTimerStarted = false
 	controller.attackTimer = 0
-	controller.attackTimerThreshhold = 1
+	controller.attackTimerThreshhold = SUNRAY_DURATION
 
 	controller.deathTimerStarted = false
 	controller.deathTimer = 0
@@ -57,13 +57,15 @@ function CreatePlayerController(player)
 
 	controller.chargeTimerStart = false
 	controller.chargeTimer = 0
-	controller.chargeMaxTime = 1.3 -- the length of the chargeRelease-animation
+	controller.chargeMaxTime = SUNRAY_DURATION + SUNRAY_STARTUPTIME + SUNRAY_STARTUPTIMELVL2 + 0.1 -- the length of the chargeRelease-animation
+	controller.chargeMaxTimeRay = SUNRAY_DURATION + SUNRAY_STARTUPTIME + SUNRAY_STARTUPTIMELVL2 + 0.1
+	controller.chargeMaxTimeNormal = 1 --1 for the actual animation length
 
 	local animationTransitionTimes = {}
-	for i = 1, 33 do
+	for i = 1, 40 do
 		animationTransitionTimes[i] = {}
-		for j = 1, 33 do
-			animationTransitionTimes[i][j] = 0.1
+		for j = 1, 40 do
+			animationTransitionTimes[i][j] = 0.3
 		end
 	end
 
@@ -80,16 +82,17 @@ function CreatePlayerController(player)
 		--since the prioritized actions override the unprioritized ones
 
 		--if you don't move AND HAVENT ATTACKED you're Idle
-		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false then
+		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == false and self.chargeTimerStart == false and self.watch.useRayAttack == false then
 			self:IdleState(dt)
 		--else running noncombat
-		elseif (self.watch.forward ~= 0 or self.watch ~= left) and self.attackTimerStarted == false then
+		elseif (self.watch.forward ~= 0 or self.watch.left ~= 0) and self.attackTimerStarted == false then
 			self:RunningState(dt)
-		elseif (self.watch.forward ~= 0 or self.watch ~= left) and self.attackTimerStarted == true then
+		elseif (self.watch.forward ~= 0 or self.watch.left ~= 0) and self.attackTimerStarted == true then
 			self:CombatRunningState(dt)
 		--else legs stand still
 		else
 			self.animationState1 = 9
+			self.animationState2 = 25
 		end
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
@@ -98,25 +101,47 @@ function CreatePlayerController(player)
 			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
 		end
 
-		if self.watch.spamCasting == true or self.watch.spamCasting == false and self.oldWatch.spamCasting == true 
-		then
-			self:AttackState(dt)
-		elseif self.attackTimerStarted == true then
-			self:AttackReadyState(dt)
+		if self.watch.resetSpamAttack == true then
+			self.animation:ResetSegmentAnimationClock(1)
+			self.watch.resetSpamAttack = false
+		else
+			if self.oldWatch.spamCasting == true 
+			then
+				self:AttackState(dt)
+			elseif self.attackTimerStarted == true then
+				self:AttackReadyState(dt)
+			end
 		end
+
+		if self.watch.spamCasting == true and self.oldWatch.spamCasting == false then 
+			self.animation:ResetSegmentAnimationClock(1)
+		elseif self.watch.spamCasting == false and self.oldWatch.spamCasting == true then 
+			self.animation:ResetSegmentPlayTime(1)
+		end 
 
 		if self.watch.charging == true then 
 			self.animationState2 = 27
 			self.attackTimerStarted = true
+			self.attackTimer = 0
 		end
 
 		if self.watch.charging == false and self.oldWatch.charging == true then
+			self.animation:ResetSegmentAnimationClock(1)
 			self.chargeTimerStart = true
+			self.attackTimerStarted = true
+			self.attackTimer = 0
+			self.chargeTimer = 0
 		end
 
 		if self.chargeTimerStart == true then 
 			
 			self.chargeTimer = self.chargeTimer + dt
+			if self.watch.useRayAttack == true then 
+				 self.chargeMaxTime = self.chargeMaxTimeRay
+			else
+				self.chargeMaxTime = self.chargeMaxTimeNormal
+			end
+		
 			if self.chargeTimer <= self.chargeMaxTime then
 				self.animationState2 = 28
 			else
@@ -124,6 +149,14 @@ function CreatePlayerController(player)
 				self.chargeTimerStart = false
 				self.attackTimerStarted = true
 			end
+		end
+
+		if self.watch.useRayAttack == true and self.watch.spamCasting == true then 
+			self.attackTimerStarted = true
+			self.animationState2 = 29
+		end
+		if self.chargeTimerStart == true and self.watch.useRayAttack == true then 
+			self.animationState2 = 29
 		end
 
 		if self.watch.forward == 0 and self.watch.left == 0 and self.attackTimerStarted == true then
@@ -141,7 +174,6 @@ function CreatePlayerController(player)
 			end
 		end
 		if self.watch.health <= 0 then 
-			
 			self:DeathState(dt)
 		end
 
@@ -171,7 +203,6 @@ function CreatePlayerController(player)
 
 	--Handles everything that has to do with death. 
 	function controller:DeathState(dt)
-		print(self.deathTimerStarted)
 		if self.oldWatch.health > 0 then 
 			self.deathTimerStarted = true
 		end
@@ -179,7 +210,6 @@ function CreatePlayerController(player)
 			self.animationState1 = 3
 			self.animationState2 = 0
 			self.deathTimer = self.deathTimer + dt
-			print(self.deathTimer)
 			if self.deathTimer >= self.deathTimerThreshhold then 
 				self.deathTimerStarted = false
 				self.deathTimer = 0
@@ -316,4 +346,9 @@ function CreatePlayerController(player)
 	controller:copyWatch()
 
 	return controller
+end
+
+function DestroyPlayerController(controller)
+	Animation.Unbind(controller.animation)
+	controller = nil
 end

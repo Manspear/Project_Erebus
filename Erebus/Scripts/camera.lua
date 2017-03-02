@@ -1,5 +1,5 @@
 STATE_ZOOMING_IN, STATE_ZOOMING_OUT, STATE_INTERUPT = 0, 1, 2
-camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOMING_OUT}
+camera = {distance = 4, angle = 0, xOffset = 0, yOffset = 1.4, fov = (3.14/180) *50, state = STATE_ZOOMING_OUT, toFollow = nil}
 
 interuptedState = 0
 
@@ -17,7 +17,7 @@ function interpolate(a, b, factor)
 	return a + factor*(b-a)
 end
 
-function cross(a, b)
+function vec3cross(a, b)
 	return {x = a.y*b.z - a.z*b.y,
 			y = a.z*b.x - a.x*b.z,
 			z = a.x*b.y - a.y*b.x}
@@ -45,6 +45,10 @@ function vec3length(a)
 	return math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
 end
 
+function vec3lengthFnG(a)
+	return a.x * a.x + a.y * a.y + a.z * a.z
+end
+
 function vec3equal(a, b)
 	return a.x == b.x and a.y == b.y and a.z == b.z
 end
@@ -55,6 +59,16 @@ end
 
 function vec3gief(a, b)
 	a.x, a.y, a.z = b.x, b.y, b.z
+end
+
+function vec3normalize(a)
+	local length =  math.sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z))
+	a.x, a.y, a.z = a.x / length, a.y / length, a.z / length
+	return a
+end
+
+function vec3dot(a, b)
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z)	
 end
 
 function ZoomInCamera()
@@ -112,7 +126,7 @@ function UpdateCamera(dt)
 
 	end
 
-	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
+	Camera.Follow(camera.fov, camera.toFollow.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 	local temppos = Camera.GetPos()
 	local distance = camera.distance
 	local dir = Camera.GetDirection()
@@ -167,7 +181,7 @@ function UpdateCamera(dt)
 		end
 	end
 	camera.distance = distance
-	Camera.Follow(camera.fov, player.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
+	Camera.Follow(camera.fov, camera.toFollow.transformID, camera.yOffset, camera.xOffset, camera.distance, camera.angle)
 end
 
 --return { Update = UpdateCamera }

@@ -14,8 +14,12 @@ namespace LuaAssets
 		luaL_Reg assetsRegs[] =
 		{
 			{ "LoadModel", loadModel },
+			{ "UnloadModel", unloadModel },
 			{ "LoadTexture", loadTexture },
+			{ "UnloadTexture", unloadTexture },
 			{ "LoadHeightmap", loadHeightmap },
+			{ "UnloadHeightmap", unloadHeightmap },
+			{ "GetAssets", getAssets },
 			{ NULL, NULL }
 		};
 
@@ -76,6 +80,15 @@ namespace LuaAssets
 		return result;
 	}
 
+	int unloadModel( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		g_assets->unload<ModelAsset>( lua_tostring( lua, 1 ) );
+
+		return 0;
+	}
+
 	int loadTexture( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 1 );
@@ -94,6 +107,15 @@ namespace LuaAssets
 		}
 
 		return result;
+	}
+
+	int unloadTexture( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		g_assets->unload<TextureAsset>( lua_tostring( lua, 1 ) );
+
+		return 0;
 	}
 
 	int bindTexture( lua_State* lua )
@@ -132,6 +154,15 @@ namespace LuaAssets
 		}
 
 		return result;
+	}
+
+	int unloadHeightmap( lua_State* lua )
+	{
+		assert( lua_gettop( lua ) == 1 );
+
+		g_assets->unload<HeightMap>( lua_tostring( lua, 1 ) );
+
+		return 0;
 	}
 
 	int insideHeightmap( lua_State* lua )
@@ -256,6 +287,19 @@ namespace LuaAssets
 
 		return result;
 	}*/
+
+	int getAssets( lua_State* lua )
+	{
+		lua_newtable( lua );
+
+		for( std::map<AssetID, Asset*>::const_iterator it = g_assets->getAssets().begin(); it != g_assets->getAssets().end(); it++ )
+		{
+			lua_pushnumber( lua, it->second->getReferenceCount() );
+			lua_setfield( lua, -2, it->second->getFileInfo()->getPath().c_str() );
+		}
+
+		return 1;
+	}
 
 	Importer::HeightMap* getHeightmap( lua_State* lua, int index )
 	{

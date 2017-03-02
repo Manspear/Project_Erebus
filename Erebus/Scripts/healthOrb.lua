@@ -2,9 +2,7 @@ HEALTH_EFFECT_DURATION = 15
 HEALTH_ORB_LIFE = 20
 ORB_POOL_SIZE = 3
 
-healthOrbParticles = {}
 allHealthOrbs = {}
-healthColliderPool = {}
 orbsOnField = {}
 currentFreeOrb = 0
 activeOrbs = 0
@@ -16,7 +14,7 @@ function CreateHealthOrb(index)
 	orb.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(orb.transformID, false)
 	orb.collider = SphereCollider.Create(orb.transformID)
-	CollisionHandler.AddSphere(orb.collider, 1)
+	CollisionHandler.AddSphere(orb.collider, 2)
 	SphereCollider.SetActive(orb.collider, false)
 	orb.particles = createSparklyParticles2()
 	orb.YValue = 0
@@ -81,7 +79,7 @@ function UpdateOrb(daOrb, dt)
 	end
 	local collisionIDs = daOrb.collider:GetCollisionIDs()
 	for	curID = 1, #collisionIDs do	
-		if collisionIDs[curID] == player.collisionID then
+		if collisionIDs[curID] == player.collisionID and player.isAlive then
 			if player.health < 80 then player.health = player.health + HEALTH_ORB_LIFE else player.health = 100 end
 			Network.SendPlayerHealthPacket(player.transformID, player.health)
 			KillHealthOrb(daOrb)
@@ -116,6 +114,17 @@ function UpdateOrb(daOrb, dt)
 	daOrb.particles:update(daOrb.position)
 end
 
-function UnloadHealthOrbs() print("TODO: Fixa unload för healthORBRBRBRs") end
+function UnloadHealthOrbs()
+	for _,v in pairs(allHealthOrbs) do
+		Gear.UnbindInstance(v.transformID)
+		destroySparklyParticles2(v.particles)
+		Assets.UnloadModel( "Models/Stone4.model" )
+	end
+
+	allHealthOrbs = {}
+	orbsOnField = {}
+	currentFreeOrb = 0
+	activeOrbs = 0
+end
 
 return { Load = LoadHealthOrbs, Unload = UnloadHealthOrbs, Update = UpdateHealthOrbs }

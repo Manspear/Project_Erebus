@@ -1,26 +1,35 @@
-TUMBLETHORN_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 0.5
 TUMBLETHORNS_COOLDOWN = 4
 TUMBLETHORNS_ROLLBACKTIME = 0.4
+TUMBLETHORNS_CASTSPEED_MULTIPLE = 1
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
-	spell.cooldown = 0.0		spell.maxcooldown = 4
-	spell.hudtexture = TUMBLETHORN_SPELL_TEXTURE
+	spell.maxcooldown = 4
+	spell.hudtexture = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 10
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
-	spell.chargedTime = 0		spell.maxChargeTime = 2
+	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 0
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
 	spell.direction = {x = 0, y = 0, z = 0}		spell.position = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false
 	spell.enemiesHit = {}
-		
+	
+	spell.isRay = false
+	--For animation timing 
+	spell.hasSpamAttack = true
+	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
+	spell.castTimeAttack = 0.5 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * TUMBLETHORNS_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
+	Transform.ActiveControl(spell.transformID, false)
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
 	spell.effects = {} 
@@ -56,16 +65,16 @@ function CreateTumblethorns(entity)
 			self.rollin = true
 			self.cooldown = TUMBLETHORNS_COOLDOWN
 			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
-			SphereCollider.SetActive(spell.sphereCollider, true)
 			self.position = Transform.GetPosition(self.caster)
-			--self.direction = Transform.GetLookAt(self.caster)
-			self.direction = Camera.GetDirection()
+			Transform.SetPosition(self.transformID, self.position)
+			SphereCollider.SetActive(spell.sphereCollider, true)
+			self.direction = self.owner.spellDirection
 			Transform.ActiveControl(self.transformID, true)
 			Transform.RotateToVector(self.transformID, self.direction)
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
 			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)	
 		elseif self.canRollBack and self.rollin then
-			self.rollBackTime =TUMBLETHORNS_ROLLBACKTIME
+			self.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 			self.canRollBack = false
 			local newLookAt = vec3sub(self.owner.position, self.position)
 			Transform.RotateToVector(self.transformID, newLookAt)
@@ -84,10 +93,6 @@ function CreateTumblethorns(entity)
 		if self.cooldown < 0.0 then
 		
 		end
-	end
-
-	function spell:GeneralCast()
-		
 	end
 
 	function spell:Kill()
@@ -114,12 +119,10 @@ function CreateTumblethorns(entity)
 
 	function spell:CheckColissions()
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()	
-		local walls = CollisionHandler.GetIDsFromLayer(3)
-		local realWalls = {}	
-		for i, v in pairs(walls) do
-			realWalls[i] = v
+		if CollisionHandler.IsHitboxCollidingWithLayer(self.sphereCollider, 3) then 
+			self:Kill()
+			return
 		end
-		
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
 				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then			
@@ -142,13 +145,7 @@ function CreateTumblethorns(entity)
 					end	
 					self.enemiesHit[boss.transformID] = true		
 				end
-			end
-			for curWall = 1, #realWalls do
-				if collisionIDs[curID] == realWalls[curWall] then
-					self:Kill()
-				end
-			end
-				
+			end				
 		end		
 	end
 
@@ -157,4 +154,15 @@ function CreateTumblethorns(entity)
 	spell.GetEffect = BaseGetEffect
 	spell.Combine = BaseCombine
 	return spell
+end
+
+function DestroyTumblethorns(tumble)
+	destroyTumbleParticles(tumble.spell.particles)
+
+	Gear.UnbindInstance(tumble.transformID)
+
+	Assets.UnloadTexture("Textures/IconTumblethorne.dds")
+	Assets.UnloadModel( "Models/tumbleweed.model" )
+
+	tumble = nil
 end

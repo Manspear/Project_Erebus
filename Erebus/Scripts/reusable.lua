@@ -51,12 +51,18 @@ function InitFireEffectParticles()
 	end
 end
 
+function UnInitFireEffectParticles()
+	for i=1, MAX_FIRE_EFFECT_PARTICLES do
+		DestroyFireEffectParticles(fireeffectparticles.particles[i])
+	end
+end
+
 function GetNextFireEffectParticle()
 	fireeffectparticles.nextIndex = (fireeffectparticles.nextIndex%MAX_FIRE_EFFECT_PARTICLES)+1
 	return fireeffectparticles.particles[fireeffectparticles.nextIndex]
 end
 
-InitFireEffectParticles()
+--InitFireEffectParticles()
 
 function PrintInfo() 
 	if player.printInfo then
@@ -84,4 +90,28 @@ function PrintInfo()
 		info = "Direction\nx:"..Round(direction.x, 3).."\ny:"..Round(direction.y, 3).."\nz:"..Round(direction.z, 3)
 		Gear.Print(info, 120, 430, scale, color)
 	end
+end
+
+function TriggerChecks(dt)
+	for _,v in pairs(levels[player.levelIndex].triggers) do
+		if v.collider:CheckCollision() then
+			if not v.collider.triggered then
+				if v.collider.OnEnter then
+					v.collider:OnEnter()
+				else
+					v.collider:OnTriggering(dt)
+				end
+				v.collider.triggered = true
+			else
+				v.collider:OnTriggering(dt)
+			end
+		else
+			if v.collider.triggered then
+				if v.collider.OnExit then
+					v.collider:OnExit()
+				end
+				v.collider.triggered = false
+			end
+		end
+	end	
 end

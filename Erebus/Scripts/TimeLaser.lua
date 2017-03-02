@@ -18,7 +18,7 @@ function CreateTimeLaser( entity )
 		spell.colliders[i] = OBBCollider.Create(spell.transformIDs[i])
 		spell.colliders[i].SetSize(spell.colliders[i], TIMELASER_LENGTH, 1, 1)
 		spell.hitTimers[i] = 0
-		CollisionHandler.AddOBB(spell.colliders[i], 1)
+		CollisionHandler.AddOBB(spell.colliders[i], 2)
 	end
 	spell.angle = 0
 	spell.owner = entity
@@ -49,7 +49,7 @@ function CreateTimeLaser( entity )
 
 	function spell:Update(dt)
 		if self.alive then
-			local increment = dt/4
+			local increment = dt/1.75 --this is where the speed of the spin is determined
 			self.lifeTime = self.lifeTime - dt
 			local dir = {x=0,y=0,z=0}
 			local oobpos = {x=0,y=0,z=0}
@@ -93,4 +93,14 @@ function CreateTimeLaser( entity )
 	end
 
 	return spell
+end
+
+function DestroyTimeLaser(laser)
+	for _,v in pairs(laser.transformIDs) do
+		Gear.UnbindInstance(v)
+	end
+
+	Assets.UnloadModel( "Models/Siphon.model" )
+
+	laser = nil
 end
