@@ -53,7 +53,8 @@ public:
 	void pushEndEventPacket(const EventPacket& packet);
 	void pushPlayerHealthPacket(const HealthPacket& packet);
 	void pushRessurectionPacket(const HealthPacket& packet);
-	void pushDamageTextPacket(const DamagePacket& packet);
+	void pushAIDamageTextPacket(const DamagePacket& packet);
+	void pushBossDamageTextPacket(const DamagePacket& packet);
 
 private:
 	unsigned char * memory;
@@ -73,7 +74,8 @@ private:
 	PacketQueue<EventPacket> * endEventQueue;
 	PacketQueue<HealthPacket> * playerHealthQueue;
 	PacketQueue<HealthPacket> * ressurectionQueue;
-	PacketQueue<DamagePacket> * damageTextQueue;
+	PacketQueue<DamagePacket> * aiDamageTextQueue;
+	PacketQueue<DamagePacket> * bossDamageTextQueue;
 
 	uint16_t currentNetPacketSize;
 
