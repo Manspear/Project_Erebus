@@ -502,6 +502,85 @@ namespace Gear
 		}
 	}
 
+#pragma region new dynamic lights
+	GEAR_API int GearEngine::addLight(Lights::PointLight light)
+	{
+		int index = -1;
+		for (int i = 0; i < MAX_NUM_LIGHTS && index == -1; i++)
+		{
+			if (dynamicLightArr[i].radius.a < 0)
+			{
+				dynamicLightArr[i] = light;
+				dynamicLightArr[i].radius.a = 0;
+				index = i;
+			}
+		}
+		return index;
+	}
+
+	GEAR_API void GearEngine::updateLight(int index, Lights::PointLight light)
+	{
+		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		{
+			dynamicLightArr[index] = light;
+		}
+	}
+
+	GEAR_API void GearEngine::updateLightPosition(int index, glm::vec4 pos)
+	{
+		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		{
+			dynamicLightArr[index].pos = pos;
+		}
+	}
+
+	GEAR_API void GearEngine::updateLightColor(int index, glm::vec4 col)
+	{
+		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		{
+			dynamicLightArr[index].color = col;
+		}
+	}
+
+	GEAR_API void GearEngine::updateLightRadius(int index, float r)
+	{
+		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		{
+			dynamicLightArr[index].radius.r = r;
+		}
+	}
+
+	GEAR_API void GearEngine::updateLightIntensity(int index, float i)
+	{
+		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		{
+			dynamicLightArr[index].radius.g = i;
+		}
+	}
+
+	GEAR_API void GearEngine::removeLight(int index)
+	{
+		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		{
+			dynamicLightArr[index] = Lights::PointLight();
+		}
+	}
+
+	void GearEngine::updatePointLightBuffer()
+	{
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
+		for (int i = 0; i < MAX_NUM_LIGHTS; i++)
+		{
+			pointLightsPtr[i] = dynamicLightArr[i];
+		}
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		updateLightQueue.clear();
+	}
+#pragma endregion
+
+#pragma region old dynamic lights
 	GEAR_API void GearEngine::queueAddDynamicLights(Lights::PointLight * lights)
 	{
 		addDynamicLightQueue.push_back(lights);
@@ -579,6 +658,7 @@ namespace Gear
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
+#pragma endregion
 
 	void GearEngine::pickingPass() {
 		gBuffer.use();
@@ -627,14 +707,54 @@ namespace Gear
 			shader->setUniform(dirLights[i].direction, "dirLights.direction");
 			shader->setUniform(dirLights[i].color, "dirLights.color");
 		}
-		int num_lights = dynamicPointlights.size();
+		//int num_lights = dynamicPointlights.size();
+		//shader->setUniform(num_lights, "num_dynamic_lights");
+		//for (int i = 0; i < dynamicPointlights.size(); i++)
+		//{
+		//	shader->setUniform(dynamicPointlights[i]->pos, "dynamicLights[" + std::to_string(i) + "].pos");
+		//	shader->setUniform(dynamicPointlights[i]->color, "dynamicLights[" + std::to_string(i) + "].color");
+		//	shader->setUniform(dynamicPointlights[i]->radius, "dynamicLights[" + std::to_string(i) + "].radius");
+		//}
+		int num_lights = MAX_NUM_LIGHTS;
 		shader->setUniform(num_lights, "num_dynamic_lights");
-		for (int i = 0; i < dynamicPointlights.size(); i++)
+		for (int i = 0; i < num_lights; i++)
 		{
-			shader->setUniform(dynamicPointlights[i]->pos, "dynamicLights[" + std::to_string(i) + "].pos");
-			shader->setUniform(dynamicPointlights[i]->color, "dynamicLights[" + std::to_string(i) + "].color");
-			shader->setUniform(dynamicPointlights[i]->radius, "dynamicLights[" + std::to_string(i) + "].radius");
+			shader->setUniform(dynamicLightArr[i].pos, "dynamicLights[" + std::to_string(i) + "].pos");
+			shader->setUniform(dynamicLightArr[i].color, "dynamicLights[" + std::to_string(i) + "].color");
+			shader->setUniform(dynamicLightArr[i].radius, "dynamicLights[" + std::to_string(i) + "].radius");
 		}
+
+#pragma region dynamicLightArr dbgtxt
+		//std::string s = "";
+		//glm::vec4 pos, col, rad;
+		//for (int i = 0; i < 5; i++)
+		//{
+		//	pos = dynamicLightArr[i].pos;
+		//	col = dynamicLightArr[i].color;
+		//	rad = dynamicLightArr[i].radius;
+		//
+		//	s += "index " + std::to_string(i)
+		//		+ "\npos x:" + std::to_string(pos.x) + " y:" + std::to_string(pos.y) + " z:" + std::to_string(pos.z) + " w:" + std::to_string(pos.w)
+		//		+ "\ncol r:" + std::to_string(col.x) + " g:" + std::to_string(col.y) + " b:" + std::to_string(col.z) + " a:" + std::to_string(col.w)
+		//		+ "\nrad r:" + std::to_string(rad.x) + " g:" + std::to_string(rad.y) + " b:" + std::to_string(rad.z) + " a:" + std::to_string(rad.w)
+		//		+ "\n\n";
+		//}
+		//text.print(s, 000, 0, 0.75, glm::vec4(0.5, 0.5, 1, 1));
+		//s = "";
+		//for (int i = 5; i < 10; i++)
+		//{
+		//	pos = dynamicLightArr[i].pos;
+		//	col = dynamicLightArr[i].color;
+		//	rad = dynamicLightArr[i].radius;
+		//
+		//	s += "index " + std::to_string(i)
+		//		+ "\npos x:" + std::to_string(pos.x) + " y:" + std::to_string(pos.y) + " z:" + std::to_string(pos.z) + " w:" + std::to_string(pos.w)
+		//		+ "\ncol r:" + std::to_string(col.x) + " g:" + std::to_string(col.y) + " b:" + std::to_string(col.z) + " a:" + std::to_string(col.w)
+		//		+ "\nrad r:" + std::to_string(rad.x) + " g:" + std::to_string(rad.y) + " b:" + std::to_string(rad.z) + " a:" + std::to_string(rad.w)
+		//		+ "\n\n";
+		//}
+		//text.print(s, 640, 0, 0.75, glm::vec4(0.5, 0.5, 1, 1));
+#pragma endregion prints the entire array of dynamic lights on the screen
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, lightBuffer); //binds the light buffer to the shader
 		drawQuad(); //draws quad

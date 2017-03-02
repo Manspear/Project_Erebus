@@ -13,6 +13,8 @@
 #include "WorldImageRenderer.h"
 #include "FloatingDamage.h"
 
+#define MAX_NUM_LIGHTS 10
+
 namespace Gear
 {
 	class GearEngine {
@@ -67,6 +69,14 @@ namespace Gear
 		GEAR_API void updateLight();
 		GEAR_API void removeLight();
 
+		GEAR_API int addLight(Lights::PointLight light);
+		GEAR_API void updateLight(int index, Lights::PointLight light);
+		GEAR_API void updateLightPosition(int index, glm::vec4 pos);
+		GEAR_API void updateLightColor(int index, glm::vec4 col);
+		GEAR_API void updateLightRadius(int index, float r);
+		GEAR_API void updateLightIntensity(int index, float i);
+		GEAR_API void removeLight(int index);
+
 		GEAR_API void queueAddDynamicLights(Lights::PointLight* lights);
 		GEAR_API void queueUpdateDynamicLights(Lights::PointLight* lights);
 		GEAR_API void queueRemoveDynamicLights(Lights::PointLight* lights);
@@ -88,6 +98,7 @@ namespace Gear
 
 	private:
 		void updateTransforms( std::vector<ModelInstance>* models );
+		void updatePointLightBuffer();
 
 		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
 		const int NUM_DYNAMIC_LIGHTS = 10; //number of lights should be the same in lightPass.frag
@@ -110,6 +121,8 @@ namespace Gear
 
 		std::vector<Lights::DirLight> dirLights;
 		std::vector<Lights::PointLight*> dynamicPointlights;
+
+		Lights::PointLight dynamicLightArr[MAX_NUM_LIGHTS];
 
 		std::vector<Lights::PointLight*> addDynamicLightQueue;
 		std::vector<Lights::PointLight*> updateDynamicLightQueue;

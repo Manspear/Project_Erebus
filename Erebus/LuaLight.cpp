@@ -35,27 +35,41 @@ namespace LuaLight {
 		int result = 0;
 		if (lua_gettop(lua) >= 9)
 		{
-			float posX = (float)lua_tonumber(lua, 1);
-			float posY = (float)lua_tonumber(lua, 2);
-			float posZ = (float)lua_tonumber(lua, 3);
-			float colorR = (float)lua_tonumber(lua, 4);
-			float colorG = (float)lua_tonumber(lua, 5);
-			float colorB = (float)lua_tonumber(lua, 6);
-			float radius = (float)lua_tonumber(lua, 7);
-			float intensity = (float)lua_tonumber(lua, 8);
+			//float posX = (float)lua_tonumber(lua, 1);
+			//float posY = (float)lua_tonumber(lua, 2);
+			//float posZ = (float)lua_tonumber(lua, 3);
+			//float colorR = (float)lua_tonumber(lua, 4);
+			//float colorG = (float)lua_tonumber(lua, 5);
+			//float colorB = (float)lua_tonumber(lua, 6);
+			//float radius = (float)lua_tonumber(lua, 7);
+			//float intensity = (float)lua_tonumber(lua, 8);
+			//
+			//Lights::PointLight* light = new Lights::PointLight(glm::vec4(posX, posY, posZ, 0), glm::vec4(colorR, colorG, colorB, 0), glm::vec4(radius, intensity, 0, 0));
+			//
+			//g_gearEngine->queueAddDynamicLights(light);
+			//
+			//if (light)
+			//{
+			//	lua_newtable(lua);
+			//	luaL_setmetatable(lua, "lightMeta");
+			//	lua_pushlightuserdata(lua, light);
+			//	lua_setfield(lua, -2, "__self");
+			//	result = 1;
+			//}
 
-			Lights::PointLight* light = new Lights::PointLight(glm::vec4(posX, posY, posZ, 0), glm::vec4(colorR, colorG, colorB, 0), glm::vec4(radius, intensity, 0, 0));
+			Lights::PointLight l;
+			l.pos.x = (float)lua_tonumber(lua, 1);
+			l.pos.y = (float)lua_tonumber(lua, 2);
+			l.pos.z = (float)lua_tonumber(lua, 3);
+			l.color.r = (float)lua_tonumber(lua, 4);
+			l.color.g = (float)lua_tonumber(lua, 5);
+			l.color.b = (float)lua_tonumber(lua, 6);
+			l.radius.r = (float)lua_tonumber(lua, 7);
+			l.radius.g = (float)lua_tonumber(lua, 8);
 
-			g_gearEngine->queueAddDynamicLights(light);
-
-			if (light)
-			{
-				lua_newtable(lua);
-				luaL_setmetatable(lua, "lightMeta");
-				lua_pushlightuserdata(lua, light);
-				lua_setfield(lua, -2, "__self");
-				result = 1;
-			}
+			int index = g_gearEngine->addLight(l);
+			lua_pushinteger(lua, index);
+			result = 1;
 		}
 		else if (lua_gettop(lua) >= 8)
 		{
@@ -89,16 +103,24 @@ namespace LuaLight {
 	{
 		if (lua_gettop(lua) >= 5)
 		{
-			lua_getfield(lua, 1, "__self");
-			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//lua_getfield(lua, 1, "__self");
+			//Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
 
-			float posX = (float)lua_tonumber(lua, 2);
-			float posY = (float)lua_tonumber(lua, 3);
-			float posZ = (float)lua_tonumber(lua, 4);
+			//float posX = (float)lua_tonumber(lua, 2);
+			//float posY = (float)lua_tonumber(lua, 3);
+			//float posZ = (float)lua_tonumber(lua, 4);
 
-			light->pos = glm::vec4(posX, posY, posZ, 0);
+			//light->pos = glm::vec4(posX, posY, posZ, 0);
 
-			g_gearEngine->queueUpdateDynamicLights(light);
+			//g_gearEngine->queueUpdateDynamicLights(light);
+
+			int index = lua_tointeger(lua, 1);
+			glm::vec4 pos(0);
+			pos.x = (float)lua_tonumber(lua, 2);
+			pos.y = (float)lua_tonumber(lua, 3);
+			pos.z = (float)lua_tonumber(lua, 4);
+			g_gearEngine->updateLightPosition(index, pos);
+
 		}
 		else if (lua_gettop(lua) >= 4)
 		{
@@ -120,16 +142,23 @@ namespace LuaLight {
 	{
 		if (lua_gettop(lua) >= 5)
 		{
-			lua_getfield(lua, 1, "__self");
-			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//lua_getfield(lua, 1, "__self");
+			//Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//
+			//float colorR = (float)lua_tonumber(lua, 2);
+			//float colorG = (float)lua_tonumber(lua, 3);
+			//float colorB = (float)lua_tonumber(lua, 4);
+			//
+			//light->color = glm::vec4(colorR, colorG, colorB, 0);
+			//
+			//g_gearEngine->queueUpdateDynamicLights(light);
 
-			float colorR = (float)lua_tonumber(lua, 2);
-			float colorG = (float)lua_tonumber(lua, 3);
-			float colorB = (float)lua_tonumber(lua, 4);
-
-			light->color = glm::vec4(colorR, colorG, colorB, 0);
-
-			g_gearEngine->queueUpdateDynamicLights(light);
+			int index = lua_tointeger(lua, 1);
+			glm::vec4 col(0);
+			col.r = (float)lua_tonumber(lua, 2);
+			col.g = (float)lua_tonumber(lua, 3);
+			col.b = (float)lua_tonumber(lua, 4);
+			g_gearEngine->updateLightColor(index, col);
 		}
 		else if (lua_gettop(lua) >= 4)
 		{
@@ -151,14 +180,18 @@ namespace LuaLight {
 	{
 		if (lua_gettop(lua) >= 3)
 		{
-			lua_getfield(lua, 1, "__self");
-			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//lua_getfield(lua, 1, "__self");
+			//Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//
+			//float radius = (float)lua_tonumber(lua, 2);
+			//
+			//light->radius.r = radius;
+			//
+			//g_gearEngine->queueUpdateDynamicLights(light);
 
-			float radius = (float)lua_tonumber(lua, 2);
-
-			light->radius.r = radius;
-
-			g_gearEngine->queueUpdateDynamicLights(light);
+			int index = lua_tointeger(lua, 1);
+			float r = (float)lua_tonumber(lua, 2);
+			g_gearEngine->updateLightRadius(index, r);
 		}
 		else if (lua_gettop(lua) >= 2)
 		{
@@ -178,13 +211,17 @@ namespace LuaLight {
 	{
 		if (lua_gettop(lua) >= 3)
 		{
-			lua_getfield(lua, 1, "__self");
-			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//lua_getfield(lua, 1, "__self");
+			//Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//
+			//float intensity = (float)lua_tonumber(lua, 2);
+			//
+			//light->radius.g = intensity;
+			//g_gearEngine->queueUpdateDynamicLights(light);
 
-			float intensity = (float)lua_tonumber(lua, 2);
-
-			light->radius.g = intensity;
-			g_gearEngine->queueUpdateDynamicLights(light);
+			int index = lua_tointeger(lua, 1);
+			float i = (float)lua_tonumber(lua, 2);
+			g_gearEngine->updateLightIntensity(index, i);
 		}
 		else if (lua_gettop(lua) >= 2)
 		{
@@ -203,10 +240,13 @@ namespace LuaLight {
 	{
 		if (lua_gettop(lua) >= 2)
 		{
-			lua_getfield(lua, 1, "__self");
-			Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
-
-			g_gearEngine->queueRemoveDynamicLights(light);
+			//lua_getfield(lua, 1, "__self");
+			//Lights::PointLight* light = (Lights::PointLight*)lua_touserdata(lua, -1);
+			//
+			//g_gearEngine->queueRemoveDynamicLights(light);
+			
+			int index = lua_tointeger(lua, 1);
+			g_gearEngine->removeLight(index);
 		}
 		else if (lua_gettop(lua) >= 1)
 		{
