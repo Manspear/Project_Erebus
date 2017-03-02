@@ -40,6 +40,8 @@ namespace LuaNetwork
 			{ "SendPlayerHealthPacket", sendPlayerHealthPacket },
 			{ "GetPlayerHealthPacket", getPlayerHealthPacket },
 			{ "SendRessurectionPacket", sendRessurectionPacket },
+			{ "SendDamageTextPacket", sendDamageTextPacket },
+			{ "GetDamageTextPacket", getDamageTextPacket },
 			{ "GetRessurectionPacket", getRessurectionPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
@@ -605,6 +607,39 @@ namespace LuaNetwork
 		}
 
 		return 3;
+	}
+
+	int sendDamageTextPacket(lua_State* lua)
+	{
+		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
+		float damage = (float)lua_tonumber(lua, 2);
+		uint8_t element = (uint8_t)lua_tointeger(lua, 3);
+
+		g_networkController->sendDamageTextPacket(DamagePacket(index, damage, element));
+
+		return 0;
+	}
+
+	int getDamageTextPacket(lua_State* lua)
+	{
+		DamagePacket damagePacket;
+
+		if (g_networkController->fetchDamageTextPacket(damagePacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, damagePacket.data.transformID);
+			lua_pushnumber(lua, damagePacket.data.damage);
+			lua_pushnumber(lua, damagePacket.data.element);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 4;
 	}
 
 	int getNetworkHost(lua_State* lua)

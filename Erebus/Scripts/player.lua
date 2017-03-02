@@ -8,10 +8,11 @@ DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 DASH_SPEED_MULTIPLE = 3.2 + 0.1875
 --Used for spellCharging
-FIRE=1
-NATURE=2
-ICE=3
-NEUTRAL=4
+FIRE=0
+NATURE=1
+ICE=2
+NEUTRAL=3
+HEAL=4
 
 player = {}
 player2 = {}
@@ -468,8 +469,6 @@ function Controls(dt)
 			ChargeDir.y = pos2.y - player.position.y 
 			ChargeDir.z =  pos2.z -  player.position.z 
 
-
-
 			--normalize and length
 			local len = vec3length(vec3sub(player.position, pos2))
 			
@@ -479,15 +478,10 @@ function Controls(dt)
 			ChargeDir.y = (ChargeDir.y /a)
 			ChargeDir.z = (ChargeDir.z /a)
 		
-			local dir = Camera.GetDirection()
-			
-			
-			
+			local dir = Camera.GetDirection()			
 			if len<35 then
-
 				dot = (ChargeDir.x * dir.x) + (ChargeDir.y * dir.y) + (ChargeDir.z * dir.z)
 				if dot >0.25 then
-
 					local result = player.friendCharger:FireChargeBeam(dt,ChargeDir,sElement, len)
 					if player2.charging == true and result == true then
 						player2.isCombined = true
@@ -496,19 +490,17 @@ function Controls(dt)
 				else 
 					player.friendCharger:EndChargeBeam()
 					player.friendCharger:resetCooldown()
-
 				end
-
 			else 
 				player.friendCharger:EndChargeBeam()
 				player.friendCharger:resetCooldown()
 			end
 		end
 	if Inputs.KeyReleased(SETTING_KEYBIND_COMBINE) then
-		HideCrosshair()
-		hideWaitingForPlayer2()
+		--HideCrosshair()
+		--hideWaitingForPlayer2()
 		player.friendCharger:EndChargeBeam()
-			player.friendCharger:resetCooldown()
+		player.friendCharger:resetCooldown()
 		Network.SendChargingPacket(0, false) 
 	end
 

@@ -49,6 +49,7 @@ public:
 	PacketQueue<EventPacket> * getEndEventQueue();
 	PacketQueue<HealthPacket> * getPlayerHealthQueue();
 	PacketQueue<HealthPacket> * getRessurectionQueue();
+	PacketQueue<DamagePacket> * getDamageTextQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -66,7 +67,7 @@ private:
 	PacketQueue<EventPacket> * endEventQueue;
 	PacketQueue<HealthPacket> * playerHealthQueue;
 	PacketQueue<HealthPacket> * ressurectionQueue;
-
+	PacketQueue<DamagePacket> * damageTextQueue;
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;
