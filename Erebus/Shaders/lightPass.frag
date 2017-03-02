@@ -5,10 +5,12 @@
 out vec4 FragColor;
 in vec2 TexCoords;
 
+const int NUM_CASCADES = 2;
+
 uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedoSpec;
-uniform sampler2D gShadowMap;
+uniform sampler2D gShadowMap[NUM_CASCADES];
 
 struct PointLight {
 		vec4 pos;
@@ -40,12 +42,16 @@ uniform int num_dynamic_lights;
 uniform vec3 fogColor;
 uniform vec3 ambient;
 
+uniform mat4 lightWVP[NUM_CASCADES];
+uniform float CascadeEndClipSpace[NUM_CASCADES];
+
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, float Specular);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float Specular);
 float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords);
 float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 float SampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare);
 vec3 WorldPosFromDepth(float depth);
+float CascadedShadow(vec4 LightSpacePos, int CascadeIndex);
 
 void main() {
 
@@ -60,25 +66,54 @@ void main() {
 	vec3 Diffuse  = vec4(texture2D(gAlbedoSpec, TexCoords)).rgb;
 	float Specular = vec4(texture2D(gAlbedoSpec, TexCoords)).a;
 
-	vec4 shadowMapCoords = shadowVPM * vec4(FragPos,1.0);
-	vec3 shadowcoords = (shadowMapCoords.xyz/shadowMapCoords.w) * vec3(0.5) + vec3(0.5);
+	vec4 shadowMapCoords = lightWVP[0] * vec4(FragPos,1.0);
+
+	vec4 LightSpacePos[NUM_CASCADES];
+
+	for(int i = 0; i < NUM_CASCADES ; i++)
+	{
+		LightSpacePos[i] = lightWVP[i] * vec4(FragPos,1.0);
+	}
+
+	float z = Depth * 2.0 - 1.0;
+
+	vec4 clipSpacePosition = vec4(TexCoords.xy * 2.0 - 1.0, z, 1.0);
+
+	float ClipSpacePosZ = clipSpacePosition.z;
+
+	vec4 viewSpacePosition = invProj * clipSpacePosition;
+
+	//Perspective division
+	viewSpacePosition /= viewSpacePosition.w;
+
+
+
+	float ShadowFactor = 0.0;
 	
-	vec3 norm = normalize(Normal);
+	for(int i = 0; i < NUM_CASCADES ; i++)
+	{
+		if(ClipSpacePosZ <= CascadeEndClipSpace[i])
+		{
+			ShadowFactor = CascadedShadow(LightSpacePos[i], i);
+			break;
+		}
+	}
+	
     vec3 viewDir = normalize(viewPos - FragPos);
 	
 	vec3 directional = vec3(0);
 	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
-		directional += CalcDirLight(dirLights, norm, viewDir, Specular);
+		directional += CalcDirLight(dirLights, Normal, viewDir, Specular);
 
 	vec3 point = vec3(0,0,0);
 	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
-		point += CalcPointLight(lightBuffer.data[i], norm, FragPos, viewDir, Specular);
+		point += CalcPointLight(lightBuffer.data[i], Normal, FragPos, viewDir, Specular);
 
 	vec3 dynamicPoint = vec3(0,0,0);
 	for(int i = 0; i < num_dynamic_lights; i++) //calculate dynamic point lights
-	dynamicPoint += CalcPointLight(dynamicLights[i], norm, FragPos, viewDir, Specular);
+	dynamicPoint += CalcPointLight(dynamicLights[i], Normal, FragPos, viewDir, Specular);
 
-	vec3 outputColor = ((ambient * Diffuse) + directional + point + dynamicPoint);
+	vec3 outputColor = ((ambient * Diffuse) + (directional * ShadowFactor + point + dynamicPoint);
 
 	outputColor = mix(outputColor, fogColor,getFogFactor(length(FragPos - viewPos)));
 
@@ -89,13 +124,16 @@ void main() {
 	else if(drawMode == 3)
 		FragColor = vec4(Normal, 1.0);
 	else if(drawMode == 4)
-        FragColor = vec4(Depth,Depth,Depth, 1);//vec4(FragPos, 1.0);
+		FragColor = vec4(ambient + (directional * ShadowFactor) + point, 1.0);
     else if(drawMode == 5)
         FragColor = vec4(Diffuse, 1);//vec4(Normal, 1.0);
     else if(drawMode == 6)
         FragColor = vec4(Specular,Specular,Specular, 1.0);
     else if(drawMode == 7)
-		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap, shadowMapCoords)) + point, 1.0);
+	{
+		FragColor = vec4(ambient + (directional * CalcShadowAmount(gShadowMap[0], shadowMapCoords)) + point, 1.0);
+	}
+	//	FragColor = vec4(ambient + (directional * shadow_coaf) + point, 1.0);
 		//FragColor = vec4(vec3(Specular), 1.0);
 }
  
@@ -191,4 +229,11 @@ vec3 WorldPosFromDepth(float depth){
 	vec4 worldSpacePosition = invView * viewSpacePosition;
 
 	return worldSpacePosition.xyz;
+}
+
+float CascadedShadow(vec4 LightSpacePos, int CascadeIndex){
+
+	
+
+	return CalcShadowAmount(gShadowMap[CascadeIndex], LightSpacePos);
 }

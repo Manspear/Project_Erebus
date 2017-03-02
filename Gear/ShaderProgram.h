@@ -73,7 +73,7 @@ public:
 	void setUniform1fv(float &vec1, std::string position, int count = 1);
 	void setUniform(glm::vec2 &vec2, std::string position, int count = 1);
 	void setUniform(float floatValue, std::string position);
-	void setUniform(int &intValue, std::string position);
+	void setUniform(int intValue, std::string position);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }

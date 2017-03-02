@@ -29,7 +29,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
-		
+		shadow.Init(WINDOW_HEIGHT, WINDOW_HEIGHT, dirLights[0]);
 
 	}
 
@@ -42,6 +42,9 @@ namespace Gear
 #pragma region init functions
 	void GearEngine::lightInit()
 	{
+		
+		this->updateLightQueue.push_back(l);
+
 		//Generate buffers
 		glGenBuffers(1, &lightBuffer); //Generate buffer to light data
 
@@ -105,6 +108,14 @@ namespace Gear
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, (GLsizei)WINDOW_WIDTH, (GLsizei)WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
+
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::LIGHT_PASS);
+		for (int i = 0; i < shadow.getNumCascades(); i++)
+		{
+			shader->addUniform(("lightWVP[" + std::to_string(i) + "]"));
+			shader->addUniform(("CascadeEndClipSpace[" + std::to_string(i) + "]"));
+			shader->addUniform(("gShadowMap[" + std::to_string(i) + "]"));
+		}
 
 	}
 
@@ -290,32 +301,29 @@ namespace Gear
 		//queue.update(*transformCount, *allTrans);
 		Camera tempCamera;
 
-		glm::vec3 offset;
-		offset.x = camera->getDirection().x * 20.0f;
-		offset.y = 0.0f;
-		offset.z = camera->getDirection().z * 20.0f;
-
-		glm::vec3 pos;
-		pos.x = (camera->getPosition().x - (dirLights[0].direction.x * 20.0f)) + offset.x;
-		pos.y = (camera->getPosition().y - (dirLights[0].direction.y * 20.0f)) + offset.y;
-		pos.z = (camera->getPosition().z - (dirLights[0].direction.z * 20.0f)) + offset.z;
-			
-		glm::vec3 target;
-
-		target.x = camera->getPosition().x + offset.x;
-		target.y = 0.0f;
-		target.z = camera->getPosition().z + offset.z;
-
-		glm::mat4 view = glm::lookAt(pos, target, glm::vec3(0, 1, 0));
-
-		tempCamera.setView(view);
+		shadow.calcOrthoProjs(camera);
 
 		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-
-		queue.updateUniforms(&tempCamera, ShaderType::GEOMETRYSHADOW);
-		queue.updateUniforms(&tempCamera, ShaderType::ANIMSHADOW);		
+		glCullFace(GL_BACK);	
 		
+		for (int i = 0; i < shadow.getNumCascades(); i++)
+		{
+			shadow.bind(i);
+			ShaderProgram *shader = queue.getShaderProgram(ShaderType::GEOMETRYSHADOW);
+			shader->use();
+			shader->setUniform(shadow.getShadowMatrix()[i], "ViewProjectionMatrix");
+			shader->unUse();
+
+			shader = queue.getShaderProgram(ShaderType::ANIMSHADOW);
+			shader->use();
+			shader->setUniform(shadow.getShadowMatrix()[i], "ViewProjectionMatrix");
+			shader->unUse();
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
+			shadow.unBind();
+		}
+
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer
@@ -325,6 +333,7 @@ namespace Gear
 		queue.updateUniforms(camera);
 
 		gBuffer.use();
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		queue.geometryPass(dynamicModels, animatedModels); // renders the geometry into the gbuffer
 		gBuffer.unUse();
@@ -364,6 +373,32 @@ namespace Gear
 		
 		image.draw();
 		text.draw();
+
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
+		for (int i = 0; i < shadow.getNumCascades(); i++)
+		{
+			glViewport((WINDOW_WIDTH - (10 + 200 * shadow.getNumCascades() + 10 * shadow.getNumCascades())) + (10 + 200 * i + 10 * i), WINDOW_HEIGHT - 210, 200, 200);
+			shader->use();
+			shadow.bindTexture(shader, "diffuse", 0, i);
+			drawQuad(); //draws quad
+			shader->unUse();
+		}
+
+
+		//glViewport(220, 10, 200, 200);
+		//shader->use();
+		//shadow.bindTexture(shader, "texture", 0, 1);
+		//drawQuad(); //draws quad
+		//shader->unUse();
+
+		//glViewport(430, 10, 200, 200);
+		//shader->use();
+		//shadow.bindTexture(shader, "texture", 0, 2);
+		//drawQuad(); //draws quad
+		//shader->unUse();
+
+		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	}
 
 	void GearEngine::update(float dt)
@@ -445,24 +480,24 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLight()
 	{
-		if (updateLightQueue.size() > 0)
-		{
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
-			Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-			for (int j = 0; j < updateLightQueue.size(); j++)
-			{
-				if ((int)updateLightQueue[j]->radius.a >= 0)
-				{
-					Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
-					light.pos = updateLightQueue[j]->pos;
-					light.color = updateLightQueue[j]->color;
-					light.radius = updateLightQueue[j]->radius;
-				}
-			}
-			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-			updateLightQueue.clear();
-		}
+		//if (updateLightQueue.size() > 0)
+		//{
+		//	glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
+		//	Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY); //get pointer of the data in the buffer
+		//	/*for (int j = 0; j < updateLightQueue.size(); j++)
+		//	{
+		//		if ((int)updateLightQueue[j]->radius.a >= 0)
+		//		{
+		//			Lights::PointLight &light = pointLightsPtr[(int)updateLightQueue[j]->radius.a];
+		//			light.pos = updateLightQueue[j]->pos;
+		//			light.color = updateLightQueue[j]->color;
+		//			light.radius = updateLightQueue[j]->radius;
+		//		}
+		//	}*/
+		//	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
+		//	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		//	//updateLightQueue.clear();
+		//}
 	}
 
 	GEAR_API void GearEngine::removeLight()
@@ -604,8 +639,21 @@ namespace Gear
 		gBuffer.BindTexturesToProgram(shader, "gNormal", 1, 1);
 		gBuffer.BindTexturesToProgram(shader, "gDepth", 2, 2);
 
+		for (GLuint i = 0; i < shadow.getNumCascades(); i++)
+		{
+			shadow.bindTexture(shader, ("gShadowMap[" + std::to_string(i) + "]").c_str(), 3 + i, i);
+
+			glm::vec4 View = { 0.0f, 0.0f, -shadow.getSplitDistance()[i], 1.0f };
+			glm::vec4 Clip = camera->getProjectionMatrix() * View;
+
+			Clip.z /= Clip.w;
+
+			shader->setUniform((shadow.getShadowMatrix()[i]), ("lightWVP[" + std::to_string(i) + "]").c_str());
+			shader->setUniform((Clip.z), ("CascadeEndClipSpace[" + std::to_string(i) + "]").c_str());
+		}
+
 		shader->setUniform(camera->getPosition(), "viewPos"); // viewPos
-		shader->setUniform(tempCam->getViewPers(), "shadowVPM"); //shadowVPM
+		//shader->setUniform(shadow.projectionMatrices[1] * shadow.viewMatrices[1], "shadowVPM"); //shadowVPM
 		shader->setUniform(drawMode, "drawMode"); //sets the draw mode to show diffrent lights calculations and textures for debugging  
 		shader->setUniform(glm::inverse(camera->getViewMatrix()), "invView"); // invView
 		shader->setUniform(glm::inverse(camera->getProjectionMatrix()), "invProj"); // invProj
