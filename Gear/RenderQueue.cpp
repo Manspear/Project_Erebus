@@ -53,18 +53,6 @@ void RenderQueue::init()
 		allShaders[ShaderType::LIGHT_PASS]->addUniform("dynamicLights[" + std::to_string(i) + "].radius");
 	}
 
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("lightWVP[0]");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("lightWVP[1]");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("lightWVP[2]");
-
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("CascadeEndClipSpace[0]");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("CascadeEndClipSpace[1]");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("CascadeEndClipSpace[2]");
-
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("gShadowMap[0]");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("gShadowMap[1]");
-	allShaders[ShaderType::LIGHT_PASS]->addUniform("gShadowMap[2]");
-
 	allShaders[ShaderType::BLUR] = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur"); //Shader for bluring texture
 
 	glGenBuffers(1, &particleBuffer);

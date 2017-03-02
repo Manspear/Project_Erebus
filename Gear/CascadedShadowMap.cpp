@@ -96,13 +96,70 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		glm::vec4 frustumMin(std::numeric_limits<float>::max());
 		glm::vec4 frustumMax(std::numeric_limits<float>::lowest());
 
+		glm::vec4 minExtent(std::numeric_limits<float>::max());
+		glm::vec4 maxExtent(std::numeric_limits<float>::lowest());
+
 		glm::vec3 center;
+
+		glm::vec3 radiusVec;
 
 		for (int j = 0; j < 8; j++) {
 			glm::vec3 vW = glm::vec3(camInv * frustumCorners[j]);
 			center += vW;
+
+			glm::vec4 frustumCorner = lightM * glm::vec4(vW, 1);
+			frustumMin.x = std::fmin(frustumMin.x, frustumCorner.x);
+			frustumMax.x = std::fmax(frustumMax.x, frustumCorner.x);
+			frustumMin.y = std::fmin(frustumMin.y, frustumCorner.y);
+			frustumMax.y = std::fmax(frustumMax.y, frustumCorner.y);
+			frustumMin.z = std::fmin(frustumMin.z, frustumCorner.z);
+			frustumMax.z = std::fmax(frustumMax.z, frustumCorner.z);
+
+			minExtent.x = std::fmin(minExtent.x, vW.x);
+			maxExtent.x = std::fmax(maxExtent.x, vW.x);
+			minExtent.y = std::fmin(minExtent.y, vW.y);
+			maxExtent.y = std::fmax(maxExtent.y, vW.y);
+			minExtent.z = std::fmin(minExtent.z, vW.z);
+			maxExtent.z = std::fmax(maxExtent.z, vW.z);
+
+			if (j == 0)
+			{
+				radiusVec = vW;
+			}
+			else if (j == 6)
+			{
+				radiusVec -= vW;
+			}
 		}
 		center = center / 8.0f;
+
+		float radius = glm::length(radiusVec) / 2.0f;
+
+		//float texelsPerUnit = (float)width / (radius * 2.0f);
+		float texelsPerUnit = (radius * 2.0f) / (float)width;
+		//float texelsPerUnit = 1.0f / (float)width;
+
+		//int pow = (int)std::pow(width, 2);
+
+		//texelsPerUnit = (radius * 2.0f) / ((float)(1 << pow));
+
+		//center.x = (texelsPerUnit * floor(center.x / texelsPerUnit));
+		//center.z = (texelsPerUnit * floor(center.z / texelsPerUnit));
+
+		glm::mat4 tempLightViewMatrix = glm::lookAt(glm::vec3(0.0f), light.direction, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glm::mat4 scale = glm::scale(glm::vec3(texelsPerUnit));
+		//tempLightViewMatrix = tempLightViewMatrix * scale;
+		glm::mat4 invTemp = glm::inverse(tempLightViewMatrix);
+
+		glm::vec4 centerViewSpace;
+		centerViewSpace = tempLightViewMatrix * glm::vec4(center, 1.0f);
+		
+		centerViewSpace.x = (float)floor(centerViewSpace.x * texelsPerUnit) / texelsPerUnit;
+		centerViewSpace.z = (float)floor(centerViewSpace.z * texelsPerUnit) / texelsPerUnit;
+
+	//	center = glm::vec3(invTemp * centerViewSpace);
+
+
 
 		glm::vec3 lightCenter = center;
 		glm::vec3 lightPos = center + light.direction;
@@ -110,20 +167,12 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 
 		lightM = glm::lookAt(lightCenter, lightPos, lightUp);
 
-		for (int j = 0; j < 8; j++) {
+		lightM[3][0] -= glm::mod(lightM[3][0], 2.f * radius / width);
+		lightM[3][1] -= glm::mod(lightM[3][1], 2.f * radius / width);
+		lightM[3][2] -= glm::mod(lightM[3][2], 2.f * radius / width);
 
-			glm::vec3 vW = glm::vec3(camInv * frustumCorners[j]);
-			glm::vec4 frustumCorner = lightM * glm::vec4(vW, 1);
-
-			frustumMin.x = std::fmin(frustumMin.x, frustumCorner.x);
-			frustumMax.x = std::fmax(frustumMax.x, frustumCorner.x);
-			frustumMin.y = std::fmin(frustumMin.y, frustumCorner.y);
-			frustumMax.y = std::fmax(frustumMax.y, frustumCorner.y);
-			frustumMin.z = std::fmin(frustumMin.z, frustumCorner.z);
-			frustumMax.z = std::fmax(frustumMax.z, frustumCorner.z);
-		}
-
-		glm::mat4 projection = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z * 6, frustumMax.z * 6);
+		/*glm::mat4 projection = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z * 6, frustumMax.z * 6);*/
+		glm::mat4 projection = glm::ortho(-radius, radius, -radius, radius, -radius * 2, radius * 2);
 
 		shadowWVPMatrices[CascadeID] = projection * lightM;
 	}

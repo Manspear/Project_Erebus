@@ -109,6 +109,14 @@ namespace Gear
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, (GLsizei)WINDOW_WIDTH, (GLsizei)WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
 
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::LIGHT_PASS);
+		for (int i = 0; i < shadow.getNumCascades(); i++)
+		{
+			shader->addUniform(("lightWVP[" + std::to_string(i) + "]"));
+			shader->addUniform(("CascadeEndClipSpace[" + std::to_string(i) + "]"));
+			shader->addUniform(("gShadowMap[" + std::to_string(i) + "]"));
+		}
+
 	}
 
 	void GearEngine::skyboxInit()
@@ -371,15 +379,15 @@ namespace Gear
 		image.draw();
 		text.draw();
 
-		//ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
-		//for (int i = 0; i < shadow.getNumCascades(); i++)
-		//{
-		//	glViewport(10 + 200 * i + 10 * i, WINDOW_HEIGHT - 210, 200, 200);
-		//	shader->use();
-		//	shadow.bindTexture(shader, "diffuse", 0, i);
-		//	drawQuad(); //draws quad
-		//	shader->unUse();
-		//}
+		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
+		for (int i = 0; i < shadow.getNumCascades(); i++)
+		{
+			glViewport((WINDOW_WIDTH - (10 + 200 * shadow.getNumCascades() + 10 * shadow.getNumCascades())) + (10 + 200 * i + 10 * i), WINDOW_HEIGHT - 210, 200, 200);
+			shader->use();
+			shadow.bindTexture(shader, "diffuse", 0, i);
+			drawQuad(); //draws quad
+			shader->unUse();
+		}
 
 
 		//glViewport(220, 10, 200, 200);
