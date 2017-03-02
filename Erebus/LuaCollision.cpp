@@ -130,7 +130,7 @@ namespace LuaCollision
 			{ "SetOffset",			setOffset },
 			{ "SetHalfLengths",			setOBBHalfLengths },
 			{ "SetPos",				setPos },
-			{ "SetAxes",				setAllAxes },
+			{ "SetAxes",				setAllAxis },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
