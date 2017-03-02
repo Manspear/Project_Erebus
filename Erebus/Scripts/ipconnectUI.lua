@@ -8,6 +8,7 @@ local incorrectIP = false
 local hosting = false
 local textFieldSelected = true
 local hostFailed = false
+local connectFailed = false
 local textCounter = 1
 local timeoutCounter = 0;
 
@@ -46,6 +47,7 @@ function UpdateipconnectUI(dt)
 
 	if Inputs.ButtonReleased(Buttons.Left) or enterPressed then
 		x,y = Inputs.GetMousePos()
+		connectFailed = false;
 
 		if ( UI.mousePick(screenImages["connect"], x,y ) or enterPressed ) and hosting == false then
 			if ipString == "" then
@@ -55,15 +57,13 @@ function UpdateipconnectUI(dt)
 				local result = Erebus.StartNetworkClient(stringToIp(ipString))
 				if result == true then
 						NETWORK_LATESTIP = ipString
-						ipString = ""
 						gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 				else
-						ipString = ""
-						gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+						Erebus.ShutdownNetwork()
+						connectFailed = true;
 				end
 			else
 				incorrectIP = true
-				ipString = ""
 			end
 		end
 
@@ -84,8 +84,8 @@ function UpdateipconnectUI(dt)
 		end
 
 		if UI.mousePick(screenImages["back"], x,y) then
-			ipString = ""
 			hosting = false
+			Erebus.ShutdownNetwork()
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 		end
 	end
@@ -135,6 +135,10 @@ function UpdateipconnectUI(dt)
 		hostFailed = false
 	elseif hostFailed then
 		Gear.Print("Connection Failed: No Player Connected!", 321, 465)
+	end
+
+	if connectFailed then
+		Gear.Print("Connection Failed: no host on the entered ip!", 321, 465)
 	end
 
 	if timeoutCounter > HOST_TIMEOUT_LIMIT then
