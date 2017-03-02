@@ -587,9 +587,9 @@ void LevelCollider::update(float deltaTime)
 			}
 			else {
 				obbColider->setXAxis({ 1,0,0 });
-				obbColider->rotateAroundX(totalRot.x);
+				obbColider->rotateAroundX(totalRot.z);
 				obbColider->rotateAroundY(totalRot.y);
-				obbColider->rotateAroundZ(totalRot.z);
+				obbColider->rotateAroundZ(-totalRot.x);
 			}
 
 			obbColider->setXHalfLength(halfLengths.x * scale.x);

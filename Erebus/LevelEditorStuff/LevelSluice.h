@@ -24,6 +24,7 @@ private:
 	SluiceType sluiceType;
 	static const char* SLUICE_TYPE_NAMES[NUM_SLUICE_TYPES];
 
+	int openObjectID, closedObjectID;
 
 	TwType TW_TYPE_SLUICE()
 	{
@@ -38,6 +39,8 @@ private:
 	}
 	
 public:
+	static const char* wallOpenBaseName;
+	static const char* wallClosedBaseName;
 	static const char* name;
 	LevelSluice();
 	~LevelSluice();

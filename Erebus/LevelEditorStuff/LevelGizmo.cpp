@@ -335,7 +335,8 @@ void LevelGizmo::updateGizmoRotation(LevelActor* selectedActor) {
 
 		switch (selectedGizmo) {
 		case GizmoLocation::X:
-			oldRot[GizmoLocation::X] = rotationUpdate(xDiff, GizmoLocation::X, oldRot);
+			oldRot[GizmoLocation::Z] = rotationUpdate(xDiff, GizmoLocation::Z, oldRot);
+			
 			//oldRot[GizmoLocation::X] = oldRot[GizmoLocation::X] - xDiff;
 
 			break;
@@ -344,19 +345,19 @@ void LevelGizmo::updateGizmoRotation(LevelActor* selectedActor) {
 			oldRot[GizmoLocation::Y] = rotationUpdate(yDiff, GizmoLocation::Y, oldRot);
 			break;
 		case GizmoLocation::Z:
-			oldRot[GizmoLocation::Z] = rotationUpdate(zDiff, GizmoLocation::Z, oldRot);
+			oldRot[GizmoLocation::X] = rotationUpdate(zDiff, GizmoLocation::X, oldRot);
 			break;
 		case GizmoLocation::XZ:
 			oldRot[GizmoLocation::X] = rotationUpdate(xDiff, GizmoLocation::X, oldRot);
 			oldRot[GizmoLocation::Z] = rotationUpdate(zDiff, GizmoLocation::Z, oldRot);
 			break;
 		case GizmoLocation::XY:
-			oldRot[GizmoLocation::X] = rotationUpdate(xDiff, GizmoLocation::X, oldRot);
+			oldRot[GizmoLocation::Z] = rotationUpdate(xDiff, GizmoLocation::Z, oldRot);
 			oldRot[GizmoLocation::Y] = rotationUpdate(yDiff, GizmoLocation::Y, oldRot);
 			break;
 		case GizmoLocation::ZY:
 			oldRot[GizmoLocation::Y] = rotationUpdate(yDiff, GizmoLocation::Y, oldRot);
-			oldRot[GizmoLocation::Z] = rotationUpdate(zDiff, GizmoLocation::Z, oldRot);
+			oldRot[GizmoLocation::X] = rotationUpdate(zDiff, GizmoLocation::X, oldRot);
 			break;
 		default:
 			break;

@@ -8,6 +8,8 @@ const char* LevelSluice::SLUICE_TYPE_NAMES[NUM_SLUICE_TYPES] =
 	"Combine",
 };
 
+const char* LevelSluice::wallOpenBaseName = "BlockerOpen";
+const char* LevelSluice::wallClosedBaseName = "BlockerClosed";
 
 LevelSluice::LevelSluice() {
 	this->cSluiceID = SluiceID++;
@@ -187,8 +189,8 @@ std::string LevelSluice::toLuaLoad(std::string name) {
 
 		//level01.props.WoodenFenceID.transformID
 		//level01.props.WoodenFenceID.collider
-		std::string closedFullName = "level0" + std::to_string(tileID) + ".props." + this->wallClosedName;
-		std::string openFullName = "level0" + std::to_string(tileID) + ".props." + this->wallOpenName;
+		std::string closedFullName = "level0" + std::to_string(tileID) + ".props." + +wallClosedBaseName + this->wallClosedName;
+		std::string openFullName = "level0" + std::to_string(tileID) + ".props." + wallOpenBaseName + this->wallOpenName;
 		std::string transID = ".transformID";
 		std::string col = ".collider";
 		ss << this->slussName << " = CreateSluice(" << name

@@ -849,7 +849,7 @@
             <IDs ID="267" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2945809" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -900,7 +900,7 @@
             <IDs ID="271" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="5.2945814" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1002,7 +1002,7 @@
             <IDs ID="277" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2945814" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -1087,7 +1087,7 @@
             <IDs ID="282" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -1104,7 +1104,7 @@
             <IDs ID="283" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1189,7 +1189,7 @@
             <IDs ID="288" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.5891619" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -1342,7 +1342,7 @@
             <IDs ID="298" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.1472902" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1444,7 +1444,7 @@
             <IDs ID="305" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="6.7674885" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -1546,7 +1546,7 @@
             <IDs ID="311" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="6.7674904" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -1597,7 +1597,7 @@
             <IDs ID="314" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.97014248" y="0" z="0.24253562"/>
+            <Rotation x="0.9701426" y="0" z="0.24253565"/>
             <HalfLengths x="0.30000001" y="9.4187183" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -1665,7 +1665,7 @@
             <IDs ID="318" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.49613893" y="0" z="-0.8682431"/>
+            <Rotation x="-0.49613899" y="0" z="-0.86824322"/>
             <HalfLengths x="0.30000001" y="6.4729042" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1784,7 +1784,7 @@
             <IDs ID="325" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
             <HalfLengths x="0.30000001" y="5.8837433" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -1903,7 +1903,7 @@
             <IDs ID="332" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.1472902" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -1971,7 +1971,7 @@
             <IDs ID="336" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="7.3566489" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -2005,7 +2005,7 @@
             <IDs ID="338" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.7364531" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -2056,7 +2056,7 @@
             <IDs ID="341" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8682431" y="0" z="0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="0.49613899"/>
             <HalfLengths x="0.30000001" y="5.7364531" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2158,7 +2158,7 @@
             <IDs ID="347" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="6.9147758" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -2226,7 +2226,7 @@
             <IDs ID="353" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="5.6684265" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -2362,7 +2362,7 @@
             <IDs ID="373" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2634,7 +2634,7 @@
             <IDs ID="389" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8682431" y="0" z="-0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="-0.49613899"/>
             <HalfLengths x="0.30000001" y="5.8912354" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -2872,7 +2872,7 @@
             <IDs ID="408" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227786" y="0" z="-0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="-0.12403475"/>
             <HalfLengths x="0.30000001" y="6.6710701" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -3365,7 +3365,7 @@
             <IDs ID="460" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="5.222805" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -3399,7 +3399,7 @@
             <IDs ID="462" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="6.0026398" z="8.0622578"/>
         </LevelCollider>
         <LevelTransform>
@@ -3501,7 +3501,7 @@
             <IDs ID="469" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.50702012" y="0" z="-0.86193419"/>
+            <Rotation x="0.50702018" y="0" z="-0.8619343"/>
             <HalfLengths x="0.30000001" y="9.6789894" z="9.8615417"/>
         </LevelCollider>
         <LevelTransform>
@@ -3569,7 +3569,7 @@
             <IDs ID="473" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.48564291" y="0" z="-0.87415725"/>
+            <Rotation x="0.48564297" y="0" z="-0.87415737"/>
             <HalfLengths x="0.30000001" y="7.8965149" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -3739,7 +3739,7 @@
             <IDs ID="489" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -3994,7 +3994,7 @@
             <IDs ID="505" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="5.1114044" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -4028,7 +4028,7 @@
             <IDs ID="509" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.9958933" y="0" z="-0.090535752"/>
+            <Rotation x="0.99589318" y="0" z="-0.090535745"/>
             <HalfLengths x="0.30000001" y="5.3342133" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4249,7 +4249,7 @@
             <IDs ID="522" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.79262394" y="0" z="-0.60971075"/>
+            <Rotation x="-0.79262406" y="0" z="-0.60971081"/>
             <HalfLengths x="0.30000001" y="7.2280884" z="8.2006102"/>
         </LevelCollider>
         <LevelTransform>
@@ -4317,7 +4317,7 @@
             <IDs ID="526" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="6.7824707" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -4436,7 +4436,7 @@
             <IDs ID="533" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.090535752" y="0" z="0.9958933"/>
+            <Rotation x="0.090535745" y="0" z="0.99589318"/>
             <HalfLengths x="0.30000001" y="5.3342133" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4453,7 +4453,7 @@
             <IDs ID="535" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.090535752" y="0" z="0.9958933"/>
+            <Rotation x="0.090535745" y="0" z="0.99589318"/>
             <HalfLengths x="0.30000001" y="5.2228088" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -4538,7 +4538,7 @@
             <IDs ID="540" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="6.4482574" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -4640,7 +4640,7 @@
             <IDs ID="547" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8682431" y="0" z="-0.49613893"/>
+            <Rotation x="0.86824322" y="0" z="-0.49613899"/>
             <HalfLengths x="0.30000001" y="7.5623016" z="8.0622578"/>
         </LevelCollider>
         <LevelTransform>
@@ -4963,7 +4963,7 @@
             <IDs ID="570" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.86824322" y="0" z="0.49613899"/>
+            <Rotation x="0.8682431" y="0" z="0.49613893"/>
             <HalfLengths x="0.30000001" y="5.7798309" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -5048,7 +5048,7 @@
             <IDs ID="575" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.3169403" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -5269,7 +5269,7 @@
             <IDs ID="591" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.48564291" y="0" z="-0.87415725"/>
+            <Rotation x="-0.48564297" y="0" z="-0.87415737"/>
             <HalfLengths x="0.30000001" y="6.4262238" z="10.29563"/>
         </LevelCollider>
         <LevelTransform>
@@ -5286,7 +5286,7 @@
             <IDs ID="592" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.57668316" y="0" z="-0.81696784"/>
+            <Rotation x="-0.57668322" y="0" z="-0.81696796"/>
             <HalfLengths x="0.30000001" y="6.5846901" z="10.404326"/>
         </LevelCollider>
         <LevelTransform>
@@ -5490,7 +5490,7 @@
             <IDs ID="606" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.49613899" y="0" z="0.86824322"/>
+            <Rotation x="0.49613893" y="0" z="0.8682431"/>
             <HalfLengths x="0.30000001" y="5.9082451" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -5558,7 +5558,7 @@
             <IDs ID="610" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.61394066" y="0" z="0.7893523"/>
+            <Rotation x="-0.6139406" y="0" z="0.78935218"/>
             <HalfLengths x="0.30000001" y="15.331287" z="5.7008772"/>
         </LevelCollider>
         <LevelTransform>
@@ -5990,26 +5990,6 @@
             <Position x="176.79591" y="41.21875" z="214.625"/>
             <Rotation x="0.01665191" y="-0.52099895" z="0"/>
             <Scale x="1.065567" y="1.4957848" z="1.2350464"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Trees" displayName="PineTree_Collider (1)" tileID="2" exportType="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="4" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="364" parentID="0"/>
-            <Behavior Type="0"/>
-            <GenParent value="true"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="2.5" y="4" z="2.5"/>
-        </LevelCollider>
-        <LevelModel>
-            <ModelName>pineTree1</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="183.5" y="47.84375" z="240"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
@@ -6995,7 +6975,7 @@
             <IDs ID="646" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.7817154" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -7029,7 +7009,7 @@
             <IDs ID="648" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="6.563427" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -7165,7 +7145,7 @@
             <IDs ID="657" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.781723" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -7182,7 +7162,7 @@
             <IDs ID="658" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.5211411" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -7318,7 +7298,7 @@
             <IDs ID="666" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2605743" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -7369,7 +7349,7 @@
             <IDs ID="669" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7471,7 +7451,7 @@
             <IDs ID="683" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="7.084568" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7556,7 +7536,7 @@
             <IDs ID="688" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="7.3451462" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -7692,7 +7672,7 @@
             <IDs ID="696" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.60971075" y="0" z="-0.79262394"/>
+            <Rotation x="-0.60971081" y="0" z="-0.79262406"/>
             <HalfLengths x="0.30000001" y="12.817139" z="8.2006102"/>
         </LevelCollider>
         <LevelTransform>
@@ -7726,7 +7706,7 @@
             <IDs ID="698" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="9.9508591" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -7777,7 +7757,7 @@
             <IDs ID="701" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227786" y="0" z="-0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="-0.12403475"/>
             <HalfLengths x="0.30000001" y="6.0422897" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7794,7 +7774,7 @@
             <IDs ID="702" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227786" y="0" z="-0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="-0.12403475"/>
             <HalfLengths x="0.30000001" y="6.0422821" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -7862,7 +7842,7 @@
             <IDs ID="714" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="6.3028526" z="10.29563"/>
         </LevelCollider>
         <LevelTransform>
@@ -8253,7 +8233,7 @@
             <IDs ID="737" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.2544933" y="0" z="0.96707451"/>
+            <Rotation x="-0.25449333" y="0" z="0.96707463"/>
             <HalfLengths x="0.30000001" y="5" z="9.8234415"/>
         </LevelCollider>
         <LevelTransform>
@@ -8338,7 +8318,7 @@
             <IDs ID="744" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
+            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
             <HalfLengths x="0.30000001" y="5.5211449" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -8372,7 +8352,7 @@
             <IDs ID="749" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.029837456" y="0" z="-0.99955475"/>
+            <Rotation x="-0.029837459" y="0" z="-0.99955487"/>
             <HalfLengths x="0.30000001" y="5.2605667" z="33.514923"/>
         </LevelCollider>
         <LevelTransform>
@@ -8423,7 +8403,7 @@
             <IDs ID="752" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.78935218" y="0" z="-0.6139406"/>
+            <Rotation x="0.7893523" y="0" z="-0.61394066"/>
             <HalfLengths x="0.30000001" y="8.1268539" z="5.7008772"/>
         </LevelCollider>
         <LevelTransform>
@@ -8474,7 +8454,7 @@
             <IDs ID="757" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="10.732567" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -8508,7 +8488,7 @@
             <IDs ID="759" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415725" y="0" z="0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="0.48564297"/>
             <HalfLengths x="0.30000001" y="7.6057053" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -8593,7 +8573,7 @@
             <IDs ID="766" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.5211411" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -8746,7 +8726,7 @@
             <IDs ID="775" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2605743" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -8848,7 +8828,7 @@
             <IDs ID="781" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="6.0422821" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -9069,7 +9049,7 @@
             <IDs ID="795" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="6.3028564" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -9120,7 +9100,7 @@
             <IDs ID="798" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2605667" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -9256,7 +9236,7 @@
             <IDs ID="806" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.99227786" y="0" z="0.12403473"/>
+            <Rotation x="-0.99227798" y="0" z="0.12403475"/>
             <HalfLengths x="0.30000001" y="5.7817154" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -9358,7 +9338,7 @@
             <IDs ID="812" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="5.7817116" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -9409,7 +9389,7 @@
             <IDs ID="815" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415725" y="0" z="-0.48564291"/>
+            <Rotation x="-0.87415737" y="0" z="-0.48564297"/>
             <HalfLengths x="0.30000001" y="5.2417297" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -9664,7 +9644,7 @@
             <IDs ID="835" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.24253562" y="0" z="0.97014248"/>
+            <Rotation x="0.24253565" y="0" z="0.9701426"/>
             <HalfLengths x="0.30000001" y="5.9669037" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -9766,7 +9746,7 @@
             <IDs ID="842" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.63059258" y="0" z="0.77611399"/>
+            <Rotation x="0.63059264" y="0" z="0.77611411"/>
             <HalfLengths x="0.30000001" y="7.9006958" z="10.307764"/>
         </LevelCollider>
         <LevelTransform>
@@ -10055,7 +10035,7 @@
             <IDs ID="864" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
             <HalfLengths x="0.30000001" y="6.2086182" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -10072,7 +10052,7 @@
             <IDs ID="865" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.98233855" y="0" z="-0.18711211"/>
+            <Rotation x="-0.98233867" y="0" z="-0.18711212"/>
             <HalfLengths x="0.30000001" y="5.9669037" z="10.688779"/>
         </LevelCollider>
         <LevelTransform>
@@ -10089,7 +10069,7 @@
             <IDs ID="866" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.2417221" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -10140,7 +10120,7 @@
             <IDs ID="871" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.89442718" y="0" z="0.44721359"/>
+            <Rotation x="0.8944273" y="0" z="0.44721365"/>
             <HalfLengths x="0.30000001" y="5.725174" z="7.8262382"/>
         </LevelCollider>
         <LevelTransform>
@@ -10225,7 +10205,7 @@
             <IDs ID="878" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.24253562" y="0" z="0.97014248"/>
+            <Rotation x="-0.24253565" y="0" z="0.9701426"/>
             <HalfLengths x="0.30000001" y="7.4172516" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -10293,7 +10273,7 @@
             <IDs ID="882" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.95667386" y="0" z="0.29116163"/>
+            <Rotation x="0.95667398" y="0" z="0.29116166"/>
             <HalfLengths x="0.30000001" y="6.4503479" z="12.020815"/>
         </LevelCollider>
         <LevelTransform>
@@ -10344,7 +10324,7 @@
             <IDs ID="886" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="0.8944273"/>
             <HalfLengths x="0.30000001" y="5.2417297" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -10395,7 +10375,7 @@
             <IDs ID="890" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.090535752" y="0" z="0.9958933"/>
+            <Rotation x="-0.090535745" y="0" z="0.99589318"/>
             <HalfLengths x="0.30000001" y="8.1424255" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -10514,7 +10494,7 @@
             <IDs ID="901" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.090535752" y="0" z="-0.9958933"/>
+            <Rotation x="0.090535745" y="0" z="-0.99589318"/>
             <HalfLengths x="0.30000001" y="6.4503479" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -10548,7 +10528,7 @@
             <IDs ID="903" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
+            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
             <HalfLengths x="0.30000001" y="8.6258774" z="6.7082038"/>
         </LevelCollider>
         <LevelTransform>
@@ -10633,7 +10613,7 @@
             <IDs ID="909" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.49301255" y="0" z="-0.87002218"/>
+            <Rotation x="-0.49301261" y="0" z="-0.8700223"/>
             <HalfLengths x="0.30000001" y="21.195572" z="17.24094"/>
         </LevelCollider>
         <LevelTransform>
@@ -11699,7 +11679,7 @@
             <IDs ID="945" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.97014248" y="0" z="0.24253562"/>
+            <Rotation x="-0.9701426" y="0" z="0.24253565"/>
             <HalfLengths x="0.30000001" y="5.3411026" z="6.1846585"/>
         </LevelCollider>
         <LevelTransform>
@@ -11903,7 +11883,7 @@
             <IDs ID="959" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="5.9668961" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -11937,7 +11917,7 @@
             <IDs ID="961" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="21.437286" z="16.124516"/>
         </LevelCollider>
         <LevelTransform>
@@ -12158,7 +12138,7 @@
             <IDs ID="980" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="5.4834442" z="1.118034"/>
         </LevelCollider>
         <LevelTransform>
@@ -12379,7 +12359,7 @@
             <IDs ID="994" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="5.9668961" z="2.236068"/>
         </LevelCollider>
         <LevelTransform>
@@ -12634,7 +12614,7 @@
             <IDs ID="1012" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="-0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="-0.44721359"/>
             <HalfLengths x="0.30000001" y="7.9796295" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -12719,7 +12699,7 @@
             <IDs ID="1017" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -12787,7 +12767,7 @@
             <IDs ID="1021" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="5.165535" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -12838,7 +12818,7 @@
             <IDs ID="1024" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -13076,7 +13056,7 @@
             <IDs ID="1039" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13093,7 +13073,7 @@
             <IDs ID="1040" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403475" y="0" z="0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="0.99227786"/>
             <HalfLengths x="0.30000001" y="5" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13246,7 +13226,7 @@
             <IDs ID="1051" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="8.4762421" z="3.3541019"/>
         </LevelCollider>
         <LevelTransform>
@@ -13433,7 +13413,7 @@
             <IDs ID="1062" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.165535" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -13756,7 +13736,7 @@
             <IDs ID="1083" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.090535745" y="0" z="0.99589318"/>
+            <Rotation x="-0.090535752" y="0" z="0.9958933"/>
             <HalfLengths x="0.30000001" y="5.165535" z="5.5226803"/>
         </LevelCollider>
         <LevelTransform>
@@ -13773,7 +13753,7 @@
             <IDs ID="1085" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.44721365" y="0" z="-0.8944273"/>
+            <Rotation x="-0.44721359" y="0" z="-0.89442718"/>
             <HalfLengths x="0.30000001" y="5.165535" z="7.8262382"/>
         </LevelCollider>
         <LevelTransform>
@@ -13858,7 +13838,7 @@
             <IDs ID="1090" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.86824322" y="0" z="0.49613899"/>
+            <Rotation x="0.8682431" y="0" z="0.49613893"/>
             <HalfLengths x="0.30000001" y="6.6553497" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13926,7 +13906,7 @@
             <IDs ID="1095" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="6.1587448" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -13943,7 +13923,7 @@
             <IDs ID="1096" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="5.9932098" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -14096,7 +14076,7 @@
             <IDs ID="1106" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.12403475" y="0" z="-0.99227798"/>
+            <Rotation x="-0.12403473" y="0" z="-0.99227786"/>
             <HalfLengths x="0.30000001" y="5.6621475" z="4.0311289"/>
         </LevelCollider>
         <LevelTransform>
@@ -14300,7 +14280,7 @@
             <IDs ID="1120" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.87415737" y="0" z="0.48564297"/>
+            <Rotation x="-0.87415725" y="0" z="0.48564291"/>
             <HalfLengths x="0.30000001" y="5.0960007" z="5.1478152"/>
         </LevelCollider>
         <LevelTransform>
@@ -14419,7 +14399,7 @@
             <IDs ID="1127" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="-0.8944273" y="0" z="0.44721365"/>
+            <Rotation x="-0.89442718" y="0" z="0.44721359"/>
             <HalfLengths x="0.30000001" y="7.2081528" z="4.472136"/>
         </LevelCollider>
         <LevelTransform>
@@ -14481,7 +14461,7 @@
             <IDs ID="1130" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
-            <Rotation x="0.019227214" y="0" z="0.99981511"/>
+            <Rotation x="0.019227216" y="0" z="0.99981523"/>
             <HalfLengths x="0.30000001" y="17.87886" z="26.004807"/>
         </LevelCollider>
         <LevelTransform>
@@ -14775,7 +14755,29 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Blocker" displayName="BlockerClosed" tileID="2" exportType="1">
+    <LevelActor type="Empty" displayName="TempLight" tileID="2" exportType="1">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1139" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="false"/>
+            <Radius r="3"/>
+        </LevelCollider>
+        <LevelPointLight>
+            <Position x="0" y="0" z="0"/>
+            <Color x="1" y="1" z="1"/>
+            <Radius r="500"/>
+            <Intensity i="1"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="158.75" y="86.947258" z="211"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="false"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Blocker" displayName="BlockerClosedFire" tileID="2" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="0"/>
@@ -14786,12 +14788,23 @@
             <HalfLengths x="0.5" y="9" z="7"/>
         </LevelCollider>
         <LevelModel>
-            <ModelName>Branch_blocker</ModelName>
+            <ModelName>Fire_Branch_blocker</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="153" y="41.531086" z="189"/>
-            <Rotation x="0" y="-1.3937885" z="0"/>
-            <Scale x="1" y="1" z="1.811554"/>
+            <Position x="194.53273" y="45.003319" z="196.2849"/>
+            <Rotation x="0.14568786" y="0.40567699" z="0"/>
+            <Scale x="1" y="1" z="1.5"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Blocker" displayName="BlockerOpenFire" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>Fire_Branch_blocker</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="185.18741" y="38.217327" z="199.35751"/>
+            <Rotation x="0.15000001" y="0.40000001" z="0"/>
+            <Scale x="1" y="1" z="1.5"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
@@ -14806,25 +14819,123 @@
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
         <LevelSluice>
-            <wallClosed name="BlockerClosed"/>
-            <wallOpen name="BlockerOpen"/>
+            <sluiceType type="0"/>
+            <wallClosed name="Fire"/>
+            <wallOpen name="Fire"/>
             <sluiceID id="2"/>
         </LevelSluice>
         <LevelTransform>
-            <Position x="152.84116" y="38.46875" z="191.46774"/>
-            <Rotation x="-0.063957214" y="1.7473961" z="-0.053930659"/>
-            <Scale x="1.0600281" y="1" z="2.6619415"/>
+            <Position x="191.66962" y="41.5625" z="197.09247"/>
+            <Rotation x="0" y="0.39880979" z="0"/>
+            <Scale x="1.321167" y="1" z="2.1235352"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Blocker" displayName="BlockerOpen" tileID="2" exportType="1">
+    <LevelActor type="Blocker" displayName="BlockerClosedIce" tileID="2" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1142" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="false"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="9" z="7"/>
+        </LevelCollider>
         <LevelModel>
-            <ModelName>Branch_blocker</ModelName>
+            <ModelName>Ice_Branch_blocker</ModelName>
         </LevelModel>
         <LevelTransform>
-            <Position x="151.79724" y="32.427185" z="194.50745"/>
-            <Rotation x="0" y="1.748492" z="0"/>
-            <Scale x="1.029541" y="1.2945862" z="1.7966461"/>
+            <Position x="201.29832" y="55.458187" z="234.8036"/>
+            <Rotation x="-0.2756134" y="0" z="0"/>
+            <Scale x="1" y="1" z="1.5"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Blocker" displayName="BlockerOpenIce" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>Ice_Branch_blocker</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="190.52725" y="44.14706" z="235.80397"/>
+            <Rotation x="-0.15778655" y="0" z="0"/>
+            <Scale x="1" y="1" z="1.5"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="BranchBlocker" displayName="BlockerTrigger (1)" tileID="2" exportType="8">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="1"/>
+            <IDs ID="1143" parentID="0"/>
+            <Behavior Type="1" OnEnter="function(self) SluiceEnter(sluice2) end" OnExit="function(self) SluiceExit(sluice2) end" OnTriggering="function(self, dt) SluiceUpdate(dt, sluice2) end"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="3" z="4"/>
+        </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Ice"/>
+            <wallOpen name="Ice"/>
+            <sluiceID id="2"/>
+        </LevelSluice>
+        <LevelTransform>
+            <Position x="197.2963" y="50.8125" z="235.23512"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1.7810974" y="1" z="2.2966766"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Blocker" displayName="BlockerClosedNature" tileID="2" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1140" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="false"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.5" y="9" z="7"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Grass_Branch_blocker</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="145.85419" y="51" z="163.98085"/>
+            <Rotation x="0" y="1.7813489" z="0"/>
+            <Scale x="1" y="1" z="1.5"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="BranchBlocker" displayName="BlockerTrigger (2)" tileID="2" exportType="8">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="1"/>
+            <IDs ID="1146" parentID="0"/>
+            <Behavior Type="1" OnEnter="function(self) SluiceEnter(sluice2) end" OnExit="function(self) SluiceExit(sluice2) end" OnTriggering="function(self, dt) SluiceUpdate(dt, sluice2) end"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="3" z="4"/>
+        </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Nature"/>
+            <wallOpen name="Nature"/>
+            <sluiceID id="2"/>
+        </LevelSluice>
+        <LevelTransform>
+            <Position x="146.4469" y="45.625" z="166.23512"/>
+            <Rotation x="0" y="-1.3542395" z="0"/>
+            <Scale x="1.0194397" y="1.7675629" z="2.2254791"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Blocker" displayName="BlockerOpenNature" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>Grass_Branch_blocker</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="149.15213" y="37.655487" z="172.39633"/>
+            <Rotation x="0.0023651132" y="1.7763047" z="0"/>
+            <Scale x="1" y="1" z="1.5"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
