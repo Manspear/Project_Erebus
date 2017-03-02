@@ -142,6 +142,7 @@ function LoadPlayer()
 		self.health = 0
 		self.isAlive = false
 		camera.toFollow = player.dummyTrans
+		Transform.CopyTransform(player.transformID, player.dummyTrans.transformID)
 		Erebus.SetControls(player.dummyTrans.transformID)
 	end
 
@@ -324,11 +325,9 @@ function UpdatePlayer(dt)
 	else
 		local newRessurectionVal, ressurectionID, ressurectionPlayerHealth = Network.GetRessurectionPacket()
 		if newRessurectionVal then
-			--print("Ressurection...")
 			if ressurectionPlayerHealth > 0 and ressurectionID == player.transformID then 
 				player.health = ressurectionPlayerHealth	
 				player.isAlive = true
-				--print("Wait, i got ressurected?!", player.health, player.isAlive)
 			end
 		end
 	end
@@ -422,13 +421,7 @@ function UpdatePlayer(dt)
 				v.collider.triggered = false
 			end
 		end
-	end
-	if player.isAlive then
-		Transform.CopyTransform(player.transformID, player.dummyTrans.transformID)
-	else
-		
-	end
-
+	end		
 	UpdateCamera(dt)
 end
 
