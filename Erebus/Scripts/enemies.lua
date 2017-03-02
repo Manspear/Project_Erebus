@@ -116,12 +116,12 @@ function CreateEnemy(type, position, element)
 				if self.alive == true then
 					damage = self.elementType ~= element and damage or damage * 0.5
 					self.health = self.health - damage
-					--print("ID:", self.transformID, "Sending new health:", self.health)
 					Network.SendAIHealthPacket(self.transformID, self.health)
 					self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 					if element then
-						Gear.PrintDamage(damage,element-1, pos.x, pos.y+1, pos.z )
+						Network.SendAIDamageTextPacket(self.transformID, damage, element)
+						Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
 					end
 
 					if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
@@ -180,8 +180,15 @@ function CreateEnemy(type, position, element)
 		--	enemies[i].animationController:AnimationUpdate(0) -- play death animation
 		--end
 	end
+	enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
+		print("i just goit acalled")
+		self.health = health * LEVEL_ROUND
+		self.movementSpeed = moveSpeed * (LEVEL_ROUND+2)/3
+		self.visionRange = visionRange
+	end
 
 	enemies[i].Spawn = function(self,position)
+		print("eyy i got spawnerd")
 		self.alive = true
 		self.health = 20
 		self.position.x = position.x
@@ -202,7 +209,7 @@ function CreateEnemy(type, position, element)
 
 	Transform.SetPosition(enemies[i].transformID, position)
 	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
-	enemies[i].sphereCollider:SetRadius(2)
+	enemies[i].sphereCollider:SetRadius(1)
 	CollisionHandler.AddSphere(enemies[i].sphereCollider)
 
 	if Network.GetNetworkHost() == true then
@@ -271,7 +278,7 @@ function UpdateEnemies(dt)
 	end
 	local tempdt
 
-	if Network.GetNetworkHost() == true then
+	if Network.GetNetworkHost() == true then 
 		aiScript.updateEnemyManager(enemies)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
@@ -426,8 +433,6 @@ function UpdateEnemies(dt)
 					break
 				end
 			end
-
-
 			newtransformvalue, aiTransform_id, pos_x, pos_y, pos_z, lookAt_x, lookAt_y, lookAt_z, rotation_x, rotation_y, rotation_z = Network.GetAITransformPacket()
 		end
 		
@@ -461,6 +466,21 @@ function UpdateEnemies(dt)
 				INTERPOLATING_AI_TRANSFORM = false
 			end
 		end
+
+		-- Print floating damage text for client
+		local newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetAIDamageTextPacket()
+	
+		while newDamageTextValue == true do
+			for i=1, #enemies do
+				if enemies[i].transformID == dmgText_transformID then
+					enemies[i].damagedTint.a = 1 -- To make the damaged enemies blink red on the client
+					local enemyPosition = Transform.GetPosition(dmgText_transformID)
+					Gear.PrintDamage(dmgText_damage, dmgText_element, enemyPosition.x, enemyPosition.y+1, enemyPosition.z )
+					break
+				end
+			end
+			newDamageTextValue, dmgText_transformID, dmgText_damage, dmgText_element = Network.GetAIDamageTextPacket()
+		end	
 
 
 		for i=1, #enemies do

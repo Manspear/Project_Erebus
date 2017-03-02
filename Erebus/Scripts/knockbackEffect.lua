@@ -50,20 +50,9 @@ function CreateKnockbackEffect(owner, power)
 
 		if not self.wallHit then 
 			self.position.x = self.position.x + self.direction.x * dt * self.power
-			self.position.z = self.position.z + self.direction.z * dt * self.power
-			
-			local collisionIDs = entity.sphereCollider:GetCollisionIDs()	
-			local walls = CollisionHandler.GetIDsFromLayer(3)
-			local realWalls = {}
-			for i, v in pairs(walls) do
-				realWalls[i] = v
-			end	
-			for	curID = 1, #collisionIDs do					
-				for curWall = 1, #realWalls do
-					if collisionIDs[curID] == realWalls[curWall] then
-						self.wallHit = true
-					end
-				end
+			self.position.z = self.position.z + self.direction.z * dt * self.power	
+			if CollisionHandler.IsHitboxCollidingWithLayer(entity.sphereCollider, 3) then 
+				self.wallHit = true
 			end
 		end
 		Transform.SetPosition(entity.transformID, self.position)	

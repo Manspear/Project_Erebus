@@ -298,6 +298,26 @@ bool NetworkController::fetchRessurectionPacket(HealthPacket& packet)
 	return network.fetchRessurectionPacket(packet);
 }
 
+void NetworkController::sendAIDamageTextPacket(const DamagePacket& packet)
+{
+	network.pushAIDamageTextPacket(packet);
+}
+
+bool NetworkController::fetchAIDamageTextPacket(DamagePacket& packet)
+{
+	return network.fetchAIDamageTextPacket(packet);
+}
+
+void NetworkController::sendBossDamageTextPacket(const DamagePacket& packet)
+{
+	network.pushBossDamageTextPacket(packet);
+}
+
+bool NetworkController::fetchBossDamageTextPacket(DamagePacket& packet)
+{
+	return network.fetchBossDamageTextPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);
