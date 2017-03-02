@@ -59,7 +59,7 @@ function CreateFireball(entity)
 	spell.ballParticles = CreateFireEffectParticles()
 	spell.bigBallID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.bigBallID, false)
 

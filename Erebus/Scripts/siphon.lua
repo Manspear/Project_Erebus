@@ -25,7 +25,7 @@ function CreateSiphon(entity)
 	Transform.ActiveControl(spell.transformID, false)
 
 	spell.collider = OBBCollider.Create(spell.transformID)
-	CollisionHandler.AddOBB(spell.collider, 1)
+	CollisionHandler.AddOBB(spell.collider, 2)
 	OBBCollider.SetActive(spell.collider, false);
 	spell.length = SIPHON_HITBOX_LENGTH
 
