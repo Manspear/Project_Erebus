@@ -66,7 +66,7 @@ void DebugHandler::draw(Camera* camera, RenderQueue* renderQueRef)
 	if(totalLines>0)
 		drawAllLines(camera, renderQueRef);
 	if (totalSphere>0)
-		drawAllSpheres(camera, renderQueRef);
+		//drawAllSpheres(camera, renderQueRef);
 	if (totalAABB>0)
 		drawAllAABBs(camera, renderQueRef);
 	if (totalOBB > 0)

@@ -51,6 +51,7 @@ function CreateEnemy(type, position, element)
 	enemies[i].alive = true
 	enemies[i].effects = {}
 	enemies[i].attackCountdown = 0
+	enemies[i].aggro = false
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
@@ -80,7 +81,6 @@ function CreateEnemy(type, position, element)
 	enemies[i].playerTarget = player
 
 	enemies[i].animationState = 1
-	enemies[i].range = 4
 
 	enemies[i].tempVariable = 0
 
@@ -104,9 +104,13 @@ function CreateEnemy(type, position, element)
 	local model = Assets.LoadModel(enemies[i].modelName)
 
 	assert( model, "Failed to load model Models/Goblin.model" )
-
-	enemies[i].animationController = CreateEnemyController(enemies[i])
-	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
+	
+	if type ~= ENEMY_DUMMY then
+		enemies[i].animationController = CreateEnemyController(enemies[i])
+		enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
+	else
+		enemies[i].transformID = Gear.BindStaticInstance(model)
+	end
 
 	enemies[i].Hurt = function(self, damage, source, element)
 		local pos = Transform.GetPosition(self.transformID)
@@ -123,15 +127,20 @@ function CreateEnemy(type, position, element)
 						Network.SendAIDamageTextPacket(self.transformID, damage, element)
 						Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
 					end
+					if self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
+						inState = FOLLOW_STATE
+						stateScript.changeToState(self, player, inState)
+						self.aggro = true
 
-					if self.health < 1 and self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
+						if self.health < 1 then
 
-						--print("Dead for host", enemies[i].transformID)
-						self.health = 0
-						self:Kill()
-					elseif self.health < 1 and self.stateName == DUMMY_STATE  then
-						self.health = self.maxHealth
-						self.currentHealth = self.maxHealth
+							--print("Dead for host", enemies[i].transformID)
+							self.health = 0
+							self:Kill()
+						elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+							self.health = self.maxHealth
+							self.currentHealth = self.maxHealth
+						end
 					end
 				end
 			else
@@ -169,8 +178,9 @@ function CreateEnemy(type, position, element)
 			inState = DEAD_STATE
 			stateScript.changeToState(self, player, inState)
 		end
-
-		self.animationController:AnimationUpdate(0) -- play death animation
+		if self.type ~= ENEMY_DUMMY then
+			self.animationController:AnimationUpdate(0) -- play death animation
+		end
 	end
 
 	enemies[i].Apply = function(self, effect)
@@ -252,7 +262,9 @@ function UpdateEnemies(dt)
 	for i = 1, #enemies do
 		if enemies[i].damagedTint.a > 0 then
 			enemies[i].damagedTint.a = enemies[i].damagedTint.a - (dt / enemies[i].damagedTintDuration)
-			enemies[i].animationController.animation:SetTint(enemies[i].damagedTint)
+			if enemies[i].type ~= ENEMY_DUMMY then
+				enemies[i].animationController.animation:SetTint(enemies[i].damagedTint)
+			end
 		end
 	end
 
@@ -473,6 +485,7 @@ function UpdateEnemies(dt)
 		while newDamageTextValue == true do
 			for i=1, #enemies do
 				if enemies[i].transformID == dmgText_transformID then
+					enemies[i].damagedTint.a = 1 -- To make the damaged enemies blink red on the client
 					local enemyPosition = Transform.GetPosition(dmgText_transformID)
 					Gear.PrintDamage(dmgText_damage, dmgText_element, enemyPosition.x, enemyPosition.y+1, enemyPosition.z )
 					break
