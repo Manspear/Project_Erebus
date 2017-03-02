@@ -490,6 +490,6 @@ namespace Collisions
 		}
 		this->setLayerCollisionMatrix(STATIC_LAYER, TRIGGER_LAYER, false);
 		this->setLayerCollisionMatrix(ENEMY_LAYER, TRIGGER_LAYER, false);
-		this->setLayerCollisionMatrix(SPELLS_LAYER, TRIGGER_LAYER, false);
+		//this->setLayerCollisionMatrix(SPELLS_LAYER, TRIGGER_LAYER, false);
 	}
 }

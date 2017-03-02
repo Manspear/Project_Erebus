@@ -55,6 +55,7 @@ function TutorialBarrier(TutorialObject,dt)
 						return
 					end
 				end
+
 			end
 		end
 	end
