@@ -4,14 +4,14 @@ TIMEORBWAVEDURATION = 6
 function CreateTimeOrbWave(entity)
 	local spell = {}
 	spell.element = NATURE
-	local model = Assets.LoadModel( "Models/grenade.model" )
+	local model = Assets.LoadModel( "Models/TimeOrb.model" )
 	spell.type = CreateOrbWaveType(model)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifetime = TIMEORBWAVEDURATION
 	spell.damage = 3
 	spell.alive = false
-	spell.hudtexture = Assets.LoadTexture("Textures/ChargeTemp.dds");
+	spell.hudtexture = Assets.LoadTexture("Textures/TimeOrbTexture.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	--[[local model = Assets.LoadModel( "Models/grenade.model" )
