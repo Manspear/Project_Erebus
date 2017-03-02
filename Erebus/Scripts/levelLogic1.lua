@@ -44,18 +44,35 @@ function TutorialBarrier(TutorialObject,dt)
 			local collisionIDs = TutorialObject.collider:GetCollisionIDs()
 
 			for i = 1, #collisionIDs do 
-				for o = 1, #player.combinedSpellIDs do
-					if collisionIDs[i] == player.combinedSpellIDs[o] then
-						
-						OBBCollider.SetActive(TutorialObject.collider,false)
-						player.combinedSpellIDs = nil
-						TUTORIAL_DONE = true
-						TUTORIAL_START_ANIM = true
-						TUTORIAL_OBJECT = TutorialObject
-						return
+				--for o = 1, #player.combinedSpellIDs do
+				--	if collisionIDs[i] == player.combinedSpellIDs[o] then
+				--		
+				--		OBBCollider.SetActive(TutorialObject.collider,false)
+				--		player.combinedSpellIDs = nil
+				--		TUTORIAL_DONE = true
+				--		TUTORIAL_START_ANIM = true
+				--		TUTORIAL_OBJECT = TutorialObject
+				--		return
+				--	end
+				--end
+				for curID = 1, 3 do
+					if player.spells[curID]:GetCollider()[1] == collisionIDs[i] then				
+						if #player.spells[curID].effects == 1 then 
+							TUTORIAL_DONE = true
+							TUTORIAL_START_ANIM = true
+							TUTORIAL_OBJECT = TutorialObject
+							return
+						end
+					end
+					if player2.spells[curID]:GetCollider()[1] == collisionIDs[i] then
+						if #player2.spells[curID].effects == 1 then 
+							TUTORIAL_DONE = true
+							TUTORIAL_START_ANIM = true
+							TUTORIAL_OBJECT = TutorialObject
+							return
+						end
 					end
 				end
-
 			end
 		end
 	end
