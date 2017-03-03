@@ -35,7 +35,12 @@ end
 
 function TutorialBarrier(TutorialObject,dt)
 	if TUTORIAL_DONE == false then 
-
+		if player2.position.x==0 then
+			OBBCollider.SetActive(TutorialObject.collider,false)
+			TUTORIAL_DONE = true
+			TUTORIAL_START_ANIM = true
+			TUTORIAL_OBJECT = TutorialObject
+		end
 		local pos = Transform.GetPosition(TutorialObject.transformID)
 		showTutorialImage(pos.x+2,pos.y+7,pos.z+15,dt)
 
