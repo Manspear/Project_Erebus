@@ -93,7 +93,7 @@ function CreateFireball(entity)
 						end
 					end
 					if collisionIDs[curID] == boss.collider:GetID() then
-						boss:Hurt(self.smallFB[i].damage, self.owner)
+						boss:Hurt(self.smallFB[i].damage, self.owner, self.element)
 						self:SpamFireball(i)
 					end
 				end
@@ -221,7 +221,7 @@ function CreateFireball(entity)
 			end
 			if collisionIDs[curID] == boss.collider:GetID() then
 				if not self.enemiesHit[boss.transformID] then
-					boss:Hurt(self.damage, self.owner)
+					boss:Hurt(self.damage, self.owner, self.element)
 					for stuff = 1, #self.effects do
 						local effect = effectTable[self.effects[stuff]](self.owner, 0.5)
 						boss:Apply(effect)

@@ -65,7 +65,16 @@ namespace LuaGear
 	int setUniformLocation(lua_State* lua);
 	int setBlendUniformValue(lua_State* lua);
 	int setBlendTextures(lua_State* lua);
+
 	int setFogColor(lua_State* lua);
+	int setPhase(lua_State* lua);
+	int setOverride(lua_State* lua);
+	int setTime(lua_State* lua);
+	int setBlend(lua_State* lua);
+	int getHours(lua_State* lua);
+	int getMinutes(lua_State* lua);
+	int setShadow(lua_State* lua);
+	int setAmbient(lua_State* lua);
 
 	int printDamageNumer(lua_State* lua);
 }

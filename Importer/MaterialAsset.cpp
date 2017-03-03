@@ -132,6 +132,18 @@ namespace Importer
 	{
 	}
 
+	void MaterialAsset::incrementReferenceCount()
+	{
+		Asset::incrementReferenceCount();
+
+		if( diffuseTexture )
+			diffuseTexture->incrementReferenceCount();
+		if( specularTexture )
+			specularTexture->incrementReferenceCount();
+		if( normalTexture )
+			normalTexture->incrementReferenceCount();
+	}
+
 	glm::vec3 MaterialAsset::parseVec3( char** cursor )
 	{
 		glm::vec3 result;

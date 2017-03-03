@@ -205,7 +205,9 @@ namespace Importer
 		{
 			std::map<AssetID, Asset*>::iterator it = assets.find( unloads[i] );
 			if( it != assets.end() )
+			{
 				it->second->decrementReferenceCount();
+			}
 		}
 
 		unloads.clear();

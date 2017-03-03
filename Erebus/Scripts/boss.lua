@@ -49,8 +49,9 @@ function LoadBoss()
 		boss.health = boss.health - damage
 		boss.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 		if element then
-			--Network.SendDamageTextPacket(boss.transformID, damage, element)
+			Network.SendBossDamageTextPacket(boss.transformID, damage, element)
 			Gear.PrintDamage(damage, element, pos.x, pos.y+10, pos.z )
+			print("printed some dmg")
 		end
 		if boss.health < 0 then
 			boss.Kill()
@@ -59,9 +60,19 @@ function LoadBoss()
 	function boss:Kill()
 		if boss.alive then
 			boss.alive = false
-			UnloadGameplay()
-			LEVEL_ROUND = LEVEL_ROUND + 1
-			EnterGameplay()
+			--UnloadGameplay()
+			--LEVEL_ROUND = LEVEL_ROUND + 1
+			--EnterGameplay()
+			for levelIndex,level in pairs(levels) do
+				if loadedLevels[levelIndex] then
+					level.unload()
+				end
+				loadedLevels[levelIndex] = false
+			end
+			levels[1].load()
+			levels[2].load()
+			loadedLevels[1] = true
+			Transform.SetPosition(player.transformID, {x=28, y=0, z=153})
 		end
 	end
 	function boss:Apply(effect)

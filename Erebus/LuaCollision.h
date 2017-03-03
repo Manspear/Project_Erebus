@@ -45,6 +45,7 @@ namespace LuaCollision
 	int setOBBYAxis(lua_State* lua);
 	int setOBBZAxis(lua_State* lua);
 	int setOBBHalfLengths(lua_State* lua);
+	int setAllAxis(lua_State* lua);
 	int setAABBMinPos(lua_State* lua);
 	int setAABBMaxPos(lua_State* lua);
 	int addChild(lua_State* lua);

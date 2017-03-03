@@ -173,7 +173,7 @@ namespace AGI
 					if (dynamicInfluenceMap[w][h] != nullptr)
 					{
 
-						int stupid = 2;
+						int stupid = 0;
 
 					/*	for (int n = 0; n < 8; n++)
 						{*/
