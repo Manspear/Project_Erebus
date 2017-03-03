@@ -37,7 +37,7 @@ void CascadedShadowMap::Init(int textureWidth, int textureHeight, Lights::DirLig
 
 	blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur");
 	quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
-	initBlurFramebuffer(textureWidth / 4, textureHeight / 4);
+	initBlurFramebuffer(textureWidth, textureHeight);
 }
 
 void CascadedShadowMap::bind(int cascadeIndex)
@@ -195,13 +195,13 @@ void CascadedShadowMap::blur()
 	GLuint uniformBlur = glGetUniformLocation(blurShader->getProgramID(), "filterTexture");
 	GLuint uniformQuad = glGetUniformLocation(quadShader->getProgramID(), "diffuse");
 
-	//Downsample
-	quadShader->use();
-	glBindFramebuffer(GL_FRAMEBUFFER, blurVerticalFramebufferID);
-	bindTexture(quadShader, "diffuse", 0, 0);
-	glViewport(0, 0, width / 4, height / 4);
-	drawQuad();
-	quadShader->unUse();
+	////Downsample
+	//quadShader->use();
+	//glBindFramebuffer(GL_FRAMEBUFFER, blurVerticalFramebufferID);
+	//bindTexture(quadShader, "diffuse", 0, 0);
+	glViewport(0, 0, width, height);
+	//drawQuad();
+	//quadShader->unUse();
 
 	//Horizontal Blur
 	blurShader->use();
@@ -210,31 +210,32 @@ void CascadedShadowMap::blur()
 	glUniform1i(uniformBlur, 0);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, blurHorizontalFramebufferID);
-	glBindTexture(GL_TEXTURE_2D, blurVerticalTextureID);
-	glm::vec3 blurScale = glm::vec3(0, 1.0 / (0.9f * (height / 4)), 0);
+	bindTexture(blurShader, "filterTexture", 0, 0);
+	//glBindTexture(GL_TEXTURE_2D, blurVerticalTextureID);
+	glm::vec3 blurScale = glm::vec3(0, 1.0 / (0.9f * (height)), 0);
 	//glm::vec3 blurScale = glm::vec3(1.0 / (0.9f * width), 0, 0);
 	blurShader->setUniform(blurScale, "blurScale");
 	drawQuad();
 
 	//Vertical Blur
-	glBindFramebuffer(GL_FRAMEBUFFER, blurVerticalFramebufferID);
+	//glBindFramebuffer(GL_FRAMEBUFFER, blurVerticalFramebufferID);
 	glBindTexture(GL_TEXTURE_2D, blurHorizontalTextureID);
-	blurScale = glm::vec3(1.0 / (0.9f * width / 4), 0, 0);
+	bind(0);
+	blurScale = glm::vec3(1.0 / (0.9f * width), 0, 0);
 	blurShader->setUniform(blurScale, "blurScale");
 	drawQuad();
 
 	blurShader->unUse();
 
-	//Upsample
-	quadShader->use();
-	bind(0);
-	glViewport(0, 0, width, height);
-	glActiveTexture(GL_TEXTURE0);
-	glUniform1i(uniformQuad, 0);
-	glBindTexture(GL_TEXTURE_2D, blurVerticalTextureID);
+	////Upsample
+	//quadShader->use();
+	//bind(0);
+	//glActiveTexture(GL_TEXTURE0);
+	//glUniform1i(uniformQuad, 0);
+	//glBindTexture(GL_TEXTURE_2D, blurVerticalTextureID);
 
-	drawQuad();
-	quadShader->unUse();
+	//drawQuad();
+	//quadShader->unUse();
 }
 
 void CascadedShadowMap::drawQuad()
