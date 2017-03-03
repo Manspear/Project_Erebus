@@ -115,6 +115,14 @@ function DestroyCombineRay(ray)
 	Assets.UnloadModel( "Models/CombineBeamIce.model" )
 	Assets.UnloadModel( "Models/CombineBeamFire.model" )
 	Assets.UnloadModel( "Models/CombineBeamNature.model" )
+
+	Assets.UnloadTexture( "Textures/SpellFire.dds" )
+	Assets.UnloadTexture( "Textures/SpellFireBlend.dds" )
+	Assets.UnloadTexture( "Textures/SpellNature.dds" )
+	Assets.UnloadTexture( "Textures/SpellNatureBlend.dds" )
+	Assets.UnloadTexture( "Textures/SpellIce.dds" )
+	Assets.UnloadTexture( "Textures/SpellIceBlend.dds" )
+
 	ray = nil
 end
 
@@ -192,7 +200,7 @@ function CreateChargeEggs(entity)
 		self.firstCombine = false
 		
 		if self.light then
-			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
 			self.particles:update(self.pos)	
 		end	
 		self.timer = self.timer + dt		

@@ -83,11 +83,10 @@ function gamestate.Update(dt)
 end
 
 function gamestate.ChangeState(newState)
-	if gamestate.currentState > 0 then
-		gamestate.states[gamestate.currentState].Exit()
-	end
-
-	if gamestate.currentState ~= newState then
+	if gamestate.currentState ~= newState then	
+		if gamestate.currentState > 0 then
+			gamestate.states[gamestate.currentState].Exit()
+		end
 		gamestate.currentState = newState
 		gamestate.states[gamestate.currentState].Enter()
 	end
