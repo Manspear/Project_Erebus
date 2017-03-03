@@ -102,7 +102,7 @@ std::string LevelPointLightComponent::toLuaLoad(std::string name)
 	
 	using namespace std;
 	std::stringstream ss;
-	ss << "Light.addLight(" << light->pos.x << ", " << light->pos.y << ", " << light->pos.z << ", "
+	ss << name << ".lightIndex = Light.addLight(" << light->pos.x << ", " << light->pos.y << ", " << light->pos.z << ", "
 		<< light->color.r << ", " << light->color.g << ", " << light->color.b << ", "
 		<< light->radius.x << "," << light->radius.y << ")" << std::endl;
 	/*
@@ -115,7 +115,12 @@ std::string LevelPointLightComponent::toLuaLoad(std::string name)
 
 std::string LevelPointLightComponent::toLuaUnload(std::string name)
 {
-	return "";
+	using namespace std;
+	std::stringstream ss;
+
+	ss << "Light.removeLight(" << name << ".lightIndex)" << endl;
+
+	return ss.str();
 }
 
 float LevelPointLightComponent::getRadius()
