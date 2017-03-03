@@ -15,8 +15,9 @@ function LoadOptionsUI()
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
 	screenImages["fullscreen"] = UI.load(465, 240, 350, 60);
 	screenImages["debug"] = UI.load(465, 310, 350, 60);
-	screenImages["keybinding"] = UI.load(465, 380, 350, 60);
-	screenImages["back"] = UI.load(465, 450, 350, 60);
+	screenImages["shadows"] = UI.load(465, 380, 350, 60);
+	screenImages["keybinding"] = UI.load(465, 450, 350, 60);
+	screenImages["back"] = UI.load(465, 520, 350, 60);
 end
 
 function UnloadOptionsUI()
@@ -26,9 +27,9 @@ end
 function UpdateOptionsUI(dt)
 
 	DrawOptionsUI()
-	x,y = Inputs.GetMousePos()
-	if UI.mousePick(screenImages["fullscreen"], x,y) then
-		if Inputs.ButtonReleased(Buttons.Left) then
+	if Inputs.ButtonReleased(Buttons.Left) then
+		x,y = Inputs.GetMousePos()
+		if UI.mousePick(screenImages["fullscreen"], x,y) then
 			Sound.Play("Effects/button.wav", 2)
 			if SETTING_FULLSCREEN then
 				SETTING_FULLSCREEN = false
@@ -37,10 +38,8 @@ function UpdateOptionsUI(dt)
 			end
 			Gear.Fullscreen(SETTING_FULLSCREEN);
 		end
-	end
 
-	if UI.mousePick(screenImages["debug"], x,y) then
-		if Inputs.ButtonReleased(Buttons.Left) then
+		if UI.mousePick(screenImages["debug"], x,y) then
 			Sound.Play("Effects/button.wav", 2)
 			if SETTING_DEBUG then
 				SETTING_DEBUG = false
@@ -48,17 +47,23 @@ function UpdateOptionsUI(dt)
 				SETTING_DEBUG = true
 			end
 		end
-	end
 
-	if UI.mousePick(screenImages["back"], x,y) then
-		if Inputs.ButtonReleased(Buttons.Left) then
+		if UI.mousePick(screenImages["shadows"], x,y) then
+			Sound.Play("Effects/button.wav", 2)
+			if SETTING_SHADOW then
+				SETTING_SHADOW = false
+			else
+				SETTING_SHADOW = true
+			end
+			Sky.Shadows(SETTING_SHADOW)
+		end
+
+		if UI.mousePick(screenImages["back"], x,y) then
 			Sound.Play("Effects/button.wav", 2)
 			gamestate.ChangeState(OPTIONS_RETURN_STATE)
 		end
-	end
 
-	if UI.mousePick(screenImages["keybinding"], x,y) then
-		if Inputs.ButtonReleased(Buttons.Left) then
+		if UI.mousePick(screenImages["keybinding"], x,y) then
 			Sound.Play("Effects/button.wav", 2)
 			gamestate.ChangeState(GAMESTATE_KEYBINDING)
 		end
@@ -78,6 +83,13 @@ function DrawOptionsUI()
 	else
 		UI.drawImage(screenImages["debug"], imageTextures["debugOff"]);
 	end
+
+	if SETTING_SHADOW then
+		UI.drawImage(screenImages["shadows"], imageTextures["debugOn"]);
+	else
+		UI.drawImage(screenImages["shadows"], imageTextures["debugOff"]);
+	end
+
 	UI.drawImage(screenImages["keybinding"], imageTextures["keybinding"]);
 	UI.drawImage(screenImages["back"], imageTextures["back"]);
 end

@@ -366,15 +366,15 @@ namespace Gear
 		image.draw();
 		text.draw();
 
-		ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
-		for (int i = 0; i < skybox->numCascades(); i++)
-		{
-			glViewport((WINDOW_WIDTH - (10 + 200 * skybox->numCascades() + 10 * skybox->numCascades())) + (10 + 200 * i + 10 * i), WINDOW_HEIGHT - 210, 200, 200);
-			shader->use();
-			skybox->getShadow()->bindTexture(shader, "diffuse", 0, i);
-			drawQuad(); //draws quad
-			shader->unUse();
-		}
+		//ShaderProgram *shader = queue.getShaderProgram(ShaderType::QUAD);
+		//for (int i = 0; i < skybox->numCascades(); i++)
+		//{
+		//	glViewport((WINDOW_WIDTH - (10 + 200 * skybox->numCascades() + 10 * skybox->numCascades())) + (10 + 200 * i + 10 * i), WINDOW_HEIGHT - 210, 200, 200);
+		//	shader->use();
+		//	skybox->getShadow()->bindTexture(shader, "diffuse", 0, i);
+		//	drawQuad(); //draws quad
+		//	shader->unUse();
+		//}
 
 
 		//glViewport(220, 10, 200, 200);

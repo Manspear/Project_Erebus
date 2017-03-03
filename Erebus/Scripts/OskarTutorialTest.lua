@@ -448,7 +448,7 @@ level01.triggers.TutorialPostID.collider = AABBCollider.Create(-1)
 level01.triggers.TutorialPostID.collider:SetOffset(0,1,0)
 level01.triggers.TutorialPostID.collider:SetMinPos(-2,0,-0.5)
 level01.triggers.TutorialPostID.collider:SetMaxPos(2,3,4)
-level01.triggers.TutorialPostID.collider:SetPos(28.3438,8.40625,141.75)
+level01.triggers.TutorialPostID.collider:SetPos(28.3438,128.40625,141.75)
 CollisionHandler.AddAABB(level01.triggers.TutorialPostID.collider, 0)
 level01.colliders.C_Parent_Tile_1ID = {}
 level01.colliders.C_Parent_Tile_1ID.collider = AABBCollider.Create(-1)
