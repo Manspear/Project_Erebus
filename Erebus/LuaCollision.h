@@ -64,6 +64,7 @@ namespace LuaCollision
 	int enableCollisionHandler(lua_State* lua);
 	int disableCollisionHandler(lua_State* lua);
 	int isHitboxCollidingWithLayer(lua_State * lua);
+	int checkCollisionsBetweenHitboxAndLayer(lua_State* lua);
 
 	int reset( lua_State* lua );
 
