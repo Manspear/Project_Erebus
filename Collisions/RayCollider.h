@@ -8,8 +8,8 @@ namespace Collisions
 	{
 	public:
 		COLLISIONS_EXPORTS RayCollider();
-		COLLISIONS_EXPORTS RayCollider(glm::vec3 position, glm::vec3 direction);
-		COLLISIONS_EXPORTS RayCollider(int IDTransform, glm::vec3 direction);
+		COLLISIONS_EXPORTS RayCollider(const glm::vec3 & position, const glm::vec3 & direction);
+		COLLISIONS_EXPORTS RayCollider(const int & IDTransform, const glm::vec3 & direction);
 		COLLISIONS_EXPORTS ~RayCollider();
 		COLLISIONS_EXPORTS void clear();
 
@@ -23,11 +23,11 @@ namespace Collisions
 		COLLISIONS_EXPORTS virtual std::vector<int>* getIDCollisionsRef() override;
 
 		//setters
-		COLLISIONS_EXPORTS void setIDTransform(unsigned int ID);
-		COLLISIONS_EXPORTS void setID(unsigned int ID);
-		COLLISIONS_EXPORTS void setPosition(glm::vec3 position);
-		COLLISIONS_EXPORTS void setDirection(glm::vec3 direction);
-		COLLISIONS_EXPORTS void hit(glm::vec3 intersectionPoint, float hitDistance);
+		COLLISIONS_EXPORTS void setIDTransform(const unsigned int & ID);
+		COLLISIONS_EXPORTS void setID(const unsigned int & ID);
+		COLLISIONS_EXPORTS void setPosition(const glm::vec3 & position);
+		COLLISIONS_EXPORTS void setDirection(const glm::vec3 & direction);
+		COLLISIONS_EXPORTS void hit(const glm::vec3 & intersectionPoint, const float & hitDistance);
 
 	private:
 		glm::vec3 direction, position, intersectionPoint;

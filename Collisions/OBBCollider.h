@@ -9,26 +9,26 @@ namespace Collisions
 	{
 	public:
 		COLLISIONS_EXPORTS OBBCollider();
-		COLLISIONS_EXPORTS OBBCollider(int transformID);
-		COLLISIONS_EXPORTS OBBCollider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength);
-		COLLISIONS_EXPORTS OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength);
+		COLLISIONS_EXPORTS OBBCollider(const int & transformID);
+		COLLISIONS_EXPORTS OBBCollider(const glm::vec3 & pos, const float & xHalfLength, const float & yHalfLength, const float & zHalfLength);
+		COLLISIONS_EXPORTS OBBCollider(const int & transformID, const float & xHalfLength, const float & yHalfLength, const float & zHalfLength);
 		COLLISIONS_EXPORTS virtual ~OBBCollider();
 
-		COLLISIONS_EXPORTS void rotateAroundX(float radianAngle);
-		COLLISIONS_EXPORTS void rotateAroundY(float radianAngle);
-		COLLISIONS_EXPORTS void rotateAroundZ(float radianAngle);
+		COLLISIONS_EXPORTS void rotateAroundX(const float & radianAngle);
+		COLLISIONS_EXPORTS void rotateAroundY(const float & radianAngle);
+		COLLISIONS_EXPORTS void rotateAroundZ(const float & radianAngle);
 
 		//setters
-		COLLISIONS_EXPORTS void setSize(float xHalfLength, float yHalfLength, float zHalfLength);
-		COLLISIONS_EXPORTS void setSize(glm::vec3 size);
-		COLLISIONS_EXPORTS void setXHalfLength(float length);
-		COLLISIONS_EXPORTS void setYHalfLength(float length);
-		COLLISIONS_EXPORTS void setZHalfLength(float length);
-		COLLISIONS_EXPORTS void setXAxis(glm::vec3 xAxis);
-		COLLISIONS_EXPORTS void setYAxis(glm::vec3 yAxis);
-		COLLISIONS_EXPORTS void setZAxis(glm::vec3 zAxis);
+		COLLISIONS_EXPORTS void setSize(const float & xHalfLength, const float & yHalfLength, const float & zHalfLength);
+		COLLISIONS_EXPORTS void setSize(const glm::vec3 & size);
+		COLLISIONS_EXPORTS void setXHalfLength(const float & length);
+		COLLISIONS_EXPORTS void setYHalfLength(const float & length);
+		COLLISIONS_EXPORTS void setZHalfLength(const float & length);
+		COLLISIONS_EXPORTS void setXAxis(const glm::vec3 & xAxis);
+		COLLISIONS_EXPORTS void setYAxis(const glm::vec3 & yAxis);
+		COLLISIONS_EXPORTS void setZAxis(const glm::vec3 & zAxis);
 		//All of the axes need to create a coordinate system with axes perpendicular
-		COLLISIONS_EXPORTS void setAllAxis(glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis);
+		COLLISIONS_EXPORTS void setAllAxis(const glm::vec3 & xAxis, const glm::vec3 & yAxis, const glm::vec3 & zAxis);
 
 		//Overrides
 		COLLISIONS_EXPORTS virtual int getID() const override;
