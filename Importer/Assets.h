@@ -37,8 +37,8 @@ namespace Importer
 		virtual void unload() = 0;
 		virtual void upload() = 0;
 
-		IMPORTER_API void incrementReferenceCount();
-		IMPORTER_API void decrementReferenceCount();
+		IMPORTER_API virtual void incrementReferenceCount();
+		IMPORTER_API virtual void decrementReferenceCount();
 
 		IMPORTER_API void setAssets( Assets* assets );
 
@@ -47,10 +47,10 @@ namespace Importer
 
 	protected:
 		Assets* assets;
+		int referenceCount;
 
 	private:
 		FileInfo fileInfo;
-		int referenceCount;
 	};
 
 	class AssetID

@@ -3,7 +3,6 @@ local scripts = {}
 LEVEL_ROUND = 1
 local scriptFiles =
 {
-	"Scripts/console.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
 	"Scripts/ProjectileType.lua",
@@ -146,7 +145,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/OskarTutorialTest.lua" )
+		dofile( "Scripts/Adam_test.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do

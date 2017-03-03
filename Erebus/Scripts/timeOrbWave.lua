@@ -1,17 +1,19 @@
 --TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
+TIMEORB_SPELL_TEXTURE = "Textures/TimeOrbTexture.dds"
+TIMEORB_MODEL = "Models/TimeOrb.model"
 TIMEORBWAVEDURATION = 6
 
 function CreateTimeOrbWave(entity)
 	local spell = {}
 	spell.element = NATURE
-	local model = Assets.LoadModel( "Models/TimeOrb.model" )
+	local model = Assets.LoadModel(TIMEORB_MODEL)
 	spell.type = CreateOrbWaveType(model)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifetime = TIMEORBWAVEDURATION
-	spell.damage = 3
+	spell.damage = 3 * LEVEL_ROUND
 	spell.alive = false
-	spell.hudtexture = Assets.LoadTexture("Textures/TimeOrbTexture.dds");
+	spell.hudtexture = Assets.LoadTexture(TIMEORB_SPELL_TEXTURE)
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	
 	--[[local model = Assets.LoadModel( "Models/grenade.model" )
@@ -27,7 +29,7 @@ function CreateTimeOrbWave(entity)
 				if hits[i].Hurt then
 					local effect = effectTable[self.effect]()
 					hits[i]:Apply(effect)
-					--hits[i]:Hurt(self.damage, self.owner)
+					hits[i]:Hurt(self.damage, self.owner, self.element)
 				end
 			end
 			if self.lifetime < 0 then
@@ -54,6 +56,6 @@ end
 function DestroyTimeOrbWave(orbwave)
 	DestroyOrbWaveType(orbwave.type)
 
-	Assets.UnloadModel( "Models/grenade.model" )
-	Assets.UnloadTexture("Textures/ChargeTemp.dds");
+	Assets.UnloadModel(TIMEORB_MODEL)
+	Assets.UnloadTexture(TIMEORB_SPELL_TEXTURE);
 end

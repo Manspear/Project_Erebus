@@ -161,7 +161,7 @@ namespace Importer
 		free(dataptr);
 		dataptr = nullptr;
 
-		assets->unload<MaterialAsset>( "Materials/" + std::string(header.materialName) );
+		//assets->unload<MaterialAsset>( "Materials/" + std::string(header.materialName) );
 	}
 
 	void ModelAsset::upload()
@@ -205,6 +205,23 @@ namespace Importer
 			free( bufferptr );
 			bufferptr = nullptr;
 		}
+	}
+
+	void ModelAsset::incrementReferenceCount()
+	{
+		Asset::incrementReferenceCount();
+
+		if( referenceCount > 1 && material )
+		//if( material )
+			material->incrementReferenceCount();
+	}
+
+	void ModelAsset::decrementReferenceCount()
+	{
+		Asset::decrementReferenceCount();
+
+		if( material )
+			assets->unload<MaterialAsset>( "Materials/" + std::string(header.materialName) );
 	}
 
 	hModel* ModelAsset::getHeader()

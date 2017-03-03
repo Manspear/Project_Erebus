@@ -115,6 +115,14 @@ function DestroyCombineRay(ray)
 	Assets.UnloadModel( "Models/CombineBeamIce.model" )
 	Assets.UnloadModel( "Models/CombineBeamFire.model" )
 	Assets.UnloadModel( "Models/CombineBeamNature.model" )
+
+	Assets.UnloadTexture( "Textures/SpellFire.dds" )
+	Assets.UnloadTexture( "Textures/SpellFireBlend.dds" )
+	Assets.UnloadTexture( "Textures/SpellNature.dds" )
+	Assets.UnloadTexture( "Textures/SpellNatureBlend.dds" )
+	Assets.UnloadTexture( "Textures/SpellIce.dds" )
+	Assets.UnloadTexture( "Textures/SpellIceBlend.dds" )
+
 	ray = nil
 end
 

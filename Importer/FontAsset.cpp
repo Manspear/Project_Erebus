@@ -17,7 +17,6 @@ namespace Importer
 	{
 		bool result = false;
 
-		std::string textureFile;
 		std::string infoFile;
 
 		size_t lastSlash = path.find_last_of( '\\' );
@@ -28,16 +27,16 @@ namespace Importer
 		size_t dot = path.find( '.' );
 		if( dot > lastSlash ) // the user supplied a file extension
 		{
-			textureFile = path.substr(0, dot-1) + ".dds";
+			textureName = path.substr(0, dot-1) + ".dds";
 			infoFile = path.substr(0,dot-1) + ".font";
 		}
 		else
 		{
-			textureFile = path + ".dds";
+			textureName = path + ".dds";
 			infoFile = path + ".font";
 		}
 
-		texture = assets->load<TextureAsset>( textureFile );
+		texture = assets->load<TextureAsset>( textureName );
 		if( texture )
 		{
 			FILE* file = NULL;
@@ -69,6 +68,21 @@ namespace Importer
 
 	void FontAsset::upload()
 	{
+	}
+
+	void FontAsset::incrementReferenceCount()
+	{
+		Asset::incrementReferenceCount();
+
+		if( texture )
+			texture->incrementReferenceCount();
+	}
+
+	void FontAsset::decrementReferenceCount()
+	{
+		Asset::decrementReferenceCount();
+		if( !textureName.empty() )
+			assets->unload<TextureAsset>( textureName );
 	}
 
 	int FontAsset::getWidth( char c )
