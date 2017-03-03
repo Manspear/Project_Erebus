@@ -241,7 +241,6 @@ end
 
 function UnloadEnemies()
 	AI.Unload()
-
 	for i=1, #enemies do
 		if enemies[i].type ~= ENEMY_DUMMY then
 			DestroyEnemyController(enemies[i].animationController)
@@ -255,8 +254,6 @@ end
 
 function DestroyEnemy(enemy)
 	Transform.ActiveControl(enemy.transformID, false)
-	SphereCollider.SetActive(enemy.collider, false)
-
 	enemy.alive = false
 end
 function UpdateEnemies(dt)
