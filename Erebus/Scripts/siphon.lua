@@ -60,7 +60,7 @@ function CreateSiphon(entity)
 	spell.castTimeFirstAttack = 0.1875 * SIPHON_CASTSPEED_MULTIPLE
 	--Gear.SetUniformLocation(spell.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
-	spell.blendingIndex = Gear.SetBlendTextures(1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
+	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then

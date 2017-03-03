@@ -22,15 +22,13 @@ function CreateCombineRay(entity)
 	
 	local rayFire = Assets.LoadModel( "Models/CombineBeamFire.model" )
 	ray.transformID = Gear.BindBlendingInstance(rayFire)
-	ray.blendingIndex = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
+	ray.blendingIndex = Gear.SetBlendTextures(-1, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
 
-	local rayNature = Assets.LoadModel( "Models/CombineBeamNature.model" )
-	ray.transformID2 = Gear.BindBlendingInstance(rayNature)
-	ray.blendingIndex2 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	ray.transformID2 = Gear.BindBlendingInstance(rayFire)
+	ray.blendingIndex2 = Gear.SetBlendTextures(-1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
 	
-	local rayIce = Assets.LoadModel("Models/CombineBeamIce.model")
-	ray.transformID3 = Gear.BindBlendingInstance(rayIce)
-	ray.blendingIndex3 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
+	ray.transformID3 = Gear.BindBlendingInstance(rayFire)
+	ray.blendingIndex3 = Gear.SetBlendTextures(-1, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
 	
 	Transform.ActiveControl(ray.transformID, false)
 	Transform.ActiveControl(ray.transformID2, false)

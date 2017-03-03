@@ -48,7 +48,7 @@ function CreateHellPillar(entity)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
 	
-	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
+	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, spell.texture1, spell.texture2)
 	spell.aliveCharged = false
 	spell.attack = false
 	spell.effects = {}
