@@ -30,6 +30,7 @@ namespace LuaCollision
 			{ "Enable", enableCollisionHandler },
 			{ "Disable", disableCollisionHandler },
 			{ "IsHitboxCollidingWithLayer", isHitboxCollidingWithLayer },
+			{ "HitboxLayerCollision", checkCollisionsBetweenHitboxAndLayer },
 			{ "Reset", reset },
 			{ NULL, NULL }
 		};
@@ -805,6 +806,20 @@ return 0;
 
 		return 1;
 
+	}
+
+	int checkCollisionsBetweenHitboxAndLayer(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		HitBox* hitbox = getHitBox(lua, 1);
+		int layer = (int)lua_tointeger(lua, 2);
+
+		bool colliding = g_collisionHandler->checkCollisionsBetweenHitboxAndLayer(hitbox,layer);
+
+		lua_pushboolean(lua, colliding);
+
+		return 1;
 	}
 
 	int reset( lua_State* lua )

@@ -246,6 +246,13 @@ function DrawHUD()
 			UI.drawWorldImage(boss.healthbar,  imageTextures["healthBar"])
 		end
 	end
+	--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+	UI.reposWorld(player.deathImage, player.position.x, player.position.y+2.1, player.position.z)
+
+	right = Camera.GetRight()
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.5, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.5, player.position.z + right.z * 0.30)
 end
 
  
