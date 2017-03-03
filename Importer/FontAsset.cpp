@@ -71,6 +71,14 @@ namespace Importer
 	{
 	}
 
+	void FontAsset::incrementReferenceCount()
+	{
+		Asset::incrementReferenceCount();
+
+		if( texture )
+			texture->incrementReferenceCount();
+	}
+
 	int FontAsset::getWidth( char c )
 	{
 		char index = c - FONT_RANGE_START;

@@ -40,6 +40,7 @@ function gamestate.Load()
 		file = io.open("settings.lua", "w")
 		file:write("SETTING_FULLSCREEN = false\n")
 		file:write("SETTING_DEBUG = true\n")
+		file:write("SETTING_SHADOW = true\n")
 
 		file:write("SETTING_KEYBIND_FORWARD = \"W\"\n")
 		file:write("SETTING_KEYBIND_LEFT = \"A\"\n")
@@ -66,6 +67,7 @@ function gamestate.Load()
 	dofile("settings.lua")
 
 	gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+	Sky.Shadows(SETTING_SHADOW);
 end
 
 function gamestate.Unload()

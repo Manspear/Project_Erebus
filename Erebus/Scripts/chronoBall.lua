@@ -42,7 +42,7 @@ function CreateChronoBall(entity)
 					if not self.hitflag then
 						local effect = effectTable[self.effect]()
 						hits[index]:Apply(effect)
-						hits[index]:Hurt(CHRONOBALL_DAMAGE, self.owner)
+						hits[index]:Hurt(CHRONOBALL_DAMAGE, self.owner, self.element)
 						self.hitflag = true
 					end
 					local hitPos = Transform.GetPosition(self.type.transformID)

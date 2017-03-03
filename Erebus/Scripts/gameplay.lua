@@ -3,7 +3,6 @@ local scripts = {}
 LEVEL_ROUND = 1
 local scriptFiles =
 {
-	"Scripts/console.lua",
 	"Scripts/camera.lua",
 	"Scripts/particle.lua",
 	"Scripts/ProjectileType.lua",
