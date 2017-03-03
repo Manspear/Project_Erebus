@@ -600,11 +600,10 @@ function Controls(dt)
 				else
 					player.useRayAttack = true
 				end
-
+				player.spells[player.currentSpell]:ChargeCast(player)
 				if player.charging == true then
 					player.spellDirection = Camera.GetDirection()
-					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
-					player.spells[player.currentSpell]:ChargeCast(player)
+					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)		
 					player.charger:EndCharge()
 					player.charging = false
 					player.isCombined = false
