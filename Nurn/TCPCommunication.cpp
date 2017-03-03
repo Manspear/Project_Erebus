@@ -24,8 +24,6 @@ namespace Nurn
 			return false;
 		}
 
-		// TODO Not hardcode the messagesize to be 1500
-		// Check if message larger then max size of the connection(TCP doesnt care)
 		if (size > 1500)
 		{
 			throw std::runtime_error("Attempting to send too large message.");
