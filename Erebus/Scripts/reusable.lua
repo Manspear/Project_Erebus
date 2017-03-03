@@ -140,4 +140,6 @@ function Rewind()
 	player:ChangeHeightmap(1)
 	Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
 	boss.alive = true
+	player.health = 100
+	player.effects = {}
 end

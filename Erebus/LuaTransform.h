@@ -30,6 +30,7 @@ namespace LuaTransform
 	int getRotation( lua_State* lua );
 	int getLookAt( lua_State* lua );
 	int getScale( lua_State* lua );
+	int getScaleNonUniform(lua_State* lua);
 	int getMoveDirection(lua_State* lua);
 	
 	int rotateToVector(lua_State* lua);
