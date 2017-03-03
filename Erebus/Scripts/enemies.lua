@@ -53,7 +53,8 @@ function CreateEnemy(type, position, element)
 	enemies[i].attackCountdown = 0
 	enemies[i].aggro = false
 	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
-	enemies[i].healthbar = UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
+
+	enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 	enemies[i].currentHealth = enemies[i].health
 	enemies[i].hurtCountdown = 0
 
@@ -249,6 +250,7 @@ function UnloadEnemies()
 		end
 		Gear.UnbindInstance(enemies[i].transformID)
 		Assets.UnloadModel( enemies[i].modelName )
+		
 	end
 	enemies = {}
 end
@@ -256,6 +258,7 @@ end
 function DestroyEnemy(enemy)
 	Transform.ActiveControl(enemy.transformID, false)
 	SphereCollider.SetActive(enemy.sphereCollider, false)
+
 	enemy.alive = false
 end
 function UpdateEnemies(dt)

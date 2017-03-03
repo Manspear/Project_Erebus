@@ -85,15 +85,19 @@ function CreateEnemyController(enemy)
 	function controller:doNothing()
 		self.currentAnimation = 8
 	end
+
+	function controller:doDeath()
+		self.currentAnimation = 6
+	end
 		
 	function controller:doStartLeap()
-		self.currentAnimation = 3
+		self.currentAnimation = 2
 	end
 	function controller:doLeap()
-		self.currentAnimation = 4
+		self.currentAnimation = 3
 	end
 	function controller:doEndLeap()
-		self.currentAnimation = 5
+		self.currentAnimation = 4
 	end
 	--Use this to initialize oldWatch
 	controller:copyWatch()
