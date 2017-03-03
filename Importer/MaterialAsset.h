@@ -17,6 +17,7 @@ namespace Importer
 		IMPORTER_API void upload() override;
 
 		IMPORTER_API void incrementReferenceCount() override;
+		IMPORTER_API void decrementReferenceCount() override;
 
 		IMPORTER_API glm::vec3 getAmbientColor();
 		IMPORTER_API glm::vec3 getDiffuseColor();

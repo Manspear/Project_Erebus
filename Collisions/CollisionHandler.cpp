@@ -457,6 +457,8 @@ namespace Collisions
 		collisionLayers = new CollisionLayers(layerAmount);
 		leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		leafHitboxIDSaver->resize(layerAmount);
+
+		this->setHardcodedSettings();
 	}
 	bool CollisionHandler::isHitboxCollidingWithLayer(HitBox* hitbox, int layer) 
 	{

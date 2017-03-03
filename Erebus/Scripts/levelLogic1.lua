@@ -34,6 +34,7 @@ end
 
 
 function TutorialBarrier(TutorialObject,dt)
+	print("bridges be stable: ", TUTORIAL_DONE)
 	if TUTORIAL_DONE == false then 
 		if player2.position.x==0 then
 			OBBCollider.SetActive(TutorialObject.collider,false)
@@ -49,17 +50,6 @@ function TutorialBarrier(TutorialObject,dt)
 			local collisionIDs = TutorialObject.collider:GetCollisionIDs()
 
 			for i = 1, #collisionIDs do 
-				--for o = 1, #player.combinedSpellIDs do
-				--	if collisionIDs[i] == player.combinedSpellIDs[o] then
-				--		
-				--		
-				--		player.combinedSpellIDs = nil
-				--		TUTORIAL_DONE = true
-				--		TUTORIAL_START_ANIM = true
-				--		TUTORIAL_OBJECT = TutorialObject
-				--		return
-				--	end
-				--end
 				for curID = 1, 3 do
 					if player.spells[curID]:GetCollider()[1] == collisionIDs[i] then				
 						if #player.spells[curID].effects == 2 then 

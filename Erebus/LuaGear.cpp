@@ -116,6 +116,7 @@ namespace LuaGear
 			{ "GetHours", getHours },
 			{ "GetMinutes", getMinutes },
 			{ "Shadows", setShadow },
+			{ "SetAmbient", setAmbient },
 			{ NULL, NULL }
 		};
 
