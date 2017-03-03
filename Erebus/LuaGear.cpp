@@ -44,10 +44,6 @@ namespace LuaGear
 		luaL_newmetatable(lua, "gearMeta");
 		luaL_Reg regs[] =
 		{
-			/*{ "AddStaticInstance", addStaticInstance },
-			{ "AddAnimatedInstance", addAnimatedInstance },
-			{ "AddForwardInstance",	addForwardInstance },
-			{ "AddBlendingInstance", addBlendingInstance},*/
 			{ "ResetAnimations", resetAnimations },
 			{ "ResetModels", resetModels },
 			{ "BindStaticInstance", bindStaticInstance },
@@ -126,77 +122,9 @@ namespace LuaGear
 		lua_setglobal(lua, "Sky");
 	}
 
-	/*int addStaticInstance( lua_State* lua )
-	{
-		assert(lua_gettop(lua) == 2);
-
-		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
-		int transformID = (int)lua_tointeger(lua, 2);
-
-		int result = g_gearEngine->generateWorldMatrix();
-
-		int index = -1;
-		for (int i = 0; i<g_models->size(); i++)
-			if (g_models->at(i).asset == asset)
-				index = i;
-
-		if (index < 0)
-		{
-			ModelInstance instance;
-			instance.asset = asset;
-
-			index = (int)g_models->size();
-			g_models->push_back(instance);
-
-		}
-
-		g_models->at(index).worldIndices.push_back(transformID);
-
-		return 0;
-	}
-
-	int addAnimatedInstance(lua_State* lua)
-	{
-		assert(lua_gettop(lua) == 3);
-
-		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
-		int transformID = (int)lua_tointeger(lua, 2);
-		lua_getfield(lua, 3, "__self");
-		Animation* animation = (Animation*)lua_touserdata(lua, -1);
-
-		int result = g_gearEngine->generateWorldMatrix();
-
-		int index = -1;
-		for (int i = 0; i<g_animatedModels->size(); i++)
-			if (g_animatedModels->at(i).asset == asset)
-				index = i;
-
-		if (index < 0)
-		{
-			AnimatedInstance instance;
-			instance.asset = asset;
-
-			index = (int)g_animatedModels->size();
-			g_animatedModels->push_back(instance);
-		}
-
-		animation->setAsset(asset);
-
-		g_animatedModels->at(index).worldIndices.push_back(transformID);
-		g_animatedModels->at(index).animations.push_back(animation);
-
-		return 0;
-	}*/
-
 	int resetAnimations( lua_State* lua )
 	{
 		assert( lua_gettop( lua ) == 0 );
-
-		/*int anims = *g_boundAnimations;
-		for( int i=0; i<anims; i++ )
-		{
-			g_animations[i].reset();
-		}*/
 		for( int i=0; i<MAX_ANIMATIONS; i++ )
 			g_animations[i].reset();
 		*g_boundAnimations = 0;
@@ -270,33 +198,6 @@ namespace LuaGear
 		*g_fullscreen = lua_toboolean(lua, 1) != 0;
 		return 0;
 	}
-
-	/*int addForwardInstance(lua_State * lua)
-	{
-		assert(lua_gettop(lua) == 2);
-
-		int index = -1;
-
-		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
-		int transformID = (int)lua_tointeger(lua, 2);
-		int result = g_gearEngine->generateWorldMatrix();
-		for (int i = 0; i<g_ForwardModels->size(); i++)
-			if (g_ForwardModels->at(i).asset == asset)
-				index = i;
-		if (index < 0)
-		{
-			ModelInstance instance;
-			instance.asset = asset;
-
-			index = (int)g_ForwardModels->size();
-			g_ForwardModels->push_back(instance);
-			g_gearEngine->uniValues.push_back({ "NULL",{ 0, 0 } });
-		}
-		g_ForwardModels->at(index).worldIndices.push_back(transformID);
-		lua_pushinteger(lua, index);
-
-		return 1;
-	}*/
 
 	int bindForwardInstance(lua_State * lua)
 	{
@@ -658,10 +559,9 @@ namespace LuaGear
 			lua_getfield(lua, 3 + i, "y");
 			blend.y = (float)lua_tonumber(lua, -1);
 
-			//g_gearEngine->textureBlend.at(index).blendFactor[i] = blend;
 			g_gearEngine->textureBlend.at(index).blendFactor[i] = blend;
 		}
-
+		g_gearEngine->textureBlend.at(index).active = true;
 		return 0;
 	}
 
@@ -683,13 +583,10 @@ namespace LuaGear
 	{
 		assert( lua_gettop( lua ) >= 4 );
 
-		//int modelIndex = g_transformHandler->getHandle( index );;// (int)lua_tointeger(lua, 1);
 		int index = g_gearEngine->textureBlend.size() - 1;
 		int size = (int)lua_tointeger( lua, 2 );
 
-		//TransformHandle handle = g_transformHandler->getHandle( index );
 		TextureAsset* texture;
-		//g_gearEngine->textureBlend.push_back(TextureBlendings());
 		for( int i=0; i<size; i++ )
 		{
 			lua_getfield( lua, i+3, "__self" );

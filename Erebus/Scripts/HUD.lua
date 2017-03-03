@@ -103,6 +103,11 @@ function UnloadHUD()
 	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend1.dds" )
 	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend2.dds" )
 
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_0.dds")
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_1.dds")
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_2.dds")
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_3.dds")
+
 	SHOW_TUTORIAL_IMAGE = -1
 	SHOW_TUTORIAL_IMAGE2 = -1
 	SHOW_WAITING_FOR_PLAYER2 = -1
@@ -241,6 +246,13 @@ function DrawHUD()
 			UI.drawWorldImage(boss.healthbar,  imageTextures["healthBar"])
 		end
 	end
+	--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+	UI.reposWorld(player.deathImage, player.position.x, player.position.y+2.1, player.position.z)
+
+	right = Camera.GetRight()
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.5, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.5, player.position.z + right.z * 0.30)
 end
 
  
