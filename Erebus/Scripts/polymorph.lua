@@ -33,7 +33,7 @@ function CreatePolymorph(entity)
 
 	--spell.transformID = Transform.Bind()
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)		
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)		
 
 	spell.Charge = BaseCharge
 	function spell:Update(dt)

@@ -1,5 +1,6 @@
 local levelScripts = {}
 local scripts = {}
+LEVEL_ROUND = 1
 local scriptFiles =
 {
 	"Scripts/console.lua",
@@ -60,6 +61,7 @@ function LoadGameplay()
 end
 
 function UnloadGameplay()
+	print("unloading gameplay")
 	if loadedGameplay then
 		-- unload all the loaded levels
 		for levelIndex,level in pairs(levels) do
@@ -85,7 +87,6 @@ function UnloadGameplay()
 
 		Transform.ResetTransforms()
 		Gear.ResetAnimations()
-		Gear.ResetModels()
 		CollisionHandler.Reset()
 
 		collectgarbage()
@@ -135,6 +136,7 @@ function UpdateGameplay(dt)
 end
 
 function EnterGameplay()
+	print("entering gameplay")
 	if loadedGameplay == false then 
 		InitPolymorphs()
 		InitTimeSlows()
@@ -144,7 +146,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/LevelOskar2.lua" )
+		dofile( "Scripts/OskarTutorialTest.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do

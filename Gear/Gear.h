@@ -10,6 +10,7 @@
 #include "DebugHandler.h"
 #include "Skybox.h"
 #include "WorkQueue.h"
+#include "CascadedShadowMap.h"
 #include "WorldImageRenderer.h"
 #include "FloatingDamage.h"
 
@@ -108,6 +109,10 @@ namespace Gear
 		std::vector<Lights::PointLight*> addLightQueue;
 		std::vector<Lights::PointLight*> updateLightQueue;
 		std::vector<Lights::PointLight*> removeLightQueue;
+
+		CascadedShadowMap shadow;
+		bool debugCam = false;
+		Lights::PointLight *l = new Lights::PointLight(glm::vec4(5, 5, 5, 0), glm::vec4(1, 0, 0, 0), glm::vec4(20, 2, 0, 0));
 
 		GLuint lightBuffer = 0; //StorageBuffer for point lights
 		int drawMode = 1; //Texture draw mode

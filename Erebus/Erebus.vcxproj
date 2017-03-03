@@ -235,6 +235,7 @@
     <None Include="Scripts\ipconnect.lua" />
     <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Scripts\level.lua" />
+    <None Include="Scripts\level01.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\main_menu.lua" />
     <None Include="Scripts\MenuUI.lua" />
