@@ -14,8 +14,6 @@
 #include "WorldImageRenderer.h"
 #include "FloatingDamage.h"
 
-#define MAX_NUM_LIGHTS 10
-
 namespace Gear
 {
 	class GearEngine {
@@ -70,13 +68,15 @@ namespace Gear
 		GEAR_API void updateLight();
 		GEAR_API void removeLight();
 
-		GEAR_API int addLight(Lights::PointLight light);
+		GEAR_API int addStaticLight(Lights::PointLight light);
+		GEAR_API int addDynamicLight(Lights::PointLight light);
 		GEAR_API void updateLight(int index, Lights::PointLight light);
 		GEAR_API void updateLightPosition(int index, glm::vec4 pos);
 		GEAR_API void updateLightColor(int index, glm::vec4 col);
 		GEAR_API void updateLightRadius(int index, float r);
 		GEAR_API void updateLightIntensity(int index, float i);
-		GEAR_API void removeLight(int index);
+		GEAR_API void removeDynamicLight(int index);
+		GEAR_API void removeStaticLight(int index);
 
 		GEAR_API void queueAddDynamicLights(Lights::PointLight* lights);
 		GEAR_API void queueUpdateDynamicLights(Lights::PointLight* lights);
@@ -101,8 +101,8 @@ namespace Gear
 		void updateTransforms( std::vector<ModelInstance>* models );
 		void updatePointLightBuffer();
 
-		const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
-		const int NUM_DYNAMIC_LIGHTS = 10; //number of lights should be the same in lightPass.frag
+		static const int NUM_LIGHTS = 50; //number of lights should be the same in lightPass.frag
+		static const int NUM_DYNAMIC_LIGHTS = 10; //number of lights should be the same in lightPass.frag
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
 		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
 
@@ -127,7 +127,9 @@ namespace Gear
 		std::vector<Lights::DirLight> dirLights;
 		std::vector<Lights::PointLight*> dynamicPointlights;
 
-		Lights::PointLight dynamicLightArr[MAX_NUM_LIGHTS];
+		Lights::PointLight dynamicLightArr[NUM_DYNAMIC_LIGHTS];
+		Lights::PointLight staticLightArr[NUM_LIGHTS];
+		bool updateStaticLights = false;
 
 		std::vector<Lights::PointLight*> addDynamicLightQueue;
 		std::vector<Lights::PointLight*> updateDynamicLightQueue;

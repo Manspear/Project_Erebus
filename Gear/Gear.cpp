@@ -38,6 +38,7 @@ namespace Gear
 		glfwTerminate();
 		delete debugHandler;
 		delete skybox;
+		delete l;
 	}
 #pragma region init functions
 	void GearEngine::lightInit()
@@ -124,7 +125,6 @@ namespace Gear
 		skybox->init();
 	}
 #pragma endregion
-#pragma region bluh
 	GEAR_API void GearEngine::setDrawMode(int drawMode)
 	{
 		this->drawMode = drawMode;
@@ -340,6 +340,7 @@ namespace Gear
 
 		glDisable(GL_CULL_FACE);
 
+		updatePointLightBuffer();
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 
 		
@@ -518,16 +519,32 @@ namespace Gear
 		}
 	}
 
-#pragma region new dynamic lights
-	GEAR_API int GearEngine::addLight(Lights::PointLight light)
+#pragma region new lights system
+	GEAR_API int GearEngine::addStaticLight(Lights::PointLight light)
 	{
 		int index = -1;
-		for (int i = 0; i < MAX_NUM_LIGHTS && index == -1; i++)
+		for (int i = 0; i < NUM_LIGHTS && index == -1; i++)
 		{
-			if (dynamicLightArr[i].radius.a < 0)
+			if (staticLightArr[i].radius.a == Lights::INACTIVE)
+			{
+				staticLightArr[i] = light;
+				staticLightArr[i].radius.a = Lights::TO_ADD;
+				index = i;
+				updateStaticLights = true;
+			}
+		}
+		return index;
+	}
+
+	GEAR_API int GearEngine::addDynamicLight(Lights::PointLight light)
+	{
+		int index = -1;
+		for (int i = 0; i < NUM_DYNAMIC_LIGHTS && index == -1; i++)
+		{
+			if (dynamicLightArr[i].radius.a != Lights::ACTIVE)
 			{
 				dynamicLightArr[i] = light;
-				dynamicLightArr[i].radius.a = 0;
+				dynamicLightArr[i].radius.a = Lights::ACTIVE;
 				index = i;
 			}
 		}
@@ -536,7 +553,7 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLight(int index, Lights::PointLight light)
 	{
-		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		if (index >= 0 && index < NUM_DYNAMIC_LIGHTS)
 		{
 			dynamicLightArr[index] = light;
 		}
@@ -544,7 +561,7 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLightPosition(int index, glm::vec4 pos)
 	{
-		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		if (index >= 0 && index < NUM_DYNAMIC_LIGHTS)
 		{
 			dynamicLightArr[index].pos = pos;
 		}
@@ -552,7 +569,7 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLightColor(int index, glm::vec4 col)
 	{
-		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		if (index >= 0 && index < NUM_DYNAMIC_LIGHTS)
 		{
 			dynamicLightArr[index].color = col;
 		}
@@ -560,7 +577,7 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLightRadius(int index, float r)
 	{
-		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		if (index >= 0 && index < NUM_DYNAMIC_LIGHTS)
 		{
 			dynamicLightArr[index].radius.r = r;
 		}
@@ -568,31 +585,54 @@ namespace Gear
 
 	GEAR_API void GearEngine::updateLightIntensity(int index, float i)
 	{
-		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		if (index >= 0 && index < NUM_DYNAMIC_LIGHTS)
 		{
 			dynamicLightArr[index].radius.g = i;
 		}
 	}
 
-	GEAR_API void GearEngine::removeLight(int index)
+	GEAR_API void GearEngine::removeDynamicLight(int index)
 	{
-		if (index >= 0 && index < MAX_NUM_LIGHTS)
+		if (index >= 0 && index < NUM_DYNAMIC_LIGHTS)
 		{
 			dynamicLightArr[index] = Lights::PointLight();
 		}
 	}
 
+	GEAR_API void GearEngine::removeStaticLight(int index)
+	{
+		if (index >= 0 && index < NUM_LIGHTS)
+		{
+			staticLightArr[index] = Lights::PointLight();
+			staticLightArr[index].radius.a = Lights::TO_REMOVE;
+			updateStaticLights = true;
+		}
+	}
+
 	void GearEngine::updatePointLightBuffer()
 	{
+		if (!updateStaticLights)
+			return;
+
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, lightBuffer); //bind light buffer
 		Lights::PointLight *pointLightsPtr = (Lights::PointLight*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE); //get pointer of the data in the buffer
-		for (int i = 0; i < MAX_NUM_LIGHTS; i++)
+		for (int i = 0; i < NUM_LIGHTS; i++)
 		{
-			pointLightsPtr[i] = dynamicLightArr[i];
+			if (staticLightArr[i].radius.a == Lights::TO_ADD)
+			{
+				staticLightArr[i].radius.a = Lights::ACTIVE;
+				pointLightsPtr[i] = staticLightArr[i];
+			}
+			else if (staticLightArr[i].radius.a == Lights::TO_REMOVE)
+			{
+				staticLightArr[i].radius.a = Lights::INACTIVE;
+				pointLightsPtr[i] = staticLightArr[i];
+			}
 		}
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER); //close buffer
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		updateLightQueue.clear();
+
+		updateStaticLights = false;
 	}
 #pragma endregion
 
@@ -700,7 +740,6 @@ namespace Gear
 		//	std::cout << "Looking at something :): " << pickedID << std::endl;
 		gBuffer.unUse();
 	}
-#pragma endregion
 
 	void GearEngine::lightPass(Camera * camera, Camera* tempCam)
 	{
@@ -742,9 +781,8 @@ namespace Gear
 		//	shader->setUniform(dynamicPointlights[i]->color, "dynamicLights[" + std::to_string(i) + "].color");
 		//	shader->setUniform(dynamicPointlights[i]->radius, "dynamicLights[" + std::to_string(i) + "].radius");
 		//}
-		int num_lights = MAX_NUM_LIGHTS;
-		shader->setUniform(num_lights, "num_dynamic_lights");
-		for (int i = 0; i < num_lights; i++)
+		shader->setUniform(NUM_DYNAMIC_LIGHTS, "num_dynamic_lights");
+		for (int i = 0; i < NUM_DYNAMIC_LIGHTS; i++)
 		{
 			shader->setUniform(dynamicLightArr[i].pos, "dynamicLights[" + std::to_string(i) + "].pos");
 			shader->setUniform(dynamicLightArr[i].color, "dynamicLights[" + std::to_string(i) + "].color");
