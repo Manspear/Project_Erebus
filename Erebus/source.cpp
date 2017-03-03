@@ -356,7 +356,10 @@ int main()
 				fullscreen = threadData.fullscreen;
 			}
 
-							// Frustum culling against quadtree
+			assets.upload();
+			assets.checkReferences();
+
+			// Frustum culling against quadtree
 			f.updateFrustum(camera.getPosition(), camera.getDirection(), camera.getUp());
 
 			quadtree.clearQuadtree();
@@ -373,9 +376,6 @@ int main()
 
 			soundEngine.update(deltaTime);
 			camera.updateBuffer();
-
-			assets.upload();
-			assets.checkReferences();
 
 			ReleaseSemaphore(threadData.produce, 1, NULL);
 			// END OF CRITICAL SECTION
