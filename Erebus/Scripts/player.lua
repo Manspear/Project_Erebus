@@ -208,6 +208,7 @@ function UnloadPlayer()
 	effectTable = {}
 
 	Assets.UnloadModel( "Models/player1.model" )
+	Assets.UnloadModel( "Models/nothing.model" )
 	Assets.UnloadTexture( "Textures/ping.dds" )
 	Assets.UnloadTexture( "Textures/playerDeath.dds" )
 
