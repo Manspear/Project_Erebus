@@ -510,9 +510,10 @@ function UpdateEnemies(dt)
 			a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
 
-			enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-			enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
-
+			if enemies[i].type ~= ENEMY_DUMMY then
+				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
+				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
+			end
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
 					enemies[i].effects[j]:Deapply(enemies[i])
