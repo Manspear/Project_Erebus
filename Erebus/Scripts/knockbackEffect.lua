@@ -18,7 +18,7 @@ function CreateKnockbackEffect(owner, power)
 		self.direction.y =  1
 		self.fallSpeed = 3
 		self.damage = 1
-		self.collisionID = entity.sphereCollider:GetID()
+		self.collisionID = entity.collider:GetID()
 		if entity.SetState then
 			if entity.type ~= ENEMY_DUMMY then
 				entity.SetState(entity, DO_NOTHING_STATE)
@@ -51,7 +51,7 @@ function CreateKnockbackEffect(owner, power)
 		if not self.wallHit then 
 			self.position.x = self.position.x + self.direction.x * dt * self.power
 			self.position.z = self.position.z + self.direction.z * dt * self.power	
-			if CollisionHandler.IsHitboxCollidingWithLayer(entity.sphereCollider, 3) then 
+			if CollisionHandler.IsHitboxCollidingWithLayer(entity.collider, 3) then 
 				self.wallHit = true
 			end
 		end

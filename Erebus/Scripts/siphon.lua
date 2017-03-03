@@ -60,7 +60,7 @@ function CreateSiphon(entity)
 	spell.castTimeFirstAttack = 0.1875 * SIPHON_CASTSPEED_MULTIPLE
 	--Gear.SetUniformLocation(spell.transformID, "aValue");
 	--Gear.AddStaticInstance(model2, spell.type.transformID)
-	spell.blendingIndex = Gear.SetBlendTextures(1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
+	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
 	function spell:Cast()
 		if self.spamcooldown < 0 then
 			if self.owner == player then
@@ -103,7 +103,7 @@ function CreateSiphon(entity)
 		local collisionIDs = self.collider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 					hit = enemies[curEnemy]
 					break
 				end
@@ -206,7 +206,7 @@ function CreateSiphon(entity)
 				local collisionIDs = self.collider:GetCollisionIDs()
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
-						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+						if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 							enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 							for i = 1, #self.effects do
 								local effect = effectTable[self.effects[i]](self.owner, 3)

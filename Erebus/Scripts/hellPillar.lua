@@ -48,7 +48,7 @@ function CreateHellPillar(entity)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)
 	
-	spell.blendingIndex = Gear.SetBlendTextures(1, 2, spell.texture1, spell.texture2)
+	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, spell.texture1, spell.texture2)
 	spell.aliveCharged = false
 	spell.attack = false
 	spell.effects = {}
@@ -166,7 +166,7 @@ function CreateHellPillar(entity)
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 					enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 					for i = 1, #self.effects do
 						local effect = effectTable[self.effects[i]](self.owner)
