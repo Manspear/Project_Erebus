@@ -18,7 +18,6 @@ namespace LuaAI
 		g_assets = assets;
 		g_transformHandler = transformHandler;
 		g_collisionHandler = collisionHandler;
-
 		luaL_newmetatable(L, "aiTable");
 		luaL_Reg regs[] =
 		{
@@ -213,7 +212,7 @@ namespace LuaAI
 	{
 		if (lua_gettop(lua) >= 3)
 		{
-			AI->createInfluenceMap(heightMaps,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			AI->createInfluenceMap(heightMaps, g_collisionHandler,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 			
 		}
 		return 0;
