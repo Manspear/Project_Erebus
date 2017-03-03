@@ -67,9 +67,19 @@ ShaderProgram::~ShaderProgram()
 {
 	glDeleteProgram(programID);
 	if (textureIDs != nullptr)
+	{
+		for (int i = 0; i < nrOfTextures; i++)
+		{
+			glDeleteTextures(1, &textureIDs[i]);
+		}
 		delete textureIDs;
+	}
+		
 	if (shaderIDs != nullptr)
+	{
 		delete shaderIDs;
+	}
+		
 }
 
 void ShaderProgram::framebufferInit(int nrTex, int width, int height, GLuint* internalFormat, GLuint* format, GLuint* type, GLuint* attachments)
@@ -280,11 +290,11 @@ void ShaderProgram::setUniform(glm::vec2 & vec2, std::string position, int count
 {
 	glUniform2fv(uniforms.at(position), count, glm::value_ptr(vec2));
 }
-void ShaderProgram::setUniform(float &floatValue, std::string position)
+void ShaderProgram::setUniform(float floatValue, std::string position)
 {
 	glUniform1f(uniforms.at(position), floatValue);
 }
-void ShaderProgram::setUniform(int &intValue, std::string position)
+void ShaderProgram::setUniform(int intValue, std::string position)
 {
 	glUniform1i(uniforms.at(position), intValue);
 }

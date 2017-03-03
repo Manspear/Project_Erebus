@@ -130,6 +130,7 @@ namespace LuaCollision
 			{ "SetOffset",			setOffset },
 			{ "SetHalfLengths",			setOBBHalfLengths },
 			{ "SetPos",				setPos },
+			{ "SetAxes",				setAllAxis },
 			{ "__gc",				destroy },
 			{ NULL, NULL }
 		};
@@ -591,6 +592,28 @@ return 0;
 		obb->setXHalfLength(x);
 		obb->setYHalfLength(y);
 		obb->setZHalfLength(z);
+
+		return 0;
+	}
+
+	int setAllAxis(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 10);
+
+		OBBCollider* obb = (OBBCollider*)getOBBCollider(lua, 1);
+		float xx = (float)lua_tonumber(lua, 2);
+		float xy = (float)lua_tonumber(lua, 3);
+		float xz = (float)lua_tonumber(lua, 4);
+
+		float yx = (float)lua_tonumber(lua, 5);
+		float yy = (float)lua_tonumber(lua, 6);
+		float yz = (float)lua_tonumber(lua, 7);
+
+		float zx = (float)lua_tonumber(lua, 8);
+		float zy = (float)lua_tonumber(lua, 9);
+		float zz = (float)lua_tonumber(lua, 10);
+
+		obb->setAllAxis(glm::vec3(xx,xy,xz),glm::vec3(yx,yy,yz),glm::vec3(zx,zy,zz));
 
 		return 0;
 	}

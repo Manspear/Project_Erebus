@@ -129,6 +129,13 @@ namespace Collisions
 		this->yAxis = glm::normalize(glm::cross(zAxis, xAxis));
 	}
 
+	void OBBCollider::setAllAxis(glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis)
+	{
+		this->xAxis = glm::normalize(xAxis);
+		this->yAxis = glm::normalize(yAxis);
+		this->zAxis = glm::normalize(zAxis);
+	}
+
 	int OBBCollider::getID() const
 	{
 		return this->ID;

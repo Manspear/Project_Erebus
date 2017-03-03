@@ -29,7 +29,7 @@ function CreateTumblethorns(entity)
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	Transform.ActiveControl(spell.transformID, false)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
 	spell.effects = {} 

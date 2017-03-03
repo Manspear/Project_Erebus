@@ -20,8 +20,6 @@ function CreateHellPillar(entity)
 	spell.pos = Transform.GetPosition(spell.caster)
 	spell.chargedTime = 0	spell.minChargeTime = MIN_CHARGE_TIME_PILLAR
 	
-	spell.effects = {}
-	table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds");
 	spell.texture1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 	spell.texture2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
@@ -45,7 +43,7 @@ function CreateHellPillar(entity)
 	local model = Assets.LoadModel( "Models/hellpillarTest1.model" )
 	spell.transformID = Gear.BindBlendingInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)
 	SphereCollider.SetRadius(spell.sphereCollider, 3)
 	SphereCollider.SetActive(spell.sphereCollider, false)
 	Transform.ActiveControl(spell.transformID, false)

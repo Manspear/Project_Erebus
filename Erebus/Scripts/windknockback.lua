@@ -27,7 +27,7 @@ function CreateWindknockback(entity)
 	local model = Assets.LoadModel( "Models/nothing.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
-	CollisionHandler.AddSphere(spell.sphereCollider, 1)	
+	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
 
 	spell.particles = createWindParticles()
